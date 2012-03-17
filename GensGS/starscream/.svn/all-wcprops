@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svnroot/openemu/!svn/ver/152/GensGS/starscream
+END
+sub68k.asm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/starscream/sub68k.asm
+END
+STARCPU.H
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/openemu/!svn/ver/152/GensGS/starscream/STARCPU.H
+END
+star.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/152/GensGS/starscream/star.c
+END
+main68k.asm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/starscream/main68k.asm
+END

@@ -168,6 +168,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82C683090F564FF5006E5BEC"
+               BuildableName = "Build &amp; Install GensGS"
+               BlueprintName = "Build &amp; Install GensGS"
+               ReferencedContainer = "container:GensGS/GensGS.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D15AC270486D014006FF6A4"
                BuildableName = "OpenEmu.app"
                BlueprintName = "OpenEmu"

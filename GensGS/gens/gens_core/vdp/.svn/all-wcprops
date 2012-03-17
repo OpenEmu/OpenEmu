@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/vdp
+END
+vdp_io.asm
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/vdp/vdp_io.asm
+END
+vdp_rend.asm
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/vdp/vdp_rend.asm
+END
+vdp_32x.asm
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/vdp/vdp_32x.asm
+END
+vdp_io.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/vdp/vdp_io.h
+END
+vdp_rend.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/vdp/vdp_rend.h
+END
+vdp_32x.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/vdp/vdp_32x.h
+END

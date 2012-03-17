@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svnroot/openemu/!svn/ver/273/GensGS/gens/input
+END
+input.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/openemu/!svn/ver/152/GensGS/gens/input/input.cpp
+END
+input_sdl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/input/input_sdl.cpp
+END
+input_sdl_keys.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/input/input_sdl_keys.h
+END
+input_win32_keys.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/input/input_win32_keys.h
+END
+input_dinput.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/input/input_dinput.cpp
+END
+input.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/openemu/!svn/ver/152/GensGS/gens/input/input.hpp
+END
+input_net.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/input/input_net.c
+END
+input_sdl.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/input/input_sdl.hpp
+END
+input_dinput.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/input/input_dinput.hpp
+END
+input_osx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/273/GensGS/gens/input/input_osx.cpp
+END
+input_net.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/input/input_net.h
+END
+input_osx.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/273/GensGS/gens/input/input_osx.hpp
+END

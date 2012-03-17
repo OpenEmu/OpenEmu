@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svnroot/openemu/!svn/ver/152/GensGS/gens/macros
+END
+file_m.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/openemu/!svn/ver/152/GensGS/gens/macros/file_m.h
+END
+hashtable.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/macros/hashtable.hpp
+END
+malloc_align.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/macros/malloc_align.h
+END
+git.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/152/GensGS/gens/macros/git.h
+END
+math_m.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/openemu/!svn/ver/152/GensGS/gens/macros/math_m.h
+END

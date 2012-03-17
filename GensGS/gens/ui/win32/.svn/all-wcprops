@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32
+END
+charset.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/charset.hpp
+END
+gens.exe.manifest
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/gens.exe.manifest
+END
+wndbase.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/wndbase.cpp
+END
+wndbase.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/wndbase.hpp
+END
+resource.rc
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/resource.rc
+END
+charset.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/charset.cpp
+END
+gens_ui_win32.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/gens_ui_win32.cpp
+END
+resource.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/resource.h
+END

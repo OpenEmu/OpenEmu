@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/sound
+END
+psg.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/sound/psg.h
+END
+pcm.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/sound/pcm.c
+END
+ym2612.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/sound/ym2612.c
+END
+pwm.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/sound/pwm.c
+END
+pcm.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/sound/pcm.h
+END
+ym2612.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/sound/ym2612.h
+END
+pwm.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/sound/pwm.h
+END
+psg.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/sound/psg.c
+END

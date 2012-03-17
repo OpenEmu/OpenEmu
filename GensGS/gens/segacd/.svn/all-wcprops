@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd
+END
+cdda_mp3.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/cdda_mp3.h
+END
+aspi.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/aspi.h
+END
+cd_aspi_linux.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/cd_aspi_linux.cpp
+END
+cd_aspi_win32.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/cd_aspi_win32.cpp
+END
+cd_sys.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/cd_sys.cpp
+END
+cd_file.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/cd_file.c
+END
+lc89510.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/lc89510.c
+END
+cd_aspi.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/cd_aspi.hpp
+END
+cd_sys.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/cd_sys.hpp
+END
+cd_file.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/cd_file.h
+END
+cdda_mp3.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/cdda_mp3.c
+END
+lc89510.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/segacd/lc89510.h
+END

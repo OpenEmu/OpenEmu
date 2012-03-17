@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/io
+END
+io_teamplayer.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/io/io_teamplayer.h
+END
+io.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/io/io.c
+END
+io_teamplayer.asm
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/io/io_teamplayer.asm
+END
+io.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/io/io.h
+END

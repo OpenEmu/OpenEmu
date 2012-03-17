@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/double
+END
+mdp_render_2x_32_x86.asm
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/double/mdp_render_2x_32_x86.asm
+END
+mdp_render_2x_16_x86.asm
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/double/mdp_render_2x_16_x86.asm
+END
+mdp_render_2x_x86.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/double/mdp_render_2x_x86.h
+END
+mdp_render_2x_icon.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/double/mdp_render_2x_icon.h
+END
+mdp_render_2x_plugin.c
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/double/mdp_render_2x_plugin.c
+END
+mdp_render_2x.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/double/mdp_render_2x.cpp
+END
+mdp_render_2x.png
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/double/mdp_render_2x.png
+END
+mdp_render_2x_plugin.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/double/mdp_render_2x_plugin.h
+END
+mdp_render_2x.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/double/mdp_render_2x.hpp
+END

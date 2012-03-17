@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/opengl_resolution
+END
+opengl_resolution_window.c
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/opengl_resolution/opengl_resolution_window.c
+END
+opengl_resolution_window_misc.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/opengl_resolution/opengl_resolution_window_misc.hpp
+END
+opengl_resolution_window_callbacks.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/opengl_resolution/opengl_resolution_window_callbacks.h
+END
+opengl_resolution_window.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/opengl_resolution/opengl_resolution_window.h
+END
+opengl_resolution_window_misc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/opengl_resolution/opengl_resolution_window_misc.cpp
+END
+opengl_resolution_window_callbacks.c
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/opengl_resolution/opengl_resolution_window_callbacks.c
+END

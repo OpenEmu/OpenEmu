@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk
+END
+gens_ui_gtk.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/gens_ui_gtk.cpp
+END
+gtk-misc.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/gtk-misc.c
+END
+gtk-misc.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/gtk-misc.h
+END
+wndbase.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/wndbase.cpp
+END
+wndbase.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/wndbase.hpp
+END

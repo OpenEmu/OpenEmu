@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/misc
+END
+byteswap.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/misc/byteswap.c
+END
+misc.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/misc/misc.h
+END
+byteswap.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/misc/byteswap.h
+END
+cpuflags.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/misc/cpuflags.c
+END
+cpuflags.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/misc/cpuflags.h
+END
+misc.asm
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/misc/misc.asm
+END
+cpuflags.inc
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/misc/cpuflags.inc
+END

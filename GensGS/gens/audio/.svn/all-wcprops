@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svnroot/openemu/!svn/ver/309/GensGS/gens/audio
+END
+audio_osx.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/309/GensGS/gens/audio/audio_osx.hpp
+END
+audio_mmx.asm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/audio/audio_mmx.asm
+END
+audio.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/openemu/!svn/ver/152/GensGS/gens/audio/audio.cpp
+END
+audio_osx.mm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/309/GensGS/gens/audio/audio_osx.mm
+END
+audio_dsound.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/audio/audio_dsound.hpp
+END
+audio_sdl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/audio/audio_sdl.cpp
+END
+audio.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/openemu/!svn/ver/152/GensGS/gens/audio/audio.hpp
+END
+audio_mmx.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/audio/audio_mmx.h
+END
+audio_sdl.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/audio/audio_sdl.hpp
+END
+audio_dsound.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/audio/audio_dsound.cpp
+END

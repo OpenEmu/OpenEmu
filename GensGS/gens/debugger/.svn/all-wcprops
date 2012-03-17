@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/openemu/!svn/ver/152/GensGS/gens/debugger
+END
+m68kd.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/debugger/m68kd.h
+END
+sh2d.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/openemu/!svn/ver/152/GensGS/gens/debugger/sh2d.c
+END
+z80dis.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/debugger/z80dis.c
+END
+debugger.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/debugger/debugger.cpp
+END
+sh2d.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/openemu/!svn/ver/152/GensGS/gens/debugger/sh2d.h
+END
+z80dis.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/debugger/z80dis.h
+END
+debugger.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/debugger/debugger.hpp
+END
+m68kd.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/debugger/m68kd.c
+END

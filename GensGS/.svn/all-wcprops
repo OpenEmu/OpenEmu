@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svnroot/openemu/!svn/ver/471/GensGS
+END
+GENGameController.m
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/openemu/!svn/ver/309/GensGS/GENGameController.m
+END
+GENPreferenceViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/309/GensGS/GENPreferenceViewController.m
+END
+ControlsPreference.xib
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/228/GensGS/ControlsPreference.xib
+END
+GenesisGameEmu.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/openemu/!svn/ver/309/GensGS/GenesisGameEmu.h
+END
+Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svnroot/openemu/!svn/ver/353/GensGS/Info.plist
+END
+gen6btn.png
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svnroot/openemu/!svn/ver/225/GensGS/gen6btn.png
+END
+config.yaml
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svnroot/openemu/!svn/ver/362/GensGS/config.yaml
+END
+GenesisGameEmu.mm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/384/GensGS/GenesisGameEmu.mm
+END
+Gens.icns
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svnroot/openemu/!svn/ver/247/GensGS/Gens.icns
+END
+config.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/openemu/!svn/ver/152/GensGS/config.h
+END
+GensGS_Prefix.pch
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/309/GensGS/GensGS_Prefix.pch
+END
+GENGameController.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/openemu/!svn/ver/309/GensGS/GENGameController.h
+END
+GENPreferenceViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/309/GensGS/GENPreferenceViewController.h
+END
+dsa_pub.pem
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svnroot/openemu/!svn/ver/353/GensGS/dsa_pub.pem
+END

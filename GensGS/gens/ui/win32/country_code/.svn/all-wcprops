@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/country_code
+END
+country_code_window_misc.c
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/country_code/country_code_window_misc.c
+END
+country_code_window_callbacks.c
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/country_code/country_code_window_callbacks.c
+END
+country_code_window.c
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/country_code/country_code_window.c
+END
+country_code_window_misc.h
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/country_code/country_code_window_misc.h
+END
+country_code_window_callbacks.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/country_code/country_code_window_callbacks.h
+END
+country_code_window.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/win32/country_code/country_code_window.h
+END

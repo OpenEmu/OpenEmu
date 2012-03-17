@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/68k
+END
+cpu_68k.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/68k/cpu_68k.c
+END
+cpu_68k.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/68k/cpu_68k.h
+END
+star_68k.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/68k/star_68k.h
+END

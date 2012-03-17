@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress
+END
+7z.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/7z.cpp
+END
+compressor.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/compressor.hpp
+END
+Zip.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/Zip.cpp
+END
+7z.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/7z.hpp
+END
+subcompressor.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/subcompressor.cpp
+END
+Zip.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/Zip.hpp
+END
+gzip.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/gzip.cpp
+END
+compressedfile.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/compressedfile.hpp
+END
+subcompressor.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/subcompressor.hpp
+END
+gzip.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/gzip.hpp
+END
+popen_wrapper.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/popen_wrapper.c
+END
+rar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/rar.cpp
+END
+popen_wrapper.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/popen_wrapper.h
+END
+rar.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/rar.hpp
+END
+compressor.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/compress/compressor.cpp
+END

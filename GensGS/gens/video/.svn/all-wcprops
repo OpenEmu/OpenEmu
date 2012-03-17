@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svnroot/openemu/!svn/ver/158/GensGS/gens/video
+END
+v_draw_ddraw.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_draw_ddraw.cpp
+END
+v_effects.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_effects.cpp
+END
+C64_charset.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/C64_charset.c
+END
+v_draw_sdl_gl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_draw_sdl_gl.cpp
+END
+v_inline.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_inline.h
+END
+v_draw_ddraw.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_draw_ddraw.hpp
+END
+v_effects.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_effects.hpp
+END
+C64_charset.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/C64_charset.h
+END
+v_draw_sdl_gl.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_draw_sdl_gl.hpp
+END
+v_draw_osx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/158/GensGS/gens/video/v_draw_osx.cpp
+END
+v_draw_osx.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/153/GensGS/gens/video/v_draw_osx.hpp
+END
+v_draw.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_draw.cpp
+END
+v_draw_sdl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_draw_sdl.cpp
+END
+v_draw.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_draw.hpp
+END
+v_draw_sdl.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/video/v_draw_sdl.hpp
+END

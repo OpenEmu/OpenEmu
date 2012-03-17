@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/z80
+END
+z80.asm
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/z80/z80.asm
+END
+z80.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/z80/z80.h
+END
+cpu_z80.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/z80/cpu_z80.c
+END
+cpu_z80.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/z80/cpu_z80.h
+END

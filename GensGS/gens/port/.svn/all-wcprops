@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svnroot/openemu/!svn/ver/152/GensGS/gens/port
+END
+ini.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/152/GensGS/gens/port/ini.cpp
+END
+argc_argv.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/port/argc_argv.h
+END
+timer.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/152/GensGS/gens/port/timer.c
+END
+ini_old.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/openemu/!svn/ver/152/GensGS/gens/port/ini_old.h
+END
+ini.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/152/GensGS/gens/port/ini.hpp
+END
+timer.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/152/GensGS/gens/port/timer.h
+END
+argc_argv.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/openemu/!svn/ver/152/GensGS/gens/port/argc_argv.c
+END
+ini_old.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/openemu/!svn/ver/152/GensGS/gens/port/ini_old.c
+END

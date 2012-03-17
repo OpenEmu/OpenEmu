@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/common/gens
+END
+gens_menu_callbacks.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/common/gens/gens_menu_callbacks.cpp
+END
+gens_menu.c
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/common/gens/gens_menu.c
+END
+gens_menu_callbacks.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/common/gens/gens_menu_callbacks.hpp
+END
+gens_menu.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/common/gens/gens_menu.h
+END

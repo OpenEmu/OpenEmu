@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/2xsai
+END
+mdp_render_2xsai_16_x86.asm
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/2xsai/mdp_render_2xsai_16_x86.asm
+END
+mdp_render_2xsai_x86.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/2xsai/mdp_render_2xsai_x86.h
+END
+mdp_render_2xsai_plugin.c
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/2xsai/mdp_render_2xsai_plugin.c
+END
+mdp_render_2xsai.c
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/2xsai/mdp_render_2xsai.c
+END
+mdp_render_2xsai_plugin.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/2xsai/mdp_render_2xsai_plugin.h
+END
+mdp_render_2xsai.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/render/2xsai/mdp_render_2xsai.h
+END

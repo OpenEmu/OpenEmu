@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svnroot/openemu/!svn/ver/152/GensGS/minizip
+END
+iowin32.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/152/GensGS/minizip/iowin32.h
+END
+ioapi.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/openemu/!svn/ver/152/GensGS/minizip/ioapi.c
+END
+zip.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/openemu/!svn/ver/152/GensGS/minizip/zip.c
+END
+unzip.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/openemu/!svn/ver/152/GensGS/minizip/unzip.c
+END
+crypt.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/openemu/!svn/ver/152/GensGS/minizip/crypt.h
+END
+ioapi.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/openemu/!svn/ver/152/GensGS/minizip/ioapi.h
+END
+zip.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/openemu/!svn/ver/152/GensGS/minizip/zip.h
+END
+iowin32.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/openemu/!svn/ver/152/GensGS/minizip/iowin32.c
+END
+unzip.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/openemu/!svn/ver/152/GensGS/minizip/unzip.h
+END

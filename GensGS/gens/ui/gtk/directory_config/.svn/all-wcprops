@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/directory_config
+END
+directory_config_window_callbacks.c
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/directory_config/directory_config_window_callbacks.c
+END
+directory_config_window.c
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/directory_config/directory_config_window.c
+END
+directory_config_window_misc.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/directory_config/directory_config_window_misc.hpp
+END
+directory_config_window_callbacks.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/directory_config/directory_config_window_callbacks.h
+END
+directory_config_window.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/directory_config/directory_config_window.h
+END
+directory_config_window_misc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/directory_config/directory_config_window_misc.cpp
+END

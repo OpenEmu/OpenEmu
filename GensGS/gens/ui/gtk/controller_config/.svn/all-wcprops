@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/controller_config
+END
+controller_config_window_callbacks.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/controller_config/controller_config_window_callbacks.cpp
+END
+controller_config_window.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/controller_config/controller_config_window.cpp
+END
+controller_config_window_misc.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/controller_config/controller_config_window_misc.hpp
+END
+controller_config_window_callbacks.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/controller_config/controller_config_window_callbacks.hpp
+END
+controller_config_window.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/controller_config/controller_config_window.hpp
+END
+controller_config_window_misc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/controller_config/controller_config_window_misc.cpp
+END

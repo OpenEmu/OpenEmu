@@ -46,4 +46,7 @@
    <FileRef
       location = "group:FB Alpha/FB Alpha.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:GensGS/GensGS.xcodeproj">
+   </FileRef>
 </Workspace>

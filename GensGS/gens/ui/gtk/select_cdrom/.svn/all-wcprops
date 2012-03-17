@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/select_cdrom
+END
+select_cdrom_window_callbacks.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/select_cdrom/select_cdrom_window_callbacks.h
+END
+select_cdrom_window.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/select_cdrom/select_cdrom_window.h
+END
+select_cdrom_window_misc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/select_cdrom/select_cdrom_window_misc.cpp
+END
+select_cdrom_window_callbacks.c
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/select_cdrom/select_cdrom_window_callbacks.c
+END
+select_cdrom_window.c
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/select_cdrom/select_cdrom_window.c
+END
+select_cdrom_window_misc.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/select_cdrom/select_cdrom_window_misc.hpp
+END

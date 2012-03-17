@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui
+END
+gens_ui.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gens_ui.hpp
+END
+osx_ui_stub.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/osx_ui_stub.cpp
+END
+gens_ui.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gens_ui.cpp
+END

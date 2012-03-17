@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/color_adjust
+END
+color_adjust_window_callbacks.c
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/color_adjust/color_adjust_window_callbacks.c
+END
+color_adjust_window.c
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/color_adjust/color_adjust_window.c
+END
+color_adjust_window_misc.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/color_adjust/color_adjust_window_misc.h
+END
+color_adjust_window_callbacks.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/color_adjust/color_adjust_window_callbacks.h
+END
+color_adjust_window.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/color_adjust/color_adjust_window.h
+END
+color_adjust_window_misc.c
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/color_adjust/color_adjust_window_misc.c
+END

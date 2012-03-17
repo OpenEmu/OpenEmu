@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins
+END
+mdp_host.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/mdp_host.h
+END
+mdp_fncall.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/mdp_fncall.h
+END
+mdp_render.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/mdp_render.h
+END
+pluginmgr.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/pluginmgr.cpp
+END
+mdp.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/mdp.h
+END
+mdp_cpuflags.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/mdp_cpuflags.h
+END
+pluginmgr.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/pluginmgr.hpp
+END
+mdp_version.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/mdp_version.h
+END
+mdp_host.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/plugins/mdp_host.c
+END

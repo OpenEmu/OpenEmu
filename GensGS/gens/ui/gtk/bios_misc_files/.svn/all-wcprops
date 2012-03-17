@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/bios_misc_files
+END
+bios_misc_files_window_callbacks.c
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/bios_misc_files/bios_misc_files_window_callbacks.c
+END
+bios_misc_files_window.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/bios_misc_files/bios_misc_files_window.cpp
+END
+bios_misc_files_window_misc.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/bios_misc_files/bios_misc_files_window_misc.hpp
+END
+bios_misc_files_window_callbacks.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/bios_misc_files/bios_misc_files_window_callbacks.h
+END
+bios_misc_files_window.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/bios_misc_files/bios_misc_files_window.hpp
+END
+bios_misc_files_window_misc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/bios_misc_files/bios_misc_files_window_misc.cpp
+END

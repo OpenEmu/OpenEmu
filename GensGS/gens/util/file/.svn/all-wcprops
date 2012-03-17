@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file
+END
+ggenie.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/ggenie.c
+END
+save.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/save.cpp
+END
+rom.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/rom.hpp
+END
+ggenie.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/ggenie.h
+END
+save.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/save.hpp
+END
+config_file.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/config_file.cpp
+END
+config_file.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/config_file.hpp
+END
+rom.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/util/file/rom.cpp
+END

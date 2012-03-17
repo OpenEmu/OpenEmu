@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/sh2
+END
+sh2.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/sh2/sh2.h
+END
+sh2_io.asm
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/sh2/sh2_io.asm
+END
+cpu_sh2.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/sh2/cpu_sh2.c
+END
+sh2_context.inc
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/sh2/sh2_context.inc
+END
+cpu_sh2.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/sh2/cpu_sh2.h
+END
+sh2a.asm
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/sh2/sh2a.asm
+END
+sh2.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/cpu/sh2/sh2.c
+END

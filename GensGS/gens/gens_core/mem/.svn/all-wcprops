@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem
+END
+mem_m68k_cd.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_m68k_cd.h
+END
+mem_s68k.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_s68k.h
+END
+mem_sh2.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_sh2.h
+END
+mem_m68k.asm
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_m68k.asm
+END
+mem_m68k_32x.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_m68k_32x.h
+END
+mem_z80.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_z80.h
+END
+mem_m68k_cd.asm
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_m68k_cd.asm
+END
+mem_s68k.asm
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_s68k.asm
+END
+mem_m68k.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_m68k.h
+END
+mem_sh2.asm
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_sh2.asm
+END
+mem_m68k_32x.asm
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_m68k_32x.asm
+END
+mem_z80.asm
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/openemu/!svn/ver/152/GensGS/gens/gens_core/mem/mem_z80.asm
+END

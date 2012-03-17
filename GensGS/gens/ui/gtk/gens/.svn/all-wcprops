@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/gens
+END
+gens_window_sync.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/gens/gens_window_sync.cpp
+END
+gens_window_callbacks.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/gens/gens_window_callbacks.cpp
+END
+gens_window.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/gens/gens_window.cpp
+END
+gens_window_sync.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/gens/gens_window_sync.hpp
+END
+gens_window_callbacks.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/gens/gens_window_callbacks.hpp
+END
+gens_window.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/openemu/!svn/ver/152/GensGS/gens/ui/gtk/gens/gens_window.hpp
+END
