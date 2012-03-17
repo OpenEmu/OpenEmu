@@ -46,7 +46,7 @@
 		82CAFCEC0FEDD43700CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFCD10FEDD39600CCDC7E /* config.yaml */; };
 		82EAE075101D29B300960B7D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EAE074101D29B300960B7D /* libz.dylib */; };
 		82F45FC50E88979600B7B023 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82F45FC40E88979600B7B023 /* Preferences.xib */; };
-		94F5BF9815146C4F00EF6689 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F5BF9715146C4F00EF6689 /* OpenEmuBase.framework */; };
+		942597C8151470210074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597C7151470210074E3A3 /* OpenEmuBase.framework */; };
 		B5A2CFF10F23784E009EA0FD /* adaptivesleep.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2CFD70F23784E009EA0FD /* adaptivesleep.cpp */; };
 		B5A2CFF20F23784E009EA0FD /* rateest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2CFDA0F23784E009EA0FD /* rateest.cpp */; };
 		B5A2CFF30F23784E009EA0FD /* chainresampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2CFDE0F23784E009EA0FD /* chainresampler.cpp */; };
@@ -130,7 +130,7 @@
 		82CAFCD10FEDD39600CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82EAE074101D29B300960B7D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		82F45FC40E88979600B7B023 /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
-		94F5BF9715146C4F00EF6689 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		942597C7151470210074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		B50BBE0F0E64825D001814C0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		B5350B7C0E62EC0800A0903A /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		B5350B820E62EC6100A0903A /* CocoaBlitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaBlitter.h; sourceTree = "<group>"; };
@@ -263,7 +263,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94F5BF9815146C4F00EF6689 /* OpenEmuBase.framework in Frameworks */,
+				942597C8151470210074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				828387E20E6CDB6E00A96E2C /* Cocoa.framework in Frameworks */,
 				82EAE075101D29B300960B7D /* libz.dylib in Frameworks */,
 			);
@@ -275,6 +275,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				942597C7151470210074E3A3 /* OpenEmuBase.framework */,
 				B50BBE0F0E64825D001814C0 /* AudioToolbox.framework */,
 				B5350B7C0E62EC0800A0903A /* OpenGL.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
@@ -300,7 +301,6 @@
 		2A37F4AAFDCFA73011CA2CEA /* Gambatte */ = {
 			isa = PBXGroup;
 			children = (
-				94F5BF9715146C4F00EF6689 /* OpenEmuBase.framework */,
 				B5A6D9310E617C4900622CCF /* Core */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,

@@ -41,6 +41,7 @@
 		8230C81910AFCCB700412F24 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 8230C81810AFCCB700412F24 /* dsa_pub.pem */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		942597CB1514703D0074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597CA1514703D0074E3A3 /* OpenEmuBase.framework */; };
 		94ED8A9214CF933700FF8901 /* areplay.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED896A14CF933600FF8901 /* areplay.c */; };
 		94ED8A9314CF933700FF8901 /* eeprom.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED896C14CF933600FF8901 /* eeprom.c */; };
 		94ED8A9414CF933700FF8901 /* ggenie.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED896E14CF933600FF8901 /* ggenie.c */; };
@@ -89,7 +90,6 @@
 		94ED8B5014CF933800FF8901 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8914CF933700FF8901 /* config.c */; };
 		94ED8B5114CF933800FF8901 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8B14CF933700FF8901 /* error.c */; };
 		94ED8B5214CF933800FF8901 /* fileio.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8D14CF933700FF8901 /* fileio.c */; };
-		94F5BF9B15146C6600EF6689 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F5BF9A15146C6600EF6689 /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +136,7 @@
 		825C7E44101FAB7F0072187B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		8D5B49B6048680CD000E48DA /* GenesisPlus.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GenesisPlus.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		942597CA1514703D0074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		94ED896A14CF933600FF8901 /* areplay.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = areplay.c; sourceTree = "<group>"; };
 		94ED896B14CF933600FF8901 /* areplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = areplay.h; sourceTree = "<group>"; };
 		94ED896C14CF933600FF8901 /* eeprom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eeprom.c; sourceTree = "<group>"; };
@@ -238,7 +239,6 @@
 		94ED8A8D14CF933700FF8901 /* fileio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fileio.c; sourceTree = "<group>"; };
 		94ED8A8E14CF933700FF8901 /* fileio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileio.h; sourceTree = "<group>"; };
 		94ED8A8F14CF933700FF8901 /* osd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osd.h; sourceTree = "<group>"; };
-		94F5BF9A15146C6600EF6689 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		C6B948191365164700A425F0 /* OEGenesisSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEGenesisSystemResponderClient.h; path = ../OpenEmu/Genesis/OEGenesisSystemResponderClient.h; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -248,7 +248,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94F5BF9B15146C6600EF6689 /* OpenEmuBase.framework in Frameworks */,
+				942597CB1514703D0074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				82287C09101E9C2C0072172D /* libz.dylib in Frameworks */,
 			);
@@ -260,7 +260,6 @@
 		089C166AFE841209C02AAC07 /* GenesisPlus */ = {
 			isa = PBXGroup;
 			children = (
-				94F5BF9A15146C6600EF6689 /* OpenEmuBase.framework */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -307,6 +306,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				942597CA1514703D0074E3A3 /* OpenEmuBase.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";

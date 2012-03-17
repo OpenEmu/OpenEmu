@@ -41,7 +41,7 @@
 		82CAFDB00FEDD88100CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFADD0FEDA5EA00CCDC7E /* config.yaml */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		94F5BF8F15146C0500EF6689 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F5BF8E15146C0500EF6689 /* OpenEmuBase.framework */; };
+		942597C215146FC80074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597C115146FC80074E3A3 /* OpenEmuBase.framework */; };
 		B5DA7D460F5B28040008F047 /* sn76489.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D420F5B28040008F047 /* sn76489.c */; };
 		B5DA7D550F5B281B0008F047 /* CrabZ80.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D4A0F5B281B0008F047 /* CrabZ80.c */; };
 		B5DA7D560F5B281B0008F047 /* CrabZ80d.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D4E0F5B281B0008F047 /* CrabZ80d.c */; };
@@ -104,7 +104,7 @@
 		82CAFADD0FEDA5EA00CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* CrabEmu.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrabEmu.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		94F5BF8E15146C0500EF6689 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		942597C115146FC80074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		B5DA7D410F5B28040008F047 /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound.c; sourceTree = "<group>"; };
 		B5DA7D420F5B28040008F047 /* sn76489.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sn76489.c; sourceTree = "<group>"; };
 		B5DA7D430F5B28040008F047 /* sn76489.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sn76489.h; sourceTree = "<group>"; };
@@ -165,7 +165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94F5BF8F15146C0500EF6689 /* OpenEmuBase.framework in Frameworks */,
+				942597C215146FC80074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				1B46D09D14293CAD0025EF88 /* libz.1.2.5.dylib in Frameworks */,
 			);
@@ -177,7 +177,6 @@
 		089C166AFE841209C02AAC07 /* CrabEmu */ = {
 			isa = PBXGroup;
 			children = (
-				94F5BF8E15146C0500EF6689 /* OpenEmuBase.framework */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -222,6 +221,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				942597C115146FC80074E3A3 /* OpenEmuBase.framework */,
 				1B46D09C14293CAD0025EF88 /* libz.1.2.5.dylib */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);

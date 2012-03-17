@@ -31,7 +31,7 @@
 		82CFBC520FFEF432002B6C7C /* Mednafen.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82CFBC510FFEF432002B6C7C /* Mednafen.icns */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		94F5BF9E15146C7D00EF6689 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F5BF9D15146C7D00EF6689 /* OpenEmuBase.framework */; };
+		942597CE151470620074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597CD151470620074E3A3 /* OpenEmuBase.framework */; };
 		C62954BF1369241300F94899 /* desa68.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EB11369241200F94899 /* desa68.c */; };
 		C62954C31369241300F94899 /* cdplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EC81369241200F94899 /* cdplay.cpp */; };
 		C62954C41369241300F94899 /* audioreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294ECA1369241200F94899 /* audioreader.cpp */; };
@@ -587,7 +587,7 @@
 		82CFBC510FFEF432002B6C7C /* Mednafen.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Mednafen.icns; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Mednafen.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Mednafen.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		94F5BF9D15146C7D00EF6689 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		942597CD151470620074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		C6294EA71369241200F94899 /* blargg_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blargg_common.h; sourceTree = "<group>"; };
 		C6294EA81369241200F94899 /* blargg_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blargg_config.h; sourceTree = "<group>"; };
 		C6294EA91369241200F94899 /* blargg_endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blargg_endian.h; sourceTree = "<group>"; };
@@ -1854,7 +1854,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94F5BF9E15146C7D00EF6689 /* OpenEmuBase.framework in Frameworks */,
+				942597CE151470620074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				8240861B0FFDD64600F0FE7D /* libz.dylib in Frameworks */,
 				8296617D1042474500F30B74 /* libcdio.a in Frameworks */,
@@ -1870,7 +1870,6 @@
 		089C166AFE841209C02AAC07 /* Mednafen */ = {
 			isa = PBXGroup;
 			children = (
-				94F5BF9D15146C7D00EF6689 /* OpenEmuBase.framework */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -1918,6 +1917,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				942597CD151470620074E3A3 /* OpenEmuBase.framework */,
 				3DE8D234104256E30007C7E7 /* IOKit.framework */,
 				3DE8D229104256CF0007C7E7 /* DiskArbitration.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,

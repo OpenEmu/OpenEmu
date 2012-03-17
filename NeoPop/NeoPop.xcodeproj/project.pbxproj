@@ -24,7 +24,7 @@
 /* Begin PBXBuildFile section */
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		94F5BF9215146C1F00EF6689 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F5BF9115146C1F00EF6689 /* OpenEmuBase.framework */; };
+		942597BF15146FA20074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597BE15146FA20074E3A3 /* OpenEmuBase.framework */; };
 		B5DCE1180F2B5AE200517996 /* NGPGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1170F2B5AE200517996 /* NGPGameCore.m */; };
 		B5DCE1650F2B5BB300517996 /* bios.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE11C0F2B5BB300517996 /* bios.c */; };
 		B5DCE1660F2B5BB300517996 /* biosHLE.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE11E0F2B5BB300517996 /* biosHLE.c */; };
@@ -74,7 +74,7 @@
 		82C29094148401BD007C0214 /* OENGPSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OENGPSystemResponderClient.h; path = ../OpenEmu/NeoGeoPocket/OENGPSystemResponderClient.h; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* NeoPop.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeoPop.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		94F5BF9115146C1F00EF6689 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		942597BE15146FA20074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		B5DCE1160F2B5AE200517996 /* NGPGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGPGameCore.h; sourceTree = "<group>"; };
 		B5DCE1170F2B5AE200517996 /* NGPGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGPGameCore.m; sourceTree = "<group>"; };
 		B5DCE11C0F2B5BB300517996 /* bios.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bios.c; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94F5BF9215146C1F00EF6689 /* OpenEmuBase.framework in Frameworks */,
+				942597BF15146FA20074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -163,7 +163,6 @@
 		089C166AFE841209C02AAC07 /* NeoPop */ = {
 			isa = PBXGroup;
 			children = (
-				94F5BF9115146C1F00EF6689 /* OpenEmuBase.framework */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -204,6 +203,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				942597BE15146FA20074E3A3 /* OpenEmuBase.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
