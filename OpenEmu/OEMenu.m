@@ -135,11 +135,16 @@
 #pragma mark -
 @interface OEMenuContentView : NSView
 - (void)highlightItemAtPoint:(NSPoint)p;
+- (void)highlightItemWithScrollingAtPoint:(NSPoint)p;
 - (NSMenuItem *)itemAtPoint:(NSPoint)p;
 - (NSRect)rectOfItem:(NSMenuItem *)m;
 
 - (BOOL)menuKeyDown:(NSEvent *)theEvent;
 
+- (void)updateScrollerViews:(BOOL)animated;
+- (void)scrollDown;
+- (void)scrollUp;
+- (void)scrollBy:(float)yDelta;
 #pragma mark -
 #pragma mark TextAttributes
 - (NSDictionary *)itemTextAttributes;
@@ -154,8 +159,9 @@
 @property NSPoint cachedContentOffset;
 @property NSSize  cachedBorderSize;
 
-@property (nonatomic, readonly) OEMenuScrollerView *scrollUpView;
 @property (nonatomic, readonly) OEMenuScrollerView *scrollDownView;
+@property (nonatomic, readonly) OEMenuScrollerView *scrollUpView;
+@property NSTimer *scrollTimer;
 @end
 
 @interface OEMenuContentView ()
@@ -282,7 +288,7 @@
     [self OE_repositionMenu];
     
     NSPoint windowP = [self convertScreenToBase:[NSEvent mouseLocation]];
-    [[self menuView] highlightItemAtPoint:windowP];
+    [[self menuView] highlightItemWithScrollingAtPoint:windowP];
     
     [self display];
     [self setAlphaValue:1.0];
@@ -363,6 +369,8 @@
     {
         [self setFrame:menuRect display:NO];
     }
+    
+    [[self menuView] updateScrollerViews:NO];
 }
 
 - (NSPoint)OE_originForEdge:(OERectEdge)anEdge ofWindow:(NSWindow*)win
@@ -694,13 +702,20 @@
 #pragma mark -
 - (void)OE_createEventMonitor
 {
-    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask /*| NSScrollWheelMask*/ handler:
+    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask | NSScrollWheelMask handler:
                      ^ NSEvent  *(NSEvent *incomingEvent)
                      {
-                         if([incomingEvent type]==NSScrollWheel)
-                             return nil;
                          
                          OEMenuContentView *view = [[[self contentView] subviews] lastObject];
+                         
+                         if([incomingEvent type]==NSScrollWheel)
+                         {
+                             if([self submenu])
+                                 return incomingEvent;
+                             
+                             [view scrollWheel:incomingEvent];
+                             return nil;
+                         }
                          
                         if([incomingEvent type] == NSFlagsChanged)
                          {
@@ -753,7 +768,7 @@
 
 #pragma mark -
 @implementation OEMenuContentView
-@synthesize scrollUpView, scrollDownView;
+@synthesize scrollDownView, scrollUpView, scrollTimer;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -771,15 +786,25 @@
         
         [self addSubview:scrollView];
         
-        frame.size.height = 19.0;
-        scrollUpView = [[OEMenuScrollerView alloc] initWithFrame:frame];
-        [scrollUpView setAlphaValue:0.0];
-        [scrollUpView setUp:YES];
+        frame.size.height = 13.0;
+        
         scrollDownView = [[OEMenuScrollerView alloc] initWithFrame:frame];
         [scrollDownView setAlphaValue:0.0];
+        [scrollDownView addObserver:self forKeyPath:@"alphaValue" options:0 context:nil];
+        CAAnimation *animation = [scrollDownView animationForKey:@"alphaValue"];
+        [animation setDuration:0.02];
+        [scrollDownView setAnimations:[NSDictionary dictionaryWithObject:animation forKey:@"alphaValue"]];
         
-        [self addSubview:scrollUpView];
+        scrollUpView = [[OEMenuScrollerView alloc] initWithFrame:frame];
+        [scrollUpView setAlphaValue:0.0];
+        [scrollUpView addObserver:self forKeyPath:@"alphaValue" options:0 context:nil];
+        [scrollUpView setUp:YES];
+        animation = [scrollUpView animationForKey:@"alphaValue"];
+        [animation setDuration:0.02];
+        [scrollUpView setAnimations:[NSDictionary dictionaryWithObject:animation forKey:@"alphaValue"]];
+        
         [self addSubview:scrollDownView];
+        [self addSubview:scrollUpView];
         
         NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
         [self addTrackingArea:area];
@@ -787,8 +812,25 @@
     return self;
 }
 
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSView *view = nil;
+    if(object == [self scrollDownView] || object == [self scrollUpView])
+    {
+        view = object;
+    }
+    if(view)
+    {
+        [[self menuItemsView] setNeedsDisplayInRect:[[self menuItemsView] convertRect:[view frame] fromView:self]];
+    }
+}
+
 - (void)dealloc
 {    
+    [[self scrollUpView] removeObserver:self forKeyPath:@"alphaValue"];
+    [[self scrollDownView] removeObserver:self forKeyPath:@"alphaValue"];
+    
     while([[self trackingAreas] count] != 0)
         [self removeTrackingArea:[[self trackingAreas] lastObject]];
 }
@@ -820,7 +862,7 @@
     if([[self menu] _isClosing]) return;
     
     NSPoint loc = [theEvent window]==[self window]?[theEvent locationInWindow]:[[self window] convertScreenToBase:[[theEvent window] convertBaseToScreen:[theEvent locationInWindow]]];
-    [self highlightItemAtPoint:[self convertPointFromBase:loc]];
+    [self highlightItemWithScrollingAtPoint:[self convertPointFromBase:loc]];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
@@ -828,14 +870,14 @@
     if([[self menu] _isClosing]) return;
     
     NSPoint loc = [theEvent window]==[self window]?[theEvent locationInWindow]:[[self window] convertScreenToBase:[[theEvent window] convertBaseToScreen:[theEvent locationInWindow]]];
-    [self highlightItemAtPoint:[self convertPointFromBase:loc]];
+    [self highlightItemWithScrollingAtPoint:[self convertPointFromBase:loc]];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent
 {
     if([[self menu] _isClosing]) return;
     NSPoint loc = [theEvent locationInWindow];
-    [self highlightItemAtPoint:[self convertPointFromBase:loc]];
+    [self highlightItemWithScrollingAtPoint:[self convertPointFromBase:loc]];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
@@ -843,7 +885,7 @@
     if([[self menu] _isClosing]) return;
     // if not mouse on subwindow
     NSPoint loc = [theEvent locationInWindow];
-    [self highlightItemAtPoint:[self convertPointFromBase:loc]];
+    [self highlightItemWithScrollingAtPoint:[self convertPointFromBase:loc]];
 }
 
 - (BOOL)menuKeyDown:(NSEvent *)theEvent
@@ -912,6 +954,59 @@
     if(accepted)
         [self setNeedsDisplay:YES];
     return accepted;
+}
+
+#pragma mark -
+#pragma mark Scrolling
+#define AutoScrollInterval 0.01
+#define ScrollStep 8.0
+- (void)scrollUp
+{
+    NSLog(@"scrollUp");    
+    [self scrollBy:ScrollStep];
+    
+    if(![self scrollTimer])
+    {
+        [self setScrollTimer:[NSTimer scheduledTimerWithTimeInterval:AutoScrollInterval target:self selector:@selector(scrollUp) userInfo:nil repeats:YES]];
+    }
+}
+
+- (void)scrollDown
+{
+    NSLog(@"scrollDown");
+    [self scrollBy:-ScrollStep];
+    
+    if(![self scrollTimer])
+        [self setScrollTimer:[NSTimer scheduledTimerWithTimeInterval:AutoScrollInterval target:self selector:@selector(scrollDown) userInfo:nil repeats:YES]];
+}
+
+- (void)scrollWheel:(NSEvent *)theEvent
+{
+    [self scrollBy:[theEvent scrollingDeltaY]];
+}
+
+- (void)scrollBy:(float)yDelta
+{
+    NSScrollView *scrollView = [self scrollView];
+    
+    NSPoint point = [[scrollView contentView] bounds].origin;
+    point.y -= yDelta;
+    
+    [[scrollView documentView] scrollPoint:point];
+
+    [self updateScrollerViews:YES];
+    [self highlightItemAtPoint:[self convertPointFromBase:[[self window] convertScreenToBase:[NSEvent mouseLocation]]]];
+}
+
+- (void)updateScrollerViews:(BOOL)animated
+{
+    NSLog(@"updaetScrollerViews");
+
+    BOOL isAtBottom = NSMinY([[self menuItemsView] visibleRect]) == 0.0;
+    BOOL isAtTop = NSMaxY([[self menuItemsView] visibleRect])==NSHeight([[self menuItemsView] bounds]);
+
+    [animated?[[self scrollDownView] animator]:[self scrollDownView] setAlphaValue:isAtTop?0.0:1.0];
+    [animated?[[self scrollUpView] animator]:[self scrollUpView] setAlphaValue:isAtBottom?0.0:1.0];
 }
 
 #pragma mark -
@@ -1321,11 +1416,32 @@
         [[self menu] setHighlightedItem:highlighItem];
         
         [self setNeedsDisplay:YES];
-    }    
+    }
+}
+
+- (void)highlightItemWithScrollingAtPoint:(NSPoint)p
+{    
+    if([[self scrollDownView] alphaValue]!=0.0 && NSPointInRect(p, [[self scrollDownView] frame]))
+    {
+        [self scrollDown];
+    }
+    else if([[self scrollUpView] alphaValue]!=0.0 && NSPointInRect(p, [[self scrollUpView] frame]))
+    {
+        [self scrollUp];
+    } else {
+        [[self scrollTimer] invalidate];
+        [self setScrollTimer:nil];
+        
+        [self highlightItemAtPoint:p];
+    }
 }
 
 - (NSMenuItem *)itemAtPoint:(NSPoint)p
-{  
+{    
+    if(([[self scrollUpView] alphaValue]==1.0 && NSPointInRect(p, [[self scrollUpView] frame])) || 
+       ([[self scrollDownView] alphaValue]==1.0 && NSPointInRect(p, [[self scrollDownView] frame])))
+        return nil;
+    
     NSPoint pointInView = [self convertPoint:p toView:[self menuItemsView]];
     return [[self menuItemsView] itemAtPoint:pointInView];
 }
@@ -1352,10 +1468,10 @@
     [[self scrollView] setFrame:newScrollViewRect];
     
     NSRect scrollArrowsFrame = (NSRect){{newScrollViewRect.origin.x, 0}, { NSWidth(newScrollViewRect), 19}};
-    scrollArrowsFrame.origin.y = NSMaxY(newScrollViewRect) -NSHeight([[self scrollUpView] frame]);
-    [[self scrollUpView] setFrame:scrollArrowsFrame];
-    scrollArrowsFrame.origin.y = newScrollViewRect.origin.y;
+    scrollArrowsFrame.origin.y = NSMaxY(newScrollViewRect) -NSHeight([[self scrollDownView] frame]);
     [[self scrollDownView] setFrame:scrollArrowsFrame];
+    scrollArrowsFrame.origin.y = newScrollViewRect.origin.y;
+    [[self scrollUpView] setFrame:scrollArrowsFrame];
 }
 
 - (BOOL)acceptsFirstResponder
@@ -1476,6 +1592,7 @@
 {
     return YES;
 }
+
 #pragma mark -
 #pragma mark Items
 - (NSRect)rectOfItem:(NSMenuItem *)m
@@ -1507,8 +1624,6 @@
 - (NSMenuItem *)itemAtPoint:(NSPoint)p
 {
     BOOL menuContainsImage = [[self menu] containsItemWithImage];
-    OERectEdge openEdge = [[self menu] openEdge];
-    openEdge = [[self menu] displaysOpenEdge] ? openEdge : OENoEdge;
    
     if(p.x < 0 || p.x > NSWidth([self bounds]))
         return nil;
@@ -1587,6 +1702,9 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+    if(!NSEqualRects(dirtyRect, [self bounds]))
+        NSLog(@"dirtyRect: %@", NSStringFromRect(dirtyRect));
+    
     OEMenuContentView *menuView   = (OEMenuContentView *)[[self enclosingScrollView] superview];
     
     OERectEdge openEdge     = [[self menu] openEdge];
@@ -1595,10 +1713,10 @@
     NSBezierPath *clippingPath = [NSBezierPath bezierPathWithRect:[self bounds]];
     [clippingPath setWindingRule:NSEvenOddWindingRule];
         
-    if([[menuView scrollDownView] alphaValue] == 1.0)
-        [clippingPath appendBezierPathWithRect:[menuView convertRect:[[menuView scrollDownView] frame] toView:self]];
     if([[menuView scrollUpView] alphaValue] == 1.0)
-       [clippingPath appendBezierPathWithRect:[menuView convertRect:[[menuView scrollUpView] frame] toView:self]];
+        [clippingPath appendBezierPathWithRect:[menuView convertRect:[[menuView scrollUpView] frame] toView:self]];
+    if([[menuView scrollDownView] alphaValue] == 1.0)
+       [clippingPath appendBezierPathWithRect:[menuView convertRect:[[menuView scrollDownView] frame] toView:self]];
     [clippingPath addClip];
    
     
@@ -1708,15 +1826,6 @@
 
 #pragma mark -
 @implementation OE_MenuScrollView
-- (void)scrollWheel:(NSEvent *)theEvent
-{
-    [super scrollWheel:theEvent];
-    
-    OEMenu              *menu = [self menu];
-    OEMenuContentView  *view = [menu menuView];
-    NSPoint             pointInView = [view convertPointFromBacking:[theEvent locationInWindow]];
-    [view highlightItemAtPoint:pointInView];
-}
 #pragma mark -
 - (OEMenu *)menu
 {
@@ -1750,6 +1859,7 @@
 #pragma mark -
 @implementation OEMenuScrollerView 
 @synthesize up;
+
 - (NSImage*)scrollUpArrowImageForStyle:(OEMenuStyle)style
 {
     return [NSImage imageNamed:style == OEMenuStyleDark ? @"dark_menu_scroll_up" : @"light_menu_scroll_up"];
@@ -1761,8 +1871,13 @@
     
 }
 
-- (void)drawRect:(NSRect)dirtyRect
+- (BOOL)isFlipped
 {
+    return YES;
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{        
     OEMenu  *menu        = (OEMenu*)[self window];
     NSImage *scrollArrow = [self up] ? [self scrollUpArrowImageForStyle:[menu style]] : [self scrollDownArrowImageForStyle:[menu style]];
     
