@@ -319,21 +319,15 @@
 
 - (void)deleteSaveState:(id)state
 {
-    // TODO: use OEAlert once it's been written
-    // TODO: localize and rephrase text
-    
-    NSString *stateName = [state userDescription];
+    NSString *stateName = [state name];
     OEHUDAlert *alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
     
     NSUInteger result = [alert runModal];
     
     if(result)
     {        
-        // TODO: does this also remove the screenshot from the database?
-        NSString *path = [state path];
-        
         NSError *err = nil;
-        if(![[NSFileManager defaultManager] removeItemAtPath:path error:&err])
+        if(![[NSFileManager defaultManager] removeItemAtURL:[state URL] error:&err])
         {
             NSLog(@"Error deleting save file!");
             NSLog(@"%@", err);
