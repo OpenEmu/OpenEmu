@@ -41,6 +41,7 @@
 		82CAFDB00FEDD88100CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFADD0FEDA5EA00CCDC7E /* config.yaml */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		942597C215146FC80074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597C115146FC80074E3A3 /* OpenEmuBase.framework */; };
 		B5DA7D460F5B28040008F047 /* sn76489.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D420F5B28040008F047 /* sn76489.c */; };
 		B5DA7D550F5B281B0008F047 /* CrabZ80.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D4A0F5B281B0008F047 /* CrabZ80.c */; };
 		B5DA7D560F5B281B0008F047 /* CrabZ80d.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D4E0F5B281B0008F047 /* CrabZ80d.c */; };
@@ -59,38 +60,9 @@
 		B5DA7D820F5B28280008F047 /* terebi.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D710F5B28280008F047 /* terebi.c */; };
 		B5DA7D830F5B28280008F047 /* tms9918a.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D730F5B28280008F047 /* tms9918a.c */; };
 		C66DFC1A0F51D82F0080AA28 /* SMSGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFC180F51D82F0080AA28 /* SMSGameCore.m */; };
-		C689A5390FE4621C00885BC3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		14F5844214436858002286BD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1415540F1442B3B300A01683;
-			remoteInfo = N64;
-		};
-		8264151613EDB5B700591582 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C646574813771F12002A4F70;
-			remoteInfo = "GameBoy Advance";
-		};
-		8291C4F31489595000A72540 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 820EB74A1483F9A2008EC398;
-			remoteInfo = NeoGeoPocket;
-		};
-		8291C4F51489595000A72540 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8227754F148946DF00B19E27;
-			remoteInfo = GameGear;
-		};
 		82CAFB640FEDA62A00CCDC7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -104,90 +76,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = CrabEmu;
-		};
-		8341C6B814580998001B3138 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3887A7F61024D1F9000FC4CF;
-			remoteInfo = OESaveStateQLPlugin;
-		};
-		94EE65AE1508683200F80F37 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 94D7E8C915073BA000FBDD85;
-			remoteInfo = NDS;
-		};
-		C62A256A116F07070003DEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
-			remoteInfo = OpenEmuHelperApp;
-		};
-		C6480F41136489BD0094FA33 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C64BB08D136478E600C1AB23;
-			remoteInfo = NES;
-		};
-		C64CBD231363DA8C00BEE4F3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C6711807136367240034379A;
-			remoteInfo = OpenEmuSystem;
-		};
-		C64CBD251363DA8C00BEE4F3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C671180F136368330034379A;
-			remoteInfo = SegaMasterSystem;
-		};
-		C689A5DE0FE4648F00885BC3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 82444BA00F51256C007C171B;
-			remoteInfo = OpenEmuBase;
-		};
-		C68A395A1364B67E006CEB34 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C6480FC113648F670094FA33;
-			remoteInfo = SuperNES;
-		};
-		C6B3E68C1365255700D34947 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C6B947AF1364ECA600A425F0;
-			remoteInfo = GameBoy;
-		};
-		C6B3E68E1365255700D34947 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C6B947E61365080B00A425F0;
-			remoteInfo = Genesis;
-		};
-		C6E917CF0FD356A500AC2CCC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
-			remoteInfo = OpenEmu;
-		};
-		C6E917D30FD356A500AC2CCC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 82444BA10F51256C007C171B;
-			remoteInfo = OpenEmuBase;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -214,9 +102,9 @@
 		8291C4E21489595000A72540 /* OEGGSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEGGSystemResponderClient.h; path = ../OpenEmu/GameGear/OEGGSystemResponderClient.h; sourceTree = "<group>"; };
 		82CAFAD90FEDA5CA00CCDC7E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFADD0FEDA5EA00CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
-		82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
 		8D5B49B6048680CD000E48DA /* CrabEmu.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrabEmu.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		942597C115146FC80074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		B5DA7D410F5B28040008F047 /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound.c; sourceTree = "<group>"; };
 		B5DA7D420F5B28040008F047 /* sn76489.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sn76489.c; sourceTree = "<group>"; };
 		B5DA7D430F5B28040008F047 /* sn76489.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sn76489.h; sourceTree = "<group>"; };
@@ -277,7 +165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C689A5390FE4621C00885BC3 /* OpenEmuBase.framework in Frameworks */,
+				942597C215146FC80074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				1B46D09D14293CAD0025EF88 /* libz.1.2.5.dylib in Frameworks */,
 			);
@@ -289,7 +177,6 @@
 		089C166AFE841209C02AAC07 /* CrabEmu */ = {
 			isa = PBXGroup;
 			children = (
-				82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -334,6 +221,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				942597C115146FC80074E3A3 /* OpenEmuBase.framework */,
 				1B46D09C14293CAD0025EF88 /* libz.1.2.5.dylib */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
@@ -470,28 +358,6 @@
 			path = openal;
 			sourceTree = "<group>";
 		};
-		C6E917C80FD356A500AC2CCC /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C6E917D00FD356A500AC2CCC /* OpenEmu.app */,
-				C62A256B116F07070003DEE4 /* OpenEmuHelperApp */,
-				C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */,
-				C64CBD241363DA8C00BEE4F3 /* OpenEmuSystem.framework */,
-				8341C6B914580998001B3138 /* OESaveStateQLPlugin.qlgenerator */,
-				C64CBD261363DA8C00BEE4F3 /* SegaMasterSystem.oesystemplugin */,
-				C6480F42136489BD0094FA33 /* NES.oesystemplugin */,
-				C68A395B1364B67E006CEB34 /* SuperNES.oesystemplugin */,
-				C6B3E68D1365255700D34947 /* GameBoy.oesystemplugin */,
-				C6B3E68F1365255700D34947 /* Genesis.oesystemplugin */,
-				3746BCD71029454F007C78A6 /* GameBoy Advance.oesystemplugin */,
-				14F5844314436858002286BD /* N64.oesystemplugin */,
-				8291C4F41489595000A72540 /* NeoGeo Pocket.oesystemplugin */,
-				8291C4F61489595000A72540 /* GameGear.oesystemplugin */,
-				94EE65AF1508683200F80F37 /* NDS.oesystemplugin */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -506,7 +372,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C689A5DF0FE4648F00885BC3 /* PBXTargetDependency */,
 			);
 			name = CrabEmu;
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -532,12 +397,6 @@
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* CrabEmu */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = C6E917C80FD356A500AC2CCC /* Products */;
-					ProjectRef = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* CrabEmu */,
@@ -546,114 +405,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		14F5844314436858002286BD /* N64.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = N64.oesystemplugin;
-			remoteRef = 14F5844214436858002286BD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3746BCD71029454F007C78A6 /* GameBoy Advance.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "GameBoy Advance.oesystemplugin";
-			remoteRef = 8264151613EDB5B700591582 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8291C4F41489595000A72540 /* NeoGeo Pocket.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "NeoGeo Pocket.oesystemplugin";
-			remoteRef = 8291C4F31489595000A72540 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8291C4F61489595000A72540 /* GameGear.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = GameGear.oesystemplugin;
-			remoteRef = 8291C4F51489595000A72540 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8341C6B914580998001B3138 /* OESaveStateQLPlugin.qlgenerator */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.qlgenerator;
-			remoteRef = 8341C6B814580998001B3138 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		94EE65AF1508683200F80F37 /* NDS.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = NDS.oesystemplugin;
-			remoteRef = 94EE65AE1508683200F80F37 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C62A256B116F07070003DEE4 /* OpenEmuHelperApp */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = OpenEmuHelperApp;
-			remoteRef = C62A256A116F07070003DEE4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C6480F42136489BD0094FA33 /* NES.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = NES.oesystemplugin;
-			remoteRef = C6480F41136489BD0094FA33 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C64CBD241363DA8C00BEE4F3 /* OpenEmuSystem.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OpenEmuSystem.framework;
-			remoteRef = C64CBD231363DA8C00BEE4F3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C64CBD261363DA8C00BEE4F3 /* SegaMasterSystem.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SegaMasterSystem.oesystemplugin;
-			remoteRef = C64CBD251363DA8C00BEE4F3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C68A395B1364B67E006CEB34 /* SuperNES.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SuperNES.oesystemplugin;
-			remoteRef = C68A395A1364B67E006CEB34 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C6B3E68D1365255700D34947 /* GameBoy.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = GameBoy.oesystemplugin;
-			remoteRef = C6B3E68C1365255700D34947 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C6B3E68F1365255700D34947 /* Genesis.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Genesis.oesystemplugin;
-			remoteRef = C6B3E68E1365255700D34947 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C6E917D00FD356A500AC2CCC /* OpenEmu.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmu.app;
-			remoteRef = C6E917CF0FD356A500AC2CCC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OpenEmuBase.framework;
-			remoteRef = C6E917D30FD356A500AC2CCC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D5B49AF048680CD000E48DA /* Resources */ = {
@@ -736,11 +487,6 @@
 			isa = PBXTargetDependency;
 			target = 8D5B49AC048680CD000E48DA /* CrabEmu */;
 			targetProxy = 82D815600F1D879200EF8CF5 /* PBXContainerItemProxy */;
-		};
-		C689A5DF0FE4648F00885BC3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = OpenEmuBase;
-			targetProxy = C689A5DE0FE4648F00885BC3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
