@@ -55,7 +55,6 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 + (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context;
 - (BOOL)OE_createBundleAtURL:(NSURL*)url withStateFile:(NSURL*)stateFile error:(NSError*__autoreleasing*)error;
 - (void)replaceStateFileWithFile:(NSURL*)stateFile;
-- (void)replaceScreenshotFileWithFile:(NSURL*)stateFile;
 - (NSURL*)infoPlistURL;
 - (NSDictionary*)infoPlist;
 @end
@@ -98,7 +97,6 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 	return result;
 }
 
-
 + (id)createSaveStateWithURL:(NSURL*)url
 {
     return [self createSaveStateWithURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
@@ -139,6 +137,11 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [newSaveState setName:name];
     [newSaveState setRom:rom];
     [newSaveState setCoreIdentifier:[core bundleIdentifier]];
+    
+    if([name hasPrefix:OESaveStateSpecialNamePrefix])
+    {
+        name = NSLocalizedString(name, @"Localized special save state name");
+    }
     
     NSError  *error              = nil;
     NSString *fileName           = [NSURL validFilenameFromString:name];
