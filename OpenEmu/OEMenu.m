@@ -960,7 +960,6 @@
 #define ScrollStep 8.0
 - (void)scrollUp
 {
-    NSLog(@"scrollUp");    
     [self scrollBy:ScrollStep];
     
     if(![self scrollTimer])
@@ -971,7 +970,6 @@
 
 - (void)scrollDown
 {
-    NSLog(@"scrollDown");
     [self scrollBy:-ScrollStep];
     
     if(![self scrollTimer])
@@ -998,8 +996,6 @@
 
 - (void)updateScrollerViews:(BOOL)animated
 {
-    NSLog(@"updaetScrollerViews");
-
     BOOL isAtBottom = NSMinY([[self menuItemsView] visibleRect]) == 0.0;
     BOOL isAtTop = NSMaxY([[self menuItemsView] visibleRect])==NSHeight([[self menuItemsView] bounds]);
 
@@ -1700,9 +1696,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    if(!NSEqualRects(dirtyRect, [self bounds]))
-        NSLog(@"dirtyRect: %@", NSStringFromRect(dirtyRect));
-    
+    // TODO: only draw dirty rect!
     OEMenuContentView *menuView   = (OEMenuContentView *)[[self enclosingScrollView] superview];
     
     OERectEdge openEdge     = [[self menu] openEdge];
