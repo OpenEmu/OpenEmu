@@ -39,15 +39,12 @@
 + (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 + (id)romWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag error:(NSError **)outError;
 + (id)romWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
-
-+ (id)romWithFileName:(NSString *)filename error:(NSError **)outError;
-+ (id)romWithFileName:(NSString *)filename inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 + (id)romWithCRC32HashString:(NSString *)crcHash error:(NSError **)outError;
 + (id)romWithCRC32HashString:(NSString *)crcHash inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 + (id)romWithMD5HashString:(NSString *)md5Hash error:(NSError **)outError;
 + (id)romWithMD5HashString:(NSString *)md5Hash inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
-@property (nonatomic) NSURL     *url;
+@property (nonatomic) NSURL     *URL;
 #pragma mark -
 #pragma mark Accessors
 // returns md5 hash for rom. calculates it if necessary so the method can take a long time to return, and might return nil if hash is not in db and can not be calculated
@@ -81,7 +78,7 @@
 
 #pragma mark -
 #pragma mark Data Model Properties
-@property(nonatomic, retain)                    NSString  *path DEPRECATED_ATTRIBUTE;
+@property(nonatomic, retain)                    NSData    *bookmarkData;
 @property(nonatomic, retain, getter=isFavorite) NSNumber  *favorite;
 @property(nonatomic, retain)                    NSString  *crc32;
 @property(nonatomic, retain)                    NSString  *md5;

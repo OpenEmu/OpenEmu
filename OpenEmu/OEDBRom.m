@@ -63,27 +63,8 @@
 + (id)romWithURL:(NSURL*)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
 {
     if(url==nil) return nil;
-    
-    OEDBRom *rom = nil;
-    NSManagedObjectContext *context = [database managedObjectContext];
-    
-#warning this doesn't make sense with urls:
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path == %@", [url path]];    
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
-    [fetchRequest setIncludesPendingChanges:YES];
-    [fetchRequest setPredicate:predicate];
-    [fetchRequest setFetchLimit:1];
-    NSArray *roms = [context executeFetchRequest:fetchRequest error:outError];
-    if(roms)
-    {
-        rom = [roms lastObject];
-    }
-    
-    if(!rom && createFlag)
-    {
-        return [self _createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
-    }
-    return rom;
+    if(!createFlag) return nil;
+    return [self _createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
 }
 
 + (id)_createRomWithoutChecksWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
@@ -127,7 +108,7 @@
         }
     }
     
-    [rom setUrl:newURL];
+    [rom setURL:newURL];
     
     if(md5!=nil) [rom setMd5:md5];
     if(crc!=nil) [rom setCrc32:crc];
@@ -167,30 +148,6 @@
     return rom;
 }
 #pragma mark -
-
-+ (id)romWithFileName:(NSString*)filename error:(NSError**)outError
-{
-    return [self romWithFileName:filename inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-}
-+ (id)romWithFileName:(NSString*)filename inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
-{
-    if(filename==nil) return nil;
-    
-    NSManagedObjectContext *context = [database managedObjectContext];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path ENDSWITH %@", filename];    
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
-    [fetchRequest setIncludesPendingChanges:YES];
-    [fetchRequest setPredicate:predicate];
-    [fetchRequest setFetchLimit:1];
-    
-    NSArray *roms = [context executeFetchRequest:fetchRequest error:outError];
-    if(!roms)
-    {
-        return nil;
-    }
-    return [roms lastObject];
-}
 
 + (id)romWithCRC32HashString:(NSString*)crcHash error:(NSError**)outError
 {
@@ -242,16 +199,18 @@
 
 #pragma mark -
 #pragma mark Accessors
-@dynamic url;
-
-- (NSURL *)url
+@dynamic URL;
+- (NSURL *)URL
 {
-    return [NSURL fileURLWithPath:[self path]];
+    NSData *bookmarkData = [self bookmarkData];
+    return [NSURL URLByResolvingBookmarkData:bookmarkData options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:nil];
 }
 
-- (void)setUrl:(NSURL *)url
+- (void)setURL:(NSURL *)url
 {
-    [self setPath:[url path]];
+    NSData *data = [url bookmarkDataWithOptions:NSURLBookmarkCreationMinimalBookmark includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+    if(data)
+        [self setBookmarkData:data];
 }
 
 - (NSString*)md5Hash
@@ -260,7 +219,7 @@
     if(!hash)
     {
         NSError *error = nil;
-        NSURL *url = [self url];
+        NSURL *url = [self URL];
         if(![url checkResourceIsReachableAndReturnError:&error])
         {
             // TODO: mark self as file missing
@@ -291,7 +250,7 @@
     if(!hash)
     {
         NSError *error = nil;
-        NSURL *url = [self url];
+        NSURL *url = [self URL];
         if(![url checkResourceIsReachableAndReturnError:&error])
         {
             // TODO: mark self as file missing
@@ -389,7 +348,7 @@
 }
 #pragma mark -
 #pragma mark Data Model Properties
-@dynamic path, favorite, crc32, md5, lastPlayed;
+@dynamic bookmarkData, favorite, crc32, md5, lastPlayed;
 
 #pragma mark -
 #pragma mark Data Model Relationships

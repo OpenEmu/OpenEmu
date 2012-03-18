@@ -84,9 +84,9 @@
     if((self = [super init]))
     {
         [self setRom:aRom];        
-        NSString *path = [[self rom] path];
-        
-        if(!path)
+        NSURL *url = [[self rom] URL];
+
+        if(!url)
         {
             // TODO: Implement proper error
             if(outError != NULL)
@@ -102,7 +102,7 @@
         
         [self setView:view];
 
-        NSURL *url = [NSURL fileURLWithPath:path];
+        
         NSError *error = nil;
         
         if(![self OE_loadFromURL:url core:core error:&error])
@@ -234,7 +234,7 @@
         [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [[self view] addSubview:gameView];
         
-        NSURL   *url   = [[self rom] url];
+        NSURL   *url   = [[self rom] URL];
         NSError *error = nil;
         if(![self OE_loadFromURL:url core:core error:&error])
         {
