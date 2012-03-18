@@ -29,8 +29,8 @@
 @class OEGameViewController;
 @class OEDBRom;
 @class OEDBGame;
+@class OEDBSaveState;
 @class OECorePlugin;
-
 @interface OEGameDocument : NSDocument
 
 - (id)initWithRom:(OEDBRom *)rom;
@@ -41,7 +41,8 @@
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core;
 - (id)initWithGame:(OEDBGame *)game error:(NSError **)outError;
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError;
-
+- (id)initWithSaveState:(OEDBSaveState *)state;
+- (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
 @property(readonly, strong) OEGameViewController *gameViewController;
 
 - (void)showInSeparateWindow:(id)sender;

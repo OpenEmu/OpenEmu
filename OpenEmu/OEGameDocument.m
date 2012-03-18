@@ -152,6 +152,27 @@
     return self;
 }
 
+- (id)initWithSaveState:(OEDBSaveState *)state
+{
+    return [self initWithSaveState:state error:nil];
+}
+
+- (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError
+{
+    if((self = [self init]))
+    {
+        gameViewController = [[OEGameViewController alloc] initWithSaveState:state error:outError];
+        if(gameViewController == nil)
+        {
+            [self close];
+            return nil;
+        }
+        
+        [gameViewController setDocument:self];
+    }
+    return self;
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];

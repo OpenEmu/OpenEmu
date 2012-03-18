@@ -149,6 +149,27 @@
     return [self initWithRom:[OEGameViewController OE_choseRomFromGame:game] core:core error:outError];
 }
 
+
+- (id)initWithSaveState:(OEDBSaveState *)state
+{
+    return [self initWithSaveState:state error:nil];
+}
+
+
+- (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError
+{
+    OEDBRom         *rom            = [state rom];
+    NSString        *coreIdentifier = [state coreIdentifier];
+    OECorePlugin    *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
+    id gameViewController = [self initWithRom:rom core:core error:outError];
+    if(gameViewController)
+    {
+        [self loadSaveState:state];
+    }
+    
+    return self;    
+}
+
 - (void)dealloc
 {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];

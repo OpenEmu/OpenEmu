@@ -28,6 +28,7 @@
 
 @class OEDBRom;
 @class OEDBGame;
+@class OEDBSaveState;
 
 @class OEGameView;
 @protocol OEGameCoreHelper;
@@ -71,6 +72,9 @@
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core;
 - (id)initWithGame:(OEDBGame *)game error:(NSError **)outError;
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError;
+
+- (id)initWithSaveState:(OEDBSaveState *)state;
+- (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
 
 @property (strong) OEHUDControlsBarWindow *controlsWindow;
 

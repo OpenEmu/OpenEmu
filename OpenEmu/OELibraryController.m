@@ -366,6 +366,16 @@
         [[self delegate] libraryController:self didSelectGame:selectedGame];
 }
 
+- (void)startSelectedGameWithSaveState:(id)stateItem
+{
+    OEDBSaveState *saveState = [stateItem representedObject];
+    
+    NSAssert(saveState != nil, @"Attempt to start a save state without valid item");
+
+    if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
+        [[self delegate] libraryController:self didSelectSaveState:saveState];
+}
+
 #pragma mark -
 #pragma mark Spotlight Importing
 

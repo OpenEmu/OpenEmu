@@ -630,11 +630,6 @@
         [state remove];
 }
 
-- (void)startSelectedGameWithSaveState:(id)stateItem
-{
-    NSLog(@"startSelectedGameWithSaveState: Not implemented yet.");
-}
-
 - (void)renameSelectedGame:(id)sender
 {
     NSLog(@"renameSelectedGame: Not implemented yet.");

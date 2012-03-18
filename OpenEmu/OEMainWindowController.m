@@ -206,6 +206,22 @@
     [self openGameDocument:gameDocument];
 }
 
+
+- (void)libraryController:(OELibraryController *)sender didSelectSaveState:(OEDBSaveState *)aSaveState
+{
+    NSError        *error = nil;
+    OEGameDocument *gameDocument = [[OEGameDocument alloc] initWithSaveState:aSaveState error:&error];
+    
+    if(gameDocument == nil)
+    {
+        if(error!=nil)
+            [NSApp presentError:error];
+        return;
+    }
+    
+    [[NSDocumentController sharedDocumentController] addDocument:gameDocument];
+    [self openGameDocument:gameDocument];
+}
 #pragma mark -
 #pragma mark NSWindow delegate
 
