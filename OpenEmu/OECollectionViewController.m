@@ -609,7 +609,7 @@
     [selectedGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSSet *roms = [obj roms];
         [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-            [urls addObject:[obj url]];
+            [urls addObject:[obj URL]];
         }];    
     }];
     
