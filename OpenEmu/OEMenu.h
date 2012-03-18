@@ -29,7 +29,7 @@
 #import "OEMenuItem.h"
 @class OEPopupButton;
 @protocol OEMenuDelegate;
-@class OEMenuView;
+@class OEMenuContentView;
 
 typedef enum _OEMenuStyle {
     OEMenuStyleDark,
@@ -52,7 +52,6 @@ typedef enum _OERectEdge
     NSMenuItem *highlightedItem;
     
     OEMenu *submenu;
-    
     OEPopupButton *popupButton;
     
     int itemsAboveScroller, itemsBelowScroller;
@@ -78,19 +77,21 @@ typedef enum _OERectEdge
 #pragma mark - NSMenu wrapping
 - (NSArray *)itemArray;
 
-@property(readonly) BOOL alternate;
+@property (readonly) BOOL alternate;
 
-@property(readwrite) NSSize minSize, maxSize;
-@property(strong) OEPopupButton *popupButton;
-@property(nonatomic, strong) OEMenu *submenu;
-@property(nonatomic, unsafe_unretained) OEMenu *supermenu;
+@property (readwrite)                    NSSize         minSize, maxSize;
+@property (strong)                       OEPopupButton  *popupButton;
+@property (nonatomic, strong)            OEMenu         *submenu;
+@property (nonatomic, unsafe_unretained) OEMenu         *supermenu;
 
-@property OEMenuStyle style;
-@property OERectEdge openEdge;
+@property OEMenuStyle   style;
+@property OERectEdge    openEdge;
+@property BOOL          allowsOppositeEdge;
+@property BOOL          displaysOpenEdge;
 
-@property (nonatomic, strong) NSMenu *menu;
-@property (strong) NSMenuItem *highlightedItem;
-@property (readonly, getter = isVisible) BOOL visible;
+@property (nonatomic, strong)   NSMenu      *menu;
+@property (strong)              NSMenuItem  *highlightedItem;
+@property (readonly, getter=isVisible) BOOL visible;
 
 @property int itemsAboveScroller, itemsBelowScroller;
 @property (nonatomic, unsafe_unretained) id <OEMenuDelegate> delegate;
@@ -108,20 +109,4 @@ typedef enum _OERectEdge
 - (void)menuDidHide:(OEMenu*)men;
 - (void)menuDidSelect:(OEMenu*)men;
 - (void)menuDidCancel:(OEMenu*)men;
-@end
-
-@interface OEMenuView : NSView
-#pragma mark -
-- (void)highlightItemAtPoint:(NSPoint)p;
-- (NSMenuItem *)itemAtPoint:(NSPoint)p;
-- (NSRect)rectOfItem:(NSMenuItem *)m;
-
-- (BOOL)menuKeyDown:(NSEvent *)theEvent;
-#pragma mark -
-#pragma mark TextAttributes
-- (NSDictionary *)itemTextAttributes;
-- (NSDictionary *)selectedItemTextAttributes;
-- (NSDictionary *)selectedItemAlternateTextAttributes;
-- (NSDictionary *)disabledItemTextAttributes;
-@property(nonatomic, readonly) OEMenu *menu;
 @end

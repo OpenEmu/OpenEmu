@@ -63,27 +63,8 @@
 + (id)romWithURL:(NSURL*)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
 {
     if(url==nil) return nil;
-    
-    OEDBRom *rom = nil;
-    NSManagedObjectContext *context = [database managedObjectContext];
-    
-#warning this doesn't make sense with urls:
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path == %@", [url path]];    
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
-    [fetchRequest setIncludesPendingChanges:YES];
-    [fetchRequest setPredicate:predicate];
-    [fetchRequest setFetchLimit:1];
-    NSArray *roms = [context executeFetchRequest:fetchRequest error:outError];
-    if(roms)
-    {
-        rom = [roms lastObject];
-    }
-    
-    if(!rom && createFlag)
-    {
-        return [self _createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
-    }
-    return rom;
+    if(!createFlag) return nil;
+    return [self _createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
 }
 
 + (id)_createRomWithoutChecksWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
@@ -109,19 +90,15 @@
         NSURL         *databaseUnsortedFolderURL = [database unsortedRomsFolderURL];
         NSFileManager *defaultManager = [NSFileManager defaultManager];
         
-        NSInteger i = 0;
         NSString *fileName = [[newURL lastPathComponent] stringByDeletingPathExtension];
         NSString *fileSuffix = [newURL pathExtension];
         
         newURL = [databaseUnsortedFolderURL URLByAppendingPathComponent:[newURL lastPathComponent]  isDirectory:NO];
+        newURL = [newURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+            NSString *newFileName = [NSString stringWithFormat:@"%@ %d.%@", fileName, triesCount, fileSuffix];
+            return [databaseUnsortedFolderURL URLByAppendingPathComponent:newFileName isDirectory:NO];
+        }];
 
-        while([newURL checkResourceIsReachableAndReturnError:nil])
-        {
-            i++;
-            NSString *newFileName = [NSString stringWithFormat:@"%@ %d.%@", fileName, i, fileSuffix];
-            newURL = [databaseUnsortedFolderURL URLByAppendingPathComponent:newFileName isDirectory:NO];
-        }
-        
         if(![defaultManager copyItemAtURL:url toURL:newURL error:outError])
         {
             [context deleteObject:rom];
@@ -131,7 +108,7 @@
         }
     }
     
-    [rom setUrl:newURL];
+    [rom setURL:newURL];
     
     if(md5!=nil) [rom setMd5:md5];
     if(crc!=nil) [rom setCrc32:crc];
@@ -171,30 +148,6 @@
     return rom;
 }
 #pragma mark -
-
-+ (id)romWithFileName:(NSString*)filename error:(NSError**)outError
-{
-    return [self romWithFileName:filename inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-}
-+ (id)romWithFileName:(NSString*)filename inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
-{
-    if(filename==nil) return nil;
-    
-    NSManagedObjectContext *context = [database managedObjectContext];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path ENDSWITH %@", filename];    
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
-    [fetchRequest setIncludesPendingChanges:YES];
-    [fetchRequest setPredicate:predicate];
-    [fetchRequest setFetchLimit:1];
-    
-    NSArray *roms = [context executeFetchRequest:fetchRequest error:outError];
-    if(!roms)
-    {
-        return nil;
-    }
-    return [roms lastObject];
-}
 
 + (id)romWithCRC32HashString:(NSString*)crcHash error:(NSError**)outError
 {
@@ -246,16 +199,18 @@
 
 #pragma mark -
 #pragma mark Accessors
-@dynamic url;
-
-- (NSURL *)url
+@dynamic URL;
+- (NSURL *)URL
 {
-    return [NSURL fileURLWithPath:[self path]];
+    NSData *bookmarkData = [self bookmarkData];
+    return [NSURL URLByResolvingBookmarkData:bookmarkData options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:nil];
 }
 
-- (void)setUrl:(NSURL *)url
+- (void)setURL:(NSURL *)url
 {
-    [self setPath:[url path]];
+    NSData *data = [url bookmarkDataWithOptions:NSURLBookmarkCreationMinimalBookmark includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+    if(data)
+        [self setBookmarkData:data];
 }
 
 - (NSString*)md5Hash
@@ -264,7 +219,7 @@
     if(!hash)
     {
         NSError *error = nil;
-        NSURL *url = [self url];
+        NSURL *url = [self URL];
         if(![url checkResourceIsReachableAndReturnError:&error])
         {
             // TODO: mark self as file missing
@@ -295,7 +250,7 @@
     if(!hash)
     {
         NSError *error = nil;
-        NSURL *url = [self url];
+        NSURL *url = [self URL];
         if(![url checkResourceIsReachableAndReturnError:&error])
         {
             // TODO: mark self as file missing
@@ -319,11 +274,18 @@
     return [self crc32];
 }
 
-
-- (NSArray*)saveStatesByTimestampAscending:(BOOL)ascFlag
+- (NSArray *)normalSaveStates
 {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (name beginswith[c] %@)", @"OESpecialState"];
     NSSet *set = [self saveStates];
-    return [[set allObjects] sortedArrayUsingComparator:^NSComparisonResult(OEDBSaveState *obj1, OEDBSaveState *obj2) 
+    set = [set filteredSetUsingPredicate:predicate];
+    
+    return [set allObjects];
+}
+
+- (NSArray *)normalSaveStatesByTimestampAscending:(BOOL)ascFlag
+{
+    return [[self normalSaveStates] sortedArrayUsingComparator:^NSComparisonResult(OEDBSaveState *obj1, OEDBSaveState *obj2) 
             {
                 NSDate *d1 = [obj1 timestamp], *d2=[obj2 timestamp];
                 if(ascFlag)
@@ -332,10 +294,50 @@
             }];
 }
 
+
 - (NSInteger)saveStateCount
 {
     return [[self saveStates] count];
 }
+
+- (OEDBSaveState *)autosaveState
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", OESaveStateAutosaveName];
+    NSSet *set = [self saveStates];
+    set = [set filteredSetUsingPredicate:predicate];
+    
+    return [set anyObject];
+}
+
+- (NSArray *)quickSaveStates
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", OESaveStateQuicksaveName];
+    NSSet *set = [self saveStates];
+    set = [set filteredSetUsingPredicate:predicate];
+    
+    return [set allObjects];
+}
+
+- (OEDBSaveState *)quickSaveState:(int)num
+{
+    NSString    *quickSaveName = [NSString stringWithFormat:@"%@%d", OESaveStateQuicksaveName, num];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", quickSaveName];
+    NSSet *set = [self saveStates];
+    set = [set filteredSetUsingPredicate:predicate];
+    
+    return [set anyObject];
+}
+
+- (OEDBSaveState *)saveStateWithName:(NSString*)string
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", string];
+    NSSet *set = [self saveStates];
+    set = [set filteredSetUsingPredicate:predicate];
+    
+    return [set anyObject];
+}
+
 #pragma mark -
 #pragma mark Mainpulating a rom
 - (void)markAsPlayedNow
@@ -355,7 +357,7 @@
 }
 #pragma mark -
 #pragma mark Data Model Properties
-@dynamic path, favorite, crc32, md5, lastPlayed;
+@dynamic bookmarkData, favorite, crc32, md5, lastPlayed;
 
 #pragma mark -
 #pragma mark Data Model Relationships

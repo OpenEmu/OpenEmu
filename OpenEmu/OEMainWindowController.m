@@ -33,6 +33,8 @@
 #import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
 
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "OEDBGame.h"
 @interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
@@ -192,8 +194,14 @@
 
 - (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame
 {
-    NSError        *error = nil;
-    OEGameDocument *gameDocument = [[OEGameDocument alloc] initWithGame:aGame error:&error];
+    NSError         *error          = nil;
+    OEDBSaveState   *state          = [aGame autosaveForLastPlayedRom];
+    OEGameDocument  *gameDocument;
+
+    if(state && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn)
+         gameDocument = [[OEGameDocument alloc] initWithSaveState:state error:&error];
+    else
+        gameDocument = [[OEGameDocument alloc] initWithGame:aGame error:&error];
     
     if(gameDocument == nil)
     {
@@ -206,6 +214,22 @@
     [self openGameDocument:gameDocument];
 }
 
+
+- (void)libraryController:(OELibraryController *)sender didSelectSaveState:(OEDBSaveState *)aSaveState
+{
+    NSError        *error = nil;
+    OEGameDocument *gameDocument = [[OEGameDocument alloc] initWithSaveState:aSaveState error:&error];
+    
+    if(gameDocument == nil)
+    {
+        if(error!=nil)
+            [NSApp presentError:error];
+        return;
+    }
+    
+    [[NSDocumentController sharedDocumentController] addDocument:gameDocument];
+    [self openGameDocument:gameDocument];
+}
 #pragma mark -
 #pragma mark NSWindow delegate
 

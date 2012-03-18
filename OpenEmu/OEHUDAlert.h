@@ -37,10 +37,6 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
     OEAlertCompletionHandler callbackHandler;
 }
 
-+ (id)saveGameAlertWithProposedName:(NSString*)name;
-+ (id)autoSaveGameAlert;
-+ (id)deleteGameAlertWithStateName:(NSString*)stateName;
-
 + (id)alertWithError:(NSError*)error;
 + (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString*)defaultButtonLabel alternateButton:(NSString*)alternateButtonLabel;
 #pragma mark -

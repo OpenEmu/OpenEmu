@@ -25,19 +25,54 @@
  */
 
 #import <CoreData/CoreData.h>
-@class OEDBRom;
-@interface OEDBSaveState : NSManagedObject{
 
-}
-+ (id)newSaveStateInContext:(NSManagedObjectContext*)context;
+extern NSString *const OESaveStateInfoVersionKey;
+extern NSString *const OESaveStateInfoNameKey;
+extern NSString *const OESaveStateInfoDescriptionKey;
+extern NSString *const OESaveStateInfoROMMD5Key;
+extern NSString *const OESaveStateInfoCoreIdentifierKey;
 
+// extern NSString *const OESaveStateInfoCreationDateKey;
+// extern NSString *const OESaveStateInfoBookmarkDataKey;
+
+extern NSString *const OESaveStateSpecialNamePrefix;
+extern NSString *const OESaveStateAutosaveName;
+extern NSString *const OESaveStateQuicksaveName;
+
+@class OEDBRom, OECorePlugin, OELibraryDatabase;
+@interface OEDBSaveState : NSManagedObject
+
++ (NSArray*)allStates;
++ (NSArray*)allStatesInDatabase:(OELibraryDatabase*)database;
+
++ (OEDBSaveState*)saveStateWithURL:(NSURL*)url;
++ (OEDBSaveState*)saveStateWithURL:(NSURL*)url inDatabase:(OELibraryDatabase*)database;
+
++ (id)createSaveStateWithURL:(NSURL*)url;
++ (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase*)database;
+
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL;
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL inDatabase:(OELibraryDatabase *)database;
+
++ (void)updateStateWithPath:(NSString*)path;
+#pragma mark -
+- (BOOL)reloadFromInfoPlist;
+- (BOOL)rewriteInfoPlist;
+- (void)remove;
+
+- (void)replaceStateFileWithFile:(NSURL*)stateFile;
 #pragma mark -
 #pragma mark Data Model Properties
-@property (nonatomic, retain) NSString *emulatorID;
-@property (nonatomic, retain) NSString *path;
-@property (nonatomic, retain) NSData   *screenshot;
-@property (nonatomic, retain) NSDate   *timestamp;
-@property (nonatomic, retain) NSString *userDescription;
+@property (nonatomic, retain)           NSString *name;
+@property (nonatomic, retain)           NSString *userDescription;
+@property (nonatomic, retain)           NSDate   *timestamp;
+@property (nonatomic, retain)           NSString *coreIdentifier;
+
+@property (nonatomic, retain, readonly) NSString *systemIdentifier;
+@property (nonatomic, retain)           NSString *path;
+@property (nonatomic, retain)           NSURL    *URL;
+@property (nonatomic, retain, readonly) NSURL    *screenshotURL;
+@property (nonatomic, retain, readonly) NSURL    *stateFileURL;
 
 #pragma mark -
 #pragma mark Data Model Relationships

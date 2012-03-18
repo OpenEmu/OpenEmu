@@ -46,8 +46,10 @@
 #import "OEGameCore.h"
 #import "OEGameDocument.h"
 
-#import "OEHUDAlert.h"
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
 
+#import "NSString+UUID.h"
+#import "NSURL+OELibraryAdditions.h"
 @interface OEGameViewController ()
 
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game;
@@ -56,7 +58,6 @@
 - (void)OE_repositionControlsWindow;
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin*)core error:(NSError **)outError;
 - (OECorePlugin *)OE_coreForFileExtension:(NSString *)ext error:(NSError **)outError;
-- (NSString *)OE_convertToValidFileName:(NSString *)fileName;
 - (void)OE_terminateEmulationWithoutNotification;
 @end
 
@@ -83,9 +84,9 @@
     if((self = [super init]))
     {
         [self setRom:aRom];        
-        NSString *path = [[self rom] path];
-        
-        if(!path)
+        NSURL *url = [[self rom] URL];
+
+        if(!url)
         {
             // TODO: Implement proper error
             if(outError != NULL)
@@ -101,7 +102,7 @@
         
         [self setView:view];
 
-        NSURL *url = [NSURL fileURLWithPath:path];
+        
         NSError *error = nil;
         
         if(![self OE_loadFromURL:url core:core error:&error])
@@ -146,6 +147,27 @@
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError
 {
     return [self initWithRom:[OEGameViewController OE_choseRomFromGame:game] core:core error:outError];
+}
+
+
+- (id)initWithSaveState:(OEDBSaveState *)state
+{
+    return [self initWithSaveState:state error:nil];
+}
+
+
+- (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError
+{
+    OEDBRom         *rom            = [state rom];
+    NSString        *coreIdentifier = [state coreIdentifier];
+    OECorePlugin    *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
+    id gameViewController = [self initWithRom:rom core:core error:outError];
+    if(gameViewController)
+    {
+        [self loadSaveState:state];
+    }
+    
+    return self;    
 }
 
 - (void)dealloc
@@ -212,7 +234,7 @@
         [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [[self view] addSubview:gameView];
         
-        NSURL   *url   = [[self rom] url];
+        NSURL   *url   = [[self rom] URL];
         NSError *error = nil;
         if(![self OE_loadFromURL:url core:core error:&error])
         {
@@ -247,6 +269,9 @@
 
 - (void)OE_terminateEmulationWithoutNotification
 {
+    if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
+        [self saveStateWithName:OESaveStateAutosaveName];
+    
     emulationRunning = NO;
     [gameView setRootProxy:nil];
     [gameView setGameResponder:nil];
@@ -300,36 +325,31 @@
 #pragma mark -
 - (void)loadSaveState:(OEDBSaveState *)state
 {
-    [self loadStateFromFile:[state path] error:nil];
+    if([state rom] != [self rom])
+    {
+        NSLog(@"Invalid save state for current rom");
+        return;
+    }
+    
+    if([[self coreIdentifier] isNotEqualTo:[state coreIdentifier]])
+    {
+        NSLog(@"Invalid save state for current core");
+        return;
+    }
+    
+    NSString *path = [[state stateFileURL] path];
+    [self loadStateFromFile:path error:nil];
 }
 
 - (void)deleteSaveState:(id)state
 {
-    // TODO: use OEAlert once it's been written
-    // TODO: localize and rephrase text
-    
-    NSString *stateName = [state userDescription];
+    NSString *stateName = [state name];
     OEHUDAlert *alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
     
     NSUInteger result = [alert runModal];
     
     if(result)
-    {        
-        // TODO: does this also remove the screenshot from the database?
-        NSString *path = [state path];
-        
-        NSError *err = nil;
-        if(![[NSFileManager defaultManager] removeItemAtPath:path error:&err])
-        {
-            NSLog(@"Error deleting save file!");
-            NSLog(@"%@", err);
-            return;
-        }
-        
-        NSManagedObjectContext *moc = [state managedObjectContext];
-        [moc deleteObject:state];
-        [moc save:nil];
-    }
+        [state remove];
 }
 
 - (void)saveStateAskingUserForName:(NSString*)proposedName
@@ -366,65 +386,53 @@
     
     [self pauseGame];
     
-    NSString *systemIdentifier= [gameSystemController systemIdentifier];
-    NSURL *systemSaveDirectoryURL= [NSURL fileURLWithPath:[[self OE_saveStatePath] stringByAppendingPathComponent:systemIdentifier]];
-    
-    NSError *err = nil;
-    BOOL success = [[NSFileManager defaultManager] createDirectoryAtURL:systemSaveDirectoryURL withIntermediateDirectories:YES attributes:nil error:&err];
-    
-    if(!success)
-    {
-        // TODO: inform user
-        NSLog(@"could not create save state directory");
-        NSLog(@"%@", err);
-        return;
-    }
-    
-    NSString *fileName = stateName;
-    if(!fileName) fileName = [NSString stringWithFormat:@"%@", [NSDate date]];
-    fileName = [self OE_convertToValidFileName:fileName];
-    
-    NSURL *saveStateURL = [[systemSaveDirectoryURL URLByAppendingPathComponent:fileName] URLByAppendingPathExtension:@"oesavestate"];
-    int count = 0;
-    
-    while([[NSFileManager defaultManager] fileExistsAtPath:[saveStateURL path] isDirectory:NULL])
-    {
-        count++;
-        
-        NSString *countedFileName = [NSString stringWithFormat:@"%@ %d.oesavestate", fileName, count];
-        saveStateURL = [systemSaveDirectoryURL URLByAppendingPathComponent:countedFileName];
-    }
-    
-    success = [[rootProxy gameCore] saveStateToFileAtPath:[saveStateURL path]];
-    if(!success)
-    {
-        // TODO: inform user
-        NSLog(@"could not write file");
-        NSLog(@"%@", err);
-        return;
-    }
-    
-    // we need to make sure that we are on the same thread where self.rom was created!!
-    OEDBSaveState *saveState = [OEDBSaveState newSaveStateInContext:[[self rom] managedObjectContext]];
-    
-    [saveState setPath:[saveStateURL path]];
-    [saveState setTimestamp:[NSDate date]];
-    [saveState setEmulatorID:[[rootProxy gameCore] pluginName]];
-    [saveState setRom:[self rom]];
-    
-    if(stateName != nil) [saveState setUserDescription:stateName];
-    
-    [self captureScreenshotUsingBlock:
-     ^(NSImage *img)
-     {
-         [saveState setScreenshot:[img TIFFRepresentation]];
-     }];
-}
+    __block BOOL    success                 = NO;
+    NSString        *temporaryDirectoryPath = NSTemporaryDirectory();
+    NSURL           *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
+    NSURL           *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
 
-- (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error
-{
-    // TODO: implement if we want this
-    return YES;
+    temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+        return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+    }];
+    
+    success = [[rootProxy gameCore] saveStateToFileAtPath:[temporaryStateFileURL path]];
+    if(!success)
+    {
+        NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
+        return;
+    }
+    
+    BOOL isSpecialSaveState = [stateName hasPrefix:OESaveStateSpecialNamePrefix];
+    OEDBSaveState *state;
+    if(isSpecialSaveState)
+    {
+        state = [[self rom] saveStateWithName:stateName];
+    }
+    
+    if(!state)
+        state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:[gameCoreManager plugin] withFile:temporaryStateFileURL];
+    else
+    {
+        [state replaceStateFileWithFile:temporaryStateFileURL];
+        [state setTimestamp:[NSDate date]];
+        [state rewriteInfoPlist];
+    }
+    
+    [self captureScreenshotUsingBlock:^(NSImage *img) {
+        if(!img)
+        {
+            success = NO;
+            return;
+        }
+        success = [[img TIFFRepresentation] writeToURL:[state screenshotURL] atomically:YES];
+    }];
+    
+    if(!success)
+    {
+        NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
+        return;
+    }
+
 }
 
 - (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error
@@ -588,11 +596,7 @@
     [controlsWindow setFrameOrigin:origin];
 }
 
-- (NSString *)OE_convertToValidFileName:(NSString *)fileName
-{
-    NSCharacterSet *illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
-    return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
-}
+
 
 #pragma mark -
 #pragma mark Notifications

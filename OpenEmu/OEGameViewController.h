@@ -28,6 +28,7 @@
 
 @class OEDBRom;
 @class OEDBGame;
+@class OEDBSaveState;
 
 @class OEGameView;
 @protocol OEGameCoreHelper;
@@ -72,6 +73,9 @@
 - (id)initWithGame:(OEDBGame *)game error:(NSError **)outError;
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError;
 
+- (id)initWithSaveState:(OEDBSaveState *)state;
+- (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
+
 @property (strong) OEHUDControlsBarWindow *controlsWindow;
 
 @property(weak)   id<OEGameViewControllerDelegate> delegate;
@@ -105,8 +109,6 @@
 - (void)deleteSaveState:(OEDBSaveState *)state;
 - (void)saveStateAskingUserForName:(NSString*)proposedName;
 - (void)saveStateWithName:(NSString*)stateName;
-
-- (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error;
 - (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error;
 
 #pragma mark -

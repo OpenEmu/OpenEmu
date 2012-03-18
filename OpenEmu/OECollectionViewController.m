@@ -52,7 +52,7 @@
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 
-#import "OEHUDAlert.h"
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
 
 #import "OESidebarController.h"
 
@@ -416,8 +416,6 @@
 #pragma mark Context Menu
 - (OEMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
-    NSLog(@"indexes: %@", indexes);
-    NSLog(@"selected indexes: %@", [gamesController selectionIndexes]);
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
     NSArray *games = [[gamesController arrangedObjects] objectsAtIndexes:indexes];
@@ -493,10 +491,10 @@
     
     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         NSMenuItem  *item;
-        NSArray     *saveStates = [obj saveStatesByTimestampAscending:NO];
+        NSArray     *saveStates = [obj normalSaveStatesByTimestampAscending:NO];
         for(OEDBSaveState *saveState in saveStates)
         {
-            NSString *itemTitle = [saveState userDescription];
+            NSString *itemTitle = [saveState name];
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
@@ -624,33 +622,12 @@
     // TODO: localize and rephrase text
     
     id state = [stateItem representedObject];
-    NSString *stateName = [state userDescription];
+    NSString *stateName = [state name];
     OEHUDAlert *alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
     
     NSUInteger result = [alert runModal];
-    
     if(result)
-    {        
-        // TODO: does this also remove the screenshot from the database?
-        NSString *path = [state path];
-        
-        NSError *err = nil;
-        if(![[NSFileManager defaultManager] removeItemAtPath:path error:&err])
-        {
-            NSLog(@"Error deleting save file!");
-            NSLog(@"%@", err);
-            return;
-        }
-        
-        NSManagedObjectContext *moc = [state managedObjectContext];
-        [moc deleteObject:state];
-        [moc save:nil];
-    }
-}
-
-- (void)startSelectedGameWithSaveState:(id)stateItem
-{
-    NSLog(@"startSelectedGameWithSaveState: Not implemented yet.");
+        [state remove];
 }
 
 - (void)renameSelectedGame:(id)sender

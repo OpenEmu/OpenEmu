@@ -31,4 +31,7 @@
 - (BOOL)hasImageSuffix;
 - (BOOL)isSubpathOfURL:(NSURL*)url;
 - (BOOL)isDirectory;
+
+- (NSURL*)uniqueURLUsingBlock:(NSURL*(^)(NSInteger triesCount))block;
++ (NSString*)validFilenameFromString:(NSString*)fileName;
 @end

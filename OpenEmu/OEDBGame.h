@@ -37,9 +37,8 @@ typedef NSUInteger OEDBGameStatus;
 extern NSString *const OEPasteboardTypeGame;
 
 @class OELibraryDatabase;
-@class OEDBRom;
+@class OEDBSystem, OEDBRom, OEDBSaveState;
 @class OEDBImage;
-@class OEDBSystem;
 
 @interface OEDBGame : NSManagedObject <NSPasteboardWriting, NSPasteboardReading>
 #pragma mark -
@@ -77,7 +76,6 @@ extern NSString *const OEPasteboardTypeGame;
 
 #pragma mark -
 #pragma mark Archive.VG Sync
-
 - (void)setArchiveVGInfo:(NSDictionary*)gameInfoDictionary;
 // -performFullSyncWithArchiveVG: gets all info from archive.vg (cover and info)
 - (BOOL)performFullSyncWithArchiveVG:(NSError**)outError;
@@ -91,9 +89,9 @@ extern NSString *const OEPasteboardTypeGame;
 #pragma mark -
 #pragma mark Accessors
 
-@property(readonly) OEDBRom *defaultROM;
-@property(readonly) NSDate *lastPlayed;
-
+@property (readonly) OEDBRom        *defaultROM;
+@property (readonly) NSDate         *lastPlayed;
+@property (readonly) OEDBSaveState  *autosaveForLastPlayedRom;
 #pragma mark -
 @property(strong) OELibraryDatabase *database;
 

@@ -286,6 +286,7 @@
     oemenu.maxSize = NSMakeSize(500, 256);
     NSRect targetRect = (NSRect){{[sender frame].origin.x,0},{[sender frame].size.width -6, NSHeight([self frame])}};
     targetRect = NSInsetRect(targetRect, 0, 17);
+    [oemenu setDisplaysOpenEdge:YES];
     [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
 }
 
@@ -339,12 +340,12 @@
     [menu addItem:item];
     
     NSArray *saveStates = nil;
-    if([[self gameViewController] rom] != nil && (saveStates = [[[self gameViewController] rom] saveStatesByTimestampAscending:YES]) && [saveStates count] != 0)
+    if([[self gameViewController] rom] != nil && (saveStates = [[[self gameViewController] rom] normalSaveStatesByTimestampAscending:YES]) && [saveStates count] != 0)
     {
         [menu addItem:[NSMenuItem separatorItem]];
         for(OEDBSaveState* saveState in saveStates)
         {
-            NSString *itemTitle = [saveState userDescription];
+            NSString *itemTitle = [saveState name];
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
@@ -372,6 +373,7 @@
     
     OEMenu *oemenu = [menu convertToOEMenu];
     [oemenu setDelegate:self];
+    [oemenu setDisplaysOpenEdge:YES];
     [oemenu setStyle:OEMenuStyleLight];
     oemenu.itemsAboveScroller = 2;
     oemenu.maxSize = NSMakeSize(5000, 256);

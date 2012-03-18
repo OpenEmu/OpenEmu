@@ -36,13 +36,13 @@
 				<string>savestate</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>Save State</string>
+			<string>OpenEmu Save State</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
-			<key>NSDocumentClass</key>
-			<string>OESaveStateDocument</string>
+			<key>LSTypeIsPackage</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>

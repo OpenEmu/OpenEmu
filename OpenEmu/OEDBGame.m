@@ -110,7 +110,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     NSError __autoreleasing *nilerr;
     if(outError == NULL) outError = &nilerr;
     
-    BOOL checkFilename = YES;
     BOOL checkFullpath = YES;
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -131,20 +130,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
             return nil;
         }
     }
-    
-    if(game == nil && checkFilename)
-    {
-        NSString *filenameWithSuffix = [url lastPathComponent];
-        // DLog(@"checking filename: %@", filenameWithSuffix);
         
-        OEDBRom *rom = [OEDBRom romWithFileName:filenameWithSuffix inDatabase:database error:outError];
-        
-        if(rom != nil)
-            game = [rom game];
-        else if(*outError != nil)
-            return nil;
-    }
-    
     NSString *md5 = nil, *crc = nil;
     NSFileManager* defaultFileManager = [NSFileManager defaultManager];
     if(game == nil && checkCRC)
@@ -467,6 +453,20 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     return [[sortedByLastPlayed lastObject] lastPlayed];
 }
 
+- (OEDBSaveState *)autosaveForLastPlayedRom
+{
+    NSArray *roms = [[self roms] allObjects];
+    
+    NSArray *sortedByLastPlayed =
+    [roms sortedArrayUsingComparator:
+     ^ NSComparisonResult (id obj1, id obj2)
+     {
+         return [[obj1 lastPlayed] compare:[obj2 lastPlayed]];
+     }];
+
+    return [[sortedByLastPlayed lastObject] autosaveState];
+}
+
 - (OEDBRom *)defaultROM
 {
     NSSet *roms = [self roms];
@@ -614,7 +614,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         NSMutableArray *paths = [NSMutableArray arrayWithCapacity:[roms count]];
         for(OEDBRom *aRom in roms)
         {
-            NSString *urlString = [[aRom url] absoluteString];
+            NSString *urlString = [[aRom URL] absoluteString];
             [paths addObject:urlString];
         }
         return paths;

@@ -340,6 +340,7 @@
 		832D29431451ACF200BDF950 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832D29421451ACF200BDF950 /* MainWindow.xib */; };
 		832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
+		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836CFD6614709D3C00397683 /* wood_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6114709D3C00397683 /* wood_arrow_down.png */; };
 		836CFD6714709D3C00397683 /* wood_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6214709D3C00397683 /* wood_arrow_up.png */; };
@@ -354,6 +355,8 @@
 		83703B48140E4F9100EC27A7 /* Scale4xHQ.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B42140E4F9100EC27A7 /* Scale4xHQ.png */; };
 		83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* OEPrefDebugController.m */; };
 		83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */; };
+		8375696915125A1F00795226 /* dark_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8375696715125A1F00795226 /* dark_menu_scroll_arrows.png */; };
+		8375696A15125A1F00795226 /* light_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8375696815125A1F00795226 /* light_menu_scroll_arrows.png */; };
 		8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */; };
 		837777B9147A8E730091A896 /* OEHUDProgressbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 837777B8147A8E730091A896 /* OEHUDProgressbar.m */; };
 		837777BC147A8F6A0091A896 /* hud_progress_bar_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 837777BA147A8F6A0091A896 /* hud_progress_bar_track.png */; };
@@ -387,6 +390,7 @@
 		83B1E1C914FE734E00AA652F /* mixed_state.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B1E1C814FE734E00AA652F /* mixed_state.png */; };
 		83B72F5115024B1E0052BCA0 /* OEAppStoreWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B72F5015024B1E0052BCA0 /* OEAppStoreWindow.m */; };
 		83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */; };
+		83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */; };
 		83BF5292146C2F0A00B5F742 /* blank_slate_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */; };
 		83BF5295146C2F4000B5F742 /* blank_slate_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5294146C2F4000B5F742 /* blank_slate_box.png */; };
 		83BF5298146C370A00B5F742 /* OEGridBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BF5297146C370A00B5F742 /* OEGridBlankSlateView.m */; };
@@ -1248,6 +1252,8 @@
 		832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSControl+OEAdditions.m"; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
+		836291FC1515F30700192116 /* OEFSWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFSWatcher.h; sourceTree = "<group>"; };
+		836291FD1515F30700192116 /* OEFSWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFSWatcher.m; sourceTree = "<group>"; };
 		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
 		83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OECustomWindow.m"; sourceTree = "<group>"; };
 		836CFD6114709D3C00397683 /* wood_arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_arrow_down.png; sourceTree = "<group>"; };
@@ -1264,6 +1270,8 @@
 		83753F1514F537C400D708A7 /* OEPrefDebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefDebugController.h; sourceTree = "<group>"; };
 		83753F1614F537C400D708A7 /* OEPrefDebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefDebugController.m; sourceTree = "<group>"; };
 		83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefDebugController.xib; sourceTree = "<group>"; };
+		8375696715125A1F00795226 /* dark_menu_scroll_arrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dark_menu_scroll_arrows.png; sourceTree = "<group>"; };
+		8375696815125A1F00795226 /* light_menu_scroll_arrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_menu_scroll_arrows.png; sourceTree = "<group>"; };
 		8375E14D1477FC0D0018DA1F /* OECoreUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreUpdater.h; sourceTree = "<group>"; };
 		8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreUpdater.m; sourceTree = "<group>"; };
 		837777B7147A8E730091A896 /* OEHUDProgressbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDProgressbar.h; sourceTree = "<group>"; };
@@ -1315,6 +1323,8 @@
 		83B72F5015024B1E0052BCA0 /* OEAppStoreWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAppStoreWindow.m; sourceTree = "<group>"; };
 		83BABBEC1458978B0097F6B2 /* OESetupAssistantTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantTableView.h; sourceTree = "<group>"; };
 		83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantTableView.m; sourceTree = "<group>"; };
+		83BC345C1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEHUDAlert+DefaultAlertsAdditions.h"; sourceTree = "<group>"; };
+		83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEHUDAlert+DefaultAlertsAdditions.m"; sourceTree = "<group>"; };
 		83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_arrow.png; sourceTree = "<group>"; };
 		83BF5294146C2F4000B5F742 /* blank_slate_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_box.png; sourceTree = "<group>"; };
 		83BF5296146C370A00B5F742 /* OEGridBlankSlateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridBlankSlateView.h; sourceTree = "<group>"; };
@@ -2082,6 +2092,8 @@
 			children = (
 				83C68ECF14483579000F720A /* OEHUDAlert.h */,
 				83C68ED014483579000F720A /* OEHUDAlert.m */,
+				83BC345C1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.h */,
+				83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */,
 				53439B7813B933B8005C0CC8 /* OEHUDControlsBar.h */,
 				53439B7913B933B8005C0CC8 /* OEHUDControlsBar.m */,
 				53439B7B13B933C4005C0CC8 /* Controls */,
@@ -2690,6 +2702,8 @@
 		8303BBFE14E318C200FCD701 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				8375696715125A1F00795226 /* dark_menu_scroll_arrows.png */,
+				8375696815125A1F00795226 /* light_menu_scroll_arrows.png */,
 				83B1E1C814FE734E00AA652F /* mixed_state.png */,
 				8303BBFF14E318C200FCD701 /* dark_arrows_menu_body.png */,
 				8303BC0014E318C200FCD701 /* dark_menu_body.png */,
@@ -2815,6 +2829,8 @@
 		83B6E444143E1BBD00BCDB7A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				836291FC1515F30700192116 /* OEFSWatcher.h */,
+				836291FD1515F30700192116 /* OEFSWatcher.m */,
 				83B6E43D143E090800BCDB7A /* OELocalizationHelper.h */,
 				83B6E43E143E090800BCDB7A /* OELocalizationHelper.m */,
 			);
@@ -3820,6 +3836,8 @@
 				8303BC0E14E318C200FCD701 /* tick_mark.png in Resources */,
 				83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */,
 				83B1E1C914FE734E00AA652F /* mixed_state.png in Resources */,
+				8375696915125A1F00795226 /* dark_menu_scroll_arrows.png in Resources */,
+				8375696A15125A1F00795226 /* light_menu_scroll_arrows.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4195,6 +4213,8 @@
 				EFBD5D8F14F1398400FBD1E0 /* OECoverGridViewCellIndicationLayer.m in Sources */,
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 				83B72F5115024B1E0052BCA0 /* OEAppStoreWindow.m in Sources */,
+				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
+				83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

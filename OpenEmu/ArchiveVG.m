@@ -55,18 +55,18 @@ typedef enum
 } _ArchiveVGOperation;
 
 @interface ArchiveVG (Private)
-+ (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError**)outError;
++ (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError*__autoreleasing*)outError;
 + (NSURL*)urlForOperation:(_ArchiveVGOperation)op withOptions:(NSArray*)options;
 + (NSString*)removeHTMLEncodingsFromString:(NSString*)input;
 + (NSString*)_debug_nameOfOp:(_ArchiveVGOperation)op;
 @end
 @interface ArchiveVG (PrivateNodeStuff)
-+ (NSDictionary*)dictFromGameNode:(NSXMLNode*)node error:(NSError**)outError;
-+ (NSDictionary*)dictFromSystemNode:(NSXMLNode*)gameNode error:(NSError**)outError;
++ (NSDictionary*)dictFromGameNode:(NSXMLNode*)node error:(NSError*__autoreleasing*)outError;
++ (NSDictionary*)dictFromSystemNode:(NSXMLNode*)gameNode error:(NSError*__autoreleasing*)outError;
 @end
 @interface ArchiveVG (KeychainStuff)
-+ (NSString*)_restoreSessionKeyForEmail:(NSString*)emailAddress error:(NSError**)outError;
-+ (BOOL)_storeSessionKey:(NSString*)sessionKey forEmail:(NSString*)emailAddress error:(NSError**)outError;
++ (NSString*)_restoreSessionKeyForEmail:(NSString*)emailAddress error:(NSError*__autoreleasing*)outError;
++ (BOOL)_storeSessionKey:(NSString*)sessionKey forEmail:(NSString*)emailAddress error:(NSError*__autoreleasing*)outError;
 @end
 #pragma mark -
 @implementation ArchiveVG
@@ -168,7 +168,7 @@ typedef enum
 }
 #pragma mark -
 #pragma mark Private (no session required)
-+ (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError**)outError
++ (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError*__autoreleasing*)outError
 {   
     @autoreleasepool {
         NSXMLDocument* doc = [[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:outError];
@@ -313,7 +313,7 @@ typedef enum
 
 #pragma mark -
 #pragma mark Private XMLNode handling
-+ (NSDictionary*)dictFromGameNode:(NSXMLNode*)gameNode error:(NSError**)outError
++ (NSDictionary*)dictFromGameNode:(NSXMLNode*)gameNode error:(NSError*__autoreleasing*)outError
 {
     NSXMLNode* gameID = [[gameNode nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
@@ -526,7 +526,7 @@ typedef enum
     return result;
 }
 
-+ (NSDictionary*)dictFromSystemNode:(NSXMLNode*)systemNode error:(NSError**)outError
++ (NSDictionary*)dictFromSystemNode:(NSXMLNode*)systemNode error:(NSError*__autoreleasing*)outError
 {
     NSXMLNode* systemID = [[systemNode nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
@@ -820,7 +820,7 @@ typedef enum
 
 #pragma mark -
 #pragma mark Keychain Access
-+ (NSString*)_restoreSessionKeyForEmail:(NSString*)emailAddress error:(NSError**)outError
++ (NSString*)_restoreSessionKeyForEmail:(NSString*)emailAddress error:(NSError*__autoreleasing*)outError
 {
     NSString* seviceName = KCSessionServiceName;
     
@@ -862,7 +862,7 @@ typedef enum
 	return sessionKeyStr;
 }
 
-+ (BOOL)_storeSessionKey:(NSString*)sessionKey forEmail:(NSString*)emailAddress error:(NSError**)outError
++ (BOOL)_storeSessionKey:(NSString*)sessionKey forEmail:(NSString*)emailAddress error:(NSError*__autoreleasing*)outError
 {
     NSString* serviceName = KCSessionServiceName;    
     OSStatus status = SecKeychainAddGenericPassword(NULL, 

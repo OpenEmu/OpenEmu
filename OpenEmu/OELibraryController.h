@@ -35,7 +35,7 @@
 @class OELibrarySplitView;
 @class OEROMImporter;
 @class FullscreenWindow;
-@class OEDBGame, OEDBRom;
+@class OEDBGame, OEDBRom, OEDBSaveState;
 
 @protocol OELibraryControllerDelegate;
 
@@ -113,4 +113,5 @@
 @optional
 - (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame;
 - (void)libraryController:(OELibraryController *)sender didSelectRom:(OEDBRom *)aGame;
+- (void)libraryController:(OELibraryController *)sender didSelectSaveState:(OEDBSaveState *)aSaveState;
 @end

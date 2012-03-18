@@ -34,15 +34,17 @@
 
 #import "OEDBAllGamesCollection.h"
 #import "OEDBSystem.h"
-#import"OEDBGame.h"
+#import "OEDBGame.h"
 #import "OEDBRom.h"
+#import "OEDBSaveState.h"
 
 #import "OELocalizationHelper.h"
 
 #import "ArchiveVG.h"
 #import "NSFileManager+OEHashingAdditions.h"
 
-@interface OELibraryDatabase (Private)
+#import "OEFSWatcher.h"
+@interface OELibraryDatabase ()
 - (BOOL)loadPersistantStoreWithError:(NSError**)outError;
 - (BOOL)loadManagedObjectContextWithError:(NSError**)outError;
 - (void)managedObjectContextDidSave:(NSNotification *)notification;
@@ -50,6 +52,11 @@
 - (NSManagedObjectModel*)managedObjectModel;
 
 - (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError;
+
+
+- (void)OE_setupStateWatcher;
+- (void)OE_removeStateWatcher;
+@property (strong) OEFSWatcher *saveStateWatcher;
 @end
 static OELibraryDatabase *defaultDatabase = nil;
 @implementation OELibraryDatabase
@@ -86,10 +93,10 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
 
     [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:UDDatabasePathKey];
+    [defaultDatabase OE_setupStateWatcher];
     
     return YES;
 }
-
 
 - (BOOL)loadManagedObjectContextWithError:(NSError**)outError
 {
@@ -154,9 +161,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (void)dealloc
 {      
     NSLog(@"destroying LibraryDatabase");
-    
+    [self OE_removeStateWatcher];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 }
 
 - (void)awakeFromNib
@@ -164,12 +170,15 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (void)applicationWillTerminate:(id)sender
 {
+    [self OE_removeStateWatcher];
+    
     NSError *error = nil;
     if(![self save:&error])
     {
         [NSApp presentError:error];
         return;
     }
+    
     NSLog(@"Did save Database");
 }
 #pragma mark -
@@ -183,7 +192,33 @@ static OELibraryDatabase *defaultDatabase = nil;
         [aSystem setEnabled:[NSNumber numberWithBool:NO]];
     }
 }
+#pragma mark -
+#pragma mark Save State Handling
+@synthesize saveStateWatcher;
+- (void)OE_setupStateWatcher
+{
+    NSString    *path    = [[self stateFolderURL] path];
+    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:path withBlock:^(NSString *path, FSEventStreamEventFlags flags) {
+        if([path hasSuffix:@".DS_Store"]) return;
+        if([path rangeOfString:@".oesavestate"].location == NSNotFound) return;
+        
+        [OEDBSaveState updateStateWithPath:path];
+    }];
+    [watcher setDelay:1.0];
+    [watcher setStreamFlags:kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents];
+    
+    [self setSaveStateWatcher:watcher];
+    [[self saveStateWatcher] startWatching];
+}
 
+- (void)OE_removeStateWatcher
+{
+    NSLog(@"OE_removeStateWatcher");
+    [[self saveStateWatcher] stopWatching];
+    NSLog(@"[self saveStateWatcher]: %@", [self saveStateWatcher]);
+    [self setSaveStateWatcher:nil];
+    NSLog(@"[self saveStateWatcher]: %@", [self saveStateWatcher]);
+}
 #pragma mark -
 #pragma mark Database Info
 
@@ -756,7 +791,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:unsortedFolderName isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
-   
+
     return result;
 }
 
@@ -764,14 +799,14 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:[system systemIdentifier] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
-    
+
     return result;
 }
 
 - (NSURL *)stateFolderURL
 {
     NSString *saveStateFolderName = NSLocalizedString(@"Save States", @"Save States Folder Name");
-    NSURL    *result = [NSApp URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];    
     result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];
 
@@ -784,7 +819,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSURL *result = [[self stateFolderURL] URLByAppendingPathComponent:[system systemIdentifier] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
-    
+
     return result;
 }
 #pragma mark -

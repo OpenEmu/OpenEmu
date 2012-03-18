@@ -331,7 +331,6 @@
 
 #pragma mark -
 #pragma mark Import
-
 - (IBAction)addToLibrary:(id)sender
 {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -366,6 +365,16 @@
         [[self delegate] libraryController:self didSelectGame:selectedGame];
 }
 
+- (void)startSelectedGameWithSaveState:(id)stateItem
+{
+    OEDBSaveState *saveState = [stateItem representedObject];
+    
+    NSAssert(saveState != nil, @"Attempt to start a save state without valid item");
+
+    if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
+        [[self delegate] libraryController:self didSelectSaveState:saveState];
+}
+
 #pragma mark -
 #pragma mark Spotlight Importing
 
@@ -386,7 +395,6 @@
         searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension, nil];
         searchString = [searchString stringByAppendingString:@" || "];
     }
-    
     
     searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
     
