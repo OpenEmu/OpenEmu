@@ -133,6 +133,8 @@
 #define UDLastPopoutFrameKey        @"lastPopoutFrame"
 #define UDLastCollectionSelectedKey @"lastCollectionSelected"
 
+#define UDSaveStateLastFSEventIDKey @"lastSaveStateEventID"
+
 #define UDDefaultCoreMappingKeyPrefix @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 

@@ -335,9 +335,7 @@
 #pragma mark -
 #pragma mark Positioning / Sizing
 - (void)OE_repositionMenu
-{
-    NSLog(@"-OE_positionMenu");
-    
+{   
     NSRect menuRect         =   [self frame];
     NSRect screenRect       =   [[self screen] visibleFrame];
     OERectEdge edge         =   [self openEdge];

@@ -42,7 +42,8 @@
 #import "ArchiveVG.h"
 #import "NSFileManager+OEHashingAdditions.h"
 
-@interface OELibraryDatabase (Private)
+#import "OEFSWatcher.h"
+@interface OELibraryDatabase ()
 - (BOOL)loadPersistantStoreWithError:(NSError**)outError;
 - (BOOL)loadManagedObjectContextWithError:(NSError**)outError;
 - (void)managedObjectContextDidSave:(NSNotification *)notification;
@@ -50,6 +51,11 @@
 - (NSManagedObjectModel*)managedObjectModel;
 
 - (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError;
+
+
+- (void)OE_setupStateWatcher;
+- (void)OE_removeStateWatcher;
+@property (strong) OEFSWatcher *saveStateWatcher;
 @end
 static OELibraryDatabase *defaultDatabase = nil;
 @implementation OELibraryDatabase
@@ -86,10 +92,10 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
 
     [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:UDDatabasePathKey];
+    [defaultDatabase OE_setupStateWatcher];
     
     return YES;
 }
-
 
 - (BOOL)loadManagedObjectContextWithError:(NSError**)outError
 {
@@ -154,9 +160,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (void)dealloc
 {      
     NSLog(@"destroying LibraryDatabase");
-    
+    [self OE_removeStateWatcher];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 }
 
 - (void)awakeFromNib
@@ -164,12 +169,15 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (void)applicationWillTerminate:(id)sender
 {
+    [self OE_removeStateWatcher];
+    
     NSError *error = nil;
     if(![self save:&error])
     {
         [NSApp presentError:error];
         return;
     }
+    
     NSLog(@"Did save Database");
 }
 #pragma mark -
@@ -183,7 +191,31 @@ static OELibraryDatabase *defaultDatabase = nil;
         [aSystem setEnabled:[NSNumber numberWithBool:NO]];
     }
 }
+#pragma mark -
+#pragma mark Save State Handling
+@synthesize saveStateWatcher;
+- (void)OE_setupStateWatcher
+{
+    NSString    *path    = [[self stateFolderURL] path];
+    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:path withBlock:^(NSString *path, FSEventStreamEventFlags flags) {
+        NSLog(@"SaveStates changed!");
+        NSLog(@"%@", path);
+    }];
+    [watcher setDelay:10.0];
+    [watcher setStreamFlags:kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents];
+    
+    [self setSaveStateWatcher:watcher];
+    [[self saveStateWatcher] startWatching];
+}
 
+- (void)OE_removeStateWatcher
+{
+    NSLog(@"OE_removeStateWatcher");
+    [[self saveStateWatcher] stopWatching];
+    NSLog(@"[self saveStateWatcher]: %@", [self saveStateWatcher]);
+    [self setSaveStateWatcher:nil];
+    NSLog(@"[self saveStateWatcher]: %@", [self saveStateWatcher]);
+}
 #pragma mark -
 #pragma mark Database Info
 

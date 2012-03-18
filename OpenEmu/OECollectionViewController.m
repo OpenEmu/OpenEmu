@@ -416,8 +416,6 @@
 #pragma mark Context Menu
 - (OEMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
-    NSLog(@"indexes: %@", indexes);
-    NSLog(@"selected indexes: %@", [gamesController selectionIndexes]);
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
     NSArray *games = [[gamesController arrangedObjects] objectsAtIndexes:indexes];

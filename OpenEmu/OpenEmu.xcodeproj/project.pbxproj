@@ -339,6 +339,7 @@
 		832D29431451ACF200BDF950 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832D29421451ACF200BDF950 /* MainWindow.xib */; };
 		832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
+		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836CFD6614709D3C00397683 /* wood_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6114709D3C00397683 /* wood_arrow_down.png */; };
 		836CFD6714709D3C00397683 /* wood_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6214709D3C00397683 /* wood_arrow_up.png */; };
@@ -1224,6 +1225,8 @@
 		832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSControl+OEAdditions.m"; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
+		836291FC1515F30700192116 /* OEFSWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFSWatcher.h; sourceTree = "<group>"; };
+		836291FD1515F30700192116 /* OEFSWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFSWatcher.m; sourceTree = "<group>"; };
 		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
 		83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OECustomWindow.m"; sourceTree = "<group>"; };
 		836CFD6114709D3C00397683 /* wood_arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_arrow_down.png; sourceTree = "<group>"; };
@@ -2773,6 +2776,8 @@
 		83B6E444143E1BBD00BCDB7A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				836291FC1515F30700192116 /* OEFSWatcher.h */,
+				836291FD1515F30700192116 /* OEFSWatcher.m */,
 				83B6E43D143E090800BCDB7A /* OELocalizationHelper.h */,
 				83B6E43E143E090800BCDB7A /* OELocalizationHelper.m */,
 			);
@@ -4097,6 +4102,7 @@
 				EFBD5D8F14F1398400FBD1E0 /* OECoverGridViewCellIndicationLayer.m in Sources */,
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 				83B72F5115024B1E0052BCA0 /* OEAppStoreWindow.m in Sources */,
+				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
