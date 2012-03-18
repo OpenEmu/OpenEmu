@@ -340,7 +340,7 @@
     [menu addItem:item];
     
     NSArray *saveStates = nil;
-    if([[self gameViewController] rom] != nil && (saveStates = [[[self gameViewController] rom] saveStatesByTimestampAscending:YES]) && [saveStates count] != 0)
+    if([[self gameViewController] rom] != nil && (saveStates = [[[self gameViewController] rom] normalSaveStatesByTimestampAscending:YES]) && [saveStates count] != 0)
     {
         [menu addItem:[NSMenuItem separatorItem]];
         for(OEDBSaveState* saveState in saveStates)

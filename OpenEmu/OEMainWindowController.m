@@ -33,6 +33,8 @@
 #import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
 
+#import "OEHUDAlert.h"
+#import "OEDBGame.h"
 @interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
@@ -192,8 +194,14 @@
 
 - (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame
 {
-    NSError        *error = nil;
-    OEGameDocument *gameDocument = [[OEGameDocument alloc] initWithGame:aGame error:&error];
+    NSError         *error          = nil;
+    OEDBSaveState   *state          = [aGame autosaveForLastPlayedRom];
+    OEGameDocument  *gameDocument;
+
+    if(state && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn)
+         gameDocument = [[OEGameDocument alloc] initWithSaveState:state error:&error];
+    else
+        gameDocument = [[OEGameDocument alloc] initWithGame:aGame error:&error];
     
     if(gameDocument == nil)
     {

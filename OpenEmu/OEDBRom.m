@@ -315,11 +315,18 @@
     return [self crc32];
 }
 
-
-- (NSArray*)saveStatesByTimestampAscending:(BOOL)ascFlag
+- (NSArray *)normalSaveStates
 {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (name beginswith[c] %@)", @"OESpecialState"];
     NSSet *set = [self saveStates];
-    return [[set allObjects] sortedArrayUsingComparator:^NSComparisonResult(OEDBSaveState *obj1, OEDBSaveState *obj2) 
+    set = [set filteredSetUsingPredicate:predicate];
+    
+    return [set allObjects];
+}
+
+- (NSArray *)normalSaveStatesByTimestampAscending:(BOOL)ascFlag
+{
+    return [[self normalSaveStates] sortedArrayUsingComparator:^NSComparisonResult(OEDBSaveState *obj1, OEDBSaveState *obj2) 
             {
                 NSDate *d1 = [obj1 timestamp], *d2=[obj2 timestamp];
                 if(ascFlag)
@@ -328,10 +335,41 @@
             }];
 }
 
+
 - (NSInteger)saveStateCount
 {
     return [[self saveStates] count];
 }
+
+- (OEDBSaveState *)autosaveState
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", OESaveStateAutosaveName];
+    NSSet *set = [self saveStates];
+    set = [set filteredSetUsingPredicate:predicate];
+    
+    return [set anyObject];
+}
+
+- (NSArray *)quickSaveStates
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", OESaveStateQuicksaveName];
+    NSSet *set = [self saveStates];
+    set = [set filteredSetUsingPredicate:predicate];
+    
+    return [set allObjects];
+}
+
+- (OEDBSaveState *)quickSaveState:(int)num
+{
+    NSString    *quickSaveName = [NSString stringWithFormat:@"%@%d", OESaveStateQuicksaveName, num];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", quickSaveName];
+    NSSet *set = [self saveStates];
+    set = [set filteredSetUsingPredicate:predicate];
+    
+    return [set anyObject];
+}
+
 #pragma mark -
 #pragma mark Mainpulating a rom
 - (void)markAsPlayedNow

@@ -467,6 +467,20 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     return [[sortedByLastPlayed lastObject] lastPlayed];
 }
 
+- (OEDBSaveState *)autosaveForLastPlayedRom
+{
+    NSArray *roms = [[self roms] allObjects];
+    
+    NSArray *sortedByLastPlayed =
+    [roms sortedArrayUsingComparator:
+     ^ NSComparisonResult (id obj1, id obj2)
+     {
+         return [[obj1 lastPlayed] compare:[obj2 lastPlayed]];
+     }];
+
+    return [[sortedByLastPlayed lastObject] autosaveState];
+}
+
 - (OEDBRom *)defaultROM
 {
     NSSet *roms = [self roms];

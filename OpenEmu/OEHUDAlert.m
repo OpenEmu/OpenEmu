@@ -81,7 +81,7 @@
     return alert;
 }
 
-+ (id)autoSaveGameAlert
++ (id)saveAutoSaveGameAlert
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     
@@ -94,6 +94,21 @@
 
     return alert;
 }
+
++ (id)loadAutoSaveGameAlert
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    
+    alert.messageText = NSLocalizedString(@"Do you want to continue playing where you left off?", @"");
+    alert.defaultButtonTitle = NSLocalizedString(@"Yes", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"No", @"");
+    alert.headlineLabelText = NSLocalizedString(@"Would you like to continue your last game?", @"");
+    
+    [alert showSuppressionButtonForUDKey:UDLoadAutoSaveAlertSuppressionKey];
+    
+    return alert;
+}
+
 
 + (id)saveGameAlertWithProposedName:(NSString*)name
 {

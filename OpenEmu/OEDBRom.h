@@ -28,6 +28,7 @@
 
 @class OELibraryDatabase;
 @class OEDBGame;
+@class OEDBSaveState;
 @interface OEDBRom : NSManagedObject
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBRoms
@@ -59,11 +60,15 @@
 // returns crc hash for rom if one was calculated before
 - (NSString *)crcHashIfAvailable;
 
-// returns save states ordered by timestamp
-- (NSArray *)saveStatesByTimestampAscending:(BOOL)ascFlag;
-
 // returns count of save states
 - (NSInteger)saveStateCount;
+
+// returns save states ordered by timestamp
+- (NSArray *)normalSaveStatesByTimestampAscending:(BOOL)ascFlag;
+- (NSArray *)normalSaveStates;
+- (OEDBSaveState *)autosaveState;
+- (NSArray *)quickSaveStates;
+- (OEDBSaveState *)quickSaveState:(int)num;
 #pragma mark -
 #pragma mark Mainpulating a rom
 // sets roms "lastPlayed" to now

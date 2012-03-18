@@ -269,6 +269,8 @@
 
 - (void)OE_terminateEmulationWithoutNotification
 {
+    [self saveStateWithName:OESaveStateAutosaveName];
+    
     emulationRunning = NO;
     [gameView setRootProxy:nil];
     [gameView setGameResponder:nil];

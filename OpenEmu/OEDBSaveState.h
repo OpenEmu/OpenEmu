@@ -35,6 +35,9 @@ extern NSString *const OESaveStateInfoCoreIdentifierKey;
 // extern NSString *const OESaveStateInfoCreationDateKey;
 // extern NSString *const OESaveStateInfoBookmarkDataKey;
 
+extern NSString *const OESaveStateAutosaveName;
+extern NSString *const OESaveStateQuicksaveName;
+
 @class OEDBRom, OECorePlugin, OELibraryDatabase;
 @interface OEDBSaveState : NSManagedObject
 

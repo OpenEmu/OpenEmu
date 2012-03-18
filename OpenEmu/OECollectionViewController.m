@@ -491,7 +491,7 @@
     
     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         NSMenuItem  *item;
-        NSArray     *saveStates = [obj saveStatesByTimestampAscending:NO];
+        NSArray     *saveStates = [obj normalSaveStatesByTimestampAscending:NO];
         for(OEDBSaveState *saveState in saveStates)
         {
             NSString *itemTitle = [saveState name];

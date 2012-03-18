@@ -38,7 +38,8 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 }
 
 + (id)saveGameAlertWithProposedName:(NSString*)name;
-+ (id)autoSaveGameAlert;
++ (id)saveAutoSaveGameAlert;
++ (id)loadAutoSaveGameAlert;
 + (id)deleteGameAlertWithStateName:(NSString*)stateName;
 
 + (id)alertWithError:(NSError*)error;

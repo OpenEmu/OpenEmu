@@ -47,6 +47,9 @@ NSString *const OESaveStateInfoCoreIdentifierKey    = @"Core Identifier";
 // NSString *const OESaveStateInfoCreationDateKey   = @"Creation Date";
 // NSString *const OESaveStateInfoBookmarkDataKey   = @"Bookmark Data";
 
+NSString *const OESaveStateAutosaveName    = @"OESpecialState_auto";
+NSString *const OESaveStateQuicksaveName   = @"OESpecialState_quick";
+
 @interface OEDBSaveState ()
 + (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context;
 - (BOOL)OE_createBundleAtURL:(NSURL*)url withStateFile:(NSURL*)stateFile error:(NSError*__autoreleasing*)error;
@@ -56,7 +59,6 @@ NSString *const OESaveStateInfoCoreIdentifierKey    = @"Core Identifier";
 @end
 
 @implementation OEDBSaveState
-
 + (NSArray*)allStates
 {
     return [self allStatesInDatabase:[OELibraryDatabase defaultDatabase]];
