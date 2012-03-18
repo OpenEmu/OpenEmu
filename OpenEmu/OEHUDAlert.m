@@ -494,10 +494,10 @@
     
     [[self messageTextView] setEditable:NO];
     [[self messageTextView] setSelectable:NO];
-    [[self messageTextView] setDrawsBackground:NO];
     [[self messageTextView] setAutoresizingMask:NSViewMinYMargin|NSViewWidthSizable];
     [[self messageTextView] setFont:font];
     [[self messageTextView] setTextColor:[NSColor whiteColor]];
+    [[self messageTextView] setDrawsBackground:NO];
 
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     [style setAlignment:NSCenterTextAlignment];
@@ -555,9 +555,10 @@
     [[self progressbar] setHidden:YES];
     [[self boxView] addSubview:[self progressbar]];
     
-    NSRect progressLabelFrame = NSMakeRect(2, 21, 382, 16);
+    NSRect progressLabelFrame = NSMakeRect(2, 21-16, 382, 16);
     [[self headlineLabelField] setFrame:progressLabelFrame];
     [[self headlineLabelField] setHidden:YES];
+    [[self headlineLabelField] setDrawsBackground:NO];
     [[self headlineLabelField] setAutoresizingMask:NSViewMaxYMargin|NSViewWidthSizable];
     labelCell = [[OECenteredTextFieldCell alloc] init];
     
