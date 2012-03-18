@@ -269,7 +269,8 @@
 
 - (void)OE_terminateEmulationWithoutNotification
 {
-    [self saveStateWithName:OESaveStateAutosaveName];
+    if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
+        [self saveStateWithName:OESaveStateAutosaveName];
     
     emulationRunning = NO;
     [gameView setRootProxy:nil];

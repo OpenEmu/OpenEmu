@@ -331,7 +331,6 @@
 
 #pragma mark -
 #pragma mark Import
-
 - (IBAction)addToLibrary:(id)sender
 {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
