@@ -35,6 +35,7 @@ extern NSString *const OESaveStateInfoCoreIdentifierKey;
 // extern NSString *const OESaveStateInfoCreationDateKey;
 // extern NSString *const OESaveStateInfoBookmarkDataKey;
 
+extern NSString *const OESaveStateSpecialNamePrefix;
 extern NSString *const OESaveStateAutosaveName;
 extern NSString *const OESaveStateQuicksaveName;
 
@@ -59,6 +60,7 @@ extern NSString *const OESaveStateQuicksaveName;
 - (BOOL)rewriteInfoPlist;
 - (void)remove;
 
+- (void)replaceStateFileWithFile:(NSURL*)stateFile;
 #pragma mark -
 #pragma mark Data Model Properties
 @property (nonatomic, retain)           NSString *name;

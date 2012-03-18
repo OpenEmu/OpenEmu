@@ -47,13 +47,15 @@ NSString *const OESaveStateInfoCoreIdentifierKey    = @"Core Identifier";
 // NSString *const OESaveStateInfoCreationDateKey   = @"Creation Date";
 // NSString *const OESaveStateInfoBookmarkDataKey   = @"Bookmark Data";
 
-NSString *const OESaveStateAutosaveName    = @"OESpecialState_auto";
-NSString *const OESaveStateQuicksaveName   = @"OESpecialState_quick";
+NSString *const OESaveStateSpecialNamePrefix    = @"OESpecialState_";
+NSString *const OESaveStateAutosaveName         = @"OESpecialState_auto";
+NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 @interface OEDBSaveState ()
 + (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context;
 - (BOOL)OE_createBundleAtURL:(NSURL*)url withStateFile:(NSURL*)stateFile error:(NSError*__autoreleasing*)error;
-
+- (void)replaceStateFileWithFile:(NSURL*)stateFile;
+- (void)replaceScreenshotFileWithFile:(NSURL*)stateFile;
 - (NSURL*)infoPlistURL;
 - (NSDictionary*)infoPlist;
 @end
@@ -258,6 +260,12 @@ NSString *const OESaveStateQuicksaveName   = @"OESpecialState_quick";
     NSManagedObjectContext *moc = [self managedObjectContext];
     [moc deleteObject:self];
     [moc save:nil];
+}
+
+- (void)replaceStateFileWithFile:(NSURL*)stateFile
+{
+    [[NSFileManager defaultManager] removeItemAtURL:[self stateFileURL] error:nil];
+    [[NSFileManager defaultManager] copyItemAtURL:stateFile toURL:[self stateFileURL] error:nil];
 }
 #pragma mark -
 #pragma mark Data Model Properties

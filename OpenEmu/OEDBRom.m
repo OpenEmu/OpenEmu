@@ -329,6 +329,15 @@
     return [set anyObject];
 }
 
+- (OEDBSaveState *)saveStateWithName:(NSString*)string
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", string];
+    NSSet *set = [self saveStates];
+    set = [set filteredSetUsingPredicate:predicate];
+    
+    return [set anyObject];
+}
+
 #pragma mark -
 #pragma mark Mainpulating a rom
 - (void)markAsPlayedNow

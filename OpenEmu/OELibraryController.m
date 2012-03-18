@@ -396,7 +396,6 @@
         searchString = [searchString stringByAppendingString:@" || "];
     }
     
-    
     searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
     
     NSLog(@"SearchString: %@", searchString);

@@ -66,6 +66,7 @@
 - (OEDBSaveState *)autosaveState;
 - (NSArray *)quickSaveStates;
 - (OEDBSaveState *)quickSaveState:(int)num;
+- (OEDBSaveState *)saveStateWithName:(NSString*)string;
 #pragma mark -
 #pragma mark Mainpulating a rom
 // sets roms "lastPlayed" to now

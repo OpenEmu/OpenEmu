@@ -402,7 +402,21 @@
         return;
     }
     
-    OEDBSaveState *state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:[gameCoreManager plugin] withFile:temporaryStateFileURL];
+    BOOL isSpecialSaveState = [stateName hasPrefix:OESaveStateSpecialNamePrefix];
+    OEDBSaveState *state;
+    if(isSpecialSaveState)
+    {
+        state = [[self rom] saveStateWithName:stateName];
+    }
+    
+    if(!state)
+        state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:[gameCoreManager plugin] withFile:temporaryStateFileURL];
+    else
+    {
+        [state replaceStateFileWithFile:temporaryStateFileURL];
+        [state setTimestamp:[NSDate date]];
+        [state rewriteInfoPlist];
+    }
     
     [self captureScreenshotUsingBlock:^(NSImage *img) {
         if(!img)
