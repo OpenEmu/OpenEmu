@@ -34,8 +34,9 @@
 
 #import "OEDBAllGamesCollection.h"
 #import "OEDBSystem.h"
-#import"OEDBGame.h"
+#import "OEDBGame.h"
 #import "OEDBRom.h"
+#import "OEDBSaveState.h"
 
 #import "OELocalizationHelper.h"
 
@@ -198,10 +199,12 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSString    *path    = [[self stateFolderURL] path];
     OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:path withBlock:^(NSString *path, FSEventStreamEventFlags flags) {
-        NSLog(@"SaveStates changed!");
-        NSLog(@"%@", path);
+        if([path hasSuffix:@".DS_Store"]) return;
+        if([path rangeOfString:@".oesavestate"].location == NSNotFound) return;
+        
+        [OEDBSaveState updateStateWithPath:path];
     }];
-    [watcher setDelay:10.0];
+    [watcher setDelay:1.0];
     [watcher setStreamFlags:kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents];
     
     [self setSaveStateWatcher:watcher];

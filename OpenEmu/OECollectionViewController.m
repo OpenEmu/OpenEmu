@@ -626,21 +626,8 @@
     OEHUDAlert *alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
     
     NSUInteger result = [alert runModal];
-    
     if(result)
-    {        
-        NSError *err = nil;
-        if(![[NSFileManager defaultManager] removeItemAtURL:[state URL] error:&err])
-        {
-            NSLog(@"Error deleting save file!");
-            NSLog(@"%@", err);
-            return;
-        }
-        
-        NSManagedObjectContext *moc = [state managedObjectContext];
-        [moc deleteObject:state];
-        [moc save:nil];
-    }
+        [state remove];
 }
 
 - (void)startSelectedGameWithSaveState:(id)stateItem

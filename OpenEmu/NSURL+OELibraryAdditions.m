@@ -65,8 +65,6 @@
         triesCount++;
         result = block(triesCount);
     }
-    
-    NSLog(@"NSURL -uniqueURLUsingBlock nedded %ld tries.", triesCount);
     return result;
 }
 
