@@ -46,7 +46,7 @@
 #import "OEGameCore.h"
 #import "OEGameDocument.h"
 
-#import "OEHUDAlert.h"
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
 
 #import "NSString+UUID.h"
 #import "NSURL+OELibraryAdditions.h"

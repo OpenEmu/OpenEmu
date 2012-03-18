@@ -33,7 +33,7 @@
 #import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
 
-#import "OEHUDAlert.h"
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEDBGame.h"
 @interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;

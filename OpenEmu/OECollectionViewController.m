@@ -52,7 +52,7 @@
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 
-#import "OEHUDAlert.h"
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
 
 #import "OESidebarController.h"
 
