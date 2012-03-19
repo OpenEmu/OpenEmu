@@ -25,12 +25,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEFBASystemController.h"
-#import "OEFBASystemResponder.h"
-#import "OEFBASystemResponderClient.h"
+#import "OEArcadeSystemController.h"
+#import "OEArcadeSystemResponder.h"
+#import "OEArcadeSystemResponderClient.h"
 #import "OELocalizationHelper.h"
 
-@implementation OEFBASystemController
+@implementation OEArcadeSystemController
 
 - (NSUInteger)numberOfPlayers;
 {
@@ -39,7 +39,7 @@
 
 - (Class)responderClass;
 {
-    return [OEFBASystemResponder class];
+    return [OEArcadeSystemResponder class];
 }
 
 - (NSArray *)genericSettingNames;
@@ -49,24 +49,24 @@
 
 - (NSArray *)genericControlNames;
 {
-    return [NSArray arrayWithObjects:OEFBAButtonNameTable count:OEFBAButtonCount];
+    return [NSArray arrayWithObjects:OEArcadeButtonNameTable count:OEArcadeButtonCount];
 }
 
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEFBAButtonUp[1]"          ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEFBAButtonDown[1]"        ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEFBAButtonLeft[1]"        ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEFBAButtonRight[1]"       ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OEFBAButtonA[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEFBAButtonB[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OEFBAButtonX[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEFBAButtonY[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEFBAButtonTriggerLeft[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEFBAButtonTriggerRight[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEFBAButtonStart[1]"       ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OEFBAButtonSelect[1]"      ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEArcadeButtonUp[1]"          ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEArcadeButtonDown[1]"        ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEArcadeButtonLeft[1]"        ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEArcadeButtonRight[1]"       ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OEArcadeButton5[1]"           ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEArcadeButton4[1]"           ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OEArcadeButton2[1]"           ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEArcadeButton1[1]"           ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEArcadeButton3[1]" ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEArcadeButton6[1]",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEArcadeButtonP1Start[1]"       ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OEArcadeButtonInsertCoin[1]"      ,
                               nil];
     return controls;
 }

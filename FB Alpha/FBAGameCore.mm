@@ -27,14 +27,14 @@
 
 #import "FBAGameCore.h"
 #import <OERingBuffer.h>
-#import "OEFBASystemResponderClient.h"
+#import "OEArcadeSystemResponderClient.h"
 #import <OpenGL/gl.h>
 
 #include "libsnes.hpp"
 
 #define SAMPLERATE 32000
 
-@interface FBAGameCore () <OEFBASystemResponderClient>
+@interface FBAGameCore () <OEArcadeSystemResponderClient>
 @end
 
 NSUInteger FBAEmulatorValues[] = { SNES_DEVICE_ID_JOYPAD_A, SNES_DEVICE_ID_JOYPAD_B, SNES_DEVICE_ID_JOYPAD_X, SNES_DEVICE_ID_JOYPAD_Y, SNES_DEVICE_ID_JOYPAD_UP, SNES_DEVICE_ID_JOYPAD_DOWN, SNES_DEVICE_ID_JOYPAD_LEFT, SNES_DEVICE_ID_JOYPAD_RIGHT, SNES_DEVICE_ID_JOYPAD_START, SNES_DEVICE_ID_JOYPAD_SELECT, SNES_DEVICE_ID_JOYPAD_L, SNES_DEVICE_ID_JOYPAD_R };
@@ -205,12 +205,12 @@ static void writeSaveFile(const char* path, int type)
     }
 }
 
-- (oneway void)didPushFBAButton:(OEFBAButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushArcadeButton:(OEArcadeButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][FBAEmulatorValues[button]] = 1; //1 or 0xFFFF
 }
 
-- (oneway void)didReleaseFBAButton:(OEFBAButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseArcadeButton:(OEArcadeButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][FBAEmulatorValues[button]] = 0;
 }

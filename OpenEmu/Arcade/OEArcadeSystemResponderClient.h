@@ -29,26 +29,26 @@
 
 @protocol OESystemResponderClient;
 
-typedef enum _OEFBAButton
+typedef enum _OEArcadeButton
 {
-    OEFBAButtonA,
-    OEFBAButtonB,
-    OEFBAButtonX,
-    OEFBAButtonY,
-    OEFBAButtonUp,
-    OEFBAButtonDown,
-    OEFBAButtonLeft,
-    OEFBAButtonRight,
-    OEFBAButtonStart,
-    OEFBAButtonSelect,
-    OEFBAButtonTriggerLeft,
-    OEFBAButtonTriggerRight,
-    OEFBAButtonCount,
-} OEFBAButton;
+    OEArcadeButton5,
+    OEArcadeButton4,
+    OEArcadeButton2,
+    OEArcadeButton1,
+    OEArcadeButtonUp,
+    OEArcadeButtonDown,
+    OEArcadeButtonLeft,
+    OEArcadeButtonRight,
+    OEArcadeButtonP1Start,
+    OEArcadeButtonInsertCoin,
+    OEArcadeButton3,
+    OEArcadeButton6,
+    OEArcadeButtonCount,
+} OEArcadeButton;
 
-@protocol OEFBASystemResponderClient <OESystemResponderClient, NSObject>
+@protocol OEArcadeSystemResponderClient <OESystemResponderClient, NSObject>
 
-- (oneway void)didPushFBAButton:(OEFBAButton)button forPlayer:(NSUInteger)player;
-- (oneway void)didReleaseFBAButton:(OEFBAButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushArcadeButton:(OEArcadeButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseArcadeButton:(OEArcadeButton)button forPlayer:(NSUInteger)player;
 
 @end

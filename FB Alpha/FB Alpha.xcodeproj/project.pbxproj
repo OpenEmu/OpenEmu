@@ -568,8 +568,8 @@
 		82EC409E0FD9EC420017FC19 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8D5B49B6048680CD000E48DA /* FB Alpha.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FB Alpha.oecoreplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9425977415146D800074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
-		9472091F150AFC2A009D7F9E /* OEFBASystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEFBASystemResponderClient.h; path = ../OpenEmu/Arcade/OEFBASystemResponderClient.h; sourceTree = "<group>"; };
+		9425977415146D800074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		945E42CB1517E32F00057D08 /* OEArcadeSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEArcadeSystemResponderClient.h; path = ../OpenEmu/Arcade/OEArcadeSystemResponderClient.h; sourceTree = "<group>"; };
 		94E4970C150DAAD5007E71EA /* bitswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bitswap.h; sourceTree = "<group>"; };
 		94E4970D150DAAD5007E71EA /* burn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = burn.cpp; sourceTree = "<group>"; };
 		94E4970E150DAAD5007E71EA /* burn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = burn.h; sourceTree = "<group>"; };
@@ -1616,7 +1616,7 @@
 			isa = PBXGroup;
 			children = (
 				82EC3FED0FD9EAE90017FC19 /* Core */,
-				9472091F150AFC2A009D7F9E /* OEFBASystemResponderClient.h */,
+				945E42CB1517E32F00057D08 /* OEArcadeSystemResponderClient.h */,
 				B5008DAD0E8BFB3E005AECAF /* FBAGameCore.h */,
 				B5008DAE0E8BFB3E005AECAF /* FBAGameCore.mm */,
 			);

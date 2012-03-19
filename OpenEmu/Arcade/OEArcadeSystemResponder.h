@@ -28,12 +28,12 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
-@protocol OEFBASystemResponderClient;
+@protocol OEArcadeSystemResponderClient;
 
-extern NSString *OEFBAButtonNameTable[];
+extern NSString *OEArcadeButtonNameTable[];
 
-@interface OEFBASystemResponder : OEBasicSystemResponder
+@interface OEArcadeSystemResponder : OEBasicSystemResponder
 
-@property(nonatomic, weak) id<OEFBASystemResponderClient> client;
+@property(nonatomic, weak) id<OEArcadeSystemResponderClient> client;
 
 @end

@@ -28,7 +28,7 @@
 	<string>http://www.barryharris.me.uk/</string>
 	<key>OESystemIdentifiers</key>
 	<array>
-		<string>openemu.system.fba</string>
+		<string>openemu.system.arcade</string>
 	</array>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>

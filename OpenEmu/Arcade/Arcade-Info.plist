@@ -25,7 +25,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OEFBASystemController</string>
+	<string>OEArcadeSystemController</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>101</integer>
@@ -38,25 +38,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonUp[@]</string>
+					<string>OEArcadeButtonUp[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonDown[@]</string>
+					<string>OEArcadeButtonDown[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonLeft[@]</string>
+					<string>OEArcadeButtonLeft[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonRight[@]</string>
+					<string>OEArcadeButtonRight[@]</string>
 				</dict>
 			</array>
 			<array>
@@ -64,13 +64,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Insert Coin</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonSelect[@]</string>
+					<string>OEArcadeButtonInsertCoin[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Player 1 Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonStart[@]</string>
+					<string>OEArcadeButtonP1Start[@]</string>
 				</dict>
 			</array>
 			<array>
@@ -78,19 +78,19 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 1</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonY[@]</string>
+					<string>OEArcadeButton1[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 2</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonX[@]</string>
+					<string>OEArcadeButton2[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 3</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonTriggerLeft[@]</string>
+					<string>OEArcadeButton3[@]</string>
 				</dict>
 			</array>
 			<array>
@@ -98,19 +98,19 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 4</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonB[@]</string>
+					<string>OEArcadeButton4[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 5</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonA[@]</string>
+					<string>OEArcadeButton5[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 6</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonTriggerRight[@]</string>
+					<string>OEArcadeButton6[@]</string>
 				</dict>
 			</array>
 		</array>
@@ -122,7 +122,7 @@
 	<key>OESystemIcon</key>
 	<string>arcade_library</string>
 	<key>OESystemIdentifier</key>
-	<string>openemu.system.fba</string>
+	<string>openemu.system.arcade</string>
 	<key>OESystemName</key>
 	<string>Arcade</string>
 	<key>OESystemPluginName</key>

@@ -8,7 +8,7 @@
        notice, this list of conditions and the following disclaimer.
      * Redistributions in binary form must reproduce the above copyright
        notice, this list of conditions and the following disclaimer in the
-       documentation and/or other FBAmaterials provided with the distribution.
+       documentation and/or other Arcadematerials provided with the distribution.
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
@@ -25,31 +25,31 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEFBASystemResponder.h"
-#import "OEFBASystemResponderClient.h"
+#import "OEArcadeSystemResponder.h"
+#import "OEArcadeSystemResponderClient.h"
 
-NSString *OEFBAButtonNameTable[] =
+NSString *OEArcadeButtonNameTable[] =
 {
-    @"OEFBAButtonA[@]",
-    @"OEFBAButtonB[@]",
-    @"OEFBAButtonX[@]",
-    @"OEFBAButtonY[@]",
-    @"OEFBAButtonUp[@]",
-    @"OEFBAButtonDown[@]",
-    @"OEFBAButtonLeft[@]",
-    @"OEFBAButtonRight[@]",
-    @"OEFBAButtonStart[@]",
-    @"OEFBAButtonSelect[@]",
-    @"OEFBAButtonTriggerLeft[@]",
-    @"OEFBAButtonTriggerRight[@]",
+    @"OEArcadeButton5[@]",
+    @"OEArcadeButton4[@]",
+    @"OEArcadeButton2[@]",
+    @"OEArcadeButton1[@]",
+    @"OEArcadeButtonUp[@]",
+    @"OEArcadeButtonDown[@]",
+    @"OEArcadeButtonLeft[@]",
+    @"OEArcadeButtonRight[@]",
+    @"OEArcadeButtonP1Start[@]",
+    @"OEArcadeButtonInsertCoin[@]",
+    @"OEArcadeButton3[@]",
+    @"OEArcadeButton6[@]",
 };
 
-@implementation OEFBASystemResponder
+@implementation OEArcadeSystemResponder
 @dynamic client;
 
 + (Protocol *)gameSystemResponderClientProtocol;
 {
-    return @protocol(OEFBASystemResponderClient);
+    return @protocol(OEArcadeSystemResponderClient);
 }
 
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
@@ -59,12 +59,12 @@ NSString *OEFBAButtonNameTable[] =
 
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didPushFBAButton:(OEFBAButton)aKey.key forPlayer:aKey.player];
+    [[self client] didPushArcadeButton:(OEArcadeButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didReleaseFBAButton:(OEFBAButton)aKey.key forPlayer:aKey.player];
+    [[self client] didReleaseArcadeButton:(OEArcadeButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

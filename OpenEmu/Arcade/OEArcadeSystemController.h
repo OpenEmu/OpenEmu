@@ -28,7 +28,7 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
-@interface OEFBASystemController : OESystemController
+@interface OEArcadeSystemController : OESystemController
 {
 @private
     
