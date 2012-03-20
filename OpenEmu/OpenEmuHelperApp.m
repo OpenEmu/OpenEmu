@@ -594,7 +594,6 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)stopEmulation
 {
-    
     [pollingTimer invalidate], pollingTimer = nil;
     
     [gameCoreProxy stopEmulation];
@@ -736,7 +735,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 {
     if(gameThread == nil || gameCore == nil) return;
     
-    [self performSelector:@selector(forwardInvocationToGameCore:) onThread:[self gameThread] withObject:invocation waitUntilDone:YES];
+    [self performSelector:@selector(forwardInvocationToGameCore:) onThread:[self gameThread] withObject:invocation waitUntilDone:NO];
 }
 
 @end
