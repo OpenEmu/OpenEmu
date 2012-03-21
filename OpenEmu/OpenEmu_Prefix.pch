@@ -120,8 +120,8 @@
 #define UDSidebarMaxWidth                       @"sidebarMaxWidth"
 #define UDMainViewMinWidth                      @"mainViewMinWidth"
 
-#define UDLoadAutoSaveAlertSuppressionKey       @"loadAutosaveWithoutConfirmation"      /* determine is user sees alert asking to continue save game    */
-#define UDSaveGameWhenQuitAlertSuppressionKey   @"autosaveOnStopWithoutConfirmation"   /* determines if user sees alert asking to save game on quitting */
+#define UDLoadAutoSaveAlertSuppressionKey       @"loadAutosaveDialogChoice"      /* determine is user sees alert asking to continue save game    */
+#define UDSaveGameWhenQuitAlertSuppressionKey   @"autosaveOnStopDialogChoice"   /* determines if user sees alert asking to save game on quitting */
 #define UDDelteGameAlertSuppressionKey          @"removeStatesWithoutConfirmation"     /* determines if user sees alert asking for confirmation before deleting a save game */
 #define UDSaveGameAlertSuppressionKey           @"saveGameWithoutConfirmation"          
 #define UDChangeCoreAlertSuppressionKey         @"changeCoreWithoutConfirmation"

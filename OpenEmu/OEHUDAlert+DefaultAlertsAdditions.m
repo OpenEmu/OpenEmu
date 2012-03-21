@@ -19,6 +19,7 @@
     alert.alternateButtonTitle = NSLocalizedString(@"Do Not Save", @"");
     alert.headlineLabelText = NSLocalizedString(@"Would you like to save your game before you quit?", @"");
     
+    [alert setSuppressOnDefaultReturnOnly:NO];
     [alert showSuppressionButtonForUDKey:UDSaveGameWhenQuitAlertSuppressionKey];
     
     return alert;
@@ -33,6 +34,7 @@
     alert.alternateButtonTitle = NSLocalizedString(@"No", @"");
     alert.headlineLabelText = NSLocalizedString(@"Would you like to continue your last game?", @"");
     
+    [alert setSuppressOnDefaultReturnOnly:NO];
     [alert showSuppressionButtonForUDKey:UDLoadAutoSaveAlertSuppressionKey];
     
     return alert;
@@ -47,7 +49,6 @@
     [alert setDefaultButtonTitle:NSLocalizedString(@"Save Game", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setShowsInputField:YES];
-    
     
     NSInteger maxiumumSaveGameLength = [[NSUserDefaults standardUserDefaults] integerForKey:UDMaxSaveGameNameLengthKey];
     if([name length]>maxiumumSaveGameLength)

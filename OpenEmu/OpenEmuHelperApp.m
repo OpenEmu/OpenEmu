@@ -735,7 +735,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 {
     if(gameThread == nil || gameCore == nil) return;
     
-    [self performSelector:@selector(forwardInvocationToGameCore:) onThread:[self gameThread] withObject:invocation waitUntilDone:NO];
+    [self performSelector:@selector(forwardInvocationToGameCore:) onThread:[self gameThread] withObject:invocation waitUntilDone:YES];
 }
 
 @end

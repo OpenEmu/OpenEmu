@@ -359,27 +359,15 @@
     id item = [outlineView itemAtRow:index];
     BOOL removeItem = NO;
     if([item isEditableInSdebar])
-    {         
-        BOOL alertSuppressed = [[NSUserDefaults standardUserDefaults] boolForKey:UDRemoveCollectionSuppresedKey];
-        if(!alertSuppressed)
-        {
-            NSString *msg = NSLocalizedString(@"Do you really want to remove this collection thingy", @"");
-            NSString *confirm = NSLocalizedString(@"Remove", @"");
-            NSString *cancel = NSLocalizedString(@"Cancel", @"");
-            
-            OEHUDAlert* alert = [OEHUDAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
-            [alert setShowsSuppressionButton:YES];
-            
-            removeItem = [alert runModal]==NSAlertDefaultReturn;
-            if(removeItem)
-            {
-                [[NSUserDefaults standardUserDefaults] setBool:[[alert suppressionButton] state] forKey:UDRemoveCollectionSuppresedKey];    
-            }
-        }
-        else 
-        {
-            removeItem = alertSuppressed;
-        }
+    {   
+        
+        NSString *msg = NSLocalizedString(@"Do you really want to remove this collection thingy", @"");
+        NSString *confirm = NSLocalizedString(@"Remove", @"");
+        NSString *cancel = NSLocalizedString(@"Cancel", @"");
+
+        OEHUDAlert* alert = [OEHUDAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
+        [alert showSuppressionButtonForUDKey:UDRemoveCollectionSuppresedKey];
+        removeItem = [alert runModal];
     }
     
     if(removeItem)
