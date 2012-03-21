@@ -64,9 +64,6 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         tenFrameCounter = 10;
         NSUInteger count = [self audioBufferCount];
         ringBuffers = (__strong OERingBuffer **)calloc(count, sizeof(OERingBuffer*));
-        for(NSUInteger i = 0; i < count; i++) // FIXME lazy init these
-            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self audioBufferSizeForBuffer:i] * 16];
-        
         //keyMap = OEMapCreate(32);
     }
     return self;
@@ -86,6 +83,9 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 - (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index
 {
     NSAssert1(index < [self audioBufferCount], @"The index %lu is too high", index);
+    if (!ringBuffers[index])
+        ringBuffers[index] = [[OERingBuffer alloc] initWithLength:[self audioBufferSizeForBuffer:index] * 16];
+    
     return ringBuffers[index];
 }
 
