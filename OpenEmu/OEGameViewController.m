@@ -368,8 +368,8 @@
     [alert setCallbackHandler:
      ^(OEHUDAlert *alert, NSUInteger result)
      {
-         [self saveStateWithName:[alert stringValue]];
-         
+         if(result == NSAlertDefaultReturn)
+             [self saveStateWithName:[alert stringValue]];
          [self playGame];
      }];
     

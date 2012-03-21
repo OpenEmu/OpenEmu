@@ -613,6 +613,8 @@
 
 - (void)_closeByClickingItem:(NSMenuItem *)selectedItem
 {    
+    [self OE_removeEventMonitor];
+    
     closing = YES;
     if(self.submenu) [self.submenu closeMenuWithoutChanges:nil];
     
