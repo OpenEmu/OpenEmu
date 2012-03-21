@@ -108,6 +108,7 @@
         
         _boxView = [[OEPreferencesPlainBox alloc] init];
         
+        [self setSuppressOnDefaultReturnOnly:YES];
         [self _setupWindow];
     }
     
@@ -118,33 +119,21 @@
 {    
     NSLog(@"OEHUDAlert dealloc");
     
-    
-    
-    
     _progressbar = nil;
-    
-    
-    
     _suppressionButton = nil;
-    
-    
-    
-    
+        
     // Remove Callbacks
     self.target = nil;
-    self.callbackHandler = nil;
-    
-    // Remove suppression button stuff
-    
-    
+    self.callbackHandler = nil;    
 }
 #pragma mark -
 - (NSUInteger)runModal
 {
-    if(self.showsSuppressionButton && self.suppressionButton.state == NSOnState){
-        result = NSAlertDefaultReturn;
+    if([self suppressionUDKey] && [[NSUserDefaults standardUserDefaults] valueForKey:[self suppressionUDKey]])
+    {
+        result = [[NSUserDefaults standardUserDefaults] integerForKey:[self suppressionUDKey]];
         [self performCallback];
-        return NSAlertDefaultReturn;
+        return result;
     }
     
     NSModalSession session = [NSApp beginModalSessionForWindow:_window];
@@ -171,7 +160,7 @@
     
     [[self window] makeKeyAndOrderFront:self];
     
-    return  result;
+    return result;
 }
 
 - (void)closeWithResult:(NSInteger)res
@@ -262,20 +251,18 @@
 
 - (void)buttonAction:(id)sender{
     if(sender == [self defaultButton] || sender == [self inputField])
-    {
         result = NSAlertDefaultReturn;
-        
-        if([self showsSuppressionButton] && [self suppressionUDKey])
-        {
-            NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-            [standardUserDefaults setBool:[self suppressionButton].state==NSOnState forKey:[self suppressionUDKey]];            
-        }
-    }
     else if(sender == [self alternateButton])
         result = NSAlertAlternateReturn;
     else
         result = NSAlertDefaultReturn;
-    
+
+    if([[self suppressionButton] state] && (result || ![self suppressOnDefaultReturnOnly]) && [self suppressionUDKey])
+    {
+        NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+        [standardUserDefaults setInteger:result forKey:[self suppressionUDKey]];
+    }
+
     [NSApp stopModalWithCode:result];
     [self performCallback];
 }
@@ -387,7 +374,7 @@
     [self setSuppressionUDKey:key];
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL checked = [standardUserDefaults boolForKey:[self suppressionUDKey]];
+    BOOL checked = [standardUserDefaults valueForKey:[self suppressionUDKey]]!=nil;
     [[self suppressionButton] setState:checked];
 }
 
@@ -399,6 +386,16 @@
 - (NSString*)suppressionLabelText
 {
     return [[self suppressionButton] title];
+}
+@synthesize suppressOnDefaultReturnOnly;
+- (void)suppressionButtonAction:(id)sender
+{
+    if(![self suppressionUDKey]) return;
+    
+    NSUInteger      state                 = [sender state];
+    NSUserDefaults  *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if(!state && [self suppressOnDefaultReturnOnly])
+        [standardUserDefaults removeObjectForKey:[self suppressionUDKey]];   
 }
 #pragma mark -
 #pragma mark Input Field
@@ -586,6 +583,7 @@
     [[self suppressionButton] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
     [[self suppressionButton] setFrame:(NSRect){{18,18}, {150, 18}}];       
     [[self suppressionButton] setHidden:YES]; 
+    [[self suppressionButton] setTarget:self andAction:@selector(suppressionButtonAction:)];
     [[_window contentView] addSubview:[self suppressionButton]];
 }
 

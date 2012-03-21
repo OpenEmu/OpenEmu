@@ -90,6 +90,7 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 - (void)showSuppressionButtonForUDKey:(NSString*)key;
 @property BOOL showsSuppressionButton;
 @property (strong, readonly) NSButton *suppressionButton;
+@property BOOL             suppressOnDefaultReturnOnly;  // default is YES meaning that follow up alerts will not be suppressed if the user clicked cancel
 @property (copy) NSString *suppressionUDKey;
 @property (copy) NSString *suppressionLabelText; // default is "Do not ask me again", can be changed (e.g. if alert is too small)
 @end
