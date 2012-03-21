@@ -126,6 +126,7 @@
 #define UDSaveGameAlertSuppressionKey           @"saveGameWithoutConfirmation"          
 #define UDChangeCoreAlertSuppressionKey         @"changeCoreWithoutConfirmation"
 #define UDControlsButtonHighlightRollsOver      @"ButtonHighlightRollsOver"  /*  affects Preferences -> Controls: After setting the last button (bottom right) of a console the selection automatically jumps back to the first button (top left), if value is true */
+#define UDAutoSwitchCoreAlertSuppressionKey     @"changeCoreWhenLoadingStateWitoutConfirmation"
 // Keys remembering UI State
 #define UDSidebarVisibleKey			@"isSidebarVisible"			/*	sidebar in main window visible	*/
 #define UDSidebarWidthKey			@"lastSidebarWidth"			/*	width of main window sidebar	*/

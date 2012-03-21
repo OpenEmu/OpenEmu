@@ -325,7 +325,14 @@
     if([[self coreIdentifier] isNotEqualTo:[state coreIdentifier]])
     {
         NSLog(@"Invalid save state for current core");
-        return;
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"This save state was created with a different core. Do you want to switch to that core now?" defaultButton:@"OK" alternateButton:@"Cancel"];
+        [alert showSuppressionButtonForUDKey:UDAutoSwitchCoreAlertSuppressionKey];
+        if([alert runModal])
+        {
+            OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
+            [self restartUsingCore:core];
+        }
+        else return;
     }
     
     NSString *path = [[state stateFileURL] path];
