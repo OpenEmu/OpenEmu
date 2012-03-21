@@ -83,6 +83,10 @@
 {
     if((self = [super init]))
     {
+        controlsWindow = [[OEHUDControlsBarWindow alloc] initWithGameViewController:self];
+        [controlsWindow setReleasedWhenClosed:YES];
+        
+        
         [self setRom:aRom];        
         NSURL *url = [[self rom] URL];
 
@@ -94,12 +98,7 @@
             return nil;
         }
 
-        NSView *view = [[NSView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];
-        
-        gameView = [[OEGameView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];
-        [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [view addSubview:gameView];
-        
+        NSView *view = [[NSView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];        
         [self setView:view];
 
         
@@ -117,13 +116,7 @@
             return nil;
         }
         
-        controlsWindow = [[OEHUDControlsBarWindow alloc] initWithGameViewController:self];
-        [controlsWindow setReleasedWhenClosed:YES];
-
         [[self rom] markAsPlayedNow];
-
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc addObserver:self selector:@selector(viewDidChangeFrame:)  name:NSViewFrameDidChangeNotification object:gameView];
     }
     NSLog(@"OEGameViewController init");
     return self;
@@ -229,11 +222,6 @@
     {
         [self OE_terminateEmulationWithoutNotification];
         
-        [gameView removeFromSuperview];
-        gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
-        [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [[self view] addSubview:gameView];
-        
         NSURL   *url   = [[self rom] URL];
         NSError *error = nil;
         if(![self OE_loadFromURL:url core:core error:&error])
@@ -259,6 +247,9 @@
     if(!emulationRunning) return;
     NSLog(@"terminateEmulation");
     
+    if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
+        [self saveStateWithName:OESaveStateAutosaveName];
+    
     [self OE_terminateEmulationWithoutNotification];
     
     if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
@@ -269,15 +260,15 @@
 
 - (void)OE_terminateEmulationWithoutNotification
 {
-    if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
-        [self saveStateWithName:OESaveStateAutosaveName];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
+    [gameView removeFromSuperview];
+    gameView = nil;
     
     emulationRunning = NO;
     [gameView setRootProxy:nil];
     [gameView setGameResponder:nil];
     
     [gameController removeSettingObserver:[rootProxy gameCore]];
-    //[gameWindow makeFirstResponder:nil];
     
     gameSystemController = nil;
     gameSystemResponder  = nil;
@@ -527,9 +518,15 @@
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin *)core error:(NSError **)outError
 {
     NSString *romPath = [aurl path];
-    
     if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
     {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        
+        gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
+        [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [[self view] addSubview:gameView];
+        [nc addObserver:self selector:@selector(viewDidChangeFrame:)  name:NSViewFrameDidChangeNotification object:gameView];
+        
         emulationRunning = YES;
         if(!core)
             core = [self OE_coreForFileExtension:[aurl pathExtension] error:outError];
@@ -564,6 +561,9 @@
                 [gameView setRootProxy:rootProxy];
                 [gameView setGameResponder:gameSystemResponder];
             }
+
+            [[[self view] window] makeFirstResponder:gameView];
+            [gameView resizeSubviewsWithOldSize:[[self view] frame].size];
             
             return YES;
         }
