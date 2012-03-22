@@ -32,4 +32,11 @@
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
+#pragma mark -
+#pragma mark Data Model Properties
+@property (nonatomic, retain) NSString  *name;
+
+#pragma mark -
+#pragma mark Data Model Relationships
+@property (nonatomic, retain) NSSet *games;
 @end

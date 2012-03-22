@@ -642,12 +642,11 @@
 
 - (void)makeNewCollectionWithSelectedGames:(id)sender
 {
-    NSLog(@"makeNewCollectionWithSelectedGames: Not implemented yet.");
-
     NSArray *selectedGames = [self selectedGames];
     id collection = [[[self libraryController] sidebarController] addCollection:NO];
+    [collection setGames:[NSSet setWithArray:selectedGames]];
     
-    NSLog(@"makeNewCollectionWithSelectedGames: only creates new collection");
+    [self setNeedsReload];
 }
 
 - (void)getGameInfoFromArchive:(id)sender
