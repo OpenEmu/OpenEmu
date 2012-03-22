@@ -106,7 +106,7 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
     BOOL                   shouldStop;
 }
 
-@property(weak)           id<OERenderDelegate>  renderDelegate;
+@property(weak)     id<OERenderDelegate>  renderDelegate;
 
 @property(weak)     OEGameCoreController *owner;
 @property(readonly) NSString             *pluginName;

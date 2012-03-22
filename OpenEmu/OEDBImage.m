@@ -51,7 +51,7 @@
 
 #pragma mark -
 
-+ (id)newFromImage:(NSImage *)image inContext:(NSManagedObjectContext *)context
++ (id)imageWithImage:(NSImage *)image inContext:(NSManagedObjectContext *)context
 {
     NSEntityDescription *desc = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
     OEDBImage *imageObject = [[self alloc] initWithEntity:desc insertIntoManagedObjectContext:context];
@@ -75,7 +75,7 @@
     return imageObject;
 }
 
-+ (id)newFromPath:(NSString *)path inContext:(NSManagedObjectContext *)context
++ (id)imageWithPath:(NSString *)path inContext:(NSManagedObjectContext *)context
 {
     NSEntityDescription *desc = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
     
@@ -104,7 +104,7 @@
     return imageObject;
 }
 
-+ (id)newFromURL:(NSURL*)url inContext:(NSManagedObjectContext *)context
++ (id)imageWithURL:(NSURL*)url inContext:(NSManagedObjectContext *)context
 {
     NSEntityDescription *desc = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
     
@@ -134,7 +134,7 @@
     return imageObject;
 }
 
-+ (id)newFromData:(NSData *)data inContext:(NSManagedObjectContext *)context
++ (id)imageFromData:(NSData *)data inContext:(NSManagedObjectContext *)context
 {
     NSEntityDescription *desc = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
     

@@ -545,7 +545,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(img == nil) return;
     
     NSManagedObjectContext *context = [self managedObjectContext];
-    boxImage = [OEDBImage newFromImage:img inContext:context];
+    boxImage = [OEDBImage imageWithImage:img inContext:context];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];

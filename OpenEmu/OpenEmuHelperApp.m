@@ -574,6 +574,16 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     NSLog(@"Finishing separate thread");
 }
 
+- (BOOL)saveStateToFileAtPath:(NSString *)fileName;
+{
+    return [gameCore saveStateToFileAtPath:fileName];
+}
+
+- (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
+{
+    return [gameCore loadStateFromFileAtPath:fileName];
+}
+
 - (void)setupEmulation
 {
     NSLog(@"Setting up emulation");
@@ -711,7 +721,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)forwardInvocationToGameCore:(NSInvocation *)anInvocation;
 {
-    if(gameCore == nil || [self gameThread] == nil) return;
+    if(gameCore == nil) return;
     
     [anInvocation invokeWithTarget:gameCore];
 }
@@ -733,9 +743,14 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)forwardInvocation:(NSInvocation *)invocation
 {
-    if(gameThread == nil || gameCore == nil) return;
+    if(gameCore == nil) return;
     
-    [self performSelector:@selector(forwardInvocationToGameCore:) onThread:[self gameThread] withObject:invocation waitUntilDone:YES];
+    NSThread *thread = [self gameThread];
+    
+    if(thread != nil)
+        [self performSelector:@selector(forwardInvocationToGameCore:) onThread:thread withObject:invocation waitUntilDone:NO];
+    else
+        [invocation invokeWithTarget:gameCore];
 }
 
 @end

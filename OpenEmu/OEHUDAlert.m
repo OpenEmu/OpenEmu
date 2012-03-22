@@ -374,7 +374,7 @@
     [self setSuppressionUDKey:key];
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL checked = [standardUserDefaults valueForKey:[self suppressionUDKey]]!=nil;
+    BOOL checked = [standardUserDefaults valueForKey:[self suppressionUDKey]] != nil;
     [[self suppressionButton] setState:checked];
 }
 
