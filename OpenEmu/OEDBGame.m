@@ -696,7 +696,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 }
 - (NSMutableSet*)mutableCollections
 {
-    return [self mutableSetValueForKeyPath:@"collection"];
+    return [self mutableSetValueForKeyPath:@"collections"];
 }
 - (NSMutableSet*)mutableCredits
 {

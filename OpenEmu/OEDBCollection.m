@@ -39,4 +39,17 @@
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 
+#pragma mark -
+#pragma mark Data Model Properties
+@dynamic name;
+
+#pragma mark -
+#pragma mark Data Model Relationships
+@dynamic games;
+
+- (NSMutableSet*)mutableGames;
+{
+    return [self mutableSetValueForKeyPath:@"games"];
+}
+
 @end
