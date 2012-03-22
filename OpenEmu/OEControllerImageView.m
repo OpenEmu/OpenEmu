@@ -139,6 +139,12 @@
 
 - (void)OE_setHighlightPoint:(CGPoint)value animated:(BOOL)animated;
 {
+    if(animated && ![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(OE_animatedSetHighlightPointOnMainThread:) withObject:[NSValue valueWithPoint:value] waitUntilDone:NO];
+        return;
+    }
+    
     OEControllerImageView *animator = animated ? [self animator] : self;
     
     if(animated) [NSAnimationContext beginGrouping];
@@ -162,6 +168,12 @@
     }
     
     if(animated) [NSAnimationContext endGrouping];
+}
+
+- (void)OE_animatedSetHighlightPointOnMainThread:(NSValue*)value
+{
+    CGPoint p = [value pointValue];
+    [self OE_setHighlightPoint:p animated:YES];
 }
 
 - (void)setOverlayAlpha:(CGFloat)value
