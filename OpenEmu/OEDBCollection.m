@@ -47,4 +47,9 @@
 #pragma mark Data Model Relationships
 @dynamic games;
 
+- (NSMutableSet*)mutableGames;
+{
+    return [self mutableSetValueForKeyPath:@"games"];
+}
+
 @end

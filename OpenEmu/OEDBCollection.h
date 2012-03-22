@@ -38,5 +38,6 @@
 
 #pragma mark -
 #pragma mark Data Model Relationships
-@property (nonatomic, retain) NSSet *games;
+@property (nonatomic, retain)   NSSet        *games;
+@property (nonatomic, readonly) NSMutableSet *mutableGames;
 @end

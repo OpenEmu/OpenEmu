@@ -575,7 +575,7 @@
     {
         if([collection isMemberOfClass:[OEDBCollection class]])
         {
-            NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:[collection valueForKey:@"name"] action:NULL keyEquivalent:@""];
+            NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:[collection valueForKey:@"name"] action:@selector(addSelectedGamesToCollection:) keyEquivalent:@""];
             
             // TODO: might want to use managedObjectID instead
             [collectionMenuItem setRepresentedObject:collection];
@@ -647,6 +647,18 @@
     [collection setGames:[NSSet setWithArray:selectedGames]];
     
     [self setNeedsReload];
+}
+
+- (void)addSelectedGamesToCollection:(id)sender
+{
+    id collection;
+    if(![sender isKindOfClass:[OEDBCollection class]])
+    {
+        collection = [sender representedObject];
+    }
+    
+    NSArray *selectedGames = [self selectedGames];
+    [[collection mutableGames] addObjectsFromArray:selectedGames];
 }
 
 - (void)getGameInfoFromArchive:(id)sender
