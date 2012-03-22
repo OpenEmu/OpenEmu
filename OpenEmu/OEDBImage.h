@@ -34,10 +34,10 @@
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 #pragma mark -
-+ (id)newFromImage:(NSImage *)image inContext:(NSManagedObjectContext *)context;
-+ (id)newFromPath:(NSString *)path inContext:(NSManagedObjectContext *)context;
-+ (id)newFromURL:(NSURL *)url inContext:(NSManagedObjectContext *)context;
-+ (id)newFromData:(NSData *)data inContext:(NSManagedObjectContext *)context;
++ (id)imageWithImage:(NSImage *)image inContext:(NSManagedObjectContext *)context;
++ (id)imageWithPath:(NSString *)path inContext:(NSManagedObjectContext *)context;
++ (id)imageWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context;
++ (id)imageFromData:(NSData *)data inContext:(NSManagedObjectContext *)context;
 // returns image with highest resolution
 - (NSImage *)image;
 - (NSImage *)imageForSize:(NSSize)size;

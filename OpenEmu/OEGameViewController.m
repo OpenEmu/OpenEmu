@@ -86,7 +86,6 @@
         controlsWindow = [[OEHUDControlsBarWindow alloc] initWithGameViewController:self];
         [controlsWindow setReleasedWhenClosed:YES];
         
-        
         [self setRom:aRom];        
         NSURL *url = [[self rom] URL];
 
@@ -98,10 +97,9 @@
             return nil;
         }
 
-        NSView *view = [[NSView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];        
+        NSView *view = [[NSView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];
         [self setView:view];
 
-        
         NSError *error = nil;
         
         if(![self OE_loadFromURL:url core:core error:&error])
@@ -118,6 +116,7 @@
         
         [[self rom] markAsPlayedNow];
     }
+    
     NSLog(@"OEGameViewController init");
     return self;
 }
@@ -246,6 +245,8 @@
 {
     if(!emulationRunning) return;
     NSLog(@"terminateEmulation");
+    
+    [self pauseGame];
     
     if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
         [self saveStateWithName:OESaveStateAutosaveName];
@@ -382,8 +383,6 @@
         return;
     }
     
-    [self pauseGame];
-    
     __block BOOL    success                 = NO;
     NSString        *temporaryDirectoryPath = NSTemporaryDirectory();
     NSURL           *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
@@ -393,7 +392,7 @@
         return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
     }];
     
-    success = [[rootProxy gameCore] saveStateToFileAtPath:[temporaryStateFileURL path]];
+    success = [rootProxy saveStateToFileAtPath:[temporaryStateFileURL path]];
     if(!success)
     {
         NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
@@ -436,7 +435,7 @@
 - (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error
 {
     if(error != NULL) *error = nil;
-    return [[rootProxy gameCore] loadStateFromFileAtPath:fileName];
+    return [rootProxy loadStateFromFileAtPath:fileName];
 }
 
 #pragma mark -

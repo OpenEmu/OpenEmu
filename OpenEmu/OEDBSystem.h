@@ -47,18 +47,18 @@
 
 #pragma mark -
 #pragma mark Data Model Properties
-@property (nonatomic, retain) NSString  *lastLocalizedName;
-@property (nonatomic, retain) NSString  *shortname;
-@property (nonatomic, retain) NSString  *systemIdentifier;
-@property (nonatomic, retain) NSNumber  *archiveID;
-@property (nonatomic, retain) NSString  *archiveName;
-@property (nonatomic, retain) NSString  *archiveShortname;
-@property (nonatomic, retain) NSNumber  *enabled;
+@property(nonatomic, retain) NSString *lastLocalizedName;
+@property(nonatomic, retain) NSString *shortname;
+@property(nonatomic, retain) NSString *systemIdentifier;
+@property(nonatomic, retain) NSNumber *archiveID;
+@property(nonatomic, retain) NSString *archiveName;
+@property(nonatomic, retain) NSString *archiveShortname;
+@property(nonatomic, retain) NSNumber *enabled;
 
 #pragma mark -
 #pragma mark Data Model Relationships
-@property (nonatomic, retain)   NSSet         *games;
-@property (nonatomic, readonly) NSMutableSet  *mutableGames;
+@property(nonatomic, retain)   NSSet         *games;
+@property(nonatomic, readonly) NSMutableSet  *mutableGames;
 
 #pragma mark -
 - (OESystemPlugin *)plugin;
