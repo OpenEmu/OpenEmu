@@ -43,6 +43,7 @@ NSString *const OESaveStateInfoNameKey              = @"Name";
 NSString *const OESaveStateInfoDescriptionKey       = @"Description";
 NSString *const OESaveStateInfoROMMD5Key            = @"ROM MD5";
 NSString *const OESaveStateInfoCoreIdentifierKey    = @"Core Identifier";
+NSString *const OESaveStateInfoTimestampKey         = @"Timestamp";
 
 // NSString *const OESaveStateInfoCreationDateKey   = @"Creation Date";
 // NSString *const OESaveStateInfoBookmarkDataKey   = @"Bookmark Data";
@@ -121,6 +122,8 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         [newSaveState setPath:nil];
         [newSaveState remove];
         newSaveState = nil;
+        
+        NSLog(@"State verification failed");
     }
 
     return newSaveState;
@@ -145,7 +148,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     
     NSError  *error              = nil;
     NSString *fileName           = [NSURL validFilenameFromString:name];
-    NSURL    *saveStateFolderURL = [database stateFolderURLForSystem:[[rom game] system]];
+    NSURL    *saveStateFolderURL = [database stateFolderURLForROM:rom];
     NSURL    *saveStateURL       = [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", fileName, OESaveStateSuffix]];
     
     saveStateURL = [saveStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
@@ -177,9 +180,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     {
         return NO;
     }
-
     [self setURL:bundleURL];
-    
     if(![self rewriteInfoPlist])
     {
         return NO;
@@ -196,15 +197,20 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     NSFileManager   *defaultManager = [NSFileManager defaultManager];
     NSString        *saveStatePath  = [path substringToIndex:range.location+range.length];
     NSURL           *url            = [NSURL fileURLWithPath:saveStatePath];
-    OEDBSaveState   *saveState      = [OEDBSaveState saveStateWithURL:url];    
+    OEDBSaveState   *saveState      = [OEDBSaveState saveStateWithURL:url]; 
     
     if(saveState)
         if([defaultManager fileExistsAtPath:saveStatePath])
             [saveState reloadFromInfoPlist];
         else
+        {
             [saveState remove];
+            return;
+        }
     else if([defaultManager fileExistsAtPath:saveStatePath])
-        [OEDBSaveState createSaveStateWithURL:url];
+        saveState = [OEDBSaveState createSaveStateWithURL:url];
+
+    [saveState moveFileToDefaultLocation];
 }
 #pragma mark -
 - (BOOL)reloadFromInfoPlist
@@ -217,6 +223,8 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         NSString *infoCoreIdentifier    = [infoPlist valueForKey:OESaveStateInfoCoreIdentifierKey];
         NSString *infoUserDescription   = [infoPlist valueForKey:OESaveStateInfoDescriptionKey];
         NSString *infoRomMD5            = [infoPlist valueForKey:OESaveStateInfoROMMD5Key];
+        NSDate   *infoTimestamp         = [infoPlist valueForKey:OESaveStateInfoTimestampKey];
+        
         OEDBRom  *rom                   = [OEDBRom romWithMD5HashString:infoRomMD5 error:nil];
         if(!infoName || !infoCoreIdentifier || !infoRomMD5 || !rom)
             return NO;
@@ -224,6 +232,9 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         [self setName:infoName];
         [self setCoreIdentifier:infoCoreIdentifier];
         [self setRom:rom];
+        
+        if(infoTimestamp)
+            [self setTimestamp:infoTimestamp];
     
         if(infoUserDescription)
             [self setUserDescription:infoUserDescription];
@@ -246,10 +257,9 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [infoPlist setObject:[self name]                forKey:OESaveStateInfoNameKey];
     [infoPlist setObject:[self coreIdentifier]      forKey:OESaveStateInfoCoreIdentifierKey];
     [infoPlist setObject:[[self rom] md5Hash]       forKey:OESaveStateInfoROMMD5Key];
-    
+    [infoPlist setObject:[self timestamp]           forKey:OESaveStateInfoTimestampKey];
     if([self userDescription])
         [infoPlist setObject:[self userDescription] forKey:OESaveStateInfoDescriptionKey];
-
 
     if(![infoPlist writeToURL:[self infoPlistURL] atomically:YES])
         return NO;
@@ -269,6 +279,25 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 {
     [[NSFileManager defaultManager] removeItemAtURL:[self stateFileURL] error:nil];
     [[NSFileManager defaultManager] copyItemAtURL:stateFile toURL:[self stateFileURL] error:nil];
+}
+
+- (void)moveFileToDefaultLocation
+{
+    NSURL    *saveStateFolderURL = [[OELibraryDatabase defaultDatabase] stateFolderURLForROM:[self rom]];
+    NSURL    *newStateURL        = [saveStateFolderURL URLByAppendingPathComponent:[[self URL] lastPathComponent]];
+    NSString *currentFileName    = [[[self URL] lastPathComponent] stringByDeletingPathExtension];
+    newStateURL                  = [newStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %d.%@", currentFileName, triesCount, OESaveStateSuffix]];
+    }];
+    
+    NSError *error = nil;
+    if(![[NSFileManager defaultManager] moveItemAtURL:[self URL] toURL:newStateURL error:&error])
+    {
+        NSLog(@"Error occured while moving State to default location");
+        NSLog(@"%@", [error localizedDescription]);
+        return;
+    }
+    [self setURL:newStateURL];
 }
 #pragma mark -
 #pragma mark Data Model Properties

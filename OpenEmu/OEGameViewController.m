@@ -336,8 +336,10 @@
         else return;
     }
     
+    [self pauseGame];
     NSString *path = [[state stateFileURL] path];
     [self loadStateFromFile:path error:nil];
+    [self playGame];
 }
 
 - (void)deleteSaveState:(id)state

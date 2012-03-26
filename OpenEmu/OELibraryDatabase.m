@@ -197,6 +197,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 @synthesize saveStateWatcher;
 - (void)OE_setupStateWatcher
 {
+    NSLog(@"OE_setupStateWatcher");
     NSString    *path    = [[self stateFolderURL] path];
     OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:path withBlock:^(NSString *path, FSEventStreamEventFlags flags) {
         if([path hasSuffix:@".DS_Store"]) return;
@@ -215,9 +216,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSLog(@"OE_removeStateWatcher");
     [[self saveStateWatcher] stopWatching];
-    NSLog(@"[self saveStateWatcher]: %@", [self saveStateWatcher]);
     [self setSaveStateWatcher:nil];
-    NSLog(@"[self saveStateWatcher]: %@", [self saveStateWatcher]);
 }
 #pragma mark -
 #pragma mark Database Info
@@ -817,9 +816,17 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)stateFolderURLForSystem:(OEDBSystem *)system
 {
-    NSURL *result = [[self stateFolderURL] URLByAppendingPathComponent:[system systemIdentifier] isDirectory:YES];
+    OESystemPlugin *plugin = [system plugin];
+    NSURL *result = [[self stateFolderURL] URLByAppendingPathComponent:[plugin displayName] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
 
+    return result;
+}
+
+- (NSURL *)stateFolderURLForROM:(OEDBRom *)rom
+{
+    NSURL *result = [[self stateFolderURLForSystem:[[rom game] system]] URLByAppendingPathComponent:[[[rom URL] lastPathComponent] stringByDeletingPathExtension]];
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     return result;
 }
 #pragma mark -

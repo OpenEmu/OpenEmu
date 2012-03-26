@@ -61,6 +61,7 @@ extern NSString *const OESaveStateQuicksaveName;
 - (void)remove;
 
 - (void)replaceStateFileWithFile:(NSURL*)stateFile;
+- (void)moveFileToDefaultLocation;
 #pragma mark -
 #pragma mark Data Model Properties
 @property (nonatomic, retain)           NSString *name;
