@@ -125,7 +125,7 @@
 - (void)OE_createEventMonitor;
 - (void)OE_removeEventMonitor;
 
-@property NSRect openRect;
+@property NSRect openRect; 
 
 - (void)OE_repositionMenu;
 - (NSPoint)OE_originForEdge:(OERectEdge)anEdge ofWindow:(NSWindow*)win;
@@ -520,7 +520,6 @@
     if(highlightedItem != value)
     {
         highlightedItem = value;
-        
         self.submenu = [[highlightedItem submenu] convertToOEMenu];
     }
 }
@@ -704,7 +703,7 @@
 }
 #pragma mark -
 - (void)OE_createEventMonitor
-{
+{   
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask | NSScrollWheelMask handler:
                      ^ NSEvent  *(NSEvent *incomingEvent)
                      {
@@ -996,7 +995,7 @@
     [[scrollView documentView] scrollPoint:point];
 
     [self updateScrollerViews:YES];
-    [self highlightItemAtPoint:[self convertPointFromBase:[[self window] convertScreenToBase:[NSEvent mouseLocation]]]];
+    [self setNeedsHighlightItemAtPoint:[self convertPointFromBase:[[self window] convertScreenToBase:[NSEvent mouseLocation]]]];
 }
 
 - (void)updateScrollerViews:(BOOL)animated
@@ -1403,17 +1402,28 @@
 }
 
 #pragma mark -
+- (void)setNeedsHighlightItemAtPoint:(NSPoint)p
+{   
+    [self highlightItemAtPoint:p];
+}
+
 - (void)highlightItemAtPoint:(NSPoint)p
 {
     NSMenuItem *highlighItem = [self itemAtPoint:p];
     
     if(highlighItem != [self menu].highlightedItem)
     {
+        if([[self menu] submenu] && ![highlighItem isSeparatorItem] && highlighItem==nil && (                           // if a submenu is open and we are about to close it AND
+               ((NSMinX([[[self menu] submenu] frame]) > NSMidX([[self menu] frame])) && p.x > NSMinX([self bounds])) ||// submenu is on the right + highlight point is on the right, OR
+               ((NSMaxX([[[self menu] submenu] frame]) < NSMidX([[self menu] frame])) && p.x < NSMaxX([self bounds]))   // submenu is on the left + highlight point is on the left
+           )) 
+           return;                                                                                                      // skip deselecting the submenu so it stays open
+
         if([highlighItem isSeparatorItem])
             highlighItem = nil;
-        
+
         [[self menu] setHighlightedItem:highlighItem];
-        
+
         [self setNeedsDisplay:YES];
     }
 }
@@ -1431,7 +1441,7 @@
         [[self scrollTimer] invalidate];
         [self setScrollTimer:nil];
         
-        [self highlightItemAtPoint:p];
+        [self setNeedsHighlightItemAtPoint:p];
     }
 }
 
