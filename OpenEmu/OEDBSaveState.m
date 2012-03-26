@@ -141,6 +141,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [newSaveState setName:name];
     [newSaveState setRom:rom];
     [newSaveState setCoreIdentifier:[core bundleIdentifier]];
+    [newSaveState setTimestamp:[NSDate date]];
     
     if([name hasPrefix:OESaveStateSpecialNamePrefix])
     {
@@ -234,9 +235,12 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         [self setCoreIdentifier:infoCoreIdentifier];
         [self setRom:rom];
         
+
         if(infoTimestamp)
             [self setTimestamp:infoTimestamp];
-    
+        else
+            [self setTimestamp:[NSDate date]];
+                
         if(infoUserDescription)
             [self setUserDescription:infoUserDescription];
     }

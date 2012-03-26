@@ -575,10 +575,8 @@
     
     for(id collection in collections)
     {
-        if(collection == [self collectionItem]) continue;
-        if([collection isMemberOfClass:[OEDBCollection class]])
+        if([collection isMemberOfClass:[OEDBCollection class]] && collection != [self collectionItem])
         {
-            
             NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:[collection valueForKey:@"name"] action:@selector(addSelectedGamesToCollection:) keyEquivalent:@""];
             
             // TODO: might want to use managedObjectID instead
