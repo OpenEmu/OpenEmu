@@ -59,6 +59,7 @@ extern NSString *const OESaveStateQuicksaveName;
 - (BOOL)reloadFromInfoPlist;
 - (BOOL)rewriteInfoPlist;
 - (void)remove;
+- (void)removeIfMissing;
 
 - (void)replaceStateFileWithFile:(NSURL*)stateFile;
 - (void)moveFileToDefaultLocation;

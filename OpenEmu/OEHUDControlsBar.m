@@ -340,6 +340,8 @@
     [menu addItem:item];
     
     NSArray *saveStates = nil;
+    
+    [[[self gameViewController] rom] removeMissingStates];
     if([[self gameViewController] rom] != nil && (saveStates = [[[self gameViewController] rom] normalSaveStatesByTimestampAscending:YES]) && [saveStates count] != 0)
     {
         [menu addItem:[NSMenuItem separatorItem]];

@@ -490,6 +490,8 @@
     NSSet     *roms = [game roms];
     
     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        [obj removeMissingStates];
+        
         NSMenuItem  *item;
         NSArray     *saveStates = [obj normalSaveStatesByTimestampAscending:NO];
         for(OEDBSaveState *saveState in saveStates)

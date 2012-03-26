@@ -338,6 +338,11 @@
     return [set anyObject];
 }
 
+- (void)removeMissingStates
+{
+    NSSet *set = [[self saveStates] copy];
+    [set makeObjectsPerformSelector:@selector(removeIfMissing)];
+}
 #pragma mark -
 #pragma mark Mainpulating a rom
 - (void)markAsPlayedNow

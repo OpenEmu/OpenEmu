@@ -73,6 +73,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     return [context executeFetchRequest:request error:nil];
 }
 
+
 + (OEDBSaveState*)saveStateWithURL:(NSURL*)url
 {
     return [self saveStateWithURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
@@ -273,6 +274,18 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     NSManagedObjectContext *moc = [self managedObjectContext];
     [moc deleteObject:self];
     [moc save:nil];
+}
+
+- (void)removeIfMissing
+{
+    NSError *error;
+    if(![[self URL] checkResourceIsReachableAndReturnError:&error])
+    {
+        NSLog(@"Removing save state: %@", [self URL]);
+        NSLog(@"Reason: %@", [error localizedDescription]);
+        
+        [self remove];
+    }
 }
 
 - (void)replaceStateFileWithFile:(NSURL*)stateFile
