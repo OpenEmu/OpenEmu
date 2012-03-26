@@ -2,6 +2,7 @@
 //Based on MAME Driver by Takahiro Nogi
 
 #include "tiles_generic.h"
+#include "zet.h"
 
 static UINT8 *AllMem;
 static UINT8 *MemEnd;

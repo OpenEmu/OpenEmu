@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "zet.h"
 #include "hd6309_intf.h"
 #include "m6800_intf.h"
 #include "m6805_intf.h"

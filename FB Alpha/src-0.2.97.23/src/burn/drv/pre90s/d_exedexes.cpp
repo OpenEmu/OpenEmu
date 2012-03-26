@@ -2,6 +2,7 @@
 // Based on MAME driver by Richard Davies, Paul Swan, and various others
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "sn76496.h"
 #include "driver.h"
 extern "C" {

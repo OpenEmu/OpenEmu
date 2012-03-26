@@ -2,6 +2,8 @@
 // Based on MAME driver by Paul Priest and David Haywood
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ymf278b.h"
 
 static UINT8 *AllMem;

@@ -1,5 +1,6 @@
 // 680x0 (Sixty Eight K) Interface
 #include "burnint.h"
+#include "sek.h"
 #include "sekdebug.h"
 
 #ifdef EMU_M68K

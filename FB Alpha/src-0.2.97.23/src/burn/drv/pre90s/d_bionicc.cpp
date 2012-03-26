@@ -2,6 +2,8 @@
 // Based on MAME driver by Steven Frew, Phil Stroffolino, and Paul Leaman
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym2151.h"
 
 static UINT8 DrvJoy1[8];

@@ -2,6 +2,7 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "konamiic.h"
 #include "k007232.h"
 #include "m6809_intf.h"

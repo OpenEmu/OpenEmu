@@ -2,6 +2,8 @@
 // Based on MAME driver by Carlos A. Lozano, Phil Stroffolino, and Takahiro Nogi
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym3812.h"
 #include "dac.h"
 
@@ -49,7 +51,6 @@ static INT32 yoffset;
 static INT32 xoffset;
 static INT32 irqline;
 
-static INT16 *DACBuffer;
 static INT32 Terrafjb = 0;
 
 static struct BurnInputInfo ArmedfInputList[] = {
@@ -665,6 +666,11 @@ static INT32 DrvSynchroniseStream(INT32 nSoundRate)
 	return (INT64)ZetTotalCycles() * nSoundRate / 4000000;
 }
 
+static INT32 DrvSyncDAC()
+{
+	return (INT32)(float)(nBurnSoundLen * (ZetTotalCycles() / (4000000.000 / (nBurnFPS / 100.000))));
+}
+
 static INT32 DrvDoReset()
 {
 	DrvReset = 0;
@@ -709,8 +715,6 @@ static INT32 MemIndex()
 
 	DrvPalette	= (UINT32*)Next; Next += 0x0800 * sizeof(UINT32);
 	
-	DACBuffer   = (INT16*)Next; Next += nBurnSoundLen * 2 * sizeof(INT16);
-
 	AllRam		= Next;
 
 	DrvSprRAM	= Next; Next += 0x001000;
@@ -865,8 +869,8 @@ static INT32 DrvInit(INT32 (*pLoadRoms)(), void (*p68KInit)(), INT32 zLen)
 	BurnYM3812Init(4000000, NULL, &DrvSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(4000000);
 
-	DACInit(0, 0, 0);
-	DACInit(1, 0, 0);
+	DACInit(0, 0, 1, DrvSyncDAC);
+	DACInit(1, 0, 1, DrvSyncDAC);
 	DACSetVolShift(0, 1);
 	DACSetVolShift(1, 1);
 
@@ -1111,7 +1115,7 @@ static INT32 DrvFrame()
 	AssembleInputs();
 
 	INT32 nSegment;
-	INT32 nInterleave = nBurnSoundLen;
+	INT32 nInterleave = 100;
 	INT32 nTotalCycles[3] = { 8000000 / 60, 4000000 / 60, 4000000 / 60 };
 	INT32 nCyclesDone[3] = { 0, 0, 0 };
 	
@@ -1120,8 +1124,6 @@ static INT32 DrvFrame()
 		Z80IRQSlice[i] = (INT32)((double)((nInterleave * (i + 1)) / 10));
 	}
 	
-	INT32 nSoundBufferPos = 0;
-
 	SekOpen(0);
 	ZetOpen(0);
 	
@@ -1154,29 +1156,13 @@ static INT32 DrvFrame()
 			ZetClose();
 			ZetOpen(0);
 		}
-
-		if (pBurnSoundOut) {
-			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
-			INT16* pSoundBuf = DACBuffer + (nSoundBufferPos << 1);
-			DACUpdate(pSoundBuf, nSegmentLength);
-			nSoundBufferPos += nSegmentLength;
-		}
 	}
 	
 	BurnTimerEndFrameYM3812(nTotalCycles[1]);
 	
 	if (pBurnSoundOut) {
-		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
-		INT16* pSoundBuf = DACBuffer + (nSoundBufferPos << 1);
-		if (nSegmentLength) {
-			DACUpdate(pSoundBuf, nSegmentLength);
-		}
-		
 		BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
-		for (INT32 i = 0; i < nBurnSoundLen; i++) {
-			pBurnSoundOut[(i << 1) + 0] += DACBuffer[(i << 1) + 0];
-			pBurnSoundOut[(i << 1) + 1] += DACBuffer[(i << 1) + 1];
-		}
+		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
 	
 	SekSetIRQLine(irqline, SEK_IRQSTATUS_AUTO);

@@ -2,6 +2,8 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym2610.h"
 
 static UINT8 DrvJoy1[16];

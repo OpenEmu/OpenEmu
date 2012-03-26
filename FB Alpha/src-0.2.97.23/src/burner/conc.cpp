@@ -42,7 +42,7 @@ static INT32 ConfigParseFile(TCHAR* pszFilename)
 {
 #define INSIDE_NOTHING (0xFFFF & (1 << ((sizeof(TCHAR) * 8) - 1)))
 
-	TCHAR szLine[1024];
+	TCHAR szLine[8192];
 	TCHAR* s;
 	TCHAR* t;
 	INT32 nLen;

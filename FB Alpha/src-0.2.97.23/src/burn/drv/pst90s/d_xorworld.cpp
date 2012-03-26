@@ -2,6 +2,8 @@
 // Based on MAME driver by Manuel Abadia
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "saa1099.h"
 #include "eeprom.h"
 

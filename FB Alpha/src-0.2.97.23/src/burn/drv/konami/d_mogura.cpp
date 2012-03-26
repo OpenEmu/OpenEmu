@@ -2,6 +2,7 @@
 // Based on MAME driver by David Haywood
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "dac.h"
 
 static UINT8 *AllMem;
@@ -169,6 +170,11 @@ static void DrvPaletteInit()
 	}
 }
 
+static INT32 moguraDACSync()
+{
+	return (INT32)(float)(nBurnSoundLen * (ZetTotalCycles() / (3000000.0000 / (nBurnFPS / 100.0000))));
+}
+
 static INT32 DrvDoReset()
 {
 	memset (AllRam, 0, RamEnd - AllRam);
@@ -241,8 +247,8 @@ static INT32 DrvInit()
 	ZetMemEnd();
 	ZetClose();
 
-	DACInit(0, 0, 0);
-	DACInit(1, 0, 0);
+	DACInit(0, 0, 0, moguraDACSync);
+	DACInit(1, 0, 0, moguraDACSync);
 
 	GenericTilesInit();
 
@@ -300,6 +306,8 @@ static INT32 DrvFrame()
 		DrvDoReset();
 	}
 
+	ZetNewFrame();
+
 	{
 		DrvInputs[0] = 0xff;
 		DrvInputs[1] = 0x00;
@@ -324,34 +332,13 @@ static INT32 DrvFrame()
 	MoguraClearOpposites(&DrvInputs[3]);
 	MoguraClearOpposites(&DrvInputs[4]);
 
-	INT32 nInterleave = nBurnSoundLen ? nBurnSoundLen : 1;
-	INT32 nSoundBufferPos = 0;
-	INT32 nTotalCycles = 3000000 / 60;
-
 	ZetOpen(0);
-
-	for (INT32 i = 0; i < nInterleave; i++)
-	{
-		ZetRun(nTotalCycles / nInterleave);
-
-		if (pBurnSoundOut) {
-			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
-			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-			DACUpdate(pSoundBuf, nSegmentLength);
-			nSoundBufferPos += nSegmentLength;
-		}
-	}
+	ZetRun(3000000 / 60);
+	ZetRaiseIrq(0);
 
 	if (pBurnSoundOut) {
-		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
-		INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-
-		if (nSegmentLength) {
-			DACUpdate(pSoundBuf, nSegmentLength);
-		}
+		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
-
-	ZetRaiseIrq(0);
 
 	ZetClose();
 

@@ -1,4 +1,6 @@
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym3812.h"
 #include "upd7759.h"
 
@@ -498,7 +500,7 @@ static INT32 DrvDoReset()
 void pow_paletteram16_word_w(UINT32 address)
 {
 	INT32 r,g,b;
-	UINT16 data = *((UINT16*)(DrvPalRam + (address & 0x0ffe)));
+	UINT16 data = BURN_ENDIAN_SWAP_INT16(*((UINT16*)(DrvPalRam + (address & 0x0ffe))));
 
 	r = ((data >> 7) & 0x1e) | ((data >> 14) & 0x01);
 	g = ((data >> 3) & 0x1e) | ((data >> 13) & 0x01);
@@ -518,13 +520,13 @@ void __fastcall pow_write_word(UINT32 address, UINT16 data)
 		if (!(address & 2))
 		data |= 0xff00;
 
-		*((UINT16 *)(DrvSprRam + (address & 0x7fff))) = data;
+		*((UINT16 *)(DrvSprRam + (address & 0x7fff))) = BURN_ENDIAN_SWAP_INT16(data);
 
 		return;
 	}
 
 	if ((address & 0xfffff000) == 0x400000) {
-		*((UINT16 *)(DrvPalRam + (address & 0x0ffe))) = data;
+		*((UINT16 *)(DrvPalRam + (address & 0x0ffe))) = BURN_ENDIAN_SWAP_INT16(data);
 
 		pow_paletteram16_word_w(address);
 
@@ -988,8 +990,8 @@ static void pow_sprites(INT32 j, INT32 pos)
 
 	for (offs = pos; offs < pos+0x800; offs += 0x80 )
 	{
-		mx=(spriteram16[(offs+4+(4*j))>>1]&0xff)<<4;
-		my=spriteram16[(offs+6+(4*j))>>1];
+		mx=(BURN_ENDIAN_SWAP_INT16(spriteram16[(offs+4+(4*j))>>1])&0xff)<<4;
+		my=BURN_ENDIAN_SWAP_INT16(spriteram16[(offs+6+(4*j))>>1]);
 		mx=mx+(my>>12);
 		mx=((mx+16)&0x1ff)-16;
 
@@ -1008,11 +1010,11 @@ static void pow_sprites(INT32 j, INT32 pos)
 
 		for (i = 0; i < 0x80; i+=4)
 		{
-			color = spriteram16[(offs+i+(0x1000*j)+0x1000)>>1]&0x7f;
+			color = BURN_ENDIAN_SWAP_INT16(spriteram16[(offs+i+(0x1000*j)+0x1000)>>1])&0x7f;
 
 			if (color)
 			{
-				tile=spriteram16[(offs+2+i+(0x1000*j)+0x1000)>>1];
+				tile=BURN_ENDIAN_SWAP_INT16(spriteram16[(offs+2+i+(0x1000*j)+0x1000)>>1]);
 				fy=tile&0x8000;
 				fx=tile&0x4000;
 				tile&=0x3fff;
@@ -1059,8 +1061,8 @@ static void sar_sprites(INT32 j, INT32 z, INT32 pos)
 
 	for (offs = pos; offs < pos+0x800 ; offs += 0x80 )
 	{
-		mx=spriteram16[(offs+j)>>1];
-		my=spriteram16[(offs+j+2)>>1];
+		mx=BURN_ENDIAN_SWAP_INT16(spriteram16[(offs+j)>>1]);
+		my=BURN_ENDIAN_SWAP_INT16(spriteram16[(offs+j+2)>>1]);
 
 		mx=mx<<4;
 		mx=mx|((my>>12)&0xf);
@@ -1082,11 +1084,11 @@ static void sar_sprites(INT32 j, INT32 z, INT32 pos)
 
 		for (i = 0; i < 0x80; i += 4)
 		{
-			color = spriteram16[(offs+i+z)>>1] & 0x7f;
+			color = BURN_ENDIAN_SWAP_INT16(spriteram16[(offs+i+z)>>1]) & 0x7f;
 
 			if (color)
 			{
-				tile = spriteram16[(offs+2+i+z)>>1];
+				tile = BURN_ENDIAN_SWAP_INT16(spriteram16[(offs+2+i+z)>>1]);
 
 				if (sprite_flip) {
 					fx=0;
@@ -1150,8 +1152,8 @@ static void pow_foreground()
 		if (sy < 16 || sy > 239) continue;
 		sy -= 16;
 
-		INT32 code  = (vidram[offs | 0] & 0xff) | pow_charbase;
-		INT32 color = vidram[offs | 1] & 0x0f;
+		INT32 code  = (BURN_ENDIAN_SWAP_INT16(vidram[offs | 0]) & 0xff) | pow_charbase;
+		INT32 color = BURN_ENDIAN_SWAP_INT16(vidram[offs | 1]) & 0x0f;
 
 		if (DrvGfx0Trans[code]) continue;
 
@@ -1180,7 +1182,7 @@ static void sar_foreground()
 		if (sy < 16 || sy > 239) continue;
 		sy -= 16;
 
-		INT32 code = vidram[offs];
+		INT32 code = BURN_ENDIAN_SWAP_INT16(vidram[offs]);
 		INT32 color = code >> 12;
 
 		// kludge for bad tile (ikari)

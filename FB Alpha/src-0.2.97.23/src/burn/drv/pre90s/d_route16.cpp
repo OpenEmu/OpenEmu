@@ -2,6 +2,7 @@
 // Based on code by Zsolt Vasvari
 
 #include "burnint.h"
+#include "zet.h"
 #include "driver.h"
 #include "dac.h"
 extern "C" {
@@ -409,6 +410,11 @@ void stratvox_sn76477_write(UINT32, UINT32)
 
 }
 
+static INT32 DrvSyncDAC()
+{
+	return (INT32)(float)(nBurnSoundLen * (ZetTotalCycles() / (2500000.000 / (nBurnFPS / 100.000))));
+}
+
 static INT32 DrvInit()
 {
 	Mem = (UINT8*)BurnMalloc(0x10000 + 0x10000 + 0x200);
@@ -458,7 +464,7 @@ static INT32 DrvInit()
 
 	AY8910Init(0, 1250000, nBurnSoundRate, NULL, NULL, &stratvox_sn76477_write, NULL);
 	
-	DACInit(0, 0, 1);
+	DACInit(0, 0, 1, DrvSyncDAC);
 	DACSetVolShift(0, 2);
 
 	DrvDoReset();
@@ -567,7 +573,7 @@ static INT32 DrvFrame()
 	}
 
 	INT32 nSoundBufferPos = 0;
-	INT32 nInterleave = nBurnSoundLen;
+	INT32 nInterleave = 100;
 	
 	INT32 DACIRQFireSlice[48];
 	for (INT32 i = 0; i < 48; i++) {
@@ -580,6 +586,8 @@ static INT32 DrvFrame()
 	nCyclesTotal[0] = 2500000 / 60;
 	nCyclesTotal[1] = 2500000 / 60;
 	nCyclesDone[0] = nCyclesDone[1] = 0;
+	
+	ZetNewFrame();
 
 	for (INT32 i = 0; i < nInterleave; i++) {
 		INT32 nCurrentCPU, nNext;
@@ -627,9 +635,7 @@ static INT32 DrvFrame()
 				pSoundBuf[(n << 1) + 0] = nSample;
 				pSoundBuf[(n << 1) + 1] = nSample;
 			}
-
-			DACUpdate(pSoundBuf, nSegmentLength);
-
+			
 			nSoundBufferPos += nSegmentLength;
 		}
 	}
@@ -654,8 +660,8 @@ static INT32 DrvFrame()
 				pSoundBuf[(n << 1) + 1] = nSample;
 			}
 		}
-
-		DACUpdate(pSoundBuf, nSegmentLength);
+		
+		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
 
 	if (pBurnDraw) {

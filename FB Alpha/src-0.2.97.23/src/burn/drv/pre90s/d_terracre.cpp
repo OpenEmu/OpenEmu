@@ -1,4 +1,6 @@
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym3526.h"
 #include "burn_ym2203.h"
 #include "dac.h"
@@ -28,7 +30,6 @@ static UINT8 *DrvTiles            = NULL;
 static UINT8 *DrvSprites          = NULL;
 static UINT8 *DrvTempRom          = NULL;
 static UINT32 *DrvPalette         = NULL;
-static INT16 *DACBuffer           = NULL;
 
 static UINT8 DrvRecalcPal         = 0;
 static UINT16 DrvScrollX          = 0;
@@ -671,7 +672,6 @@ static INT32 MemIndex()
 	DrvTiles               = Next; Next += 0x400 * 16 * 16;
 	DrvSprites             = Next; Next += 0x400 * 16 * 16;
 	DrvPalette             = (UINT32*)Next; Next += 0x1110 * sizeof(UINT32);
-	DACBuffer              = (INT16*)Next; Next += nBurnSoundLen * 2 * sizeof(INT16);
 
 	MemEnd                 = Next;
 
@@ -1008,6 +1008,11 @@ inline static double DrvGetTime()
 	return (double)ZetTotalCycles() / 4000000;
 }
 
+static INT32 TerracreSyncDAC()
+{
+	return (INT32)(float)(nBurnSoundLen * (ZetTotalCycles() / (4000000.0000 / (nBurnFPS / 100.0000))));
+}
+
 static INT32 CharPlaneOffsets[4]       = { 0, 1, 2, 3 };
 static INT32 CharXOffsets[8]           = { 4, 0, 12, 8, 20, 16, 28, 24 };
 static INT32 CharYOffsets[8]           = { 0, 32, 64, 96, 128, 160, 192, 224 };
@@ -1070,8 +1075,8 @@ static INT32 DrvInit()
 		BurnTimerAttachZetYM3526(4000000);
 	}
 	
-	DACInit(0, 0, 0);
-	DACInit(1, 0, 0);
+	DACInit(0, 0, 1, TerracreSyncDAC);
+	DACInit(1, 0, 1, TerracreSyncDAC);
 	DACSetVolShift(0, 1);
 	DACSetVolShift(1, 1);
 	
@@ -1124,8 +1129,8 @@ static INT32 DrvAmazonInit()
 	BurnYM3526Init(4000000, NULL, &DrvSynchroniseStream, 0);
 	BurnTimerAttachZetYM3526(4000000);
 	
-	DACInit(0, 0, 0);
-	DACInit(1, 0, 0);
+	DACInit(0, 0, 1, TerracreSyncDAC);
+	DACInit(1, 0, 1, TerracreSyncDAC);
 	DACSetVolShift(0, 2);
 	DACSetVolShift(1, 2);
 	
@@ -1700,8 +1705,7 @@ static INT32 DrvFrame()
 	INT32 nCyclesTotal[2] = { 8000000 / 60, 4000000 / 60 };
 	INT32 nCyclesDone[2] = { 0, 0 };
 	
-	INT32 nInterleave = nBurnSoundLen;
-	INT32 nSoundBufferPos = 0;
+	INT32 nInterleave = 100;
 	
 	if (DrvReset) DrvDoReset();
 
@@ -1744,11 +1748,6 @@ static INT32 DrvFrame()
 			}
 		}
 		ZetClose();
-		
-		INT32 nSegmentLength = nBurnSoundLen / nInterleave;
-		INT16* pSoundBuf = DACBuffer + (nSoundBufferPos << 1);
-		DACUpdate(pSoundBuf, nSegmentLength);
-		nSoundBufferPos += nSegmentLength;
 	}
 	
 	ZetOpen(0);
@@ -1758,21 +1757,12 @@ static INT32 DrvFrame()
 		BurnTimerEndFrameYM3526(nCyclesTotal[1]);
 	}
 	if (pBurnSoundOut) {
-		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
-		INT16* pSoundBuf = DACBuffer + (nSoundBufferPos << 1);
-		if (nSegmentLength) {
-			DACUpdate(pSoundBuf, nSegmentLength);
-		}
-		
 		if (DrvUseYM2203) {
 			BurnYM2203Update(pBurnSoundOut, nBurnSoundLen);
 		} else {
 			BurnYM3526Update(pBurnSoundOut, nBurnSoundLen);
 		}
-		for (INT32 i = 0; i < nBurnSoundLen; i++) {
-			pBurnSoundOut[(i << 1) + 0] += DACBuffer[(i << 1) + 0];
-			pBurnSoundOut[(i << 1) + 1] += DACBuffer[(i << 1) + 1];
-		}
+		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
 	ZetClose();
 	

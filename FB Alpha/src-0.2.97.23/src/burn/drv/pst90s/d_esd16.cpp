@@ -2,6 +2,8 @@
 // Based on MAME driver by Luca Elia
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "eeprom.h"
 #include "burn_ym3812.h"
 #include "msm6295.h"

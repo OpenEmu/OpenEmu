@@ -2,6 +2,8 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "seibusnd.h"
 
 static UINT8 *AllMem;

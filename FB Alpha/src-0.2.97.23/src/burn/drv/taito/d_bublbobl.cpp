@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "zet.h"
 #include "m6800_intf.h"
 #include "taito_m68705.h"
 #include "burn_ym2203.h"
@@ -633,6 +634,29 @@ static struct BurnRomInfo BoblboblRomDesc[] = {
 
 STD_ROM_PICK(Boblbobl)
 STD_ROM_FN(Boblbobl)
+
+static struct BurnRomInfo Boblbobl2RomDesc[] = {
+	{ "cpu2-3.bin",    0x08000, 0x2d9107b6, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
+	{ "bb5",           0x08000, 0x13118eb1, BRF_ESS | BRF_PRG }, //	 1
+	{ "cpu2-4.bin",    0x08000, 0x3f9fed10, BRF_ESS | BRF_PRG }, //	 2
+	
+	{ "a78-08.37",     0x08000, 0xae11a07b, BRF_ESS | BRF_PRG }, //  3	Z80 #2 Program 
+	
+	{ "a78-07.46",     0x08000, 0x4f9a26e8, BRF_ESS | BRF_PRG }, //  4	Z80 #3 Program 
+	
+	{ "gfx7.bin",      0x10000, 0x702f61c0, BRF_GRA },	     //  5	Tiles
+	{ "gfx8.bin",      0x10000, 0x677840e8, BRF_GRA },	     //  6
+	{ "a78-13.16",     0x08000, 0xd0af35c5, BRF_GRA },	     //  7
+	{ "a78-14.17",     0x08000, 0x7b5369a8, BRF_GRA },	     //  8
+	{ "gfx10.bin",     0x10000, 0xd370f499, BRF_GRA },	     //  9
+	{ "gfx11.bin",     0x10000, 0x76f2b367, BRF_GRA },	     //  10
+	{ "a78-20.35",     0x08000, 0x9ef863ad, BRF_GRA },	     //  11
+
+	{ "a71-25.41",     0x00100, 0x2d0f8545, BRF_GRA },	     //  12	PROMs
+};
+
+STD_ROM_PICK(Boblbobl2)
+STD_ROM_FN(Boblbobl2)
 
 static struct BurnRomInfo SboblboaRomDesc[] = {
 	{ "1c.bin",        0x08000, 0xf304152a, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
@@ -1848,9 +1872,61 @@ static INT32 BoblboblCallback()
 	return 0;
 }
 
+static INT32 Boblbobl2Callback()
+{
+	INT32 nRet = 0;
+	
+	DrvTempRom = (UINT8 *)BurnMalloc(0x80000);
+
+	// Load Z80 #1 Program Roms
+	nRet = BurnLoadRom(DrvZ80Rom1 + 0x00000, 0, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvZ80Rom1 + 0x10000, 1, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvZ80Rom1 + 0x18000, 2, 1); if (nRet != 0) return 1;
+	
+	// Load Z80 #2 Program Roms
+	nRet = BurnLoadRom(DrvZ80Rom2 + 0x00000, 3, 1); if (nRet != 0) return 1;
+	
+	// Load Z80 #3 Program Roms
+	nRet = BurnLoadRom(DrvZ80Rom3 + 0x00000, 4, 1); if (nRet != 0) return 1;
+	
+	// Load and decode the tiles
+	nRet = BurnLoadRom(DrvTempRom + 0x00000,  5, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x10000,  6, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x20000,  7, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x28000,  8, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x50000,  9, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x60000, 10, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x68000, 11, 1); if (nRet != 0) return 1;
+	for (INT32 i = 0; i < 0x80000; i++) DrvTempRom[i] ^= 0xff;
+	GfxDecode(0x4000, 4, 8, 8, TilePlaneOffsets, TileXOffsets, TileYOffsets, 0x80, DrvTempRom, DrvTiles);
+	
+	// Load the PROM
+	nRet = BurnLoadRom(DrvProm + 0x00000,  12, 1); if (nRet != 0) return 1;
+	
+	BurnFree(DrvTempRom);
+	
+	ZetOpen(0);
+	ZetSetReadHandler(BoblboblRead1);
+	ZetSetWriteHandler(BoblboblWrite1);
+	ZetMemCallback(0xfe00, 0xffff, 0);
+	ZetMemCallback(0xfe00, 0xffff, 1);
+	ZetMemCallback(0xfe00, 0xffff, 2);
+	ZetMemEnd();
+	ZetClose();
+	
+	return 0;
+}
+
 static INT32 BoblboblInit()
 {
 	BublboblCallbackFunction = BoblboblCallback;
+	
+	return MachineInit();
+}
+
+static INT32 Boblbobl2Init()
+{
+	BublboblCallbackFunction = Boblbobl2Callback;
 	
 	return MachineInit();
 }
@@ -2523,11 +2599,21 @@ struct BurnDriver BurnDrvBubbobr1 = {
 
 struct BurnDriver BurnDrvBoblbobl = {
 	"boblbobl", "bublbobl", NULL, NULL, "1986",
-	"Bobble Bobble\0", NULL, "bootleg", "Taito Misc",
+	"Bobble Bobble (set 1)\0", NULL, "bootleg", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
 	NULL, BoblboblRomInfo, BoblboblRomName, NULL, NULL, BoblboblInputInfo, BoblboblDIPInfo,
 	BoblboblInit, BublboblExit, DrvFrame, NULL, DrvScan,
+	NULL, 0x100, 256, 224, 4, 3
+};
+
+struct BurnDriverD BurnDrvBoblbobl2 = {
+	"boblbobl2", "bublbobl", NULL, NULL, "1986",
+	"Bobble Bobble (set 2)\0", NULL, "bootleg", "Taito Misc",
+	NULL, NULL, NULL, NULL,
+	BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
+	NULL, Boblbobl2RomInfo, Boblbobl2RomName, NULL, NULL, BoblboblInputInfo, BoblboblDIPInfo,
+	Boblbobl2Init, BublboblExit, DrvFrame, NULL, DrvScan,
 	NULL, 0x100, 256, 224, 4, 3
 };
 

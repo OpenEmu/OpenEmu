@@ -2,6 +2,7 @@
 // Based on MAME driver by Manuel Abadia with various bits by Nicola Salmoria and Andreas Naive
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "m6809_intf.h"
 #include "msm6295.h"
 #include "burn_ym3812.h"
@@ -513,7 +514,7 @@ static void palette_write(INT32 offset)
 {
 	offset = offset & 0x7fe;
 
-	UINT16 p = *((UINT16*)(DrvPalRAM + offset));
+	UINT16 p = BURN_ENDIAN_SWAP_INT16(*((UINT16*)(DrvPalRAM + offset)));
 
 	INT32 r = (p >>  0) & 0x1f;
 	INT32 g = (p >>  5) & 0x1f;
@@ -529,7 +530,7 @@ static void palette_write(INT32 offset)
 void __fastcall main_write_word(UINT32 address, UINT16 data)
 {
 	if ((address & 0xffc000) == 0x100000) {
-		*((UINT16*)(DrvVidRAM + (address & 0x3ffe))) = gaelco_decrypt((address & 0x3ffe)/2, data, gaelco_encryption_param1, 0x4228);
+		*((UINT16*)(DrvVidRAM + (address & 0x3ffe))) = BURN_ENDIAN_SWAP_INT16(gaelco_decrypt((address & 0x3ffe)/2, data, gaelco_encryption_param1, 0x4228));
 		return;
 	}
 
@@ -543,7 +544,7 @@ void __fastcall main_write_word(UINT32 address, UINT16 data)
 		case 0x108005:
 		case 0x108006:
 		case 0x108007:
-			*((UINT16*)(DrvVidRegs + (address & 0x06))) = data;
+			*((UINT16*)(DrvVidRegs + (address & 0x06))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 
 		case 0x10800c:
@@ -671,7 +672,7 @@ UINT8 __fastcall main_read_byte(UINT32 address)
 void __fastcall palette_write_word(UINT32 address, UINT16 data)
 {
 	if ((address & 0xfff800) == 0x200000) {
-		*((UINT16 *)(DrvPalRAM + (address & 0x7fe))) = data;
+		*((UINT16 *)(DrvPalRAM + (address & 0x7fe))) = BURN_ENDIAN_SWAP_INT16(data);
 		palette_write(address);
 		return;
 	}
@@ -1021,12 +1022,12 @@ static void draw_sprites()
 
 	for (INT32 i = 0x800 - 4 - 1; i >= 3; i -= 4)
 	{
-		INT32 sx = spriteram[i + 2] & 0x01ff;
-		INT32 sy = (240 - (spriteram[i] & 0x00ff)) & 0x00ff;
-		INT32 number = spriteram[i + 3];
-		INT32 color = (spriteram[i + 2] & 0x7e00) >> 9;
-		INT32 attr = (spriteram[i] & 0xfe00) >> 9;
-		INT32 priority = (spriteram[i] & 0x3000) >> 12;
+		INT32 sx = BURN_ENDIAN_SWAP_INT16(spriteram[i + 2]) & 0x01ff;
+		INT32 sy = (240 - (BURN_ENDIAN_SWAP_INT16(spriteram[i]) & 0x00ff)) & 0x00ff;
+		INT32 number = BURN_ENDIAN_SWAP_INT16(spriteram[i + 3]);
+		INT32 color = (BURN_ENDIAN_SWAP_INT16(spriteram[i + 2]) & 0x7e00) >> 9;
+		INT32 attr = (BURN_ENDIAN_SWAP_INT16(spriteram[i]) & 0xfe00) >> 9;
+		INT32 priority = (BURN_ENDIAN_SWAP_INT16(spriteram[i]) & 0x3000) >> 12;
 
 		INT32 xflip = attr & 0x20;
 		INT32 yflip = attr & 0x40;
@@ -1070,13 +1071,13 @@ static void draw_layer(INT32 offset, INT32 mask, INT32 category, INT32 priority)
 	UINT16 *reg = (UINT16*)(DrvVidRegs + (offset / 0x1000) * 4);
 	UINT16 *ram = (UINT16*)(DrvVidRAM + offset);
 
-	INT32 scrolly = (reg[0] + 16) & 0x1ff;
-	INT32 scrollx = (reg[1] + (offset ? 0 : 4)) & 0x1ff;
+	INT32 scrolly = (BURN_ENDIAN_SWAP_INT16(reg[0]) + 16) & 0x1ff;
+	INT32 scrollx = (BURN_ENDIAN_SWAP_INT16(reg[1]) + (offset ? 0 : 4)) & 0x1ff;
 
 	for (INT32 offs = 0; offs < 32 * 32; offs++)
 	{
-		INT32 attr0 = ram[offs * 2 + 0];
-		INT32 attr1 = ram[offs * 2 + 1];
+		INT32 attr0 = BURN_ENDIAN_SWAP_INT16(ram[offs * 2 + 0]);
+		INT32 attr1 = BURN_ENDIAN_SWAP_INT16(ram[offs * 2 + 1]);
 
 		INT32 code  = (attr0 & 0xfffc) >> 2;
 		INT32 flipy = (attr0 & 0x0002);

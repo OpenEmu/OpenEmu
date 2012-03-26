@@ -1,5 +1,6 @@
 #include "tiles_generic.h"
 #include "taito_m68705.h"
+#include "zet.h"
 #include "driver.h"
 #include "dac.h"
 extern "C" {
@@ -667,6 +668,11 @@ UINT8 __fastcall flstory_sound_read(UINT16 address)
 	return 0;
 }
 
+static INT32 flstoryDACSync()
+{
+	return (INT32)(float)(nBurnSoundLen * (ZetTotalCycles() / (4000000.000 / (nBurnFPS / 100.000))));
+}
+
 static INT32 DrvDoReset()
 {
 	DrvReset = 0;
@@ -733,7 +739,7 @@ static INT32 MemIndex()
 	return 0;
 }
 
-static INT32 DrvGfxDecode() // 0, 0x100
+static INT32 DrvGfxDecode()
 {
 	INT32 Plane[4]  = { 0x80000, 0x80004, 0x00000, 0x00004 };
 	INT32 XOffs[16] = { 3, 2, 1, 0, 8+3, 8+2, 8+1, 8+0, 16*8+3, 16*8+2, 16*8+1, 16*8+0, 16*8+8+3, 16*8+8+2, 16*8+8+1, 16*8+8+0 };
@@ -871,8 +877,8 @@ static INT32 DrvInit()
 
 	AY8910Init(0, 2000000, nBurnSoundRate, NULL, NULL, NULL, NULL);
 
-	DACInit(0, 0, 1);
-	DACSetVolShift(0, 4);
+	DACInit(0, 0, 1, flstoryDACSync);
+	DACSetVolShift(0, 2);
 
 	GenericTilesInit();
 
@@ -1128,6 +1134,8 @@ static INT32 DrvFrame()
 		DrvDoReset();
 	}
 
+	ZetNewFrame();
+
 	{
 		memset (DrvInputs, 0xff, 5);
 		for (INT32 i = 0; i < 8; i++) {
@@ -1139,8 +1147,7 @@ static INT32 DrvFrame()
 		}
 	}
 
-	INT32 nSoundBufferPos = 0;
-	INT32 nInterleave = nBurnSoundLen ? nBurnSoundLen : 100;
+	INT32 nInterleave = 100;
 	INT32 nCyclesTotal[3] = { 5366500 / 60, 4000000 / 60, 3072000 / 60 };
 	INT32 nCyclesDone[3]  = { 0, 0, 0 };
 	if (select_game == 2) nCyclesTotal[0] = nCyclesTotal[1];
@@ -1167,53 +1174,30 @@ static INT32 DrvFrame()
 			nCyclesDone[2] += m6805Run(nSegment);
 			m6805Close();
 		}
-
-		if (pBurnSoundOut) {
-			INT32 nSample;
-			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
-			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n];
-				nSample += pAY8910Buffer[1][n];
-				nSample += pAY8910Buffer[2][n];
-
-				nSample /= 4;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
-
-			DACUpdate(pSoundBuf, nSegmentLength);
-
-			nSoundBufferPos += nSegmentLength;
-		}
 	}
+
+	ZetOpen(1);
 
 	if (pBurnSoundOut) {
 		INT32 nSample;
-		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
-		INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-		if (nSegmentLength) {
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n];
-				nSample += pAY8910Buffer[1][n];
-				nSample += pAY8910Buffer[2][n];
+		AY8910Update(0, &pAY8910Buffer[0], nBurnSoundLen);
+		for (INT32 n = 0; n < nBurnSoundLen; n++) {
+			nSample  = pAY8910Buffer[0][n];
+			nSample += pAY8910Buffer[1][n];
+			nSample += pAY8910Buffer[2][n];
 
-				nSample /= 4;
+			nSample /= 4;
 
-				nSample = BURN_SND_CLIP(nSample);
+			nSample = BURN_SND_CLIP(nSample);
 
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
-			
-			DACUpdate(pSoundBuf, nSegmentLength);
+			pBurnSoundOut[(n << 1) + 0] = nSample;
+			pBurnSoundOut[(n << 1) + 1] = nSample;
 		}
+			
+		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
+
+	ZetClose();
 
 	if (pBurnDraw) {
 		BurnDrvRedraw();

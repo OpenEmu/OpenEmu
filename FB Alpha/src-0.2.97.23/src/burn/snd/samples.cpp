@@ -242,6 +242,12 @@ void BurnSampleInit(INT32 nGain /*volume percentage!*/, INT32 bAdd /*add sample 
 
 	// test to see if file exists
 	INT32 nEnableSamples = 0;
+
+	if (BurnDrvGetTextA(DRV_SAMPLENAME) == NULL) { // called with no samples
+		nTotalSamples = 0;
+		return;
+	}
+
 	strcpy(setname, BurnDrvGetTextA(DRV_SAMPLENAME));
 	sprintf(path, "%s%s.zip", szTempPath, setname);
 	

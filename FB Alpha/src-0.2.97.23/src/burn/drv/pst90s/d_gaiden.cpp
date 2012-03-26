@@ -2,6 +2,8 @@
 // Based on MAME driver by Alex Pasadyn, Phil Stroffolino, Nicola Salmoria, and various others
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "msm6295.h"
 #include "burn_ym2151.h"
 #include "burn_ym2203.h"
@@ -1105,7 +1107,7 @@ static void gaiden_draw_sprites(INT32 prior)
 
 	while (count < 256)
 	{
-		INT32 attributes = source[0];
+		INT32 attributes = BURN_ENDIAN_SWAP_INT16(source[0]);
 		INT32 col,row;
 
 		if (attributes & 0x04)
@@ -1117,14 +1119,14 @@ static void gaiden_draw_sprites(INT32 prior)
 			INT32 flipx = (attributes & 1);
 			INT32 flipy = (attributes & 2);
 
-			INT32 color = source[2];
+			INT32 color = BURN_ENDIAN_SWAP_INT16(source[2]);
 			INT32 sizex = 1 << (color & 3);
 			INT32 sizey = 1 << ((color >> (game & 2)) & 3);
 
-			INT32 number = (source[1] & (sizex > 2 ? 0x7ff8 : 0x7ffc));	// raiga
+			INT32 number = (BURN_ENDIAN_SWAP_INT16(source[1]) & (sizex > 2 ? 0x7ff8 : 0x7ffc));	// raiga
 
-			INT32 ypos = source[3] & 0x01ff;
-			INT32 xpos = source[4] & 0x01ff;
+			INT32 ypos = BURN_ENDIAN_SWAP_INT16(source[3]) & 0x01ff;
+			INT32 xpos = BURN_ENDIAN_SWAP_INT16(source[4]) & 0x01ff;
 
 			if ((attributes & 0x20) && (GetCurrentFrame() & 1))
 				goto skip_sprite;
@@ -1209,17 +1211,17 @@ static void drgnbowl_draw_sprites(INT32 priority)
 
 	for (i = 0x400 - 4; i >= 0; i -= 4)
 	{
-		if ((spriteram16[i + 3] & 0x20) != priority)
+		if ((BURN_ENDIAN_SWAP_INT16(spriteram16[i + 3]) & 0x20) != priority)
 			continue;
 
-		code = (spriteram16[i] & 0xff) | ((spriteram16[i + 3] & 0x1f) << 8);
-		y = 256 - (spriteram16[i + 1] & 0xff) - 12;
-		x = spriteram16[i + 2] & 0xff;
-		color = spriteram16[0x400 + i] & 0x0f;
-		flipx = spriteram16[i + 3] & 0x40;
-		flipy = spriteram16[i + 3] & 0x80;
+		code = (BURN_ENDIAN_SWAP_INT16(spriteram16[i]) & 0xff) | ((BURN_ENDIAN_SWAP_INT16(spriteram16[i + 3]) & 0x1f) << 8);
+		y = 256 - (BURN_ENDIAN_SWAP_INT16(spriteram16[i + 1]) & 0xff) - 12;
+		x = BURN_ENDIAN_SWAP_INT16(spriteram16[i + 2]) & 0xff;
+		color = BURN_ENDIAN_SWAP_INT16(spriteram16[0x400 + i]) & 0x0f;
+		flipx = BURN_ENDIAN_SWAP_INT16(spriteram16[i + 3]) & 0x40;
+		flipy = BURN_ENDIAN_SWAP_INT16(spriteram16[i + 3]) & 0x80;
 
-		if(spriteram16[0x400 + i] & 0x80)
+		if(BURN_ENDIAN_SWAP_INT16(spriteram16[0x400 + i]) & 0x80)
 			x -= 256;
 
 		x += 256;
@@ -1268,12 +1270,12 @@ static void draw_layer(UINT16 *vidram, UINT8 *gfxbase, INT32 palette_offset, UIN
 
 		sy -= 16;
 
-		INT32 code = vidram[0x0800 + offs] & 0x0fff;
-		INT32 color = (vidram[offs] >> 4) & 0x0f;
+		INT32 code = BURN_ENDIAN_SWAP_INT16(vidram[0x0800 + offs]) & 0x0fff;
+		INT32 color = (BURN_ENDIAN_SWAP_INT16(vidram[offs]) >> 4) & 0x0f;
 
 		if (game == 2) { //raiga
 			if (palette_offset == 0x300) {
-				color |= (vidram[offs] & 0x08) << 4;
+				color |= (BURN_ENDIAN_SWAP_INT16(vidram[offs]) & 0x08) << 4;
 			}
 		}
 
@@ -1332,8 +1334,8 @@ static void draw_text(INT32 paloffset, INT32 transp)
 
 		// tx_scroll is used?
 
-		INT32 code  = vidram[0x400 + offs] & 0x07ff;
-		INT32 color = (vidram[0x000 + offs] >> 4) & 0x0f;
+		INT32 code  = BURN_ENDIAN_SWAP_INT16(vidram[0x400 + offs]) & 0x07ff;
+		INT32 color = (BURN_ENDIAN_SWAP_INT16(vidram[0x000 + offs]) >> 4) & 0x0f;
 
 		if (!code) continue;
 

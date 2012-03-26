@@ -1,4 +1,6 @@
 #include "burnint.h"
+#include "sek.h"
+#include "zet.h"
 #include "vez.h"
 #include "sh2.h"
 #include "m6502_intf.h"

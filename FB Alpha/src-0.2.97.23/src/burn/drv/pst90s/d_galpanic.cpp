@@ -5,6 +5,7 @@
  */
 
 #include "burnint.h"
+#include "sek.h"
 #include "driver.h"
 
 #include "msm6295.h"

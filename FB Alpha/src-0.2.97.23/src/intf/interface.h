@@ -67,7 +67,7 @@ struct CDEmuDo {
 	const TCHAR*	 szModuleName;
 };
 
-#include "cd/cd_interface.h"
+#include "cd_interface.h"
 
 InterfaceInfo* CDEmuGetInfo();
 
@@ -138,10 +138,6 @@ extern UINT8 bAudPlaying;	// True if the Loop buffer is playing
 extern INT32 nAudDSPModule[8];			// DSP module to use: 0 = none, 1 = low-pass filter
 extern UINT32 nAudSelect;
 
-#if defined(_MSC_VER) && defined(__LIBSNES__)
-typedef struct { int x, y, width, height; } RECT;
-#endif
-
 // Video Output plugin:
 struct VidOut {
 	INT32   (*Init)();
@@ -170,7 +166,7 @@ InterfaceInfo* VidGetInfo();
  extern HWND hVidWnd;
 #endif
 
-#if defined (_XBOX) && !defined(__LIBSNES__)
+#if defined (_XBOX)
  extern HWND hVidWnd;
 #endif
 

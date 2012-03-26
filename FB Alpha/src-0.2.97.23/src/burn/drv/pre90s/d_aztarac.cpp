@@ -2,6 +2,8 @@
 // Based on MAME driver by Mathis Rosenhauer
 
 #include "burnint.h"
+#include "sek.h"
+#include "zet.h"
 #include "vector.h"
 #include "driver.h"
 extern "C" {

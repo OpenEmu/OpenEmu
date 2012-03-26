@@ -1,6 +1,8 @@
 #include "burnint.h"
 #include "burn_sound.h"
 #include "burn_y8950.h"
+#include "sek.h"
+#include "zet.h"
 #include "m6809_intf.h"
 #include "hd6309_intf.h"
 #include "m6800_intf.h"

@@ -2,6 +2,7 @@
 // Based on MAME driver by Paul Leaman
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "burn_ym2203.h"
 
 static UINT8 *Mem, *MemEnd, *Rom0, *Rom1, *Ram;

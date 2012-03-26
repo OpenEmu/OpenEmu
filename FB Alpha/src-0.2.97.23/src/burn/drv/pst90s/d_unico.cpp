@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "sek.h"
 #include "burn_ym3812.h"
 #include "burn_ym2151.h"
 #include "msm6295.h"

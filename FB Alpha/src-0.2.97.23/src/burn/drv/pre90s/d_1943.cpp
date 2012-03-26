@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "zet.h"
 #include "burn_ym2203.h"
 
 static UINT8 DrvInputPort0[8] = {0, 0, 0, 0, 0, 0, 0, 0};

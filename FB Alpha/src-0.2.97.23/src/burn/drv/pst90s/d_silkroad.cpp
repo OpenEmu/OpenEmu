@@ -2,6 +2,7 @@
 // Based on MAME driver by David Haywood, R.Belmont, and Stephh
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "burn_ym2151.h"
 #include "msm6295.h"
 

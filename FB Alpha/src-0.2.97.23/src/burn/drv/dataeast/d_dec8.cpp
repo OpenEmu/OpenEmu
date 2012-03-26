@@ -3644,7 +3644,7 @@ static struct BurnRomInfo makyosenRomDesc[] = {
 	{ "dt-10.512",		0x10000, 0xcfcfc9ed, 5 }, // 20
 	{ "dt-11.256",		0x08000, 0x53e9cf17, 5 }, // 21
 
-	{ "ds-a.1b",     	0x01000, 0x8bb25edc, 6 }, // 22 mcu
+	{ "ds-a.1b",     	0x01000, 0xf61b77cf, 6 }, // 22 mcu
 
 	{ "mb7122e.10b",	0x00400, 0xdcbfec4e, 7 }, // 23 proms
 
@@ -3699,7 +3699,7 @@ static struct BurnRomInfo garyoretRomDesc[] = {
 	{ "dv10",		0x10000, 0x68b6d75c, 5 }, // 21
 	{ "dv11",		0x10000, 0xb5948aee, 5 }, // 22
 
-	{ "id8751h.mcu",	0x01000, 0x00000000, 6 | BRF_NODUMP }, // 23 mcu
+	{ "dv__.mcu",	0x01000, 0x37cacec6, 6 | BRF_OPT }, // 23 mcu
 };
 
 STD_ROM_PICK(garyoret)

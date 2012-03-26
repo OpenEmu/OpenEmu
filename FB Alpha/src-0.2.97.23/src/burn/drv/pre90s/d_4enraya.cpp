@@ -2,6 +2,7 @@
 // Based on MAME driver by Tomasz Slanina
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "driver.h"
 extern "C" {
 #include "ay8910.h"

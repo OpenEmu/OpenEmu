@@ -2,6 +2,7 @@
 // Based on MAME driver by Luca Elia and Takahiro Nogi
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "m6809_intf.h"
 #include "burn_y8950.h"
 #include "driver.h"

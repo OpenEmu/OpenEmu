@@ -2,6 +2,7 @@
 // Port to Finalburn Alpha by OopsWare. 2007
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "msm6295.h"
 
 static UINT8 *Mem	= NULL;

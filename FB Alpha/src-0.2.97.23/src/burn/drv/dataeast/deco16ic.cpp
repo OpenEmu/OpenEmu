@@ -174,9 +174,9 @@ void deco16_palette_recalculate(UINT32 *palette, UINT8 *pal)
 
 	for (INT32 i = 0; i < BurnDrvGetPaletteEntries() * 2; i+=2)
 	{
-		INT32 b = (p[i + 0] >> 0) & 0xff;
-		INT32 g = (p[i + 1] >> 8) & 0xff;
-		INT32 r = (p[i + 1] >> 0) & 0xff;
+		INT32 b = (BURN_ENDIAN_SWAP_INT16(p[i + 0]) >> 0) & 0xff;
+		INT32 g = (BURN_ENDIAN_SWAP_INT16(p[i + 1]) >> 8) & 0xff;
+		INT32 r = (BURN_ENDIAN_SWAP_INT16(p[i + 1]) >> 0) & 0xff;
 
 		palette[i/2] = BurnHighCol(r, g, b, 0);
 	}
@@ -225,7 +225,7 @@ void deco16_sprite_decode(UINT8 *gfx, INT32 len)
 
 	BurnFree (tmp);
 }
-
+ 
 void deco16_draw_layer(INT32 tmap, UINT16 *dest, INT32 flags)
 {
 	INT32 size		= deco16_layer_size_select[tmap];
@@ -285,7 +285,7 @@ void deco16_draw_layer(INT32 tmap, UINT16 *dest, INT32 flags)
 				ofst = (col & 0x1f) + ((row & 0x1f) << 5) + ((col & 0x20) << 5) + ((row & 0x20) << 6);
 			}
 
-			INT32 code  = vram[ofst];
+			INT32 code  = BURN_ENDIAN_SWAP_INT16(vram[ofst]);
 			INT32 color = code >> 12;
 	
 			INT32 flipx = 0;
@@ -1499,9 +1499,11 @@ static void deco_decrypt(UINT8 *src, INT32 len, const UINT8 *xor_table,const UIN
 		for (i = 0;i < len;i++)
 			rom[i] = BIG_ENDIANIZE_INT16(rom[i]);
 #else
+#ifdef LSB_FIRST
 	for (i = 0; i < len; i++) {
 		rom[i] = (rom[i] << 8) | (rom[i] >> 8);
 	}
+#endif
 #endif
 
 	memcpy(buffer,rom,len*2);
@@ -1541,9 +1543,11 @@ static void deco_decrypt(UINT8 *src, INT32 len, const UINT8 *xor_table,const UIN
 		for (i = 0;i < len;i++)
 			rom[i] = BIG_ENDIANIZE_INT16(rom[i]);
 #else
+#ifdef LSB_FIRST
 	for (i = 0; i < len; i++) {
 		rom[i] = (rom[i] << 8) | (rom[i] >> 8);
 	}
+#endif
 #endif
 }
 
@@ -1634,8 +1638,8 @@ void deco102_decrypt_cpu(UINT8 *data, UINT8 *ops, INT32 size, INT32 address_xor,
 		if (i & 0x8000) src ^= 0x00e0;
 		src ^= address_xor;
 
-		rom[i]     = decrypt(buf[src], i, data_select_xor);
-		opcodes[i] = decrypt(buf[src], i, opcode_select_xor);
+		rom[i]     = BURN_ENDIAN_SWAP_INT16(decrypt(BURN_ENDIAN_SWAP_INT16(buf[src]), i, data_select_xor));
+		opcodes[i] = BURN_ENDIAN_SWAP_INT16(decrypt(BURN_ENDIAN_SWAP_INT16(buf[src]), i, opcode_select_xor));
 	}
 
 	BurnFree(buf);
@@ -1669,7 +1673,7 @@ static void decrypt156(UINT32 *src, UINT32 *dst, INT32 length)
 		if (a & 0x4000) addr ^= 0x1eef;
 		if (a & 0x8000) addr ^= 0xf5a5;
 
-		dword = src[addr];
+		dword = BURN_ENDIAN_SWAP_INT32(src[addr]);
 
 		// note that each of the following lines affects exactly two bits
 
@@ -1725,7 +1729,7 @@ static void decrypt156(UINT32 *src, UINT32 *dst, INT32 length)
 				break;
 		}
 
-		dst[a] = dword;
+		dst[a] = BURN_ENDIAN_SWAP_INT32(dword);
 	}
 }
 

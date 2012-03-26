@@ -3510,6 +3510,7 @@ void Z80Exit()
 int Z80Execute(int cycles)
 {
 	z80_ICount = cycles;
+	Z80.cycles_left = cycles;
 
 	/* check for NMIs on the way in; they can only be set externally */
 	/* via timers, and can't be dynamically enabled, so it is safe */
@@ -3540,8 +3541,15 @@ int Z80Execute(int cycles)
 		R++;
 		EXEC_INLINE(op,ROP());
 	} while( z80_ICount > 0 );
+
+	Z80.cycles_left = 0;
 	
 	return cycles - z80_ICount;
+}
+
+INT32 z80TotalCycles()
+{
+	return Z80.cycles_left - z80_ICount;
 }
 
 void Z80Burn(int cycles)

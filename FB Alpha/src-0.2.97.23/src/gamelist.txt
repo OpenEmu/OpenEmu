@@ -1,6 +1,6 @@
 This list contains all games supported by FB Alpha.
 
-5666 games supported in total; X = excluded from build; D = included in debug build only; NW = not working
+5679 games supported in total; X = excluded from build; D = included in debug build only; NW = not working
 
   name		  status  full name						  parent	  year	  company	  hardware	  remarks
 +---------------+-------+-------------------------------------------------------+---------------+-------+---------------+---------------+---------------------------------------+
@@ -47,8 +47,9 @@ This list contains all games supported by FB Alpha.
 | md_16zhan	|  	| 16 Zhang Ma Jiang (Chi)				| 		| 199?	| <unlicensed>	| Sega Megadrive| 					|
 | sgx_1941	|  	| 1941 - Counter Attack					| 		| 1991	| Hudson	| SuperGrafx	| 					|
 | 1941u		|  	| 1941 - Counter Attack (900227 USA)			| 1941		| 1990	| Capcom	| CPS1		| 					|
+| 1941		|  	| 1941 - Counter Attack (900227 World)			| 		| 1990	| Capcom	| CPS1		| 					|
 | 1941j		|  	| 1941 - Counter Attack (Japan)				| 1941		| 1990	| Capcom	| CPS1		| 					|
-| 1941		|  	| 1941 - Counter Attack (World)				| 		| 1990	| Capcom	| CPS1		| 					|
+| 1941r1	|  	| 1941 - Counter Attack (World)				| 1941		| 1990	| Capcom	| CPS1		| 					|
 | 1942b		|  	| 1942 (First Version)					| 1942		| 1984	| Capcom	| Miscellaneous	| 					|
 | 1942a		|  	| 1942 (Revision A)					| 1942		| 1984	| Capcom	| Miscellaneous	| 					|
 | 1942abl	|  	| 1942 (Revision A, bootleg)				| 1942		| 1984	| Capcom	| Miscellaneous	| 					|
@@ -64,6 +65,7 @@ This list contains all games supported by FB Alpha.
 | 1944j		|  	| 1944 - the loop master (000620 Japan)			| 1944		| 2000	| Capcom / 8ing | CPS2		| 					|
 | 1944d		|  	| 1944 - the loop master (000620 USA Phoenix Edition)	| 1944		| 2000	| bootleg	| CPS2		| 					|
 | 1944		|  	| 1944 - the loop master (000620 USA)			| 		| 2000	| Capcom / 8ing | CPS2		| 					|
+| bgareggabl	|  	| 1945 Part 2 (Battle Garaga hack)			| bgaregga	| 1996	| hack		| Toaplan GP9001| 					|
 | 1945kiii	|  	| 1945k III						| 		| 2000	| Oriental	| Miscellaneous	| 					|
 | 19xxa		|  	| 19XX - the war against destiny (951207 Asia)		| 19xx		| 1995	| Capcom	| CPS2		| 					|
 | 19xxjr1	|  	| 19XX - the war against destiny (951207 Japan)		| 19xx		| 1995	| Capcom	| CPS2		| 					|
@@ -275,6 +277,7 @@ This list contains all games supported by FB Alpha.
 | arkanoidu	|  	| Arkanoid (US)						| arkanoid	| 1986	| Taito America | Arkanoid	| 					|
 | arkanoiduo	|  	| Arkanoid (US, older)					| arkanoid	| 1986	| Taito America | Arkanoid	| 					|
 | arkanoid	|  	| Arkanoid (World)					| 		| 1986	| Taito Corporat| Arkanoid	| 					|
+| arknoid2b	|  	| Arkanoid - Revenge of DOH (Japan bootleg)		| arknoid2	| 1987	| bootleg	| Miscellaneous	| 					|
 | arknoid2j	|  	| Arkanoid - Revenge of DOH (Japan)			| arknoid2	| 1987	| Taito Corporat| Miscellaneous	| 					|
 | arknoid2u	|  	| Arkanoid - Revenge of DOH (US)			| arknoid2	| 1987	| Taito America | Miscellaneous	| 					|
 | arknoid2	|  	| Arkanoid - Revenge of DOH (World)			| 		| 1987	| Taito Corporat| Miscellaneous	| 					|
@@ -463,9 +466,9 @@ This list contains all games supported by FB Alpha.
 | md_beavis	|  	| Beavis and Butt-Head (Euro)				| 		| 1994	| Viacom New Med| Sega Megadrive| 					|
 | md_beavisu	|  	| Beavis and Butt-Head (USA)				| md_beavis	| 1994	| Viacom New Med| Sega Megadrive| 					|
 | md_beavisup	|  	| Beavis and Butt-Head (USA, Prototype)			| md_beavis	| 1994	| Viacom New Med| Sega Megadrive| 					|
-| ddp2100	| D NW	| Bee Storm - DoDonPachi II (V100)			| ddp2		| 2001	| IGS		| PolyGameMaster| Incomplete Dump			|
-| ddp2101	| D NW	| Bee Storm - DoDonPachi II (V101)			| ddp2		| 2001	| IGS		| PolyGameMaster| Incomplete Dump			|
-| ddp2		| D NW	| Bee Storm - DoDonPachi II (V102)			| 		| 2001	| IGS		| PolyGameMaster| Incomplete Dump			|
+| ddp2100	|  	| Bee Storm - DoDonPachi II (V100)			| ddp2		| 2001	| IGS		| PolyGameMaster| 					|
+| ddp2101	|  	| Bee Storm - DoDonPachi II (V101)			| ddp2		| 2001	| IGS		| PolyGameMaster| 					|
+| ddp2		|  	| Bee Storm - DoDonPachi II (V102)			| 		| 2001	| IGS		| PolyGameMaster| 					|
 | blswhstl	|  	| Bells & Whistles (ver. L)				| 		| 1991	| Konami	| GX060		| 					|
 | pce_benkei1	| D NW	| Benkei Gaiden (Alt)					| pce_benkei	| 1989	| Sunsoft	| PC Engine	| 					|
 | bestbest	|  	| Best Of Best						| 		| 1994	| SunA		| Miscellaneous	| 					|
@@ -542,7 +545,8 @@ This list contains all games supported by FB Alpha.
 | blueprnt	|  	| Blue Print (Midway)					| 		| 1982	| [Zilec Electro| Miscellaneous	| 					|
 | bjourney	|  	| Blue's Journey / Raguy (ALM-001)(ALH-001)		| 		| 1990	| Alpha Denshi C| Neo Geo MVS	| 					|
 | bwcasino	|  	| Boardwalk Casino					| 		| 1983	| EPOS Corporati| Pac-man	| 					|
-| boblbobl	|  	| Bobble Bobble						| bublbobl	| 1986	| bootleg	| Taito Misc	| 					|
+| boblbobl	|  	| Bobble Bobble (set 1)					| bublbobl	| 1986	| bootleg	| Taito Misc	| 					|
+| boblbobl2	| D NW	| Bobble Bobble (set 2)					| bublbobl	| 1986	| bootleg	| Taito Misc	| 					|
 | pce_bodycon2	|  	| Body Conquest II					| 		| 1993	| Games Express	| PC Engine	| 					|
 | md_bodyco	|  	| Body Count (Euro)					| 		| 1994	| Sega		| Sega Megadrive| 					|
 | md_bodycop	|  	| Body Count (Euro, Prototype)				| md_bodyco	| 1994	| Sega		| Sega Megadrive| 					|
@@ -727,11 +731,11 @@ This list contains all games supported by FB Alpha.
 | ctrpllrp	|  	| Caterpillar Pacman Hack				| puckman	| 1982	| hack		| Pac-man	| 					|
 | catt		|  	| Catt (Japan)						| mcatadv	| 1993	| Wintechno	| LINDA		| 					|
 | cavelon	|  	| Cavelon						| 		| 1983	| Jetsoft	| Galaxian	| 					|
+| cninjaa	|  	| Caveman Ninja (alternate)				| cninja	| 1991	| Data East Corp| DECO IC16	| 					|
 | cninjabl	|  	| Caveman Ninja (bootleg)				| cninja	| 1991	| bootleg	| DECO IC16	| 					|
 | cninjau	|  	| Caveman Ninja (US ver 4)				| cninja	| 1991	| Data East Corp| DECO IC16	| 					|
 | cninja1	|  	| Caveman Ninja (World ver 1)				| cninja	| 1991	| Data East Corp| DECO IC16	| 					|
 | cninja	|  	| Caveman Ninja (World ver 4)				| 		| 1991	| Data East Corp| DECO IC16	| 					|
-| cninja2	|  	| Caveman Ninja (World, alt ver.)			| cninja	| 1991	| Data East Corp| DECO IC16	| 					|
 | pce_cdsysb	| D NW	| CD-Rom System Card (v1.0)				| pce_cdsys	| 19??	| Hudson	| PC Engine	| 					|
 | pce_cdsysa	| D NW	| CD-Rom System Card (v2.0)				| pce_cdsys	| 19??	| Hudson	| PC Engine	| 					|
 | md_centur	|  	| Centurion - Defender of Rome (Euro, USA)		| 		| 1991	| Electronic Art| Sega Megadrive| 					|
@@ -1070,7 +1074,8 @@ This list contains all games supported by FB Alpha.
 | tg_deepblue	|  	| Deep Blue						| 		| 1989	| NEC		| TurboGrafx 16	| 					|
 | pce_deepblue	|  	| Deep Blue - Kaitei Shinwa				| 		| 1989	| Pack-In-Video	| PC Engine	| 					|
 | md_deerhunt	|  	| Deer Hunter (Rus)					| 		| 199?	| Tomsoft	| Sega Megadrive| 					|
-| deerhuntc	|  	| Deer Hunting USA V2					| deerhunt	| 2000	| Sammy USA Corp| Newer Seta	| 					|
+| deerhuntd	|  	| Deer Hunting USA V2					| deerhunt	| 2000	| Sammy USA Corp| Newer Seta	| 					|
+| deerhuntc	|  	| Deer Hunting USA V3.0					| deerhunt	| 2000	| Sammy USA Corp| Newer Seta	| 					|
 | deerhuntb	|  	| Deer Hunting USA V4.0					| deerhunt	| 2000	| Sammy USA Corp| Newer Seta	| 					|
 | deerhunta	|  	| Deer Hunting USA V4.2					| deerhunt	| 2000	| Sammy USA Corp| Newer Seta	| 					|
 | deerhunt	|  	| Deer Hunting USA V4.3					| 		| 2000	| Sammy USA Corp| Newer Seta	| 					|
@@ -1079,9 +1084,9 @@ This list contains all games supported by FB Alpha.
 | defense	|  	| Defense (System 16B, FD1089A 317-0028)		| sdi		| 1987	| Sega		| System 16B	| 					|
 | md_demoman	|  	| Demolition Man (Euro, USA)				| 		| 1995	| Acclaim Entert| Sega Megadrive| 					|
 | md_demomanp	|  	| Demolition Man (USA, Prototype)			| md_demoman	| 1995	| Acclaim Entert| Sega Megadrive| 					|
-| dmnfrnt	| D NW	| Demon Front (V102)					| 		| 2002	| IGS		| PolyGameMaster| Incomplete Dump			|
-| dmnfrnt105	| D NW	| Demon Front (V105, China)				| dmnfrnt	| 2002	| IGS		| PolyGameMaster| Incomplete Dump			|
-| dmnfrntpcb	| D NW	| Demon Front (V107, Korea, Single PCB Version)		| 		| 2002	| IGS		| PolyGameMaster| Incomplete Dump			|
+| dmnfrnta	|  	| Demon Front (V102, China)				| dmnfrnt	| 2002	| IGS		| PolyGameMaster| Incomplete Dump			|
+| dmnfrnt	|  	| Demon Front (V105)					| 		| 2002	| IGS		| PolyGameMaster| Incomplete Dump			|
+| dmnfrntpcb	| D NW	| Demon Front (V107, Korea, Single PCB Version)		| dmnfrnt	| 2002	| IGS		| PolyGameMaster| Incomplete Dump			|
 | demonwld	|  	| Demon's World / Horror Story (set 1)			| 		| 1990	| Toaplan	| Toaplan BCU-2 | 					|
 | demonwld2	|  	| Demon's World / Horror Story (set 3)			| demonwld	| 1989	| Toaplan	| Toaplan BCU-2 | 					|
 | demonwld3	|  	| Demon's World / Horror Story (set 4)			| demonwld	| 1989	| Toaplan	| Toaplan BCU-2 | 					|
@@ -1156,6 +1161,7 @@ This list contains all games supported by FB Alpha.
 | md_djboy	|  	| DJ Boy (Euro)						| 		| 1991	| Sega		| Sega Megadrive| 					|
 | md_djboyj	|  	| DJ Boy (Jpn)						| md_djboy	| 1990	| Sega		| Sega Megadrive| 					|
 | md_djboyu	|  	| DJ Boy (USA)						| md_djboy	| 1990	| Kaneko	| Sega Megadrive| 					|
+| ddonpachjh	|  	| DoDonPachi (Arrange Mode version 1.1, hack by Trap15)	| ddonpach	| 1997	| hack / Trap15	| Cave		| 					|
 | ddonpach	|  	| DoDonPachi (International, master ver. 97/02/05)	| 		| 1997	| Atlus / Cave	| Cave		| 					|
 | ddonpachj	|  	| DoDonPachi (Japan, master ver. 97/02/05)		| ddonpach	| 1997	| Atlus / Cave	| Cave		| 					|
 | ddpdojb	|  	| DoDonPachi Dai-Ou-Jou (V100 (first version), Japan)	| ddpdoj	| 2002	| Cave / AMI	| PolyGameMaster| Incomplete Protection Simulation	|
@@ -1455,6 +1461,7 @@ This list contains all games supported by FB Alpha.
 | md_fantasia	|  	| Fantasia (World, Rev. A)				| 		| 1991	| Sega		| Sega Megadrive| 					|
 | fantsia2	|  	| Fantasia II (Explicit)				| 		| 1997	| Comad		| Miscellaneous	| 					|
 | fantsia2a	|  	| Fantasia II (Less Explicit)				| fantsia2	| 1997	| Comad		| Miscellaneous	| 					|
+| fantastc	|  	| Fantastic						| 		| 198?	| Taito do Brasi| Galaxian	| Bad Colours				|
 | md_fantdizz	|  	| Fantastic Dizzy (Euro, USA)				| 		| 1991	| Codemasters	| Sega Megadrive| 					|
 | md_fantdizz1	|  	| Fantastic Dizzy (Euro, USA, Alt)			| md_fantdizz	| 1991	| Codemasters	| Sega Megadrive| 					|
 | fantsy95	|  	| Fantasy '95						| 		| 1995	| Hi-max Technol| Miscellaneous	| 					|
@@ -1648,6 +1655,7 @@ This list contains all games supported by FB Alpha.
 | galapx	|  	| Galaxian Part X (moonaln hack)			| galaxian	| 1979	| hack		| Galaxian	| 					|
 | tst_galx	|  	| Galaxian Test ROM					| galaxian	| 1979	| Test ROM	| Galaxian	| 					|
 | galturbo	|  	| Galaxian Turbo (superg hack)				| galaxian	| 1979	| hack		| Galaxian	| 					|
+| galemp	|  	| Galaxy Empire (bootleg?)				| uniwars	| 1980	| bootleg (Taito| Galaxian	| 					|
 | galaxyfg	|  	| Galaxy Fight - Universal Warriors			| 		| 1995	| Sunsoft	| Neo Geo MVS	| 					|
 | gforce2	|  	| Galaxy Force 2					| 		| 1988	| Sega		| Y-Board	| 					|
 | gforce2j	|  	| Galaxy Force 2 (Japan)				| gforce2	| 1988	| Sega		| Y-Board	| 					|
@@ -2245,6 +2253,7 @@ This list contains all games supported by FB Alpha.
 | eto		|  	| Kokontouzai Eto Monogatari (Japan)			| 		| 1994	| Visco		| Taito Misc	| 					|
 | md_kolobok	|  	| Kolobok ~ Pyramid (Rus)				| 		| 199?	| <unknown>	| Sega Megadrive| 					|
 | konami88	|  	| Konami '88						| 88games	| 1988	| Konami	| GX861		| 					|
+| kong		|  	| Kong (Brazil)						| 		| 198?	| Taito do Brasi| Galaxian	| Bad Colours				|
 | pce_proyak89	|  	| Kore Ga Pro Yakyuu '89				| 		| 1989	| Intec		| PC Engine	| 					|
 | pce_proyak90	|  	| Kore Ga Pro Yakyuu '90				| 		| 1990	| Intec		| PC Engine	| 					|
 | korokoro	|  	| Koro Koro Quest (Japan)				| 		| 1999	| Takumi	| Cave		| 					|
@@ -3669,6 +3678,7 @@ This list contains all games supported by FB Alpha.
 | srdmissn	|  	| S.R.D. Mission					| 		| 1986	| Taito Corporat| Kyugo		| 					|
 | md_manover	|  	| S.S. Lucifer - Man Overboard! (Euro)			| 		| 1994	| Codemasters	| Sega Megadrive| 					|
 | ssmissin	|  	| S.S. Mission						| 		| 1992	| Comad		| NMK16		| 					|
+| svgpcb	| D NW	| S.V.G. - Spectral vs Generation (V100, Japan, Single P| svg		| 2005	| IGS		| PolyGameMaster| Incomplete Dump			|
 | svg		| D NW	| S.V.G. - Spectral vs Generation (V200, China)		| 		| 2005	| IGS		| PolyGameMaster| Incomplete Dump			|
 | sabotenb	|  	| Saboten Bombers (set 1)				| 		| 1992	| NMK / Tecmo	| NMK16		| 					|
 | sabotenba	|  	| Saboten Bombers (set 2)				| sabotenb	| 1992	| NMK / Tecmo	| NMK16		| 					|
@@ -4245,8 +4255,9 @@ This list contains all games supported by FB Alpha.
 | sf2ceua	|  	| Street Fighter II' - champion edition (street fighter | sf2ce		| 1992	| Capcom	| CPS1		| 					|
 | sf2ceja	|  	| Street Fighter II' - champion edition (street fighter | sf2ce		| 1992	| Capcom	| CPS1		| 					|
 | sf2ce		|  	| Street Fighter II' - champion edition (street fighter | 		| 1992	| Capcom	| CPS1		| 					|
-| sf2cej	|  	| Street Fighter II' - champion edition (street fighter | sf2ce		| 1992	| Capcom	| CPS1		| 					|
+| sf2cejb	|  	| Street Fighter II' - champion edition (street fighter | sf2ce		| 1992	| Capcom	| CPS1		| 					|
 | sf2ceub	|  	| Street Fighter II' - champion edition (street fighter | sf2ce		| 1992	| Capcom	| CPS1		| 					|
+| sf2cejc	|  	| Street Fighter II' - champion edition (street fighter | sf2ce		| 1992	| Capcom	| CPS1		| 					|
 | sf2ceuc	|  	| Street Fighter II' - champion edition (street fighter | sf2ce		| 1992	| Capcom	| CPS1		| 					|
 | sf2hf		|  	| Street Fighter II' - hyper fighting (street fighter 2'| 		| 1992	| Capcom	| CPS1		| 					|
 | sf2hfu	|  	| Street Fighter II' - hyper fighting (street fighter 2'| sf2hf		| 1992	| Capcom	| CPS1		| 					|
@@ -4391,6 +4402,7 @@ This list contains all games supported by FB Alpha.
 | supbtimea	|  	| Super Burger Time (World, set 2)			| supbtime	| 1990	| Data East Corp| DECO IC16	| 					|
 | sbbros	|  	| Super Buster Bros. (US 901001)			| spang		| 1990	| Mitchell + Cap| Miscellaneous	| 					|
 | sucasino	|  	| Super Casino						| 		| 1984	| Data Amusement| Jack the Giant| 					|
+| superchsj	|  	| Super Chase - Criminal Termintation (Japan)		| superchs	| 1992	| Taito Corporat| Taito Misc	| No Sound				|
 | superchs	|  	| Super Chase - Criminal Termintation (US)		| 		| 1992	| Taito America | Taito Misc	| No Sound				|
 | scobra	|  	| Super Cobra						| 		| 1981	| Konami	| Galaxian	| 					|
 | scobrab	|  	| Super Cobra (bootleg)					| scobra	| 1981	| bootleg	| Galaxian	| 					|
@@ -4755,8 +4767,8 @@ This list contains all games supported by FB Alpha.
 | md_flint	|  	| The Flintstones (Euro)				| 		| 1993	| Taito		| Sega Megadrive| 					|
 | md_flintj	|  	| The Flintstones (Jpn)					| md_flint	| 1993	| Taito		| Sega Megadrive| 					|
 | md_flintu	|  	| The Flintstones (USA)					| md_flint	| 1993	| Taito		| Sega Megadrive| 					|
-| theglad	| D NW	| The Gladiator / Shen Jian (V100)			| 		| 2003	| IGS		| PolyGameMaster| Incomplete Dump			|
-| thegladpcb	| D NW	| The Gladiator / Shen Jian (V100, Japan, Single PCB Ver| 		| 2003	| IGS		| PolyGameMaster| Incomplete Dump			|
+| thegladpcb	| D NW	| The Gladiator / Shen Jian (V100, Japan, Single PCB Ver| theglad	| 2003	| IGS		| PolyGameMaster| Incomplete Dump			|
+| theglad	| D NW	| The Gladiator / Shen Jian (V101)			| 		| 2003	| IGS		| PolyGameMaster| Incomplete Dump			|
 | theglada	| D NW	| The Gladiator / Shen Jian (V101, Taiwan)		| theglad	| 2003	| IGS		| PolyGameMaster| Incomplete Dump			|
 | theglob	|  	| The Glob						| suprglob	| 1983	| Epos Corporati| EPOS Tristar	| 					|
 | theglob2	|  	| The Glob (earlier)					| suprglob	| 1983	| Epos Corporati| EPOS Tristar	| 					|
@@ -4784,6 +4796,7 @@ This list contains all games supported by FB Alpha.
 | killbldp	| D NW	| The Killing Blade Plus (V300)				| 		| 2005	| IGS		| PolyGameMaster| 					|
 | md_killshow	|  	| The Killing Game Show (Jpn)				| md_fatalrew	| 1993	| Electronic Art| Sega Megadrive| 					|
 | kodr1		|  	| The King of Dragons (910711 etc)			| kod		| 1991	| Capcom	| CPS1		| 					|
+| kodda		|  	| The King of Dragons (910731 etc Phoenix?)		| kod		| 1991	| Capcom	| CPS1		| 					|
 | kod		|  	| The King of Dragons (910805 etc)			| 		| 1991	| Capcom	| CPS1		| 					|
 | kodb		| D NW	| The King of Dragons (bootleg set 1)			| kod		| 1991	| Capcom	| CPS1		| No Sprites				|
 | kodh		|  	| The King of Dragons (bootleg set 2)			| kod		| 1991	| Capcom	| CPS1		| 					|

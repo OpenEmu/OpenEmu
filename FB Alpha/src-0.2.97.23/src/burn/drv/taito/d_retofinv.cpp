@@ -2,6 +2,7 @@
 // Based on MAME driver by Jarek Parchanski and Andrea Mazzoleni
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "taito_m68705.h"
 #include "bitswap.h"
 #include "sn76496.h"

@@ -7,22 +7,9 @@
 #include <string.h>
 #include <assert.h>
 
-#if defined(__LIBSNES__) && defined(_MSC_VER)
-#include <tchar.h>
-#else
 #include "tchar.h"
-#endif
 
 #include "burn.h"
-
-// ---------------------------------------------------------------------------
-// CPU emulation interfaces
-
-// sek.cpp
-#include "sek.h"
-
-// zet.cpp
-#include "zet.h"
 
 #ifdef LSB_FIRST
 typedef union
@@ -38,7 +25,7 @@ typedef union
 #define BURN_ENDIAN_SWAP_INT64(x)				x
 #else
 // define the above union and BURN_ENDIAN_SWAP macros in the following platform specific header
-#include "big_endian.h"
+#include "endian.h"
 #endif
 
 // ---------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "zet.h"
 #include "msm6295.h"
 
 // FB Alpha - "News" Driver

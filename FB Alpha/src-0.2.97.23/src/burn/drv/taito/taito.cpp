@@ -1,6 +1,8 @@
 #include "tiles_generic.h"
 #include "taito.h"
 #include "taito_ic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym2151.h"
 #include "burn_ym2610.h"
 #include "burn_ym2203.h"

@@ -355,46 +355,46 @@ STD_ROM_FN(sfiii2n)
 // ------------------------------------------------------------
 
 #define SFIII3_990608_FLASH \
-	{ "sfiii3_990608-simm1.0",	0x200000, 0x11dfd3cd, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3_990608-simm1.1",	0x200000, 0xc50585e6, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3_990608-simm1.2",	0x200000, 0x8e011d9b, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3_990608-simm1.3",	0x200000, 0xdca8d92f, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3-simm2.0",			0x200000, 0x06eb969e, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3-simm2.1",			0x200000, 0xe7039f82, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3-simm2.2",			0x200000, 0x645c96f7, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3-simm2.3",			0x200000, 0x610efab1, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3-simm3.0",			0x200000, 0x7baa1f79, BRF_GRA }, \
-	{ "sfiii3-simm3.1",			0x200000, 0x234bf8fe, BRF_GRA }, \
-	{ "sfiii3-simm3.2",			0x200000, 0xd9ebc308, BRF_GRA }, \
-	{ "sfiii3-simm3.3",			0x200000, 0x293cba77, BRF_GRA }, \
-	{ "sfiii3-simm3.4",			0x200000, 0x6055e747, BRF_GRA }, \
-	{ "sfiii3-simm3.5",			0x200000, 0x499aa6fc, BRF_GRA }, \
-	{ "sfiii3-simm3.6",			0x200000, 0x6c13879e, BRF_GRA }, \
-	{ "sfiii3-simm3.7",			0x200000, 0xcf4f8ede, BRF_GRA }, \
-	{ "sfiii3-simm4.0",			0x200000, 0x091fd5ba, BRF_GRA }, \
-	{ "sfiii3-simm4.1",			0x200000, 0x0bca8917, BRF_GRA }, \
-	{ "sfiii3-simm4.2",			0x200000, 0xa0fd578b, BRF_GRA }, \
-	{ "sfiii3-simm4.3",			0x200000, 0x4bf8c699, BRF_GRA }, \
-	{ "sfiii3-simm4.4",			0x200000, 0x137b8785, BRF_GRA }, \
-	{ "sfiii3-simm4.5",			0x200000, 0x4fb70671, BRF_GRA }, \
-	{ "sfiii3-simm4.6",			0x200000, 0x832374a4, BRF_GRA }, \
-	{ "sfiii3-simm4.7",			0x200000, 0x1c88576d, BRF_GRA }, \
-	{ "sfiii3-simm5.0",			0x200000, 0xc67d9190, BRF_GRA }, \
-	{ "sfiii3-simm5.1",			0x200000, 0x6cb79868, BRF_GRA }, \
-	{ "sfiii3-simm5.2",			0x200000, 0xdf69930e, BRF_GRA }, \
-	{ "sfiii3-simm5.3",			0x200000, 0x333754e0, BRF_GRA }, \
-	{ "sfiii3-simm5.4",			0x200000, 0x78f6d417, BRF_GRA }, \
-	{ "sfiii3-simm5.5",			0x200000, 0x8ccad9b1, BRF_GRA }, \
-	{ "sfiii3-simm5.6",			0x200000, 0x85de59e5, BRF_GRA }, \
-	{ "sfiii3-simm5.7",			0x200000, 0xee7e29b3, BRF_GRA }, \
-	{ "sfiii3-simm6.0",			0x200000, 0x8da69042, BRF_GRA }, \
-	{ "sfiii3-simm6.1",			0x200000, 0x1c8c7ac4, BRF_GRA }, \
-	{ "sfiii3-simm6.2",			0x200000, 0xa671341d, BRF_GRA }, \
-	{ "sfiii3-simm6.3",			0x200000, 0x1a990249, BRF_GRA }, \
-	{ "sfiii3-simm6.4",			0x200000, 0x20cb39ac, BRF_GRA }, \
-	{ "sfiii3-simm6.5",			0x200000, 0x5f844b2f, BRF_GRA }, \
-	{ "sfiii3-simm6.6",			0x200000, 0x450e8d28, BRF_GRA }, \
-	{ "sfiii3-simm6.7",			0x200000, 0xcc5f4187, BRF_GRA },
+	{ "sfiii3(__990608)-simm1.0",	0x200000, 0x11dfd3cd, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3(__990608)-simm1.1",	0x200000, 0xc50585e6, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3(__990608)-simm1.2",	0x200000, 0x8e011d9b, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3(__990608)-simm1.3",	0x200000, 0xdca8d92f, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3-simm2.0",				0x200000, 0x06eb969e, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3-simm2.1",				0x200000, 0xe7039f82, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3-simm2.2",				0x200000, 0x645c96f7, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3-simm2.3",				0x200000, 0x610efab1, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3-simm3.0",				0x200000, 0x7baa1f79, BRF_GRA }, \
+	{ "sfiii3-simm3.1",				0x200000, 0x234bf8fe, BRF_GRA }, \
+	{ "sfiii3-simm3.2",				0x200000, 0xd9ebc308, BRF_GRA }, \
+	{ "sfiii3-simm3.3",				0x200000, 0x293cba77, BRF_GRA }, \
+	{ "sfiii3-simm3.4",				0x200000, 0x6055e747, BRF_GRA }, \
+	{ "sfiii3-simm3.5",				0x200000, 0x499aa6fc, BRF_GRA }, \
+	{ "sfiii3-simm3.6",				0x200000, 0x6c13879e, BRF_GRA }, \
+	{ "sfiii3-simm3.7",				0x200000, 0xcf4f8ede, BRF_GRA }, \
+	{ "sfiii3-simm4.0",				0x200000, 0x091fd5ba, BRF_GRA }, \
+	{ "sfiii3-simm4.1",				0x200000, 0x0bca8917, BRF_GRA }, \
+	{ "sfiii3-simm4.2",				0x200000, 0xa0fd578b, BRF_GRA }, \
+	{ "sfiii3-simm4.3",				0x200000, 0x4bf8c699, BRF_GRA }, \
+	{ "sfiii3-simm4.4",				0x200000, 0x137b8785, BRF_GRA }, \
+	{ "sfiii3-simm4.5",				0x200000, 0x4fb70671, BRF_GRA }, \
+	{ "sfiii3-simm4.6",				0x200000, 0x832374a4, BRF_GRA }, \
+	{ "sfiii3-simm4.7",				0x200000, 0x1c88576d, BRF_GRA }, \
+	{ "sfiii3-simm5.0",				0x200000, 0xc67d9190, BRF_GRA }, \
+	{ "sfiii3-simm5.1",				0x200000, 0x6cb79868, BRF_GRA }, \
+	{ "sfiii3-simm5.2",				0x200000, 0xdf69930e, BRF_GRA }, \
+	{ "sfiii3-simm5.3",				0x200000, 0x333754e0, BRF_GRA }, \
+	{ "sfiii3-simm5.4",				0x200000, 0x78f6d417, BRF_GRA }, \
+	{ "sfiii3-simm5.5",				0x200000, 0x8ccad9b1, BRF_GRA }, \
+	{ "sfiii3-simm5.6",				0x200000, 0x85de59e5, BRF_GRA }, \
+	{ "sfiii3-simm5.7",				0x200000, 0xee7e29b3, BRF_GRA }, \
+	{ "sfiii3-simm6.0",				0x200000, 0x8da69042, BRF_GRA }, \
+	{ "sfiii3-simm6.1",				0x200000, 0x1c8c7ac4, BRF_GRA }, \
+	{ "sfiii3-simm6.2",				0x200000, 0xa671341d, BRF_GRA }, \
+	{ "sfiii3-simm6.3",				0x200000, 0x1a990249, BRF_GRA }, \
+	{ "sfiii3-simm6.4",				0x200000, 0x20cb39ac, BRF_GRA }, \
+	{ "sfiii3-simm6.5",				0x200000, 0x5f844b2f, BRF_GRA }, \
+	{ "sfiii3-simm6.6",				0x200000, 0x450e8d28, BRF_GRA }, \
+	{ "sfiii3-simm6.7",				0x200000, 0xcc5f4187, BRF_GRA },
 
 // -----------------------------------------------------------------
 // Street Fighter III 3rd Strike: Fight for the Future (Euro 990608)
@@ -440,46 +440,46 @@ STD_ROM_FN(sfiii3n)
 // ------------------------------------------------------------
 
 #define SFIII3_990512_FLASH \
-	{ "sfiii3_990512-simm1.0",	0x200000, 0x66e66235, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3_990512-simm1.1",	0x200000, 0x186e8c5f, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3_990512-simm1.2",	0x200000, 0xbce18cab, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3_990512-simm1.3",	0x200000, 0x129dc2c9, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3-simm2.0",			0x200000, 0x06eb969e, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3-simm2.1",			0x200000, 0xe7039f82, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3-simm2.2",			0x200000, 0x645c96f7, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3-simm2.3",			0x200000, 0x610efab1, BRF_ESS | BRF_PRG }, \
-	{ "sfiii3-simm3.0",			0x200000, 0x7baa1f79, BRF_GRA }, \
-	{ "sfiii3-simm3.1",			0x200000, 0x234bf8fe, BRF_GRA }, \
-	{ "sfiii3-simm3.2",			0x200000, 0xd9ebc308, BRF_GRA }, \
-	{ "sfiii3-simm3.3",			0x200000, 0x293cba77, BRF_GRA }, \
-	{ "sfiii3-simm3.4",			0x200000, 0x6055e747, BRF_GRA }, \
-	{ "sfiii3-simm3.5",			0x200000, 0x499aa6fc, BRF_GRA }, \
-	{ "sfiii3-simm3.6",			0x200000, 0x6c13879e, BRF_GRA }, \
-	{ "sfiii3-simm3.7",			0x200000, 0xcf4f8ede, BRF_GRA }, \
-	{ "sfiii3-simm4.0",			0x200000, 0x091fd5ba, BRF_GRA }, \
-	{ "sfiii3-simm4.1",			0x200000, 0x0bca8917, BRF_GRA }, \
-	{ "sfiii3-simm4.2",			0x200000, 0xa0fd578b, BRF_GRA }, \
-	{ "sfiii3-simm4.3",			0x200000, 0x4bf8c699, BRF_GRA }, \
-	{ "sfiii3-simm4.4",			0x200000, 0x137b8785, BRF_GRA }, \
-	{ "sfiii3-simm4.5",			0x200000, 0x4fb70671, BRF_GRA }, \
-	{ "sfiii3-simm4.6",			0x200000, 0x832374a4, BRF_GRA }, \
-	{ "sfiii3-simm4.7",			0x200000, 0x1c88576d, BRF_GRA }, \
-	{ "sfiii3-simm5.0",			0x200000, 0xc67d9190, BRF_GRA }, \
-	{ "sfiii3-simm5.1",			0x200000, 0x6cb79868, BRF_GRA }, \
-	{ "sfiii3-simm5.2",			0x200000, 0xdf69930e, BRF_GRA }, \
-	{ "sfiii3-simm5.3",			0x200000, 0x333754e0, BRF_GRA }, \
-	{ "sfiii3-simm5.4",			0x200000, 0x78f6d417, BRF_GRA }, \
-	{ "sfiii3-simm5.5",			0x200000, 0x8ccad9b1, BRF_GRA }, \
-	{ "sfiii3-simm5.6",			0x200000, 0x85de59e5, BRF_GRA }, \
-	{ "sfiii3-simm5.7",			0x200000, 0xee7e29b3, BRF_GRA }, \
-	{ "sfiii3-simm6.0",			0x200000, 0x8da69042, BRF_GRA }, \
-	{ "sfiii3-simm6.1",			0x200000, 0x1c8c7ac4, BRF_GRA }, \
-	{ "sfiii3-simm6.2",			0x200000, 0xa671341d, BRF_GRA }, \
-	{ "sfiii3-simm6.3",			0x200000, 0x1a990249, BRF_GRA }, \
-	{ "sfiii3-simm6.4",			0x200000, 0x20cb39ac, BRF_GRA }, \
-	{ "sfiii3-simm6.5",			0x200000, 0x5f844b2f, BRF_GRA }, \
-	{ "sfiii3-simm6.6",			0x200000, 0x450e8d28, BRF_GRA }, \
-	{ "sfiii3-simm6.7",			0x200000, 0xcc5f4187, BRF_GRA },
+	{ "sfiii3(__990512)-simm1.0",	0x200000, 0x66e66235, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3(__990512)-simm1.1",	0x200000, 0x186e8c5f, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3(__990512)-simm1.2",	0x200000, 0xbce18cab, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3(__990512)-simm1.3",	0x200000, 0x129dc2c9, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3-simm2.0",				0x200000, 0x06eb969e, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3-simm2.1",				0x200000, 0xe7039f82, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3-simm2.2",				0x200000, 0x645c96f7, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3-simm2.3",				0x200000, 0x610efab1, BRF_ESS | BRF_PRG }, \
+	{ "sfiii3-simm3.0",				0x200000, 0x7baa1f79, BRF_GRA }, \
+	{ "sfiii3-simm3.1",				0x200000, 0x234bf8fe, BRF_GRA }, \
+	{ "sfiii3-simm3.2",				0x200000, 0xd9ebc308, BRF_GRA }, \
+	{ "sfiii3-simm3.3",				0x200000, 0x293cba77, BRF_GRA }, \
+	{ "sfiii3-simm3.4",				0x200000, 0x6055e747, BRF_GRA }, \
+	{ "sfiii3-simm3.5",				0x200000, 0x499aa6fc, BRF_GRA }, \
+	{ "sfiii3-simm3.6",				0x200000, 0x6c13879e, BRF_GRA }, \
+	{ "sfiii3-simm3.7",				0x200000, 0xcf4f8ede, BRF_GRA }, \
+	{ "sfiii3-simm4.0",				0x200000, 0x091fd5ba, BRF_GRA }, \
+	{ "sfiii3-simm4.1",				0x200000, 0x0bca8917, BRF_GRA }, \
+	{ "sfiii3-simm4.2",				0x200000, 0xa0fd578b, BRF_GRA }, \
+	{ "sfiii3-simm4.3",				0x200000, 0x4bf8c699, BRF_GRA }, \
+	{ "sfiii3-simm4.4",				0x200000, 0x137b8785, BRF_GRA }, \
+	{ "sfiii3-simm4.5",				0x200000, 0x4fb70671, BRF_GRA }, \
+	{ "sfiii3-simm4.6",				0x200000, 0x832374a4, BRF_GRA }, \
+	{ "sfiii3-simm4.7",				0x200000, 0x1c88576d, BRF_GRA }, \
+	{ "sfiii3-simm5.0",				0x200000, 0xc67d9190, BRF_GRA }, \
+	{ "sfiii3-simm5.1",				0x200000, 0x6cb79868, BRF_GRA }, \
+	{ "sfiii3-simm5.2",				0x200000, 0xdf69930e, BRF_GRA }, \
+	{ "sfiii3-simm5.3",				0x200000, 0x333754e0, BRF_GRA }, \
+	{ "sfiii3-simm5.4",				0x200000, 0x78f6d417, BRF_GRA }, \
+	{ "sfiii3-simm5.5",				0x200000, 0x8ccad9b1, BRF_GRA }, \
+	{ "sfiii3-simm5.6",				0x200000, 0x85de59e5, BRF_GRA }, \
+	{ "sfiii3-simm5.7",				0x200000, 0xee7e29b3, BRF_GRA }, \
+	{ "sfiii3-simm6.0",				0x200000, 0x8da69042, BRF_GRA }, \
+	{ "sfiii3-simm6.1",				0x200000, 0x1c8c7ac4, BRF_GRA }, \
+	{ "sfiii3-simm6.2",				0x200000, 0xa671341d, BRF_GRA }, \
+	{ "sfiii3-simm6.3",				0x200000, 0x1a990249, BRF_GRA }, \
+	{ "sfiii3-simm6.4",				0x200000, 0x20cb39ac, BRF_GRA }, \
+	{ "sfiii3-simm6.5",				0x200000, 0x5f844b2f, BRF_GRA }, \
+	{ "sfiii3-simm6.6",				0x200000, 0x450e8d28, BRF_GRA }, \
+	{ "sfiii3-simm6.7",				0x200000, 0xcc5f4187, BRF_GRA },
 
 // -----------------------------------------------------------------
 // Street Fighter III 3rd Strike: Fight for the Future (Euro 990512)
@@ -525,32 +525,32 @@ STD_ROM_FN(sfiii3nr1)
 // -------------------------------------------------
 
 #define JOJO_990128_FLASH \
-	{ "jojo_990128-simm1.0",	0x200000, 0x9516948b, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990128-simm1.1",	0x200000, 0xa847848d, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990128-simm1.2",	0x200000, 0x853e8846, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990128-simm1.3",	0x200000, 0xc04fe00e, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990128-simm2.0",	0x200000, 0xe1a4b3c8, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990128-simm2.1",	0x200000, 0x189cef95, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990128-simm2.2",	0x200000, 0x47db5ec6, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990128-simm2.3",	0x200000, 0xe3d3a155, BRF_ESS | BRF_PRG }, \
-	{ "jojo-simm3.0",			0x200000, 0xde7fc9c1, BRF_GRA }, \
-	{ "jojo-simm3.1",			0x200000, 0x43d053d3, BRF_GRA }, \
-	{ "jojo-simm3.2",			0x200000, 0x2ffd7fa5, BRF_GRA }, \
-	{ "jojo-simm3.3",			0x200000, 0x4da4985b, BRF_GRA }, \
-	{ "jojo-simm3.4",			0x200000, 0xfde98d72, BRF_GRA }, \
-	{ "jojo-simm3.5",			0x200000, 0xedb2a266, BRF_GRA }, \
-	{ "jojo-simm3.6",			0x200000, 0xbe7cf319, BRF_GRA }, \
-	{ "jojo-simm3.7",			0x200000, 0x56fe1a9f, BRF_GRA }, \
-	{ "jojo-simm4.0",			0x200000, 0xc4e7bf68, BRF_GRA }, \
-	{ "jojo-simm4.1",			0x200000, 0xb62b2719, BRF_GRA }, \
-	{ "jojo-simm4.2",			0x200000, 0x18d15809, BRF_GRA }, \
-	{ "jojo-simm4.3",			0x200000, 0x9af0ad79, BRF_GRA }, \
-	{ "jojo-simm4.4",			0x200000, 0x4124c1f0, BRF_GRA }, \
-	{ "jojo-simm4.5",			0x200000, 0x5e001fd1, BRF_GRA }, \
-	{ "jojo-simm4.6",			0x200000, 0x9affa23b, BRF_GRA }, \
-	{ "jojo-simm4.7",			0x200000, 0x2511572a, BRF_GRA }, \
-	{ "jojo-simm5.0",			0x200000, 0x797615fc, BRF_GRA }, \
-	{ "jojo-simm5.1",			0x200000, 0x734fd162, BRF_GRA },
+	{ "jojo(__990128)-simm1.0",		0x200000, 0x9516948b, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990128)-simm1.1",		0x200000, 0xa847848d, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990128)-simm1.2",		0x200000, 0x853e8846, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990128)-simm1.3",		0x200000, 0xc04fe00e, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990128)-simm2.0",		0x200000, 0xe1a4b3c8, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990128)-simm2.1",		0x200000, 0x189cef95, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990128)-simm2.2",		0x200000, 0x47db5ec6, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990128)-simm2.3",		0x200000, 0xe3d3a155, BRF_ESS | BRF_PRG }, \
+	{ "jojo-simm3.0",				0x200000, 0xde7fc9c1, BRF_GRA }, \
+	{ "jojo-simm3.1",				0x200000, 0x43d053d3, BRF_GRA }, \
+	{ "jojo-simm3.2",				0x200000, 0x2ffd7fa5, BRF_GRA }, \
+	{ "jojo-simm3.3",				0x200000, 0x4da4985b, BRF_GRA }, \
+	{ "jojo-simm3.4",				0x200000, 0xfde98d72, BRF_GRA }, \
+	{ "jojo-simm3.5",				0x200000, 0xedb2a266, BRF_GRA }, \
+	{ "jojo-simm3.6",				0x200000, 0xbe7cf319, BRF_GRA }, \
+	{ "jojo-simm3.7",				0x200000, 0x56fe1a9f, BRF_GRA }, \
+	{ "jojo-simm4.0",				0x200000, 0xc4e7bf68, BRF_GRA }, \
+	{ "jojo-simm4.1",				0x200000, 0xb62b2719, BRF_GRA }, \
+	{ "jojo-simm4.2",				0x200000, 0x18d15809, BRF_GRA }, \
+	{ "jojo-simm4.3",				0x200000, 0x9af0ad79, BRF_GRA }, \
+	{ "jojo-simm4.4",				0x200000, 0x4124c1f0, BRF_GRA }, \
+	{ "jojo-simm4.5",				0x200000, 0x5e001fd1, BRF_GRA }, \
+	{ "jojo-simm4.6",				0x200000, 0x9affa23b, BRF_GRA }, \
+	{ "jojo-simm4.7",				0x200000, 0x2511572a, BRF_GRA }, \
+	{ "jojo-simm5.0",				0x200000, 0x797615fc, BRF_GRA }, \
+	{ "jojo-simm5.1",				0x200000, 0x734fd162, BRF_GRA },
 	
 // -----------------------------------------------------
 // JoJo no Kimyouna Bouken / JoJo's Venture (USA 990128)
@@ -596,32 +596,32 @@ STD_ROM_FN(jojon)
 // -------------------------------------------------
 
 #define JOJO_990108_FLASH \
-	{ "jojo_990108-simm1.0",	0x200000, 0xcfbc38d6, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990108-simm1.1",	0x200000, 0x42578d94, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990108-simm1.2",	0x200000, 0x1b40c566, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990108-simm1.3",	0x200000, 0xbba709b4, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990108-simm2.0",	0x200000, 0x417e5dc1, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990108-simm2.1",	0x200000, 0xd3b3267d, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990108-simm2.2",	0x200000, 0xc66d96b1, BRF_ESS | BRF_PRG }, \
-	{ "jojo_990108-simm2.3",	0x200000, 0xaa34cc85, BRF_ESS | BRF_PRG }, \
-	{ "jojo-simm3.0",			0x200000, 0xde7fc9c1, BRF_GRA }, \
-	{ "jojo-simm3.1",			0x200000, 0x43d053d3, BRF_GRA }, \
-	{ "jojo-simm3.2",			0x200000, 0x2ffd7fa5, BRF_GRA }, \
-	{ "jojo-simm3.3",			0x200000, 0x4da4985b, BRF_GRA }, \
-	{ "jojo-simm3.4",			0x200000, 0xfde98d72, BRF_GRA }, \
-	{ "jojo-simm3.5",			0x200000, 0xedb2a266, BRF_GRA }, \
-	{ "jojo-simm3.6",			0x200000, 0xbe7cf319, BRF_GRA }, \
-	{ "jojo-simm3.7",			0x200000, 0x56fe1a9f, BRF_GRA }, \
-	{ "jojo-simm4.0",			0x200000, 0xc4e7bf68, BRF_GRA }, \
-	{ "jojo-simm4.1",			0x200000, 0xb62b2719, BRF_GRA }, \
-	{ "jojo-simm4.2",			0x200000, 0x18d15809, BRF_GRA }, \
-	{ "jojo-simm4.3",			0x200000, 0x9af0ad79, BRF_GRA }, \
-	{ "jojo-simm4.4",			0x200000, 0x4124c1f0, BRF_GRA }, \
-	{ "jojo-simm4.5",			0x200000, 0x5e001fd1, BRF_GRA }, \
-	{ "jojo-simm4.6",			0x200000, 0x9affa23b, BRF_GRA }, \
-	{ "jojo-simm4.7",			0x200000, 0x2511572a, BRF_GRA }, \
-	{ "jojo-simm5.0",			0x200000, 0x797615fc, BRF_GRA }, \
-	{ "jojo-simm5.1",			0x200000, 0x734fd162, BRF_GRA },
+	{ "jojo(__990108)-simm1.0",		0x200000, 0xcfbc38d6, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990108)-simm1.1",		0x200000, 0x42578d94, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990108)-simm1.2",		0x200000, 0x1b40c566, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990108)-simm1.3",		0x200000, 0xbba709b4, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990108)-simm2.0",		0x200000, 0x417e5dc1, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990108)-simm2.1",		0x200000, 0xd3b3267d, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990108)-simm2.2",		0x200000, 0xc66d96b1, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__990108)-simm2.3",		0x200000, 0xaa34cc85, BRF_ESS | BRF_PRG }, \
+	{ "jojo-simm3.0",				0x200000, 0xde7fc9c1, BRF_GRA }, \
+	{ "jojo-simm3.1",				0x200000, 0x43d053d3, BRF_GRA }, \
+	{ "jojo-simm3.2",				0x200000, 0x2ffd7fa5, BRF_GRA }, \
+	{ "jojo-simm3.3",				0x200000, 0x4da4985b, BRF_GRA }, \
+	{ "jojo-simm3.4",				0x200000, 0xfde98d72, BRF_GRA }, \
+	{ "jojo-simm3.5",				0x200000, 0xedb2a266, BRF_GRA }, \
+	{ "jojo-simm3.6",				0x200000, 0xbe7cf319, BRF_GRA }, \
+	{ "jojo-simm3.7",				0x200000, 0x56fe1a9f, BRF_GRA }, \
+	{ "jojo-simm4.0",				0x200000, 0xc4e7bf68, BRF_GRA }, \
+	{ "jojo-simm4.1",				0x200000, 0xb62b2719, BRF_GRA }, \
+	{ "jojo-simm4.2",				0x200000, 0x18d15809, BRF_GRA }, \
+	{ "jojo-simm4.3",				0x200000, 0x9af0ad79, BRF_GRA }, \
+	{ "jojo-simm4.4",				0x200000, 0x4124c1f0, BRF_GRA }, \
+	{ "jojo-simm4.5",				0x200000, 0x5e001fd1, BRF_GRA }, \
+	{ "jojo-simm4.6",				0x200000, 0x9affa23b, BRF_GRA }, \
+	{ "jojo-simm4.7",				0x200000, 0x2511572a, BRF_GRA }, \
+	{ "jojo-simm5.0",				0x200000, 0x797615fc, BRF_GRA }, \
+	{ "jojo-simm5.1",				0x200000, 0x734fd162, BRF_GRA },
 
 // -----------------------------------------------------
 // JoJo no Kimyouna Bouken / JoJo's Venture (USA 990108)
@@ -667,32 +667,32 @@ STD_ROM_FN(jojonr1)
 // -------------------------------------------------
 
 #define JOJO_981202_FLASH \
-	{ "jojo_981202-simm1.0",	0x200000, 0xe06ba886, BRF_ESS | BRF_PRG }, \
-	{ "jojo_981202-simm1.1",	0x200000, 0x6dd177c8, BRF_ESS | BRF_PRG }, \
-	{ "jojo_981202-simm1.2",	0x200000, 0xd35a15e0, BRF_ESS | BRF_PRG }, \
-	{ "jojo_981202-simm1.3",	0x200000, 0x66d865ac, BRF_ESS | BRF_PRG }, \
-	{ "jojo_981202-simm2.0",	0x200000, 0x417e5dc1, BRF_ESS | BRF_PRG }, \
-	{ "jojo_981202-simm2.1",	0x200000, 0xc891c887, BRF_ESS | BRF_PRG }, \
-	{ "jojo_981202-simm2.2",	0x200000, 0x1e101f30, BRF_ESS | BRF_PRG }, \
-	{ "jojo_981202-simm2.3",	0x200000, 0x1fd1d3e4, BRF_ESS | BRF_PRG }, \
-	{ "jojo-simm3.0",			0x200000, 0xde7fc9c1, BRF_GRA }, \
-	{ "jojo-simm3.1",			0x200000, 0x43d053d3, BRF_GRA }, \
-	{ "jojo-simm3.2",			0x200000, 0x2ffd7fa5, BRF_GRA }, \
-	{ "jojo-simm3.3",			0x200000, 0x4da4985b, BRF_GRA }, \
-	{ "jojo-simm3.4",			0x200000, 0xfde98d72, BRF_GRA }, \
-	{ "jojo-simm3.5",			0x200000, 0xedb2a266, BRF_GRA }, \
-	{ "jojo-simm3.6",			0x200000, 0xbe7cf319, BRF_GRA }, \
-	{ "jojo-simm3.7",			0x200000, 0x56fe1a9f, BRF_GRA }, \
-	{ "jojo-simm4.0",			0x200000, 0xc4e7bf68, BRF_GRA }, \
-	{ "jojo-simm4.1",			0x200000, 0xb62b2719, BRF_GRA }, \
-	{ "jojo-simm4.2",			0x200000, 0x18d15809, BRF_GRA }, \
-	{ "jojo-simm4.3",			0x200000, 0x9af0ad79, BRF_GRA }, \
-	{ "jojo-simm4.4",			0x200000, 0x4124c1f0, BRF_GRA }, \
-	{ "jojo-simm4.5",			0x200000, 0x5e001fd1, BRF_GRA }, \
-	{ "jojo-simm4.6",			0x200000, 0x9affa23b, BRF_GRA }, \
-	{ "jojo-simm4.7",			0x200000, 0x2511572a, BRF_GRA }, \
-	{ "jojo-simm5.0",			0x200000, 0x797615fc, BRF_GRA }, \
-	{ "jojo-simm5.1",			0x200000, 0x734fd162, BRF_GRA },
+	{ "jojo(__981202)-simm1.0",		0x200000, 0xe06ba886, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__981202)-simm1.1",		0x200000, 0x6dd177c8, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__981202)-simm1.2",		0x200000, 0xd35a15e0, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__981202)-simm1.3",		0x200000, 0x66d865ac, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__981202)-simm2.0",		0x200000, 0x417e5dc1, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__981202)-simm2.1",		0x200000, 0xc891c887, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__981202)-simm2.2",		0x200000, 0x1e101f30, BRF_ESS | BRF_PRG }, \
+	{ "jojo(__981202)-simm2.3",		0x200000, 0x1fd1d3e4, BRF_ESS | BRF_PRG }, \
+	{ "jojo-simm3.0",				0x200000, 0xde7fc9c1, BRF_GRA }, \
+	{ "jojo-simm3.1",				0x200000, 0x43d053d3, BRF_GRA }, \
+	{ "jojo-simm3.2",				0x200000, 0x2ffd7fa5, BRF_GRA }, \
+	{ "jojo-simm3.3",				0x200000, 0x4da4985b, BRF_GRA }, \
+	{ "jojo-simm3.4",				0x200000, 0xfde98d72, BRF_GRA }, \
+	{ "jojo-simm3.5",				0x200000, 0xedb2a266, BRF_GRA }, \
+	{ "jojo-simm3.6",				0x200000, 0xbe7cf319, BRF_GRA }, \
+	{ "jojo-simm3.7",				0x200000, 0x56fe1a9f, BRF_GRA }, \
+	{ "jojo-simm4.0",				0x200000, 0xc4e7bf68, BRF_GRA }, \
+	{ "jojo-simm4.1",				0x200000, 0xb62b2719, BRF_GRA }, \
+	{ "jojo-simm4.2",				0x200000, 0x18d15809, BRF_GRA }, \
+	{ "jojo-simm4.3",				0x200000, 0x9af0ad79, BRF_GRA }, \
+	{ "jojo-simm4.4",				0x200000, 0x4124c1f0, BRF_GRA }, \
+	{ "jojo-simm4.5",				0x200000, 0x5e001fd1, BRF_GRA }, \
+	{ "jojo-simm4.6",				0x200000, 0x9affa23b, BRF_GRA }, \
+	{ "jojo-simm4.7",				0x200000, 0x2511572a, BRF_GRA }, \
+	{ "jojo-simm5.0",				0x200000, 0x797615fc, BRF_GRA }, \
+	{ "jojo-simm5.1",				0x200000, 0x734fd162, BRF_GRA },
 
 // -----------------------------------------------------
 // JoJo no Kimyouna Bouken / JoJo's Venture (USA 981202)
@@ -738,38 +738,38 @@ STD_ROM_FN(jojonr2)
 // ---------------------------------------------------------------------------
 
 #define JOJOBA_990927_FLASH \
-	{ "jojoba_990927-simm1.0",	0x200000, 0xadcd8377, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990927-simm1.1",	0x200000, 0xd7590b59, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990927-simm1.2",	0x200000, 0xe62e240b, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990927-simm1.3",	0x200000, 0xc95450c3, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990927-simm2.0",	0x200000, 0x535f2eba, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990927-simm2.1",	0x200000, 0x01dd3a01, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990927-simm2.2",	0x200000, 0x61432672, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990927-simm2.3",	0x200000, 0xacdc9aca, BRF_ESS | BRF_PRG }, \
-	{ "jojoba-simm3.0",			0x200000, 0x4d16e111, BRF_GRA }, \
-	{ "jojoba-simm3.1",			0x200000, 0x9b3406d3, BRF_GRA }, \
-	{ "jojoba-simm3.2",			0x200000, 0xf2414997, BRF_GRA }, \
-	{ "jojoba-simm3.3",			0x200000, 0x954b9c7d, BRF_GRA }, \
-	{ "jojoba-simm3.4",			0x200000, 0x625adc1d, BRF_GRA }, \
-	{ "jojoba-simm3.5",			0x200000, 0x20a70bb4, BRF_GRA }, \
-	{ "jojoba-simm3.6",			0x200000, 0xa10ec5af, BRF_GRA }, \
-	{ "jojoba-simm3.7",			0x200000, 0x0bd0de7a, BRF_GRA }, \
-	{ "jojoba-simm4.0",			0x200000, 0x6ea14adc, BRF_GRA }, \
-	{ "jojoba-simm4.1",			0x200000, 0x8f4c42fb, BRF_GRA }, \
-	{ "jojoba-simm4.2",			0x200000, 0xef0586d1, BRF_GRA }, \
-	{ "jojoba-simm4.3",			0x200000, 0x93ccc470, BRF_GRA }, \
-	{ "jojoba-simm4.4",			0x200000, 0x3d9ec7d2, BRF_GRA }, \
-	{ "jojoba-simm4.5",			0x200000, 0x03e66850, BRF_GRA }, \
-	{ "jojoba-simm4.6",			0x200000, 0x01606ac3, BRF_GRA }, \
-	{ "jojoba-simm4.7",			0x200000, 0x36392b87, BRF_GRA }, \
-	{ "jojoba-simm5.0",			0x200000, 0x2ef8c60c, BRF_GRA }, \
-	{ "jojoba-simm5.1",			0x200000, 0xcf7d7ca6, BRF_GRA }, \
-	{ "jojoba-simm5.2",			0x200000, 0xb7815bfa, BRF_GRA }, \
-	{ "jojoba-simm5.3",			0x200000, 0x9bfec049, BRF_GRA }, \
-	{ "jojoba-simm5.4",			0x200000, 0xd167536b, BRF_GRA }, \
-	{ "jojoba-simm5.5",			0x200000, 0x55e7a042, BRF_GRA }, \
-	{ "jojoba-simm5.6",			0x200000, 0x4fb32906, BRF_GRA }, \
-	{ "jojoba-simm5.7",			0x200000, 0x8c8be520, BRF_GRA },
+	{ "jojoba(__990927)-simm1.0",	0x200000, 0xadcd8377, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990927)-simm1.1",	0x200000, 0xd7590b59, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990927)-simm1.2",	0x200000, 0xe62e240b, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990927)-simm1.3",	0x200000, 0xc95450c3, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990927)-simm2.0",	0x200000, 0x535f2eba, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990927)-simm2.1",	0x200000, 0x01dd3a01, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990927)-simm2.2",	0x200000, 0x61432672, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990927)-simm2.3",	0x200000, 0xacdc9aca, BRF_ESS | BRF_PRG }, \
+	{ "jojoba-simm3.0",				0x200000, 0x4d16e111, BRF_GRA }, \
+	{ "jojoba-simm3.1",				0x200000, 0x9b3406d3, BRF_GRA }, \
+	{ "jojoba-simm3.2",				0x200000, 0xf2414997, BRF_GRA }, \
+	{ "jojoba-simm3.3",				0x200000, 0x954b9c7d, BRF_GRA }, \
+	{ "jojoba-simm3.4",				0x200000, 0x625adc1d, BRF_GRA }, \
+	{ "jojoba-simm3.5",				0x200000, 0x20a70bb4, BRF_GRA }, \
+	{ "jojoba-simm3.6",				0x200000, 0xa10ec5af, BRF_GRA }, \
+	{ "jojoba-simm3.7",				0x200000, 0x0bd0de7a, BRF_GRA }, \
+	{ "jojoba-simm4.0",				0x200000, 0x6ea14adc, BRF_GRA }, \
+	{ "jojoba-simm4.1",				0x200000, 0x8f4c42fb, BRF_GRA }, \
+	{ "jojoba-simm4.2",				0x200000, 0xef0586d1, BRF_GRA }, \
+	{ "jojoba-simm4.3",				0x200000, 0x93ccc470, BRF_GRA }, \
+	{ "jojoba-simm4.4",				0x200000, 0x3d9ec7d2, BRF_GRA }, \
+	{ "jojoba-simm4.5",				0x200000, 0x03e66850, BRF_GRA }, \
+	{ "jojoba-simm4.6",				0x200000, 0x01606ac3, BRF_GRA }, \
+	{ "jojoba-simm4.7",				0x200000, 0x36392b87, BRF_GRA }, \
+	{ "jojoba-simm5.0",				0x200000, 0x2ef8c60c, BRF_GRA }, \
+	{ "jojoba-simm5.1",				0x200000, 0xcf7d7ca6, BRF_GRA }, \
+	{ "jojoba-simm5.2",				0x200000, 0xb7815bfa, BRF_GRA }, \
+	{ "jojoba-simm5.3",				0x200000, 0x9bfec049, BRF_GRA }, \
+	{ "jojoba-simm5.4",				0x200000, 0xd167536b, BRF_GRA }, \
+	{ "jojoba-simm5.5",				0x200000, 0x55e7a042, BRF_GRA }, \
+	{ "jojoba-simm5.6",				0x200000, 0x4fb32906, BRF_GRA }, \
+	{ "jojoba-simm5.7",				0x200000, 0x8c8be520, BRF_GRA },
 
 // ---------------------------------------------------------------------------------
 // JoJo no Kimyouna Bouken: Miraie no Isan / JoJo's Bizarre Adventure (Japan 990927)
@@ -815,38 +815,38 @@ STD_ROM_FN(jojobane)
 // ---------------------------------------------------------------------------
 
 #define JOJOBA_990913_FLASH \
-	{ "jojoba_990913-simm1.0",	0x200000, 0x76976231, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990913-simm1.1",	0x200000, 0xcedd78e7, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990913-simm1.2",	0x200000, 0x2955b77f, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990913-simm1.3",	0x200000, 0x280139d7, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990913-simm2.0",	0x200000, 0x305c4914, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990913-simm2.1",	0x200000, 0x18af4f3b, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990913-simm2.2",	0x200000, 0x397e5c9e, BRF_ESS | BRF_PRG }, \
-	{ "jojoba_990913-simm2.3",	0x200000, 0xa9d0a7d7, BRF_ESS | BRF_PRG }, \
-	{ "jojoba-simm3.0",			0x200000, 0x4d16e111, BRF_GRA }, \
-	{ "jojoba-simm3.1",			0x200000, 0x9b3406d3, BRF_GRA }, \
-	{ "jojoba-simm3.2",			0x200000, 0xf2414997, BRF_GRA }, \
-	{ "jojoba-simm3.3",			0x200000, 0x954b9c7d, BRF_GRA }, \
-	{ "jojoba-simm3.4",			0x200000, 0x625adc1d, BRF_GRA }, \
-	{ "jojoba-simm3.5",			0x200000, 0x20a70bb4, BRF_GRA }, \
-	{ "jojoba-simm3.6",			0x200000, 0xa10ec5af, BRF_GRA }, \
-	{ "jojoba-simm3.7",			0x200000, 0x0bd0de7a, BRF_GRA }, \
-	{ "jojoba-simm4.0",			0x200000, 0x6ea14adc, BRF_GRA }, \
-	{ "jojoba-simm4.1",			0x200000, 0x8f4c42fb, BRF_GRA }, \
-	{ "jojoba-simm4.2",			0x200000, 0xef0586d1, BRF_GRA }, \
-	{ "jojoba-simm4.3",			0x200000, 0x93ccc470, BRF_GRA }, \
-	{ "jojoba-simm4.4",			0x200000, 0x3d9ec7d2, BRF_GRA }, \
-	{ "jojoba-simm4.5",			0x200000, 0x03e66850, BRF_GRA }, \
-	{ "jojoba-simm4.6",			0x200000, 0x01606ac3, BRF_GRA }, \
-	{ "jojoba-simm4.7",			0x200000, 0x36392b87, BRF_GRA }, \
-	{ "jojoba-simm5.0",			0x200000, 0x2ef8c60c, BRF_GRA }, \
-	{ "jojoba-simm5.1",			0x200000, 0xcf7d7ca6, BRF_GRA }, \
-	{ "jojoba-simm5.2",			0x200000, 0xb7815bfa, BRF_GRA }, \
-	{ "jojoba-simm5.3",			0x200000, 0x9bfec049, BRF_GRA }, \
-	{ "jojoba-simm5.4",			0x200000, 0xd167536b, BRF_GRA }, \
-	{ "jojoba-simm5.5",			0x200000, 0x55e7a042, BRF_GRA }, \
-	{ "jojoba-simm5.6",			0x200000, 0x4fb32906, BRF_GRA }, \
-	{ "jojoba-simm5.7",			0x200000, 0x8c8be520, BRF_GRA },
+	{ "jojoba(__990913)-simm1.0",	0x200000, 0x76976231, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990913)-simm1.1",	0x200000, 0xcedd78e7, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990913)-simm1.2",	0x200000, 0x2955b77f, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990913)-simm1.3",	0x200000, 0x280139d7, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990913)-simm2.0",	0x200000, 0x305c4914, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990913)-simm2.1",	0x200000, 0x18af4f3b, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990913)-simm2.2",	0x200000, 0x397e5c9e, BRF_ESS | BRF_PRG }, \
+	{ "jojoba(__990913)-simm2.3",	0x200000, 0xa9d0a7d7, BRF_ESS | BRF_PRG }, \
+	{ "jojoba-simm3.0",				0x200000, 0x4d16e111, BRF_GRA }, \
+	{ "jojoba-simm3.1",				0x200000, 0x9b3406d3, BRF_GRA }, \
+	{ "jojoba-simm3.2",				0x200000, 0xf2414997, BRF_GRA }, \
+	{ "jojoba-simm3.3",				0x200000, 0x954b9c7d, BRF_GRA }, \
+	{ "jojoba-simm3.4",				0x200000, 0x625adc1d, BRF_GRA }, \
+	{ "jojoba-simm3.5",				0x200000, 0x20a70bb4, BRF_GRA }, \
+	{ "jojoba-simm3.6",				0x200000, 0xa10ec5af, BRF_GRA }, \
+	{ "jojoba-simm3.7",				0x200000, 0x0bd0de7a, BRF_GRA }, \
+	{ "jojoba-simm4.0",				0x200000, 0x6ea14adc, BRF_GRA }, \
+	{ "jojoba-simm4.1",				0x200000, 0x8f4c42fb, BRF_GRA }, \
+	{ "jojoba-simm4.2",				0x200000, 0xef0586d1, BRF_GRA }, \
+	{ "jojoba-simm4.3",				0x200000, 0x93ccc470, BRF_GRA }, \
+	{ "jojoba-simm4.4",				0x200000, 0x3d9ec7d2, BRF_GRA }, \
+	{ "jojoba-simm4.5",				0x200000, 0x03e66850, BRF_GRA }, \
+	{ "jojoba-simm4.6",				0x200000, 0x01606ac3, BRF_GRA }, \
+	{ "jojoba-simm4.7",				0x200000, 0x36392b87, BRF_GRA }, \
+	{ "jojoba-simm5.0",				0x200000, 0x2ef8c60c, BRF_GRA }, \
+	{ "jojoba-simm5.1",				0x200000, 0xcf7d7ca6, BRF_GRA }, \
+	{ "jojoba-simm5.2",				0x200000, 0xb7815bfa, BRF_GRA }, \
+	{ "jojoba-simm5.3",				0x200000, 0x9bfec049, BRF_GRA }, \
+	{ "jojoba-simm5.4",				0x200000, 0xd167536b, BRF_GRA }, \
+	{ "jojoba-simm5.5",				0x200000, 0x55e7a042, BRF_GRA }, \
+	{ "jojoba-simm5.6",				0x200000, 0x4fb32906, BRF_GRA }, \
+	{ "jojoba-simm5.7",				0x200000, 0x8c8be520, BRF_GRA },
 
 // ---------------------------------------------------------------------------------
 // JoJo no Kimyouna Bouken: Miraie no Isan / JoJo's Bizarre Adventure (Japan 990913)
@@ -892,28 +892,28 @@ STD_ROM_FN(jojobaner1)
 // -----------------------------
 
 #define REDEARTH_961121_FLASH \
-	{ "redearth_961121-simm1.0",0x200000, 0xcad468f8, BRF_ESS | BRF_PRG }, \
-	{ "redearth_961121-simm1.1",0x200000, 0xe9721d89, BRF_ESS | BRF_PRG }, \
-	{ "redearth_961121-simm1.2",0x200000, 0x2889ec98, BRF_ESS | BRF_PRG }, \
-	{ "redearth_961121-simm1.3",0x200000, 0x5a6cd148, BRF_ESS | BRF_PRG }, \
-	{ "redearth-simm3.0",		0x200000, 0x83350cc5, BRF_GRA }, \
-	{ "redearth-simm3.1",		0x200000, 0x56734de6, BRF_GRA }, \
-	{ "redearth-simm3.2",		0x200000, 0x800ea0f1, BRF_GRA }, \
-	{ "redearth-simm3.3",		0x200000, 0x97e9146c, BRF_GRA }, \
-	{ "redearth-simm3.4",		0x200000, 0x0cb1d648, BRF_GRA }, \
-	{ "redearth-simm3.5",		0x200000, 0x7a1099f0, BRF_GRA }, \
-	{ "redearth-simm3.6",		0x200000, 0xaeff8f54, BRF_GRA }, \
-	{ "redearth-simm3.7",		0x200000, 0xf770acd0, BRF_GRA }, \
-	{ "redearth-simm4.0",		0x200000, 0x301e56f2, BRF_GRA }, \
-	{ "redearth-simm4.1",		0x200000, 0x2048e103, BRF_GRA }, \
-	{ "redearth-simm4.2",		0x200000, 0xc9433455, BRF_GRA }, \
-	{ "redearth-simm4.3",		0x200000, 0xc02171a8, BRF_GRA }, \
-	{ "redearth-simm4.4",		0x200000, 0x2ddbf276, BRF_GRA }, \
-	{ "redearth-simm4.5",		0x200000, 0xfea820a6, BRF_GRA }, \
-	{ "redearth-simm4.6",		0x200000, 0xc7528df1, BRF_GRA }, \
-	{ "redearth-simm4.7",		0x200000, 0x2449cf3b, BRF_GRA }, \
-	{ "redearth-simm5.0",		0x200000, 0x424451b9, BRF_GRA }, \
-	{ "redearth-simm5.1",		0x200000, 0x9b8cb56b, BRF_GRA },
+	{ "redearth(__961121)-simm1.0",0x200000, 0xcad468f8, BRF_ESS | BRF_PRG }, \
+	{ "redearth(__961121)-simm1.1",0x200000, 0xe9721d89, BRF_ESS | BRF_PRG }, \
+	{ "redearth(__961121)-simm1.2",0x200000, 0x2889ec98, BRF_ESS | BRF_PRG }, \
+	{ "redearth(__961121)-simm1.3",0x200000, 0x5a6cd148, BRF_ESS | BRF_PRG }, \
+	{ "redearth-simm3.0",			0x200000, 0x83350cc5, BRF_GRA }, \
+	{ "redearth-simm3.1",			0x200000, 0x56734de6, BRF_GRA }, \
+	{ "redearth-simm3.2",			0x200000, 0x800ea0f1, BRF_GRA }, \
+	{ "redearth-simm3.3",			0x200000, 0x97e9146c, BRF_GRA }, \
+	{ "redearth-simm3.4",			0x200000, 0x0cb1d648, BRF_GRA }, \
+	{ "redearth-simm3.5",			0x200000, 0x7a1099f0, BRF_GRA }, \
+	{ "redearth-simm3.6",			0x200000, 0xaeff8f54, BRF_GRA }, \
+	{ "redearth-simm3.7",			0x200000, 0xf770acd0, BRF_GRA }, \
+	{ "redearth-simm4.0",			0x200000, 0x301e56f2, BRF_GRA }, \
+	{ "redearth-simm4.1",			0x200000, 0x2048e103, BRF_GRA }, \
+	{ "redearth-simm4.2",			0x200000, 0xc9433455, BRF_GRA }, \
+	{ "redearth-simm4.3",			0x200000, 0xc02171a8, BRF_GRA }, \
+	{ "redearth-simm4.4",			0x200000, 0x2ddbf276, BRF_GRA }, \
+	{ "redearth-simm4.5",			0x200000, 0xfea820a6, BRF_GRA }, \
+	{ "redearth-simm4.6",			0x200000, 0xc7528df1, BRF_GRA }, \
+	{ "redearth-simm4.7",			0x200000, 0x2449cf3b, BRF_GRA }, \
+	{ "redearth-simm5.0",			0x200000, 0x424451b9, BRF_GRA }, \
+	{ "redearth-simm5.1",			0x200000, 0x9b8cb56b, BRF_GRA },
 
 // ----------------------------------
 // Red Earth / War-Zard (Euro 961121)
@@ -946,28 +946,28 @@ STD_ROM_FN(warzard)
 // -----------------------------
 
 #define REDEARTH_961023_FLASH \
-	{ "redearth_961023-simm1.0",0x200000, 0x65bac346, BRF_ESS | BRF_PRG }, \
-	{ "redearth_961023-simm1.1",0x200000, 0xa8ec4aae, BRF_ESS | BRF_PRG }, \
-	{ "redearth_961023-simm1.2",0x200000, 0x2caf8995, BRF_ESS | BRF_PRG }, \
-	{ "redearth_961023-simm1.3",0x200000, 0x13ebc21d, BRF_ESS | BRF_PRG }, \
-	{ "redearth-simm3.0",		0x200000, 0x83350cc5, BRF_GRA }, \
-	{ "redearth-simm3.1",		0x200000, 0x56734de6, BRF_GRA }, \
-	{ "redearth-simm3.2",		0x200000, 0x800ea0f1, BRF_GRA }, \
-	{ "redearth-simm3.3",		0x200000, 0x97e9146c, BRF_GRA }, \
-	{ "redearth-simm3.4",		0x200000, 0x0cb1d648, BRF_GRA }, \
-	{ "redearth-simm3.5",		0x200000, 0x7a1099f0, BRF_GRA }, \
-	{ "redearth-simm3.6",		0x200000, 0xaeff8f54, BRF_GRA }, \
-	{ "redearth-simm3.7",		0x200000, 0xf770acd0, BRF_GRA }, \
-	{ "redearth-simm4.0",		0x200000, 0x301e56f2, BRF_GRA }, \
-	{ "redearth-simm4.1",		0x200000, 0x2048e103, BRF_GRA }, \
-	{ "redearth-simm4.2",		0x200000, 0xc9433455, BRF_GRA }, \
-	{ "redearth-simm4.3",		0x200000, 0xc02171a8, BRF_GRA }, \
-	{ "redearth-simm4.4",		0x200000, 0x2ddbf276, BRF_GRA }, \
-	{ "redearth-simm4.5",		0x200000, 0xfea820a6, BRF_GRA }, \
-	{ "redearth-simm4.6",		0x200000, 0xc7528df1, BRF_GRA }, \
-	{ "redearth-simm4.7",		0x200000, 0x2449cf3b, BRF_GRA }, \
-	{ "redearth-simm5.0",		0x200000, 0x424451b9, BRF_GRA }, \
-	{ "redearth-simm5.1",		0x200000, 0x9b8cb56b, BRF_GRA },
+	{ "redearth(__961023)-simm1.0",0x200000, 0x65bac346, BRF_ESS | BRF_PRG }, \
+	{ "redearth(__961023)-simm1.1",0x200000, 0xa8ec4aae, BRF_ESS | BRF_PRG }, \
+	{ "redearth(__961023)-simm1.2",0x200000, 0x2caf8995, BRF_ESS | BRF_PRG }, \
+	{ "redearth(__961023)-simm1.3",0x200000, 0x13ebc21d, BRF_ESS | BRF_PRG }, \
+	{ "redearth-simm3.0",			0x200000, 0x83350cc5, BRF_GRA }, \
+	{ "redearth-simm3.1",			0x200000, 0x56734de6, BRF_GRA }, \
+	{ "redearth-simm3.2",			0x200000, 0x800ea0f1, BRF_GRA }, \
+	{ "redearth-simm3.3",			0x200000, 0x97e9146c, BRF_GRA }, \
+	{ "redearth-simm3.4",			0x200000, 0x0cb1d648, BRF_GRA }, \
+	{ "redearth-simm3.5",			0x200000, 0x7a1099f0, BRF_GRA }, \
+	{ "redearth-simm3.6",			0x200000, 0xaeff8f54, BRF_GRA }, \
+	{ "redearth-simm3.7",			0x200000, 0xf770acd0, BRF_GRA }, \
+	{ "redearth-simm4.0",			0x200000, 0x301e56f2, BRF_GRA }, \
+	{ "redearth-simm4.1",			0x200000, 0x2048e103, BRF_GRA }, \
+	{ "redearth-simm4.2",			0x200000, 0xc9433455, BRF_GRA }, \
+	{ "redearth-simm4.3",			0x200000, 0xc02171a8, BRF_GRA }, \
+	{ "redearth-simm4.4",			0x200000, 0x2ddbf276, BRF_GRA }, \
+	{ "redearth-simm4.5",			0x200000, 0xfea820a6, BRF_GRA }, \
+	{ "redearth-simm4.6",			0x200000, 0xc7528df1, BRF_GRA }, \
+	{ "redearth-simm4.7",			0x200000, 0x2449cf3b, BRF_GRA }, \
+	{ "redearth-simm5.0",			0x200000, 0x424451b9, BRF_GRA }, \
+	{ "redearth-simm5.1",			0x200000, 0x9b8cb56b, BRF_GRA },
 
 // ----------------------------------
 // Red Earth / War-Zard (Euro 961023)

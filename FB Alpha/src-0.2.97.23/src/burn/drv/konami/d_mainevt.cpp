@@ -2,6 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "hd6309_intf.h"
 #include "konamiic.h"
 #include "burn_ym2151.h"

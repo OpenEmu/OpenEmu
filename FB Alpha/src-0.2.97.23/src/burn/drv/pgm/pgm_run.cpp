@@ -51,14 +51,14 @@ INT32 nPGMEnableIRQ4 = 0;
 INT32 nPGMArm7Type = 0;
 
 #define M68K_CYCS_PER_FRAME	((20000000 * 100) / nBurnFPS)
-#define Z80_CYCS_PER_FRAME	(( 8468000 * 100) / nBurnFPS)
 #define ARM7_CYCS_PER_FRAME	((20000000 * 100) / nBurnFPS)
+#define Z80_CYCS_PER_FRAME	(( 8468000 * 100) / nBurnFPS)
 
-#define	PGM_INTER_LEAVE	2
+#define	PGM_INTER_LEAVE	100
 
 #define M68K_CYCS_PER_INTER	(M68K_CYCS_PER_FRAME / PGM_INTER_LEAVE)
-#define Z80_CYCS_PER_INTER	(Z80_CYCS_PER_FRAME  / PGM_INTER_LEAVE)
 #define ARM7_CYCS_PER_INTER	(ARM7_CYCS_PER_FRAME / PGM_INTER_LEAVE)
+#define Z80_CYCS_PER_INTER	(Z80_CYCS_PER_FRAME  / PGM_INTER_LEAVE)
 
 static INT32 nCyclesDone[3];
 
@@ -382,7 +382,7 @@ inline static UINT32 CalcCol(UINT16 nColour)
 void __fastcall PgmPaletteWriteWord(UINT32 sekAddress, UINT16 wordValue)
 {
 	sekAddress = (sekAddress - 0xa00000) >> 1;
-	PGMPalRAM[sekAddress] = wordValue;
+	PGMPalRAM[sekAddress] =BURN_ENDIAN_SWAP_INT16(wordValue);
 	RamCurPal[sekAddress] = CalcCol(wordValue);
 }
 
@@ -777,22 +777,31 @@ INT32 pgmFrame()
 
 	SekNewFrame();
 	ZetNewFrame();
-	if (nEnableArm7) Arm7NewFrame();
 
-	if (nEnableArm7) // region hacks
+	if (nEnableArm7)
 	{
-		switch (nPGMArm7Type)
+		Arm7NewFrame();
+
+		switch (nPGMArm7Type) // region hacks
 		{
 			case 1: // kov/kovsh/kovshp/photoy2k/puzlstar/puzzli2/oldsplus/py2k2
 				PGMARMShareRAM[0x008] = PgmInput[7];
 			break;
 
-			case 2: // martmast/kov2/ddp2/dw2001
-				PGMARMShareRAM[0x138] = PgmInput[7];
+			case 2: // martmast/kov2/dw2001/ddp2
+				if (strncmp(BurnDrvGetTextA(DRV_NAME), "ddp2", 4) == 0) {
+					PGMARMShareRAM[0x002] = PgmInput[7];
+				} else {
+					PGMARMShareRAM[0x138] = PgmInput[7];
+				}
 			break;
 
 			case 3: // svg/killbldp/dmnfrnt/theglad/happy6in1
-				// unknown...
+				if (strncmp(BurnDrvGetTextA(DRV_NAME), "dmnfrnt", 7) == 0) {
+					PGMARMShareRAM[0x158] = PgmInput[7];
+				} else {
+					// unknown
+				}
 			break;
 		}
 	}
@@ -807,24 +816,27 @@ INT32 pgmFrame()
 		nCyclesNext[1] += Z80_CYCS_PER_INTER;
 		nCyclesNext[2] += ARM7_CYCS_PER_INTER;
 
-		INT32 cycles = nCyclesNext[0] - nCyclesDone[0];
+		INT32 cycles = M68K_CYCS_PER_INTER; //nCyclesNext[0] - nCyclesDone[0];
 
-		if (cycles > 0) {
+		//if (cycles > 0) {
 			nCyclesDone[0] += SekRun(cycles);
-		}
+		//}
 
 		if (nEnableArm7) {
-			cycles = nCyclesNext[2] - Arm7TotalCycles();
+			cycles = SekTotalCycles() - Arm7TotalCycles();
 
 			if (cycles > 0) {
 				nCyclesDone[2] += Arm7Run(cycles);
 			}
 		}
 
-		if (nPgmZ80Work) {
-			nCyclesDone[1] += ZetRun( nCyclesNext[1] - nCyclesDone[1] );
-		} else
-			nCyclesDone[1] += nCyclesNext[1] - nCyclesDone[1];
+		if (i == (PGM_INTER_LEAVE / 2) - 1 || i == (PGM_INTER_LEAVE - 1)) {
+			if (nPgmZ80Work) {
+				nCyclesDone[1] += ZetRun( nCyclesNext[1] - nCyclesDone[1] );
+			} else {
+				nCyclesDone[1] += nCyclesNext[1] - nCyclesDone[1];
+			}
+		}
 
 		if (i == ((PGM_INTER_LEAVE / 2)-1) && nPGMEnableIRQ4 != 0) {
 			SekSetIRQLine(4, SEK_IRQSTATUS_AUTO);

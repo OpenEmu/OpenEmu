@@ -2,6 +2,7 @@
 // Based on MAME driver by David Haywood and Bryan McPhail
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "deco16ic.h"
 #include "msm6295.h"
 

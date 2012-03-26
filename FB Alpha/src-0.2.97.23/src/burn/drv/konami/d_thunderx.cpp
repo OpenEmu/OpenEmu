@@ -2,6 +2,7 @@
 // Based on MAME driver by by Bryan McPhail, Manuel Abadia, and Eddie Edwards
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "konami_intf.h"
 #include "konamiic.h"
 #include "burn_ym2151.h"
@@ -330,7 +331,7 @@ static void scontra_bankswitch(INT32 data)
 
 	INT32 nBank = 0x10000 + (data & 0x0f) * 0x2000;
 
-	konamiMapMemory(DrvKonROM + nBank, 0x6000, 0x7fff, SM_ROM);
+	konamiMapMemory(DrvKonROM + nBank, 0x6000, 0x7fff, KON_ROM);
 }
 
 static void thunderx_videobank(INT32 data)

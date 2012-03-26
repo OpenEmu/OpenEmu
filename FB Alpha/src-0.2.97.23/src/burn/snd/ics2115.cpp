@@ -12,6 +12,7 @@
  ******************************************************/
 
 #include "burnint.h"
+#include "zet.h"
 #include "msm6295.h"
 #include "burn_sound.h"
 #include "ics2115.h"

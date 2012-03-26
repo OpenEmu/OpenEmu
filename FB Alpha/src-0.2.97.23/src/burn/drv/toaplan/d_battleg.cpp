@@ -17,6 +17,8 @@ static INT32 nSoundCommand;
 // Z80 ROM bank
 static INT32 nCurrentBank;
 
+INT32 Bgareggabl = 0;
+
 // Rom information
 static struct BurnRomInfo bgareggaRomDesc[] = {
 	{ "prg0.bin",     0x080000, 0xF80C2FC2, BRF_ESS | BRF_PRG }, //  0 CPU #0 code (even)
@@ -137,6 +139,26 @@ static struct BurnRomInfo bgaregtwRomDesc[] = {
 
 STD_ROM_PICK(bgaregtw)
 STD_ROM_FN(bgaregtw)
+
+
+static struct BurnRomInfo bgareggablRomDesc[] = {
+	{ "xt-8m.bin",    0x100000, 0x4a6657cb, BRF_ESS | BRF_PRG }, //  0 CPU #0 code
+
+	{ "6#-322",       0x400000, 0x37fe48ed, BRF_GRA },			 //  1 GP9001 Tile data
+	{ "5#-322",       0x400000, 0x5a06c031, BRF_GRA },			 //  2
+
+	{ "1#-256",       0x008000, 0x760dcd14, BRF_GRA },			 //  3 Extra text layer tile data
+
+	{ "snd.bin",      0x020000, 0x68632952, BRF_ESS | BRF_PRG }, //  4 Z80 program
+
+	{ "rom5.bin",     0x100000, 0xF6D49863, BRF_SND },			 //  5 MSM6295 ADPCM data
+	
+	{ "2#-256",       0x008000, 0x456dd16e, BRF_GRA },			 //  6 (looks like garbage)
+};
+
+
+STD_ROM_PICK(bgareggabl)
+STD_ROM_FN(bgareggabl)
 
 static struct BurnInputInfo battlegInputList[] = {
 	{"P1 Coin",		BIT_DIGITAL,	DrvButton + 3,	"p1 coin"},
@@ -441,6 +463,28 @@ static INT32 LoadRoms()
 	return 0;
 }
 
+static INT32 LoadRomsBl()
+{
+	// Load 68000 ROM
+	if (BurnLoadRom(Rom01, 0, 1)) {
+		return 1;
+	}
+
+	// Load GP9001 tile data
+	ToaLoadGP9001Tiles(GP9001ROM[0], 1, 2, nGP9001ROMSize[0]);
+
+	// Load Extra text layer tile data
+	BurnLoadRom(ExtraTROM, 3, 1);
+
+	// Load the Z80 ROM
+	BurnLoadRom(RomZ80, 4, 1);
+
+	// Load ADPCM data
+	BurnLoadRom(MSM6295ROM, 5, 1);
+
+	return 0;
+}
+
 UINT8 __fastcall battlegZ80Read(UINT16 nAddress)
 {
 //	printf("z80 read %4X\n", nAddress);
@@ -679,8 +723,14 @@ static INT32 battlegInit()
 	MemIndex();													// Index the allocated memory
 
 	// Load the roms into memory
-	if (LoadRoms()) {
-		return 1;
+	if (Bgareggabl) {
+		if (LoadRomsBl()) {
+			return 1;
+		}
+	} else {
+		if (LoadRoms()) {
+			return 1;
+		}
 	}
 
 	{
@@ -715,6 +765,8 @@ static INT32 battlegInit()
 
 	nExtraTXOffset = 0x2C;
 	ToaExtraTextInit();
+	
+	if (Bgareggabl) nExtraTXOffset = 0;
 
 	DrvZ80Init();												// Initialize Z80
 
@@ -734,6 +786,13 @@ static INT32 battlegInit()
 	return 0;
 }
 
+static INT32 BgareggablInit()
+{
+	Bgareggabl = 1;
+	
+	return battlegInit();
+}
+
 static INT32 DrvExit()
 {
 	MSM6295Exit(0);
@@ -746,6 +805,8 @@ static INT32 DrvExit()
 	SekExit();				// Deallocate 68000s
 
 	BurnFree(Mem);
+	
+	Bgareggabl = 0;
 
 	return 0;
 }
@@ -940,5 +1001,15 @@ struct BurnDriver BurnDrvBgaregtw = {
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, bgaregtwRomInfo, bgaregtwRomName, NULL, NULL, battlegInputInfo, bgaregtwDIPInfo,
 	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &ToaRecalcPalette, 0x800,
+	240, 320, 3, 4
+};
+
+struct BurnDriver BurnDrvBgareggabl = {
+	"bgareggabl", "bgaregga", NULL, NULL, "1996",
+	"1945 Part 2 (Battle Garaga hack)\0", NULL, "hack", "Toaplan GP9001 based",
+	L"1945 Part 2\0\uFF11\uFF19\uFF14\uFF15\u4E8C\u4EE3 (Battle Garrega Chinese hack)\0", NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW | BDF_HACK, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
+	NULL, bgareggablRomInfo, bgareggablRomName, NULL, NULL, battlegInputInfo, bgareggaDIPInfo,
+	BgareggablInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };

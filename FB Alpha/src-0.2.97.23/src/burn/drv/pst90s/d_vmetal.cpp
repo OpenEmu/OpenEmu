@@ -5,6 +5,7 @@
 // Also a bug in sprite drawing, flipped case? (see special shot)
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "msm6295.h"
 #include "es8712.h"
 

@@ -2,6 +2,7 @@
 // Based on MAME driver by Mirko Buffoni, Michael Cuddy, and Nicola Salmoria
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "m6809_intf.h"
 #include "i8039.h"
 #include "driver.h"

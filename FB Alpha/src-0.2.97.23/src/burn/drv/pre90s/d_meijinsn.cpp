@@ -2,6 +2,8 @@
 // Based on MAME driver by Tomasz Slanina
 
 #include "burnint.h"
+#include "sek.h"
+#include "zet.h"
 #include "driver.h"
 extern "C" {
 #include "ay8910.h"

@@ -1,4 +1,6 @@
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym2151.h"
 #include "msm5205.h"
 
@@ -997,7 +999,7 @@ static void draw_characters()
 
 		if (sx < 64 || sx > 447) continue;
 
-		INT32 attr = fg_ram[offs];
+		INT32 attr = BURN_ENDIAN_SWAP_INT16(fg_ram[offs]);
 		INT32 code = attr & 0x3ff;
 		if (Gfx3Trans[code]) continue;
 
@@ -1044,10 +1046,10 @@ static void draw_sprites()
 
 	for (INT32 offs = 0x1000-0x20;offs >= 0;offs -= 0x20)
 	{
-		INT32 c = sf_objectram[offs];
-		INT32 attr = sf_objectram[offs+1];
-		INT32 sy = sf_objectram[offs+2];
-		INT32 sx = sf_objectram[offs+3];
+		INT32 c = BURN_ENDIAN_SWAP_INT16(sf_objectram[offs]);
+		INT32 attr = BURN_ENDIAN_SWAP_INT16(sf_objectram[offs+1]);
+		INT32 sy = BURN_ENDIAN_SWAP_INT16(sf_objectram[offs+2]);
+		INT32 sx = BURN_ENDIAN_SWAP_INT16(sf_objectram[offs+3]);
 		INT32 color = attr & 0x000f;
 		INT32 flipx = attr & 0x0100;
 		INT32 flipy = attr & 0x0200;

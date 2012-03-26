@@ -1,5 +1,6 @@
 // Z80 (Zed Eight-Ty) Interface
 #include "burnint.h"
+#include "zet.h"
 
 #define MAX_Z80		8
 static struct ZetExt * ZetCPUContext[MAX_Z80] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
@@ -675,7 +676,7 @@ INT32 ZetSegmentCycles()
 	if (nOpenedCPU == -1) bprintf(PRINT_ERROR, _T("ZetSegmentCycles called when no CPU open\n"));
 #endif
 
-	return 0;
+	return z80TotalCycles();
 }
 
 INT32 ZetTotalCycles()
@@ -685,7 +686,7 @@ INT32 ZetTotalCycles()
 	if (nOpenedCPU == -1) bprintf(PRINT_ERROR, _T("ZetTotalCycles called when no CPU open\n"));
 #endif
 
-	return nZetCyclesTotal;
+	return nZetCyclesTotal + z80TotalCycles();
 }
 
 void ZetSetBUSREQLine(INT32 nStatus)

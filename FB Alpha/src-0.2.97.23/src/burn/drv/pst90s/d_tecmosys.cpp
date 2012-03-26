@@ -2,12 +2,17 @@
 // Based on MAME driver by Farfetch, David Haywood, Tomasz Slanina, and nuapete
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "msm6295.h"
 #include "eeprom.h"
 #include "ymz280b.h"
 // ymf262
 
 //#define ENABLE_SOUND_HARDWARE // no sound without ymf262 core anyway...
+
+#ifdef ENABLE_SOUND_HARDWARE
+#include "zet.h"
+#endif
 
 static UINT8 *AllMem;
 static UINT8 *MemEnd;
@@ -303,7 +308,7 @@ UINT8 __fastcall tecmosys_main_read_byte(UINT32 address)
 
 static inline void palette_update(INT32 pal)
 {
-	UINT16 p = *((UINT16*)(DrvPalRAM + pal * 2));
+	UINT16 p = BURN_ENDIAN_SWAP_INT16(*((UINT16*)(DrvPalRAM + pal * 2)));
 
 	INT32 r = (p >>  5) & 0x1f;
 	INT32 g = (p >> 10) & 0x1f;
@@ -320,13 +325,13 @@ static inline void palette_update(INT32 pal)
 void __fastcall tecmosys_palette_write_word(UINT32 address, UINT16 data)
 {
 	if ((address & 0xff8000) == 0x900000) {
-		*((UINT16 *)(DrvPalRAM + 0x0000 + (address & 0x7ffe))) = data;
+		*((UINT16 *)(DrvPalRAM + 0x0000 + (address & 0x7ffe))) = BURN_ENDIAN_SWAP_INT16(data);
 		palette_update((0x0000 + (address & 0x7ffe)) / 2);
 		return;
 	}
 
 	if ((address & 0xfff000) == 0x980000) {
-		*((UINT16 *)(DrvPalRAM + 0x8000 + (address & 0x0ffe))) = data;
+		*((UINT16 *)(DrvPalRAM + 0x8000 + (address & 0x0ffe))) = BURN_ENDIAN_SWAP_INT16(data);
 		palette_update((0x8000 + (address & 0x0ffe)) / 2);
 		return;
 	}
@@ -710,8 +715,8 @@ static void draw_character_layer()
 
 		if (sx >= nScreenWidth || sy >= nScreenHeight) continue;
 
-		INT32 attr  = vram[offs * 2 + 0];
-		INT32 code  = vram[offs * 2 + 1] & 0x7fff;
+		INT32 attr  = BURN_ENDIAN_SWAP_INT16(vram[offs * 2 + 0]);
+		INT32 code  = BURN_ENDIAN_SWAP_INT16(vram[offs * 2 + 1]) & 0x7fff;
 		INT32 color = attr & 0x003f;
 		INT32 flipy = attr & 0x0080;
 		INT32 flipx = attr & 0x0040;
@@ -769,8 +774,8 @@ static void draw_background_layer(UINT8 *ram, UINT8 *gfx, UINT8 *regs, INT32 yof
 
 		if (sx >= nScreenWidth || sy >= nScreenHeight) continue;
 
-		INT32 attr  = vram[offs * 2 + 0];
-		INT32 code  = vram[offs * 2 + 1] & 0x1fff;
+		INT32 attr  = BURN_ENDIAN_SWAP_INT16(vram[offs * 2 + 0]);
+		INT32 code  = BURN_ENDIAN_SWAP_INT16(vram[offs * 2 + 1]) & 0x1fff;
 		INT32 color = attr & 0x003f;
 		INT32 flipy = attr & 0x0080;
 		INT32 flipx = attr & 0x0040;
@@ -903,8 +908,8 @@ static void draw_sprite_nozoom(INT32 addr, INT32 color, INT32 x, INT32 y, INT32 
 
 static void draw_sprites()
 {
-	INT32 extrax = *((UINT16*)(Drv88Regs + 0));
-	INT32 extray = *((UINT16*)(Drv88Regs + 2));
+	INT32 extrax =  (*((UINT16*)(Drv88Regs + 0)));
+	INT32 extray =  (*((UINT16*)(Drv88Regs + 2)));
 
 	memset (DrvTmpSprites, 0, 320 * 240 * sizeof(INT16));
 
@@ -912,19 +917,19 @@ static void draw_sprites()
 
 	for (INT32 i = 0; i < 0x4000/2; i+=8)
 	{
-		INT32 x   = ((spriteram[i+0] + 386) - extrax) & 0x3ff;
-		INT32 y   = ((spriteram[i+1] +   1) - extray) & 0x1ff;
-		INT32 zoomx = spriteram[i+2] & 0x0fff;
-		INT32 zoomy = spriteram[i+3] & 0x0fff;
-		INT32 prio  =(spriteram[i+4] & 0x0030) << 10;
-		INT32 flipx = spriteram[i+4] & 0x0040;
-		INT32 flipy = spriteram[i+4] & 0x0080;
-		INT32 color = spriteram[i+4] & 0x3f00;
-		INT32 addr  =(spriteram[i+5] | ((spriteram[i+4] & 0x000f) << 16)) << 8;
-		INT32 ysize =(spriteram[i+6] & 0x00ff) << 4;
-		INT32 xsize =(spriteram[i+6] & 0xff00) >> 4;
+		INT32 x   = ((BURN_ENDIAN_SWAP_INT16(spriteram[i+0]) + 386) - extrax) & 0x3ff;
+		INT32 y   = ((BURN_ENDIAN_SWAP_INT16(spriteram[i+1]) +   1) - extray) & 0x1ff;
+		INT32 zoomx = BURN_ENDIAN_SWAP_INT16(spriteram[i+2]) & 0x0fff;
+		INT32 zoomy = BURN_ENDIAN_SWAP_INT16(spriteram[i+3]) & 0x0fff;
+		INT32 prio  =(BURN_ENDIAN_SWAP_INT16(spriteram[i+4]) & 0x0030) << 10;
+		INT32 flipx = BURN_ENDIAN_SWAP_INT16(spriteram[i+4]) & 0x0040;
+		INT32 flipy = BURN_ENDIAN_SWAP_INT16(spriteram[i+4]) & 0x0080;
+		INT32 color = BURN_ENDIAN_SWAP_INT16(spriteram[i+4]) & 0x3f00;
+		INT32 addr  =(BURN_ENDIAN_SWAP_INT16(spriteram[i+5]) | ((BURN_ENDIAN_SWAP_INT16(spriteram[i+4]) & 0x000f) << 16)) << 8;
+		INT32 ysize =(BURN_ENDIAN_SWAP_INT16(spriteram[i+6]) & 0x00ff) << 4;
+		INT32 xsize =(BURN_ENDIAN_SWAP_INT16(spriteram[i+6]) & 0xff00) >> 4;
 
-		if ((spriteram[i+4] & 0x8000) || !zoomx || !zoomy) continue;
+		if ((BURN_ENDIAN_SWAP_INT16(spriteram[i+4]) & 0x8000) || !zoomx || !zoomy) continue;
 
 		if (x & 0x200) x -= 0x400; // positions are signed
 		if (y & 0x100) y -= 0x200;
@@ -957,7 +962,7 @@ static void blend_sprites_and_transfer()
 		INT32 pxl  =(srcptr [z] & 0x07ff) + 0x4000;
 		INT32 pxl2 =(srcptr2[z] & 0x3fff);
 
-		if ((palram[pxl] & 0x8000) && (palram[pxl2] & 0x8000)) // blend
+		if ((BURN_ENDIAN_SWAP_INT16(palram[pxl]) & 0x8000) && (BURN_ENDIAN_SWAP_INT16(palram[pxl2]) & 0x8000)) // blend
 		{
 			INT32 colour  = DrvPalette24[pxl];
 			INT32 colour2 = DrvPalette24[pxl2];

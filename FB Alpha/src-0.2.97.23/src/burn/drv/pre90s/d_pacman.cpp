@@ -4,6 +4,7 @@
 // Fix Shoot the Bull inputs
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "bitswap.h"
 #include "sn76496.h"
 #include "namco_snd.h"

@@ -1441,6 +1441,11 @@ static void System16UPD7759DrqCallback(INT32 state)
 	if (state) ZetNmi();
 }
 
+static INT32 System16ASyncDAC()
+{
+	return (INT32)(float)(nBurnSoundLen * (I8039TotalCycles() / ((6000000.0000 / 15) / (nBurnFPS / 100.0000))));
+}
+
 /*====================================================
 Multiply Protection Chip Emulation
 ====================================================*/
@@ -1846,7 +1851,7 @@ INT32 System16Init()
 			N7751SetCPUOpReadArgHandler(N7751Read);
 			
 			YM2151SetPortWriteHandler(0, &System16N7751ControlWrite);
-			DACInit(0, 0, 1);
+			DACInit(0, 0, 1, System16ASyncDAC);
 		}
 		
 		System16TileBankSize = 0x1000;
@@ -2519,7 +2524,7 @@ Frame Functions
 
 INT32 System16AFrame()
 {
-	INT32 nInterleave = nBurnSoundLen; // for the DAC
+	INT32 nInterleave = 100; // alien syndrome needs high interleave for the DAC sounds to be processed
 	
 	if (System16Reset) System16DoReset();
 
@@ -2534,6 +2539,7 @@ INT32 System16AFrame()
 
 	SekNewFrame();
 	ZetNewFrame();
+	I8039NewFrame();
 
 	SekOpen(0);
 	for (INT32 i = 0; i < nInterleave; i++) {
@@ -2568,9 +2574,8 @@ INT32 System16AFrame()
 
 			ZetOpen(0);
 			BurnYM2151Render(pSoundBuf, nSegmentLength);
-			ZetClose();
-			if (System167751ProgSize) DACUpdate(pSoundBuf, nSegmentLength);
 			nSoundBufferPos += nSegmentLength;
+			ZetClose();
 		}
 	}
 
@@ -2588,8 +2593,9 @@ INT32 System16AFrame()
 			ZetOpen(0);
 			BurnYM2151Render(pSoundBuf, nSegmentLength);
 			ZetClose();
-			if (System167751ProgSize) DACUpdate(pSoundBuf, nSegmentLength);
 		}
+		
+		if (System167751ProgSize) DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
 	
 	if (pBurnDraw) System16ARender();

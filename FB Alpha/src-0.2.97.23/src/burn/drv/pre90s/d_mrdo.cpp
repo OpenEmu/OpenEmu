@@ -2,6 +2,7 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "sn76496.h"
 
 static UINT8 *Mem, *Rom, *Gfx0, *Gfx1, *Gfx2, *Prom;

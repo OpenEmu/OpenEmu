@@ -2,6 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "h6280_intf.h"
 #include "bitswap.h"
 #include "deco16ic.h"
@@ -722,26 +723,26 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 // Dark Seal (World revision 3)
 
 static struct BurnRomInfo darksealRomDesc[] = {
-	{ "ga04-3.rom",	0x20000, 0xbafad556, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
-	{ "ga01-3.rom",	0x20000, 0xf409050e, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "ga-00.rom",	0x20000, 0xfbf3ac63, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "ga-05.rom",	0x20000, 0xd5e3ae3f, 1 | BRF_PRG | BRF_ESS }, //  3
+	{ "ga_04-3.j12",0x20000, 0xbafad556, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "ga_01-3.h14",0x20000, 0xf409050e, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "ga_00.h12",	0x20000, 0xfbf3ac63, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "ga_05.j14",	0x20000, 0xd5e3ae3f, 1 | BRF_PRG | BRF_ESS }, //  3
 
-	{ "fz-06.rom",	0x10000, 0xc4828a6d, 2 | BRF_PRG | BRF_ESS }, //  4 H6280 Code
+	{ "fz_06-1.j15",0x10000, 0xc4828a6d, 2 | BRF_PRG | BRF_ESS }, //  4 H6280 Code
 
-	{ "fz-02.rom",	0x10000, 0x3c9c3012, 3 | BRF_GRA },           //  5 Text Tiles
-	{ "fz-03.rom",	0x10000, 0x264b90ed, 3 | BRF_GRA },           //  6
+	{ "fz_02.j1",	0x10000, 0x3c9c3012, 3 | BRF_GRA },           //  5 Text Tiles
+	{ "fz_03.j2",	0x10000, 0x264b90ed, 3 | BRF_GRA },           //  6
 
-	{ "mac-03.rom",	0x80000, 0x9996f3dc, 4 | BRF_GRA },           //  7 Foreground Tiles
+	{ "mac-03.h3",	0x80000, 0x9996f3dc, 4 | BRF_GRA },           //  7 Foreground Tiles
 
-	{ "mac-02.rom",	0x80000, 0x49504e89, 5 | BRF_GRA },           //  8 Background Tiles
+	{ "mac-02.e20",	0x80000, 0x49504e89, 5 | BRF_GRA },           //  8 Background Tiles
 
-	{ "mac-00.rom",	0x80000, 0x52acf1d6, 6 | BRF_GRA },           //  9 Sprite Tiles
-	{ "mac-01.rom",	0x80000, 0xb28f7584, 6 | BRF_GRA },           // 10
+	{ "mac-00.b1",	0x80000, 0x52acf1d6, 6 | BRF_GRA },           //  9 Sprite Tiles
+	{ "mac-01.b3",	0x80000, 0xb28f7584, 6 | BRF_GRA },           // 10
 
-	{ "fz-08.rom",	0x20000, 0xc9bf68e1, 7 | BRF_SND },           // 11 Oki6295 #0 Samples
+	{ "fz_08.l17",	0x20000, 0xc9bf68e1, 7 | BRF_SND },           // 11 Oki6295 #0 Samples
 
-	{ "fz-07.rom",	0x20000, 0x588dd3cb, 8 | BRF_SND },           // 12 Oki6295 #1 Samples
+	{ "fz_07.k14",	0x20000, 0x588dd3cb, 8 | BRF_SND },           // 12 Oki6295 #1 Samples
 };
 
 STD_ROM_PICK(darkseal)
@@ -761,26 +762,26 @@ struct BurnDriver BurnDrvDarkseal = {
 // Dark Seal (World revision 1)
 
 static struct BurnRomInfo darksea1RomDesc[] = {
-	{ "ga-04.rom",	0x20000, 0xa1a985a9, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
-	{ "ga-01.rom",	0x20000, 0x98bd2940, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "ga-00.rom",	0x20000, 0xfbf3ac63, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "ga-05.rom",	0x20000, 0xd5e3ae3f, 1 | BRF_PRG | BRF_ESS }, //  3
+	{ "ga_04.j12",	0x20000, 0xa1a985a9, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "ga_01.h14",	0x20000, 0x98bd2940, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "ga_00.h12",	0x20000, 0xfbf3ac63, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "ga_05.j14",	0x20000, 0xd5e3ae3f, 1 | BRF_PRG | BRF_ESS }, //  3
 
-	{ "fz-06.rom",	0x10000, 0xc4828a6d, 2 | BRF_PRG | BRF_ESS }, //  4 H6280 Code
+	{ "fz_06-1.j15",0x10000, 0xc4828a6d, 2 | BRF_PRG | BRF_ESS }, //  4 H6280 Code
 
-	{ "fz-02.rom",	0x10000, 0x3c9c3012, 3 | BRF_GRA },           //  5 Text Tiles
-	{ "fz-03.rom",	0x10000, 0x264b90ed, 3 | BRF_GRA },           //  6
+	{ "fz_02.j1",	0x10000, 0x3c9c3012, 3 | BRF_GRA },           //  5 Text Tiles
+	{ "fz_03.j2",	0x10000, 0x264b90ed, 3 | BRF_GRA },           //  6
 
-	{ "mac-03.rom",	0x80000, 0x9996f3dc, 4 | BRF_GRA },           //  7 Foreground Tiles
+	{ "mac-03.h3",	0x80000, 0x9996f3dc, 4 | BRF_GRA },           //  7 Foreground Tiles
 
-	{ "mac-02.rom",	0x80000, 0x49504e89, 5 | BRF_GRA },           //  8 Background Tiles
+	{ "mac-02.e20",	0x80000, 0x49504e89, 5 | BRF_GRA },           //  8 Background Tiles
 
-	{ "mac-00.rom",	0x80000, 0x52acf1d6, 6 | BRF_GRA },           //  9 Sprite Tiles
-	{ "mac-01.rom",	0x80000, 0xb28f7584, 6 | BRF_GRA },           // 10
+	{ "mac-00.b1",	0x80000, 0x52acf1d6, 6 | BRF_GRA },           //  9 Sprite Tiles
+	{ "mac-01.b3",	0x80000, 0xb28f7584, 6 | BRF_GRA },           // 10
 
-	{ "fz-08.rom",	0x20000, 0xc9bf68e1, 7 | BRF_SND },           // 11 Oki6295 #0 Samples
+	{ "fz_08.l17",	0x20000, 0xc9bf68e1, 7 | BRF_SND },           // 11 Oki6295 #0 Samples
 
-	{ "fz-07.rom",	0x20000, 0x588dd3cb, 8 | BRF_SND },           // 12 Oki6295 #1 Samples
+	{ "fz_07.k14",	0x20000, 0x588dd3cb, 8 | BRF_SND },           // 12 Oki6295 #1 Samples
 };
 
 STD_ROM_PICK(darksea1)
@@ -800,26 +801,26 @@ struct BurnDriver BurnDrvDarksea1 = {
 // Dark Seal (Japan)
 
 static struct BurnRomInfo darkseajRomDesc[] = {
-	{ "fz-04.bin",	0x20000, 0x817faa2c, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
-	{ "fz-01.bin",	0x20000, 0x373caeee, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "fz-00.bin",	0x20000, 0x1ab99aa7, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "fz-05.bin",	0x20000, 0x3374ef8c, 1 | BRF_PRG | BRF_ESS }, //  3
+	{ "fz_04-4.j12",0x20000, 0x817faa2c, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "fz_01-4.h14",0x20000, 0x373caeee, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "fz_00-2.h12",0x20000, 0x1ab99aa7, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "fz_05-2.j14",0x20000, 0x3374ef8c, 1 | BRF_PRG | BRF_ESS }, //  3
 
-	{ "fz-06.rom",	0x10000, 0xc4828a6d, 2 | BRF_PRG | BRF_ESS }, //  4 H6280 Code
+	{ "fz_06-1.j15",0x10000, 0xc4828a6d, 2 | BRF_PRG | BRF_ESS }, //  4 H6280 Code
 
-	{ "fz-02.rom",	0x10000, 0x3c9c3012, 3 | BRF_GRA },           //  5 Text Tiles
-	{ "fz-03.rom",	0x10000, 0x264b90ed, 3 | BRF_GRA },           //  6
+	{ "fz_02.j1",	0x10000, 0x3c9c3012, 3 | BRF_GRA },           //  5 Text Tiles
+	{ "fz_03.j2",	0x10000, 0x264b90ed, 3 | BRF_GRA },           //  6
 
-	{ "mac-03.rom",	0x80000, 0x9996f3dc, 4 | BRF_GRA },           //  7 Foreground Tiles
+	{ "mac-03.h3",	0x80000, 0x9996f3dc, 4 | BRF_GRA },           //  7 Foreground Tiles
 
-	{ "mac-02.rom",	0x80000, 0x49504e89, 5 | BRF_GRA },           //  8 Background Tiles
+	{ "mac-02.e20",	0x80000, 0x49504e89, 5 | BRF_GRA },           //  8 Background Tiles
 
-	{ "mac-00.rom",	0x80000, 0x52acf1d6, 6 | BRF_GRA },           //  9 Sprite Tiles
-	{ "mac-01.rom",	0x80000, 0xb28f7584, 6 | BRF_GRA },           // 10
+	{ "mac-00.b1",	0x80000, 0x52acf1d6, 6 | BRF_GRA },           //  9 Sprite Tiles
+	{ "mac-01.b3",	0x80000, 0xb28f7584, 6 | BRF_GRA },           // 10
 
-	{ "fz-08.rom",	0x20000, 0xc9bf68e1, 7 | BRF_SND },           // 11 Oki6295 #0 Samples
+	{ "fz_08.l17",	0x20000, 0xc9bf68e1, 7 | BRF_SND },           // 11 Oki6295 #0 Samples
 
-	{ "fz-07.rom",	0x20000, 0x588dd3cb, 8 | BRF_SND },           // 12 Oki6295 #1 Samples
+	{ "fz_07.k14",	0x20000, 0x588dd3cb, 8 | BRF_SND },           // 12 Oki6295 #1 Samples
 };
 
 STD_ROM_PICK(darkseaj)
@@ -839,26 +840,26 @@ struct BurnDriver BurnDrvDarkseaj = {
 // Gate of Doom (US revision 4)
 
 static struct BurnRomInfo gatedoomRomDesc[] = {
-	{ "gb04-4",	0x20000, 0x8e3a0bfd, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
-	{ "gb01-4",	0x20000, 0x8d0fd383, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "ga-00.rom",	0x20000, 0xfbf3ac63, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "ga-05.rom",	0x20000, 0xd5e3ae3f, 1 | BRF_PRG | BRF_ESS }, //  3
+	{ "gb_04-4.j12",0x20000, 0x8e3a0bfd, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "gb_01-4.h14",0x20000, 0x8d0fd383, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "gb_00.h12",	0x20000, 0xa88c16a1, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "gb_05.j14",	0x20000, 0x252d7e14, 1 | BRF_PRG | BRF_ESS }, //  3
 
-	{ "fz-06.rom",	0x10000, 0xc4828a6d, 2 | BRF_PRG | BRF_ESS }, //  4 H6280 Code
+	{ "fz_06-1.j15",0x10000, 0xc4828a6d, 2 | BRF_PRG | BRF_ESS }, //  4 H6280 Code
 
-	{ "fz-02.rom",	0x10000, 0x3c9c3012, 3 | BRF_GRA },           //  5 Text Tiles
-	{ "fz-03.rom",	0x10000, 0x264b90ed, 3 | BRF_GRA },           //  6
+	{ "fz_02.j1",	0x10000, 0x3c9c3012, 3 | BRF_GRA },           //  5 Text Tiles
+	{ "fz_03.j2",	0x10000, 0x264b90ed, 3 | BRF_GRA },           //  6
 
-	{ "mac-03.rom",	0x80000, 0x9996f3dc, 4 | BRF_GRA },           //  7 Foreground Tiles
+	{ "mac-03.h3",	0x80000, 0x9996f3dc, 4 | BRF_GRA },           //  7 Foreground Tiles
 
-	{ "mac-02.rom",	0x80000, 0x49504e89, 5 | BRF_GRA },           //  8 Background Tiles
+	{ "mac-02.e20",	0x80000, 0x49504e89, 5 | BRF_GRA },           //  8 Background Tiles
 
-	{ "mac-00.rom",	0x80000, 0x52acf1d6, 6 | BRF_GRA },           //  9 Sprite Tiles
-	{ "mac-01.rom",	0x80000, 0xb28f7584, 6 | BRF_GRA },           // 10
+	{ "mac-00.b1",	0x80000, 0x52acf1d6, 6 | BRF_GRA },           //  9 Sprite Tiles
+	{ "mac-01.b3",	0x80000, 0xb28f7584, 6 | BRF_GRA },           // 10
 
-	{ "fz-08.rom",	0x20000, 0xc9bf68e1, 7 | BRF_SND },           // 11 Oki6295 #0 Samples
+	{ "fz_08.l17",	0x20000, 0xc9bf68e1, 7 | BRF_SND },           // 11 Oki6295 #0 Samples
 
-	{ "fz-07.rom",	0x20000, 0x588dd3cb, 8 | BRF_SND },           // 12 Oki6295 #1 Samples
+	{ "fz_07.k14",	0x20000, 0x588dd3cb, 8 | BRF_SND },           // 12 Oki6295 #1 Samples
 };
 
 STD_ROM_PICK(gatedoom)
@@ -878,26 +879,26 @@ struct BurnDriver BurnDrvGatedoom = {
 // Gate of Doom (US revision 1)
 
 static struct BurnRomInfo gatedom1RomDesc[] = {
-	{ "gb04.bin",	0x20000, 0x4c3bbd2b, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
-	{ "gb01.bin",	0x20000, 0x59e367f4, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "gb00.bin",	0x20000, 0xa88c16a1, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "gb05.bin",	0x20000, 0x252d7e14, 1 | BRF_PRG | BRF_ESS }, //  3
+	{ "gb_04.j12",	0x20000, 0x4c3bbd2b, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "gb_01.h14",	0x20000, 0x59e367f4, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "gb_00.h12",	0x20000, 0xa88c16a1, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "gb_05.j14",	0x20000, 0x252d7e14, 1 | BRF_PRG | BRF_ESS }, //  3
 
-	{ "fz-06.rom",	0x10000, 0xc4828a6d, 2 | BRF_PRG | BRF_ESS }, //  4 H6280 Code
+	{ "fz_06-1.j15",0x10000, 0xc4828a6d, 2 | BRF_PRG | BRF_ESS }, //  4 H6280 Code
 
-	{ "fz-02.rom",	0x10000, 0x3c9c3012, 3 | BRF_GRA },           //  5 Text Tiles
-	{ "fz-03.rom",	0x10000, 0x264b90ed, 3 | BRF_GRA },           //  6
+	{ "fz_02.j1",	0x10000, 0x3c9c3012, 3 | BRF_GRA },           //  5 Text Tiles
+	{ "fz_03.j2",	0x10000, 0x264b90ed, 3 | BRF_GRA },           //  6
 
-	{ "mac-03.rom",	0x80000, 0x9996f3dc, 4 | BRF_GRA },           //  7 Foreground Tiles
+	{ "mac-03.h3",	0x80000, 0x9996f3dc, 4 | BRF_GRA },           //  7 Foreground Tiles
 
-	{ "mac-02.rom",	0x80000, 0x49504e89, 5 | BRF_GRA },           //  8 Background Tiles
+	{ "mac-02.e20",	0x80000, 0x49504e89, 5 | BRF_GRA },           //  8 Background Tiles
 
-	{ "mac-00.rom",	0x80000, 0x52acf1d6, 6 | BRF_GRA },           //  9 Sprite Tiles
-	{ "mac-01.rom",	0x80000, 0xb28f7584, 6 | BRF_GRA },           // 10
+	{ "mac-00.b1",	0x80000, 0x52acf1d6, 6 | BRF_GRA },           //  9 Sprite Tiles
+	{ "mac-01.b3",	0x80000, 0xb28f7584, 6 | BRF_GRA },           // 10
 
-	{ "fz-08.rom",	0x20000, 0xc9bf68e1, 7 | BRF_SND },           // 11 Oki6295 #0 Samples
+	{ "fz_08.l17",	0x20000, 0xc9bf68e1, 7 | BRF_SND },           // 11 Oki6295 #0 Samples
 
-	{ "fz-07.rom",	0x20000, 0x588dd3cb, 8 | BRF_SND },           // 12 Oki6295 #1 Samples
+	{ "fz_07.k14",	0x20000, 0x588dd3cb, 8 | BRF_SND },           // 12 Oki6295 #1 Samples
 };
 
 STD_ROM_PICK(gatedom1)

@@ -2,6 +2,7 @@
 // Based on MAME driver by Phil Stroffolino
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "taito_m68705.h"
 #include "burn_ym2203.h"
 

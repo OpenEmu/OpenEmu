@@ -3,6 +3,8 @@
 // Based on MAME driver by Carlos A. Lozano Baides and Richard Bush
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "seibusnd.h"
 
 static UINT8 *AllMem;
@@ -925,8 +927,8 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 // Blood Bros. (set 1)
 
 static struct BurnRomInfo bloodbroRomDesc[] = {
-	{ "bb_02.bin",	0x020000, 0xc0fdc3e4, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
-	{ "bb_01.bin",	0x020000, 0x2d7e0fdf, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "2j.u021",	0x020000, 0xc0fdc3e4, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "1j.i022",	0x020000, 0x2d7e0fdf, 1 | BRF_PRG | BRF_ESS }, //  1
 	{ "bb_04.bin",	0x020000, 0xfd951c2c, 1 | BRF_PRG | BRF_ESS }, //  2
 	{ "bb_03.bin",	0x020000, 0x18d3c460, 1 | BRF_PRG | BRF_ESS }, //  3
 

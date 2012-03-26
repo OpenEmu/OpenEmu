@@ -54,3 +54,8 @@ void Sh2BurnCycles(int cycles);
 
 int Sh2Scan(int);
 
+#define SH2_READ  (1)
+#define SH2_WRITE (2)
+#define SH2_FETCH (4)
+#define SH2_ROM (SH2_READ | SH2_FETCH)
+#define SH2_RAM (SH2_READ | SH2_WRITE | SH2_FETCH)

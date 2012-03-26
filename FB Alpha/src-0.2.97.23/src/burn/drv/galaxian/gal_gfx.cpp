@@ -1253,3 +1253,14 @@ void DambustrRenderFrame()
 	}	
 	BurnTransferCopy(GalPalette);
 }
+
+void FantastcRenderFrame()
+{
+	BurnTransferClear();
+	GalCalcPaletteFunction();
+	if (GalRenderBackgroundFunction) GalRenderBackgroundFunction();
+	GalRenderBgLayer(GalVideoRam);
+	GalRenderSprites(&GalSpriteRam[0x40]);
+	if (GalDrawBulletsFunction) GalDrawBullets(&GalSpriteRam[0xc0]);
+	BurnTransferCopy(GalPalette);
+}

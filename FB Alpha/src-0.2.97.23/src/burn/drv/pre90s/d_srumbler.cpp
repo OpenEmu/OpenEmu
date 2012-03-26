@@ -2,6 +2,7 @@
 // Based on MAME driver by Paul Leaman
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "m6809_intf.h"
 #include "burn_ym2203.h"
 

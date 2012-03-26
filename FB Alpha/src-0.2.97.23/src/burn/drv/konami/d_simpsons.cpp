@@ -2,6 +2,7 @@
 // Based on MAME driver by Ernesto Corvi and various others
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "burn_ym2151.h"
 #include "konami_intf.h"
 #include "konamiic.h"

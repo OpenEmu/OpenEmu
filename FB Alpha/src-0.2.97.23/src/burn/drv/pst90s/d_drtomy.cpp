@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "sek.h"
 #include "msm6295.h"
 
 static UINT8 *Mem, *MemEnd, *RamStart, *RamEnd;

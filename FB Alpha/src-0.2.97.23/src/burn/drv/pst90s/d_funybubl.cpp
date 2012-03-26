@@ -2,6 +2,7 @@
 // Based on MAME driver by Pierpaolo Prazzoli and David Haywood
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "msm6295.h"
 
 // To do: 

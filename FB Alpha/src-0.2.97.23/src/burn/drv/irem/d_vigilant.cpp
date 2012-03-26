@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "zet.h"
 #include "burn_ym2151.h"
 #include "burn_ym2203.h"
 #include "dac.h"
@@ -45,8 +46,6 @@ static INT32 nCyclesSegment;
 
 static UINT8 DrvHasYM2203 = 0;
 static UINT8 DrvKikcubicDraw = 0;
-
-static INT16 *DACBuffer = NULL;
 
 #define VECTOR_INIT		0
 #define YM2151_ASSERT		1
@@ -773,8 +772,6 @@ static INT32 MemIndex()
 	DrvSprites             = Next; Next += 0x1000 * 16 * 16;
 	DrvBackTiles           = Next; Next += 0x4000 * 32;
 	
-	DACBuffer              = (INT16*)Next; Next += nBurnSoundLen * 2 * sizeof(INT16);
-
 	MemEnd                 = Next;
 
 	return 0;
@@ -1352,6 +1349,11 @@ inline static double BuccanrsGetTime()
 	return (double)ZetTotalCycles() / (18432000 / 6);
 }
 
+static INT32 VigilantSyncDAC()
+{
+	return (INT32)(float)(nBurnSoundLen * (ZetTotalCycles() / ((nCyclesTotal[1] * 55.0000) / (nBurnFPS / 100.0000))));
+}
+
 static INT32 CharPlaneOffsets[4]         = { 0x80000, 0x80004, 0, 4 };
 static INT32 CharXOffsets[8]             = { 0, 1, 2, 3, 64, 65, 66, 67 };
 static INT32 CharYOffsets[8]             = { 0, 8, 16, 24, 32, 40, 48, 56 };
@@ -1457,7 +1459,7 @@ static INT32 DrvInit()
 	GenericTilesInit();
 	BurnYM2151Init(3579645, 25.0);
 	BurnYM2151SetIrqHandler(&VigilantYM2151IrqHandler);	
-	DACInit(0, 0, 1);
+	DACInit(0, 0, 1, VigilantSyncDAC);
 	DACSetVolShift(0, 1);
 	
 	DrvDoReset();
@@ -1559,7 +1561,7 @@ static INT32 BuccanrsInit()
 	BurnYM2203Init(2, 18432000 / 6, &BuccanrsYM2203IRQHandler, BuccanrsSynchroniseStream, BuccanrsGetTime, 0);
 	BurnYM2203SetVolumeShift(2);
 	BurnTimerAttachZet(18432000 / 6);
-	DACInit(0, 0, 0);
+	DACInit(0, 0, 1, VigilantSyncDAC);
 	DACSetVolShift(0, 1);
 	
 	DrvDoReset();
@@ -1682,7 +1684,7 @@ static INT32 KikcubicInit()
 	GenericTilesInit();
 	BurnYM2151Init(3579645, 25.0);
 	BurnYM2151SetIrqHandler(&VigilantYM2151IrqHandler);	
-	DACInit(0, 0, 1);
+	DACInit(0, 0, 1, VigilantSyncDAC);
 	DACSetVolShift(0, 1);
 	
 	DrvKikcubicDraw = 1;
@@ -1944,14 +1946,8 @@ static void KikcubicDraw()
 
 static INT32 DrvFrame()
 {
-	INT32 nInterleave = nBurnSoundLen;
+	INT32 nInterleave = 256; // dac needs 128 NMIs
 	INT32 nSoundBufferPos = 0;
-	
-	INT32 MSMIRQSlice[128];
-	
-	for (INT32 i = 0; i < 128; i++) {
-			MSMIRQSlice[i] = (INT32)((double)((nInterleave * (i + 1)) / 129));
-		}
 	
 	if (DrvReset) DrvDoReset();
 
@@ -1981,24 +1977,16 @@ static INT32 DrvFrame()
 		} else {
 			BurnTimerUpdate(i * (nCyclesTotal[nCurrentCPU] / nInterleave));
 		}
-		for (INT32 j = 0; j < 128; j++) {
-			if (i == MSMIRQSlice[j]) {
-				ZetNmi();
-			}
+		if (i & 1) {
+			ZetNmi();
 		}
 		ZetClose();
 		
-		if (pBurnSoundOut) {
+		if (pBurnSoundOut && !DrvHasYM2203) {
 			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
 			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-			INT16* pSoundBuf2 = DACBuffer + (nSoundBufferPos << 1);
 			ZetOpen(1);
-			if (DrvHasYM2203) {
-				DACUpdate(pSoundBuf2, nSegmentLength);
-			} else {
-				BurnYM2151Render(pSoundBuf, nSegmentLength);
-				DACUpdate(pSoundBuf, nSegmentLength);
-			}
+			BurnYM2151Render(pSoundBuf, nSegmentLength);
 			ZetClose();
 			nSoundBufferPos += nSegmentLength;
 		}
@@ -2010,31 +1998,23 @@ static INT32 DrvFrame()
 		ZetClose();
 	}
 	
-	if (pBurnSoundOut) {
+	if (pBurnSoundOut && !DrvHasYM2203) {
 		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
 		
 		if (nSegmentLength) {
 			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-			INT16* pSoundBuf2 = DACBuffer + (nSoundBufferPos << 1);
 			ZetOpen(1);
-			if (DrvHasYM2203) {
-				DACUpdate(pSoundBuf2, nSegmentLength);
-			} else {
-				BurnYM2151Render(pSoundBuf, nSegmentLength);
-				DACUpdate(pSoundBuf, nSegmentLength);
-			}
+			BurnYM2151Render(pSoundBuf, nSegmentLength);
 			ZetClose();			
 		}
+		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
 	
 	if (DrvHasYM2203 && pBurnSoundOut) {
 		ZetOpen(1);
 		BurnYM2203Update(pBurnSoundOut, nBurnSoundLen);
 		ZetClose();
-		for (INT32 i = 0; i < nBurnSoundLen; i++) {
-			pBurnSoundOut[(i << 1) + 0] += DACBuffer[(i << 1) + 0];
-			pBurnSoundOut[(i << 1) + 1] += DACBuffer[(i << 1) + 1];
-		}
+		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
 	
 	if (pBurnDraw) {

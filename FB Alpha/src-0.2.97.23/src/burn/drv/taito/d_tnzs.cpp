@@ -2,6 +2,7 @@
 // Based on MAME driver by Chris Moore, Brad Oliver, Nicola Salmoria, and many others
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "burn_ym2203.h"
 #include "burn_ym2151.h"
 #include "tnzs_prot.h"
@@ -891,6 +892,11 @@ inline static double DrvGetTime()
 	return (double)ZetTotalCycles() / 6000000;
 }
 
+static INT32 kabukizSyncDAC()
+{
+	return (INT32)(float)(nBurnSoundLen * (ZetTotalCycles() / (6000000.000 / (nBurnFPS / 100.000))));
+}
+
 static INT32 DrvDoReset()
 {
 	memset (AllRam, 0, RamEnd - AllRam);
@@ -1322,7 +1328,7 @@ static INT32 Type1Init(INT32 mcutype)
 		}
 	}	
 
-	DACInit(0, 0, 0); // kabukiz
+	DACInit(0, 0, 1, kabukizSyncDAC); // kabukiz
 
 	GenericTilesInit();
 
@@ -1429,7 +1435,7 @@ static INT32 Type2Init()
 	BurnYM2203SetPorts(0, NULL, NULL, &kabukiz_sound_bankswitch, &kabukiz_dac_write);
 	BurnTimerAttachZet(6000000);
 
-	DACInit(0, 0, 0); // kabukiz
+	DACInit(0, 0, 1, kabukizSyncDAC); // kabukiz
 
 	GenericTilesInit();
 
@@ -1462,6 +1468,7 @@ static INT32 DrvExit()
 // Stolen from TMNT. Thanks to Barry. :) 
 static void kageki_sample_render(INT16 *pSoundBuf, INT32 nLength)
 {
+	memset(pSoundBuf, 0, nLength * sizeof(INT16) * 2);
 	if (kageki_sample_select == -1) return;
 
 	double Addr = kageki_sample_pos;
@@ -1708,7 +1715,8 @@ static INT32 DrvFrame()
 
 	assemble_inputs();
 
-	INT32 nInterleave = nBurnSoundLen ? nBurnSoundLen : 100;
+	INT32 nInterleave = 100;
+	if (tnzs_mcu_type() == MCU_NONE_KAGEKI) nInterleave = nBurnSoundLen;
 	INT32 nSoundBufferPos = 0;
 
 	INT32 nCyclesSegment;
@@ -1770,7 +1778,6 @@ static INT32 DrvFrame()
 				BurnYM2151Render(pSoundBuf, nSegmentLength);
 			}
 			kageki_sample_render(pSoundBuf2, nSegmentLength);
-			DACUpdate(pSoundBuf2, nSegmentLength);
 			ZetClose();
 			nSoundBufferPos += nSegmentLength;
 		}
@@ -1790,13 +1797,13 @@ static INT32 DrvFrame()
 				BurnYM2151Render(pSoundBuf, nSegmentLength);
 			}
 			kageki_sample_render(pSoundBuf2, nSegmentLength);
-			DACUpdate(pSoundBuf2, nSegmentLength);
 		}
 	}
 	
 	if (tnzs_mcu_type() != MCU_NONE_JPOPNICS) {
 		if (pBurnSoundOut) {
 			BurnYM2203Update(pBurnSoundOut, nBurnSoundLen);
+			DACUpdate(pBurnSoundOut, nBurnSoundLen);
 			for (INT32 i = 0; i < nBurnSoundLen; i++) {
 				pBurnSoundOut[(i << 1) + 0] += SampleBuffer[(i << 1) + 0];
 				pBurnSoundOut[(i << 1) + 1] += SampleBuffer[(i << 1) + 1];
@@ -2108,6 +2115,38 @@ struct BurnDriver BurnDrvArknid2j = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_TAITO_MISC, GBF_MISC, 0,
 	NULL, arknid2jRomInfo, arknid2jRomName, NULL, NULL, Arknoid2InputInfo, Arknid2uDIPInfo,
+	Arknoid2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x200,
+	224, 256, 3, 4
+};
+
+
+// Arkanoid - Revenge of DOH (Japan bootleg)
+
+static struct BurnRomInfo arknid2bRomDesc[] = {
+	{ "boot.11c",		0x10000, 0x3847dfb0, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
+
+	{ "b08_13.3e",		0x10000, 0xe8035ef1, 2 | BRF_PRG | BRF_ESS }, //  1 Z80 #1 Code
+
+	{ "ark28742.3g",	0x00800, 0x00000000, 3 | BRF_NODUMP },	      //  2 I8742 MCU
+
+	{ "b08-01.13a",		0x20000, 0x2ccc86b4, 4 | BRF_GRA },	      //  3 Graphics
+	{ "b08-02.10a",		0x20000, 0x056a985f, 4 | BRF_GRA },	      //  4
+	{ "b08-03.7a",		0x20000, 0x274a795f, 4 | BRF_GRA },	      //  5
+	{ "b08-04.4a",		0x20000, 0x9754f703, 4 | BRF_GRA },	      //  6
+
+	{ "b08-08.15f",		0x00200, 0xa4f7ebd9, 5 | BRF_GRA },	      //  7 Color PROMs
+	{ "b08-07.16f",		0x00200, 0xea34d9f7, 5 | BRF_GRA },	      //  8
+};
+
+STD_ROM_PICK(arknid2b)
+STD_ROM_FN(arknid2b)
+
+struct BurnDriver BurnDrvArknid2b = {
+	"arknoid2b", "arknoid2", NULL, NULL, "1987",
+	"Arkanoid - Revenge of DOH (Japan bootleg)\0", NULL, "bootleg", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_TAITO_MISC, GBF_MISC, 0,
+	NULL, arknid2bRomInfo, arknid2bRomName, NULL, NULL, Arknoid2InputInfo, Arknid2uDIPInfo,
 	Arknoid2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x200,
 	224, 256, 3, 4
 };

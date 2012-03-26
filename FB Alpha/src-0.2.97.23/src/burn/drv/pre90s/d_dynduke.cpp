@@ -2,6 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "seibusnd.h"
 #include "vez.h"
 

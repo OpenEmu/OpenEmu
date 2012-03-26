@@ -6251,7 +6251,7 @@ static struct BurnRomInfo zupapaRomDesc[] = {
 	{ "070-c1.c1",    0x800000, 0xf8ad02d8, 3 | BRF_GRA },           //  1 Sprite data
 	{ "070-c2.c2",    0x800000, 0x70156dde, 3 | BRF_GRA },           //  2 
 
-	{ "070-m1.m1",    0x020000, 0x5a3b3191, 4 | BRF_ESS | BRF_PRG }, //  3 Z80 code
+	{ "070-epr.m1",   0x020000, 0x5a3b3191, 4 | BRF_ESS | BRF_PRG }, //  3 Z80 code
 
 	{ "070-v1.v1",    0x200000, 0xd3a7e1ff, 5 | BRF_SND },           //  4 Sound data
 };
@@ -7530,13 +7530,8 @@ struct BurnDriver BurnDrvmslug5h = {
 // Metal Slug 5 (JAMMA PCB)
 
 static struct BurnRomInfo ms5pcbRomDesc[] = {
-#if !defined (ROM_VERIFY)
-	{ "268-p1.p1",    0x400000,  0xd0466792, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
-	{ "268-p2.p2",    0x400000,  0xfbf6b61e, 1 | BRF_ESS | BRF_PRG }, //  1 
-#else
-	{ "268-p1r.p1",   0x400000,  0x00000000, 1 | BRF_ESS | BRF_PRG | BRF_NODUMP }, //  0 68K code
-	{ "268-p2r.p2",   0x400000,  0x00000000, 1 | BRF_ESS | BRF_PRG | BRF_NODUMP }, //  1 
-#endif
+	{ "268-p1r.p1",   0x400000,  0xd0466792, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+	{ "268-p2r.p2",   0x400000,  0xfbf6b61e, 1 | BRF_ESS | BRF_PRG }, //  1 
 
 	{ "268-c1.c1",    0x1000000, 0x802042e8, 3 | BRF_GRA },           //  2 Sprite data
 	{ "268-c2.c2",    0x1000000, 0x3b89fb9f, 3 | BRF_GRA },           //  3 

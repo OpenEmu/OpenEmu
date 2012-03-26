@@ -70,7 +70,8 @@ extern void N7751Reset (void);
 extern void N7751SetIrqState(int state);
 extern int N7751Scan(int nAction,int *pnMin);
 
-
+extern INT32 I8039TotalCycles();
+extern void I8039NewFrame();
 
 /*
  *   Input a UINT8 from given I/O port

@@ -5,6 +5,7 @@
 
 
 #include "burnint.h"
+#include "zet.h"
 #include "burn_ym3812.h"
 #include "msm6295.h"
 #include "vez.h"

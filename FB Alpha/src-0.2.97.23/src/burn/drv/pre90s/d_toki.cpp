@@ -1,4 +1,6 @@
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym3812.h"
 #include "msm6295.h"
 #include "msm5205.h"
@@ -245,7 +247,7 @@ STDDIPINFO(Tokib)
 
 static void palette_write(INT32 offset)
 {
-	UINT16 data = *((UINT16*)(DrvPalRAM + offset));
+	UINT16 data = BURN_ENDIAN_SWAP_INT16(*((UINT16*)(DrvPalRAM + offset)));
 
 	UINT8 r, g, b;
 
@@ -421,7 +423,7 @@ void __fastcall tokib_write_byte(UINT32 address, UINT8 data)
 void __fastcall tokib_write_word(UINT32 address, UINT16 data)
 {
 	if ((address & 0xff800) == 0x6e000) {
-		*((UINT16*)(DrvPalRAM + (address & 0x7fe))) = data;
+		*((UINT16*)(DrvPalRAM + (address & 0x7fe))) = BURN_ENDIAN_SWAP_INT16(data);
 
 		palette_write(address & 0x7fe);
 
@@ -429,12 +431,12 @@ void __fastcall tokib_write_word(UINT32 address, UINT16 data)
 	}
 
 	if (address >= 0x7180e && address <= 0x71e45) {
-		if (is_bootleg)*((UINT16*)(DrvSprRAM + (address & 0x7fe))) = data;
+		if (is_bootleg)*((UINT16*)(DrvSprRAM + (address & 0x7fe))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 
 	if (address >= 0xa0000 && address <= 0xa0057) {
-		if (!is_bootleg)*((UINT16*)(DrvScrollRAM + (address & 0x3fe))) = data;
+		if (!is_bootleg)*((UINT16*)(DrvScrollRAM + (address & 0x3fe))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 
@@ -457,7 +459,7 @@ void __fastcall tokib_write_word(UINT32 address, UINT16 data)
 		case 0x75006:
 		case 0x75008:
 		case 0x7500a:
-			if (is_bootleg)*((UINT16*)(DrvScrollRAM + (address - 0x75004))) = data;
+			if (is_bootleg)*((UINT16*)(DrvScrollRAM + (address - 0x75004))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 
 
@@ -1303,7 +1305,7 @@ static void draw_text_layer()
 		INT32 sy = (offs >> 5) << 3;
 		    sy -= 16;
 
-		INT32 code = vram[offs];
+		INT32 code = BURN_ENDIAN_SWAP_INT16(vram[offs]);
 		INT32 color = code >> 12;
 		    code &= 0xfff;
 
@@ -1330,7 +1332,7 @@ static void draw_bg_layer(UINT8 *vidsrc, UINT8 *gfxbase, INT32 transp, INT32 gfx
 		sy -= scrolly;
 		if (sy < -15) sy += 0x200;
 
-		INT32 code = vram[offs];
+		INT32 code = BURN_ENDIAN_SWAP_INT16(vram[offs]);
 		INT32 color = code >> 12;
 
 		if (transp) {
@@ -1360,7 +1362,7 @@ static void draw_bg_layer_by_line(UINT8 *vidsrc, UINT8 *gfxbase, INT32 transp, I
 		sy -= scrolly;
 		if (sy < -15) sy += 0x200;
 
-		INT32 code = vram[offs];
+		INT32 code = BURN_ENDIAN_SWAP_INT16(vram[offs]);
 		INT32 color = ((code >> 8) & 0xf0) | gfxoffs;
 
 		if (sx < -15 || sx >= nScreenWidth) continue;
@@ -1394,24 +1396,24 @@ static void tokib_draw_sprites()
 	{
 		sprite_word = &sprite_buffer[offs];
 
-		if (sprite_word[0] == 0xf100)
+		if (BURN_ENDIAN_SWAP_INT16(sprite_word[0]) == 0xf100)
 			break;
 
-		if (sprite_word[2])
+		if (BURN_ENDIAN_SWAP_INT16(sprite_word[2]))
 		{
-			x = sprite_word[3] & 0x1ff;
+			x = BURN_ENDIAN_SWAP_INT16(sprite_word[3]) & 0x1ff;
 			if (x > 256)
 				x -= 512;
 
-			y = sprite_word[0] & 0x1ff;
+			y = BURN_ENDIAN_SWAP_INT16(sprite_word[0]) & 0x1ff;
 			if (y > 256)
 				y = (512-y)+240;
 			else
 				y = 240-y;
 
-			flipx   = sprite_word[1] & 0x4000;
-			code    = sprite_word[1] & 0x1fff;
-			color   = sprite_word[2] >> 12;
+			flipx   = BURN_ENDIAN_SWAP_INT16(sprite_word[1]) & 0x4000;
+			code    = BURN_ENDIAN_SWAP_INT16(sprite_word[1]) & 0x1fff;
+			color   = BURN_ENDIAN_SWAP_INT16(sprite_word[2]) >> 12;
 
 			y-=1+16;
 
@@ -1435,22 +1437,22 @@ static void toki_draw_sprites()
 	{
 		sprite_word = &sprite_buffer[offs];
 
-		if ((sprite_word[2] != 0xf000) && (sprite_word[0] != 0xffff))
+		if ((BURN_ENDIAN_SWAP_INT16(sprite_word[2]) != 0xf000) && (BURN_ENDIAN_SWAP_INT16(sprite_word[0]) != 0xffff))
 		{
-			xoffs = (sprite_word[0] &0xf0);
-			x = (sprite_word[2] + xoffs) & 0x1ff;
+			xoffs = (BURN_ENDIAN_SWAP_INT16(sprite_word[0]) &0xf0);
+			x = (BURN_ENDIAN_SWAP_INT16(sprite_word[2]) + xoffs) & 0x1ff;
 			if (x > 256)
 				x -= 512;
 
-			yoffs = (sprite_word[0] &0xf) << 4;
-			y = (sprite_word[3] + yoffs) & 0x1ff;
+			yoffs = (BURN_ENDIAN_SWAP_INT16(sprite_word[0]) &0xf) << 4;
+			y = (BURN_ENDIAN_SWAP_INT16(sprite_word[3]) + yoffs) & 0x1ff;
 			if (y > 256)
 				y -= 512;
 
-			color = sprite_word[1] >> 12;
-			flipx   = sprite_word[0] & 0x100;
+			color = BURN_ENDIAN_SWAP_INT16(sprite_word[1]) >> 12;
+			flipx   = BURN_ENDIAN_SWAP_INT16(sprite_word[0]) & 0x100;
 			flipy   = 0;
-			code    = (sprite_word[1] & 0xfff) + ((sprite_word[2] & 0x8000) >> 3);
+			code    = (BURN_ENDIAN_SWAP_INT16(sprite_word[1]) & 0xfff) + ((BURN_ENDIAN_SWAP_INT16(sprite_word[2]) & 0x8000) >> 3);
 
 			if (0) { // flipscreen
 				x=240-x;
@@ -1490,12 +1492,12 @@ static INT32 TokibDraw()
 
 	UINT16 *scrollram = (UINT16 *)DrvScrollRAM;
 
-	if (scrollram[3] & 0x2000) {
-		draw_bg_layer(DrvBg1RAM, DrvGfxROM2, 0, 0x200, scrollram[1]-0x103, scrollram[0]+1+16);
-		draw_bg_layer(DrvBg2RAM, DrvGfxROM3, 1, 0x300, scrollram[3]-0x101, scrollram[2]+1+16);
+	if (BURN_ENDIAN_SWAP_INT16(scrollram[3]) & 0x2000) {
+		draw_bg_layer(DrvBg1RAM, DrvGfxROM2, 0, 0x200, BURN_ENDIAN_SWAP_INT16(scrollram[1])-0x103, BURN_ENDIAN_SWAP_INT16(scrollram[0])+1+16);
+		draw_bg_layer(DrvBg2RAM, DrvGfxROM3, 1, 0x300, BURN_ENDIAN_SWAP_INT16(scrollram[3])-0x101, BURN_ENDIAN_SWAP_INT16(scrollram[2])+1+16);
 	} else {
-		draw_bg_layer(DrvBg2RAM, DrvGfxROM3, 0, 0x300, scrollram[3]-0x101, scrollram[2]+1+16);
-		draw_bg_layer(DrvBg1RAM, DrvGfxROM2, 1, 0x200, scrollram[1]-0x103, scrollram[0]+1+16);
+		draw_bg_layer(DrvBg2RAM, DrvGfxROM3, 0, 0x300, BURN_ENDIAN_SWAP_INT16(scrollram[3])-0x101, BURN_ENDIAN_SWAP_INT16(scrollram[2])+1+16);
+		draw_bg_layer(DrvBg1RAM, DrvGfxROM2, 1, 0x200, BURN_ENDIAN_SWAP_INT16(scrollram[1])-0x103, BURN_ENDIAN_SWAP_INT16(scrollram[0])+1+16);
 	}
 
 	tokib_draw_sprites();
@@ -1580,15 +1582,15 @@ static INT32 DrvDraw()
 	UINT16 *scrollram = (UINT16*)DrvScrollRAM;
 	INT32 bgscrolly,bgscrollx,fgscrolly,fgscrollx;
 
-	bgscrollx = ((scrollram[0x06] & 0x7f) << 1) | ((scrollram[0x06] & 0x80) >> 7) | ((scrollram[0x05] & 0x10) << 4);
-	bgscrolly = ((scrollram[0x0e] & 0x7f) << 1) | ((scrollram[0x0e] & 0x80) >> 7) | ((scrollram[0x0d] & 0x10) << 4);
+	bgscrollx = ((BURN_ENDIAN_SWAP_INT16(scrollram[0x06]) & 0x7f) << 1) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x06]) & 0x80) >> 7) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x05]) & 0x10) << 4);
+	bgscrolly = ((BURN_ENDIAN_SWAP_INT16(scrollram[0x0e]) & 0x7f) << 1) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x0e]) & 0x80) >> 7) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x0d]) & 0x10) << 4);
 
-	fgscrollx = ((scrollram[0x16] & 0x7f) << 1) | ((scrollram[0x16] & 0x80) >> 7) | ((scrollram[0x15] & 0x10) << 4);
-	fgscrolly = ((scrollram[0x1e] & 0x7f) << 1) | ((scrollram[0x1e] & 0x80) >> 7) | ((scrollram[0x1d] & 0x10) << 4);
+	fgscrollx = ((BURN_ENDIAN_SWAP_INT16(scrollram[0x16]) & 0x7f) << 1) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x16]) & 0x80) >> 7) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x15]) & 0x10) << 4);
+	fgscrolly = ((BURN_ENDIAN_SWAP_INT16(scrollram[0x1e]) & 0x7f) << 1) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x1e]) & 0x80) >> 7) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x1d]) & 0x10) << 4);
 
 	if (~nBurnLayer & 1) memset (pTransDraw, 0, nScreenWidth * nScreenHeight * 2);
 
-	if (scrollram[0x28] & 0x0100) {
+	if (BURN_ENDIAN_SWAP_INT16(scrollram[0x28]) & 0x0100) {
 		if (nBurnLayer & 1) draw_bg_layer(DrvBg1RAM, DrvGfxROM2, 0, 0x200, bgscrollx, bgscrolly+16);
 		if (nBurnLayer & 2) draw_bg_layer(DrvBg2RAM, DrvGfxROM3, 1, 0x300, fgscrollx, fgscrolly+16);
 	} else {
@@ -1621,16 +1623,16 @@ static INT32 DrawByLine(INT32 line)
 	UINT16 *scrollram = (UINT16*)DrvScrollRAM;
 	INT32 bgscrolly,bgscrollx,fgscrolly,fgscrollx;
 
-	bgscrollx = ((scrollram[0x06] & 0x7f) << 1) | ((scrollram[0x06] & 0x80) >> 7) | ((scrollram[0x05] & 0x10) << 4);
-	bgscrolly = ((scrollram[0x0e] & 0x7f) << 1) | ((scrollram[0x0e] & 0x80) >> 7) | ((scrollram[0x0d] & 0x10) << 4);
+	bgscrollx = ((BURN_ENDIAN_SWAP_INT16(scrollram[0x06]) & 0x7f) << 1) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x06]) & 0x80) >> 7) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x05]) & 0x10) << 4);
+	bgscrolly = ((BURN_ENDIAN_SWAP_INT16(scrollram[0x0e]) & 0x7f) << 1) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x0e]) & 0x80) >> 7) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x0d]) & 0x10) << 4);
 
-	fgscrollx = ((scrollram[0x16] & 0x7f) << 1) | ((scrollram[0x16] & 0x80) >> 7) | ((scrollram[0x15] & 0x10) << 4);
-	fgscrolly = ((scrollram[0x1e] & 0x7f) << 1) | ((scrollram[0x1e] & 0x80) >> 7) | ((scrollram[0x1d] & 0x10) << 4);
+	fgscrollx = ((BURN_ENDIAN_SWAP_INT16(scrollram[0x16]) & 0x7f) << 1) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x16]) & 0x80) >> 7) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x15]) & 0x10) << 4);
+	fgscrolly = ((BURN_ENDIAN_SWAP_INT16(scrollram[0x1e]) & 0x7f) << 1) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x1e]) & 0x80) >> 7) | ((BURN_ENDIAN_SWAP_INT16(scrollram[0x1d]) & 0x10) << 4);
 
 	//memset (pTransDraw + line * 2, 0, nScreenWidth * 2);
 	if (~nBurnLayer & 1) memset (pTransDraw, 0, nScreenWidth * nScreenHeight * 2);
 
-	if (scrollram[0x28] & 0x0100) {
+	if (BURN_ENDIAN_SWAP_INT16(scrollram[0x28]) & 0x0100) {
 		if (nBurnLayer & 1) draw_bg_layer_by_line(DrvBg1RAM, DrvGfxROM2, 0, 0x200, bgscrollx, bgscrolly+16, line);
 		if (nBurnLayer & 2) draw_bg_layer_by_line(DrvBg2RAM, DrvGfxROM3, 1, 0x300, fgscrollx, fgscrolly+16, line);
 	} else {

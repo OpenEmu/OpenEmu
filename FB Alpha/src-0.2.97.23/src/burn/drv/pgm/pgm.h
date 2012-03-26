@@ -1,4 +1,6 @@
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "arm7_intf.h"
 #include "ics2115.h"
 
@@ -70,7 +72,6 @@ void install_protection_asic27a_kovsh();
 void install_protection_asic27a_martmast();
 void install_protection_asic27a_oldsplus();
 void install_protection_asic27a_puzlstar();
-void install_protection_asic27a_ddp2();
 void install_protection_asic27a_svg();
 void install_protection_asic27a_ketsui();
 void install_protection_asic27a_ddp3();
@@ -95,6 +96,7 @@ void pgm_decrypt_theglad();
 void pgm_decrypt_killbldp();
 void pgm_decrypt_oldsplus();
 void pgm_decrypt_svg();
+void pgm_decrypt_svgpcb();
 void pgm_decrypt_happy6in1();
 void pgm_decrypt_dw2001();
 void pgm_decrypt_py2k2();

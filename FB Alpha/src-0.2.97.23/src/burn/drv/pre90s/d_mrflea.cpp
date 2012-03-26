@@ -2,6 +2,7 @@
 // Based on MAME driver by Phil Stroffolino
 
 #include "burnint.h"
+#include "zet.h"
 #include "bitswap.h"
 #include "driver.h"
 extern "C" {

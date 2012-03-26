@@ -1,6 +1,8 @@
 // PC080SN & PC090OJ based games
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "taito.h"
 #include "taito_ic.h"
 #include "msm5205.h"

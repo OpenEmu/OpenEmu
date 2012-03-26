@@ -1,4 +1,6 @@
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "konamiic.h"
 #include "burn_ym2151.h"
 #include "upd7759.h"

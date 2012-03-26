@@ -48,8 +48,7 @@ static struct BurnInputInfo DrvInputList[] =
 	{"Start 1"           , BIT_DIGITAL  , DrvInputPort0 + 6, "p1 start"  },
 	{"Coin 2"            , BIT_DIGITAL  , DrvInputPort1 + 6, "p2 coin"   },
 	{"Start 2"           , BIT_DIGITAL  , DrvInputPort0 + 7, "p2 start"  },
-	{"Coin 3"            , BIT_DIGITAL  , DrvInputPort2 + 6, "p3 coin"   },
-
+	
 	{"Up"                , BIT_DIGITAL  , DrvInputPort0 + 2, "p1 up"     },
 	{"Down"              , BIT_DIGITAL  , DrvInputPort0 + 3, "p1 down"   },
 	{"Left"              , BIT_DIGITAL  , DrvInputPort0 + 1, "p1 left"   },
@@ -65,6 +64,7 @@ static struct BurnInputInfo DrvInputList[] =
 	{"Fire 2 (Cocktail)" , BIT_DIGITAL  , DrvInputPort1 + 5, "p2 fire 2" },
 	
 	{"Reset"             , BIT_DIGITAL  , &DrvReset        , "reset"     },
+	{"Service"           , BIT_DIGITAL  , DrvInputPort2 + 6, "service"   },
 	{"Dip 1"             , BIT_DIPSWITCH, DrvDip + 0       , "dip"       },
 	{"Dip 2"             , BIT_DIPSWITCH, DrvDip + 1       , "dip"       },
 };
@@ -88,7 +88,7 @@ static struct BurnDIPInfo DrvDIPList[]=
 {
 	// Default Values
 	{0x12, 0xff, 0xff, 0xff, NULL                     },
-	{0x13, 0xff, 0xff, 0x8b, NULL                     },
+	{0x13, 0xff, 0xff, 0xfb, NULL                     },
 	
 	// Dip 1
 	{0   , 0xfe, 0   , 4   , "Coin A"                 },
@@ -119,9 +119,99 @@ static struct BurnDIPInfo DrvDIPList[]=
 	{0x13, 0x01, 0x0c, 0x08, "3"                      },
 	{0x13, 0x01, 0x0c, 0x0c, "6"                      },
 	{0x13, 0x01, 0x0c, 0x00, "Infinite"               },
+	
+	{0   , 0xfe, 0   , 4   , "Bonus Life"             },
+	{0x13, 0x01, 0x30, 0x30, "10k 60k 50k+"           },
+	{0x13, 0x01, 0x30, 0x20, "20k 70k 50k+"           },
+	{0x13, 0x01, 0x30, 0x10, "30k 80k 50k+"           },
+	{0x13, 0x01, 0x30, 0x00, "20k 70k 50k+"           },
 };
 
 STDDIPINFO(Drv)
+
+static struct BurnDIPInfo DrvjDIPList[]=
+{
+	// Default Values
+	{0x12, 0xff, 0xff, 0xff, NULL                     },
+	{0x13, 0xff, 0xff, 0xfb, NULL                     },
+	
+	// Dip 1
+	{0   , 0xfe, 0   , 4   , "Coin A"                 },
+	{0x12, 0x01, 0x0c, 0x00, "2 Coins 1 Credit"       },
+	{0x12, 0x01, 0x0c, 0x0c, "1 Coin  1 Credit"       },
+	{0x12, 0x01, 0x0c, 0x08, "1 Coin  2 Credits"      },
+	{0x12, 0x01, 0x0c, 0x04, "1 Coin  3 Credits"      },
+	
+	{0   , 0xfe, 0   , 4   , "Coin B"                 },
+	{0x12, 0x01, 0x03, 0x00, "2 Coins 1 Credit"       },
+	{0x12, 0x01, 0x03, 0x03, "1 Coin  1 Credit"       },
+	{0x12, 0x01, 0x03, 0x02, "1 Coin  2 Credits"      },
+	{0x12, 0x01, 0x03, 0x01, "1 Coin  3 Credits"      },
+	
+	{0   , 0xfe, 0   , 2   , "Demo Sounds"            },
+	{0x12, 0x01, 0x40, 0x00, "Off"                    },
+	{0x12, 0x01, 0x40, 0x40, "On"                     },
+
+	// Dip 2	
+	{0   , 0xfe, 0   , 4   , "Timer Speed"            },
+	{0x13, 0x01, 0x03, 0x00, "Stopped"                },
+	{0x13, 0x01, 0x03, 0x03, "Slow"                   },
+	{0x13, 0x01, 0x03, 0x02, "Medium"                 },
+	{0x13, 0x01, 0x03, 0x01, "Fast"                   },
+	
+	{0   , 0xfe, 0   , 4   , "Lives"                  },
+	{0x13, 0x01, 0x0c, 0x04, "2"                      },
+	{0x13, 0x01, 0x0c, 0x08, "3"                      },
+	{0x13, 0x01, 0x0c, 0x0c, "6"                      },
+	{0x13, 0x01, 0x0c, 0x00, "Infinite"               },
+	
+	{0   , 0xfe, 0   , 4   , "Bonus Life"             },
+	{0x13, 0x01, 0x30, 0x30, "10k 60k 50k+"           },
+	{0x13, 0x01, 0x30, 0x20, "20k 70k 50k+"           },
+	{0x13, 0x01, 0x30, 0x10, "30k 80k 50k+"           },
+	{0x13, 0x01, 0x30, 0x00, "20k 70k 50k+"           },
+};
+
+STDDIPINFO(Drvj)
+
+static struct BurnDIPInfo DrvbDIPList[]=
+{
+	// Default Values
+	{0x12, 0xff, 0xff, 0xff, NULL                     },
+	{0x13, 0xff, 0xff, 0xfb, NULL                     },
+	
+	// Dip 1
+	{0   , 0xfe, 0   , 4   , "Coin A"                 },
+	{0x12, 0x01, 0x0c, 0x00, "4 Coins 1 Credit"       },
+	{0x12, 0x01, 0x0c, 0x04, "3 Coins 1 Credit"       },
+	{0x12, 0x01, 0x0c, 0x08, "2 Coins 1 Credit"       },
+	{0x12, 0x01, 0x0c, 0x0c, "1 Coin  1 Credit"       },
+	
+	{0   , 0xfe, 0   , 4   , "Coin B"                 },
+	{0x12, 0x01, 0x03, 0x03, "1 Coin  2 Credits"      },
+	{0x12, 0x01, 0x03, 0x02, "1 Coin  3 Credits"      },
+	{0x12, 0x01, 0x03, 0x01, "1 Coin  4 Credits"      },
+	{0x12, 0x01, 0x03, 0x00, "1 Coin  6 Credits"      },
+	
+	{0   , 0xfe, 0   , 2   , "Demo Sounds"            },
+	{0x12, 0x01, 0x40, 0x00, "Off"                    },
+	{0x12, 0x01, 0x40, 0x40, "On"                     },
+
+	// Dip 2	
+	{0   , 0xfe, 0   , 4   , "Timer Speed"            },
+	{0x13, 0x01, 0x03, 0x00, "Stopped"                },
+	{0x13, 0x01, 0x03, 0x03, "Medium"                 },
+	{0x13, 0x01, 0x03, 0x02, "Fast"                   },
+	{0x13, 0x01, 0x03, 0x01, "Fastest"                },
+	
+	{0   , 0xfe, 0   , 4   , "Lives"                  },
+	{0x13, 0x01, 0x0c, 0x04, "2"                      },
+	{0x13, 0x01, 0x0c, 0x08, "3"                      },
+	{0x13, 0x01, 0x0c, 0x0c, "6"                      },
+	{0x13, 0x01, 0x0c, 0x00, "Infinite"               },
+};
+
+STDDIPINFO(Drvb)
 
 static struct BurnRomInfo DrvRomDesc[] = {
 	{ "dh00",          0x10000, 0x251b316e, BRF_ESS | BRF_PRG }, 	//  0	M6809 Program Code
@@ -860,7 +950,7 @@ struct BurnDriver BurnDrvSidepcktj = {
 	"Side Pocket (Japan)\0", NULL, "Data East Corporation", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 3, HARDWARE_PREFIX_DATAEAST, GBF_SPORTSMISC, 0,
-	NULL, DrvjRomInfo, DrvjRomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
+	NULL, DrvjRomInfo, DrvjRomName, NULL, NULL, DrvInputInfo, DrvjDIPInfo,
 	SidepcktjInit, DrvExit, DrvFrame, NULL, DrvScan,
 	NULL, 0x100, 256, 224, 4, 3
 };
@@ -870,7 +960,7 @@ struct BurnDriver BurnDrvSidepcktb = {
 	"Side Pocket (bootleg set 1)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 3, HARDWARE_PREFIX_DATAEAST, GBF_SPORTSMISC, 0,
-	NULL, DrvbRomInfo, DrvbRomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
+	NULL, DrvbRomInfo, DrvbRomName, NULL, NULL, DrvInputInfo, DrvbDIPInfo,
 	SidepcktbInit, DrvExit, DrvFrame, NULL, DrvScan,
 	NULL, 0x100, 256, 224, 4, 3
 };

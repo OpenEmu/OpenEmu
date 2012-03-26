@@ -2,6 +2,8 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym3812.h"
 #include "msm6295.h"
 #include "bitswap.h"
@@ -150,7 +152,7 @@ UINT8 __fastcall galspnbl_main_read_byte(UINT32 address)
 
 static inline void palette_update(UINT16 i)
 {
-	UINT16 p = *((UINT16*)(DrvPalRAM + i));
+	UINT16 p = BURN_ENDIAN_SWAP_INT16(*((UINT16*)(DrvPalRAM + i)));
 
 	INT32 b = (p >> 8) & 0x0f;
 	INT32 g = (p >> 4) & 0x0f;
@@ -165,7 +167,7 @@ static inline void palette_update(UINT16 i)
 
 void __fastcall galspnbl_palette_write_word(UINT32 address, UINT16 data)
 {
-	*((UINT16*)(DrvPalRAM + (address & 0x7fe))) = data;
+	*((UINT16*)(DrvPalRAM + (address & 0x7fe))) = BURN_ENDIAN_SWAP_INT16(data);
 	palette_update(address & 0x7fe);
 }
 
@@ -271,7 +273,7 @@ static INT32 MemIndex()
 
 	RamEnd			= Next;
 	MemEnd			= Next;
-
+	
 	return 0;
 }
 
@@ -279,9 +281,9 @@ static void DrvStaticPaletteInit()
 {
 	for (INT32 i = 0; i < 0x8000; i++)
 	{
-		INT32 r = (i >>  5) & 0x1f;
-		INT32 g = (i >> 10) & 0x1f;
-		INT32 b = (i >>  0) & 0x1f;
+		INT32 r = (BURN_ENDIAN_SWAP_INT16(i) >>  5) & 0x1f;
+		INT32 g = (BURN_ENDIAN_SWAP_INT16(i) >> 10) & 0x1f;
+		INT32 b = (BURN_ENDIAN_SWAP_INT16(i) >>  0) & 0x1f;
 
 		r = (r << 3) | (r >> 2);
 		g = (g << 3) | (g >> 2);
@@ -426,8 +428,8 @@ static void draw_fg_layer()
 		if (sx >= nScreenWidth || sy < 0) continue;
 		if (sy >= nScreenHeight) break;
 
-		INT32 code  = vid[offs] & 0x1fff;
-		INT32 attr  = col[offs];
+		INT32 code  = BURN_ENDIAN_SWAP_INT16(vid[offs]) & 0x1fff;
+		INT32 attr  = BURN_ENDIAN_SWAP_INT16(col[offs]);
 		INT32 color = (attr & 0x00f0) >> 4;
 
 		if (attr & 0x0008) continue;
@@ -443,14 +445,14 @@ static void draw_sprites(int priority)
 
 	for (INT32 offs = (0x1000 - 16) / 2; offs >= 0; offs -= 8)
 	{
-		INT32 attr = spriteram[offs];
+		INT32 attr = BURN_ENDIAN_SWAP_INT16(spriteram[offs]);
 
 		if ((attr & 0x0004) && ((attr & 0x0040) == 0 || (nCurrentFrame & 1)) && (attr & 0x0020) == priority)
 		{
-			INT32 code  = spriteram[offs + 1] & 0x3fff;
-			INT32 color = spriteram[offs + 2];
-			INT32 sy    = spriteram[offs + 3] - 16;
-			INT32 sx    = spriteram[offs + 4];
+			INT32 code  = BURN_ENDIAN_SWAP_INT16(spriteram[offs + 1]) & 0x3fff;
+			INT32 color = BURN_ENDIAN_SWAP_INT16(spriteram[offs + 2]);
+			INT32 sy    = BURN_ENDIAN_SWAP_INT16(spriteram[offs + 3]) - 16;
+			INT32 sx    = BURN_ENDIAN_SWAP_INT16(spriteram[offs + 4]);
 			INT32 size  = 1 << (color & 0x0003);
 			      color = (color & 0x00f0) >> 4;
 			INT32 flipx = attr & 0x0001;

@@ -2,6 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "burn_ym2151.h"
 #include "vez.h"
 #include "irem_cpu.h"
@@ -25,7 +26,6 @@ static UINT8 *DrvPalRAM;
 static UINT8 *m90_video_control;
 
 static UINT8 *RamPrioBitmap;
-static INT16 *dacbuffer;
 
 static UINT8 *soundlatch;
 
@@ -967,6 +967,11 @@ static void m72YM2151IRQHandler(INT32 nStatus)
 	setvector_callback(nStatus ? YM2151_ASSERT : YM2151_CLEAR);
 }
 
+static INT32 m90SyncDAC()
+{
+	return (INT32)(float)(nBurnSoundLen * (ZetTotalCycles() / (3579545.000 / (nBurnFPS / 100.000))));
+}
+
 static INT32 DrvDoReset()
 {
 	memset (AllRam, 0, RamEnd - AllRam);
@@ -999,7 +1004,6 @@ static INT32 MemIndex()
 	DrvSndROM	= Next; Next += 0x180000;
 
 	RamPrioBitmap	= Next; Next += nScreenWidth * nScreenHeight;
-	dacbuffer	= (INT16*)Next; Next += 128 * 8 * 2 * sizeof(INT16);
 
 	AllRam	= Next;
 
@@ -1143,7 +1147,7 @@ static INT32 DrvInit(INT32 codesize, INT32 gfxlen, INT32 samples, INT32 bank, IN
 	BurnYM2151Init(3579545, 15.0);
 	YM2151SetIrqHandler(0, &m72YM2151IRQHandler);
 
-	DACInit(0, 0, 0);
+	DACInit(0, 0, 1, m90SyncDAC);
 	DACSetVolShift(0, 4); // 1/16th of max
 
 	code_mask[0] = ((gfxlen * 2) - 1) / (8 * 8);
@@ -1372,6 +1376,9 @@ static INT32 DrvFrame()
 	nCyclesTotal[0] = (INT32)((INT64)(8000000 / 60) * nBurnCPUSpeedAdjust / 0x0100);
 	nCyclesTotal[1] = (INT32)((INT64)(3579545 / 60) * nBurnCPUSpeedAdjust / 0x0100);
 	nCyclesDone[0] = nCyclesDone[1] = 0;
+	
+	VezNewFrame();
+	ZetNewFrame();
 
 	VezOpen(0);
 	ZetOpen(0);
@@ -1389,14 +1396,7 @@ static INT32 DrvFrame()
 			VezSetIRQLineAndVector(NEC_INPUT_LINE_INTP0, 0xff, VEZ_IRQSTATUS_NONE);
 		}
 
-		nCyclesDone[1] += ZetRun((nCyclesTotal[1] / nInterleave) / 4);
-		if (nBurnSoundLen) DACUpdate(dacbuffer + i * 8, 1);
-		nCyclesDone[1] += ZetRun((nCyclesTotal[1] / nInterleave) / 4);
-		if (nBurnSoundLen) DACUpdate(dacbuffer + i * 8, 1);
-		nCyclesDone[1] += ZetRun((nCyclesTotal[1] / nInterleave) / 4);
-		if (nBurnSoundLen) DACUpdate(dacbuffer + i * 8, 1);
-		nCyclesDone[1] += ZetRun((nCyclesTotal[1] / nInterleave) / 4);
-		if (nBurnSoundLen) DACUpdate(dacbuffer + i * 8, 1);
+		nCyclesDone[1] += ZetRun(nCyclesTotal[1] / nInterleave);
 		ZetNmi();
 
 		if (i == 124) vblank = 0x80;
@@ -1404,12 +1404,7 @@ static INT32 DrvFrame()
 
 	if (pBurnSoundOut) {
 		BurnYM2151Render(pBurnSoundOut, nBurnSoundLen);
-
-		float step = (nInterleave * 4.000000) / nBurnSoundLen;
-
-		for (INT32 i = 0; i < nBurnSoundLen*2; i++) {
-			pBurnSoundOut[i] += dacbuffer[(INT32)((float)(i * step))];
-		}
+		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
 
 	VezClose();

@@ -1,4 +1,6 @@
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "taito.h"
 #include "taito_ic.h"
 #include "eeprom.h"
@@ -347,36 +349,68 @@ static void SuperchsMakeInputs()
 }
 
 static struct BurnRomInfo SuperchsRomDesc[] = {
-	{ "d46-35.27",          0x040000, 0x1575c9a7, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
-	{ "d46-34.25",          0x040000, 0xc72a4d2b, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
-	{ "d46-33.23",          0x040000, 0x3094bcd0, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
-	{ "d46-31.21",          0x040000, 0x38b983a3, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
+	{ "d46-35.ic27",        0x040000, 0x1575c9a7, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
+	{ "d46-34.ic25",        0x040000, 0xc72a4d2b, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
+	{ "d46-33.ic23",        0x040000, 0x3094bcd0, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
+	{ "d46-31.ic21",        0x040000, 0x38b983a3, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
 	
-	{ "d46-24.127",         0x020000, 0xa006baa1, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
-	{ "d46-23.112",         0x020000, 0x9a69dbd0, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
+	{ "d46-24.ic127",       0x020000, 0xa006baa1, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
+	{ "d46-23.ic112",       0x020000, 0x9a69dbd0, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
 	
-	{ "d46-37.8up",         0x020000, 0x60b51b91, BRF_ESS | BRF_PRG | TAITO_68KROM3_BYTESWAP },
-	{ "d46-36.7lo",         0x020000, 0x8f7aa276, BRF_ESS | BRF_PRG | TAITO_68KROM3_BYTESWAP },
+	{ "d46-37.ic8",         0x020000, 0x60b51b91, BRF_ESS | BRF_PRG | TAITO_68KROM3_BYTESWAP },
+	{ "d46-36.ic7",         0x020000, 0x8f7aa276, BRF_ESS | BRF_PRG | TAITO_68KROM3_BYTESWAP },
 	
-	{ "d46-05.87",          0x100000, 0x150d0e4c, BRF_GRA | TAITO_CHARS_BYTESWAP },
-	{ "d46-06.88",          0x100000, 0x321308be, BRF_GRA | TAITO_CHARS_BYTESWAP },
+	{ "d46-05.ic87",        0x100000, 0x150d0e4c, BRF_GRA | TAITO_CHARS_BYTESWAP },
+	{ "d46-06.ic88",        0x100000, 0x321308be, BRF_GRA | TAITO_CHARS_BYTESWAP },
 	
-	{ "d46-04.67",          0x200000, 0x832769a9, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
-	{ "d46-03.66",          0x200000, 0xe0e9cbfd, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
-	{ "d46-02.65",          0x200000, 0xa83ca82e, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
-	{ "d46-01.64",          0x200000, 0x5c2ae92d, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "d46-04.ic67",        0x200000, 0x832769a9, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "d46-03.ic66",        0x200000, 0xe0e9cbfd, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "d46-02.ic65",        0x200000, 0xa83ca82e, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "d46-01.ic64",        0x200000, 0x5c2ae92d, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
 	
-	{ "d46-07.34",          0x080000, 0xc3b8b093, BRF_GRA | TAITO_SPRITEMAP },
+	{ "d46-07.ic34",        0x080000, 0xc3b8b093, BRF_GRA | TAITO_SPRITEMAP },
 	
-	{ "d46-10.2",           0x200000, 0x306256be, BRF_SND | TAITO_ES5505_BYTESWAP },
-	{ "d46-12.4",           0x200000, 0xa24a53a8, BRF_SND | TAITO_ES5505_BYTESWAP },
-	{ "d46-11.5",           0x200000, 0xd4ea0f56, BRF_SND | TAITO_ES5505_BYTESWAP },	
+	{ "d46-10.ic2",         0x200000, 0x306256be, BRF_SND | TAITO_ES5505_BYTESWAP },
+	{ "d46-12.ic4",         0x200000, 0xa24a53a8, BRF_SND | TAITO_ES5505_BYTESWAP },
+	{ "d46-11.ic5",         0x200000, 0xd4ea0f56, BRF_SND | TAITO_ES5505_BYTESWAP },	
 	
 	{ "eeprom-superchs.bin",0x000080, 0x230f0753, BRF_PRG | TAITO_DEFAULT_EEPROM },
 };
 
 STD_ROM_PICK(Superchs)
 STD_ROM_FN(Superchs)
+
+static struct BurnRomInfo SuperchsjRomDesc[] = {
+	{ "d46-28+.ic27",       0x040000, 0x5c33784f, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
+	{ "d46-27+.ic25",       0x040000, 0xe81125b8, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
+	{ "d46-26+.ic23",       0x040000, 0x2aaba1b0, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
+	{ "d46-25+.ic21",       0x040000, 0x4241e97a, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP32 },
+	
+	{ "d46-24.ic127",       0x020000, 0xa006baa1, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
+	{ "d46-23.ic112",       0x020000, 0x9a69dbd0, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
+	
+	{ "d46-30.ic8",         0x020000, 0x88f8a421, BRF_ESS | BRF_PRG | TAITO_68KROM3_BYTESWAP },
+	{ "d46-29.ic7",         0x020000, 0x04501fa5, BRF_ESS | BRF_PRG | TAITO_68KROM3_BYTESWAP },
+	
+	{ "d46-05.ic87",        0x100000, 0x150d0e4c, BRF_GRA | TAITO_CHARS_BYTESWAP },
+	{ "d46-06.ic88",        0x100000, 0x321308be, BRF_GRA | TAITO_CHARS_BYTESWAP },
+	
+	{ "d46-04.ic67",        0x200000, 0x832769a9, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "d46-03.ic66",        0x200000, 0xe0e9cbfd, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "d46-02.ic65",        0x200000, 0xa83ca82e, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "d46-01.ic64",        0x200000, 0x5c2ae92d, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	
+	{ "d46-07.ic34",        0x080000, 0xc3b8b093, BRF_GRA | TAITO_SPRITEMAP },
+	
+	{ "d46-10.ic2",         0x200000, 0x306256be, BRF_SND | TAITO_ES5505_BYTESWAP },
+	{ "d46-09.ic4",         0x200000, 0x0acb8bc7, BRF_SND | TAITO_ES5505_BYTESWAP },
+	{ "d46-08.ic5",         0x200000, 0x4677e820, BRF_SND | TAITO_ES5505_BYTESWAP },
+	
+	{ "eeprom-superchs.bin",0x000080, 0x230f0753, BRF_PRG | TAITO_DEFAULT_EEPROM },
+};
+
+STD_ROM_PICK(Superchsj)
+STD_ROM_FN(Superchsj)
 
 static INT32 MemIndex()
 {
@@ -1148,6 +1182,16 @@ struct BurnDriver BurnDrvSuperchs = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_TAITO_MISC, GBF_RACING, 0,
 	NULL, SuperchsRomInfo, SuperchsRomName, NULL, NULL, SuperchsInputInfo, NULL,
+	SuperchsInit, SuperchsExit, SuperchsFrame, NULL, SuperchsScan,
+	NULL, 0x2000, 320, 240, 4, 3
+};
+
+struct BurnDriver BurnDrvSuperchsj = {
+	"superchsj", "superchs", NULL, NULL, "1992",
+	"Super Chase - Criminal Termintation (Japan)\0", "No Sound", "Taito Corporation", "Taito Misc",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_MISC, GBF_RACING, 0,
+	NULL, SuperchsjRomInfo, SuperchsjRomName, NULL, NULL, SuperchsInputInfo, NULL,
 	SuperchsInit, SuperchsExit, SuperchsFrame, NULL, SuperchsScan,
 	NULL, 0x2000, 320, 240, 4, 3
 };

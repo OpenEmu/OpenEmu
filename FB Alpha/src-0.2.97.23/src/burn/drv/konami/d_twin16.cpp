@@ -2,6 +2,8 @@
 // Based on MAME driver by Phil Stroffolino
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym2151.h"
 #include "upd7759.h"
 #include "k007232.h"

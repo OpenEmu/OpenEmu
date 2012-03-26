@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "zet.h"
 #include "dac.h"
 #include "8255ppi.h"
 #include "bitswap.h"
@@ -50,6 +51,7 @@ extern "C" {
 #define GAL_SOUND_HARDWARE_TYPE_RACKNROLSN76496		15
 #define GAL_SOUND_HARDWARE_TYPE_HEXPOOLASN76496		16
 #define GAL_SOUND_HARDWARE_TYPE_HUNCHBACKAY8910		17
+#define GAL_SOUND_HARDWARE_TYPE_FANTASTCAY8910		18
 
 // Palette Numbers
 #define GAL_PALETTE_NUM_COLOURS_PROM			64
@@ -166,6 +168,7 @@ void DambustrDrawBullets(INT32 Offs, INT32 x, INT32 y);
 void GalDraw();
 void DkongjrmRenderFrame();
 void DambustrRenderFrame();
+void FantastcRenderFrame();
 
 // gal_run.cpp
 extern UINT8 GalInputPort0[8];
@@ -190,6 +193,7 @@ extern UINT8 *GalZ80Rom3;
 extern UINT8 *GalS2650Rom1;
 extern UINT8 *GalZ80Ram1;
 extern UINT8 *GalZ80Ram2;
+extern UINT8 *GalZ80Ram3;
 extern UINT8 *GalVideoRam;
 extern UINT8 *GalVideoRam2;
 extern UINT8 *GalSpriteRam;
@@ -297,6 +301,8 @@ void FroggerSoundInit();
 void FroggerSoundNoEncryptionInit();
 void KonamiSoundInit();
 void HunchbksSoundInit();
+INT32 KingballSyncDAC();
+INT32 SfxSyncDAC();
 void GalRenderSoundSamples(INT16 *pSoundBuf, INT32 nLength);
 void GalaxianSoundWrite(UINT32 Offset, UINT8 d);
 void GalaxianLfoFreqWrite(UINT32 Offset, UINT8 d);

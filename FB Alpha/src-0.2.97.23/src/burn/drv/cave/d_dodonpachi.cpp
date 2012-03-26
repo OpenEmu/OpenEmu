@@ -627,6 +627,30 @@ STD_ROM_PICK(ddonpachj)
 STD_ROM_FN(ddonpachj)
 
 
+static struct BurnRomInfo ddonpachjhRomDesc[] = {
+	{ "u27h.bin",     0x080000, 0x44B899AE, BRF_ESS | BRF_PRG }, //  0 CPU #0 code
+	{ "u26h.bin",     0x080000, 0x727A09A8, BRF_ESS | BRF_PRG }, //  1
+
+	{ "u50.bin",      0x200000, 0x14B260EC, BRF_GRA },			 //  2 Sprite data
+	{ "u51h.bin",     0x200000, 0x0F3E5148, BRF_GRA },			 //  3
+	{ "u52.bin",      0x200000, 0x02492EE0, BRF_GRA },			 //  4
+	{ "u53.bin",      0x200000, 0xCB4C10F0, BRF_GRA },			 //  5
+
+	{ "u60.bin",      0x200000, 0x903096A7, BRF_GRA },			 //  6 Layer 0 Tile data
+	{ "u61.bin",      0x200000, 0xD89B7631, BRF_GRA },			 //  7 Layer 1 Tile data
+	{ "u62h.bin",     0x200000, 0x42E4C6C5, BRF_GRA },			 //  8 Layer 2 Tile data
+
+	{ "u6.bin",       0x200000, 0x9DFDAFAF, BRF_SND },			 //  9 YMZ280B (AD)PCM data
+	{ "u7.bin",       0x200000, 0x795B17D5, BRF_SND },			 // 10
+	
+	{ "eeprom-ddonpachjh.bin", 0x0080, 0x2DF16438, BRF_ESS | BRF_PRG },
+};
+
+
+STD_ROM_PICK(ddonpachjh)
+STD_ROM_FN(ddonpachjh)
+
+
 struct BurnDriver BurnDrvDoDonpachi = {
 	"ddonpach", NULL, NULL, NULL, "1997",
 	"DoDonPachi (International, master ver. 97/02/05)\0", NULL, "Atlus / Cave", "Cave",
@@ -647,4 +671,12 @@ struct BurnDriver BurnDrvDoDonpachiJ = {
 	&CaveRecalcPalette, 0x8000, 240, 320, 3, 4
 };
 
-
+struct BurnDriver BurnDrvDoDonpachijH = {
+	"ddonpachjh", "ddonpach", NULL, NULL, "1997",
+	"DoDonPachi (Arrange Mode version 1.1, hack by Trap15)\0", NULL, "hack / Trap15", "Cave",
+	L"\u6012\u9996\u9818\u8702 DoDonPachi (Arrange Mode version 1.1, hack by Trap15)\0", NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_CAVE_68K_ONLY, GBF_VERSHOOT, 0,
+	NULL, ddonpachjhRomInfo, ddonpachjhRomName, NULL, NULL, ddonpachInputInfo, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
+	&CaveRecalcPalette, 0x8000, 240, 320, 3, 4
+};

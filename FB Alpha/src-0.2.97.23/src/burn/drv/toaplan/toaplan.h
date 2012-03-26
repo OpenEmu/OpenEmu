@@ -1,4 +1,6 @@
 #include "burnint.h"
+#include "sek.h"
+#include "zet.h"
 #include "msm6295.h"
 #include "burn_ym2151.h"
 #include "burn_ym3812.h"
@@ -290,3 +292,6 @@ inline UINT16 ToaFCU2ReadRAMSize()
 {
 	return ((UINT16*)FCU2RAMSize)[FCU2Pointer & 0x003F];
 }
+
+// d_battleg.cpp
+extern INT32 Bgareggabl;

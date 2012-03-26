@@ -616,6 +616,24 @@ static struct BurnInputInfo ExplorerInputList[] =
 
 STDINPUTINFO(Explorer)
 
+static struct BurnInputInfo FantastcInputList[] =
+{
+	{"Coin 1"            , BIT_DIGITAL   , GalInputPort0 + 1, "p1 coin"   },
+	{"Start 1"           , BIT_DIGITAL   , GalInputPort1 + 0, "p1 start"  },
+	{"Start 2"           , BIT_DIGITAL   , GalInputPort1 + 1, "p2 start"  },
+
+	{"Left"              , BIT_DIGITAL   , GalInputPort0 + 2, "p1 left"   },
+	{"Right"             , BIT_DIGITAL   , GalInputPort0 + 3, "p1 right"  },
+	{"Fire 1"            , BIT_DIGITAL   , GalInputPort0 + 4, "p1 fire 1" },
+	
+	{"Reset"             , BIT_DIGITAL   , &GalReset        , "reset"     },
+	{"Dip 1"             , BIT_DIPSWITCH , GalDip + 0       , "dip"       },
+	{"Dip 2"             , BIT_DIPSWITCH , GalDip + 1       , "dip"       },
+	{"Dip 3"             , BIT_DIPSWITCH , GalDip + 2       , "dip"       },
+};
+
+STDINPUTINFO(Fantastc)
+
 static struct BurnInputInfo Fourin1InputList[] = {
 	{"Coin 1"            , BIT_DIGITAL   , GalInputPort0 + 0, "p1 coin"   },
 	{"Start 1"           , BIT_DIGITAL   , GalInputPort1 + 0, "p1 start"  },
@@ -956,6 +974,25 @@ static struct BurnInputInfo CkongmcInputList[] =
 };
 
 STDINPUTINFO(Ckongmc)
+
+static struct BurnInputInfo KongInputList[] =
+{
+	{"Coin 1"            , BIT_DIGITAL   , GalInputPort0 + 1, "p1 coin"   },
+
+	{"Up"                , BIT_DIGITAL   , GalInputPort0 + 7, "p1 up"     },
+	{"Down"              , BIT_DIGITAL   , GalInputPort1 + 5, "p1 down"   },
+	{"Left"              , BIT_DIGITAL   , GalInputPort0 + 2, "p1 left"   },
+	{"Right"             , BIT_DIGITAL   , GalInputPort0 + 3, "p1 right"  },
+	{"Fire 1"            , BIT_DIGITAL   , GalInputPort1 + 0, "p1 fire 1" },
+	{"Fire 2"            , BIT_DIGITAL   , GalInputPort1 + 1, "p2 fire 1" },
+	
+	{"Reset"             , BIT_DIGITAL   , &GalReset        , "reset"     },
+	{"Dip 1"             , BIT_DIPSWITCH , GalDip + 0       , "dip"       },
+	{"Dip 2"             , BIT_DIPSWITCH , GalDip + 1       , "dip"       },
+	{"Dip 3"             , BIT_DIPSWITCH , GalDip + 2       , "dip"       },
+};
+
+STDINPUTINFO(Kong)
 
 static struct BurnInputInfo LadybuggInputList[] =
 {
@@ -3183,6 +3220,47 @@ static struct BurnDIPInfo ExplorerDIPList[]=
 
 STDDIPINFO(Explorer)
 
+static struct BurnDIPInfo FantastcDIPList[]=
+{
+	// Default Values
+	{0x07, 0xff, 0xff, 0x40, NULL                     },
+	{0x08, 0xff, 0xff, 0x00, NULL                     },
+	{0x09, 0xff, 0xff, 0x01, NULL                     },
+	
+	// Dip 1	
+	{0   , 0xfe, 0   , 2   , "Service Mode"           },
+	{0x07, 0x01, 0x20, 0x00, "Off"                    },
+	{0x07, 0x01, 0x20, 0x20, "On"                     },
+	
+	{0   , 0xfe, 0   , 2   , "Extended Bonus Life"    },
+	{0x07, 0x01, 0x40, 0x00, "Off"                    },
+	{0x07, 0x01, 0x40, 0x40, "On"                     },
+	
+	// Dip 2
+	{0   , 0xfe, 0   , 2   , "Coinage"                },
+	{0x08, 0x01, 0xc0, 0x00, "1 Coin  1 Play"         },
+	{0x08, 0x01, 0xc0, 0x80, "2 Coins 1 Play"         },
+	
+	{0   , 0xfe, 0   , 2   , "Lives"                  },
+	{0x08, 0x01, 0x80, 0x00, "3"                      },
+	{0x08, 0x01, 0x80, 0x80, "5"                      },
+	
+	// Dip 3	
+	{0   , 0xfe, 0   , 4   , "Difficulty"             },
+	{0x09, 0x01, 0x03, 0x00, "Easy"                   },
+	{0x09, 0x01, 0x03, 0x01, "Medium"                 },
+	{0x09, 0x01, 0x03, 0x02, "Hard"                   },
+	{0x09, 0x01, 0x03, 0x03, "Hardest"                },
+	
+	{0   , 0xfe, 0   , 4   , "Bonus Life"             },
+	{0x09, 0x01, 0x0c, 0x00, "20000 80000"            },
+	{0x09, 0x01, 0x0c, 0x04, "30000 80000"            },
+	{0x09, 0x01, 0x0c, 0x08, "20000 120000"           },
+	{0x09, 0x01, 0x0c, 0x0c, "30000 120000"           },
+};
+
+STDDIPINFO(Fantastc)
+
 static struct BurnDIPInfo FantaziaDIPList[]=
 {
 	// Default Values
@@ -3806,6 +3884,45 @@ static struct BurnDIPInfo CkongmcDIPList[]=
 };
 
 STDDIPINFO(Ckongmc)
+
+static struct BurnDIPInfo KongDIPList[]=
+{
+	// Default Values
+	{0x08, 0xff, 0xff, 0x00, NULL                     },
+	{0x09, 0xff, 0xff, 0x00, NULL                     },
+	{0x0a, 0xff, 0xff, 0x00, NULL                     },
+	
+	// Dip 1
+	{0   , 0xfe, 0   , 2   , "Service Mode"           },
+	{0x08, 0x01, 0x20, 0x00, "Off"                    },
+	{0x08, 0x01, 0x20, 0x20, "On"                     },
+	
+	{0   , 0xfe, 0   , 2   , "99 Men/Max Timer"       },
+	{0x08, 0x01, 0x40, 0x00, "Off"                    },
+	{0x08, 0x01, 0x40, 0x40, "On"                     },
+	
+	// Dip 2
+	{0   , 0xfe, 0   , 2   , "Lives"                  },
+	{0x09, 0x01, 0x40, 0x00, "3"                      },
+	{0x09, 0x01, 0x40, 0x40, "5"                      },
+	
+	{0   , 0xfe, 0   , 2   , "Coinage"                },
+	{0x09, 0x01, 0x80, 0x00, "1 Coin  1 Credit"       },
+	{0x09, 0x01, 0x80, 0x80, "2 Coins 1 Credit"       },
+		
+	// Dip 3
+	{0   , 0xfe, 0   , 4   , "Bonus Life"             },
+	{0x0a, 0x01, 0x03, 0x00, "10000"                  },
+	{0x0a, 0x01, 0x03, 0x01, "20000"                  },
+	{0x0a, 0x01, 0x03, 0x02, "30000"                  },
+	{0x0a, 0x01, 0x03, 0x03, "None"                   },
+	
+	{0   , 0xfe, 0   , 2   , "Mode"                   },
+	{0x0a, 0x01, 0x04, 0x04, "Tournament (Harder)"    },
+	{0x0a, 0x01, 0x04, 0x00, "Normal"                 },
+};
+
+STDDIPINFO(Kong)
 
 static struct BurnDIPInfo LadybuggDIPList[]=
 {
@@ -7489,6 +7606,27 @@ static struct BurnRomInfo SkyraidrRomDesc[] = {
 STD_ROM_PICK(Skyraidr)
 STD_ROM_FN(Skyraidr)
 
+static struct BurnRomInfo GalempRomDesc[] = {
+	{ "1",             0x00800, 0xd975af10, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "2",             0x00800, 0xb2ed14c3, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "3",             0x00800, 0x945f4160, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "4",             0x00800, 0xdf7a13ea, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "5",             0x00800, 0xff6128a2, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "6",             0x00800, 0xd915a389, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "7",             0x00800, 0xc9245346, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "8",             0x00800, 0x797d45c7, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+		
+	{ "10",            0x00800, 0x30177b93, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "12",            0x00800, 0xc26132af, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "9",             0x00800, 0x7e8dcc13, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "11",            0x00800, 0xdcc2b33b, BRF_GRA | GAL_ROM_TILES_SHARED },
+	
+	{ "l06_prom.bin",  0x00020, 0x6a0c7d87, BRF_GRA | GAL_ROM_PROM },
+};
+
+STD_ROM_PICK(Galemp)
+STD_ROM_FN(Galemp)
+
 void __fastcall PiscesZ80Write(UINT16 a, UINT8 d)
 {
 	if (a >= 0x5800 && a <= 0x58ff) {
@@ -7696,6 +7834,16 @@ struct BurnDriver BurnDrvSkyraidr = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
 	NULL, SkyraidrRomInfo, SkyraidrRomName, NULL, NULL, GalaxianInputInfo, SupergDIPInfo,
+	PiscesInit, GalExit, GalFrame, NULL, GalScan,
+	NULL, 392, 224, 256, 3, 4
+};
+
+struct BurnDriver BurnDrvGalemp = {
+	"galemp", "uniwars", NULL, NULL, "1980",
+	"Galaxy Empire (bootleg?)\0", NULL, "bootleg (Taito do Brasil)", "Galaxian",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
+	NULL, GalempRomInfo, GalempRomName, NULL, NULL, GalaxianInputInfo, SupergDIPInfo,
 	PiscesInit, GalExit, GalFrame, NULL, GalScan,
 	NULL, 392, 224, 256, 3, 4
 };
@@ -10105,6 +10253,48 @@ static struct BurnRomInfo PorterRomDesc[] = {
 STD_ROM_PICK(Porter)
 STD_ROM_FN(Porter)
 
+static struct BurnRomInfo KongRomDesc[] = {
+	{ "1",             0x01000, 0xa206beb5, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "2",             0x01000, 0xd75597b6, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "3",             0x01000, 0x54e0b87b, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "4",             0x01000, 0x356c4ca2, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "5",             0x01000, 0x2d295976, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "6",             0x01000, 0x77131cca, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "7",             0x01000, 0x3d5ec3f1, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "8",             0x01000, 0x015fe5e5, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	
+	{ "9",             0x00800, 0xfe42a052, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "11",            0x00800, 0xad2b2cdd, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "10",            0x00800, 0x91fa187e, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "12",            0x00800, 0xb74724df, BRF_GRA | GAL_ROM_TILES_SHARED },
+		
+	{ "prom",          0x00020, 0x00000000, BRF_OPT | BRF_NODUMP },
+	
+	{ "13",            0x01000, 0x7d33ca0a, BRF_OPT }, // unknown
+};
+
+STD_ROM_PICK(Kong)
+STD_ROM_FN(Kong)
+
+static struct BurnRomInfo FantastcRomDesc[] = {
+	{ "f1",            0x01000, 0x8019f0b7, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "f2",            0x01000, 0x988a9bc6, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "f3",            0x01000, 0xa3c0cc0b, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "f4",            0x01000, 0xc1361be8, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "f5",            0x01000, 0x6787e93f, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "f6",            0x01000, 0x597029ae, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "f7",            0x01000, 0x8de08d9a, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "f8",            0x01000, 0x489e2fb7, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	
+	{ "37",            0x01000, 0x3a54f749, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "38",            0x01000, 0x88b71264, BRF_GRA | GAL_ROM_TILES_SHARED },
+	
+	{ "prom-74g138",  0x00020, 0xb7cbbc1f, BRF_GRA | GAL_ROM_PROM },
+};
+
+STD_ROM_PICK(Fantastc)
+STD_ROM_FN(Fantastc)
+
 UINT8 __fastcall BagmanmcZ80Read(UINT16 a)
 {
 	switch (a) {
@@ -10480,6 +10670,64 @@ void __fastcall CkongmcZ80Write(UINT16 a, UINT8 d)
 	}
 }
 
+void __fastcall FantastcZ80Write(UINT16 a, UINT8 d)
+{
+	if (a >= 0x9800 && a <= 0x98ff) {
+		int Offset = a - 0x9800;
+		
+		GalSpriteRam[Offset] = d;
+		
+		if (Offset < 0x40) {
+			if ((Offset & 0x01) == 0) {
+				GalScrollVals[Offset >> 1] = d;
+			}
+		}
+		
+		return;
+	}
+	
+	if (a >= 0x9900 && a <= 0xafff) {
+		// ???
+		return;
+	}
+	
+	if (a >= 0xb001 && a <= 0xd7ff) {
+		// ???
+		return;
+	}
+	
+	switch (a) {
+		case 0x8803: {
+			AY8910Write(0, 0, d);
+			return;
+		}
+		
+		case 0x880b: {
+			AY8910Write(0, 1, d);
+			return;
+		}
+		
+		case 0x880c: {
+			AY8910Write(1, 0, d);
+			return;
+		}
+		
+		case 0x880e: {
+			AY8910Write(1, 1, d);
+			return;
+		}
+		
+		case 0xb000: {
+			GalIrqFire = d & 1;
+			return;
+		}
+		
+		default: {
+			bprintf(PRINT_NORMAL, _T("Z80 #1 Write => %04X, %02X\n"), a, d);
+		}
+	}
+}
+
 static void SkybaseAlterZ80()
 {
 	MapMooncrst();
@@ -10788,6 +11036,90 @@ static INT32 PorterInit()
 	return nRet;
 }
 
+static void KongAlterZ80()
+{
+	MapMooncrst();
+	
+	ZetOpen(0);
+	ZetMapArea(0x0000, 0x7fff, 0, GalZ80Rom1);
+	ZetMapArea(0x0000, 0x7fff, 2, GalZ80Rom1);
+	ZetMapArea(0x8000, 0x87ff, 0, GalZ80Ram1);
+	ZetMapArea(0x8000, 0x87ff, 1, GalZ80Ram1);
+	ZetMapArea(0x8000, 0x87ff, 2, GalZ80Ram1);
+	ZetClose();
+}
+
+static INT32 KongInit()
+{
+	INT32 nRet;
+	
+	GalPostLoadCallbackFunction = KongAlterZ80;
+	
+	GalPromRomSize = 0x20;
+	
+	nRet = GalInit();
+	
+	GalRenderBackgroundFunction = NULL;
+	GalExtendSpriteInfoFunction = UpperExtendSpriteInfo;
+	
+	HardCodeMooncrstPROM();
+	
+	return nRet;
+}
+
+static void FantastcPostLoad()
+{
+	MapMooncrst();
+	
+	ZetOpen(0);
+	ZetMapArea(0x0000, 0x7fff, 0, GalZ80Rom1);
+	ZetMapArea(0x0000, 0x7fff, 2, GalZ80Rom1);
+	ZetMapArea(0x8000, 0x87ff, 0, GalZ80Ram1);
+	ZetMapArea(0x8000, 0x87ff, 1, GalZ80Ram1);
+	ZetMapArea(0x8000, 0x87ff, 2, GalZ80Ram1);
+	ZetSetWriteHandler(FantastcZ80Write);
+	ZetClose();
+	
+	static const UINT16 lut_am_unscramble[32] = {
+		0, 2, 4, 6,	// ok!
+		7, 3, 5, 1,	// ok!
+		6, 0, 2, 4,	// ok!
+		1, 5, 3, 0,	// ok!
+		2, 4, 6, 3,	// good, good?, guess, guess
+		5, 6, 0, 2,	// good, good?, good?, guess
+		4, 1, 1, 5,	// good, good, guess, good
+		3, 7, 7, 7	// ok!
+	};
+	
+	UINT8 *pTemp = (UINT8*)BurnMalloc(0x8000);
+	memcpy(pTemp, GalZ80Rom1, 0x8000);
+
+	for (INT32 i = 0; i < 32; i++) {
+		memcpy(GalZ80Rom1 + i * 0x400, pTemp + lut_am_unscramble[i] * 0x1000 + (i & 3) * 0x400, 0x400);
+	}
+	
+	BurnFree(pTemp);
+}
+
+static INT32 FantastcInit()
+{
+	INT32 nRet;
+	
+	GalSoundType = GAL_SOUND_HARDWARE_TYPE_FANTASTCAY8910;
+	
+	GalPostLoadCallbackFunction = FantastcPostLoad;
+	GalNumSprites = 0x40;
+	
+	nRet = GalInit();
+	
+	GalRenderFrameFunction = FantastcRenderFrame;
+	GalExtendSpriteInfoFunction = UpperExtendSpriteInfo;
+	
+	HardCodeMooncrstPROM();
+	
+	return nRet;
+}
+
 struct BurnDriver BurnDrvSkybase = {
 	"skybase", NULL, NULL, NULL, "1982",
 	"Sky Base\0", NULL, "Omori Electric Co. Ltd", "Galaxian",
@@ -10855,6 +11187,26 @@ struct BurnDriver BurnDrvPorter = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_PLATFORM, 0,
 	NULL, PorterRomInfo, PorterRomName, NULL, NULL, PorterInputInfo, PorterDIPInfo,
 	PorterInit, GalExit, GalFrame, NULL, GalScan,
+	NULL, 392, 224, 256, 3, 4
+};
+
+struct BurnDriver BurnDrvKong = {
+	"kong", NULL, NULL, NULL, "198?",
+	"Kong (Brazil)\0", "Bad Colours", "Taito do Brasil", "Galaxian",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_GALAXIAN, GBF_PLATFORM, 0,
+	NULL, KongRomInfo, KongRomName, NULL, NULL, KongInputInfo, KongDIPInfo,
+	KongInit, GalExit, GalFrame, NULL, GalScan,
+	NULL, 392, 224, 256, 3, 4
+};
+
+struct BurnDriver BurnDrvFantastc = {
+	"fantastc", NULL, NULL, NULL, "198?",
+	"Fantastic\0", "Bad Colours", "Taito do Brasil", "Galaxian",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
+	NULL, FantastcRomInfo, FantastcRomName, NULL, NULL, FantastcInputInfo, FantastcDIPInfo,
+	FantastcInit, GalExit, GalFrame, NULL, GalScan,
 	NULL, 392, 224, 256, 3, 4
 };
 
@@ -16573,7 +16925,7 @@ UINT8 __fastcall SfxSampleZ80Read(UINT16 a)
 		}
 	}
 
-	return 0xff;
+	return 0;
 }
 
 void __fastcall SfxSampleZ80Write(UINT16 a, UINT8 d)
@@ -16589,29 +16941,21 @@ UINT8 __fastcall SfxSampleZ80PortRead(UINT16 a)
 {
 	a &= 0xff;
 	
-	switch (a) {
-		default: {
-			bprintf(PRINT_NORMAL, _T("Z80 #3 Port Read => %02X\n"), a);
-		}
-	}
-	
-	return 0xff;
+	UINT8 Result = 0xff;
+	if (a & 0x04) Result &= ppi8255_r(2, a & 3);
+	return Result;
 }
 
 void __fastcall SfxSampleZ80PortWrite(UINT16 a, UINT8 d)
 {
 	a &= 0xff;
 	
-	switch (a) {
-		default: {
-			bprintf(PRINT_NORMAL, _T("Z80 #3 Port Write => %02X, %02X\n"), a, d);
-		}
-	}
+	if (a & 0x04) ppi8255_w(2, a & 3, d);
+	if (a & 0x10) DACSignedWrite(0, d);
 }
 
 static UINT8 SfxSoundLatch2Read()
 {
-	bprintf(PRINT_NORMAL, _T("Sound Latch2 Read\n"));
 	return GalSoundLatch2;
 }
 
@@ -16641,7 +16985,12 @@ static void SfxPostLoad()
 	ZetSetOutHandler(SfxSampleZ80PortWrite);
 	ZetMapArea(0x0000, GalZ80Rom3Size - 1, 0, GalZ80Rom3);
 	ZetMapArea(0x0000, GalZ80Rom3Size - 1, 2, GalZ80Rom3);
-	ZetClose();	
+	ZetMapArea(0x8000, 0x83ff, 0, GalZ80Ram3);
+	ZetMapArea(0x8000, 0x83ff, 1, GalZ80Ram3);
+	ZetMapArea(0x8000, 0x83ff, 2, GalZ80Ram3);
+	ZetClose();
+	
+	nGalCyclesTotal[2] = (14318000 / 8) / 60;
 }
 
 static INT32 SfxInit()
@@ -16700,7 +17049,12 @@ static void SkelagonPostLoad()
 	ZetSetOutHandler(SfxSampleZ80PortWrite);
 	ZetMapArea(0x0000, GalZ80Rom3Size - 1, 0, GalZ80Rom3);
 	ZetMapArea(0x0000, GalZ80Rom3Size - 1, 2, GalZ80Rom3);
-	ZetClose();	
+	ZetMapArea(0x8000, 0x83ff, 0, GalZ80Ram3);
+	ZetMapArea(0x8000, 0x83ff, 1, GalZ80Ram3);
+	ZetMapArea(0x8000, 0x83ff, 2, GalZ80Ram3);
+	ZetClose();
+	
+	nGalCyclesTotal[2] = (14318000 / 8) / 60;
 }
 
 static INT32 SkelagonInit()
@@ -16750,6 +17104,9 @@ static void MonsterzPostLoad()
 	ZetSetOutHandler(SfxSampleZ80PortWrite);
 	ZetMapArea(0x0000, GalZ80Rom3Size - 1, 0, GalZ80Rom3);
 	ZetMapArea(0x0000, GalZ80Rom3Size - 1, 2, GalZ80Rom3);
+	ZetMapArea(0x8000, 0x83ff, 0, GalZ80Ram3);
+	ZetMapArea(0x8000, 0x83ff, 1, GalZ80Ram3);
+	ZetMapArea(0x8000, 0x83ff, 2, GalZ80Ram3);
 	ZetClose();
 	
 	GalTempRom = (UINT8*)BurnMalloc(GalZ80Rom3Size);
@@ -16758,6 +17115,8 @@ static void MonsterzPostLoad()
 	memset(GalZ80Rom3 + 0x3000, 0xff, 0x1000);
 	memcpy(GalZ80Rom3 + 0x4000, GalTempRom + 0x3000, 0x2000);
 	BurnFree(GalTempRom);
+	
+	nGalCyclesTotal[2] = (14318000 / 8) / 60;
 }
 
 static INT32 MonsterzInit()

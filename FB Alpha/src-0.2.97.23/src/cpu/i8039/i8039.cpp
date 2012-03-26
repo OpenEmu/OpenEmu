@@ -107,10 +107,12 @@ typedef struct
 	int		(*irq_callback)(int irqline);
 	int		inst_cycles;
 	UINT8	Old_T1;
+	double total_cycles;
 } I8039_Regs;
 
 static I8039_Regs R;
 static int	   i8039_ICount;
+static int	   i8039_ICount_cycles;
 
 static UINT8 *RAM;
 
@@ -846,6 +848,7 @@ int I8039Run(int cycles)
 	unsigned opcode, T1, timerInt;
 	int count;
 
+	i8039_ICount_cycles = cycles;
 	i8039_ICount = (cycles - R.irq_extra_cycles);
 	R.irq_extra_cycles = 0;
 
@@ -899,9 +902,20 @@ int I8039Run(int cycles)
 	} while (i8039_ICount>0);
 
 	i8039_ICount -= R.irq_extra_cycles;
+	R.total_cycles += cycles - i8039_ICount;
 	R.irq_extra_cycles = 0;
 
 	return cycles - i8039_ICount;
+}
+
+INT32 I8039TotalCycles()
+{
+	return (INT32)R.total_cycles + (i8039_ICount_cycles - i8039_ICount);
+}
+
+void I8039NewFrame()
+{
+	R.total_cycles = 0;
 }
 
 int N7751Run(int cycles)

@@ -239,6 +239,8 @@ INT32 ToaExtraTextLayer()
 	do {
 		nLine = BURN_ENDIAN_SWAP_INT16(((UINT16*)ExtraTSelect)[y]);
 		nOffset = BURN_ENDIAN_SWAP_INT16(((UINT16*)ExtraTScroll)[y]);
+		
+		if (Bgareggabl) nLine = y;
 
 		if (y < 233) {
 			for (i = 1; i < 8 && BURN_ENDIAN_SWAP_INT16(((UINT16*)ExtraTSelect)[y + i]) == (nLine + i) && BURN_ENDIAN_SWAP_INT16(((UINT16*)ExtraTScroll)[y + i]) == nOffset; i++) { }

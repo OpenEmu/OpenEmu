@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "sek.h"
 #include "m6502_intf.h"
 #include "burn_ym2151.h"
 

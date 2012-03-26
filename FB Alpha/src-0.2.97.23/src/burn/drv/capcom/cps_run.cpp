@@ -281,9 +281,7 @@ INT32 Cps1Frame()
 
 	SekRun(nCpsCycles * nFirstLine / nCpsNumScanlines);					// run 68K for the first few lines
 
-	if (!CpsDrawSpritesInReverse) {
-		CpsObjGet();											// Get objects
-	}
+	CpsObjGet();											// Get objects
 
 	for (i = 0; i < 4; i++) {
 		nNext = ((i + 1) * nCpsCycles) >> 2;					// find out next cycle count to run to
@@ -293,10 +291,6 @@ INT32 Cps1Frame()
 			SekRun(nNext - nDisplayEnd);						// run 68K
 
 			memcpy(CpsSaveReg[0], CpsReg, 0x100);				// Registers correct now
-
-			if (CpsDrawSpritesInReverse) {
-				if (i == 3) CpsObjGet();   									// Get objects
-			}
 
 			SekSetIRQLine(2, SEK_IRQSTATUS_AUTO);				// Trigger VBlank interrupt
 		}

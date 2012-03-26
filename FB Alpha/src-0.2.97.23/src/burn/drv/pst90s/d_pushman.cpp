@@ -2,6 +2,8 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "m6805_intf.h"
 #include "burn_ym2203.h"
 
