@@ -301,7 +301,6 @@
 {
     [rootProxy setPauseEmulation:flag];
     // TODO: Update HUD Button state
-    
 }
 
 - (void)setVolume:(float)volume
@@ -460,14 +459,16 @@
     
 }
 
-- (IBAction)saveState:(id)sender;
+- (IBAction)quickSave:(id)sender;
 {
-    
+    [self saveStateWithName:OESaveStateQuicksaveName];
 }
 
-- (IBAction)loadState:(id)sender;
+- (IBAction)quickLoad:(id)sender;
 {
-    
+    OEDBSaveState *quicksaveState = [[self rom] quickSaveStateInSlot:0];
+    if(quicksaveState)
+        [self loadSaveState:quicksaveState];
 }
 
 - (IBAction)pauseEmulation:(id)sender;

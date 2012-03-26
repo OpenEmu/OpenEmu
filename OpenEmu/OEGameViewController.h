@@ -86,8 +86,8 @@
 #pragma mark - Menu Items
 - (IBAction)volumeUp:(id)sender;
 - (IBAction)volumeDown:(id)sender;
-- (IBAction)saveState:(id)sender;
-- (IBAction)loadState:(id)sender;
+- (IBAction)quickSave:(id)sender;
+- (IBAction)quickLoad:(id)sender;
 - (IBAction)pauseEmulation:(id)sender;
 - (IBAction)resumeEmulation:(id)sender;
 

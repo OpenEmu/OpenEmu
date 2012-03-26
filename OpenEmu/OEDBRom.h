@@ -67,7 +67,7 @@
 - (OEDBSaveState *)autosaveState;
 - (NSArray *)quickSaveStates;
 
-- (OEDBSaveState *)quickSaveState:(int)num;
+- (OEDBSaveState *)quickSaveStateInSlot:(int)num;
 - (OEDBSaveState *)saveStateWithName:(NSString*)string;
 
 - (void)removeMissingStates;

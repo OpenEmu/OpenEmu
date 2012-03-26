@@ -11,11 +11,7 @@
 @class OEGameViewController;
 
 @interface OEGameWindowController : NSWindowController
-
 - (id)initWithGameViewController:(OEGameViewController *)aController contentRect:(NSRect)aRect;
-
 @property(strong, readonly) OEGameViewController *gameViewController;
-
 - (IBAction)terminateEmulation:(id)sender;
-
 @end
