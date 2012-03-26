@@ -73,9 +73,7 @@
 
 #pragma mark -
 #pragma mark Menu Items
-
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
-- (void)menuItemAction:(id)sender;
 
 #pragma mark -
 #pragma Handle Spotlight importing

@@ -311,7 +311,6 @@
 
 #pragma mark -
 #pragma mark Menu Items
-
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     if([menuItem action] == @selector(newCollectionFolder:)) return NO;
@@ -323,10 +322,6 @@
         return [[[self collectionViewController] selectedGames] count] != 0;
     
     return YES;
-}
-
-- (void)menuItemAction:(id)sender
-{
 }
 
 #pragma mark -

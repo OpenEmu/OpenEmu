@@ -33,7 +33,6 @@
 #import "OEApplicationDelegate.h"
 #import "OEGameViewController.h"
 #import "OEGameCoreManager.h"
-#import "OEHUDControlsBar.h"
 
 #import "OEROMImporter.h"
 #import "OEGameWindowController.h"
@@ -93,7 +92,6 @@
     CFTimeInterval mouseIdleTime = CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGEventMouseMoved);
     if (mouseIdleTime >= 3)
     {
-        [[gameViewController controlsWindow] hide];
         [NSCursor setHiddenUntilMouseMoves:YES];
     }
 }

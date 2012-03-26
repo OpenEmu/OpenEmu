@@ -37,7 +37,7 @@
 @class OESystemController;
 @class OESystemResponder;
 
-@class OEHUDControlsBarWindow;
+@class OEGameControlsBar;
 @class OEGameDocument;
 @class OEDBSaveState;
 
@@ -75,55 +75,61 @@
 
 - (id)initWithSaveState:(OEDBSaveState *)state;
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
-
-@property (strong) OEHUDControlsBarWindow *controlsWindow;
+#pragma mark -
+@property (strong) OEGameControlsBar *controlsWindow;
 
 @property(weak)   id<OEGameViewControllerDelegate> delegate;
 
 @property(strong) OEDBRom        *rom;
 @property(weak)   OEGameDocument *document;
 
-#pragma mark - Menu Items
+#pragma mark - HUD Bar Actions
+// switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
+- (void)switchCore:(id)sender;
+- (void)editControls:(id)sender;
+- (void)selectFilter:(id)sender;
+
+#pragma mark - Volume
+- (void)setVolume:(float)volume asDefault:(BOOL)defaultFlag;
+- (void)changeVolume:(id)sender;
 - (IBAction)volumeUp:(id)sender;
 - (IBAction)volumeDown:(id)sender;
-- (IBAction)quickSave:(id)sender;
-- (IBAction)quickLoad:(id)sender;
-- (IBAction)pauseEmulation:(id)sender;
-- (IBAction)resumeEmulation:(id)sender;
+- (void)mute:(id)sender;
+- (void)unmute:(id)sender;
 
-#pragma mark -
-#pragma mark Controlling Emulation
-- (void)restartUsingCore:(OECorePlugin*)core;
+#pragma mark - Controlling Emulation
 - (void)resetGame;
 - (void)terminateEmulation;
 
-- (void)pauseGame;
-- (void)playGame;
+- (IBAction)pauseGame:(id)sender;
+- (IBAction)playGame:(id)sender;
 - (BOOL)isEmulationPaused;
+- (void)toggleEmulationPaused;
 - (void)setPauseEmulation:(BOOL)flag;
 - (void)setVolume:(float)volume;
 
-- (void)toggleFullscreen;
-#pragma mark -
-- (void)loadSaveState:(OEDBSaveState *)state;
-- (void)deleteSaveState:(OEDBSaveState *)state;
-- (void)saveStateAskingUserForName:(NSString*)proposedName;
-- (void)saveStateWithName:(NSString*)stateName;
-- (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error;
+#pragma mark - Saving States
+- (IBAction)saveState:(id)sender;
+- (IBAction)quickSave:(id)sender;
+
+- (void)saveStateWithName:(NSString *)stateName;
+#pragma mark - Loading States
+// loadState: expects sender or [sender representedObject] to be an OEDBSaveState object
+- (IBAction)loadState:(id)sender;
+- (IBAction)quickLoad:(id)sender;
 
 #pragma mark -
-- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
+// deleteSaveState: expects sender or [sender representedObject] to be an OEDBSaveState object and prompts the user for confirmation
+- (void)deleteSaveState:(id)sender;
 
-#pragma mark -
-#pragma mark Info
+#pragma mark - Info
 - (NSSize)defaultScreenSize;
 - (NSString*)coreIdentifier;
 - (NSString*)systemIdentifier;
+
 #pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
-- (void)menuItemAction:(id)sender;
-- (void)setupMenuItems;
 @end
 
 @protocol OEGameViewControllerDelegate <NSObject>
