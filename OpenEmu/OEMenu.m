@@ -125,7 +125,7 @@
 - (void)OE_createEventMonitor;
 - (void)OE_removeEventMonitor;
 
-@property NSRect openRect;
+@property NSRect openRect; 
 
 - (void)OE_repositionMenu;
 - (NSPoint)OE_originForEdge:(OERectEdge)anEdge ofWindow:(NSWindow*)win;
@@ -134,8 +134,10 @@
 
 #pragma mark -
 @interface OEMenuContentView : NSView
+- (int)OE_submenuPosition;
 - (void)highlightItemAtPoint:(NSPoint)p;
 - (void)highlightItemWithScrollingAtPoint:(NSPoint)p;
+- (void)mouseHighlightItemAtPoint:(NSPoint)p;
 - (NSMenuItem *)itemAtPoint:(NSPoint)p;
 - (NSRect)rectOfItem:(NSMenuItem *)m;
 
@@ -162,6 +164,8 @@
 @property (nonatomic, readonly) OEMenuScrollerView *scrollDownView;
 @property (nonatomic, readonly) OEMenuScrollerView *scrollUpView;
 @property NSTimer *scrollTimer;
+
+@property NSPoint lastHighlightPoint;
 @end
 
 @interface OEMenuContentView ()
@@ -337,10 +341,9 @@
 - (void)OE_repositionMenu
 {   
     NSRect menuRect         =   [self frame];
-    NSRect screenRect       =   [[self screen] visibleFrame];
+    NSRect screenRect       =   [[[self parentWindow] screen] visibleFrame];
     OERectEdge edge         =   [self openEdge];
     NSRect intersectionRect =   NSIntersectionRect(menuRect, screenRect);
-    
     if(NSEqualSizes(menuRect.size, intersectionRect.size))
         return;
     
@@ -356,7 +359,11 @@
         }
     }
     
-    // resize if nescessary
+    // update intersection rect if old menu rect was completly off-screen
+    if(NSHeight(intersectionRect) == 0)
+        intersectionRect =   NSIntersectionRect(menuRect, screenRect);
+    
+    // resize if nescessary    
     if(NSHeight(menuRect) != NSHeight(intersectionRect))
     {
         menuRect.size.height = NSHeight(intersectionRect);
@@ -517,7 +524,6 @@
     if(highlightedItem != value)
     {
         highlightedItem = value;
-        
         self.submenu = [[highlightedItem submenu] convertToOEMenu];
     }
 }
@@ -701,7 +707,7 @@
 }
 #pragma mark -
 - (void)OE_createEventMonitor
-{
+{   
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask | NSScrollWheelMask handler:
                      ^ NSEvent  *(NSEvent *incomingEvent)
                      {
@@ -993,7 +999,7 @@
     [[scrollView documentView] scrollPoint:point];
 
     [self updateScrollerViews:YES];
-    [self highlightItemAtPoint:[self convertPointFromBase:[[self window] convertScreenToBase:[NSEvent mouseLocation]]]];
+    [self mouseHighlightItemAtPoint:[self convertPointFromBase:[[self window] convertScreenToBase:[NSEvent mouseLocation]]]];
 }
 
 - (void)updateScrollerViews:(BOOL)animated
@@ -1400,17 +1406,66 @@
 }
 
 #pragma mark -
+@synthesize lastHighlightPoint;
+#define SubmenuHighlightDelay 0.07
+- (void)mouseHighlightItemAtPoint:(NSPoint)p
+{       
+    if([[self menu] supermenu]) [NSObject cancelPreviousPerformRequestsWithTarget:[[[self menu] supermenu] contentView] selector:@selector(highlightAtLastHighlightPoint) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(highlightAtLastHighlightPoint) object:nil];
+
+    if (![[self menu] submenu]) {
+        [self highlightItemAtPoint:p];
+        [self setLastHighlightPoint:p];
+    } else {
+        int submenuPosition = [self OE_submenuPosition];
+        float distance = p.x-[self lastHighlightPoint].x;
+        if(distance*submenuPosition > -0.7)
+        {
+            [self highlightItemAtPoint:p];
+        }
+        else 
+        {
+            [self performSelector:@selector(highlightAtLastHighlightPoint) withObject:nil afterDelay:SubmenuHighlightDelay];
+        }
+        
+        [self setLastHighlightPoint:p];
+    }
+}
+
+- (void)highlightAtLastHighlightPoint
+{
+    [self highlightItemAtPoint:[self lastHighlightPoint]];
+}
+
+- (int)OE_submenuPosition
+{
+    if(![[self menu] submenu]) return 0;
+    else if(NSMinX([[[self menu] submenu] frame]) > NSMidX([[self menu] frame])) return -1;
+    else if(NSMaxX([[[self menu] submenu] frame]) < NSMidX([[self menu] frame])) return 1;
+    else return 0;
+}
+
 - (void)highlightItemAtPoint:(NSPoint)p
 {
+    if([[self menu] supermenu]) [NSObject cancelPreviousPerformRequestsWithTarget:[[[self menu] supermenu] contentView] selector:@selector(highlightAtLastHighlightPoint) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(highlightAtLastHighlightPoint) object:nil];
+
     NSMenuItem *highlighItem = [self itemAtPoint:p];
     
     if(highlighItem != [self menu].highlightedItem)
     {
+        if([[self menu] submenu] && ![highlighItem isSeparatorItem] && highlighItem==nil) // if a submenu is open and we are about to close it
+        {
+            int submenuPosition = [self OE_submenuPosition];
+            if(((submenuPosition == -1) && p.x > NSMinX([self bounds])) || // submenu is on the right + highlight point is on the right, OR
+               ((submenuPosition ==  1) && p.x < NSMaxX([self bounds])))   // submenu is on the left + highlight point is on the left
+                return;                                                   // skip deselecting the submenu so it stays open
+        }
         if([highlighItem isSeparatorItem])
             highlighItem = nil;
-        
+
         [[self menu] setHighlightedItem:highlighItem];
-        
+
         [self setNeedsDisplay:YES];
     }
 }
@@ -1428,7 +1483,7 @@
         [[self scrollTimer] invalidate];
         [self setScrollTimer:nil];
         
-        [self highlightItemAtPoint:p];
+        [self mouseHighlightItemAtPoint:p];
     }
 }
 

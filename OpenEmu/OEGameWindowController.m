@@ -82,6 +82,7 @@
 
 - (IBAction)terminateEmulation:(id)sender;
 {
+    NSLog(@"terminateEmulation: %@ | %@", self, [self window]);
     [self close];
 }
 

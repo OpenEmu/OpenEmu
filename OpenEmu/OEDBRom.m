@@ -318,9 +318,9 @@
     return [set allObjects];
 }
 
-- (OEDBSaveState *)quickSaveState:(int)num
+- (OEDBSaveState *)quickSaveStateInSlot:(int)num
 {
-    NSString    *quickSaveName = [NSString stringWithFormat:@"%@%d", OESaveStateQuicksaveName, num];
+    NSString    *quickSaveName = num==0?OESaveStateQuicksaveName:[NSString stringWithFormat:@"%@%d", OESaveStateQuicksaveName, num];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", quickSaveName];
     NSSet *set = [self saveStates];
@@ -338,6 +338,11 @@
     return [set anyObject];
 }
 
+- (void)removeMissingStates
+{
+    NSSet *set = [[self saveStates] copy];
+    [set makeObjectsPerformSelector:@selector(removeIfMissing)];
+}
 #pragma mark -
 #pragma mark Mainpulating a rom
 - (void)markAsPlayedNow

@@ -88,6 +88,7 @@
 - (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system;
 - (NSURL *)stateFolderURL;
 - (NSURL *)stateFolderURLForSystem:(OEDBSystem *)system;
+- (NSURL *)stateFolderURLForROM:(OEDBRom *)rom;
 #pragma mark -
 @property (copy) NSURL *databaseURL;
 @property (strong) NSPersistentStoreCoordinator  *persistentStoreCoordinator;
