@@ -337,10 +337,9 @@
 - (void)OE_repositionMenu
 {   
     NSRect menuRect         =   [self frame];
-    NSRect screenRect       =   [[self screen] visibleFrame];
+    NSRect screenRect       =   [[[self parentWindow] screen] visibleFrame];
     OERectEdge edge         =   [self openEdge];
     NSRect intersectionRect =   NSIntersectionRect(menuRect, screenRect);
-    
     if(NSEqualSizes(menuRect.size, intersectionRect.size))
         return;
     
@@ -356,7 +355,11 @@
         }
     }
     
-    // resize if nescessary
+    // update intersection rect if old menu rect was completly off-screen
+    if(NSHeight(intersectionRect) == 0)
+        intersectionRect =   NSIntersectionRect(menuRect, screenRect);
+    
+    // resize if nescessary    
     if(NSHeight(menuRect) != NSHeight(intersectionRect))
     {
         menuRect.size.height = NSHeight(intersectionRect);
