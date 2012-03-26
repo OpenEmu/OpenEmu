@@ -422,9 +422,12 @@
 
 - (void)saveStateWithName:(NSString *)stateName
 {
+    // calling pauseGame here because it might need some time to execute
+    [self pauseGame:self];
     if([self rom] == nil)
     {
         NSLog(@"Error: Can not save states without rom");
+        [self playGame:self];
         return;
     }
     
@@ -434,6 +437,7 @@
     NSURL           *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
     
     temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+        [self playGame:self];
         return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
     }];
     
@@ -441,6 +445,7 @@
     if(!success)
     {
         NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
+        [self playGame:self];
         return;
     }
     
@@ -472,14 +477,19 @@
     if(!success)
     {
         NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
+        [self playGame:self];
         return;
     }
     
+    [self playGame:self];
 }
 
 #pragma mark - Loading States
 - (IBAction)loadState:(id)sender
 {
+    // calling pauseGame here because it might need some time to execute
+    [self pauseGame:self];
+    
     OEDBSaveState *state;
     if([sender isKindOfClass:[OEDBSaveState class]])
         state = sender;
@@ -493,6 +503,7 @@
     if([state rom] != [self rom])
     {
         NSLog(@"Invalid save state for current rom");
+        [self playGame:self];
         return;
     }
     
@@ -505,10 +516,13 @@
             OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
             [self OE_restartUsingCore:core];
         }
-        else return;
+        else
+        {
+            [self playGame:self];
+            return;
+        }
     }
     
-    [self pauseGame:self];
     NSString *path = [[state stateFileURL] path];
     [self OE_loadStateFromFile:path error:nil];
     [self playGame:self];
