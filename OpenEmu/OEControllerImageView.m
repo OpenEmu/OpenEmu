@@ -289,8 +289,6 @@
         [self setSelectedKey:selected animated:YES];
         if([self action] != nil) [NSApp sendAction:[self action] to:[self target] from:self];
     }
-    
-    NSLog(@"Mouse down");
 }
        
 - (NSPoint)ringPositionInView
