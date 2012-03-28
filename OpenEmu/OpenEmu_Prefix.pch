@@ -65,9 +65,13 @@
 #define APIVersion	@"2.0"
 #define APIKey		@"6CVC46HWMLJNU986TRM5A4XG927HA0K0"
 
-#define UDDebugModeKey @"debug"
+#define OEDefaultWindowTitle @"OpenEmu"
+
+
 
 // Keys used for user defaults
+#define UDDebugModeKey @"debug"
+
 // Remember to change values in XIBs if you edit strings below!
 #define UDSetupAssistantHasRun      @"setupAssistantFinished"   /*  uses Sparkle key, to determine if oe was launched before */
 #define UDRemoveCollectionSuppresedKey @"removeCollectionWithoutConfirmation"
@@ -110,7 +114,8 @@
 #define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification	 (default: YES)								*/
 #define UDBoxSizesKey				@"BoxSizes"					/*	Array of sizes used for Box Artwork thumbnails (defaults registered in main.m)				*/
 #define UDHUDHideOptionsKey         @"HUDBarWithoutOptions"     /*  Set to yes to disable the cog in the hudbar                                                 */
-#define OEHUDCanDeleteStateKey      @"HUDBarCanDeleteState"     /*  Enable to allow users to remove savestates by holding the alt button when clicking on a savestate  */
+#define UDHUDCanDeleteStateKey      @"HUDBarCanDeleteState"     /*  Enable to allow users to remove savestates by holding the alt button when clicking on a savestate  */
+#define UDDontShowGameTitleInWindowKey  @"dontShowGameTitleInWindow" /* Enable to prevent main window title from chagnging */
 
 #define UDControlsDisableMouseSelection @"controlsDisableMouseSelection"        /* if set (to YES) selecting controller buttons by clicking on the image is disabled in Controls Preferences */
 #define UDControlsDisableMouseDeactivation @"controlsDisableMouseDeactivation"  /* if set (to YES) deselecting the current button by clicking outside the blue selector ring is disabled in Controls Preferences */
@@ -156,16 +161,6 @@
 //  Tags identifying Main Menu items
 #pragma mark File Menu
 enum {
-
-#pragma mark -
-#pragma mark Controls Menu
-    MainMenu_Controls_StartGame       = 201,
-    MainMenu_Controls_VolumeUp        = 202,
-    MainMenu_Controls_VolumeDown      = 203,
-    MainMenu_Controls_SaveState       = 204,
-    MainMenu_Controls_LoadState       = 205,
-    MainMenu_Controls_PauseEmulation  = 206,
-    MainMenu_Controls_ResumeEmulation = 207,
 #pragma mark -
 #pragma mark View Menu
     MainMenu_View_GridViewTag         = 301,

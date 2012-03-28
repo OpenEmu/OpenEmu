@@ -500,7 +500,7 @@
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
-            if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
+            if([[NSUserDefaults standardUserDefaults] boolForKey:UDHUDCanDeleteStateKey])
             {
                 OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];               
                 [oeitem setHasAlternate:YES];

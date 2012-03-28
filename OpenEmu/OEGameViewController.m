@@ -195,11 +195,17 @@
     [controlsWindow orderFront:self];
     
     [window makeFirstResponder:gameView];
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDDontShowGameTitleInWindowKey])
+        [window setTitle:[[[self rom] game] name]];
 }
 
 - (void)viewWillDisappear
 {
     [super viewWillDisappear];
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDDontShowGameTitleInWindowKey])
+        [[gameView window] setTitle:OEDefaultWindowTitle];
     
     [[self controlsWindow] hide];
     [self terminateEmulation];
