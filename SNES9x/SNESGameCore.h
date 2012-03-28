@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
+#import <OpenEmuBase/OEGameCore.h>
 
 #define MAC_MAX_PLAYERS 8
 #define SNES_CONTROL_COUNT 12

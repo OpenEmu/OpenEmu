@@ -30,7 +30,7 @@
 #include <sys/stat.h>
 #import <OpenGL/gl.h>
 #import "OENGPSystemResponderClient.h"
-#import <OERingBuffer.h>
+#import <OpenEmuBase/OERingBuffer.h>
 
 enum {
     NGPButtonUp     = 0x01,

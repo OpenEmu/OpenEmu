@@ -27,7 +27,7 @@
 
 #import "NESGameCore.h"
 #import "NESGameController.h"
-#import <OERingBuffer.h>
+#import <OpenEmuBase/OERingBuffer.h>
 #include <sys/time.h>
 #include <NstBase.hpp>
 #include <NstApiEmulator.hpp>

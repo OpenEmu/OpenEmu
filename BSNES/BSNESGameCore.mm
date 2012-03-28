@@ -26,7 +26,7 @@
  */
 
 #import "BSNESGameCore.h"
-#import <OERingBuffer.h>
+#import <OpenEmuBase/OERingBuffer.h>
 #import "OESNESSystemResponderClient.h"
 #import <OpenGL/gl.h>
 

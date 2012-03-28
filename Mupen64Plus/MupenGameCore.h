@@ -25,7 +25,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
+#import <OpenEmuBase/OEGameCore.h>
 #import <pthread.h>
 
 #define MAC_MAX_PLAYERS 8

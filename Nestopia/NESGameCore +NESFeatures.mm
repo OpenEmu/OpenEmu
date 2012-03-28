@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEGameCore.h"
+#import <OpenEmuBase/OEGameCore.h>
 #import "NESGameCore.h"
 
 #include <NstBase.hpp>

@@ -26,7 +26,7 @@
  */
 
 #import "FCEUGameCore.h"
-#import <OERingBuffer.h>
+#import <OpenEmuBase/OERingBuffer.h>
 #import "OENESSystemResponderClient.h"
 #import <OpenGL/gl.h>
 

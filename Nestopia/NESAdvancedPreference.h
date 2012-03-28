@@ -26,9 +26,10 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
-#import <OEPreferenceViewController.h>
+#import <OpenEmuBase/OEGameCore.h>
+//#import <OEPreferenceViewController.h>
 
 OE_EXPORTED_CLASS
-@interface NESAdvancedPreference : OEPreferenceViewController
+@interface NESAdvancedPreference
+//@interface NESAdvancedPreference : OEPreferenceViewController
 @end
