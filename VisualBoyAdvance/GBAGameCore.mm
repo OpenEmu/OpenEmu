@@ -26,7 +26,7 @@
  */
 
 #import "GBAGameCore.h"
-#import <OERingBuffer.h>
+#import <OpenEmuBase/OERingBuffer.h>
 #import "OEGBASystemResponderClient.h"
 #import <OpenGL/gl.h>
 

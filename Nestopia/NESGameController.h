@@ -26,8 +26,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
-#import <OEGameCoreController.h>
+#import <OpenEmuBase/OEGameCore.h>
+#import <OpenEmuBase/OEGameCoreController.h>
 
 extern NSArray *NESRawControlNames;
 extern NSArray *NESUsedControlNames;

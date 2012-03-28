@@ -41,7 +41,7 @@ NSArray *NESUsedSettingNames = nil;
     {
         [self registerPreferenceViewControllerClasses:
          [NSDictionary dictionaryWithObjectsAndKeys:
-          [NESAdvancedPreference class], OEAdvancedPreferenceKey,
+          //[NESAdvancedPreference class], OEAdvancedPreferenceKey,
           nil]];
         
         NESUsedSettingNames = [[NSArray alloc] initWithObjects:NESNTSC, NESBrightness, NESSaturation, NESContrast, NESSharpness, NESColorRes, NESColorBleed, NESColorArtifacts, NESColorFringing, NESHue, NESUnlimitedSprites, nil];

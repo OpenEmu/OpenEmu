@@ -26,7 +26,7 @@
  */
 
 #import "SNESGameCore.h"
-#import <OERingBuffer.h>
+#import <OpenEmuBase/OERingBuffer.h>
 #import <OpenGL/gl.h>
 
 #include "memmap.h"

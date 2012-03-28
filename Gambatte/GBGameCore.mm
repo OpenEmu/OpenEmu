@@ -28,7 +28,7 @@
 #define SAMPLERATE 48000
 #define NEWSIZESOUNDBUFFER 80000
 
-#import <OERingBuffer.h>
+#import <OpenEmuBase/OERingBuffer.h>
 #import <OpenGL/gl.h>
 #import "OEGBSystemResponderClient.h"
 #import "GBGameCore.h"
