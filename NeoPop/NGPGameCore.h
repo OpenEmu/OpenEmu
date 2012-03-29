@@ -41,7 +41,6 @@
 OE_EXPORTED_CLASS
 @interface NGPGameCore : OEGameCore
 {
-    GameDocument *parent;
     NSLock       *soundLock;
     NSLock       *bufLock;
     NSString     *pathToFile;

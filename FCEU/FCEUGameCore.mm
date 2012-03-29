@@ -31,9 +31,6 @@
 #import <OpenGL/gl.h>
 
 #include "libsnes.h"
-//#include "../src-fceumm/sound.h"
-
-//#define SAMPLERATE 48000
 
 @interface FCEUGameCore () <OENESSystemResponderClient>
 @end

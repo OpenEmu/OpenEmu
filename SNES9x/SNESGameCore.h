@@ -28,17 +28,11 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuBase/OEGameCore.h>
 
-#define MAC_MAX_PLAYERS 8
-#define SNES_CONTROL_COUNT 12
-
-extern NSString *SNESEmulatorNames[];
-
 @class OERingBuffer;
 
 OE_EXPORTED_CLASS
 @interface SNESGameCore : OEGameCore
 {
-    uint32         controlPad[MAC_MAX_PLAYERS];
     UInt16        *soundBuffer;
     unsigned char *videoBuffer;
 }
