@@ -63,10 +63,14 @@
 // returns save states ordered by timestamp
 - (NSArray *)normalSaveStatesByTimestampAscending:(BOOL)ascFlag;
 - (NSArray *)normalSaveStates;
+
 - (OEDBSaveState *)autosaveState;
 - (NSArray *)quickSaveStates;
-- (OEDBSaveState *)quickSaveState:(int)num;
+
+- (OEDBSaveState *)quickSaveStateInSlot:(int)num;
 - (OEDBSaveState *)saveStateWithName:(NSString*)string;
+
+- (void)removeMissingStates;
 #pragma mark -
 #pragma mark Mainpulating a rom
 // sets roms "lastPlayed" to now

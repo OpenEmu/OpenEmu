@@ -26,14 +26,12 @@
  */
 
 #import "GBAGameCore.h"
-#import <OERingBuffer.h>
+#import <OpenEmuBase/OERingBuffer.h>
 #import "OEGBASystemResponderClient.h"
 #import <OpenGL/gl.h>
 
 #include "libsnes.hpp"
 #include "Sound.h"
-
-//#define SAMPLERATE 32000
 
 @interface GBAGameCore () <OEGBASystemResponderClient>
 @end

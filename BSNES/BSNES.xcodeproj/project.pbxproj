@@ -602,7 +602,7 @@
 		941153C414F9E32900621C3E /* system_gb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = system_gb.cpp; sourceTree = "<group>"; };
 		941153C614F9E32900621C3E /* video.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = video.hpp; sourceTree = "<group>"; };
 		941153C714F9E32900621C3E /* video_gb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = video_gb.cpp; sourceTree = "<group>"; };
-		942597C415146FF40074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		942597C415146FF40074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		C6480FFB1364B2E10094FA33 /* OESNESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OESNESSystemResponderClient.h; path = ../OpenEmu/SuperNES/OESNESSystemResponderClient.h; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -2427,7 +2427,6 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../OpenEmu\"",
 					"\"$(PROJECT_DIR)/core/lib/\"",
 					"\"$(PROJECT_DIR)/core/\"",
 					"\"$(PROJECT_DIR)/libsnes\"",
@@ -2458,7 +2457,6 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../OpenEmu\"",
 					"\"$(PROJECT_DIR)/core/lib/\"",
 					"\"$(PROJECT_DIR)/core/\"",
 					"\"$(PROJECT_DIR)/libsnes\"",

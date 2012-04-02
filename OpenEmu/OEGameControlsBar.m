@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEHUDControlsBar.h"
+#import "OEGameControlsBar.h"
 #import "NSImage+OEDrawingAdditions.h"
 
 #import "OEImageButton.h"
@@ -42,11 +42,22 @@
 
 #import "OEDBSaveState.h"
 
-@interface OEHUDControlsBarWindow ()
-@property(strong) OEHUDControlsBarView *controlsView;
+@class OEHUDSlider, OEImageButton;
+@interface OEHUDControlsBarView : NSView
+
+@property (strong, readonly) OEHUDSlider     *slider;
+@property (strong, readonly) NSButton        *fullScreenButton;
+@property (strong, readonly) OEImageButton   *pauseButton;
+
+- (void)setupControls;
 @end
 
-@implementation OEHUDControlsBarWindow
+@interface OEGameControlsBar ()
+@property (strong) OEHUDControlsBarView *controlsView;
+@property (strong, nonatomic) NSDate *lastMouseMovement;
+@end
+
+@implementation OEGameControlsBar
 @synthesize lastMouseMovement;
 @synthesize gameViewController;
 @synthesize controlsView;
@@ -75,7 +86,6 @@
                             if([NSApp isActive] && [[self parentWindow] isMainWindow])
                                 [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:incomingEvent waitUntilDone:NO];
                         }];
-        
         openMenus = 0;
         controlsView = barView;
     }
@@ -97,7 +107,6 @@
 }
 
 #pragma mark -
-
 - (void)show
 {
     [[self animator] setAlphaValue:1.0];
@@ -175,53 +184,13 @@
     return openMenus == 0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
 }
 
-#pragma mark -
-- (void)muteAction:(id)sender
-{
-    id slider = [(OEHUDControlsBarView *)[[[self contentView] subviews] lastObject] slider];
-    [slider setFloatValue:0.0];
-    [[self gameViewController] setVolume:0.0];
-}
-
-- (void)unmuteAction:(id)sender
-{
-    id slider = [(OEHUDControlsBarView *)[[[self contentView] subviews] lastObject] slider];
-    [slider setFloatValue:1.0];
-    [[self gameViewController] setVolume:1.0];
-}
-
-- (void)resetAction:(id)sender
-{
-    [[self gameViewController] resetGame];
-}
-
-- (void)playPauseAction:(id)sender
-{
-    [[self gameViewController] setPauseEmulation:![[self gameViewController] isEmulationPaused]];
-}
-
-- (void)stopAction:(id)sender
-{
-    [[self gameViewController] terminateEmulation];
-}
-
-- (void)fullscreenAction:(id)sender
-{
-    [[self gameViewController] toggleFullscreen];
-}
-
-- (void)volumeAction:(id)sender
-{
-    [[self gameViewController] setVolume:[sender floatValue]];
-}
-
-- (void)optionsAction:(id)sender
+#pragma mark - Menus
+- (void)showOptionsMenu:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
     
     NSMenuItem *item;
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls", @"") action:@selector(optionsActionEditControls:) keyEquivalent:@""];
-    [item setTarget:self];
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls", @"") action:@selector(editControls:) keyEquivalent:@""];
     [menu addItem:item];
     
     // Setup Core selection menu
@@ -238,8 +207,7 @@
         
         for(OECorePlugin *aPlugin in corePlugins)
         {
-            NSMenuItem *coreItem = [[NSMenuItem alloc] initWithTitle:[aPlugin displayName] action:@selector(optionsActionSelectCore:) keyEquivalent:@""];
-            [coreItem setTarget:self];
+            NSMenuItem *coreItem = [[NSMenuItem alloc] initWithTitle:[aPlugin displayName] action:@selector(switchCore:) keyEquivalent:@""];
             [coreItem setRepresentedObject:aPlugin];
             
             if([[aPlugin bundleIdentifier] isEqualTo:[[self gameViewController] coreIdentifier]]) [coreItem setState:NSOnState];
@@ -265,8 +233,7 @@
     NSString *selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:UDVideoFilterKey];
     for(NSString *aName in filterNames)
     {
-        NSMenuItem *filterItem = [[NSMenuItem alloc] initWithTitle:aName action:@selector(optionsActionSelectFilter:) keyEquivalent:@""];
-        [filterItem setTarget:self];
+        NSMenuItem *filterItem = [[NSMenuItem alloc] initWithTitle:aName action:@selector(selectFilter:) keyEquivalent:@""];
         
         if([aName isEqualToString:selectedFilter]) [filterItem setState:NSOnState];
         
@@ -290,56 +257,17 @@
     [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
 }
 
-- (void)optionsActionEditControls:(id)sender{
-    NSString* systemIdentifier = [[self gameViewController] systemIdentifier];
-    NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                              @"Controls", OEPreferencesOpenPanelUserInfoPanelNameKey,
-                              systemIdentifier, OEPreferencesOpenPanelUserInfoSystemIdentifierKey,
-                              nil];
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
-}
-
-- (void)optionsActionSelectFilter:(id)sender
-{
-    NSString *selectedFilter = [sender title];
-    [[NSUserDefaults standardUserDefaults] setObject:selectedFilter forKey:UDVideoFilterKey];
-}
-
-- (void)optionsActionSelectCore:(id)sender
-{
-    OECorePlugin* plugin = [sender representedObject];
-    if([[plugin bundleIdentifier] isEqualTo:[gameViewController coreIdentifier]]) return;
-    
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"If you change the core you current progress will be lost and save states will not work anymore." defaultButton:@"Change Core" alternateButton:@"Cancel"];
-    [alert showSuppressionButtonForUDKey:UDChangeCoreAlertSuppressionKey];
-    [alert setCallbackHandler:^(OEHUDAlert *alert, NSUInteger result)
-     {         
-         if(result == NSAlertDefaultReturn)
-         {
-             NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
-             NSString* systemIdentifier = [[self gameViewController] systemIdentifier];
-             [standardUserDefaults setValue:[plugin bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier(systemIdentifier)];
-             
-             [[self gameViewController] performSelectorInBackground:@selector(restartUsingCore:) withObject:plugin];
-         }
-     }];
-    
-    [alert runModal];
-}
-
-#pragma mark -
-#pragma mark Save States
-- (void)saveAction:(id)sender
+- (void)showSaveMenu:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
     
     NSMenuItem *item;
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:@selector(doSaveState:) keyEquivalent:@""];
-    [item setTarget:self];
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:@selector(saveState:) keyEquivalent:@""];
     [menu addItem:item];
     
     NSArray *saveStates = nil;
+    
+    [[[self gameViewController] rom] removeMissingStates];
     if([[self gameViewController] rom] != nil && (saveStates = [[[self gameViewController] rom] normalSaveStatesByTimestampAscending:YES]) && [saveStates count] != 0)
     {
         [menu addItem:[NSMenuItem separatorItem]];
@@ -349,22 +277,19 @@
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
-            if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
+            if([[NSUserDefaults standardUserDefaults] boolForKey:UDHUDCanDeleteStateKey])
             {
-                OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
-                [oeitem setTarget:self];
+                OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
                 
                 [oeitem setHasAlternate:YES];
-                [oeitem setAlternateTarget:self];
-                [oeitem setAlternateAction:@selector(doDeleteState:)];
+                [oeitem setAlternateAction:@selector(deleteSaveState:)];
                 
                 [oeitem setRepresentedObject:saveState];
                 [menu addItem:oeitem];
             }
             else
             {
-                item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
-                [item setTarget:self];
+                item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
                 [item setRepresentedObject:saveState];
                 [menu addItem:item];
             }
@@ -375,34 +300,16 @@
     [oemenu setDelegate:self];
     [oemenu setDisplaysOpenEdge:YES];
     [oemenu setStyle:OEMenuStyleLight];
-    oemenu.itemsAboveScroller = 2;
-    oemenu.maxSize = NSMakeSize(5000, 256);
+    [oemenu setItemsAboveScroller:2];
+    [oemenu setMaxSize:(NSSize){5000, 256}];
 
     NSRect targetRect = (NSRect){{[sender frame].origin.x,0},{[sender frame].size.width -6, NSHeight([self frame])}};
     targetRect = NSInsetRect(targetRect, 0, 17);
     [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
 }
 
-- (void)doLoadState:(id)stateItem
-{
-    [[self gameViewController] loadSaveState:[stateItem representedObject]];
-    
-    [self hide];
-}
-
-- (void)doDeleteState:(id)stateItem
-{
-    [[self gameViewController] deleteSaveState:[stateItem representedObject]];
-}
-
-- (void)doSaveState:(id)sender
-{
-    [[self gameViewController] saveStateAskingUserForName:nil];
-}
-
 #pragma mark -
 #pragma mark OEMenuDelegate Implementation
-
 - (void)menuDidShow:(OEMenu *)men
 {
     openMenus++;
@@ -413,13 +320,29 @@
     openMenus--;
 }
 
+#pragma mark - Updating UI States
+- (void)reflectVolume:(float)volume
+{
+    OEHUDControlsBarView    *view   = [[[self contentView] subviews] lastObject];
+    OEHUDSlider             *slider = [view slider];
+    
+    if(volume == [slider floatValue]) return;
+    [[slider animator] setFloatValue:volume];
+}
+
+- (void)reflectEmulationRunning:(BOOL)flag
+{
+    OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
+    NSButton                *pauseButton = [view pauseButton];
+    [pauseButton setState:flag];
+}
+
 - (void)parentWindowDidEnterFullScreen:(NSNotification *)notification;
 {
 }
 
 - (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
 {
-    
 }
 
 - (void)setParentWindow:(NSWindow *)window
@@ -444,7 +367,7 @@
 @end
 
 @implementation OEHUDControlsBarView
-@synthesize slider, fullScreenButton;
+@synthesize slider, fullScreenButton, pauseButton;
 
 + (void)initialize
 {
@@ -484,17 +407,12 @@
     return self;
 }
 
-- (void)awakeFromNib
-{
-}
-
 - (BOOL)isOpaque
 {
     return NO;
 }
 
 #pragma mark -
-
 - (void)drawRect:(NSRect)dirtyRect
 {
     NSImage *barBackground = [NSImage imageNamed:@"hud_bar"];
@@ -514,23 +432,20 @@
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:stopButton];
     
-    OEImageButton *pauseButton = [[OEImageButton alloc] init];
+    pauseButton = [[OEImageButton alloc] init];
     OEImageButtonHoverSelectable *cell = [[OEImageButtonHoverSelectable alloc] init];
     [pauseButton setCell:cell];
     [cell setImage:[NSImage imageNamed:@"hud_playpause"]];
-    [pauseButton setTarget:[self window]];
-    [pauseButton setAction:@selector(playPauseAction:)];
+    [pauseButton setAction:@selector(toggleEmulationPaused)];
     [pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
     [pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:pauseButton];
-    
     
     OEImageButton *restartButton = [[OEImageButton alloc] init];
     OEImageButtonHoverPressed *hcell = [[OEImageButtonHoverPressed alloc] init];
     [restartButton setCell:hcell];
     [hcell setImage:[NSImage imageNamed:@"hud_restart"]];
-    [restartButton setTarget:[self window]];
-    [restartButton setAction:@selector(resetAction:)];
+    [restartButton setAction:@selector(resetGame)];
     [restartButton setFrame:NSMakeRect(111, 9, 32, 32)];
     [restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:restartButton];
@@ -540,7 +455,7 @@
     [saveButton setCell:hcell];
     [hcell setImage:[NSImage imageNamed:@"hud_save"]];
     [saveButton setTarget:[self window]];
-    [saveButton setAction:@selector(saveAction:)];
+    [saveButton setAction:@selector(showSaveMenu:)];
     [saveButton setFrame:NSMakeRect(162, 6, 32, 32)];
     [saveButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:saveButton];
@@ -553,7 +468,7 @@
         [optionsButton setCell:hcell];
         [hcell setImage:[NSImage imageNamed:@"hud_options"]];
         [optionsButton setTarget:[self window]];
-        [optionsButton setAction:@selector(optionsAction:)];
+        [optionsButton setAction:@selector(showOptionsMenu:)];
         [optionsButton setFrame:NSMakeRect(212, 6, 32, 32)];
         [optionsButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
         [self addSubview:optionsButton];
@@ -563,16 +478,14 @@
     [volumeDownView setBordered:NO];
     [[volumeDownView cell] setHighlightsBy:NSNoCellMask];
     [volumeDownView setImage:[NSImage imageNamed:@"hud_volume_down"]];
-    [volumeDownView setTarget:[self window]];
-    [volumeDownView setAction:@selector(muteAction:)];    
+    [volumeDownView setAction:@selector(mute:)];    
     [self addSubview:volumeDownView];
     
     NSButton *volumeUpView = [[NSButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 17, 15, 14)];
     [volumeUpView setBordered:NO];
     [[volumeUpView cell] setHighlightsBy:NSNoCellMask];
     [volumeUpView setImage:[NSImage imageNamed:@"hud_volume_up"]];
-    [volumeUpView setTarget:[self window]];
-    [volumeUpView setAction:@selector(unmuteAction:)];
+    [volumeUpView setAction:@selector(unmute:)];
     [self addSubview:volumeUpView];
     
     slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(240 + (hideOptions ? 0 : 50), 13, 80, 23)];
@@ -583,21 +496,23 @@
     [slider setMaxValue:1.0];
     [slider setMinValue:0.0];
     [slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey]];
-    [slider setTarget:[self window]];
-    [slider setAction:@selector(volumeAction:)];
+    [slider setAction:@selector(changeVolume:)];
     
+    
+    CABasicAnimation *animation     = [CABasicAnimation animation];
+    animation.timingFunction    = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    animation.delegate          = self;
+
+    [slider setAnimations:[NSDictionary dictionaryWithObject:animation
+                                                      forKey:@"floatValue"]];
     [self addSubview:slider];
-    
     
     fullScreenButton = [[NSButton alloc] init];
     pcell = [[OEHUDButtonCell alloc] init];
     [fullScreenButton setCell:pcell];
-    
     [fullScreenButton setImage:[NSImage imageNamed:@"hud_fullscreen_glyph_normal"]];
     [fullScreenButton setAlternateImage:[NSImage imageNamed:@"hud_fullscreen_glyph_pressed"]];
-    
     [fullScreenButton setAction:@selector(toggleFullScreen:)];
-    
     [fullScreenButton setFrame:NSMakeRect(370 + (hideOptions ? 0 : 50), 13, 51, 23)];
     [fullScreenButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:fullScreenButton];

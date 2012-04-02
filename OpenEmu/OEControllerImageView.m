@@ -139,6 +139,12 @@
 
 - (void)OE_setHighlightPoint:(CGPoint)value animated:(BOOL)animated;
 {
+    if(animated && ![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(OE_animatedSetHighlightPointOnMainThread:) withObject:[NSValue valueWithPoint:value] waitUntilDone:NO];
+        return;
+    }
+    
     OEControllerImageView *animator = animated ? [self animator] : self;
     
     if(animated) [NSAnimationContext beginGrouping];
@@ -162,6 +168,12 @@
     }
     
     if(animated) [NSAnimationContext endGrouping];
+}
+
+- (void)OE_animatedSetHighlightPointOnMainThread:(NSValue*)value
+{
+    CGPoint p = [value pointValue];
+    [self OE_setHighlightPoint:p animated:YES];
 }
 
 - (void)setOverlayAlpha:(CGFloat)value
@@ -243,8 +255,8 @@
     
     if(!allowDeactivationByMouse && !allowSwitchingByMouse) return;
     
-    NSString *selected = selectedKey;
-    
+    NSString *selected = [self selectedKey];
+
     NSPoint event_location = [theEvent locationInWindow];
     NSPoint local_event_location = [self convertPoint:event_location fromView:nil];
     NSPoint ringLocation = [self ringPositionInView];
@@ -261,7 +273,6 @@
         if(selectAButton)
         {
             NSPoint locationOnController = NSSubtractPoints(local_event_location, targetRect.origin);
-            
             selected = [self OE_keyForHighlightPointClosestToPoint:locationOnController];
         }
     }
@@ -269,7 +280,7 @@
     if(selected == [self selectedKey] && !NSEqualPoints(ringLocation, NSZeroPoint))
     {
         CGFloat distance = NSDistanceBetweenPoints(local_event_location, ringLocation);
-        if(allowDeactivationByMouse && distance > RingRadius && [[self image] hitTestRect:(NSRect){ .origin = local_event_location } withImageDestinationRect:targetRect context:nil hints:nil flipped:NO])
+        if(allowDeactivationByMouse && distance > RingRadius && NSPointInRect(local_event_location, [self bounds]))
             selected = nil;
     }
     

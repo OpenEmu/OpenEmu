@@ -65,7 +65,7 @@
 - (OEMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
 - (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game;
 - (NSMenu*)OE_ratingMenuForGames:(NSArray*)games;
-- (NSMenu*)OE_collectionsMenu;
+- (NSMenu*)OE_collectionsMenuForGames:(NSArray*)games;
 @end
 
 @implementation OECollectionViewController
@@ -447,7 +447,7 @@
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
         NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
-        [collectionMenuItem setSubmenu:[self OE_collectionsMenu]];
+        [collectionMenuItem setSubmenu:[self OE_collectionsMenuForGames:games]];
         [menu addItem:collectionMenuItem];
         [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:@"Rename Game" action:@selector(renameSelectedGame:) keyEquivalent:@""];
@@ -473,7 +473,7 @@
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
         NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
-        [collectionMenuItem setSubmenu:[self OE_collectionsMenu]];
+        [collectionMenuItem setSubmenu:[self OE_collectionsMenuForGames:games]];
         [menu addItem:collectionMenuItem];
         
         [menu addItem:[NSMenuItem separatorItem]];
@@ -490,6 +490,8 @@
     NSSet     *roms = [game roms];
     
     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        [obj removeMissingStates];
+        
         NSMenuItem  *item;
         NSArray     *saveStates = [obj normalSaveStatesByTimestampAscending:NO];
         for(OEDBSaveState *saveState in saveStates)
@@ -498,7 +500,7 @@
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
-            if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
+            if([[NSUserDefaults standardUserDefaults] boolForKey:UDHUDCanDeleteStateKey])
             {
                 OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];               
                 [oeitem setHasAlternate:YES];
@@ -564,18 +566,18 @@
     return ratingMenu;
 }
 
-- (NSMenu*)OE_collectionsMenu
+- (NSMenu*)OE_collectionsMenuForGames:(NSArray*)games
 {
     NSMenu  *collectionMenu = [[NSMenu alloc] init];
     NSArray *collections = [[[self libraryController] database] collections];
-    
+
     [collectionMenu addItemWithTitle:@"New Collection from Selection" action:@selector(makeNewCollectionWithSelectedGames:) keyEquivalent:@""];
     
     for(id collection in collections)
     {
-        if([collection isMemberOfClass:[OEDBCollection class]])
+        if([collection isMemberOfClass:[OEDBCollection class]] && collection != [self collectionItem])
         {
-            NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:[collection valueForKey:@"name"] action:NULL keyEquivalent:@""];
+            NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:[collection valueForKey:@"name"] action:@selector(addSelectedGamesToCollection:) keyEquivalent:@""];
             
             // TODO: might want to use managedObjectID instead
             [collectionMenuItem setRepresentedObject:collection];
@@ -583,7 +585,7 @@
         }
     }
     
-    if([collections count]!=1)
+    if([[collectionMenu itemArray] count]!=1)
         [collectionMenu insertItem:[NSMenuItem separatorItem] atIndex:1];
     
     
@@ -642,12 +644,23 @@
 
 - (void)makeNewCollectionWithSelectedGames:(id)sender
 {
-    NSLog(@"makeNewCollectionWithSelectedGames: Not implemented yet.");
-
     NSArray *selectedGames = [self selectedGames];
     id collection = [[[self libraryController] sidebarController] addCollection:NO];
+    [collection setGames:[NSSet setWithArray:selectedGames]];
     
-    NSLog(@"makeNewCollectionWithSelectedGames: only creates new collection");
+    [self setNeedsReload];
+}
+
+- (void)addSelectedGamesToCollection:(id)sender
+{
+    id collection;
+    if(![sender isKindOfClass:[OEDBCollection class]])
+    {
+        collection = [sender representedObject];
+    }
+    
+    NSArray *selectedGames = [self selectedGames];
+    [[collection mutableGames] addObjectsFromArray:selectedGames];
 }
 
 - (void)getGameInfoFromArchive:(id)sender

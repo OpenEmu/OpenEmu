@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
+#import <OpenEmuBase/OEGameCore.h>
 
 @class OERingBuffer;
 

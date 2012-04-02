@@ -167,7 +167,7 @@
 		53439B7113B932ED005C0CC8 /* OEPrefGameplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7013B932ED005C0CC8 /* OEPrefGameplayController.m */; };
 		53439B7413B932FA005C0CC8 /* OEPrefControlsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7313B932FA005C0CC8 /* OEPrefControlsController.m */; };
 		53439B7713B93303005C0CC8 /* OEPrefCoresController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7613B93303005C0CC8 /* OEPrefCoresController.m */; };
-		53439B7A13B933B8005C0CC8 /* OEHUDControlsBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7913B933B8005C0CC8 /* OEHUDControlsBar.m */; };
+		53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */; };
 		53439B7E13B933D0005C0CC8 /* OEHUDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7D13B933D0005C0CC8 /* OEHUDSlider.m */; };
 		53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B8113B933E9005C0CC8 /* OEHUDWindow.m */; };
 		53439B8513B9342F005C0CC8 /* OEHUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B8413B9342F005C0CC8 /* OEHUDButtonCell.m */; };
@@ -1056,8 +1056,8 @@
 		53439B7313B932FA005C0CC8 /* OEPrefControlsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefControlsController.m; sourceTree = "<group>"; };
 		53439B7513B93303005C0CC8 /* OEPrefCoresController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefCoresController.h; sourceTree = "<group>"; };
 		53439B7613B93303005C0CC8 /* OEPrefCoresController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefCoresController.m; sourceTree = "<group>"; };
-		53439B7813B933B8005C0CC8 /* OEHUDControlsBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDControlsBar.h; sourceTree = "<group>"; };
-		53439B7913B933B8005C0CC8 /* OEHUDControlsBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDControlsBar.m; sourceTree = "<group>"; };
+		53439B7813B933B8005C0CC8 /* OEGameControlsBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControlsBar.h; sourceTree = "<group>"; };
+		53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControlsBar.m; sourceTree = "<group>"; };
 		53439B7C13B933D0005C0CC8 /* OEHUDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDSlider.h; sourceTree = "<group>"; };
 		53439B7D13B933D0005C0CC8 /* OEHUDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDSlider.m; sourceTree = "<group>"; };
 		53439B8013B933E9005C0CC8 /* OEHUDWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDWindow.h; sourceTree = "<group>"; };
@@ -2094,8 +2094,6 @@
 				83C68ED014483579000F720A /* OEHUDAlert.m */,
 				83BC345C1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.h */,
 				83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */,
-				53439B7813B933B8005C0CC8 /* OEHUDControlsBar.h */,
-				53439B7913B933B8005C0CC8 /* OEHUDControlsBar.m */,
 				53439B7B13B933C4005C0CC8 /* Controls */,
 				53439B7F13B933DA005C0CC8 /* Cells */,
 				53439B8013B933E9005C0CC8 /* OEHUDWindow.h */,
@@ -2736,6 +2734,8 @@
 				C6252DCD14E83C8200350A13 /* OEGameWindowController.m */,
 				830155791456BF7A0093D681 /* OEGameViewController.h */,
 				8301557A1456BF7A0093D681 /* OEGameViewController.m */,
+				53439B7813B933B8005C0CC8 /* OEGameControlsBar.h */,
+				53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */,
 			);
 			name = "MainWindow: GameView";
 			sourceTree = "<group>";
@@ -4148,7 +4148,7 @@
 				53439B7113B932ED005C0CC8 /* OEPrefGameplayController.m in Sources */,
 				53439B7413B932FA005C0CC8 /* OEPrefControlsController.m in Sources */,
 				53439B7713B93303005C0CC8 /* OEPrefCoresController.m in Sources */,
-				53439B7A13B933B8005C0CC8 /* OEHUDControlsBar.m in Sources */,
+				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
 				53439B7E13B933D0005C0CC8 /* OEHUDSlider.m in Sources */,
 				53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */,
 				53439B8513B9342F005C0CC8 /* OEHUDButtonCell.m in Sources */,
@@ -5372,6 +5372,7 @@
 				945E43051517F2B500057D08 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */ = {
 			isa = XCConfigurationList;

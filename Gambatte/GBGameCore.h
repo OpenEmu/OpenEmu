@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
+#import <OpenEmuBase/OEGameCore.h>
 
 typedef enum GBButtons {
     GB_Up      = 0,
@@ -39,8 +39,6 @@ typedef enum GBButtons {
     GB_Select  = 7,
     GBButtonCount = 8
 } GBButtons;
-
-extern NSString *GBButtonNameTable[];
 
 @class OERingBuffer;
 

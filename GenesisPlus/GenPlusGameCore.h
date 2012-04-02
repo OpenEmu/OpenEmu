@@ -26,10 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
-#import <OEHIDEvent.h>
-
-extern NSString *GenesisButtonNameTable[];
+#import <OpenEmuBase/OEGameCore.h>
 
 @class OERingBuffer;
 

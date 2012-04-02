@@ -34,14 +34,13 @@
 #endif
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
+#import <OpenEmuBase/OEGameCore.h>
 
 @class GameDocument;
 
 OE_EXPORTED_CLASS
 @interface NGPGameCore : OEGameCore
 {
-    GameDocument *parent;
     NSLock       *soundLock;
     NSLock       *bufLock;
     NSString     *pathToFile;

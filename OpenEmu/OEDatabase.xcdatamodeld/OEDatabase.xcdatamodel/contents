@@ -29,7 +29,7 @@
         <attribute name="rating" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="5" defaultValueString="0" syncable="YES"/>
         <attribute name="status" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="boxImage" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Image" inverseName="Box" inverseEntity="Image" indexed="YES" syncable="YES"/>
-        <relationship name="collections" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Collection" inverseName="games" inverseEntity="Collection" indexed="YES" syncable="YES"/>
+        <relationship name="collections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Collection" inverseName="games" inverseEntity="Collection" indexed="YES" syncable="YES"/>
         <relationship name="credits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Credit" inverseName="project" inverseEntity="Credit" indexed="YES" syncable="YES"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="games" inverseEntity="Genre" indexed="YES" syncable="YES"/>
         <relationship name="roms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ROM" inverseName="game" inverseEntity="ROM" indexed="YES" syncable="YES"/>
@@ -90,20 +90,20 @@
         <relationship name="rom" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ROM" inverseName="tosec" inverseEntity="ROM" indexed="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Collection" positionX="-495" positionY="-87" width="128" height="60"/>
-        <element name="Contributor" positionX="313" positionY="-279" width="128" height="90"/>
-        <element name="Game" positionX="-92" positionY="-216" width="128" height="240"/>
-        <element name="SaveState" positionX="306" positionY="-54" width="128" height="135"/>
-        <element name="Genre" positionX="-666" positionY="105" width="128" height="75"/>
-        <element name="TOSEC" positionX="313" positionY="153" width="128" height="105"/>
-        <element name="Credit" positionX="117" positionY="-297" width="128" height="90"/>
-        <element name="CollectionFolder" positionX="-702" positionY="-189" width="128" height="60"/>
-        <element name="ImageData" positionX="-693" positionY="-354" width="128" height="75"/>
-        <element name="ROM" positionX="133" positionY="-27" width="128" height="165"/>
-        <element name="SmartCollection" positionX="-711" positionY="-45" width="128" height="45"/>
         <element name="AbstractCollection" positionX="-495" positionY="-198" width="128" height="75"/>
-        <element name="ImageThumbnail" positionX="-479" positionY="-369" width="128" height="105"/>
+        <element name="Collection" positionX="-495" positionY="-87" width="128" height="60"/>
+        <element name="CollectionFolder" positionX="-702" positionY="-189" width="128" height="60"/>
+        <element name="Contributor" positionX="313" positionY="-279" width="128" height="90"/>
+        <element name="Credit" positionX="117" positionY="-297" width="128" height="90"/>
+        <element name="Game" positionX="-92" positionY="-216" width="128" height="240"/>
+        <element name="Genre" positionX="-666" positionY="105" width="128" height="75"/>
         <element name="Image" positionX="-290" positionY="-288" width="128" height="90"/>
+        <element name="ImageData" positionX="-693" positionY="-354" width="128" height="75"/>
+        <element name="ImageThumbnail" positionX="-479" positionY="-369" width="128" height="105"/>
+        <element name="ROM" positionX="133" positionY="-27" width="128" height="165"/>
+        <element name="SaveState" positionX="306" positionY="-54" width="128" height="135"/>
+        <element name="SmartCollection" positionX="-711" positionY="-45" width="128" height="45"/>
         <element name="System" positionX="-477" positionY="195" width="128" height="165"/>
+        <element name="TOSEC" positionX="313" positionY="153" width="128" height="105"/>
     </elements>
 </model>

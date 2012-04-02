@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
+#import <OpenEmuBase/OEGameCore.h>
 
 typedef enum SMSButtons {
     SMSPad1Up      = 0,
