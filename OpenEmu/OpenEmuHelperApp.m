@@ -473,25 +473,24 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 {
     OEIntRect screenRect = gameCore.screenRect;
     
-    if (!previousScreenSize.width)
-        gameAspectRatio = screenRect.size.width / (float)screenRect.size.height;
+    if(previousScreenSize.width == 0)
+        gameAspectRatio = screenRect.size.width / (CGFloat)screenRect.size.height;
     
     previousScreenSize = screenRect.size;
-    if (drawSquarePixels)
+    if(drawSquarePixels)
     {
-        float screenAspect = screenRect.size.width / (float)screenRect.size.height;
+        CGFloat screenAspect = screenRect.size.width / (CGFloat)screenRect.size.height;
         correctedSize = screenRect.size;
 
         // try to maximize the drawn rect so we don't lose any pixels
         // (risk: we can only upscale bilinearly as opposed to filteredly)
-        if (screenAspect > gameAspectRatio)
+        if(screenAspect > gameAspectRatio)
             correctedSize.height = correctedSize.width / gameAspectRatio;
         else
             correctedSize.width  = correctedSize.height * gameAspectRatio;
     }
     else
         correctedSize = screenRect.size;
-
 }
 
 - (void)destroySurface
@@ -532,6 +531,9 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         self.loadedRom = NO;
         
         gameCore = [[[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller] newGameCore];
+        
+        gameCoreProxy = [[OEGameCoreProxy alloc] initWithGameCore:gameCore];
+        
         [gameCore setOwner:owner];
         [gameCore setRenderDelegate:self];
         
@@ -539,8 +541,6 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         
         if([gameCore loadFileAtPath:aPath])
         {
-            gameCoreProxy = [[OEGameCoreProxy alloc] initWithGameCore:gameCore];
-            
             DLog(@"Loaded new Rom: %@", aPath);
             return self.loadedRom = YES;
         }
@@ -548,6 +548,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         {
             NSLog(@"ROM did not load.");
             gameCore = nil;
+            gameCoreProxy = nil;
         }
     }
     else NSLog(@"bad ROM path or filename");
@@ -748,7 +749,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     NSThread *thread = [self gameThread];
     
     if(thread != nil)
-        [self performSelector:@selector(forwardInvocationToGameCore:) onThread:thread withObject:invocation waitUntilDone:NO];
+        [self performSelector:@selector(forwardInvocationToGameCore:) onThread:thread withObject:invocation waitUntilDone:@selector(screenRect) == [invocation selector]];
     else
         [invocation invokeWithTarget:gameCore];
 }

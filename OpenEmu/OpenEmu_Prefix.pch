@@ -33,6 +33,7 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+#pragma mark Debug Logging
 #define BOOL_STR(var) ((var) ? "YES" : "NO")
 
 #ifdef DEBUG_PRINT
@@ -53,23 +54,20 @@
     NSLog(@"%@", responderChain);                                                                       \
 }
 
-#pragma mark -
+#pragma mark - Notification Names
 #define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"
 
 #define OEPreferencesOpenPaneNotificationName @"OEPrefOpenPane"
 #define OEPreferencesOpenPanelUserInfoPanelNameKey @"panelName"
 #define OEPreferencesOpenPanelUserInfoSystemIdentifierKey @"systemIdentifier"
 
+#pragma mark - Archive.vg constants
 // Archive.vg Support
 #define APIBase		@"http://api.archive.vg"
 #define APIVersion	@"2.0"
 #define APIKey		@"6CVC46HWMLJNU986TRM5A4XG927HA0K0"
 
-#define OEDefaultWindowTitle @"OpenEmu"
-
-
-
-// Keys used for user defaults
+#pragma mark - User Defaults Keys
 #define UDDebugModeKey @"debug"
 
 // Remember to change values in XIBs if you edit strings below!
@@ -77,8 +75,7 @@
 #define UDRemoveCollectionSuppresedKey @"removeCollectionWithoutConfirmation"
 
 #define UDSelectedPreferencesTab	@"selectedPreferencesTab"	/*	selected tab of preferences window	*/
-
-// Preferences, Library tab
+#pragma mark - Preferences, Library
 #define UDDatabasePathKey			@"databasePath"				/*	path of database folder			*/
 #define UDDefaultDatabasePathKey	@"defaultDatabasePath"		/*	default path of database folder */
 
@@ -86,29 +83,26 @@
 #define UDCopyToLibraryKey			@"copyToLibrary"			/*	Preferences -> Library -> Copy files to Game Library folder when adding to Library	*/
 #define UDAutmaticallyGetInfoKey	@"automaticallyGetInfo"		/*	Preferences -> Library -> Automatically lookup game information & artwork			*/
 
-// Preferences, Gameplay tab
+#pragma mark - Preferences, Gameplay tab
+#define UDVolumeKey					@"volume"					/*	GamePlay window -> hud bar -> volume slider start value					*/
 #define UDVideoFilterKey			@"videoFilter"				/*	Preferences -> Gameplay -> Filter										*/
 #define UDVSyncKey					@"vsync"					/*	Preferences -> Gameplay -> Enable V-Sync								*/
 #define UDLaunchFullscreenKey		@"fullScreen"				/*	Preferences -> Gameplay -> Always launch games fullscreen				*/
 #define UDAllowPopoutKey			@"allowPopout"				/*	Preferences -> Gameplay -> Allow popout gameplay window					*/
+#define UDForcePopoutKey			@"forcePopout"
 #define UDBackgroundPauseKey		@"backgroundPause"			/*	Preferences -> Gameplay -> Always pause gameplay when in background		*/
 
-// OEHudControls
-#define UDVolumeKey					@"volume"					/*	GamePlay window -> hud bar -> volume slider start value					*/
-#define UDNameStateByDateKey		@"dateName"					/*  skips if true:	Gameplay window -> alert -> state name					*/
-
-// Preferences, Controls tab
+#pragma mark - Preferences, Controls tab
 #define UDControlsPluginIdentifierKey   @"lastControlsPlugin"
 #define UDControlsPlayerKey             @"lastControlsPlayer"
 #define UDControlsDeviceTypeKey         @"lastControlsDevice"
 
-// "Hidden" preferences
+#pragma mark - "Hidden" preferences
 #define UDRunCoresInBackgroundKey   @"gameCoreInBackgroundThread"
 #define UDRegionKey					@"region"					/*	release region (force a region)	*/
 #define UDSaveStateFolderNameKey	@"saveStateFolder"			/*  name of save state folder		*/
 #define UDHUDFadeOutDelayKey        @"fadeoutdelay"             /*  time until hudcontrolsbar fades out after last mouse movement   */
 #define UDMaxSaveGameNameLengthKey  @"MaxSaveGameNameLength"    /*  maximum length of a valid save game name */
-#define UDForcePopoutKey			@"forcePopout"
 #define UDPopoutHasScreenSizeKey    @"forceDefaultScreenSize"
 #define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/
 #define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification	 (default: YES)								*/
@@ -125,6 +119,7 @@
 #define UDSidebarMaxWidth                       @"sidebarMaxWidth"
 #define UDMainViewMinWidth                      @"mainViewMinWidth"
 
+#pragma mark - Alert Suppression Keys
 #define UDLoadAutoSaveAlertSuppressionKey       @"loadAutosaveDialogChoice"      /* determine is user sees alert asking to continue save game    */
 #define UDSaveGameWhenQuitAlertSuppressionKey   @"autosaveOnStopDialogChoice"   /* determines if user sees alert asking to save game on quitting */
 #define UDDelteGameAlertSuppressionKey          @"removeStatesWithoutConfirmation"     /* determines if user sees alert asking for confirmation before deleting a save game */
@@ -132,7 +127,8 @@
 #define UDChangeCoreAlertSuppressionKey         @"changeCoreWithoutConfirmation"
 #define UDControlsButtonHighlightRollsOver      @"ButtonHighlightRollsOver"  /*  affects Preferences -> Controls: After setting the last button (bottom right) of a console the selection automatically jumps back to the first button (top left), if value is true */
 #define UDAutoSwitchCoreAlertSuppressionKey     @"changeCoreWhenLoadingStateWitoutConfirmation"
-// Keys remembering UI State
+
+#pragma mark - UI State Keys
 #define UDSidebarVisibleKey			@"isSidebarVisible"			/*	sidebar in main window visible	*/
 #define UDSidebarWidthKey			@"lastSidebarWidth"			/*	width of main window sidebar	*/
 #define UDLastGridSizeKey           @"lastGridSize"
@@ -142,31 +138,28 @@
 
 #define UDSaveStateLastFSEventIDKey @"lastSaveStateEventID"
 
-#define UDDefaultCoreMappingKeyPrefix @"defaultCore"
-#define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
-
-// Debug Preferences
+#pragma mark - Debug Setting Keys
 #define UDDebugDrawControllerMaskKey @"drawControllerMask"
 #define UDForceCorePicker            @"forceCorePicker"
 #define UDLightStyleGridViewMenu     @"lightStyleGridViewMenu"
+
+#pragma mark - OpenEmu constants
+#define OEDefaultWindowTitle            @"OpenEmu"
+#define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
+#define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
+
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Default installed, non QTZ based filters names, used to identify filters 
 //  (see OEHudControlsBar.m, OEPrefGameplayController.m and OEGameLayer.m)
 //  Please note that the stated string must match a shader defined and created in OEGameLayer.m 
-
 #define OEOpenGLFilterNameArray [NSArray arrayWithObjects:@"Linear", @"Nearest Neighbor", @"Scale2xHQ", @"Scale2xPlus", @"Scale4x", @"Scale4xHQ", @"Scale2xBR", @"Scale4xBR", nil]
 
 
-//  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
-//  Tags identifying Main Menu items
-#pragma mark File Menu
+#pragma mark - Main Menu Item Tags
 enum {
-#pragma mark -
-#pragma mark View Menu
     MainMenu_View_GridViewTag         = 301,
     MainMenu_View_FlowViewTag         = 302,
     MainMenu_View_ListViewTag         = 303,
-#pragma mark -
-#pragma mark Window Menu
+
     MainMenu_Window_OpenEmuTag        = 501,
 };

@@ -364,7 +364,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     // Determine actual frame for image
     _imageFrame = CGRectMake(ceil(CGRectGetMinX(imageContainerRect) + ((CGRectGetWidth(imageContainerRect) - width) / 2.0)),
-                             ceil(CGRectGetMinY(imageContainerRect) + ((CGRectGetHeight(imageContainerRect) - height) / 2.0)),
+                             ceil(CGRectGetMinY(imageContainerRect) + CGRectGetHeight(imageContainerRect) - height),
                              width, height);
 
     // Sizes must be set before the image is set
