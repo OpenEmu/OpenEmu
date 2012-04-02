@@ -28,18 +28,12 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuBase/OEGameCore.h>
 
-#define MAC_MAX_PLAYERS 2
-#define SNES_CONTROL_COUNT 8
-
-extern NSString *FCEUEmulatorNames[];
-
 @class OERingBuffer;
 
 OE_EXPORTED_CLASS
 @interface FCEUGameCore : OEGameCore
 {
     @public
-    uint32    controlPad[MAC_MAX_PLAYERS];
     uint16_t *videoBuffer;
     int videoWidth, videoHeight;
     int16_t pad[2][8];

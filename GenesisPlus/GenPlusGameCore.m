@@ -27,7 +27,6 @@
 
 #import "GenPlusGameCore.h"
 #import <IOKit/hid/IOHIDLib.h>
-//#import <OEGameDocument.h>
 #import <OpenEmuBase/OERingBuffer.h>
 #import <OpenGL/gl.h>
 #import "OEGenesisSystemResponderClient.h"

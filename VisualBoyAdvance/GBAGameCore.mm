@@ -33,8 +33,6 @@
 #include "libsnes.hpp"
 #include "Sound.h"
 
-//#define SAMPLERATE 32000
-
 @interface GBAGameCore () <OEGBASystemResponderClient>
 @end
 

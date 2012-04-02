@@ -27,7 +27,6 @@
 
 #import "SMSGameCore.h"
 #import <IOKit/hid/IOHIDLib.h>
-//#import <OEGameDocument.h>
 #import <OpenEmuBase/OERingBuffer.h>
 #import <OpenGL/gl.h>
 #import "OESMSSystemResponderClient.h"

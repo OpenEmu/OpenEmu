@@ -40,8 +40,6 @@ typedef enum GBButtons {
     GBButtonCount = 8
 } GBButtons;
 
-extern NSString *GBButtonNameTable[];
-
 @class OERingBuffer;
 
 OE_EXPORTED_CLASS

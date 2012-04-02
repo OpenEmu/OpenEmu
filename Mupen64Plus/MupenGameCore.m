@@ -30,9 +30,7 @@
 #import "api/m64p_config.h"
 #import "version.h"
 
-//#import <OEGameDocument.h>
 #import <OpenEmuBase/OERingBuffer.h>
-//#import <OEHIDEvent.h>
 #import <OpenGL/gl.h>
 #import "OEN64SystemResponderClient.h"
 

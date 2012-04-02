@@ -28,11 +28,6 @@
 #import <OpenEmuBase/OEGameCore.h>
 #import <pthread.h>
 
-#define MAC_MAX_PLAYERS 8
-#define N64_CONTROL_COUNT 14
-
-extern NSString *MupenEmulatorNames[];
-
 extern pthread_mutex_t gEmuVIMutex;
 extern pthread_cond_t  gEmuVICond;
 
@@ -40,7 +35,6 @@ extern pthread_cond_t  gEmuVICond;
 
 @interface MupenGameCore : OEGameCore
 {
-    uint32         controlPad[MAC_MAX_PLAYERS];
     NSData        *romData;
     uint8_t       *black;
 }
