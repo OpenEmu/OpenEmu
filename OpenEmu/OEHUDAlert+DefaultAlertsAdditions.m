@@ -66,7 +66,7 @@
     return alert;
 }
 
-+ (id)deleteGameAlertWithStateName:(NSString*)stateName
++ (id)deleteStateAlertWithStateName:(NSString*)stateName
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the save game called '%@' from your OpenEmu library?", @""), stateName];
@@ -75,6 +75,19 @@
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setHeadlineLabelText:nil];
     [alert showSuppressionButtonForUDKey:UDDelteGameAlertSuppressionKey];
+    
+    return alert;
+}
+
++ (id)removeGamesFromCollectionAlert
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to remove the selected games from the collection?", @"")];
+    [alert setMessageText:messageText];
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Remove", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    [alert setHeadlineLabelText:nil];
+    [alert showSuppressionButtonForUDKey:UDRemoveGameFromCollectionAlertSuppressionKey];
     
     return alert;
 }

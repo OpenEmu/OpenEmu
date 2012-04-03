@@ -30,6 +30,5 @@
 @protocol OECollectionViewItemProtocol <NSObject>
 - (NSString *)collectionViewName;
 - (BOOL)isCollectionEditable;
-- (BOOL)removingGamesDeletesThem;
 - (NSPredicate *)predicate;
 @end

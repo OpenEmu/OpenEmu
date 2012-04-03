@@ -120,6 +120,7 @@
 #define UDMainViewMinWidth                      @"mainViewMinWidth"
 
 #pragma mark - Alert Suppression Keys
+#define UDRemoveGameFromCollectionAlertSuppressionKey   @"removeGamesFromCollectionWithoutConfirmation"  /* determines if user sees dialog before removing games from a collection */
 #define UDLoadAutoSaveAlertSuppressionKey       @"loadAutosaveDialogChoice"      /* determine is user sees alert asking to continue save game    */
 #define UDSaveGameWhenQuitAlertSuppressionKey   @"autosaveOnStopDialogChoice"   /* determines if user sees alert asking to save game on quitting */
 #define UDDelteGameAlertSuppressionKey          @"removeStatesWithoutConfirmation"     /* determines if user sees alert asking for confirmation before deleting a save game */

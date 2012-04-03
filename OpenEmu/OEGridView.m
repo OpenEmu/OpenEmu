@@ -1336,6 +1336,13 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     [self OE_moveKeyboardSelectionToIndex:index];
 }
 
+- (void)keyDown:(NSEvent *)theEvent
+{
+    if([theEvent keyCode]==51 || [theEvent keyCode]==117)
+        [NSApp sendAction:@selector(delete:) to:nil from:self];
+    else
+        [super keyDown:theEvent];        
+}
 #pragma mark -
 #pragma mark NSDraggingDestination
 

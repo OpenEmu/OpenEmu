@@ -230,6 +230,13 @@ static NSGradient *highlightGradient, *normalGradient;
     return [super menuForEvent:theEvent];
 }
 
+- (void)keyDown:(NSEvent *)theEvent
+{
+    if([theEvent keyCode]==51 || [theEvent keyCode]==117)
+        [NSApp sendAction:@selector(delete:) to:nil from:self];
+    else
+        [super keyDown:theEvent];        
+}
 
 @synthesize selectionColor;
 @end
