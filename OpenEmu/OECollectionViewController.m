@@ -3,14 +3,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -18,10 +18,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OECollectionViewController.h"
@@ -53,6 +53,7 @@
 #import "OEDBCollection.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
+#import "NSURL+OELibraryAdditions.h"
 
 #import "OESidebarController.h"
 
@@ -76,7 +77,7 @@
     // Make sure not to reinitialize for subclassed objects
     if (self != [OECollectionViewController class])
         return;
-
+    
     // Indicators for list view
     NSImage *image = [NSImage imageNamed:@"list_indicators"];
     
@@ -110,7 +111,7 @@
     [gamesController setAutomaticallyRearrangesObjects:YES];
     [gamesController setAutomaticallyPreparesContent:YES];
     [gamesController setUsesLazyFetching:YES];
-
+    
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
     
@@ -133,7 +134,7 @@
     
     OECoverGridForegroundLayer *foregroundLayer = [[OECoverGridForegroundLayer alloc] init];
     [gridView setForegroundLayer:foregroundLayer];
-
+    
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
     if([userDefaults valueForKey:UDLastGridSizeKey])
@@ -329,7 +330,7 @@
 {
     if (![[[draggingInfo draggingPasteboard] types] containsObject:NSFilenamesPboardType])
         return NSDragOperationNone;
-
+    
     return NSDragOperationCopy;
 }
 
@@ -338,12 +339,12 @@
     NSPasteboard *pboard = [draggingInfo draggingPasteboard];
     if (![[pboard types] containsObject:NSFilenamesPboardType])
         return NO;
-
+    
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     OEROMImporter *romImporter = [[self libraryController] romImporter];
     romImporter.errorBehaviour = OEImportErrorAskUser;
     [romImporter importROMsAtPaths:files inBackground:YES error:nil];
-
+    
     return YES;
 }
 
@@ -357,7 +358,7 @@
 - (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
     OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
-
+    
     if(item == nil) item = (OECoverGridViewCell *)[view dequeueReusableCell];
     if(item == nil) item = [[OECoverGridViewCell alloc] init];
     
@@ -366,7 +367,7 @@
     [item setImage:[object gridImageWithSize:[gridView itemSize]]];
     [item setRating:[object gridRating]];
     [item setIndicationType:(OECoverGridViewCellIndicationType)[object gridStatus]];
-
+    
     return item;
 }
 
@@ -374,10 +375,10 @@
 {
     if([collectionItem isKindOfClass:[OEDBSystem class]])
         return [[OEGridBlankSlateView alloc] initWithSystemPlugin:[(OEDBSystem*)collectionItem plugin]];
-
+    
     if([collectionItem respondsToSelector:@selector(collectionViewName)])
         return [[OEGridBlankSlateView alloc] initWithCollectionName:[collectionItem collectionViewName]];
-
+    
     return nil;
 }
 
@@ -402,11 +403,11 @@
     OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
     if(!item)
         return;
-
+    
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
     if(!object)
         return;
-
+    
     [object setGridRating:[item rating]];
     [object setGridTitle:[item title]];
     [object setGridImage:[item image]];
@@ -425,7 +426,7 @@
         NSInteger index = [indexes lastIndex];
         [menu addItemWithTitle:@"Play Game" action:@selector(startGame:) keyEquivalent:@""];
         OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
-      
+        
         // Create Save Game Menu
         menuItem = [[NSMenuItem alloc] initWithTitle:@"Play Save Games" action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_saveStateMenuForGame:game]];
@@ -570,7 +571,7 @@
 {
     NSMenu  *collectionMenu = [[NSMenu alloc] init];
     NSArray *collections = [[[self libraryController] database] collections];
-
+    
     [collectionMenu addItemWithTitle:@"New Collection from Selection" action:@selector(makeNewCollectionWithSelectedGames:) keyEquivalent:@""];
     
     for(id collection in collections)
@@ -625,7 +626,7 @@
     
     id state = [stateItem representedObject];
     NSString *stateName = [state name];
-    OEHUDAlert *alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
+    OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
     
     NSUInteger result = [alert runModal];
     if(result)
@@ -637,9 +638,60 @@
     NSLog(@"renameSelectedGame: Not implemented yet.");
 }
 
+- (void)delete:(id)sender
+{
+    [self deleteSelectedGames:sender];
+}
+- (void)deleteBackward:(id)sender
+{
+    [self deleteSelectedGames:sender];
+}
+
+- (void)deleteBackwardByDecomposingPreviousCharacter:(id)sender
+{
+    [self deleteSelectedGames:sender];
+}
+
 - (void)deleteSelectedGames:(id)sender
 {
-    NSLog(@"deleteSelectedGames: Not implemented yet.");
+    NSArray *selectedGames = [self selectedGames];
+    
+    if([[self collectionItem] isKindOfClass:[OEDBCollection class]])
+    {
+        if([[OEHUDAlert removeGamesFromCollectionAlert] runModal])
+        {
+            OEDBCollection* collection = (OEDBCollection*)[self collectionItem];
+            [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];
+        }
+        [self setNeedsReload];
+    }
+    else if([[OEHUDAlert removeGamesFromLibraryAlert:[selectedGames count]>1] runModal])
+    {
+        NSURL* romsFolderURL             = [[[self libraryController] database] romsFolderURL];
+        __block BOOL romsAreInRomsFolder = NO; 
+        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
+            [[game roms] enumerateObjectsUsingBlock:^(OEDBRom *rom, BOOL *stopRoms) {
+                NSURL *romURL = [rom URL];
+                if(romURL && [romURL isSubpathOfURL:romsFolderURL])
+                {
+                    romsAreInRomsFolder = YES;
+                    
+                    *stopGames = YES;
+                    *stopRoms = YES;
+                }
+            }];
+        }];
+        
+        NSUInteger alertReturn;
+        if(!romsAreInRomsFolder || (alertReturn=[[OEHUDAlert removeGameFilesFromLibraryAlert:[selectedGames count]>1] runModal]))
+        {
+            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
+                [game deleteByMovingFile:alertReturn==NSAlertDefaultReturn keepSaveStates:YES];
+            }];
+            
+            [self setNeedsReload];
+        }
+    }
 }
 
 - (void)makeNewCollectionWithSelectedGames:(id)sender

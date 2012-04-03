@@ -189,7 +189,7 @@
 {
     if([theEvent keyCode]==51 || [theEvent keyCode]==117)
     {
-        [(OESidebarController*)[self dataSource] removeSelectedItemsOfOutlineView:self];
+        [NSApp sendAction:@selector(removeSelectedItemsOfOutlineView:) to:[self dataSource] from:self];
     } 
     else
     {

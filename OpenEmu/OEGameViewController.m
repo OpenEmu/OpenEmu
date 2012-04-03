@@ -561,7 +561,7 @@
     }
     
     NSString *stateName = [state name];
-    OEHUDAlert *alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
+    OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
     
     NSUInteger result = [alert runModal];
     if(result)

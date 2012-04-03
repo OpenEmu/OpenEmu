@@ -351,6 +351,23 @@
 }
 #pragma mark -
 #pragma mark Core Data utilities
+- (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
+{
+    NSURL *url = [self URL];
+    if(url && [url isSubpathOfURL:[[OELibraryDatabase defaultDatabase] romsFolderURL]])
+    {
+        NSString *path = [url path];
+        [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:[path stringByDeletingLastPathComponent] destination:nil files:[NSArray arrayWithObject:[path lastPathComponent]] tag:NULL];
+    }
+    
+    if(statesFlag)
+    {
+        // TODO: remove states
+    }
+    
+    [[self managedObjectContext] deleteObject:self];
+}
+
 + (NSString *)entityName
 {
     return @"ROM";

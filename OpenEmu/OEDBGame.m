@@ -476,6 +476,19 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 }
 #pragma mark -
 #pragma mark Core Data utilities
+- (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
+{
+    NSLog(@"moveToTrash %d", moveToTrash);
+    NSLog(@"keepSaveStates %d", statesFlag);
+    NSMutableSet *mutableRoms = [self mutableRoms];
+    while ([mutableRoms count]) {
+        OEDBRom* aRom = [mutableRoms anyObject];
+        [aRom deleteByMovingFile:moveToTrash keepSaveStates:statesFlag];
+        [mutableRoms removeObject:aRom];
+    }
+    
+    [[self managedObjectContext] deleteObject:self];
+}
 
 + (NSString *)entityName
 {

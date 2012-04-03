@@ -13,6 +13,9 @@
 + (id)saveGameAlertWithProposedName:(NSString*)name;
 + (id)saveAutoSaveGameAlert;
 + (id)loadAutoSaveGameAlert;
-+ (id)deleteGameAlertWithStateName:(NSString*)stateName;
++ (id)deleteStateAlertWithStateName:(NSString*)stateName;
 
++ (id)removeGamesFromCollectionAlert;
++ (id)removeGamesFromLibraryAlert:(BOOL)multipleGames;
++ (id)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
 @end

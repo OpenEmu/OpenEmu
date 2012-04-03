@@ -288,11 +288,6 @@
     return YES;
 }
 
-- (BOOL)removingGamesDeletesThem
-{
-    return YES;
-}
-
 - (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithFormat:@"system == %@", self];
@@ -308,11 +303,6 @@
 }
 
 - (BOOL)isCollectionEditable
-{
-    return YES;
-}
-
-- (BOOL)removingGamesDeletesThem
 {
     return YES;
 }
@@ -342,11 +332,6 @@
     return YES;
 }
 
-- (BOOL)removingGamesDeletesThem
-{
-    return NO;
-}
-
 - (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithValue:NO];
@@ -366,13 +351,6 @@
     return NO;
 }
 
-- (BOOL)removingGamesDeletesThem
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"-[OEDBSmartCollection removingGamesDeletesThem] not yet implemented." userInfo:nil];
-    
-    return NO;
-}
-
 - (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithValue:NO];
@@ -388,11 +366,6 @@
 }
 
 - (BOOL)isCollectionEditable
-{
-    return YES;
-}
-
-- (BOOL)removingGamesDeletesThem
 {
     return YES;
 }
