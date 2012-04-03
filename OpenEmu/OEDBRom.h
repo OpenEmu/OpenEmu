@@ -78,6 +78,7 @@
 
 #pragma mark -
 #pragma mark Core Data utilities
+- (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 

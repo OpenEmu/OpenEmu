@@ -663,12 +663,35 @@
             OEDBCollection* collection = (OEDBCollection*)[self collectionItem];
             [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];
         }
+        [self setNeedsReload];
     }
-    else
+    else if([[OEHUDAlert removeGamesFromLibraryAlert:[selectedGames count]>1] runModal])
     {
+        NSURL* romsFolderURL             = [[[self libraryController] database] romsFolderURL];
+        __block BOOL romsAreInRomsFolder = NO; 
+        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
+            [[game roms] enumerateObjectsUsingBlock:^(OEDBRom *rom, BOOL *stopRoms) {
+                NSURL *romURL = [rom URL];
+                if(romURL && [romURL isSubpathOfURL:romsFolderURL])
+                {
+                    romsAreInRomsFolder = YES;
+                    
+                    *stopGames = YES;
+                    *stopRoms = YES;
+                }
+            }];
+        }];
         
+        NSUInteger alertReturn;
+        if(!romsAreInRomsFolder || (alertReturn=[[OEHUDAlert removeGameFilesFromLibraryAlert:[selectedGames count]>1] runModal]))
+        {
+            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
+                [game deleteByMovingFile:alertReturn==NSAlertDefaultReturn keepSaveStates:YES];
+            }];
+            
+            [self setNeedsReload];
+        }
     }
-    [self setNeedsReload];
 }
 
 - (void)makeNewCollectionWithSelectedGames:(id)sender

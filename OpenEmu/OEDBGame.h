@@ -109,6 +109,7 @@ extern NSString *const OEPasteboardTypeGame;
 
 - (void)updateInfoInBackground;
 
+- (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
 #pragma mark -
 #pragma mark Core Data utilities
 + (NSString *)entityName;

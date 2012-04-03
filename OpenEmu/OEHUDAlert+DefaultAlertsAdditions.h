@@ -16,4 +16,6 @@
 + (id)deleteStateAlertWithStateName:(NSString*)stateName;
 
 + (id)removeGamesFromCollectionAlert;
++ (id)removeGamesFromLibraryAlert:(BOOL)multipleGames;
++ (id)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
 @end
