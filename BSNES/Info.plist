@@ -22,6 +22,10 @@
 	<string>0.085</string>
 	<key>NSPrincipalClass</key>
 	<string>OEGameCoreController</string>
+	<key>OEGameCoreClass</key>
+	<string>BSNESGameCore</string>
+	<key>OEGameCorePlayerCount</key>
+	<string>8</string>
 	<key>OEProjectURL</key>
 	<string>http://byuu.org/bsnes/</string>
 	<key>OESystemIdentifiers</key>
@@ -31,12 +35,8 @@
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.org/update/bsnes_appcast.xml</string>
+	<string>http://openemu.org/updater/bsnes_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
-	<key>OEGameCoreClass</key>
-	<string>BSNESGameCore</string>
-	<key>OEGameCorePlayerCount</key>
-	<string>8</string>
 </dict>
 </plist>

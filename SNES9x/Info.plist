@@ -22,6 +22,10 @@
 	<string>1.53</string>
 	<key>NSPrincipalClass</key>
 	<string>OEGameCoreController</string>
+	<key>OEGameCoreClass</key>
+	<string>SNESGameCore</string>
+	<key>OEGameCorePlayerCount</key>
+	<string>8</string>
 	<key>OEProjectURL</key>
 	<string>http://www.snes9x.com/</string>
 	<key>OESystemIdentifiers</key>
@@ -31,12 +35,8 @@
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.org/update/snes9x_appcast.xml</string>
+	<string>http://openemu.org/updater/snes9x_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
-	<key>OEGameCoreClass</key>
-	<string>SNESGameCore</string>
-	<key>OEGameCorePlayerCount</key>
-	<string>8</string>
 </dict>
 </plist>
