@@ -117,6 +117,8 @@
 	<string>1.0.0b8</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.games</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.6.0</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
@@ -124,9 +126,9 @@
 	<key>OEBundlePath</key>
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
 	<key>OECoreListURL</key>
-	<string>http://openemu.org/update/oecores.xml</string>
+	<string>http://openemu.org/updater/oecores.xml</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.org/update/appcast.xml</string>
+	<string>http://openemu.org/updater/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>UTExportedTypeDeclarations</key>
@@ -149,7 +151,5 @@
 			</dict>
 		</dict>
 	</array>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.6.0</string>
 </dict>
 </plist>

@@ -20,21 +20,21 @@
 	<string>0.4.3.1</string>
 	<key>NSPrincipalClass</key>
 	<string>OEGameCoreController</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
-	<key>SUFeedURL</key>
-	<string>http://openemu.org/update/gambatte_appcast.xml</string>
-	<key>SUEnableAutomaticChecks</key>
-	<string>1</string>
-	<key>OESystemIdentifiers</key>
-	<array>
-		<string>openemu.system.gb</string>
-	</array>
-	<key>OEProjectURL</key>
-	<string>http://gambatte.sourceforge.net/</string>
 	<key>OEGameCoreClass</key>
 	<string>GBGameCore</string>
 	<key>OEGameCorePlayerCount</key>
 	<string>1</string>
+	<key>OEProjectURL</key>
+	<string>http://gambatte.sourceforge.net/</string>
+	<key>OESystemIdentifiers</key>
+	<array>
+		<string>openemu.system.gb</string>
+	</array>
+	<key>SUEnableAutomaticChecks</key>
+	<string>1</string>
+	<key>SUFeedURL</key>
+	<string>http://openemu.org/updater/gambatte_appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 </dict>
 </plist>

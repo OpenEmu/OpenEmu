@@ -22,21 +22,21 @@
 	<string>1.42.1</string>
 	<key>NSPrincipalClass</key>
 	<string>NESGameController</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
-	<key>SUFeedURL</key>
-	<string>http://openemu.org/update/nestopia_appcast.xml</string>
-	<key>SUEnableAutomaticChecks</key>
-	<string>1</string>
-	<key>OESystemIdentifiers</key>
-	<array>
-		<string>openemu.system.nes</string>
-	</array>
-	<key>OEProjectURL</key>
-	<string>http://nestopia.sourceforge.net/</string>
 	<key>OEGameCoreClass</key>
 	<string>NESGameCore</string>
 	<key>OEGameCorePlayerCount</key>
 	<string>4</string>
+	<key>OEProjectURL</key>
+	<string>http://nestopia.sourceforge.net/</string>
+	<key>OESystemIdentifiers</key>
+	<array>
+		<string>openemu.system.nes</string>
+	</array>
+	<key>SUEnableAutomaticChecks</key>
+	<string>1</string>
+	<key>SUFeedURL</key>
+	<string>http://openemu.org/updater/nestopia_appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 </dict>
 </plist>

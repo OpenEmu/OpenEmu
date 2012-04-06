@@ -20,6 +20,10 @@
 	<string>1.0</string>
 	<key>NSPrincipalClass</key>
 	<string>OEGameCoreController</string>
+	<key>OEGameCoreClass</key>
+	<string>NGPGameCore</string>
+	<key>OEGameCorePlayerCount</key>
+	<string>2</string>
 	<key>OEProjectURL</key>
 	<string>http://neopop.emuxhaven.net/</string>
 	<key>OESystemIdentifiers</key>
@@ -29,12 +33,8 @@
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.org/update/neopop_appcast.xml</string>
+	<string>http://openemu.org/updater/neopop_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
-	<key>OEGameCoreClass</key>
-	<string>NGPGameCore</string>
-	<key>OEGameCorePlayerCount</key>
-	<string>2</string>
 </dict>
 </plist>
