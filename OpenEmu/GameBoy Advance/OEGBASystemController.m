@@ -59,8 +59,8 @@
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEGBAButtonRight[1]" ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OEGBAButtonA[1]"     ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEGBAButtonB[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEGBAButtonL[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEGBAButtonR[1]"     ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEGBAButtonL[1]"     ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEGBAButtonR[1]"     ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEGBAButtonStart[1]" ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OEGBAButtonSelect[1]",
                               nil];
