@@ -170,7 +170,9 @@ typedef enum
 #pragma mark Private (no session required)
 + (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError*__autoreleasing*)outError
 {   
-    @autoreleasepool {
+// Don't return within an autorelease block, causes crash: http://openradar.appspot.com/radar?id=1647403
+// assigning to a temporary and returning outside block might work though
+//    @autoreleasepool {
         NSXMLDocument* doc = [[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:outError];
         if(*outError!=nil)
         {
@@ -266,7 +268,7 @@ typedef enum
         }
         
         return nil;
-    }
+//    }
 }
 
 
