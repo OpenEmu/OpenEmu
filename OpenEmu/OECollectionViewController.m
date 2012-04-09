@@ -94,6 +94,7 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     collectionItem = nil;
     gamesController = nil;
 }
@@ -110,7 +111,7 @@
     gamesController = [[NSArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
     [gamesController setAutomaticallyPreparesContent:YES];
-    [gamesController setUsesLazyFetching:YES];
+    [gamesController setUsesLazyFetching:NO];
     
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
@@ -1030,14 +1031,15 @@
 #define reloadDelay 0.1
 - (void)_managedObjectContextDidSave:(NSNotification *)notification
 {
-    NSPredicate *predicateForGame = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"Game"
-                                                                                                 inManagedObjectContext:[notification object]]];
-    NSSet *insertedObjects  = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForGame];
-    NSSet *deletedObjects   = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForGame];
-    NSSet *updatedObjects   = [[[notification userInfo] objectForKey:NSUpdatedObjectsKey] filteredSetUsingPredicate:predicateForGame];
+    NSPredicate *predicateForGame = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"Game" inManagedObjectContext:[notification object]]];
+    NSSet *insertedObjects        = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForGame];
+    NSSet *deletedObjects         = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForGame];
+    NSSet *updatedObjects         = [[[notification userInfo] objectForKey:NSUpdatedObjectsKey] filteredSetUsingPredicate:predicateForGame];
     
     if((insertedObjects && [insertedObjects count]) || (deletedObjects && [deletedObjects count]))
+    {
         [self performSelector:@selector(setNeedsReload) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+    }
     else if(updatedObjects && [updatedObjects count])
     {
         // Nothing was removed or added, just updated so just update the visible items

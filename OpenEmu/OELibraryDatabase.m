@@ -288,14 +288,14 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSThread *thread = [notification object];
     NSString *threadName = [thread name];
     NSManagedObjectContext *ctx = [managedObjectContexts valueForKey:threadName];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
+
+    if([ctx hasChanges]) [ctx save:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:ctx];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
     
-    if([ctx hasChanges])
-        [ctx save:nil];
     [managedObjectContexts removeObjectForKey:threadName];
 }
+
 #pragma mark -
 - (BOOL)save:(NSError**)error
 {
