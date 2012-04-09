@@ -94,6 +94,7 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     collectionItem = nil;
     gamesController = nil;
 }
