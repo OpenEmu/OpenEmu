@@ -38,8 +38,8 @@
 + (NSColor *)colorWithCGColor:(CGColorRef)color
 {
     const CGFloat *components = CGColorGetComponents(color);
-    NSColorSpace *colorSpace = [[NSColorSpace alloc] initWithCGColorSpace:CGColorGetColorSpace(color)];
-    NSColor *result = [NSColor colorWithColorSpace:colorSpace components:components count:CGColorGetNumberOfComponents(color)];
+    NSColorSpace  *colorSpace = [[NSColorSpace alloc] initWithCGColorSpace:CGColorGetColorSpace(color)];
+    NSColor       *result     = [NSColor colorWithColorSpace:colorSpace components:components count:CGColorGetNumberOfComponents(color)];
     [colorSpace release];
 
     return result;
@@ -56,7 +56,7 @@
     [rgbColor getComponents:components];
 
     CGColorSpaceRef theColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-    CGColorRef theColor = CGColorCreate(theColorSpace, components);
+    CGColorRef      theColor      = CGColorCreate(theColorSpace, components);
     CGColorSpaceRelease(theColorSpace);
 
     return (CGColorRef)[(id)theColor autorelease];
