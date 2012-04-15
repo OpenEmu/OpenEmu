@@ -216,17 +216,16 @@ static NSGradient *highlightGradient, *normalGradient;
         if(!itemIsSelected)
             [self selectRowIndexes:indexes byExtendingSelection:NO];
         
-        OEMenu *contextMenu = [(id <OETableViewMenuSource>)[self dataSource] tableView:self menuForItemsAtIndexes:indexes];
+        NSMenu *contextMenu = [(id <OETableViewMenuSource>)[self dataSource] tableView:self menuForItemsAtIndexes:indexes];
         
-        if([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu])
-            [contextMenu setStyle:OEMenuStyleLight];
+        OEMenuStyle style = OEMenuStyleDark;
+        if([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu]) style = OEMenuStyleLight;
         
-        mouseLocationInWindow = [self convertPoint:mouseLocationInView toView:nil];
-        [contextMenu openOnEdge:OENoEdge ofRect:(NSRect){mouseLocationInWindow, {0,0}} ofWindow:[self window]];
-        
-        return nil;
+        NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
+        [OEMenu openMenu:contextMenu withEvent:theEvent forView:self options:options];
+
     }
-    
+
     return [super menuForEvent:theEvent];
 }
 

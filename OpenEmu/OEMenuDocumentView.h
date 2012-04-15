@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -26,27 +26,29 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OEMenu.h"
+#import "OETheme.h"
 
-@class OEGameViewController;
-@interface OEGameControlsBar : NSWindow <NSMenuDelegate>
+@interface OEMenuDocumentView : NSView
 {
-    NSTimer *fadeTimer;
-    id       eventMonitor;
-    NSDate  *lastMouseMovement;
-    
-    int openMenus;
+@private
+    BOOL   _needsLayout;             // Flag used to notify that the menu item's frames should be invalidated
+    NSSize _intrinsicSize;           // Natural size of the menu items
+
+    NSUInteger _keyModifierMask;     // Aggregate mask of all the key modifiers used within the menu item (used to trim NSEvent's modifierFlags)
+    NSUInteger _lastKeyModifierMask; // Last NSEvent's modifierFlags
+
+    // Themed elements
+    NSImage               *_separatorImage;
+    OEThemeGradient       *_backgroundGradient;
+    OEThemeImage          *_tickImage;
+    OEThemeTextAttributes *_textAttributes;
+    OEThemeImage          *_submenuArrowImage;
 }
 
-- (id)initWithGameViewController:(OEGameViewController*)controller;
+@property(nonatomic, readonly, getter = doesContainImages) BOOL containImages;
 
-- (void)show;
-- (void)hide;
+@property(nonatomic, retain)   NSArray     *itemArray;
+@property(nonatomic, assign)   OEMenuStyle  style;
+@property(nonatomic, readonly) NSSize       intrinsicSize;
 
-- (BOOL)canFadeOut;
-
-#pragma mark - Updating UI States
-- (void)reflectVolume:(float)volume;
-- (void)reflectEmulationRunning:(BOOL)flag;
-@property (unsafe_unretained) OEGameViewController *gameViewController;
 @end
-

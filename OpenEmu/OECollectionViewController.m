@@ -63,7 +63,7 @@
 - (void)_reloadData;
 - (void)_selectView:(int)view;
 
-- (OEMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
+- (NSMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
 - (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game;
 - (NSMenu*)OE_ratingMenuForGames:(NSArray*)games;
 - (NSMenu*)OE_collectionsMenuForGames:(NSArray*)games;
@@ -388,7 +388,7 @@
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
-- (OEMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (NSMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     return [self menuForItemsAtIndexes:indexes];
 }
@@ -416,7 +416,7 @@
 
 #pragma mark -
 #pragma mark Context Menu
-- (OEMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (NSMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
@@ -483,7 +483,7 @@
     }
     
     [menu setAutoenablesItems:YES];
-    return [menu convertToOEMenu];
+    return menu;
 }
 
 - (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game
@@ -502,20 +502,17 @@
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
+            item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];
+            [item setRepresentedObject:saveState];
+            [saveGamesMenu addItem:item];
+
             if([[NSUserDefaults standardUserDefaults] boolForKey:UDHUDCanDeleteStateKey])
             {
-                OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];               
-                [oeitem setHasAlternate:YES];
-                [oeitem setAlternateAction:@selector(deleteSaveState:)];
-                
-                [oeitem setRepresentedObject:saveState];
-                [saveGamesMenu addItem:oeitem];
-            }
-            else
-            {
-                item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];
-                [item setRepresentedObject:saveState];
-                [saveGamesMenu addItem:item];
+                NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
+                [alternateItem setAlternate:YES];
+                [alternateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+                [alternateItem setRepresentedObject:saveState];
+                [saveGamesMenu addItem:alternateItem];
             }
         }
     }];
@@ -994,7 +991,7 @@
 }
 #pragma mark -
 #pragma mark OETableView Menu
-- (OEMenu*)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (NSMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     return [self menuForItemsAtIndexes:indexes];
 }

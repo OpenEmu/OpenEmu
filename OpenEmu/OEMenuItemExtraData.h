@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,29 +24,17 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OEMenu.h"
+#import <Foundation/Foundation.h>
 
-@class OEGameViewController;
-@interface OEGameControlsBar : NSWindow <NSMenuDelegate>
-{
-    NSTimer *fadeTimer;
-    id       eventMonitor;
-    NSDate  *lastMouseMovement;
-    
-    int openMenus;
-}
+@interface OEMenuItemExtraData : NSObject
 
-- (id)initWithGameViewController:(OEGameViewController*)controller;
+- (id)initWithOwnerItem:(NSMenuItem *)ownerItem;
+- (void)addAlternateItem:(NSMenuItem *)item;
+- (NSMenuItem *)itemWithModifierMask:(NSUInteger)mask;
 
-- (void)show;
-- (void)hide;
+@property(nonatomic, weak)   NSMenuItem          *ownerItem;      // NSMenuItem that owns this extra data object
+@property(nonatomic, weak)   NSMenuItem          *primaryItem;    // Points to the primary item, if the ownerItem refers to an alternate menu item
+@property(nonatomic, retain) NSMutableDictionary *alternateItems; // Alternate items indexed by it's modifier flags
+@property(nonatomic, assign) NSRect               frame;          // Menu item's placement
 
-- (BOOL)canFadeOut;
-
-#pragma mark - Updating UI States
-- (void)reflectVolume:(float)volume;
-- (void)reflectEmulationRunning:(BOOL)flag;
-@property (unsafe_unretained) OEGameViewController *gameViewController;
 @end
-

@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,28 +25,19 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "OEMenu.h"
+#import "OETheme.h"
 
-@class OEGameViewController;
-@interface OEGameControlsBar : NSWindow <NSMenuDelegate>
+@interface OEPopUpButtonCell : NSPopUpButtonCell
 {
-    NSTimer *fadeTimer;
-    id       eventMonitor;
-    NSDate  *lastMouseMovement;
-    
-    int openMenus;
+@private
+    NSMutableParagraphStyle *_style;  // Cached paragraph style used to render text
+    BOOL                     _themed; // Identifies that the object is themed
 }
 
-- (id)initWithGameViewController:(OEGameViewController*)controller;
+@property (nonatomic, readonly) OEThemeState stateMask;
 
-- (void)show;
-- (void)hide;
+@property (nonatomic, retain) OEThemeImage          *backgroundThemeImage;
+@property (nonatomic, retain) OEThemeImage          *themeImage;
+@property (nonatomic, retain) OEThemeTextAttributes *themeTextAttributes;
 
-- (BOOL)canFadeOut;
-
-#pragma mark - Updating UI States
-- (void)reflectVolume:(float)volume;
-- (void)reflectEmulationRunning:(BOOL)flag;
-@property (unsafe_unretained) OEGameViewController *gameViewController;
 @end
-

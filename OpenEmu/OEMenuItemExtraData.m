@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,29 +24,50 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OEMenu.h"
+#import "OEMenuItemExtraData.h"
+#import "NSMenuItem+OEMenuItemExtraDataAdditions.h"
 
-@class OEGameViewController;
-@interface OEGameControlsBar : NSWindow <NSMenuDelegate>
+@implementation OEMenuItemExtraData
+@synthesize ownerItem = _ownerItem;
+@synthesize primaryItem = _primaryItem;
+@synthesize alternateItems = _alternateItems;
+@synthesize frame = _frame;
+
+- (id)initWithOwnerItem:(NSMenuItem *)ownerItem
 {
-    NSTimer *fadeTimer;
-    id       eventMonitor;
-    NSDate  *lastMouseMovement;
-    
-    int openMenus;
+    if(!ownerItem) return nil;
+
+    if((self = [super init]))
+    {
+        _ownerItem = ownerItem;
+    }
+    return self;
 }
 
-- (id)initWithGameViewController:(OEGameViewController*)controller;
+- (void)addAlternateItem:(NSMenuItem *)item
+{
+    if(!_alternateItems) _alternateItems = [NSMutableDictionary dictionaryWithObject:item forKey:[NSNumber numberWithUnsignedInteger:[item keyEquivalentModifierMask]]];
+    else                [_alternateItems setObject:item forKey:[NSNumber numberWithUnsignedInteger:[item keyEquivalentModifierMask]]];
 
-- (void)show;
-- (void)hide;
+    [[item extraData] setPrimaryItem:_ownerItem];
+}
 
-- (BOOL)canFadeOut;
+- (NSMenuItem *)itemWithModifierMask:(NSUInteger)mask
+{
+    if(mask == 0 || !_alternateItems) return _ownerItem;
 
-#pragma mark - Updating UI States
-- (void)reflectVolume:(float)volume;
-- (void)reflectEmulationRunning:(BOOL)flag;
-@property (unsafe_unretained) OEGameViewController *gameViewController;
+    __block NSMenuItem *result = _ownerItem;
+    [_alternateItems enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, NSMenuItem *obj, BOOL *stop)
+     {
+         if(![obj isHidden] && ([key unsignedIntegerValue] & mask) == mask)
+         {
+             result = obj;
+             *stop  = YES;
+         }
+     }];
+
+    return result;
+}
+
 @end
-

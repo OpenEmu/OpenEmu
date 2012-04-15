@@ -26,6 +26,22 @@
 
 #import "NSImage+OEDrawingAdditions.h"
 
+@interface OENSThreePartImage : NSImage
+
+- (id)initWithImageParts:(NSArray *)imageParts vertical:(BOOL)vertical;
+
+@property(nonatomic, readonly, retain) NSArray *parts;             // Array of the three different parts
+@property(nonatomic, readonly, getter = isVertical) BOOL vertical; // Image should be rendered vertically
+
+@end
+
+@interface OENSNinePartImage : NSImage
+
+- (id)initWithImageParts:(NSArray *)imageParts;
+
+@property(nonatomic, readonly, retain) NSArray *parts; // Array of the the nine different parts
+
+@end
 
 @implementation NSImage (OEDrawingAdditions)
 
@@ -248,4 +264,161 @@
 
     [interfaceImages addObject:resultImage];
 }
+
+- (NSImage *)imageFromParts:(NSArray *)parts vertical:(BOOL)vertical;
+{
+    if(parts == nil || [parts count] == 0) return self;
+
+    const NSSize    size       = [self size];
+    NSMutableArray *imageParts = [NSMutableArray arrayWithCapacity:[parts count]];
+    NSUInteger      count      = 0;
+
+    NSRect rect;
+    id     part;
+
+    if([parts count] >= 9)      count = 9;
+    else if([parts count] >= 3) count = 3;
+    else if([parts count] >= 1) count = 1;
+
+    for(NSUInteger i = 0; i < count; i++)
+    {
+        rect = NSZeroRect;
+        part = [parts objectAtIndex:i];
+
+        if([part isKindOfClass:[NSString class]])     rect = NSRectFromString(part);
+        else if([part isKindOfClass:[NSValue class]]) rect = [part rectValue];
+        else                                          NSLog(@"Unable to parse NSRect from part: %@", part);
+
+        if(!NSIsEmptyRect(rect))
+        {
+            // Flip coordinate system (if it is not already flipped)
+            if(![self isFlipped]) rect.origin.y = size.height - rect.origin.y - rect.size.height;
+            [imageParts addObject:[self subImageFromRect:rect]];
+        }
+        else
+        {
+            [imageParts addObject:[NSNull null]];
+        }
+    }
+
+    switch(count)
+    {
+        case 9:  return [[OENSNinePartImage alloc] initWithImageParts:imageParts];
+        case 3:  return [[OENSThreePartImage alloc] initWithImageParts:imageParts vertical:vertical];
+        case 1:
+        default: return [imageParts lastObject];
+    }
+}
+
+@end
+
+static inline id OENilForNSNull(id x)
+{
+    return (x == [NSNull null] ? nil : x);
+}
+
+@implementation OENSThreePartImage
+
+@synthesize parts = _parts;
+@synthesize vertical = _vertical;
+
+- (id)initWithImageParts:(NSArray *)imageParts vertical:(BOOL)vertical
+{
+    if((self = [super init]))
+    {
+        _parts    = [imageParts copy];
+        _vertical = vertical;
+
+        NSSize start  = [OENilForNSNull([_parts objectAtIndex:0]) size];
+        NSSize center = [OENilForNSNull([_parts objectAtIndex:1]) size];
+        NSSize end    = [OENilForNSNull([_parts objectAtIndex:2]) size];
+
+        NSSize size;
+        if(vertical)
+        {
+            size.width = MAX(MAX(start.width, center.width), end.width);
+            size.height = start.height + center.height + end.height;
+        }
+        else
+        {
+            size.width  = start.width + center.width + end.width;
+            size.height = MAX(MAX(start.height, center.height), end.height);
+        }
+        [self setSize:size];
+    }
+
+    return self;
+}
+
+- (void)drawInRect:(NSRect)rect fromRect:(NSRect)fromRect operation:(NSCompositingOperation)op fraction:(CGFloat)delta
+{
+    [self drawInRect:rect fromRect:fromRect operation:op fraction:delta respectFlipped:NO hints:nil];
+}
+
+- (void)drawInRect:(NSRect)dstSpacePortionRect fromRect:(NSRect)srcSpacePortionRect operation:(NSCompositingOperation)op fraction:(CGFloat)requestedAlpha respectFlipped:(BOOL)respectContextIsFlipped hints:(NSDictionary *)hints
+{
+    NSImage *startCap   = OENilForNSNull([_parts objectAtIndex:0]);
+    NSImage *centerFill = OENilForNSNull([_parts objectAtIndex:1]);
+    NSImage *endCap     = OENilForNSNull([_parts objectAtIndex:2]);
+
+    NSDrawThreePartImage(dstSpacePortionRect, startCap, centerFill, endCap, _vertical, op, requestedAlpha, respectContextIsFlipped && [[NSGraphicsContext currentContext] isFlipped]);
+}
+
+@end
+
+@implementation OENSNinePartImage
+
+@synthesize parts = _parts;
+
+- (id)initWithImageParts:(NSArray *)imageParts
+{
+    if((self = [super init]))
+    {
+        _parts = [imageParts copy];
+
+        NSSize topLeft      = [OENilForNSNull([_parts objectAtIndex:0]) size];
+        NSSize topCenter    = [OENilForNSNull([_parts objectAtIndex:1]) size];
+        NSSize topRight     = [OENilForNSNull([_parts objectAtIndex:2]) size];
+        NSSize leftEdge     = [OENilForNSNull([_parts objectAtIndex:3]) size];
+        NSSize centerFill   = [OENilForNSNull([_parts objectAtIndex:4]) size];
+        NSSize rightEdge    = [OENilForNSNull([_parts objectAtIndex:5]) size];
+        NSSize bottomLeft   = [OENilForNSNull([_parts objectAtIndex:6]) size];
+        NSSize bottomCenter = [OENilForNSNull([_parts objectAtIndex:7]) size];
+        NSSize bottomRight  = [OENilForNSNull([_parts objectAtIndex:8]) size];
+
+        CGFloat width1      = topLeft.width + topCenter.width + topRight.width;
+        CGFloat width2      = leftEdge.width + centerFill.width + rightEdge.width;
+        CGFloat width3      = bottomLeft.width + bottomCenter.width + bottomRight.width;
+
+        CGFloat height1     = topLeft.height + leftEdge.height + bottomLeft.height;
+        CGFloat height2     = topCenter.height + centerFill.height + bottomCenter.height;
+        CGFloat height3     = topRight.height + rightEdge.height + bottomRight.height;
+
+        [self setSize:NSMakeSize(MAX(MAX(width1, width2), width3), MAX(MAX(height1, height2), height3))];
+    }
+
+    return self;
+}
+
+
+- (void)drawInRect:(NSRect)rect fromRect:(NSRect)fromRect operation:(NSCompositingOperation)op fraction:(CGFloat)delta
+{
+    [self drawInRect:rect fromRect:fromRect operation:op fraction:delta respectFlipped:NO hints:nil];
+}
+
+- (void)drawInRect:(NSRect)dstSpacePortionRect fromRect:(NSRect)srcSpacePortionRect operation:(NSCompositingOperation)op fraction:(CGFloat)requestedAlpha respectFlipped:(BOOL)respectContextIsFlipped hints:(NSDictionary *)hints
+{
+    NSImage *topLeftCorner     = OENilForNSNull([_parts objectAtIndex:0]);
+    NSImage *topEdgeFill       = OENilForNSNull([_parts objectAtIndex:1]);
+    NSImage *topRightCorner    = OENilForNSNull([_parts objectAtIndex:2]);
+    NSImage *leftEdgeFill      = OENilForNSNull([_parts objectAtIndex:3]);
+    NSImage *centerFill        = OENilForNSNull([_parts objectAtIndex:4]);
+    NSImage *rightEdgeFill     = OENilForNSNull([_parts objectAtIndex:5]);
+    NSImage *bottomLeftCorner  = OENilForNSNull([_parts objectAtIndex:6]);
+    NSImage *bottomEdgeFill    = OENilForNSNull([_parts objectAtIndex:7]);
+    NSImage *bottomRightCorner = OENilForNSNull([_parts objectAtIndex:8]);
+
+    NSDrawNinePartImage(dstSpacePortionRect, topLeftCorner, topEdgeFill, topRightCorner, leftEdgeFill, centerFill, rightEdgeFill, bottomLeftCorner, bottomEdgeFill, bottomRightCorner, op, requestedAlpha, respectContextIsFlipped && [[NSGraphicsContext currentContext] isFlipped]);
+}
+
 @end
