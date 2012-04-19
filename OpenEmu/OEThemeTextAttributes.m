@@ -70,10 +70,10 @@ NSFontTraitMask _OENSFontTraitMaskFromString(NSString *string)
      {
          NSString *trait = [obj stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-         if([trait caseInsensitiveCompare:OEThemeFontTraitBoldName])        mask |= NSBoldFontMask;
-         else if([trait caseInsensitiveCompare:OEThemeFontTraitUnboldName]) mask |= NSUnboldFontMask;
-         else if([trait caseInsensitiveCompare:OEThemeFontTraitItalicName]) mask |= NSItalicFontMask;
-         else if([trait caseInsensitiveCompare:OEThemeFontTraitUnitalic])   mask |= NSUnitalicFontMask;
+         if([trait caseInsensitiveCompare:OEThemeFontTraitBoldName]        == NSOrderedSame) mask |= NSBoldFontMask;
+         else if([trait caseInsensitiveCompare:OEThemeFontTraitUnboldName] == NSOrderedSame) mask |= NSUnboldFontMask;
+         else if([trait caseInsensitiveCompare:OEThemeFontTraitItalicName] == NSOrderedSame) mask |= NSItalicFontMask;
+         else if([trait caseInsensitiveCompare:OEThemeFontTraitUnitalic]   == NSOrderedSame) mask |= NSUnitalicFontMask;
      }];
 
     return mask;
