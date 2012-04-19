@@ -34,6 +34,8 @@
 @end
 
 @implementation OEPopUpButton
+@synthesize trackWindowActivity = _trackWindowActivity;
+@synthesize trackMouseActivity = _trackMouseActivity;
 @synthesize menuStyle = _menuStyle;
 
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow
@@ -46,7 +48,7 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignMainNotification object:[self window]];
     }
 
-    if(newWindow && _shouldTrackWindowActivity)
+    if(newWindow && _trackWindowActivity)
     {
         // Register with the default notification center for changes in the window's keyedness only if one of the themed elements (the state mask) is influenced by the window's activity
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_windowKeyChanged:) name:NSWindowDidBecomeMainNotification object:newWindow];
@@ -63,7 +65,7 @@
 - (void)updateTrackingAreas
 {
     if(_trackingArea) [self removeTrackingArea:_trackingArea];
-    if(_shouldTrackMouseActivity)
+    if(_trackMouseActivity)
     {
         // Track mouse enter and exit (hover and off) events only if the one of the themed elements (the state mask) is influenced by the mouse
         _trackingArea = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingActiveInActiveApp | NSTrackingMouseEnteredAndExited owner:self userInfo:nil];
@@ -71,15 +73,28 @@
     }
 }
 
+- (void)OE_updateHoverFlag:(BOOL)hovering
+{
+    id<OECell> cell = [self cell];
+    if(![cell conformsToProtocol:@protocol(OECell)]) return;
+
+    if([cell isHovering] != hovering)
+    {
+        [cell setHovering:hovering];
+        [self setNeedsDisplayInRect:[self bounds]];
+    }
+}
+
 - (void)mouseEntered:(NSEvent *)theEvent
 {
     // Mouse has entered / mouse hover, we want to redisplay the button with the new state...this is only fired when the mouse tracking is installed
-    [self setNeedsDisplay];
+    [self OE_updateHoverFlag:YES];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
     // Mouse has exited / mouse off, we want to redisplay the button with the new state...this is only fired when the mouse tracking is installed
+    [self OE_updateHoverFlag:NO];
     [self setNeedsDisplay];
 }
 
@@ -100,9 +115,9 @@
 
 - (void)OE_setShouldTrackWindowActivity:(BOOL)shouldTrackWindowActivity
 {
-    if(_shouldTrackWindowActivity != shouldTrackWindowActivity)
+    if(_trackWindowActivity != shouldTrackWindowActivity)
     {
-        _shouldTrackWindowActivity = shouldTrackWindowActivity;
+        _trackWindowActivity = shouldTrackWindowActivity;
         [self viewWillMoveToWindow:[self window]];
         [self setNeedsDisplay:YES];
     }
@@ -110,9 +125,9 @@
 
 - (void)OE_setShouldTrackMouseActivity:(BOOL)shouldTrackMouseActivity
 {
-    if(_shouldTrackMouseActivity != shouldTrackMouseActivity)
+    if(_trackMouseActivity != shouldTrackMouseActivity)
     {
-        _shouldTrackMouseActivity = shouldTrackMouseActivity;
+        _trackMouseActivity = shouldTrackMouseActivity;
         [self updateTrackingAreas];
         [self setNeedsDisplay];
     }
@@ -120,13 +135,25 @@
 
 - (void)OE_updateNotifications
 {
-    // This method determins if we need to register ourselves with the notification center and/or we need to add mouse tracking
+    // This method determines if we need to register ourselves with the notification center and/or we need to add mouse tracking
     OEPopUpButtonCell *cell = [self cell];
     if([cell isKindOfClass:[OEPopUpButtonCell class]])
     {
-        [self OE_setShouldTrackWindowActivity:[cell stateMask] & OEThemeStateAnyWindowActivity];
-        [self OE_setShouldTrackMouseActivity:[cell stateMask] & OEThemeStateAnyMouse];
+        [self OE_setShouldTrackWindowActivity:([cell stateMask] & OEThemeStateAnyWindowActivity) != 0];
+        [self OE_setShouldTrackMouseActivity:([cell stateMask] & OEThemeStateAnyMouse) != 0];
     }
+}
+
+- (void)setThemeKey:(NSString *)key
+{
+    NSString *backgroundKey = key;
+    if(![key hasSuffix:@"_background"])
+    {
+        [self setThemeImageKey:key];
+        backgroundKey = [key stringByAppendingString:@"_background"];
+    }
+    [self setBackgroundThemeImageKey:backgroundKey];
+    [self setThemeTextAttributesKey:key];
 }
 
 - (void)setBackgroundThemeImageKey:(NSString *)key

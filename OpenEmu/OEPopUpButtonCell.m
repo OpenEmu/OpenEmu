@@ -27,6 +27,8 @@
 #import "OEPopUpButtonCell.h"
 
 @implementation OEPopUpButtonCell
+@synthesize hovering = _hover;
+@synthesize themed = _themed;
 @synthesize stateMask = _stateMask;
 @synthesize backgroundThemeImage = _backgroundThemeImage;
 @synthesize themeImage = _themeImage;
@@ -37,24 +39,17 @@
     // This is a convenience method that retrieves the current state of the button
     BOOL focused      = NO;
     BOOL windowActive = NO;
-    BOOL hover        = NO;
 
-    if((_stateMask & OEThemeStateAnyFocus) || (_stateMask & OEThemeStateAnyMouse) || (_stateMask & OEThemeStateAnyWindowActivity))
+    if(((_stateMask & OEThemeStateAnyFocus) != 0) || ((_stateMask & OEThemeStateAnyWindowActivity) != 0))
     {
         // Set the focused, windowActive, and hover properties only if the state mask is tracking the button's focus, mouse hover, and window activity properties
         NSWindow *window = [[self controlView] window];
 
         focused      = [window firstResponder] == [self controlView];
-        windowActive = (_stateMask & OEThemeStateAnyWindowActivity) && ([window isMainWindow] || ([window parentWindow] && [[window parentWindow] isMainWindow]));
-
-        if(_stateMask & OEThemeStateAnyMouse)
-        {
-            const NSPoint p = [[self controlView] convertPointFromBase:[window convertScreenToBase:[NSEvent mouseLocation]]];
-            hover           = NSPointInRect(p, [[self controlView] bounds]);
-        }
+        windowActive = ((_stateMask & OEThemeStateAnyWindowActivity) != 0) && ([window isMainWindow] || ([window parentWindow] && [[window parentWindow] isMainWindow]));
     }
 
-    return [OEThemeObject themeStateWithWindowActive:windowActive buttonState:[self state] selected:[self isHighlighted] enabled:[self isEnabled] focused:focused houseHover:hover] & _stateMask;
+    return [OEThemeObject themeStateWithWindowActive:windowActive buttonState:[self state] selected:[self isHighlighted] enabled:[self isEnabled] focused:focused houseHover:[self isHovering]] & _stateMask;
 }
 
 - (NSDictionary *)OE_attributesForState:(OEThemeState)state
@@ -135,10 +130,38 @@
     _stateMask = [_backgroundThemeImage stateMask] | [_themeImage stateMask] | [_themeTextAttributes stateMask];
 }
 
+- (void)setThemeKey:(NSString *)key
+{
+    NSString *backgroundKey = key;
+    if(![key hasSuffix:@"_background"])
+    {
+        [self setThemeImageKey:key];
+        backgroundKey = [key stringByAppendingString:@"_background"];
+    }
+    [self setBackgroundThemeImageKey:backgroundKey];
+    [self setThemeTextAttributesKey:key];
+}
+
+- (void)setBackgroundThemeImageKey:(NSString *)key
+{
+    [self setBackgroundThemeImage:[[OETheme sharedTheme] themeImageForKey:key]];
+}
+
+- (void)setThemeImageKey:(NSString *)key
+{
+    [self setThemeImage:[[OETheme sharedTheme] themeImageForKey:key]];
+}
+
+- (void)setThemeTextAttributesKey:(NSString *)key
+{
+    [self setThemeTextAttributes:[[OETheme sharedTheme] themeTextAttributesForKey:key]];
+}
+
 - (void)setBackgroundThemeImage:(OEThemeImage *)backgroundThemeImage
 {
     if(_backgroundThemeImage != backgroundThemeImage)
     {
+        // TODO: Only invalidate area of the control view
         _backgroundThemeImage = backgroundThemeImage;
         [[self controlView] setNeedsDisplay:YES];
         [self OE_recomputeStateMask];
@@ -149,6 +172,7 @@
 {
     if(_themeImage != themeImage)
     {
+        // TODO: Only invalidate area of the control view
         _themeImage = themeImage;
         [[self controlView] setNeedsDisplay:YES];
         [self OE_recomputeStateMask];
@@ -159,6 +183,7 @@
 {
     if(_themeTextAttributes != themeTextAttributes)
     {
+        // TODO: Only invalidate area of the control view
         _themeTextAttributes = themeTextAttributes;
         [[self controlView] setNeedsDisplay:YES];
         [self OE_recomputeStateMask];

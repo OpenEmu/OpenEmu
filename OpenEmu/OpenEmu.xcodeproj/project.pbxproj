@@ -1566,6 +1566,8 @@
 		EF3FA946153B459100161924 /* light_submenu_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_submenu_body.png; sourceTree = "<group>"; };
 		EF3FA947153B459100161924 /* light_menu_separator_item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_menu_separator_item.png; sourceTree = "<group>"; };
 		EF3FA94E153B694900161924 /* light_menu_scroll_arrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_menu_scroll_arrows.png; sourceTree = "<group>"; };
+		EF5E1938154056EF004E870B /* OECell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECell.h; sourceTree = "<group>"; };
+		EF5E1939154056EF004E870B /* OEControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControl.h; sourceTree = "<group>"; };
 		EFBD5D7614EFE19A00FBD1E0 /* NSColor+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+OEAdditions.h"; sourceTree = "<group>"; };
 		EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+OEAdditions.m"; sourceTree = "<group>"; };
 		EFBD5D7914EFE26300FBD1E0 /* OEGridLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridLayer.h; sourceTree = "<group>"; };
@@ -3271,6 +3273,8 @@
 		EF3FA914153B3CD100161924 /* Theme Controls */ = {
 			isa = PBXGroup;
 			children = (
+				EF5E1938154056EF004E870B /* OECell.h */,
+				EF5E1939154056EF004E870B /* OEControl.h */,
 				EF3FA915153B3CE900161924 /* Menu */,
 				EF3FA916153B3CEE00161924 /* Buttons */,
 			);

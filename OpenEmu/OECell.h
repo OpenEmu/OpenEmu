@@ -24,13 +24,23 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import "OETheme.h"
-#import "OECell.h"
 
-@interface OEPopUpButtonCell : NSPopUpButtonCell <OECell>
-{
-@private
-    NSMutableParagraphStyle *_style;  // Cached paragraph style used to render text
-}
+@protocol OECell <NSObject>
+
+@required
+- (void)setThemeKey:(NSString *)key;
+- (void)setBackgroundThemeImageKey:(NSString *)key;
+- (void)setThemeImageKey:(NSString *)key;
+- (void)setThemeTextAttributesKey:(NSString *)key;
+
+@property (nonatomic, retain) OEThemeImage          *backgroundThemeImage;
+@property (nonatomic, retain) OEThemeImage          *themeImage;
+@property (nonatomic, retain) OEThemeTextAttributes *themeTextAttributes;
+
+@property(nonatomic, assign, getter = isHovering) BOOL         hovering;
+@property(nonatomic, readonly, getter = isThemed) BOOL         themed;
+@property (nonatomic, readonly)                   OEThemeState stateMask;
+
 @end
