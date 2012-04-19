@@ -563,7 +563,7 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
                 [__sharedMenuStack makeObjectsPerformSelector:@selector(sendEvent:) withObject:event];
                 event = nil;  // There is no need to forward this message to NSApp
             }
-            
+
             // If we've gotten this far, then we need to forward the event to NSApp for additional processing
             if(event) [NSApp sendEvent:event];
         }

@@ -47,23 +47,6 @@
 @synthesize placeholderView;
 @synthesize deviceHandlers, coreList;
 
-+ (void)initialize
-{
-    if(self == [OEMainWindowController class])
-    {
-        // toolbar sidebar button image
-        NSImage *image = [NSImage imageNamed:@"toolbar_sidebar_button"];
-        [image setName:@"toolbar_sidebar_button_close" forSubimageInRect:NSMakeRect(0, 23, 84, 23)];
-        [image setName:@"toolbar_sidebar_button_open" forSubimageInRect:NSMakeRect(0, 0, 84, 23)];
-        
-        // toolbar view button images
-        image = [NSImage imageNamed:@"toolbar_view_buttons"];
-        [image setName:@"toolbar_view_button_grid" forSubimageInRect:NSMakeRect(0, 0, 27, 115)];
-        [image setName:@"toolbar_view_button_flow" forSubimageInRect:NSMakeRect(27, 0, 27, 115)];
-        [image setName:@"toolbar_view_button_list" forSubimageInRect:NSMakeRect(54, 0, 27, 115)];
-    }
-}
-
 - (void)dealloc 
 {
     currentContentController = nil;

@@ -26,7 +26,7 @@
 
 #import "OEHUDAlert.h"
 
-#import "OECheckBox.h"
+#import "OEButton.h"
 #import "OEHUDButtonCell.h"
 #import "OEHUDTextFieldCell.h"
 #import "OEHUDTextFieldEditor.h"
@@ -93,7 +93,8 @@
         _window = [[OEAlertWindow alloc] init];
         [_window setReleasedWhenClosed:NO];
         
-        _suppressionButton = [[OECheckBox alloc] init];
+        _suppressionButton = [[OEButton alloc] init];
+        [_suppressionButton setButtonType:NSSwitchButton];
         
         _defaultButton = [[NSButton alloc] init];
         _alternateButton = [[NSButton alloc] init];

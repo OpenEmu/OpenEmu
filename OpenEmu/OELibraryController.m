@@ -33,7 +33,6 @@
 #import "OECollectionViewController.h"
 #import "OELibrarySplitView.h"
 
-#import "NSImage+OEDrawingAdditions.h"
 #import "OEBackgroundColorView.h"
 
 #import "OEGameView.h"
@@ -138,15 +137,6 @@
     [splitView adjustSubviews];
     
     [collectionVC viewDidAppear];
-    
-    [[self toolbarSidebarButton] setImage:[NSImage imageNamed:@"toolbar_sidebar_button_close"]];
-    
-    // Setup Toolbar Buttons
-    [[self toolbarGridViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_grid"]];
-    [[self toolbarFlowViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_flow"]];
-    [[self toolbarListViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_list"]];
-    
-    [[self toolbarAddToSidebarButton] setImage:[NSImage imageNamed:@"toolbar_add_button"]];
 }
 
 - (void)viewDidAppear
@@ -241,14 +231,7 @@
     }
     
     if(!opening) [standardDefaults setDouble:abs(widthCorrection) forKey:UDSidebarWidthKey];
-    
-    NSImage *image = [NSImage imageNamed:
-                      ([self sidebarChangesWindowSize] == opening
-                       ? @"toolbar_sidebar_button_close"
-                       : @"toolbar_sidebar_button_open")];
-    
-    [[self toolbarSidebarButton] setImage:image];
-    
+
     [self setSidebarVisible:opening];
 }
 
@@ -526,12 +509,7 @@
     {
         sidebarChangesWindowSize = flag;
         
-        NSImage *image = [NSImage imageNamed:
-                          (flag == ([[self mainSplitView] splitterPosition] == 0)
-                           ? @"toolbar_sidebar_button_open"
-                           : @"toolbar_sidebar_button_close")];
-        
-        [[self toolbarSidebarButton] setImage:image];
+        [[self toolbarSidebarButton] setState:(flag == ([[self mainSplitView] splitterPosition] == 0) ? NSOffState : NSOnState)];
         [[self toolbarSidebarButton] display];
     }
 }

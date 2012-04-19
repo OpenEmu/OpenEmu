@@ -147,9 +147,7 @@
 		53439B3113B930A1005C0CC8 /* OEPrefHeadlineLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2B13B930A1005C0CC8 /* OEPrefHeadlineLabelCell.m */; };
 		53439B3213B930A1005C0CC8 /* OEPrefLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2D13B930A1005C0CC8 /* OEPrefLabelCell.m */; };
 		53439B3913B930E0005C0CC8 /* OEHorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */; };
-		53439B4013B93119005C0CC8 /* OECheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B3D13B93119005C0CC8 /* OECheckBox.m */; };
 		53439B4A13B93138005C0CC8 /* OECoreSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B4313B93138005C0CC8 /* OECoreSliderCell.m */; };
-		53439B4D13B93138005C0CC8 /* OEPreferencesButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B4913B93138005C0CC8 /* OEPreferencesButtonCell.m */; };
 		53439B5513B9316F005C0CC8 /* OEPreferencesControlsBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5013B9316F005C0CC8 /* OEPreferencesControlsBox.m */; };
 		53439B5613B9316F005C0CC8 /* OEPreferencesDarkBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5213B9316F005C0CC8 /* OEPreferencesDarkBox.m */; };
 		53439B5713B9316F005C0CC8 /* OEPreferencesPlainBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5413B9316F005C0CC8 /* OEPreferencesPlainBox.m */; };
@@ -351,7 +349,6 @@
 		8382D23213C5C5BB00906221 /* OEPrefGameplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */; };
 		8382D23313C5C5BB00906221 /* OEPrefLibraryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */; };
 		8382D23513C5C5E100906221 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23413C5C5E100906221 /* OEPrefControlsController.xib */; };
-		838FE6831458277B00185117 /* OEGlossCheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 838FE6821458277B00185117 /* OEGlossCheckBox.m */; };
 		838FE6871458342600185117 /* OESetupAssistantKeyMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 838FE6861458342600185117 /* OESetupAssistantKeyMapView.m */; };
 		83920CDB147E5BA300D219EA /* OESidebarScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83920CDA147E5BA300D219EA /* OESidebarScrollView.m */; };
 		83920CDD147E675C00D219EA /* hud_alert_window.png in Resources */ = {isa = PBXBuildFile; fileRef = 83920CDC147E675C00D219EA /* hud_alert_window.png */; };
@@ -576,6 +573,9 @@
 		EF3FA94A153B459100161924 /* light_submenu_body.png in Resources */ = {isa = PBXBuildFile; fileRef = EF3FA946153B459100161924 /* light_submenu_body.png */; };
 		EF3FA94B153B459100161924 /* light_menu_separator_item.png in Resources */ = {isa = PBXBuildFile; fileRef = EF3FA947153B459100161924 /* light_menu_separator_item.png */; };
 		EF3FA94F153B694900161924 /* light_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = EF3FA94E153B694900161924 /* light_menu_scroll_arrows.png */; };
+		EF5E193C154056EF004E870B /* OEMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5E193B154056EF004E870B /* OEMatrix.m */; };
+		EF70E32B153BF5D500CEF56C /* OEButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF70E328153BF5D500CEF56C /* OEButton.m */; };
+		EF70E32C153BF5D500CEF56C /* OEButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF70E32A153BF5D500CEF56C /* OEButtonCell.m */; };
 		EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		EFBD5D7E14EFE26300FBD1E0 /* OEGridLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7A14EFE26300FBD1E0 /* OEGridLayer.m */; };
 		EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */; };
@@ -1026,12 +1026,8 @@
 		53439B2D13B930A1005C0CC8 /* OEPrefLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefLabelCell.m; sourceTree = "<group>"; };
 		53439B3713B930E0005C0CC8 /* OEHorizontalLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHorizontalLine.h; sourceTree = "<group>"; };
 		53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHorizontalLine.m; sourceTree = "<group>"; };
-		53439B3C13B93119005C0CC8 /* OECheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECheckBox.h; sourceTree = "<group>"; };
-		53439B3D13B93119005C0CC8 /* OECheckBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheckBox.m; sourceTree = "<group>"; };
 		53439B4213B93138005C0CC8 /* OECoreSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreSliderCell.h; sourceTree = "<group>"; };
 		53439B4313B93138005C0CC8 /* OECoreSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreSliderCell.m; sourceTree = "<group>"; };
-		53439B4813B93138005C0CC8 /* OEPreferencesButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferencesButtonCell.h; sourceTree = "<group>"; };
-		53439B4913B93138005C0CC8 /* OEPreferencesButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPreferencesButtonCell.m; sourceTree = "<group>"; };
 		53439B4F13B9316F005C0CC8 /* OEPreferencesControlsBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferencesControlsBox.h; sourceTree = "<group>"; };
 		53439B5013B9316F005C0CC8 /* OEPreferencesControlsBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPreferencesControlsBox.m; sourceTree = "<group>"; };
 		53439B5113B9316F005C0CC8 /* OEPreferencesDarkBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferencesDarkBox.h; sourceTree = "<group>"; };
@@ -1277,8 +1273,6 @@
 		8382D23413C5C5E100906221 /* OEPrefControlsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefControlsController.xib; sourceTree = "<group>"; };
 		838AC27E14434EED00AC74C3 /* OEDBRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBRom.h; sourceTree = "<group>"; };
 		838AC27F14434EED00AC74C3 /* OEDBRom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBRom.m; sourceTree = "<group>"; };
-		838FE6811458277B00185117 /* OEGlossCheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGlossCheckBox.h; sourceTree = "<group>"; };
-		838FE6821458277B00185117 /* OEGlossCheckBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGlossCheckBox.m; sourceTree = "<group>"; };
 		838FE6851458342600185117 /* OESetupAssistantKeyMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantKeyMapView.h; sourceTree = "<group>"; };
 		838FE6861458342600185117 /* OESetupAssistantKeyMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantKeyMapView.m; sourceTree = "<group>"; };
 		83920CD9147E5BA300D219EA /* OESidebarScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarScrollView.h; sourceTree = "<group>"; };
@@ -1568,6 +1562,12 @@
 		EF3FA94E153B694900161924 /* light_menu_scroll_arrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_menu_scroll_arrows.png; sourceTree = "<group>"; };
 		EF5E1938154056EF004E870B /* OECell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECell.h; sourceTree = "<group>"; };
 		EF5E1939154056EF004E870B /* OEControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControl.h; sourceTree = "<group>"; };
+		EF5E193A154056EF004E870B /* OEMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMatrix.h; sourceTree = "<group>"; };
+		EF5E193B154056EF004E870B /* OEMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMatrix.m; sourceTree = "<group>"; };
+		EF70E327153BF5D500CEF56C /* OEButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEButton.h; sourceTree = "<group>"; };
+		EF70E328153BF5D500CEF56C /* OEButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEButton.m; sourceTree = "<group>"; };
+		EF70E329153BF5D500CEF56C /* OEButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEButtonCell.h; sourceTree = "<group>"; };
+		EF70E32A153BF5D500CEF56C /* OEButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEButtonCell.m; sourceTree = "<group>"; };
 		EFBD5D7614EFE19A00FBD1E0 /* NSColor+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+OEAdditions.h"; sourceTree = "<group>"; };
 		EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+OEAdditions.m"; sourceTree = "<group>"; };
 		EFBD5D7914EFE26300FBD1E0 /* OEGridLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridLayer.h; sourceTree = "<group>"; };
@@ -2425,8 +2425,6 @@
 		53439B3A13B93106005C0CC8 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				53439B3C13B93119005C0CC8 /* OECheckBox.h */,
-				53439B3D13B93119005C0CC8 /* OECheckBox.m */,
 				53439B3B13B9310B005C0CC8 /* Button Cells */,
 			);
 			name = Buttons;
@@ -2437,8 +2435,6 @@
 			children = (
 				53439B4213B93138005C0CC8 /* OECoreSliderCell.h */,
 				53439B4313B93138005C0CC8 /* OECoreSliderCell.m */,
-				53439B4813B93138005C0CC8 /* OEPreferencesButtonCell.h */,
-				53439B4913B93138005C0CC8 /* OEPreferencesButtonCell.m */,
 			);
 			name = "Button Cells";
 			sourceTree = "<group>";
@@ -2826,8 +2822,6 @@
 				83FFC06C1458194E0077EC27 /* OESetupAssistantBox.m */,
 				83FFC076145823B00077EC27 /* OEGlossButton.h */,
 				83FFC077145823B00077EC27 /* OEGlossButton.m */,
-				838FE6811458277B00185117 /* OEGlossCheckBox.h */,
-				838FE6821458277B00185117 /* OEGlossCheckBox.m */,
 				838FE6851458342600185117 /* OESetupAssistantKeyMapView.h */,
 				838FE6861458342600185117 /* OESetupAssistantKeyMapView.m */,
 				83BABBEC1458978B0097F6B2 /* OESetupAssistantTableView.h */,
@@ -3276,6 +3270,7 @@
 				EF5E1938154056EF004E870B /* OECell.h */,
 				EF5E1939154056EF004E870B /* OEControl.h */,
 				EF3FA915153B3CE900161924 /* Menu */,
+				EF5E19361540566A004E870B /* Containers */,
 				EF3FA916153B3CEE00161924 /* Buttons */,
 			);
 			name = "Theme Controls";
@@ -3304,6 +3299,8 @@
 		EF3FA916153B3CEE00161924 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
+				EF70E327153BF5D500CEF56C /* OEButton.h */,
+				EF70E328153BF5D500CEF56C /* OEButton.m */,
 				EF3FA92D153B42C700161924 /* OEPopUpButton.h */,
 				EF3FA92E153B42C700161924 /* OEPopUpButton.m */,
 				EF3FA929153B42A800161924 /* Button Cells */,
@@ -3314,6 +3311,8 @@
 		EF3FA929153B42A800161924 /* Button Cells */ = {
 			isa = PBXGroup;
 			children = (
+				EF70E329153BF5D500CEF56C /* OEButtonCell.h */,
+				EF70E32A153BF5D500CEF56C /* OEButtonCell.m */,
 				EF3FA92A153B42B700161924 /* OEPopUpButtonCell.h */,
 				EF3FA92B153B42B700161924 /* OEPopUpButtonCell.m */,
 			);
@@ -3342,6 +3341,15 @@
 				EF3FA947153B459100161924 /* light_menu_separator_item.png */,
 			);
 			name = "Light Style";
+			sourceTree = "<group>";
+		};
+		EF5E19361540566A004E870B /* Containers */ = {
+			isa = PBXGroup;
+			children = (
+				EF5E193A154056EF004E870B /* OEMatrix.h */,
+				EF5E193B154056EF004E870B /* OEMatrix.m */,
+			);
+			name = Containers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -4238,9 +4246,7 @@
 				53439B3113B930A1005C0CC8 /* OEPrefHeadlineLabelCell.m in Sources */,
 				53439B3213B930A1005C0CC8 /* OEPrefLabelCell.m in Sources */,
 				53439B3913B930E0005C0CC8 /* OEHorizontalLine.m in Sources */,
-				53439B4013B93119005C0CC8 /* OECheckBox.m in Sources */,
 				53439B4A13B93138005C0CC8 /* OECoreSliderCell.m in Sources */,
-				53439B4D13B93138005C0CC8 /* OEPreferencesButtonCell.m in Sources */,
 				53439B5513B9316F005C0CC8 /* OEPreferencesControlsBox.m in Sources */,
 				53439B5613B9316F005C0CC8 /* OEPreferencesDarkBox.m in Sources */,
 				53439B5713B9316F005C0CC8 /* OEPreferencesPlainBox.m in Sources */,
@@ -4280,7 +4286,6 @@
 				83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */,
 				83FFC06D1458194E0077EC27 /* OESetupAssistantBox.m in Sources */,
 				83FFC078145823B00077EC27 /* OEGlossButton.m in Sources */,
-				838FE6831458277B00185117 /* OEGlossCheckBox.m in Sources */,
 				838FE6871458342600185117 /* OESetupAssistantKeyMapView.m in Sources */,
 				83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */,
 				83F2988A1458B6DC00ECB4F4 /* OESetupAssistantScrollView.m in Sources */,
@@ -4333,6 +4338,9 @@
 				EF3FA928153B3D2100161924 /* NSMenuItem+OEMenuItemExtraDataAdditions.m in Sources */,
 				EF3FA92C153B42B700161924 /* OEPopUpButtonCell.m in Sources */,
 				EF3FA92F153B42C700161924 /* OEPopUpButton.m in Sources */,
+				EF70E32B153BF5D500CEF56C /* OEButton.m in Sources */,
+				EF70E32C153BF5D500CEF56C /* OEButtonCell.m in Sources */,
+				EF5E193C154056EF004E870B /* OEMatrix.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
