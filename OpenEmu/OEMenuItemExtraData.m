@@ -60,7 +60,7 @@
     [_alternateItems enumerateKeysAndObjectsUsingBlock:
      ^ (NSNumber *key, NSMenuItem *obj, BOOL *stop)
      {
-         if(![obj isHidden] && ([key unsignedIntegerValue] & mask) == mask)
+         if(![obj isHidden] && (([key unsignedIntegerValue] & mask) == mask))
          {
              result = obj;
              *stop  = YES;
