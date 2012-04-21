@@ -28,6 +28,7 @@
 #import "OEGridViewCell+OEGridView.h"
 #import "NSColor+OEAdditions.h"
 #import "OEMenu.h"
+#import <Carbon/Carbon.h>
 
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
 const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval of periodic events
@@ -1324,8 +1325,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)keyDown:(NSEvent *)theEvent
 {
-    if([theEvent keyCode] == 51 || [theEvent keyCode] == 117) [NSApp sendAction:@selector(delete:) to:nil from:self];
-    else                                                      [super keyDown:theEvent];
+    if ([theEvent keyCode] == kVK_Delete || [theEvent keyCode] == kVK_ForwardDelete) [NSApp sendAction:@selector(delete:) to:nil from:self];
+    else                                                                             [super keyDown:theEvent];
 }
 
 #pragma mark -
