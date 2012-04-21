@@ -98,7 +98,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     // Set default values
     _minimumColumnSpacing = 24.0;
     _rowSpacing           = 20.0;
-    _cellSize             = CGSizeMake(250.0, 250.0);
+    _itemSize             = CGSizeMake(250.0, 250.0);
 
     // Allocate memory for objects
     _selectionIndexes    = [[NSMutableIndexSet alloc] init];
@@ -204,10 +204,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     // Figure out the first row and column, and the number of cells and rows within the rect.
     NSMutableIndexSet *result   = [NSMutableIndexSet indexSet];
-    const NSUInteger   firstCol = (NSUInteger)floor(NSMinX(rect) / _cachedCellSize.width);
-    const NSUInteger   firstRow = (NSUInteger)floor(NSMinY(rect) / _cachedCellSize.height);
-    const NSUInteger   numCols  = (NSUInteger)ceil(NSMaxX(rect) / _cachedCellSize.width) - firstCol;
-    const NSUInteger   numRows  = (NSUInteger)ceil(NSMaxY(rect) / _cachedCellSize.height) - firstRow;
+    const NSUInteger   firstCol = (NSUInteger)floor(NSMinX(rect) / _cachedItemSize.width);
+    const NSUInteger   firstRow = (NSUInteger)floor(NSMinY(rect) / _cachedItemSize.height);
+    const NSUInteger   numCols  = (NSUInteger)ceil(NSMaxX(rect) / _cachedItemSize.width) - firstCol;
+    const NSUInteger   numRows  = (NSUInteger)ceil(NSMaxY(rect) / _cachedItemSize.height) - firstRow;
 
     // Calculate the starting index
     NSUInteger startIndex       = firstCol + (firstRow * _cachedNumberOfVisibleColumns);
@@ -266,7 +266,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     const NSUInteger col = index % _cachedNumberOfVisibleColumns;
     const NSUInteger row = index / _cachedNumberOfVisibleColumns;
 
-    return NSMakeRect(floor(col * _cachedCellSize.width + _cachedColumnSpacing), floor(row * _cachedCellSize.height + _rowSpacing), _cellSize.width, _cellSize.height);
+    return NSMakeRect(floor(col * _cachedItemSize.width + _cachedColumnSpacing), floor(row * _cachedItemSize.height + _rowSpacing), _itemSize.width, _itemSize.height);
 }
 
 #pragma mark -
@@ -386,7 +386,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     NSUInteger numberOfVisibleColumns = _cachedNumberOfVisibleColumns;  // Number of visible columns
     NSUInteger numberOfVisibleRows    = _cachedNumberOfVisibleRows;     // Number of visible rows
     NSUInteger numberOfItems          = _cachedNumberOfItems;           // Number of items in the data source
-    NSSize     cellSize               = NSMakeSize(_cellSize.width + _minimumColumnSpacing, _cellSize.height + _rowSpacing);
+    NSSize     itemSize               = NSMakeSize(_itemSize.width + _minimumColumnSpacing, _itemSize.height + _rowSpacing);
                                                                         // Item Size (within minimumColumnSpacing and rowSpacing)
     NSSize contentSize                = cachedContentSize;              // The scroll view's content size
     BOOL   checkForDataReload         = FALSE;                          // Used to determine if we should consider reloading the data
@@ -395,18 +395,18 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if(shouldQueryForDataChanges && _dataSource) numberOfItems = [_dataSource numberOfItemsInGridView:self];
 
     // Check to see if the frame's width has changed to update the number of visible columns and the cached cell size
-    if(cellSize.width == 0)
+    if(itemSize.width == 0)
         numberOfVisibleColumns = 1;
     else if(_cachedViewSize.width != viewSize.width ||
-            !NSEqualSizes(_cachedCellSize, cellSize))
+            !NSEqualSizes(_cachedItemSize, itemSize))
     {
         // Set the number of visible columns based on the view's width, there must be at least 1 visible column and no more than the total number
         // of items within the data source.  Just because a column is potentially visible doesn't mean that there is enough data to populate it.
-        numberOfVisibleColumns = MAX((NSUInteger)(floor(viewSize.width / cellSize.width)), 1);
+        numberOfVisibleColumns = MAX((NSUInteger)(floor(viewSize.width / itemSize.width)), 1);
 
         // The cell's height include the original itemSize.height + rowSpacing. The cell's column spacing is based on the number of visible columns.
         // The cell will be at least itemSize.width + minimumColumnSpacing, it could grow as larg as the width of the view
-        cellSize = NSMakeSize(MAX(cellSize.width, round(viewSize.width / numberOfVisibleColumns)), cellSize.height);
+        itemSize = NSMakeSize(MAX(itemSize.width, round(viewSize.width / numberOfVisibleColumns)), itemSize.height);
 
         // Make sure that the scroll view's content width reflects the view's width. The scroll view's content height is be calculated later (if
         // needed).
@@ -414,19 +414,19 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     }
 
     // Check to see if the frame's height has changed to update the number of visible rows
-    if(cellSize.height == 0)
+    if(itemSize.height == 0)
         numberOfVisibleRows = 1;
     else if(_cachedViewSize.height != viewSize.height ||
-            cellSize.height != _cachedCellSize.height)
+            itemSize.height != _cachedItemSize.height)
     {
         // TODO: only add 1 to the number of visible rows if the first row is partially visible
-        numberOfVisibleRows = ((NSUInteger)ceil(viewSize.height / cellSize.height)) + 1;
+        numberOfVisibleRows = ((NSUInteger)ceil(viewSize.height / itemSize.height)) + 1;
     }
 
     // Check to see if the number of items, number of visible columns, or cached cell size has changed
     if(_cachedNumberOfItems          != numberOfItems          ||
        _cachedNumberOfVisibleColumns != numberOfVisibleColumns ||
-       !NSEqualSizes(_cachedCellSize, cellSize)                ||
+       !NSEqualSizes(_cachedItemSize, itemSize)                ||
        !NSEqualSizes(_cachedViewSize, viewSize))
     {
         // These three events may require a data reload but will most definitely cause the scroll view's content size to change
@@ -437,7 +437,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         else
         {
             NSUInteger numberOfRows = ceil(((CGFloat)numberOfItems / (CGFloat)numberOfVisibleColumns));
-            contentSize.height      = MAX(viewSize.height, ceil(numberOfRows * cellSize.height) + _rowSpacing);
+            contentSize.height      = MAX(viewSize.height, ceil(numberOfRows * itemSize.height) + _rowSpacing);
         }
         [super setFrameSize:contentSize];
 
@@ -446,7 +446,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         contentOffset = visibleRect.origin;
 
         // Check to see if the number visible columns or the cell size has changed as these vents will cause the layout to be recalculated
-        if(_cachedNumberOfVisibleColumns != numberOfVisibleColumns || !NSEqualSizes(_cachedCellSize, cellSize))
+        if(_cachedNumberOfVisibleColumns != numberOfVisibleColumns || !NSEqualSizes(_cachedItemSize, itemSize))
             [self OE_setNeedsLayoutGridView];
     }
 
@@ -462,8 +462,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     // Update the cached values
     _cachedViewSize               = viewSize;
-    _cachedCellSize               = cellSize;
-    _cachedColumnSpacing          = round((cellSize.width - _cellSize.width) / 2.0);
+    _cachedItemSize               = itemSize;
+    _cachedColumnSpacing          = round((itemSize.width - _itemSize.width) / 2.0);
     _cachedNumberOfVisibleColumns = numberOfVisibleColumns;
     _cachedNumberOfVisibleRows    = numberOfVisibleRows;
     _cachedNumberOfItems          = numberOfItems;
@@ -483,9 +483,9 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     const NSRect     visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
     const NSSize     contentSize         = [self bounds].size;
     const NSSize     viewSize            = visibleRect.size;
-    const CGFloat    maxContentOffset    = MAX(contentSize.height - viewSize.height, contentSize.height - _cachedCellSize.height);
+    const CGFloat    maxContentOffset    = MAX(contentSize.height - viewSize.height, contentSize.height - _cachedItemSize.height);
     const CGFloat    contentOffsetY      = MAX(MIN(_cachedContentOffset.y, maxContentOffset), 0.0);
-    const NSUInteger row                 = (NSUInteger)floor(contentOffsetY / _cachedCellSize.height);
+    const NSUInteger row                 = (NSUInteger)floor(contentOffsetY / _cachedItemSize.height);
     const NSUInteger firstVisibleIndex   = row * _cachedNumberOfVisibleColumns;
     const NSUInteger visibleIndexLength  = MIN(_cachedNumberOfVisibleColumns * _cachedNumberOfVisibleRows, _cachedNumberOfItems - firstVisibleIndex);
     const NSRange    visibleIndexRange   = NSMakeRange(firstVisibleIndex, visibleIndexLength);
@@ -543,7 +543,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     _cachedContentOffset          = NSZeroPoint;
     _cachedViewSize               = NSZeroSize;
-    _cachedCellSize               = NSZeroSize;
+    _cachedItemSize               = NSZeroSize;
     _cachedColumnSpacing          = 0.0;
 
     [self setFrameSize:NSZeroSize];
@@ -1522,18 +1522,18 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)setItemSize:(NSSize)itemSize
 {
-    if(NSEqualSizes(_cellSize, itemSize)) return;
+    if(NSEqualSizes(_itemSize, itemSize)) return;
     
     [self OE_cancelFieldEditor];
     
-    _cellSize = itemSize;
+    _itemSize = itemSize;
     [[self enclosingScrollView] flashScrollers];
     [self OE_calculateCachedValuesAndQueryForDataChanges:NO];
 }
 
 - (NSSize)itemSize
 {
-    return _cellSize;
+    return _itemSize;
 }
 
 - (void)setDataSource:(id<OEGridViewDataSource>)dataSource

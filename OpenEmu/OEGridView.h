@@ -72,7 +72,7 @@
 
     NSScrollElasticity _previousElasticity;         // Caches the original elasticity of the scroller eview before the blank slate is added
 
-    NSSize _cellSize;                               // User defined cell size (defaults to 250 x 250)
+    NSSize  _itemSize;                              // User defined cell size (defaults to 250 x 250)
     CGFloat _minimumColumnSpacing;                  // Minimum spacing between columns
     CGFloat _rowSpacing;                            // Minimum spacing between rows
 
@@ -100,7 +100,7 @@
 
     NSPoint _cachedContentOffset;                   // Last known content offset
     NSSize  _cachedViewSize;                        // Last known view size
-    NSSize  _cachedCellSize;                        // Cached cell size that includes row spacing and cached column spacing
+    NSSize  _cachedItemSize;                        // Cached cell size that includes row spacing and cached column spacing
     CGFloat _cachedColumnSpacing;                   // Cached column spacing is the dynamic spacing between columns, no less than minimumColumnSpacing
 
     OEGridViewFieldEditor *_fieldEditor;            // Text field editor of a CATextLayer
