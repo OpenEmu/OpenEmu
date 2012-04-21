@@ -91,6 +91,7 @@
     NSUInteger _cachedNumberOfVisibleColumns;       // Cached number of visible columns
     NSUInteger _cachedNumberOfVisibleRows;          // Cached number of visiabl rows (include partially visible rows)
     NSUInteger _cachedNumberOfItems;                // Cached number of items in the data source
+    NSUInteger _cachedNumberOfRows;                 // Cached number of rows (including hidden ones)
 
     NSPoint _cachedContentOffset;                   // Last known content offset
     NSSize  _cachedViewSize;                        // Last known view size

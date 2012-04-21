@@ -394,6 +394,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     NSUInteger numberOfVisibleColumns = _cachedNumberOfVisibleColumns;  // Number of visible columns
     NSUInteger numberOfVisibleRows    = _cachedNumberOfVisibleRows;     // Number of visible rows
     NSUInteger numberOfItems          = _cachedNumberOfItems;           // Number of items in the data source
+    NSUInteger numberOfRows           = ceil((CGFloat)numberOfItems / MAX((CGFloat)numberOfVisibleColumns, 1));
     NSSize     itemSize               = NSMakeSize(_itemSize.width + _minimumColumnSpacing, _itemSize.height + _rowSpacing);
                                                                         // Item Size (within minimumColumnSpacing and rowSpacing)
     NSSize contentSize                = cachedContentSize;              // The scroll view's content size
@@ -406,12 +407,14 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if(itemSize.width == 0)
     {
         numberOfVisibleColumns = 1;
+        numberOfRows           = ceil((CGFloat)numberOfItems / MAX((CGFloat)numberOfVisibleColumns, 1));
     }
     else if(_cachedViewSize.width != viewSize.width || !NSEqualSizes(_cachedItemSize, itemSize))
     {
         // Set the number of visible columns based on the view's width, there must be at least 1 visible column and no more than the total number
         // of items within the data source.  Just because a column is potentially visible doesn't mean that there is enough data to populate it.
         numberOfVisibleColumns = MAX((NSUInteger)(floor(viewSize.width / itemSize.width)), 1);
+        numberOfRows           = ceil((CGFloat)numberOfItems / MAX((CGFloat)numberOfVisibleColumns, 1));
 
         // The cell's height include the original itemSize.height + rowSpacing. The cell's column spacing is based on the number of visible columns.
         // The cell will be at least itemSize.width + minimumColumnSpacing, it could grow as larg as the width of the view
@@ -434,17 +437,18 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     }
 
     // Check to see if the number of items, number of visible columns, or cached cell size has changed
-    if((_cachedNumberOfItems != numberOfItems) || (_cachedNumberOfVisibleColumns != numberOfVisibleColumns) || !NSEqualSizes(_cachedItemSize, itemSize) || !NSEqualSizes(_cachedViewSize, viewSize))
+    if((_cachedNumberOfRows != numberOfRows) || (_cachedNumberOfItems != numberOfItems) || (_cachedNumberOfVisibleColumns != numberOfVisibleColumns) || !NSEqualSizes(_cachedItemSize, itemSize) || !NSEqualSizes(_cachedViewSize, viewSize))
     {
         // These three events may require a data reload but will most definitely cause the scroll view's content size to change
         checkForDataReload = YES;
 
         if(numberOfItems == 0)
+        {
             contentSize.height = viewSize.height;
+        }
         else
         {
-            NSUInteger numberOfRows = ceil(((CGFloat)numberOfItems / (CGFloat)numberOfVisibleColumns));
-            contentSize.height      = MAX(viewSize.height, ceil(numberOfRows * itemSize.height) + _rowSpacing);
+            contentSize.height = MAX(viewSize.height, ceil(numberOfRows * itemSize.height) + _rowSpacing);
         }
         [super setFrameSize:contentSize];
 
@@ -453,8 +457,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         contentOffset = visibleRect.origin;
 
         // Check to see if the number visible columns or the cell size has changed as these vents will cause the layout to be recalculated
-        if(_cachedNumberOfVisibleColumns != numberOfVisibleColumns || !NSEqualSizes(_cachedItemSize, itemSize))
-            [self OE_setNeedsLayoutGridView];
+        if(_cachedNumberOfVisibleColumns != numberOfVisibleColumns || !NSEqualSizes(_cachedItemSize, itemSize)) [self OE_setNeedsLayoutGridView];
     }
 
     // Check to see if the number of visible rows have changed
@@ -472,6 +475,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     _cachedNumberOfVisibleColumns = numberOfVisibleColumns;
     _cachedNumberOfVisibleRows    = numberOfVisibleRows;
     _cachedNumberOfItems          = numberOfItems;
+    _cachedNumberOfRows           = numberOfRows;
     _cachedContentOffset          = contentOffset;
 
     // We're done calculating all of the values, the following signals that the -OE_calculateCachedValuesAndQueryForDataChanges: can be unblocked
