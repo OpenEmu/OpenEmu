@@ -61,27 +61,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 - (void)OE_displayOnDropEntered:(NSTimer *)timer;
 - (void)OE_displayOnDropExited:(NSTimer *)timer;
 
-- (void)OE_beginAnimationGroup;
-- (void)OE_endAnimationGroup;
-- (void)OE_addAnimation:(CAAnimation *)animation toLayer:(CALayer *)layer forKey:(NSString *)key;
-- (void)OE_setCompletionBlock:(void (^)(BOOL finished))completionBlock;
-
-@end
-
-@interface _OEAnimationDelegate : NSObject
-{
-@protected
-    BOOL _finished;
-    NSMutableSet *_animations;
-    NSMutableSet *_animationDefinitions;
-    void (^_completionBlock)(BOOL finished);
-}
-
-- (void)addAnimation:(CAAnimation *)animation toLayer:(CALayer *)layer forKey:(NSString *)key;
-- (void)commit;
-
-@property(nonatomic, copy) void (^completionBlock)(BOOL);
-
 @end
 
 @implementation OECoverGridViewCell
@@ -140,8 +119,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 {
     [_dropDelayedTimer invalidate];
     _dropDelayedTimer = nil;
-
-    if([_animationGroupStack count] > 0) DLog(@"Warning: There were animations on the stack that were never applied.");
 }
 
 - (NSString *)description
@@ -718,23 +695,20 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [_proposedImageLayer setBounds:toFrame];
 
     // Add animations to the layers
-    [self OE_beginAnimationGroup];
-
-    __block typeof(self) bself = self;
-    [self OE_setCompletionBlock:
-     ^ (BOOL finished)
+    [NSAnimationContext runAnimationGroup:
+     ^ (NSAnimationContext *context)
      {
-         [bself->_statusIndicatorLayer setType:bself->_indicationType];
-         [bself->_statusIndicatorLayer setOpacity:1.0];
-         [[bself->_proposedImageLayer superlayer] removeFromSuperlayer];
-         bself->_proposedImageLayer = nil;
+         [_statusIndicatorLayer addAnimation:indicatorFadeAnimation forKey:@"opacity"];
+         [_proposedImageLayer addAnimation:imageFadeAnimation forKey:@"opacity"];
+         [_proposedImageLayer addAnimation:imageResizeAnimation forKey:@"bounds"];
+     }
+                        completionHandler:
+     ^{
+         [_statusIndicatorLayer setType:_indicationType];
+         [_statusIndicatorLayer setOpacity:1.0];
+         [[_proposedImageLayer superlayer] removeFromSuperlayer];
+         _proposedImageLayer = nil;
      }];
-
-    [self OE_addAnimation:indicatorFadeAnimation toLayer:_statusIndicatorLayer forKey:@"opacity"];
-    [self OE_addAnimation:imageFadeAnimation toLayer:_proposedImageLayer forKey:@"opacity"];
-    [self OE_addAnimation:imageResizeAnimation toLayer:_proposedImageLayer forKey:@"bounds"];
-
-    [self OE_endAnimationGroup];
 }
 
 - (void)draggingExited:(id<NSDraggingInfo>)sender
@@ -767,38 +741,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [_statusIndicatorLayer setType:_indicationType];
 
     return YES;
-}
-
-- (void)OE_beginAnimationGroup
-{
-    if(!_animationGroupStack) _animationGroupStack = [[NSMutableArray alloc] init];
-
-    [_animationGroupStack addObject:[[_OEAnimationDelegate alloc] init]];
-}
-
-- (void)OE_endAnimationGroup
-{
-    _OEAnimationDelegate *delegate = [_animationGroupStack lastObject];
-    NSAssert(delegate, @"You must call _endAnimationGroup after _beginAnimationGroup call.");
-
-    [_animationGroupStack removeLastObject];
-    [delegate commit];
-}
-
-- (void)OE_addAnimation:(CAAnimation *)animation toLayer:(CALayer *)layer forKey:(NSString *)key
-{
-    _OEAnimationDelegate *delegate = [_animationGroupStack lastObject];
-    NSAssert(delegate, @"You must call _addAnimation:toLayer:forKey: within _beginAnimationGroup and _endAnimationGroup calls.");
-
-    [delegate addAnimation:animation toLayer:layer forKey:key];
-}
-
-- (void)OE_setCompletionBlock:(void (^)(BOOL finished))completionBlock
-{
-    _OEAnimationDelegate *delegate = [_animationGroupStack lastObject];
-    NSAssert(delegate, @"You must call _setCompletionBlock: within _beginAnimationGroup and _endAnimationGroup calls.");
-
-    [delegate setCompletionBlock:completionBlock];
 }
 
 #pragma mark - NSControlSubclassNotifications
@@ -881,70 +823,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 - (OECoverGridViewCellIndicationType)indicationType
 {
     return [_statusIndicatorLayer type];
-}
-
-@end
-
-@implementation _OEAnimationDelegate
-
-@synthesize completionBlock = _completionBlock;
-
-- (void)addAnimation:(CAAnimation *)animation toLayer:(CALayer *)layer forKey:(NSString *)key
-{
-    if(_animationDefinitions == nil) _animationDefinitions = [[NSMutableSet alloc] init];
-
-    [_animationDefinitions addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                      animation, @"animation",
-                                      layer, @"layer",
-                                      (key ? : [NSNull null]), @"key",
-                                      nil]];
-}
-
-- (void)commit
-{
-    if([_animationDefinitions count] == 0)
-    {
-        if(_completionBlock != nil) _completionBlock(YES);
-        return;
-    }
-
-    _animations = [[NSMutableSet alloc] initWithCapacity:[_animationDefinitions count]];
-    _finished   = YES;
-
-    NSString *animationKey = [NSString stringWithFormat:@"0x%p", self];
-    
-    for(NSDictionary *obj in _animationDefinitions)
-    {
-        CAAnimation *animation      = [obj objectForKey:@"animation"];
-        CALayer     *layer          = [obj objectForKey:@"layer"];
-        id           key            = [obj objectForKey:@"key"];
-        NSString    *animationValue = [NSString stringWithFormat:@"0x%p", animation];
-
-        [animation setDelegate:self];
-        [animation setValue:animationValue forKey:animationKey];
-        [layer addAnimation:animation forKey:(key == [NSNull null] ? nil : key)];
-        [_animations addObject:animationValue];
-    }
-    
-    [_animationDefinitions removeAllObjects];
-    _animationDefinitions = nil;
-}
-
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
-{
-    if(_animations == nil) return;
-
-    NSString *animationValue = [anim valueForKey:[NSString stringWithFormat:@"0x%p", self]];
-    if(!animationValue || ![_animations containsObject:animationValue]) return;
-
-    _finished = _finished && flag;
-    [_animations removeObject:animationValue];
-
-    if([_animations count] == 0 && _completionBlock != nil)
-    {
-        _completionBlock(_finished);
-        _animations = nil;
-    }
 }
 
 @end

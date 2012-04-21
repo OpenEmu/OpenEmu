@@ -39,8 +39,6 @@
 
     CGSize _cachedSize;
 
-    NSMutableArray *_animationGroupStack;
-
     OEGridLayer                    *_proposedImageLayer;
     OEGridLayer                    *_imageLayer;
     CATextLayer                    *_titleLayer;
