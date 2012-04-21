@@ -71,6 +71,13 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 @end
 
 @implementation OEGridView
+
+@synthesize foregroundLayer=_foregroundLayer;
+@synthesize backgroundLayer=_backgroundLayer;
+@synthesize minimumColumnSpacing=_minimumColumnSpacing;
+@synthesize rowSpacing=_rowSpacing;
+@synthesize itemSize=_itemSize;
+
 @synthesize delegate = _delegate, dataSource = _dataSource;
 
 - (id)initWithFrame:(NSRect)frame
@@ -1474,11 +1481,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if(_foregroundLayer) [self OE_reorderSublayers];
 }
 
-- (CALayer *)foregroundLayer
-{
-    return _foregroundLayer;
-}
-
 - (void)setBackgroundLayer:(CALayer *)backgroundLayer
 {
     if(_backgroundLayer == backgroundLayer) return;
@@ -1489,11 +1491,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if(_backgroundLayer) [self OE_reorderSublayers];
 }
 
-- (CALayer *)backgroundLayer
-{
-    return _backgroundLayer;
-}
-
 - (void)setMinimumColumnSpacing:(CGFloat)minimumColumnSpacing
 {
     if(_minimumColumnSpacing == minimumColumnSpacing) return;
@@ -1502,22 +1499,12 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     [self OE_calculateCachedValuesAndQueryForDataChanges:NO];
 }
 
-- (CGFloat)minimumColumnSpacing
-{
-    return _minimumColumnSpacing;
-}
-
 - (void)setRowSpacing:(CGFloat)rowSpacing
 {
     if(_rowSpacing == rowSpacing) return;
     
     _rowSpacing = rowSpacing;
     [self OE_calculateCachedValuesAndQueryForDataChanges:NO];
-}
-
-- (CGFloat)rowSpacing
-{
-    return _rowSpacing;
 }
 
 - (void)setItemSize:(NSSize)itemSize

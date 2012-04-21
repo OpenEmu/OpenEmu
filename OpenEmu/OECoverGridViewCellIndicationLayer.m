@@ -37,6 +37,8 @@
 
 @implementation OECoverGridViewCellIndicationLayer
 
+@synthesize type = _type;
+
 - (id<CAAction>)actionForKey:(NSString *)event
 {
     return nil;
@@ -128,11 +130,6 @@
             [self setNeedsLayout];
         }
     }
-}
-
-- (OECoverGridViewCellIndicationType)type
-{
-    return _type;
 }
 
 + (CAKeyframeAnimation *)OE_rotationAnimation;

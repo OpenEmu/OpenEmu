@@ -35,10 +35,6 @@ typedef enum
 } OECoverGridViewCellIndicationType;
 
 @interface OECoverGridViewCellIndicationLayer : OEGridLayer
-{
-@private
-    OECoverGridViewCellIndicationType _type;
-}
 
 @property(nonatomic) OECoverGridViewCellIndicationType type;
 

@@ -66,15 +66,9 @@
     OEGridLayer *_rootLayer;                        // Root layer, where all other layers are inserted into
     CALayer     *_selectionLayer;                   // Selection box that appears when selecting multiple cells
     CALayer     *_dragIndicationLayer;              // A visual indication that a file is being dragged onto the grid view
-    CALayer     *_backgroundLayer;                  // A decorative background layer, the layer should return nil for -hitTest
-    CALayer     *_foregroundLayer;                  // A decorative foreground layer, the layer should return nil for -hitTest
     NSView      *_noItemsView;                      // A decorative view when there are no items to show, e.g. blank slate
 
     NSScrollElasticity _previousElasticity;         // Caches the original elasticity of the scroller eview before the blank slate is added
-
-    NSSize  _itemSize;                              // User defined cell size (defaults to 250 x 250)
-    CGFloat _minimumColumnSpacing;                  // Minimum spacing between columns
-    CGFloat _rowSpacing;                            // Minimum spacing between rows
 
     NSMutableIndexSet *_originalSelectionIndexes;   // Original set of indexes selected before an inverted (cmd key) selection operation
     NSMutableIndexSet *_selectionIndexes;           // Index or indexes that are currently selected
@@ -160,11 +154,11 @@
 #pragma mark -
 #pragma mark Properties
 
-@property(nonatomic, retain) CALayer *foregroundLayer;
-@property(nonatomic, retain) CALayer *backgroundLayer;
-@property(nonatomic, assign) CGFloat minimumColumnSpacing;
-@property(nonatomic, assign) CGFloat rowSpacing;
-@property(nonatomic, assign) CGSize itemSize;
+@property(nonatomic, retain) CALayer *foregroundLayer;              // A decorative background layer, the layer should return nil for -hitTest
+@property(nonatomic, retain) CALayer *backgroundLayer;              // A decorative foreground layer, the layer should return nil for -hitTest
+@property(nonatomic, assign) CGFloat minimumColumnSpacing;          // Minimum spacing between columns
+@property(nonatomic, assign) CGFloat rowSpacing;                    // Minimum spacing between rows
+@property(nonatomic, assign) CGSize itemSize;                       // User defined cell size (defaults to 250 x 250)
 @property(nonatomic, assign) id<OEGridViewDataSource> dataSource;
 @property(nonatomic, assign) id<OEGridViewDelegate> delegate;
 @property(nonatomic, copy)   NSIndexSet *selectionIndexes;

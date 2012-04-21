@@ -27,10 +27,6 @@
 #import "OEGridLayer.h"
 
 @interface OECoverGridViewCellRatingLayer : OEGridLayer
-{
-@private
-    NSUInteger _rating;
-}
 
 #pragma mark - Rating
 @property(nonatomic, readwrite, assign) NSUInteger rating;

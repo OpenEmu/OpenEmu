@@ -86,6 +86,8 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 @implementation OECoverGridViewCell
 
+@synthesize image = _image;
+
 + (void)initialize
 {
     // Initialize should only be ran once, subclasses should be rejected
@@ -848,11 +850,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [_imageLayer setContents:(id)_image];
 
     [self OE_setNeedsLayoutImageAndSelection];
-}
-
-- (NSImage *)image
-{
-    return _image;
 }
 
 - (void)setRating:(NSUInteger)rating

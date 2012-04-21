@@ -36,6 +36,10 @@
 
 @implementation OEGridViewCell
 
+@synthesize selected=_selected;
+@synthesize editing=_editing;
+@synthesize foregroundLayer=_foregroundLayer;
+
 - (id)init
 {
     if((self = [super init]))
@@ -134,11 +138,6 @@
     [self setSelected:selected animated:NO];
 }
 
-- (BOOL)isSelected
-{
-    return _selected;
-}
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     _selected = selected;
@@ -152,11 +151,6 @@
         else         [[self gridView] OE_didEndEditingCell:self];
         _editing = editing;
     }
-}
-
-- (BOOL)isEditing
-{
-    return _editing;
 }
 
 - (void)OE_reorderLayers
@@ -173,11 +167,6 @@
 
         [self OE_reorderLayers];
     }
-}
-
-- (CALayer *)foregroundLayer
-{
-    return _foregroundLayer;
 }
 
 - (OEGridView *)gridView

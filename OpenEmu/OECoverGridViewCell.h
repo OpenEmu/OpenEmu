@@ -50,7 +50,6 @@
     OEGridLayer                        *_glossyOverlayLayer;
     OEGridLayer                        *_selectionIndicatorLayer;
 
-    NSImage *_image;
     BOOL     _needsLayoutImageAndSelection;
     BOOL     _activeSelector;
 

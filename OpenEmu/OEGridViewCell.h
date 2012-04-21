@@ -32,11 +32,7 @@
 @interface OEGridViewCell : OEGridLayer
 {
 @private
-    BOOL       _editing;
-    BOOL       _selected;
     NSUInteger _index;
-
-    CALayer *_foregroundLayer;
 }
 
 - (void)prepareForReuse;
