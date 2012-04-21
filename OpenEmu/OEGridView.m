@@ -546,9 +546,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     _cachedCellSize               = NSZeroSize;
     _cachedColumnSpacing          = 0.0;
 
-    [_noItemsView removeFromSuperview];
-    _noItemsView = nil;
-
     [self setFrameSize:NSZeroSize];
 
     // Recalculate all of the required cached values
