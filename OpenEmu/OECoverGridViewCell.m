@@ -92,6 +92,9 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
         _titleLayer = [[CATextLayer alloc] init];
         [self addSublayer:_titleLayer];
 
+        // For some reason CATextLayer doesn't respect [CATransaction disableActions], so lets explicitly set the implicit animation to nil
+        [_titleLayer setActions:[NSDictionary dictionaryWithObject:[NSNull null] forKey:@"contents"]];
+
         _ratingLayer = [[OECoverGridViewCellRatingLayer alloc] init];
         [self addSublayer:_ratingLayer];
 
