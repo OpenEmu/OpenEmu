@@ -50,8 +50,8 @@
     OEGridLayer                        *_glossyOverlayLayer;
     OEGridLayer                        *_selectionIndicatorLayer;
 
-    BOOL     _needsLayoutImageAndSelection;
-    BOOL     _activeSelector;
+    BOOL _needsLayoutImageAndSelection;
+    BOOL _activeSelector;
 
     OECoverGridViewCellIndicationType _indicationType;
 }

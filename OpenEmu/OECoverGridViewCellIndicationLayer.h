@@ -28,10 +28,10 @@
 
 typedef enum
 {
-    OECoverGridViewCellIndicationTypeNone       ,
+    OECoverGridViewCellIndicationTypeNone,
     OECoverGridViewCellIndicationTypeFileMissing,
-    OECoverGridViewCellIndicationTypeProcessing ,
-    OECoverGridViewCellIndicationTypeDropOn     ,
+    OECoverGridViewCellIndicationTypeProcessing,
+    OECoverGridViewCellIndicationTypeDropOn,
 } OECoverGridViewCellIndicationType;
 
 @interface OECoverGridViewCellIndicationLayer : OEGridLayer

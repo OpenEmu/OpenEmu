@@ -74,10 +74,7 @@
 
 - (CALayer *)hitTest:(CGPoint)p
 {
-    if(CGRectContainsPoint([self frame], p))
-        return self;
-
-    return nil;
+    return CGRectContainsPoint([self frame], p) ? self : nil;
 }
 
 - (void)prepareForReuse
@@ -103,19 +100,8 @@
 
 - (id)draggingImage
 {
-    const CGSize imageSize = [self bounds].size;
-
-    NSBitmapImageRep *dragImageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-                                                                             pixelsWide:imageSize.width
-                                                                             pixelsHigh:imageSize.height
-                                                                          bitsPerSample:8
-                                                                        samplesPerPixel:4
-                                                                               hasAlpha:YES
-                                                                               isPlanar:NO
-                                                                         colorSpaceName:NSCalibratedRGBColorSpace
-                                                                            bytesPerRow:(NSInteger)imageSize.width * 4
-                                                                           bitsPerPixel:32];
-    
+    const CGSize       imageSize     = [self bounds].size;
+    NSBitmapImageRep  *dragImageRep  = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL pixelsWide:imageSize.width pixelsHigh:imageSize.height bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSCalibratedRGBColorSpace bytesPerRow:(NSInteger)ceil(imageSize.width) * 4 bitsPerPixel:32];
     NSGraphicsContext *bitmapContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:dragImageRep];
     CGContextRef       ctx           = (CGContextRef)[bitmapContext graphicsPort];
 
@@ -171,8 +157,8 @@
 
 - (OEGridView *)gridView
 {
-    id superlayerDelegate = [[self superlayer] delegate];
-    return ([superlayerDelegate isKindOfClass:[OEGridView class]] ? (OEGridView *)superlayerDelegate : nil);
+    OEGridView *superlayerDelegate = [[self superlayer] delegate];
+    return [superlayerDelegate isKindOfClass:[OEGridView class]] ? superlayerDelegate : nil;
 }
 
 - (NSRect)hitRect
@@ -180,12 +166,12 @@
     return [self bounds];
 }
 
-- (void)_setIndex:(NSUInteger)index
+- (void)OE_setIndex:(NSUInteger)index
 {
     _index = index;
 }
 
-- (NSUInteger)_index
+- (NSUInteger)OE_index
 {
     return _index;
 }

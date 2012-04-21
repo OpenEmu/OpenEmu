@@ -82,7 +82,6 @@
 {
     if(_type != type)
     {
-
         _type = type;
 
         if(_type == OECoverGridViewCellIndicationTypeNone)
@@ -109,7 +108,9 @@
                 [self addSublayer:sublayer];
             }
             else
+            {
                 [sublayer removeAllAnimations];
+            }
 
             if(_type == OECoverGridViewCellIndicationTypeFileMissing)
             {
@@ -138,18 +139,16 @@
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        NSUInteger      stepCount     = 12;
+        NSMutableArray *spinnerValues = [[NSMutableArray alloc] initWithCapacity:stepCount];
+
+        for(NSUInteger step = 0; step < stepCount; step++) [spinnerValues addObject:[NSNumber numberWithDouble:M_TAU * step / 12.0]];
+
         CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
         [animation setCalculationMode:kCAAnimationDiscrete];
         [animation setDuration:1.0];
         [animation setRepeatCount:CGFLOAT_MAX];
         [animation setRemovedOnCompletion:NO];
-        
-        NSUInteger      stepCount     = 12;
-        NSMutableArray *spinnerValues = [[NSMutableArray alloc] initWithCapacity:stepCount];
-        
-        for(NSUInteger step = 0; step < stepCount; step++)
-            [spinnerValues addObject:[NSNumber numberWithDouble:M_TAU * step / 12.0]];
-        
         [animation setValues:spinnerValues];
     });
     
