@@ -969,7 +969,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    if(_trackingLayer == nil) return;
+    if(_trackingLayer == nil || _noItemsView != nil) return;
 
     const NSPoint pointInView = [self OE_pointInViewFromEvent:theEvent];
 
