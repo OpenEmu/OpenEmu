@@ -29,6 +29,6 @@
 @interface OECoverGridViewCellRatingLayer : OEGridLayer
 
 #pragma mark - Rating
-@property(nonatomic, readwrite, assign) NSUInteger rating;
+@property(nonatomic, assign) NSUInteger rating;
 
 @end
