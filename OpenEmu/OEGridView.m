@@ -551,6 +551,14 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     // Recalculate all of the required cached values
     [self OE_calculateCachedValuesAndQueryForDataChanges:YES];
 
+    // Remove the blank slate
+    if(_noItemsView)
+    {
+        [_noItemsView removeFromSuperview];
+        _noItemsView = nil;
+        [[self enclosingScrollView] setVerticalScrollElasticity:_previousElasticity];
+    }
+
     // If there are no items, then remove all the cells
     if(_cachedNumberOfItems == 0)
     {
@@ -567,13 +575,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
                 [self addSubview:_noItemsView];
                 [_noItemsView setHidden:NO];
                 [self OE_centerNoItemsView];
+                _previousElasticity = [[self enclosingScrollView] verticalScrollElasticity];
+                [[self enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
             }
         }
-    }
-    else if(_noItemsView)
-    {
-        [_noItemsView removeFromSuperview];
-        _noItemsView = nil;
     }
 
     _needsReloadData = NO;

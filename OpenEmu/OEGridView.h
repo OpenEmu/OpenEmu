@@ -70,6 +70,8 @@
     CALayer     *_foregroundLayer;                  // A decorative foreground layer, the layer should return nil for -hitTest
     NSView      *_noItemsView;                      // A decorative view when there are no items to show, e.g. blank slate
 
+    NSScrollElasticity _previousElasticity;         // Caches the original elasticity of the scroller eview before the blank slate is added
+
     NSSize _cellSize;                               // User defined cell size (defaults to 250 x 250)
     CGFloat _minimumColumnSpacing;                  // Minimum spacing between columns
     CGFloat _rowSpacing;                            // Minimum spacing between rows
