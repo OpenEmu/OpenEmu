@@ -865,16 +865,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (OEGridLayer *)OE_gridLayerForPoint:(const NSPoint)point
 {
-    for(OEGridLayer *obj in [_rootLayer sublayers])
-    {
-        if(![obj isKindOfClass:[OEGridLayer class]]) continue;
-
-        OEGridLayer *hitLayer = (OEGridLayer *)[obj hitTest:point];
-
-        if([hitLayer isKindOfClass:[OEGridLayer class]]) return hitLayer;
-    }
-
-    return nil;
+    CALayer *hitLayer = [_rootLayer hitTest:[self convertPointToLayer:point]];
+    return ([hitLayer isKindOfClass:[OEGridLayer class]] ? (OEGridLayer *)hitLayer : nil);
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
