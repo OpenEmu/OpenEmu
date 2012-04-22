@@ -150,6 +150,7 @@
 #pragma mark -
 #pragma mark Data Reload
 
+- (void)noteNumberOfCellsChanged;
 - (void)reloadData;
 - (void)reloadCellsAtIndexes:(NSIndexSet *)indexes;
 

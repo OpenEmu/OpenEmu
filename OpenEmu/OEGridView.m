@@ -78,7 +78,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 @synthesize minimumColumnSpacing=_minimumColumnSpacing;
 @synthesize rowSpacing=_rowSpacing;
 @synthesize itemSize=_itemSize;
-
 @synthesize delegate = _delegate, dataSource = _dataSource;
 
 - (id)initWithFrame:(NSRect)frame
@@ -387,7 +386,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     NSUInteger numberOfVisibleColumns = _cachedNumberOfVisibleColumns;  // Number of visible columns
     NSUInteger numberOfVisibleRows    = _cachedNumberOfVisibleRows;     // Number of visible rows
     NSUInteger numberOfItems          = _cachedNumberOfItems;           // Number of items in the data source
-    NSUInteger numberOfRows           = ceil((CGFloat)numberOfItems / MAX((CGFloat)numberOfVisibleColumns, 1));
+    NSUInteger numberOfRows           = _cachedNumberOfRows;
     NSSize     itemSize               = NSMakeSize(_itemSize.width + _minimumColumnSpacing, _itemSize.height + _rowSpacing);
                                                                         // Item Size (within minimumColumnSpacing and rowSpacing)
     NSSize contentSize                = cachedContentSize;              // The scroll view's content size
@@ -395,6 +394,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     // Query the data source for the number of items it has, this is only done if the caller explicitly sets shouldQueryForDataChanges.
     if(shouldQueryForDataChanges && _dataSource) numberOfItems = [_dataSource numberOfItemsInGridView:self];
+    numberOfRows = ceil((CGFloat)numberOfItems / MAX((CGFloat)numberOfVisibleColumns, 1));
 
     // Check to see if the frame's width has changed to update the number of visible columns and the cached cell size
     if(itemSize.width == 0)
@@ -479,7 +479,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     _cachedContentOffset          = contentOffset;
 
     // Reload data when appropriate
-    if(checkForDataReload && _cachedNumberOfItems > 0) [self OE_checkForDataReload];
+    if(checkForDataReload) [self OE_checkForDataReload];
 }
 
 - (void)OE_checkForDataReload
@@ -531,6 +531,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_reloadDataIfNeeded
 {
     if(_needsReloadData) [self reloadData];
+}
+
+- (void)noteNumberOfCellsChanged
+{
+    [self OE_calculateCachedValuesAndQueryForDataChanges:YES];
 }
 
 - (void)OE_removeNoItemsView
