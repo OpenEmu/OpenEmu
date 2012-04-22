@@ -935,8 +935,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
             {
                 [self mouseDragged:lastMouseDragEvent];
 
-                const NSPoint point = [self convertPoint:[lastMouseDragEvent locationInWindow] fromView:nil];
-                if(!NSPointInRect(point, [self bounds])) lastMouseDragEvent = nil;
+                // Stop tracking last mouse drag event if we've reached the bottom or top of the scrollable area
+                NSScrollView *enclosingScrollView = [self enclosingScrollView];
+                const NSRect  visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
+                const NSRect  bounds              = [self bounds];
+                if (NSMinY(bounds) == NSMinY(visibleRect) || NSMaxY(bounds) == NSMaxY(visibleRect)) lastMouseDragEvent = nil;
             }
         }
         else if([theEvent type] == NSLeftMouseDragged)
