@@ -438,10 +438,14 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         if(numberOfItems == 0)
         {
             contentSize.height = viewSize.height;
+
+            // If we previously had items and now we don't, then add the no items view
+            if(_cachedNumberOfItems > 0) [self OE_addNoItemsView];
         }
         else
         {
             contentSize.height = MAX(viewSize.height, ceil(numberOfRows * itemSize.height) + _rowSpacing);
+            [self OE_removeNoItemsView];
         }
         ++_supressFrameResize;
         [super setFrameSize:contentSize];
@@ -529,6 +533,39 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if(_needsReloadData) [self reloadData];
 }
 
+- (void)OE_removeNoItemsView
+{
+    if(_noItemsView != nil)
+    {
+        [_noItemsView removeFromSuperview];
+        _noItemsView = nil;
+        [[self enclosingScrollView] setVerticalScrollElasticity:_previousElasticity];
+        [self OE_setNeedsLayoutGridView];
+    }
+}
+
+- (void)OE_addNoItemsView
+{
+    // Enqueue all the cells for later use and remove them from the view
+    [self OE_enqueueCells:_visibleCells];
+    [_visibleCellsIndexes removeAllIndexes];
+
+    // Check to see if the dataSource has a view to display when there is nothing to display
+    if(_dataSourceHas.viewForNoItemsInGridView)
+    {
+        _noItemsView = [_dataSource viewForNoItemsInGridView:self];
+        if(_noItemsView)
+        {
+            [self addSubview:_noItemsView];
+            [_noItemsView setHidden:NO];
+            [self OE_centerNoItemsView];
+            _previousElasticity = [[self enclosingScrollView] verticalScrollElasticity];
+            [[self enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
+            [self OE_setNeedsLayoutGridView];
+        }
+    }
+}
+
 - (void)reloadData
 {
     [_selectionIndexes removeAllIndexes];
@@ -548,40 +585,12 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     _cachedItemSize               = NSZeroSize;
     _cachedColumnSpacing          = 0.0;
 
+    [self OE_removeNoItemsView];
     [self setFrameSize:NSZeroSize];
 
     // Recalculate all of the required cached values
     [self OE_calculateCachedValuesAndQueryForDataChanges:YES];
-
-    // Remove the blank slate
-    if(_noItemsView)
-    {
-        [_noItemsView removeFromSuperview];
-        _noItemsView = nil;
-        [[self enclosingScrollView] setVerticalScrollElasticity:_previousElasticity];
-    }
-
-    // If there are no items, then remove all the cells
-    if(_cachedNumberOfItems == 0)
-    {
-        // Enqueue all the cells for later use and remove them from the view
-        [self OE_enqueueCells:_visibleCells];
-        [_visibleCellsIndexes removeAllIndexes];
-
-        // Check to see if the dataSource has a view to display when there is nothing to display
-        if(_dataSourceHas.viewForNoItemsInGridView)
-        {
-            _noItemsView = [_dataSource viewForNoItemsInGridView:self];
-            if(_noItemsView)
-            {
-                [self addSubview:_noItemsView];
-                [_noItemsView setHidden:NO];
-                [self OE_centerNoItemsView];
-                _previousElasticity = [[self enclosingScrollView] verticalScrollElasticity];
-                [[self enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
-            }
-        }
-    }
+    if(_cachedNumberOfItems == 0) [self OE_addNoItemsView];
 
     _needsReloadData = NO;
 }
