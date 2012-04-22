@@ -358,8 +358,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)OE_enqueueCells:(NSSet *)cells
 {
-    for(OEGridViewCell *cell in cells)
-        [self OE_enqueueCell:cell];
+    NSSet *cellsToRemove = [cells copy];
+    for(OEGridViewCell *cell in cellsToRemove) [self OE_enqueueCell:cell];
 }
 
 - (void)OE_enqueueCellsAtIndexes:(NSIndexSet *)indexes
