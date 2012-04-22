@@ -61,7 +61,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_updateDecorativeLayers;
 
 - (NSPoint)OE_pointInViewFromEvent:(NSEvent *)theEvent;
-- (NSPoint)OE_convertPointToRootLayer:(const NSPoint)point;
 - (OEGridLayer *)OE_layerForPoint:(const NSPoint)point;
 
 - (NSDragOperation)OE_dragOperationForDestinationLayer:(id<NSDraggingInfo>)sender;
@@ -864,15 +863,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     return [self convertPoint:[theEvent locationInWindow] fromView:nil];
 }
 
-- (NSPoint)OE_convertPointToRootLayer:(const NSPoint)point
-{
-    NSPoint result = point;
-
-    if([self isFlipped]) result.y = CGRectGetMaxY([_rootLayer frame]) - result.y - 1.0;
-
-    return result;
-}
-
 - (OEGridLayer *)OE_layerForPoint:(const NSPoint)point
 {
     for(OEGridLayer *obj in [_rootLayer sublayers])
@@ -1151,7 +1141,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
         if([theEvent clickCount] == 2)
         {
-            CALayer *hitLayer = [_rootLayer hitTest:[self OE_convertPointToRootLayer:pointInView]];
+            CALayer *hitLayer = [_rootLayer hitTest:[self convertPointToLayer:pointInView]];
             if(hitLayer && [hitLayer isKindOfClass:[CATextLayer class]])
             {
                 CATextLayer *titleLayer = (CATextLayer *)hitLayer;
