@@ -61,7 +61,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_updateDecorativeLayers;
 
 - (NSPoint)OE_pointInViewFromEvent:(NSEvent *)theEvent;
-- (OEGridLayer *)OE_layerForPoint:(const NSPoint)point;
+- (OEGridLayer *)OE_gridLayerForPoint:(const NSPoint)point;
 
 - (NSDragOperation)OE_dragOperationForDestinationLayer:(id<NSDraggingInfo>)sender;
 
@@ -863,7 +863,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     return [self convertPoint:[theEvent locationInWindow] fromView:nil];
 }
 
-- (OEGridLayer *)OE_layerForPoint:(const NSPoint)point
+- (OEGridLayer *)OE_gridLayerForPoint:(const NSPoint)point
 {
     for(OEGridLayer *obj in [_rootLayer sublayers])
     {
@@ -878,9 +878,9 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
-{    
+{
     const NSPoint pointInView = [self OE_pointInViewFromEvent:theEvent];
-    _trackingLayer            = [self OE_layerForPoint:pointInView];
+    _trackingLayer            = [self OE_gridLayerForPoint:pointInView];
 
     if(![_trackingLayer isInteractive]) _trackingLayer = _rootLayer;
 
@@ -1123,7 +1123,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     {
         if([theEvent clickCount] == 2 && _delegateHas.doubleClickedCellForItemAtIndex)
         {
-            OEGridViewCell *cell = (OEGridViewCell *)[self OE_layerForPoint:pointInView];
+            OEGridViewCell *cell = (OEGridViewCell *)[self OE_gridLayerForPoint:pointInView];
             if ([cell isKindOfClass:[OEGridViewCell class]])
                 [_delegate gridView:self doubleClickedCellForItemAtIndex:[cell OE_index]];
         }
@@ -1321,7 +1321,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (NSDragOperation)OE_dragOperationForDestinationLayer:(id<NSDraggingInfo>)sender
 {
     const NSPoint pointInView             = [self convertPoint:[sender draggingLocation] fromView:nil];
-    OEGridLayer  *newDragDestinationLayer = [self OE_layerForPoint:pointInView];
+    OEGridLayer  *newDragDestinationLayer = [self OE_gridLayerForPoint:pointInView];
     if(_dragDestinationLayer != newDragDestinationLayer)
     {
         if(newDragDestinationLayer == _rootLayer)
