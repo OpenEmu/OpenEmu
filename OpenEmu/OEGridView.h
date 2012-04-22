@@ -98,6 +98,7 @@
     NSSize  _cachedItemSize;                        // Cached cell size that includes row spacing and cached column spacing
     CGFloat _cachedColumnSpacing;                   // Cached column spacing is the dynamic spacing between columns, no less than minimumColumnSpacing
 
+    NSUInteger _supressFrameResize;
     OEGridViewFieldEditor *_fieldEditor;            // Text field editor of a CATextLayer
 
     struct

@@ -373,13 +373,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)OE_calculateCachedValuesAndQueryForDataChanges:(BOOL)shouldQueryForDataChanges
 {
-    // OE_clipViewFrameChanged: will call OE_calculateCachedValuesAndQueryForDataChanges when the contentSize is modified, the following supresses
-    // additional calls until the calculation is done
-    static BOOL alreadyCalculatingCachedValues = NO;
-    if(alreadyCalculatingCachedValues) return;
-
-    alreadyCalculatingCachedValues = YES;
-
     // Collect some basic information of the current environment
     NSScrollView *enclosingScrollView = [self enclosingScrollView];
     NSRect        visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
@@ -450,7 +443,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         {
             contentSize.height = MAX(viewSize.height, ceil(numberOfRows * itemSize.height) + _rowSpacing);
         }
+        ++_supressFrameResize;
         [super setFrameSize:contentSize];
+        [[self enclosingScrollView] reflectScrolledClipView:(NSClipView *)[self superview]];
+        --_supressFrameResize;
 
         // Changing the size of the frame may also change the contentOffset, recalculate that value
         visibleRect   = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
@@ -477,9 +473,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     _cachedNumberOfItems          = numberOfItems;
     _cachedNumberOfRows           = numberOfRows;
     _cachedContentOffset          = contentOffset;
-
-    // We're done calculating all of the values, the following signals that the -OE_calculateCachedValuesAndQueryForDataChanges: can be unblocked
-    alreadyCalculatingCachedValues = FALSE;
 
     // Reload data when appropriate
     if(checkForDataReload && _cachedNumberOfItems > 0) [self OE_checkForDataReload];
@@ -718,8 +711,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)OE_clipViewFrameChanged:(NSNotification *)notification
 {
-    NSScrollView *enclosingScrollView = [self enclosingScrollView];
+    // Return immediately if this method is being surpressed.
+    if(_supressFrameResize > 0) return;
 
+    NSScrollView *enclosingScrollView = [self enclosingScrollView];
     if(_noItemsView)
     {
         [self setFrame:[enclosingScrollView bounds]];
