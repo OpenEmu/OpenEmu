@@ -61,8 +61,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_updateDecorativeLayers;
 
 - (NSPoint)OE_pointInViewFromEvent:(NSEvent *)theEvent;
-- (NSPoint)OE_convertPointToRootLayer:(const NSPoint)point;
-- (OEGridLayer *)OE_layerForPoint:(const NSPoint)point;
+- (OEGridLayer *)OE_gridLayerForPoint:(const NSPoint)point;
 
 - (NSDragOperation)OE_dragOperationForDestinationLayer:(id<NSDraggingInfo>)sender;
 
@@ -864,33 +863,16 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     return [self convertPoint:[theEvent locationInWindow] fromView:nil];
 }
 
-- (NSPoint)OE_convertPointToRootLayer:(const NSPoint)point
+- (OEGridLayer *)OE_gridLayerForPoint:(const NSPoint)point
 {
-    NSPoint result = point;
-
-    if([self isFlipped]) result.y = CGRectGetMaxY([_rootLayer frame]) - result.y - 1.0;
-
-    return result;
-}
-
-- (OEGridLayer *)OE_layerForPoint:(const NSPoint)point
-{
-    for(OEGridLayer *obj in [_rootLayer sublayers])
-    {
-        if(![obj isKindOfClass:[OEGridLayer class]]) continue;
-
-        OEGridLayer *hitLayer = (OEGridLayer *)[obj hitTest:point];
-
-        if([hitLayer isKindOfClass:[OEGridLayer class]]) return hitLayer;
-    }
-
-    return nil;
+    CALayer *hitLayer = [_rootLayer hitTest:[self convertPointToLayer:point]];
+    return ([hitLayer isKindOfClass:[OEGridLayer class]] ? (OEGridLayer *)hitLayer : nil);
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
-{    
+{
     const NSPoint pointInView = [self OE_pointInViewFromEvent:theEvent];
-    _trackingLayer            = [self OE_layerForPoint:pointInView];
+    _trackingLayer            = [self OE_gridLayerForPoint:pointInView];
 
     if(![_trackingLayer isInteractive]) _trackingLayer = _rootLayer;
 
@@ -984,12 +966,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     if(_trackingLayer == nil || _noItemsView != nil) return;
 
-    const NSPoint pointInView = [self OE_pointInViewFromEvent:theEvent];
-
     if([_trackingLayer isKindOfClass:[OEGridViewCell class]])
     {
         if(_dataSourceHas.pasteboardWriterForIndex && [_selectionIndexes count] > 0)
         {
+            const NSPoint pointInView     = [self OE_pointInViewFromEvent:theEvent];
             const NSPoint draggedDistance = NSMakePoint(ABS(pointInView.x - _initialPoint.x), ABS(pointInView.y - _initialPoint.y));
             if(draggedDistance.x >= 5.0 || draggedDistance.y >= 5.0 ||
                (draggedDistance.x * draggedDistance.x + draggedDistance.y * draggedDistance.y) >= 25)
@@ -1023,7 +1004,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     }
     else if(_trackingLayer != _rootLayer)
     {
-        const NSPoint pointInLayer = [_rootLayer convertPoint:pointInView toLayer:_trackingLayer];
+        const NSPoint pointInLayer = [_rootLayer convertPoint:[self OE_pointInViewFromEvent:theEvent] toLayer:_trackingLayer];
         [_trackingLayer mouseMovedAtPointInLayer:pointInLayer withEvent:theEvent];
     }
     else
@@ -1032,27 +1013,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         [self autoscroll:theEvent];
 
         // Calculate the selection rect
-        const CGRect bounds        = [self bounds];
-
-        CGRect selectionRect;
-        selectionRect.origin = CGPointMake(MIN(pointInView.x, _initialPoint.x), MIN(pointInView.y, _initialPoint.y));
-        selectionRect.size   = CGSizeMake(ABS(pointInView.x - _initialPoint.x), ABS(pointInView.y - _initialPoint.y));
-
-        if(CGRectGetMinX(selectionRect) < 0.0)
-        {
-            selectionRect.size.width += CGRectGetMinX(selectionRect);
-            selectionRect.origin.x = 0.0;
-        }
-
-        if(CGRectGetMaxX(selectionRect) > CGRectGetMaxX(bounds)) selectionRect.size.width = CGRectGetMaxX(bounds) - CGRectGetMinX(selectionRect);
-
-        if(CGRectGetMinY(selectionRect) < 1.0)
-        {
-            selectionRect.size.height += CGRectGetMinY(selectionRect);
-            selectionRect.origin.y = 1.0;
-        }
-
-        if(CGRectGetMaxY(selectionRect) > CGRectGetMaxY(bounds)) selectionRect.size.height = CGRectGetMaxY(bounds) - CGRectGetMinY(selectionRect);
+        const NSPoint pointInView   = [self OE_pointInViewFromEvent:theEvent];
+        const CGRect  bounds        = [self bounds];
+        const CGPoint minPoint      = CGPointMake(MAX(MIN(pointInView.x, _initialPoint.x), 0.0),                   MAX(MIN(pointInView.y, _initialPoint.y), 1.0));
+        const CGPoint maxPoint      = CGPointMake(MIN(MAX(pointInView.x, _initialPoint.x), CGRectGetMaxX(bounds)), MIN(MAX(pointInView.y, _initialPoint.y), CGRectGetMaxY(bounds)));
+        const CGRect  selectionRect = { .origin = minPoint, .size = { maxPoint.x - minPoint.x, maxPoint.y - minPoint.y }};
 
         [CATransaction begin];
         [CATransaction setDisableActions:YES];
@@ -1150,7 +1115,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     {
         if([theEvent clickCount] == 2 && _delegateHas.doubleClickedCellForItemAtIndex)
         {
-            OEGridViewCell *cell = (OEGridViewCell *)[self OE_layerForPoint:pointInView];
+            OEGridViewCell *cell = (OEGridViewCell *)[self OE_gridLayerForPoint:pointInView];
             if ([cell isKindOfClass:[OEGridViewCell class]])
                 [_delegate gridView:self doubleClickedCellForItemAtIndex:[cell OE_index]];
         }
@@ -1168,7 +1133,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
         if([theEvent clickCount] == 2)
         {
-            CALayer *hitLayer = [_rootLayer hitTest:[self OE_convertPointToRootLayer:pointInView]];
+            CALayer *hitLayer = [_rootLayer hitTest:[self convertPointToLayer:pointInView]];
             if(hitLayer && [hitLayer isKindOfClass:[CATextLayer class]])
             {
                 CATextLayer *titleLayer = (CATextLayer *)hitLayer;
@@ -1348,7 +1313,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (NSDragOperation)OE_dragOperationForDestinationLayer:(id<NSDraggingInfo>)sender
 {
     const NSPoint pointInView             = [self convertPoint:[sender draggingLocation] fromView:nil];
-    OEGridLayer  *newDragDestinationLayer = [self OE_layerForPoint:pointInView];
+    OEGridLayer  *newDragDestinationLayer = [self OE_gridLayerForPoint:pointInView];
     if(_dragDestinationLayer != newDragDestinationLayer)
     {
         if(newDragDestinationLayer == _rootLayer)
