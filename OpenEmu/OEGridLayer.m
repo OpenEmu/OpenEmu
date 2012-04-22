@@ -27,6 +27,7 @@
 #import "OEGridLayer.h"
 
 @implementation OEGridLayer
+
 @synthesize tracking = _tracking, interactive = _interactive;
 
 - (id)init
@@ -87,18 +88,13 @@
 
 - (CALayer *)hitTest:(CGPoint)p
 {
-    if(!_interactive) return nil;
-
-    if(CGRectContainsPoint([self frame], p))
-        return [super hitTest:p] ? : self;
-
+    if(_interactive && CGRectContainsPoint([self frame], p)) return [super hitTest:p] ? : self;
     return nil;
 }
 
 - (void)layoutSublayers
 {
-    if([[self delegate] respondsToSelector:@selector(layoutSublayers)])
-        [[self delegate] layoutSublayers];
+    if([[self delegate] respondsToSelector:@selector(layoutSublayers)]) [[self delegate] layoutSublayers];
 }
 
 - (void)willMoveToSuperlayer:(OEGridLayer *)superlayer
@@ -118,7 +114,9 @@
         [(OEGridLayer *)layer didMoveToSuperlayer];
     }
     else
+    {
         [super addSublayer:layer];
+    }
 }
 
 - (void)insertSublayer:(CALayer *)layer atIndex:(unsigned int)idx
@@ -130,7 +128,9 @@
         [(OEGridLayer *)layer didMoveToSuperlayer];
     }
     else
+    {
         [super insertSublayer:layer atIndex:idx];
+    }
 }
 
 - (void)removeFromSuperlayer
@@ -157,8 +157,7 @@
     {
         NSView *delegate = [superlayer delegate];
         
-        if([delegate isKindOfClass:[NSView class]])
-            return delegate;
+        if([delegate isKindOfClass:[NSView class]]) return delegate;
 
         superlayer = [superlayer superlayer];
     }

@@ -66,17 +66,13 @@
     OEGridLayer *_rootLayer;                        // Root layer, where all other layers are inserted into
     CALayer     *_selectionLayer;                   // Selection box that appears when selecting multiple cells
     CALayer     *_dragIndicationLayer;              // A visual indication that a file is being dragged onto the grid view
-    CALayer     *_backgroundLayer;                  // A decorative background layer, the layer should return nil for -hitTest
-    CALayer     *_foregroundLayer;                  // A decorative foreground layer, the layer should return nil for -hitTest
     NSView      *_noItemsView;                      // A decorative view when there are no items to show, e.g. blank slate
 
-    NSSize _cellSize;                               // User defined cell size (defaults to 250 x 250)
-    CGFloat _minimumColumnSpacing;                  // Minimum spacing between columns
-    CGFloat _rowSpacing;                            // Minimum spacing between rows
+    NSScrollElasticity _previousElasticity;         // Caches the original elasticity of the scroller eview before the blank slate is added
 
     NSMutableIndexSet *_originalSelectionIndexes;   // Original set of indexes selected before an inverted (cmd key) selection operation
     NSMutableIndexSet *_selectionIndexes;           // Index or indexes that are currently selected
-    NSUInteger _indexOfKeyboardSelection;           // Last index of the selected cell using the keyboard
+    NSUInteger         _indexOfKeyboardSelection;   // Last index of the selected cell using the keyboard
 
     NSMutableSet      *_visibleCells;               // Cached visible cells
     NSMutableIndexSet *_visibleCellsIndexes;        // Cached indexes of the visible cells
@@ -95,12 +91,14 @@
     NSUInteger _cachedNumberOfVisibleColumns;       // Cached number of visible columns
     NSUInteger _cachedNumberOfVisibleRows;          // Cached number of visiabl rows (include partially visible rows)
     NSUInteger _cachedNumberOfItems;                // Cached number of items in the data source
+    NSUInteger _cachedNumberOfRows;                 // Cached number of rows (including hidden ones)
 
     NSPoint _cachedContentOffset;                   // Last known content offset
     NSSize  _cachedViewSize;                        // Last known view size
-    NSSize  _cachedCellSize;                        // Cached cell size that includes row spacing and cached column spacing
+    NSSize  _cachedItemSize;                        // Cached cell size that includes row spacing and cached column spacing
     CGFloat _cachedColumnSpacing;                   // Cached column spacing is the dynamic spacing between columns, no less than minimumColumnSpacing
 
+    NSUInteger _supressFrameResize;
     OEGridViewFieldEditor *_fieldEditor;            // Text field editor of a CATextLayer
 
     struct
@@ -152,19 +150,21 @@
 #pragma mark -
 #pragma mark Data Reload
 
+- (void)noteNumberOfCellsChanged;
 - (void)reloadData;
 - (void)reloadCellsAtIndexes:(NSIndexSet *)indexes;
 
 #pragma mark -
 #pragma mark Properties
 
-@property(nonatomic, retain) CALayer *foregroundLayer;
-@property(nonatomic, retain) CALayer *backgroundLayer;
-@property(nonatomic, assign) CGFloat minimumColumnSpacing;
-@property(nonatomic, assign) CGFloat rowSpacing;
-@property(nonatomic, assign) CGSize itemSize;
-@property(nonatomic, assign) id<OEGridViewDataSource> dataSource;
-@property(nonatomic, assign) id<OEGridViewDelegate> delegate;
-@property(nonatomic, copy)   NSIndexSet *selectionIndexes;
+@property(nonatomic, strong) CALayer    *foregroundLayer;      // A decorative background layer, the layer should return nil for -hitTest
+@property(nonatomic, strong) CALayer    *backgroundLayer;      // A decorative foreground layer, the layer should return nil for -hitTest
+@property(nonatomic, assign) CGFloat     minimumColumnSpacing; // Minimum spacing between columns
+@property(nonatomic, assign) CGFloat     rowSpacing;           // Minimum spacing between rows
+@property(nonatomic, assign) CGSize      itemSize;             // User defined cell size (defaults to 250 x 250)
+@property(nonatomic, copy)   NSIndexSet *selectionIndexes;     // NSIndexSet of selected indexes
+
+@property(nonatomic, assign) id<OEGridViewDataSource> dataSource; // Responsible for supplying the cells of each object represented in the grid
+@property(nonatomic, assign) id<OEGridViewDelegate>   delegate;   // Receives information regarding the user interaction of the grid and it's cells
 
 @end

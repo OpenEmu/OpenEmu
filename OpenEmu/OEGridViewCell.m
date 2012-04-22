@@ -36,6 +36,10 @@
 
 @implementation OEGridViewCell
 
+@synthesize selected=_selected;
+@synthesize editing=_editing;
+@synthesize foregroundLayer=_foregroundLayer;
+
 - (id)init
 {
     if((self = [super init]))
@@ -70,10 +74,7 @@
 
 - (CALayer *)hitTest:(CGPoint)p
 {
-    if(CGRectContainsPoint([self frame], p))
-        return self;
-
-    return nil;
+    return CGRectContainsPoint([self frame], p) ? self : nil;
 }
 
 - (void)prepareForReuse
@@ -99,19 +100,8 @@
 
 - (id)draggingImage
 {
-    const CGSize imageSize = [self bounds].size;
-
-    NSBitmapImageRep *dragImageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-                                                                             pixelsWide:imageSize.width
-                                                                             pixelsHigh:imageSize.height
-                                                                          bitsPerSample:8
-                                                                        samplesPerPixel:4
-                                                                               hasAlpha:YES
-                                                                               isPlanar:NO
-                                                                         colorSpaceName:NSCalibratedRGBColorSpace
-                                                                            bytesPerRow:(NSInteger)imageSize.width * 4
-                                                                           bitsPerPixel:32];
-    
+    const CGSize       imageSize     = [self bounds].size;
+    NSBitmapImageRep  *dragImageRep  = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL pixelsWide:imageSize.width pixelsHigh:imageSize.height bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSCalibratedRGBColorSpace bytesPerRow:(NSInteger)ceil(imageSize.width) * 4 bitsPerPixel:32];
     NSGraphicsContext *bitmapContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:dragImageRep];
     CGContextRef       ctx           = (CGContextRef)[bitmapContext graphicsPort];
 
@@ -134,11 +124,6 @@
     [self setSelected:selected animated:NO];
 }
 
-- (BOOL)isSelected
-{
-    return _selected;
-}
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     _selected = selected;
@@ -152,11 +137,6 @@
         else         [[self gridView] OE_didEndEditingCell:self];
         _editing = editing;
     }
-}
-
-- (BOOL)isEditing
-{
-    return _editing;
 }
 
 - (void)OE_reorderLayers
@@ -175,15 +155,10 @@
     }
 }
 
-- (CALayer *)foregroundLayer
-{
-    return _foregroundLayer;
-}
-
 - (OEGridView *)gridView
 {
-    id superlayerDelegate = [[self superlayer] delegate];
-    return ([superlayerDelegate isKindOfClass:[OEGridView class]] ? (OEGridView *)superlayerDelegate : nil);
+    OEGridView *superlayerDelegate = [[self superlayer] delegate];
+    return [superlayerDelegate isKindOfClass:[OEGridView class]] ? superlayerDelegate : nil;
 }
 
 - (NSRect)hitRect
@@ -191,12 +166,12 @@
     return [self bounds];
 }
 
-- (void)_setIndex:(NSUInteger)index
+- (void)OE_setIndex:(NSUInteger)index
 {
     _index = index;
 }
 
-- (NSUInteger)_index
+- (NSUInteger)OE_index
 {
     return _index;
 }
