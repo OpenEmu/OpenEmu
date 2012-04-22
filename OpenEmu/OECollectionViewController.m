@@ -663,8 +663,8 @@
         {
             OEDBCollection* collection = (OEDBCollection*)[self collectionItem];
             [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];
+            [[collection managedObjectContext] save:nil];
         }
-        [self setNeedsReload];
     }
     else if([[OEHUDAlert removeGamesFromLibraryAlert:[selectedGames count]>1] runModal])
     {
@@ -689,8 +689,7 @@
             [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
                 [game deleteByMovingFile:alertReturn==NSAlertDefaultReturn keepSaveStates:YES];
             }];
-            
-            [self setNeedsReload];
+            [[(NSManagedObject *)[self collectionItem] managedObjectContext] save:nil];
         }
     }
 }
@@ -1038,13 +1037,40 @@
     
     if((insertedObjects && [insertedObjects count]) || (deletedObjects && [deletedObjects count]))
     {
-        [self performSelector:@selector(setNeedsReload) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+        [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
     }
     else if(updatedObjects && [updatedObjects count])
     {
         // Nothing was removed or added, just updated so just update the visible items
         [self performSelector:@selector(setNeedsReloadVisible) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
     }
+}
+
+- (void)noteNumbersChanged
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateViews) object:nil];
+    [self performSelector:@selector(updateViews) withObject:nil afterDelay:reloadDelay];
+}
+
+- (void)OE_fetchGames
+{
+    NSError *error = nil;
+    BOOL ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
+    if(!ok)
+    {
+        NSLog(@"Error while fetching: %@", error);
+        return;
+    }
+}
+
+- (void)updateViews
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateViews) object:nil];
+
+    [self OE_fetchGames];
+    [gridView noteNumberOfCellsChanged];
+    [listView noteNumberOfRowsChanged];
+    [self setNeedsReloadVisible];
 }
 
 - (void)setNeedsReload
@@ -1086,7 +1112,7 @@
     [gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
     [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndexesInRange:[listView rowsInRect:[listView visibleRect]]]
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
-    [coverFlowView reloadAllCellsData];
+    [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 - (void)_reloadData
@@ -1097,20 +1123,11 @@
     NSPredicate *pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];
     [gamesController setFetchPredicate:pred];
     
-    NSError *error = nil;
-    BOOL ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
-    if(!ok)
-    {
-        NSLog(@"Error while fetching: %@", error);
-        return;
-    }
-    
+    [self OE_fetchGames];
     
     [gridView reloadData];
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
-
-
 
 @end
