@@ -19,6 +19,7 @@ NSString * const AVGGameESRBRatingKey    = @"AVGGameESRBRatingKey";
 NSString * const AVGGameCreditsKey       = @"AVGGameCreditsKey";
 NSString * const AVGGameReleasesKey      = @"AVGGameReleasesKey";
 NSString * const AVGGameTosecsKey        = @"AVGGameTosecsKey";
+NSString * const AVGGameRomNameKey       = @"AVGGameRomNameKey";
 
 NSString * const AVGCreditsNameKey       = @"AVGCreditsNameKey";
 NSString * const AVGCreditsPositionKey   = @"AVGCreditsPositionKey";
@@ -382,6 +383,14 @@ typedef enum
         gameBoxFront = nil;
     }
     
+    NSXMLNode* gameRomName = [[gameNode nodesForXPath:@"./romname[1]/node()[1]" error:outError] lastObject];
+    if(*outError!=nil)
+    {
+        NSLog(@"Error getting gameRomName");
+        NSLog(@"Error: %@", *outError);
+        return nil;
+    }
+    
     
     // credits
     NSArray* creditNodes = [gameNode nodesForXPath:@"./credits/credit" error:outError];
@@ -476,6 +485,7 @@ typedef enum
     NSString* gameBoxFrontVal = gameBoxFront?[gameBoxFront stringValue]:nil;
     NSString* gameEsrbRatingVal = gameEsrbRating?[gameEsrbRating stringValue]:nil;
     NSString* gameSystemNameVal = gameSystemName?[gameSystemName stringValue]:nil;
+    NSString* gameRomNameVal = gameRomName?[gameRomName stringValue]:nil;
     
     
     NSMutableDictionary* result = [NSMutableDictionary dictionary];
@@ -511,6 +521,10 @@ typedef enum
     if(gameSystemNameVal)
     {
         [result setObject:[self removeHTMLEncodingsFromString:gameSystemNameVal] forKey:AVGGameSystemNameKey];
+    }
+    if(gameRomNameVal)
+    {
+        [result setObject:[self removeHTMLEncodingsFromString:gameRomNameVal] forKey:AVGGameRomNameKey];
     }
     if(credits)
     {

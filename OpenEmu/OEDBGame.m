@@ -286,7 +286,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     NSString *stringValue = nil;
     
-    stringValue = [gameInfoDictionary valueForKey:AVGGameTitleKey];
+    stringValue = [gameInfoDictionary valueForKey:AVGGameRomNameKey];
     if(stringValue != nil)
     {
         [self setName:stringValue];
@@ -533,7 +533,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     resultGame = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
     
     [resultGame setArchiveID:[gameInfo valueForKey:AVGGameIDKey]];
-    [resultGame setName:[gameInfo valueForKey:AVGGameTitleKey]];
+    [resultGame setName:[gameInfo valueForKey:AVGGameRomNameKey]];
     [resultGame setLastArchiveSync:[NSDate date]];
     [resultGame setImportDate:[NSDate date]];
     
@@ -588,7 +588,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if([[archiveGameDict valueForKey:AVGGameIDKey] intValue] == 0) return;
     
     [self setArchiveID:[archiveGameDict valueForKey:AVGGameIDKey]];
-    [self setName:[archiveGameDict valueForKey:AVGGameTitleKey]];
+    [self setName:[archiveGameDict valueForKey:AVGGameRomNameKey]];
     [self setLastArchiveSync:[NSDate date]];
     [self setImportDate:[NSDate date]];
     

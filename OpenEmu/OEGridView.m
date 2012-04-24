@@ -125,7 +125,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     [_rootLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
     [_rootLayer setFrame:[self bounds]];
 
-    _dragIndicationLayer = [[CALayer alloc] init];
+    _dragIndicationLayer = [[OEGridLayer alloc] init];
+    [_dragIndicationLayer setInteractive:NO];
     [_dragIndicationLayer setBorderColor:[[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor]];
     [_dragIndicationLayer setBorderWidth:2.0];
     [_dragIndicationLayer setCornerRadius:8.0];
@@ -935,8 +936,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
             {
                 [self mouseDragged:lastMouseDragEvent];
 
-                const NSPoint point = [self convertPoint:[lastMouseDragEvent locationInWindow] fromView:nil];
-                if(!NSPointInRect(point, [self bounds])) lastMouseDragEvent = nil;
+                // Stop tracking last mouse drag event if we've reached the bottom or top of the scrollable area
+                NSScrollView *enclosingScrollView = [self enclosingScrollView];
+                const NSRect  visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
+                const NSRect  bounds              = [self bounds];
+                if (NSMinY(bounds) == NSMinY(visibleRect) || NSMaxY(bounds) == NSMaxY(visibleRect)) lastMouseDragEvent = nil;
             }
         }
         else if([theEvent type] == NSLeftMouseDragged)
