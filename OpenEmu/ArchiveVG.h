@@ -33,6 +33,7 @@ NSString * const AVGGameESRBRatingKey;
 NSString * const AVGGameCreditsKey;
 NSString * const AVGGameReleasesKey;
 NSString * const AVGGameTosecsKey;
+NSString * const AVGGameRomNameKey;
 
 // Keys that appear in Credits Dictionaries
 NSString * const AVGCreditsNameKey;
