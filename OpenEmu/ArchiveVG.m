@@ -383,7 +383,7 @@ typedef enum
         gameBoxFront = nil;
     }
     
-    NSXMLNode* gameRomName = [[gameNode nodesForXPath:@"./romname[1]/node()[1]" error:outError] lastObject];
+    NSXMLNode* gameRomName = [[gameNode nodesForXPath:@"./romName[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
         NSLog(@"Error getting gameRomName");

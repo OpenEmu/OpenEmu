@@ -43,6 +43,8 @@
 			<string>Owner</string>
 			<key>LSTypeIsPackage</key>
 			<true/>
+			<key>NSDocumentClass</key>
+			<string>OEGameDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>

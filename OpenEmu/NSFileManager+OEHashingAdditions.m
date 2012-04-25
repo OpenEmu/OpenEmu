@@ -107,22 +107,18 @@ static const unsigned int crc32table[] =
 
 - (NSString *)CRC32ForFileAtURL:(NSURL *)url error:(NSError **)error
 {
-    @autoreleasepool
-    {
-        NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
-        if(data == nil) return nil;
-        
-        const unsigned char *bytes = [data bytes];
-        unsigned length = (unsigned)[data length];
-        unsigned crcval = 0xffffffff;
-        
-        for(unsigned x = 0; x < length; x++) 
-            crcval = ((crcval >> 8) & 0x00ffffff) ^ crc32table[(crcval ^ (*(bytes + x))) & 0xff];
-        
-        unsigned crc32 = crcval ^ 0xffffffff;
-        
-        return [NSString stringWithFormat:@"%08x", crc32];
-    }
+    NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
+    if(data == nil) return nil;
+    
+    const unsigned char *bytes = [data bytes];
+    unsigned length = (unsigned)[data length];
+    unsigned crcval = 0xffffffff;
+    
+    for(unsigned x = 0; x < length; x++) 
+        crcval = ((crcval >> 8) & 0x00ffffff) ^ crc32table[(crcval ^ (*(bytes + x))) & 0xff];
+    
+    unsigned crc32 = crcval ^ 0xffffffff;
+    return [NSString stringWithFormat:@"%08x", crc32];
 }
 
 @end
