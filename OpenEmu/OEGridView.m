@@ -47,8 +47,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_layoutGridViewIfNeeded;
 - (void)OE_layoutGridView;
 
-- (void)OE_enqueueCell:(OEGridViewCell *)cell;
-- (void)OE_enqueueCells:(NSSet *)cells;
 - (void)OE_enqueueCellsAtIndexes:(NSIndexSet *)indexes;
 - (void)OE_calculateCachedValuesAndQueryForDataChanges:(BOOL)queryForDataChanges;
 - (void)OE_checkForDataReload;
@@ -108,7 +106,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     // Allocate memory for objects
     _selectionIndexes    = [[NSMutableIndexSet alloc] init];
-    _visibleCells        = [[NSMutableSet alloc] init];
+    _visibleCellByIndex  = [[NSMutableDictionary alloc] init];
     _visibleCellsIndexes = [[NSMutableIndexSet alloc] init];
     _reuseableCells      = [[NSMutableSet alloc] init];
 
@@ -167,24 +165,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (OEGridViewCell *)cellForItemAtIndex:(NSUInteger)index makeIfNecessary:(BOOL)necessary
 {
-    __block OEGridViewCell *result = nil;
-
-    // This is my attempt at being thread safe
-    if([_visibleCells count] > 0)
-    {
-        // I'm not sure which is faster, iterate through the cells or use an NSPredicate:
-        //   [visibleCells filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"_index == %d", index]]
-        [_visibleCells enumerateObjectsUsingBlock:
-         ^ (OEGridViewCell *obj, BOOL *stop)
-         {
-             if([obj OE_index] == index)
-             {
-                 result = obj;
-                 *stop = YES;
-             }
-         }];
-    }
-
+    OEGridViewCell *result = [_visibleCellByIndex objectForKey:[NSNumber numberWithUnsignedInt:index]];
     if(result == nil && necessary)
     {
         result = [_dataSource gridView:self cellForItemAtIndex:index];
@@ -262,7 +243,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (NSArray *)visibleCells
 {
-    return [_visibleCells allObjects];
+    return [_visibleCellByIndex allValues];
 }
 
 - (NSIndexSet *)indexesForVisibleCells
@@ -323,8 +304,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     // We add all the indexes immediately in case the visible cells shift while we are performing this operaiton
     [_selectionIndexes addIndexesInRange:NSMakeRange(0, _cachedNumberOfItems)];
-    [_visibleCells enumerateObjectsUsingBlock:
-     ^ (id obj, BOOL *stop)
+    [_visibleCellByIndex enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, OEGridViewCell *obj, BOOL *stop)
      {
          [obj setSelected:YES animated:YES];
      }];
@@ -339,8 +320,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     // We remove all the indexes immediately in case the visible cells shift while we are performing this operaiton
     [_selectionIndexes removeAllIndexes];
-    [_visibleCells enumerateObjectsUsingBlock:
-     ^ (id obj, BOOL *stop)
+    [_visibleCellByIndex enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, OEGridViewCell *obj, BOOL *stop)
      {
          [obj setSelected:NO animated:YES];
      }];
@@ -351,27 +332,19 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 #pragma mark -
 #pragma mark Data Reload
 
-- (void)OE_enqueueCell:(OEGridViewCell *)cell
-{
-    if([_fieldEditor delegate] == cell) [self OE_cancelFieldEditor];
-
-    [_reuseableCells addObject:cell];
-    [_visibleCells removeObject:cell];
-    [cell removeFromSuperlayer];
-}
-
-- (void)OE_enqueueCells:(NSSet *)cells
-{
-    NSSet *cellsToRemove = [cells copy];
-    for(OEGridViewCell *cell in cellsToRemove) [self OE_enqueueCell:cell];
-}
-
 - (void)OE_enqueueCellsAtIndexes:(NSIndexSet *)indexes
 {
     [indexes enumerateIndexesUsingBlock:
      ^ (NSUInteger idx, BOOL *stop)
      {
-         [self OE_enqueueCell:[self cellForItemAtIndex:idx makeIfNecessary:NO]];
+         NSNumber *key = [NSNumber numberWithUnsignedInteger:idx];
+         OEGridViewCell *cell = [_visibleCellByIndex objectForKey:key];
+         if(cell)
+         {
+             [_visibleCellByIndex removeObjectForKey:key];
+             [_reuseableCells addObject:cell];
+             [cell removeFromSuperlayer];
+         }
      }];
 }
 
@@ -552,7 +525,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_addNoItemsView
 {
     // Enqueue all the cells for later use and remove them from the view
-    [self OE_enqueueCells:_visibleCells];
+    [self OE_enqueueCellsAtIndexes:_visibleCellsIndexes];
     [_visibleCellsIndexes removeAllIndexes];
 
     // Check to see if the dataSource has a view to display when there is nothing to display
@@ -578,8 +551,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     [_selectionIndexes removeAllIndexes];
     _indexOfKeyboardSelection = NSNotFound;
 
-    [_visibleCells makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-    [_visibleCells removeAllObjects];
+    [self OE_enqueueCellsAtIndexes:_visibleCellsIndexes];
     [_visibleCellsIndexes removeAllIndexes];
     [_reuseableCells removeAllObjects];
 
@@ -628,15 +600,14 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
                      // Replace the old cell with the new cell
                      if(oldCell)
                      {
-                         [oldCell removeFromSuperlayer];
-                         [self OE_enqueueCell:oldCell];
+                         [self OE_enqueueCellsAtIndexes:[NSIndexSet indexSetWithIndex:[oldCell OE_index]]];
                      }
                      [newCell setOpacity:1.0];
                      [newCell setHidden:NO];
 
                      if(!oldCell) [newCell setFrame:[self rectForCellAtIndex:idx]];
 
-                     [_visibleCells addObject:newCell];
+                     [_visibleCellByIndex setObject:newCell forKey:[NSNumber numberWithUnsignedInteger:idx]];
                      [_rootLayer addSublayer:newCell];
                  }
 
@@ -811,12 +782,12 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)OE_layoutGridView
 {
-    if([_visibleCells count] == 0) return;
+    if([_visibleCellByIndex count] == 0) return;
 
-    [_visibleCells enumerateObjectsUsingBlock:
-     ^ (id obj, BOOL *stop)
+    [_visibleCellByIndex enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, OEGridViewCell *obj, BOOL *stop)
      {
-         [obj setFrame:[self rectForCellAtIndex:[obj OE_index]]];
+         [obj setFrame:[self rectForCellAtIndex:[key unsignedIntegerValue]]];
      }];
 
     _needsLayoutGridView = NO;
@@ -1525,10 +1496,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     
     [_selectionIndexes removeAllIndexes];
     [_selectionIndexes addIndexes:selectionIndexes];
-    [_visibleCells enumerateObjectsUsingBlock:
-     ^ (id obj, BOOL *stop)
+    [_visibleCellByIndex enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, OEGridViewCell *obj, BOOL *stop)
      {
-         [obj setSelected:[_selectionIndexes containsIndex:[obj OE_index]] animated:![CATransaction disableActions]];
+         [obj setSelected:[_selectionIndexes containsIndex:[key unsignedIntegerValue]] animated:![CATransaction disableActions]];
      }];
 
     if(_delegateHas.selectionChanged) [_delegate selectionChangedInGridView:self];

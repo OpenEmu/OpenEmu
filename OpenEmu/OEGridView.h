@@ -74,9 +74,9 @@
     NSMutableIndexSet *_selectionIndexes;           // Index or indexes that are currently selected
     NSUInteger         _indexOfKeyboardSelection;   // Last index of the selected cell using the keyboard
 
-    NSMutableSet      *_visibleCells;               // Cached visible cells
-    NSMutableIndexSet *_visibleCellsIndexes;        // Cached indexes of the visible cells
-    NSMutableSet      *_reuseableCells;             // Cached cells that are no longer in view
+    NSMutableDictionary *_visibleCellByIndex;       // Cached visible cells
+    NSMutableIndexSet   *_visibleCellsIndexes;      // Cached indexes of the visible cells
+    NSMutableSet        *_reuseableCells;           // Cached cells that are no longer in view
 
     NSDraggingSession *_draggingSession;            // Drag session used during a drag operation
     OEGridLayer       *_prevDragDestinationLayer;   // Previous destination cell of a drag operation, used to prevent multiple messages to same cell
