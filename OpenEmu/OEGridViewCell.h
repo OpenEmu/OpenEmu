@@ -32,11 +32,7 @@
 @interface OEGridViewCell : OEGridLayer
 {
 @private
-    BOOL       _editing;
-    BOOL       _selected;
     NSUInteger _index;
-
-    CALayer *_foregroundLayer;
 }
 
 - (void)prepareForReuse;
@@ -46,11 +42,11 @@
 #pragma mark -
 #pragma mark Properties
 
-@property(nonatomic, getter=isEditing)  BOOL editing;
-@property(nonatomic, getter=isSelected) BOOL selected;
+@property(nonatomic, assign, getter=isEditing)  BOOL editing;
+@property(nonatomic, assign, getter=isSelected) BOOL selected;
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated;
 
-@property(nonatomic, retain)   CALayer    *foregroundLayer;
+@property(nonatomic, strong)   CALayer    *foregroundLayer;
 @property(nonatomic, readonly) OEGridView *gridView;
 @property(nonatomic, readonly) NSRect      hitRect;
 @property(nonatomic, readonly) id          draggingImage;
