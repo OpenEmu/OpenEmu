@@ -117,6 +117,19 @@ typedef enum
     id result = [self _resultFromURL:url forOperation:operation error:&error];
     return result;
 }
+
++ (NSDictionary*)gameInfoByCRC:(NSString*)crc andMD5:(NSString*)md5
+{
+    _ArchiveVGOperation operation = AVGGetInfoByCRC;
+    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObjects:crc, md5, nil]];
+    
+    NSLog(@"Archive URL:%@", url);
+    
+    NSError* error;
+    id result = [self _resultFromURL:url forOperation:operation error:&error];
+    return result;
+}
+
 + (NSDictionary*)gameInfoByMD5:(NSString*)md5
 {
     _ArchiveVGOperation operation = AVGGetInfoByMD5;
@@ -128,6 +141,19 @@ typedef enum
     id result = [self _resultFromURL:url forOperation:operation error:&error];
     return result;
 }
+
++ (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc
+{
+    _ArchiveVGOperation operation = AVGGetInfoByMD5;
+    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObjects:md5, crc, nil]];
+    
+    NSLog(@"Archive URL:%@", url);
+    
+    NSError* error;
+    id result = [self _resultFromURL:url forOperation:operation error:&error];
+    return result;
+}
+
 + (NSDictionary*)gameInfoByID:(NSInteger)gameID
 {
     _ArchiveVGOperation operation = AVGGetInfoByID;
