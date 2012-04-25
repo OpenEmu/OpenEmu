@@ -191,7 +191,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         [result OE_setIndex:index];
         [result setSelected:[_selectionIndexes containsIndex:index] animated:NO];
         [result setFrame:[self rectForCellAtIndex:index]];
-        [result layoutIfNeeded];
     }
 
     return result;

@@ -438,6 +438,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 - (NSRect)hitRect
 {
+    [self layoutIfNeeded];
     return _imageFrame;
 }
 
