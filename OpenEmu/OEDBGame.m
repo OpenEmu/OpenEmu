@@ -111,11 +111,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(outError == NULL) outError = &nilerr;
     
     BOOL checkFullpath = YES;
-    
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL checkCRC = ![standardDefaults boolForKey:UDUseMD5HashingKey];
-    BOOL checkMD5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
-    
+        
     OEDBGame *game = nil;
     if(game == nil && checkFullpath)
     {
@@ -133,36 +129,13 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         
     NSString *md5 = nil, *crc = nil;
     NSFileManager* defaultFileManager = [NSFileManager defaultManager];
-    if(game == nil && checkCRC)
+    if(game == nil)
     {
-        // DLog(@"checking crc32...");
-        crc = [defaultFileManager CRC32ForFileAtURL:url error:outError];
-        if(!crc) return nil;
-        // DLog(@"crc32: %@", crc);
-        
-        OEDBRom *rom = [OEDBRom romWithCRC32HashString:crc inDatabase:database error:outError];
-        
-        if(rom != nil)
-        {   
-            game = [rom game];
-        }
-        else if(*outError != nil)
-            return nil;
-    }
-    
-    if(game == nil && checkMD5)
-    {
-        // DLog(@"checking");
-        md5 = [defaultFileManager MD5DigestForFileAtURL:url error:outError];
-        if(!md5)
-            return nil;
-        // DLog(@"md5: %@", md5);
-
+        [defaultFileManager hashFileAtURL:url md5:&md5 crc32:&crc error:outError];
         OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inDatabase:database error:outError];
-        if(rom != nil)
-            game = [rom game];
-        else if(*outError!=nil)
-            return nil;
+        if(!rom) rom = [OEDBRom romWithCRC32HashString:crc inDatabase:database error:outError];
+        if(rom) game = [rom game];
+        
     }
     
     if(game == nil && createFlag)
@@ -353,15 +326,11 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         gameInfo = [ArchiveVG gameInfoByID:[archiveID integerValue]];
     else
     {
-        BOOL useMD5 = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
         NSSet *roms = [self roms];
         [roms enumerateObjectsUsingBlock:
          ^(OEDBRom *aRom, BOOL *stop)
          {
-             if(useMD5)
-                 gameInfo = [ArchiveVG gameInfoByMD5:[aRom md5Hash]];
-             else
-                 gameInfo = [ArchiveVG gameInfoByCRC:[aRom crcHash]];
+             gameInfo = [ArchiveVG gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash]];
              
              if([gameInfo valueForKey:AVGGameIDKey] != nil &&
                 [[gameInfo valueForKey:AVGGameIDKey] integerValue] != 0)

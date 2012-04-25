@@ -105,7 +105,6 @@
 #define UDMaxSaveGameNameLengthKey  @"MaxSaveGameNameLength"    /*  maximum length of a valid save game name */
 #define UDPopoutHasScreenSizeKey    @"forceDefaultScreenSize"
 #define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/
-#define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification	 (default: YES)								*/
 #define UDBoxSizesKey				@"BoxSizes"					/*	Array of sizes used for Box Artwork thumbnails (defaults registered in main.m)				*/
 #define UDHUDHideOptionsKey         @"HUDBarWithoutOptions"     /*  Set to yes to disable the cog in the hudbar                                                 */
 #define UDHUDCanDeleteStateKey      @"HUDBarCanDeleteState"     /*  Enable to allow users to remove savestates by holding the alt button when clicking on a savestate  */

@@ -66,7 +66,9 @@ NSString * const AVGSystemShortKey;
 + (NSArray*)gamesForSystem:(NSString*)systemShortName;      // returns an array of NSDictionaries (Game Info) or nil if an error occured
 
 + (NSDictionary*)gameInfoByCRC:(NSString*)crc; // returns NSDictionary (Game Info) or nil if not found / error occured
++ (NSDictionary*)gameInfoByCRC:(NSString*)crc andMD5:(NSString*)md5; // returns NSDictionary (Game Info) or nil if not found / error occured
 + (NSDictionary*)gameInfoByMD5:(NSString*)md5; // returns NSDictionary (Game Info) or nil if not found / error occured
++ (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc; // returns NSDictionary (Game Info) or nil if not found / error occured
 + (NSDictionary*)gameInfoByID:(NSInteger)gameID; // returns NSDictionary (Game Info) or nil if not found / error occured
 #pragma mark -
 #pragma mark API Access for Class instances

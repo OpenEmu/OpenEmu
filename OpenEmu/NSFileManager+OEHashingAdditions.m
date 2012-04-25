@@ -34,7 +34,78 @@
 
 #pragma mark -
 #pragma mark MD5
-- (NSString *)MD5DigestForFileAtURL:(NSURL *)url error:(NSError **)error
+- (BOOL)hashFileAtURL:(NSURL*)url md5:(NSString**)outMD5 crc32:(NSString**)outCRC32 error:(NSError**)error
+{
+    NSFileHandle *handle = [NSFileHandle fileHandleForReadingFromURL:url error:error];
+    if(handle == nil || (!outMD5 && !outCRC32)) return NO;
+    
+    CC_MD5_CTX md5Context;
+    CC_MD5_Init(&md5Context);
+    
+    unsigned crcval = 0xffffffff;
+    do {
+        @autoreleasepool
+        {
+            NSData *data = [handle readDataOfLength:md5ChunkSize];
+            CC_MD5_Update(&md5Context, [data bytes], (CC_LONG)[data length]);
+            
+            const unsigned char *bytes = [data bytes];
+            for(unsigned x = 0; x < [data length]; x++) 
+                crcval = ((crcval >> 8) & 0x00ffffff) ^ crc32table[(crcval ^ (*(bytes + x))) & 0xff];
+            
+            if(data == nil || [data length] < md5ChunkSize) break;
+        }
+    } while(YES);
+    
+    [handle closeFile];
+    
+    // Finalize MD5
+    unsigned char md5Digest[CC_MD5_DIGEST_LENGTH];
+    CC_MD5_Final(md5Digest, &md5Context);
+    
+    *outMD5 = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+               md5Digest[0], md5Digest[1], 
+               md5Digest[2], md5Digest[3],
+               md5Digest[4], md5Digest[5],
+               md5Digest[6], md5Digest[7],
+               md5Digest[8], md5Digest[9],
+               md5Digest[10], md5Digest[11],
+               md5Digest[12], md5Digest[13],
+               md5Digest[14], md5Digest[15]];
+    
+    
+    // Finalize CRC32
+    unsigned crc32 = crcval ^ 0xffffffff;
+    *outCRC32 = [NSString stringWithFormat:@"%08x", crc32];
+    
+    NSString* backupCRC32 = [self backupHashCalculationForFileAtURL:url];
+    if([backupCRC32 isNotEqualTo:*outCRC32])
+    {
+        NSLog(@"Hashing method is wrong!!");
+        NSLog(@"Expected: %@", backupCRC32);
+        NSLog(@"Calculated: %@", *outCRC32);
+    }
+    
+    return YES;
+}
+
+- (NSString*)backupHashCalculationForFileAtURL:(NSURL*)url
+{
+    NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
+    if(data == nil) return nil;
+    
+    const unsigned char *bytes = [data bytes];
+    unsigned length = (unsigned)[data length];
+    unsigned crcval = 0xffffffff;
+    
+    for(unsigned x = 0; x < length; x++) 
+        crcval = ((crcval >> 8) & 0x00ffffff) ^ crc32table[(crcval ^ (*(bytes + x))) & 0xff];
+    
+    unsigned crc32 = crcval ^ 0xffffffff;
+    return [NSString stringWithFormat:@"%08x", crc32];
+}
+
+- (NSString *)MD5DigestForFileAtURL:(NSURL *)url error:(NSError **)error DEPRECATED_ATTRIBUTE
 {
     NSFileHandle *handle = [NSFileHandle fileHandleForReadingFromURL:url error:error];
     if(handle == nil) return nil;
@@ -105,7 +176,7 @@ static const unsigned int crc32table[] =
     0xb3667a2e, 0xc4614ab8, 0x5d681b02, 0x2a6f2b94, 0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
 };
 
-- (NSString *)CRC32ForFileAtURL:(NSURL *)url error:(NSError **)error
+- (NSString *)CRC32ForFileAtURL:(NSURL *)url error:(NSError **)error  DEPRECATED_ATTRIBUTE
 {
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
     if(data == nil) return nil;
