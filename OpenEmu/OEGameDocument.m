@@ -29,6 +29,7 @@
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
 #import "OEDBGame.h"
+#import "OEDBSaveState.h"
 
 #import "OEApplicationDelegate.h"
 #import "OEGameViewController.h"
@@ -245,6 +246,20 @@
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
     DLog(@"%@", absoluteURL);    
+    
+    if ([typeName isEqualToString:@"OpenEmu Save State"])
+    {
+        OEDBSaveState *state = [OEDBSaveState saveStateWithURL:absoluteURL];
+        gameViewController = [[OEGameViewController alloc] initWithSaveState:state error:nil];
+        if(gameViewController == nil)
+        {
+            DLog(@"no game view controller");
+            return NO;
+        }
+        
+        [gameViewController setDocument:self];
+        return YES;
+    }
     
     NSString *romPath = [absoluteURL path];
     if(![[NSFileManager defaultManager] fileExistsAtPath:romPath])
