@@ -492,18 +492,12 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if(_cachedNumberOfItems == 0) return;
 
     // Check to see if the visible cells have changed
-    NSScrollView    *enclosingScrollView = [self enclosingScrollView];
-    const NSRect     visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
-    const NSSize     contentSize         = [self bounds].size;
-    const NSSize     viewSize            = visibleRect.size;
-    const CGFloat    maxContentOffset    = MAX(contentSize.height - viewSize.height, contentSize.height - _cachedItemSize.height);
-    const CGFloat    contentOffsetY      = MAX(MIN(_cachedContentOffset.y, maxContentOffset), 0.0);
-    const NSUInteger row                 = (NSUInteger)floor(contentOffsetY / _cachedItemSize.height);
-    const NSUInteger firstVisibleIndex   = row * _cachedNumberOfVisibleColumns;
-    const NSUInteger visibleIndexLength  = MIN(_cachedNumberOfVisibleColumns * _cachedNumberOfVisibleRows, _cachedNumberOfItems - firstVisibleIndex);
-    const NSRange    visibleIndexRange   = NSMakeRange(firstVisibleIndex, visibleIndexLength);
+    NSScrollView    *enclosingScrollView  = [self enclosingScrollView];
+    const NSRect     visibleRect          = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
+    const NSUInteger firstVisibleIndex    = MAX((NSInteger)floor(NSMinY(visibleRect) / _cachedItemSize.height), 0) * _cachedNumberOfVisibleColumns;
+    const NSUInteger numberOfVisibleCells = _cachedNumberOfVisibleColumns * _cachedNumberOfVisibleRows;
 
-    NSIndexSet *visibleCellsIndexSet = [NSIndexSet indexSetWithIndexesInRange:visibleIndexRange];
+    NSIndexSet *visibleCellsIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(firstVisibleIndex, MIN(numberOfVisibleCells, _cachedNumberOfItems - firstVisibleIndex))];
     if ([_visibleCellsIndexes isEqualToIndexSet:visibleCellsIndexSet]) return;
 
     // Calculate which cells to remove from view
