@@ -490,6 +490,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)OE_checkForDataReload
 {
+    if(_cachedNumberOfItems == 0) return;
+
     // Check to see if the visible cells have changed
     NSScrollView    *enclosingScrollView = [self enclosingScrollView];
     const NSRect     visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
