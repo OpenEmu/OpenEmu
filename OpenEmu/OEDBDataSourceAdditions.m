@@ -67,6 +67,11 @@
     return [[self boxImage] imageForSize:aSize];
 }
 
+- (BOOL)hasImage
+{
+    return [self boxImage] != nil;
+}
+
 - (NSSize)actualGridImageSizeforSize:(NSSize)aSize
 {
     return [[self boxImage] sizeOfThumbnailForSize:aSize];
