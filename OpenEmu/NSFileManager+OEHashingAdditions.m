@@ -73,7 +73,6 @@
                md5Digest[12], md5Digest[13],
                md5Digest[14], md5Digest[15]];
     
-    
     // Finalize CRC32
     unsigned crc32 = crcval ^ 0xffffffff;
     *outCRC32 = [NSString stringWithFormat:@"%08x", crc32];

@@ -41,6 +41,7 @@
 // returns image with highest resolution
 - (NSImage *)image;
 - (NSImage *)imageForSize:(NSSize)size;
+- (NSSize)actualImageSizeForSize:(NSSize)size;
 
 // generates thumbnail to fill size
 - (void)generateImageForSize:(NSSize)size;

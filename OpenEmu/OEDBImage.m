@@ -214,6 +214,31 @@
     return image;
 }
 
+
+- (NSSize)actualImageSizeForSize:(NSSize)size
+{
+    NSSet *thumbnailsSet = [self valueForKey:@"versions"];
+    
+    NSSortDescriptor *sotDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
+    NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
+    
+    NSManagedObject *usableThumbnail = nil;
+    for(NSManagedObject *obj in thumbnails)
+    {
+        if([[obj valueForKey:@"width"] floatValue] >= size.width ||
+           [[obj valueForKey:@"height"] floatValue] >= size.height)
+        {
+            usableThumbnail = obj;
+            break;
+        }
+    }
+    
+    if(usableThumbnail == nil)
+        usableThumbnail = [thumbnails lastObject];
+    
+    return NSMakeSize([[usableThumbnail valueForKey:@"width"] floatValue], [[usableThumbnail valueForKey:@"height"] floatValue]);
+}
+
 // generates thumbnail to fill size
 - (void)generateImageForSize:(NSSize)size
 {

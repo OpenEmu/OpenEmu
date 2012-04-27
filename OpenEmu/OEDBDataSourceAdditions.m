@@ -67,6 +67,11 @@
     return [[self boxImage] imageForSize:aSize];
 }
 
+- (NSSize)actualGridImageSizeforSize:(NSSize)aSize
+{
+    return [[self boxImage] actualImageSizeForSize:aSize];
+}
+
 - (void)setGridImage:(NSImage *)gridImage
 {
     [self setBoxImageByImage:gridImage];
