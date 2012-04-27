@@ -370,10 +370,14 @@
     
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
     [item setTitle:[object gridTitle]];
-    [item setImage:[object gridImageWithSize:[gridView itemSize]]];
     [item setRating:[object gridRating]];
-    [item setIndicationType:(OECoverGridViewCellIndicationType)[object gridStatus]];
-    
+
+    if([object hasImage])
+    {
+        [item setImageSize:[object actualGridImageSizeforSize:[view itemSize]]];
+        [item setImage:[object gridImageWithSize:[gridView itemSize]]];
+    }
+
     return item;
 }
 
