@@ -363,6 +363,8 @@
 
 - (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
+    if (index >= [[gamesController arrangedObjects] count]) return nil;
+
     OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
     
     if(item == nil) item = (OECoverGridViewCell *)[view dequeueReusableCell];
