@@ -66,6 +66,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 @implementation OECoverGridViewCell
 
 @synthesize image = _image;
+@synthesize imageSize = _imageSize;
 
 + (void)initialize
 {
@@ -309,14 +310,18 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     // Calculate the width to heightratio
     CGFloat imageRatio;
-    if(!_image)
+    if(_image)
+    {
+        _imageSize = [_image size];
+        imageRatio = _imageSize.height / _imageSize.width;
+    }
+    else if(NSEqualSizes(_imageSize, NSZeroSize))
     {
         imageRatio = OECoverGridViewCellMissingArtworkWidthToHeightRatio;
     }
     else
     {
-        const NSSize imageSize = [_image size];
-        imageRatio = imageSize.height / imageSize.width;
+        imageRatio = _imageSize.height / _imageSize.width;
     }
 
     // Calculated size of image in container frame
@@ -764,6 +769,15 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
         _image = image;
         [_imageLayer setContents:(id)_image];
 
+        [self OE_setNeedsLayoutImageAndSelection];
+    }
+}
+
+- (void)setImageSize:(NSSize)imageSize
+{
+    if(!NSEqualSizes(_imageSize, imageSize))
+    {
+        _imageSize = imageSize;
         [self OE_setNeedsLayoutImageAndSelection];
     }
 }
