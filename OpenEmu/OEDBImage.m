@@ -242,71 +242,82 @@
 // generates thumbnail to fill size
 - (void)generateImageForSize:(NSSize)size
 {
-    NSMutableSet *thumbnailsSet = [self mutableSetValueForKey:@"versions"];
-    
-    NSSortDescriptor *sotDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
-    NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
-    
-    NSManagedObject *original = [thumbnails lastObject];
-    NSSize originalSize = NSMakeSize([[original valueForKey:@"width"] floatValue], [[original valueForKey:@"height"] floatValue]);
-    
-    // thumbnails only make sense when smaller than original
-    if(size.width >= originalSize.width || size.height >= originalSize.height) return;
-    
-    // TODO: check if we already have a thumbnail with specified size
-    
-    float originalAspect = originalSize.width / originalSize.height;
-    
-    NSSize thumbnailSize;
-    if(originalAspect < 1)
-    { // width < height
-        float width = size.height * originalAspect;
-        thumbnailSize = NSMakeSize(width, size.height);
+    @autoreleasepool {
+        NSMutableSet *thumbnailsSet = [self mutableSetValueForKey:@"versions"];
+        
+        NSSortDescriptor *sotDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
+        NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
+        
+        NSManagedObject *original = [thumbnails lastObject];
+        NSSize originalSize = NSMakeSize([[original valueForKey:@"width"] floatValue], [[original valueForKey:@"height"] floatValue]);
+        
+        // thumbnails only make sense when smaller than original
+        if(size.width >= originalSize.width || size.height >= originalSize.height) return;
+        
+        // TODO: check if we already have a thumbnail with specified size
+        
+        float originalAspect = originalSize.width / originalSize.height;
+        
+        NSSize thumbnailSize;
+        if(originalAspect < 1)
+        { // width < height
+            float width = size.height * originalAspect;
+            thumbnailSize = NSMakeSize(width, size.height);
+        }
+        else
+        {
+            float height = size.width / originalAspect;
+            thumbnailSize = NSMakeSize(size.width, height);
+        }
+        
+        NSManagedObjectContext *context = [self managedObjectContext];
+        
+        NSImage *newThumbnailImage = [[NSImage alloc] initWithSize:thumbnailSize];
+        NSImage *originalImage = [self _convertDataToImage:[original valueForKeyPath:@"data.data"]];
+        
+        [newThumbnailImage lockFocus];
+        [originalImage drawInRect:NSMakeRect(0, 0, thumbnailSize.width, thumbnailSize.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+        [newThumbnailImage unlockFocus];
+        
+        NSEntityDescription *thumbnailDesc = [NSEntityDescription entityForName:@"ImageThumbnail" inManagedObjectContext:context];
+        NSManagedObject *newThumbnailObject = [[NSManagedObject alloc] initWithEntity:thumbnailDesc insertIntoManagedObjectContext:context];
+        
+        NSEntityDescription *thumbnailDataDesc = [NSEntityDescription entityForName:@"ImageData" inManagedObjectContext:context];
+        NSManagedObject *thumbnailDataObj = [[NSManagedObject alloc] initWithEntity:thumbnailDataDesc insertIntoManagedObjectContext:context];
+        
+        NSData *newThumbnailData = [self _convertImageToData:newThumbnailImage];
+        [newThumbnailObject setValue:thumbnailDataObj forKey:@"data"];
+        [newThumbnailObject setValue:newThumbnailData forKeyPath:@"data.data"];
+        
+        [newThumbnailObject setValue:[NSNumber numberWithFloat:thumbnailSize.width] forKey:@"width"];
+        [newThumbnailObject setValue:[NSNumber numberWithFloat:thumbnailSize.height] forKey:@"height"];
+        
+        [thumbnailsSet addObject:newThumbnailObject];
     }
-    else
-    {
-        float height = size.width / originalAspect;
-        thumbnailSize = NSMakeSize(size.width, height);
-    }
-    
-    NSManagedObjectContext *context = [self managedObjectContext];
-    
-    NSImage *newThumbnailImage = [[NSImage alloc] initWithSize:thumbnailSize];
-    NSImage *originalImage = [self _convertDataToImage:[original valueForKeyPath:@"data.data"]];
-    
-    [newThumbnailImage lockFocus];
-    [originalImage drawInRect:NSMakeRect(0, 0, thumbnailSize.width, thumbnailSize.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-    [newThumbnailImage unlockFocus];
-    
-    NSEntityDescription *thumbnailDesc = [NSEntityDescription entityForName:@"ImageThumbnail" inManagedObjectContext:context];
-    NSManagedObject *newThumbnailObject = [[NSManagedObject alloc] initWithEntity:thumbnailDesc insertIntoManagedObjectContext:context];
-    
-    NSEntityDescription *thumbnailDataDesc = [NSEntityDescription entityForName:@"ImageData" inManagedObjectContext:context];
-    NSManagedObject *thumbnailDataObj = [[NSManagedObject alloc] initWithEntity:thumbnailDataDesc insertIntoManagedObjectContext:context];
-    
-    NSData *newThumbnailData = [self _convertImageToData:newThumbnailImage];
-    [newThumbnailObject setValue:thumbnailDataObj forKey:@"data"];
-    [newThumbnailObject setValue:newThumbnailData forKeyPath:@"data.data"];
-    
-    [newThumbnailObject setValue:[NSNumber numberWithFloat:thumbnailSize.width] forKey:@"width"];
-    [newThumbnailObject setValue:[NSNumber numberWithFloat:thumbnailSize.height] forKey:@"height"];
-    
-    [thumbnailsSet addObject:newThumbnailObject];
-    
-    
-    [self _putThumbnailsInOrder];
-}
-
-- (void)_putThumbnailsInOrder
-{
 }
 
 #pragma mark -
-
 + (NSData *)_convertImageToData:(NSImage *)image
 {
-    // TODO: think about using something other than tiff data
-    return [image TIFFRepresentation];
+    NSArray* representations = [image representations];
+    __block NSBitmapImageRep *rep = nil;
+    [representations enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if([obj isKindOfClass:[NSBitmapImageRep class]])
+        {
+            rep = obj;
+            *stop = YES;
+        }
+    }];
+    
+    if(!rep)
+    {
+        [image lockFocus];
+        rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, [image size]}];
+        [image unlockFocus];
+    }
+    
+    NSDictionary *properties = [NSDictionary dictionary];
+    return [rep representationUsingType:NSPNGFileType properties:properties];
 }
 
 + (NSImage *)_convertDataToImage:(NSData *)data

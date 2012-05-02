@@ -45,7 +45,7 @@
         <relationship name="versions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ImageThumbnail" inverseName="image" inverseEntity="ImageThumbnail" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="ImageData" representedClassName="NSManagedObject" syncable="YES">
-        <attribute name="data" attributeType="Binary" syncable="YES"/>
+        <attribute name="data" attributeType="Binary" allowsExternalBinaryDataStorage="YES" storedInTruthFile="YES" syncable="YES"/>
         <relationship name="thumbnail" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ImageThumbnail" inverseName="data" inverseEntity="ImageThumbnail" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="ImageThumbnail" representedClassName="NSManagedObject" syncable="YES">
