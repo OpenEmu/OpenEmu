@@ -42,6 +42,12 @@ NSString * const AVGTosecSizeKey		= @"AVGTosecSizeKey";
 NSString * const AVGTosecCRCKey			= @"AVGTosecCRCKey";
 NSString * const AVGTosecMD5Key			= @"AVGTosecMD5Key";
 
+// Key that appear in Game Lists (Batch calls)
+NSString * const AVGGameListItemRomFileKey  = @"rom";
+NSString * const AVGGameListItemSizeKey     = @"size";
+NSString * const AVGGameListItemCRC32Key    = @"crc";
+NSString * const AVGGameListItemMD5Key     = @"md5";
+
 #define KCSessionServiceName @"Archive.vg SessionKey"
 
 typedef enum 
@@ -53,11 +59,14 @@ typedef enum
     AVGGetInfoByID,     // requires archive.vg game id
     AVGGetInfoByCRC,	// requires rom crc
     AVGGetInfoByMD5,	// requires rom md5
+    
+    AVGGetInfoByGameList,
 } _ArchiveVGOperation;
 
 @interface ArchiveVG (Private)
 + (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError*__autoreleasing*)outError;
 + (NSURL*)urlForOperation:(_ArchiveVGOperation)op withOptions:(NSArray*)options;
++ (NSXMLDocument*)gameListXMLFromDictionaries:(NSArray*)array;
 + (NSString*)removeHTMLEncodingsFromString:(NSString*)input;
 + (NSString*)_debug_nameOfOp:(_ArchiveVGOperation)op;
 @end
@@ -171,6 +180,27 @@ typedef enum
     id result = [self _resultFromURL:url forOperation:operation error:&error];
     return result;
 }
+
++ (void)gameInfoByGameList:(NSArray*)gameList callback:(void (^)(NSArray* result, NSError* error))callback
+{
+    _ArchiveVGOperation operation = AVGGetInfoByGameList;
+    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:nil];
+    NSXMLDocument *gameListDoc = [ArchiveVG gameListXMLFromDictionaries:gameList];
+    NSData *data = [gameListDoc XMLData];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:[NSString stringWithFormat:@"%ld", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/xml" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:data];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]  completionHandler:^(NSURLResponse *res, NSData *dat, NSError *err) {
+        NSLog(@"res: %@", res);
+        NSLog(@"dat: %@", dat);
+        NSLog(@"err: %@", err);
+    }];
+}
 #pragma mark -
 #pragma mark API Access for Class instances
 - (id)searchResultsForString:(NSString*)searchString
@@ -198,6 +228,12 @@ typedef enum
 {
     return [[self class] gameInfoByID:gameID];
 }
+
+- (void)gameInfoByGameList:(NSArray*)gameList callback:(void (^)(NSArray* result, NSError* error))callback
+{
+    [[self class] gameInfoByGameList:gameList callback:callback];
+}
+
 #pragma mark -
 #pragma mark Private (no session required)
 + (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError*__autoreleasing*)outError
@@ -331,6 +367,10 @@ typedef enum
         case AVGGetInfoByMD5:
             operationKey = @"Game.getInfoByMD5";
             break;
+            
+        case AVGGetInfoByGameList:
+            operationKey = @"Games.batch";
+            break;
 	}
     
     NSMutableString* urlString = [[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@", APIBase, APIVersion, operationKey, APIKey];
@@ -343,6 +383,25 @@ typedef enum
     
     NSURL* result = [NSURL URLWithString:urlString];    
     return result;
+}
+
++ (NSXMLDocument*)gameListXMLFromDictionaries:(NSArray*)array
+{
+    NSXMLElement *gamesElement = [NSXMLElement elementWithName:@"games"];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSXMLElement *game = [NSXMLElement elementWithName:@"game"];
+        if([obj valueForKey:AVGGameListItemRomFileKey])
+            [game addChild:[NSXMLElement elementWithName:AVGGameListItemRomFileKey stringValue:[obj valueForKey:AVGGameListItemRomFileKey]]];
+        if([obj valueForKey:AVGGameListItemCRC32Key])
+            [game addChild:[NSXMLElement elementWithName:AVGGameListItemCRC32Key stringValue:[obj valueForKey:AVGGameListItemCRC32Key]]];
+        if([obj valueForKey:AVGGameListItemMD5Key])
+            [game addChild:[NSXMLElement elementWithName:AVGGameListItemMD5Key stringValue:[obj valueForKey:AVGGameListItemMD5Key]]];
+        if([obj valueForKey:AVGGameListItemSizeKey])
+            [game addChild:[NSXMLElement elementWithName:AVGGameListItemSizeKey stringValue:[obj valueForKey:AVGGameListItemSizeKey]]];
+        [gamesElement addChild:game];
+    }];    
+    
+    return [NSXMLDocument documentWithRootElement:gamesElement];
 }
 
 #pragma mark -
@@ -951,6 +1010,10 @@ typedef enum
             break;
         case AVGGetInfoByMD5:
             opName = @"Game.getInfoByMD5";
+            break;
+            
+        case AVGGetInfoByGameList:
+            opName = @"Games.batch";
             break;
 	}
     
