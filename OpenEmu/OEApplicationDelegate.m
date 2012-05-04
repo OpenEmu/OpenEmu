@@ -178,7 +178,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     // setup alert, with options "Quit", "Select", "Create"
     NSString *title = @"Choose OpenEmu Library";
-    NSString *msg   = @"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
+    NSString *const msg = @"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
     
     NSString *chooseButton = @"Choose Library…";
     NSString *createButton = @"Create Library…";

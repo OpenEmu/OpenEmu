@@ -829,17 +829,19 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     return result;
 }
+
 #pragma mark -
 #pragma mark Private (importing)
-- (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError
+
+- (NSArray *)_romsBySuffixAtPath:(NSString *)path includeSubfolders:(int)subfolderFlag error:(NSError **)outError
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isDir = NO;
     BOOL exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
     
     if(!exists) return [NSArray array];
-    if(isDir && subfolderFlag==0) return [NSArray array];
-    if(subfolderFlag==2) subfolderFlag = 0;
+    if(isDir && subfolderFlag == 0) return [NSArray array];
+    if(subfolderFlag == 2) subfolderFlag = 0;
     
     if(isDir)
     {
@@ -859,25 +861,27 @@ static OELibraryDatabase *defaultDatabase = nil;
             NSString *subPath = [aUrl path];
             NSArray *subResult = [self _romsBySuffixAtPath:subPath includeSubfolders:subfolderFlag error:outError];
             [result addObjectsFromArray:subResult];
-            if(outError!=NULL && *outError!=nil)
+            if(outError != NULL && *outError != nil)
             {
                 //NSLog(@"error with subpath");
                 *outError = nil;
                 // return nil;
             }
         }
+        
         return result;
     }
     
-    NSDictionary *fileInfo = [fileManager attributesOfItemAtPath:path error:outError];
-    if(!fileInfo)
+    NSError *error = nil;
+    NSDictionary *fileInfo = [fileManager attributesOfItemAtPath:path error:&error];
+    if(fileInfo == nil)
     {
-        NSLog(@"Error getting file info: %@", outError);
+        NSLog(@"Error getting file info: %@", error);
+        if(outError != NULL) *outError = error;
         return [NSArray array];
     }
     
-    NSNumber *filesize = [fileInfo valueForKey:NSFileSize];
-    NSDictionary *res = [NSDictionary dictionaryWithObjectsAndKeys:filesize, @"filesize", path, @"filepath", nil];
-    return [NSArray arrayWithObject:res];
+    return [NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:[fileInfo valueForKey:NSFileSize], @"filesize", path, @"filepath", nil]];
 }
+
 @end

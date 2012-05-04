@@ -204,12 +204,13 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
     { 
         switch([[self versionComparator] compareVersion:version toVersion:migratorArrayKey])
         {
-            case NSOrderedSame:
+            case NSOrderedSame :
                 migratorsForVersion = [migrators objectForKey:migratorArrayKey];
-            case NSOrderedAscending:
+            case NSOrderedAscending :
                 //we have passed the version, so no migrators exist.
                 breakOut = YES;
                 break;
+            default : break;
         }
         
         if(breakOut) break;

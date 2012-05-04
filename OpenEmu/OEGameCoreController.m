@@ -82,7 +82,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
         viewControllerClasses = future;
     }
     
-    [_preferenceViewControllerClasses setObject:[viewControllerClasses copy] forKey:self];
+    [_preferenceViewControllerClasses setObject:[viewControllerClasses copy] forKey:(id<NSCopying>)self];
 }
 
 - (id)init

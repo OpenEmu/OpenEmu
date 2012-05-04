@@ -95,7 +95,7 @@
         
         newURL = [databaseUnsortedFolderURL URLByAppendingPathComponent:[newURL lastPathComponent]  isDirectory:NO];
         newURL = [newURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-            NSString *newFileName = [NSString stringWithFormat:@"%@ %d.%@", fileName, triesCount, fileSuffix];
+            NSString *newFileName = [NSString stringWithFormat:@"%@ %ld.%@", fileName, triesCount, fileSuffix];
             return [databaseUnsortedFolderURL URLByAppendingPathComponent:newFileName isDirectory:NO];
         }];
 

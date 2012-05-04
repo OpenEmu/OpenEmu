@@ -265,13 +265,9 @@
 {
     NSInteger player = 1;
     if(sender && [sender respondsToSelector:@selector(selectedTag)])
-    {
         player = [sender selectedTag];
-    } 
     else if(sender && [sender respondsToSelector:@selector(tag)])
-    {
         player = [sender tag];
-    }
     
     [self setSelectedPlayer:player];
     [self resetKeyBindings];
@@ -433,8 +429,7 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if([self selectedKey])
-        [self setSelectedKey:[self selectedKey]];
+    if([self selectedKey]) [self setSelectedKey:[self selectedKey]];
 }
 
 #pragma mark -
@@ -450,9 +445,9 @@
     return @"Controls";
 }
 
-- (NSString*)localizedTitle
+- (NSString *)localizedTitle
 {
-    return NSLocalizedString([self title], "");
+    return NSLocalizedString([self title], @"");
 }
 
 - (NSSize)viewSize
@@ -466,21 +461,21 @@
 }
 
 #pragma mark -
-- (void)OE_openPaneWithNotification:(NSNotification*)notification
+- (void)OE_openPaneWithNotification:(NSNotification *)notification
 {
-    NSDictionary* userInfo = [notification userInfo];
-    NSString* paneName = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
-    if([paneName isNotEqualTo:[self title]])
-        return;
+    NSDictionary *userInfo = [notification userInfo];
+    NSString     *paneName = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
     
-    NSString* systemIdentifier = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoSystemIdentifierKey];
+    if([paneName isNotEqualTo:[self title]]) return;
+    
+    NSString *systemIdentifier = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoSystemIdentifierKey];
 
-    int i;
-    for(i=0; i < [[[self consolesPopupButton] itemArray] count]-1; i++)
+    NSUInteger i = 0;
+    for(i = 0; i < [[[self consolesPopupButton] itemArray] count] - 1; i++)
     {
-        NSMenuItem* item = [[[self consolesPopupButton] itemArray] objectAtIndex:i];
-        if([[item representedObject] isEqualTo:systemIdentifier])
-            break;
+        NSMenuItem *item = [[[self consolesPopupButton] itemArray] objectAtIndex:i];
+        
+        if([[item representedObject] isEqual:systemIdentifier]) break;
     }
 
     [[self consolesPopupButton] selectItemAtIndex:i];

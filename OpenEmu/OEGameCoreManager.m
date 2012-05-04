@@ -158,7 +158,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     taskConnection = nil;
     while(taskConnection == nil)
     {
-        taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer, nil] host:nil];
+        taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer] host:nil];
         
         if(-[start timeIntervalSinceNow] > 3.0)
         {
@@ -304,7 +304,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     taskConnection = nil;
     while(taskConnection == nil)
     {
-        taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer, nil] host:nil];
+        taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer] host:nil];
         
         if(error != nil && ![helper isExecuting])
         {

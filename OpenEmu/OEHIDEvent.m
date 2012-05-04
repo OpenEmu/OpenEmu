@@ -130,17 +130,17 @@
             break;
         case OEHIDButton :
             // Example: ret = @"P1 B12" for Pad One Button 12
-            ret = [NSString stringWithFormat:@" B%d", _data.button.buttonNumber];
+            ret = [NSString stringWithFormat:@" B%ld", _data.button.buttonNumber];
             break;
         case OEHIDHatSwitch :
             // Example: ret = @"P1 H5/8" for Pad One Hat Switch Position 5 of 8
-            ret = [NSString stringWithFormat:@" H%d/%d", _data.hatSwitch.position, _data.hatSwitch.count];
+            ret = [NSString stringWithFormat:@" H%ld/%ld", _data.hatSwitch.position, _data.hatSwitch.count];
             break;
 		case OEHIDKeypress :
 			return [NSString stringWithFormat:@"%@", [OEHIDEvent stringForHIDKeyCode:_data.key.keycode]];
     }
     
-    if(ret != nil) ret = [NSString stringWithFormat:@"P%d%@", _padNumber, ret];
+    if(ret != nil) ret = [NSString stringWithFormat:@"P%ld%@", _padNumber, ret];
     else ret = @"";
     
     return ret;
@@ -472,7 +472,7 @@
     
 #undef STATE_STR
     
-    return [NSString stringWithFormat:@"HID Event: pad=%lld %@ %@ cookie=%u", (int64_t)_padNumber, subs, [self displayDescription], _cookie];
+    return [NSString stringWithFormat:@"HID Event: pad=%lld %@ %@ cookie=%lu", (int64_t)_padNumber, subs, [self displayDescription], _cookie];
 }
 
 NSString *OEHIDEventTypeKey         = @"OEHIDEventTypeKey";

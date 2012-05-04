@@ -122,13 +122,13 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     }
     
     // I don't think we will ever support more than 2^64 players so this @ string is more than enough...
-    NSString *atStr  = [NSString stringWithFormat:@"%.*s", atLen, "@@@@@@@@@@@@@@@@@@@@"];
+    NSString *atStr  = [NSString stringWithFormat:@"%.*s", (int)atLen, "@@@@@@@@@@@@@@@@@@@@"];
     
     playerString = [atStr copy];
     
     for(NSUInteger i = 1; i <= playerCount; i++)
     {
-        NSString *playNo = [NSString stringWithFormat:@"%0*u", atLen, i];
+        NSString *playNo = [NSString stringWithFormat:@"%0*lu", (int)atLen, i];
         for(NSString *genericName in genericNames)
         {
             NSString *add = [genericName stringByReplacingOccurrencesOfString:atStr withString:playNo];
@@ -179,8 +179,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     {
         NSString *value = [localPos objectForKey:key] ? : [positions objectForKey:key];
         
-        [converted setObject:[NSValue valueWithPoint:value != nil ? NSPointFromString(value) : NSZeroPoint
-                              ] forKey:key];
+        [converted setObject:[NSValue valueWithPoint:value != nil ? NSPointFromString(value) : NSZeroPoint] forKey:key];
     }
     
     controllerKeyPositions = [converted copy];
@@ -451,7 +450,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 - (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
 {
     return [aKey stringByReplacingOccurrencesOfString:playerString withString:
-            [NSString stringWithFormat:@"%0*d", [playerString length], playerNumber]];
+            [NSString stringWithFormat:@"%0*lu", (int)[playerString length], playerNumber]];
 }
 
 - (id)settingForKey:(NSString *)keyName;
@@ -490,7 +489,8 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     [self removeBindingsToEvent:value withValueType:valueType];
     [self registerValue:value forKeyPath:keyPath];
     
-    for(OESystemResponder *observer in _gameSystemResponders){
+    for(OESystemResponder *observer in _gameSystemResponders)
+    {
         if(isKeyBoard)
             [observer keyboardEventWasSet:theEvent forKey:keyName];
         else
