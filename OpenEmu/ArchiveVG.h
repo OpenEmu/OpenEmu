@@ -20,6 +20,8 @@
  
  */
 
+// #define ARCHIVE_DEBUG 1
+
 // Keys that appear in Game Info Dicts
 NSString * const AVGGameTitleKey;
 NSString * const AVGGameIDKey;

@@ -70,6 +70,11 @@ typedef enum
 + (BOOL)_storeSessionKey:(NSString*)sessionKey forEmail:(NSString*)emailAddress error:(NSError*__autoreleasing*)outError;
 @end
 #pragma mark -
+#ifdef ARCHIVE_DEBUG
+#define ArchiveDLog NSLog
+#else
+#define ArchiveDLog(__args__, ...) {} 
+#endif
 @implementation ArchiveVG
 #pragma mark -
 #pragma mark API Access for Class
@@ -111,7 +116,7 @@ typedef enum
     _ArchiveVGOperation operation = AVGGetInfoByCRC;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:crc]];
     
-    NSLog(@"Archive URL:%@", url);
+    ArchiveDLog(@"Archive URL:%@", url);
     
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
@@ -123,7 +128,7 @@ typedef enum
     _ArchiveVGOperation operation = AVGGetInfoByCRC;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObjects:crc, md5, nil]];
     
-    NSLog(@"Archive URL:%@", url);
+    ArchiveDLog(@"Archive URL:%@", url);
     
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
@@ -135,7 +140,7 @@ typedef enum
     _ArchiveVGOperation operation = AVGGetInfoByMD5;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:md5]];
     
-    NSLog(@"Archive URL:%@", url);
+    ArchiveDLog(@"Archive URL:%@", url);
     
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
@@ -147,7 +152,7 @@ typedef enum
     _ArchiveVGOperation operation = AVGGetInfoByMD5;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObjects:md5, crc, nil]];
     
-    NSLog(@"Archive URL:%@", url);
+    ArchiveDLog(@"Archive URL:%@", url);
     
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
@@ -160,7 +165,7 @@ typedef enum
     NSNumber* gameIDObj = [NSNumber numberWithInteger:gameID]; 
     NSURL* url = [ArchiveVG urlForOperation:operation	withOptions:[NSArray arrayWithObject:gameIDObj]];
     
-    NSLog(@"Archive URL:%@", url);
+    ArchiveDLog(@"Archive URL:%@", url);
     
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
@@ -203,8 +208,8 @@ typedef enum
         NSXMLDocument* doc = [[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:outError];
         if(*outError!=nil)
         {
-            NSLog(@"could not create XMLDocument");
-            NSLog(@"Error: %@", *outError);
+            ArchiveDLog(@"could not create XMLDocument");
+            ArchiveDLog(@"Error: %@", *outError);
             return nil;
         }
         
@@ -214,8 +219,8 @@ typedef enum
             NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game" error:outError];
             if(*outError!=nil)
             {
-                NSLog(@"Could not find gameNodes");
-                NSLog(@"Error: %@", *outError);
+                ArchiveDLog(@"Could not find gameNodes");
+                ArchiveDLog(@"Error: %@", *outError);
                 return nil;
             }
             
@@ -226,7 +231,7 @@ typedef enum
                  NSDictionary* gameDict = [self dictFromGameNode:obj error:&anError];
                  if(anError!=nil)
                  {             
-                     NSLog(@"Error while enumerating gameNodes");
+                     ArchiveDLog(@"Error while enumerating gameNodes");
                      *stop = YES;
                  }
                  [gameDictionaries addObject: gameDict];
@@ -239,8 +244,8 @@ typedef enum
             NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]" error:outError];
             if(*outError!=nil)
             {
-                NSLog(@"Could not find gameNodes");
-                NSLog(@"Error: %@", *outError);
+                ArchiveDLog(@"Could not find gameNodes");
+                ArchiveDLog(@"Error: %@", *outError);
                 return nil;
             }
             
@@ -259,8 +264,8 @@ typedef enum
             NSDictionary* result = [self dictFromGameNode:gameNode error:outError];
             if(*outError!=nil)
             {
-                NSLog(@"Error getting game dictionary");
-                NSLog(@"Error: %@", *outError);
+                ArchiveDLog(@"Error getting game dictionary");
+                ArchiveDLog(@"Error: %@", *outError);
                 return nil;
             }
             return result;
@@ -270,8 +275,8 @@ typedef enum
             NSArray* systemNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/systems[1]/system" error:outError];
             if(*outError!=nil)
             {
-                NSLog(@"Could not find systemNodes");
-                NSLog(@"Error: %@", *outError);
+                ArchiveDLog(@"Could not find systemNodes");
+                ArchiveDLog(@"Error: %@", *outError);
                 return nil;
             }
             
@@ -282,7 +287,7 @@ typedef enum
                  NSDictionary* systemDict = [self dictFromSystemNode:obj error:&anError];
                  if(anError!=nil)
                  {
-                     NSLog(@"Error while enumerating systemNodes");
+                     ArchiveDLog(@"Error while enumerating systemNodes");
                      *stop = YES;
                  }
                  [systemDictionaries addObject: systemDict];
@@ -291,7 +296,7 @@ typedef enum
         }
         else 
         {
-            NSLog(@"Operation %@ is not implemented yet.", [self _debug_nameOfOp:op]);
+            ArchiveDLog(@"Operation %@ is not implemented yet.", [self _debug_nameOfOp:op]);
         }
         
         return nil;
@@ -347,24 +352,24 @@ typedef enum
     NSXMLNode* gameID = [[gameNode nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameID");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameID");
+        ArchiveDLog(@"Error: %@", *outError);
         return nil;
     }
     
     NSXMLNode* gameTitle = [[gameNode nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameTitle");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameTitle");
+        ArchiveDLog(@"Error: %@", *outError);
         return nil;
     }
     
     NSXMLNode* gameDescription = [[gameNode nodesForXPath:@"./description[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameDescription");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameDescription");
+        ArchiveDLog(@"Error: %@", *outError);
         
         gameDescription = nil;
     }
@@ -372,48 +377,48 @@ typedef enum
     NSXMLNode* gameGenre = [[gameNode nodesForXPath:@"./genre[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameGenre");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameGenre");
+        ArchiveDLog(@"Error: %@", *outError);
         gameGenre = nil;
     }
     
     NSXMLNode* gameDeveloper = [[gameNode nodesForXPath:@"./developer[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameDeveloper");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameDeveloper");
+        ArchiveDLog(@"Error: %@", *outError);
         gameDeveloper = nil;
     }
     
     NSXMLNode* gameEsrbRating = [[gameNode nodesForXPath:@"./desrb_rating[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameEsrbRating");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameEsrbRating");
+        ArchiveDLog(@"Error: %@", *outError);
         gameEsrbRating = nil;
     }
     
     NSXMLNode* gameSystemName = [[gameNode nodesForXPath:@"./system[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameSystemName");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameSystemName");
+        ArchiveDLog(@"Error: %@", *outError);
         gameSystemName = nil;
     }
     
     NSXMLNode* gameBoxFront = [[gameNode nodesForXPath:@"./box_front[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameBoxFront");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameBoxFront");
+        ArchiveDLog(@"Error: %@", *outError);
         gameBoxFront = nil;
     }
     
     NSXMLNode* gameRomName = [[gameNode nodesForXPath:@"./romName[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameRomName");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameRomName");
+        ArchiveDLog(@"Error: %@", *outError);
         return nil;
     }
     
@@ -423,8 +428,8 @@ typedef enum
     NSMutableArray* credits = nil;
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameBoxFront");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameBoxFront");
+        ArchiveDLog(@"Error: %@", *outError);
         creditNodes = nil;
     } 
     else
@@ -444,8 +449,8 @@ typedef enum
     NSMutableArray* releases = nil;
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameBoxFront");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameBoxFront");
+        ArchiveDLog(@"Error: %@", *outError);
         releaseNodes = nil;
     } 
     else
@@ -475,8 +480,8 @@ typedef enum
     NSMutableArray* tosecs = nil;
     if(*outError!=nil)
     {
-        NSLog(@"Error getting gameBoxFront");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting gameBoxFront");
+        ArchiveDLog(@"Error: %@", *outError);
         tosecNodes = nil;
     } 
     else
@@ -573,22 +578,22 @@ typedef enum
     NSXMLNode* systemID = [[systemNode nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting systemID");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting systemID");
+        ArchiveDLog(@"Error: %@", *outError);
         return nil;
     }
     NSXMLNode* systemName = [[systemNode nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting systemName");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting systemName");
+        ArchiveDLog(@"Error: %@", *outError);
         return nil;
     }
     NSXMLNode* systemShort = [[systemNode nodesForXPath:@"./short[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
-        NSLog(@"Error getting systemShort");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting systemShort");
+        ArchiveDLog(@"Error: %@", *outError);
         return nil;
     }
     
@@ -878,7 +883,7 @@ typedef enum
                                                      NULL);    
     if (status != noErr) 
     {
-        NSLog (@"status %d from SecKeychainFindGenericPassword\n", status);
+        ArchiveDLog (@"status %d from SecKeychainFindGenericPassword\n", status);
     }
     
     if(status == errSecItemNotFound)
@@ -888,7 +893,7 @@ typedef enum
     
     if(sessionKeyLength==0)
     {
-        NSLog(@"SecKeychainFindGenericPassword did not return Data");
+        ArchiveDLog(@"SecKeychainFindGenericPassword did not return Data");
         return nil;
     }
     
@@ -897,7 +902,7 @@ typedef enum
     status = SecKeychainItemFreeContent (NULL, sessionKey);
     if (status != noErr) 
     {
-        NSLog (@"status %d from SecKeychainItemFreeContent\n", status);
+        ArchiveDLog (@"status %d from SecKeychainItemFreeContent\n", status);
     }
     
     
