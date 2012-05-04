@@ -337,7 +337,7 @@
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
     NSURL *url = [self URL];
-    if(url && [url isSubpathOfURL:[[OELibraryDatabase defaultDatabase] romsFolderURL]])
+    if(url && [url isSubpathOfURL:[[self libraryDatabase] romsFolderURL]])
     {
         NSString *path = [url path];
         [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:[path stringByDeletingLastPathComponent] destination:nil files:[NSArray arrayWithObject:[path lastPathComponent]] tag:NULL];

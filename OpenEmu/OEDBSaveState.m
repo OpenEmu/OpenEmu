@@ -300,7 +300,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 - (void)moveFileToDefaultLocation
 {
-    NSURL    *saveStateFolderURL = [[OELibraryDatabase defaultDatabase] stateFolderURLForROM:[self rom]];
+    NSURL    *saveStateFolderURL = [[self libraryDatabase] stateFolderURLForROM:[self rom]];
     NSURL    *newStateURL        = [saveStateFolderURL URLByAppendingPathComponent:[[self URL] lastPathComponent]];
     NSString *currentFileName    = [[[self URL] lastPathComponent] stringByDeletingPathExtension];
     newStateURL                  = [newStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
