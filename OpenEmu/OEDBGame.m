@@ -111,11 +111,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(outError == NULL) outError = &nilerr;
     
     BOOL checkFullpath = YES;
-    
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL checkCRC = ![standardDefaults boolForKey:UDUseMD5HashingKey];
-    BOOL checkMD5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
-    
+        
     OEDBGame *game = nil;
     if(game == nil && checkFullpath)
     {
@@ -133,36 +129,13 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         
     NSString *md5 = nil, *crc = nil;
     NSFileManager* defaultFileManager = [NSFileManager defaultManager];
-    if(game == nil && checkCRC)
+    if(game == nil)
     {
-        // DLog(@"checking crc32...");
-        crc = [defaultFileManager CRC32ForFileAtURL:url error:outError];
-        if(!crc) return nil;
-        // DLog(@"crc32: %@", crc);
-        
-        OEDBRom *rom = [OEDBRom romWithCRC32HashString:crc inDatabase:database error:outError];
-        
-        if(rom != nil)
-        {   
-            game = [rom game];
-        }
-        else if(*outError != nil)
-            return nil;
-    }
-    
-    if(game == nil && checkMD5)
-    {
-        // DLog(@"checking");
-        md5 = [defaultFileManager MD5DigestForFileAtURL:url error:outError];
-        if(!md5)
-            return nil;
-        // DLog(@"md5: %@", md5);
-
+        [defaultFileManager hashFileAtURL:url md5:&md5 crc32:&crc error:outError];
         OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inDatabase:database error:outError];
-        if(rom != nil)
-            game = [rom game];
-        else if(*outError!=nil)
-            return nil;
+        if(!rom) rom = [OEDBRom romWithCRC32HashString:crc inDatabase:database error:outError];
+        if(rom) game = [rom game];
+        
     }
     
     if(game == nil && createFlag)
@@ -286,7 +259,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     NSString *stringValue = nil;
     
-    stringValue = [gameInfoDictionary valueForKey:AVGGameTitleKey];
+    stringValue = [gameInfoDictionary valueForKey:AVGGameRomNameKey];
     if(stringValue != nil)
     {
         [self setName:stringValue];
@@ -353,15 +326,11 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         gameInfo = [ArchiveVG gameInfoByID:[archiveID integerValue]];
     else
     {
-        BOOL useMD5 = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
         NSSet *roms = [self roms];
         [roms enumerateObjectsUsingBlock:
          ^(OEDBRom *aRom, BOOL *stop)
          {
-             if(useMD5)
-                 gameInfo = [ArchiveVG gameInfoByMD5:[aRom md5Hash]];
-             else
-                 gameInfo = [ArchiveVG gameInfoByCRC:[aRom crcHash]];
+             gameInfo = [ArchiveVG gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash]];
              
              if([gameInfo valueForKey:AVGGameIDKey] != nil &&
                 [[gameInfo valueForKey:AVGGameIDKey] integerValue] != 0)
@@ -533,7 +502,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     resultGame = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
     
     [resultGame setArchiveID:[gameInfo valueForKey:AVGGameIDKey]];
-    [resultGame setName:[gameInfo valueForKey:AVGGameTitleKey]];
+    [resultGame setName:[gameInfo valueForKey:AVGGameRomNameKey]];
     [resultGame setLastArchiveSync:[NSDate date]];
     [resultGame setImportDate:[NSDate date]];
     
@@ -557,8 +526,29 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(img == nil) return;
     
-    NSManagedObjectContext *context = [self managedObjectContext];
-    boxImage = [OEDBImage imageWithImage:img inContext:context];
+    boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
+    
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
+    // For each thumbnail size specified in defaults...
+    for(NSString *aSizeString in sizes)
+    {
+        NSSize size = NSSizeFromString(aSizeString);
+        // ...generate thumbnail
+        NSLog(@"Calling thumbnail generation with size: %@", NSStringFromSize(size));
+        [boxImage generateThumbnailForSize:size];
+    }
+    
+    [self setBoxImage:boxImage];
+}
+
+- (void)setBoxImageByURL:(NSURL*)url
+{
+    OEDBImage *boxImage = [self boxImage];
+    if(boxImage != nil)
+        [[boxImage managedObjectContext] deleteObject:boxImage];
+        
+    boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
@@ -567,16 +557,10 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     {
         NSSize size = NSSizeFromString(aSizeString);
         // ...generate thumbnail ;)
-        [boxImage generateImageForSize:size];
+        [boxImage generateThumbnailForSize:size];
     }
     
     [self setBoxImage:boxImage];
-}
-
-- (void)setBoxImageByURL:(NSURL*)url
-{
-    NSImage *img = [[NSImage alloc] initWithContentsOfURL:url];
-    [self setBoxImageByImage:img];
 }
 
 #pragma mark -
@@ -588,7 +572,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if([[archiveGameDict valueForKey:AVGGameIDKey] intValue] == 0) return;
     
     [self setArchiveID:[archiveGameDict valueForKey:AVGGameIDKey]];
-    [self setName:[archiveGameDict valueForKey:AVGGameTitleKey]];
+    [self setName:[archiveGameDict valueForKey:AVGGameRomNameKey]];
     [self setLastArchiveSync:[NSDate date]];
     [self setImportDate:[NSDate date]];
     
@@ -649,7 +633,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 {
     if(type == OEPasteboardTypeGame)
     {
-        NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
+        NSManagedObjectContext *context = [[self libraryDatabase] managedObjectContext];
         return (OEDBGame *)[context objectWithID:propertyList];
     }
     

@@ -35,6 +35,7 @@
 #import "NSURL+OELibraryAdditions.h"
 @interface OEDBRom (Private)
 + (id)_createRomWithoutChecksWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
+- (void)_calculateHashes;
 @end
 @implementation OEDBRom
 #pragma mark -
@@ -82,13 +83,13 @@
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     BOOL copyToDatabase = [standardUserDefaults boolForKey:UDCopyToLibraryKey];
-    BOOL useMD5 = [standardUserDefaults boolForKey:UDUseMD5HashingKey];
     
-    NSURL    *newURL = [url copy];
-    if(copyToDatabase && ![newURL isSubpathOfURL:[database databaseURL]])
+    NSURL    *newURL = nil;
+    if(copyToDatabase && ![url isSubpathOfURL:[database databaseURL]])
     {
-        NSURL         *databaseUnsortedFolderURL = [database unsortedRomsFolderURL];
-        NSFileManager *defaultManager = [NSFileManager defaultManager];
+                      newURL                        = [url copy];
+        NSURL         *databaseUnsortedFolderURL    = [database unsortedRomsFolderURL];
+        NSFileManager *defaultManager               = [NSFileManager defaultManager];
         
         NSString *fileName = [[newURL lastPathComponent] stringByDeletingPathExtension];
         NSString *fileSuffix = [newURL pathExtension];
@@ -107,17 +108,16 @@
             return nil;
         }
     }
-    
-    [rom setURL:newURL];
+    if(newURL) [rom setURL:newURL];
+    else       [rom setURL:url];
     
     if(md5!=nil) [rom setMd5:md5];
     if(crc!=nil) [rom setCrc32:crc];
     
-    BOOL calculateHash = (useMD5 && md5==nil) || (!useMD5 && crc==nil);
-    if(calculateHash)
+    if(!md5 && !crc)
     {
-        NSData *data = [NSData dataWithContentsOfFile:[newURL path] options:NSDataReadingUncached error:outError];
-        if(!data)
+        NSString *crcHash, *md5Hash;
+        if(![[NSFileManager defaultManager] hashFileAtURL:url md5:&md5Hash crc32:&crcHash error:outError])
         {
             [[NSFileManager defaultManager] removeItemAtPath:[newURL path] error:nil];
             
@@ -127,23 +127,11 @@
             return nil;
         }
         
-        NSFileManager *defaultFileManager = [NSFileManager defaultManager];
-        NSString *hash;
-        if(useMD5)
-        {
-            hash = [defaultFileManager MD5DigestForFileAtURL:url error:outError];
-            if(!hash)
-                return nil;
-            [rom setMd5:hash];
-        }
-        else
-        {
-            hash = [defaultFileManager CRC32ForFileAtURL:url error:outError];
-            if(!hash)
-                return nil;
-            [rom setCrc32:hash];
-        }
+        [rom setMd5:md5Hash];
+        [rom setCrc32:crcHash];
     }
+    
+    [rom setFileSize:[url fileSize]];
     
     return rom;
 }
@@ -218,23 +206,8 @@
     NSString *hash = [self md5];
     if(!hash)
     {
-        NSError *error = nil;
-        NSURL *url = [self URL];
-        if(![url checkResourceIsReachableAndReturnError:&error])
-        {
-            // TODO: mark self as file missing
-            DLog(@"%@", error);
-            return nil;
-        }
-        
-        hash = [[NSFileManager defaultManager] MD5DigestForFileAtURL:url error:&error];
-        if(!hash)
-        {
-            DLog(@"%@", error);
-            // TODO: mark self as file missing
-            return nil;
-        }
-        [self setMd5:hash];
+        [self _calculateHashes];
+        return [self md5HashIfAvailable];
     }
     return hash;
 }
@@ -249,22 +222,8 @@
     NSString *hash = [self crc32];
     if(!hash)
     {
-        NSError *error = nil;
-        NSURL *url = [self URL];
-        if(![url checkResourceIsReachableAndReturnError:&error])
-        {
-            // TODO: mark self as file missing
-            DLog(@"%@", error);
-            return nil;
-        }
-        hash = [[NSFileManager defaultManager] CRC32ForFileAtURL:url error:&error];
-        if(!hash)
-        {
-            DLog(@"%@", error);
-            // TODO: mark self as file missing
-            return nil;
-        }
-        [self setCrc32:hash];
+        [self _calculateHashes];
+        return [self crcHashIfAvailable];
     }
     return hash;    
 }
@@ -273,6 +232,30 @@
 {
     return [self crc32];
 }
+
+- (void)_calculateHashes
+{
+    NSError *error = nil;
+    NSURL *url = [self URL];
+    if(![url checkResourceIsReachableAndReturnError:&error])
+    {
+        // TODO: mark self as file missing
+        DLog(@"%@", error);
+        return;
+    }
+    
+    NSString *md5Hash, *crc32Hash;
+    if(![[NSFileManager defaultManager] hashFileAtURL:url md5:&md5Hash crc32:&crc32Hash error:&error])
+    {
+        DLog(@"%@", error);
+        // TODO: mark self as file missing
+        return;
+    }
+    
+    [self setCrc32:crc32Hash];
+    [self setMd5:md5Hash];
+}
+
 
 - (NSArray *)normalSaveStates
 {
@@ -354,7 +337,7 @@
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
     NSURL *url = [self URL];
-    if(url && [url isSubpathOfURL:[[OELibraryDatabase defaultDatabase] romsFolderURL]])
+    if(url && [url isSubpathOfURL:[[self libraryDatabase] romsFolderURL]])
     {
         NSString *path = [url path];
         [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:[path stringByDeletingLastPathComponent] destination:nil files:[NSArray arrayWithObject:[path lastPathComponent]] tag:NULL];
@@ -379,7 +362,7 @@
 }
 #pragma mark -
 #pragma mark Data Model Properties
-@dynamic bookmarkData, favorite, crc32, md5, lastPlayed;
+@dynamic bookmarkData, favorite, crc32, md5, lastPlayed, fileSize;
 
 #pragma mark -
 #pragma mark Data Model Relationships

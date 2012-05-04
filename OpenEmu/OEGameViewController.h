@@ -106,7 +106,6 @@
 - (BOOL)isEmulationPaused;
 - (void)toggleEmulationPaused;
 - (void)setPauseEmulation:(BOOL)flag;
-- (void)setVolume:(float)volume;
 
 #pragma mark - Saving States
 - (IBAction)saveState:(id)sender;

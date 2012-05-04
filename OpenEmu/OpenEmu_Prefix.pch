@@ -105,7 +105,6 @@
 #define UDMaxSaveGameNameLengthKey  @"MaxSaveGameNameLength"    /*  maximum length of a valid save game name */
 #define UDPopoutHasScreenSizeKey    @"forceDefaultScreenSize"
 #define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/
-#define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification	 (default: YES)								*/
 #define UDBoxSizesKey				@"BoxSizes"					/*	Array of sizes used for Box Artwork thumbnails (defaults registered in main.m)				*/
 #define UDHUDHideOptionsKey         @"HUDBarWithoutOptions"     /*  Set to yes to disable the cog in the hudbar                                                 */
 #define UDHUDCanDeleteStateKey      @"HUDBarCanDeleteState"     /*  Enable to allow users to remove savestates by holding the alt button when clicking on a savestate  */
@@ -149,6 +148,7 @@
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 
+#define LibraryDatabaseKey @"OELibraryDatabase" // Key in OELibraryDatabase's moc user info
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Default installed, non QTZ based filters names, used to identify filters 
 //  (see OEHudControlsBar.m, OEPrefGameplayController.m and OEGameLayer.m)

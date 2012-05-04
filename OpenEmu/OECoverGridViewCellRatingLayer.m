@@ -39,6 +39,8 @@ const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
 #pragma mark -
 @implementation OECoverGridViewCellRatingLayer
 
+@synthesize rating = _rating;
+
 - (id)init
 {
     if((self = [super init]))
@@ -113,11 +115,6 @@ const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
         _rating = newRating;
         [self setNeedsDisplay];
     }
-}
-
-- (NSUInteger)rating
-{
-    return _rating;
 }
 
 @end

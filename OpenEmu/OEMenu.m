@@ -1711,7 +1711,7 @@
     
     int __block normalItemCount = 0;
     int __block separatorItemCount = 0;
-    [menuItems enumerateObjectsUsingBlock:^(id menuItem, NSUInteger idx, BOOL *stop) 
+    [menuItems enumerateObjectsUsingBlock:^(NSMenuItem* menuItem, NSUInteger idx, BOOL *stop) 
      {
          if([menuItem isSeparatorItem])
          { 

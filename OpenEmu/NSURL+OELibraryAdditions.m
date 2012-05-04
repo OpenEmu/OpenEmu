@@ -56,6 +56,12 @@
     return [[resourceValues objectForKey:NSURLIsDirectoryKey] boolValue];
 }
 
+- (NSNumber*)fileSize
+{
+    NSDictionary *resourceValues = [self resourceValuesForKeys:[NSArray arrayWithObject:NSURLFileSizeKey] error:nil];
+    return [resourceValues objectForKey:NSURLFileSizeKey];
+}
+
 - (NSURL*)uniqueURLUsingBlock:(NSURL*(^)(NSInteger triesCount))block
 {
     NSURL     *result       = self;

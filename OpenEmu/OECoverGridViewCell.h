@@ -39,8 +39,6 @@
 
     CGSize _cachedSize;
 
-    NSMutableArray *_animationGroupStack;
-
     OEGridLayer                    *_proposedImageLayer;
     OEGridLayer                    *_imageLayer;
     CATextLayer                    *_titleLayer;
@@ -50,15 +48,14 @@
     OEGridLayer                        *_glossyOverlayLayer;
     OEGridLayer                        *_selectionIndicatorLayer;
 
-    NSImage *_image;
-    BOOL     _needsLayoutImageAndSelection;
-    BOOL     _activeSelector;
+    BOOL _needsLayoutImageAndSelection;
+    BOOL _activeSelector;
 
     OECoverGridViewCellIndicationType _indicationType;
 }
 
 #pragma mark - Properties
-@property(nonatomic, retain) NSImage   *image;
+@property(nonatomic, strong) NSImage   *image;
 @property(nonatomic, copy)   NSString  *title;
 @property(nonatomic, assign) NSUInteger rating;
 

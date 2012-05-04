@@ -39,6 +39,7 @@
 
 - (NSImage *)gridImage;
 - (NSImage *)gridImageWithSize:(NSSize)size;
+- (NSSize)actualGridImageSizeforSize:(NSSize)aSize;
 - (void)setGridImage:(NSImage *)gridImage;
 
 @end

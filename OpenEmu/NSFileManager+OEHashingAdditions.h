@@ -27,6 +27,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSFileManager (OEHashingAdditions)
-- (NSString *)MD5DigestForFileAtURL:(NSURL *)url error:(NSError **)error;
-- (NSString *)CRC32ForFileAtURL:(NSURL *)url error:(NSError **)error;
+- (BOOL)hashFileAtURL:(NSURL*)url md5:(NSString**)outMD5 crc32:(NSString**)outCRC32 error:(NSError**)error;
 @end

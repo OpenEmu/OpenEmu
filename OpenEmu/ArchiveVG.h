@@ -20,6 +20,8 @@
  
  */
 
+// #define ARCHIVE_DEBUG 1
+
 // Keys that appear in Game Info Dicts
 NSString * const AVGGameTitleKey;
 NSString * const AVGGameIDKey;
@@ -33,6 +35,7 @@ NSString * const AVGGameESRBRatingKey;
 NSString * const AVGGameCreditsKey;
 NSString * const AVGGameReleasesKey;
 NSString * const AVGGameTosecsKey;
+NSString * const AVGGameRomNameKey;
 
 // Keys that appear in Credits Dictionaries
 NSString * const AVGCreditsNameKey;
@@ -57,6 +60,12 @@ NSString * const AVGSystemIDKey;
 NSString * const AVGSystemNameKey;
 NSString * const AVGSystemShortKey;
 
+// Key that appear in Game Lists (Batch calls)
+NSString * const AVGGameListItemRomFileKey;
+NSString * const AVGGameListItemSizeKey;
+NSString * const AVGGameListItemCRC32Key;
+NSString * const AVGGameListItemMD5Key;
+
 @interface ArchiveVG : NSObject
 #pragma mark -
 #pragma mark API Access for Class
@@ -65,14 +74,20 @@ NSString * const AVGSystemShortKey;
 + (NSArray*)gamesForSystem:(NSString*)systemShortName;      // returns an array of NSDictionaries (Game Info) or nil if an error occured
 
 + (NSDictionary*)gameInfoByCRC:(NSString*)crc; // returns NSDictionary (Game Info) or nil if not found / error occured
++ (NSDictionary*)gameInfoByCRC:(NSString*)crc andMD5:(NSString*)md5; // returns NSDictionary (Game Info) or nil if not found / error occured
 + (NSDictionary*)gameInfoByMD5:(NSString*)md5; // returns NSDictionary (Game Info) or nil if not found / error occured
++ (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc; // returns NSDictionary (Game Info) or nil if not found / error occured
 + (NSDictionary*)gameInfoByID:(NSInteger)gameID; // returns NSDictionary (Game Info) or nil if not found / error occured
+
++ (void)gameInfoByGameList:(NSArray*)gameList callback:(void (^)(NSArray* result, NSError* error))callback;      // returns an array of NSDictionaries (Game Info) or nil if an error occured
 #pragma mark -
 #pragma mark API Access for Class instances
 // For description, see API Access for Class
 - (NSArray*)searchResultsForString:(NSString*)searchString;
 - (NSArray*)systems;
 - (NSArray*)gamesForSystem:(NSString*)systemShortName;
+
+- (void)gameInfoByGameList:(NSArray*)gameList callback:(void (^)(NSArray* result, NSError* error))callback;
 
 - (NSDictionary*)gameInfoByCRC:(NSString*)crc;
 - (NSDictionary*)gameInfoByMD5:(NSString*)md5;

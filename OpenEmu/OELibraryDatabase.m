@@ -109,7 +109,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];    
     [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-    
+    [[__managedObjectContext userInfo] setValue:self forKey:LibraryDatabaseKey];
+
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setObject:[self.databaseURL path] forKey:UDDatabasePathKey];
@@ -268,7 +269,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
         [context setMergePolicy:policy];
-        
+        [[context userInfo] setValue:self forKey:LibraryDatabaseKey];        
     }
     return [managedObjectContexts valueForKey:[thread name]];
     
@@ -288,14 +289,14 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSThread *thread = [notification object];
     NSString *threadName = [thread name];
     NSManagedObjectContext *ctx = [managedObjectContexts valueForKey:threadName];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
+
+    if([ctx hasChanges]) [ctx save:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:ctx];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
     
-    if([ctx hasChanges])
-        [ctx save:nil];
     [managedObjectContexts removeObjectForKey:threadName];
 }
+
 #pragma mark -
 - (BOOL)save:(NSError**)error
 {
@@ -828,6 +829,17 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSURL *result = [[self stateFolderURLForSystem:[[rom game] system]] URLByAppendingPathComponent:[[[rom URL] lastPathComponent] stringByDeletingPathExtension]];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     return result;
+}
+
+- (NSURL *)coverFolderURL
+{
+    NSUserDefaults *standardDefaults  = [NSUserDefaults standardUserDefaults];
+    NSString       *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+    NSString       *coverFolderPath   = [libraryFolderPath stringByAppendingPathComponent:@"Artwork/"];
+   
+    NSURL *url = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
+    [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
+    return url;
 }
 
 #pragma mark -
