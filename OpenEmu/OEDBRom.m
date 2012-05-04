@@ -131,6 +131,8 @@
         [rom setCrc32:crcHash];
     }
     
+    [rom setFileSize:[url fileSize]];
+    
     return rom;
 }
 #pragma mark -
@@ -360,7 +362,7 @@
 }
 #pragma mark -
 #pragma mark Data Model Properties
-@dynamic bookmarkData, favorite, crc32, md5, lastPlayed;
+@dynamic bookmarkData, favorite, crc32, md5, lastPlayed, fileSize;
 
 #pragma mark -
 #pragma mark Data Model Relationships
