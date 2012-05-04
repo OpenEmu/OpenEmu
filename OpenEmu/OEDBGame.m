@@ -526,7 +526,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(img == nil) return;
     
-    boxImage = [OEDBImage imageWithImage:img inLibrary:[OELibraryDatabase defaultDatabase]];
+    boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
@@ -548,7 +548,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(boxImage != nil)
         [[boxImage managedObjectContext] deleteObject:boxImage];
         
-    boxImage = [OEDBImage imageWithURL:url inLibrary:[OELibraryDatabase defaultDatabase]];
+    boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
@@ -633,7 +633,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 {
     if(type == OEPasteboardTypeGame)
     {
-        NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
+        NSManagedObjectContext *context = [[self libraryDatabase] managedObjectContext];
         return (OEDBGame *)[context objectWithID:propertyList];
     }
     
