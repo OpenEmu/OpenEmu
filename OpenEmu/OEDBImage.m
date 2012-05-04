@@ -25,20 +25,60 @@
  */
 
 #import "OEDBImage.h"
+#import "OEDBImageThumbnail.h"
+#import "OELibraryDatabase.h"
 @interface OEDBImage ()
-- (void)_putThumbnailsInOrder;
-
-+ (NSData *)_convertImageToData:(NSImage *)image;
-+ (NSImage *)_convertDataToImage:(NSData *)data;
-- (NSData *)_convertImageToData:(NSImage *)image;
-- (NSImage *)_convertDataToImage:(NSData *)data;
 @end
-
+#pragma mark -
 @implementation OEDBImage
 
++ (id)imageWithImage:(NSImage *)image inLibrary:(OELibraryDatabase *)library
+{
+    NSManagedObjectContext  *context        = [library managedObjectContext];
+    NSEntityDescription     *desc           = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
+    OEDBImage               *imageObject    = [[self alloc] initWithEntity:desc insertIntoManagedObjectContext:context];
+    OEDBImageThumbnail      *thumbnailImage = [[OEDBImageThumbnail alloc] initWithImage:image size:NSZeroSize inLibrary:library];
+    
+    if(!thumbnailImage)
+    {
+        [context deleteObject:imageObject];
+        return nil;
+    }
+    
+    [imageObject addVersion:thumbnailImage];
+    return imageObject;
+}
+
++ (id)imageWithPath:(NSString *)path inLibrary:(OELibraryDatabase *)library
+{
+    NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
+    if(!image) return nil;
+    
+    OEDBImage *imageObject = [OEDBImage imageWithImage:image inLibrary:library];
+    [imageObject setSourceURL:[[NSURL fileURLWithPath:path] absoluteString]];
+    return imageObject;
+}
+
++ (id)imageWithURL:(NSURL*)url inLibrary:(OELibraryDatabase *)library
+{
+    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
+    if(!image) return nil;
+    
+    OEDBImage *imageObject = [OEDBImage imageWithImage:image inLibrary:library];
+    [imageObject setSourceURL:[url absoluteString]];
+    return imageObject;
+}
+
++ (id)imageWithData:(NSData *)data inLibrary:(OELibraryDatabase *)library
+{
+    NSImage *image = [[NSImage alloc] initWithData:data];
+    if(!image) return nil;
+    
+    OEDBImage *imageObject = [OEDBImage imageWithImage:image inLibrary:library];
+    return imageObject;
+}
 #pragma mark -
 #pragma mark Core Data utilities
-
 + (NSString *)entityName
 {
     return @"Image";
@@ -49,131 +89,30 @@
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 
+- (void)addVersion:(OEDBImageThumbnail*)version
+{
+    if(version)
+        [[self mutableSetValueForKey:@"versions"] addObject:version];
+}
+- (void)removeVersion:(OEDBImageThumbnail*)version
+{
+    if(version)
+        [[self mutableSetValueForKey:@"versions"] removeObject:version];
+}
+@dynamic sourceURL;
 #pragma mark -
-
-+ (id)imageWithImage:(NSImage *)image inContext:(NSManagedObjectContext *)context
-{
-    NSEntityDescription *desc = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
-    OEDBImage *imageObject = [[self alloc] initWithEntity:desc insertIntoManagedObjectContext:context];
-    
-    NSEntityDescription *thumbnailDesc = [NSEntityDescription entityForName:@"ImageThumbnail" inManagedObjectContext:context];
-    
-    NSManagedObject *original = [[NSManagedObject alloc] initWithEntity:thumbnailDesc insertIntoManagedObjectContext:context];
-    
-    NSEntityDescription *thumbnailDataDesc = [NSEntityDescription entityForName:@"ImageData" inManagedObjectContext:context];
-    NSManagedObject *thumbnailDataObj = [[NSManagedObject alloc] initWithEntity:thumbnailDataDesc insertIntoManagedObjectContext:context];
-    
-    NSData *imageData = [self _convertImageToData:image];
-    [original setValue:thumbnailDataObj forKey:@"data"];
-    [original setValue:imageData forKeyPath:@"data.data"];
-    [original setValue:[NSNumber numberWithFloat:image.size.width] forKey:@"width"];
-    [original setValue:[NSNumber numberWithFloat:image.size.height] forKey:@"height"];
-    
-    [[imageObject mutableSetValueForKey:@"versions"] addObject:original];
-    
-    
-    return imageObject;
-}
-
-+ (id)imageWithPath:(NSString *)path inContext:(NSManagedObjectContext *)context
-{
-    NSEntityDescription *desc = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
-    
-    NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
-    if(!image)
-        return nil;
-    
-    OEDBImage *imageObject = [[self alloc] initWithEntity:desc insertIntoManagedObjectContext:context];
-    
-    NSEntityDescription *thumbnailDesc = [NSEntityDescription entityForName:@"ImageThumbnail" inManagedObjectContext:context];
-    
-    NSManagedObject *original = [[NSManagedObject alloc] initWithEntity:thumbnailDesc insertIntoManagedObjectContext:context];
-    
-    NSEntityDescription *thumbnailDataDesc = [NSEntityDescription entityForName:@"ImageData" inManagedObjectContext:context];
-    NSManagedObject *thumbnailDataObj = [[NSManagedObject alloc] initWithEntity:thumbnailDataDesc insertIntoManagedObjectContext:context];
-    
-    NSData *imageData = [self _convertImageToData:image];
-    [original setValue:thumbnailDataObj forKey:@"data"];
-    [original setValue:imageData forKeyPath:@"data.data"];
-    [original setValue:[NSNumber numberWithFloat:image.size.width] forKey:@"width"];
-    [original setValue:[NSNumber numberWithFloat:image.size.height] forKey:@"width"];
-    
-    [[imageObject mutableSetValueForKey:@"versions"] addObject:original];
-    
-    
-    return imageObject;
-}
-
-+ (id)imageWithURL:(NSURL*)url inContext:(NSManagedObjectContext *)context
-{
-    NSEntityDescription *desc = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
-    
-    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
-    if(image == nil) return nil;
-    
-    OEDBImage *imageObject = [[self alloc] initWithEntity:desc insertIntoManagedObjectContext:context];
-    [imageObject setValue:[url absoluteURL] forKey:@"url"];
-    
-    NSEntityDescription *thumbnailDesc = [NSEntityDescription entityForName:@"ImageThumbnail" inManagedObjectContext:context];
-    
-    NSManagedObject *original = [[NSManagedObject alloc] initWithEntity:thumbnailDesc insertIntoManagedObjectContext:context];
-    
-    
-    NSEntityDescription *thumbnailDataDesc = [NSEntityDescription entityForName:@"ImageData" inManagedObjectContext:context];
-    NSManagedObject *thumbnailDataObj = [[NSManagedObject alloc] initWithEntity:thumbnailDataDesc insertIntoManagedObjectContext:context];
-    
-    NSData *imageData = [self _convertImageToData:image];
-    [original setValue:thumbnailDataObj forKey:@"data"];
-    [original setValue:imageData forKeyPath:@"data.data"];
-    [original setValue:[NSNumber numberWithFloat:image.size.width] forKey:@"width"];
-    [original setValue:[NSNumber numberWithFloat:image.size.height] forKey:@"width"];
-    
-    [[imageObject mutableSetValueForKey:@"versions"] addObject:original];
-    
-    
-    return imageObject;
-}
-
-+ (id)imageFromData:(NSData *)data inContext:(NSManagedObjectContext *)context
-{
-    NSEntityDescription *desc = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
-    
-    NSImage *image = [[NSImage alloc] initWithData:data];
-    if(image == nil) return nil;
-    
-    OEDBImage *imageObject = [[self alloc] initWithEntity:desc insertIntoManagedObjectContext:context];
-    
-    NSEntityDescription *thumbnailDesc = [NSEntityDescription entityForName:@"ImageThumbnail" inManagedObjectContext:context];
-    
-    NSManagedObject *original = [[NSManagedObject alloc] initWithEntity:thumbnailDesc insertIntoManagedObjectContext:context];
-    
-    // TODO: think about using something other than original data to have same kind of data in all images no matter how they were created
-    NSEntityDescription *thumbnailDataDesc = [NSEntityDescription entityForName:@"ImageData" inManagedObjectContext:context];
-    NSManagedObject *thumbnailDataObj = [[NSManagedObject alloc] initWithEntity:thumbnailDataDesc insertIntoManagedObjectContext:context];
-    
-    [original setValue:thumbnailDataObj forKey:@"data"];
-    [original setValue:data forKeyPath:@"data.data"];
-    [original setValue:[NSNumber numberWithFloat:image.size.width] forKey:@"width"];
-    [original setValue:[NSNumber numberWithFloat:image.size.height] forKey:@"width"];
-    
-    [[imageObject mutableSetValueForKey:@"versions"] addObject:original];
-    
-    
-    return imageObject;
-}
-
 // returns image with highest resolution
-- (NSImage *)image
+- (NSImage *)originalImage
 {
     NSSet *thumbnailsSet = [self valueForKey:@"versions"];
     
     NSSortDescriptor *sotDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
     NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
     
-    NSManagedObject *image = [thumbnails lastObject];
-    NSData *imageData = [image valueForKeyPath:@"data.data"];
-    
-    return [self _convertDataToImage:imageData];
+    OEDBImageThumbnail *originalImage = [thumbnails lastObject];
+    NSURL *url = [[[OELibraryDatabase defaultDatabase] coverFolderURL] URLByAppendingPathComponent:[originalImage path]];
+    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
+    return image;
 }
 
 - (NSImage *)imageForSize:(NSSize)size
@@ -183,8 +122,8 @@
     NSSortDescriptor *sotDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
     NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
     
-    NSManagedObject *usableThumbnail = nil;
-    for(NSManagedObject *obj in thumbnails)
+    OEDBImageThumbnail *usableThumbnail = nil;
+    for(OEDBImageThumbnail *obj in thumbnails)
     {
         if([[obj valueForKey:@"width"] floatValue] >= size.width ||
            [[obj valueForKey:@"height"] floatValue] >= size.height)
@@ -197,25 +136,15 @@
     if(usableThumbnail == nil)
         usableThumbnail = [thumbnails lastObject];
     
-    NSImage *image = nil;
+    if(!usableThumbnail) return nil;
     
-    @try
-    {
-        NSData *imageData = [usableThumbnail valueForKeyPath:@"data.data"];
-        image = [self _convertDataToImage:imageData];
-    }
-    @catch (NSException *exception)
-    {
-        NSLog(@"caught exception!");
-        NSLog(@"%@", exception);
-    }
-    
-    
+    NSURL *url = [[[OELibraryDatabase defaultDatabase] coverFolderURL] URLByAppendingPathComponent:[usableThumbnail path]];
+    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
     return image;
 }
 
 
-- (NSSize)actualImageSizeForSize:(NSSize)size
+- (NSSize)sizeOfThumbnailForSize:(NSSize)size
 {
     NSSet *thumbnailsSet = [self valueForKey:@"versions"];
     
@@ -236,103 +165,30 @@
     if(usableThumbnail == nil)
         usableThumbnail = [thumbnails lastObject];
     
-    return NSMakeSize([[usableThumbnail valueForKey:@"width"] floatValue], [[usableThumbnail valueForKey:@"height"] floatValue]);
+    return (NSSize){[[usableThumbnail valueForKey:@"width"] floatValue], [[usableThumbnail valueForKey:@"height"] floatValue]};
 }
 
 // generates thumbnail to fill size
-- (void)generateImageForSize:(NSSize)size
+- (void)generateThumbnailForSize:(NSSize)size
 {
     @autoreleasepool {
-        NSMutableSet *thumbnailsSet = [self mutableSetValueForKey:@"versions"];
+        OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
+        NSURL             *coverFolderURL = [library coverFolderURL];
         
-        NSSortDescriptor *sotDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
-        NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
+        // Find Original Thumbnail
+        NSSet               *thumbnailsSet  = [self valueForKey:@"versions"];
+        NSSortDescriptor    *sotDescr       = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
+        NSArray             *thumbnails     = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
         
-        NSManagedObject *original = [thumbnails lastObject];
-        NSSize originalSize = NSMakeSize([[original valueForKey:@"width"] floatValue], [[original valueForKey:@"height"] floatValue]);
+        OEDBImageThumbnail  *originalImageThumb  = [thumbnails lastObject];
+        NSURL               *originalURL         = [coverFolderURL URLByAppendingPathComponent:[originalImageThumb path]];
+        NSImage             *originalImage       = [[NSImage alloc] initWithContentsOfURL:originalURL];
         
-        // thumbnails only make sense when smaller than original
-        if(size.width >= originalSize.width || size.height >= originalSize.height) return;
-        
-        // TODO: check if we already have a thumbnail with specified size
-        
-        float originalAspect = originalSize.width / originalSize.height;
-        
-        NSSize thumbnailSize;
-        if(originalAspect < 1)
-        { // width < height
-            float width = size.height * originalAspect;
-            thumbnailSize = NSMakeSize(width, size.height);
+        if(!originalImage){
+            return;
         }
-        else
-        {
-            float height = size.width / originalAspect;
-            thumbnailSize = NSMakeSize(size.width, height);
-        }
-        
-        NSManagedObjectContext *context = [self managedObjectContext];
-        
-        NSImage *newThumbnailImage = [[NSImage alloc] initWithSize:thumbnailSize];
-        NSImage *originalImage = [self _convertDataToImage:[original valueForKeyPath:@"data.data"]];
-        
-        [newThumbnailImage lockFocus];
-        [originalImage drawInRect:NSMakeRect(0, 0, thumbnailSize.width, thumbnailSize.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-        [newThumbnailImage unlockFocus];
-        
-        NSEntityDescription *thumbnailDesc = [NSEntityDescription entityForName:@"ImageThumbnail" inManagedObjectContext:context];
-        NSManagedObject *newThumbnailObject = [[NSManagedObject alloc] initWithEntity:thumbnailDesc insertIntoManagedObjectContext:context];
-        
-        NSEntityDescription *thumbnailDataDesc = [NSEntityDescription entityForName:@"ImageData" inManagedObjectContext:context];
-        NSManagedObject *thumbnailDataObj = [[NSManagedObject alloc] initWithEntity:thumbnailDataDesc insertIntoManagedObjectContext:context];
-        
-        NSData *newThumbnailData = [self _convertImageToData:newThumbnailImage];
-        [newThumbnailObject setValue:thumbnailDataObj forKey:@"data"];
-        [newThumbnailObject setValue:newThumbnailData forKeyPath:@"data.data"];
-        
-        [newThumbnailObject setValue:[NSNumber numberWithFloat:thumbnailSize.width] forKey:@"width"];
-        [newThumbnailObject setValue:[NSNumber numberWithFloat:thumbnailSize.height] forKey:@"height"];
-        
-        [thumbnailsSet addObject:newThumbnailObject];
+        OEDBImageThumbnail  *newThumbnail        = [[OEDBImageThumbnail alloc] initWithImage:originalImage size:size inLibrary:library];
+        [self addVersion:newThumbnail];
     }
 }
-
-#pragma mark -
-+ (NSData *)_convertImageToData:(NSImage *)image
-{
-    NSArray* representations = [image representations];
-    __block NSBitmapImageRep *rep = nil;
-    [representations enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if([obj isKindOfClass:[NSBitmapImageRep class]])
-        {
-            rep = obj;
-            *stop = YES;
-        }
-    }];
-    
-    if(!rep)
-    {
-        [image lockFocus];
-        rep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, [image size]}];
-        [image unlockFocus];
-    }
-    
-    NSDictionary *properties = [NSDictionary dictionary];
-    return [rep representationUsingType:NSPNGFileType properties:properties];
-}
-
-+ (NSImage *)_convertDataToImage:(NSData *)data
-{
-    return [[NSImage alloc] initWithData:data];
-}
-
-- (NSImage *)_convertDataToImage:(NSData *)data
-{
-    return [self.class _convertDataToImage:data];
-}
-
-- (NSData *)_convertImageToData:(NSImage *)image
-{
-    return [self.class _convertImageToData:image];
-}
-
 @end

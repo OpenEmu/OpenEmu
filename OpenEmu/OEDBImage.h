@@ -25,7 +25,7 @@
  */
 
 #import <Foundation/Foundation.h>
-
+@class OELibraryDatabase, OEDBImageThumbnail;
 @interface OEDBImage : NSManagedObject
 
 #pragma mark -
@@ -33,17 +33,20 @@
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
+- (void)addVersion:(OEDBImageThumbnail*)version;
+- (void)removeVersion:(OEDBImageThumbnail*)version;
+@property (nonatomic, retain) NSString *sourceURL;
 #pragma mark -
-+ (id)imageWithImage:(NSImage *)image inContext:(NSManagedObjectContext *)context;
-+ (id)imageWithPath:(NSString *)path inContext:(NSManagedObjectContext *)context;
-+ (id)imageWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context;
-+ (id)imageFromData:(NSData *)data inContext:(NSManagedObjectContext *)context;
++ (id)imageWithImage:(NSImage *)image inLibrary:(OELibraryDatabase *)library;
++ (id)imageWithPath:(NSString *)path  inLibrary:(OELibraryDatabase *)library;
++ (id)imageWithURL:(NSURL *)url       inLibrary:(OELibraryDatabase *)library;
++ (id)imageWithData:(NSData *)data    inLibrary:(OELibraryDatabase *)library;
+
 // returns image with highest resolution
-- (NSImage *)image;
+- (NSImage *)originalImage;
 - (NSImage *)imageForSize:(NSSize)size;
-- (NSSize)actualImageSizeForSize:(NSSize)size;
+- (NSSize)sizeOfThumbnailForSize:(NSSize)size;
 
 // generates thumbnail to fill size
-- (void)generateImageForSize:(NSSize)size;
-
+- (void)generateThumbnailForSize:(NSSize)size;
 @end

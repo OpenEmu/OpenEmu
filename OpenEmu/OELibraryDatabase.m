@@ -829,6 +829,17 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     return result;
 }
+
+- (NSURL *)coverFolderURL
+{
+    NSUserDefaults *standardDefaults  = [NSUserDefaults standardUserDefaults];
+    NSString       *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+    NSString       *coverFolderPath   = [libraryFolderPath stringByAppendingPathComponent:@"Artwork/"];
+   
+    NSURL *url = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
+    [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
+    return url;
+}
 #pragma mark -
 #pragma mark Private (importing)
 - (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError
