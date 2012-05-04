@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-
+#import "OEDBItem.h"
 @class OEDBImage, OELibraryDatabase;
-@interface OEDBImageThumbnail : NSManagedObject
+@interface OEDBImageThumbnail : OEDBItem
 
 - (id)initWithImage:(NSImage*)image size:(NSSize)size inLibrary:(OELibraryDatabase*)library;
 

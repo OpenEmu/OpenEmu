@@ -25,11 +25,11 @@
  */
 
 #import <CoreData/CoreData.h>
-
+#import "OEDBItem.h"
 @class OELibraryDatabase;
 @class OEDBGame;
 @class OEDBSaveState;
-@interface OEDBRom : NSManagedObject
+@interface OEDBRom : OEDBItem
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBRoms
 // Creating / Acquireing ROMs by filesystem representation

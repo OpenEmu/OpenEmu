@@ -109,7 +109,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];    
     [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-    
+    [[__managedObjectContext userInfo] setValue:self forKey:LibraryDatabaseKey];
+
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setObject:[self.databaseURL path] forKey:UDDatabasePathKey];
@@ -268,7 +269,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
         [context setMergePolicy:policy];
-        
+        [[context userInfo] setValue:self forKey:LibraryDatabaseKey];        
     }
     return [managedObjectContexts valueForKey:[thread name]];
     

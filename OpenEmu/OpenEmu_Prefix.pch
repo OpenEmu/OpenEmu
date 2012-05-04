@@ -148,6 +148,7 @@
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 
+#define LibraryDatabaseKey @"OELibraryDatabase" // Key in OELibraryDatabase's moc user info
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Default installed, non QTZ based filters names, used to identify filters 
 //  (see OEHudControlsBar.m, OEPrefGameplayController.m and OEGameLayer.m)

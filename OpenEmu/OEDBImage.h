@@ -25,8 +25,9 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "OEDBItem.h"
 @class OELibraryDatabase, OEDBImageThumbnail;
-@interface OEDBImage : NSManagedObject
+@interface OEDBImage : OEDBItem
 
 #pragma mark -
 #pragma mark Core Data utilities

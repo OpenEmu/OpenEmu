@@ -25,7 +25,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-
+#import "OEDBItem.h"
 enum _OEDBGameStatus
 {
     OEDBGameStatusOK,
@@ -40,7 +40,7 @@ extern NSString *const OEPasteboardTypeGame;
 @class OEDBSystem, OEDBRom, OEDBSaveState;
 @class OEDBImage;
 
-@interface OEDBGame : NSManagedObject <NSPasteboardWriting, NSPasteboardReading>
+@interface OEDBGame : OEDBItem <NSPasteboardWriting, NSPasteboardReading>
 
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBGames

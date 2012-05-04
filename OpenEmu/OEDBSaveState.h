@@ -25,7 +25,7 @@
  */
 
 #import <CoreData/CoreData.h>
-
+#import "OEDBItem.h"
 extern NSString *const OESaveStateInfoVersionKey;
 extern NSString *const OESaveStateInfoNameKey;
 extern NSString *const OESaveStateInfoDescriptionKey;
@@ -40,7 +40,7 @@ extern NSString *const OESaveStateAutosaveName;
 extern NSString *const OESaveStateQuicksaveName;
 
 @class OEDBRom, OECorePlugin, OELibraryDatabase;
-@interface OEDBSaveState : NSManagedObject
+@interface OEDBSaveState : OEDBItem
 
 + (NSArray*)allStates;
 + (NSArray*)allStatesInDatabase:(OELibraryDatabase*)database;

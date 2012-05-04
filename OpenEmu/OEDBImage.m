@@ -116,7 +116,7 @@
 }
 
 - (NSImage *)imageForSize:(NSSize)size
-{
+{    
     NSSet *thumbnailsSet = [self valueForKey:@"versions"];
     
     NSSortDescriptor *sotDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
