@@ -110,7 +110,7 @@
     NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
     
     OEDBImageThumbnail *originalImage = [thumbnails lastObject];
-    NSURL *url = [[[OELibraryDatabase defaultDatabase] coverFolderURL] URLByAppendingPathComponent:[originalImage path]];
+    NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[originalImage path]];
     NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
     return image;
 }
@@ -138,7 +138,7 @@
     
     if(!usableThumbnail) return nil;
     
-    NSURL *url = [[[OELibraryDatabase defaultDatabase] coverFolderURL] URLByAppendingPathComponent:[usableThumbnail path]];
+    NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[usableThumbnail path]];
     NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
     return image;
 }
@@ -172,7 +172,7 @@
 - (void)generateThumbnailForSize:(NSSize)size
 {
     @autoreleasepool {
-        OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
+        OELibraryDatabase *library = [self libraryDatabase];
         NSURL             *coverFolderURL = [library coverFolderURL];
         
         // Find Original Thumbnail
