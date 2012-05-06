@@ -190,7 +190,7 @@ void update_input()
     return 2;
 }
 
-NSUInteger GenesisControlValues[] = { INPUT_A, INPUT_B, INPUT_C, INPUT_X, INPUT_Y, INPUT_Z, INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, INPUT_START, INPUT_MODE };
+NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, INPUT_A, INPUT_B, INPUT_C, INPUT_X, INPUT_Y, INPUT_Z, INPUT_START, INPUT_MODE };
 
 - (BOOL)shouldPauseForButton:(NSInteger)button
 {
