@@ -38,7 +38,6 @@
 @interface OESetupAssistant : NSViewController <NSTableViewDelegate, NSTableViewDataSource>
 
 @property(copy) void (^completionBlock)(BOOL discoverROM);
-@property(copy) NSArray *coreList;
 @property(copy) NSArray *deviceHandlers;
 
 @property(weak) IBOutlet OEGlossButton *goButton;

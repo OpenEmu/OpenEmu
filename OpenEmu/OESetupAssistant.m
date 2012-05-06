@@ -44,7 +44,6 @@
 
 @implementation OESetupAssistant
 @synthesize completionBlock;
-@synthesize coreList;
 @synthesize deviceHandlers;
 
 @synthesize transition;
@@ -422,12 +421,13 @@
     if(aTableView == [self installCoreTableView])
     {
         NSString *identifier = [aTableColumn identifier];
+        
         if([identifier isEqualToString:@"enabled"])
             return [NSNumber numberWithBool:YES];
         else if([identifier isEqualToString:@"emulatorName"])
-            return [(OECoreDownload *)[[self coreList] objectAtIndex:rowIndex] name];
+            return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] name];
         else if([identifier isEqualToString:@"emulatorSystem"])
-            return [(OECoreDownload *)[[self coreList] objectAtIndex:rowIndex] description];
+            return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] description];
     }
     else if(aTableView == [self mountedVolumes])
     {
