@@ -29,6 +29,7 @@
 
 
 @implementation NSString (OEAdditions)
+
 - (BOOL)isEqualToString:(NSString *)aString excludingRange:(NSRange)aRange
 {
     NSUInteger length1 = [self length];
@@ -53,4 +54,5 @@
     
     return YES;
 }
+
 @end

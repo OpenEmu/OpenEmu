@@ -97,5 +97,38 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>neogeopocket_library</string>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OENGPButtonUp</string>
+		<string>OENGPButtonDown</string>
+		<string>OENGPButtonLeft</string>
+		<string>OENGPButtonRight</string>
+		<string>OENGPButtonA</string>
+		<string>OENGPButtonB</string>
+		<string>OENGPButtonOption</string>
+	</array>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OENGPButtonUp</string>
+				<string>OENGPButtonRight</string>
+				<string>OENGPButtonDown</string>
+				<string>OENGPButtonLeft</string>
+			</array>
+		</array>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OENGPButtonUp</string>
+				<string>OENGPButtonDown</string>
+			</array>
+			<array>
+				<string>OENGPButtonLeft</string>
+				<string>OENGPButtonRight</string>
+			</array>
+		</array>
+	</dict>
 </dict>
 </plist>

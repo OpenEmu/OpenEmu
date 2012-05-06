@@ -30,7 +30,7 @@
 
 - (void)OE_rebuildSystemsMenu;
 - (void)OE_setupControllerImageViewWithTransition:(NSString *)transition;
-- (void)OE_openPaneWithNotification:(NSNotification*)notification;
+- (void)OE_openPaneWithNotification:(NSNotification *)notification;
 @end
 
 @implementation OEPrefControlsController
@@ -295,16 +295,14 @@
 
 - (void)setSelectedKey:(NSString *)value
 {
-    if(selectedKey == value)
-        value = nil;
+    if(selectedKey == value) value = nil;
     
     selectedKey = [value copy];
     
-   [[self controlsSetupView] setSelectedKey:selectedKey];
-   [[self controllerView]    setSelectedKey:selectedKey animated:YES];
-
-    NSWindow* window = [[self view] window];
-   [window makeFirstResponder:selectedKey != nil ? [self view] : nil];    
+    [[self controlsSetupView] setSelectedKey:selectedKey];
+    [[self controllerView]    setSelectedKey:selectedKey animated:YES];
+    
+    [[[self view] window] makeFirstResponder:selectedKey != nil ? [self view] : nil];
 }
 
 - (void)setSelectedBindingType:(NSInteger)value
@@ -365,17 +363,17 @@
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
-    OEHIDEventAxis axis = [anEvent axis];
-    OEHIDDirection dir  = [anEvent direction];
+    OEHIDEventAxis axis    = [anEvent axis];
+    OEHIDAxisDirection dir = [anEvent direction];
     
-    if(readingAxis == OEHIDAxisNone && axis != OEHIDAxisNone && dir != OEHIDDirectionNull)
+    if(readingAxis == OEHIDAxisNone && axis != OEHIDAxisNone && dir != OEHIDAxisDirectionNull)
     {
         readingAxis = axis;
         
         [self setSelectedBindingType:1];
         [self registerEvent:anEvent];
     }
-    else if(readingAxis == axis && dir == OEHIDDirectionNull)
+    else if(readingAxis == axis && dir == OEHIDAxisDirectionNull)
         readingAxis = OEHIDAxisNone;
 }
 
@@ -387,7 +385,7 @@
 
 - (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
 {
-    if([anEvent position] != 0)
+    if([anEvent hatDirection] != OEHIDHatDirectionNull)
     {
         [self setSelectedBindingType:1];
         [self registerEvent:anEvent];
@@ -410,7 +408,11 @@
         else
             anEvent = [[self currentSystemController] HIDEventForKey:[self keyPathForKey:key]];
         
-        return (anEvent != nil ? [anEvent displayDescription] : @"<empty>");
+        return (anEvent != nil
+                ? ([anEvent respondsToSelector:@selector(displayDescription)]
+                   ? [anEvent displayDescription]
+                   : [anEvent description])
+                : @"<empty>");
     }
     return [super valueForKey:key];
 }
@@ -420,9 +422,8 @@
     // should be mutually exclusive
     if([[[self currentSystemController] genericControlNames] containsObject:key])
     {
-        [self willChangeValueForKey:key];
         [[self currentSystemController] registerEvent:value forKey:[self keyPathForKey:key]];
-        [self didChangeValueForKey:key];
+        [self resetKeyBindings];
     }
     else [super setValue:value forKey:key];
 }

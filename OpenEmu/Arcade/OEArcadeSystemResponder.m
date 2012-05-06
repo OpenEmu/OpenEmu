@@ -28,22 +28,6 @@
 #import "OEArcadeSystemResponder.h"
 #import "OEArcadeSystemResponderClient.h"
 
-NSString *OEArcadeButtonNameTable[] =
-{
-    @"OEArcadeButton5[@]",
-    @"OEArcadeButton4[@]",
-    @"OEArcadeButton2[@]",
-    @"OEArcadeButton1[@]",
-    @"OEArcadeButtonUp[@]",
-    @"OEArcadeButtonDown[@]",
-    @"OEArcadeButtonLeft[@]",
-    @"OEArcadeButtonRight[@]",
-    @"OEArcadeButtonP1Start[@]",
-    @"OEArcadeButtonInsertCoin[@]",
-    @"OEArcadeButton3[@]",
-    @"OEArcadeButton6[@]",
-};
-
 @implementation OEArcadeSystemResponder
 @dynamic client;
 

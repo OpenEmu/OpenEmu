@@ -28,17 +28,6 @@
 #import "OEGGSystemResponder.h"
 #import "OEGGSystemResponderClient.h"
 
-NSString *OEGGButtonNameTable[] =
-{
-    @"OEGGButtonUp",
-    @"OEGGButtonDown",
-    @"OEGGButtonLeft",
-    @"OEGGButtonRight",
-    @"OEGGButtonA",
-    @"OEGGButtonB",
-    @"OEGGButtonStart",
-};
-
 @implementation OEGGSystemResponder
 @dynamic client;
 

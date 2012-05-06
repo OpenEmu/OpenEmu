@@ -103,5 +103,39 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>gameboy_library</string>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OEGBButtonUp</string>
+		<string>OEGBButtonDown</string>
+		<string>OEGBButtonLeft</string>
+		<string>OEGBButtonRight</string>
+		<string>OEGBButtonA</string>
+		<string>OEGBButtonB</string>
+		<string>OEGBButtonStart</string>
+		<string>OEGBButtonSelect</string>
+	</array>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OEGBButtonUp</string>
+				<string>OEGBButtonRight</string>
+				<string>OEGBButtonDown</string>
+				<string>OEGBButtonLeft</string>
+			</array>
+		</array>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OEGBButtonUp</string>
+				<string>OEGBButtonDown</string>
+			</array>
+			<array>
+				<string>OEGBButtonLeft</string>
+				<string>OEGBButtonRight</string>
+			</array>
+		</array>
+	</dict>
 </dict>
 </plist>

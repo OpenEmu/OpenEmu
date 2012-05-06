@@ -28,25 +28,6 @@
 #import "OEN64SystemResponder.h"
 #import "OEN64SystemResponderClient.h"
 
-NSString *OEN64ButtonNameTable[] =
-{
-    @"OEN64ButtonDPadLeft[@]",
-    @"OEN64ButtonDPadRight[@]",
-    @"OEN64ButtonDPadUp[@]",
-    @"OEN64ButtonDPadDown[@]",
-    @"OEN64ButtonCLeft[@]",
-    @"OEN64ButtonCRight[@]",
-    @"OEN64ButtonCUp[@]",
-    @"OEN64ButtonCDown[@]",
-    @"OEN64ButtonL[@]",
-    @"OEN64ButtonR[@]",
-    @"OEN64ButtonA[@]",
-    @"OEN64ButtonB[@]",
-    @"OEN64ButtonStart[@]",
-    @"OEN64ButtonZ[@]"
-};
-
-
 @implementation OEN64SystemResponder
 @dynamic client;
 

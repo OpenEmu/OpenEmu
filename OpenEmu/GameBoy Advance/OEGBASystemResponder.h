@@ -28,8 +28,6 @@
 
 @protocol OEGBASystemResponderClient;
 
-extern NSString *OEGBAButtonNameTable[];
-
 @interface OEGBASystemResponder : OEBasicSystemResponder
 
 @property(nonatomic, weak) id<OEGBASystemResponderClient> client;

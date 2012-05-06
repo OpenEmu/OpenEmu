@@ -31,11 +31,6 @@
 #import <OpenEmuBase/OEGameCore.h>
 
 @interface OEBasicSystemResponder : OESystemResponder
-{
-@private
-    OEMapRef keyMap;
-}
-
 - (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey;

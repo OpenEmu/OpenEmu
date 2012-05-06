@@ -31,12 +31,12 @@
 
 typedef enum _OEGBButton
 {
-    OEGBButtonA,
-    OEGBButtonB,
     OEGBButtonUp,
     OEGBButtonDown,
     OEGBButtonLeft,
     OEGBButtonRight,
+    OEGBButtonA,
+    OEGBButtonB,
     OEGBButtonStart,
     OEGBButtonSelect,
     OEGBButtonCount,

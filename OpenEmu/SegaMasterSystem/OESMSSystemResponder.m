@@ -28,18 +28,6 @@
 #import "OESMSSystemResponder.h"
 #import "OESMSSystemResponderClient.h"
 
-NSString *OESMSButtonNameTable[] =
-{
-    @"OESMSButtonUp[@]",
-    @"OESMSButtonDown[@]",
-    @"OESMSButtonLeft[@]",
-    @"OESMSButtonRight[@]",
-    @"OESMSButtonA[@]",
-    @"OESMSButtonB[@]",
-    @"OESMSButtonStart",
-    @"OESMSButtonReset",
-};
-
 @implementation OESMSSystemResponder
 @dynamic client;
 

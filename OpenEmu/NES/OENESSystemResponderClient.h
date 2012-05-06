@@ -28,12 +28,12 @@
 
 typedef enum _OENESButton
 {
-    OENESButtonA,
-    OENESButtonB,
     OENESButtonUp,
     OENESButtonDown,
     OENESButtonLeft,
     OENESButtonRight,
+    OENESButtonA,
+    OENESButtonB,
     OENESButtonStart,
     OENESButtonSelect,
     OENESButtonCount

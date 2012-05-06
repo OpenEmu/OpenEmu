@@ -27,22 +27,6 @@
 #import "OEGBASystemResponder.h"
 #import "OEGBASystemResponderClient.h"
 
-NSString *OEGBAButtonNameTable[] =
-{
-    @"OEGBAButtonA[@]",
-    @"OEGBAButtonB[@]",
-    @"OEGBAButtonSelect[@]",
-    @"OEGBAButtonStart[@]",
-    @"OEGBAButtonRight[@]",
-    @"OEGBAButtonLeft[@]",
-    @"OEGBAButtonUp[@]",
-    @"OEGBAButtonDown[@]",
-    @"OEGBAButtonR[@]",
-    @"OEGBAButtonL[@]",
-    @"OEGBAButtonSpeed[@]",
-    @"OEGBAButtonCapture[@]"
-};
-
 @implementation OEGBASystemResponder
 @dynamic client;
 

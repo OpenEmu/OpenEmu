@@ -32,6 +32,7 @@
 
 extern NSString *const OESettingValueKey;
 extern NSString *const OEHIDEventValueKey;
+extern NSString *const OEHIDEventExtraValueKey;
 extern NSString *const OEKeyboardEventValueKey;
 extern NSString *const OEControlsPreferenceKey;
 extern NSString *const OESystemPluginName;
@@ -41,6 +42,19 @@ extern NSString *const OESystemIconName;
 extern NSString *const OEProjectURLKey;
 extern NSString *const OEArchiveIDs;
 extern NSString *const OEFileTypes;
+
+extern NSString *const OEGenericControlNamesKey;
+
+// NSDictionary - contains OEHatSwitchControlsKey and OEAxisControlsKey keys
+extern NSString *const OEControlTypesKey;
+// NSArray - contains strings that are also contained in OEGenericControlNamesKey array
+// They represent keys that should be linked together if one of them were to be associated with a hat switch event
+// The order of the key follows the rotation order: i.e. [ up, right, down, left ]
+extern NSString *const OEHatSwitchControlsKey;
+// NSArray - contains strings that are also contained in OEGenericControlNamesKey array
+// They represent keys that are the opposite of each other on an axis and
+// should be associated together if one of them was associated to an axis event
+extern NSString *const OEAxisControlsKey;
 
 /* OEControlListKey plist format:
  * <array>                                        <!-- Page list -->
@@ -71,15 +85,6 @@ extern NSString *const OEControllerImageMaskKey;   // NSString - file name of th
 extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> NSPoint as NSString
 
 @interface OESystemController : NSObject <OEPluginController>
-{
-@private
-    NSBundle            *_bundle;
-    NSMutableArray      *_gameSystemResponders;
-    NSMutableDictionary *_preferenceViewControllers;
-    
-    NSString *_systemName;
-    NSImage  *_systemIcon;
-}
 
 /*
   *The method search for a class associated with aKey and instantiate the controller
@@ -102,8 +107,8 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 
 @property(readonly)       NSUInteger    numberOfPlayers;
 @property(readonly)       Class         responderClass;
-@property(readonly)       NSArray      *genericSettingNames;
-@property(readonly)       NSArray      *genericControlNames;
+@property(readonly, copy) NSArray      *genericSettingNames;
+@property(readonly, copy) NSArray      *genericControlNames;
 @property(readonly, copy) NSString     *playerString;
 
 @property(readonly, copy) NSArray      *controlPageList;
@@ -114,7 +119,10 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 @property(readonly, copy) NSImage      *controllerImage;
 @property(readonly, copy) NSImage      *controllerImageMask;
 
-- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx;
+- (NSString *)genericKeyForKey:(NSString *)keyName getKeyIndex:(NSUInteger *)keyIndex playerNumber:(NSUInteger *)playerNumber;
+
+- (NSUInteger)keyIndexForKey:(NSString *)keyName getPlayerNumber:(NSUInteger *)playerNumber DEPRECATED_ATTRIBUTE;
+- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx DEPRECATED_ATTRIBUTE;
 
 #pragma mark -
 #pragma mark Bindings settings
@@ -142,6 +150,17 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 - (void)registerSetting:(id)settingValue forKey:(NSString *)keyName;
 - (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
 
+// The block is not called if the key is not part of a hat switch key type
+// The keyIndex in the enumerator is the same as the index in -genericControlNames array
+// The keys are enumerated in the order they appear in the OEHatSwitchControlsKey array
+- (BOOL)enumerateKeysLinkedToHatSwitchKey:(NSString *)aKey usingBlock:(void(^)(NSString *key, NSUInteger keyIdx, BOOL *stop))block;
+// Same as above except it takes a non-generic key
+- (BOOL)enumeratePlayersKeysLinkedToHatSwitchKey:(NSString *)aKey usingBlock:(void(^)(NSString *key, NSUInteger keyIdx, BOOL *stop))block;
+// The method returns nil if the key is not associated with an axis
+- (NSString *)oppositeKeyForAxisKey:(NSString *)aKey getKeyIndex:(NSUInteger *)keyIndex;
+// Same as above except it takes a non-generic key
+- (NSString *)oppositePlayerKeyForAxisKey:(NSString *)aKey getKeyIndex:(NSUInteger *)keyIndex;
+
 #pragma mark -
 #pragma mark Game System Responder objects
 
@@ -155,4 +174,5 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 @property(readonly, strong) NSArray *archiveIDs;
 
 - (BOOL)canHandleFile:(NSString*)path;
+
 @end

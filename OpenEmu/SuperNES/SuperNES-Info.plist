@@ -126,5 +126,43 @@
 			</array>
 		</array>
 	</array>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OESNESButtonUp[@]</string>
+		<string>OESNESButtonDown[@]</string>
+		<string>OESNESButtonLeft[@]</string>
+		<string>OESNESButtonRight[@]</string>
+		<string>OESNESButtonA[@]</string>
+		<string>OESNESButtonB[@]</string>
+		<string>OESNESButtonX[@]</string>
+		<string>OESNESButtonY[@]</string>
+		<string>OESNESButtonTriggerLeft[@]</string>
+		<string>OESNESButtonTriggerRight[@]</string>
+		<string>OESNESButtonStart[@]</string>
+		<string>OESNESButtonSelect[@]</string>
+	</array>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OESNESButtonUp[@]</string>
+				<string>OESNESButtonRight[@]</string>
+				<string>OESNESButtonDown[@]</string>
+				<string>OESNESButtonLeft[@]</string>
+			</array>
+		</array>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OESNESButtonUp[@]</string>
+				<string>OESNESButtonDown[@]</string>
+			</array>
+			<array>
+				<string>OESNESButtonLeft[@]</string>
+				<string>OESNESButtonRight[@]</string>
+			</array>
+		</array>
+	</dict>
 </dict>
 </plist>

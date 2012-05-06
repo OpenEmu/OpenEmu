@@ -31,16 +31,16 @@
 
 typedef enum _OEGenesisButton
 {
+    OEGenesisButtonUp,
+    OEGenesisButtonDown,
+    OEGenesisButtonLeft,
+    OEGenesisButtonRight,
     OEGenesisButtonA,
     OEGenesisButtonB,
     OEGenesisButtonC,
     OEGenesisButtonX,
     OEGenesisButtonY,
     OEGenesisButtonZ,
-    OEGenesisButtonUp,
-    OEGenesisButtonDown,
-    OEGenesisButtonLeft,
-    OEGenesisButtonRight,
     OEGenesisButtonStart,
     OEGenesisButtonMode,
     OEGenesisButtonCount,

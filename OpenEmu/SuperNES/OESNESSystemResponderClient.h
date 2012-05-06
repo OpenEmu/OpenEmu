@@ -31,18 +31,18 @@
 
 typedef enum _OESNESButton
 {
-    OESNESButtonA,
-    OESNESButtonB,
-    OESNESButtonX,
-    OESNESButtonY,
     OESNESButtonUp,
     OESNESButtonDown,
     OESNESButtonLeft,
     OESNESButtonRight,
-    OESNESButtonStart,
-    OESNESButtonSelect,
+    OESNESButtonA,
+    OESNESButtonB,
+    OESNESButtonX,
+    OESNESButtonY,
     OESNESButtonTriggerLeft,
     OESNESButtonTriggerRight,
+    OESNESButtonStart,
+    OESNESButtonSelect,
     OESNESButtonCount,
 } OESNESButton;
 

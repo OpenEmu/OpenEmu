@@ -41,34 +41,18 @@
     return [OENGPSystemResponder class];
 }
 
-- (NSArray *)genericSettingNames;
-{
-    return [super genericSettingNames];
-}
-
-- (NSArray *)genericControlNames;
-{
-    return [NSArray arrayWithObjects:OENGPButtonNameTable count:OENGPButtonCount];
-}
-
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OENGPButtonUp"   ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OENGPButtonRight",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OENGPButtonLeft" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OENGPButtonDown" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OENGPButtonA"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OENGPButtonB"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OENGPButtonReset"   ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OENGPButtonUp"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OENGPButtonRight" ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OENGPButtonLeft"  ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OENGPButtonDown"  ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OENGPButtonA"     ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OENGPButtonB"     ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OENGPButtonOption",
                               nil];
     return controls;
-}
-
-- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx{
-	if(idx!=NULL) *idx = [[self genericControlNames] indexOfObject:keyName];
-	
-	return 1;
 }
 
 @end

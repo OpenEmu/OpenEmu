@@ -73,22 +73,22 @@
     
 }
 
-- (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName;
+- (void)keyboardEvent:(id)theEvent wasSetForKey:(NSString *)keyName;
 {
     
 }
 
-- (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
+- (void)keyboardEvent:(id)theEvent wasUnsetForKey:(NSString *)keyName;
 {
     
 }
 
-- (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName;
+- (void)HIDEvent:(id)theEvent wasSetForKey:(NSString *)keyName;
 {
     
 }
 
-- (void)HIDEventWasRemovedForKey:(NSString *)keyName;
+- (void)HIDEvent:(id)theEvent wasUnsetForKey:(NSString *)keyName;
 {
     
 }

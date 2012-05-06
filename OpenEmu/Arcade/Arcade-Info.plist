@@ -127,5 +127,43 @@
 	<string>Arcade</string>
 	<key>OESystemPluginName</key>
 	<string>Arcade</string>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OEArcadeButtonUp[@]</string>
+		<string>OEArcadeButtonDown[@]</string>
+		<string>OEArcadeButtonLeft[@]</string>
+		<string>OEArcadeButtonRight[@]</string>
+		<string>OEArcadeButton1[@]</string>
+		<string>OEArcadeButton2[@]</string>
+		<string>OEArcadeButton3[@]</string>
+		<string>OEArcadeButton4[@]</string>
+		<string>OEArcadeButton5[@]</string>
+		<string>OEArcadeButton6[@]</string>
+		<string>OEArcadeButtonP1Start[@]</string>
+		<string>OEArcadeButtonInsertCoin[@]</string>
+	</array>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OEArcadeButtonUp[@]</string>
+				<string>OEArcadeButtonRight[@]</string>
+				<string>OEArcadeButtonDown[@]</string>
+				<string>OEArcadeButtonLeft[@]</string>
+			</array>
+		</array>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OEArcadeButtonUp[@]</string>
+				<string>OEArcadeButtonDown[@]</string>
+			</array>
+			<array>
+				<string>OEArcadeButtonLeft[@]</string>
+				<string>OEArcadeButtonRight[@]</string>
+			</array>
+		</array>
+	</dict>
 </dict>
 </plist>
