@@ -51,7 +51,7 @@
 
 @implementation SNESGameCore
 
-NSString *SNESEmulatorKeys[] = { @"A", @"B", @"X", @"Y", @"Up", @"Down", @"Left", @"Right", @"Start", @"Select", @"L", @"R", nil };
+NSString *SNESEmulatorKeys[] = { @"Up", @"Down", @"Left", @"Right", @"A", @"B", @"X", @"Y", @"L", @"R", @"Start", @"Select", nil };
 
 - (void)didPushSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {

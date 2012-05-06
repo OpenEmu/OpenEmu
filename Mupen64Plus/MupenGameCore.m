@@ -48,9 +48,9 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
 }
 
 NSString *MupenControlNames[] = {
-    @"N64_DPadR", @"N64_DPadL", @"N64_DPadD", @"N64_DPadU",
-    @"N64_Start", @"N64_Z", @"N64_B", @"N64_A", @"N64_CR",
-    @"N64_CL", @"N64_CD", @"N64_CU", @"N64_R", @"N64_L"
+    @"N64_DPadU", @"N64_DPadD", @"N64_DPadL", @"N64_DPadR",
+    @"N64_CU", @"N64_CD", @"N64_CL", @"N64_CR",
+    @"N64_B", @"N64_A", @"N64_R", @"N64_L", @"N64_Z", @"N64_Start"
 }; // FIXME: missing: joypad X, joypad Y, mempak switch, rumble switch
 
 @implementation MupenGameCore

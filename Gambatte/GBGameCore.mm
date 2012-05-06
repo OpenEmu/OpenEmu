@@ -192,12 +192,12 @@ void usecsleep(const usec_t usecs) {
 {
     switch(gameButton)
     {
-        case OEGBButtonA      : input.setButA(isPressed);   break;
-        case OEGBButtonB      : input.setButB(isPressed);   break;
         case OEGBButtonUp     : input.setUp(isPressed);     break;
         case OEGBButtonDown   : input.setDown(isPressed);   break;
         case OEGBButtonLeft   : input.setLeft(isPressed);   break;
         case OEGBButtonRight  : input.setRight(isPressed);  break;
+        case OEGBButtonA      : input.setButA(isPressed);   break;
+        case OEGBButtonB      : input.setButB(isPressed);   break;
         case OEGBButtonStart  : input.setStart(isPressed);  break;
         case OEGBButtonSelect : input.setSelect(isPressed); break;
         default : break;
