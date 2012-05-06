@@ -469,7 +469,10 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
             }
                 break;
             default :
+            {
+                [self OE_removeAxisAndHatSwitchBindingsLinkedToKey:keyName removeAxisEvents:YES];
                 [self registerValue:value forKeyPath:keyPath];
+            }
                 break;
         }
     }
@@ -534,10 +537,10 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
     
     NSString *opposite = [self oppositeKeyForAxisKey:generic getKeyIndex:NULL];
     
+    [self OE_resetBindingForKeyPath:[self keyPathForKey:keyName withValueType:OEHIDEventValueKey] withKeyName:keyName];
+    
     if(opposite != nil)
     {
-        [self OE_resetBindingForKeyPath:[self keyPathForKey:keyName withValueType:OEHIDEventValueKey] withKeyName:keyName];
-        
         NSString *oppositeName    = [self playerKeyForKey:opposite player:player];
         NSString *oppositeKeyPath = [self keyPathForKey:oppositeName withValueType:OEHIDEventValueKey];
         
