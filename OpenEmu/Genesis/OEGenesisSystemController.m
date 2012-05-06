@@ -41,16 +41,6 @@
     return [OEGenesisSystemResponder class];
 }
 
-- (NSArray *)genericSettingNames;
-{
-    return [super genericSettingNames];
-}
-
-- (NSArray *)genericControlNames;
-{
-    return [NSArray arrayWithObjects:OEGenesisButtonNameTable count:OEGenesisButtonCount];
-}
-
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:

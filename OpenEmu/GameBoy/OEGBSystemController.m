@@ -41,16 +41,6 @@
     return [OEGBSystemResponder class];
 }
 
-- (NSArray *)genericSettingNames;
-{
-    return [super genericSettingNames];
-}
-
-- (NSArray *)genericControlNames;
-{
-    return [NSArray arrayWithObjects:OEGBButtonNameTable count:OEGBButtonCount];
-}
-
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -64,12 +54,6 @@
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OEGBButtonSelect",
                               nil];
     return controls;
-}
-
-- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx{
-	if(idx!=NULL) *idx = [[self genericControlNames] indexOfObject:keyName];
-	
-	return 1;
 }
 
 @end

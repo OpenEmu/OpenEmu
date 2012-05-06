@@ -47,8 +47,11 @@
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
+#import "ArchiveVG.h"
+
 #import "OEMenu.h"
 #import "OEDBGame.h"
+#import "OEDBGame+ArchiveVGAdditions.h"
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 
@@ -718,11 +721,30 @@
 - (void)getGameInfoFromArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj performInfoSyncWithArchiveVG:nil];
-    }];
+    if([selectedGames count] < 2)
+    {
+        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
+            [obj performInfoSyncWithArchiveVG:nil];
+        }];
+        [self reloadDataIndexes:[self selectedIndexes]];
+    } else {
+        NSMutableArray *gamelist = [NSMutableArray array];
+        for(OEDBGame* aGame in selectedGames){
+            [gamelist addObjectsFromArray:[aGame batchCallDescription]];
+        }
+
+        [ArchiveVG gameInfoByGameList:gamelist callback:^(NSArray *result, NSError *error) {
+            if(error!=nil){
+                NSLog(@"syncinc failed. %@", [error localizedDescription]);
+                return ;
+            }
+            NSLog(@"merge new info with game info");
+            [self reloadDataIndexes:[self selectedIndexes]];
+        }];
+    }
+   
     
-    [self reloadDataIndexes:[self selectedIndexes]];
+    
 }
 
 - (void)getCoverFromArchive:(id)sender

@@ -94,5 +94,38 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>gamegear_library</string>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OEGGButtonUp</string>
+		<string>OEGGButtonDown</string>
+		<string>OEGGButtonLeft</string>
+		<string>OEGGButtonRight</string>
+		<string>OEGGButtonA</string>
+		<string>OEGGButtonB</string>
+		<string>OEGGButtonStart</string>
+	</array>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OEGGButtonUp</string>
+				<string>OEGGButtonRight</string>
+				<string>OEGGButtonDown</string>
+				<string>OEGGButtonLeft</string>
+			</array>
+		</array>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OEGGButtonUp</string>
+				<string>OEGGButtonDown</string>
+			</array>
+			<array>
+				<string>OEGGButtonLeft</string>
+				<string>OEGGButtonRight</string>
+			</array>
+		</array>
+	</dict>
 </dict>
 </plist>

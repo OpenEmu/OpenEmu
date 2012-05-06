@@ -94,5 +94,39 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>sms_library</string>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OESMSButtonUp[@]</string>
+		<string>OESMSButtonDown[@]</string>
+		<string>OESMSButtonLeft[@]</string>
+		<string>OESMSButtonRight[@]</string>
+		<string>OESMSButtonA[@]</string>
+		<string>OESMSButtonB[@]</string>
+		<string>OESMSButtonStart</string>
+		<string>OESMSButtonReset</string>
+	</array>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OESMSButtonUp[@]</string>
+				<string>OESMSButtonRight[@]</string>
+				<string>OESMSButtonDown[@]</string>
+				<string>OESMSButtonLeft[@]</string>
+			</array>
+		</array>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OESMSButtonUp[@]</string>
+				<string>OESMSButtonDown[@]</string>
+			</array>
+			<array>
+				<string>OESMSButtonLeft[@]</string>
+				<string>OESMSButtonRight[@]</string>
+			</array>
+		</array>
+	</dict>
 </dict>
 </plist>

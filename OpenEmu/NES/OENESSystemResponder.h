@@ -30,8 +30,6 @@
 
 @protocol OENESSystemResponderClient;
 
-extern NSString *const OENESControlNameTable[];
-
 @interface OENESSystemResponder : OEBasicSystemResponder
 
 @property(nonatomic, weak) id<OENESSystemResponderClient> client;

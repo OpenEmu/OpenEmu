@@ -126,7 +126,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: title = '%@', rating = %d>", [self className], [self title], [self rating]];
+    return [NSString stringWithFormat:@"<%@: title = '%@', rating = %ld>", [self className], [self title], [self rating]];
 }
 
 - (void)OE_setNeedsLayoutImageAndSelection

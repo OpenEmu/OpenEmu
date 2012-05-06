@@ -90,7 +90,7 @@ static NSMutableSet        *allPluginClasses = nil;
                 ret = [ret substringToIndex:[ret length] - 6];
         }
         ret = [ret stringByAppendingString:@"s"];
-        [pluginFolders setObject:ret forKey:self];
+        [pluginFolders setObject:ret forKey:(id<NSCopying>)self];
     }
     return ret;
 }
@@ -283,7 +283,7 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
     if(plugins == nil)
     {
         plugins = [NSMutableDictionary dictionary];
-        [allPlugins setObject:plugins forKey:aType];
+        [allPlugins setObject:plugins forKey:(id<NSCopying>)aType];
     }
     
     NSString *aName = [[[aBundle bundlePath] stringByDeletingPathExtension] lastPathComponent];

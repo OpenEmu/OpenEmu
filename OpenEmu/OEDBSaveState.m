@@ -154,7 +154,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     NSURL    *saveStateURL       = [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", fileName, OESaveStateSuffix]];
     
     saveStateURL = [saveStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %d.%@", fileName, triesCount, OESaveStateSuffix]];
+        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %ld.%@", fileName, triesCount, OESaveStateSuffix]];
     }];
 
     if(![newSaveState OE_createBundleAtURL:saveStateURL withStateFile:stateFileURL error:&error])
@@ -300,11 +300,11 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 - (void)moveFileToDefaultLocation
 {
-    NSURL    *saveStateFolderURL = [[OELibraryDatabase defaultDatabase] stateFolderURLForROM:[self rom]];
+    NSURL    *saveStateFolderURL = [[self libraryDatabase] stateFolderURLForROM:[self rom]];
     NSURL    *newStateURL        = [saveStateFolderURL URLByAppendingPathComponent:[[self URL] lastPathComponent]];
     NSString *currentFileName    = [[[self URL] lastPathComponent] stringByDeletingPathExtension];
     newStateURL                  = [newStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %d.%@", currentFileName, triesCount, OESaveStateSuffix]];
+        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %ld.%@", currentFileName, triesCount, OESaveStateSuffix]];
     }];
     
     NSError *error = nil;

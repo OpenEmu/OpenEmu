@@ -25,11 +25,11 @@
  */
 
 #import <CoreData/CoreData.h>
-
+#import "OEDBItem.h"
 @class OELibraryDatabase;
 @class OEDBGame;
 @class OEDBSaveState;
-@interface OEDBRom : NSManagedObject
+@interface OEDBRom : OEDBItem
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBRoms
 // Creating / Acquireing ROMs by filesystem representation
@@ -89,6 +89,7 @@
 @property(nonatomic, retain)                    NSString  *crc32;
 @property(nonatomic, retain)                    NSString  *md5;
 @property(nonatomic, retain)                    NSDate    *lastPlayed;
+@property(nonatomic, retain)                    NSNumber  *fileSize;
 
 #pragma mark -
 #pragma mark Data Model Relationships

@@ -30,16 +30,16 @@
 
 typedef enum _OEGBAButton
 {
-    OEGBAButtonA,
-    OEGBAButtonB,
-    OEGBAButtonSelect,
-    OEGBAButtonStart,
-    OEGBAButtonRight,
-    OEGBAButtonLeft,
     OEGBAButtonUp,
     OEGBAButtonDown,
-    OEGBAButtonR,
+    OEGBAButtonLeft,
+    OEGBAButtonRight,
+    OEGBAButtonA,
+    OEGBAButtonB,
     OEGBAButtonL,
+    OEGBAButtonR,
+    OEGBAButtonStart,
+    OEGBAButtonSelect,
     OEGBAButtonSpeed,
     OEGBAButtonCapture,
     OEGBAButtonCount

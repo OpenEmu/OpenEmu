@@ -25,9 +25,9 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#import "OEDBItem.h"
 @class OESystemPlugin, OELibraryDatabase;
-@interface OEDBSystem : NSManagedObject
+@interface OEDBSystem : OEDBItem
 
 + (id)systemFromPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database;
 + (id)systemForPluginIdentifier:(NSString *)identifier inDatabase:(OELibraryDatabase *)database;

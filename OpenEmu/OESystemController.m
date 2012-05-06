@@ -32,20 +32,38 @@
 #import "NSUserDefaultsController+OEEventAdditions.h"
 #import "OELocalizationHelper.h"
 
-@interface OESystemController ()
+#define OEHIDAxisTypeString      @"OEHIDAxisType"
+#define OEHIDHatSwitchTypeString @"OEHIDHatSwitchType"
 
-@property(strong, readonly) NSArray *controlNames;
+@interface OESystemController ()
+{
+    NSBundle            *_bundle;
+    NSMutableArray      *_gameSystemResponders;
+    NSMutableDictionary *_preferenceViewControllers;
+    
+    NSString            *_systemName;
+    NSImage             *_systemIcon;
+}
+
+@property(readwrite, copy) NSArray *genericSettingNames;
+@property(readwrite, copy) NSArray *genericControlNames;
+
+@property(copy) NSArray *controlNames;
+@property(copy) NSArray *axisControls;
+@property(copy) NSArray *hatSwitchControls;
 
 - (void)OE_setupControlNames;
+- (void)OE_setupControlTypes;
 - (void)OE_enumerateSettingKeysUsingBlock:(void(^)(NSString *keyPath, NSString *keyName, NSString *keyType))block;
+- (void)OE_removeAxisAndHatSwitchBindingsLinkedToKey:(NSString *)keyName removeAxisEvents:(BOOL)removeAxis;
 - (void)OE_setupControllerPreferencesKeys;
 
-- (void)_initROMHandling;
-- (void)_deallocROMHandling;
+- (void)OE_initROMHandling;
 @end
 
 NSString *const OESettingValueKey           = @"OESettingValueKey";
 NSString *const OEHIDEventValueKey          = @"OEHIDEventValueKey";
+NSString *const OEHIDEventExtraValueKey     = @"OEHIDEventExtraValueKey";
 NSString *const OEKeyboardEventValueKey     = @"OEKeyboardEventValueKey";
 NSString *const OEControlsPreferenceKey     = @"OEControlsPreferenceKey";
 NSString *const OESystemPluginName          = @"OESystemPluginName";
@@ -57,6 +75,11 @@ NSString *const OESystemIconName            = @"OESystemIcon";
 NSString *const OEArchiveIDs                = @"OEArchiveIDs";
 NSString *const OEFileTypes                 = @"OEFileSuffixes";
 
+NSString *const OEGenericControlNamesKey    = @"OEGenericControlNamesKey";
+NSString *const OEControlTypesKey           = @"OEControlTypesKey";
+NSString *const OEHatSwitchControlsKey      = @"OEHatSwitchControlsKey";
+NSString *const OEAxisControlsKey           = @"OEAxisControlsKey";
+
 NSString *const OEControlListKey            = @"OEControlListKey";
 NSString *const OEControlListKeyNameKey     = @"OEControlListKeyNameKey";
 NSString *const OEControlListKeyLabelKey    = @"OEControlListKeyLabelKey";
@@ -66,49 +89,63 @@ NSString *const OEControllerImageKey        = @"OEControllerImageKey";
 NSString *const OEControllerImageMaskKey    = @"OEControllerImageMaskKey";
 NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
 
-static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey);
-
 @implementation OESystemController
-@synthesize playerString, controlNames, systemIdentifier;
 @synthesize controllerKeyPositions, controllerImageMaskName, controllerImageName, controllerImage, controllerImageMask;
+@synthesize playerString, controlNames, systemIdentifier;
+@synthesize fileTypes, archiveIDs;
+@synthesize axisControls, hatSwitchControls, genericSettingNames, genericControlNames;
 
 - (id)init
 {
     if((self = [super init]))
     {
-        _bundle    = [NSBundle bundleForClass:[self class]];
-        systemIdentifier = [[_bundle infoDictionary] objectForKey:OESystemIdentifier];
-        if(systemIdentifier == nil) systemIdentifier = [[[_bundle infoDictionary] objectForKey:OESystemPluginName] copy];
-        if(systemIdentifier == nil) systemIdentifier = [[[_bundle infoDictionary] objectForKey:@"CFBundleName"] copy];
+        _bundle          = [NSBundle bundleForClass:[self class]];
+        systemIdentifier = (    [[_bundle infoDictionary] objectForKey:OESystemIdentifier]
+                            ? : [[_bundle infoDictionary] objectForKey:OESystemPluginName]
+                            ? : [[_bundle infoDictionary] objectForKey:@"CFBundleName"]);
         
         _gameSystemResponders      = [[NSMutableArray alloc] init];
         _preferenceViewControllers = [[NSMutableDictionary alloc] init];
         
         _systemName = [[[_bundle infoDictionary] objectForKey:OESystemName] copy];
-        NSString* iconFileName = [[_bundle infoDictionary] objectForKey:OESystemIconName];
-        NSString* iconFilePath = [_bundle pathForImageResource:iconFileName];
+        
+        NSString *iconFileName = [[_bundle infoDictionary] objectForKey:OESystemIconName];
+        NSString *iconFilePath = [_bundle pathForImageResource:iconFileName];
         _systemIcon = [[NSImage alloc] initWithContentsOfFile:iconFilePath];
+        
+        // TODO: Do the same thing for generic settings
+        [self setGenericControlNames:[[_bundle infoDictionary] objectForKey:OEGenericControlNamesKey]];
+        
         [self OE_setupControlNames];
+        
+        [self OE_setupControlTypes];
         
         [self OE_setupControllerPreferencesKeys];
         
         [self registerDefaultControls];
         
-        [self _initROMHandling];
+        [self OE_initROMHandling];
     }
     
     return self;
 }
 
-- (void)dealloc
+#pragma mark -
+#pragma mark Rom Handling
+
+- (void)OE_initROMHandling
 {
-    [self _deallocROMHandling];
+    archiveIDs = [[_bundle infoDictionary] objectForKey:OEArchiveIDs];
+    fileTypes  = [[_bundle infoDictionary] objectForKey:OEFileTypes];
+}
+
+- (BOOL)canHandleFile:(NSString *)path
+{
+    return [fileTypes containsObject:[[path pathExtension] lowercaseString]];
 }
 
 - (void)OE_setupControlNames;
 {
-    //if(self->controlNames != nil) return;
-    
     NSArray        *genericNames = [self genericControlNames];
     NSUInteger      playerCount  = [self numberOfPlayers];
     NSMutableArray *temp         = [NSMutableArray arrayWithCapacity:[genericNames count] * playerCount];
@@ -122,13 +159,13 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     }
     
     // I don't think we will ever support more than 2^64 players so this @ string is more than enough...
-    NSString *atStr  = [NSString stringWithFormat:@"%.*s", atLen, "@@@@@@@@@@@@@@@@@@@@"];
+    NSString *atStr  = [NSString stringWithFormat:@"%.*s", (int)atLen, "@@@@@@@@@@@@@@@@@@@@"];
     
     playerString = [atStr copy];
     
     for(NSUInteger i = 1; i <= playerCount; i++)
     {
-        NSString *playNo = [NSString stringWithFormat:@"%0*u", atLen, i];
+        NSString *playNo = [NSString stringWithFormat:@"%0*lu", (int)atLen, i];
         for(NSString *genericName in genericNames)
         {
             NSString *add = [genericName stringByReplacingOccurrencesOfString:atStr withString:playNo];
@@ -136,7 +173,15 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
         }
     }
     
-    controlNames = [temp copy];
+    [self setControlNames:temp];
+}
+
+- (void)OE_setupControlTypes;
+{
+    NSDictionary *dict = [[_bundle infoDictionary] objectForKey:OEControlTypesKey];
+    
+    [self setHatSwitchControls:[dict objectForKey:OEHatSwitchControlsKey]];
+    [self setAxisControls:     [dict objectForKey:OEAxisControlsKey]];
 }
 
 - (NSDictionary *)OE_defaultControllerPreferences;
@@ -167,7 +212,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     NSDictionary *plist          = [self OE_defaultControllerPreferences];
     NSDictionary *localizedPlist = [self OE_localizedControllerPreferences];
     
-    controllerImageName     = [localizedPlist objectForKey:OEControllerImageKey] ? : [plist objectForKey:OEControllerImageKey];
+    controllerImageName     = [localizedPlist objectForKey:OEControllerImageKey]     ? : [plist objectForKey:OEControllerImageKey];
     controllerImageMaskName = [localizedPlist objectForKey:OEControllerImageMaskKey] ? : [plist objectForKey:OEControllerImageMaskKey];
     
     NSDictionary *positions = [plist objectForKey:OEControllerKeyPositionKey];
@@ -179,8 +224,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     {
         NSString *value = [localPos objectForKey:key] ? : [positions objectForKey:key];
         
-        [converted setObject:[NSValue valueWithPoint:value != nil ? NSPointFromString(value) : NSZeroPoint
-                              ] forKey:key];
+        [converted setObject:[NSValue valueWithPoint:value != nil ? NSPointFromString(value) : NSZeroPoint] forKey:key];
     }
     
     controllerKeyPositions = [converted copy];
@@ -189,16 +233,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 - (Class)responderClass
 {
     return [OESystemController class];
-}
-
-- (NSArray *)genericSettingNames
-{
-    return [NSArray array];
-}
-
-- (NSArray *)genericControlNames
-{
-    return [NSArray array];
 }
 
 - (id)newGameSystemResponder;
@@ -261,6 +295,50 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     return ret;
 }
 
+- (NSString *)genericKeyForKey:(NSString *)keyName getKeyIndex:(NSUInteger *)keyIndex playerNumber:(NSUInteger *)playerNumber;
+{
+    NSRange range = [keyName rangeOfString:@"]" options:NSBackwardsSearch | NSAnchoredSearch];
+    if(range.location == NSNotFound)
+    {
+        NSUInteger idx = [[self genericControlNames] indexOfObject:keyName];
+        
+        if(idx != NSNotFound)
+        {
+            if(keyIndex     != NULL) *keyIndex     = idx;
+            if(playerNumber != NULL) *playerNumber = 0;
+            
+            return keyName;
+        }
+        
+        return nil;
+    }
+    
+    NSUInteger idx = 0;
+    for(NSString *genericKey in [self genericControlNames])
+    {
+        NSRange range = [genericKey rangeOfString:[self playerString] options:NSBackwardsSearch];
+        if(range.location == NSNotFound) continue;
+        
+        if([genericKey isEqualToString:keyName excludingRange:range])
+        {
+            if(keyIndex     != NULL) *keyIndex = idx;
+            if(playerNumber != NULL) *playerNumber = [[keyName substringWithRange:range] integerValue];
+            
+            return genericKey;
+        }
+        idx++;
+    }
+    
+    return nil;
+}
+
+- (NSUInteger)keyIndexForKey:(NSString *)keyName getPlayerNumber:(NSUInteger *)playerNumber;
+{
+    NSUInteger keyIndex;
+    
+    return [self genericKeyForKey:keyName getKeyIndex:&keyIndex playerNumber:playerNumber] != nil ? keyIndex : NSNotFound;
+}
+
 - (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)keyIndex;
 {
     NSUInteger idx = 0;
@@ -314,6 +392,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 #pragma mark -
 #pragma mark Helper methods
+
 - (id)registarableValueWithObject:(id)anObject
 {
     // Recovers the event to save
@@ -342,6 +421,58 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     NSString *type = (OESettingValueKey == aType ? @"" : [NSString stringWithFormat:@".%@", aType]);
     
     return [NSString stringWithFormat:@"values.%@%@.%@", [self systemIdentifier], type, keyName];
+}
+
+- (void)OE_parseAndRegisterEvent:(OEHIDEvent *)theEvent forKey:(NSString *)keyName;
+{
+    BOOL isKeyBoard = [theEvent isKindOfClass:[OEHIDEvent class]] && [theEvent type] == OEHIDKeypress;
+    
+    NSString *valueType = (isKeyBoard ? OEKeyboardEventValueKey : OEHIDEventValueKey);
+    NSString *keyPath = [self keyPathForKey:keyName withValueType:valueType];
+    id value = [self registarableValueWithObject:theEvent];
+    [self removeBindingsToEvent:theEvent withValueType:valueType];
+    
+    if([theEvent isKindOfClass:[OEHIDEvent class]])
+    {
+        switch([theEvent type])
+        {
+            case OEHIDAxis :
+            {
+                NSUInteger player  = 0;
+                NSString *generic  = [self genericKeyForKey:keyName getKeyIndex:NULL playerNumber:&player];
+                NSString *opposite = [self oppositeKeyForAxisKey:generic getKeyIndex:NULL];
+                
+                if(opposite != nil)
+                {
+                    [self OE_removeAxisAndHatSwitchBindingsLinkedToKey:keyName removeAxisEvents:NO];
+                    
+                    NSString *axisKeyPath = [keyPath stringByAppendingString:@"." OEHIDAxisTypeString];
+                    [self registerValue:value forKeyPath:axisKeyPath];
+                }
+                else [self registerValue:value forKeyPath:keyPath];
+            }
+                break;
+            case OEHIDHatSwitch :
+            {
+                NSString *generic = [self genericKeyForKey:keyName getKeyIndex:NULL playerNumber:NULL];
+                
+                if([self enumerateKeysLinkedToHatSwitchKey:generic usingBlock:nil])
+                {
+                    [self OE_removeAxisAndHatSwitchBindingsLinkedToKey:keyName removeAxisEvents:YES];
+                    
+                    NSString *hatSwitchKeyPath = [keyPath stringByAppendingString:@"." OEHIDHatSwitchTypeString];
+                    [self registerValue:value forKeyPath:hatSwitchKeyPath];
+                    
+                    NSLog(@"KeyPath: %@, value: %@", hatSwitchKeyPath, [[NSUserDefaultsController sharedUserDefaultsController] eventValueForKeyPath:hatSwitchKeyPath]);
+                }
+                else [self registerValue:value forKeyPath:keyPath];
+            }
+                break;
+            default :
+                [self registerValue:value forKeyPath:keyPath];
+                break;
+        }
+    }
 }
 
 #pragma mark -
@@ -380,22 +511,122 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     [[NSUserDefaultsController sharedUserDefaultsController] setValue:aValue forKeyPath:keyPath];
 }
 
-- (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType
+- (void)OE_resetBindingForKeyPath:(NSString *)keyPath withKeyName:(NSString *)keyName;
+{
+    OEHIDEvent *theEvent = [[NSUserDefaultsController sharedUserDefaultsController] eventValueForKeyPath:keyPath];
+    if(theEvent != nil)
+    {
+        [self registerValue:nil forKeyPath:keyPath];
+        
+        for(OESystemResponder *resp in _gameSystemResponders)
+            [resp HIDEvent:theEvent wasUnsetForKey:keyName];
+    }
+}
+
+- (void)OE_removeAxisAndHatSwitchBindingsLinkedToKey:(NSString *)keyName removeAxisEvents:(BOOL)removeAxis;
 {
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     
-    SEL targetSEL = (aType == OEHIDEventValueKey
-                     ? @selector(HIDEventWasRemovedForKey:)
-                     : @selector(keyboardEventWasRemovedForKey:));
+    // Prior to setting the keyPath for the current value,
+    // We need to dump any existing value for the opposite path
+    NSUInteger player  = 0;
+    NSString *generic  = [self genericKeyForKey:keyName getKeyIndex:NULL playerNumber:&player];
+    
+    NSString *opposite = [self oppositeKeyForAxisKey:generic getKeyIndex:NULL];
+    
+    if(opposite != nil)
+    {
+        [self OE_resetBindingForKeyPath:[self keyPathForKey:keyName withValueType:OEHIDEventValueKey] withKeyName:keyName];
+        
+        NSString *oppositeName    = [self playerKeyForKey:opposite player:player];
+        NSString *oppositeKeyPath = [self keyPathForKey:oppositeName withValueType:OEHIDEventValueKey];
+        
+        [self OE_resetBindingForKeyPath:oppositeKeyPath withKeyName:oppositeName];
+        [self OE_resetBindingForKeyPath:[oppositeKeyPath stringByAppendingString:@"." OEHIDAxisTypeString] withKeyName:oppositeName];
+        
+        OEHIDEvent *theEvent = [udc valueForKeyPath:oppositeKeyPath];
+        if(theEvent != nil)
+        {
+            [self registerValue:nil forKeyPath:oppositeKeyPath];
+            
+            // Notify the existing responders that we removed the opposite binding
+            for(OESystemResponder *resp in _gameSystemResponders)
+                [resp HIDEvent:theEvent wasUnsetForKey:oppositeName];
+        }
+    }
+    
+    [self enumerateKeysLinkedToHatSwitchKey:generic usingBlock:
+     ^(NSString *key, NSUInteger keyIdx, BOOL *stop)
+     {
+         NSString *name = [self playerKeyForKey:key player:player];
+         NSString *keyPath = [self keyPathForKey:name withValueType:OEHIDEventValueKey];
+         
+         if(removeAxis) [self OE_resetBindingForKeyPath:[keyPath stringByAppendingString:@"." OEHIDAxisTypeString] withKeyName:name];
+         [self OE_resetBindingForKeyPath:[keyPath stringByAppendingString:@"." OEHIDHatSwitchTypeString] withKeyName:name];
+     }];
+}
+
+- (void)removeBindingsToEvent:(OEHIDEvent *)theEvent withValueType:(NSString *)aType
+{
+    NSAssert(![theEvent isOffState], @"Attempt to set off-state event %@", theEvent);
+    
+    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+    
+    BOOL isHIDEvent       = [aType isEqualToString:OEHIDEventValueKey];
+    BOOL isKeyBoardEvent  = [aType isEqualToString:OEKeyboardEventValueKey];
+    
+    BOOL isHatSwitchEvent = NO;
+    BOOL isAxisEvent      = NO;
+    
+    if(isHIDEvent)
+    {
+        if([theEvent type] == OEHIDHatSwitch) isHatSwitchEvent = YES;
+        else if([theEvent type] == OEHIDAxis) isAxisEvent      = YES;
+    }
     
     for(NSString *name in controlNames)
     {
         NSString *keyPath = [self keyPathForKey:name withValueType:aType];
-        if([[udc valueForKeyPath:keyPath] isEqual:theEvent])
+        if([[udc eventValueForKeyPath:keyPath] isEqual:theEvent])
         {
+            // Unregister values set directly to a certain key
             [self registerValue:nil forKeyPath:keyPath];
             
-            [_gameSystemResponders makeObjectsPerformSelector:targetSEL withObject:name];
+            for(OESystemResponder *resp in _gameSystemResponders)
+                if(isKeyBoardEvent) [resp keyboardEvent:theEvent wasUnsetForKey:name];
+                else if(isHIDEvent) [resp HIDEvent:     theEvent wasUnsetForKey:name];
+        }
+        
+        if(isHatSwitchEvent)
+        {
+            NSString *subKeyPath = [keyPath stringByAppendingString:@"." OEHIDHatSwitchTypeString];
+            
+            if([[udc eventValueForKeyPath:subKeyPath] isHatSwitchEqualToEvent:theEvent])
+            {
+                // Unregister values set to a hat-switch group of keys
+                [self registerValue:nil forKeyPath:subKeyPath];
+                
+                // The responders know the event by the key that was used to set the whole group
+                // not by the group itself, this should happen only once per group
+                for(OESystemResponder *resp in _gameSystemResponders)
+                    if(isHIDEvent) [resp HIDEvent:theEvent wasUnsetForKey:name];
+            }
+        }
+        
+        if(isAxisEvent)
+        {
+            NSString *subKeyPath = [keyPath stringByAppendingString:@"." OEHIDAxisTypeString];
+            
+            if([[udc eventValueForKeyPath:subKeyPath] isAxisEqualToEvent:theEvent])
+            {
+                // Unregister values set to an axis group of keys
+                [self registerValue:nil forKeyPath:subKeyPath];
+                
+                // The responders know the event by the key that was used to set the whole group
+                // not by the group itself, this should happen only once per group
+                for(OESystemResponder *resp in _gameSystemResponders)
+                    if(isHIDEvent) [resp HIDEvent:theEvent wasUnsetForKey:name];
+            }
         }
     }
 }
@@ -414,9 +645,19 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
          
          if(event != nil)
          {
-             if(keyType == OESettingValueKey)            [responder settingWasSet:      event forKey:keyName];
-             else if(keyType == OEHIDEventValueKey)      [responder HIDEventWasSet:     event forKey:keyName];
-             else if(keyType == OEKeyboardEventValueKey) [responder keyboardEventWasSet:event forKey:keyName];
+             if(keyType == OESettingValueKey)           [responder settingWasSet:event forKey:      keyName];
+             else if([event isKindOfClass:[OEHIDEvent class]])
+             {
+                 if(keyType == OEHIDEventValueKey)      [responder HIDEvent:     event wasSetForKey:keyName];
+                 if(keyType == OEKeyboardEventValueKey) [responder keyboardEvent:event wasSetForKey:keyName];
+             }
+         }
+         else if(keyType == OEHIDEventValueKey)
+         {
+             event = ([udc eventValueForKeyPath:[keyPath stringByAppendingString:@"." OEHIDHatSwitchTypeString]]
+                      ? : [udc eventValueForKeyPath:[keyPath stringByAppendingString:@"." OEHIDAxisTypeString]]);
+             
+             if(event != nil) [responder HIDEvent:event wasSetForKey:keyName];
          }
      }];
     
@@ -450,8 +691,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
 {
-    return [aKey stringByReplacingOccurrencesOfString:playerString withString:
-            [NSString stringWithFormat:@"%0*d", [playerString length], playerNumber]];
+    return [aKey stringByReplacingOccurrencesOfString:playerString withString:[NSString stringWithFormat:@"%0*lu", (int)[playerString length], playerNumber]];
 }
 
 - (id)settingForKey:(NSString *)keyName;
@@ -461,7 +701,83 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (id)HIDEventForKey:(NSString *)keyName;
 {
-    return [[NSUserDefaultsController sharedUserDefaultsController] eventValueForKeyPath:[self keyPathForKey:keyName withValueType:OEHIDEventValueKey]];
+    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+    
+    NSString *keyPath = [self keyPathForKey:keyName withValueType:OEHIDEventValueKey];
+    
+    id value = [udc eventValueForKeyPath:keyPath];
+    
+    if(value == nil)
+    {
+        NSString *oppositeKeyName = [self oppositePlayerKeyForAxisKey:keyName getKeyIndex:NULL];
+        
+        if(oppositeKeyName != nil)
+        {
+            value = [udc eventValueForKeyPath:[keyPath stringByAppendingString:@"." OEHIDAxisTypeString]];
+            
+            if(value == nil)
+            {
+                OEHIDEvent *val = [udc eventValueForKeyPath:[[self keyPathForKey:oppositeKeyName withValueType:OEHIDEventValueKey] stringByAppendingString:@"." OEHIDAxisTypeString]];
+                if(val != nil)
+                    value = OEHIDEventAxisDisplayDescription([val padNumber], [val axis], [val oppositeDirection]);
+            }
+        }
+    }
+    
+    if(value == nil)
+    {
+        // Indicates how far the current key is away from the key that actually holds the value
+        __block NSUInteger  offsetIdx = 0;
+        __block OEHIDEvent *baseEvent = nil;
+        
+        if([self enumeratePlayersKeysLinkedToHatSwitchKey:keyName usingBlock:
+            ^(NSString *key, NSUInteger keyIdx, BOOL *stop)
+            {
+                OEHIDEvent *val = [udc eventValueForKeyPath:[[self keyPathForKey:key withValueType:OEHIDEventValueKey] stringByAppendingString:@"." OEHIDHatSwitchTypeString]];
+                
+                if(val != nil)
+                {
+                    baseEvent = val;
+                    *stop = YES;
+                }
+                else offsetIdx++;
+            }] && baseEvent != nil)
+        {
+            // The baseEvent is the one associated with the current keyName, just return it as the value
+            if(offsetIdx == 0) value = baseEvent;
+            else
+            {
+                // Multiply by 2 because events in a hat switch can either be a single direction or a combination of 2, not both
+                offsetIdx *= 2;
+                
+                // The direction of the keyName depends on its offset from the base event
+                // and the direction of the event
+                OEHIDHatDirection baseDir = [baseEvent hatDirection];
+                
+                static OEHIDHatDirection dirs[] = {
+                    OEHIDHatDirectionNorth,
+                    OEHIDHatDirectionNorthEast,
+                    OEHIDHatDirectionEast,
+                    OEHIDHatDirectionSouthEast,
+                    OEHIDHatDirectionSouth,
+                    OEHIDHatDirectionSouthWest,
+                    OEHIDHatDirectionWest,
+                    OEHIDHatDirectionNorthWest
+                };
+                for(NSUInteger i = 0; i < 8; i++)
+                {
+                    if(dirs[i] == baseDir)
+                    {
+                        OEHIDHatDirection currentDir = dirs[(i + offsetIdx) % 8];
+                        value = OEHIDEventHatSwitchDisplayDescription([baseEvent padNumber], currentDir);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    return value;
 }
 
 - (id)keyboardEventForKey:(NSString *)keyName;
@@ -483,61 +799,86 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 {
     BOOL isKeyBoard = [theEvent isKindOfClass:[OEHIDEvent class]] && [(OEHIDEvent *)theEvent type] == OEHIDKeypress;
     
-    NSString *valueType = (isKeyBoard ? OEKeyboardEventValueKey : OEHIDEventValueKey);
+    [self OE_parseAndRegisterEvent:theEvent forKey:keyName];
     
-    NSString *keyPath = [self keyPathForKey:keyName withValueType:valueType];
-    id value = [self registarableValueWithObject:theEvent];
-    [self removeBindingsToEvent:value withValueType:valueType];
-    [self registerValue:value forKeyPath:keyPath];
-    
-    for(OESystemResponder *observer in _gameSystemResponders){
+    for(OESystemResponder *observer in _gameSystemResponders)
+    {
         if(isKeyBoard)
-            [observer keyboardEventWasSet:theEvent forKey:keyName];
+            [observer keyboardEvent:theEvent wasSetForKey:keyName];
         else
-            [observer HIDEventWasSet:theEvent forKey:keyName];
+            [observer HIDEvent:theEvent wasSetForKey:keyName];
     }
 }
 
-static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey)
+- (BOOL)enumerateKeysLinkedToHatSwitchKey:(NSString *)aKey usingBlock:(void(^)(NSString *key, NSUInteger keyIdx, BOOL *stop))block;
 {
-    NSRange start = [atString rangeOfString:@"@"];
-    if(start.location == NSNotFound)
-        return ([atString isEqualToString:playerKey] ? 0 : NSNotFound);
+    for(NSArray *hats in [self hatSwitchControls])
+    {
+        NSUInteger baseIdx = [hats indexOfObject:aKey];
+        if(baseIdx == NSNotFound) continue;
+        
+        if(block != nil)
+        {
+            BOOL stop = NO;
+            
+            for(NSUInteger i = 0, count = [hats count]; i < count; i++)
+            {
+                NSString *hatKey = [hats objectAtIndex:(i + baseIdx) % count];
+                block(hatKey, [[self genericControlNames] indexOfObject:hatKey], &stop);
+                
+                if(stop) break;
+            }
+        }
+        
+        return YES;
+    }
     
-    NSRange end = [atString rangeOfString:@"@" options:NSBackwardsSearch];
-    
-    NSRange atRange = start;
-    atRange.length = end.location - atRange.location + end.length;
-    
-    start.location = 0;
-    start.length   = atRange.location;
-    end.location   = atRange.location  + atRange.length;
-    end.length     = [atString length] - end.location;
-    
-    if(![atString isEqualToString:playerKey excludingRange:atRange]) return NSNotFound;
-    
-    NSUInteger ret = [[playerKey substringWithRange:atRange] integerValue];
-    return (ret != 0 ? ret : NSNotFound);
+    return NO;
 }
 
-#pragma mark -
-#pragma mark Rom Handling
-
-@synthesize fileTypes, archiveIDs;
-
-- (void)_initROMHandling
+- (BOOL)enumeratePlayersKeysLinkedToHatSwitchKey:(NSString *)aKey usingBlock:(void(^)(NSString *key, NSUInteger keyIdx, BOOL *stop))block;
 {
-    archiveIDs = [[_bundle infoDictionary] objectForKey:OEArchiveIDs];
-    fileTypes  = [[_bundle infoDictionary] objectForKey:OEFileTypes];
+    NSUInteger  player  = 0;
+    NSString   *generic = [self genericKeyForKey:aKey getKeyIndex:NULL playerNumber:&player];
+    
+    return [self enumerateKeysLinkedToHatSwitchKey:generic usingBlock:
+            block == nil ? nil :
+            ^(NSString *key, NSUInteger keyIdx, BOOL *stop)
+            {
+                NSString *keyName = [self playerKeyForKey:key player:player];
+                block(keyName, keyIdx, stop);
+            }];
 }
 
-- (void)_deallocROMHandling
+- (NSString *)oppositeKeyForAxisKey:(NSString *)aKey getKeyIndex:(NSUInteger *)keyIndex;
 {
+    for(NSArray *axis in [self axisControls])
+    {
+        NSUInteger idx = [axis indexOfObject:aKey];
+        if(idx != NSNotFound)
+        {
+            NSString *oppositeAxis = [axis objectAtIndex:idx == 0 ? 1 : 0];
+            
+            if(keyIndex != NULL) *keyIndex = [[self genericControlNames] indexOfObject:oppositeAxis];
+            
+            return oppositeAxis;
+        }
+    }
+    
+    return nil;
 }
 
-- (BOOL)canHandleFile:(NSString *)path
+- (NSString *)oppositePlayerKeyForAxisKey:(NSString *)aKey getKeyIndex:(NSUInteger *)keyIndex;
 {
-    return [fileTypes containsObject:[[path pathExtension] lowercaseString]];
+    NSString   *ret      = nil;
+    
+    NSUInteger  player   = 0;
+    NSString   *generic  = [self genericKeyForKey:aKey getKeyIndex:keyIndex playerNumber:&player];
+    NSString   *opposite = [self oppositeKeyForAxisKey:generic getKeyIndex:keyIndex];
+    
+    if(opposite != nil) ret = [self playerKeyForKey:opposite player:player];
+    
+    return ret;
 }
 
 @end

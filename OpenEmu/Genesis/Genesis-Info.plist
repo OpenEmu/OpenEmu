@@ -129,5 +129,43 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>genesis_library</string>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OEGenesisButtonUp[@]</string>
+		<string>OEGenesisButtonDown[@]</string>
+		<string>OEGenesisButtonLeft[@]</string>
+		<string>OEGenesisButtonRight[@]</string>
+		<string>OEGenesisButtonA[@]</string>
+		<string>OEGenesisButtonB[@]</string>
+		<string>OEGenesisButtonC[@]</string>
+		<string>OEGenesisButtonX[@]</string>
+		<string>OEGenesisButtonY[@]</string>
+		<string>OEGenesisButtonZ[@]</string>
+		<string>OEGenesisButtonStart[@]</string>
+		<string>OEGenesisButtonMode[@]</string>
+	</array>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OEGenesisButtonUp[@]</string>
+				<string>OEGenesisButtonRight[@]</string>
+				<string>OEGenesisButtonDown[@]</string>
+				<string>OEGenesisButtonLeft[@]</string>
+			</array>
+		</array>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OEGenesisButtonUp[@]</string>
+				<string>OEGenesisButtonDown[@]</string>
+			</array>
+			<array>
+				<string>OEGenesisButtonLeft[@]</string>
+				<string>OEGenesisButtonRight[@]</string>
+			</array>
+		</array>
+	</dict>
 </dict>
 </plist>

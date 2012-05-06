@@ -25,6 +25,7 @@
  */
 
 #import "NSColor+OEAdditions.h"
+#import <objc/runtime.h>
 
 // Note: this file is compiled under MRR. It cannot be ARC because there is no supported way
 // to return an autoreleased CF object under ARC.
@@ -33,9 +34,21 @@
 #error This file cannot be compiled with ARC
 #endif
 
-@implementation NSColor (OEAdditions)
+@implementation NSColor (OEAdditionsDynamic)
 
-+ (NSColor *)colorWithCGColor:(CGColorRef)color
+static CGColorRef _NSColor_CGColor(NSColor *self, SEL _cmd);
+static NSColor *_NSColor_colorWithCGColor_(Class self, SEL _cmd, CGColorRef color);
+
++ (void)load
+{
+    if(![self instancesRespondToSelector:@selector(CGColor)])
+        class_addMethod(self, @selector(CGColor), (IMP)_NSColor_CGColor, "^{CGColor=}@:");
+    
+    if(![self respondsToSelector:@selector(colorWithCGColor:)])
+        class_addMethod(object_getClass(self), @selector(colorWithCGColor:), (IMP)_NSColor_colorWithCGColor_, "@@:^{CGColor=}");
+}
+
+static NSColor *_NSColor_colorWithCGColor_(Class self, SEL _cmd, CGColorRef color)
 {
     const CGFloat *components = CGColorGetComponents(color);
     NSColorSpace *colorSpace = [[NSColorSpace alloc] initWithCGColorSpace:CGColorGetColorSpace(color)];
@@ -45,7 +58,7 @@
     return result;
 }
 
-- (CGColorRef)CGColor
+static CGColorRef _NSColor_CGColor(NSColor *self, SEL _cmd)
 {
     if([self isEqualTo:[NSColor blackColor]]) return CGColorGetConstantColor(kCGColorBlack);
     if([self isEqualTo:[NSColor whiteColor]]) return CGColorGetConstantColor(kCGColorWhite);

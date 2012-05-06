@@ -329,6 +329,9 @@
 		830EF6CC146C590D00B0C8B0 /* blank_slate_core_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 830EF6CB146C590D00B0C8B0 /* blank_slate_core_icon.png */; };
 		830EF6CF146C5D5D00B0C8B0 /* open_weblink_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 830EF6CE146C5D5D00B0C8B0 /* open_weblink_arrow.png */; };
 		8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310447013BE419000B283B0 /* OEHorizontalSplitView.m */; };
+		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
+		8314A9BC1554230600DF13B5 /* OEDBGame+ArchiveVGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A9BB1554230600DF13B5 /* OEDBGame+ArchiveVGAdditions.m */; };
+		8314A9BF1554231C00DF13B5 /* OEDBRom+ArchiveVGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A9BE1554231C00DF13B5 /* OEDBRom+ArchiveVGAdditions.m */; };
 		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
 		831C2AE4144F41E4009533C0 /* OEApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C2AE3144F41E4009533C0 /* OEApplicationDelegate.m */; };
 		831C2AE9144F453C009533C0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 831C2AE8144F453C009533C0 /* MainMenu.xib */; };
@@ -338,6 +341,7 @@
 		832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* OEMainWindowController.m */; };
 		832D29431451ACF200BDF950 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832D29421451ACF200BDF950 /* MainWindow.xib */; };
 		832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */; };
+		8343CD011553E2C30080A6BE /* OEDBImageThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
 		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
@@ -1233,6 +1237,12 @@
 		830EF6CE146C5D5D00B0C8B0 /* open_weblink_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = open_weblink_arrow.png; sourceTree = "<group>"; };
 		8310446F13BE419000B283B0 /* OEHorizontalSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHorizontalSplitView.h; sourceTree = "<group>"; };
 		8310447013BE419000B283B0 /* OEHorizontalSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHorizontalSplitView.m; sourceTree = "<group>"; };
+		8314A98A155410EF00DF13B5 /* OEDBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBItem.h; sourceTree = "<group>"; };
+		8314A98B155410EF00DF13B5 /* OEDBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBItem.m; sourceTree = "<group>"; };
+		8314A9BA1554230600DF13B5 /* OEDBGame+ArchiveVGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEDBGame+ArchiveVGAdditions.h"; sourceTree = "<group>"; };
+		8314A9BB1554230600DF13B5 /* OEDBGame+ArchiveVGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEDBGame+ArchiveVGAdditions.m"; sourceTree = "<group>"; };
+		8314A9BD1554231C00DF13B5 /* OEDBRom+ArchiveVGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEDBRom+ArchiveVGAdditions.h"; sourceTree = "<group>"; };
+		8314A9BE1554231C00DF13B5 /* OEDBRom+ArchiveVGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEDBRom+ArchiveVGAdditions.m"; sourceTree = "<group>"; };
 		83199720142741790068C865 /* OEROMImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMImporter.h; sourceTree = "<group>"; };
 		83199721142741790068C865 /* OEROMImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMImporter.m; sourceTree = "<group>"; };
 		831C2AE2144F41E4009533C0 /* OEApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEApplicationDelegate.h; sourceTree = "<group>"; };
@@ -1249,6 +1259,8 @@
 		832D29421451ACF200BDF950 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		832FA87E1455526E00BBBD94 /* NSControl+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSControl+OEAdditions.h"; sourceTree = "<group>"; };
 		832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSControl+OEAdditions.m"; sourceTree = "<group>"; };
+		8343CCFF1553E2C30080A6BE /* OEDBImageThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImageThumbnail.h; sourceTree = "<group>"; };
+		8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImageThumbnail.m; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
 		836291FC1515F30700192116 /* OEFSWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFSWatcher.h; sourceTree = "<group>"; };
@@ -2020,8 +2032,7 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8305267013FBC934006179C6 /* ArchiveVG.h */,
-				8305267113FBC934006179C6 /* ArchiveVG.m */,
+				8314A9B8155422E800DF13B5 /* Archive.VG */,
 				1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */,
 				1BEF2A61116826510090F72B /* Distributed Object Protocol */,
 				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
@@ -2155,12 +2166,16 @@
 				53439A8E13B92C68005C0CC8 /* OEDBDataSourceAdditions.h */,
 				53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */,
 				53439A9113B92C6B005C0CC8 /* Collections */,
+				8314A98A155410EF00DF13B5 /* OEDBItem.h */,
+				8314A98B155410EF00DF13B5 /* OEDBItem.m */,
 				53439A9E13B92C9D005C0CC8 /* OEDBGame.h */,
 				53439A9F13B92C9D005C0CC8 /* OEDBGame.m */,
 				53439AA013B92C9D005C0CC8 /* OEDBSystem.h */,
 				53439AA113B92C9D005C0CC8 /* OEDBSystem.m */,
 				8328D9E313C75CAE0026D2A7 /* OEDBImage.h */,
 				8328D9E413C75CAE0026D2A7 /* OEDBImage.m */,
+				8343CCFF1553E2C30080A6BE /* OEDBImageThumbnail.h */,
+				8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */,
 				83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */,
 				83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */,
 				838AC27E14434EED00AC74C3 /* OEDBRom.h */,
@@ -2713,6 +2728,19 @@
 				8303BC0614E318C200FCD701 /* tick_mark.png */,
 			);
 			path = Menu;
+			sourceTree = "<group>";
+		};
+		8314A9B8155422E800DF13B5 /* Archive.VG */ = {
+			isa = PBXGroup;
+			children = (
+				8305267013FBC934006179C6 /* ArchiveVG.h */,
+				8305267113FBC934006179C6 /* ArchiveVG.m */,
+				8314A9BA1554230600DF13B5 /* OEDBGame+ArchiveVGAdditions.h */,
+				8314A9BB1554230600DF13B5 /* OEDBGame+ArchiveVGAdditions.m */,
+				8314A9BD1554231C00DF13B5 /* OEDBRom+ArchiveVGAdditions.h */,
+				8314A9BE1554231C00DF13B5 /* OEDBRom+ArchiveVGAdditions.m */,
+			);
+			name = Archive.VG;
 			sourceTree = "<group>";
 		};
 		832D29441451B0CA00BDF950 /* MainWindow: Library */ = {
@@ -4215,6 +4243,10 @@
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
 				83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */,
 				C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */,
+				8343CD011553E2C30080A6BE /* OEDBImageThumbnail.m in Sources */,
+				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
+				8314A9BC1554230600DF13B5 /* OEDBGame+ArchiveVGAdditions.m in Sources */,
+				8314A9BF1554231C00DF13B5 /* OEDBRom+ArchiveVGAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

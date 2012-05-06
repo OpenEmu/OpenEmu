@@ -49,10 +49,10 @@
 + (Protocol *)gameSystemResponderClientProtocol;
 
 - (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
-- (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName;
-- (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
+- (void)keyboardEvent:(id)theEvent wasSetForKey:(NSString *)keyName;
+- (void)keyboardEvent:(id)theEvent wasUnsetForKey:(NSString *)keyName;
 
-- (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName;
-- (void)HIDEventWasRemovedForKey:(NSString *)keyName;
+- (void)HIDEvent:(id)theEvent wasSetForKey:(NSString *)keyName;
+- (void)HIDEvent:(id)theEvent wasUnsetForKey:(NSString *)keyName;
 
 @end

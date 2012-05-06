@@ -40,16 +40,6 @@
     return [OEGBASystemResponder class];
 }
 
-- (NSArray *)genericSettingNames;
-{
-    return [super genericSettingNames];
-}
-
-- (NSArray *)genericControlNames;
-{
-    return [NSArray arrayWithObjects:OEGBAButtonNameTable count:OEGBAButtonCount];
-}
-
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:

@@ -30,8 +30,6 @@
 
 @protocol OEGenesisSystemResponderClient;
 
-extern NSString *OEGenesisButtonNameTable[];
-
 @interface OEGenesisSystemResponder : OEBasicSystemResponder
 
 @property(nonatomic, weak) id<OEGenesisSystemResponderClient> client;

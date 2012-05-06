@@ -41,16 +41,6 @@
     return [OEN64SystemResponder class];
 }
 
-- (NSArray *)genericSettingNames;
-{
-    return [super genericSettingNames];
-}
-
-- (NSArray *)genericControlNames;
-{
-    return [NSArray arrayWithObjects:OEN64ButtonNameTable count:OEN64ButtonCount];
-}
-
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:

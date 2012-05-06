@@ -452,7 +452,7 @@
         
         NSString *identifier = [aTableColumn identifier];
         if([identifier isEqualToString:@"usbPort"])
-            return [NSString stringWithFormat:@"Device %i", [handler deviceNumber], nil];
+            return [NSString stringWithFormat:@"Device %li", [handler deviceNumber]];
         else if([identifier isEqualToString:@"gamePadName"])
             return [handler product];
     }

@@ -526,8 +526,29 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(img == nil) return;
     
-    NSManagedObjectContext *context = [self managedObjectContext];
-    boxImage = [OEDBImage imageWithImage:img inContext:context];
+    boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
+    
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
+    // For each thumbnail size specified in defaults...
+    for(NSString *aSizeString in sizes)
+    {
+        NSSize size = NSSizeFromString(aSizeString);
+        // ...generate thumbnail
+        NSLog(@"Calling thumbnail generation with size: %@", NSStringFromSize(size));
+        [boxImage generateThumbnailForSize:size];
+    }
+    
+    [self setBoxImage:boxImage];
+}
+
+- (void)setBoxImageByURL:(NSURL*)url
+{
+    OEDBImage *boxImage = [self boxImage];
+    if(boxImage != nil)
+        [[boxImage managedObjectContext] deleteObject:boxImage];
+        
+    boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
@@ -536,16 +557,10 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     {
         NSSize size = NSSizeFromString(aSizeString);
         // ...generate thumbnail ;)
-        [boxImage generateImageForSize:size];
+        [boxImage generateThumbnailForSize:size];
     }
     
     [self setBoxImage:boxImage];
-}
-
-- (void)setBoxImageByURL:(NSURL*)url
-{
-    NSImage *img = [[NSImage alloc] initWithContentsOfURL:url];
-    [self setBoxImageByImage:img];
 }
 
 #pragma mark -
@@ -618,7 +633,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 {
     if(type == OEPasteboardTypeGame)
     {
-        NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
+        NSManagedObjectContext *context = [[self libraryDatabase] managedObjectContext];
         return (OEDBGame *)[context objectWithID:propertyList];
     }
     

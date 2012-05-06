@@ -42,14 +42,15 @@ typedef enum _OEN64Button
     OEN64ButtonCLeft,
     OEN64ButtonCRight,
     
+    OEN64ButtonA,
+    OEN64ButtonB,
+    
     // Shoulder buttons
     OEN64ButtonL,
     OEN64ButtonR,
-    
-    OEN64ButtonA,
-    OEN64ButtonB,
-    OEN64ButtonStart,
     OEN64ButtonZ,
+    
+    OEN64ButtonStart,
     
     OEN64ButtonCount
 } OEN64Button;

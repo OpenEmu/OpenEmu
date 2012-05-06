@@ -28,25 +28,6 @@
 #import "OENDSSystemResponderClient.h"
 #import "OEEvent.h"
 
-NSString *OENDSButtonNameTable[] =
-{
-    @"OENDSButtonUp[@]",
-    @"OENDSButtonDown[@]",
-    @"OENDSButtonLeft[@]",
-    @"OENDSButtonRight[@]",
-    @"OENDSButtonA[@]",
-    @"OENDSButtonB[@]",
-    @"OENDSButtonX[@]",
-    @"OENDSButtonY[@]",
-    @"OENDSButtonL[@]",
-    @"OENDSButtonR[@]",
-    @"OENDSButtonSelect[@]",
-    @"OENDSButtonStart[@]",
-	@"OENDSButtonMicrophone[@]",
-    @"OENDSButtonLid[@]",
-    @"OENDSButtonDebug[@]"
-};
-
 @implementation OENDSSystemResponder
 @dynamic client;
 

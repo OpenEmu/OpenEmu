@@ -113,5 +113,43 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>gba_library</string>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OEGBAButtonUp[@]</string>
+		<string>OEGBAButtonDown[@]</string>
+		<string>OEGBAButtonLeft[@]</string>
+		<string>OEGBAButtonRight[@]</string>
+		<string>OEGBAButtonA[@]</string>
+		<string>OEGBAButtonB[@]</string>
+		<string>OEGBAButtonL[@]</string>
+		<string>OEGBAButtonR[@]</string>
+		<string>OEGBAButtonStart[@]</string>
+		<string>OEGBAButtonSelect[@]</string>
+		<string>OEGBAButtonSpeed[@]</string>
+		<string>OEGBAButtonCapture[@]</string>
+	</array>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OEGBAButtonUp[@]</string>
+				<string>OEGBAButtonRight[@]</string>
+				<string>OEGBAButtonDown[@]</string>
+				<string>OEGBAButtonLeft[@]</string>
+			</array>
+		</array>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OEGBAButtonUp[@]</string>
+				<string>OEGBAButtonDown[@]</string>
+			</array>
+			<array>
+				<string>OEGBAButtonLeft[@]</string>
+				<string>OEGBAButtonRight[@]</string>
+			</array>
+		</array>
+	</dict>
 </dict>
 </plist>

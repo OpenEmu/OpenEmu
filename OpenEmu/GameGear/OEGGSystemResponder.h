@@ -30,8 +30,6 @@
 
 @protocol OEGGSystemResponderClient;
 
-extern NSString *OEGGButtonNameTable[];
-
 @interface OEGGSystemResponder : OEBasicSystemResponder
 
 @property(nonatomic, weak) id<OEGGSystemResponderClient> client;

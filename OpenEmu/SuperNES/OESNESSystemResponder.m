@@ -28,22 +28,6 @@
 #import "OESNESSystemResponder.h"
 #import "OESNESSystemResponderClient.h"
 
-NSString *OESNESButtonNameTable[] =
-{
-    @"OESNESButtonA[@]",
-    @"OESNESButtonB[@]",
-    @"OESNESButtonX[@]",
-    @"OESNESButtonY[@]",
-    @"OESNESButtonUp[@]",
-    @"OESNESButtonDown[@]",
-    @"OESNESButtonLeft[@]",
-    @"OESNESButtonRight[@]",
-    @"OESNESButtonStart[@]",
-    @"OESNESButtonSelect[@]",
-    @"OESNESButtonTriggerLeft[@]",
-    @"OESNESButtonTriggerRight[@]",
-};
-
 @implementation OESNESSystemResponder
 @dynamic client;
 

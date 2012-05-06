@@ -30,8 +30,6 @@
 
 @protocol OEArcadeSystemResponderClient;
 
-extern NSString *OEArcadeButtonNameTable[];
-
 @interface OEArcadeSystemResponder : OEBasicSystemResponder
 
 @property(nonatomic, weak) id<OEArcadeSystemResponderClient> client;

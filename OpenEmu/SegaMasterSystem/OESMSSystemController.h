@@ -29,9 +29,4 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 @interface OESMSSystemController : OESystemController
-{
-@private
-    
-}
-
 @end

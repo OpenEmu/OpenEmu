@@ -28,18 +28,6 @@
 #import "OENESSystemResponder.h"
 #import "OENESSystemResponderClient.h"
 
-NSString *const OENESControlNameTable[] =
-{
-    @"OENESButtonA[@]",
-    @"OENESButtonB[@]",
-    @"OENESButtonUp[@]",
-    @"OENESButtonDown[@]",
-    @"OENESButtonLeft[@]",
-    @"OENESButtonRight[@]",
-    @"OENESButtonStart[@]",
-    @"OENESButtonSelect[@]"
-};
-
 @implementation OENESSystemResponder
 @dynamic client;
 

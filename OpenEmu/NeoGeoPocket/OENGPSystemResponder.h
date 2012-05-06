@@ -30,8 +30,6 @@
 
 @protocol OENGPSystemResponderClient;
 
-extern NSString *OENGPButtonNameTable[];
-
 @interface OENGPSystemResponder : OEBasicSystemResponder
 
 @property(nonatomic, weak) id<OENGPSystemResponderClient> client;

@@ -135,15 +135,7 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 #pragma mark -
 #pragma mark Tracking preference changes
 - (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
-/*
-- (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey;
-- (void)unsetEventForKey:(NSString *)keyName withValueMask:(NSUInteger)keyMask;
-- (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName;
-- (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
 
-- (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName;
-- (void)HIDEventWasRemovedForKey:(NSString *)keyName;
- */
 // ============================================================================
 // Abstract methods: Those methods should be overridden by subclasses
 // ============================================================================

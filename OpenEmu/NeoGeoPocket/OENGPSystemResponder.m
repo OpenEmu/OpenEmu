@@ -28,17 +28,6 @@
 #import "OENGPSystemResponder.h"
 #import "OENGPSystemResponderClient.h"
 
-NSString *OENGPButtonNameTable[] =
-{
-    @"OENGPButtonUp",
-    @"OENGPButtonDown",
-    @"OENGPButtonLeft",
-    @"OENGPButtonRight",
-    @"OENGPButtonA",
-    @"OENGPButtonB",
-    @"OENGPButtonReset",
-};
-
 @implementation OENGPSystemResponder
 @dynamic client;
 

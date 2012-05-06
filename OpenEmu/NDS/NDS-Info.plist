@@ -140,5 +140,46 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>nds_library</string>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OENDSButtonUp[@]</string>
+		<string>OENDSButtonDown[@]</string>
+		<string>OENDSButtonLeft[@]</string>
+		<string>OENDSButtonRight[@]</string>
+		<string>OENDSButtonA[@]</string>
+		<string>OENDSButtonB[@]</string>
+		<string>OENDSButtonX[@]</string>
+		<string>OENDSButtonY[@]</string>
+		<string>OENDSButtonL[@]</string>
+		<string>OENDSButtonR[@]</string>
+		<string>OENDSButtonStart[@]</string>
+		<string>OENDSButtonSelect[@]</string>
+		<string>OENDSButtonMicrophone[@]</string>
+		<string>OENDSButtonLid[@]</string>
+		<string>OENDSButtonDebug[@]</string>
+	</array>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OENDSButtonUp[@]</string>
+				<string>OENDSButtonRight[@]</string>
+				<string>OENDSButtonDown[@]</string>
+				<string>OENDSButtonLeft[@]</string>
+			</array>
+		</array>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OENDSButtonUp[@]</string>
+				<string>OENDSButtonDown[@]</string>
+			</array>
+			<array>
+				<string>OENDSButtonLeft[@]</string>
+				<string>OENDSButtonRight[@]</string>
+			</array>
+		</array>
+	</dict>
 </dict>
 </plist>

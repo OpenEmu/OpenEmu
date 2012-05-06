@@ -28,22 +28,6 @@
 #import "OEGenesisSystemResponder.h"
 #import "OEGenesisSystemResponderClient.h"
 
-NSString *OEGenesisButtonNameTable[] =
-{
-    @"OEGenesisButtonA[@]",
-    @"OEGenesisButtonB[@]",
-    @"OEGenesisButtonC[@]",
-    @"OEGenesisButtonX[@]",
-    @"OEGenesisButtonY[@]",
-    @"OEGenesisButtonZ[@]",
-    @"OEGenesisButtonUp[@]",
-    @"OEGenesisButtonDown[@]",
-    @"OEGenesisButtonLeft[@]",
-    @"OEGenesisButtonRight[@]",
-    @"OEGenesisButtonStart[@]",
-    @"OEGenesisButtonMode[@]",
-};
-
 @implementation OEGenesisSystemResponder
 @dynamic client;
 

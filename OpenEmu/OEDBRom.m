@@ -96,7 +96,7 @@
         
         newURL = [databaseUnsortedFolderURL URLByAppendingPathComponent:[newURL lastPathComponent]  isDirectory:NO];
         newURL = [newURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-            NSString *newFileName = [NSString stringWithFormat:@"%@ %d.%@", fileName, triesCount, fileSuffix];
+            NSString *newFileName = [NSString stringWithFormat:@"%@ %ld.%@", fileName, triesCount, fileSuffix];
             return [databaseUnsortedFolderURL URLByAppendingPathComponent:newFileName isDirectory:NO];
         }];
 
@@ -130,6 +130,8 @@
         [rom setMd5:md5Hash];
         [rom setCrc32:crcHash];
     }
+    
+    [rom setFileSize:[url fileSize]];
     
     return rom;
 }
@@ -335,7 +337,7 @@
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
     NSURL *url = [self URL];
-    if(url && [url isSubpathOfURL:[[OELibraryDatabase defaultDatabase] romsFolderURL]])
+    if(url && [url isSubpathOfURL:[[self libraryDatabase] romsFolderURL]])
     {
         NSString *path = [url path];
         [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:[path stringByDeletingLastPathComponent] destination:nil files:[NSArray arrayWithObject:[path lastPathComponent]] tag:NULL];
@@ -360,7 +362,7 @@
 }
 #pragma mark -
 #pragma mark Data Model Properties
-@dynamic bookmarkData, favorite, crc32, md5, lastPlayed;
+@dynamic bookmarkData, favorite, crc32, md5, lastPlayed, fileSize;
 
 #pragma mark -
 #pragma mark Data Model Relationships

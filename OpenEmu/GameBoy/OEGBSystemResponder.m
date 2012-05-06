@@ -28,18 +28,6 @@
 #import "OEGBSystemResponder.h"
 #import "OEGBSystemResponderClient.h"
 
-NSString *OEGBButtonNameTable[] =
-{
-    @"OEGBButtonA",
-    @"OEGBButtonB",
-    @"OEGBButtonUp",
-    @"OEGBButtonDown",
-    @"OEGBButtonLeft",
-    @"OEGBButtonRight",
-    @"OEGBButtonStart",
-    @"OEGBButtonSelect"
-};
-
 @implementation OEGBSystemResponder
 @dynamic client;
 

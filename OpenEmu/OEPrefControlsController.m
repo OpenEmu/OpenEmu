@@ -30,7 +30,7 @@
 
 - (void)OE_rebuildSystemsMenu;
 - (void)OE_setupControllerImageViewWithTransition:(NSString *)transition;
-- (void)OE_openPaneWithNotification:(NSNotification*)notification;
+- (void)OE_openPaneWithNotification:(NSNotification *)notification;
 @end
 
 @implementation OEPrefControlsController
@@ -265,13 +265,9 @@
 {
     NSInteger player = 1;
     if(sender && [sender respondsToSelector:@selector(selectedTag)])
-    {
         player = [sender selectedTag];
-    } 
     else if(sender && [sender respondsToSelector:@selector(tag)])
-    {
         player = [sender tag];
-    }
     
     [self setSelectedPlayer:player];
     [self resetKeyBindings];
@@ -299,16 +295,14 @@
 
 - (void)setSelectedKey:(NSString *)value
 {
-    if(selectedKey == value)
-        value = nil;
+    if(selectedKey == value) value = nil;
     
     selectedKey = [value copy];
     
-   [[self controlsSetupView] setSelectedKey:selectedKey];
-   [[self controllerView]    setSelectedKey:selectedKey animated:YES];
-
-    NSWindow* window = [[self view] window];
-   [window makeFirstResponder:selectedKey != nil ? [self view] : nil];    
+    [[self controlsSetupView] setSelectedKey:selectedKey];
+    [[self controllerView]    setSelectedKey:selectedKey animated:YES];
+    
+    [[[self view] window] makeFirstResponder:selectedKey != nil ? [self view] : nil];
 }
 
 - (void)setSelectedBindingType:(NSInteger)value
@@ -369,17 +363,17 @@
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
-    OEHIDEventAxis axis = [anEvent axis];
-    OEHIDDirection dir  = [anEvent direction];
+    OEHIDEventAxis axis    = [anEvent axis];
+    OEHIDAxisDirection dir = [anEvent direction];
     
-    if(readingAxis == OEHIDAxisNone && axis != OEHIDAxisNone && dir != OEHIDDirectionNull)
+    if(readingAxis == OEHIDAxisNone && axis != OEHIDAxisNone && dir != OEHIDAxisDirectionNull)
     {
         readingAxis = axis;
         
         [self setSelectedBindingType:1];
         [self registerEvent:anEvent];
     }
-    else if(readingAxis == axis && dir == OEHIDDirectionNull)
+    else if(readingAxis == axis && dir == OEHIDAxisDirectionNull)
         readingAxis = OEHIDAxisNone;
 }
 
@@ -391,7 +385,7 @@
 
 - (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
 {
-    if([anEvent position] != 0)
+    if([anEvent hatDirection] != OEHIDHatDirectionNull)
     {
         [self setSelectedBindingType:1];
         [self registerEvent:anEvent];
@@ -414,7 +408,11 @@
         else
             anEvent = [[self currentSystemController] HIDEventForKey:[self keyPathForKey:key]];
         
-        return (anEvent != nil ? [anEvent displayDescription] : @"<empty>");
+        return (anEvent != nil
+                ? ([anEvent respondsToSelector:@selector(displayDescription)]
+                   ? [anEvent displayDescription]
+                   : [anEvent description])
+                : @"<empty>");
     }
     return [super valueForKey:key];
 }
@@ -424,17 +422,15 @@
     // should be mutually exclusive
     if([[[self currentSystemController] genericControlNames] containsObject:key])
     {
-        [self willChangeValueForKey:key];
         [[self currentSystemController] registerEvent:value forKey:[self keyPathForKey:key]];
-        [self didChangeValueForKey:key];
+        [self resetKeyBindings];
     }
     else [super setValue:value forKey:key];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if([self selectedKey])
-        [self setSelectedKey:[self selectedKey]];
+    if([self selectedKey]) [self setSelectedKey:[self selectedKey]];
 }
 
 #pragma mark -
@@ -450,9 +446,9 @@
     return @"Controls";
 }
 
-- (NSString*)localizedTitle
+- (NSString *)localizedTitle
 {
-    return NSLocalizedString([self title], "");
+    return NSLocalizedString([self title], @"");
 }
 
 - (NSSize)viewSize
@@ -466,21 +462,21 @@
 }
 
 #pragma mark -
-- (void)OE_openPaneWithNotification:(NSNotification*)notification
+- (void)OE_openPaneWithNotification:(NSNotification *)notification
 {
-    NSDictionary* userInfo = [notification userInfo];
-    NSString* paneName = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
-    if([paneName isNotEqualTo:[self title]])
-        return;
+    NSDictionary *userInfo = [notification userInfo];
+    NSString     *paneName = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
     
-    NSString* systemIdentifier = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoSystemIdentifierKey];
+    if([paneName isNotEqualTo:[self title]]) return;
+    
+    NSString *systemIdentifier = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoSystemIdentifierKey];
 
-    int i;
-    for(i=0; i < [[[self consolesPopupButton] itemArray] count]-1; i++)
+    NSUInteger i = 0;
+    for(i = 0; i < [[[self consolesPopupButton] itemArray] count] - 1; i++)
     {
-        NSMenuItem* item = [[[self consolesPopupButton] itemArray] objectAtIndex:i];
-        if([[item representedObject] isEqualTo:systemIdentifier])
-            break;
+        NSMenuItem *item = [[[self consolesPopupButton] itemArray] objectAtIndex:i];
+        
+        if([[item representedObject] isEqual:systemIdentifier]) break;
     }
 
     [[self consolesPopupButton] selectItemAtIndex:i];

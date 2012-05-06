@@ -31,18 +31,18 @@
 
 typedef enum _OEArcadeButton
 {
-    OEArcadeButton5,
-    OEArcadeButton4,
-    OEArcadeButton2,
-    OEArcadeButton1,
     OEArcadeButtonUp,
     OEArcadeButtonDown,
     OEArcadeButtonLeft,
     OEArcadeButtonRight,
+    OEArcadeButton1,
+    OEArcadeButton2,
+    OEArcadeButton3,
+    OEArcadeButton4,
+    OEArcadeButton5,
+    OEArcadeButton6,
     OEArcadeButtonP1Start,
     OEArcadeButtonInsertCoin,
-    OEArcadeButton3,
-    OEArcadeButton6,
     OEArcadeButtonCount,
 } OEArcadeButton;
 

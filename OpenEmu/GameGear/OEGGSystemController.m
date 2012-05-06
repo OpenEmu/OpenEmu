@@ -41,16 +41,6 @@
     return [OEGGSystemResponder class];
 }
 
-- (NSArray *)genericSettingNames;
-{
-    return [super genericSettingNames];
-}
-
-- (NSArray *)genericControlNames;
-{
-    return [NSArray arrayWithObjects:OEGGButtonNameTable count:OEGGButtonCount];
-}
-
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -65,9 +55,4 @@
     return controls;
 }
 
-- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx{
-	if(idx!=NULL) *idx = [[self genericControlNames] indexOfObject:keyName];
-	
-	return 1;
-}
 @end

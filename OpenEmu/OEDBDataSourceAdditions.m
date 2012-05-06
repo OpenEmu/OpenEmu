@@ -59,12 +59,17 @@
 
 - (NSImage *)gridImage
 {
-    return [[self boxImage] image];
+    return [[self boxImage] originalImage];
 }
 
 - (NSImage *)gridImageWithSize:(NSSize)aSize
 {
     return [[self boxImage] imageForSize:aSize];
+}
+
+- (NSSize)actualGridImageSizeforSize:(NSSize)aSize
+{
+    return [[self boxImage] sizeOfThumbnailForSize:aSize];
 }
 
 - (void)setGridImage:(NSImage *)gridImage
@@ -74,7 +79,6 @@
 
 #pragma mark -
 #pragma mark CoverFlowDataSourceItem
-
 - (NSString *)imageUID
 {
     // Create a new UUID
@@ -103,7 +107,7 @@
     
     if(data != nil) return [[NSImage alloc] initWithData:data];
     
-    //if([boxImage valueForKey:@"url"]) return nil;
+    //if([boxImage valueForKey:@"sourceURL"]) return nil;
     
     return nil;
 }

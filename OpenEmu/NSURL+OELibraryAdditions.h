@@ -32,6 +32,8 @@
 - (BOOL)isSubpathOfURL:(NSURL*)url;
 - (BOOL)isDirectory;
 
+- (NSNumber*)fileSize;
+
 - (NSURL*)uniqueURLUsingBlock:(NSURL*(^)(NSInteger triesCount))block;
 + (NSString*)validFilenameFromString:(NSString*)fileName;
 @end

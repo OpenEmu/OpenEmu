@@ -109,7 +109,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];    
     [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-    
+    [[__managedObjectContext userInfo] setValue:self forKey:LibraryDatabaseKey];
+
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setObject:[self.databaseURL path] forKey:UDDatabasePathKey];
@@ -268,7 +269,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
         [context setMergePolicy:policy];
-        
+        [[context userInfo] setValue:self forKey:LibraryDatabaseKey];        
     }
     return [managedObjectContexts valueForKey:[thread name]];
     
@@ -829,17 +830,30 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     return result;
 }
+
+- (NSURL *)coverFolderURL
+{
+    NSUserDefaults *standardDefaults  = [NSUserDefaults standardUserDefaults];
+    NSString       *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+    NSString       *coverFolderPath   = [libraryFolderPath stringByAppendingPathComponent:@"Artwork/"];
+   
+    NSURL *url = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
+    [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
+    return url;
+}
+
 #pragma mark -
 #pragma mark Private (importing)
-- (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError
+
+- (NSArray *)_romsBySuffixAtPath:(NSString *)path includeSubfolders:(int)subfolderFlag error:(NSError **)outError
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isDir = NO;
     BOOL exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
     
     if(!exists) return [NSArray array];
-    if(isDir && subfolderFlag==0) return [NSArray array];
-    if(subfolderFlag==2) subfolderFlag = 0;
+    if(isDir && subfolderFlag == 0) return [NSArray array];
+    if(subfolderFlag == 2) subfolderFlag = 0;
     
     if(isDir)
     {
@@ -859,25 +873,27 @@ static OELibraryDatabase *defaultDatabase = nil;
             NSString *subPath = [aUrl path];
             NSArray *subResult = [self _romsBySuffixAtPath:subPath includeSubfolders:subfolderFlag error:outError];
             [result addObjectsFromArray:subResult];
-            if(outError!=NULL && *outError!=nil)
+            if(outError != NULL && *outError != nil)
             {
                 //NSLog(@"error with subpath");
                 *outError = nil;
                 // return nil;
             }
         }
+        
         return result;
     }
     
-    NSDictionary *fileInfo = [fileManager attributesOfItemAtPath:path error:outError];
-    if(!fileInfo)
+    NSError *error = nil;
+    NSDictionary *fileInfo = [fileManager attributesOfItemAtPath:path error:&error];
+    if(fileInfo == nil)
     {
-        NSLog(@"Error getting file info: %@", outError);
+        NSLog(@"Error getting file info: %@", error);
+        if(outError != NULL) *outError = error;
         return [NSArray array];
     }
     
-    NSNumber *filesize = [fileInfo valueForKey:NSFileSize];
-    NSDictionary *res = [NSDictionary dictionaryWithObjectsAndKeys:filesize, @"filesize", path, @"filepath", nil];
-    return [NSArray arrayWithObject:res];
+    return [NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:[fileInfo valueForKey:NSFileSize], @"filesize", path, @"filepath", nil]];
 }
+
 @end

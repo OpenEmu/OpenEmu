@@ -37,16 +37,6 @@
     return [OENESSystemResponder class];
 }
 
-- (NSArray *)genericSettingNames;
-{
-    return [super genericSettingNames];
-}
-
-- (NSArray *)genericControlNames;
-{
-    return [NSArray arrayWithObjects:OENESControlNameTable count:OENESButtonCount];
-}
-
 - (NSUInteger)numberOfPlayers;
 {
     return 4;

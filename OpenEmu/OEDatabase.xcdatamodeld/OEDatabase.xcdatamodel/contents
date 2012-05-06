@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="1.0 Beta" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AbstractCollection" representedClassName="NSManagedObject" isAbstract="YES" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="folder" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="CollectionFolder" inverseName="subcollections" inverseEntity="CollectionFolder" indexed="YES" syncable="YES"/>
@@ -40,29 +40,25 @@
         <relationship name="games" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="genres" inverseEntity="Game" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="Image" representedClassName="OEDBImage" syncable="YES">
-        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sourceURL" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="Box" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="boxImage" inverseEntity="Game" indexed="YES" syncable="YES"/>
         <relationship name="versions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ImageThumbnail" inverseName="image" inverseEntity="ImageThumbnail" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="ImageData" representedClassName="NSManagedObject" syncable="YES">
-        <attribute name="data" attributeType="Binary" syncable="YES"/>
-        <relationship name="thumbnail" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ImageThumbnail" inverseName="data" inverseEntity="ImageThumbnail" indexed="YES" syncable="YES"/>
-    </entity>
-    <entity name="ImageThumbnail" representedClassName="NSManagedObject" syncable="YES">
+    <entity name="ImageThumbnail" representedClassName="OEDBImageThumbnail" syncable="YES">
         <attribute name="height" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
+        <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="width" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
-        <relationship name="data" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="ImageData" inverseName="thumbnail" inverseEntity="ImageData" indexed="YES" syncable="YES"/>
         <relationship name="image" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="versions" inverseEntity="Image" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="ROM" representedClassName="OEDBRom" syncable="YES">
         <attribute name="bookmarkData" attributeType="Binary" syncable="YES"/>
         <attribute name="crc32" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="favorite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="fileSize" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <attribute name="lastPlayed" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="md5" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="game" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="roms" inverseEntity="Game" indexed="YES" syncable="YES"/>
         <relationship name="saveStates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SaveState" inverseName="rom" inverseEntity="SaveState" indexed="YES" syncable="YES"/>
-        <relationship name="tosec" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="TOSEC" inverseName="rom" inverseEntity="TOSEC" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="SaveState" representedClassName="OEDBSaveState" syncable="YES">
         <attribute name="coreIdentifier" attributeType="String" syncable="YES"/>
@@ -83,12 +79,6 @@
         <attribute name="systemIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="games" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Game" inverseName="system" inverseEntity="Game" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="TOSEC" representedClassName="NSManagedObject" syncable="YES">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="romname" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="rom" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ROM" inverseName="tosec" inverseEntity="ROM" indexed="YES" syncable="YES"/>
-    </entity>
     <elements>
         <element name="AbstractCollection" positionX="-495" positionY="-198" width="128" height="75"/>
         <element name="Collection" positionX="-495" positionY="-87" width="128" height="60"/>
@@ -98,12 +88,10 @@
         <element name="Game" positionX="-92" positionY="-216" width="128" height="240"/>
         <element name="Genre" positionX="-666" positionY="105" width="128" height="75"/>
         <element name="Image" positionX="-290" positionY="-288" width="128" height="90"/>
-        <element name="ImageData" positionX="-693" positionY="-354" width="128" height="75"/>
         <element name="ImageThumbnail" positionX="-479" positionY="-369" width="128" height="105"/>
         <element name="ROM" positionX="133" positionY="-27" width="128" height="165"/>
         <element name="SaveState" positionX="306" positionY="-54" width="128" height="135"/>
         <element name="SmartCollection" positionX="-711" positionY="-45" width="128" height="45"/>
         <element name="System" positionX="-477" positionY="195" width="128" height="165"/>
-        <element name="TOSEC" positionX="313" positionY="153" width="128" height="105"/>
     </elements>
 </model>

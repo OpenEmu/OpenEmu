@@ -387,7 +387,7 @@
     NSString *searchString = @"";
     for(NSString *extension in supportedFileExtensions)
     {
-        searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension, nil];
+        searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension];
         searchString = [searchString stringByAppendingString:@" || "];
     }
     

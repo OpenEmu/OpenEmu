@@ -28,8 +28,6 @@
 
 @protocol OENDSSystemResponderClient;
 
-extern NSString *OENDSButtonNameTable[];
-
 @interface OENDSSystemResponder : OEBasicSystemResponder
 
 @property(nonatomic, weak) id<OENDSSystemResponderClient> client;
