@@ -67,7 +67,12 @@
     
     for(NSTableColumn *column in [self tableColumns])
     {
-        [column setEditable:NO];
+            [column setEditable:YES];
+
+//        if([[column identifier] isEqualToString:@"enabled"])
+//            [column setEditable:YES];
+//        else
+//            [column setEditable:NO];
     }
 }
 

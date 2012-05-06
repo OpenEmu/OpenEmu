@@ -39,6 +39,8 @@
 
 @property(copy) void (^completionBlock)(BOOL discoverROM);
 @property(copy) NSArray *deviceHandlers;
+@property(retain) NSMutableArray* enabledCoresForDownloading;
+@property(retain) NSMutableArray* enabledVolumesForDownloading;
 
 @property(weak) IBOutlet OEGlossButton *goButton;
 

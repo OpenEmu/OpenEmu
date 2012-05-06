@@ -45,6 +45,8 @@
 @implementation OESetupAssistant
 @synthesize completionBlock;
 @synthesize deviceHandlers;
+@synthesize enabledCoresForDownloading;
+@synthesize enabledVolumesForDownloading;
 
 @synthesize transition;
 @synthesize replaceView;
@@ -121,6 +123,12 @@
         
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidMountNotification object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidUnmountNotification object:nil];
+        
+        self.enabledCoresForDownloading = [NSMutableArray array];
+        self.enabledVolumesForDownloading = [NSMutableArray array];
+        
+        // udpate our data for our volumes
+        [self reload];
     }
     
     return self;
@@ -192,6 +200,12 @@
     [step1 setFrame:[[self replaceView] frame]];
     
     [[[self replaceView] animator] addSubview:step1];
+    
+    // Hopefully we have the updated core list by now. Lets init an NSMutableArray with 
+    for (int i = 0; i < [[[OECoreUpdater sharedUpdater] coreList] count]; i ++ )
+    {
+        [enabledCoresForDownloading addObject:[NSNumber numberWithBool:YES]];
+    }
 }
 
 - (IBAction)backToStep1:(id)sender
@@ -417,23 +431,28 @@
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
-{
+{    
     if(aTableView == [self installCoreTableView])
     {
         NSString *identifier = [aTableColumn identifier];
         
         if([identifier isEqualToString:@"enabled"])
-            return [NSNumber numberWithBool:YES];
+            //return [NSNumber numberWithBool:YES];
+            return [enabledCoresForDownloading objectAtIndex:rowIndex];
+            
         else if([identifier isEqualToString:@"emulatorName"])
             return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] name];
+        
         else if([identifier isEqualToString:@"emulatorSystem"])
             return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] description];
     }
     else if(aTableView == [self mountedVolumes])
     {
         NSString *identifier = [aTableColumn identifier];
+        
         if([identifier isEqualToString:@"enabled"])
-            return [NSNumber numberWithBool:YES];
+            return [enabledVolumesForDownloading objectAtIndex:rowIndex];
+        
         else if([identifier isEqualToString:@"mountName"])
         {
             NSArray *keys     = [NSArray arrayWithObject:NSURLLocalizedNameKey];
@@ -460,8 +479,39 @@
     return nil;
 }
 
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    
+    if(aTableView == [self installCoreTableView])
+    {
+        NSString *identifier = [aTableColumn identifier];
+        
+        if([identifier isEqualToString:@"enabled"])
+            [enabledCoresForDownloading replaceObjectAtIndex:rowIndex withObject:anObject];
+    }
+    
+    else if(aTableView == [self mountedVolumes])
+    {
+        NSString *identifier = [aTableColumn identifier];
+        
+        if([identifier isEqualToString:@"enabled"])
+            [enabledVolumesForDownloading replaceObjectAtIndex:rowIndex withObject:anObject];
+    }
+
+}
+
 #pragma mark -
 #pragma mark Table View Delegate Protocol
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    NSString *identifier = [aTableColumn identifier];
+    
+    if([identifier isEqualToString:@"enabled"])
+        return YES;
+    
+    return NO;
+}
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
@@ -475,6 +525,16 @@
 
 - (void)reload
 {
+    NSArray *keys     = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+    NSUInteger volumeCount = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] count];
+    
+    [enabledVolumesForDownloading removeAllObjects];
+    
+    for(int i = 0; i < volumeCount; i++)
+    {
+        [enabledVolumesForDownloading addObject:[NSNumber numberWithBool:YES]];
+    }
+    
     [[self mountedVolumes] reloadData];
 }
 
