@@ -91,7 +91,6 @@
     {
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
         [setupAssistant setDeviceHandlers:[self deviceHandlers]];
-        [setupAssistant setCoreList:[self coreList]];
         
         [setupAssistant setCompletionBlock:
          ^(BOOL discoverRoms)
