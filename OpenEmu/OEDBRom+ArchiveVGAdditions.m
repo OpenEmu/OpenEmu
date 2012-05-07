@@ -20,7 +20,7 @@
     if([self crcHashIfAvailable])
         [description setValue:[self crcHashIfAvailable] forKey:AVGGameListItemCRC32Key];
     if([[self fileSize] boolValue])
-        [description setValue:[self fileSize] forKey:AVGGameListItemSizeKey];
+        [description setValue:[NSString stringWithFormat:@"%@", [self fileSize]] forKey:AVGGameListItemSizeKey];
     
     [description setValue:[[self objectID] URIRepresentation] forKey:AVGGameListItemRequestAttributeKey];
     

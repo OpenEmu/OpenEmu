@@ -90,7 +90,6 @@ extern NSString *const OEPasteboardTypeGame;
 
 #pragma mark -
 #pragma mark Accessors
-
 @property(readonly) OEDBRom         *defaultROM;
 @property(readonly) NSDate          *lastPlayed;
 @property(readonly) OEDBSaveState   *autosaveForLastPlayedRom;

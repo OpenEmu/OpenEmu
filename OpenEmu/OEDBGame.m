@@ -246,7 +246,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 #pragma mark Archive.VG Sync
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary
 {
-    // DLog(@"setArchiveVGInfo:");
+    DLog(@"setArchiveVGInfo:");
     // The following values have to be included in a valid archiveVG info dictionary
     if([[gameInfoDictionary allKeys] count] == 0) return;
     

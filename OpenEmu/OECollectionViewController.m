@@ -740,19 +740,17 @@
                 return ;
             }
             
-            NSLog(@"merge new info with game info");
-            
             OELibraryDatabase *database = [OELibraryDatabase defaultDatabase]; // TODO: check all databases if more than one is available
             for(NSDictionary* aResult in result)
             {
-                NSString* request = [aResult valueForKey:@"request"];
+                id request = [aResult valueForKey:@"request"];
                 if(!request){ NSLog(@"skipping result"); continue; }
+                if([request isKindOfClass:[NSString class]]) request = [NSURL URLWithString:request];
+            
                 
-                NSURL   *objectURI = [NSURL URLWithString:request];
-                OEDBRom *rom = [database objectWithURI:objectURI];
+                OEDBRom *rom = [database objectWithURI:request];
                 if(!rom || ![rom isKindOfClass:[OEDBRom class]]){ NSLog(@"No ROM Found"); continue; }
                 
-                NSLog(@"rom: %@", rom);
                 [[rom game] setArchiveVGInfo:aResult];
             }
             [self reloadDataIndexes:[self selectedIndexes]];

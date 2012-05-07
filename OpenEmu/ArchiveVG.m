@@ -192,7 +192,8 @@ typedef enum
     NSXMLDocument *gameListDoc = [ArchiveVG gameListXMLFromDictionaries:gameList];
     NSString *query = [gameListDoc XMLString];
     query = [query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    query = [@"gamelist=" stringByAppendingString:query];  
+    query = [@"gamelist=" stringByAppendingString:query];
+    query = [query stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
     
     NSData *data = [query dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -201,9 +202,7 @@ typedef enum
     [request setValue:[NSString stringWithFormat:@"%ld", [data length]] forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded; charset: UTF-8" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:data];
-    
-    [data writeToFile:[@"~/archiveRequest.txt" stringByExpandingTildeInPath] atomically:NO];
-    
+
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]  completionHandler:^(NSURLResponse *res, NSData *dat, NSError *err) {
         if(err)
         {
@@ -216,7 +215,7 @@ typedef enum
         
         [dat writeToFile:[@"~/archiveResponse.txt" stringByExpandingTildeInPath] atomically:NO];
         
-        NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithData:data options:0 error:&err];
+        NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithData:dat options:0 error:&err];
         if(!xmlDocument)
         {
             ArchiveDLog(@"Archive.vg Batch call failed. (xml error)");
@@ -235,7 +234,7 @@ typedef enum
         }
         
         NSMutableArray* gameDictionaries = [NSMutableArray arrayWithCapacity:[gameNodes count]];
-        for(id obj in gameDictionaries)
+        for(id obj in gameNodes)
         {
             NSDictionary* gameDict = [self dictFromGameNode:obj error:&err];
             if(err!=nil)
@@ -246,7 +245,7 @@ typedef enum
             [gameDictionaries addObject:gameDict];
         };
         
-        callback(gameList, err);
+        callback(gameDictionaries, err);
     }];
 }
 #pragma mark -
