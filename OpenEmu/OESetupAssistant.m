@@ -47,6 +47,7 @@
 @synthesize deviceHandlers;
 @synthesize enabledCoresForDownloading;
 @synthesize enabledVolumesForDownloading;
+@synthesize allowedVolumes;
 
 @synthesize transition;
 @synthesize replaceView;
@@ -114,6 +115,7 @@
     if((self = [self initWithNibName:@"OESetupAssistant" bundle:[NSBundle mainBundle]]))
     {
         // TODO: need to fail gracefully if we have no internet connection.
+        [[OECoreUpdater sharedUpdater] checkForNewCores:[NSNumber numberWithBool:NO]];
         [[OECoreUpdater sharedUpdater] checkForUpdates];
         
         // set default prefs
@@ -137,6 +139,9 @@
 - (void)dealloc
 {
     NSLog(@"Dealloc Assistant");
+    
+    self.enabledCoresForDownloading = nil;
+    self.enabledVolumesForDownloading = nil;
     
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
     [self setCompletionBlock:nil];
@@ -243,6 +248,19 @@
 
 - (IBAction)toStep4:(id)sender;
 {
+    // If the user came from step3a, get cache the selected volume URLs for searching
+    if(self.allowScanForGames)
+    {
+        NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+        allowedVolumes = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] mutableCopy];
+        
+        for(int i = 0; i < [enabledVolumesForDownloading count]; i++)
+        {
+            if(![[enabledVolumesForDownloading objectAtIndex:i] boolValue])
+                [allowedVolumes removeObjectAtIndex:i];
+        }        
+    }
+    
     [self goForwardToView:[self step4]];
 }
 
@@ -359,8 +377,10 @@
     // clean up
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
     
-    // switch up main content.
-    if(completionBlock != nil) completionBlock([[self allowScanForGames] state] == NSOnState);
+    BOOL shouldScan = ([[self allowScanForGames] state] == NSOnState) && ([allowedVolumes count] > 0);
+    
+    if(completionBlock != nil) 
+        completionBlock(shouldScan, allowedVolumes);
 }
 
 #pragma mark -
@@ -455,8 +475,8 @@
         
         else if([identifier isEqualToString:@"mountName"])
         {
-            NSArray *keys     = [NSArray arrayWithObject:NSURLLocalizedNameKey];
-            NSURL   *mountUrl = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] objectAtIndex:rowIndex];
+            NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+            NSURL *mountUrl = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] objectAtIndex:rowIndex];
             
             NSString *volumeName = @"";
             if([mountUrl getResourceValue:&volumeName forKey:NSURLVolumeLocalizedNameKey error:nil])
@@ -525,7 +545,7 @@
 
 - (void)reload
 {
-    NSArray *keys     = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+    NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
     NSUInteger volumeCount = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] count];
     
     [enabledVolumesForDownloading removeAllObjects];

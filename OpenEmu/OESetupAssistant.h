@@ -37,10 +37,11 @@
 
 @interface OESetupAssistant : NSViewController <NSTableViewDelegate, NSTableViewDataSource>
 
-@property(copy) void (^completionBlock)(BOOL discoverROM);
+@property(copy) void (^completionBlock)(BOOL discoverROM, NSArray* volumes);
 @property(copy) NSArray *deviceHandlers;
-@property(retain) NSMutableArray* enabledCoresForDownloading;
-@property(retain) NSMutableArray* enabledVolumesForDownloading;
+@property(strong) NSMutableArray* enabledCoresForDownloading;
+@property(strong) NSMutableArray* enabledVolumesForDownloading;
+@property(strong) NSMutableArray* allowedVolumes; 
 
 @property(weak) IBOutlet OEGlossButton *goButton;
 
