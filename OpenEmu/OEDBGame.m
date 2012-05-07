@@ -39,8 +39,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 @interface OEDBGame ()
 + (id)_createGameWithoutChecksWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc;
-
-- (void)_performUpdate;
 + (void)_cpyValForKey:(NSString *)keyA of:(NSDictionary *)dictionary toKey:(NSString *)keyB ofGame:(OEDBGame *)game;
 
 - (BOOL)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel error:(NSError**)error;
@@ -246,7 +244,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 }
 #pragma mark -
 #pragma mark Archive.VG Sync
-
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary
 {
     // DLog(@"setArchiveVGInfo:");
@@ -651,23 +648,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 }
 
 #pragma mark -
-
-- (void)updateInfoInBackground
-{
-    // DLog(@"Deprecated: Use OEDGBGame -performFullSyncWithArchiveVG: instead");
-    [self performSelectorInBackground:@selector(_performUpdate) withObject:nil];
-}
-
-#pragma mark -
 #pragma mark Private
-
-- (void)_performUpdate
-{
-    // DLog(@"Deprecated: Use OEDGBGame -performFullSyncWithArchiveVG: instead");
-    // TODO: get file checksum if none exists
-    // TODO: contact archive, get infos
-}
-
 + (void)_cpyValForKey:(NSString *)keyA of:(NSDictionary *)dictionary toKey:(NSString *)keyB ofGame:(OEDBGame*)game
 {
     // DLog(@"Deprecated: Will be removed soon");

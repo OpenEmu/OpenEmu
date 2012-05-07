@@ -77,6 +77,7 @@ extern NSString *const OEPasteboardTypeGame;
 
 #pragma mark -
 #pragma mark Archive.VG Sync
++ (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary;
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary;
 // -performFullSyncWithArchiveVG: gets all info from archive.vg (cover and info)
 - (BOOL)performFullSyncWithArchiveVG:(NSError **)outError;

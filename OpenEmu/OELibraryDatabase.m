@@ -294,6 +294,12 @@ static OELibraryDatabase *defaultDatabase = nil;
     [managedObjectContexts removeObjectForKey:threadName];
 }
 
+- (id)objectWithURI:(NSURL*)uri
+{
+    NSManagedObjectID *objID = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
+    return [[self managedObjectContext] objectWithID:objID];
+}
+
 #pragma mark -
 - (BOOL)save:(NSError**)error
 {
