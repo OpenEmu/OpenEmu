@@ -373,8 +373,10 @@
 #pragma mark -
 #pragma mark Spotlight Importing
 
-- (void)discoverRoms
+- (void)discoverRoms:(NSArray*)volumes
 {
+    // TODO: limit searching or results to the volume URLs only.
+    
     NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
     
     // We skip common types by default.
@@ -393,13 +395,16 @@
     
     searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
     
-    NSLog(@"SearchString: %@", searchString);
+    DLog(@"SearchString: %@", searchString);
     
     MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (__bridge CFStringRef)searchString, NULL, NULL);
     
     if(searchQuery)
     {
-        NSLog(@"Valid search query ref");
+        // Limit Scope to selected volumes / URLs only
+        MDQuerySetSearchScope(searchQuery, (__bridge CFArrayRef) volumes, 0);
+
+        DLog(@"Valid search query ref");
         
         [[self searchResults] removeAllObjects];
         
@@ -414,9 +419,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
                                                      name:(NSString*)kMDQueryDidUpdateNotification
                                                    object:(__bridge id)searchQuery];
-        
-        MDQuerySetSearchScope(searchQuery, (__bridge CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer /*kMDQueryScopeComputer */], 0);
-        
+                
         if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
             NSLog(@"Searching for importable roms");
         else
@@ -434,7 +437,7 @@
 
 - (void)updateSearchResults:(NSNotification *)notification
 {
-    NSLog(@"updateSearchResults:");
+    DLog(@"updateSearchResults:");
     
     MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];
     
@@ -477,7 +480,7 @@
             {
                 [[self searchResults] addObject:resultDict];
                 
-                NSLog(@"Result Path: %@", resultPath);
+//                NSLog(@"Result Path: %@", resultPath);
             }
         }
     }
@@ -492,12 +495,10 @@
     {
         [self importInBackground];
         
-        //MDQueryStop(searchQuery);
-        //CFRelease(MDQueryStop);
+        MDQueryStop(searchQuery);
     }
     
-    //CFRelease(MDQueryStop);
-    //CFRelease(searchQuery);
+    CFRelease(searchQuery);
 }
 
 - (void)importInBackground;

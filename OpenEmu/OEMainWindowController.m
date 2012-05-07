@@ -93,9 +93,11 @@
         [setupAssistant setDeviceHandlers:[self deviceHandlers]];
         
         [setupAssistant setCompletionBlock:
-         ^(BOOL discoverRoms)
+         ^(BOOL discoverRoms, NSArray* volumes)
          {
-             if(discoverRoms) [[self libraryController] discoverRoms];
+             if(discoverRoms) 
+                 [[self libraryController] discoverRoms:volumes];
+             
              [self setCurrentContentController:[self libraryController]];
          }];
         
