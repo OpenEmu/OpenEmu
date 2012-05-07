@@ -144,7 +144,7 @@
 
         for(NSUInteger step = 0; step < stepCount; step++) [spinnerValues addObject:[NSNumber numberWithDouble:M_TAU * step / 12.0]];
 
-        CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
+        animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
         [animation setCalculationMode:kCAAnimationDiscrete];
         [animation setDuration:1.0];
         [animation setRepeatCount:CGFLOAT_MAX];
