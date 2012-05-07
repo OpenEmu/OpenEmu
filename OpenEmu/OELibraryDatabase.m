@@ -51,9 +51,6 @@
 
 - (NSManagedObjectModel*)managedObjectModel;
 
-- (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError;
-
-
 - (void)OE_setupStateWatcher;
 - (void)OE_removeStateWatcher;
 @property (strong) OEFSWatcher *saveStateWatcher;
@@ -295,6 +292,12 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
     
     [managedObjectContexts removeObjectForKey:threadName];
+}
+
+- (id)objectWithURI:(NSURL*)uri
+{
+    NSManagedObjectID *objID = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
+    return [[self managedObjectContext] objectWithID:objID];
 }
 
 #pragma mark -
@@ -840,60 +843,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSURL *url = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
     return url;
-}
-
-#pragma mark -
-#pragma mark Private (importing)
-
-- (NSArray *)_romsBySuffixAtPath:(NSString *)path includeSubfolders:(int)subfolderFlag error:(NSError **)outError
-{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isDir = NO;
-    BOOL exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
-    
-    if(!exists) return [NSArray array];
-    if(isDir && subfolderFlag == 0) return [NSArray array];
-    if(subfolderFlag == 2) subfolderFlag = 0;
-    
-    if(isDir)
-    {
-        NSURL *url = [NSURL fileURLWithPath:path];
-        NSArray *pathURLs = [fileManager contentsOfDirectoryAtURL:url includingPropertiesForKeys:[NSArray array] options:NSDirectoryEnumerationSkipsHiddenFiles error:outError];
-        if(outError!=NULL && *outError!=nil)
-        {
-            //NSLog(@"Error loading contents of '%@'", path);
-            *outError = nil;
-            // TODO: decide if we really want to bother the user with this
-            return [NSArray array];
-        }
-        
-        NSMutableArray *result = [NSMutableArray array];
-        for(NSURL *aUrl in pathURLs)
-        {
-            NSString *subPath = [aUrl path];
-            NSArray *subResult = [self _romsBySuffixAtPath:subPath includeSubfolders:subfolderFlag error:outError];
-            [result addObjectsFromArray:subResult];
-            if(outError != NULL && *outError != nil)
-            {
-                //NSLog(@"error with subpath");
-                *outError = nil;
-                // return nil;
-            }
-        }
-        
-        return result;
-    }
-    
-    NSError *error = nil;
-    NSDictionary *fileInfo = [fileManager attributesOfItemAtPath:path error:&error];
-    if(fileInfo == nil)
-    {
-        NSLog(@"Error getting file info: %@", error);
-        if(outError != NULL) *outError = error;
-        return [NSArray array];
-    }
-    
-    return [NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:[fileInfo valueForKey:NSFileSize], @"filesize", path, @"filepath", nil]];
 }
 
 @end

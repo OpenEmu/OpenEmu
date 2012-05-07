@@ -48,6 +48,7 @@
 - (NSManagedObjectContext*)managedObjectContext;
 
 + (OELibraryDatabase*)defaultDatabase;
+- (id)objectWithURI:(NSURL*)uri;
 #pragma mark -
 #pragma mark Administration
 - (void)disableSystemsWithoutPlugin;
