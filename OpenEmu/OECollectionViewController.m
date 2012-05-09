@@ -51,7 +51,6 @@
 
 #import "OEMenu.h"
 #import "OEDBGame.h"
-#import "OEDBGame+ArchiveVGAdditions.h"
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 
@@ -721,41 +720,9 @@
 - (void)getGameInfoFromArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    if([selectedGames count] < 2)
-    {
-        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-            [obj performInfoSyncWithArchiveVG:nil];
-        }];
-        [self reloadDataIndexes:[self selectedIndexes]];
-    } else {
-        NSMutableArray *gamelist = [NSMutableArray array];
-        for(OEDBGame* aGame in selectedGames){
-            [gamelist addObjectsFromArray:[aGame batchCallDescription]];
-        }
-        
-        [ArchiveVG gameInfoByGameList:gamelist callback:^(NSArray *result, NSError *error) 
-        {
-            if(error!=nil){
-                NSLog(@"syncinc failed. %@", [error localizedDescription]);
-                return ;
-            }
-            
-            OELibraryDatabase *database = [OELibraryDatabase defaultDatabase]; // TODO: check all databases if more than one is available
-            for(NSDictionary* aResult in result)
-            {
-                id request = [aResult valueForKey:@"request"];
-                if(!request){ NSLog(@"skipping result"); continue; }
-                if([request isKindOfClass:[NSString class]]) request = [NSURL URLWithString:request];
-            
-                
-                OEDBRom *rom = [database objectWithURI:request];
-                if(!rom || ![rom isKindOfClass:[OEDBRom class]]){ NSLog(@"No ROM Found"); continue; }
-                
-                [[rom game] setArchiveVGInfo:aResult];
-            }
-            [self reloadDataIndexes:[self selectedIndexes]];
-         }];
-    }
+    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
+        [obj performInfoSyncWithArchiveVG:nil];
+    }];
 }
 
 - (void)getCoverFromArchive:(id)sender
