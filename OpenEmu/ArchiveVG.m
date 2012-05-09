@@ -8,6 +8,7 @@
 
 #import "ArchiveVG.h"
 #import <Security/Security.h>
+
 NSString * const AVGGameTitleKey         = @"AVGGameTitleKey";
 NSString * const AVGGameIDKey            = @"AVGGameIDKey";
 NSString * const AVGGameDeveloperKey     = @"AVGGameDeveloperKey";
@@ -42,13 +43,6 @@ NSString * const AVGTosecSizeKey		= @"AVGTosecSizeKey";
 NSString * const AVGTosecCRCKey			= @"AVGTosecCRCKey";
 NSString * const AVGTosecMD5Key			= @"AVGTosecMD5Key";
 
-// Key that appear in Game Lists (Batch calls)
-NSString * const AVGGameListItemRequestAttributeKey = @"request";
-NSString * const AVGGameListItemRomFileKey          = @"rom";
-NSString * const AVGGameListItemSizeKey             = @"size";
-NSString * const AVGGameListItemCRC32Key            = @"crc";
-NSString * const AVGGameListItemMD5Key              = @"md5";
-
 #define KCSessionServiceName @"Archive.vg SessionKey"
 
 typedef enum 
@@ -60,8 +54,6 @@ typedef enum
     AVGGetInfoByID,     // requires archive.vg game id
     AVGGetInfoByCRC,	// requires rom crc
     AVGGetInfoByMD5,	// requires rom md5
-    
-    AVGGetInfoByGameList,
 } _ArchiveVGOperation;
 
 @interface ArchiveVG (Private)
@@ -182,72 +174,6 @@ typedef enum
     return result;
 }
 
-+ (void)gameInfoByGameList:(NSArray*)gameList callback:(void (^)(NSArray* result, NSError* error))callback
-{
-    _ArchiveVGOperation operation = AVGGetInfoByGameList;
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:nil];
-    
-    ArchiveDLog(@"Archive URL:%@", url);
-    
-    NSXMLDocument *gameListDoc = [ArchiveVG gameListXMLFromDictionaries:gameList];
-    NSString *query = [gameListDoc XMLString];
-    query = [query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    query = [@"gamelist=" stringByAppendingString:query];
-    query = [query stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
-    
-    NSData *data = [query dataUsingEncoding:NSUTF8StringEncoding];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:[NSString stringWithFormat:@"%ld", [data length]] forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded; charset: UTF-8" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:data];
-
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]  completionHandler:^(NSURLResponse *res, NSData *dat, NSError *err) {
-        if(err)
-        {
-            ArchiveDLog(@"Archive.vg Batch call failed. (Request error)");
-            ArchiveDLog(@"%@", [err localizedDescription]);
-            
-            callback(nil, err);
-            return;
-        }
-        
-        [dat writeToFile:[@"~/archiveResponse.txt" stringByExpandingTildeInPath] atomically:NO];
-        
-        NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithData:dat options:0 error:&err];
-        if(!xmlDocument)
-        {
-            ArchiveDLog(@"Archive.vg Batch call failed. (xml error)");
-            ArchiveDLog(@"%@", [err localizedDescription]);
-            
-            callback(nil, err);
-            return;
-        }
-        
-        NSArray* gameNodes = [[xmlDocument rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game" error:&err];
-        if(err!=nil)
-        {
-            ArchiveDLog(@"Could not find game nodes");
-            ArchiveDLog(@"Error: %@", err);
-            return;
-        }
-        
-        NSMutableArray* gameDictionaries = [NSMutableArray arrayWithCapacity:[gameNodes count]];
-        for(id obj in gameNodes)
-        {
-            NSDictionary* gameDict = [self dictFromGameNode:obj error:&err];
-            if(err!=nil)
-            {             
-                ArchiveDLog(@"Error while enumerating gameNodes");
-                break;
-            }
-            [gameDictionaries addObject:gameDict];
-        };
-        
-        callback(gameDictionaries, err);
-    }];
-}
 #pragma mark -
 #pragma mark API Access for Class instances
 - (id)searchResultsForString:(NSString*)searchString
@@ -274,11 +200,6 @@ typedef enum
 - (NSDictionary*)gameInfoByID:(NSInteger)gameID
 {
     return [[self class] gameInfoByID:gameID];
-}
-
-- (void)gameInfoByGameList:(NSArray*)gameList callback:(void (^)(NSArray* result, NSError* error))callback
-{
-    [[self class] gameInfoByGameList:gameList callback:callback];
 }
 
 #pragma mark -
@@ -414,11 +335,7 @@ typedef enum
         case AVGGetInfoByMD5:
             operationKey = @"Game.getInfoByMD5";
             break;
-            
-        case AVGGetInfoByGameList:
-            operationKey = @"Games.batch/xml";
-            break;
-	}
+    }
     
     NSMutableString* urlString = [[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@", APIBase, APIVersion, operationKey, APIKey];
     for(id anOption in options)
@@ -430,39 +347,6 @@ typedef enum
     
     NSURL* result = [NSURL URLWithString:urlString];    
     return result;
-}
-
-+ (NSXMLDocument*)gameListXMLFromDictionaries:(NSArray*)array
-{
-    NSXMLElement *gamesElement = [NSXMLElement elementWithName:@"games"];
-    for(NSDictionary *gameInfo in array)
-    {
-        NSXMLElement    *game    = [NSXMLElement elementWithName:@"game"];
-        
-        NSString        *value   = nil;
-        NSXMLElement    *element = nil;
-        
-        value = [gameInfo valueForKey:AVGGameListItemRequestAttributeKey];
-        if(value)
-        {
-            NSXMLNode       *request = [NSXMLNode attributeWithName:AVGGameListItemRequestAttributeKey stringValue:value];
-            [game addAttribute:request];
-        }
-        
-        const NSArray *keys = [NSArray arrayWithObjects:AVGGameListItemRomFileKey, AVGGameListItemCRC32Key, AVGGameListItemMD5Key, AVGGameListItemSizeKey, nil];
-        for(NSString* aKey in keys)
-        {
-            value = [gameInfo valueForKey:aKey];
-            if(value)
-            {
-                element = [NSXMLElement elementWithName:aKey stringValue:value];
-                [game addChild:element];
-            }
-        }        
-        [gamesElement addChild:game];
-    };    
-    
-    return [NSXMLDocument documentWithRootElement:gamesElement];
 }
 
 #pragma mark -
@@ -613,9 +497,6 @@ typedef enum
     {
 		NSString* idStr = [self removeHTMLEncodingsFromString:gameIDVal];
         [result setObject:[NSNumber numberWithInteger:[idStr integerValue]] forKey:AVGGameIDKey];
-    }
-    if (request) {
-        [result setObject:request forKey:AVGGameListItemRequestAttributeKey];
     }
     
     if(gameTitleVal)
@@ -1040,10 +921,6 @@ typedef enum
             break;
         case AVGGetInfoByMD5:
             opName = @"Game.getInfoByMD5";
-            break;
-            
-        case AVGGetInfoByGameList:
-            opName = @"Games.batch";
             break;
 	}
     
