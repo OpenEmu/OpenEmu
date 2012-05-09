@@ -361,9 +361,6 @@ typedef enum
         return nil;
     }
     
-    id request = [[[gameNode nodesForXPath:@"./@request" error:outError] lastObject] stringValue];
-    ArchiveDLog(@"request: %@", request);
-    
     NSXMLNode* gameTitle = [[gameNode nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
