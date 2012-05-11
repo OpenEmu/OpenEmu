@@ -65,12 +65,12 @@ typedef enum {
 + (void)gameInfoByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format;
 
 #pragma mark - Game.getInfoByMD5 / Game.getInfoByCRC32
-+ (NSDictionary*)gameInfoByMD5:(NSString*)md5 crc32:(NSString*)crc32;
-+ (NSDictionary*)gameInfoByMD5:(NSString*)md5 crc32:(NSString*)crc32 error:(NSError**)outError;
-+ (NSDictionary*)gameInfoByMD5:(NSString*)md5 crc32:(NSString*)crc32 usingFormat:(AVGOutputFormat)format error:(NSError**)outError;
++ (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32;
++ (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 error:(NSError**)outError;
++ (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 usingFormat:(AVGOutputFormat)format error:(NSError**)outError;
 
-+ (void)gameInfoByMD5:(NSString*)md5 crc32:(NSString*)crc32 withCallback:(void(^)(id result, NSError* error))block;
-+ (void)gameInfoByMD5:(NSString*)md5 crc32:(NSString*)crc32 withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format;
++ (void)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 withCallback:(void(^)(id result, NSError* error))block;
++ (void)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format;
 
 #pragma mark - Game.getCreditsByID
 + (NSArray*)creditsByID:(NSInteger)gameID;

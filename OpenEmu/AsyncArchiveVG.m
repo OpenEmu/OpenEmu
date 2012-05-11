@@ -205,15 +205,15 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	});
 }
 #pragma mark - Game.getInfoByMD5 / Game.getInfoByCRC32
-+ (NSDictionary*)gameInfoByMD5:(NSString*)md5 crc32:(NSString*)crc32
++ (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32
 {
-	return [self gameInfoByMD5:md5 crc32:crc32 error:nil];
+	return [self gameInfoByMD5:md5 andCRC:crc32 error:nil];
 }
-+ (NSDictionary*)gameInfoByMD5:(NSString*)md5 crc32:(NSString*)crc32 error:(NSError**)outError
++ (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 error:(NSError**)outError
 {
-	return [self gameInfoByMD5:md5 crc32:crc32 usingFormat:AVGDefaultOutputFormat error:outError];
+	return [self gameInfoByMD5:md5 andCRC:crc32 usingFormat:AVGDefaultOutputFormat error:outError];
 }
-+ (NSDictionary*)gameInfoByMD5:(NSString*)md5 crc32:(NSString*)crc32 usingFormat:(AVGOutputFormat)format error:(NSError**)outError
++ (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 usingFormat:(AVGOutputFormat)format error:(NSError**)outError
 {
 	ArchiveVGOperation operation;
 	NSArray *options;
@@ -240,15 +240,15 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return result;
 }
 
-+ (void)gameInfoByMD5:(NSString*)md5 crc32:(NSString*)crc32 withCallback:(void(^)(id result, NSError* error))block
++ (void)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 withCallback:(void(^)(id result, NSError* error))block
 {
-	[self gameInfoByMD5:md5 crc32:crc32 withCallback:block usingFormat:AVGDefaultOutputFormat];
+	[self gameInfoByMD5:md5 andCRC:crc32 withCallback:block usingFormat:AVGDefaultOutputFormat];
 }
-+ (void)gameInfoByMD5:(NSString*)md5 crc32:(NSString*)crc32 withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
++ (void)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
 {
 	dispatch_async(ArchiveVGDispatchQueue, ^{
 		NSError *error = nil;
-		id result = [self gameInfoByMD5:md5 crc32:crc32 usingFormat:format error:&error];
+		id result = [self gameInfoByMD5:md5 andCRC:crc32 usingFormat:format error:&error];
 		block(result, error);
 	});
 }
