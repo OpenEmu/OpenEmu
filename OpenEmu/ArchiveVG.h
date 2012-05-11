@@ -23,7 +23,9 @@
 #define ARCHIVE_DEBUG 1
 #import "ArchiveVGResultKeys.h"
 #import "ArchiveVG_Operations.h"
-@interface ArchiveVG : NSObject
+
+DEPRECATED_ATTRIBUTE
+@interface ArchiveVG : NSObject 
 #pragma mark -
 #pragma mark API Access for Class
 + (NSDictionary*)config:(NSError**)error; // returns a NSDictionary or nil if an error occured
