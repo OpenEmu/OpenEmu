@@ -43,7 +43,7 @@ static ArchiveVGController* sharedArchiveVGController;
         [self _setupDefaultValues];
 		
 		// Get actual values from Archive.vg using the config api-call
-		[AsyncArchiveVG configWithCallback:^(NSDictionary *result, NSError *error) {
+		[ArchiveVG configWithCallback:^(NSDictionary *result, NSError *error) {
 			if(!result)
 			{
 				NSLog(@"Error getting Archive,vg Config");
