@@ -27,7 +27,8 @@
 #import "OEDBGame.h"
 #import "OEDBImage.h"
 
-#import "ArchiveVG.h"
+#import "ArchiveVGResultKeys.h"
+#import "AsyncArchiveVG.h"
 #import "OELibraryDatabase.h"
 
 #import "OEDBSystem.h"
@@ -320,14 +321,14 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     NSNumber *archiveID = [self archiveID];
     if([archiveID integerValue] != 0)
-        gameInfo = [ArchiveVG gameInfoByID:[archiveID integerValue]];
+        gameInfo = [AsyncArchiveVG gameInfoByID:[archiveID integerValue]];
     else
     {
         NSSet *roms = [self roms];
         [roms enumerateObjectsUsingBlock:
          ^(OEDBRom *aRom, BOOL *stop)
          {
-             gameInfo = [ArchiveVG gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash]];
+             gameInfo = [AsyncArchiveVG gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash]];
              
              if([gameInfo valueForKey:AVGGameIDKey] != nil &&
                 [[gameInfo valueForKey:AVGGameIDKey] integerValue] != 0)
