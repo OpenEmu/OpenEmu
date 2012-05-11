@@ -47,6 +47,8 @@
 #import "OEHUDAlert.h"
 #import "OEGameDocument.h"
 
+#import "ArchiveVGController.h"
+#import "AsyncArchiveVG.h"
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -76,7 +78,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             return self = nil;
         }
         
-        [self OE_loadPlugins];
+        [self OE_loadPlugins];		
     }
     
     return self;
