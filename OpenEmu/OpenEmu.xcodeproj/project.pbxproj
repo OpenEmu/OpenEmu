@@ -323,7 +323,6 @@
 		8303BC0E14E318C200FCD701 /* tick_mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 8303BC0614E318C200FCD701 /* tick_mark.png */; };
 		8304D0AE155C28FC000E3B1B /* AsyncArchiveVG.m in Sources */ = {isa = PBXBuildFile; fileRef = 8304D0AD155C28FC000E3B1B /* AsyncArchiveVG.m */; };
 		8304D0B4155C3D63000E3B1B /* ArchiveVGXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8304D0B3155C3D63000E3B1B /* ArchiveVGXMLParser.m */; };
-		8305267213FBC934006179C6 /* ArchiveVG.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305267113FBC934006179C6 /* ArchiveVG.m */; };
 		8305267513FBC999006179C6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8305267413FBC999006179C6 /* Security.framework */; };
 		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
 		830BC86914D5E35A000826E2 /* controller_snes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 830BC86714D5E1E6000826E2 /* controller_snes_mask.png */; };
@@ -1237,8 +1236,6 @@
 		8304D0B1155C2B67000E3B1B /* ArchiveVG_OutputFormats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArchiveVG_OutputFormats.h; sourceTree = "<group>"; };
 		8304D0B2155C3D63000E3B1B /* ArchiveVGXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveVGXMLParser.h; sourceTree = "<group>"; };
 		8304D0B3155C3D63000E3B1B /* ArchiveVGXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArchiveVGXMLParser.m; sourceTree = "<group>"; };
-		8305267013FBC934006179C6 /* ArchiveVG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveVG.h; sourceTree = "<group>"; };
-		8305267113FBC934006179C6 /* ArchiveVG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ArchiveVG.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		8305267413FBC999006179C6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+OEHashingAdditions.h"; sourceTree = "<group>"; };
 		83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+OEHashingAdditions.m"; sourceTree = "<group>"; };
@@ -2750,8 +2747,6 @@
 		8314A9B8155422E800DF13B5 /* Archive.VG */ = {
 			isa = PBXGroup;
 			children = (
-				8305267013FBC934006179C6 /* ArchiveVG.h */,
-				8305267113FBC934006179C6 /* ArchiveVG.m */,
 				833A13F0155C0A1800C1C9B7 /* ArchiveVGController.h */,
 				833A13F1155C0A1800C1C9B7 /* ArchiveVGController.m */,
 				8304D0AC155C28FC000E3B1B /* AsyncArchiveVG.h */,
@@ -4216,7 +4211,6 @@
 				8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */,
 				83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
-				8305267213FBC934006179C6 /* ArchiveVG.m in Sources */,
 				83199722142741790068C865 /* OEROMImporter.m in Sources */,
 				83507247142F6029005D9033 /* OEControllerImageView.m in Sources */,
 				1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */,
