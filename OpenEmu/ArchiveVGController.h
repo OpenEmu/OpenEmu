@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AsyncArchiveVG.h"
+#import "ArchiveVG.h"
 @interface ArchiveVGController : NSObject
 {
     NSTimer       * timer;

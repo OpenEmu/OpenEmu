@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AsyncArchiveVG.h"
+#import "ArchiveVG.h"
 
 @interface ArchiveVGYAMLParser : AsyncArchiveVGParser
 @end
