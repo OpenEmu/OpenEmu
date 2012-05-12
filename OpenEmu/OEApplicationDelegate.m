@@ -47,8 +47,7 @@
 #import "OEHUDAlert.h"
 #import "OEGameDocument.h"
 
-#import "ArchiveVGController.h"
-#import "AsyncArchiveVG.h"
+#import "ArchiveVG.h"
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -78,7 +77,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             return self = nil;
         }
         
-        [self OE_loadPlugins];		
+		[self OE_loadPlugins];		
     }
     
     return self;
@@ -115,7 +114,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [mainWindowController setDeviceHandlers:[[self HIDManager] deviceHandlers]];
     [mainWindowController setCoreList:[[OECoreUpdater sharedUpdater] coreList]];
     
-    [mainWindowController showWindow:self];
+    [mainWindowController showWindow:self];	
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
@@ -296,6 +295,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     [[self aboutWindow] center];
     [[self aboutWindow] makeKeyAndOrderFront:self];
+	
+	int i;
+	for(i=0; i < 130; i++)
+	{
+		[[ArchiveVG throttled] gameInfoByID:21658 withCallback:^(id result, NSError *error) {
+		}];
+	}
 }
 
 - (NSString *)aboutCreditsPath

@@ -247,7 +247,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 #pragma mark Archive.VG Sync
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary
 {
-    DLog(@"setArchiveVGInfo:");
     // The following values have to be included in a valid archiveVG info dictionary
     if([[gameInfoDictionary allKeys] count] == 0) return;
     
@@ -321,14 +320,14 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     NSNumber *archiveID = [self archiveID];
     if([archiveID integerValue] != 0)
-        gameInfo = [ArchiveVG gameInfoByID:[archiveID integerValue]];
+        gameInfo = [[ArchiveVG throttled] gameInfoByID:[archiveID integerValue]];
     else
     {
         NSSet *roms = [self roms];
         [roms enumerateObjectsUsingBlock:
          ^(OEDBRom *aRom, BOOL *stop)
          {
-             gameInfo = [ArchiveVG gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash]];
+             gameInfo = [[ArchiveVG throttled] gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash]];
              
              if([gameInfo valueForKey:AVGGameIDKey] != nil &&
                 [[gameInfo valueForKey:AVGGameIDKey] integerValue] != 0)
