@@ -3,14 +3,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -18,10 +18,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OEDBGame.h"
@@ -73,8 +73,8 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     [[storeCoordinator persistentStores] enumerateObjectsUsingBlock:
      ^(id obj, NSUInteger idx, BOOL *stop)
      {
-        objID = [obj managedObjectIDForURIRepresentation:objIDUrl];
-        if(objID != nil) *stop = YES;
+		 objID = [obj managedObjectIDForURIRepresentation:objIDUrl];
+		 if(objID != nil) *stop = YES;
      }];
     
     return [self gameWithID:objID inDatabase:database];
@@ -104,12 +104,12 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         // DLog(@"url is nil");
         return nil;
     }
-
+	
     NSError __autoreleasing *nilerr;
     if(outError == NULL) outError = &nilerr;
     
     BOOL checkFullpath = YES;
-        
+	
     OEDBGame *game = nil;
     if(game == nil && checkFullpath)
     {
@@ -124,7 +124,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
             return nil;
         }
     }
-        
+	
     NSString *md5 = nil, *crc = nil;
     NSFileManager* defaultFileManager = [NSFileManager defaultManager];
     if(game == nil)
@@ -138,9 +138,9 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(game == nil && createFlag)
         return [self _createGameWithoutChecksWithURL:url inDatabase:database error:outError md5:md5 crc:crc];
-
+	
     [game setDatabase:database];
-
+	
     return game;
 }
 
@@ -194,7 +194,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     }
     
     [game setDatabase:database];
-
+	
     return game;
 }
 
@@ -277,7 +277,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         // DLog(@"Game has no System, try using archive.vg system: %@", system);
         [self setSystem:system];
     }
-
+	
     // Get + Set game description
     stringValue = [gameInfoDictionary valueForKey:AVGGameDescriptionKey];
     if(stringValue != nil)
@@ -313,49 +313,58 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     return [self OE_performSyncWithArchiveVGByGrabbingInfo:2 error:outError];
 }
 
-- (BOOL)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel error:(NSError**)error
+- (BOOL)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel error:(NSError**)outError
 {
-    __block NSDictionary *gameInfo = nil;
-    
+    __block NSDictionary *gameInfo = nil;	
+	void(^block)() = ^{
+		NSLog(@"%@", gameInfo);
+		if(detailLevel != 0)
+		{
+			NSMutableDictionary *mutableGameInfo = [[NSMutableDictionary alloc] initWithDictionary:gameInfo];
+			
+			if(detailLevel == 1) // Info Only
+				[mutableGameInfo removeObjectForKey:AVGGameBoxURLKey];
+			else if(detailLevel == 2)
+			{
+				if([mutableGameInfo objectForKey:AVGGameBoxURLKey])
+					mutableGameInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[mutableGameInfo objectForKey:AVGGameBoxURLKey], AVGGameBoxURLKey, nil];
+				else
+					mutableGameInfo = [[NSMutableDictionary alloc] init];
+			}
+			gameInfo = mutableGameInfo;
+		}
+		
+		if(gameInfo != nil)
+		{
+			[self setArchiveVGInfo:gameInfo];
+		}
+
+	};
+	
     NSNumber *archiveID = [self archiveID];
     if([archiveID integerValue] != 0)
-        gameInfo = [[ArchiveVG throttled] gameInfoByID:[archiveID integerValue]];
+		[[ArchiveVG throttled] gameInfoByID:[archiveID integerValue] withCallback:^(id result, NSError *error) {
+			gameInfo = result;
+			block();
+		}];
     else
     {
         NSSet *roms = [self roms];
-        [roms enumerateObjectsUsingBlock:
-         ^(OEDBRom *aRom, BOOL *stop)
+        [roms enumerateObjectsUsingBlock:^(OEDBRom *aRom, BOOL *stop)
          {
-             gameInfo = [[ArchiveVG throttled] gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash]];
-             
-             if([gameInfo valueForKey:AVGGameIDKey] != nil &&
-                [[gameInfo valueForKey:AVGGameIDKey] integerValue] != 0)
-                 *stop = YES;
-         }];
+			 [[ArchiveVG throttled] gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash] withCallback:^(id result, NSError *error) {
+				 if([result valueForKey:AVGGameIDKey] != nil && [[result valueForKey:AVGGameIDKey] integerValue] != 0)
+				 {
+					 gameInfo = result;
+					 block();
+					 *stop = YES;
+				 }
+			 }];
+		 }];
     }
     
-    if(detailLevel != 0)
-    {
-        NSMutableDictionary *mutableGameInfo = [[NSMutableDictionary alloc] initWithDictionary:gameInfo];
-        
-        if(detailLevel == 1) // Info Only
-            [mutableGameInfo removeObjectForKey:AVGGameBoxURLKey];
-        else if(detailLevel == 2)
-        {
-            if([mutableGameInfo objectForKey:AVGGameBoxURLKey])
-                mutableGameInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[mutableGameInfo objectForKey:AVGGameBoxURLKey], AVGGameBoxURLKey, nil];
-            else
-                mutableGameInfo = [[NSMutableDictionary alloc] init];
-        }
-        gameInfo = mutableGameInfo;
-    }
-    
-    if(gameInfo != nil)
-    {
-        [self setArchiveVGInfo:gameInfo];
-    }
-    
-    return gameInfo != nil;
+      
+    return YES;
 }
 #pragma mark -
 - (id)mergeInfoFromGame:(OEDBGame *)game
@@ -367,13 +376,13 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if([self name] == nil)
         [self setName:[game name]];
-
+	
     if([self gameDescription] == nil)
         [self setGameDescription:[game gameDescription]];
     
     if([self lastArchiveSync] == nil)
         [self setLastArchiveSync:[game lastArchiveSync]];
-
+	
     if([self importDate] == nil)
         [self setImportDate:[game importDate]];
     
@@ -428,7 +437,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
      {
          return [[obj1 lastPlayed] compare:[obj2 lastPlayed]];
      }];
-
+	
     return [[sortedByLastPlayed lastObject] autosaveState];
 }
 
@@ -543,7 +552,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     OEDBImage *boxImage = [self boxImage];
     if(boxImage != nil)
         [[boxImage managedObjectContext] deleteObject:boxImage];
-        
+	
     boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
