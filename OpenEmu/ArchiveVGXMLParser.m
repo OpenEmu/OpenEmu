@@ -38,10 +38,32 @@
 @implementation ArchiveVGXMLParser
 + (id)parse:(NSData *)responseData forOperation:(ArchiveVGOperation)operation error:(NSError *__autoreleasing *)outError
 {
+	if(!responseData)
+	{
+		NSLog(@"No Response Data!");
+		if(outError != NULL)
+			*outError = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGNoDataErrorCode userInfo:[NSDictionary dictionaryWithObject:@"No data" forKey:NSLocalizedDescriptionKey]];
+		return nil;
+	}
+	
 	id						result			= nil;
 	NSXMLDocument *document	= [[NSXMLDocument alloc] initWithData:responseData options:0 error:outError];
-	if(!document) return nil;
-	
+	if(!document)
+	{
+		return nil;	
+	}	
+	NSXMLNode *error = [[document nodesForXPath:@"/OpenSearchDescription[1]/errors[1]/error" error:nil] lastObject];
+	if(error)
+	{
+		if(outError!=NULL)
+		{
+			NSInteger code		= [[[[error nodesForXPath:@"./id/node()" error:nil] lastObject] stringValue] integerValue];
+			NSString *message	= [[[error nodesForXPath:@"./message/node()" error:nil] lastObject] stringValue];
+			*outError = [NSError errorWithDomain:OEArchiveVGErrorDomain code:code userInfo:[NSDictionary dictionaryWithObject:message forKey:NSLocalizedDescriptionKey]];
+			return nil;
+		}
+	}
+
 	switch (operation) 
 	{
 		case AVGConfig:				 return [self configDictionaryFromXMLDocument:document error:outError];
@@ -51,14 +73,14 @@
 			
 		case AVGGetInfoByID:
 		case AVGGetInfoByCRC:
-		case AVGGetInfoByMD5:	 return [self gameDictionaryFromNode:[[document nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game]" error:outError] lastObject] error:outError];
+		case AVGGetInfoByMD5:	 return [self gameDictionaryFromNode:[[document nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game" error:outError] lastObject] error:outError];
 			
 		case AVGGetCreditsByID:	 return [self creditsDictionariesFromNodes:[document nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]/credits/credit" error:outError] error:outError];
 		case AVGGetReleasesByID:	 return [self releaseDictionariesFromNodes:[document nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]/releases/release" error:outError] error:outError];
 		case AVGGetTOSECsByID:	 return [self TOSECDictionariesFromNodes:[document nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]/tosecs/tosec" error:outError] error:outError];
 		case AVGGetRatingByID:	 return [self ratingFromNode:[[document nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]/rating" error:outError] lastObject]];
 	}
-	
+
 	if(!result)
 	{
 		NSLog(@"Operation is not implemented yet.");
@@ -192,23 +214,26 @@
 + (NSDictionary*)gameDictionaryFromNode:(NSXMLNode*)node error:(NSError**)outError
 {
 	NSXMLNode* gameID = [[node nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
+    if(!gameID)
     {
         ArchiveDLog(@"Error getting gameID");
         ArchiveDLog(@"Error: %@", *outError);
+		NSLog(@"1");
         return nil;
     }
     
     NSXMLNode* gameTitle = [[node nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
+    if(!gameTitle)
     {
         ArchiveDLog(@"Error getting gameTitle");
         ArchiveDLog(@"Error: %@", *outError);
+		
+		NSLog(@"2");
         return nil;
     }
     
     NSXMLNode* gameDescription = [[node nodesForXPath:@"./description[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
+    if(!gameDescription)
     {
         ArchiveDLog(@"Error getting gameDescription");
         ArchiveDLog(@"Error: %@", *outError);
@@ -217,7 +242,7 @@
     }
     
     NSXMLNode* gameGenre = [[node nodesForXPath:@"./genre[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
+    if(!gameGenre)
     {
         ArchiveDLog(@"Error getting gameGenre");
         ArchiveDLog(@"Error: %@", *outError);
@@ -225,7 +250,7 @@
     }
     
     NSXMLNode* gameDeveloper = [[node nodesForXPath:@"./developer[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
+    if(!gameDeveloper)
     {
         ArchiveDLog(@"Error getting gameDeveloper");
         ArchiveDLog(@"Error: %@", *outError);
@@ -233,7 +258,7 @@
     }
     
     NSXMLNode* gameEsrbRating = [[node nodesForXPath:@"./desrb_rating[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
+    if(!gameEsrbRating)
     {
         ArchiveDLog(@"Error getting gameEsrbRating");
         ArchiveDLog(@"Error: %@", *outError);
@@ -241,7 +266,7 @@
     }
     
     NSXMLNode* gameSystemName = [[node nodesForXPath:@"./system[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
+    if(!gameSystemName)
     {
         ArchiveDLog(@"Error getting gameSystemName");
         ArchiveDLog(@"Error: %@", *outError);
@@ -249,7 +274,7 @@
     }
     
     NSXMLNode* gameBoxFront = [[node nodesForXPath:@"./box_front[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
+    if(!gameBoxFront)
     {
         ArchiveDLog(@"Error getting gameBoxFront");
         ArchiveDLog(@"Error: %@", *outError);
@@ -257,17 +282,17 @@
     }
     
     NSXMLNode* gameRomName = [[node nodesForXPath:@"./romName[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
+    if(!gameRomName)
     {
         ArchiveDLog(@"Error getting gameRomName");
         ArchiveDLog(@"Error: %@", *outError);
-        return nil;
+        gameRomName = nil;
     }
     
     // credits
     NSArray* creditNodes = [node nodesForXPath:@"./credits/credit" error:outError];
     NSMutableArray* credits = nil;
-    if(*outError!=nil)
+    if(!creditNodes)
     {
         ArchiveDLog(@"Error getting gameBoxFront");
         ArchiveDLog(@"Error: %@", *outError);
@@ -288,7 +313,7 @@
     // releases
     NSArray* releaseNodes = [node nodesForXPath:@"./releases/release" error:outError];
     NSMutableArray* releases = nil;
-    if(*outError!=nil)
+    if(!releaseNodes)
     {
         ArchiveDLog(@"Error getting gameBoxFront");
         ArchiveDLog(@"Error: %@", *outError);
@@ -374,8 +399,7 @@
     {
         [result setObject:releases forKey:AVGGameReleasesKey];
     }
-    
-    return result;
+	return result;
 }
 
 + (NSArray*)creditsDictionariesFromNodes:(NSArray*)nodes error:(NSError**)outError

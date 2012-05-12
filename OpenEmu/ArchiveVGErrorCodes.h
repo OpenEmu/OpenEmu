@@ -13,8 +13,10 @@ NSString * const OEArchiveVGErrorDomain;
 //TODO: cleanup
 enum {
 	AVGInvalidArgumentsErrorCode = -3,
-	
-	AVGThrottlingErrorCode = -5,
+	AVGNoDataErrorCode = -4,
 	AVGUnkownOutputFormatErrorCode = -6,
 	AVGNotImplementedErrorCode = -10,
+	
+	// Codes from Archive (see api.archive.vg)
+	AVGThrottlingErrorCode = 1,
 };
