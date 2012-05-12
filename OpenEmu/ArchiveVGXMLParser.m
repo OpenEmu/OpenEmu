@@ -7,9 +7,6 @@
 //
 
 #import "ArchiveVGXMLParser.h"
-#import "ArchiveVG_Operations.h"
-#import "ArchiveVGResultKeys.h"
-#import "ArchiveVGErrorCodes.h"
 @interface ArchiveVGXMLParser (Private)
 + (NSDictionary*)configDictionaryFromXMLDocument:(NSXMLDocument*)document error:(NSError *__autoreleasing *)outError;
 

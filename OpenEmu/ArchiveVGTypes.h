@@ -1,13 +1,50 @@
 //
-//  ArchiveVGResultKeys.h
+//  ArchiveVGTypes.h
 //  OpenEmu
 //
-//  Created by Carl Leimbrock on 10.05.12.
+//  Created by Carl Leimbrock on 12.05.12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#ifndef OpenEmu_ArchiveVGTypes_h
+#define OpenEmu_ArchiveVGTypes_h
 
+#define AsyncARCHIVE_DEBUG 1
+
+#ifdef ARCHIVE_DEBUG
+#define ArchiveDLog NSLog
+#else
+#define ArchiveDLog(__args__, ...) {} 
+#endif
+
+#pragma mark - Output Formats
+typedef enum {
+	AVGOutputFormatXML,
+	AVGOutputFormatJSON,
+	AVGOutputFormatYAML,
+} AVGOutputFormat;
+extern const AVGOutputFormat AVGDefaultOutputFormat;
+
+#pragma mark - API Calls
+typedef enum 
+{
+	AVGConfig,				// no options
+    AVGSearch,				// requires search string
+    AVGGetSystems,		// no options
+    AVGGetDailyFact,	// supply system short name
+    
+    AVGGetInfoByID,		// requires archive.vg game id							Note: This method is throttled
+    AVGGetInfoByCRC,	// requires rom crc										Note: This method is throttled
+    AVGGetInfoByMD5,	// requires rom md5										Note: This method is throttled
+	
+	AVGGetCreditsByID,// requires archive.vg game id							Note: This method is throttled
+	AVGGetReleasesByID,// requires archive.vg game id							Note: This method is throttled
+	AVGGetTOSECsByID,// requires archive.vg game id							Note: This method is throttled
+	AVGGetRatingByID,// requires archive.vg game id
+} ArchiveVGOperation;
+
+
+#pragma mark - Response Dictionary Keys
 // Keys that appear in Game Info Dicts
 NSString * const AVGGameTitleKey;
 NSString * const AVGGameIDKey;
@@ -58,3 +95,18 @@ NSString * const AVGConfigRegenerationKey;
 NSString * const AVGFactDateKey;
 NSString * const AVGFactGameIDKey;
 NSString * const AVGFactContentKey;
+
+#pragma mark - Errors
+NSString * const OEArchiveVGErrorDomain;
+
+enum {
+	AVGNoDataErrorCode = -2,
+	AVGInvalidArgumentsErrorCode = -1,
+	AVGUnkownOutputFormatErrorCode = -3,
+	AVGNotImplementedErrorCode = -4,
+	
+	// Codes from Archive (see api.archive.vg)
+	AVGThrottlingErrorCode = 1,
+};
+#endif
+
