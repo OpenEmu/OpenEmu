@@ -123,6 +123,15 @@ void usecsleep(const usec_t usecs) {
 - (BOOL)loadFileAtPath:(NSString*)path
 {
     NSLog(@"loading");
+    
+    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+    
+    if([batterySavesDirectory length] != 0)
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+        
+        gambatte.set_savedir([batterySavesDirectory UTF8String]);
+    }
     return !(gambatte.load([path UTF8String]));
 }
 
