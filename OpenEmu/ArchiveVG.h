@@ -7,23 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ArchiveVG_Operations.h"
-
-#define AsyncARCHIVE_DEBUG 1
-
-#ifdef ARCHIVE_DEBUG
-#define ArchiveDLog NSLog
-#else
-#define ArchiveDLog(__args__, ...) {} 
-#endif
-typedef enum {
-	AVGOutputFormatXML,
-	AVGOutputFormatJSON,
-	AVGOutputFormatYAML,
-} AVGOutputFormat;
+#import "ArchiveVGTypes.h"
 
 @interface ArchiveVG : NSObject
-
 + (id)throttled;
 + (id)unthrottled;
 #pragma mark - Archive.config

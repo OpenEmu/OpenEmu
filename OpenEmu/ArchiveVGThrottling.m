@@ -7,8 +7,6 @@
 //
 
 #import "ArchiveVGThrottling.h"
-#import "ArchiveVGResultKeys.h"
-#import "ArchiveVGErrorCodes.h"
 @interface ArchiveVG ()
 - (id)performStandardCallWithOperation:(ArchiveVGOperation)operation format:(AVGOutputFormat)format andOptions:(NSArray*)options error:(NSError**)outError;
 - (void)performAsynchronousCallWithOperation:(ArchiveVGOperation)operation callback:(void(^)(id result, NSError *error))block format:(AVGOutputFormat)format andOptions:(NSArray*)options;
