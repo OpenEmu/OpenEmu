@@ -10,10 +10,11 @@
 #import "ArchiveVG.h"
 @interface ArchiveVGThrottling : ArchiveVG
 
-@property NSMutableArray *highPriorityQueue;
-@property NSMutableArray *queue;
 
+#pragma mark - Throttling
 - (BOOL)isOperationThrottled:(ArchiveVGOperation)operation;
+@property NSMutableArray *highPriorityQueue;
+@property NSMutableArray *normalPriorityQueue;
 #pragma mark - Config
 @property NSInteger maximumCalls;
 @property NSInteger availableCalls;

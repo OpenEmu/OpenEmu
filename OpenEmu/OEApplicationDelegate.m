@@ -295,13 +295,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     [[self aboutWindow] center];
     [[self aboutWindow] makeKeyAndOrderFront:self];
-	
-	int i;
-	for(i=0; i < 130; i++)
-	{
-		[[ArchiveVG throttled] gameInfoByID:21658 withCallback:^(id result, NSError *error) {
-		}];
-	}
 }
 
 - (NSString *)aboutCreditsPath
