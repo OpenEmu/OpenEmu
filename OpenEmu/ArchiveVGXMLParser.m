@@ -37,7 +37,7 @@
 {
 	if(!responseData)
 	{
-		NSLog(@"No Response Data!");
+		ArchiveDLog(@"No Response Data!");
 		if(outError != NULL)
 			*outError = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGNoDataErrorCode userInfo:[NSDictionary dictionaryWithObject:@"No data" forKey:NSLocalizedDescriptionKey]];
 		return nil;
@@ -80,7 +80,7 @@
 
 	if(!result)
 	{
-		NSLog(@"Operation is not implemented yet.");
+		ArchiveDLog(@"Operation is not implemented yet.");
 		*outError = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGNotImplementedErrorCode userInfo:[NSDictionary dictionaryWithObject:@"Not Implemented" forKey:NSLocalizedDescriptionKey]];
 	}
 	
@@ -125,24 +125,24 @@
 	NSXMLNode *systemID = [[node nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
     if(!systemID)
     {
-        NSLog(@"Error getting systemID");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting systemID");
+        ArchiveDLog(@"Error: %@", *outError);
         return nil;
     }
 	
     NSXMLNode *systemName = [[node nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
     if(!systemName)
     {
-        NSLog(@"Error getting systemName");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting systemName");
+        ArchiveDLog(@"Error: %@", *outError);
         return nil;
     }
 	
     NSXMLNode *systemShort = [[node nodesForXPath:@"./short[1]/node()[1]" error:outError] lastObject];
     if(!systemShort)
     {
-        NSLog(@"Error getting systemShort");
-        NSLog(@"Error: %@", *outError);
+        ArchiveDLog(@"Error getting systemShort");
+        ArchiveDLog(@"Error: %@", *outError);
         return nil;
     }
     
@@ -215,7 +215,7 @@
     {
         ArchiveDLog(@"Error getting gameID");
         ArchiveDLog(@"Error: %@", *outError);
-		NSLog(@"1");
+		ArchiveDLog(@"1");
         return nil;
     }
     
@@ -225,7 +225,7 @@
         ArchiveDLog(@"Error getting gameTitle");
         ArchiveDLog(@"Error: %@", *outError);
 		
-		NSLog(@"2");
+		ArchiveDLog(@"2");
         return nil;
     }
     
