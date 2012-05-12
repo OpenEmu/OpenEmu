@@ -38,8 +38,8 @@
 	NSDictionary	*result = [[ArchiveVG unthrottled] configWithError:&error];
 	if(!result)
 	{
-		NSLog(@"Error getting Archive.VG Config!");
-		NSLog(@"%@", [error localizedDescription]);
+		ArchiveDLog(@"Error getting Archive.VG Config!");
+		ArchiveDLog(@"%@", [error localizedDescription]);
 	}
 	
 	NSDictionary	*generalConfig			= [result valueForKey:AVGConfigGeneralKey];
@@ -49,8 +49,8 @@
 		if(!remoteAPIVersion || [remoteAPIVersion isEqualToString:@""])
 			remoteAPIVersion = NSLocalizedString(@"none", "");
 		
-		NSLog(@"Error: OpenEmu Archive.VG API Version differs from remote version");
-		NSLog(@"OE Version: '%@'  Remote Version: '%@'", APIVersion, remoteAPIVersion);
+		ArchiveDLog(@"Error: OpenEmu Archive.VG API Version differs from remote version");
+		ArchiveDLog(@"OE Version: '%@'  Remote Version: '%@'", APIVersion, remoteAPIVersion);
 		//TODO: Notify User that syncing might me buggy and he is to disable automatic info lookup if problems are encountered.
 	}
 	
@@ -59,7 +59,7 @@
 	self.availableCalls					= self.maximumCalls;
 	self.regernerationInterval		= [[throttlingConfig valueForKey:AVGConfigRegenerationKey] doubleValue];
 	
-	NSLog(@"Archive.VG Config:\n\tAPIVersion: %@\n\tmaximum Calls: %ld\n\tregeneration interval: %f", remoteAPIVersion, self.maximumCalls, self.regernerationInterval);
+	ArchiveDLog(@"Archive.VG Config:\n\tAPIVersion: %@\n\tmaximum Calls: %ld\n\tregeneration interval: %f", remoteAPIVersion, self.maximumCalls, self.regernerationInterval);
 
 	return self;
 }
@@ -127,7 +127,7 @@
 	if( ![self isOperationThrottled:operation] ) return [super performStandardCallWithOperation:operation format:format andOptions:options error:outError];
 	else
 	{
-		NSLog(@"NOTICE: using throttled api calls synchronously will can easily cause your thread to block for 5+ seconds.");
+		ArchiveDLog(@"NOTICE: using throttled api calls synchronously will can easily cause your thread to block for 5+ seconds.");
 		while (![self availableCalls]) {}
 		self.availableCalls --;
 		return [[ArchiveVG unthrottled] performStandardCallWithOperation:operation format:format andOptions:options error:outError];
