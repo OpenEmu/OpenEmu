@@ -14,6 +14,7 @@
 @class OESystemPlugin;
 @class OESystemController;
 @class OEControllerImageView;
+@class OEHIDEvent;
 
 @interface OEPrefControlsController : NSViewController <OEPreferencePane>
 {
@@ -48,7 +49,7 @@
 - (NSInteger)selectedBindingType;
 
 - (BOOL)isKeyboardEventSelected;
-- (void)registerEvent:(id)anEvent;
+- (void)registerEvent:(OEHIDEvent *)anEvent;
 
 - (void)resetKeyBindings;
 - (void)resetBindingsWithKeys:(NSArray *)keys;
@@ -63,4 +64,5 @@
 - (NSString *)title;
 
 - (NSSize)viewSize;
+
 @end
