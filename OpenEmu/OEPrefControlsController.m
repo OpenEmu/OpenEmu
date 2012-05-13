@@ -347,7 +347,7 @@
 {
     if([self selectedKey] != nil)
     {
-        [[self currentSystemController] registerEvent:anEvent forKey:[self selectedKey]];
+        [[self currentSystemController] registerEvent:anEvent forKey:[self keyPathForKey:[self selectedKey]]];
         [self resetKeyBindings];
         [[self controlsSetupView] selectNextKeyButton];
         [self changeInputControl:[self controlsSetupView]];
