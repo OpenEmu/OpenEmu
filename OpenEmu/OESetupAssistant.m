@@ -44,8 +44,10 @@
 
 @implementation OESetupAssistant
 @synthesize completionBlock;
-@synthesize coreList;
 @synthesize deviceHandlers;
+@synthesize enabledCoresForDownloading;
+@synthesize enabledVolumesForDownloading;
+@synthesize allowedVolumes;
 
 @synthesize transition;
 @synthesize replaceView;
@@ -113,6 +115,7 @@
     if((self = [self initWithNibName:@"OESetupAssistant" bundle:[NSBundle mainBundle]]))
     {
         // TODO: need to fail gracefully if we have no internet connection.
+        [[OECoreUpdater sharedUpdater] checkForNewCores:[NSNumber numberWithBool:NO]];
         [[OECoreUpdater sharedUpdater] checkForUpdates];
         
         // set default prefs
@@ -122,6 +125,12 @@
         
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidMountNotification object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidUnmountNotification object:nil];
+        
+        self.enabledCoresForDownloading = [NSMutableArray array];
+        self.enabledVolumesForDownloading = [NSMutableArray array];
+        
+        // udpate our data for our volumes
+        [self reload];
     }
     
     return self;
@@ -130,6 +139,9 @@
 - (void)dealloc
 {
     NSLog(@"Dealloc Assistant");
+    
+    self.enabledCoresForDownloading = nil;
+    self.enabledVolumesForDownloading = nil;
     
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
     [self setCompletionBlock:nil];
@@ -193,6 +205,12 @@
     [step1 setFrame:[[self replaceView] frame]];
     
     [[[self replaceView] animator] addSubview:step1];
+    
+    // Hopefully we have the updated core list by now. Lets init an NSMutableArray with 
+    for (int i = 0; i < [[[OECoreUpdater sharedUpdater] coreList] count]; i ++ )
+    {
+        [enabledCoresForDownloading addObject:[NSNumber numberWithBool:YES]];
+    }
 }
 
 - (IBAction)backToStep1:(id)sender
@@ -230,6 +248,19 @@
 
 - (IBAction)toStep4:(id)sender;
 {
+    // If the user came from step3a, get cache the selected volume URLs for searching
+    if(self.allowScanForGames)
+    {
+        NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+        allowedVolumes = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] mutableCopy];
+        
+        for(int i = 0; i < [enabledVolumesForDownloading count]; i++)
+        {
+            if(![[enabledVolumesForDownloading objectAtIndex:i] boolValue])
+                [allowedVolumes removeObjectAtIndex:i];
+        }        
+    }
+    
     [self goForwardToView:[self step4]];
 }
 
@@ -346,8 +377,10 @@
     // clean up
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
     
-    // switch up main content.
-    if(completionBlock != nil) completionBlock([[self allowScanForGames] state] == NSOnState);
+    BOOL shouldScan = ([[self allowScanForGames] state] == NSOnState) && ([allowedVolumes count] > 0);
+    
+    if(completionBlock != nil) 
+        completionBlock(shouldScan, allowedVolumes);
 }
 
 #pragma mark -
@@ -418,26 +451,32 @@
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
-{
+{    
     if(aTableView == [self installCoreTableView])
     {
         NSString *identifier = [aTableColumn identifier];
+        
         if([identifier isEqualToString:@"enabled"])
-            return [NSNumber numberWithBool:YES];
+            //return [NSNumber numberWithBool:YES];
+            return [enabledCoresForDownloading objectAtIndex:rowIndex];
+            
         else if([identifier isEqualToString:@"emulatorName"])
-            return [(OECoreDownload *)[[self coreList] objectAtIndex:rowIndex] name];
+            return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] name];
+        
         else if([identifier isEqualToString:@"emulatorSystem"])
-            return [(OECoreDownload *)[[self coreList] objectAtIndex:rowIndex] description];
+            return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] description];
     }
     else if(aTableView == [self mountedVolumes])
     {
         NSString *identifier = [aTableColumn identifier];
+        
         if([identifier isEqualToString:@"enabled"])
-            return [NSNumber numberWithBool:YES];
+            return [enabledVolumesForDownloading objectAtIndex:rowIndex];
+        
         else if([identifier isEqualToString:@"mountName"])
         {
-            NSArray *keys     = [NSArray arrayWithObject:NSURLLocalizedNameKey];
-            NSURL   *mountUrl = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] objectAtIndex:rowIndex];
+            NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+            NSURL *mountUrl = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] objectAtIndex:rowIndex];
             
             NSString *volumeName = @"";
             if([mountUrl getResourceValue:&volumeName forKey:NSURLVolumeLocalizedNameKey error:nil])
@@ -460,8 +499,39 @@
     return nil;
 }
 
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    
+    if(aTableView == [self installCoreTableView])
+    {
+        NSString *identifier = [aTableColumn identifier];
+        
+        if([identifier isEqualToString:@"enabled"])
+            [enabledCoresForDownloading replaceObjectAtIndex:rowIndex withObject:anObject];
+    }
+    
+    else if(aTableView == [self mountedVolumes])
+    {
+        NSString *identifier = [aTableColumn identifier];
+        
+        if([identifier isEqualToString:@"enabled"])
+            [enabledVolumesForDownloading replaceObjectAtIndex:rowIndex withObject:anObject];
+    }
+
+}
+
 #pragma mark -
 #pragma mark Table View Delegate Protocol
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    NSString *identifier = [aTableColumn identifier];
+    
+    if([identifier isEqualToString:@"enabled"])
+        return YES;
+    
+    return NO;
+}
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
@@ -475,6 +545,16 @@
 
 - (void)reload
 {
+    NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+    NSUInteger volumeCount = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] count];
+    
+    [enabledVolumesForDownloading removeAllObjects];
+    
+    for(int i = 0; i < volumeCount; i++)
+    {
+        [enabledVolumesForDownloading addObject:[NSNumber numberWithBool:YES]];
+    }
+    
     [[self mountedVolumes] reloadData];
 }
 

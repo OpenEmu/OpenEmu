@@ -78,7 +78,7 @@
 #pragma mark -
 #pragma Handle Spotlight importing
 
-- (void)discoverRoms;
+- (void)discoverRoms:(NSArray*)volumes;
 - (void)updateSearchResults:(NSNotification*)notification;
 - (void)finalizeSearchResults:(NSNotification*)notification;
 - (void)importInBackground;

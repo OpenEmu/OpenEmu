@@ -20,7 +20,7 @@
  
  */
 
-// #define ARCHIVE_DEBUG 1
+#define ARCHIVE_DEBUG 1
 
 // Keys that appear in Game Info Dicts
 NSString * const AVGGameTitleKey;
@@ -61,6 +61,7 @@ NSString * const AVGSystemNameKey;
 NSString * const AVGSystemShortKey;
 
 // Key that appear in Game Lists (Batch calls)
+NSString * const AVGGameListItemRequestAttributeKey;
 NSString * const AVGGameListItemRomFileKey;
 NSString * const AVGGameListItemSizeKey;
 NSString * const AVGGameListItemCRC32Key;

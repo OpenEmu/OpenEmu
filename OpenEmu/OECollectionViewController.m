@@ -732,19 +732,30 @@
         for(OEDBGame* aGame in selectedGames){
             [gamelist addObjectsFromArray:[aGame batchCallDescription]];
         }
-
-        [ArchiveVG gameInfoByGameList:gamelist callback:^(NSArray *result, NSError *error) {
+        
+        [ArchiveVG gameInfoByGameList:gamelist callback:^(NSArray *result, NSError *error) 
+        {
             if(error!=nil){
                 NSLog(@"syncinc failed. %@", [error localizedDescription]);
                 return ;
             }
-            NSLog(@"merge new info with game info");
+            
+            OELibraryDatabase *database = [OELibraryDatabase defaultDatabase]; // TODO: check all databases if more than one is available
+            for(NSDictionary* aResult in result)
+            {
+                id request = [aResult valueForKey:@"request"];
+                if(!request){ NSLog(@"skipping result"); continue; }
+                if([request isKindOfClass:[NSString class]]) request = [NSURL URLWithString:request];
+            
+                
+                OEDBRom *rom = [database objectWithURI:request];
+                if(!rom || ![rom isKindOfClass:[OEDBRom class]]){ NSLog(@"No ROM Found"); continue; }
+                
+                [[rom game] setArchiveVGInfo:aResult];
+            }
             [self reloadDataIndexes:[self selectedIndexes]];
-        }];
+         }];
     }
-   
-    
-    
 }
 
 - (void)getCoverFromArchive:(id)sender

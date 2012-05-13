@@ -91,12 +91,13 @@
     {
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
         [setupAssistant setDeviceHandlers:[self deviceHandlers]];
-        [setupAssistant setCoreList:[self coreList]];
         
         [setupAssistant setCompletionBlock:
-         ^(BOOL discoverRoms)
+         ^(BOOL discoverRoms, NSArray* volumes)
          {
-             if(discoverRoms) [[self libraryController] discoverRoms];
+             if(discoverRoms) 
+                 [[self libraryController] discoverRoms:volumes];
+             
              [self setCurrentContentController:[self libraryController]];
          }];
         
