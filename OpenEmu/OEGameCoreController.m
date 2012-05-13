@@ -245,29 +245,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     [settingObservers removeObject:anObject];
 }
 
-- (id)registarableValueWithObject:(id)anObject
-{
-    // Recovers the event to save
-    id value = nil;
-    if(anObject == nil) { /* Do nothing: removes a key binding for the key. */ }
-    else if([anObject isKindOfClass:[NSEvent      class]])
-        value = [NSNumber numberWithUnsignedShort:[anObject keyCode]];
-    else if([anObject isKindOfClass:[NSString     class]] ||
-            [anObject isKindOfClass:[NSData       class]] ||
-            [anObject isKindOfClass:[NSNumber     class]] ||
-            [anObject isKindOfClass:[NSArray      class]] ||
-            [anObject isKindOfClass:[NSDictionary class]])
-        // Objects directly savable in NSUserDefaults
-        value = anObject;
-    else if([anObject conformsToProtocol:@protocol(NSCoding)])
-        // Objects that can be encoded and decoded
-        value = [NSKeyedArchiver archivedDataWithRootObject:anObject];
-    else
-        NSLog(@"%s: Can't save %@ to the user defaults.", __FUNCTION__, anObject);
-    
-    return value;
-}
-
 - (NSString *)keyPathForSettingKey:(NSString *)keyName;
 {
     return [NSString stringWithFormat:@"values.%@.%@", [self pluginName], keyName];

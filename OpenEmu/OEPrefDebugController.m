@@ -34,13 +34,9 @@
 - (IBAction)changeRegion:(id)sender
 {
     if([sender selectedTag] == -1)
-    {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:UDRegionKey];
-    }
     else 
-    {
         [[NSUserDefaults standardUserDefaults] setInteger:[sender selectedTag] forKey:UDRegionKey];
-    }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsChangedNotificationName object:self];
 }
@@ -48,8 +44,8 @@
 
 - (IBAction)executeDatbaseAction:(id)sender
 {
-    NSError* error = nil;
-    NSArray* allGames = [OEDBGame allGamesWithError:&error];
+    NSError *error = nil;
+    NSArray *allGames = [OEDBGame allGamesWithError:&error];
     if(!allGames)
     {
         NSLog(@"Error getting all games");
