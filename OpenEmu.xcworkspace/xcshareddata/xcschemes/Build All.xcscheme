@@ -140,24 +140,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
-               BuildableName = "Build &amp; Install Meteor"
-               BlueprintName = "Build &amp; Install Meteor"
-               ReferencedContainer = "container:Meteor/Meteor.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
-               BuildableName = "Build &amp; Install FB Alpha"
-               BlueprintName = "Build &amp; Install FB Alpha"
-               ReferencedContainer = "container:FB Alpha/FB Alpha.xcodeproj">
+               BlueprintIdentifier = "EB851D141523ABBA00715BD2"
+               BuildableName = "Build &amp; Install Yabause"
+               BlueprintName = "Build &amp; Install Yabause"
+               ReferencedContainer = "container:../loicloic/OpenEmu/Yabause/Yabause.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

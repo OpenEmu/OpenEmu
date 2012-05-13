@@ -356,7 +356,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     }
     
     CGLContextObj cgl_ctx = glContext;
-    
+    CGLSetCurrentContext(cgl_ctx);
     // Incase of a GameCore that renders direct to GL, do some state 'protection'
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);

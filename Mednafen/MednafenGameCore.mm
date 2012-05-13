@@ -32,6 +32,7 @@
 #include "trio.h"
 #include "input.h"
 #include "state-driver.h"
+#import <OpenGL/gl.h>
 
 uint16_t input_buffer[2];
 
@@ -217,7 +218,10 @@ NSString *MednafenControlNames[] = {
 
 - (OEIntRect)screenRect
 {
-    return (OEIntRect){0,0};//OERectMake(gameInfo->DisplayRect.x, gameInfo->DisplayRect.y, gameInfo->DisplayRect.w, gameInfo->DisplayRect.h);
+    //return (OEIntRect){0,0};
+    //return OERectMake(bitmap.viewport.x, bitmap.viewport.y, bitmap.viewport.w, bitmap.viewport.h);
+    EmulateSpecStruct *espec;
+    return OERectMake(espec->DisplayRect.x, espec->DisplayRect.y, espec->DisplayRect.w, espec->DisplayRect.h);
 }
 
 - (OEIntSize)bufferSize
@@ -233,17 +237,20 @@ NSString *MednafenControlNames[] = {
 
 - (GLenum)pixelFormat
 {
-    return GL_BGRA;
+    //return GL_BGRA;
+    return GL_RGB;
 }
 
 - (GLenum)pixelType
 {
-    return GL_UNSIGNED_INT_8_8_8_8;
+    //return GL_UNSIGNED_INT_8_8_8_8;
+    return GL_UNSIGNED_SHORT_5_6_5;
 }
 
 - (GLenum)internalPixelFormat
 {
-    return GL_RGB8;
+    //return GL_RGB8;
+    return GL_RGB5;
 }
 
 - (double)audioSampleRate

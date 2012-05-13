@@ -10,7 +10,7 @@
 
 #ifdef __OBJC__
 #import <Cocoa/Cocoa.h>
-#import <OpenEmuBase/OpenEmuBase.h>
+#import <OpenEmuBase/OEGameCore.h>
 #else
 //	#include <stdint.h>
 #include <strings.h>
