@@ -343,11 +343,12 @@
     return player != NSNotFound ? [[self currentSystemController] playerKeyForKey:aKey player:player] : aKey;
 }
 
-- (void)registerEvent:(id)anEvent
+- (void)registerEvent:(OEHIDEvent *)anEvent;
 {
     if([self selectedKey] != nil)
     {
-        [self setValue:anEvent forKey:[self selectedKey]];
+        [[self currentSystemController] registerEvent:anEvent forKey:[self selectedKey]];
+        [self resetKeyBindings];
         [[self controlsSetupView] selectNextKeyButton];
         [self changeInputControl:[self controlsSetupView]];
     }
@@ -415,17 +416,6 @@
                 : @"<empty>");
     }
     return [super valueForKey:key];
-}
-
-- (void)setValue:(id)value forKey:(NSString *)key
-{
-    // should be mutually exclusive
-    if([[[self currentSystemController] genericControlNames] containsObject:key])
-    {
-        [[self currentSystemController] registerEvent:value forKey:[self keyPathForKey:key]];
-        [self resetKeyBindings];
-    }
-    else [super setValue:value forKey:key];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent

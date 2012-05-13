@@ -28,6 +28,7 @@
 #import <Foundation/Foundation.h>
 #import <OpenEmuBase/OEPluginController.h>
 
+@class OEHIDEvent;
 @class OESystemResponder;
 
 extern NSString *const OESettingValueKey;
@@ -140,15 +141,13 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 // Register an event into the user defaults
 // The keypath should be built using -keyPathForKey:withValueType:
 - (void)registerValue:(id)aValue forKeyPath:(NSString *)keyPath;
-// Remove all bindings (usually there's only one) that could be associated to theEvent value
-- (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType;
 
 - (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
 - (id)settingForKey:(NSString *)keyName;
 - (id)HIDEventForKey:(NSString *)keyName;
 - (id)keyboardEventForKey:(NSString *)keyName;
 - (void)registerSetting:(id)settingValue forKey:(NSString *)keyName;
-- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
+- (void)registerEvent:(OEHIDEvent *)theEvent forKey:(NSString *)keyName;
 
 // The block is not called if the key is not part of a hat switch key type
 // The keyIndex in the enumerator is the same as the index in -genericControlNames array

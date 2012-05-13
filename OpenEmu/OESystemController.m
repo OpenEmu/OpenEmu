@@ -55,8 +55,10 @@
 - (void)OE_setupControlNames;
 - (void)OE_setupControlTypes;
 - (void)OE_enumerateSettingKeysUsingBlock:(void(^)(NSString *keyPath, NSString *keyName, NSString *keyType))block;
-- (void)OE_removeAxisAndHatSwitchBindingsLinkedToKey:(NSString *)keyName removeAxisEvents:(BOOL)removeAxis;
+- (void)OE_removeAxisAndHatSwitchBindingsLinkedToKey:(NSString *)keyName forEventType:(OEHIDEventType)eventType;
 - (void)OE_setupControllerPreferencesKeys;
+// Remove all bindings (usually there's only one) that could be associated to theEvent value
+- (void)OE_removeBindingsToEvent:(OEHIDEvent *)theEvent withValueType:(NSString *)aType;
 
 - (void)OE_initROMHandling;
 @end
@@ -418,63 +420,61 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
 
 - (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType
 {
-    NSString *type = (OESettingValueKey == aType ? @"" : [NSString stringWithFormat:@".%@", aType]);
-    
-    return [NSString stringWithFormat:@"values.%@%@.%@", [self systemIdentifier], type, keyName];
+    return [NSString stringWithFormat:@"values.%@.%@.%@", [self systemIdentifier], aType, keyName];
 }
 
 - (void)OE_parseAndRegisterEvent:(OEHIDEvent *)theEvent forKey:(NSString *)keyName;
 {
-    BOOL isKeyBoard = [theEvent isKindOfClass:[OEHIDEvent class]] && [theEvent type] == OEHIDKeypress;
+    if(![theEvent isKindOfClass:[OEHIDEvent class]]) return;
     
-    NSString *valueType = (isKeyBoard ? OEKeyboardEventValueKey : OEHIDEventValueKey);
+    OEHIDEventType eventType = [theEvent type];
+    
+    NSString *valueType = (eventType == OEHIDKeypress ? OEKeyboardEventValueKey : OEHIDEventValueKey);
     NSString *keyPath = [self keyPathForKey:keyName withValueType:valueType];
     id value = [self registarableValueWithObject:theEvent];
-    [self removeBindingsToEvent:theEvent withValueType:valueType];
     
-    if([theEvent isKindOfClass:[OEHIDEvent class]])
+    [self OE_removeBindingsToEvent:theEvent withValueType:valueType];
+    
+    switch([theEvent type])
     {
-        switch([theEvent type])
+        case OEHIDAxis :
         {
-            case OEHIDAxis :
+            NSUInteger player  = 0;
+            NSString *generic  = [self genericKeyForKey:keyName getKeyIndex:NULL playerNumber:&player];
+            NSString *opposite = [self oppositeKeyForAxisKey:generic getKeyIndex:NULL];
+            
+            if(opposite != nil)
             {
-                NSUInteger player  = 0;
-                NSString *generic  = [self genericKeyForKey:keyName getKeyIndex:NULL playerNumber:&player];
-                NSString *opposite = [self oppositeKeyForAxisKey:generic getKeyIndex:NULL];
+                [self OE_removeAxisAndHatSwitchBindingsLinkedToKey:keyName forEventType:OEHIDAxis];
                 
-                if(opposite != nil)
-                {
-                    [self OE_removeAxisAndHatSwitchBindingsLinkedToKey:keyName removeAxisEvents:NO];
-                    
-                    NSString *axisKeyPath = [keyPath stringByAppendingString:@"." OEHIDAxisTypeString];
-                    [self registerValue:value forKeyPath:axisKeyPath];
-                }
-                else [self registerValue:value forKeyPath:keyPath];
+                NSString *axisKeyPath = [keyPath stringByAppendingString:@"." OEHIDAxisTypeString];
+                [self registerValue:value forKeyPath:axisKeyPath];
             }
-                break;
-            case OEHIDHatSwitch :
-            {
-                NSString *generic = [self genericKeyForKey:keyName getKeyIndex:NULL playerNumber:NULL];
-                
-                if([self enumerateKeysLinkedToHatSwitchKey:generic usingBlock:nil])
-                {
-                    [self OE_removeAxisAndHatSwitchBindingsLinkedToKey:keyName removeAxisEvents:YES];
-                    
-                    NSString *hatSwitchKeyPath = [keyPath stringByAppendingString:@"." OEHIDHatSwitchTypeString];
-                    [self registerValue:value forKeyPath:hatSwitchKeyPath];
-                    
-                    NSLog(@"KeyPath: %@, value: %@", hatSwitchKeyPath, [[NSUserDefaultsController sharedUserDefaultsController] eventValueForKeyPath:hatSwitchKeyPath]);
-                }
-                else [self registerValue:value forKeyPath:keyPath];
-            }
-                break;
-            default :
-            {
-                [self OE_removeAxisAndHatSwitchBindingsLinkedToKey:keyName removeAxisEvents:YES];
-                [self registerValue:value forKeyPath:keyPath];
-            }
-                break;
+            else [self registerValue:value forKeyPath:keyPath];
         }
+            break;
+        case OEHIDHatSwitch :
+        {
+            NSString *generic = [self genericKeyForKey:keyName getKeyIndex:NULL playerNumber:NULL];
+            
+            if([self enumerateKeysLinkedToHatSwitchKey:generic usingBlock:nil])
+            {
+                [self OE_removeAxisAndHatSwitchBindingsLinkedToKey:keyName forEventType:OEHIDHatSwitch];
+                
+                NSString *hatSwitchKeyPath = [keyPath stringByAppendingString:@"." OEHIDHatSwitchTypeString];
+                [self registerValue:value forKeyPath:hatSwitchKeyPath];
+                
+                NSLog(@"KeyPath: %@, value: %@", hatSwitchKeyPath, [[NSUserDefaultsController sharedUserDefaultsController] eventValueForKeyPath:hatSwitchKeyPath]);
+            }
+            else [self registerValue:value forKeyPath:keyPath];
+        }
+            break;
+        case OEHIDButton :
+            [self OE_removeAxisAndHatSwitchBindingsLinkedToKey:keyName forEventType:[theEvent type]];
+            // Fallthrough
+        default :
+            [self registerValue:value forKeyPath:keyPath];
+            break;
     }
 }
 
@@ -526,66 +526,52 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
     }
 }
 
-- (void)OE_removeAxisAndHatSwitchBindingsLinkedToKey:(NSString *)keyName removeAxisEvents:(BOOL)removeAxis;
+- (void)OE_removeAxisAndHatSwitchBindingsLinkedToKey:(NSString *)keyName forEventType:(OEHIDEventType)eventType;
 {
-    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
-    
     // Prior to setting the keyPath for the current value,
     // We need to dump any existing value for the opposite path
-    NSUInteger player  = 0;
-    NSString *generic  = [self genericKeyForKey:keyName getKeyIndex:NULL playerNumber:&player];
+    NSUInteger  player   = 0;
+    NSString   *generic  = [self genericKeyForKey:keyName getKeyIndex:NULL playerNumber:&player];
+    NSString   *keyPath  = [self keyPathForKey:keyName withValueType:OEHIDEventValueKey];
     
-    NSString *opposite = [self oppositeKeyForAxisKey:generic getKeyIndex:NULL];
+    NSString   *opposite = [self oppositeKeyForAxisKey:generic getKeyIndex:NULL];
     
-    [self OE_resetBindingForKeyPath:[self keyPathForKey:keyName withValueType:OEHIDEventValueKey] withKeyName:keyName];
+    [self OE_resetBindingForKeyPath:keyPath withKeyName:keyName];
     
     if(opposite != nil)
     {
-        NSString *oppositeName    = [self playerKeyForKey:opposite player:player];
+        [self OE_resetBindingForKeyPath:[keyPath stringByAppendingString:@"." OEHIDAxisTypeString] withKeyName:keyName];
+        
+        NSString *oppositeName = [self playerKeyForKey:opposite player:player];
+        
         NSString *oppositeKeyPath = [self keyPathForKey:oppositeName withValueType:OEHIDEventValueKey];
         
-        [self OE_resetBindingForKeyPath:oppositeKeyPath withKeyName:oppositeName];
+        if(eventType != OEHIDButton) [self OE_resetBindingForKeyPath:oppositeKeyPath withKeyName:oppositeName];
         [self OE_resetBindingForKeyPath:[oppositeKeyPath stringByAppendingString:@"." OEHIDAxisTypeString] withKeyName:oppositeName];
-        
-        OEHIDEvent *theEvent = [udc valueForKeyPath:oppositeKeyPath];
-        if(theEvent != nil)
-        {
-            [self registerValue:nil forKeyPath:oppositeKeyPath];
-            
-            // Notify the existing responders that we removed the opposite binding
-            for(OESystemResponder *resp in _gameSystemResponders)
-                [resp HIDEvent:theEvent wasUnsetForKey:oppositeName];
-        }
     }
     
     [self enumerateKeysLinkedToHatSwitchKey:generic usingBlock:
      ^(NSString *key, NSUInteger keyIdx, BOOL *stop)
      {
-         NSString *name = [self playerKeyForKey:key player:player];
+         NSString *name    = [self playerKeyForKey:key player:player];
          NSString *keyPath = [self keyPathForKey:name withValueType:OEHIDEventValueKey];
          
-         if(removeAxis) [self OE_resetBindingForKeyPath:[keyPath stringByAppendingString:@"." OEHIDAxisTypeString] withKeyName:name];
+         if(eventType == OEHIDHatSwitch)
+         {
+             [self OE_resetBindingForKeyPath:keyPath withKeyName:name];
+             [self OE_resetBindingForKeyPath:[keyPath stringByAppendingString:@"." OEHIDAxisTypeString] withKeyName:name];
+         }
          [self OE_resetBindingForKeyPath:[keyPath stringByAppendingString:@"." OEHIDHatSwitchTypeString] withKeyName:name];
      }];
 }
 
-- (void)removeBindingsToEvent:(OEHIDEvent *)theEvent withValueType:(NSString *)aType
+- (void)OE_removeBindingsToEvent:(OEHIDEvent *)theEvent withValueType:(NSString *)aType
 {
     NSAssert(![theEvent isOffState], @"Attempt to set off-state event %@", theEvent);
     
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     
-    BOOL isHIDEvent       = [aType isEqualToString:OEHIDEventValueKey];
-    BOOL isKeyBoardEvent  = [aType isEqualToString:OEKeyboardEventValueKey];
-    
-    BOOL isHatSwitchEvent = NO;
-    BOOL isAxisEvent      = NO;
-    
-    if(isHIDEvent)
-    {
-        if([theEvent type] == OEHIDHatSwitch) isHatSwitchEvent = YES;
-        else if([theEvent type] == OEHIDAxis) isAxisEvent      = YES;
-    }
+    OEHIDEventType eventType = [theEvent type];
     
     for(NSString *name in controlNames)
     {
@@ -596,11 +582,11 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
             [self registerValue:nil forKeyPath:keyPath];
             
             for(OESystemResponder *resp in _gameSystemResponders)
-                if(isKeyBoardEvent) [resp keyboardEvent:theEvent wasUnsetForKey:name];
-                else if(isHIDEvent) [resp HIDEvent:     theEvent wasUnsetForKey:name];
+                if(eventType == OEHIDKeypress) [resp keyboardEvent:theEvent wasUnsetForKey:name];
+                else                           [resp HIDEvent:     theEvent wasUnsetForKey:name];
         }
         
-        if(isHatSwitchEvent)
+        if(eventType == OEHIDHatSwitch)
         {
             NSString *subKeyPath = [keyPath stringByAppendingString:@"." OEHIDHatSwitchTypeString];
             
@@ -612,11 +598,11 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
                 // The responders know the event by the key that was used to set the whole group
                 // not by the group itself, this should happen only once per group
                 for(OESystemResponder *resp in _gameSystemResponders)
-                    if(isHIDEvent) [resp HIDEvent:theEvent wasUnsetForKey:name];
+                    [resp HIDEvent:theEvent wasUnsetForKey:name];
             }
         }
         
-        if(isAxisEvent)
+        if(eventType == OEHIDAxis)
         {
             NSString *subKeyPath = [keyPath stringByAppendingString:@"." OEHIDAxisTypeString];
             
@@ -628,7 +614,7 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
                 // The responders know the event by the key that was used to set the whole group
                 // not by the group itself, this should happen only once per group
                 for(OESystemResponder *resp in _gameSystemResponders)
-                    if(isHIDEvent) [resp HIDEvent:theEvent wasUnsetForKey:name];
+                    [resp HIDEvent:theEvent wasUnsetForKey:name];
             }
         }
     }
@@ -798,7 +784,7 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
         [observer settingWasSet:settingValue forKey:keyName];
 }
 
-- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
+- (void)registerEvent:(OEHIDEvent *)theEvent forKey:(NSString *)keyName;
 {
     BOOL isKeyBoard = [theEvent isKindOfClass:[OEHIDEvent class]] && [(OEHIDEvent *)theEvent type] == OEHIDKeypress;
     

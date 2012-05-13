@@ -225,6 +225,14 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, ioSurfaceTexture, 0);
     
+    OEIntSize surfaceSize = gameCore.bufferSize;
+    
+    // setup depthStencilRenderBuffer
+    glGenRenderbuffersEXT(1, &depthStencilRB);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthStencilRB);
+    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH24_STENCIL8, (GLsizei)surfaceSize.width, (GLsizei)surfaceSize.height);
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER_EXT, depthStencilRB);
+
     status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
     {
@@ -357,6 +365,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     CGLContextObj cgl_ctx = glContext;
     CGLSetCurrentContext(cgl_ctx);
+    
     // Incase of a GameCore that renders direct to GL, do some state 'protection'
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
@@ -371,26 +380,31 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         NSLog(@"drawIntoIOSurface: OpenGL error %04X", status);
         glDeleteTextures(1, &gameTexture);
         gameTexture = 0;
+        
+        glDeleteRenderbuffers(1, &depthStencilRB);
+        depthStencilRB = 0;
     }
     
     status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {
-        // Setup OpenGL states
-        glViewport(0, 0, bufferSize.width, bufferSize.height);
-        glMatrixMode(GL_PROJECTION);
-        glPushMatrix();
-        glLoadIdentity();
-        glOrtho(0, bufferSize.width, 0, bufferSize.height, -1, 1);
+        if(![gameCore rendersToOpenGL])
+        {
+            // Setup OpenGL states
+            glViewport(0, 0, bufferSize.width, bufferSize.height);
+            glMatrixMode(GL_PROJECTION);
+            glPushMatrix();
+            glLoadIdentity();
+            glOrtho(0, bufferSize.width, 0, bufferSize.height, -1, 1);
+            
+            glMatrixMode(GL_MODELVIEW);
+            glPushMatrix();
+            glLoadIdentity();
+            
+            glClearColor(0.0, 0.0, 0.0, 0.0);
+            glClear(GL_COLOR_BUFFER_BIT);
+        }      
         
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glLoadIdentity();
-        
-        // dont bother clearing. we dont have any alpha so we just write over the buffer contents. saves us an expensive write.
-        glClearColor(0.0, 0.0, 0.0, 0.0);
-        glClear(GL_COLOR_BUFFER_BIT);
-                
         // draw
     }
     
@@ -407,12 +421,15 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 {    
     CGLContextObj cgl_ctx = glContext;
 
-    // Restore OpenGL states
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-    
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
+    if(![gameCore rendersToOpenGL])
+    {
+        // Restore OpenGL states
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
+        
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+    }
     
     glPopAttrib();
     glPopClientAttrib();
@@ -501,8 +518,16 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     CGLContextObj cgl_ctx = glContext;
     
     glDeleteTextures(1, &ioSurfaceTexture);
+    ioSurfaceTexture = 0;
+    
     glDeleteTextures(1, &gameTexture);
+    gameTexture = 0;
+    
+    glDeleteRenderbuffers(1, &depthStencilRB);
+    depthStencilRB = 0;
+    
     glDeleteFramebuffersEXT(1, &gameFBO);
+    gameFBO = 0;
     
     glFlush();
 }
