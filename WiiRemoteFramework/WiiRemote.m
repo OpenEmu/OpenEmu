@@ -23,6 +23,7 @@ static WiiAccCalibData kWiiNullAccCalibData = {0, 0, 0, 0, 0, 0};
 #define WIR_HALFRANGE 256.0
 #define WIR_INTERVAL  10.0
 
+#define BluetoothDeviceAddressToString(ADDRESS) [NSString stringWithFormat:@"%0x:%0x:%0x:%0x:%0x:%0x", ADDRESS[0], ADDRESS[1], ADDRESS[2], ADDRESS[3], ADDRESS[4], ADDRESS[5]]
 // Notification strings
 NSString * WiiRemoteExpansionPortChangedNotification = @"WiiRemoteExpansionPortChangedNotification";
 
@@ -205,7 +206,7 @@ typedef enum {
 #ifdef DEBUG	
 	if (_dump) {
 		int i;
-		printf ("channel:%i - send%3u:", [_cchan getPSM], (unsigned int)length);
+		printf ("channel: - send%3u:", (unsigned int)length);
 		for(i=0 ; i<length ; i++) {
 			printf(" %02X", buf[i]);
 		}
@@ -221,7 +222,7 @@ typedef enum {
 	for (i=0; i<10 ; i++) {
 		ret = [_cchan writeSync:buf length:length];		
 		if (ret != kIOReturnSuccess) {
-			NSLogDebug(@"Write Error for command 0x%x:", buf[1], ret);		
+			NSLogDebug(@"Write Error for command 0x%x:", buf[1]);		
 			LogIOReturn (ret);
 //			[self closeConnection];
 			usleep (10000);
@@ -240,7 +241,7 @@ typedef enum {
 
 - (NSString *) address
 {
-	return [_wiiDevice getAddressString];
+	return BluetoothDeviceAddressToString([_wiiDevice getAddress]);
 }
 
 - (void) setMotionSensorEnabled:(BOOL) enabled
@@ -444,7 +445,7 @@ typedef enum {
 	unsigned char cmd [22];
 
 	if (length > 16)
-		NSLog (@"Error! Trying to write more than 16 bytes of data (length=%i)", length);
+		NSLog (@"Error! Trying to write more than 16 bytes of data (length=%zu)", length);
 
 	memset (cmd, 0, 22);
 	memcpy (cmd + 6, data, length);
@@ -905,6 +906,7 @@ typedef enum {
 			if ([_delegate respondsToSelector:@selector (allPressureChanged:bbData:bbDataInKg:)])
 				[_delegate allPressureChanged:WiiBalanceBoardPressureSensor bbData:bPressure bbDataInKg:bKg];
 			break;
+		default:;
 	}
 } // handleExtensionData
 
@@ -1530,12 +1532,12 @@ typedef enum {
 
 - (void) l2capChannelOpenComplete:(IOBluetoothL2CAPChannel*) l2capChannel status:(IOReturn) error
 {
-	NSLogDebug (@"l2capChannelOpenComplete (PSM:0x%x)", [l2capChannel getPSM]);
+	NSLogDebug (@"l2capChannelOpenComplete");
 }
 
 - (void) l2capChannelClosed:(IOBluetoothL2CAPChannel*) l2capChannel
 {
-	NSLogDebug (@"l2capChannelClosed (PSM:0x%x)", [l2capChannel getPSM]);
+	NSLogDebug (@"l2capChannelClosed");
 
 	if (l2capChannel == _cchan)
 		_cchan = nil;
@@ -1559,7 +1561,7 @@ typedef enum {
 #ifdef DEBUG	
 	if (_dump) {
 		int i;
-		printf ("channel:%i - ack%3u:", [l2capChannel getPSM], (unsigned int)dataLength);
+		printf ("channel: - ack%3u:", (unsigned int)dataLength);
 		for(i=0 ; i<dataLength ; i++) {
 			printf(" %02X", dp[i]);
 		}
