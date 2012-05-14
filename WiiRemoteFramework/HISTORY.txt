@@ -1,0 +1,54 @@
+0.5 (2007.3.8)
+====================
+	This version is mainly maintained by Jasen Jacobsen. Thanks a lot!!
+	
+	o  New Features:
+		- supports Expansion Port (Nunchuk, Classic Controller)
+		- implements some useful methods
+			- (IOReturn)requestUpdates;
+			- (void) rawIRData: (IRData[4])irData wiiRemote(WiiRemote*)wiiRemote;
+			- (void) analogButtonChanged:(WiiButtonType)type amount:(unsigned)press wiiRemote(WiiRemote*)wiiRemote;
+	
+	o Changes:
+		- Delegates methods now report which Wiimote calls the methods.
+			- (void) irPointMovedX:(float)px Y:(float)py wiiRemote:(WiiRemote*)wiiRemote;
+			- (void) buttonChanged:(WiiButtonType)type isPressed:(BOOL)isPressed wiiRemote:(WiiRemote*)wiiRemote;
+			- (void) accelerationChanged:(WiiAccelerationSensorType)type accX:(unsigned char)accX accY:(unsigned char)accY accZ:(unsigned char)accZ wiiRemote:(WiiRemote*)wiiRemote;
+			- (void) joyStickChanged:(WiiJoyStickType)type tiltX:(unsigned char)tiltX tiltY:(unsigned char)tiltY wiiRemote:(WiiRemote*)wiiRemote;
+	
+	o Bug Fixes:
+		- #1623337 PPC bugs might be fixed.
+		- #1622395 decryption and dealing method when a nunchuk plugged in might be fixed.
+
+
+0.4 (2006.12.26)
+====================
+	o  New Features:
+		- supports Expansion Port (Nunchuk only)
+			but... now this framework believe the attached device is Nunchuk
+		- posts notification when Expansion port is plugged and unplugged
+			name is "WiiRemoteExpansionPortChangedNotification"
+		- posts notification when battery is low
+			name is "WiiRemoteBatteryLowNotification"
+		- can retrieve Calibration data
+			- (WiiJoyStickCalibData)joyStickCalibData:(WiiJoyStickType)type;
+			- (WiiAccCalibData)accCalibData:(WiiAccelerationSensorType)type;
+
+	o Changes:
+		- delegate methods were changed and some methods wised up.
+			(old)
+			dataChanged:(unsigned short)buttonData accX:(unsigned char)accX accY:(unsigned char)accY accZ:(unsigned char)accZ mouseX:(float)mx mouseY:(float)my;
+			wiiRemoteDisconnected;
+			(new)
+			irPointMovedX:(float)px Y:(float)py;
+			buttonChanged:(WiiButtonType)type isPressed:(BOOL)isPressed;
+			accelerationChanged:(WiiAccelerationSensorType)type accX:(unsigned char)accX accY:(unsigned char)accY accZ:(unsigned char)accZ;
+			joyStickChanged:(WiiJoyStickType)type tiltX:(unsigned char)tiltX tiltY:(unsigned char)tiltY;
+			wiiRemoteDisconnected:(IOBluetoothDevice*)device;
+
+		
+
+0.3.1 (2006.12.13)
+====================
+	o  First release!
+		This framework is devided from DarwiinRemote.app.
