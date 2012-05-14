@@ -258,8 +258,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
-    glDisable(GL_BLEND);
+
+    // already disabled
+//    glDisable(GL_BLEND);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     
     glActiveTexture(GL_TEXTURE0);
