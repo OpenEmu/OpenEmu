@@ -440,6 +440,7 @@
     DLog(@"updateSearchResults:");
     
     MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];
+
     
     // If you're going to have the same array for every iteration,
     // don't allocate it inside the loop !
@@ -460,6 +461,11 @@
                               @"tmp",
                               @"usr",
                               @"var",
+                              @"ReadMe", // markdown
+                              @"readme", // markdown
+                              @"README", // markdown
+                              @"Readme", // markdown
+                              
                               nil];
     
     // assume the latest result is the last index?
