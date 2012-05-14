@@ -22,7 +22,6 @@
 		// 2. it checks for the availability of the BT hardware
 		if (IOBluetoothLocalDeviceAvailable () == FALSE)
 		{
-			[self release];
 			self = nil;
 			
 			[NSException raise:NSGenericException format:@"Bluetooth hardware not available"];
@@ -34,14 +33,14 @@
 
 + (WiiRemoteDiscovery*) discoveryWithDelegate:(id) delegate
 {
-	// cam: when using this convention, we must autorelease the returned object
-	return [[[WiiRemoteDiscovery alloc] initWithDelegate:delegate] autorelease];
+	WiiRemoteDiscovery *newDiscovery = [WiiRemoteDiscovery alloc];
+	[newDiscovery setDelegate:delegate];
+	return newDiscovery;
 }
 
 - (void) dealloc
 {	
 	NSLogDebug (@"Wiimote Discovery released");
-	[super dealloc];
 }
 
 - (id) delegate
@@ -86,7 +85,6 @@
 
 	IOReturn status = [_inquiry start];
 	if (status == kIOReturnSuccess) {
-		[_inquiry retain];
 	} else {
 		// not likely to happen, but we handle it anyway
 		NSLog (@"Error: Inquiry did not start, error %d", status);
@@ -111,7 +109,6 @@
 		LogIOReturn (ret);
 	
 	[_inquiry setDelegate:nil];
-	[_inquiry release];
 	_inquiry = nil;
 	
 	NSLogDebug (@"Discovery closed");
@@ -180,7 +177,7 @@
 	NSEnumerator * en = [[_inquiry foundDevices] objectEnumerator];
 	id device = nil;
 	while ((device = [en nextObject]) != nil) {
-		WiiRemote * wii = [[[WiiRemote alloc] init] autorelease];
+		WiiRemote * wii = [[WiiRemote alloc] init];
 		IOReturn ret = [wii connectTo:device];
 		
 		if (ret == kIOReturnSuccess)
