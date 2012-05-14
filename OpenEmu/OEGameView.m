@@ -117,7 +117,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // choose our pixel formats
     NSOpenGLPixelFormatAttribute attr[] = 
     {
-        NSOpenGLPFANoRecovery,
         NSOpenGLPFAAccelerated, 
         NSOpenGLPFADoubleBuffer,
 //        NSOpenGLPFAColorSize, 32,
@@ -169,7 +168,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
     [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode]; 
-    
 }
 
 - (void)timerFired:(id)sender
@@ -179,19 +177,47 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void) initDisplayLink
 {
-    // Create a display link capable of being used with all active displays
-    CVDisplayLinkCreateWithActiveCGDisplays(&gameDisplayLinkRef);
+    CVReturn error = kCVReturnSuccess;
     
-    // Set the renderer output callback function
-    CVDisplayLinkSetOutputCallback(gameDisplayLinkRef, MyDisplayLinkCallback, (__bridge void*) self);
+    error = CVDisplayLinkCreateWithActiveCGDisplays(&gameDisplayLinkRef);
+    if(error)
+    {
+        NSLog(@"DisplayLink could notbe created for active displays, error:%d", error);
+        gameDisplayLinkRef = NULL;
+        return;  
+    }
+    
+    error = CVDisplayLinkSetOutputCallback(gameDisplayLinkRef, &MyDisplayLinkCallback, (__bridge void*) self);
+	if(error)
+    {
+        NSLog(@"DisplayLink could not link to callback, error:%d", error);
+        CVDisplayLinkRelease(gameDisplayLinkRef);
+        gameDisplayLinkRef = NULL;
+        return;
+    }
     
     // Set the display link for the current renderer
 //    CGLContextObj cglContext = [[self openGLContext] CGLContextObj];
 //    CGLPixelFormatObj cglPixelFormat = [[self pixelFormat] CGLPixelFormatObj];
-//    CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(gameDisplayLinkRef, cglContext, cglPixelFormat);
+//    
+//    error = CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(gameDisplayLinkRef, cglContext, cglPixelFormat);
+//	if(error)
+//    {
+//        NSLog(@"DisplayLink could not link to GL Context, error:%d", error);
+//        CVDisplayLinkRelease(gameDisplayLinkRef);
+//        gameDisplayLinkRef = NULL;
+//        return;
+//    }
+        
+	CVDisplayLinkStart(gameDisplayLinkRef);	
+	
+	if(!CVDisplayLinkIsRunning(gameDisplayLinkRef))
+	{
+        CVDisplayLinkRelease(gameDisplayLinkRef);
+        gameDisplayLinkRef = NULL;
 
-    // Activate the display link
-    CVDisplayLinkStart(gameDisplayLinkRef);
+		NSLog(@"DisplayLink is not running - it should be. ");
+	}
 }
 
 - (void) dealloc
@@ -470,10 +496,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     DLog(@"releasing old filterRenderer");
     
     filterRenderer = nil;
-    
-    
+        
     if([filters objectForKey:filterName] == nil && [self openGLContext] != nil)
     {
+        CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+        CGLLockContext(cgl_ctx);
         
         DLog(@"making new filter renderer");
         
@@ -481,8 +508,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         QCComposition *compo = [self composition];
         
         if(compo != nil)
-            filterRenderer = [[QCRenderer alloc] initWithCGLContext:[[self openGLContext] CGLContextObj] 
-                                                        pixelFormat:[[self pixelFormat] CGLPixelFormatObj]
+            filterRenderer = [[QCRenderer alloc] initWithCGLContext:cgl_ctx
+                                                        pixelFormat:CGLGetPixelFormat(cgl_ctx)
                                                          colorSpace:rgbColorSpace
                                                         composition:compo];
         
@@ -499,6 +526,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         }
         else
             filterHasOutputMousePositionKeys = NO;
+        
+        CGLUnlockContext(cgl_ctx);
     }
 }
 
