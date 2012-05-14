@@ -267,16 +267,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void) drawRect:(NSRect)dirtyRect
 {    
-    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-    [[self openGLContext] makeCurrentContext];
-    CGLLockContext(cgl_ctx);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    
+       
     // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
     time = [NSDate timeIntervalSinceReferenceDate];
@@ -301,19 +292,27 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     {
         NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
         CGRect textureRect = CGRectMake(0, 0, screenSize.width, screenSize.height);
-        [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
         
         OEGameShader *shader = [filters objectForKey:filterName];
         
-        if(shader != nil) [self OE_drawSurface:surfaceRef inCGLContext:cgl_ctx usingShader:shader];
+        CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+        [[self openGLContext] makeCurrentContext];
+
+        CGLLockContext(cgl_ctx);
+                
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        
+        if(shader != nil) 
+            [self OE_drawSurface:surfaceRef inCGLContext:cgl_ctx usingShader:shader];
         else
         {
-            /*****************
-             QC Drawing - this is the non-standard code path for rendering custom filters
-             *****************/
-            
             // Since our filters no longer rely on QC, it may not be around.
-            if(filterRenderer == nil) [self OE_refreshFilterRenderer];
+            if(filterRenderer == nil) 
+                [self OE_refreshFilterRenderer];
             
             if(filterRenderer != nil)
             {
@@ -331,22 +330,20 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
                              [gameWindow currentEvent], QCRendererEventKey,
                              nil];
                 
+                [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
+                
                 [filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
                 [filterRenderer renderAtTime:time arguments:arguments];
                 
-                //                if(filterHasOutputMousePositionKeys)
-                //                {
-                //                    NSPoint mousePoint;
-                //                    mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
-                //                    mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
-                //                    
-                //                    [rootProxy setMousePosition:mousePoint]; 
-                //                }
+//                if(filterHasOutputMousePositionKeys)
+//                {
+//                    NSPoint mousePoint;
+//                    mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
+//                    mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
+//                    
+//                    [rootProxy setMousePosition:mousePoint]; 
+//                }
             }
-            
-            /*****************
-             End QC Drawing
-             *****************/
         }
         
         if(screenshotHandler != nil)
@@ -370,17 +367,15 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         if([gameServer hasClients])
             [gameServer publishFrameTexture:gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
         
-        // super calls flush for us.
-       // [super drawInCGLContext:cgl_ctx pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
         [[self openGLContext] flushBuffer];
+
+        CGLUnlockContext(cgl_ctx);
 
         CFRelease(surfaceRef);
     }
     else
         NSLog(@"Surface is null");
-    
 
-    CGLUnlockContext(cgl_ctx);
 }
 
 // GL render method
@@ -390,6 +385,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
     glPushAttrib(GL_ALL_ATTRIB_BITS);
+    
+    // need to add a clear here since we now draw direct to our context
+    glClear(GL_COLOR_BUFFER_BIT);
     
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
@@ -405,6 +403,25 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     glActiveTexture(GL_TEXTURE0);
     glColor4f(1.0, 1.0, 1.0, 1.0);
     
+    // calculate aspect ratio
+    NSSize scaled;
+    float wr = screenSize.width / self.frame.size.width;
+    float hr = screenSize.height / self.frame.size.height;
+    float ratio;
+    ratio = (hr < wr ? wr : hr);
+    scaled = NSMakeSize(( wr / ratio), (hr / ratio));
+
+    float halfw = scaled.width;
+    float halfh = scaled.height;
+    
+    const GLfloat verts[] = 
+    {
+        -halfw, -halfh,
+        halfw, -halfh,
+        halfw, halfh,
+        -halfw, halfh
+    };
+    
     const GLint tex_coords[] = 
     {
         0, 0,
@@ -413,14 +430,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         0, screenSize.height
     };
     
-    const GLint verts[] = 
-    {
-        -1, -1,
-        1, -1,
-        1, 1,
-        -1, 1
-    };
-    
+      
     if(shader == (id)_OELinearFilterName)
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -443,7 +453,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
     glTexCoordPointer(2, GL_INT, 0, tex_coords );
     glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(2, GL_INT, 0, verts );
+    glVertexPointer(2, GL_FLOAT, 0, verts );
     glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     glDisableClientState(GL_VERTEX_ARRAY);
