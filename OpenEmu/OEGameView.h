@@ -26,22 +26,59 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <Quartz/Quartz.h>
+#import <OpenGL/OpenGL.h>
+
+#import <Syphon/Syphon.h>
+
+#import "OEGameCoreHelper.h"
+#import "OEGameShader.h"
 
 @protocol OEGameCoreHelper;
 @class OEGameLayer, OESystemResponder;
 
-@interface OEGameView : NSView
+@interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
 {
 @private
-    NSView      *gameView;
-    OEGameLayer *gameLayer;
+    GLuint gameTexture;
+    
+    // replace our basic scaling filters with straight up shaders
+    NSDictionary         *filters;
+    
+    BOOL                  usesShader;
+    
+    QCRenderer           *filterRenderer;
+    
+    CGColorSpaceRef       rgbColorSpace;
+    
+    // for QCRenderer
+    NSTimeInterval        startTime; // time for rendering, input to time based effects, sources, 
+    NSTimeInterval        time;
+    
+    BOOL                  filterHasOutputMousePositionKeys;
+    
+    // Screenshot
+    
+    void (^screenshotHandler)(NSImage *img);
+    
+    OEIntSize screenSize;
+    IOSurfaceID cachedSurfaceID;
+    
+    SyphonServer *gameServer;
+    
+    CVDisplayLinkRef    gameDisplayLinkRef;
 }
 
-@property(readonly) OEGameLayer          *gameLayer;
-@property(strong)   OESystemResponder    *gameResponder;
-@property(strong)   id<OEGameCoreHelper>  rootProxy;
-@property(readonly) CGFloat               preferredWindowScale;
+@property(strong) OESystemResponder *gameResponder;
+@property(nonatomic, strong) NSString *filterName;
+@property(strong) CIImage *gameCIImage;
+@property(nonatomic, strong) id<OEGameCoreHelper> rootProxy;
+@property(readonly) CGFloat preferredWindowScale;
 
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
+
+
+- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
+- (void)timerFired:(id)sender;
 
 @end
