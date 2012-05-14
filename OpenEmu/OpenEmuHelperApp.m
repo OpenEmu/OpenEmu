@@ -400,9 +400,10 @@ static int PixelFormatToBPP(GLenum pixelFormat)
             glMatrixMode(GL_MODELVIEW);
             glPushMatrix();
             glLoadIdentity();
-            
-            glClearColor(0.0, 0.0, 0.0, 0.0);
-            glClear(GL_COLOR_BUFFER_BIT);
+
+            // not necessary since we draw over our entire viewport.
+//            glClearColor(0.0, 0.0, 0.0, 0.0);
+//            glClear(GL_COLOR_BUFFER_BIT);
         }      
         
         // draw
@@ -457,8 +458,9 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     glColor4f(1.0, 1.0, 1.0, 1.0);
     
+    // already disabled
     // why do we need it ?
-    glDisable(GL_BLEND);
+//    glDisable(GL_BLEND);
     
     const GLint tex_coords[] = 
     {
