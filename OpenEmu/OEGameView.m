@@ -43,6 +43,16 @@
 // TODO: bind vsync. Is it even necessary, why do we want it off at all?
 
 #pragma mark -
+
+#define dfl(a,b) [NSNumber numberWithFloat:a],@b
+
+#if CGFLOAT_IS_DOUBLE
+#define CGFLOAT_EPSILON DBL_EPSILON
+#else
+#define CGFLOAT_EPSILON FLT_EPSILON
+#endif
+
+#pragma mark -
 #pragma mark Display Link
 
 CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext);
@@ -52,7 +62,6 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     CVReturn error = [(__bridge OEGameView *)displayLinkContext displayLinkRenderCallback:inOutputTime];
     return error;
 }
-
 
 #pragma mark -
 
@@ -66,17 +75,12 @@ static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
 static NSString *const _OEScale4xBRFilterName = @"Scale4xBR";
 static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
-#define dfl(a,b) [NSNumber numberWithFloat:a],@b
-
-#pragma mark -
-
 @interface OEGameView ()
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader;
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context;
 - (void)OE_refreshFilterRenderer;
 @end
-
 
 @implementation OEGameView
 
@@ -266,7 +270,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void) drawRect:(NSRect)dirtyRect
 {    
-       
     // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
     time = [NSDate timeIntervalSinceReferenceDate];
@@ -374,7 +377,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     }
     else
         NSLog(@"Surface is null");
-
 }
 
 // GL render method
@@ -429,7 +431,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         0, screenSize.height
     };
     
-      
     if(shader == (id)_OELinearFilterName)
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -469,7 +470,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {    
     @autoreleasepool 
     {     
-//        [self display];
         [self drawRect:[self frame]];
     }
     return kCVReturnSuccess;
@@ -606,12 +606,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEGameViewDidMoveToWindow" object:self];
 }
 
-#if CGFLOAT_IS_DOUBLE
-#define CGFLOAT_EPSILON DBL_EPSILON
-#else
-#define CGFLOAT_EPSILON FLT_EPSILON
-#endif
-
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
 {    
     NSRect bounds = [self bounds];
@@ -719,6 +713,5 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     [[self gameResponder] mouseExited:[self OE_mouseEventWithEvent:theEvent]];
 }
-
 
 @end
