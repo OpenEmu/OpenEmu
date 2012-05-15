@@ -47,6 +47,7 @@
 #import "OEHUDAlert.h"
 #import "OEGameDocument.h"
 
+#import "OEWiimoteHandler.h"
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -114,6 +115,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [mainWindowController setCoreList:[[OECoreUpdater sharedUpdater] coreList]];
     
     [mainWindowController showWindow:self];
+	
+	// Start WiiRemote support
+	[OEWiimoteHandler sharedHandler];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender

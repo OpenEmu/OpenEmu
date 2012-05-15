@@ -14,7 +14,7 @@
 
 // useful logging macros
 #ifndef NSLogDebug
-#if DEBUG
+#if 0
 #	define NSLogDebug(log, ...) NSLog(log, ##__VA_ARGS__)
 #	define LogIOReturn(result) if (result != kIOReturnSuccess) { printf ("IOReturn error (%s [%d]): system 0x%x, sub 0x%x, error 0x%x\n", __FILE__, __LINE__, err_get_system (result), err_get_sub (result), err_get_code (result)); }
 #else

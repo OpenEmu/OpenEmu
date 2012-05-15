@@ -343,6 +343,8 @@
 		832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */; };
 		8343CD011553E2C30080A6BE /* OEDBImageThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
+		8353CE751561C0A70045A3DD /* WiiRemote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8353CE301561BF620045A3DD /* WiiRemote.framework */; };
+		8353CE781561C0DE0045A3DD /* OEWiimoteHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353CE771561C0DE0045A3DD /* OEWiimoteHandler.m */; };
 		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836CFD6614709D3C00397683 /* wood_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6114709D3C00397683 /* wood_arrow_down.png */; };
@@ -663,6 +665,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = OpenEmu;
+		};
+		8353CE2F1561BF620045A3DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8353CE2B1561BF620045A3DD /* WiiRemoteFramework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = WiiRemoteFramework;
 		};
 		83F37148140BB177005A7353 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1263,6 +1272,9 @@
 		8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImageThumbnail.m; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
+		8353CE2B1561BF620045A3DD /* WiiRemoteFramework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WiiRemoteFramework.xcodeproj; path = ../WiiRemoteFramework/WiiRemoteFramework.xcodeproj; sourceTree = "<group>"; };
+		8353CE761561C0DE0045A3DD /* OEWiimoteHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWiimoteHandler.h; sourceTree = "<group>"; };
+		8353CE771561C0DE0045A3DD /* OEWiimoteHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEWiimoteHandler.m; sourceTree = "<group>"; };
 		836291FC1515F30700192116 /* OEFSWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFSWatcher.h; sourceTree = "<group>"; };
 		836291FD1515F30700192116 /* OEFSWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFSWatcher.m; sourceTree = "<group>"; };
 		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
@@ -1631,6 +1643,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8353CE751561C0A70045A3DD /* WiiRemote.framework in Frameworks */,
 				8305267513FBC999006179C6 /* Security.framework in Frameworks */,
 				83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */,
 				53D32E4E13B95F9A00A6ACE0 /* AudioUnit.framework in Frameworks */,
@@ -2032,6 +2045,7 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				8353CE321561BF6D0045A3DD /* WiiRemote Handling */,
 				8314A9B8155422E800DF13B5 /* Archive.VG */,
 				1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */,
 				1BEF2A61116826510090F72B /* Distributed Object Protocol */,
@@ -2778,6 +2792,24 @@
 				1B98144D142F02FA00114A30 /* OESetupAssistant.xib */,
 			);
 			name = "MainWindow: Setup Assistant";
+			sourceTree = "<group>";
+		};
+		8353CE2C1561BF620045A3DD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8353CE301561BF620045A3DD /* WiiRemote.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8353CE321561BF6D0045A3DD /* WiiRemote Handling */ = {
+			isa = PBXGroup;
+			children = (
+				8353CE2B1561BF620045A3DD /* WiiRemoteFramework.xcodeproj */,
+				8353CE761561C0DE0045A3DD /* OEWiimoteHandler.h */,
+				8353CE771561C0DE0045A3DD /* OEWiimoteHandler.m */,
+			);
+			name = "WiiRemote Handling";
 			sourceTree = "<group>";
 		};
 		83703B3A140E4F2800EC27A7 /* Filter */ = {
@@ -3635,6 +3667,12 @@
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8353CE2C1561BF620045A3DD /* Products */;
+					ProjectRef = 8353CE2B1561BF620045A3DD /* WiiRemoteFramework.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
@@ -3659,6 +3697,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		8353CE301561BF620045A3DD /* WiiRemote.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = WiiRemote.framework;
+			remoteRef = 8353CE2F1561BF620045A3DD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1415540D1442B3B300A01683 /* Resources */ = {
@@ -4247,6 +4295,7 @@
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
 				8314A9BC1554230600DF13B5 /* OEDBGame+ArchiveVGAdditions.m in Sources */,
 				8314A9BF1554231C00DF13B5 /* OEDBRom+ArchiveVGAdditions.m in Sources */,
+				8353CE781561C0DE0045A3DD /* OEWiimoteHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

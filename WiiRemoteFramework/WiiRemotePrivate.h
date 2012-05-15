@@ -48,7 +48,6 @@ enum {
 	
 };
 
-
 @interface WiiRemote (Private)
 - (IOBluetoothL2CAPChannel *) openL2CAPChannelWithPSM:(BluetoothL2CAPPSM) psm delegate:(id) delegate;
 

@@ -36,7 +36,7 @@
 #pragma mark Debug Logging
 #define BOOL_STR(var) ((var) ? "YES" : "NO")
 
-#ifdef DEBUG_PRINT
+#ifdef DEBUG_PRINT______________NO
 #define DLog(format, ...) NSLog(@"%s: " format, __FUNCTION__, ##__VA_ARGS__)
 #define DLogDeprecated()  NSLog(@"%s is deprecated.", __FUNCTION__)
 #else

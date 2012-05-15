@@ -1558,7 +1558,7 @@ typedef enum {
 
 	unsigned char * dp = (unsigned char *) dataPointer;
 
-#ifdef DEBUG	
+#ifdef NODEBUG_PLEASE
 	if (_dump) {
 		int i;
 		printf ("channel: - ack%3u:", (unsigned int)dataLength);

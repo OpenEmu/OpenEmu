@@ -7,15 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		47C19F250CF39C59007D77CC /* Mii.h in Headers */ = {isa = PBXBuildFile; fileRef = 47C19F240CF39C59007D77CC /* Mii.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		53144A870B30492D00757188 /* COPYRIGHT.txt in Resources */ = {isa = PBXBuildFile; fileRef = 53144A860B30492D00757188 /* COPYRIGHT.txt */; };
 		53144A8C0B30495700757188 /* HISTORY.txt in Resources */ = {isa = PBXBuildFile; fileRef = 53144A8B0B30495700757188 /* HISTORY.txt */; };
 		5351D4CC0B2D1D9E00F86B96 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5351D4CB0B2D1D9E00F86B96 /* IOBluetooth.framework */; };
-		5351D50F0B2D34DA00F86B96 /* WiiRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 5351D50B0B2D34DA00F86B96 /* WiiRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5351D5100B2D34DA00F86B96 /* WiiRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 5351D50C0B2D34DA00F86B96 /* WiiRemote.m */; };
-		5351D5110B2D34DA00F86B96 /* WiiRemoteDiscovery.h in Headers */ = {isa = PBXBuildFile; fileRef = 5351D50D0B2D34DA00F86B96 /* WiiRemoteDiscovery.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5351D5120B2D34DA00F86B96 /* WiiRemoteDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5351D50E0B2D34DA00F86B96 /* WiiRemoteDiscovery.m */; };
 		53A1C0E70B9D85E800AEE7A2 /* WiiRemotePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 53A1C0E60B9D85E800AEE7A2 /* WiiRemotePrivate.h */; settings = {ATTRIBUTES = (); }; };
+		8339733F156275B600C7CD2D /* Wiimote.h in Headers */ = {isa = PBXBuildFile; fileRef = 8339733B156275B600C7CD2D /* Wiimote.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		83397340156275B600C7CD2D /* Wiimote.m in Sources */ = {isa = PBXBuildFile; fileRef = 8339733C156275B600C7CD2D /* Wiimote.m */; };
+		833973441562790A00C7CD2D /* WiimoteFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 833973431562790A00C7CD2D /* WiimoteFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8339735115628A7000C7CD2D /* WiimoteBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8339733D156275B600C7CD2D /* WiimoteBrowser.m */; };
+		8339735215628A7D00C7CD2D /* WiimoteBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 8339733E156275B600C7CD2D /* WiimoteBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -35,6 +37,11 @@
 		5351D50D0B2D34DA00F86B96 /* WiiRemoteDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiiRemoteDiscovery.h; sourceTree = "<group>"; };
 		5351D50E0B2D34DA00F86B96 /* WiiRemoteDiscovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WiiRemoteDiscovery.m; sourceTree = "<group>"; };
 		53A1C0E60B9D85E800AEE7A2 /* WiiRemotePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiiRemotePrivate.h; sourceTree = "<group>"; };
+		8339733B156275B600C7CD2D /* Wiimote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wiimote.h; sourceTree = "<group>"; };
+		8339733C156275B600C7CD2D /* Wiimote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wiimote.m; sourceTree = "<group>"; };
+		8339733D156275B600C7CD2D /* WiimoteBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WiimoteBrowser.m; sourceTree = "<group>"; };
+		8339733E156275B600C7CD2D /* WiimoteBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiimoteBrowser.h; sourceTree = "<group>"; };
+		833973431562790A00C7CD2D /* WiimoteFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiimoteFramework.h; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* WiiRemote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WiiRemote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -95,6 +102,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				8339733A156275AB00C7CD2D /* New Implementation */,
 				47C19F240CF39C59007D77CC /* Mii.h */,
 				5351D50B0B2D34DA00F86B96 /* WiiRemote.h */,
 				5351D50C0B2D34DA00F86B96 /* WiiRemote.m */,
@@ -141,6 +149,18 @@
 			name = docs;
 			sourceTree = "<group>";
 		};
+		8339733A156275AB00C7CD2D /* New Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				833973431562790A00C7CD2D /* WiimoteFramework.h */,
+				8339733B156275B600C7CD2D /* Wiimote.h */,
+				8339733C156275B600C7CD2D /* Wiimote.m */,
+				8339733E156275B600C7CD2D /* WiimoteBrowser.h */,
+				8339733D156275B600C7CD2D /* WiimoteBrowser.m */,
+			);
+			path = "New Implementation";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -148,10 +168,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5351D50F0B2D34DA00F86B96 /* WiiRemote.h in Headers */,
-				5351D5110B2D34DA00F86B96 /* WiiRemoteDiscovery.h in Headers */,
 				53A1C0E70B9D85E800AEE7A2 /* WiiRemotePrivate.h in Headers */,
-				47C19F250CF39C59007D77CC /* Mii.h in Headers */,
+				8339735215628A7D00C7CD2D /* WiimoteBrowser.h in Headers */,
+				8339733F156275B600C7CD2D /* Wiimote.h in Headers */,
+				833973441562790A00C7CD2D /* WiimoteFramework.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,8 +237,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8339735115628A7000C7CD2D /* WiimoteBrowser.m in Sources */,
 				5351D5100B2D34DA00F86B96 /* WiiRemote.m in Sources */,
 				5351D5120B2D34DA00F86B96 /* WiiRemoteDiscovery.m in Sources */,
+				83397340156275B600C7CD2D /* Wiimote.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
