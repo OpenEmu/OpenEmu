@@ -40,15 +40,12 @@
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>
 
-//static void OE_bindGameLayer(OEGameLayer *gameLayer)
-//{
-//    NSUserDefaultsController *ctrl = [NSUserDefaultsController sharedUserDefaultsController];
-//    [gameLayer bind:@"filterName"   toObject:ctrl withKeyPath:@"values.videoFilter" options:nil];
-//    [gameLayer bind:@"vSyncEnabled" toObject:ctrl withKeyPath:@"values.vsync"      options:nil];
-//}
+// TODO: bind vsync. Is it even necessary, why do we want it off at all?
 
 #pragma mark -
 #pragma mark Display Link
+
+CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext);
 
 CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
 {
@@ -74,6 +71,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 #pragma mark -
 
 @interface OEGameView ()
+- (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader;
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context;
 - (void)OE_refreshFilterRenderer;
@@ -86,6 +84,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @synthesize filterName;
 @synthesize rootProxy;
 @synthesize gameCIImage;
+@synthesize screenshotHandler;
 
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
 {
@@ -197,10 +196,10 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     }
     
     // Set the display link for the current renderer
-    CGLContextObj cglContext = [[self openGLContext] CGLContextObj];
-    CGLPixelFormatObj cglPixelFormat = CGLGetPixelFormat(cglContext);
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    CGLPixelFormatObj cglPixelFormat = CGLGetPixelFormat(cgl_ctx);
     
-    error = CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(gameDisplayLinkRef, cglContext, cglPixelFormat);
+    error = CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(gameDisplayLinkRef, cgl_ctx, cglPixelFormat);
 	if(error)
     {
         NSLog(@"DisplayLink could not link to GL Context, error:%d", error);
@@ -361,7 +360,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             [img addRepresentation:rep];
             
             screenshotHandler(img);
-            //[self setScreenshotHandler:nil];
+            [self setScreenshotHandler:nil];
         }
         
         if([gameServer hasClients])
@@ -558,20 +557,13 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     screenSize = size;
 }
 
-- (CGFloat)preferredWindowScale
-{
-    return 1.0;
-    
-    //return [gameLayer preferredWindowScale];
-}
-
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block
 {
-    //[gameLayer setScreenshotHandler:block];
+    [self setScreenshotHandler:block];
 }
 
 #pragma mark -
-#pragma Responder
+#pragma mark Responder
 
 - (BOOL)acceptsFirstResponder
 {
@@ -621,11 +613,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 #endif
 
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
-{
-    id<OEGameCoreHelper> rootProxy = [self rootProxy];
-    
+{    
     NSRect bounds = [self bounds];
-    OEIntSize maxScreenSize = rootProxy.screenSize;
+    OEIntSize maxScreenSize = self.rootProxy.screenSize;
     NSRect frame  = NSMakeRect(0.0, 0.0, maxScreenSize.width, maxScreenSize.height);
     
     CGFloat factor     = NSWidth(frame) / NSHeight(frame);

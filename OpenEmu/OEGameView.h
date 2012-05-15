@@ -73,12 +73,13 @@
 @property(nonatomic, strong) NSString *filterName;
 @property(strong) CIImage *gameCIImage;
 @property(nonatomic, strong) id<OEGameCoreHelper> rootProxy;
-@property(readonly) CGFloat preferredWindowScale;
+@property(copy) void (^screenshotHandler)(NSImage *img);
 
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
-
 - (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
 - (void)timerFired:(id)sender;
+
+
 
 @end
