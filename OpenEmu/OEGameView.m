@@ -197,17 +197,17 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     }
     
     // Set the display link for the current renderer
-//    CGLContextObj cglContext = [[self openGLContext] CGLContextObj];
-//    CGLPixelFormatObj cglPixelFormat = [[self pixelFormat] CGLPixelFormatObj];
-//    
-//    error = CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(gameDisplayLinkRef, cglContext, cglPixelFormat);
-//	if(error)
-//    {
-//        NSLog(@"DisplayLink could not link to GL Context, error:%d", error);
-//        CVDisplayLinkRelease(gameDisplayLinkRef);
-//        gameDisplayLinkRef = NULL;
-//        return;
-//    }
+    CGLContextObj cglContext = [[self openGLContext] CGLContextObj];
+    CGLPixelFormatObj cglPixelFormat = CGLGetPixelFormat(cglContext);
+    
+    error = CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(gameDisplayLinkRef, cglContext, cglPixelFormat);
+	if(error)
+    {
+        NSLog(@"DisplayLink could not link to GL Context, error:%d", error);
+        CVDisplayLinkRelease(gameDisplayLinkRef);
+        gameDisplayLinkRef = NULL;
+        return;
+    }
         
 	CVDisplayLinkStart(gameDisplayLinkRef);	
 	
