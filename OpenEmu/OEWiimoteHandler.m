@@ -10,7 +10,7 @@
 #import "OEHIDEvent.h"
 #import "NSApplication+OEHIDAdditions.h"
 
-#define MaximumWiimotes 1
+#define MaximumWiimotes 2
 #define SynVibrateDuration 0.35
 
 @interface OEWiimoteHandler ()
@@ -21,8 +21,9 @@
 
 + (void)search
 {
-	[self sharedHandler];
+	[[[self sharedHandler] browser] startSearch];
 }
+
 
 + (id)sharedHandler
 {
@@ -49,6 +50,7 @@
 	NSLog(@"applicationWillTerminate: %@", notification);
 	
 	[self.browser stopSearch];
+	self.browser = nil;
 	
 	for (Wiimote *aWiimote in [self wiiRemotes]) {
 		[aWiimote disconnect];
@@ -80,9 +82,12 @@
 		[wiimote setRumbleActivated:YES];
 		
 		NSInteger count = [[self wiiRemotes] count];
-		[wiimote setLED1:count>0 LED2:count>1 LED3:count>2 LED4:count>4];
+		[wiimote setLED1:count>0&&count<4 LED2:count>1&&count<5 LED3:count>2&&count<6 LED4:count>3];
 		[wiimote connect];
 	}];
+	
+	if([discoveredDevices count] && [[self wiiRemotes] count] < MaximumWiimotes)
+		[self.browser startSearch];
 }
 
 - (void)wiimoteBrowserSearchFailedWithError:(int)code
@@ -104,6 +109,8 @@
 - (void)wiimoteDidDisconnect:(Wiimote*)theWiimote
 {
 	NSLog(@"wiimoteDidDisconnect: %@", theWiimote);
+	[self.wiiRemotes removeObject:theWiimote];
+	[self.browser startSearch];
 }
 
 - (void)wiimote:(Wiimote*)theWiimote didNotConnect:(NSError*)err
@@ -122,8 +129,12 @@
 - (void)wiimote:(Wiimote*)theWiimote reportsButtonChanged:(WiiButtonType)type isPressed:(BOOL)isPressed
 {
 	NSLog(@"%@%d", isPressed?@"↓":@"↑", type);
-	OEHIDEvent *event = [OEHIDEvent buttonEventWithPadNumber:1 timestamp:CFAbsoluteTimeGetCurrent() buttonNumber:type state:isPressed cookie:0];
-	[NSApp postHIDEvent:event];
+	NSInteger padNumber = [[self connectedWiiRemotes] indexOfObject:theWiimote];
+	if(padNumber>=0)
+	{
+		OEHIDEvent *event = [OEHIDEvent buttonEventWithPadNumber:padNumber timestamp:[NSDate timeIntervalSinceReferenceDate] buttonNumber:type	state:isPressed cookie:0];
+		[NSApp postHIDEvent:event];
+	}
 }
 - (void)wiimote:(Wiimote*)theWiimote reportsIrPointMovedX:(float)px Y:(float)py
 {

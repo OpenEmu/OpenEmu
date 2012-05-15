@@ -32,7 +32,6 @@
     return self;
 }
 
-
 - (void)awakeFromNib
 {
     height = 473-110;
