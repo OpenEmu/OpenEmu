@@ -361,7 +361,7 @@
     if([item isEditableInSdebar])
     {   
         
-        NSString *msg = NSLocalizedString(@"Do you really want to remove this collection thingy", @"");
+        NSString *msg = NSLocalizedString(@"Do you really want to remove this collection", @"");
         NSString *confirm = NSLocalizedString(@"Remove", @"");
         NSString *cancel = NSLocalizedString(@"Cancel", @"");
 
