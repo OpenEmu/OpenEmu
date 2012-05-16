@@ -35,7 +35,7 @@
 #import "OEGameShader.h"
 
 @protocol OEGameCoreHelper;
-@class OEGameLayer, OESystemResponder;
+@class OESystemResponder;
 
 @interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
 {
@@ -75,11 +75,13 @@
 @property(nonatomic, strong) id<OEGameCoreHelper> rootProxy;
 @property(copy) void (^screenshotHandler)(NSImage *img);
 
-- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
+- (void) captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
-- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
-- (void)timerFired:(id)sender;
+- (CVReturn) displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
+- (void) timerFired:(id)sender;
+- (void) render;
 
+- (void) deleteDisplayLink;
 
 
 @end

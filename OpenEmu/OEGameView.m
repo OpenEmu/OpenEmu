@@ -122,29 +122,35 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     {
         NSOpenGLPFAAccelerated, 
         NSOpenGLPFADoubleBuffer,
-//        NSOpenGLPFAColorSize, 32,
-//        NSOpenGLPFADepthSize, 32,
         0
     };
     
     return [[NSOpenGLPixelFormat alloc] initWithAttributes:attr];
 }
 
+// Warning: - because we are using a superview with a CALayer for transitioning, we have prepareOpenGL called more than once.
+// What to do about that?
 - (void)prepareOpenGL
 {
-    NSLog(@"prepareOpenGL");
-
-    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-
+    [super prepareOpenGL];
+    
+    DLog(@"prepareOpenGL");        
     // Synchronize buffer swaps with vertical refresh rate
     GLint swapInt = 1;
+    
     [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval]; 
+    
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    CGLLockContext(cgl_ctx);
 
     // GL resources
+    
     glGenTextures(1, &gameTexture);
     filters = [self OE_shadersForContext:cgl_ctx];
     gameServer = [[SyphonServer alloc] initWithName:@"Game Name" context:cgl_ctx options:nil];
-
+    
+    CGLUnlockContext(cgl_ctx);
+    
     // filters
     NSUserDefaultsController *ctrl = [NSUserDefaultsController sharedUserDefaultsController];
     [self bind:@"filterName" toObject:ctrl withKeyPath:@"values.videoFilter" options:nil];
@@ -155,10 +161,33 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     screenSize = rootProxy.screenSize;
     cachedSurfaceID = rootProxy.surfaceID;
-     
+
     // rendering
-    [self initDisplayLink];
+    [self initDisplayLink];    
     //[self initTimer];
+}
+
+- (void) removeFromSuperview
+{
+    DLog(@"removeFromSuperview");
+
+    CVDisplayLinkStop(gameDisplayLinkRef);
+    
+    [super removeFromSuperview];
+}
+
+- (void) clearGLContext
+{
+    DLog(@"clearGLContext");
+
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    CGLLockContext(cgl_ctx);
+
+    glDeleteTextures(1, &gameTexture);
+    gameTexture = 0;
+    
+    CGLUnlockContext(cgl_ctx);
+    [super clearGLContext];
 }
 
 - (void) initTimer
@@ -173,13 +202,16 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode]; 
 }
 
-- (void)timerFired:(id)sender
+- (void) timerFired:(id)sender
 {
     [self setNeedsDisplay:YES];
 }
 
 - (void) initDisplayLink
-{
+{    
+    if(gameDisplayLinkRef)
+        [self deleteDisplayLink];
+    
     CVReturn error = kCVReturnSuccess;
     
     error = CVDisplayLinkCreateWithActiveCGDisplays(&gameDisplayLinkRef);
@@ -211,28 +243,50 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         gameDisplayLinkRef = NULL;
         return;
     }
-        
-	CVDisplayLinkStart(gameDisplayLinkRef);	
+    
+    CVDisplayLinkStart(gameDisplayLinkRef);	
 	
 	if(!CVDisplayLinkIsRunning(gameDisplayLinkRef))
 	{
         CVDisplayLinkRelease(gameDisplayLinkRef);
         gameDisplayLinkRef = NULL;
-
+        
 		NSLog(@"DisplayLink is not running - it should be. ");
 	}
 }
 
-- (void) dealloc
-{
-    [self unbind:@"filterName"];
+- (void) deleteDisplayLink
+{    
+    DLog(@"deleteDisplayLink");
+    
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    CGLLockContext(cgl_ctx);
     
     CVDisplayLinkStop(gameDisplayLinkRef);
+    
     CVDisplayLinkSetOutputCallback(gameDisplayLinkRef, NULL, NULL);
+    
+    // we really ought to wait.
+    while(1)
+    {
+        DLog(@"waiting for displaylink to stop");
+        if(!CVDisplayLinkIsRunning(gameDisplayLinkRef))
+            break;
+    }
+    
     CVDisplayLinkRelease(gameDisplayLinkRef);
     gameDisplayLinkRef = NULL;
     
-    NSLog(@"OEGameView dealloc");
+    CGLUnlockContext(cgl_ctx);
+}
+
+- (void) dealloc
+{
+    DLog(@"OEGameView dealloc");
+
+    [self deleteDisplayLink];
+    
+    [self unbind:@"filterName"];
 }
 
 #pragma mark -
@@ -240,7 +294,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void) reshape
 {
-    NSLog(@"reshape");
+    DLog(@"reshape");
     
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLSetCurrentContext(cgl_ctx);
@@ -258,7 +312,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void) update
 {
-    NSLog(@"update");
+    DLog(@"update");
     
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 	CGLLockContext(cgl_ctx);
@@ -269,6 +323,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 }
 
 - (void) drawRect:(NSRect)dirtyRect
+{
+    [self render];
+}
+
+- (void) render
 {    
     // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
@@ -298,8 +357,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         OEGameShader *shader = [filters objectForKey:filterName];
         
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+        
         [[self openGLContext] makeCurrentContext];
-
+        
         CGLLockContext(cgl_ctx);
                 
         glMatrixMode(GL_PROJECTION);
@@ -470,7 +530,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {    
     @autoreleasepool 
     {     
-        [self drawRect:[self frame]];
+        [self render];
     }
     return kCVReturnSuccess;
 }

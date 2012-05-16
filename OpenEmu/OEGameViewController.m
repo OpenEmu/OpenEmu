@@ -221,7 +221,7 @@
 - (void)terminateEmulation
 {
     if(!emulationRunning) return;
-    NSLog(@"terminateEmulation");
+    DLog(@"terminateEmulation");
     
     [self pauseGame:self];
     

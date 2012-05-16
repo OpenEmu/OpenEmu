@@ -42,15 +42,8 @@
     OEMainWindowTitleBarView *titlebarView = [[OEMainWindowTitleBarView alloc] initWithFrame:titlebarRect];
     [titlebarView setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
     [windowBorderView addSubview:titlebarView positioned:NSWindowAbove relativeTo:[[windowBorderView subviews] objectAtIndex:0]];
-    
-    // DONT FUCKING PUT A CALAYER ON EVERYTHING DUDE, ITS SLOW AS BALLS AND SHIT.
-    
+          
     //[contentView setWantsLayer:YES];
-//    CATransition *cvTransition = [CATransition animation];
-//    cvTransition.type = kCATransitionFade;
-//    cvTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-//    cvTransition.duration = 0.8;
-//    [contentView setAnimations:[NSDictionary dictionaryWithObject:cvTransition forKey:@"subviews"]];
     
     [self setOpaque:NO];
     [self setBackgroundColor:[NSColor blackColor]];
