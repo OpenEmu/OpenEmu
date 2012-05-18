@@ -77,11 +77,13 @@
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
 #pragma mark -
 @property (strong) OEGameControlsBar *controlsWindow;
+@property (readonly) OEGameView* gameView;
 
 @property(weak)   id<OEGameViewControllerDelegate> delegate;
 
 @property(strong) OEDBRom        *rom;
 @property(weak)   OEGameDocument *document;
+
 
 #pragma mark - HUD Bar Actions
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
@@ -110,8 +112,8 @@
 #pragma mark - Saving States
 - (IBAction)saveState:(id)sender;
 - (IBAction)quickSave:(id)sender;
-
 - (void)saveStateWithName:(NSString *)stateName;
+
 #pragma mark - Loading States
 // loadState: expects sender or [sender representedObject] to be an OEDBSaveState object
 - (IBAction)loadState:(id)sender;
@@ -125,6 +127,9 @@
 - (NSSize)defaultScreenSize;
 - (NSString*)coreIdentifier;
 - (NSString*)systemIdentifier;
+
+#pragma mark - 
+- (void)setCachedLibraryImage:(NSBitmapImageRep*) image;
 
 #pragma mark -
 #pragma mark Menu Items

@@ -90,6 +90,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @synthesize gameCIImage;
 @synthesize screenshotHandler;
 
+@synthesize cachedLibraryImage;
+@synthesize cachedLibraryTexture;
+
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
 {
     OEGameShader *scale4XShader         = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xFilterName     forContext:context];
@@ -134,6 +137,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     [super prepareOpenGL];
     
+    uploadedCachedLibraryTexture = NO;
+    alpha = 1.0;
+    
     DLog(@"prepareOpenGL");        
     // Synchronize buffer swaps with vertical refresh rate
     GLint swapInt = 1;
@@ -146,6 +152,10 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // GL resources
     
     glGenTextures(1, &gameTexture);
+    
+    // upload the cached library texture so we have it.
+    glGenTextures(1, &cachedLibraryTexture);
+       
     filters = [self OE_shadersForContext:cgl_ctx];
     gameServer = [[SyphonServer alloc] initWithName:@"Game Name" context:cgl_ctx options:nil];
     
@@ -408,6 +418,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             }
         }
         
+        [self drawCachedLibraryViewInCGLContext:cgl_ctx];
+        
         if(screenshotHandler != nil)
         {
             NSImage *img = nil;
@@ -440,10 +452,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 }
 
 // GL render method
-- (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader
+- (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)cgl_ctx usingShader:(OEGameShader *)shader
 {
-    CGLContextObj cgl_ctx = glContext;
-    
+
     glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     
@@ -462,6 +473,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     
     glActiveTexture(GL_TEXTURE0);
+    glClientActiveTexture(GL_TEXTURE0);
     glColor4f(1.0, 1.0, 1.0, 1.0);
     
     // calculate aspect ratio
@@ -525,6 +537,75 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     glPopClientAttrib();
 }
 
+- (void) drawCachedLibraryViewInCGLContext:(CGLContextObj)cgl_ctx
+{
+    //BOOL animating = YES;
+    if(alpha > 0.0)
+    {
+        const GLint verts[] = 
+        {
+            -1, 1,
+            1, 1,
+            1, -1,
+            -1, -1
+        };
+        
+        const GLint tex_coords[] = 
+        {
+            0, 0,
+            self.frame.size.width, 0,
+            self.frame.size.width, self.frame.size.height,
+            0, self.frame.size.height
+        };
+
+        glActiveTexture(GL_TEXTURE0);
+        glClientActiveTexture(GL_TEXTURE0);
+        glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, cachedLibraryTexture);
+
+        if(!uploadedCachedLibraryTexture)
+        {
+            glPushAttrib(GL_TEXTURE_BIT);
+            
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, [cachedLibraryImage pixelsWide]);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            NSUInteger samplesPerPixel = [cachedLibraryImage samplesPerPixel];
+
+            if(![cachedLibraryImage isPlanar] && (samplesPerPixel == 3 || samplesPerPixel == 4)) 
+            {
+                 glTexImage2D(GL_TEXTURE_RECTANGLE_EXT,
+                              0,
+                              samplesPerPixel == 4 ? GL_RGBA8 : GL_RGB8,
+                              [cachedLibraryImage pixelsWide],
+                              [cachedLibraryImage pixelsHigh],
+                              0,
+                              samplesPerPixel == 4 ? GL_BGRA : GL_BGR,
+                              GL_UNSIGNED_INT_8_8_8_8,
+                              [cachedLibraryImage bitmapData]); 
+         
+                uploadedCachedLibraryTexture = YES;
+            }
+            glPopAttrib();
+        }
+        
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        glColor4f(1.0, 1.0, 1.0, alpha);
+        
+        glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+        glTexCoordPointer(2, GL_INT, 0, tex_coords );
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2, GL_INT, 0, verts );
+        glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+        glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+        glDisableClientState(GL_VERTEX_ARRAY);
+
+        alpha -= 0.02;
+    }
+}
 
 - (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp
 {    

@@ -42,8 +42,8 @@
 @property(copy) NSArray *deviceHandlers;
 @property(copy) NSArray *coreList;
 
-@property(strong) NSView* targetView;
-@property(strong) NSView* tempView;
+//@property(strong) NSView* targetView;
+//@property(strong) NSView* tempView;
 
 - (void)openGameDocument:(OEGameDocument *)aDocument;
 

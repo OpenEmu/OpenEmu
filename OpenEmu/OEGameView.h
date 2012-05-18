@@ -40,6 +40,9 @@
 @interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
 {
 @private
+    BOOL uploadedCachedLibraryTexture;
+    GLfloat alpha;
+    
     GLuint gameTexture;
     
     // replace our basic scaling filters with straight up shaders
@@ -58,7 +61,6 @@
     BOOL                  filterHasOutputMousePositionKeys;
     
     // Screenshot
-    
     void (^screenshotHandler)(NSImage *img);
     
     OEIntSize screenSize;
@@ -69,12 +71,19 @@
     CVDisplayLinkRef    gameDisplayLinkRef;
 }
 
-@property(strong) OESystemResponder *gameResponder;
-@property(nonatomic, strong) NSString *filterName;
-@property(strong) CIImage *gameCIImage;
-@property(nonatomic, strong) id<OEGameCoreHelper> rootProxy;
-@property(copy) void (^screenshotHandler)(NSImage *img);
+@property (nonatomic, strong) id<OEGameCoreHelper> rootProxy;
 
+@property (strong) OESystemResponder *gameResponder;
+
+// for animating to and from the library.
+@property (strong) NSBitmapImageRep *cachedLibraryImage;
+@property (assign) GLuint cachedLibraryTexture;
+
+@property (strong) CIImage *gameCIImage;
+
+@property (nonatomic, strong) NSString *filterName;
+
+@property (copy) void (^screenshotHandler)(NSImage *img);
 - (void) captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
 - (CVReturn) displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;

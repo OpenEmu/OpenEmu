@@ -177,6 +177,11 @@
     gameView = nil;
 }
 
+- (OEGameView*) gameView
+{
+    return gameView;
+}
+
 #pragma mark -
 
 - (void)viewDidAppear
@@ -616,6 +621,11 @@
     return [game defaultROM];
 }
 
+- (void)setCachedLibraryImage:(NSBitmapImageRep*) image
+{
+    [gameView setCachedLibraryImage:image];
+}
+
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin *)core error:(NSError **)outError
 {
     NSString *romPath = [aurl path];
@@ -625,7 +635,11 @@
         
         gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
         [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+
+        // ensure the game view has our latest cached library image for animating.
+
         [[self view] addSubview:gameView];
+
         [nc addObserver:self selector:@selector(viewDidChangeFrame:)  name:NSViewFrameDidChangeNotification object:gameView];
         
         emulationRunning = YES;

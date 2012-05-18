@@ -53,8 +53,8 @@
 @synthesize deviceHandlers;
 @synthesize coreList;
 
-@synthesize targetView;
-@synthesize tempView;
+//@synthesize targetView;
+//@synthesize tempView;
 
 + (void)initialize
 {
@@ -80,7 +80,7 @@
     [self setLibraryController:nil];
     [self setPlaceholderView:nil]; 
     
-    [self setTargetView:nil];
+    //[self setTargetView:nil];
 }
 
 - (void)windowDidLoad
@@ -186,78 +186,120 @@
     NSView *contentView = [self placeholderView];
 
     // final target
-    self.targetView = [newController view];
-    [self.targetView setFrame:[contentView bounds]];
-    [self.targetView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [[newController view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [[newController view] setFrame:[contentView frame]];
     
     if(oldController != nil)
     {
-        DLog(@"Animating Two Views");
-                
         // animating to the gameView
         if([newController isKindOfClass:[OEGameViewController class]])
         {
             DLog(@"Animating to game view");
             
-            // temporarily shim in a layer....             
-            [self enableTransitionAnimation];
-
-            // this view is interim for transitions
-            self.tempView = [[OEBlackView alloc] initWithFrame:[contentView bounds]];
-            [self.tempView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-            [self.tempView setWantsLayer:YES];
+            // BECAUSE CA IS A FLAMING PILE OF SHIT WE JUST TAKE A SCREENSHOT
+            // HEAVEN FORBID WE WANT TO DO THAT SOME SANE WAY, LIKE ASKING
+            // NSVIEW FOR A FUCKING BITMAP. BUT NO. WE CANT DO THAT BECAUSE
+            // CORE ANIMATION IS A SACK OF FLAMING USED CONDOMS
             
-            // animate from the temp view to the target
-            [[contentView animator] replaceSubview:[oldController view] with:self.tempView];
-
-            // cut to game view when animation is finished
+            // stupid inverted origin.
+            NSRect captureRect = [[self window] convertRectToScreen:[contentView convertRect:[contentView frame] toView:nil]];
+            captureRect = NSIntersectionRect([NSScreen mainScreen].frame, captureRect);
+            captureRect.origin.y = [[NSScreen mainScreen] frame].size.height - captureRect.origin.y - captureRect.size.height + 1.0;    
+            
+            // stupid screenshot
+            CGImageRef fuckYouJustFuckingDoWhatITellYou = CGWindowListCreateImage(NSRectToCGRect(captureRect),
+                                                                                  kCGWindowListOptionIncludingWindow,
+                                                                                   (CGWindowID)[[self window] windowNumber],
+                                                                                  kCGWindowImageBoundsIgnoreFraming);
+            
+            NSBitmapImageRep *cachedImage = [[NSBitmapImageRep alloc] initWithCGImage:fuckYouJustFuckingDoWhatITellYou];
+            [(OEGameViewController*) newController setCachedLibraryImage:cachedImage];
+            
+            CGImageRelease(fuckYouJustFuckingDoWhatITellYou);
+            
+            //APPARENTLY A OEGameViewController's VIEW IS NOT A FUCKING OEGameView. Ugh.
         }
-        // animating from the gameview.
         else if([oldController isKindOfClass:[OEGameViewController class]])
         {
             DLog(@"Animating from game view");
-
-            // temporarily shim in a layer....             
-            [self enableTransitionAnimation];
-
-            // this view is interim for transitions
-            self.tempView = [[OEBlackView alloc] initWithFrame:[contentView bounds]];
-            [self.tempView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-            [self.tempView setWantsLayer:YES];
-
-            // immediately cut to black
-            [contentView replaceSubview:[oldController view] with:self.tempView];
-
-            // animate from the temp view to the target
-            [[contentView animator] replaceSubview:self.tempView with:self.targetView];
         }
+        
+        [contentView replaceSubview:[oldController view] with:[newController view]];
     }
     else
     {
-        DLog(@"Fallback Animation");
-
-        // temporarily shim in a layer.... 
-        [self enableTransitionAnimation];  
-        [[contentView animator] addSubview:self.targetView];
+        // this is for the initial transition when loading the app.
+        [[contentView animator] addSubview:[newController view]];
     }
+    
+//    if(oldController != nil)
+//    {
+//        DLog(@"Animating Two Views");
+//                
+//        // animating to the gameView
+//        if([newController isKindOfClass:[OEGameViewController class]])
+//        {
+//            DLog(@"Animating to game view");
+//            
+//            // temporarily shim in a layer....             
+//            [self enableTransitionAnimation];
+//
+//            // this view is interim for transitions
+//            self.tempView = [[OEBlackView alloc] initWithFrame:[contentView bounds]];
+//            [self.tempView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+//            [self.tempView setWantsLayer:YES];
+//            
+//            // animate from the temp view to the target
+//            [[contentView animator] replaceSubview:[oldController view] with:self.tempView];
+//
+//            // cut to game view when animation is finished
+//        }
+//        // animating from the gameview.
+//        else if([oldController isKindOfClass:[OEGameViewController class]])
+//        {
+//            DLog(@"Animating from game view");
+//
+//            // temporarily shim in a layer....             
+//            [self enableTransitionAnimation];
+//
+//            // this view is interim for transitions
+//            self.tempView = [[OEBlackView alloc] initWithFrame:[contentView bounds]];
+//            [self.tempView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+//            [self.tempView setWantsLayer:YES];
+//
+//            // immediately cut to black
+//            [contentView replaceSubview:[oldController view] with:self.tempView];
+//
+//            // animate from the temp view to the target
+//            [[contentView animator] replaceSubview:self.tempView with:self.targetView];
+//        }
+//    }
+//    else
+//    {
+//        DLog(@"Fallback Animation");
+//
+//        // temporarily shim in a layer.... 
+//        [self enableTransitionAnimation];  
+//        [[contentView animator] addSubview:self.targetView];
+//    }
 }
 
-- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
-{
-    DLog(@"view animationDidStop");
-
-    if(flag)
-    {
-        DLog(@"view animationDidStop flag triggered");
-        // Disable layers so things run faster
-        NSView *contentView = [self placeholderView];
-        [contentView setWantsLayer:NO];
-        
-        // immediately cut to gameView
-        if([currentContentController isKindOfClass:[OEGameViewController class]])
-            [contentView replaceSubview:self.tempView with:self.targetView];
-    }
-}
+//- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
+//{
+//    DLog(@"view animationDidStop");
+//
+//    if(flag)
+//    {
+//        DLog(@"view animationDidStop flag triggered");
+//        // Disable layers so things run faster
+//        NSView *contentView = [self placeholderView];
+//        [contentView setWantsLayer:NO];
+//        
+//        // immediately cut to gameView
+//        if([currentContentController isKindOfClass:[OEGameViewController class]])
+//            [contentView replaceSubview:self.tempView with:self.targetView];
+//    }
+//}
 
 - (void)setCurrentContentController:(NSViewController *)controller
 {
