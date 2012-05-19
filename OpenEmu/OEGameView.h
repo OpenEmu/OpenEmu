@@ -46,9 +46,7 @@
     
     // replace our basic scaling filters with straight up shaders
     NSDictionary         *filters;
-    
-    BOOL                  usesShader;
-    
+        
     QCRenderer           *filterRenderer;
     
     CGColorSpaceRef       rgbColorSpace;
