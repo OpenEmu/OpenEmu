@@ -246,19 +246,22 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 #pragma mark Archive.VG Sync
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary
 {
+    // temporary workaround to make sure we use the right NSManagedObject on the right thread
+    OEDBGame* game = [self.libraryDatabase objectWithURI:[[self objectID] URIRepresentation]];
+    
     // The following values have to be included in a valid archiveVG info dictionary
     if([[gameInfoDictionary allKeys] count] == 0) return;
     
     NSNumber *archiveID = [gameInfoDictionary valueForKey:AVGGameIDKey];
     if([archiveID integerValue] != 0)
-        [self setArchiveID:archiveID];
+        [game setArchiveID:archiveID];
     
     NSString *stringValue = nil;
     
     stringValue = [gameInfoDictionary valueForKey:AVGGameRomNameKey];
     if(stringValue != nil)
     {
-        [self setName:stringValue];
+        [game setName:stringValue];
     }
     
     // Get + Set game developer
@@ -270,31 +273,31 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     // Get + Set system if none is set
     // it is very unlikely that this ever happens
-    if([self system] == nil)
+    if([game system] == nil)
     {
         id systemRepresentation = [gameInfoDictionary valueForKey:AVGGameSystemNameKey];
         OEDBSystem *system = [OEDBSystem systemForArchiveName:systemRepresentation];
         // DLog(@"Game has no System, try using archive.vg system: %@", system);
-        [self setSystem:system];
+        [game setSystem:system];
     }
 	
     // Get + Set game description
     stringValue = [gameInfoDictionary valueForKey:AVGGameDescriptionKey];
     if(stringValue != nil)
     {
-        [self setGameDescription:stringValue];
+        [game setGameDescription:stringValue];
     }
     
     // TODO: implement the following keys:
     //// DLog(@"AVGGameGenreKey: %@", [gameInfoDictionary valueForKey:AVGGameGenreKey]);
     if([gameInfoDictionary valueForKey:AVGGameBoxURLKey])
-        [self setBoxImageByURL:[NSURL URLWithString:[gameInfoDictionary valueForKey:AVGGameBoxURLKey]]];
+        [game setBoxImageByURL:[NSURL URLWithString:[gameInfoDictionary valueForKey:AVGGameBoxURLKey]]];
     //// DLog(@"AVGGameBoxURLKey: %@", [gameInfoDictionary valueForKey:AVGGameBoxURLKey]);
     //// DLog(@"AVGGameESRBRatingKey: %@", [gameInfoDictionary valueForKey:AVGGameESRBRatingKey]);
     //// DLog(@"AVGGameCreditsKey: %@", [gameInfoDictionary valueForKey:AVGGameCreditsKey]);
     
     // Save changes
-    [[self database] save:nil];
+    [[game database] save:nil];
 }
 
 - (BOOL)performFullSyncWithArchiveVG:(NSError **)outError
@@ -317,7 +320,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 {
     __block NSDictionary *gameInfo = nil;	
 	void(^block)() = ^{
-		NSLog(@"%@", gameInfo);
 		if(detailLevel != 0)
 		{
 			NSMutableDictionary *mutableGameInfo = [[NSMutableDictionary alloc] initWithDictionary:gameInfo];
@@ -357,7 +359,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 				 {
 					 gameInfo = result;
 					 block();
-					 *stop = YES;
 				 }
 			 }];
 		 }];
