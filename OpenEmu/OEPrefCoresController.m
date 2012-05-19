@@ -165,7 +165,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
         title = NSLocalizedString(@"Update", @"Update Core");
     }
     
-    if([plugin appcastItem] != nil || title != nil) return [tableColumn dataCellForRow:row];
+    if([plugin appcastItem] == nil || title == nil) return [tableColumn dataCellForRow:row];
     
     OECoreTableButtonCell *buttonCell = [[OECoreTableButtonCell alloc] initTextCell:title];
     return buttonCell;
