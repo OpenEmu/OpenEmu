@@ -84,14 +84,31 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 @implementation OEGameView
 
-@synthesize gameResponder;
-@synthesize filterName;
-@synthesize rootProxy;
+// rendering
+@synthesize gameTexture;
+@synthesize gameSurfaceID;
+@synthesize gameDisplayLinkRef;
+@synthesize gameTimer;
+@synthesize gameScreenSize;
+@synthesize gameServer;
+
+// Filters
+@synthesize rgbColorSpace;
 @synthesize gameCIImage;
+@synthesize filters;
+@synthesize filterRenderer;
+@synthesize filterStartTime;
+@synthesize filterTime;
+@synthesize filterName;
+@synthesize filterHasOutputMousePositionKeys;
+
+@synthesize gameResponder;
+@synthesize rootProxy;
 @synthesize screenshotHandler;
 
 @synthesize cachedLibraryImage;
 @synthesize cachedLibraryTexture;
+@synthesize uploadedCachedLibraryTexture;
 @synthesize alpha;
 
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
@@ -157,7 +174,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     glGenTextures(1, &cachedLibraryTexture);
        
     filters = [self OE_shadersForContext:cgl_ctx];
-    gameServer = [[SyphonServer alloc] initWithName:@"Game Name" context:cgl_ctx options:nil];
+    self.gameServer = [[SyphonServer alloc] initWithName:@"Game Name" context:cgl_ctx options:nil];
     
     CGLUnlockContext(cgl_ctx);
     
@@ -169,8 +186,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // our texture is in NTSC colorspace from the cores
     rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
     
-    screenSize = rootProxy.screenSize;
-    cachedSurfaceID = rootProxy.surfaceID;
+    gameScreenSize = rootProxy.screenSize;
+    gameSurfaceID = rootProxy.surfaceID;
 
     // rendering
     [self initDisplayLink];    
@@ -202,14 +219,14 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void) initTimer
 {
-    NSTimer* renderTimer = [NSTimer timerWithTimeInterval:0.01   //a 10ms time interval
+    self.gameTimer = [NSTimer timerWithTimeInterval:0.01   //a 10ms time interval
                                                    target:self
                                                  selector:@selector(timerFired:)
                                                  userInfo:nil
                                                   repeats:YES];
     
-    [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
-    [[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode]; 
+    [[NSRunLoop currentRunLoop] addTimer:gameTimer forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop currentRunLoop] addTimer:gameTimer forMode:NSEventTrackingRunLoopMode]; 
 }
 
 - (void) timerFired:(id)sender
@@ -291,10 +308,30 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 }
 
 - (void) dealloc
-{
+{    
     DLog(@"OEGameView dealloc");
 
     [self deleteDisplayLink];
+    
+    [gameTimer invalidate];
+    self.gameTimer = nil;
+
+    self.gameResponder = nil;
+    self.rootProxy = nil;
+    
+    self.gameServer = nil;
+    self.gameCIImage = nil;
+    
+    // filters
+    self.filters = nil;
+    self.filterRenderer = nil;
+    self.filterName = nil;
+    self.cachedLibraryImage = nil;
+    
+    CGColorSpaceRelease(rgbColorSpace);
+    rgbColorSpace = NULL;
+    
+    
     
     [self unbind:@"filterName"];
 }
@@ -341,28 +378,28 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {    
     // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
-    time = [NSDate timeIntervalSinceReferenceDate];
+    filterTime = [NSDate timeIntervalSinceReferenceDate];
     
-    if(startTime == 0)
+    if(filterStartTime == 0)
     {
-        startTime = time;
-        time = 0;
+        filterStartTime = filterTime;
+        filterTime = 0;
     }
     else
-        time -= startTime;
+        filterTime -= filterStartTime;
     
     // IOSurfaceLookup performs a lock *AND A RETAIN* - 
-    IOSurfaceRef surfaceRef = IOSurfaceLookup(cachedSurfaceID); 
+    IOSurfaceRef surfaceRef = IOSurfaceLookup(gameSurfaceID); 
     if(!surfaceRef) {
-        cachedSurfaceID = rootProxy.surfaceID;
-        surfaceRef = IOSurfaceLookup(cachedSurfaceID);
+        gameSurfaceID = rootProxy.surfaceID;
+        surfaceRef = IOSurfaceLookup(gameSurfaceID);
     }
     
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
     {
         NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
-        CGRect textureRect = CGRectMake(0, 0, screenSize.width, screenSize.height);
+        CGRect textureRect = CGRectMake(0, 0, gameScreenSize.width, gameScreenSize.height);
         
         OEGameShader *shader = [filters objectForKey:filterName];
         
@@ -405,9 +442,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
                 [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
                 
                 [filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
-                [filterRenderer renderAtTime:time arguments:arguments];
+                [filterRenderer renderAtTime:filterTime arguments:arguments];
                 
-//                if(filterHasOutputMousePositionKeys)
+//                if( )
 //                {
 //                    NSPoint mousePoint;
 //                    mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
@@ -478,8 +515,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     // calculate aspect ratio
     NSSize scaled;
-    float wr = screenSize.width / self.frame.size.width;
-    float hr = screenSize.height / self.frame.size.height;
+    float wr = gameScreenSize.width / self.frame.size.width;
+    float hr = gameScreenSize.height / self.frame.size.height;
     float ratio;
     ratio = (hr < wr ? wr : hr);
     scaled = NSMakeSize(( wr / ratio), (hr / ratio));
@@ -498,9 +535,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     const GLint tex_coords[] = 
     {
         0, 0,
-        screenSize.width, 0,
-        screenSize.width, screenSize.height,
-        0, screenSize.height
+        gameScreenSize.width, 0,
+        gameScreenSize.width, gameScreenSize.height,
+        0, gameScreenSize.height
     };
     
     if(shader == (id)_OELinearFilterName)
@@ -671,10 +708,10 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         if([[filterRenderer outputKeys] containsObject:@"OEMousePositionX"] && [[filterRenderer outputKeys] containsObject:@"OEMousePositionY"])
         {
             DLog(@"filter has mouse output position keys");
-            filterHasOutputMousePositionKeys = YES;
+            self.filterHasOutputMousePositionKeys = YES;
         }
         else
-            filterHasOutputMousePositionKeys = NO;
+            self.filterHasOutputMousePositionKeys = NO;
         
         CGLUnlockContext(cgl_ctx);
     }
@@ -694,7 +731,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void)gameCoreDidChangeScreenSizeTo:(OEIntSize)size
 {
-    screenSize = size;
+    self.gameScreenSize = size;
 }
 
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block

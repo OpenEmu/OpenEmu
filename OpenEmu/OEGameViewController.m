@@ -50,6 +50,8 @@
 
 #import "NSString+UUID.h"
 #import "NSURL+OELibraryAdditions.h"
+
+#define OEGAMEVIEWTRANSITIONTIME 0.8/60.0
 @interface OEGameViewController ()
 
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game;
@@ -216,7 +218,13 @@
     [[self controlsWindow] hide];
     
     // terminate on fade out animation being finished
-    //[self terminateEmulation];
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
+    BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
+    BOOL usePopout = forcePopout || allowPopout;
+    
+    if(usePopout)
+        [self terminateEmulation];
 }
 
 #pragma mark - Controlling Emulation
@@ -634,34 +642,49 @@
 
 - (void)startFadeInTransition
 {
-    [gameView setAlpha:1.0];
-    gameViewTransitionTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(fadeInTransition) userInfo:nil repeats:YES];
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
+    BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
+    BOOL usePopout = forcePopout || allowPopout;
     
-    [[NSRunLoop currentRunLoop] addTimer:gameViewTransitionTimer forMode:NSRunLoopCommonModes];
+    if(!usePopout)
+    {
+        [gameView setAlpha:1.0];
+        gameViewTransitionTimer = [NSTimer timerWithTimeInterval:OEGAMEVIEWTRANSITIONTIME target:self selector:@selector(fadeInTransition) userInfo:nil repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:gameViewTransitionTimer forMode:NSRunLoopCommonModes];
+    }
 }
 
 - (void)startFadeOutTransition
 {
-    [gameView setAlpha:0.0];
-    gameViewTransitionTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(fadeOutTransition) userInfo:nil repeats:YES];
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
+    BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
+    BOOL usePopout = forcePopout || allowPopout;
     
-    [[NSRunLoop currentRunLoop] addTimer:gameViewTransitionTimer forMode:NSRunLoopCommonModes];
+    if(!usePopout)
+    {
+        [gameView setAlpha:0.0];
+        gameViewTransitionTimer = [NSTimer timerWithTimeInterval:OEGAMEVIEWTRANSITIONTIME target:self selector:@selector(fadeOutTransition) userInfo:nil repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] addTimer:gameViewTransitionTimer forMode:NSRunLoopCommonModes];
+    }
 }
 
 - (void)fadeInTransition
 {
-    [gameView setAlpha:[gameView alpha] - 1.0/60.0];
+    [gameView setAlpha:[gameView alpha] - OEGAMEVIEWTRANSITIONTIME];
     if([gameView alpha] <= 0.0)
     {
         [gameViewTransitionTimer invalidate];
         [self setDelegate:nil];
-
     }
 }
 
 - (void)fadeOutTransition
 {
-    [gameView setAlpha:[gameView alpha] + 1.0/60.0];
+    [gameView setAlpha:[gameView alpha] + OEGAMEVIEWTRANSITIONTIME];
     
     if([delegate respondsToSelector:@selector(gameViewDidFinishFadeOutTransition)] && ([gameView alpha] >= 1.0))
     {
@@ -673,7 +696,6 @@
         [self terminateEmulation];
     }
 }
-
 
 #pragma mark -
 #pragma mark Private Methods

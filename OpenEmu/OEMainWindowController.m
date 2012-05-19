@@ -228,7 +228,8 @@
     }
     else
     {
-        // this is for the initial transition when loading the app.
+        // this is for the initial transition when loading the app
+        // We have a Layer Backed view here, for only this first transition
         [[contentView animator] addSubview:[newController view]];
     }
 }

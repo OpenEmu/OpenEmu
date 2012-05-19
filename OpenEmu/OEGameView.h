@@ -39,55 +39,46 @@
 
 @interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
 {
-@private
-    BOOL uploadedCachedLibraryTexture;
-    
-    GLuint gameTexture;
-    
-    // replace our basic scaling filters with straight up shaders
-    NSDictionary         *filters;
-        
-    QCRenderer           *filterRenderer;
-    
-    CGColorSpaceRef       rgbColorSpace;
-    
-    // for QCRenderer
-    NSTimeInterval        startTime; // time for rendering, input to time based effects, sources, 
-    NSTimeInterval        time;
-    
-    BOOL                  filterHasOutputMousePositionKeys;
-    
-    // Screenshot
-    void (^screenshotHandler)(NSImage *img);
-    
-    OEIntSize screenSize;
-    IOSurfaceID cachedSurfaceID;
-    
-    SyphonServer *gameServer;
-    
-    CVDisplayLinkRef    gameDisplayLinkRef;
 }
 
 @property (nonatomic, strong) id<OEGameCoreHelper> rootProxy;
-
 @property (strong) OESystemResponder *gameResponder;
+
+// rendering
+@property (assign) GLuint gameTexture;
+@property (assign) IOSurfaceID gameSurfaceID;    
+
+@property (assign) OEIntSize gameScreenSize;
+@property (assign) CVDisplayLinkRef gameDisplayLinkRef;
+@property (strong) NSTimer* gameTimer;
+@property (strong) SyphonServer *gameServer;
+
+// QC based filters
+@property (assign) CGColorSpaceRef rgbColorSpace;
+@property (strong) CIImage *gameCIImage;
+@property (strong) NSDictionary *filters;
+@property (strong) QCRenderer *filterRenderer;
+@property (assign) NSTimeInterval filterStartTime;
+@property (assign) NSTimeInterval filterTime;
+@property (nonatomic, strong) NSString *filterName;
+@property (assign) BOOL filterHasOutputMousePositionKeys;
 
 // for animating to and from the library.
 @property (strong) NSBitmapImageRep *cachedLibraryImage;
 @property (assign) GLuint cachedLibraryTexture;
+@property (assign) BOOL uploadedCachedLibraryTexture;
 @property (assign) GLfloat alpha;
-@property (strong) CIImage *gameCIImage;
-
-@property (nonatomic, strong) NSString *filterName;
 
 @property (copy) void (^screenshotHandler)(NSImage *img);
 - (void) captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
+// rendering methods
+- (void) initDisplayLink;
+- (void) deleteDisplayLink;
 - (CVReturn) displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
+- (void) initTimer;
 - (void) timerFired:(id)sender;
 - (void) render;
-
-- (void) deleteDisplayLink;
 
 
 @end
