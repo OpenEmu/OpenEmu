@@ -54,7 +54,7 @@
 @synthesize coreList;
 
 @synthesize targetView;
-//@synthesize tempView;
+@synthesize replaceView;
 
 + (void)initialize
 {
@@ -178,6 +178,9 @@
     
     if(oldController != nil)
     {
+        // No animation: 
+//         [contentView replaceSubview:[oldController view] with:[newController view]];
+        
         // animating to the gameView
         if([newController isKindOfClass:[OEGameViewController class]])
         {
@@ -207,15 +210,19 @@
             [contentView replaceSubview:[oldController view] with:[newController view]];
             
             // animate
-            //[(OEGameViewController*) newController setDelegate:unsafe];
+            [(OEGameViewController*) newController setDelegate:self];
             [(OEGameViewController*) newController startFadeInTransition];
         }
         else if([oldController isKindOfClass:[OEGameViewController class]])
         {
-            // we swap in the delegate callback from this view controller
             self.targetView = [newController view];
+            self.replaceView = [oldController view];
+
+            // we swap in the delegate callback from this view controller
+
             [(OEGameViewController*) oldController startFadeOutTransition];
-            
+            [(OEGameViewController*) oldController setDelegate:self];
+
             DLog(@"Animating from game view");
         }
     }
@@ -226,11 +233,14 @@
     }
 }
 
-- (void)gameViewDidFinishFadeOutTransition
+- (void) gameViewDidFinishFadeOutTransition
 {
+    DLog(@"Finished Fade Out");
     NSView *contentView = [self placeholderView];
-    [(OEGameViewController*) currentContentController setDelegate:nil];
-    [contentView replaceSubview:[currentContentController view] with:self.targetView];
+
+    [contentView replaceSubview:self.replaceView with:self.targetView];
+    
+    [[self window] makeFirstResponder:[currentContentController view]];
 }
 
 - (void)setCurrentContentController:(NSViewController *)controller

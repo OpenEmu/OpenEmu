@@ -214,7 +214,9 @@
         [[gameView window] setTitle:OEDefaultWindowTitle];
     
     [[self controlsWindow] hide];
-    [self terminateEmulation];
+    
+    // terminate on fade out animation being finished
+    //[self terminateEmulation];
 }
 
 #pragma mark - Controlling Emulation
@@ -649,6 +651,12 @@
 - (void)fadeInTransition
 {
     [gameView setAlpha:[gameView alpha] - 1.0/60.0];
+    if([gameView alpha] <= 0.0)
+    {
+        [gameViewTransitionTimer invalidate];
+        [self setDelegate:nil];
+
+    }
 }
 
 - (void)fadeOutTransition
@@ -656,7 +664,14 @@
     [gameView setAlpha:[gameView alpha] + 1.0/60.0];
     
     if([delegate respondsToSelector:@selector(gameViewDidFinishFadeOutTransition)] && ([gameView alpha] >= 1.0))
+    {
         [delegate gameViewDidFinishFadeOutTransition];
+  
+        [gameViewTransitionTimer invalidate];
+        [self setDelegate:nil];
+        
+        [self terminateEmulation];
+    }
 }
 
 

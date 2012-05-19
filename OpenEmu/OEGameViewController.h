@@ -81,7 +81,7 @@
 @property (strong) OEGameControlsBar *controlsWindow;
 @property (readonly) OEGameView* gameView;
 
-@property(weak)   id<OEGameViewControllerDelegate> delegate;
+@property(unsafe_unretained) id<OEGameViewControllerDelegate> delegate;
 
 @property(strong) OEDBRom        *rom;
 @property(weak)   OEGameDocument *document;
