@@ -29,7 +29,9 @@
 @class OEGameDocument;
 @class OELibraryController;
 
-@interface OEMainWindowController : NSWindowController <NSWindowDelegate>
+#import "OEGameViewController.h"
+
+@interface OEMainWindowController : NSWindowController <NSWindowDelegate, OEGameViewControllerDelegate>
 
 #pragma mark -
 
@@ -42,7 +44,7 @@
 @property(copy) NSArray *deviceHandlers;
 @property(copy) NSArray *coreList;
 
-//@property(strong) NSView* targetView;
+@property(strong) NSView* targetView;
 //@property(strong) NSView* tempView;
 
 - (void)openGameDocument:(OEGameDocument *)aDocument;

@@ -41,7 +41,6 @@
 {
 @private
     BOOL uploadedCachedLibraryTexture;
-    GLfloat alpha;
     
     GLuint gameTexture;
     
@@ -78,7 +77,7 @@
 // for animating to and from the library.
 @property (strong) NSBitmapImageRep *cachedLibraryImage;
 @property (assign) GLuint cachedLibraryTexture;
-
+@property (assign) GLfloat alpha;
 @property (strong) CIImage *gameCIImage;
 
 @property (nonatomic, strong) NSString *filterName;

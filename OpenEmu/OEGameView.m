@@ -92,6 +92,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 @synthesize cachedLibraryImage;
 @synthesize cachedLibraryTexture;
+@synthesize alpha;
 
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
 {
@@ -138,7 +139,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     [super prepareOpenGL];
     
     uploadedCachedLibraryTexture = NO;
-    alpha = 1.0;
     
     DLog(@"prepareOpenGL");        
     // Synchronize buffer swaps with vertical refresh rate
@@ -540,7 +540,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void) drawCachedLibraryViewInCGLContext:(CGLContextObj)cgl_ctx
 {
     //BOOL animating = YES;
-    if(alpha > 0.0)
+    if(self.alpha > 0.0)
     {
         const GLint verts[] = 
         {
@@ -593,7 +593,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        glColor4f(1.0, 1.0, 1.0, alpha);
+        glColor4f(1.0, 1.0, 1.0, self.alpha);
         
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );
         glTexCoordPointer(2, GL_INT, 0, tex_coords );
@@ -603,7 +603,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         glDisableClientState( GL_TEXTURE_COORD_ARRAY );
         glDisableClientState(GL_VERTEX_ARRAY);
 
-        alpha -= 0.02;
     }
 }
 

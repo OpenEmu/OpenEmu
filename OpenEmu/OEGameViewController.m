@@ -183,6 +183,7 @@
 }
 
 #pragma mark -
+#pragma mark View
 
 - (void)viewDidAppear
 {
@@ -407,7 +408,10 @@
 - (void)unmute:(id)sender{
     [self setVolume:1.0 asDefault:YES];
 }
-#pragma mark - Saving States
+
+#pragma mark -
+#pragma mark Saving States
+
 - (IBAction)saveState:(id)sender
 {
     NSInteger   saveGameNo    = [[self rom] saveStateCount]+1;
@@ -495,7 +499,9 @@
     [self playGame:self];
 }
 
-#pragma mark - Loading States
+#pragma mark -
+#pragma mark Loading States
+
 - (IBAction)loadState:(id)sender
 {
     // calling pauseGame here because it might need some time to execute
@@ -551,7 +557,7 @@
     if(error != NULL) *error = nil;
     return [rootProxy loadStateFromFileAtPath:fileName];
 }
-#pragma mark 
+
 // delete save state expects sender or [sender representedObject] to be an OEDBSaveState object and prompts the user for confirmation
 - (void)deleteSaveState:(id)sender
 {
@@ -573,13 +579,14 @@
         [state remove];
 }
 
-#pragma mark -
 - (void)OE_captureScreenshotUsingBlock:(void(^)(NSImage *img))block
 {
     [gameView captureScreenshotUsingBlock:block];
 }
 
-#pragma mark - Menu Items
+
+#pragma mark -
+#pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     SEL action = [menuItem action];
@@ -594,7 +601,9 @@
     return YES;
 }
 
-#pragma mark - Info
+#pragma mark -
+#pragma mark Info
+
 - (NSSize)defaultScreenSize
 {
     OEGameCore *gameCore = [rootProxy gameCore];
@@ -613,17 +622,51 @@
     return [[gameCoreManager plugin] bundleIdentifier];
 }
 
-#pragma mark - Private Methods
+#pragma mark -
+#pragma mark Game View Transition handling
+
+- (void)setCachedLibraryImage:(NSBitmapImageRep*) image
+{
+    [gameView setCachedLibraryImage:image];
+}
+
+- (void)startFadeInTransition
+{
+    [gameView setAlpha:1.0];
+    gameViewTransitionTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(fadeInTransition) userInfo:nil repeats:YES];
+    
+    [[NSRunLoop currentRunLoop] addTimer:gameViewTransitionTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)startFadeOutTransition
+{
+    [gameView setAlpha:0.0];
+    gameViewTransitionTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:self selector:@selector(fadeOutTransition) userInfo:nil repeats:YES];
+    
+    [[NSRunLoop currentRunLoop] addTimer:gameViewTransitionTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)fadeInTransition
+{
+    [gameView setAlpha:[gameView alpha] - 1.0/60.0];
+}
+
+- (void)fadeOutTransition
+{
+    [gameView setAlpha:[gameView alpha] + 1.0/60.0];
+    
+    if([delegate respondsToSelector:@selector(gameViewDidFinishFadeOutTransition)] && ([gameView alpha] >= 1.0))
+        [delegate gameViewDidFinishFadeOutTransition];
+}
+
+
+#pragma mark -
+#pragma mark Private Methods
 
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game
 {
     // TODO: we could display a list of roms here if we wanted to, do we?
     return [game defaultROM];
-}
-
-- (void)setCachedLibraryImage:(NSBitmapImageRep*) image
-{
-    [gameView setCachedLibraryImage:image];
 }
 
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin *)core error:(NSError **)outError

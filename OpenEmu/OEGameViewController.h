@@ -62,6 +62,8 @@
     BOOL                  keyedOnce;
     
     BOOL emulationRunning;
+    
+    NSTimer* gameViewTransitionTimer;
 }
 
 - (id)initWithRom:(OEDBRom *)rom;
@@ -129,17 +131,27 @@
 - (NSString*)systemIdentifier;
 
 #pragma mark - 
+#pragma mark Game View Transition handling
 - (void)setCachedLibraryImage:(NSBitmapImageRep*) image;
+- (void)startFadeInTransition;
+- (void)startFadeOutTransition;
+- (void)fadeInTransition;
+- (void)fadeOutTransition;
 
 #pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 @end
 
+
+#pragma mark -
+#pragma mark Delegate
+
 @protocol OEGameViewControllerDelegate <NSObject>
 @optional
 
 - (void)emulationDidFinishForGameViewController:(OEGameViewController *)sender;
 - (BOOL)gameViewControllerShouldToggleFullScreenMode:(OEGameViewController *)sender;
+- (void)gameViewDidFinishFadeOutTransition;
 
 @end
