@@ -2436,8 +2436,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/libsnescore\"",
-					"\"$(SRCROOT)/libsnescore/libs\"",
 					"\"$(SRCROOT)/libsnes\"",
 				);
 				OTHER_CFLAGS = (
@@ -2466,8 +2464,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/libsnescore\"",
-					"\"$(SRCROOT)/libsnescore/libs\"",
 					"\"$(SRCROOT)/libsnes\"",
 				);
 				OTHER_CFLAGS = (
