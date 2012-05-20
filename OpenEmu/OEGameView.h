@@ -54,13 +54,13 @@
 @property (strong) SyphonServer *gameServer;
 
 // QC based filters
-@property (assign) CGColorSpaceRef rgbColorSpace;
+@property (copy) NSDictionary *filters;
+@property (copy) NSString *filterName;
 @property (strong) CIImage *gameCIImage;
-@property (strong) NSDictionary *filters;
 @property (strong) QCRenderer *filterRenderer;
-@property (assign) NSTimeInterval filterStartTime;
+@property (assign) CGColorSpaceRef rgbColorSpace;
 @property (assign) NSTimeInterval filterTime;
-@property (nonatomic, strong) NSString *filterName;
+@property (assign) NSTimeInterval filterStartTime;
 @property (assign) BOOL filterHasOutputMousePositionKeys;
 
 // for animating to and from the library.
@@ -73,10 +73,10 @@
 - (void) captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
 // rendering methods
-- (void) initDisplayLink;
-- (void) deleteDisplayLink;
+- (void) createDisplayLink;
+- (void) destroyDisplayLink;
 - (CVReturn) displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
-- (void) initTimer;
+- (void) createTimer;
 - (void) timerFired:(id)sender;
 - (void) render;
 

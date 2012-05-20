@@ -190,8 +190,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     gameSurfaceID = rootProxy.surfaceID;
 
     // rendering
-    [self initDisplayLink];    
-    //[self initTimer];
+    [self createDisplayLink];    
+    //[self createTimer];
 }
 
 - (void) removeFromSuperview
@@ -217,7 +217,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     [super clearGLContext];
 }
 
-- (void) initTimer
+- (void) createTimer
 {
     self.gameTimer = [NSTimer timerWithTimeInterval:0.01   //a 10ms time interval
                                                    target:self
@@ -234,10 +234,10 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     [self setNeedsDisplay:YES];
 }
 
-- (void) initDisplayLink
+- (void) createDisplayLink
 {    
     if(gameDisplayLinkRef)
-        [self deleteDisplayLink];
+        [self destroyDisplayLink];
     
     CVReturn error = kCVReturnSuccess;
     
@@ -282,7 +282,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 	}
 }
 
-- (void) deleteDisplayLink
+- (void) destroyDisplayLink
 {    
     DLog(@"deleteDisplayLink");
     
@@ -311,7 +311,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {    
     DLog(@"OEGameView dealloc");
 
-    [self deleteDisplayLink];
+    [self destroyDisplayLink];
     
     [gameTimer invalidate];
     self.gameTimer = nil;
