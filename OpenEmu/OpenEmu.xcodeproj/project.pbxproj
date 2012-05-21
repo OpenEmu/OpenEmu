@@ -84,7 +84,6 @@
 		1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */; };
 		1B7505140FEEB72700B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
 		1B98144E142F02FA00114A30 /* OESetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B98144D142F02FA00114A30 /* OESetupAssistant.xib */; };
-		1BB80C3715631B4700130EAF /* OEBlackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB80C3615631B4700130EAF /* OEBlackView.m */; };
 		1BE3AB9F14DBB43D00D2F508 /* Scale2xBR.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1BE3AB9A14DBAA4000D2F508 /* Scale2xBR.vert */; };
 		1BE3ABA014DBB43D00D2F508 /* Scale2xBR.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1BE3AB9D14DBAA5600D2F508 /* Scale2xBR.frag */; };
 		1BEF2A67116826BC0090F72B /* NSString+UUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF2A65116826BC0090F72B /* NSString+UUID.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -901,8 +900,6 @@
 		1B98144D142F02FA00114A30 /* OESetupAssistant.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESetupAssistant.xib; sourceTree = "<group>"; };
 		1BA788FD0FF9C95A007CE5DB /* OEGameShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameShader.h; sourceTree = "<group>"; };
 		1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameShader.m; sourceTree = "<group>"; };
-		1BB80C3515631B4700130EAF /* OEBlackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlackView.h; sourceTree = "<group>"; };
-		1BB80C3615631B4700130EAF /* OEBlackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlackView.m; sourceTree = "<group>"; };
 		1BE3AB9A14DBAA4000D2F508 /* Scale2xBR.vert */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = Scale2xBR.vert; sourceTree = "<group>"; };
 		1BE3AB9D14DBAA5600D2F508 /* Scale2xBR.frag */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = Scale2xBR.frag; sourceTree = "<group>"; };
 		1BEF2A65116826BC0090F72B /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
@@ -2319,8 +2316,6 @@
 				8310447013BE419000B283B0 /* OEHorizontalSplitView.m */,
 				83D435ED147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.h */,
 				83D435EE147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m */,
-				1BB80C3515631B4700130EAF /* OEBlackView.h */,
-				1BB80C3615631B4700130EAF /* OEBlackView.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -4246,7 +4241,6 @@
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
 				8314A9BC1554230600DF13B5 /* OEDBGame+ArchiveVGAdditions.m in Sources */,
 				8314A9BF1554231C00DF13B5 /* OEDBRom+ArchiveVGAdditions.m in Sources */,
-				1BB80C3715631B4700130EAF /* OEBlackView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
