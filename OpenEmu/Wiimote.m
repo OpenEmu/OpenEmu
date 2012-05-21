@@ -1,10 +1,28 @@
-//
-//  Wiimote.m
-//  WiimoteFW
-//
-//  Created by Christoph Leimbrock on 28.07.09.
-//  Copyright 2009 Christoph Leimbrock. All rights reserved.
-//
+/*
+ Copyright (c) 2012, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 #import "Wiimote.h"
 // this type is used a lot (data array):
 typedef unsigned char darr[];
@@ -52,7 +70,6 @@ typedef enum {
 @implementation Wiimote
 
 # pragma mark -
-# pragma mark Ways to init :)
 - (Wiimote*) init{
 	self = [super init];
 	
@@ -110,16 +127,12 @@ typedef enum {
 @synthesize delegate;
 
 # pragma mark -
-# pragma mark -
-# pragma mark WiiremoteFramework Copy & Paste because of lazyness
 - (void)handleButtonReport:(unsigned char *) dp length:(size_t) dataLength
 {
 	// wiimote buttons
 	UInt16 buttonData = ((short)dp[2] << 8) + dp[3];
 	[self sendWiiRemoteButtonEvent:buttonData];
 }
-# pragma mark -
-# pragma mark -
 
 - (void)sendWiiRemoteButtonEvent:(UInt16) data {   
     UInt16 buttonChanges = data ^ lastButtonReport;
@@ -145,7 +158,6 @@ typedef enum {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteBButton isPressed:(data & kWiiRemoteBButton)!=0];
 	}
     
-    
     // +, -, Home Buttons:
     if (buttonChanges & kWiiRemoteMinusButton){
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteMinusButton isPressed:(data & kWiiRemoteMinusButton)!=0];
@@ -158,7 +170,6 @@ typedef enum {
     if (buttonChanges & kWiiRemotePlusButton){
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemotePlusButton isPressed:(data & kWiiRemotePlusButton)!=0];
 	}
-    
     
     // D-Pad Buttons:
     if (buttonChanges & kWiiRemoteUpButton){
@@ -176,6 +187,7 @@ typedef enum {
     if (buttonChanges & kWiiRemoteRightButton){
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteRightButton isPressed:(data & kWiiRemoteRightButton)!=0];
 	}
+
 }
 
 # pragma mark -
@@ -235,12 +247,7 @@ typedef enum {
 	[_cchan closeChannel];
 	[_ichan closeChannel];
 		
-	
-	// Close device connection but keep device so we can reuse it
-	// c call worked better than obj-c
-	// might just be my imagination ;)
-	IOBluetoothDeviceCloseConnection((__bridge IOBluetoothDeviceRef)_btDevice);
-	[_btDevice closeConnection];
+    [_btDevice closeConnection];
 	
 	if([[self delegate] respondsToSelector:@selector(wiimoteDidDisconnect:)])
 		[[self delegate] performSelector:@selector(wiimoteDidDisconnect:) withObject:self];
@@ -251,9 +258,6 @@ typedef enum {
 	[self sendCommand:cmd length:2];
 }
 
-- (NSString*)address{
-	return [_btDevice getAddressString];
-}
 # pragma mark -
 # pragma mark Wiimote Configuration
 - (void)syncConfig{
