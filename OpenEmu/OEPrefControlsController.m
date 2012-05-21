@@ -124,7 +124,8 @@
 {
 	[super viewWillAppear];
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupport])
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
+        // Start WiiRemote support
         [OEWiimoteHandler search];
 }
 
