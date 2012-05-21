@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,18 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEPreferencesDarkBox.h"
-#import "NSImage+OEDrawingAdditions.h"
+#import "ArchiveVGYAMLParser.h"
 
-@implementation OEPreferencesDarkBox
-
-- (void)drawRect:(NSRect)dirtyRect{
-	NSImage *image = [NSImage imageNamed:@"dark_inset_box"];
-	[image drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:16 rightBorder:16 topBorder:16 bottomBorder:16];
-}
-
-- (BOOL)isFlipped{
-	return YES;
-}
-
+@implementation ArchiveVGYAMLParser
 @end

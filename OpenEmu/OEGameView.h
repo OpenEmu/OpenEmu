@@ -55,7 +55,7 @@
 
 // QC based filters
 @property (copy) NSDictionary *filters;
-@property (copy) NSString *filterName;
+@property (nonatomic, copy) NSString *filterName;
 @property (strong) CIImage *gameCIImage;
 @property (strong) QCRenderer *filterRenderer;
 @property (assign) CGColorSpaceRef rgbColorSpace;

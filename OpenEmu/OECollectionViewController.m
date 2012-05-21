@@ -3,14 +3,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -18,10 +18,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OECollectionViewController.h"
@@ -47,11 +47,8 @@
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
-#import "ArchiveVG.h"
-
 #import "OEMenu.h"
 #import "OEDBGame.h"
-#import "OEDBGame+ArchiveVGAdditions.h"
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 
@@ -686,7 +683,7 @@
             }];
         }];
         
-        NSUInteger alertReturn;
+        NSUInteger alertReturn = NSAlertAlternateReturn;
         if(!romsAreInRomsFolder || (alertReturn=[[OEHUDAlert removeGameFilesFromLibraryAlert:[selectedGames count]>1] runModal]))
         {
             [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
@@ -721,51 +718,19 @@
 - (void)getGameInfoFromArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    if([selectedGames count] < 2)
-    {
-        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-            [obj performInfoSyncWithArchiveVG:nil];
-        }];
-        [self reloadDataIndexes:[self selectedIndexes]];
-    } else {
-        NSMutableArray *gamelist = [NSMutableArray array];
-        for(OEDBGame* aGame in selectedGames){
-            [gamelist addObjectsFromArray:[aGame batchCallDescription]];
-        }
-        
-        [ArchiveVG gameInfoByGameList:gamelist callback:^(NSArray *result, NSError *error) 
-        {
-            if(error!=nil){
-                NSLog(@"syncinc failed. %@", [error localizedDescription]);
-                return ;
-            }
-            
-            OELibraryDatabase *database = [OELibraryDatabase defaultDatabase]; // TODO: check all databases if more than one is available
-            for(NSDictionary* aResult in result)
-            {
-                id request = [aResult valueForKey:@"request"];
-                if(!request){ NSLog(@"skipping result"); continue; }
-                if([request isKindOfClass:[NSString class]]) request = [NSURL URLWithString:request];
-            
-                
-                OEDBRom *rom = [database objectWithURI:request];
-                if(!rom || ![rom isKindOfClass:[OEDBRom class]]){ NSLog(@"No ROM Found"); continue; }
-                
-                [[rom game] setArchiveVGInfo:aResult];
-            }
-            [self reloadDataIndexes:[self selectedIndexes]];
-         }];
+	for(OEDBGame *game in selectedGames)
+	{
+        [game setNeedsInfoSyncWithArchiveVG];
     }
 }
 
 - (void)getCoverFromArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj performCoverSyncWithArchiveVG:nil];
-    }];
-    
-    [self reloadDataIndexes:[self selectedIndexes]];
+	for(OEDBGame *game in selectedGames)
+	{
+        [game setNeedsCoverSyncWithArchiveVG];
+    }
 }
 
 - (void)addCoverArtFromFile:(id)sender

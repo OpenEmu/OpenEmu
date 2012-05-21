@@ -29,7 +29,6 @@
 #import "OEDBSaveState.h"
 
 #import "OELibraryDatabase.h"
-#import "ArchiveVG.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
