@@ -336,12 +336,16 @@
 		831C2AE9144F453C009533C0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 831C2AE8144F453C009533C0 /* MainMenu.xib */; };
 		831C9926147BBDAE00F422A5 /* OEHUDTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9925147BBDAE00F422A5 /* OEHUDTextFieldCell.m */; };
 		831E95D814705D8C008487A6 /* OEControlsScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 831E95D714705D8C008487A6 /* OEControlsScrollView.m */; };
+		8322D747156A973400FC0E81 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8322D746156A973400FC0E81 /* IOBluetooth.framework */; };
+		8322D74D156A99CB00FC0E81 /* Wiimote.m in Sources */ = {isa = PBXBuildFile; fileRef = 8322D749156A99CA00FC0E81 /* Wiimote.m */; };
+		8322D74E156A99CB00FC0E81 /* WiimoteBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8322D74B156A99CB00FC0E81 /* WiimoteBrowser.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
 		832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* OEMainWindowController.m */; };
 		832D29431451ACF200BDF950 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832D29421451ACF200BDF950 /* MainWindow.xib */; };
 		832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */; };
 		8343CD011553E2C30080A6BE /* OEDBImageThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
+		8353CE781561C0DE0045A3DD /* OEWiimoteHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353CE771561C0DE0045A3DD /* OEWiimoteHandler.m */; };
 		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836CFD6614709D3C00397683 /* wood_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6114709D3C00397683 /* wood_arrow_down.png */; };
@@ -412,6 +416,7 @@
 		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
 		83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
+		83E8E82A156A84060027B7A9 /* OEHIDWiimoteEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8E829156A84060027B7A9 /* OEHIDWiimoteEvent.m */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
 		83F2988A1458B6DC00ECB4F4 /* OESetupAssistantScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */; };
 		83F37154140BB1A6005A7353 /* NES.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
@@ -1251,6 +1256,11 @@
 		831C9925147BBDAE00F422A5 /* OEHUDTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDTextFieldCell.m; sourceTree = "<group>"; };
 		831E95D614705D8C008487A6 /* OEControlsScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsScrollView.h; sourceTree = "<group>"; };
 		831E95D714705D8C008487A6 /* OEControlsScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsScrollView.m; sourceTree = "<group>"; };
+		8322D746156A973400FC0E81 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
+		8322D748156A99CA00FC0E81 /* Wiimote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wiimote.h; sourceTree = "<group>"; };
+		8322D749156A99CA00FC0E81 /* Wiimote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wiimote.m; sourceTree = "<group>"; };
+		8322D74A156A99CA00FC0E81 /* WiimoteBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiimoteBrowser.h; sourceTree = "<group>"; };
+		8322D74B156A99CB00FC0E81 /* WiimoteBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WiimoteBrowser.m; sourceTree = "<group>"; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OEDBImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		832D293E1451A68700BDF950 /* OEMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindowController.h; sourceTree = "<group>"; };
@@ -1262,6 +1272,8 @@
 		8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImageThumbnail.m; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
+		8353CE761561C0DE0045A3DD /* OEWiimoteHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWiimoteHandler.h; sourceTree = "<group>"; };
+		8353CE771561C0DE0045A3DD /* OEWiimoteHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEWiimoteHandler.m; sourceTree = "<group>"; };
 		836291FC1515F30700192116 /* OEFSWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFSWatcher.h; sourceTree = "<group>"; };
 		836291FD1515F30700192116 /* OEFSWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFSWatcher.m; sourceTree = "<group>"; };
 		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
@@ -1366,6 +1378,8 @@
 		83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyHeadlineCell.m; sourceTree = "<group>"; };
 		83DC1FCA1470857900F3D77A /* controller_gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gba.png; sourceTree = "<group>"; };
 		83E25057147BC6BF0074EE14 /* hud_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_textfield.png; sourceTree = "<group>"; };
+		83E8E828156A84060027B7A9 /* OEHIDWiimoteEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDWiimoteEvent.h; sourceTree = "<group>"; };
+		83E8E829156A84060027B7A9 /* OEHIDWiimoteEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDWiimoteEvent.m; sourceTree = "<group>"; };
 		83EE16D0155E992D0063F9D3 /* ArchiveVGTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArchiveVGTypes.h; sourceTree = "<group>"; };
 		83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_scrollview_box.png; sourceTree = "<group>"; };
 		83F298881458B6DC00ECB4F4 /* OESetupAssistantScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantScrollView.h; sourceTree = "<group>"; };
@@ -1635,6 +1649,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8322D747156A973400FC0E81 /* IOBluetooth.framework in Frameworks */,
 				8305267513FBC999006179C6 /* Security.framework in Frameworks */,
 				83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */,
 				53D32E4E13B95F9A00A6ACE0 /* AudioUnit.framework in Frameworks */,
@@ -1744,6 +1759,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8322D746156A973400FC0E81 /* IOBluetooth.framework */,
 				1B42C66C1429510A004691D7 /* Syphon.framework */,
 				8305267413FBC999006179C6 /* Security.framework */,
 				53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */,
@@ -2043,6 +2059,7 @@
 				C6289C33135B276B00EEE97C /* System Input Core */,
 				C66DFA600F51C9550080AA28 /* GameCore framework */,
 				828E64D00E84656900B1860B /* OpenEmuCore */,
+				8353CE321561BF6D0045A3DD /* WiiRemote Handling */,
 				1BEF34751168F88A0090F72B /* Additions to standard classes */,
 			);
 			name = Classes;
@@ -2780,6 +2797,21 @@
 				1B98144D142F02FA00114A30 /* OESetupAssistant.xib */,
 			);
 			name = "MainWindow: Setup Assistant";
+			sourceTree = "<group>";
+		};
+		8353CE321561BF6D0045A3DD /* WiiRemote Handling */ = {
+			isa = PBXGroup;
+			children = (
+				8322D748156A99CA00FC0E81 /* Wiimote.h */,
+				8322D749156A99CA00FC0E81 /* Wiimote.m */,
+				8322D74A156A99CA00FC0E81 /* WiimoteBrowser.h */,
+				8322D74B156A99CB00FC0E81 /* WiimoteBrowser.m */,
+				8353CE761561C0DE0045A3DD /* OEWiimoteHandler.h */,
+				8353CE771561C0DE0045A3DD /* OEWiimoteHandler.m */,
+				83E8E828156A84060027B7A9 /* OEHIDWiimoteEvent.h */,
+				83E8E829156A84060027B7A9 /* OEHIDWiimoteEvent.m */,
+			);
+			name = "WiiRemote Handling";
 			sourceTree = "<group>";
 		};
 		83703B3A140E4F2800EC27A7 /* Filter */ = {
@@ -4263,6 +4295,10 @@
 				83AF88C2155C616400428BD5 /* ArchiveVGJSONParser.m in Sources */,
 				83AF88C5155C618400428BD5 /* ArchiveVGYAMLParser.m in Sources */,
 				83CC7C2F155DCC7A00E9FFB1 /* ArchiveVGThrottling.m in Sources */,
+				8353CE781561C0DE0045A3DD /* OEWiimoteHandler.m in Sources */,
+				83E8E82A156A84060027B7A9 /* OEHIDWiimoteEvent.m in Sources */,
+				8322D74D156A99CB00FC0E81 /* Wiimote.m in Sources */,
+				8322D74E156A99CB00FC0E81 /* WiimoteBrowser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

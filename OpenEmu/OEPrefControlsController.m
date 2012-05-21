@@ -25,6 +25,8 @@
  */
 #import <Quartz/Quartz.h>
 
+#import "NSViewController+OEAdditions.h"
+
 #import "OEPrefControlsController.h"
 #import "OEBackgroundGradientView.h"
 #import "OEBackgroundImageView.h"
@@ -39,6 +41,7 @@
 #import "OEControlsSetupView.h"
 
 #import "OEHIDEvent.h"
+#import "OEWiimoteHandler.h"
 
 @interface OEPrefControlsController ()
 {
@@ -115,6 +118,14 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_openPaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
+}
+
+- (void)viewWillAppear
+{
+	[super viewWillAppear];
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupport])
+        [OEWiimoteHandler search];
 }
 
 - (void)animationDidStart:(CAAnimation *)theAnimation
