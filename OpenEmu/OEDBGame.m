@@ -514,26 +514,28 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage*)img
 {
-    OEDBImage *boxImage = [self boxImage];
-    if(boxImage != nil)
-        [[boxImage managedObjectContext] deleteObject:boxImage];
-    
-    if(img == nil) return;
-    
-    boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
-    
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
-    // For each thumbnail size specified in defaults...
-    for(NSString *aSizeString in sizes)
+    @autoreleasepool 
     {
-        NSSize size = NSSizeFromString(aSizeString);
-        // ...generate thumbnail
-        NSLog(@"Calling thumbnail generation with size: %@", NSStringFromSize(size));
-        [boxImage generateThumbnailForSize:size];
+        OEDBImage *boxImage = [self boxImage];
+        if(boxImage != nil)
+            [[boxImage managedObjectContext] deleteObject:boxImage];
+        
+        if(img == nil) return;
+        
+        boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
+        
+        NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+        NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
+        // For each thumbnail size specified in defaults...
+        for(NSString *aSizeString in sizes)
+        {
+            NSSize size = NSSizeFromString(aSizeString);
+            // ...generate thumbnail
+            [boxImage generateThumbnailForSize:size];
+        }
+        
+        [self setBoxImage:boxImage];
     }
-    
-    [self setBoxImage:boxImage];
 }
 
 - (void)setBoxImageByURL:(NSURL*)url

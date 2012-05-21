@@ -1013,19 +1013,23 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.wiimoteSupport</string>
+						<string key="label">value: values.wiimoteSupporDisabled</string>
 						<reference key="source" ref="565153812"/>
 						<reference key="destination" ref="1049953714"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="565153812"/>
 							<reference key="NSDestination" ref="1049953714"/>
-							<string key="NSLabel">value: values.wiimoteSupport</string>
+							<string key="NSLabel">value: values.wiimoteSupporDisabled</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.wiimoteSupport</string>
+							<string key="NSKeyPath">values.wiimoteSupporDisabled</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">267</int>
+					<int key="connectionID">271</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1593,7 +1597,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">267</int>
+			<int key="maxID">271</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
