@@ -729,8 +729,6 @@
     [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
         [obj performCoverSyncWithArchiveVG:nil];
     }];
-    
-    [self reloadDataIndexes:[self selectedIndexes]];
 }
 
 - (void)addCoverArtFromFile:(id)sender

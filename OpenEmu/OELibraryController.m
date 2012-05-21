@@ -309,6 +309,10 @@
     NSLog(@"Edit smart collection: ");
 }
 
+- (IBAction)find:(id)sender
+{
+	[[[self view] window] makeFirstResponder:toolbarSearchField];
+}
 #pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
