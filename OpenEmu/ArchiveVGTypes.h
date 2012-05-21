@@ -27,7 +27,7 @@
 #ifndef OpenEmu_ArchiveVGTypes_h
 #define OpenEmu_ArchiveVGTypes_h
 
-#define AsyncARCHIVE_DEBUG 1
+#define ARCHIVE_DEBUG 0
 
 #ifdef ARCHIVE_DEBUG
 #define ArchiveDLog NSLog

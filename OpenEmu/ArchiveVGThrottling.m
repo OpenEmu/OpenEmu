@@ -77,9 +77,8 @@
 	self.availableCalls					= self.maximumCalls;
 	self.regernerationInterval		= [[throttlingConfig valueForKey:AVGConfigRegenerationKey] doubleValue];
 	
-	ArchiveDLog(@"Archive.VG Config:\n\tAPIVersion: %@\n\tmaximum Calls: %ld\n\tregeneration interval: %f", remoteAPIVersion, self.maximumCalls, self.regernerationInterval);
-    
-	return self;
+	DLog(@"Archive.VG Config:\n\tAPIVersion: %@\n\tmaximum Calls: %ld\n\tregeneration interval: %f", remoteAPIVersion, self.maximumCalls, self.regernerationInterval);
+    return self;
 }
 
 - (void)cleanUp
@@ -178,7 +177,7 @@
 				[[ArchiveVG throttled] performHighPriorityAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
 			}
 			else
-			{
+			{ 
 				// not the error we were looking for, so we just continue and call the block
 				block(result, error);
 			}

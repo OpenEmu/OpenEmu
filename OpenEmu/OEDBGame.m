@@ -238,8 +238,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 #pragma mark Archive.VG Sync
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary
 {
-    // temporary workaround to make sure we use the right NSManagedObject on the right thread
-    OEDBGame *game = [self.libraryDatabase objectWithURI:[[self objectID] URIRepresentation]];
+    OEDBGame *game = self;
     
     // The following values have to be included in a valid archiveVG info dictionary
     if([[gameInfoDictionary allKeys] count] == 0) return;
@@ -539,23 +538,26 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 - (void)setBoxImageByURL:(NSURL*)url
 {
-    OEDBImage *boxImage = [self boxImage];
-    if(boxImage != nil)
-        [[boxImage managedObjectContext] deleteObject:boxImage];
-	
-    boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
-    
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
-    // For each thumbnail size...
-    for(NSString *aSizeString in sizes)
+    @autoreleasepool 
     {
-        NSSize size = NSSizeFromString(aSizeString);
-        // ...generate thumbnail ;)
-        [boxImage generateThumbnailForSize:size];
+        OEDBImage *boxImage = [self boxImage];
+        if(boxImage != nil)
+            [[boxImage managedObjectContext] deleteObject:boxImage];
+        
+        boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
+        
+        NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+        NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
+        // For each thumbnail size...
+        for(NSString *aSizeString in sizes)
+        {
+            NSSize size = NSSizeFromString(aSizeString);
+            // ...generate thumbnail ;)
+            [boxImage generateThumbnailForSize:size];
+        }
+        
+        [self setBoxImage:boxImage];
     }
-    
-    [self setBoxImage:boxImage];
 }
 
 #pragma mark -
