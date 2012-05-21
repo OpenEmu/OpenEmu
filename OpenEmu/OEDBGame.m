@@ -41,7 +41,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 + (id)_createGameWithoutChecksWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc;
 + (void)_cpyValForKey:(NSString *)keyA of:(NSDictionary *)dictionary toKey:(NSString *)keyB ofGame:(OEDBGame *)game;
 
-- (BOOL)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel error:(NSError**)error;
+- (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel;
 @end
 
 @implementation OEDBGame
@@ -292,23 +292,23 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     [[game libraryDatabase] save:nil];
 }
 
-- (BOOL)performFullSyncWithArchiveVG:(NSError **)outError
+- (void)setNeedsFullSyncWithArchiveVG
 {
     // DLog(@"performFullSyncWithArchiveVG:");
-    return [self OE_performSyncWithArchiveVGByGrabbingInfo:0 error:outError];
+    [self OE_performSyncWithArchiveVGByGrabbingInfo:0];
 }
 // -performInfoSyncWithArchiveVG: only grabs info (text)
-- (BOOL)performInfoSyncWithArchiveVG:(NSError**)outError
+- (void)setNeedsInfoSyncWithArchiveVG
 {
-    return [self OE_performSyncWithArchiveVGByGrabbingInfo:1 error:outError];
+    [self OE_performSyncWithArchiveVGByGrabbingInfo:1];
 }
 // -performInfoSyncWithArchiveVG: only grabs cover (image)
-- (BOOL)performCoverSyncWithArchiveVG:(NSError**)outError
+- (void)setNeedsCoverSyncWithArchiveVG
 {
-    return [self OE_performSyncWithArchiveVGByGrabbingInfo:2 error:outError];
+    [self OE_performSyncWithArchiveVGByGrabbingInfo:2];
 }
 
-- (BOOL)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel error:(NSError**)outError
+- (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel
 {	
 	// using URI representations should allow us to use core data on a different thread and at the same time makes sure that the current object is not copied for the block
 	NSURL				  *objectID				= [[self objectID] URIRepresentation];
@@ -355,8 +355,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 			 }];
 		 }];
     }
-	
-	return YES;
 }
 #pragma mark -
 - (id)mergeInfoFromGame:(OEDBGame *)game
