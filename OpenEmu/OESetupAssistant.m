@@ -110,7 +110,7 @@
 
 - (id)init
 {
-    NSLog(@"Init Assistant");
+    DLog(@"Init Assistant");
     
     if((self = [self initWithNibName:@"OESetupAssistant" bundle:[NSBundle mainBundle]]))
     {
@@ -138,7 +138,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"Dealloc Assistant");
+    DLog(@"Dealloc Assistant");
     
     self.enabledCoresForDownloading = nil;
     self.enabledVolumesForDownloading = nil;
