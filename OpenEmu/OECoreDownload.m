@@ -68,10 +68,7 @@
     return self;
 }
 - (void)dealloc {
-    
-    
     self.delegate = nil;
-    
 }
 
 #pragma mark Core Download
@@ -143,6 +140,13 @@
     [[NSFileManager defaultManager] removeItemAtPath:downloadPath error:nil];
     
     [delegate OEDownloadDidFinish:self];
+    
+    if(self.canBeInstalled)
+        [OECorePlugin pluginWithBundleAtPath:fullPluginPath type:[OECorePlugin class]];
+    
+    self.canBeInstalled = NO;
+    self.hasUpdate = NO;
+    downloading = NO;
 }
 
 @end
