@@ -7,8 +7,8 @@
 //
 
 #import "OEWiimoteHandler.h"
-#import "OEHIDEvent.h"
 #import "NSApplication+OEHIDAdditions.h"
+#import "OEHIDWiimoteEvent.h"
 
 #define MaximumWiimotes 2
 #define SynVibrateDuration 0.35
@@ -94,8 +94,6 @@
 {
 	NSLog(@"wiimoteBrowserSearchFailedWithError: %d", code);
 }
-
-
 #pragma mark - WiiRemote Handling
 - (void)wiimoteDidConnect:(Wiimote*)theWiimote
 {
@@ -128,11 +126,10 @@
 }
 - (void)wiimote:(Wiimote*)theWiimote reportsButtonChanged:(WiiButtonType)type isPressed:(BOOL)isPressed
 {
-	NSLog(@"%@%d", isPressed?@"↓":@"↑", type);
 	NSInteger padNumber = [[self connectedWiiRemotes] indexOfObject:theWiimote];
 	if(padNumber>=0)
 	{
-		OEHIDEvent *event = [OEHIDEvent buttonEventWithPadNumber:padNumber timestamp:[NSDate timeIntervalSinceReferenceDate] buttonNumber:type	state:isPressed cookie:type];
+		OEHIDWiimoteEvent *event = [OEHIDWiimoteEvent buttonEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:[NSDate timeIntervalSinceReferenceDate] buttonNumber:type	state:isPressed cookie:type];
 		[NSApp postHIDEvent:event];
 	}
 }

@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import <WiiRemote/WiimoteFramework.h>
+
+#define WiimoteBasePadNumber 100
 @interface OEWiimoteHandler : NSObject <WiimoteBrowserDelegate, WiimoteDelegate>
 + (void)search;
 + (id)sharedHandler;
