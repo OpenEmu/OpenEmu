@@ -308,7 +308,11 @@
 {
     NSLog(@"Edit smart collection: ");
 }
-
+#pragma mark Edit Menu
+- (IBAction)find:(id)sender
+{
+	[[[self view] window] makeFirstResponder:toolbarSearchField];
+}
 #pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -494,7 +498,7 @@
 
 - (void)finalizeSearchResults:(NSNotification *)notification
 {
-    MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];    
+    MDQueryRef searchQuery = (__bridge_retained MDQueryRef)[notification object];    
     NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
     
     if(MDQueryGetResultCount(searchQuery))

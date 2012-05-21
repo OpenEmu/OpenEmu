@@ -47,6 +47,7 @@
 #import "OEHUDAlert.h"
 #import "OEGameDocument.h"
 
+#import "OEWiimoteHandler.h"
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -76,7 +77,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             return self = nil;
         }
         
-        [self OE_loadPlugins];
+		[self OE_loadPlugins];		
     }
     
     return self;
@@ -114,6 +115,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [mainWindowController setCoreList:[[OECoreUpdater sharedUpdater] coreList]];
     
     [mainWindowController showWindow:self];
+	
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupport])
+	// Start WiiRemote support
+        [OEWiimoteHandler sharedHandler];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
@@ -326,7 +331,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     if(hasUpdate)
     {
-        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:@"Cores" forKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Cores" forKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
         [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
     }
     /*

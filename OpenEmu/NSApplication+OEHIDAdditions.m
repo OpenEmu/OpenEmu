@@ -37,12 +37,17 @@
 
 @end
 
+static dispatch_queue_t oehid_queue;
+
 @implementation NSResponder (OEHIDAdditions)
 
 - (void)handleHIDEvent:(OEHIDEvent *)anEvent
 {
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-    dispatch_async(queue, ^{
+    if (!oehid_queue) {
+       oehid_queue = dispatch_queue_create("OEHIDAdditions HID forwarding", DISPATCH_QUEUE_SERIAL);
+    }
+    
+    dispatch_async(oehid_queue, ^{
     switch ([anEvent type])
     {
         case OEHIDAxis :

@@ -40,7 +40,6 @@
 
 #import "OELocalizationHelper.h"
 
-#import "ArchiveVG.h"
 #import "NSFileManager+OEHashingAdditions.h"
 
 #import "OEFSWatcher.h"
