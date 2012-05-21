@@ -344,29 +344,29 @@ typedef enum {
 # pragma mark -
 # pragma mark Sound
 - (void)playSound:(NSSound*)theSound{
-	NSLog(@"playSound: Sound is not implemented yet!");
+	DLog(@"playSound: Sound is not implemented yet!");
 }
 - (void)setSpeakerEnabled:(BOOL)flag{
-	NSLog(@"setSpeakerEnabled: Sound is not implemented yet!");
+	DLog(@"setSpeakerEnabled: Sound is not implemented yet!");
 	_speakerEnabled = flag;	
 }
 - (void)setSpeakerMute:(BOOL)flag{
-	NSLog(@"setSpeakerMute: Sound is not implemented yet!");
+	DLog(@"setSpeakerMute: Sound is not implemented yet!");
 	_speakerMuted = flag;
 }
 
 - (BOOL)speakerEnabled{
-	NSLog(@"speakerEnabled: Sound is not implemented yet!");
+	DLog(@"speakerEnabled: Sound is not implemented yet!");
 	return _speakerEnabled;
 }
 
 - (void)toggleMute{
-	NSLog(@"toggleMute: Sound is not implemented yet!");
+	DLog(@"toggleMute: Sound is not implemented yet!");
 	_speakerMuted = !_speakerMuted;
 }
 
 - (BOOL)speakerMuted{
-	NSLog(@"speakerMuted: Sound is not implemented yet!");
+	DLog(@"speakerMuted: Sound is not implemented yet!");
 	return _speakerMuted;
 }
 
@@ -376,7 +376,7 @@ typedef enum {
 	unsigned char cmd [22];
 	
 	if (length > 16)
-		NSLog (@"Error! Trying to write more than 16 bytes of data (length=%lu)", length);
+		DLog (@"Error! Trying to write more than 16 bytes of data (length=%lu)", length);
 	
 	memset (cmd, 0, 22);
 	memcpy (cmd + 6, data, length);
@@ -445,37 +445,34 @@ typedef enum {
 	}
 	
 	if(ret != kIOReturnSuccess){
-		NSLog(@"Could not send command!");
-		NSLog(@"Did Wiimote Disconnect? - we might need to disconnect");
+		DLog(@"Could not send command!");
+		DLog(@"Did Wiimote Disconnect? - we might need to disconnect");
 	}
 }
 # pragma mark -
 # pragma mark Response Handler
 - (void)handleWriteResponse:(unsigned char *)dp length:(size_t)dataLength{
-	NSLog(@"we don't need to do anything here, do we?");
+	DLog(@"we don't need to do anything here, do we?");
 }
 - (void)handleRAMData:(unsigned char *)dp length:(size_t)dataLength{}
 
 - (void)handleStatusReport:(unsigned char *) dp length:(size_t)dataLength{
 	
-	NSLog(@"Status Report Length: %lu", dataLength);
+	DLog(@"Status Report Length: %lu", dataLength);
 	int i;
 	for(i=0; i < dataLength; i++){
-		NSLog(@"StatusReport[%d]: 0x%x", i, dp[i]);
+		DLog(@"StatusReport[%d]: 0x%x", i, dp[i]);
 	}
 }
 # pragma mark -
 # pragma mark BluetoothChannel Delegate methods
 - (void)l2capChannelReconfigured:(IOBluetoothL2CAPChannel*)l2capChannel{
-	NSLog(@"l2capChannelReconfigured");
 }
 
 - (void)l2capChannelWriteComplete:(IOBluetoothL2CAPChannel*)l2capChannel refcon:(void*)refcon status:(IOReturn)error{
-	NSLog(@"l2capChannelWriteComplete");
 }
 
 - (void)l2capChannelQueueSpaceAvailable:(IOBluetoothL2CAPChannel*)l2capChannel{
-	NSLog(@"l2capChannelQueueSpaceAvailable");
 }
 
 - (void)l2capChannelOpenComplete:(IOBluetoothL2CAPChannel*)l2capChannel status:(IOReturn)error{
@@ -590,15 +587,15 @@ typedef enum {
 		case kIOReturnVMError: errorStr=@"kIOReturnVMError";break;
 	}
 	
-	NSLog(@"err: %@", errorStr);
+	DLog(@"err: %@", errorStr);
 	
 }
 - (IOBluetoothL2CAPChannel *)openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm delegate:(id)aDelegate{
 	IOBluetoothL2CAPChannel * channel = nil;
 	
-	NSLog(@"Open channel (PSM:%i) ...", psm);
+	DLog(@"Open channel (PSM:%i) ...", psm);
 	if ([_btDevice openL2CAPChannelSync:&channel withPSM:psm delegate:aDelegate] != kIOReturnSuccess) {
-		NSLog (@"Could not open L2CAP channel (psm:%i)", psm);
+		DLog (@"Could not open L2CAP channel (psm:%i)", psm);
 		
 		channel = nil;
 		[self disconnect];

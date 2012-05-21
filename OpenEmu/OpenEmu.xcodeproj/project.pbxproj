@@ -1762,6 +1762,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8322D746156A973400FC0E81 /* IOBluetooth.framework */,
 				1B42C66C1429510A004691D7 /* Syphon.framework */,
 				8305267413FBC999006179C6 /* Security.framework */,
 				53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */,
@@ -2039,7 +2040,6 @@
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
-				8322D746156A973400FC0E81 /* IOBluetooth.framework */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				C67118201363687A0034379A /* System Plugins */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
@@ -2055,7 +2055,6 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8353CE321561BF6D0045A3DD /* WiiRemote Handling */,
 				8314A9B8155422E800DF13B5 /* Archive.VG */,
 				1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */,
 				1BEF2A61116826510090F72B /* Distributed Object Protocol */,
@@ -2063,6 +2062,7 @@
 				C6289C33135B276B00EEE97C /* System Input Core */,
 				C66DFA600F51C9550080AA28 /* GameCore framework */,
 				828E64D00E84656900B1860B /* OpenEmuCore */,
+				8353CE321561BF6D0045A3DD /* WiiRemote Handling */,
 				1BEF34751168F88A0090F72B /* Additions to standard classes */,
 			);
 			name = Classes;

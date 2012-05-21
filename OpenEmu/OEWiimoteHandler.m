@@ -65,8 +65,6 @@
 
 - (void)applicationWillTerminate:(NSNotification*)notification
 {
-	NSLog(@"applicationWillTerminate: %@", notification);
-	
 	[self.browser stopSearch];
 	self.browser = nil;
 	
@@ -84,12 +82,9 @@
 #pragma mark - Wiimote Browser
 @synthesize browser;
 - (void)wiimoteBrowserWillSearch
-{
-	NSLog(@"wiimoteBrowserWillSearch");
-}
+{}
 - (void)wiimoteBrowserDidStopSearchWithResults:(NSArray*)discoveredDevices
 {
-	NSLog(@"wiimoteBrowserDidStopSearchWithResults: %ld", [discoveredDevices count]);
 	[discoveredDevices enumerateObjectsUsingBlock:^(Wiimote* wiimote, NSUInteger idx, BOOL *stop) {
 		[[self wiiRemotes] addObject:wiimote];
 
@@ -110,12 +105,12 @@
 
 - (void)wiimoteBrowserSearchFailedWithError:(int)code
 {
-	NSLog(@"wiimoteBrowserSearchFailedWithError: %d", code);
+	DLog(@"wiimoteBrowserSearchFailedWithError: %d", code);
 }
 #pragma mark - WiiRemote Handling
 - (void)wiimoteDidConnect:(Wiimote*)theWiimote
 {
-	NSLog(@"wiimoteDidConnect: %@", theWiimote);
+	DLog(@"wiimoteDidConnect: %@", theWiimote);
 	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, SynVibrateDuration * NSEC_PER_SEC);
 	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 		[theWiimote setRumbleActivated:NO];
@@ -124,23 +119,23 @@
 }
 - (void)wiimoteDidDisconnect:(Wiimote*)theWiimote
 {
-	NSLog(@"wiimoteDidDisconnect: %@", theWiimote);
+	DLog(@"wiimoteDidDisconnect: %@", theWiimote);
 	[self.wiiRemotes removeObject:theWiimote];
 	[self.browser startSearch];
 }
 
 - (void)wiimote:(Wiimote*)theWiimote didNotConnect:(NSError*)err
 {
-	NSLog(@"wiimote: %@ didNotConnect: %@", theWiimote, err);
+	DLog(@"wiimote: %@ didNotConnect: %@", theWiimote, err);
 }
 - (void)wiimote:(Wiimote*)theWiimote didNotDisconnect:(NSError*)err
 {
-	NSLog(@"wiimote: %@ didNotDisconnect: %@", theWiimote, err);
+	DLog(@"wiimote: %@ didNotDisconnect: %@", theWiimote, err);
 }
 
 - (void)wiimoteReportsExpansionPortChanged:(Wiimote*)theWiimote
 {
-	NSLog(@"wiimoteReportsExpansionPortChanged: %@", theWiimote);
+	DLog(@"wiimoteReportsExpansionPortChanged: %@", theWiimote);
 }
 - (void)wiimote:(Wiimote*)theWiimote reportsButtonChanged:(WiiButtonType)type isPressed:(BOOL)isPressed
 {
@@ -153,10 +148,8 @@
 }
 - (void)wiimote:(Wiimote*)theWiimote reportsIrPointMovedX:(float)px Y:(float)py
 {
-		NSLog(@"wiimote: %@ reportsIrPointMovedX:%f Y: %f", theWiimote, px, py);
 }
 - (void)wiimote:(Wiimote*)theWiimote reportsJoystickChanged:(WiiJoyStickType)type tiltX:(unsigned short)tiltX tiltY:(unsigned short)tiltY
 {
-	NSLog(@"wiimote: %@ reportsJoystickChanged:%d tiltX:%d  tiltY: %d", theWiimote, type, tiltX, tiltY);
 }
 @end
