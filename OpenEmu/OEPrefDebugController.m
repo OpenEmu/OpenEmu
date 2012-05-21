@@ -8,6 +8,7 @@
 
 #import "OEPrefDebugController.h"
 #import "OELocalizationHelper.h"
+#import "OELibraryDatabase.h"
 
 #import "OEDBGame.h"
 @implementation OEPrefDebugController
@@ -45,7 +46,7 @@
 - (IBAction)executeDatbaseAction:(id)sender
 {
     NSError *error = nil;
-    NSArray *allGames = [OEDBGame allGamesWithError:&error];
+    NSArray *allGames = [OEDBGame allGamesInDatabase:[OELibraryDatabase defaultDatabase] error:&error];
     if(!allGames)
     {
         NSLog(@"Error getting all games");

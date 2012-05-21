@@ -43,16 +43,36 @@
     [titlebarView setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
     [windowBorderView addSubview:titlebarView positioned:NSWindowAbove relativeTo:[[windowBorderView subviews] objectAtIndex:0]];
     
+    // THIS LAYER BACKING AND TRANSITION IS TEMPORARY.
+    // IT IS ONLY USED WHEN FADING IN THE MAIN LIBRARY VIEW FOR APPLICATION LAUNCH.
+    // PLEASE DO NOT SET LAYER BACKING ON THE MAIN CONTENT VIEW.
+    
     [contentView setWantsLayer:YES];
     
     CATransition *cvTransition = [CATransition animation];
     cvTransition.type = kCATransitionFade;
-    cvTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-    cvTransition.duration = 0.8;
+    cvTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    cvTransition.duration = 1.0;
+    cvTransition.delegate = self;
     [contentView setAnimations:[NSDictionary dictionaryWithObject:cvTransition forKey:@"subviews"]];
     
     [self setOpaque:NO];
     [self setBackgroundColor:[NSColor blackColor]];
+}
+
+// Animation Delegate disables CALayer and Animations
+- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
+{
+    DLog(@"view animationDidStop");
+    
+    if(flag)
+    {
+        DLog(@"view animationDidStop flag triggered");
+        // Disable layers so things run faster
+        NSView *contentView = [self contentView];
+        [contentView setWantsLayer:NO];
+        [contentView setAnimations:nil];
+    }
 }
 
 #pragma mark -

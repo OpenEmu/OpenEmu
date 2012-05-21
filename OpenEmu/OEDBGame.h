@@ -77,7 +77,6 @@ extern NSString *const OEPasteboardTypeGame;
 
 #pragma mark -
 #pragma mark Archive.VG Sync
-+ (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary;
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary;
 // -performFullSyncWithArchiveVG: gets all info from archive.vg (cover and info)
 - (BOOL)performFullSyncWithArchiveVG:(NSError **)outError;
@@ -106,8 +105,6 @@ extern NSString *const OEPasteboardTypeGame;
 - (void)setBoxImageByURL:(NSURL *)url;
 
 - (void)mergeWithGameInfo:(NSDictionary *)archiveGameDict;
-
-- (void)updateInfoInBackground;
 
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
 #pragma mark -

@@ -35,6 +35,7 @@
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEDBGame.h"
+
 @interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
@@ -45,7 +46,11 @@
 @synthesize allowWindowResizing;
 @synthesize libraryController;
 @synthesize placeholderView;
-@synthesize deviceHandlers, coreList;
+@synthesize deviceHandlers;
+@synthesize coreList;
+
+@synthesize targetView;
+@synthesize replaceView;
 
 + (void)initialize
 {
@@ -69,7 +74,9 @@
     currentContentController = nil;
     [self setDefaultContentController:nil];
     [self setLibraryController:nil];
-    [self setPlaceholderView:nil];    
+    [self setPlaceholderView:nil]; 
+    
+    //[self setTargetView:nil];
 }
 
 - (void)windowDidLoad
@@ -160,15 +167,77 @@
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
 {
     NSView *contentView = [self placeholderView];
-    NSView *view        = [newController view];
-    
-    [view setFrame:[contentView bounds]];
-    [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+
+    // final target
+    [[newController view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [[newController view] setFrame:[contentView frame]];
     
     if(oldController != nil)
-        [[contentView animator] replaceSubview:[oldController view] with:view];
+    {
+        // No animation: 
+//         [contentView replaceSubview:[oldController view] with:[newController view]];
+        
+        // animating to the gameView
+        if([newController isKindOfClass:[OEGameViewController class]])
+        {
+            DLog(@"Animating to game view");
+            
+            // BECAUSE CA IS A FLAMING PILE OF SHIT WE JUST TAKE A SCREENSHOT
+            // HEAVEN FORBID WE WANT TO DO THAT SOME SANE WAY, LIKE ASKING
+            // NSVIEW FOR A FUCKING BITMAP. BUT NO. WE CANT DO THAT BECAUSE
+            // CORE ANIMATION IS A SACK OF FLAMING USED CONDOMS
+            
+            // stupid inverted origin.
+            NSRect captureRect = [[self window] convertRectToScreen:[contentView convertRect:[contentView frame] toView:nil]];
+            captureRect = NSIntersectionRect([NSScreen mainScreen].frame, captureRect);
+            captureRect.origin.y = [[NSScreen mainScreen] frame].size.height - captureRect.origin.y - captureRect.size.height + 1.0;    
+            
+            // stupid screenshot
+            CGImageRef fuckYouJustFuckingDoWhatITellYou = CGWindowListCreateImage(NSRectToCGRect(captureRect),
+                                                                                  kCGWindowListOptionIncludingWindow,
+                                                                                   (CGWindowID)[[self window] windowNumber],
+                                                                                  kCGWindowImageBoundsIgnoreFraming);
+            
+            NSBitmapImageRep *cachedImage = [[NSBitmapImageRep alloc] initWithCGImage:fuckYouJustFuckingDoWhatITellYou];
+            [(OEGameViewController*) newController setCachedLibraryImage:cachedImage];
+            CGImageRelease(fuckYouJustFuckingDoWhatITellYou);
+
+            // swap views
+            [contentView replaceSubview:[oldController view] with:[newController view]];
+            
+            // animate
+            [(OEGameViewController*) newController setDelegate:self];
+            [(OEGameViewController*) newController startFadeInTransition];
+        }
+        else if([oldController isKindOfClass:[OEGameViewController class]])
+        {
+            self.targetView = [newController view];
+            self.replaceView = [oldController view];
+
+            // we swap in the delegate callback from this view controller
+
+            [(OEGameViewController*) oldController startFadeOutTransition];
+            [(OEGameViewController*) oldController setDelegate:self];
+
+            DLog(@"Animating from game view");
+        }
+    }
     else
-        [[contentView animator] addSubview:view];
+    {
+        // this is for the initial transition when loading the app
+        // We have a Layer Backed view here, for only this first transition
+        [[contentView animator] addSubview:[newController view]];
+    }
+}
+
+- (void) gameViewDidFinishFadeOutTransition
+{
+    DLog(@"Finished Fade Out");
+    NSView *contentView = [self placeholderView];
+
+    [contentView replaceSubview:self.replaceView with:self.targetView];
+    
+    [[self window] makeFirstResponder:[currentContentController view]];
 }
 
 - (void)setCurrentContentController:(NSViewController *)controller

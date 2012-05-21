@@ -26,22 +26,59 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <Quartz/Quartz.h>
+#import <OpenGL/OpenGL.h>
+
+#import <Syphon/Syphon.h>
+
+#import "OEGameCoreHelper.h"
+#import "OEGameShader.h"
 
 @protocol OEGameCoreHelper;
-@class OEGameLayer, OESystemResponder;
+@class OESystemResponder;
 
-@interface OEGameView : NSView
+@interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
 {
-@private
-    NSView      *gameView;
-    OEGameLayer *gameLayer;
 }
 
-@property(readonly) OEGameLayer          *gameLayer;
-@property(strong)   OESystemResponder    *gameResponder;
-@property(strong)   id<OEGameCoreHelper>  rootProxy;
-@property(readonly) CGFloat               preferredWindowScale;
+@property (nonatomic, strong) id<OEGameCoreHelper> rootProxy;
+@property (strong) OESystemResponder *gameResponder;
 
-- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
+// rendering
+@property (assign) GLuint gameTexture;
+@property (assign) IOSurfaceID gameSurfaceID;    
+
+@property (assign) OEIntSize gameScreenSize;
+@property (assign) CVDisplayLinkRef gameDisplayLinkRef;
+@property (strong) NSTimer* gameTimer;
+@property (strong) SyphonServer *gameServer;
+
+// QC based filters
+@property (copy) NSDictionary *filters;
+@property (copy) NSString *filterName;
+@property (strong) CIImage *gameCIImage;
+@property (strong) QCRenderer *filterRenderer;
+@property (assign) CGColorSpaceRef rgbColorSpace;
+@property (assign) NSTimeInterval filterTime;
+@property (assign) NSTimeInterval filterStartTime;
+@property (assign) BOOL filterHasOutputMousePositionKeys;
+
+// for animating to and from the library.
+@property (strong) NSBitmapImageRep *cachedLibraryImage;
+@property (assign) GLuint cachedLibraryTexture;
+@property (assign) BOOL uploadedCachedLibraryTexture;
+@property (assign) GLfloat alpha;
+
+@property (copy) void (^screenshotHandler)(NSImage *img);
+- (void) captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
+
+// rendering methods
+- (void) createDisplayLink;
+- (void) destroyDisplayLink;
+- (CVReturn) displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
+- (void) createTimer;
+- (void) timerFired:(id)sender;
+- (void) render;
+
 
 @end

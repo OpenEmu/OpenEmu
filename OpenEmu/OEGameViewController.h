@@ -62,6 +62,8 @@
     BOOL                  keyedOnce;
     
     BOOL emulationRunning;
+    
+    NSTimer* gameViewTransitionTimer;
 }
 
 - (id)initWithRom:(OEDBRom *)rom;
@@ -77,11 +79,13 @@
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
 #pragma mark -
 @property (strong) OEGameControlsBar *controlsWindow;
+@property (readonly) OEGameView* gameView;
 
-@property(weak)   id<OEGameViewControllerDelegate> delegate;
+@property(unsafe_unretained) id<OEGameViewControllerDelegate> delegate;
 
 @property(strong) OEDBRom        *rom;
 @property(weak)   OEGameDocument *document;
+
 
 #pragma mark - HUD Bar Actions
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
@@ -99,7 +103,8 @@
 
 #pragma mark - Controlling Emulation
 - (void)resetGame;
-- (void)terminateEmulation;
+- (void)beginTerminateEmulation;
+- (void)endTerminateEmulation;
 
 - (IBAction)pauseGame:(id)sender;
 - (IBAction)playGame:(id)sender;
@@ -110,8 +115,8 @@
 #pragma mark - Saving States
 - (IBAction)saveState:(id)sender;
 - (IBAction)quickSave:(id)sender;
-
 - (void)saveStateWithName:(NSString *)stateName;
+
 #pragma mark - Loading States
 // loadState: expects sender or [sender representedObject] to be an OEDBSaveState object
 - (IBAction)loadState:(id)sender;
@@ -126,15 +131,28 @@
 - (NSString*)coreIdentifier;
 - (NSString*)systemIdentifier;
 
+#pragma mark - 
+#pragma mark Game View Transition handling
+- (void)setCachedLibraryImage:(NSBitmapImageRep*) image;
+- (void)startFadeInTransition;
+- (void)startFadeOutTransition;
+- (void)fadeInTransition;
+- (void)fadeOutTransition;
+
 #pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 @end
+
+
+#pragma mark -
+#pragma mark Delegate
 
 @protocol OEGameViewControllerDelegate <NSObject>
 @optional
 
 - (void)emulationDidFinishForGameViewController:(OEGameViewController *)sender;
 - (BOOL)gameViewControllerShouldToggleFullScreenMode:(OEGameViewController *)sender;
+- (void)gameViewDidFinishFadeOutTransition;
 
 @end
