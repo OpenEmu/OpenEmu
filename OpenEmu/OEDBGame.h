@@ -92,10 +92,6 @@ extern NSString *const OEPasteboardTypeGame;
 @property(readonly) OEDBRom         *defaultROM;
 @property(readonly) NSDate          *lastPlayed;
 @property(readonly) OEDBSaveState   *autosaveForLastPlayedRom;
-
-#pragma mark -
-@property(strong) OELibraryDatabase *database;
-
 #pragma mark -
 
 + (id)gameWithArchiveDictionary:(NSDictionary *)gameInfo inDatabase:(OELibraryDatabase *)database;

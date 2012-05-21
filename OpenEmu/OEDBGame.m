@@ -45,8 +45,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 @end
 
 @implementation OEDBGame
-@synthesize database;
-
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBGames
 
@@ -139,8 +137,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(game == nil && createFlag)
         return [self _createGameWithoutChecksWithURL:url inDatabase:database error:outError md5:md5 crc:crc];
 	
-    [game setDatabase:database];
-	
     return game;
 }
 
@@ -192,9 +188,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         
         return nil;
     }
-    
-    [game setDatabase:database];
-	
+
     return game;
 }
 
@@ -218,9 +212,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(result == nil) return nil;
     
-    OEDBGame *game = [result lastObject];
-    [game setDatabase:database];
-    
+    OEDBGame *game = [result lastObject];   
     return game;
 }
 
@@ -297,7 +289,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     //// DLog(@"AVGGameCreditsKey: %@", [gameInfoDictionary valueForKey:AVGGameCreditsKey]);
     
     // Save changes
-    [[game database] save:nil];
+    [[game libraryDatabase] save:nil];
 }
 
 - (BOOL)performFullSyncWithArchiveVG:(NSError **)outError
@@ -317,9 +309,11 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 }
 
 - (BOOL)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel error:(NSError**)outError
-{
-    __block NSDictionary *gameInfo = nil;	
-	void(^block)() = ^{
+{	
+	// using URI representations should allow us to use core data on a different thread and at the same time makes sure that the current object is not copied for the block
+	NSURL				  *objectID				= [[self objectID] URIRepresentation];
+	OELibraryDatabase *blockDatabase		= [self libraryDatabase];
+	void(^block)(NSDictionary *gameInfo)	= ^(NSDictionary *gameInfo){
 		if(detailLevel != 0)
 		{
 			NSMutableDictionary *mutableGameInfo = [[NSMutableDictionary alloc] initWithDictionary:gameInfo];
@@ -338,16 +332,15 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 		
 		if(gameInfo != nil)
 		{
-			[self setArchiveVGInfo:gameInfo];
+			OEDBGame* game = [blockDatabase objectWithURI:objectID];
+			[game setArchiveVGInfo:gameInfo];
 		}
-
 	};
 	
     NSNumber *archiveID = [self archiveID];
     if([archiveID integerValue] != 0)
 		[[ArchiveVG throttled] gameInfoByID:[archiveID integerValue] withCallback:^(id result, NSError *error) {
-			gameInfo = result;
-			block();
+			block(result);
 		}];
     else
     {
@@ -357,15 +350,13 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 			 [[ArchiveVG throttled] gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash] withCallback:^(id result, NSError *error) {
 				 if([result valueForKey:AVGGameIDKey] != nil && [[result valueForKey:AVGGameIDKey] integerValue] != 0)
 				 {
-					 gameInfo = result;
-					 block();
+					 block(result);
 				 }
 			 }];
 		 }];
     }
-    
-      
-    return YES;
+	
+	return YES;
 }
 #pragma mark -
 - (id)mergeInfoFromGame:(OEDBGame *)game

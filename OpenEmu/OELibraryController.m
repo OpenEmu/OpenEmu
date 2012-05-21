@@ -308,7 +308,7 @@
 {
     NSLog(@"Edit smart collection: ");
 }
-
+#pragma mark Edit Menu
 - (IBAction)find:(id)sender
 {
 	[[[self view] window] makeFirstResponder:toolbarSearchField];

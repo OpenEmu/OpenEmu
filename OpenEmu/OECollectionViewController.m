@@ -718,17 +718,19 @@
 - (void)getGameInfoFromArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj performInfoSyncWithArchiveVG:nil];
-    }];
+	for(OEDBGame *game in selectedGames)
+	{
+        [game performInfoSyncWithArchiveVG:nil];
+    }
 }
 
 - (void)getCoverFromArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj performCoverSyncWithArchiveVG:nil];
-    }];
+	for(OEDBGame *game in selectedGames)
+	{
+        [game performCoverSyncWithArchiveVG:nil];
+    }
 }
 
 - (void)addCoverArtFromFile:(id)sender
