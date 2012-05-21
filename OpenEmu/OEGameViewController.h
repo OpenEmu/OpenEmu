@@ -103,7 +103,8 @@
 
 #pragma mark - Controlling Emulation
 - (void)resetGame;
-- (void)terminateEmulation;
+- (void)beginTerminateEmulation;
+- (void)endTerminateEmulation;
 
 - (IBAction)pauseGame:(id)sender;
 - (IBAction)playGame:(id)sender;

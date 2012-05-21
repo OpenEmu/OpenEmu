@@ -223,8 +223,10 @@
     BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
     BOOL usePopout = forcePopout || allowPopout;
     
+    [self beginTerminateEmulation];
+
     if(usePopout)
-        [self terminateEmulation];
+        [self endTerminateEmulation];
 }
 
 #pragma mark - Controlling Emulation
@@ -234,7 +236,7 @@
     // TODO: draw one frame to reflect reset
 }
 
-- (void)terminateEmulation
+- (void)beginTerminateEmulation
 {
     if(!emulationRunning) return;
     DLog(@"terminateEmulation");
@@ -243,7 +245,10 @@
     
     if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
         [self saveStateWithName:OESaveStateAutosaveName];
-    
+}
+
+- (void)endTerminateEmulation
+{
     [self OE_terminateEmulationWithoutNotification];
     
     if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
@@ -693,7 +698,7 @@
         [gameViewTransitionTimer invalidate];
         [self setDelegate:nil];
         
-        [self terminateEmulation];
+        [self endTerminateEmulation];
     }
 }
 
