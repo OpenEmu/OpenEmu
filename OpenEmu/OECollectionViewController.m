@@ -683,7 +683,7 @@
             }];
         }];
         
-        NSUInteger alertReturn;
+        NSUInteger alertReturn = NSAlertAlternateReturn;
         if(!romsAreInRomsFolder || (alertReturn=[[OEHUDAlert removeGameFilesFromLibraryAlert:[selectedGames count]>1] runModal]))
         {
             [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {

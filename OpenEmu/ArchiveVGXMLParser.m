@@ -81,7 +81,8 @@
 	if(!result)
 	{
 		ArchiveDLog(@"Operation is not implemented yet.");
-		*outError = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGNotImplementedErrorCode userInfo:[NSDictionary dictionaryWithObject:@"Not Implemented" forKey:NSLocalizedDescriptionKey]];
+		if(outError != NULL)
+			*outError = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGNotImplementedErrorCode userInfo:[NSDictionary dictionaryWithObject:@"Not Implemented" forKey:NSLocalizedDescriptionKey]];
 	}
 	
 	return result;
