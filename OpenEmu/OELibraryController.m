@@ -494,7 +494,7 @@
 
 - (void)finalizeSearchResults:(NSNotification *)notification
 {
-    MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];    
+    MDQueryRef searchQuery = (__bridge_retained MDQueryRef)[notification object];    
     NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
     
     if(MDQueryGetResultCount(searchQuery))

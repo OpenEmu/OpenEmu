@@ -63,7 +63,8 @@
     unsigned char md5Digest[CC_MD5_DIGEST_LENGTH];
     CC_MD5_Final(md5Digest, &md5Context);
     
-    *outMD5 = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+	if(outMD5 != NULL)
+		*outMD5 = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
                md5Digest[0], md5Digest[1], 
                md5Digest[2], md5Digest[3],
                md5Digest[4], md5Digest[5],

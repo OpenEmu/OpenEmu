@@ -528,7 +528,8 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 @implementation AsyncArchiveVGParser
 + (id)parse:(NSData *)responseData forOperation:(ArchiveVGOperation)operation error:(NSError *__autoreleasing *)outError
 {
-	*outError = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGUnkownOutputFormatErrorCode userInfo:[NSDictionary dictionaryWithObject:@"Unkown Output Format" forKey:NSLocalizedDescriptionKey]];
+	if(outError != NULL)
+		*outError = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGUnkownOutputFormatErrorCode userInfo:[NSDictionary dictionaryWithObject:@"Unkown Output Format" forKey:NSLocalizedDescriptionKey]];
 	return nil;
 }
 @end

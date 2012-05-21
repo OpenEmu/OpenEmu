@@ -102,7 +102,6 @@
         // if we do not run on main thread it is very possible that bg and outError hold garbage!
         NSError __autoreleasing *error = nil;
         outError = &error;
-        bg=NO;
     } 
     else if(bg)
     {
