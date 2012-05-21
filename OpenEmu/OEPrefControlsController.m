@@ -123,7 +123,9 @@
 - (void)viewWillAppear
 {
 	[super viewWillAppear];
-	[OEWiimoteHandler search];
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupport])
+        [OEWiimoteHandler search];
 }
 
 - (void)animationDidStart:(CAAnimation *)theAnimation

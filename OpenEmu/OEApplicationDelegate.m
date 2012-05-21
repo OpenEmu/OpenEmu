@@ -116,8 +116,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     [mainWindowController showWindow:self];
 	
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupport])
 	// Start WiiRemote support
-	[OEWiimoteHandler sharedHandler];
+        [OEWiimoteHandler sharedHandler];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender

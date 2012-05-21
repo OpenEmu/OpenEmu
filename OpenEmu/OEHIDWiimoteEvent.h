@@ -9,5 +9,4 @@
 #import "OEHIDEvent.h"
 
 @interface OEHIDWiimoteEvent : OEHIDEvent
-
 @end

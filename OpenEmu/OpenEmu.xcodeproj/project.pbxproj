@@ -4322,8 +4322,6 @@
 				83AF88C2155C616400428BD5 /* ArchiveVGJSONParser.m in Sources */,
 				83AF88C5155C618400428BD5 /* ArchiveVGYAMLParser.m in Sources */,
 				83CC7C2F155DCC7A00E9FFB1 /* ArchiveVGThrottling.m in Sources */,
-				8314A9BC1554230600DF13B5 /* OEDBGame+ArchiveVGAdditions.m in Sources */,
-				8314A9BF1554231C00DF13B5 /* OEDBRom+ArchiveVGAdditions.m in Sources */,
 				8353CE781561C0DE0045A3DD /* OEWiimoteHandler.m in Sources */,
 				83E8E82A156A84060027B7A9 /* OEHIDWiimoteEvent.m in Sources */,
 			);
