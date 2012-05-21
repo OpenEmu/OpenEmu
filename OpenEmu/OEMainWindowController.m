@@ -36,10 +36,6 @@
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEDBGame.h"
 
-// temporary black view for transitions when we have a CALayer active
-#import "OEGameView.h"
-#import "OEBlackView.h"
-
 @interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
