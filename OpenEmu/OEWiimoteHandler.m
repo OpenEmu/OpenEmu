@@ -132,7 +132,7 @@
 	NSInteger padNumber = [[self connectedWiiRemotes] indexOfObject:theWiimote];
 	if(padNumber>=0)
 	{
-		OEHIDEvent *event = [OEHIDEvent buttonEventWithPadNumber:padNumber timestamp:[NSDate timeIntervalSinceReferenceDate] buttonNumber:type	state:isPressed cookie:0];
+		OEHIDEvent *event = [OEHIDEvent buttonEventWithPadNumber:padNumber timestamp:[NSDate timeIntervalSinceReferenceDate] buttonNumber:type	state:isPressed cookie:type];
 		[NSApp postHIDEvent:event];
 	}
 }
