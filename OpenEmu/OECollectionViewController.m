@@ -720,7 +720,7 @@
     NSArray *selectedGames = [self selectedGames];
 	for(OEDBGame *game in selectedGames)
 	{
-        [game performInfoSyncWithArchiveVG:nil];
+        [game setNeedsInfoSyncWithArchiveVG];
     }
 }
 
@@ -729,7 +729,7 @@
     NSArray *selectedGames = [self selectedGames];
 	for(OEDBGame *game in selectedGames)
 	{
-        [game performCoverSyncWithArchiveVG:nil];
+        [game setNeedsCoverSyncWithArchiveVG];
     }
 }
 
