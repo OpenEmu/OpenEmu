@@ -339,10 +339,18 @@
 
 - (void)parentWindowDidEnterFullScreen:(NSNotification *)notification;
 {
+    OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
+
+    [[view fullScreenButton] setImage:[NSImage imageNamed:@"hud_exit_fullscreen_glyph_normal"]];
+    [[view fullScreenButton] setAlternateImage:[NSImage imageNamed:@"hud_exit_fullscreen_glyph_pressed"]];
 }
 
 - (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
 {
+    OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
+
+    [[view fullScreenButton] setImage:[NSImage imageNamed:@"hud_fullscreen_glyph_normal"]];
+    [[view fullScreenButton] setAlternateImage:[NSImage imageNamed:@"hud_fullscreen_glyph_pressed"]];
 }
 
 - (void)setParentWindow:(NSWindow *)window
@@ -361,6 +369,14 @@
     {
         [nc addObserver:self selector:@selector(parentWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:window];
         [nc addObserver:self selector:@selector(parentWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:window];
+    
+        if(([window styleMask] & NSFullScreenWindowMask) == NSFullScreenWindowMask)
+        {
+            OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
+
+            [[view fullScreenButton] setImage:[NSImage imageNamed:@"hud_exit_fullscreen_glyph_normal"]];
+            [[view fullScreenButton] setAlternateImage:[NSImage imageNamed:@"hud_exit_fullscreen_glyph_pressed"]];
+        }
     }
 }
 
@@ -385,8 +401,10 @@
     [spriteSheet setName:@"hud_options" forSubimageInRect:NSMakeRect(0, 0, spriteSheet.size.width, itemHeight)];
     
     NSImage *fsImage = [NSImage imageNamed:@"hud_fullscreen_glyph"];
-    [fsImage setName:@"hud_fullscreen_glyph_normal" forSubimageInRect:NSMakeRect(fsImage.size.width/2, 0, fsImage.size.width/2, fsImage.size.height)];
-    [fsImage setName:@"hud_fullscreen_glyph_pressed" forSubimageInRect:NSMakeRect(0, 0, fsImage.size.width/2, fsImage.size.height)];
+    [fsImage setName:@"hud_fullscreen_glyph_pressed" forSubimageInRect:NSMakeRect(fsImage.size.width/2, fsImage.size.height/2, fsImage.size.width/2, fsImage.size.height/2)];
+    [fsImage setName:@"hud_fullscreen_glyph_normal" forSubimageInRect:NSMakeRect(0, fsImage.size.height/2, fsImage.size.width/2, fsImage.size.height/2)];
+    [fsImage setName:@"hud_exit_fullscreen_glyph_pressed" forSubimageInRect:NSMakeRect(fsImage.size.width/2, 0, fsImage.size.width/2, fsImage.size.height/2)];
+    [fsImage setName:@"hud_exit_fullscreen_glyph_normal" forSubimageInRect:NSMakeRect(0, 0, fsImage.size.width/2, fsImage.size.height/2)];
     
     NSImage *volume = [NSImage imageNamed:@"hud_volume"];
     [volume setName:@"hud_volume_down" forSubimageInRect:NSMakeRect(0, 0, 13, volume.size.height)];
@@ -503,8 +521,7 @@
     animation.timingFunction    = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     animation.delegate          = self;
 
-    [slider setAnimations:[NSDictionary dictionaryWithObject:animation
-                                                      forKey:@"floatValue"]];
+    [slider setAnimations:[NSDictionary dictionaryWithObject:animation forKey:@"floatValue"]];
     [self addSubview:slider];
     
     fullScreenButton = [[NSButton alloc] init];
@@ -518,5 +535,4 @@
     [self addSubview:fullScreenButton];
     [fullScreenButton setTitle:@""];
 }
-
 @end
