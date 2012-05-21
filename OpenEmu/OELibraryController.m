@@ -308,7 +308,11 @@
 {
     NSLog(@"Edit smart collection: ");
 }
-
+#pragma mark Edit Menu
+- (IBAction)find:(id)sender
+{
+	[[[self view] window] makeFirstResponder:toolbarSearchField];
+}
 #pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -440,6 +444,7 @@
     DLog(@"updateSearchResults:");
     
     MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];
+
     
     // If you're going to have the same array for every iteration,
     // don't allocate it inside the loop !
@@ -460,6 +465,11 @@
                               @"tmp",
                               @"usr",
                               @"var",
+                              @"ReadMe", // markdown
+                              @"readme", // markdown
+                              @"README", // markdown
+                              @"Readme", // markdown
+                              
                               nil];
     
     // assume the latest result is the last index?
@@ -488,7 +498,7 @@
 
 - (void)finalizeSearchResults:(NSNotification *)notification
 {
-    MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];    
+    MDQueryRef searchQuery = (__bridge_retained MDQueryRef)[notification object];    
     NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
     
     if(MDQueryGetResultCount(searchQuery))

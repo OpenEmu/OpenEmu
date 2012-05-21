@@ -41,12 +41,10 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 + (id)_createGameWithoutChecksWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc;
 + (void)_cpyValForKey:(NSString *)keyA of:(NSDictionary *)dictionary toKey:(NSString *)keyB ofGame:(OEDBGame *)game;
 
-- (BOOL)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel error:(NSError**)error;
+- (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel;
 @end
 
 @implementation OEDBGame
-@synthesize database;
-
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBGames
 
@@ -73,8 +71,8 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     [[storeCoordinator persistentStores] enumerateObjectsUsingBlock:
      ^(id obj, NSUInteger idx, BOOL *stop)
      {
-        objID = [obj managedObjectIDForURIRepresentation:objIDUrl];
-        if(objID != nil) *stop = YES;
+		 objID = [obj managedObjectIDForURIRepresentation:objIDUrl];
+		 if(objID != nil) *stop = YES;
      }];
     
     return [self gameWithID:objID inDatabase:database];
@@ -104,12 +102,12 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         // DLog(@"url is nil");
         return nil;
     }
-
+	
     NSError __autoreleasing *nilerr;
     if(outError == NULL) outError = &nilerr;
     
     BOOL checkFullpath = YES;
-        
+	
     OEDBGame *game = nil;
     if(game == nil && checkFullpath)
     {
@@ -124,9 +122,9 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
             return nil;
         }
     }
-        
+	
     NSString *md5 = nil, *crc = nil;
-    NSFileManager* defaultFileManager = [NSFileManager defaultManager];
+    NSFileManager *defaultFileManager = [NSFileManager defaultManager];
     if(game == nil)
     {
         [defaultFileManager hashFileAtURL:url md5:&md5 crc32:&crc error:outError];
@@ -138,9 +136,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(game == nil && createFlag)
         return [self _createGameWithoutChecksWithURL:url inDatabase:database error:outError md5:md5 crc:crc];
-
-    [game setDatabase:database];
-
+	
     return game;
 }
 
@@ -193,8 +189,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         return nil;
     }
     
-    [game setDatabase:database];
-
     return game;
 }
 
@@ -218,9 +212,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(result == nil) return nil;
     
-    OEDBGame *game = [result lastObject];
-    [game setDatabase:database];
-    
+    OEDBGame *game = [result lastObject];   
     return game;
 }
 
@@ -238,28 +230,29 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 }
 + (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database error:(NSError*__autoreleasing*)error;
 {
-    NSManagedObjectContext* context = [database managedObjectContext];    
-    NSFetchRequest* request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
+    NSManagedObjectContext *context = [database managedObjectContext];    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
     return [context executeFetchRequest:request error:error];
 }
 #pragma mark -
 #pragma mark Archive.VG Sync
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary
 {
-    DLog(@"setArchiveVGInfo:");
+    OEDBGame *game = self;
+    
     // The following values have to be included in a valid archiveVG info dictionary
     if([[gameInfoDictionary allKeys] count] == 0) return;
     
     NSNumber *archiveID = [gameInfoDictionary valueForKey:AVGGameIDKey];
     if([archiveID integerValue] != 0)
-        [self setArchiveID:archiveID];
+        [game setArchiveID:archiveID];
     
     NSString *stringValue = nil;
     
     stringValue = [gameInfoDictionary valueForKey:AVGGameRomNameKey];
     if(stringValue != nil)
     {
-        [self setName:stringValue];
+        [game setName:stringValue];
     }
     
     // Get + Set game developer
@@ -271,92 +264,96 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     // Get + Set system if none is set
     // it is very unlikely that this ever happens
-    if([self system] == nil)
+    if([game system] == nil)
     {
         id systemRepresentation = [gameInfoDictionary valueForKey:AVGGameSystemNameKey];
         OEDBSystem *system = [OEDBSystem systemForArchiveName:systemRepresentation];
         // DLog(@"Game has no System, try using archive.vg system: %@", system);
-        [self setSystem:system];
+        [game setSystem:system];
     }
-
+	
     // Get + Set game description
     stringValue = [gameInfoDictionary valueForKey:AVGGameDescriptionKey];
     if(stringValue != nil)
     {
-        [self setGameDescription:stringValue];
+        [game setGameDescription:stringValue];
     }
     
     // TODO: implement the following keys:
     //// DLog(@"AVGGameGenreKey: %@", [gameInfoDictionary valueForKey:AVGGameGenreKey]);
     if([gameInfoDictionary valueForKey:AVGGameBoxURLKey])
-        [self setBoxImageByURL:[NSURL URLWithString:[gameInfoDictionary valueForKey:AVGGameBoxURLKey]]];
+        [game setBoxImageByURL:[NSURL URLWithString:[gameInfoDictionary valueForKey:AVGGameBoxURLKey]]];
     //// DLog(@"AVGGameBoxURLKey: %@", [gameInfoDictionary valueForKey:AVGGameBoxURLKey]);
     //// DLog(@"AVGGameESRBRatingKey: %@", [gameInfoDictionary valueForKey:AVGGameESRBRatingKey]);
     //// DLog(@"AVGGameCreditsKey: %@", [gameInfoDictionary valueForKey:AVGGameCreditsKey]);
     
     // Save changes
-    [[self database] save:nil];
+    [[game libraryDatabase] save:nil];
 }
 
-- (BOOL)performFullSyncWithArchiveVG:(NSError **)outError
+- (void)setNeedsFullSyncWithArchiveVG
 {
     // DLog(@"performFullSyncWithArchiveVG:");
-    return [self OE_performSyncWithArchiveVGByGrabbingInfo:0 error:outError];
+    [self OE_performSyncWithArchiveVGByGrabbingInfo:0];
 }
 // -performInfoSyncWithArchiveVG: only grabs info (text)
-- (BOOL)performInfoSyncWithArchiveVG:(NSError**)outError
+- (void)setNeedsInfoSyncWithArchiveVG
 {
-    return [self OE_performSyncWithArchiveVGByGrabbingInfo:1 error:outError];
+    [self OE_performSyncWithArchiveVGByGrabbingInfo:1];
 }
 // -performInfoSyncWithArchiveVG: only grabs cover (image)
-- (BOOL)performCoverSyncWithArchiveVG:(NSError**)outError
+- (void)setNeedsCoverSyncWithArchiveVG
 {
-    return [self OE_performSyncWithArchiveVGByGrabbingInfo:2 error:outError];
+    [self OE_performSyncWithArchiveVGByGrabbingInfo:2];
 }
 
-- (BOOL)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel error:(NSError**)error
-{
-    __block NSDictionary *gameInfo = nil;
-    
+- (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel
+{	
+	// using URI representations should allow us to use core data on a different thread and at the same time makes sure that the current object is not copied for the block
+	NSURL				  *objectID				= [[self objectID] URIRepresentation];
+	OELibraryDatabase *blockDatabase		= [self libraryDatabase];
+	void(^block)(NSDictionary *gameInfo)	= ^(NSDictionary *gameInfo){
+		if(detailLevel != 0)
+		{
+			NSMutableDictionary *mutableGameInfo = [[NSMutableDictionary alloc] initWithDictionary:gameInfo];
+			
+			if(detailLevel == 1) // Info Only
+				[mutableGameInfo removeObjectForKey:AVGGameBoxURLKey];
+			else if(detailLevel == 2)
+			{
+				if([mutableGameInfo objectForKey:AVGGameBoxURLKey])
+					mutableGameInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[mutableGameInfo objectForKey:AVGGameBoxURLKey], AVGGameBoxURLKey, nil];
+				else
+					mutableGameInfo = [[NSMutableDictionary alloc] init];
+			}
+			gameInfo = mutableGameInfo;
+		}
+		
+		if(gameInfo != nil)
+		{
+			OEDBGame *game = [blockDatabase objectWithURI:objectID];
+			[game setArchiveVGInfo:gameInfo];
+		}
+	};
+	
     NSNumber *archiveID = [self archiveID];
     if([archiveID integerValue] != 0)
-        gameInfo = [ArchiveVG gameInfoByID:[archiveID integerValue]];
+		[[ArchiveVG throttled] gameInfoByID:[archiveID integerValue] withCallback:^(id result, NSError *error) {
+			block(result);
+		}];
     else
     {
         NSSet *roms = [self roms];
-        [roms enumerateObjectsUsingBlock:
-         ^(OEDBRom *aRom, BOOL *stop)
+        [roms enumerateObjectsUsingBlock:^(OEDBRom *aRom, BOOL *stop)
          {
-             gameInfo = [ArchiveVG gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash]];
-             
-             if([gameInfo valueForKey:AVGGameIDKey] != nil &&
-                [[gameInfo valueForKey:AVGGameIDKey] integerValue] != 0)
-                 *stop = YES;
-         }];
+			 [[ArchiveVG throttled] gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash] withCallback:^(id result, NSError *error) {
+				 if([result valueForKey:AVGGameIDKey] != nil && [[result valueForKey:AVGGameIDKey] integerValue] != 0)
+				 {
+					 block(result);
+				 }
+			 }];
+		 }];
     }
-    
-    if(detailLevel != 0)
-    {
-        NSMutableDictionary *mutableGameInfo = [[NSMutableDictionary alloc] initWithDictionary:gameInfo];
-        
-        if(detailLevel == 1) // Info Only
-            [mutableGameInfo removeObjectForKey:AVGGameBoxURLKey];
-        else if(detailLevel == 2)
-        {
-            if([mutableGameInfo objectForKey:AVGGameBoxURLKey])
-                mutableGameInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[mutableGameInfo objectForKey:AVGGameBoxURLKey], AVGGameBoxURLKey, nil];
-            else
-                mutableGameInfo = [[NSMutableDictionary alloc] init];
-        }
-        gameInfo = mutableGameInfo;
-    }
-    
-    if(gameInfo != nil)
-    {
-        [self setArchiveVGInfo:gameInfo];
-    }
-    
-    return gameInfo != nil;
 }
 #pragma mark -
 - (id)mergeInfoFromGame:(OEDBGame *)game
@@ -368,13 +365,13 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if([self name] == nil)
         [self setName:[game name]];
-
+	
     if([self gameDescription] == nil)
         [self setGameDescription:[game gameDescription]];
     
     if([self lastArchiveSync] == nil)
         [self setLastArchiveSync:[game lastArchiveSync]];
-
+	
     if([self importDate] == nil)
         [self setImportDate:[game importDate]];
     
@@ -429,7 +426,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
      {
          return [[obj1 lastPlayed] compare:[obj2 lastPlayed]];
      }];
-
+	
     return [[sortedByLastPlayed lastObject] autosaveState];
 }
 
@@ -448,7 +445,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     NSLog(@"keepSaveStates %d", statesFlag);
     NSMutableSet *mutableRoms = [self mutableRoms];
     while ([mutableRoms count]) {
-        OEDBRom* aRom = [mutableRoms anyObject];
+        OEDBRom *aRom = [mutableRoms anyObject];
         [aRom deleteByMovingFile:moveToTrash keepSaveStates:statesFlag];
         [mutableRoms removeObject:aRom];
     }
@@ -541,23 +538,26 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 - (void)setBoxImageByURL:(NSURL*)url
 {
-    OEDBImage *boxImage = [self boxImage];
-    if(boxImage != nil)
-        [[boxImage managedObjectContext] deleteObject:boxImage];
-        
-    boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
-    
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
-    // For each thumbnail size...
-    for(NSString *aSizeString in sizes)
+    @autoreleasepool 
     {
-        NSSize size = NSSizeFromString(aSizeString);
-        // ...generate thumbnail ;)
-        [boxImage generateThumbnailForSize:size];
+        OEDBImage *boxImage = [self boxImage];
+        if(boxImage != nil)
+            [[boxImage managedObjectContext] deleteObject:boxImage];
+        
+        boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
+        
+        NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+        NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
+        // For each thumbnail size...
+        for(NSString *aSizeString in sizes)
+        {
+            NSSize size = NSSizeFromString(aSizeString);
+            // ...generate thumbnail ;)
+            [boxImage generateThumbnailForSize:size];
+        }
+        
+        [self setBoxImage:boxImage];
     }
-    
-    [self setBoxImage:boxImage];
 }
 
 #pragma mark -

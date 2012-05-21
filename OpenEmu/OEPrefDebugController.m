@@ -34,13 +34,9 @@
 - (IBAction)changeRegion:(id)sender
 {
     if([sender selectedTag] == -1)
-    {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:UDRegionKey];
-    }
     else 
-    {
         [[NSUserDefaults standardUserDefaults] setInteger:[sender selectedTag] forKey:UDRegionKey];
-    }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsChangedNotificationName object:self];
 }
@@ -48,8 +44,8 @@
 
 - (IBAction)executeDatbaseAction:(id)sender
 {
-    NSError* error = nil;
-    NSArray* allGames = [OEDBGame allGamesWithError:&error];
+    NSError *error = nil;
+    NSArray *allGames = [OEDBGame allGamesWithError:&error];
     if(!allGames)
     {
         NSLog(@"Error getting all games");
@@ -103,13 +99,8 @@
         case 3:
             printf("\nRunning archive sync on all games\n\n");
             [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                NSError* syncError = nil;
-                if(![(OEDBGame*)obj performFullSyncWithArchiveVG:&syncError])
-                {
-                    NSLog(@"Error with archive sync:");
-                    NSLog(@"%@", [error localizedDescription]);
-                }
-            }];
+                [(OEDBGame*)obj setNeedsFullSyncWithArchiveVG];
+			}];
             printf("\nDone\n");
             break;
     }

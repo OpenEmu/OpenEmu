@@ -77,14 +77,13 @@ extern NSString *const OEPasteboardTypeGame;
 
 #pragma mark -
 #pragma mark Archive.VG Sync
-+ (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary;
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary;
 // -performFullSyncWithArchiveVG: gets all info from archive.vg (cover and info)
-- (BOOL)performFullSyncWithArchiveVG:(NSError **)outError;
+- (void)setNeedsFullSyncWithArchiveVG;
 // -performInfoSyncWithArchiveVG: only grabs info (text)
-- (BOOL)performInfoSyncWithArchiveVG:(NSError **)outError;
+- (void)setNeedsInfoSyncWithArchiveVG;
 // -performInfoSyncWithArchiveVG: only grabs cover (image)
-- (BOOL)performCoverSyncWithArchiveVG:(NSError **)outError;
+- (void)setNeedsCoverSyncWithArchiveVG;
 
 - (id)mergeInfoFromGame:(OEDBGame *)game;
 
@@ -93,10 +92,6 @@ extern NSString *const OEPasteboardTypeGame;
 @property(readonly) OEDBRom         *defaultROM;
 @property(readonly) NSDate          *lastPlayed;
 @property(readonly) OEDBSaveState   *autosaveForLastPlayedRom;
-
-#pragma mark -
-@property(strong) OELibraryDatabase *database;
-
 #pragma mark -
 
 + (id)gameWithArchiveDictionary:(NSDictionary *)gameInfo inDatabase:(OELibraryDatabase *)database;
@@ -106,9 +101,6 @@ extern NSString *const OEPasteboardTypeGame;
 - (void)setBoxImageByURL:(NSURL *)url;
 
 - (void)mergeWithGameInfo:(NSDictionary *)archiveGameDict;
-
-- (void)updateInfoInBackground;
-
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
 #pragma mark -
 #pragma mark Core Data utilities

@@ -661,7 +661,7 @@
     
     // if an item is selected and has a targen + action we call it    
     id target;
-    SEL action;
+    SEL action = NULL;
     if(doAlternateAction && [selectedItem respondsToSelector:@selector(alternateAction)] && [(OEMenuItem*)selectedItem alternateAction]!=NULL)
     {
         target = [(OEMenuItem*)selectedItem alternateTarget];
@@ -673,7 +673,8 @@
         action = [(OEMenuItem*)selectedItem action];
     }
     
-    [NSApp sendAction:action to:target from:selectedItem];
+	if (action) 
+		[NSApp sendAction:action to:target from:selectedItem];
         
     // tell the delegate that the menu selected an item
     if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidSelect:)]) [self.delegate performSelector:@selector(menuDidSelect:) withObject:self];

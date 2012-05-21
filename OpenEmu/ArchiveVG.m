@@ -1,13 +1,41 @@
-//
-//  ArchiveVG.m
-//  ArchiveVG
-//
-//  Created by Christoph Leimbrock on 20.06.11.
-//  Copyright 2011 none. All rights reserved.
-//
+/*
+ Copyright (c) 2012, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "ArchiveVG.h"
-#import <Security/Security.h>
+
+#import "ArchiveVGXMLParser.h"
+#import "ArchiveVGJSONParser.h"
+#import "ArchiveVGYAMLParser.h"
+
+#import "ArchiveVGThrottling.h"
+
+#pragma mark Default Output Format
+const AVGOutputFormat AVGDefaultOutputFormat = AVGOutputFormatXML;
+
+#pragma mark Response Dictionary Keys
 NSString * const AVGGameTitleKey         = @"AVGGameTitleKey";
 NSString * const AVGGameIDKey            = @"AVGGameIDKey";
 NSString * const AVGGameDeveloperKey     = @"AVGGameDeveloperKey";
@@ -36,1017 +64,490 @@ NSString * const AVGReleaseDateKey		 = @"AVGReleaseDateKey";
 NSString * const AVGReleaseCountryKey	 = @"AVGReleaseCountryKey";
 
 // Keys that appear in Tosec Dictionaries
-NSString * const AVGTosecTitleKey		= @"AVGTosecTitleKey";
-NSString * const AVGTosecRomNameKey		= @"AVGTosecRomNameKey";
-NSString * const AVGTosecSizeKey		= @"AVGTosecSizeKey";
+NSString * const AVGTosecTitleKey			= @"AVGTosecTitleKey";
+NSString * const AVGTosecRomNameKey	= @"AVGTosecRomNameKey";
+NSString * const AVGTosecSizeKey			= @"AVGTosecSizeKey";
 NSString * const AVGTosecCRCKey			= @"AVGTosecCRCKey";
 NSString * const AVGTosecMD5Key			= @"AVGTosecMD5Key";
 
-// Key that appear in Game Lists (Batch calls)
-NSString * const AVGGameListItemRequestAttributeKey = @"request";
-NSString * const AVGGameListItemRomFileKey          = @"rom";
-NSString * const AVGGameListItemSizeKey             = @"size";
-NSString * const AVGGameListItemCRC32Key            = @"crc";
-NSString * const AVGGameListItemMD5Key              = @"md5";
+// Keys that appear in Config Dictioanries
+NSString * const AVGConfigGeneralKey		= @"AVGConfigGeneralKey";
+NSString * const AVGConfigCurrentAPIKey	= @"AVGConfigCurrentAPIKey";
 
-#define KCSessionServiceName @"Archive.vg SessionKey"
+NSString * const AVGConfigThrottlingKey		= @"AVGConfigThrottlingKey";
+NSString * const AVGConfigMaxCallsKey		= @"AVGConfigMaxCallsKey";
+NSString * const AVGConfigRegenerationKey = @"AVGConfigRegenerationKey";
 
-typedef enum 
-{
-    AVGSearch,          // requires search string
-    AVGGetSystems,      // no options
-    AVGGetGames,        // supply system short name
-    
-    AVGGetInfoByID,     // requires archive.vg game id
-    AVGGetInfoByCRC,	// requires rom crc
-    AVGGetInfoByMD5,	// requires rom md5
-    
-    AVGGetInfoByGameList,
-} _ArchiveVGOperation;
+// Keys that appear in Daily Fact Dictionaries
+NSString * const AVGFactDateKey		= @"AVGFactDateKey";
+NSString * const AVGFactGameIDKey	= @"AVGFactGameIDKey";
+NSString * const AVGFactContentKey	= @"AVGFactContentKey";
 
+#pragma mark Error Domain
+NSString * const OEArchiveVGErrorDomain = @"OEArchiveVGErrorDomain";
+#pragma mark -
 @interface ArchiveVG (Private)
-+ (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError*__autoreleasing*)outError;
-+ (NSURL*)urlForOperation:(_ArchiveVGOperation)op withOptions:(NSArray*)options;
-+ (NSXMLDocument*)gameListXMLFromDictionaries:(NSArray*)array;
-+ (NSString*)removeHTMLEncodingsFromString:(NSString*)input;
-+ (NSString*)_debug_nameOfOp:(_ArchiveVGOperation)op;
+- (id)performStandardCallWithOperation:(ArchiveVGOperation)operation format:(AVGOutputFormat)format andOptions:(NSArray*)options error:(NSError**)outError;
+- (void)performAsynchronousCallWithOperation:(ArchiveVGOperation)operation callback:(void(^)(id result, NSError *error))block format:(AVGOutputFormat)format andOptions:(NSArray*)options;
+
+// Preparing Archive Call:
++ (NSString*)apiCallForOperation:(ArchiveVGOperation)operation;
++ (NSString*)stringFromOutputFormat:(AVGOutputFormat)format;
++ (NSURL*)urlForOperation:(ArchiveVGOperation)operation withOutputFormat:(AVGOutputFormat)format andOptions:(NSArray*)options;
+
+// Getting Data from Archive.vg:
++ (NSData*)synchronousResultForURL:(NSURL*)url error:(NSError**)outError;
+
+// Parsing the response:
++ (Class)parserForOutputFormat:(AVGOutputFormat)format;
++ (id)parseArchiveResponse:(NSData*)response forOperation:(ArchiveVGOperation)operation withOutputFormat:(AVGOutputFormat)format error:(NSError**)outError;
+
+// Helper for call arguments
++ (NSArray*)_argumentsForCallWithMD5:(NSString*)md5 andCRC:(NSString*)crc32 usedCall:(ArchiveVGOperation*)operation;
 @end
-@interface ArchiveVG (PrivateNodeStuff)
-+ (NSDictionary*)dictFromGameNode:(NSXMLNode*)node error:(NSError*__autoreleasing*)outError;
-+ (NSDictionary*)dictFromSystemNode:(NSXMLNode*)gameNode error:(NSError*__autoreleasing*)outError;
-@end
-@interface ArchiveVG (KeychainStuff)
-+ (NSString*)_restoreSessionKeyForEmail:(NSString*)emailAddress error:(NSError*__autoreleasing*)outError;
-+ (BOOL)_storeSessionKey:(NSString*)sessionKey forEmail:(NSString*)emailAddress error:(NSError*__autoreleasing*)outError;
-@end
-#pragma mark -
-#ifdef ARCHIVE_DEBUG
-#define ArchiveDLog NSLog
-#else
-#define ArchiveDLog(__args__, ...) {} 
-#endif
+
 @implementation ArchiveVG
+
+static dispatch_queue_t ArchiveVGDispatchQueue;
++ (void)load
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		ArchiveVGDispatchQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
+	});
+}
+
++ (id)throttled
+{
+	static ArchiveVGThrottling *sharedThrottlingProxy = NULL;
+	if(!sharedThrottlingProxy)
+		sharedThrottlingProxy = [[ArchiveVGThrottling alloc] init];
+	return sharedThrottlingProxy;
+}
+
++ (id)unthrottled
+{
+	static ArchiveVG *sharedUnthrottledProxy = NULL;
+	if(!sharedUnthrottledProxy)
+		sharedUnthrottledProxy = [[ArchiveVG alloc] init];
+	return sharedUnthrottledProxy;
+}
+
 #pragma mark -
-#pragma mark API Access for Class
-+ (NSArray*)searchResultsForString:(NSString*)searchString
+#pragma mark Archive.config
+- (NSDictionary*)config
 {
-    if(!searchString)
-        return nil;
-    
-    _ArchiveVGOperation operation = AVGSearch;
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:searchString]];
-    
-    NSError* error;
-    NSArray* result = [self _resultFromURL:url forOperation:operation error:&error];
-    return result;
+	return [self configWithError:nil];
 }
 
-+ (NSArray*)systems
+- (NSDictionary*)configWithError:(NSError**)outError
 {
-    _ArchiveVGOperation operation = AVGGetSystems;
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:nil];
-    
-    NSError* error;
-    id result = [self _resultFromURL:url forOperation:operation error:&error];
-    return result;
+	return [self configUsingFormat:AVGDefaultOutputFormat error:outError];
 }
 
-+ (NSArray*)gamesForSystem:(NSString*)systemShortName
+- (NSDictionary*)configUsingFormat:(AVGOutputFormat)format error:(NSError**)outError;
 {
-    _ArchiveVGOperation operation = AVGGetGames;
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:systemShortName]];
-    
-    NSError* error;
-    id result = [self _resultFromURL:url forOperation:operation error:&error];
-    return result;
+	ArchiveVGOperation operation = AVGConfig;
+	return [self performStandardCallWithOperation:operation format:operation andOptions:nil error:outError];
 }
 
-+ (NSDictionary*)gameInfoByCRC:(NSString*)crc
+- (void)configWithCallback:(void(^)(id result, NSError *error))block
 {
-    _ArchiveVGOperation operation = AVGGetInfoByCRC;
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:crc]];
-    
-    ArchiveDLog(@"Archive URL:%@", url);
-    
-    NSError* error;
-    id result = [self _resultFromURL:url forOperation:operation error:&error];
-    return result;
+	return [self configWithCallback:block usingFormat:AVGDefaultOutputFormat];
 }
 
-+ (NSDictionary*)gameInfoByCRC:(NSString*)crc andMD5:(NSString*)md5
+- (void)configWithCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
 {
-    _ArchiveVGOperation operation = AVGGetInfoByCRC;
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObjects:crc, md5, nil]];
-    
-    ArchiveDLog(@"Archive URL:%@", url);
-    
-    NSError* error;
-    id result = [self _resultFromURL:url forOperation:operation error:&error];
-    return result;
+	ArchiveVGOperation	operation = AVGConfig;
+	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:nil];
+}
+#pragma mark - Archive.search
+- (NSArray*)searchForString:(NSString*)searchString
+{
+	return [self searchForString:searchString error:nil];
 }
 
-+ (NSDictionary*)gameInfoByMD5:(NSString*)md5
+- (NSArray*)searchForString:(NSString*)searchString error:(NSError**)outError
 {
-    _ArchiveVGOperation operation = AVGGetInfoByMD5;
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:md5]];
-    
-    ArchiveDLog(@"Archive URL:%@", url);
-    
-    NSError* error;
-    id result = [self _resultFromURL:url forOperation:operation error:&error];
-    return result;
+	return [self searchForString:searchString usingFormat:AVGDefaultOutputFormat error:outError];
 }
 
-+ (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc
+- (NSArray*)searchForString:(NSString*)searchString usingFormat:(AVGOutputFormat)format error:(NSError**)outError
 {
-    _ArchiveVGOperation operation = AVGGetInfoByMD5;
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObjects:md5, crc, nil]];
-    
-    ArchiveDLog(@"Archive URL:%@", url);
-    
-    NSError* error;
-    id result = [self _resultFromURL:url forOperation:operation error:&error];
-    return result;
+	ArchiveVGOperation operation = AVGSearch;
+	NSArray					*options = [NSArray arrayWithObject:searchString];
+	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
 }
 
-+ (NSDictionary*)gameInfoByID:(NSInteger)gameID
+- (void)searchForString:(NSString*)searchString withCallback:(void(^)(id result, NSError *error))block
 {
-    _ArchiveVGOperation operation = AVGGetInfoByID;
-    NSNumber* gameIDObj = [NSNumber numberWithInteger:gameID]; 
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:gameIDObj]];
-    
-    ArchiveDLog(@"Archive URL:%@", url);
-    
-    NSError* error;
-    id result = [self _resultFromURL:url forOperation:operation error:&error];
-    return result;
+	[self searchForString:searchString withCallback:block usingFormat:AVGDefaultOutputFormat];
 }
 
-+ (void)gameInfoByGameList:(NSArray*)gameList callback:(void (^)(NSArray* result, NSError* error))callback
+- (void)searchForString:(NSString*)searchString withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format 
 {
-    _ArchiveVGOperation operation = AVGGetInfoByGameList;
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:nil];
-    
-    ArchiveDLog(@"Archive URL:%@", url);
-    
-    NSXMLDocument *gameListDoc = [ArchiveVG gameListXMLFromDictionaries:gameList];
-    NSString *query = [gameListDoc XMLString];
-    query = [query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    query = [@"gamelist=" stringByAppendingString:query];
-    query = [query stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
-    
-    NSData *data = [query dataUsingEncoding:NSUTF8StringEncoding];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:[NSString stringWithFormat:@"%ld", [data length]] forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded; charset: UTF-8" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:data];
-
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]  completionHandler:^(NSURLResponse *res, NSData *dat, NSError *err) {
-        if(err)
-        {
-            ArchiveDLog(@"Archive.vg Batch call failed. (Request error)");
-            ArchiveDLog(@"%@", [err localizedDescription]);
-            
-            callback(nil, err);
-            return;
-        }
-        
-        [dat writeToFile:[@"~/archiveResponse.txt" stringByExpandingTildeInPath] atomically:NO];
-        
-        NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithData:dat options:0 error:&err];
-        if(!xmlDocument)
-        {
-            ArchiveDLog(@"Archive.vg Batch call failed. (xml error)");
-            ArchiveDLog(@"%@", [err localizedDescription]);
-            
-            callback(nil, err);
-            return;
-        }
-        
-        NSArray* gameNodes = [[xmlDocument rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game" error:&err];
-        if(err!=nil)
-        {
-            ArchiveDLog(@"Could not find game nodes");
-            ArchiveDLog(@"Error: %@", err);
-            return;
-        }
-        
-        NSMutableArray* gameDictionaries = [NSMutableArray arrayWithCapacity:[gameNodes count]];
-        for(id obj in gameNodes)
-        {
-            NSDictionary* gameDict = [self dictFromGameNode:obj error:&err];
-            if(err!=nil)
-            {             
-                ArchiveDLog(@"Error while enumerating gameNodes");
-                break;
-            }
-            [gameDictionaries addObject:gameDict];
-        };
-        
-        callback(gameDictionaries, err);
-    }];
+	ArchiveVGOperation	operation = AVGGetSystems;	
+	NSArray					*options  = [NSArray arrayWithObject:searchString];
+	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
 }
-#pragma mark -
-#pragma mark API Access for Class instances
-- (id)searchResultsForString:(NSString*)searchString
+#pragma mark - Archive.getSystems
+- (NSDictionary*)systems
 {
-    return [[self class] searchResultsForString:searchString];
-}
-- (NSArray*)systems
-{
-    return [[self class] systems];
-}
-- (NSArray*)gamesForSystem:(NSString*)systemShortName
-{
-    return [[self class] gamesForSystem:systemShortName];
+	return [self systemsWithError:nil];
 }
 
-- (NSDictionary*)gameInfoByCRC:(NSString*)crc
+- (NSDictionary*)systemsWithError:(NSError**)outError
 {
-    return [[self class] gameInfoByCRC:crc];
+	return [self systemsUsingFormat:AVGDefaultOutputFormat error:outError];
 }
-- (NSDictionary*)gameInfoByMD5:(NSString*)md5
+
+- (NSDictionary*)systemsUsingFormat:(AVGOutputFormat)format error:(NSError**)outError
 {
-    return [[self class] gameInfoByMD5:md5];
+	ArchiveVGOperation operation = AVGGetSystems;
+	return [self performStandardCallWithOperation:operation format:operation andOptions:nil error:outError];
 }
+
+- (void)systemsWithCallback:(void(^)(id result, NSError *error))block
+{
+	[self systemsWithCallback:block usingFormat:AVGDefaultOutputFormat];
+}
+- (void)systemsWithCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
+{
+	ArchiveVGOperation	operation = AVGGetSystems;	
+	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:nil];
+}
+#pragma mark - Archive.getDailyFact
+- (NSDictionary*)dailyFact
+{
+	return [self dailyFactWithError:nil];
+}
+
+- (NSDictionary*)dailyFactWithError:(NSError**)outError
+{
+	return [self dailyFactUsingFormat:AVGDefaultOutputFormat error:outError];
+}
+
+- (NSDictionary*)dailyFactUsingFormat:(AVGOutputFormat)format error:(NSError**)outError
+{
+	ArchiveVGOperation operation = AVGGetDailyFact;
+	return [self performStandardCallWithOperation:operation format:operation andOptions:nil error:outError];
+}
+
+- (void)dailyFactWithCallback:(void(^)(id result, NSError *error))block
+{
+	[self dailyFactWithCallback:block usingFormat:AVGDefaultOutputFormat];
+}
+- (void)dailyFactWithCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
+{
+	ArchiveVGOperation	operation = AVGGetDailyFact;	
+	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:nil];
+}
+
+#pragma mark - Game.getInfoByID
 - (NSDictionary*)gameInfoByID:(NSInteger)gameID
 {
-    return [[self class] gameInfoByID:gameID];
+	return [self gameInfoByID:gameID error:nil];
 }
-
-- (void)gameInfoByGameList:(NSArray*)gameList callback:(void (^)(NSArray* result, NSError* error))callback
+- (NSDictionary*)gameInfoByID:(NSInteger)gameID error:(NSError**)outError
 {
-    [[self class] gameInfoByGameList:gameList callback:callback];
+	return [self gameInfoByID:gameID usingFormat:AVGDefaultOutputFormat error:outError];
 }
 
-#pragma mark -
-#pragma mark Private (no session required)
-+ (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError*__autoreleasing*)outError
-{   
-    // Don't return within an autorelease block, causes crash: http://openradar.appspot.com/radar?id=1647403
-    // assigning to a temporary and returning outside block might work though
-    //    @autoreleasepool {
-    NSXMLDocument* doc = [[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:outError];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"could not create XMLDocument");
-        ArchiveDLog(@"Error: %@", *outError);
-        return nil;
-    }
-    
-    // Handle Search Result
-    if(op==AVGSearch || op==AVGGetGames)
-    {
-        NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game" error:outError];
-        if(*outError!=nil)
-        {
-            ArchiveDLog(@"Could not find gameNodes");
-            ArchiveDLog(@"Error: %@", *outError);
-            return nil;
-        }
-        
-        NSMutableArray* gameDictionaries = [NSMutableArray arrayWithCapacity:[gameNodes count]];
-        [gameNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
-         {
-             NSError* anError = nil;
-             NSDictionary* gameDict = [self dictFromGameNode:obj error:&anError];
-             if(anError!=nil)
-             {             
-                 ArchiveDLog(@"Error while enumerating gameNodes");
-                 *stop = YES;
-             }
-             [gameDictionaries addObject: gameDict];
-         }];
-        
-        return gameDictionaries;        
-    } 
-    else if(op==AVGGetInfoByCRC || op==AVGGetInfoByID || op==AVGGetInfoByMD5) // Handle getInfoByX requests
-    {
-        NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]" error:outError];
-        if(*outError!=nil)
-        {
-            ArchiveDLog(@"Could not find gameNodes");
-            ArchiveDLog(@"Error: %@", *outError);
-            return nil;
-        }
-        
-        if([gameNodes count] == 0)
-        {
-            return [NSDictionary dictionary];
-        }
-        
-        if([gameNodes count] > 1)
-        {
-            // Multiple game nodes -> we got several games for a crc, md5 or archive id
-            // this is very unlikely and if it happens we just use the last one
-        }
-        NSXMLNode* gameNode = [gameNodes lastObject];
-        
-        NSDictionary* result = [self dictFromGameNode:gameNode error:outError];
-        if(*outError!=nil)
-        {
-            ArchiveDLog(@"Error getting game dictionary");
-            ArchiveDLog(@"Error: %@", *outError);
-            return nil;
-        }
-        return result;
-    } 
-    else if(op==AVGGetSystems)
-    {    
-        NSArray* systemNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/systems[1]/system" error:outError];
-        if(*outError!=nil)
-        {
-            ArchiveDLog(@"Could not find systemNodes");
-            ArchiveDLog(@"Error: %@", *outError);
-            return nil;
-        }
-        
-        NSMutableArray* systemDictionaries = [NSMutableArray arrayWithCapacity:[systemNodes count]];
-        [systemNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
-         {
-             NSError* anError = nil;
-             NSDictionary* systemDict = [self dictFromSystemNode:obj error:&anError];
-             if(anError!=nil)
-             {
-                 ArchiveDLog(@"Error while enumerating systemNodes");
-                 *stop = YES;
-             }
-             [systemDictionaries addObject: systemDict];
-         }];
-        return systemDictionaries;        
-    }
-    else 
-    {
-        ArchiveDLog(@"Operation %@ is not implemented yet.", [self _debug_nameOfOp:op]);
-    }
-    
-    return nil;
-    //    }
+- (NSDictionary*)gameInfoByID:(NSInteger)gameID usingFormat:(AVGOutputFormat)format error:(NSError**)outError
+{
+	ArchiveVGOperation operation = AVGGetInfoByID;
+	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
+	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
 }
 
+- (void)gameInfoByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block
+{
+	[self gameInfoByID:(NSInteger)gameID withCallback:block usingFormat:AVGDefaultOutputFormat];
+}
 
-#pragma mark -
-+ (NSURL*)urlForOperation:(_ArchiveVGOperation)op withOptions:(NSArray*)options
-{    
-    NSString* operationKey = nil;
+- (void)gameInfoByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
+{
+	ArchiveVGOperation	operation = AVGGetInfoByID;
+	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
+	
+	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
     
+}
+#pragma mark - Game.getInfoByMD5 / Game.getInfoByCRC32
+- (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32
+{
+	return [self gameInfoByMD5:md5 andCRC:crc32 error:nil];
+}
+- (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 error:(NSError**)outError
+{
+	return [self gameInfoByMD5:md5 andCRC:crc32 usingFormat:AVGDefaultOutputFormat error:outError];
+}
+- (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 usingFormat:(AVGOutputFormat)format error:(NSError**)outError
+{
+	ArchiveVGOperation operation;
+	NSArray *options = [[self class] _argumentsForCallWithMD5:md5 andCRC:crc32 usedCall:&operation];
+	if(!options)
+	{
+		if(outError != NULL) *outError = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGInvalidArgumentsErrorCode userInfo:[NSDictionary dictionaryWithObject:@"Invalid Arguments" forKey:NSLocalizedDescriptionKey]];
+		return nil;
+	}
+	
+	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
+}
+
++ (NSArray*)_argumentsForCallWithMD5:(NSString*)md5 andCRC:(NSString*)crc32 usedCall:(ArchiveVGOperation*)operation
+{
+	NSArray *options;
+	if(md5)
+	{
+		*operation = AVGGetInfoByMD5;
+		if(crc32)	options = [NSArray arrayWithObjects:md5, crc32, nil];
+		else		options = [NSArray arrayWithObject:md5];
+	}
+	else if(crc32)
+	{
+		*operation = AVGGetInfoByCRC;
+		options = [NSArray arrayWithObject:crc32];
+	}
+	
+	return options;
+}
+
+- (void)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 withCallback:(void(^)(id result, NSError *error))block
+{
+	[self gameInfoByMD5:md5 andCRC:crc32 withCallback:block usingFormat:AVGDefaultOutputFormat];
+}
+
+- (void)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
+{	
+	ArchiveVGOperation operation;
+	NSArray *options = [[self class] _argumentsForCallWithMD5:md5 andCRC:crc32 usedCall:&operation];
+	if(!options)
+	{
+		NSError *error = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGInvalidArgumentsErrorCode userInfo:[NSDictionary dictionaryWithObject:@"Invalid Arguments" forKey:NSLocalizedDescriptionKey]];
+		block(nil, error);
+		return;
+	}	
+	
+	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
+}
+
+#pragma mark - Game.getCreditsByID
+- (NSArray*) creditsByID:(NSInteger)gameID
+{
+	return [self creditsByID:gameID error:nil];
+}
+- (NSArray*) creditsByID:(NSInteger)gameID error:(NSError**)outError
+{
+	return [self creditsByID:gameID usingFormat:AVGDefaultOutputFormat error:outError];
+}
+
+- (NSArray*) creditsByID:(NSInteger)gameID usingFormat:(AVGOutputFormat)format error:(NSError**)outError
+{
+	ArchiveVGOperation operation = AVGGetCreditsByID;
+	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
+	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
+}
+
+- (void)creditsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block
+{
+	[self creditsByID:(NSInteger)gameID withCallback:block usingFormat:AVGDefaultOutputFormat];
+}
+
+- (void)creditsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
+{
+	ArchiveVGOperation	operation = AVGGetCreditsByID;
+	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
+	
+	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
+}
+
+#pragma mark - Game.getReleasesByID
+- (NSArray*)releasesByID:(NSInteger)gameID
+{
+	return [self releasesByID:gameID error:nil];
+}
+- (NSArray*)releasesByID:(NSInteger)gameID error:(NSError**)outError
+{
+	return [self releasesByID:gameID usingFormat:AVGDefaultOutputFormat error:outError];
+}
+
+- (NSArray*)releasesByID:(NSInteger)gameID usingFormat:(AVGOutputFormat)format error:(NSError**)outError
+{
+	ArchiveVGOperation operation = AVGGetReleasesByID;
+	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
+	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
+}
+
+- (void)releasesByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block
+{
+	[self releasesByID:(NSInteger)gameID withCallback:block usingFormat:AVGDefaultOutputFormat];
+}
+
+- (void)releasesByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
+{
+	ArchiveVGOperation	operation = AVGGetReleasesByID;
+	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
+	
+	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
+}
+
+#pragma mark - Game.getTOSECsByID
+- (NSArray*) TOSECsByID:(NSInteger)gameID
+{
+	return [self TOSECsByID:gameID error:nil];
+}
+- (NSArray*) TOSECsByID:(NSInteger)gameID error:(NSError**)outError
+{
+	return [self TOSECsByID:gameID usingFormat:AVGDefaultOutputFormat error:outError];
+}
+
+- (NSArray*) TOSECsByID:(NSInteger)gameID usingFormat:(AVGOutputFormat)format error:(NSError**)outError
+{
+	ArchiveVGOperation operation = AVGGetTOSECsByID;
+	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
+	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
+}
+
+- (void)TOSECsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block
+{
+	[self TOSECsByID:(NSInteger)gameID withCallback:block usingFormat:AVGDefaultOutputFormat];
+}
+
+- (void)TOSECsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
+{	
+	ArchiveVGOperation	operation = AVGGetTOSECsByID;
+	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
+	
+	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
+    
+}
+#pragma mark - Game.getRatingByID
+- (NSNumber*)ratingByID:(NSInteger)gameID
+{
+	return [self ratingByID:gameID error:nil];
+}
+- (NSNumber*)ratingByID:(NSInteger)gameID error:(NSError**)outError
+{
+	return [self ratingByID:gameID usingFormat:AVGDefaultOutputFormat error:outError];
+}
+
+- (NSNumber*)ratingByID:(NSInteger)gameID usingFormat:(AVGOutputFormat)format error:(NSError**)outError
+{
+	ArchiveVGOperation operation = AVGGetRatingByID;
+	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
+	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
+}
+
+- (void)ratingByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block
+{
+	[self ratingByID:(NSInteger)gameID withCallback:block usingFormat:AVGDefaultOutputFormat];
+}
+
+- (void)ratingByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
+{
+	ArchiveVGOperation	operation = AVGGetRatingByID;
+	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
+	
+	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
+}
+#pragma mark -
+- (id)performStandardCallWithOperation:(ArchiveVGOperation)operation format:(AVGOutputFormat)format andOptions:(NSArray*)options error:(NSError**)outError
+{
+	NSURL	*url	= [[self class] urlForOperation:operation withOutputFormat:format andOptions:options];
+	NSData *data	= [[self class] synchronousResultForURL:url error:outError];
+	id result			= [[self class] parseArchiveResponse:data forOperation:operation withOutputFormat:format error:outError];
+	
+	return result;
+}
+
+- (void)performAsynchronousCallWithOperation:(ArchiveVGOperation)operation callback:(void(^)(id result, NSError *error))block format:(AVGOutputFormat)format andOptions:(NSArray*)options
+{
+	dispatch_async(ArchiveVGDispatchQueue, ^{
+		NSError *error = nil;
+		id result = [self performStandardCallWithOperation:operation format:format andOptions:options error:&error];
+		block(result, error);
+	});
+}
+#pragma mark - Preparing Archive Call
++ (NSString*)apiCallForOperation:(ArchiveVGOperation)op
+{
     switch (op) 
     {
-        case AVGSearch:
-            operationKey = @"Archive.search";
-            break;
-        case AVGGetSystems:
-            operationKey = @"Archive.getSystems";
-            break;
-        case AVGGetGames:
-            operationKey = @"System.getGames";
-            break;
-            
-            
-        case AVGGetInfoByID:
-            operationKey = @"Game.getInfoByID";
-            break;			
-        case AVGGetInfoByCRC:
-            operationKey = @"Game.getInfoByCRC";
-            break;
-        case AVGGetInfoByMD5:
-            operationKey = @"Game.getInfoByMD5";
-            break;
-            
-        case AVGGetInfoByGameList:
-            operationKey = @"Games.batch/xml";
-            break;
+		case AVGConfig:				return @"Archive.config";
+        case AVGSearch:				return @"Archive.search";
+		case AVGGetSystems:		return @"Archive.getSystems";
+		case AVGGetDailyFact:		return @"Archive.getDailyFact";
+			
+		case AVGGetInfoByID:		return @"Game.getInfoByID";
+		case AVGGetInfoByCRC:		return @"Game.getInfoByCRC";
+		case AVGGetInfoByMD5:	return @"Game.getInfoByMD5";
+			
+		case AVGGetCreditsByID:	return @"Game.getCreditsByID";
+		case AVGGetReleasesByID: return @"Game.getReleasesByID";
+		case AVGGetTOSECsByID:	return @"Game.getTOSECsByID";
+		case AVGGetRatingByID:	return @"Game.getRatingByID";
+    }
+	return nil;
+}
+
++ (NSString*)stringFromOutputFormat:(AVGOutputFormat)format
+{
+	switch (format)
+	{
+		case AVGOutputFormatXML:	return @"xml";
+		case AVGOutputFormatJSON:	return @"json";
+		case AVGOutputFormatYAML:	return @"yaml";
 	}
-    
-    NSMutableString* urlString = [[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@", APIBase, APIVersion, operationKey, APIKey];
+}
+
++ (NSURL*)urlForOperation:(ArchiveVGOperation)op withOutputFormat:(AVGOutputFormat)format andOptions:(NSArray*)options
+{
+	NSString			*apiCall		= [self apiCallForOperation:op];
+	NSString			*formatStr	= [self stringFromOutputFormat:format];
+	NSMutableString	*urlString	= [[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@/%@", APIBase, APIVersion, apiCall, formatStr, APIKey];
     for(id anOption in options)
     {
-        NSString* optionString = [NSString stringWithFormat:@"%@", anOption];
-        // TODO: Format optionString to aproritate encoding
+        NSString *optionString = [NSString stringWithFormat:@"%@", anOption];
+        //TODO: Format optionString to aproritate encoding
         [urlString appendFormat:@"/%@", [optionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     }
-    
-    NSURL* result = [NSURL URLWithString:urlString];    
+    NSURL *result = [NSURL URLWithString:urlString];
     return result;
 }
 
-+ (NSXMLDocument*)gameListXMLFromDictionaries:(NSArray*)array
+#pragma mark - Getting Data from Archive.vg:
++ (NSData*)synchronousResultForURL:(NSURL*)url error:(NSError**)outError
 {
-    NSXMLElement *gamesElement = [NSXMLElement elementWithName:@"games"];
-    for(NSDictionary *gameInfo in array)
-    {
-        NSXMLElement    *game    = [NSXMLElement elementWithName:@"game"];
-        
-        NSString        *value   = nil;
-        NSXMLElement    *element = nil;
-        
-        value = [gameInfo valueForKey:AVGGameListItemRequestAttributeKey];
-        if(value)
-        {
-            NSXMLNode       *request = [NSXMLNode attributeWithName:AVGGameListItemRequestAttributeKey stringValue:value];
-            [game addAttribute:request];
-        }
-        
-        const NSArray *keys = [NSArray arrayWithObjects:AVGGameListItemRomFileKey, AVGGameListItemCRC32Key, AVGGameListItemMD5Key, AVGGameListItemSizeKey, nil];
-        for(NSString* aKey in keys)
-        {
-            value = [gameInfo valueForKey:aKey];
-            if(value)
-            {
-                element = [NSXMLElement elementWithName:aKey stringValue:value];
-                [game addChild:element];
-            }
-        }        
-        [gamesElement addChild:game];
-    };    
-    
-    return [NSXMLDocument documentWithRootElement:gamesElement];
+	//TODO: fix NSDataReadingOptions
+	return [NSData dataWithContentsOfURL:url options:0 error:outError];
 }
 
-#pragma mark -
-#pragma mark Private XMLNode handling
-+ (NSDictionary*)dictFromGameNode:(NSXMLNode*)gameNode error:(NSError*__autoreleasing*)outError
+#pragma mark - Parsing the response
++ (Class)parserForOutputFormat:(AVGOutputFormat)format
 {
-    NSXMLNode* gameID = [[gameNode nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameID");
-        ArchiveDLog(@"Error: %@", *outError);
-        return nil;
-    }
-    
-    id request = [[[gameNode nodesForXPath:@"./@request" error:outError] lastObject] stringValue];
-    ArchiveDLog(@"request: %@", request);
-    
-    NSXMLNode* gameTitle = [[gameNode nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameTitle");
-        ArchiveDLog(@"Error: %@", *outError);
-        return nil;
-    }
-    
-    NSXMLNode* gameDescription = [[gameNode nodesForXPath:@"./description[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameDescription");
-        ArchiveDLog(@"Error: %@", *outError);
-        
-        gameDescription = nil;
-    }
-    
-    NSXMLNode* gameGenre = [[gameNode nodesForXPath:@"./genre[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameGenre");
-        ArchiveDLog(@"Error: %@", *outError);
-        gameGenre = nil;
-    }
-    
-    NSXMLNode* gameDeveloper = [[gameNode nodesForXPath:@"./developer[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameDeveloper");
-        ArchiveDLog(@"Error: %@", *outError);
-        gameDeveloper = nil;
-    }
-    
-    NSXMLNode* gameEsrbRating = [[gameNode nodesForXPath:@"./desrb_rating[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameEsrbRating");
-        ArchiveDLog(@"Error: %@", *outError);
-        gameEsrbRating = nil;
-    }
-    
-    NSXMLNode* gameSystemName = [[gameNode nodesForXPath:@"./system[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameSystemName");
-        ArchiveDLog(@"Error: %@", *outError);
-        gameSystemName = nil;
-    }
-    
-    NSXMLNode* gameBoxFront = [[gameNode nodesForXPath:@"./box_front[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameBoxFront");
-        ArchiveDLog(@"Error: %@", *outError);
-        gameBoxFront = nil;
-    }
-    
-    NSXMLNode* gameRomName = [[gameNode nodesForXPath:@"./romName[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameRomName");
-        ArchiveDLog(@"Error: %@", *outError);
-        return nil;
-    }
-    
-    // credits
-    NSArray* creditNodes = [gameNode nodesForXPath:@"./credits/credit" error:outError];
-    NSMutableArray* credits = nil;
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameBoxFront");
-        ArchiveDLog(@"Error: %@", *outError);
-        creditNodes = nil;
-    } 
-    else
-    {
-        credits = [NSMutableArray arrayWithCapacity:[creditNodes count]];
-        [creditNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            NSString* name = [[[obj nodesForXPath:@"./name[1]/node()[1]" error:outError] lastObject] stringValue];
-            NSString* job = [[[obj nodesForXPath:@"./position[1]/node()[1]" error:outError] lastObject] stringValue];
-            
-            NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:[self removeHTMLEncodingsFromString:name], AVGCreditsNameKey, [self removeHTMLEncodingsFromString:job], AVGCreditsPositionKey, nil];
-            [credits addObject:dict];
-        }];
-    }
-    
-    // releases
-    NSArray* releaseNodes = [gameNode nodesForXPath:@"./releases/release" error:outError];
-    NSMutableArray* releases = nil;
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting gameBoxFront");
-        ArchiveDLog(@"Error: %@", *outError);
-        releaseNodes = nil;
-    } 
-    else
-    {
-        releases = [NSMutableArray arrayWithCapacity:[releaseNodes count]];
-        [releaseNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
-         {
-             NSString* title = [[[obj nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject] stringValue];
-             NSString* company = [[[obj nodesForXPath:@"./company[1]/node()[1]" error:outError] lastObject] stringValue];
-             NSString* serial = [[[obj nodesForXPath:@"./serial[1]/node()[1]" error:outError] lastObject] stringValue];
-             NSString* date = [[[obj nodesForXPath:@"./date[1]/node()[1]" error:outError] lastObject] stringValue];
-             NSString* country = [[[obj nodesForXPath:@"./country[1]/node()[1]" error:outError] lastObject] stringValue];
-             
-             NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [self removeHTMLEncodingsFromString:title],      AVGReleaseTitleKey, 
-                                   [self removeHTMLEncodingsFromString:company],    AVGReleaseCompanyKey,
-                                   [self removeHTMLEncodingsFromString:serial],     AVGReleaseSerialKey,
-                                   [self removeHTMLEncodingsFromString:country],    AVGReleaseCountryKey,
-                                   date,                                            AVGReleaseDateKey,               
-                                   nil];
-             [releases addObject:dict];
-         }];
-    }
-    
-    NSString* gameIDVal = gameID?[gameID stringValue]:nil;
-    NSString* gameTitleVal = gameTitle?[gameTitle stringValue]:nil;
-    NSString* gameDescriptionVal = gameDescription?[gameDescription stringValue]:nil;
-    NSString* gameGenreVal = gameGenre?[gameGenre stringValue]:nil;
-    NSString* gameDeveloperVal = gameDeveloper?[gameDeveloper stringValue]:nil;
-    NSString* gameBoxFrontVal = gameBoxFront?[gameBoxFront stringValue]:nil;
-    NSString* gameEsrbRatingVal = gameEsrbRating?[gameEsrbRating stringValue]:nil;
-    NSString* gameSystemNameVal = gameSystemName?[gameSystemName stringValue]:nil;
-    NSString* gameRomNameVal = gameRomName?[gameRomName stringValue]:nil;
-    
-    
-    NSMutableDictionary* result = [NSMutableDictionary dictionary];
-    if(gameIDVal)
-    {
-		NSString* idStr = [self removeHTMLEncodingsFromString:gameIDVal];
-        [result setObject:[NSNumber numberWithInteger:[idStr integerValue]] forKey:AVGGameIDKey];
-    }
-    if (request) {
-        [result setObject:request forKey:AVGGameListItemRequestAttributeKey];
-    }
-    
-    if(gameTitleVal)
-    {
-        [result setObject:[self removeHTMLEncodingsFromString:gameTitleVal] forKey:AVGGameTitleKey];
-    }
-    if(gameDescriptionVal)
-    {
-        [result setObject:[self removeHTMLEncodingsFromString:gameDescriptionVal] forKey:AVGGameDescriptionKey];
-    }
-    if(gameGenreVal)
-    {
-        [result setObject:[self removeHTMLEncodingsFromString:gameGenreVal] forKey:AVGGameGenreKey];
-    }
-    if(gameDeveloperVal)
-    {
-        [result setObject:[self removeHTMLEncodingsFromString:gameDeveloperVal] forKey:AVGGameDeveloperKey];
-    }
-    if(gameBoxFrontVal && [gameBoxFrontVal isNotEqualTo:@""])
-    {
-        [result setObject:[self removeHTMLEncodingsFromString:gameBoxFrontVal] forKey:AVGGameBoxURLKey];
-    }
-    if(gameEsrbRatingVal)
-    {
-        [result setObject:[self removeHTMLEncodingsFromString:gameEsrbRatingVal] forKey:AVGGameESRBRatingKey];
-    }
-    if(gameSystemNameVal)
-    {
-        [result setObject:[self removeHTMLEncodingsFromString:gameSystemNameVal] forKey:AVGGameSystemNameKey];
-    }
-    if(gameRomNameVal)
-    {
-        [result setObject:[self removeHTMLEncodingsFromString:gameRomNameVal] forKey:AVGGameRomNameKey];
-    }
-    if(credits)
-    {
-        [result setObject:credits forKey:AVGGameCreditsKey];
-    }
-    if(releases)
-    {
-        [result setObject:releases forKey:AVGGameReleasesKey];
-    }
-    
-    return result;
-}
-
-+ (NSDictionary*)dictFromSystemNode:(NSXMLNode*)systemNode error:(NSError*__autoreleasing*)outError
-{
-    NSXMLNode* systemID = [[systemNode nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting systemID");
-        ArchiveDLog(@"Error: %@", *outError);
-        return nil;
-    }
-    NSXMLNode* systemName = [[systemNode nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting systemName");
-        ArchiveDLog(@"Error: %@", *outError);
-        return nil;
-    }
-    NSXMLNode* systemShort = [[systemNode nodesForXPath:@"./short[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil)
-    {
-        ArchiveDLog(@"Error getting systemShort");
-        ArchiveDLog(@"Error: %@", *outError);
-        return nil;
-    }
-    
-    NSMutableDictionary* result = [NSMutableDictionary dictionaryWithObjectsAndKeys:systemID, AVGSystemIDKey, systemName, AVGSystemNameKey, systemShort, AVGSystemShortKey, nil];
-    return result;
-}
-
-+ (NSString*)removeHTMLEncodingsFromString:(NSString*)input
-{
-    if (!input) return nil;
-    
-    static NSDictionary* specialChars;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        specialChars = [[NSDictionary alloc] initWithObjectsAndKeys:
-                        @"\"",@"quot",
-                        @"&",	@"amp",
-                        @"",	@"apos",
-                        @"<",	@"lt",
-                        @">",	@"gt",
-                        @" ",	@"nbsp",
-                        @"¡",	@"iexcl",
-                        @"¢",	@"cent",
-                        @"£",	@"pound",
-                        @"¤",	@"curren",
-                        @"¥",	@"yen",
-                        @"¦",	@"brvbar",
-                        @"§",	@"sect",
-                        @"¨",	@"uml",
-                        @"©",	@"copy",
-                        @"ª",	@"ordf",
-                        @"«",	@"laquo",
-                        @"¬",	@"not",
-                        @"®",	@"reg",
-                        @"¯",	@"macr",
-                        @"°",	@"deg",
-                        @"±",	@"plusmn",
-                        @"²",	@"sup2",
-                        @"³",	@"sup3",
-                        @"´",	@"acute",
-                        @"µ",	@"micro",
-                        @"¶",	@"para",
-                        @"·",	@"middot",
-                        @"¸",	@"cedil",
-                        @"¹",	@"sup1",
-                        @"º",	@"ordm",
-                        @"»",	@"raquo",
-                        @"¼",	@"frac14",
-                        @"½",	@"frac12",
-                        @"¾",	@"frac34",
-                        @"¿",	@"iquest",
-                        @"À",	@"Agrave",
-                        @"Á",	@"Aacute",
-                        @"Â",	@"Acirc",
-                        @"Ã",	@"Atilde",
-                        @"Ä",	@"Auml",
-                        @"Å",	@"Aring",
-                        @"Æ",	@"AElig",
-                        @"Ç",	@"Ccedil",
-                        @"È",	@"Egrave",
-                        @"É",	@"Eacute",
-                        @"Ê",	@"Ecirc",
-                        @"Ë",	@"Euml",
-                        @"Ì",	@"Igrave",
-                        @"Í",	@"Iacute",
-                        @"Î",	@"Icirc",
-                        @"Ï",	@"Iuml",
-                        @"Ð",	@"ETH",
-                        @"Ñ",	@"Ntilde",
-                        @"Ò",	@"Ograve",
-                        @"Ó",	@"Oacute",
-                        @"Ô",	@"Ocirc",
-                        @"Õ",	@"Otilde",
-                        @"Ö",	@"Ouml",
-                        @"×",	@"times",
-                        @"Ø",	@"Oslash",
-                        @"Ù",	@"Ugrave",
-                        @"Ú",	@"Uacute",
-                        @"Û",	@"Ucirc",
-                        @"Ü",	@"Uuml",
-                        @"Ý",	@"Yacute",
-                        @"Þ",	@"THORN",
-                        @"ß",	@"szlig",
-                        @"à",	@"agrave",
-                        @"á",	@"aacute",
-                        @"â",	@"acirc",
-                        @"ã",	@"atilde",
-                        @"ä",	@"auml",
-                        @"å",	@"aring",
-                        @"æ",	@"aelig",
-                        @"ç",	@"ccedil",
-                        @"è",	@"egrave",
-                        @"é",	@"eacute",
-                        @"ê",	@"ecirc",
-                        @"ë",	@"euml",
-                        @"ì",	@"igrave",
-                        @"í",	@"iacute",
-                        @"î",	@"icirc",
-                        @"ï",	@"iuml",
-                        @"ð",	@"eth",
-                        @"ñ",	@"ntilde",
-                        @"ò",	@"ograve",
-                        @"ó",	@"oacute",
-                        @"ô",	@"ocirc",
-                        @"õ",	@"otilde",
-                        @"ö",	@"ouml",
-                        @"÷",	@"divide",
-                        @"ø",	@"oslash",
-                        @"ù",	@"ugrave",
-                        @"ú",	@"uacute",
-                        @"û",	@"ucirc",
-                        @"ü",	@"uuml",
-                        @"ý",	@"yacute",
-                        @"þ",	@"thorn",
-                        @"ÿ",	@"yuml",
-                        @"Œ",	@"OElig",
-                        @"œ",	@"oelig",
-                        @"Š",	@"Scaron",
-                        @"š",	@"scaron",
-                        @"Ÿ",	@"Yuml",
-                        @"ƒ",	@"fnof",
-                        @"ˆ",	@"circ",
-                        @"˜",	@"tilde",
-                        @"Α",	@"Alpha",
-                        @"Β",	@"Beta",
-                        @"Γ",	@"Gamma",
-                        @"Δ",	@"Delta",
-                        @"Ε",	@"Epsilon",
-                        @"Ζ",	@"Zeta",
-                        @"Η",	@"Eta",
-                        @"Θ",	@"Theta",
-                        @"Ι",	@"Iota",
-                        @"Κ",	@"Kappa",
-                        @"Λ",	@"Lambda",
-                        @"Μ",	@"Mu",
-                        @"Ν",	@"Nu",
-                        @"Ξ",	@"Xi",
-                        @"Ο",	@"Omicron",
-                        @"Π",	@"Pi",
-                        @"Ρ",	@"Rho",
-                        @"Σ",	@"Sigma",
-                        @"Τ",	@"Tau",
-                        @"Υ",	@"Upsilon",
-                        @"Φ",	@"Phi",
-                        @"Χ",	@"Chi",
-                        @"Ψ",	@"Psi",
-                        @"Ω",	@"Omega",
-                        @"α",	@"alpha",
-                        @"β",	@"beta",
-                        @"γ",	@"gamma",
-                        @"δ",	@"delta",
-                        @"ε",	@"epsilon",
-                        @"ζ",	@"zeta",
-                        @"η",	@"eta",
-                        @"θ",	@"theta",
-                        @"ι",	@"iota",
-                        @"κ",	@"kappa",
-                        @"λ",	@"lambda",
-                        @"μ",	@"mu",
-                        @"ν",	@"nu",
-                        @"ξ",	@"xi",
-                        @"ο",	@"omicron",
-                        @"π",	@"pi",
-                        @"ρ",	@"rho",
-                        @"ς",	@"sigmaf",
-                        @"σ",	@"sigma",
-                        @"τ",	@"tau",
-                        @"υ",	@"upsilon",
-                        @"φ",	@"phi",
-                        @"χ",	@"chi",
-                        @"ψ",	@"psi",
-                        @"ω",	@"omega",
-                        @"ϑ",	@"thetasym",
-                        @"ϒ",	@"upsih",
-                        @"ϖ",	@"piv",
-                        @" ",	@"ensp",
-                        @" ",	@"emsp",
-                        @" ",	@"thinsp",
-                        @"–",	@"ndash",
-                        @"—",	@"mdash",
-                        @"",	@"lsquo",
-                        @"",	@"rsquo",
-                        @"‚",	@"sbquo",
-                        @"“",	@"ldquo",
-                        @"”",	@"rdquo",
-                        @"„",	@"bdquo",
-                        @"†",	@"dagger",
-                        @"‡",	@"Dagger",
-                        @"•",	@"bull",
-                        @"…",	@"hellip",
-                        @"‰",	@"permil",
-                        @"′",	@"prime",
-                        @"″",	@"Prime",
-                        @"‹",	@"lsaquo",
-                        @"›",	@"rsaquo",
-                        @"‾",	@"oline",
-                        @"⁄",	@"frasl",
-                        @"€",	@"euro",
-                        @"ℑ",	@"image",
-                        @"℘",	@"weierp",
-                        @"ℜ",	@"real",
-                        @"™",	@"trade",
-                        @"ℵ",	@"alefsym",
-                        @"←",	@"larr",
-                        @"↑",	@"uarr",
-                        @"→",	@"rarr",
-                        @"↓",	@"darr",
-                        @"↔",	@"harr",
-                        @"↵",	@"crarr",
-                        @"⇐",	@"lArr",
-                        @"⇑",	@"uArr",
-                        @"⇒",	@"rArr",
-                        @"⇓",	@"dArr",
-                        @"⇔",	@"hArr",
-                        @"∀",	@"forall",
-                        @"∂",	@"part",
-                        @"∃",	@"exist",
-                        @"∅",	@"empty",
-                        @"∇",	@"nabla",
-                        @"∈",	@"isin",
-                        @"∉",	@"notin",
-                        @"∋",	@"ni",
-                        @"∏",	@"prod",
-                        @"∑",	@"sum",
-                        @"−",	@"minus",
-                        @"∗",	@"lowast",
-                        @"√",	@"radic",
-                        @"∝",	@"prop",
-                        @"∞",	@"infin",
-                        @"∠",	@"ang",
-                        @"∧",	@"and",
-                        @"∨",	@"or",
-                        @"∩",	@"cap",
-                        @"∪",	@"cup",
-                        @"∫",	@"int",
-                        @"∴",	@"there4",
-                        @"∼",	@"sim",
-                        @"≅",	@"cong",
-                        @"≈",	@"asymp",
-                        @"≠",	@"ne",
-                        @"≡",	@"equiv",
-                        @"≤",	@"le",
-                        @"≥",	@"ge",
-                        @"⊂",	@"sub",
-                        @"⊃",	@"sup",
-                        @"⊄",	@"nsub",
-                        @"⊆",	@"sube",
-                        @"⊇",	@"supe",
-                        @"⊕",	@"oplus",
-                        @"⊗",	@"otimes",
-                        @"⊥",	@"perp",
-                        @"⋅",	@"sdot",
-                        @"⌈",	@"lceil",
-                        @"⌉",	@"rceil",
-                        @"⌊",	@"lfloor",
-                        @"⌋",	@"rfloor",
-                        @"〈",	@"lang",
-                        @"〉",	@"rang",
-                        @"◊",	@"loz",
-                        @"♠",	@"spades",
-                        @"♣",	@"clubs",
-                        @"♥",	@"hearts",
-                        @"♦",	@"diams",
-                        nil];
-    });
-    
-    NSString *str = (__bridge_transfer NSString*)CFXMLCreateStringByUnescapingEntities(NULL, (__bridge CFStringRef)input, (__bridge CFDictionaryRef)specialChars);
-    
-    return str;
-}
-
-#pragma mark -
-#pragma mark Keychain Access
-+ (NSString*)_restoreSessionKeyForEmail:(NSString*)emailAddress error:(NSError*__autoreleasing*)outError
-{
-    NSString* seviceName = KCSessionServiceName;
-    
-    UInt32 sessionKeyLength;
-    char *sessionKey;
-    OSStatus status= SecKeychainFindGenericPassword (NULL,
-                                                     (UInt32)[seviceName length],
-                                                     [seviceName cStringUsingEncoding:NSUTF8StringEncoding],
-                                                     (UInt32)[emailAddress length],
-                                                     [emailAddress cStringUsingEncoding:NSUTF8StringEncoding],
-                                                     &sessionKeyLength,
-                                                     (void **)&sessionKey,
-                                                     NULL);    
-    if (status != noErr) 
-    {
-        ArchiveDLog (@"status %d from SecKeychainFindGenericPassword\n", status);
-    }
-    
-    if(status == errSecItemNotFound)
-    {
-        return nil;
-    }
-    
-    if(sessionKeyLength==0)
-    {
-        ArchiveDLog(@"SecKeychainFindGenericPassword did not return Data");
-        return nil;
-    }
-    
-    NSString* sessionKeyStr = [NSString stringWithCString:sessionKey encoding:NSUTF8StringEncoding];
-    
-    status = SecKeychainItemFreeContent (NULL, sessionKey);
-    if (status != noErr) 
-    {
-        ArchiveDLog (@"status %d from SecKeychainItemFreeContent\n", status);
-    }
-    
-    
-	return sessionKeyStr;
-}
-
-+ (BOOL)_storeSessionKey:(NSString*)sessionKey forEmail:(NSString*)emailAddress error:(NSError*__autoreleasing*)outError
-{
-    NSString* serviceName = KCSessionServiceName;    
-    OSStatus status = SecKeychainAddGenericPassword(NULL, 
-                                                    (UInt32)[serviceName length], [serviceName cStringUsingEncoding:NSUTF8StringEncoding], 
-                                                    (UInt32)[emailAddress length], [emailAddress cStringUsingEncoding:NSUTF8StringEncoding], 
-                                                    (UInt32)[sessionKey length], [sessionKey cStringUsingEncoding:NSUTF8StringEncoding],
-                                                    NULL);
-    if (status != noErr) 
-    {
-        printf("Error in SecKeychainAddGenericPassword: %d\n", (int)status);
-        return NO;
-    }
-    
-    return YES;
-}
-#pragma mark -
-#pragma mark Debug
-+ (NSString*)_debug_nameOfOp:(_ArchiveVGOperation)op
-{
-    NSString* opName;
-    switch (op) 
-    {
-        case AVGSearch:
-            opName = @"Archive.search";
-            break;
-        case AVGGetSystems:
-            opName = @"Archive.getSystems";
-            break;
-        case AVGGetGames:
-            opName = @"System.getGames";
-            break;
-            
-            
-        case AVGGetInfoByID:
-            opName = @"Game.getInfoByID";
-            break;			
-        case AVGGetInfoByCRC:
-            opName = @"Game.getInfoByCRC";
-            break;
-        case AVGGetInfoByMD5:
-            opName = @"Game.getInfoByMD5";
-            break;
-            
-        case AVGGetInfoByGameList:
-            opName = @"Games.batch";
-            break;
+	switch (format)
+	{
+		case AVGOutputFormatXML:	return [ArchiveVGXMLParser class];
+		case AVGOutputFormatJSON: return [ArchiveVGJSONParser class];
+		case AVGOutputFormatYAML:	return [ArchiveVGYAMLParser class];
 	}
-    
-    return opName;
+	
+	return [AsyncArchiveVGParser class];
+}
+
++ (id)parseArchiveResponse:(NSData*)response forOperation:(ArchiveVGOperation)operation withOutputFormat:(AVGOutputFormat)format error:(NSError**)outError
+{
+	Class parser = [self parserForOutputFormat:format];
+	return [parser parse:response forOperation:operation error:outError];
+}
+@end
+
+@implementation AsyncArchiveVGParser
++ (id)parse:(NSData *)responseData forOperation:(ArchiveVGOperation)operation error:(NSError *__autoreleasing *)outError
+{
+	if(outError != NULL)
+		*outError = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGUnkownOutputFormatErrorCode userInfo:[NSDictionary dictionaryWithObject:@"Unkown Output Format" forKey:NSLocalizedDescriptionKey]];
+	return nil;
 }
 @end
