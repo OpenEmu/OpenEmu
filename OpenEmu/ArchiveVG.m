@@ -1,10 +1,28 @@
-//
-//  AsyncArchiveVG.m
-//  OpenEmu
-//
-//  Created by Carl Leimbrock on 10.05.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ Copyright (c) 2012, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "ArchiveVG.h"
 
@@ -70,7 +88,7 @@ NSString * const OEArchiveVGErrorDomain = @"OEArchiveVGErrorDomain";
 #pragma mark -
 @interface ArchiveVG (Private)
 - (id)performStandardCallWithOperation:(ArchiveVGOperation)operation format:(AVGOutputFormat)format andOptions:(NSArray*)options error:(NSError**)outError;
-- (void)performAsynchronousCallWithOperation:(ArchiveVGOperation)operation callback:(void(^)(id result, NSError* error))block format:(AVGOutputFormat)format andOptions:(NSArray*)options;
+- (void)performAsynchronousCallWithOperation:(ArchiveVGOperation)operation callback:(void(^)(id result, NSError *error))block format:(AVGOutputFormat)format andOptions:(NSArray*)options;
 
 // Preparing Archive Call:
 + (NSString*)apiCallForOperation:(ArchiveVGOperation)operation;
@@ -133,12 +151,12 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return [self performStandardCallWithOperation:operation format:operation andOptions:nil error:outError];
 }
 
-- (void)configWithCallback:(void(^)(id result, NSError* error))block
+- (void)configWithCallback:(void(^)(id result, NSError *error))block
 {
 	return [self configWithCallback:block usingFormat:AVGDefaultOutputFormat];
 }
 
-- (void)configWithCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
+- (void)configWithCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
 {
 	ArchiveVGOperation	operation = AVGConfig;
 	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:nil];
@@ -161,12 +179,12 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
 }
 
-- (void)searchForString:(NSString*)searchString withCallback:(void(^)(id result, NSError* error))block
+- (void)searchForString:(NSString*)searchString withCallback:(void(^)(id result, NSError *error))block
 {
 	[self searchForString:searchString withCallback:block usingFormat:AVGDefaultOutputFormat];
 }
 
-- (void)searchForString:(NSString*)searchString withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format 
+- (void)searchForString:(NSString*)searchString withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format 
 {
 	ArchiveVGOperation	operation = AVGGetSystems;	
 	NSArray					*options  = [NSArray arrayWithObject:searchString];
@@ -189,11 +207,11 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return [self performStandardCallWithOperation:operation format:operation andOptions:nil error:outError];
 }
 
-- (void)systemsWithCallback:(void(^)(id result, NSError* error))block
+- (void)systemsWithCallback:(void(^)(id result, NSError *error))block
 {
 	[self systemsWithCallback:block usingFormat:AVGDefaultOutputFormat];
 }
-- (void)systemsWithCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
+- (void)systemsWithCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
 {
 	ArchiveVGOperation	operation = AVGGetSystems;	
 	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:nil];
@@ -215,11 +233,11 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return [self performStandardCallWithOperation:operation format:operation andOptions:nil error:outError];
 }
 
-- (void)dailyFactWithCallback:(void(^)(id result, NSError* error))block
+- (void)dailyFactWithCallback:(void(^)(id result, NSError *error))block
 {
 	[self dailyFactWithCallback:block usingFormat:AVGDefaultOutputFormat];
 }
-- (void)dailyFactWithCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
+- (void)dailyFactWithCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
 {
 	ArchiveVGOperation	operation = AVGGetDailyFact;	
 	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:nil];
@@ -242,18 +260,18 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
 }
 
-- (void)gameInfoByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block
+- (void)gameInfoByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block
 {
 	[self gameInfoByID:(NSInteger)gameID withCallback:block usingFormat:AVGDefaultOutputFormat];
 }
 
-- (void)gameInfoByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
+- (void)gameInfoByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
 {
 	ArchiveVGOperation	operation = AVGGetInfoByID;
 	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
 	
 	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
-
+    
 }
 #pragma mark - Game.getInfoByMD5 / Game.getInfoByCRC32
 - (NSDictionary*)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32
@@ -295,18 +313,18 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return options;
 }
 
-- (void)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 withCallback:(void(^)(id result, NSError* error))block
+- (void)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 withCallback:(void(^)(id result, NSError *error))block
 {
 	[self gameInfoByMD5:md5 andCRC:crc32 withCallback:block usingFormat:AVGDefaultOutputFormat];
 }
 
-- (void)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
+- (void)gameInfoByMD5:(NSString*)md5 andCRC:(NSString*)crc32 withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
 {	
 	ArchiveVGOperation operation;
 	NSArray *options = [[self class] _argumentsForCallWithMD5:md5 andCRC:crc32 usedCall:&operation];
 	if(!options)
 	{
-		NSError * error = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGInvalidArgumentsErrorCode userInfo:[NSDictionary dictionaryWithObject:@"Invalid Arguments" forKey:NSLocalizedDescriptionKey]];
+		NSError *error = [NSError errorWithDomain:OEArchiveVGErrorDomain code:AVGInvalidArgumentsErrorCode userInfo:[NSDictionary dictionaryWithObject:@"Invalid Arguments" forKey:NSLocalizedDescriptionKey]];
 		block(nil, error);
 		return;
 	}	
@@ -331,12 +349,12 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
 }
 
-- (void)creditsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block
+- (void)creditsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block
 {
 	[self creditsByID:(NSInteger)gameID withCallback:block usingFormat:AVGDefaultOutputFormat];
 }
 
-- (void)creditsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
+- (void)creditsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
 {
 	ArchiveVGOperation	operation = AVGGetCreditsByID;
 	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
@@ -361,12 +379,12 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
 }
 
-- (void)releasesByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block
+- (void)releasesByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block
 {
 	[self releasesByID:(NSInteger)gameID withCallback:block usingFormat:AVGDefaultOutputFormat];
 }
 
-- (void)releasesByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
+- (void)releasesByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
 {
 	ArchiveVGOperation	operation = AVGGetReleasesByID;
 	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
@@ -391,18 +409,18 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
 }
 
-- (void)TOSECsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block
+- (void)TOSECsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block
 {
 	[self TOSECsByID:(NSInteger)gameID withCallback:block usingFormat:AVGDefaultOutputFormat];
 }
 
-- (void)TOSECsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
+- (void)TOSECsByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
 {	
 	ArchiveVGOperation	operation = AVGGetTOSECsByID;
 	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
 	
 	[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
-
+    
 }
 #pragma mark - Game.getRatingByID
 - (NSNumber*)ratingByID:(NSInteger)gameID
@@ -421,12 +439,12 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return [self performStandardCallWithOperation:operation format:format andOptions:options error:outError];
 }
 
-- (void)ratingByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block
+- (void)ratingByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block
 {
 	[self ratingByID:(NSInteger)gameID withCallback:block usingFormat:AVGDefaultOutputFormat];
 }
 
-- (void)ratingByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError* error))block usingFormat:(AVGOutputFormat)format
+- (void)ratingByID:(NSInteger)gameID withCallback:(void(^)(id result, NSError *error))block usingFormat:(AVGOutputFormat)format
 {
 	ArchiveVGOperation	operation = AVGGetRatingByID;
 	NSArray					*options = [NSArray arrayWithObject:[NSNumber numberWithInteger:gameID]];
@@ -443,7 +461,7 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return result;
 }
 
-- (void)performAsynchronousCallWithOperation:(ArchiveVGOperation)operation callback:(void(^)(id result, NSError* error))block format:(AVGOutputFormat)format andOptions:(NSArray*)options
+- (void)performAsynchronousCallWithOperation:(ArchiveVGOperation)operation callback:(void(^)(id result, NSError *error))block format:(AVGOutputFormat)format andOptions:(NSArray*)options
 {
 	dispatch_async(ArchiveVGDispatchQueue, ^{
 		NSError *error = nil;
@@ -490,11 +508,11 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	NSMutableString	*urlString	= [[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@/%@", APIBase, APIVersion, apiCall, formatStr, APIKey];
     for(id anOption in options)
     {
-        NSString* optionString = [NSString stringWithFormat:@"%@", anOption];
+        NSString *optionString = [NSString stringWithFormat:@"%@", anOption];
         //TODO: Format optionString to aproritate encoding
         [urlString appendFormat:@"/%@", [optionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     }
-    NSURL* result = [NSURL URLWithString:urlString];
+    NSURL *result = [NSURL URLWithString:urlString];
     return result;
 }
 

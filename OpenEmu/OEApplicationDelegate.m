@@ -327,7 +327,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     if(hasUpdate)
     {
-        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:@"Cores" forKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Cores" forKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
         [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
     }
     /*

@@ -1,10 +1,28 @@
-//
-//  ArchiveVGXMLParser.m
-//  OpenEmu
-//
-//  Created by Carl Leimbrock on 10.05.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ Copyright (c) 2012, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "ArchiveVGXMLParser.h"
 @interface ArchiveVGXMLParser (Private)
@@ -60,7 +78,7 @@
 			return nil;
 		}
 	}
-
+    
 	switch (operation) 
 	{
 		case AVGConfig:				 return [self configDictionaryFromXMLDocument:document error:outError];
@@ -77,7 +95,7 @@
 		case AVGGetTOSECsByID:	 return [self TOSECDictionariesFromNodes:[document nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]/tosecs/tosec" error:outError] error:outError];
 		case AVGGetRatingByID:	 return [self ratingFromNode:[[document nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]/rating" error:outError] lastObject]];
 	}
-
+    
 	if(!result)
 	{
 		ArchiveDLog(@"Operation is not implemented yet.");
@@ -93,10 +111,10 @@
 	NSString *currentAPIVersion = [[[document nodesForXPath:@"/OpenSearchDescription[1]/configs[1]/general[1]/currentAPI[1]/node()" error:outError] lastObject] stringValue];
 	if(!currentAPIVersion) return nil;
 	
-	NSArray* throttlingConfig = [[document rootElement] nodesForXPath:@"/OpenSearchDescription[1]/configs[1]/throttling[1]/node()" error:outError];
+	NSArray *throttlingConfig = [[document rootElement] nodesForXPath:@"/OpenSearchDescription[1]/configs[1]/throttling[1]/node()" error:outError];
 	if([throttlingConfig count] != 2)
 		return nil;
-
+    
 	NSNumber *maximumCalls = [NSNumber numberWithInteger:[[[throttlingConfig objectAtIndex:0] stringValue] integerValue]];
 	NSNumber *regenerationValue = [NSNumber numberWithInteger:[[[throttlingConfig objectAtIndex:1] stringValue] integerValue]];
 	
@@ -165,10 +183,10 @@
 	if(!content)	return nil;
 	
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-								date, AVGFactDateKey, 
-								[NSNumber numberWithInteger:[game integerValue]], AVGFactGameIDKey, 
-								content, AVGFactContentKey,
-								nil];
+            date, AVGFactDateKey, 
+            [NSNumber numberWithInteger:[game integerValue]], AVGFactGameIDKey, 
+            content, AVGFactContentKey,
+            nil];
 }
 
 + (NSArray*)gameDictionariesFromNodes:(NSArray*)nodes error:(NSError**)outError
@@ -177,22 +195,22 @@
 	
 	//TODO: new api only returns:
 	/*
-		id
-		title
-		description
-		genre
-		developer
-		esrb_Rating
-		box_front
-		system
-		system_title
+     id
+     title
+     description
+     genre
+     developer
+     esrb_Rating
+     box_front
+     system
+     system_title
 	 */
 	// and if getInfoByHash was used also
 	/*
-		rating
-		size
-		rom
-		romname
+     rating
+     size
+     rom
+     romname
 	 */
 	// credits, tosec and releases are separate calls now
 	if(!nodes) return nil;
@@ -211,7 +229,7 @@
 
 + (NSDictionary*)gameDictionaryFromNode:(NSXMLNode*)node error:(NSError**)outError
 {
-	NSXMLNode* gameID = [[node nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
+	NSXMLNode *gameID = [[node nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
     if(!gameID)
     {
         ArchiveDLog(@"Error getting gameID");
@@ -220,7 +238,7 @@
         return nil;
     }
     
-    NSXMLNode* gameTitle = [[node nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
+    NSXMLNode *gameTitle = [[node nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
     if(!gameTitle)
     {
         ArchiveDLog(@"Error getting gameTitle");
@@ -230,7 +248,7 @@
         return nil;
     }
     
-    NSXMLNode* gameDescription = [[node nodesForXPath:@"./description[1]/node()[1]" error:outError] lastObject];
+    NSXMLNode *gameDescription = [[node nodesForXPath:@"./description[1]/node()[1]" error:outError] lastObject];
     if(!gameDescription)
     {
         ArchiveDLog(@"Error getting gameDescription");
@@ -239,7 +257,7 @@
         gameDescription = nil;
     }
     
-    NSXMLNode* gameGenre = [[node nodesForXPath:@"./genre[1]/node()[1]" error:outError] lastObject];
+    NSXMLNode *gameGenre = [[node nodesForXPath:@"./genre[1]/node()[1]" error:outError] lastObject];
     if(!gameGenre)
     {
         ArchiveDLog(@"Error getting gameGenre");
@@ -247,7 +265,7 @@
         gameGenre = nil;
     }
     
-    NSXMLNode* gameDeveloper = [[node nodesForXPath:@"./developer[1]/node()[1]" error:outError] lastObject];
+    NSXMLNode *gameDeveloper = [[node nodesForXPath:@"./developer[1]/node()[1]" error:outError] lastObject];
     if(!gameDeveloper)
     {
         ArchiveDLog(@"Error getting gameDeveloper");
@@ -255,7 +273,7 @@
         gameDeveloper = nil;
     }
     
-    NSXMLNode* gameEsrbRating = [[node nodesForXPath:@"./desrb_rating[1]/node()[1]" error:outError] lastObject];
+    NSXMLNode *gameEsrbRating = [[node nodesForXPath:@"./desrb_rating[1]/node()[1]" error:outError] lastObject];
     if(!gameEsrbRating)
     {
         ArchiveDLog(@"Error getting gameEsrbRating");
@@ -263,7 +281,7 @@
         gameEsrbRating = nil;
     }
     
-    NSXMLNode* gameSystemName = [[node nodesForXPath:@"./system[1]/node()[1]" error:outError] lastObject];
+    NSXMLNode *gameSystemName = [[node nodesForXPath:@"./system[1]/node()[1]" error:outError] lastObject];
     if(!gameSystemName)
     {
         ArchiveDLog(@"Error getting gameSystemName");
@@ -271,7 +289,7 @@
         gameSystemName = nil;
     }
     
-    NSXMLNode* gameBoxFront = [[node nodesForXPath:@"./box_front[1]/node()[1]" error:outError] lastObject];
+    NSXMLNode *gameBoxFront = [[node nodesForXPath:@"./box_front[1]/node()[1]" error:outError] lastObject];
     if(!gameBoxFront)
     {
         ArchiveDLog(@"Error getting gameBoxFront");
@@ -279,7 +297,7 @@
         gameBoxFront = nil;
     }
     
-    NSXMLNode* gameRomName = [[node nodesForXPath:@"./romName[1]/node()[1]" error:outError] lastObject];
+    NSXMLNode *gameRomName = [[node nodesForXPath:@"./romName[1]/node()[1]" error:outError] lastObject];
     if(!gameRomName)
     {
         ArchiveDLog(@"Error getting gameRomName");
@@ -288,8 +306,8 @@
     }
     
     // credits
-    NSArray* creditNodes = [node nodesForXPath:@"./credits/credit" error:outError];
-    NSMutableArray* credits = nil;
+    NSArray *creditNodes = [node nodesForXPath:@"./credits/credit" error:outError];
+    NSMutableArray *credits = nil;
     if(!creditNodes)
     {
         ArchiveDLog(@"Error getting gameBoxFront");
@@ -300,17 +318,17 @@
     {
         credits = [NSMutableArray arrayWithCapacity:[creditNodes count]];
         [creditNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            NSString* name = [[[obj nodesForXPath:@"./name[1]/node()[1]" error:outError] lastObject] stringValue];
-            NSString* job = [[[obj nodesForXPath:@"./position[1]/node()[1]" error:outError] lastObject] stringValue];
+            NSString *name = [[[obj nodesForXPath:@"./name[1]/node()[1]" error:outError] lastObject] stringValue];
+            NSString *job = [[[obj nodesForXPath:@"./position[1]/node()[1]" error:outError] lastObject] stringValue];
             
-            NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:[self removeHTMLEncodingsFromString:name], AVGCreditsNameKey, [self removeHTMLEncodingsFromString:job], AVGCreditsPositionKey, nil];
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[self removeHTMLEncodingsFromString:name], AVGCreditsNameKey, [self removeHTMLEncodingsFromString:job], AVGCreditsPositionKey, nil];
             [credits addObject:dict];
         }];
     }
     
     // releases
-    NSArray* releaseNodes = [node nodesForXPath:@"./releases/release" error:outError];
-    NSMutableArray* releases = nil;
+    NSArray *releaseNodes = [node nodesForXPath:@"./releases/release" error:outError];
+    NSMutableArray *releases = nil;
     if(!releaseNodes)
     {
         ArchiveDLog(@"Error getting gameBoxFront");
@@ -322,13 +340,13 @@
         releases = [NSMutableArray arrayWithCapacity:[releaseNodes count]];
         [releaseNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
          {
-             NSString* title = [[[obj nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject] stringValue];
-             NSString* company = [[[obj nodesForXPath:@"./company[1]/node()[1]" error:outError] lastObject] stringValue];
-             NSString* serial = [[[obj nodesForXPath:@"./serial[1]/node()[1]" error:outError] lastObject] stringValue];
-             NSString* date = [[[obj nodesForXPath:@"./date[1]/node()[1]" error:outError] lastObject] stringValue];
-             NSString* country = [[[obj nodesForXPath:@"./country[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString *title = [[[obj nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString *company = [[[obj nodesForXPath:@"./company[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString *serial = [[[obj nodesForXPath:@"./serial[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString *date = [[[obj nodesForXPath:@"./date[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString *country = [[[obj nodesForXPath:@"./country[1]/node()[1]" error:outError] lastObject] stringValue];
              
-             NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
+             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                                    [self removeHTMLEncodingsFromString:title],      AVGReleaseTitleKey, 
                                    [self removeHTMLEncodingsFromString:company],    AVGReleaseCompanyKey,
                                    [self removeHTMLEncodingsFromString:serial],     AVGReleaseSerialKey,
@@ -339,21 +357,21 @@
          }];
     }
     
-    NSString* gameIDVal = gameID?[gameID stringValue]:nil;
-    NSString* gameTitleVal = gameTitle?[gameTitle stringValue]:nil;
-    NSString* gameDescriptionVal = gameDescription?[gameDescription stringValue]:nil;
-    NSString* gameGenreVal = gameGenre?[gameGenre stringValue]:nil;
-    NSString* gameDeveloperVal = gameDeveloper?[gameDeveloper stringValue]:nil;
-    NSString* gameBoxFrontVal = gameBoxFront?[gameBoxFront stringValue]:nil;
-    NSString* gameEsrbRatingVal = gameEsrbRating?[gameEsrbRating stringValue]:nil;
-    NSString* gameSystemNameVal = gameSystemName?[gameSystemName stringValue]:nil;
-    NSString* gameRomNameVal = gameRomName?[gameRomName stringValue]:nil;
+    NSString *gameIDVal = gameID?[gameID stringValue]:nil;
+    NSString *gameTitleVal = gameTitle?[gameTitle stringValue]:nil;
+    NSString *gameDescriptionVal = gameDescription?[gameDescription stringValue]:nil;
+    NSString *gameGenreVal = gameGenre?[gameGenre stringValue]:nil;
+    NSString *gameDeveloperVal = gameDeveloper?[gameDeveloper stringValue]:nil;
+    NSString *gameBoxFrontVal = gameBoxFront?[gameBoxFront stringValue]:nil;
+    NSString *gameEsrbRatingVal = gameEsrbRating?[gameEsrbRating stringValue]:nil;
+    NSString *gameSystemNameVal = gameSystemName?[gameSystemName stringValue]:nil;
+    NSString *gameRomNameVal = gameRomName?[gameRomName stringValue]:nil;
     
     
-    NSMutableDictionary* result = [NSMutableDictionary dictionary];
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
     if(gameIDVal)
     {
-		NSString* idStr = [self removeHTMLEncodingsFromString:gameIDVal];
+		NSString *idStr = [self removeHTMLEncodingsFromString:gameIDVal];
         [result setObject:[NSNumber numberWithInteger:[idStr integerValue]] forKey:AVGGameIDKey];
     }
     
@@ -413,7 +431,7 @@
 		[result addObject:creditsDict];
 	}
 	return result;
-
+    
 }
 
 + (NSDictionary*)creditsDictionaryFromNode:(NSXMLNode*)node error:(NSError**)outError
@@ -453,7 +471,7 @@
 	NSString *date = [[[node nodesForXPath:@"./date[1]/node()" error:outError] lastObject] stringValue];;;
 	NSString *country = [[[node nodesForXPath:@"./country[1]/node()" error:outError] lastObject] stringValue];;;;
 	
-	NSMutableDictionary* result = [[NSMutableDictionary alloc] initWithCapacity:5];
+	NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithCapacity:5];
 	[result setValue:title forKey:AVGReleaseTitleKey];
 	if(company)	[result setValue:company forKey:AVGReleaseCompanyKey];
 	if(serial)		[result setValue:serial forKey:AVGReleaseSerialKey];
@@ -489,8 +507,8 @@
 	NSString *size = [[[node nodesForXPath:@"./size[1]/node()" error:outError] lastObject] stringValue];;
 	NSString *crc = [[[node nodesForXPath:@"./crc[1]/node()" error:outError] lastObject] stringValue];;
 	NSString *md5 = [[[node nodesForXPath:@"./md5[1]/node()" error:outError] lastObject] stringValue];;
-
-	NSMutableDictionary* result = [[NSMutableDictionary alloc] initWithCapacity:5];
+    
+	NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithCapacity:5];
 	[result setValue:name forKey:AVGTosecTitleKey];
 	
 	if(romname)	[result setValue:romname forKey:AVGTosecRomNameKey];
@@ -513,10 +531,10 @@
 #pragma mark -
 + (NSString*)removeHTMLEncodingsFromString:(NSString*)input
 {
-	//TODO: Cleanup or even better rewrite
+	//TODO: Cleanup or even better, rewrite
     if (!input) return nil;
     
-    static NSDictionary* specialChars;
+    static NSDictionary *specialChars;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         specialChars = [[NSDictionary alloc] initWithObjectsAndKeys:
