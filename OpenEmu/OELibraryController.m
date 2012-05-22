@@ -34,7 +34,6 @@
 #import "OELibrarySplitView.h"
 
 #import "NSImage+OEDrawingAdditions.h"
-#import "OEBackgroundColorView.h"
 
 #import "OEGameView.h"
 

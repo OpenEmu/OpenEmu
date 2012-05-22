@@ -138,7 +138,6 @@
 
 #pragma mark -
 #pragma mark Delegate
-
 @protocol OEGameViewControllerDelegate <NSObject>
 @optional
 - (void)emulationDidFinishForGameViewController:(OEGameViewController *)sender;

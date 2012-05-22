@@ -27,7 +27,6 @@
 #import "OEPreferencesController.h"
 #import <Quartz/Quartz.h>
 
-#import "OEBackgroundImageView.h"
 #import "OEBackgroundGradientView.h"
 
 #import "OEToolbarView.h"

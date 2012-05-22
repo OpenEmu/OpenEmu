@@ -598,6 +598,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     DLog(@"releasing old filterRenderer");
     
     filterRenderer = nil;
+    
+    if(!filterName) return;
         
     if([filters objectForKey:filterName] == nil && [self openGLContext] != nil)
     {

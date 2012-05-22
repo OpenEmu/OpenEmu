@@ -489,7 +489,6 @@
 		C6252DC214E79EFB00350A13 /* Controller-Preferences-Info-NA.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DC014E79EFA00350A13 /* Controller-Preferences-Info-NA.plist */; };
 		C6252DC414E7A00000350A13 /* Controller-Preferences-Info-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DC314E7A00000350A13 /* Controller-Preferences-Info-JAP.plist */; };
 		C6252DC814E7A38000350A13 /* OEControlsSetupView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AFE0D50FED6FDF00AC0CCF /* OEControlsSetupView.m */; };
-		C6252DCE14E83C8300350A13 /* OEGameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6252DCD14E83C8200350A13 /* OEGameWindowController.m */; };
 		C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C6289C31135B215B00EEE97C /* OESystemPlugin.m */; };
 		C62D53050FFB51D6007C2649 /* OECompositionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62D53040FFB51D6007C2649 /* OECompositionPlugin.m */; };
 		C62F54710FE6ADC500DF15BA /* OEPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62F54700FE6ADC500DF15BA /* OEPlugin.m */; };
@@ -1455,8 +1454,6 @@
 		C6252DBF14E79EF900350A13 /* Controller-Preferences-Info-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info-JAP.plist"; sourceTree = "<group>"; };
 		C6252DC014E79EFA00350A13 /* Controller-Preferences-Info-NA.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info-NA.plist"; sourceTree = "<group>"; };
 		C6252DC314E7A00000350A13 /* Controller-Preferences-Info-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info-JAP.plist"; sourceTree = "<group>"; };
-		C6252DCC14E83C8200350A13 /* OEGameWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameWindowController.h; sourceTree = "<group>"; };
-		C6252DCD14E83C8200350A13 /* OEGameWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameWindowController.m; sourceTree = "<group>"; };
 		C6289C30135B215B00EEE97C /* OESystemPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemPlugin.h; sourceTree = "<group>"; };
 		C6289C31135B215B00EEE97C /* OESystemPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESystemPlugin.m; sourceTree = "<group>"; };
 		C6289C34135B27C100EEE97C /* OESystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemController.h; sourceTree = "<group>"; };
@@ -2777,8 +2774,6 @@
 		832D29451451B0E700BDF950 /* MainWindow: GameView */ = {
 			isa = PBXGroup;
 			children = (
-				C6252DCC14E83C8200350A13 /* OEGameWindowController.h */,
-				C6252DCD14E83C8200350A13 /* OEGameWindowController.m */,
 				830155791456BF7A0093D681 /* OEGameViewController.h */,
 				8301557A1456BF7A0093D681 /* OEGameViewController.m */,
 				53439B7813B933B8005C0CC8 /* OEGameControlsBar.h */,
@@ -4273,7 +4268,6 @@
 				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
 				3D15428114E20E22009C3DEE /* OENonARCHacks.m in Sources */,
 				C6D6FA7E14E2264C0083C75D /* NSViewController+OEAdditions.m in Sources */,
-				C6252DCE14E83C8300350A13 /* OEGameWindowController.m in Sources */,
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */,
 				EFBD5D7E14EFE26300FBD1E0 /* OEGridLayer.m in Sources */,

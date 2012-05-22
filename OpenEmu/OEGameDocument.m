@@ -36,67 +36,27 @@
 #import "OEGameCoreManager.h"
 
 #import "OEROMImporter.h"
-#import "OEGameWindowController.h"
 
 @interface OEGameDocument ()
-
-@property (strong) NSTimer * mouseIdleTimer;
-
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError**)outError;
 - (BOOL)OE_loadGame:(OEDBGame *)game core:(OECorePlugin*)core withError:(NSError**)outError;
-
-- (void)checkMouseIdleTime:(NSTimer*)aNotification;
-
-- (void)windowDidEnterFullScreen:(NSNotification*)aNotification;
-- (void)windowDidExitFullScreen:(NSNotification*)aNotification;
-
 @end
 
 @implementation OEGameDocument
-@synthesize gameViewController,mouseIdleTimer;
-
-#pragma mark -
-
-
+@synthesize gameViewController;
 - (id)init
 {
     self = [super init];
     if(self != nil)
     {
-        NSLog(@"OEGameDocument init");
+        DLog(@"OEGameDocument init");
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(applicationWillTerminate:) 
                                                      name:NSApplicationWillTerminateNotification
                                                    object:NSApp];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidExitFullScreen:) name:NSWindowDidExitFullScreenNotification object:nil];
-        
     }
     return self;
 }
-
-- (void)windowDidEnterFullScreen:(NSNotification *)aNotification
-{
-    mouseIdleTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(checkMouseIdleTime:) userInfo:nil repeats:YES];
-    [mouseIdleTimer fire];
-}
-
-- (void)windowDidExitFullScreen:(NSNotification *)aNotification
-{
-    [mouseIdleTimer invalidate];
-    [NSCursor setHiddenUntilMouseMoves:NO];
-}
-
-- (void)checkMouseIdleTime:(NSTimer*)aNotification
-{
-    CFTimeInterval mouseIdleTime = CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGEventMouseMoved);
-    if (mouseIdleTime >= 3)
-    {
-        [NSCursor setHiddenUntilMouseMoves:YES];
-    }
-}
-
 
 - (id)initWithRom:(OEDBRom *)rom
 {
@@ -179,6 +139,7 @@
 #pragma mark -
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
+    [[self gameViewController] terminateEmulation];
 }
 
 - (void)showInSeparateWindow:(id)sender;
@@ -197,13 +158,7 @@
     {
         windowRect = NSRectFromString([standardDefaults stringForKey:UDLastPopoutFrameKey]);
     }
-    
-    OEGameWindowController *windowController = [[OEGameWindowController alloc] initWithGameViewController:gameViewController contentRect:windowRect];
-    
-    [self addWindowController:windowController];
-    
-    [windowController showWindow:self];
-    [[windowController window] center];
+#warning Reimplement showInSeparateWindow:
 }
 
 #pragma mark -
@@ -312,9 +267,12 @@
     return [self OE_loadRom:[game defaultROM] core:nil withError:outError];
 }
 
-#pragma mark -
-#pragma mark Window management utilities
-
+#pragma mark - Window management utilities
+@dynamic viewController;
+- (NSViewController*)viewController
+{
+    return [self gameViewController];
+}
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
     // if([self backgroundPauses]) [self setPauseEmulation:NO];
@@ -350,6 +308,8 @@
      
      //[recorder finishRecording];
      */
+    
+    [[self gameViewController] terminateEmulation];
 }
 
 - (void)performClose:(id)sender

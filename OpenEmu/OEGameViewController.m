@@ -231,8 +231,7 @@
     
     [self OE_terminateEmulationWithoutNotification];
     
-    if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
-        [[self delegate] emulationDidFinishForGameViewController:self];
+    [NSApp sendAction:@selector(emulationDidFinishForGameViewController:) to:nil from:self];
     
     [[self document] close];
 }

@@ -29,7 +29,6 @@
 #import "OEMainWindow.h"
 #import "OESetupAssistant.h"
 #import "OELibraryController.h"
-#import "OEGameViewController.h"
 #import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
 
@@ -131,25 +130,10 @@
     
     BOOL usePopout = forcePopout || allowPopout;
     
-    if(usePopout) [aDocument showInSeparateWindow:self];
-    else          [self setCurrentContentController:[aDocument gameViewController]];
-}
-
-- (IBAction)terminateEmulation:(id)sender;
-{
-    OEGameViewController *current = (OEGameViewController *)[self currentContentController];
-    
-    if(![current isKindOfClass:[OEGameViewController class]]) return;
-    
-    [self setCurrentContentController:[self libraryController]];
-}
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
-    if([menuItem action] == @selector(terminateEmulation:))
-        return [[self currentContentController] isKindOfClass:[OEGameViewController class]];
-    
-    return YES;
+    if(usePopout) 
+        [aDocument showInSeparateWindow:self];
+    else
+        [self setCurrentContentController:[aDocument viewController]];
 }
 
 - (void)windowWillEnterFullScreen:(NSNotification *)notification
@@ -163,7 +147,6 @@
 }
 
 #pragma mark -
-
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
 {
     NSView *contentView = [self placeholderView];
@@ -176,6 +159,8 @@
         [contentView replaceSubview:[oldController view] with:[newController view]];
     else
         [[contentView animator] addSubview:[newController view]];
+
+    [[self window] makeFirstResponder:[newController view]];
 }
 
 - (void)setCurrentContentController:(NSViewController *)controller
@@ -188,8 +173,6 @@
     [controller               viewWillAppear];
     
     [self OE_replaceCurrentContentController:currentContentController withViewController:controller];
-    
-    [[self window] makeFirstResponder:[controller view]];
     
     [currentContentController viewDidDisappear];
     [controller               viewDidAppear];
@@ -237,6 +220,12 @@
     
     [[NSDocumentController sharedDocumentController] addDocument:gameDocument];
     [self openGameDocument:gameDocument];
+}
+
+#pragma mark - OEGameViewControllerDelegate protocol conformance
+- (void)emulationDidFinishForGameViewController:(id)sender
+{
+    [self setCurrentContentController:nil];
 }
 #pragma mark -
 #pragma mark NSWindow delegate

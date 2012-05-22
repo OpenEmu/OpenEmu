@@ -437,6 +437,13 @@
     [barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:15 rightBorder:15 topBorder:0 bottomBorder:0];
 }
 
+- (void)logResponderChain
+{
+    LogResponderChain([[NSApp keyWindow] firstResponder]);
+    LogLayersInViewHierarchy((NSView*)[[NSApp keyWindow] firstResponder]);
+    [NSApp sendAction:@selector(terminateEmulation) to:nil from:self];
+}
+
 - (void)setupControls
 {
     NSButton *stopButton = [[NSButton alloc] init];
@@ -445,7 +452,8 @@
     [stopButton setCell:pcell];
     [stopButton setImage:[NSImage imageNamed:@"hud_power_glyph_normal"]];
     [stopButton setAlternateImage:[NSImage imageNamed:@"hud_power_glyph_pressed"]];
-    [stopButton setAction:@selector(terminateEmulation:)];
+    [stopButton setAction:@selector(logResponderChain)];
+    [stopButton setTarget:self];
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:stopButton];

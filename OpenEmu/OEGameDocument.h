@@ -44,7 +44,6 @@
 - (id)initWithSaveState:(OEDBSaveState *)state;
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
 @property(readonly, strong) OEGameViewController *gameViewController;
-
 - (void)showInSeparateWindow:(id)sender;
-
+@property (readonly) NSViewController *viewController;
 @end

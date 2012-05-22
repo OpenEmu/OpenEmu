@@ -25,13 +25,10 @@
  */
 
 #import <Cocoa/Cocoa.h>
-
 @class OEGameDocument;
 @class OELibraryController;
 
-#import "OEGameViewController.h"
-
-@interface OEMainWindowController : NSWindowController <NSWindowDelegate, OEGameViewControllerDelegate>
+@interface OEMainWindowController : NSWindowController <NSWindowDelegate>
 
 #pragma mark -
 
@@ -39,7 +36,7 @@
 
 @property(nonatomic, strong) NSViewController  *currentContentController;
 @property(nonatomic, strong) NSViewController  *defaultContentController;
-@property                    BOOL               allowWindowResizing;
+@property                           BOOL                 allowWindowResizing;
 
 @property(copy) NSArray *deviceHandlers;
 @property(copy) NSArray *coreList;
@@ -48,12 +45,8 @@
 @property(strong) NSView* replaceView;
 
 - (void)openGameDocument:(OEGameDocument *)aDocument;
-
-- (IBAction)terminateEmulation:(id)sender;
-
 #pragma mark -
 #pragma mark Menu Items
-
 - (void)setupMenuItems;
 
 @property(weak) IBOutlet NSView *placeholderView;
