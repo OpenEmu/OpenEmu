@@ -30,19 +30,39 @@
 @implementation OEHIDWiimoteEvent
 - (NSString*)stringForButtonNumber:(NSUInteger)buttonNumber
 {
-    switch (buttonNumber) {
-        case 0: return @"A";
-        case 1: return @"B";
-        case 2: return @"1";
-        case 3: return @"2";
-        case 4: return @"-";
-        case 5: return @"Home";
-        case 6: return @"+";
+    WiiButtonType btnType = buttonNumber;
+    switch (btnType) {
+        case WiiRemoteAButton: return @"A";
+        case WiiRemoteBButton: return @"B";
+        case WiiRemoteOneButton: return @"1";
+        case WiiRemoteTwoButton: return @"2";
+        case WiiRemoteMinusButton: return @"-";
+        case WiiRemoteHomeButton: return @"Home";
+        case WiiRemotePlusButton: return @"+";
             
-        case 7: return @"Up";
-        case 8: return @"Down";
-        case 9: return @"Left";
-        case 10: return @"Right";
+        case WiiRemoteUpButton: return @"Up";
+        case WiiRemoteDownButton: return @"Down";
+        case WiiRemoteLeftButton: return @"Left";
+        case WiiRemoteRightButton: return @"Right";
+            
+        case WiiNunchukZButton: return @"Nu Z";
+        case WiiNunchukCButton: return @"Nu C";
+            
+        case WiiClassicControllerXButton: return @"CC X";
+        case WiiClassicControllerYButton: return @"CC Y";
+        case WiiClassicControllerAButton: return @"CC A";
+        case WiiClassicControllerBButton: return @"CC B";
+        case WiiClassicControllerLButton: return @"CC L";
+        case WiiClassicControllerRButton: return @"CC R";
+        case WiiClassicControllerZLButton: return @"CC ZL";
+        case WiiClassicControllerZRButton: return @"CC ZR";
+        case WiiClassicControllerUpButton: return @"CC Up";
+        case WiiClassicControllerDownButton: return @"CC Down";
+        case WiiClassicControllerLeftButton: return @"CC Left";
+        case WiiClassicControllerRightButton: return @"CC Right";
+        case WiiClassicControllerMinusButton: return @"CC -";
+        case WiiClassicControllerHomeButton: return @"CC Home";
+        case WiiClassicControllerPlusButton: return @"CC +";
             
         default:
             break;
