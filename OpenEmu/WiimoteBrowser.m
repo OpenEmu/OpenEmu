@@ -53,7 +53,6 @@
 
 	if(_isSearching) // already searching, just igone startSearch ;)
 		return;
-
 	
 	_isSearching = YES;
 	if([[self delegate] respondsToSelector:@selector(wiimoteBrowserWillSearch)])

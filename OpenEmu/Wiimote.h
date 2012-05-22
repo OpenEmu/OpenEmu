@@ -98,6 +98,15 @@ typedef enum {
 	WiiClassicControllerLeftJoyStick	= 1,
 	WiiClassicControllerRightJoyStick	= 2
 } WiiJoyStickType;
+
+typedef enum {
+    WiiExpansionNunchuck,
+    WiiExpansionClassicController,
+    
+    WiiExpansionUnkown,
+    WiiExpansionNotConnected,
+    WiiExpansionNotInitialized,
+} WiiExpansionType;
 # pragma mark -
 @class Wiimote;
 @protocol WiimoteDelegate <NSObject>
@@ -137,7 +146,9 @@ typedef enum {
 	BOOL _speakerEnabled;
 	BOOL _speakerMuted;
     
-    UInt16 lastButtonReport;
+    UInt16 lastWiimoteButtonReport;
+    UInt8 lastNunchuckButtonReport;
+    UInt16 lastClassicControllerButtonReport;
 }
 # pragma mark -
 - (Wiimote*)init;
@@ -159,6 +170,7 @@ typedef enum {
 - (BOOL)rumbleActivated;
 - (BOOL)expansionPortEnabled;
 - (BOOL)expansionPortAttached;
+@property (readonly) WiiExpansionType expansionType;
 
 - (BOOL)LED1Illuminted;
 - (BOOL)LED2Illuminted;
@@ -173,6 +185,7 @@ typedef enum {
 
 - (void)setLED1:(BOOL)flag1 LED2:(BOOL)flag2 LED3:(BOOL)flag3 LED4:(BOOL)flag4;
 
+@property (readonly) float batteryLevel;
 # pragma mark -
 # pragma mark Connection
 - (void)setDevice:(IOBluetoothDevice*)newDev;
@@ -181,7 +194,7 @@ typedef enum {
 
 - (BOOL)isConnected;
 # pragma mark -
-- (void)getStatus;
+- (void)requestStatus;
 
 # pragma mark -
 # pragma mark Data Handling

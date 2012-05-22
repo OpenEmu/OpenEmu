@@ -93,7 +93,8 @@
 		[wiimote setMotionSensorEnabled:NO];
 		[wiimote setSpeakerEnabled:NO];
 		[wiimote setRumbleActivated:YES];
-		
+		[wiimote setExpansionPortEnabled:YES];
+
 		NSInteger count = [[self wiiRemotes] count];
 		[wiimote setLED1:count>0&&count<4 LED2:count>1&&count<5 LED3:count>2&&count<6 LED4:count>3];
 		[wiimote connect];
@@ -136,6 +137,26 @@
 - (void)wiimoteReportsExpansionPortChanged:(Wiimote*)theWiimote
 {
 	DLog(@"wiimoteReportsExpansionPortChanged: %@", theWiimote);
+    switch ([theWiimote expansionType]) {
+        case WiiExpansionUnkown:
+            NSLog(@"WiiExpansionUnkown");
+            break;
+        case WiiExpansionClassicController:
+            NSLog(@"WiiExpansionClassicController");
+            break;
+        case WiiExpansionNotInitialized:
+            NSLog(@"WiiExpansionNotInitialized");
+            break;
+        case WiiExpansionNotConnected:
+            NSLog(@"WiiExpansionNotConnected");
+            break;
+        case WiiExpansionNunchuck:
+            NSLog(@"WiiExpansionNunchuck");
+            break;
+            
+        default:
+            break;
+    }
 }
 - (void)wiimote:(Wiimote*)theWiimote reportsButtonChanged:(WiiButtonType)type isPressed:(BOOL)isPressed
 {
