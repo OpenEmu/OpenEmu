@@ -28,17 +28,18 @@
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     [([self isHighlighted]?[NSColor colorWithDeviceWhite:0.4 alpha:1.0]:[NSColor colorWithDeviceWhite:0.6 alpha:1.0]) setFill];
-    
     NSRect triangleRect = (NSRect){{cellFrame.origin.x+round((cellFrame.size.width-9)/2),cellFrame.origin.y+round((cellFrame.size.height-9)/2)},{9,9}};
-    NSImage *triangleImage = [self state]==NSOnState?[NSImage imageNamed:@"sidebar_triangle_open"]:[NSImage imageNamed:@"sidebar_triangle_closed"];
-    
     
     NSRectFill(triangleRect);
+    NSImage *triangleImage = [self state]==NSOnState?[NSImage imageNamed:@"sidebar_triangle_open"]:[NSImage imageNamed:@"sidebar_triangle_closed"];
     [triangleImage drawInRect:triangleRect fromRect:NSZeroRect operation:NSCompositeDestinationAtop fraction:1 respectFlipped:YES hints:nil];
     
     NSRect shadowRect = triangleRect;
     shadowRect.origin.y -= 1;
     [triangleImage drawInRect:shadowRect fromRect:NSZeroRect operation:NSCompositeDestinationOver fraction:1 respectFlipped:YES hints:nil]; 
+    
+    [[NSColor colorWithDeviceWhite:0.19 alpha:1.0] setFill];
+    NSRectFillUsingOperation(triangleRect, NSCompositeDestinationOver);
 }
 
 @end

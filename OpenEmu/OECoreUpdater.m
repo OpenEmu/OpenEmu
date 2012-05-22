@@ -136,7 +136,6 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
             [updater checkForUpdateInformation];
         }
     }
-    
 }
 - (void)checkForNewCores:(NSNumber *)fromModal
 {
