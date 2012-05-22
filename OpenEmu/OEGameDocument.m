@@ -35,6 +35,8 @@
 #import "OEGameViewController.h"
 #import "OEGameCoreManager.h"
 
+#import "OEBackgroundColorView.h"
+
 #import "OEROMImporter.h"
 #import "NSViewController+OEAdditions.h"
 @interface OEGameDocument ()
@@ -50,9 +52,6 @@
 @property (strong) NSWindow         *gameWindow;
 @end
 
-@interface ProxyView : NSView
-
-@end
 #pragma mark -
 @implementation OEGameDocument
 @synthesize gameViewController, viewController;
@@ -289,7 +288,20 @@
 {
     self = [super init];
     if (self) {
-        [self setView:[[ProxyView alloc] init]];
+        OEBackgroundColorView *contentView = [[OEBackgroundColorView alloc] init];
+        [contentView setBackgroundColor:[NSColor blackColor]];
+        [self setView:contentView];
+        
+        NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(30, 30, 480, 319)
+                                                       styleMask:NSBorderlessWindowMask
+                                                         backing:NSWindowBackingLocationDefault defer:NO];
+        [window setContentView:[[OEBackgroundColorView alloc] init]];
+
+        [window setOpaque:NO];
+        [window setBackgroundColor:[NSColor blackColor]];
+        [window setAlphaValue:0.0];
+        
+        [self setGameWindow:window];
     }
     return self;
 }
@@ -300,36 +312,41 @@
 {
     [super viewWillAppear];
     DLog(@"viewWillAppear");
-    NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(30, 30, 480, 319) styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:NO];
-    [window setOpaque:NO];
-    
     OEGameViewController *gameViewController = [[self document] gameViewController];
+    NSWindow                *childWindow         = [self gameWindow];
+    
     [gameViewController viewWillAppear];
-    [window setTitle:@"game window"];
-    [window setContentView:[gameViewController view]];
-    [window setAlphaValue:0.0]; 
-    self.gameWindow = window;
+    [childWindow setContentView:[gameViewController view]];
+
 }
+
 - (void)viewDidAppear
 {
     DLog(@"viewDidAppear");
-    [[[self view] window] addChildWindow:self.gameWindow ordered:NSWindowAbove];
-    [self.gameWindow setFrameOrigin:[[self view] window].frame.origin];
+
+    NSWindow                *mainWindow          = [[self view] window];
+    NSWindow                *childWindow          = [self gameWindow];
+    OEGameViewController *gameViewController = [[self document] gameViewController];
+    
     NSRect gameWindowFrame = [[self view] frame];
     gameWindowFrame.origin.x += [[[self view] window] frame].origin.x;
     gameWindowFrame.origin.y += [[[self view] window] frame].origin.y;
-    [self.gameWindow setFrame:gameWindowFrame display:YES animate:NO];
-    [[self.gameWindow animator] setAlphaValue:1.0]; 
-    OEGameViewController *gameViewController = [[self document] gameViewController];
-    [gameViewController viewDidAppear];
     
+    [childWindow setFrame:gameWindowFrame display:NO];
+    [mainWindow addChildWindow:childWindow ordered:NSWindowAbove];
+
+    [[childWindow animator] setAlphaValue:1.0];
+    
+    [gameViewController viewDidAppear];
     [gameViewController setNextResponder:[self view]];
+    
     [super viewDidAppear];
 }
 
 - (void)viewWillDisappear
 {
     [super viewWillDisappear];
+
     DLog(@"viewWillDisappear");
      
     OEGameViewController *gameViewController = [[self document] gameViewController];
@@ -340,23 +357,12 @@
 - (void)viewDidDisappear
 {
     DLog(@"viewDidDisappear");
-    
-    [[self.gameWindow parentWindow] removeChildWindow:self.gameWindow];
-    
+
     OEGameViewController *gameViewController = [[self document] gameViewController];
     [gameViewController viewDidDisappear];
-    [[self.gameWindow animator] setAlphaValue:0.0]; 
-    
+
+    [[[self gameWindow] parentWindow] removeChildWindow:self.gameWindow];
+
     [super viewDidDisappear];
 }
-@end
-
-@implementation ProxyView
-- (void)drawRect:(NSRect)dirtyRect
-{
-    [[NSColor blackColor] setFill];
-    NSRectFill(dirtyRect);    
-}
-
-
 @end

@@ -33,22 +33,17 @@
 {
     if((self = [super initWithFrame:frame]))
     {
-        [self setWantsLayer:YES];
+        [self setWantsLayer:NO];
         [self setBackgroundColor:[NSColor blackColor]];
     }
     
     return self;
 }
 
-- (void)setBackgroundColor:(NSColor *)value
+- (void)drawRect:(NSRect)dirtyRect
 {
-    if(backgroundColor != value)
-    {
-        backgroundColor = [value copy];
-        
-        [[self layer] setBackgroundColor:[backgroundColor CGColor]];
-    }
+    [[self backgroundColor] setFill];
+    NSRectFill(dirtyRect);
 }
-
 
 @end

@@ -140,6 +140,7 @@
 #pragma mark Delegate
 @protocol OEGameViewControllerDelegate <NSObject>
 @optional
+- (void)emulationWillFinishForGameViewController:(OEGameViewController *)sender;
 - (void)emulationDidFinishForGameViewController:(OEGameViewController *)sender;
 - (BOOL)gameViewControllerShouldToggleFullScreenMode:(OEGameViewController *)sender;
 @end

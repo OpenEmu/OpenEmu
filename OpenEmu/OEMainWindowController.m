@@ -115,6 +115,13 @@
     }
     
     [self setupMenuItems];
+    
+    CATransition *transition = [CATransition animation];
+    [transition setType:kCATransitionFade];
+    [transition setDelegate:self];
+    
+    [[self placeholderView] setWantsLayer:YES];
+    [[self placeholderView] setAnimations:[NSDictionary dictionaryWithObject:transition forKey:@"subviews"]];
 }
 
 - (NSString *)windowNibName
@@ -148,18 +155,18 @@
 
 #pragma mark -
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
-{
+{     
     NSView *contentView = [self placeholderView];
-
+    [contentView setWantsLayer:YES];
     // final target
     [[newController view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [[newController view] setFrame:[contentView frame]];
     
     if(oldController != nil)
-        [[contentView animator] replaceSubview:[oldController view] with:[newController view]];
+       [[contentView animator] replaceSubview:[oldController view] with:[newController view]];
     else
         [[contentView animator] addSubview:[newController view]];
-
+        
     [[self window] makeFirstResponder:[newController view]];
 }
 
@@ -169,15 +176,29 @@
     
     if(controller == [self currentContentController]) return;
     
+    self.placeholderView.wantsLayer = YES;
+    [NSAnimationContext beginGrouping];
+    
     [currentContentController viewWillDisappear];
-    [controller               viewWillAppear];
+    [controller                     viewWillAppear];
     
     [self OE_replaceCurrentContentController:currentContentController withViewController:controller];
     
     [currentContentController viewDidDisappear];
-    [controller               viewDidAppear];
+    [controller                     viewDidAppear];
     
+    [NSAnimationContext endGrouping];
+
     currentContentController = controller;
+}
+
+#pragma mark -
+- (void)animationDidStart:(CAAnimation *)anim
+{
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
 }
 
 #pragma mark -
@@ -224,11 +245,13 @@
 #pragma mark - OEGameViewControllerDelegate protocol conformance
 - (void)emulationDidFinishForGameViewController:(id)sender
 {
-    [self setCurrentContentController:nil];
+
+}
+- (void)emulationWillFinishForGameViewController:(OEGameViewController *)sender{
+        [self setCurrentContentController:nil];
 }
 #pragma mark -
 #pragma mark NSWindow delegate
-
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
     return [self allowWindowResizing] ? frameSize : [sender frame].size;

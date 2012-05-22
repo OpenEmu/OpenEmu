@@ -160,7 +160,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     CGLLockContext(cgl_ctx);
 
     // GL resources
-    
     glGenTextures(1, &gameTexture);
        
     filters = [self OE_shadersForContext:cgl_ctx];

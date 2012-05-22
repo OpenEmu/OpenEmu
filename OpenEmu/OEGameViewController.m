@@ -102,7 +102,7 @@
             return nil;
         }
 
-        NSView *view = [[NSView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];
+        NSView *view = [[NSView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 0.0, 0.0 }}];
         [self setView:view];
 
         NSError *error = nil;
@@ -187,7 +187,6 @@
     if([controlsWindow parentWindow] != nil) [[controlsWindow parentWindow] removeChildWindow:controlsWindow];
     
     NSWindow *window = [gameView window];
-    NSLog(@"window: %@", window);
     if(window == nil) return;
     if([window parentWindow]) window = [window parentWindow];
     
@@ -206,8 +205,11 @@
 {
     [super viewWillDisappear];
     
+    NSWindow *window = [gameView window];
+    
+    if([window parentWindow]) window = [window parentWindow];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDDontShowGameTitleInWindowKey])
-        [[gameView window] setTitle:OEDefaultWindowTitle];
+        [window setTitle:OEDefaultWindowTitle];
     
     [[self controlsWindow] hide];
     [self terminateEmulation];
@@ -223,6 +225,7 @@
 - (void)terminateEmulation
 {
     if(!emulationRunning) return;
+    emulationRunning = NO;
     NSLog(@"terminateEmulation");
     
     [self pauseGame:self];
@@ -230,6 +233,8 @@
     if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
         [self saveStateWithName:OESaveStateAutosaveName];
     
+    [NSApp sendAction:@selector(emulationWillFinishForGameViewController:) to:nil from:self];
+
     [self OE_terminateEmulationWithoutNotification];
     
     [NSApp sendAction:@selector(emulationDidFinishForGameViewController:) to:nil from:self];
@@ -240,12 +245,12 @@
 - (void)OE_terminateEmulationWithoutNotification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
-    [gameView removeFromSuperview];
-    gameView = nil;
     
     emulationRunning = NO;
     [gameView setRootProxy:nil];
     [gameView setGameResponder:nil];
+    
+    gameView = nil;
     
     [gameController removeSettingObserver:[rootProxy gameCore]];
     
