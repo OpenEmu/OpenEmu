@@ -50,8 +50,6 @@
 
 #import "NSString+UUID.h"
 #import "NSURL+OELibraryAdditions.h"
-
-#define OEGAMEVIEWTRANSITIONTIME 0.8/60.0
 @interface OEGameViewController ()
 
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game;
@@ -71,6 +69,7 @@
 @synthesize delegate;
 @synthesize rom=_rom, document;
 @synthesize controlsWindow;
+@synthesize gameView;
 
 - (id)initWithRom:(OEDBRom *)rom
 {
@@ -179,13 +178,7 @@
     gameView = nil;
 }
 
-- (OEGameView*) gameView
-{
-    return gameView;
-}
-
 #pragma mark -
-#pragma mark View
 
 - (void)viewDidAppear
 {
@@ -216,17 +209,7 @@
         [[gameView window] setTitle:OEDefaultWindowTitle];
     
     [[self controlsWindow] hide];
-    
-    // terminate on fade out animation being finished
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
-    BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
-    BOOL usePopout = forcePopout || allowPopout;
-    
-    [self beginTerminateEmulation];
-
-    if(usePopout)
-        [self endTerminateEmulation];
+    [self terminateEmulation];
 }
 
 #pragma mark - Controlling Emulation
@@ -236,19 +219,16 @@
     // TODO: draw one frame to reflect reset
 }
 
-- (void)beginTerminateEmulation
+- (void)terminateEmulation
 {
     if(!emulationRunning) return;
-    DLog(@"terminateEmulation");
+    NSLog(@"terminateEmulation");
     
     [self pauseGame:self];
     
     if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
         [self saveStateWithName:OESaveStateAutosaveName];
-}
-
-- (void)endTerminateEmulation
-{
+    
     [self OE_terminateEmulationWithoutNotification];
     
     if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
@@ -423,10 +403,7 @@
 - (void)unmute:(id)sender{
     [self setVolume:1.0 asDefault:YES];
 }
-
-#pragma mark -
-#pragma mark Saving States
-
+#pragma mark - Saving States
 - (IBAction)saveState:(id)sender
 {
     NSInteger   saveGameNo    = [[self rom] saveStateCount]+1;
@@ -514,9 +491,7 @@
     [self playGame:self];
 }
 
-#pragma mark -
-#pragma mark Loading States
-
+#pragma mark - Loading States
 - (IBAction)loadState:(id)sender
 {
     // calling pauseGame here because it might need some time to execute
@@ -572,7 +547,7 @@
     if(error != NULL) *error = nil;
     return [rootProxy loadStateFromFileAtPath:fileName];
 }
-
+#pragma mark 
 // delete save state expects sender or [sender representedObject] to be an OEDBSaveState object and prompts the user for confirmation
 - (void)deleteSaveState:(id)sender
 {
@@ -594,14 +569,13 @@
         [state remove];
 }
 
+#pragma mark -
 - (void)OE_captureScreenshotUsingBlock:(void(^)(NSImage *img))block
 {
     [gameView captureScreenshotUsingBlock:block];
 }
 
-
-#pragma mark -
-#pragma mark Menu Items
+#pragma mark - Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     SEL action = [menuItem action];
@@ -616,9 +590,7 @@
     return YES;
 }
 
-#pragma mark -
-#pragma mark Info
-
+#pragma mark - Info
 - (NSSize)defaultScreenSize
 {
     OEGameCore *gameCore = [rootProxy gameCore];
@@ -637,73 +609,7 @@
     return [[gameCoreManager plugin] bundleIdentifier];
 }
 
-#pragma mark -
-#pragma mark Game View Transition handling
-
-- (void)setCachedLibraryImage:(NSBitmapImageRep*) image
-{
-    [gameView setCachedLibraryImage:image];
-}
-
-- (void)startFadeInTransition
-{
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
-    BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
-    BOOL usePopout = forcePopout || allowPopout;
-    
-    if(!usePopout)
-    {
-        [gameView setAlpha:1.0];
-        gameViewTransitionTimer = [NSTimer timerWithTimeInterval:OEGAMEVIEWTRANSITIONTIME target:self selector:@selector(fadeInTransition) userInfo:nil repeats:YES];
-        
-        [[NSRunLoop currentRunLoop] addTimer:gameViewTransitionTimer forMode:NSRunLoopCommonModes];
-    }
-}
-
-- (void)startFadeOutTransition
-{
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
-    BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
-    BOOL usePopout = forcePopout || allowPopout;
-    
-    if(!usePopout)
-    {
-        [gameView setAlpha:0.0];
-        gameViewTransitionTimer = [NSTimer timerWithTimeInterval:OEGAMEVIEWTRANSITIONTIME target:self selector:@selector(fadeOutTransition) userInfo:nil repeats:YES];
-        
-        [[NSRunLoop currentRunLoop] addTimer:gameViewTransitionTimer forMode:NSRunLoopCommonModes];
-    }
-}
-
-- (void)fadeInTransition
-{
-    [gameView setAlpha:[gameView alpha] - OEGAMEVIEWTRANSITIONTIME];
-    if([gameView alpha] <= 0.0)
-    {
-        [gameViewTransitionTimer invalidate];
-        [self setDelegate:nil];
-    }
-}
-
-- (void)fadeOutTransition
-{
-    [gameView setAlpha:[gameView alpha] + OEGAMEVIEWTRANSITIONTIME];
-    
-    if([delegate respondsToSelector:@selector(gameViewDidFinishFadeOutTransition)] && ([gameView alpha] >= 1.0))
-    {
-        [delegate gameViewDidFinishFadeOutTransition];
-  
-        [gameViewTransitionTimer invalidate];
-        [self setDelegate:nil];
-        
-        [self endTerminateEmulation];
-    }
-}
-
-#pragma mark -
-#pragma mark Private Methods
+#pragma mark - Private Methods
 
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game
 {
@@ -720,11 +626,7 @@
         
         gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
         [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-
-        // ensure the game view has our latest cached library image for animating.
-
         [[self view] addSubview:gameView];
-
         [nc addObserver:self selector:@selector(viewDidChangeFrame:)  name:NSViewFrameDidChangeNotification object:gameView];
         
         emulationRunning = YES;

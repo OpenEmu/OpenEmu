@@ -63,12 +63,6 @@
 @property (assign) NSTimeInterval filterStartTime;
 @property (assign) BOOL filterHasOutputMousePositionKeys;
 
-// for animating to and from the library.
-@property (strong) NSBitmapImageRep *cachedLibraryImage;
-@property (assign) GLuint cachedLibraryTexture;
-@property (assign) BOOL uploadedCachedLibraryTexture;
-@property (assign) GLfloat alpha;
-
 @property (copy) void (^screenshotHandler)(NSImage *img);
 - (void) captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
