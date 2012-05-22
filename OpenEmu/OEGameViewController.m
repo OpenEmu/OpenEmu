@@ -187,14 +187,15 @@
     if([controlsWindow parentWindow] != nil) [[controlsWindow parentWindow] removeChildWindow:controlsWindow];
     
     NSWindow *window = [gameView window];
+    NSLog(@"window: %@", window);
     if(window == nil) return;
+    if([window parentWindow]) window = [window parentWindow];
     
     [window addChildWindow:controlsWindow ordered:NSWindowAbove];
     
     [self OE_repositionControlsWindow];
     
     [controlsWindow orderFront:self];
-    
     [window makeFirstResponder:gameView];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDDontShowGameTitleInWindowKey])

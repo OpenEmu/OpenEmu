@@ -156,7 +156,7 @@
     [[newController view] setFrame:[contentView frame]];
     
     if(oldController != nil)
-        [contentView replaceSubview:[oldController view] with:[newController view]];
+        [[contentView animator] replaceSubview:[oldController view] with:[newController view]];
     else
         [[contentView animator] addSubview:[newController view]];
 
@@ -182,7 +182,6 @@
 
 #pragma mark -
 #pragma mark OELibraryControllerDelegate protocol conformance
-
 - (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame
 {
     NSError         *error          = nil;

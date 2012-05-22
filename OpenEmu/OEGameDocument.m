@@ -36,14 +36,26 @@
 #import "OEGameCoreManager.h"
 
 #import "OEROMImporter.h"
-
+#import "NSViewController+OEAdditions.h"
 @interface OEGameDocument ()
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError**)outError;
 - (BOOL)OE_loadGame:(OEDBGame *)game core:(OECorePlugin*)core withError:(NSError**)outError;
+
+@property (strong) OEGameViewController *gameViewController;
+@property (strong) NSViewController *viewController;
+@end
+#pragma mark -
+@interface ProxyViewController : NSViewController
+@property (weak)   OEGameDocument *document;
+@property (strong) NSWindow         *gameWindow;
 @end
 
+@interface ProxyView : NSView
+
+@end
+#pragma mark -
 @implementation OEGameDocument
-@synthesize gameViewController;
+@synthesize gameViewController, viewController;
 - (id)init
 {
     self = [super init];
@@ -54,6 +66,10 @@
                                                  selector:@selector(applicationWillTerminate:) 
                                                      name:NSApplicationWillTerminateNotification
                                                    object:NSApp];
+    
+        ProxyViewController *proxyViewController = [[ProxyViewController alloc] init];
+        [proxyViewController setDocument:self];
+        [self setViewController:proxyViewController];
     }
     return self;
 }
@@ -168,7 +184,7 @@
     gameViewController = [[OEGameViewController alloc] initWithGame:game core:core error:outError];
     if(gameViewController == nil) return NO;
     
-    [gameViewController setDocument:self];
+    [[self gameViewController] setDocument:self];
     
     return YES;
 }
@@ -182,7 +198,7 @@
         return NO;
     }
     
-    [gameViewController setDocument:self];
+    [[self gameViewController] setDocument:self];
     
     return YES;
 }
@@ -266,54 +282,81 @@
     // TODO: Load rom that was just imported instead of the default one
     return [self OE_loadRom:[game defaultROM] core:nil withError:outError];
 }
-
-#pragma mark - Window management utilities
-@dynamic viewController;
-- (NSViewController*)viewController
+@end
+#pragma mark -
+@implementation ProxyViewController
+- (id)init
 {
-    return [self gameViewController];
-}
-- (void)windowDidBecomeKey:(NSNotification *)notification
-{
-    // if([self backgroundPauses]) [self setPauseEmulation:NO];
-}
-
-- (void)windowDidResignKey:(NSNotification *)notification
-{
-    /* if([self backgroundPauses])
-     {
-     if(![self isFullScreen])
-     {
-     @try
-     {
-     [self setPauseEmulation:YES];
-     }
-     @catch (NSException *e)
-     {
-     NSLog(@"Failed to pause");
-     }
-     }
-     }*/
+    self = [super init];
+    if (self) {
+        [self setView:[[ProxyView alloc] init]];
+    }
+    return self;
 }
 
-- (void)windowDidResize:(NSNotification *)notification
+@synthesize gameWindow;
+@synthesize document;
+- (void)viewWillAppear
 {
+    [super viewWillAppear];
+    DLog(@"viewWillAppear");
+    NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(30, 30, 480, 319) styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:NO];
+    [window setOpaque:NO];
     
+    OEGameViewController *gameViewController = [[self document] gameViewController];
+    [gameViewController viewWillAppear];
+    [window setTitle:@"game window"];
+    [window setContentView:[gameViewController view]];
+    [window setAlphaValue:0.0]; 
+    self.gameWindow = window;
+}
+- (void)viewDidAppear
+{
+    DLog(@"viewDidAppear");
+    [[[self view] window] addChildWindow:self.gameWindow ordered:NSWindowAbove];
+    [self.gameWindow setFrameOrigin:[[self view] window].frame.origin];
+    NSRect gameWindowFrame = [[self view] frame];
+    gameWindowFrame.origin.x += [[[self view] window] frame].origin.x;
+    gameWindowFrame.origin.y += [[[self view] window] frame].origin.y;
+    [self.gameWindow setFrame:gameWindowFrame display:YES animate:NO];
+    [[self.gameWindow animator] setAlphaValue:1.0]; 
+    OEGameViewController *gameViewController = [[self document] gameViewController];
+    [gameViewController viewDidAppear];
+    
+    [gameViewController setNextResponder:[self view]];
+    [super viewDidAppear];
 }
 
-- (void)windowWillClose:(NSNotification *)notification
+- (void)viewWillDisappear
 {
-    /*if([view isInFullScreenMode]) [self toggleFullScreenMode:self];
-     [self terminateEmulation];
+    [super viewWillDisappear];
+    DLog(@"viewWillDisappear");
      
-     //[recorder finishRecording];
-     */
-    
-    [[self gameViewController] terminateEmulation];
+    OEGameViewController *gameViewController = [[self document] gameViewController];
+    [gameViewController viewWillDisappear];
+    [self setNextResponder:nil];
 }
 
-- (void)performClose:(id)sender
+- (void)viewDidDisappear
 {
-    // [gameWindow performClose:sender];
+    DLog(@"viewDidDisappear");
+    
+    [[self.gameWindow parentWindow] removeChildWindow:self.gameWindow];
+    
+    OEGameViewController *gameViewController = [[self document] gameViewController];
+    [gameViewController viewDidDisappear];
+    [[self.gameWindow animator] setAlphaValue:0.0]; 
+    
+    [super viewDidDisappear];
 }
+@end
+
+@implementation ProxyView
+- (void)drawRect:(NSRect)dirtyRect
+{
+    [[NSColor blackColor] setFill];
+    NSRectFill(dirtyRect);    
+}
+
+
 @end
