@@ -62,8 +62,6 @@
     NSBitmapImageRep *cachedImage = [[NSBitmapImageRep alloc] initWithCGImage:fuckYouJustFuckingDoWhatITellYou];
     
     CGImageRelease(fuckYouJustFuckingDoWhatITellYou);
-    
-    [[cachedImage TIFFRepresentation] writeToFile:@"/Users/chris/view_snapshot.tif" atomically:YES];
     return cachedImage;
 }
 @end
