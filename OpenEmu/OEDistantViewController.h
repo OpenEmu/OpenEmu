@@ -25,11 +25,8 @@
  */
 
 
-#import "OEDBItem.h"
-
-@implementation OEDBItem
-- (OELibraryDatabase*)libraryDatabase
-{
-    return [[[self managedObjectContext] userInfo] valueForKey:LibraryDatabaseKey];
-}
+#import <Cocoa/Cocoa.h>
+@interface OEDistantViewController : NSViewController
+@property (strong, nonatomic) NSViewController* realViewController;
+@property (strong, readonly) NSWindow* distantWindow;
 @end

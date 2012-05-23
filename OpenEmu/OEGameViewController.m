@@ -121,8 +121,6 @@
         
         [[self rom] markAsPlayedNow];
     }
-    
-    NSLog(@"OEGameViewController init");
     return self;
 }
 
@@ -163,7 +161,6 @@
     {
         [self loadState:state];
     }
-    
     return self;    
 }
 

@@ -1,4 +1,4 @@
-             /*
+/*
  Copyright (c) 2011, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,8 @@
  */
 
 #import "OEMainWindowController.h"
+#import "OEMainWindowContentController.h"
+
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEMainWindow.h"
 #import "OESetupAssistant.h"
@@ -35,6 +37,8 @@
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEDBGame.h"
 
+#import "NSView+FadeImage.h"
+#import "OEFadeView.h"
 @interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
@@ -115,13 +119,6 @@
     }
     
     [self setupMenuItems];
-    
-    CATransition *transition = [CATransition animation];
-    [transition setType:kCATransitionFade];
-    [transition setDelegate:self];
-    
-    [[self placeholderView] setWantsLayer:YES];
-    [[self placeholderView] setAnimations:[NSDictionary dictionaryWithObject:transition forKey:@"subviews"]];
 }
 
 - (NSString *)windowNibName
@@ -154,18 +151,19 @@
 }
 
 #pragma mark -
+
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
 {     
     NSView *contentView = [self placeholderView];
-    [contentView setWantsLayer:YES];
+
     // final target
     [[newController view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [[newController view] setFrame:[contentView frame]];
     
     if(oldController != nil)
-       [[contentView animator] replaceSubview:[oldController view] with:[newController view]];
+       [contentView replaceSubview:[oldController view] with:[newController view]];
     else
-        [[contentView animator] addSubview:[newController view]];
+        [contentView addSubview:[newController view]];
         
     [[self window] makeFirstResponder:[newController view]];
 }
@@ -175,30 +173,38 @@
     if(controller == nil) controller = [self libraryController];
     
     if(controller == [self currentContentController]) return;
-    
-    self.placeholderView.wantsLayer = YES;
-    [NSAnimationContext beginGrouping];
+
+    NSBitmapImageRep *currentState = [[self placeholderView] fadeImage], *newState = nil;
+    if([currentContentController respondsToSelector:@selector(setCachedSnapshot:)])
+        [(id <OEMainWindowContentController>)currentContentController setCachedSnapshot:currentState];
     
     [currentContentController viewWillDisappear];
     [controller                     viewWillAppear];
     
-    [self OE_replaceCurrentContentController:currentContentController withViewController:controller];
+    NSView *placeHolderView = [self placeholderView];
+    OEFadeView *fadeView = [[OEFadeView alloc] initWithFrame:[placeHolderView bounds]];
+    if(currentContentController)
+        [placeholderView replaceSubview:[currentContentController view] with:fadeView];
+    else 
+        [placeholderView addSubview:fadeView];
     
-    [currentContentController viewDidDisappear];
-    [controller                     viewDidAppear];
+    if([controller respondsToSelector:@selector(cachedSnapshot)])
+        newState = [(id <OEMainWindowContentController>)controller cachedSnapshot];
     
-    [NSAnimationContext endGrouping];
-
-    currentContentController = controller;
-}
-
-#pragma mark -
-- (void)animationDidStart:(CAAnimation *)anim
-{
-}
-
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
-{
+    [fadeView fadeFromImage:currentState toImage:newState callback:^{
+        [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [[controller view] setFrame:[placeHolderView frame]];
+        
+        [placeHolderView replaceSubview:fadeView with:[controller view]];
+        
+        [[self window] makeFirstResponder:[controller view]];
+        
+        [currentContentController viewDidDisappear];
+        [controller                     viewDidAppear];
+        currentContentController = controller;
+        
+        [fadeView removeFromSuperview];
+    }];
 }
 
 #pragma mark -

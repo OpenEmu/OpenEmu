@@ -89,15 +89,11 @@
         openMenus = 0;
         controlsView = barView;
     }
-    
-    NSLog(@"OEHUDControlsBarWindow init");
     return self;
 }
 
 - (void)dealloc
-{
-    NSLog(@"OEHUDControlsBarWindow dealloc");
-    
+{    
     [fadeTimer invalidate];
     fadeTimer = nil;
     

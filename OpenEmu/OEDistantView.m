@@ -25,11 +25,31 @@
  */
 
 
-#import "OEDBItem.h"
-
-@implementation OEDBItem
-- (OELibraryDatabase*)libraryDatabase
+#import "OEDistantView.h"
+#import "NSView+FadeImage.h"
+#import "OEDistantViewController.h"
+@interface OEDistantView ()
+@property (strong) NSBitmapImageRep *distantViewImage;
+@end
+@implementation OEDistantView
+@synthesize distantViewImage, controller;
+- (void)willMakeFadeImage
 {
-    return [[[self managedObjectContext] userInfo] valueForKey:LibraryDatabaseKey];
+    NSBitmapImageRep *rep = [[[[self controller] distantWindow] contentView] fadeImage];
+    [self setDistantViewImage:rep];
+    [self display];
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+   if([self distantViewImage])
+       [[self distantViewImage] drawInRect:[self bounds]];
+    else
+        [super drawRect:dirtyRect];
+}
+
+- (void)didMakeFadeImage
+{
+    [self setDistantViewImage:nil];
 }
 @end

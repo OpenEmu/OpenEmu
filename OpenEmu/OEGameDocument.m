@@ -38,20 +38,17 @@
 #import "OEBackgroundColorView.h"
 
 #import "OEROMImporter.h"
+#import "OEDistantViewController.h"
 #import "NSViewController+OEAdditions.h"
+#import "NSView+FadeImage.h"
 @interface OEGameDocument ()
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError**)outError;
 - (BOOL)OE_loadGame:(OEDBGame *)game core:(OECorePlugin*)core withError:(NSError**)outError;
 
 @property (strong) OEGameViewController *gameViewController;
 @property (strong) NSViewController *viewController;
+- (OEDistantViewController*)distantViewController;
 @end
-#pragma mark -
-@interface ProxyViewController : NSViewController
-@property (weak)   OEGameDocument *document;
-@property (strong) NSWindow         *gameWindow;
-@end
-
 #pragma mark -
 @implementation OEGameDocument
 @synthesize gameViewController, viewController;
@@ -60,15 +57,14 @@
     self = [super init];
     if(self != nil)
     {
-        DLog(@"OEGameDocument init");
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(applicationWillTerminate:) 
                                                      name:NSApplicationWillTerminateNotification
                                                    object:NSApp];
     
-        ProxyViewController *proxyViewController = [[ProxyViewController alloc] init];
-        [proxyViewController setDocument:self];
-        [self setViewController:proxyViewController];
+    
+        OEDistantViewController *distantViewController = [[OEDistantViewController alloc] init];
+        [self setViewController:distantViewController];
     }
     return self;
 }
@@ -143,6 +139,7 @@
         }
         
         [gameViewController setDocument:self];
+        [[self distantViewController] setRealViewController:gameViewController];
     }
     return self;
 }
@@ -184,9 +181,11 @@
     if(gameViewController == nil) return NO;
     
     [[self gameViewController] setDocument:self];
+    [[self distantViewController] setRealViewController:gameViewController];
     
     return YES;
 }
+
 
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError **)outError
 {
@@ -196,12 +195,18 @@
         DLog(@"no game view controller");
         return NO;
     }
-    
+
     [[self gameViewController] setDocument:self];
+    [[self distantViewController] setRealViewController:gameViewController];
     
     return YES;
 }
+#pragma mark -
 
+- (OEDistantViewController*)distantViewController
+{
+    return (OEDistantViewController*)[self viewController];
+}
 #pragma mark -
 #pragma mark NSDocument Stuff
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -280,89 +285,5 @@
     
     // TODO: Load rom that was just imported instead of the default one
     return [self OE_loadRom:[game defaultROM] core:nil withError:outError];
-}
-@end
-#pragma mark -
-@implementation ProxyViewController
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        OEBackgroundColorView *contentView = [[OEBackgroundColorView alloc] init];
-        [contentView setBackgroundColor:[NSColor blackColor]];
-        [self setView:contentView];
-        
-        NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(30, 30, 480, 319)
-                                                       styleMask:NSBorderlessWindowMask
-                                                         backing:NSWindowBackingLocationDefault defer:NO];
-        [window setContentView:[[OEBackgroundColorView alloc] init]];
-
-        [window setOpaque:NO];
-        [window setBackgroundColor:[NSColor blackColor]];
-        [window setAlphaValue:0.0];
-        
-        [self setGameWindow:window];
-    }
-    return self;
-}
-
-@synthesize gameWindow;
-@synthesize document;
-- (void)viewWillAppear
-{
-    [super viewWillAppear];
-    DLog(@"viewWillAppear");
-    OEGameViewController *gameViewController = [[self document] gameViewController];
-    NSWindow                *childWindow         = [self gameWindow];
-    
-    [gameViewController viewWillAppear];
-    [childWindow setContentView:[gameViewController view]];
-
-}
-
-- (void)viewDidAppear
-{
-    DLog(@"viewDidAppear");
-
-    NSWindow                *mainWindow          = [[self view] window];
-    NSWindow                *childWindow          = [self gameWindow];
-    OEGameViewController *gameViewController = [[self document] gameViewController];
-    
-    NSRect gameWindowFrame = [[self view] frame];
-    gameWindowFrame.origin.x += [[[self view] window] frame].origin.x;
-    gameWindowFrame.origin.y += [[[self view] window] frame].origin.y;
-    
-    [childWindow setFrame:gameWindowFrame display:NO];
-    [mainWindow addChildWindow:childWindow ordered:NSWindowAbove];
-
-    [[childWindow animator] setAlphaValue:1.0];
-    
-    [gameViewController viewDidAppear];
-    [gameViewController setNextResponder:[self view]];
-    
-    [super viewDidAppear];
-}
-
-- (void)viewWillDisappear
-{
-    [super viewWillDisappear];
-
-    DLog(@"viewWillDisappear");
-     
-    OEGameViewController *gameViewController = [[self document] gameViewController];
-    [gameViewController viewWillDisappear];
-    [self setNextResponder:nil];
-}
-
-- (void)viewDidDisappear
-{
-    DLog(@"viewDidDisappear");
-
-    OEGameViewController *gameViewController = [[self document] gameViewController];
-    [gameViewController viewDidDisappear];
-
-    [[[self gameWindow] parentWindow] removeChildWindow:self.gameWindow];
-
-    [super viewDidDisappear];
 }
 @end

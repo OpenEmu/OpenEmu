@@ -298,8 +298,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void) dealloc
 {    
-    DLog(@"OEGameView dealloc");
-
     [self destroyDisplayLink];
     
     [gameTimer invalidate];

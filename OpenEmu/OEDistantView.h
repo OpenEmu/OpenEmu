@@ -24,12 +24,9 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#import "OEDBItem.h"
-
-@implementation OEDBItem
-- (OELibraryDatabase*)libraryDatabase
-{
-    return [[[self managedObjectContext] userInfo] valueForKey:LibraryDatabaseKey];
-}
+#import <Cocoa/Cocoa.h>
+#import "OEBackgroundColorView.h"
+@class OEDistantViewController;
+@interface OEDistantView : OEBackgroundColorView
+@property (assign) OEDistantViewController* controller;
 @end

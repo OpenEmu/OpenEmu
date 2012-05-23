@@ -415,6 +415,10 @@
 		83D7F2F9147E3FEB004419A6 /* OEHUDTextFieldEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D7F2F8147E3FEB004419A6 /* OEHUDTextFieldEditor.m */; };
 		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
 		83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
+		83DDEE83156CDEEB009EB43D /* NSView+FadeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */; };
+		83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE86156CE2F0009EB43D /* OEFadeView.m */; };
+		83DDEE8A156CFFE1009EB43D /* OEDistantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE89156CFFE1009EB43D /* OEDistantViewController.m */; };
+		83DDEE8D156CFFF2009EB43D /* OEDistantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE8C156CFFF2009EB43D /* OEDistantView.m */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
 		83E8E82A156A84060027B7A9 /* OEHIDWiimoteEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8E829156A84060027B7A9 /* OEHIDWiimoteEvent.m */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
@@ -1376,6 +1380,14 @@
 		83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyHeadlineCell.h; sourceTree = "<group>"; };
 		83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyHeadlineCell.m; sourceTree = "<group>"; };
 		83DC1FCA1470857900F3D77A /* controller_gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gba.png; sourceTree = "<group>"; };
+		83DDEE81156CDEEB009EB43D /* NSView+FadeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+FadeImage.h"; sourceTree = "<group>"; };
+		83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+FadeImage.m"; sourceTree = "<group>"; };
+		83DDEE85156CE2F0009EB43D /* OEFadeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFadeView.h; sourceTree = "<group>"; };
+		83DDEE86156CE2F0009EB43D /* OEFadeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFadeView.m; sourceTree = "<group>"; };
+		83DDEE88156CFFE1009EB43D /* OEDistantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDistantViewController.h; sourceTree = "<group>"; };
+		83DDEE89156CFFE1009EB43D /* OEDistantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDistantViewController.m; sourceTree = "<group>"; };
+		83DDEE8B156CFFF2009EB43D /* OEDistantView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDistantView.h; sourceTree = "<group>"; };
+		83DDEE8C156CFFF2009EB43D /* OEDistantView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDistantView.m; sourceTree = "<group>"; };
 		83E25057147BC6BF0074EE14 /* hud_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_textfield.png; sourceTree = "<group>"; };
 		83E8E828156A84060027B7A9 /* OEHIDWiimoteEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDWiimoteEvent.h; sourceTree = "<group>"; };
 		83E8E829156A84060027B7A9 /* OEHIDWiimoteEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDWiimoteEvent.m; sourceTree = "<group>"; };
@@ -1406,6 +1418,7 @@
 		83FBA37E14F2C81C001F1299 /* gameboy_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameboy_library.png; sourceTree = "<group>"; };
 		83FBA38014F2C857001F1299 /* genesis_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = genesis_library.png; sourceTree = "<group>"; };
 		83FBA38214F2C870001F1299 /* gba_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba_library.png; sourceTree = "<group>"; };
+		83FC3CC4156D155B00F0CDB6 /* OEMainWindowContentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMainWindowContentController.h; sourceTree = "<group>"; };
 		83FFC068145819070077EC27 /* installer_backgroundSample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_backgroundSample.png; sourceTree = "<group>"; };
 		83FFC06B1458194E0077EC27 /* OESetupAssistantBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantBox.h; sourceTree = "<group>"; };
 		83FFC06C1458194E0077EC27 /* OESetupAssistantBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantBox.m; sourceTree = "<group>"; };
@@ -1999,6 +2012,8 @@
 				83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */,
 				83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */,
 				83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */,
+				83DDEE81156CDEEB009EB43D /* NSView+FadeImage.h */,
+				83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */,
 			);
 			name = "Additions to standard classes";
 			sourceTree = "<group>";
@@ -2156,6 +2171,7 @@
 		53439A8813B92BF4005C0CC8 /* Main Window */ = {
 			isa = PBXGroup;
 			children = (
+				83FC3CC4156D155B00F0CDB6 /* OEMainWindowContentController.h */,
 				832D293E1451A68700BDF950 /* OEMainWindowController.h */,
 				832D293F1451A68700BDF950 /* OEMainWindowController.m */,
 				832D29441451B0CA00BDF950 /* MainWindow: Library */,
@@ -2337,6 +2353,12 @@
 				8310447013BE419000B283B0 /* OEHorizontalSplitView.m */,
 				83D435ED147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.h */,
 				83D435EE147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m */,
+				83DDEE85156CE2F0009EB43D /* OEFadeView.h */,
+				83DDEE86156CE2F0009EB43D /* OEFadeView.m */,
+				83DDEE88156CFFE1009EB43D /* OEDistantViewController.h */,
+				83DDEE89156CFFE1009EB43D /* OEDistantViewController.m */,
+				83DDEE8B156CFFF2009EB43D /* OEDistantView.h */,
+				83DDEE8C156CFFF2009EB43D /* OEDistantView.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -4293,6 +4315,10 @@
 				83E8E82A156A84060027B7A9 /* OEHIDWiimoteEvent.m in Sources */,
 				8322D74D156A99CB00FC0E81 /* Wiimote.m in Sources */,
 				8322D74E156A99CB00FC0E81 /* WiimoteBrowser.m in Sources */,
+				83DDEE83156CDEEB009EB43D /* NSView+FadeImage.m in Sources */,
+				83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */,
+				83DDEE8A156CFFE1009EB43D /* OEDistantViewController.m in Sources */,
+				83DDEE8D156CFFF2009EB43D /* OEDistantView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
