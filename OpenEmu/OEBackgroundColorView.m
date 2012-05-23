@@ -33,7 +33,6 @@
 {
     if((self = [super initWithFrame:frame]))
     {
-        [self setWantsLayer:NO];
         [self setBackgroundColor:[NSColor blackColor]];
     }
     

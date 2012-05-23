@@ -42,7 +42,6 @@
     self = [super init];
     if (self) {
         OEDistantView *view = [[OEDistantView alloc] init];
-        [view setBackgroundColor:[NSColor brownColor]];
         [view setPostsFrameChangedNotifications:YES];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewBoundsChanged:) name:NSViewFrameDidChangeNotification object:view];
         [view setController:self];

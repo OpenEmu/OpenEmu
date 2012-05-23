@@ -52,4 +52,29 @@
 {
     [self setDistantViewImage:nil];
 }
+
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow
+{
+    if([self window])
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowWillMiniaturizeNotification object:[self window]];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidMiniaturizeNotification object:[self window]];
+    }
+
+    if(newWindow)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillMiniaturize:) name:NSWindowWillMiniaturizeNotification object:newWindow];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidMiniaturize:) name:NSWindowDidMiniaturizeNotification object:[self window]];
+    }
+}
+
+- (void)windowWillMiniaturize:(NSNotification*)notification
+{
+    [self willMakeFadeImage];
+}
+
+- (void)windowDidMiniaturize:(NSNotification*)notification
+{
+    [self didMakeFadeImage];
+}
 @end
