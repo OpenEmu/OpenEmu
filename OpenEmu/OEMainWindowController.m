@@ -221,6 +221,10 @@
 
             DLog(@"Animating from game view");
         }
+        else
+        {
+            [contentView replaceSubview:[oldController view] with:[newController view]]; 
+        }
     }
     else
     {
