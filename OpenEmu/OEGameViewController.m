@@ -452,7 +452,11 @@
 - (void)saveStateWithName:(NSString *)stateName
 {
     // calling pauseGame here because it might need some time to execute
-    [self pauseGame:self];
+    BOOL paused = [self isEmulationPaused]; 
+    
+    if(!paused)
+        [self pauseGame:self];
+ 
     if([self rom] == nil)
     {
         NSLog(@"Error: Can not save states without rom");
@@ -510,7 +514,8 @@
         return;
     }
     
-    [self playGame:self];
+    if(!paused)
+        [self playGame:self];
 }
 
 #pragma mark -
