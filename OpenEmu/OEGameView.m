@@ -422,6 +422,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
         CGRect textureRect = CGRectMake(0, 0, gameScreenSize.width, gameScreenSize.height);
         
+        // always set the CIImage, so save states save
+        [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
+
         OEGameShader *shader = [filters objectForKey:filterName];
         
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
@@ -435,6 +438,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+
         
         if(shader != nil)
             [self OE_drawSurface:surfaceRef inCGLContext:cgl_ctx usingShader:shader];
@@ -459,9 +463,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
                              [NSValue valueWithPoint:mouseLocation], QCRendererMouseLocationKey,
                              [gameWindow currentEvent], QCRendererEventKey,
                              nil];
-                
-                [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
-                
+                                
                 [filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
                 [filterRenderer renderAtTime:filterTime arguments:arguments];
                 
