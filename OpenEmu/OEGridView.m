@@ -1195,7 +1195,9 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         NSIndexSet     *indexes             = itemIsSelected ? [self selectionIndexes] : [NSIndexSet indexSetWithIndex:index];
 
         NSRect          hitRect             = NSInsetRect([itemCell hitRect], 5, 5);
-        NSRect          hitRectOnWindow     = [itemCell convertRect:hitRect toLayer:nil];
+        NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
+        hitRectOnView.origin.y = self.bounds.size.height - hitRectOnView.origin.y - hitRectOnView.size.height;
+        NSRect          hitRectOnWindow     = [self convertRect:hitRectOnView toView:nil];
         NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
         NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
         
@@ -1212,6 +1214,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         {
             edge = NSMinY(visibleItemRect) == NSMinY(visibleRectOnWindow) ? OEMaxYEdge : OEMinYEdge;
             [contextMenu setAllowsOppositeEdge:NO];
+            
+            if(NSEqualRects(visibleItemRect, NSZeroRect))
+            {
+                visibleItemRect = hitRectOnWindow;
+            }
         }     
         [contextMenu openOnEdge:edge ofRect:visibleItemRect ofWindow:[self window]];
         
