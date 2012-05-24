@@ -27,7 +27,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "OEUIDrawingUtils.h"
-
+#import "OEMainWindowContentController.h"
 @class OELibraryDatabase;
 @class BackgroundColorView;
 @class OESidebarController;
@@ -42,7 +42,7 @@
 @interface OELibraryToolbarView : NSView
 @end
 
-@interface OELibraryController : NSViewController
+@interface OELibraryController : NSViewController <OEMainWindowContentController>
 
 - (void)layoutToolbarItems;
 - (id)initWithDatabase:(OELibraryDatabase *)database;
@@ -105,6 +105,7 @@
 @property(strong) IBOutlet NSSearchField *toolbarSearchField;
 @property(strong) IBOutlet NSSlider      *toolbarSlider;
 
+@property (strong) NSBitmapImageRep *cachedSnapshot;
 @end
 
 @protocol OELibraryControllerDelegate <NSObject>

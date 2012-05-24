@@ -1,4 +1,4 @@
-             /*
+/*
  Copyright (c) 2011, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
@@ -25,17 +25,20 @@
  */
 
 #import "OEMainWindowController.h"
+#import "OEMainWindowContentController.h"
+
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEMainWindow.h"
 #import "OESetupAssistant.h"
 #import "OELibraryController.h"
-#import "OEGameViewController.h"
 #import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEDBGame.h"
 
+#import "NSView+FadeImage.h"
+#import "OEFadeView.h"
 @interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
@@ -48,10 +51,6 @@
 @synthesize placeholderView;
 @synthesize deviceHandlers;
 @synthesize coreList;
-
-@synthesize targetView;
-@synthesize replaceView;
-
 + (void)initialize
 {
     if(self == [OEMainWindowController class])
@@ -75,8 +74,6 @@
     [self setDefaultContentController:nil];
     [self setLibraryController:nil];
     [self setPlaceholderView:nil]; 
-    
-    //[self setTargetView:nil];
 }
 
 - (void)windowDidLoad
@@ -131,25 +128,10 @@
     
     BOOL usePopout = forcePopout || allowPopout;
     
-    if(usePopout) [aDocument showInSeparateWindow:self];
-    else          [self setCurrentContentController:[aDocument gameViewController]];
-}
-
-- (IBAction)terminateEmulation:(id)sender;
-{
-    OEGameViewController *current = (OEGameViewController *)[self currentContentController];
-    
-    if(![current isKindOfClass:[OEGameViewController class]]) return;
-    
-    [self setCurrentContentController:[self libraryController]];
-}
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
-    if([menuItem action] == @selector(terminateEmulation:))
-        return [[self currentContentController] isKindOfClass:[OEGameViewController class]];
-    
-    return YES;
+    if(usePopout) 
+        [aDocument showInSeparateWindow:self];
+    else
+        [self setCurrentContentController:[aDocument viewController]];
 }
 
 - (void)windowWillEnterFullScreen:(NSNotification *)notification
@@ -165,7 +147,7 @@
 #pragma mark -
 
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
-{
+{     
     NSView *contentView = [self placeholderView];
 
     // final target
@@ -173,75 +155,11 @@
     [[newController view] setFrame:[contentView frame]];
     
     if(oldController != nil)
-    {
-        // No animation: 
-        //[contentView replaceSubview:[oldController view] with:[newController view]];
-        
-        // animating to the gameView
-        if([newController isKindOfClass:[OEGameViewController class]])
-        {
-            DLog(@"Animating to game view");
-            
-            // BECAUSE CA IS A FLAMING PILE OF SHIT WE JUST TAKE A SCREENSHOT
-            // HEAVEN FORBID WE WANT TO DO THAT SOME SANE WAY, LIKE ASKING
-            // NSVIEW FOR A FUCKING BITMAP. BUT NO. WE CANT DO THAT BECAUSE
-            // CORE ANIMATION IS A SACK OF FLAMING USED CONDOMS
-            
-            // stupid inverted origin.
-            NSRect captureRect = [[self window] convertRectToScreen:[contentView convertRect:[contentView frame] toView:nil]];
-            captureRect = NSIntersectionRect([NSScreen mainScreen].frame, captureRect);
-            captureRect.origin.y = [[NSScreen mainScreen] frame].size.height - captureRect.origin.y - captureRect.size.height + 1.0;    
-            
-            // stupid screenshot
-            CGImageRef fuckYouJustFuckingDoWhatITellYou = CGWindowListCreateImage(NSRectToCGRect(captureRect),
-                                                                                  kCGWindowListOptionIncludingWindow,
-                                                                                   (CGWindowID)[[self window] windowNumber],
-                                                                                  kCGWindowImageBoundsIgnoreFraming);
-            
-            NSBitmapImageRep *cachedImage = [[NSBitmapImageRep alloc] initWithCGImage:fuckYouJustFuckingDoWhatITellYou];
-            [(OEGameViewController *)newController setCachedLibraryImage:cachedImage];
-            CGImageRelease(fuckYouJustFuckingDoWhatITellYou);
-
-            // swap views
-            [contentView replaceSubview:[oldController view] with:[newController view]];
-            
-            // animate
-            [(OEGameViewController *)newController setDelegate:self];
-            [(OEGameViewController *)newController startFadeInTransition];
-        }
-        else if([oldController isKindOfClass:[OEGameViewController class]])
-        {
-            self.targetView = [newController view];
-            self.replaceView = [oldController view];
-
-            // we swap in the delegate callback from this view controller
-
-            [(OEGameViewController *)oldController startFadeOutTransition];
-            [(OEGameViewController *)oldController setDelegate:self];
-
-            DLog(@"Animating from game view");
-        }
-        else
-        {
-            [contentView replaceSubview:[oldController view] with:[newController view]]; 
-        }
-    }
+       [contentView replaceSubview:[oldController view] with:[newController view]];
     else
-    {
-        // this is for the initial transition when loading the app
-        // We have a Layer Backed view here, for only this first transition
-        [[contentView animator] addSubview:[newController view]];
-    }
-}
-
-- (void)gameViewDidFinishFadeOutTransition
-{
-    DLog(@"Finished Fade Out");
-    NSView *contentView = [self placeholderView];
-
-    [contentView replaceSubview:[self replaceView] with:[self targetView]];
-    
-    [[self window] makeFirstResponder:[currentContentController view]];
+        [contentView addSubview:[newController view]];
+        
+    [[self window] makeFirstResponder:[newController view]];
 }
 
 - (void)setCurrentContentController:(NSViewController *)controller
@@ -249,23 +167,42 @@
     if(controller == nil) controller = [self libraryController];
     
     if(controller == [self currentContentController]) return;
+
+    NSBitmapImageRep *currentState = [[self placeholderView] fadeImage], *newState = nil;
+    if([currentContentController respondsToSelector:@selector(setCachedSnapshot:)])
+        [(id <OEMainWindowContentController>)currentContentController setCachedSnapshot:currentState];
     
     [currentContentController viewWillDisappear];
-    [controller               viewWillAppear];
+    [controller                     viewWillAppear];
     
-    [self OE_replaceCurrentContentController:currentContentController withViewController:controller];
+    NSView *placeHolderView = [self placeholderView];
+    OEFadeView *fadeView = [[OEFadeView alloc] initWithFrame:[placeHolderView bounds]];
+    if(currentContentController)
+        [placeholderView replaceSubview:[currentContentController view] with:fadeView];
+    else 
+        [placeholderView addSubview:fadeView];
     
-    [[self window] makeFirstResponder:[controller view]];
+    if([controller respondsToSelector:@selector(cachedSnapshot)])
+        newState = [(id <OEMainWindowContentController>)controller cachedSnapshot];
     
-    [currentContentController viewDidDisappear];
-    [controller               viewDidAppear];
-    
-    currentContentController = controller;
+    [fadeView fadeFromImage:currentState toImage:newState callback:^{
+        [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [[controller view] setFrame:[placeHolderView frame]];
+        
+        [placeHolderView replaceSubview:fadeView with:[controller view]];
+        
+        [[self window] makeFirstResponder:[controller view]];
+        
+        [currentContentController viewDidDisappear];
+        [controller                     viewDidAppear];
+        currentContentController = controller;
+        
+        [fadeView removeFromSuperview];
+    }];
 }
 
 #pragma mark -
 #pragma mark OELibraryControllerDelegate protocol conformance
-
 - (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame
 {
     NSError         *error = nil;
@@ -301,12 +238,25 @@
     }
     else if(error != nil) [NSApp presentError:error];
 }
+
+#pragma mark - OEGameViewControllerDelegate protocol conformance
+- (void)emulationDidFinishForGameViewController:(id)sender
+{
+
+}
+- (void)emulationWillFinishForGameViewController:(OEGameViewController *)sender{
+        [self setCurrentContentController:nil];
+}
 #pragma mark -
 #pragma mark NSWindow delegate
-
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
     return [self allowWindowResizing] ? frameSize : [sender frame].size;
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+    [self setCurrentContentController:nil];
 }
 
 #pragma mark -

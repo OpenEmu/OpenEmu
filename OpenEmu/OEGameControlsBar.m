@@ -89,15 +89,11 @@
         openMenus = 0;
         controlsView = barView;
     }
-    
-    NSLog(@"OEHUDControlsBarWindow init");
     return self;
 }
 
 - (void)dealloc
-{
-    NSLog(@"OEHUDControlsBarWindow dealloc");
-    
+{    
     [fadeTimer invalidate];
     fadeTimer = nil;
     
@@ -445,7 +441,7 @@
     [stopButton setCell:pcell];
     [stopButton setImage:[NSImage imageNamed:@"hud_power_glyph_normal"]];
     [stopButton setAlternateImage:[NSImage imageNamed:@"hud_power_glyph_pressed"]];
-    [stopButton setAction:@selector(terminateEmulation:)];
+    [stopButton setAction:@selector(terminateEmulation)];
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:stopButton];

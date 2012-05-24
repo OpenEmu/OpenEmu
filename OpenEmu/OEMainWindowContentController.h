@@ -24,12 +24,10 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Foundation/Foundation.h>
 
-#import "OEDBItem.h"
-
-@implementation OEDBItem
-- (OELibraryDatabase*)libraryDatabase
-{
-    return [[[self managedObjectContext] userInfo] valueForKey:LibraryDatabaseKey];
-}
+@protocol OEMainWindowContentController <NSObject>
+@optional
+- (void)setCachedSnapshot:(NSBitmapImageRep*)snapshot;
+- (NSBitmapImageRep*)cachedSnapshot;
 @end

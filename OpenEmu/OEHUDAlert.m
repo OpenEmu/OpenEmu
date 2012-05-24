@@ -525,7 +525,7 @@
     [[self inputField] setFocusRingType:NSFocusRingTypeNone];
     [[self inputField] setTarget:self andAction:@selector(buttonAction:)];
     [[self inputField] setEditable:YES];
-    [self inputField].wantsLayer = YES;
+    [[self inputField] setWantsLayer:YES];
     [[_window contentView] addSubview:[self inputField]];
     
     

@@ -185,19 +185,14 @@
     
     if(highlightedItem && NSPointInRect(loc, [highlightedItem itemRect]))
     {
-        selectedItem = highlightedItem;
-        highlightedItem = nil;
-        
+        selectedItem = highlightedItem;        
         if([selectedItem action] != NULL)
         {
             [NSApp sendAction:[selectedItem action] to:[selectedItem target] from:selectedItem];
-            
-            [self setNeedsDisplay:YES];
-            return;
         }
     }
-    
     highlightedItem = nil;
+
     
     [self setNeedsDisplay:YES];
 }

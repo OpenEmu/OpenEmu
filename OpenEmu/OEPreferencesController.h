@@ -25,7 +25,6 @@
  */
 
 #import <Cocoa/Cocoa.h>
-@class OEBackgroundImageView;
 @class OEBackgroundGradientView;
 @class OEToolbarView;
 @interface OEPreferencesController : NSWindowController 
@@ -39,4 +38,5 @@
 - (void)switchView:(id)sender animate:(BOOL)animateFlag;
 
 @property (strong, readwrite) NSArray *preferencePanes;
+@property NSInteger visiblePaneIndex;
 @end

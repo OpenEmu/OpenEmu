@@ -194,7 +194,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 @synthesize saveStateWatcher;
 - (void)OE_setupStateWatcher
 {
-    NSLog(@"OE_setupStateWatcher");
     NSString    *path    = [[self stateFolderURL] path];
     OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:path withBlock:^(NSString *path, FSEventStreamEventFlags flags) {
         if([path hasSuffix:@".DS_Store"]) return;
