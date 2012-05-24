@@ -27,6 +27,33 @@
 #import "OESidebarScrollView.h"
 
 @implementation OESidebarScrollView
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.wantsLayer = YES;
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        
+        self.wantsLayer = YES;
+    }
+    return self;
+}
+- (id)initWithFrame:(NSRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        
+        self.wantsLayer = YES;
+    }
+    return self;
+}
 - (void)drawRect:(NSRect)dirtyRect
 {
     [super drawRect:dirtyRect];
