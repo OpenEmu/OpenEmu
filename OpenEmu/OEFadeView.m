@@ -78,7 +78,7 @@
     
     [layer addSublayer:startLayer];
     [CATransaction commit];
-
+    
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.001 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         CALayer *endLayer = [CALayer layer];
@@ -89,8 +89,9 @@
             [endLayer setContents:image];
         }
         else 
-            [endLayer setBackgroundColor:[[NSColor orangeColor] CGColor]];
+            [endLayer setBackgroundColor:[[NSColor blackColor] CGColor]];
         
+        [endLayer setFrame:layer.bounds];
         [layer replaceSublayer:startLayer with:endLayer];
     });
 }
