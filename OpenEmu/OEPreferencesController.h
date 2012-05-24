@@ -25,7 +25,6 @@
  */
 
 #import <Cocoa/Cocoa.h>
-@class OEBackgroundImageView;
 @class OEBackgroundGradientView;
 @class OEToolbarView;
 @interface OEPreferencesController : NSWindowController 

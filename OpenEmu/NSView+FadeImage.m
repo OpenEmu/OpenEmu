@@ -25,11 +25,43 @@
  */
 
 
-#import "OEDBItem.h"
+#import "NSView+FadeImage.h"
 
-@implementation OEDBItem
-- (OELibraryDatabase*)libraryDatabase
+@implementation NSView (FadeImage)
+- (void)willMakeFadeImage
 {
-    return [[[self managedObjectContext] userInfo] valueForKey:LibraryDatabaseKey];
+    for (NSView* aView in [self subviews]) {
+        [aView willMakeFadeImage]; 
+    }
+}
+
+- (void)didMakeFadeImage
+{
+    for (NSView* aView in [self subviews]) {
+        [aView didMakeFadeImage];
+    }
+}
+
+- (NSBitmapImageRep*)fadeImage
+{
+    [self willMakeFadeImage];
+    
+    NSWindow *window = [self window];
+    NSRect captureRect = [window convertRectToScreen:[self convertRectToBase:[self bounds]]];
+    captureRect = NSIntersectionRect([window screen].frame, captureRect);
+    captureRect.origin.y = [[window screen] frame].size.height - captureRect.origin.y - captureRect.size.height;   
+    
+    // stupid screenshot
+    CGImageRef fuckYouJustFuckingDoWhatITellYou = CGWindowListCreateImage(NSRectToCGRect(captureRect),
+                                                                          kCGWindowListOptionIncludingWindow,
+                                                                          (CGWindowID)[[self window] windowNumber],
+                                                                          kCGWindowImageBoundsIgnoreFraming);
+    
+    [self didMakeFadeImage];
+    
+    NSBitmapImageRep *cachedImage = [[NSBitmapImageRep alloc] initWithCGImage:fuckYouJustFuckingDoWhatITellYou];
+    
+    CGImageRelease(fuckYouJustFuckingDoWhatITellYou);
+    return cachedImage;
 }
 @end

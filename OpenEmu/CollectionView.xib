@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11D50b</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.SystemVersion">11E53</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
+		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
+			<string key="NS.object.0">2182</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSCustomObject</string>
@@ -46,7 +46,6 @@
 				<string key="NSFrameSize">{480, 272}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSSplitView" id="6079965">
@@ -381,7 +380,7 @@
 				<int key="NSDividerStyle">2</int>
 			</object>
 			<object class="NSScrollView" id="700958242">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSClipView" id="384876260">
@@ -393,15 +392,13 @@
 								<int key="NSvFlags">18</int>
 								<string key="NSFrameSize">{643, 510}</string>
 								<reference key="NSSuperview" ref="384876260"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="941444314"/>
+								<reference key="NSNextKeyView" ref="102222795"/>
 								<int key="NSViewLayerContentsRedrawPolicy">2</int>
 								<string key="NSClassName">OEGridView</string>
 							</object>
 						</array>
 						<string key="NSFrameSize">{643, 510}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="705979620"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<reference key="NSDocView" ref="705979620"/>
@@ -416,8 +413,6 @@
 						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{628, 0}, {15, 495}}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<bool key="NSViewCanDrawConcurrently">YES</bool>
 						<reference key="NSTarget" ref="700958242"/>
@@ -431,7 +426,6 @@
 						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{-100, -100}, {628, 15}}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="384876260"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<int key="NSsFlags">1</int>
@@ -442,9 +436,7 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{643, 510}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="102222795"/>
+				<reference key="NSNextKeyView" ref="384876260"/>
 				<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				<int key="NSsFlags">133680</int>
 				<reference key="NSVScroller" ref="941444314"/>
@@ -871,7 +863,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">OELibraryController</string>
-					<string key="superclassName">OEMainWindowContentController</string>
+					<string key="superclassName">NSViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addCollectionAction:">id</string>
 						<string key="addToLibrary:">id</string>
@@ -1022,14 +1014,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OELibrarySplitView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEMainWindowContentController</string>
-					<string key="superclassName">NSViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEMainWindowContentController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

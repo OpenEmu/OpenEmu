@@ -35,68 +35,39 @@
 #import "OEGameViewController.h"
 #import "OEGameCoreManager.h"
 
+#import "OEBackgroundColorView.h"
+
 #import "OEROMImporter.h"
-#import "OEGameWindowController.h"
-
+#import "OEDistantViewController.h"
+#import "NSViewController+OEAdditions.h"
+#import "NSView+FadeImage.h"
 @interface OEGameDocument ()
-
-@property (strong) NSTimer * mouseIdleTimer;
-
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError**)outError;
 - (BOOL)OE_loadGame:(OEDBGame *)game core:(OECorePlugin*)core withError:(NSError**)outError;
 
-- (void)checkMouseIdleTime:(NSTimer*)aNotification;
-
-- (void)windowDidEnterFullScreen:(NSNotification*)aNotification;
-- (void)windowDidExitFullScreen:(NSNotification*)aNotification;
-
+@property (strong) OEGameViewController *gameViewController;
+@property (strong) NSViewController *viewController;
+- (OEDistantViewController*)distantViewController;
 @end
-
-@implementation OEGameDocument
-@synthesize gameViewController,mouseIdleTimer;
-
 #pragma mark -
-
-
+@implementation OEGameDocument
+@synthesize gameViewController, viewController;
 - (id)init
 {
     self = [super init];
     if(self != nil)
     {
-        NSLog(@"OEGameDocument init");
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(applicationWillTerminate:) 
                                                      name:NSApplicationWillTerminateNotification
                                                    object:NSApp];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidExitFullScreen:) name:NSWindowDidExitFullScreenNotification object:nil];
-        
+    
+    
+        OEDistantViewController *distantViewController = [[OEDistantViewController alloc] init];
+        [self setViewController:distantViewController];
     }
     return self;
 }
-
-- (void)windowDidEnterFullScreen:(NSNotification *)aNotification
-{
-    mouseIdleTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(checkMouseIdleTime:) userInfo:nil repeats:YES];
-    [mouseIdleTimer fire];
-}
-
-- (void)windowDidExitFullScreen:(NSNotification *)aNotification
-{
-    [mouseIdleTimer invalidate];
-    [NSCursor setHiddenUntilMouseMoves:NO];
-}
-
-- (void)checkMouseIdleTime:(NSTimer*)aNotification
-{
-    CFTimeInterval mouseIdleTime = CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGEventMouseMoved);
-    if (mouseIdleTime >= 3)
-    {
-        [NSCursor setHiddenUntilMouseMoves:YES];
-    }
-}
-
 
 - (id)initWithRom:(OEDBRom *)rom
 {
@@ -168,6 +139,7 @@
         }
         
         [gameViewController setDocument:self];
+        [[self distantViewController] setRealViewController:gameViewController];
     }
     return self;
 }
@@ -179,6 +151,7 @@
 #pragma mark -
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
+    [[self gameViewController] terminateEmulation];
 }
 
 - (void)showInSeparateWindow:(id)sender;
@@ -197,13 +170,7 @@
     {
         windowRect = NSRectFromString([standardDefaults stringForKey:UDLastPopoutFrameKey]);
     }
-    
-    OEGameWindowController *windowController = [[OEGameWindowController alloc] initWithGameViewController:gameViewController contentRect:windowRect];
-    
-    [self addWindowController:windowController];
-    
-    [windowController showWindow:self];
-    [[windowController window] center];
+#warning Reimplement showInSeparateWindow:
 }
 
 #pragma mark -
@@ -213,10 +180,12 @@
     gameViewController = [[OEGameViewController alloc] initWithGame:game core:core error:outError];
     if(gameViewController == nil) return NO;
     
-    [gameViewController setDocument:self];
+    [[self gameViewController] setDocument:self];
+    [[self distantViewController] setRealViewController:gameViewController];
     
     return YES;
 }
+
 
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError **)outError
 {
@@ -226,12 +195,18 @@
         DLog(@"no game view controller");
         return NO;
     }
-    
-    [gameViewController setDocument:self];
+
+    [[self gameViewController] setDocument:self];
+    [[self distantViewController] setRealViewController:gameViewController];
     
     return YES;
 }
+#pragma mark -
 
+- (OEDistantViewController*)distantViewController
+{
+    return (OEDistantViewController*)[self viewController];
+}
 #pragma mark -
 #pragma mark NSDocument Stuff
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -310,50 +285,5 @@
     
     // TODO: Load rom that was just imported instead of the default one
     return [self OE_loadRom:[game defaultROM] core:nil withError:outError];
-}
-
-#pragma mark -
-#pragma mark Window management utilities
-
-- (void)windowDidBecomeKey:(NSNotification *)notification
-{
-    // if([self backgroundPauses]) [self setPauseEmulation:NO];
-}
-
-- (void)windowDidResignKey:(NSNotification *)notification
-{
-    /* if([self backgroundPauses])
-     {
-     if(![self isFullScreen])
-     {
-     @try
-     {
-     [self setPauseEmulation:YES];
-     }
-     @catch (NSException *e)
-     {
-     NSLog(@"Failed to pause");
-     }
-     }
-     }*/
-}
-
-- (void)windowDidResize:(NSNotification *)notification
-{
-    
-}
-
-- (void)windowWillClose:(NSNotification *)notification
-{
-    /*if([view isInFullScreenMode]) [self toggleFullScreenMode:self];
-     [self terminateEmulation];
-     
-     //[recorder finishRecording];
-     */
-}
-
-- (void)performClose:(id)sender
-{
-    // [gameWindow performClose:sender];
 }
 @end

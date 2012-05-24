@@ -51,8 +51,20 @@
             [responderChain appendString:@" -> "];                                                      \
         [responderChain appendFormat:@"%@", responder];                                                 \
     }                                                                                                   \
-    NSLog(@"%@", responderChain);                                                                       \
+    NSLog(@"Responder Chain: %@", responderChain);                                                                       \
 }
+
+#define LogLayersInViewHierarchy(__VIEW__) { \
+if(![__VIEW__ isKindOfClass:[NSView class]]) return;\
+NSView *view = __VIEW__;                                                             \
+NSMutableString* viewHierachy = [[NSMutableString alloc] initWithFormat:@"%@ %@ %@", view, [view wantsLayer] ? @"wants layer" : @"", [view layer] ? @"has layer" : @""];        \
+while ((view = [view superview])) {                                                   \
+[viewHierachy appendString:@" -> "];                                                      \
+[viewHierachy appendFormat:@"%@ %@ %@", view, [view wantsLayer] ? @"wants layer" : @"", [view layer] ? @"has layer" : @""];                                                 \
+}                                                                                                   \
+NSLog(@"View Hierarchy: %@", viewHierachy);                                                                       \
+}
+
 
 #pragma mark - Notification Names
 #define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"

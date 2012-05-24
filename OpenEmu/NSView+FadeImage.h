@@ -24,12 +24,10 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Cocoa/Cocoa.h>
 
-#import "OEDBItem.h"
-
-@implementation OEDBItem
-- (OELibraryDatabase*)libraryDatabase
-{
-    return [[[self managedObjectContext] userInfo] valueForKey:LibraryDatabaseKey];
-}
+@interface NSView (FadeImage)
+- (void)willMakeFadeImage;
+- (NSBitmapImageRep*)fadeImage;
+- (void)didMakeFadeImage;
 @end

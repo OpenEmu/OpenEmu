@@ -25,11 +25,7 @@
  */
 
 
-#import "OEDBItem.h"
-
-@implementation OEDBItem
-- (OELibraryDatabase*)libraryDatabase
-{
-    return [[[self managedObjectContext] userInfo] valueForKey:LibraryDatabaseKey];
-}
+#import <Cocoa/Cocoa.h>
+@interface OEFadeView : NSView
+- (void)fadeFromImage:(NSBitmapImageRep*)start toImage:(NSBitmapImageRep*)end callback:(void(^)(void))block;
 @end

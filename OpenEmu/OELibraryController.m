@@ -34,7 +34,6 @@
 #import "OELibrarySplitView.h"
 
 #import "NSImage+OEDrawingAdditions.h"
-#import "OEBackgroundColorView.h"
 
 #import "OEGameView.h"
 
@@ -66,6 +65,7 @@
 @synthesize sidebarController, collectionViewController, mainSplitView, mainContentPlaceholderView;
 @synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
 @synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
+@synthesize cachedSnapshot;
 @synthesize delegate;
 
 @synthesize searchResults;

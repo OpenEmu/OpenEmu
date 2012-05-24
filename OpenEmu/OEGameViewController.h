@@ -103,8 +103,7 @@
 
 #pragma mark - Controlling Emulation
 - (void)resetGame;
-- (void)beginTerminateEmulation;
-- (void)endTerminateEmulation;
+- (void)terminateEmulation;
 
 - (IBAction)pauseGame:(id)sender;
 - (IBAction)playGame:(id)sender;
@@ -131,14 +130,6 @@
 - (NSString*)coreIdentifier;
 - (NSString*)systemIdentifier;
 
-#pragma mark - 
-#pragma mark Game View Transition handling
-- (void)setCachedLibraryImage:(NSBitmapImageRep*) image;
-- (void)startFadeInTransition;
-- (void)startFadeOutTransition;
-- (void)fadeInTransition;
-- (void)fadeOutTransition;
-
 #pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
@@ -147,12 +138,9 @@
 
 #pragma mark -
 #pragma mark Delegate
-
 @protocol OEGameViewControllerDelegate <NSObject>
 @optional
-
+- (void)emulationWillFinishForGameViewController:(OEGameViewController *)sender;
 - (void)emulationDidFinishForGameViewController:(OEGameViewController *)sender;
 - (BOOL)gameViewControllerShouldToggleFullScreenMode:(OEGameViewController *)sender;
-- (void)gameViewDidFinishFadeOutTransition;
-
 @end
