@@ -94,10 +94,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @property         NSTimeInterval filterStartTime;
 @property         BOOL filterHasOutputMousePositionKeys;
 
-// Animating to and from the library.
-@property GLuint cachedLibraryTexture;
-@property BOOL uploadedCachedLibraryTexture;
-
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader;
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context;
