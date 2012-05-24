@@ -28,7 +28,8 @@
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDWiimoteEvent.h"
 
-#define MaximumWiimotes 2
+#import <IOBluetooth/IOBluetooth.h>
+#define MaximumWiimotes 7
 #define SynVibrateDuration 0.35
 
 @interface OEWiimoteHandler ()
@@ -58,6 +59,8 @@
 		
 		[aBrowser startSearch];
 		[[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(bluetoothDidPowerOn:) name:IOBluetoothHostControllerPoweredOnNotification object:nil];
 	}
 	return sharedHandler;
 }
@@ -72,6 +75,12 @@
 		[aWiimote disconnect];
 	}
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)bluetoothDidPowerOn:(NSNotification*)notification
+{
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
+        [[self browser] startSearch];
 }
 #pragma mark -
 @synthesize wiiRemotes;

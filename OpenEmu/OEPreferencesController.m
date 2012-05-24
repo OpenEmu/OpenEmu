@@ -137,7 +137,7 @@
 {
     [super showWindow:sender];
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupport])
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
         [OEWiimoteHandler search];
 }
 
