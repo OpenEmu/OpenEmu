@@ -43,6 +43,7 @@
 #import "OEPrefCoresController.h"
 #import "OEPrefDebugController.h"
 
+#import "OEWiimoteHandler.h"
 #define AnimationDuration 0.3
 @interface OEPreferencesController (priavte)
 - (void)_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag;
@@ -131,6 +132,15 @@
     
     return rect;
 }
+
+- (IBAction)showWindow:(id)sender
+{
+    [super showWindow:sender];
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupport])
+        [OEWiimoteHandler search];
+}
+
 #pragma mark -
 - (void)_reloadPreferencePanes
 {
