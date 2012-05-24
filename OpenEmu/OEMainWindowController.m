@@ -254,6 +254,11 @@
     return [self allowWindowResizing] ? frameSize : [sender frame].size;
 }
 
+- (void)windowWillClose:(NSNotification *)notification
+{
+    [self setCurrentContentController:nil];
+}
+
 #pragma mark -
 #pragma mark Menu Items
 
