@@ -102,7 +102,7 @@
             return nil;
         }
 
-        NSView *view = [[NSView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 0.0, 0.0 }}];
+        NSView *view = [[NSView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];
         [self setView:view];
 
         NSError *error = nil;
