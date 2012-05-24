@@ -631,6 +631,7 @@ typedef enum {
     unsigned short addr = (dp[5] * 256) + dp[6];
     if (addr == 0x00FE) { // Response to expansion type request
         UInt16 identifier = (dp[7] << 2)+dp[8];
+        NSLog(@"%0x device identifier: %0x %0x", identifier, dp[7], dp[8]);
         WiiExpansionType connectedExpansion = WiiExpansionNotConnected;
         if(!(dp[4] & 0x0F)) switch (identifier) {
             case kWiiExpansionNunchuck:
