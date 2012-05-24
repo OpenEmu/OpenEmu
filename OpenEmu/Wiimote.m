@@ -155,8 +155,10 @@ typedef enum {
 	usleep (20000);
 	
 	if(_cchan!=nil && _ichan!=nil)
+    {
 		if([[self delegate] respondsToSelector:@selector(wiimoteDidConnect:)])
 			[[self delegate] performSelector:@selector(wiimoteDidConnect:) withObject:self];
+    }
 	else {
 		[_cchan closeChannel];
 		[_ichan closeChannel];

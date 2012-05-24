@@ -175,7 +175,7 @@
     if(oldController != nil)
     {
         // No animation: 
-//         [contentView replaceSubview:[oldController view] with:[newController view]];
+        //[contentView replaceSubview:[oldController view] with:[newController view]];
         
         // animating to the gameView
         if([newController isKindOfClass:[OEGameViewController class]])
@@ -199,15 +199,15 @@
                                                                                   kCGWindowImageBoundsIgnoreFraming);
             
             NSBitmapImageRep *cachedImage = [[NSBitmapImageRep alloc] initWithCGImage:fuckYouJustFuckingDoWhatITellYou];
-            [(OEGameViewController*) newController setCachedLibraryImage:cachedImage];
+            [(OEGameViewController *)newController setCachedLibraryImage:cachedImage];
             CGImageRelease(fuckYouJustFuckingDoWhatITellYou);
 
             // swap views
             [contentView replaceSubview:[oldController view] with:[newController view]];
             
             // animate
-            [(OEGameViewController*) newController setDelegate:self];
-            [(OEGameViewController*) newController startFadeInTransition];
+            [(OEGameViewController *)newController setDelegate:self];
+            [(OEGameViewController *)newController startFadeInTransition];
         }
         else if([oldController isKindOfClass:[OEGameViewController class]])
         {
@@ -216,10 +216,14 @@
 
             // we swap in the delegate callback from this view controller
 
-            [(OEGameViewController*) oldController startFadeOutTransition];
-            [(OEGameViewController*) oldController setDelegate:self];
+            [(OEGameViewController *)oldController startFadeOutTransition];
+            [(OEGameViewController *)oldController setDelegate:self];
 
             DLog(@"Animating from game view");
+        }
+        else
+        {
+            [contentView replaceSubview:[oldController view] with:[newController view]]; 
         }
     }
     else
@@ -230,12 +234,12 @@
     }
 }
 
-- (void) gameViewDidFinishFadeOutTransition
+- (void)gameViewDidFinishFadeOutTransition
 {
     DLog(@"Finished Fade Out");
     NSView *contentView = [self placeholderView];
 
-    [contentView replaceSubview:self.replaceView with:self.targetView];
+    [contentView replaceSubview:[self replaceView] with:[self targetView]];
     
     [[self window] makeFirstResponder:[currentContentController view]];
 }
@@ -264,12 +268,12 @@
 
 - (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame
 {
-    NSError         *error          = nil;
-    OEDBSaveState   *state          = [aGame autosaveForLastPlayedRom];
-    OEGameDocument  *gameDocument;
+    NSError         *error = nil;
+    OEDBSaveState   *state = [aGame autosaveForLastPlayedRom];
+    OEGameDocument  *gameDocument = nil;
 
     if(state && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn)
-         gameDocument = [[OEGameDocument alloc] initWithSaveState:state error:&error];
+        gameDocument = [[OEGameDocument alloc] initWithSaveState:state error:&error];
     else
         gameDocument = [[OEGameDocument alloc] initWithGame:aGame error:&error];
     
@@ -290,15 +294,12 @@
     NSError        *error = nil;
     OEGameDocument *gameDocument = [[OEGameDocument alloc] initWithSaveState:aSaveState error:&error];
     
-    if(gameDocument == nil)
+    if(gameDocument != nil)
     {
-        if(error!=nil)
-            [NSApp presentError:error];
-        return;
+        [[NSDocumentController sharedDocumentController] addDocument:gameDocument];
+        [self openGameDocument:gameDocument];
     }
-    
-    [[NSDocumentController sharedDocumentController] addDocument:gameDocument];
-    [self openGameDocument:gameDocument];
+    else if(error != nil) [NSApp presentError:error];
 }
 #pragma mark -
 #pragma mark NSWindow delegate
