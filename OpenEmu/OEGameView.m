@@ -95,9 +95,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @property         BOOL filterHasOutputMousePositionKeys;
 
 // Animating to and from the library.
-@property(strong) NSBitmapImageRep *cachedLibraryImage;
-@property         GLuint cachedLibraryTexture;
-@property         BOOL uploadedCachedLibraryTexture;
+@property GLuint cachedLibraryTexture;
+@property BOOL uploadedCachedLibraryTexture;
 
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader;
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
@@ -353,8 +352,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     CGColorSpaceRelease(rgbColorSpace);
     rgbColorSpace = NULL;
-    
-    
     
     [self unbind:@"filterName"];
 }

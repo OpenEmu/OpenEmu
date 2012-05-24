@@ -47,6 +47,7 @@
 @property(nonatomic, copy) NSString *filterName;
 
 // Animating to and from the library.
+@property(strong) NSBitmapImageRep *cachedLibraryImage;
 @property GLfloat alpha;
 
 @property(copy) void (^screenshotHandler)(NSImage *img);
