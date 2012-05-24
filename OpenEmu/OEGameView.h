@@ -38,47 +38,27 @@
 @class OESystemResponder;
 
 @interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
-{
-}
 
-@property (nonatomic, strong) id<OEGameCoreHelper> rootProxy;
-@property (strong) OESystemResponder *gameResponder;
-
-// rendering
-@property (assign) GLuint gameTexture;
-@property (assign) IOSurfaceID gameSurfaceID;    
-
-@property (assign) OEIntSize gameScreenSize;
-@property (assign) CVDisplayLinkRef gameDisplayLinkRef;
-@property (strong) NSTimer* gameTimer;
-@property (strong) SyphonServer *gameServer;
+@property(nonatomic, strong) id<OEGameCoreHelper> rootProxy;
+@property(strong) OESystemResponder *gameResponder;
 
 // QC based filters
-@property (copy) NSDictionary *filters;
-@property (nonatomic, copy) NSString *filterName;
-@property (strong) CIImage *gameCIImage;
-@property (strong) QCRenderer *filterRenderer;
-@property (assign) CGColorSpaceRef rgbColorSpace;
-@property (assign) NSTimeInterval filterTime;
-@property (assign) NSTimeInterval filterStartTime;
-@property (assign) BOOL filterHasOutputMousePositionKeys;
+@property(copy) NSDictionary *filters;
+@property(nonatomic, copy) NSString *filterName;
 
-// for animating to and from the library.
-@property (strong) NSBitmapImageRep *cachedLibraryImage;
-@property (assign) GLuint cachedLibraryTexture;
-@property (assign) BOOL uploadedCachedLibraryTexture;
-@property (assign) GLfloat alpha;
+// Animating to and from the library.
+@property(strong) NSBitmapImageRep *cachedLibraryImage;
+@property GLfloat alpha;
 
-@property (copy) void (^screenshotHandler)(NSImage *img);
+@property(copy) void (^screenshotHandler)(NSImage *img);
 - (void) captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
-// rendering methods
-- (void) createDisplayLink;
-- (void) destroyDisplayLink;
-- (CVReturn) displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
-- (void) createTimer;
-- (void) timerFired:(id)sender;
-- (void) render;
-
+// Rendering methods
+- (void)setupDisplayLink;
+- (void)tearDownDisplayLink;
+- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
+- (void)setupTimer;
+- (void)timerFired:(id)sender;
+- (void)render;
 
 @end

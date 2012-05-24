@@ -348,8 +348,10 @@ typedef enum {
 	usleep (20000);
 	
 	if(_cchan!=nil && _ichan!=nil)
+    {
 		if([[self delegate] respondsToSelector:@selector(wiimoteDidConnect:)])
 			[[self delegate] performSelector:@selector(wiimoteDidConnect:) withObject:self];
+    }
 	else {
 		[_cchan closeChannel];
 		[_ichan closeChannel];
@@ -482,6 +484,7 @@ typedef enum {
 - (void)initializeExpansionPort
 {
     // Initializing expansion port based on http://wiibrew.org/wiki/Wiimote/Extension_Controllers#The_New_Way
+   /*
     unsigned char data = 0x55;
     [self writeData:&data at:0x04A400F0 length:1];
     usleep(1000);
@@ -490,7 +493,26 @@ typedef enum {
     [self writeData:&data at:0x04A400FB length:1];
     usleep(1000);
     
+     [self readData:0x04A400FE length:2]; // read expansion type
+    */
+    unsigned char data = 0x00;
+    [self writeData:&data at:0x04A40040 length:1];
+    usleep(1000);
+    
+    NSLog(@"Trying unencrypted");
+    
     [self readData:0x04A400FE length:2]; // read expansion type
+    usleep(1000);
+    data = 0x55;
+    [self writeData:&data at:0x04A400F0 length:1];
+    usleep(1000);
+    
+    data = 0x00;
+    [self writeData:&data at:0x04A400FB length:1];
+    usleep(1000);
+    
+    [self readData:0x04A400FE length:2]; 
+   
 }
 @synthesize expansionType;
 # pragma mark - Sound
@@ -624,6 +646,15 @@ typedef enum {
 - (void)handleRAMData:(unsigned char *)dp length:(size_t)dataLength{
     unsigned short addr = (dp[5] * 256) + dp[6];
     if (addr == 0x00FE) { // Response to expansion type request
+#ifdef DLog
+        NSMutableString *output = [NSMutableString stringWithFormat:@"Expansion type: 0x"];
+        for( int i=0; i < dataLength; i++)
+        {
+            [output appendFormat:@"%0x ", (dp[i]&0xFF)];
+        }
+        DLog(@"%@", output);
+#endif
+        
         UInt16 identifier = (dp[21] << 2)+dp[22];
         WiiExpansionType connectedExpansion = WiiExpansionNotConnected;
         if(!(dp[4] & 0x0F)) switch (identifier) {
