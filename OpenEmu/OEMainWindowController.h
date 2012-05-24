@@ -41,9 +41,6 @@
 @property(copy) NSArray *deviceHandlers;
 @property(copy) NSArray *coreList;
 
-@property(strong) NSView* targetView;
-@property(strong) NSView* replaceView;
-
 - (void)openGameDocument:(OEGameDocument *)aDocument;
 #pragma mark -
 #pragma mark Menu Items

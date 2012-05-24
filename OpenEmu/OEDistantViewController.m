@@ -47,7 +47,7 @@
         [view setController:self];
         [self setView:view];
         
-        NSWindow *window = [[NSWindow alloc] initWithContentRect:(NSRect){{0,0}, {1,1}}
+        NSWindow *window = [[NSWindow alloc] initWithContentRect:(NSRect){{0,0}, {0,0}}
                                                        styleMask:NSBorderlessWindowMask
                                                          backing:NSWindowBackingLocationDefault defer:NO];
         [window setAlphaValue:0.0];

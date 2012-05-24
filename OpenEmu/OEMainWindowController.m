@@ -51,10 +51,6 @@
 @synthesize placeholderView;
 @synthesize deviceHandlers;
 @synthesize coreList;
-
-@synthesize targetView;
-@synthesize replaceView;
-
 + (void)initialize
 {
     if(self == [OEMainWindowController class])
@@ -78,8 +74,6 @@
     [self setDefaultContentController:nil];
     [self setLibraryController:nil];
     [self setPlaceholderView:nil]; 
-    
-    //[self setTargetView:nil];
 }
 
 - (void)windowDidLoad
