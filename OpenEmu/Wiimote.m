@@ -50,7 +50,7 @@ typedef enum {
 	kWiiClassicControllerYButton		= 0x0020,
 	kWiiClassicControllerBButton		= 0x0040,
 	kWiiClassicControllerZLButton		= 0x0080,
-	kWiiClassicControllerUnUsedButton	= 0x0100,
+    // 0x0100 is unsued
 	kWiiClassicControllerRButton		= 0x0200,
 	kWiiClassicControllerPlusButton		= 0x0400,
 	kWiiClassicControllerHomeButton		= 0x0800,
@@ -132,201 +132,8 @@ typedef enum {
 	return self;
 }
 # pragma mark -
-# pragma mark usual getters + setters
 @synthesize delegate;
-
-# pragma mark -
-- (void)handleButtonReport:(unsigned char *) dp length:(size_t) dataLength
-{
-	// wiimote buttons
-	UInt16 buttonData = ((short)dp[2] << 8) + dp[3];
-	[self parseWiiRemoteButtonData:buttonData];
-    
-    // Expansion Port
-    switch (dp[1]) {
-		case 0x34:
-			[self handleExtensionReport:dp length:dataLength startByte:4];
-			break;
-		case 0x35:
-			[self handleExtensionReport:dp length:dataLength startByte:7];
-			break;
-		case 0x36:
-			[self handleExtensionReport:dp length:dataLength startByte:14];
-			break;
-		case 0x37:
-			[self handleExtensionReport:dp length:dataLength startByte:17];
-			break;
-	}
-}
-- (void)handleExtensionReport:(unsigned char *) dp length:(size_t)dataLength startByte:(char)startByte
-{
-    if(![self expansionPortEnabled] || ![self expansionPortAttached])
-        return;
-   
-    switch ([self expansionType]) {
-        case WiiExpansionNunchuck:
-            [self parseNunchuckButtonData: dp[startByte+5]];
-            break;
-        case WiiExpansionClassicController:
-            
-        default:
-            break;
-    }
-}
-
-- (void)parseWiiRemoteButtonData:(UInt16) data {
-    UInt16 buttonChanges = data ^ lastWiimoteButtonReport;
-    lastWiimoteButtonReport = data;
-
-    if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
-        return;
-    
-    if((buttonChanges & kWiiRemoteHomeButton) && (data & kWiiRemoteHomeButton))
-       [self readData:0x04a400fe length:2]; // read expansion type
-    
-    // One, Two, A, B Buttons:
-	if (buttonChanges & kWiiRemoteOneButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteOneButton isPressed:(data & kWiiRemoteOneButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiRemoteTwoButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteTwoButton isPressed:(data & kWiiRemoteTwoButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiRemoteAButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteAButton isPressed:(data & kWiiRemoteAButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiRemoteBButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteBButton isPressed:(data & kWiiRemoteBButton)!=0];
-	}
-    
-    // +, -, Home Buttons:
-    if (buttonChanges & kWiiRemoteMinusButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteMinusButton isPressed:(data & kWiiRemoteMinusButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiRemoteHomeButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteHomeButton isPressed:(data & kWiiRemoteHomeButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiRemotePlusButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemotePlusButton isPressed:(data & kWiiRemotePlusButton)!=0];
-	}
-    
-    // D-Pad Buttons:
-    if (buttonChanges & kWiiRemoteUpButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteUpButton isPressed:(data & kWiiRemoteUpButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiRemoteDownButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteDownButton isPressed:(data & kWiiRemoteDownButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiRemoteLeftButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteLeftButton isPressed:(data & kWiiRemoteLeftButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiRemoteRightButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteRightButton isPressed:(data & kWiiRemoteRightButton)!=0];
-	}
-}
-
-- (void)parseNunchuckButtonData:(UInt8)data
-{
-    if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
-        return;
-    
-    UInt8 buttonChanges = data ^ lastNunchuckButtonReport;
-    lastNunchuckButtonReport = data;
-
-    if (buttonChanges & kWiiNunchukCButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukCButton isPressed:(data & kWiiNunchukCButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiNunchukZButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukZButton isPressed:(data & kWiiNunchukZButton)!=0];
-	}
-}
-
-- (void)parseClassicControllerButtonData:(UInt16)data
-{
-    if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
-        return;
-    
-    UInt16 buttonChanges = data ^ lastClassicControllerButtonReport;
-    lastClassicControllerButtonReport = data;
-    
-    if (buttonChanges & kWiiClassicControllerXButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerXButton isPressed:(data & kWiiClassicControllerXButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiClassicControllerYButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerYButton isPressed:(data & kWiiClassicControllerYButton)!=0];
-	}
-    
-    if (buttonChanges & kWiiClassicControllerAButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerAButton isPressed:(data & kWiiClassicControllerAButton)!=0];
-	}
-    
-	if (buttonChanges & kWiiClassicControllerBButton){
-		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerBButton isPressed:(data & kWiiClassicControllerBButton)!=0];
-	}
-    
-    
-	if (buttonChanges & kWiiClassicControllerLButton){
-		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerLButton isPressed:(data & kWiiClassicControllerLButton)!=0];
-	}
-    
-	if (buttonChanges & kWiiClassicControllerRButton){
-		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerRButton isPressed:(data & kWiiClassicControllerRButton)!=0];
-	}
-    
-    
-	if (buttonChanges & kWiiClassicControllerRButton){
-		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerRButton isPressed:(data & kWiiClassicControllerRButton)!=0];
-	}
-    
-	if (buttonChanges & kWiiClassicControllerZRButton){
-		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerZRButton isPressed:(data & kWiiClassicControllerZRButton)!=0];
-	}
-    
-    
-    // +, -, Home Buttons:
-    if (buttonChanges & kWiiClassicControllerMinusButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerMinusButton isPressed:(data & kWiiClassicControllerMinusButton)!=0];
-    }
-    
-    if (buttonChanges & kWiiClassicControllerHomeButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerHomeButton isPressed:(data & kWiiClassicControllerHomeButton)!=0];
-    }
-    
-    if (buttonChanges & kWiiClassicControllerPlusButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerPlusButton isPressed:(data & kWiiClassicControllerPlusButton)!=0];
-    }
-    
-    
-    // D-Pad Buttons:
-    if (buttonChanges & kWiiClassicControllerUpButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerUpButton isPressed:(data & kWiiClassicControllerUpButton)!=0];
-    }
-    
-    if (buttonChanges & kWiiClassicControllerDownButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerDownButton isPressed:(data & kWiiClassicControllerDownButton)!=0];
-    }
-    
-    if (buttonChanges & kWiiClassicControllerLeftButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerLeftButton isPressed:(data & kWiiClassicControllerLeftButton)!=0];
-    }
-    
-    if (buttonChanges & kWiiClassicControllerRightButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerRightButton isPressed:(data & kWiiClassicControllerRightButton)!=0];
-    }
-}
-
-
-# pragma mark -
-# pragma mark Connection
+# pragma mark - Connection
 - (void)setDevice:(IOBluetoothDevice*)newDev{	
 	if(_connected) // disconnect when changing device
 		[self disconnect];
@@ -606,6 +413,203 @@ typedef enum {
 
 @synthesize statusReportRequested;
 # pragma mark -
+- (void)handleDataReport:(unsigned char *) dp length:(size_t) dataLength
+{
+	// wiimote buttons
+    if(dp[1] != 0x3d)
+    {
+        UInt16 buttonData = ((short)dp[2] << 8) + dp[3];
+        [self parseWiiRemoteButtonData:buttonData];
+    }
+    
+    // Expansion Port
+    switch (dp[1]) {
+		case 0x34:
+			[self handleExtensionReport:dp length:dataLength startByte:4];
+			break;
+		case 0x35:
+			[self handleExtensionReport:dp length:dataLength startByte:7];
+			break;
+		case 0x36:
+			[self handleExtensionReport:dp length:dataLength startByte:14];
+			break;
+		case 0x37:
+			[self handleExtensionReport:dp length:dataLength startByte:17];
+			break;
+        case 0x3d:
+			[self handleExtensionReport:dp length:dataLength startByte:2];
+			break;
+	}
+}
+- (void)handleExtensionReport:(unsigned char *) dp length:(size_t)dataLength startByte:(char)startByte
+{
+    if(![self expansionPortEnabled] || ![self expansionPortAttached])
+        return;
+    
+    switch ([self expansionType]) {
+        case WiiExpansionNunchuck:
+            [self parseNunchuckButtonData: dp[startByte+5]];
+            break;
+        case WiiExpansionClassicController:;
+            UInt16 data = ((short)dp[startByte+4] << 8) + dp[startByte+5];
+            [self parseClassicControllerButtonData:data];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)parseWiiRemoteButtonData:(UInt16) data {
+    UInt16 buttonChanges = data ^ lastWiimoteButtonReport;
+    lastWiimoteButtonReport = data;
+    
+    if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
+        return;
+    
+    if((buttonChanges & kWiiRemoteHomeButton) && (data & kWiiRemoteHomeButton))
+        [self readData:0x04a400fe length:2]; // read expansion type
+    
+    // One, Two, A, B Buttons:
+	if (buttonChanges & kWiiRemoteOneButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteOneButton isPressed:(data & kWiiRemoteOneButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiRemoteTwoButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteTwoButton isPressed:(data & kWiiRemoteTwoButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiRemoteAButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteAButton isPressed:(data & kWiiRemoteAButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiRemoteBButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteBButton isPressed:(data & kWiiRemoteBButton)!=0];
+	}
+    
+    // +, -, Home Buttons:
+    if (buttonChanges & kWiiRemoteMinusButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteMinusButton isPressed:(data & kWiiRemoteMinusButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiRemoteHomeButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteHomeButton isPressed:(data & kWiiRemoteHomeButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiRemotePlusButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemotePlusButton isPressed:(data & kWiiRemotePlusButton)!=0];
+	}
+    
+    // D-Pad Buttons:
+    if (buttonChanges & kWiiRemoteUpButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteUpButton isPressed:(data & kWiiRemoteUpButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiRemoteDownButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteDownButton isPressed:(data & kWiiRemoteDownButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiRemoteLeftButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteLeftButton isPressed:(data & kWiiRemoteLeftButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiRemoteRightButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteRightButton isPressed:(data & kWiiRemoteRightButton)!=0];
+	}
+}
+
+- (void)parseNunchuckButtonData:(UInt8)data
+{
+    if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
+        return;
+    
+    UInt8 buttonChanges = data ^ lastNunchuckButtonReport;
+    lastNunchuckButtonReport = data;
+    
+    if (buttonChanges & kWiiNunchukCButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukCButton isPressed:(data & kWiiNunchukCButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiNunchukZButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukZButton isPressed:(data & kWiiNunchukZButton)!=0];
+	}
+}
+
+- (void)parseClassicControllerButtonData:(UInt16)data
+{
+    if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
+        return;
+    
+    UInt16 buttonChanges = data ^ lastClassicControllerButtonReport;
+    lastClassicControllerButtonReport = data;
+    
+    if (buttonChanges & kWiiClassicControllerXButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerXButton isPressed:(data & kWiiClassicControllerXButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiClassicControllerYButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerYButton isPressed:(data & kWiiClassicControllerYButton)!=0];
+	}
+    
+    if (buttonChanges & kWiiClassicControllerAButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerAButton isPressed:(data & kWiiClassicControllerAButton)!=0];
+	}
+    
+	if (buttonChanges & kWiiClassicControllerBButton){
+		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerBButton isPressed:(data & kWiiClassicControllerBButton)!=0];
+	}
+    
+    
+	if (buttonChanges & kWiiClassicControllerLButton){
+		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerLButton isPressed:(data & kWiiClassicControllerLButton)!=0];
+	}
+    
+	if (buttonChanges & kWiiClassicControllerRButton){
+		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerRButton isPressed:(data & kWiiClassicControllerRButton)!=0];
+	}
+    
+    
+	if (buttonChanges & kWiiClassicControllerRButton){
+		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerRButton isPressed:(data & kWiiClassicControllerRButton)!=0];
+	}
+    
+	if (buttonChanges & kWiiClassicControllerZRButton){
+		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerZRButton isPressed:(data & kWiiClassicControllerZRButton)!=0];
+	}
+    
+    
+    // +, -, Home Buttons:
+    if (buttonChanges & kWiiClassicControllerMinusButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerMinusButton isPressed:(data & kWiiClassicControllerMinusButton)!=0];
+    }
+    
+    if (buttonChanges & kWiiClassicControllerHomeButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerHomeButton isPressed:(data & kWiiClassicControllerHomeButton)!=0];
+    }
+    
+    if (buttonChanges & kWiiClassicControllerPlusButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerPlusButton isPressed:(data & kWiiClassicControllerPlusButton)!=0];
+    }
+    
+    
+    // D-Pad Buttons:
+    if (buttonChanges & kWiiClassicControllerUpButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerUpButton isPressed:(data & kWiiClassicControllerUpButton)!=0];
+    }
+    
+    if (buttonChanges & kWiiClassicControllerDownButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerDownButton isPressed:(data & kWiiClassicControllerDownButton)!=0];
+    }
+    
+    if (buttonChanges & kWiiClassicControllerLeftButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerLeftButton isPressed:(data & kWiiClassicControllerLeftButton)!=0];
+    }
+    
+    if (buttonChanges & kWiiClassicControllerRightButton){
+        [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerRightButton isPressed:(data & kWiiClassicControllerRightButton)!=0];
+    }
+}
+
+# pragma mark -
 # pragma mark Response Handler
 - (void)handleWriteResponse:(unsigned char *)dp length:(size_t)dataLength{
     if(dataLength > 5) switch (dp[5]) {
@@ -624,7 +628,7 @@ typedef enum {
 - (void)handleRAMData:(unsigned char *)dp length:(size_t)dataLength{
     unsigned short addr = (dp[5] * 256) + dp[6];
     if (addr == 0x00FE) { // Response to expansion type request
-        UInt16 identifier = (dp[21] << 2)+dp[22];
+        UInt16 identifier = (dp[7] << 2)+dp[8];
         WiiExpansionType connectedExpansion = WiiExpansionNotConnected;
         if(!(dp[4] & 0x0F)) switch (identifier) {
             case kWiiExpansionNunchuck:
@@ -632,6 +636,7 @@ typedef enum {
                 break;
             case kWiiExpansionClassicController:
                 connectedExpansion = WiiExpansionClassicController;
+                break;
             default:
                 connectedExpansion = WiiExpansionUnkown;
                 break;
@@ -685,12 +690,12 @@ typedef enum {
 		[self handleStatusReport:dp length:dataLength];
 	} else if (dp[1] == 0x21) { // read data response
 		[self handleRAMData:dp length:dataLength];
-        [self handleButtonReport:dp length:dataLength];
+        [self handleDataReport:dp length:dataLength];
 	} else if (dp[1] == 0x22) { // Write data response
 		[self handleWriteResponse:dp length:dataLength];
-        [self handleButtonReport:dp length:dataLength];
+        [self handleDataReport:dp length:dataLength];
 	} else if ((dp[1] & 0xF0) == 0x30) { // report contains button info
-        [self handleButtonReport:dp length:dataLength];
+        [self handleDataReport:dp length:dataLength];
 	}
 }
 
