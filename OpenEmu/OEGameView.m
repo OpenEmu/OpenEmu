@@ -76,6 +76,29 @@ static NSString *const _OEScale4xBRFilterName = @"Scale4xBR";
 static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 @interface OEGameView ()
+
+// rendering
+@property         GLuint gameTexture;
+@property         IOSurfaceID gameSurfaceID;
+
+@property         OEIntSize gameScreenSize;
+@property         CVDisplayLinkRef gameDisplayLinkRef;
+@property(strong) NSTimer *gameTimer;
+@property(strong) SyphonServer *gameServer;
+
+// QC based filters
+@property(strong) CIImage *gameCIImage;
+@property(strong) QCRenderer *filterRenderer;
+@property         CGColorSpaceRef rgbColorSpace;
+@property         NSTimeInterval filterTime;
+@property         NSTimeInterval filterStartTime;
+@property         BOOL filterHasOutputMousePositionKeys;
+
+// Animating to and from the library.
+@property(strong) NSBitmapImageRep *cachedLibraryImage;
+@property         GLuint cachedLibraryTexture;
+@property         BOOL uploadedCachedLibraryTexture;
+
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader;
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context;
@@ -136,7 +159,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             nil];
 }
 
-+ (NSOpenGLPixelFormat*) defaultPixelFormat
++ (NSOpenGLPixelFormat *)defaultPixelFormat
 {
     // choose our pixel formats
     NSOpenGLPixelFormatAttribute attr[] = 
@@ -190,11 +213,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     gameSurfaceID = rootProxy.surfaceID;
 
     // rendering
-    [self createDisplayLink];    
+    [self setupDisplayLink];
     //[self createTimer];
 }
 
-- (void) removeFromSuperview
+- (void)removeFromSuperview
 {
     DLog(@"removeFromSuperview");
 
@@ -203,7 +226,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     [super removeFromSuperview];
 }
 
-- (void) clearGLContext
+- (void)clearGLContext
 {
     DLog(@"clearGLContext");
 
@@ -217,7 +240,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     [super clearGLContext];
 }
 
-- (void) createTimer
+- (void)setupTimer
 {
     self.gameTimer = [NSTimer timerWithTimeInterval:0.01   //a 10ms time interval
                                                    target:self
@@ -229,15 +252,15 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     [[NSRunLoop currentRunLoop] addTimer:gameTimer forMode:NSEventTrackingRunLoopMode]; 
 }
 
-- (void) timerFired:(id)sender
+- (void)timerFired:(id)sender
 {
     [self setNeedsDisplay:YES];
 }
 
-- (void) createDisplayLink
+- (void)setupDisplayLink
 {    
     if(gameDisplayLinkRef)
-        [self destroyDisplayLink];
+        [self tearDownDisplayLink];
     
     CVReturn error = kCVReturnSuccess;
     
@@ -249,7 +272,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         return;  
     }
     
-    error = CVDisplayLinkSetOutputCallback(gameDisplayLinkRef, &MyDisplayLinkCallback, (__bridge void*) self);
+    error = CVDisplayLinkSetOutputCallback(gameDisplayLinkRef, &MyDisplayLinkCallback, (__bridge void *)self);
 	if(error)
     {
         NSLog(@"DisplayLink could not link to callback, error:%d", error);
@@ -282,7 +305,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 	}
 }
 
-- (void) destroyDisplayLink
+- (void)tearDownDisplayLink
 {    
     DLog(@"deleteDisplayLink");
     
@@ -307,11 +330,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     CGLUnlockContext(cgl_ctx);
 }
 
-- (void) dealloc
+- (void)dealloc
 {    
     DLog(@"OEGameView dealloc");
 
-    [self destroyDisplayLink];
+    [self tearDownDisplayLink];
     
     [gameTimer invalidate];
     self.gameTimer = nil;
@@ -339,7 +362,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 #pragma mark -
 #pragma mark Rendering
 
-- (void) reshape
+- (void)reshape
 {
     DLog(@"reshape");
     
@@ -357,7 +380,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 	CGLUnlockContext(cgl_ctx);
 }
 
-- (void) update
+- (void)update
 {
     DLog(@"update");
     
@@ -369,12 +392,12 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     CGLUnlockContext(cgl_ctx);
 }
 
-- (void) drawRect:(NSRect)dirtyRect
+- (void)drawRect:(NSRect)dirtyRect
 {
     [self render];
 }
 
-- (void) render
+- (void)render
 {    
     // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
@@ -390,7 +413,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     // IOSurfaceLookup performs a lock *AND A RETAIN* - 
     IOSurfaceRef surfaceRef = IOSurfaceLookup(gameSurfaceID); 
-    if(!surfaceRef) {
+    if(surfaceRef == NULL)
+    {
         gameSurfaceID = rootProxy.surfaceID;
         surfaceRef = IOSurfaceLookup(gameSurfaceID);
     }
@@ -415,12 +439,12 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         
-        if(shader != nil) 
+        if(shader != nil)
             [self OE_drawSurface:surfaceRef inCGLContext:cgl_ctx usingShader:shader];
         else
         {
             // Since our filters no longer rely on QC, it may not be around.
-            if(filterRenderer == nil) 
+            if(filterRenderer == nil)
                 [self OE_refreshFilterRenderer];
             
             if(filterRenderer != nil)
@@ -574,7 +598,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     glPopClientAttrib();
 }
 
-- (void) drawCachedLibraryViewInCGLContext:(CGLContextObj)cgl_ctx
+- (void)drawCachedLibraryViewInCGLContext:(CGLContextObj)cgl_ctx
 {
     //BOOL animating = YES;
     if(self.alpha > 0.0)
@@ -610,7 +634,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             NSUInteger samplesPerPixel = [cachedLibraryImage samplesPerPixel];
 
-            if(![cachedLibraryImage isPlanar] && (samplesPerPixel == 3 || samplesPerPixel == 4)) 
+            if(![cachedLibraryImage isPlanar] && (samplesPerPixel == 3 || samplesPerPixel == 4))
             {
                  glTexImage2D(GL_TEXTURE_RECTANGLE_EXT,
                               0,
@@ -668,9 +692,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         filterName = [value copy];
         
         [self OE_refreshFilterRenderer];
-        if (rootProxy) {
-            rootProxy.drawSquarePixels = [self composition] != nil;
-        }
+        if(rootProxy != nil) rootProxy.drawSquarePixels = [self composition] != nil;
     }
 }
 
@@ -722,7 +744,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void)setRootProxy:(id<OEGameCoreHelper>)value
 {
-    if (value != rootProxy) {
+    if(value != rootProxy)
+    {
         rootProxy = value;
         [rootProxy setDelegate:self];
         rootProxy.drawSquarePixels = [self composition] != nil;
