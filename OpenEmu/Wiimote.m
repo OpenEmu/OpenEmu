@@ -630,7 +630,7 @@ typedef enum {
 - (void)handleRAMData:(unsigned char *)dp length:(size_t)dataLength{
     unsigned short addr = (dp[5] * 256) + dp[6];
     if (addr == 0x00FE) { // Response to expansion type request
-        UInt16 identifier = (dp[7] << 2)+dp[8];
+        UInt16 identifier = ((dp[7]&0xFF) << 2)|(dp[8]%0xFF);
         NSLog(@"%0x device identifier: %0x %0x", identifier, dp[7], dp[8]);
         WiiExpansionType connectedExpansion = WiiExpansionNotConnected;
         if(!(dp[4] & 0x0F)) switch (identifier) {
@@ -642,6 +642,8 @@ typedef enum {
                 break;
             default:
                 connectedExpansion = WiiExpansionUnkown;
+                [self readData:0x04A400FE length:2]; // read expansion type
+                usleep(1000);
                 break;
         }
         if (connectedExpansion != self.expansionType) {
