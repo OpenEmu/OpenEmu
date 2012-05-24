@@ -225,8 +225,7 @@
     
     [self beginTerminateEmulation];
 
-    if(usePopout)
-        [self endTerminateEmulation];
+    if(usePopout) [self endTerminateEmulation];
 }
 
 #pragma mark - Controlling Emulation
