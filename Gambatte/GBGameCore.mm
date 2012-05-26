@@ -174,6 +174,11 @@ void usecsleep(const usec_t usecs) {
     
 }
 
+- (void)stopEmulation;
+{
+    gambatte.reset();
+}
+
 - (GLenum)pixelFormat
 {
     return GL_BGRA;
