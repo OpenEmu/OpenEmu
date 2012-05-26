@@ -177,6 +177,7 @@
     
     NSView *placeHolderView = [self placeholderView];
     OEFadeView *fadeView = [[OEFadeView alloc] initWithFrame:[placeHolderView bounds]];
+    
     if(currentContentController)
         [placeholderView replaceSubview:[currentContentController view] with:fadeView];
     else 
@@ -185,20 +186,21 @@
     if([controller respondsToSelector:@selector(cachedSnapshot)])
         newState = [(id <OEMainWindowContentController>)controller cachedSnapshot];
     
-    [fadeView fadeFromImage:currentState toImage:newState callback:^{
-        [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [[controller view] setFrame:[placeHolderView frame]];
-        
-        [placeHolderView replaceSubview:fadeView with:[controller view]];
-        
-        [[self window] makeFirstResponder:[controller view]];
-        
-        [currentContentController viewDidDisappear];
-        [controller                     viewDidAppear];
-        currentContentController = controller;
-        
-        [fadeView removeFromSuperview];
-    }];
+    [fadeView fadeFromImage:currentState toImage:newState callback:
+     ^{
+         [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+         [[controller view] setFrame:[placeHolderView frame]];
+         
+         [placeHolderView replaceSubview:fadeView with:[controller view]];
+         
+         [[self window] makeFirstResponder:[controller view]];
+         
+         [currentContentController viewDidDisappear];
+         [controller                     viewDidAppear];
+         currentContentController = controller;
+         
+         [fadeView removeFromSuperview];
+     }];
 }
 
 #pragma mark -

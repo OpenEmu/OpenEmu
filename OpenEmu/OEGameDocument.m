@@ -148,7 +148,9 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
 }
+
 #pragma mark -
+
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
     [[self gameViewController] terminateEmulation];

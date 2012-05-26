@@ -40,24 +40,26 @@
 #include <sys/time.h>
 
 @interface GBGameCore () <OEGBSystemResponderClient>
+{
+    Gambatte::GB gambatte;
+    CocoaBlitter blitter;
+    Gambatte::InputGetter input;
+    
+    NSLock *soundLock;
+    NSLock *bufLock;
+    UInt16 *sndBuf;
+    
+    std::auto_ptr<Resampler> resampler;
+    
+    bool **tabInput;
+}
+
 - (void)GB_setInputForButton:(OEGBButton)gameButton isPressed:(BOOL)isPressed;
 @end
 
 
 @implementation GBGameCore
-
-
-Gambatte::GB gambatte;
-CocoaBlitter blitter;
-Gambatte::InputGetter input;
-
-NSLock* soundLock;
-NSLock* bufLock;
-UInt16* sndBuf;
-
-std::auto_ptr<Resampler> resampler;
-
-bool ** tabInput;
+@synthesize romPath;
 
 usec_t getusecs() {
     timeval t;
@@ -120,18 +122,18 @@ void usecsleep(const usec_t usecs) {
     [bufLock unlock];
 }
 
-- (BOOL)loadFileAtPath:(NSString*)path
+- (BOOL)loadFileAtPath:(NSString *)path
 {
     NSLog(@"loading");
     
-    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+    [self setRomPath:path];
     
-    if([batterySavesDirectory length] != 0)
-    {
-        [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-        
-        gambatte.set_savedir([batterySavesDirectory UTF8String]);
-    }
+    NSString *batteryPath = [self batterySavesDirectoryPath];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:batteryPath withIntermediateDirectories:YES attributes:nil error:NULL];
+    
+    gambatte.set_savedir([batteryPath UTF8String]);
+    
     return !(gambatte.load([path UTF8String]));
 }
 
@@ -240,4 +242,5 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
 {
     free(sndBuf);
 }
+
 @end
