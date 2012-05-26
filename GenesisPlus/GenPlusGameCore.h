@@ -38,7 +38,6 @@ OE_EXPORTED_CLASS
     int            oldrun;
     int            position;
     BOOL           paused;
-    NSString      *romPath;
 }
 
 @property(copy) NSString *romPath;

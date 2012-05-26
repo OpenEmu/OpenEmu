@@ -225,19 +225,14 @@ NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RI
 
 - (void)saveSram
 {
-	if (sram.on)
+	if(sram.on)
 	{
-		NSString *path = self->romPath;
-		
-		NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
+		NSString *extensionlessFilename = [[romPath lastPathComponent] stringByDeletingPathExtension];
 		NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
 		[[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
 		
-		NSData* theData;
-		NSString* filePath;
-		
-		filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-		theData = [NSData dataWithBytes:sram.sram length:0x10000];
+		NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+		NSData   *theData  = [NSData dataWithBytes:sram.sram length:0x10000];
 		[theData writeToFile:filePath atomically:YES];
 	}
 }
@@ -246,19 +241,16 @@ NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RI
 {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    NSString *extensionlessFilename = [[self->romPath lastPathComponent] stringByDeletingPathExtension];
+    NSString *extensionlessFilename = [[romPath lastPathComponent] stringByDeletingPathExtension];
     NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
     [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
     
-    NSData* theData;
-    NSString* filePath;
-	
-	filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+	NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
 	if([fileManager fileExistsAtPath:filePath])
 	{
 		NSLog(@"SRAM found");
-		theData = [NSData dataWithContentsOfFile:filePath];
-		memcpy(sram.sram, [theData bytes], 0x10000);
+		NSData *data = [NSData dataWithContentsOfFile:filePath];
+		memcpy(sram.sram, [data bytes], 0x10000);
 		sram.crc = crc32(0, sram.sram, 0x10000);
 	}
 }
