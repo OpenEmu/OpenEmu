@@ -33,7 +33,7 @@
 - (id)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
-    if (self) 
+    if(self) 
     {
         NSColor *activeColor = [NSColor colorWithDeviceWhite:0.89 alpha:1.0];
         NSColor *disabledColor = [NSColor colorWithDeviceWhite:0.33 alpha:1.0];
@@ -151,6 +151,7 @@
     return textObj;
 }
 #pragma mark -
+
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView 
 {    
     OEUIState state = OEUIStateInactive;
@@ -158,22 +159,14 @@
     {
         BOOL pressed = NO;
         if(pressed)
-        {
             state = OEUIStatePressed;
-        } 
         else 
-        {
             state = OEUIStateActive;
-        }
-    } 
+    }
     else if([self isEnabled])
-    {
         state = OEUIStateEnabled;
-    }
     else 
-    {
         state = OEUIStateInactive;
-    }
     
     NSRect imageRect = [self imageRectForState:state];
     NSRect targetRect = cellFrame;
@@ -187,14 +180,16 @@
     cellFrame.size.height -= 3;
     
     [self drawInteriorWithFrame:cellFrame inView:controlView];
+
 }
 #pragma mark -
+
 - (NSRect)searchTextRectForBounds:(NSRect)aRect
 {
     aRect.origin.x += 24;
-    aRect.size.width = aRect.size.width-24-21;
+    aRect.size.width = aRect.size.width - 24 - 21;
     aRect.size.height = 14;
-    aRect.origin.y += (22-aRect.size.height)/2-1;
+    aRect.origin.y += (22 - aRect.size.height) / 2 - 1;
     
     return aRect;
 }
@@ -205,10 +200,11 @@
 
 - (NSRect)cancelButtonRectForBounds:(NSRect)rect
 {
-    return NSMakeRect(rect.size.width-21, 0, 20, 20);
+    return NSMakeRect(rect.size.width - 21, 0, 20, 20);
 }
 
 #pragma mark -
+
 - (NSRect)imageRectForState:(OEUIState)state
 {
     NSRect imageRect = NSMakeRect(0, 0, 26, 21);
@@ -237,38 +233,29 @@
 
 - (void)setStylesForState:(OEUIState)state
 {
-    switch (state) 
+    switch(state) 
     {
         case OEUIStateInactive:
-        {
             current = disabled;
             [self setTextColor:[NSColor colorWithDeviceWhite:0.33 alpha:1.0]];
             break;
-        }
         case OEUIStateEnabled:
-        {
             current = inactive;
             [self setTextColor:[NSColor colorWithDeviceWhite:0.89 alpha:1.0]];
             break;
-        }
         case OEUIStateActive:
-        {
             current = active;
             break;
-        }
         case OEUIStatePressed:
-        {
             current = active;
-            
             break;
-        }
         default: ;
     }
 }
 
-- (NSImage*)searchButtonImageForState:(OEUIState)state
+- (NSImage *)searchButtonImageForState:(OEUIState)state
 {
-    switch (state)
+    switch(state)
     {
         case OEUIStateInactive:
             return [NSImage imageNamed:@"search_loupe_disabled"];
@@ -282,9 +269,10 @@
     }
     return nil;
 }
-- (NSImage*)alternateSearchButtonImageForState:(OEUIState)state
+
+- (NSImage *)alternateSearchButtonImageForState:(OEUIState)state
 {
-    switch (state) 
+    switch(state) 
     {
         case OEUIStateInactive:
             return [NSImage imageNamed:@"search_loupe_disabled"];
@@ -299,35 +287,43 @@
     }
     return nil;
 }
+
 @end
+
 #pragma mark -
-@interface OESearchField (Private)
-- (void)_setup;
+
+@interface OESearchField ()
+- (void)OE_commonSearchFieldInit;
 @end
+
 #pragma mark -
+
 @implementation OESearchField
+
 - (id)initWithCoder:(NSCoder *)coder 
 {
     self = [super initWithCoder:coder];
-    if (self) {
-        [self _setup];
+    if(self) {
+        [self OE_commonSearchFieldInit];
     }
     return self;
 }
 
 - (void)awakeFromNib
 {
-    [self _setup];
+    [self OE_commonSearchFieldInit];
 }
 
-- (void)_setup
+- (void)OE_commonSearchFieldInit
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidBecomeMainNotification object:[self window]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidResignMainNotification object:[self window]];
     
     [[self cell] setIsInBackground:NO];
 }
+
 #pragma mark -
+
 - (void)windowChanged:(id)sender
 {
     if([[self window] isMainWindow])
@@ -348,7 +344,6 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeMainNotification object:[self window]];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignMainNotification object:[self window]];
-    
 }
 
 

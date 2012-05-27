@@ -29,12 +29,8 @@
 
 
 @interface OEPopupButton : NSPopUpButton <OEMenuDelegate>
-{
-@private
-    OEMenu *oemenu;
-    NSMenuItem *selectedItem;
-}
-@property (strong, setter = setOEMenu:) OEMenu *oemenu;
 
-@property (strong) NSDate* menuOpenDate;
+@property(strong, setter=setOEMenu:) OEMenu *oemenu;
+@property(copy) NSDate *menuOpenDate;
+
 @end

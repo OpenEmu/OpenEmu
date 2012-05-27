@@ -30,31 +30,36 @@
 #import "OEDBGame.h"
 
 #import "NSURL+OELibraryAdditions.h"
-@interface OEROMImporter (Private)
-- (void)_performCancel:(BOOL)deleteChanges;
-- (BOOL)_performImportWithURL:(NSURL*)url error:(NSError *__autoreleasing*)outError;
-- (BOOL)_performImportWithURLS:(NSArray*)urls error:(NSError *__autoreleasing*)outError;
+
+@interface OEROMImporter ()
+{
+    dispatch_queue_t processingQueue;
+    NSMutableArray *importedRoms;
+    BOOL cancelled;
+}
+
+- (void)OE_performCancel:(BOOL)deleteChanges;
+- (BOOL)OE_performImportWithURL:(NSURL *)url error:(NSError *__autoreleasing *)outError;
+- (BOOL)OE_performImportWithURLs:(NSArray *)urls error:(NSError *__autoreleasing *)outError;
 // url must not point to a directory
-- (BOOL)_performImportWithFileURL:(NSURL*)url error:(NSError *__autoreleasing*)outError;
+- (BOOL)OE_performImportWithFileURL:(NSURL *)url error:(NSError *__autoreleasing *)outError;
 
-- (void)_processImportQueue;
 @end
-@implementation OEROMImporter
-@synthesize errorBehaviour, database, queueCount;
 
-- (id)initWithDatabase:(OELibraryDatabase*)_database
+@implementation OEROMImporter
+@synthesize errorBehaviour, database;
+
+- (id)initWithDatabase:(OELibraryDatabase *)aDatabase
 {
     self = [super init];
     if (self) {
-        self.database = _database;
-        self.queueCount = 0;
+        self.database = aDatabase;
         
         processingQueue = dispatch_queue_create("org.openemu.processROMs", NULL);
         dispatch_queue_t priority = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_set_target_queue(processingQueue, priority);
         
         importedRoms = [[NSMutableArray alloc] init];
-        canceld = NO;
     }
     return self;
 }
@@ -66,33 +71,35 @@
     importedRoms = nil;
 }
 
-- (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
+- (BOOL)importROMsAtPath:(NSString *)path inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
 {
     return [self importROMsAtURL:[NSURL fileURLWithPath:path] inBackground:bg error:outError];
 }
 
-- (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
+- (BOOL)importROMsAtPaths:(NSArray *)pathArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
 {
     NSMutableArray *urlArray = [NSMutableArray arrayWithCapacity:[pathArray count]];
-    [pathArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [urlArray addObject:[NSURL fileURLWithPath:obj]]; 
-    }];
+    [pathArray enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop)
+     {
+         [urlArray addObject:[NSURL fileURLWithPath:obj]]; 
+     }];
     return [self importROMsAtURLs:urlArray inBackground:bg error:outError];
 }
 
-- (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
+- (BOOL)importROMsAtURL:(NSURL *)url inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
 {
     NSArray *urlArray = [NSArray arrayWithObject:url];
     return [self importROMsAtURLs:urlArray inBackground:bg error:outError];
 }
 
-- (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
+- (BOOL)importROMsAtURLs:(NSArray *)urlArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
 { 
-    if(!self.database)
+    if([self database] == nil)
     {
         // TODO: Create proper error
         // DLog(@"Import without Database!");
-        if(outError!=NULL) *outError = [NSError errorWithDomain:@"IMPORT WITHOUT DATABASE" code:0 userInfo:nil];
+        if(outError != NULL) *outError = [NSError errorWithDomain:@"IMPORT WITHOUT DATABASE" code:0 userInfo:nil];
         return NO;
     }
     
@@ -105,7 +112,7 @@
     } 
     else if(bg)
     {
-        if(outError!=NULL) *outError = nil;
+        if(outError != NULL) *outError = nil;
         
         // DLog(@"WILL RUN IN BACKGROUND");
         // this will pass random values as bg and outError
@@ -116,26 +123,25 @@
 
     // DLog(@"normalizedPaths: %@", normalizedPaths);
     
-    canceld = NO;
-    return [self _performImportWithURLS:urlArray error:outError];
+    cancelled = NO;
+    return [self OE_performImportWithURLs:urlArray error:outError];
 }
 
-- (BOOL)_performImportWithURLS:(NSArray*)urls error:(NSError *__autoreleasing*)outError
+- (BOOL)OE_performImportWithURLs:(NSArray *)urls error:(NSError *__autoreleasing*)outError
 {
     // DLog(@"canceld: %d", canceld);
-    if (canceld)
-        return YES;
+    if(cancelled) return YES;
     
-    __strong NSError *error = nil;
+    NSError *error = nil;
     
     BOOL success = YES;
-    for (__strong NSURL *aURL in urls) 
+    for(__strong NSURL *aURL in urls) 
     {
         @autoreleasepool
         {
-            if(canceld) return YES;
+            if(cancelled) return YES;
         
-            success = [self _performImportWithURL:aURL error:&error];
+            success = [self OE_performImportWithURL:aURL error:&error];
             if(!success)
             {
                 OEImportErrorBehavior behavior = errorBehaviour;
@@ -154,7 +160,8 @@
                         isSuppression = ([[alert suppressionButton] state] == NSOnState);
                     });
                     
-                    switch (result) {
+                    switch(result)
+                    {
                         case NSAlertDefaultReturn:
                             behavior = OEImportErrorIgnore;
                             break;
@@ -169,17 +176,15 @@
                     }
                     
                     // TODO: decide if suppression is forever
-                    if(isSuppression)
-                        errorBehaviour = behavior;
+                    if(isSuppression) errorBehaviour = behavior;
                 }
+                
                 if(behavior != OEImportErrorIgnore)
                 {
-                    if(outError!=NULL)
-                    {
-                        *outError = error;
-                    }
+                    if(outError != NULL) *outError = error;
                     
-                    [self _performCancel:behavior==OEImportErrorCancelDeleteChanges];
+                    [self OE_performCancel:behavior == OEImportErrorCancelDeleteChanges];
+                    
                     // returning YES because error was handled
                     return YES;
                 }
@@ -188,14 +193,14 @@
             }
         }
     }
+    
     return success;
 }
 
-- (BOOL)_performImportWithURL:(NSURL*)url error:(NSError *__autoreleasing*)outError
+- (BOOL)OE_performImportWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
 {
     // DLog(@"%d", canceld);
-    if (canceld)
-        return YES;
+    if(cancelled) return YES;
     
     // skip invisible files
     // TODO: implement proper check (hidden files without .)
@@ -210,34 +215,33 @@
         return NO;
     }
     
-    if(![url isDirectory])
-    {
-        return [self _performImportWithFileURL:url error:outError];
-    }
+    if(![url isDirectory]) return [self OE_performImportWithFileURL:url error:outError];
     
     NSArray *urls = [defaultManager contentsOfDirectoryAtURL:url 
-                                   includingPropertiesForKeys:[NSArray arrayWithObjects:NSURLNameKey, NSURLIsDirectoryKey, nil]
-                                                      options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsPackageDescendants|NSDirectoryEnumerationSkipsHiddenFiles 
-                                                        error:outError];
-    if(!urls)
+                                  includingPropertiesForKeys:[NSArray arrayWithObjects:NSURLNameKey, NSURLIsDirectoryKey, nil]
+                                                     options:NSDirectoryEnumerationSkipsSubdirectoryDescendants | NSDirectoryEnumerationSkipsPackageDescendants | NSDirectoryEnumerationSkipsHiddenFiles 
+                                                       error:outError];
+    if(urls == nil)
     {
         // DLog(@"no paths – contentsOfDirectoryAtPath:error");
         return NO;
     }
     
-    return [self _performImportWithURLS:urls error:outError];
+    return [self OE_performImportWithURLs:urls error:outError];
 }
 
-- (void)_performCancel:(BOOL)deleteChanges
+- (void)OE_performCancel:(BOOL)deleteChanges
 {
     // TODO: IMPLEMENT!!!!!
-    canceld = YES;
+    cancelled = YES;
 }
 
-- (BOOL)_performImportWithFileURL:(NSURL*)url error:(NSError *__autoreleasing*)outError
+- (BOOL)OE_performImportWithFileURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
 {
     NSError *strongError;
-    @try {
+    
+    @try
+    {
         @autoreleasepool
         {
             // TODO: check if path has readable suffix
@@ -245,7 +249,7 @@
             if(!hasReadableSuffix) return YES;
             
             OEDBGame *game = [OEDBGame gameWithURL:url createIfNecessary:YES inDatabase:self.database error:&strongError];
-            if(game)
+            if(game != nil)
             {
                 BOOL lookupGameInfo = [[NSUserDefaults standardUserDefaults] boolForKey:UDAutmaticallyGetInfoKey];
                 if(lookupGameInfo)
@@ -262,16 +266,18 @@
                 }
             }
             
-            return game!=nil;
+            return game != nil;
         }
     }
-    @finally {
-        if (outError) *outError = strongError;
+    @finally
+    {
+        if(outError != NULL) *outError = strongError;
     }
+    
     strongError = nil;
 }
 
-- (NSArray*)importedRoms
+- (NSArray *)importedRoms
 {
     return importedRoms;
 }

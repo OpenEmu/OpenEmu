@@ -26,9 +26,11 @@
 
 #import "OEControlsKeyButton.h"
 #import "NSImage+OEDrawingAdditions.h"
-@interface OEControlsKeyButton (Private)
-- (void)_setup;
+
+@interface OEControlsKeyButton ()
+- (void)OE_commonControlsKeyButtonInit;
 @end
+
 @implementation OEControlsKeyButton
 @synthesize highlightPoint;
 @synthesize target;
@@ -41,8 +43,7 @@
     [self exposeBinding:@"title"];
     
     // Make sure not to reinitialize for subclassed objects
-    if (self != [OEControlsKeyButton class])
-        return;
+    if(self != [OEControlsKeyButton class]) return;
 
     NSImage *image = [NSImage imageNamed:@"wood_textfield"];
     
@@ -50,22 +51,12 @@
     [image setName:@"wood_textfield_inactive" forSubimageInRect:NSMakeRect(0, 24, 5, 24)];
 }
 
-- (id)init 
-{
-    self = [super init];
-    if (self) 
-    {
-        [self _setup];
-    }
-    return self;
-}
-
 - (id)initWithCoder:(NSCoder *)coder 
 {
     self = [super initWithCoder:coder];
     if (self) 
     {
-        [self _setup];
+        [self OE_commonControlsKeyButtonInit];
     }
     return self;
 }
@@ -75,19 +66,20 @@
     self = [super initWithFrame:frame];
     if (self) 
     {
-        [self _setup];
+        [self OE_commonControlsKeyButtonInit];
     }
     return self;
 }
-- (void)_setup
+
+- (void)OE_commonControlsKeyButtonInit
 {
     state = NSOffState;
 }
-- (void)dealloc 
+
+- (void)dealloc
 {
     self.target = nil;
     self.action = NULL;
-    
 }
 
 - (void)setTitle:(NSString *)value
@@ -99,6 +91,7 @@
 
 #pragma mark -
 #pragma mark NSView Overrides
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Draw Backgrounds
@@ -118,7 +111,7 @@
     [attributes setObject:shadow forKey:NSShadowAttributeName];
     
     
-    NSPoint p = NSMakePoint([self bounds].origin.x+4, [self bounds].origin.y+4);
+    NSPoint p = NSMakePoint([self bounds].origin.x + 4, [self bounds].origin.y + 4);
     [self.title drawAtPoint:p withAttributes:attributes];
 }
 
@@ -126,6 +119,7 @@
 {
     return NO;
 }
+
 - (BOOL)isFlipped
 {
     return YES;
@@ -139,9 +133,9 @@
     if([self action] != NULL) [NSApp sendAction:[self action] to:[self target] from:self];
 }
 
-- (void)setState:(NSCellStateValue)_state
+- (void)setState:(NSCellStateValue)aState
 {
-    state = _state;
+    state = aState;
     [self setNeedsDisplay:YES];
 }
 

@@ -58,15 +58,16 @@
 #import "OESidebarController.h"
 
 #import "OETableView.h"
-@interface OECollectionViewController (Private)
-- (void)_managedObjectContextDidSave:(NSNotification *)notification;
-- (void)_reloadData;
-- (void)_selectView:(int)view;
 
-- (OEMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
-- (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game;
-- (NSMenu*)OE_ratingMenuForGames:(NSArray*)games;
-- (NSMenu*)OE_collectionsMenuForGames:(NSArray*)games;
+@interface OECollectionViewController ()
+- (void)OE_managedObjectContextDidSave:(NSNotification *)notification;
+- (void)OE_reloadData;
+- (void)OE_selectView:(NSInteger)view;
+
+- (OEMenu *)OE_menuForItemsAtIndexes:(NSIndexSet*)indexes;
+- (NSMenu *)OE_saveStateMenuForGame:(OEDBGame*)game;
+- (NSMenu *)OE_ratingMenuForGames:(NSArray*)games;
+- (NSMenu *)OE_collectionsMenuForGames:(NSArray*)games;
 @end
 
 @implementation OECollectionViewController
@@ -179,10 +180,10 @@
             break;
     }
     
-    [self _reloadData];
+    [self OE_reloadData];
     
     // Watch the main thread's managed object context for changes
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
 }
 
 - (NSString*)nibName
@@ -205,21 +206,21 @@
 #pragma mark View Selection
 - (IBAction)selectGridView:(id)sender
 {
-    [self _selectView:0];
+    [self OE_selectView:0];
 }
 
 - (IBAction)selectFlowView:(id)sender
 {
-    [self _selectView:1];
+    [self OE_selectView:1];
 }
 
 - (IBAction)selectListView:(id)sender
 { 
-    [self _selectView:2];
+    [self OE_selectView:2];
 }
 
 
-- (void)_selectView:(int)view
+- (void)OE_selectView:(NSInteger)view
 {
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
     
@@ -280,7 +281,9 @@
     [[self view] addSubview:nextView];
     [nextView setFrame:[[self view] bounds]];
 }
+
 #pragma mark -
+
 - (void)willShow
 {
     [listView setEnabled:YES];
@@ -288,6 +291,7 @@
 
 #pragma mark -
 #pragma mark Toolbar Actions
+
 - (IBAction)search:(id)sender
 {
     NSPredicate *pred = [[sender stringValue] isEqualToString:@""]?nil:[NSPredicate predicateWithFormat:@"name contains[cd] %@", [sender stringValue]];
@@ -311,7 +315,7 @@
 - (void)setCollectionItem:(id <NSObject, OECollectionViewItemProtocol>)_collectionItem
 {
     collectionItem = _collectionItem;    
-    [self _reloadData];
+    [self OE_reloadData];
 }
 
 - (id)collectionItem
@@ -351,6 +355,7 @@
 
 #pragma mark -
 #pragma mark Grid View DataSource
+
 - (NSUInteger)numberOfItemsInGridView:(OEGridView *)view
 {
     return [[gamesController arrangedObjects] count];
@@ -388,9 +393,9 @@
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
-- (OEMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (OEMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
-    return [self menuForItemsAtIndexes:indexes];
+    return [self OE_menuForItemsAtIndexes:indexes];
 }
 #pragma mark -
 #pragma mark GridView Interaction
@@ -416,7 +421,7 @@
 
 #pragma mark -
 #pragma mark Context Menu
-- (OEMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (OEMenu *)OE_menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
@@ -486,7 +491,7 @@
     return [menu convertToOEMenu];
 }
 
-- (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game
+- (NSMenu *)OE_saveStateMenuForGame:(OEDBGame*)game
 {
     NSMenu    *saveGamesMenu = [[NSMenu alloc] init];
     NSSet     *roms = [game roms];
@@ -529,7 +534,7 @@
     return saveGamesMenu;
 }
 
-- (NSMenu*)OE_ratingMenuForGames:(NSArray*)games
+- (NSMenu *)OE_ratingMenuForGames:(NSArray*)games
 {
     NSMenu   *ratingMenu = [[NSMenu alloc] init];
     NSString *ratingLabel = @"★★★★★";
@@ -568,7 +573,7 @@
     return ratingMenu;
 }
 
-- (NSMenu*)OE_collectionsMenuForGames:(NSArray*)games
+- (NSMenu *)OE_collectionsMenuForGames:(NSArray*)games
 {
     NSMenu  *collectionMenu = [[NSMenu alloc] init];
     NSArray *collections = [[[self libraryController] database] collections];
@@ -991,9 +996,9 @@
 }
 #pragma mark -
 #pragma mark OETableView Menu
-- (OEMenu*)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (OEMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
-    return [self menuForItemsAtIndexes:indexes];
+    return [self OE_menuForItemsAtIndexes:indexes];
 }
 
 #pragma mark -
@@ -1026,7 +1031,7 @@
 #pragma mark -
 #pragma mark Private
 #define reloadDelay 0.1
-- (void)_managedObjectContextDidSave:(NSNotification *)notification
+- (void)OE_managedObjectContextDidSave:(NSNotification *)notification
 {
     NSPredicate *predicateForGame = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"Game" inManagedObjectContext:[notification object]]];
     NSSet *insertedObjects        = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForGame];
@@ -1073,8 +1078,8 @@
 
 - (void)setNeedsReload
 {
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadData) object:nil];
-    [self performSelector:@selector(_reloadData) withObject:nil afterDelay:reloadDelay];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_reloadData) object:nil];
+    [self performSelector:@selector(OE_reloadData) withObject:nil afterDelay:reloadDelay];
 }
 
 - (void)setNeedsReloadVisible
@@ -1113,9 +1118,9 @@
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
-- (void)_reloadData
+- (void)OE_reloadData
 {
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadData) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_reloadData) object:nil];
     if(!gamesController) return;
     
     NSPredicate *pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];
