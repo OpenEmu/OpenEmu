@@ -26,9 +26,5 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OETableHeaderView : NSTableHeaderView {
-@private
-    
-}
-
+@interface OETableHeaderView : NSTableHeaderView
 @end
