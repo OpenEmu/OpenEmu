@@ -27,9 +27,5 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface OETableCornerView : NSView {
-@private
-    
-}
-
+@interface OETableCornerView : NSView
 @end

@@ -26,10 +26,11 @@
 #import <Foundation/Foundation.h>
 #import "OEUIDrawingUtils.h"
 
-@interface OERatingCell : NSCell {
-@private
-}
+@interface OERatingCell : NSCell
 
-- (NSRect)imageRectForValue:(int)rating andState:(OEUIState)state;
-- (void)determineRatingForPos:(NSPoint)pos inTableView:(NSTableView*)view;
+- (NSRect)imageRectForRating:(NSInteger)rating state:(OEUIState)state;
+
+- (NSInteger)ratingForPoint:(NSPoint)aPoint inTableView:(NSTableView *)view;
+- (void)updateRatingWithPoint:(NSPoint)aPoint inTableView:(NSTableView *)view;
+
 @end

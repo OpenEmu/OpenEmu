@@ -29,26 +29,13 @@
 #import "NSImage+OEDrawingAdditions.h"
 @implementation OETableCornerView
 
-- (id)init {
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-    }
-    return self;
-}
-
-
-- (BOOL)isFlipped{
+- (BOOL)isFlipped
+{
 	return YES;
 }
 
-- (void)drawRect:(NSRect)rect{
+- (void)drawRect:(NSRect)rect
+{
 	NSRect cellFrame = rect;
 	cellFrame.size.width = 1;
 	cellFrame.size.height -= 1;
@@ -69,4 +56,5 @@
 	[[NSColor colorWithDeviceWhite:1.0 alpha:0.04] setFill];
 	NSRectFillUsingOperation(leftHighlightRect, NSCompositeSourceOver);
 }
+
 @end
