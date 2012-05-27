@@ -253,12 +253,15 @@
     {
         NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
         allowedVolumes = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] mutableCopy];
-        
+		NSMutableIndexSet *disallowedVolumes = [NSMutableIndexSet indexSet];
+		
         for(int i = 0; i < [enabledVolumesForDownloading count]; i++)
         {
             if(![[enabledVolumesForDownloading objectAtIndex:i] boolValue])
-                [allowedVolumes removeObjectAtIndex:i];
-        }        
+				[disallowedVolumes addIndex:i];
+        }
+		
+		[allowedVolumes removeObjectsAtIndexes:disallowedVolumes];
     }
     
     [self goForwardToView:[self step4]];
