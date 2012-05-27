@@ -25,17 +25,20 @@
  */
 
 #import "OESetupAssistantTableView.h"
-@interface OESetupAssistantTableView (Private) <NSTableViewDataSource>
-- (void)_setup;
+
+@interface OESetupAssistantTableView () <NSTableViewDataSource>
+- (void)OE_commonSetupAssistantTableViewInit;
 @end
+
 @implementation OESetupAssistantTableView
+@synthesize selectionColor;
 
 - (id)init
 {
     self = [super init];
     if (self) 
     {
-        [self _setup];
+        [self OE_commonSetupAssistantTableViewInit];
     }
     return self;
 }
@@ -45,7 +48,7 @@
     self = [super initWithFrame:frame];
     if (self) 
     {
-        [self _setup];
+        [self OE_commonSetupAssistantTableViewInit];
     }
     return self;
 }
@@ -55,30 +58,30 @@
     self = [super initWithCoder:coder];
     if (self) 
     {
-        [self _setup];
+        [self OE_commonSetupAssistantTableViewInit];
     }
     return self;
 }
 
-- (void)_setup
+- (void)OE_commonSetupAssistantTableViewInit
 {
     [self setSelectionColor:[[NSColor blueColor] colorWithAlphaComponent:0.8]];
     [self setRowHeight:23.0];
     
     for(NSTableColumn *column in [self tableColumns])
     {
-            [column setEditable:YES];
-
-//        if([[column identifier] isEqualToString:@"enabled"])
-//            [column setEditable:YES];
-//        else
-//            [column setEditable:NO];
+        [column setEditable:YES];
+        
+        //if([[column identifier] isEqualToString:@"enabled"])
+        //    [column setEditable:YES];
+        //else
+        //    [column setEditable:NO];
     }
 }
 
-
 #pragma mark -
 #pragma mark Drawing
+
 - (void)highlightSelectionInClipRect:(NSRect)theClipRect
 {
 	BOOL isActive = [[self window] isMainWindow] && [[self window] firstResponder] == self;
@@ -104,29 +107,25 @@
 
 - (void)drawBackgroundInClipRect:(NSRect)clipRect
 {
-	NSColor *rowBackground = [NSColor colorWithDeviceWhite:0.0 alpha:0.1];
+	NSColor *rowBackground          = [NSColor colorWithDeviceWhite:0.0 alpha:0.1];
 	NSColor *alternateRowBackground = [NSColor colorWithDeviceWhite:1.0 alpha:0.01];
 	
-	[rowBackground setFill];    
+	[rowBackground setFill];
+    
+    CGFloat rowHeight = [self rowHeight] + [self intercellSpacing].height;
+    
 	NSRect rect = [self visibleRect];
-	for(float i=0; i<rect.origin.y+rect.size.height; i+=2*([self rowHeight]+[self intercellSpacing].height))
-    {
-		NSRect rowRect = NSMakeRect(rect.origin.x, i, rect.size.width, [self rowHeight]+[self intercellSpacing].height);
-		NSRectFill(rowRect);
-	}
+    
+	for(CGFloat i = 0; i < NSMaxY(rect); i += 2 * rowHeight)
+		NSRectFill(NSMakeRect(rect.origin.x, i, rect.size.width, rowHeight));
     
 	[alternateRowBackground setFill];
 	rect = [self visibleRect];
-	for(float i=[self rowHeight]+[self intercellSpacing].height; i<rect.origin.y+rect.size.height; i+=2*([self rowHeight]+[self intercellSpacing].height))
-    {
-		NSRect rowRect = NSMakeRect(rect.origin.x, i, rect.size.width, [self rowHeight]+[self intercellSpacing].height);
-		NSRectFill(rowRect);
-	}
+    
+	for(CGFloat i = rowHeight; i < NSMaxY(rect); i += 2 * rowHeight)
+		NSRectFill(NSMakeRect(rect.origin.x, i, rect.size.width, rowHeight));
 }
 
-
-#pragma mark -
-@synthesize selectionColor;
 @end
 
 @implementation OESetupAssistantMajorTextCell
@@ -145,10 +144,9 @@
 	NSAttributedString *drawString = [[NSAttributedString alloc] initWithString:val attributes:[self attributes]];
     
 	[drawString drawInRect:cellFrame];
-    
 }
 
-- (NSDictionary*)attributes
+- (NSDictionary *)attributes
 {
 	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
 	
@@ -172,6 +170,7 @@
 @end
 
 @implementation OESetupAssistantMinorTextCell
+
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     NSSize contentSize = [self cellSize];
@@ -186,10 +185,9 @@
 	NSAttributedString *drawString = [[NSAttributedString alloc] initWithString:val attributes:[self attributes]];
     
 	[drawString drawInRect:cellFrame];
-    
 }
 
-- (NSDictionary*)attributes
+- (NSDictionary *)attributes
 {
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
 	

@@ -29,20 +29,26 @@
 #define GapBetweenOpenMenuAndPopupButton 3
 #define MenuContentBorder 4
 @implementation OEPopupButton
+{
+@private
+    NSMenuItem *selectedItem;
+}
+
 @synthesize oemenu;
 @synthesize menuOpenDate;
-- (id)init{
-    self = [super init];
-    if (self) {}
-    return self;
-}
-- (void)awakeFromNib{
+
+- (void)awakeFromNib
+{
     self.menu = [self menu];
 }
+
 #pragma mark -
-- (void)mouseDown:(NSEvent *)theEvent{
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
     NSRect boundsInWindowCoord = [self convertRect:[self bounds] toView:nil];
     BOOL outside = !NSPointInRect([theEvent locationInWindow], boundsInWindowCoord);
+    
     if(outside || [self oemenu].isVisible)
     {
         [[self oemenu] closeMenuWithoutChanges:self];
@@ -51,7 +57,7 @@
     else
     {
         NSSize minSize = [self frame].size;
-        minSize.width = [self frame].size.width+2*(GapBetweenOpenMenuAndPopupButton);
+        minSize.width = [self frame].size.width + 2 * GapBetweenOpenMenuAndPopupButton;
         [[self oemenu] setMinSize:minSize];
 
         NSRect rect = boundsInWindowCoord;
@@ -63,6 +69,7 @@
         [self setMenuOpenDate:[NSDate date]];
     }
 }
+
 - (void)mouseDragged:(NSEvent *)theEvent
 {
     [[self oemenu] menuMouseDragged:theEvent];
@@ -70,36 +77,50 @@
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    if([[self menuOpenDate] timeIntervalSinceNow] < -0.1) 
+    if([[self menuOpenDate] timeIntervalSinceNow] < -[NSEvent doubleClickInterval])
         [[self oemenu] menuMouseUp:theEvent];
 }
+
 #pragma mark -
-- (void)setMenu:(NSMenu *)menu{
+
+- (void)setMenu:(NSMenu *)menu
+{
     [super setMenu:menu];
     [self setOEMenu:[[self menu] convertToOEMenu]];
     [[self oemenu] setPopupButton:self];
     [[self oemenu] setDelegate:self];
 }
 
-- (NSString*)stringValue{
+- (NSString *)stringValue
+{
     return [selectedItem title];
 }
 
-- (id)objectValue{
+- (id)objectValue
+{
     return [super objectValue];
 }
 
-- (NSString *)itemTitleAtIndex:(NSInteger)index{
+- (NSString *)itemTitleAtIndex:(NSInteger)index
+{
     return [super itemTitleAtIndex:index];
 }
-- (NSInteger)selectedTag{
+
+- (NSInteger)selectedTag
+{
     return [[super selectedItem] tag];
 }
+
 #pragma mark - OEMenuDelegate
-- (void)menuDidShow:(OEMenu *)men{
+
+- (void)menuDidShow:(OEMenu *)men
+{
     [self setNeedsDisplay];
 }
-- (void)menuDidHide:(OEMenu *)men{
+
+- (void)menuDidHide:(OEMenu *)men
+{
     [self setNeedsDisplay];
 }
+
 @end

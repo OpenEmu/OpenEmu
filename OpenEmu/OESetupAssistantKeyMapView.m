@@ -27,7 +27,7 @@
 #import "OESetupAssistantKeyMapView.h"
 #import "NSImage+OEDrawingAdditions.h"
 
-@interface OESetupAssistantKeyMapView (Private)
+@interface OESetupAssistantKeyMapView ()
 
 - (NSImage *)OE_imageForKey:(OESetupAssistantKey)key;
 - (void)OE_commonSetupAssistantKeyMapViewInit;
@@ -46,14 +46,16 @@ static void *const _OESetupAssistantKeyMapViewContext = (void *)&_OESetupAssista
     if(self != [OESetupAssistantKeyMapView class]) return;
 
     NSSize itemSize = NSMakeSize(100, 101);
-    NSImage *spritesheet = [NSImage imageNamed:@"installer_gamepad_graphics"];
-    [spritesheet setName:@"installer_gamepad_up" forSubimageInRect:   (NSRect){{0*itemSize.width, 1*itemSize.height},itemSize}];
-    [spritesheet setName:@"installer_gamepad_down" forSubimageInRect: (NSRect){{1*itemSize.width, 1*itemSize.height},itemSize}];
-    [spritesheet setName:@"installer_gamepad_left" forSubimageInRect: (NSRect){{2*itemSize.width, 1*itemSize.height},itemSize}];
-    [spritesheet setName:@"installer_gamepad_right" forSubimageInRect:(NSRect){{0*itemSize.width, 0*itemSize.height},itemSize}];
     
-    [spritesheet setName:@"installer_gamepad_success"  forSubimageInRect:(NSRect){{2*itemSize.width, 0*itemSize.height},itemSize}];
-    [spritesheet setName:@"installer_gamepad_questionMark" forSubimageInRect:(NSRect){{1*itemSize.width, 0*itemSize.height},itemSize}];
+    NSImage *spritesheet = [NSImage imageNamed:@"installer_gamepad_graphics"];
+    
+    [spritesheet setName:@"installer_gamepad_up"    forSubimageInRect:(NSRect){ { 0 * itemSize.width, 1 * itemSize.height }, itemSize }];
+    [spritesheet setName:@"installer_gamepad_down"  forSubimageInRect:(NSRect){ { 1 * itemSize.width, 1 * itemSize.height }, itemSize }];
+    [spritesheet setName:@"installer_gamepad_left"  forSubimageInRect:(NSRect){ { 2 * itemSize.width, 1 * itemSize.height }, itemSize }];
+    [spritesheet setName:@"installer_gamepad_right" forSubimageInRect:(NSRect){ { 0 * itemSize.width, 0 * itemSize.height }, itemSize }];
+    
+    [spritesheet setName:@"installer_gamepad_success"      forSubimageInRect:(NSRect){ { 2 * itemSize.width, 0 * itemSize.height }, itemSize }];
+    [spritesheet setName:@"installer_gamepad_questionMark" forSubimageInRect:(NSRect){ { 1 * itemSize.width, 0 * itemSize.height }, itemSize }];
 }
 
 #pragma mark -
@@ -148,4 +150,5 @@ static void *const _OESetupAssistantKeyMapViewContext = (void *)&_OESetupAssista
             return [NSImage imageNamed:@"installer_gamepad_questionMark"];
     }
 }
+
 @end
