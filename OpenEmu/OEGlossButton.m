@@ -26,9 +26,15 @@
 
 #import "OEGlossButton.h"
 #import "NSImage+OEDrawingAdditions.h"
+
+@interface OEGlossButton ()
+- (void)OE_commonGlossButtonInit;
+@end
+
 @implementation OEGlossButton
 @dynamic buttonColor;
-- (void)_setup
+
+- (void)OE_commonGlossButtonInit
 {
     if(![[self cell] isKindOfClass:[OEGlossButtonCell class]])
     {
@@ -37,38 +43,34 @@
         [self setTitle:title];
     }
 }
-- (id)init
-{
-    self = [super init];
-    if (self) 
-    {
-        [self _setup];
-    }
-    
-    return self;
-}
-- (id)initWithCoder:(NSCoder *)coder 
+
+- (id)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self) 
     {
-        [self _setup];
+        [self OE_commonGlossButtonInit];
     }
+    
     return self;
 }
-- (id)initWithFrame:(NSRect)frame 
+
+- (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) 
     {
-        [self _setup];
+        [self OE_commonGlossButtonInit];
     }
+    
     return self;
 }
-- (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 #pragma mark -
 
 - (void)viewDidMoveToWindow
@@ -85,7 +87,9 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 #pragma mark -
+
 - (OEGlossButtonColor)buttonColor
 {
     return [[self cell] buttonColor];
@@ -97,36 +101,40 @@
 }
 
 @end
-@interface OEGlossButtonCell (Private)
-- (NSImage*)_imageForButtonColor:(OEGlossButtonColor)color unfocused:(BOOL)unfocused;
+
+@interface OEGlossButtonCell ()
+- (void)OE_commonGlossButtonCellInit;
+- (NSImage *)OE_imageForButtonColor:(OEGlossButtonColor)color unfocused:(BOOL)unfocused;
 @end
+
 @implementation OEGlossButtonCell
 @synthesize buttonColor;
 
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
-    if (self != [OEGlossButtonCell class])
-        return;
+    if(self != [OEGlossButtonCell class]) return;
 
 	NSImage *image = [NSImage imageNamed:@"gloss_button"];
     
-    float buttonHeight = 23.0;
-    float step =(image.size.height);
+    NSSize imageSize = [image size];
     
-    [image setName:@"gloss_button_pressed" forSubimageInRect:(NSRect){{0, 5*step/7},{image.size.width,buttonHeight}}];
+    CGFloat buttonHeight = 23.0;
+    CGFloat step = imageSize.height;
     
-    [image setName:@"gloss_button_default_inactive" forSubimageInRect:(NSRect){{0, 6*step/7},{image.size.width,buttonHeight}}];
-    [image setName:@"gloss_button_default_unfocused" forSubimageInRect:(NSRect){{0, 4*step/7},{image.size.width,buttonHeight}}];
+    [image setName:@"gloss_button_pressed" forSubimageInRect:NSMakeRect(0, 5 * step / 7, imageSize.width, buttonHeight)];
     
-    [image setName:@"gloss_button_blue_inactive" forSubimageInRect:(NSRect){{0, 3*step/7},{image.size.width,buttonHeight}}];
-    [image setName:@"gloss_button_blue_unfocused" forSubimageInRect:(NSRect){{0, 2*step/7},{image.size.width,buttonHeight}}];
+    [image setName:@"gloss_button_default_inactive" forSubimageInRect:NSMakeRect(0, 6 * step / 7, imageSize.width,buttonHeight)];
+    [image setName:@"gloss_button_default_unfocused" forSubimageInRect:NSMakeRect(0, 4 * step / 7, imageSize.width,buttonHeight)];
     
-    [image setName:@"gloss_button_green_inactive" forSubimageInRect:(NSRect){{0, 1*step/7},{image.size.width,buttonHeight}}];
-    [image setName:@"gloss_button_green_unfocused" forSubimageInRect:(NSRect){{0, 0*step/7},{image.size.width,buttonHeight}}];
+    [image setName:@"gloss_button_blue_inactive" forSubimageInRect:NSMakeRect(0, 3 * step / 7, imageSize.width,buttonHeight)];
+    [image setName:@"gloss_button_blue_unfocused" forSubimageInRect:NSMakeRect(0, 2 * step / 7, imageSize.width,buttonHeight)];
+    
+    [image setName:@"gloss_button_green_inactive" forSubimageInRect:NSMakeRect(0, 1 * step / 7, imageSize.width,buttonHeight)];
+    [image setName:@"gloss_button_green_unfocused" forSubimageInRect:NSMakeRect(0, 0 * step / 7, imageSize.width,buttonHeight)];
 }
 
-- (void)_setup
+- (void)OE_commonGlossButtonCellInit
 {
     [self setBordered:YES];
     [self setFocusRingType:NSFocusRingTypeNone];
@@ -141,29 +149,34 @@
 - (id)init
 {
     self = [super init];
-    if (self)
+    if(self)
     {
-        [self _setup];
+        [self OE_commonGlossButtonCellInit];
     }
     
     return self;
 }
+
 - (id)initWithCoder:(NSCoder *)coder 
 {
     self = [super initWithCoder:coder];
-    if (self) 
+    if(self)
     {
-        [self _setup];
+        [self OE_commonGlossButtonCellInit];
     }
     return self;
 }
+
 #pragma mark -
+
 - (BOOL)isOpaque
 {
 	return NO;
 }
-#pragma mark 
+
+#pragma mark
 #pragma mark Drawing
+
 - (void)drawBezelWithFrame:(NSRect)frame inView:(NSView *)controlView
 {
 	NSRect cellFrame = frame;
@@ -178,33 +191,33 @@
     else
     {
         BOOL unfocused = ![self isEnabled] || ![[controlView window] isMainWindow];
-		img = [self _imageForButtonColor:self.buttonColor unfocused:unfocused];
+		img = [self OE_imageForButtonColor:self.buttonColor unfocused:unfocused];
 	}
     
 	[img drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:5 rightBorder:5 topBorder:0 bottomBorder:0];
 }
 
-- (NSImage*)_imageForButtonColor:(OEGlossButtonColor)color unfocused:(BOOL)unfocused
+- (NSImage *)OE_imageForButtonColor:(OEGlossButtonColor)color unfocused:(BOOL)unfocused
 {
     NSString *imgName = @"gloss_button_default";
     switch (color) 
     {
-        case OEGlossButtonColorBlue:
+        case OEGlossButtonColorBlue :
             imgName = @"gloss_button_blue";            
             break;
-        case OEGlossButtonColorGreen:
+        case OEGlossButtonColorGreen :
             imgName = @"gloss_button_green";
             break;            
         default:
             break;
     }
     
-    if(unfocused)
-        return [NSImage imageNamed:[imgName stringByAppendingString:@"_unfocused"]];
-    return [NSImage imageNamed:[imgName stringByAppendingString:@"_inactive"]];
+    return [NSImage imageNamed:[imgName stringByAppendingString:unfocused ? @"_unfocused" : @"_inactive"]];
 }
+
 #pragma mark -
 #pragma mark Drawing the title
+
 - (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView
 {
 	NSRect titleRect = frame;
@@ -244,4 +257,5 @@
 	
 	return [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 }
+
 @end

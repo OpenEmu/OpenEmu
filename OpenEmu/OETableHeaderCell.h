@@ -27,9 +27,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OETableHeaderCell : NSTableHeaderCell {
-@private
-	
-}
-@property (getter=isClickable) BOOL clickable;
+@interface OETableHeaderCell : NSTableHeaderCell
+@property(getter=isClickable) BOOL clickable;
 @end

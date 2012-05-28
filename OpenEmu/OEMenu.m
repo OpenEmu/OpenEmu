@@ -134,6 +134,7 @@
 
 #pragma mark -
 @interface OEMenuContentView : NSView
+
 - (int)OE_submenuPosition;
 - (void)highlightItemAtPoint:(NSPoint)p;
 - (void)highlightItemWithScrollingAtPoint:(NSPoint)p;
@@ -171,32 +172,43 @@
 @interface OEMenuContentView ()
 - (NSSize)OE_calculateRequiredViewSize;
 @end
+
 #pragma mark -
+
 @interface OEMenuItemsView : NSView
 - (NSMenuItem *)itemAtPoint:(NSPoint)p;
 - (NSRect)rectOfItem:(NSMenuItem *)m;
 
 - (OEMenu *)menu;
 @end
+
 @interface OEMenuItemsView ()
 - (NSSize)OE_calculateAndSetRequiredViewSize;
 @end
+
 #pragma mark -
+
 @interface OE_MenuScrollView : NSScrollView
 
 - (OEMenu *)menu;
 @end
+
 #pragma mark -
+
 @interface OE_MenuScroller : NSScroller
 @end
+
 #pragma mark -
+
 @interface OEMenuScrollerView : NSView
 @property BOOL up;
 - (NSImage*)scrollUpArrowImageForStyle:(OEMenuStyle)style;
 - (NSImage*)scrollDownArrowImageForStyle:(OEMenuStyle)style;
 @end
+
 #pragma mark -
 #pragma mark -
+
 @implementation OEMenu
 @synthesize openRect, openEdge=_edge, allowsOppositeEdge, displaysOpenEdge;
 @dynamic style;
@@ -270,7 +282,8 @@
 
 #pragma mark -
 #pragma mark Opening / Closing the menu
-- (void)openOnEdge:(OERectEdge)anEdge ofRect:(NSRect)rect ofWindow:(NSWindow*)win
+
+- (void)openOnEdge:(OERectEdge)anEdge ofRect:(NSRect)rect ofWindow:(NSWindow *)win
 {
     visible = YES;
     closing = NO;
@@ -311,8 +324,8 @@
     
     [self _performCloseMenu];
     
-    if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidCancel:)]) [self.delegate performSelector:@selector(menuDidCancel:) withObject:self];
-
+    if([[self delegate] respondsToSelector:@selector(menuDidCancel:)])
+        [[self delegate] menuDidCancel:self];
 }
 
 - (void)closeMenu
@@ -320,8 +333,8 @@
     closing = YES;
     
     OEMenu *superMen = self;
-    while([superMen supermenu])
-        superMen = [superMen supermenu];
+    
+    while([superMen supermenu] != nil) superMen = [superMen supermenu];
     
     if(superMen != self)
     {
@@ -330,22 +343,22 @@
     }
     
     OEMenu *subMen = self;
-    while([subMen submenu])
-        subMen = [subMen submenu];
+    while([subMen submenu] != nil) subMen = [subMen submenu];
     
     NSMenuItem *selectedItem = [subMen highlightedItem];
     [self _closeByClickingItem:selectedItem];
 }
 #pragma mark -
 #pragma mark Positioning / Sizing
+
 - (void)OE_repositionMenu
 {   
-    NSRect menuRect         =   [self frame];
-    NSRect screenRect       =   [[[self parentWindow] screen] visibleFrame];
-    OERectEdge edge         =   [self openEdge];
-    NSRect intersectionRect =   NSIntersectionRect(menuRect, screenRect);
-    if(NSEqualSizes(menuRect.size, intersectionRect.size))
-        return;
+    NSRect menuRect         = [self frame];
+    NSRect screenRect       = [[[self parentWindow] screen] visibleFrame];
+    OERectEdge edge         = [self openEdge];
+    NSRect intersectionRect = NSIntersectionRect(menuRect, screenRect);
+    
+    if(NSEqualSizes(menuRect.size, intersectionRect.size)) return;
     
     // check if x is the problem
     if([self allowsOppositeEdge])
@@ -386,30 +399,32 @@
     
     if(!NSEqualSizes(rect.size, (NSSize){0,0}))
     {
-        switch (anEdge) {
+        switch(anEdge)
+        {
             case OENoEdge:
-                point = (NSPoint){NSMidX(rect), NSMidY(rect)};
+                point = (NSPoint){ NSMidX(rect), NSMidY(rect) };
                 point = NSPointSub(point, ((NSPoint){[self frame].size.width/2, [self frame].size.height/2}));
                 break;
             case OEMaxXEdge:
-                point = (NSPoint){NSMaxX(rect), NSMidY(rect)};
+                point = (NSPoint){ NSMaxX(rect), NSMidY(rect) };
                 break;
             case OEMinXEdge:
-                point = (NSPoint){NSMinX(rect), NSMidY(rect)};
+                point = (NSPoint){ NSMinX(rect), NSMidY(rect) };
                 point.x -= [self frame].size.width;
                 break;
             case OEMinYEdge:
-                point = (NSPoint){NSMidX(rect), NSMinY(rect)};
+                point = (NSPoint){ NSMidX(rect), NSMinY(rect) };
                 point.y -= [self frame].size.height;
                 break;
             case OEMaxYEdge:
-                point = (NSPoint){NSMidX(rect), NSMaxY(rect)};
+                point = (NSPoint){ NSMidX(rect), NSMaxY(rect) };
                 break;
             default:
                 break;
         }
         
-        switch (anEdge) {
+        switch(anEdge)
+        {
             case OEMaxXEdge:
             case OEMinXEdge:
                 point.y -= [self frame].size.height/2;
@@ -518,6 +533,7 @@
 
 #pragma mark -
 #pragma mark Setter / getter
+
 - (NSMenuItem *)highlightedItem { return highlightedItem; }
 - (void)setHighlightedItem:(NSMenuItem *)value
 {
@@ -549,7 +565,7 @@
     submenu = _submenu;
 }
 
-- (OEMenu*)submenu
+- (OEMenu *)submenu
 {
     return submenu;
 }
@@ -567,7 +583,9 @@
 {
     return _alternate || [[self supermenu] alternate];
 }
+
 #pragma mark -
+
 - (void)setStyle:(OEMenuStyle)aStyle
 {
     style = aStyle;
@@ -580,14 +598,18 @@
     
     return style;
 }
+
 #pragma mark -
+
 - (void)updateSize
 {
     NSSize contentSize = [[self menuView] OE_calculateRequiredViewSize];
-    [self setFrame:(NSRect){[self frame].origin, contentSize} display:NO];
+    [self setFrame:(NSRect){ [self frame].origin, contentSize } display:NO];
 }
+
 #pragma mark -
 #pragma mark NSMenu wrapping
+
 - (NSArray *)itemArray
 {
     return [[self menu] itemArray];
@@ -595,6 +617,7 @@
 
 #pragma mark -
 #pragma mark Private Methods
+
 - (BOOL)_isClosing
 {
     return closing;
@@ -684,9 +707,11 @@
 
 #pragma mark -
 #pragma mark Utilities
+
 - (OERectEdge)OE_oppositeRectEdgeForEdge:(OERectEdge)edge
 {
-    switch (edge) {
+    switch(edge)
+    {
         case OENoEdge:
             return OENoEdge;
             break;
@@ -707,6 +732,7 @@
     }
 }
 #pragma mark -
+
 - (void)OE_createEventMonitor
 {   
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask | NSScrollWheelMask handler:
@@ -762,6 +788,7 @@
 @end
 
 #pragma mark -
+
 @implementation NSMenu (OEAdditions)
 
 - (OEMenu *)convertToOEMenu
@@ -774,6 +801,7 @@
 @end
 
 #pragma mark -
+
 @implementation OEMenuContentView
 @synthesize scrollDownView, scrollUpView, scrollTimer;
 
@@ -841,8 +869,10 @@
     while([[self trackingAreas] count] != 0)
         [self removeTrackingArea:[[self trackingAreas] lastObject]];
 }
+
 #pragma mark -
 #pragma mark Interaction
+
 - (void)updateTrackingAreas
 {
     NSArray *trackingAreas = [self trackingAreas];
@@ -1635,11 +1665,13 @@
 
 @synthesize cachedContentOffset, cachedBorderSize;
 @end
+
 #pragma mark -
 @implementation OEMenuItemsView
 
 #pragma mark -
 #pragma mark View Config Overrides
+
 - (BOOL)isFlipped
 {
     return YES;
@@ -1647,6 +1679,7 @@
 
 #pragma mark -
 #pragma mark Items
+
 - (NSRect)rectOfItem:(NSMenuItem *)m
 {
     BOOL menuContainsImage = [[self menu] containsItemWithImage];
@@ -1699,7 +1732,9 @@
     }
     return nil;
 }
+
 #pragma mark -
+
 - (NSSize)OE_calculateAndSetRequiredViewSize
 {
     OEMenu          *menu              = [self menu];
@@ -1867,6 +1902,7 @@
 }
 
 #pragma mark -
+
 - (OEMenu *)menu
 {
     return (OEMenu *)[self window];
@@ -1876,13 +1912,17 @@
 
 #pragma mark -
 @implementation OE_MenuScrollView
+
 #pragma mark -
+
 - (OEMenu *)menu
 {
     return (OEMenu *)[self window];
 }
 @end
+
 #pragma mark -
+
 @implementation OE_MenuScroller
 
 + (BOOL)isCompatibleWithOverlayScrollers
@@ -1891,10 +1931,12 @@
 }
 
 - (void)drawKnob
-{}
+{
+}
 
 - (void)drawKnobSlotInRect:(NSRect)slotRect highlight:(BOOL)flag
-{}
+{
+}
 
 + (CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize scrollerStyle:(NSScrollerStyle)scrollerStyle
 {
@@ -1905,20 +1947,22 @@
 {
     return 0.0;
 }
+
 @end
+
 #pragma mark -
+
 @implementation OEMenuScrollerView 
 @synthesize up;
 
-- (NSImage*)scrollUpArrowImageForStyle:(OEMenuStyle)style
+- (NSImage *)scrollUpArrowImageForStyle:(OEMenuStyle)style
 {
     return [NSImage imageNamed:style == OEMenuStyleDark ? @"dark_menu_scroll_up" : @"light_menu_scroll_up"];
 }
 
-- (NSImage*)scrollDownArrowImageForStyle:(OEMenuStyle)style
+- (NSImage *)scrollDownArrowImageForStyle:(OEMenuStyle)style
 {
     return [NSImage imageNamed:style == OEMenuStyleDark ? @"dark_menu_scroll_down" : @"light_menu_scroll_down"];
-    
 }
 
 - (BOOL)isFlipped
@@ -1928,13 +1972,14 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {        
-    OEMenu  *menu        = (OEMenu*)[self window];
+    OEMenu  *menu        = (OEMenu *)[self window];
     NSImage *scrollArrow = [self up] ? [self scrollUpArrowImageForStyle:[menu style]] : [self scrollDownArrowImageForStyle:[menu style]];
     
-    float x = NSMidX([self bounds])-[scrollArrow size].width/2;
-    float y = NSMidY([self bounds])-[scrollArrow size].height/2;
+    float x = NSMidX([self bounds]) - [scrollArrow size].width / 2;
+    float y = NSMidY([self bounds]) - [scrollArrow size].height / 2;
     
-    NSRect targetRect = (NSRect){{x, y}, scrollArrow.size};
+    NSRect targetRect = (NSRect){ { x, y }, scrollArrow.size };
     [scrollArrow drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 }
+
 @end

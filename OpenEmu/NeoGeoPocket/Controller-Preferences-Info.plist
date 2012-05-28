@@ -2,26 +2,26 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>OEControllerImageKey</key>
-    <string>controller_sms.png</string>
-    <key>OEControllerImageMaskKey</key>
-    <string>controller_sms_mask.png</string>
-    <key>OEControllerKeyPositionKey</key>
-    <dict>
-        <key>OENGPButtonUp</key>
-        <string>{195, 176}</string>
-        <key>OENGPButtonDown</key>
-        <string>{195, 93}</string>
-        <key>OENGPButtonLeft</key>
-        <string>{157, 138}</string>
-        <key>OENGPButtonRight</key>
-        <string>{234, 138}</string>
-        <key>OENGPButtonA</key>
-        <string>{383, 114}</string>
-        <key>OENGPButtonB</key>
-        <string>{453, 114}</string>
-        <key>OENGPButtonReset</key>
-        <string>{0, 0}</string>
-    </dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_sms.png</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_sms_mask.png</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<string>{195, 176}</string>
+		<key>OENGPButtonDown</key>
+		<string>{195, 93}</string>
+		<key>OENGPButtonLeft</key>
+		<string>{157, 138}</string>
+		<key>OENGPButtonRight</key>
+		<string>{234, 138}</string>
+		<key>OENGPButtonA</key>
+		<string>{383, 114}</string>
+		<key>OENGPButtonB</key>
+		<string>{453, 114}</string>
+		<key>OENGPButtonOption</key>
+		<string>{0, 0}</string>
+	</dict>
 </dict>
 </plist>

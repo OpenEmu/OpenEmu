@@ -49,4 +49,5 @@ OE_EXPORTED_CLASS
     UInt16     *tmpBuf;
 }
 @property(readwrite) const void *videoBuffer;
+@property(copy) NSString *romPath;
 @end

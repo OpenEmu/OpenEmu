@@ -246,7 +246,7 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
             }
             
             NSString *pluginFolderPath = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:folder];
-            paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pluginFolderPath error:NULL];
+            paths = [manager contentsOfDirectoryAtPath:pluginFolderPath error:NULL];
             for(NSString *path in paths) [self pluginWithBundleAtPath:[pluginFolderPath stringByAppendingPathComponent:path] type:aType];
             
             plugins = [allPlugins objectForKey:aType];

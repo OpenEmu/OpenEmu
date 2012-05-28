@@ -115,8 +115,8 @@
     if((self = [self initWithNibName:@"OESetupAssistant" bundle:[NSBundle mainBundle]]))
     {
         // TODO: need to fail gracefully if we have no internet connection.
-        [[OECoreUpdater sharedUpdater] checkForNewCores:[NSNumber numberWithBool:NO]];
-        [[OECoreUpdater sharedUpdater] checkForUpdates];
+        [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForNewCores:) withObject:[NSNumber numberWithBool:NO]];
+        [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForUpdates) withObject:nil];
         
         // set default prefs
         [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"organizeLibrary"];
@@ -230,6 +230,15 @@
 
 - (IBAction)toStep3:(id)sender
 {
+    // install our cores    
+    for (int i = 0; i < [[[OECoreUpdater sharedUpdater] coreList] count]; i ++ )
+    {
+        if([[enabledCoresForDownloading objectAtIndex:i] boolValue])
+        {
+            [self OE_updateOrInstallItemAtRow:i];
+        }
+    }
+    
     [self goForwardToView:[self step3]];
 }
 
@@ -253,12 +262,15 @@
     {
         NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
         allowedVolumes = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] mutableCopy];
-        
+		NSMutableIndexSet *disallowedVolumes = [NSMutableIndexSet indexSet];
+		
         for(int i = 0; i < [enabledVolumesForDownloading count]; i++)
         {
             if(![[enabledVolumesForDownloading objectAtIndex:i] boolValue])
-                [allowedVolumes removeObjectAtIndex:i];
-        }        
+				[disallowedVolumes addIndex:i];
+        }
+		
+		[allowedVolumes removeObjectsAtIndexes:disallowedVolumes];
     }
     
     [self goForwardToView:[self step4]];
@@ -430,6 +442,20 @@
 
 #pragma mark -
 #pragma mark Table View Data Protocol
+
+// for Core Downloader
+
+- (void)OE_updateOrInstallItemAtRow:(NSInteger)rowIndex
+{
+    OECoreDownload *plugin = [self OE_coreDownloadAtRow:rowIndex];
+    [plugin startDownload:self];
+}
+
+- (OECoreDownload*)OE_coreDownloadAtRow:(NSInteger)row
+{
+    return [[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:row];
+}
+
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {

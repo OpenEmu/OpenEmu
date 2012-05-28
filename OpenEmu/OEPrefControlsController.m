@@ -41,7 +41,6 @@
 #import "OEControlsSetupView.h"
 
 #import "OEHIDEvent.h"
-#import "OEWiimoteHandler.h"
 
 @interface OEPrefControlsController ()
 {
@@ -123,10 +122,6 @@
 - (void)viewWillAppear
 {
 	[super viewWillAppear];
-    
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
-        // Start WiiRemote support
-        [OEWiimoteHandler search];
 }
 
 - (void)animationDidStart:(CAAnimation *)theAnimation

@@ -43,6 +43,7 @@
 #import "OEPrefCoresController.h"
 #import "OEPrefDebugController.h"
 
+#import "OEWiimoteHandler.h"
 #define AnimationDuration 0.3
 @interface OEPreferencesController (priavte)
 - (void)_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag;
@@ -51,7 +52,7 @@
 - (void)_openPreferencePane:(NSNotification*)notification;
 @end
 @implementation OEPreferencesController
-@synthesize preferencePanes;
+@synthesize preferencePanes, visiblePaneIndex;
 - (id)initWithWindow:(NSWindow *)window
 {
     self = [super initWithWindow:window];
@@ -100,6 +101,9 @@
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger selectedTab = [standardDefaults integerForKey:UDSelectedPreferencesTab];
     
+    
+    [self setVisiblePaneIndex:-1];
+    
     // Make sure that value from User Defaults is valid
     if(selectedTab < 0 || selectedTab >= [[toolbar items] count])
     {
@@ -128,6 +132,15 @@
     
     return rect;
 }
+
+- (IBAction)showWindow:(id)sender
+{
+    [super showWindow:sender];
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
+        [OEWiimoteHandler search];
+}
+
 #pragma mark -
 - (void)_reloadPreferencePanes
 {
@@ -215,8 +228,13 @@
         return;
     }
     
-    NSViewController <OEPreferencePane>  *currentPane = [self.preferencePanes objectAtIndex:[toolbar selectedItemIndex]];
+    NSViewController <OEPreferencePane>  *currentPane = nil;
+    if([self visiblePaneIndex] != -1)
+        currentPane = [self.preferencePanes objectAtIndex:[self visiblePaneIndex]];
     NSViewController <OEPreferencePane>  *nextPane = [self.preferencePanes objectAtIndex:selectedTab];
+    
+    if(currentPane == nextPane) return;
+    
     [nextPane viewWillAppear];
     [currentPane viewWillDisappear];
     
@@ -234,6 +252,7 @@
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setInteger:selectedTab forKey:UDSelectedPreferencesTab];
+    [self setVisiblePaneIndex:selectedTab];
 }
 
 - (void)_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag

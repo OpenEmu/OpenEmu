@@ -630,7 +630,7 @@ typedef enum {
 - (void)handleRAMData:(unsigned char *)dp length:(size_t)dataLength{
     unsigned short addr = (dp[5] * 256) + dp[6];
     if (addr == 0x00FE) { // Response to expansion type request
-        UInt16 identifier = (dp[7] << 2)+dp[8];
+        UInt16 identifier = ((dp[7]&0xFF) << 8)|(dp[8]&0xFF);
         WiiExpansionType connectedExpansion = WiiExpansionNotConnected;
         if(!(dp[4] & 0x0F)) switch (identifier) {
             case kWiiExpansionNunchuck:

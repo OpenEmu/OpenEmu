@@ -30,7 +30,9 @@
 @class OEHUDProgressbar;
 
 typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
-@interface OEHUDAlert : NSObject{
+
+@interface OEHUDAlert : NSObject
+{
     NSWindow *_window;
     NSUInteger result;
     
@@ -39,40 +41,46 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 
 + (id)alertWithError:(NSError*)error;
 + (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString*)defaultButtonLabel alternateButton:(NSString*)alternateButtonLabel;
+
 #pragma mark -
+
 - (NSUInteger)runModal;
 - (void)closeWithResult:(NSInteger)res;
-@property (readonly) NSUInteger result;
 
-@property (strong) NSWindow *window;
+@property(readonly) NSUInteger result;
+
+@property(strong) NSWindow *window;
+
 #pragma mark -
 #pragma mark Sizing
-@property float height, width;
+@property CGFloat height, width;
 
-@property (readonly, strong) NSView *boxView;
+@property(readonly, strong) NSView *boxView;
+
 #pragma mark -
 #pragma mark Buttons
-@property (readonly, strong) NSButton *defaultButton;
-@property (readonly, strong) NSButton *alternateButton;
+@property(readonly, strong) NSButton *defaultButton;
+@property(readonly, strong) NSButton *alternateButton;
 
-@property (readonly, strong) NSTextView *messageTextView;
-@property (readonly, strong) NSTextField *headlineLabelField;
+@property(readonly, strong) NSTextView *messageTextView;
+@property(readonly, strong) NSTextField *headlineLabelField;
 
-@property (strong) NSString *stringValue, *inputLabelText;
-@property (strong) NSString *defaultButtonTitle, *alternateButtonTitle, *title, *messageText, *headlineLabelText;
+@property(strong) NSString *stringValue, *inputLabelText;
+@property(strong) NSString *defaultButtonTitle, *alternateButtonTitle, *title, *messageText, *headlineLabelText;
 
 #pragma mark -
 #pragma mark Input Field
-@property (readonly, strong) NSTextField *inputField,  *inputLabelField;
+@property(readonly, strong) NSTextField *inputField, *inputLabelField;
 @property BOOL showsInputField;
-@property int inputLimit;
+@property NSInteger inputLimit;
 
 #pragma mark -
 #pragma mark Progress Bar
+
 @property BOOL showsProgressbar;
-@property (strong, readonly) OEHUDProgressbar *progressbar;
-- (void)setProgress:(float)progress;
-- (float)progress;
+@property(strong, readonly) OEHUDProgressbar *progressbar;
+
+@property CGFloat progress;
 
 #pragma mark -
 #pragma mark Button Actions

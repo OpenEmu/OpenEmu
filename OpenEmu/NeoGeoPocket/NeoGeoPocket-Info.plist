@@ -88,9 +88,9 @@
 			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Reset</string>
+					<string>Option</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENGPButtonReset</string>
+					<string>OENGPButtonOption</string>
 				</dict>
 			</array>
 		</array>

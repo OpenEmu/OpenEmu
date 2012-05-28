@@ -27,7 +27,7 @@
 #import "OEHUDButtonCell.h"
 #import "NSImage+OEDrawingAdditions.h"
 
-@interface OEHUDButtonCell (Private)
+@interface OEHUDButtonCell ()
 - (NSImage *)OE_imageForHudButtonColor:(OEHUDButtonColor)color;
 @end
 
@@ -58,8 +58,7 @@
 
 + (void)initialize
 {
-    if(self != [OEHUDButtonCell class])
-        return;
+    if(self != [OEHUDButtonCell class]) return;
     
     NSImage *image = [NSImage imageNamed:@"hud_button"];
     CGSize   size  = [image size];
@@ -100,6 +99,7 @@
     [title drawInRect:titleRect];
     return titleRect;
 }
+
 #pragma mark -
 
 - (NSAttributedString *)attributedTitle

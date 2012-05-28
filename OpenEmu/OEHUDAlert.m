@@ -43,34 +43,46 @@
 
 @interface OEAlertWindow : NSWindow <OECustomWindow>
 @end
-@interface OEHUDAlert (Private)
-- (void)performCallback;
-- (void)layoutButtons;
-- (void)_setupWindow;
+
+@interface OEHUDAlert ()
+
+- (void)OE_performCallback;
+- (void)OE_layoutButtons;
+- (void)OE_setupWindow;
+
 @end
 
 @implementation OEHUDAlert
 #pragma mark Properties
 @synthesize result, suppressionUDKey;
 
-@synthesize defaultButton=_defaultButton, alternateButton=_alternateButton;
-@synthesize progressbar=_progressbar;
-@synthesize messageTextView=_messageTextView, headlineLabelField=_headlineLabelField;
-@synthesize suppressionButton=_suppressionButton;
-@synthesize inputField=_inputField, inputLabelField=_inputLabelField;
-@dynamic inputLimit;
-@synthesize boxView=_boxView;
+@synthesize target, callback;
+@synthesize suppressOnDefaultReturnOnly;
+
+@synthesize defaultButton = _defaultButton, alternateButton = _alternateButton;
+@synthesize progressbar = _progressbar;
+@synthesize messageTextView = _messageTextView, headlineLabelField = _headlineLabelField;
+@synthesize suppressionButton = _suppressionButton;
+@synthesize inputField = _inputField, inputLabelField = _inputLabelField;
+@synthesize boxView = _boxView;
 @synthesize window;
+
+@dynamic inputLimit, progress;
+
 #pragma mark -
-- (void)show{
+
+- (void)show
+{
     [_window makeKeyAndOrderFront:self];
     [_window center];
 }
-+ (id)alertWithError:(NSError*)error
+
++ (id)alertWithError:(NSError *)error
 {
     return nil;
 }
-+ (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString*)defaultButtonLabel alternateButton:(NSString*)alternateButtonLabel
+
++ (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString *)defaultButtonLabel alternateButton:(NSString *)alternateButtonLabel
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     
@@ -83,6 +95,7 @@
 
 #pragma mark -
 #pragma mark Memory Management
+
 - (id)init
 {
     self = [super init];
@@ -109,7 +122,7 @@
         _boxView = [[OEPreferencesPlainBox alloc] init];
         
         [self setSuppressOnDefaultReturnOnly:YES];
-        [self _setupWindow];
+        [self OE_setupWindow];
     }
     
     return self;
@@ -126,13 +139,15 @@
     self.target = nil;
     self.callbackHandler = nil;    
 }
+
 #pragma mark -
+
 - (NSUInteger)runModal
 {
     if([self suppressionUDKey] && [[NSUserDefaults standardUserDefaults] valueForKey:[self suppressionUDKey]])
     {
         result = [[NSUserDefaults standardUserDefaults] integerForKey:[self suppressionUDKey]];
-        [self performCallback];
+        [self OE_performCallback];
         return result;
     }
     
@@ -175,27 +190,29 @@
 {
     [_window setTitle:title];
 }
-- (NSString*)title
+- (NSString *)title
 {
     return [_window title];
 }
-- (float)height
+
+- (CGFloat)height
 {
     return [_window frame].size.height; 
 }
-- (void)setHeight:(float)height
+
+- (void)setHeight:(CGFloat)height
 {
     NSRect frame = [_window frame];
     frame.size.height = height;
     [_window setFrame:frame display:YES];
 }
 
-- (float)width
+- (CGFloat)width
 {
     return [_window frame].size.width; 
 }
 
-- (void)setWidth:(float)width
+- (void)setWidth:(CGFloat)width
 {
     NSRect frame = [_window frame];
     frame.size.width = width;
@@ -203,53 +220,56 @@
 }
 #pragma mark -
 #pragma mark Progress Bar
+
 - (void)setShowsProgressbar:(BOOL)showsProgressbar
 {
     [[self progressbar] setHidden:!showsProgressbar];
 }
+
 - (BOOL)showsProgressbar
 {
     return [[self progressbar] isHidden];
 }
 
-- (void)setProgress:(float)progress
-{
-    [[self progressbar] setValue:progress];
-}
-
-- (float)progress
+- (CGFloat)progress
 {
     return [[self progressbar] value];
 }
 
+- (void)setProgress:(CGFloat)progress
+{
+    [[self progressbar] setValue:progress];
+}
+
 #pragma mark -
 #pragma mark Buttons
+
 - (void)setDefaultButtonTitle:(NSString *)defaultButtonTitle
 {
-    if(!defaultButtonTitle) defaultButtonTitle = @"";
-    [[self defaultButton] setTitle:defaultButtonTitle];
+    [[self defaultButton] setTitle:defaultButtonTitle ? : @""];
     
-    [self layoutButtons];
+    [self OE_layoutButtons];
 }
-- (NSString*)defaultButtonTitle
+
+- (NSString *)defaultButtonTitle
 {
     return [[self defaultButton] title];
 }
 
 - (void)setAlternateButtonTitle:(NSString *)alternateButtonTitle
 {
-    if(!alternateButtonTitle) alternateButtonTitle = @"";
-    [[self alternateButton] setTitle:alternateButtonTitle];
+    [[self alternateButton] setTitle:alternateButtonTitle ? : @""];
     
-    [self layoutButtons];
+    [self OE_layoutButtons];
 }
 
-- (NSString*)alternateButtonTitle
+- (NSString *)alternateButtonTitle
 {
     return [[self alternateButton] title];
 }
 
-- (void)buttonAction:(id)sender{
+- (void)buttonAction:(id)sender
+{
     if(sender == [self defaultButton] || sender == [self inputField])
         result = NSAlertDefaultReturn;
     else if(sender == [self alternateButton])
@@ -264,25 +284,24 @@
     }
 
     [NSApp stopModalWithCode:result];
-    [self performCallback];
+    [self OE_performCallback];
 }
 
-- (void)layoutButtons
+- (void)OE_layoutButtons
 {
-    BOOL showsDefaultButton = [[self defaultButtonTitle] length]!=0;
-    BOOL showsAlternateButton = [[self alternateButtonTitle] length]!=0;
+    BOOL showsDefaultButton   = [[self defaultButtonTitle] length] != 0;
+    BOOL showsAlternateButton = [[self alternateButtonTitle] length] != 0;
     
-    NSRect defaultButtonRect = (NSRect){{304-3, 14-1},{103, 23}};
-    if(showsDefaultButton)
-    {
-        [[self defaultButton] setFrame:defaultButtonRect];
-    }
+    NSRect defaultButtonRect = NSMakeRect(304 - 3, 14 - 1, 103, 23);
+    
+    if(showsDefaultButton) [[self defaultButton] setFrame:defaultButtonRect];
     
     if(showsAlternateButton)
     {
-        NSRect alternateButtonRect = showsDefaultButton?(NSRect){{190-3, 14-1},{103, 23}}:defaultButtonRect;
+        NSRect alternateButtonRect = showsDefaultButton ? NSMakeRect(190 - 3, 14 - 1, 103, 23) : defaultButtonRect;
         [[self alternateButton] setFrame:alternateButtonRect];
     }
+    
     [[self defaultButton] setHidden:!showsDefaultButton];
     [[self alternateButton] setHidden:!showsAlternateButton];
 }
@@ -298,37 +317,38 @@
     [[self alternateButton] setTarget:aTarget];
     [[self alternateButton] setAction:sel];
 }
+
 #pragma mark -
 #pragma mark Message Text
+
 - (void)setHeadlineLabelText:(NSString *)headlineLabelText
 {
-    if(!headlineLabelText) headlineLabelText=@"";
-    [[self headlineLabelField] setStringValue:headlineLabelText];
-    [[self headlineLabelField] setHidden:[headlineLabelText length]==0];
+    [[self headlineLabelField] setStringValue:headlineLabelText ? : @""];
+    [[self headlineLabelField] setHidden:[headlineLabelText length] == 0];
 }
 
-- (NSString*)headlineLabelText
+- (NSString *)headlineLabelText
 {
     return [[self headlineLabelField] stringValue];
 }
 
 - (void)setMessageText:(NSString *)messageText
 {
-    if(messageText==nil) messageText = @"";
-    [[self messageTextView] setString:messageText];
-    NSRect textViewFrame = NSInsetRect((NSRect){{0,0}, [self boxView].frame.size}, 46, 23);
+    [[self messageTextView] setString:messageText ? : @""];
+    
+    NSRect textViewFrame = NSInsetRect((NSRect){ .size = [self boxView].frame.size }, 46, 23);
     [[self messageTextView] setFrame:textViewFrame];
-    [[self messageTextView] setHidden:[messageText length]==0];
+    [[self messageTextView] setHidden:[messageText length] == 0];
 }
 
-- (NSString*)messageText
+- (NSString *)messageText
 {
     return [[self messageTextView] string];
 }
 
 #pragma mark -
 #pragma mark Callbacks
-@synthesize target, callback;
+
 - (void)setCallbackHandler:(OEAlertCompletionHandler)handler
 {
     callbackHandler = [handler copy];
@@ -338,17 +358,18 @@
     [[self defaultButton] setTarget:self];
     [[self defaultButton] setAction:@selector(buttonAction:)];
 }
+
 - (OEAlertCompletionHandler)callbackHandler
 {
     return callbackHandler;
 }
 
-- (void)performCallback
+- (void)OE_performCallback
 {   
-    if([self target] && [self callback] != NULL && [[self target] respondsToSelector:[self callback]])
+    if([self target] != nil && [self callback] != NULL && [[self target] respondsToSelector:[self callback]])
         [[self target] performSelectorOnMainThread:[self callback] withObject:self waitUntilDone:NO];
     
-    if([self callbackHandler]!=nil)
+    if([self callbackHandler] != nil)
     {
         callbackHandler(self, [self result]);
         [self callbackHandler];
@@ -358,6 +379,7 @@
 
 #pragma mark -
 #pragma mark Suppression Button
+
 - (BOOL)showsSuppressionButton
 {
     return ![[self suppressionButton] isHidden];
@@ -368,7 +390,7 @@
     [[self suppressionButton] setHidden:!showsSuppressionButton];
 }
 
-- (void)showSuppressionButtonForUDKey:(NSString*)key
+- (void)showSuppressionButtonForUDKey:(NSString *)key
 {
     [self setShowsSuppressionButton:YES];
     [self setSuppressionUDKey:key];
@@ -383,22 +405,25 @@
     [[self suppressionButton] setTitle:suppressionLabelText];
     [[self suppressionButton] sizeToFit];
 }
-- (NSString*)suppressionLabelText
+
+- (NSString *)suppressionLabelText
 {
     return [[self suppressionButton] title];
 }
-@synthesize suppressOnDefaultReturnOnly;
+
 - (void)suppressionButtonAction:(id)sender
 {
     if(![self suppressionUDKey]) return;
     
-    NSUInteger      state                 = [sender state];
+    NSUInteger       state                = [sender state];
     NSUserDefaults  *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     if(!state && [self suppressOnDefaultReturnOnly])
         [standardUserDefaults removeObjectForKey:[self suppressionUDKey]];   
 }
+
 #pragma mark -
 #pragma mark Input Field
+
 - (void)setShowsInputField:(BOOL)showsInputField
 {
     [[self inputField] setHidden:!showsInputField];
@@ -410,11 +435,13 @@
 {
     return ![[self inputField] isHidden];
 }
+
 - (void)setStringValue:(NSString *)stringValue
 {
     [[self inputField] setStringValue:stringValue];
 }
-- (NSString*)stringValue
+
+- (NSString *)stringValue
 {
     return [[self inputField] stringValue];
 }
@@ -424,49 +451,48 @@
     [[self inputLabelField] setStringValue:inputLabelText];
 }
 
-- (NSString*)inputLabelText
+- (NSString *)inputLabelText
 {
     return [[self inputLabelField] stringValue];
 }
 
-- (int)inputLimit
+- (NSInteger)inputLimit
 {
-    if([[self inputField] formatter] && [[[self inputField] formatter] isKindOfClass:[OEInputLimitFormatter class]])
-    {
-        return [[[self inputField] formatter] limit];
-    }
-    return 0;
+    OEInputLimitFormatter *formatter = [[self inputField] formatter];
+    
+    return [formatter isKindOfClass:[OEInputLimitFormatter class]] ? [formatter limit] : 0;
 }
-- (void)setInputLimit:(int)inputLimit
+
+- (void)setInputLimit:(NSInteger)inputLimit
 {
-    BOOL limitFormatterSet = ([[self inputField] formatter] && [[[self inputField] formatter] isKindOfClass:[OEInputLimitFormatter class]]);
+    OEInputLimitFormatter *formatter = [[self inputField] formatter];
+    
+    BOOL limitFormatterSet = (formatter != nil && [formatter isKindOfClass:[OEInputLimitFormatter class]]);
+    
     if(inputLimit == 0 && limitFormatterSet)
-    {
         [[self inputField] setFormatter:nil];
-    }
     else if(limitFormatterSet)
-    {
-        [[[self inputField] formatter] setLimit:inputLimit];
-    }
+        [formatter setLimit:inputLimit];
     else 
     {
-        OEInputLimitFormatter* formatter = [[OEInputLimitFormatter alloc] initWithLimit:inputLimit];
+        formatter = [[OEInputLimitFormatter alloc] initWithLimit:inputLimit];
         [[self inputField] setFormatter:formatter];
     }
 }
 #pragma mark -
 #pragma mark Private Methods
-- (void)_setupWindow
+
+- (void)OE_setupWindow
 {    
     NSRect f = [_window frame];
-    f.size = (NSSize){421, 172};
+    f.size = (NSSize){ 421, 172 };
     [_window setFrame:f display:NO];
     
     // Setup Button
     OEHUDButtonCell *cell = [[OEHUDButtonCell alloc] init];
     [cell setButtonColor:OEHUDButtonColorBlue];    
     [[self defaultButton] setCell:cell];
-    [[self defaultButton] setAutoresizingMask:NSViewMinXMargin|NSViewMaxYMargin];
+    [[self defaultButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
     [[self defaultButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self defaultButton] setHidden:YES];
     [[self defaultButton] setKeyEquivalent:@"\r"];
@@ -475,7 +501,7 @@
     cell = [[OEHUDButtonCell alloc] init];
     [cell setButtonColor:OEHUDButtonColorDefault];
     [[self alternateButton] setCell:cell];
-    [[self alternateButton] setAutoresizingMask:NSViewMinXMargin|NSViewMaxYMargin];
+    [[self alternateButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
     [[self alternateButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self alternateButton] setHidden:YES];
     [[self alternateButton] setKeyEquivalent:@"\E"];
@@ -483,7 +509,7 @@
     
     // Setup Box
     [[self boxView] setFrame:(NSRect){{18, 51},{387, 82}}];
-    [[self boxView] setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
+    [[self boxView] setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
     [[_window contentView] addSubview:[self boxView]];
     
     // Setup Message Text View
@@ -491,7 +517,7 @@
     
     [[self messageTextView] setEditable:NO];
     [[self messageTextView] setSelectable:NO];
-    [[self messageTextView] setAutoresizingMask:NSViewMinYMargin|NSViewWidthSizable];
+    [[self messageTextView] setAutoresizingMask:NSViewMinYMargin | NSViewWidthSizable];
     [[self messageTextView] setFont:font];
     [[self messageTextView] setTextColor:[NSColor whiteColor]];
     [[self messageTextView] setDrawsBackground:NO];
@@ -504,9 +530,9 @@
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
     [shadow setShadowBlurRadius:0];
-    [shadow setShadowOffset:(NSSize){0,-1}];
+    [shadow setShadowOffset:(NSSize){ 0, -1 }];
     [[self messageTextView] setShadow:shadow];
-    NSRect textViewFrame = NSInsetRect((NSRect){{0,0}, [self boxView].frame.size}, 46, 23);
+    NSRect textViewFrame = NSInsetRect((NSRect){ .size = [self boxView].frame.size }, 46, 23);
     [[self messageTextView] setFrame:textViewFrame];
     [[self messageTextView] setHidden:YES];
     [[self boxView] addSubview:[self messageTextView]];
@@ -515,13 +541,13 @@
     shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
     [shadow setShadowBlurRadius:0];
-    [shadow setShadowOffset:(NSSize){0,-1}];
+    [shadow setShadowOffset:(NSSize){ 0, -1 }];
     
     OEHUDTextFieldCell *inputCell = [[OEHUDTextFieldCell alloc] init];
     [[self inputField] setCell:inputCell];
-    [[self inputField] setFrame:(NSRect){{68,51},{337, 23}}];
+    [[self inputField] setFrame:NSMakeRect(68, 51, 337, 23)];
     [[self inputField] setHidden:YES];
-    [[self inputField] setAutoresizingMask:NSViewWidthSizable|NSViewMaxYMargin];
+    [[self inputField] setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
     [[self inputField] setFocusRingType:NSFocusRingTypeNone];
     [[self inputField] setTarget:self andAction:@selector(buttonAction:)];
     [[self inputField] setEditable:YES];
@@ -529,7 +555,7 @@
     [[_window contentView] addSubview:[self inputField]];
     
     
-    [[self inputLabelField] setFrame:(NSRect){{1,51},{61,23}}];
+    [[self inputLabelField] setFrame:NSMakeRect(1, 51, 61, 23)];
     [[self inputLabelField] setHidden:YES];
     OECenteredTextFieldCell *labelCell = [[OECenteredTextFieldCell alloc] init];
     
@@ -552,7 +578,7 @@
     [[self progressbar] setHidden:YES];
     [[self boxView] addSubview:[self progressbar]];
     
-    NSRect progressLabelFrame = NSMakeRect(2, 21-16, 382, 16);
+    NSRect progressLabelFrame = NSMakeRect(2, 21 - 16, 382, 16);
     [[self headlineLabelField] setFrame:progressLabelFrame];
     [[self headlineLabelField] setHidden:YES];
     [[self headlineLabelField] setDrawsBackground:NO];
@@ -562,17 +588,17 @@
     shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor blackColor]];
     [shadow setShadowBlurRadius:0];
-    [shadow setShadowOffset:(NSSize){0,-1}];
+    [shadow setShadowOffset:(NSSize){ 0, -1 }];
     
     font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
     
     paraStyle = [[NSMutableParagraphStyle alloc] init];
     [paraStyle setAlignment:NSCenterTextAlignment];
     [labelCell setTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                  [NSColor whiteColor]  , NSForegroundColorAttributeName,
-                                  paraStyle             , NSParagraphStyleAttributeName,
-                                  shadow                , NSShadowAttributeName,
-                                  font                 , NSFontAttributeName,
+                                  [NSColor whiteColor], NSForegroundColorAttributeName,
+                                  paraStyle           , NSParagraphStyleAttributeName,
+                                  shadow              , NSShadowAttributeName,
+                                  font                , NSFontAttributeName,
                                   nil]];
     [labelCell setupAttributes];
     [[self headlineLabelField] setCell:labelCell];
@@ -581,52 +607,58 @@
     // Setup Suppression Button
     [[self suppressionButton] setTitle:NSLocalizedString(@"Do not ask me again", @"")];
     [[self suppressionButton] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
-    [[self suppressionButton] setFrame:(NSRect){{18,18}, {150, 18}}];       
+    [[self suppressionButton] setFrame:NSMakeRect(18, 18, 150, 18)];
     [[self suppressionButton] setHidden:YES]; 
     [[self suppressionButton] setTarget:self andAction:@selector(suppressionButtonAction:)];
     [[_window contentView] addSubview:[self suppressionButton]];
 }
 
 @end
+
 #pragma mark -
+
 @implementation OEAlertWindow
+
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
-    if (self != [OEAlertWindow class])
-        return;
+    if(self != [OEAlertWindow class]) return;
 
     if([NSImage imageNamed:@"hud_alert_window_active"]) return;
     
     NSImage *hudWindowBorder = [NSImage imageNamed:@"hud_alert_window"];    
-    [hudWindowBorder setName:@"hud_alert_window_active" forSubimageInRect:(NSRect){{0,0},{29,47}}];
-    [hudWindowBorder setName:@"hud_alert_window_inactive" forSubimageInRect:(NSRect){{0,0},{29,47}}];
+    [hudWindowBorder setName:@"hud_alert_window_active" forSubimageInRect:(NSRect){ .size = { 29, 47 } }];
+    [hudWindowBorder setName:@"hud_alert_window_inactive" forSubimageInRect:(NSRect){ .size = { 29, 47 } }];
     
     [NSWindow registerWindowClassForCustomThemeFrameDrawing:[OEAlertWindow class]];
 }
 
-- (id)init {
+- (id)init
+{
     self = [super init];
-    if (self) {
+    if(self)
+    {
         [self setOpaque:NO];
         [self setBackgroundColor:[NSColor clearColor]];
     }
     return self;
 }
 
-- (NSText*)fieldEditor:(BOOL)createFlag forObject:(id)anObject
+- (NSText *)fieldEditor:(BOOL)createFlag forObject:(id)anObject
 {
-    if(anObject && [anObject respondsToSelector:@selector(cell)] && [[[anObject cell] className] isEqualToString:@"OEHUDTextFieldCell"])
-    {
+    if([anObject respondsToSelector:@selector(cell)] && [[anObject cell] isMemberOfClass:[OEHUDTextFieldCell class]])
         return [OEHUDTextFieldEditor fieldEditor];
-    }
+    
     return [super fieldEditor:createFlag forObject:anObject];
 }
+
 #pragma mark OECustomWindow implementation
+
 - (BOOL)drawsAboveDefaultThemeFrame
 {
     return YES;
 }
+
 - (void)drawThemeFrame:(NSRect)dirtyRect
 {   
     NSRect bounds = [self frame];
