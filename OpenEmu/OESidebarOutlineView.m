@@ -37,8 +37,8 @@
 {
     self = [super init];
     if (self) 
-        [self setupOutlineCell];
     {
+        [self setupOutlineCell];
     }
     return self;
 }
