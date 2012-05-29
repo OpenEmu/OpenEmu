@@ -42,7 +42,7 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
 
-NSString *const OEHelperServerNamePrefix   = @"com.openemu.OpenEmuHelper-";
+NSString *const OEHelperServerNamePrefix   = @"org.openemu.OpenEmuHelper-";
 NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 @interface OEGameCoreProxy : NSObject
