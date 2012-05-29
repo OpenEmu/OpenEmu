@@ -11,7 +11,7 @@
 			<string>QLGenerator</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.openemu.savestate</string>
+				<string>org.openemu.savestate</string>
 			</array>
 		</dict>
 	</array>
@@ -20,7 +20,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.openemu.savestategenerator</string>
+	<string>org.openemu.savestategenerator</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
