@@ -132,7 +132,6 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
 
 #pragma mark -
 #pragma mark NSTableViewDelegate Implementation
-
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     if([aCell isKindOfClass:[NSTextFieldCell class]])
@@ -206,7 +205,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     NSString *columnIdentifier = [aTableColumn identifier];
-    if([columnIdentifier isEqualToString:@"versionColumn"])
+    if([columnIdentifier isEqualToString:@"versionColumn"] && [anObject boolValue])
         [self OE_updateOrInstallItemAtRow:rowIndex];
 }
 
