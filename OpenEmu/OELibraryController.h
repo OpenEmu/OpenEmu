@@ -28,16 +28,14 @@
 
 #import "OEUIDrawingUtils.h"
 #import "OEMainWindowContentController.h"
+#import "OELibraryDatabase.h"
 @class OELibraryDatabase;
-@class BackgroundColorView;
 @class OESidebarController;
 @class OECollectionViewController;
 @class OELibrarySplitView;
-@class OEROMImporter;
-@class FullscreenWindow;
-@class OEDBGame, OEDBRom, OEDBSaveState;
 
 @protocol OELibraryControllerDelegate;
+@class OEImportViewController;
 
 @interface OELibraryToolbarView : NSView
 @end
@@ -51,7 +49,6 @@
 
 #pragma mark -
 #pragma mark Toolbar Actions
-
 - (IBAction)toggleSidebar:(id)sender;
 - (IBAction)switchToGridView:(id)sender;
 - (IBAction)switchToListView:(id)sender;
@@ -62,7 +59,6 @@
 
 #pragma mark -
 #pragma mark Menu Item Actions
-
 - (IBAction)newCollection:(id)sender;
 - (IBAction)newSmartCollection:(id)sender;
 - (IBAction)newCollectionFolder:(id)sender;
@@ -76,38 +72,30 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
 #pragma mark -
-#pragma Handle Spotlight importing
-
-- (void)discoverRoms:(NSArray*)volumes;
-- (void)updateSearchResults:(NSNotification*)notification;
-- (void)finalizeSearchResults:(NSNotification*)notification;
-- (void)importInBackground;
-
-#pragma mark -
 #pragma mark Properties
-
 @property(nonatomic, getter=isSidebarVisible) BOOL sidebarVisible;
 @property(nonatomic) BOOL sidebarChangesWindowSize;
-@property(strong)    OEROMImporter     *romImporter;
 @property(strong)    OELibraryDatabase *database;
 
-@property(strong) IBOutlet OESidebarController        *sidebarController;
+@property(strong) IBOutlet OESidebarController         *sidebarController;
 @property(strong) IBOutlet OECollectionViewController *collectionViewController;
-@property(strong) IBOutlet OELibrarySplitView         *mainSplitView;
-@property(strong) IBOutlet NSView                     *mainContentPlaceholderView;
+@property(strong) IBOutlet OEImportViewController     *importViewController;
+@property(strong) IBOutlet OELibrarySplitView           *mainSplitView;
+@property(strong) IBOutlet NSView                          *mainContentPlaceholderView;
 
 @property(strong) IBOutlet NSButton      *toolbarSidebarButton;
 @property(strong) IBOutlet NSButton      *toolbarGridViewButton;
 @property(strong) IBOutlet NSButton      *toolbarFlowViewButton;
 @property(strong) IBOutlet NSButton      *toolbarListViewButton;
 
-@property(strong) IBOutlet NSButton      *toolbarAddToSidebarButton;
+@property(strong) IBOutlet NSButton       *toolbarAddToSidebarButton;
 @property(strong) IBOutlet NSSearchField *toolbarSearchField;
-@property(strong) IBOutlet NSSlider      *toolbarSlider;
+@property(strong) IBOutlet NSSlider         *toolbarSlider;
 
 @property (strong) NSBitmapImageRep *cachedSnapshot;
 @end
 
+@class OEDBGame, OEDBRom, OEDBSaveState;
 @protocol OELibraryControllerDelegate <NSObject>
 @optional
 - (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame;

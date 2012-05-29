@@ -43,6 +43,7 @@
 #import "NSFileManager+OEHashingAdditions.h"
 
 #import "OEFSWatcher.h"
+#import "OEROMImporter.h"
 @interface OELibraryDatabase ()
 - (BOOL)loadPersistantStoreWithError:(NSError**)outError;
 - (BOOL)loadManagedObjectContextWithError:(NSError**)outError;
@@ -82,6 +83,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         defaultDatabase=nil;
         return NO;
     }
+    
     if(![defaultDatabase loadManagedObjectContextWithError:outError])
     {
         defaultDatabase=nil;
@@ -90,6 +92,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:UDDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
+    
     
     return YES;
 }
@@ -149,6 +152,8 @@ static OELibraryDatabase *defaultDatabase = nil;
         romsController = [[NSArrayController alloc] init];
         managedObjectContexts = [[NSMutableDictionary alloc] init];
         
+        [self setImporter:[[OEROMImporter alloc] initWithDatabase:self]];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
     }
     
@@ -179,7 +184,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSLog(@"Did save Database");
 }
 #pragma mark -
-#pragma mark Administration
+@synthesize importer;
+#pragma mark - Administration
 - (void)disableSystemsWithoutPlugin
 {
     NSArray *allSystems = [self systems];

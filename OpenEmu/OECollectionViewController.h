@@ -50,6 +50,7 @@
 #pragma mark -
 - (NSArray *)selectedGames;
 - (NSIndexSet *)selectedIndexes;
+
 #pragma mark -
 #pragma mark View Selection
 - (IBAction)selectGridView:(id)sender;

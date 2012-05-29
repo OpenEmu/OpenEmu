@@ -38,7 +38,6 @@
 #import "OEApplicationDelegate.h"
 #import "NSApplication+OEHIDAdditions.h"
 
-#import "OEROMImporter.h"
 #import "OECoreDownload.h"
 #import "OEHIDDeviceHandler.h"
 

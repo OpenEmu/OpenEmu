@@ -37,7 +37,6 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 @class OELibraryDatabase;
 
 @interface OEROMImporter : NSObject
-
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase;
 
 - (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError**)outError;
@@ -47,8 +46,13 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 - (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError**)outError;
 
 @property OEImportErrorBehavior errorBehaviour;
-@property(strong) OELibraryDatabase *database;
+@property (weak, readonly) OELibraryDatabase *database;
+@property (readonly) NSArray *importedRoms;
 
-@property(readonly) NSArray *importedRoms;
-
+#pragma mark -
+#pragma Handle Spotlight importing
+- (void)discoverRoms:(NSArray*)volumes;
+- (void)updateSearchResults:(NSNotification*)notification;
+- (void)finalizeSearchResults:(NSNotification*)notification;
+- (void)importInBackground;
 @end

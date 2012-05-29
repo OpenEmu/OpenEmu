@@ -192,7 +192,6 @@
 
 #pragma mark -
 #pragma mark Notifications
-
 - (void)systemsChanged
 {
     NSLog(@"systemsChanged");
@@ -202,14 +201,12 @@
 
 #pragma mark -
 #pragma mark Drag and Drop
-
 - (void)_setupDrop
 {
     NSArray *acceptedTypes = [NSArray arrayWithObjects:NSFilenamesPboardType, OEPasteboardTypeGame, nil];
     [[self view] registerForDraggedTypes:acceptedTypes];
     [(OESidebarOutlineView*)[self view] setDragDelegate:self];
 }
-
 
 - (NSDragOperation)draggingEntered:(id < NSDraggingInfo >)sender
 {
@@ -281,7 +278,6 @@
 
 #pragma mark -
 #pragma mark NSOutlineView DataSource
-
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
     if( item == nil)

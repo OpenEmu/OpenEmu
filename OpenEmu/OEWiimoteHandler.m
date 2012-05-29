@@ -37,12 +37,10 @@
 @property (strong) NSMutableArray	*wiiRemotes;
 @end
 @implementation OEWiimoteHandler
-
 + (void)search
 {
 	[[[self sharedHandler] browser] startSearch];
 }
-
 
 + (id)sharedHandler
 {
@@ -58,8 +56,8 @@
 		sharedHandler.browser = aBrowser;
 		
 		[aBrowser startSearch];
-		[[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         
+		[[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(bluetoothDidPowerOn:) name:IOBluetoothHostControllerPoweredOnNotification object:nil];
 	}
 	return sharedHandler;

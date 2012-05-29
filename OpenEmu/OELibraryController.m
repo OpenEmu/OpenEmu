@@ -25,7 +25,6 @@
  */
 
 #import "OELibraryController.h"
-#import "NSViewController+OEAdditions.h"
 #import "OELibraryDatabase.h"
 #import "OEDBSmartCollection.h"
 
@@ -33,26 +32,12 @@
 #import "OECollectionViewController.h"
 #import "OELibrarySplitView.h"
 
-#import "NSImage+OEDrawingAdditions.h"
-
-#import "OEGameView.h"
-
 #import "OEROMImporter.h"
 
-#import "OEPlugin.h"
-#import "OECorePlugin.h"
 #import "OESystemPlugin.h"
-#import "OECompositionPlugin.h"
-
-#import "NSControl+OEAdditions.h"
-
-#import "OEGameDocument.h"
+#import "NSViewController+OEAdditions.h"
 
 @interface OELibraryController ()
-
-// spotlight search results.
-@property(readwrite, retain) NSMutableArray *searchResults;
-
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
 - (void)OE_setupMenu;
@@ -60,15 +45,14 @@
 @end
 
 @implementation OELibraryController
-@synthesize romImporter, sidebarChangesWindowSize;
 @synthesize database;
+@synthesize sidebarChangesWindowSize;
+@synthesize importViewController;
 @synthesize sidebarController, collectionViewController, mainSplitView, mainContentPlaceholderView;
 @synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
 @synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
 @synthesize cachedSnapshot;
 @synthesize delegate;
-
-@synthesize searchResults;
 
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase
 {
@@ -102,10 +86,7 @@
     if([self database] == nil) [self setDatabase:[OELibraryDatabase defaultDatabase]];
     
     [[self sidebarController] view];
-    
-    self.romImporter = [[OEROMImporter alloc] initWithDatabase:[self database]];
-    self.searchResults = [[NSMutableArray alloc] initWithCapacity:1];
-    
+        
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     // setup sidebar controller
@@ -347,6 +328,7 @@
          {
              // exit our initial open panels completion handler
              //[self performSelector:@selector(startImportSheet:) withObject:[openPanel URLs] afterDelay:0.0];
+             OEROMImporter *romImporter = [[self database] importer];
              [romImporter setErrorBehaviour:OEImportErrorAskUser];
              [romImporter importROMsAtURLs:[openPanel URLs] inBackground:YES error:nil];
          }
@@ -375,152 +357,7 @@
 }
 
 #pragma mark -
-#pragma mark Spotlight Importing
-
-- (void)discoverRoms:(NSArray*)volumes
-{
-    // TODO: limit searching or results to the volume URLs only.
-    
-    NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
-    
-    // We skip common types by default.
-    NSArray *commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
-    
-    [supportedFileExtensions removeObjectsInArray:commonTypes];
-    
-    //NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
-    
-    NSString *searchString = @"";
-    for(NSString *extension in supportedFileExtensions)
-    {
-        searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension];
-        searchString = [searchString stringByAppendingString:@" || "];
-    }
-    
-    searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
-    
-    DLog(@"SearchString: %@", searchString);
-    
-    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (__bridge CFStringRef)searchString, NULL, NULL);
-    
-    if(searchQuery)
-    {
-        // Limit Scope to selected volumes / URLs only
-        MDQuerySetSearchScope(searchQuery, (__bridge CFArrayRef) volumes, 0);
-
-        DLog(@"Valid search query ref");
-        
-        [[self searchResults] removeAllObjects];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
-                                                     name:(NSString*)kMDQueryDidFinishNotification
-                                                   object:(__bridge id)searchQuery];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
-                                                     name:(NSString*)kMDQueryProgressNotification
-                                                   object:(__bridge id)searchQuery];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
-                                                     name:(NSString*)kMDQueryDidUpdateNotification
-                                                   object:(__bridge id)searchQuery];
-                
-        if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
-            NSLog(@"Searching for importable roms");
-        else
-        {
-            CFRelease(searchQuery);
-            searchQuery = nil;
-            // leave this log message in...
-            NSLog(@"MDQuery failed to start.");
-        }
-        
-    }
-    else
-        NSLog(@"Invalid Search Query");
-}
-
-- (void)updateSearchResults:(NSNotification *)notification
-{
-    DLog(@"updateSearchResults:");
-    
-    MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];
-
-    
-    // If you're going to have the same array for every iteration,
-    // don't allocate it inside the loop !
-    NSArray *excludedPaths = [NSArray arrayWithObjects:
-                              @"System",
-                              @"Library",
-                              @"Developer",
-                              @"Volumes",
-                              @"Applications",
-                              @"bin",
-                              @"cores",
-                              @"dev",
-                              @"etc",
-                              @"home",
-                              @"net",
-                              @"sbin",
-                              @"private",
-                              @"tmp",
-                              @"usr",
-                              @"var",
-                              @"ReadMe", // markdown
-                              @"readme", // markdown
-                              @"README", // markdown
-                              @"Readme", // markdown
-                              
-                              nil];
-    
-    // assume the latest result is the last index?
-    for(CFIndex index = 0, limit = MDQueryGetResultCount(searchQuery); index < limit; index++)
-    {
-        MDItemRef resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
-        NSString *resultPath = (__bridge_transfer NSString *)MDItemCopyAttribute(resultItem, kMDItemPath);
-        
-        // Nothing in common
-        if([[resultPath pathComponents] firstObjectCommonWithArray:excludedPaths] == nil)
-        {
-            NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                        resultPath, @"Path",
-                                        [[resultPath lastPathComponent] stringByDeletingPathExtension], @"Name",
-                                        nil];
-            
-            if(![[self searchResults] containsObject:resultDict])
-            {
-                [[self searchResults] addObject:resultDict];
-                
-//                NSLog(@"Result Path: %@", resultPath);
-            }
-        }
-    }
-}
-
-- (void)finalizeSearchResults:(NSNotification *)notification
-{
-    MDQueryRef searchQuery = (__bridge_retained MDQueryRef)[notification object];    
-    NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
-    
-    if(MDQueryGetResultCount(searchQuery))
-    {
-        [self importInBackground];
-        
-        MDQueryStop(searchQuery);
-    }
-    
-    CFRelease(searchQuery);
-}
-
-- (void)importInBackground;
-{
-    NSLog(@"importInBackground");
-    
-    [[self romImporter] importROMsAtPaths:[[self searchResults] valueForKey:@"Path"] inBackground:YES error:nil];;
-}
-
-#pragma mark -
 #pragma mark Sidebar Helpers
-
 - (void)sidebarSelectionDidChange:(NSNotification *)notification
 {
     [[self collectionViewController] setCollectionItem:[[notification userInfo] objectForKey:@"selectedCollection"]];

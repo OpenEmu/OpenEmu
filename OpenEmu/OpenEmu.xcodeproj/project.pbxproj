@@ -419,6 +419,8 @@
 		83E8E82A156A84060027B7A9 /* OEHIDWiimoteEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8E829156A84060027B7A9 /* OEHIDWiimoteEvent.m */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
 		83F2988A1458B6DC00ECB4F4 /* OESetupAssistantScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */; };
+		83F4700C15750497001931BD /* OEImportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4700B15750497001931BD /* OEImportViewController.m */; };
+		83F4700E157504E3001931BD /* ImportView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83F4700D157504E3001931BD /* ImportView.xib */; };
 		83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */; };
 		83F4DE1714E005DB00A82E36 /* controller_fc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */; };
 		83F4DE1A14E0096F00A82E36 /* controller_nes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1814E0096500A82E36 /* controller_nes_mask.png */; };
@@ -1431,6 +1433,9 @@
 		83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_scrollview_box.png; sourceTree = "<group>"; };
 		83F298881458B6DC00ECB4F4 /* OESetupAssistantScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantScrollView.h; sourceTree = "<group>"; };
 		83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantScrollView.m; sourceTree = "<group>"; };
+		83F4700A15750497001931BD /* OEImportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEImportViewController.h; sourceTree = "<group>"; };
+		83F4700B15750497001931BD /* OEImportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEImportViewController.m; sourceTree = "<group>"; };
+		83F4700D157504E3001931BD /* ImportView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImportView.xib; sourceTree = "<group>"; };
 		83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEInputLimitFormatter.h; sourceTree = "<group>"; };
 		83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEInputLimitFormatter.m; sourceTree = "<group>"; };
 		83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc_mask.png; sourceTree = "<group>"; };
@@ -1981,6 +1986,7 @@
 			children = (
 				8382D22C13C5C55200906221 /* Preferences */,
 				53439B8813B936DA005C0CC8 /* CollectionView.xib */,
+				83F4700D157504E3001931BD /* ImportView.xib */,
 				53439B8A13B936E1005C0CC8 /* Library.xib */,
 				53439B8C13B936EA005C0CC8 /* Preferences.xib */,
 				831C2AE8144F453C009533C0 /* MainMenu.xib */,
@@ -2224,8 +2230,6 @@
 				53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */,
 				53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */,
 				53439A8D13B92C56005C0CC8 /* Items */,
-				83199720142741790068C865 /* OEROMImporter.h */,
-				83199721142741790068C865 /* OEROMImporter.m */,
 			);
 			name = "Library Database";
 			sourceTree = "<group>";
@@ -2823,6 +2827,7 @@
 				53439AA413B92CC7005C0CC8 /* OELibraryController.h */,
 				53439AA513B92CC7005C0CC8 /* OELibraryController.m */,
 				53439AA713B92CD4005C0CC8 /* Collection View */,
+				83F4700815750471001931BD /* Import View */,
 				53439B0413B92EDC005C0CC8 /* Utilities */,
 				53439B0B13B92F69005C0CC8 /* Sidebar */,
 			);
@@ -2974,6 +2979,17 @@
 				83AF88C4155C618300428BD5 /* ArchiveVGYAMLParser.m */,
 			);
 			name = "Output Parsers";
+			sourceTree = "<group>";
+		};
+		83F4700815750471001931BD /* Import View */ = {
+			isa = PBXGroup;
+			children = (
+				83199720142741790068C865 /* OEROMImporter.h */,
+				83199721142741790068C865 /* OEROMImporter.m */,
+				83F4700A15750497001931BD /* OEImportViewController.h */,
+				83F4700B15750497001931BD /* OEImportViewController.m */,
+			);
+			name = "Import View";
 			sourceTree = "<group>";
 		};
 		83FA054F13B9DFC20055A520 /* Frameworks */ = {
@@ -3968,6 +3984,7 @@
 				83B1E1C914FE734E00AA652F /* mixed_state.png in Resources */,
 				8375696915125A1F00795226 /* dark_menu_scroll_arrows.png in Resources */,
 				8375696A15125A1F00795226 /* light_menu_scroll_arrows.png in Resources */,
+				83F4700E157504E3001931BD /* ImportView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4357,6 +4374,7 @@
 				83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */,
 				83DDEE8A156CFFE1009EB43D /* OEDistantViewController.m in Sources */,
 				83DDEE8D156CFFF2009EB43D /* OEDistantView.m in Sources */,
+				83F4700C15750497001931BD /* OEImportViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5067,6 +5085,8 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
 				);
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
 				INFOPLIST_FILE = "OpenEmu-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks /Library/Frameworks ~/Library/Frameworks";
@@ -5087,6 +5107,8 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
 				);
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
 				INFOPLIST_FILE = "OpenEmu-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks /Library/Frameworks ~/Library/Frameworks";

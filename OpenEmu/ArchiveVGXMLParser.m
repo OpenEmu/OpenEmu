@@ -273,14 +273,6 @@
         gameDeveloper = nil;
     }
     
-    NSXMLNode *gameEsrbRating = [[node nodesForXPath:@"./desrb_rating[1]/node()[1]" error:outError] lastObject];
-    if(!gameEsrbRating)
-    {
-        ArchiveDLog(@"Error getting gameEsrbRating");
-        ArchiveDLog(@"Error: %@", *outError);
-        gameEsrbRating = nil;
-    }
-    
     NSXMLNode *gameSystemName = [[node nodesForXPath:@"./system[1]/node()[1]" error:outError] lastObject];
     if(!gameSystemName)
     {
@@ -363,7 +355,6 @@
     NSString *gameGenreVal = gameGenre?[gameGenre stringValue]:nil;
     NSString *gameDeveloperVal = gameDeveloper?[gameDeveloper stringValue]:nil;
     NSString *gameBoxFrontVal = gameBoxFront?[gameBoxFront stringValue]:nil;
-    NSString *gameEsrbRatingVal = gameEsrbRating?[gameEsrbRating stringValue]:nil;
     NSString *gameSystemNameVal = gameSystemName?[gameSystemName stringValue]:nil;
     NSString *gameRomNameVal = gameRomName?[gameRomName stringValue]:nil;
     
@@ -395,10 +386,7 @@
     {
         [result setObject:[self removeHTMLEncodingsFromString:gameBoxFrontVal] forKey:AVGGameBoxURLKey];
     }
-    if(gameEsrbRatingVal)
-    {
-        [result setObject:[self removeHTMLEncodingsFromString:gameEsrbRatingVal] forKey:AVGGameESRBRatingKey];
-    }
+
     if(gameSystemNameVal)
     {
         [result setObject:[self removeHTMLEncodingsFromString:gameSystemNameVal] forKey:AVGGameSystemNameKey];

@@ -346,7 +346,7 @@
         return NO;
     
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-    OEROMImporter *romImporter = [[self libraryController] romImporter];
+    OEROMImporter *romImporter = [[[self libraryController] database] importer];
     romImporter.errorBehaviour = OEImportErrorAskUser;
     [romImporter importROMsAtPaths:files inBackground:YES error:nil];
     

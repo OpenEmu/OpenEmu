@@ -37,7 +37,6 @@
 
 #import "OEBackgroundColorView.h"
 
-#import "OEROMImporter.h"
 #import "OEDistantViewController.h"
 #import "NSViewController+OEAdditions.h"
 #import "NSView+FadeImage.h"
