@@ -37,8 +37,8 @@
 @interface FBAGameCore () <OEArcadeSystemResponderClient>
 @end
 
-NSUInteger FBAEmulatorValues[] = { SNES_DEVICE_ID_JOYPAD_A, SNES_DEVICE_ID_JOYPAD_B, SNES_DEVICE_ID_JOYPAD_X, SNES_DEVICE_ID_JOYPAD_Y, SNES_DEVICE_ID_JOYPAD_UP, SNES_DEVICE_ID_JOYPAD_DOWN, SNES_DEVICE_ID_JOYPAD_LEFT, SNES_DEVICE_ID_JOYPAD_RIGHT, SNES_DEVICE_ID_JOYPAD_START, SNES_DEVICE_ID_JOYPAD_SELECT, SNES_DEVICE_ID_JOYPAD_L, SNES_DEVICE_ID_JOYPAD_R };
-NSString *FBAEmulatorKeys[] = { @"Joypad@ A", @"Joypad@ B", @"Joypad@ X", @"Joypad@ Y", @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left", @"Joypad@ Right", @"Joypad@ Start", @"Joypad@ Select", @"Joypad@ L", @"Joypad@ R"};
+NSUInteger FBAEmulatorValues[] = { SNES_DEVICE_ID_JOYPAD_UP, SNES_DEVICE_ID_JOYPAD_DOWN, SNES_DEVICE_ID_JOYPAD_LEFT, SNES_DEVICE_ID_JOYPAD_RIGHT, SNES_DEVICE_ID_JOYPAD_Y, SNES_DEVICE_ID_JOYPAD_X, SNES_DEVICE_ID_JOYPAD_L, SNES_DEVICE_ID_JOYPAD_B, SNES_DEVICE_ID_JOYPAD_A, SNES_DEVICE_ID_JOYPAD_R, SNES_DEVICE_ID_JOYPAD_START, SNES_DEVICE_ID_JOYPAD_SELECT };
+NSString *FBAEmulatorKeys[] = { @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left", @"Joypad@ Right", @"Joypad@ 1", @"Joypad@ 2", @"Joypad@ 3", @"Joypad@ 4", @"Joypad@ 5", @"Joypad@ 6", @"Joypad@ Start", @"Joypad@ Coin"};
 
 FBAGameCore *current;
 @implementation FBAGameCore
