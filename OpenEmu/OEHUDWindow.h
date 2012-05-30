@@ -37,5 +37,9 @@
 @end
 
 @interface OEHUDWindowThemeView : NSView
-
+{
+    
+    NSPoint lastMouseLocation;
+    BOOL isResizing;
+}
 @end

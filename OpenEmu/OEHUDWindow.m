@@ -3,14 +3,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -18,10 +18,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OEHUDWindow.h"
@@ -79,8 +79,9 @@
 
 - (void)dealloc 
 {
+    DLog(@"OEHUDWindow");
     _borderWindow = nil;
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark -
@@ -88,6 +89,8 @@
 
 - (void)_initialSetup
 {
+    DLog(@"OEHUDWindow");
+    
     [self setHasShadow:NO];
     [self setOpaque:NO];
     [self setBackgroundColor:[NSColor clearColor]];
@@ -162,6 +165,7 @@
 {
     if((self = [self initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO]))
     {
+        DLog(@"OEHUDBorderWindow");
         [self setHasShadow:NO];
         [self setMovableByWindowBackground:NO];
         
@@ -170,8 +174,6 @@
         
         NSView *borderView = [[OEHUDWindowThemeView alloc] initWithFrame:NSZeroRect];
         [super setContentView:borderView];
-        //[[self contentView] addSubview:borderView];
-        // [borderView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     }
     
     return self;
@@ -193,8 +195,8 @@
 
 - (void)dealloc
 {
+    DLog(@"OEHUDBorderWindow");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 }
 
 - (BOOL)canBecomeKeyWindow
@@ -216,6 +218,19 @@
 - (BOOL)isOpaque
 {
     return NO;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        DLog(@"OEHUDWindowThemeView");
+    }
+    return self;
+}
+-(void)dealloc
+{
+    DLog(@"OEHUDWindowThemeView");
 }
 
 - (NSRect)resizeRect
@@ -272,63 +287,61 @@
     [attributedWindowTitle drawInRect:titleBarRect];
 }
 
-/*
- - (void)mouseDown:(NSEvent *)theEvent{
- NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
- 
- lastMouseLocation = NSZeroPoint;
- 
- isResizing = NO;
- 
- if(!isResizing && !NSPointInRect(pointInView, [self titleBarRect])){
- [[self nextResponder] mouseDown:theEvent];
- return;
- }
- 
- NSWindow *window = [self window];
- lastMouseLocation = [window convertBaseToScreen:[theEvent locationInWindow]];
- }
- 
- - (void)mouseDragged:(NSEvent *)theEvent{
- if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
- [[self nextResponder] mouseDragged:theEvent];
- return;
- }
- 
- NSWindow *window = [self window];
- NSPoint newMousePosition = [window convertBaseToScreen:[theEvent locationInWindow]];
- 
- NSPoint delta = NSMakePoint(newMousePosition.x-lastMouseLocation.x, newMousePosition.y-lastMouseLocation.y);
- 
- if(isResizing){
- NSRect frame = [[self window] frame];
- 
- frame.size.width += delta.x;
- frame.size.height -= delta.y;
- frame.origin.y += delta.y;
- 
- [[self window] setFrame:frame display:YES];
- } else {
- NSPoint frameOrigin = [[self window] frame].origin;
- 
- frameOrigin.x += delta.x;
- frameOrigin.y += delta.y;
- 
- [[self window] setFrameOrigin:frameOrigin];
- }
- 
- 
- lastMouseLocation = newMousePosition;
- }
- 
- - (void)mouseUp:(NSEvent *)theEvent{
- if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
- [[self nextResponder] mouseUp:theEvent];
- return;
- }
- 
- isResizing = NO;
- }
- */
+- (void)mouseDown:(NSEvent *)theEvent{
+    NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    
+    lastMouseLocation = NSZeroPoint;
+    
+    isResizing = NO;
+    
+    if(!isResizing && !NSPointInRect(pointInView, [self titleBarRect])){
+        [[self nextResponder] mouseDown:theEvent];
+        return;
+    }
+    
+    NSWindow *window = [self window];
+    lastMouseLocation = [window convertBaseToScreen:[theEvent locationInWindow]];
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent{
+    if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
+        [[self nextResponder] mouseDragged:theEvent];
+        return;
+    }
+    
+    NSWindow *window = [[self window] parentWindow];
+    NSPoint newMousePosition = [window convertBaseToScreen:[theEvent locationInWindow]];
+    
+    NSPoint delta = NSMakePoint(newMousePosition.x-lastMouseLocation.x, newMousePosition.y-lastMouseLocation.y);
+    
+    if(isResizing){
+        NSRect frame = [window frame];
+        
+        frame.size.width += delta.x;
+        frame.size.height -= delta.y;
+        frame.origin.y += delta.y;
+        
+        [[self window] setFrame:frame display:YES];
+    } else {
+        NSPoint frameOrigin = [window frame].origin;
+        
+        frameOrigin.x += delta.x;
+        frameOrigin.y += delta.y;
+        
+        [window setFrameOrigin:frameOrigin];
+    }
+    
+    
+    lastMouseLocation = newMousePosition;
+}
+
+- (void)mouseUp:(NSEvent *)theEvent{
+    if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
+        [[self nextResponder] mouseUp:theEvent];
+        return;
+    }
+    
+    isResizing = NO;
+}
 
 @end
