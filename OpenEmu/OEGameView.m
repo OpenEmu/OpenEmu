@@ -403,12 +403,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
     {
-        NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
-        CGRect textureRect = CGRectMake(0, 0, gameScreenSize.width, gameScreenSize.height);
-        
-        // always set the CIImage, so save states save
-        [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
-
         OEGameShader *shader = [filters objectForKey:filterName];
         
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
@@ -422,6 +416,27 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+
+        // update our game texture
+        
+        glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+        CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGB8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_RGB, GL_UNSIGNED_BYTE, surfaceRef, 0);
+        
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        
+        // already disabled
+        //    glDisable(GL_BLEND);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
+        
+        // make a CIImage based off of our texture
+        NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
+        CGRect textureRect = CGRectMake(0, 0, gameScreenSize.width, gameScreenSize.height);
+        
+        // always set the CIImage, so save states save
+        [self setGameCIImage:[[[CIImage alloc] initWithTexture:gameTexture size:textureRect.size flipped:NO colorSpace:rgbColorSpace] imageByCroppingToRect:textureRect]];
 
         
         if(shader != nil)
@@ -502,18 +517,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     // need to add a clear here since we now draw direct to our context
     glClear(GL_COLOR_BUFFER_BIT);
-    
-    glEnable(GL_TEXTURE_RECTANGLE_EXT);
-    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
-    
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
-    // already disabled
-    //    glDisable(GL_BLEND);
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-    
+        
     glActiveTexture(GL_TEXTURE0);
     glClientActiveTexture(GL_TEXTURE0);
     glColor4f(1.0, 1.0, 1.0, 1.0);
