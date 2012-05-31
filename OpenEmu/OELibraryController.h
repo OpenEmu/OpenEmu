@@ -78,6 +78,8 @@
 @property(strong)    OELibraryDatabase *database;
 
 @property(strong) IBOutlet OESidebarController         *sidebarController;
+@property (strong) NSViewController *currentViewController;
+
 @property(strong) IBOutlet OECollectionViewController *collectionViewController;
 @property(strong) IBOutlet OEImportViewController     *importViewController;
 @property(strong) IBOutlet OELibrarySplitView           *mainSplitView;

@@ -171,7 +171,6 @@
     {
         windowRect = NSRectFromString([standardDefaults stringForKey:UDLastPopoutFrameKey]);
     }
-#warning Reimplement showInSeparateWindow:
 }
 
 #pragma mark -

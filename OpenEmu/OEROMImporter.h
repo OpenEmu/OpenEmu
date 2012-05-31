@@ -49,6 +49,8 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 @property (weak, readonly) OELibraryDatabase *database;
 @property (readonly) NSArray *importedRoms;
 
+@property (readonly) BOOL isBusy;
+
 #pragma mark -
 #pragma Handle Spotlight importing
 - (void)discoverRoms:(NSArray*)volumes;

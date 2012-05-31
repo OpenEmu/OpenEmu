@@ -49,10 +49,11 @@
 // spotlight search results.
 @property(readwrite, retain) NSMutableArray *searchResults;
 
+@property BOOL isBusy;
 @end
 
 @implementation OEROMImporter
-@synthesize errorBehaviour, database;
+@synthesize errorBehaviour, database, isBusy;
 
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase
 {
@@ -66,6 +67,8 @@
         
         importedRoms = [[NSMutableArray alloc] init];
         self.searchResults = [[NSMutableArray alloc] initWithCapacity:1];
+        
+        self.isBusy = YES;
     }
     return self;
 }

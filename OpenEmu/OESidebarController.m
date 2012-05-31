@@ -31,13 +31,13 @@
 #import "OESidebarCell.h"
 
 #import "OESidebarOutlineView.h"
-#import "NSImage+OEDrawingAdditions.h"
-
 #import "OEDBGame.h"
 #import "OECollectionViewItemProtocol.h"
 
 #import "OEHUDAlert.h"
 
+#import "NSImage+OEDrawingAdditions.h"
+#import "OEROMImporter+OESiebarAdditions.h"
 @interface OESidebarController ()
 - (void)_setupDrop;
 @end
@@ -199,6 +199,13 @@
     [self outlineViewSelectionDidChange:nil];
 }
 
+- (void)importingChanged
+{
+    NSLog(@"importingChanged");
+    [self reloadData];
+    [self outlineViewSelectionDidChange:nil];
+}
+
 #pragma mark -
 #pragma mark Drag and Drop
 - (void)_setupDrop
@@ -247,16 +254,13 @@
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-    id<OECollectionViewItemProtocol> selectedCollection = [sidebarView itemAtRow:[sidebarView selectedRow]];
-    
-    // Selected item is not valid...header maybe?
-    if (![selectedCollection conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
-        return;
+    id selectedItem = [sidebarView itemAtRow:[sidebarView selectedRow]];
 
-    NSDictionary *userInfo = selectedCollection?[NSDictionary dictionaryWithObject:selectedCollection forKey:@"selectedCollection"]:nil;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"SidebarSelectionChanged" object:self userInfo:userInfo];
+    NSDictionary *userInfo = selectedItem?[NSDictionary dictionaryWithObject:selectedItem forKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey]:nil;
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:userInfo];
 
-    [[NSUserDefaults standardUserDefaults] setValue:[selectedCollection collectionViewName] forKey:UDLastCollectionSelectedKey];
+    if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
+        [[NSUserDefaults standardUserDefaults] setValue:[selectedItem collectionViewName] forKey:UDLastCollectionSelectedKey];
 }
 
 - (void)outlineViewSelectionIsChanging:(NSNotification *)notification
@@ -286,8 +290,16 @@
     if( item == [self.groups objectAtIndex:0] )
         return [self.systems objectAtIndex:index];
     
-    if( item == [self.groups objectAtIndex:1] )
+    if( item == [self.groups objectAtIndex:1] && [[[self database] importer] isBusy])
+    {
+        if(index==0) return [[self database] importer]; 
+        else             return [self.collections objectAtIndex:index-1];
+    }
+    
+    if( item == [self.groups objectAtIndex:1])
+    {
         return [self.collections objectAtIndex:index];
+    }
     
     return nil;
 }
@@ -312,7 +324,7 @@
     }
     
     if( item == [self.groups objectAtIndex:1] )
-        return [self.collections count];
+        return [self.collections count] + [[[self database] importer] isBusy];
     
     return 0;
 }

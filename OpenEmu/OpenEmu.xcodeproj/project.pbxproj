@@ -402,6 +402,7 @@
 		83C0B37414D6FC58007CAC00 /* sidebar_triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C0B37314D6FC58007CAC00 /* sidebar_triangle.png */; };
 		83C68ED114483579000F720A /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
 		83CAD4D4147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */; };
+		83CC113015776FF90064B8EF /* OEROMImporter+OESiebarAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CC112F15776FF90064B8EF /* OEROMImporter+OESiebarAdditions.m */; };
 		83CC7C2F155DCC7A00E9FFB1 /* ArchiveVGThrottling.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CC7C2E155DCC7A00E9FFB1 /* ArchiveVGThrottling.m */; };
 		83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */; };
 		83CE3DC314C84EC10036DB28 /* beta_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CE3DC214C84EC10036DB28 /* beta_icon.png */; };
@@ -1403,6 +1404,8 @@
 		83C68ED014483579000F720A /* OEHUDAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDAlert.m; sourceTree = "<group>"; };
 		83CAD4D2147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSClipView+OEAnimatedScrolling.h"; sourceTree = "<group>"; };
 		83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSClipView+OEAnimatedScrolling.m"; sourceTree = "<group>"; };
+		83CC112E15776FF90064B8EF /* OEROMImporter+OESiebarAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEROMImporter+OESiebarAdditions.h"; sourceTree = "<group>"; };
+		83CC112F15776FF90064B8EF /* OEROMImporter+OESiebarAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEROMImporter+OESiebarAdditions.m"; sourceTree = "<group>"; };
 		83CC7C2D155DCC7A00E9FFB1 /* ArchiveVGThrottling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveVGThrottling.h; sourceTree = "<group>"; };
 		83CC7C2E155DCC7A00E9FFB1 /* ArchiveVGThrottling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArchiveVGThrottling.m; sourceTree = "<group>"; };
 		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
@@ -2984,6 +2987,8 @@
 		83F4700815750471001931BD /* Import View */ = {
 			isa = PBXGroup;
 			children = (
+				83CC112E15776FF90064B8EF /* OEROMImporter+OESiebarAdditions.h */,
+				83CC112F15776FF90064B8EF /* OEROMImporter+OESiebarAdditions.m */,
 				83199720142741790068C865 /* OEROMImporter.h */,
 				83199721142741790068C865 /* OEROMImporter.m */,
 				83F4700A15750497001931BD /* OEImportViewController.h */,
@@ -4375,6 +4380,7 @@
 				83DDEE8A156CFFE1009EB43D /* OEDistantViewController.m in Sources */,
 				83DDEE8D156CFFF2009EB43D /* OEDistantView.m in Sources */,
 				83F4700C15750497001931BD /* OEImportViewController.m in Sources */,
+				83CC113015776FF90064B8EF /* OEROMImporter+OESiebarAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

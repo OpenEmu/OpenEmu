@@ -53,9 +53,9 @@
 
 #pragma mark -
 #pragma mark View Selection
-- (IBAction)selectGridView:(id)sender;
-- (IBAction)selectFlowView:(id)sender;
-- (IBAction)selectListView:(id)sender;
+- (IBAction)switchToGridView:(id)sender;
+- (IBAction)switchToFlowView:(id)sender;
+- (IBAction)switchToListView:(id)sender;
 
 #pragma mark -
 #pragma mark Toolbar Actions

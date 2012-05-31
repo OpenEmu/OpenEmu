@@ -33,6 +33,7 @@
 #import "OELibrarySplitView.h"
 
 #import "OEROMImporter.h"
+#import "OEImportViewController.h"
 
 #import "OESystemPlugin.h"
 #import "NSViewController+OEAdditions.h"
@@ -47,6 +48,7 @@
 @implementation OELibraryController
 @synthesize database;
 @synthesize sidebarChangesWindowSize;
+@synthesize currentViewController;
 @synthesize importViewController;
 @synthesize sidebarController, collectionViewController, mainSplitView, mainContentPlaceholderView;
 @synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
@@ -60,7 +62,6 @@
     {
         [self setDatabase:aDatabase];
     }
-    
     return self;
 }
 
@@ -73,7 +74,6 @@
 
 #pragma mark -
 #pragma mark NSViewController stuff
-
 - (NSString *)nibName
 {
     return @"Library";
@@ -91,34 +91,22 @@
     
     // setup sidebar controller
     OESidebarController *sidebarCtrl = [self sidebarController];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:@"SidebarSelectionChanged" object:sidebarCtrl];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:sidebarCtrl];
     
     [sidebarCtrl setDatabase:[self database]];
     [self setSidebarChangesWindowSize:YES];
     
     // make sure view has been loaded already
     OECollectionViewController *collectionVC = [self collectionViewController];
-    [collectionVC view];
-    
-    // Select first view
     [collectionVC setLibraryController:self];
-    
+        
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
     [splitView setMinWidth:[defaults doubleForKey:UDSidebarMinWidth]];
     [splitView setMainViewMinWidth:[defaults doubleForKey:UDMainViewMinWidth]];
     [splitView setSidebarMaxWidth:[defaults doubleForKey:UDSidebarMaxWidth]];
     
-    // add collection controller's view to splitview
-    [collectionVC viewWillAppear];
-    
-    NSView *mainContentView = [self mainContentPlaceholderView];
-    [mainContentView addSubview:[collectionVC view]];
-    [[collectionVC view] setFrame:[mainContentView bounds]];
-    
     [splitView adjustSubviews];
-    
-    [collectionVC viewDidAppear];
     
     [[self toolbarSidebarButton] setImage:[NSImage imageNamed:@"toolbar_sidebar_button_close"]];
     
@@ -128,22 +116,24 @@
     [[self toolbarListViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_list"]];
     
     [[self toolbarAddToSidebarButton] setImage:[NSImage imageNamed:@"toolbar_add_button"]];
+    
+    [self showViewController:[self collectionViewController]];
 }
 
 - (void)viewDidAppear
 {
     [super viewDidAppear];
     
-    [self OE_setupMenu];
-    [self OE_setupToolbarItems];
     [self layoutToolbarItems];
-    
-    [[self collectionViewController] willShow];
     
     [[self sidebarController] reloadData];
     
-    // Restore last selected collection item
+    [self setCurrentViewController:[self collectionViewController]];
+    
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+
+    /*
+    // Restore last selected collection item
     id collectionViewName = [standardUserDefaults valueForKey:UDLastCollectionSelectedKey];
     id collectionItem = nil;
     
@@ -160,6 +150,7 @@
     if(collectionItem != nil) [[self sidebarController] selectItem:collectionItem];
     
     [[self sidebarController] outlineViewSelectionDidChange:nil];
+    */
     
     CGFloat splitterPos = 0;
     if([self isSidebarVisible]) splitterPos = [standardUserDefaults doubleForKey:UDSidebarWidthKey];
@@ -235,27 +226,32 @@
 
 - (IBAction)switchToGridView:(id)sender
 {
-    [[self collectionViewController] selectGridView:sender];
+    if([[self currentViewController] respondsToSelector:@selector(switchToGridView:)])
+       [[self currentViewController] performSelector:@selector(switchToGridView:) withObject:sender];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
-    [[self collectionViewController] selectListView:sender];
+    if([[self currentViewController] respondsToSelector:@selector(switchToListView:)])
+        [[self currentViewController] performSelector:@selector(switchToListView:) withObject:sender];
 }
 
 - (IBAction)switchToFlowView:(id)sender
 {
-    [[self collectionViewController] selectFlowView:sender];
+    if([[self currentViewController] respondsToSelector:@selector(switchToFlowView:)])
+        [[self currentViewController] performSelector:@selector(switchToFlowView:) withObject:sender];
 }
 
 - (IBAction)search:(id)sender
 {
-    [[self collectionViewController] search:sender];
+    if([[self currentViewController] respondsToSelector:@selector(search:)])
+        [[self currentViewController] performSelector:@selector(search:) withObject:sender];
 }
 
 - (IBAction)changeGridSize:(id)sender
 {
-    [[self collectionViewController] changeGridSize:sender];
+    if([[self currentViewController] respondsToSelector:@selector(changeGridSize:)])
+        [[self currentViewController] performSelector:@selector(changeGridSize:) withObject:sender];
 }
 
 - (IBAction)addCollectionAction:(id)sender
@@ -304,7 +300,16 @@
         return [[[self sidebarController] selectedCollection] isKindOfClass:[OEDBSmartCollection class]];
     
     if([menuItem action] == @selector(startGame:))
-        return [[[self collectionViewController] selectedGames] count] != 0;
+        return [[self currentViewController] respondsToSelector:@selector(selectedGames)] && [[(OECollectionViewController*)[self currentViewController] selectedGames] count] != 0;
+    
+    if([menuItem action] == @selector(switchToGridView:))
+        return [[self currentViewController] respondsToSelector:@selector(switchToGridView:)];
+    
+    if([menuItem action] == @selector(switchToFlowView:))
+        return [[self currentViewController] respondsToSelector:@selector(switchToFlowView:)];
+    
+    if([menuItem action] == @selector(switchToListView:))
+        return [[self currentViewController] respondsToSelector:@selector(switchToListView:)];
     
     return YES;
 }
@@ -358,9 +363,61 @@
 
 #pragma mark -
 #pragma mark Sidebar Helpers
+- (void)showCollectionViewControllerWithItem:(id <OECollectionViewItemProtocol>)item
+{
+    [[self collectionViewController] setCollectionItem:item];
+    [self showViewController:[self collectionViewController]];
+}
+
+- (void)showImportViewController
+{
+    [self showViewController:[self importViewController]];
+}
+
+- (void)showViewController:(NSViewController*)newViewController
+{
+    NSViewController *oldViewController = [self currentViewController];
+    if(newViewController == oldViewController) return;
+    
+    [oldViewController viewWillDisappear];
+    [newViewController viewWillAppear];
+    
+    NSView *newView    = [newViewController view];
+    if(oldViewController)
+    {
+        NSView *superView = [[oldViewController view] superview];
+        NSView *oldView     = [oldViewController view];
+        
+        [newView setFrame:[oldView frame]];
+        [newView setAutoresizingMask:[oldView autoresizingMask]];
+        
+        [superView replaceSubview:oldView with:newView];
+    }
+    else
+    {
+        NSView *mainContentView = [self mainContentPlaceholderView];
+        [newView setFrame:[mainContentView bounds]];
+        [mainContentView addSubview:newView];
+    }
+    [self setCurrentViewController:newViewController];
+    [self OE_setupToolbarItems];
+    [self OE_setupMenu];
+    
+    [newViewController viewDidAppear];
+    [oldViewController viewDidDisappear];
+}
+
 - (void)sidebarSelectionDidChange:(NSNotification *)notification
 {
-    [[self collectionViewController] setCollectionItem:[[notification userInfo] objectForKey:@"selectedCollection"]];
+    id selectedItem = [[notification userInfo] objectForKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey];
+    if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
+    {
+        [self showCollectionViewControllerWithItem:selectedItem];
+    }
+    else if([selectedItem isKindOfClass:[OEROMImporter class]])
+    {
+        [self showImportViewController];
+    }
 }
 
 #pragma mark -
@@ -404,14 +461,19 @@
 }
 
 #pragma mark -
-
 - (void)OE_setupMenu
-{
-}
+{}
 
 - (void)OE_setupToolbarItems
 {
     [[self toolbarSlider] setEnabled:[[self toolbarGridViewButton] state]];
+    
+    [[self toolbarSlider] setEnabled:[[self currentViewController] respondsToSelector:@selector(changeGridSize:)]];
+    [[self toolbarGridViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToGridView:)]];
+    [[self toolbarFlowViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToFlowView:)]];
+    [[self toolbarListViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToListView:)]];
+    
+    [[self toolbarSearchField] setEnabled:[[self currentViewController] respondsToSelector:@selector(search:)]];
 }
 
 - (void)layoutToolbarItems

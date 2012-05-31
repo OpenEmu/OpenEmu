@@ -89,7 +89,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark -
-
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
 }
@@ -297,6 +296,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)showAboutWindow:(id)sender
 {
+    LogResponderChain([[NSApp keyWindow] firstResponder]);
+    
     [[self aboutWindow] center];
     [[self aboutWindow] makeKeyAndOrderFront:self];
 }

@@ -167,16 +167,16 @@
     
     switch ([userDefaults integerForKey:UDLastCollectionViewKey]) {
         case 0:
-            [self selectGridView:self];
+            [self switchToGridView:self];
             break;
         case 1:
-            [self selectFlowView:self];
+            [self switchToFlowView:self];
             break;
         case 2:
-            [self selectListView:self];
+            [self switchToListView:self];
             break;
         default:
-            [self selectGridView:self];
+            [self switchToGridView:self];
             break;
     }
     
@@ -204,17 +204,17 @@
 
 #pragma mark -
 #pragma mark View Selection
-- (IBAction)selectGridView:(id)sender
+- (IBAction)switchToGridView:(id)sender
 {
     [self OE_selectView:0];
 }
 
-- (IBAction)selectFlowView:(id)sender
+- (IBAction)switchToFlowView:(id)sender
 {
     [self OE_selectView:1];
 }
 
-- (IBAction)selectListView:(id)sender
+- (IBAction)switchToListView:(id)sender
 { 
     [self OE_selectView:2];
 }
@@ -322,7 +322,6 @@
 {
     return collectionItem;
 }
-
 
 #pragma mark -
 #pragma mark GridView Delegate
