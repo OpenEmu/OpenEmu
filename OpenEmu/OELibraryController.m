@@ -441,8 +441,6 @@
 
 - (void)updateSearchResults:(NSNotification *)notification
 {
-    DLog(@"updateSearchResults:");
-    
     MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];
 
     
@@ -454,6 +452,7 @@
                               @"Developer",
                               @"Volumes",
                               @"Applications",
+                              @"Application Support",
                               @"bin",
                               @"cores",
                               @"dev",
@@ -469,7 +468,6 @@
                               @"readme", // markdown
                               @"README", // markdown
                               @"Readme", // markdown
-                              
                               nil];
     
     // assume the latest result is the last index?
@@ -479,7 +477,13 @@
         NSString *resultPath = (__bridge_transfer NSString *)MDItemCopyAttribute(resultItem, kMDItemPath);
         
         // Nothing in common
-        if([[resultPath pathComponents] firstObjectCommonWithArray:excludedPaths] == nil)
+        NSString* fileName = [[resultPath lastPathComponent] stringByDeletingPathExtension];
+        BOOL containExcludedFileName = [excludedPaths containsObject:fileName];
+        
+        NSString* firstCommonObj = [excludedPaths firstObjectCommonWithArray:[resultPath pathComponents]];
+        BOOL containExcludedPathComponents = (firstCommonObj != nil);
+        
+        if(!containExcludedPathComponents && !containExcludedFileName)
         {
             NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                         resultPath, @"Path",
