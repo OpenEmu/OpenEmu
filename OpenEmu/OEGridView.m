@@ -379,7 +379,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     // Collect some basic information of the current environment
     NSScrollView *enclosingScrollView = [self enclosingScrollView];
-    NSRect        visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
+    NSRect        visibleRect         = [enclosingScrollView documentVisibleRect];
     NSPoint       contentOffset       = visibleRect.origin;
 
     const NSSize cachedContentSize    = [self bounds].size;
@@ -454,11 +454,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         }
         ++_supressFrameResize;
         [super setFrameSize:contentSize];
-        [[self enclosingScrollView] reflectScrolledClipView:(NSClipView *)[self superview]];
+        [enclosingScrollView reflectScrolledClipView:(NSClipView *)[self superview]];
         --_supressFrameResize;
 
         // Changing the size of the frame may also change the contentOffset, recalculate that value
-        visibleRect   = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
+        visibleRect   = [enclosingScrollView documentVisibleRect];
         contentOffset = visibleRect.origin;
 
         // Check to see if the number visible columns or the cell size has changed as these vents will cause the layout to be recalculated
@@ -492,8 +492,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if(_cachedNumberOfItems == 0) return;
 
     // Check to see if the visible cells have changed
-    NSScrollView    *enclosingScrollView  = [self enclosingScrollView];
-    const NSRect     visibleRect          = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
+    const NSRect     visibleRect          = [[self enclosingScrollView] documentVisibleRect];
     const NSUInteger firstVisibleIndex    = MAX((NSInteger)floor(NSMinY(visibleRect) / _cachedItemSize.height), 0) * _cachedNumberOfVisibleColumns;
     const NSUInteger numberOfVisibleCells = _cachedNumberOfVisibleColumns * _cachedNumberOfVisibleRows;
 
@@ -562,11 +561,13 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         _noItemsView = [_dataSource viewForNoItemsInGridView:self];
         if(_noItemsView)
         {
+            NSScrollView *enclosingScrollView = [self enclosingScrollView];
+
             [self addSubview:_noItemsView];
             [_noItemsView setHidden:NO];
             [self OE_centerNoItemsView];
-            _previousElasticity = [[self enclosingScrollView] verticalScrollElasticity];
-            [[self enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
+            _previousElasticity = [enclosingScrollView verticalScrollElasticity];
+            [enclosingScrollView setVerticalScrollElasticity:NSScrollElasticityNone];
             [self OE_setNeedsLayoutGridView];
         }
     }
@@ -737,7 +738,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     }
     else
     {
-        const NSRect visibleRect = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
+        const NSRect visibleRect = [enclosingScrollView documentVisibleRect];
 
         if(!NSEqualSizes(_cachedViewSize, visibleRect.size))
         {
@@ -761,10 +762,9 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     if(!_noItemsView) return;
 
-    NSView       *enclosingScrollView = [self enclosingScrollView] ? : self;
-    const NSRect  visibleRect         = [enclosingScrollView visibleRect];
-    const NSSize  viewSize            = [_noItemsView frame].size;
-    const NSRect  viewFrame           = NSMakeRect(ceil((NSWidth(visibleRect) - viewSize.width) / 2.0), ceil((NSHeight(visibleRect) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
+    const NSRect  visibleRect = [[self enclosingScrollView] visibleRect];
+    const NSSize  viewSize    = [_noItemsView frame].size;
+    const NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(visibleRect) - viewSize.width) / 2.0), ceil((NSHeight(visibleRect) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
     [_noItemsView setFrame:viewFrame];
 }
 
@@ -790,7 +790,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     if(!_dragIndicationLayer && !_backgroundLayer && !_foregroundLayer) return;
 
-    const NSRect decorativeFrame      = [[self enclosingScrollView] documentVisibleRect];
+    const NSRect decorativeFrame = [[self enclosingScrollView] documentVisibleRect];
     [_backgroundLayer setFrame:decorativeFrame];
     [_foregroundLayer setFrame:decorativeFrame];
     [_dragIndicationLayer setFrame:NSInsetRect(decorativeFrame, 1.0, 1.0)];
@@ -937,9 +937,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
                 [self mouseDragged:lastMouseDragEvent];
 
                 // Stop tracking last mouse drag event if we've reached the bottom or top of the scrollable area
-                NSScrollView *enclosingScrollView = [self enclosingScrollView];
-                const NSRect  visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
-                const NSRect  bounds              = [self bounds];
+                const NSRect  visibleRect = [[self enclosingScrollView] documentVisibleRect];
+                const NSRect  bounds      = [self bounds];
                 if (NSMinY(bounds) == NSMinY(visibleRect) || NSMaxY(bounds) == NSMaxY(visibleRect)) lastMouseDragEvent = nil;
             }
         }
