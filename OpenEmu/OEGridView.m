@@ -568,6 +568,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         DLog(@"Dispatch queue synchronized.");
         [[_visibleCellByIndex allValues] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
         [_visibleCellByIndex removeAllObjects];
+        [_visibleCellsIndexes removeAllIndexes];
         [_reuseableCells removeAllObjects];
         _abortReloadCells = NO;
     });
