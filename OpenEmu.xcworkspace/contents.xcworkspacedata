@@ -52,4 +52,7 @@
    <FileRef
       location = "group:../loicloic/OpenEmu/Yabause/Yabause.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:MAME/MAME.xcodeproj">
+   </FileRef>
 </Workspace>
