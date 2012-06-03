@@ -119,28 +119,32 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     CALayer *layer = [[CALayer alloc] init];
     [layer setFrame:[self bounds]];
 
-    _rootLayer = [[OEGridLayer alloc] init];
+    if (!_rootLayer)
+    {
+        _rootLayer = [[OEGridLayer alloc] init];
+        [_rootLayer setInteractive:YES];
+        [_rootLayer setGeometryFlipped:YES];
+        [_rootLayer setLayoutManager:[OEGridViewLayoutManager layoutManager]];
+        [_rootLayer setDelegate:self];
+        [_rootLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+        [_rootLayer setFrame:[self bounds]];
+
+        _dragIndicationLayer = [[OEGridLayer alloc] init];
+        [_dragIndicationLayer setInteractive:NO];
+        [_dragIndicationLayer setBorderColor:[[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor]];
+        [_dragIndicationLayer setBorderWidth:2.0];
+        [_dragIndicationLayer setCornerRadius:8.0];
+        [_dragIndicationLayer setHidden:YES];
+        [_rootLayer addSublayer:_dragIndicationLayer];
+
+        _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
+        [self addSubview:_fieldEditor];
+
+        [self OE_reorderSublayers];
+        [self OE_setNeedsReloadData];
+    }
+
     [layer addSublayer:_rootLayer];
-    [_rootLayer setInteractive:YES];
-    [_rootLayer setGeometryFlipped:YES];
-    [_rootLayer setLayoutManager:[OEGridViewLayoutManager layoutManager]];
-    [_rootLayer setDelegate:self];
-    [_rootLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [_rootLayer setFrame:[self bounds]];
-
-    _dragIndicationLayer = [[OEGridLayer alloc] init];
-    [_dragIndicationLayer setInteractive:NO];
-    [_dragIndicationLayer setBorderColor:[[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor]];
-    [_dragIndicationLayer setBorderWidth:2.0];
-    [_dragIndicationLayer setCornerRadius:8.0];
-    [_dragIndicationLayer setHidden:YES];
-    [_rootLayer addSublayer:_dragIndicationLayer];
-
-    _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
-    [self addSubview:_fieldEditor];
-
-    [self OE_reorderSublayers];
-    [self OE_setNeedsReloadData];
 
     return layer;
 }
