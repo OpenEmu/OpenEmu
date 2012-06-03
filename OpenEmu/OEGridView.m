@@ -795,10 +795,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     if(!_dragIndicationLayer && !_backgroundLayer && !_foregroundLayer) return;
 
-    NSScrollView *enclosingScrollView = [self enclosingScrollView];
-    const NSRect visibleRect          = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
-    const NSRect decorativeFrame      = NSIntegralRect(NSOffsetRect((enclosingScrollView ? [enclosingScrollView bounds] : visibleRect), NSMinX(visibleRect), NSMinY(visibleRect)));
-
+    const NSRect decorativeFrame      = [[self enclosingScrollView] documentVisibleRect];
     [_backgroundLayer setFrame:decorativeFrame];
     [_foregroundLayer setFrame:decorativeFrame];
     [_dragIndicationLayer setFrame:NSInsetRect(decorativeFrame, 1.0, 1.0)];
@@ -893,10 +890,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         if(![_trackingLayer isTracking]) _trackingLayer = nil;
     }
 
-    NSUInteger modifierFlags = [[NSApp currentEvent] modifierFlags];
-    BOOL commandKeyDown      = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask);
-    BOOL shiftKeyDown        = ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
-    BOOL invertSelection     = commandKeyDown || shiftKeyDown;
+    const NSUInteger modifierFlags = [[NSApp currentEvent] modifierFlags];
+    const BOOL commandKeyDown      = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask);
+    const BOOL shiftKeyDown        = ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
+    const BOOL invertSelection     = commandKeyDown || shiftKeyDown;
 
     // Figure out which cell was touched, inverse it's selection...
     if(cell != nil)
@@ -926,18 +923,20 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     }
 
     // Start tracking mouse
-    NSEvent *lastMouseDragEvent = nil;
-    BOOL     periodicEvents     = (_trackingLayer == _rootLayer);
+    NSEvent         *lastMouseDragEvent  = nil;
+    const BOOL       isTrackingRootLayer = (_trackingLayer == _rootLayer);
+    const NSUInteger eventMask           = NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSKeyDownMask | (isTrackingRootLayer ? NSPeriodicMask : 0);
+    _initialPoint                        = pointInView;
 
-    _initialPoint = pointInView;
+    // If we are tracking the root layer then we are dragging a selection box, fire off periodic events so that we can autoscroll the view
+    if(isTrackingRootLayer) [NSEvent startPeriodicEventsAfterDelay:OEInitialPeriodicDelay withPeriod:OEPeriodicInterval];
 
-    if(periodicEvents) [NSEvent startPeriodicEventsAfterDelay:OEInitialPeriodicDelay withPeriod:OEPeriodicInterval];
-
-    const NSUInteger mask = NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSKeyDownMask | (periodicEvents ? NSPeriodicMask : 0);
-    while(_trackingLayer && (theEvent = [[self window] nextEventMatchingMask:mask]))
+    // Keep tracking as long as we are tracking a layer and there are events in the queue
+    while(_trackingLayer && (theEvent = [[self window] nextEventMatchingMask:eventMask]))
     {
-        if(periodicEvents && [theEvent type] == NSPeriodic)
+        if(isTrackingRootLayer && [theEvent type] == NSPeriodic)
         {
+            // Refire last mouse drag event when perioidc events are encountered
             if(lastMouseDragEvent)
             {
                 [self mouseDragged:lastMouseDragEvent];
@@ -969,21 +968,22 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     lastMouseDragEvent = nil;
     _trackingLayer     = nil;
 
-    if(periodicEvents) [NSEvent stopPeriodicEvents];
+    if(isTrackingRootLayer) [NSEvent stopPeriodicEvents];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
+    // Exit immediately if the noItemsView is visible or if we are not tracking anything
     if(_trackingLayer == nil || _noItemsView != nil) return;
 
     if([_trackingLayer isKindOfClass:[OEGridViewCell class]])
     {
         if(_dataSourceHas.pasteboardWriterForIndex && [_selectionIndexes count] > 0)
         {
+            // Don't start dragging a cell until the mouse has traveled at least 5 pixels in any direction
             const NSPoint pointInView     = [self OE_pointInViewFromEvent:theEvent];
             const NSPoint draggedDistance = NSMakePoint(ABS(pointInView.x - _initialPoint.x), ABS(pointInView.y - _initialPoint.y));
-            if(draggedDistance.x >= 5.0 || draggedDistance.y >= 5.0 ||
-               (draggedDistance.x * draggedDistance.x + draggedDistance.y * draggedDistance.y) >= 25)
+            if(draggedDistance.x >= 5.0 || draggedDistance.y >= 5.0 || (draggedDistance.x * draggedDistance.x + draggedDistance.y * draggedDistance.y) >= 25)
             {
                 __block NSMutableArray *draggingItems = [NSMutableArray array];
                 [_selectionIndexes enumerateIndexesUsingBlock:
@@ -999,11 +999,14 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
                      }
                  }];
 
+                // If there are items being dragged, start a dragging session
                 if([draggingItems count] > 0)
                 {
                     _draggingSession = [self beginDraggingSessionWithItems:draggingItems event:theEvent source:self];
                     [_draggingSession setDraggingFormation:NSDraggingFormationStack];
                 }
+
+                // Cacnel the tracking layer (which will cancel the event tracking loop).  The dragging session has it's own mouse tracking loop.
                 _trackingLayer = nil;
             }
         }
@@ -1014,6 +1017,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     }
     else if(_trackingLayer != _rootLayer)
     {
+        // Forward drag event to the OEGridLayer that is being tracked
         const NSPoint pointInLayer = [_rootLayer convertPoint:[self OE_pointInViewFromEvent:theEvent] toLayer:_trackingLayer];
         [_trackingLayer mouseMovedAtPointInLayer:pointInLayer withEvent:theEvent];
     }
@@ -1331,6 +1335,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     const NSPoint pointInView             = [self convertPoint:[sender draggingLocation] fromView:nil];
     OEGridLayer  *newDragDestinationLayer = [self OE_gridLayerForPoint:pointInView];
+
     if(_dragDestinationLayer != newDragDestinationLayer)
     {
         if(newDragDestinationLayer == _rootLayer)

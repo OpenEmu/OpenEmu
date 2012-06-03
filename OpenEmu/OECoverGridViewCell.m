@@ -276,16 +276,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     // Draw selection border
     NSImage *image = selectorRings[(_activeSelector ? 0 : 1)];
-    [image drawInRect:NSMakeRect(0.0, 0.0, size.width, size.height)
-             fromRect:NSZeroRect
-            operation:NSCompositeSourceOver
-             fraction:1.0
-       respectFlipped:YES
-                hints:nil
-           leftBorder:14.0
-          rightBorder:14.0
-            topBorder:14.0
-         bottomBorder:14.0];
+    [image drawInRect:NSMakeRect(0.0, 0.0, size.width, size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:14.0 rightBorder:14.0 topBorder:14.0 bottomBorder:14.0];
 
     [currentContext restoreGraphicsState];
     [selectionImage unlockFocus];
@@ -300,8 +291,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 {
     const CGRect bounds = [self bounds];
 
-    _ratingFrame = CGRectMake(ceil((CGRectGetWidth(bounds) - OECoverGridViewCellSubtitleWidth) / 2.0), CGRectGetHeight(bounds) - OECoverGridViewCellSubtitleHeight,
-                              OECoverGridViewCellSubtitleWidth, OECoverGridViewCellSubtitleHeight);
+    _ratingFrame = CGRectMake(ceil((CGRectGetWidth(bounds) - OECoverGridViewCellSubtitleWidth) / 2.0), CGRectGetHeight(bounds) - OECoverGridViewCellSubtitleHeight, OECoverGridViewCellSubtitleWidth, OECoverGridViewCellSubtitleHeight);
     _titleFrame  = CGRectMake(0.0, CGRectGetMinY(_ratingFrame) - OECoverGridViewCellTitleHeight - 2.0, CGRectGetWidth(bounds), OECoverGridViewCellTitleHeight);
 
     [CATransaction begin];
@@ -315,9 +305,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 {
     // calculate area where image is placed
     const CGRect containerRect      = (CGRect){CGPointZero, [self bounds].size};
-    const CGRect imageContainerRect = CGRectMake(OECoverGridViewCellImageContainerLeft, OECoverGridViewCellImageContainerTop,
-                                                 CGRectGetWidth(containerRect) - OECoverGridViewCellImageContainerLeft - OECoverGridViewCellImageContainerRight,
-                                                 CGRectGetHeight(containerRect) - OECoverGridViewCellImageContainerTop - OECoverGridViewCellImageContainerBottom);
+    const CGRect imageContainerRect = CGRectMake(OECoverGridViewCellImageContainerLeft, OECoverGridViewCellImageContainerTop, CGRectGetWidth(containerRect) - OECoverGridViewCellImageContainerLeft - OECoverGridViewCellImageContainerRight, CGRectGetHeight(containerRect) - OECoverGridViewCellImageContainerTop - OECoverGridViewCellImageContainerBottom);
 
     // Calculate the width to heightratio
     CGFloat imageRatio;
@@ -345,9 +333,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     }
 
     // Determine actual frame for image
-    _imageFrame = CGRectMake(ceil(CGRectGetMinX(imageContainerRect) + ((CGRectGetWidth(imageContainerRect) - width) / 2.0)),
-                             ceil(CGRectGetMinY(imageContainerRect) + CGRectGetHeight(imageContainerRect) - height),
-                             width, height);
+    _imageFrame = CGRectMake(ceil(CGRectGetMinX(imageContainerRect) + ((CGRectGetWidth(imageContainerRect) - width) / 2.0)), ceil(CGRectGetMinY(imageContainerRect) + CGRectGetHeight(imageContainerRect) - height), width, height);
 
     // Sizes must be set before the image is set
     [CATransaction begin];
@@ -471,16 +457,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 {
     const CGSize imageSize = _imageFrame.size;
 
-    NSBitmapImageRep *dragImageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-                                                                             pixelsWide:imageSize.width
-                                                                             pixelsHigh:imageSize.height
-                                                                          bitsPerSample:8
-                                                                        samplesPerPixel:4
-                                                                               hasAlpha:YES
-                                                                               isPlanar:NO
-                                                                         colorSpaceName:NSCalibratedRGBColorSpace
-                                                                            bytesPerRow:(NSInteger)imageSize.width * 4
-                                                                           bitsPerPixel:32];
+    NSBitmapImageRep *dragImageRep   = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL pixelsWide:imageSize.width pixelsHigh:imageSize.height bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSCalibratedRGBColorSpace bytesPerRow:(NSInteger)imageSize.width * 4 bitsPerPixel:32];
     NSGraphicsContext *bitmapContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:dragImageRep];
     CGContextRef       ctx           = (CGContextRef)[bitmapContext graphicsPort];
 
@@ -627,11 +604,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     NSNumber *debugDropAnimationDelay = [[NSUserDefaults standardUserDefaults] valueForKey:@"debug_drop_animation_delay"];
     if(!debugDropAnimationDelay) debugDropAnimationDelay = [NSNumber numberWithFloat:0.25];
 
-    _dropDelayedTimer = [NSTimer scheduledTimerWithTimeInterval:[debugDropAnimationDelay floatValue]
-                                                         target:self
-                                                       selector:@selector(OE_displayOnDropEntered:)
-                                                       userInfo:imageRepresentation
-                                                        repeats:NO];
+    _dropDelayedTimer = [NSTimer scheduledTimerWithTimeInterval:[debugDropAnimationDelay floatValue] target:self selector:@selector(OE_displayOnDropEntered:) userInfo:imageRepresentation repeats:NO];
 
     return NSDragOperationGeneric;
 }
@@ -723,11 +696,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     NSNumber *debugDropAnimationDelay = [[NSUserDefaults standardUserDefaults] valueForKey:@"debug_drop_animation_delay"];
     if(!debugDropAnimationDelay) debugDropAnimationDelay = [NSNumber numberWithFloat:0.25];
 
-    _dropDelayedTimer = [NSTimer scheduledTimerWithTimeInterval:[debugDropAnimationDelay floatValue]
-                                                         target:self
-                                                       selector:@selector(OE_displayOnDropExited:)
-                                                       userInfo:nil
-                                                        repeats:NO];
+    _dropDelayedTimer = [NSTimer scheduledTimerWithTimeInterval:[debugDropAnimationDelay floatValue] target:self selector:@selector(OE_displayOnDropExited:) userInfo:nil repeats:NO];
 }
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
@@ -789,12 +758,13 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 - (void)setImage:(NSImage *)image
 {
-    if(_image == image) return;
+    if(_image != image)
+    {
+        _image = image;
+        [_imageLayer setContents:(id)_image];
 
-    _image = image;
-    [_imageLayer setContents:(id)_image];
-
-    [self OE_setNeedsLayoutImageAndSelection];
+        [self OE_setNeedsLayoutImageAndSelection];
+    }
 }
 
 - (void)setRating:(NSUInteger)rating
