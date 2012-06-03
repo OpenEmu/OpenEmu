@@ -113,11 +113,15 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     _reuseableCells      = [[NSMutableSet alloc] init];
 
     [self setWantsLayer:YES];
-    [self setLayer:[[CALayer alloc] init]];
-    [[self layer] setFrame:[self bounds]];
+}
+
+- (CALayer *)makeBackingLayer
+{
+    CALayer *layer = [[CALayer alloc] init];
+    [layer setFrame:[self bounds]];
 
     _rootLayer = [[OEGridLayer alloc] init];
-    [[self layer] addSublayer:_rootLayer];
+    [layer addSublayer:_rootLayer];
     [_rootLayer setInteractive:YES];
     [_rootLayer setGeometryFlipped:YES];
     [_rootLayer setLayoutManager:[OEGridViewLayoutManager layoutManager]];
@@ -138,6 +142,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     [self OE_reorderSublayers];
     [self OE_setNeedsReloadData];
+
+    return layer;
 }
 
 #pragma mark -
