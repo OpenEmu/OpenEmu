@@ -341,20 +341,23 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     if(!indexes || [indexes count] == 0) return;
 
-    [indexes enumerateIndexesUsingBlock:
-     ^ (NSUInteger idx, BOOL *stop)
-     {
-         NSNumber *key = [NSNumber numberWithUnsignedInteger:idx];
-         OEGridViewCell *cell = [_visibleCellByIndex objectForKey:key];
-         if(cell)
+    NSIndexSet *indexesToQueue = [indexes copy];
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [indexesToQueue enumerateIndexesUsingBlock:
+         ^ (NSUInteger idx, BOOL *stop)
          {
-             if([_fieldEditor delegate] == cell) [self OE_cancelFieldEditor];
+             NSNumber *key = [NSNumber numberWithUnsignedInteger:idx];
+             OEGridViewCell *cell = [_visibleCellByIndex objectForKey:key];
+             if(cell)
+             {
+                 if([_fieldEditor delegate] == cell) [self OE_cancelFieldEditor];
 
-             [_visibleCellByIndex removeObjectForKey:key];
-             [_reuseableCells addObject:cell];
-             [cell removeFromSuperlayer];
-         }
-     }];
+                 [_visibleCellByIndex removeObjectForKey:key];
+                 [_reuseableCells addObject:cell];
+                 [cell removeFromSuperlayer];
+             }
+         }];
+    });
 }
 
 - (void)OE_calculateCachedValuesAndQueryForDataChanges:(BOOL)shouldQueryForDataChanges
@@ -556,12 +559,21 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)reloadData
 {
+    _needsReloadData = NO;
+
+    DLog(@"Waiting for synchronization on dispatch queue.");
+    _abortReloadCells = YES;
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        // Wait until any pending reload operations are complete
+        DLog(@"Dispatch queue synchronized.");
+        [[_visibleCellByIndex allValues] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
+        [_visibleCellByIndex removeAllObjects];
+        [_reuseableCells removeAllObjects];
+        _abortReloadCells = NO;
+    });
+
     [_selectionIndexes removeAllIndexes];
     _indexOfKeyboardSelection = NSNotFound;
-
-    [self OE_enqueueCellsAtIndexes:_visibleCellsIndexes];
-    [_visibleCellsIndexes removeAllIndexes];
-    [_reuseableCells removeAllObjects];
 
     _cachedNumberOfVisibleColumns = 0;
     _cachedNumberOfVisibleRows    = 0;
@@ -578,23 +590,27 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     // Recalculate all of the required cached values
     [self OE_calculateCachedValuesAndQueryForDataChanges:YES];
     if(_cachedNumberOfItems == 0) [self OE_addNoItemsView];
-
-    _needsReloadData = NO;
 }
 
 - (void)reloadCellsAtIndexes:(NSIndexSet *)indexes
 {
     // If there is no index set or no items in the index set, then there is nothing to update
-    if([indexes count] == 0) return;
+    if(!indexes || [indexes count] == 0 || !_dataSource) return;
 
-    [indexes enumerateIndexesUsingBlock:
-     ^ (NSUInteger idx, BOOL *stop)
-     {
-         // If the cell is not already visible, then there is nothing to reload
-         if([_visibleCellsIndexes containsIndex:idx])
+    NSIndexSet *indexesToReload = [indexes copy];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [indexesToReload enumerateIndexesUsingBlock:
+         ^ (NSUInteger idx, BOOL *stop)
          {
+             if (_abortReloadCells)
+             {
+                 *stop = YES;
+                 return;
+             }
+
              OEGridViewCell *newCell = [_dataSource gridView:self cellForItemAtIndex:idx];
              OEGridViewCell *oldCell = [self cellForItemAtIndex:idx makeIfNecessary:NO];
+
              if(newCell != oldCell)
              {
                  if(oldCell) [newCell setFrame:[oldCell frame]];
@@ -605,11 +621,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
                      [newCell OE_setIndex:idx];
                      [newCell setSelected:[_selectionIndexes containsIndex:idx] animated:NO];
 
-                     // Replace the old cell with the new cell
-                     if(oldCell)
-                     {
-                         [self OE_enqueueCellsAtIndexes:[NSIndexSet indexSetWithIndex:[oldCell OE_index]]];
-                     }
+                     if(oldCell) [self OE_enqueueCellsAtIndexes:[NSIndexSet indexSetWithIndex:[oldCell OE_index]]];
+
                      [newCell setOpacity:1.0];
                      [newCell setHidden:NO];
 
@@ -618,12 +631,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
                      [_visibleCellByIndex setObject:newCell forKey:[NSNumber numberWithUnsignedInteger:idx]];
                      [_rootLayer addSublayer:newCell];
                  }
-
-                 [self OE_setNeedsLayoutGridView];
              }
-         }
-     }];
-    [self OE_reorderSublayers];
+         }];
+        [self OE_reorderSublayers];
+        [CATransaction flush];
+    });
 }
 
 #pragma mark -

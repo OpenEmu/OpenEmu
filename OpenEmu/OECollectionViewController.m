@@ -359,26 +359,58 @@
     return [[gamesController arrangedObjects] count];
 }
 
-- (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
+- (OEGridViewCell *)OE_gridView:(OEGridView *)view cellForObjectID:(NSManagedObjectID *)oid atIndex:(NSUInteger)index
 {
-    if (index >= [[gamesController arrangedObjects] count]) return nil;
+    if(!oid) return nil;
+    
+    OECoverGridViewCell *cell = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
+    
+    if(cell == nil) cell = (OECoverGridViewCell *)[view dequeueReusableCell];
+    if(cell == nil) cell = [[OECoverGridViewCell alloc] init];
 
-    OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
-    
-    if(item == nil) item = (OECoverGridViewCell *)[view dequeueReusableCell];
-    if(item == nil) item = [[OECoverGridViewCell alloc] init];
-    
-    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
-    [item setTitle:[object gridTitle]];
-    [item setRating:[object gridRating]];
+    NSManagedObject<OECoverGridDataSourceItem> *object = (id<OECoverGridDataSourceItem>)[[[OELibraryDatabase defaultDatabase] managedObjectContext] objectWithID:oid];
+
+    [cell setTitle:[object gridTitle]];
+    [cell setRating:[object gridRating]];
+    [cell setIndicationType:(OECoverGridViewCellIndicationType)[object gridStatus]];
 
     if([object hasImage])
     {
-        [item setImageSize:[object actualGridImageSizeforSize:[view itemSize]]];
-        [item setImage:[object gridImageWithSize:[gridView itemSize]]];
+        [cell setImageSize:[object actualGridImageSizeforSize:[gridView itemSize]]];
+        [cell setImage:[object gridImageWithSize:[gridView itemSize]]];
     }
 
-    return item;
+    return cell;
+}
+
+- (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
+{
+    // Make sure that the index is within the bounds of the available games
+    id arrangedObjects = [gamesController arrangedObjects];
+    if(index >= [arrangedObjects count]) return nil;
+
+    // Capture the object's ID so that we can extract the data on the appropriate MOC
+    NSManagedObjectID *oid = [(NSManagedObject *)[arrangedObjects objectAtIndex:index] objectID];
+    if(!oid)
+    {
+        DLog(@"ERROR: Unable to retrieve object at index %ld from gamesController.", index);
+        return nil;
+    }
+
+    if([NSThread isMainThread] || [[OELibraryDatabase defaultDatabase] managedObjectContext])
+    {
+        return [self OE_gridView:view cellForObjectID:oid atIndex:index];
+    }
+    else
+    {
+        // If the MOC doesn't exist, then try to retrieve the cell from the main thread
+        DLog(@"WARNING: Unable to retrieve object from current thread's (%@) moc.", [NSThread currentThread]);
+        __block OEGridViewCell *cell = nil;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            cell = [self OE_gridView:view cellForObjectID:oid atIndex:index];
+        });
+        return cell;
+    }
 }
 
 - (NSView *)viewForNoItemsInGridView:(OEGridView *)view

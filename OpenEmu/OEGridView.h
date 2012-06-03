@@ -86,6 +86,7 @@
     NSPoint            _initialPoint;               // Initial position of the mouse of a drag operation
 
     BOOL _needsReloadData;                          // Determines if the data should be reloaded
+    BOOL _abortReloadCells;
     BOOL _needsLayoutGridView;                      // Determines if the cells should really be laid out
 
     NSUInteger _cachedNumberOfVisibleColumns;       // Cached number of visible columns
