@@ -40,6 +40,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_updateSelectedCellsActiveSelectorWithFocus:(BOOL)focus;
 - (void)OE_windowChangedKey:(NSNotification *)notification;
 - (void)OE_clipViewFrameChanged:(NSNotification *)notification;
+- (void)OE_clipViewBoundsChanged:(NSNotification *)notification;
 
 - (void)OE_moveKeyboardSelectionToIndex:(NSUInteger)index;
 
@@ -660,7 +661,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     {
         // TODO: I think there is some optimization we can do here
         [self setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [notificationCenter addObserver:self selector:@selector(OE_clipViewFrameChanged:) name:NSViewBoundsDidChangeNotification object:newClipView];
+        [notificationCenter addObserver:self selector:@selector(OE_clipViewBoundsChanged:) name:NSViewBoundsDidChangeNotification object:newClipView];
         [notificationCenter addObserver:self selector:@selector(OE_clipViewFrameChanged:) name:NSViewFrameDidChangeNotification object:newClipView];
         [newClipView setPostsBoundsChangedNotifications:YES];
         [newClipView setPostsFrameChangedNotifications:YES];
@@ -700,32 +701,32 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     // Return immediately if this method is being surpressed.
     if(_supressFrameResize > 0) return;
+    [self OE_updateDecorativeLayers];
 
-    NSScrollView *enclosingScrollView = [self enclosingScrollView];
     if(_noItemsView)
     {
-        [self setFrame:[enclosingScrollView bounds]];
+        [self setFrame:[[self enclosingScrollView] bounds]];
         [self OE_centerNoItemsView];
     }
     else
     {
-        const NSRect visibleRect = [enclosingScrollView documentVisibleRect];
-
+        const NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
         if(!NSEqualSizes(_cachedViewSize, visibleRect.size))
         {
             [self OE_cancelFieldEditor];
-            [self OE_calculateCachedValuesAndQueryForDataChanges:NO];
+            [self performSelector:@selector(OE_calculateCachedValuesAndQueryForDataChanges:) withObject:[NSNumber numberWithBool:NO] afterDelay:0.25];
         }
-        else if(!NSEqualPoints(_cachedContentOffset, visibleRect.origin))
-        {
-            _cachedContentOffset = visibleRect.origin;
-            [self OE_checkForDataReload];
-        }
+    }
+}
 
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
-        [self OE_updateDecorativeLayers];
-        [CATransaction commit];
+- (void)OE_clipViewBoundsChanged:(NSNotification *)notification
+{
+    [self OE_updateDecorativeLayers];
+    const NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
+    if(abs(_cachedContentOffset.y - visibleRect.origin.y) > _itemSize.height)
+    {
+        _cachedContentOffset = visibleRect.origin;
+        [self OE_checkForDataReload];
     }
 }
 
@@ -761,10 +762,13 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     if(!_dragIndicationLayer && !_backgroundLayer && !_foregroundLayer) return;
 
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
     const NSRect decorativeFrame = [[self enclosingScrollView] documentVisibleRect];
     [_backgroundLayer setFrame:decorativeFrame];
     [_foregroundLayer setFrame:decorativeFrame];
     [_dragIndicationLayer setFrame:NSInsetRect(decorativeFrame, 1.0, 1.0)];
+    [CATransaction commit];
 }
 
 - (void)OE_setNeedsLayoutGridView
