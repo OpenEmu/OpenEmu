@@ -404,8 +404,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     }
     else if(_cachedViewSize.height != viewSize.height || itemSize.height != _cachedItemSize.height)
     {
-        // TODO: only add 1 to the number of visible rows if the first row is partially visible
-        numberOfVisibleRows = ((NSUInteger)ceil(viewSize.height / itemSize.height)) + 1;
+        numberOfVisibleRows = (NSUInteger)ceil(viewSize.height / itemSize.height);
     }
 
     // Check to see if the number of items, number of visible columns, or cached cell size has changed
@@ -466,9 +465,9 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if(_cachedNumberOfItems == 0) return;
 
     // Check to see if the visible cells have changed
-    const NSRect     visibleRect          = [[self enclosingScrollView] documentVisibleRect];
-    const NSUInteger firstVisibleIndex    = MAX((NSInteger)floor(NSMinY(visibleRect) / _cachedItemSize.height), 0) * _cachedNumberOfVisibleColumns;
-    const NSUInteger numberOfVisibleCells = _cachedNumberOfVisibleColumns * _cachedNumberOfVisibleRows;
+    const CGFloat    contentOffsetY       = NSMinY([[self enclosingScrollView] documentVisibleRect]);
+    const NSUInteger firstVisibleIndex    = MAX((NSInteger)floor(contentOffsetY / _cachedItemSize.height) - 1, 0) * _cachedNumberOfVisibleColumns;
+    const NSUInteger numberOfVisibleCells = _cachedNumberOfVisibleColumns * (_cachedNumberOfVisibleRows + 2);
 
     NSIndexSet *visibleCellsIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(firstVisibleIndex, MIN(numberOfVisibleCells, _cachedNumberOfItems - firstVisibleIndex))];
     if ([_visibleCellsIndexes isEqualToIndexSet:visibleCellsIndexSet]) return;
