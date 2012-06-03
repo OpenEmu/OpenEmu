@@ -180,8 +180,6 @@
             break;
     }
     
-    [self OE_reloadData];
-    
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
 }
