@@ -335,6 +335,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)OE_enqueueCellsAtIndexes:(NSIndexSet *)indexes
 {
+    if(!indexes || [indexes count] == 0) return;
+
     [indexes enumerateIndexesUsingBlock:
      ^ (NSUInteger idx, BOOL *stop)
      {
@@ -342,6 +344,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
          OEGridViewCell *cell = [_visibleCellByIndex objectForKey:key];
          if(cell)
          {
+             if([_fieldEditor delegate] == cell) [self OE_cancelFieldEditor];
+
              [_visibleCellByIndex removeObjectForKey:key];
              [_reuseableCells addObject:cell];
              [cell removeFromSuperlayer];
