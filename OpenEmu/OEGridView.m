@@ -561,11 +561,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     _needsReloadData = NO;
 
-    DLog(@"Waiting for synchronization on dispatch queue.");
+    // Notify the -reloadCellsAtIndexes: that the reload should be aborted
     _abortReloadCells = YES;
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         // Wait until any pending reload operations are complete
-        DLog(@"Dispatch queue synchronized.");
         [[_visibleCellByIndex allValues] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
         [_visibleCellByIndex removeAllObjects];
         [_visibleCellsIndexes removeAllIndexes];
@@ -603,6 +602,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         [indexesToReload enumerateIndexesUsingBlock:
          ^ (NSUInteger idx, BOOL *stop)
          {
+             // Abort reload if we are waiting for waiting for a synchronization checkpoint in -reloadData:
              if (_abortReloadCells)
              {
                  *stop = YES;
