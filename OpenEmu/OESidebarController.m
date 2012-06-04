@@ -165,6 +165,7 @@
     if(index == -1) return;
     
     [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+    [self outlineViewSelectionDidChange:nil];
 }
 
 - (void)startEditingItem:(id)item

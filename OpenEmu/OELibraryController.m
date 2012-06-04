@@ -177,7 +177,6 @@
     
     // Select the found collection item, or select the first item by default
     if(collectionItem != nil) [[self sidebarController] selectItem:collectionItem];
-    else                      [[self sidebarController] outlineViewSelectionDidChange:nil];
     
     CGFloat splitterPos = 0;
     if([self isSidebarVisible]) splitterPos = [standardUserDefaults doubleForKey:UDSidebarWidthKey];
