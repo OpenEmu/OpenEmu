@@ -101,7 +101,7 @@
          ^(BOOL discoverRoms, NSArray* volumes)
          {
              if(discoverRoms)
-                 [[[[self libraryController] database] importer] discoverRoms:volumes];
+                 [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
              [self setCurrentContentController:[self libraryController]];
          }];
         
