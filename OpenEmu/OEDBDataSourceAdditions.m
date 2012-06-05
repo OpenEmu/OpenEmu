@@ -154,6 +154,12 @@
     return [self rating];
 }
 
+
+- (void)setListViewTitle:(NSString*)title
+{
+    [self setName:title];
+}
+
 - (NSString *)listViewTitle
 {
     return [self name];

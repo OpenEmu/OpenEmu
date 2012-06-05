@@ -72,7 +72,12 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    return self;
+    id copy = [super copyWithZone:zone];
+    
+    [copy setTextAttributes:[self textAttributes]];
+    [copy setupAttributes];
+    
+    return copy;
 }
 
 - (void)setStringValue:(NSString *)aString

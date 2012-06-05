@@ -157,6 +157,7 @@
     [listView setDelegate:self];
     [listView setDataSource:self];
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
+
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
     for (NSTableColumn *aColumn in [listView tableColumns]) {
         if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
@@ -845,8 +846,6 @@
         {
             result = obj;
         }
-        
-        //[context release];
         return result;
     }
     
@@ -859,15 +858,18 @@
     if( aTableView == listView)
     {
         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
-        if([[aTableColumn identifier] isEqualToString:@"romRating"])
+        NSString *columnIdentifier = [aTableColumn identifier];
+        if([columnIdentifier isEqualToString:@"romRating"])
         {
             [obj setListViewRating:anObject];
+        } else if([columnIdentifier isEqualToString:@"romName"])
+        {
+            if([anObject isKindOfClass:[NSAttributedString class]])
+                anObject = [anObject string];
+            
+            [obj setListViewTitle:anObject];
         }
-        return;
     }
-    
-    
-    return;
 }
 
 - (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
@@ -936,7 +938,13 @@
                         [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
             }
             
-            [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
+            if([aCell isKindOfClass:[OEAttributedTextFieldCell class]])
+            {
+                [(OEAttributedTextFieldCell*)aCell setTextAttributes:attr];
+                [(OEAttributedTextFieldCell*)aCell setupAttributes];
+            }
+            else
+                [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
         }
         
         if(![aCell isKindOfClass:[OERatingCell class]])
@@ -969,7 +977,7 @@
     return YES;
 }
 
-- (CGFloat)tableView:(NSTableView *)aTableView heightOfRow:(NSInteger)row
+ - (CGFloat)tableView:(NSTableView *)aTableView heightOfRow:(NSInteger)row
 {
     if( aTableView == listView )
     {
@@ -1016,6 +1024,7 @@
     }
     return NO;
 }
+
 #pragma mark -
 #pragma mark NSTableView Interaction
 - (void)tableViewWasDoubleClicked:(id)sender{
