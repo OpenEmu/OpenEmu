@@ -106,7 +106,7 @@
 	<key>CFBundleIconFile</key>
 	<string>icon</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.openemu.${PRODUCT_NAME:identifier}</string>
+	<string>org.openemu.${PRODUCT_NAME:identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -143,7 +143,7 @@
 			<key>UTTypeDescription</key>
 			<string>OpenEmu Save State</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.openemu.savestate</string>
+			<string>org.openemu.savestate</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

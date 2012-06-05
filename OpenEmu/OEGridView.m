@@ -40,6 +40,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_updateSelectedCellsActiveSelectorWithFocus:(BOOL)focus;
 - (void)OE_windowChangedKey:(NSNotification *)notification;
 - (void)OE_clipViewFrameChanged:(NSNotification *)notification;
+- (void)OE_clipViewBoundsChanged:(NSNotification *)notification;
 
 - (void)OE_moveKeyboardSelectionToIndex:(NSUInteger)index;
 
@@ -47,8 +48,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_layoutGridViewIfNeeded;
 - (void)OE_layoutGridView;
 
-- (void)OE_enqueueCell:(OEGridViewCell *)cell;
-- (void)OE_enqueueCells:(NSSet *)cells;
 - (void)OE_enqueueCellsAtIndexes:(NSIndexSet *)indexes;
 - (void)OE_calculateCachedValuesAndQueryForDataChanges:(BOOL)queryForDataChanges;
 - (void)OE_checkForDataReload;
@@ -108,36 +107,46 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     // Allocate memory for objects
     _selectionIndexes    = [[NSMutableIndexSet alloc] init];
-    _visibleCells        = [[NSMutableSet alloc] init];
+    _visibleCellByIndex  = [[NSMutableDictionary alloc] init];
     _visibleCellsIndexes = [[NSMutableIndexSet alloc] init];
     _reuseableCells      = [[NSMutableSet alloc] init];
 
     [self setWantsLayer:YES];
-    [self setLayer:[[CALayer alloc] init]];
-    [[self layer] setFrame:[self bounds]];
+}
 
-    _rootLayer = [[OEGridLayer alloc] init];
-    [[self layer] addSublayer:_rootLayer];
-    [_rootLayer setInteractive:YES];
-    [_rootLayer setGeometryFlipped:YES];
-    [_rootLayer setLayoutManager:[OEGridViewLayoutManager layoutManager]];
-    [_rootLayer setDelegate:self];
-    [_rootLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [_rootLayer setFrame:[self bounds]];
+- (CALayer *)makeBackingLayer
+{
+    CALayer *layer = [[CALayer alloc] init];
+    [layer setFrame:[self bounds]];
 
-    _dragIndicationLayer = [[OEGridLayer alloc] init];
-    [_dragIndicationLayer setInteractive:NO];
-    [_dragIndicationLayer setBorderColor:[[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor]];
-    [_dragIndicationLayer setBorderWidth:2.0];
-    [_dragIndicationLayer setCornerRadius:8.0];
-    [_dragIndicationLayer setHidden:YES];
-    [_rootLayer addSublayer:_dragIndicationLayer];
+    if (!_rootLayer)
+    {
+        _rootLayer = [[OEGridLayer alloc] init];
+        [_rootLayer setInteractive:YES];
+        [_rootLayer setGeometryFlipped:YES];
+        [_rootLayer setLayoutManager:[OEGridViewLayoutManager layoutManager]];
+        [_rootLayer setDelegate:self];
+        [_rootLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+        [_rootLayer setFrame:[self bounds]];
 
-    _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
-    [self addSubview:_fieldEditor];
+        _dragIndicationLayer = [[OEGridLayer alloc] init];
+        [_dragIndicationLayer setInteractive:NO];
+        [_dragIndicationLayer setBorderColor:[[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor]];
+        [_dragIndicationLayer setBorderWidth:2.0];
+        [_dragIndicationLayer setCornerRadius:8.0];
+        [_dragIndicationLayer setHidden:YES];
+        [_rootLayer addSublayer:_dragIndicationLayer];
 
-    [self OE_reorderSublayers];
-    [self OE_setNeedsReloadData];
+        _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
+        [self addSubview:_fieldEditor];
+
+        [self OE_reorderSublayers];
+        [self OE_setNeedsReloadData];
+    }
+
+    [layer addSublayer:_rootLayer];
+
+    return layer;
 }
 
 #pragma mark -
@@ -161,31 +170,13 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (OEGridViewCell *)cellForItemAtIndex:(NSUInteger)index makeIfNecessary:(BOOL)necessary
 {
-    __block OEGridViewCell *result = nil;
-
-    // This is my attempt at being thread safe
-    if([_visibleCells count] > 0)
-    {
-        // I'm not sure which is faster, iterate through the cells or use an NSPredicate:
-        //   [visibleCells filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"_index == %d", index]]
-        [_visibleCells enumerateObjectsUsingBlock:
-         ^ (OEGridViewCell *obj, BOOL *stop)
-         {
-             if([obj OE_index] == index)
-             {
-                 result = obj;
-                 *stop = YES;
-             }
-         }];
-    }
-
+    OEGridViewCell *result = [_visibleCellByIndex objectForKey:[NSNumber numberWithUnsignedInt:index]];
     if(result == nil && necessary)
     {
         result = [_dataSource gridView:self cellForItemAtIndex:index];
         [result OE_setIndex:index];
         [result setSelected:[_selectionIndexes containsIndex:index] animated:NO];
         [result setFrame:[self rectForCellAtIndex:index]];
-        [result layoutIfNeeded];
     }
 
     return result;
@@ -257,7 +248,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (NSArray *)visibleCells
 {
-    return [_visibleCells allObjects];
+    return [_visibleCellByIndex allValues];
 }
 
 - (NSIndexSet *)indexesForVisibleCells
@@ -318,8 +309,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     // We add all the indexes immediately in case the visible cells shift while we are performing this operaiton
     [_selectionIndexes addIndexesInRange:NSMakeRange(0, _cachedNumberOfItems)];
-    [_visibleCells enumerateObjectsUsingBlock:
-     ^ (id obj, BOOL *stop)
+    [_visibleCellByIndex enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, OEGridViewCell *obj, BOOL *stop)
      {
          [obj setSelected:YES animated:YES];
      }];
@@ -334,8 +325,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     // We remove all the indexes immediately in case the visible cells shift while we are performing this operaiton
     [_selectionIndexes removeAllIndexes];
-    [_visibleCells enumerateObjectsUsingBlock:
-     ^ (id obj, BOOL *stop)
+    [_visibleCellByIndex enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, OEGridViewCell *obj, BOOL *stop)
      {
          [obj setSelected:NO animated:YES];
      }];
@@ -346,35 +337,34 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 #pragma mark -
 #pragma mark Data Reload
 
-- (void)OE_enqueueCell:(OEGridViewCell *)cell
-{
-    if([_fieldEditor delegate] == cell) [self OE_cancelFieldEditor];
-
-    [_reuseableCells addObject:cell];
-    [_visibleCells removeObject:cell];
-    [cell removeFromSuperlayer];
-}
-
-- (void)OE_enqueueCells:(NSSet *)cells
-{
-    NSSet *cellsToRemove = [cells copy];
-    for(OEGridViewCell *cell in cellsToRemove) [self OE_enqueueCell:cell];
-}
-
 - (void)OE_enqueueCellsAtIndexes:(NSIndexSet *)indexes
 {
-    [indexes enumerateIndexesUsingBlock:
-     ^ (NSUInteger idx, BOOL *stop)
-     {
-         [self OE_enqueueCell:[self cellForItemAtIndex:idx makeIfNecessary:NO]];
-     }];
+    if(!indexes || [indexes count] == 0) return;
+
+    NSIndexSet *indexesToQueue = [indexes copy];
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [indexesToQueue enumerateIndexesUsingBlock:
+         ^ (NSUInteger idx, BOOL *stop)
+         {
+             NSNumber *key = [NSNumber numberWithUnsignedInteger:idx];
+             OEGridViewCell *cell = [_visibleCellByIndex objectForKey:key];
+             if(cell)
+             {
+                 if([_fieldEditor delegate] == cell) [self OE_cancelFieldEditor];
+
+                 [_visibleCellByIndex removeObjectForKey:key];
+                 [_reuseableCells addObject:cell];
+                 [cell removeFromSuperlayer];
+             }
+         }];
+    });
 }
 
 - (void)OE_calculateCachedValuesAndQueryForDataChanges:(BOOL)shouldQueryForDataChanges
 {
     // Collect some basic information of the current environment
     NSScrollView *enclosingScrollView = [self enclosingScrollView];
-    NSRect        visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
+    NSRect        visibleRect         = [enclosingScrollView documentVisibleRect];
     NSPoint       contentOffset       = visibleRect.origin;
 
     const NSSize cachedContentSize    = [self bounds].size;
@@ -425,8 +415,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     }
     else if(_cachedViewSize.height != viewSize.height || itemSize.height != _cachedItemSize.height)
     {
-        // TODO: only add 1 to the number of visible rows if the first row is partially visible
-        numberOfVisibleRows = ((NSUInteger)ceil(viewSize.height / itemSize.height)) + 1;
+        numberOfVisibleRows = (NSUInteger)ceil(viewSize.height / itemSize.height);
     }
 
     // Check to see if the number of items, number of visible columns, or cached cell size has changed
@@ -449,11 +438,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         }
         ++_supressFrameResize;
         [super setFrameSize:contentSize];
-        [[self enclosingScrollView] reflectScrolledClipView:(NSClipView *)[self superview]];
+        [enclosingScrollView reflectScrolledClipView:(NSClipView *)[self superview]];
         --_supressFrameResize;
 
         // Changing the size of the frame may also change the contentOffset, recalculate that value
-        visibleRect   = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
+        visibleRect   = [enclosingScrollView documentVisibleRect];
         contentOffset = visibleRect.origin;
 
         // Check to see if the number visible columns or the cell size has changed as these vents will cause the layout to be recalculated
@@ -484,19 +473,14 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)OE_checkForDataReload
 {
-    // Check to see if the visible cells have changed
-    NSScrollView    *enclosingScrollView = [self enclosingScrollView];
-    const NSRect     visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
-    const NSSize     contentSize         = [self bounds].size;
-    const NSSize     viewSize            = visibleRect.size;
-    const CGFloat    maxContentOffset    = MAX(contentSize.height - viewSize.height, contentSize.height - _cachedItemSize.height);
-    const CGFloat    contentOffsetY      = MAX(MIN(_cachedContentOffset.y, maxContentOffset), 0.0);
-    const NSUInteger row                 = (NSUInteger)floor(contentOffsetY / _cachedItemSize.height);
-    const NSUInteger firstVisibleIndex   = row * _cachedNumberOfVisibleColumns;
-    const NSUInteger visibleIndexLength  = MIN(_cachedNumberOfVisibleColumns * _cachedNumberOfVisibleRows, _cachedNumberOfItems - firstVisibleIndex);
-    const NSRange    visibleIndexRange   = NSMakeRange(firstVisibleIndex, visibleIndexLength);
+    if(_cachedNumberOfItems == 0) return;
 
-    NSIndexSet *visibleCellsIndexSet = [NSIndexSet indexSetWithIndexesInRange:visibleIndexRange];
+    // Check to see if the visible cells have changed
+    const CGFloat    contentOffsetY       = NSMinY([[self enclosingScrollView] documentVisibleRect]);
+    const NSUInteger firstVisibleIndex    = MAX((NSInteger)floor(contentOffsetY / _cachedItemSize.height) - 1, 0) * _cachedNumberOfVisibleColumns;
+    const NSUInteger numberOfVisibleCells = _cachedNumberOfVisibleColumns * (_cachedNumberOfVisibleRows + 2);
+
+    NSIndexSet *visibleCellsIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(firstVisibleIndex, MIN(numberOfVisibleCells, _cachedNumberOfItems - firstVisibleIndex))];
     if ([_visibleCellsIndexes isEqualToIndexSet:visibleCellsIndexSet]) return;
 
     // Calculate which cells to remove from view
@@ -552,7 +536,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_addNoItemsView
 {
     // Enqueue all the cells for later use and remove them from the view
-    [self OE_enqueueCells:_visibleCells];
+    [self OE_enqueueCellsAtIndexes:_visibleCellsIndexes];
     [_visibleCellsIndexes removeAllIndexes];
 
     // Check to see if the dataSource has a view to display when there is nothing to display
@@ -561,11 +545,13 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         _noItemsView = [_dataSource viewForNoItemsInGridView:self];
         if(_noItemsView)
         {
+            NSScrollView *enclosingScrollView = [self enclosingScrollView];
+
             [self addSubview:_noItemsView];
             [_noItemsView setHidden:NO];
             [self OE_centerNoItemsView];
-            _previousElasticity = [[self enclosingScrollView] verticalScrollElasticity];
-            [[self enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
+            _previousElasticity = [enclosingScrollView verticalScrollElasticity];
+            [enclosingScrollView setVerticalScrollElasticity:NSScrollElasticityNone];
             [self OE_setNeedsLayoutGridView];
         }
     }
@@ -573,13 +559,21 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)reloadData
 {
+    _needsReloadData = NO;
+
+    // Notify the -reloadCellsAtIndexes: that the reload should be aborted
+    _abortReloadCells = YES;
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        // Wait until any pending reload operations are complete
+        [[_visibleCellByIndex allValues] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
+        [_visibleCellByIndex removeAllObjects];
+        [_visibleCellsIndexes removeAllIndexes];
+        [_reuseableCells removeAllObjects];
+        _abortReloadCells = NO;
+    });
+
     [_selectionIndexes removeAllIndexes];
     _indexOfKeyboardSelection = NSNotFound;
-
-    [_visibleCells makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-    [_visibleCells removeAllObjects];
-    [_visibleCellsIndexes removeAllIndexes];
-    [_reuseableCells removeAllObjects];
 
     _cachedNumberOfVisibleColumns = 0;
     _cachedNumberOfVisibleRows    = 0;
@@ -596,23 +590,28 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     // Recalculate all of the required cached values
     [self OE_calculateCachedValuesAndQueryForDataChanges:YES];
     if(_cachedNumberOfItems == 0) [self OE_addNoItemsView];
-
-    _needsReloadData = NO;
 }
 
 - (void)reloadCellsAtIndexes:(NSIndexSet *)indexes
 {
     // If there is no index set or no items in the index set, then there is nothing to update
-    if([indexes count] == 0) return;
+    if(!indexes || [indexes count] == 0 || !_dataSource) return;
 
-    [indexes enumerateIndexesUsingBlock:
-     ^ (NSUInteger idx, BOOL *stop)
-     {
-         // If the cell is not already visible, then there is nothing to reload
-         if([_visibleCellsIndexes containsIndex:idx])
+    NSIndexSet *indexesToReload = [indexes copy];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [indexesToReload enumerateIndexesUsingBlock:
+         ^ (NSUInteger idx, BOOL *stop)
          {
+             // Abort reload if we are waiting for waiting for a synchronization checkpoint in -reloadData:
+             if (_abortReloadCells)
+             {
+                 *stop = YES;
+                 return;
+             }
+
              OEGridViewCell *newCell = [_dataSource gridView:self cellForItemAtIndex:idx];
              OEGridViewCell *oldCell = [self cellForItemAtIndex:idx makeIfNecessary:NO];
+
              if(newCell != oldCell)
              {
                  if(oldCell) [newCell setFrame:[oldCell frame]];
@@ -623,26 +622,21 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
                      [newCell OE_setIndex:idx];
                      [newCell setSelected:[_selectionIndexes containsIndex:idx] animated:NO];
 
-                     // Replace the old cell with the new cell
-                     if(oldCell)
-                     {
-                         [oldCell removeFromSuperlayer];
-                         [self OE_enqueueCell:oldCell];
-                     }
+                     if(oldCell) [self OE_enqueueCellsAtIndexes:[NSIndexSet indexSetWithIndex:[oldCell OE_index]]];
+
                      [newCell setOpacity:1.0];
                      [newCell setHidden:NO];
 
                      if(!oldCell) [newCell setFrame:[self rectForCellAtIndex:idx]];
 
-                     [_visibleCells addObject:newCell];
+                     [_visibleCellByIndex setObject:newCell forKey:[NSNumber numberWithUnsignedInteger:idx]];
                      [_rootLayer addSublayer:newCell];
                  }
-
-                 [self OE_setNeedsLayoutGridView];
              }
-         }
-     }];
-    [self OE_reorderSublayers];
+         }];
+        [self OE_reorderSublayers];
+        [CATransaction flush];
+    });
 }
 
 #pragma mark -
@@ -687,7 +681,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     {
         // TODO: I think there is some optimization we can do here
         [self setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [notificationCenter addObserver:self selector:@selector(OE_clipViewFrameChanged:) name:NSViewBoundsDidChangeNotification object:newClipView];
+        [notificationCenter addObserver:self selector:@selector(OE_clipViewBoundsChanged:) name:NSViewBoundsDidChangeNotification object:newClipView];
         [notificationCenter addObserver:self selector:@selector(OE_clipViewFrameChanged:) name:NSViewFrameDidChangeNotification object:newClipView];
         [newClipView setPostsBoundsChangedNotifications:YES];
         [newClipView setPostsFrameChangedNotifications:YES];
@@ -727,32 +721,32 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     // Return immediately if this method is being surpressed.
     if(_supressFrameResize > 0) return;
+    [self OE_updateDecorativeLayers];
 
-    NSScrollView *enclosingScrollView = [self enclosingScrollView];
     if(_noItemsView)
     {
-        [self setFrame:[enclosingScrollView bounds]];
+        [self setFrame:[[self enclosingScrollView] bounds]];
         [self OE_centerNoItemsView];
     }
     else
     {
-        const NSRect visibleRect = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
-
+        const NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
         if(!NSEqualSizes(_cachedViewSize, visibleRect.size))
         {
             [self OE_cancelFieldEditor];
-            [self OE_calculateCachedValuesAndQueryForDataChanges:NO];
+            [self performSelector:@selector(OE_calculateCachedValuesAndQueryForDataChanges:) withObject:[NSNumber numberWithBool:NO] afterDelay:0.25];
         }
-        else if(!NSEqualPoints(_cachedContentOffset, visibleRect.origin))
-        {
-            _cachedContentOffset = visibleRect.origin;
-            [self OE_checkForDataReload];
-        }
+    }
+}
 
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
-        [self OE_updateDecorativeLayers];
-        [CATransaction commit];
+- (void)OE_clipViewBoundsChanged:(NSNotification *)notification
+{
+    [self OE_updateDecorativeLayers];
+    const NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
+    if(abs(_cachedContentOffset.y - visibleRect.origin.y) > _itemSize.height)
+    {
+        _cachedContentOffset = visibleRect.origin;
+        [self OE_checkForDataReload];
     }
 }
 
@@ -760,10 +754,9 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     if(!_noItemsView) return;
 
-    NSView       *enclosingScrollView = [self enclosingScrollView] ? : self;
-    const NSRect  visibleRect         = [enclosingScrollView visibleRect];
-    const NSSize  viewSize            = [_noItemsView frame].size;
-    const NSRect  viewFrame           = NSMakeRect(ceil((NSWidth(visibleRect) - viewSize.width) / 2.0), ceil((NSHeight(visibleRect) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
+    const NSRect  visibleRect = [[self enclosingScrollView] visibleRect];
+    const NSSize  viewSize    = [_noItemsView frame].size;
+    const NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(visibleRect) - viewSize.width) / 2.0), ceil((NSHeight(visibleRect) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
     [_noItemsView setFrame:viewFrame];
 }
 
@@ -789,13 +782,13 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     if(!_dragIndicationLayer && !_backgroundLayer && !_foregroundLayer) return;
 
-    NSScrollView *enclosingScrollView = [self enclosingScrollView];
-    const NSRect visibleRect          = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
-    const NSRect decorativeFrame      = NSIntegralRect(NSOffsetRect((enclosingScrollView ? [enclosingScrollView bounds] : visibleRect), NSMinX(visibleRect), NSMinY(visibleRect)));
-
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    const NSRect decorativeFrame = [[self enclosingScrollView] documentVisibleRect];
     [_backgroundLayer setFrame:decorativeFrame];
     [_foregroundLayer setFrame:decorativeFrame];
     [_dragIndicationLayer setFrame:NSInsetRect(decorativeFrame, 1.0, 1.0)];
+    [CATransaction commit];
 }
 
 - (void)OE_setNeedsLayoutGridView
@@ -813,12 +806,12 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)OE_layoutGridView
 {
-    if([_visibleCells count] == 0) return;
+    if([_visibleCellByIndex count] == 0) return;
 
-    [_visibleCells enumerateObjectsUsingBlock:
-     ^ (id obj, BOOL *stop)
+    [_visibleCellByIndex enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, OEGridViewCell *obj, BOOL *stop)
      {
-         [obj setFrame:[self rectForCellAtIndex:[obj OE_index]]];
+         [obj setFrame:[self rectForCellAtIndex:[key unsignedIntegerValue]]];
      }];
 
     _needsLayoutGridView = NO;
@@ -887,10 +880,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         if(![_trackingLayer isTracking]) _trackingLayer = nil;
     }
 
-    NSUInteger modifierFlags = [[NSApp currentEvent] modifierFlags];
-    BOOL commandKeyDown      = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask);
-    BOOL shiftKeyDown        = ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
-    BOOL invertSelection     = commandKeyDown || shiftKeyDown;
+    const NSUInteger modifierFlags = [[NSApp currentEvent] modifierFlags];
+    const BOOL commandKeyDown      = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask);
+    const BOOL shiftKeyDown        = ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
+    const BOOL invertSelection     = commandKeyDown || shiftKeyDown;
 
     // Figure out which cell was touched, inverse it's selection...
     if(cell != nil)
@@ -920,26 +913,27 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     }
 
     // Start tracking mouse
-    NSEvent *lastMouseDragEvent = nil;
-    BOOL     periodicEvents     = (_trackingLayer == _rootLayer);
+    NSEvent         *lastMouseDragEvent  = nil;
+    const BOOL       isTrackingRootLayer = (_trackingLayer == _rootLayer);
+    const NSUInteger eventMask           = NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSKeyDownMask | (isTrackingRootLayer ? NSPeriodicMask : 0);
+    _initialPoint                        = pointInView;
 
-    _initialPoint = pointInView;
+    // If we are tracking the root layer then we are dragging a selection box, fire off periodic events so that we can autoscroll the view
+    if(isTrackingRootLayer) [NSEvent startPeriodicEventsAfterDelay:OEInitialPeriodicDelay withPeriod:OEPeriodicInterval];
 
-    if(periodicEvents) [NSEvent startPeriodicEventsAfterDelay:OEInitialPeriodicDelay withPeriod:OEPeriodicInterval];
-
-    const NSUInteger mask = NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSKeyDownMask | (periodicEvents ? NSPeriodicMask : 0);
-    while(_trackingLayer && (theEvent = [[self window] nextEventMatchingMask:mask]))
+    // Keep tracking as long as we are tracking a layer and there are events in the queue
+    while(_trackingLayer && (theEvent = [[self window] nextEventMatchingMask:eventMask]))
     {
-        if(periodicEvents && [theEvent type] == NSPeriodic)
+        if(isTrackingRootLayer && [theEvent type] == NSPeriodic)
         {
+            // Refire last mouse drag event when perioidc events are encountered
             if(lastMouseDragEvent)
             {
                 [self mouseDragged:lastMouseDragEvent];
 
                 // Stop tracking last mouse drag event if we've reached the bottom or top of the scrollable area
-                NSScrollView *enclosingScrollView = [self enclosingScrollView];
-                const NSRect  visibleRect         = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
-                const NSRect  bounds              = [self bounds];
+                const NSRect  visibleRect = [[self enclosingScrollView] documentVisibleRect];
+                const NSRect  bounds      = [self bounds];
                 if (NSMinY(bounds) == NSMinY(visibleRect) || NSMaxY(bounds) == NSMaxY(visibleRect)) lastMouseDragEvent = nil;
             }
         }
@@ -963,21 +957,22 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     lastMouseDragEvent = nil;
     _trackingLayer     = nil;
 
-    if(periodicEvents) [NSEvent stopPeriodicEvents];
+    if(isTrackingRootLayer) [NSEvent stopPeriodicEvents];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
+    // Exit immediately if the noItemsView is visible or if we are not tracking anything
     if(_trackingLayer == nil || _noItemsView != nil) return;
 
     if([_trackingLayer isKindOfClass:[OEGridViewCell class]])
     {
         if(_dataSourceHas.pasteboardWriterForIndex && [_selectionIndexes count] > 0)
         {
+            // Don't start dragging a cell until the mouse has traveled at least 5 pixels in any direction
             const NSPoint pointInView     = [self OE_pointInViewFromEvent:theEvent];
             const NSPoint draggedDistance = NSMakePoint(ABS(pointInView.x - _initialPoint.x), ABS(pointInView.y - _initialPoint.y));
-            if(draggedDistance.x >= 5.0 || draggedDistance.y >= 5.0 ||
-               (draggedDistance.x * draggedDistance.x + draggedDistance.y * draggedDistance.y) >= 25)
+            if(draggedDistance.x >= 5.0 || draggedDistance.y >= 5.0 || (draggedDistance.x * draggedDistance.x + draggedDistance.y * draggedDistance.y) >= 25)
             {
                 __block NSMutableArray *draggingItems = [NSMutableArray array];
                 [_selectionIndexes enumerateIndexesUsingBlock:
@@ -993,11 +988,14 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
                      }
                  }];
 
+                // If there are items being dragged, start a dragging session
                 if([draggingItems count] > 0)
                 {
                     _draggingSession = [self beginDraggingSessionWithItems:draggingItems event:theEvent source:self];
                     [_draggingSession setDraggingFormation:NSDraggingFormationStack];
                 }
+
+                // Cacnel the tracking layer (which will cancel the event tracking loop).  The dragging session has it's own mouse tracking loop.
                 _trackingLayer = nil;
             }
         }
@@ -1008,6 +1006,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     }
     else if(_trackingLayer != _rootLayer)
     {
+        // Forward drag event to the OEGridLayer that is being tracked
         const NSPoint pointInLayer = [_rootLayer convertPoint:[self OE_pointInViewFromEvent:theEvent] toLayer:_trackingLayer];
         [_trackingLayer mouseMovedAtPointInLayer:pointInLayer withEvent:theEvent];
     }
@@ -1325,6 +1324,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     const NSPoint pointInView             = [self convertPoint:[sender draggingLocation] fromView:nil];
     OEGridLayer  *newDragDestinationLayer = [self OE_gridLayerForPoint:pointInView];
+
     if(_dragDestinationLayer != newDragDestinationLayer)
     {
         if(newDragDestinationLayer == _rootLayer)
@@ -1520,10 +1520,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     
     [_selectionIndexes removeAllIndexes];
     [_selectionIndexes addIndexes:selectionIndexes];
-    [_visibleCells enumerateObjectsUsingBlock:
-     ^ (id obj, BOOL *stop)
+    [_visibleCellByIndex enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, OEGridViewCell *obj, BOOL *stop)
      {
-         [obj setSelected:[_selectionIndexes containsIndex:[obj OE_index]] animated:![CATransaction disableActions]];
+         [obj setSelected:[_selectionIndexes containsIndex:[key unsignedIntegerValue]] animated:![CATransaction disableActions]];
      }];
 
     if(_delegateHas.selectionChanged) [_delegate selectionChangedInGridView:self];

@@ -56,6 +56,7 @@
 
 #pragma mark - Properties
 @property(nonatomic, strong) NSImage   *image;
+@property(nonatomic, assign) NSSize     imageSize;
 @property(nonatomic, copy)   NSString  *title;
 @property(nonatomic, assign) NSUInteger rating;
 

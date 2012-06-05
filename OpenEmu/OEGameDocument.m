@@ -40,6 +40,7 @@
 #import "OEDistantViewController.h"
 #import "NSViewController+OEAdditions.h"
 #import "NSView+FadeImage.h"
+#import "OEHUDWindow.h"
 @interface OEGameDocument ()
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError**)outError;
 - (BOOL)OE_loadGame:(OEDBGame *)game core:(OECorePlugin*)core withError:(NSError**)outError;
@@ -47,15 +48,18 @@
 @property (strong) OEGameViewController *gameViewController;
 @property (strong) NSViewController *viewController;
 - (OEDistantViewController*)distantViewController;
+
+@property (strong) NSWindow *popoutWindow;
 @end
 #pragma mark -
 @implementation OEGameDocument
-@synthesize gameViewController, viewController;
+@synthesize gameViewController, viewController, popoutWindow;
 - (id)init
 {
     self = [super init];
     if(self != nil)
     {
+        DLog(@"init OEGameDocument");
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(applicationWillTerminate:) 
                                                      name:NSApplicationWillTerminateNotification
@@ -146,6 +150,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowWillCloseNotification object:[self popoutWindow]];
 }
 
 #pragma mark -
@@ -171,6 +176,15 @@
     {
         windowRect = NSRectFromString([standardDefaults stringForKey:UDLastPopoutFrameKey]);
     }
+    
+    [[self gameViewController] viewWillAppear];
+    
+    OEHUDWindow *window = [[OEHUDWindow alloc] initWithContentRect:windowRect];
+    [window setContentView:[[self gameViewController] view]];
+    [window makeKeyAndOrderFront:self];
+    [self setPopoutWindow:window];
+    [[self gameViewController] viewDidAppear];
+    [window display];
 }
 
 #pragma mark -

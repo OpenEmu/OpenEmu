@@ -67,6 +67,11 @@
     return [[self boxImage] imageForSize:aSize];
 }
 
+- (BOOL)hasImage
+{
+    return [self boxImage] != nil;
+}
+
 - (NSSize)actualGridImageSizeforSize:(NSSize)aSize
 {
     return [[self boxImage] sizeOfThumbnailForSize:aSize];
@@ -147,6 +152,12 @@
 - (NSNumber *)listViewRating
 {
     return [self rating];
+}
+
+
+- (void)setListViewTitle:(NSString*)title
+{
+    [self setName:title];
 }
 
 - (NSString *)listViewTitle
