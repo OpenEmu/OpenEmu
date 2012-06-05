@@ -82,6 +82,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @property         IOSurfaceID gameSurfaceID;
 
 @property         OEIntSize gameScreenSize;
+@property         OEIntSize gameBufferSize;
 @property         CVDisplayLinkRef gameDisplayLinkRef;
 @property(strong) NSTimer *gameTimer;
 @property(strong) SyphonServer *gameServer;
@@ -108,6 +109,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @synthesize gameDisplayLinkRef;
 @synthesize gameTimer;
 @synthesize gameScreenSize;
+@synthesize gameBufferSize;
 @synthesize gameServer;
 
 // Filters
@@ -194,6 +196,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
     
     gameScreenSize = rootProxy.screenSize;
+    gameBufferSize = rootProxy.bufferSize;
     gameSurfaceID = rootProxy.surfaceID;
 
     // rendering
@@ -417,6 +420,26 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         
         CGLLockContext(cgl_ctx);
                 
+        // Attempted fix for Issue #142
+        // update our game texture
+//        glEnable(GL_TEXTURE_RECTANGLE_EXT);
+//        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+//        CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_RGBA, GL_UNSIGNED_BYTE, surfaceRef, 0);
+//        
+//        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//        
+//        // already disabled
+//        //    glDisable(GL_BLEND);
+//        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+//        
+//        // make a CIImage based off of our texture
+//        //NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
+//        CGRect textureRect = CGRectMake(0, 0, gameScreenSize.width, gameScreenSize.height);
+//        
+//        // always set the CIImage, so save states save
+//        [self setGameCIImage:[[[CIImage alloc] initWithTexture:gameTexture size:textureRect.size flipped:NO colorSpace:rgbColorSpace] imageByCroppingToRect:textureRect]];
+        
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         
@@ -505,7 +528,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
+    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_RGBA, GL_UNSIGNED_BYTE, surfaceRef, 0);
     
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -520,8 +543,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     // calculate aspect ratio
     NSSize scaled;
-    float wr = gameScreenSize.width / self.frame.size.width;
-    float hr = gameScreenSize.height / self.frame.size.height;
+    float wr = gameBufferSize.width / self.frame.size.width;
+    float hr = gameBufferSize.height / self.frame.size.height;
     float ratio;
     ratio = (hr < wr ? wr : hr);
     scaled = NSMakeSize(( wr / ratio), (hr / ratio));
@@ -536,7 +559,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         halfw, halfh,
         -halfw, halfh
     };
-    
+
     const GLint tex_coords[] = 
     {
         0, 0,
