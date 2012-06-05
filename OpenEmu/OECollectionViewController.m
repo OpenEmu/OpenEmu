@@ -1070,6 +1070,7 @@
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
 {    
     [listView selectRowIndexes:[NSIndexSet indexSetWithIndex:[sender selectedIndex]] byExtendingSelection:NO];
+    [listView scrollRowToVisible:index];
 }
 
 #pragma mark -
