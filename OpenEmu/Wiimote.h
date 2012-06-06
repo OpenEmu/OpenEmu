@@ -75,6 +75,11 @@ typedef enum {
 	
 	WiiNunchukZButton,
 	WiiNunchukCButton,
+    
+    WiiNunchukUpVirtualButton,
+    WiiNunchukDownVirtualButton,
+    WiiNunchukLeftVirtualButton,
+    WiiNunchukRightVirtualButton,
 	
 	WiiClassicControllerXButton,
 	WiiClassicControllerYButton,
@@ -148,6 +153,8 @@ typedef enum {
     
     UInt16 lastWiimoteButtonReport;
     UInt8 lastNunchuckButtonReport;
+    UInt8 lastNunchuckVirtualJoystickButtonReport;
+
     UInt16 lastClassicControllerButtonReport;
 }
 # pragma mark -
