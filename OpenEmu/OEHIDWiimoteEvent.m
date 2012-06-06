@@ -47,6 +47,10 @@
             
         case WiiNunchukZButton: return @"Nu Z";
         case WiiNunchukCButton: return @"Nu C";
+        case WiiNunchukUpVirtualButton: return @"Nu Up";
+        case WiiNunchukDownVirtualButton: return @"Nu Down";
+        case WiiNunchukLeftVirtualButton: return @"Nu Left";
+        case WiiNunchukRightVirtualButton: return @"Nu Right";
             
         case WiiClassicControllerXButton: return @"CC X";
         case WiiClassicControllerYButton: return @"CC Y";
@@ -71,6 +75,6 @@
 }
 - (NSString*)displayDescription
 {
-    return [NSString stringWithFormat:@"Wiimote %ld %@", [self padNumber]-WiimoteBasePadNumber+1, [self stringForButtonNumber:[self buttonNumber]]];
+    return [NSString stringWithFormat:@"Wi%ld %@", [self padNumber]-WiimoteBasePadNumber+1, [self stringForButtonNumber:[self buttonNumber]]];
 }
 @end
