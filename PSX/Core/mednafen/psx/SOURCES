@@ -1,0 +1,38 @@
+Sources of helpful information used in PS1 emulation(though some of it, especially older compiled information,
+is wrong to some degree or incomplete, but it's still useful):
+
+PCSX(and derivatives/forks)
+MAME/MESS
+P.E.Op.S
+
+Blade Lib
+psxsdk
+
+doomed's PSX documents
+bITmASTER's document
+Neill Corlett's SPU documents
+T.Fujita's SIO documents
+ChrlyMac
+Exophase
+mizvekov
+notaz
+pSXAuthor
+smf(blog)
+shalma(forum posts, changelogs)
+drhell's site
+jac's CD-XA document
+"The PlayStation 1 Video (STR) Format" - M. Sabin
+Various PS1 emulator compatibility lists(for identifying problematic games)
+
+
+MIPS RISC Architecture - Gerry Kane (1st and 2nd editions)
+MIPS Programmer's Handbook, The
+
+-----------
+General(non-PS1-specific) CD/CDROM information and code:
+
+SCSI-3 Multimedia Commands Revision 10A
+ECMA-130
+
+cdrdao
+dvdisaster

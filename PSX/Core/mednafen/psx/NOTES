@@ -1,0 +1,3 @@
+Capcom games(MMX4, MMX5, etc) - Sensitive about CD access and XA timing(XA playback problems).
+
+Viewpoint - Extra-sensitive about GPU LL DMA timing? (It was generating exceptions for some timings...)

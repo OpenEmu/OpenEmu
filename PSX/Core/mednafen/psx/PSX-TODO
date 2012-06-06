@@ -1,0 +1,38 @@
+Soul Reaver - Legacy of Kain has CD load time pauses where it probably shouldn't.
+
+Dead or Alive, Battle Arena Toshinden, Final Fantasy 7 have some kind of GPU timing issues.
+
+Chrono Cross has several-second freezes during some large special attack/magic sequences.
+
+Tiny Toon Adventures - Plucky's Big Adventure is failing and BREAK'ing for some reason, maybe memcard related.
+
+Shadow Master has broken startup images.
+
+Rayman (Europe) has somewhat broken FMV.
+
+Crusaders of Might and Magic - The CD-XA buffering increase for ToD II is apparently exacerbating the early voice cutoff problem in this game.
+
+Test IRQ and COP0 latencies; PSX IRQ controller latency, software IRQ bit latency, latency of both relevant COP0 IRQ enable bits.
+
+Test IRQ with LWC2.
+
+Test IRQ with COP0 instructions(interrupted execution or not?).
+
+Determine maximum quad height and width.  See if drawing is an all-or-nothing thing, or if one triangle of the pair will still be drawn
+if it's not too large.
+
+Test 0x0 and 1x1 polygon throughput for all triangle and quad drawing commands.
+
+Fix line drawing algorithm to match test results on the real thing.
+
+Instruction cache emulation(MAYBE).
+
+
+Test time between voice on and envelope reset; test time between voice on and first ADPCM block memory fetch.
+
+The SPU in the PS1 might sometimes drop voice on events when playing an ADPCM block that loops to itself(and was also the first and only
+ADPCM block, at least in the test program I noticed the issue in); investigate further.
+
+
+
+Make sure debugger COPn disassembly is correct(no typos or whatnot).

@@ -38,6 +38,7 @@
 				C68625721572686E00EFC972 /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
+				94A9E17F157C44550083A7DC /* PBXTargetDependency */,
 				945E431F1517F75B00057D08 /* PBXTargetDependency */,
 				94D7E8E9150741B500FBDD85 /* PBXTargetDependency */,
 				8291C4E0148958F500A72540 /* PBXTargetDependency */,
@@ -466,6 +467,16 @@
 		948E54131571D78D002D26E0 /* GameBoy Advance.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
 		948E54141571D78D002D26E0 /* NeoGeo Pocket.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
 		948E54151571D78D002D26E0 /* GameGear.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
+		94A9E164157C3B080083A7DC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A9E16A157C3B080083A7DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E168157C3B080083A7DC /* InfoPlist.strings */; };
+		94A9E174157C3C2A0083A7DC /* OEPSXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E170157C3C2A0083A7DC /* OEPSXSystemController.m */; };
+		94A9E175157C3C2A0083A7DC /* OEPSXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E172157C3C2A0083A7DC /* OEPSXSystemResponder.m */; };
+		94A9E17A157C3C420083A7DC /* controller_psx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E176157C3C420083A7DC /* controller_psx_mask.png */; };
+		94A9E17B157C3C420083A7DC /* controller_psx.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E177157C3C420083A7DC /* controller_psx.png */; };
+		94A9E17C157C3C420083A7DC /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E178157C3C420083A7DC /* Controller-Preferences-Info.plist */; };
+		94A9E17D157C3C420083A7DC /* psx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E179157C3C420083A7DC /* psx_library.png */; };
+		94A9E183157C44970083A7DC /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A9E184157C44F60083A7DC /* PlayStation.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
 		94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */; };
@@ -730,6 +741,20 @@
 			remoteGlobalIDString = 945E42FA1517F2B500057D08;
 			remoteInfo = Arcade;
 		};
+		94A9E17E157C44550083A7DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A9E162157C3B080083A7DC;
+			remoteInfo = PlayStation;
+		};
+		94A9E181157C44790083A7DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
 		94D7E8E51507413400FBDD85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -882,6 +907,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				94A9E184157C44F60083A7DC /* PlayStation.oesystemplugin in Copy Plugins To Application Support */,
 				C6862573157268A500EFC972 /* N64.oesystemplugin in Copy Plugins To Application Support */,
 				C6862574157268A500EFC972 /* NDS.oesystemplugin in Copy Plugins To Application Support */,
 				C6862575157268A500EFC972 /* Arcade.oesystemplugin in Copy Plugins To Application Support */,
@@ -1475,6 +1501,18 @@
 		945E43111517F5BC00057D08 /* controller_arcade_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade_mask.png; sourceTree = "<group>"; };
 		945E43121517F5BC00057D08 /* controller_arcade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade.png; sourceTree = "<group>"; };
 		945E43131517F5BC00057D08 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayStation.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A9E167157C3B080083A7DC /* PlayStation-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlayStation-Info.plist"; sourceTree = "<group>"; };
+		94A9E169157C3B080083A7DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A9E16F157C3C2A0083A7DC /* OEPSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemController.h; sourceTree = "<group>"; };
+		94A9E170157C3C2A0083A7DC /* OEPSXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPSXSystemController.m; sourceTree = "<group>"; };
+		94A9E171157C3C2A0083A7DC /* OEPSXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemResponder.h; sourceTree = "<group>"; };
+		94A9E172157C3C2A0083A7DC /* OEPSXSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPSXSystemResponder.m; sourceTree = "<group>"; };
+		94A9E173157C3C2A0083A7DC /* OEPSXSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemResponderClient.h; sourceTree = "<group>"; };
+		94A9E176157C3C420083A7DC /* controller_psx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx_mask.png; sourceTree = "<group>"; };
+		94A9E177157C3C420083A7DC /* controller_psx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx.png; sourceTree = "<group>"; };
+		94A9E178157C3C420083A7DC /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94A9E179157C3C420083A7DC /* psx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = psx_library.png; sourceTree = "<group>"; };
 		94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NDS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NDS-Info.plist"; sourceTree = "<group>"; };
 		94D7E8CF15073BA000FBDD85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1725,6 +1763,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94A9E160157C3B080083A7DC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A9E183157C44970083A7DC /* OpenEmuSystem.framework in Frameworks */,
+				94A9E164157C3B080083A7DC /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C615073BA000FBDD85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1872,6 +1919,7 @@
 				8227754F148946DF00B19E27 /* GameGear.oesystemplugin */,
 				94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */,
 				945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */,
+				94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3026,6 +3074,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		94A9E165157C3B080083A7DC /* PlayStation */ = {
+			isa = PBXGroup;
+			children = (
+				94A9E16F157C3C2A0083A7DC /* OEPSXSystemController.h */,
+				94A9E170157C3C2A0083A7DC /* OEPSXSystemController.m */,
+				94A9E171157C3C2A0083A7DC /* OEPSXSystemResponder.h */,
+				94A9E172157C3C2A0083A7DC /* OEPSXSystemResponder.m */,
+				94A9E173157C3C2A0083A7DC /* OEPSXSystemResponderClient.h */,
+				94A9E166157C3B080083A7DC /* Supporting Files */,
+			);
+			path = PlayStation;
+			sourceTree = "<group>";
+		};
+		94A9E166157C3B080083A7DC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A9E179157C3C420083A7DC /* psx_library.png */,
+				94A9E176157C3C420083A7DC /* controller_psx_mask.png */,
+				94A9E177157C3C420083A7DC /* controller_psx.png */,
+				94A9E167157C3B080083A7DC /* PlayStation-Info.plist */,
+				94A9E178157C3C420083A7DC /* Controller-Preferences-Info.plist */,
+				94A9E168157C3B080083A7DC /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		94D7E8CB15073BA000FBDD85 /* NDS */ = {
 			isa = PBXGroup;
 			children = (
@@ -3278,6 +3352,7 @@
 				C6B947B11364ECA700A425F0 /* GameBoy */,
 				C6B947E81365080B00A425F0 /* Genesis */,
 				C646574A13771F12002A4F70 /* GameBoy Advance */,
+				94A9E165157C3B080083A7DC /* PlayStation */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -3571,6 +3646,24 @@
 			productReference = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		94A9E162157C3B080083A7DC /* PlayStation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A9E16C157C3B080083A7DC /* Build configuration list for PBXNativeTarget "PlayStation" */;
+			buildPhases = (
+				94A9E15F157C3B080083A7DC /* Sources */,
+				94A9E160157C3B080083A7DC /* Frameworks */,
+				94A9E161157C3B080083A7DC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A9E182157C44790083A7DC /* PBXTargetDependency */,
+			);
+			name = PlayStation;
+			productName = PlayStation;
+			productReference = 94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		94D7E8C815073BA000FBDD85 /* NDS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */;
@@ -3755,6 +3848,7 @@
 				8227753E148946DF00B19E27 /* GameGear */,
 				94D7E8C815073BA000FBDD85 /* NDS */,
 				945E42FA1517F2B500057D08 /* Arcade */,
+				94A9E162157C3B080083A7DC /* PlayStation */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -3980,6 +4074,18 @@
 				945E43161517F5BC00057D08 /* controller_arcade_mask.png in Resources */,
 				945E43171517F5BC00057D08 /* controller_arcade.png in Resources */,
 				945E43181517F5BC00057D08 /* Controller-Preferences-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A9E161157C3B080083A7DC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A9E16A157C3B080083A7DC /* InfoPlist.strings in Resources */,
+				94A9E17A157C3C420083A7DC /* controller_psx_mask.png in Resources */,
+				94A9E17B157C3C420083A7DC /* controller_psx.png in Resources */,
+				94A9E17C157C3C420083A7DC /* Controller-Preferences-Info.plist in Resources */,
+				94A9E17D157C3C420083A7DC /* psx_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4369,6 +4475,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94A9E15F157C3B080083A7DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A9E174157C3C2A0083A7DC /* OEPSXSystemController.m in Sources */,
+				94A9E175157C3C2A0083A7DC /* OEPSXSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C515073BA000FBDD85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4548,6 +4663,16 @@
 			target = 945E42FA1517F2B500057D08 /* Arcade */;
 			targetProxy = 945E431E1517F75B00057D08 /* PBXContainerItemProxy */;
 		};
+		94A9E17F157C44550083A7DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A9E162157C3B080083A7DC /* PlayStation */;
+			targetProxy = 94A9E17E157C44550083A7DC /* PBXContainerItemProxy */;
+		};
+		94A9E182157C44790083A7DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A9E181157C44790083A7DC /* PBXContainerItemProxy */;
+		};
 		94D7E8E61507413400FBDD85 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -4653,6 +4778,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				945E43011517F2B500057D08 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A9E168157C3B080083A7DC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A9E169157C3B080083A7DC /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5009,6 +5142,44 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "Arcade/Arcade-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		94A9E16D157C3B080083A7DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "PlayStation/PlayStation-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		94A9E16E157C3B080083A7DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "PlayStation/PlayStation-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -5515,6 +5686,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		94A9E16C157C3B080083A7DC /* Build configuration list for PBXNativeTarget "PlayStation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A9E16D157C3B080083A7DC /* Debug */,
+				94A9E16E157C3B080083A7DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */ = {
 			isa = XCConfigurationList;
