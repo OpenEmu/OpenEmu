@@ -1,0 +1,14 @@
+# libvorbisidec pkg-config source file
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: vorbisidec
+Description: vorbisidec is the integer Ogg Vorbis library
+Version: @VERSION@
+Requires: ogg
+Conflicts:
+Libs: -L${libdir} -lvorbisidec -lm
+Cflags: -I${includedir}

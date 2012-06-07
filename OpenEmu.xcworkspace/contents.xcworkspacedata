@@ -59,6 +59,9 @@
       location = "group:PSX/Mednafen PSX.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Mednafen WonderSwan/Mednafen WonderSwan.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Mednafen PCE/Mednafen PCE.xcodeproj">
    </FileRef>
 </Workspace>

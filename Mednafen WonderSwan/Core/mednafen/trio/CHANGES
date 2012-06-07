@@ -1,0 +1,785 @@
+CHANGES -- trio
+
+
+The changes listed without a name attributed to them were most likely done by
+Bjorn Reese and/or Daniel Stenberg.
+
+Version 1.14 - 2010/01/26
+-------------------------
+* David Byron
+  Added trio_xstring_append_max.
+
+* Fixed compilation problem on Cygwin due to lack of long double math
+  (reported by Matthias Andree).
+
+* David Boyce
+  Added #undef of standard stdio function names before assigning trio functions
+  to them.
+
+* Matthias Andree
+  Upgraded configure.in to use new macros instead of obsoleted macros.
+
+* Matthias Andree
+  Added VPATH to Makefile.in
+
+* Tom Honermann
+  Fixed problem with subnormal numbers which caused an infinite loop outputting
+  leading spaces.
+
+* Adam McLaurin
+  Improved parsing performance by avoiding memset() and memcpy() on character
+  arrays.
+
+* Gideon Smeding
+  Fixed %u scanning of signed numbers.
+
+* Gideon Smeding
+  Fixed group scanning for non-matching input.
+
+* Fixed missing undo of look-ahead reading for scanf functions. This does only
+  work for the scanf* and fscanf* functions, not dscanf* and cscanf* functions
+  (reported by Gideon Smeding).
+
+* If the format string is empty, scanf does not attempt to read any input.
+
+* Ralf Junker
+  Fixed Borland compilation for user-defined specifiers.
+
+
+Version 1.13 - 2008/11/09
+-------------------------
+* Ives Aerts
+  Added the $<format|skip> format for user-defined specifiers, which is
+  compatible with compiler warnings about mismatches between specifiers and
+  arguments.
+
+* Added TRIO_DEPRECATED flag (reported by David Boyce)
+
+* Fixed rounding adjustment for long double (reported as bug item #2136686).
+
+* Added Makefile dependency for test target (reported as bug item #2136636).
+
+* David Boyce
+  Fixed long long support for MSVC.
+
+* Fixed potential problem with read after buffer end for non-zero terminated
+  strings (reported as bug item #1828465).
+
+* Andreas Stricker
+  Added WinCE support.
+
+* Fixed number of significant digits for %g.
+
+
+Version 1.12 - 2006/10/22
+-------------------------
+* Fixed scanning of floats (reported by Bernd Ahlers).
+
+* Fixed configure.in for GCC on Tru64 and MIPSpro on IRIX (reported by Andreas
+  Maus).
+
+* Olli Savia
+  Added support for LynxOS.
+
+
+Version 1.11 - 2006/04/08
+-------------------------
+* Mark Pickelmann
+  Fixed trio_unregister. If the first element was removed, the remaining
+  list would be removed as well.
+
+* Fixed unintended formatting of %e that would result in non-zero numbers
+  starting with zero (reported by Mark Pickelmann and Gisli Ottarsson).
+
+* Fixed compilation with Sun Workshop 6 (reported by Matthias Andree).
+
+* Fixed accuracy for denormalized numbers (bug item #758327).
+
+* Glen Davidson
+  Fixed scanning of floating-point numbers without a decimal-point (bug item
+  #1370427).
+
+* David Byron
+  Fixed more compiler warnings.
+
+* Fixed compilation of trio_to_long_double and TRIO_FEATURE_FLOAT (reported by
+  David Byron).
+
+* Fixed precision of large floating-point numbers (bug item #1314524).
+
+* Karl Bochert
+  Fixed trio_fpclassify_and_signbit to only restore the floating-point
+  precision.
+
+* Fixed detection of need for ieee option on FreeBSD/Alpha.
+
+* Added TRIO_SNPRINTF_ONLY compilation.
+
+* Fixed trio_to_double by not using strtod() on Tru64/DECC because it does not
+  support hex-floats.
+
+* Fixed crash on 64 bits machines related to a previous workaround in version
+  1.9 for uninitialized va_list (reported by Nicolai Tufar, suggestion by
+  Douglas Gwyn).
+
+* Patrick Jessee
+  Fixed width calculation for %g.
+
+* Added macros for internal features.
+
+* Jon Foster
+  Added macros for conditional compilation of many features. Documented all
+  the features.
+
+* Karl Bochert
+  Fixed problem with Borland C++, which changes the floating-point precision
+  for certain math functions (log10() and _fpclass()).
+
+* Karl Bochert
+  Fixed compilation warnings on Borland C++.
+
+* Removed any occurrence of #elif because Borland C++ reports wrong line
+  numbers when they are present (reported by Karl Bochert).
+
+* David Byron
+  Added trio_asprintfv.
+
+* Brian Chapman
+  Fixed Mac OS X compilation.
+
+* David Byron
+  Fixed several compiler warnings.
+
+* Fixed printing of out-of-range arguments for %hhd and %hd. These arguments
+  can be out of range because of default integer promotion.
+
+* Bob Friesenhahn
+  Fixed installation of header files.
+
+* Joe Orton
+  Added SHELL to Makefile.in to avoid problems with CShells.
+
+* Shaun Tancheff
+  Fixed regresion tests for MSVC.
+
+* Craig Berry
+  Fixed the VMS C99 workaround.
+
+
+Version 1.10 - 2003/03/06
+-------------------------
+* Rearranged some include files to accommodate large file support (reported by
+  Albert Chin-A-Young).
+
+* Added support for SunOS 4.1.x lack of strerror, tolower, and toupper
+  (reported by Peter McCluskey).
+
+* Fixed pedantic compilation with TRIO_MINIMAL.
+
+* Jose Kahan
+  Moved <limits.h> to avoid redefinition problems.
+
+* Fixed hex-float exponents (reported by Matthias Clasen).
+
+* Fixed handling of negative width and precision via paramters (reported by
+  Jacob Navia).
+
+* Nigel Hall
+  Fixed TRIO_VA_START for VMS.
+
+* Rune Enggaard Lausen
+  Fixed compilation for Borland C++ Builder.
+
+* Fixed precision of hex-float numbers (reported by James Antill).
+
+* Fixed plus sign only to be added for signed numbers.
+
+* Fixed printing of integers with value and precision of zero (reported by
+  James Antill).
+
+* Fixed %#.o to only print one zero if the value is zero (reported by James
+  Antill).
+
+* Rewrote check for IEEE compilation option to remove dependency on additional
+  scripts.
+
+* Mehdi Lavasani
+  Makefile install target fixed to work with older install programs.
+
+* Collapsed the DECC, MSVC, HP-UX, and AIX code for trio_fpclassify_and_sign()
+  with further preprocessing.
+
+
+Version 1.9 - 2002/10/13
+------------------------
+* Fixed trio_fpclassify_and_signbit on AIX 3.2
+
+* Added configure check for -ieee/-mieee compilation option for Alpha machines.
+
+* Craig Berry
+  Fixed compilation on VMS.
+
+* Albert Chin-A-Young
+  Fixed incorrect conditional expression in trio_isinf.
+
+* Fixed the warnings about uninitialized va_list in the printfv and scanfv
+  family without the use of compiler specific pragmas (suggested by Ian
+  Pilcher).
+
+* Fixed space flag for floating-point numbers (reported by Ian Main).
+
+
+Version 1.8 - 2002/07/10
+------------------------
+* Fixed infinite loop in multibyte handling (reported by Gisli Ottarsson).
+
+* Added the customizable cprintf/cscanf family which enables to user to specify
+  input and output stream functions (suggested by Florian Schulze).
+
+* Fixed trio_isinf by removing the HP-UX workaround, and instead making sure
+  that the C99 macro will adhere to the trio return values (reported by Luke
+  Dunstan).
+
+* Alexander Lukyanov
+  Fixed boundary case for scanning and EOF.
+
+* Jacob Navia
+  Enabled the L modifier for formatting.
+
+* Added TRIO_MINIMAL to build trio without the string functions.
+
+* Added the R modifier to print rounded floating-point numbers.
+
+* Added trio_to_long_double and long double scanning (the L modifier).
+
+* Added trio_locale_decimal_point, trio_locale_thousand_separator,
+  trio_locale_grouping to overwrite locale settings.
+
+* Rewrote TrioWriteDouble to avoid temporary buffers and thus the danger of
+  buffer overflows (for instance %.5000f).
+
+* Improved floating-point formatting accuracy.
+
+* Fixed formatting of non-decimal exponents.
+
+* Fixed thousand separator checking.
+
+* Fixed %f scanning to get a float and %lf to get a double.
+
+* Fixed WIN32 compilation (reported by Emmanuel Mogenet)
+
+* Fixed regression test cases to exclude disabled features.
+
+
+Version 1.7 - 2002/05/07
+------------------------
+* Fixed trio_to_double to handle hex-floats properly.
+
+* Fixed printing of %a-format to be like %e, not like %g.
+
+* Fixed floating-point printing of values beyond the machine accuracy.
+
+* Fixed %f for printing with large precision.
+
+* Fixed the usage of C99 nan(), which caused a crash on OSF/1 (reported by
+  Georg Bolz)
+
+* Joe Orton
+  Fixed %p on 64-bit platforms.
+
+* Made trio compile with K&R compilers.
+
+* Emmanuel Mogenet
+  Fixed bug in trio_asprintf.
+
+* Emmanuel Mogenet
+  Various WIN32 fixes.
+
+* Joe Orton
+  Fixed trio_isinf() on HP-UX, and added test cases.
+
+* Joe Orton
+  Fixed non-portable use of $^ in Makefile.
+
+* Joe Orton
+  Added autoconf.
+
+* Alexander Lukyanov
+  Fixed a number of bugs in the scanning of EOF and the count specifier.
+
+* Richard Jinks
+  Added trio_nzero
+
+* Fixed incorrect handling of return code from TrioReadChar (reported by
+  Henrik Löf)
+
+* Fixed parsing of character class expressions.
+
+* Fixed trio_to_double which did not work with long fractions.
+
+* Fixed %f for printing of large numbers.
+
+* Fixed %#s to handle whitespaces as non-printable characters.
+
+* Added trio_isfinite, trio_signbit, and trio_fpclassify.
+
+* Added new test cases.
+
+
+Version 1.6 - 2002/01/13
+------------------------
+* Added dynamic string functions.
+
+* Rewrote and extended documentation in JavaDoc (using Doxygen).
+
+* Moved and renamed strio functions to triostr.
+
+* Robert Collins
+  Added definition for Cygwin.
+
+* Markus Henke
+  Added long double workaround for the HP C/iX compiler.
+
+* Marc Verwerft
+  Improved error handling for dynamically allocated strings.
+
+* John Fotheringham
+  Made trionan compile on OpenVMS.
+
+* Added 'd' and 'D' as exponent letters when using TRIO_MICROSOFT.
+
+* Fixed uninitial memory read for the parameter modifiers.
+
+
+Version 1.5 - 2001/09/08
+------------------------
+* Merged with libxml changes.
+
+* Moved NaN and Inf handling to separate file to enable reuse in other
+  projects.
+
+* Igor Zlatkovic
+  Fixed TrioGenerateNan for MSVC.
+
+* Fixed lots of preprocessor macros and internal data structure names.
+
+
+Version 1.4 - 2001/06/03
+------------------------
+* Added hex-float (%a and %A) for scanning.
+
+* Added wide character arguments (%ls, %ws, %S, %lc, %wc, and %C) for both
+  printf and scanf.
+
+* Added mutex callbacks for user-specified specifiers to enable applications to
+  add thread-safety. These are registered with trio_register, where the
+  namespace is set to either ":enter" to lock a mutex, or ":leave" to unlock a
+  mutex.
+
+* Added equivalence class expressions for scanning. For example, %[[=a=]] scans
+  for all letters in the same equivalence class as the letter 'a' as defined
+  by the locale.
+
+* Changed character class expressions for scanning. The expressions must now
+  be embedded withing an extra set of brackets, e.g. %[[:alpha:]]. This was
+  done to adhere to the syntax of UNIX98 regular expressions.
+
+* Added the possibility to specify standard support (TRIO_C99 etc.) as compiler
+  options.
+
+* Fixed conversion of hex-float in StrToDouble.
+
+* Fixed formatting of hex-float numbers.
+
+* Stan Boehm
+  Fixed crash on QNX, which happend because some buffers on the stack were too
+  big.
+
+* Fixed default precision for %f and %g (reported by Jose Ortiz)
+
+* Howard Kapustein
+  Added the I8, I16, I32, and I64 modifiers.
+
+* Jose Ortiz
+  Fixed rounding problem for %e.
+
+* Jose Ortiz
+  Fixed various problems with the xlC and Sun C++ compilers.
+
+
+Version 1.3 - 2001/05/16
+------------------------
+* trio's treatment of the field width when the %e code was used was not
+  correct (reported by Gisli Ottarsson). It turns out the fraction part should
+  be zero-padded by default and the exponent part should be zero-prefixed if
+  it is only one digit. At least that's how the GNU and Sun libc's work. The
+  trio floating point output looks identical to them now.
+
+* Fixed group scanning with modifiers.
+
+* Fixed compilation for 64-bit Digital Unix.
+
+* Igor Zlatkovic
+  Fixed compilation of dprintf, which uses read/write, for MSVC.
+
+* Fixed various compilation problems on Digital Unix (mainly associated with
+  va_list).
+
+
+Version 1.2 - 2001/04/11
+------------------------
+* Added autoconf integration. If compiled with HAVE_CONFIG_H the following
+  happens. Firstly, <config.h> is included. Secondly, trio will only be
+  compiled if WITH_TRIO is defined herein. Thirdly, if TRIO_REPLACE_STDIO is
+  defined, only stdio functions that have not been detected by autoconf, i.e.
+  those not defined by HAVE_PRINTF or similar, will be replaced by trio
+  functions (suggested by Daniel Veillard).
+
+* Fixed '%m.nf' output. Previously trio did not treat the width properly
+  in all cases (reported by Gisli Ottarsson).
+
+* Added explicit promotion for the scanfv family.
+
+* Fixed more C++ compilation warnings.
+
+
+Version 1.1 - 2001/02/25
+------------------------
+* Added explicit promotion for the printfv familiy. A float must be specified
+  by %hf.
+
+* Fixed positionals for printfv (reported by Gisli Ottarsson).
+
+* Fixed an integer to pointer conversion problem on the SGI MIPS C compiler
+  (reported by Gisli Ottarsson).
+
+* Fixed ANSI C++ warnings (type casting, and namespace is a reserved keyword).
+
+* Added \n to all examples in the documentation to prevent confusion.
+
+* Fixed StrSubstringMax
+
+
+Version 1.0 - 2000/12/10
+------------------------
+* Bumped Version number.
+
+
+Version 0.25 - 2000/12/09
+-------------------------
+* Wrote more documentation.
+
+* Improved NaN support and added NaN to regression test.
+
+* Fixed C99 support.
+
+* Added missing getter/setter functions.
+
+
+Version 0.24 - 2000/12/02
+-------------------------
+* Added callback functionality for the user-defined specifier (<>). All
+  the necessary functions are defined in triop.h header file. See the
+  documentation for trio_register for further detail.
+
+* Wrote initial documentation on the callback functionality.
+
+* Added the printfv and scanfv family of functions, which takes a pointer
+  array rather than variadic arguments. Each pointer in the array must point
+  to the associated data (requested by Bruce Korb).
+
+* As indicated in version 0.21 the extension modifiers (<>) have now been
+  completely removed.
+
+* Added skipping of thousand-separators in floating-point number scanning.
+
+
+Version 0.23 - 2000/10/21
+-------------------------
+* Added width to scanning of floating-point numbers.
+
+* Wrote more documentation on trio_printf.
+
+* Fixed problem with trailing zeroes after decimal-point.
+
+
+Version 0.22 - 2000/08/06
+-------------------------
+* Added LC_CTYPE locale dependent character class expressions to scan lists.
+  Included are [:alnum:], [:alpha:], [:cntrl:], [:digit:], [:graph:],
+  [:lower:], [:print:], [:punct:], [:space:], [:upper:], [:xdigit:]
+
+* Added C escapes to alternative string formatting and scanning.
+
+* Added StrSubstringMax.
+
+* Wrote a little more documentation.
+
+* Fixed scanf return values.
+
+* Fixed a sign error for non-ascii characters.
+
+
+Version 0.21 - 2000/07/19
+-------------------------
+* Converted the documentation to TeX. With latex2man the documentation can
+  automatically be converted into man pages.
+
+* Added trio_scanf, trio_vscanf, trio_fscanf, and trio_vfscanf.
+
+* Added trio_dprintf, trio_vdprintf, trio_dscanf, and trio_vdscanf. These
+  functions can be used to write and read directly to pipes and sockets (the
+  assume blocking sockets). Stdio buffering is surpassed, so the functions are
+  async-safe. However, reading from stdin (STDIN_FILENO) or writing to stdout
+  (STDOUT_FILENO) reintroduces the buffering.
+
+* Paul Janzen
+  Added trio_asprintf and trio_vasprintf, which are compatible with the GNU
+  and BSD interfaces.
+
+* Added scanlist ranges for group scanning (%[]).
+
+* Added width for scanning (missing for floating-point numbers though).
+
+* Added variable size modifier (&) to handle system defined types of unknown
+  size. This modifier makes certain assumptions about the integer sizes, which
+  may not be valid on any machine. Consequently, the modifier will remain
+  undocumented, as it may be removed later.
+
+* Added \777 and \xFF to alternative string scanning (%#s)
+
+* Added the TRIO_REPLACE_STDIO check in the header.
+
+* Improved performance of the multibyte character parsing.
+
+* Fixed positionals (%n$) which had stopped working.
+
+* Fixed hh and ll modifiers to allow exactly two letters and no more.
+
+* Fixed ANSI C++ warnings. Also fixed the compiler warning about casting
+  between integer and pointer (this has been annoying me for ages). 
+
+* Fixed snprintf and vsnprintf with zero buffer size.
+
+* Fixed NAN problems (reported by Keith Briggs).
+
+* Fixed parsing of multibyte characters. The format string was not correctly
+  advanced in case of a multibyte character.
+
+* Renamed many of the internal functions to have more consistant names.
+
+* Removed the <quote=c> and <fill=c> modifiers. They are not really worth
+  including. The other <> modifiers may disappear as well.
+
+
+Version 0.20 - 2000/06/05
+-------------------------
+* Added intmax_t and ptrdiff_t support.
+
+* Added support for LC_NUMERIC grouping.
+
+* Added double-dot notation for the conversion base. The style is now
+  %width.precision.base, where any argument can be a number, an asterix
+  indicating a parameter, or be omitted entirely. For example, %*..2i is
+  to specify binary numbers without precision, and with width as a parameter
+  on the va_list.
+
+* Added sticky modifier (!), which makes subsequent specifiers of the same
+  type reuse the current modifiers. Inspired by a suggestion from Gary Porter.
+
+* Added group scanning (%[]). Scanlist ranges and multibyte sequences are not
+  supported yet.
+
+* Added count scanning (%n).
+
+* Changed the number scanning to accept thousand separators and any base.
+
+* Fixed positional for parameters. It is possible to write something like
+  %3$*1$.*2$d (which happens to be the same as %*.*d).
+
+* Fixed precision of integers.
+
+* Fixed parameter flags. Before trio could only handle one parameter flag per
+  specifier, although two (three with double-dot base) were possible.
+
+* Fixed isinf() for those platforms where it is unimplemented.
+
+
+Version 0.18 - 2000/05/27
+-------------------------
+* Rewrote the entire floating-point formatting function (Danny Dulai had
+  reported several errors and even supplied some patches, which unfortunately
+  were lost due to the refactoring).
+
+* Removed the use of strlen() in the declaration of a stack array. This
+  caused problems on some compilers (besides it isn't really ANSI C compliant
+  anyways). Using some arbitrarily chosen maximum value; should examine if
+  some standard defines an upper limit on the length of decimal-point and
+  thousands-separator (sizeof(wchar_t) perhaps?)
+
+* Changed the parsing of the format string to be multibyte aware.
+
+
+Version 0.17 - 2000/05/19
+-------------------------
+* Added INF, -INF, and NAN for floating-point numbers.
+
+* Fixed %#.9g -- alternative with precision.
+
+* Ken Gibson
+  Fixed printing of negative hex numbers
+
+* Joerg (last name unknown)
+  Fixed convertion of non-ASCII characters
+
+
+Version 0.16 - 1999/08/06
+-------------------------
+* Changed the constness of the second argument of StrFloat and StrDouble. The
+  lack of parameter overloading in C is the reason for the strange use of
+  constness in strtof and strtod.
+
+* Cleaned up constness.
+
+
+Version 0.15 - 1999/07/23
+-------------------------
+* Fixed the internal representation of numbers from signed to unsigned. Signed
+  numbers posed a problem for large unsigned numbers (reported by Tero)
+
+* Fixed a tiny bug in trio_vsprintfcat
+
+* Changed the meaning of the max argument of StrAppendMax to be consistant
+  with StrFormatAppendMax. Now it is the maximal size of the entire target
+  buffer, not just the appended size. This makes it easier to avoid buffer
+  overflows (requested by Tero)
+
+
+Version 0.14 - 1999/05/16
+-------------------------
+* Added size_t support (just waiting for a C99 compliant compiler to add
+  ptrdiff_t and intmax_t)
+
+* Rewrote TrioOutStreamDouble so it does not use the libc sprintf to emulate
+  floating-point anylonger.
+
+* Fixed width, precision, and adjustment for numbers and doubles.
+
+
+Version 0.13 - 1999/05/06
+-------------------------
+* Fixed zero padding for %d. Now %d will only zero pad if explicitly requested
+  to do so with the 0 flag (reported by Tero).
+
+* Fixed an incorrect while() condition in TrioGetString (reported by Tero).
+
+
+Version 0.12 - 1999/04/19
+-------------------------
+* Fixed incorrect zero padding of pointers
+
+* Added StrHash with STRIO_HASH_PLAIN
+
+* Added StrFormatDateMax
+
+
+Version 0.11 - 1999/03/25
+-------------------------
+* Made it compile under cygwin
+
+* Fixed a bug were TrioPreprocess would return an error if no formatting chars
+  were found (reported by Tero).
+
+
+Version - 1999/03/19
+--------------------
+* Added trio_strerror and TRIO_ERROR_NAME.
+
+* Changed the error codes to be positive (as errno)
+
+* Fixed two reads of uninitialized memory reported by Purify
+
+* Added binary specifiers 'b' and 'B' (like SCO.) ThousandSeparator can be
+  used to separate nibbles (4 bit)
+
+* Renamed all Internal* functions to Trio*, which seems like a better
+  namespace (even though it is of no practical interest because these
+  functions are not visible beyond the scope of this file.)
+
+
+Version - 1999/03/12
+--------------------
+* Added hex-float format for StrToDouble
+
+* Double references and gaps in the arguments are not allowed (for the %n$
+  format) and in both cases an error code is returned.
+
+* Added StrToDouble (and StrToFloat)
+
+
+Version - 1999/03/08
+--------------------
+* Added InStream and OutStream to the trio_T structure.
+
+* Started work on TrioScan.
+
+* Return values for errors changed. Two macros to unpack the error code has
+  been added to the header.
+
+* Shortshort (hh) flag added.
+
+* %#s also quotes the quote-char now.
+
+* Removed the 'errorInFormat' boolean, which isn't used anymore after the
+  functions bail out with an error instead.
+
+
+Version - 1999/03/04
+--------------------
+* More than MAX_PARAMETERS parametes will now cause the TrioPreprocess()
+  function to return error.
+
+* Unknown flags and/or specifiers cause errors too.
+
+* Added trio_snprintfcat and trio_vsnprintfcat and the defined name
+  StrFormatAppendMax. They append a formatted string to the end of a string.
+
+* Define MAX_PARAMETERS to 128 at all times instead of using NL_ARGMAX when
+  that exists.
+
+* Added platform fixes for Amiga as suggested by Tero Jänkä <tesaja@utu.fi>
+
+
+Version - 1999/01/31
+--------------------
+* vaprintf did add a zero byte even when it had failed.
+
+* Cleaned up the code for locale handling and thousand separator
+
+* Added trio_aprintf() and trio_vaprintf(). They return an allocated string.
+
+* Added thousands separator for numbers
+
+* Added floating point support for *printf
+
+
+Version - 1998/10/20
+--------------------
+* StrMatchCase() called StrMatch() instead of itself recursively
+
+* Rewrote the implementation of *printf and *scanf and put all the code in
+  this file. Extended qualifiers and qualifiers from other standards were
+  added.
+
+* Added StrSpanFunction, StrToLong, and StrToUnsignedLong
+
+
+Version - 1998/05/23
+--------------------
+* Made the StrEqual* functions resistant to NULL pointers
+
+* Turns out strdup() is no standard at all, and some platforms (I seem to
+  recall HP-UX) has problems with it. Made our own StrDuplicate() instead.
+
+* Added StrFormat() and StrFormatMax() to serve as sprintf() and snprintf()
+  respectively.

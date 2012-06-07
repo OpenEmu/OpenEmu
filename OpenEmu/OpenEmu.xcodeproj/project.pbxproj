@@ -38,6 +38,7 @@
 				C68625721572686E00EFC972 /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
+				9425B0EF158120050086FFB6 /* PBXTargetDependency */,
 				940237CC1580457600083DCC /* PBXTargetDependency */,
 				94A9E17F157C44550083A7DC /* PBXTargetDependency */,
 				945E431F1517F75B00057D08 /* PBXTargetDependency */,
@@ -462,6 +463,16 @@
 		940236F015803AC300083DCC /* pcengine_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EB15803AC300083DCC /* pcengine_library.png */; };
 		940236F115803AC300083DCC /* tg16_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EC15803AC300083DCC /* tg16_library.png */; };
 		940237CA1580456E00083DCC /* PC Engine.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 940236D11580323400083DCC /* PC Engine.oesystemplugin */; };
+		9425B0D0158115860086FFB6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		9425B0D6158115860086FFB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0D4158115860086FFB6 /* InfoPlist.strings */; };
+		9425B0E0158118110086FFB6 /* controller_ws_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DC158118110086FFB6 /* controller_ws_mask.png */; };
+		9425B0E1158118110086FFB6 /* controller_ws.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DD158118110086FFB6 /* controller_ws.png */; };
+		9425B0E2158118110086FFB6 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DE158118110086FFB6 /* Controller-Preferences-Info.plist */; };
+		9425B0E3158118110086FFB6 /* wonderswan_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DF158118110086FFB6 /* wonderswan_library.png */; };
+		9425B0E6158118350086FFB6 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		9425B0EC158119110086FFB6 /* OEWSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9425B0E8158119110086FFB6 /* OEWSSystemController.m */; };
+		9425B0ED158119110086FFB6 /* OEWSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9425B0EA158119110086FFB6 /* OEWSSystemResponder.m */; };
+		9425B0F01581200E0086FFB6 /* WonderSwan.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430D1517F59900057D08 /* OEArcadeSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E43091517F59800057D08 /* OEArcadeSystemController.m */; };
@@ -753,6 +764,20 @@
 			remoteGlobalIDString = 940236D01580323400083DCC;
 			remoteInfo = "PC Engine";
 		};
+		9425B0E4158118200086FFB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		9425B0EE158120050086FFB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9425B0CE158115850086FFB6;
+			remoteInfo = WonderSwan;
+		};
 		945E43191517F63B00057D08 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -933,6 +958,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				9425B0F01581200E0086FFB6 /* WonderSwan.oesystemplugin in Copy Plugins To Application Support */,
 				940237CA1580456E00083DCC /* PC Engine.oesystemplugin in Copy Plugins To Application Support */,
 				94A9E184157C44F60083A7DC /* PlayStation.oesystemplugin in Copy Plugins To Application Support */,
 				C6862573157268A500EFC972 /* N64.oesystemplugin in Copy Plugins To Application Support */,
@@ -1529,6 +1555,18 @@
 		940236EA15803AC300083DCC /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
 		940236EB15803AC300083DCC /* pcengine_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcengine_library.png; sourceTree = "<group>"; };
 		940236EC15803AC300083DCC /* tg16_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tg16_library.png; sourceTree = "<group>"; };
+		9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WonderSwan.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		9425B0D3158115860086FFB6 /* WonderSwan-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WonderSwan-Info.plist"; sourceTree = "<group>"; };
+		9425B0D5158115860086FFB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9425B0DC158118110086FFB6 /* controller_ws_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ws_mask.png; sourceTree = "<group>"; };
+		9425B0DD158118110086FFB6 /* controller_ws.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ws.png; sourceTree = "<group>"; };
+		9425B0DE158118110086FFB6 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		9425B0DF158118110086FFB6 /* wonderswan_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wonderswan_library.png; sourceTree = "<group>"; };
+		9425B0E7158119110086FFB6 /* OEWSSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWSSystemController.h; sourceTree = "<group>"; };
+		9425B0E8158119110086FFB6 /* OEWSSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEWSSystemController.m; sourceTree = "<group>"; };
+		9425B0E9158119110086FFB6 /* OEWSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWSSystemResponder.h; sourceTree = "<group>"; };
+		9425B0EA158119110086FFB6 /* OEWSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEWSSystemResponder.m; sourceTree = "<group>"; };
+		9425B0EB158119110086FFB6 /* OEWSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWSSystemResponderClient.h; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1803,6 +1841,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9425B0CC158115850086FFB6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9425B0E6158118350086FFB6 /* OpenEmuSystem.framework in Frameworks */,
+				9425B0D0158115860086FFB6 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		945E42F81517F2B500057D08 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1970,6 +2017,7 @@
 				945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */,
 				94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */,
 				940236D11580323400083DCC /* PC Engine.oesystemplugin */,
+				9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3125,6 +3173,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9425B0D1158115860086FFB6 /* WonderSwan */ = {
+			isa = PBXGroup;
+			children = (
+				9425B0E7158119110086FFB6 /* OEWSSystemController.h */,
+				9425B0E8158119110086FFB6 /* OEWSSystemController.m */,
+				9425B0E9158119110086FFB6 /* OEWSSystemResponder.h */,
+				9425B0EA158119110086FFB6 /* OEWSSystemResponder.m */,
+				9425B0EB158119110086FFB6 /* OEWSSystemResponderClient.h */,
+				9425B0D2158115860086FFB6 /* Supporting Files */,
+			);
+			path = WonderSwan;
+			sourceTree = "<group>";
+		};
+		9425B0D2158115860086FFB6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9425B0DF158118110086FFB6 /* wonderswan_library.png */,
+				9425B0DC158118110086FFB6 /* controller_ws_mask.png */,
+				9425B0DD158118110086FFB6 /* controller_ws.png */,
+				9425B0D3158115860086FFB6 /* WonderSwan-Info.plist */,
+				9425B0DE158118110086FFB6 /* Controller-Preferences-Info.plist */,
+				9425B0D4158115860086FFB6 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		945E42FD1517F2B500057D08 /* Arcade */ = {
 			isa = PBXGroup;
 			children = (
@@ -3431,6 +3505,7 @@
 				C646574A13771F12002A4F70 /* GameBoy Advance */,
 				94A9E165157C3B080083A7DC /* PlayStation */,
 				940236D31580323400083DCC /* PC Engine */,
+				9425B0D1158115860086FFB6 /* WonderSwan */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -3724,6 +3799,24 @@
 			productReference = 940236D11580323400083DCC /* PC Engine.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		9425B0CE158115850086FFB6 /* WonderSwan */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9425B0DA158115860086FFB6 /* Build configuration list for PBXNativeTarget "WonderSwan" */;
+			buildPhases = (
+				9425B0CB158115850086FFB6 /* Sources */,
+				9425B0CC158115850086FFB6 /* Frameworks */,
+				9425B0CD158115850086FFB6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9425B0E5158118200086FFB6 /* PBXTargetDependency */,
+			);
+			name = WonderSwan;
+			productName = WonderSwan;
+			productReference = 9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		945E42FA1517F2B500057D08 /* Arcade */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 945E43061517F2B500057D08 /* Build configuration list for PBXNativeTarget "Arcade" */;
@@ -3946,6 +4039,7 @@
 				945E42FA1517F2B500057D08 /* Arcade */,
 				94A9E162157C3B080083A7DC /* PlayStation */,
 				940236D01580323400083DCC /* PC Engine */,
+				9425B0CE158115850086FFB6 /* WonderSwan */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -4172,6 +4266,18 @@
 				940236EF15803AC300083DCC /* Controller-Preferences-Info.plist in Resources */,
 				940236F015803AC300083DCC /* pcengine_library.png in Resources */,
 				940236F115803AC300083DCC /* tg16_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9425B0CD158115850086FFB6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9425B0D6158115860086FFB6 /* InfoPlist.strings in Resources */,
+				9425B0E0158118110086FFB6 /* controller_ws_mask.png in Resources */,
+				9425B0E1158118110086FFB6 /* controller_ws.png in Resources */,
+				9425B0E2158118110086FFB6 /* Controller-Preferences-Info.plist in Resources */,
+				9425B0E3158118110086FFB6 /* wonderswan_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4585,6 +4691,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9425B0CB158115850086FFB6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9425B0EC158119110086FFB6 /* OEWSSystemController.m in Sources */,
+				9425B0ED158119110086FFB6 /* OEWSSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		945E42F71517F2B500057D08 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4782,6 +4897,16 @@
 			target = 940236D01580323400083DCC /* PC Engine */;
 			targetProxy = 940237CB1580457600083DCC /* PBXContainerItemProxy */;
 		};
+		9425B0E5158118200086FFB6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 9425B0E4158118200086FFB6 /* PBXContainerItemProxy */;
+		};
+		9425B0EF158120050086FFB6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9425B0CE158115850086FFB6 /* WonderSwan */;
+			targetProxy = 9425B0EE158120050086FFB6 /* PBXContainerItemProxy */;
+		};
 		945E431A1517F63B00057D08 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -4907,6 +5032,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				940236D71580323400083DCC /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9425B0D4158115860086FFB6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9425B0D5158115860086FFB6 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5277,6 +5410,42 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "PC Engine/PC Engine-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		9425B0D8158115860086FFB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "WonderSwan/WonderSwan-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		9425B0D9158115860086FFB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "WonderSwan/WonderSwan-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -5856,6 +6025,15 @@
 			buildConfigurations = (
 				940236DA1580323400083DCC /* Debug */,
 				940236DB1580323400083DCC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9425B0DA158115860086FFB6 /* Build configuration list for PBXNativeTarget "WonderSwan" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9425B0D8158115860086FFB6 /* Debug */,
+				9425B0D9158115860086FFB6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
