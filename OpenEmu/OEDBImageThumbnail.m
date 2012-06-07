@@ -110,6 +110,10 @@
     }
 }
 
+- (NSString*)absolutePath
+{
+    return [[[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[self path]] path];
+}
 @dynamic height;
 @dynamic width;
 @dynamic path;
@@ -125,6 +129,11 @@
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
 {
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
+}
+
+- (void)prepareForDeletion
+{
+    [[NSFileManager defaultManager] removeItemAtPath:[self absolutePath] error:nil];
 }
 
 @end
