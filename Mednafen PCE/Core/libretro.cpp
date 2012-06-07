@@ -144,7 +144,7 @@ void retro_run()
    update_input();
 
    static int16_t sound_buf[0x10000];
-   static MDFN_Rect rects[320];
+   static MDFN_Rect rects[480];
 
    EmulateSpecStruct spec = {0}; 
    spec.surface = surf;
@@ -161,7 +161,7 @@ void retro_run()
    unsigned height = spec.DisplayRect.h;
 
    convert_surface();
-   video_cb(conv_buf, width, height, 320 << 1);
+   video_cb(conv_buf, width, height, 680 << 1);
 
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 }
@@ -184,7 +184,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
    info->geometry.base_width   = game->nominal_width;
    info->geometry.base_height  = game->nominal_height;
    info->geometry.max_width    = 256;
-   info->geometry.max_height   = 239;
+   info->geometry.max_height   = 224;
    info->geometry.aspect_ratio = 4.0 / 3.0;
 }
 
