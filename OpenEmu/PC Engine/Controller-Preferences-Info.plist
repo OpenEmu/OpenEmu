@@ -9,21 +9,21 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEPCEButtonUp[@]</key>
-		<string>{159, 147}</string>
+		<string>{50, 250}</string>
 		<key>OEPCEButtonDown[@]</key>
-		<string>{159, 100}</string>
+		<string>{50, 220}</string>
 		<key>OEPCEButtonLeft[@]</key>
-		<string>{136, 123}</string>
+		<string>{50, 190}</string>
 		<key>OEPCEButtonRight[@]</key>
-		<string>{183, 123}</string>
-		<key>OEPCEButtonRun[@]</key>
-		<string>{306, 101}</string>
-		<key>OEPCEButtonSelect[@]</key>
-		<string>{256, 101}</string>
+		<string>{50, 160}</string>
 		<key>OEPCEButton1[@]</key>
-		<string>{441, 100}</string>
+		<string>{150, 250}</string>
 		<key>OEPCEButton2[@]</key>
-		<string>{384, 100}</string>
+		<string>{150, 220}</string>
+		<key>OEPCEButtonRun[@]</key>
+		<string>{150, 190}</string>
+		<key>OEPCEButtonSelect[@]</key>
+		<string>{150, 160}</string>
 	</dict>
 </dict>
 </plist>

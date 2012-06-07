@@ -1,0 +1,80 @@
+PRELIMINARY, hypothetical, do not use as-is!
+
+---- Subtitle text format ----
+
+*** 0
+
+> 0:13:13->0:13:19
+This is text.  Blah Blah Blah blah blah.
+BLAH BLAH BLAH BLAH BLAH BLAH BLAH.
+
+> 0:15:49->0:16:01
+This is more text lalalalalalalalalalaladelalala
+
+> 0:15:55->0:16:09
+This is temporal-overlapping text lalalalala.
+
+
+
+---- Subtitle binary format ----
+
+*** NOTES ***
+
+Big-endian for multi-byte sequences
+
+Glyphs are rendered top-bottom, left-right.
+
+*** END NOTES ***
+
+Header:
+
+4 bytes	-	Magic ID: GN1S
+4 bytes -	Number of glyphs
+4 bytes -	Number of sequences
+4 bytes	-	(PADDING)
+
+Palette data(256 * 2 bytes):
+        2 bytes -       16-bit ARGB(4 bits for each component; A = 0 is fully transparent, A = 0xF is max opacity)
+        [...]
+
+Glyph table:
+ Entry:
+	4 bytes -	Offset(from start of file to glyph data)
+	1 byte	-	Width
+	1 byte	-	Height (all glyphs should typically have the same height, unless you're using separate fonts
+				or are including "graphics" data).
+	2 bytes	-	(PADDING)
+
+Sequence table:
+	4 bytes - 	Offset(from start of file to start of sequence)
+
+Glyph data:
+	(Width * Height + 7) & ~ 7 bytes - Pixel data, with padding of zeroes at the end of each glyph to 8 byte boundary.
+					   Pixel data should be stored top-bottom, left right.
+	[...]
+
+Sequence data(actual subtitles):
+
+ 0x00-0x1F - Control codes.
+                0x0X 	- Add 4-bit signed X to draw x coordinate(-8 to 7), can be used for kerning.
+		0x10 	- RTS(or end sequence; doesn't affect video output)
+		0x11	- NOP
+		0x12	- Flip video buffer.
+
+		0x14 XX - Set draw X coordinate(0-255).
+		0x15 YY - Set draw Y coordinate(0-255).
+		0x16 XX - Add XX to X coordinate.
+		0x17 YY - Add YY to Y coordinate.
+
+		0x18 TT TT - Wait for 16-bit time TTTT(relative to the last wait; or in other words, relative
+			     to the current time in the case that script processing takes zero time)
+
+		0x1C NN NN NN NN - JSR to specified sequence.
+
+		0x1F OO CC [PP PP] [...] - Set palette data starting at offset OO, count CC, followed by 16-bit * CC palette
+					   data.
+
+ 0x20-0x7F - Glyphs 0x00 through 0x5F
+ 0x80-0xFF - Glyphs 0x60 through 0xFFFFFFFF
+		Load up lower 7 bits, shift left by 7, and read next byte.  End after D7 of the byte read is cleared.
+		(Note: Last byte can be 0x00-0x1F, and should not be interpreted as a control code)

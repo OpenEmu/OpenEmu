@@ -1,0 +1,19 @@
+*** 20020517: 1.0.2 ***
+
+  Playback bugfix to floor1; mode mistakenly used for sizing instead
+  of blockflag
+
+*** 20020515: 1.0.1 ***
+
+  Added complete API documentation to source tarball.  No code
+  changes.
+
+*** 20020412: 1.0.1 ***
+
+  Fixed a clipping bug that affected ARM processors; negative
+  overflows were being properly clipped, but then clobbered to
+  positive by the positive overflow chec (asm_arm.h:CLIP_TO_15)
+
+*** 20020403: 1.0.0 ***
+
+  Initial version

@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -28,6 +27,7 @@
 #import "OEPCESystemController.h"
 #import "OEPCESystemResponder.h"
 #import "OEPCESystemResponderClient.h"
+#import "OELocalizationHelper.h"
 
 @implementation OEPCESystemController
 
@@ -41,16 +41,6 @@
     return [OEPCESystemResponder class];
 }
 
-- (NSArray *)genericSettingNames;
-{
-    return [super genericSettingNames];
-}
-
-- (NSArray *)genericControlNames;
-{
-    return [NSArray arrayWithObjects:OEPCEButtonNameTable count:OEPCEButtonCount];
-}
-
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -58,18 +48,39 @@
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEPCEButtonDown[1]"  ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEPCEButtonLeft[1]"  ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEPCEButtonRight[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEPCEButton1[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEPCEButton2[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEPCEButtonRun[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OEPCEButtonSelect[1]",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardX]         , @"OEPCEButton1[1]"     ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardZ]         , @"OEPCEButton2[1]"     ,
+							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardReturnOrEnter]    , @"OEPCEButtonRun[1]",
+							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDeleteOrBackspace]    , @"OEPCEButtonSelect[1]",
                               nil];
     return controls;
 }
 
-- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx{
-	if(idx!=NULL) *idx = [[self genericControlNames] indexOfObject:keyName];
-	
-	return 1;
+- (NSString*)systemName{
+	if([[OELocalizationHelper sharedHelper] isRegionJAP])
+		return @"PC Engine";
+	else 
+		return @"TurboGrafx-16";
 }
+
+- (NSImage*)systemIcon
+{
+    NSString* imageName;
+	if([[OELocalizationHelper sharedHelper] isRegionNA])
+		imageName = @"tg16_library";
+	else 
+		imageName = @"pcengine_library"; 
+    
+    NSImage* image = [NSImage imageNamed:imageName];
+    if(!image)
+    {
+        NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+        NSString* path = [bundle pathForImageResource:imageName];
+        image = [[NSImage alloc] initWithContentsOfFile:path];
+        [image setName:imageName];
+    }
+    return image;
+}
+
 
 @end

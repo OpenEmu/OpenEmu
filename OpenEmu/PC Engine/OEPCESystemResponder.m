@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,18 +26,7 @@
 
 #import "OEPCESystemResponder.h"
 #import "OEPCESystemResponderClient.h"
-
-NSString *OEPCEButtonNameTable[] =
-{
-    @"OEPCEButton1[@]",
-    @"OEPCEButton2[@]",
-    @"OEPCEButtonUp[@]",
-    @"OEPCEButtonDown[@]",
-    @"OEPCEButtonLeft[@]",
-    @"OEPCEButtonRight[@]",
-    @"OEPCEButtonRun[@]",
-    @"OEPCEButtonSelect[@]"
-};
+#import "OEEvent.h"
 
 @implementation OEPCESystemResponder
 @dynamic client;
@@ -50,17 +38,17 @@ NSString *OEPCEButtonNameTable[] =
 
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
 {
-    return OEMakeEmulatorKey(0, index);
+    return OEMakeEmulatorKey(thePlayer, index);
 }
 
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didPushPCEButton:(OEPCEButton)aKey.key];
+    [[self client] didPushPCEButton:(OEPCEButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didReleasePCEButton:(OEPCEButton)aKey.key];
+    [[self client] didReleasePCEButton:(OEPCEButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

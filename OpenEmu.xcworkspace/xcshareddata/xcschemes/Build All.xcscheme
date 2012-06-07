@@ -141,9 +141,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
-               BuildableName = "Build &amp; Install MAME"
-               BlueprintName = "Build &amp; Install MAME"
-               ReferencedContainer = "container:MAME/MAME.xcodeproj">
+               BuildableName = "Build &amp; Install Mednafen PSX"
+               BlueprintName = "Build &amp; Install Mednafen PSX"
+               ReferencedContainer = "container:PSX/Mednafen PSX.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -155,9 +155,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
-               BuildableName = "Build &amp; Install Mednafen PSX"
-               BlueprintName = "Build &amp; Install Mednafen PSX"
-               ReferencedContainer = "container:PSX/Mednafen PSX.xcodeproj">
+               BuildableName = "Build &amp; Install Mednafen PCE"
+               BlueprintName = "Build &amp; Install Mednafen PCE"
+               ReferencedContainer = "container:Mednafen PCE/Mednafen PCE.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

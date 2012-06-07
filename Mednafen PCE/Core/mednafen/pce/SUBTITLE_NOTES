@@ -1,0 +1,70 @@
+68K at 10.74 MHz
+
+256x256 centered image(equivalent to 5.37 MHz VCE pixel clock) overlayed on PCE video output
+
+FB RAM should run at 10.74MHz.  FB RAM back buffer is automatically cleared after page swap.  FB RAM writes
+in CPU address space are bytewise-conditional(each byte in the unit written is only written to the corresponding address
+in FB RAM if the byte to be written is != 0).
+
+Palette:
+	256x16
+
+	Format:
+		ORGB(4-bit opacity, 4-bit R, 4-bit G, 4-bit B).
+
+
+68K Memory Map:
+
+0x000000-0x0FFFFF	-	(R/W) 1MiB RAM
+0x100000-0x10FFFF	-	(W) Back framebuffer RAM
+0x110000-0x11FFFF       -       (W) Back framebuffer RAM (A0-A7, A8-A15 swap)
+0x200000-0x2001FF	-	(W) Palette RAM (16-bit access only)
+
+I/O(16-bit accesses only):
+0x400000		-	(R/W) Comm port 0 (dual-ported)
+0x400002		-	(R/W) Comm port 1 (dual-ported)
+0x400004		-	(R/W) Comm port 2 (dual-ported)
+0x400006		-	(R/W) Comm port 3 (dual-ported)
+0x400100		-	(R) Status
+				  D15   - 1 = Pending framebuffer swap
+				  D14   - 1 = Auto clear in progress(starts at vsync page swap; FB access prohibited)
+				  D7-D0 - vsync counter(increments when vsync starts)
+
+				(W) Control
+				  D8 - Write with 1 set to acknowledge interrupt 1
+				  D1 - 0 = overlay disabled, 1 = overlay enabled (only controls visibility, hardware otherwise
+					runs as normal even when disabled)
+				  D0 - When written with 1, set a pending flag, to swap display framebuffer at next vsync
+				       start.
+
+				***PROCEDURE***
+				 Draw your screen to the (back) FB.  Wait until program's vsync counter(derived from D7-D0)
+				 >= frame event time - 1.  Write 0x3 to Control.  Wait until D15 and D14
+				 of status are both 0.  REPEAT.
+
+0x800000-0xFFFFFF	-	(Mirrors of 1MiB RAM)
+
+
+HuC6280 Memory map:
+
+Page 0xFE:		-	(R/W) 8KiB RAM(last ~1KiB is mirror of 0x1C00-0x1FEF)
+Page 0xFF:
+	0x1C00-0x1FEF	-	(R/W) Scratch & patch RAM.
+	0x1FF0-0x1FF3	-	(R/W) Comm port 0 through 3 (dual-ported)
+        0x1FF4          -       (W) 1MIB RAM write offset 4-11
+        0x1FF5          -       (W) 1MiB RAM write offset 12-19 (and latch the 20-bit address(lower 4 bits are 0)).
+	0x1FF6		-	(W) 1MiB RAM write port. (address autoincrement)
+	0x1FF7	-	(W) Control	(Initialized as if 0x03 were written, on reset).
+		D0 - Master the 1MiB RAM when 1, halting the 68K's execution.  Access to the write port when this bit is
+		     cleared will be ignored.  Probably should do a few NOPs when going from 0->1 and writing to the
+		     write port.
+
+		D1 - When written with 1 in this bit, reset the 68K.
+
+		D2 - When written with 1 in this bit, request 68K interrupt 1.
+
+		D7 - 0 = overlay disabled, 1 = overlay enabled. (Same underlying bit as Control on 68K side)
+
+	Write the byte sequence:
+	0x47, 0x6E, 0x31, 0x14, 0xB3, 0xEB, 0xEC, 0x2B, to any address in 0x1C00-0x1FFF to enable subtitle
+	hardware functionality.

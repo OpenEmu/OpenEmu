@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -25,26 +24,26 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
 @protocol OESystemResponderClient;
 
 typedef enum _OEPCEButton
 {
-    OEPCEButton1,
-    OEPCEButton2,
-    OEPCEButtonUp,
-    OEPCEButtonDown,
-    OEPCEButtonLeft,
-    OEPCEButtonRight,
+	OEPCEButtonUp,
+	OEPCEButtonDown,
+	OEPCEButtonLeft,
+	OEPCEButtonRight,
+	OEPCEButton1,
+	OEPCEButton2,
     OEPCEButtonRun,
-    OEPCEButtonSelect,
-    OEPCEButtonCount,
+	OEPCEButtonSelect,
+	OEPCEButtonCount
 } OEPCEButton;
 
 @protocol OEPCESystemResponderClient <OESystemResponderClient, NSObject>
 
-- (void)didPushPCEButton:(OEPCEButton)button;
-- (void)didReleasePCEButton:(OEPCEButton)button;
+- (oneway void)didPushPCEButton:(OEPCEButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleasePCEButton:(OEPCEButton)button forPlayer:(NSUInteger)player;
 
 @end

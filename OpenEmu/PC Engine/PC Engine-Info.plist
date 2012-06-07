@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.openemu.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>org.openemu.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -23,13 +23,22 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
+	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OEPCESystemController</string>
+	<key>OESystemPluginName</key>
+	<string>TurboGrafx-16</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.pce</string>
+	<key>OESystemName</key>
+	<string>TurboGrafx-16</string>
 	<key>OEArchiveIDs</key>
 	<array>
-		<integer>49</integer>
-		<integer>67</integer>
+		<integer>64</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>pce</string>
 	</array>
 	<key>OEControlListKey</key>
 	<array>
@@ -63,20 +72,6 @@
 			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Run</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButtonRun[@]</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Select</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButtonSelect[@]</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
 					<string>1</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEPCEButton1[@]</string>
@@ -88,19 +83,57 @@
 					<string>OEPCEButton2[@]</string>
 				</dict>
 			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Run</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEPCEButtonRun[@]</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Select</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEPCEButtonSelect[@]</string>
+				</dict>
+			</array>
 		</array>
 	</array>
-	<key>OEFileSuffixes</key>
-	<array>
-		<string>pce</string>
-	</array>
 	<key>OESystemIcon</key>
-	<string>pcengine_library</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.pce</string>
-	<key>OESystemName</key>
-	<string>PC Engine</string>
-	<key>OESystemPluginName</key>
-	<string>PC Engine</string>
+	<string>tg16_library</string>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OEPCEButtonUp[@]</string>
+		<string>OEPCEButtonDown[@]</string>
+		<string>OEPCEButtonLeft[@]</string>
+		<string>OEPCEButtonRight[@]</string>
+		<string>OEPCEButton1[@]</string>
+		<string>OEPCEButton2[@]</string>
+		<string>OEPCEButtonRun[@]</string>
+		<string>OEPCEButtonSelect[@]</string>
+	</array>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OEPCEButtonUp[@]</string>
+				<string>OEPCEButtonRight[@]</string>
+				<string>OEPCEButtonDown[@]</string>
+				<string>OEPCEButtonLeft[@]</string>
+			</array>
+		</array>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OEPCEButtonUp[@]</string>
+				<string>OEPCEButtonDown[@]</string>
+			</array>
+			<array>
+				<string>OEPCEButtonLeft[@]</string>
+				<string>OEPCEButtonRight[@]</string>
+			</array>
+		</array>
+	</dict>
 </dict>
 </plist>
