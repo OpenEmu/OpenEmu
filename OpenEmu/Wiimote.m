@@ -41,11 +41,6 @@ typedef enum {
 	
 	kWiiNunchukZButton					= 0x01,
 	kWiiNunchukCButton					= 0x02,
-    
-    kWiiNunchukVirtualUpButton			= 0x01,
-	kWiiNunchukVirtualDownButton		= 0x02,
-	kWiiNunchukVirtualLeftButton		= 0x04,
-	kWiiNunchukVirtualRightButton		= 0x08, 
 	
 	kWiiClassicControllerUpButton		= 0x0001,
 	kWiiClassicControllerLeftButton		= 0x0002,
@@ -107,7 +102,6 @@ typedef enum {
         
         lastWiimoteButtonReport = 0;
         lastNunchuckButtonReport = 0;
-        lastNunchuckVirtualJoystickButtonReport = 0;
         lastClassicControllerButtonReport = 0;
 	}
 	
@@ -532,45 +526,12 @@ typedef enum {
 }
 
 - (void)parseNunchuckJoystickData:(UInt16)analogData {
-    if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
+    if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsJoystickChanged:tiltX:tiltY:)])
         return;
     UInt8 yAxisData = analogData & 0xff;
     UInt8 xAxisData = (analogData >> 8) & 0xff;
-    int minPressed = 0 + kWiiNunchukPressedTreshhold;
-    int maxPressed = kWiiNunchukMaxValue - kWiiNunchukPressedTreshhold;
-    bool left = (xAxisData<minPressed);
-    bool right = (xAxisData>maxPressed);
-    bool down = (yAxisData<minPressed);
-    bool up = (yAxisData>maxPressed);
-    UInt8 data = 0;
-    if (left) {
-        data |= kWiiNunchukVirtualLeftButton;
-    }
-    if (right) {
-        data |= kWiiNunchukVirtualRightButton;
-    }
-    if (down) {
-        data |= kWiiNunchukVirtualDownButton;
-    }
-    if (up) {
-        data |= kWiiNunchukVirtualUpButton;
-    }
-    
-    UInt8 buttonChanges = data ^ lastNunchuckVirtualJoystickButtonReport;
-    lastNunchuckVirtualJoystickButtonReport = data;
-    
-    if (buttonChanges & kWiiNunchukVirtualUpButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukUpVirtualButton isPressed:(data & kWiiNunchukVirtualUpButton)!=0];
-	}
-    if (buttonChanges & kWiiNunchukVirtualDownButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukDownVirtualButton isPressed:(data & kWiiNunchukVirtualDownButton)!=0];
-	}
-    if (buttonChanges & kWiiNunchukVirtualLeftButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukLeftVirtualButton isPressed:(data & kWiiNunchukVirtualLeftButton)!=0];
-	}
-    if (buttonChanges & kWiiNunchukVirtualRightButton){
-        [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukRightVirtualButton isPressed:(data & kWiiNunchukVirtualRightButton)!=0];
-	}
+    [[self delegate] wiimote:self reportsJoystickChanged:WiiNunchukJoyStick tiltX:xAxisData tiltY:yAxisData];
+
 }
 
 - (void)parseNunchuckButtonData:(UInt8)data
