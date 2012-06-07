@@ -37,6 +37,8 @@
 @property (nonatomic, retain) NSString * path;
 @property (nonatomic, retain) OEDBImage *image;
 
+- (NSString*)absolutePath;
+
 #pragma mark -
 #pragma mark Core Data utilities
 + (NSString *)entityName;

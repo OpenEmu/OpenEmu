@@ -75,7 +75,7 @@ typedef enum {
 	
 	WiiNunchukZButton,
 	WiiNunchukCButton,
-	
+    	
 	WiiClassicControllerXButton,
 	WiiClassicControllerYButton,
 	WiiClassicControllerAButton,
@@ -98,6 +98,17 @@ typedef enum {
 	WiiClassicControllerLeftJoyStick	= 1,
 	WiiClassicControllerRightJoyStick	= 2
 } WiiJoyStickType;
+
+typedef enum {
+	WiiNunchukJoyStickMaximumX					= 255,
+    WiiNunchukJoyStickMaximumY					= 255
+} WiiAxisMaximums;
+
+typedef enum {
+    WiiNunchuckCenterTreshholdX = 30,
+    WiiNunchuckCenterTreshholdY = 30
+    
+} WiiAxisTheshholds;
 
 typedef enum {
     WiiExpansionNunchuck,
@@ -148,6 +159,8 @@ typedef enum {
     
     UInt16 lastWiimoteButtonReport;
     UInt8 lastNunchuckButtonReport;
+    UInt8 lastNunchuckVirtualJoystickButtonReport;
+
     UInt16 lastClassicControllerButtonReport;
 }
 # pragma mark -

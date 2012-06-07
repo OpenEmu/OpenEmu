@@ -35,5 +35,6 @@
 - (NSString *)listViewConsoleName;
 
 - (void)setListViewRating:(NSNumber *)number;
+- (void)setListViewTitle:(NSString*)title;
 
 @end

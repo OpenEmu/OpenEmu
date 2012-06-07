@@ -181,5 +181,22 @@
 }
 - (void)wiimote:(Wiimote*)theWiimote reportsJoystickChanged:(WiiJoyStickType)type tiltX:(unsigned short)tiltX tiltY:(unsigned short)tiltY
 {
+    NSInteger padNumber = [[self connectedWiiRemotes] indexOfObject:theWiimote];
+	if(padNumber>=0)
+	{
+        NSTimeInterval timestamp = [NSDate timeIntervalSinceReferenceDate];
+        NSInteger zeroX = (0 + WiiNunchukJoyStickMaximumX) / 2 + 1;
+        NSInteger zeroY = (0 + WiiNunchukJoyStickMaximumX) / 2 + 1;
+        if (tiltX>(zeroX-WiiNunchuckCenterTreshholdX)&&tiltX<(zeroX+WiiNunchuckCenterTreshholdX))
+            tiltX = zeroX;
+        if (tiltY>(zeroX-WiiNunchuckCenterTreshholdY)&&tiltY<(zeroY+WiiNunchuckCenterTreshholdY))
+            tiltY = zeroY;
+        OEHIDEvent *eventX = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDAxisX minimum:0 value:tiltX maximum:WiiNunchukJoyStickMaximumX];
+        OEHIDEvent *eventY = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDAxisY minimum:0 value:tiltY maximum:WiiNunchukJoyStickMaximumY];
+		[NSApp postHIDEvent:eventX];
+        [NSApp postHIDEvent:eventY];
+
+	}
 }
 @end
+

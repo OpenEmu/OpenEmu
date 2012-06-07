@@ -61,6 +61,11 @@ typedef enum {
 } WiiButtonBitMask;
 
 typedef enum {
+    kWiiNunchukPressedTreshhold = 10,
+    kWiiNunchukMaxValue = 255
+} WiiNunchukParameters;
+
+typedef enum {
 	kWiiExpansionNunchuck = 0x0000,
 	kWiiExpansionClassicController = 0x0101,
 } WiiExpansionIdentifier;
@@ -450,6 +455,7 @@ typedef enum {
     
     switch ([self expansionType]) {
         case WiiExpansionNunchuck:
+            [self parseNunchuckJoystickData: ((short)dp[startByte] << 8) + dp[startByte+1]];
             [self parseNunchuckButtonData: dp[startByte+5]];
             break;
         case WiiExpansionClassicController:;
@@ -519,6 +525,15 @@ typedef enum {
 	}
 }
 
+- (void)parseNunchuckJoystickData:(UInt16)analogData {
+    if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsJoystickChanged:tiltX:tiltY:)])
+        return;
+    UInt8 yAxisData = analogData & 0xff;
+    UInt8 xAxisData = (analogData >> 8) & 0xff;
+    [[self delegate] wiimote:self reportsJoystickChanged:WiiNunchukJoyStick tiltX:xAxisData tiltY:yAxisData];
+
+}
+
 - (void)parseNunchuckButtonData:(UInt8)data
 {
     if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
@@ -526,7 +541,7 @@ typedef enum {
     
     UInt8 buttonChanges = data ^ lastNunchuckButtonReport;
     lastNunchuckButtonReport = data;
-    
+
     if (buttonChanges & kWiiNunchukCButton){
         [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukCButton isPressed:(data & kWiiNunchukCButton)!=0];
 	}

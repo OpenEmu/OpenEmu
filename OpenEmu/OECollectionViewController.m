@@ -157,6 +157,7 @@
     [listView setDelegate:self];
     [listView setDataSource:self];
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
+
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
     for (NSTableColumn *aColumn in [listView tableColumns]) {
         if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
@@ -179,8 +180,6 @@
             [self selectGridView:self];
             break;
     }
-    
-    [self OE_reloadData];
     
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
@@ -361,20 +360,58 @@
     return [[gamesController arrangedObjects] count];
 }
 
+- (OEGridViewCell *)OE_gridView:(OEGridView *)view cellForObjectID:(NSManagedObjectID *)oid atIndex:(NSUInteger)index
+{
+    if(!oid) return nil;
+    
+    OECoverGridViewCell *cell = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
+    
+    if(cell == nil) cell = (OECoverGridViewCell *)[view dequeueReusableCell];
+    if(cell == nil) cell = [[OECoverGridViewCell alloc] init];
+
+    NSManagedObject<OECoverGridDataSourceItem> *object = (id<OECoverGridDataSourceItem>)[[[OELibraryDatabase defaultDatabase] managedObjectContext] objectWithID:oid];
+
+    [cell setTitle:[object gridTitle]];
+    [cell setRating:[object gridRating]];
+    [cell setIndicationType:(OECoverGridViewCellIndicationType)[object gridStatus]];
+
+    if([object hasImage])
+    {
+        [cell setImageSize:[object actualGridImageSizeforSize:[gridView itemSize]]];
+        [cell setImage:[object gridImageWithSize:[gridView itemSize]]];
+    }
+
+    return cell;
+}
+
 - (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
-    OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
-    
-    if(item == nil) item = (OECoverGridViewCell *)[view dequeueReusableCell];
-    if(item == nil) item = [[OECoverGridViewCell alloc] init];
-    
-    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
-    [item setTitle:[object gridTitle]];
-    [item setImage:[object gridImageWithSize:[gridView itemSize]]];
-    [item setRating:[object gridRating]];
-    [item setIndicationType:(OECoverGridViewCellIndicationType)[object gridStatus]];
-    
-    return item;
+    // Make sure that the index is within the bounds of the available games
+    id arrangedObjects = [gamesController arrangedObjects];
+    if(index >= [arrangedObjects count]) return nil;
+
+    // Capture the object's ID so that we can extract the data on the appropriate MOC
+    NSManagedObjectID *oid = [(NSManagedObject *)[arrangedObjects objectAtIndex:index] objectID];
+    if(!oid)
+    {
+        DLog(@"ERROR: Unable to retrieve object at index %ld from gamesController.", index);
+        return nil;
+    }
+
+    if([NSThread isMainThread] || [[OELibraryDatabase defaultDatabase] managedObjectContext])
+    {
+        return [self OE_gridView:view cellForObjectID:oid atIndex:index];
+    }
+    else
+    {
+        // If the MOC doesn't exist, then try to retrieve the cell from the main thread
+        DLog(@"WARNING: Unable to retrieve object from current thread's (%@) moc.", [NSThread currentThread]);
+        __block OEGridViewCell *cell = nil;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            cell = [self OE_gridView:view cellForObjectID:oid atIndex:index];
+        });
+        return cell;
+    }
 }
 
 - (NSView *)viewForNoItemsInGridView:(OEGridView *)view
@@ -694,7 +731,7 @@
             [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
                 [game deleteByMovingFile:alertReturn==NSAlertDefaultReturn keepSaveStates:YES];
             }];
-            [[(NSManagedObject *)[self collectionItem] managedObjectContext] save:nil];
+            [[[selectedGames lastObject] managedObjectContext] save:nil];
         }
     }
 }
@@ -809,8 +846,6 @@
         {
             result = obj;
         }
-        
-        //[context release];
         return result;
     }
     
@@ -823,15 +858,18 @@
     if( aTableView == listView)
     {
         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
-        if([[aTableColumn identifier] isEqualToString:@"romRating"])
+        NSString *columnIdentifier = [aTableColumn identifier];
+        if([columnIdentifier isEqualToString:@"romRating"])
         {
             [obj setListViewRating:anObject];
+        } else if([columnIdentifier isEqualToString:@"romName"])
+        {
+            if([anObject isKindOfClass:[NSAttributedString class]])
+                anObject = [anObject string];
+            
+            [obj setListViewTitle:anObject];
         }
-        return;
     }
-    
-    
-    return;
 }
 
 - (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
@@ -900,7 +938,13 @@
                         [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
             }
             
-            [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
+            if([aCell isKindOfClass:[OEAttributedTextFieldCell class]])
+            {
+                [(OEAttributedTextFieldCell*)aCell setTextAttributes:attr];
+                [(OEAttributedTextFieldCell*)aCell setupAttributes];
+            }
+            else
+                [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
         }
         
         if(![aCell isKindOfClass:[OERatingCell class]])
@@ -933,7 +977,7 @@
     return YES;
 }
 
-- (CGFloat)tableView:(NSTableView *)aTableView heightOfRow:(NSInteger)row
+ - (CGFloat)tableView:(NSTableView *)aTableView heightOfRow:(NSInteger)row
 {
     if( aTableView == listView )
     {
@@ -980,6 +1024,7 @@
     }
     return NO;
 }
+
 #pragma mark -
 #pragma mark NSTableView Interaction
 - (void)tableViewWasDoubleClicked:(id)sender{

@@ -261,8 +261,17 @@
                 BOOL organizeLibrary = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
                 if(organizeLibrary)
                 {
-                    // DLog(@"organize library");
                     // TODO: initiate lib organization if requested
+                    NSURL *romsFolderURL = [[self database] romsFolderURL];
+                    NSURL *systemsRomFolderURL = [[self database] romsFolderURLForSystem:[game system]];
+                    [[game roms] enumerateObjectsUsingBlock:^(OEDBRom *obj, BOOL *stop) {
+                            if([[obj URL] isSubpathOfURL:romsFolderURL])
+                            {
+                                NSURL *targetURL = [systemsRomFolderURL URLByAppendingPathComponent:[[obj URL] lastPathComponent]];
+                                if([[NSFileManager defaultManager] moveItemAtURL:[obj URL] toURL:targetURL error:nil])
+                                    [obj setURL:targetURL];
+                            }
+                    }];
                 }
             }
             
