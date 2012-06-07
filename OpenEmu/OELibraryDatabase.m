@@ -194,13 +194,29 @@ static OELibraryDatabase *defaultDatabase = nil;
 @synthesize saveStateWatcher;
 - (void)OE_setupStateWatcher
 {
-    NSString    *path    = [[self stateFolderURL] path];
-    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:path withBlock:^(NSString *path, FSEventStreamEventFlags flags) {
+    NSString    *stateFolderPath    = [[self stateFolderURL] path];
+    __block OEFSBlock fsBlock                 = ^(NSString *path, FSEventStreamEventFlags flags) {
         if([path hasSuffix:@".DS_Store"]) return;
-        if([path rangeOfString:@".oesavestate"].location == NSNotFound) return;
-        
-        [OEDBSaveState updateStateWithPath:path];
-    }];
+        if([path rangeOfString:@".oesavestate"].location == NSNotFound)
+        {
+            NSError *error = nil;
+            BOOL     isDir = NO;
+            NSArray *folderContent = nil;
+            if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir && (folderContent=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]) && folderContent)
+                [folderContent enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSString *subPath = [path stringByAppendingPathComponent:obj];
+                    fsBlock(subPath, flags);
+                }];
+            return;
+        }
+        // Wait a little while to make sure the fs operation has completed
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [OEDBSaveState updateStateWithPath:path];            
+        });
+    };
+
+    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:stateFolderPath withBlock:fsBlock];
     [watcher setDelay:1.0];
     [watcher setStreamFlags:kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents];
     

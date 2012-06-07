@@ -301,6 +301,8 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 - (void)moveFileToDefaultLocation
 {
     NSURL    *saveStateFolderURL = [[self libraryDatabase] stateFolderURLForROM:[self rom]];
+    if([[self URL] isSubpathOfURL:saveStateFolderURL]) return;
+
     NSURL    *newStateURL        = [saveStateFolderURL URLByAppendingPathComponent:[[self URL] lastPathComponent]];
     NSString *currentFileName    = [[[self URL] lastPathComponent] stringByDeletingPathExtension];
     newStateURL                  = [newStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
@@ -310,8 +312,8 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     NSError *error = nil;
     if(![[NSFileManager defaultManager] moveItemAtURL:[self URL] toURL:newStateURL error:&error])
     {
-        NSLog(@"Error occured while moving State to default location");
-        NSLog(@"%@", [error localizedDescription]);
+        DLog(@"Error occured while moving State to default location");
+        DLog(@"%@", [error localizedDescription]);
         return;
     }
     [self setURL:newStateURL];
