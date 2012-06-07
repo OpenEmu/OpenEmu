@@ -798,7 +798,9 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system
 {
-    NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:[system systemIdentifier] isDirectory:YES];
+    if(!system || ![system name]) return [self unsortedRomsFolderURL];
+    
+    NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:[system name] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
 
     return result;
