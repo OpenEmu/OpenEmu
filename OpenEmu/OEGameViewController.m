@@ -28,6 +28,7 @@
 #import "NSViewController+OEAdditions.h"
 
 #import "OEDBRom.h"
+#import "OEDBSystem.h"
 #import "OEDBGame.h"
 
 #import "OEGameView.h"
@@ -55,7 +56,7 @@
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game;
 
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin*)core error:(NSError **)outError;
-- (OECorePlugin *)OE_coreForFileExtension:(NSString *)ext error:(NSError **)outError;
+- (OECorePlugin *)OE_coreForSystem:(OESystemPlugin*)system error:(NSError **)outError;
 - (BOOL)OE_loadStateFromFile:(NSString*)fileName error:(NSError**)error;
 - (void)OE_captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
@@ -638,7 +639,7 @@
         
         emulationRunning = YES;
         if(!core)
-            core = [self OE_coreForFileExtension:[aurl pathExtension] error:outError];
+            core = [self OE_coreForSystem:[[[[self rom] game] system] plugin] error:outError];
         
         if(core == nil)
             return NO;
@@ -715,10 +716,9 @@
 }
 
 #pragma mark - Plugin discovery
-- (OECorePlugin *)OE_coreForFileExtension:(NSString *)ext error:(NSError **)outError
+- (OECorePlugin *)OE_coreForSystem:(OESystemPlugin*)system error:(NSError **)outError
 {
     OECorePlugin *chosenCore = nil;
-    OESystemPlugin *system = [OESystemPlugin gameSystemPluginForTypeExtension:ext];
     NSArray *validPlugins = [OECorePlugin corePluginsForSystemIdentifier:[system systemIdentifier]];
     
     if([validPlugins count] == 0 && outError != nil)
