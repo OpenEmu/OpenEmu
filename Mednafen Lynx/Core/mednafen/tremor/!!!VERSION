@@ -1,0 +1,5 @@
+tremor svn 18222
+libogg 1.3.0
+
+With modifications like:
+perl -p -i -e "s/<ogg\/ogg.h>/\"ogg.h\"/g" * && perl -p -i -e "s/<ogg\/os_types.h>/\"os_types.h\"/g" * && perl -p -i -e "s/<ogg\/config_types.h>/\"config_types.h\"/g" *

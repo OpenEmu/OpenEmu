@@ -56,6 +56,9 @@
       location = "group:MAME/MAME.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Mednafen Lynx/Mednafen Lynx.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:PSX/Mednafen PSX.xcodeproj">
    </FileRef>
    <FileRef
