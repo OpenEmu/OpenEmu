@@ -157,8 +157,10 @@ void retro_run()
 
    MDFNI_Emulate(&spec);
 
-   unsigned width = rects[0].w;
-   unsigned height = spec.DisplayRect.h;
+   //unsigned width = rects[0].w;
+   //unsigned height = spec.DisplayRect.h;
+    unsigned width = 320;
+    unsigned height = 240;
 
    convert_surface();
    video_cb(conv_buf, width, height, 680 << 1);

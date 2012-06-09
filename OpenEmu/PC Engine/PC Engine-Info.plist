@@ -39,6 +39,7 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>pce</string>
+		<string>cue</string>
 	</array>
 	<key>OEControlListKey</key>
 	<array>

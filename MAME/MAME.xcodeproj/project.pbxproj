@@ -42,6 +42,7 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		9425977215146D680074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9425977115146D680074E3A3 /* OpenEmuBase.framework */; };
+		9497784A1583154E005719C7 /* mame.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 949778491583154E005719C7 /* mame.dylib */; };
 		C6C71E4A0FCDE25F002FAC4D /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C63E6C640FCDA565009C8555 /* ControlsPreference.xib */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		941BA4EE157850490045AAAD /* OEArcadeSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEArcadeSystemResponderClient.h; path = ../OpenEmu/Arcade/OEArcadeSystemResponderClient.h; sourceTree = "<group>"; };
 		9425977115146D680074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		949778491583154E005719C7 /* mame.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = mame.dylib; path = ../../../../../../usr/local/lib/mame.dylib; sourceTree = "<group>"; };
 		94FEEA431579E6050045135E /* libretro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libretro.h; path = Core/libretro.h; sourceTree = "<group>"; };
 		B5008DAD0E8BFB3E005AECAF /* MameGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MameGameCore.h; sourceTree = "<group>"; };
 		B5008DAE0E8BFB3E005AECAF /* MameGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MameGameCore.mm; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				9425977215146D680074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */,
+				9497784A1583154E005719C7 /* mame.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,6 +117,7 @@
 		089C166AFE841209C02AAC07 /* VisualBoyAdvance */ = {
 			isa = PBXGroup;
 			children = (
+				949778491583154E005719C7 /* mame.dylib */,
 				9425977115146D680074E3A3 /* OpenEmuBase.framework */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,

@@ -112,9 +112,9 @@ static int16_t input_state_callback(unsigned port, unsigned device, unsigned ind
         return current->pad[0][id];
     }
     //else if(port == SNES_PORT_2 & device == RETRO_DEVICE_JOYPAD) {
-    else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
-        return current->pad[1][id];
-    }
+    //else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
+    //    return current->pad[1][id];
+    //}
     
     return 0;
 }
