@@ -662,7 +662,7 @@
             [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey] asDefault:NO];
             
             OEGameCore *gameCore = [rootProxy gameCore];
-            gameSystemController = [[OESystemPlugin gameSystemPluginForTypeExtension:[aurl pathExtension]] controller];
+            gameSystemController = [[[[[self rom] game] system] plugin] controller];
             gameSystemResponder  = [gameSystemController newGameSystemResponder];
             [gameSystemResponder setClient:gameCore];
             
