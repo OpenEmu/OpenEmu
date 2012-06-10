@@ -28,7 +28,7 @@
 	<string>http://sourceforge.net/projects/meteorgba/</string>
 	<key>OESystemIdentifiers</key>
 	<array>
-		<string>openemu.system.lynx</string>
+		<string>openemu.system.pcfx</string>
 	</array>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>

@@ -38,6 +38,7 @@
 				C68625721572686E00EFC972 /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
+				94AB855B15853B840035D12C /* PBXTargetDependency */,
 				9425B197158190100086FFB6 /* PBXTargetDependency */,
 				9425B0EF158120050086FFB6 /* PBXTargetDependency */,
 				940237CC1580457600083DCC /* PBXTargetDependency */,
@@ -511,6 +512,16 @@
 		94A9E17D157C3C420083A7DC /* psx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E179157C3C420083A7DC /* psx_library.png */; };
 		94A9E183157C44970083A7DC /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		94A9E184157C44F60083A7DC /* PlayStation.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */; };
+		94AB8543158532C20035D12C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94AB8549158532C20035D12C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94AB8547158532C20035D12C /* InfoPlist.strings */; };
+		94AB855315853AE30035D12C /* OEPCFXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AB854F15853AE30035D12C /* OEPCFXSystemController.m */; };
+		94AB855415853AE30035D12C /* OEPCFXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AB855115853AE30035D12C /* OEPCFXSystemResponder.m */; };
+		94AB855715853B000035D12C /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94AB855C15853B930035D12C /* PC-FX.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94AB8542158532C20035D12C /* PC-FX.oesystemplugin */; };
+		94AB856115853BB20035D12C /* controller_pcfx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855D15853BB20035D12C /* controller_pcfx_mask.png */; };
+		94AB856215853BB20035D12C /* controller_pcfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855E15853BB20035D12C /* controller_pcfx.png */; };
+		94AB856315853BB20035D12C /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855F15853BB20035D12C /* Controller-Preferences-Info.plist */; };
+		94AB856415853BB20035D12C /* pcfx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB856015853BB20035D12C /* pcfx_library.png */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
 		94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */; };
@@ -831,6 +842,20 @@
 			remoteGlobalIDString = C67117ED136367240034379A;
 			remoteInfo = OpenEmuSystem;
 		};
+		94AB855515853AF60035D12C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94AB855A15853B840035D12C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94AB8541158532C20035D12C;
+			remoteInfo = "PC-FX";
+		};
 		94D7E8E51507413400FBDD85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -983,6 +1008,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				94AB855C15853B930035D12C /* PC-FX.oesystemplugin in Copy Plugins To Application Support */,
 				9425B198158190220086FFB6 /* Lynx.oesystemplugin in Copy Plugins To Application Support */,
 				9425B0F01581200E0086FFB6 /* WonderSwan.oesystemplugin in Copy Plugins To Application Support */,
 				940237CA1580456E00083DCC /* PC Engine.oesystemplugin in Copy Plugins To Application Support */,
@@ -1629,6 +1655,18 @@
 		94A9E177157C3C420083A7DC /* controller_psx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx.png; sourceTree = "<group>"; };
 		94A9E178157C3C420083A7DC /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
 		94A9E179157C3C420083A7DC /* psx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = psx_library.png; sourceTree = "<group>"; };
+		94AB8542158532C20035D12C /* PC-FX.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC-FX.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94AB8546158532C20035D12C /* PC-FX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC-FX-Info.plist"; sourceTree = "<group>"; };
+		94AB8548158532C20035D12C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94AB854E15853AE30035D12C /* OEPCFXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCFXSystemController.h; sourceTree = "<group>"; };
+		94AB854F15853AE30035D12C /* OEPCFXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCFXSystemController.m; sourceTree = "<group>"; };
+		94AB855015853AE30035D12C /* OEPCFXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCFXSystemResponder.h; sourceTree = "<group>"; };
+		94AB855115853AE30035D12C /* OEPCFXSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCFXSystemResponder.m; sourceTree = "<group>"; };
+		94AB855215853AE30035D12C /* OEPCFXSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCFXSystemResponderClient.h; sourceTree = "<group>"; };
+		94AB855D15853BB20035D12C /* controller_pcfx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcfx_mask.png; sourceTree = "<group>"; };
+		94AB855E15853BB20035D12C /* controller_pcfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcfx.png; sourceTree = "<group>"; };
+		94AB855F15853BB20035D12C /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94AB856015853BB20035D12C /* pcfx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcfx_library.png; sourceTree = "<group>"; };
 		94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NDS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NDS-Info.plist"; sourceTree = "<group>"; };
 		94D7E8CF15073BA000FBDD85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1915,6 +1953,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94AB853F158532C20035D12C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94AB855715853B000035D12C /* OpenEmuSystem.framework in Frameworks */,
+				94AB8543158532C20035D12C /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C615073BA000FBDD85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2066,6 +2113,7 @@
 				940236D11580323400083DCC /* PC Engine.oesystemplugin */,
 				9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */,
 				9425B1771581822A0086FFB6 /* Lynx.oesystemplugin */,
+				94AB8542158532C20035D12C /* PC-FX.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3325,6 +3373,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		94AB8544158532C20035D12C /* PC-FX */ = {
+			isa = PBXGroup;
+			children = (
+				94AB854E15853AE30035D12C /* OEPCFXSystemController.h */,
+				94AB854F15853AE30035D12C /* OEPCFXSystemController.m */,
+				94AB855015853AE30035D12C /* OEPCFXSystemResponder.h */,
+				94AB855115853AE30035D12C /* OEPCFXSystemResponder.m */,
+				94AB855215853AE30035D12C /* OEPCFXSystemResponderClient.h */,
+				94AB8545158532C20035D12C /* Supporting Files */,
+			);
+			path = "PC-FX";
+			sourceTree = "<group>";
+		};
+		94AB8545158532C20035D12C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94AB856015853BB20035D12C /* pcfx_library.png */,
+				94AB855D15853BB20035D12C /* controller_pcfx_mask.png */,
+				94AB855E15853BB20035D12C /* controller_pcfx.png */,
+				94AB8546158532C20035D12C /* PC-FX-Info.plist */,
+				94AB855F15853BB20035D12C /* Controller-Preferences-Info.plist */,
+				94AB8547158532C20035D12C /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		94D7E8CB15073BA000FBDD85 /* NDS */ = {
 			isa = PBXGroup;
 			children = (
@@ -3581,6 +3655,7 @@
 				940236D31580323400083DCC /* PC Engine */,
 				9425B0D1158115860086FFB6 /* WonderSwan */,
 				9425B1791581822A0086FFB6 /* Lynx */,
+				94AB8544158532C20035D12C /* PC-FX */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -3946,6 +4021,24 @@
 			productReference = 94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		94AB8541158532C20035D12C /* PC-FX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94AB854B158532C20035D12C /* Build configuration list for PBXNativeTarget "PC-FX" */;
+			buildPhases = (
+				94AB853E158532C20035D12C /* Sources */,
+				94AB853F158532C20035D12C /* Frameworks */,
+				94AB8540158532C20035D12C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94AB855615853AF60035D12C /* PBXTargetDependency */,
+			);
+			name = "PC-FX";
+			productName = "PC-FX";
+			productReference = 94AB8542158532C20035D12C /* PC-FX.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		94D7E8C815073BA000FBDD85 /* NDS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */;
@@ -4134,6 +4227,7 @@
 				940236D01580323400083DCC /* PC Engine */,
 				9425B0CE158115850086FFB6 /* WonderSwan */,
 				9425B1761581822A0086FFB6 /* Lynx */,
+				94AB8541158532C20035D12C /* PC-FX */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -4408,6 +4502,18 @@
 				94A9E17B157C3C420083A7DC /* controller_psx.png in Resources */,
 				94A9E17C157C3C420083A7DC /* Controller-Preferences-Info.plist in Resources */,
 				94A9E17D157C3C420083A7DC /* psx_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94AB8540158532C20035D12C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94AB8549158532C20035D12C /* InfoPlist.strings in Resources */,
+				94AB856115853BB20035D12C /* controller_pcfx_mask.png in Resources */,
+				94AB856215853BB20035D12C /* controller_pcfx.png in Resources */,
+				94AB856315853BB20035D12C /* Controller-Preferences-Info.plist in Resources */,
+				94AB856415853BB20035D12C /* pcfx_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4833,6 +4939,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94AB853E158532C20035D12C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94AB855315853AE30035D12C /* OEPCFXSystemController.m in Sources */,
+				94AB855415853AE30035D12C /* OEPCFXSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C515073BA000FBDD85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5052,6 +5167,16 @@
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
 			targetProxy = 94A9E181157C44790083A7DC /* PBXContainerItemProxy */;
 		};
+		94AB855615853AF60035D12C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94AB855515853AF60035D12C /* PBXContainerItemProxy */;
+		};
+		94AB855B15853B840035D12C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94AB8541158532C20035D12C /* PC-FX */;
+			targetProxy = 94AB855A15853B840035D12C /* PBXContainerItemProxy */;
+		};
 		94D7E8E61507413400FBDD85 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -5189,6 +5314,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				94A9E169157C3B080083A7DC /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94AB8547158532C20035D12C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94AB8548158532C20035D12C /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5691,6 +5824,42 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "PlayStation/PlayStation-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		94AB854C158532C20035D12C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "PC-FX/PC-FX-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		94AB854D158532C20035D12C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "PC-FX/PC-FX-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -6233,6 +6402,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		94AB854B158532C20035D12C /* Build configuration list for PBXNativeTarget "PC-FX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94AB854C158532C20035D12C /* Debug */,
+				94AB854D158532C20035D12C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */ = {
 			isa = XCConfigurationList;

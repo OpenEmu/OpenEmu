@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,22 +25,30 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <OpenEmuBase/OEGameCore.h>
+#import <Foundation/Foundation.h>
 
-@class OERingBuffer;
+@protocol OESystemResponderClient;
 
-OE_EXPORTED_CLASS
-@interface PCFXGameCore : OEGameCore
+typedef enum _OEPCFXButton
 {
-    @public
-    uint16_t *videoBuffer;
-    int videoWidth, videoHeight;
-    int16_t pad[1][12];
-    NSString *romName;
-    double sampleRate;
-    const char *systemEnvironment;
-    const char *systemEnvironmentSplit[0];
-}
+    OEPCFXButtonUp,
+    OEPCFXButtonDown,
+    OEPCFXButtonLeft,
+    OEPCFXButtonRight,
+    OEPCFXButton1,
+    OEPCFXButton2,
+    OEPCFXButton3,
+    OEPCFXButton4,
+    OEPCFXButton5,
+    OEPCFXButton6,
+    OEPCFXButtonRun,
+    OEPCFXButtonSelect,
+    OEPCFXButtonCount,
+} OEPCFXButton;
+
+@protocol OEPCFXSystemResponderClient <OESystemResponderClient, NSObject>
+
+- (oneway void)didPushPCFXButton:(OEPCFXButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleasePCFXButton:(OEPCFXButton)button forPlayer:(NSUInteger)player;
 
 @end

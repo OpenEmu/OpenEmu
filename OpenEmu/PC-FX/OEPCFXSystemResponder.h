@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -26,21 +26,12 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OpenEmuBase/OEGameCore.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-@class OERingBuffer;
+@protocol OEPCFXSystemResponderClient;
 
-OE_EXPORTED_CLASS
-@interface PCFXGameCore : OEGameCore
-{
-    @public
-    uint16_t *videoBuffer;
-    int videoWidth, videoHeight;
-    int16_t pad[1][12];
-    NSString *romName;
-    double sampleRate;
-    const char *systemEnvironment;
-    const char *systemEnvironmentSplit[0];
-}
+@interface OEPCFXSystemResponder : OEBasicSystemResponder
+
+@property(nonatomic, weak) id<OEPCFXSystemResponderClient> client;
 
 @end

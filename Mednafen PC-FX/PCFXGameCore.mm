@@ -27,12 +27,12 @@
 
 #import "PCFXGameCore.h"
 #import <OERingBuffer.h>
-#import "OELynxSystemResponderClient.h"
+#import "OEPCFXSystemResponderClient.h"
 #import <OpenGL/gl.h>
 
 #include "libretro.h"
 
-@interface PCFXGameCore () <OELynxSystemResponderClient>
+@interface PCFXGameCore () <OEPCFXSystemResponderClient>
 @end
 
 NSUInteger PCFXEmulatorValues[] = { RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT, RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT,RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_START, RETRO_DEVICE_ID_JOYPAD_SELECT };
@@ -263,12 +263,12 @@ static void writeSaveFile(const char* path, int type)
     return NO;
 }
 
-- (oneway void)didPushLynxButton:(OELynxButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushPCFXButton:(OEPCFXButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][PCFXEmulatorValues[button]] = 1;
 }
 
-- (oneway void)didReleaseLynxButton:(OELynxButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleasePCFXButton:(OEPCFXButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][PCFXEmulatorValues[button]] = 0;
 }

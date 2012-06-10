@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,22 +25,30 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <OpenEmuBase/OEGameCore.h>
+#import "OEPCFXSystemResponder.h"
+#import "OEPCFXSystemResponderClient.h"
 
-@class OERingBuffer;
+@implementation OEPCFXSystemResponder
+@dynamic client;
 
-OE_EXPORTED_CLASS
-@interface PCFXGameCore : OEGameCore
++ (Protocol *)gameSystemResponderClientProtocol;
 {
-    @public
-    uint16_t *videoBuffer;
-    int videoWidth, videoHeight;
-    int16_t pad[1][12];
-    NSString *romName;
-    double sampleRate;
-    const char *systemEnvironment;
-    const char *systemEnvironmentSplit[0];
+    return @protocol(OEPCFXSystemResponderClient);
+}
+
+- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+{
+    return OEMakeEmulatorKey(thePlayer, index);
+}
+
+- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+{
+    [[self client] didPushPCFXButton:(OEPCFXButton)aKey.key forPlayer:aKey.player];
+}
+
+- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
+{
+    [[self client] didReleasePCFXButton:(OEPCFXButton)aKey.key forPlayer:aKey.player];
 }
 
 @end
