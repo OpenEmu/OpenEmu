@@ -48,20 +48,6 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
     return [pluginsBySystemIdentifiers objectForKey:gameSystemIdentifier];
 }
 
-+ (OESystemPlugin *)gameSystemPluginForTypeExtension:(NSString *)ext;
-{
-#warning Should put tie breaking here if multple systems support the same extensions?
-    NSArray *systems = [OEPlugin pluginsForType:self];
-    for (OESystemPlugin *plugin in systems)
-    {
-        if ([[plugin supportedTypeExtensions] indexOfObjectPassingTest:^BOOL(NSString *obj, NSUInteger idx, BOOL *stop) {
-            return ([obj caseInsensitiveCompare:ext] == NSOrderedSame);
-        }] != NSNotFound)
-            return plugin;
-    }
-    return nil;
-}
-
 + (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forIdentifier:(NSString *)gameSystemIdentifier;
 {
     [pluginsBySystemIdentifiers setObject:plugin forKey:gameSystemIdentifier];

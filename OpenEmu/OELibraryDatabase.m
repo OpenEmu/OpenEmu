@@ -38,6 +38,7 @@
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
 
+#import "OESystemPicker.h"
 #import "OELocalizationHelper.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
@@ -472,20 +473,20 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (OEDBSystem*)systemForURL:(NSURL *)url
+- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url
 {
-    NSString *systemIdentifier = nil;
+    OESystemPlugin *system = nil;
     NSString *path = [url absoluteString];
-    for(OESystemPlugin *aSystemPlugin in [OESystemPlugin allPlugins])
-    {
-        if([[aSystemPlugin controller] canHandleFile:path]){ 
-            systemIdentifier = [aSystemPlugin systemIdentifier]; 
-            break;
-        }
-    }
-    if(!systemIdentifier) return nil;
-    OEDBSystem *result = [self systemWithIdentifier:systemIdentifier];
-    return result;
+    NSArray *validPlugins = [[OESystemPlugin allPlugins] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OESystemPlugin * evaluatedObject, NSDictionary *bindings) {
+        return [[evaluatedObject controller] canHandleFile:path];
+    }]];
+   
+    NSLog(@"validPLugins: %@", validPlugins);
+    if([validPlugins count] > 1)   system = [OESystemPicker pickSystemFromArray:validPlugins];
+    else system = [validPlugins lastObject];
+    
+    NSString *systemIdentifier = [system systemIdentifier];
+    return [self systemWithIdentifier:systemIdentifier];
 }
 
 - (NSInteger)systemsCount
@@ -613,7 +614,6 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         name = uniqueName;  
     }
-    
     
     NSManagedObject *aCollection = [NSEntityDescription insertNewObjectForEntityForName:@"Collection" inManagedObjectContext:context];
     [aCollection setValue:name forKey:@"name"];

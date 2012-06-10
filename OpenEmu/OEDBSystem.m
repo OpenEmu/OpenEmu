@@ -89,7 +89,7 @@
 
 + (id)systemForURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
 {
-    return [database systemForURL:url];
+    return [database systemForHandlingRomAtURL:url];
 }
 
 #pragma mark -
