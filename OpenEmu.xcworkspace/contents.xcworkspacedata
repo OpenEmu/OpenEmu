@@ -67,4 +67,7 @@
    <FileRef
       location = "group:Mednafen PCE/Mednafen PCE.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Mednafen PC-FX/Mednafen PC-FX.xcodeproj">
+   </FileRef>
 </Workspace>

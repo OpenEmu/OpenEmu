@@ -1,0 +1,13 @@
+libmpcdec from r475
+
+perl -p -i -e "s/include <mpc\/([^>]*)>/include \"\1\"/" *.c *.h
+
+Added 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+to:
+
+mpc_types.h

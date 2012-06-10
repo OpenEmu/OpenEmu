@@ -1,0 +1,1731 @@
+// Names taken from http://pcecp.com/ and http://www.necstasy.net/
+
+{
+ "Aa! Megami Sama",
+ "ああっ女神さまっ",
+ 0,
+ 2,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 10504 },
+   { 3, CDGE_FORMAT_DATA, 10890 },
+   { -1, -1, 240939 },
+  },
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 10163 },
+   { 3, CDGE_FORMAT_DATA, 10890 },
+   { -1, -1, 211853 },
+  }
+ }
+},
+
+{
+ "Akazukin Cha Cha",
+ "赤ずきんちゃちゃ ーお騒かせ！パニックレース！ー",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 5088 },
+   { 3, CDGE_FORMAT_AUDIO, 203157 },
+   { 4, CDGE_FORMAT_AUDIO, 207261 },
+   { 5, CDGE_FORMAT_AUDIO, 209849 },
+   { 6, CDGE_FORMAT_AUDIO, 216868 },
+   { -1, -1, 220342 },
+  }
+ }
+},
+
+{
+ "All Japan Female Pro Wrestle - Queen of Queens",
+ "全日本女子プロレス　Queen of Queens",
+ 0,
+ 2,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 2368 },
+   { -1, -1, 254165 },
+  },
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 2368 },
+   { -1, -1, 326478 },
+  }
+ }
+},
+
+{
+ "Angelique Special",
+ "アンジェリークスペシャル",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 4829 },
+   { 4, CDGE_FORMAT_DATA, 8963 },
+   { 5, CDGE_FORMAT_DATA, 66446 },
+   { 6, CDGE_FORMAT_AUDIO, 194334 },
+   { -1, -1, 198505 },
+  }
+ }
+},
+
+{
+ "Angelique Special 2",
+ "アンジェリークスペシャル2",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 4737 },
+   { -1, -1, 313941 },
+  }
+ }
+},
+
+{
+ "Angelique Tenkuu No Requim",
+ "アンジェリーク天空のレクイエム",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 4737 },
+   { 4, CDGE_FORMAT_DATA, 110846 },
+   { -1, -1, 263180 },
+  }
+ }
+},
+
+{
+ "Anime Freak FX Volume 1",
+ "アニメフリークＦＸ　Vol.1",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 5140 },
+   { -1, -1, 323367 },
+  }
+ }
+},
+
+{
+ "Anime Freak FX Volume 2",
+ "アニメフリークＦＸ　Vol.2",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 1523 },
+   { -1, -1, 306483 },
+  }
+ }
+},
+
+{
+ "Anime Freak FX Volume 2 (Sample)",
+ NULL,
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 5140 },
+   { -1, -1, 309756 },
+  }
+ }
+},
+
+{
+ "Anime Freak FX Volume 3",
+ "アニメフリークＦＸ　Vol.3",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 1964 },
+   { -1, -1, 322351 },
+  }
+ }
+},
+
+{
+ "Anime Freak FX Volume 4",
+ "アニメフリークＦＸ　Vol.4",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 3286 },
+   { -1, -1, 312713 },
+  }
+ }
+},
+
+{
+ "Anime Freak FX Volume 5",
+ "アニメフリークＦＸ　Vol.5",
+ 0,
+ 2,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 2943 },
+   { -1, -1, 231075 },
+  },
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 5268 },
+   { -1, -1, 267842 },
+  }
+ }
+},
+
+{
+ "Anime Freak FX Volume 6",
+ "アニメフリークＦＸ　Vol.6",
+ 0,
+ 2,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4732 },
+   { -1, -1, 290461 },
+  },
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 17408 },
+   { -1, -1, 306629 },
+  }
+ }
+},
+
+{
+ "Aruberea's Maiden",
+ "アルバレアの乙女",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 2381 },
+   { 3, CDGE_FORMAT_DATA, 3729 },
+   { 4, CDGE_FORMAT_DATA, 11919 },
+   { 5, CDGE_FORMAT_DATA, 67010 },
+   { 6, CDGE_FORMAT_DATA, 68706 },
+   { 7, CDGE_FORMAT_DATA, 69119 },
+   { 8, CDGE_FORMAT_DATA, 69538 },
+   { 9, CDGE_FORMAT_DATA, 69958 },
+   { 10, CDGE_FORMAT_DATA, 70425 },
+   { 11, CDGE_FORMAT_DATA, 72558 },
+   { 12, CDGE_FORMAT_DATA, 74956 },
+   { 13, CDGE_FORMAT_DATA, 77246 },
+   { 14, CDGE_FORMAT_DATA, 83332 },
+   { 15, CDGE_FORMAT_DATA, 101273 },
+   { 16, CDGE_FORMAT_DATA, 113096 },
+   { 17, CDGE_FORMAT_DATA, 125676 },
+   { 18, CDGE_FORMAT_DATA, 144119 },
+   { 19, CDGE_FORMAT_DATA, 163556 },
+   { -1, -1, 234498 },
+  }
+ }
+},
+
+{
+ "Battle Heat",
+ "バトルヒート",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 6253 },
+   { 4, CDGE_FORMAT_AUDIO, 16083 },
+   { 5, CDGE_FORMAT_DATA, 35549 },
+   { 6, CDGE_FORMAT_DATA, 39544 },
+   { 7, CDGE_FORMAT_DATA, 40834 },
+   { 8, CDGE_FORMAT_DATA, 101620 },
+   { 9, CDGE_FORMAT_DATA, 120156 },
+   { 10, CDGE_FORMAT_DATA, 142691 },
+   { 11, CDGE_FORMAT_DATA, 154690 },
+   { 12, CDGE_FORMAT_DATA, 164535 },
+   { 13, CDGE_FORMAT_DATA, 178064 },
+   { 14, CDGE_FORMAT_DATA, 194891 },
+   { 15, CDGE_FORMAT_DATA, 205807 },
+   { 16, CDGE_FORMAT_DATA, 216414 },
+   { 17, CDGE_FORMAT_DATA, 234950 },
+   { 18, CDGE_FORMAT_DATA, 257485 },
+   { 19, CDGE_FORMAT_DATA, 269642 },
+   { 20, CDGE_FORMAT_DATA, 280175 },
+   { 21, CDGE_FORMAT_DATA, 293704 },
+   { 22, CDGE_FORMAT_DATA, 310531 },
+   { -1, -1, 311822 },
+  }
+ }
+},
+
+{
+ "Blue Breaker",
+ "ブルーブレイカー　剣よりも微笑みを",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 5804 },
+   { -1, -1, 314954 },
+  }
+ }
+},
+
+{
+ "Blue Chicago Blues",
+ "J.B. Harold ブルーシカゴブルース",
+ 0,
+ 2,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 241908 },
+   { -1, -1, 242250 },
+  },
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 308890 },
+   { 3, CDGE_FORMAT_AUDIO, 322135 },
+   { -1, -1, 322477 },
+  }
+ }
+},
+
+{
+ "Boundary Gate - Daughter of Kingdom",
+ "バウンダリーゲート Daughter of Kingdom",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 31797 },
+   { 4, CDGE_FORMAT_AUDIO, 34840 },
+   { 5, CDGE_FORMAT_AUDIO, 38383 },
+   { 6, CDGE_FORMAT_AUDIO, 38898 },
+   { 7, CDGE_FORMAT_AUDIO, 40365 },
+   { 8, CDGE_FORMAT_AUDIO, 41223 },
+   { 9, CDGE_FORMAT_AUDIO, 41543 },
+   { 10, CDGE_FORMAT_AUDIO, 44293 },
+   { 11, CDGE_FORMAT_AUDIO, 47722 },
+   { 12, CDGE_FORMAT_AUDIO, 48042 },
+   { 13, CDGE_FORMAT_AUDIO, 50396 },
+   { 14, CDGE_FORMAT_AUDIO, 50716 },
+   { 15, CDGE_FORMAT_AUDIO, 51078 },
+   { 16, CDGE_FORMAT_AUDIO, 51477 },
+   { 17, CDGE_FORMAT_AUDIO, 52240 },
+   { 18, CDGE_FORMAT_AUDIO, 53430 },
+   { 19, CDGE_FORMAT_AUDIO, 54573 },
+   { 20, CDGE_FORMAT_AUDIO, 56949 },
+   { 21, CDGE_FORMAT_AUDIO, 59248 },
+   { 22, CDGE_FORMAT_AUDIO, 61753 },
+   { 23, CDGE_FORMAT_AUDIO, 62577 },
+   { 24, CDGE_FORMAT_AUDIO, 63746 },
+   { 25, CDGE_FORMAT_AUDIO, 64827 },
+   { 26, CDGE_FORMAT_AUDIO, 66673 },
+   { 27, CDGE_FORMAT_AUDIO, 69156 },
+   { 28, CDGE_FORMAT_AUDIO, 71742 },
+   { 29, CDGE_FORMAT_AUDIO, 74427 },
+   { 30, CDGE_FORMAT_AUDIO, 76953 },
+   { 31, CDGE_FORMAT_AUDIO, 78144 },
+   { 32, CDGE_FORMAT_AUDIO, 78464 },
+   { 33, CDGE_FORMAT_AUDIO, 83018 },
+   { 34, CDGE_FORMAT_AUDIO, 83528 },
+   { 35, CDGE_FORMAT_AUDIO, 87939 },
+   { 36, CDGE_FORMAT_AUDIO, 88861 },
+   { 37, CDGE_FORMAT_AUDIO, 91647 },
+   { 38, CDGE_FORMAT_AUDIO, 92172 },
+   { 39, CDGE_FORMAT_AUDIO, 94556 },
+   { 40, CDGE_FORMAT_AUDIO, 97820 },
+   { 41, CDGE_FORMAT_AUDIO, 98140 },
+   { 42, CDGE_FORMAT_AUDIO, 98614 },
+   { 43, CDGE_FORMAT_AUDIO, 98951 },
+   { 44, CDGE_FORMAT_AUDIO, 99691 },
+   { 45, CDGE_FORMAT_AUDIO, 100379 },
+   { 46, CDGE_FORMAT_AUDIO, 100699 },
+   { 47, CDGE_FORMAT_AUDIO, 101019 },
+   { 48, CDGE_FORMAT_AUDIO, 101339 },
+   { 49, CDGE_FORMAT_AUDIO, 103185 },
+   { 50, CDGE_FORMAT_AUDIO, 103500 },
+   { 51, CDGE_FORMAT_AUDIO, 107791 },
+   { 52, CDGE_FORMAT_AUDIO, 108111 },
+   { 53, CDGE_FORMAT_AUDIO, 108583 },
+   { 54, CDGE_FORMAT_AUDIO, 109161 },
+   { 55, CDGE_FORMAT_AUDIO, 113732 },
+   { 56, CDGE_FORMAT_AUDIO, 114657 },
+   { 57, CDGE_FORMAT_AUDIO, 115080 },
+   { 58, CDGE_FORMAT_AUDIO, 115645 },
+   { 59, CDGE_FORMAT_AUDIO, 115996 },
+   { 60, CDGE_FORMAT_AUDIO, 117096 },
+   { 61, CDGE_FORMAT_AUDIO, 117649 },
+   { 62, CDGE_FORMAT_AUDIO, 117969 },
+   { 63, CDGE_FORMAT_AUDIO, 118832 },
+   { 64, CDGE_FORMAT_AUDIO, 120283 },
+   { 65, CDGE_FORMAT_AUDIO, 122653 },
+   { 66, CDGE_FORMAT_AUDIO, 122973 },
+   { 67, CDGE_FORMAT_AUDIO, 123340 },
+   { 68, CDGE_FORMAT_AUDIO, 123676 },
+   { 69, CDGE_FORMAT_AUDIO, 123996 },
+   { 70, CDGE_FORMAT_AUDIO, 126275 },
+   { 71, CDGE_FORMAT_AUDIO, 130217 },
+   { 72, CDGE_FORMAT_AUDIO, 137425 },
+   { 73, CDGE_FORMAT_AUDIO, 143256 },
+   { 74, CDGE_FORMAT_AUDIO, 145854 },
+   { 75, CDGE_FORMAT_AUDIO, 149728 },
+   { 76, CDGE_FORMAT_AUDIO, 151589 },
+   { 77, CDGE_FORMAT_AUDIO, 151909 },
+   { 78, CDGE_FORMAT_AUDIO, 152356 },
+   { 79, CDGE_FORMAT_AUDIO, 156214 },
+   { 80, CDGE_FORMAT_AUDIO, 158157 },
+   { 81, CDGE_FORMAT_AUDIO, 159612 },
+   { 82, CDGE_FORMAT_AUDIO, 162307 },
+   { 83, CDGE_FORMAT_AUDIO, 163569 },
+   { 84, CDGE_FORMAT_AUDIO, 166452 },
+   { 85, CDGE_FORMAT_AUDIO, 169513 },
+   { 86, CDGE_FORMAT_AUDIO, 174406 },
+   { 87, CDGE_FORMAT_AUDIO, 191526 },
+   { 88, CDGE_FORMAT_AUDIO, 197689 },
+   { 89, CDGE_FORMAT_AUDIO, 197990 },
+   { 90, CDGE_FORMAT_AUDIO, 198291 },
+   { 91, CDGE_FORMAT_AUDIO, 201334 },
+   { -1, -1, 201636 },
+  }
+ }
+},
+
+{
+ "Can Can Bunny Extra DX",
+ "きゃんきゃんバニーエクストラDX",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 2936 },
+   { 3, CDGE_FORMAT_DATA, 3322 },
+   { 4, CDGE_FORMAT_AUDIO, 279473 },
+   { 5, CDGE_FORMAT_AUDIO, 291019 },
+   { 6, CDGE_FORMAT_AUDIO, 303173 },
+   { 7, CDGE_FORMAT_AUDIO, 309557 },
+   { -1, -1, 316447 },
+  }
+ }
+},
+
+{
+ "Chip Chan Kick",
+ "チップきゃんキイーック",
+ CDGE_FLAG_ACCURATE_V810,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 5128 },
+   { 3, CDGE_FORMAT_AUDIO, 66911 },
+   { 4, CDGE_FORMAT_AUDIO, 68734 },
+   { 5, CDGE_FORMAT_AUDIO, 73420 },
+   { 6, CDGE_FORMAT_AUDIO, 78046 },
+   { 7, CDGE_FORMAT_AUDIO, 83671 },
+   { 8, CDGE_FORMAT_AUDIO, 103981 },
+   { 9, CDGE_FORMAT_AUDIO, 123333 },
+   { 10, CDGE_FORMAT_AUDIO, 139735 },
+   { 11, CDGE_FORMAT_AUDIO, 143207 },
+   { 12, CDGE_FORMAT_AUDIO, 145857 },
+   { 13, CDGE_FORMAT_AUDIO, 158775 },
+   { 14, CDGE_FORMAT_AUDIO, 177806 },
+   { 15, CDGE_FORMAT_AUDIO, 194978 },
+   { 16, CDGE_FORMAT_AUDIO, 195667 },
+   { 17, CDGE_FORMAT_AUDIO, 197608 },
+   { 18, CDGE_FORMAT_AUDIO, 198320 },
+   { 19, CDGE_FORMAT_AUDIO, 203445 },
+   { 20, CDGE_FORMAT_AUDIO, 221182 },
+   { 21, CDGE_FORMAT_AUDIO, 237322 },
+   { 22, CDGE_FORMAT_AUDIO, 256767 },
+   { 23, CDGE_FORMAT_AUDIO, 257949 },
+   { -1, -1, 274921 },
+  }
+ }
+},
+
+{
+ "Comic Road",
+ "こみっくろーど",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4232 },
+   { 3, CDGE_FORMAT_DATA, 5258 },
+   { -1, -1, 330932 },
+  }
+ }
+},
+
+{
+ "Cutey Honey FX",
+ "キューテイーハニー ＦＸ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { -1, -1, 283315 },
+  }
+ }
+},
+
+{
+ "Deep Blue Fleet",
+ "紺碧の艦隊",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 2284 },
+   { 3, CDGE_FORMAT_AUDIO, 183701 },
+   { 4, CDGE_FORMAT_AUDIO, 184477 },
+   { 5, CDGE_FORMAT_AUDIO, 191254 },
+   { 6, CDGE_FORMAT_AUDIO, 197407 },
+   { 7, CDGE_FORMAT_AUDIO, 206666 },
+   { 8, CDGE_FORMAT_AUDIO, 211927 },
+   { 9, CDGE_FORMAT_AUDIO, 217685 },
+   { 10, CDGE_FORMAT_AUDIO, 225936 },
+   { 11, CDGE_FORMAT_AUDIO, 229784 },
+   { -1, -1, 230085 },
+  }
+ }
+},
+
+{
+ "Der Langrisser FX",
+ "デアラングリッサーＦＸ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 1971 },
+   { 3, CDGE_FORMAT_AUDIO, 323127 },
+   { -1, -1, 330256 },
+  }
+ }
+},
+
+{
+ "Doukyusei II",
+ "同級生２",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 4909 },
+   { 4, CDGE_FORMAT_DATA, 5941 },
+   { 5, CDGE_FORMAT_DATA, 42059 },
+   { 6, CDGE_FORMAT_AUDIO, 220795 },
+   { 7, CDGE_FORMAT_AUDIO, 225646 },
+   { 8, CDGE_FORMAT_AUDIO, 235498 },
+   { -1, -1, 246680 },
+  }
+ }
+},
+
+{
+ "Dragon Knight IV",
+ "ドラゴンナイト４",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 177212 },
+   { 4, CDGE_FORMAT_AUDIO, 196193 },
+   { -1, -1, 218037 },
+  }
+ }
+},
+
+{
+ "Farland Story FX",
+ "ファーランドストーリー",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 232538 },
+   { 4, CDGE_FORMAT_AUDIO, 236403 },
+   { 5, CDGE_FORMAT_AUDIO, 238396 },
+   { -1, -1, 242433 },
+  }
+ }
+},
+
+{
+ "Fire Woman Matoi-gumi",
+ "ファイアーウーマン纏組",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 5119 },
+   { -1, -1, 257764 },
+  }
+ }
+},
+
+{
+ "First Kiss Monogatari",
+ "ファーストＫｉｓｓ物語",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 1356 },
+   { 3, CDGE_FORMAT_AUDIO, 318011 },
+   { 4, CDGE_FORMAT_AUDIO, 324526 },
+   { -1, -1, 325039 },
+  }
+ }
+},
+
+{
+ "Fushigi No Kuni No Angelique",
+ "ふしぎの国のアンジェリーク",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 4829 },
+   { 4, CDGE_FORMAT_DATA, 5202 },
+   { 5, CDGE_FORMAT_DATA, 7172 },
+   { 6, CDGE_FORMAT_DATA, 53781 },
+   { -1, -1, 142498 },
+  }
+ }
+},
+
+{
+ "Ginga Ojousama Densetsu Yuna FX",
+ "銀河お嬢様伝説ユナＦＸ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 2276 },
+   { -1, -1, 301707 },
+  }
+ }
+},
+
+{
+ "Ginga Ojousama Densetsu Yuna FX Special Edition",
+ "銀河お嬢様伝説ユナＦＸ Special Edition",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 52049 },
+   { -1, -1, 61102 },
+  }
+ }
+},
+
+{
+ "Graduation REAL",
+ "卒業Ｒ Graduation Real",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 5165 },
+   { -1, -1, 213907 },
+  }
+ }
+},
+
+{
+ "Kishin Douji Zenki FX",
+ "鬼神童子 ＺＥＮＫＩ ＦＸ",
+ CDGE_FLAG_ACCURATE_V810,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 7171 },
+   { 3, CDGE_FORMAT_AUDIO, 107872 },
+   { 4, CDGE_FORMAT_AUDIO, 110438 },
+   { 5, CDGE_FORMAT_AUDIO, 112940 },
+   { 6, CDGE_FORMAT_AUDIO, 131362 },
+   { 7, CDGE_FORMAT_AUDIO, 147425 },
+   { 8, CDGE_FORMAT_AUDIO, 163839 },
+   { 9, CDGE_FORMAT_AUDIO, 174752 },
+   { 10, CDGE_FORMAT_AUDIO, 190392 },
+   { 11, CDGE_FORMAT_AUDIO, 201880 },
+   { 12, CDGE_FORMAT_AUDIO, 220717 },
+   { 13, CDGE_FORMAT_AUDIO, 230587 },
+   { 14, CDGE_FORMAT_AUDIO, 247515 },
+   { 15, CDGE_FORMAT_AUDIO, 263803 },
+   { 16, CDGE_FORMAT_AUDIO, 265987 },
+   { 17, CDGE_FORMAT_AUDIO, 272735 },
+   { 18, CDGE_FORMAT_AUDIO, 290382 },
+   { 19, CDGE_FORMAT_AUDIO, 305690 },
+   { 20, CDGE_FORMAT_AUDIO, 322430 },
+   { -1, -1, 329141 },
+  }
+ }
+},
+
+{
+ "Kokuu Hyouryuu Nirgends",
+ "虚空漂流ニルゲンツ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4492 },
+   { -1, -1, 330162 },
+  }
+ }
+},
+
+
+{
+ "Last Imperial Prince",
+ "ラストインペリアルプリンス",
+ 0,
+ 2,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 10187 },
+   { 4, CDGE_FORMAT_AUDIO, 24124 },
+   { 5, CDGE_FORMAT_AUDIO, 40686 },
+   { 6, CDGE_FORMAT_AUDIO, 56583 },
+   { 7, CDGE_FORMAT_AUDIO, 63025 },
+   { 8, CDGE_FORMAT_AUDIO, 69646 },
+   { 9, CDGE_FORMAT_AUDIO, 75144 },
+   { 10, CDGE_FORMAT_AUDIO, 81208 },
+   { 11, CDGE_FORMAT_AUDIO, 86132 },
+   { 12, CDGE_FORMAT_AUDIO, 101745 },
+   { 13, CDGE_FORMAT_AUDIO, 107871 },
+   { 14, CDGE_FORMAT_AUDIO, 121487 },
+   { 15, CDGE_FORMAT_AUDIO, 134835 },
+   { 16, CDGE_FORMAT_AUDIO, 148385 },
+   { 17, CDGE_FORMAT_AUDIO, 163372 },
+   { 18, CDGE_FORMAT_AUDIO, 176996 },
+   { 19, CDGE_FORMAT_AUDIO, 216456 },
+   { 20, CDGE_FORMAT_AUDIO, 238672 },
+   { 21, CDGE_FORMAT_AUDIO, 241036 },
+   { 22, CDGE_FORMAT_AUDIO, 242389 },
+   { 23, CDGE_FORMAT_DATA, 246767 },
+   { 24, CDGE_FORMAT_DATA, 277470 },
+   { -1, -1, 290164 },
+  },
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 10187 },
+   { 4, CDGE_FORMAT_AUDIO, 24124 },
+   { 5, CDGE_FORMAT_AUDIO, 40686 },
+   { 6, CDGE_FORMAT_AUDIO, 56583 },
+   { 7, CDGE_FORMAT_AUDIO, 63025 },
+   { 8, CDGE_FORMAT_AUDIO, 69646 },
+   { 9, CDGE_FORMAT_AUDIO, 75144 },
+   { 10, CDGE_FORMAT_AUDIO, 81208 },
+   { 11, CDGE_FORMAT_AUDIO, 86132 },
+   { 12, CDGE_FORMAT_AUDIO, 100599 },
+   { 13, CDGE_FORMAT_AUDIO, 114101 },
+   { 14, CDGE_FORMAT_AUDIO, 128505 },
+   { 15, CDGE_FORMAT_AUDIO, 142903 },
+   { 16, CDGE_FORMAT_AUDIO, 156648 },
+   { 17, CDGE_FORMAT_AUDIO, 170424 },
+   { 18, CDGE_FORMAT_AUDIO, 188071 },
+   { 19, CDGE_FORMAT_AUDIO, 230603 },
+   { 20, CDGE_FORMAT_AUDIO, 254521 },
+   { 21, CDGE_FORMAT_AUDIO, 259922 },
+   { 22, CDGE_FORMAT_DATA, 262475 },
+   { -1, -1, 318842 },
+  }
+ }
+},
+
+{
+ "Lunatic Dawn",
+ "ルナテイックドーンＦＸ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 69072 },
+   { 4, CDGE_FORMAT_AUDIO, 73053 },
+   { 5, CDGE_FORMAT_AUDIO, 81372 },
+   { 6, CDGE_FORMAT_AUDIO, 95658 },
+   { 7, CDGE_FORMAT_AUDIO, 107310 },
+   { 8, CDGE_FORMAT_AUDIO, 113597 },
+   { 9, CDGE_FORMAT_AUDIO, 123146 },
+   { 10, CDGE_FORMAT_AUDIO, 133358 },
+   { 11, CDGE_FORMAT_AUDIO, 144357 },
+   { 12, CDGE_FORMAT_AUDIO, 154059 },
+   { 13, CDGE_FORMAT_AUDIO, 164189 },
+   { 14, CDGE_FORMAT_AUDIO, 172197 },
+   { 15, CDGE_FORMAT_AUDIO, 182157 },
+   { 16, CDGE_FORMAT_AUDIO, 186336 },
+   { 17, CDGE_FORMAT_AUDIO, 192222 },
+   { 18, CDGE_FORMAT_AUDIO, 202203 },
+   { 19, CDGE_FORMAT_AUDIO, 208274 },
+   { 20, CDGE_FORMAT_AUDIO, 212338 },
+   { 21, CDGE_FORMAT_AUDIO, 220499 },
+   { 22, CDGE_FORMAT_AUDIO, 229850 },
+   { 23, CDGE_FORMAT_AUDIO, 240178 },
+   { 24, CDGE_FORMAT_AUDIO, 241376 },
+   { 25, CDGE_FORMAT_AUDIO, 242050 },
+   { 26, CDGE_FORMAT_AUDIO, 246855 },
+   { 27, CDGE_FORMAT_AUDIO, 253026 },
+   { 28, CDGE_FORMAT_AUDIO, 260509 },
+   { 29, CDGE_FORMAT_AUDIO, 260844 },
+   { 30, CDGE_FORMAT_AUDIO, 261554 },
+   { 31, CDGE_FORMAT_AUDIO, 262591 },
+   { -1, -1, 263219 },
+  }
+ }
+},
+
+{
+ "Mahjong Goku Tenjiku",
+ "麻雀悟空天竺",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 8376 },
+   { 4, CDGE_FORMAT_AUDIO, 11607 },
+   { 5, CDGE_FORMAT_AUDIO, 19873 },
+   { 6, CDGE_FORMAT_AUDIO, 24171 },
+   { 7, CDGE_FORMAT_AUDIO, 29994 },
+   { 8, CDGE_FORMAT_AUDIO, 34978 },
+   { 9, CDGE_FORMAT_AUDIO, 41359 },
+   { 10, CDGE_FORMAT_AUDIO, 47803 },
+   { 11, CDGE_FORMAT_AUDIO, 54204 },
+   { 12, CDGE_FORMAT_AUDIO, 60619 },
+   { 13, CDGE_FORMAT_AUDIO, 67006 },
+   { 14, CDGE_FORMAT_AUDIO, 73397 },
+   { 15, CDGE_FORMAT_AUDIO, 79790 },
+   { 16, CDGE_FORMAT_AUDIO, 86179 },
+   { 17, CDGE_FORMAT_AUDIO, 92574 },
+   { 18, CDGE_FORMAT_AUDIO, 115478 },
+   { 19, CDGE_FORMAT_AUDIO, 138537 },
+   { 20, CDGE_FORMAT_AUDIO, 161434 },
+   { 21, CDGE_FORMAT_AUDIO, 184314 },
+   { 22, CDGE_FORMAT_AUDIO, 197815 },
+   { 23, CDGE_FORMAT_AUDIO, 216216 },
+   { 24, CDGE_FORMAT_AUDIO, 230140 },
+   { 25, CDGE_FORMAT_AUDIO, 239554 },
+   { 26, CDGE_FORMAT_AUDIO, 240045 },
+   { 27, CDGE_FORMAT_AUDIO, 240661 },
+   { 28, CDGE_FORMAT_AUDIO, 241040 },
+   { 29, CDGE_FORMAT_AUDIO, 241632 },
+   { 30, CDGE_FORMAT_AUDIO, 242579 },
+   { 31, CDGE_FORMAT_AUDIO, 243054 },
+   { 32, CDGE_FORMAT_AUDIO, 243354 },
+   { 33, CDGE_FORMAT_AUDIO, 243796 },
+   { 34, CDGE_FORMAT_AUDIO, 245294 },
+   { 35, CDGE_FORMAT_AUDIO, 247298 },
+   { 36, CDGE_FORMAT_AUDIO, 249208 },
+   { 37, CDGE_FORMAT_AUDIO, 250388 },
+   { 38, CDGE_FORMAT_AUDIO, 251862 },
+   { 39, CDGE_FORMAT_AUDIO, 253227 },
+   { 40, CDGE_FORMAT_AUDIO, 254796 },
+   { 41, CDGE_FORMAT_AUDIO, 256032 },
+   { -1, -1, 264625 },
+  }
+ }
+},
+
+{
+ "Makeruna! Makendou Z",
+ "負けるな！魔剣道Ｚ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 5165 },
+   { 4, CDGE_FORMAT_DATA, 5677 },
+   { 5, CDGE_FORMAT_DATA, 6477 },
+   { 6, CDGE_FORMAT_DATA, 7645 },
+   { 7, CDGE_FORMAT_DATA, 8157 },
+   { 8, CDGE_FORMAT_DATA, 16349 },
+   { 9, CDGE_FORMAT_DATA, 52294 },
+   { 10, CDGE_FORMAT_AUDIO, 174749 },
+   { 11, CDGE_FORMAT_DATA, 191888 },
+   { -1, -1, 192401 },
+  }
+ }
+},
+
+{
+ "Megami Paradise II",
+ "女神天国ＩＩ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 3381 },
+   { 3, CDGE_FORMAT_AUDIO, 296237 },
+   { 4, CDGE_FORMAT_DATA, 306322 },
+   { -1, -1, 306835 },
+  }
+ }
+},
+
+{
+ "Minimum Nanonic",
+ "みにまむなのにっく",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 208813 },
+   { 4, CDGE_FORMAT_AUDIO, 227341 },
+   { 5, CDGE_FORMAT_AUDIO, 245834 },
+   { -1, -1, 250005 },
+  }
+ }
+},
+
+{
+ "Miraculum: The Last Revelation",
+ "ミラークルム ーサ･ラスト･レベレーションー",
+  0,	//CDGE_FLAG_ACCURATE_V810, //	0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { -1, -1, 315726 },
+  }
+ }
+},
+
+{
+ "Nnyuu",
+ NULL,
+ CDGE_FLAG_FXGA,
+ 2,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 13517 },
+   { 4, CDGE_FORMAT_AUDIO, 25819 },
+   { 5, CDGE_FORMAT_AUDIO, 32862 },
+   { 6, CDGE_FORMAT_AUDIO, 42340 },
+   { 7, CDGE_FORMAT_AUDIO, 51288 },
+   { 8, CDGE_FORMAT_AUDIO, 63538 },
+   { 9, CDGE_FORMAT_AUDIO, 72521 },
+   { 10, CDGE_FORMAT_AUDIO, 83392 },
+   { -1, -1, 91836 },
+  },
+  {
+   { 1, CDGE_FORMAT_DATA, 0 },
+   { -1, -1, 9495 },
+  }
+ }
+},
+
+{
+ "Ojousama Sousamou",
+ "お嬢様捜査網",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 9083 },
+   { 3, CDGE_FORMAT_DATA, 10935 },
+   { 4, CDGE_FORMAT_DATA, 12489 },
+   { 5, CDGE_FORMAT_DATA, 13054 },
+   { 6, CDGE_FORMAT_DATA, 38195 },
+   { 7, CDGE_FORMAT_AUDIO, 120164 },
+   { 8, CDGE_FORMAT_AUDIO, 127204 },
+   { 9, CDGE_FORMAT_AUDIO, 134263 },
+   { 10, CDGE_FORMAT_AUDIO, 134597 },
+   { 11, CDGE_FORMAT_AUDIO, 136291 },
+   { 12, CDGE_FORMAT_AUDIO, 137881 },
+   { 13, CDGE_FORMAT_AUDIO, 143424 },
+   { 14, CDGE_FORMAT_AUDIO, 150212 },
+   { 15, CDGE_FORMAT_AUDIO, 156807 },
+   { 16, CDGE_FORMAT_AUDIO, 163988 },
+   { 17, CDGE_FORMAT_AUDIO, 170768 },
+   { 18, CDGE_FORMAT_AUDIO, 177616 },
+   { 19, CDGE_FORMAT_AUDIO, 183555 },
+   { 20, CDGE_FORMAT_AUDIO, 185138 },
+   { 21, CDGE_FORMAT_AUDIO, 185557 },
+   { 22, CDGE_FORMAT_AUDIO, 187160 },
+   { 23, CDGE_FORMAT_AUDIO, 187507 },
+   { 24, CDGE_FORMAT_AUDIO, 188122 },
+   { 25, CDGE_FORMAT_AUDIO, 196158 },
+   { 26, CDGE_FORMAT_AUDIO, 204161 },
+   { 27, CDGE_FORMAT_AUDIO, 206297 },
+   { 28, CDGE_FORMAT_AUDIO, 224106 },
+   { 29, CDGE_FORMAT_AUDIO, 227826 },
+   { 30, CDGE_FORMAT_AUDIO, 235934 },
+   { 31, CDGE_FORMAT_AUDIO, 237516 },
+   { -1, -1, 244557 },
+  }
+ }
+},
+
+{
+ "Pachio-kun FX",
+ "パチ夫くんＦＸ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 5037 },
+   { 4, CDGE_FORMAT_DATA, 7830 },
+   { 5, CDGE_FORMAT_DATA, 157279 },
+   { 6, CDGE_FORMAT_DATA, 158364 },
+   { 7, CDGE_FORMAT_DATA, 180499 },
+   { 8, CDGE_FORMAT_AUDIO, 205401 },
+   { 9, CDGE_FORMAT_AUDIO, 206401 },
+   { 10, CDGE_FORMAT_AUDIO, 219890 },
+   { 11, CDGE_FORMAT_AUDIO, 224061 },
+   { 12, CDGE_FORMAT_AUDIO, 228389 },
+   { 13, CDGE_FORMAT_AUDIO, 232550 },
+   { 14, CDGE_FORMAT_AUDIO, 239291 },
+   { -1, -1, 253825 },
+  }
+ }
+},
+
+{
+ "PCE Fan Special CD-Rom Vol. 2",
+ "PC Engine Fan Special CDROM Vol.2",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 2938 },
+   { 3, CDGE_FORMAT_DATA, 4778 },
+   { 4, CDGE_FORMAT_DATA, 62548 },
+   { 5, CDGE_FORMAT_DATA, 125244 },
+   { 6, CDGE_FORMAT_AUDIO, 144311 },
+   { 7, CDGE_FORMAT_AUDIO, 150877 },
+   { 8, CDGE_FORMAT_AUDIO, 210027 },
+   { 9, CDGE_FORMAT_AUDIO, 213928 },
+   { 10, CDGE_FORMAT_AUDIO, 217629 },
+   { 11, CDGE_FORMAT_AUDIO, 220644 },
+   { 12, CDGE_FORMAT_AUDIO, 224512 },
+   { 13, CDGE_FORMAT_AUDIO, 231187 },
+   { 14, CDGE_FORMAT_AUDIO, 234309 },
+   { 15, CDGE_FORMAT_AUDIO, 239072 },
+   { -1, -1, 240786 },
+  }
+ }
+},
+
+{
+ "PCE Fan Special CD-Rom Vol. 3",
+ "PC Engine Fan Special CDROM Vol.3",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 1831 },
+   { 3, CDGE_FORMAT_DATA, 5239 },
+   { 4, CDGE_FORMAT_DATA, 12377 },
+   { 5, CDGE_FORMAT_AUDIO, 25381 },
+   { 6, CDGE_FORMAT_AUDIO, 29358 },
+   { 7, CDGE_FORMAT_AUDIO, 35924 },
+   { 8, CDGE_FORMAT_AUDIO, 93272 },
+   { 9, CDGE_FORMAT_DATA, 144485 },
+   { -1, -1, 146604 },
+  }
+ }
+},
+
+{
+ "Pia Carrot He Youkoso",
+ "ＰＩＡキャロットへようこそ！！",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 6923 },
+   { 3, CDGE_FORMAT_AUDIO, 294030 },
+   { 4, CDGE_FORMAT_AUDIO, 300770 },
+   { 5, CDGE_FORMAT_AUDIO, 307627 },
+   { -1, -1, 314486 },
+  }
+ }
+},
+
+{
+ "Power Dolls FX",
+ "パワードールＦＸ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 5165 },
+   { 4, CDGE_FORMAT_DATA, 5507 },
+   { 5, CDGE_FORMAT_DATA, 6279 },
+   { 6, CDGE_FORMAT_DATA, 6647 },
+   { 7, CDGE_FORMAT_DATA, 7079 },
+   { 8, CDGE_FORMAT_DATA, 9480 },
+   { 9, CDGE_FORMAT_DATA, 9854 },
+   { 10, CDGE_FORMAT_DATA, 10366 },
+   { 11, CDGE_FORMAT_DATA, 11184 },
+   { 12, CDGE_FORMAT_DATA, 11952 },
+   { 13, CDGE_FORMAT_DATA, 12499 },
+   { 14, CDGE_FORMAT_AUDIO, 33090 },
+   { 15, CDGE_FORMAT_AUDIO, 47464 },
+   { 16, CDGE_FORMAT_DATA, 67672 },
+   { 17, CDGE_FORMAT_DATA, 68440 },
+   { 18, CDGE_FORMAT_DATA, 73582 },
+   { 19, CDGE_FORMAT_AUDIO, 74650 },
+   { 20, CDGE_FORMAT_AUDIO, 86120 },
+   { 21, CDGE_FORMAT_AUDIO, 115719 },
+   { 22, CDGE_FORMAT_AUDIO, 130093 },
+   { 23, CDGE_FORMAT_AUDIO, 143954 },
+   { 24, CDGE_FORMAT_AUDIO, 162477 },
+   { 25, CDGE_FORMAT_AUDIO, 180206 },
+   { 26, CDGE_FORMAT_AUDIO, 192167 },
+   { 27, CDGE_FORMAT_AUDIO, 208417 },
+   { 28, CDGE_FORMAT_AUDIO, 218607 },
+   { 29, CDGE_FORMAT_AUDIO, 238590 },
+   { 30, CDGE_FORMAT_AUDIO, 258179 },
+   { -1, -1, 258734 },
+  }
+ }
+},
+
+{
+ "Return to Zork",
+ "Return to Zork",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { -1, -1, 166265 },
+  }
+ }
+},
+
+{
+ "Ruruli Ra Rura",
+ "ルルリ･ラ･ルラ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 3230 },
+   { 3, CDGE_FORMAT_AUDIO, 158649 },
+   { 4, CDGE_FORMAT_AUDIO, 169395 },
+   { 5, CDGE_FORMAT_AUDIO, 184829 },
+   { 6, CDGE_FORMAT_AUDIO, 197368 },
+   { 7, CDGE_FORMAT_AUDIO, 210123 },
+   { 8, CDGE_FORMAT_AUDIO, 223314 },
+   { 9, CDGE_FORMAT_AUDIO, 237257 },
+   { 10, CDGE_FORMAT_AUDIO, 251315 },
+   { 11, CDGE_FORMAT_AUDIO, 266763 },
+   { 12, CDGE_FORMAT_AUDIO, 281719 },
+   { 13, CDGE_FORMAT_AUDIO, 295240 },
+   { 14, CDGE_FORMAT_AUDIO, 295721 },
+   { 15, CDGE_FORMAT_AUDIO, 296390 },
+   { 16, CDGE_FORMAT_AUDIO, 297080 },
+   { 17, CDGE_FORMAT_AUDIO, 297655 },
+   { 18, CDGE_FORMAT_AUDIO, 298209 },
+   { 19, CDGE_FORMAT_AUDIO, 301612 },
+   { 20, CDGE_FORMAT_AUDIO, 303020 },
+   { 21, CDGE_FORMAT_AUDIO, 303964 },
+   { -1, -1, 322241 },
+  }
+ }
+},
+
+{
+ "Same Game FX",
+ NULL,
+ CDGE_FLAG_FXGA,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 3270 },
+   { -1, -1, 3859 },
+  }
+ }
+},
+
+{
+ "Shanghai: The Great Wall",
+ "上海 万里の長城",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 9611 },
+   { 4, CDGE_FORMAT_AUDIO, 15872 },
+   { 5, CDGE_FORMAT_AUDIO, 21570 },
+   { 6, CDGE_FORMAT_AUDIO, 27001 },
+   { 7, CDGE_FORMAT_AUDIO, 32506 },
+   { 8, CDGE_FORMAT_AUDIO, 38675 },
+   { 9, CDGE_FORMAT_AUDIO, 44503 },
+   { 10, CDGE_FORMAT_AUDIO, 49867 },
+   { 11, CDGE_FORMAT_AUDIO, 55328 },
+   { 12, CDGE_FORMAT_AUDIO, 61187 },
+   { 13, CDGE_FORMAT_AUDIO, 66669 },
+   { 14, CDGE_FORMAT_AUDIO, 72147 },
+   { 15, CDGE_FORMAT_AUDIO, 77654 },
+   { 16, CDGE_FORMAT_AUDIO, 83325 },
+   { 17, CDGE_FORMAT_AUDIO, 89000 },
+   { 18, CDGE_FORMAT_AUDIO, 94305 },
+   { 19, CDGE_FORMAT_AUDIO, 97879 },
+   { 20, CDGE_FORMAT_AUDIO, 103439 },
+   { 21, CDGE_FORMAT_AUDIO, 108929 },
+   { 22, CDGE_FORMAT_AUDIO, 114689 },
+   { 23, CDGE_FORMAT_AUDIO, 115109 },
+   { 24, CDGE_FORMAT_AUDIO, 115553 },
+   { 25, CDGE_FORMAT_AUDIO, 117222 },
+   { 26, CDGE_FORMAT_AUDIO, 117672 },
+   { 27, CDGE_FORMAT_AUDIO, 122812 },
+   { 28, CDGE_FORMAT_AUDIO, 123948 },
+   { 29, CDGE_FORMAT_AUDIO, 124631 },
+   { -1, -1, 130162 },
+  }
+ }
+},
+
+{
+ "Neo Generation II FX",
+ "卒業ＩＩ ＦＸ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 13481 },
+   { 3, CDGE_FORMAT_AUDIO, 209349 },
+   { 4, CDGE_FORMAT_AUDIO, 215587 },
+   { 5, CDGE_FORMAT_AUDIO, 227412 },
+   { 6, CDGE_FORMAT_AUDIO, 239413 },
+   { 7, CDGE_FORMAT_AUDIO, 243045 },
+   { -1, -1, 243387 },
+  }
+ }
+},
+
+{
+ "Sparkling Feather",
+ "スパークリングフェザー",
+ CDGE_FLAG_ACCURATE_V810,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 1661 },
+   { 3, CDGE_FORMAT_DATA, 182640 },
+   { 4, CDGE_FORMAT_DATA, 183177 },
+   { 5, CDGE_FORMAT_DATA, 183670 },
+   { 6, CDGE_FORMAT_DATA, 184717 },
+   { 7, CDGE_FORMAT_DATA, 185671 },
+   { 8, CDGE_FORMAT_DATA, 187043 },
+   { 9, CDGE_FORMAT_DATA, 187983 },
+   { 10, CDGE_FORMAT_DATA, 188881 },
+   { 11, CDGE_FORMAT_DATA, 189642 },
+   { 12, CDGE_FORMAT_DATA, 194036 },
+   { 13, CDGE_FORMAT_DATA, 195380 },
+   { 14, CDGE_FORMAT_DATA, 196675 },
+   { 15, CDGE_FORMAT_DATA, 197976 },
+   { 16, CDGE_FORMAT_DATA, 199266 },
+   { 17, CDGE_FORMAT_DATA, 200580 },
+   { 18, CDGE_FORMAT_DATA, 201926 },
+   { 19, CDGE_FORMAT_DATA, 203260 },
+   { 20, CDGE_FORMAT_DATA, 204619 },
+   { 21, CDGE_FORMAT_DATA, 206050 },
+   { 22, CDGE_FORMAT_DATA, 209018 },
+   { 23, CDGE_FORMAT_DATA, 211978 },
+   { 24, CDGE_FORMAT_DATA, 214198 },
+   { 25, CDGE_FORMAT_DATA, 215837 },
+   { 26, CDGE_FORMAT_DATA, 217272 },
+   { -1, -1, 218870 },
+  }
+ }
+},
+
+{
+ "Super PCE Fan Deluxe Special CD-Rom Vol. 1",
+ "SUPER PCエンジンファン DELUXE VOL.1",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 52049 },
+   { 4, CDGE_FORMAT_DATA, 61101 },
+   { 5, CDGE_FORMAT_DATA, 62381 },
+   { 6, CDGE_FORMAT_DATA, 156844 },
+   { 7, CDGE_FORMAT_DATA, 228449 },
+   { 8, CDGE_FORMAT_DATA, 249299 },
+   { 9, CDGE_FORMAT_DATA, 254167 },
+   { 10, CDGE_FORMAT_DATA, 266033 },
+   { 11, CDGE_FORMAT_DATA, 276018 },
+   { 12, CDGE_FORMAT_DATA, 282558 },
+   { 13, CDGE_FORMAT_AUDIO, 299212 },
+   { -1, -1, 305779 },
+  }
+ }
+},
+
+{
+ "Super PCE Fan Deluxe Special CD-Rom Vol. 2",
+ "SUPER PCエンジンファン DELUXE VOL.2",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 10251 },
+   { 4, CDGE_FORMAT_DATA, 26494 },
+   { 5, CDGE_FORMAT_DATA, 51756 },
+   { 6, CDGE_FORMAT_DATA, 57179 },
+   { 7, CDGE_FORMAT_DATA, 68238 },
+   { 8, CDGE_FORMAT_DATA, 76683 },
+   { 9, CDGE_FORMAT_DATA, 82991 },
+   { 10, CDGE_FORMAT_DATA, 89072 },
+   { 11, CDGE_FORMAT_DATA, 96938 },
+   { 12, CDGE_FORMAT_DATA, 104587 },
+   { 13, CDGE_FORMAT_DATA, 115120 },
+   { 14, CDGE_FORMAT_DATA, 137766 },
+   { 15, CDGE_FORMAT_DATA, 169372 },
+   { 16, CDGE_FORMAT_DATA, 191451 },
+   { 17, CDGE_FORMAT_AUDIO, 193018 },
+   { 18, CDGE_FORMAT_AUDIO, 206955 },
+   { 19, CDGE_FORMAT_AUDIO, 223517 },
+   { 20, CDGE_FORMAT_AUDIO, 229959 },
+   { 21, CDGE_FORMAT_AUDIO, 236580 },
+   { 22, CDGE_FORMAT_AUDIO, 242078 },
+   { 23, CDGE_FORMAT_AUDIO, 247002 },
+   { 24, CDGE_FORMAT_DATA, 260851 },
+   { 25, CDGE_FORMAT_DATA, 273544 },
+   { 26, CDGE_FORMAT_AUDIO, 304547 },
+   { -1, -1, 311114 },
+  }
+ }
+},
+
+{
+ "Super Power League FX",
+ "スーパーパワーリーグＦＸ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 3590 },
+   { 3, CDGE_FORMAT_DATA, 4344 },
+   { 4, CDGE_FORMAT_AUDIO, 14637 },
+   { 5, CDGE_FORMAT_DATA, 102512 },
+   { -1, -1, 166532 },
+  }
+ }
+},
+
+{
+ "Super Real Mahjong P V FX",
+ "スーパーリアル麻雀Ｐ５",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 2590 },
+   { 3, CDGE_FORMAT_DATA, 2976 },
+   { 4, CDGE_FORMAT_DATA, 3350 },
+   { 5, CDGE_FORMAT_DATA, 89885 },
+   { 6, CDGE_FORMAT_DATA, 90695 },
+   { 7, CDGE_FORMAT_AUDIO, 94331 },
+   { 8, CDGE_FORMAT_AUDIO, 105090 },
+   { 9, CDGE_FORMAT_AUDIO, 114148 },
+   { 10, CDGE_FORMAT_AUDIO, 125335 },
+   { 11, CDGE_FORMAT_AUDIO, 136932 },
+   { 12, CDGE_FORMAT_AUDIO, 147480 },
+   { 13, CDGE_FORMAT_AUDIO, 160406 },
+   { 14, CDGE_FORMAT_AUDIO, 171875 },
+   { 15, CDGE_FORMAT_AUDIO, 178636 },
+   { 16, CDGE_FORMAT_AUDIO, 180766 },
+   { -1, -1, 183547 },
+  }
+ }
+},
+
+
+{
+ "Team Innocent",
+ "チームイノセント　The point of no return",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 218041 },
+   { 4, CDGE_FORMAT_AUDIO, 241208 },
+   { 5, CDGE_FORMAT_AUDIO, 247705 },
+   { 6, CDGE_FORMAT_AUDIO, 254586 },
+   { 7, CDGE_FORMAT_AUDIO, 260797 },
+   { 8, CDGE_FORMAT_AUDIO, 267971 },
+   { 9, CDGE_FORMAT_AUDIO, 275080 },
+   { 10, CDGE_FORMAT_AUDIO, 285655 },
+   { 11, CDGE_FORMAT_AUDIO, 289111 },
+   { 12, CDGE_FORMAT_AUDIO, 300772 },
+   { 13, CDGE_FORMAT_AUDIO, 305057 },
+   { 14, CDGE_FORMAT_AUDIO, 317734 },
+   { -1, -1, 324695 },
+  }
+ }
+},
+
+{
+ "Tekipaki Working Love",
+ "はたらく☆少女 てきぱきワーキンラブ FX",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 2474 },
+   { 3, CDGE_FORMAT_DATA, 3500 },
+   { 4, CDGE_FORMAT_AUDIO, 181612 },
+   { 5, CDGE_FORMAT_AUDIO, 194776 },
+   { -1, -1, 211869 },
+  },
+ }
+},
+
+{
+ "Tenchi Muyo FX",
+ "天地無用! 魎皇鬼 FX",
+ 0,
+ 2,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4135 },
+   { -1, -1, 301916 },
+  },
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4621 },
+   { -1, -1, 74055 },
+  }
+ }
+},
+
+{
+ "Tengai Makyou Karakuri Kakutouden",
+ "天外魔境電脳結繰格闘伝",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 9515 },
+   { 4, CDGE_FORMAT_DATA, 27125 },
+   { 5, CDGE_FORMAT_DATA, 49259 },
+   { 6, CDGE_FORMAT_DATA, 74712 },
+   { 7, CDGE_FORMAT_DATA, 101125 },
+   { 8, CDGE_FORMAT_DATA, 129079 },
+   { 9, CDGE_FORMAT_DATA, 156743 },
+   { 10, CDGE_FORMAT_DATA, 192741 },
+   { 11, CDGE_FORMAT_DATA, 215240 },
+   { 12, CDGE_FORMAT_DATA, 240217 },
+   { 13, CDGE_FORMAT_DATA, 260898 },
+   { -1, -1, 279663 },
+  }
+ }
+},
+
+{
+ "Tokimeki Card Paradise",
+ "ときめきカードパラダイス",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_AUDIO, 9731 },
+   { 4, CDGE_FORMAT_AUDIO, 10223 },
+   { 5, CDGE_FORMAT_AUDIO, 10676 },
+   { 6, CDGE_FORMAT_AUDIO, 11182 },
+   { 7, CDGE_FORMAT_AUDIO, 11813 },
+   { 8, CDGE_FORMAT_AUDIO, 12472 },
+   { 9, CDGE_FORMAT_AUDIO, 18522 },
+   { 10, CDGE_FORMAT_AUDIO, 31943 },
+   { 11, CDGE_FORMAT_AUDIO, 45364 },
+   { 12, CDGE_FORMAT_AUDIO, 58258 },
+   { 13, CDGE_FORMAT_AUDIO, 69409 },
+   { 14, CDGE_FORMAT_AUDIO, 80560 },
+   { 15, CDGE_FORMAT_AUDIO, 91711 },
+   { 16, CDGE_FORMAT_AUDIO, 95691 },
+   { 17, CDGE_FORMAT_DATA, 99896 },
+   { 18, CDGE_FORMAT_DATA, 105396 },
+   { 19, CDGE_FORMAT_DATA, 106280 },
+   { 20, CDGE_FORMAT_DATA, 107391 },
+   { 21, CDGE_FORMAT_DATA, 108375 },
+   { 22, CDGE_FORMAT_DATA, 109360 },
+   { 23, CDGE_FORMAT_DATA, 110659 },
+   { 24, CDGE_FORMAT_DATA, 111616 },
+   { 25, CDGE_FORMAT_DATA, 113281 },
+   { 26, CDGE_FORMAT_DATA, 113745 },
+   { 27, CDGE_FORMAT_DATA, 115386 },
+   { 28, CDGE_FORMAT_DATA, 119952 },
+   { 29, CDGE_FORMAT_DATA, 121377 },
+   { 30, CDGE_FORMAT_DATA, 123944 },
+   { 31, CDGE_FORMAT_DATA, 125477 },
+   { 32, CDGE_FORMAT_DATA, 126472 },
+   { 33, CDGE_FORMAT_DATA, 127545 },
+   { 34, CDGE_FORMAT_DATA, 128993 },
+   { 35, CDGE_FORMAT_DATA, 130345 },
+   { 36, CDGE_FORMAT_DATA, 132774 },
+   { 37, CDGE_FORMAT_DATA, 133299 },
+   { 38, CDGE_FORMAT_DATA, 134847 },
+   { 39, CDGE_FORMAT_DATA, 139225 },
+   { 40, CDGE_FORMAT_DATA, 142224 },
+   { 41, CDGE_FORMAT_DATA, 143967 },
+   { 42, CDGE_FORMAT_DATA, 145100 },
+   { 43, CDGE_FORMAT_DATA, 146002 },
+   { 44, CDGE_FORMAT_DATA, 147556 },
+   { 45, CDGE_FORMAT_DATA, 148650 },
+   { 46, CDGE_FORMAT_DATA, 150461 },
+   { 47, CDGE_FORMAT_DATA, 151891 },
+   { 48, CDGE_FORMAT_DATA, 152514 },
+   { 49, CDGE_FORMAT_DATA, 153988 },
+   { 50, CDGE_FORMAT_DATA, 157541 },
+   { 51, CDGE_FORMAT_DATA, 158440 },
+   { 52, CDGE_FORMAT_DATA, 161036 },
+   { 53, CDGE_FORMAT_DATA, 162032 },
+   { 54, CDGE_FORMAT_DATA, 162793 },
+   { 55, CDGE_FORMAT_DATA, 164308 },
+   { 56, CDGE_FORMAT_DATA, 165420 },
+   { 57, CDGE_FORMAT_DATA, 167152 },
+   { 58, CDGE_FORMAT_DATA, 168284 },
+   { 59, CDGE_FORMAT_DATA, 169303 },
+   { 60, CDGE_FORMAT_DATA, 169718 },
+   { 61, CDGE_FORMAT_DATA, 173432 },
+   { 62, CDGE_FORMAT_DATA, 177351 },
+   { 63, CDGE_FORMAT_DATA, 178477 },
+   { 64, CDGE_FORMAT_DATA, 179599 },
+   { 65, CDGE_FORMAT_DATA, 180174 },
+   { 66, CDGE_FORMAT_DATA, 181222 },
+   { 67, CDGE_FORMAT_DATA, 182108 },
+   { 68, CDGE_FORMAT_DATA, 182838 },
+   { 69, CDGE_FORMAT_DATA, 183745 },
+   { 70, CDGE_FORMAT_DATA, 184759 },
+   { 71, CDGE_FORMAT_DATA, 185526 },
+   { -1, -1, 186254 },
+  }
+ }
+},
+
+{
+ "Tonari no Princess Rolfee",
+ "となりのプリンセス ロルフィー",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 1431 },
+   { -1, -1, 330127 },
+  }
+ }
+},
+
+{
+ "Tyoushin Heiki Zeroigar",
+ "超神兵器セロイガー",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 1982 },
+   { 3, CDGE_FORMAT_AUDIO, 180819 },
+   { 4, CDGE_FORMAT_AUDIO, 193570 },
+   { 5, CDGE_FORMAT_AUDIO, 213671 },
+   { -1, -1, 269144 },
+  }
+ }
+},
+
+
+{
+ "Voice Paradise",
+ "ボイスパラダイス",
+ 0,
+ 2,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 5165 },
+   { 4, CDGE_FORMAT_DATA, 19592 },
+   { 5, CDGE_FORMAT_AUDIO, 149410 },
+   { 6, CDGE_FORMAT_AUDIO, 159592 },
+   { 7, CDGE_FORMAT_AUDIO, 164141 },
+   { 8, CDGE_FORMAT_AUDIO, 180174 },
+   { 9, CDGE_FORMAT_AUDIO, 195993 },
+   { 10, CDGE_FORMAT_AUDIO, 212538 },
+   { 11, CDGE_FORMAT_AUDIO, 217086 },
+   { 12, CDGE_FORMAT_AUDIO, 232175 },
+   { 13, CDGE_FORMAT_AUDIO, 253002 },
+   { 14, CDGE_FORMAT_AUDIO, 268287 },
+   { 15, CDGE_FORMAT_AUDIO, 283159 },
+   { 16, CDGE_FORMAT_AUDIO, 284331 },
+   { 17, CDGE_FORMAT_AUDIO, 285878 },
+   { 18, CDGE_FORMAT_AUDIO, 300515 },
+   { -1, -1, 300890 },
+  },
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { 3, CDGE_FORMAT_DATA, 5165 },
+   { 4, CDGE_FORMAT_DATA, 19592 },
+   { 5, CDGE_FORMAT_AUDIO, 153285 },
+   { 6, CDGE_FORMAT_AUDIO, 163467 },
+   { 7, CDGE_FORMAT_AUDIO, 168016 },
+   { 8, CDGE_FORMAT_AUDIO, 184049 },
+   { 9, CDGE_FORMAT_AUDIO, 199868 },
+   { 10, CDGE_FORMAT_AUDIO, 216413 },
+   { 11, CDGE_FORMAT_AUDIO, 220961 },
+   { 12, CDGE_FORMAT_AUDIO, 236050 },
+   { 13, CDGE_FORMAT_AUDIO, 256877 },
+   { 14, CDGE_FORMAT_AUDIO, 272162 },
+   { 15, CDGE_FORMAT_AUDIO, 287034 },
+   { 16, CDGE_FORMAT_AUDIO, 288206 },
+   { 17, CDGE_FORMAT_AUDIO, 289753 },
+   { 18, CDGE_FORMAT_AUDIO, 304390 },
+   { -1, -1, 304765 },
+  }
+ }
+},
+
+{
+ "Wakusei-koukitai Little Cats",
+ "惑星攻機隊りとるキャッツ",
+ 0,
+ 1,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 5163 },
+   { 3, CDGE_FORMAT_DATA, 5933 },
+   { 4, CDGE_FORMAT_DATA, 95878 },
+   { 5, CDGE_FORMAT_AUDIO, 209401 },
+   { 6, CDGE_FORMAT_AUDIO, 213777 },
+   { 7, CDGE_FORMAT_AUDIO, 219527 },
+   { 8, CDGE_FORMAT_AUDIO, 225871 },
+   { 9, CDGE_FORMAT_AUDIO, 232693 },
+   { 10, CDGE_FORMAT_AUDIO, 242452 },
+   { 11, CDGE_FORMAT_AUDIO, 248960 },
+   { 12, CDGE_FORMAT_AUDIO, 255249 },
+   { 13, CDGE_FORMAT_AUDIO, 265891 },
+   { 14, CDGE_FORMAT_AUDIO, 268646 },
+   { 15, CDGE_FORMAT_AUDIO, 282287 },
+   { 16, CDGE_FORMAT_AUDIO, 282743 },
+   { -1, -1, 283044 },
+  }
+ }
+},
+
+{
+ "Zoku Hakutoi Monogatari",
+ "続初恋物語",
+ 0,
+ 2,
+ {
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { -1, -1, 332106 },
+  },
+  {
+   { 1, CDGE_FORMAT_AUDIO, 0 },
+   { 2, CDGE_FORMAT_DATA, 4395 },
+   { -1, -1, 333025 },
+  }
+ }
+},
+
