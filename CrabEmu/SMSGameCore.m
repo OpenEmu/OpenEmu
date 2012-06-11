@@ -31,6 +31,7 @@
 #import <OpenGL/gl.h>
 #import "OESMSSystemResponderClient.h"
 #import "OEGGSystemResponderClient.h"
+#import "OESG1000SystemResponderClient.h"
 
 #define _UINT32
 
@@ -42,7 +43,7 @@
 
 #define SAMPLERATE 44100
 
-@interface SMSGameCore () <OESMSSystemResponderClient, OEGGSystemResponderClient>
+@interface SMSGameCore () <OESMSSystemResponderClient, OEGGSystemResponderClient, OESG1000SystemResponderClient>
 - (int)crabButtonForButton:(OESMSButton)button player:(NSUInteger)player;
 @end
 
@@ -247,6 +248,36 @@ void gui_set_title(const char *str)
     }
     
     return btn;
+}
+/*
+- (int)crabButtonForButton:(OESG1000Button)button;
+{
+    int btn = 0;
+    switch(button)
+    {
+        case OESG1000ButtonUp:    btn = SMS_PAD1_UP;     break;
+        case OESG1000ButtonDown:  btn = SMS_PAD1_DOWN;   break;
+        case OESG1000ButtonLeft:  btn = SMS_PAD1_LEFT;   break;
+        case OESG1000ButtonRight: btn = SMS_PAD1_RIGHT;  break;
+        case OESG1000ButtonA:     btn = SMS_PAD1_A;      break;
+        case OESG1000ButtonB:     btn = SMS_PAD1_B;      break;
+        case OESG1000ButtonStart: btn = GG_START;        break;
+        default : break;
+    }
+    
+    return btn;
+}*/
+
+- (oneway void)didPushSG1000Button:(OESG1000Button)button;
+{
+    int btn = [self crabButtonForButton:button];
+    if(btn > 0) sms_button_pressed(btn);
+}
+
+- (oneway void)didReleaseSG1000Button:(OESG1000Button)button;
+{
+    int btn = [self crabButtonForButton:button];
+    if(btn > 0) sms_button_released(btn);
 }
 
 - (oneway void)didPushGGButton:(OEGGButton)button;

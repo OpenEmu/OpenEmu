@@ -30,6 +30,7 @@
 	<array>
 		<string>openemu.system.sms</string>
 		<string>openemu.system.gg</string>
+		<string>openemu.system.sg1000</string>
 	</array>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>

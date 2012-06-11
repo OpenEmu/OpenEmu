@@ -38,6 +38,7 @@
 				C68625721572686E00EFC972 /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
+				94AB85F9158679660035D12C /* PBXTargetDependency */,
 				94AB855B15853B840035D12C /* PBXTargetDependency */,
 				9425B197158190100086FFB6 /* PBXTargetDependency */,
 				9425B0EF158120050086FFB6 /* PBXTargetDependency */,
@@ -522,6 +523,16 @@
 		94AB856215853BB20035D12C /* controller_pcfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855E15853BB20035D12C /* controller_pcfx.png */; };
 		94AB856315853BB20035D12C /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855F15853BB20035D12C /* Controller-Preferences-Info.plist */; };
 		94AB856415853BB20035D12C /* pcfx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB856015853BB20035D12C /* pcfx_library.png */; };
+		94AB85DD158656090035D12C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94AB85E3158656090035D12C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94AB85E1158656090035D12C /* InfoPlist.strings */; };
+		94AB85EE1586762D0035D12C /* OESG1000SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AB85EA1586762D0035D12C /* OESG1000SystemController.m */; };
+		94AB85EF1586762D0035D12C /* OESG1000SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AB85EC1586762D0035D12C /* OESG1000SystemResponder.m */; };
+		94AB85F4158676BA0035D12C /* controller_sg1000_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB85F0158676BA0035D12C /* controller_sg1000_mask.png */; };
+		94AB85F5158676BA0035D12C /* controller_sg1000.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB85F1158676BA0035D12C /* controller_sg1000.png */; };
+		94AB85F6158676BA0035D12C /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94AB85F2158676BA0035D12C /* Controller-Preferences-Info.plist */; };
+		94AB85F7158676BA0035D12C /* sg1000_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB85F3158676BA0035D12C /* sg1000_library.png */; };
+		94AB85FA158679730035D12C /* SG-1000.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94AB85DC158656080035D12C /* SG-1000.oesystemplugin */; };
+		94AB85FF15867BFC0035D12C /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
 		94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */; };
@@ -856,6 +867,20 @@
 			remoteGlobalIDString = 94AB8541158532C20035D12C;
 			remoteInfo = "PC-FX";
 		};
+		94AB85F8158679660035D12C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94AB85DB158656080035D12C;
+			remoteInfo = "SG-1000";
+		};
+		94AB85FD15867BF80035D12C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
 		94D7E8E51507413400FBDD85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1008,6 +1033,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				94AB85FA158679730035D12C /* SG-1000.oesystemplugin in Copy Plugins To Application Support */,
 				94AB855C15853B930035D12C /* PC-FX.oesystemplugin in Copy Plugins To Application Support */,
 				9425B198158190220086FFB6 /* Lynx.oesystemplugin in Copy Plugins To Application Support */,
 				9425B0F01581200E0086FFB6 /* WonderSwan.oesystemplugin in Copy Plugins To Application Support */,
@@ -1667,6 +1693,18 @@
 		94AB855E15853BB20035D12C /* controller_pcfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcfx.png; sourceTree = "<group>"; };
 		94AB855F15853BB20035D12C /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
 		94AB856015853BB20035D12C /* pcfx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcfx_library.png; sourceTree = "<group>"; };
+		94AB85DC158656080035D12C /* SG-1000.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SG-1000.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94AB85E0158656090035D12C /* SG-1000-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SG-1000-Info.plist"; sourceTree = "<group>"; };
+		94AB85E2158656090035D12C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94AB85E91586762D0035D12C /* OESG1000SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESG1000SystemController.h; sourceTree = "<group>"; };
+		94AB85EA1586762D0035D12C /* OESG1000SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESG1000SystemController.m; sourceTree = "<group>"; };
+		94AB85EB1586762D0035D12C /* OESG1000SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESG1000SystemResponder.h; sourceTree = "<group>"; };
+		94AB85EC1586762D0035D12C /* OESG1000SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESG1000SystemResponder.m; sourceTree = "<group>"; };
+		94AB85ED1586762D0035D12C /* OESG1000SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESG1000SystemResponderClient.h; sourceTree = "<group>"; };
+		94AB85F0158676BA0035D12C /* controller_sg1000_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sg1000_mask.png; sourceTree = "<group>"; };
+		94AB85F1158676BA0035D12C /* controller_sg1000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sg1000.png; sourceTree = "<group>"; };
+		94AB85F2158676BA0035D12C /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94AB85F3158676BA0035D12C /* sg1000_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sg1000_library.png; sourceTree = "<group>"; };
 		94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NDS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NDS-Info.plist"; sourceTree = "<group>"; };
 		94D7E8CF15073BA000FBDD85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1962,6 +2000,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94AB85D9158656080035D12C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94AB85FF15867BFC0035D12C /* OpenEmuSystem.framework in Frameworks */,
+				94AB85DD158656090035D12C /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C615073BA000FBDD85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2114,6 +2161,7 @@
 				9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */,
 				9425B1771581822A0086FFB6 /* Lynx.oesystemplugin */,
 				94AB8542158532C20035D12C /* PC-FX.oesystemplugin */,
+				94AB85DC158656080035D12C /* SG-1000.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3399,6 +3447,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		94AB85DE158656090035D12C /* SG-1000 */ = {
+			isa = PBXGroup;
+			children = (
+				94AB85E91586762D0035D12C /* OESG1000SystemController.h */,
+				94AB85EA1586762D0035D12C /* OESG1000SystemController.m */,
+				94AB85EB1586762D0035D12C /* OESG1000SystemResponder.h */,
+				94AB85EC1586762D0035D12C /* OESG1000SystemResponder.m */,
+				94AB85ED1586762D0035D12C /* OESG1000SystemResponderClient.h */,
+				94AB85DF158656090035D12C /* Supporting Files */,
+			);
+			path = "SG-1000";
+			sourceTree = "<group>";
+		};
+		94AB85DF158656090035D12C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94AB85F3158676BA0035D12C /* sg1000_library.png */,
+				94AB85F0158676BA0035D12C /* controller_sg1000_mask.png */,
+				94AB85F1158676BA0035D12C /* controller_sg1000.png */,
+				94AB85E0158656090035D12C /* SG-1000-Info.plist */,
+				94AB85F2158676BA0035D12C /* Controller-Preferences-Info.plist */,
+				94AB85E1158656090035D12C /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		94D7E8CB15073BA000FBDD85 /* NDS */ = {
 			isa = PBXGroup;
 			children = (
@@ -3656,6 +3730,7 @@
 				9425B0D1158115860086FFB6 /* WonderSwan */,
 				9425B1791581822A0086FFB6 /* Lynx */,
 				94AB8544158532C20035D12C /* PC-FX */,
+				94AB85DE158656090035D12C /* SG-1000 */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -4039,6 +4114,24 @@
 			productReference = 94AB8542158532C20035D12C /* PC-FX.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		94AB85DB158656080035D12C /* SG-1000 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94AB85E7158656090035D12C /* Build configuration list for PBXNativeTarget "SG-1000" */;
+			buildPhases = (
+				94AB85D8158656080035D12C /* Sources */,
+				94AB85D9158656080035D12C /* Frameworks */,
+				94AB85DA158656080035D12C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94AB85FE15867BF80035D12C /* PBXTargetDependency */,
+			);
+			name = "SG-1000";
+			productName = "SG-1000";
+			productReference = 94AB85DC158656080035D12C /* SG-1000.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		94D7E8C815073BA000FBDD85 /* NDS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */;
@@ -4228,6 +4321,7 @@
 				9425B0CE158115850086FFB6 /* WonderSwan */,
 				9425B1761581822A0086FFB6 /* Lynx */,
 				94AB8541158532C20035D12C /* PC-FX */,
+				94AB85DB158656080035D12C /* SG-1000 */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -4514,6 +4608,18 @@
 				94AB856215853BB20035D12C /* controller_pcfx.png in Resources */,
 				94AB856315853BB20035D12C /* Controller-Preferences-Info.plist in Resources */,
 				94AB856415853BB20035D12C /* pcfx_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94AB85DA158656080035D12C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94AB85E3158656090035D12C /* InfoPlist.strings in Resources */,
+				94AB85F4158676BA0035D12C /* controller_sg1000_mask.png in Resources */,
+				94AB85F5158676BA0035D12C /* controller_sg1000.png in Resources */,
+				94AB85F6158676BA0035D12C /* Controller-Preferences-Info.plist in Resources */,
+				94AB85F7158676BA0035D12C /* sg1000_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4948,6 +5054,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94AB85D8158656080035D12C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94AB85EE1586762D0035D12C /* OESG1000SystemController.m in Sources */,
+				94AB85EF1586762D0035D12C /* OESG1000SystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C515073BA000FBDD85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5177,6 +5292,16 @@
 			target = 94AB8541158532C20035D12C /* PC-FX */;
 			targetProxy = 94AB855A15853B840035D12C /* PBXContainerItemProxy */;
 		};
+		94AB85F9158679660035D12C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94AB85DB158656080035D12C /* SG-1000 */;
+			targetProxy = 94AB85F8158679660035D12C /* PBXContainerItemProxy */;
+		};
+		94AB85FE15867BF80035D12C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94AB85FD15867BF80035D12C /* PBXContainerItemProxy */;
+		};
 		94D7E8E61507413400FBDD85 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -5322,6 +5447,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				94AB8548158532C20035D12C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94AB85E1158656090035D12C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94AB85E2158656090035D12C /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5860,6 +5993,42 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "PC-FX/PC-FX-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		94AB85E5158656090035D12C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "SG-1000/SG-1000-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		94AB85E6158656090035D12C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "SG-1000/SG-1000-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
@@ -6408,6 +6577,15 @@
 			buildConfigurations = (
 				94AB854C158532C20035D12C /* Debug */,
 				94AB854D158532C20035D12C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94AB85E7158656090035D12C /* Build configuration list for PBXNativeTarget "SG-1000" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94AB85E5158656090035D12C /* Debug */,
+				94AB85E6158656090035D12C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
