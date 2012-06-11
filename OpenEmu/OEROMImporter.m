@@ -53,7 +53,7 @@
 @end
 
 @implementation OEROMImporter
-@synthesize errorBehaviour, database, isBusy;
+@synthesize errorBehaviour, database, isBusy, delegate;
 
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase
 {
@@ -289,6 +289,19 @@
 - (NSArray *)importedRoms
 {
     return importedRoms;
+}
+
+#pragma mark - Controlling Import
+- (void)pause{}
+- (void)start{}
+- (void)cancel{}
+- (void)removeFinished{}
+
+- (NSUInteger)items{
+    return 0;
+}
+- (NSUInteger)finishedItems{
+    return 0;
 }
 
 #pragma mark -

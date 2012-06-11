@@ -365,8 +365,8 @@
 #pragma mark Sidebar Helpers
 - (void)showCollectionViewControllerWithItem:(id <OECollectionViewItemProtocol>)item
 {
-    [[self collectionViewController] setCollectionItem:item];
     [self showViewController:[self collectionViewController]];
+    [[self collectionViewController] setCollectionItem:item];
 }
 
 - (void)showImportViewController

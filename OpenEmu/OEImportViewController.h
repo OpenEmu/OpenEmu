@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OESideBarDataSourceItem.h"
-@interface OEImportViewController : NSViewController
+#import "OEROMImporter.h"
+@interface OEImportViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource, OEROMImporterDelegate>
 
+@property (strong) IBOutlet NSProgressIndicator *progressIndicator;
+@property (strong) IBOutlet NSTextField             *statusField;
+@property (strong) IBOutlet NSTableView            *tableView;
 @end

@@ -35,7 +35,7 @@ enum _OEImportErrorBehavior {
 typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 
 @class OELibraryDatabase;
-
+@protocol OEROMImporterDelegate;
 @interface OEROMImporter : NSObject
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase;
 
@@ -48,13 +48,28 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 @property OEImportErrorBehavior errorBehaviour;
 @property (weak, readonly) OELibraryDatabase *database;
 @property (readonly) NSArray *importedRoms;
-
 @property (readonly) BOOL isBusy;
 
+@property (strong) id <OEROMImporterDelegate> delegate;
 #pragma mark -
 #pragma Handle Spotlight importing
 - (void)discoverRoms:(NSArray*)volumes;
 - (void)updateSearchResults:(NSNotification*)notification;
 - (void)finalizeSearchResults:(NSNotification*)notification;
 - (void)importInBackground;
+@end
+
+@interface OEROMImporter (Control)
+- (void)pause;
+- (void)start;
+- (void)cancel;
+- (void)removeFinished;
+
+- (NSUInteger)items;
+- (NSUInteger)finishedItems;
+@end
+@protocol OEROMImporterDelegate
+- (void)romImporter:(OEROMImporter*)importer startedProcessingItem:(id)item;
+- (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(id)item;
+- (void)romImporter:(OEROMImporter*)importer finishedProcessingItem:(id)item;
 @end

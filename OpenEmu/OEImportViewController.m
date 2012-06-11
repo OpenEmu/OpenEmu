@@ -8,10 +8,12 @@
 
 #import "OEImportViewController.h"
 
+#import "OELibraryDatabase.h"
+#import "OEBackgroundColorView.h"
+
+#import "NSViewController+OEAdditions.h"
 @interface OEImportViewController ()
-
 @end
-
 @implementation OEImportViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -24,6 +26,64 @@
 - (NSString*)nibName
 {
     return @"ImportView";
+}
+
+- (void)loadView
+{
+    [super loadView];
+    
+    [(OEBackgroundColorView*)[self view] setBackgroundColor:[NSColor lightGrayColor]];
+    [[self progressIndicator] setIndeterminate:YES];
+    [[self progressIndicator] startAnimation:self];
+    
+    [[self tableView] setDelegate:self];
+}
+
+@synthesize progressIndicator, statusField, tableView;
+#pragma mark -
+- (void)viewWillAppear
+{
+    [[self importer] setDelegate:self];
+    
+    [[self tableView] setDataSource:self];
+    [[self tableView] reloadData];
+}
+
+- (void)viewDidDisappear
+{
+    [[self tableView] setDataSource:nil];
+    [[self tableView] reloadData];
+    
+    [[self importer] setDelegate:nil];
+    
+    if([[self importer] finishedItems] == [[self importer] items]) [[self importer] removeFinished];
+}
+
+- (OEROMImporter*)importer
+{
+    return [[OELibraryDatabase defaultDatabase] importer];
+}
+#pragma mark - OEROMImporter Delegate
+- (void)romImporter:(OEROMImporter*)importer startedProcessingItem:(id)item
+{}
+- (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(id)item
+{}
+- (void)romImporter:(OEROMImporter*)importer finishedProcessingItem:(id)item
+{}
+#pragma mark - TableView Datasource
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+    return 0;
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    NSString *identifier = [tableColumn identifier];
+    if([identifier isEqualToString:@"icon"]);
+    else if([identifier isEqualToString:@"path"]);
+    else if([identifier isEqualToString:@"status"]);
+    
+    return nil;
 }
 
 #pragma mark -
