@@ -227,7 +227,7 @@
     if(![url isDirectory]) return [self OE_performImportWithFileURL:url error:outError];
     
     NSArray *urls = [defaultManager contentsOfDirectoryAtURL:url 
-                                  includingPropertiesForKeys:[NSArray arrayWithObjects:NSURLNameKey, NSURLIsDirectoryKey, nil]
+                                  includingPropertiesForKeys:[NSArray arrayWithObjects:NSURLNameKey, NSURLIsDirectoryKey, NSURLIsPackageKey, nil]
                                                      options:NSDirectoryEnumerationSkipsSubdirectoryDescendants | NSDirectoryEnumerationSkipsPackageDescendants | NSDirectoryEnumerationSkipsHiddenFiles 
                                                        error:outError];
     if(urls == nil)
@@ -270,8 +270,17 @@
                 BOOL organizeLibrary = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
                 if(organizeLibrary)
                 {
-                    // DLog(@"organize library");
                     // TODO: initiate lib organization if requested
+                    NSURL *romsFolderURL = [[self database] romsFolderURL];
+                    NSURL *systemsRomFolderURL = [[self database] romsFolderURLForSystem:[game system]];
+                    [[game roms] enumerateObjectsUsingBlock:^(OEDBRom *obj, BOOL *stop) {
+                            if([[obj URL] isSubpathOfURL:romsFolderURL])
+                            {
+                                NSURL *targetURL = [systemsRomFolderURL URLByAppendingPathComponent:[[obj URL] lastPathComponent]];
+                                if([[NSFileManager defaultManager] moveItemAtURL:[obj URL] toURL:targetURL error:nil])
+                                    [obj setURL:targetURL];
+                            }
+                    }];
                 }
             }
             

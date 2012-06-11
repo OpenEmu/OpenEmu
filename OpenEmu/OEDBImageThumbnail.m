@@ -101,15 +101,18 @@
     [[NSFileManager defaultManager] createDirectoryAtURL:[url URLByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
     
     NSError *error = nil;
-    if([imageData writeToURL:url options:0 error:&error]){
-        return self;
+    if(![imageData writeToURL:url options:0 error:&error]){
+       [context deleteObject:self];
+        self = nil;
     }
-    else {
-        [context deleteObject:self];
-        return nil;
-    }
+    
+    return self;
 }
 
+- (NSString*)absolutePath
+{
+    return [self path] ? [[[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[self path]] path] : nil;
+}
 @dynamic height;
 @dynamic width;
 @dynamic path;
@@ -125,6 +128,11 @@
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
 {
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
+}
+
+- (void)prepareForDeletion
+{
+    [[NSFileManager defaultManager] removeItemAtPath:[self absolutePath] error:nil];
 }
 
 @end

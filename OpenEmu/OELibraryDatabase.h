@@ -65,7 +65,7 @@
 - (OEDBSystem*)systemWithArchiveName:(NSString*)name;
 - (OEDBSystem*)systemWithArchiveShortname:(NSString*)shortname;
 
-- (OEDBSystem*)systemForURL:(NSURL *)url;
+- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url;
 - (NSInteger)systemsCount;
 
 - (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID;
