@@ -70,4 +70,7 @@
    <FileRef
       location = "group:Mednafen PC-FX/Mednafen PC-FX.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Mednafen Virtual Boy/Mednafen Virtual Boy.xcodeproj">
+   </FileRef>
 </Workspace>

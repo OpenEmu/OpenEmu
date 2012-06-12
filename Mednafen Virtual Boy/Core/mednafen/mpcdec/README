@@ -1,0 +1,6 @@
+Musepack Decoder Library:
+
+run "./configure [--prefix=/usr]; make"
+
+To create a sample app using the musepack decoder library
+Check ../mpcdec/mpcdec.c and ../include/mpc/mpcdec.h for more details.
