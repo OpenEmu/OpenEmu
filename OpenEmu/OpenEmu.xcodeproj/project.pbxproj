@@ -423,6 +423,8 @@
 		83DDEE8A156CFFE1009EB43D /* OEDistantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE89156CFFE1009EB43D /* OEDistantViewController.m */; };
 		83DDEE8D156CFFF2009EB43D /* OEDistantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE8C156CFFF2009EB43D /* OEDistantView.m */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
+		83E41F2A158546E90069B8AF /* OESystemPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E41F28158546E90069B8AF /* OESystemPicker.m */; };
+		83E41F2B158546E90069B8AF /* OESystemPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83E41F29158546E90069B8AF /* OESystemPicker.xib */; };
 		83E8E82A156A84060027B7A9 /* OEHIDWiimoteEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8E829156A84060027B7A9 /* OEHIDWiimoteEvent.m */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
 		83F2988A1458B6DC00ECB4F4 /* OESetupAssistantScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */; };
@@ -1608,6 +1610,9 @@
 		83DDEE8B156CFFF2009EB43D /* OEDistantView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDistantView.h; sourceTree = "<group>"; };
 		83DDEE8C156CFFF2009EB43D /* OEDistantView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDistantView.m; sourceTree = "<group>"; };
 		83E25057147BC6BF0074EE14 /* hud_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_textfield.png; sourceTree = "<group>"; };
+		83E41F27158546E90069B8AF /* OESystemPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemPicker.h; sourceTree = "<group>"; };
+		83E41F28158546E90069B8AF /* OESystemPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESystemPicker.m; sourceTree = "<group>"; };
+		83E41F29158546E90069B8AF /* OESystemPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESystemPicker.xib; sourceTree = "<group>"; };
 		83E8E828156A84060027B7A9 /* OEHIDWiimoteEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDWiimoteEvent.h; sourceTree = "<group>"; };
 		83E8E829156A84060027B7A9 /* OEHIDWiimoteEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDWiimoteEvent.m; sourceTree = "<group>"; };
 		83EE16D0155E992D0063F9D3 /* ArchiveVGTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArchiveVGTypes.h; sourceTree = "<group>"; };
@@ -2323,6 +2328,7 @@
 				53439B8C13B936EA005C0CC8 /* Preferences.xib */,
 				831C2AE8144F453C009533C0 /* MainMenu.xib */,
 				82965F841041DC3200F30B74 /* OECorePicker.xib */,
+				83E41F29158546E90069B8AF /* OESystemPicker.xib */,
 				828ED4D80E7D98A10059F397 /* GameFilePicker.xib */,
 				832D29421451ACF200BDF950 /* MainWindow.xib */,
 			);
@@ -3046,6 +3052,8 @@
 				828ED4D60E7D98940059F397 /* OEGamePickerController.m */,
 				82965F861041DC4600F30B74 /* OECorePickerController.h */,
 				82965F871041DC4600F30B74 /* OECorePickerController.m */,
+				83E41F27158546E90069B8AF /* OESystemPicker.h */,
+				83E41F28158546E90069B8AF /* OESystemPicker.m */,
 			);
 			name = "Utility Windows";
 			sourceTree = "<group>";
@@ -4629,6 +4637,7 @@
 				83B1E1C914FE734E00AA652F /* mixed_state.png in Resources */,
 				8375696915125A1F00795226 /* dark_menu_scroll_arrows.png in Resources */,
 				8375696A15125A1F00795226 /* light_menu_scroll_arrows.png in Resources */,
+				83E41F2B158546E90069B8AF /* OESystemPicker.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5103,6 +5112,7 @@
 				83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */,
 				83DDEE8A156CFFE1009EB43D /* OEDistantViewController.m in Sources */,
 				83DDEE8D156CFFF2009EB43D /* OEDistantView.m in Sources */,
+				83E41F2A158546E90069B8AF /* OESystemPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
