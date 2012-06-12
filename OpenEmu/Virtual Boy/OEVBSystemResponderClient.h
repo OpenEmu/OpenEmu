@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -26,21 +26,31 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OpenEmuBase/OEGameCore.h>
 
-@class OERingBuffer;
+@protocol OESystemResponderClient;
 
-OE_EXPORTED_CLASS
-@interface VBGameCore : OEGameCore
+typedef enum _OEVBButton
 {
-    @public
-    uint16_t *videoBuffer;
-    int videoWidth, videoHeight;
-    int16_t pad[1][14];
-    NSString *romName;
-    double sampleRate;
-    const char *systemEnvironment;
-    const char *systemEnvironmentSplit[0];
-}
+    OEVBButtonLeftUp,
+    OEVBButtonLeftDown,
+    OEVBButtonLeftLeft,
+    OEVBButtonLeftRight,
+    OEVBButtonRightUp,
+    OEVBButtonRightDown,
+    OEVBButtonRightLeft,
+    OEVBButtonRightRight,
+    OEVBButtonL,
+    OEVBButtonR,
+    OEVBButtonA,
+    OEVBButtonB,
+    OEVBButtonStart,
+    OEVBButtonSelect,
+    OEVBButtonCount
+} OEVBButton;
+
+@protocol OEVBSystemResponderClient <OESystemResponderClient, NSObject>
+
+- (oneway void)didPushVBButton:(OEVBButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseVBButton:(OEVBButton)button forPlayer:(NSUInteger)player;
 
 @end

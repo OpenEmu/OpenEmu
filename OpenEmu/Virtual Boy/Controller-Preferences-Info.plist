@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_vb.png</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_vb_mask.png</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEVBButtonLeftUp[@]</key>
+		<string>{228, 172}</string>
+		<key>OEVBButtonLeftDown[@]</key>
+		<string>{228, 134}</string>
+		<key>OEVBButtonLeftLeft[@]</key>
+		<string>{206, 153}</string>
+		<key>OEVBButtonLeftRight[@]</key>
+		<string>{247, 154}</string>
+		<key>OEVBButtonRightUp[@]</key>
+		<string>{228, 172}</string>
+		<key>OEVBButtonRightDown[@]</key>
+		<string>{228, 134}</string>
+		<key>OEVBButtonRightLeft[@]</key>
+		<string>{206, 153}</string>
+		<key>OEVBButtonRightRight[@]</key>
+		<string>{247, 154}</string>
+		<key>OEVBButtonL[@]</key>
+		<string>{390, 166}</string>
+		<key>OEVBButtonR[@]</key>
+		<string>{350, 149}</string>
+		<key>OEVBButtonA[@]</key>
+		<string>{350, 149}</string>
+		<key>OEVBButtonB[@]</key>
+		<string>{350, 149}</string>
+		<key>OEVBButtonStart[@]</key>
+		<string>{350, 149}</string>
+		<key>OEVBButtonSelect[@]</key>
+		<string>{350, 149}</string>
+	</dict>
+</dict>
+</plist>

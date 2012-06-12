@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,22 +25,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <OpenEmuBase/OEGameCore.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-@class OERingBuffer;
+@protocol OEVBSystemResponderClient;
 
-OE_EXPORTED_CLASS
-@interface VBGameCore : OEGameCore
-{
-    @public
-    uint16_t *videoBuffer;
-    int videoWidth, videoHeight;
-    int16_t pad[1][14];
-    NSString *romName;
-    double sampleRate;
-    const char *systemEnvironment;
-    const char *systemEnvironmentSplit[0];
-}
+@interface OEVBSystemResponder : OEBasicSystemResponder
+
+@property(nonatomic, weak) id<OEVBSystemResponderClient> client;
 
 @end

@@ -27,16 +27,16 @@
 
 #import "VBGameCore.h"
 #import <OERingBuffer.h>
-#import "OEPCFXSystemResponderClient.h"
+#import "OEVBSystemResponderClient.h"
 #import <OpenGL/gl.h>
 
 #include "libretro.h"
 
-@interface VBGameCore () <OEPCFXSystemResponderClient>
+@interface VBGameCore () <OEVBSystemResponderClient>
 @end
 
-NSUInteger PCFXEmulatorValues[] = { RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT, RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT,RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_START, RETRO_DEVICE_ID_JOYPAD_SELECT };
-NSString *PCFXEmulatorKeys[] = { @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left", @"Joypad@ Right", @"Joypad@ 1", @"Joypad@ 2", @"Joypad@ Run", @"Joypad@ Select"};
+NSUInteger VBEmulatorValues[] = { RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT, RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT,RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_START, RETRO_DEVICE_ID_JOYPAD_SELECT };
+NSString *VBEmulatorKeys[] = { @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left", @"Joypad@ Right", @"Joypad@ 1", @"Joypad@ 2", @"Joypad@ Run", @"Joypad@ Select"};
 
 VBGameCore *current;
 @implementation VBGameCore
@@ -95,7 +95,7 @@ static int16_t input_state_callback(unsigned port, unsigned device, unsigned ind
 {
     //NSLog(@"polled input: port: %d device: %d id: %d", port, device, id);
     
-    if (port == 0 & device == RETRO_DEVICE_JOYPAD) {
+    if (device == RETRO_DEVICE_JOYPAD) {
         return current->pad[0][id];
     }
     //else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
@@ -263,14 +263,14 @@ static void writeSaveFile(const char* path, int type)
     return NO;
 }
 
-- (oneway void)didPushPCFXButton:(OEPCFXButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushVBButton:(OEVBButton)button forPlayer:(NSUInteger)player;
 {
-    pad[player-1][PCFXEmulatorValues[button]] = 1;
+    pad[player-1][VBEmulatorValues[button]] = 1;
 }
 
-- (oneway void)didReleasePCFXButton:(OEPCFXButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseVBButton:(OEVBButton)button forPlayer:(NSUInteger)player;
 {
-    pad[player-1][PCFXEmulatorValues[button]] = 0;
+    pad[player-1][VBEmulatorValues[button]] = 0;
 }
 
 - (id)init

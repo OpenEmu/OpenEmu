@@ -199,6 +199,7 @@
 		94A1E9611586BEE400986376 /* vip_draw.inc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.pascal; path = vip_draw.inc; sourceTree = "<group>"; };
 		94A1E9621586BEE400986376 /* vsu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vsu.cpp; sourceTree = "<group>"; };
 		94A1E9631586BEE400986376 /* vsu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vsu.h; sourceTree = "<group>"; };
+		94A1E9DB1586FAEB00986376 /* OEVBSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEVBSystemResponderClient.h; path = "../OpenEmu/Virtual Boy/OEVBSystemResponderClient.h"; sourceTree = "<group>"; };
 		94A9E280157D637B0083A7DC /* libretro.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libretro.cpp; sourceTree = "<group>"; };
 		94A9E281157D637B0083A7DC /* libretro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libretro.h; sourceTree = "<group>"; };
 		94A9E283157D637B0083A7DC /* cdplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cdplay.cpp; sourceTree = "<group>"; };
@@ -542,7 +543,6 @@
 		94AB843A158447F20035D12C /* vdc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vdc.h; sourceTree = "<group>"; };
 		94AB843B158447F20035D12C /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
 		94AB843C158447F20035D12C /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		94AB856515853F190035D12C /* OEPCFXSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPCFXSystemResponderClient.h; path = "../OpenEmu/PC-FX/OEPCFXSystemResponderClient.h"; sourceTree = "<group>"; };
 		B5008DAD0E8BFB3E005AECAF /* VBGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBGameCore.h; sourceTree = "<group>"; };
 		B5008DAE0E8BFB3E005AECAF /* VBGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VBGameCore.mm; sourceTree = "<group>"; };
 		C63E6C640FCDA565009C8555 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
@@ -601,7 +601,7 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				94AB856515853F190035D12C /* OEPCFXSystemResponderClient.h */,
+				94A1E9DB1586FAEB00986376 /* OEVBSystemResponderClient.h */,
 				B5008DAD0E8BFB3E005AECAF /* VBGameCore.h */,
 				B5008DAE0E8BFB3E005AECAF /* VBGameCore.mm */,
 			);
@@ -1612,7 +1612,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
-				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
