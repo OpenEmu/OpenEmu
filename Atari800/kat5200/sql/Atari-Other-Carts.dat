@@ -1,0 +1,277 @@
+clrmamepro (
+	name "Atari-Other-Carts"
+	description "Atari-Other-Carts"
+	category "Atari-Other-Carts"
+	version 2008-09-22
+	author Berlin
+)
+game (
+	name "Frogger (2005)(Batari)[No Button][h]"
+	description "Frogger-nobutton"
+	rom ( name "C:\Cart\Frogger-nobutton.bin" size 16384 crc 70a04f6d md5 01fe7eebaaa467e1dfacba82e24bae3b )
+)
+game (
+	name "Gateway to Apshai (2006)(Steven J. Tucker)[Conversion][h]"
+	description "gateway"
+	rom ( name "C:\Cart\gateway.a52" size 32768 crc 59ec9114 md5 4012282da62c0d72300294447ef6b9a2 )
+)
+game (
+	name "Gorf (2006)(Ken Siders)[Control Hack][h]"
+	description "gorfdigj"
+	rom ( name "C:\Cart\gorfdigj.a52" size 32768 crc 7f732dc9 md5 a21c545a52d488bfdaf078d786bf4916 )
+)
+game (
+	name "Gyruss (2005)(Batari)[Auto-Fire][h]"
+	description "Gyruss-autofire"
+	rom ( name "C:\Cart\Gyruss-autofire.bin" size 16384 crc 44ecaee7 md5 b7617ac90462ef13f8350e32b8198873 )
+)
+game (
+	name "Hangly Man (2004)(Bob DeCrescenzo)[h][o]"
+	description "hang32k"
+	rom ( name "C:\Cart\hang32k.a52" size 32768 crc 3465c83d md5 d82890d3efd607a1c7d0be06daa6f810 )
+)
+game (
+	name "Hangly Man (2004)(Bob DeCrescenzo)[h]"
+	description "hang5200"
+	rom ( name "C:\Cart\hang5200.a52" size 16384 crc d1e9421e md5 af417212b3fc6290aa853f78901a45e3 )
+)
+game (
+	name "Hangly Pollux (2006)(jwierer)[h]"
+	description "hanglypollux"
+	rom ( name "C:\Cart\hanglypollux.bin" size 16384 crc 90875ff3 md5 3491fa368ae42766a83a43a627496c41 )
+)
+game (
+	name "Jumpman Jr (2003)(Ken Siders)[Conversion][h]"
+	description "Jumpman Jr (Conv)"
+	rom ( name "C:\Cart\Jumpman Jr (Conv).a52" size 32768 crc fb35d43b md5 a0d407ab5f0c63e1e17604682894d1a9 )
+)
+game (
+	name "Jum's Pong v2(2004)(Jum)(PD)"
+	description "JUMPONG2"
+	rom ( name "C:\Cart\JUMPONG2.a52" size 32768 crc 4f870a2 md5 15abff04660949e60072a0130a6e77a2 )
+)
+game (
+	name "K-Razy Shootout (2002)(DEBRO)[Two Port Fix][h]"
+	description "K-Razy Shootout[hack]"
+	rom ( name "C:\Cart\K-Razy Shootout[hack].bin" size 8192 crc 5e8cbf78 md5 66977296ff8c095b8cb755de3472b821 )
+)
+game (
+	name "Kaboom (2005)(Batari)[No 1812 Overture][h]"
+	description "Kaboom-no-1812-overture"
+	rom ( name "C:\Cart\Kaboom-no-1812-overture.bin" size 16384 crc b04635db md5 61c7fc252400eb5a1470e383c4e9faa1 )
+)
+game (
+	name "Koffi: Yellow Kopter (2002)(Ron Lloyd)(PD)"
+	description "Koffi"
+	rom ( name "C:\Cart\Koffi.a52" size 32768 crc 917be656 md5 3b03e3cda8e8aa3beed4c9617010b010 )
+)
+game (
+	name "Mountain King (2002)(DEBRO)[Two Port Fix][h]"
+	description "Mountain King[hack]"
+	rom ( name "C:\Cart\Mountain King[hack].bin" size 8192 crc 7e12baf7 md5 23296829e0e1316541aa6b5540b9ba2e )
+)
+game (
+	name "Pac-Man (2005)(Bob DeCrescenzo)[Bug Fixes][h]"
+	description "PacFixed"
+	rom ( name "C:\Cart\PacFixed.bin" size 16384 crc 8a80114d md5 a8fb2d7b30b30d51a661667a5b04eaad )
+)
+game (
+	name "Pac-Man (2005)(Bob DeCrescenzo)[Bug Fixes][h][o]"
+	description "pacfx32k"
+	rom ( name "C:\Cart\pacfx32k.bin" size 32768 crc f0c015b5 md5 f165db434df4f8db4bc16882f42aa61d )
+)
+game (
+	name "Pac-Man Plus (2005)(Bob Decrescenzo)[h][o]"
+	description "pacpls32"
+	rom ( name "C:\Cart\pacpls32.a52" size 32768 crc d3363d1c md5 3e90be559f2baee9aceee5853141f284 )
+)
+game (
+	name "Pac-Man Plus (2005)(Bob Decrescenzo)[h]"
+	description "pacplus"
+	rom ( name "C:\Cart\pacplus.a52" size 16384 crc 63fbbef md5 c4fcd71dfa368d610a03d21a141754db )
+)
+game (
+	name "Pac Pollux (2006)(Shawn Sr.)[h]"
+	description "pacpollux"
+	rom ( name "C:\Cart\pacpollux.bin" size 16384 crc 7e02683 md5 3042466ee07885eef38a99d7dfd72102 )
+)
+game (
+	name "Pac Pollux Plus (2006)(jwierer)[h]"
+	description "pacpolluxplus"
+	rom ( name "C:\Cart\pacpolluxplus.bin" size 16384 crc 79d2684a md5 f96d90de05ef754fe6de42e928b96926 )
+)
+game (
+	name "Pirate Pete (2008)(Slampam)[h][o]"
+	description "PiratePete_vs2.2 (32k)"
+	rom ( name "C:\Cart\PiratePete_vs2.2 (32k).bin" size 32768 crc f4f4fea3 md5 6fca8d42eb582ac3f0f170c06286e70d )
+)
+game (
+	name "Pirate Pete (2008)(Slampam)[h]"
+	description "PiratePete_vs2.2"
+	rom ( name "C:\Cart\PiratePete_vs2.2.bin" size 16384 crc 932b21a1 md5 c422cf8b9510cd389710b70407ea8a0e )
+)
+game (
+	name "Pitfall II (2008)(Slampam)[Level 2 Start][h]"
+	description "Pitfall II(level2-start)(32k)"
+	rom ( name "C:\Cart\Pitfall II(level2-start)(32k).bin" size 32768 crc 458e51ed md5 549f866022f8febbf6e58daf3dab0929 )
+)
+game (
+	name "Pitfall! (2002)(DEBRO)[Two Port Fix][h]"
+	description "Pitfall! [hack]"
+	rom ( name "C:\Cart\Pitfall! [hack].bin" size 8192 crc 17762954 md5 2ebf75f3e82aee6e44148778da1d4906 )
+)
+game (
+	name "Jum's Pong v1 (2000)(Jum)(PD)"
+	description "Pong"
+	rom ( name "C:\Cart\Pong.a52" size 32768 crc ad95c112 md5 335dfee96d30c2959ea17fbc9a8c722f )
+)
+game (
+	name "Preppie (2003)(Ken Siders)[Conversion][h]"
+	description "Preppie (Conv)"
+	rom ( name "C:\Cart\Preppie (Conv).a52" size 16384 crc f1e21530 md5 e9bbb047eb8fae8d05149951f94c3da5 )
+)
+game (
+	name "Preppie (Unknown)[Conversion][h]"
+	description "Preppie 5200 (Conv)"
+	rom ( name "C:\Cart\Preppie 5200 (Conv).a52" size 16384 crc 47dc1314 md5 e43ca121a9ca4087dad0e1b33fb15071 )
+)
+game (
+	name "Rally Speedway (2006)(Steven J. Tucker)[Conversion][h]"
+	description "rally"
+	rom ( name "C:\Cart\rally.a52" size 32768 crc d9e3fb4d md5 150ff18392c270001f10e7934b2af546 )
+)
+game (
+	name "Satans Hollow (2003)(Ken Siders)[Conversion][h]"
+	description "Satans Hollow (Conv)"
+	rom ( name "C:\Cart\Satans Hollow (Conv).a52" size 32768 crc fdf0f296 md5 950aa1075eaf4ee2b2c2cfcf8f6c25b4 )
+)
+game (
+	name "Spy Hunter (2006)(Steven J. Tucker)[Coversion][h]"
+	description "Spy Hunter (XL Conversion)"
+	rom ( name "C:\Cart\Spy Hunter (XL Conversion).a52" size 32768 crc 4eff1e32 md5 6208110dc3c0bf7b15b33246f2971b6e )
+)
+game (
+	name "Super Pac-Man (2008)(Nukey Shey)[Adjust Blue Time][h]"
+	description "Super_Pac-Man_(Adj.Bluetime_2-chip_image)"
+	rom ( name "C:\Cart\Super_Pac-Man_(Adj.Bluetime_2-chip_image).bin" size 16384 crc 82a956d0 md5 4fa9be786d0213eb520d704ea5b5de4e )
+)
+game (
+	name "Superfly (2004)(Schmutzpuppe)[Conversion][h]"
+	description "Superfly5200"
+	rom ( name "C:\Cart\Superfly5200.bin" size 16384 crc ec8fd4d8 md5 5f6370ff22f317dfce49dd2c226ef4ee )
+)
+game (
+	name "Tapper (2004)(Ken Siders)[Conversion][h]"
+	description "Tapper (Conv)"
+	rom ( name "C:\Cart\Tapper (Conv).a52" size 32768 crc c18d30fa md5 59699274930349b4fe0ee94b21ce3c16 )
+)
+game (
+	name "Tapper (2006)(Ken Siders)[Config Fix][h]"
+	description "tapper_fix"
+	rom ( name "C:\Cart\tapper_fix.a52" size 32768 crc 82ac1141 md5 89904ceec5a1a78d4e2df08cdec4e7bb )
+)
+game (
+	name "Time Runner (2006)(Ken Siders)[Conversion][h]"
+	description "timerun52"
+	rom ( name "C:\Cart\timerun52.a52" size 16384 crc e80dbb2 md5 01b1de77204f9cbb37db572735abbc09 )
+)
+game (
+	name "Up N' Down 5200 (2004)(Ken Siders)[Conversion][h]"
+	description "Up and Down (Conv)"
+	rom ( name "C:\Cart\Up and Down (Conv).a52" size 32768 crc b08ca999 md5 3649bfd2008161b9825f386dbaff88da )
+)
+game (
+	name "Xagon (2005)(Steven J. Tucker)[Conversion][h]"
+	description "Xagon (XL Conversion)"
+	rom ( name "C:\Cart\Xagon (XL Conversion).a52" size 32768 crc 338769e3 md5 677e4fd5bba70f5983d2c2bbfba36b7e )
+)
+game (
+	name "Xmas (2003)(Ken Siders)[Coversion][h]"
+	description "XMAS5200"
+	rom ( name "C:\Cart\XMAS5200.BIN" size 16384 crc 38f4a6a4 md5 1ff5faa7ab234b5d04d7f9fb8bcc1bd1 )
+)
+game (
+	name "Ms. Pac-Man (2003)(Nukey Shay)[Throttle Up][h]"
+	description "5200_MsPac_throttle"
+	rom ( name "C:\Cart\5200_MsPac_throttle.bin" size 32768 crc f2b923f3 md5 2701390942708bfe923a68454566420f )
+)
+game (
+	name "Adventure2 (Demo)(2006)(Ron Lloyd)(PD)"
+	description "Adventure2 Demo (2006)"
+	rom ( name "C:\Cart\Adventure2 Demo (2006).a52" size 32768 crc ab4a00a5 md5 d0e0b222e391586399494fffdd821916 )
+)
+game (
+	name "Adventure2 (Demo)(2007)(Ron Lloyd)(PD)"
+	description "Adventure2 Demo (2007)"
+	rom ( name "C:\Cart\Adventure2 Demo (2007).a52" size 32768 crc fc32e3d5 md5 7f81f41de2167d2581d0c805d76633ea )
+)
+game (
+	name "Analog Classics #1 (2004)(Ken Siders)[Conversion][h]"
+	description "analog5200"
+	rom ( name "C:\Cart\analog5200.bin" size 32768 crc 3e382e45 md5 9e6d04dc20cbd6d3cdb722e420dea203 )
+)
+game (
+	name "Archon (2003)(Ken Siders)[Coversion][h]"
+	description "Archon (Conv)"
+	rom ( name "C:\Cart\Archon (Conv).a52" size 32768 crc db8dd03 md5 77c6b647746bb1413c5566378ef25eec )
+)
+game (
+	name "BCs Quest For Tires (2006)(Steven J. Tucker)[Conversion][h]"
+	description "BCs Quest For Tires (XL Conversion)"
+	rom ( name "C:\Cart\BCs Quest For Tires (XL Conversion).a52" size 32768 crc a3a16596 md5 17e5c03b4fcada48d4c2529afcfe3a70 )
+)
+game (
+	name "Buried Bucks (2004)(Steven J. Tucker)[Conversion][h]"
+	description "Buried Bucks (XL Conversion)"
+	rom ( name "C:\Cart\Buried Bucks (XL Conversion).a52" size 32768 crc 1d161671 md5 713feccd8f2722f2e9bdcab98e25a35f )
+)
+game (
+	name "Captain Beeble (2004)(Ken Siders)[Conversion][h]"
+	description "Captain Beeble(Conv)"
+	rom ( name "C:\Cart\Captain Beeble(Conv).a52" size 32768 crc 2b760c6e md5 3147ad22f8d5f46b1ef40a39da3a3de1 )
+)
+game (
+	name "Castle Crises (2004)(Bryan Edewaard)(PD)"
+	description "Castle Crises"
+	rom ( name "C:\Cart\Castle Crises.a52" size 32768 crc d50e4061 md5 8f4c07a9e0ef2ded720b403810220aaf )
+)
+game (
+	name "Caverns of Mars (2004)(Steven J. Tucker)[Conversion][h]"
+	description "Caverns of Mars (Conv)"
+	rom ( name "C:\Cart\Caverns of Mars (Conv).a52" size 32768 crc d1b64581 md5 d64a175672b6dba0c0b244c949799e64 )
+)
+game (
+	name "Chess (2004)(Steven J. Tucker)[Conversion][h]"
+	description "Chess (Conv)"
+	rom ( name "C:\Cart\Chess (Conv).a52" size 32768 crc f6c1af4 md5 df283efab9d36a15603283ee2a7bdb71 )
+)
+game (
+	name "Cosmi (2004)(Ken Siders)[Conversion][h]"
+	description "COSMI"
+	rom ( name "C:\Cart\COSMI.BIN" size 32768 crc 219615d9 md5 4c034f3db0489726abd401550a402c32 )
+)
+game (
+	name "Crystal Castles (2002)(Clay Cowgill)[Conversion][h]"
+	description "Crystal Castles (Clay Conv)"
+	rom ( name "C:\Cart\Crystal Castles (Clay Conv).a52" size 32768 crc d3b10b5d md5 550ef46dfa0945b6dd693b0fab6385a5 )
+)
+game (
+	name "Crystal Castles (2004)(Steven J. Tucker)[Conversion][h]"
+	description "crystal castles (conv)"
+	rom ( name "C:\Cart\crystal castles (conv).a52" size 32768 crc 596f61d1 md5 cd64cc0b348a634080078206e3111f9a )
+)
+game (
+	name "PAM SALT v1.1 (1982)(Atari)"
+	description "Diagnostic11"
+	rom ( name "C:\Cart\Diagnostic11.bin" size 8192 crc 3da972c8 md5 884c77a8c8f7d672fca5c831c8c13ffb )
+)
+game (
+	name "Donkey Kong (2003)(Ken Siders)[Conversion][h]"
+	description "Donkey Kong (Conv)"
+	rom ( name "C:\Cart\Donkey Kong (Conv).a52" size 32768 crc e902c79e md5 0c393d2b04afae8a8f8827d30794b29a )
+)
+game (
+	name "Donkey Kong Jr (2003)(Ken Siders)[Conversion][h]"
+	description "Donkey Kong Jr (Conv)"
+	rom ( name "C:\Cart\Donkey Kong Jr (Conv).a52" size 32768 crc 8871b8ed md5 ae5b9bbe91983ab111fd7cf3d29d6b11 )
+)

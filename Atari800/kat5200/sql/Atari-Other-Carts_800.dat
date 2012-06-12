@@ -1,0 +1,1207 @@
+clrmamepro (
+	name "Atari-Other-Carts_800"
+	description "Atari-Other-Carts_800"
+	category "Atari-Other-Carts_800"
+	version 2008-09-22
+	author Berlin
+)
+game (
+	name "3-D Tic-Tac-Toe"
+	description "3-D Tic-Tac-Toe"
+	rom ( name "C:\carts\3-D Tic-Tac-Toe.rom" size 8192 crc 4660c404 md5 907780d5740b3ecb9a843918bd0cbf83 )
+)
+game (
+	name "Abracadabra!"
+	description "Abracadabra!"
+	rom ( name "C:\carts\Abracadabra!.rom" size 16384 crc a35c775d md5 1f1c87adc0abaac4a8118c7f98b28900 )
+)
+game (
+	name "Adventure Creator"
+	description "Adventure Creator"
+	rom ( name "C:\carts\Adventure Creator.rom" size 16384 crc 8746d9da md5 a52665456ecbf02758053300579f2b21 )
+)
+game (
+	name "Alf in the Color Caves"
+	description "Alf in the Color Caves"
+	rom ( name "C:\carts\Alf in the Color Caves.rom" size 16384 crc 79df7f9d md5 d3a93abadc1a55e40c969bd68134a5dd )
+)
+game (
+	name "Alien Ambush"
+	description "Alien Ambush"
+	rom ( name "C:\carts\Alien Ambush.rom" size 8192 crc ad7bc30b md5 9693fc068396f7ce74b24468c6ffc724 )
+)
+game (
+	name "Alien Garden"
+	description "Alien Garden"
+	rom ( name "C:\carts\Alien Garden.rom" size 8192 crc 3e27ed0f md5 257d1643255e9cc6999c43100f21d89e )
+)
+game (
+	name "Alpha Shield"
+	description "Alpha Shield"
+	rom ( name "C:\carts\Alpha Shield.rom" size 8192 crc a7ade454 md5 6a323c07fee9c8d8cd9635a99105e357 )
+)
+game (
+	name "Alphabet Zoo"
+	description "Alphabet Zoo"
+	rom ( name "C:\carts\Alphabet Zoo.rom" size 16384 crc c9613ecd md5 4725ad7cf31fd2a9ae4f6002c44aae1d )
+)
+game (
+	name "Animated Puzzle"
+	description "Animated Puzzle"
+	rom ( name "C:\carts\Animated Puzzle.rom" size 16384 crc 1a4c75a7 md5 e9ea86da875f0895dbcdc0ce32776c05 )
+)
+game (
+	name "Archon"
+	description "Archon"
+	rom ( name "C:\carts\Archon.rom" size 32768 crc 2636829f md5 77aba8e96975b4bb7a714591505ce38f )
+)
+game (
+	name "Astro Chase _ First Star Software"
+	description "Astro Chase _ First Star Software"
+	rom ( name "C:\carts\Astro Chase _ First Star Software.rom" size 16384 crc 18752991 md5 adc9da9bf45c40bd0b38a905ce4d15fb )
+)
+game (
+	name "Astro Chase _ Parker Brothers"
+	description "Astro Chase _ Parker Brothers"
+	rom ( name "C:\carts\Astro Chase _ Parker Brothers.rom" size 16384 crc 11f1c7fa md5 7eef8b0e8cb2eb0f38d8f8329a526e37 )
+)
+game (
+	name "Astro-Grover"
+	description "Astro-Grover"
+	rom ( name "C:\carts\Astro-Grover.rom" size 16384 crc 85b67797 md5 9e629417187bb3f49faf1d23abf9a187 )
+)
+game (
+	name "Atlantis"
+	description "Atlantis"
+	rom ( name "C:\carts\Atlantis.rom" size 8192 crc be0b390c md5 8b6bf23c0fb7466141126eb0c8386844 )
+)
+game (
+	name "Attack at EP-CYG-4"
+	description "Attack at EP-CYG-4"
+	rom ( name "C:\carts\Attack at EP-CYG-4.rom" size 16384 crc dca02ca0 md5 3fdb9db3e01d007dedba3d6603be6a02 )
+)
+game (
+	name "Attack of the Mutant Camels"
+	description "Attack of the Mutant Camels"
+	rom ( name "C:\carts\Attack of the Mutant Camels.rom" size 8192 crc c933d741 md5 1c0ac038326ccc8a5d6de905bd2c9916 )
+)
+game (
+	name "Ballblazer"
+	description "Ballblazer"
+	rom ( name "C:\carts\Ballblazer.rom" size 65536 crc 820e5ce5 md5 06944f52bc52ae8f548be5441dee939e )
+)
+game (
+	name "Baseball"
+	description "Baseball"
+	rom ( name "C:\carts\Baseball.rom" size 16384 crc 65c3fd2 md5 016cb7ed71480203fd9029985f1cfdca )
+)
+game (
+	name "Basketball"
+	description "Basketball"
+	rom ( name "C:\carts\Basketball.rom" size 8192 crc 79934851 md5 ddd9f7e02145ca65b6cc2c5308d366f0 )
+)
+game (
+	name "BC's Quest for Tires"
+	description "BC's Quest for Tires"
+	rom ( name "C:\carts\BC's Quest for Tires.rom" size 16384 crc dddc6e36 md5 14fc158fd9396acf37b3d897076b9524 )
+)
+game (
+	name "Beamrider"
+	description "Beamrider"
+	rom ( name "C:\carts\Beamrider.rom" size 16384 crc 2b05b8df md5 7f8fcd25757eb28ef9e31d2d410d7c94 )
+)
+game (
+	name "BearJam"
+	description "BearJam"
+	rom ( name "C:\carts\BearJam.rom" size 8192 crc 1889c707 md5 2f443f01ddf8d7267cd8acb2b14dcb7d )
+)
+game (
+	name "Beef Drop [08-11-04]"
+	description "Beef Drop [08-11-04]"
+	rom ( name "C:\carts\Beef Drop [08-11-04].rom" size 32768 crc d209e797 md5 4e83a79a8b26ee2b5b2157c4274682e9 )
+)
+game (
+	name "Big Bird's Funhouse"
+	description "Big Bird's Funhouse"
+	rom ( name "C:\carts\Big Bird's Funhouse.rom" size 16384 crc 384fb49f md5 fe39a39cb51a6edb8b4161e8fd25f764 )
+)
+game (
+	name "Big Bird's Special Delivery"
+	description "Big Bird's Special Delivery"
+	rom ( name "C:\carts\Big Bird's Special Delivery.rom" size 16384 crc 6d93b4fa md5 bfdafb6bac63834a6185aa4b2e4b9205 )
+)
+game (
+	name "Blaster"
+	description "Blaster"
+	rom ( name "C:\carts\Blaster.rom" size 16384 crc ce1126a2 md5 cd9b4a0d700990608b44e2aa0b31f486 )
+)
+game (
+	name "Blue Max"
+	description "Blue Max"
+	rom ( name "C:\carts\Blue Max.rom" size 32768 crc 3f41ac md5 ef8c593be745673426cf233fd53bb618 )
+)
+game (
+	name "Boulder Dash"
+	description "Boulder Dash"
+	rom ( name "C:\carts\Boulder Dash.rom" size 16384 crc af778329 md5 a14bfe66f73d9376158a2c2589cb058e )
+)
+game (
+	name "Boulders and Bombs"
+	description "Boulders and Bombs"
+	rom ( name "C:\carts\Boulders and Bombs.rom" size 16384 crc ab2ec21c md5 ec99868d3635add9080ce12d8600039a )
+)
+game (
+	name "Bounty Bob Strikes Back!"
+	description "Bounty Bob Strikes Back!"
+	rom ( name "C:\carts\Bounty Bob Strikes Back!.rom" size 40960 crc d00f072 md5 8605d73b5949ad3c6e72bac5be7397d3 )
+)
+game (
+	name "Bristles"
+	description "Bristles"
+	rom ( name "C:\carts\Bristles.rom" size 16384 crc 4263d64d md5 2b11702e687c67f3f645045167ab3b3a )
+)
+game (
+	name "Buck Rogers"
+	description "Buck Rogers"
+	rom ( name "C:\carts\Buck Rogers.rom" size 16384 crc 84dd597c md5 3eebe04a63083c0cc9d7fd915d19d6ed )
+)
+game (
+	name "Bug Hunt"
+	description "Bug Hunt"
+	rom ( name "C:\carts\Bug Hunt.rom" size 65552 crc dda6f59d md5 0e69e0658d604e5f8ad26915aea5381e )
+)
+game (
+	name "Final Orbit"
+	description "Final Orbit"
+	rom ( name "C:\carts\Final Orbit.rom" size 8192 crc 4de5cd53 md5 0da638672bb2b8fb2f57897ff82d6fe1 )
+)
+game (
+	name "Firebird"
+	description "Firebird"
+	rom ( name "C:\carts\Firebird.rom" size 8192 crc ab4f2d14 md5 c696f15cb6032aeccc9561fa544fe1c9 )
+)
+game (
+	name "Flapper"
+	description "Flapper"
+	rom ( name "C:\carts\Flapper.rom" size 16384 crc 18803c52 md5 4885986738c1bc76712dd3790a23d4f2 )
+)
+game (
+	name "Flip and Flop"
+	description "Flip and Flop"
+	rom ( name "C:\carts\Flip and Flop.rom" size 16384 crc 8ae057be md5 4226e6ea45f16d3e5620f887957fca1f )
+)
+game (
+	name "Fort Apocalypse"
+	description "Fort Apocalypse"
+	rom ( name "C:\carts\Fort Apocalypse.rom" size 16384 crc f79b33f0 md5 17827e6b37d99aa33751037edf3bd4ae )
+)
+game (
+	name "Fortune Hunter [Romox]"
+	description "Fortune Hunter [Romox]"
+	rom ( name "C:\carts\Fortune Hunter [Romox].rom" size 8192 crc c0fea1f7 md5 ced99596d23236b76fc6fb73e75ec617 )
+)
+game (
+	name "Fraction Fever"
+	description "Fraction Fever"
+	rom ( name "C:\carts\Fraction Fever.rom" size 16384 crc df7cd92d md5 b6a4ce3b88e5359818699d3cbad1768c )
+)
+game (
+	name "Frogger II - Threeedeep!"
+	description "Frogger II - Threeedeep!"
+	rom ( name "C:\carts\Frogger II - Threeedeep!.rom" size 16384 crc 7a5b4f65 md5 90429282b2dad390ef39de96b478a119 )
+)
+game (
+	name "Frogger"
+	description "Frogger"
+	rom ( name "C:\carts\Frogger.rom" size 8192 crc 40e9476c md5 9fbed199d8ed7d6aff7e9f41930b4c68 )
+)
+game (
+	name "Captain Beeble"
+	description "Captain Beeble"
+	rom ( name "C:\carts\Captain Beeble.rom" size 16384 crc ad8400b1 md5 acafa92d30e9f1f8ae3a328a33d68503 )
+)
+game (
+	name "Carnival Massacre"
+	description "Carnival Massacre"
+	rom ( name "C:\carts\Carnival Massacre.rom" size 16384 crc 1baf0c97 md5 aad0449b79cc72e178bd9d2df8f2e26c )
+)
+game (
+	name "Castle Crisis"
+	description "Castle Crisis"
+	rom ( name "C:\carts\Castle Crisis.rom" size 32768 crc 47acda14 md5 17ca3dd2c14033d06d50601eecc3c9d1 )
+)
+game (
+	name "Castle Hassle"
+	description "Castle Hassle"
+	rom ( name "C:\carts\Castle Hassle.rom" size 16384 crc 5a9e938a md5 bdf43a2b6f3226f59c32d22421a2f82f )
+)
+game (
+	name "Castles and Keys"
+	description "Castles and Keys"
+	rom ( name "C:\carts\Castles and Keys.rom" size 16384 crc be14c091 md5 3e09d8656c38c694c57c717effd7cb53 )
+)
+game (
+	name "Centipede _ prototype"
+	description "Centipede _ prototype"
+	rom ( name "C:\carts\Centipede _ prototype.rom" size 8192 crc d54f0200 md5 660389e750a3bfdad8b435377265688d )
+)
+game (
+	name "Centipede"
+	description "Centipede"
+	rom ( name "C:\carts\Centipede.rom" size 8192 crc 44bb1842 md5 a52ebb9034af44bea4ae73e088a102c3 )
+)
+game (
+	name "Chess"
+	description "Chess"
+	rom ( name "C:\carts\Chess.rom" size 8192 crc 72860db1 md5 73c82a66dde8b026eaf48a64655b6198 )
+)
+game (
+	name "Chicken"
+	description "Chicken"
+	rom ( name "C:\carts\Chicken.rom" size 8192 crc 1ab4d8d8 md5 7cc2ef0e8071dfa4984de254f1f7799b )
+)
+game (
+	name "Chiffres et des Lettres (Des)"
+	description "Chiffres et des Lettres (Des)"
+	rom ( name "C:\carts\Chiffres et des Lettres (Des).rom" size 16384 crc c7705c53 md5 98a7ce2f0cd713c4a1b64e1a4adb34da )
+)
+game (
+	name "Choplifter! _ Broderbund Software"
+	description "Choplifter! _ Broderbund Software"
+	rom ( name "C:\carts\Choplifter! _ Broderbund Software.rom" size 16384 crc 3ebc05ff md5 f77eea1c53e5b5524e419dad8a6cb799 )
+)
+game (
+	name "Claim Jumper"
+	description "Claim Jumper"
+	rom ( name "C:\carts\Claim Jumper.rom" size 16384 crc 1a333c4a md5 317135b65457752904e8c1c4027f7ed8 )
+)
+game (
+	name "Cloudburst"
+	description "Cloudburst"
+	rom ( name "C:\carts\Cloudburst.rom" size 8192 crc 259aa18b md5 c5bc9a65578c4e09f7339db74373d116 )
+)
+game (
+	name "Coco-Notes"
+	description "Coco-Notes"
+	rom ( name "C:\carts\Coco-Notes.rom" size 16384 crc f93c615b md5 bf438425bb9aca4bb17e3e154398ac3e )
+)
+game (
+	name "Commando"
+	description "Commando"
+	rom ( name "C:\carts\Commando.rom" size 131072 crc 28288df4 md5 eb3404f7e2972cb65ce2c70e5a4d1ec8 )
+)
+game (
+	name "Computer Chess"
+	description "Computer Chess"
+	rom ( name "C:\carts\Computer Chess.rom" size 8192 crc 5ce06e94 md5 8c7b3a966311f476df52196039c862a7 )
+)
+game (
+	name "Computer War"
+	description "Computer War"
+	rom ( name "C:\carts\Computer War.rom" size 16384 crc d5c4499d md5 404cb0ca07a8df08acdc8e06005b8b88 )
+)
+game (
+	name "Congo Bongo"
+	description "Congo Bongo"
+	rom ( name "C:\carts\Congo Bongo.rom" size 16384 crc 7a588045 md5 0133d800e91a349f085fe3323514cc03 )
+)
+game (
+	name "Cosmic Life"
+	description "Cosmic Life"
+	rom ( name "C:\carts\Cosmic Life.rom" size 16384 crc 919eaaa9 md5 0552fe2df6e7689ee3895696e360dc98 )
+)
+game (
+	name "Cosmic Tunnels"
+	description "Cosmic Tunnels"
+	rom ( name "C:\carts\Cosmic Tunnels.rom" size 16384 crc ad56c2bf md5 cd7dd14b7378d5e007c40120e06511df )
+)
+game (
+	name "Crossfire"
+	description "Crossfire"
+	rom ( name "C:\carts\Crossfire.rom" size 8192 crc 4d7e0503 md5 4afe93dd9fef00d3db0c02a47b956c9e )
+)
+game (
+	name "Crystal Castles _ beta 1"
+	description "Crystal Castles _ beta 1"
+	rom ( name "C:\carts\Crystal Castles _ beta 1.rom" size 16384 crc 89bb9431 md5 38577bef24a9b80d6d7773103b4231af )
+)
+game (
+	name "Crystal Castles _ beta 2"
+	description "Crystal Castles _ beta 2"
+	rom ( name "C:\carts\Crystal Castles _ beta 2.rom" size 16384 crc e3ec1080 md5 2ef655bb0e051a608c0d634af1cbb83e )
+)
+game (
+	name "Crystal Castles"
+	description "Crystal Castles"
+	rom ( name "C:\carts\Crystal Castles.rom" size 32784 crc 326c38d md5 4518bd31eb33dec51569974b46484c49 )
+)
+game (
+	name "Da' Fuzz"
+	description "Da' Fuzz"
+	rom ( name "C:\carts\Da' Fuzz.rom" size 16384 crc b94f66ea md5 7bc8bd66a08cfff3d73d9cfb265fd7f2 )
+)
+game (
+	name "Dance Fantasy"
+	description "Dance Fantasy"
+	rom ( name "C:\carts\Dance Fantasy.rom" size 8192 crc faec94e7 md5 2e5522c2258def101ba93bef8e3e5f94 )
+)
+game (
+	name "Decathlon"
+	description "Decathlon"
+	rom ( name "C:\carts\Decathlon.rom" size 16384 crc 76845603 md5 5dcf58227da7b9cb2111766b76da72c1 )
+)
+game (
+	name "Delta Drawing"
+	description "Delta Drawing"
+	rom ( name "C:\carts\Delta Drawing.rom" size 8192 crc 20cbad07 md5 41a42a0b08d9201f9ab29fd1a20f72bd )
+)
+game (
+	name "Deluxe Invaders"
+	description "Deluxe Invaders"
+	rom ( name "C:\carts\Deluxe Invaders.rom" size 8192 crc 15dc9b31 md5 6eafee2abf193732a9862440d301e5b0 )
+)
+game (
+	name "Demon Attack"
+	description "Demon Attack"
+	rom ( name "C:\carts\Demon Attack.rom" size 8192 crc 91328072 md5 e38b6dacc512015b4a3b05870baa8407 )
+)
+game (
+	name "Designer's Pencil"
+	description "Designer's Pencil"
+	rom ( name "C:\carts\Designer's Pencil.rom" size 16384 crc 6ed64678 md5 241a687cb39b32e47e7f755c6365cf6e )
+)
+game (
+	name "Diamond Mine"
+	description "Diamond Mine"
+	rom ( name "C:\carts\Diamond Mine.rom" size 16384 crc d8f9b867 md5 77a3dcd67c63045753b45e1bba7086c7 )
+)
+game (
+	name "Dig Dug _ 1982"
+	description "Dig Dug _ 1982"
+	rom ( name "C:\carts\Dig Dug _ 1982.rom" size 16384 crc 29b44ff6 md5 b0e82dfe2e1974385137ed1e6f8afef6 )
+)
+game (
+	name "Dig Dug _ 1983"
+	description "Dig Dug _ 1983"
+	rom ( name "C:\carts\Dig Dug _ 1983.rom" size 16384 crc fdbc57ed md5 40536c0265a14d81ee12dbc3e9265599 )
+)
+game (
+	name "Donkey Kong Junior"
+	description "Donkey Kong Junior"
+	rom ( name "C:\carts\Donkey Kong Junior.rom" size 16384 crc a4eb70ef md5 64675588f9d56aca1645203a792eb64f )
+)
+game (
+	name "Donkey Kong"
+	description "Donkey Kong"
+	rom ( name "C:\carts\Donkey Kong.rom" size 16384 crc f2b76a27 md5 c76fe7a92385a21aa5ba1c738b6ce22c )
+)
+game (
+	name "Dreadnaught Factor"
+	description "Dreadnaught Factor"
+	rom ( name "C:\carts\Dreadnaught Factor.rom" size 8192 crc c26fbb5b md5 a5a0d9036e17bf3c7ebbd630174e1d1d )
+)
+game (
+	name "Droids"
+	description "Droids"
+	rom ( name "C:\carts\Droids.rom" size 8192 crc 440082e6 md5 bbf3cedc73b6d8a500bdef217b84f09b )
+)
+game (
+	name "Ducks Ahoy!"
+	description "Ducks Ahoy!"
+	rom ( name "C:\carts\Ducks Ahoy!.rom" size 16384 crc 4cdfceb9 md5 ec071231d2399c4672267e42cbbd60d9 )
+)
+game (
+	name "Eastern Front (1941)"
+	description "Eastern Front (1941)"
+	rom ( name "C:\carts\Eastern Front (1941).rom" size 16384 crc ccff4a03 md5 54d427cf8e5baf92c1bfd675888943a9 )
+)
+game (
+	name "Educational System Master Cartridge [re-release]"
+	description "Educational System Master Cartridge [re-release]"
+	rom ( name "C:\carts\Educational System Master Cartridge [re-release].rom" size 8192 crc df830b2e md5 c9872f3134a459e967231ef2a292e54b )
+)
+game (
+	name "Embargo"
+	description "Embargo"
+	rom ( name "C:\carts\Embargo.rom" size 8192 crc 7b1560c md5 01b35244349566a9951ca73d6a519796 )
+)
+game (
+	name "Ernie's Magic Shapes"
+	description "Ernie's Magic Shapes"
+	rom ( name "C:\carts\Ernie's Magic Shapes.rom" size 16384 crc 435f5aba md5 1173e3d0a861f13d50d642ebdf79cb8a )
+)
+game (
+	name "Espial"
+	description "Espial"
+	rom ( name "C:\carts\Espial.rom" size 16384 crc dcde7482 md5 238c95716ffd17ed1379962c492e588e )
+)
+game (
+	name "ET Phone Home!"
+	description "ET Phone Home!"
+	rom ( name "C:\carts\ET Phone Home!.rom" size 16384 crc bce4ef51 md5 8b8fb5cfdd26b7f352198af07402f3f5 )
+)
+game (
+	name "Expando-Vision - Control Drinking + Responsibility"
+	description "Expando-Vision - Control Drinking + Responsibility"
+	rom ( name "C:\carts\Expando-Vision - Control Drinking + Responsibility.rom" size 8192 crc 2343acf3 md5 51959bd681380a2cf300c2430ee4f844 )
+)
+game (
+	name "Expando-Vision - Control Smoking + Calm Nerves"
+	description "Expando-Vision - Control Smoking + Calm Nerves"
+	rom ( name "C:\carts\Expando-Vision - Control Smoking + Calm Nerves.rom" size 8192 crc eb8b49b9 md5 49d62f3333c6dd6c4bd27feb1bced497 )
+)
+game (
+	name "Expando-Vision - Stress Control + Positive Thinking"
+	description "Expando-Vision - Stress Control + Positive Thinking"
+	rom ( name "C:\carts\Expando-Vision - Stress Control + Positive Thinking.rom" size 8192 crc b68b0a9b md5 f3a95f1da262d39de27b35b15bd5f95f )
+)
+game (
+	name "Expando-Vision - Weight Control + Exercise"
+	description "Expando-Vision - Weight Control + Exercise"
+	rom ( name "C:\carts\Expando-Vision - Weight Control + Exercise.rom" size 8192 crc 1b5848c0 md5 2dd84ffd2418499ff2b426ce4566b49a )
+)
+game (
+	name "FaceMaker"
+	description "FaceMaker"
+	rom ( name "C:\carts\FaceMaker.rom" size 8192 crc 382d859e md5 64071ff7bad2a5e9c34428f84fb48c76 )
+)
+game (
+	name "Fantastic Voyage"
+	description "Fantastic Voyage"
+	rom ( name "C:\carts\Fantastic Voyage.rom" size 16384 crc ea2c9b8f md5 dec8c091f450cb981bd6d6f0933e0abf )
+)
+game (
+	name "Gold Mine"
+	description "Gold Mine"
+	rom ( name "C:\carts\Gold Mine.rom" size 8192 crc 8459b11e md5 8fae9d082c3af2f33cef2c9e5e47fbad )
+)
+game (
+	name "Gorf"
+	description "Gorf"
+	rom ( name "C:\carts\Gorf.rom" size 16384 crc ed2b18f5 md5 922b13ed48d3b3f6c08cda584b5f4e36 )
+)
+game (
+	name "Gyruss"
+	description "Gyruss"
+	rom ( name "C:\carts\Gyruss.rom" size 16384 crc 1da47d01 md5 142d33fcf9bb6015123f2f92946a52ee )
+)
+game (
+	name "Halftime Battlin' Bands"
+	description "Halftime Battlin' Bands"
+	rom ( name "C:\carts\Halftime Battlin' Bands.rom" size 16384 crc 8d14b5d3 md5 d099bbe1f72a05341ab79156e3c52556 )
+)
+game (
+	name "HardBall!"
+	description "HardBall!"
+	rom ( name "C:\carts\HardBall!.rom" size 65536 crc bf0c6df2 md5 b6c4de367b60ef35a7a778421c990e5d )
+)
+game (
+	name "HERO"
+	description "HERO"
+	rom ( name "C:\carts\HERO.rom" size 16384 crc 6062d3ce md5 8ed48bc1d4776147f7109e302df9833d )
+)
+game (
+	name "Hypnotic Land"
+	description "Hypnotic Land"
+	rom ( name "C:\carts\Hypnotic Land.rom" size 16384 crc 4fb75909 md5 66ee6016073f87ef1f114202dacdd44e )
+)
+game (
+	name "Into the Eagle's Nest"
+	description "Into the Eagle's Nest"
+	rom ( name "C:\carts\Into the Eagle's Nest.rom" size 32768 crc f31321c2 md5 61264516599314c834081dc54bd08e08 )
+)
+game (
+	name "James Bond 007"
+	description "James Bond 007"
+	rom ( name "C:\carts\James Bond 007.rom" size 16384 crc 19b4e3a1 md5 cbe9f058f729bb52b99911020241715b )
+)
+game (
+	name "Jawbreaker II"
+	description "Jawbreaker II"
+	rom ( name "C:\carts\Jawbreaker II.rom" size 8192 crc e2a63a2d md5 17709dbd4f1be3547741d15aa7c6b9b2 )
+)
+game (
+	name "Journey to the Planets"
+	description "Journey to the Planets"
+	rom ( name "C:\carts\Journey to the Planets.rom" size 16384 crc dce59b65 md5 4ad84121964f55dcb788c4b652538347 )
+)
+game (
+	name "Joust"
+	description "Joust"
+	rom ( name "C:\carts\Joust.rom" size 16384 crc f6ec618c md5 79e9146264bb499105ae6815b67c4b6a )
+)
+game (
+	name "Jumbo Jet Pilot"
+	description "Jumbo Jet Pilot"
+	rom ( name "C:\carts\Jumbo Jet Pilot.rom" size 16384 crc f046332b md5 034ba4e8c334b0fec96b9bd10fc50cf1 )
+)
+game (
+	name "Jumpman Junior"
+	description "Jumpman Junior"
+	rom ( name "C:\carts\Jumpman Junior.rom" size 16384 crc 6c79bbad md5 8abe90e96b0a71f112b9534fdf56c838 )
+)
+game (
+	name "Jungle Hunt"
+	description "Jungle Hunt"
+	rom ( name "C:\carts\Jungle Hunt.rom" size 16384 crc 1847a7d4 md5 520de1b5bb7084d74e9e256f8c1a631a )
+)
+game (
+	name "Kaboom!"
+	description "Kaboom!"
+	rom ( name "C:\carts\Kaboom!.rom" size 8192 crc c2e2e645 md5 a35f49c7ff6d508c4696ede2320055db )
+)
+game (
+	name "Kangaroo"
+	description "Kangaroo"
+	rom ( name "C:\carts\Kangaroo.rom" size 16384 crc 1ef94906 md5 f649fb3e8f624ff2467ee2246925804d )
+)
+game (
+	name "Karateka"
+	description "Karateka"
+	rom ( name "C:\carts\Karateka.rom" size 131072 crc 97646f16 md5 caef5514c23bd07e4c84f1a31e689ae0 )
+)
+game (
+	name "Keystone Kapers"
+	description "Keystone Kapers"
+	rom ( name "C:\carts\Keystone Kapers.rom" size 8192 crc 465e1763 md5 0f31f1edc5ed25f41a14cbed3041a919 )
+)
+game (
+	name "Kickback"
+	description "Kickback"
+	rom ( name "C:\carts\Kickback.rom" size 8192 crc 2480ed0a md5 cc6bcd140fa9f5ea9a6ba304c5c0683b )
+)
+game (
+	name "Kids on Keys"
+	description "Kids on Keys"
+	rom ( name "C:\carts\Kids on Keys.rom" size 16384 crc 4a2738aa md5 a80c6273f9c5a69b48a33051627c0623 )
+)
+game (
+	name "KinderComp"
+	description "KinderComp"
+	rom ( name "C:\carts\KinderComp.rom" size 16384 crc 8c3f8106 md5 8f40cb6a967f5a5ba2568daf32a9fbb5 )
+)
+game (
+	name "K-Razy Antiks"
+	description "K-Razy Antiks"
+	rom ( name "C:\carts\K-Razy Antiks.rom" size 8192 crc 84ab21b0 md5 69fe39fa2cba907858a62aa2bb18a112 )
+)
+game (
+	name "K-Razy Kritters _ CBS Software"
+	description "K-Razy Kritters _ CBS Software"
+	rom ( name "C:\carts\K-Razy Kritters _ CBS Software.rom" size 8192 crc d7108d7 md5 f716abd8a2de9e17a6f39a69c8eec951 )
+)
+game (
+	name "K-Razy Kritters _ K-Byte"
+	description "K-Razy Kritters _ K-Byte"
+	rom ( name "C:\carts\K-Razy Kritters _ K-Byte.rom" size 8192 crc 50354927 md5 aaf65b2cfcc56ab2d4afb81ced5adc37 )
+)
+game (
+	name "K-Razy Shoot-Out [K-Byte]"
+	description "K-Razy Shoot-Out [K-Byte]"
+	rom ( name "C:\carts\K-Razy Shoot-Out [K-Byte].rom" size 8192 crc 4300f6ff md5 c8aa970b20bc79e9adf274e96fccc0ed )
+)
+game (
+	name "K-Razy Shoot-Out = CBS Software"
+	description "K-Razy Shoot-Out = CBS Software"
+	rom ( name "C:\carts\K-Razy Shoot-Out = CBS Software.rom" size 8192 crc 636a01f5 md5 70f786d799a886da444b35fd3af79c2c )
+)
+game (
+	name "K-Star Patrol"
+	description "K-Star Patrol"
+	rom ( name "C:\carts\K-Star Patrol.rom" size 8192 crc 44c71fae md5 4a3e69687d9becf536e93a6dcd9827cf )
+)
+game (
+	name "Last Starfighter"
+	description "Last Starfighter"
+	rom ( name "C:\carts\Last Starfighter.rom" size 16384 crc b4c640f1 md5 11c1a3352d3f82fbf4e15b5832cbc921 )
+)
+game (
+	name "Learning with Leeper"
+	description "Learning with Leeper"
+	rom ( name "C:\carts\Learning with Leeper.rom" size 16384 crc a77b5c4c md5 47bb52ad388ae503f1f914482f493504 )
+)
+game (
+	name "Leo's 'Lectric Paintbrush"
+	description "Leo's 'Lectric Paintbrush"
+	rom ( name "C:\carts\Leo's 'Lectric Paintbrush.rom" size 8192 crc 3c66ea77 md5 7941f2c359b1be8d65d61f5e8f7fef04 )
+)
+game (
+	name "Letter Tutor"
+	description "Letter Tutor"
+	rom ( name "C:\carts\Letter Tutor.rom" size 8192 crc 21111576 md5 49dff7c174f0077c18a7ffffd2beab9b )
+)
+game (
+	name "Lifespan"
+	description "Lifespan"
+	rom ( name "C:\carts\Lifespan.rom" size 16384 crc e4d62c12 md5 7df5b0477169b68ef6312a1865b4677e )
+)
+game (
+	name "Logic Levels"
+	description "Logic Levels"
+	rom ( name "C:\carts\Logic Levels.rom" size 8192 crc c643f703 md5 1eac5f55b9f6bda104f7d0bdfbab28e6 )
+)
+game (
+	name "LogicMaster"
+	description "LogicMaster"
+	rom ( name "C:\carts\LogicMaster.rom" size 8192 crc 552127ce md5 65be9c64b1080d8003a224514b2f996c )
+)
+game (
+	name "MASH"
+	description "MASH"
+	rom ( name "C:\carts\MASH.rom" size 8192 crc fa041093 md5 8fd0f02a64de6a0001adef63d6809c78 )
+)
+game (
+	name "Major League Hockey"
+	description "Major League Hockey"
+	rom ( name "C:\carts\Major League Hockey.rom" size 8192 crc 4ffbc999 md5 cebe5af8ba80d429eec99f53d456a791 )
+)
+game (
+	name "Math Encounter"
+	description "Math Encounter"
+	rom ( name "C:\carts\Math Encounter.rom" size 8192 crc 9eaba275 md5 c7d3d67d5e86dc3e5e6456eadb82db5e )
+)
+game (
+	name "Math Mileage"
+	description "Math Mileage"
+	rom ( name "C:\carts\Math Mileage.rom" size 16384 crc bb135aad md5 ba60be1c70d727ab43fb5b4b682874ff )
+)
+game (
+	name "Math Works - Addition"
+	description "Math Works - Addition"
+	rom ( name "C:\carts\Math Works - Addition.rom" size 8192 crc fb350372 md5 34364ea7da6b50f07557e10c32076264 )
+)
+game (
+	name "Math Works - Subtraction"
+	description "Math Works - Subtraction"
+	rom ( name "C:\carts\Math Works - Subtraction.rom" size 8192 crc 4bb5541a md5 4877d14cd1e6026c9f6cfc4136541caa )
+)
+game (
+	name "Matterhorn"
+	description "Matterhorn"
+	rom ( name "C:\carts\Matterhorn.rom" size 16384 crc dcc308cf md5 84978f23eaff1e24efbca18ac571ad95 )
+)
+game (
+	name "McDonald's _ beta 1"
+	description "McDonald's _ beta 1"
+	rom ( name "C:\carts\McDonald's _ beta 1.rom" size 8192 crc 209d2e17 md5 d04c9c3c60068fb89a2fa3cf69593e20 )
+)
+game (
+	name "McDonald's _ beta 2"
+	description "McDonald's _ beta 2"
+	rom ( name "C:\carts\McDonald's _ beta 2.rom" size 8192 crc ca961d16 md5 94dadef0da1a74dc009e616393da6ca4 )
+)
+game (
+	name "MegaMania"
+	description "MegaMania"
+	rom ( name "C:\carts\MegaMania.rom" size 8192 crc b3c5130c md5 059db74466731a8e269324a14db00c86 )
+)
+game (
+	name "Memory Manor"
+	description "Memory Manor"
+	rom ( name "C:\carts\Memory Manor.rom" size 8192 crc aedcbd0b md5 e487d1cccae172ccb055820fac9e9be8 )
+)
+game (
+	name "MicroMaestro"
+	description "MicroMaestro"
+	rom ( name "C:\carts\MicroMaestro.rom" size 8192 crc 1d45435f md5 505437f21e3d47b89306d88022a2ec41 )
+)
+game (
+	name "Millipede _ 1983"
+	description "Millipede _ 1983"
+	rom ( name "C:\carts\Millipede _ 1983.rom" size 16384 crc 82457872 md5 f575c85ccaa001015ff0dc06ac243b18 )
+)
+game (
+	name "Millipede _ 1984"
+	description "Millipede _ 1984"
+	rom ( name "C:\carts\Millipede _ 1984.rom" size 16384 crc fb7e45da md5 989ed0907dc7e308ef5f656118fdaf20 )
+)
+game (
+	name "Miner 2049er"
+	description "Miner 2049er"
+	rom ( name "C:\carts\Miner 2049er.rom" size 16384 crc 6b1478bf md5 d737d4006e8fb5a52fa6b7ed117fcacd )
+)
+game (
+	name "Missile Command"
+	description "Missile Command"
+	rom ( name "C:\carts\Missile Command.rom" size 8192 crc d2e36392 md5 790b71981a0378508864be428c84aded )
+)
+game (
+	name "Missile Command+"
+	description "Missile Command+"
+	rom ( name "C:\carts\Missile Command+.rom" size 16384 crc 2acfd240 md5 e79ebedbe25c1f02c8dd281031161813 )
+)
+game (
+	name "Mogul Maniac"
+	description "Mogul Maniac"
+	rom ( name "C:\carts\Mogul Maniac.rom" size 16384 crc c391600 md5 35a97e0db8e5fa1742424d891bcac737 )
+)
+game (
+	name "Monster Maze"
+	description "Monster Maze"
+	rom ( name "C:\carts\Monster Maze.rom" size 8192 crc 37049e57 md5 dda5179a6c84e88b8dcb4187a3625731 )
+)
+game (
+	name "Montezuma's Revenge"
+	description "Montezuma's Revenge"
+	rom ( name "C:\carts\Montezuma's Revenge.rom" size 16384 crc bd4404d9 md5 0bd4ee1f79050fc3527ac0388741ce0d )
+)
+game (
+	name "Moon Patrol"
+	description "Moon Patrol"
+	rom ( name "C:\carts\Moon Patrol.rom" size 16384 crc b845edb8 md5 79de1fa1413b43d9aa943cb91394c0a2 )
+)
+game (
+	name "Mountain King"
+	description "Mountain King"
+	rom ( name "C:\carts\Mountain King.rom" size 8192 crc 79748c93 md5 4619112144ca9df3b85246a945f69c21 )
+)
+game (
+	name "Movie Musical Madness"
+	description "Movie Musical Madness"
+	rom ( name "C:\carts\Movie Musical Madness.rom" size 16384 crc d8f719b md5 05333174462ef782f8385dd55f24f3e7 )
+)
+game (
+	name "Mr. Cool"
+	description "Mr. Cool"
+	rom ( name "C:\carts\Mr. Cool.rom" size 8192 crc 1345d10c md5 688466f0429cd27c6d1f564868b27366 )
+)
+game (
+	name "Mr. Do!'s Castle"
+	description "Mr. Do!'s Castle"
+	rom ( name "C:\carts\Mr. Do!'s Castle.rom" size 8192 crc f1b9a24a md5 3bb91863356072fb9f3c891ce3f0f5af )
+)
+game (
+	name "Mr. TNT"
+	description "Mr. TNT"
+	rom ( name "C:\carts\Mr. TNT.rom" size 8192 crc 701dbdea md5 cb2a303000eb8d0530aa65846f3e3796 )
+)
+game (
+	name "Ms. Pac-Man"
+	description "Ms. Pac-Man"
+	rom ( name "C:\carts\Ms. Pac-Man.rom" size 16384 crc f91d18cf md5 f1826afae2de3e9d238fd9d598654374 )
+)
+game (
+	name "Necromancer"
+	description "Necromancer"
+	rom ( name "C:\carts\Necromancer.rom" size 16384 crc 39250ff2 md5 62cf9fe42c7c12c4185b876803953fce )
+)
+game (
+	name "Nightstrike"
+	description "Nightstrike"
+	rom ( name "C:\carts\Nightstrike.rom" size 8192 crc 42da2cf3 md5 fa974ceefac139321ffbd0ca2650c020 )
+)
+game (
+	name "Oil's Well"
+	description "Oil's Well"
+	rom ( name "C:\carts\Oil's Well.rom" size 16384 crc 30ecad6 md5 4829b36f138ae3d71e4cafbdaa33ae5b )
+)
+game (
+	name "One-on-One"
+	description "One-on-One"
+	rom ( name "C:\carts\One-on-One.rom" size 32768 crc ab060567 md5 2c074ec2cc675e6d2d6dd2ae7f6a7f82 )
+)
+game (
+	name "Orc Attack"
+	description "Orc Attack"
+	rom ( name "C:\carts\Orc Attack.rom" size 16384 crc fbfaefcd md5 fe7928c26af41cda85149a096150041f )
+)
+game (
+	name "Ozzy's Orchard"
+	description "Ozzy's Orchard"
+	rom ( name "C:\carts\Ozzy's Orchard.rom" size 16384 crc 1554b983 md5 080c6f46ced01e64658bf0a3bb9983fa )
+)
+game (
+	name "Pac-Man"
+	description "Pac-Man"
+	rom ( name "C:\carts\Pac-Man.rom" size 8192 crc 61cf6167 md5 e66e9af9af01b019cd4e54aba813fbac )
+)
+game (
+	name "Pastfinder"
+	description "Pastfinder"
+	rom ( name "C:\carts\Pastfinder.rom" size 16384 crc 12694c3f md5 30b28b888ca8c7ccf0be7e11c16a1105 )
+)
+game (
+	name "Peanut Butter Panic"
+	description "Peanut Butter Panic"
+	rom ( name "C:\carts\Peanut Butter Panic.rom" size 8192 crc cdeb7759 md5 37d819a008098bb6899695da36d16e53 )
+)
+game (
+	name "Pengo"
+	description "Pengo"
+	rom ( name "C:\carts\Pengo.rom" size 16384 crc d8a9fe0a md5 5761a63513222a5095650ee769644dd1 )
+)
+game (
+	name "Pitfall! II - Lost Caverns"
+	description "Pitfall! II - Lost Caverns"
+	rom ( name "C:\carts\Pitfall! II - Lost Caverns.rom" size 16384 crc 1668cf3b md5 9615b23c8e5e3e0e7c4684d67b2b69ac )
+)
+game (
+	name "Pitfall!"
+	description "Pitfall!"
+	rom ( name "C:\carts\Pitfall!.rom" size 8192 crc b58bdf1c md5 80dbaae52bee84100a8d4fcb28be5fef )
+)
+game (
+	name "Pitstop"
+	description "Pitstop"
+	rom ( name "C:\carts\Pitstop.rom" size 16384 crc d49ebf91 md5 e3f5b22dd96d5323258efe2ffc9907a4 )
+)
+game (
+	name "PlatterMania"
+	description "PlatterMania"
+	rom ( name "C:\carts\PlatterMania.rom" size 8192 crc 6cef6f94 md5 e8de23afc33a6df64667a319f6abc322 )
+)
+game (
+	name "Pole Position"
+	description "Pole Position"
+	rom ( name "C:\carts\Pole Position.rom" size 16384 crc 581570c4 md5 97412c0bfff456724e18fa24329e5c21 )
+)
+game (
+	name "Pool 400"
+	description "Pool 400"
+	rom ( name "C:\carts\Pool 400.rom" size 8192 crc a6c2130f md5 9d7cd1b57c04cf100659833d5ada0e28 )
+)
+game (
+	name "Popeye"
+	description "Popeye"
+	rom ( name "C:\carts\Popeye.rom" size 16384 crc a35d5e6a md5 b6257c0cb22c7941dc9414e17262e20e )
+)
+game (
+	name "Powerstar"
+	description "Powerstar"
+	rom ( name "C:\carts\Powerstar.rom" size 16384 crc dc0dca6e md5 71ee3376aa7a8c7c98f1889451781e6a )
+)
+game (
+	name "Princess and the Frog"
+	description "Princess and the Frog"
+	rom ( name "C:\carts\Princess and the Frog.rom" size 8192 crc 7ce79281 md5 3290d62bffe671261542142bea237dc1 )
+)
+game (
+	name "Protector II"
+	description "Protector II"
+	rom ( name "C:\carts\Protector II.rom" size 16384 crc 374f311f md5 9b1c863deb66ea8c3161e1cdba4465fd )
+)
+game (
+	name "Qix"
+	description "Qix"
+	rom ( name "C:\carts\Qix.rom" size 8192 crc 967b8051 md5 9a93d84bfcbe8b98d37e411c22458a0c )
+)
+game (
+	name "Qñbert"
+	description "Qñbert"
+	rom ( name "C:\carts\Qñbert.rom" size 8192 crc ff3f0472 md5 15a4026bab3c37f2dd90113467971017 )
+)
+game (
+	name "Rack'em Up!"
+	description "Rack'em Up!"
+	rom ( name "C:\carts\Rack'em Up!.rom" size 16384 crc 5335d935 md5 ffc987e52da4f96ce51956d924b08632 )
+)
+game (
+	name "Rally Speedway"
+	description "Rally Speedway"
+	rom ( name "C:\carts\Rally Speedway.rom" size 16384 crc a0f6ea2 md5 206144bdd2e5817115bbf4676f75cee8 )
+)
+game (
+	name "RealSports Football"
+	description "RealSports Football"
+	rom ( name "C:\carts\RealSports Football.rom" size 16384 crc 5e8951f4 md5 7698eb691c80c647ff572c256085cb84 )
+)
+game (
+	name "RealSports Tennis"
+	description "RealSports Tennis"
+	rom ( name "C:\carts\RealSports Tennis.rom" size 16384 crc 9a34cbdc md5 58e6e6f4e38ead400bcd64ebb56d9a8e )
+)
+game (
+	name "Rescue on Fractalus!"
+	description "Rescue on Fractalus!"
+	rom ( name "C:\carts\Rescue on Fractalus!.rom" size 65536 crc 1ca549ad md5 8dd03c7615da801094d5e0b720387e8b )
+)
+game (
+	name "River Raid"
+	description "River Raid"
+	rom ( name "C:\carts\River Raid.rom" size 8192 crc 6e601d81 md5 1c1cfdd22b97cf51b43f8921aea07895 )
+)
+game (
+	name "River Rescue"
+	description "River Rescue"
+	rom ( name "C:\carts\River Rescue.rom" size 16384 crc 1bdd7e47 md5 a829990ce2562292fdb382af23629dc2 )
+)
+game (
+	name "Robotron 2084"
+	description "Robotron 2084"
+	rom ( name "C:\carts\Robotron 2084.rom" size 16384 crc 528fc44a md5 7bef8f9d93e277c6edea3268e6c7902b )
+)
+game (
+	name "Satan's Hollow"
+	description "Satan's Hollow"
+	rom ( name "C:\carts\Satan's Hollow.rom" size 16384 crc f7c7934 md5 42132fccb0d18b627ad3f78e18b02c75 )
+)
+game (
+	name "Sea Chase"
+	description "Sea Chase"
+	rom ( name "C:\carts\Sea Chase.rom" size 8192 crc 99b5a1dd md5 aaa5fe10540c4f687e1de12d5b67df24 )
+)
+game (
+	name "Sea Horse Hide'n Seek"
+	description "Sea Horse Hide'n Seek"
+	rom ( name "C:\carts\Sea Horse Hide'n Seek.rom" size 16384 crc 52964146 md5 77ae32028beb10a94e8bee76b84b6f6c )
+)
+game (
+	name "Seafox"
+	description "Seafox"
+	rom ( name "C:\carts\Seafox.rom" size 16384 crc 932cc9a8 md5 87639cd401b3b42abf69f95b10934039 )
+)
+game (
+	name "Serpentine"
+	description "Serpentine"
+	rom ( name "C:\carts\Serpentine.rom" size 8192 crc 1b555b41 md5 d2d547c52af88255fc66411f389a20c7 )
+)
+game (
+	name "Sesame Street Letter-Go-Round"
+	description "Sesame Street Letter-Go-Round"
+	rom ( name "C:\carts\Sesame Street Letter-Go-Round.rom" size 16384 crc 5c68d891 md5 bee62394224b35538ab4e24bdb889d6f )
+)
+game (
+	name "Shamus"
+	description "Shamus"
+	rom ( name "C:\carts\Shamus.rom" size 16384 crc bd3f06ee md5 52f723fba27fb280497e6228f38265e5 )
+)
+game (
+	name "Silicon Warrior"
+	description "Silicon Warrior"
+	rom ( name "C:\carts\Silicon Warrior.rom" size 16384 crc a7ecc8f7 md5 e2bc7c7d53061c7a94b3fbd473030778 )
+)
+game (
+	name "Sky Writer"
+	description "Sky Writer"
+	rom ( name "C:\carts\Sky Writer.rom" size 16384 crc 984f7a59 md5 58c7118fb5e326e3ef508ba833bb2f1e )
+)
+game (
+	name "Slime"
+	description "Slime"
+	rom ( name "C:\carts\Slime.rom" size 16384 crc 1babcad6 md5 c7458dd13f17677af54681407a6cf858 )
+)
+game (
+	name "Soccer"
+	description "Soccer"
+	rom ( name "C:\carts\Soccer.rom" size 8192 crc 784c7060 md5 c02f2e9ae9723c1141ca8a00860f9d9b )
+)
+game (
+	name "Space Invaders"
+	description "Space Invaders"
+	rom ( name "C:\carts\Space Invaders.rom" size 8192 crc 6c811a10 md5 c1867642591437cac5c0257536a4a204 )
+)
+game (
+	name "Space Journey"
+	description "Space Journey"
+	rom ( name "C:\carts\Space Journey.rom" size 16384 crc 161657f0 md5 c0aff1ebb4ad97d98467a2cf0ee8ae5e )
+)
+game (
+	name "Space Shuttle - A Journey into Space"
+	description "Space Shuttle - A Journey into Space"
+	rom ( name "C:\carts\Space Shuttle - A Journey into Space.rom" size 16384 crc 66832f68 md5 359fa54650d0af2ec8b72e879f94b076 )
+)
+game (
+	name "Spark Bugs"
+	description "Spark Bugs"
+	rom ( name "C:\carts\Spark Bugs.rom" size 8192 crc f56eced2 md5 850fdc358adda5dd8b7a8b9b178e6655 )
+)
+game (
+	name "Speedway Blast"
+	description "Speedway Blast"
+	rom ( name "C:\carts\Speedway Blast.rom" size 8192 crc f895cc47 md5 c3deedcf6ec9b782cd0593afb3586740 )
+)
+game (
+	name "Spider City"
+	description "Spider City"
+	rom ( name "C:\carts\Spider City.rom" size 8192 crc 8f8c3841 md5 49d4b281bfeb9c5d68ab3e818eb61aef )
+)
+game (
+	name "Springer"
+	description "Springer"
+	rom ( name "C:\carts\Springer.rom" size 16384 crc 81466b55 md5 d6a20ac58c36af3ab54e751fd6fc83ee )
+)
+game (
+	name "Spy Hunter"
+	description "Spy Hunter"
+	rom ( name "C:\carts\Spy Hunter.rom" size 16384 crc 34df8ffc md5 d34bf2322e4188168f4059f86848656d )
+)
+game (
+	name "Squish'em!"
+	description "Squish'em!"
+	rom ( name "C:\carts\Squish'em!.rom" size 8192 crc aac0f7d6 md5 3ec52e9f3f6a08e5cfbf4d2c6c9f6708 )
+)
+game (
+	name "Star Maze"
+	description "Star Maze"
+	rom ( name "C:\carts\Star Maze.rom" size 16384 crc 6fd9daff md5 c56bcf5580cc3074454fab62c1f1f34b )
+)
+game (
+	name "Star Raiders II"
+	description "Star Raiders II"
+	rom ( name "C:\carts\Star Raiders II.rom" size 32768 crc 737d4196 md5 0986d1c14c159c4b9e18786c1db326da )
+)
+game (
+	name "Star Raiders"
+	description "Star Raiders"
+	rom ( name "C:\carts\Star Raiders.rom" size 8192 crc 5ec023ba md5 50d3d48571d77c8f252e0c7016edba99 )
+)
+game (
+	name "Star Trek"
+	description "Star Trek"
+	rom ( name "C:\carts\Star Trek.rom" size 16384 crc 9df169d9 md5 b85a058cd82eb37207e5cea67ad64398 )
+)
+game (
+	name "Star Wars - Return of the Jedi - Death Star Battle"
+	description "Star Wars - Return of the Jedi - Death Star Battle"
+	rom ( name "C:\carts\Star Wars - Return of the Jedi - Death Star Battle.rom" size 16384 crc d9f5cac7 md5 1cdaca166689767c6319d77c4b15d138 )
+)
+game (
+	name "Star Wars - The Arcade Game"
+	description "Star Wars - The Arcade Game"
+	rom ( name "C:\carts\Star Wars - The Arcade Game.rom" size 16384 crc aea795f7 md5 3e1c734fe909b61e7eb5a1727a28aeb9 )
+)
+game (
+	name "Stargate"
+	description "Stargate"
+	rom ( name "C:\carts\Stargate.rom" size 16384 crc f527b721 md5 9cdaa32ca34cf965a9777784d51c3f85 )
+)
+game (
+	name "Starion"
+	description "Starion"
+	rom ( name "C:\carts\Starion.rom" size 16384 crc 23faf9b3 md5 f852735c621e0b36f869bc3eee476d75 )
+)
+game (
+	name "Story Machine"
+	description "Story Machine"
+	rom ( name "C:\carts\Story Machine.rom" size 16384 crc b3e7fe47 md5 c558c8e3c5bf949f7fcfdc02f1e67bff )
+)
+game (
+	name "Submarine Commander"
+	description "Submarine Commander"
+	rom ( name "C:\carts\Submarine Commander.rom" size 16384 crc 77198b2b md5 f9fa9a0acbc85b465af1378cae986c89 )
+)
+game (
+	name "Summer Games"
+	description "Summer Games"
+	rom ( name "C:\carts\Summer Games.rom" size 131088 crc eef33269 md5 630ed43aed256a08b995f72a52f2b6c8 )
+)
+game (
+	name "Super Breakout"
+	description "Super Breakout"
+	rom ( name "C:\carts\Super Breakout.rom" size 8192 crc c9066f06 md5 6bf2a42a248d917f1dcd81679faecd92 )
+)
+game (
+	name "Super Cobra"
+	description "Super Cobra"
+	rom ( name "C:\carts\Super Cobra.rom" size 8192 crc 2af38d2f md5 f95ecf71e955cb9f57f2feb7f0338760 )
+)
+game (
+	name "Super Pac-Man"
+	description "Super Pac-Man"
+	rom ( name "C:\carts\Super Pac-Man.rom" size 16384 crc b985be78 md5 601065177ae5fa52e76867a9310e2221 )
+)
+game (
+	name "Super Zaxxon"
+	description "Super Zaxxon"
+	rom ( name "C:\carts\Super Zaxxon.rom" size 16384 crc 9e64e13b md5 4296f36bf5ce8a4865e6855f5bccb523 )
+)
+game (
+	name "Superman III"
+	description "Superman III"
+	rom ( name "C:\carts\Superman III.rom" size 16384 crc 639846d6 md5 8925c2aacf4d28c11e130e1b74003154 )
+)
+game (
+	name "Survival of the Fittest"
+	description "Survival of the Fittest"
+	rom ( name "C:\carts\Survival of the Fittest.rom" size 8192 crc 7f48fbc5 md5 7dfab820ff27b972aa148893f3c19953 )
+)
+game (
+	name "Timebound"
+	description "Timebound"
+	rom ( name "C:\carts\Timebound.rom" size 16384 crc d3e98044 md5 f4b3fcfc5e66ce3837ccf5c13502f158 )
+)
+game (
+	name "Topper"
+	description "Topper"
+	rom ( name "C:\carts\Topper.rom" size 16384 crc 286eea6 md5 c51c786e967589084be9ad9ee5e96c0b )
+)
+game (
+	name "Track and Field"
+	description "Track and Field"
+	rom ( name "C:\carts\Track and Field.rom" size 16384 crc 9e2484c8 md5 ee7027357e66544a16d763e073f4dc05 )
+)
+game (
+	name "Turmoil"
+	description "Turmoil"
+	rom ( name "C:\carts\Turmoil.rom" size 8192 crc fe48aadf md5 c44d143df9730e19421c4b72b5d3c2d7 )
+)
+game (
+	name "Typo Attack"
+	description "Typo Attack"
+	rom ( name "C:\carts\Typo Attack.rom" size 8192 crc ed6f714c md5 0479afad499502be8e2e05aa20b48e0a )
+)
+game (
+	name "Typo"
+	description "Typo"
+	rom ( name "C:\carts\Typo.rom" size 8192 crc fe47d621 md5 eb4168e0b339f5f1e5545709dc6c457a )
+)
+game (
+	name "Up for Grabs"
+	description "Up for Grabs"
+	rom ( name "C:\carts\Up for Grabs.rom" size 8192 crc fc62c1ce md5 23b3cf6ee6a9bb7ec38358116fd6bcd4 )
+)
+game (
+	name "Up 'n Down"
+	description "Up 'n Down"
+	rom ( name "C:\carts\Up 'n Down.rom" size 16384 crc 53ea3bf6 md5 f4b6916f44cf701333a59961358bba16 )
+)
+game (
+	name "Vegas Poker"
+	description "Vegas Poker"
+	rom ( name "C:\carts\Vegas Poker.rom" size 16384 crc dc492963 md5 1a23eeeb2a4a3bee44da9eba5df942a4 )
+)
+game (
+	name "Video Easel"
+	description "Video Easel"
+	rom ( name "C:\carts\Video Easel.rom" size 8192 crc fb45dae5 md5 ff05aa461c443fbe976edefe121d86af )
+)
+game (
+	name "Webster - The Word Game"
+	description "Webster - The Word Game"
+	rom ( name "C:\carts\Webster - The Word Game.rom" size 8192 crc 6fffb4a9 md5 5b6250c6d2838c0bec0bef068d35acee )
+)
+game (
+	name "Weltraumkolonie"
+	description "Weltraumkolonie"
+	rom ( name "C:\carts\Weltraumkolonie.rom" size 16384 crc 12b9d599 md5 f9d35731982c8b7d19ad8af671589ea7 )
+)
+game (
+	name "Whiz Kid"
+	description "Whiz Kid"
+	rom ( name "C:\carts\Whiz Kid.rom" size 8192 crc 4b0634d5 md5 a0d729bf94d53a6239408624dfd2821c )
+)
+game (
+	name "Wizard of Wor"
+	description "Wizard of Wor"
+	rom ( name "C:\carts\Wizard of Wor.rom" size 16384 crc 8017e56a md5 7baf1578ec5ce29eb7c66a5c63989ff3 )
+)
+game (
+	name "Worm War I"
+	description "Worm War I"
+	rom ( name "C:\carts\Worm War I.rom" size 8192 crc 8324ea4e md5 380d792047d50e91bf065fb20e2511cd )
+)
+game (
+	name "Zaxxon"
+	description "Zaxxon"
+	rom ( name "C:\carts\Zaxxon.rom" size 16384 crc 21579706 md5 a36e00c48f13c09f7ea02eaa78b5188a )
+)
+game (
+	name "Zenji"
+	description "Zenji"
+	rom ( name "C:\carts\Zenji.rom" size 8192 crc ebc6ec2e md5 bac63eecc2cdcbdcb110f1026c32c322 )
+)
+game (
+	name "Zone Ranger"
+	description "Zone Ranger"
+	rom ( name "C:\carts\Zone Ranger.rom" size 16384 crc 8f1e72e7 md5 8882ed60acb89b5abed04dd6dd6ede92 )
+)

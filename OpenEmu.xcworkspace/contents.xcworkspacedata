@@ -73,4 +73,7 @@
    <FileRef
       location = "group:Mednafen Virtual Boy/Mednafen Virtual Boy.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Atari800/Atari800.xcodeproj">
+   </FileRef>
 </Workspace>
