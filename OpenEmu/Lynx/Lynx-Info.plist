@@ -124,8 +124,8 @@
 		<string>OELynxButtonRight[@]</string>
 		<string>OELynxButtonA[@]</string>
 		<string>OELynxButtonB[@]</string>
-		<string>OELynxButtonStart[@]</string>
-		<string>OELynxButtonSound[@]</string>
+		<string>OELynxButtonOption1[@]</string>
+		<string>OELynxButtonOption2[@]</string>
 	</array>
 	<key>OESystemIcon</key>
 	<string>lynx_library</string>

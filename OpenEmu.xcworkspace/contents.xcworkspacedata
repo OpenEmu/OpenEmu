@@ -50,7 +50,7 @@
       location = "group:GensGS/GensGS.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../loicloic/OpenEmu/Yabause/Yabause.xcodeproj">
+      location = "group:../loicloic/Yabause/Yabause.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:MAME/MAME.xcodeproj">
