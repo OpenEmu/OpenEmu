@@ -15,13 +15,13 @@ static retro_input_state_t input_state_cb;
 
 static MDFN_Surface *surf;
 
-static uint16_t conv_buf[680 * 480] __attribute__((aligned(16)));
-static uint32_t mednafen_buf[680 * 480] __attribute__((aligned(16)));
+static uint16_t conv_buf[160 * 102] __attribute__((aligned(16)));
+static uint32_t mednafen_buf[160 * 102] __attribute__((aligned(16)));
 
 void retro_init()
 {
     MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 24);
-    surf = new MDFN_Surface(mednafen_buf, 680, 512, 680, pix_fmt);
+    surf = new MDFN_Surface(mednafen_buf, 160, 102, 160, pix_fmt);
     
     std::vector<MDFNGI*> ext;
     MDFNI_InitializeModules(ext);
@@ -76,7 +76,7 @@ void retro_unload_game()
 static inline void convert_surface()
 {
     const uint32_t *pix = surf->pixels;
-    for (unsigned i = 0; i < 680 * 480; i += 8)
+    for (unsigned i = 0; i < 160 * 102; i += 8)
     {
         __m128i pix0 = _mm_load_si128((const __m128i*)(pix + i + 0));
         __m128i pix1 = _mm_load_si128((const __m128i*)(pix + i + 4));
@@ -139,7 +139,7 @@ void retro_run()
     update_input();
     
     static int16_t sound_buf[0x10000];
-    static MDFN_Rect rects[480];
+    static MDFN_Rect rects[160];
     
     EmulateSpecStruct spec = {0}; 
     spec.surface = surf;
@@ -150,15 +150,16 @@ void retro_run()
     spec.SoundVolume = 1.0;
     spec.soundmultiplier = 1.0;
     
+    rects[0].w = ~0;
     MDFNI_Emulate(&spec);
     
     //unsigned width = rects[0].w;
     //unsigned height = spec.DisplayRect.h;
-    unsigned width = 320;
-    unsigned height = 240;
+    unsigned width = 160;
+    unsigned height = 102;
     
     convert_surface();
-    video_cb(conv_buf, width, height, 680 << 1);
+    video_cb(conv_buf, width, height, width << 1);
     
     audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 }
@@ -180,8 +181,8 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
     info->timing.sample_rate    = 44100;
     info->geometry.base_width   = game->nominal_width;
     info->geometry.base_height  = game->nominal_height;
-    info->geometry.max_width    = 680;
-    info->geometry.max_height   = 480;
+    info->geometry.max_width    = 160;
+    info->geometry.max_height   = 102;
     info->geometry.aspect_ratio = 4.0 / 3.0;
 }
 

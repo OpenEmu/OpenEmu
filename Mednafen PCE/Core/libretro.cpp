@@ -155,6 +155,7 @@ void retro_run()
     spec.SoundVolume = 1.0;
     spec.soundmultiplier = 1.0;
     
+    //rects[0].w = ~0;
     MDFNI_Emulate(&spec);
     
     //unsigned width = rects[0].w;

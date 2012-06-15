@@ -77,8 +77,8 @@ static void video_callback(const void *data, unsigned width, unsigned height, si
     // TODO opencl CPU device?
     dispatch_apply(height, the_queue, ^(size_t y){
         const uint16_t *src = (uint16_t*)data + y * (pitch >> 1); //pitch is in bytes not pixels
-        //uint16_t *dst = current->videoBuffer + y * current->videoWidth;
-        uint16_t *dst = current->videoBuffer + y * 680;
+        uint16_t *dst = current->videoBuffer + y * current->videoWidth;
+        //uint16_t *dst = current->videoBuffer + y * 680;
         
         for (int x = 0; x < current->videoWidth; x++) {
             dst[x] = src[x];
@@ -280,7 +280,7 @@ static void writeSaveFile(const char* path, int type)
     {
         if(videoBuffer) 
             free(videoBuffer);
-        videoBuffer = (uint16_t*)malloc(680 * 480 * 4);
+        videoBuffer = (uint16_t*)malloc(384 * 224 * 4);
     }
 	
 	current = self;
@@ -377,7 +377,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(680, 480);
+    return OESizeMake(384, 224);
     //return OESizeMake(current->videoWidth, current->videoHeight);
 }
 /*
