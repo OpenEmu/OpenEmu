@@ -1,28 +1,28 @@
 /*
  Copyright (c) 2009, OpenEmu Team
  
-
+ 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
-
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
+ 
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #define SAMPLERATE 48000
@@ -38,6 +38,8 @@
 #include "adaptivesleep.h"
 #include "resamplerinfo.h"
 #include <sys/time.h>
+
+NSTimeInterval framerate = 2097152./35112.;
 
 @interface GBGameCore () <OEGBSystemResponderClient>
 {
@@ -112,7 +114,7 @@ void usecsleep(const usec_t usecs) {
     static int samples = 0;
     [bufLock lock];
     [soundLock lock];
-        
+    
     samples += gambatte.runFor(reinterpret_cast<Gambatte::uint_least32_t*>(static_cast<UInt16*>(&sndBuf[0])) + samples, 35112 - samples);
     samples -= 35112;
     int size = resampler->resample((short int*)tmpBuf, (short int*)sndBuf, 35112);
@@ -194,6 +196,19 @@ void usecsleep(const usec_t usecs) {
     return GL_RGB8;
 }
 
+- (oneway void)didPushTurboButton;
+{
+    framerate = 2097152./35112. * 5;
+    NSLog(@"%f", framerate);
+    [self performSelector:@selector(frameRefreshThread:) withObject:nil afterDelay:0.0];
+}
+
+- (oneway void)didReleaseTurboButton;
+{
+    framerate = 2097152./35112.;
+    [self performSelector:@selector(frameRefreshThread:) withObject:nil afterDelay:0.0];
+}
+
 - (oneway void)didPushGBButton:(OEGBButton)button;
 {
     [self GB_setInputForButton:(OEGBButton)button isPressed:YES];
@@ -240,7 +255,8 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
 
 - (NSTimeInterval)frameInterval
 {
-    return 2097152./35112.; // 59.7
+    return framerate;
+    //return 2097152./35112.; // 59.7
 }
 
 - (void) dealloc

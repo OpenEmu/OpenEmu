@@ -98,6 +98,12 @@
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGBButtonB</string>
 				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Turbo</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBButtonTurbo</string>
+				</dict>
 			</array>
 		</array>
 	</array>
@@ -113,6 +119,7 @@
 		<string>OEGBButtonB</string>
 		<string>OEGBButtonStart</string>
 		<string>OEGBButtonSelect</string>
+		<string>OEGBButtonTurbo</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
