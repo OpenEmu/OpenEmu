@@ -143,6 +143,16 @@ extern "C" {
                                            // particularily demanding.
                                            // If called, it should be called in retro_load_game().
 
+#define RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY 9
+                                           // const char ** --
+                                           // Returns the "system" directory of the frontend.
+                                           // This directory can be used to store system specific ROMs such as BIOSes, configuration data, etc.
+                                           // The returned value can be NULL.
+                                           // If so, no such directory is defined,
+                                           // and it's up to the implementation to find a suitable directory.
+
+#define RETRO_ENVIRONMENT_GET_SAVES_DIRECTORY 10
+    
 struct retro_message
 {
    const char *msg;        // Message to be displayed.

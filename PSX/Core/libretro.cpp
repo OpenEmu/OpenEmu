@@ -17,20 +17,51 @@ static MDFN_Surface *surf;
 
 static uint16_t conv_buf[680 * 480] __attribute__((aligned(16)));
 static uint32_t mednafen_buf[680 * 480] __attribute__((aligned(16)));
+static bool failed_init;
 
 void retro_init()
 {
    MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 24);
-   surf = new MDFN_Surface(mednafen_buf, 680, 512, 680, pix_fmt);
+   surf = new MDFN_Surface(mednafen_buf, 680, 480, 680, pix_fmt);
 
    std::vector<MDFNGI*> ext;
    MDFNI_InitializeModules(ext);
 
-   std::vector<MDFNSetting> settings;
-   std::string home = getenv("HOME");
-   home += "/Library/Application Support/OpenEmu/BIOS";
-
-   MDFNI_Initialize(home.c_str(), settings);
+    
+    const char *dir = NULL;
+    const char *saves = NULL;
+    
+    std::vector<MDFNSetting> settings;
+    
+    environ_cb(RETRO_ENVIRONMENT_GET_SAVES_DIRECTORY, &saves);
+    if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)
+    {
+        std::string eu_path = dir;
+        eu_path += "/scph5502.bin";
+        
+        std::string jp_path = dir;
+        jp_path += "/scph5500.bin";
+        
+        std::string na_path = dir;
+        na_path += "/SCPH7003.BIN"; //scph5501.bin
+        
+        std::string save_path = saves;
+        
+        MDFNSetting jp_setting = { "psx.bios_jp", MDFNSF_EMU_STATE, "SCPH-5500 BIOS", NULL, MDFNST_STRING, jp_path.c_str() };
+        MDFNSetting eu_setting = { "psx.bios_eu", MDFNSF_EMU_STATE, "SCPH-5502 BIOS", NULL, MDFNST_STRING, eu_path.c_str() };
+        MDFNSetting na_setting = { "psx.bios_na", MDFNSF_EMU_STATE, "SCPH-5501 BIOS", NULL, MDFNST_STRING, na_path.c_str() };
+        MDFNSetting filesys = { "filesys.path_sav", MDFNSF_NOFLAGS, "Memcards", NULL, MDFNST_STRING, save_path.c_str() };
+        settings.push_back(jp_setting);
+        settings.push_back(eu_setting);
+        settings.push_back(na_setting);
+        settings.push_back(filesys);
+        MDFNI_Initialize(dir, settings);
+    }
+    else
+    {
+        fprintf(stderr, "System directory is not defined. Cannot continue ...\n");
+        failed_init = true;
+    }
 
    // Hints that we need a fairly powerful system to run this.
    unsigned level = 3;
@@ -55,6 +86,8 @@ bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
 
 bool retro_load_game(const struct retro_game_info *info)
 {
+    if (failed_init)
+        return false;
    game = MDFNI_LoadGame("psx", info->path);
    return game;
 }
