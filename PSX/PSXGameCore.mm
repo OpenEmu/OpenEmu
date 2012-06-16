@@ -98,9 +98,9 @@ static int16_t input_state_callback(unsigned port, unsigned device, unsigned ind
     if (port == 0 & device == RETRO_DEVICE_JOYPAD) {
         return current->pad[0][id];
     }
-    //else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
-    //    return current->pad[1][id];
-    //}
+    else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
+    //return current->pad[1][id];
+    }
     
     return 0;
 }
@@ -200,6 +200,26 @@ static bool environment_callback(unsigned cmd, void *data)
             //g_extern.system.shutdown = true;
             break;
             
+        case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
+        {
+            NSString *appSupportPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+                                          stringByAppendingPathComponent:@"Application Support"]
+                                         stringByAppendingPathComponent:@"OpenEmu"]
+                                        stringByAppendingPathComponent:@"BIOS"];
+            
+            *(const char **)data = [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] ? [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] : NULL;
+            NSLog(@"Environ SYSTEM_DIRECTORY: \"%@\".\n", appSupportPath);
+            break;
+        }
+            
+        case RETRO_ENVIRONMENT_GET_SAVES_DIRECTORY:
+        {
+            NSString *batterySavesDirectory = current.batterySavesDirectoryPath;
+            
+            *(const char **)data = [batterySavesDirectory cStringUsingEncoding:NSUTF8StringEncoding];
+            NSLog(@"Environ SAVES_DIRECTORY: \"%@\".\n", batterySavesDirectory);
+            break;
+        }
         default:
             NSLog(@"Environ UNSUPPORTED (#%u).\n", cmd);
             return false;
