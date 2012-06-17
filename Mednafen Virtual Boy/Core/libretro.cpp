@@ -37,7 +37,9 @@ void retro_init()
     {
         std::string save_path = saves;
         
+        MDFNSetting vb_parallax = { "vb.disable_parallax", MDFNSF_EMU_STATE, "Disable parallax for BG and OBJ rendering", NULL, MDFNST_BOOL, "1", NULL, NULL, NULL };
         MDFNSetting filesys = { "filesys.path_sav", MDFNSF_NOFLAGS, "Memcards", NULL, MDFNST_STRING, save_path.c_str() };
+        settings.push_back(vb_parallax);
         settings.push_back(filesys);
         MDFNI_Initialize(dir, settings);
     }
