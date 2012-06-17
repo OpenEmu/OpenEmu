@@ -223,7 +223,7 @@ static bool environment_callback(unsigned cmd, void *data)
         default:
             NSLog(@"Environ UNSUPPORTED (#%u).\n", cmd);
             return false;
-    }
+        }
     
     return true;
 }
@@ -473,7 +473,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (NSTimeInterval)frameInterval
 {
-    return frameInterval ? frameInterval : 59.97;
+    return frameInterval ? frameInterval : 59.94;
 }
 
 - (NSUInteger)channelCount

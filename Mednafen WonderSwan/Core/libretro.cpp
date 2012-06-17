@@ -17,6 +17,7 @@ static MDFN_Surface *surf;
 
 static uint16_t conv_buf[224 * 144] __attribute__((aligned(16)));
 static uint32_t mednafen_buf[224 * 144] __attribute__((aligned(16)));
+static bool failed_init;
 
 void retro_init()
 {
@@ -26,10 +27,25 @@ void retro_init()
     std::vector<MDFNGI*> ext;
     MDFNI_InitializeModules(ext);
     
+    const char *dir = NULL;
+    const char *saves = NULL;
+    
     std::vector<MDFNSetting> settings;
-    std::string home = getenv("HOME");
-    home += "/.mednafen";
-    MDFNI_Initialize(home.c_str(), settings);
+    
+    environ_cb(RETRO_ENVIRONMENT_GET_SAVES_DIRECTORY, &saves);
+    if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)
+    {
+        std::string save_path = saves;
+        
+        MDFNSetting filesys = { "filesys.path_sav", MDFNSF_NOFLAGS, "Memcards", NULL, MDFNST_STRING, save_path.c_str() };
+        settings.push_back(filesys);
+        MDFNI_Initialize(dir, settings);
+    }
+    else
+    {
+        fprintf(stderr, "System directory is not defined. Cannot continue ...\n");
+        failed_init = true;
+    }
     
     // Hints that we need a fairly powerful system to run this.
     unsigned level = 3;
@@ -54,6 +70,8 @@ bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
 
 bool retro_load_game(const struct retro_game_info *info)
 {
+    if (failed_init)
+        return false;
     game = MDFNI_LoadGame("wswan", info->path);
     return game;
 }
@@ -125,7 +143,7 @@ static void update_input()
     
     for (unsigned j = 0; j < 2; j++)
     {
-        for (unsigned i = 0; i < 10; i++)
+        for (unsigned i = 0; i < 11; i++)
             input_buf[j] |= map[i] != -1u &&
             input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
     }
@@ -180,7 +198,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 {
     memset(info, 0, sizeof(*info));
     // Just assume NTSC for now. TODO: Verify FPS.
-    info->timing.fps            = 60;
+    info->timing.fps            = 75.47;
     info->timing.sample_rate    = 44100;
     info->geometry.base_width   = game->nominal_width;
     info->geometry.base_height  = game->nominal_height;

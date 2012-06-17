@@ -199,6 +199,27 @@ static bool environment_callback(unsigned cmd, void *data)
         case RETRO_ENVIRONMENT_SHUTDOWN:
             //g_extern.system.shutdown = true;
             break;
+        
+        case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
+        {
+            NSString *appSupportPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+                                          stringByAppendingPathComponent:@"Application Support"]
+                                         stringByAppendingPathComponent:@"OpenEmu"]
+                                        stringByAppendingPathComponent:@"BIOS"];
+            
+            *(const char **)data = [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] ? [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] : NULL;
+            NSLog(@"Environ SYSTEM_DIRECTORY: \"%@\".\n", appSupportPath);
+            break;
+        }
+            
+        case RETRO_ENVIRONMENT_GET_SAVES_DIRECTORY:
+        {
+            NSString *batterySavesDirectory = current.batterySavesDirectoryPath;
+            
+            *(const char **)data = [batterySavesDirectory cStringUsingEncoding:NSUTF8StringEncoding];
+            NSLog(@"Environ SAVES_DIRECTORY: \"%@\".\n", batterySavesDirectory);
+            break;
+        }
             
         default:
             NSLog(@"Environ UNSUPPORTED (#%u).\n", cmd);
@@ -453,7 +474,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (NSTimeInterval)frameInterval
 {
-    return frameInterval ? frameInterval : 59.97;
+    return frameInterval ? frameInterval : 59.94;
 }
 
 - (NSUInteger)channelCount

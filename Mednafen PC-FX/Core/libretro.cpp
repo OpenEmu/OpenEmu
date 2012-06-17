@@ -17,6 +17,7 @@ static MDFN_Surface *surf;
 
 static uint16_t conv_buf[680 * 480] __attribute__((aligned(16)));
 static uint32_t mednafen_buf[680 * 480] __attribute__((aligned(16)));
+static bool failed_init;
 
 void retro_init()
 {
@@ -26,10 +27,30 @@ void retro_init()
     std::vector<MDFNGI*> ext;
     MDFNI_InitializeModules(ext);
     
+    const char *dir = NULL;
+    const char *saves = NULL;
+    
     std::vector<MDFNSetting> settings;
-    std::string home = getenv("HOME");
-    home += "/Library/Application Support/OpenEmu/BIOS";
-    MDFNI_Initialize(home.c_str(), settings);
+    
+    environ_cb(RETRO_ENVIRONMENT_GET_SAVES_DIRECTORY, &saves);
+    if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)
+    {
+        std::string pcfx_path = dir;
+        pcfx_path += "/pcfx.rom";
+        
+        std::string save_path = saves;
+        
+        MDFNSetting pcfx_setting = { "pcfx.bios", MDFNSF_EMU_STATE, "PCFX BIOS", NULL, MDFNST_STRING, pcfx_path.c_str() };
+        MDFNSetting filesys = { "filesys.path_sav", MDFNSF_NOFLAGS, "Memcards", NULL, MDFNST_STRING, save_path.c_str() };
+        settings.push_back(pcfx_setting);
+        settings.push_back(filesys);
+        MDFNI_Initialize(dir, settings);
+    }
+    else
+    {
+        fprintf(stderr, "System directory is not defined. Cannot continue ...\n");
+        failed_init = true;
+    }
     
     // Hints that we need a fairly powerful system to run this.
     unsigned level = 3;
@@ -54,6 +75,8 @@ bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
 
 bool retro_load_game(const struct retro_game_info *info)
 {
+    if (failed_init)
+        return false;
     game = MDFNI_LoadGame("pcfx", info->path);
     return game;
 }
@@ -180,7 +203,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 {
     memset(info, 0, sizeof(*info));
     // Just assume NTSC for now. TODO: Verify FPS.
-    info->timing.fps            = 60;
+    info->timing.fps            = 59.94;
     info->timing.sample_rate    = 44100;
     info->geometry.base_width   = game->nominal_width;
     info->geometry.base_height  = game->nominal_height;

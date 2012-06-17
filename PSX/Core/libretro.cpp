@@ -216,7 +216,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 {
    memset(info, 0, sizeof(*info));
    // Just assume NTSC for now. TODO: Verify FPS.
-   info->timing.fps            = 59.97;
+   info->timing.fps            = 59.94;
    info->timing.sample_rate    = 44100;
    info->geometry.base_width   = game->nominal_width;
    info->geometry.base_height  = game->nominal_height;
