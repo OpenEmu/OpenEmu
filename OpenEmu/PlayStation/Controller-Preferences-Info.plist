@@ -28,6 +28,8 @@
 		<string>{150, 250}</string>
 		<key>OEPSXButtonL2[@]</key>
 		<string>{150, 220}</string>
+		<key>OEPSXButtonL3[@]</key>
+		<string>{150, 220}</string>
 		<key>OEPSXButtonCross[@]</key>
 		<string>{50, 70}</string>
 		<key>OEPSXButtonSquare[@]</key>
@@ -35,6 +37,8 @@
 		<key>OEPSXButtonR1[@]</key>
 		<string>{150, 130}</string>
 		<key>OEPSXButtonR2[@]</key>
+		<string>{150, 100}</string>
+		<key>OEPSXButtonR3[@]</key>
 		<string>{150, 100}</string>
 	</dict>
 </dict>

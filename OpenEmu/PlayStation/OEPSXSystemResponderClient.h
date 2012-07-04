@@ -40,8 +40,10 @@ typedef enum _OEPSXButton
     OEPSXButtonSquare,
 	OEPSXButtonL1,
     OEPSXButtonL2,
+    OEPSXButtonL3,
     OEPSXButtonR1,
     OEPSXButtonR2,
+    OEPSXButtonR3,
     OEPSXButtonStart,
 	OEPSXButtonSelect,
 	OEPSXButtonCount

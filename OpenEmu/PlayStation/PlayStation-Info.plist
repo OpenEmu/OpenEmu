@@ -124,6 +124,18 @@
 			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
+					<string>L3</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEPSXButtonL3[@]</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>R3</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEPSXButtonR3[@]</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEPSXButtonStart[@]</string>
@@ -151,8 +163,10 @@
 		<string>OEPSXButtonSquare[@]</string>
 		<string>OEPSXButtonL1[@]</string>
 		<string>OEPSXButtonL2[@]</string>
+		<string>OEPSXButtonL3[@]</string>
 		<string>OEPSXButtonR1[@]</string>
 		<string>OEPSXButtonR2[@]</string>
+		<string>OEPSXButtonR3[@]</string>
 		<string>OEPSXButtonStart[@]</string>
 		<string>OEPSXButtonSelect[@]</string>
 	</array>

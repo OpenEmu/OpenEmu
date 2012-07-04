@@ -53,8 +53,10 @@
 							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEPSXButtonSquare[1]"     ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEPSXButtonL1[1]"     ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OEPSXButtonL2[1]"     ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEPSXButtonL3[1]"     ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardReturnOrEnter]       , @"OEPSXButtonR1[1]",
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardTab]    , @"OEPSXButtonR2[1]",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardR]    , @"OEPSXButtonR3[1]",
 							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardGraveAccentAndTilde]    , @"OEPSXButtonStart[1]",
 							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDeleteOrBackspace]    , @"OEPSXButtonSelect[1]",
                               nil];

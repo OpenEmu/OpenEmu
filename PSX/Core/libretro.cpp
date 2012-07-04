@@ -141,37 +141,82 @@ static inline void convert_surface()
 // See mednafen/psx/input/gamepad.cpp
 static void update_input()
 {
-   static uint16_t input_buf[2];
-   input_buf[0] = input_buf[1] = 0;
-   static unsigned map[] = {
-      RETRO_DEVICE_ID_JOYPAD_SELECT,
-      -1u,
-      -1u,
-      RETRO_DEVICE_ID_JOYPAD_START,
-      RETRO_DEVICE_ID_JOYPAD_UP,
-      RETRO_DEVICE_ID_JOYPAD_RIGHT,
-      RETRO_DEVICE_ID_JOYPAD_DOWN,
-      RETRO_DEVICE_ID_JOYPAD_LEFT,
-      RETRO_DEVICE_ID_JOYPAD_L2,
-      RETRO_DEVICE_ID_JOYPAD_R2,
-      RETRO_DEVICE_ID_JOYPAD_L,
-      RETRO_DEVICE_ID_JOYPAD_R,
-      RETRO_DEVICE_ID_JOYPAD_X,
-      RETRO_DEVICE_ID_JOYPAD_A,
-      RETRO_DEVICE_ID_JOYPAD_B,
-      RETRO_DEVICE_ID_JOYPAD_Y,
-   };
-
-   for (unsigned j = 0; j < 2; j++)
-   {
-      for (unsigned i = 0; i < 16; i++)
-         input_buf[j] |= map[i] != -1u &&
-            input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
-   }
-
-   // Possible endian bug ...
-   game->SetInput(0, "gamepad", &input_buf[0]);
-   game->SetInput(1, "gamepad", &input_buf[1]);
+    union
+    {
+        uint32_t u32[2][1 + 8];
+        uint8_t u8[2][2 * sizeof(uint16_t) + 8 * sizeof(uint32_t)];
+    } static buf;
+    
+    uint16_t input_buf[2] = {0};
+    static unsigned map[] = {
+        RETRO_DEVICE_ID_JOYPAD_SELECT,
+        RETRO_DEVICE_ID_JOYPAD_L3,
+        RETRO_DEVICE_ID_JOYPAD_R3,
+        RETRO_DEVICE_ID_JOYPAD_START,
+        RETRO_DEVICE_ID_JOYPAD_UP,
+        RETRO_DEVICE_ID_JOYPAD_RIGHT,
+        RETRO_DEVICE_ID_JOYPAD_DOWN,
+        RETRO_DEVICE_ID_JOYPAD_LEFT,
+        RETRO_DEVICE_ID_JOYPAD_L2,
+        RETRO_DEVICE_ID_JOYPAD_R2,
+        RETRO_DEVICE_ID_JOYPAD_L,
+        RETRO_DEVICE_ID_JOYPAD_R,
+        RETRO_DEVICE_ID_JOYPAD_X,
+        RETRO_DEVICE_ID_JOYPAD_A,
+        RETRO_DEVICE_ID_JOYPAD_B,
+        RETRO_DEVICE_ID_JOYPAD_Y,
+    };
+    
+    for (unsigned j = 0; j < 2; j++)
+    {
+        for (unsigned i = 0; i < 16; i++)
+            input_buf[j] |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+    }
+    
+    // Buttons.
+    buf.u8[0][0] = (input_buf[0] >> 0) & 0xff; 
+    buf.u8[0][1] = (input_buf[0] >> 8) & 0xff; 
+    buf.u8[1][0] = (input_buf[1] >> 0) & 0xff; 
+    buf.u8[1][1] = (input_buf[1] >> 8) & 0xff; 
+    
+    // Analogs
+    for (unsigned j = 0; j < 2; j++)
+    {
+        int analog_left_x = input_state_cb(j, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, 
+                                           RETRO_DEVICE_ID_ANALOG_X);
+        
+        int analog_left_y = input_state_cb(j, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, 
+                                           RETRO_DEVICE_ID_ANALOG_Y);
+        
+        int analog_right_x = input_state_cb(j, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, 
+                                            RETRO_DEVICE_ID_ANALOG_X);
+        
+        int analog_right_y = input_state_cb(j, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, 
+                                            RETRO_DEVICE_ID_ANALOG_Y);
+        
+        uint32_t r_right = analog_right_x > 0 ?  analog_right_x : 0;
+        uint32_t r_left  = analog_right_x < 0 ? -analog_right_x : 0;
+        uint32_t r_down  = analog_right_y > 0 ?  analog_right_y : 0;
+        uint32_t r_up    = analog_right_y < 0 ? -analog_right_y : 0;
+        
+        uint32_t l_right = analog_left_x > 0 ?  analog_left_x : 0;
+        uint32_t l_left  = analog_left_x < 0 ? -analog_left_x : 0;
+        uint32_t l_down  = analog_left_y > 0 ?  analog_left_y : 0;
+        uint32_t l_up    = analog_left_y < 0 ? -analog_left_y : 0;
+        
+        buf.u32[j][1] = r_right;
+        buf.u32[j][2] = r_left;
+        buf.u32[j][3] = r_down;
+        buf.u32[j][4] = r_up;
+        
+        buf.u32[j][5] = l_right;
+        buf.u32[j][6] = l_left;
+        buf.u32[j][7] = l_down;
+        buf.u32[j][8] = l_up;
+    }
+    
+    game->SetInput(0, "dualanalog", &buf.u8[0]);
+    game->SetInput(1, "dualanalog", &buf.u8[1]);
 }
 
 void retro_run()
