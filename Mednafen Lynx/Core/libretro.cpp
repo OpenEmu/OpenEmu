@@ -157,7 +157,7 @@ void retro_run()
     update_input();
     
     static int16_t sound_buf[0x10000];
-    static MDFN_Rect rects[160];
+    static MDFN_Rect rects[102];
     
     EmulateSpecStruct spec = {0}; 
     spec.surface = surf;
@@ -195,8 +195,8 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 {
     memset(info, 0, sizeof(*info));
     // Just assume NTSC for now. TODO: Verify FPS.
-    info->timing.fps            = 59.8;
-    info->timing.sample_rate    = 44100;
+    info->timing.fps            = 75; //59.8?
+    info->timing.sample_rate    = 44100; //22050
     info->geometry.base_width   = game->nominal_width;
     info->geometry.base_height  = game->nominal_height;
     info->geometry.max_width    = 160;
