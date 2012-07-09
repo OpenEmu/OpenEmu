@@ -301,7 +301,7 @@ static void writeSaveFile(const char* path, int type)
     {
         if(videoBuffer) 
             free(videoBuffer);
-        videoBuffer = (uint16_t*)malloc(256 * 240 * 4);
+        videoBuffer = (uint16_t*)malloc(256 * 232 * 4);
     }
 	
 	current = self;
@@ -398,7 +398,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(256, 240);
+    return OESizeMake(256, 232);
     //return OESizeMake(current->videoWidth, current->videoHeight);
 }
 /*

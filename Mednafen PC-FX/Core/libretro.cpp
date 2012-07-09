@@ -15,14 +15,14 @@ static retro_input_state_t input_state_cb;
 
 static MDFN_Surface *surf;
 
-static uint16_t conv_buf[1024 * 480] __attribute__((aligned(16)));
-static uint32_t mednafen_buf[1024 * 480] __attribute__((aligned(16)));
+static uint16_t conv_buf[1024 * 512] __attribute__((aligned(16)));
+static uint32_t mednafen_buf[1024 * 512] __attribute__((aligned(16)));
 static bool failed_init;
 
 void retro_init()
 {
     MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 24);
-    surf = new MDFN_Surface(mednafen_buf, 1024, 480, 1024, pix_fmt);
+    surf = new MDFN_Surface(mednafen_buf, 1024, 512, 1024, pix_fmt);
     
     std::vector<MDFNGI*> ext;
     MDFNI_InitializeModules(ext);
@@ -99,7 +99,7 @@ void retro_unload_game()
 static inline void convert_surface()
 {
     const uint32_t *pix = surf->pixels;
-    for (unsigned i = 0; i < 1024 * 480; i += 8)
+    for (unsigned i = 0; i < 1024 * 512; i += 8)
     {
         __m128i pix0 = _mm_load_si128((const __m128i*)(pix + i + 0));
         __m128i pix1 = _mm_load_si128((const __m128i*)(pix + i + 4));
@@ -166,7 +166,7 @@ void retro_run()
     update_input();
     
     static int16_t sound_buf[0x10000];
-    static MDFN_Rect rects[480];
+    static MDFN_Rect rects[512];
     
     EmulateSpecStruct spec = {0}; 
     spec.surface = surf;
@@ -206,7 +206,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
     info->timing.fps            = 59.94;
     info->timing.sample_rate    = 44100;
     info->geometry.base_width   = game->nominal_width; //256
-    info->geometry.base_height  = game->nominal_height; //240
+    info->geometry.base_height  = game->nominal_height; //240 or 232?
     info->geometry.max_width    = 341;
     info->geometry.max_height   = 240;
     info->geometry.aspect_ratio = 4.0 / 3.0;
