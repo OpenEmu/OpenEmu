@@ -3,23 +3,40 @@
  *  Z80 bank access to 68k bus
  *
  *  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003  Charles Mac Donald (original code)
- *  Eke-Eke (2007,2008,2009), additional code & fixes for the GCN/Wii port
+ *  Copyright (C) 2007-2011  Eke-Eke (Genesis Plus GX)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
+ *
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
  *
  ****************************************************************************************/
+
 #include "shared.h"
 
 /*
@@ -32,13 +49,13 @@ unsigned int zbank_unused_r(unsigned int address)
 #ifdef LOGERROR
   error("Z80 bank unused read %06X (%x)\n", address, Z80.pc.d);
 #endif
-  return (address & 1) ? 0x00 : 0xFF;
+  return 0xFF;
 }
 
 void zbank_unused_w(unsigned int address, unsigned int data)
 {
 #ifdef LOGERROR
-  error("Z80 bank unused write %06X = %02X\n", address, data);
+  error("Z80 bank unused write %06X = %02X (%x)\n", address, data, Z80.pc.d);
 #endif
 }
 
@@ -49,7 +66,7 @@ unsigned int zbank_lockup_r(unsigned int address)
 #endif
   if (!config.force_dtack)
   {
-    mcycles_z80 = 0xFFFFFFFF;
+    Z80.cycles = 0xFFFFFFFF;
     zstate = 0;
   }
   return 0xFF;
@@ -62,7 +79,7 @@ void zbank_lockup_w(unsigned int address, unsigned int data)
 #endif
   if (!config.force_dtack)
   {
-    mcycles_z80 = 0xFFFFFFFF;
+    Z80.cycles = 0xFFFFFFFF;
     zstate = 0;
   }
 }
@@ -150,7 +167,7 @@ void zbank_write_ctrl_io(unsigned int address, unsigned int data)
     {
       if (!(address & 1))
       {
-        gen_zbusreq_w(data & 1, mcycles_z80);
+        gen_zbusreq_w(data & 1, Z80.cycles);
         return;
       }
       zbank_unused_w(address, data);
@@ -161,7 +178,7 @@ void zbank_write_ctrl_io(unsigned int address, unsigned int data)
     {
       if (!(address & 1))
       {
-        gen_zreset_w(data & 1, mcycles_z80);
+        gen_zreset_w(data & 1, Z80.cycles);
         return;
       }
       zbank_unused_w(address, data);
@@ -221,24 +238,24 @@ unsigned int zbank_read_vdp(unsigned int address)
       
     case 0x04:    /* CTRL */
     {
-      return (((vdp_ctrl_r(mcycles_z80) >> 8) & 3) | 0xFC);
+      return (((vdp_68k_ctrl_r(Z80.cycles) >> 8) & 3) | 0xFC);
     }
 
     case 0x05:    /* CTRL */
     {
-      return (vdp_ctrl_r(mcycles_z80) & 0xFF);
+      return (vdp_68k_ctrl_r(Z80.cycles) & 0xFF);
     }
       
     case 0x08:    /* HVC */
     case 0x0C:
     {
-      return (vdp_hvc_r(mcycles_z80) >> 8);
+      return (vdp_hvc_r(Z80.cycles) >> 8);
     }
 
     case 0x09:    /* HVC */
     case 0x0D:
     {
-      return (vdp_hvc_r(mcycles_z80) & 0xFF);
+      return (vdp_hvc_r(Z80.cycles) & 0xFF);
     }
 
     case 0x18:    /* Unused */
@@ -277,7 +294,7 @@ void zbank_write_vdp(unsigned int address, unsigned int data)
     {
       if (address & 1)
       {
-        psg_write(mcycles_z80, data);
+        psg_write(Z80.cycles, data);
         return;
       }
       zbank_unused_w(address, data);

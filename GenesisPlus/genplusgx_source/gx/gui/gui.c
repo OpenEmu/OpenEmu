@@ -3,23 +3,39 @@
  *
  *  generic GUI Engine (using GX rendering)
  *
- *  Eke-Eke (2009,2010)
+ *  Copyright Eke-Eke (2009-2010)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
  *
- ***************************************************************************/
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *
+ ****************************************************************************************/
 
 #include "shared.h"
 #include "gui.h"
@@ -35,31 +51,10 @@ u8 SILENT = 0;
 static gui_message message_box;
 static lwp_t msgboxthread;
 
-/* background color */
-static GXColor bg_color;
+/* background color (black) */
+static const GXColor bg_color = {0x00,0x00,0x00,0xff};
 
-/* various background colors */
-static GXColor bg_colors[BG_COLOR_MAX]=
-{
-  {0x00,0x00,0x00,0xff}, /* black */
-  {0xd4,0xd0,0xc8,0xff}, /* cream */
-  {0xbb,0xb0,0x99,0xff}, /* gold */
-  {0xd6,0xcb,0xba,0xff}, /* light gold */
-  {0xcc,0xcc,0xcc,0xff}, /* light grey */
-  {0x66,0x66,0x66,0xff}, /* faded grey */
-  {0x50,0x51,0x5b,0xff}, /* grey blue */
-  {0xb8,0xc7,0xda,0xff}, /* light blue */
-  {0xc0,0xcf,0xe7,0xff}, /* sky blue */
-  {0x98,0xb1,0xd8,0xff}, /* sea blue */
-  {0x7b,0x8c,0xa6,0xff}, /* violet */
-  {0xa9,0xc7,0xc6,0xff}, /* green blue */
-  {0x7d,0xa4,0x9f,0xff}, /* darker green blue */
-  {0x22,0x52,0x74,0xff}, /* dark blue */
-  {0x33,0x33,0x33,0xff}  /* dark grey */
-};
-
-
-/*****************************************************************************/
+/****************************************************************************/
 /*  Generic GUI routines                                                     */
 /*****************************************************************************/
 
@@ -1971,22 +1966,3 @@ void GUI_FadeOut()
     alpha +=3;
   }
 }
-
-/* Return background color */
-GXColor *GUI_GetBgColor(void)
-{
-  return &bg_color;
-}
-
-/* Select background color */
-void GUI_SetBgColor(u8 color)
-{
-  if (color < BG_COLOR_MAX)
-  {
-    bg_color.r = bg_colors[color].r;
-    bg_color.g = bg_colors[color].g;
-    bg_color.b = bg_colors[color].b;
-    bg_color.a = bg_colors[color].a;
-  }
-}
-

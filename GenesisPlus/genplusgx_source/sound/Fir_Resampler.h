@@ -1,6 +1,20 @@
 /* Finite impulse response (FIR) resampler with adjustable FIR size */
 
-/* Game_Music_Emu 0.5.2 */
+/* Game_Music_Emu 0.5.2. http://www.slack.net/~ant/ */
+
+/* Copyright (C) 2004-2006 Shay Green. This module is free software; you
+can redistribute it and/or modify it under the terms of the GNU Lesser
+General Public License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version. This
+module is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this module; if not, write to the Free Software Foundation,
+Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
+
+/* C Conversion by Eke-Eke for use in Genesis Plus GX (2009). */
+
 #ifndef FIR_RESAMPLER_H
 #define FIR_RESAMPLER_H
 
@@ -10,9 +24,6 @@
 #define WRITE_OFFSET  (WIDTH * STEREO) - STEREO
 #define GAIN          1.0
 
-/* OpenEmu change
-typedef signed long int sample_t;
- */
 typedef signed int sample_t;
 
 extern int Fir_Resampler_initialize( int new_size );

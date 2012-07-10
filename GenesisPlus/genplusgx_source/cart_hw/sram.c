@@ -2,21 +2,37 @@
  *  Genesis Plus
  *  Backup RAM support
  *
- *  Copyright (C) 2007, 2008, 2009  Eke-Eke (GCN/Wii port)
+ *  Copyright (C) 2007-2011  Eke-Eke (Genesis Plus GX)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
+ *
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
  *
  ****************************************************************************************/
 
@@ -43,12 +59,12 @@ void sram_init()
 {
   memset (&sram, 0, sizeof (T_SRAM));
 
-  /* store SRAM into cartridge area */
+  /* SRAM data is stored above cartridge ROM area, at $500000-$50FFFF (max. 64K) */
   if (cart.romsize > 0x500000) return;
   sram.sram = cart.rom + 0x500000;
 
   /* initialize SRAM */
-  memset(sram.sram, 0xff, 0x10000);
+  memset(sram.sram, 0xFF, 0x10000);
   sram.crc = crc32(0, sram.sram, 0x10000);
 
   /* retrieve informations from header */
@@ -71,13 +87,14 @@ void sram_init()
   }
   else
   {
-    /* default SRAM region */
-    sram.start = 0x200000;
-    sram.end = 0x20ffff;
-
-    /* enable SRAM only if ROM < 2MB */
-    if (cart.romsize <= sram.start)
+    /* by default, enable SRAM only for ROM <= 2MB */
+    if (cart.romsize <= 0x200000)
+    {
+      /* SRAM mapped to $200000-$20ffff */
+      sram.start = 0x200000;
+      sram.end = 0x20ffff;
       sram.on = 1;
+    }
   }
 
   /* autodetect some games with bad header or specific configuration */

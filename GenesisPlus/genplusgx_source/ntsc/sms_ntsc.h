@@ -45,10 +45,9 @@ sms_ntsc_t object. Can pass NULL for either parameter. */
 typedef struct sms_ntsc_t sms_ntsc_t;
 void sms_ntsc_init( sms_ntsc_t* ntsc, sms_ntsc_setup_t const* setup );
 
-/* Filters one or more rows of pixels. Input pixel format is set by SMS_NTSC_IN_FORMAT
+/* Filters one row of pixels. Input pixel format is set by SMS_NTSC_IN_FORMAT
 and output RGB depth is set by SMS_NTSC_OUT_DEPTH. Both default to 16-bit RGB.
-In_row_width is the number of pixels to get to the next input row. Out_pitch
-is the number of *bytes* to get to the next output row. */
+In_row_width is the number of pixels to get to the next input row. */
 void sms_ntsc_blit( sms_ntsc_t const* ntsc, SMS_NTSC_IN_T const* table, unsigned char* input,
     int in_width, int vline);
 
@@ -67,11 +66,9 @@ value. */
 
 enum { sms_ntsc_in_chunk    = 3 }; /* number of input pixels read per chunk */
 enum { sms_ntsc_out_chunk   = 7 }; /* number of output pixels generated per chunk */
-enum { sms_ntsc_black       = 0 }; /* palette index for black */
 
 /* Begins outputting row and starts three pixels. First pixel will be cut off a bit.
-Use sms_ntsc_black for unused pixels. Declares variables, so must be before first
-statement in a block (unless you're using C++). */
+Declares variables, so must be before first statement in a block (unless you're using C++). */
 #define SMS_NTSC_BEGIN_ROW( ntsc, pixel0, pixel1, pixel2 ) \
   SMS_NTSC_BEGIN_ROW_6_( pixel0, pixel1, pixel2, SMS_NTSC_IN_FORMAT, ntsc )
 
@@ -79,14 +76,14 @@ statement in a block (unless you're using C++). */
 #define SMS_NTSC_COLOR_IN( in_index, ntsc, color_in ) \
   SMS_NTSC_COLOR_IN_( in_index, color_in, SMS_NTSC_IN_FORMAT, ntsc )
 
-/* Generates output pixel. Bits can be 24, 16, 15, 32 (treated as 24), or 0:
-24:          RRRRRRRR GGGGGGGG BBBBBBBB (8-8-8 RGB)
-16:                   RRRRRGGG GGGBBBBB (5-6-5 RGB)
-15:                    RRRRRGG GGGBBBBB (5-5-5 RGB)
- 0: xxxRRRRR RRRxxGGG GGGGGxxB BBBBBBBx (native internal format; x = junk bits) */
-#define SMS_NTSC_RGB_OUT( index, rgb_out, bits ) \
-  SMS_NTSC_RGB_OUT_14_( index, rgb_out, bits, 0 )
-
+/* Generates output pixel */
+#define SMS_NTSC_RGB_OUT( x, rgb_out ) {\
+  raw_ =\
+    kernel0  [x       ] + kernel1  [(x+12)%7+14] + kernel2  [(x+10)%7+28] +\
+    kernelx0 [(x+7)%14] + kernelx1 [(x+ 5)%7+21] + kernelx2 [(x+ 3)%7+35];\
+  SMS_NTSC_CLAMP_( raw_, 0 );\
+  SMS_NTSC_RGB_OUT_( rgb_out, 0 );\
+}
 
 /* private */
 enum { sms_ntsc_entry_size = 3 * 14 };
@@ -109,6 +106,7 @@ struct sms_ntsc_t {
 
 /* common 3->7 ntsc macros */
 #define SMS_NTSC_BEGIN_ROW_6_( pixel0, pixel1, pixel2, ENTRY, table ) \
+  sms_ntsc_rgb_t raw_;\
   unsigned const sms_ntsc_pixel0_ = (pixel0);\
   sms_ntsc_rgb_t const* kernel0  = ENTRY( table, sms_ntsc_pixel0_ );\
   unsigned const sms_ntsc_pixel1_ = (pixel1);\
@@ -119,13 +117,6 @@ struct sms_ntsc_t {
   sms_ntsc_rgb_t const* kernelx1 = kernel0;\
   sms_ntsc_rgb_t const* kernelx2 = kernel0
 
-#define SMS_NTSC_RGB_OUT_14_( x, rgb_out, bits, shift ) {\
-  sms_ntsc_rgb_t raw_ =\
-    kernel0  [x       ] + kernel1  [(x+12)%7+14] + kernel2  [(x+10)%7+28] +\
-    kernelx0 [(x+7)%14] + kernelx1 [(x+ 5)%7+21] + kernelx2 [(x+ 3)%7+35];\
-  SMS_NTSC_CLAMP_( raw_, shift );\
-  SMS_NTSC_RGB_OUT_( rgb_out, bits, shift );\
-}
 
 /* common ntsc macros */
 #define sms_ntsc_rgb_builder    ((1L << 21) | (1 << 11) | (1 << 1))
@@ -146,9 +137,15 @@ struct sms_ntsc_t {
 }
 
 /* x is always zero except in snes_ntsc library */
-#define SMS_NTSC_RGB_OUT_( rgb_out, bits, x ) {\
+#if SMS_NTSC_OUT_DEPTH == 15
+#define SMS_NTSC_RGB_OUT_( rgb_out, x ) {\
+    rgb_out = (raw_>>(14-x)& 0x7C00)|(raw_>>(9-x)&0x03E0)|(raw_>>(4-x)&0x001F);\
+   }
+#elif SMS_NTSC_OUT_DEPTH == 16
+#define SMS_NTSC_RGB_OUT_( rgb_out, x) {\
     rgb_out = (raw_>>(13-x)& 0xF800)|(raw_>>(8-x)&0x07E0)|(raw_>>(4-x)&0x001F);\
    }
+#endif
 
 #ifdef __cplusplus
   }

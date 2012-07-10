@@ -3,26 +3,41 @@
  *  ROM Loading Support
  *
  *  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003  Charles Mac Donald (original code)
- *  Eke-Eke (2007,2008,2009), additional code & fixes for the GCN/Wii port
+ *  Copyright (C) 2007-2012  Eke-Eke (Genesis Plus GX)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
+ *
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
  *
  ****************************************************************************************/
 
 #include <ctype.h>
-#include <strings.h>
 #include "shared.h"
 
 /*** ROM Information ***/
@@ -76,14 +91,16 @@ typedef struct
 
 ROMINFO rominfo;
 char rom_filename[256];
+uint8 romtype;
 
+static uint8 rom_region;
 
 /***************************************************************************
-  * Genesis ROM Manufacturers
-  *
-  * Based on the document provided at
-  * http://www.zophar.net/tech/files/Genesis_ROM_Format.txt
-  **************************************************************************/
+ * Genesis ROM Manufacturers
+ *
+ * Based on the document provided at
+ * http://www.zophar.net/tech/files/Genesis_ROM_Format.txt
+ **************************************************************************/
 static const COMPANYINFO companyinfo[MAXCOMPANY] =
 {
   {"ACLD", "Ballistic"},
@@ -152,12 +169,12 @@ static const COMPANYINFO companyinfo[MAXCOMPANY] =
   {"---", "Unknown"}
 };
 
- /***************************************************************************
-  * Genesis Peripheral Information
-  *
-  * Based on the document provided at
-  * http://www.zophar.net/tech/files/Genesis_ROM_Format.txt
-  ***************************************************************************/
+/***************************************************************************
+ * Genesis Peripheral Information
+ *
+ * Based on the document provided at
+ * http://www.zophar.net/tech/files/Genesis_ROM_Format.txt
+ ***************************************************************************/
 static const PERIPHERALINFO peripheralinfo[MAXPERIPHERALS] =
 {
   {"J", "3B Joypad"},
@@ -176,10 +193,10 @@ static const PERIPHERALINFO peripheralinfo[MAXPERIPHERALS] =
   {"M", "Mega Mouse"},
 };
 
- /***************************************************************************
-  *
-  * Compute ROM real checksum.
-  ***************************************************************************/
+/***************************************************************************
+ *
+ * Compute ROM real checksum.
+ ***************************************************************************/
 static uint16 getchecksum(uint8 *rom, int length)
 {
   int i;
@@ -193,114 +210,26 @@ static uint16 getchecksum(uint8 *rom, int length)
   return checksum;
 }
 
- /***************************************************************************
-  *
-  * Pass a pointer to the ROM base address.
-  ***************************************************************************/
+/***************************************************************************
+ *
+ * Pass a pointer to the ROM base address.
+ ***************************************************************************/
 static void getrominfo(char *romheader)
 {
-  uint16 offset = 0;
-
   /* Clear ROM info structure */
   memset (&rominfo, 0, sizeof (ROMINFO));
 
-  /* Look for Master System ROM header */
-  if (!memcmp (&cart.rom[0x1ff0], "TMR SEGA", 8))
+  /* Genesis ROM header support */
+  if (system_hw & SYSTEM_MD)
   {
-    offset = 0x1ff0;
-  }
-  else if (!memcmp (&cart.rom[0x3ff0], "TMR SEGA", 8))
-  {
-    offset = 0x3ff0;
-  }
-  else if (!memcmp (&cart.rom[0x7ff0], "TMR SEGA", 8))
-  {
-    offset = 0x7ff0;
-  }
+    int i,j;
 
-  /* If found, assume this is a SMS game */
-  if (offset)
-  {
-    /* force SMS compatibilty mode */
-    system_hw = SYSTEM_PBC;
-
-    /* checksum */
-    rominfo.checksum = cart.rom[offset + 0x0a] | (cart.rom[offset + 0x0b] << 8);
-
-    /* product code & version */
-    sprintf(&rominfo.product[0], "%02d", cart.rom[offset + 0x0e] >> 4);
-    sprintf(&rominfo.product[2], "%02x", cart.rom[offset + 0x0d]);
-    sprintf(&rominfo.product[4], "%02x", cart.rom[offset + 0x0c]);
-    sprintf(&rominfo.product[6], "-%d", cart.rom[offset + 0x0e] & 0x0F);
-
-    /* region code */
-    switch (cart.rom[offset + 0x0f] >> 4)
-    {
-      case 3:
-        strcpy(rominfo.country,"SMS Japan");
-        break;
-      case 4:
-        strcpy(rominfo.country,"SMS Export");
-        break;
-      case 5:
-        strcpy(rominfo.country,"GG Japan");
-        break;
-      case 6:
-        strcpy(rominfo.country,"GG Export");
-        break;
-      case 7:
-        strcpy(rominfo.country,"GG International");
-        break;
-      default:
-        sprintf(rominfo.country,"Unknown (%d)", cart.rom[offset + 0x0f] >> 4);
-        break;
-    }
-
-    /* ROM size */
-    rominfo.romstart = 0;
-    switch (cart.rom[offset + 0x0f] & 0x0F)
-    {
-      case 0x00:
-        rominfo.romend = 0x3FFFF;
-        break;
-      case 0x01:
-        rominfo.romend = 0x7FFFF;
-        break;
-      case 0x02:
-        rominfo.romend = 0xFFFFF;
-        break;
-      case 0x0a:
-        rominfo.romend = 0x1FFF;
-        break;
-      case 0x0b:
-        rominfo.romend = 0x3FFF;
-        break;
-      case 0x0c:
-        rominfo.romend = 0x7FFF;
-        break;
-      case 0x0d:
-        rominfo.romend = 0xBFFF;
-        break;
-      case 0x0e:
-        rominfo.romend = 0xFFFF;
-        break;
-      case 0x0f:
-        rominfo.romend = 0x1FFFF;
-        break;
-    }
-  }
-  else
-  {
-    /* Some SMS games don't have any header */
-    if (system_hw == SYSTEM_PBC) return;
-
-    /* Genesis ROM header support */
     memcpy (&rominfo.consoletype, romheader + ROMCONSOLE, 16);
     memcpy (&rominfo.copyright, romheader + ROMCOPYRIGHT, 16);
 
     /* Domestic (japanese) name */
     rominfo.domestic[0] = romheader[ROMDOMESTIC];
-    int i, j = 1;
+    j = 1;
     for (i=1; i<48; i++)
     {
       if ((rominfo.domestic[j-1] != 32) || (romheader[ROMDOMESTIC + i] != 32))
@@ -345,13 +274,100 @@ static void getrominfo(char *romheader)
         if (romheader[ROMIOSUPPORT+i] == peripheralinfo[j].pID[0])
           rominfo.peripherals |= (1 << j);
   }
+  else
+  {
+    uint16 offset = 0;
+
+    /* detect Master System ROM header */
+    if (!memcmp (&romheader[0x1ff0], "TMR SEGA", 8))
+    {
+      offset = 0x1ff0;
+    }
+    else if (!memcmp (&romheader[0x3ff0], "TMR SEGA", 8))
+    {
+      offset = 0x3ff0;
+    }
+    else if (!memcmp (&romheader[0x7ff0], "TMR SEGA", 8))
+    {
+      offset = 0x7ff0;
+    }
+
+    /* if found, get infos from header */
+    if (offset)
+    {
+      /* checksum */
+      rominfo.checksum = romheader[offset + 0x0a] | (romheader[offset + 0x0b] << 8);
+
+      /* product code & version */
+      sprintf(&rominfo.product[0], "%02d", romheader[offset + 0x0e] >> 4);
+      sprintf(&rominfo.product[2], "%02x", romheader[offset + 0x0d]);
+      sprintf(&rominfo.product[4], "%02x", romheader[offset + 0x0c]);
+      sprintf(&rominfo.product[6], "-%d", romheader[offset + 0x0e] & 0x0F);
+
+      /* region code */
+      switch (romheader[offset + 0x0f] >> 4)
+      {
+        case 3:
+          strcpy(rominfo.country,"SMS Japan");
+          break;
+        case 4:
+          strcpy(rominfo.country,"SMS Export");
+          break;
+        case 5:
+          strcpy(rominfo.country,"GG Japan");
+          break;
+        case 6:
+          strcpy(rominfo.country,"GG Export");
+          break;
+        case 7:
+          strcpy(rominfo.country,"GG International");
+          break;
+        default:
+          sprintf(rominfo.country,"Unknown (%d)", romheader[offset + 0x0f] >> 4);
+          break;
+      }
+
+      /* ROM size */
+      rominfo.romstart = 0;
+      switch (romheader[offset + 0x0f] & 0x0F)
+      {
+        case 0x00:
+          rominfo.romend = 0x3FFFF;
+          break;
+        case 0x01:
+          rominfo.romend = 0x7FFFF;
+          break;
+        case 0x02:
+          rominfo.romend = 0xFFFFF;
+          break;
+        case 0x0a:
+          rominfo.romend = 0x1FFF;
+          break;
+        case 0x0b:
+          rominfo.romend = 0x3FFF;
+          break;
+        case 0x0c:
+          rominfo.romend = 0x7FFF;
+          break;
+        case 0x0d:
+          rominfo.romend = 0xBFFF;
+          break;
+        case 0x0e:
+          rominfo.romend = 0xFFFF;
+          break;
+        case 0x0f:
+          rominfo.romend = 0x1FFFF;
+          break;
+      }
+    }
+  }
 }
 
- /***************************************************************************
-  * deinterleave_block
-  *
-  * Convert interleaved (.smd) ROM files.
-  ***************************************************************************/
+/***************************************************************************
+ * deinterleave_block
+ *
+ * Convert interleaved (.smd) ROM files.
+ ***************************************************************************/
 static void deinterleave_block(uint8 * src)
 {
   int i;
@@ -359,87 +375,301 @@ static void deinterleave_block(uint8 * src)
   memcpy (block, src, 0x4000);
   for (i = 0; i < 0x2000; i += 1)
   {
-      src[i * 2 + 0] = block[0x2000 + (i)];
-      src[i * 2 + 1] = block[0x0000 + (i)];
+    src[i * 2 + 0] = block[0x2000 + (i)];
+    src[i * 2 + 1] = block[0x0000 + (i)];
   }
 }
 
- /***************************************************************************
-  * load_rom
-  *
-  * Load a new ROM file.
-  ***************************************************************************/
+/***************************************************************************
+ * load_bios
+ *
+ * Load current system BIOS file.
+ *
+ * Return loaded size (-1 if already loaded)
+ *
+ ***************************************************************************/
+int load_bios(void)
+{
+  int size = 0;
+
+  switch (system_hw)
+  {
+    case SYSTEM_MCD:
+    {
+      /* check if CD BOOT ROM is already loaded */
+      if (!(system_bios & 0x10) || ((system_bios & 0x0c) != (region_code >> 4)))
+      {
+        /* load CD BOOT ROM */
+        switch (region_code)
+        {
+          case REGION_USA:
+            size = load_archive(CD_BIOS_US, scd.bootrom, sizeof(scd.bootrom));
+            break;
+          case REGION_EUROPE:
+            size = load_archive(CD_BIOS_EU, scd.bootrom, sizeof(scd.bootrom));
+            break;
+          default:
+            size = load_archive(CD_BIOS_JP, scd.bootrom, sizeof(scd.bootrom));
+            break;
+        }
+
+        /* CD BOOT ROM loaded ? */
+        if (size > 0)
+        {
+#ifdef LSB_FIRST
+          /* Byteswap ROM to optimize 16-bit access */
+          int i;
+          for (i = 0; i < size; i += 2)
+          {
+            uint8 temp = scd.bootrom[i];
+            scd.bootrom[i] = scd.bootrom[i+1];
+            scd.bootrom[i+1] = temp;
+          }
+#endif
+          /* mark CD BIOS as being loaded */
+          system_bios = system_bios | 0x10;
+
+          /* loaded BIOS region */
+          system_bios = (system_bios & 0xf0) | (region_code >> 4);
+
+        }
+        else
+        {
+          /* CD BOOT ROM disabled (SYSTEM ERROR) */
+          memset(scd.bootrom, 0xff, sizeof(scd.bootrom));
+        }
+
+        return size;
+      }
+      
+      return -1;
+    }
+
+    case SYSTEM_GG:
+    case SYSTEM_GGMS:
+    {
+      /* check if Game Gear "BIOS" is already loaded */
+      if (!(system_bios & SYSTEM_GG))
+      {      
+        /* mark Master System & Game Gear "BIOS" as unloaded */
+        system_bios &= ~(SYSTEM_SMS | SYSTEM_GG);
+
+        /* "BIOS" ROM is stored above cartridge ROM area, into $400000-$4FFFFF (max. 1MB) */
+        if (cart.romsize <= 0x400000)
+        {
+          /* load Game Gear "BIOS" file */
+          size = load_archive(GG_BIOS, cart.rom + 0x400000, 0x100000);
+
+          if (size > 0)
+          {
+            /* mark Game Gear "BIOS" as loaded */
+            system_bios |= SYSTEM_GG;
+          }
+        }
+
+        return size;
+      }
+      
+      return -1;
+    }
+
+    case SYSTEM_SMS:
+    case SYSTEM_SMS2:
+    {
+      /* check if Master System "BIOS" is already loaded */
+      if (!(system_bios & SYSTEM_SMS) || ((system_bios & 0x0c) != (region_code >> 4)))
+      {      
+        /* mark Master System & Game Gear "BIOS" as unloaded */
+        system_bios &= ~(SYSTEM_SMS | SYSTEM_GG);
+
+        /* "BIOS" ROM is stored above cartridge ROM area, into $400000-$4FFFFF (max. 1MB) */
+        if (cart.romsize <= 0x400000)
+        {
+          /* load Master System "BIOS" file */
+          switch (region_code)
+          {
+            case REGION_USA:
+              size = load_archive(MS_BIOS_US, cart.rom + 0x400000, 0x100000);
+              break;
+            case REGION_EUROPE:
+              size = load_archive(MS_BIOS_EU, cart.rom + 0x400000, 0x100000);
+              break;
+            default:
+              size = load_archive(MS_BIOS_JP, cart.rom + 0x400000, 0x100000);
+              break;
+          }
+
+          if (size > 0)
+          {
+            /* mark Master System "BIOS" as loaded */
+            system_bios |= SYSTEM_SMS;
+
+            /* loaded "BIOS" region */
+            system_bios = (system_bios & 0xf0) | (region_code >> 4);
+          }
+        }
+
+        return size;
+      }
+      
+      return -1;
+    }
+
+    default:
+    {
+      return 0;
+    }
+  }
+}
+
+/***************************************************************************
+ * load_rom
+ *
+ * Load a new ROM file.
+ *
+ * Return 0 on error, 1 on success
+ *
+ ***************************************************************************/
 int load_rom(char *filename)
 {
-  int i, size;
- 
-#ifdef NGC
-  size = cart.romsize;
-#else
-  uint8 *ptr;
-  ptr = load_archive(filename, &size);
-  if(!ptr) return (0);
-  memcpy(cart.rom, ptr, size);
-  free(ptr);
-#endif
+  FILE *fd;
+  char buf[0x220];
+  int i;
 
-  /* Minimal ROM size */
-  if (size < 0x4000)
+  /* default ROM header */
+  char *header = (char *)(cart.rom);
+
+  /* clear any existing patches */
+  ggenie_shutdown();
+  areplay_shutdown();
+
+  /* unload any existing disc */
+  if (romtype == SYSTEM_MCD)
   {
-    memset(cart.rom + size, 0xFF, 0x4000 - size);
-    size = 0x4000;
+    cdd_unload();
   }
 
-  /* Get file extension */
-  if (!strnicmp(".sms", &filename[strlen(filename) - 4], 4))
+  /* .cue file support */
+  if (!strncmp(".cue", &filename[strlen(filename) - 4], 4))
   {
-    /* Force SMS compatibility mode */
-    system_hw = SYSTEM_PBC;
+    /* open associated .bin file */
+    strncpy(&filename[strlen(filename) - 4], ".bin", 4);
+  }
+
+  /* file header */
+  fd = fopen(filename, "rb");
+  if (fd)
+  {
+    fread(buf, 0x220, 1, fd);
+    fclose(fd);
+  }
+
+  /* auto-detect CD image file */
+  if (!strncmp("SEGADISCSYSTEM", buf + 0x10, 14))
+  {
+    /* file header pointer (BIN format) */
+    header = buf + 0x10;
+
+    /* enable CD hardware */
+    system_hw = SYSTEM_MCD;
+  }
+  else if (!strncmp("SEGADISCSYSTEM", buf, 14))
+  {    
+    /* file header pointer (ISO format) */
+    header = buf;
+
+    /* enable CD hardware */
+    system_hw = SYSTEM_MCD;
   }
   else
   {
-    /* Assume Genesis mode */
-    system_hw = SYSTEM_GENESIS;
-  }
+    /* load file into ROM buffer (input filename is overwritten by uncompressed filename) */
+    int size = load_archive(filename, cart.rom, sizeof(cart.rom));
+    if (!size) return(0);
 
-  /* Take care of 512 byte header, if present */
-  if (strncmp((char *)(cart.rom + 0x100),"SEGA", 4) && ((size / 512) & 1))
-  {
-    size -= 512;
-    memcpy (cart.rom, cart.rom + 512, size);
+    /* mark CD BIOS as unloaded */
+    system_bios &= ~0x10;
 
-    /* interleaved ROM format (.smd) */
-    if (system_hw != SYSTEM_PBC)
+    /* Auto-detect system hardware from ROM file extension */
+    if (!strncmp(".sms", &filename[strlen(filename) - 4], 4))
     {
-      for (i = 0; i < (size / 0x4000); i++)
+      /* Master System II hardware */
+      system_hw = SYSTEM_SMS2;
+    }
+    else if (!strncmp(".gg", &filename[strlen(filename) - 3], 3))
+    {
+      /* Game Gear hardware (GG mode) */
+      system_hw = SYSTEM_GG;
+    }
+    else if (!strncmp(".sg", &filename[strlen(filename) - 3], 3))
+    {
+      /* SG-1000 hardware */
+      system_hw = SYSTEM_SG;
+    }
+    else
+    {
+      /* Mega Drive hardware (Genesis mode) */
+      system_hw = SYSTEM_MD;
+
+      /* Decode .MDX format */
+      if (!strncmp(".mdx", &filename[strlen(filename) - 4], 4))
       {
-        deinterleave_block (cart.rom + (i * 0x4000));
+        for (i = 4; i < size - 1; i++)
+        {
+          cart.rom[i-4] = cart.rom[i] ^ 0x40;
+        }
+        size = size - 5;
       }
     }
+
+    /* auto-detect 512 byte extra header */
+    if (strncmp((char *)(cart.rom + 0x100),"SEGA", 4) && ((size / 512) & 1))
+    {
+      /* remove header */
+      size -= 512;
+      memcpy (cart.rom, cart.rom + 512, size);
+
+      /* interleaved ROM format (.smd) */
+      if (system_hw == SYSTEM_MD)
+      {
+        for (i = 0; i < (size / 0x4000); i++)
+        {
+          deinterleave_block (cart.rom + (i * 0x4000));
+        }
+      }
+    }
+    
+    /* initialize ROM size */
+    cart.romsize = size;
   }
 
-  /* max. 10 MBytes supported */
-  if (size > MAXROMSIZE) size = MAXROMSIZE;
-  cart.romsize = size;
-
-  /* clear unused ROM space */
-  memset(cart.rom + size, 0xff, MAXROMSIZE - size);
-
   /* get infos from ROM header */
-  getrominfo((char *)cart.rom);
+  getrominfo(header);
 
-  /* detect console region */
-  region_autodetect();
+  /* set console region */
+  get_region(header);
 
-  /* Genesis ROM specific */
-  if (system_hw != SYSTEM_PBC)
+  /* CD image file */
+  if (system_hw == SYSTEM_MCD)
+  {   
+    /* load CD BOOT ROM */
+    if (!load_bios()) return (0);
+
+    /* load CD image */
+    cdd_load(filename, header - buf);
+
+    /* boot from CD */
+    scd.cartridge.boot = 0x00;
+  }
+
+  /* 16-bit ROM specific */
+  else if (system_hw == SYSTEM_MD)
   {
 #ifdef LSB_FIRST
-    /* Byteswap ROM */
-    uint8 temp;
-    for(i = 0; i < size; i += 2)
+    /* Byteswap ROM to optimize 16-bit access */
+    for (i = 0; i < cart.romsize; i += 2)
     {
-      temp = cart.rom[i];
+      uint8 temp = cart.rom[i];
       cart.rom[i] = cart.rom[i+1];
       cart.rom[i+1] = temp;
     }
@@ -449,101 +679,227 @@ int load_rom(char *filename)
     if (((strstr(rominfo.product,"-K0101") != NULL) && (rominfo.checksum == 0xf424)) ||
         ((strstr(rominfo.product,"-K0109") != NULL) && (rominfo.checksum == 0x4f10)))
     {
-      uint8 temp;
-      for(i = 0; i < size; i += 2)
+      for(i = 0; i < cart.romsize; i += 2)
       {
-        temp = cart.rom[i];
+        uint8 temp = cart.rom[i];
         cart.rom[i] = cart.rom[i+1];
         cart.rom[i+1] = temp;
       }
     }
+  }
 
+  /* auto-detected system hardware  */
+  romtype = system_hw;
+
+  /* PICO ROM */
+  if (strstr(rominfo.consoletype, "SEGA PICO") != NULL)
+  {
     /* PICO hardware */
-    if (strstr(rominfo.consoletype, "SEGA PICO") != NULL)
+    system_hw = SYSTEM_PICO;
+  }
+
+  /* CD BOOT ROM */
+  else if (strstr(rominfo.ROMType, "BR") != NULL)
+  {
+    /* enable CD hardware */
+    system_hw = SYSTEM_MCD;
+
+    /* mark CD BIOS as being loaded */
+    system_bios = system_bios | 0x10;
+
+    /* loaded CD BIOS region */
+    system_bios = (system_bios & 0xf0) | (region_code >> 4);
+
+    /* boot from CD */
+    scd.cartridge.boot = 0x00;
+
+    /* CD unloaded */
+    cdd.loaded = 0;
+  }
+
+  /* special ROM cartridges that use CD hardware */
+  else if ((strstr(rominfo.domestic,"FLUX") != NULL) || (strstr(rominfo.domestic,"WONDER LIBRARY") != NULL))
+  {
+    /* enable CD hardware */
+    system_hw = SYSTEM_MCD;
+
+    /* copy ROM to CD cartridge area */
+    memcpy(scd.cartridge.area, cart.rom, sizeof(scd.cartridge.area));
+
+    /* load CD BOOT ROM */
+    if (load_bios())
     {
-      system_hw = SYSTEM_PICO;
+      /* CD unloaded */
+      cdd.loaded = 0;
+
+      /* boot from cartridge */
+      scd.cartridge.boot = 0x40;
     }
+    else
+    {
+      /* assume Mega Drive hardware */
+      system_hw = SYSTEM_MD;
+    }
+  }
+
+  /* Force system hardware if requested */
+  if (config.system == SYSTEM_MD)
+  {
+    if (!(system_hw & SYSTEM_MD))
+    {
+      /* Mega Drive in MS compatibility mode  */
+      system_hw = SYSTEM_PBC;
+    }
+  }
+  else if (config.system == SYSTEM_GG)
+  {
+    if (system_hw != SYSTEM_GG)
+    {
+      /* Game Gear in MS compatibility mode  */
+      system_hw = SYSTEM_GGMS;
+    }
+  }
+  else if (config.system)
+  {
+    system_hw = config.system;
+  }
+
+  /* Master System or Game Gear BIOS ROM are loaded within $400000-$4FFFFF area */
+  if ((cart.romsize > 0x400000) || (system_hw == SYSTEM_MCD))
+  {
+    /* Mark both BIOS as unloaded if loaded ROM is overwriting them */
+    system_bios &= ~(SYSTEM_SMS | SYSTEM_GG);
   }
 
   return(1);
 }
 
 /****************************************************************************
- * region_autodetect
+ * get_region
  *
- * Set console region upon ROM header
+ * Set console region from ROM header passed as parameter or 
+ * from previous auto-detection (if NULL) 
  *
  ****************************************************************************/
-void region_autodetect(void)
+void get_region(char *romheader)
 {
-  if (system_hw == SYSTEM_PBC)
+  /* region auto-detection ? */
+  if (romheader)
   {
-    region_code = sms_cart_region_detect();
-  }
-  else
-  {
-    /* country codes used to differentiate region */
-    /* 0001 = japan ntsc (1) */
-    /* 0010 = japan  pal (2) */
-    /* 0100 = usa        (4) */
-    /* 1000 = europe     (8) */
-    int country = 0;
-    int i = 0;
-    char c;
-
-    /* from Gens */
-    if (!strnicmp(rominfo.country, "eur", 3)) country |= 8;
-    else if (!strnicmp(rominfo.country, "usa", 3)) country |= 4;
-    else if (!strnicmp(rominfo.country, "jap", 3)) country |= 1;
-    else
+    /* Mega CD image */
+    if (system_hw == SYSTEM_MCD)
     {
-      /* look for each characters */
-      for(i = 0; i < 4; i++)
+      /* security code */
+      switch (romheader[0x20b])
       {
-        c = toupper((int)rominfo.country[i]);
+        case 0x7a:
+          region_code = REGION_USA;
+          break;
 
-        if (c == 'U') country |= 4;
-        else if (c == 'J') country |= 1;
-        else if (c == 'E') country |= 8;
-        else if (c == 'K') country |= 1;
-        else if (c < 16) country |= c;
-        else if ((c >= '0') && (c <= '9')) country |= c - '0';
-        else if ((c >= 'A') && (c <= 'F')) country |= c - 'A' + 10;
+        case 0x64:
+          region_code = REGION_EUROPE;
+          break;
+   
+        default:
+          region_code = REGION_JAPAN_NTSC;
+          break;
       }
     }
 
-    /* set default console region (USA > JAPAN > EUROPE) */
-    if (country & 4) region_code = REGION_USA;
-    else if (country & 1) region_code = REGION_JAPAN_NTSC;
-    else if (country & 8) region_code = REGION_EUROPE;
-    else if (country & 2) region_code = REGION_JAPAN_PAL;
-    else region_code = REGION_USA;
+    /* 16-bit cartridge */
+    else if (system_hw & SYSTEM_MD)
+    {
+      /* country codes used to differentiate region */
+      /* 0001 = japan ntsc (1) */
+      /* 0010 = japan pal  (2) -> does not exist ? */
+      /* 0100 = usa        (4) */
+      /* 1000 = europe     (8) */
+      int country = 0;
 
-    /* some games need specific REGION setting */
-    if (((strstr(rominfo.product,"T-45033") != NULL) && (rominfo.checksum == 0x0F81)) || /* Alisia Dragon (Europe) */
-         (strstr(rominfo.product,"T-69046-50") != NULL) ||    /* Back to the Future III (Europe) */
-         (strstr(rominfo.product,"T-120106-00") != NULL) ||   /* Brian Lara Cricket (Europe) */
-         (strstr(rominfo.product,"T-70096 -00") != NULL))     /* Muhammad Ali Heavyweight Boxing (Europe) */
-    {
-      /* need PAL settings */
-      region_code = REGION_EUROPE;
+      /* from Gens */
+      if (!strncmp(rominfo.country, "eur", 3)) country |= 8;
+      else if (!strncmp(rominfo.country, "EUR", 3)) country |= 8;
+      else if (!strncmp(rominfo.country, "jap", 3)) country |= 1;
+      else if (!strncmp(rominfo.country, "JAP", 3)) country |= 1;
+      else if (!strncmp(rominfo.country, "usa", 3)) country |= 4;
+      else if (!strncmp(rominfo.country, "USA", 3)) country |= 4;
+      else
+      {
+        int i;
+        char c;
+
+        /* look for each characters */
+        for(i = 0; i < 4; i++)
+        {
+          c = toupper((int)rominfo.country[i]);
+
+          if (c == 'U') country |= 4;
+          else if (c == 'J') country |= 1;
+          else if (c == 'E') country |= 8;
+          else if (c == 'K') country |= 1;
+          else if (c < 16) country |= c;
+          else if ((c >= '0') && (c <= '9')) country |= c - '0';
+          else if ((c >= 'A') && (c <= 'F')) country |= c - 'A' + 10;
+        }
+      }
+
+      /* set default console region (USA > JAPAN > EUROPE) */
+      if (country & 4) region_code = REGION_USA;
+      else if (country & 1) region_code = REGION_JAPAN_NTSC;
+      else if (country & 8) region_code = REGION_EUROPE;
+      else if (country & 2) region_code = REGION_JAPAN_PAL;
+      else region_code = REGION_USA;
+
+      /* some games need specific region settings but have wrong header*/
+      if (((strstr(rominfo.product,"T-45033") != NULL) && (rominfo.checksum == 0x0F81)) || /* Alisia Dragon (Europe) */
+           (strstr(rominfo.product,"T-69046-50") != NULL) ||    /* Back to the Future III (Europe) */
+           (strstr(rominfo.product,"T-120106-00") != NULL) ||   /* Brian Lara Cricket (Europe) */
+           (strstr(rominfo.product,"T-70096 -00") != NULL))     /* Muhammad Ali Heavyweight Boxing (Europe) */
+      {
+        /* need PAL settings */
+        region_code = REGION_EUROPE;
+      }
+      else if ((rominfo.realchecksum == 0x532e) && (strstr(rominfo.product,"1011-00") != NULL)) 
+      {
+        /* On Dal Jang Goon (Korea) needs JAPAN region code */
+        region_code = REGION_JAPAN_NTSC;
+      }
     }
-    
-    if ((rominfo.realchecksum == 0x532e) && (strstr(rominfo.product,"1011-00") != NULL)) 
+
+    /* 8-bit cartridge */
+    else
     {
-      /* On Dal Jang Goon (Korea) needs JAPAN region code */
-      region_code = REGION_JAPAN_NTSC;
+      region_code = sms_cart_region_detect();
     }
+
+    /* save auto-detected region */
+    rom_region = region_code;
   }
-
-  /* forced console region */
+  else
+  {
+    /* restore auto-detected region */
+    region_code = rom_region;
+  }
+  
+  /* force console region if requested */
   if (config.region_detect == 1) region_code = REGION_USA;
   else if (config.region_detect == 2) region_code = REGION_EUROPE;
   else if (config.region_detect == 3) region_code = REGION_JAPAN_NTSC;
   else if (config.region_detect == 4) region_code = REGION_JAPAN_PAL;
 
-  /* PAL/NTSC timings */
-  vdp_pal = (region_code & REGION_JAPAN_PAL) >> 6;
+  /* autodetect PAL/NTSC timings */
+  vdp_pal = (region_code >> 6) & 0x01;
+
+  /* autodetect PAL/NTSC master clock */
+  system_clock = vdp_pal ? MCLOCK_PAL : MCLOCK_NTSC;
+
+  /* force PAL/NTSC timings if requested */
+  if (config.vdp_mode == 1) vdp_pal = 0;
+  else if (config.vdp_mode == 2) vdp_pal = 1;
+
+  /* force PAL/NTSC master clock if requested */
+  if (config.master_clock == 1) system_clock = MCLOCK_NTSC;
+  else if (config.master_clock == 2) system_clock = MCLOCK_PAL;
 }
 
 

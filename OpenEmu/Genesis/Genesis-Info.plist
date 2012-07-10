@@ -41,6 +41,7 @@
 		<string>smd</string>
 		<string>md</string>
 		<string>gen</string>
+		<string>cue</string>
 	</array>
 	<key>OEControlListKey</key>
 	<array>

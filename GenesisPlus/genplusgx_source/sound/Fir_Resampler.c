@@ -1,14 +1,27 @@
-/* Game_Music_Emu 0.5.2. http://www.slack.net/~ant/ */
-/* Copyright (C) 2004-2006 Shay Green. */
-/* C Conversion by Eke-Eke for use in Genesis Plus (2009). */
+/* Finite impulse response (FIR) resampler with adjustable FIR size */
 
-#include "Fir_Resampler.h"
-#include "shared.h"
+/* Game_Music_Emu 0.5.2. http://www.slack.net/~ant/ */
+
+/* Copyright (C) 2004-2006 Shay Green. This module is free software; you
+can redistribute it and/or modify it under the terms of the GNU Lesser
+General Public License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version. This
+module is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details. You should have received a copy of the GNU Lesser General Public
+License along with this module; if not, write to the Free Software Foundation,
+Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
+
+/* C Conversion by Eke-Eke for use in Genesis Plus GX (2009). */
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+
+#include "Fir_Resampler.h"
+#include "macros.h"
 
 /* sound buffer */
 static sample_t *buffer = NULL;
@@ -30,11 +43,10 @@ static void gen_sinc(double rolloff, int width, double offset, double spacing, d
   double const fstep = M_PI / maxh * spacing;
   double const to_w = maxh * 2 / width;
   double const pow_a_n = pow( rolloff, maxh );
+  double angle = (count / 2 - 1 + offset) * -fstep;
   scale /= maxh * 2;
 
-  double angle = (count / 2 - 1 + offset) * -fstep;
-
-  while ( count-- )
+  do
   {
     *out++ = 0;
     w = angle * to_w;
@@ -51,6 +63,7 @@ static void gen_sinc(double rolloff, int width, double offset, double spacing, d
     }
     angle += fstep;
   }
+  while(--count);
 }
 
 /*static int available( long input_count )
@@ -140,22 +153,16 @@ void Fir_Resampler_clear()
 
 double Fir_Resampler_time_ratio( double new_factor, double rolloff )
 {
-  ratio = new_factor;
-
   int i, r;
-  double nearest, error;
+  double nearest, error, filter;
   double fstep = 0.0;
   double least_error = 2;
   double pos = 0.0;
   res = -1;
 
-#ifdef NGC
-  u32 level = IRQ_Disable();
-#endif
-
   for ( r = 1; r <= MAX_RES; r++ )
   {
-    pos += ratio;
+    pos += new_factor;
     nearest = floor( pos + 0.5 );
     error = fabs( pos - nearest );
     if ( error < least_error )
@@ -173,7 +180,7 @@ double Fir_Resampler_time_ratio( double new_factor, double rolloff )
   ratio = fstep;
   fstep = fmod( fstep, 1.0 );
 
-  double filter = (ratio < 1.0) ? 1.0 : 1.0 / ratio;
+  filter = (ratio < 1.0) ? 1.0 : 1.0 / ratio;
   pos = 0.0;
   input_per_cycle = 0;
 
@@ -194,10 +201,6 @@ double Fir_Resampler_time_ratio( double new_factor, double rolloff )
       input_per_cycle++;
     }
   }
-
-#ifdef NGC
-  IRQ_Restore(level);
-#endif
 
   Fir_Resampler_clear();
 
@@ -304,9 +307,9 @@ int Fir_Resampler_read( sample_t* out, long count )
 
   imp_phase = res - remain;
 
-  int left = write_pos - in;
-  write_pos = &buffer [left];
-  memmove( buffer, in, left * sizeof *in );
+  n = write_pos - in;
+  write_pos = &buffer [n];
+  memmove( buffer, in, n * sizeof *in );
 
   return out - out_;
 }
@@ -315,9 +318,9 @@ int Fir_Resampler_read( sample_t* out, long count )
 int Fir_Resampler_input_needed( long output_count )
 {
   long input_count = 0;
-
   unsigned long skip = skip_bits >> imp_phase;
   int remain = res - imp_phase;
+
   while ( (output_count) > 0 )
   {
     input_count += step + (skip & 1) * STEREO;
@@ -330,10 +333,10 @@ int Fir_Resampler_input_needed( long output_count )
     output_count --;
   }
 
-  long input_extra = input_count - (write_pos - &buffer [WRITE_OFFSET]);
-  if ( input_extra < 0 )
-    input_extra = 0;
-  return (input_extra >> 1);
+  input_count -= (write_pos - &buffer [WRITE_OFFSET]);
+  if ( input_count < 0 )
+    input_count = 0;
+  return (input_count >> 1);
 }
 
 int Fir_Resampler_skip_input( long count )

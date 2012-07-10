@@ -3,30 +3,46 @@
  * 
  *  ROM File loading support
  *
- *  Eke-Eke (2010)
+ *  Copyright Eke-Eke (2008-2012)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
  *
- ********************************************************************************/
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *
+ ****************************************************************************************/
 
 #include "shared.h"
 #include "file_load.h"
 #include "gui.h"
 #include "history.h"
-#include "unzip.h"
 #include "filesel.h"
+#include "file_slot.h"
 
 #include <iso9660.h>
 #ifdef HW_RVL
@@ -54,6 +70,9 @@ static char *fileDir;
 
 /* current device */
 static int deviceType = -1;
+
+/* current file type */
+static int fileType = -1;
 
 /* DVD status flag */
 static u8 dvd_mounted = 0;
@@ -97,7 +116,7 @@ static int MountDVD(void)
 }
 
 /***************************************************************************
- * FileSortCallback (code by Marty Disibio)
+ * FileSortCallback (thanks to Marty Disibio)
  *
  * Quick sort callback to sort file entries with the following order:
  *   .
@@ -117,8 +136,8 @@ static int FileSortCallback(const void *f1, const void *f2)
   }
   
   /* If one is a file and one is a directory the directory is first. */
-  if(((FILEENTRIES *)f1)->flags == 1 && ((FILEENTRIES *)f2)->flags == 0) return -1;
-  if(((FILEENTRIES *)f1)->flags == 0 && ((FILEENTRIES *)f2)->flags == 1) return 1;
+  if(((FILEENTRIES *)f1)->flags && !((FILEENTRIES *)f2)->flags) return -1;
+  if(!((FILEENTRIES *)f1)->flags  && ((FILEENTRIES *)f2)->flags) return 1;
   
   return stricmp(((FILEENTRIES *)f1)->filename, ((FILEENTRIES *)f2)->filename);
 }
@@ -176,30 +195,36 @@ int UpdateDirectory(bool go_up, char *dirname)
 int ParseDirectory(void)
 {
   int nbfiles = 0;
-  char filename[MAXPATHLEN];
-  struct stat filestat;
 
   /* open directory */
-  DIR_ITER *dir = diropen(fileDir);
+  DIR *dir = opendir(fileDir);
   if (dir == NULL)
   {
     return -1;
   }
 
-  /* list files */
-  while ((dirnext(dir, filename, &filestat) == 0) && (nbfiles < MAXFILES))
+  struct dirent *entry = readdir(dir);
+
+  /* list entries */
+  while ((entry != NULL)&& (nbfiles < MAXFILES))
   {
-    if (filename[0] != '.')
+    if (entry->d_name[0] != '.')
     {
       memset(&filelist[nbfiles], 0, sizeof (FILEENTRIES));
-      sprintf(filelist[nbfiles].filename,"%s",filename);
-      filelist[nbfiles].flags = (filestat.st_mode & S_IFDIR) ? 1 : 0;
+      sprintf(filelist[nbfiles].filename,"%s",entry->d_name);
+      if (entry->d_type == DT_DIR)
+      {
+        filelist[nbfiles].flags = 1;
+      }
       nbfiles++;
     }
+
+    /* next entry */
+    entry = readdir(dir);
   }
 
   /* close directory */
-  dirclose(dir);
+  closedir(dir);
 
   /* Sort the file list */
   qsort(filelist, nbfiles, sizeof(FILEENTRIES), FileSortCallback);
@@ -214,96 +239,85 @@ int ParseDirectory(void)
  * This functions return the actual size of data copied into the buffer
  *
  ****************************************************************************/ 
-int LoadFile(u8 *buffer, u32 selection, char *filename) 
+int LoadFile(int selection) 
 {
-  char fname[MAXPATHLEN];
-  char *filepath;
-  int done = 0;
-  struct stat filestat;
+  int filetype;
+  char filename[MAXPATHLEN];
 
   /* file path */
-  filepath = (deviceType == TYPE_RECENT) ? history.entries[selection].filepath : fileDir;
+  char *filepath = (deviceType == TYPE_RECENT) ? history.entries[selection].filepath : fileDir;
 
   /* full filename */
-  sprintf(fname, "%s%s", filepath, filelist[selection].filename);
+  sprintf(filename, "%s%s", filepath, filelist[selection].filename);
 
-  /* retrieve file status */
-  if(stat(fname, &filestat) != 0)
+  /* DVD hot swap  */
+  if (!strncmp(filepath, rootdir[TYPE_DVD], strlen(rootdir[TYPE_DVD])))
   {
-    /* only DVD hot swap is supported */
-    if (!strncmp(filepath, rootdir[TYPE_DVD], strlen(rootdir[TYPE_DVD])))
+    /* Check if file is still accessible */
+    struct stat filestat;
+    if(stat(filename, &filestat) != 0)
     {
-      /* mount DVD */
+      /* If not, try to mount DVD */
       if (!MountDVD()) return 0;
-    
-      /* retrieve file status */
-      stat(fname, &filestat);
     }
   }
 
-  /* get file length */
-  int length = filestat.st_size;
+  /* try to load file */
+  int size = load_rom(filename);
 
-  if (length > 0)
+  if (size > 0)
   {
-    /* open file */
-    FILE *fd = fopen(fname, "rb");
-    if (!fd)
+    /* auto-save previous game state */
+    if (config.s_auto & 2)
     {
-        GUI_WaitPrompt("Error","Unable to open file !");
-        return 0;
+      slot_autosave(config.s_default,config.s_device);
     }
 
-    /* Read first data chunk */
-    unsigned char temp[FILECHUNK];
-    fread(temp, FILECHUNK, 1, fd);
-    fseek(fd, 0, SEEK_SET);
-
-    /* Determine file type */
-    if (!IsZipFile ((char *) temp))
+    /* update pathname for screenshot, save & cheat files */
+    if (romtype & SYSTEM_SMS)
     {
-      if (length > MAXROMSIZE)
-      {
-        GUI_WaitPrompt("Error","File is too large !");
-        return 0;
-      }
-
-      /* Read file */
-      sprintf((char *)temp,"Loading %d bytes ...", length);
-      GUI_MsgBoxOpen("Information", (char *)temp, 1);
-      while (length > FILECHUNK)
-      {
-        fread(buffer + done, FILECHUNK, 1, fd);
-        length -= FILECHUNK;
-        done += FILECHUNK;
-      }
-      fread(buffer + done, length, 1, fd);
-      done += length;
-      GUI_MsgBoxClose();
-
-      /* update ROM filename (with extension) */
-      sprintf(filename, "%s", filelist[selection].filename);
+      /* Master System ROM file */
+      filetype = 2;
+      sprintf(rom_filename,"ms/%s",filelist[selection].filename);
+    }
+    else if (romtype & SYSTEM_GG)
+    {
+      /* Game Gear ROM file */
+      filetype = 3;
+      sprintf(rom_filename,"gg/%s",filelist[selection].filename);
+    }
+    else if (romtype == SYSTEM_SG)
+    {
+      /* SG-1000 ROM file */
+      filetype = 4;
+      sprintf(rom_filename,"sg/%s",filelist[selection].filename);
+    }
+    else if (romtype == SYSTEM_MCD)
+    {
+      /* CD image file */
+      filetype = 1;
+      sprintf(rom_filename,"cd/%s",filelist[selection].filename);
     }
     else
     {
-      /* unzip file */
-      done = UnZipBuffer(buffer, fd, filename);
+      /* by default, Genesis ROM file */
+      filetype = 0;
+      sprintf(rom_filename,"md/%s",filelist[selection].filename);
     }
 
-    /* close file */
-    fclose(fd);
+    /* remove file extension */
+    int i = strlen(rom_filename) - 1;
+    while ((i > 0) && (rom_filename[i] != '.')) i--;
+    if (i > 0) rom_filename[i] = 0;
 
-    if (done)
-    {
-      /* add/move the file to the top of the history. */
-      history_add_file(filepath, filelist[selection].filename);
+    /* add/move the file to the top of the history. */
+    history_add_file(filepath, filelist[selection].filename, filetype);
 
-      /* recent file list has changed */
-      if (deviceType == TYPE_RECENT) deviceType = -1;
+    /* recent file list may have changed */
+    if (deviceType == TYPE_RECENT) deviceType = -1;
 
-      /* return loaded size */
-      return done;
-    }
+    /* valid image has been loaded */
+    return 1;
   }
 
   return 0;
@@ -314,7 +328,7 @@ int LoadFile(u8 *buffer, u32 selection, char *filename)
  *
  * Function to open a directory and load ROM file list.
  ****************************************************************************/ 
-int OpenDirectory(int device)
+int OpenDirectory(int device, int type)
 {
   int max = 0;
 
@@ -344,7 +358,7 @@ int OpenDirectory(int device)
     if (device == TYPE_DVD)
     {
       /* try to access root directory */
-      DIR_ITER *dir = diropen(rootdir[TYPE_DVD]);
+      DIR *dir = opendir(rootdir[TYPE_DVD]);
       if (dir == NULL)
       {
         /* mount DVD */
@@ -353,12 +367,12 @@ int OpenDirectory(int device)
       }
       else
       {
-        dirclose(dir);
+        closedir(dir);
       }
     }
 
     /* parse last directory */
-    fileDir = config.lastdir[device];
+    fileDir = config.lastdir[type][device];
     max = ParseDirectory();
     if (max <= 0)
     {
@@ -380,11 +394,12 @@ int OpenDirectory(int device)
     return 0;
   }
 
-  /* check if device type has changed */
-  if (device != deviceType)
+  /* check if device or file type has changed */
+  if ((device != deviceType) || (type != fileType))
   {
-    /* reset current device type */
+    /* reset current types */
     deviceType = device;
+    fileType = type;
 
     /* reset File selector */
     ClearSelector(max);

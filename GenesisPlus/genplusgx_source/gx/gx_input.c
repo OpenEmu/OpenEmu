@@ -3,23 +3,39 @@
  *
  *  Genesis Plus GX input support
  *
- *  Eke-Eke (2008,2009)
+ *  Copyright Eke-Eke (2007-2012)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
  *
- ***************************************************************************/
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *
+ ****************************************************************************************/
 
 #include "shared.h"
 #include "font.h"
@@ -41,6 +57,7 @@
 /* lower is the value, faster is the key update */
 #define HELD_SPEED 4
 
+
 /* Configurable keys */
 #define KEY_BUTTONA 0
 #define KEY_BUTTONB 1
@@ -50,6 +67,7 @@
 #define KEY_BUTTONY 5
 #define KEY_BUTTONZ 6
 #define KEY_MODE    7
+#define KEY_MENU    8
 
 #ifdef HW_RVL
 
@@ -66,74 +84,88 @@ static u32 wpad_dirmap[3][4] =
   {WPAD_CLASSIC_BUTTON_UP, WPAD_CLASSIC_BUTTON_DOWN, WPAD_CLASSIC_BUTTON_LEFT, WPAD_CLASSIC_BUTTON_RIGHT} /* CLASSIC */
 };
 
+#define WPAD_BUTTONS_HELD (WPAD_BUTTON_UP | WPAD_BUTTON_DOWN | WPAD_BUTTON_LEFT | WPAD_BUTTON_RIGHT | \
+                           WPAD_BUTTON_MINUS | WPAD_BUTTON_PLUS | WPAD_BUTTON_A | WPAD_BUTTON_2 | \
+                           WPAD_CLASSIC_BUTTON_UP | WPAD_CLASSIC_BUTTON_DOWN | WPAD_CLASSIC_BUTTON_LEFT | WPAD_CLASSIC_BUTTON_RIGHT | \
+                           WPAD_CLASSIC_BUTTON_FULL_L | WPAD_CLASSIC_BUTTON_FULL_R | WPAD_CLASSIC_BUTTON_A)
+
 #endif
+
+#define PAD_BUTTONS_HELD  (PAD_BUTTON_UP | PAD_BUTTON_DOWN | PAD_BUTTON_LEFT | PAD_BUTTON_RIGHT | \
+                           PAD_TRIGGER_L | PAD_TRIGGER_R | PAD_BUTTON_A)
 
 static char keyname[MAX_KEYS][16];
 
 static int held_cnt = 0;
+static int inputs_disabled = 0;
 
 /***************************************************************************************/
 /*   Gamecube PAD support                                                              */
 /***************************************************************************************/
 static void pad_config(int chan, int first_key, int last_key)
 {
-  u16 p,key;
+  u16 p = 0;
   char msg[64];
 
-  /* reset VSYNC callback */
-  VIDEO_SetPostRetraceCallback(NULL);
-  VIDEO_Flush();
+  /* disable background PAD scanning */
+  inputs_disabled = 1;
 
   /* Check if PAD is connected */
+  VIDEO_WaitVSync();
   if (!(PAD_ScanPads() & (1<<chan)))
   {
     /* restore inputs update callback */
-    VIDEO_SetPostRetraceCallback(gx_input_UpdateMenu);
-    VIDEO_Flush();
     sprintf(msg, "PAD #%d is not connected !", chan+1);
     GUI_WaitPrompt("Error",msg);
+
+    /* re-enable background PAD scanning and exit */
+    inputs_disabled = 0;
     return;
   }
 
   /* Configure each keys */
   do
   {
-    /* remove any pending keys */
-    while (PAD_ButtonsHeld(chan))
+    /* ignore unused keys */
+    if (strcmp(keyname[first_key], "N.A"))
     {
-      VIDEO_WaitVSync();
-      PAD_ScanPads();
-    }
+      /* remove any pending keys */
+      while (PAD_ButtonsHeld(chan))
+      {
+        VIDEO_WaitVSync();
+        PAD_ScanPads();
+      }
 
-    /* wait for user input */
-    sprintf(msg,"Press key for %s\n(D-PAD to return)",keyname[first_key]);
-    GUI_MsgBoxUpdate(0,msg);
+      /* configurable button */
+      sprintf(msg,"Press key for %s\n(D-PAD to return)",keyname[first_key]);
+      GUI_MsgBoxUpdate(0,msg);
 
-    key = 0;
-    while (!key)
-    {
-      /* update PAD status */
-      VIDEO_WaitVSync();
-      PAD_ScanPads();
-      p = PAD_ButtonsDown(chan);
+      /* wait for user input */
+      p = 0;
+      while (!p)
+      {
+        VIDEO_WaitVSync();
+        PAD_ScanPads();
+        p = PAD_ButtonsDown(chan);
+      }
 
       /* find pressed key */
-      if (p & PAD_BUTTON_A) key = PAD_BUTTON_A;
-      else if (p & PAD_BUTTON_B) key = PAD_BUTTON_B;
-      else if (p & PAD_BUTTON_X) key = PAD_BUTTON_X;
-      else if (p & PAD_BUTTON_Y) key = PAD_BUTTON_Y;
-      else if (p & PAD_TRIGGER_R) key = PAD_TRIGGER_R;
-      else if (p & PAD_TRIGGER_L) key = PAD_TRIGGER_L;
-      else if (p & PAD_TRIGGER_Z) key = PAD_TRIGGER_Z;
-      else if (p & PAD_BUTTON_START) key = PAD_BUTTON_START;
-      else if (p) key = 0xff;
+      if (p & PAD_BUTTON_A) p = PAD_BUTTON_A;
+      else if (p & PAD_BUTTON_B) p = PAD_BUTTON_B;
+      else if (p & PAD_BUTTON_X) p = PAD_BUTTON_X;
+      else if (p & PAD_BUTTON_Y) p = PAD_BUTTON_Y;
+      else if (p & PAD_TRIGGER_R) p = PAD_TRIGGER_R;
+      else if (p & PAD_TRIGGER_L) p = PAD_TRIGGER_L;
+      else if (p & PAD_TRIGGER_Z) p = PAD_TRIGGER_Z;
+      else if (p & PAD_BUTTON_START) p = PAD_BUTTON_START;
+      else first_key = MAX_KEYS;
+
+      /* update key mapping */
+      if (first_key < MAX_KEYS)
+      {
+        config.pad_keymap[chan][first_key] = p;
+      }
     }
-
-    /* exit */
-    if (key == 0xff) break;
-
-    /* update key mapping */
-    config.pad_keymap[chan][first_key] = key;
   }
   while (first_key++ < last_key);
 
@@ -144,9 +176,36 @@ static void pad_config(int chan, int first_key, int last_key)
     PAD_ScanPads();
   }
 
-  /* restore inputs update callback */
-  VIDEO_SetPostRetraceCallback(gx_input_UpdateMenu);
-  VIDEO_Flush();
+  /* Configurable menu key */
+  GUI_MsgBoxUpdate(0,"Press key(s) for MENU");
+
+  /* reset key combo */
+  config.pad_keymap[chan][KEY_MENU] = 0;
+
+  /* wait for user input */
+  p = 0;
+  while (!p)
+  {
+    /* update PAD status */
+    VIDEO_WaitVSync();
+    PAD_ScanPads();
+    p = PAD_ButtonsHeld(chan);
+  }
+
+  /* register keys until none are pressed anymore */
+  while (p)
+  {
+    /* update key combo */
+    config.pad_keymap[chan][KEY_MENU] |= p;
+
+    /* update PAD status */
+    VIDEO_WaitVSync();
+    PAD_ScanPads();
+    p = PAD_ButtonsHeld(chan);
+  }
+
+  /* re-enable background PAD scanning and exit */
+  inputs_disabled = 0;
 }
 
 static void pad_update(s8 chan, u8 i)
@@ -156,15 +215,15 @@ static void pad_update(s8 chan, u8 i)
   s8 x  = PAD_StickX (chan);
   s8 y  = PAD_StickY (chan);
 
-  /* Menu Combo */
-  if ((p & PAD_TRIGGER_Z) && (p & (PAD_BUTTON_UP | PAD_BUTTON_DOWN | PAD_BUTTON_LEFT | PAD_BUTTON_RIGHT)))
+  /* Retrieve current key mapping */
+  u16 *pad_keymap = config.pad_keymap[chan];
+
+  /* User configurable menu combo */
+  if ((p & pad_keymap[KEY_MENU]) == pad_keymap[KEY_MENU])
   {
     ConfigRequested = 1;
     return;
   }
-
-  /* Retrieve current key mapping */
-  u16 *pad_keymap = config.pad_keymap[chan];
 
   /* Emulated device */
   switch (input.dev[i])
@@ -176,10 +235,19 @@ static void pad_update(s8 chan, u8 i)
       if (p & pad_keymap[KEY_BUTTONY]) input.pad[i] |= INPUT_Y;
       if (p & pad_keymap[KEY_BUTTONZ]) input.pad[i] |= INPUT_Z;
       if (p & pad_keymap[KEY_MODE])    input.pad[i] |= INPUT_MODE;
-    }
+
+      /* default inputs are checked below */
+   }
 
     case DEVICE_PAD3B:
     {
+      /* Default menu key (right analog stick) */
+      if (PAD_SubStickX(chan) > ANALOG_SENSITIVITY)
+      {
+        ConfigRequested = 1;
+        return;
+      }
+
       /* D-PAD */
       if ((p & PAD_BUTTON_UP) || (y > ANALOG_SENSITIVITY)) input.pad[i] |= INPUT_UP;
       else if ((p & PAD_BUTTON_DOWN) || (y < -ANALOG_SENSITIVITY)) input.pad[i] |= INPUT_DOWN;
@@ -232,10 +300,19 @@ static void pad_update(s8 chan, u8 i)
     {
       /* Y analog position [0-255] */
       input.analog[i][1] = y ? (127 - y) : (128 - y);
-    }
+
+      /* default inputs are checked below */
+   }
 
     case DEVICE_PADDLE:
     {
+      /* Default menu key (right analog stick) */
+      if (PAD_SubStickX(chan) > ANALOG_SENSITIVITY)
+      {
+        ConfigRequested = 1;
+        return;
+      }
+
       /* X analog position [0-255] */
       input.analog[i][0] = (x + 128);
 
@@ -249,6 +326,13 @@ static void pad_update(s8 chan, u8 i)
 
     case DEVICE_PAD2B:
     {
+      /* Default menu key (right analog stick) */
+      if (PAD_SubStickX(chan) > ANALOG_SENSITIVITY)
+      {
+        ConfigRequested = 1;
+        return;
+      }
+
       /* D-PAD */
       if ((p & PAD_BUTTON_UP) || (y > ANALOG_SENSITIVITY)) input.pad[i] |= INPUT_UP;
       else if ((p & PAD_BUTTON_DOWN) || (y < -ANALOG_SENSITIVITY)) input.pad[i] |= INPUT_DOWN;
@@ -265,6 +349,13 @@ static void pad_update(s8 chan, u8 i)
 
     case DEVICE_LIGHTGUN:
     {
+       /* Default menu key (right analog stick) */
+      if (PAD_SubStickX(chan) > ANALOG_SENSITIVITY)
+      {
+        ConfigRequested = 1;
+        return;
+      }
+
       /* Gun screen position (x,y) */
       input.analog[i][0] += x / ANALOG_SENSITIVITY;
       input.analog[i][1] -= y / ANALOG_SENSITIVITY;
@@ -286,6 +377,13 @@ static void pad_update(s8 chan, u8 i)
 
     case DEVICE_MOUSE:
     {
+      /* Default menu key (right analog stick) */
+      if (PAD_SubStickX(chan) > ANALOG_SENSITIVITY)
+      {
+        ConfigRequested = 1;
+        return;
+      }
+
       /* Mouse relative movement (-255,255) */
       input.analog[i][0] =  (x / ANALOG_SENSITIVITY) * 2;
       input.analog[i][1] =  (y / ANALOG_SENSITIVITY) * 2;
@@ -305,13 +403,20 @@ static void pad_update(s8 chan, u8 i)
       break;
     }
 
-    case DEVICE_TABLET:
+    case DEVICE_PICO:
     {
+      /* Default menu key (right analog stick) */
+      if (PAD_SubStickX(chan) > ANALOG_SENSITIVITY)
+      {
+        ConfigRequested = 1;
+        return;
+      }
+
       /* D-PAD */
-      if (p & PAD_BUTTON_UP) input.pad[i] |= INPUT_UP;
-      else if (p & PAD_BUTTON_DOWN) input.pad[i] |= INPUT_DOWN;
-      if (p & PAD_BUTTON_LEFT) input.pad[i] |= INPUT_LEFT;
-      else if (p & PAD_BUTTON_RIGHT) input.pad[i] |= INPUT_RIGHT;
+      if (p & PAD_BUTTON_UP) input.pad[0] |= INPUT_UP;
+      else if (p & PAD_BUTTON_DOWN) input.pad[0] |= INPUT_DOWN;
+      if (p & PAD_BUTTON_LEFT) input.pad[0] |= INPUT_LEFT;
+      else if (p & PAD_BUTTON_RIGHT) input.pad[0] |= INPUT_RIGHT;
 
       /* PEN screen position (x,y) */
       input.analog[0][0] += x / ANALOG_SENSITIVITY;
@@ -323,9 +428,39 @@ static void pad_update(s8 chan, u8 i)
       if (input.analog[0][1] < 0x1fc) input.analog[0][1] = 0x1fc;
       else if (input.analog[0][1] > 0x3f3) input.analog[0][1] = 0x3f3;
 
-      /* PEN & RED buttons */
-      if (p & pad_keymap[KEY_BUTTONA]) input.pad[i] |= INPUT_A;
-      if (p & pad_keymap[KEY_BUTTONB]) input.pad[i] |= INPUT_B;
+      /* PEN button */
+      if (p & pad_keymap[KEY_BUTTONA]) input.pad[0] |= INPUT_PICO_RED;
+
+      /* RED button */
+      if (p & pad_keymap[KEY_BUTTONB]) input.pad[0] |= INPUT_PICO_PEN;
+
+      /* PAGE index increment */
+      if (p & pad_keymap[KEY_BUTTONC]) pico_current = (pico_current + 1) & 7;
+
+      break;
+    }
+
+    case DEVICE_TEREBI:
+    {
+      /* Default menu key (right analog stick) */
+      if (PAD_SubStickX(chan) > ANALOG_SENSITIVITY)
+      {
+        ConfigRequested = 1;
+        return;
+      }
+
+      /* PEN screen position (x,y) */
+      input.analog[0][0] += x / ANALOG_SENSITIVITY;
+      input.analog[0][1] -= y / ANALOG_SENSITIVITY;
+
+      /* Limits */
+      if (input.analog[0][0] < 0) input.analog[0][0] = 0;
+      else if (input.analog[0][0] > 250) input.analog[0][0] = 250;
+      if (input.analog[0][1] < 0) input.analog[0][1] = 0;
+      else if (input.analog[0][1] > 250) input.analog[0][1] = 250;
+
+      /* PEN button */
+      if (p & pad_keymap[KEY_BUTTONA]) input.pad[0] |= INPUT_BUTTON1;
 
       break;
     }
@@ -473,122 +608,125 @@ static int wpad_StickY(WPADData *data, u8 right)
 static void wpad_config(u8 exp, int chan, int first_key, int last_key)
 {
   char msg[64];
-  u32 key,p = 255;
+  u32 p = 255;
 
-  /* remove inputs update callback */
-  VIDEO_SetPostRetraceCallback(NULL);
-  VIDEO_Flush();
+  /* Disable background PAD scanning */
+  inputs_disabled = 1;
 
   /* Check if device is connected */
   WPAD_Probe(chan, &p);
   if (((exp > WPAD_EXP_NONE) && (p != exp)) || (p == 255))
   {
-    /* restore inputs update callback */
-    VIDEO_SetPostRetraceCallback(gx_input_UpdateMenu);
-    VIDEO_Flush();
-
+    /* device not detected */
     if (exp == WPAD_EXP_NONE)     sprintf(msg, "WIIMOTE #%d is not connected !", chan+1);
     if (exp == WPAD_EXP_NUNCHUK)  sprintf(msg, "NUNCHUK #%d is not connected !", chan+1);
     if (exp == WPAD_EXP_CLASSIC)  sprintf(msg, "CLASSIC #%d is not connected !", chan+1);
     GUI_WaitPrompt("Error",msg);
+
+    /* re-enable background PAD scanning and exit */
+    inputs_disabled = 0;
     return;
   }
 
-  /* loop on each mapped keys */
+  /* Configure each keys */
   do
   {
-    /* remove any pending buttons */
-    while (WPAD_ButtonsHeld(chan))
+    /* ignore unused keys */
+    if (strcmp(keyname[first_key], "N.A"))
     {
-      WPAD_ScanPads();
-      VIDEO_WaitVSync();
-    }
+      /* remove any pending buttons */
+      while (WPAD_ButtonsHeld(chan))
+      {
+        VIDEO_WaitVSync();
+        WPAD_ScanPads();
+      }
 
-    /* wait for user input */
-    sprintf(msg,"Press key for %s\n(HOME to return)",keyname[first_key]);
-    GUI_MsgBoxUpdate(0,msg);
+      /* configurable button */
+      sprintf(msg,"Press key for %s\n(HOME to return)",keyname[first_key]);
+      GUI_MsgBoxUpdate(0,msg);
 
-    /* wait for input */
-    key = 0;
-    while (!key)
-    {
-      VIDEO_WaitVSync();
-      WPAD_ScanPads();
-      p = WPAD_ButtonsDown(chan);
+      /* wait for user input */
+      p = 0;
+      while (!p)
+      {
+        VIDEO_WaitVSync();
+        WPAD_ScanPads();
+        p = WPAD_ButtonsDown(chan);
+      }
 
+      /* detect pressed key */
       switch (exp)
       {
         /* Wiimote (TODO: add motion sensing !) */
         case WPAD_EXP_NONE:
         {
-          if (p & WPAD_BUTTON_HOME) key = 0xff;
-          else if (p & WPAD_BUTTON_2) key = WPAD_BUTTON_2;
-          else if (p & WPAD_BUTTON_1) key = WPAD_BUTTON_1;
-          else if (p & WPAD_BUTTON_B) key = WPAD_BUTTON_B;
-          else if (p & WPAD_BUTTON_A) key = WPAD_BUTTON_A;
-          else if (p & WPAD_BUTTON_PLUS) key = WPAD_BUTTON_PLUS;
-          else if (p & WPAD_BUTTON_MINUS) key = WPAD_BUTTON_MINUS;
+          if (p & WPAD_BUTTON_2) p = WPAD_BUTTON_2;
+          else if (p & WPAD_BUTTON_1) p = WPAD_BUTTON_1;
+          else if (p & WPAD_BUTTON_B) p = WPAD_BUTTON_B;
+          else if (p & WPAD_BUTTON_A) p = WPAD_BUTTON_A;
+          else if (p & WPAD_BUTTON_PLUS) p = WPAD_BUTTON_PLUS;
+          else if (p & WPAD_BUTTON_MINUS) p = WPAD_BUTTON_MINUS;
+          else first_key = MAX_KEYS;
           break;
         }
 
         /* Wiimote + Nunchuk (TODO: add motion sensing !) */
         case WPAD_EXP_NUNCHUK:
         {
-          if (p & WPAD_BUTTON_HOME) key = 0xff;
-          else if (p & WPAD_BUTTON_2) key = WPAD_BUTTON_2;
-          else if (p & WPAD_BUTTON_1) key = WPAD_BUTTON_1;
-          else if (p & WPAD_BUTTON_B) key = WPAD_BUTTON_B;
-          else if (p & WPAD_BUTTON_A) key = WPAD_BUTTON_A;
-          else if (p & WPAD_BUTTON_PLUS) key = WPAD_BUTTON_PLUS;
-          else if (p & WPAD_BUTTON_MINUS) key = WPAD_BUTTON_MINUS;
-          else if (p & WPAD_NUNCHUK_BUTTON_Z) key = WPAD_NUNCHUK_BUTTON_Z;
-          else if (p & WPAD_NUNCHUK_BUTTON_C) key = WPAD_NUNCHUK_BUTTON_C;
+          if (p & WPAD_BUTTON_2) p = WPAD_BUTTON_2;
+          else if (p & WPAD_BUTTON_1) p = WPAD_BUTTON_1;
+          else if (p & WPAD_BUTTON_B) p = WPAD_BUTTON_B;
+          else if (p & WPAD_BUTTON_A) p = WPAD_BUTTON_A;
+          else if (p & WPAD_BUTTON_PLUS) p = WPAD_BUTTON_PLUS;
+          else if (p & WPAD_BUTTON_MINUS) p= WPAD_BUTTON_MINUS;
+          else if (p & WPAD_NUNCHUK_BUTTON_Z) p = WPAD_NUNCHUK_BUTTON_Z;
+          else if (p & WPAD_NUNCHUK_BUTTON_C) p = WPAD_NUNCHUK_BUTTON_C;
+          else first_key = MAX_KEYS;
           break;
         }
 
         /* Classic Controller */
         case WPAD_EXP_CLASSIC:
         {
-          if (p & WPAD_CLASSIC_BUTTON_HOME) key = 0xff;
-          else if (p & WPAD_CLASSIC_BUTTON_X) key = WPAD_CLASSIC_BUTTON_X;
-          else if (p & WPAD_CLASSIC_BUTTON_A) key = WPAD_CLASSIC_BUTTON_A;
-          else if (p & WPAD_CLASSIC_BUTTON_Y) key = WPAD_CLASSIC_BUTTON_Y;
-          else if (p & WPAD_CLASSIC_BUTTON_B) key = WPAD_CLASSIC_BUTTON_B;
-          else if (p & WPAD_CLASSIC_BUTTON_ZL) key = WPAD_CLASSIC_BUTTON_ZL;
-          else if (p & WPAD_CLASSIC_BUTTON_ZR) key = WPAD_CLASSIC_BUTTON_ZR;
-          else if (p & WPAD_CLASSIC_BUTTON_PLUS) key = WPAD_CLASSIC_BUTTON_PLUS;
-          else if (p & WPAD_CLASSIC_BUTTON_MINUS) key = WPAD_CLASSIC_BUTTON_MINUS;
-          else if (p & WPAD_CLASSIC_BUTTON_FULL_L) key = WPAD_CLASSIC_BUTTON_FULL_L;
-          else if (p & WPAD_CLASSIC_BUTTON_FULL_R) key = WPAD_CLASSIC_BUTTON_FULL_R;
+          if (p & WPAD_CLASSIC_BUTTON_X) p = WPAD_CLASSIC_BUTTON_X;
+          else if (p & WPAD_CLASSIC_BUTTON_A) p = WPAD_CLASSIC_BUTTON_A;
+          else if (p & WPAD_CLASSIC_BUTTON_Y) p = WPAD_CLASSIC_BUTTON_Y;
+          else if (p & WPAD_CLASSIC_BUTTON_B) p = WPAD_CLASSIC_BUTTON_B;
+          else if (p & WPAD_CLASSIC_BUTTON_ZL) p = WPAD_CLASSIC_BUTTON_ZL;
+          else if (p & WPAD_CLASSIC_BUTTON_ZR) p = WPAD_CLASSIC_BUTTON_ZR;
+          else if (p & WPAD_CLASSIC_BUTTON_PLUS) p = WPAD_CLASSIC_BUTTON_PLUS;
+          else if (p & WPAD_CLASSIC_BUTTON_MINUS) p = WPAD_CLASSIC_BUTTON_MINUS;
+          else if (p & WPAD_CLASSIC_BUTTON_FULL_L) p = WPAD_CLASSIC_BUTTON_FULL_L;
+          else if (p & WPAD_CLASSIC_BUTTON_FULL_R) p = WPAD_CLASSIC_BUTTON_FULL_R;
+          else first_key = MAX_KEYS;
           break;
         }
 
         default:
         {
-          key = 0xff;
+          first_key = MAX_KEYS;
           break;
         }
       }
-    }
 
-    /* exit */
-    if (key == 0xff) break;
-    
-    /* update key mapping */
-    config.wpad_keymap[exp + (chan * 3)][first_key] = key;
+      /* update key mapping */
+      if (first_key < MAX_KEYS)
+      {
+        config.wpad_keymap[exp + (chan * 3)][first_key] = p;
+      }
+    }
   }
   while (first_key++ < last_key);
 
   /* remove any pending buttons */
   while (WPAD_ButtonsHeld(chan))
   {
-    WPAD_ScanPads();
     VIDEO_WaitVSync();
+    WPAD_ScanPads();
   }
 
-  /* restore inputs update callback */
-  VIDEO_SetPostRetraceCallback(gx_input_UpdateMenu);
-  VIDEO_Flush();
+  /* re-enable background PAD scanning and exit */
+  inputs_disabled = 0;
 }
 
 static void wpad_update(s8 chan, u8 i, u32 exp)
@@ -598,13 +736,6 @@ static void wpad_update(s8 chan, u8 i, u32 exp)
 
   /* WPAD status */
   u32 p = data->btns_h;
-
-  /* Menu Key */
-  if ((p & WPAD_BUTTON_HOME) || (p & WPAD_CLASSIC_BUTTON_HOME))
-  {
-    ConfigRequested = 1;
-    return;
-  }
 
   /* Analog sticks */
   s8 x = 0;
@@ -860,7 +991,7 @@ static void wpad_update(s8 chan, u8 i, u32 exp)
       break;
     }
 
-    case DEVICE_TABLET:
+    case DEVICE_PICO:
     {
       /* D-PAD */
       if (p & PAD_BUTTON_UP) input.pad[i] |= INPUT_UP;
@@ -890,9 +1021,44 @@ static void wpad_update(s8 chan, u8 i, u32 exp)
         }
       }
 
-      /* PEN & RED buttons */
-      if (p & wpad_keymap[KEY_BUTTONA]) input.pad[i] |= INPUT_A;
-      if (p & wpad_keymap[KEY_BUTTONB]) input.pad[i] |= INPUT_B;
+      /* PEN button */
+      if (p & wpad_keymap[KEY_BUTTONA]) input.pad[0] |= INPUT_PICO_PEN;
+
+      /* RED button */
+      if (p & wpad_keymap[KEY_BUTTONB]) input.pad[0] |= INPUT_PICO_RED;
+
+      /* PAGE index increment */
+      if (p & wpad_keymap[KEY_BUTTONC]) pico_current = (pico_current + 1) & 7;
+
+      break;
+    }
+
+    case DEVICE_TEREBI:
+    {
+      /* PEN screen position (x,y) */
+      input.analog[0][0] += x / ANALOG_SENSITIVITY;
+      input.analog[0][1] -= y / ANALOG_SENSITIVITY;
+
+      /* Limits */
+      if (input.analog[0][0] < 0) input.analog[0][0] = 0;
+      else if (input.analog[0][0] > 250) input.analog[0][0] = 250;
+      if (input.analog[0][1] < 0) input.analog[0][1] = 0;
+      else if (input.analog[0][1] > 250) input.analog[0][1] = 250;
+
+      /* Wiimote IR */
+      if (exp != WPAD_EXP_CLASSIC)
+      {
+        struct ir_t ir;
+        WPAD_IR(chan, &ir);
+        if (ir.valid)
+        {
+          input.analog[0][0] = (ir.x * 250) / 640;
+          input.analog[0][1] = (ir.y * 250) / 480;
+        }
+      }
+
+      /* PEN button */
+      if (p & wpad_keymap[KEY_BUTTONA]) input.pad[0] |= INPUT_BUTTON1;
 
       break;
     }
@@ -949,17 +1115,13 @@ static void wpad_update(s8 chan, u8 i, u32 exp)
 /***************************************************************************************/
 void gx_input_Init(void)
 {
-  PAD_Init ();
-
+  PAD_Init();
 #ifdef HW_RVL
   WPAD_Init();
   WPAD_SetIdleTimeout(60);
   WPAD_SetDataFormat(WPAD_CHAN_ALL,WPAD_FMT_BTNS_ACC_IR);
   WPAD_SetVRes(WPAD_CHAN_ALL,640,480);
 #endif
-
-  VIDEO_SetPostRetraceCallback(gx_input_UpdateMenu);
-  VIDEO_Flush();
 }
 
 int gx_input_FindDevices(void)
@@ -968,9 +1130,11 @@ int gx_input_FindDevices(void)
 #ifdef HW_RVL
   u32 wpad;
 #endif
-  u32 pad = PAD_ScanPads();
   int found = 0;
   int player = 0;
+
+  VIDEO_WaitVSync();
+  u32 pad = PAD_ScanPads();
 
   for (i=0; i<MAX_DEVICES; i++)
   {
@@ -1045,7 +1209,8 @@ void gx_input_SetDefault(void)
     config.pad_keymap[i][KEY_BUTTONX] = PAD_TRIGGER_L;
     config.pad_keymap[i][KEY_BUTTONY] = PAD_BUTTON_Y;
     config.pad_keymap[i][KEY_BUTTONZ] = PAD_TRIGGER_R;
-    config.pad_keymap[i][KEY_MODE]    = 0;
+    config.pad_keymap[i][KEY_MODE]    = PAD_TRIGGER_Z;
+    config.pad_keymap[i][KEY_MENU]    = PAD_TRIGGER_Z | PAD_BUTTON_RIGHT;
   }
 
 #ifdef HW_RVL
@@ -1233,27 +1398,33 @@ void gx_input_Config(u8 chan, u8 device, u8 type)
 
     case DEVICE_LIGHTGUN:
     {
-      if ((input.system[1] == SYSTEM_MENACER) || (input.system[1] == SYSTEM_JUSTIFIER))
+      first_key = KEY_BUTTONA;
+      last_key = KEY_START;
+      if (input.system[1] == SYSTEM_MENACER)
       {
-        first_key = KEY_BUTTONA;
-        last_key = KEY_START;
-        sprintf(keyname[KEY_BUTTONA],"Button A");
+        sprintf(keyname[KEY_BUTTONA],"TRIGGER Button");
         sprintf(keyname[KEY_BUTTONB],"Button B");
         sprintf(keyname[KEY_BUTTONC],"Button C");
         sprintf(keyname[KEY_START],"START Button");
       }
+      else if (input.system[1] == SYSTEM_JUSTIFIER)
+      {
+        sprintf(keyname[KEY_BUTTONA],"TRIGGER Button");
+        sprintf(keyname[KEY_BUTTONB],"N.A");
+        sprintf(keyname[KEY_BUTTONC],"N.A");
+        sprintf(keyname[KEY_START],"START Button");
+      }
       else
       {
-        first_key = KEY_BUTTONB;
-        last_key = KEY_START;
-        sprintf(keyname[KEY_BUTTONB],"Button 1 (Fire)");
-        sprintf(keyname[KEY_BUTTONC],"Button 2");
+        sprintf(keyname[KEY_BUTTONA],"TRIGGER Button");
+        sprintf(keyname[KEY_BUTTONB],"N.A");
+        sprintf(keyname[KEY_BUTTONC],"N.A");
         sprintf(keyname[KEY_START],"PAUSE Button");
       }
       break;
     }
 
-    case DEVICE_TABLET:
+    case DEVICE_PICO:
     {
       first_key = KEY_BUTTONA;
       last_key = KEY_BUTTONB;
@@ -1262,10 +1433,21 @@ void gx_input_Config(u8 chan, u8 device, u8 type)
       break;
     }
 
+    case DEVICE_TEREBI:
+    {
+      first_key = KEY_BUTTONA;
+      last_key = KEY_BUTTONA;
+      sprintf(keyname[KEY_BUTTONA],"PEN Button");
+      break;
+    }
+
     default:
     {
+      first_key = KEY_BUTTONA;
+      last_key = KEY_BUTTONA;
+      sprintf(keyname[KEY_BUTTONA],"N.A");
       GUI_WaitPrompt("Info","Activator is not configurable !");
-      return;
+      break;
     }
   }
 
@@ -1290,10 +1472,20 @@ void gx_input_Config(u8 chan, u8 device, u8 type)
 
 void gx_input_UpdateEmu(void)
 {
-  /* Update controllers */
+  /* Update GC controllers status */
   PAD_ScanPads();
+
 #ifdef HW_RVL
+  /* Update Wii controllers status */
   WPAD_ScanPads();
+
+  /* Hard-coded menu key */
+  u32 p = WPAD_ButtonsHeld(0);
+  if ((p & WPAD_BUTTON_HOME) || (p & WPAD_CLASSIC_BUTTON_HOME))
+  {
+    ConfigRequested = 1;
+    return;
+  }
 #endif
 
   int i, player = 0;
@@ -1322,12 +1514,15 @@ void gx_input_UpdateEmu(void)
   }
 
   /* Update RAM patches */
-  CheatUpdate();
+  RAMCheatUpdate();
 }
 
-/* Menu inputs update function (done by Video Interrupt callback) */
-void gx_input_UpdateMenu(u32 cnt)
+/* Menu inputs update function */
+void gx_input_UpdateMenu(void)
 {
+  /* Check if inputs update are disabled */
+  if (inputs_disabled) return;
+
   /* PAD status update */
   PAD_ScanPads();
 
@@ -1335,7 +1530,7 @@ void gx_input_UpdateMenu(u32 cnt)
   s16 pp = PAD_ButtonsDown(0);
 
   /* PAD held keys (direction/selection) */
-  s16 hp = PAD_ButtonsHeld(0) & (PAD_BUTTON_UP|PAD_BUTTON_DOWN|PAD_BUTTON_LEFT|PAD_BUTTON_RIGHT|PAD_BUTTON_A);
+  s16 hp = PAD_ButtonsHeld(0) & PAD_BUTTONS_HELD;
 
   /* PAD analog sticks (handled as PAD held direction keys) */
   s8 x  = PAD_StickX(0);
@@ -1354,7 +1549,7 @@ void gx_input_UpdateMenu(u32 cnt)
   u32 pw = data->btns_d;
 
   /* WPAD held keys (direction/selection) */
-  u32 hw = data->btns_h & (WPAD_CLASSIC_BUTTON_UP|WPAD_CLASSIC_BUTTON_DOWN|WPAD_CLASSIC_BUTTON_LEFT|WPAD_CLASSIC_BUTTON_RIGHT|WPAD_BUTTON_UP|WPAD_BUTTON_DOWN|WPAD_BUTTON_LEFT|WPAD_BUTTON_RIGHT|WPAD_BUTTON_A|WPAD_BUTTON_2);
+  u32 hw = data->btns_h & WPAD_BUTTONS_HELD;
 
   /* WPAD analog sticks (handled as PAD held direction keys) */
   x = wpad_StickX(data, 0);
@@ -1399,6 +1594,8 @@ void gx_input_UpdateMenu(u32 cnt)
     else if (pw & WPAD_BUTTON_DOWN)  pp |= PAD_BUTTON_DOWN;
     else if (pw & WPAD_BUTTON_LEFT)  pp |= PAD_BUTTON_LEFT;
     else if (pw & WPAD_BUTTON_RIGHT) pp |= PAD_BUTTON_RIGHT;
+    if (pw & WPAD_BUTTON_MINUS)      pp |= PAD_TRIGGER_L;
+    if (pw & WPAD_BUTTON_PLUS)       pp |= PAD_TRIGGER_R;
   }
   else
   {
@@ -1407,6 +1604,8 @@ void gx_input_UpdateMenu(u32 cnt)
     else if (pw & WPAD_BUTTON_DOWN)  pp |= PAD_BUTTON_RIGHT;
     else if (pw & WPAD_BUTTON_LEFT)  pp |= PAD_BUTTON_DOWN;
     else if (pw & WPAD_BUTTON_RIGHT) pp |= PAD_BUTTON_UP;
+    if (pw & WPAD_BUTTON_MINUS)      pp |= PAD_TRIGGER_R;
+    if (pw & WPAD_BUTTON_PLUS)       pp |= PAD_TRIGGER_L;
   }
 
   /* Classic Controller direction keys */
@@ -1416,8 +1615,6 @@ void gx_input_UpdateMenu(u32 cnt)
   else if (pw & WPAD_CLASSIC_BUTTON_RIGHT)  pp |= PAD_BUTTON_RIGHT;
 
   /* WPAD buttons */
-  if (pw & WPAD_BUTTON_MINUS)           pp |= PAD_TRIGGER_L;
-  if (pw & WPAD_BUTTON_PLUS)            pp |= PAD_TRIGGER_R;
   if (pw & WPAD_BUTTON_A)               pp |= PAD_BUTTON_A;
   if (pw & WPAD_BUTTON_B)               pp |= PAD_BUTTON_B;
   if (pw & WPAD_BUTTON_2)               pp |= PAD_BUTTON_A;

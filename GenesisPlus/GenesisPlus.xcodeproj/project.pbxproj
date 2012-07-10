@@ -42,8 +42,20 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		942597CB1514703D0074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597CA1514703D0074E3A3 /* OpenEmuBase.framework */; };
+		948DA2AD15AB906400C0EA78 /* cd_cart.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2A115AB906400C0EA78 /* cd_cart.c */; };
+		948DA2AE15AB906400C0EA78 /* cdc.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2A315AB906400C0EA78 /* cdc.c */; };
+		948DA2AF15AB906400C0EA78 /* cdd.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2A515AB906400C0EA78 /* cdd.c */; };
+		948DA2B015AB906400C0EA78 /* gfx.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2A715AB906400C0EA78 /* gfx.c */; };
+		948DA2B115AB906400C0EA78 /* pcm.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2A915AB906400C0EA78 /* pcm.c */; };
+		948DA2B215AB906400C0EA78 /* scd.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2AB15AB906400C0EA78 /* scd.c */; };
+		948DA2B615AB93FA00C0EA78 /* terebi_oekaki.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2B415AB93FA00C0EA78 /* terebi_oekaki.c */; };
+		948DA2B915AB94CF00C0EA78 /* gg_eeprom.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2B715AB94CF00C0EA78 /* gg_eeprom.c */; };
+		948DA2BC15AB954800C0EA78 /* ym2413.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2BA15AB954800C0EA78 /* ym2413.c */; };
+		948DA2BE15AB98D600C0EA78 /* s68kcpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2BD15AB98D600C0EA78 /* s68kcpu.c */; };
+		948DA2CB15ABC97200C0EA78 /* md_eeprom.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2C915ABC97100C0EA78 /* md_eeprom.c */; };
+		948DA2CE15ABCFDD00C0EA78 /* libretro.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2C615ABC57C00C0EA78 /* libretro.c */; };
+		948DA2CF15ABCFDD00C0EA78 /* libretro.h in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2C715ABC57C00C0EA78 /* libretro.h */; };
 		94ED8A9214CF933700FF8901 /* areplay.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED896A14CF933600FF8901 /* areplay.c */; };
-		94ED8A9314CF933700FF8901 /* eeprom.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED896C14CF933600FF8901 /* eeprom.c */; };
 		94ED8A9414CF933700FF8901 /* ggenie.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED896E14CF933600FF8901 /* ggenie.c */; };
 		94ED8A9514CF933700FF8901 /* md_cart.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED897014CF933600FF8901 /* md_cart.c */; };
 		94ED8A9614CF933700FF8901 /* sms_cart.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED897214CF933600FF8901 /* sms_cart.c */; };
@@ -65,8 +77,6 @@
 		94ED8B2314CF933800FF8901 /* io_ctrl.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A2814CF933700FF8901 /* io_ctrl.c */; };
 		94ED8B2414CF933800FF8901 /* loadrom.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A2A14CF933700FF8901 /* loadrom.c */; };
 		94ED8B2514CF933800FF8901 /* m68kcpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A2F14CF933700FF8901 /* m68kcpu.c */; };
-		94ED8B2614CF933800FF8901 /* m68kops.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A3214CF933700FF8901 /* m68kops.c */; };
-		94ED8B2714CF933800FF8901 /* m68k_readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 94ED8A3414CF933700FF8901 /* m68k_readme.txt */; };
 		94ED8B2814CF933800FF8901 /* mem68k.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A3614CF933700FF8901 /* mem68k.c */; };
 		94ED8B2914CF933800FF8901 /* membnk.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A3814CF933700FF8901 /* membnk.c */; };
 		94ED8B2A14CF933800FF8901 /* memz80.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A3A14CF933700FF8901 /* memz80.c */; };
@@ -87,9 +97,6 @@
 		94ED8B4D14CF933800FF8901 /* vdp_ctrl.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8014CF933700FF8901 /* vdp_ctrl.c */; };
 		94ED8B4E14CF933800FF8901 /* vdp_render.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8214CF933700FF8901 /* vdp_render.c */; };
 		94ED8B4F14CF933800FF8901 /* z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8614CF933700FF8901 /* z80.c */; };
-		94ED8B5014CF933800FF8901 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8914CF933700FF8901 /* config.c */; };
-		94ED8B5114CF933800FF8901 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8B14CF933700FF8901 /* error.c */; };
-		94ED8B5214CF933800FF8901 /* fileio.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8D14CF933700FF8901 /* fileio.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,10 +144,31 @@
 		8D5B49B6048680CD000E48DA /* GenesisPlus.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GenesisPlus.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		942597CA1514703D0074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		948DA2A115AB906400C0EA78 /* cd_cart.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cd_cart.c; sourceTree = "<group>"; };
+		948DA2A215AB906400C0EA78 /* cd_cart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cd_cart.h; sourceTree = "<group>"; };
+		948DA2A315AB906400C0EA78 /* cdc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cdc.c; sourceTree = "<group>"; };
+		948DA2A415AB906400C0EA78 /* cdc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdc.h; sourceTree = "<group>"; };
+		948DA2A515AB906400C0EA78 /* cdd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cdd.c; sourceTree = "<group>"; };
+		948DA2A615AB906400C0EA78 /* cdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdd.h; sourceTree = "<group>"; };
+		948DA2A715AB906400C0EA78 /* gfx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gfx.c; sourceTree = "<group>"; };
+		948DA2A815AB906400C0EA78 /* gfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gfx.h; sourceTree = "<group>"; };
+		948DA2A915AB906400C0EA78 /* pcm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcm.c; sourceTree = "<group>"; };
+		948DA2AA15AB906400C0EA78 /* pcm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcm.h; sourceTree = "<group>"; };
+		948DA2AB15AB906400C0EA78 /* scd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scd.c; sourceTree = "<group>"; };
+		948DA2AC15AB906400C0EA78 /* scd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scd.h; sourceTree = "<group>"; };
+		948DA2B415AB93FA00C0EA78 /* terebi_oekaki.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = terebi_oekaki.c; sourceTree = "<group>"; };
+		948DA2B515AB93FA00C0EA78 /* terebi_oekaki.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = terebi_oekaki.h; sourceTree = "<group>"; };
+		948DA2B715AB94CF00C0EA78 /* gg_eeprom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gg_eeprom.c; sourceTree = "<group>"; };
+		948DA2B815AB94CF00C0EA78 /* gg_eeprom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gg_eeprom.h; sourceTree = "<group>"; };
+		948DA2BA15AB954800C0EA78 /* ym2413.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ym2413.c; sourceTree = "<group>"; };
+		948DA2BB15AB954800C0EA78 /* ym2413.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ym2413.h; sourceTree = "<group>"; };
+		948DA2BD15AB98D600C0EA78 /* s68kcpu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = s68kcpu.c; sourceTree = "<group>"; };
+		948DA2C615ABC57C00C0EA78 /* libretro.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = libretro.c; path = libretro/libretro.c; sourceTree = SOURCE_ROOT; };
+		948DA2C715ABC57C00C0EA78 /* libretro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libretro.h; path = libretro/libretro.h; sourceTree = SOURCE_ROOT; };
+		948DA2C915ABC97100C0EA78 /* md_eeprom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md_eeprom.c; sourceTree = "<group>"; };
+		948DA2CA15ABC97100C0EA78 /* md_eeprom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md_eeprom.h; sourceTree = "<group>"; };
 		94ED896A14CF933600FF8901 /* areplay.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = areplay.c; sourceTree = "<group>"; };
 		94ED896B14CF933600FF8901 /* areplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = areplay.h; sourceTree = "<group>"; };
-		94ED896C14CF933600FF8901 /* eeprom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eeprom.c; sourceTree = "<group>"; };
-		94ED896D14CF933600FF8901 /* eeprom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eeprom.h; sourceTree = "<group>"; };
 		94ED896E14CF933600FF8901 /* ggenie.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ggenie.c; sourceTree = "<group>"; };
 		94ED896F14CF933600FF8901 /* ggenie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ggenie.h; sourceTree = "<group>"; };
 		94ED897014CF933600FF8901 /* md_cart.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md_cart.c; sourceTree = "<group>"; };
@@ -184,10 +212,7 @@
 		94ED8A2E14CF933700FF8901 /* m68kconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kconf.h; sourceTree = "<group>"; };
 		94ED8A2F14CF933700FF8901 /* m68kcpu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kcpu.c; sourceTree = "<group>"; };
 		94ED8A3014CF933700FF8901 /* m68kcpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kcpu.h; sourceTree = "<group>"; };
-		94ED8A3114CF933700FF8901 /* m68kCycleAccurate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kCycleAccurate.h; sourceTree = "<group>"; };
-		94ED8A3214CF933700FF8901 /* m68kops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kops.c; sourceTree = "<group>"; };
 		94ED8A3314CF933700FF8901 /* m68kops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kops.h; sourceTree = "<group>"; };
-		94ED8A3414CF933700FF8901 /* m68k_readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = m68k_readme.txt; sourceTree = "<group>"; };
 		94ED8A3514CF933700FF8901 /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		94ED8A3614CF933700FF8901 /* mem68k.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mem68k.c; sourceTree = "<group>"; };
 		94ED8A3714CF933700FF8901 /* mem68k.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mem68k.h; sourceTree = "<group>"; };
@@ -338,10 +363,32 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
+		948DA2A015AB906400C0EA78 /* cd_hw */ = {
+			isa = PBXGroup;
+			children = (
+				948DA2A115AB906400C0EA78 /* cd_cart.c */,
+				948DA2A215AB906400C0EA78 /* cd_cart.h */,
+				948DA2A315AB906400C0EA78 /* cdc.c */,
+				948DA2A415AB906400C0EA78 /* cdc.h */,
+				948DA2A515AB906400C0EA78 /* cdd.c */,
+				948DA2A615AB906400C0EA78 /* cdd.h */,
+				948DA2A715AB906400C0EA78 /* gfx.c */,
+				948DA2A815AB906400C0EA78 /* gfx.h */,
+				948DA2A915AB906400C0EA78 /* pcm.c */,
+				948DA2AA15AB906400C0EA78 /* pcm.h */,
+				948DA2AB15AB906400C0EA78 /* scd.c */,
+				948DA2AC15AB906400C0EA78 /* scd.h */,
+			);
+			path = cd_hw;
+			sourceTree = "<group>";
+		};
 		94ED896814CF933600FF8901 /* genplusgx_source */ = {
 			isa = PBXGroup;
 			children = (
+				948DA2C615ABC57C00C0EA78 /* libretro.c */,
+				948DA2C715ABC57C00C0EA78 /* libretro.h */,
 				94ED896914CF933600FF8901 /* cart_hw */,
+				948DA2A015AB906400C0EA78 /* cd_hw */,
 				94ED897D14CF933600FF8901 /* genesis.c */,
 				94ED897E14CF933600FF8901 /* genesis.h */,
 				94ED8A1414CF933700FF8901 /* hvc.h */,
@@ -380,12 +427,14 @@
 			children = (
 				94ED896A14CF933600FF8901 /* areplay.c */,
 				94ED896B14CF933600FF8901 /* areplay.h */,
-				94ED896C14CF933600FF8901 /* eeprom.c */,
-				94ED896D14CF933600FF8901 /* eeprom.h */,
+				948DA2B715AB94CF00C0EA78 /* gg_eeprom.c */,
+				948DA2B815AB94CF00C0EA78 /* gg_eeprom.h */,
 				94ED896E14CF933600FF8901 /* ggenie.c */,
 				94ED896F14CF933600FF8901 /* ggenie.h */,
 				94ED897014CF933600FF8901 /* md_cart.c */,
 				94ED897114CF933600FF8901 /* md_cart.h */,
+				948DA2C915ABC97100C0EA78 /* md_eeprom.c */,
+				948DA2CA15ABC97100C0EA78 /* md_eeprom.h */,
 				94ED897214CF933600FF8901 /* sms_cart.c */,
 				94ED897314CF933600FF8901 /* sms_cart.h */,
 				94ED897414CF933600FF8901 /* sram.c */,
@@ -427,6 +476,8 @@
 				94ED8A2314CF933700FF8901 /* sportspad.h */,
 				94ED8A2414CF933700FF8901 /* teamplayer.c */,
 				94ED8A2514CF933700FF8901 /* teamplayer.h */,
+				948DA2B415AB93FA00C0EA78 /* terebi_oekaki.c */,
+				948DA2B515AB93FA00C0EA78 /* terebi_oekaki.h */,
 				94ED8A2614CF933700FF8901 /* xe_a1p.c */,
 				94ED8A2714CF933700FF8901 /* xe_a1p.h */,
 			);
@@ -440,10 +491,8 @@
 				94ED8A2E14CF933700FF8901 /* m68kconf.h */,
 				94ED8A2F14CF933700FF8901 /* m68kcpu.c */,
 				94ED8A3014CF933700FF8901 /* m68kcpu.h */,
-				94ED8A3114CF933700FF8901 /* m68kCycleAccurate.h */,
-				94ED8A3214CF933700FF8901 /* m68kops.c */,
 				94ED8A3314CF933700FF8901 /* m68kops.h */,
-				94ED8A3414CF933700FF8901 /* m68k_readme.txt */,
+				948DA2BD15AB98D600C0EA78 /* s68kcpu.c */,
 			);
 			path = m68k;
 			sourceTree = "<group>";
@@ -480,6 +529,8 @@
 				94ED8A5214CF933700FF8901 /* sn76489.h */,
 				94ED8A5314CF933700FF8901 /* sound.c */,
 				94ED8A5414CF933700FF8901 /* sound.h */,
+				948DA2BA15AB954800C0EA78 /* ym2413.c */,
+				948DA2BB15AB954800C0EA78 /* ym2413.h */,
 				94ED8A5514CF933700FF8901 /* ym2612.c */,
 				94ED8A5614CF933700FF8901 /* ym2612.h */,
 			);
@@ -567,7 +618,6 @@
 				8230C81910AFCCB700412F24 /* dsa_pub.pem in Resources */,
 				94ED8A9814CF933700FF8901 /* imageformat.txt in Resources */,
 				94ED8A9B14CF933700FF8901 /* svpdoc.txt in Resources */,
-				94ED8B2714CF933800FF8901 /* m68k_readme.txt in Resources */,
 				94ED8B2B14CF933800FF8901 /* changes.txt in Resources */,
 				94ED8B2C14CF933800FF8901 /* license.txt in Resources */,
 				94ED8B2E14CF933800FF8901 /* readme.txt in Resources */,
@@ -612,18 +662,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				82287C39101E9DB40072172D /* GenPlusGameCore.m in Sources */,
-				94ED8B5014CF933800FF8901 /* config.c in Sources */,
-				94ED8B5114CF933800FF8901 /* error.c in Sources */,
-				94ED8B5214CF933800FF8901 /* fileio.c in Sources */,
+				948DA2CE15ABCFDD00C0EA78 /* libretro.c in Sources */,
+				948DA2CF15ABCFDD00C0EA78 /* libretro.h in Sources */,
 				94ED8A9214CF933700FF8901 /* areplay.c in Sources */,
-				94ED8A9314CF933700FF8901 /* eeprom.c in Sources */,
+				948DA2B915AB94CF00C0EA78 /* gg_eeprom.c in Sources */,
 				94ED8A9414CF933700FF8901 /* ggenie.c in Sources */,
 				94ED8A9514CF933700FF8901 /* md_cart.c in Sources */,
 				94ED8A9614CF933700FF8901 /* sms_cart.c in Sources */,
 				94ED8A9714CF933700FF8901 /* sram.c in Sources */,
 				94ED8A9914CF933700FF8901 /* ssp16.c in Sources */,
 				94ED8A9A14CF933700FF8901 /* svp.c in Sources */,
-				94ED8A9C14CF933700FF8901 /* genesis.c in Sources */,
+				948DA2AD15AB906400C0EA78 /* cd_cart.c in Sources */,
+				948DA2AE15AB906400C0EA78 /* cdc.c in Sources */,
+				948DA2AF15AB906400C0EA78 /* cdd.c in Sources */,
+				948DA2B015AB906400C0EA78 /* gfx.c in Sources */,
+				948DA2B115AB906400C0EA78 /* pcm.c in Sources */,
+				948DA2B215AB906400C0EA78 /* scd.c in Sources */,
 				94ED8B1A14CF933800FF8901 /* activator.c in Sources */,
 				94ED8B1B14CF933800FF8901 /* gamepad.c in Sources */,
 				94ED8B1C14CF933800FF8901 /* input.c in Sources */,
@@ -632,14 +686,20 @@
 				94ED8B1F14CF933800FF8901 /* paddle.c in Sources */,
 				94ED8B2014CF933800FF8901 /* sportspad.c in Sources */,
 				94ED8B2114CF933800FF8901 /* teamplayer.c in Sources */,
+				948DA2B615AB93FA00C0EA78 /* terebi_oekaki.c in Sources */,
 				94ED8B2214CF933800FF8901 /* xe_a1p.c in Sources */,
+				94ED8A9C14CF933700FF8901 /* genesis.c in Sources */,
 				94ED8B2314CF933800FF8901 /* io_ctrl.c in Sources */,
 				94ED8B2414CF933800FF8901 /* loadrom.c in Sources */,
-				94ED8B2514CF933800FF8901 /* m68kcpu.c in Sources */,
-				94ED8B2614CF933800FF8901 /* m68kops.c in Sources */,
 				94ED8B2814CF933800FF8901 /* mem68k.c in Sources */,
 				94ED8B2914CF933800FF8901 /* membnk.c in Sources */,
 				94ED8B2A14CF933800FF8901 /* memz80.c in Sources */,
+				94ED8B3714CF933800FF8901 /* state.c in Sources */,
+				94ED8B3814CF933800FF8901 /* system.c in Sources */,
+				94ED8B4D14CF933800FF8901 /* vdp_ctrl.c in Sources */,
+				94ED8B4E14CF933800FF8901 /* vdp_render.c in Sources */,
+				94ED8B2514CF933800FF8901 /* m68kcpu.c in Sources */,
+				948DA2BE15AB98D600C0EA78 /* s68kcpu.c in Sources */,
 				94ED8B2D14CF933800FF8901 /* md_ntsc.c in Sources */,
 				94ED8B2F14CF933800FF8901 /* sms_ntsc.c in Sources */,
 				94ED8B3114CF933800FF8901 /* blip.c in Sources */,
@@ -647,12 +707,10 @@
 				94ED8B3314CF933800FF8901 /* Fir_Resampler.c in Sources */,
 				94ED8B3414CF933800FF8901 /* sn76489.c in Sources */,
 				94ED8B3514CF933800FF8901 /* sound.c in Sources */,
+				948DA2BC15AB954800C0EA78 /* ym2413.c in Sources */,
 				94ED8B3614CF933800FF8901 /* ym2612.c in Sources */,
-				94ED8B3714CF933800FF8901 /* state.c in Sources */,
-				94ED8B3814CF933800FF8901 /* system.c in Sources */,
-				94ED8B4D14CF933800FF8901 /* vdp_ctrl.c in Sources */,
-				94ED8B4E14CF933800FF8901 /* vdp_render.c in Sources */,
 				94ED8B4F14CF933800FF8901 /* z80.c in Sources */,
+				948DA2CB15ABC97200C0EA78 /* md_eeprom.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,16 +744,30 @@
 		1DEB913B08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../OpenEmu\"/**",
+					"\"$(SRCROOT)/openemu\"/**",
+					"\"$(SRCROOT)/genplusgx_source\"/**",
+					"\"$(SRCROOT)/genplusgx_source/sound\"/**",
+					"\"$(SRCROOT)/genplusgx_source/input_hw\"/**",
+					"\"$(SRCROOT)/genplusgx_source/cart_hw\"/**",
+					"\"$(SRCROOT)/genplusgx_source/cd_hw\"/**",
+					"\"$(SRCROOT)/genplusgx_source/cart_hw/svp\"/**",
+					"\"$(SRCROOT)/genplusgx_source/m68k\"/**",
+					"\"$(SRCROOT)/genplusgx_source/z80\"/**",
+					"\"$(SRCROOT)/genplusgx_source/ntsc\"/**",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				OTHER_CFLAGS = (
-					"-DDOS",
+					"-fPIC",
 					"-DLSB_FIRST",
-					"-D_POSIX_C_SOURCE=200112L",
+					"-DHAVE_ZLIB",
+					"-DUSE_15BPP_RENDERING",
+					"-DNDEBUG",
 				);
 				PRODUCT_NAME = GenesisPlus;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";
@@ -706,16 +778,30 @@
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../OpenEmu\"/**",
+					"\"$(SRCROOT)/openemu\"/**",
+					"\"$(SRCROOT)/genplusgx_source\"/**",
+					"\"$(SRCROOT)/genplusgx_source/sound\"/**",
+					"\"$(SRCROOT)/genplusgx_source/input_hw\"/**",
+					"\"$(SRCROOT)/genplusgx_source/cart_hw\"/**",
+					"\"$(SRCROOT)/genplusgx_source/cd_hw\"/**",
+					"\"$(SRCROOT)/genplusgx_source/cart_hw/svp\"/**",
+					"\"$(SRCROOT)/genplusgx_source/m68k\"/**",
+					"\"$(SRCROOT)/genplusgx_source/z80\"/**",
+					"\"$(SRCROOT)/genplusgx_source/ntsc\"/**",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				OTHER_CFLAGS = (
-					"-DDOS",
+					"-fPIC",
 					"-DLSB_FIRST",
-					"-D_POSIX_C_SOURCE=200112L",
+					"-DHAVE_ZLIB",
+					"-DUSE_15BPP_RENDERING",
+					"-DNDEBUG",
 				);
 				PRODUCT_NAME = GenesisPlus;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";

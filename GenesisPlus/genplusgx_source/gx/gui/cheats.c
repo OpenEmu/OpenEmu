@@ -3,38 +3,49 @@
  * 
  *   Cheats menu
  *
- *   Softdev (2006)
- *   Eke-Eke (2010) 
+ *  Copyright Eke-Eke (2010-2012)
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
  *
- ********************************************************************************/
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *
+ ****************************************************************************************/
 
 #include "shared.h"
 #include "cheats.h"
 #include "font.h"
 #include "gui.h"
 
-#ifdef HW_RVL
-#include <wiiuse/wpad.h>
-#endif
-
 #define BG_COLOR_1 {0x49,0x49,0x49,0xff}
 #define BG_COLOR_2 {0x66,0x66,0x66,0xff}
 
-#define MAX_CHEATS (250)
+#define MAX_CHEATS (150)
 #define MAX_DESC_LENGTH (63)
 
 #ifdef HW_RVL
@@ -54,23 +65,21 @@ typedef struct
   u16 data;
   u16 old;
   u32 address;
+  u8 *prev;
 } CHEATENTRY;
-
-static u32 decode_cheat(char *string, u32 *address, u32 *data);
-static void apply_cheats(void);
-static void clear_cheats(void);
-static void cheatmenu_cb(void);
-static void switch_chars(void);
 
 static int string_offset = 0;
 static int selection = 0;
 static int offset = 0;
 static int type = 0;
 static int maxcheats = 0;
+static int maxROMcheats = 0;
 static int maxRAMcheats = 0;
 
 static CHEATENTRY cheatlist[MAX_CHEATS];
-static u8 RAMcheatlist[MAX_CHEATS];
+static u8 cheatIndexes[MAX_CHEATS];
+
+static void cheatmenu_cb(void);
 
 /*****************************************************************************/
 /*  GUI Buttons data                                                         */
@@ -118,7 +127,7 @@ static gui_item action_select =
 /*****************************************************************************/
 static gui_image bg_cheats[7] =
 {
-  {NULL,Bg_main_png,IMAGE_VISIBLE,374,140,284,288,255},
+  {NULL,Bg_layer_png,IMAGE_VISIBLE|IMAGE_REPEAT,0,0,640,480,255},
   {NULL,Bg_overlay_png,IMAGE_VISIBLE|IMAGE_REPEAT,0,0,640,480,255},
   {NULL,Banner_top_png,IMAGE_VISIBLE|IMAGE_SLIDE_TOP,0,0,640,108,255},
   {NULL,Banner_bottom_png,IMAGE_VISIBLE|IMAGE_SLIDE_BOTTOM,0,380,640,100,255},
@@ -158,7 +167,7 @@ static gui_item items_cheats[30] =
   {NULL,NULL,"D","Add Character"  ,486,274,40,40},
   {NULL,NULL,"E","Add Character"  ,532,274,40,40},
   {NULL,NULL,"F","Add Character"  ,578,274,40,40},
-  {NULL,NULL,"del","Delete Entry" ,440,338,40,40},
+  {NULL,NULL,"del","Backspace"    ,440,338,40,40},
   {NULL,NULL,":","Add Separator"  ,486,338,40,40},
   {NULL,NULL,"+","Next Characters",532,338,40,40},
   {NULL,NULL,"ok","Save Entry"    ,578,338,40,40}
@@ -221,18 +230,24 @@ static char ggvalidchars[] = "ABCDEFGHJKLMNPRSTVWXYZ0123456789";
 
 static char arvalidchars[] = "0123456789ABCDEF";
 
-static u32 decode_cheat(char *string, u32 *address, u32 *data)
+static u32 decode_cheat(char *string, int index)
 {
   char *p;
   int i,n;
+  u32 len = 0;
+  u32 address = 0;
+  u16 data = 0;
+  u8 ref = 0;
 
-  /* reset address & data values */
-  *address = 0;
-  *data = 0;
-
-  /* Game Genie type code (XXXX-YYYY) */
+  /* 16-bit Game Genie code (ABCD-EFGH) */
   if ((strlen(string) >= 9) && (string[4] == '-'))
   {
+    /* 16-bit system only */
+    if ((system_hw & SYSTEM_PBC) != SYSTEM_MD)
+    {
+      return 0;
+    }
+
     for (i = 0; i < 8; i++)
     {
       if (i == 4) string++;
@@ -243,79 +258,191 @@ static u32 decode_cheat(char *string, u32 *address, u32 *data)
       switch (i)
       {
         case 0:
-        *data |= n << 3;
+        data |= n << 3;
         break;
 
         case 1:
-        *data |= n >> 2;
-        *address |= (n & 3) << 14;
+        data |= n >> 2;
+        address |= (n & 3) << 14;
         break;
 
         case 2:
-        *address |= n << 9;
+        address |= n << 9;
         break;
 
         case 3:
-        *address |= (n & 0xF) << 20 | (n >> 4) << 8;
+        address |= (n & 0xF) << 20 | (n >> 4) << 8;
         break;
     
         case 4:
-        *data |= (n & 1) << 12;
-        *address |= (n >> 1) << 16;
+        data |= (n & 1) << 12;
+        address |= (n >> 1) << 16;
         break;
 
         case 5:
-        *data |= (n & 1) << 15 | (n >> 1) << 8;
+        data |= (n & 1) << 15 | (n >> 1) << 8;
         break;
 
         case 6:
-        *data |= (n >> 3) << 13;
-        *address |= (n & 7) << 5;
+        data |= (n >> 3) << 13;
+        address |= (n & 7) << 5;
         break;
 
         case 7:
-        *address |= n;
+        address |= n;
         break;
       }
     }
 
-    /* return code length */
-    return 9;
+    /* code length */
+    len = 9;
   }
 
-  /* Action Replay type code (AAAAAA:DDDD) */
-  else if ((strlen(string) >= 11) && (string[6] == ':'))
+  /* 8-bit Game Genie code (DDA-AAA-XXX) */
+  else if ((strlen(string) >= 11) && (string[3] == '-') && (string[7] == '-'))
   {
-    /* decode address */
-    for (i=0; i<6; i++)
+    /* 8-bit system only */
+    if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
+    {
+      return 0;
+    }
+
+    /* decode 8-bit data */
+    for (i=0; i<2; i++)
     {
       p = strchr (arvalidchars, *string++);
       if (p == NULL) return 0;
-      n = (p - arvalidchars) & 15;
-      *address |= (n << ((5 - i) * 4));
+      n = (p - arvalidchars) & 0xF;
+      data |= (n  << ((1 - i) * 4));
     }
 
-    /* decode data */
-    string++;
-    for (i=0; i<4; i++)
+    /* decode 16-bit address (low 12-bits) */
+    for (i=0; i<3; i++)
     {
+      if (i==1) string++; /* skip separator */
       p = strchr (arvalidchars, *string++);
       if (p == NULL) return 0;
-      n = p - arvalidchars;
-      *data |= (n & 15) << ((3 - i) * 4);
+      n = (p - arvalidchars) & 0xF;
+      address |= (n  << ((2 - i) * 4));
     }
 
-    /* return code length */
-    return 11;
+    /* decode 16-bit address (high 4-bits) */
+    p = strchr (arvalidchars, *string++);
+    if (p == NULL) return 0;
+    n = (p - arvalidchars) & 0xF;
+    n ^= 0xF; /* bits inversion */
+    address |= (n  << 12);
+
+    /* RAM address are also supported */
+    if (address >= 0xC000)
+    {
+      /* convert to 24-bit Work RAM address */
+      address = 0xFF0000 | (address & 0x1FFF);
+    }
+
+    /* decode reference 8-bit data */
+    for (i=0; i<2; i++)
+    {
+      string++; /* skip separator and 2nd digit */
+      p = strchr (arvalidchars, *string++);
+      if (p == NULL) return 0;
+      n = (p - arvalidchars) & 0xF;
+      ref |= (n  << ((1 - i) * 4));
+    }
+    ref = (ref >> 2) | ((ref & 0x03) << 6);  /* 2-bit right rotation */
+    ref ^= 0xBA;  /* XOR */
+
+    /* update old data value */
+    cheatlist[index].old = ref;
+
+    /* code length */
+    len = 11;
   }
 
-  return 0;
+  /* Action Replay code */
+  else if (string[6] == ':')
+  {
+    if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
+    {
+      /* 16-bit code (AAAAAA:DDDD) */
+      if (strlen(string) < 11) return 0;
+
+      /* decode 24-bit address */
+      for (i=0; i<6; i++)
+      {
+        p = strchr (arvalidchars, *string++);
+        if (p == NULL) return 0;
+        n = (p - arvalidchars) & 0xF;
+        address |= (n << ((5 - i) * 4));
+      }
+
+      /* decode 16-bit data */
+      string++;
+      for (i=0; i<4; i++)
+      {
+        p = strchr (arvalidchars, *string++);
+        if (p == NULL) return 0;
+        n = (p - arvalidchars) & 0xF;
+        data |= (n << ((3 - i) * 4));
+      }
+
+      /* code length */
+      len = 11;
+    }
+    else
+    {
+      /* 8-bit code (xxAAAA:DD) */
+      if (strlen(string) < 9) return 0;
+
+      /* decode 16-bit address */
+      string+=2;
+      for (i=0; i<4; i++)
+      {
+        p = strchr (arvalidchars, *string++);
+        if (p == NULL) return 0;
+        n = (p - arvalidchars) & 0xF;
+        address |= (n << ((3 - i) * 4));
+      }
+
+      /* ROM addresses are not supported */
+      if (address < 0xC000) return 0;
+
+      /* convert to 24-bit Work RAM address */
+      address = 0xFF0000 | (address & 0x1FFF);
+
+      /* decode 8-bit data */
+      string++;
+      for (i=0; i<2; i++)
+      {
+        p = strchr (arvalidchars, *string++);
+        if (p == NULL) return 0;
+        n = (p - arvalidchars) & 0xF;
+        data |= (n  << ((1 - i) * 4));
+      }
+
+      /* code length */
+      len = 9;
+    }
+  }
+
+  /* Valid code found ? */
+  if (len)
+  {
+    /* update cheat address & data values */
+    cheatlist[index].address = address;
+    cheatlist[index].data = data;
+  }
+
+  /* return code length (0 = invalid) */
+  return len;
 }
 
 static void apply_cheats(void)
 {
-  /* clear RAM patches counter */
-  maxRAMcheats = 0;
+  u8 *ptr;
+  
+  /* clear ROM&RAM patches counter */
+  maxROMcheats = maxRAMcheats = 0;
 
   int i;
   for (i = 0; i < maxcheats; i++)
@@ -324,14 +451,41 @@ static void apply_cheats(void)
     {
       if (cheatlist[i].address < cart.romsize)
       {
-        /* patch ROM data */
-        cheatlist[i].old = *(u16 *)(cart.rom + (cheatlist[i].address & 0xFFFFFE));
-        *(u16 *)(cart.rom + (cheatlist[i].address & 0xFFFFFE)) = cheatlist[i].data;
+        if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
+        {
+          /* patch ROM data */
+          cheatlist[i].old = *(u16 *)(cart.rom + (cheatlist[i].address & 0xFFFFFE));
+          *(u16 *)(cart.rom + (cheatlist[i].address & 0xFFFFFE)) = cheatlist[i].data;
+        }
+        else
+        {
+          /* add ROM patch */
+          maxROMcheats++;
+          cheatIndexes[MAX_CHEATS - maxROMcheats] = i;
+
+          /* get current banked ROM address */
+          ptr = &z80_readmap[(cheatlist[i].address) >> 10][cheatlist[i].address & 0x03FF];
+
+          /* check if reference matches original ROM data */
+          if (((u8)cheatlist[i].old) == *ptr)
+          {
+            /* patch data */
+            *ptr = cheatlist[i].data;
+
+            /* save patched ROM address */
+            cheatlist[i].prev = ptr;
+          }
+          else
+          {
+            /* no patched ROM address yet */
+            cheatlist[i].prev = NULL;
+          }
+        }
       }
       else if (cheatlist[i].address >= 0xFF0000)
       {
-        /* patch RAM data */
-        RAMcheatlist[maxRAMcheats++] = i;
+        /* add RAM patch */
+        cheatIndexes[maxRAMcheats++] = i;
       }
     }
   }
@@ -344,10 +498,28 @@ static void clear_cheats(void)
   /* disable cheats in reversed order in case the same address is used by multiple patches */
   while (i > 0)
   {
-    /* restore original ROM data */
-    if (cheatlist[i-1].enable && (cheatlist[i-1].address < cart.romsize))
+    if (cheatlist[i-1].enable)
     {
-      *(u16 *)(cart.rom + (cheatlist[i-1].address & 0xFFFFFE)) = cheatlist[i-1].old;
+      if (cheatlist[i-1].address < cart.romsize)
+      {
+        if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
+        {
+          /* restore original ROM data */
+          *(u16 *)(cart.rom + (cheatlist[i-1].address & 0xFFFFFE)) = cheatlist[i-1].old;
+        }
+        else
+        {
+          /* check if previous banked ROM address has been patched */
+          if (cheatlist[i-1].prev != NULL)
+          {
+            /* restore original data */
+            *cheatlist[i-1].prev = cheatlist[i-1].old;
+
+            /* no more patched ROM address */
+            cheatlist[i-1].prev = NULL;
+          }
+        }
+      }
     }
 
     i--;
@@ -646,7 +818,6 @@ void CheatMenu(void)
   int max = 0;
   char temp[256];
   char *str = NULL;
-  u32 address, data;
   gui_menu *m = &menu_cheats;
 
   /* clear existing ROM patches */
@@ -654,26 +825,6 @@ void CheatMenu(void)
 
   /* reset scrolling */
   string_offset = 0;
-
-  /* background type */
-  if (config.bg_type > 0)
-  {
-    bg_cheats[0].state &= ~IMAGE_REPEAT;
-    bg_cheats[0].data = (config.bg_type > 1) ? Bg_main_png : Bg_main_2_png;
-    bg_cheats[0].x = 374;
-    bg_cheats[0].y = 140;
-    bg_cheats[0].w = 284;
-    bg_cheats[0].h = 288;
-  }
-  else
-  {
-    bg_cheats[0].state |= IMAGE_REPEAT;
-    bg_cheats[0].data = Bg_layer_png;
-    bg_cheats[0].x = 0;
-    bg_cheats[0].y = 0;
-    bg_cheats[0].w = 640;
-    bg_cheats[0].h = 480;
-  }
 
   /* background overlay */
   if (config.bg_overlay)
@@ -720,20 +871,21 @@ void CheatMenu(void)
     /* update menu */
     update = GUI_UpdateMenu(m);
 
-    /* save offset then restore default */
-    if (!(menu_cheats.bg_images[6].state & IMAGE_VISIBLE))
-    {
-      offset = m->offset;
-      m->offset = 0;
-      m->max_items = m->max_buttons = 30;
-    }
-
     /* update selected cheat */
     if ((m->selected < 10) && (selection != m->selected))
     {
       selection = m->selected;
       string_offset = 0;
     }
+
+    /* save offset then restore default */
+    if (!(m->bg_images[6].state & IMAGE_VISIBLE))
+    {
+      offset = m->offset;
+      m->offset = 0;
+      m->max_items = m->max_buttons = 30;
+    }
+
 
     /* handle pressed buttons */
     if (update > 0)
@@ -786,16 +938,32 @@ void CheatMenu(void)
             else
             {
               /* code type */
-              if (str[4] == '-')
+              if (str[6] == ':')
               {
-                /* GG code */
+                /* Action Replay code */
+                if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
+                {
+                  /* 16-bit code */
+                  max = 10;
+                }
+                else
+                {
+                  /* 8-bit code */
+                  max = 8;
+                }
+              }
+              else if (str[4] == '-')
+              {
+                /* 16-bit Game Genie code */
                 max = 8;
               }
               else
               {
-                /* AR code */
+                /* 8-bit Game Genie code */
                 max = 10;
               }
+
+              /* set cursor to end of code */
               digit_cnt = max + 1;
             }
 
@@ -843,8 +1011,11 @@ void CheatMenu(void)
             /* code separator is being deleted */
             if ((str[digit_cnt] == ':') || (str[digit_cnt] == '-'))
             {
-              /* reset detected code type */
-              max = 0;
+              /* reset detected code type (except 8-bit Game Genie code using 2 separators) */
+              if (((system_hw & SYSTEM_PBC) == SYSTEM_MD) || (digit_cnt != 7))
+              {
+                max = 0;
+              }
             }
 
             /* edit mark */
@@ -874,28 +1045,56 @@ void CheatMenu(void)
           }
           else
           {
-            /* Separator character (only if code type has not yet been determined) */
-            if (max == 0)
+            /* Separator character */
+            if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
             {
+              /* 16-bit codes */
               if (digit_cnt == 4)
               {
-                /* GG code */
+                /* Game Genie code */
                 max = 8;
                 str[4] = '-';
-                str[5] = '*';
-                str[6] = 0;
-                digit_cnt++;
               }
-              else if (digit_cnt == 6)
+              else if ((digit_cnt == 6) && (max != 8))
               {
-                /* AR code */
+                /* Action Replay code */
                 max = 10;
                 str[6] = ':';
-                str[7] = '*';
-                str[8] = 0;
-                digit_cnt++;
+              }
+              else
+              {
+                break;
               }
             }
+            else
+            {
+              /* 8-bit codes */
+              if (digit_cnt == 3)
+              {
+                /* Game Genie code */
+                max = 10;
+                str[3] = '-';
+              }
+              else if ((digit_cnt == 7) && (max == 10))
+              {
+                /* Game Genie code (last part) */
+                str[7] = '-';
+              }
+              else if ((digit_cnt == 6) && (max != 10))
+              {
+                /* Action Replay code */
+                max = 8;
+                str[6] = ':';
+              }
+              else
+              {
+                break;
+              }
+            }
+
+            digit_cnt++;
+            str[digit_cnt] = '*';
+            str[digit_cnt+1] = 0;
           }
           break;
         }
@@ -918,13 +1117,8 @@ void CheatMenu(void)
           }
           else if (max && (digit_cnt > max))
           {
-            address = data = 0;
-            if (decode_cheat(cheatlist[offset + selection].code, &address, &data))
+            if (decode_cheat(cheatlist[offset + selection].code, offset + selection))
             {
-              /* update cheat address & data values */
-              cheatlist[offset + selection].address = address;
-              cheatlist[offset + selection].data = data;
-
               /* new cheat ? */
               if ((offset + selection) == maxcheats)
               {
@@ -953,6 +1147,9 @@ void CheatMenu(void)
         {
           /* force code separator if none has been set yet */
           if ((max == 0) && (digit_cnt == 6)) break;
+
+          /* force 8-bit Game Genie code last separator */
+          if (((system_hw & SYSTEM_PBC) != SYSTEM_MD) && (max == 10) && (digit_cnt == 7)) break;
 
           /* add character */
           if ((digit_cnt <= max) || (max == 0))
@@ -1106,11 +1303,6 @@ void CheatMenu(void)
       fclose(f);
     }
   }
-  else
-  {
-    /* delete cheat file */
-    remove(temp);
-  }
 
   /* unlock background elements */
   m->bg_images[2].state |= IMAGE_SLIDE_TOP;
@@ -1136,7 +1328,6 @@ void CheatLoad(void)
 {
   int len;
   int cnt = 0;
-  u32 address, data;
   char temp[256];
 
   /* reset cheat count */
@@ -1160,15 +1351,10 @@ void CheatLoad(void)
       else temp[strlen(temp) - 1] = 0;
 
       /* check cheat validty */
-      address = data = 0;
-      len = decode_cheat(temp, &address, &data);
+      len = decode_cheat(temp, maxcheats);
 
       if (len)
       {
-        /* update cheat address & data values */
-        cheatlist[maxcheats].address = address;
-        cheatlist[maxcheats].data = data;
-
         /* copy cheat code */
         strncpy(cheatlist[maxcheats].code, temp, len);
         cheatlist[maxcheats].code[len] = 0;
@@ -1231,19 +1417,19 @@ void CheatLoad(void)
 }
 
 /****************************************************************************
- * CheatUpdate
+ * RAMCheatUpdate
  *
- * Apply RAM patches
+ * Apply RAM patches (this should be called once per frame)
  *
  ****************************************************************************/ 
-void CheatUpdate(void)
+void RAMCheatUpdate(void)
 {
   int index, cnt = maxRAMcheats;
   
   while (cnt)
   {
     /* get cheat index */
-    index = RAMcheatlist[--cnt];
+    index = cheatIndexes[--cnt];
 
     /* apply RAM patch */
     if (cheatlist[index].data & 0xFF00)
@@ -1256,5 +1442,50 @@ void CheatUpdate(void)
       /* byte patch */
       work_ram[cheatlist[index].address & 0xFFFF] = cheatlist[index].data;
     }
+  }
+}
+
+
+/****************************************************************************
+ * ROMCheatUpdate
+ *
+ * Apply ROM patches (this should be called each time banking is changed)
+ *
+ ****************************************************************************/ 
+void ROMCheatUpdate(void)
+{
+  int index, cnt = maxROMcheats;
+  u8 *ptr;
+  
+  while (cnt)
+  {
+    /* get cheat index */
+    index = cheatIndexes[MAX_CHEATS - cnt];
+
+    /* check if previous banked ROM address was patched */
+    if (cheatlist[index].prev != NULL)
+    {
+      /* restore original data */
+      *cheatlist[index].prev = cheatlist[index].old;
+
+      /* no more patched ROM address */
+      cheatlist[index].prev = NULL;
+    }
+
+    /* get current banked ROM address */
+    ptr = &z80_readmap[(cheatlist[index].address) >> 10][cheatlist[index].address & 0x03FF];
+
+    /* check if reference matches original ROM data */
+    if (((u8)cheatlist[index].old) == *ptr)
+    {
+      /* patch data */
+      *ptr = cheatlist[index].data;
+
+      /* save patched ROM address */
+      cheatlist[index].prev = ptr;
+    }
+
+    /* next ROM patch */
+    cnt--;
   }
 }

@@ -2,21 +2,37 @@
  *  Genesis Plus
  *  Sega Light Phaser, Menacer & Konami Justifiers support
  *
- *  Copyright Eke-Eke (2007-2011)
+ *  Copyright (C) 2007-2011  Eke-Eke (Genesis Plus GX)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
+ *
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
  *
  ****************************************************************************************/
 
@@ -96,7 +112,7 @@ void lightgun_refresh(int port)
         /* External Interrupt ? */
         if (reg[11] & 0x08) 
         {
-          m68k_irq_state |= 0x12;
+          m68k_update_irq(2);
         }
 
         /* HV Counter Latch:
@@ -124,16 +140,16 @@ void lightgun_refresh(int port)
 /*  Sega Phaser                                                             */
 /*--------------------------------------------------------------------------*/
 
-static inline unsigned char phaser_read(int port)
+INLINE unsigned char phaser_read(int port)
 {
-  /* FIRE button status (active low) */
-  unsigned char temp = ~(input.pad[port] & 0x10);
+  /* TL returns TRIGGER (INPUT_A) button status (active low) */
+  unsigned char temp = ~((input.pad[port] >> 2) & 0x10);
 
   /* Check that TH is set as an input */
-  if (io_reg[0] & (0x02 << (port >> 1)))
+  if (io_reg[0x0F] & (0x02 << (port >> 1)))
   {
     /* Get current X position (phaser is only used in MS compatiblity mode) */
-    int hcounter = hctab[(mcycles_z80 + Z80_CYCLE_OFFSET) % MCYCLES_PER_LINE];
+    int hcounter = hctab[(Z80.cycles + SMS_CYCLE_OFFSET) % MCYCLES_PER_LINE];
 
     /* Compare with gun position */
     int dx = input.analog[port][0] - (hcounter << 1);
@@ -179,9 +195,11 @@ unsigned char phaser_2_read(void)
 
 unsigned char menacer_read(void)
 {
-  /* Return START,A,B,C buttons status in D0-D3 (active high) */
-  /* TL & TR pins always return 0 (normally set as output) */
-  return ((input.pad[4] >> 4) & 0x0F);
+  /* D0=??? (INPUT_B), D1=TRIGGER (INPUT_A), D2=??? (INPUT_C), D3= START (INPUT_START) (active high) */
+  /* TL & TR pins always return 0 (normally set as output)  */
+  /* TH always return 1 (0 on active pixel but button acquisition is always done during VBLANK) */
+  unsigned data = input.pad[4] >> 4;
+  return ((data & 0x09) | ((data >> 1) & 0x02) | ((data << 1) & 0x04) | 0x40);
 }
 
 
@@ -197,7 +215,7 @@ unsigned char justifier_read(void)
     return 0x30;
   }
 
-  /* Return A & START button status in D0-D1 (active low) */
+  /* Return TRIGGER (INPUT_A) & START (INPUT_START) button status in D0-D1 (active low) */
   /* TL & TR pins should always return 1 (normally set as output) */
   /* LEFT & RIGHT pins should always return 0 */
   return (((~input.pad[lightgun.Port] >> 6) & 0x03) | 0x70);
@@ -205,8 +223,8 @@ unsigned char justifier_read(void)
 
 void justifier_write(unsigned char data, unsigned char mask)
 {
-  /* update bits set as output only */
-  data = (lightgun.State & ~mask) | (data & mask);
+  /* update bits set as output only, other bits are cleared (fixes Lethal Enforcers 2) */
+  data &= mask;
 
   /* gun index */
   lightgun.Port = 4 + ((data >> 5) & 1);

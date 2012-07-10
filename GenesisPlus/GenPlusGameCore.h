@@ -33,17 +33,14 @@
 OE_EXPORTED_CLASS
 @interface GenPlusGameCore : OEGameCore
 {
-    unsigned char *videoBuffer;
-    NSLock        *bufLock;
-    int            oldrun;
-    int            position;
-    BOOL           paused;
+@public
+    uint16_t *videoBuffer;
+    int videoWidth, videoHeight;
+    int16_t pad[2][8];
+    NSString *romName;
+    double sampleRate;
+    const char *systemEnvironment;
+    const char *systemEnvironmentSplit[0];
 }
-
-@property(copy) NSString *romPath;
-
-- (BOOL)shouldPauseForButton:(NSInteger)button;
-- (void)saveSram;
-- (void)loadSram;
 
 @end

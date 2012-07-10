@@ -1,47 +1,76 @@
 /***************************************************************************************
  *  Genesis Plus
- *  Virtual System Emulation
+ *  Virtual System emulation
+ *
+ *  Support for "Genesis", "Genesis + CD" & "Master System" modes
  *
  *  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003  Charles Mac Donald (original code)
- *  Eke-Eke (2007-2011), additional code & fixes for the GCN/Wii port
+ *  Copyright (C) 2007-2012  Eke-Eke (Genesis Plus GX)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
+ *
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
  *
  ****************************************************************************************/
 
 #ifndef _SYSTEM_H_
 #define _SYSTEM_H_
 
-#define SYSTEM_PBC        0x00
-#define SYSTEM_GENESIS    0x01
-#define SYSTEM_MEGADRIVE  0x02
-#define SYSTEM_PICO       0x03
+/* Supported hardware models */
+#define SYSTEM_SG         0x10
+#define SYSTEM_MARKIII    0x11
+#define SYSTEM_SMS        0x20
+#define SYSTEM_SMS2       0x21
+#define SYSTEM_GG         0x40
+#define SYSTEM_GGMS       0x41
+#define SYSTEM_MD         0x80
+#define SYSTEM_PBC        0x81
+#define SYSTEM_PICO       0x82
+#define SYSTEM_MCD        0x84
 
+/* NTSC & PAL Master Clock frequencies */
+#define MCLOCK_NTSC 53693175
+#define MCLOCK_PAL  53203424
+
+/* Number of M-Cycles executed per line */
 #define MCYCLES_PER_LINE  3420
 
-#define Z80_CYCLE_OFFSET  550 /* horizontal timings offset when running in SMS mode */
+/* Horizontal timing offsets when running in Z80 mode */
+#define SMS_CYCLE_OFFSET  520 
+#define PBC_CYCLE_OFFSET  550 
 
 typedef struct
 {
   uint8 *data;      /* Bitmap data */
   int width;        /* Bitmap width */
   int height;       /* Bitmap height */
-  int depth;        /* Color depth (8-32 bits) */
-  int pitch;        /* Width of bitmap in bytes */
-  int granularity;  /* Size of each pixel in bytes */
-  int remap;        /* 1= Translate pixel data */
+  int pitch;        /* Bitmap pitch */
   struct
   {
     int x;          /* X offset of viewport within bitmap */
@@ -56,11 +85,10 @@ typedef struct
 
 typedef struct
 {
-  int sample_rate;  /* Output Sample rate (8000-48000) */
-  float frame_rate; /* Output Frame rate (usually 50 or 60 frames per second) */
-  int enabled;      /* 1= sound emulation is enabled */
-  int buffer_size;  /* Size of sound buffer (in bytes) */
-  int16 *buffer[2]; /* Signed 16-bit stereo sound data */
+  int sample_rate;    /* Output Sample rate (8000-48000) */
+  double frame_rate;  /* Output Frame rate (usually 50 or 60 frames per second) */
+  int enabled;        /* 1= sound emulation is enabled */
+  int buffer_size;    /* Size of sound buffer (in bytes) */
   struct
   {
     int32 *pos;
@@ -71,27 +99,35 @@ typedef struct
     int16 *pos;
     int16 *buffer;
   } psg;
+  struct
+  {
+    int16 *pos;
+    int16 *buffer;
+  } pcm;
 } t_snd;
 
 
 /* Global variables */
 extern t_bitmap bitmap;
 extern t_snd snd;
-extern uint32 mcycles_z80;
-extern uint32 mcycles_68k;
 extern uint32 mcycles_vdp;
+extern int16 SVP_cycles; 
 extern uint8 system_hw;
+extern uint8 system_bios;
+extern uint32 system_clock;
 
 /* Function prototypes */
-extern int audio_init(int samplerate,float framerate);
+extern int audio_init(int samplerate, double framerate);
 extern void audio_reset(void);
 extern void audio_shutdown(void);
-extern int audio_update(void);
+extern int audio_update(int16 *buffer);
 extern void audio_set_equalizer(void);
 extern void system_init(void);
 extern void system_reset(void);
 extern void system_shutdown(void);
-extern void (*system_frame)(int do_skip);
+extern void system_frame_gen(int do_skip);
+extern void system_frame_scd(int do_skip);
+extern void system_frame_sms(int do_skip);
 
 #endif /* _SYSTEM_H_ */
 

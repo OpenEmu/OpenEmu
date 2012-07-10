@@ -14,12 +14,10 @@
 #define _SSP16_H_
 
 /* emulation event logging (from Picodrive) */
+#ifdef LOG_SVP
 #define EL_SVP     0x00004000 /* SVP stuff  */
 #define EL_ANOMALY 0x80000000 /* some unexpected conditions (during emulation) */
-#ifdef LOG_SVP
 #define elprintf(w,f,...) error("%d(%d): " f "\n",frame_count,v_counter,##__VA_ARGS__);
-#else
-#define elprintf(w,f,...)
 #endif
 
 /* register names */
@@ -41,37 +39,35 @@ typedef union
   unsigned short h;
   unsigned short l;
 #endif
-  };
+  } byte;
 } ssp_reg_t;
 
 typedef struct
 {
   union {
-    unsigned short RAM[256*2];  // 2 internal RAM banks
+    unsigned short RAM[256*2];  /* 2 internal RAM banks */
     struct {
       unsigned short RAM0[256];
       unsigned short RAM1[256];
-    };
-  };
-  ssp_reg_t gr[16];  // general registers
+    } bank;
+  } mem;
+  ssp_reg_t gr[16];  /* general registers */
   union {
-    unsigned char r[8];  // BANK pointers
+    unsigned char r[8];  /* BANK pointers */
     struct {
       unsigned char r0[4];
       unsigned char r1[4];
-    };
-  };
+    } bank;
+  } ptr;
   unsigned short stack[6];
-  unsigned int pmac_read[6];  // read modes/addrs for PM0-PM5
-  unsigned int pmac_write[6]; // write ...
-
-  #define SSP_PMC_HAVE_ADDR  0x0001 // address written to PMAC, waiting for mode
-  #define SSP_PMC_SET      0x0002   // PMAC is set
-  #define SSP_HANG      0x1000      // 68000 hangs SVP
-  #define SSP_WAIT_PM0    0x2000    // bit1 in PM0
-  #define SSP_WAIT_30FE06    0x4000 // ssp tight loops on 30FE08 to become non-zero
-  #define SSP_WAIT_30FE08    0x8000 // same for 30FE06
-  #define SSP_WAIT_MASK    0xf000
+  unsigned int pmac[2][6];  /* read/write modes/addrs for PM0-PM5 */
+  #define SSP_PMC_HAVE_ADDR  0x0001 /* address written to PMAC, waiting for mode */
+  #define SSP_PMC_SET        0x0002 /* PMAC is set */
+  #define SSP_HANG           0x1000 /* 68000 hangs SVP */
+  #define SSP_WAIT_PM0       0x2000 /* bit1 in PM0 */
+  #define SSP_WAIT_30FE06    0x4000 /* ssp tight loops on 30FE08 to become non-zero */
+  #define SSP_WAIT_30FE08    0x8000 /* same for 30FE06 */
+  #define SSP_WAIT_MASK      0xf000
   unsigned int emu_status;
   unsigned int pad[30];
 } ssp1601_t;

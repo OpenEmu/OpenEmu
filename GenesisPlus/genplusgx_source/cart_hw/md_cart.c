@@ -1,34 +1,51 @@
-
 /****************************************************************************
  *  Genesis Plus
  *  Mega Drive cartridge hardware support
  *
- *  Copyright (C) 2007-2011  Eke-Eke (GCN/Wii port)
+ *  Copyright (C) 2007-2011  Eke-Eke (Genesis Plus GX)
  *
- *  Most cartridge protections documented by Haze
+ *  Most cartridge protections were initially documented by Haze
  *  (http://haze.mameworld.info/)
  *
- *  Realtec mapper documented by TascoDeluxe
+ *  Realtec mapper was documented by TascoDeluxe
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- ***************************************************************************/
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
+ *
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *
+ ****************************************************************************************/
 
 #include "shared.h"
+#include "md_eeprom.h"
 #include "gamepad.h"
 
-#define CART_CNT (44)
+#define CART_CNT (48)
 
 /* Cart database entry */
 typedef struct
@@ -37,17 +54,13 @@ typedef struct
   uint16 chk_2;       /* real checksum */
   uint8 bank_start;   /* first mapped bank in $400000-$7fffff region */
   uint8 bank_end;     /* last mapped bank in $400000-$7fffff region */
-  T_CART_HW cart_hw;  /* hardware description */
-} T_CART_ENTRY;
-
-extern int emulate_address_error;
-
-/* Cartridge Hardware structure */
-T_CART cart;
+  cart_hw_t cart_hw;  /* hardware description */
+} md_entry_t;
 
 /* Function prototypes */
 static void mapper_sega_w(uint32 data);
 static void mapper_ssf2_w(uint32 address, uint32 data);
+static void mapper_wukong_w(uint32 address, uint32 data);
 static void mapper_realtec_w(uint32 address, uint32 data);
 static void mapper_seganet_w(uint32 address, uint32 data);
 static void mapper_32k_w(uint32 data);
@@ -60,14 +73,14 @@ static uint32 default_regs_r(uint32 address);
 static uint32 default_regs_r_16(uint32 address);
 static void custom_regs_w(uint32 address, uint32 data);
 static void custom_alt_regs_w(uint32 address, uint32 data);
-static uint32 topshooter_read(uint32 address);
-static void topshooter_write(uint32 address, uint32 data);
+static uint32 topshooter_r(uint32 address);
+static void topshooter_w(uint32 address, uint32 data);
 
 /* Games that need extra hardware emulation:
   - copy protection device
   - custom ROM banking device
 */
-static const T_CART_ENTRY rom_database[CART_CNT] =
+static const md_entry_t rom_database[CART_CNT] =
 {
 /* Funny World & Balloon Boy */
   {0x0000,0x06ab,0x40,0x40,{{0x00,0x00,0x00,0x00},{0xffffff,0xffffff,0xffffff,0xffffff},{0x000000,0x000000,0x000000,0x000000},1,0,NULL,NULL,NULL,mapper_realtec_w}},
@@ -81,10 +94,12 @@ static const T_CART_ENTRY rom_database[CART_CNT] =
   {0x4f10,0x0836,0x00,0x00,{{0x00,0x00,0x00,0x00},{0xffffff,0xffffff,0xffffff,0xffffff},{0x000000,0x000000,0x000000,0x000000},0,0,mapper_radica_r,NULL,NULL,NULL}},
 /* RADICA (Volume 1) (byteswapped version) */
   {0xf424,0x9f82,0x00,0x00,{{0x00,0x00,0x00,0x00},{0xffffff,0xffffff,0xffffff,0xffffff},{0x000000,0x000000,0x000000,0x000000},0,0,mapper_radica_r,NULL,NULL,NULL}},
-/* Chinese Fighters III */
+/* Tenchi wo Kurau III: Sangokushi Gaiden - Chinese Fighter */
   {0x9490,0x8180,0x40,0x6f,{{0x00,0x00,0x00,0x00},{0xf0000c,0xf0000c,0xf0000c,0xf0000c},{0x400000,0x400004,0x400008,0x40000c},0,1,NULL,NULL,default_regs_r,custom_alt_regs_w}},
 /* Top Fighter */
   {0x4eb9,0x5d8b,0x60,0x7f,{{0x00,0x00,0x00,0x00},{0xf00007,0xf00007,0xf00007,0xffffff},{0x600001,0x600003,0x600005,0x000000},0,1,NULL,NULL,default_regs_r,custom_regs_w}},
+/* Soul Edge VS Samurai Spirits  */
+  {0x00ff,0x5d34,0x60,0x7f,{{0x00,0x00,0x00,0x00},{0xf00007,0xf00007,0xf00007,0xffffff},{0x600001,0x600003,0x600005,0x000000},0,1,NULL,NULL,default_regs_r,custom_regs_w}},
 /* Mulan */
   {0x0404,0x1b40,0x60,0x7f,{{0x00,0x00,0x00,0x00},{0xf00007,0xf00007,0xf00007,0xffffff},{0x600001,0x600003,0x600005,0x000000},0,1,NULL,NULL,default_regs_r,custom_regs_w}},
 /* Pocket Monsters II */
@@ -99,6 +114,8 @@ static const T_CART_ENTRY rom_database[CART_CNT] =
   {0xffff,0x1d9b,0x40,0x40,{{0x00,0x00,0x00,0x00},{0xfffffd,0xfffffd,0xffffff,0xffffff},{0x400000,0x400004,0x000000,0x000000},0,0,NULL,NULL,default_regs_r,default_regs_w}},
 /* Squirell King */
   {0x0000,0x8ec8,0x40,0x40,{{0x00,0x00,0x00,0x00},{0xfffffd,0xfffffd,0xffffff,0xffffff},{0x400000,0x400004,0x000000,0x000000},0,0,NULL,NULL,default_regs_r,default_regs_w}},
+/* Tiny Toon Adventures 3 */
+  {0x2020,0xed9c,0x40,0x40,{{0x00,0x00,0x00,0x00},{0xfffffd,0xfffffd,0xffffff,0xffffff},{0x400000,0x400004,0x000000,0x000000},0,0,NULL,NULL,default_regs_r,default_regs_w}},
 /* Lian Huan Pao - Barver Battle Saga (registers accessed by Z80, related to sound engine ?) */
   {0x30b9,0x1c2a,0x40,0x40,{{0x00,0x00,0x00,0x00},{0xfffffd,0xfffffd,0xffffff,0xffffff},{0x400000,0x400004,0x000000,0x000000},0,0,NULL,NULL,default_regs_r,default_regs_w}},
 /* Shui Hu Zhuan (registers accessed by Z80, related to sound engine ?) */
@@ -121,12 +138,16 @@ static const T_CART_ENTRY rom_database[CART_CNT] =
   {0xfb40,0x4bed,0x40,0x40,{{0x00,0xaa,0x00,0xf0},{0xffffff,0xffffff,0xffffff,0xffffff},{0x000000,0x400002,0x000000,0x400006},0,0,NULL,NULL,default_regs_r_16,NULL}},
 /* King of Fighter 98 */
   {0x0000,0xd0a0,0x48,0x4f,{{0x00,0x00,0xaa,0xf0},{0xffffff,0xffffff,0xfc0000,0xfc0000},{0x000000,0x000000,0x480000,0x4c0000},0,0,NULL,NULL,default_regs_r,NULL}},
-/* Supper Bubble Bobble */
+/* Super Bubble Bobble */
   {0x0000,0x16cd,0x40,0x40,{{0x55,0x0f,0x00,0x00},{0xffffff,0xffffff,0xffffff,0xffffff},{0x400000,0x400002,0x000000,0x000000},0,0,NULL,NULL,default_regs_r,NULL}},
+/* Tenchi wo Kurau II - The Battle of Red Cliffs (Unl) */
+  {0x0000,0xed61,0x40,0x40,{{0x55,0x0f,0xaa,0xf0},{0xffffff,0xffffff,0xffffff,0xffffff},{0x400000,0x400002,0x400004,0x400006},0,0,NULL,NULL,default_regs_r,NULL}},
 /* Huan Le Tao Qi Shu - Smart Mouse */
   {0x0000,0x1a28,0x40,0x40,{{0x55,0x0f,0xaa,0xf0},{0xffffff,0xffffff,0xffffff,0xffffff},{0x400000,0x400002,0x400004,0x400006},0,0,NULL,NULL,default_regs_r,NULL}},
 /* (*) Hei Tao 2 - Super Big 2 (patched ROM, unused registers) */
   {0x0000,0x5843,0x40,0x40,{{0x55,0x0f,0xaa,0xf0},{0xffffff,0xffffff,0xffffff,0xffffff},{0x400000,0x400002,0x400004,0x400006},0,0,NULL,NULL,default_regs_r,NULL}},
+/* Mighty Morphin Power Rangers - The Fighting Edition */
+  {0x0000,0x2288,0x40,0x40,{{0x55,0x0f,0xc9,0x18},{0xffffff,0xffffff,0xffffff,0xffffff},{0x400000,0x400002,0x400004,0x400006},0,0,NULL,NULL,default_regs_r,NULL}},
 /* Elf Wor */
   {0x0080,0x3dba,0x40,0x40,{{0x55,0x0f,0xc9,0x18},{0xffffff,0xffffff,0xffffff,0xffffff},{0x400000,0x400002,0x400004,0x400006},0,0,NULL,NULL,default_regs_r,NULL}},
 /* Ya-Se Chuanshuo */
@@ -156,7 +177,7 @@ static const T_CART_ENTRY rom_database[CART_CNT] =
 /* Game no Kanzume Otokuyou */
   {0x0000,0xf9d1,0x00,0x00,{{0x00,0x00,0x00,0x00},{0xffffff,0xffffff,0xffffff,0xffffff},{0x000000,0x000000,0x000000,0x000000},0,0,NULL,mapper_seganet_w,NULL,NULL}},
 /* Top Shooter (arcade hardware) */
-  {0xffff,0x3632,0x20,0x20,{{0x00,0x00,0x00,0x00},{0xffffff,0xffffff,0xffffff,0xffffff},{0x000000,0x000000,0x000000,0x000000},0,0,NULL,NULL,topshooter_read,topshooter_write}}
+  {0xffff,0x3632,0x20,0x20,{{0x00,0x00,0x00,0x00},{0xffffff,0xffffff,0xffffff,0xffffff},{0x000000,0x000000,0x000000,0x000000},0,0,NULL,NULL,topshooter_r,topshooter_w}}
 };
 
 
@@ -164,7 +185,6 @@ static const T_CART_ENTRY rom_database[CART_CNT] =
           Cart Hardware initialization 
 *************************************************************/
 
-/* cart hardware detection */
 void md_cart_init(void)
 {
   int i;
@@ -173,44 +193,39 @@ void md_cart_init(void)
                 CARTRIDGE ROM MIRRORING                                                                                   
    ***************************************************************************************************************
   
-    Cartridge area is mapped to $000000-$3fffff:
+    MD Cartridge area is mapped to $000000-$3fffff:
 
-      -> when accessing ROM, 68k address lines A1 to A21 are used by the internal cartridge hardware to decode the
+      -> when accessing ROM, 68k address lines A1 to A21 can be used by the internal cartridge hardware to decode
          full 4MB address range.
-      -> depending on the ROM total size, some address lines might be ignored, resulting in ROM mirroring.
-
+      -> depending on ROM total size and additional decoding hardware, some address lines might be ignored,
+         resulting in ROM mirroring.
 
     Cartridges can use either 8-bits (x2) or 16-bits (x1, x2) Mask ROM chips, each chip size is a factor of 2 bytes:
 
       -> two 8-bits chips are equivalent to one 16-bits chip, no specific address decoding is required, needed
          address lines are simply connected to each chip, upper address lines are ignored and data lines are
          connected appropriately to each chip (D0-D7 to one chip, D8-D15 to the other one).
-         ROM is mirrored each N bytes where N=2^(k+1) is the total ROM size (ROM1+ROM2,ROM1+ROM2,...).
+         ROM is generally mirrored each N bytes where N=2^(k+1) is the total ROM size (ROM1+ROM2,ROM1+ROM2,...)
 
       -> one single 16-bits chip do not need specific address decoding, address lines are simply connected
          depending on the ROM size, upper address lines being ignored.
-         ROM is mirrored each N bytes where N=2^k is the size of the ROM chip (ROM1,ROM1,ROM1,...).
+         ROM is generally mirrored each N bytes where N=2^k is the size of the ROM chip (ROM1,ROM1,ROM1,...)
 
       -> two 16-bits chips of the same size are equivalent to one chip of double size, address decoding generally
          is the same except that specific hardware is used (one address line is generally used for chip selection,
          lower ones being used to address the chips and upper ones being ignored).
-         ROM is mirrored continuously each N bytes where N=2^(k+1) is the total ROM size (ROM1,ROM2,ROM1,ROM2,...).
+         ROM is generally mirrored each N bytes where N=2^(k+1) is the total ROM size (ROM1,ROM2,ROM1,ROM2,...)
 
       -> two 16-bits chips with different size are mapped differently. Address decoding is done the same way as
          above (one address line used for chip selection) but the ignored & required address lines differ from
          one chip to another, which makes ROM mirroring different.
-         ROM2 size is generally half of ROM1 size and ROM are mirrored like that : ROM1,ROM2,ROM2,ROM1,ROM2,ROM2,...
+         ROM2 size is generally half of ROM1 size and upper half ignored (ROM1,ROM2,XXXX,ROM1,ROM2,XXXX,...)
 
-      From the emulator point of view, we only need to distinguish 3 cases:
+      From the emulator point of view, we only need to distinguish 2 cases:
 
       1/ total ROM size is a factor of 2: ROM is mirrored each 2^k bytes.
 
-      2/ total ROM size is not a factor of 2 and cartridge uses one or two chips of the same size (Type A):
-         ROM is padded up to 2^k and mirrored each 2^k bytes.
-
-      3/ total ROM size is not a factor of 2 and cartridge uses two chips of different sizes (Type B):
-         ROM is not padded and the first 2^(k-1) bytes are mirrored each 2^k bytes while the next 2^(k-2) bytes are
-         mirrored in the last 2^(k-2) bytes.
+      2/ total ROM size is not a factor of 2: ROM is padded up to 2^k then mirrored each 2^k bytes.
 
   ******************************************************************************************************************/
   
@@ -220,20 +235,11 @@ void md_cart_init(void)
     size <<= 1;
 
   /* total ROM size is not a factor of 2  */
-  /* TODO: handle more possible ROM configurations (using cartridge database ???) */
+  /* TODO: handle all possible ROM configurations using cartridge database */
   if ((size < MAXROMSIZE) && (cart.romsize < size))
   {
-    /* two chips with different size */
-    if (config.romtype)
-    {
-      /* third ROM section is mirrored in the last section */
-      memcpy(cart.rom + cart.romsize, cart.rom + 2*cart.romsize - size, size - cart.romsize);
-    }
-    else
-    {
-      /* ROM is padded up to 2^k bytes */
-      memset(cart.rom + cart.romsize, 0xff, size - cart.romsize);
-    }
+    /* ROM is padded up to 2^k bytes */
+    memset(cart.rom + cart.romsize, 0xff, size - cart.romsize);
   }
 
   /* special case: Sonic & Knuckles */
@@ -253,11 +259,11 @@ void md_cart_init(void)
   for (i=0; i<0x40; i++)
   {
     /* cartridge ROM */
-    m68k_memory_map[i].base     = cart.rom + ((i<<16) & cart.mask);
-    m68k_memory_map[i].read8    = NULL;
-    m68k_memory_map[i].read16   = NULL;
-    m68k_memory_map[i].write8   = m68k_unused_8_w;
-    m68k_memory_map[i].write16  = m68k_unused_16_w;
+    m68k.memory_map[i].base     = cart.rom + ((i<<16) & cart.mask);
+    m68k.memory_map[i].read8    = NULL;
+    m68k.memory_map[i].read16   = NULL;
+    m68k.memory_map[i].write8   = m68k_unused_8_w;
+    m68k.memory_map[i].write16  = m68k_unused_16_w;
     zbank_memory_map[i].read    = NULL;
     zbank_memory_map[i].write   = zbank_unused_w;
   }
@@ -265,11 +271,11 @@ void md_cart_init(void)
   for (i=0x40; i<0x80; i++)
   {
     /* unused area */
-    m68k_memory_map[i].base     = cart.rom + (i<<16);
-    m68k_memory_map[i].read8    = m68k_read_bus_8;
-    m68k_memory_map[i].read16   = m68k_read_bus_16;
-    m68k_memory_map[i].write8   = m68k_unused_8_w;
-    m68k_memory_map[i].write16  = m68k_unused_16_w;
+    m68k.memory_map[i].base     = cart.rom + (i<<16);
+    m68k.memory_map[i].read8    = m68k_read_bus_8;
+    m68k.memory_map[i].read16   = m68k_read_bus_16;
+    m68k.memory_map[i].write8   = m68k_unused_8_w;
+    m68k.memory_map[i].write16  = m68k_unused_16_w;
     zbank_memory_map[i].read    = zbank_unused_r;
     zbank_memory_map[i].write   = zbank_unused_w;
   }
@@ -278,32 +284,35 @@ void md_cart_init(void)
           BACKUP MEMORY 
   ***********************************************/
   sram_init();
-  eeprom_init();
+  md_eeprom_init();
   if (sram.on)
   {
     if (sram.custom)
     {
       /* Serial EEPROM */
-      m68k_memory_map[eeprom.type.sda_out_adr >> 16].read8  = eeprom_read_byte;
-      m68k_memory_map[eeprom.type.sda_out_adr >> 16].read16 = eeprom_read_word;
-      m68k_memory_map[eeprom.type.sda_in_adr >> 16].read8   = eeprom_read_byte;
-      m68k_memory_map[eeprom.type.sda_in_adr >> 16].read16  = eeprom_read_word;
-      m68k_memory_map[eeprom.type.scl_adr >> 16].write8     = eeprom_write_byte;
-      m68k_memory_map[eeprom.type.scl_adr >> 16].write16    = eeprom_write_word;
-      zbank_memory_map[eeprom.type.sda_out_adr >> 16].read  = eeprom_read_byte;
-      zbank_memory_map[eeprom.type.sda_in_adr >> 16].read   = eeprom_read_byte;
-      zbank_memory_map[eeprom.type.scl_adr >> 16].write     = eeprom_write_byte;
+      m68k.memory_map[md_eeprom.type.sda_out_adr >> 16].read8   = md_eeprom_read_byte;
+      m68k.memory_map[md_eeprom.type.sda_out_adr >> 16].read16  = md_eeprom_read_word;
+      m68k.memory_map[md_eeprom.type.sda_in_adr >> 16].read8    = md_eeprom_read_byte;
+      m68k.memory_map[md_eeprom.type.sda_in_adr >> 16].read16   = md_eeprom_read_word;
+      m68k.memory_map[md_eeprom.type.scl_adr >> 16].write8      = md_eeprom_write_byte;
+      m68k.memory_map[md_eeprom.type.scl_adr >> 16].write16     = md_eeprom_write_word;
+      zbank_memory_map[md_eeprom.type.sda_out_adr >> 16].read   = md_eeprom_read_byte;
+      zbank_memory_map[md_eeprom.type.sda_in_adr >> 16].read    = md_eeprom_read_byte;
+      zbank_memory_map[md_eeprom.type.scl_adr >> 16].write      = md_eeprom_write_byte;
     }
     else
     {
-      /* Static RAM (64k max.) */
-      m68k_memory_map[sram.start >> 16].base    = sram.sram;
-      m68k_memory_map[sram.start >> 16].read8   = NULL;
-      m68k_memory_map[sram.start >> 16].read16  = NULL;
-      m68k_memory_map[sram.start >> 16].write8  = NULL;
-      m68k_memory_map[sram.start >> 16].write16 = NULL;
-      zbank_memory_map[sram.start >> 16].read   = NULL;
-      zbank_memory_map[sram.start >> 16].write  = NULL;
+      /* Static RAM (64k max.) - disabled on reset if ROM is mapped in same area */
+      if (cart.romsize <= sram.start)
+      {
+        m68k.memory_map[sram.start >> 16].base    = sram.sram;
+        m68k.memory_map[sram.start >> 16].read8   = NULL;
+        m68k.memory_map[sram.start >> 16].read16  = NULL;
+        m68k.memory_map[sram.start >> 16].write8  = NULL;
+        m68k.memory_map[sram.start >> 16].write16 = NULL;
+        zbank_memory_map[sram.start >> 16].read   = NULL;
+        zbank_memory_map[sram.start >> 16].write  = NULL;
+      }
     }
   }
 
@@ -315,31 +324,21 @@ void md_cart_init(void)
   {
     svp_init();
 
-    m68k_memory_map[0x30].base    = svp->dram;
-    m68k_memory_map[0x30].read16  = NULL;
-    m68k_memory_map[0x30].write16 = svp_write_dram;
+    m68k.memory_map[0x30].base    = svp->dram;
+    m68k.memory_map[0x30].read16  = NULL;
+    m68k.memory_map[0x30].write16 = svp_write_dram;
 
-    m68k_memory_map[0x31].base    = svp->dram + 0x10000;
-    m68k_memory_map[0x31].read16  = NULL;
-    m68k_memory_map[0x31].write16 = svp_write_dram;
+    m68k.memory_map[0x31].base    = svp->dram + 0x10000;
+    m68k.memory_map[0x31].read16  = NULL;
+    m68k.memory_map[0x31].write16 = svp_write_dram;
 
-    m68k_memory_map[0x39].read16  = svp_read_cell_1;
-    m68k_memory_map[0x3a].read16  = svp_read_cell_2;
+    m68k.memory_map[0x39].read16  = svp_read_cell_1;
+    m68k.memory_map[0x3a].read16  = svp_read_cell_2;
   }
 
   /**********************************************
           SPECIFIC PERIPHERAL SUPPORT 
   ***********************************************/
-
-  /* restore previous input settings */
-  if (old_system[0] != -1)
-  {
-    input.system[0] = old_system[0];
-  }
-  if (old_system[1] != -1)
-  {
-    input.system[1] = old_system[1];
-  }
 
   /* default GUN settings */
   input.x_offset = 0x00;
@@ -460,10 +459,10 @@ void md_cart_init(void)
       }
 
       /* extra connectors mapped at $38xxxx or $3Fxxxx */
-      m68k_memory_map[0x38].read16  = jcart_read;
-      m68k_memory_map[0x38].write16 = jcart_write;
-      m68k_memory_map[0x3f].read16  = jcart_read;
-      m68k_memory_map[0x3f].write16 = jcart_write;
+      m68k.memory_map[0x38].read16  = jcart_read;
+      m68k.memory_map[0x38].write16 = jcart_write;
+      m68k.memory_map[0x3f].read16  = jcart_read;
+      m68k.memory_map[0x3f].write16 = jcart_write;
     }
   }
 
@@ -492,47 +491,43 @@ void md_cart_init(void)
 
     case TYPE_SK:
     {
+      FILE *f;
+      
       /* store S&K ROM above cartridge ROM + SRAM */
       if (cart.romsize > 0x600000) break;
 
        /* load Sonic & Knuckles ROM (2 MBytes) */
-      FILE *f = fopen(SK_ROM,"r+b");
+      f = fopen(SK_ROM,"r+b");
       if (!f) break;
-      int done = 0;
-      while (done < 0x200000)
+      for (i=0; i<0x200000; i+=0x1000)
       {
-        fread(cart.rom + 0x600000 + done, 2048, 1, f);
-        done += 2048;
+        fread(cart.rom + 0x600000 + i, 0x1000, 1, f);
       }
       fclose(f);
 
       /* load Sonic 2 UPMEM ROM (256 KBytes) */
       f = fopen(SK_UPMEM,"r+b");
       if (!f) break;
-      done = 0;
-      while (done < 0x40000)
+      for (i=0; i<0x40000; i+=0x1000)
       {
-        fread(cart.rom + 0x800000 + done, 2048, 1, f);
-        done += 2048;
+        fread(cart.rom + 0x800000 + i, 0x1000, 1, f);
       }
       fclose(f);
           
 #ifdef LSB_FIRST
-      /* Byteswap ROM */
-      int i;
-      uint8 temp;
-      for(i = 0; i < 0x240000; i += 2)
+      for (i=0; i<0x240000; i+=2)
       {
-        temp = cart.rom[i + 0x600000];
+        /* Byteswap ROM */
+        uint8 temp = cart.rom[i + 0x600000];
         cart.rom[i + 0x600000] = cart.rom[i + 0x600000 + 1];
         cart.rom[i + 0x600000 + 1] = temp;
       }
 #endif
 
-      /*$000000-$1FFFFF is mapped to S&K ROM */
+      /* $000000-$1FFFFF is mapped to S&K ROM */
       for (i=0x00; i<0x20; i++)
       {
-        m68k_memory_map[i].base = (cart.rom + 0x600000) + (i<<16);
+        m68k.memory_map[i].base = cart.rom + 0x600000 + (i << 16);
       }
 
       cart.special |= HW_LOCK_ON;
@@ -548,7 +543,7 @@ void md_cart_init(void)
   /**********************************************
         Cartridge Extra Hardware
   ***********************************************/
-  memset(&cart.hw, 0, sizeof(T_CART_HW));
+  memset(&cart.hw, 0, sizeof(cart.hw));
 
   /* search for game into database */
   for (i=0; i < CART_CNT + 1; i++)
@@ -557,23 +552,24 @@ void md_cart_init(void)
     if ((rominfo.checksum == rom_database[i].chk_1) &&
         (rominfo.realchecksum == rom_database[i].chk_2))
     {
+      int j = rom_database[i].bank_start;
+
       /* retrieve hardware information */
-      memcpy(&cart.hw, &(rom_database[i].cart_hw), sizeof(T_CART_HW));
+      memcpy(&cart.hw, &(rom_database[i].cart_hw), sizeof(cart.hw));
 
       /* initialize memory handlers for $400000-$7FFFFF region */
-      int j = rom_database[i].bank_start;
       while (j <= rom_database[i].bank_end)
       {
         if (cart.hw.regs_r)
         {
-          m68k_memory_map[j].read8    = cart.hw.regs_r;
-          m68k_memory_map[j].read16   = cart.hw.regs_r;
+          m68k.memory_map[j].read8    = cart.hw.regs_r;
+          m68k.memory_map[j].read16   = cart.hw.regs_r;
           zbank_memory_map[j].read    = cart.hw.regs_r;
         }
         if (cart.hw.regs_w)
         {
-          m68k_memory_map[j].write8   = cart.hw.regs_w;
-          m68k_memory_map[j].write16  = cart.hw.regs_w;
+          m68k.memory_map[j].write8   = cart.hw.regs_w;
+          m68k.memory_map[j].write16  = cart.hw.regs_w;
           zbank_memory_map[j].write   = cart.hw.regs_w;
         }
         j++;
@@ -596,13 +592,13 @@ void md_cart_init(void)
     /* BOOT ROM is mapped to $000000-$3FFFFF */
     for (i=0x00; i<0x40; i++)
     {
-      m68k_memory_map[i].base = cart.rom + 0x900000;
+      m68k.memory_map[i].base = cart.rom + 0x900000;
     }
   }
 
 #if M68K_EMULATE_ADDRESS_ERROR
   /* default behavior */
-  emulate_address_error = config.addr_error; 
+  m68k.aerr_enabled = config.addr_error; 
 #endif
 
   /* detect special cartridges */
@@ -611,15 +607,15 @@ void md_cart_init(void)
     /* Ultimate MK3 (hack) */
     for (i=0x40; i<0xA0; i++)
     {
-      m68k_memory_map[i].base     = cart.rom + (i<<16);
-      m68k_memory_map[i].read8    = NULL;
-      m68k_memory_map[i].read16   = NULL;
-      zbank_memory_map[i].read    = NULL;
+      m68k.memory_map[i].base   = cart.rom + (i<<16);
+      m68k.memory_map[i].read8  = NULL;
+      m68k.memory_map[i].read16 = NULL;
+      zbank_memory_map[i].read  = NULL;
     }
 
 #if M68K_EMULATE_ADDRESS_ERROR
     /* this game does not work properly on real hardware */
-    emulate_address_error = 0;  
+    m68k.aerr_enabled = 0;  
 #endif
   }
   else if (cart.romsize > 0x400000)
@@ -627,6 +623,23 @@ void md_cart_init(void)
     /* assume SSF2 mapper */
     cart.hw.bankshift = 1;
     cart.hw.time_w = mapper_ssf2_w;
+  }
+
+  /* Legend of Wukong mapper */
+  if (strstr(rominfo.international,"LEGEND OF WUKONG") != NULL)
+  {
+    /* 128K ROM Bankswitch */
+    m68k.memory_map[0].write8 = mapper_wukong_w;
+    zbank_memory_map[0].write = mapper_wukong_w;
+
+    /* 8K SRAM */
+    m68k.memory_map[0x3C].base    = sram.sram;
+    m68k.memory_map[0x3C].read8   = NULL;
+    m68k.memory_map[0x3C].read16  = NULL;
+    m68k.memory_map[0x3C].write8  = NULL;
+    m68k.memory_map[0x3C].write16 = NULL;
+    zbank_memory_map[0x3C].read   = NULL;
+    zbank_memory_map[0x3C].write  = NULL;
   }
 
   /* default write handler for !TIME range ($A130xx)*/
@@ -646,7 +659,7 @@ void md_cart_reset(int hard_reset)
   {
     for (i=0x00; i<0x40; i++)
     {
-      m68k_memory_map[i].base = cart.rom + ((i<<16) & cart.mask);
+      m68k.memory_map[i].base = cart.rom + ((i<<16) & cart.mask);
     }
   }
   
@@ -675,7 +688,7 @@ void md_cart_reset(int hard_reset)
         /* disable UPMEM chip at $300000-$3fffff */
         for (i=0x30; i<0x40; i++)
         {
-          m68k_memory_map[i].base = cart.rom + ((i<<16) & cart.mask);
+          m68k.memory_map[i].base = cart.rom + ((i<<16) & cart.mask);
         }
       }
       break;
@@ -686,9 +699,6 @@ void md_cart_reset(int hard_reset)
       break;
     }
   }
-
-  /* save default cartridge slot mapping */
-  cart.base = m68k_memory_map[0].base;
 }
 
 int md_cart_context_save(uint8 *state)
@@ -701,7 +711,7 @@ int md_cart_context_save(uint8 *state)
   for (i=0; i<0x40; i++)
   {
     /* get base address */
-    base = m68k_memory_map[i].base;
+    base = m68k.memory_map[i].base;
       
     if (base == sram.sram)
     {
@@ -729,43 +739,39 @@ int md_cart_context_save(uint8 *state)
   return bufferptr;
 }
 
-int md_cart_context_load(uint8 *state, char *version)
+int md_cart_context_load(uint8 *state)
 {
   int i;
   int bufferptr = 0;
   uint8 offset;
 
-  /* extended state (from 1.4.1 and above) */
-  if ((version[11] > 0x31) || (version[13] > 0x34) || (version[15] > 0x30))
+  /* cartridge mapping */
+  for (i=0; i<0x40; i++)
   {
-    /* cartridge mapping */
-    for (i=0; i<0x40; i++)
+    /* get offset */
+    offset = state[bufferptr++];
+
+    if (offset == 0xff)
     {
-      /* get offset */
-      offset = state[bufferptr++];
-
-      if (offset == 0xff)
-      {
-        /* SRAM */
-        m68k_memory_map[i].base = sram.sram;
-      }
-      else
-      {
-        /* ROM */
-        m68k_memory_map[i].base = cart.rom + (offset << 16);
-      }
+      /* SRAM */
+      m68k.memory_map[i].base = sram.sram;
     }
-
-    /* hardware registers */
-    load_param(cart.hw.regs, sizeof(cart.hw.regs));
-
-    /* SVP */
-    if (svp)
+    else
     {
-      load_param(svp->iram_rom, 0x800);
-      load_param(svp->dram,sizeof(svp->dram));
-      load_param(&svp->ssp1601,sizeof(ssp1601_t));
+      /* ROM */
+      m68k.memory_map[i].base = cart.rom + (offset << 16);
     }
+  }
+
+  /* hardware registers */
+  load_param(cart.hw.regs, sizeof(cart.hw.regs));
+
+  /* SVP */
+  if (svp)
+  {
+    load_param(svp->iram_rom, 0x800);
+    load_param(svp->dram,sizeof(svp->dram));
+    load_param(&svp->ssp1601,sizeof(ssp1601_t));
   }
 
   return bufferptr;
@@ -784,55 +790,41 @@ static void mapper_sega_w(uint32 data)
 
   if (data & 1)
   {
-    /* Only if SRAM is detected */
     if (sram.on)
     {
-      /* $200000-$3fffff is mapped to SRAM */
-      for (i=0x20; i<0x40; i++)
-      {
-        m68k_memory_map[i].base  = sram.sram;
-      }
+      /* Backup RAM mapped to $200000-$20ffff (normally mirrored up to $3fffff but this breaks Sonic Megamix and no game need it) */
+      m68k.memory_map[0x20].base    = sram.sram;
+      m68k.memory_map[0x20].write8  = NULL;
+      m68k.memory_map[0x20].write16 = NULL;
+      zbank_memory_map[0x20].write  = NULL;
 
+      /* Backup RAM write protection */
       if (data & 2)
       {
-        /* SRAM write disabled */
-        for (i=0x20; i<0x40; i++)
-        {
-          m68k_memory_map[i].write8  = m68k_unused_8_w;
-          m68k_memory_map[i].write16 = m68k_unused_16_w;
-          zbank_memory_map[i].write  = zbank_unused_w;
-        }
-      }
-      else
-      {
-        /* SRAM write enabled */
-        for (i=0x20; i<0x40; i++)
-        {
-          m68k_memory_map[i].write8  = NULL;
-          m68k_memory_map[i].write16 = NULL;
-          zbank_memory_map[i].write  = NULL;
-        }
+        m68k.memory_map[0x20].write8  = m68k_unused_8_w;
+        m68k.memory_map[0x20].write16 = m68k_unused_16_w;
+        zbank_memory_map[0x20].write  = zbank_unused_w;
       }
     }
 
     /* S&K lock-on chip */
     if ((cart.special & HW_LOCK_ON) && (config.lock_on == TYPE_SK))
     {
-      /* $300000-$3fffff is mapped to S2K upmem chip */
+      /* S2K upmem chip mapped to $300000-$3fffff (256K mirrored) */
       for (i=0x30; i<0x40; i++)
       {
-        m68k_memory_map[i].base = (cart.rom + 0x800000) + ((i & 3)<<16);
+        m68k.memory_map[i].base = (cart.rom + 0x800000) + ((i & 3) << 16);
       }
     }
   }
   else
   {
-    /* $200000-$3fffff is mapped to ROM */
+    /* cartridge ROM mapped to $200000-$3fffff */
     for (i=0x20; i<0x40; i++)
     {
-      m68k_memory_map[i].base = cart.rom + ((i<<16) & cart.mask);
-      m68k_memory_map[i].write8 = m68k_unused_8_w;
-      m68k_memory_map[i].write16 = m68k_unused_16_w;
+      m68k.memory_map[i].base = cart.rom + ((i<<16) & cart.mask);
+      m68k.memory_map[i].write8 = m68k_unused_8_w;
+      m68k.memory_map[i].write16 = m68k_unused_16_w;
       zbank_memory_map[i].write = zbank_unused_w;
     }
   }
@@ -845,17 +837,41 @@ static void mapper_sega_w(uint32 data)
 static void mapper_ssf2_w(uint32 address, uint32 data)
 {
   /* 8 x 512k banks */
-  uint32 dst = (address << 2) & 0x38;
+  address = (address << 2) & 0x38;
   
   /* bank 0 remains unchanged */
-  if (dst)
+  if (address)
   {
     uint32 i;
     uint8 *src = cart.rom + (data << 19);
 
     for (i=0; i<8; i++)
     {
-      m68k_memory_map[dst++].base = src + (i<<16);
+      m68k.memory_map[address++].base = src + (i<<16);
+    }
+  }
+}
+
+/* 
+  Legend of Wukong ROM Bankswitch
+*/
+static void mapper_wukong_w(uint32 address, uint32 data)
+{
+  int i;
+  if (data & 0x80)
+  {
+    /* $200000-$3BFFFF mapped to $000000-$1BFFFF */
+    for (i=0x20; i<0x3C; i++)
+    {
+      m68k.memory_map[i].base = cart.rom + (((i&0x1F)<<16) & cart.mask);
+    }
+  }
+  else
+  {
+    /* $200000-$3BFFFF mapped to $200000-$3BFFFF */
+    for (i=0x20; i<0x3C; i++)
+    {
+      m68k.memory_map[i].base = cart.rom + ((i<<16) & cart.mask);
     }
   }
 }
@@ -887,16 +903,18 @@ static void mapper_realtec_w(uint32 address, uint32 data)
       /* 00000yy1 */
       cart.hw.regs[1] = data & 6;
 
-      /* mapped start address is 00yy xxx0 0000 0000 0000 0000 */
-      uint32 base = (cart.hw.regs[0] << 1) | (cart.hw.regs[1] << 3);
-
       /* ensure mapped size is not null */
       if (cart.hw.regs[2])
       {
+        /* mapped start address is 00yy xxx0 0000 0000 0000 0000 */
+        uint32 base = (cart.hw.regs[0] << 1) | (cart.hw.regs[1] << 3);
+
         /* selected blocks are mirrored into the whole cartridge area */
         int i;
         for (i=0x00; i<0x40; i++)
-          m68k_memory_map[i].base = &cart.rom[(base + (i % cart.hw.regs[2])) << 16];
+        {
+          m68k.memory_map[i].base = &cart.rom[(base + (i % cart.hw.regs[2])) << 16];
+        }
       }
       return;
     }
@@ -914,8 +932,8 @@ static void mapper_seganet_w(uint32 address, uint32 data)
       /* ROM Write protected */
       for (i=0; i<0x40; i++)
       {
-        m68k_memory_map[i].write8   = m68k_unused_8_w;
-        m68k_memory_map[i].write16  = m68k_unused_16_w;
+        m68k.memory_map[i].write8   = m68k_unused_8_w;
+        m68k.memory_map[i].write16  = m68k_unused_16_w;
         zbank_memory_map[i].write   = zbank_unused_w;
       }
     }
@@ -924,8 +942,8 @@ static void mapper_seganet_w(uint32 address, uint32 data)
       /* ROM Write enabled */
       for (i=0; i<0x40; i++)
       {
-        m68k_memory_map[i].write8   = NULL;
-        m68k_memory_map[i].write16  = NULL;
+        m68k.memory_map[i].write8   = NULL;
+        m68k.memory_map[i].write16  = NULL;
         zbank_memory_map[i].write   = NULL;
       }
     }
@@ -933,7 +951,7 @@ static void mapper_seganet_w(uint32 address, uint32 data)
 }
 
 /* 
-  Custom ROM Bankswitch used in Top Fighter, Mulan, Pocket Monsters II, Lion King 3, Super King Kong 99, Pokemon Stadium
+  Custom ROM Bankswitch used in Soul Edge VS Samurai Spirits, Top Fighter, Mulan, Pocket Monsters II, Lion King 3, Super King Kong 99, Pokemon Stadium
 */
 static void mapper_32k_w(uint32 data)
 {
@@ -942,15 +960,14 @@ static void mapper_32k_w(uint32 data)
   /* 64 x 32k banks */
   if (data)
   {
-    /* unverified (Top Fighter writes $2A instead $2E) */
-    if (data >> 2) data |= 4;
-
-    /* bank is mapped at $000000-$0FFFFF */
-    for (i=0; i<16; i++)
+    for (i=0; i<0x10; i++)
     {
-      memcpy(cart.rom + 0x900000 + (i<<16), cart.rom + ((data & 0x3f) << 15), 0x8000);
-      memcpy(cart.rom + 0x908000 + (i<<16), cart.rom + ((data & 0x3f) << 15), 0x8000);
-      m68k_memory_map[i].base = cart.rom + 0x900000 + (i<<16);
+      /* Remap to unused ROM area  */
+      m68k.memory_map[i].base = &cart.rom[0x400000 + (i << 16)];
+
+      /* address = address OR (value << 15) */
+      memcpy(m68k.memory_map[i].base, cart.rom + ((i << 16) | (data & 0x3f) << 15), 0x8000);
+      memcpy(m68k.memory_map[i].base + 0x8000, cart.rom + ((i << 16) | ((data | 1) & 0x3f) << 15), 0x8000);
     }
   }
   else
@@ -958,7 +975,7 @@ static void mapper_32k_w(uint32 data)
     /* reset default $000000-$0FFFFF mapping */
     for (i=0; i<16; i++)
     {
-      m68k_memory_map[i].base = &cart.rom[i << 16];
+      m68k.memory_map[i].base = &cart.rom[i << 16];
     }
   }
 }
@@ -976,7 +993,7 @@ static void mapper_64k_w(uint32 data)
     /* bank is mapped at $000000-$0FFFFF */
     for (i=0; i<16; i++)
     {
-      m68k_memory_map[i].base = &cart.rom[(data & 0xf) << 16];
+      m68k.memory_map[i].base = &cart.rom[(data & 0xf) << 16];
     }
   }
   else
@@ -984,7 +1001,7 @@ static void mapper_64k_w(uint32 data)
     /* reset default $000000-$0FFFFF mapping */
     for (i=0; i<16; i++)
     {
-      m68k_memory_map[i].base = &cart.rom[(i & 0xf) << 16];
+      m68k.memory_map[i].base = &cart.rom[(i & 0xf) << 16];
     }
   }
 }
@@ -999,7 +1016,7 @@ static void mapper_64k_multi_w(uint32 address)
   /* 64 x 64k banks */
   for (i=0; i<64; i++)
   {
-    m68k_memory_map[i].base = &cart.rom[((address++) & 0x3f) << 16];
+    m68k.memory_map[i].base = &cart.rom[((address++) & 0x3f) << 16];
   }
 }
 
@@ -1014,7 +1031,7 @@ static uint32 mapper_radica_r(uint32 address)
   /* 64 x 64k banks */
   for (i = 0; i < 64; i++)
   {
-    m68k_memory_map[i].base = &cart.rom[((address++)& 0x3f)<< 16];
+    m68k.memory_map[i].base = &cart.rom[((address++)& 0x3f)<< 16];
   }
 
   return 0xffff;
@@ -1086,6 +1103,8 @@ static void default_regs_w(uint32 address, uint32 data)
 /* custom register hardware (Top Fighter, Lion King III, Super Donkey Kong  99, Mulan, Pocket Monsters II, Pokemon Stadium) */
 static void custom_regs_w(uint32 address, uint32 data)
 {
+  uint8 temp;
+  
   /* ROM bankswitch */
   if ((address >> 16) > 0x6f)
   {
@@ -1097,7 +1116,7 @@ static void custom_regs_w(uint32 address, uint32 data)
   default_regs_w(address, data);
 
   /* bitswapping */
-  uint32 temp = cart.hw.regs[0];
+  temp = cart.hw.regs[0];
   switch (cart.hw.regs[1] & 3)
   {
     case 0:
@@ -1135,7 +1154,9 @@ static void custom_alt_regs_w(uint32 address, uint32 data)
   default_regs_w(address, data);
 }
 
-static uint32 topshooter_read(uint32 address)
+
+/* Top Shooter arcade board hardware */
+static uint32 topshooter_r(uint32 address)
 {
   if (address < 0x202000)
   {
@@ -1189,12 +1210,58 @@ static uint32 topshooter_read(uint32 address)
   return READ_BYTE(sram.sram , address & 0xffff);
 }
 
-static void topshooter_write(uint32 address, uint32 data)
+static void topshooter_w(uint32 address, uint32 data)
 {
   if (address >= 0x202000)
   {
     WRITE_BYTE(sram.sram , address & 0xffff, data);
     return;
   }
+
   m68k_unused_8_w(address, data);
 }
+
+
+/* Sega Channel hardware (not emulated) */
+/* 
+
+$A13004: BUSY ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 
+
+Unused read16 00A13004 (00005B54)
+Unused read16 00A13004 (00005B70)
+Unused read16 00A13006 (00005B7C)
+
+Unused read16 00A13004 (00005BC4)
+Unused read16 00A13004 (00005BDA)
+
+Unused write16 00A13032 = 0004 (00005706)
+Unused write16 00A130F0 = 0000 (0000570E)
+
+Unused write16 00A130F0 = 0000 (0000463E)
+Unused write16 00A130F2 = 0001 (00004646)
+Unused write16 00A130F4 = 0002 (0000464E)
+Unused write16 00A130F6 = 0003 (00004656)
+Unused write16 00A130F8 = 0004 (0000465E)
+Unused write16 00A130FA = 0005 (00004666)
+
+Unused write16 00A13032 = 0004 (00005706)
+Unused write16 00A13032 = 0104 (0000579E)
+
+Unused write16 00380000 = ACDC (00005718)
+Unused write16 00380002 = 0000 (00005722)
+Unused read16 00380000 (0000572C)
+Unused write16 00A13032 = 0104 (0000579E)
+Unused write16 00300000 = ACDC (000057B2)
+Unused write16 00380000 = 0000 (000057BC)
+Unused read16 00300000 (000057C6)
+
+static uint32 sega_channel_r(uint32 address)
+{
+  return m68k_read_bus_16(address);;
+}
+
+static void sega_channel_w(uint32 address, uint32 data)
+{
+  m68k_unused_16_w(address, data);
+}
+*/

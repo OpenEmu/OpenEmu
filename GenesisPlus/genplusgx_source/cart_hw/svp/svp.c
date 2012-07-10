@@ -13,7 +13,6 @@
 #include "shared.h"
 
 svp_t *svp = NULL;
-int16 SVP_cycles = 800; 
 
 void svp_init(void)
 {

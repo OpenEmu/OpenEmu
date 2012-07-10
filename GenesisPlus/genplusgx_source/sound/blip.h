@@ -39,10 +39,8 @@ void blip_end_frame( blip_buffer_t*, int duration );
 int blip_samples_avail( const blip_buffer_t* );
 
 /* Reads at most n samples out of buffer into out, removing them from from
-the buffer. Returns number of samples actually read and removed. If stereo is
-true, increments 'out' one extra time after writing each sample, to allow
-easy interleving of two channels into a stereo output buffer. */
-int blip_read_samples( blip_buffer_t*, short out [], int n, int stereo );
+the buffer. */
+int blip_read_samples( blip_buffer_t*, short out [], int stereo);
 
 #ifdef __cplusplus
   }

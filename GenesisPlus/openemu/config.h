@@ -2,6 +2,12 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
+#define uint8  unsigned char
+#define uint16 unsigned short
+#define uint32 unsigned int
+#define int8  signed char
+#define int16 signed short
+#define int32 signed int
 /****************************************************************************
  * Config Option 
  *
@@ -20,6 +26,7 @@ typedef struct
 	uint8 filter;
 	uint8 psgBoostNoise;
 	uint8 dac_bits;
+    uint8 ym2413;
 	int16 psg_preamp;
 	int16 fm_preamp;
 	int16 lp_range;
@@ -48,6 +55,10 @@ typedef struct
 	int16 yshift;
 	int16 xscale;
 	int16 yscale;
+    uint8 system;
+    uint8 bios;
+    uint8 master_clock;
+    uint8 vdp_mode;
 #ifdef HW_RVL
 	uint32 trap;
 	float gamma;

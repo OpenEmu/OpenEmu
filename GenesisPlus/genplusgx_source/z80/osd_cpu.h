@@ -7,42 +7,23 @@
 *  UINT8  - Unsigned 8-bit Integer    INT8  - Signed 8-bit integer             *
 *  UINT16 - Unsigned 16-bit Integer  INT16 - Signed 16-bit integer             *
 *  UINT32 - Unsigned 32-bit Integer  INT32 - Signed 32-bit integer             *
-*  UINT64 - Unsigned 64-bit Integer  INT64 - Signed 64-bit integer             *
-*                                                                              *
-*                                                                              *
-*   The macro names for the artithmatic operations are composed as follows:    *
-*                                                                              *
-*   XXX_R_A_B, where XXX - 3 letter operation code (ADD, SUB, etc.)            *
-*           R   - The type  of the result                                      *
-*           A   - The type of operand 1                                        *
-*               B   - The type of operand 2 (if binary operation)              *
-*                                                                              *
-*             Each type is one of: U8,8,U16,16,U32,32,U64,64                   *
 *                                                                              *
 *******************************************************************************/
 
 #ifndef OSD_CPU_H
 #define OSD_CPU_H
 
-#ifndef NGC
-#ifndef DOS
-#include "basetsd.h"
-#endif
 #undef TRUE
 #undef FALSE
-#define TRUE 1
+#define TRUE  1
 #define FALSE 0
-#endif
 
-typedef unsigned char                       UINT8;
-typedef unsigned short                      UINT16;
-typedef unsigned int                        UINT32;
-__extension__ typedef unsigned long long    UINT64;
-typedef signed char                         INT8;
-typedef signed short                        INT16;
-typedef signed int                          INT32;
-__extension__ typedef signed long long      INT64;
-
+typedef unsigned char   UINT8;
+typedef unsigned short  UINT16;
+typedef unsigned int    UINT32;
+typedef signed char     INT8;
+typedef signed short    INT16;
+typedef signed int      INT32;
 
 /******************************************************************************
  * Union of UINT8, UINT16 and UINT32 in native endianess of the target

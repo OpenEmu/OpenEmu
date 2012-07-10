@@ -84,12 +84,8 @@ void blip_add( blip_buffer_t* s, int clocks, int delta )
 
 int blip_clocks_needed( const blip_buffer_t* s, int samples )
 {
-  int fixed_needed;
-  if ( samples > s->size )
-    samples = s->size;
-  
   /* Fixed-point number of samples needed in addition to those in buffer */
-  fixed_needed = samples * time_unit - s->offset;
+  int fixed_needed = samples * time_unit - s->offset;
   
   /* If more are needed, convert to clocks and round up */
   return (fixed_needed <= 0) ? 0 : (fixed_needed - 1) / s->factor + 1;
@@ -105,33 +101,16 @@ int blip_samples_avail( const blip_buffer_t* s )
   return s->offset >> time_bits;
 }
 
-/* Removes n samples from buffer */
-static void remove_samples( blip_buffer_t* s, int n )
+int blip_read_samples( blip_buffer_t* s, short out[], int stereo)
 {
-  int remain = blip_samples_avail( s ) + buf_extra - n;
-  
-  s->offset -= n * time_unit;
-  
-  /* Copy remaining samples to beginning of buffer and clear the rest */
-  memmove( s->buf, &s->buf [n], remain * sizeof (buf_t) );
-  memset( &s->buf [remain], 0, n * sizeof (buf_t) );
-}
-
-int blip_read_samples( blip_buffer_t* s, short out [], int count, int stereo )
-{
-  /* can't read more than available */
-  int avail = blip_samples_avail( s );
-  if ( count > avail )
-    count = avail;
+  int count = s->offset >> time_bits;
   
   if ( count )
   {
     /* Sum deltas and write out */
-    int i;
+    int i, sample;
     for ( i = 0; i < count; ++i )
-    {
-      int sample;
-      
+    {      
       /* Apply slight high-pass filter */
       s->amp -= s->amp >> 9;
       
@@ -147,9 +126,14 @@ int blip_read_samples( blip_buffer_t* s, short out [], int count, int stereo )
       
       out [i << stereo] = sample;
     }
-    
-    remove_samples( s, count );
-  }
   
+    /* Copy remaining samples to beginning of buffer and clear the rest */
+    memmove( s->buf, &s->buf [count], buf_extra * sizeof (buf_t) );
+    memset( &s->buf [buf_extra], 0, count * sizeof (buf_t) );
+    
+    /* Remove samples */
+    s->offset -= count * time_unit;
+  }
+
   return count;
 }
