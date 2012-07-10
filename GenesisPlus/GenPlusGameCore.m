@@ -28,11 +28,12 @@
 #import "GenPlusGameCore.h"
 #import <OERingBuffer.h>
 #import "OEGenesisSystemResponderClient.h"
+#import "OESegaCDSystemResponderClient.h"
 #import <OpenGL/gl.h>
 
 #include "libretro.h"
 
-@interface GenPlusGameCore () <OEGenesisSystemResponderClient>
+@interface GenPlusGameCore () <OEGenesisSystemResponderClient, OESegaCDSystemResponderClient>
 @end
 //NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, INPUT_A, INPUT_B, INPUT_C, INPUT_X, INPUT_Y, INPUT_Z, INPUT_START, INPUT_MODE };
 NSUInteger GenesisEmulatorValues[] = { RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT, RETRO_DEVICE_ID_JOYPAD_Y, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_X, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_START, RETRO_DEVICE_ID_JOYPAD_SELECT };
@@ -275,6 +276,16 @@ static void writeSaveFile(const char* path, int type)
 }
 
 - (oneway void)didReleaseGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
+{
+    pad[player-1][GenesisEmulatorValues[button]] = 0;
+}
+
+- (oneway void)didPushSegaCDButton:(OESegaCDButton)button forPlayer:(NSUInteger)player;
+{
+    pad[player-1][GenesisEmulatorValues[button]] = 1;
+}
+
+- (oneway void)didReleaseSegaCDButton:(OESegaCDButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][GenesisEmulatorValues[button]] = 0;
 }

@@ -38,6 +38,7 @@
 				C68625721572686E00EFC972 /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
+				94EFD19915ACA8D8009BED8F /* PBXTargetDependency */,
 				94A1E9DE1586FD6B00986376 /* PBXTargetDependency */,
 				94AB85F9158679660035D12C /* PBXTargetDependency */,
 				94AB855B15853B840035D12C /* PBXTargetDependency */,
@@ -555,6 +556,16 @@
 		94D7E8E315073E3900FBDD85 /* OENDSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D7E8DF15073E3800FBDD85 /* OENDSSystemController.m */; };
 		94D7E8E415073E3900FBDD85 /* OENDSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */; };
 		94D7E8E71507413D00FBDD85 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94EFD17B15ACA625009BED8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94EFD18115ACA625009BED8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD17F15ACA625009BED8F /* InfoPlist.strings */; };
+		94EFD18B15ACA7FA009BED8F /* OESegaCDSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFD18715ACA7FA009BED8F /* OESegaCDSystemController.m */; };
+		94EFD18C15ACA7FA009BED8F /* OESegaCDSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFD18915ACA7FA009BED8F /* OESegaCDSystemResponder.m */; };
+		94EFD19115ACA814009BED8F /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD18D15ACA814009BED8F /* controller_genesis_mask.png */; };
+		94EFD19215ACA814009BED8F /* controller_genesis.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD18E15ACA814009BED8F /* controller_genesis.png */; };
+		94EFD19315ACA814009BED8F /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD18F15ACA814009BED8F /* Controller-Preferences-Info.plist */; };
+		94EFD19415ACA814009BED8F /* segacd_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD19015ACA814009BED8F /* segacd_library.png */; };
+		94EFD19715ACA8C0009BED8F /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94EFD19A15ACA8E9009BED8F /* Sega CD.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6252DA814E71D0500350A13 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = C6252DA914E71D0500350A13 /* controller_fc.png */; };
 		C6252DAC14E752E300350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAA14E752E300350A13 /* Controller-Preferences-Info.plist */; };
@@ -922,6 +933,20 @@
 			remoteGlobalIDString = 94D7E8C815073BA000FBDD85;
 			remoteInfo = NDS;
 		};
+		94EFD19515ACA8B5009BED8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94EFD19815ACA8D8009BED8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94EFD17915ACA625009BED8F;
+			remoteInfo = "Sega CD";
+		};
 		C60FC00013522D9A00B53F64 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1060,6 +1085,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				94EFD19A15ACA8E9009BED8F /* Sega CD.oesystemplugin in Copy Plugins To Application Support */,
 				94A1E9DF1586FD7600986376 /* Virtual Boy.oesystemplugin in Copy Plugins To Application Support */,
 				94AB85FA158679730035D12C /* SG-1000.oesystemplugin in Copy Plugins To Application Support */,
 				94AB855C15853B930035D12C /* PC-FX.oesystemplugin in Copy Plugins To Application Support */,
@@ -1760,6 +1786,18 @@
 		94D7E8E015073E3800FBDD85 /* OENDSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponder.h; sourceTree = "<group>"; };
 		94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemResponder.m; sourceTree = "<group>"; };
 		94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponderClient.h; sourceTree = "<group>"; };
+		94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sega CD.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94EFD17E15ACA625009BED8F /* Sega CD-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sega CD-Info.plist"; sourceTree = "<group>"; };
+		94EFD18015ACA625009BED8F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94EFD18615ACA7FA009BED8F /* OESegaCDSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESegaCDSystemController.h; sourceTree = "<group>"; };
+		94EFD18715ACA7FA009BED8F /* OESegaCDSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESegaCDSystemController.m; sourceTree = "<group>"; };
+		94EFD18815ACA7FA009BED8F /* OESegaCDSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESegaCDSystemResponder.h; sourceTree = "<group>"; };
+		94EFD18915ACA7FA009BED8F /* OESegaCDSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESegaCDSystemResponder.m; sourceTree = "<group>"; };
+		94EFD18A15ACA7FA009BED8F /* OESegaCDSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESegaCDSystemResponderClient.h; sourceTree = "<group>"; };
+		94EFD18D15ACA814009BED8F /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
+		94EFD18E15ACA814009BED8F /* controller_genesis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis.png; sourceTree = "<group>"; };
+		94EFD18F15ACA814009BED8F /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94EFD19015ACA814009BED8F /* segacd_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = segacd_library.png; sourceTree = "<group>"; };
 		C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreController.h; sourceTree = "<group>"; };
 		C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCoreController.m; sourceTree = "<group>"; };
 		C60CDDD611780DF100EB472F /* OpenGL Format Table.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenGL Format Table.txt"; sourceTree = "<group>"; };
@@ -2070,6 +2108,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94EFD17715ACA625009BED8F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94EFD19715ACA8C0009BED8F /* OpenEmuSystem.framework in Frameworks */,
+				94EFD17B15ACA625009BED8F /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C646574513771F12002A4F70 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2215,6 +2262,7 @@
 				94AB8542158532C20035D12C /* PC-FX.oesystemplugin */,
 				94AB85DC158656080035D12C /* SG-1000.oesystemplugin */,
 				94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */,
+				94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3581,6 +3629,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		94EFD17C15ACA625009BED8F /* Sega CD */ = {
+			isa = PBXGroup;
+			children = (
+				94EFD18615ACA7FA009BED8F /* OESegaCDSystemController.h */,
+				94EFD18715ACA7FA009BED8F /* OESegaCDSystemController.m */,
+				94EFD18815ACA7FA009BED8F /* OESegaCDSystemResponder.h */,
+				94EFD18915ACA7FA009BED8F /* OESegaCDSystemResponder.m */,
+				94EFD18A15ACA7FA009BED8F /* OESegaCDSystemResponderClient.h */,
+				94EFD17D15ACA625009BED8F /* Supporting Files */,
+			);
+			path = "Sega CD";
+			sourceTree = "<group>";
+		};
+		94EFD17D15ACA625009BED8F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94EFD19015ACA814009BED8F /* segacd_library.png */,
+				94EFD18D15ACA814009BED8F /* controller_genesis_mask.png */,
+				94EFD18E15ACA814009BED8F /* controller_genesis.png */,
+				94EFD17E15ACA625009BED8F /* Sega CD-Info.plist */,
+				94EFD18F15ACA814009BED8F /* Controller-Preferences-Info.plist */,
+				94EFD17F15ACA625009BED8F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		C60CDDD511780DD100EB472F /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -3814,6 +3888,7 @@
 				94AB8544158532C20035D12C /* PC-FX */,
 				94AB85DE158656090035D12C /* SG-1000 */,
 				94A1E9BE1586F3B600986376 /* Virtual Boy */,
+				94EFD17C15ACA625009BED8F /* Sega CD */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -4251,6 +4326,24 @@
 			productReference = 94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		94EFD17915ACA625009BED8F /* Sega CD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94EFD18315ACA626009BED8F /* Build configuration list for PBXNativeTarget "Sega CD" */;
+			buildPhases = (
+				94EFD17615ACA625009BED8F /* Sources */,
+				94EFD17715ACA625009BED8F /* Frameworks */,
+				94EFD17815ACA625009BED8F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94EFD19615ACA8B5009BED8F /* PBXTargetDependency */,
+			);
+			name = "Sega CD";
+			productName = "Sega CD";
+			productReference = 94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		C646574713771F12002A4F70 /* GameBoy Advance */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C646575113771F12002A4F70 /* Build configuration list for PBXNativeTarget "GameBoy Advance" */;
@@ -4424,6 +4517,7 @@
 				94AB8541158532C20035D12C /* PC-FX */,
 				94AB85DB158656080035D12C /* SG-1000 */,
 				94A1E9BB1586F3B600986376 /* Virtual Boy */,
+				94EFD17915ACA625009BED8F /* Sega CD */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -4747,6 +4841,18 @@
 				94D7E8DB15073DB000FBDD85 /* controller_nds.png in Resources */,
 				94D7E8DC15073DB000FBDD85 /* Controller-Preferences-Info.plist in Resources */,
 				94D7E8DD15073DB000FBDD85 /* nds_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94EFD17815ACA625009BED8F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94EFD18115ACA625009BED8F /* InfoPlist.strings in Resources */,
+				94EFD19115ACA814009BED8F /* controller_genesis_mask.png in Resources */,
+				94EFD19215ACA814009BED8F /* controller_genesis.png in Resources */,
+				94EFD19315ACA814009BED8F /* Controller-Preferences-Info.plist in Resources */,
+				94EFD19415ACA814009BED8F /* segacd_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5197,6 +5303,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94EFD17615ACA625009BED8F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94EFD18B15ACA7FA009BED8F /* OESegaCDSystemController.m in Sources */,
+				94EFD18C15ACA7FA009BED8F /* OESegaCDSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C646574413771F12002A4F70 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5447,6 +5562,16 @@
 			target = 94D7E8C815073BA000FBDD85 /* NDS */;
 			targetProxy = 94D7E8E8150741B500FBDD85 /* PBXContainerItemProxy */;
 		};
+		94EFD19615ACA8B5009BED8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94EFD19515ACA8B5009BED8F /* PBXContainerItemProxy */;
+		};
+		94EFD19915ACA8D8009BED8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94EFD17915ACA625009BED8F /* Sega CD */;
+			targetProxy = 94EFD19815ACA8D8009BED8F /* PBXContainerItemProxy */;
+		};
 		C60FC00113522D9A00B53F64 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
@@ -5606,6 +5731,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				94D7E8CF15073BA000FBDD85 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94EFD17F15ACA625009BED8F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94EFD18015ACA625009BED8F /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -6254,6 +6387,52 @@
 			};
 			name = Release;
 		};
+		94EFD18415ACA626009BED8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "Sega CD/Sega CD-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		94EFD18515ACA626009BED8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "Sega CD/Sega CD-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -6318,7 +6497,7 @@
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -6339,7 +6518,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
@@ -6749,6 +6928,7 @@
 				94A1E9C61586F3B700986376 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94A9E16C157C3B080083A7DC /* Build configuration list for PBXNativeTarget "PlayStation" */ = {
 			isa = XCConfigurationList;
@@ -6785,6 +6965,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		94EFD18315ACA626009BED8F /* Build configuration list for PBXNativeTarget "Sega CD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94EFD18415ACA626009BED8F /* Debug */,
+				94EFD18515ACA626009BED8F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */ = {
 			isa = XCConfigurationList;

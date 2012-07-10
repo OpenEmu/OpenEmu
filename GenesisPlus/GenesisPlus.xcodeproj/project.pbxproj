@@ -264,6 +264,7 @@
 		94ED8A8D14CF933700FF8901 /* fileio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fileio.c; sourceTree = "<group>"; };
 		94ED8A8E14CF933700FF8901 /* fileio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileio.h; sourceTree = "<group>"; };
 		94ED8A8F14CF933700FF8901 /* osd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osd.h; sourceTree = "<group>"; };
+		94EFD19C15ACA994009BED8F /* OESegaCDSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OESegaCDSystemResponderClient.h; path = "../OpenEmu/Sega CD/OESegaCDSystemResponderClient.h"; sourceTree = "<group>"; };
 		C6B948191365164700A425F0 /* OEGenesisSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEGenesisSystemResponderClient.h; path = ../OpenEmu/Genesis/OEGenesisSystemResponderClient.h; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -321,6 +322,7 @@
 			children = (
 				94ED896814CF933600FF8901 /* genplusgx_source */,
 				94ED8A8814CF933700FF8901 /* openemu */,
+				94EFD19C15ACA994009BED8F /* OESegaCDSystemResponderClient.h */,
 				C6B948191365164700A425F0 /* OEGenesisSystemResponderClient.h */,
 				82287C33101E9DB40072172D /* GenPlusGameCore.h */,
 				82287C34101E9DB40072172D /* GenPlusGameCore.m */,
