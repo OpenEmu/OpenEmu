@@ -215,8 +215,8 @@ static void update_input()
         buf.u32[j][8] = l_up;
     }
     
-    game->SetInput(0, "dualanalog", &buf.u8[0]);
-    game->SetInput(1, "dualanalog", &buf.u8[1]);
+    game->SetInput(0, "gamepad", &buf.u8[0]);
+    game->SetInput(1, "gamepad", &buf.u8[1]);
 }
 
 void retro_run()
