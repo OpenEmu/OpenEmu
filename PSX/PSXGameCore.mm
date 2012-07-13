@@ -374,6 +374,9 @@ static void writeSaveFile(const char* path, int type)
         struct retro_system_av_info info;
         retro_get_system_av_info(&info);
         
+        current->frameInterval = info.timing.fps;
+        current->sampleRate = info.timing.sample_rate;
+        
         //retro_set_controller_port_device(SNES_PORT_1, RETRO_DEVICE_JOYPAD);
         
         retro_get_region();

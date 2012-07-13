@@ -87,8 +87,7 @@ static void video_callback(const void *data, unsigned width, unsigned height, si
     // TODO opencl CPU device?
     dispatch_apply(height, the_queue, ^(size_t y){
         //const uint16_t *src = (uint16_t*)data + y * stride;
-        //const uint16_t *src = (uint16_t*)data + y * (pitch >> 1); //pitch is in bytes not pixels?
-        const uint16_t *src = (uint16_t*)data + y * (pitch >> 1);
+        const uint16_t *src = (uint16_t*)data + y * (pitch >> 1); //pitch is in bytes not pixels
         uint16_t *dst = current->videoBuffer + y * 640;
         
         for (int x = 0; x < current->videoWidth; x++) {
@@ -420,6 +419,9 @@ static void writeSaveFile(const char* path, int type)
         
         struct retro_system_av_info info;
         retro_get_system_av_info(&info);
+        
+        current->frameInterval = info.timing.fps;
+        current->sampleRate = info.timing.sample_rate;
         
         //retro_set_controller_port_device(SNES_PORT_1, RETRO_DEVICE_JOYPAD);
         
