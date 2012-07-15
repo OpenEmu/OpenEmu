@@ -38,6 +38,7 @@
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
 
+#import "OESystemPicker.h"
 #import "OELocalizationHelper.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
@@ -194,13 +195,29 @@ static OELibraryDatabase *defaultDatabase = nil;
 @synthesize saveStateWatcher;
 - (void)OE_setupStateWatcher
 {
-    NSString    *path    = [[self stateFolderURL] path];
-    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:path withBlock:^(NSString *path, FSEventStreamEventFlags flags) {
+    NSString    *stateFolderPath    = [[self stateFolderURL] path];
+    __block OEFSBlock fsBlock                 = ^(NSString *path, FSEventStreamEventFlags flags) {
         if([path hasSuffix:@".DS_Store"]) return;
-        if([path rangeOfString:@".oesavestate"].location == NSNotFound) return;
-        
-        [OEDBSaveState updateStateWithPath:path];
-    }];
+        if([path rangeOfString:@".oesavestate"].location == NSNotFound)
+        {
+            NSError *error = nil;
+            BOOL     isDir = NO;
+            NSArray *folderContent = nil;
+            if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir && (folderContent=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]) && folderContent)
+                [folderContent enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSString *subPath = [path stringByAppendingPathComponent:obj];
+                    fsBlock(subPath, flags);
+                }];
+            return;
+        }
+        // Wait a little while to make sure the fs operation has completed
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [OEDBSaveState updateStateWithPath:path];            
+        });
+    };
+
+    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:stateFolderPath withBlock:fsBlock];
     [watcher setDelay:1.0];
     [watcher setStreamFlags:kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents];
     
@@ -456,20 +473,20 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (OEDBSystem*)systemForURL:(NSURL *)url
+- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url
 {
-    NSString *systemIdentifier = nil;
+    OESystemPlugin *system = nil;
     NSString *path = [url absoluteString];
-    for(OESystemPlugin *aSystemPlugin in [OESystemPlugin allPlugins])
-    {
-        if([[aSystemPlugin controller] canHandleFile:path]){ 
-            systemIdentifier = [aSystemPlugin systemIdentifier]; 
-            break;
-        }
-    }
-    if(!systemIdentifier) return nil;
-    OEDBSystem *result = [self systemWithIdentifier:systemIdentifier];
-    return result;
+    NSArray *validPlugins = [[OESystemPlugin allPlugins] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OESystemPlugin * evaluatedObject, NSDictionary *bindings) {
+        return [[evaluatedObject controller] canHandleFile:path];
+    }]];
+   
+    NSLog(@"validPLugins: %@", validPlugins);
+    if([validPlugins count] > 1)   system = [OESystemPicker pickSystemFromArray:validPlugins];
+    else system = [validPlugins lastObject];
+    
+    NSString *systemIdentifier = [system systemIdentifier];
+    return [self systemWithIdentifier:systemIdentifier];
 }
 
 - (NSInteger)systemsCount
@@ -597,7 +614,6 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         name = uniqueName;  
     }
-    
     
     NSManagedObject *aCollection = [NSEntityDescription insertNewObjectForEntityForName:@"Collection" inManagedObjectContext:context];
     [aCollection setValue:name forKey:@"name"];
@@ -798,7 +814,9 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system
 {
-    NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:[system systemIdentifier] isDirectory:YES];
+    if(!system || ![system name]) return [self unsortedRomsFolderURL];
+    
+    NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:[system name] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
 
     return result;

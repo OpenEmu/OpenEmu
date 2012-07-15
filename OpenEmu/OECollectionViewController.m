@@ -731,7 +731,7 @@
             [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
                 [game deleteByMovingFile:alertReturn==NSAlertDefaultReturn keepSaveStates:YES];
             }];
-            [[(NSManagedObject *)[self collectionItem] managedObjectContext] save:nil];
+            [[[selectedGames lastObject] managedObjectContext] save:nil];
         }
     }
 }

@@ -71,6 +71,12 @@
 }
 - (NSString*)displayDescription
 {
-    return [NSString stringWithFormat:@"Wiimote %ld %@", [self padNumber]-WiimoteBasePadNumber+1, [self stringForButtonNumber:[self buttonNumber]]];
+    switch ([self type]) {
+        case OEHIDButton:
+            return [NSString stringWithFormat:@"Wi%ld %@", [self padNumber]-WiimoteBasePadNumber+1, [self stringForButtonNumber:[self buttonNumber]]];            
+        default:
+            return [NSString stringWithFormat:@"Wi%ld %@", [self padNumber]-WiimoteBasePadNumber+1, @"Unknown"];
+    }
+    
 }
 @end

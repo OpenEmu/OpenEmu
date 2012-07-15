@@ -52,8 +52,8 @@
 
 - (BOOL)isDirectory
 {
-    NSDictionary *resourceValues = [self resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:nil];
-    return [[resourceValues objectForKey:NSURLIsDirectoryKey] boolValue];
+    NSDictionary *resourceValues = [self resourceValuesForKeys:[NSArray arrayWithObjects:NSURLIsDirectoryKey, NSURLIsPackageKey, nil] error:nil];
+    return [[resourceValues objectForKey:NSURLIsDirectoryKey] boolValue] && ![[resourceValues objectForKey:NSURLIsPackageKey] boolValue];
 }
 
 - (NSNumber*)fileSize

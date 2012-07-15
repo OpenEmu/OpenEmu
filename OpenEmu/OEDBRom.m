@@ -132,20 +132,17 @@
     if(md5 == nil && crc == nil)
     {
         NSString *crcHash, *md5Hash;
-        if(![[NSFileManager defaultManager] hashFileAtURL:url md5:&md5Hash crc32:&crcHash error:outError])
+        if([[NSFileManager defaultManager] hashFileAtURL:url md5:&md5Hash crc32:&crcHash error:outError])
         {
-            [[NSFileManager defaultManager] removeItemAtPath:[newURL path] error:nil];
-            
-            [context deleteObject:rom];
-            if(outError != NULL)
-                *outError = [NSError errorWithDomain:@"OEErrorDomain" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Calculating Hash for ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
-            return nil;
+            [rom setMd5:md5Hash];
+            [rom setCrc32:crcHash];
         }
-        
-        [rom setMd5:md5Hash];
-        [rom setCrc32:crcHash];
+        else if(outError != NULL)
+        {
+                *outError = [NSError errorWithDomain:@"OEErrorDomain" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Calculating Hash for ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
+                DLog(@"%@", *outError);
+        }
     }
-    
     [rom setFileSize:[url fileSize]];
     
     return rom;
