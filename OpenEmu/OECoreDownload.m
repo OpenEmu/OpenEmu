@@ -74,6 +74,8 @@
 #pragma mark Core Download
 - (void)startDownload:(id)sender
 {
+    if(!appcastItem) return;
+    
     NSURL *url = [appcastItem fileURL];
     
     NSURLRequest  *request      = [NSURLRequest requestWithURL:url];
