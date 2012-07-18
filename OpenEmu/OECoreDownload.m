@@ -89,7 +89,6 @@
     if(fileDownload == nil) NSLog(@"ERROR: Couldn't download %@", self);
 }
 
-
 - (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
 {    
     downloadPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"OEDownload.%@", [NSString stringWithUUID]]];    
