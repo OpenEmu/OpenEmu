@@ -129,7 +129,24 @@ void slot_autoload(int slot, int device)
       fp = fopen(CART_BRAM, "rb");
       if (fp != NULL)
       {
-        fread(scd.cartridge.area, scd.cartridge.mask + 1, 1, fp);
+        int filesize = scd.cartridge.mask + 1;
+        int done = 0;
+        
+        /* Read into buffer (2k blocks) */
+        while (filesize > CHUNKSIZE)
+        {
+          fread(scd.cartridge.area + done, CHUNKSIZE, 1, fp);
+          done += CHUNKSIZE;
+          filesize -= CHUNKSIZE;
+        }
+
+        /* Read remaining bytes */
+        if (filesize)
+        {
+          fread(scd.cartridge.area + done, filesize, 1, fp);
+        }
+
+        /* close file */
         fclose(fp);
 
         /* update CRC */
@@ -194,7 +211,24 @@ void slot_autosave(int slot, int device)
         FILE *fp = fopen(CART_BRAM, "wb");
         if (fp != NULL)
         {
-          fwrite(scd.cartridge.area, scd.cartridge.mask + 1, 1, fp);
+          int filesize = scd.cartridge.mask + 1;
+          int done = 0;
+        
+          /* Write to file (2k blocks) */
+          while (filesize > CHUNKSIZE)
+          {
+            fwrite(scd.cartridge.area + done, CHUNKSIZE, 1, fp);
+            done += CHUNKSIZE;
+            filesize -= CHUNKSIZE;
+          }
+
+          /* Write remaining bytes */
+          if (filesize)
+          {
+            fwrite(scd.cartridge.area + done, filesize, 1, fp);
+          }
+
+          /* Close file */
           fclose(fp);
 
           /* update CRC */
@@ -622,6 +656,9 @@ int slot_save(int slot, int device)
     fclose(fp);
     free(buffer);
 
+    /* Close message box */
+    GUI_MsgBoxClose();
+
     /* Save state screenshot */
     if (slot > 0)
     {
@@ -768,8 +805,10 @@ int slot_save(int slot, int device)
     CARD_Unmount(device);
     free(out);
     free(buffer);
-  }
 
-  GUI_MsgBoxClose();
+    /* Close message box */
+    GUI_MsgBoxClose();
+ }
+
   return 1;
 }

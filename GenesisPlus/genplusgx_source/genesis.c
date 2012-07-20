@@ -348,7 +348,7 @@ void gen_tmss_w(unsigned int offset, unsigned int data)
   WRITE_WORD(tmss, offset, data);
 
   /* VDP requires "SEGA" value to be written in TMSS register */
-  if (strncmp((char *)tmss, "SEGA", 4) == 0)
+  if (memcmp((char *)tmss, "SEGA", 4) == 0)
   {
     for (i=0xc0; i<0xe0; i+=8)
     {

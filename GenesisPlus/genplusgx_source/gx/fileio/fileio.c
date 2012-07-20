@@ -83,37 +83,7 @@ static inline u16 FLIP16 (u16 b)
   return c;
 }
 
-void get_zipfilename(char *filename)
-{
-  char in[CHUNKSIZE];
-
-  /* Open file */
-  FILE *fd = fopen(filename, "rb");
-  if (!fd) return;
-
-  /* Read first 2 bytes  */
-  fread(in, 2, 1, fd);
-
-  /* Detect Zip file */
-  if (memcmp(in, "PK", 2) == 0)
-  {
-    /* Read remaining header data */
-    fread(in + 2, sizeof(PKZIPHEADER) - 2, 1, fd);
-
-    /* Zip header pointer */
-    PKZIPHEADER *pkzip = (PKZIPHEADER *) in;
-
-    /* Return compressed file name */
-    int len = FLIP16(pkzip->filenameLength);
-    if (len >= MAXPATHLEN) len = MAXPATHLEN - 1;
-    fread(filename, len, 1, fd);
-    filename[len] = 0;
-  }
-
-  fclose(fd);
-}
-
-int load_archive(char *filename, unsigned char *buffer, int maxsize)
+int load_archive(char *filename, unsigned char *buffer, int maxsize, char *extension)
 {
   int size = 0;
   char in[CHUNKSIZE];
@@ -132,7 +102,7 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize)
   /* Mega CD BIOS are required files */
   if (!strcmp(filename,CD_BIOS_US) || !strcmp(filename,CD_BIOS_EU) || !strcmp(filename,CD_BIOS_JP)) 
   {
-    sprintf(msg,"Unable to open CD BIOS");
+    sprintf(msg,"Unable to open %s", filename + 14);
   }
 
   if (!fd)
@@ -187,18 +157,22 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize)
       return 0;
     }
 
+    /* Compressed filename offset */
+    int offset = sizeof (PKZIPHEADER) + FLIP16(pkzip->filenameLength);
+ 
+    if (extension)
+    {
+      memcpy(extension, &in[offset - 3], 3);
+      extension[3] = 0;
+    }
+
+   
     /* Initial Zip buffer offset */
-    int offset = sizeof (PKZIPHEADER) + FLIP16(pkzip->filenameLength) + FLIP16(pkzip->extraDataLength);
+    offset += FLIP16(pkzip->extraDataLength);
     zs.next_in = (Bytef *)&in[offset];
 
     /* Initial Zip remaining chunk size */
     zs.avail_in = CHUNKSIZE - offset;
-
-    /* Overwrite input filename with compressed filename */
-    offset = FLIP16(pkzip->filenameLength);
-    if (offset >= MAXPATHLEN) offset = MAXPATHLEN - 1;
-    strncpy(filename, &in[sizeof(PKZIPHEADER)], offset);
-    filename[offset] = 0;
 
     /* Start unzipping file */
     do
@@ -254,6 +228,13 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize)
 
     sprintf((char *)msg,"Loading %d bytes ...", size);
     GUI_MsgBoxOpen("Information", (char *)msg, 1);
+
+    /* filename extension */
+    if (extension)
+    {
+      memcpy(extension, &filename[strlen(filename) - 3], 3);
+      extension[3] = 0;
+    }
 
     /* Read into buffer */
     int left = size;

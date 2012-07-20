@@ -74,6 +74,15 @@ static const uint16 lut_BCD_16[100] =
   0x0900, 0x0901, 0x0902, 0x0903, 0x0904, 0x0905, 0x0906, 0x0907, 0x0908, 0x0909, 
 };
 
+
+static const uint16 toc_snatcher[21] =
+{
+  56014, 495, 10120, 20555, 1580, 5417, 12502, 16090, 6553, 9681,
+  8148, 20228, 8622, 6142, 5858, 1287, 7424, 3535, 31697, 2485,
+  31380
+};
+ 
+
 void cdd_init(void)
 {
 }
@@ -126,33 +135,64 @@ void cdd_load(char *filename, int type_bin)
     fseek(cdd.toc.tracks[0].fd, 0, SEEK_SET);
 
     /* initialize TOC */
-    /* TODO: add 2 seconds pause after data track ? */
     cdd.toc.end = cdd.toc.tracks[0].end;
     cdd.toc.last = 1;
 
     /* TODO: add audio track support from BIN/CUE, ISO/WAV, MP3, OGG ? */
 
-    /* Fake audio tracks if none found */
+    /* Simulated audio tracks if none found */
     if (cdd.toc.last == 1)
     {
-      /* default track duration (fix Snatcher intro) */
-      int length = 4 * 60 * 75;
-
-      /* A-Rank Thunder Tanjouen requires shorter track duration to pass intro */
-      if (strstr(rominfo.product,"T-49064") != NULL) 
+      /* Some games require specific TOC infos */
+      if (strstr(rominfo.product,"T-95035") != NULL)
       {
-        length = 2 * 75;
+        /* Snatcher */
+        do
+        {
+          cdd.toc.tracks[cdd.toc.last].start = cdd.toc.end + 2*75;
+          cdd.toc.tracks[cdd.toc.last].end = cdd.toc.tracks[cdd.toc.last].start + toc_snatcher[cdd.toc.last];
+          cdd.toc.end = cdd.toc.tracks[cdd.toc.last].end;
+          cdd.toc.last++;
+        }
+        while (cdd.toc.last < 21);
       }
-
-      /* max length = 60:02:00 */
-      do
+      else if (strstr(rominfo.product,"T-45074") != NULL)
       {
-        cdd.toc.tracks[cdd.toc.last].start = cdd.toc.end;
-        cdd.toc.tracks[cdd.toc.last].end = cdd.toc.end + length;
-        cdd.toc.end = cdd.toc.tracks[cdd.toc.last].end;
-        cdd.toc.last++;
+        /* Lunar - Eternal Blue (J) */
+        cdd.toc.tracks[1].start = cdd.toc.end + 2*75;
+        cdd.toc.tracks[1].end = cdd.toc.tracks[1].start + 21654;
+        cdd.toc.end = cdd.toc.tracks[1].end;
+        cdd.toc.tracks[2].start = cdd.toc.end + 2*75;
+        cdd.toc.tracks[2].end = cdd.toc.tracks[2].start + 5004;
+        cdd.toc.end = cdd.toc.tracks[2].end;
+        cdd.toc.tracks[3].start = cdd.toc.end + 2*75;
+        cdd.toc.tracks[3].end = cdd.toc.tracks[3].start + 684;
+        cdd.toc.end = cdd.toc.tracks[3].end;
+        cdd.toc.last = 4;
       }
-      while (cdd.toc.last <= 54);
+      else if (strstr(rominfo.product,"T-127045") != NULL)
+      {
+        /* Lunar - Eternal Blue (U) */
+        cdd.toc.tracks[1].start = cdd.toc.end + 2*75;
+        cdd.toc.tracks[1].end = cdd.toc.tracks[1].start + 21735;
+        cdd.toc.end = cdd.toc.tracks[1].end;
+        cdd.toc.tracks[2].start = cdd.toc.end + 2*75;
+        cdd.toc.tracks[2].end = cdd.toc.tracks[2].start + 27131;
+        cdd.toc.end = cdd.toc.tracks[2].end;
+        cdd.toc.last = 3;
+      }
+      else
+      {
+        /* default TOC (99 x 2s) */
+        do
+        {
+          cdd.toc.tracks[cdd.toc.last].start = cdd.toc.end + 2*75;
+          cdd.toc.tracks[cdd.toc.last].end = cdd.toc.tracks[cdd.toc.last].start + 2*75;
+          cdd.toc.end = cdd.toc.tracks[cdd.toc.last].end;
+          cdd.toc.last++;
+        }
+        while ((cdd.toc.last < 99) && (cdd.toc.end < 56*60*75));
+      }
     }
 
     /* CD loaded */
@@ -175,15 +215,15 @@ void cdd_unload(void)
       }
     }
 
-    /* reset TOC */
-    memset(&cdd.toc, 0x00, sizeof(cdd.toc));
-
     /* CD unloaded */
     cdd.loaded = 0;
-    
-    /* unknown CD image file format */
-    cdd.sectorSize = 0;
   }
+
+  /* reset TOC */
+  memset(&cdd.toc, 0x00, sizeof(cdd.toc));
+    
+  /* unknown CD image file format */
+  cdd.sectorSize = 0;
 }
 
 void cdd_read(uint8 *dst)
@@ -219,19 +259,22 @@ void cdd_update(void)
     }
 
     /* track type */
-    if (cdd.index)
+    if (cdd.index > 0)
     {
-      /* audio track sector is sent to CD Fader/DAC but also CDD */
-      cdc_decoder_update(0);
-
-      /* next audio track sector is automatically read */
-      cdd.lba++;
-
-      /* check end of current track */
-      if (cdd.lba >= cdd.toc.tracks[cdd.index].end)
+      if (cdd.index < cdd.toc.last)
       {
-        /* next track */
-        cdd.index++;
+        /* audio track sector sent to CD Fader/DAC should also be sent to CDD */
+        cdc_decoder_update(0);
+ 
+        /* next sector is automatically read */
+        cdd.lba++;
+
+        /* check end of current track */
+        if (cdd.lba >= cdd.toc.tracks[cdd.index].end)
+        {
+          /* next track */
+          cdd.index++;
+        }
       }
     }
     else
@@ -249,7 +292,36 @@ void cdd_update(void)
     }
   }
 
-  /* TODO: handle FAST_FW & FAST_RW commands */
+  /* fast scanning disc */
+  else if (cdd.status == CD_SCAN)
+  {
+    /* skip track */
+    cdd.lba += cdd.scanOffset;
+
+    /* check current track limits */
+    if (cdd.lba >= cdd.toc.tracks[cdd.index].end)
+    {
+      /* next track */
+      cdd.index++;
+    }
+    else if (cdd.lba < cdd.toc.tracks[cdd.index].start)
+    {
+      /* previous track */
+      cdd.index--;
+    }
+
+    /* check disc limits */
+    if (cdd.index < 0)
+    {
+      cdd.index = 0;
+      cdd.lba = 0;
+    }
+    else if (cdd.index >= cdd.toc.last)
+    {
+      cdd.index = cdd.toc.last;
+      cdd.lba = cdd.toc.end;
+    }
+  }
 }
 
 void cdd_process(void)
@@ -303,7 +375,7 @@ void cdd_process(void)
         case 0x02:  /* Current track */
         {
           scd.regs[0x38>>1].w = (cdd.status << 8) | 0x02;
-          scd.regs[0x3a>>1].w = lut_BCD_16[cdd.index + 1];
+          scd.regs[0x3a>>1].w = (cdd.index < cdd.toc.last) ? lut_BCD_16[cdd.index + 1] : 0x0A0A;
           scd.regs[0x3c>>1].w = 0x0000;
           scd.regs[0x3e>>1].w = 0x0000;
           scd.regs[0x40>>1].byte.h = 0x00;
@@ -383,7 +455,7 @@ void cdd_process(void)
       cdd.lba = lba;
 
       /* update current track index */
-      while (cdd.toc.tracks[index].end <= lba) index++;
+      while ((cdd.toc.tracks[index].end <= lba) && (index < cdd.toc.last)) index++;
       cdd.index = index;
 
       /* track type */
@@ -405,7 +477,7 @@ void cdd_process(void)
       /* update status */
       cdd.status = CD_PLAY;
       scd.regs[0x38>>1].w = (CD_PLAY << 8) | 0x02;
-      scd.regs[0x3a>>1].w = lut_BCD_16[index + 1];
+      scd.regs[0x3a>>1].w = (cdd.index < cdd.toc.last) ? lut_BCD_16[index + 1] : 0x0A0A;
       scd.regs[0x3c>>1].w = 0x0000;
       scd.regs[0x3e>>1].w = 0x0000;
       scd.regs[0x40>>1].byte.h = 0x00;
@@ -426,7 +498,7 @@ void cdd_process(void)
       cdd.lba = lba;
 
       /* update current track index */
-      while (cdd.toc.tracks[index].end <= lba) index++;
+      while ((cdd.toc.tracks[index].end <= lba) && (index < cdd.toc.last)) index++;
       cdd.index = index;
 
       /* DATA track */
@@ -482,7 +554,7 @@ void cdd_process(void)
       /* update status */
       cdd.status = CD_PLAY;
       scd.regs[0x38>>1].w = (CD_PLAY << 8) | 0x02;
-      scd.regs[0x3a>>1].w = lut_BCD_16[cdd.index+1];
+      scd.regs[0x3a>>1].w = (cdd.index < cdd.toc.last) ? lut_BCD_16[cdd.index + 1] : 0x0A0A;
       scd.regs[0x3c>>1].w = 0x0000;
       scd.regs[0x3e>>1].w = 0x0000;
       scd.regs[0x40>>1].byte.h = 0x00;
@@ -491,6 +563,7 @@ void cdd_process(void)
 
     case 0x08:  /* Forward Scan */
     {
+      cdd.scanOffset = 10;
       cdd.status = CD_SCAN;
       scd.regs[0x38>>1].w = (CD_SCAN << 8) | 0x02;
       scd.regs[0x3a>>1].w = lut_BCD_16[cdd.index+1];
@@ -502,6 +575,7 @@ void cdd_process(void)
 
     case 0x09:  /* Rewind Scan */
     {
+      cdd.scanOffset = -10;
       cdd.status = CD_SCAN;
       scd.regs[0x38>>1].w = (CD_SCAN << 8) | 0x02;
       scd.regs[0x3a>>1].w = lut_BCD_16[cdd.index+1];

@@ -61,7 +61,7 @@ static int config_load(void)
     char version[16];
     fseek(fp, 0, SEEK_SET);
     fread(version, 16, 1, fp);
-    if (strncmp(version,CONFIG_VERSION,16))
+    if (memcmp(version,CONFIG_VERSION,16))
     {
       fclose(fp);
       return 0;

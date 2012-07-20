@@ -701,7 +701,7 @@ int main (int argc, char **argv)
     fclose(fp);
 
     /* check BOOT ROM */
-    if (!strncmp((char *)(boot_rom + 0x120),"GENESIS OS", 10))
+    if (!memcmp((char *)(boot_rom + 0x120),"GENESIS OS", 10))
     {
       /* mark Genesis BIOS as loaded */
       system_bios = SYSTEM_MD;

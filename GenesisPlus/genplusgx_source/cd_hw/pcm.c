@@ -93,8 +93,8 @@ void pcm_update(short *buffer, int length)
       /* run eight PCM channels */
       for (j=0; j<8; j++)
       {
-        /* check if channel is enabled (bit cleared) */
-        if (!(pcm.status & (1 << j)))
+        /* check if channel is enabled */
+        if (pcm.status & (1 << j))
         {
           /* read current WAVE RAM address */
           short data = pcm.ram[(pcm.chan[j].addr >> 11) & 0xffff];
@@ -107,24 +107,25 @@ void pcm_update(short *buffer, int length)
 
             /* read WAVE RAM address again  */
             data = pcm.ram[pcm.chan[j].ls.w];
-
-            /* no output on infinite loop */
-            if (data == 0xff) break;
           }
 
-          /* output L & R subchannels */
-          if (data & 0x80)
+          /* infinite loop should not output any data */
+          if (data != 0xff)
           {
-            /* PCM data is negative */
-            data = -(data & 0x7f);
+            /* output L & R subchannels */
+            if (data & 0x80)
+            {
+              /* PCM data is negative */
+              data = -(data & 0x7f);
+            }
+
+            /* multiply PCM data with ENV & stereo PAN data then add to outputs (13.6 fixed point) */
+            l += ((data * pcm.chan[j].env * (pcm.chan[j].pan & 0x0F)) >> 6);
+            r += ((data * pcm.chan[j].env * (pcm.chan[j].pan >> 4)) >> 6);
+
+            /* increment WAVE RAM address */
+            pcm.chan[j].addr += pcm.chan[j].fd.w;
           }
-
-          /* multiply PCM data with ENV & stereo PAN data then add to outputs (13.6 fixed point) */
-          l += ((data * pcm.chan[j].env * (pcm.chan[j].pan & 0x0F)) >> 6);
-          r += ((data * pcm.chan[j].env * (pcm.chan[j].pan >> 4)) >> 6);
-
-          /* increment WAVE RAM address */
-          pcm.chan[j].addr += pcm.chan[j].fd.w;
         }
       }
 
@@ -175,6 +176,10 @@ void pcm_update(short *buffer, int length)
 
 void pcm_write(unsigned int address, unsigned char data)
 {
+#ifdef LOG_PCM
+  error("[%d][%d]PCM %x write -> 0x%02x (%X)\n", v_counter, s68k.cycles, address, data, s68k.pc);
+#endif
+
   /* external RAM is mapped to $1000-$1FFF */
   if (address >= 0x1000)
   {
@@ -232,6 +237,12 @@ void pcm_write(unsigned int address, unsigned char data)
     {
       /* update channel WAVE RAM start address (16.11 fixed point) */
       pcm.chan[pcm.index].st = data << (8 + 11);
+
+      /* reload WAVE RAM address if channel is OFF */
+      if (~(pcm.status & (1 << pcm.index)))
+      {
+        pcm.chan[pcm.index].addr = pcm.chan[pcm.index].st;
+      }
       return;
     }
 
@@ -255,18 +266,18 @@ void pcm_write(unsigned int address, unsigned char data)
 
     case 0x08: /* ON/OFF register */
     {
-      /* reload WAVE RAM address pointers when channels are switched ON (bit cleared) */
-      if ((pcm.status & 0x01) && !(data & 0x01)) pcm.chan[0].addr = pcm.chan[0].st;
-      if ((pcm.status & 0x02) && !(data & 0x02)) pcm.chan[1].addr = pcm.chan[1].st;
-      if ((pcm.status & 0x04) && !(data & 0x04)) pcm.chan[2].addr = pcm.chan[2].st;
-      if ((pcm.status & 0x08) && !(data & 0x08)) pcm.chan[3].addr = pcm.chan[3].st;
-      if ((pcm.status & 0x10) && !(data & 0x10)) pcm.chan[4].addr = pcm.chan[4].st;
-      if ((pcm.status & 0x20) && !(data & 0x20)) pcm.chan[5].addr = pcm.chan[5].st;
-      if ((pcm.status & 0x40) && !(data & 0x40)) pcm.chan[6].addr = pcm.chan[6].st;
-      if ((pcm.status & 0x80) && !(data & 0x80)) pcm.chan[7].addr = pcm.chan[7].st;
-
       /* update PCM channels status */
-      pcm.status = data;
+      pcm.status = ~data;
+
+      /* reload WAVE RAM address pointers when channels are OFF */
+      if (data & 0x01) pcm.chan[0].addr = pcm.chan[0].st;
+      if (data & 0x02) pcm.chan[1].addr = pcm.chan[1].st;
+      if (data & 0x04) pcm.chan[2].addr = pcm.chan[2].st;
+      if (data & 0x08) pcm.chan[3].addr = pcm.chan[3].st;
+      if (data & 0x10) pcm.chan[4].addr = pcm.chan[4].st;
+      if (data & 0x20) pcm.chan[5].addr = pcm.chan[5].st;
+      if (data & 0x40) pcm.chan[6].addr = pcm.chan[6].st;
+      if (data & 0x80) pcm.chan[7].addr = pcm.chan[7].st;
       return;
     }
 
@@ -280,6 +291,10 @@ void pcm_write(unsigned int address, unsigned char data)
 
 unsigned char pcm_read(unsigned int address)
 {
+#ifdef LOG_PCM
+  error("[%d][%d]PCM %x read (%X)\n", v_counter, s68k.cycles, address, s68k.pc);
+#endif
+
   /* external RAM (TODO: verify if possible to read, some docs claim it's not !) */
   if (address >= 0x1000)
   {
@@ -294,7 +309,7 @@ unsigned char pcm_read(unsigned int address)
 
     if (address & 1)
     {
-      return pcm.chan[index].addr >> (11 + 8);
+      return (pcm.chan[index].addr >> (11 + 8)) & 0xff;
     }
     else
     {

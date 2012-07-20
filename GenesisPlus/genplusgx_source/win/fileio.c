@@ -45,9 +45,8 @@
 #include <zlib.h>
 
 static int check_zip(char *filename);
-static int gzsize(gzFile *gd);
 
-int load_archive(char *filename, unsigned char *buffer, int maxsize)
+int load_archive(char *filename, unsigned char *buffer, int maxsize, char *extension)
 {
   int size = 0;
   
@@ -55,6 +54,7 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize)
   {
     unz_file_info info;
     int ret = 0;
+    char fname[256];
 
     /* Attempt to open the archive */
     unzFile *fd = unzOpen(filename);
@@ -69,11 +69,18 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize)
     }
 
     /* Get file informations and update filename */
-    ret = unzGetCurrentFileInfo(fd, &info, filename, 128, NULL, 0, NULL, 0);
+    ret = unzGetCurrentFileInfo(fd, &info, fname, 256, NULL, 0, NULL, 0);
     if(ret != UNZ_OK)
     {
       unzClose(fd);
       return 0;
+    }
+
+    /* Compressed filename extension */
+    if (extension)
+    {
+      strncpy(extension, &fname[strlen(fname) - 3], 3);
+      extension[3] = 0;
     }
 
     /* Open the file for reading */
@@ -121,6 +128,13 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize)
     /* Read file data */
     size = gzread(gd, buffer, maxsize);
 
+    /* filename extension */
+    if (extension)
+    {
+      strncpy(extension, &filename[strlen(filename) - 3], 3);
+      extension[3] = 0;
+    }
+
     /* Close file */
     gzclose(gd);
   }
@@ -142,26 +156,4 @@ static int check_zip(char *filename)
   fclose(fd);
   if(memcmp(buf, "PK", 2) == 0) return (1);
   return (0);
-}
-
-
-/*
-    Returns the size of a GZ compressed file.
-*/
-static int gzsize(gzFile *gd)
-{
-  #define CHUNKSIZE   (0x10000)
-  int size = 0, length = 0;
-  unsigned char buffer[CHUNKSIZE];
-  gzrewind(gd);
-  do
-  {
-    size = gzread(gd, buffer, CHUNKSIZE);
-    if(size <= 0) break;
-    length += size;
-  }
-  while (!gzeof(gd));
-  gzrewind(gd);
-  return (length);
-  #undef CHUNKSIZE
 }

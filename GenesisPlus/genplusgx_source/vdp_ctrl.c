@@ -96,6 +96,27 @@ void (*vdp_z80_data_w)(unsigned int data);
 unsigned int (*vdp_68k_data_r)(void);
 unsigned int (*vdp_z80_data_r)(void);
 
+/* Function prototypes */
+static void vdp_68k_data_w_m4(unsigned int data);
+static void vdp_68k_data_w_m5(unsigned int data);
+static unsigned int vdp_68k_data_r_m4(void);
+static unsigned int vdp_68k_data_r_m5(void);
+static void vdp_z80_data_w_m4(unsigned int data);
+static void vdp_z80_data_w_m5(unsigned int data);
+static unsigned int vdp_z80_data_r_m4(void);
+static unsigned int vdp_z80_data_r_m5(void);
+static void vdp_z80_data_w_ms(unsigned int data);
+static void vdp_z80_data_w_gg(unsigned int data);
+static void vdp_z80_data_w_sg(unsigned int data);
+static void vdp_bus_w(unsigned int data);
+static void vdp_fifo_update(unsigned int cycles);
+static void vdp_reg_w(unsigned int r, unsigned int d, unsigned int cycles);
+static void vdp_dma_68k_ext(unsigned int length);
+static void vdp_dma_68k_ram(unsigned int length);
+static void vdp_dma_68k_io(unsigned int length);
+static void vdp_dma_copy(unsigned int length);
+static void vdp_dma_fill(unsigned int length);
+
 /* Tables that define the playfield layout */
 static const uint8 hscroll_mask_table[] = { 0x00, 0x07, 0xF8, 0xFF };
 static const uint8 shift_table[]        = { 6, 7, 0, 8 };
@@ -121,14 +142,6 @@ static uint16 fifo[4];        /* FIFO buffer */
 static void (*set_irq_line)(unsigned int level);
 static void (*set_irq_line_delay)(unsigned int level);
 
-/* DMA Timings */
-static const uint8 dma_timing[2][2] =
-{
-/* H32, H40 */
-  {16 , 18},  /* active display */
-  {167, 205}  /* blank display */
-};
-
 /* Vertical counter overflow values (see hvc.h) */
 static const uint16 vc_table[4][2] = 
 {
@@ -139,27 +152,30 @@ static const uint16 vc_table[4][2] =
   {0x106, 0x10A}  /* Mode 5 (240 lines) */
 };
 
-/*--------------------------------------------------------------------------*/
-/* Function prototypes                                                      */
-/*--------------------------------------------------------------------------*/
+/* DMA Timings (number of access slots per line) */
+static const uint8 dma_timing[2][2] =
+{
+/* H32, H40 */
+  {16 , 18},  /* active display */
+  {167, 205}  /* blank display */
+};
 
-static void vdp_68k_data_w_m4(unsigned int data);
-static void vdp_68k_data_w_m5(unsigned int data);
-static unsigned int vdp_68k_data_r_m4(void);
-static unsigned int vdp_68k_data_r_m5(void);
-static void vdp_z80_data_w_m4(unsigned int data);
-static void vdp_z80_data_w_m5(unsigned int data);
-static unsigned int vdp_z80_data_r_m4(void);
-static unsigned int vdp_z80_data_r_m5(void);
-static void vdp_z80_data_w_ms(unsigned int data);
-static void vdp_z80_data_w_gg(unsigned int data);
-static void vdp_z80_data_w_sg(unsigned int data);
-static void vdp_bus_w(unsigned int data);
-static void vdp_fifo_update(unsigned int cycles);
-static void vdp_reg_w(unsigned int r, unsigned int d, unsigned int cycles);
-static void vdp_dma_copy(unsigned int length);
-static void vdp_dma_vbus(unsigned int length);
-static void vdp_dma_fill(unsigned char data, unsigned int length);
+/* DMA processing functions (set by VDP register 23 high nibble) */
+static void (*const dma_func[16])(unsigned int length) =
+{
+  /* 0x0-0x3 : DMA from 68k bus $000000-$7FFFFF (external area) */
+  vdp_dma_68k_ext,vdp_dma_68k_ext,vdp_dma_68k_ext,vdp_dma_68k_ext,
+
+  /* 0x4-0x7 : DMA from 68k bus $800000-$FFFFFF (internal RAM & I/O) */
+  vdp_dma_68k_ram, vdp_dma_68k_io,vdp_dma_68k_ram,vdp_dma_68k_ram,
+
+  /* 0x8-0xB : DMA Fill */
+  vdp_dma_fill,vdp_dma_fill,vdp_dma_fill,vdp_dma_fill,
+
+  /* 0xC-0xF : DMA Copy */
+  vdp_dma_copy,vdp_dma_copy,vdp_dma_copy,vdp_dma_copy
+};
+
 
 /*--------------------------------------------------------------------------*/
 /* Init, reset, context functions                                           */
@@ -608,30 +624,8 @@ void vdp_dma_update(unsigned int cycles)
     /* Update DMA length */
     dma_length -= dma_bytes;
 
-    /* Select DMA operation */
-    switch (dma_type)
-    {
-      case 2:
-      {
-        /* VRAM Fill */
-        vdp_dma_fill(dmafill, dma_bytes);
-        break;
-      }
-
-      case 3:
-      {
-        /* VRAM Copy */
-        vdp_dma_copy(dma_bytes);
-        break;
-      }
-
-      default:
-      {
-        /* 68K bus to VRAM, CRAM or VSRAM */
-        vdp_dma_vbus(dma_bytes);
-        break;
-      }
-    }
+    /* Process DMA operation */
+    dma_func[reg[23] >> 4](dma_bytes);
 
     /* Check if DMA is finished */
     if (!dma_length)
@@ -2868,78 +2862,112 @@ static void vdp_z80_data_w_sg(unsigned int data)
 /* DMA operations                                                           */
 /*--------------------------------------------------------------------------*/
 
-/* 68K bus to VRAM, VSRAM or CRAM */
-static void vdp_dma_vbus(unsigned int length)
+/* DMA from 68K bus: $000000-$7FFFFF (external area) */
+static void vdp_dma_68k_ext(unsigned int length)
 {
   uint16 data;
 
   /* 68k bus source address */
   uint32 source = (reg[23] << 17) | (dma_src << 1);
 
-  /* Z80 & I/O area ($A00000-$A1FFFF) specific */
-  if (reg[23] == 0x50)
+  do
   {
-    do
+    /* Read data word from 68k bus */
+    if (m68k.memory_map[source>>16].read16)
     {
-      /* Z80 area */
-      if (source <= 0xA0FFFF)
-      {
-        /* Return $FFFF only when the Z80 isn't hogging the Z-bus.
-        (e.g. Z80 isn't reset and 68000 has the bus) */
-        data = ((zstate ^ 3) ? *(uint16 *)(work_ram + (source & 0xFFFF)) : 0xFFFF);
-      }
-
-      /* The I/O chip and work RAM try to drive the data bus which results 
-          in both values being combined in random ways when read.
-          We return the I/O chip values which seem to have precedence, */
-      else if (source <= 0xA1001F)
-      {
-        data = io_68k_read((source >> 1) & 0x0F);
-        data = (data << 8 | data);
-      }
-
-      /* All remaining locations access work RAM */
-      else
-      {
-        data = *(uint16 *)(work_ram + (source & 0xFFFF));
-      }
-
-      /* Increment source address */
-      source += 2;
-
-      /* 128k DMA window */
-      source = (reg[23] << 17) | (source & 0x1FFFF);
-
-      /* Write data to VRAM, CRAM or VSRAM */
-      vdp_bus_w(data);
+      data = m68k.memory_map[source>>16].read16(source);
     }
-    while (--length);
-  }
-  else
-  {
-    do
+    else
     {
-      /* Read data word from 68k bus */
-      if (m68k.memory_map[source>>16].base)
-      {
-        data = *(uint16 *)(m68k.memory_map[source>>16].base + (source & 0xFFFF));
-      }
-      else
-      {
-        data = m68k.memory_map[source>>16].read16(source);
-      }
+      data = *(uint16 *)(m68k.memory_map[source>>16].base + (source & 0xFFFF));
+    }
  
-      /* Increment source address */
-      source += 2;
+    /* Increment source address */
+    source += 2;
 
-      /* 128k DMA window */
-      source = (reg[23] << 17) | (source & 0x1FFFF);
+    /* 128k DMA window */
+    source = (reg[23] << 17) | (source & 0x1FFFF);
 
-      /* Write data word to VRAM, CRAM or VSRAM */
-      vdp_bus_w(data);
-    }
-    while (--length);
+    /* Write data word to VRAM, CRAM or VSRAM */
+    vdp_bus_w(data);
   }
+  while (--length);
+
+  /* Update DMA source address */
+  dma_src = (source >> 1) & 0xffff;
+}
+
+/* DMA from 68K bus: $800000-$FFFFFF (internal area) except I/O area */
+static void vdp_dma_68k_ram(unsigned int length)
+{
+  uint16 data;
+
+  /* 68k bus source address */
+  uint32 source = (reg[23] << 17) | (dma_src << 1);
+
+  do
+  {
+    /* access Work-RAM by default  */
+    data = *(uint16 *)(work_ram + (source & 0xFFFF));
+   
+    /* Increment source address */
+    source += 2;
+
+    /* 128k DMA window */
+    source = (reg[23] << 17) | (source & 0x1FFFF);
+
+    /* Write data word to VRAM, CRAM or VSRAM */
+    vdp_bus_w(data);
+  }
+  while (--length);
+
+  /* Update DMA source address */
+  dma_src = (source >> 1) & 0xffff;
+}
+
+/* DMA from 68K bus: $A00000-$A1FFFF (I/O area) specific */
+static void vdp_dma_68k_io(unsigned int length)
+{
+  uint16 data;
+
+  /* 68k bus source address */
+  uint32 source = (reg[23] << 17) | (dma_src << 1);
+
+  do
+  {
+    /* Z80 area */
+    if (source <= 0xA0FFFF)
+    {
+      /* Return $FFFF only when the Z80 isn't hogging the Z-bus.
+      (e.g. Z80 isn't reset and 68000 has the bus) */
+      data = ((zstate ^ 3) ? *(uint16 *)(work_ram + (source & 0xFFFF)) : 0xFFFF);
+    }
+
+    /* The I/O chip and work RAM try to drive the data bus which results 
+       in both values being combined in random ways when read.
+       We return the I/O chip values which seem to have precedence, */
+    else if (source <= 0xA1001F)
+    {
+      data = io_68k_read((source >> 1) & 0x0F);
+      data = (data << 8 | data);
+    }
+
+    /* All remaining locations access work RAM */
+    else
+    {
+      data = *(uint16 *)(work_ram + (source & 0xFFFF));
+    }
+
+    /* Increment source address */
+    source += 2;
+
+    /* 128k DMA window */
+    source = (reg[23] << 17) | (source & 0x1FFFF);
+
+    /* Write data to VRAM, CRAM or VSRAM */
+    vdp_bus_w(data);
+  }
+  while (--length);
 
   /* Update DMA source address */
   dma_src = (source >> 1) & 0xffff;
@@ -2989,12 +3017,14 @@ static void vdp_dma_copy(unsigned int length)
 }
 
 /* VRAM Fill (TODO: check if CRAM or VSRAM fill is possible) */
-static void vdp_dma_fill(unsigned char data, unsigned int length)
+static void vdp_dma_fill(unsigned int length)
 {
   /* VRAM write operation only (Williams Greatest Hits after soft reset) */
   if ((code & 0x1F) == 0x01)
   {
     int name;
+    uint8 data = dmafill;
+
     do
     {
       /* Intercept writes to Sprite Attribute Table */

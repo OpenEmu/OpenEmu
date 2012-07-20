@@ -54,6 +54,8 @@
 #define CD_BRAM_JP    "/genplus/saves/cd/scd_J.brm"
 #define CART_BRAM     "/genplus/saves/cd/cart.brm"
 
+#define ALIGN_SND 0xfffffff8  /* 32 bytes aligned sound buffers (8 samples alignment) */
+
 /*************************************************/
 
 #ifdef HW_RVL

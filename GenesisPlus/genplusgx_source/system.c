@@ -178,8 +178,10 @@ int audio_update(int16 *buffer)
   /* get number of available samples */
   int size = sound_update(mcycles_vdp);
 
-  /* return an aligned number of samples */
-  size &= ~7;
+#ifdef ALIGN_SND
+  /* return an aligned number of samples if necessary*/
+  size &= ALIGN_SND;
+#endif
 
   if (config.hq_fm)
   {

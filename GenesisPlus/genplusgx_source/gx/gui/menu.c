@@ -1145,7 +1145,7 @@ static void systemmenu ()
   else
     sprintf (items[7].text, "Lock-On: OFF");
 
-  sprintf (items[8].text, "Cartridge Swap: %s", config.hot_swap ? "ON":"OFF");
+  sprintf (items[8].text, "Cartridge Swap: %s", (config.hot_swap & 1) ? "ON":"OFF");
 
   if (svp)
   {
@@ -1389,7 +1389,7 @@ static void systemmenu ()
       case 8:  /*** Cartridge Hot Swap ***/
       {
         config.hot_swap ^= 1;
-        sprintf (items[8].text, "Cartridge Swap: %s", config.hot_swap ? "ON":"OFF");
+        sprintf (items[8].text, "Cartridge Swap: %s", (config.hot_swap & 1) ? "ON":"OFF");
         break;
       }
 
@@ -1421,6 +1421,12 @@ static void systemmenu ()
     {
        system_init();
        system_reset();
+
+       /* restore SRAM */
+       if (config.s_auto & 1)
+       {
+         slot_autoload(0,config.s_device);
+       }
     }
     else
     {

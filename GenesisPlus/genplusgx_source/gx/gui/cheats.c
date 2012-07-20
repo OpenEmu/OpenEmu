@@ -52,8 +52,8 @@
 extern const u8 Key_Minus_wii_png[];
 extern const u8 Key_Plus_wii_png[];
 #else
-extern const u8 Key_L_gcn_png[];
 extern const u8 Key_R_gcn_png[];
+extern const u8 Key_L_gcn_png[];
 #endif
 extern const u8 Key_DPAD_png[];
 
@@ -784,19 +784,19 @@ static void cheatmenu_cb(void)
       gui_image key_enable;
       gui_image key_delete;
   #ifdef HW_RVL
-      key_delete.texture = gxTextureOpenPNG(Key_Minus_wii_png,0);
       key_enable.texture = gxTextureOpenPNG(Key_Plus_wii_png,0);
-      gxDrawTexture(key_delete.texture,152,424,24,24,255);
-      gxDrawTexture(key_enable.texture,372,424,24,24,255);
-      FONT_write("Delete\nCheat",16,184,436,640,(GXColor)WHITE);
-      FONT_write(cheatlist[offset + selection].enable ? "Disable\nCheat":"Enable\nCheat",16,404,436,640,(GXColor)WHITE);
+      key_delete.texture = gxTextureOpenPNG(Key_Minus_wii_png,0);
+      gxDrawTexture(key_enable.texture,152,424,24,24,255);
+      gxDrawTexture(key_delete.texture,372,424,24,24,255);
+      FONT_write(cheatlist[offset + selection].enable ? "Disable\nCheat":"Enable\nCheat",16,184,436,640,(GXColor)WHITE);
+      FONT_write("Delete\nCheat",16,404,436,640,(GXColor)WHITE);
   #else
-      key_delete.texture = gxTextureOpenPNG(Key_L_gcn_png,0);
-      key_enable.texture = gxTextureOpenPNG(Key_R_gcn_png,0);
-      gxDrawTexture(key_delete.texture,136,426,44,20,255);
-      gxDrawTexture(key_enable.texture,368,426,44,20,255);
-      FONT_write("Delete\nCheat",16,188,436,640,(GXColor)WHITE);
-      FONT_write(cheatlist[offset + selection].enable ? "Disable\nCheat":"Enable\nCheat",16,420,436,640,(GXColor)WHITE);
+      key_enable.texture = gxTextureOpenPNG(Key_L_gcn_png,0);
+      key_delete.texture = gxTextureOpenPNG(Key_R_gcn_png,0);
+      gxDrawTexture(key_enable.texture,136,426,44,20,255);
+      gxDrawTexture(key_delete.texture,368,426,44,20,255);
+      FONT_write(cheatlist[offset + selection].enable ? "Disable\nCheat":"Enable\nCheat",16,188,436,640,(GXColor)WHITE);
+      FONT_write("Delete\nCheat",16,420,436,640,(GXColor)WHITE);
   #endif
       gxTextureClose(&key_enable.texture);
       gxTextureClose(&key_delete.texture);
@@ -1191,7 +1191,7 @@ void CheatMenu(void)
         if ((offset + selection) < maxcheats)
         {
           /* Special inputs */
-          if (m_input.keys & PAD_TRIGGER_L)
+          if (m_input.keys & PAD_TRIGGER_R)
           {
             /* sort cheat list */
             for (i = offset + selection + 1; i < maxcheats; i++)
@@ -1223,7 +1223,7 @@ void CheatMenu(void)
             /* reset scrolling */
             string_offset = 0;
           }
-          else if (m_input.keys & PAD_TRIGGER_R)
+          else if (m_input.keys & PAD_TRIGGER_L)
           {
             /* cheat ON/OFF */
             cheatlist[offset + selection].enable ^= 1;

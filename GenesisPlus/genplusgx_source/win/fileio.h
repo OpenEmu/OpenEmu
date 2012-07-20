@@ -43,6 +43,6 @@
 #define _FILEIO_H_
 
 /* Function prototypes */
-extern int load_archive(char *filename, unsigned char *buffer, int maxsize);
+extern int load_archive(char *filename, unsigned char *buffer, int maxsize, char *extension);
 
 #endif /* _FILEIO_H_ */

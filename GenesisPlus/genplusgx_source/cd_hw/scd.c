@@ -412,6 +412,7 @@ INLINE void word_ram_switch(uint8 mode)
 
   if (mode & 0x04)
   {
+    /* 2M -> 1M mode */
     for (i=0; i<0x10000; i++)
     {
       *ptr2++=*ptr1++;
@@ -420,10 +421,42 @@ INLINE void word_ram_switch(uint8 mode)
   }
   else
   {
+    /* 1M -> 2M mode */
     for (i=0; i<0x10000; i++)
     {
       *ptr1++=*ptr2++;
       *ptr1++=*ptr3++;
+    }
+
+    /* allow Word-RAM access from both CPU in 2M mode (fixes sync issues in Mortal Kombat) */
+    for (i=scd.cartridge.boot+0x20; i<scd.cartridge.boot+0x24; i++)
+    {
+      /* MAIN-CPU: $200000-$23FFFF is mapped to 256K Word-RAM */
+      m68k.memory_map[i].base    = scd.word_ram_2M + ((i & 0x03) << 16);
+      m68k.memory_map[i].read8   = NULL;
+      m68k.memory_map[i].read16  = NULL;
+      m68k.memory_map[i].write8  = NULL;
+      m68k.memory_map[i].write16 = NULL;
+      zbank_memory_map[i].read   = NULL;
+      zbank_memory_map[i].write  = NULL;
+    }
+
+    for (i=0x08; i<0x0c; i++)
+    {
+      /* SUB-CPU: $080000-$0BFFFF is mapped to 256K Word-RAM */
+      s68k.memory_map[i].read8   = NULL;
+      s68k.memory_map[i].read16  = NULL;
+      s68k.memory_map[i].write8  = NULL;
+      s68k.memory_map[i].write16 = NULL;
+    }
+
+    for (i=0x0c; i<0x0e; i++)
+    {
+      /* SUB-CPU: $0C0000-$0DFFFF is unmapped */
+      s68k.memory_map[i].read8   = s68k_read_bus_8;
+      s68k.memory_map[i].read16  = s68k_read_bus_16;
+      s68k.memory_map[i].write8  = s68k_unused_8_w;
+      s68k.memory_map[i].write16 = s68k_unused_16_w;
     }
   }
 }
@@ -471,12 +504,12 @@ static void scd_write_byte(unsigned int address, unsigned int data)
 
     case 0x03: /* Memory Mode */
     {
+      s68k_poll_sync(0x02);
+
       /* detect MODE & RET bits modifications */
       if ((data ^ scd.regs[0x03 >> 1].byte.l) & 0x05)
       {
         int i;
-
-        s68k_poll_sync(0x02);
         
         /* MODE bit */
         if (data & 0x04)
@@ -485,7 +518,7 @@ static void scd_write_byte(unsigned int address, unsigned int data)
           if (!(scd.regs[0x03 >> 1].byte.l & 0x04))
           {
             /* re-arrange Word-RAM banks */
-            word_ram_switch(data);
+            word_ram_switch(0x04);
           }
 
           /* RET bit in 1M Mode */
@@ -501,7 +534,6 @@ static void scd_write_byte(unsigned int address, unsigned int data)
             for (i=scd.cartridge.boot+0x22; i<scd.cartridge.boot+0x24; i++)
             {
               /* VRAM cell image mapped at $220000-$23FFFF */
-              m68k.memory_map[i].base    = NULL;
               m68k.memory_map[i].read8   = cell_ram_1_read8;
               m68k.memory_map[i].read16  = cell_ram_1_read16;
               m68k.memory_map[i].write8  = cell_ram_1_write8;
@@ -545,7 +577,6 @@ static void scd_write_byte(unsigned int address, unsigned int data)
             for (i=scd.cartridge.boot+0x22; i<scd.cartridge.boot+0x24; i++)
             {
               /* VRAM cell image mapped at $220000-$23FFFF */
-              m68k.memory_map[i].base    = NULL;
               m68k.memory_map[i].read8   = cell_ram_0_read8;
               m68k.memory_map[i].read16  = cell_ram_0_read16;
               m68k.memory_map[i].write8  = cell_ram_0_write8;
@@ -585,38 +616,7 @@ static void scd_write_byte(unsigned int address, unsigned int data)
           if (scd.regs[0x02 >> 1].byte.l & 0x04)
           {
             /* re-arrange Word-RAM banks */
-            word_ram_switch(data);
-
-            /* allow Word-RAM access from both CPU in 2M mode (fixes sync issues in Mortal Kombat) */
-            for (i=scd.cartridge.boot+0x20; i<scd.cartridge.boot+0x24; i++)
-            {
-              /* MAIN-CPU: $200000-$23FFFF is mapped to 256K Word-RAM */
-              m68k.memory_map[i].base    = scd.word_ram_2M + ((i & 0x03) << 16);
-              m68k.memory_map[i].read8   = NULL;
-              m68k.memory_map[i].read16  = NULL;
-              m68k.memory_map[i].write8  = NULL;
-              m68k.memory_map[i].write16 = NULL;
-              zbank_memory_map[i].read   = NULL;
-              zbank_memory_map[i].write  = NULL;
-            }
-
-            for (i=0x08; i<0x0c; i++)
-            {
-              /* SUB-CPU: $080000-$0BFFFF is mapped to 256K Word-RAM */
-              s68k.memory_map[i].read8   = NULL;
-              s68k.memory_map[i].read16  = NULL;
-              s68k.memory_map[i].write8  = NULL;
-              s68k.memory_map[i].write16 = NULL;
-            }
-
-            for (i=0x0c; i<0x0e; i++)
-            {
-              /* SUB-CPU: $0C0000-$0DFFFF is unmapped */
-              s68k.memory_map[i].read8   = s68k_read_bus_8;
-              s68k.memory_map[i].read16  = s68k_read_bus_16;
-              s68k.memory_map[i].write8  = s68k_unused_8_w;
-              s68k.memory_map[i].write16 = s68k_unused_16_w;
-            }
+            word_ram_switch(0x00);
 
             /* RET bit set during 1M mode ? */
             data |= ~scd.dmna & 0x01;
@@ -777,12 +777,12 @@ static void scd_write_word(unsigned int address, unsigned int data)
 
     case 0x02: /* Memory Mode */
     {
+      s68k_poll_sync(0x02);
+
       /* detect MODE & RET bits modifications */
       if ((data ^ scd.regs[0x03>>1].byte.l) & 0x05)
       {
         int i;
-        
-        s68k_poll_sync(0x02);
 
         /* MODE bit */
         if (data & 0x04)
@@ -791,7 +791,7 @@ static void scd_write_word(unsigned int address, unsigned int data)
           if (!(scd.regs[0x03 >> 1].byte.l & 0x04))
           {
             /* re-arrange Word-RAM banks */
-            word_ram_switch(data);
+            word_ram_switch(0x04);
           }
 
           /* RET bit in 1M Mode */
@@ -807,7 +807,6 @@ static void scd_write_word(unsigned int address, unsigned int data)
             for (i=scd.cartridge.boot+0x22; i<scd.cartridge.boot+0x24; i++)
             {
               /* VRAM cell image mapped at $220000-$23FFFF */
-              m68k.memory_map[i].base    = NULL;
               m68k.memory_map[i].read8   = cell_ram_1_read8;
               m68k.memory_map[i].read16  = cell_ram_1_read16;
               m68k.memory_map[i].write8  = cell_ram_1_write8;
@@ -851,7 +850,6 @@ static void scd_write_word(unsigned int address, unsigned int data)
             for (i=scd.cartridge.boot+0x22; i<scd.cartridge.boot+0x24; i++)
             {
               /* VRAM cell image mapped at $220000-$23FFFF */
-              m68k.memory_map[i].base    = NULL;
               m68k.memory_map[i].read8   = cell_ram_0_read8;
               m68k.memory_map[i].read16  = cell_ram_0_read16;
               m68k.memory_map[i].write8  = cell_ram_0_write8;
@@ -891,38 +889,7 @@ static void scd_write_word(unsigned int address, unsigned int data)
           if (scd.regs[0x03>>1].byte.l & 0x04)
           {
             /* re-arrange Word-RAM banks */
-            word_ram_switch(data);
-
-            /* allow Word-RAM access from both CPU in 2M mode (fixes sync issues in Mortal Kombat) */
-            for (i=scd.cartridge.boot+0x20; i<scd.cartridge.boot+0x24; i++)
-            {
-              /* MAIN-CPU: $200000-$23FFFF is mapped to 256K Word-RAM */
-              m68k.memory_map[i].base    = scd.word_ram_2M + ((i & 0x03) << 16);
-              m68k.memory_map[i].read8   = NULL;
-              m68k.memory_map[i].read16  = NULL;
-              m68k.memory_map[i].write8  = NULL;
-              m68k.memory_map[i].write16 = NULL;
-              zbank_memory_map[i].read   = NULL;
-              zbank_memory_map[i].write  = NULL;
-            }
-
-            for (i=0x08; i<0x0c; i++)
-            {
-              /* SUB-CPU: $080000-$0BFFFF is mapped to 256K Word-RAM */
-              s68k.memory_map[i].read8   = NULL;
-              s68k.memory_map[i].read16  = NULL;
-              s68k.memory_map[i].write8  = NULL;
-              s68k.memory_map[i].write16 = NULL;
-            }
-
-            for (i=0x0c; i<0x0e; i++)
-            {
-              /* SUB-CPU: $0C0000-$0DFFFF is unmapped */
-              s68k.memory_map[i].read8   = s68k_read_bus_8;
-              s68k.memory_map[i].read16  = s68k_read_bus_16;
-              s68k.memory_map[i].write8  = s68k_unused_8_w;
-              s68k.memory_map[i].write16 = s68k_unused_16_w;
-            }
+            word_ram_switch(0x00);
 
             /* RET bit set during 1M mode ? */
             data |= ~scd.dmna & 0x01;
@@ -1104,7 +1071,7 @@ void scd_init(void)
   /* $240000-$3FFFFF (resp. $400000-$7FFFFF): unused area (Word-RAM mirrored ?) */
   for (i=base+0x24; i<base+0x40; i++)
   {
-    m68k.memory_map[i].base     = NULL;
+    m68k.memory_map[i].base     = scd.word_ram_2M + ((i & 3) << 16);
     m68k.memory_map[i].read8    = m68k_read_bus_8;
     m68k.memory_map[i].read16   = m68k_read_bus_16;
     m68k.memory_map[i].write8   = m68k_unused_8_w;
@@ -1143,10 +1110,10 @@ void scd_init(void)
     s68k.memory_map[i].write16 = NULL;
   }
   
-  /* $0C0000-$FD0000: Unused area */
+  /* $0C0000-$FD0000: Unused area (Word-RAM mirrored ?) */
   for (i=0x0c; i<0xfd; i++)
   {
-    s68k.memory_map[i].base     = NULL;
+    s68k.memory_map[i].base     = scd.word_ram_2M + ((i & 3) << 16);
     s68k.memory_map[i].read8    = s68k_read_bus_8;
     s68k.memory_map[i].read16   = s68k_read_bus_16;
     s68k.memory_map[i].write8   = s68k_unused_8_w;
@@ -1205,6 +1172,9 @@ void scd_reset(int hard)
     /* Power ON initial values (MAIN-CPU side) */
     scd.regs[0x00>>1].w = 0x0002;
     scd.regs[0x02>>1].w = 0x0001;
+
+    /* 2M mode */
+    word_ram_switch(0);
   }
   else
   {

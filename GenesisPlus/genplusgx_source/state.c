@@ -46,7 +46,7 @@ int state_load(unsigned char *state)
   char version[17];
   load_param(version,16);
   version[16] = 0;
-  if (strncmp(version,STATE_VERSION,11))
+  if (memcmp(version,STATE_VERSION,11))
   {
     return -1;
   }

@@ -67,6 +67,7 @@ typedef struct
   int loaded;
   int index;
   int lba;
+  int scanOffset;
   uint8 status;
   uint16 sectorSize;
   toc_t toc;
