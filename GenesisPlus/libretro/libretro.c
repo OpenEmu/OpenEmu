@@ -99,7 +99,7 @@ static uint8_t brm_format[0x40] =
  ************************************/
 #define CHUNKSIZE   (0x10000)
 
-int load_archive(char *filename, unsigned char *buffer, int maxsize)
+int load_archive(char *filename, unsigned char *buffer, int maxsize, char *extension)
 {
   int size = 0;
   char in[CHUNKSIZE];
@@ -109,10 +109,10 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize)
   FILE *fd = fopen(filename, "rb");
 
   /* Mega CD BIOS are required files */
-  if (!strcmp(filename,CD_BIOS_US) || !strcmp(filename,CD_BIOS_EU) || !strcmp(filename,CD_BIOS_JP)) 
-  {
-    sprintf(msg,"Unable to open CD BIOS");
-  }
+  //if (!strcmp(filename,CD_BIOS_US) || !strcmp(filename,CD_BIOS_EU) || !strcmp(filename,CD_BIOS_JP))
+  //{
+  //  sprintf(msg,"Unable to open %s", filename);
+  //}
 
   if (!fd)
   {
@@ -140,6 +140,13 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize)
 
     sprintf((char *)msg,"Loading %d bytes ...", size);
     fprintf(stderr, "INFORMATION - %s\n", msg);
+      
+    /* filename extension */
+    if (extension)
+    {
+      memcpy(extension, &filename[strlen(filename) - 3], 3);
+      extension[3] = 0;
+    }
 
     /* Read into buffer */
     left = size;
@@ -189,15 +196,15 @@ static void config_default(void)
    config.fm_preamp      = 100;
    config.hq_fm          = 1;
    config.psgBoostNoise  = 0;
-   config.filter         = 0;
-   config.lp_range       = 50;
-   config.low_freq       = 880;
-   config.high_freq      = 5000;
+   config.filter         = 1;
+   config.low_freq       = 200;
+   config.high_freq      = 8000;
    config.lg             = 1.0;
    config.mg             = 1.0;
    config.hg             = 1.0;
-   config.rolloff        = 0.990;
-   config.dac_bits 		  = 14;
+   config.lp_range       = 60;
+   config.rolloff        = 0.995;
+   config.dac_bits 		 = 14;
    config.ym2413         = 2; /* AUTO */
 
    /* system options */
@@ -247,8 +254,8 @@ static void config_default(void)
    config.hot_swap &= 1;
 }
 
-static const double pal_fps = 53203424.0 / (3420.0 * 313.0);
-static const double ntsc_fps = 53693175.0 / (3420.0 * 262.0);
+static const double pal_fps = 53203424.0 / (3420.0 * 313.0); //49.70
+static const double ntsc_fps = 60; //59.92
 
 static void init_audio(void)
 {
@@ -893,7 +900,7 @@ void retro_deinit(void)
 
 void retro_reset(void) { gen_reset(0); }
 
-int16 soundbuffer[1920];
+int16 soundbuffer[2048 * 2];
 
 void osd_input_update(void)
 {

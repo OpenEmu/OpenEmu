@@ -770,6 +770,7 @@
 					"-DHAVE_ZLIB",
 					"-DUSE_15BPP_RENDERING",
 					"-DNDEBUG",
+					"-D__LIBRETRO__",
 				);
 				PRODUCT_NAME = GenesisPlus;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";
@@ -804,6 +805,7 @@
 					"-DHAVE_ZLIB",
 					"-DUSE_15BPP_RENDERING",
 					"-DNDEBUG",
+					"-D__LIBRETRO__",
 				);
 				PRODUCT_NAME = GenesisPlus;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";

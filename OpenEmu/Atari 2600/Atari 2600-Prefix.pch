@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Atari 2600' target in the 'Atari 2600' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
