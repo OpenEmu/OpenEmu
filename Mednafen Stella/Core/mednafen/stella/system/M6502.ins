@@ -1,0 +1,4648 @@
+//============================================================================
+//
+// MM     MM  6666  555555  0000   2222
+// MMMM MMMM 66  66 55     00  00 22  22
+// MM MMM MM 66     55     00  00     22
+// MM  M  MM 66666  55555  00  00  22222  --  "A 6502 Microprocessor Emulator"
+// MM     MM 66  66     55 00  00 22
+// MM     MM 66  66 55  55 00  00 22
+// MM     MM  6666   5555   0000  222222
+//
+// Copyright (c) 1995-2011 by Bradford W. Mott, Stephen Anthony
+// and the Stella Team
+//
+// See the file "License.txt" for information on usage and redistribution of
+// this file, and for a DISCLAIMER OF ALL WARRANTIES.
+//============================================================================
+
+/** 
+  Code and cases to emulate each of the 6502 instructions.
+
+  Recompile with the following:
+    'm4 M6502.m4 > M6502.ins'
+
+  @author  Bradford W. Mott and Stephen Anthony
+*/
+
+#ifndef NOTSAMEPAGE
+  #define NOTSAMEPAGE(_addr1, _addr2) (((_addr1) ^ (_addr2)) & 0xff00)
+#endif
+
+#ifndef SET_LAST_PEEK
+  #ifdef DEBUGGER_SUPPORT
+    #define SET_LAST_PEEK(_addr1, _addr2) _addr1 = _addr2;
+  #else
+    #define SET_LAST_PEEK(_addr1, _addr2)
+  #endif
+#endif
+
+#ifndef CLEAR_LAST_PEEK
+  #ifdef DEBUGGER_SUPPORT
+    #define CLEAR_LAST_PEEK(_addr) _addr = 0;
+  #else
+    #define CLEAR_LAST_PEEK(_addr)
+  #endif
+#endif
+
+#ifndef SET_LAST_POKE
+  #ifdef DEBUGGER_SUPPORT
+    #define SET_LAST_POKE(_addr) myDataAddressForPoke = _addr;
+  #else
+    #define SET_LAST_POKE(_addr)
+  #endif
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+case 0x69:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x65:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x75:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += X;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x6d:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x7d:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + X);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + X) > 0xFF)
+  {
+    intermediateAddress = (high | low) + X;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x79:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x61:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  intermediateAddress = peek(pointer++, DISASM_DATA);
+  intermediateAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x71:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+
+case 0x4b:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  A &= operand;
+
+  // Set carry flag according to the right-most bit
+  C = A & 0x01;
+
+  A = (A >> 1) & 0x7f;
+
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0x0b:
+case 0x2b:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  A &= operand;
+  notZ = A;
+  N = A & 0x80;
+  C = N;
+}
+break;
+
+
+case 0x29:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  A &= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x25:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  A &= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x35:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += X;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  A &= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x2d:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  A &= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x3d:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + X);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + X) > 0xFF)
+  {
+    intermediateAddress = (high | low) + X;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  A &= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x39:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  A &= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x21:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  intermediateAddress = peek(pointer++, DISASM_DATA);
+  intermediateAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  A &= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x31:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  A &= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0x8b:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  // NOTE: The implementation of this instruction is based on
+  // information from the 64doc.txt file.  This instruction is
+  // reported to be unstable!
+  A = (A | 0xee) & X & operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0x6b:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  // NOTE: The implementation of this instruction is based on
+  // information from the 64doc.txt file.  There are mixed
+  // reports on its operation!
+  if(!D)
+  {
+    A &= operand;
+    A = ((A >> 1) & 0x7f) | (C ? 0x80 : 0x00);
+
+    C = A & 0x40;
+    V = (A & 0x40) ^ ((A & 0x20) << 1);
+
+    notZ = A;
+    N = A & 0x80;
+  }
+  else
+  {
+    uInt8 value = A & operand;
+
+    A = ((value >> 1) & 0x7f) | (C ? 0x80 : 0x00);
+    N = C;
+    notZ = A;
+    V = (value ^ A) & 0x40;
+
+    if(((value & 0x0f) + (value & 0x01)) > 0x05)
+    {
+      A = (A & 0xf0) | ((A + 0x06) & 0x0f);
+    }
+    
+    if(((value & 0xf0) + (value & 0x10)) > 0x50) 
+    {
+      A = (A + 0x60) & 0xff;
+      C = 1;
+    }
+    else
+    {
+      C = 0;
+    }
+  }
+}
+break;
+
+
+case 0x0a:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  // Set carry flag according to the left-most bit in A
+  C = A & 0x80;
+
+  A <<= 1;
+
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x06:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x16:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x0e:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x1e:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+
+case 0x90:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  if(!C)
+  {
+    peek(PC, DISASM_NONE);
+    uInt16 address = PC + (Int8)operand;
+    if(NOTSAMEPAGE(PC, address))
+      peek((PC & 0xFF00) | (address & 0x00FF), DISASM_NONE);
+    PC = address;
+  }
+}
+break;
+
+
+case 0xb0:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  if(C)
+  {
+    peek(PC, DISASM_NONE);
+    uInt16 address = PC + (Int8)operand;
+    if(NOTSAMEPAGE(PC, address))
+      peek((PC & 0xFF00) | (address & 0x00FF), DISASM_NONE);
+    PC = address;
+  }
+}
+break;
+
+
+case 0xf0:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  if(!notZ)
+  {
+    peek(PC, DISASM_NONE);
+    uInt16 address = PC + (Int8)operand;
+    if(NOTSAMEPAGE(PC, address))
+      peek((PC & 0xFF00) | (address & 0x00FF), DISASM_NONE);
+    PC = address;
+  }
+}
+break;
+
+
+case 0x24:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  notZ = (A & operand);
+  N = operand & 0x80;
+  V = operand & 0x40;
+}
+break;
+
+case 0x2C:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  notZ = (A & operand);
+  N = operand & 0x80;
+  V = operand & 0x40;
+}
+break;
+
+
+case 0x30:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  if(N)
+  {
+    peek(PC, DISASM_NONE);
+    uInt16 address = PC + (Int8)operand;
+    if(NOTSAMEPAGE(PC, address))
+      peek((PC & 0xFF00) | (address & 0x00FF), DISASM_NONE);
+    PC = address;
+  }
+}
+break;
+
+
+case 0xD0:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  if(notZ)
+  {
+    peek(PC, DISASM_NONE);
+    uInt16 address = PC + (Int8)operand;
+    if(NOTSAMEPAGE(PC, address))
+      peek((PC & 0xFF00) | (address & 0x00FF), DISASM_NONE);
+    PC = address;
+  }
+}
+break;
+
+
+case 0x10:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  if(!N)
+  {
+    peek(PC, DISASM_NONE);
+    uInt16 address = PC + (Int8)operand;
+    if(NOTSAMEPAGE(PC, address))
+      peek((PC & 0xFF00) | (address & 0x00FF), DISASM_NONE);
+    PC = address;
+  }
+}
+break;
+
+
+case 0x00:
+{
+  peek(PC++, DISASM_CODE);
+
+  B = true;
+
+  poke(0x0100 + SP--, PC >> 8);
+  poke(0x0100 + SP--, PC & 0x00ff);
+  poke(0x0100 + SP--, PS());
+
+  I = true;
+
+  PC = peek(0xfffe, DISASM_NONE);
+  PC |= ((uInt16)peek(0xffff, DISASM_NONE) << 8);
+}
+break;
+
+
+case 0x50:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  if(!V)
+  {
+    peek(PC, DISASM_NONE);
+    uInt16 address = PC + (Int8)operand;
+    if(NOTSAMEPAGE(PC, address))
+      peek((PC & 0xFF00) | (address & 0x00FF), DISASM_NONE);
+    PC = address;
+  }
+}
+break;
+
+
+case 0x70:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  if(V)
+  {
+    peek(PC, DISASM_NONE);
+    uInt16 address = PC + (Int8)operand;
+    if(NOTSAMEPAGE(PC, address))
+      peek((PC & 0xFF00) | (address & 0x00FF), DISASM_NONE);
+    PC = address;
+  }
+}
+break;
+
+
+case 0x18:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  C = false;
+}
+break;
+
+
+case 0xd8:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  D = false;
+}
+break;
+
+
+case 0x58:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  I = false;
+}
+break;
+
+
+case 0xb8:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  V = false;
+}
+break;
+
+
+case 0xc9:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  uInt16 value = (uInt16)A - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xc5:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  uInt16 value = (uInt16)A - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xd5:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += X;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  uInt16 value = (uInt16)A - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xcd:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  uInt16 value = (uInt16)A - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xdd:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + X);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + X) > 0xFF)
+  {
+    intermediateAddress = (high | low) + X;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  uInt16 value = (uInt16)A - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xd9:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  uInt16 value = (uInt16)A - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xc1:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  intermediateAddress = peek(pointer++, DISASM_DATA);
+  intermediateAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  uInt16 value = (uInt16)A - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xd1:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  uInt16 value = (uInt16)A - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+
+case 0xe0:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  uInt16 value = (uInt16)X - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xe4:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  uInt16 value = (uInt16)X - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xec:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  uInt16 value = (uInt16)X - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+
+case 0xc0:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  uInt16 value = (uInt16)Y - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xc4:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  uInt16 value = (uInt16)Y - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+case 0xcc:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  uInt16 value = (uInt16)Y - (uInt16)operand;
+
+  notZ = value;
+  N = value & 0x0080;
+  C = !(value & 0x0100);
+}
+break;
+
+
+case 0xcf:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  uInt16 value2 = (uInt16)A - (uInt16)value;
+  notZ = value2;
+  N = value2 & 0x0080;
+  C = !(value2 & 0x0100);
+}
+break;
+
+case 0xdf:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  uInt16 value2 = (uInt16)A - (uInt16)value;
+  notZ = value2;
+  N = value2 & 0x0080;
+  C = !(value2 & 0x0100);
+}
+break;
+
+case 0xdb:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  uInt16 value2 = (uInt16)A - (uInt16)value;
+  notZ = value2;
+  N = value2 & 0x0080;
+  C = !(value2 & 0x0100);
+}
+break;
+
+case 0xc7:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  uInt16 value2 = (uInt16)A - (uInt16)value;
+  notZ = value2;
+  N = value2 & 0x0080;
+  C = !(value2 & 0x0100);
+}
+break;
+
+case 0xd7:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  uInt16 value2 = (uInt16)A - (uInt16)value;
+  notZ = value2;
+  N = value2 & 0x0080;
+  C = !(value2 & 0x0100);
+}
+break;
+
+case 0xc3:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  operandAddress = peek(pointer++, DISASM_DATA);
+  operandAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  uInt16 value2 = (uInt16)A - (uInt16)value;
+  notZ = value2;
+  N = value2 & 0x0080;
+  C = !(value2 & 0x0100);
+}
+break;
+
+case 0xd3:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  uInt16 value2 = (uInt16)A - (uInt16)value;
+  notZ = value2;
+  N = value2 & 0x0080;
+  C = !(value2 & 0x0100);
+}
+break;
+
+
+case 0xc6:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  notZ = value;
+  N = value & 0x80;
+}
+break;
+
+case 0xd6:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  notZ = value;
+  N = value & 0x80;
+}
+break;
+
+case 0xce:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  notZ = value;
+  N = value & 0x80;
+}
+break;
+
+case 0xde:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand - 1;
+  poke(operandAddress, value);
+
+  notZ = value;
+  N = value & 0x80;
+}
+break;
+
+
+case 0xca:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  X--;
+
+  notZ = X;
+  N = X & 0x80;
+}
+break;
+
+
+case 0x88:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  Y--;
+
+  notZ = Y;
+  N = Y & 0x80;
+}
+break;
+
+
+case 0x49:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x45:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x55:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += X;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x4d:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x5d:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + X);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + X) > 0xFF)
+  {
+    intermediateAddress = (high | low) + X;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x59:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x41:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  intermediateAddress = peek(pointer++, DISASM_DATA);
+  intermediateAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x51:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0xe6:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand + 1;
+  poke(operandAddress, value);
+
+  notZ = value;
+  N = value & 0x80;
+}
+break;
+
+case 0xf6:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand + 1;
+  poke(operandAddress, value);
+
+  notZ = value;
+  N = value & 0x80;
+}
+break;
+
+case 0xee:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand + 1;
+  poke(operandAddress, value);
+
+  notZ = value;
+  N = value & 0x80;
+}
+break;
+
+case 0xfe:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = operand + 1;
+  poke(operandAddress, value);
+
+  notZ = value;
+  N = value & 0x80;
+}
+break;
+
+
+case 0xe8:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  X++;
+  notZ = X;
+  N = X & 0x80;
+}
+break;
+
+
+case 0xc8:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  Y++;
+  notZ = Y;
+  N = Y & 0x80;
+}
+break;
+
+
+case 0xef:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  operand = operand + 1;
+  poke(operandAddress, operand);
+
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xff:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  operand = operand + 1;
+  poke(operandAddress, operand);
+
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xfb:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  operand = operand + 1;
+  poke(operandAddress, operand);
+
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xe7:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  operand = operand + 1;
+  poke(operandAddress, operand);
+
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xf7:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  operand = operand + 1;
+  poke(operandAddress, operand);
+
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xe3:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  operandAddress = peek(pointer++, DISASM_DATA);
+  operandAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  operand = operand + 1;
+  poke(operandAddress, operand);
+
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xf3:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  operand = operand + 1;
+  poke(operandAddress, operand);
+
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+
+case 0x4c:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+}
+{
+  PC = operandAddress;
+}
+break;
+
+case 0x6c:
+{
+  uInt16 addr = peek(PC++, DISASM_CODE);
+  addr |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+
+  // Simulate the error in the indirect addressing mode!
+  uInt16 high = NOTSAMEPAGE(addr, addr + 1) ? (addr & 0xff00) : (addr + 1);
+
+  operandAddress = peek(addr, DISASM_DATA);
+  operandAddress |= ((uInt16)peek(high, DISASM_DATA) << 8);
+}
+{
+  PC = operandAddress;
+}
+break;
+
+
+case 0x20:
+{
+  uInt8 low = peek(PC++, DISASM_CODE);
+  peek(0x0100 + SP, DISASM_NONE);
+
+  // It seems that the 650x does not push the address of the next instruction
+  // on the stack it actually pushes the address of the next instruction
+  // minus one.  This is compensated for in the RTS instruction
+  poke(0x0100 + SP--, PC >> 8);
+  poke(0x0100 + SP--, PC & 0xff);
+
+  PC = (low | ((uInt16)peek(PC, DISASM_CODE) << 8));
+}
+break;
+
+
+case 0xbb:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  A = X = SP = SP & operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+//////////////////////////////////////////////////
+// LAX
+case 0xaf:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+SET_LAST_PEEK(myLastSrcAddressX, intermediateAddress)
+{
+  A = operand;
+  X = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xbf:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+SET_LAST_PEEK(myLastSrcAddressX, intermediateAddress)
+{
+  A = operand;
+  X = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xa7:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+SET_LAST_PEEK(myLastSrcAddressX, intermediateAddress)
+{
+  A = operand;
+  X = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xb7:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += Y;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)  // TODO - check this
+SET_LAST_PEEK(myLastSrcAddressX, intermediateAddress)
+{
+  A = operand;
+  X = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xa3:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  intermediateAddress = peek(pointer++, DISASM_DATA);
+  intermediateAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+SET_LAST_PEEK(myLastSrcAddressX, intermediateAddress)  // TODO - check this
+{
+  A = operand;
+  X = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xb3:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+SET_LAST_PEEK(myLastSrcAddressX, intermediateAddress)  // TODO - check this
+{
+  A = operand;
+  X = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+//////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////
+// LDA
+case 0xa9:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+CLEAR_LAST_PEEK(myLastSrcAddressA)
+{
+  A = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xa5:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xb5:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += X;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xad:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xbd:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + X);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + X) > 0xFF)
+  {
+    intermediateAddress = (high | low) + X;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xb9:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xa1:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  intermediateAddress = peek(pointer++, DISASM_DATA);
+  intermediateAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0xb1:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A = operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+//////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////
+// LDX
+case 0xa2:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+CLEAR_LAST_PEEK(myLastSrcAddressX)
+{
+  X = operand;
+  notZ = X;
+  N = X & 0x80;
+}
+break;
+
+case 0xa6:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressX, intermediateAddress)
+{
+  X = operand;
+  notZ = X;
+  N = X & 0x80;
+}
+break;
+
+case 0xb6:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += Y;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressX, intermediateAddress)
+{
+  X = operand;
+  notZ = X;
+  N = X & 0x80;
+}
+break;
+
+case 0xae:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressX, intermediateAddress)
+{
+  X = operand;
+  notZ = X;
+  N = X & 0x80;
+}
+break;
+
+case 0xbe:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+SET_LAST_PEEK(myLastSrcAddressX, intermediateAddress)
+{
+  X = operand;
+  notZ = X;
+  N = X & 0x80;
+}
+break;
+//////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////
+// LDY
+case 0xa0:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+CLEAR_LAST_PEEK(myLastSrcAddressY)
+{
+  Y = operand;
+  notZ = Y;
+  N = Y & 0x80;
+}
+break;
+
+case 0xa4:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressY, intermediateAddress)
+{
+  Y = operand;
+  notZ = Y;
+  N = Y & 0x80;
+}
+break;
+
+case 0xb4:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += X;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressY, intermediateAddress)
+{
+  Y = operand;
+  notZ = Y;
+  N = Y & 0x80;
+}
+break;
+
+case 0xac:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressY, intermediateAddress)
+{
+  Y = operand;
+  notZ = Y;
+  N = Y & 0x80;
+}
+break;
+
+case 0xbc:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + X);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + X) > 0xFF)
+  {
+    intermediateAddress = (high | low) + X;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+SET_LAST_PEEK(myLastSrcAddressY, intermediateAddress)
+{
+  Y = operand;
+  notZ = Y;
+  N = Y & 0x80;
+}
+break;
+//////////////////////////////////////////////////
+
+
+case 0x4a:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  // Set carry flag according to the right-most bit
+  C = A & 0x01;
+
+  A = (A >> 1) & 0x7f;
+
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0x46:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x56:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x4e:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x5e:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+
+case 0xab:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  // NOTE: The implementation of this instruction is based on
+  // information from the 64doc.txt file.  This instruction is
+  // reported to be very unstable!
+  A = X = (A | 0xee) & operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0x1a:
+case 0x3a:
+case 0x5a:
+case 0x7a:
+case 0xda:
+case 0xea:
+case 0xfa:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+}
+break;
+
+case 0x80:
+case 0x82:
+case 0x89:
+case 0xc2:
+case 0xe2:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+}
+break;
+
+case 0x04:
+case 0x44:
+case 0x64:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+}
+break;
+
+case 0x14:
+case 0x34:
+case 0x54:
+case 0x74:
+case 0xd4:
+case 0xf4:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += X;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+}
+break;
+
+case 0x0c:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+}
+break;
+
+case 0x1c:
+case 0x3c:
+case 0x5c:
+case 0x7c:
+case 0xdc:
+case 0xfc:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + X);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + X) > 0xFF)
+  {
+    intermediateAddress = (high | low) + X;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+}
+break;
+
+
+//////////////////////////////////////////////////
+// ORA
+case 0x09:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+CLEAR_LAST_PEEK(myLastSrcAddressA)
+{
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x05:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x15:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += X;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x0d:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x1d:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + X);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + X) > 0xFF)
+  {
+    intermediateAddress = (high | low) + X;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x19:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x01:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  intermediateAddress = peek(pointer++, DISASM_DATA);
+  intermediateAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x11:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+SET_LAST_PEEK(myLastSrcAddressA, intermediateAddress)
+{
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+//////////////////////////////////////////////////
+
+
+case 0x48:
+{
+  peek(PC, DISASM_NONE);
+}
+// TODO - add tracking for this opcode
+{
+  poke(0x0100 + SP--, A);
+}
+break;
+
+
+case 0x08:
+{
+  peek(PC, DISASM_NONE);
+}
+// TODO - add tracking for this opcode
+{
+  poke(0x0100 + SP--, PS());
+}
+break;
+
+
+case 0x68:
+{
+  peek(PC, DISASM_NONE);
+}
+// TODO - add tracking for this opcode
+{
+  peek(0x0100 + SP++, DISASM_NONE);
+  A = peek(0x0100 + SP, DISASM_NONE);
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0x28:
+{
+  peek(PC, DISASM_NONE);
+}
+// TODO - add tracking for this opcode
+{
+  peek(0x0100 + SP++, DISASM_NONE);
+  PS(peek(0x0100 + SP, DISASM_NONE));
+}
+break;
+
+
+case 0x2f:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = (operand << 1) | (C ? 1 : 0);
+  poke(operandAddress, value);
+
+  A &= value;
+  C = operand & 0x80;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x3f:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = (operand << 1) | (C ? 1 : 0);
+  poke(operandAddress, value);
+
+  A &= value;
+  C = operand & 0x80;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x3b:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = (operand << 1) | (C ? 1 : 0);
+  poke(operandAddress, value);
+
+  A &= value;
+  C = operand & 0x80;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x27:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = (operand << 1) | (C ? 1 : 0);
+  poke(operandAddress, value);
+
+  A &= value;
+  C = operand & 0x80;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x37:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = (operand << 1) | (C ? 1 : 0);
+  poke(operandAddress, value);
+
+  A &= value;
+  C = operand & 0x80;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x23:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  operandAddress = peek(pointer++, DISASM_DATA);
+  operandAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = (operand << 1) | (C ? 1 : 0);
+  poke(operandAddress, value);
+
+  A &= value;
+  C = operand & 0x80;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x33:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  uInt8 value = (operand << 1) | (C ? 1 : 0);
+  poke(operandAddress, value);
+
+  A &= value;
+  C = operand & 0x80;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0x2a:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the left-most bit
+  C = A & 0x80;
+
+  A = (A << 1) | (oldC ? 1 : 0);
+
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0x26:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the left-most bit in operand
+  C = operand & 0x80;
+
+  operand = (operand << 1) | (oldC ? 1 : 0);
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x36:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the left-most bit in operand
+  C = operand & 0x80;
+
+  operand = (operand << 1) | (oldC ? 1 : 0);
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x2e:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the left-most bit in operand
+  C = operand & 0x80;
+
+  operand = (operand << 1) | (oldC ? 1 : 0);
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x3e:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the left-most bit in operand
+  C = operand & 0x80;
+
+  operand = (operand << 1) | (oldC ? 1 : 0);
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+
+case 0x6a:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = A & 0x01;
+
+  A = ((A >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x66:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x76:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x6e:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+case 0x7e:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  notZ = operand;
+  N = operand & 0x80;
+}
+break;
+
+
+case 0x6f:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x7f:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x7b:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x67:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x77:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x63:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  operandAddress = peek(pointer++, DISASM_DATA);
+  operandAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+case 0x73:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  bool oldC = C;
+
+  // Set carry flag according to the right-most bit
+  C = operand & 0x01;
+
+  operand = ((operand >> 1) & 0x7f) | (oldC ? 0x80 : 0x00);
+  poke(operandAddress, operand);
+
+  if(!D)
+  {
+    Int32 sum = A + operand + (C ? 1 : 0);
+    N = sum & 0x80;
+    V = ~(A ^ operand) & (A ^ sum) & 0x80;
+    notZ = sum & 0xff;
+    C = sum & 0xff00;
+
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) + (operand & 0x0f) + (C ? 1 : 0);
+    Int32 hi = (A & 0xf0) + (operand & 0xf0);
+    notZ = (lo+hi) & 0xff;
+    if(lo > 0x09)
+    {
+      hi += 0x10;
+      lo += 0x06;
+    }
+    N = hi & 0x80;
+    V = ~(A ^ operand) & (A ^ hi) & 0x80;
+    if(hi > 0x90)
+      hi += 0x60;
+    C = hi & 0xff00;
+
+    A = (lo & 0x0f) + (hi & 0xf0);
+  }
+}
+break;
+
+
+case 0x40:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  peek(0x0100 + SP++, DISASM_NONE);
+  PS(peek(0x0100 + SP++, DISASM_NONE));
+  PC = peek(0x0100 + SP++, DISASM_NONE);
+  PC |= ((uInt16)peek(0x0100 + SP, DISASM_NONE) << 8);
+}
+break;
+
+
+case 0x60:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  peek(0x0100 + SP++, DISASM_NONE);
+  PC = peek(0x0100 + SP++, DISASM_NONE);
+  PC |= ((uInt16)peek(0x0100 + SP, DISASM_NONE) << 8);
+  peek(PC++, DISASM_CODE);
+}
+break;
+
+
+case 0x8f:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+}
+{
+  poke(operandAddress, A & X);
+}
+break;
+
+case 0x87:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+}
+{
+  poke(operandAddress, A & X);
+}
+break;
+
+case 0x97:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + Y) & 0xFF;
+}
+{
+  poke(operandAddress, A & X);
+}
+break;
+
+case 0x83:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  operandAddress = peek(pointer++, DISASM_DATA);
+  operandAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+}
+{
+  poke(operandAddress, A & X);
+}
+break;
+
+
+case 0xe9:
+case 0xeb:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xe5:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xf5:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  peek(intermediateAddress, DISASM_DATA);
+  intermediateAddress += X;
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xed:
+{
+  intermediateAddress = peek(PC++, DISASM_CODE);
+  intermediateAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xfd:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + X);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + X) > 0xFF)
+  {
+    intermediateAddress = (high | low) + X;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xf9:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xe1:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  intermediateAddress = peek(pointer++, DISASM_DATA);
+  intermediateAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(intermediateAddress, DISASM_DATA);
+}
+{
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+case 0xf1:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  intermediateAddress = high | (uInt8)(low + Y);
+  operand = peek(intermediateAddress, DISASM_DATA);
+  if((low + Y) > 0xFF)
+  {
+    intermediateAddress = (high | low) + Y;
+    operand = peek(intermediateAddress, DISASM_DATA);
+  }
+}
+{
+  // N, V, Z, C flags are the same in either mode (C calculated at the end)
+  Int32 sum = A - operand - (C ? 0 : 1);
+  N = sum & 0x80;
+  V = (A ^ operand) & (A ^ sum) & 0x80;
+  notZ = sum & 0xff;
+
+  if(!D)
+  {
+    A = (uInt8) sum;
+  }
+  else
+  {
+    Int32 lo = (A & 0x0f) - (operand & 0x0f) - (C ? 0 : 1);
+    Int32 hi = (A & 0xf0) - (operand & 0xf0);
+    if(lo & 0x10)
+    {
+      lo -= 6;
+      hi--;
+    }
+    if(hi & 0x0100)
+      hi -= 0x60;
+
+    A = (lo & 0x0f) | (hi & 0xf0);
+  }
+  C = (sum & 0xff00) == 0;
+}
+break;
+
+
+case 0xcb:
+{
+  operand = peek(PC++, DISASM_CODE);
+}
+{
+  uInt16 value = (uInt16)(X & A) - (uInt16)operand;
+  X = (value & 0xff);
+
+  notZ = X;
+  N = X & 0x80;
+  C = !(value & 0x0100);
+}
+break;
+
+
+case 0x38:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  C = true;
+}
+break;
+
+
+case 0xf8:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  D = true;
+}
+break;
+
+
+case 0x78:
+{
+  peek(PC, DISASM_NONE);
+}
+{
+  I = true;
+}
+break;
+
+
+case 0x9f:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+}
+{
+  // NOTE: There are mixed reports on the actual operation
+  // of this instruction!
+  poke(operandAddress, A & X & (((operandAddress >> 8) & 0xff) + 1)); 
+}
+break;
+
+case 0x93:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+}
+{
+  // NOTE: There are mixed reports on the actual operation
+  // of this instruction!
+  poke(operandAddress, A & X & (((operandAddress >> 8) & 0xff) + 1)); 
+}
+break;
+
+
+case 0x9b:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+}
+{
+  // NOTE: There are mixed reports on the actual operation
+  // of this instruction!
+  SP = A & X;
+  poke(operandAddress, A & X & (((operandAddress >> 8) & 0xff) + 1)); 
+}
+break;
+
+
+case 0x9e:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+}
+{
+  // NOTE: There are mixed reports on the actual operation
+  // of this instruction!
+  poke(operandAddress, X & (((operandAddress >> 8) & 0xff) + 1)); 
+}
+break;
+
+
+case 0x9c:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+}
+{
+  // NOTE: There are mixed reports on the actual operation
+  // of this instruction!
+  poke(operandAddress, Y & (((operandAddress >> 8) & 0xff) + 1)); 
+}
+break;
+
+
+case 0x0f:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x1f:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x1b:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x07:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x17:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x03:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  operandAddress = peek(pointer++, DISASM_DATA);
+  operandAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x13:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the left-most bit in value
+  C = operand & 0x80;
+
+  operand <<= 1;
+  poke(operandAddress, operand);
+
+  A |= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0x4f:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x5f:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x5b:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x47:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x57:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x43:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  operandAddress = peek(pointer++, DISASM_DATA);
+  operandAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+case 0x53:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+  operand = peek(operandAddress, DISASM_DATA);
+  poke(operandAddress, operand);
+}
+{
+  // Set carry flag according to the right-most bit in value
+  C = operand & 0x01;
+
+  operand = (operand >> 1) & 0x7f;
+  poke(operandAddress, operand);
+
+  A ^= operand;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+//////////////////////////////////////////////////
+// STA
+case 0x85:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+}
+SET_LAST_POKE(myLastSrcAddressA)
+{
+  poke(operandAddress, A);
+}
+break;
+
+case 0x95:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+}
+{
+  poke(operandAddress, A);
+}
+break;
+
+case 0x8d:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+}
+{
+  poke(operandAddress, A);
+}
+break;
+
+case 0x9d:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + X), DISASM_DATA);
+  operandAddress = (high | low) + X;
+}
+{
+  poke(operandAddress, A);
+}
+break;
+
+case 0x99:
+{
+  uInt16 low = peek(PC++, DISASM_CODE);
+  uInt16 high = ((uInt16)peek(PC++, DISASM_CODE) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+}
+{
+  poke(operandAddress, A);
+}
+break;
+
+case 0x81:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  peek(pointer, DISASM_DATA);
+  pointer += X;
+  operandAddress = peek(pointer++, DISASM_DATA);
+  operandAddress |= ((uInt16)peek(pointer, DISASM_DATA) << 8);
+}
+{
+  poke(operandAddress, A);
+}
+break;
+
+case 0x91:
+{
+  uInt8 pointer = peek(PC++, DISASM_CODE);
+  uInt16 low = peek(pointer++, DISASM_DATA);
+  uInt16 high = ((uInt16)peek(pointer, DISASM_DATA) << 8);
+  peek(high | (uInt8)(low + Y), DISASM_DATA);
+  operandAddress = (high | low) + Y;
+}
+{
+  poke(operandAddress, A);
+}
+break;
+//////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////
+// STX
+case 0x86:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+}
+SET_LAST_POKE(myLastSrcAddressX)
+{
+  poke(operandAddress, X);
+}
+break;
+
+case 0x96:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + Y) & 0xFF;
+}
+{
+  poke(operandAddress, X);
+}
+break;
+
+case 0x8e:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+}
+{
+  poke(operandAddress, X);
+}
+break;
+//////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////
+// STY
+case 0x84:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+}
+SET_LAST_POKE(myLastSrcAddressY)
+{
+  poke(operandAddress, Y);
+}
+break;
+
+case 0x94:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  peek(operandAddress, DISASM_DATA);
+  operandAddress = (operandAddress + X) & 0xFF;
+}
+{
+  poke(operandAddress, Y);
+}
+break;
+
+case 0x8c:
+{
+  operandAddress = peek(PC++, DISASM_CODE);
+  operandAddress |= ((uInt16)peek(PC++, DISASM_CODE) << 8);
+}
+{
+  poke(operandAddress, Y);
+}
+break;
+//////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////
+// Remaining MOVE opcodes
+case 0xaa:
+{
+  peek(PC, DISASM_NONE);
+}
+SET_LAST_PEEK(myLastSrcAddressX, myLastSrcAddressA)
+{
+  X = A;
+  notZ = X;
+  N = X & 0x80;
+}
+break;
+
+
+case 0xa8:
+{
+  peek(PC, DISASM_NONE);
+}
+SET_LAST_PEEK(myLastSrcAddressY, myLastSrcAddressA)
+{
+  Y = A;
+  notZ = Y;
+  N = Y & 0x80;
+}
+break;
+
+
+case 0xba:
+{
+  peek(PC, DISASM_NONE);
+}
+SET_LAST_PEEK(myLastSrcAddressX, myLastSrcAddressS)
+{
+  X = SP;
+  notZ = X;
+  N = X & 0x80;
+}
+break;
+
+
+case 0x8a:
+{
+  peek(PC, DISASM_NONE);
+}
+SET_LAST_PEEK(myLastSrcAddressA, myLastSrcAddressX)
+{
+  A = X;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+
+
+case 0x9a:
+{
+  peek(PC, DISASM_NONE);
+}
+SET_LAST_PEEK(myLastSrcAddressS, myLastSrcAddressX)
+{
+  SP = X;
+}
+break;
+
+
+case 0x98:
+{
+  peek(PC, DISASM_NONE);
+}
+SET_LAST_PEEK(myLastSrcAddressA, myLastSrcAddressY)
+{
+  A = Y;
+  notZ = A;
+  N = A & 0x80;
+}
+break;
+//////////////////////////////////////////////////

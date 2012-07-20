@@ -62,6 +62,9 @@
       location = "group:PSX/Mednafen PSX.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Mednafen Stella/Stella.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Mednafen WonderSwan/Mednafen WonderSwan.xcodeproj">
    </FileRef>
    <FileRef
