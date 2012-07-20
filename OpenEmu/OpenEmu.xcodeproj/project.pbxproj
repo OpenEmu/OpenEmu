@@ -38,6 +38,7 @@
 				C68625721572686E00EFC972 /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
+				941DFB3D15B7622700C6552F /* PBXTargetDependency */,
 				94EFD19915ACA8D8009BED8F /* PBXTargetDependency */,
 				94A1E9DE1586FD6B00986376 /* PBXTargetDependency */,
 				94AB85F9158679660035D12C /* PBXTargetDependency */,
@@ -470,6 +471,16 @@
 		940236F015803AC300083DCC /* pcengine_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EB15803AC300083DCC /* pcengine_library.png */; };
 		940236F115803AC300083DCC /* tg16_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EC15803AC300083DCC /* tg16_library.png */; };
 		940237CA1580456E00083DCC /* PC Engine.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 940236D11580323400083DCC /* PC Engine.oesystemplugin */; };
+		941DFB2D15B761B400C6552F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		941DFB3315B761B400C6552F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB3115B761B400C6552F /* InfoPlist.strings */; };
+		941DFB3B15B761FE00C6552F /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		941DFB3E15B7623200C6552F /* Atari 2600.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */; };
+		941DFB4415B765BC00C6552F /* OE2600SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941DFB4015B765BB00C6552F /* OE2600SystemController.m */; };
+		941DFB4515B765BC00C6552F /* OE2600SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 941DFB4215B765BB00C6552F /* OE2600SystemResponder.m */; };
+		941DFB4A15B765DB00C6552F /* atari2600_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4615B765DB00C6552F /* atari2600_library.png */; };
+		941DFB4B15B765DB00C6552F /* controller_2600_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4715B765DB00C6552F /* controller_2600_mask.png */; };
+		941DFB4C15B765DB00C6552F /* controller_2600.png in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4815B765DB00C6552F /* controller_2600.png */; };
+		941DFB4D15B765DB00C6552F /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4915B765DB00C6552F /* Controller-Preferences-Info.plist */; };
 		9425B0D0158115860086FFB6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		9425B0D6158115860086FFB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0D4158115860086FFB6 /* InfoPlist.strings */; };
 		9425B0E0158118110086FFB6 /* controller_ws_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DC158118110086FFB6 /* controller_ws_mask.png */; };
@@ -821,6 +832,20 @@
 			remoteGlobalIDString = 940236D01580323400083DCC;
 			remoteInfo = "PC Engine";
 		};
+		941DFB3915B761E900C6552F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		941DFB3C15B7622700C6552F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 941DFB2B15B761B400C6552F;
+			remoteInfo = "Atari 2600";
+		};
 		9425B0E4158118200086FFB6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1085,6 +1110,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				941DFB3E15B7623200C6552F /* Atari 2600.oesystemplugin in Copy Plugins To Application Support */,
 				94EFD19A15ACA8E9009BED8F /* Sega CD.oesystemplugin in Copy Plugins To Application Support */,
 				94A1E9DF1586FD7600986376 /* Virtual Boy.oesystemplugin in Copy Plugins To Application Support */,
 				94AB85FA158679730035D12C /* SG-1000.oesystemplugin in Copy Plugins To Application Support */,
@@ -1690,6 +1716,18 @@
 		940236EA15803AC300083DCC /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
 		940236EB15803AC300083DCC /* pcengine_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcengine_library.png; sourceTree = "<group>"; };
 		940236EC15803AC300083DCC /* tg16_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tg16_library.png; sourceTree = "<group>"; };
+		941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 2600.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		941DFB3015B761B400C6552F /* Atari 2600-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 2600-Info.plist"; sourceTree = "<group>"; };
+		941DFB3215B761B400C6552F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		941DFB3F15B765BA00C6552F /* OE2600SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemController.h; sourceTree = "<group>"; };
+		941DFB4015B765BB00C6552F /* OE2600SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE2600SystemController.m; sourceTree = "<group>"; };
+		941DFB4115B765BB00C6552F /* OE2600SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemResponder.h; sourceTree = "<group>"; };
+		941DFB4215B765BB00C6552F /* OE2600SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE2600SystemResponder.m; sourceTree = "<group>"; };
+		941DFB4315B765BC00C6552F /* OE2600SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemResponderClient.h; sourceTree = "<group>"; };
+		941DFB4615B765DB00C6552F /* atari2600_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atari2600_library.png; sourceTree = "<group>"; };
+		941DFB4715B765DB00C6552F /* controller_2600_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_2600_mask.png; sourceTree = "<group>"; };
+		941DFB4815B765DB00C6552F /* controller_2600.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_2600.png; sourceTree = "<group>"; };
+		941DFB4915B765DB00C6552F /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
 		9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WonderSwan.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		9425B0D3158115860086FFB6 /* WonderSwan-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WonderSwan-Info.plist"; sourceTree = "<group>"; };
 		9425B0D5158115860086FFB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2036,6 +2074,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		941DFB2915B761B400C6552F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				941DFB3B15B761FE00C6552F /* OpenEmuSystem.framework in Frameworks */,
+				941DFB2D15B761B400C6552F /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9425B0CC158115850086FFB6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2263,6 +2310,7 @@
 				94AB85DC158656080035D12C /* SG-1000.oesystemplugin */,
 				94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */,
 				94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */,
+				941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3421,6 +3469,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		941DFB2E15B761B400C6552F /* Atari 2600 */ = {
+			isa = PBXGroup;
+			children = (
+				941DFB3F15B765BA00C6552F /* OE2600SystemController.h */,
+				941DFB4015B765BB00C6552F /* OE2600SystemController.m */,
+				941DFB4115B765BB00C6552F /* OE2600SystemResponder.h */,
+				941DFB4215B765BB00C6552F /* OE2600SystemResponder.m */,
+				941DFB4315B765BC00C6552F /* OE2600SystemResponderClient.h */,
+				941DFB2F15B761B400C6552F /* Supporting Files */,
+			);
+			path = "Atari 2600";
+			sourceTree = "<group>";
+		};
+		941DFB2F15B761B400C6552F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				941DFB4615B765DB00C6552F /* atari2600_library.png */,
+				941DFB4715B765DB00C6552F /* controller_2600_mask.png */,
+				941DFB4815B765DB00C6552F /* controller_2600.png */,
+				941DFB3015B761B400C6552F /* Atari 2600-Info.plist */,
+				941DFB4915B765DB00C6552F /* Controller-Preferences-Info.plist */,
+				941DFB3115B761B400C6552F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		9425B0D1158115860086FFB6 /* WonderSwan */ = {
 			isa = PBXGroup;
 			children = (
@@ -3889,6 +3963,7 @@
 				94AB85DE158656090035D12C /* SG-1000 */,
 				94A1E9BE1586F3B600986376 /* Virtual Boy */,
 				94EFD17C15ACA625009BED8F /* Sega CD */,
+				941DFB2E15B761B400C6552F /* Atari 2600 */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -4180,6 +4255,24 @@
 			name = "PC Engine";
 			productName = "PC Engine";
 			productReference = 940236D11580323400083DCC /* PC Engine.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		941DFB2B15B761B400C6552F /* Atari 2600 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 941DFB3715B761B500C6552F /* Build configuration list for PBXNativeTarget "Atari 2600" */;
+			buildPhases = (
+				941DFB2815B761B400C6552F /* Sources */,
+				941DFB2915B761B400C6552F /* Frameworks */,
+				941DFB2A15B761B400C6552F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				941DFB3A15B761E900C6552F /* PBXTargetDependency */,
+			);
+			name = "Atari 2600";
+			productName = "Atari 2600";
+			productReference = 941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		9425B0CE158115850086FFB6 /* WonderSwan */ = {
@@ -4518,6 +4611,7 @@
 				94AB85DB158656080035D12C /* SG-1000 */,
 				94A1E9BB1586F3B600986376 /* Virtual Boy */,
 				94EFD17915ACA625009BED8F /* Sega CD */,
+				941DFB2B15B761B400C6552F /* Atari 2600 */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -4745,6 +4839,18 @@
 				940236EF15803AC300083DCC /* Controller-Preferences-Info.plist in Resources */,
 				940236F015803AC300083DCC /* pcengine_library.png in Resources */,
 				940236F115803AC300083DCC /* tg16_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		941DFB2A15B761B400C6552F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				941DFB3315B761B400C6552F /* InfoPlist.strings in Resources */,
+				941DFB4A15B765DB00C6552F /* atari2600_library.png in Resources */,
+				941DFB4B15B765DB00C6552F /* controller_2600_mask.png in Resources */,
+				941DFB4C15B765DB00C6552F /* controller_2600.png in Resources */,
+				941DFB4D15B765DB00C6552F /* Controller-Preferences-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5231,6 +5337,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		941DFB2815B761B400C6552F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				941DFB4415B765BC00C6552F /* OE2600SystemController.m in Sources */,
+				941DFB4515B765BC00C6552F /* OE2600SystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9425B0CB158115850086FFB6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5482,6 +5597,16 @@
 			target = 940236D01580323400083DCC /* PC Engine */;
 			targetProxy = 940237CB1580457600083DCC /* PBXContainerItemProxy */;
 		};
+		941DFB3A15B761E900C6552F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 941DFB3915B761E900C6552F /* PBXContainerItemProxy */;
+		};
+		941DFB3D15B7622700C6552F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 941DFB2B15B761B400C6552F /* Atari 2600 */;
+			targetProxy = 941DFB3C15B7622700C6552F /* PBXContainerItemProxy */;
+		};
 		9425B0E5158118200086FFB6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -5667,6 +5792,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				940236D71580323400083DCC /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		941DFB3115B761B400C6552F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				941DFB3215B761B400C6552F /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -6087,6 +6220,54 @@
 				INFOPLIST_FILE = "PC Engine/PC Engine-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		941DFB3515B761B500C6552F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Atari 2600/Atari 2600-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "Atari 2600/Atari 2600-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		941DFB3615B761B500C6552F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Atari 2600/Atari 2600-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "Atari 2600/Atari 2600-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -6894,6 +7075,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		941DFB3715B761B500C6552F /* Build configuration list for PBXNativeTarget "Atari 2600" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				941DFB3515B761B500C6552F /* Debug */,
+				941DFB3615B761B500C6552F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		9425B0DA158115860086FFB6 /* Build configuration list for PBXNativeTarget "WonderSwan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -6973,6 +7162,7 @@
 				94EFD18515ACA626009BED8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */ = {
 			isa = XCConfigurationList;
