@@ -243,6 +243,22 @@ void retro_run()
    unsigned height = spec.DisplayRect.h;
 
    convert_surface();
+    /*if (width == 272)
+    {
+        width = 256;
+    }
+    else if (width == 340)
+    {
+        width = 320;
+    }
+    else if (width == 544)
+    {
+        width = 512;
+    }
+    else if (width == 680)
+    {
+        width = 640;
+    }*/
    video_cb(conv_buf, width, height, 680 << 1);
 
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
@@ -263,10 +279,10 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
    // Just assume NTSC for now. TODO: Verify FPS.
    info->timing.fps            = 59.94;
    info->timing.sample_rate    = 44100;
-   info->geometry.base_width   = game->nominal_width;
-   info->geometry.base_height  = game->nominal_height;
-   info->geometry.max_width    = 680;
-   info->geometry.max_height   = 480;
+   info->geometry.base_width   = game->nominal_width; //320
+   info->geometry.base_height  = game->nominal_height; //240
+   info->geometry.max_width    = 680; //640
+   info->geometry.max_height   = 480; //480
    info->geometry.aspect_ratio = 4.0 / 3.0;
 }
 

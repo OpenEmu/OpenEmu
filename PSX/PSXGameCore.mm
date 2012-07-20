@@ -71,6 +71,7 @@ static void video_callback(const void *data, unsigned width, unsigned height, si
 {
     current->videoWidth  = width;
     current->videoHeight = height;
+    //NSLog(@"width: %u height: %u pitch: %zu", width, height, pitch);
     
     dispatch_queue_t the_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
@@ -78,7 +79,7 @@ static void video_callback(const void *data, unsigned width, unsigned height, si
     dispatch_apply(height, the_queue, ^(size_t y){
         const uint16_t *src = (uint16_t*)data + y * (pitch >> 1); //pitch is in bytes not pixels
         //uint16_t *dst = current->videoBuffer + y * current->videoWidth;
-        uint16_t *dst = current->videoBuffer + y * 680;
+        uint16_t *dst = current->videoBuffer + y * (pitch >> 1);
         
         for (int x = 0; x < current->videoWidth; x++) {
             dst[x] = src[x];
