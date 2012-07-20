@@ -91,11 +91,12 @@
     [sidebarView setAutosaveName:@"sidebarView"];
     [sidebarView setAutoresizesOutlineColumn:NO];
     [sidebarView registerForDraggedTypes:[NSArray arrayWithObjects:@"org.openEmu.rom", NSFilenamesPboardType, nil]];
-    sidebarView.delegate = self;
-    sidebarView.dataSource = self;
+    [sidebarView setDelegate:self];
+    [sidebarView setDataSource:self];
     [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:1] byExtendingSelection:NO];
     [sidebarView expandItem:[sidebarView itemAtRow:0]];
-    
+    [sidebarView setAllowsEmptySelection:NO];
+
     NSScrollView *enclosingScrollView = [sidebarView enclosingScrollView];
     if(enclosingScrollView)
     {
@@ -104,10 +105,7 @@
     }
     else
         [sidebarView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
-    
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
-        [sidebarView setAllowsEmptySelection:YES];
-    
+        
     [self _setupDrop];
 }
 
@@ -118,7 +116,6 @@
 
 #pragma mark -
 #pragma mark Public
-
 - (void)setEnabled:(BOOL)enabled
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
@@ -250,7 +247,6 @@
 
 #pragma mark -
 #pragma mark NSOutlineView Delegate
-
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
@@ -277,10 +273,10 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item
 {
-    if ( item==[self.groups objectAtIndex:0] ) 
-        return YES;
+    for(id aGroup in self.groups)
+        if(aGroup != item && [outlineView isItemExpanded:aGroup]) return YES;
 
-    return YES;
+    return NO;
 }
 
 #pragma mark -

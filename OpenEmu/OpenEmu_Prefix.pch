@@ -125,10 +125,10 @@ NSLog(@"View Hierarchy: %@", viewHierachy);                                     
 #define UDControlsDisableMouseSelection @"controlsDisableMouseSelection"        /* if set (to YES) selecting controller buttons by clicking on the image is disabled in Controls Preferences */
 #define UDControlsDisableMouseDeactivation @"controlsDisableMouseDeactivation"  /* if set (to YES) deselecting the current button by clicking outside the blue selector ring is disabled in Controls Preferences */
 // Sidebar Constraints
-#define UDSidebarCollectionNotCollapsableKey    @"sidebarCollapsable"
-#define UDSidebarMinWidth                       @"sidebarMinWidth"
-#define UDSidebarMaxWidth                       @"sidebarMaxWidth"
-#define UDMainViewMinWidth                      @"mainViewMinWidth"
+#define UDSidebarConsolesNotCollapsibleKey    @"sidebarConsolesNotCollapsible"
+#define UDSidebarMinWidth                            @"sidebarMinWidth"
+#define UDSidebarMaxWidth                           @"sidebarMaxWidth"
+#define UDMainViewMinWidth                          @"mainViewMinWidth"
 
 #pragma mark - Alert Suppression Keys
 #define UDRemoveGameFromCollectionAlertSuppressionKey   @"removeGamesFromCollectionWithoutConfirmation"  /* determines if user sees dialog before removing games from a collection */
