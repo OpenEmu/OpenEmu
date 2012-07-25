@@ -32,11 +32,9 @@
 
 @class OELibraryDatabase;
 @class OESidebarController;
-@class OECollectionViewController;
 @class OELibrarySplitView;
 
 @protocol OELibraryControllerDelegate;
-@class OEImportViewController;
 
 @interface OELibraryController : NSViewController <OEMainWindowContentController>
 - (void)layoutToolbarItems;
@@ -68,26 +66,24 @@
 
 #pragma mark -
 #pragma mark Properties
-@property(nonatomic, getter=isSidebarVisible) BOOL sidebarVisible;
-@property(nonatomic) BOOL sidebarChangesWindowSize;
-@property(strong)    OELibraryDatabase *database;
+@property (nonatomic, getter=isSidebarVisible) BOOL sidebarVisible;
+@property (nonatomic) BOOL sidebarChangesWindowSize;
+@property (strong)    OELibraryDatabase *database;
 
-@property(strong) IBOutlet OESidebarController         *sidebarController;
+@property (strong) IBOutlet OESidebarController         *sidebarController;
 @property (strong) NSViewController *currentViewController;
 
-@property(strong) IBOutlet OECollectionViewController *collectionViewController;
-@property(strong) IBOutlet OEImportViewController     *importViewController;
-@property(strong) IBOutlet OELibrarySplitView           *mainSplitView;
-@property(strong) IBOutlet NSView                          *mainContentPlaceholderView;
+@property (strong) IBOutlet OELibrarySplitView           *mainSplitView;
+@property (strong) IBOutlet NSView                          *mainContentPlaceholderView;
 
-@property(strong) IBOutlet NSButton      *toolbarSidebarButton;
-@property(strong) IBOutlet NSButton      *toolbarGridViewButton;
-@property(strong) IBOutlet NSButton      *toolbarFlowViewButton;
-@property(strong) IBOutlet NSButton      *toolbarListViewButton;
+@property (strong) IBOutlet NSButton      *toolbarSidebarButton;
+@property (strong) IBOutlet NSButton      *toolbarGridViewButton;
+@property (strong) IBOutlet NSButton      *toolbarFlowViewButton;
+@property (strong) IBOutlet NSButton      *toolbarListViewButton;
 
-@property(strong) IBOutlet NSButton       *toolbarAddToSidebarButton;
-@property(strong) IBOutlet NSSearchField *toolbarSearchField;
-@property(strong) IBOutlet NSSlider         *toolbarSlider;
+@property (strong) IBOutlet NSButton       *toolbarAddToSidebarButton;
+@property (strong) IBOutlet NSSearchField *toolbarSearchField;
+@property (strong) IBOutlet NSSlider         *toolbarSlider;
 
 @property (strong) NSBitmapImageRep *cachedSnapshot;
 @end

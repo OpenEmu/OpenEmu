@@ -322,6 +322,28 @@
     return collectionItem;
 }
 
+#pragma mark - OELibrarySubviewControllerProtocol Implementation
+- (void)setItem:(id)item
+{
+    if(item != collectionItem)
+        [self setCollectionItem:item];
+}
+
+- (id)selectedItem
+{
+    return [self collectionItem];
+}
+
+- (id)encodeCurrentState
+{
+    return nil;
+}
+
+- (void)restoreState:(id)state
+{
+    
+}
+
 #pragma mark -
 #pragma mark GridView Delegate
 - (void)selectionChangedInGridView:(OEGridView *)view

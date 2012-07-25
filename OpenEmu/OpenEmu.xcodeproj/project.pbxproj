@@ -370,6 +370,7 @@
 		8382D23213C5C5BB00906221 /* OEPrefGameplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */; };
 		8382D23313C5C5BB00906221 /* OEPrefLibraryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */; };
 		8382D23513C5C5E100906221 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23413C5C5E100906221 /* OEPrefControlsController.xib */; };
+		838C0BF815BFF2AD00519C08 /* debug_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 838C0BF715BFF2AD00519C08 /* debug_tab_icon.png */; };
 		838FE6831458277B00185117 /* OEGlossCheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 838FE6821458277B00185117 /* OEGlossCheckBox.m */; };
 		838FE6871458342600185117 /* OESetupAssistantKeyMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 838FE6861458342600185117 /* OESetupAssistantKeyMapView.m */; };
 		83920CDB147E5BA300D219EA /* OESidebarScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83920CDA147E5BA300D219EA /* OESidebarScrollView.m */; };
@@ -1354,6 +1355,7 @@
 		8382D23413C5C5E100906221 /* OEPrefControlsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefControlsController.xib; sourceTree = "<group>"; };
 		838AC27E14434EED00AC74C3 /* OEDBRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBRom.h; sourceTree = "<group>"; };
 		838AC27F14434EED00AC74C3 /* OEDBRom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBRom.m; sourceTree = "<group>"; };
+		838C0BF715BFF2AD00519C08 /* debug_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = debug_tab_icon.png; sourceTree = "<group>"; };
 		838FE6811458277B00185117 /* OEGlossCheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGlossCheckBox.h; sourceTree = "<group>"; };
 		838FE6821458277B00185117 /* OEGlossCheckBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGlossCheckBox.m; sourceTree = "<group>"; };
 		838FE6851458342600185117 /* OESetupAssistantKeyMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantKeyMapView.h; sourceTree = "<group>"; };
@@ -2428,11 +2430,11 @@
 		53439B0B13B92F69005C0CC8 /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
+				53439B0E13B92FFA005C0CC8 /* OESidebarController.h */,
+				53439B0F13B92FFA005C0CC8 /* OESidebarController.m */,
 				8337393415BFD5B800D83D2F /* Items */,
 				53439B0C13B92FFA005C0CC8 /* OESidebarCell.h */,
 				53439B0D13B92FFA005C0CC8 /* OESidebarCell.m */,
-				53439B0E13B92FFA005C0CC8 /* OESidebarController.h */,
-				53439B0F13B92FFA005C0CC8 /* OESidebarController.m */,
 				53439B1113B92FFA005C0CC8 /* OESidebarFieldEditor.h */,
 				53439B1213B92FFA005C0CC8 /* OESidebarFieldEditor.m */,
 				53439B1513B92FFA005C0CC8 /* OESidebarOutlineView.h */,
@@ -2649,6 +2651,7 @@
 		53439BC013B93920005C0CC8 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				838C0BF715BFF2AD00519C08 /* debug_tab_icon.png */,
 				83CE3DC214C84EC10036DB28 /* beta_icon.png */,
 				836CFD6114709D3C00397683 /* wood_arrow_down.png */,
 				836CFD6214709D3C00397683 /* wood_arrow_up.png */,
@@ -4012,6 +4015,7 @@
 				8375696915125A1F00795226 /* dark_menu_scroll_arrows.png in Resources */,
 				8375696A15125A1F00795226 /* light_menu_scroll_arrows.png in Resources */,
 				83F4700E157504E3001931BD /* ImportView.xib in Resources */,
+				838C0BF815BFF2AD00519C08 /* debug_tab_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

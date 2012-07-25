@@ -45,15 +45,14 @@
 - (void)OE_setupToolbarItems;
 
 @property NSMutableDictionary *subviewControllers;
-- (NSViewController*)viewControllerWithClassName:(NSString*)className;
+- (NSViewController <OELibrarySubviewController>*)viewControllerWithClassName:(NSString*)className;
 @end
 
 @implementation OELibraryController
 @synthesize database;
 @synthesize sidebarChangesWindowSize;
 @synthesize currentViewController;
-@synthesize importViewController;
-@synthesize sidebarController, collectionViewController, mainSplitView, mainContentPlaceholderView;
+@synthesize sidebarController, mainSplitView, mainContentPlaceholderView;
 @synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
 @synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
 @synthesize cachedSnapshot;
@@ -63,7 +62,6 @@
 - (void)dealloc
 {
     NSLog(@"Dealloc OELibraryController");
-    
     [[NSNotificationCenter defaultCenter] removeObject:self];
 }
 
@@ -92,11 +90,7 @@
     
     [sidebarCtrl setDatabase:[self database]];
     [self setSidebarChangesWindowSize:YES];
-    
-    // make sure view has been loaded already
-    OECollectionViewController *collectionVC = [self collectionViewController];
-    [collectionVC setLibraryController:self];
-        
+            
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
     [splitView setMinWidth:[defaults doubleForKey:UDSidebarMinWidth]];
@@ -113,8 +107,6 @@
     [[self toolbarListViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_list"]];
     
     [[self toolbarAddToSidebarButton] setImage:[NSImage imageNamed:@"toolbar_add_button"]];
-    
-    [self showViewController:[self collectionViewController]];
 }
 
 - (void)viewDidAppear
@@ -125,7 +117,6 @@
     
     [[self sidebarController] reloadData];
     
-    [self setCurrentViewController:[self collectionViewController]];
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -169,7 +160,6 @@
 
 #pragma mark -
 #pragma mark Toolbar Actions
-
 - (IBAction)toggleSidebar:(id)sender
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -340,12 +330,14 @@
 #pragma mark -
 - (IBAction)startGame:(id)sender
 {
+    /*
     OEDBGame *selectedGame = [[[self collectionViewController] selectedGames] lastObject];
     
     NSAssert(selectedGame != nil, @"Attempt to start a game while the selection is empty");
     
     if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
         [[self delegate] libraryController:self didSelectGame:selectedGame];
+     */
 }
 
 - (void)startSelectedGameWithSaveState:(id)stateItem
@@ -360,17 +352,6 @@
 
 #pragma mark -
 #pragma mark Sidebar Helpers
-- (void)showCollectionViewControllerWithItem:(id <OECollectionViewItemProtocol>)item
-{
-    [self showViewController:[self collectionViewController]];
-    [[self collectionViewController] setCollectionItem:item];
-}
-
-- (void)showImportViewController
-{
-    [self showViewController:[self importViewController]];
-}
-
 - (void)showViewController:(NSViewController*)newViewController
 {
     NSViewController *oldViewController = [self currentViewController];
@@ -406,23 +387,31 @@
 
 - (void)sidebarSelectionDidChange:(NSNotification *)notification
 {
+    // Save Current State
+    id lastState = [(id <OELibrarySubviewController>)[self currentViewController] encodeCurrentState];
+    id itemID    = [[(id <OELibrarySubviewController>)[self currentViewController] selectedItem] sidebarID];
+    if(itemID && lastState)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:lastState forKey:itemID];
+    }
+
+    // Set new item   
     NSObject <OESidebarItem> *selectedItem = (NSObject <OESidebarItem> *)[[notification userInfo] objectForKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey];
+    
     NSString *viewControllerClasName = [selectedItem viewControllerClassName];
     NSViewController <OELibrarySubviewController> *viewController = [self viewControllerWithClassName:viewControllerClasName];
-    
-    if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
-    {
-        [self showCollectionViewControllerWithItem:selectedItem];
-    }
-    else if([selectedItem isKindOfClass:[OEROMImporter class]])
-    {
-        [self showImportViewController];
-    }
+    [viewController setItem:selectedItem];
+
+    // Restore State
+    itemID = [selectedItem sidebarID];
+    lastState = itemID?[[NSUserDefaults standardUserDefaults] valueForKey:itemID]:nil;
+    [viewController restoreState:lastState];
+
+    [self showViewController:viewController];
 }
 
 #pragma mark -
 #pragma mark Properties
-
 - (void)setSidebarChangesWindowSize:(BOOL)flag
 {
     flag = !!flag;
@@ -459,14 +448,16 @@
     [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideToolbar : NSApplicationPresentationDefault)];
 }
 
-- (NSViewController*)viewControllerWithClassName:(NSString*)className
+- (NSViewController <OELibrarySubviewController>*)viewControllerWithClassName:(NSString*)className
 {
     if(![subviewControllers valueForKey:className])
     {
         Class viewControllerClass = NSClassFromString(className);
         if(viewControllerClass)
         {
-            NSViewController *viewController = [[viewControllerClass alloc] init];
+            NSViewController <OELibrarySubviewController>*viewController = [[viewControllerClass alloc] init];
+            if([viewController respondsToSelector:@selector(setLibraryController:)])
+                [viewController setLibraryController:self];
             [subviewControllers setObject:viewController forKey:className];
         }
     }

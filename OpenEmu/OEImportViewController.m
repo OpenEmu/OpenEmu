@@ -63,6 +63,23 @@
 {
     return [[OELibraryDatabase defaultDatabase] importer];
 }
+#pragma mark - OELibrarySubviewController Protocol Implementation
+- (void)setItem:(id)item
+{}
+
+- (id)selectedItem
+{
+    return [self importer];
+}
+
+- (id)encodeCurrentState
+{
+    return nil;
+}
+
+- (void)restoreState:(id)state
+{}
+
 #pragma mark - OEROMImporter Delegate
 - (void)romImporter:(OEROMImporter*)importer startedProcessingItem:(id)item
 {}
@@ -81,7 +98,7 @@
     NSString *identifier = [tableColumn identifier];
     if([identifier isEqualToString:@"icon"]);
     else if([identifier isEqualToString:@"path"]);
-    else if([identifier isEqualToString:@"status"]);
+    else if([identifier isEqualToString:@"status"]) return nil;
     
     return nil;
 }

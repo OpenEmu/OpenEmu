@@ -146,9 +146,7 @@
         }
         
         NSImage *icon = anItem.icon;
-        
-        
-        
+
         if(anItem == highlightedItem && NSPointInRect([self convertPointFromBase:[[self window] convertScreenToBase:[NSEvent mouseLocation]]], anItem.itemRect)){
             icon = [icon imageForHighlight];
         }
