@@ -157,12 +157,13 @@
     OEDBRom         *rom            = [state rom];
     NSString        *coreIdentifier = [state coreIdentifier];
     OECorePlugin    *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
-    id gameViewController = [self initWithRom:rom core:core error:outError];
-    if(gameViewController)
+    self = [self initWithRom:rom core:core error:outError];
+    if(self)
     {
         [self loadState:state];
     }
-    return self;    
+    else self = nil;
+    return self;
 }
 
 - (void)dealloc
