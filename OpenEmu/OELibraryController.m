@@ -43,6 +43,9 @@
 
 - (void)OE_setupMenu;
 - (void)OE_setupToolbarItems;
+
+@property NSMutableDictionary *subviewControllers;
+- (NSViewController*)viewControllerWithClassName:(NSString*)className;
 @end
 
 @implementation OELibraryController
@@ -55,15 +58,7 @@
 @synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
 @synthesize cachedSnapshot;
 @synthesize delegate;
-
-- (id)initWithDatabase:(OELibraryDatabase *)aDatabase
-{
-    if((self = [super initWithNibName:@"Library" bundle:nil]))
-    {
-        [self setDatabase:aDatabase];
-    }
-    return self;
-}
+@synthesize subviewControllers;
 
 - (void)dealloc
 {
@@ -82,11 +77,13 @@
 - (void)loadView
 {
     [super loadView];
-    
+
+    [self setSubviewControllers:[NSMutableDictionary dictionary]];
+
     if([self database] == nil) [self setDatabase:[OELibraryDatabase defaultDatabase]];
     
     [[self sidebarController] view];
-        
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     // setup sidebar controller
@@ -409,7 +406,10 @@
 
 - (void)sidebarSelectionDidChange:(NSNotification *)notification
 {
-    id selectedItem = [[notification userInfo] objectForKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey];
+    NSObject <OESidebarItem> *selectedItem = (NSObject <OESidebarItem> *)[[notification userInfo] objectForKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey];
+    NSString *viewControllerClasName = [selectedItem viewControllerClassName];
+    NSViewController <OELibrarySubviewController> *viewController = [self viewControllerWithClassName:viewControllerClasName];
+    
     if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
     {
         [self showCollectionViewControllerWithItem:selectedItem];
@@ -451,7 +451,6 @@
 
 #pragma mark -
 #pragma mark Private
-
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
 {
     [self setSidebarChangesWindowSize:!fsFlag];
@@ -460,6 +459,19 @@
     [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideToolbar : NSApplicationPresentationDefault)];
 }
 
+- (NSViewController*)viewControllerWithClassName:(NSString*)className
+{
+    if(![subviewControllers valueForKey:className])
+    {
+        Class viewControllerClass = NSClassFromString(className);
+        if(viewControllerClass)
+        {
+            NSViewController *viewController = [[viewControllerClass alloc] init];
+            [subviewControllers setObject:viewController forKey:className];
+        }
+    }
+    return [subviewControllers valueForKey:className];
+}
 #pragma mark -
 - (void)OE_setupMenu
 {}
@@ -488,40 +500,6 @@
     [toolbarItemContainer setFrame:NSMakeRect(splitterPosition, 0.0, NSWidth([[toolbarItemContainer superview] bounds]) - splitterPosition, 44.0)];
 }
 
-@end
-
-@implementation OELibraryToolbarView
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    [[NSColor blackColor] setFill];
-    NSRectFill(dirtyRect);
-    
-    if(NSMinY(dirtyRect) > 44) return;
-    
-    NSRect viewRect = [self bounds];
-    viewRect.origin.y = NSMinY(viewRect);
-    viewRect.size.height = 44.0;
-    
-    NSColor *topLineColor   = [NSColor colorWithDeviceWhite:0.32 alpha:1];
-    NSColor *gradientTop    = [NSColor colorWithDeviceWhite:0.20 alpha:1];
-    NSColor *gradientBottom = [NSColor colorWithDeviceWhite:0.15 alpha:1];
-    
-    // Draw top line
-    NSRect lineRect = NSMakeRect(0, 43, viewRect.size.width, 1);
-    [topLineColor setFill];
-    NSRectFill(lineRect);
-    
-    // Draw Gradient
-    viewRect.origin.y = 0;
-    viewRect.size.height -= 1;
-    NSGradient *backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
-    [backgroundGradient drawInRect:viewRect angle:-90.0];
-}
-
-- (BOOL)isOpaque
-{
-    return NO;
-}
 
 @end
+

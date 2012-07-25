@@ -25,8 +25,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "OESideBarDataSourceItem.h"
+#import "OESidebarItem.h"
 
-@interface OEDBAllGamesCollection : NSObject <OESidebarDataSourceItem>
+@interface OEDBAllGamesCollection : NSObject <OESidebarItem>
 
 @end

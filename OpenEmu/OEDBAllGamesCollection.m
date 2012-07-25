@@ -43,6 +43,16 @@
     NSLog(@"OEDBAllGamesCollection: can not change name!");
 }
 
+- (NSString*)viewControllerClassName
+{
+    return @"OECollectionViewController";
+}
+
+- (NSString*)sidebarID
+{
+    return nil;
+}
+
 - (BOOL)isSelectableInSdebar
 {
     return YES;

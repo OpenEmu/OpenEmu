@@ -36,7 +36,7 @@
 
 #import "OECoverGridDataSourceItem.h"
 #import "OECoverFlowDataSourceItem.h"
-#import "OESideBarDataSourceItem.h"
+#import "OESidebarItem.h"
 #import "OEListViewDataSourceItem.h"
 #import "OEDBAllGamesCollection.h"
 
@@ -45,17 +45,17 @@
 @interface OEDBGame (DataSourceAdditions) <OECoverGridDataSourceItem, OECoverFlowDataSourceItem, OEListViewDataSourceItem>
 @end
 
-@interface OEDBSystem (DataSourceAdditions) <OESidebarDataSourceItem> 
+@interface OEDBSystem (DataSourceAdditions) <OESidebarItem> 
 @end
 
 
-@interface OEDBCollection (DataSourceAdditions) <OESidebarDataSourceItem> 
+@interface OEDBCollection (DataSourceAdditions) <OESidebarItem> 
 @end
 
-@interface OEDBSmartCollection (DataSourceAdditions) <OESidebarDataSourceItem> 
+@interface OEDBSmartCollection (DataSourceAdditions) <OESidebarItem> 
 @end
 
-@interface OEDBCollectionFolder (DataSourceAdditions) <OESidebarDataSourceItem> 
+@interface OEDBCollectionFolder (DataSourceAdditions) <OESidebarItem> 
 @end
 
 #pragma mark -

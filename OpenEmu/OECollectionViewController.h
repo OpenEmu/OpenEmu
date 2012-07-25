@@ -29,10 +29,10 @@
 #import "IKImageFlowView.h"
 
 #import "OECollectionViewItemProtocol.h"
-
+#import "OELibrarySubviewController.h"
 @class OELibraryController;
 @class OEHorizontalSplitView;
-@interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
+@interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
 {
 @private
     NSArrayController *gamesController;

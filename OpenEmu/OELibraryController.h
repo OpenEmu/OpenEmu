@@ -29,6 +29,7 @@
 #import "OEUIDrawingUtils.h"
 #import "OEMainWindowContentController.h"
 #import "OELibraryDatabase.h"
+
 @class OELibraryDatabase;
 @class OESidebarController;
 @class OECollectionViewController;
@@ -37,14 +38,8 @@
 @protocol OELibraryControllerDelegate;
 @class OEImportViewController;
 
-@interface OELibraryToolbarView : NSView
-@end
-
 @interface OELibraryController : NSViewController <OEMainWindowContentController>
-
 - (void)layoutToolbarItems;
-- (id)initWithDatabase:(OELibraryDatabase *)database;
-
 @property(unsafe_unretained) id<OELibraryControllerDelegate> delegate;
 
 #pragma mark -

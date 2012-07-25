@@ -23,15 +23,21 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #import <Foundation/Foundation.h>
-#import "OESidebarItem.h"
 
 
-@interface OESidebarGroupItem : NSObject <OESidebarItem> 
-{
-@private
-    NSString *name;
-}
-+ (id)groupItemWithName:(NSString*)name;
-@property (readwrite, copy) NSString *name;
+@protocol OESidebarItem <NSObject>
+- (NSImage *)sidebarIcon;
+- (NSString*)sidebarName;
+- (NSString*)sidebarID;
+
+- (NSString*)viewControllerClassName;
+
+- (void)setSidebarName:(NSString*)newName;
+- (BOOL)isSelectableInSdebar;
+- (BOOL)isEditableInSdebar;
+- (BOOL)isGroupHeaderInSdebar;
+
+- (BOOL)hasSubCollections;
 @end

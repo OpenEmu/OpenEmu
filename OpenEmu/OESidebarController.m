@@ -26,7 +26,7 @@
 
 #import "OESidebarController.h"
 #import "OESidebarGroupItem.h"
-#import "OESideBarDataSourceItem.h"
+#import "OESidebarItem.h"
 #import "OELibraryDatabase.h"
 #import "OESidebarCell.h"
 
@@ -37,7 +37,7 @@
 #import "OEHUDAlert.h"
 
 #import "NSImage+OEDrawingAdditions.h"
-#import "OEROMImporter+OESiebarAdditions.h"
+#import "OEROMImporter+OESidebarAdditions.h"
 @interface OESidebarController ()
 - (void)_setupDrop;
 @end
@@ -306,7 +306,7 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return [(id <OESidebarDataSourceItem>)item isGroupHeaderInSdebar];
+    return [(id <OESidebarItem>)item isGroupHeaderInSdebar];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
