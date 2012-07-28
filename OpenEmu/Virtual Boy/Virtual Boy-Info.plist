@@ -118,8 +118,6 @@
 					<key>OEControlListKeyNameKey</key>
 					<string>OEVBButtonStart[@]</string>
 				</dict>
-			</array>
-			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Select</string>
