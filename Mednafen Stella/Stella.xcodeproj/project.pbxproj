@@ -40,6 +40,8 @@
 		82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EC409E0FD9EC420017FC19 /* libz.dylib */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		940DD91E15B9D3C300542C50 /* FSNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 940DD91B15B9D3C300542C50 /* FSNode.cpp */; };
+		940DD92115B9D59200542C50 /* FSNodePOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 940DD92015B9D59200542C50 /* FSNodePOSIX.cpp */; };
 		941DFAE015B4C9A100C6552F /* Cart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 941DFA5C15B4C9A100C6552F /* Cart.cpp */; };
 		941DFAE115B4C9A100C6552F /* Cart0840.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 941DFA5E15B4C9A100C6552F /* Cart0840.cpp */; };
 		941DFAE215B4C9A100C6552F /* Cart2K.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 941DFA6015B4C9A100C6552F /* Cart2K.cpp */; };
@@ -143,8 +145,12 @@
 		82CAFD010FEDD54000CCDC7E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFD030FEDD54800CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82EC409E0FD9EC420017FC19 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		8D5B49B6048680CD000E48DA /* Mednafen Stella.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mednafen Stella.oecoreplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B6048680CD000E48DA /* Mednafen Stella.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Mednafen Stella.oecoreplugin"; path = Stella.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		940DD91B15B9D3C300542C50 /* FSNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FSNode.cpp; sourceTree = "<group>"; };
+		940DD91C15B9D3C300542C50 /* FSNode.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FSNode.hxx; sourceTree = "<group>"; };
+		940DD91D15B9D3C300542C50 /* SharedPtr.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SharedPtr.hxx; sourceTree = "<group>"; };
+		940DD92015B9D59200542C50 /* FSNodePOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FSNodePOSIX.cpp; sourceTree = "<group>"; };
 		941DFA5C15B4C9A100C6552F /* Cart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cart.cpp; sourceTree = "<group>"; };
 		941DFA5D15B4C9A100C6552F /* Cart.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cart.hxx; sourceTree = "<group>"; };
 		941DFA5E15B4C9A100C6552F /* Cart0840.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cart0840.cpp; sourceTree = "<group>"; };
@@ -233,7 +239,6 @@
 		941DFAB215B4C9A100C6552F /* Switches.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Switches.hxx; sourceTree = "<group>"; };
 		941DFAB315B4C9A100C6552F /* TrackBall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TrackBall.cpp; sourceTree = "<group>"; };
 		941DFAB415B4C9A100C6552F /* TrackBall.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TrackBall.hxx; sourceTree = "<group>"; };
-		941DFAB515B4C9A100C6552F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		941DFAB715B4C9A100C6552F /* DefProps.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DefProps.hxx; sourceTree = "<group>"; };
 		941DFAB815B4C9A100C6552F /* Props.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Props.cpp; sourceTree = "<group>"; };
 		941DFAB915B4C9A100C6552F /* Props.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Props.hxx; sourceTree = "<group>"; };
@@ -389,7 +394,10 @@
 				941DFA9615B4C9A100C6552F /* Console.cpp */,
 				941DFA9715B4C9A100C6552F /* Console.hxx */,
 				941DFA9815B4C9A100C6552F /* input */,
-				941DFAB515B4C9A100C6552F /* main.cpp */,
+				940DD91B15B9D3C300542C50 /* FSNode.cpp */,
+				940DD92015B9D59200542C50 /* FSNodePOSIX.cpp */,
+				940DD91C15B9D3C300542C50 /* FSNode.hxx */,
+				940DD91D15B9D3C300542C50 /* SharedPtr.hxx */,
 				941DFAB615B4C9A100C6552F /* properties */,
 				941DFABC15B4C9A100C6552F /* Settings.cpp */,
 				941DFABD15B4C9A100C6552F /* Settings.hxx */,
@@ -731,6 +739,8 @@
 				941DFB1915B4C9A100C6552F /* MD5.cpp in Sources */,
 				941DFB1A15B4C9A100C6552F /* Random.cpp in Sources */,
 				941DFB1B15B4C9A100C6552F /* Serializer.cpp in Sources */,
+				940DD91E15B9D3C300542C50 /* FSNode.cpp in Sources */,
+				940DD92115B9D59200542C50 /* FSNodePOSIX.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -888,7 +898,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
-				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

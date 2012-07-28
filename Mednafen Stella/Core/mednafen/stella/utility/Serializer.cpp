@@ -26,6 +26,58 @@
 
 #include "Serializer.hxx"
 
+Int32 smem_read(StateMem *st, void *buffer, uInt32 len)
+{
+    if((len + st->loc) > st->len)
+        return(0);
+    
+    memcpy(buffer, st->data + st->loc, len);
+    st->loc += len;
+    
+    return(len);
+}
+
+int smem_read32le(StateMem *st, uInt32 *b)
+{
+    uInt8 s[4];
+    
+    if(smem_read(st, s, 4) < 4)
+        return(0);
+    
+    *b = s[0] | (s[1] << 8) | (s[2] << 16) | (s[3] << 24);
+    
+    return(4);
+}
+
+Int32 smem_write(StateMem *st, void *buffer, uInt32 len)
+{
+    if((len + st->loc) > st->malloced)
+    {
+        uInt32 newsize = (st->malloced >= 32768) ? st->malloced : (st->initial_malloc ? st->initial_malloc : 32768);
+        
+        while(newsize < (len + st->loc))
+            newsize *= 2;
+        st->data = (uInt8 *)realloc(st->data, newsize);
+        st->malloced = newsize;
+    }
+    memcpy(st->data + st->loc, buffer, len);
+    st->loc += len;
+    
+    if(st->loc > st->len) st->len = st->loc;
+    
+    return(len);
+}
+
+int smem_write32le(StateMem *st, uInt32 b)
+{
+    uInt8 s[4];
+    s[0]=b;
+    s[1]=b>>8;
+    s[2]=b>>16;
+    s[3]=b>>24;
+    return((smem_write(st, s, 4)<4)?0:4);
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Serializer::Serializer(StateMem* stream)
   : myStream(stream)
@@ -51,17 +103,17 @@ void Serializer::reset(void)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 char Serializer::getByte(void)
 {
-  //char buf;
-  //smem_read(myStream, &buf, 1);
-  //return buf;
+  char buf;
+  smem_read(myStream, &buf, 1);
+  return buf;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 int Serializer::getInt(void)
 {
-  //int32 value;
-  //smem_read32le(myStream, (uint32*)&value);
-  //return value;
+  Int32 value;
+  smem_read32le(myStream, (uInt32*)&value);
+  return value;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -70,7 +122,7 @@ string Serializer::getString(void)
   int len = getInt();
   string str;
   str.resize((string::size_type)len);
-  //smem_read(myStream, &str[0], len);
+  smem_read(myStream, &str[0], len);
   return str;
 }
 
@@ -91,21 +143,21 @@ bool Serializer::getBool(void)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void Serializer::putByte(char value)
 {
-  //smem_write(myStream, &value, 1);
+  smem_write(myStream, &value, 1);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void Serializer::putInt(int value)
 {
-  //smem_write32le(myStream, value);
+  smem_write32le(myStream, value);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void Serializer::putString(const string& str)
 {
-  //uint32 len = str.length();
-  //smem_write32le(myStream, len);
-  //smem_write(myStream, (void*)str.data(), len);
+  uInt32 len = str.length();
+  smem_write32le(myStream, len);
+  smem_write(myStream, (void*)str.data(), len);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

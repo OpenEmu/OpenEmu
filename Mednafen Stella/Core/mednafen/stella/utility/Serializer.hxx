@@ -24,7 +24,7 @@
 //ROBO: This is a hack to prevent #error's from mednafen's types.h about include order
 #ifndef _STATE_H
 #include <stdint.h>
-typedef struct
+typedef struct StateMem
 {
 	uint8_t *data;
 	uint32_t loc;
@@ -33,6 +33,7 @@ typedef struct
 	uint32_t malloced;
 
 	uint32_t initial_malloc; // A setting!
+    StateMem() 	{loc = 0; len = 0; malloced = 0; initial_malloc = 0;}
 } StateMem;
 #endif
 
