@@ -1233,6 +1233,9 @@ static void systemmenu ()
           }
         }
 
+        /* reinitialize audio streams */
+        audio_init(snd.sample_rate, snd.frame_rate);
+
         /* force hard reset */
         system_init();
         system_reset();

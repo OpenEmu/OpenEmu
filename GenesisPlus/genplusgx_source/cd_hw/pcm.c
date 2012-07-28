@@ -96,17 +96,22 @@ void pcm_update(short *buffer, int length)
         /* check if channel is enabled */
         if (pcm.status & (1 << j))
         {
-          /* read current WAVE RAM address */
+          /* read from current WAVE RAM address */
           short data = pcm.ram[(pcm.chan[j].addr >> 11) & 0xffff];
 
-          /* STOP data ? */
+          /* loop data ? */
           if (data == 0xff)
           {
-            /* reset WAVE RAM address with loop address */
+            /* reset WAVE RAM address */
             pcm.chan[j].addr = pcm.chan[j].ls.w << 11;
 
-            /* read WAVE RAM address again  */
+            /* read again from WAVE RAM address */
             data = pcm.ram[pcm.chan[j].ls.w];
+          }
+          else
+          {
+            /* increment WAVE RAM address */
+            pcm.chan[j].addr += pcm.chan[j].fd.w;
           }
 
           /* infinite loop should not output any data */
@@ -122,9 +127,6 @@ void pcm_update(short *buffer, int length)
             /* multiply PCM data with ENV & stereo PAN data then add to outputs (13.6 fixed point) */
             l += ((data * pcm.chan[j].env * (pcm.chan[j].pan & 0x0F)) >> 6);
             r += ((data * pcm.chan[j].env * (pcm.chan[j].pan >> 4)) >> 6);
-
-            /* increment WAVE RAM address */
-            pcm.chan[j].addr += pcm.chan[j].fd.w;
           }
         }
       }
@@ -239,7 +241,7 @@ void pcm_write(unsigned int address, unsigned char data)
       pcm.chan[pcm.index].st = data << (8 + 11);
 
       /* reload WAVE RAM address if channel is OFF */
-      if (~(pcm.status & (1 << pcm.index)))
+      if (!(pcm.status & (1 << pcm.index)))
       {
         pcm.chan[pcm.index].addr = pcm.chan[pcm.index].st;
       }

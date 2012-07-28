@@ -190,6 +190,9 @@ INLINE void s68k_poll_detect(reg)
       if (s68k.pc == s68k.poll.pc)
       {
         /* stop SUB-CPU until register is modified by MAIN-CPU */
+#ifdef LOG_SCD
+        error("s68k stopped from %d cycles\n", s68k.cycles);
+#endif
         s68k.cycles = s68k.cycle_end;
         s68k.stopped = 1 << reg;
       }
@@ -226,6 +229,9 @@ INLINE void s68k_poll_sync(reg)
 
     /* restart MAIN-CPU */
     m68k.stopped = 0;
+#ifdef LOG_SCD
+    error("m68k started from %d cycles\n", cycles);
+#endif
   }
 
   /* clear CPU register(s) access flags */
@@ -269,6 +275,9 @@ static unsigned int scd_read_byte(unsigned int address)
   if (address == 0xff8007)
   {
     unsigned int data = cdc_reg_r();
+#ifdef LOG_CDC
+    error("CDC register %X read 0x%02X (%X) ", scd.regs[0x04>>1].byte.l & 0x0F, data, s68k.pc);
+#endif
     return data;
   }
   
@@ -1666,9 +1675,6 @@ int scd_context_load(uint8 *state)
   load_param(&tmp16, 2); s68k_set_reg(M68K_REG_SR, tmp16);
   load_param(&tmp32, 4); s68k_set_reg(M68K_REG_USP,tmp32);
   load_param(&tmp32, 4); s68k_set_reg(M68K_REG_ISP,tmp32);
-
-  /* update IRQ level */
-  s68k_update_irq((scd.pending & scd.regs[0x32>>1].byte.l) >> 1);
 
   return bufferptr;
 }

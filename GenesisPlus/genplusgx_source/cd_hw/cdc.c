@@ -471,9 +471,6 @@ void cdc_reg_w(unsigned char data)
 
 unsigned char cdc_reg_r(void)
 {
-#ifdef LOG_CDC
-  error("CDC register %X read (%X) ", scd.regs[0x04>>1].byte.l & 0x0F, s68k.pc);
-#endif
   switch (scd.regs[0x04>>1].byte.l & 0x0F)
   {
     case 0x01:  /* IFSTAT */

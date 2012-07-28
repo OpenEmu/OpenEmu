@@ -273,7 +273,11 @@ void m68k_run(unsigned int cycles)
 
   /* Save end cycles count for when CPU is stopped */
   m68k.cycle_end = cycles;
-  
+
+#ifdef LOGVDP
+  error("[%d][%d] m68k run to %d cycles (%x)\n", v_counter, m68k.cycles, cycles, m68k.pc);
+#endif
+   
   while (m68k.cycles < cycles)
   {
     /* Set tracing accodring to T1. */

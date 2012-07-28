@@ -249,10 +249,10 @@ void cd_cart_init(void)
       m68k.memory_map[i].base    = scd.cartridge.area + ((i & 0x3f) << 16);
       m68k.memory_map[i].read8   = NULL;
       m68k.memory_map[i].read16  = NULL;
-      m68k.memory_map[i].write8  = NULL;
-      m68k.memory_map[i].write16 = NULL;
+      m68k.memory_map[i].write8  = m68k_unused_8_w;
+      m68k.memory_map[i].write16 = m68k_unused_16_w;
       zbank_memory_map[i].read   = NULL;
-      zbank_memory_map[i].write  = NULL;
+      zbank_memory_map[i].write  = zbank_unused_w;
     }
   }
 }

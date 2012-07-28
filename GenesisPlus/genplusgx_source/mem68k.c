@@ -233,6 +233,9 @@ INLINE void m68k_poll_detect(reg)
       if (m68k.pc == m68k.poll.pc)
       {
         /* stop MAIN-CPU until register is modified by SUB-CPU */
+#ifdef LOG_SCD
+        error("m68k stopped from %d cycles\n", m68k.cycles);
+#endif
         m68k.cycles = m68k.cycle_end;
         m68k.stopped = 1 << reg;
       }
@@ -269,6 +272,9 @@ INLINE void m68k_poll_sync(reg)
 
     /* restart SUB-CPU */
     s68k.stopped = 0;
+#ifdef LOG_SCD
+    error("s68k started from %d cycles\n", cycles);
+#endif
   }
 
   /* clear CPU register(s) access flags */

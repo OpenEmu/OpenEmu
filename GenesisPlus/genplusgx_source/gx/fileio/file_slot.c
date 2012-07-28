@@ -108,12 +108,17 @@ void slot_autoload(int slot, int device)
       /* update CRC */
       brm_crc[0] = crc32(0, scd.bram, 0x2000);
     }
+    else 
+    {
+      /* force internal backup RAM format (does not use previous region backup RAM) */
+      scd.bram[0x1fff] = 0;
+    }
 
     /* check if internal backup RAM is correctly formatted */
     if (memcmp(scd.bram + 0x2000 - 0x20, brm_format + 0x20, 0x20))
     {
       /* clear internal backup RAM */
-      memset(scd.bram, 0x00, 0x200);
+      memset(scd.bram, 0x00, 0x2000 - 0x40);
 
       /* internal Backup RAM size fields */
       brm_format[0x10] = brm_format[0x12] = brm_format[0x14] = brm_format[0x16] = 0x00;
@@ -121,6 +126,9 @@ void slot_autoload(int slot, int device)
 
       /* format internal backup RAM */
       memcpy(scd.bram + 0x2000 - 0x40, brm_format, 0x40);
+
+      /* clear CRC to force file saving (in case previous region backup RAM was also formatted) */
+      brm_crc[0] = 0;
     }
 
     /* automatically load cartridge backup RAM (if enabled) */

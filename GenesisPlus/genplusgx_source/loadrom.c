@@ -431,12 +431,6 @@ int load_bios(void)
 
           /* loaded BIOS region */
           system_bios = (system_bios & 0xf0) | (region_code >> 4);
-
-        }
-        else
-        {
-          /* CD BOOT ROM disabled (SYSTEM ERROR) */
-          memset(scd.bootrom, 0xff, sizeof(scd.bootrom));
         }
 
         return size;
@@ -543,13 +537,14 @@ int load_rom(char *filename)
   ggenie_shutdown();
   areplay_shutdown();
 
-  /* unload any existing disc */
   if (romtype == SYSTEM_MCD)
   {
+    /* unload CD image */
     cdd_unload();
   }
   else
   {
+    /* no CD image loaded */
     cdd.loaded = 0;
   }
 
@@ -590,10 +585,11 @@ int load_rom(char *filename)
     /* load file into ROM buffer */
     char extension[4];
     int size = load_archive(filename, cart.rom, sizeof(cart.rom), extension);
-    if (!size) return(0);
 
     /* mark CD BIOS as unloaded */
     system_bios &= ~0x10;
+
+    if (!size) return(0);
 
     /* convert lower case to upper case */
     *(uint32 *)(extension) &= 0xdfdfdfdf;
@@ -721,8 +717,11 @@ int load_rom(char *filename)
     /* boot from CD */
     scd.cartridge.boot = 0x00;
 
-    /* CD unloaded */
+    /* no CD image loaded */
     cdd.loaded = 0;
+
+    /* clear CD TOC */
+    cdd_unload();
   }
 
   /* special ROM cartridges that use CD hardware */
@@ -737,8 +736,11 @@ int load_rom(char *filename)
     /* load CD BOOT ROM */
     if (load_bios())
     {
-      /* CD unloaded */
+      /* no CD image loaded */
       cdd.loaded = 0;
+
+      /* clear CD TOC */
+      cdd_unload();
 
       /* boot from cartridge */
       scd.cartridge.boot = 0x40;
@@ -747,6 +749,9 @@ int load_rom(char *filename)
     {
       /* assume Mega Drive hardware */
       system_hw = SYSTEM_MD;
+
+      /* copy back to cartridge ROM area */
+      memcpy(cart.rom, scd.cartridge.area, sizeof(scd.cartridge.area));
     }
   }
 
