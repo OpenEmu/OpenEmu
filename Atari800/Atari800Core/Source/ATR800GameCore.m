@@ -298,6 +298,10 @@ ATR800GameCore *current;
 
 - (BOOL)loadFileAtPath:(NSString*)path
 {
+    //Get the size of the rom so that Atari800 knows which 5200 cart type to load
+    NSData* dataObj = [NSData dataWithContentsOfFile:[path stringByStandardizingPath]];
+    size_t size = [dataObj length];
+
     DLog(@"Loadeding File: ", path);
     
     char biosFileName[2048];
@@ -308,6 +312,8 @@ ATR800GameCore *current;
     
     strcpy(biosFileName, [[appSupportPath stringByAppendingPathComponent:@"5200.rom"] UTF8String]);
 	
+    //Atari800_tv_mode = Atari800_TV_NTSC;
+    
 	Colours_PreInitialise();
 	// find rom images
 //	CFG_FindROMImages("", TRUE);
@@ -390,7 +396,30 @@ ATR800GameCore *current;
 //			UI_is_active = TRUE;
 //			CARTRIDGE_type = UI_SelectCartType(r);
 //			UI_is_active = FALSE;
-			CARTRIDGE_type = CARTRIDGE_5200_32;
+
+            NSLog(@"Cart size: %zd", size >> 10);
+            
+            //Tell Atari800 which 5200 cart type to load based on size
+            switch (size >> 10) {
+                case 40:
+                    CARTRIDGE_type = CARTRIDGE_5200_40; //bounty bob strikes back
+                    break;
+                case 32:
+                    CARTRIDGE_type = CARTRIDGE_5200_32;
+                    break;
+                //case 16:
+                //    CARTRIDGE_type = CARTRIDGE_5200_EE_16; //two chip: congo bongo, etc
+                case 16:
+                    CARTRIDGE_type = CARTRIDGE_5200_NS_16; //one chip: chop lifter, miner 2049er, etc
+                    break;
+                case 8:
+                    CARTRIDGE_type = CARTRIDGE_5200_8;
+                    break;
+                case 4:
+                    CARTRIDGE_type = CARTRIDGE_5200_4;
+                    break;
+            }
+            
 #else /* __PLUS */
 			CARTRIDGE_type = (CARTRIDGE_NONE == nCartType ? UI_SelectCartType(r) : nCartType);
 #endif /* __PLUS */
@@ -499,7 +528,7 @@ ATR800GameCore *current;
 }
 
 #pragma mark -
-
+//Think this is converting to 32-bit BGRA
 - (void)renderToBuffer
 {
 	int i, j;
