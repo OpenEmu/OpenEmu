@@ -133,12 +133,12 @@ static void update_input()
     static uint16_t input_buf[2];
     input_buf[0] = input_buf[1] = 0;
     static unsigned map[] = {
-        RETRO_DEVICE_ID_JOYPAD_A,
-        RETRO_DEVICE_ID_JOYPAD_B,
-        RETRO_DEVICE_ID_JOYPAD_X,
-        RETRO_DEVICE_ID_JOYPAD_Y,
-        RETRO_DEVICE_ID_JOYPAD_L,
-        RETRO_DEVICE_ID_JOYPAD_R,
+        RETRO_DEVICE_ID_JOYPAD_A, //I
+        RETRO_DEVICE_ID_JOYPAD_B, //II
+        RETRO_DEVICE_ID_JOYPAD_X, //III
+        RETRO_DEVICE_ID_JOYPAD_Y, //IV
+        RETRO_DEVICE_ID_JOYPAD_L, //V
+        RETRO_DEVICE_ID_JOYPAD_R, //VI
         RETRO_DEVICE_ID_JOYPAD_SELECT,
         RETRO_DEVICE_ID_JOYPAD_START,
         RETRO_DEVICE_ID_JOYPAD_UP,
