@@ -128,14 +128,14 @@ static void update_input()
     static uint16_t input_buf[2];
     input_buf[0] = input_buf[1] = 0;
     static unsigned map[] = {
-        RETRO_DEVICE_ID_JOYPAD_UP,
-        RETRO_DEVICE_ID_JOYPAD_RIGHT,
-        RETRO_DEVICE_ID_JOYPAD_DOWN,
-        RETRO_DEVICE_ID_JOYPAD_LEFT,
-        RETRO_DEVICE_ID_JOYPAD_UP,
-        RETRO_DEVICE_ID_JOYPAD_RIGHT,
-        RETRO_DEVICE_ID_JOYPAD_DOWN,
-        RETRO_DEVICE_ID_JOYPAD_LEFT,
+        RETRO_DEVICE_ID_JOYPAD_UP, //X Cursor horizontal-layout games
+        RETRO_DEVICE_ID_JOYPAD_RIGHT, //X Cursor horizontal-layout games
+        RETRO_DEVICE_ID_JOYPAD_DOWN, //X Cursor horizontal-layout games
+        RETRO_DEVICE_ID_JOYPAD_LEFT, //X Cursor horizontal-layout games
+        RETRO_DEVICE_ID_JOYPAD_R2, //Y Cursor UP vertical-layout games
+        RETRO_DEVICE_ID_JOYPAD_R, //Y Cursor RIGHT vertical-layout games
+        RETRO_DEVICE_ID_JOYPAD_L2, //Y Cursor DOWN vertical-layout games
+        RETRO_DEVICE_ID_JOYPAD_L, //Y Cursor LEFT vertical-layout games
         RETRO_DEVICE_ID_JOYPAD_START,
         RETRO_DEVICE_ID_JOYPAD_A,
         RETRO_DEVICE_ID_JOYPAD_B,
