@@ -78,23 +78,41 @@
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Fire 2</string>
+					<string>Reset</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonFire2[@]</string>
+					<string>OE2600ButtonStart[@]</string>
 				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Fire 3</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonFire3[@]</string>
-				</dict>
-			</array>
-			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Select</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OE2600ButtonSelect[@]</string>
+				</dict>
+			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>L Diff A</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OE2600ButtonLeftDiffA[@]</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>L Diff B</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OE2600ButtonLeftDiffB[@]</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>R Diff A</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OE2600ButtonRightDiffA[@]</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>R Diff B</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OE2600ButtonRightDiffB[@]</string>
 				</dict>
 			</array>
 		</array>
@@ -108,8 +126,11 @@
 		<string>OE2600ButtonLeft[@]</string>
 		<string>OE2600ButtonRight[@]</string>
 		<string>OE2600ButtonFire1[@]</string>
-		<string>OE2600ButtonFire2[@]</string>
-		<string>OE2600ButtonFire3[@]</string>
+		<string>OE2600ButtonLeftDiffA[@]</string>
+		<string>OE2600ButtonLeftDiffB[@]</string>
+		<string>OE2600ButtonRightDiffA[@]</string>
+		<string>OE2600ButtonRightDiffB[@]</string>
+		<string>OE2600ButtonStart[@]</string>
 		<string>OE2600ButtonSelect[@]</string>
 	</array>
 	<key>OEControlTypesKey</key>

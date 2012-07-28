@@ -48,8 +48,11 @@
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OE2600ButtonLeft[1]"  ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OE2600ButtonRight[1]" ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardX]         , @"OE2600ButtonFire1[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardZ]         , @"OE2600ButtonFire2[1]"     ,
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OE2600ButtonFire3[1]"     ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OE2600ButtonLeftDiffA[1]"     ,
+							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OE2600ButtonLeftDiffB[1]"     ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardR]         , @"OE2600ButtonRightDiffA[1]"     ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardT]         , @"OE2600ButtonRightDiffB[1]"     ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]    , @"OE2600ButtonStart[1]",
 							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDeleteOrBackspace]    , @"OE2600ButtonSelect[1]",
                               nil];
     return controls;

@@ -22,9 +22,13 @@
 		<string>{150, 190}</string>
 		<key>OE2600ButtonSelect[@]</key>
 		<string>{150, 160}</string>
-		<key>OE2600ButtonFire2[@]</key>
+		<key>OE2600ButtonLeftDiffA[@]</key>
 		<string>{50, 100}</string>
-		<key>OE2600ButtonFire3[@]</key>
+		<key>OE2600ButtonLeftDiffB[@]</key>
+		<string>{50, 70}</string>
+		<key>OE2600ButtonRightDiffA[@]</key>
+		<string>{50, 100}</string>
+		<key>OE2600ButtonRightDiffB[@]</key>
 		<string>{50, 70}</string>
 	</dict>
 </dict>
