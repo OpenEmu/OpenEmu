@@ -153,7 +153,6 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>vb</string>
-		<string>a52</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
