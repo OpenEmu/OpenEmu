@@ -136,11 +136,12 @@ static void update_input()
         RETRO_DEVICE_ID_JOYPAD_RIGHT,
         RETRO_DEVICE_ID_JOYPAD_UP,
         RETRO_DEVICE_ID_JOYPAD_DOWN,
+        RETRO_DEVICE_ID_JOYPAD_L,
     };
     
     for (unsigned j = 0; j < 2; j++)
     {
-        for (unsigned i = 0; i < 8; i++)
+        for (unsigned i = 0; i < 9; i++)
             input_buf[j] |= map[i] != -1u &&
             input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
     }
