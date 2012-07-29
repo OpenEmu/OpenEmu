@@ -79,8 +79,8 @@ static void video_callback(const void *data, unsigned width, unsigned height, si
     dispatch_apply(height, the_queue, ^(size_t y){
         const uint16_t *src = (uint16_t*)data + y * (pitch >> 1); //pitch is in bytes not pixels
         //uint16_t *dst = current->videoBuffer + y * current->videoWidth;
-        //uint16_t *dst = current->videoBuffer + y * 640;
-        uint16_t *dst = current->videoBuffer + y * (pitch >> 1);
+        uint16_t *dst = current->videoBuffer + y * 640;
+        //uint16_t *dst = current->videoBuffer + y * (pitch >> 1);
         
         for (int x = 0; x < current->videoWidth; x++) {
             dst[x] = src[x];
