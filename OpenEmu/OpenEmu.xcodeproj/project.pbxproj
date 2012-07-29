@@ -38,6 +38,7 @@
 				C68625721572686E00EFC972 /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
+				94619CC715C50FB20019AC8E /* PBXTargetDependency */,
 				94619C9115C4CBEF0019AC8E /* PBXTargetDependency */,
 				941DFB3D15B7622700C6552F /* PBXTargetDependency */,
 				94EFD19915ACA8D8009BED8F /* PBXTargetDependency */,
@@ -521,6 +522,16 @@
 		94619C9A15C4D14B0019AC8E /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94619C9615C4D14B0019AC8E /* Controller-Preferences-Info.plist */; };
 		94619CA015C4D1690019AC8E /* OE5200SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94619C9C15C4D1690019AC8E /* OE5200SystemController.m */; };
 		94619CA115C4D1690019AC8E /* OE5200SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94619C9E15C4D1690019AC8E /* OE5200SystemResponder.m */; };
+		94619CA915C507B60019AC8E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94619CAF15C507B70019AC8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94619CAD15C507B70019AC8E /* InfoPlist.strings */; };
+		94619CB615C50EF00019AC8E /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94619CBC15C50F730019AC8E /* OEFDSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94619CB815C50F730019AC8E /* OEFDSSystemController.m */; };
+		94619CBD15C50F730019AC8E /* OEFDSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94619CBA15C50F730019AC8E /* OEFDSSystemResponder.m */; };
+		94619CC215C50F8F0019AC8E /* controller_fc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CBE15C50F8E0019AC8E /* controller_fc_mask.png */; };
+		94619CC315C50F8F0019AC8E /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CBF15C50F8E0019AC8E /* controller_fc.png */; };
+		94619CC415C50F8F0019AC8E /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC015C50F8E0019AC8E /* Controller-Preferences-Info.plist */; };
+		94619CC515C50F8F0019AC8E /* famicom_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC115C50F8E0019AC8E /* famicom_library.png */; };
+		94619CC815C50FC30019AC8E /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94619CA815C507B60019AC8E /* Nintendo FDS.oesystemplugin */; };
 		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
 		948E54101571D78D002D26E0 /* SuperNES.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
@@ -913,6 +924,20 @@
 			remoteGlobalIDString = 94619C7F15C4C3190019AC8E;
 			remoteInfo = "Atari 5200";
 		};
+		94619CB415C50EE40019AC8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94619CC615C50FB20019AC8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94619CA715C507B60019AC8E;
+			remoteInfo = "Nintendo FDS";
+		};
 		94A1E9C91586F5C000986376 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1135,6 +1160,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				94619CC815C50FC30019AC8E /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */,
 				94619C9215C4CBFC0019AC8E /* Atari 5200.oesystemplugin in Copy Plugins To Application Support */,
 				941DFB3E15B7623200C6552F /* Atari 2600.oesystemplugin in Copy Plugins To Application Support */,
 				94EFD19A15ACA8E9009BED8F /* Sega CD.oesystemplugin in Copy Plugins To Application Support */,
@@ -1802,6 +1828,18 @@
 		94619C9D15C4D1690019AC8E /* OE5200SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemResponder.h; sourceTree = "<group>"; };
 		94619C9E15C4D1690019AC8E /* OE5200SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE5200SystemResponder.m; sourceTree = "<group>"; };
 		94619C9F15C4D1690019AC8E /* OE5200SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemResponderClient.h; sourceTree = "<group>"; };
+		94619CA815C507B60019AC8E /* Nintendo FDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Nintendo FDS.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94619CAC15C507B70019AC8E /* Nintendo FDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Nintendo FDS-Info.plist"; sourceTree = "<group>"; };
+		94619CAE15C507B70019AC8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94619CB715C50F730019AC8E /* OEFDSSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFDSSystemController.h; sourceTree = "<group>"; };
+		94619CB815C50F730019AC8E /* OEFDSSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFDSSystemController.m; sourceTree = "<group>"; };
+		94619CB915C50F730019AC8E /* OEFDSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFDSSystemResponder.h; sourceTree = "<group>"; };
+		94619CBA15C50F730019AC8E /* OEFDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFDSSystemResponder.m; sourceTree = "<group>"; };
+		94619CBB15C50F730019AC8E /* OEFDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFDSSystemResponderClient.h; sourceTree = "<group>"; };
+		94619CBE15C50F8E0019AC8E /* controller_fc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc_mask.png; sourceTree = "<group>"; };
+		94619CBF15C50F8E0019AC8E /* controller_fc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc.png; sourceTree = "<group>"; };
+		94619CC015C50F8E0019AC8E /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94619CC115C50F8E0019AC8E /* famicom_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = famicom_library.png; sourceTree = "<group>"; };
 		94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual Boy.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A1E9C01586F3B600986376 /* Virtual Boy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Virtual Boy-Info.plist"; sourceTree = "<group>"; };
 		94A1E9C21586F3B600986376 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2157,6 +2195,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94619CA515C507B60019AC8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94619CB615C50EF00019AC8E /* OpenEmuSystem.framework in Frameworks */,
+				94619CA915C507B60019AC8E /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94A1E9B91586F3B600986376 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2359,6 +2406,7 @@
 				94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */,
 				941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */,
 				94619C8015C4C3190019AC8E /* Atari 5200.oesystemplugin */,
+				94619CA815C507B60019AC8E /* Nintendo FDS.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3647,6 +3695,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		94619CAA15C507B70019AC8E /* Nintendo FDS */ = {
+			isa = PBXGroup;
+			children = (
+				94619CB715C50F730019AC8E /* OEFDSSystemController.h */,
+				94619CB815C50F730019AC8E /* OEFDSSystemController.m */,
+				94619CB915C50F730019AC8E /* OEFDSSystemResponder.h */,
+				94619CBA15C50F730019AC8E /* OEFDSSystemResponder.m */,
+				94619CBB15C50F730019AC8E /* OEFDSSystemResponderClient.h */,
+				94619CAB15C507B70019AC8E /* Supporting Files */,
+			);
+			path = "Nintendo FDS";
+			sourceTree = "<group>";
+		};
+		94619CAB15C507B70019AC8E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94619CC115C50F8E0019AC8E /* famicom_library.png */,
+				94619CBE15C50F8E0019AC8E /* controller_fc_mask.png */,
+				94619CBF15C50F8E0019AC8E /* controller_fc.png */,
+				94619CAC15C507B70019AC8E /* Nintendo FDS-Info.plist */,
+				94619CC015C50F8E0019AC8E /* Controller-Preferences-Info.plist */,
+				94619CAD15C507B70019AC8E /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		94A1E9BE1586F3B600986376 /* Virtual Boy */ = {
 			isa = PBXGroup;
 			children = (
@@ -4039,6 +4113,7 @@
 				94EFD17C15ACA625009BED8F /* Sega CD */,
 				941DFB2E15B761B400C6552F /* Atari 2600 */,
 				94619C8215C4C3190019AC8E /* Atari 5200 */,
+				94619CAA15C507B70019AC8E /* Nintendo FDS */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -4422,6 +4497,24 @@
 			productReference = 94619C8015C4C3190019AC8E /* Atari 5200.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		94619CA715C507B60019AC8E /* Nintendo FDS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94619CB115C507B70019AC8E /* Build configuration list for PBXNativeTarget "Nintendo FDS" */;
+			buildPhases = (
+				94619CA415C507B60019AC8E /* Sources */,
+				94619CA515C507B60019AC8E /* Frameworks */,
+				94619CA615C507B60019AC8E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94619CB515C50EE40019AC8E /* PBXTargetDependency */,
+			);
+			name = "Nintendo FDS";
+			productName = "Nintendo FDS";
+			productReference = 94619CA815C507B60019AC8E /* Nintendo FDS.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		94A1E9BB1586F3B600986376 /* Virtual Boy */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 94A1E9C71586F3B700986376 /* Build configuration list for PBXNativeTarget "Virtual Boy" */;
@@ -4706,6 +4799,7 @@
 				94EFD17915ACA625009BED8F /* Sega CD */,
 				941DFB2B15B761B400C6552F /* Atari 2600 */,
 				94619C7F15C4C3190019AC8E /* Atari 5200 */,
+				94619CA715C507B60019AC8E /* Nintendo FDS */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -4993,6 +5087,18 @@
 				94619C9815C4D14B0019AC8E /* controller_5200_mask.png in Resources */,
 				94619C9915C4D14B0019AC8E /* controller_5200.png in Resources */,
 				94619C9A15C4D14B0019AC8E /* Controller-Preferences-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94619CA615C507B60019AC8E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94619CAF15C507B70019AC8E /* InfoPlist.strings in Resources */,
+				94619CC215C50F8F0019AC8E /* controller_fc_mask.png in Resources */,
+				94619CC315C50F8F0019AC8E /* controller_fc.png in Resources */,
+				94619CC415C50F8F0019AC8E /* Controller-Preferences-Info.plist in Resources */,
+				94619CC515C50F8F0019AC8E /* famicom_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5488,6 +5594,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94619CA415C507B60019AC8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94619CBC15C50F730019AC8E /* OEFDSSystemController.m in Sources */,
+				94619CBD15C50F730019AC8E /* OEFDSSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94A1E9B81586F3B600986376 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5762,6 +5877,16 @@
 			target = 94619C7F15C4C3190019AC8E /* Atari 5200 */;
 			targetProxy = 94619C9015C4CBEF0019AC8E /* PBXContainerItemProxy */;
 		};
+		94619CB515C50EE40019AC8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94619CB415C50EE40019AC8E /* PBXContainerItemProxy */;
+		};
+		94619CC715C50FB20019AC8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94619CA715C507B60019AC8E /* Nintendo FDS */;
+			targetProxy = 94619CC615C50FB20019AC8E /* PBXContainerItemProxy */;
+		};
 		94A1E9CA1586F5C000986376 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -5957,6 +6082,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				94619C8615C4C3190019AC8E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94619CAD15C507B70019AC8E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94619CAE15C507B70019AC8E /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -6555,6 +6688,54 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "Atari 5200/Atari 5200-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		94619CB215C507B70019AC8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "Nintendo FDS/Nintendo FDS-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		94619CB315C507B70019AC8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "Nintendo FDS/Nintendo FDS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -7297,6 +7478,14 @@
 			buildConfigurations = (
 				94619C8915C4C31A0019AC8E /* Debug */,
 				94619C8A15C4C31A0019AC8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		94619CB115C507B70019AC8E /* Build configuration list for PBXNativeTarget "Nintendo FDS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94619CB215C507B70019AC8E /* Debug */,
+				94619CB315C507B70019AC8E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
