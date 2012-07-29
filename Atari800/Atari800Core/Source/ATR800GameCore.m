@@ -28,7 +28,7 @@
 
 #import "ATR800GameCore.h"
 #import <OERingBuffer.h>
-#import "OEVBSystemResponderClient.h"
+#import "OE5200SystemResponderClient.h"
 #import <OpenGL/gl.h>
 
 //#import <IOKit/hid/IOHIDLib.h>
@@ -99,7 +99,7 @@ int PLATFORM_Exit(int run_monitor)
 // they get called off of the frame call
 int PLATFORM_PORT(int num)
 {
-/*	if(num < 4 && num >= 0) {
+	if(num < 4 && num >= 0) {
 		ATR5200ControllerState state = [currentCore controllerStateForPlayer:num];
 		if(state.up == 1 && state.left == 1) {
 			return INPUT_STICK_UL;
@@ -131,7 +131,7 @@ int PLATFORM_PORT(int num)
 			return INPUT_STICK_RIGHT;
 		}
 		return INPUT_STICK_CENTRE;
-	}*/
+	}
 	return 0xff;
 }
 
@@ -246,7 +246,7 @@ void ATR800WriteSoundBuffer(uint8_t *buffer, unsigned int len) {
 
 #pragma mark -
 
-@interface ATR800GameCore () <OEVBSystemResponderClient>
+@interface ATR800GameCore () <OE5200SystemResponderClient>
 - (void)renderToBuffer;
 @end
 
@@ -556,117 +556,80 @@ ATR800GameCore *current;
 
 #pragma mark - Input handling
 
-//- (void)didPushAtari5200Button:(OEAtari5200Button)button forPlayer:(NSUInteger)player
-- (oneway void)didPushVBButton:(OEVBButton)button forPlayer:(NSUInteger)player
+- (oneway void)didPush5200Button:(OE5200Button)button forPlayer:(NSUInteger)player
 {
-   player--;
-   NSLog(@"Pressed: %i", button);
-   switch (button) {
-   case OEVBButtonA:
-   controllerStates[player].fire = 1;
-   break;
-   case OEVBButtonLeftUp:
-   controllerStates[player].up = 1;
-   break;
-   case OEVBButtonLeftDown:
-   controllerStates[player].down = 1;
-   break;
-   case OEVBButtonLeftLeft:
-   controllerStates[player].left = 1;
-   break;
-   case OEVBButtonLeftRight:
-   controllerStates[player].right = 1;
-   break;
-   case OEVBButtonStart:
-   //			controllerStates[player].start = 1;
-   INPUT_key_code = AKEY_5200_START;
-   break;
-   default:
-   break;
-   }
-    /*
 	player--;
 	NSLog(@"Pressed: %i", button);
 	switch (button) {
-		case OEAtari5200ButtonFire:
+		case OE5200ButtonFire1:
 			controllerStates[player].fire = 1;
 			break;
-		case OEAtari5200ButtonUp:
+        case OE5200ButtonFire2:
+			//controllerStates[player].fire2 = 1;
+            INPUT_key_shift = 1; //AKEY_SHFTCTRL
+			break;
+		case OE5200ButtonUp:
 			controllerStates[player].up = 1;
 			break;
-		case OEAtari5200ButtonDown:
+		case OE5200ButtonDown:
 			controllerStates[player].down = 1;
 			break;
-		case OEAtari5200ButtonLeft:
+		case OE5200ButtonLeft:
 			controllerStates[player].left = 1;
 			break;
-		case OEAtari5200ButtonRight:
+		case OE5200ButtonRight:
 			controllerStates[player].right = 1;
 			break;
-		case OEAtari5200ButtonStart:
+		case OE5200ButtonStart:
 //			controllerStates[player].start = 1;
 			INPUT_key_code = AKEY_5200_START;
 			break;
+        case OE5200ButtonPause:
+            INPUT_key_code = AKEY_5200_PAUSE;
+            break;
+        case OE5200ButtonReset:
+            INPUT_key_code = AKEY_5200_RESET;
 		default:
 			break;
-	}*/
+	}
 }
 
-//- (void)didReleaseAtari5200Button:(OEAtari5200Button)button forPlayer:(NSUInteger)player
-- (oneway void)didReleaseVBButton:(OEVBButton)button forPlayer:(NSUInteger)player
+- (oneway void)didRelease5200Button:(OE5200Button)button forPlayer:(NSUInteger)player
 {
     player--;
-    NSLog(@"Pressed: %i", button);
+    NSLog(@"Released: %i", button);
     switch (button) {
-        case OEVBButtonA:
+        case OE5200ButtonFire1:
             controllerStates[player].fire = 0;
             break;
-        case OEVBButtonLeftUp:
+        case OE5200ButtonFire2:
+            //controllerStates[player].fire2 = 0;
+            INPUT_key_shift = 0;
+            break;
+        case OE5200ButtonUp:
             controllerStates[player].up = 0;
             break;
-        case OEVBButtonLeftDown:
+        case OE5200ButtonDown:
             controllerStates[player].down = 0;
             break;
-        case OEVBButtonLeftLeft:
+        case OE5200ButtonLeft:
             controllerStates[player].left = 0;
             break;
-        case OEVBButtonLeftRight:
+        case OE5200ButtonRight:
             controllerStates[player].right = 0;
             break;
-        case OEVBButtonStart:
+        case OE5200ButtonStart:
             //			controllerStates[player].start = 1;
             INPUT_key_code = AKEY_NONE;
             break;
+        case OE5200ButtonPause:
+            INPUT_key_code = AKEY_NONE;
+            break;
+        case OE5200ButtonReset:
+            INPUT_key_code = AKEY_NONE;
         default:
             break;
     }
-    
-    /*
-	player--;
-	NSLog(@"Unpressed: %i", button);
-	switch (button) {
-		case OEAtari5200ButtonFire:
-			controllerStates[player].fire = 0;
-			break;
-		case OEAtari5200ButtonUp:
-			controllerStates[player].up = 0;
-			break;
-		case OEAtari5200ButtonDown:
-			controllerStates[player].down = 0;
-			break;
-		case OEAtari5200ButtonLeft:
-			controllerStates[player].left = 0;
-			break;
-		case OEAtari5200ButtonRight:
-			controllerStates[player].right = 0;
-			break;
-		case OEAtari5200ButtonStart:
-//			controllerStates[player].start = 0;
-			INPUT_key_code = AKEY_NONE;
-			break;
-		default:
-			break;
-	}*/
 }
 
 @end

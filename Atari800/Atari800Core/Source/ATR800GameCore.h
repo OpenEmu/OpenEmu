@@ -29,14 +29,15 @@
 #import <OpenEmuBase/OEGameCore.h>
 
 typedef struct {
-	int fire;
-	int start;
-	int pause;
-	int reset;
 	int up;
 	int down;
 	int left;
 	int right;
+	int fire;
+	int fire2;
+	int start;
+	int pause;
+	int reset;
 } ATR5200ControllerState;
 
 @class OERingBuffer;
