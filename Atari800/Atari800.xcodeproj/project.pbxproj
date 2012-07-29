@@ -83,7 +83,6 @@
 		020422D81434143D00659DB5 /* ATR800GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATR800GameController.h; path = Source/ATR800GameController.h; sourceTree = "<group>"; };
 		020422D91434143D00659DB5 /* ATR800GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ATR800GameController.m; path = Source/ATR800GameController.m; sourceTree = "<group>"; };
 		02252B371437A377001F3BF4 /* emuos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = emuos.h; path = "atari800-src/emuos.h"; sourceTree = SOURCE_ROOT; };
-		02669C5B143562DE0002A11B /* OEAtari5200SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEAtari5200SystemResponderClient.h; path = "../../OpenEmu/Atari 5200/OEAtari5200SystemResponderClient.h"; sourceTree = "<group>"; };
 		02669C741435806A0002A11B /* sound_oss.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sound_oss.c; path = "atari800-src/sound_oss.c"; sourceTree = SOURCE_ROOT; };
 		02669C751435806A0002A11B /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sound.h; path = "atari800-src/sound.h"; sourceTree = SOURCE_ROOT; };
 		02695361143169EB003A07D4 /* Atari800.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Atari800.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,8 +177,8 @@
 		02E763C314319545008050EA /* ui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ui.h; path = "atari800-src/ui.h"; sourceTree = SOURCE_ROOT; };
 		02E763C61431958E008050EA /* input.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = input.c; path = "atari800-src/input.c"; sourceTree = SOURCE_ROOT; };
 		02E763C71431958E008050EA /* input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = input.h; path = "atari800-src/input.h"; sourceTree = SOURCE_ROOT; };
-		94A1EA14158710AF00986376 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
-		94A1EA161587115D00986376 /* OEVBSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEVBSystemResponderClient.h; path = "../../OpenEmu/Virtual Boy/OEVBSystemResponderClient.h"; sourceTree = "<group>"; };
+		94619CA315C4D2B10019AC8E /* OE5200SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OE5200SystemResponderClient.h; path = "../../OpenEmu/Atari 5200/OE5200SystemResponderClient.h"; sourceTree = "<group>"; };
+		94A1EA14158710AF00986376 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -348,8 +347,7 @@
 		0269541514317842003A07D4 /* CorePlugin */ = {
 			isa = PBXGroup;
 			children = (
-				94A1EA161587115D00986376 /* OEVBSystemResponderClient.h */,
-				02669C5B143562DE0002A11B /* OEAtari5200SystemResponderClient.h */,
+				94619CA315C4D2B10019AC8E /* OE5200SystemResponderClient.h */,
 				0269544514317B62003A07D4 /* platform.h */,
 				0269544614317D34003A07D4 /* ATR800GameCore.h */,
 				0269544714317D34003A07D4 /* ATR800GameCore.m */,

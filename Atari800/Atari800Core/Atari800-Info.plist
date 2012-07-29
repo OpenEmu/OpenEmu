@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.1.0</string>
+	<string>2.2.1</string>
 	<key>NSPrincipalClass</key>
 	<string>OEGameCoreController</string>
 	<key>OEGameCoreClass</key>
@@ -28,7 +28,7 @@
 	<string></string>
 	<key>OESystemIdentifiers</key>
 	<array>
-		<string>openemu.system.vb</string>
+		<string>openemu.system.5200</string>
 	</array>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
