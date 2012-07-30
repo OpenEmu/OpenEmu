@@ -763,7 +763,7 @@ namespace Nes
 				for (uint i=0; i < MEM_NUM_PAGES; ++i)
 				{
 					if (pageData[i*3+0] < NUM_SOURCES)
-						Source( pageData[i*3+0] ).SwapBank<MEM_PAGE_SIZE>( i * MEM_PAGE_SIZE, pageData[i*3+1] | uint(pageData[i*3+2]) << 8 );
+						Source( pageData[i*3+0] ).template SwapBank<MEM_PAGE_SIZE>( i * MEM_PAGE_SIZE, pageData[i*3+1] | uint(pageData[i*3+2]) << 8 );
 					else
 						throw RESULT_ERR_CORRUPT_FILE;
 				}
