@@ -40,6 +40,7 @@
 #include <NstApiRewinder.hpp>
 #include <NstApiRam.h>
 #include <NstApiMovie.hpp>
+#include <NstApiFds.hpp>
 #include <NstMachine.hpp>
 #include <iostream>
 #include <fstream>
@@ -57,6 +58,8 @@ NSUInteger NESControlValues[] = { Nes::Api::Input::Controllers::Pad::UP, Nes::Ap
 @synthesize romPath;
 
 UInt32 bufInPos, bufOutPos, bufUsed;
+
+char biosFilePath[2048];
 
 static bool NST_CALLBACK VideoLock(void* userData, Nes::Api::Video::Output& video)
 {
@@ -372,6 +375,16 @@ void NST_CALLBACK doEvent(void* userData, Nes::Api::Machine::Event event,Nes::Re
     Nes::Api::User::logCallback.Set(doLog, userData);
     Nes::Api::Machine::eventCallback.Set(doEvent, userData);
     Nes::Api::User::questionCallback.Set(doQuestion, userData);
+    
+    Nes::Api::Fds fds(*emu);
+    NSString *appSupportPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+                                  stringByAppendingPathComponent:@"Application Support"]
+                                 stringByAppendingPathComponent:@"OpenEmu"]
+                                stringByAppendingPathComponent:@"BIOS"];
+    
+    strcpy(biosFilePath, [[appSupportPath stringByAppendingPathComponent:@"disksys.rom"] UTF8String]);
+    std::ifstream biosFile(biosFilePath, std::ios::in | std::ios::binary);
+    fds.SetBIOS(&biosFile);
     
     std::ifstream romFile([path cStringUsingEncoding:NSUTF8StringEncoding], std::ios::in | std::ios::binary);
     result = machine.Load(romFile, Nes::Api::Machine::FAVORED_NES_PAL, Nes::Api::Machine::ASK_PROFILE);
@@ -760,6 +773,24 @@ static int Heights[2] =
 {
     return [self isNTSCEnabled] ? OESizeMake(Widths[1], Heights[1]*2)
                                 : OESizeMake(Widths[0], Heights[0]);
+}
+
+- (void)didPushFDSChangeSideButton;
+{
+    Nes::Api::Fds fds(*emu);
+    //fds.ChangeSide();
+    //NSLog(@"didPushFDSChangeSideButton");
+	Nes::Result result;
+	if (fds.IsAnyDiskInserted())
+		result = fds.ChangeSide();
+	else
+		result = fds.InsertDisk(0, 0);
+	NSLog(@"didPushFDSChangeSideButton: %d", result);
+}
+
+- (void)didReleaseFDSChangeSideButton;
+{
+    
 }
 
 @end

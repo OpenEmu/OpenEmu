@@ -31,6 +31,7 @@
 	<key>OESystemIdentifiers</key>
 	<array>
 		<string>openemu.system.nes</string>
+		<string>openemu.system.fds</string>
 	</array>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
