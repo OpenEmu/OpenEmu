@@ -69,6 +69,9 @@ NSLog(@"View Hierarchy: %@", viewHierachy);                                     
 #pragma mark - Notification Names
 #define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"
 
+#define OESidebarSelectionDidChangeNotificationName                     @"OESidebarSelectionDidChange"
+#define OESidebarSelectionDidChangeSelectedItemUserInfoKey           @"SelectedItem"
+
 #define OEPreferencesOpenPaneNotificationName @"OEPrefOpenPane"
 #define OEPreferencesOpenPanelUserInfoPanelNameKey @"panelName"
 #define OEPreferencesOpenPanelUserInfoSystemIdentifierKey @"systemIdentifier"

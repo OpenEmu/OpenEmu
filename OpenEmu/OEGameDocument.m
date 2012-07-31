@@ -37,7 +37,6 @@
 
 #import "OEBackgroundColorView.h"
 
-#import "OEROMImporter.h"
 #import "OEDistantViewController.h"
 #import "NSViewController+OEAdditions.h"
 #import "NSView+FadeImage.h"
@@ -150,8 +149,6 @@
 
 - (void)dealloc
 {
-    DLog(@"dealloc OEGameDocument");
-
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowWillCloseNotification object:[self popoutWindow]];
 }
@@ -165,8 +162,6 @@
 
 - (void)showInSeparateWindow:(id)sender;
 {
-    DLog(@"show in separate window");
-    
     // Create a window, set gameviewcontroller.view as view, open it
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     

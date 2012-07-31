@@ -27,9 +27,13 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol OESidebarDataSourceItem <NSObject>
-- (NSImage*)sidebarIcon;
+@protocol OESidebarItem <NSObject>
+- (NSImage *)sidebarIcon;
 - (NSString*)sidebarName;
+- (NSString*)sidebarID;
+
+- (NSString*)viewControllerClassName;
+
 - (void)setSidebarName:(NSString*)newName;
 - (BOOL)isSelectableInSdebar;
 - (BOOL)isEditableInSdebar;

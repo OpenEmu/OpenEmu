@@ -170,11 +170,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     [super prepareOpenGL];
     
-    DLog(@"prepareOpenGL");        
+    DLog(@"prepareOpenGL");
     // Synchronize buffer swaps with vertical refresh rate
     GLint swapInt = 1;
     
-    [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval]; 
+    [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
     
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);

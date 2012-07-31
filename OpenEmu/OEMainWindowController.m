@@ -31,6 +31,7 @@
 #import "OEMainWindow.h"
 #import "OESetupAssistant.h"
 #import "OELibraryController.h"
+
 #import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
 
@@ -99,9 +100,8 @@
         [setupAssistant setCompletionBlock:
          ^(BOOL discoverRoms, NSArray* volumes)
          {
-             if(discoverRoms) 
-                 [[self libraryController] discoverRoms:volumes];
-             
+             if(discoverRoms)
+                 [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
              [self setCurrentContentController:[self libraryController]];
          }];
         

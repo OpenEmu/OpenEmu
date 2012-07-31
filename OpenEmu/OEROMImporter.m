@@ -28,7 +28,7 @@
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
 #import "OEDBGame.h"
-
+#import "OESystemPlugin.h"
 #import "NSURL+OELibraryAdditions.h"
 
 @interface OEROMImporter ()
@@ -44,22 +44,31 @@
 // url must not point to a directory
 - (BOOL)OE_performImportWithFileURL:(NSURL *)url error:(NSError *__autoreleasing *)outError;
 
+@property (weak) OELibraryDatabase *database;
+
+// spotlight search results.
+@property(readwrite, retain) NSMutableArray *searchResults;
+
+@property BOOL isBusy;
 @end
 
 @implementation OEROMImporter
-@synthesize errorBehaviour, database;
+@synthesize errorBehaviour, database, isBusy, delegate;
 
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase
 {
     self = [super init];
     if (self) {
-        self.database = aDatabase;
+        [self setDatabase:aDatabase];
         
         processingQueue = dispatch_queue_create("org.openemu.processROMs", NULL);
         dispatch_queue_t priority = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_set_target_queue(processingQueue, priority);
         
         importedRoms = [[NSMutableArray alloc] init];
+        self.searchResults = [[NSMutableArray alloc] initWithCapacity:1];
+        
+        self.isBusy = YES;
     }
     return self;
 }
@@ -289,6 +298,164 @@
 - (NSArray *)importedRoms
 {
     return importedRoms;
+}
+
+#pragma mark - Controlling Import
+- (void)pause{}
+- (void)start{}
+- (void)cancel{}
+- (void)removeFinished{}
+
+- (NSUInteger)items{
+    return 0;
+}
+- (NSUInteger)finishedItems{
+    return 0;
+}
+
+#pragma mark -
+#pragma mark -
+#pragma mark Spotlight Importing
+@synthesize searchResults;
+- (void)discoverRoms:(NSArray*)volumes
+{
+    // TODO: limit searching or results to the volume URLs only.
+    
+    NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
+    
+    // We skip common types by default.
+    NSArray *commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
+    
+    [supportedFileExtensions removeObjectsInArray:commonTypes];
+    
+    //NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
+    
+    NSString *searchString = @"";
+    for(NSString *extension in supportedFileExtensions)
+    {
+        searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension];
+        searchString = [searchString stringByAppendingString:@" || "];
+    }
+    
+    searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
+    
+    DLog(@"SearchString: %@", searchString);
+    
+    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (__bridge CFStringRef)searchString, NULL, NULL);
+    
+    if(searchQuery)
+    {
+        // Limit Scope to selected volumes / URLs only
+        MDQuerySetSearchScope(searchQuery, (__bridge CFArrayRef) volumes, 0);
+        
+        DLog(@"Valid search query ref");
+        
+        [[self searchResults] removeAllObjects];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
+                                                     name:(NSString*)kMDQueryDidFinishNotification
+                                                   object:(__bridge id)searchQuery];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
+                                                     name:(NSString*)kMDQueryProgressNotification
+                                                   object:(__bridge id)searchQuery];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
+                                                     name:(NSString*)kMDQueryDidUpdateNotification
+                                                   object:(__bridge id)searchQuery];
+        
+        if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
+            NSLog(@"Searching for importable roms");
+        else
+        {
+            CFRelease(searchQuery);
+            searchQuery = nil;
+            // leave this log message in...
+            NSLog(@"MDQuery failed to start.");
+        }
+        
+    }
+    else
+        NSLog(@"Invalid Search Query");
+}
+
+- (void)updateSearchResults:(NSNotification *)notification
+{
+    DLog(@"updateSearchResults:");
+    
+    MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];
+    
+    
+    // If you're going to have the same array for every iteration,
+    // don't allocate it inside the loop !
+    NSArray *excludedPaths = [NSArray arrayWithObjects:
+                              @"System",
+                              @"Library",
+                              @"Developer",
+                              @"Volumes",
+                              @"Applications",
+                              @"bin",
+                              @"cores",
+                              @"dev",
+                              @"etc",
+                              @"home",
+                              @"net",
+                              @"sbin",
+                              @"private",
+                              @"tmp",
+                              @"usr",
+                              @"var",
+                              @"ReadMe", // markdown
+                              @"readme", // markdown
+                              @"README", // markdown
+                              @"Readme", // markdown
+                              
+                              nil];
+    
+    // assume the latest result is the last index?
+    for(CFIndex index = 0, limit = MDQueryGetResultCount(searchQuery); index < limit; index++)
+    {
+        MDItemRef resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
+        NSString *resultPath = (__bridge_transfer NSString *)MDItemCopyAttribute(resultItem, kMDItemPath);
+        
+        // Nothing in common
+        if([[resultPath pathComponents] firstObjectCommonWithArray:excludedPaths] == nil)
+        {
+            NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                        resultPath, @"Path",
+                                        [[resultPath lastPathComponent] stringByDeletingPathExtension], @"Name",
+                                        nil];
+            
+            if(![[self searchResults] containsObject:resultDict])
+            {
+                [[self searchResults] addObject:resultDict];
+                
+                //                NSLog(@"Result Path: %@", resultPath);
+            }
+        }
+    }
+}
+
+- (void)finalizeSearchResults:(NSNotification *)notification
+{
+    MDQueryRef searchQuery = (__bridge_retained MDQueryRef)[notification object];    
+    NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
+    
+    if(MDQueryGetResultCount(searchQuery))
+    {
+        [self importInBackground];
+        
+        MDQueryStop(searchQuery);
+    }
+    
+    CFRelease(searchQuery);
+}
+
+- (void)importInBackground;
+{
+    NSLog(@"importInBackground");
+    
+    [self importROMsAtPaths:[[self searchResults] valueForKey:@"Path"] inBackground:YES error:nil];;
 }
 
 @end

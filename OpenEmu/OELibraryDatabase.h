@@ -25,9 +25,9 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#import "OEROMImporter.h"
 @class OEDBSystem, OEDBGame, OEDBRom;
-
+@class OEROMImporter;
 #define OELibraryErrorCodeFolderNotFound 11789
 #define OELibraryErrorCodeFileInFolderNotFound 11790
 
@@ -49,6 +49,9 @@
 
 + (OELibraryDatabase*)defaultDatabase;
 - (id)objectWithURI:(NSURL*)uri;
+#pragma mark -
+@property (strong) OEROMImporter *importer;
+
 #pragma mark -
 #pragma mark Administration
 - (void)disableSystemsWithoutPlugin;

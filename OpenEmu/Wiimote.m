@@ -27,8 +27,8 @@
 // this type is used a lot (data array):
 typedef unsigned char darr[];
 typedef enum {
-	kWiiRemoteTwoButton					= 0x0001,
-	kWiiRemoteOneButton					= 0x0002,
+	kWiiRemoteTwoButton				= 0x0001,
+	kWiiRemoteOneButton				= 0x0002,
 	kWiiRemoteBButton					= 0x0004,
 	kWiiRemoteAButton					= 0x0008,
 	kWiiRemoteMinusButton				= 0x0010,
@@ -74,6 +74,7 @@ typedef enum {
 @property BOOL statusReportRequested;
 @property float batteryLevel;
 @property WiiExpansionType expansionType;
+
 - (IOBluetoothL2CAPChannel *) openL2CAPChannelWithPSM:(BluetoothL2CAPPSM) psm delegate:(id) delegate;
 @end
 
@@ -473,10 +474,7 @@ typedef enum {
     
     if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
         return;
-    
-    if((buttonChanges & kWiiRemoteHomeButton) && (data & kWiiRemoteHomeButton))
-        [self readData:0x04a400fe length:2]; // read expansion type
-    
+
     // One, Two, A, B Buttons:
 	if (buttonChanges & kWiiRemoteOneButton){
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteOneButton isPressed:(data & kWiiRemoteOneButton)!=0];
@@ -606,7 +604,6 @@ typedef enum {
     if (buttonChanges & kWiiClassicControllerPlusButton){
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerPlusButton isPressed:(data & kWiiClassicControllerPlusButton)!=0];
     }
-    
     
     // D-Pad Buttons:
     if (buttonChanges & kWiiClassicControllerUpButton){

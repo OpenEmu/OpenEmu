@@ -34,7 +34,6 @@
 @private
     NSArray *groups;
     OELibraryDatabase *database;
-    
     NSArray *systems, *collections;
 @private
     id editingItem;
