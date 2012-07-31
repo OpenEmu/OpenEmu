@@ -34,7 +34,7 @@
 @class OESidebarController;
 @class OELibrarySplitView;
 
-@protocol OELibraryControllerDelegate;
+@protocol OELibraryControllerDelegate, OELibrarySubviewController;
 
 @interface OELibraryController : NSViewController <OEMainWindowContentController>
 - (void)layoutToolbarItems;
@@ -71,7 +71,7 @@
 @property (strong)    OELibraryDatabase *database;
 
 @property (strong) IBOutlet OESidebarController         *sidebarController;
-@property (strong) NSViewController *currentViewController;
+@property (strong) NSViewController <OELibrarySubviewController> *currentViewController;
 
 @property (strong) IBOutlet OELibrarySplitView           *mainSplitView;
 @property (strong) IBOutlet NSView                          *mainContentPlaceholderView;

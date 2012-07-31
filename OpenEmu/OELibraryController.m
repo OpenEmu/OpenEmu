@@ -38,6 +38,7 @@
 #import "OESystemPlugin.h"
 #import "NSViewController+OEAdditions.h"
 
+#import "OEDBGame.h"
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
@@ -330,14 +331,12 @@
 #pragma mark -
 - (IBAction)startGame:(id)sender
 {
-    /*
-    OEDBGame *selectedGame = [[[self collectionViewController] selectedGames] lastObject];
-    
+    NSAssert([(id)[self currentViewController] respondsToSelector:@selector(selectedGames)], @"Attempt to start a game from a view controller that doesn't announc selectedGames");
+    id selectedGame = [[(id)[self currentViewController] selectedGames] lastObject];
     NSAssert(selectedGame != nil, @"Attempt to start a game while the selection is empty");
-    
+
     if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
         [[self delegate] libraryController:self didSelectGame:selectedGame];
-     */
 }
 
 - (void)startSelectedGameWithSaveState:(id)stateItem
@@ -352,15 +351,15 @@
 
 #pragma mark -
 #pragma mark Sidebar Helpers
-- (void)showViewController:(NSViewController*)newViewController
+- (void)showViewController:(NSViewController <OELibrarySubviewController>*)nextViewController
 {
-    NSViewController *oldViewController = [self currentViewController];
-    if(newViewController == oldViewController) return;
+    NSViewController <OELibrarySubviewController> *oldViewController = [self currentViewController];
+    if(nextViewController == oldViewController) return;
     
     [oldViewController viewWillDisappear];
-    [newViewController viewWillAppear];
+    [nextViewController viewWillAppear];
     
-    NSView *newView    = [newViewController view];
+    NSView *newView    = [nextViewController view];
     if(oldViewController)
     {
         NSView *superView = [[oldViewController view] superview];
@@ -377,11 +376,11 @@
         [newView setFrame:[mainContentView bounds]];
         [mainContentView addSubview:newView];
     }
-    [self setCurrentViewController:newViewController];
+    [self setCurrentViewController:nextViewController];
     [self OE_setupToolbarItems];
     [self OE_setupMenu];
     
-    [newViewController viewDidAppear];
+    [nextViewController viewDidAppear];
     [oldViewController viewDidDisappear];
 }
 

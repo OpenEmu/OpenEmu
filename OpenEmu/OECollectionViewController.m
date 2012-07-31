@@ -325,8 +325,8 @@
 #pragma mark - OELibrarySubviewControllerProtocol Implementation
 - (void)setItem:(id)item
 {
-    if(item != collectionItem)
-        [self setCollectionItem:item];
+    collectionItem = item;
+    [self OE_reloadData];
 }
 
 - (id)selectedItem

@@ -5001,7 +5001,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = x86_64;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
 				PRODUCT_NAME = Disribution;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -5009,7 +5012,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = x86_64;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
 				PRODUCT_NAME = Disribution;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
 		};
@@ -5175,7 +5181,7 @@
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -5196,7 +5202,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
