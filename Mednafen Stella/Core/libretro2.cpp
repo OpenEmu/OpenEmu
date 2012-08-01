@@ -43,7 +43,7 @@ struct					Stella
 Stella*				stella;
 
 static uint16_t frame_buffer[256*160];
-
+uint8_t samplebuffer[2048];
 //Set the palette for the current stella instance
 void stellaMDFNSetPalette (const uInt32* palette)
 {
@@ -313,11 +313,10 @@ void retro_run(void)
 
     //AUDIO
     //Get the number of samples in a frame
-    uint32_t soundFrameSize = 34100.0f / stella->GameConsole->getFramerate();
-    //uint32_t soundFrameSize = 44100.0f / stella->GameConsole->getFramerate();
+    uint32_t soundFrameSize = 31400.0f / stella->GameConsole->getFramerate();
     
     //Process one frame of audio from stella
-    uint8_t samplebuffer[2048];
+
     //const int16_t * final_samplebuffer;
     stella->Sound.processFragment(samplebuffer, soundFrameSize);
     

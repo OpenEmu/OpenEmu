@@ -123,7 +123,7 @@ void SoundSDL::processFragment(uInt8* stream, Int32 length)
 
       // How long will the remaining samples in the fragment take to play
 //      double duration = remaining / (double)myHardwareSpec.freq;
-      double duration = remaining / 34100.0;
+      double duration = remaining / 31400.0;
 
       // Does the register update occur before the end of the fragment?
       if(info.delta <= duration)
@@ -135,7 +135,7 @@ void SoundSDL::processFragment(uInt8* stream, Int32 length)
           // Process the fragment upto the next TIA register write.  We
           // round the count passed to process up if needed.
 //          double samples = (myHardwareSpec.freq * info.delta);
-          double samples = (34100.0 * info.delta);
+          double samples = (31400.0 * info.delta);
           myTIASound.process(stream + ((uInt32)position), (uInt32)samples + (uInt32)(position + samples) - ((uInt32)position + (uInt32)samples));
 
           position += samples;
