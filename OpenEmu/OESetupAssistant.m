@@ -128,6 +128,8 @@
         self.enabledCoresForDownloading = [NSMutableArray array];
         self.enabledVolumesForDownloading = [NSMutableArray array];
         
+        self.deviceHandlers = [[[NSApp delegate] HIDManager] deviceHandlers];
+    
         // udpate our data for our volumes
         [self reload];
     }
@@ -182,6 +184,10 @@
     
     // Time bringing in our first view to conincide with our animation
     [self performSelector:@selector(toStep1:) withObject:nil afterDelay:10.0];
+}
+
+- (void)viewDidAppear
+{
 }
 
 #pragma mark -

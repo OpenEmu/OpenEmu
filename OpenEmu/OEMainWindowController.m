@@ -50,8 +50,7 @@
 @synthesize allowWindowResizing;
 @synthesize libraryController;
 @synthesize placeholderView;
-@synthesize deviceHandlers;
-@synthesize coreList;
+
 + (void)initialize
 {
     if(self == [OEMainWindowController class])
@@ -74,7 +73,7 @@
     currentContentController = nil;
     [self setDefaultContentController:nil];
     [self setLibraryController:nil];
-    [self setPlaceholderView:nil]; 
+    [self setPlaceholderView:nil];
 }
 
 - (void)windowDidLoad
@@ -95,8 +94,6 @@
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSetupAssistantHasRun])
     {
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
-        [setupAssistant setDeviceHandlers:[self deviceHandlers]];
-        
         [setupAssistant setCompletionBlock:
          ^(BOOL discoverRoms, NSArray* volumes)
          {
@@ -104,7 +101,9 @@
                  [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
              [self setCurrentContentController:[self libraryController]];
          }];
-        
+
+        [[self window] center];
+
         [self setCurrentContentController:setupAssistant];
     }
     else
@@ -260,6 +259,8 @@
 {
     [self setCurrentContentController:nil];
 }
+
+
 
 #pragma mark -
 #pragma mark Menu Items

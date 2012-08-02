@@ -110,9 +110,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
     [OECompositionPlugin allPluginNames];
     
-    [mainWindowController setDeviceHandlers:[[self HIDManager] deviceHandlers]];
-    [mainWindowController setCoreList:[[OECoreUpdater sharedUpdater] coreList]];
-    
     [mainWindowController showWindow:self];
 	
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
