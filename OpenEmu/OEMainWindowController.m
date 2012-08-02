@@ -68,6 +68,15 @@
     }
 }
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self setAllowWindowResizing:YES];
+    }
+    return self;
+}
+
 - (void)dealloc 
 {
     currentContentController = nil;
@@ -259,8 +268,6 @@
 {
     [self setCurrentContentController:nil];
 }
-
-
 
 #pragma mark -
 #pragma mark Menu Items
