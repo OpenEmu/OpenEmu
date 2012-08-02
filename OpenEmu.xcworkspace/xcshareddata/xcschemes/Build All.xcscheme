@@ -65,7 +65,7 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "NO"
+            buildForProfiling = "YES"
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
@@ -270,6 +270,20 @@
                BuildableName = "Build &amp; Install Atari800"
                BlueprintName = "Build &amp; Install Atari800"
                ReferencedContainer = "container:Atari800/Atari800.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
+               BuildableName = "Build &amp; Install FB Alpha"
+               BlueprintName = "Build &amp; Install FB Alpha"
+               ReferencedContainer = "container:FB Alpha/FB Alpha.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
