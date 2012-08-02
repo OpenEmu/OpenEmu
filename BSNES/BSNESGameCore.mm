@@ -81,7 +81,7 @@ static void video_callback(const uint16_t *data, unsigned width, unsigned height
         uint16_t *dst = current->videoBuffer + y * 512;
 
         for (int x = 0; x < width; x++) {
-            dst[x] = conv555Rto565(src[x]);
+            dst[x] = src[x];
         }
     });
 }
@@ -318,12 +318,12 @@ static void writeSaveFile(const char* path, int type)
 
 - (GLenum)pixelFormat
 {
-    return GL_RGB;
+    return GL_BGRA;
 }
 
 - (GLenum)pixelType
 {
-    return GL_UNSIGNED_SHORT_5_6_5;
+    return GL_UNSIGNED_SHORT_1_5_5_5_REV;
 }
 
 - (GLenum)internalPixelFormat
