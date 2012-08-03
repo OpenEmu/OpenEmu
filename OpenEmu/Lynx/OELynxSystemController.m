@@ -44,7 +44,7 @@
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OELynxButtonUo[1]"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OELynxButtonUp[1]"    ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OELynxButtonDown[1]"  ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OELynxButtonLeft[1]"  ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OELynxButtonRight[1]" ,
