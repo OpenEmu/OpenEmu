@@ -27,7 +27,7 @@
 **  - added YM2612 Context external access functions
 **  - fixed LFO implementation:
 **      .added support for CH3 special mode: fixes various sound effects (birds in Warlock, bug sound in Aladdin...)
-**      .modified LFO behavior when switched off (AM/PM current level is held) and on (LFO step is reseted): fixes intro in Spider-Man & Venom : Separation Anxiety
+**      .inverted LFO AM waveform: fixes Spider-Man & Venom : Separation Anxiety (intro), California Games (surfing event)
 **      .improved LFO timing accuracy: now updated AFTER sample output, like EG/PG updates, and without any precision loss anymore.
 **  - improved internal timers emulation
 **  - adjusted lowest EG rates increment values
@@ -1041,12 +1041,12 @@ INLINE void advance_lfo()
       /* There are 128 LFO steps */
       ym2612.OPN.lfo_cnt = ( ym2612.OPN.lfo_cnt + 1 ) & 127;
 
-      /* triangle */
-      /* AM: 0 to 126 step +2, 126 to 0 step -2 */
+      /* triangle (inverted) */
+      /* AM: from 126 to 0 step -2, 0 to 126 step +2 */
       if (ym2612.OPN.lfo_cnt<64)
-        ym2612.OPN.LFO_AM = ym2612.OPN.lfo_cnt * 2;
+        ym2612.OPN.LFO_AM = (ym2612.OPN.lfo_cnt ^ 63) << 1;
       else
-        ym2612.OPN.LFO_AM = 126 - ((ym2612.OPN.lfo_cnt&63) * 2);
+        ym2612.OPN.LFO_AM = (ym2612.OPN.lfo_cnt & 63) << 1;
 
       /* PM works with 4 times slower clock */
       ym2612.OPN.LFO_PM = ym2612.OPN.lfo_cnt >> 2;
@@ -1506,22 +1506,17 @@ INLINE void OPNWriteMode(int r, int v)
     case 0x22:  /* LFO FREQ (YM2608/YM2610/YM2610B/ym2612) */
       if (v&8) /* LFO enabled ? */
       {
-        if (!ym2612.OPN.lfo_timer_overflow)
-        {
-          /* restart LFO */
-          ym2612.OPN.lfo_cnt   = 0;
-          ym2612.OPN.lfo_timer = 0;
-          ym2612.OPN.LFO_AM    = 0;
-          ym2612.OPN.LFO_PM    = 0;
-        }
-
         ym2612.OPN.lfo_timer_overflow = lfo_samples_per_step[v&7] << LFO_SH;
       }
       else
       {
+        /* hold LFO waveform in reset state */
         ym2612.OPN.lfo_timer_overflow = 0;
+        ym2612.OPN.lfo_timer = 0;
+        ym2612.OPN.lfo_cnt = 0;
+        ym2612.OPN.LFO_PM = 0;
+        ym2612.OPN.LFO_AM = 126;
       }
-
       break;
     case 0x24:  /* timer A High 8*/
       ym2612.OPN.ST.TA = (ym2612.OPN.ST.TA & 0x03)|(((int)v)<<2);
@@ -1954,7 +1949,7 @@ void YM2612ResetChip(void)
   ym2612.OPN.lfo_timer_overflow = 0;
   ym2612.OPN.lfo_timer          = 0;
   ym2612.OPN.lfo_cnt            = 0;
-  ym2612.OPN.LFO_AM             = 0;
+  ym2612.OPN.LFO_AM             = 126;
   ym2612.OPN.LFO_PM             = 0;
 
   ym2612.OPN.ST.TAC       = 0;
