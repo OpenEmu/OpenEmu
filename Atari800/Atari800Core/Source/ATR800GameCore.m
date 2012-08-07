@@ -570,6 +570,8 @@ ATR800GameCore *current;
 			break;
 		case OE5200ButtonUp:
 			controllerStates[player].up = 1;
+            //INPUT_key_code = AKEY_UP ^ AKEY_CTRL;
+            //INPUT_key_code = INPUT_STICK_FORWARD;
 			break;
 		case OE5200ButtonDown:
 			controllerStates[player].down = 1;
@@ -608,6 +610,7 @@ ATR800GameCore *current;
             break;
         case OE5200ButtonUp:
             controllerStates[player].up = 0;
+            //INPUT_key_code = 0xff;
             break;
         case OE5200ButtonDown:
             controllerStates[player].down = 0;
