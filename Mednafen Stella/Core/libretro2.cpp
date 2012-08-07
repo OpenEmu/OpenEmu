@@ -332,6 +332,8 @@ void retro_run(void)
         //memcpy(&final_samplebuffer, &sample, 2 * 2);
     }
     //TODO: fix
+    //The array you pass in batch callback has to be interleaved signed 16-bit stereo
+    //audio_batch_cb((const int16_t *)samplebuffer, soundFrameSize);
     //audio_batch_cb((const int16_t *)sample, soundFrameSize);
     //audio_batch_cb(final_samplebuffer, soundFrameSize);
     
