@@ -80,6 +80,22 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 {
     return NSMakeSize(size.width, size.height);
 }
+
+static inline NSString *NSStringFromOEIntPoint(OEIntPoint p)
+{
+    return [NSString stringWithFormat:@"{ %d, %d }", p.x, p.y];
+}
+
+static inline NSString *NSStringFromOEIntSize(OEIntSize s)
+{
+    return [NSString stringWithFormat:@"{ %d, %d }", s.width, s.height];
+}
+
+static inline NSString *NSStringFromOEIntRect(OEIntRect r)
+{
+    return [NSString stringWithFormat:@"{ %@, %@ }", NSStringFromOEIntPoint(r.origin), NSStringFromOEIntSize(r.size)];
+}
+
 @class OEHIDEvent, OERingBuffer;
 
 #pragma mark -
