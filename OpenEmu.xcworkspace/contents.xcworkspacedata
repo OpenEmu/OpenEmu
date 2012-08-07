@@ -77,6 +77,9 @@
       location = "group:Mednafen Virtual Boy/Mednafen Virtual Boy.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:../desmume/desmume/src/cocoa/DeSmuME (XCode 4).xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Atari800/Atari800.xcodeproj">
    </FileRef>
 </Workspace>

@@ -294,6 +294,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ABB3C6461501BC6D00E0C22E"
+               BuildableName = "DeSmuME.oecoreplugin"
+               BlueprintName = "DeSmuME (OpenEmu Plug-in)"
+               ReferencedContainer = "container:../desmume/desmume/src/cocoa/DeSmuME (XCode 4).xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D15AC270486D014006FF6A4"
                BuildableName = "OpenEmu.app"
                BlueprintName = "OpenEmu"
