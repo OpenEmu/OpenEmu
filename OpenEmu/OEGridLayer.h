@@ -53,8 +53,8 @@
 #pragma mark -
 #pragma mark Properties
 
-@property(nonatomic, assign, getter=isTracking)    BOOL tracking;
-@property(nonatomic, assign, getter=isInteractive) BOOL interactive;
+@property(nonatomic, getter=isTracking)    BOOL tracking;
+@property(nonatomic, getter=isInteractive) BOOL interactive;
 
 @property(nonatomic, readonly) NSWindow *window;
 @property(nonatomic, readonly) NSView   *view;

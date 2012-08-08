@@ -85,7 +85,7 @@
     return [self initWithRom:rom core:nil error:outError];
 }
 
-- (id)initWithRom:(OEDBRom *)aRom core:(OECorePlugin*)core error:(NSError **)outError
+- (id)initWithRom:(OEDBRom *)aRom core:(OECorePlugin *)core error:(NSError **)outError
 {
     if((self = [super init]))
     {
@@ -140,29 +140,27 @@
     return [self initWithGame:game core:nil error:outError];
 }
 
-- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError
 {
     return [self initWithRom:[OEGameViewController OE_choseRomFromGame:game] core:core error:outError];
 }
-
 
 - (id)initWithSaveState:(OEDBSaveState *)state
 {
     return [self initWithSaveState:state error:nil];
 }
 
-
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError
 {
-    OEDBRom         *rom            = [state rom];
-    NSString        *coreIdentifier = [state coreIdentifier];
-    OECorePlugin    *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
-    self = [self initWithRom:rom core:core error:outError];
-    if(self)
+    OEDBRom      *rom            = [state rom];
+    NSString     *coreIdentifier = [state coreIdentifier];
+    OECorePlugin *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
+    
+    if((self = [self initWithRom:rom core:core error:outError]))
     {
         [self loadState:state];
     }
-    else self = nil;
+    
     return self;
 }
 
@@ -187,7 +185,8 @@
     
     NSWindow *window = [gameView window];
     if(window == nil) return;
-    if([window parentWindow]) window = [window parentWindow];
+    
+    if([window parentWindow] != nil) window = [window parentWindow];
     
     [window addChildWindow:controlsWindow ordered:NSWindowAbove];
     
