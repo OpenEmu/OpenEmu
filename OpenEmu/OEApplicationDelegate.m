@@ -294,6 +294,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {    
     [[self aboutWindow] center];
     [[self aboutWindow] makeKeyAndOrderFront:self];
+    
 }
 
 - (NSString *)aboutCreditsPath
