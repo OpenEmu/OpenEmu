@@ -567,7 +567,10 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
 
 - (void)OE_removeBindingsToEvent:(OEHIDEvent *)theEvent withValueType:(NSString *)aType
 {
-    NSAssert(![theEvent isOffState], @"Attempt to set off-state event %@", theEvent);
+    if([theEvent isOffState]){
+        NSLog(@"Attempt to set off-state event %@! Ignoring it!", theEvent);
+        return;
+    }
     
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     

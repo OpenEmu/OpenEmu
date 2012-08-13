@@ -86,12 +86,13 @@
 {
     title = [value copy];
     
-    [self setNeedsDisplay:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay:YES];
+    });
 }
 
 #pragma mark -
 #pragma mark NSView Overrides
-
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Draw Backgrounds
@@ -109,7 +110,6 @@
     [attributes setObject:[NSColor colorWithDeviceWhite:0.0 alpha:1.0] forKey:NSForegroundColorAttributeName];
     [attributes setObject:font forKey:NSFontAttributeName];
     [attributes setObject:shadow forKey:NSShadowAttributeName];
-    
     
     NSPoint p = NSMakePoint([self bounds].origin.x + 4, [self bounds].origin.y + 4);
     [self.title drawAtPoint:p withAttributes:attributes];
@@ -135,8 +135,13 @@
 
 - (void)setState:(NSCellStateValue)aState
 {
+    if(state == aState) return;
+    
     state = aState;
-    [self setNeedsDisplay:YES];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay:YES];
+    });
 }
 
 @end

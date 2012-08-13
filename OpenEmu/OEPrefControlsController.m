@@ -38,7 +38,7 @@
 #import "OESystemController.h"
 
 #import "OEControllerImageView.h"
-#import "OEControlsSetupView.h"
+#import "OEControlsButtonSetupView.h"
 
 #import "OEHIDEvent.h"
 
@@ -113,8 +113,8 @@
     [self gradientOverlay].topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
     [self gradientOverlay].bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
     
-    [[self controllerView] setWantsLayer:YES];    
-    
+    [[self controllerView] setWantsLayer:YES];
+        
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_openPaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
 }
@@ -225,7 +225,7 @@
     // Rebuild player menu
     [self OE_setupPlayerMenuForNumberOfPlayers:[systemController numberOfPlayers]];
     
-    OEControlsSetupView *preferenceView = [self controlsSetupView];
+    OEControlsButtonSetupView *preferenceView = [self controlsSetupView];
     [preferenceView setupWithControlList:[systemController controlPageList]];
     [preferenceView setAutoresizingMask:NSViewMaxXMargin | NSViewMaxYMargin];
     
@@ -322,9 +322,10 @@
     if(selectedKey == value) value = nil;
     
     selectedKey = [value copy];
-    
+    [CATransaction begin];
     [[self controlsSetupView] setSelectedKey:selectedKey];
     [[self controllerView]    setSelectedKey:selectedKey animated:YES];
+    [CATransaction commit];
     
     [[[self view] window] makeFirstResponder:selectedKey != nil ? [self view] : nil];
 }
@@ -340,7 +341,6 @@
 
 #pragma mark -
 #pragma mark Input and bindings management methods
-
 - (void)resetBindingsWithKeys:(NSArray *)keys
 {
     for(NSString *key in keys)

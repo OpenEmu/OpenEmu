@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-@interface OEControlsSetupView : NSView
+@interface OEControlsButtonSetupView : NSView
 
 @property(unsafe_unretained) id  target;
 @property                    SEL action;
