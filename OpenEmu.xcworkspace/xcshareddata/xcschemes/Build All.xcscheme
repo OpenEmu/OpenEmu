@@ -197,20 +197,6 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
-               BuildableName = "Build &amp; Install MAME"
-               BlueprintName = "Build &amp; Install MAME"
-               ReferencedContainer = "container:MAME/MAME.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
                BuildableName = "Build &amp; Install Mednafen PC-FX"
                BlueprintName = "Build &amp; Install Mednafen PC-FX"
                ReferencedContainer = "container:Mednafen PC-FX/Mednafen PC-FX.xcodeproj">
