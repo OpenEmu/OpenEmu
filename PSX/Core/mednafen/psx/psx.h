@@ -74,7 +74,7 @@ namespace MDFN_IEN_PSX
  extern PS_GPU *GPU;
  extern PS_CDC *CDC;
  extern PS_SPU *SPU;
- extern MultiAccessSizeMem<2048 * 1024, uint32, false, 0, 0> MainRAM;
+ extern MultiAccessSizeMem<2048 * 1024, uint32, false> MainRAM;
 };
 
 

@@ -305,6 +305,9 @@ int PS_CDC::StateAction(StateMem *sm, int load, int data_only)
   SFVAR(CommandLoc_Dirty),
   SFARRAY16(&xa_previous[0][0], sizeof(xa_previous) / sizeof(xa_previous[0][0])),
 
+  SFVAR(xa_cur_set),
+  SFVAR(xa_cur_file),
+  SFVAR(xa_cur_chan),
   SFEND
  };
 
@@ -466,6 +469,10 @@ struct XA_SoundGroup
 #define XA_CODING_189		0x04
 #define XA_CODING_STEREO	0x01
 
+// Special regression prevention test cases:
+//	Um Jammer Lammy (start doing poorly)
+//	Yarudora Series Vol.1 - Double Cast (non-FMV speech)
+
 bool PS_CDC::XA_Test(const uint8 *sdata)
 {
  const XA_Subheader *sh = (const XA_Subheader *)&sdata[12 + 4];
@@ -476,8 +483,27 @@ bool PS_CDC::XA_Test(const uint8 *sdata)
  if(!(sh->submode & XA_SUBMODE_AUDIO))
   return false;
 
+ //printf("Test File: 0x%02x 0x%02x - Channel: 0x%02x 0x%02x - Submode: 0x%02x 0x%02x - Coding: 0x%02x 0x%02x - \n", sh->file, sh->file_dup, sh->channel, sh->channel_dup, sh->submode, sh->submode_dup, sh->coding, sh->coding_dup);
+
  if((Mode & MODE_SF) && (sh->file != FilterFile || sh->channel != FilterChan))
   return false;
+
+ if(!xa_cur_set || (Mode & MODE_SF))
+ {
+  xa_cur_set = true;
+  xa_cur_file = sh->file;
+  xa_cur_chan = sh->channel;
+ }
+ else if(sh->file != xa_cur_file || sh->channel != xa_cur_chan)
+  return false;
+
+ if(sh->submode & XA_SUBMODE_EOF)
+ {
+  //puts("YAY");
+  xa_cur_set = false;
+  xa_cur_file = 0;
+  xa_cur_chan = 0;
+ }
 
  return true;
 }
@@ -486,6 +512,10 @@ void PS_CDC::ClearAudioBuffers(void)
 {
  memset(AudioBuffer, 0, sizeof(AudioBuffer));
  memset(xa_previous, 0, sizeof(xa_previous));
+
+ xa_cur_set = false;
+ xa_cur_file = 0;
+ xa_cur_chan = 0;
 
  AudioBuffer_ReadPos = 0;
  AudioBuffer_WritePos = 0;
@@ -498,6 +528,8 @@ void PS_CDC::XA_ProcessSector(const uint8 *sdata, CD_Audio_Buffer *ab)
 {
  const XA_Subheader *sh = (const XA_Subheader *)&sdata[12 + 4];
  const unsigned unit_index_shift = (sh->coding & XA_CODING_8BIT) ? 0 : 1;
+
+ //printf("File: 0x%02x 0x%02x - Channel: 0x%02x 0x%02x - Submode: 0x%02x 0x%02x - Coding: 0x%02x 0x%02x - \n", sh->file, sh->file_dup, sh->channel, sh->channel_dup, sh->submode, sh->submode_dup, sh->coding, sh->coding_dup);
 
  ab->Size = 18 * (4 << unit_index_shift) * 28;
 
@@ -728,9 +760,7 @@ pscpu_timestamp_t PS_CDC::Update(const pscpu_timestamp_t timestamp)
      }
      else
      {
-      bool need_ap = false;
-
-	//PSX_WARNING("Read sector: %d", CurSector);
+      //PSX_WARNING("Read sector: %d", CurSector);
 
       Cur_CDIF->ReadRawSector(buf, CurSector);	// FIXME: error out on error.
       DecodeSubQ(buf + 2352);
@@ -741,26 +771,19 @@ pscpu_timestamp_t PS_CDC::Update(const pscpu_timestamp_t timestamp)
       {
        if(XA_Test(buf))
        {
-        if((Mode & MODE_AUTOPAUSE) && (buf[12 + 6] & 0x80))
-        {
-	 //need_ap = true;
-        }
-	//else
-	{
-	 if(AudioBuffer_ReadPos & 0xFFF)
-	  printf("readpos=%04x(rabl=%04x) writepos=%04x\n", AudioBuffer_ReadPos, AudioBuffer[AudioBuffer_ReadPos >> 12].Size, AudioBuffer_WritePos);
+	if(AudioBuffer_ReadPos & 0xFFF)
+	 printf("readpos=%04x(rabl=%04x) writepos=%04x\n", AudioBuffer_ReadPos, AudioBuffer[AudioBuffer_ReadPos >> 12].Size, AudioBuffer_WritePos);
 
-	 //if(AudioBuffer_UsedCount == 0)
-	 // AudioBuffer_InPrebuffer = true;
+	//if(AudioBuffer_UsedCount == 0)
+	// AudioBuffer_InPrebuffer = true;
 
-         XA_ProcessSector(buf, &AudioBuffer[AudioBuffer_WritePos >> 12]);
-	 AudioBuffer_UsedCount++;
+        XA_ProcessSector(buf, &AudioBuffer[AudioBuffer_WritePos >> 12]);
+	AudioBuffer_UsedCount++;
 
-	 if(AudioBuffer_UsedCount == AudioBuffer_PreBufferCount)
-	  AudioBuffer_InPrebuffer = false;
+	if(AudioBuffer_UsedCount == AudioBuffer_PreBufferCount)
+	 AudioBuffer_InPrebuffer = false;
 
-	 AudioBuffer_WritePos = (AudioBuffer_WritePos & 0xFFF) | ((((AudioBuffer_WritePos >> 12) + 1) % AudioBuffer_Count) << 12);
-	}
+	AudioBuffer_WritePos = (AudioBuffer_WritePos & 0xFFF) | ((((AudioBuffer_WritePos >> 12) + 1) % AudioBuffer_Count) << 12);
        }
       }
       else
@@ -794,19 +817,8 @@ pscpu_timestamp_t PS_CDC::Update(const pscpu_timestamp_t timestamp)
        SetAIP(CDCIRQ_DATA_READY, MakeStatus());
       }
 
-      if(need_ap)
-      {
-       MDFN_DispMessage("Autopause XA");
-       DriveStatus = DS_PAUSED;
-       PSRCounter = 0;
-
-       SetAIP(CDCIRQ_DATA_END, MakeStatus());
-      }
-      else
-      {
-       PSRCounter += 33868800 / (75 * ((Mode & MODE_SPEED) ? 2 : 1));
-       CurSector++;
-      }
+      PSRCounter += 33868800 / (75 * ((Mode & MODE_SPEED) ? 2 : 1));
+      CurSector++;
      }
     }
     else if(DriveStatus == DS_PLAYING)
@@ -969,10 +981,12 @@ pscpu_timestamp_t PS_CDC::Update(const pscpu_timestamp_t timestamp)
      const CDC_CTEntry *command = &Commands[PendingCommand];
      //PSX_WARNING("[CDC] Command: %s --- %d", command->name, Results.CanRead());
 
+#if 1
      printf("[CDC] Command: %s --- ", command->name);
      for(unsigned int i = 0; i < ArgsIn; i++)
       printf(" 0x%02x", ArgsBuf[i]);
      printf("\n");
+#endif
      next_time = (this->*(command->func))(ArgsIn, ArgsBuf);
      PendingCommandPhase = 1;
      ArgsIn = 0;
@@ -1487,11 +1501,18 @@ int32 PS_CDC::Command_Stop(const int arg_count, const uint8 *args)
  WriteResult(MakeStatus());
  WriteIRQ(CDCIRQ_ACKNOWLEDGE);
 
- ClearAudioBuffers();
- ClearAIP();
- DriveStatus = DS_STOPPED;
+ if(DriveStatus == DS_STOPPED)
+ {
+  return(5000);
+ }
+ else
+ {
+  ClearAudioBuffers();
+  ClearAIP();
+  DriveStatus = DS_STOPPED;
 
- return(33868);
+  return(33868);	// FIXME, should be much higher.
+ }
 }
 
 int32 PS_CDC::Command_Stop_Part2(void)
@@ -1505,6 +1526,7 @@ int32 PS_CDC::Command_Stop_Part2(void)
 }
 
 
+// TODO: Pause speed depends on speed(1x/2x) and current position.  Also check restart(for ReadN/ReadS and Play) 'delay'.
 int32 PS_CDC::Command_Pause(const int arg_count, const uint8 *args)
 {
  if(!CommandCheckDiscPresent())
@@ -1513,12 +1535,19 @@ int32 PS_CDC::Command_Pause(const int arg_count, const uint8 *args)
  WriteResult(MakeStatus());
  WriteIRQ(CDCIRQ_ACKNOWLEDGE);
 
- // "Viewpoint" flips out and crashes if reading isn't stopped (almost?) immediately.
- ClearAudioBuffers();
- ClearAIP();
- DriveStatus = DS_PAUSED;
+ if(DriveStatus == DS_PAUSED || DriveStatus == DS_STOPPED)
+ {
+  return(5000);
+ }
+ else
+ {
+  // "Viewpoint" flips out and crashes if reading isn't stopped (almost?) immediately.
+  ClearAudioBuffers();
+  ClearAIP();
+  DriveStatus = DS_PAUSED;
 
- return((int64)33868800 * 100 / 1000);
+  return((int64)33868800 * 100 / 1000);
+ }
 }
 
 int32 PS_CDC::Command_Pause_Part2(void)

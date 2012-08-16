@@ -238,6 +238,9 @@ class PS_CDC
  bool XA_Test(const uint8 *sdata);
  void XA_ProcessSector(const uint8 *sdata, CD_Audio_Buffer *ab);
  int16 xa_previous[2][2];
+ bool xa_cur_set;
+ uint8 xa_cur_file;
+ uint8 xa_cur_chan;
 
  struct CDC_CTEntry
  {

@@ -254,6 +254,12 @@ void QTRecord::WriteFrame(const MDFN_Surface *surface, const MDFN_Rect &DisplayR
 
  memset(&qts, 0, sizeof(qts));
 
+ if(DisplayRect.h <= 0)
+ {
+  fprintf(stderr, "[BUG] qtrecord.cpp: DisplayRect.h <= 0\n");
+  return;
+ }
+
 
  qts.video_foffset = qtfile.tell();
 
@@ -303,6 +309,17 @@ void QTRecord::WriteFrame(const MDFN_Surface *surface, const MDFN_Rect &DisplayR
     *dest_line = 0;
     dest_line++;
    }
+
+#if 0
+   while(dest_x < ((QTVideoWidth - (xscale_factor * width)) / 2))
+   {
+    dest_line[dest_x * 3 + 0] = 0;
+    dest_line[dest_x * 3 + 1] = 0;
+    dest_line[dest_x * 3 + 2] = 0;
+
+    dest_x++;
+   }
+#endif
 
    for(int x = x_start; x < x_start + width; x++)
    {

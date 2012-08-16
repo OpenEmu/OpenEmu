@@ -22,6 +22,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <trio/trio.h>
 
 #include "driver.h"
 #include "state.h"
@@ -74,6 +75,17 @@ static void StopRecording(void)
 void MDFNI_SaveMovie(char *fname, const MDFN_Surface *surface, const MDFN_Rect *DisplayRect, const MDFN_Rect *LineWidths)
 {
  gzFile fp;
+
+ if(!MDFNGameInfo->StateAction)
+  return;
+
+ if(MDFNnetplay && (MDFNGameInfo->SaveStateAltersState == true))
+ {
+  char sb[256];
+  trio_snprintf(sb, sizeof(sb), _("Module %s is not compatible with manual movie save starting/stopping during netplay."), MDFNGameInfo->shortname);
+  MDFND_NetplayText((const uint8*)sb, false);
+  return;
+ }
 
  if(current < 0)	/* Can't interrupt playback.*/
   return;

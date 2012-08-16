@@ -1,6 +1,8 @@
 Soul Reaver - Legacy of Kain has CD load time pauses where it probably shouldn't.
 
-Dead or Alive, Battle Arena Toshinden, Final Fantasy 7 have some kind of GPU timing issues.
+Battle Arena Toshinden, Final Fantasy 7 have some kind of GPU timing issues.
+
+Zero Divide runs too fast(related to CPU emulation speed?).
 
 Chrono Cross has several-second freezes during some large special attack/magic sequences.
 
@@ -11,6 +13,10 @@ Shadow Master has broken startup images.
 Rayman (Europe) has somewhat broken FMV.
 
 Crusaders of Might and Magic - The CD-XA buffering increase for ToD II is apparently exacerbating the early voice cutoff problem in this game.
+
+Misadventures of Trone Bonne - Voice problems, lockup, possibly due to excessively long seek delays?
+
+Test time delta between GPU LL DMA end and GPU non-busy status for various primitive types in sequence on a PS1.
 
 Test IRQ and COP0 latencies; PSX IRQ controller latency, software IRQ bit latency, latency of both relevant COP0 IRQ enable bits.
 

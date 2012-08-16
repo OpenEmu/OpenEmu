@@ -113,13 +113,13 @@ void PS_GPU::DrawLine(line_point *points)
 
  if(i_dx >= 1024)
  {
-  PSX_WARNING("[GPU] Line too long: i_dx=%d", i_dx);
+  //PSX_WARNING("[GPU] Line too long: i_dx=%d", i_dx);
   return;
  }
 
  if(i_dy >= 512)
  {
-  PSX_WARNING("[GPU] Line too long: i_dy=%d", i_dy);
+  //PSX_WARNING("[GPU] Line too long: i_dy=%d", i_dy);
   return;
  }
 
@@ -146,8 +146,9 @@ void PS_GPU::DrawLine(line_point *points)
  //
  for(int32 i = 0; i <= k; i++)	// <= is not a typo.
  {
-  const int32 x = cur_point.x >> Line_XY_FractBits;
-  const int32 y = cur_point.y >> Line_XY_FractBits;
+  // Sign extension is not necessary here for x and y, due to the maximum values that ClipX1 and ClipY1 can contain.
+  const int32 x = (cur_point.x >> Line_XY_FractBits) & 2047;
+  const int32 y = (cur_point.y >> Line_XY_FractBits) & 2047;
   uint16 pix = 0x8000;
 
   if(!LineSkipTest(y))
@@ -209,8 +210,8 @@ void PS_GPU::Command_DrawLine(const uint32 *cb)
   points[0].b = (*cb >> 16) & 0xFF;
   cb++;
 
-  points[0].x = sign_x_to_s32(11, ((*cb >> 0) & 0xFFFF) + OffsX);
-  points[0].y = sign_x_to_s32(11, ((*cb >> 16) & 0xFFFF) + OffsY);
+  points[0].x = sign_x_to_s32(11, ((*cb >> 0) & 0xFFFF)) + OffsX;
+  points[0].y = sign_x_to_s32(11, ((*cb >> 16) & 0xFFFF)) + OffsY;
   cb++;
  }
 
@@ -228,8 +229,8 @@ void PS_GPU::Command_DrawLine(const uint32 *cb)
   points[1].b = points[0].b;
  }
 
- points[1].x = sign_x_to_s32(11, ((*cb >> 0) & 0xFFFF) + OffsX);
- points[1].y = sign_x_to_s32(11, ((*cb >> 16) & 0xFFFF) + OffsY);
+ points[1].x = sign_x_to_s32(11, ((*cb >> 0) & 0xFFFF)) + OffsX;
+ points[1].y = sign_x_to_s32(11, ((*cb >> 16) & 0xFFFF)) + OffsY;
  cb++;
 
  if(polyline)

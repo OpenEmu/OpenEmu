@@ -80,7 +80,7 @@ cpu.o: cpu.cpp psx.h ../../mednafen/mednafen.h ../../mednafen/types.h \
  ../../mednafen/state-common.h ../../mednafen/settings-common.h \
  ../../mednafen/debug.h ../../mednafen/git-virtb.h \
  ../../mednafen/settings.h ../../mednafen/mednafen-driver.h \
- ../../mednafen/endian.h ../../mednafen/memory.h \
+ ../../mednafen/endian.h ../../mednafen/memory.h ../../mednafen/masmem.h \
  ../../include/trio/trio.h ../../include/trio/triop.h \
  ../../include/trio/triodef.h ../cdrom/cdromif.h ../cdrom/CDUtility.h \
  /usr/include/c++/4.4/queue /usr/include/c++/4.4/deque \
@@ -367,6 +367,8 @@ psx.h:
 ../../mednafen/endian.h:
 
 ../../mednafen/memory.h:
+
+../../mednafen/masmem.h:
 
 ../../include/trio/trio.h:
 

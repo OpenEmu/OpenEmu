@@ -406,13 +406,14 @@ void PS_GPU::Command_FBFill(const uint32 *cb)
 
  for(int32 y = 0; y < height; y++)
  {
-  if(LineSkipTest(y))
+  const int32 d_y = (y + destY) & 511;
+
+  if(LineSkipTest(d_y))
    continue;
 
   for(int32 x = 0; x < width; x++)
   {
-   int32 d_y = (y + destY) & 511;
-   int32 d_x = (x + destX) & 1023;
+   const int32 d_x = (x + destX) & 1023;
 
    GPURAM[d_y][d_x] = fill_value;
   }
@@ -509,45 +510,23 @@ void PS_GPU::Command_FBRead(const uint32 *cb)
 
 void PS_GPU::RecalcTexWindowLUT(void)
 {
+ const unsigned TexWindowX_AND = ~(tww << 3);
+ const unsigned TexWindowX_OR = (twx & tww) << 3;
+
+ const unsigned TexWindowY_AND = ~(twh << 3);
+ const unsigned TexWindowY_OR = (twy & twh) << 3;
+
+// printf("TWX: 0x%02x, TWW: 0x%02x\n", twx, tww);
+// printf("TWY: 0x%02x, TWH: 0x%02x\n", twy, twh);
+
+ for(unsigned x = 0; x < 256; x++)
  {
-  uint8 targ_x = 0;
-  uint8 targ_wc = 0;
-  uint8 x = twx * 8;
-
-  do
-  {
-   if(!targ_wc)
-   {
-    targ_x = twx * 8;
-    targ_wc = tww * 8;
-   }
-   TexWindowXLUT[x] = targ_x;
-
-   x++;
-   targ_x++;
-   targ_wc++;
-  } while(x != (twx * 8));
+  TexWindowXLUT[x] = (x & TexWindowX_AND) | TexWindowX_OR;
  }
 
+ for(unsigned y = 0; y < 256; y++)
  {
-  uint8 targ_y = 0;
-  uint8 targ_hc = 0;
-  uint8 y = twy * 8;
-
-  do
-  {
-   if(!targ_hc)
-   {
-    targ_y = twy * 8;
-    targ_hc = twh * 8;
-   }
-   //printf("Texture window y: %d %d\n", y, targ_y);
-   TexWindowYLUT[y] = targ_y;
-
-   y++;
-   targ_y++;
-   targ_hc++;
-  } while(y != (twy * 8));
+  TexWindowYLUT[y] = (y & TexWindowY_AND) | TexWindowY_OR;
  }
 
  memset(TexWindowXLUT_Pre, TexWindowXLUT[0], sizeof(TexWindowXLUT_Pre));
@@ -569,7 +548,7 @@ void PS_GPU::Command_DrawMode(const uint32 *cb)
 
  dtd = (*cb >> 9) & 1;
  dfe = (*cb >> 10) & 1;
- //printf("DFE: %d -- scanline=%d\n", dfe, scanline);
+ //printf("*******************DFE: %d -- scanline=%d\n", dfe, scanline);
 }
 
 void PS_GPU::Command_TexWindow(const uint32 *cb)

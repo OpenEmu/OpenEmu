@@ -169,13 +169,10 @@ void PS_SPU::Power(void)
 
  BlockEnd = 0;
 
- CDAudioCWA = 0;
+ CWA = 0;
 
  memset(CDXA_ResampBuffer, 0, sizeof(CDXA_ResampBuffer));
  CDXA_CurPhase = 0;
-
- VoiceCWP[0] = 0;
- VoiceCWP[1] = 0;
 
  memset(Regs, 0, sizeof(Regs));
 
@@ -726,8 +723,7 @@ int32 PS_SPU::UpdateFromCDC(int32 clocks)
    {
     int index = voice_num >> 1;
 
-    WriteSPURAM(0x400 | (index * 0x200) | VoiceCWP[index], voice_pvs);
-    VoiceCWP[index] = (VoiceCWP[index] + 1) & 0x1FF;
+    WriteSPURAM(0x400 | (index * 0x200) | CWA, voice_pvs);
    }
 
 
@@ -801,9 +797,6 @@ int32 PS_SPU::UpdateFromCDC(int32 clocks)
     voice->CurPhase_SD = 28 << 12;	 // Trigger initial sample decode
 
     voice->CurAddr = voice->StartAddr & ~0x7;
-
-    if(voice_num == 1 || voice_num == 3)
-     VoiceCWP[voice_num >> 1] = 0;
    }
   }
 
@@ -843,12 +836,11 @@ int32 PS_SPU::UpdateFromCDC(int32 clocks)
      }
     }
    }
-   WriteSPURAM(CDAudioCWA | 0x000, cda_raw[0]);
-   WriteSPURAM(CDAudioCWA | 0x200, cda_raw[1]);
-
-   CDAudioCWA = (CDAudioCWA + 1) & 0x1FF;
+   WriteSPURAM(CWA | 0x000, cda_raw[0]);
+   WriteSPURAM(CWA | 0x200, cda_raw[1]);
   }
 
+  CWA = (CWA + 1) & 0x1FF;
 
   NoiseCounter += NoiseFreqTable[(SPUControl >> 8) & 0x3F];
   if(NoiseCounter >= 0x8000)
@@ -1247,6 +1239,135 @@ int32 PS_SPU::EndFrame(int16 *SoundBuf)
  }
 }
 
+int PS_SPU::StateAction(StateMem *sm, int load, int data_only)
+{
+ SFORMAT StateRegs[] =
+ {
+#define SFSWEEP(r) SFVAR((r).Control),	\
+		   SFVAR((r).Current),	\
+		   SFVAR((r).Divider)
+
+#define SFVOICE(n) SFARRAY32(&Voices[n].DecodeBuffer[0], sizeof(Voices[n].DecodeBuffer) / sizeof(Voices[n].DecodeBuffer[0])),	\
+		   SFVAR(Voices[n].DecodeWritePos),										\
+		   SFVAR(Voices[n].DecodeFlags),										\
+																\
+		   SFSWEEP(Voices[n].Sweep[0]),											\
+		   SFSWEEP(Voices[n].Sweep[1]),											\
+																\
+		   SFVAR(Voices[n].Pitch),											\
+		   SFVAR(Voices[n].CurPhase),											\
+		   SFVAR(Voices[n].CurPhase_SD),										\
+																\
+		   SFVAR(Voices[n].StartAddr),											\
+		   SFVAR(Voices[n].CurAddr),											\
+		   SFVAR(Voices[n].ADSRControl),										\
+		   SFVAR(Voices[n].LoopAddr),											\
+		   SFVAR(Voices[n].PreLRSample),										\
+																\
+		   SFVAR(Voices[n].ADSR.EnvLevel),										\
+		   SFVAR(Voices[n].ADSR.Divider),										\
+		   SFVAR(Voices[n].ADSR.Phase),											\
+																\
+		   SFVAR(Voices[n].ADSR.AttackExp),										\
+		   SFVAR(Voices[n].ADSR.SustainExp),										\
+		   SFVAR(Voices[n].ADSR.SustainDec),										\
+		   SFVAR(Voices[n].ADSR.ReleaseExp),										\
+																\
+		   SFVAR(Voices[n].ADSR.AttackRate),										\
+		   SFVAR(Voices[n].ADSR.DecayRate),										\
+		   SFVAR(Voices[n].ADSR.SustainRate),										\
+		   SFVAR(Voices[n].ADSR.ReleaseRate),										\
+																\
+		   SFVAR(Voices[n].ADSR.SustainLevel)
+
+  SFVOICE(0),
+  SFVOICE(1),
+  SFVOICE(2),
+  SFVOICE(3),
+  SFVOICE(4),
+  SFVOICE(5),
+  SFVOICE(6),
+  SFVOICE(7),
+  SFVOICE(8),
+  SFVOICE(9),
+  SFVOICE(10),
+  SFVOICE(11),
+  SFVOICE(12),
+  SFVOICE(13),
+  SFVOICE(14),
+  SFVOICE(15),
+  SFVOICE(16),
+  SFVOICE(17),
+  SFVOICE(18),
+  SFVOICE(19),
+  SFVOICE(20),
+  SFVOICE(21),
+  SFVOICE(22),
+  SFVOICE(23),
+#undef SFVOICE
+
+  SFVAR(NoiseCounter),
+  SFVAR(LFSR),
+
+  SFVAR(FM_Mode),
+  SFVAR(Noise_Mode),
+  SFVAR(Reverb_Mode),
+
+  SFVAR(ReverbWA),
+
+  SFSWEEP(GlobalSweep[0]),
+  SFSWEEP(GlobalSweep[1]),
+
+  SFARRAY32(ReverbVol, sizeof(ReverbVol) / sizeof(ReverbVol[0])),
+
+  SFARRAY32(CDVol, sizeof(CDVol) / sizeof(CDVol[0])),
+  SFARRAY32(ExternVol, sizeof(ExternVol) / sizeof(ExternVol[0])),
+ 
+  SFVAR(IRQAddr),
+
+  SFVAR(RWAddr),
+
+  SFVAR(SPUControl),
+
+  SFVAR(VoiceOn),
+  SFVAR(VoiceOff),
+
+  SFVAR(BlockEnd),
+
+  SFVAR(CWA),
+
+  SFARRAY32(&CDXA_ResampBuffer[0][0], sizeof(CDXA_ResampBuffer) / sizeof(CDXA_ResampBuffer[0][0])),
+  SFVAR(CDXA_CurPhase),
+
+  SFARRAY16(Regs, sizeof(Regs) / sizeof(Regs[0])),
+  SFARRAY16(AuxRegs, sizeof(AuxRegs) / sizeof(AuxRegs[0])),
+
+  SFARRAY16(&RDSB[0][0], sizeof(RDSB) / sizeof(RDSB[0][0])),
+  SFVAR(RDSB_WP),
+
+  SFARRAY16(&RUSB[0][0], sizeof(RUSB) / sizeof(RUSB[0][0])),
+  SFVAR(RUSB_WP),
+
+  SFVAR(ReverbCur),
+  SFVAR(IRQAsserted),
+
+  SFVAR(clock_divider),
+
+  SFARRAY16(SPURAM, 524288 / sizeof(uint16)),
+  SFEND
+ };
+#undef SFSWEEP
+ int ret = 1;
+
+ ret &= MDFNSS_StateAction(sm, load, data_only, StateRegs, "SPU");
+
+ if(load)
+ {
+
+ }
+
+ return(ret);
+}
 
 uint16 PS_SPU::PeekSPURAM(uint32 address)
 {

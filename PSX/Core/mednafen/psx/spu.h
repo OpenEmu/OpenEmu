@@ -34,8 +34,11 @@ struct SPU_ADSR
  int32 SustainLevel;	// (Sl + 1) << 11
 };
 
+class PS_SPU;
 class SPU_Sweep
 {
+ friend class PS_SPU;		// For save states - FIXME(remove in future?)
+
  public:
  SPU_Sweep() { }
  ~SPU_Sweep() { }
@@ -87,6 +90,8 @@ class PS_SPU
 
  PS_SPU();
  ~PS_SPU();
+
+ int StateAction(StateMem *sm, int load, int data_only);
 
  void Power(void);
  void Write(pscpu_timestamp_t timestamp, uint32 A, uint16 V);
@@ -144,19 +149,16 @@ class PS_SPU
  uint32 RWAddr;
 
  uint16 SPUControl;
- uint16 AddressMult;	// Just a guess!
 
  uint32 VoiceOn;
  uint32 VoiceOff;
 
  uint32 BlockEnd;
 
- uint32 CDAudioCWA;
+ uint32 CWA;
 
  int32 CDXA_ResampBuffer[2][4];
  int32 CDXA_CurPhase;
-
- uint32 VoiceCWP[2];
 
  union
  {
@@ -233,14 +235,13 @@ class PS_SPU
 
  bool IRQAsserted;
 
- int last_rate;
- uint32 last_quality;
-
  //pscpu_timestamp_t lastts;
  int32 clock_divider;
 
  uint16 SPURAM[524288 / sizeof(uint16)];
 
+ int last_rate;
+ uint32 last_quality;
  SpeexResamplerState *resampler;
 
  // Buffers 44.1KHz samples, should have enough for one video frame(~735 frames NTSC, ~882 PAL) plus jitter plus enough for the resampler leftovers.

@@ -72,15 +72,15 @@ PS_GPU *GPU = NULL;
 PS_CDC *CDC = NULL;
 FrontIO *FIO = NULL;
 
-static MultiAccessSizeMem<512 * 1024, uint32, false, 0, 0> *BIOSROM = NULL;
-static MultiAccessSizeMem<65536, uint32, false, 0, 0> *PIOMem = NULL;
+static MultiAccessSizeMem<512 * 1024, uint32, false> *BIOSROM = NULL;
+static MultiAccessSizeMem<65536, uint32, false> *PIOMem = NULL;
 
-MultiAccessSizeMem<2048 * 1024, uint32, false, 0, 0> MainRAM;
+MultiAccessSizeMem<2048 * 1024, uint32, false> MainRAM;
 
 static uint32 TextMem_Start;
 static std::vector<uint8> TextMem;
 
-static MultiAccessSizeMem<1024, uint32, false, 0, 0> ScratchRAM;
+static MultiAccessSizeMem<1024, uint32, false> ScratchRAM;
 
 static const uint32 SysControl_Mask[9] = { 0x00ffffff, 0x00ffffff, 0xffffffff, 0x2f1fffff,
 					   0xffffffff, 0x2f1fffff, 0x2f1fffff, 0xffffffff,
@@ -926,8 +926,8 @@ static bool InitCommon(std::vector<CDIF *> *CDInterfaces, const bool EmulateMemc
 	(CD_SelectedDisc >= 0 && !CD_TrayOpen) ? cdifs_scex_ids[CD_SelectedDisc] : NULL);
 
 
- BIOSROM = new MultiAccessSizeMem<512 * 1024, uint32, false, 0, 0>();
- PIOMem = new MultiAccessSizeMem<65536, uint32, false, 0, 0>();
+ BIOSROM = new MultiAccessSizeMem<512 * 1024, uint32, false>();
+ PIOMem = new MultiAccessSizeMem<65536, uint32, false>();
 
  for(uint32 ma = 0x00000000; ma < 0x00800000; ma += 2048 * 1024)
  {
@@ -1175,7 +1175,8 @@ static int Load(const char *name, MDFNFILE *fp)
 #if 0
  static std::vector<CDIF *> CDInterfaces;
 
- CDInterfaces.push_back(new CDIF("/extra/games/PSX/Tony Hawk's Pro Skater 2 (USA)/Tony Hawk's Pro Skater 2 (USA).cue"));
+ CDInterfaces.push_back(new CDIF("/extra/games/PSX/Jumping Flash! (USA)/Jumping Flash! (USA).cue"));
+ //CDInterfaces.push_back(new CDIF("/extra/games/PSX/Tony Hawk's Pro Skater 2 (USA)/Tony Hawk's Pro Skater 2 (USA).cue"));
 
  if(!InitCommon(&CDInterfaces, !IsPSF))
   return(0);
@@ -1217,7 +1218,7 @@ static int LoadCD(std::vector<CDIF *> *CDInterfaces)
 
  // TODO: fastboot setting
  //if(MDFN_GetSettingB("psx.fastboot"))
- // BIOSROM->WriteU32(0x6990, 0);
+ BIOSROM->WriteU32(0x6990, 0);
 
  MDFNGameInfo->GameType = GMT_CDROM;
 
@@ -1315,7 +1316,6 @@ static void SetInput(int port, const char *type, void *ptr)
 static int StateAction(StateMem *sm, int load, int data_only)
 {
  return(0);
-
  SFORMAT StateRegs[] =
  {
   SFVAR(CD_TrayOpen),
@@ -1343,6 +1343,9 @@ static int StateAction(StateMem *sm, int load, int data_only)
  ret &= TIMER_StateAction(sm, load, data_only);
  ret &= CDC->StateAction(sm, load, data_only);
  ret &= MDEC_StateAction(sm, load, data_only);
+ ret &= SPU->StateAction(sm, load, data_only);
+ //ret &= FIO->StateAction(sm, load, data_only);
+ //ret &= GPU->StateAction(sm, load, data_only);
  ret &= IRQ_StateAction(sm, load, data_only);
 
  if(load)
@@ -1492,6 +1495,7 @@ MDFNGI EmulatedPSX =
  NULL,
  NULL,
  NULL,
+ false,
  StateAction,
  Emulate,
  SetInput,

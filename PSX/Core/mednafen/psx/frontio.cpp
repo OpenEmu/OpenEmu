@@ -156,18 +156,18 @@ FrontIO::FrontIO(bool emulate_memcards_[8], bool emulate_multitap_[2])
  memcpy(emulate_memcards, emulate_memcards_, sizeof(emulate_memcards));
  memcpy(emulate_multitap, emulate_multitap_, sizeof(emulate_multitap));
 
- DummyDevice = new InputDevice;
+ DummyDevice = new InputDevice();
 
  for(int i = 0; i < 8; i++)
  {
   DeviceData[i] = NULL;
-  Devices[i] = new InputDevice;
+  Devices[i] = new InputDevice();
   DevicesMC[i] = Device_Memcard_Create();
  }
 
  for(unsigned i = 0; i < 2; i++)
  {
-  DevicesTap[i] = new InputDevice_Multitap;
+  DevicesTap[i] = new InputDevice_Multitap();
  }
 
  MapDevicesToPorts();
@@ -196,6 +196,12 @@ FrontIO::~FrontIO()
    delete DevicesTap[i];
    DevicesTap[i] = NULL;
   }
+ }
+
+ if(DummyDevice)
+ {
+  delete DummyDevice;
+  DummyDevice = NULL;
  }
 }
 
@@ -598,7 +604,7 @@ void FrontIO::SetInput(unsigned int port, const char *type, void *ptr)
  else if(!strcmp(type, "mouse"))
   Devices[port] = Device_Mouse_Create();
  else
-  Devices[port] = new InputDevice;
+  Devices[port] = new InputDevice();
 
  DeviceData[port] = ptr;
 
