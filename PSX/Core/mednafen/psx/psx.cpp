@@ -1218,7 +1218,7 @@ static int LoadCD(std::vector<CDIF *> *CDInterfaces)
 
  // TODO: fastboot setting
  //if(MDFN_GetSettingB("psx.fastboot"))
- BIOSROM->WriteU32(0x6990, 0);
+ //BIOSROM->WriteU32(0x6990, 0);
 
  MDFNGameInfo->GameType = GMT_CDROM;
 
