@@ -378,7 +378,8 @@ void gen_tmss_w(unsigned int offset, unsigned int data)
 
 void gen_bankswitch_w(unsigned int data)
 {
-  if (system_hw == SYSTEM_MD)
+  /* check if BOOT ROM is loaded */
+  if (system_bios & SYSTEM_MD)
   {
     if (data & 1)
     {
@@ -395,7 +396,8 @@ void gen_bankswitch_w(unsigned int data)
 
 unsigned int gen_bankswitch_r(void)
 {
-  if (system_hw == SYSTEM_MD)
+  /* check if BOOT ROM is loaded */
+  if (system_bios & SYSTEM_MD)
   {
     return (m68k.memory_map[0].base == cart.base);
   }

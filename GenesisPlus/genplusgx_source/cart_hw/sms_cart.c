@@ -55,7 +55,7 @@
 #define MAPPER_MSX         (0x21)
 #define MAPPER_MSX_NEMESIS (0x22)
 
-#define GAME_DATABASE_CNT (210)
+#define GAME_DATABASE_CNT (211)
 
 typedef struct
 {
@@ -126,6 +126,7 @@ static const rominfo_t game_list[GAME_DATABASE_CNT] =
   {0xF7C524F6, 0, 0, SYSTEM_MS_GAMEPAD,  MAPPER_CODIES, SYSTEM_GG,   REGION_USA}, /* Micro Machines [GG] */
   {0xDBE8895C, 0, 0, SYSTEM_MS_GAMEPAD,  MAPPER_CODIES, SYSTEM_GG,   REGION_USA}, /* Micro Machines 2 - Turbo Tournament */
   {0xC1756BEE, 0, 0, SYSTEM_MS_GAMEPAD,  MAPPER_CODIES, SYSTEM_GG,   REGION_USA}, /* Pete Sampras Tennis */
+  {0x72981057, 0, 0, SYSTEM_MS_GAMEPAD,  MAPPER_CODIES, SYSTEM_GG,   REGION_USA}, /* CJ Elephant Fugitive */
 
   /* games using serial EEPROM */
   {0x36EBCD6D, 0, 0, SYSTEM_MS_GAMEPAD,  MAPPER_93C46,  SYSTEM_GG,   REGION_USA}, /* Majors Pro Baseball */

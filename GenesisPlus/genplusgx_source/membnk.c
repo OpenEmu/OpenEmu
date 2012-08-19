@@ -193,7 +193,7 @@ void zbank_write_ctrl_io(unsigned int address, unsigned int data)
 
     case 0x41:  /* OS ROM */
     {
-      if (address & 1)
+      if ((config.bios & 1) && (address & 1))
       {
         gen_bankswitch_w(data & 1);
         return;
