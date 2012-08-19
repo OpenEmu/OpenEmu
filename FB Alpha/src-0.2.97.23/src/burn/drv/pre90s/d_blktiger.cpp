@@ -34,7 +34,7 @@ static UINT8 *DrvRomBank;
 static UINT8 *soundlatch;
 static UINT8 *flipscreen;
 static UINT8 *coin_lockout;
-static UINT8 *watchdog;
+static INT32 watchdog;
 
 static UINT16 *DrvScrollx;
 static UINT16 *DrvScrolly;
@@ -249,7 +249,7 @@ void __fastcall blacktiger_out(UINT16 port, UINT8 data)
 		return;
 
 		case 0x06:
-			*watchdog = 0;
+			watchdog = 0;
 		return;
 
 		case 0x08:
@@ -389,7 +389,6 @@ static INT32 MemIndex()
 	soundlatch	= Next; Next += 0x000001;
 	flipscreen	= Next; Next += 0x000001;
 	coin_lockout	= Next; Next += 0x000001;
-	watchdog	= Next; Next += 0x000001;
 
 	RamEnd		= Next;
 
@@ -398,11 +397,11 @@ static INT32 MemIndex()
 	return 0;
 }
 
-static INT32 DrvDoReset()
+static INT32 DrvDoReset(INT32 full_reset)
 {
-	DrvReset = 0;
-
-	memset (AllRam, 0, RamEnd - AllRam);
+	if (full_reset) {
+		memset (AllRam, 0, RamEnd - AllRam);
+	}
 
 	ZetOpen(0);
 	ZetReset();
@@ -415,6 +414,8 @@ static INT32 DrvDoReset()
 	ZetClose();
 
 	BurnYM2203Reset();
+
+	watchdog = 0;
 
 	return 0;
 }
@@ -535,7 +536,7 @@ static INT32 DrvInit()
 	BurnYM2203SetVolumeShift(1);
 	BurnTimerAttachZet(3579545);
 
-	DrvDoReset();
+	DrvDoReset(1);
 
 	return 0;
 }
@@ -551,21 +552,25 @@ static INT32 DrvExit()
 	return 0;
 }
 
-static void draw_bg(INT32 type)
+static void draw_bg(INT32 type, INT32 layer)
 {
-	// No tile priorities implemented... I really can't notice where it is used.
+// Priority masks should be enabled, but I don't see anywhere that they are used?
+//#define USE_MASKS
+
+#ifdef USE_MASKS
+	UINT16 masks[2][4] = { { 0xffff, 0xfff0, 0xff00, 0xf000 }, { 0x8000, 0x800f, 0x80ff, 0x8fff } };
+#else
+	if (layer == 0) return;
+#endif
 
 	INT32 scrollx = (*DrvScrollx)     & (0x3ff | (0x200 << type));
 	INT32 scrolly = ((*DrvScrolly)+16) & (0x7ff >> type);
 
 	for (INT32 offs = 0; offs < 0x2000; offs++)
 	{
-		INT32 sx;
-		INT32 sy;
-		INT32 ofst;
+		INT32 sx, sy, ofst;
 
-		// 1 = 128x64, 0 = 64x128
-		if (type) {
+		if (type) {		// 1 = 128x64, 0 = 64x128
 			sx = (offs & 0x7f);
 			sy = (offs >> 7);
 
@@ -577,20 +582,49 @@ static void draw_bg(INT32 type)
 			ofst = (sx & 0x0f) + ((sy & 0x0f) << 4) + ((sx & 0x30) << 4) + ((sy & 0x70) << 7);
 		}
 
-		sx <<= 4, sy <<= 4;
-
-		sx -= scrollx;
-		sy -= scrolly;
+		sx = (sx * 16) - scrollx;
+		sy = (sy * 16) - scrolly;
 
 		if (sx < -15) sx += (0x400 << type);
 		if (sy < -15) sy += (0x800 >> type);
-		if (sx > 255 || sy > 223) continue;
+		if (sx >= nScreenWidth || sy >= nScreenHeight) continue;
 
 		INT32 attr  = DrvBgRAM[(ofst << 1) | 1];
 		INT32 color = (attr >> 3) & 0x0f;
 		INT32 code  = DrvBgRAM[ofst << 1] | ((attr & 0x07) << 8);
 		INT32 flipx = attr & 0x80;
+		INT32 flipy = 0;
 
+		if (*flipscreen) {
+			flipx ^= 0x80;
+			flipy = 1;
+
+			sx = 240 - sx;
+			sy = 208 - sy;  
+		}
+
+#ifdef USE_MASKS
+		INT32 colmask = masks[layer][(color < 2) ? 3 : 0];
+
+		{
+			UINT8 *gfx = DrvGfxROM1 + (code * 0x100);
+			color <<= 4;
+
+			INT32 flip = (flipx ? 0x0f : 0) + (flipy ? 0xf0 : 0);
+
+			for (INT32 y = 0; y < 16; y++, sy++, sx-=16) {
+				for (INT32 x = 0; x < 16; x++, sx++) {
+					if (sx < 0 || sx >= nScreenWidth || sy < 0 || sy >= nScreenHeight) continue;
+
+					INT32 pxl = gfx[(y*16+x)^flip];
+
+					if (colmask & (1 << pxl)) continue; // right?
+
+					pTransDraw[sy * nScreenWidth + sx] = pxl + color;
+				}
+			}
+		}
+#else
 		if (*flipscreen) {
 			if (flipx) {
 				Render16x16Tile_Mask_FlipXY_Clip(pTransDraw, code, sx, sy, color, 4, 0, 0, DrvGfxROM1);
@@ -604,6 +638,7 @@ static void draw_bg(INT32 type)
 				Render16x16Tile_Mask_Clip(pTransDraw, code, sx, sy, color, 4, 0, 0, DrvGfxROM1);
 			}
 		}
+#endif
 	}
 }
 
@@ -652,15 +687,14 @@ static void draw_text_layer()
 		INT32 attr  = DrvTxRAM[offs | 0x400];
 		INT32 code  = DrvTxRAM[offs] | ((attr & 0xe0) << 3);
 
-		if (!code) continue;
-
 		INT32 sx = (offs & 0x1f) << 3;
 		INT32 sy = (offs >> 5) << 3;
 
-		sy -= 16;
-		INT32 color = attr & 0x1f;
-
-		Render8x8Tile_Mask(pTransDraw, code, sx, sy, color, 2, 3, 0x300, DrvGfxROM0);
+		if (*flipscreen) {
+			Render8x8Tile_Mask_FlipXY(pTransDraw, code, 248 - sx, 216 - (sy - 16), (attr & 0x1f)/*color*/, 2, 3, 0x300, DrvGfxROM0);
+		} else {
+			Render8x8Tile_Mask(pTransDraw, code, sx, sy - 16, (attr & 0x1f)/*color*/, 2, 3, 0x300, DrvGfxROM0);
+		}
 	}
 }
 
@@ -677,15 +711,19 @@ static INT32 DrvDraw()
 	}
 
 	if (*DrvBgEnable) {
-		draw_bg(*DrvScreenLayout);
+		if (nSpriteEnable & 1) draw_bg(*DrvScreenLayout, 1);
 	}
 
 	if (*DrvSprEnable) {
-		draw_sprites();
+		if (nSpriteEnable & 2) draw_sprites();
+	}
+
+	if (*DrvBgEnable) {
+		if (nSpriteEnable & 4) draw_bg(*DrvScreenLayout, 0);
 	}
 
 	if (*DrvFgEnable) {
-		draw_text_layer();
+		if (nSpriteEnable & 8) draw_text_layer();
 	}
 
 	BurnTransferCopy(DrvPalette);
@@ -695,20 +733,14 @@ static INT32 DrvDraw()
 
 static INT32 DrvFrame()
 {
-	INT32 nInterleave = 100;
-
 	if (DrvReset) {
-		DrvDoReset();
+		DrvDoReset(1);
 	}
 
-	if (*watchdog >= 60) {
-		for (INT32 i = 0; i < 2; i++) {
-			ZetOpen(i);
-			ZetReset();
-			ZetClose();
-		}
-		watchdog = 0;
+	if (watchdog >= 180) {
+		DrvDoReset(0);
 	}
+	watchdog++;
 
 	{
 		DrvInputs[0] = DrvInputs[1] = DrvInputs[2] = 0xff;
@@ -722,13 +754,13 @@ static INT32 DrvFrame()
 		DrvInputs[0] |= *coin_lockout;
 	}
 
-	nCyclesTotal[0] = 6000000 / 60;
-	nCyclesTotal[1] = 3579545 / 60;
-	INT32 nCyclesDone[2];
-	nCyclesDone[0] = nCyclesDone[1] = 0;
-	
 	ZetNewFrame();
 
+	INT32 nInterleave = 100;
+	nCyclesTotal[0] = 6000000 / 60;
+	nCyclesTotal[1] = 3579545 / 60;
+	INT32 nCyclesDone[2] = { 0, 0 };
+	
 	for (INT32 i = 0; i < nInterleave; i++) {
 		INT32 nCurrentCPU, nNext, nCyclesSegment;
 
@@ -759,8 +791,6 @@ static INT32 DrvFrame()
 	}
 
 	memcpy (DrvSprBuf, DrvSprRAM, 0x1200);
-
-//	*watchdog=*watchdog+1;
 
 	return 0;
 }
@@ -933,7 +963,7 @@ struct BurnDriver BurnDrvBlktigerb1 = {
 
 // Black Tiger (bootleg set 2)
 
-static struct BurnRomInfo bktigrb2RomDesc[] = {
+static struct BurnRomInfo blktigerb2RomDesc[] = {
 	{ "1.bin",		0x08000, 0x47E2B21E, 1 | BRF_PRG | BRF_ESS }, //  0 - Z80 #0 Code
 	{ "bdu-02a.6e",		0x10000, 0x7bef96e8, 1 | BRF_PRG | BRF_ESS }, //  1
 	{ "3.bin",		0x10000, 0x52c56ed1, 1 | BRF_PRG | BRF_ESS }, //  2
@@ -958,25 +988,23 @@ static struct BurnRomInfo bktigrb2RomDesc[] = {
 	{ "bd02.9j",		0x00100, 0x8b741e66, 6 | BRF_OPT },           // 16
 	{ "bd03.11k",		0x00100, 0x27201c75, 6 | BRF_OPT },           // 17
 	{ "bd04.11l",		0x00100, 0xe5490b68, 6 | BRF_OPT },           // 18
-
-	{ "bd.5k",  		0x01000, 0xac7d14f1, 7 | BRF_PRG | BRF_OPT }, // 19 I8751 Mcu Code
 };
 
-STD_ROM_PICK(bktigrb2)
-STD_ROM_FN(bktigrb2)
+STD_ROM_PICK(blktigerb2)
+STD_ROM_FN(blktigerb2)
 
-struct BurnDriver BurnDrvBktigrb2 = {
-	"bktigrb2", "blktiger", NULL, NULL, "1987",
+struct BurnDriver BurnDrvblktigerb2 = {
+	"blktigerb2", "blktiger", NULL, NULL, "1987",
 	"Black Tiger (bootleg set 2)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARWARE_CAPCOM_MISC, GBF_PLATFORM | GBF_SCRFIGHT, 0,
-	NULL, bktigrb2RomInfo, bktigrb2RomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
+	NULL, blktigerb2RomInfo, blktigerb2RomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x400,
 	256, 224, 4, 3
 };
 
 
-// Black Dragon
+// Black Dragon (Japan)
 
 static struct BurnRomInfo blkdrgonRomDesc[] = {
 	{ "bd_01.5e",		0x08000, 0x27ccdfbc, 1 | BRF_PRG | BRF_ESS }, //  0 - Z80 #0 Code
@@ -990,9 +1018,9 @@ static struct BurnRomInfo blkdrgonRomDesc[] = {
 	{ "bd_15.2n",		0x08000, 0x3821ab29, 3 | BRF_GRA },           //  6 - Characters
 
 	{ "bd_12.5b",		0x10000, 0x22d0a4b0, 4 | BRF_GRA },           //  7 - Background Tiles
-	{ "bd_13.8b",		0x10000, 0x5b0df8ce, 4 | BRF_GRA },           //  8
+	{ "bd_11.4b",		0x10000, 0xc8b5fc52, 4 | BRF_GRA },           //  8
 	{ "bd_14.9b",		0x10000, 0x9498c378, 4 | BRF_GRA },           //  9
-	{ "bd_11.4b",		0x10000, 0xc8b5fc52, 4 | BRF_GRA },           // 10
+	{ "bd_13.8b",		0x10000, 0x5b0df8ce, 4 | BRF_GRA },           // 10
 
 	{ "bd_08.5a",		0x10000, 0xe2f17438, 5 | BRF_GRA },           // 11 - Sprites
 	{ "bd_07.4a",		0x10000, 0x5fccbd27, 5 | BRF_GRA },           // 12
@@ -1012,7 +1040,7 @@ STD_ROM_FN(blkdrgon)
 
 struct BurnDriver BurnDrvBlkdrgon = {
 	"blkdrgon", "blktiger", NULL, NULL, "1987",
-	"Black Dragon\0", NULL, "Capcom", "Miscellaneous",
+	"Black Dragon (Japan)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARWARE_CAPCOM_MISC, GBF_PLATFORM | GBF_SCRFIGHT, 0,
 	NULL, blkdrgonRomInfo, blkdrgonRomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,

@@ -136,9 +136,9 @@ static inline void palette_write(INT32 offset)
 	UINT16 *data = (UINT16*)(DrvPalRAM + offset);
 	UINT8 r,g,b;
 
-	r = (data[0x0000/2] >> 0) & 0xff;
-	g = (data[0x0000/2] >> 8) & 0xff;
-	b = (data[0x1000/2] >> 0) & 0xff;
+	r = (BURN_ENDIAN_SWAP_INT16(data[0x0000/2]) >> 0) & 0xff;
+	g = (BURN_ENDIAN_SWAP_INT16(data[0x0000/2]) >> 8) & 0xff;
+	b = (BURN_ENDIAN_SWAP_INT16(data[0x1000/2]) >> 0) & 0xff;
 
 	DrvPalette[offset/2] = BurnHighCol(r, g, b, 0);
 }
@@ -181,12 +181,12 @@ void __fastcall darkseal_write_word(UINT32 address, UINT16 data)
 	}
 
 	if ((address & 0xfffff0) == 0x240000) {
-		*((UINT16*)(DrvPfCtrlRAM0 + (address & 0x0e))) = data;
+		*((UINT16*)(DrvPfCtrlRAM0 + (address & 0x0e))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 
 	if ((address & 0xfffff0) == 0x2a0000) {
-		*((UINT16*)(DrvPfCtrlRAM1 + (address & 0x0e))) = data;
+		*((UINT16*)(DrvPfCtrlRAM1 + (address & 0x0e))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 }
@@ -422,11 +422,11 @@ static void draw_sprites()
 
 	for (INT32 offs = 0; offs < 0x400; offs += 4)
 	{
-		INT32 sprite = SprRAM[offs+1] & 0x1fff;
+		INT32 sprite = BURN_ENDIAN_SWAP_INT16(SprRAM[offs+1]) & 0x1fff;
 		if (!sprite) continue;
 
-		INT32 y = SprRAM[offs];
-		INT32 x = SprRAM[offs+2];
+		INT32 y = BURN_ENDIAN_SWAP_INT16(SprRAM[offs]);
+		INT32 x = BURN_ENDIAN_SWAP_INT16(SprRAM[offs+2]);
 
 		INT32 flash = ((y >> 12) & 1) & GetCurrentFrame();
 		if (flash) continue;
@@ -492,7 +492,7 @@ static void draw_pf1_layer(INT32 scroll_x, INT32 scroll_y)
 
 		if (sx >= nScreenWidth || sy >= nScreenHeight) continue;
 
-		INT32 code = vram[offs];
+		INT32 code = BURN_ENDIAN_SWAP_INT16(vram[offs]);
 		INT32 color = code >> 12;
 
 		code &= 0xfff;
@@ -526,7 +526,7 @@ static void draw_pf23_layer_no_rowscroll(UINT8 *ram, UINT8 *gfx_base, INT32 colo
 
 		if (sx >= nScreenWidth || sy >= nScreenHeight) continue;
 
-		INT32 code  = vram[ofst];
+		INT32 code  = BURN_ENDIAN_SWAP_INT16(vram[ofst]);
 		INT32 color = code >> 12;
 
 		code &= 0xfff;
@@ -557,7 +557,7 @@ static void draw_pf23_layer_rowscroll(INT32 scroll_x, INT32 scroll_y)
 	for (INT32 y = 8; y < 248; y++)
 	{
 		INT32 row = (scroll_y + y) >> 4;
-		INT32 xscr = scroll_x + (rows[0x40+y] & 0x3ff);
+		INT32 xscr = scroll_x + (BURN_ENDIAN_SWAP_INT16(rows[0x40+y]) & 0x3ff);
 		dest = pTransDraw + ((y-8) * nScreenWidth);
 
 		for (INT32 x = 0; x < 256+16; x+=16)
@@ -569,8 +569,8 @@ static void draw_pf23_layer_rowscroll(INT32 scroll_x, INT32 scroll_y)
 
 			INT32 ofst = (col & 0x1f) + ((row & 0x1f) << 5) + ((col & 0x20) << 5) + ((row & 0x20) << 6);
 
-			INT32 code  =   vram[ofst] & 0xfff;
-			INT32 color = ((vram[ofst] >> 12) << 4) | 0x400;
+			INT32 code  =   BURN_ENDIAN_SWAP_INT16(vram[ofst]) & 0xfff;
+			INT32 color = ((BURN_ENDIAN_SWAP_INT16(vram[ofst]) >> 12) << 4) | 0x400;
 			
 			UINT8 *src = DrvGfxROM2 + (code << 8) + (((scroll_y + y) & 0x0f) << 4);
 			for (INT32 xx = sx; xx < (((sx+16) < nScreenWidth) ? (sx+16) : nScreenWidth); xx++) {
@@ -592,19 +592,19 @@ static INT32 DrvDraw()
 	UINT16 *ctrl0 = (UINT16*)DrvPfCtrlRAM0;
 	UINT16 *ctrl1 = (UINT16*)DrvPfCtrlRAM1;
 
-	INT32 flipscreen = ~ctrl0[0] & 0x80;
+	INT32 flipscreen = ~BURN_ENDIAN_SWAP_INT16(ctrl0[0]) & 0x80;
 
 	if (ctrl0[6] & 0x4000) {
-		draw_pf23_layer_rowscroll(ctrl0[3] & 0x3ff, ctrl0[4] & 0x3ff);
+		draw_pf23_layer_rowscroll(BURN_ENDIAN_SWAP_INT16(ctrl0[3]) & 0x3ff, BURN_ENDIAN_SWAP_INT16(ctrl0[4]) & 0x3ff);
 	} else {
-		draw_pf23_layer_no_rowscroll(DrvPf3RAM, DrvGfxROM2, 0x400, 0, ctrl0[3] & 0x3ff, ctrl0[4] & 0x3ff);
+		draw_pf23_layer_no_rowscroll(DrvPf3RAM, DrvGfxROM2, 0x400, 0, BURN_ENDIAN_SWAP_INT16(ctrl0[3]) & 0x3ff, BURN_ENDIAN_SWAP_INT16(ctrl0[4]) & 0x3ff);
 	}
 
-	draw_pf23_layer_no_rowscroll(DrvPf2RAM, DrvGfxROM1, 0x300, 1, ctrl1[1] & 0x3ff, ctrl1[2] & 0x3ff);
+	draw_pf23_layer_no_rowscroll(DrvPf2RAM, DrvGfxROM1, 0x300, 1, BURN_ENDIAN_SWAP_INT16(ctrl1[1]) & 0x3ff, BURN_ENDIAN_SWAP_INT16(ctrl1[2]) & 0x3ff);
 
 	draw_sprites();
 
-	draw_pf1_layer(ctrl1[3] & 0x1ff, ctrl1[4] & 0x1ff);
+	draw_pf1_layer(BURN_ENDIAN_SWAP_INT16(ctrl1[3]) & 0x1ff, BURN_ENDIAN_SWAP_INT16(ctrl1[4]) & 0x1ff);
 
 	if (flipscreen) {
 		INT32 full = nScreenWidth * nScreenHeight;

@@ -47,7 +47,7 @@ void (*pPgmProtCallback)() = NULL;
 INT32 (*pPgmScanCallback)(INT32, INT32*) = NULL;
 
 static INT32 nEnableArm7 = 0;
-INT32 nPGMEnableIRQ4 = 0;
+INT32 nPGMDisableIRQ4 = 0;
 INT32 nPGMArm7Type = 0;
 
 #define M68K_CYCS_PER_FRAME	((20000000 * 100) / nBurnFPS)
@@ -733,7 +733,7 @@ INT32 pgmExit()
 	pPgmResetCallback = NULL;
 
 	nEnableArm7 = 0;
-	nPGMEnableIRQ4 = 0;
+	nPGMDisableIRQ4 = 0;
 	nPGMArm7Type = 0;
 
 	nPgmCurrentBios = -1;
@@ -816,11 +816,9 @@ INT32 pgmFrame()
 		nCyclesNext[1] += Z80_CYCS_PER_INTER;
 		nCyclesNext[2] += ARM7_CYCS_PER_INTER;
 
-		INT32 cycles = M68K_CYCS_PER_INTER; //nCyclesNext[0] - nCyclesDone[0];
+		INT32 cycles = M68K_CYCS_PER_INTER;
 
-		//if (cycles > 0) {
-			nCyclesDone[0] += SekRun(cycles);
-		//}
+		nCyclesDone[0] += SekRun(cycles);
 
 		if (nEnableArm7) {
 			cycles = SekTotalCycles() - Arm7TotalCycles();
@@ -838,7 +836,7 @@ INT32 pgmFrame()
 			}
 		}
 
-		if (i == ((PGM_INTER_LEAVE / 2)-1) && nPGMEnableIRQ4 != 0) {
+		if (i == ((PGM_INTER_LEAVE / 2)-1) && !nPGMDisableIRQ4) {
 			SekSetIRQLine(4, SEK_IRQSTATUS_AUTO);
 		}
 	}

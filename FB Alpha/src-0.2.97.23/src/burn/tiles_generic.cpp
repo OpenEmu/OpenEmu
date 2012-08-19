@@ -1861,7 +1861,7 @@ void RenderCustomTile(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight, INT32 nTil
 
 	UINT16* pPixel = pDestDraw + (StartY * nScreenWidth) + StartX;
 
-	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nWidth) {
 		for (INT32 x = 0; x < nWidth; x++) {
 			PLOTPIXEL(x);
 		}
@@ -1879,7 +1879,7 @@ void RenderCustomTile_Clip(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight, INT32
 
 	UINT16* pPixel = pDestDraw + (StartY * nScreenWidth) + StartX;
 
-	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nWidth) {
 		if ((StartY + y) < 0 || (StartY + y) >= nScreenHeight) {
 			continue;
 		}
@@ -1901,7 +1901,7 @@ void RenderCustomTile_FlipX(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight, INT3
 
 	UINT16* pPixel = pDestDraw + (StartY * nScreenWidth) + StartX;
 
-	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nWidth) {
 		for (INT32 x = 0; x < nWidth; x++) {
 			PLOTPIXEL_FLIPX(nWidth - x - 1, x);
 		}
@@ -1919,7 +1919,7 @@ void RenderCustomTile_FlipX_Clip(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight,
 
 	UINT16* pPixel = pDestDraw + (StartY * nScreenWidth) + StartX;
 
-	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nWidth) {
 		if ((StartY + y) < 0 || (StartY + y) >= nScreenHeight) {
 			continue;
 		}
@@ -1941,7 +1941,7 @@ void RenderCustomTile_FlipY(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight, INT3
 
 	UINT16* pPixel = pDestDraw + ((StartY + nHeight - 1) * nScreenWidth) + StartX;
 
-	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nWidth) {
 		for (INT32 x = 0; x < nWidth; x++) {
 			PLOTPIXEL(x);
 		}
@@ -1959,7 +1959,7 @@ void RenderCustomTile_FlipY_Clip(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight,
 
 	UINT16* pPixel = pDestDraw + ((StartY + nHeight - 1) * nScreenWidth) + StartX;
 
-	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nWidth) {
 		if ((StartY + y) < 0 || (StartY + y) >= nScreenHeight) {
 			continue;
 		}
@@ -1981,7 +1981,7 @@ void RenderCustomTile_FlipXY(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight, INT
 
 	UINT16* pPixel = pDestDraw + ((StartY + nHeight - 1) * nScreenWidth) + StartX;
 
-	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nWidth) {
 		for (INT32 x = 0; x < nWidth; x++) {
 			PLOTPIXEL_FLIPX(nWidth - x - 1, x);
 		}
@@ -1999,7 +1999,7 @@ void RenderCustomTile_FlipXY_Clip(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight
 
 	UINT16* pPixel = pDestDraw + ((StartY + nHeight - 1) * nScreenWidth) + StartX;
 
-	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nWidth) {
 		if ((StartY + y) < 0 || (StartY + y) >= nScreenHeight) {
 			continue;
 		}
@@ -2025,7 +2025,7 @@ void RenderCustomTile_Mask(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight, INT32
 
 	UINT16* pPixel = pDestDraw + (StartY * nScreenWidth) + StartX;
 
-	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nWidth) {
 		for (INT32 x = 0; x < nWidth; x++) {
 			PLOTPIXEL_MASK(x, nMaskColour);
 		}
@@ -2043,7 +2043,7 @@ void RenderCustomTile_Mask_Clip(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight, 
 
 	UINT16* pPixel = pDestDraw + (StartY * nScreenWidth) + StartX;
 
-	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nWidth) {
 		if ((StartY + y) < 0 || (StartY + y) >= nScreenHeight) {
 			continue;
 		}
@@ -2065,7 +2065,7 @@ void RenderCustomTile_Mask_FlipX(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight,
 
 	UINT16* pPixel = pDestDraw + (StartY * nScreenWidth) + StartX;
 
-	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nWidth) {
 		for (INT32 x = 0; x < nWidth; x++) {
 			PLOTPIXEL_MASK_FLIPX(nWidth - x - 1, x, nMaskColour);
 		}
@@ -2083,7 +2083,7 @@ void RenderCustomTile_Mask_FlipX_Clip(UINT16* pDestDraw, INT32 nWidth, INT32 nHe
 
 	UINT16* pPixel = pDestDraw + (StartY * nScreenWidth) + StartX;
 
-	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = 0; y < nHeight; y++, pPixel += nScreenWidth, pTileData += nWidth) {
 		if ((StartY + y) < 0 || (StartY + y) >= nScreenHeight) {
 			continue;
 		}
@@ -2105,7 +2105,7 @@ void RenderCustomTile_Mask_FlipY(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight,
 
 	UINT16* pPixel = pDestDraw + ((StartY + nHeight - 1) * nScreenWidth) + StartX;
 
-	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nWidth) {
 		for (INT32 x = 0; x < nWidth; x++) {
 			PLOTPIXEL_MASK(x, nMaskColour);
 		}
@@ -2123,7 +2123,7 @@ void RenderCustomTile_Mask_FlipY_Clip(UINT16* pDestDraw, INT32 nWidth, INT32 nHe
 
 	UINT16* pPixel = pDestDraw + ((StartY + nHeight - 1) * nScreenWidth) + StartX;
 
-	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nWidth) {
 		if ((StartY + y) < 0 || (StartY + y) >= nScreenHeight) {
 			continue;
 		}
@@ -2145,7 +2145,7 @@ void RenderCustomTile_Mask_FlipXY(UINT16* pDestDraw, INT32 nWidth, INT32 nHeight
 
 	UINT16* pPixel = pDestDraw + ((StartY + nHeight - 1) * nScreenWidth) + StartX;
 
-	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nWidth) {
 		for (INT32 x = 0; x < nWidth; x++) {
 			PLOTPIXEL_MASK_FLIPX(nWidth - x - 1, x, nMaskColour);
 		}
@@ -2163,7 +2163,7 @@ void RenderCustomTile_Mask_FlipXY_Clip(UINT16* pDestDraw, INT32 nWidth, INT32 nH
 
 	UINT16* pPixel = pDestDraw + ((StartY + nHeight - 1) * nScreenWidth) + StartX;
 
-	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nHeight) {
+	for (INT32 y = nHeight - 1; y >= 0; y--, pPixel -= nScreenWidth, pTileData += nWidth) {
 		if ((StartY + y) < 0 || (StartY + y) >= nScreenHeight) {
 			continue;
 		}

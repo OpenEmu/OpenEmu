@@ -1093,6 +1093,33 @@ static struct BurnRomInfo FxRomDesc[] = {
 STD_ROM_PICK(Fx)
 STD_ROM_FN(Fx)
 
+// f205v id 989
+// same data as fx, different format
+static struct BurnRomInfo FxaRomDesc[] = {
+	{ "fxa1.t4",       0x08000, 0xa71332aa, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
+	
+	{ "fxa2.t8",       0x08000, 0xeb299381, BRF_ESS | BRF_PRG }, //  1	Z80 #2 Program 
+	
+	{ "fx.05",         0x01000, 0x4a504286, BRF_GRA },	     //  2	Characters
+	
+	{ "17.9h",         0x02000, 0x41211458, BRF_GRA },	     //  3	Tiles
+	{ "18.10h",        0x02000, 0x740eccd4, BRF_GRA },	     //  4
+	{ "16.11h",        0x02000, 0xc1f4a5db, BRF_GRA },	     //  5
+	
+	{ "fxa5.7a",       0x08000, 0x3e2289dc, BRF_GRA },	     //  6	Sprites	
+	{ "fxa4.9a",       0x08000, 0x26963d7f, BRF_GRA },	     //  7
+	{ "fxa3.11a",      0x08000, 0x8687f1a0, BRF_GRA },	     //  8
+	
+	{ "mr.1j",         0x00100, 0x110a436e, BRF_GRA },	     //  9	PROMs
+	{ "mg.1h",         0x00100, 0x0fbfd9f0, BRF_GRA },	     //  10
+	{ "mb.1f",         0x00100, 0xa342890c, BRF_GRA },	     //  11
+	{ "m2.5j",         0x00020, 0x190a55ad, BRF_GRA },	     //  12
+	{ "m1.2c",         0x00020, 0x83a39201, BRF_GRA },	     //  13
+};
+
+STD_ROM_PICK(Fxa)
+STD_ROM_FN(Fxa)
+
 static INT32 MemIndex()
 {
 	UINT8 *Next; Next = Mem;
@@ -1657,12 +1684,19 @@ static INT32 KyugoInit()
 		 KyugoSizeZ80Rom1 = 0x4000;
 		 KyugoSizeZ80Rom2 = 0x4000;
 	}
-	
 	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "skywolf2")) {
 	 	 KyugoNumZ80Rom1 = 1;
 		 KyugoNumZ80Rom2 = 2;
 		 KyugoSizeZ80Rom1 = 0x8000;
 		 KyugoSizeZ80Rom2 = 0x4000;
+	}
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "fxa")) {
+		KyugoNumZ80Rom1 = 1;
+		KyugoNumZ80Rom2 = 1;
+		KyugoNumSpriteRom = 3;
+		KyugoSizeZ80Rom1 = 0x8000;
+		KyugoSizeZ80Rom2 = 0x8000;
+		KyugoSizeSpriteRom = 0x8000;
 	}
 
 	// Allocate and Blank all required memory
@@ -1724,7 +1758,7 @@ static INT32 KyugoInit()
 	nRet = BurnLoadRom(KyugoPromRed,          KyugoNumSpriteRom + KyugoNumZ80Rom2 + KyugoNumZ80Rom1 + 4, 1); if (nRet != 0) return 1;
 	nRet = BurnLoadRom(KyugoPromGreen,        KyugoNumSpriteRom + KyugoNumZ80Rom2 + KyugoNumZ80Rom1 + 5, 1); if (nRet != 0) return 1;
 	nRet = BurnLoadRom(KyugoPromBlue,         KyugoNumSpriteRom + KyugoNumZ80Rom2 + KyugoNumZ80Rom1 + 6, 1); if (nRet != 0) return 1;
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "flashgal") || !strcmp(BurnDrvGetTextA(DRV_NAME), "flashgala") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodine") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodinet") || !strcmp(BurnDrvGetTextA(DRV_NAME), "buzzard") || !strcmp(BurnDrvGetTextA(DRV_NAME), "legend") || !strcmp(BurnDrvGetTextA(DRV_NAME), "srdmissn") || !strcmp(BurnDrvGetTextA(DRV_NAME), "fx")) {
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "flashgal") || !strcmp(BurnDrvGetTextA(DRV_NAME), "flashgala") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodine") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodinet") || !strcmp(BurnDrvGetTextA(DRV_NAME), "buzzard") || !strcmp(BurnDrvGetTextA(DRV_NAME), "legend") || !strcmp(BurnDrvGetTextA(DRV_NAME), "srdmissn") || !strcmp(BurnDrvGetTextA(DRV_NAME), "fx") || !strcmp(BurnDrvGetTextA(DRV_NAME), "fxa")) {
 		nRet = BurnLoadRom(KyugoPromCharLookup,   KyugoNumSpriteRom + KyugoNumZ80Rom2 + KyugoNumZ80Rom1 + 7, 1); if (nRet != 0) return 1;
 	}
 	
@@ -1861,7 +1895,7 @@ static INT32 KyugoInit()
 		ZetClose();
 	}
 	
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "srdmissn") || !strcmp(BurnDrvGetTextA(DRV_NAME), "fx")) {
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "srdmissn") || !strcmp(BurnDrvGetTextA(DRV_NAME), "fx") || !strcmp(BurnDrvGetTextA(DRV_NAME), "fxa")) {
 		ZetOpen(0);
 		ZetSetOutHandler(SrdmissnPortWrite1);
 		ZetMapArea(0xe000, 0xe7ff, 0, KyugoSharedZ80Ram        );
@@ -2608,6 +2642,16 @@ struct BurnDriver BurnDrvFx = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, FxRomInfo, FxRomName, NULL, NULL, KyugoInputInfo, SrdmissnDIPInfo,
+	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
+	NULL, 0x100, 224, 288, 3, 4
+};
+
+struct BurnDriver BurnDrvFxa = {
+	"fxa", "srdmissn", NULL, NULL, "1986",
+	"F-X (alternate set)\0", NULL, "bootleg", "Kyugo",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
+	NULL, FxaRomInfo, FxaRomName, NULL, NULL, KyugoInputInfo, SrdmissnDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
 	NULL, 0x100, 224, 288, 3, 4
 };

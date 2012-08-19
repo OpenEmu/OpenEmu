@@ -264,7 +264,7 @@ void __fastcall funkyjet_main_write_word(UINT32 address, UINT16 data)
 	}
 
 	if ((address & 0xfff800) == 0x180000) {
-		*((UINT16*)(DrvPrtRAM + (address & 0x7fe))) = data;
+		*((UINT16*)(DrvPrtRAM + (address & 0x7fe))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 }
@@ -432,9 +432,9 @@ static void DrvPaletteRecalc()
 	UINT16 *p = (UINT16*)DrvPalRAM;
 
 	for (INT32 i = 0; i < 0x800 / 2; i++) {
-		INT32 b = (p[i] >> 8) & 0x0f;
-		INT32 g = (p[i] >> 4) & 0x0f;
-		INT32 r = (p[i] >> 0) & 0x0f;
+		INT32 b = (BURN_ENDIAN_SWAP_INT16(p[i]) >> 8) & 0x0f;
+		INT32 g = (BURN_ENDIAN_SWAP_INT16(p[i]) >> 4) & 0x0f;
+		INT32 r = (BURN_ENDIAN_SWAP_INT16(p[i]) >> 0) & 0x0f;
 
 		r |= r << 4;
 		g |= g << 4;
@@ -452,9 +452,9 @@ static void draw_sprites()
 	{
 		INT32 inc, mult;
 
-		INT32 sy     = ram[offs + 0];
-		INT32 code   = ram[offs + 1] & 0x3fff;
-		INT32 sx     = ram[offs + 2];
+		INT32 sy     = BURN_ENDIAN_SWAP_INT16(ram[offs + 0]);
+		INT32 code   = BURN_ENDIAN_SWAP_INT16(ram[offs + 1]) & 0x3fff;
+		INT32 sx     = BURN_ENDIAN_SWAP_INT16(ram[offs + 2]);
 
 		if ((sy & 0x1000) && (nCurrentFrame & 1)) continue;
 

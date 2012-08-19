@@ -179,10 +179,10 @@ UINT16 __fastcall pktgaldx_read_word(UINT32 address)
 			return DrvInputs[1];
 
 		case 0x167d10:
-			return *((UINT16*)(DrvProtRAM + 0));
+			return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(DrvProtRAM + 0)));
 
 		case 0x167d1a:
-			return *((UINT16*)(DrvProtRAM + 2));
+			return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(DrvProtRAM + 2)));
 	}
 
 	return 0;
@@ -373,14 +373,14 @@ static void draw_sprites()
 	{
 		INT32 inc, mult;
 
-		INT32 sprite = spriteram[offs+1];
+		INT32 sprite = BURN_ENDIAN_SWAP_INT16(spriteram[offs+1]);
 		if (!sprite) continue;
 
-		INT32 y = spriteram[offs];
+		INT32 y = BURN_ENDIAN_SWAP_INT16(spriteram[offs]);
 
 		if ((y & 0x1000) && (nCurrentFrame & 1)) continue; // flash
 
-		INT32 x = spriteram[offs + 2];
+		INT32 x = BURN_ENDIAN_SWAP_INT16(spriteram[offs + 2]);
 		INT32 colour = (x >> 9) & 0x1f;
 
 		INT32 fx = y & 0x2000;

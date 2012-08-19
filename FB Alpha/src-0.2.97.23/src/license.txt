@@ -32,7 +32,7 @@ Some graphics effects provided by the Scale2x, 2xPM, Eagle Graphics, 2xSaI, hq2x
 
 Miscellaneous other components from various sources. Copyright and license information are contained in the relevant parts of the source code.
 
-All material not covered above © 2004-2010 Team FB Alpha.
+All material not covered above © 2004-2012 Team FB Alpha.
 
 DISCLAIMER: The authors of FB Alpha don't guarantee its fitness for any purpose, implied or otherwise, and do not accept responsibility for any damages whatsoever that might occur when using FB Alpha. All games emulated by FB Alpha, including any images and sounds therein, are copyrighted by their respective copyright holders. FB Alpha DOES NOT INCLUDE any ROM images of emulated games.
 

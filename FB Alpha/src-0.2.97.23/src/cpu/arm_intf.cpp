@@ -192,7 +192,7 @@ void Arm_program_write_dword_32le(UINT32 addr, UINT32 data)
 #endif
 
 	if (membase[WRITE][addr >> PAGE_SHIFT] != NULL) {
-		*((UINT32*)(membase[WRITE][addr >> PAGE_SHIFT] + (addr & PAGE_LONG_AND))) = data;
+		*((UINT32*)(membase[WRITE][addr >> PAGE_SHIFT] + (addr & PAGE_LONG_AND))) = BURN_ENDIAN_SWAP_INT32(data);
 		return;
 	}
 
@@ -238,7 +238,7 @@ UINT32 Arm_program_read_dword_32le(UINT32 addr)
 #endif
 
 	if (membase[ READ][addr >> PAGE_SHIFT] != NULL) {
-		return *((UINT32*)(membase[ READ][addr >> PAGE_SHIFT] + (addr & PAGE_LONG_AND)));
+		return BURN_ENDIAN_SWAP_INT32(*((UINT32*)(membase[ READ][addr >> PAGE_SHIFT] + (addr & PAGE_LONG_AND))));
 	}
 
 	if (pReadLongHandler) {
@@ -277,7 +277,7 @@ UINT32 Arm_program_opcode_dword_32le(UINT32 addr)
 #endif
 
 	if (membase[FETCH][addr >> PAGE_SHIFT] != NULL) {
-		return *((UINT32*)(membase[FETCH][addr >> PAGE_SHIFT] + (addr & PAGE_LONG_AND)));
+		return BURN_ENDIAN_SWAP_INT32(*((UINT32*)(membase[FETCH][addr >> PAGE_SHIFT] + (addr & PAGE_LONG_AND))));
 	}
 
 	// good enough for now...

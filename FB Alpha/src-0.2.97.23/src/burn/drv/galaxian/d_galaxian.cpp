@@ -8988,6 +8988,27 @@ static struct BurnRomInfo MooncrstukRomDesc[] = {
 STD_ROM_PICK(Mooncrstuk)
 STD_ROM_FN(Mooncrstuk)
 
+static struct BurnRomInfo MooncrstukuRomDesc[] = {
+	{ "smc1f",         0x00800, 0x389ca0d6, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "smc2f",         0x00800, 0x410ab430, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "smc3f",         0x00800, 0xa6b4144b, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "smc4f",         0x00800, 0x4cc046fe, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "smc5f",         0x00800, 0x06d378a6, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "smc6f",         0x00800, 0x6e84a927, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "smc7f",         0x00800, 0xb45af1e8, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "smc8f_uk",      0x00800, 0xb968b2ff, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	
+	{ "mcs_b",         0x00800, 0xfb0f1f81, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "mcs_d",         0x00800, 0x13932a15, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "mcs_a",         0x00800, 0x631ebb5a, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "mcs_c",         0x00800, 0x24cfd145, BRF_GRA | GAL_ROM_TILES_SHARED },
+	
+	{ "mmi6331.6l",    0x00020, 0x6a0c7d87, BRF_GRA | GAL_ROM_PROM },
+};
+
+STD_ROM_PICK(Mooncrstuku)
+STD_ROM_FN(Mooncrstuku)
+
 static struct BurnRomInfo MooncrstuRomDesc[] = {
 	{ "smc1f",         0x00800, 0x389ca0d6, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "smc2f",         0x00800, 0x410ab430, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
@@ -9110,6 +9131,16 @@ struct BurnDriver BurnDrvMooncrstuk = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
 	NULL, MooncrstukRomInfo, MooncrstukRomName, NULL, NULL, OmegaInputInfo, MooncrstDIPInfo,
 	MooncrstEncryptedInit, GalExit, GalFrame, NULL, GalScan,
+	NULL, 392, 224, 256, 3, 4
+};
+
+struct BurnDriver BurnDrvMooncrstuku = {
+	"mooncrstuku", "mooncrst", NULL, NULL, "1980",
+	"Moon Cresta (Nichibutsu UK, unencrypted)\0", NULL, "Nichibutsu UK", "Galaxian",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
+	NULL, MooncrstukuRomInfo, MooncrstukuRomName, NULL, NULL, OmegaInputInfo, MooncrstDIPInfo,
+	MooncrstInit, GalExit, GalFrame, NULL, GalScan,
 	NULL, 392, 224, 256, 3, 4
 };
 
@@ -19916,6 +19947,22 @@ static struct BurnRomInfo DrivfrcgRomDesc[] = {
 STD_ROM_PICK(Drivfrcg)
 STD_ROM_FN(Drivfrcg)
 
+static struct BurnRomInfo DrivfrctRomDesc[] = {
+	{ "01.bin",        0x02000, 0x300a6750, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "02.bin",        0x02000, 0xf04e14c4, BRF_GRA | GAL_ROM_TILES_SHARED },
+		
+	{ "tbp18s030.02",  0x00020, 0x3110ddae, BRF_GRA | GAL_ROM_PROM },
+	{ "tbp18s030.01",  0x00020, 0x0f0782af, BRF_GRA | GAL_ROM_PROM },
+				
+	{ "03.bin",        0x04000, 0x9ab604cb, BRF_ESS | BRF_PRG | GAL_ROM_S2650_PROG1 },
+	
+	{ "tbp24s10.bin",  0x00100, 0x8c0d886d, BRF_OPT },
+	{ "tbp28s42.bin",  0x00200, 0x9b8f310a, BRF_OPT },
+};
+
+STD_ROM_PICK(Drivfrct)
+STD_ROM_FN(Drivfrct)
+
 static struct BurnRomInfo DrivfrcbRomDesc[] = {
 	{ "df1.bin",       0x02000, 0x8adc3de0, BRF_GRA | GAL_ROM_TILES_SHARED },
 	{ "df2.bin",       0x02000, 0x6d95ec35, BRF_GRA | GAL_ROM_TILES_SHARED },
@@ -21035,7 +21082,7 @@ static void HunchbksPostLoad()
 	s2650SetOutHandler(HunchbksS2650PortWrite);
 	s2650Close();
 	
-	ZetInit(1);
+	ZetInit(0);
 }
 
 static INT32 HunchbksInit()
@@ -21069,7 +21116,7 @@ static void HncholmsPostLoad()
 	s2650SetOutHandler(HunchbksS2650PortWrite);
 	s2650Close();
 	
-	ZetInit(1);
+	ZetInit(0);
 }
 
 static INT32 HncholmsInit()
@@ -21117,9 +21164,19 @@ struct BurnDriver BurnDrvDrivfrcg = {
 	NULL, 392, 224, 256, 3, 4
 };
 
+struct BurnDriver BurnDrvDrivfrct = {
+	"drivfrct", "drivfrcp", NULL, NULL, "1985",
+	"Top Racer (bootleg of Driving Force)\0", NULL, "bootleg (EMT Germany)", "Galaxian",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_RACING, 0,
+	NULL, DrivfrctRomInfo, DrivfrctRomName, NULL, NULL, DrivfrcgInputInfo, DrivfrcgDIPInfo,
+	DrivfrcbInit, GalExit, GalFrame, NULL, GalScan,
+	NULL, 392, 224, 256, 3, 4
+};
+
 struct BurnDriver BurnDrvDrivfrcb = {
 	"drivfrcb", "drivfrcp", NULL, NULL, "1985",
-	"Driving Force (Galaxian conversion bootleg)\0", NULL, "bootleg", "Galaxian",
+	"Driving Force (Galaxian conversion bootleg)\0", NULL, "bootleg (Elsys Software)", "Galaxian",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_RACING, 0,
 	NULL, DrivfrcbRomInfo, DrivfrcbRomName, NULL, NULL, DrivfrcgInputInfo, DrivfrcgDIPInfo,

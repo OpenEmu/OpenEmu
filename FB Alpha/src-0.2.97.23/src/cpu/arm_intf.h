@@ -61,7 +61,7 @@ void Arm_write_rom_byte(UINT32 addr, UINT8 data);
 
 #define Write16Long(ram, a, b)							\
 	if (address >= a && address <= b) {					\
-		*((UINT16*)(ram + (((address - a) & ~3)/2))) = data;	\
+		*((UINT16*)(ram + (((address - a) & ~3)/2))) = BURN_ENDIAN_SWAP_INT16(data);	\
 		return;								\
 	}
 
@@ -76,7 +76,7 @@ void Arm_write_rom_byte(UINT32 addr, UINT8 data);
 
 #define Read16Long(ram, a, b)							\
 	if (address >= a && address <= b) {					\
-		return *((UINT16*)(ram + (((address - a) & ~3)/2))) | ~0xffff;	\
+		return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(ram + (((address - a) & ~3)/2)))) | ~0xffff;	\
 	}
 
 #define Read16Byte(ram, a, b)							\

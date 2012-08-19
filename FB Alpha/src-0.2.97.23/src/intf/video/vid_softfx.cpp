@@ -2,6 +2,7 @@
 
 #include "burner.h"
 #include "vid_softfx.h"
+#include "xbr.h"
 
 typedef unsigned long uint32;
 typedef unsigned short uint16;
@@ -33,6 +34,8 @@ extern void RenderHQ3XS(unsigned char*, unsigned int, unsigned char*, unsigned i
 
 void RenderEPXB(unsigned char*, unsigned int, unsigned char*, unsigned int, int, int, int);
 void RenderEPXC(unsigned char*, unsigned int, unsigned char*, unsigned int, int, int, int);
+
+void ddt3x(unsigned char * src,  unsigned int srcPitch, unsigned char * dest, unsigned int dstPitch, int Xres, int Yres);
 
 #if defined __GNUC__
  #include "scale2x.h"
@@ -75,32 +78,41 @@ extern "C" {
 #define FXF_MMX		(1 << 31)
 
 static struct { TCHAR* pszName; int nZoom; unsigned int nFlags; } SoftFXInfo[] = {
-	{ _T("Plain Software Scale"),		2, 0	   },
-
-	{ _T("AdvanceMAME Scale2x"),		2, FXF_MMX },
-	{ _T("AdvanceMAME Scale3x"),		3, 0	   },
-	{ _T("2xPM LQ"),			2, FXF_MMX },
-	{ _T("2xPM HQ"),			2, FXF_MMX },
-	{ _T("Eagle Graphics"),			2, FXF_MMX },
-	{ _T("SuperEagle"),			2, FXF_MMX },
-	{ _T("2xSaI"),				2, FXF_MMX },
-	{ _T("Super 2xSaI"),			2, FXF_MMX },
-	{ _T("SuperEagle (VBA)"),		2, FXF_MMX },
-	{ _T("2xSaI (VBA)"),			2, FXF_MMX },
-	{ _T("Super 2xSaI (VBA)"),		2, FXF_MMX },
-	{ _T("SuperScale"),			2, FXF_MMX },
-	{ _T("SuperScale (75% Scanlines)"),	2, FXF_MMX },
-	{ _T("hq2x Filter"),			2, FXF_MMX },
-	{ _T("hq3x Filter"),			3, FXF_MMX },
-	{ _T("hq4x Filter"),			4, FXF_MMX },
-	{ _T("hq2xS (VBA) Filter"),             2, 0       },
-        { _T("hq3xS (VBA) Filter"),             3, FXF_MMX },
-        { _T("hq2xS (SNES9X) Filter"),          2, FXF_MMX },
-        { _T("hq3xS (SNEX9X) Filter"),          3, FXF_MMX },
-        { _T("hq2xBold Filter"),                2, FXF_MMX },
-        { _T("hq3xBold Filter"),                3, FXF_MMX },
-        { _T("EPXB Filter"),                    2, FXF_MMX },
-        { _T("EPXC Filter"),                    2, FXF_MMX },
+	{ _T("Plain Software Scale"),			2, 0	   },
+	{ _T("AdvanceMAME Scale2x"),			2, FXF_MMX },
+	{ _T("AdvanceMAME Scale3x"),			3, 0	   },
+	{ _T("2xPM LQ"),						2, FXF_MMX },
+	{ _T("2xPM HQ"),						2, FXF_MMX },
+	{ _T("Eagle Graphics"),					2, FXF_MMX },
+	{ _T("SuperEagle"),						2, FXF_MMX },
+	{ _T("2xSaI"),							2, FXF_MMX },
+	{ _T("Super 2xSaI"),					2, FXF_MMX },
+	{ _T("SuperEagle (VBA)"),				2, FXF_MMX },
+	{ _T("2xSaI (VBA)"),					2, FXF_MMX },
+	{ _T("Super 2xSaI (VBA)"),				2, FXF_MMX },
+	{ _T("SuperScale"),						2, FXF_MMX },
+	{ _T("SuperScale (75% Scanlines)"),		2, FXF_MMX },
+	{ _T("hq2x Filter"),					2, FXF_MMX },
+	{ _T("hq3x Filter"),					3, FXF_MMX },
+	{ _T("hq4x Filter"),					4, FXF_MMX },
+	{ _T("hq2xS (VBA) Filter"),				2, 0       },
+	{ _T("hq3xS (VBA) Filter"),				3, FXF_MMX },
+	{ _T("hq2xS (SNES9X) Filter"),			2, FXF_MMX },
+	{ _T("hq3xS (SNEX9X) Filter"),			3, FXF_MMX },
+	{ _T("hq2xBold Filter"),				2, FXF_MMX },
+	{ _T("hq3xBold Filter"),				3, FXF_MMX },
+	{ _T("EPXB Filter"),					2, FXF_MMX },
+	{ _T("EPXC Filter"),					2, FXF_MMX },
+	{ _T("2xBR (Squared) Filter"),			2, FXF_MMX },
+	{ _T("2xBR (Semi-Rounded) Filter"),		2, FXF_MMX },
+	{ _T("2xBR (Rounded) Filter"),			2, FXF_MMX },
+	{ _T("3xBR (Squared) Filter"),			3, FXF_MMX },
+	{ _T("3xBR (Semi-Rounded) Filter"),		3, FXF_MMX },
+	{ _T("3xBR (Rounded) Filter"),			3, FXF_MMX },
+	{ _T("4xBR (Squared) Filter"),			4, FXF_MMX },
+	{ _T("4xBR (Semi-Rounded) Filter"),		4, FXF_MMX },
+	{ _T("4xBR (Rounded) Filter"),			4, FXF_MMX },
+	{ _T("DDT3x"),                          3, FXF_MMX },
 };
 
 static unsigned char* pSoftFXImage = NULL;
@@ -157,6 +169,16 @@ int VidSoftFXCheckDepth(int nEffect, int nDepth)
 		case FILTER_HQ3XBOLD:
 		case FILTER_EPXB:
 		case FILTER_EPXC:
+		case FILTER_2XBR_A:
+		case FILTER_2XBR_B:
+		case FILTER_2XBR_C:
+		case FILTER_3XBR_A:
+		case FILTER_3XBR_B:
+		case FILTER_3XBR_C:
+		case FILTER_4XBR_A:
+		case FILTER_4XBR_B:
+		case FILTER_4XBR_C:
+		case FILTER_DDT3X:
 			if (nDepth == 16) {
 				return nDepth;
 			}
@@ -841,48 +863,86 @@ void VidSoftFXApplyEffect(unsigned char* ps, unsigned char* pd, int nPitch)
 		}
 #endif
 		case FILTER_HQ2XS_VBA: {                                                                                      // hq2xS filter (16/32BPP only)
-                        if (nVidImageDepth == 16) {
-                                hq2xS(ps, nSoftFXImagePitch, NULL, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
-                        }
-                        else if (nVidImageDepth == 32) {
-                                hq2xS32(ps, nSoftFXImagePitch, NULL, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
-                        }
-                        break;
-                }
-                case FILTER_HQ3XS_VBA: {                                                                                      // hq3xS filter (16/32BPP only)
+			if (nVidImageDepth == 16) {
+				hq2xS(ps, nSoftFXImagePitch, NULL, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			} else if (nVidImageDepth == 32) {
+				hq2xS32(ps, nSoftFXImagePitch, NULL, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			}
+			break;
+		}
+		case FILTER_HQ3XS_VBA: {                                                                                      // hq3xS filter (16/32BPP only)
 #if defined _MSC_VER && defined BUILD_X86_ASM
-                        if (nVidImageDepth == 16) {
-                                hq3xS(ps, nSoftFXImagePitch, NULL, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
-                        }
-                        else if (nVidImageDepth == 32) {
-                                hq3xS32(ps, nSoftFXImagePitch, NULL, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
-                        }
-                        break;
+			if (nVidImageDepth == 16) {
+				hq3xS(ps, nSoftFXImagePitch, NULL, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			} else if (nVidImageDepth == 32) {
+				hq3xS32(ps, nSoftFXImagePitch, NULL, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			}
+			break;
 #endif
-                }
-                case FILTER_HQ2XS_SNES9X: {
-                	RenderHQ2XS(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, 0);
-                	break;
-                }
-                case FILTER_HQ3XS_SNES9X: {
-                	RenderHQ3XS(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, 0);
-                	break;
-                }
-                case FILTER_HQ2XBOLD: {
-                	RenderHQ2XS(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, 1);
-                	break;
-                }
-                case FILTER_HQ3XBOLD: {
-                	RenderHQ3XS(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, 1);
-                	break;
-                }
-                case FILTER_EPXB: {
-                	RenderEPXB(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, nVidImageDepth);
-                	break;
+		}
+		case FILTER_HQ2XS_SNES9X: {
+			RenderHQ2XS(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, 0);
+			break;
+		}
+		case FILTER_HQ3XS_SNES9X: {
+			RenderHQ3XS(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, 0);
+			break;
+		}
+		case FILTER_HQ2XBOLD: {
+			RenderHQ2XS(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, 1);
+			break;
+		}
+		case FILTER_HQ3XBOLD: {
+			RenderHQ3XS(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, 1);
+			break;
+		}
+		case FILTER_EPXB: {
+			RenderEPXB(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, nVidImageDepth);
+			break;
 		}
 		case FILTER_EPXC: {
-                	RenderEPXC(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, nVidImageDepth);
-                	break;
+			RenderEPXC(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight, nVidImageDepth);
+			break;
+		}
+		case FILTER_2XBR_A: {
+			xbr2x_a(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			break;
+		}
+		case FILTER_2XBR_B: {
+			xbr2x_b(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			break;
+		}
+		case FILTER_2XBR_C: {
+			xbr2x_c(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			break;
+		}
+		case FILTER_3XBR_A: {
+			xbr3x_a(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			break;
+		}
+		case FILTER_3XBR_B: {
+			xbr3x_b(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			break;
+		}
+		case FILTER_3XBR_C: {
+			xbr3x_c(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			break;
+		}
+		case FILTER_4XBR_A: {
+			xbr4x_a(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			break;
+		}
+		case FILTER_4XBR_B: {
+			xbr4x_b(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			break;
+		}
+		case FILTER_4XBR_C: {
+			xbr4x_c(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			break;
+		}
+		case FILTER_DDT3X: {
+			ddt3x(ps, nSoftFXImagePitch, pd, nPitch, nSoftFXImageWidth, nSoftFXImageHeight);
+			break;
 		}
 	}
 }

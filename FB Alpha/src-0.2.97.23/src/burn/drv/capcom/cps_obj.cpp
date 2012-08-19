@@ -3,9 +3,13 @@
 
 INT32 nCpsObjectBank;
 
-UINT8 *BootlegSpriteRam = NULL;
+UINT8 *CpsBootlegSpriteRam = NULL;
 
-INT32 Sf2Hack = 0;
+INT32 Cps1LockSpriteList910000 = 0;
+INT32 Cps1DetectEndSpriteList8000 = 0;
+
+Cps1ObjGetCallback Cps1ObjGetCallbackFunction = NULL;
+Cps1ObjDrawCallback Cps1ObjDrawCallbackFunction = NULL;
 
 // Our copy of the sprite table
 static UINT8 *ObjMem = NULL;
@@ -72,6 +76,11 @@ INT32 CpsObjExit()
 
 	nFrameCount = 0;
 	nMax = 0;
+	
+	Cps1DetectEndSpriteList8000 = 0;
+	
+	Cps1ObjGetCallbackFunction = NULL;
+	Cps1ObjDrawCallbackFunction = NULL;
 
 	return 0;
 }
@@ -83,6 +92,10 @@ INT32 CpsObjGet()
 	UINT8 *pg, *po;
 	struct ObjFrame* pof;
 	UINT8* Get = NULL;
+	
+	if (Cps1ObjGetCallbackFunction) {
+		return Cps1ObjGetCallbackFunction();
+	}
 
 	pof = of + nGetNext;
 
@@ -103,12 +116,8 @@ INT32 CpsObjGet()
 		nOff &= 0xfff800;
 		Get = CpsFindGfxRam(nOff, 0x800);		
 		
-		if (Sf2Hack) {
+		if (Cps1LockSpriteList910000) {
 			Get = CpsFindGfxRam(0x910000, 0x800);
-		} else {
-			if (Dinopic) {
-				Get = BootlegSpriteRam + 0x1000;
-			}
 		}
 	}
 	
@@ -126,25 +135,18 @@ INT32 CpsObjGet()
 				break;
 			}
 		} else {
-			if (Dinopic) {
-				if (BURN_ENDIAN_SWAP_INT16(ps[1]) == 0x8000) {													// end of sprite list
-					break;
-				}
-			} else {
-				if (BURN_ENDIAN_SWAP_INT16(ps[3]) == 0xff00) {													// end of sprite list
+			if (BURN_ENDIAN_SWAP_INT16(ps[3]) >= 0xff00) {													// end of sprite list
+				break;
+			}
+			if (Cps1DetectEndSpriteList8000) {
+				if (BURN_ENDIAN_SWAP_INT16(ps[1]) & 0x8000) {
 					break;
 				}
 			}
 		}
 		
-		if (Dinopic) {
-			if (((BURN_ENDIAN_SWAP_INT16(ps[2]) - 461) | BURN_ENDIAN_SWAP_INT16(ps[1])) == 0) {													// sprite blank
-				continue;
-			}
-		} else {
-			if ((BURN_ENDIAN_SWAP_INT16(ps[0]) | BURN_ENDIAN_SWAP_INT16(ps[3])) == 0) {													// sprite blank
-				continue;
-			}
+		if ((BURN_ENDIAN_SWAP_INT16(ps[0]) | BURN_ENDIAN_SWAP_INT16(ps[3])) == 0) {													// sprite blank
+			continue;
 		}
 
 		// Okay - this sprite is active:
@@ -183,6 +185,10 @@ INT32 Cps1ObjDraw(INT32 nLevelFrom,INT32 nLevelTo)
 	INT32 i; UINT16 *ps; INT32 nPsAdd;
 	struct ObjFrame *pof;
 	(void)nLevelFrom; (void)nLevelTo;
+	
+	if (Cps1ObjDrawCallbackFunction) {
+		return Cps1ObjDrawCallbackFunction(nLevelFrom, nLevelTo);
+	}
 
 	// Draw the earliest frame we have in history
 	pof=of+nGetNext;
@@ -200,17 +206,11 @@ INT32 Cps1ObjDraw(INT32 nLevelFrom,INT32 nLevelTo)
 	for (i=0; i<pof->nCount; i++,ps+=nPsAdd) {
 		INT32 x,y,n,a,bx,by,dx,dy; INT32 nFlip;
 
-		if (Dinopic) {
-			n = BURN_ENDIAN_SWAP_INT16(ps[0]); a = BURN_ENDIAN_SWAP_INT16(ps[1]); x = BURN_ENDIAN_SWAP_INT16(ps[2]) - 461; y = 0x2f0 - BURN_ENDIAN_SWAP_INT16(ps[3]);
-			bx = 1;
-			by = 1;
-		} else {
-			x = BURN_ENDIAN_SWAP_INT16(ps[0]); y = BURN_ENDIAN_SWAP_INT16(ps[1]); n = BURN_ENDIAN_SWAP_INT16(ps[2]); a = BURN_ENDIAN_SWAP_INT16(ps[3]);
+		x = BURN_ENDIAN_SWAP_INT16(ps[0]); y = BURN_ENDIAN_SWAP_INT16(ps[1]); n = BURN_ENDIAN_SWAP_INT16(ps[2]); a = BURN_ENDIAN_SWAP_INT16(ps[3]);
 			
-			// Find out sprite size
-			bx=((a>> 8)&15)+1;
-			by=((a>>12)&15)+1;
-		}
+		// Find out sprite size
+		bx=((a>> 8)&15)+1;
+		by=((a>>12)&15)+1;
 		
 		n = GfxRomBankMapper(GFXTYPE_SPRITES, n);
 		if (n == -1) continue;
@@ -394,5 +394,395 @@ INT32 Cps2ObjDraw(INT32 nLevelFrom, INT32 nLevelTo)
 		}
 	}
 
+	return 0;
+}
+
+// Final crash sprites
+
+INT32 FcrashObjGet()
+{
+	INT32 i;
+	UINT8 *pg, *po;
+	struct ObjFrame* pof;
+	UINT8* Get = NULL;
+	
+	pof = of + nGetNext;
+
+	pof->nCount = 0;
+
+	po = pof->Obj;
+	pof->nShiftX = -0x40;
+	pof->nShiftY = -0x10;
+
+	Get = CpsRam90 + 0x50c8;
+	
+	if (Get==NULL) return 1;
+
+	// Make a copy of all active sprites in the list
+	for (pg = Get, i = 0; i < nMax; pg += 8, i++) {
+		UINT16* ps = (UINT16*)pg;
+		INT32 n, y, x, a;
+		
+		y = BURN_ENDIAN_SWAP_INT16(ps[-1]);
+		
+		if (y == 0x8000) { // end of sprite list
+			break;
+		}
+		
+		n = BURN_ENDIAN_SWAP_INT16(ps[0]);
+		a = BURN_ENDIAN_SWAP_INT16(ps[1]);
+		x = BURN_ENDIAN_SWAP_INT16(ps[2]);
+
+		po[0] = n & 0xff;
+		po[1] = n >> 8;
+		po[2] = a & 0xff;
+		po[3] = a >> 8;
+		po[4] = x & 0xff;
+		po[5] = x >> 8;
+		po[6] = y & 0xff;
+		po[7] = y >> 8;	
+
+		pof->nCount++;
+		po += 8;
+	}
+
+	nGetNext++;
+	if (nGetNext >= nFrameCount) {
+		nGetNext = 0;
+	}
+
+	return 0;
+}
+
+INT32 KodbObjGet()
+{
+	INT32 i;
+	UINT8 *pg, *po;
+	struct ObjFrame* pof;
+	UINT8* Get = NULL;
+	
+	pof = of + nGetNext;
+
+	pof->nCount = 0;
+
+	po = pof->Obj;
+	pof->nShiftX = -0x40;
+	pof->nShiftY = -0x10;
+
+	Get = CpsRam90 + 0x50c8;
+	
+	if (Get==NULL) return 1;
+
+	// Make a copy of all active sprites in the list
+	for (pg = Get, i = 0; i < nMax; pg += 8, i++) {
+		UINT16* ps = (UINT16*)pg;
+		INT32 n, y, x, a;
+		
+		y = BURN_ENDIAN_SWAP_INT16(ps[-1]);
+		
+		if (y == 0xffff) { // end of sprite list
+			break;
+		}
+		
+		n = BURN_ENDIAN_SWAP_INT16(ps[0]);
+		a = BURN_ENDIAN_SWAP_INT16(ps[1]);
+		x = BURN_ENDIAN_SWAP_INT16(ps[2]);
+
+		po[0] = n & 0xff;
+		po[1] = n >> 8;
+		po[2] = a & 0xff;
+		po[3] = a >> 8;
+		po[4] = x & 0xff;
+		po[5] = x >> 8;
+		po[6] = y & 0xff;
+		po[7] = y >> 8;
+
+		pof->nCount++;
+		po += 8;
+	}
+
+	nGetNext++;
+	if (nGetNext >= nFrameCount) {
+		nGetNext = 0;
+	}
+
+	return 0;
+}
+
+INT32 DinopicObjGet()
+{
+	INT32 i;
+	UINT8 *pg, *po;
+	struct ObjFrame* pof;
+	UINT8* Get = NULL;
+	
+	pof = of + nGetNext;
+
+	pof->nCount = 0;
+
+	po = pof->Obj;
+	pof->nShiftX = -0x40;
+	pof->nShiftY = -0x10;
+
+	Get = CpsBootlegSpriteRam + 0x1000;
+	
+	if (Get==NULL) return 1;
+
+	// Make a copy of all active sprites in the list
+	for (pg = Get, i = 0; i < nMax; pg += 8, i++) {
+		UINT16* ps = (UINT16*)pg;
+		INT32 n, y, x, a;
+		
+		y = BURN_ENDIAN_SWAP_INT16(ps[-1]);
+		
+		if (y == 0x8000) { // end of sprite list
+			break;
+		}
+		
+		n = BURN_ENDIAN_SWAP_INT16(ps[0]);
+		a = BURN_ENDIAN_SWAP_INT16(ps[1]);
+		x = BURN_ENDIAN_SWAP_INT16(ps[2]);
+		
+		po[0] = n & 0xff;
+		po[1] = n >> 8;
+		po[2] = a & 0xff;
+		po[3] = a >> 8;
+		po[4] = x & 0xff;
+		po[5] = x >> 8;
+		po[6] = y & 0xff;
+		po[7] = y >> 8;
+
+		pof->nCount++;
+		po += 8;
+	}
+
+	nGetNext++;
+	if (nGetNext >= nFrameCount) {
+		nGetNext = 0;
+	}
+
+	return 0;
+}
+
+INT32 DaimakaibObjGet()
+{
+	INT32 i;
+	UINT8 *pg, *po;
+	struct ObjFrame* pof;
+	UINT8* Get = NULL;
+	
+	pof = of + nGetNext;
+
+	pof->nCount = 0;
+
+	po = pof->Obj;
+	pof->nShiftX = -0x40;
+	pof->nShiftY = -0x10;
+
+	// writes a blank sprite, followed by end of sprite list marker, start at 0x10 to ignore these
+	Get = CpsBootlegSpriteRam + 0x1010;
+	
+	if (Get==NULL) return 1;
+
+	// Make a copy of all active sprites in the list
+	for (pg = Get, i = 0; i < nMax; pg += 8, i++) {
+		UINT16* ps = (UINT16*)pg;
+		INT32 n, y, x, a;
+		
+		y = BURN_ENDIAN_SWAP_INT16(ps[-1]);
+		
+		if (y == 0x8000) { // end of sprite list
+			break;
+		}
+		
+		n = BURN_ENDIAN_SWAP_INT16(ps[0]);
+		a = BURN_ENDIAN_SWAP_INT16(ps[1]);
+		x = BURN_ENDIAN_SWAP_INT16(ps[2]);
+		
+		n = GfxRomBankMapper(GFXTYPE_SPRITES, n);
+		if (n == -1) continue;
+		
+		n |= (y & 0x6000) << 3; // high bits of address
+
+		po[0] = n & 0xff;
+		po[1] = n >> 8;
+		po[2] = a & 0xff;
+		po[3] = a >> 8;
+		po[4] = x & 0xff;
+		po[5] = x >> 8;
+		po[6] = y & 0xff;
+		po[7] = y >> 8;
+
+		pof->nCount++;
+		po += 8;
+	}
+
+	nGetNext++;
+	if (nGetNext >= nFrameCount) {
+		nGetNext = 0;
+	}
+
+	return 0;
+}
+
+INT32 WofhObjGet()
+{
+	INT32 i;
+	UINT8 *pg, *po;
+	struct ObjFrame* pof;
+	UINT8* Get = NULL;
+	
+	pof = of + nGetNext;
+
+	pof->nCount = 0;
+
+	po = pof->Obj;
+	pof->nShiftX = -0x40;
+	pof->nShiftY = -0x10;
+
+	Get = CpsRam90 + 0x1000;
+	
+	if (Get==NULL) return 1;
+
+	// Make a copy of all active sprites in the list
+	for (pg = Get, i = 0; i < nMax; pg += 8, i++) {
+		UINT16* ps = (UINT16*)pg;
+		INT32 n, y, x, a;
+		
+		y = BURN_ENDIAN_SWAP_INT16(ps[-1]);
+		
+		if (y == 0x8000) { // end of sprite list
+			break;
+		}
+		
+		n = BURN_ENDIAN_SWAP_INT16(ps[0]);
+		a = BURN_ENDIAN_SWAP_INT16(ps[1]);
+		x = BURN_ENDIAN_SWAP_INT16(ps[2]);
+
+		po[0] = n & 0xff;
+		po[1] = n >> 8;
+		po[2] = a & 0xff;
+		po[3] = a >> 8;
+		po[4] = x & 0xff;
+		po[5] = x >> 8;
+		po[6] = y & 0xff;
+		po[7] = y >> 8;
+
+		pof->nCount++;
+		po += 8;
+	}
+
+	nGetNext++;
+	if (nGetNext >= nFrameCount) {
+		nGetNext = 0;
+	}
+
+	return 0;
+}
+
+INT32 Sf2mdtObjGet()
+{
+	INT32 i;
+	UINT8 *pg, *po;
+	struct ObjFrame* pof;
+	UINT8* Get = NULL;
+	
+	pof = of + nGetNext;
+
+	pof->nCount = 0;
+
+	po = pof->Obj;
+	pof->nShiftX = -0x40;
+	pof->nShiftY = -0x10;
+
+	Get = CpsBootlegSpriteRam + 0x1000;
+	
+	if (Get==NULL) return 1;
+
+	// Make a copy of all active sprites in the list
+	for (pg = Get, i = 0; i < nMax; pg += 8, i++) {
+		UINT16* ps = (UINT16*)pg;
+		INT32 n, y, x, a;
+		
+		y = BURN_ENDIAN_SWAP_INT16(ps[-1]);
+		
+		if (y == 0x8000) { // end of sprite list
+			break;
+		}
+		
+		n = BURN_ENDIAN_SWAP_INT16(ps[0]);
+		a = BURN_ENDIAN_SWAP_INT16(ps[1]);
+		x = BURN_ENDIAN_SWAP_INT16(ps[2] + 0x03);
+		
+		po[0] = n & 0xff;
+		po[1] = n >> 8;
+		po[2] = a & 0xff;
+		po[3] = a >> 8;
+		po[4] = x & 0xff;
+		po[5] = x >> 8;
+		po[6] = y & 0xff;
+		po[7] = y >> 8;
+
+		pof->nCount++;
+		po += 8;
+	}
+
+	nGetNext++;
+	if (nGetNext >= nFrameCount) {
+		nGetNext = 0;
+	}
+
+	return 0;
+}
+
+INT32 FcrashObjDraw(INT32 nLevelFrom,INT32 nLevelTo)
+{
+	INT32 i; UINT16 *ps; INT32 nPsAdd;
+	struct ObjFrame *pof;
+	(void)nLevelFrom; (void)nLevelTo;
+
+	// Draw the earliest frame we have in history
+	pof=of+nGetNext;
+
+	// Point to Obj list
+	ps=(UINT16 *)pof->Obj;
+
+	nPsAdd=4;
+
+	// Go through all the Objs
+	for (i=0; i<pof->nCount; i++,ps+=nPsAdd) {
+		INT32 x,y,n,a; INT32 nFlip;
+
+		n = BURN_ENDIAN_SWAP_INT16(ps[0]);
+		a = BURN_ENDIAN_SWAP_INT16(ps[1]);
+		x = BURN_ENDIAN_SWAP_INT16(ps[2]);
+		y = BURN_ENDIAN_SWAP_INT16(ps[3]);
+		
+		x &= 0x1ff;
+		y &= 0x1ff;
+		
+		x -= 16;
+		y = 224 - y;
+
+		// Find the palette for the tiles on this sprite
+		CpstPal = CpsPal + ((a & 0x1F) << 4);
+
+		nFlip=(a>>5)&3;		
+
+		// Take care with tiles if the sprite goes off the screen
+		if (x<0 || y<0 || x+(1<<4)>384 || y+(1<<4)>224) {
+			nCpstType=CTT_16X16 | CTT_CARE;
+		} else {
+			nCpstType=CTT_16X16;
+		}
+
+		nCpstFlip=nFlip;
+		nCpstX=x;
+		nCpstY=y;
+		nCpstTile = n;
+		nCpstTile <<= 7;
+		CpstOneObjDoX[0]();
+	}
+	
 	return 0;
 }

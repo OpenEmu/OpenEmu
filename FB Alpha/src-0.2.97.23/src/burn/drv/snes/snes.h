@@ -152,15 +152,15 @@ extern UINT8 global_opcode;
 extern INT32 cycles;
 
 /*Memory*/
-extern UINT8 *ram;
-extern UINT8 *rom;
+extern UINT8 *SNES_ram;
+extern UINT8 *SNES_rom;
 extern UINT8 *memlookup[2048];
-extern UINT8 memread[2048],memwrite[2048];
-extern UINT8 accessspeed[2048];
+extern UINT8 *memread;
+extern UINT8 *memwrite;
+extern UINT8 *accessspeed;
 
 extern INT32 lorom;
-UINT8 readmeml(unsigned long adress);
-void writememl(unsigned long adress, unsigned char v);
+
 
 unsigned char snes_readmem(unsigned long adress);
 void snes_writemem(unsigned long ad, unsigned char v);
@@ -240,10 +240,10 @@ void resetsnem();
 void execframe();
 void loadrom(char *fn);
 
-void initmem();
+void snes_mapmem();
 void freemem();
 extern unsigned short srammask;
-extern unsigned char *sram;
+extern unsigned char *SNES_sram;
 extern INT32 spctotal;
 
 // snes_main.cpp

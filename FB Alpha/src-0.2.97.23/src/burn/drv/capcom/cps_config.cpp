@@ -1661,5 +1661,61 @@ void SetCpsBId(INT32 CpsBId, INT32 bStars)
 			}
 			return;
 		}
+		
+		case HACK_B_5: {
+			CpsBID[0]   = 0x00;
+			CpsBID[1]   = 0x00;
+			CpsBID[2]   = 0x00;
+  			
+			CpsMProt[0] = 0x00;
+			CpsMProt[1] = 0x00;
+			CpsMProt[2] = 0x00;
+			CpsMProt[3] = 0x00;
+  			
+			nCpsLcReg   = 0x60;
+			MaskAddr[0] = 0x66;
+			MaskAddr[1] = 0x70;
+			MaskAddr[2] = 0x68;
+			MaskAddr[3] = 0x72;
+			
+			nCpsPalCtrlReg = 0x6a;
+  			
+			CpsLayEn[1] = 0x02;
+			CpsLayEn[2] = 0x04;
+			CpsLayEn[3] = 0x08;
+			if (bStars) {
+				CpsLayEn[4] = 0x30;
+				CpsLayEn[5] = 0x30;
+			}
+			return;
+		}
+		
+		case HACK_B_6: {
+			CpsBID[0]   = 0x00;
+			CpsBID[1]   = 0x00;
+			CpsBID[2]   = 0x00;
+  			
+			CpsMProt[0] = 0x00;
+			CpsMProt[1] = 0x00;
+			CpsMProt[2] = 0x00;
+			CpsMProt[3] = 0x00;
+  			
+			nCpsLcReg   = 0x60;
+			MaskAddr[0] = 0x66;
+			MaskAddr[1] = 0x68;
+			MaskAddr[2] = 0x6c;
+			MaskAddr[3] = 0x6e;
+			
+			nCpsPalCtrlReg = 0x6a;
+  			
+			CpsLayEn[1] = 0x02;
+			CpsLayEn[2] = 0x04;
+			CpsLayEn[3] = 0x08;
+			if (bStars) {
+				CpsLayEn[4] = 0x30;
+				CpsLayEn[5] = 0x30;
+			}
+			return;
+		}
 	}
 }

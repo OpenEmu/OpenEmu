@@ -1572,6 +1572,25 @@ static struct BurnRomInfo FlickyRomDesc[] = {
 STD_ROM_PICK(Flicky)
 STD_ROM_FN(Flicky)
 
+static struct BurnRomInfo FlickygRomDesc[] = {
+	{ "epr5978a.116",      0x004000, 0x296f1492, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
+	{ "epr5979a.109",      0x004000, 0x64b03ef9, BRF_ESS | BRF_PRG }, //  1	Z80 #1 Program Code
+	
+	{ "epr-5869.120",      0x002000, 0x6d220d4e, BRF_ESS | BRF_PRG }, //  2	Z80 #2 Program Code
+	
+	{ "66xx.ic62",         0x004000, 0xf1a75200, BRF_GRA },		  //  3 Tiles
+	{ "66x0.ic64",         0x004000, 0x299aefb7, BRF_GRA },		  //  4 Tiles
+	{ "5999.ic66",         0x004000, 0x1ca53157, BRF_GRA },		  //  5 Tiles
+	
+	{ "epr-5855.117",      0x004000, 0xb5f894a1, BRF_GRA },		  //  8 Sprites
+	{ "epr-5856.110",      0x004000, 0x266af78f, BRF_GRA },		  //  9 Sprites
+
+	{ "pr-5317.76",        0x000100, 0x648350b8, BRF_OPT },		  //  10 Timing PROM
+};
+
+STD_ROM_PICK(Flickyg)
+STD_ROM_FN(Flickyg)
+
 static struct BurnRomInfo Flickys1RomDesc[] = {
 	{ "ic129",             0x002000, 0x7011275c, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
 	{ "ic130",             0x002000, 0xe7ed012d, BRF_ESS | BRF_PRG }, //  1	Z80 #1 Program Code
@@ -1617,6 +1636,25 @@ static struct BurnRomInfo Flickys2RomDesc[] = {
 
 STD_ROM_PICK(Flickys2)
 STD_ROM_FN(Flickys2)
+
+static struct BurnRomInfo Flickys2gRomDesc[] = {
+	{ "epr-6621.bin",      0x004000, 0xb21ff546, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
+	{ "epr-6622.bin",      0x004000, 0x133a8bf1, BRF_ESS | BRF_PRG }, //  1	Z80 #1 Program Code
+	
+	{ "epr-5869.120",      0x002000, 0x6d220d4e, BRF_ESS | BRF_PRG }, //  2	Z80 #2 Program Code
+	
+	{ "66xx.ic62",         0x004000, 0xf1a75200, BRF_GRA },		  //  3 Tiles
+	{ "66x0.ic64",         0x004000, 0x299aefb7, BRF_GRA },		  //  4 Tiles
+	{ "5999.ic66",         0x004000, 0x1ca53157, BRF_GRA },		  //  5 Tiles
+	
+	{ "epr-5855.117",      0x004000, 0xb5f894a1, BRF_GRA },		  //  6 Sprites
+	{ "epr-5856.110",      0x004000, 0x266af78f, BRF_GRA },		  //  7 Sprites
+
+	{ "pr-5317.76",        0x000100, 0x648350b8, BRF_OPT },		  //  8 Timing PROM
+};
+
+STD_ROM_PICK(Flickys2g)
+STD_ROM_FN(Flickys2g)
 
 static struct BurnRomInfo FlickyoRomDesc[] = {
 	{ "epr-5857.bin",      0x002000, 0xa65ac88e, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
@@ -2677,6 +2715,31 @@ static struct BurnRomInfo Wboy4RomDesc[] = {
 
 STD_ROM_PICK(Wboy4)
 STD_ROM_FN(Wboy4)
+
+static struct BurnRomInfo Wboy5RomDesc[] = {
+	{ "wb1.ic116",         0x004000, 0x6c67407c, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
+	{ "wb_2",              0x004000, 0x4081b624, BRF_ESS | BRF_PRG }, //  1	Z80 #1 Program Code
+	{ "wb_3",              0x004000, 0xc48a0e36, BRF_ESS | BRF_PRG }, //  2	Z80 #1 Program Code
+	
+	{ "epr-7498.120",      0x002000, 0x78ae1e7b, BRF_ESS | BRF_PRG }, //  3	Z80 #2 Program Code
+	
+	{ "epr-7497.62",       0x002000, 0x08d609ca, BRF_GRA },		  //  4 Tiles
+	{ "epr-7496.61",       0x002000, 0x6f61fdf1, BRF_GRA },		  //  5 Tiles
+	{ "epr-7495.64",       0x002000, 0x6a0d2c2d, BRF_GRA },		  //  6 Tiles
+	{ "epr-7494.63",       0x002000, 0xa8e281c7, BRF_GRA },		  //  7 Tiles
+	{ "epr-7493.66",       0x002000, 0x89305df4, BRF_GRA },		  //  8 Tiles
+	{ "epr-7492.65",       0x002000, 0x60f806b1, BRF_GRA },		  //  9 Tiles
+	
+	{ "epr-7485.117",      0x004000, 0xc2891722, BRF_GRA },		  //  10 Sprites
+	{ "epr-7487.04",       0x004000, 0x2d3a421b, BRF_GRA },		  //  11 Sprites
+	{ "epr-7486.110",      0x004000, 0x8d622c50, BRF_GRA },		  //  12 Sprites
+	{ "epr-7488.05",       0x004000, 0x007c2f1b, BRF_GRA },		  //  13 Sprites
+
+	{ "pr-5317.76",        0x000100, 0x648350b8, BRF_OPT },		  //  14 Timing PROM
+};
+
+STD_ROM_PICK(Wboy5)
+STD_ROM_FN(Wboy5)
 
 static struct BurnRomInfo WboyuRomDesc[] = {
 	{ "ic116_89.bin",      0x004000, 0x73d8cef0, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
@@ -4195,6 +4258,13 @@ static INT32 FlickyInit()
 	return System1Init(2, 0x4000, 1, 0x2000, 6, 0x2000, 2, 0x4000, 1);
 }
 
+static INT32 FlickygInit()
+{
+	DecodeFunction = flicky_decode;
+	
+	return System1Init(2, 0x4000, 1, 0x2000, 3, 0x4000, 2, 0x4000, 1);
+}
+
 static INT32 Flicks1Init()
 {
 	DecodeFunction = flicky_decode;
@@ -4205,6 +4275,11 @@ static INT32 Flicks1Init()
 static INT32 Flicks2Init()
 {
 	return System1Init(2, 0x4000, 1, 0x2000, 6, 0x2000, 2, 0x4000, 1);
+}
+
+static INT32 Flicks2gInit()
+{
+	return System1Init(2, 0x4000, 1, 0x2000, 3, 0x4000, 2, 0x4000, 1);
 }
 
 static INT32 GardiaInit()
@@ -5023,6 +5098,16 @@ struct BurnDriver BurnDrvFlicky = {
 	NULL, 0x600, 256, 224, 4, 3
 };
 
+struct BurnDriver BurnDrvFlickyg = {
+	"flickyg", "flicky", NULL, NULL, "1984",
+	"Flicky (128k Version, System 2, 315-5051, alt graphics)\0", NULL, "Sega", "System 1",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM1, GBF_PLATFORM, 0,
+	NULL, FlickygRomInfo, FlickygRomName, NULL, NULL, FlickyInputInfo, FlickyDIPInfo,
+	FlickygInit, System1Exit, System1Frame, NULL, System1Scan,
+	NULL, 0x600, 256, 224, 4, 3
+};
+
 struct BurnDriver BurnDrvFlickys1 = {
 	"flickys1", "flicky", NULL, NULL, "1984",
 	"Flicky (64k Version, System 1, 315-5051, set 2)\0", NULL, "Sega", "System 1",
@@ -5040,6 +5125,16 @@ struct BurnDriver BurnDrvFlickys2 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM1, GBF_PLATFORM, 0,
 	NULL, Flickys2RomInfo, Flickys2RomName, NULL, NULL, FlickyInputInfo, FlickyDIPInfo,
 	Flicks2Init, System1Exit, System1Frame, NULL, System1Scan,
+	NULL, 0x600, 256, 224, 4, 3
+};
+
+struct BurnDriver BurnDrvFlickys2g = {
+	"flickys2g", "flicky", NULL, NULL, "1984",
+	"Flicky (128k Version, System 2, not encrypted, alt graphics)\0", NULL, "Sega", "System 1",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM1, GBF_PLATFORM, 0,
+	NULL, Flickys2gRomInfo, Flickys2gRomName, NULL, NULL, FlickyInputInfo, FlickyDIPInfo,
+	Flicks2gInit, System1Exit, System1Frame, NULL, System1Scan,
 	NULL, 0x600, 256, 224, 4, 3
 };
 
@@ -5460,6 +5555,16 @@ struct BurnDriver BurnDrvWboy4 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM1, GBF_PLATFORM, 0,
 	NULL, Wboy4RomInfo, Wboy4RomName, NULL, NULL, WboyInputInfo, WboyDIPInfo,
 	Wboy4Init, System1Exit, System1Frame, NULL, System1Scan,
+	NULL, 0x600, 256, 224, 4, 3
+};
+
+struct BurnDriver BurnDrvWboy5 = {
+	"wboy5", "wboy", NULL, NULL, "1986",
+	"Wonder Boy (set 5, bootleg)\0", NULL, "bootleg", "System 1",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_SYSTEM1, GBF_PLATFORM, 0,
+	NULL, Wboy5RomInfo, Wboy5RomName, NULL, NULL, WboyInputInfo, Wboy3DIPInfo,
+	WboyoInit, System1Exit, System1Frame, NULL, System1Scan,
 	NULL, 0x600, 256, 224, 4, 3
 };
 

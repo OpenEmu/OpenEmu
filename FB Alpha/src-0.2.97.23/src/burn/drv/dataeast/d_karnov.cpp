@@ -604,7 +604,7 @@ void __fastcall karnov_main_write_word(UINT32 address, UINT16 data)
 		INT32 offset = (address >> 1) & 0x3ff;
 		offset = ((offset & 0x1f) << 5) | ((offset & 0x3e0) >> 5);
 
-		ptr[offset] = data;
+		ptr[offset] = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 
@@ -954,8 +954,8 @@ static void draw_txt_layer(INT32 swap)
 
 		sy -= 8;
 
-		INT32 code  = vram[offs] & 0x0fff;
-		INT32 color = vram[offs] >> 14;
+		INT32 code  = BURN_ENDIAN_SWAP_INT16(vram[offs]) & 0x0fff;
+		INT32 color = BURN_ENDIAN_SWAP_INT16(vram[offs]) >> 14;
 
 		if (code == 0) continue;
 
@@ -986,7 +986,7 @@ static void draw_bg_layer()
 
 		if (sx >= nScreenWidth || sy >= nScreenHeight) continue;
 
-		INT32 attr = vram[offs];
+		INT32 attr = BURN_ENDIAN_SWAP_INT16(vram[offs]);
 		INT32 code = attr & 0x7ff;
 		INT32 color= attr >> 12;	
 
@@ -1021,16 +1021,16 @@ static void draw_sprites()
 
 	for (INT32 offs = 0; offs < 0x800; offs+=4)
 	{
-		INT32 y = ram[offs];
-		INT32 x = ram[offs + 2] & 0x1ff;
+		INT32 y = BURN_ENDIAN_SWAP_INT16(ram[offs]);
+		INT32 x = BURN_ENDIAN_SWAP_INT16(ram[offs + 2]) & 0x1ff;
 		if (~y & 0x8000) continue;
 		y &= 0x1ff;
 
-		INT32 sprite = ram[offs + 3];
+		INT32 sprite = BURN_ENDIAN_SWAP_INT16(ram[offs + 3]);
 		INT32 color = sprite >> 12;
 		sprite &= 0xfff;
 
-		INT32 flipx = ram[offs + 1];
+		INT32 flipx = BURN_ENDIAN_SWAP_INT16(ram[offs + 1]);
 		INT32 flipy = flipx & 0x02;
 		INT32 extra = flipx & 0x10;
 		flipx &= 0x04;
@@ -1412,8 +1412,8 @@ static INT32 ChelnovInit()
 	INT32 nRet = DrvInit();
 
 	if (nRet == 0) {
-		*((UINT16*)(Drv68KROM + 0x0A26)) = 0x4E71;
-		*((UINT16*)(Drv68KROM + 0x062a)) = 0x4E71;
+		*((UINT16*)(Drv68KROM + 0x0A26)) = BURN_ENDIAN_SWAP_INT16(0x4E71);
+		*((UINT16*)(Drv68KROM + 0x062a)) = BURN_ENDIAN_SWAP_INT16(0x4E71);
 	}
 
 	return nRet;
@@ -1471,8 +1471,8 @@ static INT32 ChelnovuInit()
 	INT32 nRet = DrvInit();
 
 	if (nRet == 0) {
-		*((UINT16*)(Drv68KROM + 0x0A26)) = 0x4E71;
-		*((UINT16*)(Drv68KROM + 0x062a)) = 0x4E71;
+		*((UINT16*)(Drv68KROM + 0x0A26)) = BURN_ENDIAN_SWAP_INT16(0x4E71);
+		*((UINT16*)(Drv68KROM + 0x062a)) = BURN_ENDIAN_SWAP_INT16(0x4E71);
 	}
 
 	return nRet;
@@ -1530,8 +1530,8 @@ static INT32 ChelnovjInit()
 	INT32 nRet = DrvInit();
 
 	if (nRet == 0) {
-		*((UINT16*)(Drv68KROM + 0x0A2e)) = 0x4E71;
-		*((UINT16*)(Drv68KROM + 0x062a)) = 0x4E71;
+		*((UINT16*)(Drv68KROM + 0x0A2e)) = BURN_ENDIAN_SWAP_INT16(0x4E71);
+		*((UINT16*)(Drv68KROM + 0x062a)) = BURN_ENDIAN_SWAP_INT16(0x4E71);
 	}
 
 	return nRet;

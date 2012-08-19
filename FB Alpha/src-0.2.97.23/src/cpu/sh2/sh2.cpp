@@ -56,7 +56,9 @@ typedef unsigned long long UINT64;*/
 
 #define SH2_INT_15			15
 
+#ifndef SH2_INLINE
 #define	SH2_INLINE
+#endif
 
 #if FAST_OP_FETCH
 

@@ -1167,12 +1167,12 @@ static struct BurnRomInfo funcube2RomDesc[] = {
 
 	{ "fc21_iopr-0.u49",	0x020000, 0x314555ef, 2 }, //  1 H8/3007 code
 
-	{ "fc21a",		0x000300, 0x00000000, 3 | BRF_NODUMP }, //  2 PIC12C508 Code
+	{ "fc21a.u57",		0x000300, 0x00000000, 3 | BRF_NODUMP }, //  2 PIC12C508 Code
 
 	{ "fc21_obj-0.u43",	0x400000, 0x08cfe6d9, 4 }, //  3 GFX
 	{ "fc21_obj-1.u42",	0x400000, 0x4c1fbc20, 4 }, //  4
 
-	{ "fc21_voi0.u47",	0x400000, 0x25b5fc3f, 5 }, //  5 PCM
+	{ "fc21_voi0.u47",	0x200000, 0x4a49370a, 5 }, //  5 PCM
 };
 
 STD_ROM_PICK(funcube2)
@@ -1188,7 +1188,7 @@ static struct BurnRomInfo funcube4RomDesc[] = {
 	{ "fc41_obj-0.u43",	0x400000, 0x9ff029d5, 4 }, //  3 GFX
 	{ "fc41_obj-1.u42",	0x400000, 0x5ab7b087, 4 }, //  4
 
-	{ "fc41_snd0.u47",	0x400000, 0x48337257, 5 }, //  5 PCM
+	{ "fc41_snd0.u47",	0x200000, 0xe6f7d2bc, 5 }, //  5 PCM
 };
 
 STD_ROM_PICK(funcube4)

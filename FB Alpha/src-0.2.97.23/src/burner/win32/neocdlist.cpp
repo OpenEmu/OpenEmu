@@ -138,8 +138,7 @@ int GetNeoCDTitle(unsigned int nGameID)
 	game = (NGCDGAME*)malloc(sizeof(NGCDGAME));
 	memset(game, 0, sizeof(NGCDGAME));
 	
-	if(GetNeoGeoCDInfo(nGameID))
-	{		
+	if(GetNeoGeoCDInfo(nGameID)) {		
 		memcpy(game, GetNeoGeoCDInfo(nGameID), sizeof(NGCDGAME));
 
 		bprintf(PRINT_NORMAL, _T("    Title: %s \n")		, game->pszTitle);
@@ -151,6 +150,8 @@ int GetNeoCDTitle(unsigned int nGameID)
 		SetNeoCDTitle(game->pszTitle);
 
 		return 1;
+	} else {
+		SetNeoCDTitle(FBALoadStringEx(hAppInst, IDS_UNIDENTIFIED_CD, true));		
 	}
 
 	game = NULL;

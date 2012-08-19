@@ -2055,30 +2055,57 @@ static INT32 CobraInit()
 	MemIndex();
 
 	{
-		if (BurnLoadRom(DrvMainROM + 0x08000,  0, 1)) return 1;
-		if (BurnLoadRom(DrvMainROM + 0x10000,  1, 1)) return 1;
-		if (BurnLoadRom(DrvMainROM + 0x20000,  2, 1)) return 1;
+		if (!strcmp(BurnDrvGetTextA(DRV_NAME), "cobracomb")) {
+			if (BurnLoadRom(DrvMainROM + 0x08000,  0, 1)) return 1;
+			if (BurnLoadRom(DrvMainROM + 0x10000,  1, 1)) return 1;
+			if (BurnLoadRom(DrvMainROM + 0x20000,  2, 1)) return 1;
 	
-		if (BurnLoadRom(DrvM6502ROM  + 0x08000,  3, 1)) return 1;
+			if (BurnLoadRom(DrvM6502ROM  + 0x08000,  3, 1)) return 1;
 	
-		if (BurnLoadRom(DrvGfxROM0   + 0x00000,  4, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM0   + 0x00000,  4, 1)) return 1;
 
-		if (BurnLoadRom(DrvGfxROM1   + 0x00000,  5, 1)) return 1;
-		if (BurnLoadRom(DrvGfxROM1   + 0x20000,  6, 1)) return 1;
-		if (BurnLoadRom(DrvGfxROM1   + 0x40000,  7, 1)) return 1;
-		if (BurnLoadRom(DrvGfxROM1   + 0x60000,  8, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM1   + 0x00000,  5, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM1   + 0x20000,  6, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM1   + 0x40000,  7, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM1   + 0x60000,  8, 1)) return 1;
 	
-		if (BurnLoadRom(DrvGfxROM2   + 0x00000,  9, 1)) return 1;
-		memcpy (DrvGfxROM2 + 0x40000, DrvGfxROM2 + 0x08000, 0x08000);
-		if (BurnLoadRom(DrvGfxROM2   + 0x20000, 10, 1)) return 1;
-		memcpy (DrvGfxROM2 + 0x60000, DrvGfxROM2 + 0x28000, 0x08000);
+			if (BurnLoadRom(DrvGfxROM2   + 0x00000,  9, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM2   + 0x40000, 10, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM2   + 0x20000, 11, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM2   + 0x60000, 12, 1)) return 1;
 
-		if (BurnLoadRom(DrvGfxROM3   + 0x00000, 11, 1)) return 1;
-		if (BurnLoadRom(DrvGfxROM3   + 0x20000, 12, 1)) return 1;
-		if (BurnLoadRom(DrvGfxROM3   + 0x40000, 13, 1)) return 1;
-		if (BurnLoadRom(DrvGfxROM3   + 0x60000, 14, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM3   + 0x00000, 13, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM3   + 0x20000, 14, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM3   + 0x40000, 15, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM3   + 0x60000, 16, 1)) return 1;
 
-		memcpy (DrvM6502OPS + 0x8000, DrvM6502ROM + 0x8000, 0x8000);
+			memcpy (DrvM6502OPS + 0x8000, DrvM6502ROM + 0x8000, 0x8000);
+		} else {
+			if (BurnLoadRom(DrvMainROM + 0x08000,  0, 1)) return 1;
+			if (BurnLoadRom(DrvMainROM + 0x10000,  1, 1)) return 1;
+			if (BurnLoadRom(DrvMainROM + 0x20000,  2, 1)) return 1;
+	
+			if (BurnLoadRom(DrvM6502ROM  + 0x08000,  3, 1)) return 1;
+	
+			if (BurnLoadRom(DrvGfxROM0   + 0x00000,  4, 1)) return 1;
+
+			if (BurnLoadRom(DrvGfxROM1   + 0x00000,  5, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM1   + 0x20000,  6, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM1   + 0x40000,  7, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM1   + 0x60000,  8, 1)) return 1;
+	
+			if (BurnLoadRom(DrvGfxROM2   + 0x00000,  9, 1)) return 1;
+			memcpy (DrvGfxROM2 + 0x40000, DrvGfxROM2 + 0x08000, 0x08000);
+			if (BurnLoadRom(DrvGfxROM2   + 0x20000, 10, 1)) return 1;
+			memcpy (DrvGfxROM2 + 0x60000, DrvGfxROM2 + 0x28000, 0x08000);
+
+			if (BurnLoadRom(DrvGfxROM3   + 0x00000, 11, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM3   + 0x20000, 12, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM3   + 0x40000, 13, 1)) return 1;
+			if (BurnLoadRom(DrvGfxROM3   + 0x60000, 14, 1)) return 1;
+
+			memcpy (DrvM6502OPS + 0x8000, DrvM6502ROM + 0x8000, 0x8000);
+		}
 
 		CobraGfxDecode();
 	}
@@ -2447,7 +2474,46 @@ struct BurnDriver BurnDrvCobracmja = {
 };
 
 
+// Cobra-Command (Italian bootleg)
+// f205v id 835
 
+static struct BurnRomInfo cobracombRomDesc[] = {
+	{ "a1.bin",		0x08000, 0xbb38b64c, 1 }, //  0 maincpu
+	{ "a2.bin",		0x10000, 0x7c878a83, 1 }, //  1
+	{ "a3.bin",		0x10000, 0x04505acb, 1 }, //  2
+
+	{ "a5.bin",		0x08000, 0x62ca5e89, 2 }, //  3 audiocpu
+
+	{ "a4.bin",	    0x08000, 0x47246177, 3 }, //  4 gfx1
+
+	{ "5.bin",		0x10000, 0xd96b6797, 4 }, //  5 gfx2
+	{ "6.bin",		0x10000, 0x3fef9c02, 4 }, //  6
+	{ "7.bin",		0x10000, 0xbfae6c34, 4 }, //  7
+	{ "8.bin",		0x10000, 0xeaeb700e, 4 }, //  8
+
+	{ "a9.bin",		0x08000, 0xc991298f, 5 }, //  9 gfx4
+	{ "a8.bin",		0x08000, 0xf5e267e5, 5 }, // 10
+	{ "a7.bin",		0x08000, 0x6bcc5982, 5 }, // 11
+	{ "a6.bin",		0x08000, 0xc90443b5, 5 }, // 12
+
+	{ "1.bin",		0x10000, 0x1c4f6033, 6 }, // 13 gfx3
+	{ "2.bin",		0x10000, 0xd24ba794, 6 }, // 14
+	{ "3.bin",		0x10000, 0xd80a49ce, 6 }, // 15
+	{ "4.bin",		0x10000, 0x6d771fc3, 6 }, // 16
+};
+
+STD_ROM_PICK(cobracomb)
+STD_ROM_FN(cobracomb)
+
+struct BurnDriver BurnDrvCobracomb = {
+	"cobracomb", "cobracom", NULL, NULL, "1988",
+	"Cobra-Command (Italian bootleg)\0", NULL, "bootleg", "DEC8",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_MISC, 0,
+	NULL, cobracombRomInfo, cobracombRomName, NULL, NULL, CobracomInputInfo, CobracomDIPInfo,
+	CobraInit, CobraExit, CobraFrame, CobraDraw, CobraScan, &DrvRecalc, 0x100,
+	256, 240, 4, 3
+};
 
 
 

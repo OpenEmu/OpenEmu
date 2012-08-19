@@ -1923,7 +1923,7 @@ static void mutantf_draw_sprites(UINT8 *ram, UINT8 *gfx, INT32 colbank, INT32 gf
 		INT32 x, y, sprite, colour, fx, fy, w, h, sx, sy, x_mult, y_mult;
 		INT32 alpha = 0xff;
 
-		sprite = spriteptr[offs + 3];
+		sprite = BURN_ENDIAN_SWAP_INT16(spriteptr[offs + 3]);
 		if (!sprite)
 		{
 			offs += inc;

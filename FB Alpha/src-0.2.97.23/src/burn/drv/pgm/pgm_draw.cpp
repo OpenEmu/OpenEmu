@@ -159,13 +159,12 @@ static void pgm_draw_sprite_nozoom(INT32 wide, INT32 high, INT32 palt, INT32 bof
 			for (INT32 xcnt = 0; xcnt < wide; xcnt+=8)
 			{
 				if (flipx) {
-					xoff = xpos + (wide - xcnt);
+					xoff = xpos + ((wide - 8) - xcnt);
 				} else {
 					xoff = xpos + xcnt;
 				}
 
 				aoffset += drawsprite[bdata[boffset & bdatasize]](dest + xoff, pdest + xoff, PGMSPRColROM + (aoffset & nPGMSPRColMaskLen), palt, prio);
-	
 				boffset++;
 			}
 		} else {
@@ -182,7 +181,7 @@ static void pgm_draw_sprite_nozoom(INT32 wide, INT32 high, INT32 palt, INT32 bof
 				}
 
 				if (flipx) {
-					xoff = xpos + (wide - xcnt);
+					xoff = xpos + (wide - xcnt) - 1;
 
 					if (xoff < -7 || xoff >= nScreenWidth+8) {
 						aoffset += sprmsktab[msk];

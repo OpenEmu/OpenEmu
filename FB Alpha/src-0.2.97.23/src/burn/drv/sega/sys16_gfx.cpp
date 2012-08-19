@@ -1623,7 +1623,7 @@ static void System16BRenderSpriteLayer(INT32 Priority)
 	numbanks = System16SpriteRomSize / 0x20000;
 
 	for (data = (UINT16*)System16SpriteRam; data < (UINT16*)System16SpriteRam + System16SpriteRamSize / 2; data += 8) {
-		if (data[2] & 0x8000) break;
+		if (BURN_ENDIAN_SWAP_INT16(data[2]) & 0x8000) break;
 		INT32 sprpri  = 1 << ((BURN_ENDIAN_SWAP_INT16(data[4]) >> 6) & 0x3);
 				
 #if 1 && defined FBA_DEBUG
@@ -1859,7 +1859,7 @@ static void OutrunRenderSpriteLayer(INT32 Priority)
 					data[7] = addr - 1;
 					for (x = xpos; (xdelta > 0 && x <= 319) || (xdelta < 0 && x >= 0); )
 					{
-						UINT32 pixels = spritedata[++data[7]];
+						UINT32 pixels = BURN_ENDIAN_SWAP_INT32(spritedata[++data[7]]);
 
 						/* draw four pixels */
 						pix = (pixels >> 28) & 0xf; while (xacc < 0x200) { OutrunDrawPixel(x, pix, color, shadow, pPixel); x += xdelta; xacc += hzoom; } xacc -= 0x200;
@@ -1884,7 +1884,7 @@ static void OutrunRenderSpriteLayer(INT32 Priority)
 					data[7] = addr + 1;
 					for (x = xpos; (xdelta > 0 && x <= 319) || (xdelta < 0 && x >= 0); )
 					{
-						UINT32 pixels = spritedata[--data[7]];
+						UINT32 pixels = BURN_ENDIAN_SWAP_INT32(spritedata[--data[7]]);
 
 						/* draw four pixels */
 						pix = (pixels >>  0) & 0xf; while (xacc < 0x200) { OutrunDrawPixel(x, pix, color, shadow, pPixel); x += xdelta; xacc += hzoom; } xacc -= 0x200;
@@ -2163,7 +2163,7 @@ static void XBoardRenderSpriteLayer(INT32 Priority)
 	UINT16 *data;
 
 	for (data = (UINT16*)System16SpriteRamBuff; data < (UINT16*)System16SpriteRamBuff + System16SpriteRamSize / 2; data += 8) {
-		if (data[0] & 0x8000) break;
+		if (BURN_ENDIAN_SWAP_INT16(data[0]) & 0x8000) break;
 		INT32 sprpri  = 1 << ((BURN_ENDIAN_SWAP_INT16(data[3]) >> 12) & 3);
 		
 #if 1 && defined FBA_DEBUG
@@ -2301,7 +2301,7 @@ static void YBoardSystem16BRenderSpriteLayer()
 	numbanks = System16SpriteRomSize / 0x20000;
 
 	for (data = (UINT16*)System16SpriteRam; data < (UINT16*)System16SpriteRam + System16SpriteRamSize / 2; data += 8) {
-		if (data[2] & 0x8000) break;
+		if (BURN_ENDIAN_SWAP_INT16(data[2]) & 0x8000) break;
 		//INT32 sprpri  = (data[1] >> 8) & 0x1e;
 				
 		INT32 bottom  = BURN_ENDIAN_SWAP_INT16(data[0]) >> 8;
@@ -2413,7 +2413,7 @@ static void YBoardRenderSpriteLayer()
 		if (!(BURN_ENDIAN_SWAP_INT16(rotatebase[y & ~1]) & 0xc000))
 			memset(pTempDraw + (y * 512), 0xff, 512 * sizeof(UINT16));
 
-	for (data = (UINT16*)System16SpriteRam2; !(data[0] & 0x8000) && !visited[next]; data = (UINT16*)System16SpriteRam2 + next * 8)
+	for (data = (UINT16*)System16SpriteRam2; !(BURN_ENDIAN_SWAP_INT16(data[0]) & 0x8000) && !visited[next]; data = (UINT16*)System16SpriteRam2 + next * 8)
 	{
 		INT32 hide    = (BURN_ENDIAN_SWAP_INT16(data[0]) & 0x5000);
 		UINT16 *indirect = (UINT16*)System16SpriteRam2 + ((BURN_ENDIAN_SWAP_INT16(data[0]) & 0x7ff) << 4);
@@ -2490,22 +2490,22 @@ static void YBoardRenderSpriteLayer()
 							UINT64 pixels = BURN_ENDIAN_SWAP_INT64(spritedata[++offs]);
 
 							/* draw four pixels */
-							pix = (pixels >> 60) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 56) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 52) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 48) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 44) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 40) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 36) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 32) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 28) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 24) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 20) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 16) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 12) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >>  8) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >>  4) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >>  0) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 60) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 56) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 52) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 48) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 44) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 40) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 36) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 32) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 28) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 24) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 20) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 16) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 12) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >>  8) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >>  4) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >>  0) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
 							
 							/* stop if the second-to-last pixel in the group was 0xf */
 							if (pix == 0x0f)
@@ -2523,22 +2523,22 @@ static void YBoardRenderSpriteLayer()
 							UINT64 pixels = BURN_ENDIAN_SWAP_INT64(spritedata[--offs]);
 
 							/* draw four pixels */
-							pix = (pixels >>  0) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >>  4) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >>  8) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 12) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 16) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 20) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 24) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 28) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 32) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 36) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 40) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 44) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 48) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 52) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 56) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
-							pix = (pixels >> 60) & 0xf; ind = indirect[pix]; while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >>  0) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >>  4) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >>  8) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 12) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 16) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 20) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 24) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 28) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 32) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 36) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 40) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 44) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 48) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 52) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 56) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
+							pix = (pixels >> 60) & 0xf; ind = BURN_ENDIAN_SWAP_INT16(indirect[pix]); while (xacc < 0x200) { YBoardDrawPixel(x, ind, colorpri, pPixel); x += xdelta; xacc += zoom; } xacc -= 0x200;
 							
 							/* stop if the second-to-last pixel in the group was 0xf */
 							if (pix == 0x0f)

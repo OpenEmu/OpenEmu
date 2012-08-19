@@ -42,6 +42,9 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		9425977515146D800074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9425977415146D800074E3A3 /* OpenEmuBase.framework */; };
+		944CAC6E15E0CBCE00AE91B7 /* fcrash_snd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944CAC6D15E0CBCE00AE91B7 /* fcrash_snd.cpp */; };
+		944CAC7015E0CBEF00AE91B7 /* sf2mdt_snd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944CAC6F15E0CBEF00AE91B7 /* sf2mdt_snd.cpp */; };
+		944CAC7215E0CC1B00AE91B7 /* d_silvmil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944CAC7115E0CC1B00AE91B7 /* d_silvmil.cpp */; };
 		94E49B38150DAAD6007E71EA /* burn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E4970D150DAAD5007E71EA /* burn.cpp */; };
 		94E49B39150DAAD6007E71EA /* burn_gun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E4970F150DAAD5007E71EA /* burn_gun.cpp */; };
 		94E49B3A150DAAD6007E71EA /* burn_led.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E49711150DAAD5007E71EA /* burn_led.cpp */; };
@@ -349,7 +352,6 @@
 		94E49C6A150DAAD7007E71EA /* snes_65816.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E4987D150DAAD5007E71EA /* snes_65816.cpp */; };
 		94E49C6B150DAAD7007E71EA /* snes_io.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E4987E150DAAD5007E71EA /* snes_io.cpp */; };
 		94E49C6C150DAAD7007E71EA /* snes_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E4987F150DAAD5007E71EA /* snes_main.cpp */; };
-		94E49C6D150DAAD7007E71EA /* snes_mem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E49880150DAAD5007E71EA /* snes_mem.cpp */; };
 		94E49C6E150DAAD7007E71EA /* snes_ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E49881150DAAD5007E71EA /* snes_ppu.cpp */; };
 		94E49C6F150DAAD7007E71EA /* snes_spc700.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E49882150DAAD5007E71EA /* snes_spc700.cpp */; };
 		94E49C70150DAAD7007E71EA /* cchip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E49884150DAAD5007E71EA /* cchip.cpp */; };
@@ -569,6 +571,9 @@
 		8D5B49B6048680CD000E48DA /* FB Alpha.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FB Alpha.oecoreplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9425977415146D800074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		944CAC6D15E0CBCE00AE91B7 /* fcrash_snd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fcrash_snd.cpp; sourceTree = "<group>"; };
+		944CAC6F15E0CBEF00AE91B7 /* sf2mdt_snd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sf2mdt_snd.cpp; sourceTree = "<group>"; };
+		944CAC7115E0CC1B00AE91B7 /* d_silvmil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = d_silvmil.cpp; sourceTree = "<group>"; };
 		945E42CB1517E32F00057D08 /* OEArcadeSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEArcadeSystemResponderClient.h; path = ../OpenEmu/Arcade/OEArcadeSystemResponderClient.h; sourceTree = "<group>"; };
 		94E4970C150DAAD5007E71EA /* bitswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bitswap.h; sourceTree = "<group>"; };
 		94E4970D150DAAD5007E71EA /* burn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = burn.cpp; sourceTree = "<group>"; };
@@ -1805,6 +1810,7 @@
 				94E49740150DAAD5007E71EA /* ctv_make.cpp */,
 				94E49741150DAAD5007E71EA /* d_cps1.cpp */,
 				94E49742150DAAD5007E71EA /* d_cps2.cpp */,
+				944CAC6D15E0CBCE00AE91B7 /* fcrash_snd.cpp */,
 				94E49743150DAAD5007E71EA /* kabuki.cpp */,
 				94E49744150DAAD5007E71EA /* ps.cpp */,
 				94E49745150DAAD5007E71EA /* ps_m.cpp */,
@@ -1812,6 +1818,7 @@
 				94E49747150DAAD5007E71EA /* qs.cpp */,
 				94E49748150DAAD5007E71EA /* qs_c.cpp */,
 				94E49749150DAAD5007E71EA /* qs_z.cpp */,
+				944CAC6F15E0CBEF00AE91B7 /* sf2mdt_snd.cpp */,
 			);
 			path = capcom;
 			sourceTree = "<group>";
@@ -2153,6 +2160,7 @@
 				94E4984F150DAAD5007E71EA /* d_seta2.cpp */,
 				94E49850150DAAD5007E71EA /* d_shadfrce.cpp */,
 				94E49851150DAAD5007E71EA /* d_silkroad.cpp */,
+				944CAC7115E0CC1B00AE91B7 /* d_silvmil.cpp */,
 				94E49852150DAAD5007E71EA /* d_speedspn.cpp */,
 				94E49853150DAAD5007E71EA /* d_suna16.cpp */,
 				94E49854150DAAD5007E71EA /* d_suprnova.cpp */,
@@ -3737,7 +3745,6 @@
 				94E49C6A150DAAD7007E71EA /* snes_65816.cpp in Sources */,
 				94E49C6B150DAAD7007E71EA /* snes_io.cpp in Sources */,
 				94E49C6C150DAAD7007E71EA /* snes_main.cpp in Sources */,
-				94E49C6D150DAAD7007E71EA /* snes_mem.cpp in Sources */,
 				94E49C6E150DAAD7007E71EA /* snes_ppu.cpp in Sources */,
 				94E49C6F150DAAD7007E71EA /* snes_spc700.cpp in Sources */,
 				94E49C70150DAAD7007E71EA /* cchip.cpp in Sources */,
@@ -3913,6 +3920,9 @@
 				94E49DC2150DAAD8007E71EA /* uncompr.c in Sources */,
 				94E49DC4150DAAD8007E71EA /* zutil.c in Sources */,
 				94E49DD5150DAAD8007E71EA /* lowpass2.cpp in Sources */,
+				944CAC6E15E0CBCE00AE91B7 /* fcrash_snd.cpp in Sources */,
+				944CAC7015E0CBEF00AE91B7 /* sf2mdt_snd.cpp in Sources */,
+				944CAC7215E0CC1B00AE91B7 /* d_silvmil.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

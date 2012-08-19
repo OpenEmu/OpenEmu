@@ -26,8 +26,10 @@ burn/drv/galaxian \
 burn/drv/irem \
 burn/drv/konami \
 burn/drv/megadrive \
-burn/drv/pre90s \
 burn/drv/neogeo \
+burn/drv/pre90s \
+burn/drv/pst90s \
+burn/drv/pce \
 burn/drv/pgm \
 burn/drv/psikyo \
 burn/drv/sega \

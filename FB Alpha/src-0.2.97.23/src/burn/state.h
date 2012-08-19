@@ -4,6 +4,12 @@
  extern "C" {
 #endif
 
+#if !defined(__cplusplus) && defined(_XBOX)
+#define C_INLINE _inline
+#else
+#define C_INLINE inline
+#endif
+
 /* Scan driver data */
 INT32 BurnAreaScan(INT32 nAction, INT32* pnMin);
 
@@ -31,7 +37,7 @@ struct BurnArea { void *Data; UINT32 nLen; INT32 nAddress; char *szName; };
 extern INT32 (__cdecl *BurnAcb) (struct BurnArea* pba);
 
 /* Scan a small variable or structure */
-inline static void ScanVar(void* pv, INT32 nSize, char* szName)
+C_INLINE static void ScanVar(void* pv, INT32 nSize, char* szName)
 {
 	struct BurnArea ba;
 	memset(&ba, 0, sizeof(ba));

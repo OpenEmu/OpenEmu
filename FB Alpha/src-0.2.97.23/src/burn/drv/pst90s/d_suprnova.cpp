@@ -623,9 +623,9 @@ static INT32 CyvernInit()
 	Sh2MapMemory(DrvPrgRom            , 0x04000000, 0x041fffff, SH2_ROM);
 	Sh2MapMemory(DrvTileBTilesRam     , 0x04800000, 0x0483ffff, SH2_RAM);
 	Sh2MapMemory(DrvPrgRam            , 0x06000000, 0x06ffffff, SH2_RAM);
-//	Sh2MapMemory(DrvPrgRam            , 0x06000000, 0x06ffffff, SM_WRITE);
+//	Sh2MapMemory(DrvPrgRam            , 0x06000000, 0x06ffffff, SH2_WRITE);
 	Sh2MapMemory(DrvCacheRam          , 0xc0000000, 0xc0000fff, SH2_RAM);
-//	Sh2MapHandler(1                   , 0x06000028, 0x0600002b, SM_READ);
+//	Sh2MapHandler(1                   , 0x06000028, 0x0600002b, SH2_READ);
 	Sh2SetReadByteHandler (0, CyvernReadByte);
 	Sh2SetReadWordHandler (0, CyvernReadWord);
 	Sh2SetReadLongHandler (0, CyvernReadLong);

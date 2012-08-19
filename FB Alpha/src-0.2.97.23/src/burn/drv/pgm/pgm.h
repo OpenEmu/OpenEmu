@@ -49,7 +49,7 @@ extern void (*pPgmResetCallback)();
 extern INT32 (*pPgmScanCallback)(INT32, INT32*);
 extern void (*pPgmProtCallback)();
 
-extern INT32 nPGMEnableIRQ4;
+extern INT32 nPGMDisableIRQ4;
 extern INT32 nPGMArm7Type;
 
 INT32 pgmInit();
@@ -76,6 +76,7 @@ void install_protection_asic27a_svg();
 void install_protection_asic27a_ketsui();
 void install_protection_asic27a_ddp3();
 void install_protection_asic27a_puzzli2();
+void install_protection_asic27a_kovshp();
 
 // pgm_crypt
 void pgm_decrypt_kov();

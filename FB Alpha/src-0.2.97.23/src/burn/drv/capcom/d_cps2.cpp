@@ -7119,6 +7119,13 @@ static INT32 DrvExit()
 	Ssf2tb = 0;
 	Xmcota = 0;
 	
+	CpsLayer1XOffs = 0;
+	CpsLayer2XOffs = 0;
+	CpsLayer3XOffs = 0;
+	CpsLayer1YOffs = 0;
+	CpsLayer2YOffs = 0;
+	CpsLayer3YOffs = 0;
+	
 	return CpsExit();
 }
 
@@ -9870,15 +9877,9 @@ STD_ROM_PICK(Megamn2d)
 STD_ROM_FN(Megamn2d)
 
 static struct BurnRomInfo MmatrixdRomDesc[] = {
-#if !defined (ROM_VERIFY)
 	{ "mmxud.03",      0x080000, 0x36711e60, 1 | BRF_ESS | BRF_PRG },
 	{ "mmxud.04",      0x080000, 0x4687226f, 1 | BRF_ESS | BRF_PRG },
 	{ "mmxud.05",      0x080000, 0x52124398, 1 | BRF_ESS | BRF_PRG },
-#else
-	{ "mmxjd.03",      0x080000, 0x36711e60, 1 | BRF_ESS | BRF_PRG },
-	{ "mmxjd.04",      0x080000, 0x4687226f, 1 | BRF_ESS | BRF_PRG },
-	{ "mmxjd.05",      0x080000, 0x52124398, 1 | BRF_ESS | BRF_PRG },
-#endif
 
 	{ "mmx.13m",       0x400000, 0x04748718, 3 | BRF_GRA },
 	{ "mmx.15m",       0x400000, 0x38074F44, 3 | BRF_GRA },
@@ -10062,24 +10063,6 @@ static struct BurnRomInfo ProgearjdRomDesc[] = {
 STD_ROM_PICK(Progearjd)
 STD_ROM_FN(Progearjd)
 
-static struct BurnRomInfo ProgearjblRomDesc[] = {
-	{ "pgaj_bl.03",    0x080000, 0x4fef676c,  1 | BRF_ESS | BRF_PRG },
-	{ "pgaj_bl.04",    0x080000, 0xa069bd3b,  1 | BRF_ESS | BRF_PRG },
-
-	{ "pga.13m",       0x400000, 0x5194c198,  3 | BRF_GRA },
-	{ "pga.15m",       0x400000, 0xb794e83f,  3 | BRF_GRA },
-	{ "pga.17m",       0x400000, 0x87f22918,  3 | BRF_GRA },
-	{ "pga.19m",       0x400000, 0x65ffb45b,  3 | BRF_GRA },
-
-	{ "pga.01",        0x020000, 0xBDBFA992,  4 | BRF_ESS | BRF_PRG },
-
-	{ "pga.11m",       0x400000, 0xabdd224e, 5 | BRF_SND },
-	{ "pga.12m",       0x400000, 0xdac53406, 5 | BRF_SND },	
-};
-
-STD_ROM_PICK(Progearjbl)
-STD_ROM_FN(Progearjbl)
-
 static struct BurnRomInfo RingdstdRomDesc[] = {
 	{ "smbed.03b",     0x080000, 0xf6fba4cd, 1 | BRF_ESS | BRF_PRG },
 	{ "smbed.04b",     0x080000, 0x193bc493, 1 | BRF_ESS | BRF_PRG },
@@ -10131,6 +10114,28 @@ static struct BurnRomInfo SfadRomDesc[] = {
 
 STD_ROM_PICK(Sfad)
 STD_ROM_FN(Sfad)
+
+static struct BurnRomInfo SfaudRomDesc[] = {
+	// is this a region hack of sfad, no original dump of 950727 USA exists currently
+	{ "sfzud.03a",     0x080000, 0x9f2ff577, 1 | BRF_ESS | BRF_PRG },
+	{ "sfz.04b",       0x080000, 0x8b73b0e5, 1 | BRF_ESS | BRF_PRG },
+	{ "sfz.05a",       0x080000, 0x0810544d, 1 | BRF_ESS | BRF_PRG },
+	{ "sfz.06",        0x080000, 0x806e8f38, 1 | BRF_ESS | BRF_PRG },
+	
+	{ "sfz.14m",       0x200000, 0x90fefdb3, 3 | BRF_GRA },
+	{ "sfz.16m",       0x200000, 0x5354c948, 3 | BRF_GRA },
+	{ "sfz.18m",       0x200000, 0x41a1e790, 3 | BRF_GRA },
+	{ "sfz.20m",       0x200000, 0xa549df98, 3 | BRF_GRA },
+
+	{ "sfz.01",        0x020000, 0xffffec7d, 4 | BRF_ESS | BRF_PRG },
+	{ "sfz.02",        0x020000, 0x45f46a08, 4 | BRF_ESS | BRF_PRG },
+
+	{ "sfz.11m",       0x200000, 0xc4b093cd, 5 | BRF_SND },
+	{ "sfz.12m",       0x200000, 0x8bdbc4b4, 5 | BRF_SND },
+};
+
+STD_ROM_PICK(Sfaud)
+STD_ROM_FN(Sfaud)
 
 static struct BurnRomInfo Sfz2adRomDesc[] = {
 	{ "sz2ad.03a",     0x080000, 0x017f8fab, 1 | BRF_ESS | BRF_PRG },
@@ -10397,6 +10402,38 @@ static struct BurnRomInfo Ssf2tbdRomDesc[] = {
 STD_ROM_PICK(Ssf2tbd)
 STD_ROM_FN(Ssf2tbd)
 
+static struct BurnRomInfo Ssf2tdRomDesc[] = {
+	{ "sfxed.03c",     0x080000, 0xed99d850, 1 | BRF_ESS | BRF_PRG },
+	{ "sfxed.04a",     0x080000, 0x38d9b364, 1 | BRF_ESS | BRF_PRG },
+	{ "sfxed.05",      0x080000, 0xc63358d0, 1 | BRF_ESS | BRF_PRG },
+	{ "sfxed.06a",     0x080000, 0xccb29808, 1 | BRF_ESS | BRF_PRG },
+	{ "sfxed.07",      0x080000, 0x61f94982, 1 | BRF_ESS | BRF_PRG },
+	{ "sfxed.08",      0x080000, 0xd399c36c, 1 | BRF_ESS | BRF_PRG },
+	{ "sfxed.09",      0x080000, 0x317b5dbc, 1 | BRF_ESS | BRF_PRG },
+
+	{ "sfx.13m",       0x200000, 0xcf94d275, 3 | BRF_GRA },
+	{ "sfx.15m",       0x200000, 0x5eb703af, 3 | BRF_GRA },
+	{ "sfx.17m",       0x200000, 0xffa60e0f, 3 | BRF_GRA },
+	{ "sfx.19m",       0x200000, 0x34e825c5, 3 | BRF_GRA },
+	{ "sfx.14m",       0x100000, 0xb7cc32e7, 3 | BRF_GRA },
+	{ "sfx.16m",       0x100000, 0x8376ad18, 3 | BRF_GRA },
+	{ "sfx.18m",       0x100000, 0xf5b1b336, 3 | BRF_GRA },
+	{ "sfx.20m",       0x100000, 0x459d5c6b, 3 | BRF_GRA },
+	{ "sfx.21m",       0x100000, 0xe32854af, 3 | BRF_GRA },
+	{ "sfx.23m",       0x100000, 0x760f2927, 3 | BRF_GRA },
+	{ "sfx.25m",       0x100000, 0x1ee90208, 3 | BRF_GRA },
+	{ "sfx.27m",       0x100000, 0xf814400f, 3 | BRF_GRA },
+
+	{ "sfx.01",        0x020000, 0xb47b8835, 4 | BRF_ESS | BRF_PRG },
+	{ "sfx.02",        0x020000, 0x0022633f, 4 | BRF_ESS | BRF_PRG },
+
+	{ "sfx.11m",       0x200000, 0x9bdbd476, 5 | BRF_SND },
+	{ "sfx.12m",       0x200000, 0xa05e3aab, 5 | BRF_SND },
+};
+
+STD_ROM_PICK(Ssf2td)
+STD_ROM_FN(Ssf2td)
+
 static struct BurnRomInfo Ssf2xjdRomDesc[] = {
 	{ "sfxjd.03c",     0x080000, 0x316de996, 1 | BRF_ESS | BRF_PRG },
 	{ "sfxjd.04a",     0x080000, 0x9bf3bb2e, 1 | BRF_ESS | BRF_PRG },
@@ -10459,11 +10496,13 @@ STD_ROM_PICK(Vsavd)
 STD_ROM_FN(Vsavd)
 
 static struct BurnRomInfo Vhunt2dRomDesc[] = {
+//	{ "vh2j_d.06",     0x080000, 0xf320ea30, 1 | BRF_ESS | BRF_PRG }, // apparently a bad dump of vh2j.06, originally loaded instead of vh2j.07 which wasn't encrypted, and clearly not correct
+
 	{ "vh2j_d.03a",    0x080000, 0x696e0157, 1 | BRF_ESS | BRF_PRG },
 	{ "vh2j_d.04a",    0x080000, 0xced9bba3, 1 | BRF_ESS | BRF_PRG },
 	{ "vh2j.05",       0x080000, 0xde34f624, 1 | BRF_ESS | BRF_PRG },
 	{ "vh2j.06",       0x080000, 0x6a3b9897, 1 | BRF_ESS | BRF_PRG },
-	{ "vh2j_d.06",     0x080000, 0xf320ea30, 1 | BRF_ESS | BRF_PRG },
+	{ "vh2j.07",       0x080000, 0xb021c029, 1 | BRF_ESS | BRF_PRG },
 	{ "vh2j.08",       0x080000, 0xac873dff, 1 | BRF_ESS | BRF_PRG },
 	{ "vh2j.09",       0x080000, 0xeaefce9c, 1 | BRF_ESS | BRF_PRG },
 	{ "vh2j.10",       0x080000, 0x11730952, 1 | BRF_ESS | BRF_PRG },
@@ -10488,12 +10527,17 @@ STD_ROM_PICK(Vhunt2d)
 STD_ROM_FN(Vhunt2d)
 
 static struct BurnRomInfo Vsav2dRomDesc[] = {
-	{ "vs2j_d.03",     0x080000, 0x5ee19aee, 1 | BRF_ESS | BRF_PRG },
-	{ "vs2j_d.04",     0x080000, 0x80116c47, 1 | BRF_ESS | BRF_PRG },
-	{ "vs2j_d.05",     0x080000, 0xdc74a062, 1 | BRF_ESS | BRF_PRG },
+//	{ "vs2j_d.03",     0x080000, 0x5ee19aee, 1 | BRF_ESS | BRF_PRG }, // bad dump?
+//	{ "vs2j_d.04",     0x080000, 0x80116c47, 1 | BRF_ESS | BRF_PRG }, // bad dump?
+//	{ "vs2j_d.05",     0x080000, 0xdc74a062, 1 | BRF_ESS | BRF_PRG }, // apparently a bad dump of vs2j.04, originally loaded instead of vs2j.05 which wasn't encrypted, and clearly not correct
+//	{ "vs2j_d.08",     0x080000, 0x97554918, 1 | BRF_ESS | BRF_PRG }, // apparently a bad dump of vs2j.08, originally loaded instead of vs2j.08 which wasn't encrypted, and clearly not correct
+
+	{ "vs2j_d.03",     0x080000, 0x50865f7b, 1 | BRF_ESS | BRF_PRG },
+	{ "vs2j_d.04",     0x080000, 0xc3bff0e3, 1 | BRF_ESS | BRF_PRG },
+	{ "vs2j.05",       0x080000, 0x61979638, 1 | BRF_ESS | BRF_PRG },
 	{ "vs2j.06",       0x080000, 0xf37c5bc2, 1 | BRF_ESS | BRF_PRG },
 	{ "vs2j.07",       0x080000, 0x8f885809, 1 | BRF_ESS | BRF_PRG },
-	{ "vs2j_d.08",     0x080000, 0x97554918, 1 | BRF_ESS | BRF_PRG },
+	{ "vs2j.08",       0x080000, 0x2018c120, 1 | BRF_ESS | BRF_PRG },
 	{ "vs2j.09",       0x080000, 0xfac3c217, 1 | BRF_ESS | BRF_PRG },
 	{ "vs2j.10",       0x080000, 0xeb490213, 1 | BRF_ESS | BRF_PRG },
 
@@ -10546,11 +10590,22 @@ STD_ROM_PICK(Xmcotad)
 STD_ROM_FN(Xmcotad)
 
 static struct BurnRomInfo Xmvsfu1dRomDesc[] = {
+//	{ "xvsd.05a",      0x080000, 0xde347b11, 1 | BRF_ESS | BRF_PRG }, // bad dump?, originally loaded in place of xvs.05a
+//	{ "xvsd.07",       0x080000, 0xf761ded7, 1 | BRF_ESS | BRF_PRG }, // bad dump?, originally loaded in place of xvs.07a
+	
 	{ "xvsud.03h",     0x080000, 0x4e2e76b7, 1 | BRF_ESS | BRF_PRG },
 	{ "xvsud.04h",     0x080000, 0x290c61a7, 1 | BRF_ESS | BRF_PRG },
-	{ "xvsd.05a",      0x080000, 0xde347b11, 1 | BRF_ESS | BRF_PRG },
+#if !defined (ROM_VERIFY)
+	{ "xvs.05a",       0x080000, 0x7db6025d, 1 | BRF_ESS | BRF_PRG },
+#else
+	{ "xvsd.05a",      0x080000, 0xde347b11, 1 | BRF_ESS | BRF_PRG }, // bad dump?
+#endif
 	{ "xvs.06a",       0x080000, 0xe8e2c75c, 1 | BRF_ESS | BRF_PRG },
-	{ "xvsd.07",       0x080000, 0xf761ded7, 1 | BRF_ESS | BRF_PRG },
+#if !defined (ROM_VERIFY)
+	{ "xvs.07",        0x080000, 0x08f0abed, 1 | BRF_ESS | BRF_PRG },
+#else
+	{ "xvsd.07",       0x080000, 0xf761ded7, 1 | BRF_ESS | BRF_PRG }, // bad dump?
+#endif
 	{ "xvs.08",        0x080000, 0x81929675, 1 | BRF_ESS | BRF_PRG },
 	{ "xvs.09",        0x080000, 0x9641f36b, 1 | BRF_ESS | BRF_PRG },
 
@@ -10573,24 +10628,33 @@ static struct BurnRomInfo Xmvsfu1dRomDesc[] = {
 STD_ROM_PICK(Xmvsfu1d)
 STD_ROM_FN(Xmvsfu1d)
 
-void __fastcall PhoenixOutputWriteByte(UINT32 a,UINT8 d)
+void __fastcall PhoenixOutputWriteByte(UINT32 a, UINT8 d)
 {
 	if (a >= 0xfffff0 && a <= 0xfffffb) {
 		CpsFrg[a & 0x0f] = d;
+		// should this value also feed through to RAM (CpsRamFF) or should I return here?
 	}
 	
-	if (a >= 0xff0000 && a <= 0xffffff) {
-		CpsRamFF[(a - 0xff0000) ^ 1] = d;
-		return;
-	}
+	CpsRamFF[(a - 0xff0000) ^ 1] = d;
 }
 
-void __fastcall PhoenixSpriteWriteByte(UINT32 a,UINT8 d)
+void __fastcall PhoenixOutputWriteWord(UINT32 a, UINT16 d)
 {
-	bprintf(PRINT_NORMAL, _T("Byte %x, %x\n"), a, d);
+	SEK_DEF_WRITE_WORD(3, a, d);
 }
 
-void __fastcall PhoenixSpriteWriteWord(UINT32 a,UINT16 d)
+void __fastcall PhoenixSpriteWriteByte(UINT32 a, UINT8 d)
+{
+	// Not seen anything write here but just in case...
+	INT32 Offset = a - 0x700000;
+	
+	CpsRam708[(Offset ^ 1) + 0x0000] = d;
+	CpsRam708[(Offset ^ 1) + 0x8000] = d;
+	
+	bprintf(PRINT_NORMAL, _T("Phoenix Sprite Write Byte %x, %x\n"), a, d);
+}
+
+void __fastcall PhoenixSpriteWriteWord(UINT32 a, UINT16 d)
 {
 	UINT16 *Ram = (UINT16*)CpsRam708;
 	INT32 Offset = (a - 0x700000) >> 1;
@@ -10606,8 +10670,9 @@ static INT32 PhoenixInit()
 	nCpsNumScanlines = 262;	// phoenix sets seem to be sensitive to timing??
 	
 	SekOpen(0);
-	SekMapHandler(3, 0xFF0000, 0xFFFFFF, SM_WRITE);
+	SekMapHandler(3, 0xff0000, 0xffffff, SM_WRITE);
 	SekSetWriteByteHandler(3, PhoenixOutputWriteByte);
+	SekSetWriteWordHandler(3, PhoenixOutputWriteWord);
 	SekMapHandler(4, 0x700000, 0x701fff, SM_WRITE);
 	SekSetWriteByteHandler(4, PhoenixSpriteWriteByte);
 	SekSetWriteWordHandler(4, PhoenixSpriteWriteWord);
@@ -10875,16 +10940,6 @@ struct BurnDriver BurnDrvCpsProgearjd = {
 	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvCpsProgearjbl = {
-	"progearjbl", "progear", NULL, NULL, "2001",
-	"Progear No Arashi (010117 Japan, decrypted set)\0", NULL, "bootleg", "CPS2",
-	L"\u30D7\u30ED\u30AE\u30A2\u306E\u5D50 (Progear No Arashi 010117 Japan, decrypted set)\0", NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_CAPCOM_CPS2 | HARDWARE_CAPCOM_CPS2_SIMM, GBF_HORSHOOT, 0,
-	NULL, ProgearjblRomInfo, ProgearjblRomName, NULL, NULL, ProgearInputInfo, NULL,
-	PhoenixInit, DrvExit, Cps2Frame, CpsRedraw, CpsAreaScan,
-	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
-};
-
 struct BurnDriver BurnDrvCpsRingdstd = {
 	"ringdstd", "ringdest", NULL, NULL, "1994",
 	"Ring of Destruction - slammasters II (940902 Euro Phoenix Edition)\0", NULL, "bootleg", "CPS2",
@@ -10901,6 +10956,16 @@ struct BurnDriver BurnDrvCpsSfad = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_CAPCOM_CPS2, GBF_VSFIGHT, FBF_SF,
 	NULL, SfadRomInfo, SfadRomName, NULL, NULL, Cps2FightingInputInfo, NULL,
+	PhoenixInit, DrvExit, Cps2Frame, CpsRedraw, CpsAreaScan,
+	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
+};
+
+struct BurnDriver BurnDrvCpsSfaud = {
+	"sfaud", "sfa", NULL, NULL, "1995",
+	"Street Fighter Alpha - warriors' dreams (950727 USA Phoenix Edition)\0", NULL, "bootleg", "CPS2",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_CAPCOM_CPS2, GBF_VSFIGHT, FBF_SF,
+	NULL, SfaudRomInfo, SfaudRomName, NULL, NULL, Cps2FightingInputInfo, NULL,
 	PhoenixInit, DrvExit, Cps2Frame, CpsRedraw, CpsAreaScan,
 	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
 };
@@ -11005,6 +11070,16 @@ struct BurnDriver BurnDrvCpsSsf2tbd = {
 	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
 };
 
+struct BurnDriver BurnDrvCpsSsf2td = {
+	"ssf2td", "ssf2t", NULL, NULL, "1994",
+	"Super Street Fighter II Turbo (super street fighter 2 X 940223 etc Phoenix Edition)\0", NULL, "bootleg", "CPS2",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_CAPCOM_CPS2, GBF_VSFIGHT, FBF_SF,
+	NULL, Ssf2tdRomInfo, Ssf2tdRomName, NULL, NULL, Cps2FightingInputInfo, NULL,
+	Ssf2tPhoenixInit, DrvExit, Cps2Frame, CpsRedraw, CpsAreaScan,
+	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
+};
+
 struct BurnDriver BurnDrvCpsSsf2xjd = {
 	"ssf2xjd", "ssf2t", NULL, NULL, "1994",
 	"Super Street Fighter II X - grand master challenge (super street fighter 2 X 940223 Japan Phoenix Edition)\0", NULL, "bootleg", "CPS2",
@@ -11062,5 +11137,160 @@ struct BurnDriver BurnDrvCpsXmvsfu1d = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_CAPCOM_CPS2, GBF_VSFIGHT, FBF_SF,
 	NULL, Xmvsfu1dRomInfo, Xmvsfu1dRomName, NULL, NULL, Cps2FightingInputInfo, NULL,
 	PhoenixInit, DrvExit, Cps2Frame, CpsRedraw, CpsAreaScan,
+	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
+};
+
+// other bootlegs
+
+// Progear No Arashi (010117 Japan, decrypted set)
+static struct BurnRomInfo ProgearjblRomDesc[] = {
+	{ "pgaj_bl.03",    0x080000, 0x4fef676c,  1 | BRF_ESS | BRF_PRG }, // this fails the rom test - bootleggers probably didn't update checksum
+	{ "pgaj_bl.04",    0x080000, 0xa069bd3b,  1 | BRF_ESS | BRF_PRG }, // this fails the rom test - bootleggers probably didn't update checksum
+
+	{ "pga.13m",       0x400000, 0x5194c198,  3 | BRF_GRA },
+	{ "pga.15m",       0x400000, 0xb794e83f,  3 | BRF_GRA },
+	{ "pga.17m",       0x400000, 0x87f22918,  3 | BRF_GRA },
+	{ "pga.19m",       0x400000, 0x65ffb45b,  3 | BRF_GRA },
+
+	{ "pga.01",        0x020000, 0xBDBFA992,  4 | BRF_ESS | BRF_PRG },
+
+	{ "pga.11m",       0x400000, 0xabdd224e, 5 | BRF_SND },
+	{ "pga.12m",       0x400000, 0xdac53406, 5 | BRF_SND },	
+};
+
+STD_ROM_PICK(Progearjbl)
+STD_ROM_FN(Progearjbl)
+
+struct BurnDriver BurnDrvCpsProgearjbl = {
+	"progearjbl", "progear", NULL, NULL, "2001",
+	"Progear No Arashi (010117 Japan, decrypted set)\0", NULL, "bootleg", "CPS2",
+	L"\u30D7\u30ED\u30AE\u30A2\u306E\u5D50 (Progear No Arashi 010117 Japan, decrypted set)\0", NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_CAPCOM_CPS2 | HARDWARE_CAPCOM_CPS2_SIMM, GBF_HORSHOOT, 0,
+	NULL, ProgearjblRomInfo, ProgearjblRomName, NULL, NULL, ProgearInputInfo, NULL,
+	PhoenixInit, DrvExit, Cps2Frame, CpsRedraw, CpsAreaScan,
+	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
+};
+
+// Gigaman 2: The Power Fighters (bootleg of Megaman 2)
+static struct BurnRomInfo Gigaman2RomDesc[] = {
+	{ "sys_rom1.bin",  0x400000, 0x2eaa5e10, BRF_ESS | BRF_PRG },
+
+	{ "cg_rom1.bin",   0x800000, 0xed55a641, BRF_GRA },
+	{ "cg_rom2.bin",   0x800000, 0x63918c05, BRF_GRA },
+
+	{ "pcm_rom1.bin",  0x800000, 0x41a854ab, BRF_SND },
+	
+	{ "89c4051.bin",   0x010000, 0x00000000, BRF_PRG | BRF_NODUMP }, // sound MCU
+};
+
+STD_ROM_PICK(Gigaman2)
+STD_ROM_FN(Gigaman2)
+
+static UINT8 *Gigaman2DummyQsndRam = NULL;
+
+static INT32 Gigaman2Init()
+{
+	Cps = 2;
+	Cps2DisableQSnd = 1;
+	
+	CpsLayer1XOffs = -0x09;
+	CpsLayer2XOffs = -0x09;
+	CpsLayer3XOffs = -0x09;
+	
+	nCpsGfxLen  = 0x800000;
+	nCpsRomLen  = 0x180000;
+	nCpsCodeLen = 0x180000;
+	nCpsZRomLen = 0;
+	nCpsQSamLen = 0;
+	nCpsAdLen   = 0x800000;
+	
+	Gigaman2DummyQsndRam = (UINT8*)BurnMalloc(0x20000);
+	
+	CpsInit();
+	
+	INT32 nRet = 0;
+	
+	// Load program rom (seperate data and code)
+	UINT8 *pTemp = (UINT8*)BurnMalloc(0x400000);
+	if (!pTemp) return 1;
+	nRet = BurnLoadRom(pTemp, 0, 1); if (nRet) return 1;
+	memcpy(CpsRom , pTemp + 0x000000, 0x180000);
+	memcpy(CpsCode, pTemp + 0x200000, 0x180000);
+	BurnFree(pTemp);
+	
+	// Load graphic roms, descramble and decode
+	pTemp = (UINT8*)BurnMalloc(0xc00000);
+	if (!pTemp) return 1;
+	// we are only interested in the first 0x400000 of each rom
+	nRet = BurnLoadRom(pTemp + 0x000000, 1, 1); if (nRet) return 1;
+	nRet = BurnLoadRom(pTemp + 0x400000, 2, 1); if (nRet) return 1;
+	
+	// copy to CpsGfx as a temp buffer and descramble
+	memcpy(CpsGfx, pTemp, nCpsGfxLen);
+	memset(pTemp, 0, 0xc00000);
+	UINT16 *pTemp16 = (UINT16*)pTemp;
+	UINT16 *CpsGfx16 = (UINT16*)CpsGfx;
+	for (INT32 i = 0; i < 0x800000 >> 1; i++) {
+		pTemp16[i] = CpsGfx16[((i & ~7) >> 2) | ((i & 4) << 18) | ((i & 2) >> 1) | ((i & 1) << 21)];
+	}
+	
+	// copy back to CpsGfx as a temp buffer and put into a format easier to decode
+	memcpy(CpsGfx, pTemp, nCpsGfxLen);
+	memset(pTemp, 0, 0xc00000);
+	for (INT32 i = 0; i < 0x100000; i++) {
+		pTemp16[i + 0x000000] = CpsGfx16[(i * 4) + 0];
+		pTemp16[i + 0x100000] = CpsGfx16[(i * 4) + 1];
+		pTemp16[i + 0x200000] = CpsGfx16[(i * 4) + 2];
+		pTemp16[i + 0x300000] = CpsGfx16[(i * 4) + 3];
+	}
+	
+	// clear CpsGfx and finally decode
+	memset(CpsGfx, 0, nCpsGfxLen);	
+	Cps2LoadTilesGigaman2(CpsGfx, pTemp);
+	BurnFree(pTemp);
+	
+	// Load the MSM6295 Data
+	nRet = BurnLoadRom(CpsAd, 3, 1); if (nRet) return 1;
+	
+	nRet = CpsRunInit();
+	
+	SekOpen(0);
+	SekMapMemory(Gigaman2DummyQsndRam, 0x618000, 0x619fff, SM_RAM);
+	SekClose();
+	
+//	nCpsNumScanlines = 262;	// phoenix sets seem to be sensitive to timing??
+	
+	return nRet;
+}
+
+static INT32 Gigaman2Exit()
+{
+	BurnFree(Gigaman2DummyQsndRam);
+	
+	return DrvExit();
+}
+
+static INT32 Gigaman2Scan(INT32 nAction, INT32 *pnMin)
+{
+	struct BurnArea ba;
+	
+	if (nAction & ACB_MEMORY_RAM) {
+		memset(&ba, 0, sizeof(ba));
+		ba.Data   = Gigaman2DummyQsndRam;
+		ba.nLen   = 0x020000;
+		ba.szName = "Gigaman2DummyQsndRam";
+		BurnAcb(&ba);
+	}
+
+	return CpsAreaScan(nAction, pnMin);
+}
+
+struct BurnDriver BurnDrvCpsGigaman2 = {
+	"gigaman2", "megaman2", NULL, NULL, "1996",
+	"Gigaman 2: The Power Fighters (bootleg)\0", "No Sound (MCU not dumped)", "bootleg", "CPS2",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_CAPCOM_CPS2, GBF_VSFIGHT, 0,
+	NULL, Gigaman2RomInfo, Gigaman2RomName, NULL, NULL, Megaman2InputInfo, NULL,
+	Gigaman2Init, Gigaman2Exit, Cps2Frame, CpsRedraw, Gigaman2Scan,
 	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
 };

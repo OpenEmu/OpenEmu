@@ -413,12 +413,6 @@ void ics2115_update(INT32 /*length*/)
 	for(INT32 osc=0; osc<32; osc++)
 		if(chip->voice[osc].state & V_ON) {
 			UINT32 badr = (chip->voice[osc].saddr << 20) & 0x0f00000;
-			if (badr >= nICSSNDROMLen) { // right?
-				chip->voice[osc].state &= ~V_ON;
-				chip->voice[osc].state |= V_DONE;
-				rec_irq = 1;
-				break; 
-			}
 			UINT32 adr = (chip->voice[osc].addrh << 16) | chip->voice[osc].addrl;
 			UINT32 end = (chip->voice[osc].endh << 16) | (chip->voice[osc].endl << 8);
 			UINT32 loop = (chip->voice[osc].strth << 16) | (chip->voice[osc].strtl << 8);

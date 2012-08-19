@@ -49,12 +49,12 @@ static int DoLibInit()					// Do Init of Burn library driver
 {
 	int nRet = 0;
 
-	if ((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) != HARDWARE_SNK_MVS) {
-		ProgressCreate();
-	}
-	
 	if (DrvBzipOpen()) {
 		return 1;
+	}
+	
+	if ((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) != HARDWARE_SNK_MVS) {
+		ProgressCreate();
 	}
 
 	nRet = BurnDrvInit();

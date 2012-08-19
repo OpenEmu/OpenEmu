@@ -266,6 +266,7 @@ BEGIN
 	IDS_CARTRIDGE				"cartridge"
 	IDS_HARDWARE				"hardware"
 	IDS_EMPTY					"Empty"
+	IDS_UNIDENTIFIED_CD			"Unidentified CD"
 
 	IDS_ERR_ERROR				"Error"
     IDS_ERR_WARNING				"Warning"

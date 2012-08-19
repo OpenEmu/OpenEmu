@@ -1,6 +1,9 @@
 #ifndef _BURNER_LIBSNES_H
 #define _BURNER_LIBSNES_H
 
+#include "gameinp.h"
+#include "inp_keys.h"
+
 extern int bDrvOkay;
 extern int bRunPause;
 extern bool bAlwaysProcessKeyboardInput;

@@ -16,7 +16,8 @@ extern UINT32 CpsBID[3];										// Board ID changes
 // cps.cpp
 extern INT32 Cps;														// 1 = CPS1, 2 = CPS2, 3 = CPS CHanger
 extern INT32 Cps1Qs;
-extern INT32 Cps1Pic;
+extern INT32 Cps1DisablePSnd;
+extern INT32 Cps2DisableQSnd;
 extern INT32 nCPS68KClockspeed;
 extern INT32 nCpsCycles;												// Cycles per frame
 extern INT32 nCpsZ80Cycles;
@@ -37,16 +38,23 @@ INT32 CpsLoadTilesByte(UINT8 *Tile,INT32 nStart);
 INT32 CpsLoadTilesForgottn(INT32 nStart);
 INT32 CpsLoadTilesForgottnu(INT32 nStart);
 INT32 CpsLoadTilesPang(UINT8 *Tile,INT32 nStart);
-INT32 CpsLoadTilesHack160(UINT8 *Tile,INT32 nStart);
-INT32 CpsLoadTilesBootleg(UINT8 *Tile, INT32 nStart);
-INT32 CpsLoadTilesCaptcomb(UINT8 *Tile, INT32 nStart);
-INT32 CpsLoadTilesPunipic2(UINT8 *Tile, INT32 nStart);
 INT32 CpsLoadTilesSf2ebbl(UINT8 *Tile, INT32 nStart);
+INT32 CpsLoadTilesHack160(INT32 nStart);
+INT32 CpsLoadTilesHack160Alt(INT32 nStart);
+INT32 CpsLoadTilesSf2koryu(INT32 nStart);
+INT32 CpsLoadTilesSf2mdt(INT32 nStart);
+INT32 CpsLoadTilesSf2mdta(INT32 nStart);
+INT32 CpsLoadTilesFcrash(INT32 nStart);
+INT32 CpsLoadTilesCawingbl(INT32 nStart);
+INT32 CpsLoadTilesCaptcommb(INT32 nStart);
+INT32 CpsLoadTilesDinopic(INT32 nStart);
+INT32 CpsLoadTilesKodb(INT32 nStart);
 INT32 CpsLoadStars(UINT8 *pStar, INT32 nStart);
 INT32 CpsLoadStarsByte(UINT8 *pStar, INT32 nStart);
 INT32 CpsLoadStarsForgottnAlt(UINT8 *pStar, INT32 nStart);
 INT32 Cps2LoadTiles(UINT8 *Tile,INT32 nStart);
 INT32 Cps2LoadTilesSIM(UINT8 *Tile,INT32 nStart);
+INT32 Cps2LoadTilesGigaman2(UINT8 *Tile, UINT8 *pSrc);
 
 // cps_config.h
 #define CPS_B_01		0
@@ -79,6 +87,8 @@ INT32 Cps2LoadTilesSIM(UINT8 *Tile,INT32 nStart);
 #define HACK_B_2		27
 #define HACK_B_3		28
 #define HACK_B_4		29
+#define HACK_B_5		30
+#define HACK_B_6		31
 
 #define GFXTYPE_SPRITES		(1<<0)
 #define GFXTYPE_SCROLL1		(1<<1)
@@ -153,16 +163,32 @@ INT32 CpsMemInit();
 INT32 CpsMemExit();
 INT32 CpsAreaScan(INT32 nAction,INT32 *pnMin);
 
+typedef INT32 (*CpsMemScanCallback)(INT32, INT32*);
+extern CpsMemScanCallback CpsMemScanCallbackFunction;
+
 // cps_run.cpp
 extern UINT8 CpsReset;
 extern UINT8 Cpi01A, Cpi01C, Cpi01E;
 extern INT32 nIrqLine50, nIrqLine52;								// The scanlines at which the interrupts are triggered
 extern INT32 nCpsNumScanlines;
+extern INT32 Cps1VBlankIRQLine;
 extern INT32 CpsDrawSpritesInReverse;
 INT32 CpsRunInit();
 INT32 CpsRunExit();
 INT32 Cps1Frame();
 INT32 Cps2Frame();
+typedef INT32 (*CpsRunInitCallback)();
+extern CpsRunInitCallback CpsRunInitCallbackFunction;
+typedef INT32 (*CpsRunExitCallback)();
+extern CpsRunExitCallback CpsRunExitCallbackFunction;
+typedef INT32 (*CpsRunResetCallback)();
+extern CpsRunResetCallback CpsRunResetCallbackFunction;
+typedef void (*CpsRunFrameStartCallback)();
+extern CpsRunFrameStartCallback CpsRunFrameStartCallbackFunction;
+typedef void (*CpsRunFrameMiddleCallback)();
+extern CpsRunFrameMiddleCallback CpsRunFrameMiddleCallbackFunction;
+typedef void (*CpsRunFrameEndCallback)();
+extern CpsRunFrameEndCallback CpsRunFrameEndCallbackFunction;
 
 inline static UINT8* CpsFindGfxRam(INT32 nAddr,INT32 nLen)
 {
@@ -184,7 +210,7 @@ inline static void GetPalette(INT32 nStart, INT32 nCount)
 
 // cps_rw.cpp
 // Treble Winner - Added INP(1FD) for sf2ue
-#define CPSINPSET INP(000) INP(001) INP(006) INP(007) INP(008) INP(010) INP(011) INP(012) INP(018) INP(019) INP(020) INP(021) INP(029) INP(176) INP(177) INP(179) INP(186) INP(1fd)
+#define CPSINPSET INP(000) INP(001) INP(006) INP(007) INP(008) INP(010) INP(011) INP(012) INP(018) INP(019) INP(01B) INP(020) INP(021) INP(029) INP(176) INP(177) INP(179) INP(186) INP(1fd)
 
 // prototype for input bits
 #define INP(nnn) extern UINT8 CpsInp##nnn[8];
@@ -214,19 +240,23 @@ extern INT32 Wofh;
 extern INT32 Sf2thndr;
 extern INT32 Pzloop2;
 extern INT32 Ssf2tb;
-extern INT32 Dinopic;
 extern INT32 Dinohunt;
 extern INT32 Port6SoundWrite;
+extern INT32 CpsBootlegEEPROM;
 
 extern UINT8* CpsEncZRom;
 
 INT32 CpsRwInit();
 INT32 CpsRwExit();
 INT32 CpsRwGetInp();
+void CpsWritePort(const UINT32 ia, UINT8 d);
 UINT8 __fastcall CpsReadByte(UINT32 a);
 void __fastcall CpsWriteByte(UINT32 a, UINT8 d);
 UINT16 __fastcall CpsReadWord(UINT32 a);
 void __fastcall CpsWriteWord(UINT32 a, UINT16 d);
+
+typedef void (*CpsRWSoundCommandCallback)(UINT16);
+extern CpsRWSoundCommandCallback CpsRWSoundCommandCallbackFunction;
 
 // cps_draw.cpp
 extern UINT8 CpsRecalcPal;				// Flag - If it is 1, recalc the whole palette
@@ -241,6 +271,10 @@ extern INT32 CpsLayer3XOffs;
 extern INT32 CpsLayer1YOffs;
 extern INT32 CpsLayer2YOffs;
 extern INT32 CpsLayer3YOffs;
+extern INT32 Cps1DisableBgHi;
+extern INT32 Cps1OverrideLayers;
+extern INT32 nCps1Layers[4];
+extern INT32 nCps1LayerOffs[3];
 void DrawFnInit();
 INT32  CpsDraw();
 INT32  CpsRedraw();
@@ -310,26 +344,34 @@ INT32 CtvReady();
 
 // cps_obj.cpp
 extern INT32 nCpsObjectBank;
+extern UINT8 *CpsBootlegSpriteRam;
+extern INT32 Cps1LockSpriteList910000;
+extern INT32 Cps1DetectEndSpriteList8000;
 
-extern UINT8 *BootlegSpriteRam;
-
-extern INT32 Sf2Hack;
+typedef INT32 (*Cps1ObjGetCallback)();
+extern Cps1ObjGetCallback Cps1ObjGetCallbackFunction;
+typedef INT32 (*Cps1ObjDrawCallback)(INT32, INT32);
+extern Cps1ObjDrawCallback Cps1ObjDrawCallbackFunction;
 
 INT32  CpsObjInit();
 INT32  CpsObjExit();
 INT32  CpsObjGet();
+INT32 FcrashObjGet();
+INT32 KodbObjGet();
+INT32 DinopicObjGet();
+INT32 DaimakaibObjGet();
+INT32 WofhObjGet();
+INT32 Sf2mdtObjGet();
 void CpsObjDrawInit();
 INT32  Cps1ObjDraw(INT32 nLevelFrom,INT32 nLevelTo);
 INT32  Cps2ObjDraw(INT32 nLevelFrom,INT32 nLevelTo);
+INT32  FcrashObjDraw(INT32 nLevelFrom,INT32 nLevelTo);
 
 // cps_scr.cpp
 #define SCROLL_2 0
 #define SCROLL_3 1
 extern INT32 Ghouls;
-extern INT32 Mercs;
-extern INT32 Sf2jc;
 extern INT32 Ssf2t;
-extern INT32 Qad;
 extern INT32 Xmcota;
 
 extern INT32 Scroll1TileMask;
@@ -396,3 +438,21 @@ void slammast_decode();
 
 // cps2_crypt.cpp
 void cps2_decrypt_game_data();
+
+// fcrash_snd.cpp
+void FcrashSoundCommand(UINT16 d);
+INT32 FcrashSoundInit();
+INT32 FcrashSoundReset();
+INT32 FcrashSoundExit();
+void FcrashSoundFrameStart();
+void FcrashSoundFrameEnd();
+INT32 FcrashScanSound(INT32 nAction, INT32 *pnMin);
+
+// sf2mdt_snd.cpp
+void Sf2mdtSoundCommand(UINT16 d);
+INT32 Sf2mdtSoundInit();
+INT32 Sf2mdtSoundReset();
+INT32 Sf2mdtSoundExit();
+void Sf2mdtSoundFrameStart();
+void Sf2mdtSoundFrameEnd();
+INT32 Sf2mdtScanSound(INT32 nAction, INT32 *pnMin);

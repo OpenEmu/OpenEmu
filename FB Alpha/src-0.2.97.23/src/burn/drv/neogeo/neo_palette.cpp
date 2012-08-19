@@ -64,7 +64,7 @@ INT32 NeoUpdatePalette()
 		for (INT32 j = 0; j < 2; j++) {
 			for (i = 0, ps = (UINT16*)NeoPalSrc[j], pc = NeoPaletteCopy[j], pd = NeoPaletteData[j]; i < 4096; i++, ps++, pc++, pd++) {
 				*pc = *ps;
-				*pd = CalcCol(*ps);
+				*pd = CalcCol(BURN_ENDIAN_SWAP_INT16(*ps));
 			}
 		}
 

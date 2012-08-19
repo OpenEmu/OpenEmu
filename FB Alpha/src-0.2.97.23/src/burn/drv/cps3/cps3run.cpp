@@ -686,7 +686,11 @@ void __fastcall cps3WriteWord(UINT32 addr, UINT16 data)
 				g = g << 3;
 				b = b << 3;
 
+#ifdef LSB_FIRST
 				RamPal[(paldma_dest + i) ^ 1] = coldata;
+#else
+				RamPal[(paldma_dest + i)] = coldata;
+#endif
 				Cps3CurPal[(paldma_dest + i) ] = BurnHighCol(r, g, b, 0);
 			}
 			Sh2SetIRQLine(10, SH2_IRQSTATUS_AUTO);

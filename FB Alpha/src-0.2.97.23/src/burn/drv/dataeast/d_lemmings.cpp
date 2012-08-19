@@ -135,15 +135,15 @@ static inline void palette_update_one(INT32 offset)
 
 	offset = (offset & 0xffc) / 2;
 
-	DrvPalette[offset/2] = BurnHighCol(p[offset+1], p[offset+1] >> 8, p[offset], 0);
+	DrvPalette[offset/2] = BurnHighCol(BURN_ENDIAN_SWAP_INT16(p[offset+1]), BURN_ENDIAN_SWAP_INT16(p[offset+1]) >> 8, BURN_ENDIAN_SWAP_INT16(p[offset]), 0);
 }
 
 static inline void pixel_layer_update_one(INT32 offset)
 {
 	UINT16 src = *((UINT16*)(DrvPxlRAM0 + offset));
 
-	pTempDraw[offset + 0] = ((src >> 8) & 0x0f) + 0x100;
-	pTempDraw[offset + 1] = ((src >> 0) & 0x0f) + 0x100;
+	pTempDraw[offset + 0] = ((BURN_ENDIAN_SWAP_INT16(src) >> 8) & 0x0f) + 0x100;
+	pTempDraw[offset + 1] = ((BURN_ENDIAN_SWAP_INT16(src) >> 0) & 0x0f) + 0x100;
 }
 
 static inline void pixel_layer_update_two(INT32 offset)
@@ -155,31 +155,31 @@ static inline void pixel_layer_update_two(INT32 offset)
 
 	INT32 off = ((((sx / 8) * 32) + (sy / 8)) * 64) + ((sy & 7) * 8) + (sx & 6);
 
-	DrvGfxROM2[off + 0] = ((src >> 8) & 0x0f);
-	DrvGfxROM2[off + 1] = ((src >> 0) & 0x0f);
+	DrvGfxROM2[off + 0] = ((BURN_ENDIAN_SWAP_INT16(src) >> 8) & 0x0f);
+	DrvGfxROM2[off + 1] = ((BURN_ENDIAN_SWAP_INT16(src) >> 0) & 0x0f);
 }
 
 static void __fastcall lemmings_main_write_word(UINT32 address, UINT16 data)
 {
 	if ((address & 0xfff000) == 0x160000) {
-		*((UINT16*)(DrvPalRAM + (address & 0x000ffe))) = data;
+		*((UINT16*)(DrvPalRAM + (address & 0x000ffe))) = BURN_ENDIAN_SWAP_INT16(data);
 		palette_update_one(address);
 		return;
 	}
 
 	if ((address & 0xfffff0) == 0x170000) {
-		*((UINT16*)(DrvCtrlRAM + (address & 0x0000e))) = data;
+		*((UINT16*)(DrvCtrlRAM + (address & 0x0000e))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 
 	if ((address & 0xf80000) == 0x300000) {
-		*((UINT16*)(DrvPxlRAM0 + (address & 0x7fffe))) = data;
+		*((UINT16*)(DrvPxlRAM0 + (address & 0x7fffe))) = BURN_ENDIAN_SWAP_INT16(data);
 		pixel_layer_update_one(address & 0x7fffe);
 		return;
 	}
 
 	if ((address & 0xfe0000) == 0x380000) {
-		*((UINT16*)(DrvPxlRAM1 + (address & 0x1fffe))) = data;
+		*((UINT16*)(DrvPxlRAM1 + (address & 0x1fffe))) = BURN_ENDIAN_SWAP_INT16(data);
 		pixel_layer_update_two(address & 0x1fffe);
 		return;
 	}
@@ -491,14 +491,14 @@ static void draw_sprites(UINT8 *ram, UINT8 *rom, INT32 color_offset, INT32 pri)
 	{
 		INT32 inc;
 
-		if ((sprdata[offs + 2] & 0x2000) != pri) continue;
+		if ((BURN_ENDIAN_SWAP_INT16(sprdata[offs + 2]) & 0x2000) != pri) continue;
 
-		INT32 sy    = sprdata[offs + 0];
+		INT32 sy    = BURN_ENDIAN_SWAP_INT16(sprdata[offs + 0]);
 
 		if ((sy & 0x1000) && (nCurrentFrame & 1)) continue;
 
-		INT32 code  = sprdata[offs + 1] & 0x3fff;
-		INT32 sx    = sprdata[offs + 2];
+		INT32 code  = BURN_ENDIAN_SWAP_INT16(sprdata[offs + 1]) & 0x3fff;
+		INT32 sx    = BURN_ENDIAN_SWAP_INT16(sprdata[offs + 2]);
 		INT32 color = (sx >>9) & 0xf;
 
 		INT32 flipx = sy & 0x2000;
@@ -551,7 +551,7 @@ static void draw_layer()
 		INT32 sy = ((offs & 0x1f) * 8) - 16;
 		INT32 sx = (offs / 0x20) * 8;
 
-		INT32 attr  = ram[offs];
+		INT32 attr  = BURN_ENDIAN_SWAP_INT16(ram[offs]);
 		INT32 code  = attr & 0x7ff;
 		INT32 color = attr >> 12;
 
@@ -564,13 +564,13 @@ static void draw_layer()
 static void copy_pixel_layer()
 {
 	UINT16 *ctrl = (UINT16*)DrvCtrlRAM;
-	INT32 x0 = -ctrl[2];
-	INT32 x1 = -ctrl[0];
+	INT32 x0 = -BURN_ENDIAN_SWAP_INT16(ctrl[2]);
+	INT32 x1 = -BURN_ENDIAN_SWAP_INT16(ctrl[0]);
 
 	UINT16 *src = pTempDraw + (16 * 0x800);
 	UINT16 *dst = pTransDraw;
 
-	if (ctrl[6] & 0x02) // window mode
+	if (BURN_ENDIAN_SWAP_INT16(ctrl[6]) & 0x02) // window mode
 	{
 		for (INT32 y = 0; y < nScreenHeight; y++, src += 0x800, dst += nScreenWidth) {
 			for (INT32 x = 0; x < 160; x++) {

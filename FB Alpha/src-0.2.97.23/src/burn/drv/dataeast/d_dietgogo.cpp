@@ -319,13 +319,13 @@ static void draw_sprites()
 
 	for (INT32 offs = 0; offs < 0x400; offs += 4)
 	{
-		if (ram[offs + 1] == 0) continue;
+		if (BURN_ENDIAN_SWAP_INT16(ram[offs + 1]) == 0) continue;
 
 		INT32 inc, mult;
 
-		INT32 sy     = ram[offs + 0];
-		INT32 code   = ram[offs + 1] & 0x3fff;
-		INT32 sx     = ram[offs + 2];
+		INT32 sy     = BURN_ENDIAN_SWAP_INT16(ram[offs + 0]);
+		INT32 code   = BURN_ENDIAN_SWAP_INT16(ram[offs + 1]) & 0x3fff;
+		INT32 sx     = BURN_ENDIAN_SWAP_INT16(ram[offs + 2]);
 
 		if ((sy & 0x1000) && (nCurrentFrame & 1)) continue;
 

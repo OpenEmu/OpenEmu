@@ -449,7 +449,7 @@ void __fastcall ps4_write_byte(UINT32 address, UINT8 data)
 #ifdef LSB_FIRST
 		DrvSprRAM[(address ^ 3) & 0x3fff] = data;
 #else
-		DrvSprRAM((address) & 0x3fff] = data;
+		DrvSprRAM[(address) & 0x3fff] = data;
 #endif
 		return;
 	}

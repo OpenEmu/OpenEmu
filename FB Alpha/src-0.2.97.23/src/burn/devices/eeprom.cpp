@@ -117,15 +117,11 @@ void EEPROMExit()
 
 	INT32 len = ((1 << intf->address_bits) * (intf->data_bits >> 3)) & (MEMORY_SIZE-1);
 
-	//FILE *fz = fopen(output, "wb");
-	//fwrite (eeprom_data, len, 1, fz);
-	//fclose (fz);
-    FILE *fz = fopen(output, "wb");
-    if (fz)
-    {
-        fwrite (eeprom_data, len, 1, fz);
-        fclose (fz);
-    }
+	FILE *fz = fopen(output, "wb");
+	if (fz) {
+		fwrite (eeprom_data, len, 1, fz);
+		fclose (fz);
+	}
 	
 	DebugDev_EEPROMInitted = 0;
 }

@@ -1117,6 +1117,38 @@ static struct BurnRomInfo Kungfub2RomDesc[] = {
 STD_ROM_PICK(Kungfub2)
 STD_ROM_FN(Kungfub2)
 
+static struct BurnRomInfo Kungfub3RomDesc[] = {
+	{ "5.bin",                0x04000, 0x5d8e791d, BRF_ESS | BRF_PRG }, //  0	Z80 Program Code
+	{ "4.bin",                0x04000, 0x4000e2b8, BRF_ESS | BRF_PRG }, //  1
+	
+	{ "1.bin",                0x02000, 0x58e87ab0, BRF_ESS | BRF_PRG }, //  2	M6803 Program Code
+	{ "2.bin",                0x02000, 0xc81e31ea, BRF_ESS | BRF_PRG }, //  3
+	{ "3.bin",                0x02000, 0xd99fb995, BRF_ESS | BRF_PRG }, //  4
+	
+	{ "6.bin",                0x02000, 0x6b2cc9c8, BRF_GRA },	    //  4	Characters
+	{ "7.bin",                0x02000, 0xc648f558, BRF_GRA },	    //  5
+	{ "8.bin",                0x02000, 0xfbe9276e, BRF_GRA },	    //  6
+	
+	{ "14.bin",               0x04000, 0x85591db2, BRF_GRA },	    //  7	Sprites
+	{ "13.bin",               0x04000, 0xed719d7b, BRF_GRA },	    //  8
+	{ "16.bin",               0x04000, 0x05fcce8b, BRF_GRA },	    //  9
+	{ "15.bin",               0x04000, 0xdc675003, BRF_GRA },	    //  10
+	{ "11.bin",               0x04000, 0x1df11d81, BRF_GRA },	    //  11
+	{ "12.bin",               0x04000, 0x2d3b69dd, BRF_GRA },	    //  12	
+	
+	{ "g-1j-.bin",            0x00100, 0x668e6bca, BRF_GRA },	    //  13	PROM (Tile Palette Red Component)
+	{ "b-1m-.bin",            0x00100, 0x76c05a9c, BRF_GRA },	    //  14	PROM (Sprite Palette Red Component)
+	{ "g-1f-.bin",            0x00100, 0x964b6495, BRF_GRA },	    //  15	PROM (Tile Palette Green Component)
+	{ "b-1n-.bin",            0x00100, 0x23f06b99, BRF_GRA },	    //  16	PROM (Sprite Palette Green Component)
+	{ "g-1h-.bin",            0x00100, 0x550563e1, BRF_GRA },	    //  17	PROM (Tile Palette Blue Component)
+	{ "b-1l-.bin",            0x00100, 0x35e45021, BRF_GRA },	    //  18	PROM (Sprite Palette Blue Component)
+	{ "b-5f-.bin",            0x00020, 0x7a601c3d, BRF_GRA },	    //  19	PROM (Sprite Height)
+	{ "b-6f-.bin",            0x00100, 0x82c20d12, BRF_GRA },	    //  20	PROM (Video Timing)
+};
+
+STD_ROM_PICK(Kungfub3)
+STD_ROM_FN(Kungfub3)
+
 static struct BurnRomInfo BattroadRomDesc[] = {
 	{ "br-a-4e.b",            0x02000, 0x9bf14768, BRF_ESS | BRF_PRG }, //  0	Z80 Program Code
 	{ "br-a-4d.b",            0x02000, 0x39ca1627, BRF_ESS | BRF_PRG }, //  1
@@ -2584,6 +2616,53 @@ static INT32 KungfumdLoadRoms()
 	return 0;
 }
 
+static INT32 Kungfub3LoadRoms()
+{
+	INT32 nRet = 0;
+	
+	M62TempRom = (UINT8 *)BurnMalloc(0x18000);
+
+	// Load Z80 Program Roms
+	nRet = BurnLoadRom(M62Z80Rom   + 0x00000,  0, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62Z80Rom   + 0x04000,  1, 1); if (nRet != 0) return 1;
+	
+	// Load M6803 Program Roms
+	nRet = BurnLoadRom(M62M6803Rom + 0x06000,  2, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62M6803Rom + 0x08000,  3, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62M6803Rom + 0x0a000,  4, 1); if (nRet != 0) return 1;
+		
+	// Load and decode the tiles
+	memset(M62TempRom, 0, 0x18000);
+	nRet = BurnLoadRom(M62TempRom  + 0x00000,  5, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62TempRom  + 0x02000,  6, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62TempRom  + 0x04000,  7, 1); if (nRet != 0) return 1;
+	GfxDecode(M62NumTiles, 3, M62BgxTileDim, M62BgyTileDim, Tile1024PlaneOffsets, TileXOffsets, TileYOffsets, 0x40, M62TempRom, M62Tiles);
+	
+	// Load and decode the sprites
+	memset(M62TempRom, 0, 0x18000);
+	nRet = BurnLoadRom(M62TempRom  + 0x00000,  8, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62TempRom  + 0x04000,  9, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62TempRom  + 0x08000, 10, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62TempRom  + 0x0c000, 11, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62TempRom  + 0x10000, 12, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62TempRom  + 0x14000, 13, 1); if (nRet != 0) return 1;
+	GfxDecode(M62NumSprites, 3, 16, 16, KungfumSpritePlaneOffsets, SpriteXOffsets, SpriteYOffsets, 0x100, M62TempRom, M62Sprites);
+	
+	// Load the Proms
+	nRet = BurnLoadRom(M62PromData + 0x00000, 14, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62PromData + 0x00100, 15, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62PromData + 0x00200, 16, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62PromData + 0x00300, 17, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62PromData + 0x00400, 18, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62PromData + 0x00500, 19, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62PromData + 0x00600, 20, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(M62PromData + 0x00620, 21, 1); if (nRet != 0) return 1;
+
+	BurnFree(M62TempRom);
+	
+	return 0;
+}
+
 static INT32 BattroadLoadRoms()
 {
 	INT32 nRet = 0;
@@ -3625,6 +3704,20 @@ static INT32 KungfumdInit()
 	
 	if (M62MemInit()) return 1;
 	if (KungfumdLoadRoms()) return 1;
+	if (KungfumMachineInit()) return 1;
+
+	return 0;
+}
+
+static INT32 Kungfub3Init()
+{
+	M62Z80RomSize = 0x8000;
+	M62PromSize = 0x720;
+	M62NumTiles = 0x400;
+	M62NumSprites = 0x400;
+	
+	if (M62MemInit()) return 1;
+	if (Kungfub3LoadRoms()) return 1;
 	if (KungfumMachineInit()) return 1;
 
 	return 0;
@@ -4787,6 +4880,16 @@ struct BurnDriver BurnDrvKungfub2 = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_IREM_M62, GBF_SCRFIGHT, 0,
 	NULL, Kungfub2RomInfo, Kungfub2RomName, NULL, NULL, M62InputInfo, KungfumDIPInfo,
 	KungfumInit, M62Exit, M62Frame, NULL, M62Scan,
+	NULL, 0x200, 256, 256, 4, 3
+};
+
+struct BurnDriver BurnDrvKungfub3 = {
+	"kungfub3", "kungfum", NULL, NULL, "1984",
+	"Kung-Fu Master (bootleg set 3)\0", NULL, "bootleg", "Irem M62",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_IREM_M62, GBF_SCRFIGHT, 0,
+	NULL, Kungfub3RomInfo, Kungfub3RomName, NULL, NULL, M62InputInfo, KungfumDIPInfo,
+	Kungfub3Init, M62Exit, M62Frame, NULL, M62Scan,
 	NULL, 0x200, 256, 256, 4, 3
 };
 

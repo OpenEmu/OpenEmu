@@ -563,7 +563,7 @@ static void pf_update(INT32 tmap, INT32 scrollx, INT32 scrolly, UINT16 *rowscrol
 
 		for (INT32 r = 0; r < rows; r++) {
 			for (INT32 p = rsize * r; p < (rsize * r) + rsize; p++) {
-				deco16_scroll_x[tmap][(p - deco16_global_y_offset) & 0x1ff] = xscroll + rowscroll[r];
+				deco16_scroll_x[tmap][(p - deco16_global_y_offset) & 0x1ff] = xscroll + BURN_ENDIAN_SWAP_INT16(rowscroll[r]);
 			}
 		}
 
@@ -597,7 +597,7 @@ static void pf_update(INT32 tmap, INT32 scrollx, INT32 scrolly, UINT16 *rowscrol
 
 		for (INT32 r = 0; r < cols; r++) {
 			for (INT32 p = rsize * r; p < (rsize * r) + rsize; p++) {
-				deco16_scroll_y[tmap][p] = scrolly + rowscroll[(r & mask) + 0x200] + deco16_global_y_offset;
+				deco16_scroll_y[tmap][p] = scrolly + BURN_ENDIAN_SWAP_INT16(rowscroll[(r & mask) + 0x200]) + deco16_global_y_offset;
 			}
 		}
 

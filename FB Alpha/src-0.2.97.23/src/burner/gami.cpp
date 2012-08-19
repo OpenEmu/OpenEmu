@@ -21,6 +21,7 @@ bool bLeftAltkeyMapped = false;
 // ---------------------------------------------------------------------------
 
 // Check if the left alt (menu) key is mapped
+#ifndef __LIBSNES__
 void GameInpCheckLeftAlt()
 {
 	struct GameInp* pgi;
@@ -103,6 +104,7 @@ void GameInpCheckMouse()
 		InputSetCooperativeLevel(false, false);
 	}
 }
+#endif
 
 // ---------------------------------------------------------------------------
 

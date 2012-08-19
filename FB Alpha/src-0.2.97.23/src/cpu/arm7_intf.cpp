@@ -4,6 +4,7 @@
 //#define DEBUG_LOG
 
 #define MAX_MEMORY	0x80000000 // more than good enough for pgm
+#define MAX_MEMORY_AND	(MAX_MEMORY - 1)
 #define PAGE_SIZE	0x00001000 // 400 would be better...
 #define PAGE_COUNT	(MAX_MEMORY/PAGE_SIZE)
 #define PAGE_SHIFT	12	// 0x1000 -> 12 bits
@@ -77,10 +78,11 @@ void Arm7Exit() // only one cpu supported
 	DebugCPU_ARM7Initted = 0;
 }
 
-void Arm7MapMemory(UINT8 *src, INT32 start, INT32 finish, INT32 type)
+void Arm7MapMemory(UINT8 *src, UINT32 start, UINT32 finish, INT32 type)
 {
 #if defined FBA_DEBUG
 	if (!DebugCPU_ARM7Initted) bprintf(PRINT_ERROR, _T("Arm7MapMemory called without init\n"));
+	if (start >= MAX_MEMORY || finish >= MAX_MEMORY) bprintf (PRINT_ERROR, _T("Arm7MapMemory memory range unsupported 0x%8.8x-0x%8.8x\n"), start, finish);
 #endif
 
 	UINT32 len = (finish-start) >> PAGE_SHIFT;
@@ -154,6 +156,8 @@ void Arm7_program_write_byte_32le(UINT32 addr, UINT8 data)
 	if (!DebugCPU_ARM7Initted) bprintf(PRINT_ERROR, _T("Arm7_program_write_byte_32le called without init\n"));
 #endif
 
+	addr &= MAX_MEMORY_AND;
+
 #ifdef DEBUG_LOG
 	bprintf (PRINT_NORMAL, _T("%5.5x, %2.2x wb\n"), addr, data);
 #endif
@@ -174,6 +178,8 @@ void Arm7_program_write_word_32le(UINT32 addr, UINT16 data)
 	if (!DebugCPU_ARM7Initted) bprintf(PRINT_ERROR, _T("Arm7_program_write_word_32le called without init\n"));
 #endif
 
+	addr &= MAX_MEMORY_AND;
+
 #ifdef DEBUG_LOG
 	bprintf (PRINT_NORMAL, _T("%5.5x, %8.8x wd\n"), addr, data);
 #endif
@@ -193,6 +199,8 @@ void Arm7_program_write_dword_32le(UINT32 addr, UINT32 data)
 #if defined FBA_DEBUG
 	if (!DebugCPU_ARM7Initted) bprintf(PRINT_ERROR, _T("Arm7_program_write_dword_32le called without init\n"));
 #endif
+
+	addr &= MAX_MEMORY_AND;
 
 #ifdef DEBUG_LOG
 	bprintf (PRINT_NORMAL, _T("%5.5x, %8.8x wd\n"), addr, data);
@@ -215,6 +223,8 @@ UINT8 Arm7_program_read_byte_32le(UINT32 addr)
 	if (!DebugCPU_ARM7Initted) bprintf(PRINT_ERROR, _T("Arm7_program_read_byte_32le called without init\n"));
 #endif
 
+	addr &= MAX_MEMORY_AND;
+
 #ifdef DEBUG_LOG
 	bprintf (PRINT_NORMAL, _T("%5.5x, rb\n"), addr);
 #endif
@@ -235,6 +245,8 @@ UINT16 Arm7_program_read_word_32le(UINT32 addr)
 #if defined FBA_DEBUG
 	if (!DebugCPU_ARM7Initted) bprintf(PRINT_ERROR, _T("Arm7_program_read_word_32le called without init\n"));
 #endif
+
+	addr &= MAX_MEMORY_AND;
 
 #ifdef DEBUG_LOG
 	bprintf (PRINT_NORMAL, _T("%5.5x, rl\n"), addr);
@@ -257,6 +269,8 @@ UINT32 Arm7_program_read_dword_32le(UINT32 addr)
 	if (!DebugCPU_ARM7Initted) bprintf(PRINT_ERROR, _T("Arm7_program_read_dword_32le called without init\n"));
 #endif
 
+	addr &= MAX_MEMORY_AND;
+
 #ifdef DEBUG_LOG
 	bprintf (PRINT_NORMAL, _T("%5.5x, rl\n"), addr);
 #endif
@@ -277,6 +291,8 @@ UINT16 Arm7_program_opcode_word_32le(UINT32 addr)
 #if defined FBA_DEBUG
 	if (!DebugCPU_ARM7Initted) bprintf(PRINT_ERROR, _T("Arm7_program_opcode_word_32le called without init\n"));
 #endif
+
+	addr &= MAX_MEMORY_AND;
 
 #ifdef DEBUG_LOG
 	bprintf (PRINT_NORMAL, _T("%5.5x, rwo\n"), addr);
@@ -304,6 +320,8 @@ UINT32 Arm7_program_opcode_dword_32le(UINT32 addr)
 #if defined FBA_DEBUG
 	if (!DebugCPU_ARM7Initted) bprintf(PRINT_ERROR, _T("Arm7_program_opcode_dword_32le called without init\n"));
 #endif
+
+	addr &= MAX_MEMORY_AND;
 
 #ifdef DEBUG_LOG
 	bprintf (PRINT_NORMAL, _T("%5.5x, rlo\n"), addr);
@@ -360,6 +378,7 @@ void Arm7_write_rom_byte(UINT32 addr, UINT8 data)
 #if defined FBA_DEBUG
 	if (!DebugCPU_ARM7Initted) bprintf(PRINT_ERROR, _T("Arm7_write_rom_byte called without init\n"));
 #endif
+	addr &= MAX_MEMORY_AND;
 
 	// write to rom & ram
 	if (membase[WRITE][addr >> PAGE_SHIFT] != NULL) {

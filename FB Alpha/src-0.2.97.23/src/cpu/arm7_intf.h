@@ -19,7 +19,7 @@ void arm7_set_irq_line(INT32 irqline, INT32 state);
 #define ARM7_ROM		(ARM7_READ | ARM7_FETCH)
 #define ARM7_RAM		(ARM7_READ | ARM7_FETCH | ARM7_WRITE)
 
-void Arm7MapMemory(UINT8 *src, INT32 start, INT32 finish, INT32 type);
+void Arm7MapMemory(UINT8 *src, UINT32 start, UINT32 finish, INT32 type);
 
 void Arm7SetWriteByteHandler(void (*write)(UINT32, UINT8));
 void Arm7SetWriteWordHandler(void (*write)(UINT32, UINT16));

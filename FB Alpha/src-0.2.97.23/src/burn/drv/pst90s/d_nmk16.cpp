@@ -6524,6 +6524,38 @@ struct BurnDriver BurnDrvGrdnstrmk = {
 };
 
 
+// Red Fox War Planes II (China)
+
+static struct BurnRomInfo redfoxwp2RomDesc[] = {
+	{ "u112",	        0x040000, 0x3f31600b, 1 | BRF_PRG | BRF_ESS }, //  0 68k code
+	{ "u107",			0x040000, 0xdaa44ab4, 1 | BRF_PRG | BRF_ESS }, //  1
+
+	{ "u92",		    0x010000, 0x864b55c2, 2 | BRF_PRG | BRF_ESS }, //  2 Z80 code
+
+	{ "u4",				0x010000, 0x19239401, 3 | BRF_GRA },           //  3 Characters
+
+	{ "afega_af1-b2.uc8",	0x200000, 0xd68588c2, 4 | BRF_GRA },           //  4 Tiles
+	{ "afega_af1-b1.uc3",	0x200000, 0xf8b200a8, 4 | BRF_GRA },           //  5
+
+	{ "afega_af1-sp.uc13",	0x200000, 0x7d4d4985, 5 | BRF_GRA },           //  6 Sprites
+
+	{ "afega1.u95",		0x040000, 0xe911ce33, 6 | BRF_SND },           //  7 OKI1 Samples
+};
+
+STD_ROM_PICK(redfoxwp2)
+STD_ROM_FN(redfoxwp2)
+
+struct BurnDriver BurnDrvRedfoxwp2 = {
+	"redfoxwp2", "grdnstrm", NULL, NULL, "1998",
+	"Red Fox War Planes II (China)\0", NULL, "Afega", "NMK16",
+	L"\u7D05\u5B64\u6230\u6A5FII\0Red Fox War Planes II (China)\0", NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
+	NULL, redfoxwp2RomInfo, redfoxwp2RomName, NULL, NULL, CommonInputInfo, GrdnstrkDIPInfo,
+	GrdnstrmkInit, AfegaExit, AfegaFrame, AfegaDraw, NULL, NULL, 0x300,
+	224, 256, 3, 4
+};
+
+
 // Pop's Pop's
 
 static struct BurnRomInfo popspopsRomDesc[] = {

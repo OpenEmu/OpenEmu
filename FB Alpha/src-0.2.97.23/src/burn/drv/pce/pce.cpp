@@ -37,6 +37,8 @@ static UINT8 *RamEnd;
 static UINT8 *PCECartROM;
 static UINT8 *PCECartRAM;
 static UINT8 *PCEUserRAM;
+static UINT8 *PCECDBRAM;
+
 
 static UINT32 *DrvPalette;
 UINT8 PCEPaletteRecalc;
@@ -59,6 +61,8 @@ UINT8 PCEDips[3];
 static UINT8 system_identify;
 static INT32 pce_sf2 = 0;
 static INT32 pce_sf2_bank;
+static UINT8 bram_locked = 1;
+
 
 INT32 PceGetZipName(char** pszName, UINT32 i)
 {
@@ -165,7 +169,7 @@ static void pce_write(UINT32 address, UINT8 data)
 		if (pce_sf2) sf2_bankswitch(address & 3);
 		return;
 	}
-
+	
 	switch (address & ~0x3ff)
 	{
 		case 0x1fe000:
@@ -215,17 +219,43 @@ static void pce_write(UINT32 address, UINT8 data)
 		return;
 
 		case 0x1ff800:
+		
+			switch( address & 0xf )
+			{
+			case 0x07:	/* BRAM unlock / CD status */
+				if ( data & 0x80 )
+				{
+					bram_locked = 0;
+				}
+				break;
+			}
+			bprintf(0,_T("CD write %x:%x\n"), address, data );
 			// cd system
 		return;
 	}
+	
+	if ((address >= 0x1ee000) && (address <= 0x1ee7ff)) {
+//			bprintf(0,_T("bram write %x:%x\n"), address & 0x7ff, data );
+			if (!bram_locked)
+			{
+				PCECDBRAM[address & 0x7FF] = data;
+			}
+			return;
+	}	
+	
+	
+	bprintf(0,_T("unknown write %x:%x\n"), address, data );
 }
 
 static UINT8 pce_read(UINT32 address)
 {
-	address &= 0x1fffff;
 
+	address &= 0x1fffff;
+	
 	switch (address & ~0x3ff)
 	{
+
+			
 		case 0x1fe000:
 			return vdc_read(0, address);
 
@@ -270,9 +300,22 @@ static UINT8 pce_read(UINT32 address)
 			return h6280_irq_status_r(address & 0x3ff);
 
 		case 0x1ff800:
+			switch( address & 0xf )
+			{
+				case 0x03:	/* BRAM lock / CD status */
+					bram_locked = 1;
+					break;
+			}
+			bprintf(0,_T("CD read %x\n"), address );
 			return 0; // cd system
 	}
-
+	
+	if ((address >= 0x1ee000) && (address <= 0x1ee7ff)) {
+		//	bprintf(0,_T("bram read %x:%x\n"), address,address & 0x7ff );
+			return PCECDBRAM[address & 0x7ff];
+	}	
+		
+	bprintf(0,_T("Unknown read %x\n"), address );
 	return 0;
 }
 
@@ -344,7 +387,7 @@ static INT32 MemIndex(UINT32 cart_size, INT32 type)
 	PCEUserRAM	= Next; Next += (type == 2) ? 0x008000 : 0x002000; // pce/tg16 0x2000, sgx 0x8000
 
 	PCECartRAM	= Next; Next += 0x008000; // populous
-
+	PCECDBRAM = Next; Next += 0x00800; // Bram thingy
 	vce_data	= (UINT16*)Next; Next += 0x200 * sizeof(UINT16);
 
 	vdc_vidram[0]	= Next; Next += 0x010000;
@@ -470,7 +513,9 @@ static INT32 CommonInit(int type)
 		interrupt = sgx_interrupt;
 		system_identify = 0x40;
 	}
-
+	
+	bram_locked = 1;
+	
 	vce_palette_init(DrvPalette);
 
 	c6280_init(3579545, 0);
@@ -629,6 +674,7 @@ INT32 PCEScan(INT32 nAction, INT32 *pnMin)
 		SCAN_VAR(joystick_6b_select[2]);
 		SCAN_VAR(joystick_6b_select[3]);
 		SCAN_VAR(joystick_6b_select[4]);
+		SCAN_VAR(bram_locked);
 
 		if (pce_sf2) {
 			SCAN_VAR(pce_sf2_bank);

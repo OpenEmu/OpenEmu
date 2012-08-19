@@ -18,6 +18,12 @@ INT32 CpsLayer1YOffs = 0;
 INT32 CpsLayer2YOffs = 0;
 INT32 CpsLayer3YOffs = 0;
 
+INT32 Cps1DisableBgHi = 0;
+
+INT32 Cps1OverrideLayers = 0;
+INT32 nCps1Layers[4] = { -1, -1, -1, -1 };
+INT32 nCps1LayerOffs[3] = { -1, -1, -1 };
+
 static void Cps1Layers();
 static void Cps2Layers();
 
@@ -60,6 +66,9 @@ static INT32 DrawScroll1(INT32 i)
 	UINT8 *Find;
 
 	nOff = BURN_ENDIAN_SWAP_INT16(*((UINT16 *)(CpsSaveReg[i] + 0x02)));
+	if (Cps1OverrideLayers && nCps1LayerOffs[0] != -1) {
+		nOff = BURN_ENDIAN_SWAP_INT16(nCps1LayerOffs[0]);
+	}
 
 	// Get scroll coordinates
 	nScrX = BURN_ENDIAN_SWAP_INT16(*((UINT16 *)(CpsSaveReg[i] + 0x0c))); // Scroll 1 X
@@ -88,6 +97,9 @@ static INT32 DrawScroll2Init(INT32 i)
 	INT32 nScr2Off; INT32 n;
 
 	nScr2Off = BURN_ENDIAN_SWAP_INT16(*((UINT16 *)(CpsSaveReg[i] + 0x04)));
+	if (Cps1OverrideLayers && nCps1LayerOffs[1] != -1) {
+		nScr2Off = BURN_ENDIAN_SWAP_INT16(nCps1LayerOffs[1]);
+	}
 
 	// Get scroll coordinates
 	nCpsrScrX= BURN_ENDIAN_SWAP_INT16(*((UINT16 *)(CpsSaveReg[i] + 0x10))); // Scroll 2 X
@@ -162,6 +174,9 @@ static INT32 DrawScroll3(INT32 i)
 	UINT8 *Find;
 
 	nOff = BURN_ENDIAN_SWAP_INT16(*((UINT16 *)(CpsSaveReg[i] + 0x06)));
+	if (Cps1OverrideLayers && nCps1LayerOffs[2] != -1) {
+		nOff = BURN_ENDIAN_SWAP_INT16(nCps1LayerOffs[2]);
+	}
 
 	// Get scroll coordinates
 	nScrX = BURN_ENDIAN_SWAP_INT16(*((UINT16 *)(CpsSaveReg[i] + 0x14))); // Scroll 3 X
@@ -227,6 +242,18 @@ static void Cps1Layers()
   Draw[2]=(LayerCont>> 8)&3;
   Draw[3]=(LayerCont>> 6)&3; // bottom layer (most covered up)
   
+  if (Cps1OverrideLayers) {
+	nDrawMask = 1;
+	Draw[0] = nCps1Layers[0];
+	Draw[1] = nCps1Layers[1];
+	Draw[2] = nCps1Layers[2];
+	Draw[3] = nCps1Layers[3];
+	if (Draw[1] != -1) nDrawMask |= 2;
+	if (Draw[2] != -1) nDrawMask |= 4;
+	if (Draw[3] != -1) nDrawMask |= 8;
+	nDrawMask &= nBurnLayer;
+  }
+  
   // Check for repeated layers and if there are any, the lower layer is omitted
 #define CRP(a,b) if (Draw[a]==Draw[b]) Draw[b]=-1;
   CRP(0,1) CRP(0,2) CRP(0,3) CRP(1,2) CRP(1,3) CRP(2,3)
@@ -249,7 +276,7 @@ static void Cps1Layers()
     if (n==0) {
 	  if (nDrawMask & 1)  CpsObjDrawDoX(0,7);
 
-	  if (!Mercs && !Sf2jc && !Qad) {
+	  if (!Cps1DisableBgHi) {
 		nBgHi=1;
 		switch (Draw[i+1]) {
 			case 1:

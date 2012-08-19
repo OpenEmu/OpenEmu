@@ -416,7 +416,7 @@ static void DrvPaletteRecalc()
 	UINT16 *p1 = (UINT16*)DrvPalRAM1;
 
 	for (INT32 i = 0; i < 0xa00 / 2; i++) {
-		DrvPalette[i] = BurnHighCol(p0[i] & 0xff, p0[i] >> 8, p1[i]& 0xff, 0);
+		DrvPalette[i] = BurnHighCol(BURN_ENDIAN_SWAP_INT16(p0[i]) & 0xff, BURN_ENDIAN_SWAP_INT16(p0[i]) >> 8, BURN_ENDIAN_SWAP_INT16(p1[i])& 0xff, 0);
 	}
 }
 
@@ -430,12 +430,12 @@ static void draw_sprites(INT32 pri)
 	{
 		INT32 inc, mult;
 
-		INT32 y = buffered_spriteram[offs + 0];
+		INT32 y = BURN_ENDIAN_SWAP_INT16(buffered_spriteram[offs + 0]);
 		if ((y & 0x8000) == 0) continue;
 
-		INT32 sprite = buffered_spriteram[offs + 1] & 0x1fff;
+		INT32 sprite = BURN_ENDIAN_SWAP_INT16(buffered_spriteram[offs + 1]) & 0x1fff;
 
-		INT32 x = buffered_spriteram[offs + 2];
+		INT32 x = BURN_ENDIAN_SWAP_INT16(buffered_spriteram[offs + 2]);
 
 		INT32 colour = (x >> 12) & 0xf;
 

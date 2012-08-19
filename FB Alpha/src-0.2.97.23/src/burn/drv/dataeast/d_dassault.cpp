@@ -430,7 +430,7 @@ void __fastcall dassault_irq_write_word(UINT32 address, UINT16 data)
 		}
 	}
 
-	*((UINT16*)(DrvShareRAM + (address & 0xffe))) = data;
+	*((UINT16*)(DrvShareRAM + (address & 0xffe))) = BURN_ENDIAN_SWAP_INT16(data);
 }
 
 void __fastcall dassault_irq_write_byte(UINT32 address, UINT8 data)
@@ -456,7 +456,7 @@ UINT16 __fastcall dassault_irq_read_word(UINT32 address)
 		}
 	}
 
-	return *((UINT16*)(DrvShareRAM + (address & 0xffe)));
+	return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(DrvShareRAM + (address & 0xffe))));
 }
 
 UINT8 __fastcall dassault_irq_read_byte(UINT32 address)
@@ -720,11 +720,11 @@ static void draw_sprites(INT32 bpp)
 				coloff = 0x800;
 			}
 
-			INT32 sprite = spritebase[offs + 1] & 0x7fff;
+			INT32 sprite = BURN_ENDIAN_SWAP_INT16(spritebase[offs + 1]) & 0x7fff;
 			if (!sprite) continue;
 
-			INT32 x = spritebase[offs + 2];
-			INT32 y = spritebase[offs + 0];
+			INT32 x = BURN_ENDIAN_SWAP_INT16(spritebase[offs + 2]);
+			INT32 y = BURN_ENDIAN_SWAP_INT16(spritebase[offs + 0]);
 
 			if ((y & 0x1000) && (nCurrentFrame & 1)) continue; // flash
 
@@ -735,7 +735,7 @@ static void draw_sprites(INT32 bpp)
 			INT32 multi = (1 << ((y & 0x0600) >> 9)) - 1;
 
 			if (bank == 0) {
-				switch (spritebase[offs+2] & 0xc000)
+				switch (BURN_ENDIAN_SWAP_INT16(spritebase[offs+2]) & 0xc000)
 				{
 					case 0xc000: pmask = 0x01; break;
 					case 0x8000: pmask = 0x08; break;

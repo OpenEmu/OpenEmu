@@ -210,7 +210,7 @@ BEGIN
     CONTROL         BMP_ABOUT,IDC_STATIC,"Static",SS_BITMAP | SS_REALSIZEIMAGE | SS_SUNKEN,3,3,100,50
     CONTROL         "version",IDC_FBA_VER,"Static",SS_OWNERDRAW | WS_GROUP,78,63,264,10
     CONTROL         "specialbuild",IDC_SPECIALSTRING,"Static",SS_OWNERDRAW | WS_GROUP,78,71,264,10
-    LTEXT           "FB Alpha contains parts of MAME && Final Burn.\n© 2004-2011, Team FB Alpha.",IDC_STATIC,6,86,230,16,WS_DISABLED
+    LTEXT           "FB Alpha contains parts of MAME && Final Burn.\n© 2004-2012, Team FB Alpha.",IDC_STATIC,6,86,230,16,WS_DISABLED
     DEFPUSHBUTTON   "OK",IDOK,294,88,50,14
     PUSHBUTTON      "License",IDC_SHOWLICENSE,240,88,50,14
     CONTROL         "",IDC_LICENSE,"RICHEDIT20A",ES_MULTILINE | ES_READONLY | WS_VSCROLL | ES_NOIME,3,107,342,77, WS_EX_STATICEDGE | ES_EX_NOCALLOLEINIT
@@ -1054,6 +1054,16 @@ BEGIN
 						MENUITEM "hq3xBold Filter",			MENU_ENHANCED_SOFT_HQ3XBOLD
 						MENUITEM "EPXB Filter",				MENU_ENHANCED_SOFT_EPXB
 						MENUITEM "EPXC Filter",				MENU_ENHANCED_SOFT_EPXC
+						MENUITEM "2xBR Squared",						MENU_ENHANCED_SOFT_2XBR_A
+						MENUITEM "2xBR Semi-Rounded",					MENU_ENHANCED_SOFT_2XBR_B
+						MENUITEM "2xBR Rounded",						MENU_ENHANCED_SOFT_2XBR_C
+						MENUITEM "3xBR Squared",						MENU_ENHANCED_SOFT_3XBR_A
+						MENUITEM "3xBR Semi-Rounded",					MENU_ENHANCED_SOFT_3XBR_B
+						MENUITEM "3xBR Rounded",						MENU_ENHANCED_SOFT_3XBR_C
+						MENUITEM "4xBR Squared",						MENU_ENHANCED_SOFT_4XBR_A
+						MENUITEM "4xBR Semi-Rounded",					MENU_ENHANCED_SOFT_4XBR_B
+						MENUITEM "4xBR Rounded",						MENU_ENHANCED_SOFT_4XBR_C
+						MENUITEM "DDT3x",	        					MENU_ENHANCED_SOFT_DDT3X
                         MENUITEM SEPARATOR
                         MENUITEM "Force image to SoftFX size",          MENU_ENHANCED_SOFT_AUTOSIZE
                 END
@@ -1101,28 +1111,38 @@ BEGIN
                 MENUITEM "&Double pixels (Software)",                   MENU_SOFTFX_SOFT_STRETCH
                 MENUITEM "AdvanceMAME Scale2x\t(16/32-bit only)",       MENU_SOFTFX_SOFT_SCALE2X
                 MENUITEM "AdvanceMAME Scale3x\t(16/32-bit only)",       MENU_SOFTFX_SOFT_SCALE3X
-		MENUITEM "2xPM LQ\t(15/16-bit only)",			MENU_SOFTFX_SOFT_2XPM_LQ
-		MENUITEM "2xPM HQ\t(15/16-bit only)",			MENU_SOFTFX_SOFT_2XPM_HQ
+				MENUITEM "2xPM LQ\t(15/16-bit only)",					MENU_SOFTFX_SOFT_2XPM_LQ
+				MENUITEM "2xPM HQ\t(15/16-bit only)",					MENU_SOFTFX_SOFT_2XPM_HQ
                 MENUITEM "Eagle Graphics\t(16-bit only)",               MENU_SOFTFX_SOFT_EAGLE
                 MENUITEM "Super Eagle\t(15/16-bit only)",               MENU_SOFTFX_SOFT_SUPEREAGLE
                 MENUITEM "2xSaI\t(15/16-bit only)",                     MENU_SOFTFX_SOFT_2XSAI
-                MENUITEM "Super 2xSaI\t(15/16-bit only)",	        MENU_SOFTFX_SOFT_SUPER2XSAI
+                MENUITEM "Super 2xSaI\t(15/16-bit only)",	       		MENU_SOFTFX_SOFT_SUPER2XSAI
                 MENUITEM "Super Eagle (VBA)\t(15/16/32-bit only)",      MENU_SOFTFX_SOFT_SUPEREAGLE_VBA
                 MENUITEM "2xSaI (VBA)\t(15/16/32-bit only)",            MENU_SOFTFX_SOFT_2XSAI_VBA
                 MENUITEM "Super 2xSaI (VBA)\t(15/16/32-bit only)",      MENU_SOFTFX_SOFT_SUPER2XSAI_VBA
-                MENUITEM "SuperScale\t(15/16-bit only)",		MENU_SOFTFX_SOFT_SUPERSCALE
+                MENUITEM "SuperScale\t(15/16-bit only)",				MENU_SOFTFX_SOFT_SUPERSCALE
                 MENUITEM "SuperScale (75% Scanlines)\t(15/16-bit only)",MENU_SOFTFX_SOFT_SUPERSCALE75
                 MENUITEM "hq2x filter\t(32-bit only)",                  MENU_SOFTFX_SOFT_HQ2X
                 MENUITEM "hq3x filter\t(32-bit only)",                  MENU_SOFTFX_SOFT_HQ3X
                 MENUITEM "hq4x filter\t(32-bit only)",                  MENU_SOFTFX_SOFT_HQ4X
                 MENUITEM "hq2xS (VBA) filter\t(16/32-bit only)",        MENU_SOFTFX_SOFT_HQ2XS_VBA
                 MENUITEM "hq3xS (VBA) filter\t(16/32-bit only)",        MENU_SOFTFX_SOFT_HQ3XS_VBA, GRAYED
-                MENUITEM "hq2xS (SNES9X) Filter\t(16-bit only)",	MENU_SOFTFX_SOFT_HQ2XS_SNES9X
-		MENUITEM "hq3xS (SNEX9X) Filter\t(16-bit only)",	MENU_SOFTFX_SOFT_HQ3XS_SNES9X
-		MENUITEM "hq2xBold Filter\t(16-bit only)",		MENU_SOFTFX_SOFT_HQ2XBOLD
-		MENUITEM "hq3xBold Filter\t(16-bit only)",		MENU_SOFTFX_SOFT_HQ3XBOLD
-		MENUITEM "EPXB Filter\t(16-bit only)",			MENU_SOFTFX_SOFT_EPXB
-		MENUITEM "EPXC Filter\t(16-bit only)",			MENU_SOFTFX_SOFT_EPXC
+                MENUITEM "hq2xS (SNES9X) Filter\t(16-bit only)",		MENU_SOFTFX_SOFT_HQ2XS_SNES9X
+				MENUITEM "hq3xS (SNEX9X) Filter\t(16-bit only)",		MENU_SOFTFX_SOFT_HQ3XS_SNES9X
+				MENUITEM "hq2xBold Filter\t(16-bit only)",				MENU_SOFTFX_SOFT_HQ2XBOLD
+				MENUITEM "hq3xBold Filter\t(16-bit only)",				MENU_SOFTFX_SOFT_HQ3XBOLD
+				MENUITEM "EPXB Filter\t(16-bit only)",					MENU_SOFTFX_SOFT_EPXB
+				MENUITEM "EPXC Filter\t(16-bit only)",					MENU_SOFTFX_SOFT_EPXC
+				MENUITEM "2xBR Squared\t(16-bit only)",					MENU_SOFTFX_SOFT_2XBR_A
+				MENUITEM "2xBR Semi-Rounded\t(16-bit only)",			MENU_SOFTFX_SOFT_2XBR_B
+				MENUITEM "2xBR Rounded\t(16-bit only)",					MENU_SOFTFX_SOFT_2XBR_C
+				MENUITEM "3xBR Squared\t(16-bit only)",					MENU_SOFTFX_SOFT_3XBR_A
+				MENUITEM "3xBR Semi-Rounded\t(16-bit only)",			MENU_SOFTFX_SOFT_3XBR_B
+				MENUITEM "3xBR Rounded\t(16-bit only)",					MENU_SOFTFX_SOFT_3XBR_C
+				MENUITEM "4xBR Squared\t(16-bit only)",					MENU_SOFTFX_SOFT_4XBR_A
+				MENUITEM "4xBR Semi-Rounded\t(16-bit only)",			MENU_SOFTFX_SOFT_4XBR_B
+				MENUITEM "4xBR Rounded\t(16-bit only)",					MENU_SOFTFX_SOFT_4XBR_C
+				MENUITEM "DDT3x\t(16-bit only)",            	        MENU_SOFTFX_SOFT_DDT3X
                 MENUITEM SEPARATOR
                 MENUITEM "&Force image to SoftFX size",                 MENU_SOFTFX_SOFT_AUTOSIZE
                 POPUP "Buffering &method"
@@ -1212,6 +1232,16 @@ BEGIN
 			MENUITEM "hq3xBold Filter",							MENU_DX9_ALT_SOFT_HQ3XBOLD
 			MENUITEM "EPXB Filter",								MENU_DX9_ALT_SOFT_EPXB
 			MENUITEM "EPXC Filter",								MENU_DX9_ALT_SOFT_EPXC
+			MENUITEM "2xBR Squared",							MENU_DX9_ALT_SOFT_2XBR_A
+			MENUITEM "2xBR Semi-Rounded",						MENU_DX9_ALT_SOFT_2XBR_B
+			MENUITEM "2xBR Rounded",							MENU_DX9_ALT_SOFT_2XBR_C
+			MENUITEM "3xBR Squared",							MENU_DX9_ALT_SOFT_3XBR_A
+			MENUITEM "3xBR Semi-Rounded",						MENU_DX9_ALT_SOFT_3XBR_B
+			MENUITEM "3xBR Rounded",							MENU_DX9_ALT_SOFT_3XBR_C
+			MENUITEM "4xBR Squared",							MENU_DX9_ALT_SOFT_4XBR_A
+			MENUITEM "4xBR Semi-Rounded",						MENU_DX9_ALT_SOFT_4XBR_B
+			MENUITEM "4xBR Rounded",							MENU_DX9_ALT_SOFT_4XBR_C
+			MENUITEM "DDT3x",	        					    MENU_DX9_ALT_SOFT_DDT3X
 			MENUITEM SEPARATOR
 			MENUITEM "Force image to SoftFX size",          	MENU_DX9_ALT_SOFT_AUTOSIZE
         END

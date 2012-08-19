@@ -31,9 +31,11 @@ INT32 Wofh = 0;
 INT32 Sf2thndr = 0;
 INT32 Pzloop2 = 0;
 INT32 Ssf2tb = 0;
-INT32 Dinopic = 0;
 INT32 Dinohunt = 0;
 INT32 Port6SoundWrite = 0;
+INT32 CpsBootlegEEPROM = 0;
+
+CpsRWSoundCommandCallback CpsRWSoundCommandCallbackFunction = NULL;
 
 static INT32 nCalc[2] = {0, 0};
 
@@ -53,8 +55,6 @@ CPSINPEX
 static UINT8 CpsReadPort(const UINT32 ia)
 {
 	UINT8 d = 0xFF;
-	
-//	bprintf(PRINT_NORMAL, _T("Read Port %x\n"), ia);
 	
 	if (ia == 0x000) {
 		d = (UINT8)~Inp000;
@@ -98,6 +98,11 @@ static UINT8 CpsReadPort(const UINT32 ia)
 		d = (UINT8)~Inp019;
 		return d;
 	}
+	if (ia == 0x01B) {
+		d = (UINT8)~Inp01B;
+		return d;
+	}
+	
 	if (ia == 0x01A) {
 		d = (UINT8)~Cpi01A;
 		return d;
@@ -188,7 +193,7 @@ static UINT8 CpsReadPort(const UINT32 ia)
 		
 		// CPS1 EEPROM read
 		if (ia == 0xC007) {
-			if (Cps1Qs) {
+			if (Cps1Qs || CpsBootlegEEPROM) {
 				return EEPROMRead();
 			} else {
 				return 0;
@@ -272,28 +277,38 @@ static UINT8 CpsReadPort(const UINT32 ia)
 			}
 		}	
 	}
+	
+//	bprintf(PRINT_NORMAL, _T("Read Port %x\n"), ia);
 
 	return d;
 }
 
 // Write output port 0x000-0x1ff
-static void CpsWritePort(const UINT32 ia, UINT8 d)
+void CpsWritePort(const UINT32 ia, UINT8 d)
 {
 	if ((Cps & 1) && Cps1Qs == 0) {
-		// CPS1 sound code
-		if (ia == 0x181 || (Port6SoundWrite && (ia == 0x006 || ia == 0x007))) {
-			PsndSyncZ80((INT64)SekTotalCycles() * nCpsZ80Cycles / nCpsCycles);
+		if (!Cps1DisablePSnd) {
+			// CPS1 sound code
+			if (ia == 0x181 || (Port6SoundWrite && (ia == 0x006 || ia == 0x007))) {
+				PsndSyncZ80((INT64)SekTotalCycles() * nCpsZ80Cycles / nCpsCycles);
 
-			PsndCode = d;
-			return;
-		}
+				PsndCode = d;
+				return;
+			}
 
-		// CPS1 sound fade
-		if (ia == 0x189) {
-			PsndSyncZ80((INT64)SekTotalCycles() * nCpsZ80Cycles / nCpsCycles);
+			// CPS1 sound fade
+			if (ia == 0x189) {
+				PsndSyncZ80((INT64)SekTotalCycles() * nCpsZ80Cycles / nCpsCycles);
 
-			PsndFade = d;
-			return;
+				PsndFade = d;
+				return;
+			}
+		} else {
+			if (ia == 0x181 || (Port6SoundWrite && (ia == 0x006 || ia == 0x007))) {
+				if (CpsRWSoundCommandCallbackFunction) {
+					CpsRWSoundCommandCallbackFunction(d);
+				}
+			}
 		}
 
 		if (ia == 0x041) {
@@ -346,13 +361,15 @@ static void CpsWritePort(const UINT32 ia, UINT8 d)
 		}
 	}
 
-	if (Cps1Qs == 1) {
+	if (Cps1Qs == 1 || CpsBootlegEEPROM) {
 		//CPS1 EEPROM write
 		if (ia == 0xc007) {
 			EEPROMWrite(d & 0x40, d & 0x80, d & 0x01);
 			return;
 		}
 	}
+	
+//	bprintf(PRINT_NORMAL, _T("Write Port %x, %x\n"), ia, d);
 }
 
 UINT8 __fastcall CpsReadByte(UINT32 a)
@@ -409,7 +426,7 @@ void __fastcall CpsWriteByte(UINT32 a,UINT8 d)
 		return;
 	}
 	
-	if (Cps1Qs == 1) {
+	if (Cps1Qs == 1 || CpsBootlegEEPROM) {
 		// CPS1 EEPROM
 		if (a == 0xf1c007) {
 			CpsWritePort(a & 0xC00F, d);
@@ -445,14 +462,8 @@ void __fastcall CpsWriteWord(UINT32 a, UINT16 d)
 
 	if (a == 0x804040) {
 		if ((d & 0x0008) == 0) {
-			ZetReset();
+			if (!Cps2DisableQSnd) ZetReset();
 		}
-	}
-	
-	if (Dinopic && a == 0x800222) {
-		CpsReg[6] = d & 0xff;
-		CpsReg[7] = d >> 8;
-		return;
 	}
 	
 //	bprintf(PRINT_NORMAL, _T("Write Word %x, %x\n"), a, d);
@@ -485,6 +496,7 @@ INT32 CpsRwInit()
 INT32 CpsRwExit()
 {
 	InpBlank();
+	CpsRWSoundCommandCallbackFunction = NULL;
 	return 0;
 }
 

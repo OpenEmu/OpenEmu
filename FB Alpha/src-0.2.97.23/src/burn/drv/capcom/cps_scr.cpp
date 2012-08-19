@@ -5,10 +5,7 @@
 // Base = 0x4000 long tile map
 // sx=Scroll X value, sy=Scroll Y value,
 INT32 Ghouls=0;
-INT32 Mercs=0;
-INT32 Sf2jc=0;
 INT32 Ssf2t=0;
-INT32 Qad=0;
 INT32 Xmcota=0;
 
 INT32 Scroll1TileMask = 0;
