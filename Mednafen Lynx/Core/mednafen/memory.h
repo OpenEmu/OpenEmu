@@ -37,7 +37,7 @@ static inline void MDFN_FastU32MemsetM8(uint32_t *array, uint32_t value_32, unsi
 
  #else
 
- for(uint32_t *ai = array; ai < array + u32len; ai += 2)
+ for(uint32 *ai = array; ai < array + u32len; ai += 2)
  {
   ai[0] = value_32;
   ai[1] = value_32;

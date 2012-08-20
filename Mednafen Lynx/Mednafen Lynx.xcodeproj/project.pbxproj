@@ -50,6 +50,7 @@
 		9425B1BF1581929A0086FFB6 /* rom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9425B1B01581929A0086FFB6 /* rom.cpp */; };
 		9425B1C01581929A0086FFB6 /* susie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9425B1B21581929A0086FFB6 /* susie.cpp */; };
 		9425B1C11581929A0086FFB6 /* system.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9425B1B51581929A0086FFB6 /* system.cpp */; };
+		944CAD2115E1BB4500AE91B7 /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944CAD2015E1BB4500AE91B7 /* thread.cpp */; };
 		94A9E3C7157D637C0083A7DC /* libretro.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E280157D637B0083A7DC /* libretro.cpp */; };
 		94A9E3C8157D637C0083A7DC /* cdplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E283157D637B0083A7DC /* cdplay.cpp */; };
 		94A9E3C9157D637C0083A7DC /* audioreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E285157D637B0083A7DC /* audioreader.cpp */; };
@@ -180,7 +181,7 @@
 		82CAFD010FEDD54000CCDC7E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFD030FEDD54800CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82EC409E0FD9EC420017FC19 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		8D5B49B6048680CD000E48DA /* Mednafen WonderSwan.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mednafen WonderSwan.oecoreplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B6048680CD000E48DA /* Mednafen WonderSwan.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Mednafen WonderSwan.oecoreplugin"; path = "Mednafen Lynx.oecoreplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9425977115146D680074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		9425B19D158191E40086FFB6 /* OELynxSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OELynxSystemResponderClient.h; path = ../OpenEmu/Lynx/OELynxSystemResponderClient.h; sourceTree = "<group>"; };
@@ -208,6 +209,7 @@
 		9425B1B41581929A0086FFB6 /* sysbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sysbase.h; sourceTree = "<group>"; };
 		9425B1B51581929A0086FFB6 /* system.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = system.cpp; sourceTree = "<group>"; };
 		9425B1B61581929A0086FFB6 /* system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = system.h; sourceTree = "<group>"; };
+		944CAD2015E1BB4500AE91B7 /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
 		94A9E280157D637B0083A7DC /* libretro.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libretro.cpp; sourceTree = "<group>"; };
 		94A9E281157D637B0083A7DC /* libretro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libretro.h; sourceTree = "<group>"; };
 		94A9E283157D637B0083A7DC /* cdplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cdplay.cpp; sourceTree = "<group>"; };
@@ -602,6 +604,7 @@
 				94A9E281157D637B0083A7DC /* libretro.h */,
 				94A9E282157D637B0083A7DC /* mednafen */,
 				94A9E3C6157D637C0083A7DC /* stubs.cpp */,
+				944CAD2015E1BB4500AE91B7 /* thread.cpp */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1163,6 +1166,7 @@
 				94A9E465157D637C0083A7DC /* tblur.cpp in Sources */,
 				94A9E466157D637C0083A7DC /* text.cpp in Sources */,
 				94A9E467157D637C0083A7DC /* video.cpp in Sources */,
+				944CAD2115E1BB4500AE91B7 /* thread.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1225,8 +1229,9 @@
 					"-DLSB_FIRST",
 					"-DHAVE_MKDIR",
 					"-DSIZEOF_DOUBLE=8",
-					"-DMEDNAFEN_VERSION=\\\"0.9.22\\\"",
-					"-DMEDNAFEN_VERSION_NUMERIC=922",
+					"-DMEDNAFEN_VERSION=\\\"0.9.24\\\"",
+					"-DPACKAGE=\\\"mednafen\\\"",
+					"-DMEDNAFEN_VERSION_NUMERIC=924",
 					"-DPSS_STYLE=1",
 					"-DMPC_FIXED_POINT",
 					"-DARCH_X86",
@@ -1271,8 +1276,9 @@
 					"-DLSB_FIRST",
 					"-DHAVE_MKDIR",
 					"-DSIZEOF_DOUBLE=8",
-					"-DMEDNAFEN_VERSION=\\\"0.9.22\\\"",
-					"-DMEDNAFEN_VERSION_NUMERIC=922",
+					"-DMEDNAFEN_VERSION=\\\"0.9.24\\\"",
+					"-DPACKAGE=\\\"mednafen\\\"",
+					"-DMEDNAFEN_VERSION_NUMERIC=924",
 					"-DPSS_STYLE=1",
 					"-DMPC_FIXED_POINT",
 					"-DARCH_X86",

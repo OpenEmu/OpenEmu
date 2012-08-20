@@ -488,7 +488,7 @@ uint32 CMikie::DisplayRenderLine(void)
 					*bitmap_tmp = mColourMap[mPalette[source&0x0f].Index];
 					bitmap_tmp++;
 				}
-			}	
+			}
 
 			if(mpDisplayCurrentLine < 102)
 			 LynxLineDrawn[mpDisplayCurrentLine] = TRUE;
