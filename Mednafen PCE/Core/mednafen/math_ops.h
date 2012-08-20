@@ -1,7 +1,23 @@
 #ifndef __MDFN_MATH_OPS_H
 #define __MDFN_MATH_OPS_H
 
-uint32 round_up_pow2(uint32 v);
+// Source: http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+// Rounds up to the nearest power of 2.
+static INLINE uint64 round_up_pow2(uint64 v)
+{
+ v--;
+ v |= v >> 1;
+ v |= v >> 2;
+ v |= v >> 4;
+ v |= v >> 8;
+ v |= v >> 16;
+ v |= v >> 32;
+ v++;
+
+ v += (v == 0);
+
+ return(v);
+}
 
 static INLINE uint32 uilog2(uint32 v)
 {
@@ -37,8 +53,5 @@ static INLINE uint32 uilog2(uint32 v)
 // Also, this shouldn't be used for 8-bit and 16-bit signed numbers, since you can
 // convert those faster with typecasts...
 #define sign_x_to_s32(_bits, _value) (((int32)((uint32)(_value) << (32 - _bits))) >> (32 - _bits))
-
-
-#define INT16_TO_BCD(A)  ((((((A) % 100) / 10) * 16 + ((A) % 10))) | (((((((A) / 100) % 100) / 10) * 16 + (((A) / 100) % 10))) << 8))   // convert INT16 --> BCD
 
 #endif

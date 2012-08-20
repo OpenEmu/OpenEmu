@@ -59,6 +59,7 @@
 		940237C11580433800083DCC /* pce_psg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 940237771580433800083DCC /* pce_psg.cpp */; };
 		940237C71580433800083DCC /* vdc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9402378A1580433800083DCC /* vdc.cpp */; };
 		9425977215146D680074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9425977115146D680074E3A3 /* OpenEmuBase.framework */; };
+		944CAD2715E1C06A00AE91B7 /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944CAD2615E1C06A00AE91B7 /* thread.cpp */; };
 		94A9E3C7157D637C0083A7DC /* libretro.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E280157D637B0083A7DC /* libretro.cpp */; };
 		94A9E3C8157D637C0083A7DC /* cdplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E283157D637B0083A7DC /* cdplay.cpp */; };
 		94A9E3C9157D637C0083A7DC /* audioreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E285157D637B0083A7DC /* audioreader.cpp */; };
@@ -310,6 +311,7 @@
 		9402378C1580433800083DCC /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
 		9402378D1580433800083DCC /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
 		9425977115146D680074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		944CAD2615E1C06A00AE91B7 /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
 		94A9E280157D637B0083A7DC /* libretro.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libretro.cpp; sourceTree = "<group>"; };
 		94A9E281157D637B0083A7DC /* libretro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libretro.h; sourceTree = "<group>"; };
 		94A9E283157D637B0083A7DC /* cdplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cdplay.cpp; sourceTree = "<group>"; };
@@ -937,6 +939,7 @@
 				94A9E281157D637B0083A7DC /* libretro.h */,
 				94A9E282157D637B0083A7DC /* mednafen */,
 				94A9E3C6157D637C0083A7DC /* stubs.cpp */,
+				944CAD2615E1C06A00AE91B7 /* thread.cpp */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1511,6 +1514,7 @@
 				94A9E465157D637C0083A7DC /* tblur.cpp in Sources */,
 				94A9E466157D637C0083A7DC /* text.cpp in Sources */,
 				94A9E467157D637C0083A7DC /* video.cpp in Sources */,
+				944CAD2715E1C06A00AE91B7 /* thread.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1573,8 +1577,9 @@
 					"-DLSB_FIRST",
 					"-DHAVE_MKDIR",
 					"-DSIZEOF_DOUBLE=8",
-					"-DMEDNAFEN_VERSION=\\\"0.9.22\\\"",
-					"-DMEDNAFEN_VERSION_NUMERIC=922",
+					"-DMEDNAFEN_VERSION=\\\"0.9.24\\\"",
+					"-DPACKAGE=\\\"mednafen\\\"",
+					"-DMEDNAFEN_VERSION_NUMERIC=924",
 					"-DPSS_STYLE=1",
 					"-DMPC_FIXED_POINT",
 					"-DARCH_X86",
@@ -1619,8 +1624,9 @@
 					"-DLSB_FIRST",
 					"-DHAVE_MKDIR",
 					"-DSIZEOF_DOUBLE=8",
-					"-DMEDNAFEN_VERSION=\\\"0.9.22\\\"",
-					"-DMEDNAFEN_VERSION_NUMERIC=922",
+					"-DMEDNAFEN_VERSION=\\\"0.9.24\\\"",
+					"-DPACKAGE=\\\"mednafen\\\"",
+					"-DMEDNAFEN_VERSION_NUMERIC=924",
 					"-DPSS_STYLE=1",
 					"-DMPC_FIXED_POINT",
 					"-DARCH_X86",

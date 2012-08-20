@@ -1141,6 +1141,7 @@ MDFNGI EmulatedPCE =
  InstallReadPatch,
  RemoveReadPatches,
  MemRead,
+ false,
  StateAction,
  Emulate,
  PCEINPUT_SetInput,

@@ -6,6 +6,8 @@
 #include <exception>
 
 #ifdef __cplusplus
+
+class ErrnoHolder;
 class MDFN_Error : public std::exception
 {
  public:
@@ -13,6 +15,7 @@ class MDFN_Error : public std::exception
  MDFN_Error() throw();
 
  MDFN_Error(int errno_code_new, const char *format, ...) throw();
+ MDFN_Error(const ErrnoHolder &enh);
 
  ~MDFN_Error() throw();
 
@@ -20,7 +23,7 @@ class MDFN_Error : public std::exception
  MDFN_Error & operator=(const MDFN_Error &ze_error) throw();
 
  virtual const char *what(void) const throw();
- int GetErrno(void) throw();
+ int GetErrno(void) const throw();
 
  private:
 
@@ -44,12 +47,12 @@ class ErrnoHolder
   SetErrno(the_errno);
  }
 
- inline int Errno(void)
+ inline int Errno(void) const
  {
   return(local_errno);
  }
 
- const char *StrError(void)
+ const char *StrError(void) const
  {
   return(local_strerror);
  }

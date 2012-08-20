@@ -21,6 +21,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <time.h>
 
 #include <trio/trio.h>
 #include "driver.h"
@@ -547,12 +548,15 @@ int MDFNSS_StateAction(StateMem *st, int load, int data_only, SFORMAT *sf, const
  return(MDFNSS_StateAction(st, load, data_only, love));
 }
 
-int MDFNSS_SaveSM(StateMem *st, int wantpreview, int data_only, const MDFN_Surface *surface, const MDFN_Rect *DisplayRect, const MDFN_Rect *LineWidths)
+int MDFNSS_SaveSM(StateMem *st, int wantpreview_and_ts, int data_only, const MDFN_Surface *surface, const MDFN_Rect *DisplayRect, const MDFN_Rect *LineWidths)
 {
-        static uint8 header[32]="MEDNAFENSVESTATE";
+	static const char *header_magic = "MDFNSVST";
+        uint8 header[32];
 	int neowidth = 0, neoheight = 0;
 
-	if(wantpreview)
+	memset(header, 0, sizeof(header));
+
+	if(wantpreview_and_ts)
 	{
 	 bool is_multires = FALSE;
 
@@ -585,14 +589,18 @@ int MDFNSS_SaveSM(StateMem *st, int wantpreview, int data_only, const MDFN_Surfa
 
 	if(!data_only)
 	{
-         memset(header+16,0,16);
+	 memcpy(header, header_magic, 8);
+
+	 if(wantpreview_and_ts)
+	  MDFN_en64lsb(header + 8, time(NULL));
+
 	 MDFN_en32lsb(header + 16, MEDNAFEN_VERSION_NUMERIC);
 	 MDFN_en32lsb(header + 24, neowidth);
 	 MDFN_en32lsb(header + 28, neoheight);
 	 smem_write(st, header, 32);
 	}
 
-	if(wantpreview)
+	if(wantpreview_and_ts)
 	{
          uint8 *previewbuffer = (uint8 *)malloc(4 * neowidth * neoheight);
 	 MDFN_Surface *dest_surface = new MDFN_Surface((uint32 *)previewbuffer, neowidth, neoheight, neowidth, surface->format);
@@ -730,16 +738,11 @@ int MDFNSS_LoadSM(StateMem *st, int haspreview, int data_only)
 	else
 	{
          smem_read(st, header, 32);
-         if(memcmp(header,"MEDNAFENSVESTATE",16))
+
+         if(memcmp(header, "MEDNAFENSVESTATE", 16) && memcmp(header, "MDFNSVST", 8))
           return(0);
 
 	 stateversion = MDFN_de32lsb(header + 16);
-
-	 if(stateversion < 0x0600)
- 	 {
-	  printf("State too old: %08x\n", stateversion);
-	  return(0);
-	 }
 	}
 
 	if(haspreview)
@@ -959,6 +962,14 @@ void MDFNI_SaveState(const char *fname, const char *suffix, const MDFN_Surface *
  if(!MDFNGameInfo->StateAction) 
   return;
 
+ if(MDFNnetplay && (MDFNGameInfo->SaveStateAltersState == true))
+ {
+  char sb[256];
+  trio_snprintf(sb, sizeof(sb), _("Module %s is not compatible with manual state saving during netplay."), MDFNGameInfo->shortname);
+  MDFND_NetplayText((const uint8*)sb, false);
+  return;
+ }
+
  MDFND_SetStateStatus(NULL);
  MDFNSS_Save(fname, suffix, surface, DisplayRect, LineWidths);
 }
@@ -978,7 +989,9 @@ void MDFNI_LoadState(const char *fname, const char *suffix)
  if(MDFNSS_Load(fname, suffix))
  {
   if(MDFNnetplay)
-   MDFNNET_SendState();
+  {
+   NetplaySendState();
+  }
 
   if(MDFNMOV_IsRecording())
    MDFNMOV_RecordState();
