@@ -551,106 +551,24 @@ int MDFNSS_StateAction(StateMem *st, int load, int data_only, SFORMAT *sf, const
 int MDFNSS_SaveSM(StateMem *st, int wantpreview_and_ts, int data_only, const MDFN_Surface *surface, const MDFN_Rect *DisplayRect, const MDFN_Rect *LineWidths)
 {
 	static const char *header_magic = "MDFNSVST";
-        uint8 header[32];
+    uint8 header[32];
 	int neowidth = 0, neoheight = 0;
-
+    
 	memset(header, 0, sizeof(header));
-
-	if(wantpreview_and_ts)
-	{
-	 bool is_multires = FALSE;
-
-	 // We'll want to use the nominal width if the source rectangle is > 25% off on either axis, or the source image has
-	 // multiple horizontal resolutions.
-	 neowidth = MDFNGameInfo->nominal_width;
-	 neoheight = MDFNGameInfo->nominal_height;
-
-	 if(LineWidths[0].w != ~0)
- 	 {
-	  uint32 first_w = LineWidths[DisplayRect->y].w;
-
-	  for(int y = 0; y < DisplayRect->h; y++)
-	   if(LineWidths[DisplayRect->y + y].w != first_w)
-	   {
-	    puts("Multires!");
-	    is_multires = TRUE;
-	   }
-	 }
-
-	 if(!is_multires)
-	 {
-	  if(((double)DisplayRect->w / MDFNGameInfo->nominal_width) > 0.75  && ((double)DisplayRect->w / MDFNGameInfo->nominal_width) < 1.25)
-	   neowidth = DisplayRect->w;
-
-          if(((double)DisplayRect->h / MDFNGameInfo->nominal_height) > 0.75  && ((double)DisplayRect->h / MDFNGameInfo->nominal_height) < 1.25)
-	   neoheight = DisplayRect->h;
-	 }
-	}
-
-	if(!data_only)
-	{
-	 memcpy(header, header_magic, 8);
-
-	 if(wantpreview_and_ts)
-	  MDFN_en64lsb(header + 8, time(NULL));
-
-	 MDFN_en32lsb(header + 16, MEDNAFEN_VERSION_NUMERIC);
-	 MDFN_en32lsb(header + 24, neowidth);
-	 MDFN_en32lsb(header + 28, neoheight);
-	 smem_write(st, header, 32);
-	}
-
-	if(wantpreview_and_ts)
-	{
-         uint8 *previewbuffer = (uint8 *)malloc(4 * neowidth * neoheight);
-	 MDFN_Surface *dest_surface = new MDFN_Surface((uint32 *)previewbuffer, neowidth, neoheight, neowidth, surface->format);
-	 MDFN_Rect dest_rect;
-
-	 dest_rect.x = 0;
-	 dest_rect.y = 0;
-	 dest_rect.w = neowidth;
-	 dest_rect.h = neoheight;
-
-	 MDFN_ResizeSurface(surface, DisplayRect, (LineWidths[0].w != ~0) ? LineWidths : NULL, dest_surface, &dest_rect);
-
-	 {
-	  uint32 a, b = 0;
-	  for(a = 0; a < neowidth * neoheight * 4; a+=4)
-	  {
-	   uint32 c = *(uint32 *)&previewbuffer[a];
-	   int nr, ng, nb;
-
-	   surface->DecodeColor(c, nr, ng, nb);
-
-	   previewbuffer[b + 0] = nr;
-	   previewbuffer[b + 1] = ng;
-           previewbuffer[b + 2] = nb;
-	   b += 3;
-	  }
-	 }
-
-         smem_write(st, previewbuffer, 3 * neowidth * neoheight);
-
-	 free(previewbuffer);
-	 delete dest_surface;
-	}
-
-        // State rewinding code path hack, FIXME
-        if(data_only)
-        {
-         if(!MDFN_RawInputStateAction(st, 0, data_only))
-          return(0);
-        }
-
-	if(!MDFNGameInfo->StateAction(st, 0, data_only))
-	 return(0);
-
-	if(!data_only)
-	{
-	 uint32 sizy = smem_tell(st);
-	 smem_seek(st, 16 + 4, SEEK_SET);
-	 smem_write32le(st, sizy);
-	}
+	memcpy(header, header_magic, 8);
+    
+	MDFN_en32lsb(header + 16, MEDNAFEN_VERSION_NUMERIC);
+	MDFN_en32lsb(header + 24, neowidth);
+	MDFN_en32lsb(header + 28, neoheight);
+	smem_write(st, header, 32);
+    
+	if(!MDFNGameInfo->StateAction(st, 0, 0))
+        return(0);
+    
+	uint32 sizy = smem_tell(st);
+	smem_seek(st, 16 + 4, SEEK_SET);
+	smem_write32le(st, sizy);
+    
 	return(1);
 }
 
@@ -728,41 +646,17 @@ int MDFNSS_SaveFP(gzFile fp, const MDFN_Surface *surface, const MDFN_Rect *Displ
 
 int MDFNSS_LoadSM(StateMem *st, int haspreview, int data_only)
 {
-        uint8 header[32];
-	uint32 stateversion;
-
-	if(data_only)
-	{
-	 stateversion = MEDNAFEN_VERSION_NUMERIC;
-	}
-	else
-	{
-         smem_read(st, header, 32);
-
-         if(memcmp(header, "MEDNAFENSVESTATE", 16) && memcmp(header, "MDFNSVST", 8))
-          return(0);
-
-	 stateversion = MDFN_de32lsb(header + 16);
-	}
-
-	if(haspreview)
-        {
-         uint32 width = MDFN_de32lsb(header + 24);
-         uint32 height = MDFN_de32lsb(header + 28);
-	 uint32 psize;
-
-	 psize = width * height * 3;
-	 smem_seek(st, psize, SEEK_CUR);	// Skip preview
- 	}
-
-	// State rewinding code path hack, FIXME
-	if(data_only)
-	{
-	 if(!MDFN_RawInputStateAction(st, stateversion, data_only))
-	  return(0);
-	}
-
-	return(MDFNGameInfo->StateAction(st, stateversion, data_only));
+    uint8 header[32];
+    uint32 stateversion;
+    
+    smem_read(st, header, 32);
+    
+    if(memcmp(header, "MEDNAFENSVESTATE", 16) && memcmp(header, "MDFNSVST", 8))
+        return(0);
+    
+    stateversion = MDFN_de32lsb(header + 16);
+    
+    return(MDFNGameInfo->StateAction(st, stateversion, 0));
 }
 
 int MDFNSS_LoadFP(gzFile fp)
