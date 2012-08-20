@@ -197,6 +197,7 @@ void WSwan_EEPROMInit(const char *Name, const uint16 BYear, const uint8 BMonth, 
  }
 
  #define  mBCD16(value) ( (((((value)%100) / 10) <<4)|((value)%10)) | ((((((value / 100)%100) / 10) <<4)|((value / 100)%10))<<8) )
+ #define INT16_TO_BCD(A)  ((((((A) % 100) / 10) * 16 + ((A) % 10))) | (((((((A) / 100) % 100) / 10) * 16 + (((A) / 100) % 10))) << 8))   // convert INT16 --> BCD
 
  uint16 bcd_BYear = INT16_TO_BCD(BYear);
 

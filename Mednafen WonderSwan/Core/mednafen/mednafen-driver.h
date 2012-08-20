@@ -77,7 +77,7 @@ int MDFNI_Initialize(const char *basedir, const std::vector<MDFNSetting> &Driver
 void MDFNI_SetBaseDirectory(const char *dir);
 
 /* Call only when a game is loaded. */
-int MDFNI_NetplayStart(uint32 local_players, uint32 netmerge, const std::string &nickname, const std::string &game_key, const std::string &connect_password);
+int MDFNI_NetplayStart(uint32 local_players, const std::string &nickname, const std::string &game_key, const std::string &connect_password);
 
 /* Emulates a frame. */
 void MDFNI_Emulate(EmulateSpecStruct *espec);

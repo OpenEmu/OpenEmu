@@ -138,7 +138,6 @@ static MDFNSetting RenamedSettings[] =
  { "netlocalplayers", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS , "netplay.localplayers" },
  { "netnick", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS         , "netplay.nick"   },
  { "netgamekey", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS      , "netplay.gamekey"        },
- { "netmerge", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS        , "netplay.merge"  },
  { "netsmallfont", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS    , "netplay.smallfont" },
 
  { "frameskip", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS       , "video.frameskip" },
@@ -295,9 +294,9 @@ void MDFNI_CloseGame(void)
  memset(PortDeviceCache, 0, sizeof(PortDeviceCache));
 }
 
-int MDFNI_NetplayStart(uint32 local_players, uint32 netmerge, const std::string &nickname, const std::string &game_key, const std::string &connect_password)
+int MDFNI_NetplayStart(uint32 local_players, const std::string &nickname, const std::string &game_key, const std::string &connect_password)
 {
- return(NetplayStart((const char**)PortDeviceCache, PortDataLenCache, local_players, netmerge, nickname, game_key, connect_password));
+ return(NetplayStart((const char**)PortDeviceCache, PortDataLenCache, local_players, nickname, game_key, connect_password));
 }
 
 
@@ -1054,7 +1053,6 @@ int MDFNI_Initialize(const char *basedir, const std::vector<MDFNSetting> &Driver
 	 return(0);
 	}
 
-
 	memset(PortDataCache, 0, sizeof(PortDataCache));
 	memset(PortDataLenCache, 0, sizeof(PortDataLenCache));
 	memset(PortDeviceCache, 0, sizeof(PortDeviceCache));
@@ -1070,9 +1068,9 @@ int MDFNI_Initialize(const char *basedir, const std::vector<MDFNSetting> &Driver
 	{
 	 MDFNSetting setting;
 	 const char *sysname;
-	
+
 	 sysname = (const char *)MDFNSystems[i]->shortname;
- 
+
 	 if(!MDFNSystems[i]->soundchan)
 	  printf("0 sound channels for %s????\n", sysname);
 
@@ -1095,9 +1093,9 @@ int MDFNI_Initialize(const char *basedir, const std::vector<MDFNSetting> &Driver
 	 dynamic_settings.push_back(setting);
 	}
 
-	if(DriverSettings.size())
- 	 MDFN_MergeSettings(DriverSettings);
-
+    if(DriverSettings.size())
+        MDFN_MergeSettings(DriverSettings);
+    
 	// First merge all settable settings, then load the settings from the SETTINGS FILE OF DOOOOM
 	MDFN_MergeSettings(MednafenSettings);
         MDFN_MergeSettings(dynamic_settings);
@@ -1305,6 +1303,12 @@ void MDFNI_Emulate(EmulateSpecStruct *espec)
  multiplier_save = 1;
  volume_save = 1;
 
+ // Initialize some espec member data to zero, to catch some types of bugs.
+ espec->DisplayRect.x = 0;
+ espec->DisplayRect.w = 0;
+ espec->DisplayRect.y = 0;
+ espec->DisplayRect.h = 0;
+
  assert((bool)(espec->SoundBuf != NULL) == (bool)espec->SoundRate && (bool)espec->SoundRate == (bool)espec->SoundBufMaxSize);
 
  espec->SoundBufSize = 0;
@@ -1358,12 +1362,12 @@ void MDFNI_Emulate(EmulateSpecStruct *espec)
   if(MDFNMOV_IsPlaying())
   {
    espec->NeedRewind = 0;
-   MDFN_DispMessage(_("Can't rewind during movie playback(yet!)."));
+   MDFN_DispMessage(_("Can't rewind during movie playback."));
   }
   else if(MDFNnetplay)
   {
    espec->NeedRewind = 0;
-   MDFN_DispMessage(_("Silly-billy, can't rewind during netplay."));
+   MDFN_DispMessage(_("Can't rewind during netplay."));
   }
   else if(MDFNGameInfo->GameType == GMT_PLAYER)
   {
@@ -1372,9 +1376,29 @@ void MDFNI_Emulate(EmulateSpecStruct *espec)
   }
  }
 
- espec->NeedSoundReverse = MDFN_StateEvil(espec->NeedRewind);
+ // Don't even save states with state rewinding if netplay is enabled, it will degrade netplay performance, and can cause
+ // desynchs with some emulation(IE SNES based on bsnes).
+
+ if(MDFNnetplay)
+  espec->NeedSoundReverse = false;
+ else
+  espec->NeedSoundReverse = MDFN_StateEvil(espec->NeedRewind);
 
  MDFNGameInfo->Emulate(espec);
+
+ //
+ // Sanity checks
+ //
+ if(!espec->skip)
+ {
+  if(espec->DisplayRect.h == 0)
+  {
+   fprintf(stderr, "espec->DisplayRect.h == 0\n");
+  }
+ }
+ //
+ //
+ //
 
  if(espec->InterlaceOn)
  {
@@ -1555,7 +1579,7 @@ void MDFN_DoSimpleCommand(int cmd)
 void MDFN_QSimpleCommand(int cmd)
 {
  if(MDFNnetplay)
-  MDFNNET_SendCommand(cmd, 0);
+  NetplaySendCommand(cmd, 0);
  else
  {
   if(!MDFNMOV_IsPlaying())

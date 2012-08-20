@@ -542,6 +542,7 @@ MDFNGI EmulatedWSwan =
  NULL,
  NULL,
  NULL,
+ false,
  StateAction,
  Emulate,
  SetInput,
