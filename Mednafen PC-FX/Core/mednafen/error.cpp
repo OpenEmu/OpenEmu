@@ -36,6 +36,15 @@ MDFN_Error::MDFN_Error(int errno_code_new, const char *format, ...) throw()
  va_end(ap);
 }
 
+
+MDFN_Error::MDFN_Error(const ErrnoHolder &enh)
+{
+ errno_code = enh.Errno();
+
+ error_message = trio_aprintf("%s", enh.StrError());
+}
+
+
 MDFN_Error::~MDFN_Error() throw()
 {
  if(error_message)
@@ -78,7 +87,7 @@ const char * MDFN_Error::what(void) const throw()
  return(error_message);
 }
 
-int MDFN_Error::GetErrno(void) throw()
+int MDFN_Error::GetErrno(void) const throw()
 {
  return(errno_code);
 }

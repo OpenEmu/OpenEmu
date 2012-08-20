@@ -622,7 +622,10 @@ static bool LoadCommon(std::vector<CDIF *> *CDInterfaces)
 
  MDFNGameInfo->nominal_height = MDFN_GetSettingUI("pcfx.slend") - MDFN_GetSettingUI("pcfx.slstart") + 1;
 
- MDFNGameInfo->lcm_width = 1024;
+ // Emulation raw framebuffer image should always be of 256 width when the pcfx.high_dotclock_width setting is set to "256",
+ // but it could be either 256 or 341 when the setting is set to "341", so stay with 1024 in that case so we won't have
+ // a messed up aspect ratio in our recorded QuickTime movies.
+ MDFNGameInfo->lcm_width = (MDFN_GetSettingUI("pcfx.high_dotclock_width") == 256) ? 256 : 1024;
  MDFNGameInfo->lcm_height = MDFNGameInfo->nominal_height;
 
  MDFNMP_Init(1024 * 1024, ((uint64)1 << 32) / (1024 * 1024));
@@ -1399,6 +1402,7 @@ MDFNGI EmulatedPCFX =
  NULL,
  NULL,
  NULL,
+ false,
  StateAction,
  Emulate,
  FXINPUT_SetInput,
