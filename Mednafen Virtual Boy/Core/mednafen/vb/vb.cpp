@@ -28,9 +28,6 @@
 #include "../mempatcher.h"
 #include <iconv.h>
 
-
-
-
 //#define VB_SUPPORT_BIN_EXT		// Even with this enabled, any *.bin file loaded must be in the internal database to be recognized as a VB game.
 
 namespace MDFN_IEN_VB
@@ -1101,6 +1098,7 @@ MDFNGI EmulatedVB =
  NULL,
  NULL,
  NULL,
+ false,
  StateAction,
  Emulate,
  VBINPUT_SetInput,

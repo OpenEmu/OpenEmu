@@ -42,6 +42,7 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		9425977215146D680074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9425977115146D680074E3A3 /* OpenEmuBase.framework */; };
+		944CAD2C15E1C4A700AE91B7 /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 944CAD2B15E1C4A700AE91B7 /* thread.cpp */; };
 		94A1E9651586BEE400986376 /* input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A1E9571586BEE400986376 /* input.cpp */; };
 		94A1E9661586BEE400986376 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9591586BEE400986376 /* Makefile.am */; };
 		94A1E9671586BEE400986376 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E95A1586BEE400986376 /* Makefile.in */; };
@@ -184,6 +185,7 @@
 		8D5B49B6048680CD000E48DA /* Mednafen Virtual Boy.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mednafen Virtual Boy.oecoreplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9425977115146D680074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		944CAD2B15E1C4A700AE91B7 /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
 		94A1E9551586BEE400986376 /* debug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debug.cpp; sourceTree = "<group>"; };
 		94A1E9561586BEE400986376 /* debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
 		94A1E9571586BEE400986376 /* input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = input.cpp; sourceTree = "<group>"; };
@@ -672,6 +674,7 @@
 				94A9E281157D637B0083A7DC /* libretro.h */,
 				94A9E282157D637B0083A7DC /* mednafen */,
 				94A9E3C6157D637C0083A7DC /* stubs.cpp */,
+				944CAD2B15E1C4A700AE91B7 /* thread.cpp */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1457,6 +1460,7 @@
 				94A9E465157D637C0083A7DC /* tblur.cpp in Sources */,
 				94A9E466157D637C0083A7DC /* text.cpp in Sources */,
 				94A9E467157D637C0083A7DC /* video.cpp in Sources */,
+				944CAD2C15E1C4A700AE91B7 /* thread.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1519,8 +1523,9 @@
 					"-DLSB_FIRST",
 					"-DHAVE_MKDIR",
 					"-DSIZEOF_DOUBLE=8",
-					"-DMEDNAFEN_VERSION=\\\"0.9.22\\\"",
-					"-DMEDNAFEN_VERSION_NUMERIC=922",
+					"-DMEDNAFEN_VERSION=\\\"0.9.24\\\"",
+					"-DPACKAGE=\\\"mednafen\\\"",
+					"-DMEDNAFEN_VERSION_NUMERIC=924",
 					"-DPSS_STYLE=1",
 					"-DMPC_FIXED_POINT",
 					"-DARCH_X86",
@@ -1566,8 +1571,9 @@
 					"-DLSB_FIRST",
 					"-DHAVE_MKDIR",
 					"-DSIZEOF_DOUBLE=8",
-					"-DMEDNAFEN_VERSION=\\\"0.9.22\\\"",
-					"-DMEDNAFEN_VERSION_NUMERIC=922",
+					"-DMEDNAFEN_VERSION=\\\"0.9.24\\\"",
+					"-DPACKAGE=\\\"mednafen\\\"",
+					"-DMEDNAFEN_VERSION_NUMERIC=924",
 					"-DPSS_STYLE=1",
 					"-DMPC_FIXED_POINT",
 					"-DARCH_X86",

@@ -54,7 +54,6 @@ static int16 CDDABuffer[588 * 2];
 static int16 ResampBuffer[588 * 2][2];	// Resampler input buffer, * 2 for resampler leftovers
 static uint32 ResampBufferPos;
 static uint32 PrevRate;
-static unsigned int CurrentDisc;
 
 static std::vector<CDIF *> *cdifs;
 
@@ -541,6 +540,7 @@ MDFNGI EmulatedCDPlay =
  NULL,
  NULL,
  NULL,
+ false,
  NULL, //StateAction,
  Emulate,
  SetInput,
