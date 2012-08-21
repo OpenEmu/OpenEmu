@@ -123,7 +123,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     {
         _rootLayer = [[OEGridLayer alloc] init];
         [_rootLayer setInteractive:YES];
+#ifdef MAC_OS_X_VERSION_10_8
+        [_rootLayer setGeometryFlipped:NO];
+#else
         [_rootLayer setGeometryFlipped:YES];
+#endif
         [_rootLayer setLayoutManager:[OEGridViewLayoutManager layoutManager]];
         [_rootLayer setDelegate:self];
         [_rootLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
