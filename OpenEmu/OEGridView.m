@@ -123,7 +123,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     {
         _rootLayer = [[OEGridLayer alloc] init];
         [_rootLayer setInteractive:YES];
+#ifdef MAC_OS_X_VERSION_10_8
+        [_rootLayer setGeometryFlipped:NO];
+#else
         [_rootLayer setGeometryFlipped:YES];
+#endif
         [_rootLayer setLayoutManager:[OEGridViewLayoutManager layoutManager]];
         [_rootLayer setDelegate:self];
         [_rootLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
@@ -1195,7 +1199,9 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
         NSRect          hitRect             = NSInsetRect([itemCell hitRect], 5, 5);
         NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
+#ifndef MAC_OS_X_VERSION_10_8
         hitRectOnView.origin.y = self.bounds.size.height - hitRectOnView.origin.y - hitRectOnView.size.height;
+#endif
         NSRect          hitRectOnWindow     = [self convertRect:hitRectOnView toView:nil];
         NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
         NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
