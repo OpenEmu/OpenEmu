@@ -7040,7 +7040,7 @@
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -7061,7 +7061,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -7480,6 +7480,7 @@
 				94619C8A15C4C31A0019AC8E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94619CB115C507B70019AC8E /* Build configuration list for PBXNativeTarget "Nintendo FDS" */ = {
 			isa = XCConfigurationList;
@@ -7488,6 +7489,7 @@
 				94619CB315C507B70019AC8E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94A1E9C71586F3B700986376 /* Build configuration list for PBXNativeTarget "Virtual Boy" */ = {
 			isa = XCConfigurationList;
