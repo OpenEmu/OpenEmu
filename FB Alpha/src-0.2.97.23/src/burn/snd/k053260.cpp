@@ -5,6 +5,7 @@
 *********************************************************/
 
 #include "burnint.h"
+#include "k053260.h"
 
 /* 2004-02-28: Fixed ppcm decoding. Games sound much better now.*/
 
@@ -34,6 +35,9 @@ struct k053260_chip_def {
 	INT32								rom_size;
 	UINT32					*delta_table;
 	k053260_channel_def channels[4];
+	
+	double		gain[2];
+	INT32		output_dir[2];
 };
 
 static k053260_chip_def Chips[2];
@@ -185,14 +189,36 @@ void K053260Update(INT32 chip, INT16 *pBuf, INT32 length)
 					}
 
 					if ( ic->mode & 2 ) {
-						dataL += ( d * lvol[i] ) >> 4;
-						dataR += ( d * rvol[i] ) >> 4;
+						dataL += ( d * lvol[i] ) >> 2;
+						dataR += ( d * rvol[i] ) >> 2;
 					}
 				}
 			}
-
-			pBuf[1] += limit( dataL, MAXOUT, MINOUT );
-			pBuf[0] += limit( dataR, MAXOUT, MINOUT );
+			
+			dataL = limit(dataL, MAXOUT, MINOUT);
+			dataR = limit(dataR, MAXOUT, MINOUT);
+			
+			INT32 nLeftSample = 0, nRightSample = 0;
+		
+			if ((ic->output_dir[BURN_SND_K053260_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+				nLeftSample += (INT32)(dataL * ic->gain[BURN_SND_K053260_ROUTE_1]);
+			}
+			if ((ic->output_dir[BURN_SND_K053260_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+				nRightSample += (INT32)(dataL * ic->gain[BURN_SND_K053260_ROUTE_1]);
+			}
+		
+			if ((ic->output_dir[BURN_SND_K053260_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+				nLeftSample += (INT32)(dataR * ic->gain[BURN_SND_K053260_ROUTE_2]);
+			}
+			if ((ic->output_dir[BURN_SND_K053260_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+				nRightSample += (INT32)(dataR * ic->gain[BURN_SND_K053260_ROUTE_2]);
+			}
+		
+			nLeftSample = BURN_SND_CLIP(nLeftSample);
+			nRightSample = BURN_SND_CLIP(nRightSample);
+		
+			pBuf[0] += nLeftSample;
+			pBuf[1] += nRightSample;
 			pBuf += 2;
 		}
 
@@ -229,11 +255,30 @@ void K053260Init(INT32 chip, INT32 clock, UINT8 *rom, INT32 nLen)
 
 	InitDeltaTable( rate, clock );
 	
+	ic->gain[BURN_SND_K053260_ROUTE_1] = 1.00;
+	ic->gain[BURN_SND_K053260_ROUTE_2] = 1.00;
+	ic->output_dir[BURN_SND_K053260_ROUTE_1] = BURN_SND_ROUTE_BOTH;
+	ic->output_dir[BURN_SND_K053260_ROUTE_2] = BURN_SND_ROUTE_BOTH;
+	
 	nNumChips = chip;
 
 	/* setup SH1 timer if necessary */
 //	if ( ic->intf->irq )
 //		timer_pulse( attotime_mul(ATTOTIME_IN_HZ(clock), 32), NULL, 0, ic->intf->irq );
+}
+
+void K053260SetRoute(INT32 chip, INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_K053260Initted) bprintf(PRINT_ERROR, _T("K053260SetRoute called without init\n"));
+	if (chip >nNumChips) bprintf(PRINT_ERROR, _T("K053260SetRoute called with invalid chip %x\n"), chip);
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("K053260SetRoute called with invalid index %i\n"), nIndex);
+#endif
+
+	ic = &Chips[chip];
+	
+	ic->gain[nIndex] = nVolume;
+	ic->output_dir[nIndex] = nRouteDir;
 }
 
 void K053260Exit()

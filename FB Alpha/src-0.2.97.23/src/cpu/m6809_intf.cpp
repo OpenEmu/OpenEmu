@@ -165,11 +165,11 @@ INT32 M6809GetActive()
 	return nActiveCPU;
 }
 
-void M6809SetIRQ(INT32 vector, INT32 status)
+void M6809SetIRQLine(INT32 vector, INT32 status)
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6809Initted) bprintf(PRINT_ERROR, _T("M6809SetIRQ called without init\n"));
-	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6809SetIRQ called when no CPU open\n"));
+	if (!DebugCPU_M6809Initted) bprintf(PRINT_ERROR, _T("M6809SetIRQLine called without init\n"));
+	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6809SetIRQLine called when no CPU open\n"));
 #endif
 
 	if (status == M6809_IRQSTATUS_NONE) {
@@ -235,21 +235,21 @@ INT32 M6809MapMemory(UINT8* pMemory, UINT16 nStart, UINT16 nEnd, INT32 nType)
 
 }
 
-void M6809SetReadByteHandler(UINT8 (*pHandler)(UINT16))
+void M6809SetReadHandler(UINT8 (*pHandler)(UINT16))
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6809Initted) bprintf(PRINT_ERROR, _T("M6809SetReadByteHandler called without init\n"));
-	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6809SetReadByteHandler called when no CPU open\n"));
+	if (!DebugCPU_M6809Initted) bprintf(PRINT_ERROR, _T("M6809SetReadHandler called without init\n"));
+	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6809SetReadHandler called when no CPU open\n"));
 #endif
 
 	m6809CPUContext[nActiveCPU].ReadByte = pHandler;
 }
 
-void M6809SetWriteByteHandler(void (*pHandler)(UINT16, UINT8))
+void M6809SetWriteHandler(void (*pHandler)(UINT16, UINT8))
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6809Initted) bprintf(PRINT_ERROR, _T("M6809SetWriteByteHandler called without init\n"));
-	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6809SetWriteByteHandler called when no CPU open\n"));
+	if (!DebugCPU_M6809Initted) bprintf(PRINT_ERROR, _T("M6809SetWriteHandler called without init\n"));
+	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6809SetWriteHandler called when no CPU open\n"));
 #endif
 
 	m6809CPUContext[nActiveCPU].WriteByte = pHandler;

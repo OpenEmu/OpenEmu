@@ -54,6 +54,8 @@ struct _ga20_state
 	UINT16 regs[0x40];
 	struct IremGA20_channel_def channel[4];
 	INT32 frequency;
+	double gain;
+	INT32 output_dir;
 };
 
 static struct _ga20_state chips[MAX_GA20];
@@ -130,8 +132,21 @@ void iremga20_update(INT32 device, INT16 *buffer, INT32 length)
 		}
 
 		sampleout >>= 2;
-		buffer[0] += sampleout;
-		buffer[1] += sampleout;
+
+		INT32 nLeftSample = 0, nRightSample = 0;
+		
+		if ((chip->output_dir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(sampleout * chip->gain);
+		}
+		if ((chip->output_dir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(sampleout * chip->gain);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+		
+		buffer[0] += nLeftSample;
+		buffer[1] += nRightSample;
 	}
 
 	/* update the regs now */
@@ -247,12 +262,28 @@ void iremga20_init(INT32 device, UINT8 *rom, INT32 rom_size, INT32 frequency)
 	chip->rom = rom;
 	chip->rom_size = rom_size;
 	chip->frequency = (frequency / 4) / 60;
+	
+	chip->gain = 1.00;
+	chip->output_dir = BURN_SND_ROUTE_BOTH;
 
 	iremga20_reset(device);
 	
 	computed_steps = (UINT32)((float)(chip->frequency / (1.00000 * nBurnSoundLen)));
 	
 	nNumChips = device;
+}
+
+void itemga20_set_route(INT32 device, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_IremGA20Initted) bprintf(PRINT_ERROR, _T("itemga20_set_route called without init\n"));
+	if (device > nNumChips) bprintf(PRINT_ERROR, _T("itemga20_set_route called with invalid chip %x\n"), device);
+#endif
+
+	chip = &chips[device];
+	
+	chip->gain = nVolume;
+	chip->output_dir = nRouteDir;
 }
 
 void iremga20_exit()

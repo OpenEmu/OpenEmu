@@ -2,7 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "konami_intf.h"
 #include "burn_ym3812.h"
 #include "k051649.h"
@@ -512,11 +512,15 @@ static INT32 DrvInit()
 
 	BurnYM3812Init(3579545, NULL, DrvSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(3579545);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 0.70, BURN_SND_ROUTE_BOTH);
 
 	K007232Init(0, 3579545, DrvSndROM, 0x80000); // no idea...
 	K007232SetPortWriteHandler(0, DrvK007232VolCallback);
+	K007232SetRoute(0, BURN_SND_K007232_ROUTE_1, 0.44, BURN_SND_ROUTE_BOTH);
+	K007232SetRoute(0, BURN_SND_K007232_ROUTE_2, 0.50, BURN_SND_ROUTE_BOTH);
 
-	K051649Init(3579545/2, 0.64);
+	K051649Init(3579545/2);
+	K051649SetRoute(0.45, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

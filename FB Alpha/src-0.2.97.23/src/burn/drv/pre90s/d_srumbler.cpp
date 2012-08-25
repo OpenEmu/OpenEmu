@@ -2,7 +2,7 @@
 // Based on MAME driver by Paul Leaman
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "m6809_intf.h"
 #include "burn_ym2203.h"
 
@@ -377,8 +377,8 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvBgRAM,		0x2000, 0x3fff, M6809_RAM);
 	M6809MapMemory(DrvFgRAM,		0x5000, 0x5fff, M6809_WRITE);
 	M6809MapMemory(DrvPalRAM,		0x7000, 0x73ff, M6809_WRITE);
-	M6809SetReadByteHandler(srumbler_main_read);
-	M6809SetWriteByteHandler(srumbler_main_write);
+	M6809SetReadHandler(srumbler_main_read);
+	M6809SetWriteHandler(srumbler_main_write);
 	M6809Close();
 
 	ZetInit(0);
@@ -394,8 +394,15 @@ static INT32 DrvInit()
 	ZetClose();
 
 	BurnYM2203Init(2, 4000000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
-	BurnYM2203SetVolumeShift(2);
 	BurnTimerAttachZet(3000000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.30, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_YM2203_ROUTE, 0.30, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_1, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_2, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_3, 0.10, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -611,8 +618,8 @@ static INT32 DrvFrame()
 
 	for (INT32 i = 0; i < nInterleave; i++) {
 		nCyclesDone[0] += M6809Run(nCyclesTotal[0] / nInterleave);
-		if (i == (nInterleave / 2) - 1) M6809SetIRQ(1, M6809_IRQSTATUS_AUTO);
-		if (i == (nInterleave / 1) - 1) M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+		if (i == (nInterleave / 2) - 1) M6809SetIRQLine(1, M6809_IRQSTATUS_AUTO);
+		if (i == (nInterleave / 1) - 1) M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 
 		BurnTimerUpdate(i * (nCyclesTotal[1] / nInterleave));
 		ZetRaiseIrq(0);

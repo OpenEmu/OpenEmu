@@ -2,8 +2,8 @@
 // Based on MAME driver by Tomasz Slanina
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "driver.h"
 extern "C" {
 #include "ay8910.h"
@@ -361,6 +361,7 @@ static INT32 DrvInit()
 	ZetClose();
 
 	AY8910Init(0, 2000000, nBurnSoundRate, &ay8910_port_a_r, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.75, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -463,20 +464,7 @@ static INT32 DrvFrame()
 	SekClose();
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-		AY8910Update(0, &pAY8910Buffer[0], nBurnSoundLen);
-		for (INT32 n = 0; n < nBurnSoundLen; n++) {
-			nSample  = pAY8910Buffer[0][n];
-			nSample += pAY8910Buffer[1][n];
-			nSample += pAY8910Buffer[2][n];
-
-			nSample /= 4;
-
-			nSample = BURN_SND_CLIP(nSample);
-
-			pBurnSoundOut[(n << 1) + 0] = nSample;
-			pBurnSoundOut[(n << 1) + 1] = nSample;
-		}
+		AY8910Render(&pAY8910Buffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 	}
 
 	if (pBurnDraw) {

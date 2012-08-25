@@ -2,8 +2,8 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym3812.h"
 #include "msm6295.h"
 #include "bitswap.h"
@@ -371,8 +371,10 @@ static INT32 DrvInit(INT32 select)
 
 	BurnYM3812Init(3579545, &DrvYM3812IrqHandler, &DrvSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(4000000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 
-	MSM6295Init(0, 1056000 / 132, 50.0, 1);
+	MSM6295Init(0, 1056000 / 132, 1);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	game_select = select;
 

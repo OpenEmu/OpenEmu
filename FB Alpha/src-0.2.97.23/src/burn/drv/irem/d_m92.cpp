@@ -11,7 +11,7 @@
 
 #include "tiles_generic.h"
 #include "burn_ym2151.h"
-#include "vez.h"
+#include "nec_intf.h"
 #include "msm6295.h" // ppan
 #include "irem_cpu.h"
 #include "iremga20.h"
@@ -1747,12 +1747,15 @@ static INT32 DrvInit(INT32 (*pRomLoadCallback)(), const UINT8 *sound_decrypt_tab
 
 	m92_irq_vectorbase = vectorbase;
 
-	BurnYM2151Init(3579545, 40.0);
+	BurnYM2151Init(3579545);
 	YM2151SetIrqHandler(0, &m92YM2151IRQHandler);
+	BurnYM2151SetAllRoutes(0.40, BURN_SND_ROUTE_BOTH);
 
 	iremga20_init(0, DrvSndROM, 0x100000, 3579545);
+	itemga20_set_route(0, 1.00, BURN_SND_ROUTE_BOTH);
 
-	MSM6295Init(0, 1000000 / 132, 100.0, 0); // ppan
+	MSM6295Init(0, 1000000 / 132, 0); // ppan
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -3193,11 +3196,11 @@ struct BurnDriver BurnDrvGeostorm = {
 };
 
 
-// Ninja Baseball Batman (US)
+// Ninja Baseball Batman (World)
 
 static struct BurnRomInfo nbbatmanRomDesc[] = {
-	{ "a1-h0-a.34",		0x040000, 0x24a9b794, 1 | BRF_PRG | BRF_ESS }, //  0 V33 Code
-	{ "a1-l0-a.31",		0x040000, 0x846d7716, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "6_h0.34",		0x040000, 0x5c4a1e3f, 1 | BRF_PRG | BRF_ESS }, //  0 V33 Code
+	{ "3_l0.31",		0x040000, 0x3d6d70ae, 1 | BRF_PRG | BRF_ESS }, //  1
 	{ "a1-h1-.33",		0x040000, 0x3ce2aab5, 1 | BRF_PRG | BRF_ESS }, //  2
 	{ "a1-l1-.32",		0x040000, 0x116d9bcc, 1 | BRF_PRG | BRF_ESS }, //  3
 
@@ -3235,10 +3238,48 @@ static INT32 nbbatmanInit()
 
 struct BurnDriverD BurnDrvNbbatman = {
 	"nbbatman", NULL, NULL, NULL, "1993",
-	"Ninja Baseball Batman (US)\0", "Imperfect sound and graphics", "Irem America", "M92",
+	"Ninja Baseball Batman (World)\0", "Imperfect sound and graphics", "Irem", "M92",
 	NULL, NULL, NULL, NULL,
 	0, 4, HARDWARE_IREM_M92, GBF_SCRFIGHT, 0,
 	NULL, nbbatmanRomInfo, nbbatmanRomName, NULL, NULL, p4CommonInputInfo, NbbatmanDIPInfo,
+	nbbatmanInit, DrvExit, DrvFrame, DrvReDraw, DrvScan, &bRecalcPalette, 0x800,
+	320, 240, 4, 3
+};
+
+
+// Ninja Baseball Batman (US)
+
+static struct BurnRomInfo nbbatmanuRomDesc[] = {
+	{ "a1-h0-a.34",		0x040000, 0x24a9b794, 1 | BRF_PRG | BRF_ESS }, //  0 V33 Code
+	{ "a1-l0-a.31",		0x040000, 0x846d7716, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "a1-h1-.33",		0x040000, 0x3ce2aab5, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "a1-l1-.32",		0x040000, 0x116d9bcc, 1 | BRF_PRG | BRF_ESS }, //  3
+
+	{ "a1-sh0-.14",		0x010000, 0xb7fae3e6, 2 | BRF_PRG | BRF_ESS }, //  4 V30 Code
+	{ "a1-sl0-.17",		0x010000, 0xb26d54fc, 2 | BRF_PRG | BRF_ESS }, //  5
+
+	{ "lh534k0c.9",		0x080000, 0x314a0c6d, 3 | BRF_GRA },           //  6 Background Tiles
+	{ "lh534k0e.10",	0x080000, 0xdc31675b, 3 | BRF_GRA },           //  7
+	{ "lh534k0f.11",	0x080000, 0xe15d8bfb, 3 | BRF_GRA },           //  8
+	{ "lh534k0g.12",	0x080000, 0x888d71a3, 3 | BRF_GRA },           //  9
+
+	{ "lh538393.42",	0x100000, 0x26cdd224, 4 | BRF_GRA },           // 10 Sprites
+	{ "lh538394.43",	0x100000, 0x4bbe94fa, 4 | BRF_GRA },           // 11
+	{ "lh538395.44",	0x100000, 0x2a533b5e, 4 | BRF_GRA },           // 12
+	{ "lh538396.45",	0x100000, 0x863a66fa, 4 | BRF_GRA },           // 13
+
+	{ "lh534k0k.8",		0x080000, 0x735e6380, 5 | BRF_SND },           // 14 Irem GA20 Samples
+};
+
+STD_ROM_PICK(nbbatmanu)
+STD_ROM_FN(nbbatmanu)
+
+struct BurnDriverD BurnDrvNbbatmanu = {
+	"nbbatmanu", "nbbatman", NULL, NULL, "1993",
+	"Ninja Baseball Batman (US)\0", "Imperfect sound and graphics", "Irem America", "M92",
+	NULL, NULL, NULL, NULL,
+	BDF_CLONE, 4, HARDWARE_IREM_M92, GBF_SCRFIGHT, 0,
+	NULL, nbbatmanuRomInfo, nbbatmanuRomName, NULL, NULL, p4CommonInputInfo, NbbatmanDIPInfo,
 	nbbatmanInit, DrvExit, DrvFrame, DrvReDraw, DrvScan, &bRecalcPalette, 0x800,
 	320, 240, 4, 3
 };

@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "taito.h"
 #include "taito_ic.h"
 #include "burn_ym2151.h"
@@ -1117,8 +1117,10 @@ static INT32 TaitoXInit(INT32 nSoundType)
 	ZetClose();
 	
 	if (nSoundType == 1) {
-		BurnYM2151Init(4000000, 50.0);
+		BurnYM2151Init(4000000);
 		BurnYM2151SetIrqHandler(&TaitoXYM2151IRQHandler);
+		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.45, BURN_SND_ROUTE_LEFT);
+		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.45, BURN_SND_ROUTE_RIGHT);
 	} else {
 		if (nSoundType == 2) {
 			BurnYM2610Init(8000000, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, NULL, TaitoXSynchroniseStream, TaitoXGetTime, 0);
@@ -1126,6 +1128,9 @@ static INT32 TaitoXInit(INT32 nSoundType)
 			BurnYM2610Init(8000000, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, &TaitoXFMIRQHandler, TaitoXSynchroniseStream, TaitoXGetTime, 0);
 		}
 		BurnTimerAttachZet(4000000);
+		BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+		BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
+		BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 	}
 	
 	GenericTilesInit();

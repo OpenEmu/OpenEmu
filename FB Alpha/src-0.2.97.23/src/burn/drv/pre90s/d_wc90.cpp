@@ -1,7 +1,7 @@
 // FB Alpha - World Cup '90 driver
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "burn_ym2608.h"
 
 static UINT8 Wc90InputPort0[6] = {0, 0, 0, 0, 0, 0};
@@ -1162,6 +1162,9 @@ static INT32 Wc90Init()
 	INT32 Wc90YM2608RomSize = 0x20000;
 	BurnYM2608Init(8000000, Wc90YM2608Rom, &Wc90YM2608RomSize, &wc90FMIRQHandler, wc90SynchroniseStream, wc90GetTime, 0);
 	BurnTimerAttachZet(4000000);
+	BurnYM2608SetRoute(BURN_SND_YM2608_YM2608_ROUTE_1, 1.00, BURN_SND_ROUTE_BOTH);
+	BurnYM2608SetRoute(BURN_SND_YM2608_YM2608_ROUTE_2, 1.00, BURN_SND_ROUTE_BOTH);
+	BurnYM2608SetRoute(BURN_SND_YM2608_AY8910_ROUTE, 0.50, BURN_SND_ROUTE_BOTH);
 	
 	Wc90DoReset();
 

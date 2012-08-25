@@ -1,5 +1,5 @@
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "burn_ym2203.h"
 #include "dac.h"
@@ -505,9 +505,9 @@ static struct BurnRomInfo DrvRomDesc[] = {
 	
 	{ "d04_c01.bin",   0x10000, 0x9b85101d, BRF_SND },		//  16	Samples
 	
-	{ "pal16l8.8r",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  17	PALs
-	{ "pal16l8.4m",    0x00104, 0x6c628a26, BRF_GRA },		//  18
-	{ "pal16l8.1b",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  19
+	{ "vg_b-8r.ic90",  0x00117, 0xdf368a7a, BRF_GRA },		//  17	PALs
+	{ "vg_b-4m.ic38",  0x00117, 0xdbca4204, BRF_GRA },		//  18
+	{ "vg_b-1b.ic1",   0x00117, 0x922e5167, BRF_GRA },		//  19
 };
 
 STD_ROM_PICK(Drv)
@@ -537,9 +537,9 @@ static struct BurnRomInfo Drv1RomDesc[] = {
 	
 	{ "d04_c01.bin",   0x10000, 0x9b85101d, BRF_SND },		//  16	Samples
 	
-	{ "pal16l8.8r",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  17	PALs
-	{ "pal16l8.4m",    0x00104, 0x6c628a26, BRF_GRA },		//  18
-	{ "pal16l8.1b",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  19
+	{ "vg_b-8r.ic90",  0x00117, 0xdf368a7a, BRF_GRA },		//  17	PALs
+	{ "vg_b-4m.ic38",  0x00117, 0xdbca4204, BRF_GRA },		//  18
+	{ "vg_b-1b.ic1",   0x00117, 0x922e5167, BRF_GRA },		//  19
 };
 
 STD_ROM_PICK(Drv1)
@@ -569,9 +569,9 @@ static struct BurnRomInfo DrvuRomDesc[] = {
 	
 	{ "d04_c01.bin",   0x10000, 0x9b85101d, BRF_SND },		//  16	Samples
 	
-	{ "pal16l8.8r",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  17	PALs
-	{ "pal16l8.4m",    0x00104, 0x6c628a26, BRF_GRA },		//  18
-	{ "pal16l8.1b",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  19
+	{ "vg_b-8r.ic90",  0x00117, 0xdf368a7a, BRF_GRA },		//  17	PALs
+	{ "vg_b-4m.ic38",  0x00117, 0xdbca4204, BRF_GRA },		//  18
+	{ "vg_b-1b.ic1",   0x00117, 0x922e5167, BRF_GRA },		//  19
 };
 
 STD_ROM_PICK(Drvu)
@@ -601,9 +601,9 @@ static struct BurnRomInfo Drvu2RomDesc[] = {
 	
 	{ "d04_c01.bin",   0x10000, 0x9b85101d, BRF_SND },		//  16	Samples
 	
-	{ "pal16l8.8r",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  17	PALs
-	{ "pal16l8.4m",    0x00104, 0x6c628a26, BRF_GRA },		//  18
-	{ "pal16l8.1b",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  19
+	{ "vg_b-8r.ic90",  0x00117, 0xdf368a7a, BRF_GRA },		//  17	PALs
+	{ "vg_b-4m.ic38",  0x00117, 0xdbca4204, BRF_GRA },		//  18
+	{ "vg_b-1b.ic1",   0x00117, 0x922e5167, BRF_GRA },		//  19
 };
 
 STD_ROM_PICK(Drvu2)
@@ -633,9 +633,9 @@ static struct BurnRomInfo DrvjRomDesc[] = {
 	
 	{ "d04_c01.bin",   0x10000, 0x9b85101d, BRF_SND },		//  16	Samples
 	
-	{ "pal16l8.8r",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  17	PALs
-	{ "pal16l8.4m",    0x00104, 0x6c628a26, BRF_GRA },		//  18
-	{ "pal16l8.1b",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  19
+	{ "vg_b-8r.ic90",  0x00117, 0xdf368a7a, BRF_GRA },		//  17	PALs
+	{ "vg_b-4m.ic38",  0x00117, 0xdbca4204, BRF_GRA },		//  18
+	{ "vg_b-1b.ic1",   0x00117, 0x922e5167, BRF_GRA },		//  19
 };
 
 STD_ROM_PICK(Drvj)
@@ -1457,10 +1457,12 @@ static INT32 DrvInit()
 	nCyclesTotal[1] = 3579645 / 55;
 	
 	GenericTilesInit();
-	BurnYM2151Init(3579645, 25.0);
+	BurnYM2151Init(3579645);
 	BurnYM2151SetIrqHandler(&VigilantYM2151IrqHandler);	
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.55, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.55, BURN_SND_ROUTE_RIGHT);
 	DACInit(0, 0, 1, VigilantSyncDAC);
-	DACSetVolShift(0, 1);
+	DACSetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	DrvDoReset();
 
@@ -1559,10 +1561,18 @@ static INT32 BuccanrsInit()
 	
 	DrvHasYM2203 = 1;
 	BurnYM2203Init(2, 18432000 / 6, &BuccanrsYM2203IRQHandler, BuccanrsSynchroniseStream, BuccanrsGetTime, 0);
-	BurnYM2203SetVolumeShift(2);
 	BurnTimerAttachZet(18432000 / 6);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.50, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.35, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.35, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.35, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_YM2203_ROUTE, 0.50, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_1, 0.35, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_2, 0.35, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_3, 0.35, BURN_SND_ROUTE_BOTH);
+	
 	DACInit(0, 0, 1, VigilantSyncDAC);
-	DACSetVolShift(0, 1);
+	DACSetRoute(0, 0.35, BURN_SND_ROUTE_BOTH);
 	
 	DrvDoReset();
 
@@ -1682,10 +1692,12 @@ static INT32 KikcubicInit()
 	nCyclesTotal[1] = 3579645 / 55;
 	
 	GenericTilesInit();
-	BurnYM2151Init(3579645, 25.0);
+	BurnYM2151Init(3579645);
 	BurnYM2151SetIrqHandler(&VigilantYM2151IrqHandler);	
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.55, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.55, BURN_SND_ROUTE_RIGHT);
 	DACInit(0, 0, 1, VigilantSyncDAC);
-	DACSetVolShift(0, 1);
+	DACSetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	DrvKikcubicDraw = 1;
 	

@@ -2993,8 +2993,8 @@ inline static void System16AUpdateTileValues()
 	for (i = 0; i < 2; i++) {
 		System16OldPage[i] = System16Page[i];
 		System16Page[i] = (System16ScreenFlip) ? BURN_ENDIAN_SWAP_INT16(TextRam[0xe8e/2 - i]) : BURN_ENDIAN_SWAP_INT16(TextRam[0xe9e/2 - i]);
-		System16ScrollX[i] = TextRam[0xff8/2 + i] & 0x1ff;
-		System16ScrollY[i] = TextRam[0xf24/2 + i] & 0x0ff;
+		System16ScrollX[i] = BURN_ENDIAN_SWAP_INT16(TextRam[0xff8/2 + i]) & 0x1ff;
+		System16ScrollY[i] = BURN_ENDIAN_SWAP_INT16(TextRam[0xf24/2 + i]) & 0x0ff;
 	}
 	
 	if (System16OldPage[0] != System16Page[0]) {

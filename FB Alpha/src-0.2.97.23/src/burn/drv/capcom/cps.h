@@ -1,7 +1,7 @@
 // CPS ----------------------------------
 #include "burnint.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 
 #include "msm6295.h"
 #include "eeprom.h"
@@ -42,6 +42,7 @@ INT32 CpsLoadTilesSf2ebbl(UINT8 *Tile, INT32 nStart);
 INT32 CpsLoadTilesHack160(INT32 nStart);
 INT32 CpsLoadTilesHack160Alt(INT32 nStart);
 INT32 CpsLoadTilesSf2koryu(INT32 nStart);
+INT32 CpsLoadTilesSf2stt(INT32 nStart);
 INT32 CpsLoadTilesSf2mdt(INT32 nStart);
 INT32 CpsLoadTilesSf2mdta(INT32 nStart);
 INT32 CpsLoadTilesFcrash(INT32 nStart);
@@ -279,7 +280,11 @@ void DrawFnInit();
 INT32  CpsDraw();
 INT32  CpsRedraw();
 
+#define BURN_SND_QSND_OUTPUT_1			0
+#define BURN_SND_QSND_OUTPUT_2			1
+
 INT32 QsndInit();
+void QsndSetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir);
 void QsndExit();
 void QsndReset();
 void QsndNewFrame();
@@ -293,7 +298,8 @@ INT32 QsndZExit();
 INT32 QsndZScan(INT32 nAction);
 
 // qs_c.cpp
-INT32 QscInit(INT32 nRate, INT32 nVolumeShift);
+INT32 QscInit(INT32 nRate);
+void QscSetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir);
 void QscReset();
 void QscExit();
 INT32 QscScan(INT32 nAction);

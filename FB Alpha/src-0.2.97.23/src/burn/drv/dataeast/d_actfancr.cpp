@@ -241,7 +241,7 @@ void actfan_main_write(UINT32 address, UINT8 data)
 
 		case 0x150000:
 			*soundlatch = data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 		return;
 
 		case 0x160000:
@@ -291,7 +291,7 @@ void triothep_main_write(UINT32 address, UINT8 data)
 	{
 		case 0x100000:
 			*soundlatch = data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 		return;
 
 		case 0x110000:
@@ -369,7 +369,7 @@ static UINT8 Dec0_sound_read(UINT16 address)
 	switch (address)
 	{
 		case 0x3000:
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_NONE);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_NONE);
 			return *soundlatch;
 
 		case 0x3800:
@@ -392,9 +392,9 @@ inline static double Dec0YM2203GetTime()
 static void Dec0YM3812IRQHandler(INT32, INT32 nStatus)
 {
 	if (nStatus) {
-		M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
+		M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
 	} else {
-		M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
+		M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
 	}
 }
 
@@ -504,17 +504,23 @@ static void Dec0SoundInit()
 	M6502Open(0);
 	M6502MapMemory(Drv6502RAM,		0x0000, 0x07ff, M6502_RAM);
 	M6502MapMemory(Drv6502ROM + 0x4000,	0x4000, 0xffff, M6502_ROM);
-	M6502SetWriteByteHandler(Dec0_sound_write);
-	M6502SetReadByteHandler(Dec0_sound_read);
+	M6502SetWriteHandler(Dec0_sound_write);
+	M6502SetReadHandler(Dec0_sound_read);
 	M6502Close();
 	
 	BurnYM2203Init(1, 1500000, NULL, Dec0YM2203SynchroniseStream, Dec0YM2203GetTime, 0);
 	BurnTimerAttachH6280(7159066);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.50, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.90, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.90, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.90, BURN_SND_ROUTE_BOTH);
 
 	BurnYM3812Init(3000000, &Dec0YM3812IRQHandler, &Dec0YM3812SynchroniseStream, 1);
 	BurnTimerAttachM6502YM3812(1500000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 0.90, BURN_SND_ROUTE_BOTH);
 
-	MSM6295Init(0, 1024188 / 132, 85.0, 1);
+	MSM6295Init(0, 1024188 / 132, 1);
+	MSM6295SetRoute(0, 0.85, BURN_SND_ROUTE_BOTH);
 }
 
 static INT32 ActfanInit()

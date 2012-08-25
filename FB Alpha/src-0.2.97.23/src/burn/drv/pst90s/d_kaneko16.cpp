@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "msm6295.h"
 #include "burn_ym2151.h"
 #include "eeprom.h"
@@ -2823,8 +2823,10 @@ static INT32 GtmrMachineInit()
 	SekClose();
 	
 	// Setup the OKIM6295 emulation
-	MSM6295Init(0, 1980000 / 165, 100.0, 0);
-	MSM6295Init(1, 1980000 / 165, 100.0, 0);
+	MSM6295Init(0, 1980000 / 165, 0);
+	MSM6295Init(1, 1980000 / 165, 0);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
+	MSM6295SetRoute(1, 0.50, BURN_SND_ROUTE_BOTH);
 
 	return 0;
 }
@@ -2919,9 +2921,12 @@ static INT32 BerlwallInit()
 
 	AY8910Init(0, 2000000, nBurnSoundRate, &Kaneko16Dip0Read, &Kaneko16Dip1Read, NULL, NULL);
 	AY8910Init(1, 2000000, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 1.00, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(1, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	// Setup the OKIM6295 emulation
-	MSM6295Init(0, (12000000 / 6) / 132, 100.0, 1);
+	MSM6295Init(0, (12000000 / 6) / 132, 1);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	Kaneko16FrameRender = BerlwallFrameRender;
 
@@ -3005,7 +3010,9 @@ static INT32 BlazeonInit()
 	ZetClose();
 	
 	// Setup the YM2151 emulation
-	BurnYM2151Init(4000000, 25.0);
+	BurnYM2151Init(4000000);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 	
 	Kaneko16FrameRender = BlazeonFrameRender;
 	
@@ -3255,7 +3262,8 @@ static INT32 ExplbrkrInit()
 	AY8910Init(1, 2000000, nBurnSoundRate, &Kaneko16EepromRead, NULL, NULL, &Kaneko16EepromReset);
 	
 	// Setup the OKIM6295 emulation
-	MSM6295Init(0, (12000000 / 6) / 132, 100.0, 1);
+	MSM6295Init(0, (12000000 / 6) / 132, 1);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	Kaneko16FrameRender = ExplbrkrFrameRender;
 	
@@ -3596,7 +3604,8 @@ static INT32 MgcrystlInit()
 	AY8910Init(1, 2000000, nBurnSoundRate, &Kaneko16EepromRead, NULL, NULL, &Kaneko16EepromReset);
 	
 	// Setup the OKIM6295 emulation
-	MSM6295Init(0, (12000000 / 4) / 165, 100.0, 1);
+	MSM6295Init(0, (12000000 / 4) / 165, 1);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	Kaneko16FrameRender = MgcrystlFrameRender;
 
@@ -4624,24 +4633,9 @@ static INT32 ExplbrkrFrame()
 
 		// Render Sound Segment
 		if (pBurnSoundOut) {
-			INT32 nSample;
 			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
 			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			AY8910Update(1, &pAY8910Buffer[3], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n] >> 2;
-				nSample += pAY8910Buffer[1][n] >> 2;
-				nSample += pAY8910Buffer[2][n] >> 2;
-				nSample += pAY8910Buffer[3][n] >> 2;
-				nSample += pAY8910Buffer[4][n] >> 2;
-				nSample += pAY8910Buffer[5][n] >> 2;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-    		}
+			AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 			
 			nSoundBufferPos += nSegmentLength;
 		}
@@ -4649,25 +4643,10 @@ static INT32 ExplbrkrFrame()
 	
 	// Make sure the buffer is entirely filled.
 	if (pBurnSoundOut) {
-		INT32 nSample;
 		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
 		INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
 		if (nSegmentLength) {
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			AY8910Update(1, &pAY8910Buffer[3], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n] >> 2;
-				nSample += pAY8910Buffer[1][n] >> 2;
-				nSample += pAY8910Buffer[2][n] >> 2;
-				nSample += pAY8910Buffer[3][n] >> 2;
-				nSample += pAY8910Buffer[4][n] >> 2;
-				nSample += pAY8910Buffer[5][n] >> 2;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
- 			}
+			AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 		}
 		
 		MSM6295Render(0, pBurnSoundOut, nBurnSoundLen);

@@ -1,312 +1,11 @@
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "m6502_intf.h"
 #include "burn_ym2151.h"
+#include "slapstic.h"
 
 UINT8 *Drv68KRom = NULL;
 static UINT8 *DrvEEPROM            = NULL;
-
-struct slapstic_params
-{
-	INT32 reset;
-	INT32 bank0, bank1, bank2, bank3;
-	INT32 disable;
-	INT32 ignore;
-	INT32 senable;
-	INT32 sbank0, sbank1, sbank2, sbank3;
-};
-
-
-
-/*************************************
- *
- *	Constants
- *
- *************************************/
-
-#define DISABLE_MASK 0x3ff0
-#define IGNORE_MASK  0x007f
-#define UNKNOWN      0xffff
-
-enum state_type { ENABLED, DISABLED, IGNORE, SPECIAL };
-
-#define LOG_SLAPSTIC 0
-
-
-
-/*************************************
- *
- *	The master table
- *
- *************************************/
-
-static struct slapstic_params slapstic_table[18] =
-{
-	/* 137412-101 ESB/Tetris */
-	{ 0x0000, 0x0080, 0x0090, 0x00a0, 0x00b0, 0x1540,UNKNOWN, 0x1dfe, 0x1b5c, 0x1b5d, 0x1b5e, 0x1b5f },
-	/* 137412-102 ???? */
-	{ 0x0000,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN },
-	/* 137412-103 Marble Madness */
-	{ 0x0000, 0x0040, 0x0050, 0x0060, 0x0070, 0x34c0, 0x002d, 0x3d14, 0x3d24, 0x3d25, 0x3d26, 0x3d27 },
-	/* 137412-104 Gauntlet */
-/*	{ 0x0000, 0x0020, 0x0028, 0x0030, 0x0038, 0x3d90, 0x0069, 0x3735, 0x3764, 0x3765, 0x3766, 0x3767 },*/
-/* EC990621 Gauntlet fix */
-	{ 0x0000, 0x0020, 0x0028, 0x0030, 0x0038, 0x3da0, 0x0069, 0x3735, 0x3764, 0x3765, 0x3766, 0x3767 },
-/* EC990621 end of Gauntlet fix */
-	/* 137412-105 Indiana Jones/Paperboy */
-	{ 0x0000, 0x0010, 0x0014, 0x0018, 0x001c, 0x35b0, 0x003d, 0x0092, 0x00a4, 0x00a5, 0x00a6, 0x00a7 },
-	/* 137412-106 Gauntlet II */
-/*	{ 0x0000, 0x0008, 0x000a, 0x000c, 0x000e, 0x3da0, 0x002b, 0x0052, 0x0064, 0x0065, 0x0066, 0x0067 },*/
-/* NS990620 Gauntlet II fix */
-	{ 0x0000, 0x0008, 0x000a, 0x000c, 0x000e, 0x3db0, 0x002b, 0x0052, 0x0064, 0x0065, 0x0066, 0x0067 },
-/* NS990620 end of Gauntlet II fix */
-	/* 137412-107 Peter Packrat/Xybots/2-player Gauntlet/720 Degrees */
-/*	{ 0x0000, 0x0018, 0x001a, 0x001c, 0x001e, 0x00a0, 0x006b, 0x3d52, 0x3d64, 0x3d65, 0x3d66, 0x3d67 },*/
-/* NS990622 Xybots fix */
-	{ 0x0000, 0x0018, 0x001a, 0x001c, 0x001e, 0x00b0, 0x006b, 0x3d52, 0x3d64, 0x3d65, 0x3d66, 0x3d67 },
-/* NS990622 end of Xybots fix */
-	/* 137412-108 Road Runner/Super Sprint */
-	{ 0x0000, 0x0028, 0x002a, 0x002c, 0x002e, 0x0060, 0x001f,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN },
-	/* 137412-109 Championship Sprint */
-	{ 0x0000, 0x0008, 0x000a, 0x000c, 0x000e, 0x3da0, 0x002b, 0x0052, 0x0064, 0x0065, 0x0066, 0x0067 },
-	/* 137412-110 Road Blasters/APB */
-	{ 0x0000, 0x0040, 0x0050, 0x0060, 0x0070, 0x34c0, 0x002d, 0x3d14, 0x3d24, 0x3d25, 0x3d26, 0x3d27 },
-	/* 137412-111 Pit Fighter */
-	{ 0x0000, 0x0042, 0x0052, 0x0062, 0x0072,UNKNOWN, 0x000a,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN },
-	/* 137412-112 ???? */
-	{ 0x0000,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN },
-	/* 137412-113 ???? */
-	{ 0x0000,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN },
-	/* 137412-114 ???? */
-	{ 0x0000,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN },
-	/* 137412-115 ???? */
-	{ 0x0000,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN },
-	/* 137412-116 Hydra/Cyberball 2072 Tournament */
-	{ 0x0000, 0x0044, 0x004c, 0x0054, 0x005c,UNKNOWN, 0x0069,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN },
-	/* 137412-117 Race Drivin' */
-	{ 0x0000,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN },
-	/* 137412-118 Vindicators II/Rampart */
-/*	{ 0x0000, 0x0014, 0x0034, 0x0054, 0x0074,UNKNOWN, 0x0002, 0x1950, 0x1958, 0x1960, 0x1968, 0x1970 },*/
-/* EC990622 Rampart fix */
-	{ 0x0000, 0x0014, 0x0034, 0x0054, 0x0074, 0x30e0, 0x0002, 0x1958, 0x1959, 0x195a, 0x195b, 0x195c },
-/* EC990622 end of Rampart fix */
-};
-
-
-
-/*************************************
- *
- *	Statics
- *
- *************************************/
-
-static struct slapstic_params *slapstic;
-
-static enum state_type state;
-static INT8 next_bank;
-static INT8 extra_bank;
-static INT8 current_bank;
-static UINT8 version;
-
-#if LOG_SLAPSTIC
-	static void slapstic_log(INT32 offset);
-	static FILE *slapsticlog;
-#else
-	#define slapstic_log(o)
-#endif
-
-
-
-/*************************************
- *
- *	Initialization
- *
- *************************************/
-
-void slapstic_init(INT32 chip)
-{
-	/* only a small number of chips are known to exist */
-	if (chip < 101 || chip > 118)
-		return;
-
-	/* set up a pointer to the parameters */
-	version = chip;
-	slapstic = slapstic_table + (chip - 101);
-
-	/* reset the chip */
-	state = ENABLED;
-	next_bank = extra_bank = -1;
-	
-	/* the 111 and later chips seem to reset to bank 0 */
-	if (chip < 111)
-		current_bank = 3;
-	else
-		current_bank = 0;
-}
-
-
-void slapstic_reset(void)
-{
-	slapstic_init(version);
-}
-
-
-
-/*************************************
- *
- *	Returns active bank without tweaking
- *
- *************************************/
-
-INT32 slapstic_bank(void)
-{
-	return current_bank;
-}
-
-
-
-/*************************************
- *
- *	Call this before every access
- *
- *************************************/
-
-INT32 slapstic_tweak(INT32 offset)
-{
-	/* switch banks now if one is pending */
-	if (next_bank != -1)
-	{
-		current_bank = next_bank;
-		next_bank = -1;
-		extra_bank = -1;
-	}
-
-	/* state machine */
-	switch (state)
-	{
-		/* ENABLED state: the chip has been activated and is ready for a bankswitch */
-		case ENABLED:
-			if ((offset & DISABLE_MASK) == slapstic->disable)
-			{
-				state = DISABLED;
-				/* NS990620 Gauntlet II fix */
-				if (extra_bank != -1)
-					next_bank = extra_bank;
-				/* NS990620 end of Gauntlet II fix */
-			}
-			else if ((offset & IGNORE_MASK) == slapstic->ignore)
-			{
-				state = IGNORE;
-			}
-			else if (offset == slapstic->bank0)
-			{
-				state = DISABLED;
-				if (extra_bank == -1)
-					next_bank = 0;
-				else
-					next_bank = extra_bank;
-			}
-			else if (offset == slapstic->bank1)
-			{
-				state = DISABLED;
-				if (extra_bank == -1)
-					next_bank = 1;
-				else
-					next_bank = extra_bank;
-			}
-			else if (offset == slapstic->bank2)
-			{
-				state = DISABLED;
-				if (extra_bank == -1)
-					next_bank = 2;
-				else
-					next_bank = extra_bank;
-			}
-			else if (offset == slapstic->bank3)
-			{
-				state = DISABLED;
-				if (extra_bank == -1)
-					next_bank = 3;
-				else
-					next_bank = extra_bank;
-			}
-			else if (offset == slapstic->reset)
-			{
-				next_bank = -1;
-				extra_bank = -1;
-			}
-			/* This is the transition which has */
-			/* not been verified on the HW yet */
-			else if (offset == slapstic->senable)
-			{
-				state = SPECIAL;
-			}
-			break;
-
-		/* DISABLED state: everything is ignored except a reset */
-		case DISABLED:
-			if (offset == slapstic->reset)
-			{
-				state = ENABLED;
-				next_bank = -1;
-				extra_bank = -1;
-			}
-			break;
-
-		/* IGNORE state: next access is interpreted differently */
-		case IGNORE:
-			if (offset == slapstic->senable)
-			{
-				state = SPECIAL;
-			}
-			else
-			{
-				state = ENABLED;
-			}
-			break;
-
-		/* SPECIAL state: the special alternate bank switch override method is being used */
-		case SPECIAL:
-			if (offset == slapstic->sbank0)
-			{
-				state = ENABLED;
-				extra_bank = 0;
-			}
-			else if (offset == slapstic->sbank1)
-			{
-				state = ENABLED;
-				extra_bank = 1;
-			}
-			else if (offset == slapstic->sbank2)
-			{
-				state = ENABLED;
-				extra_bank = 2;
-			}
-			else if (offset == slapstic->sbank3)
-			{
-				state = ENABLED;
-				extra_bank = 3;
-			}
-			else if (offset == slapstic->reset)
-			{
-				state = ENABLED;
-				next_bank = -1;
-				extra_bank = -1;
-			}
-			else
-			{
-				state = ENABLED;
-			}
-			break;
-	}
-
-	/* log this access */
-	slapstic_log(offset);
-	
-	/* return the active bank */
-	return current_bank;
-}
-
 
 static UINT8 atarigen_slapstic_num;
 static UINT8 *atarigen_slapstic;
@@ -314,7 +13,7 @@ static UINT8 *atarigen_slapstic;
 UINT8 __fastcall atarigen_slapstic_r(UINT32 a)
 {
 	INT32 offset = (a - 0x38000);// >> 1;
-	INT32 bank = slapstic_tweak(offset / 2) * 0x2000;
+	INT32 bank = SlapsticTweak(offset / 2) * 0x2000;
 	//return READ_WORD(&atarigen_slapstic[bank + (offset & 0x1fff)]);
 	//return atarigen_slapstic[bank + (offset & 0x1fff)];
 	
@@ -337,7 +36,7 @@ UINT8 __fastcall atarigen_slapstic_r(UINT32 a)
 
 void __fastcall atarigen_slapstic_w(UINT32 a, UINT8 d)
 {
-	//slapstic_tweak(offset / 2);
+	//SlapsticTweak(offset / 2);
 	
 	switch (a) {
 		default: {
@@ -350,7 +49,7 @@ UINT16 __fastcall atarigen_slapstic_r_word(UINT32 a)
 {
 //	UINT16 *Slapstic = (UINT16*)atarigen_slapstic;
 //	INT32 Offset = (a - 0x38000);// >> 1;
-//	INT32 Bank = slapstic_tweak(Offset / 2) * 0x2000;
+//	INT32 Bank = SlapsticTweak(Offset / 2) * 0x2000;
 //	return Slapstic[Bank + ((Offset >> 1) & 0x1fff)];
 
 	SEK_DEF_READ_WORD(1, a);
@@ -368,7 +67,7 @@ UINT16 __fastcall atarigen_slapstic_r_word(UINT32 a)
 void __fastcall atarigen_slapstic_w_word(UINT32 a, UINT16 d)
 {
 	INT32 offset = (a - 0x38000);// >> 1;
-	slapstic_tweak(offset / 2);
+	SlapsticTweak(offset / 2);
 	return;
 	
 	switch (a) {
@@ -378,19 +77,19 @@ void __fastcall atarigen_slapstic_w_word(UINT32 a, UINT16 d)
 	}
 }
 
-void atarigen_slapstic_reset(void)
+void atarigen_SlapsticReset(void)
 {
 	if (atarigen_slapstic_num)
-		slapstic_reset();
+		SlapsticReset();
 }
 
-void atarigen_slapstic_init(INT32 base, INT32 chipnum)
+void atarigen_SlapsticInit(INT32 base, INT32 chipnum)
 {
 	atarigen_slapstic_num = chipnum;
 	atarigen_slapstic = NULL;
 	if (chipnum)
 	{
-		slapstic_init(chipnum);
+		SlapsticInit(chipnum);
 		//atarigen_slapstic = install_mem_read_handler(cpunum, base, base + 0x7fff, atarigen_slapstic_r);
 		//atarigen_slapstic = install_mem_write_handler(cpunum, base, base + 0x7fff, atarigen_slapstic_w);
 		SekOpen(0);
@@ -1626,7 +1325,7 @@ static INT32 DrvDoReset()
 	
 	BurnYM2151Reset();
 	
-	atarigen_slapstic_reset();
+	atarigen_SlapsticReset();
 	atarigen_eeprom_reset();
 	
 	DrvVBlank = 1;
@@ -1772,7 +1471,7 @@ void __fastcall Gauntlet68KWriteWord(UINT32 a, UINT16 d)
 			DrvCPUtoSoundReady = 1;
 			M6502Open(0);
 			nCyclesDone[1] += M6502Run(100);
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 			nCyclesDone[1] += M6502Run(100);
 			M6502Close();
 			return;
@@ -1931,7 +1630,7 @@ void GauntletSoundWrite(UINT16 Address, UINT8 Data)
 		}
 		
 		case 0x1830: {
-			M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
+			M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
 			return;
 		}
 		
@@ -2039,14 +1738,16 @@ static INT32 DrvInit()
 	M6502Open(0);
 	M6502MapMemory(DrvM6502Ram            , 0x0000, 0x0fff, M6502_RAM);
 	M6502MapMemory(DrvM6502Rom            , 0x4000, 0xffff, M6502_ROM);
-	M6502SetReadByteHandler(GauntletSoundRead);
-	M6502SetWriteByteHandler(GauntletSoundWrite);
+	M6502SetReadHandler(GauntletSoundRead);
+	M6502SetWriteHandler(GauntletSoundWrite);
 	M6502Close();
 	
-	atarigen_slapstic_init(0x038000, 104);
+	atarigen_SlapsticInit(0x038000, 104);
 	atarigen_eeprom_init();
 	
-	BurnYM2151Init(14318180 / 4, 25.0);
+	BurnYM2151Init(14318180 / 4);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.48, BURN_SND_ROUTE_RIGHT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.48, BURN_SND_ROUTE_LEFT);
 	
 	GenericTilesInit();
 	
@@ -2149,14 +1850,16 @@ static INT32 Gaunt2pInit()
 	M6502Open(0);
 	M6502MapMemory(DrvM6502Ram            , 0x0000, 0x0fff, M6502_RAM);
 	M6502MapMemory(DrvM6502Rom            , 0x4000, 0xffff, M6502_ROM);
-	M6502SetReadByteHandler(GauntletSoundRead);
-	M6502SetWriteByteHandler(GauntletSoundWrite);
+	M6502SetReadHandler(GauntletSoundRead);
+	M6502SetWriteHandler(GauntletSoundWrite);
 	M6502Close();
 	
-	atarigen_slapstic_init(0x038000, 107);
+	atarigen_SlapsticInit(0x038000, 107);
 	atarigen_eeprom_init();
 	
-	BurnYM2151Init(14318180 / 4, 25.0);
+	BurnYM2151Init(14318180 / 4);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.48, BURN_SND_ROUTE_RIGHT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.48, BURN_SND_ROUTE_LEFT);
 	
 	GenericTilesInit();
 	
@@ -2269,14 +1972,16 @@ static INT32 Gaunt2Init()
 	M6502Open(0);
 	M6502MapMemory(DrvM6502Ram            , 0x0000, 0x0fff, M6502_RAM);
 	M6502MapMemory(DrvM6502Rom            , 0x4000, 0xffff, M6502_ROM);
-	M6502SetReadByteHandler(GauntletSoundRead);
-	M6502SetWriteByteHandler(GauntletSoundWrite);
+	M6502SetReadHandler(GauntletSoundRead);
+	M6502SetWriteHandler(GauntletSoundWrite);
 	M6502Close();
 	
-	atarigen_slapstic_init(0x038000, 106);
+	atarigen_SlapsticInit(0x038000, 106);
 	atarigen_eeprom_init();
 	
-	BurnYM2151Init(14318180 / 4, 25.0);
+	BurnYM2151Init(14318180 / 4);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.48, BURN_SND_ROUTE_RIGHT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.48, BURN_SND_ROUTE_LEFT);
 	
 	GenericTilesInit();
 	
@@ -2502,7 +2207,7 @@ static INT32 DrvFrame()
 			nNext = (i + 1) * nCyclesTotal[nCurrentCPU] / nInterleave;
 			nCyclesSegment = nNext - nCyclesDone[nCurrentCPU];
 			nCyclesDone[nCurrentCPU] += M6502Run(nCyclesSegment);
-			if (i == 64 || i == 128 || i == 192 || i == 256) M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
+			if (i == 64 || i == 128 || i == 192 || i == 256) M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
 			M6502Close();
 		}
 		

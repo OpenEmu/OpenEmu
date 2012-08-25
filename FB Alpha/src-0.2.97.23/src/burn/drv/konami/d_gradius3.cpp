@@ -2,8 +2,8 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "konami_intf.h"
 #include "konamiic.h"
 #include "burn_ym2151.h"
@@ -590,10 +590,13 @@ static INT32 DrvInit()
 	ZetMemEnd();
 	ZetClose();
 
-	BurnYM2151Init(3579545, 100.0);
+	BurnYM2151Init(3579545);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	K007232Init(0, 3579545, DrvSndROM, 0x80000);
 	K007232SetPortWriteHandler(0, DrvK007232VolCallback);
+	K007232PCMSetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
 
 	K052109Init(DrvShareRAM2, 0x1ffff);
 	K052109SetCallback(K052109Callback);

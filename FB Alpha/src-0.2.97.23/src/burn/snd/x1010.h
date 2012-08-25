@@ -17,6 +17,8 @@ struct x1_010_info
 	UINT32 env_offset[SETA_NUM_CHANNELS];
 	UINT32 base_clock;
 	UINT32 sound_banks[SETA_NUM_BANKS];
+	double gain[2];
+	INT32 output_dir[2];
 };
 
 typedef struct {
@@ -38,5 +40,13 @@ UINT8 x1010_sound_read(UINT32 offset);
 UINT16 x1010_sound_read_word(UINT32 offset);
 void x1010_sound_update();
 void x1010_sound_init(UINT32 base_clock, INT32 address);
+void x1010_set_route(INT32 nIndex, double nVolume, INT32 nRouteDir);
 void x1010_scan(INT32 nAction,INT32 *pnMin);
 void x1010_exit();
+
+#define BURN_SND_X1010_ROUTE_1		0
+#define BURN_SND_X1010_ROUTE_2		1
+
+#define x1010_set_all_routes(v, d)						\
+	x1010_set_route(BURN_SND_X1010_ROUTE_1, v, d);		\
+	x1010_set_route(BURN_SND_X1010_ROUTE_2, v, d);

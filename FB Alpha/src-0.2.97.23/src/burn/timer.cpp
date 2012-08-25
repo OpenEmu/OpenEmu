@@ -1,8 +1,8 @@
 // Timers (for Yamaha FM cips and generic)
 #include "burnint.h"
 #include "timer.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "m6809_intf.h"
 #include "hd6309_intf.h"
 #include "m6800_intf.h"

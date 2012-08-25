@@ -552,6 +552,8 @@ static struct renegade_adpcm_state
 	UINT8 nibble;
 	UINT8 playing;
 	UINT8 *base;
+	double gain;
+	INT32 output_dir;
 } renegade_adpcm;
 
 static INT32 diff_lookup[49*16];
@@ -602,9 +604,17 @@ static void RenegadeADPCMInit(INT32 clock)
 	struct renegade_adpcm_state *state = &renegade_adpcm;
 	state->playing = 0;
 	state->base = DrvADPCMRom;
+	state->gain = 1.00;
+	state->output_dir = BURN_SND_ROUTE_BOTH;
 	reset_adpcm(&state->adpcm);
 	
 	nUpdateStep = (INT32)(((float)clock / nBurnSoundRate) * 32768);
+}
+
+void RenegadeADMPCMSetRoute(double nVolume, INT32 nRouteDir)
+{
+	renegade_adpcm.gain = nVolume;
+	renegade_adpcm.output_dir = nRouteDir;
 }
 
 static INT32 DrvDoReset()
@@ -706,7 +716,7 @@ void RenegadeWriteByte(UINT16 Address, UINT8 Data)
 		case 0x3802: {
 			DrvSoundLatch = Data;
 			M6809Open(0);
-			M6809SetIRQ(M6809_IRQ_LINE, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(M6809_IRQ_LINE, M6809_IRQSTATUS_AUTO);
 			M6809Close();
 			return;
 		}
@@ -897,9 +907,9 @@ static INT32 TileYOffsets[16]      = { 0, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80,
 static void DrvFMIRQHandler(INT32, INT32 nStatus)
 {
 	if (nStatus) {
-		M6809SetIRQ(M6809_FIRQ_LINE, M6809_IRQSTATUS_ACK);
+		M6809SetIRQLine(M6809_FIRQ_LINE, M6809_IRQSTATUS_ACK);
 	} else {
-		M6809SetIRQ(M6809_FIRQ_LINE, M6809_IRQSTATUS_NONE);
+		M6809SetIRQLine(M6809_FIRQ_LINE, M6809_IRQSTATUS_NONE);
 	}
 }
 
@@ -991,16 +1001,16 @@ static INT32 DrvInit(INT32 nMcuType)
 	M6502MapMemory(DrvPaletteRam2         , 0x3100, 0x31ff, M6502_RAM);
 	M6502MapMemory(DrvM6502Rom + 0x8000   , 0x4000, 0x7fff, M6502_ROM);
 	M6502MapMemory(DrvM6502Rom            , 0x8000, 0xffff, M6502_ROM);
-	M6502SetReadByteHandler(RenegadeReadByte);
-	M6502SetWriteByteHandler(RenegadeWriteByte);
+	M6502SetReadHandler(RenegadeReadByte);
+	M6502SetWriteHandler(RenegadeWriteByte);
 	M6502Close();
 	
 	M6809Init(1);
 	M6809Open(0);
 	M6809MapMemory(DrvM6809Ram          , 0x0000, 0x0fff, M6809_RAM);
 	M6809MapMemory(DrvM6809Rom          , 0x8000, 0xffff, M6809_ROM);
-	M6809SetReadByteHandler(RenegadeM6809ReadByte);
-	M6809SetWriteByteHandler(RenegadeM6809WriteByte);
+	M6809SetReadHandler(RenegadeM6809ReadByte);
+	M6809SetWriteHandler(RenegadeM6809WriteByte);
 	M6809Close();
 	
 	if (nMcuType == MCU_TYPE_RENEGADE) {
@@ -1030,6 +1040,7 @@ static INT32 DrvInit(INT32 nMcuType)
 	
 	BurnYM3526Init(3000000, &DrvFMIRQHandler, &DrvSynchroniseStream, 0);
 	BurnTimerAttachM6809YM3526(1500000);
+	BurnYM3526SetRoute(BURN_SND_YM3526_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	RenegadeADPCMInit(8000);
 	
@@ -1258,9 +1269,9 @@ static void DrvInterrupt()
 	static INT32 Count;
 	Count = !Count;
 	if (Count) {
-		M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+		M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 	} else {
-		M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_AUTO);
+		M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_AUTO);
 	}
 }
 
@@ -1296,11 +1307,22 @@ static void RenderADPCMSample(INT16 *pSoundBuf, INT32 nLength)
 		}
 		
 		INT16 Sample = clock_adpcm(&renegade_adpcm.adpcm, val) << 2;
-		INT32 Left = pSoundBuf[0] + Sample;
-		INT32 Right = pSoundBuf[1] + Sample;
-
-		pSoundBuf[0] = BURN_SND_CLIP(Left);
-		pSoundBuf[1] = BURN_SND_CLIP(Right);
+		
+		INT32 nLeftSample = 0, nRightSample = 0;
+		
+		if ((renegade_adpcm.output_dir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(Sample * renegade_adpcm.gain);
+		}
+		if ((renegade_adpcm.output_dir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(Sample * renegade_adpcm.gain);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample + pSoundBuf[0]);
+		nRightSample = BURN_SND_CLIP(nRightSample + pSoundBuf[1]);
+		
+		pSoundBuf[0] = nLeftSample;
+		pSoundBuf[1] = nRightSample;
+		
 		pSoundBuf += 2;
 		nLength--;
 	}

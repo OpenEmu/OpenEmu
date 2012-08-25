@@ -2,8 +2,8 @@
 // Based on MAME driver by Manuel Abadia
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "msm6295.h"
 #include "konamiic.h"
@@ -481,9 +481,12 @@ static INT32 DrvInit()
 	K051316Init(2, DrvGfxROM3, DrvGfxROMExp3, 0x7ffff, K051316Callback2, 4, 0);
 	K051316SetOffset(2, -105, -16);
 
-	BurnYM2151Init(4000000, 100.0);
+	BurnYM2151Init(4000000);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
-	MSM6295Init(0, 1056000 / 132, 50.0, 1);
+	MSM6295Init(0, 1056000 / 132, 1);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

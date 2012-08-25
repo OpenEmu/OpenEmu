@@ -2,7 +2,7 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "konamiic.h"
 #include "k007232.h"
 #include "m6809_intf.h"
@@ -560,8 +560,8 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvM6809RAM,	      0x4000, 0x5fff, M6809_RAM);
 	M6809MapMemory(DrvM6809ROM + 0x10000, 0x6000, 0x7fff, M6809_ROM);
 	M6809MapMemory(DrvM6809ROM + 0x08000, 0x8000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(bottom9_main_write);
-	M6809SetReadByteHandler(bottom9_main_read);
+	M6809SetWriteHandler(bottom9_main_write);
+	M6809SetReadHandler(bottom9_main_read);
 	M6809Close();
 
 	ZetInit(0);
@@ -578,9 +578,11 @@ static INT32 DrvInit()
 
 	K007232Init(0, 3579545, DrvSndROM0, 0x40000);
 	K007232SetPortWriteHandler(0, DrvK007232VolCallback0);
+	K007232PCMSetAllRoutes(0, 0.40, BURN_SND_ROUTE_BOTH);
 
 	K007232Init(1, 3579545, DrvSndROM1, 0x40000);
 	K007232SetPortWriteHandler(1, DrvK007232VolCallback1);
+	K007232PCMSetAllRoutes(1, 0.40, BURN_SND_ROUTE_BOTH);
 
 	K052109Init(DrvGfxROM0, 0x7ffff);
 	K052109SetCallback(K052109Callback);
@@ -679,7 +681,7 @@ static INT32 DrvFrame()
 		if (*nmi_enable) ZetNmi();
 	}
 
-	if (K052109_irq_enabled) M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+	if (K052109_irq_enabled) M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 
 	if (pBurnSoundOut) {
 		memset(pBurnSoundOut, 0, nBurnSoundLen * sizeof(INT16) * 2);

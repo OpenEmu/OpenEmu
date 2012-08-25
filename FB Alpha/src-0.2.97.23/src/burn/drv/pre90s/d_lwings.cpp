@@ -2,7 +2,7 @@
 // Based on MAME driver by Paul Leaman
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "burn_ym2203.h"
 #include "msm5205.h"
 
@@ -876,7 +876,7 @@ inline static INT32 DrvSynchroniseStream(INT32 nSoundRate)
 
 inline static INT32 DrvMSM5205SynchroniseStream(INT32 nSoundRate)
 {
-	return (INT64)(ZetTotalCycles() * nSoundRate / (nCyclesTotal[0] * 60));
+	return (INT64)((double)ZetTotalCycles() * nSoundRate / (nCyclesTotal[0] * 60));
 }
 
 inline static double DrvGetTime()
@@ -929,8 +929,15 @@ static void lwings_sound_init()
 	ZetClose();
 
 	BurnYM2203Init(2, 1500000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
-	BurnYM2203SetVolumeShift(4);
 	BurnTimerAttachZet(3000000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_YM2203_ROUTE, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_1, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_2, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_3, 0.20, BURN_SND_ROUTE_BOTH);
 }
 
 static INT32 DrvInit()
@@ -1036,7 +1043,8 @@ static INT32 TrojanInit()
 	ZetMemEnd();
 	ZetClose();
 	
-	MSM5205Init(0, DrvMSM5205SynchroniseStream, 455000, NULL, MSM5205_SEX_4B, 50, 1);
+	MSM5205Init(0, DrvMSM5205SynchroniseStream, 455000, NULL, MSM5205_SEX_4B, 1);
+	MSM5205SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 	MSM5205InUse = 1;
 
 	GenericTilesInit();
@@ -1845,41 +1853,41 @@ struct BurnDriver BurnDrvLwingsb = {
 };
 
 
-// Trojan (US)
+// Trojan (US set 1)
 
 static struct BurnRomInfo trojanRomDesc[] = {
-	{ "t4",			0x8000, 0xc1bbeb4e, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
-	{ "t6",			0x8000, 0xd49592ef, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "tb05.bin",		0x8000, 0x9273b264, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "t4.10n",			0x8000, 0xc1bbeb4e, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
+	{ "t6.13n",			0x8000, 0xd49592ef, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "tb05.12n",		0x8000, 0x9273b264, 1 | BRF_PRG | BRF_ESS }, //  2
 
-	{ "tb02.bin",		0x8000, 0x21154797, 2 | BRF_PRG | BRF_ESS }, //  3 Z80 #1 Code
+	{ "tb02.15h",		0x8000, 0x21154797, 2 | BRF_PRG | BRF_ESS }, //  3 Z80 #1 Code
 
-	{ "tb01.bin",		0x4000, 0x1c0f91b2, 3 | BRF_PRG | BRF_ESS }, //  4 Z80 #2 Code
+	{ "tb01.6d",		0x4000, 0x1c0f91b2, 3 | BRF_PRG | BRF_ESS }, //  4 Z80 #2 Code
 
-	{ "tb03.bin",		0x4000, 0x581a2b4c, 4 | BRF_GRA },           //  5 Characters
+	{ "tb03.8k",		0x4000, 0x581a2b4c, 4 | BRF_GRA },           //  5 Characters
 
-	{ "tb13.bin",		0x8000, 0x285a052b, 5 | BRF_GRA },           //  6 Background Layer 1 Tiles
-	{ "tb09.bin",		0x8000, 0xaeb693f7, 5 | BRF_GRA },           //  7
-	{ "tb12.bin",		0x8000, 0xdfb0fe5c, 5 | BRF_GRA },           //  8
-	{ "tb08.bin",		0x8000, 0xd3a4c9d1, 5 | BRF_GRA },           //  9
-	{ "tb11.bin",		0x8000, 0x00f0f4fd, 5 | BRF_GRA },           // 10
-	{ "tb07.bin",		0x8000, 0xdff2ee02, 5 | BRF_GRA },           // 11
-	{ "tb14.bin",		0x8000, 0x14bfac18, 5 | BRF_GRA },           // 12
-	{ "tb10.bin",		0x8000, 0x71ba8a6d, 5 | BRF_GRA },           // 13
+	{ "tb13.6b",		0x8000, 0x285a052b, 5 | BRF_GRA },           //  6 Background Layer 1 Tiles
+	{ "tb09.6a",		0x8000, 0xaeb693f7, 5 | BRF_GRA },           //  7
+	{ "tb12.4b",		0x8000, 0xdfb0fe5c, 5 | BRF_GRA },           //  8
+	{ "tb08.4a",		0x8000, 0xd3a4c9d1, 5 | BRF_GRA },           //  9
+	{ "tb11.3b",		0x8000, 0x00f0f4fd, 5 | BRF_GRA },           // 10
+	{ "tb07.3a",		0x8000, 0xdff2ee02, 5 | BRF_GRA },           // 11
+	{ "tb14.8b",		0x8000, 0x14bfac18, 5 | BRF_GRA },           // 12
+	{ "tb10.8a",		0x8000, 0x71ba8a6d, 5 | BRF_GRA },           // 13
 
-	{ "tb18.bin",		0x8000, 0x862c4713, 6 | BRF_GRA },           // 14 Sprites
-	{ "tb16.bin",		0x8000, 0xd86f8cbd, 6 | BRF_GRA },           // 15
-	{ "tb17.bin",		0x8000, 0x12a73b3f, 6 | BRF_GRA },           // 16
-	{ "tb15.bin",		0x8000, 0xbb1a2769, 6 | BRF_GRA },           // 17
-	{ "tb22.bin",		0x8000, 0x39daafd4, 6 | BRF_GRA },           // 18
-	{ "tb20.bin",		0x8000, 0x94615d2a, 6 | BRF_GRA },           // 19
-	{ "tb21.bin",		0x8000, 0x66c642bd, 6 | BRF_GRA },           // 20
-	{ "tb19.bin",		0x8000, 0x81d5ab36, 6 | BRF_GRA },           // 21
+	{ "tb18.7l",		0x8000, 0x862c4713, 6 | BRF_GRA },           // 14 Sprites
+	{ "tb16.3l",		0x8000, 0xd86f8cbd, 6 | BRF_GRA },           // 15
+	{ "tb17.5l",		0x8000, 0x12a73b3f, 6 | BRF_GRA },           // 16
+	{ "tb15.2l",		0x8000, 0xbb1a2769, 6 | BRF_GRA },           // 17
+	{ "tb22.7n",		0x8000, 0x39daafd4, 6 | BRF_GRA },           // 18
+	{ "tb20.3n",		0x8000, 0x94615d2a, 6 | BRF_GRA },           // 19
+	{ "tb21.5n",		0x8000, 0x66c642bd, 6 | BRF_GRA },           // 20
+	{ "tb19.2n",		0x8000, 0x81d5ab36, 6 | BRF_GRA },           // 21
 
-	{ "tb25.bin",		0x8000, 0x6e38c6fa, 7 | BRF_GRA },           // 22 Background Layer 2 Tiles
-	{ "tb24.bin",		0x8000, 0x14fc6cf2, 7 | BRF_GRA },           // 23
+	{ "tb25.15n",		0x8000, 0x6e38c6fa, 7 | BRF_GRA },           // 22 Background Layer 2 Tiles
+	{ "tb24.13n",		0x8000, 0x14fc6cf2, 7 | BRF_GRA },           // 23
 
-	{ "tb23.bin",		0x8000, 0xeda13c0e, 8 | BRF_GRA },           // 24 Background Layer 2 Tile Map
+	{ "tb23.9n",		0x8000, 0xeda13c0e, 8 | BRF_GRA },           // 24 Background Layer 2 Tile Map
 
 	{ "tbp24s10.7j",	0x0100, 0xd96bcc98, 0 | BRF_OPT },           // 25 Proms (not used)
 	{ "mb7114e.1e",		0x0100, 0x5052fa9d, 0 | BRF_OPT },           // 26
@@ -1890,7 +1898,7 @@ STD_ROM_FN(trojan)
 
 struct BurnDriver BurnDrvTrojan = {
 	"trojan", NULL, NULL, NULL, "1986",
-	"Trojan (US)\0", NULL, "Capcom", "Miscellaneous",
+	"Trojan (US set 1)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARWARE_CAPCOM_MISC, GBF_PLATFORM | GBF_SCRFIGHT, 0,
 	NULL, trojanRomInfo, trojanRomName, NULL, NULL, DrvInputInfo, TrojanlsDIPInfo,
@@ -1899,41 +1907,95 @@ struct BurnDriver BurnDrvTrojan = {
 };
 
 
+// Trojan (US set 2)
+
+static struct BurnRomInfo trojanaRomDesc[] = {
+	{ "tb4.10n",		0x8000, 0x0113a551, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
+	{ "tb6.13n",		0x8000, 0xaa127a5b, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "tb05.12n",		0x8000, 0x9273b264, 1 | BRF_PRG | BRF_ESS }, //  2
+
+	{ "tb02.15h",		0x8000, 0x21154797, 2 | BRF_PRG | BRF_ESS }, //  3 Z80 #1 Code
+
+	{ "tb01.6d",		0x4000, 0x1c0f91b2, 3 | BRF_PRG | BRF_ESS }, //  4 Z80 #2 Code
+
+	{ "tb03.8k",		0x4000, 0x581a2b4c, 4 | BRF_GRA },           //  5 Characters
+
+	{ "tb13.6b",		0x8000, 0x285a052b, 5 | BRF_GRA },           //  6 Background Layer 1 Tiles
+	{ "tb09.6a",		0x8000, 0xaeb693f7, 5 | BRF_GRA },           //  7
+	{ "tb12.4b",		0x8000, 0xdfb0fe5c, 5 | BRF_GRA },           //  8
+	{ "tb08.4a",		0x8000, 0xd3a4c9d1, 5 | BRF_GRA },           //  9
+	{ "tb11.3b",		0x8000, 0x00f0f4fd, 5 | BRF_GRA },           // 10
+	{ "tb07.3a",		0x8000, 0xdff2ee02, 5 | BRF_GRA },           // 11
+	{ "tb14.8b",		0x8000, 0x14bfac18, 5 | BRF_GRA },           // 12
+	{ "tb10.8a",		0x8000, 0x71ba8a6d, 5 | BRF_GRA },           // 13
+
+	{ "tb18.7l",		0x8000, 0x862c4713, 6 | BRF_GRA },           // 14 Sprites
+	{ "tb16.3l",		0x8000, 0xd86f8cbd, 6 | BRF_GRA },           // 15
+	{ "tb17.5l",		0x8000, 0x12a73b3f, 6 | BRF_GRA },           // 16
+	{ "tb15.2l",		0x8000, 0xbb1a2769, 6 | BRF_GRA },           // 17
+	{ "tb22.7n",		0x8000, 0x39daafd4, 6 | BRF_GRA },           // 18
+	{ "tb20.3n",		0x8000, 0x94615d2a, 6 | BRF_GRA },           // 19
+	{ "tb21.5n",		0x8000, 0x66c642bd, 6 | BRF_GRA },           // 20
+	{ "tb19.2n",		0x8000, 0x81d5ab36, 6 | BRF_GRA },           // 21
+
+	{ "tb25.15n",		0x8000, 0x6e38c6fa, 7 | BRF_GRA },           // 22 Background Layer 2 Tiles
+	{ "tb24.13n",		0x8000, 0x14fc6cf2, 7 | BRF_GRA },           // 23
+
+	{ "tb23.9n",		0x8000, 0xeda13c0e, 8 | BRF_GRA },           // 24 Background Layer 2 Tile Map
+
+	{ "tbp24s10.7j",	0x0100, 0xd96bcc98, 0 | BRF_OPT },           // 25 Proms (not used)
+	{ "mb7114e.1e",		0x0100, 0x5052fa9d, 0 | BRF_OPT },           // 26
+};
+
+STD_ROM_PICK(trojana)
+STD_ROM_FN(trojana)
+
+struct BurnDriver BurnDrvTrojana = {
+	"trojana", "trojan", NULL, NULL, "1986",
+	"Trojan (US set 2)\0", NULL, "Capcom", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARWARE_CAPCOM_MISC, GBF_PLATFORM | GBF_SCRFIGHT, 0,
+	NULL, trojanaRomInfo, trojanaRomName, NULL, NULL, DrvInputInfo, TrojanlsDIPInfo,
+	TrojanInit, TrojanExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x400,
+	256, 240, 4, 3
+};
+
+
 // Trojan (Romstar)
 
 static struct BurnRomInfo trojanrRomDesc[] = {
-	{ "tb04.bin",		0x8000, 0x92670f27, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
-	{ "tb06.bin",		0x8000, 0xa4951173, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "tb05.bin",		0x8000, 0x9273b264, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "tb04.10n",		0x8000, 0x92670f27, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
+	{ "tb06.13n",		0x8000, 0xa4951173, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "tb05.12n",		0x8000, 0x9273b264, 1 | BRF_PRG | BRF_ESS }, //  2
 
-	{ "tb02.bin",		0x8000, 0x21154797, 2 | BRF_PRG | BRF_ESS }, //  3 Z80 #1 Code
+	{ "tb02.15h",		0x8000, 0x21154797, 2 | BRF_PRG | BRF_ESS }, //  3 Z80 #1 Code
 
-	{ "tb01.bin",		0x4000, 0x1c0f91b2, 3 | BRF_PRG | BRF_ESS }, //  4 Z80 #2 Code
+	{ "tb01.6d",		0x4000, 0x1c0f91b2, 3 | BRF_PRG | BRF_ESS }, //  4 Z80 #2 Code
 
-	{ "tb03.bin",		0x4000, 0x581a2b4c, 4 | BRF_GRA },           //  5 Characters
+	{ "tb03.8k",		0x4000, 0x581a2b4c, 4 | BRF_GRA },           //  5 Characters
 
-	{ "tb13.bin",		0x8000, 0x285a052b, 5 | BRF_GRA },           //  6 Background Layer 1 Tiles
-	{ "tb09.bin",		0x8000, 0xaeb693f7, 5 | BRF_GRA },           //  7
-	{ "tb12.bin",		0x8000, 0xdfb0fe5c, 5 | BRF_GRA },           //  8
-	{ "tb08.bin",		0x8000, 0xd3a4c9d1, 5 | BRF_GRA },           //  9
-	{ "tb11.bin",		0x8000, 0x00f0f4fd, 5 | BRF_GRA },           // 10
-	{ "tb07.bin",		0x8000, 0xdff2ee02, 5 | BRF_GRA },           // 11
-	{ "tb14.bin",		0x8000, 0x14bfac18, 5 | BRF_GRA },           // 12
-	{ "tb10.bin",		0x8000, 0x71ba8a6d, 5 | BRF_GRA },           // 13
+	{ "tb13.6b",		0x8000, 0x285a052b, 5 | BRF_GRA },           //  6 Background Layer 1 Tiles
+	{ "tb09.6a",		0x8000, 0xaeb693f7, 5 | BRF_GRA },           //  7
+	{ "tb12.4b",		0x8000, 0xdfb0fe5c, 5 | BRF_GRA },           //  8
+	{ "tb08.4a",		0x8000, 0xd3a4c9d1, 5 | BRF_GRA },           //  9
+	{ "tb11.3b",		0x8000, 0x00f0f4fd, 5 | BRF_GRA },           // 10
+	{ "tb07.3a",		0x8000, 0xdff2ee02, 5 | BRF_GRA },           // 11
+	{ "tb14.8b",		0x8000, 0x14bfac18, 5 | BRF_GRA },           // 12
+	{ "tb10.8a",		0x8000, 0x71ba8a6d, 5 | BRF_GRA },           // 13
 
-	{ "tb18.bin",		0x8000, 0x862c4713, 6 | BRF_GRA },           // 14 Sprites
-	{ "tb16.bin",		0x8000, 0xd86f8cbd, 6 | BRF_GRA },           // 15
-	{ "tb17.bin",		0x8000, 0x12a73b3f, 6 | BRF_GRA },           // 16
-	{ "tb15.bin",		0x8000, 0xbb1a2769, 6 | BRF_GRA },           // 17
-	{ "tb22.bin",		0x8000, 0x39daafd4, 6 | BRF_GRA },           // 18
-	{ "tb20.bin",		0x8000, 0x94615d2a, 6 | BRF_GRA },           // 19
-	{ "tb21.bin",		0x8000, 0x66c642bd, 6 | BRF_GRA },           // 20
-	{ "tb19.bin",		0x8000, 0x81d5ab36, 6 | BRF_GRA },           // 21
+	{ "tb18.7l",		0x8000, 0x862c4713, 6 | BRF_GRA },           // 14 Sprites
+	{ "tb16.3l",		0x8000, 0xd86f8cbd, 6 | BRF_GRA },           // 15
+	{ "tb17.5l",		0x8000, 0x12a73b3f, 6 | BRF_GRA },           // 16
+	{ "tb15.2l",		0x8000, 0xbb1a2769, 6 | BRF_GRA },           // 17
+	{ "tb22.7n",		0x8000, 0x39daafd4, 6 | BRF_GRA },           // 18
+	{ "tb20.3n",		0x8000, 0x94615d2a, 6 | BRF_GRA },           // 19
+	{ "tb21.5n",		0x8000, 0x66c642bd, 6 | BRF_GRA },           // 20
+	{ "tb19.2n",		0x8000, 0x81d5ab36, 6 | BRF_GRA },           // 21
 
-	{ "tb25.bin",		0x8000, 0x6e38c6fa, 7 | BRF_GRA },           // 22 Background Layer 2 Tiles
-	{ "tb24.bin",		0x8000, 0x14fc6cf2, 7 | BRF_GRA },           // 23
+	{ "tb25.15n",		0x8000, 0x6e38c6fa, 7 | BRF_GRA },           // 22 Background Layer 2 Tiles
+	{ "tb24.13n",		0x8000, 0x14fc6cf2, 7 | BRF_GRA },           // 23
 
-	{ "tb23.bin",		0x8000, 0xeda13c0e, 8 | BRF_GRA },           // 24 Background Layer 2 Tile Map
+	{ "tb23.9n",		0x8000, 0xeda13c0e, 8 | BRF_GRA },           // 24 Background Layer 2 Tile Map
 
 	{ "tbp24s10.7j",	0x0100, 0xd96bcc98, 0 | BRF_OPT },           // 25 Proms (not used)
 	{ "mb7114e.1e",		0x0100, 0x5052fa9d, 0 | BRF_OPT },           // 26
@@ -1956,38 +2018,38 @@ struct BurnDriver BurnDrvTrojanr = {
 // Tatakai no Banka (Japan)
 
 static struct BurnRomInfo trojanjRomDesc[] = {
-	{ "troj-04.rom",	0x8000, 0x0b5a7f49, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
-	{ "troj-06.rom",	0x8000, 0xdee6ed92, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "tb05.bin",		0x8000, 0x9273b264, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "troj-04.10n",	0x8000, 0x0b5a7f49, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
+	{ "troj-06.13n",	0x8000, 0xdee6ed92, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "tb05.12n",		0x8000, 0x9273b264, 1 | BRF_PRG | BRF_ESS }, //  2
 
-	{ "tb02.bin",		0x8000, 0x21154797, 2 | BRF_PRG | BRF_ESS }, //  3 Z80 #1 Code
+	{ "tb02.15h",		0x8000, 0x21154797, 2 | BRF_PRG | BRF_ESS }, //  3 Z80 #1 Code
 
-	{ "tb01.bin",		0x4000, 0x1c0f91b2, 3 | BRF_PRG | BRF_ESS }, //  4 Z80 #2 Code
+	{ "tb01.6d",		0x4000, 0x1c0f91b2, 3 | BRF_PRG | BRF_ESS }, //  4 Z80 #2 Code
 
-	{ "tb03.bin",		0x4000, 0x581a2b4c, 4 | BRF_GRA },           //  5 Characters
+	{ "tb03.8k",		0x4000, 0x581a2b4c, 4 | BRF_GRA },           //  5 Characters
 
-	{ "tb13.bin",		0x8000, 0x285a052b, 5 | BRF_GRA },           //  6 Background Layer 1 Tiles
-	{ "tb09.bin",		0x8000, 0xaeb693f7, 5 | BRF_GRA },           //  7
-	{ "tb12.bin",		0x8000, 0xdfb0fe5c, 5 | BRF_GRA },           //  8
-	{ "tb08.bin",		0x8000, 0xd3a4c9d1, 5 | BRF_GRA },           //  9
-	{ "tb11.bin",		0x8000, 0x00f0f4fd, 5 | BRF_GRA },           // 10
-	{ "tb07.bin",		0x8000, 0xdff2ee02, 5 | BRF_GRA },           // 11
-	{ "tb14.bin",		0x8000, 0x14bfac18, 5 | BRF_GRA },           // 12
-	{ "tb10.bin",		0x8000, 0x71ba8a6d, 5 | BRF_GRA },           // 13
+	{ "tb13.6b",		0x8000, 0x285a052b, 5 | BRF_GRA },           //  6 Background Layer 1 Tiles
+	{ "tb09.6a",		0x8000, 0xaeb693f7, 5 | BRF_GRA },           //  7
+	{ "tb12.4b",		0x8000, 0xdfb0fe5c, 5 | BRF_GRA },           //  8
+	{ "tb08.4a",		0x8000, 0xd3a4c9d1, 5 | BRF_GRA },           //  9
+	{ "tb11.3b",		0x8000, 0x00f0f4fd, 5 | BRF_GRA },           // 10
+	{ "tb07.3a",		0x8000, 0xdff2ee02, 5 | BRF_GRA },           // 11
+	{ "tb14.8b",		0x8000, 0x14bfac18, 5 | BRF_GRA },           // 12
+	{ "tb10.8a",		0x8000, 0x71ba8a6d, 5 | BRF_GRA },           // 13
 
-	{ "tb18.bin",		0x8000, 0x862c4713, 6 | BRF_GRA },           // 14 Sprites
-	{ "tb16.bin",		0x8000, 0xd86f8cbd, 6 | BRF_GRA },           // 15
-	{ "tb17.bin",		0x8000, 0x12a73b3f, 6 | BRF_GRA },           // 16
-	{ "tb15.bin",		0x8000, 0xbb1a2769, 6 | BRF_GRA },           // 17
-	{ "tb22.bin",		0x8000, 0x39daafd4, 6 | BRF_GRA },           // 18
-	{ "tb20.bin",		0x8000, 0x94615d2a, 6 | BRF_GRA },           // 19
-	{ "tb21.bin",		0x8000, 0x66c642bd, 6 | BRF_GRA },           // 20
-	{ "tb19.bin",		0x8000, 0x81d5ab36, 6 | BRF_GRA },           // 21
+	{ "tb18.7l",		0x8000, 0x862c4713, 6 | BRF_GRA },           // 14 Sprites
+	{ "tb16.3l",		0x8000, 0xd86f8cbd, 6 | BRF_GRA },           // 15
+	{ "tb17.5l",		0x8000, 0x12a73b3f, 6 | BRF_GRA },           // 16
+	{ "tb15.2l",		0x8000, 0xbb1a2769, 6 | BRF_GRA },           // 17
+	{ "tb22.7n",		0x8000, 0x39daafd4, 6 | BRF_GRA },           // 18
+	{ "tb20.3n",		0x8000, 0x94615d2a, 6 | BRF_GRA },           // 19
+	{ "tb21.5n",		0x8000, 0x66c642bd, 6 | BRF_GRA },           // 20
+	{ "tb19.2n",		0x8000, 0x81d5ab36, 6 | BRF_GRA },           // 21
 
-	{ "tb25.bin",		0x8000, 0x6e38c6fa, 7 | BRF_GRA },           // 22 Background Layer 2 Tiles
-	{ "tb24.bin",		0x8000, 0x14fc6cf2, 7 | BRF_GRA },           // 23
+	{ "tb25.15n",		0x8000, 0x6e38c6fa, 7 | BRF_GRA },           // 22 Background Layer 2 Tiles
+	{ "tb24.13n",		0x8000, 0x14fc6cf2, 7 | BRF_GRA },           // 23
 
-	{ "tb23.bin",		0x8000, 0xeda13c0e, 8 | BRF_GRA },           // 24 Background Layer 2 Tile Map
+	{ "tb23.9n",		0x8000, 0xeda13c0e, 8 | BRF_GRA },           // 24 Background Layer 2 Tile Map
 
 	{ "tbp24s10.7j",	0x0100, 0xd96bcc98, 0 | BRF_OPT },           // 25 Proms (not used)
 	{ "mb7114e.1e",		0x0100, 0x5052fa9d, 0 | BRF_OPT },           // 26

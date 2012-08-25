@@ -63,6 +63,10 @@ struct upd7759_chip
 	UINT8 *		rom;						/* pointer to ROM data or NULL for slave mode */
 	UINT8 *		rombase;					/* pointer to ROM data or NULL for slave mode */
 	UINT32		romoffset;					/* ROM offset to make save/restore easier */
+	
+	/* route */
+	double		volume;
+	INT32		output_dir;
 };
 
 static struct upd7759_chip *Chips[2]; // more?
@@ -328,8 +332,21 @@ void UPD7759Update(INT32 chip, INT16 *pSoundBuf, INT32 nLength)
 		while (nLength != 0)
 		{
 			/* store the current sample */
-			pSoundBuf[0] += Sample << 7;
-			pSoundBuf[1] += Sample << 7;
+			INT32 nLeftSample = 0;
+			INT32 nRightSample = 0;
+			
+			if ((Chip->output_dir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+				nLeftSample += (INT32)((Sample << 7) * Chip->volume);
+			}
+			if ((Chip->output_dir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+				nRightSample += (INT32)((Sample << 7) * Chip->volume);
+			}
+			
+			nLeftSample = BURN_SND_CLIP(nLeftSample);
+			nRightSample = BURN_SND_CLIP(nRightSample);
+			
+			pSoundBuf[0] += nLeftSample;
+			pSoundBuf[1] += nRightSample;
 			pSoundBuf += 2;
 			nLength--;
 
@@ -425,10 +442,24 @@ void UPD7759Init(INT32 chip, INT32 clock, UINT8* pSoundData)
 	
 	Chip->reset = 1;
 	Chip->start = 1;
+	Chip->volume = 1.00;
+	Chip->output_dir = BURN_SND_ROUTE_BOTH;
 	
 	nNumChips = chip;
 	
 	UPD7759Reset();
+}
+
+void UPD7759SetRoute(INT32 chip, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_UPD7759Initted) bprintf(PRINT_ERROR, _T("UPD7759SetRoute called without init\n"));
+	if (chip > nNumChips) bprintf(PRINT_ERROR, _T("UPD7759SetRoute called with invalid chip %i\n"), chip);
+#endif
+
+	Chip = Chips[chip];
+	Chip->volume = nVolume;
+	Chip->output_dir = nRouteDir;
 }
 
 void UPD7759SetDrqCallback(INT32 chip, drqcallback Callback)

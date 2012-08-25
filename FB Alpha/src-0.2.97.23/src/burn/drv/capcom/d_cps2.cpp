@@ -10340,6 +10340,38 @@ static struct BurnRomInfo Spf2xjdRomDesc[] = {
 STD_ROM_PICK(Spf2xjd)
 STD_ROM_FN(Spf2xjd)
 
+static struct BurnRomInfo Ssf2dRomDesc[] = {
+	// region hack of ssf2ud?
+	{ "ssfed.03",      0x080000, 0xfad5daf8, 1 | BRF_ESS | BRF_PRG },
+	{ "ssfed.04",      0x080000, 0x0d31af65, 1 | BRF_ESS | BRF_PRG },
+	{ "ssfed.05",      0x080000, 0x75c651ef, 1 | BRF_ESS | BRF_PRG },
+	{ "ssfed.06",      0x080000, 0x85c3ec00, 1 | BRF_ESS | BRF_PRG },
+	{ "ssfed.07",      0x080000, 0x9320e350, 1 | BRF_ESS | BRF_PRG },
+
+	{ "ssf.13m",       0x200000, 0xcf94d275, 3 | BRF_GRA },
+	{ "ssf.15m",       0x200000, 0x5eb703af, 3 | BRF_GRA },
+	{ "ssf.17m",       0x200000, 0xffa60e0f, 3 | BRF_GRA },
+	{ "ssf.19m",       0x200000, 0x34e825c5, 3 | BRF_GRA },
+	{ "ssf.14m",       0x100000, 0xb7cc32e7, 3 | BRF_GRA },
+	{ "ssf.16m",       0x100000, 0x8376ad18, 3 | BRF_GRA },
+	{ "ssf.18m",       0x100000, 0xf5b1b336, 3 | BRF_GRA },
+	{ "ssf.20m",       0x100000, 0x459d5c6b, 3 | BRF_GRA },
+
+	{ "ssf.01",        0x020000, 0xeb247e8c, 4 | BRF_ESS | BRF_PRG },
+
+	{ "ssf.q01",       0x080000, 0xa6f9da5c, 5 | BRF_SND },
+	{ "ssf.q02",       0x080000, 0x8c66ae26, 5 | BRF_SND },
+	{ "ssf.q03",       0x080000, 0x695cc2ca, 5 | BRF_SND },
+	{ "ssf.q04",       0x080000, 0x9d9ebe32, 5 | BRF_SND },
+	{ "ssf.q05",       0x080000, 0x4770e7b7, 5 | BRF_SND },
+	{ "ssf.q06",       0x080000, 0x4e79c951, 5 | BRF_SND },
+	{ "ssf.q07",       0x080000, 0xcdd14313, 5 | BRF_SND },
+	{ "ssf.q08",       0x080000, 0x6f5a088c, 5 | BRF_SND },
+};
+
+STD_ROM_PICK(Ssf2d)
+STD_ROM_FN(Ssf2d)
+
 static struct BurnRomInfo Ssf2udRomDesc[] = {
 	{ "ssfud.03a",     0x080000, 0xfad5daf8, 1 | BRF_ESS | BRF_PRG },
 	{ "ssfud.04a",     0x080000, 0x0d31af65, 1 | BRF_ESS | BRF_PRG },
@@ -10595,17 +10627,9 @@ static struct BurnRomInfo Xmvsfu1dRomDesc[] = {
 	
 	{ "xvsud.03h",     0x080000, 0x4e2e76b7, 1 | BRF_ESS | BRF_PRG },
 	{ "xvsud.04h",     0x080000, 0x290c61a7, 1 | BRF_ESS | BRF_PRG },
-#if !defined (ROM_VERIFY)
 	{ "xvs.05a",       0x080000, 0x7db6025d, 1 | BRF_ESS | BRF_PRG },
-#else
-	{ "xvsd.05a",      0x080000, 0xde347b11, 1 | BRF_ESS | BRF_PRG }, // bad dump?
-#endif
 	{ "xvs.06a",       0x080000, 0xe8e2c75c, 1 | BRF_ESS | BRF_PRG },
-#if !defined (ROM_VERIFY)
 	{ "xvs.07",        0x080000, 0x08f0abed, 1 | BRF_ESS | BRF_PRG },
-#else
-	{ "xvsd.07",       0x080000, 0xf761ded7, 1 | BRF_ESS | BRF_PRG }, // bad dump?
-#endif
 	{ "xvs.08",        0x080000, 0x81929675, 1 | BRF_ESS | BRF_PRG },
 	{ "xvs.09",        0x080000, 0x9641f36b, 1 | BRF_ESS | BRF_PRG },
 
@@ -11047,6 +11071,16 @@ struct BurnDriver BurnDrvCpsSpf2xjd = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_CAPCOM_CPS2, GBF_PUZZLE, FBF_SF,
 	NULL, Spf2xjdRomInfo, Spf2xjdRomName, NULL, NULL, Spf2tInputInfo, NULL,
 	PhoenixInit, DrvExit, Cps2Frame, CpsRedraw, CpsAreaScan,
+	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
+};
+
+struct BurnDriver BurnDrvCpsSsf2d = {
+	"ssf2d", "ssf2", NULL, NULL, "1993",
+	"Super Street Fighter II - the new challengers (super street fighter 2 930911 etc Phoenix Edition)\0", NULL, "bootleg", "CPS2",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_CAPCOM_CPS2, GBF_VSFIGHT, FBF_SF,
+	NULL, Ssf2dRomInfo, Ssf2dRomName, NULL, NULL, Cps2FightingInputInfo, NULL,
+	Ssf2PhoenixInit, DrvExit, Cps2Frame, CpsRedraw, CpsAreaScan,
 	&CpsRecalcPal, 0x1000, 384, 224, 4, 3
 };
 

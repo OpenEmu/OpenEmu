@@ -2,7 +2,7 @@
 // Based on MAME driver by Allard van der Bas, Mike Cuddy, Nicola Salmoria, Martin Binder, and Marco Cassili
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "driver.h"
 extern "C" {
 #include "ay8910.h"
@@ -452,6 +452,8 @@ static INT32 DrvInit()
 
 	AY8910Init(0, 1789773, nBurnSoundRate, &AY8910_0_port0, &AY8910_0_port1, NULL, NULL);
 	AY8910Init(1, 1789773, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.25, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(1, 0.25, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 
@@ -602,26 +604,7 @@ static INT32 DrvFrame()
 	}
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-		INT32 nSegmentLength = nBurnSoundLen;
-		INT16* pSoundBuf = pBurnSoundOut;
-		if (nSegmentLength) {
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			AY8910Update(1, &pAY8910Buffer[3], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n] >> 2;
-				nSample += pAY8910Buffer[1][n] >> 2;
-				nSample += pAY8910Buffer[2][n] >> 2;
-				nSample += pAY8910Buffer[3][n] >> 2;
-				nSample += pAY8910Buffer[4][n] >> 2;
-				nSample += pAY8910Buffer[5][n] >> 2;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
-		}
+		AY8910Render(&pAY8910Buffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 	}
 
 	if (pBurnDraw) {

@@ -2,8 +2,8 @@
 // Based on MAME driver by David Haywood
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "msm6295.h"
 
@@ -464,10 +464,13 @@ static INT32 DrvInit()
 	ZetMemEnd();
 	ZetClose();
 
-	BurnYM2151Init(3579545, 45.0);
+	BurnYM2151Init(3579545);
 	BurnYM2151SetIrqHandler(&DrvYM2151IrqHandler);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.45, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.45, BURN_SND_ROUTE_RIGHT);
 
-	MSM6295Init(0, 1056000 / 132, 47.0, 1);
+	MSM6295Init(0, 1056000 / 132, 1);
+	MSM6295SetRoute(0, 0.47, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 

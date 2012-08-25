@@ -2,7 +2,7 @@
 // Based on MAME driver by Manuel Abadia
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "konami_intf.h"
 #include "konamiic.h"
 #include "burn_ym2151.h"
@@ -528,11 +528,14 @@ static INT32 DrvInit()
 	ZetMemEnd();
 	ZetClose();
 
-	BurnYM2151Init(3579545, 100.0);
+	BurnYM2151Init(3579545);
 	BurnYM2151SetPortHandler(&DrvYM2151WritePort);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	K007232Init(0, 3579545, DrvSndROM, 0x40000);
 	K007232SetPortWriteHandler(0, DrvK007232VolCallback);
+	K007232PCMSetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
 
 	K052109Init(DrvGfxROM0, 0x7ffff);
 	K052109SetCallback(K052109Callback);
@@ -735,7 +738,7 @@ struct BurnDriver BurnDrvCrimfght = {
 // Crime Fighters (Japan 2 Players)
 
 static struct BurnRomInfo crimfgtjRomDesc[] = {
-	{ "821p02.bin",	0x20000, 0xf33fa2e1, 1 | BRF_PRG | BRF_ESS }, //  0 Konami CPU Code
+	{ "821p02.f24",	0x20000, 0xf33fa2e1, 1 | BRF_PRG | BRF_ESS }, //  0 Konami CPU Code
 
 	{ "821l01.h4",	0x08000, 0x0faca89e, 2 | BRF_PRG | BRF_ESS }, //  1 Z80 Code
 
@@ -767,7 +770,7 @@ struct BurnDriver BurnDrvCrimfgtj = {
 // Crime Fighters (World 2 Players)
 
 static struct BurnRomInfo crimfgt2RomDesc[] = {
-	{ "crimefb.r02",0x20000, 0x4ecdd923, 1 | BRF_PRG | BRF_ESS }, //  0 Konami CPU Code
+	{ "821r02.f24",	0x20000, 0x4ecdd923, 1 | BRF_PRG | BRF_ESS }, //  0 Konami CPU Code
 
 	{ "821l01.h4",	0x08000, 0x0faca89e, 2 | BRF_PRG | BRF_ESS }, //  1 Z80 Code
 

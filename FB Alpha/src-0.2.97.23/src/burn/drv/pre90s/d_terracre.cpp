@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym3526.h"
 #include "burn_ym2203.h"
 #include "dac.h"
@@ -1068,17 +1068,21 @@ static INT32 DrvInit()
 	
 	if (DrvUseYM2203) {
 		BurnYM2203Init(1, 4000000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
-		BurnYM2203SetVolumeShift(2);
 		BurnTimerAttachZet(4000000);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.40, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.20, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.20, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.20, BURN_SND_ROUTE_BOTH);
 	} else {
 		BurnYM3526Init(4000000, NULL, &DrvSynchroniseStream, 0);
 		BurnTimerAttachZetYM3526(4000000);
+		BurnYM3526SetRoute(BURN_SND_YM3526_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 	}
 	
 	DACInit(0, 0, 1, TerracreSyncDAC);
 	DACInit(1, 0, 1, TerracreSyncDAC);
-	DACSetVolShift(0, 1);
-	DACSetVolShift(1, 1);
+	DACSetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
+	DACSetRoute(1, 0.50, BURN_SND_ROUTE_BOTH);
 	
 	GenericTilesInit();
 	
@@ -1128,11 +1132,12 @@ static INT32 DrvAmazonInit()
 	
 	BurnYM3526Init(4000000, NULL, &DrvSynchroniseStream, 0);
 	BurnTimerAttachZetYM3526(4000000);
+	BurnYM3526SetRoute(BURN_SND_YM3526_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	DACInit(0, 0, 1, TerracreSyncDAC);
 	DACInit(1, 0, 1, TerracreSyncDAC);
-	DACSetVolShift(0, 2);
-	DACSetVolShift(1, 2);
+	DACSetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
+	DACSetRoute(1, 0.50, BURN_SND_ROUTE_BOTH);
 	
 	GenericTilesInit();
 	

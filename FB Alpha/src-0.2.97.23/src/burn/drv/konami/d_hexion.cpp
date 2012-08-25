@@ -2,7 +2,7 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "k051649.h"
 #include "msm6295.h"
 
@@ -397,9 +397,11 @@ static INT32 DrvInit()
 	ZetMemEnd();
 	ZetClose();
 
-	MSM6295Init(0, 1056000 / 132, 25.0, 0);
+	MSM6295Init(0, 1056000 / 132, 0);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 
-	K051649Init(1500000, 1.00);
+	K051649Init(1500000);
+	K051649SetRoute(0.50, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

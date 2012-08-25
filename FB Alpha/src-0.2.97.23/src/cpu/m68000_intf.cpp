@@ -1,7 +1,7 @@
 // 680x0 (Sixty Eight K) Interface
 #include "burnint.h"
-#include "sek.h"
-#include "sekdebug.h"
+#include "m68000_intf.h"
+#include "m68000_debug.h"
 
 #ifdef EMU_M68K
 INT32 nSekM68KContextSize[SEK_MAX];

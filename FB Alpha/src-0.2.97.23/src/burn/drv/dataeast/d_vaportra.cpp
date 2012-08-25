@@ -2,7 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "h6280_intf.h"
 #include "deco16ic.h"
 #include "burn_ym2203.h"
@@ -387,7 +387,8 @@ static INT32 DrvInit(INT32 type)
 	SekSetReadByteHandler(0,		vaportra_main_read_byte);
 	SekClose();
 
-	deco16SoundInit(DrvHucROM, DrvHucRAM, 8055000, 1, NULL, 40.0, 1006875, 75.0, 2013750, 60.0);
+	deco16SoundInit(DrvHucROM, DrvHucRAM, 8055000, 1, NULL, 0.60, 1006875, 0.75, 2013750, 0.60);
+	BurnYM2203SetAllRoutes(0, 0.60, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

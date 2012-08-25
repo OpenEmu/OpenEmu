@@ -2,8 +2,8 @@
 // Based on MAME driver by Pierpaolo Prazzoli and David Haywood
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "msm6295.h"
 #include "burn_ym3812.h"
 
@@ -460,8 +460,10 @@ static INT32 DrvInit(INT32 (*pRomLoadCallback)())
 
 	BurnYM3812Init(3579545, &crospangYM3812IrqHandler, crospangSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(3579545);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 
-	MSM6295Init(0, 1056000 / 132, 80.0, 1);
+	MSM6295Init(0, 1056000 / 132, 1);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

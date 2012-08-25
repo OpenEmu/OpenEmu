@@ -2,8 +2,8 @@
 // Based on MAME driver by David Haywood and Stephh
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2203.h"
 #include "msm6295.h"
 
@@ -276,8 +276,10 @@ static INT32 DrvInit()
 
 	BurnYM2203Init(1, 3579545, NULL, DrvSynchroniseStream, DrvGetTime, 0);
 	BurnTimerAttachZet(3579545);
+	BurnYM2203SetAllRoutes(0, 0.60, BURN_SND_ROUTE_BOTH);
 
-	MSM6295Init(0, 792000 / 132, 100.0, 1);
+	MSM6295Init(0, 792000 / 132, 1);
+	MSM6295SetRoute(0, 0.60, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

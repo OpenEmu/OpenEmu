@@ -2,7 +2,7 @@
 // Based on MAME driver by David Haywood
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "dac.h"
 
 static UINT8 *AllMem;
@@ -249,6 +249,8 @@ static INT32 DrvInit()
 
 	DACInit(0, 0, 0, moguraDACSync);
 	DACInit(1, 0, 0, moguraDACSync);
+	DACSetRoute(0, 0.50, BURN_SND_ROUTE_LEFT);
+	DACSetRoute(1, 0.50, BURN_SND_ROUTE_RIGHT);
 
 	GenericTilesInit();
 

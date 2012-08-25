@@ -2,7 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "m6502_intf.h"
 #include "burn_ym2203.h"
 #include "burn_ym3526.h"
@@ -542,7 +542,7 @@ static void karnov_control_w(INT32 offset, INT32 data)
 
 		case 2:
 			*soundlatch = data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);			
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);			
 			break;
 
 		case 4:
@@ -679,9 +679,9 @@ UINT8 karnov_sound_read(UINT16 address)
 static void DrvYM3526FMIRQHandler(INT32, INT32 nStatus)
 {	
 	if (nStatus) {
-		M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
+		M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
 	} else {
-		M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
+		M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
 	}
 }
 
@@ -897,15 +897,17 @@ static INT32 DrvInit()
 	M6502Open(0);
 	M6502MapMemory(Drv6502RAM,		0x0000, 0x05ff, M6502_RAM);
 	M6502MapMemory(Drv6502ROM + 0x8000,	0x8000, 0xffff, M6502_ROM);
-	M6502SetReadByteHandler(karnov_sound_read);
-	M6502SetWriteByteHandler(karnov_sound_write);
+	M6502SetReadHandler(karnov_sound_read);
+	M6502SetWriteHandler(karnov_sound_write);
 	M6502Close();
 
 	BurnYM3526Init(3000000, &DrvYM3526FMIRQHandler, &DrvYM3526SynchroniseStream, 0);
 	BurnTimerAttachM6502YM3526(1500000);
+	BurnYM3526SetRoute(BURN_SND_YM3526_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 
 	BurnYM2203Init(1, 1500000, NULL, DrvYM2203SynchroniseStream, DrvYM2203GetTime, 1);
 	BurnTimerAttachSek(10000000);
+	BurnYM2203SetAllRoutes(0, 0.25, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

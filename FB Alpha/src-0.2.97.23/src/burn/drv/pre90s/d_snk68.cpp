@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym3812.h"
 #include "upd7759.h"
 
@@ -955,8 +955,10 @@ static INT32 DrvInit(INT32 game)
 
 	BurnYM3812Init(4000000, &powFMIRQHandler, &powSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(4000000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	UPD7759Init(0, UPD7759_STANDARD_CLOCK, DrvSnd0);
+	UPD7759SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 

@@ -1,5 +1,5 @@
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "burn_ym2203.h"
 
 static UINT8 DrvInputPort0[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -433,6 +433,50 @@ static struct BurnRomInfo DrvbRomDesc[] = {
 
 STD_ROM_PICK(Drvb)
 STD_ROM_FN(Drvb)
+
+static struct BurnRomInfo Drvb2RomDesc[] = {
+	{ "u28.bin",       0x08000, 0xb3b7c7cd, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
+	{ "u27.bin",       0x10000, 0xaf971575, BRF_ESS | BRF_PRG }, //	 1
+	{ "u26.bin",       0x10000, 0x300ec713, BRF_ESS | BRF_PRG }, //	 2
+	
+	{ "u88.bin",       0x08000, 0xee2bd2d7, BRF_ESS | BRF_PRG }, //  3	Z80 #2 Program 
+
+	{ "u62.bin",       0x08000, 0x0aba2096, BRF_GRA },	     //  4	Characters
+	
+	{ "u66.bin",       0x10000, 0x075e9a7f, BRF_GRA },	     //  5	BG Tiles
+	{ "u65.bin",       0x10000, 0x05aca09a, BRF_GRA },	     //  6
+	{ "u79.bin",       0x10000, 0x0f4b7e0e, BRF_GRA },	     //  7
+	{ "u70.bin",       0x10000, 0x61a90c0a, BRF_GRA },	     //  8
+	
+	{ "u102.bin",      0x08000, 0x11134036, BRF_GRA },	     //  9	BG2 Tiles
+	{ "u116.bin",      0x08000, 0x092cf9c1, BRF_GRA },	     //  10
+	
+	{ "u9.bin",        0x08000, 0x97acc8af, BRF_GRA },	     //  11	Sprites
+	{ "u10.bin",       0x08000, 0xd78f7197, BRF_GRA },	     //  12
+	{ "u8.bin",        0x10000, 0xed5c788a, BRF_GRA },	     //  13
+	{ "u18.bin",       0x08000, 0x8438a44a, BRF_GRA },	     //  14
+	{ "u19.bin",       0x08000, 0x6c69351d, BRF_GRA },	     //  15
+	{ "u17.bin",       0x10000, 0x4b42445e, BRF_GRA },	     //  16
+		
+	{ "u58.bin",       0x08000, 0x4d3c6401, BRF_GRA },	     //  17	Tilemaps
+	{ "u96.bin",       0x08000, 0x254c881d, BRF_GRA },	     //  18
+	
+	{ "bm1.12a",       0x00100, 0x74421f18, BRF_GRA },	     //  19	PROMs
+	{ "bm2.13a",       0x00100, 0xac27541f, BRF_GRA },	     //  20
+	{ "bm3.14a",       0x00100, 0x251fb6ff, BRF_GRA },	     //  21
+	{ "bm5.7f",        0x00100, 0x206713d0, BRF_GRA },	     //  22
+	{ "bm10.7l",       0x00100, 0x33c2491c, BRF_GRA },	     //  23
+	{ "bm9.6l",        0x00100, 0xaeea4af7, BRF_GRA },	     //  24
+	{ "bm12.12m",      0x00100, 0xc18aa136, BRF_GRA },	     //  25
+	{ "bm11.12l",      0x00100, 0x405aae37, BRF_GRA },	     //  26
+	{ "bm8.8c",        0x00100, 0xc2010a9e, BRF_GRA },	     //  27
+	{ "bm7.7c",        0x00100, 0xb56f30c3, BRF_GRA },	     //  28
+	{ "bm4.12c",       0x00100, 0x91a8a2e1, BRF_GRA },	     //  29
+	{ "bm6.4b",        0x00100, 0x0eaf5158, BRF_GRA },	     //  30
+};
+
+STD_ROM_PICK(Drvb2)
+STD_ROM_FN(Drvb2)
 
 static struct BurnRomInfo DrvkaiRomDesc[] = {
 	{ "bmk01.12d",     0x08000, 0x7d2211db, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
@@ -917,7 +961,14 @@ static INT32 DrvInit()
 	
 	BurnYM2203Init(2, 1500000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
 	BurnTimerAttachZet(3000000);
-	BurnYM2203SetVolumeShift(3);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_YM2203_ROUTE, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_1, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_2, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_3, 0.15, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -1039,7 +1090,170 @@ static INT32 DrvbInit()
 	
 	BurnYM2203Init(2, 1500000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
 	BurnTimerAttachZet(3000000);
-	BurnYM2203SetVolumeShift(3);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_YM2203_ROUTE, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_1, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_2, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_3, 0.15, BURN_SND_ROUTE_BOTH);
+
+	GenericTilesInit();
+
+	// Reset the driver
+	DrvDoReset();
+
+	return 0;
+}
+
+static INT32 Drvb2Init()
+{
+	INT32 nRet = 0, nLen;
+
+	// Allocate and Blank all required memory
+	Mem = NULL;
+	MemIndex();
+	nLen = MemEnd - (UINT8 *)0;
+	if ((Mem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(Mem, 0, nLen);
+	MemIndex();
+
+	DrvTempRom = (UINT8 *)BurnMalloc(0x40000);
+
+	// Load Z80 #1 Program Roms
+	nRet = BurnLoadRom(DrvZ80Rom1 + 0x00000, 0, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvZ80Rom1 + 0x10000, 1, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvZ80Rom1 + 0x20000, 2, 1); if (nRet != 0) return 1;
+	
+	// Load Z80 #2 Program Roms
+	nRet = BurnLoadRom(DrvZ80Rom2 + 0x00000, 3, 1); if (nRet != 0) return 1;
+	
+	// Load and decode the chars
+	nRet = BurnLoadRom(DrvTempRom, 4, 1); if (nRet != 0) return 1;
+	GfxDecode(2048, 2, 8, 8, CharPlaneOffsets, CharXOffsets, CharYOffsets, 0x80, DrvTempRom, DrvChars);
+	
+	// Load and decode the bg2 tiles
+	memset(DrvTempRom, 0, 0x40000);
+	nRet = BurnLoadRom(DrvTempRom + 0x00000,  9, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x08000, 10, 1); if (nRet != 0) return 1;
+	GfxDecode(128, 4, 32, 32, Bg2TilePlaneOffsets, TileXOffsets, TileYOffsets, 0x800, DrvTempRom, DrvBg2Tiles);
+	
+	// Load and decode the bg tiles
+	
+	//{ "bm15.10f",      0x08000, 0x6b1a0443, BRF_GRA },	     //  5	BG Tiles
+	//{ "bm16.11f",      0x08000, 0x23c908c2, BRF_GRA },	     //  6
+	//{ "bm17.12f",      0x08000, 0x46bcdd07, BRF_GRA },	     //  7
+	//{ "bm18.14f",      0x08000, 0xe6ae7ba0, BRF_GRA },	     //  8
+	//{ "bm19.10j",      0x08000, 0x868ababc, BRF_GRA },	     //  9
+	//{ "bm20.11j",      0x08000, 0x0917e5d4, BRF_GRA },	     //  10
+	//{ "bm21.12j",      0x08000, 0x9bfb0d89, BRF_GRA },	     //  11
+	//{ "bm22.14j",      0x08000, 0x04f3c274, BRF_GRA },	     //  12
+	
+	// 0x00000, 0x10000
+	// 0x08000, 0x18000
+	// 0x20000, 0x30000
+	// 0x28000, 0x38000
+	
+	memset(DrvTempRom, 0, 0x40000);
+	UINT8 *pTemp = (UINT8*)BurnMalloc(0x40000);
+	nRet = BurnLoadRom(pTemp + 0x00000,  5, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(pTemp + 0x10000,  6, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(pTemp + 0x20000,  7, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(pTemp + 0x30000,  8, 1); if (nRet != 0) return 1;
+	memcpy(DrvTempRom + 0x00000, pTemp + 0x00000, 0x8000);
+	memcpy(DrvTempRom + 0x10000, pTemp + 0x08000, 0x8000);
+	memcpy(DrvTempRom + 0x08000, pTemp + 0x10000, 0x8000);
+	memcpy(DrvTempRom + 0x18000, pTemp + 0x18000, 0x8000);
+	memcpy(DrvTempRom + 0x20000, pTemp + 0x20000, 0x8000);
+	memcpy(DrvTempRom + 0x30000, pTemp + 0x28000, 0x8000);
+	memcpy(DrvTempRom + 0x28000, pTemp + 0x30000, 0x8000);
+	memcpy(DrvTempRom + 0x38000, pTemp + 0x38000, 0x8000);
+	BurnFree(pTemp);
+	GfxDecode(512, 4, 32, 32, BgTilePlaneOffsets, TileXOffsets, TileYOffsets, 0x800, DrvTempRom, DrvBgTiles);
+	
+	// Load and decode the sprites
+	memset(DrvTempRom, 0, 0x40000);
+	nRet = BurnLoadRom(DrvTempRom + 0x00000, 11, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x08000, 12, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x10000, 13, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x20000, 14, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x28000, 15, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom + 0x30000, 16, 1); if (nRet != 0) return 1;
+	GfxDecode(2048, 4, 16, 16, SpritePlaneOffsets, SpriteXOffsets, SpriteYOffsets, 0x200, DrvTempRom, DrvSprites);
+	
+	// Load the Tilemaps
+	nRet = BurnLoadRom(DrvBgTilemap,         17, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvTempRom,           18, 1); if (nRet != 0) return 1;
+	memcpy(DrvBg2Tilemap + 0x6000, DrvTempRom + 0x0000, 0x2000);
+	memcpy(DrvBg2Tilemap + 0x4000, DrvTempRom + 0x2000, 0x2000);
+	memcpy(DrvBg2Tilemap + 0x2000, DrvTempRom + 0x4000, 0x2000);
+	memcpy(DrvBg2Tilemap + 0x0000, DrvTempRom + 0x6000, 0x2000);
+	
+	// Load the PROMs
+	nRet = BurnLoadRom(DrvPromRed,           19, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvPromGreen,         20, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvPromBlue,          21, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvPromCharLookup,    22, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvPromBgLookup,      23, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvPromBgPalBank,     24, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvPromBg2Lookup,     25, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvPromBg2PalBank,    26, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvPromSpriteLookup,  27, 1); if (nRet != 0) return 1;
+	nRet = BurnLoadRom(DrvPromSpritePalBank, 28, 1); if (nRet != 0) return 1;
+	
+	BurnFree(DrvTempRom);
+	
+	// Setup the Z80 emulation
+	ZetInit(0);
+	ZetOpen(0);
+	ZetSetReadHandler(Drvb1943Read1);
+	ZetSetWriteHandler(Drv1943Write1);
+	ZetSetInHandler(Drv1943PortRead1);
+	ZetSetOutHandler(Drv1943PortWrite1);
+	ZetMapArea(0x0000, 0x7fff, 0, DrvZ80Rom1             );
+	ZetMapArea(0x0000, 0x7fff, 2, DrvZ80Rom1             );
+	ZetMapArea(0x8000, 0xbfff, 0, DrvZ80Rom1 + 0x10000   );
+	ZetMapArea(0x8000, 0xbfff, 2, DrvZ80Rom1 + 0x10000   );
+	ZetMapArea(0xd000, 0xd3ff, 0, DrvVideoRam            );
+	ZetMapArea(0xd000, 0xd3ff, 1, DrvVideoRam            );
+	ZetMapArea(0xd000, 0xd3ff, 2, DrvVideoRam            );
+	ZetMapArea(0xd400, 0xd7ff, 0, DrvPaletteRam          );
+	ZetMapArea(0xd400, 0xd7ff, 1, DrvPaletteRam          );
+	ZetMapArea(0xd400, 0xd7ff, 2, DrvPaletteRam          );
+	ZetMapArea(0xe000, 0xefff, 0, DrvZ80Ram1             );
+	ZetMapArea(0xe000, 0xefff, 1, DrvZ80Ram1             );
+	ZetMapArea(0xe000, 0xefff, 2, DrvZ80Ram1             );
+	ZetMapArea(0xf000, 0xffff, 0, DrvSpriteRam           );
+	ZetMapArea(0xf000, 0xffff, 1, DrvSpriteRam           );
+	ZetMapArea(0xf000, 0xffff, 2, DrvSpriteRam           );
+	ZetMemEnd();
+	ZetClose();
+	
+	ZetInit(1);
+	ZetOpen(1);
+	ZetSetReadHandler(Drv1943Read2);
+	ZetSetWriteHandler(Drv1943Write2);
+	ZetSetInHandler(Drv1943PortRead2);
+	ZetSetOutHandler(Drv1943PortWrite2);
+	ZetMapArea(0x0000, 0x7fff, 0, DrvZ80Rom2             );
+	ZetMapArea(0x0000, 0x7fff, 2, DrvZ80Rom2             );
+	ZetMapArea(0xc000, 0xc7ff, 0, DrvZ80Ram2             );
+	ZetMapArea(0xc000, 0xc7ff, 1, DrvZ80Ram2             );
+	ZetMapArea(0xc000, 0xc7ff, 2, DrvZ80Ram2             );
+	ZetMemEnd();
+	ZetClose();
+	
+	BurnYM2203Init(2, 1500000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
+	BurnTimerAttachZet(3000000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_YM2203_ROUTE, 0.10, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_1, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_2, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_3, 0.15, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -1461,11 +1675,21 @@ struct BurnDriver BurnDrvNineteen43ja = {
 
 struct BurnDriver BurnDrvNineteen43b = {
 	"1943b", "1943", NULL, NULL, "1987",
-	"1943: The Battle of Midway (bootleg, hack of Japan set)\0", NULL, "Capcom", "Miscellaneous",
+	"1943: The Battle of Midway (bootleg set 1, hack of Japan set)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARWARE_CAPCOM_MISC, GBF_VERSHOOT, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_BOOTLEG, 2, HARWARE_CAPCOM_MISC, GBF_VERSHOOT, 0,
 	NULL, DrvbRomInfo, DrvbRomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
 	DrvbInit, DrvExit, DrvFrame, NULL, DrvScan,
+	NULL, 0x380, 224, 256, 3, 4
+};
+
+struct BurnDriver BurnDrvNineteen43b2 = {
+	"1943b2", "1943", NULL, NULL, "1987",
+	"1943: The Battle of Midway (bootleg set 2, hack of Japan set)\0", NULL, "Capcom", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_BOOTLEG, 2, HARWARE_CAPCOM_MISC, GBF_VERSHOOT, 0,
+	NULL, Drvb2RomInfo, Drvb2RomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
+	Drvb2Init, DrvExit, DrvFrame, NULL, DrvScan,
 	NULL, 0x380, 224, 256, 3, 4
 };
 

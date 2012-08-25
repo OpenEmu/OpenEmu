@@ -2,7 +2,7 @@
 // Based on MAME driver by Nicola Salmoria and Acho A. Tang
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "m6809_intf.h"
 #include "burn_ym3812.h"
 #include "konamiic.h"
@@ -257,9 +257,9 @@ static void spy_3f90_w(INT32 data)
 	{
 		spy_collision();
 
-		M6809SetIRQ(1 /*FIRQ*/, M6809_IRQSTATUS_ACK);
+		M6809SetIRQLine(1 /*FIRQ*/, M6809_IRQSTATUS_ACK);
 		M6809Run(105); // delay or the M6809 won't read it...
-		M6809SetIRQ(1 /*FIRQ*/, M6809_IRQSTATUS_NONE);
+		M6809SetIRQLine(1 /*FIRQ*/, M6809_IRQSTATUS_NONE);
 	}
 
 	Drv3f90old = data;
@@ -554,8 +554,8 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvM6809RAM,		0x0800, 0x1aff, M6809_RAM);
 	M6809MapMemory(DrvM6809ROM + 0x10000,	0x6000, 0x7fff, M6809_ROM);
 	M6809MapMemory(DrvM6809ROM + 0x08000,	0x8000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(spy_main_write);
-	M6809SetReadByteHandler(spy_main_read);
+	M6809SetWriteHandler(spy_main_write);
+	M6809SetReadHandler(spy_main_read);
 	M6809Close();
 
 	ZetInit(0);
@@ -580,12 +580,15 @@ static INT32 DrvInit()
 
 	BurnYM3812Init(3579545, &DrvFMIRQHandler, DrvSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(3579545);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 
 	K007232Init(0, 3579545, DrvSndROM0, 0x40000);
 	K007232SetPortWriteHandler(0, DrvK007232VolCallback0);
+	K007232PCMSetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
 
 	K007232Init(1, 3579545, DrvSndROM1, 0x40000);
 	K007232SetPortWriteHandler(1, DrvK007232VolCallback1);
+	K007232PCMSetAllRoutes(1, 0.20, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -678,7 +681,7 @@ static INT32 DrvFrame()
 		nCyclesDone[1] += BurnTimerUpdateYM3812(nCyclesSegment - nCyclesDone[1]);
 	}
 
-	if (K052109_irq_enabled) M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+	if (K052109_irq_enabled) M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 	
 	BurnTimerEndFrameYM3812(nCyclesTotal[1]);
 

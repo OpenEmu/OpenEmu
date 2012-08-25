@@ -2,7 +2,7 @@
 // Based on MAME driver by Zsolt Vasvari
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "driver.h"
 extern "C" {
 #include "ay8910.h"
@@ -435,6 +435,7 @@ static INT32 DrvInit(INT32 game)
 	ZetClose();
 
 	AY8910Init(0, 1500000, nBurnSoundRate, &funkybee_ay8910_read_A, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -575,24 +576,7 @@ static INT32 DrvFrame()
 	ZetClose();
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-		INT32 nSegmentLength = nBurnSoundLen;
-		INT16* pSoundBuf = pBurnSoundOut;
-		if (nSegmentLength) {
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n];
-				nSample += pAY8910Buffer[1][n];
-				nSample += pAY8910Buffer[2][n];
-
-				nSample /= 4;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
-		}
+		AY8910Render(&pAY8910Buffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 	}
 
 	if (pBurnDraw) {

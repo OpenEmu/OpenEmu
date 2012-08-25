@@ -445,9 +445,9 @@ static INT32 DrvDoReset()
 static void DrvYM2151IrqHandler(INT32 Irq)
 {
 	if (Irq) {
-		M6809SetIRQ(M6809_FIRQ_LINE, M6809_IRQSTATUS_ACK);
+		M6809SetIRQLine(M6809_FIRQ_LINE, M6809_IRQSTATUS_ACK);
 	} else {
-		M6809SetIRQ(M6809_FIRQ_LINE, M6809_IRQSTATUS_NONE);
+		M6809SetIRQLine(M6809_FIRQ_LINE, M6809_IRQSTATUS_NONE);
 	}
 }
 
@@ -509,19 +509,21 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvM6809RAM1,		0x4800, 0x5fff, M6809_RAM);
 //	M6809MapMemory(DrvM6809ROM0 + 0x10000, 	0x6000, 0x7fff, M6809_ROM);
 	M6809MapMemory(DrvM6809ROM0 + 0x08000,	0x8000, 0xffff, M6809_ROM);
-	M6809SetReadByteHandler(DrvContraM6809ReadByte);
-	M6809SetWriteByteHandler(DrvContraM6809WriteByte);
+	M6809SetReadHandler(DrvContraM6809ReadByte);
+	M6809SetWriteHandler(DrvContraM6809WriteByte);
 	M6809Close();
 
 	M6809Open(1);
 	M6809MapMemory(DrvM6809RAM2, 		0x6000, 0x67ff, M6809_RAM);
 	M6809MapMemory(DrvM6809ROM1 + 0x08000,	0x8000, 0xffff, M6809_ROM);
-	M6809SetReadByteHandler(DrvContraM6809SoundReadByte);
-	M6809SetWriteByteHandler(DrvContraM6809SoundWriteByte);
+	M6809SetReadHandler(DrvContraM6809SoundReadByte);
+	M6809SetWriteHandler(DrvContraM6809SoundWriteByte);
 	M6809Close();
 
-	BurnYM2151Init(3579545, 60.0);
+	BurnYM2151Init(3579545);
 	BurnYM2151SetIrqHandler(&DrvYM2151IrqHandler);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.60, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.60, BURN_SND_ROUTE_RIGHT);
 
 	DrvDoReset();
 
@@ -868,14 +870,14 @@ static INT32 DrvFrame()
 		nCyclesSegment = nNext - nCyclesDone[nCurrentCPU];
 		nCyclesDone[nCurrentCPU] += M6809Run(nCyclesSegment);
 		if (i == (nInterleave - 1)) {
-			M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 		}
 		M6809Close();
 
 		nCurrentCPU = 1;
 		M6809Open(nCurrentCPU);
 		if (trigger_sound_irq) {
-			M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 			trigger_sound_irq = 0;
 		}
 		nNext = (i + 1) * nCyclesTotal[nCurrentCPU] / nInterleave;

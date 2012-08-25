@@ -1,5 +1,5 @@
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "msm6295.h"
 
 static UINT8 *Mem, *MemEnd, *RamStart, *RamEnd;
@@ -287,7 +287,8 @@ static INT32 DrvInit()
 	SekSetReadWordHandler(0, drtomy_read_word);
 	SekClose();
 
-	MSM6295Init(0, 1625000 / 132 /*?*/, 80, 0);
+	MSM6295Init(0, 1625000 / 132 /*?*/, 0);
+	MSM6295SetRoute(0, 0.80, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 

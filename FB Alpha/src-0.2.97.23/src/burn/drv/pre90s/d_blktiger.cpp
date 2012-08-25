@@ -2,7 +2,7 @@
 // Based on MAME driver by Paul Leaman
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "burn_ym2203.h"
 
 static UINT8 *AllMem;
@@ -533,8 +533,9 @@ static INT32 DrvInit()
 	GenericTilesInit();
 
 	BurnYM2203Init(2, 3579545, &DrvFMIRQHandler, DrvSynchroniseStream, DrvGetTime, 0);
-	BurnYM2203SetVolumeShift(1);
 	BurnTimerAttachZet(3579545);
+	BurnYM2203SetAllRoutes(0, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetAllRoutes(1, 0.15, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset(1);
 

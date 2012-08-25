@@ -4,7 +4,8 @@ extern "C" {
  #include "ym2151.h"
 }
 
-INT32 BurnYM2151Init(INT32 nClockFrequency, float nVolume);
+INT32 BurnYM2151Init(INT32 nClockFrequency);
+void BurnYM2151SetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir);
 void BurnYM2151Reset();
 void BurnYM2151Exit();
 extern void (*BurnYM2151Render)(INT16* pSoundBuf, INT32 nSegmentLength);
@@ -43,3 +44,10 @@ static inline void BurnYM2151WriteRegister(const UINT8 nValue)
 	#define BurnYM2151SetIrqHandler(h) YM2151SetIrqHandler(0, h)
 	#define BurnYM2151SetPortHandler(h) YM2151SetPortWriteHandler(0, h)
 #endif
+
+#define BURN_SND_YM2151_YM2151_ROUTE_1		0
+#define BURN_SND_YM2151_YM2151_ROUTE_2		1
+
+#define BurnYM2151SetAllRoutes(v, d)							\
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, v, d);	\
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, v, d);

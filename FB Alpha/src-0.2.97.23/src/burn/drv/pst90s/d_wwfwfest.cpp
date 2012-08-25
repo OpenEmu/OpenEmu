@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "msm6295.h"
 
@@ -703,11 +703,13 @@ static INT32 DrvInit()
 	ZetClose();
 	
 	// Setup the YM2151 emulation
-	BurnYM2151Init(3579545, 25.0);
+	BurnYM2151Init(3579545);
 	BurnYM2151SetIrqHandler(&DrvYM2151IrqHandler);
+	BurnYM2151SetAllRoutes(0.45, BURN_SND_ROUTE_BOTH);
 	
 	// Setup the OKIM6295 emulation
-	MSM6295Init(0, 1024188 / 132, 100.0, 1);
+	MSM6295Init(0, 1024188 / 132, 1);
+	MSM6295SetRoute(0, 0.90, BURN_SND_ROUTE_BOTH);
 	
 	DrvSpriteXOffset = 0;
 	DrvBg0XOffset = 0;

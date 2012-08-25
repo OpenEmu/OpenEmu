@@ -2,7 +2,7 @@
 // Based on MAME driver by Uki
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "sn76496.h"
 
 static UINT8 *AllMem;
@@ -356,10 +356,10 @@ static INT32 DrvInit()
 	ZetMemEnd();
 	ZetClose();
 
-	SN76489Init(0, 8000000/4, 0);
-	SN76489Init(1, 8000000/2, 1);
-	SN76496SetVolShift(0, 2);
-	SN76496SetVolShift(1, 2);
+	SN76496Init(0, 8000000/4, 0);
+	SN76496Init(1, 8000000/2, 1);
+	SN76496SetRoute(0, 0.75, BURN_SND_ROUTE_BOTH);
+	SN76496SetRoute(1, 0.75, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

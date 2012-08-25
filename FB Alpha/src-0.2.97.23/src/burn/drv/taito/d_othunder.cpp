@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "taito.h"
 #include "taito_ic.h"
 #include "burn_ym2610.h"
@@ -8,6 +8,11 @@
 #include "burn_gun.h"
 
 static void OthunderDraw();
+
+static double OthunderYM2610AY8910RouteMasterVol;
+static double OthunderYM2610Route1MasterVol;
+static double OthunderYM2610Route2MasterVol;
+static UINT8 *OthunderPan;
 
 static bool bUseAsm68KCoreOldValue = false;
 
@@ -406,6 +411,7 @@ static INT32 MemIndex()
 	Taito68KRam1                   = Next; Next += 0x10000;
 	TaitoZ80Ram1                   = Next; Next += 0x02000;
 	TaitoSpriteRam                 = Next; Next += 0x00600;
+	OthunderPan                    = Next; Next += 0x00004;
 	
 	TaitoRamEnd                    = Next;
 
@@ -647,6 +653,25 @@ void __fastcall OthunderZ80Write(UINT16 a, UINT8 d)
 		case 0xe401:
 		case 0xe402:
 		case 0xe403: {
+			INT32 lVol, rVol;
+
+			OthunderPan[a & 0x0003] = d & 0x1f;
+
+			rVol = (OthunderPan[0] + OthunderPan[2]) * 100 / (2 * 0x1f);
+			lVol = (OthunderPan[1] + OthunderPan[3]) * 100 / (2 * 0x1f);
+			BurnYM2610SetLeftVolume(BURN_SND_YM2610_AY8910_ROUTE, OthunderYM2610AY8910RouteMasterVol * lVol / 100.0);
+			BurnYM2610SetRightVolume(BURN_SND_YM2610_AY8910_ROUTE, OthunderYM2610AY8910RouteMasterVol * rVol / 100.0);
+
+			rVol = OthunderPan[0] * 100 / 0x1f;
+			lVol = OthunderPan[1] * 100 / 0x1f;
+			BurnYM2610SetLeftVolume(BURN_SND_YM2610_YM2610_ROUTE_1, OthunderYM2610Route1MasterVol * lVol / 100.0);
+			BurnYM2610SetRightVolume(BURN_SND_YM2610_YM2610_ROUTE_1, OthunderYM2610Route1MasterVol * rVol / 100.0);
+
+			/* CH2 */
+			rVol = OthunderPan[2] * 100 / 0x1f;
+			lVol = OthunderPan[3] * 100 / 0x1f;
+			BurnYM2610SetLeftVolume(BURN_SND_YM2610_YM2610_ROUTE_2, OthunderYM2610Route2MasterVol * lVol / 100.0);
+			BurnYM2610SetRightVolume(BURN_SND_YM2610_YM2610_ROUTE_2, OthunderYM2610Route2MasterVol * rVol / 100.0);
 			return;
 		}
 		
@@ -815,7 +840,10 @@ static INT32 OthunderInit()
 	
 	BurnYM2610Init(16000000 / 2, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &OthunderFMIRQHandler, OthunderSynchroniseStream, OthunderGetTime, 0);
 	BurnTimerAttachZet(16000000 / 4);
-	BurnYM2610SetSoundMixMode(1);
+	OthunderYM2610AY8910RouteMasterVol = 0.25;
+	OthunderYM2610Route1MasterVol = 1.00;
+	OthunderYM2610Route2MasterVol = 1.00;
+	bYM2610UseSeperateVolumes = 1;
 	
 	EEPROMInit(&othunder_eeprom_interface);
 	if (!EEPROMAvailable()) EEPROMFill(TaitoDefaultEEProm, 0, 128);
@@ -839,8 +867,6 @@ static INT32 OthunderInit()
 
 static INT32 OthunderExit()
 {
-	BurnYM2610SetSoundMixMode(0);
-	
 	TaitoExit();
 	
 	// Switch back CPU core if needed

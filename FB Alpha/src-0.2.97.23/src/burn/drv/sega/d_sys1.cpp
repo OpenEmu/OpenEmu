@@ -1,5 +1,5 @@
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "sn76496.h"
 #include "bitswap.h"
 #include "mc8123.h"
@@ -4178,8 +4178,8 @@ static INT32 System1Init(INT32 nZ80Rom1Num, INT32 nZ80Rom1Size, INT32 nZ80Rom2Nu
 
 	SN76489AInit(0, 2000000, 0);
 	SN76489AInit(1, 4000000, 1);
-	SN76496SetVolShift(0, 2);
-	SN76496SetVolShift(1, 2);
+	SN76496SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
+	SN76496SetRoute(1, 0.50, BURN_SND_ROUTE_BOTH);
 	
 	GenericTilesInit();
 	

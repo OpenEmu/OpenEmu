@@ -205,7 +205,7 @@ void baraduke_main_write(UINT16 address, UINT8 data)
 		return;
 
 		case 0x8800:
-			M6809SetIRQ(0, M6809_IRQSTATUS_NONE);
+			M6809SetIRQLine(0, M6809_IRQSTATUS_NONE);
 		return;
 
 		case 0xb000:
@@ -496,8 +496,8 @@ static INT32 DrvInit(INT32 type)
 	M6809MapMemory(DrvVidRAM,			0x2000, 0x3fff, M6809_RAM);
 	M6809MapMemory(DrvTxtRAM,			0x4800, 0x4fff, M6809_RAM);
 	M6809MapMemory(DrvM6809ROM + 0x06000,		0x6000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(baraduke_main_write);
-	M6809SetReadByteHandler(baraduke_main_read);
+	M6809SetWriteHandler(baraduke_main_write);
+	M6809SetReadHandler(baraduke_main_read);
 	M6809Close();
 
 	HD63701Init(1);
@@ -505,13 +505,14 @@ static INT32 DrvInit(INT32 type)
 	HD63701MapMemory(DrvHD63701ROM + 0x8000,	0x8000, 0xbfff, HD63701_ROM);
 	HD63701MapMemory(DrvHD63701RAM,			0xc000, 0xc7ff, HD63701_RAM);
 	HD63701MapMemory(DrvHD63701ROM + 0xf000,	0xf000, 0xffff, HD63701_ROM);
-	HD63701SetReadByteHandler(baraduke_mcu_read);
-	HD63701SetWriteByteHandler(baraduke_mcu_write);
+	HD63701SetReadHandler(baraduke_mcu_read);
+	HD63701SetWriteHandler(baraduke_mcu_write);
 	HD63701SetReadPortHandler(baraduke_mcu_read_port);
 	HD63701SetWritePortHandler(baraduke_mcu_write_port);
 //	HD63701Close();
 
-	NamcoSoundInit(49152000/2048);
+	NamcoSoundInit(49152000/2048, 8);
+	NacmoSoundSetAllRoutes(0.50, BURN_SND_ROUTE_BOTH); // MAME uses 1.00, which is way too loud
 
 	BurnLEDInit(2, LED_POSITION_BOTTOM_RIGHT, LED_SIZE_5x5, LED_COLOR_GREEN, 100);
 
@@ -751,7 +752,7 @@ static INT32 DrvFrame()
 		nNext = (i + 1) * nCyclesTotal[0] / nInterleave;
 		nCyclesDone[0] += M6809Run(nNext - nCyclesDone[0]);
 		if (i == (nInterleave - 1)) {
-			M6809SetIRQ(0, M6809_IRQSTATUS_ACK);
+			M6809SetIRQLine(0, M6809_IRQSTATUS_ACK);
 		}
 		M6809Close();
 
@@ -759,7 +760,7 @@ static INT32 DrvFrame()
 		nNext = (i + 1) * nCyclesTotal[1] / nInterleave;
 		nCyclesDone[1] += HD63701Run(nNext - nCyclesDone[1]);
 		if (i == (nInterleave - 1)) {
-			HD63701SetIRQ(0, M6800_IRQSTATUS_AUTO);
+			HD63701SetIRQLine(0, M6800_IRQSTATUS_AUTO);
 		}
 	//	HD63701Close();
 	}

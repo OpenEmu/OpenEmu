@@ -355,7 +355,7 @@ static void SidecpcktI8751Write(UINT8 Data)
 	static const INT32 table_2[] = { 0x8e, 0x42, 0xad, 0x58, 0xec, 0x85, 0xdd, 0x4c, 0xad, 0x9f, 0x00, 0x4c, 0x7e, 0x42, 0xa2, 0xff };
 	static const INT32 table_3[] = { 0xbd, 0x73, 0x80, 0xbd, 0x73, 0xa7, 0xbd, 0x73, 0xe0, 0x7e, 0x72, 0x56, 0xff, 0xff, 0xff, 0xff };
 
-	M6809SetIRQ(M6809_FIRQ_LINE, M6809_IRQSTATUS_AUTO);
+	M6809SetIRQLine(M6809_FIRQ_LINE, M6809_IRQSTATUS_AUTO);
 
 	if (InMath == 1) {
 		InMath=2;
@@ -408,7 +408,7 @@ static void SidecpcktjI8751Write(UINT8 Data)
 	static const INT32 table_2[] = { 0x8e, 0x42, 0xb2, 0x58, 0xec, 0x85, 0xdd, 0x4c, 0xad, 0x9f, 0x00, 0x4c, 0x7e, 0x42, 0xa7, 0xff };
 	static const INT32 table_3[] = { 0xbd, 0x71, 0xc8, 0xbd, 0x71, 0xef, 0xbd, 0x72, 0x28, 0x7e, 0x70, 0x9e, 0xff, 0xff, 0xff, 0xff };
 
-	M6809SetIRQ(M6809_FIRQ_LINE, M6809_IRQSTATUS_AUTO);
+	M6809SetIRQLine(M6809_FIRQ_LINE, M6809_IRQSTATUS_AUTO);
 
 	if (InMath == 1) {
 		InMath = 2;
@@ -496,7 +496,7 @@ void SidepcktM6809WriteByte(UINT16 Address, UINT8 Data)
 	switch (Address) {
 		case 0x3004: {
 			DrvSoundLatch = Data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 			return;
 		}
 		
@@ -573,9 +573,9 @@ inline static double DrvGetTime()
 static void DrvFMIRQHandler(INT32, INT32 nStatus)
 {
 	if (nStatus) {
-		M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
+		M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
 	} else {
-		M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
+		M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
 	}
 }
 
@@ -671,23 +671,25 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvSpriteRam        , 0x2000, 0x20ff, M6809_RAM);
 	M6809MapMemory(DrvM6809Ram + 0x1800, 0x2100, 0x24ff, M6809_RAM);
 	M6809MapMemory(DrvM6809Rom + 0x4000, 0x4000, 0xffff, M6809_ROM);
-	M6809SetReadByteHandler(SidepcktM6809ReadByte);
-	M6809SetWriteByteHandler(SidepcktM6809WriteByte);
+	M6809SetReadHandler(SidepcktM6809ReadByte);
+	M6809SetWriteHandler(SidepcktM6809WriteByte);
 	M6809Close();
 	
 	M6502Init(0, TYPE_M6502);
 	M6502Open(0);
 	M6502MapMemory(DrvM6502Ram            , 0x0000, 0x0fff, M6502_RAM);
 	M6502MapMemory(DrvM6502Rom            , 0x8000, 0xffff, M6502_ROM);
-	M6502SetReadByteHandler(SidepcktSoundReadByte);
-	M6502SetWriteByteHandler(SidepcktSoundWriteByte);
+	M6502SetReadHandler(SidepcktSoundReadByte);
+	M6502SetWriteHandler(SidepcktSoundWriteByte);
 	M6502Close();	
 	
 	BurnYM2203Init(1, 1500000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
 	BurnTimerAttachM6809(2000000);
+	BurnYM2203SetAllRoutes(0, 0.25, BURN_SND_ROUTE_BOTH);
 	
 	BurnYM3526Init(3000000, &DrvFMIRQHandler, &DrvYM3526SynchroniseStream, 1);
 	BurnTimerAttachM6502YM3526(1500000);
+	BurnYM3526SetRoute(BURN_SND_YM3526_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	GenericTilesInit();
 	
@@ -878,7 +880,7 @@ static INT32 DrvFrame()
 		nCurrentCPU = 0;
 		nNext = (i + 1) * nCyclesTotal[nCurrentCPU] / nInterleave;
 		BurnTimerUpdate(nNext);
-		if (i == (nInterleave - 1)) M6809SetIRQ(0x20, M6809_IRQSTATUS_AUTO);
+		if (i == (nInterleave - 1)) M6809SetIRQLine(0x20, M6809_IRQSTATUS_AUTO);
 		
 		nCurrentCPU = 1;
 		nNext = (i + 1) * nCyclesTotal[nCurrentCPU] / nInterleave;

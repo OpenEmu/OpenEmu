@@ -1,5 +1,5 @@
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "burn_ym2203.h"
 
 static UINT8 DrvInputPort0[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -674,6 +674,8 @@ static INT32 DrvInit()
 	
 	BurnYM2203Init(2, 1500000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
 	BurnTimerAttachZet(3000000);
+	BurnYM2203SetAllRoutes(0, 0.15, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetAllRoutes(1, 0.15, BURN_SND_ROUTE_BOTH);
 	
 	GenericTilesInit();
 

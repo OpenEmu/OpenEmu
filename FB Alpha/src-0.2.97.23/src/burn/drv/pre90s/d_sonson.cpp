@@ -318,9 +318,9 @@ static INT32 MemIndex()
 
 	DrvScrollX	= Next; Next += 0x000020;
 
-	pFMBuffer	= (INT16*)Next; Next += nBurnSoundLen * 6 * sizeof (INT16);
-
 	RamEnd		= Next;
+
+	pFMBuffer	= (INT16*)Next; Next += nBurnSoundLen * 6 * sizeof (INT16);
 
 	MemEnd		= Next;
 
@@ -412,19 +412,21 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvColRAM,		0x1400, 0x17ff, M6809_RAM);
 	M6809MapMemory(DrvSprRAM,		0x2020, 0x207f, M6809_RAM); // 0x100 min
 	M6809MapMemory(DrvM6809ROM0 + 0x04000,	0x4000, 0xffff, M6809_ROM);
-	M6809SetReadByteHandler(sonson_main_read);
-	M6809SetWriteByteHandler(sonson_main_write);
+	M6809SetReadHandler(sonson_main_read);
+	M6809SetWriteHandler(sonson_main_write);
 	M6809Close();
 
 	M6809Open(1);
 	M6809MapMemory(DrvM6809RAM1,		0x0000, 0x07ff, M6809_RAM);
 	M6809MapMemory(DrvM6809ROM1 + 0x0e000,	0xe000, 0xffff, M6809_ROM);
-	M6809SetReadByteHandler(sonson_sound_read);
-	M6809SetWriteByteHandler(sonson_sound_write);
+	M6809SetReadHandler(sonson_sound_read);
+	M6809SetWriteHandler(sonson_sound_write);
 	M6809Close();
 
 	AY8910Init(0, 1500000, nBurnSoundRate, NULL, NULL, NULL, NULL);
 	AY8910Init(1, 1500000, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.30, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(1, 0.30, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 
@@ -574,7 +576,7 @@ static INT32 DrvFrame()
 		nCyclesSegment = nNext - nCyclesDone[nCurrentCPU];
 		nCyclesDone[nCurrentCPU] += M6809Run(nCyclesSegment);
 		if (i == (nInterleave - 1)) {
-			M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 		}
 		M6809Close();
 
@@ -583,62 +585,29 @@ static INT32 DrvFrame()
 		nNext = (i + 1) * nCyclesTotal[nCurrentCPU] / nInterleave;
 		nCyclesSegment = nNext - nCyclesDone[nCurrentCPU];
 		if (DrvSoundIrqTrigger) {
-			M6809SetIRQ(1, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(1, M6809_IRQSTATUS_AUTO);
 			DrvSoundIrqTrigger = 0;
 		}
 		nCyclesDone[nCurrentCPU] += M6809Run(nCyclesSegment);
 		if (i == 3 || i == 7 || i == 11 || i == 15) {
-			M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 		}
 		M6809Close();
 
 		if (pBurnSoundOut) {
-			INT32 nSample;
 			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
 			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			AY8910Update(1, &pAY8910Buffer[3], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n];
-				nSample += pAY8910Buffer[1][n];
-				nSample += pAY8910Buffer[2][n];
-				nSample += pAY8910Buffer[3][n];
-				nSample += pAY8910Buffer[4][n];
-				nSample += pAY8910Buffer[5][n];
-
-				nSample /= 4;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
+			AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 			nSoundBufferPos += nSegmentLength;
 		}
 	}
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
 		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
 		INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-		AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-		AY8910Update(1, &pAY8910Buffer[3], nSegmentLength);
-		for (INT32 n = 0; n < nSegmentLength; n++) {
-			nSample  = pAY8910Buffer[0][n];
-			nSample += pAY8910Buffer[1][n];
-			nSample += pAY8910Buffer[2][n];
-			nSample += pAY8910Buffer[3][n];
-			nSample += pAY8910Buffer[4][n];
-			nSample += pAY8910Buffer[5][n];
-
-			nSample /= 4;
-
-			nSample = BURN_SND_CLIP(nSample);
-
-			pSoundBuf[(n << 1) + 0] = nSample;
-			pSoundBuf[(n << 1) + 1] = nSample;
+		if (nSegmentLength) {
+			AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 		}
-		nSoundBufferPos += nSegmentLength;
 	}
 
 	if (pBurnDraw) {

@@ -1,8 +1,8 @@
 #include "burnint.h"
 #include "burn_sound.h"
 #include "burn_y8950.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "m6809_intf.h"
 #include "hd6309_intf.h"
 #include "m6800_intf.h"
@@ -49,8 +49,6 @@ INT32 BurnTimerUpdateY8950(INT32 nCycles)
 
 	nTicksTotal = MAKE_TIMER_TICKS(nCycles, nCPUClockspeed);
 
-//	bprintf(PRINT_NORMAL, _T(" -- Ticks: %08X, cycles %i\n"), nTicksTotal, nCycles);
-
 	while (nTicksDone < nTicksTotal) {
 		INT32 nTimer, nCyclesSegment, nTicksSegment;
 
@@ -65,12 +63,10 @@ INT32 BurnTimerUpdateY8950(INT32 nCycles)
 		}
 
 		nCyclesSegment = MAKE_CPU_CYLES(nTicksSegment + nTicksExtra, nCPUClockspeed);
-//		bprintf(PRINT_NORMAL, _T("  - Timer: %08X, %08X, %08X, cycles %i, %i\n"), nTicksDone, nTicksSegment, nTicksTotal, nCyclesSegment, pCPUTotalCycles());
 
 		pCPURun(nCyclesSegment - pCPUTotalCycles());
 
 		nTicksDone = MAKE_TIMER_TICKS(pCPUTotalCycles() + 1, nCPUClockspeed) - 1;
-//		bprintf(PRINT_NORMAL, _T("  - ticks done -> %08X cycles -> %i\n"), nTicksDone, pCPUTotalCycles());
 
 		nTimer = 0;
 		if (nTicksDone >= nTimerCount[0]) {
@@ -79,7 +75,6 @@ INT32 BurnTimerUpdateY8950(INT32 nCycles)
 			} else {
 				nTimerCount[0] += nTimerStart[0];
 			}
-//			bprintf(PRINT_NORMAL, _T("  - timer 0 fired\n"));
 			nTimer |= 1;
 		}
 		if (nTicksDone >= nTimerCount[1]) {
@@ -88,7 +83,6 @@ INT32 BurnTimerUpdateY8950(INT32 nCycles)
 			} else {
 				nTimerCount[1] += nTimerStart[1];
 			}
-//			bprintf(PRINT_NORMAL, _T("  - timer 1 fired\n"));
 			nTimer |= 2;
 		}
 		if (nTimer & 1) {
@@ -117,15 +111,12 @@ void BurnTimerEndFrameY8950(INT32 nCycles)
 
 	nTicksDone -= nTicks;
 	if (nTicksDone < 0) {
-//		bprintf(PRINT_ERROR, _T(" -- ticks done -> %08X\n"), nTicksDone);
 		nTicksDone = 0;
 	}
 }
 
 void BurnTimerUpdateEndY8950()
 {
-//	bprintf(PRINT_NORMAL, _T("  - end %i\n"), pCPUTotalCycles());
-
 	pCPURunEnd();
 
 	nTicksTotal = 0;
@@ -137,14 +128,11 @@ void BurnOPLTimerCallbackY8950(INT32 c, double period)
 
 	if (period == 0.0) {
 		nTimerCount[c] = MAX_TIMER_VALUE;
-//		bprintf(PRINT_NORMAL, _T("  - timer %i stopped\n"), c);
 		return;
 	}
 
 	nTimerCount[c]  = (INT32)(period * (double)TIMER_TICKS_PER_SECOND);
 	nTimerCount[c] += MAKE_TIMER_TICKS(pCPUTotalCycles(), nCPUClockspeed);
-
-//	bprintf(PRINT_NORMAL, _T("  - timer %i started, %08X ticks (fires in %lf seconds)\n"), c, nTimerCount[c], period);
 }
 
 void BurnTimerScanY8950(INT32 nAction, INT32* pnMin)
@@ -203,8 +191,6 @@ INT32 BurnTimerAttachSekY8950(INT32 nClockspeed)
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
-
 	return 0;
 }
 
@@ -216,8 +202,6 @@ INT32 BurnTimerAttachZetY8950(INT32 nClockspeed)
 	pCPURunEnd = ZetRunEnd;
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
-
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
 
 	return 0;
 }
@@ -231,8 +215,6 @@ INT32 BurnTimerAttachM6809Y8950(INT32 nClockspeed)
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
-
 	return 0;
 }
 
@@ -244,8 +226,6 @@ INT32 BurnTimerAttachHD6309Y8950(INT32 nClockspeed)
 	pCPURunEnd = HD6309RunEnd;
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
-
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
 
 	return 0;
 }
@@ -259,8 +239,6 @@ INT32 BurnTimerAttachM6800Y8950(INT32 nClockspeed)
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
-
 	return 0;
 }
 
@@ -272,8 +250,6 @@ INT32 BurnTimerAttachHD63701Y8950(INT32 nClockspeed)
 	pCPURunEnd = HD63701RunEnd;
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
-
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
 
 	return 0;
 }
@@ -287,8 +263,6 @@ INT32 BurnTimerAttachM6803Y8950(INT32 nClockspeed)
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
-
 	return 0;
 }
 
@@ -301,12 +275,12 @@ INT32 BurnTimerAttachM6502Y8950(INT32 nClockspeed)
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
-
 	return 0;
 }
 
 // Sound Related
+
+#define MAX_Y8950	2
 
 void (*BurnY8950Update)(INT16* pSoundBuf, INT32 nSegmentEnd);
 
@@ -315,24 +289,29 @@ static INT32 (*BurnY8950StreamCallback)(INT32 nSoundRate);
 static INT32 nBurnY8950SoundRate;
 
 static INT16* pBuffer;
-static INT16* pY8950Buffer;
+static INT16* pY8950Buffer[MAX_Y8950];
 
 static INT32 nY8950Position;
 
 static UINT32 nSampleSize;
 static INT32 nFractionalPosition;
 
+static INT32 nNumChips = 0;
+
 static INT32 bY8950AddSignal;
+
+static double Y8950Volumes[1 * MAX_Y8950];
+static INT32 Y8950RouteDirs[1 * MAX_Y8950];
 
 // ----------------------------------------------------------------------------
 // Dummy functions
 
-static void Y8950UpdateDummy(INT16* , INT32 /* nSegmentEnd */)
+static void Y8950UpdateDummy(INT16* , INT32)
 {
 	return;
 }
 
-static int Y8950StreamCallbackDummy(INT32 /* nSoundRate */)
+static int Y8950StreamCallbackDummy(INT32)
 {
 	return 0;
 }
@@ -350,11 +329,13 @@ static void Y8950Render(INT32 nSegmentLength)
 		return;
 	}
 
-//	bprintf(PRINT_NORMAL, _T("    Y8950 render %6i -> %6i\n", nY8950Position, nSegmentLength));
-
 	nSegmentLength -= nY8950Position;
 
 	Y8950UpdateOne(0, pBuffer + 0 * 4096 + 4 + nY8950Position, nSegmentLength);
+	
+	if (nNumChips > 1) {
+		Y8950UpdateOne(1, pBuffer + 1 * 4096 + 4 + nY8950Position, nSegmentLength);
+	}
 
 	nY8950Position += nSegmentLength;
 }
@@ -371,7 +352,6 @@ static void Y8950UpdateResample(INT16* pSoundBuf, INT32 nSegmentEnd)
 	INT32 nSegmentLength = nSegmentEnd;
 	INT32 nSamplesNeeded = nSegmentEnd * nBurnY8950SoundRate / nBurnSoundRate + 1;
 
-//	bprintf(PRINT_NORMAL, _T("    Y8950 update        -> %6i\n", nSegmentLength));
 
 	if (nSamplesNeeded < nY8950Position) {
 		nSamplesNeeded = nY8950Position;
@@ -383,31 +363,70 @@ static void Y8950UpdateResample(INT16* pSoundBuf, INT32 nSegmentEnd)
 	nSegmentLength <<= 1;
 
 	Y8950Render(nSamplesNeeded);
-
-	pY8950Buffer = pBuffer + 0 * 4096 + 4;
-
+	
+	pY8950Buffer[0] = pBuffer + 0 * 4096 + 4;
+	
+	if (nNumChips > 1) {
+		pY8950Buffer[1] = pBuffer + 1 * 4096 + 4;
+	}
+	
 	for (INT32 i = (nFractionalPosition & 0xFFFF0000) >> 15; i < nSegmentLength; i += 2, nFractionalPosition += nSampleSize) {
-		INT16 nSample =  INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0FFF,
-												pY8950Buffer[(nFractionalPosition >> 16) - 3],
-												pY8950Buffer[(nFractionalPosition >> 16) - 2],
-												pY8950Buffer[(nFractionalPosition >> 16) - 1],
-												pY8950Buffer[(nFractionalPosition >> 16) - 0]);
+		INT32 nLeftSample[4] = {0, 0, 0, 0};
+		INT32 nRightSample[4] = {0, 0, 0, 0};
+		INT32 nTotalLeftSample, nTotalRightSample;
+		
+		if ((Y8950RouteDirs[BURN_SND_Y8950_ROUTE] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample[0] += (INT32)(pY8950Buffer[0][(nFractionalPosition >> 16) - 3] * Y8950Volumes[BURN_SND_Y8950_ROUTE]);
+			nLeftSample[1] += (INT32)(pY8950Buffer[0][(nFractionalPosition >> 16) - 2] * Y8950Volumes[BURN_SND_Y8950_ROUTE]);
+			nLeftSample[2] += (INT32)(pY8950Buffer[0][(nFractionalPosition >> 16) - 1] * Y8950Volumes[BURN_SND_Y8950_ROUTE]);
+			nLeftSample[3] += (INT32)(pY8950Buffer[0][(nFractionalPosition >> 16) - 0] * Y8950Volumes[BURN_SND_Y8950_ROUTE]);
+		}
+		if ((Y8950RouteDirs[BURN_SND_Y8950_ROUTE] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample[0] += (INT32)(pY8950Buffer[0][(nFractionalPosition >> 16) - 3] * Y8950Volumes[BURN_SND_Y8950_ROUTE]);
+			nRightSample[1] += (INT32)(pY8950Buffer[0][(nFractionalPosition >> 16) - 2] * Y8950Volumes[BURN_SND_Y8950_ROUTE]);
+			nRightSample[2] += (INT32)(pY8950Buffer[0][(nFractionalPosition >> 16) - 1] * Y8950Volumes[BURN_SND_Y8950_ROUTE]);
+			nRightSample[3] += (INT32)(pY8950Buffer[0][(nFractionalPosition >> 16) - 0] * Y8950Volumes[BURN_SND_Y8950_ROUTE]);
+		}
+		
+		if (nNumChips > 1) {
+			if ((Y8950RouteDirs[1 + BURN_SND_Y8950_ROUTE] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+				nLeftSample[0] += (INT32)(pY8950Buffer[1][(nFractionalPosition >> 16) - 3] * Y8950Volumes[1 + BURN_SND_Y8950_ROUTE]);
+				nLeftSample[1] += (INT32)(pY8950Buffer[1][(nFractionalPosition >> 16) - 2] * Y8950Volumes[1 + BURN_SND_Y8950_ROUTE]);
+				nLeftSample[2] += (INT32)(pY8950Buffer[1][(nFractionalPosition >> 16) - 1] * Y8950Volumes[1 + BURN_SND_Y8950_ROUTE]);
+				nLeftSample[3] += (INT32)(pY8950Buffer[1][(nFractionalPosition >> 16) - 0] * Y8950Volumes[1 + BURN_SND_Y8950_ROUTE]);
+			}
+			if ((Y8950RouteDirs[1 + BURN_SND_Y8950_ROUTE] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+				nRightSample[0] += (INT32)(pY8950Buffer[1][(nFractionalPosition >> 16) - 3] * Y8950Volumes[1 + BURN_SND_Y8950_ROUTE]);
+				nRightSample[1] += (INT32)(pY8950Buffer[1][(nFractionalPosition >> 16) - 2] * Y8950Volumes[1 + BURN_SND_Y8950_ROUTE]);
+				nRightSample[2] += (INT32)(pY8950Buffer[1][(nFractionalPosition >> 16) - 1] * Y8950Volumes[1 + BURN_SND_Y8950_ROUTE]);
+				nRightSample[3] += (INT32)(pY8950Buffer[1][(nFractionalPosition >> 16) - 0] * Y8950Volumes[1 + BURN_SND_Y8950_ROUTE]);
+			}
+		}
+		
+		nTotalLeftSample = INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0fff, nLeftSample[0], nLeftSample[1], nLeftSample[2], nLeftSample[3]);
+		nTotalRightSample = INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0fff, nRightSample[0], nRightSample[1], nRightSample[2], nRightSample[3]);
+		
+		nTotalLeftSample = BURN_SND_CLIP(nTotalLeftSample);
+		nTotalRightSample = BURN_SND_CLIP(nTotalRightSample);
+			
 		if (bY8950AddSignal) {
-			pSoundBuf[i + 0] += nSample;
-			pSoundBuf[i + 1] += nSample;
+			pSoundBuf[i + 0] += nTotalLeftSample;
+			pSoundBuf[i + 1] += nTotalRightSample;
 		} else {
-			pSoundBuf[i + 0] = nSample;
-			pSoundBuf[i + 1] = nSample;
+			pSoundBuf[i + 0] = nTotalLeftSample;
+			pSoundBuf[i + 1] = nTotalRightSample;
 		}
 	}
 
 	if (nSegmentEnd >= nBurnSoundLen) {
 		INT32 nExtraSamples = nSamplesNeeded - (nFractionalPosition >> 16);
 
-//		bprintf(PRINT_NORMAL, _T("   %6i rendered, %i extra, %i <- %i\n"), nSamplesNeeded, nExtraSamples, nExtraSamples, (nFractionalPosition >> 16) + nExtraSamples - 1);
-
 		for (INT32 i = -4; i < nExtraSamples; i++) {
-			pY8950Buffer[i] = pY8950Buffer[(nFractionalPosition >> 16) + i];
+			pY8950Buffer[0][i] = pY8950Buffer[0][(nFractionalPosition >> 16) + i];
+			
+			if (nNumChips > 1) {
+				pY8950Buffer[1][i] = pY8950Buffer[1][(nFractionalPosition >> 16) + i];
+			}
 		}
 
 		nFractionalPosition &= 0xFFFF;
@@ -424,8 +443,6 @@ static void Y8950UpdateNormal(INT16* pSoundBuf, INT32 nSegmentEnd)
 
 	INT32 nSegmentLength = nSegmentEnd;
 
-//	bprintf(PRINT_NORMAL, _T("    Y8950 render %6i -> %6i\n"), nY8950Position, nSegmentEnd);
-
 	if (nSegmentEnd < nY8950Position) {
 		nSegmentEnd = nY8950Position;
 	}
@@ -436,15 +453,40 @@ static void Y8950UpdateNormal(INT16* pSoundBuf, INT32 nSegmentEnd)
 
 	Y8950Render(nSegmentEnd);
 
-	pY8950Buffer = pBuffer + 4 + 0 * 4096;
+	pY8950Buffer[0] = pBuffer + 4 + 0 * 4096;
+	
+	if (nNumChips > 1) {
+		pY8950Buffer[1] = pBuffer + 4 + 1 * 4096;
+	}
 
-	for (INT32 i = nFractionalPosition; i < nSegmentLength; i++) {
+	for (INT32 n = nFractionalPosition; n < nSegmentLength; n++) {
+		INT32 nLeftSample = 0, nRightSample = 0;
+		
+		if ((Y8950RouteDirs[BURN_SND_Y8950_ROUTE] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(pY8950Buffer[0][n] * Y8950Volumes[BURN_SND_Y8950_ROUTE]);
+		}
+		if ((Y8950RouteDirs[BURN_SND_Y8950_ROUTE] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(pY8950Buffer[0][n] * Y8950Volumes[BURN_SND_Y8950_ROUTE]);
+		}
+		
+		if (nNumChips > 1) {
+			if ((Y8950RouteDirs[1 + BURN_SND_Y8950_ROUTE] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+				nLeftSample += (INT32)(pY8950Buffer[1][n] * Y8950Volumes[1 + BURN_SND_Y8950_ROUTE]);
+			}
+			if ((Y8950RouteDirs[1 + BURN_SND_Y8950_ROUTE] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+				nRightSample += (INT32)(pY8950Buffer[1][n] * Y8950Volumes[1 + BURN_SND_Y8950_ROUTE]);
+			}
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+			
 		if (bY8950AddSignal) {
-			pSoundBuf[(i << 1) + 0] += pY8950Buffer[i];
-			pSoundBuf[(i << 1) + 1] += pY8950Buffer[i];
+			pSoundBuf[(n << 1) + 0] += nLeftSample;
+			pSoundBuf[(n << 1) + 1] += nRightSample;
 		} else {
-			pSoundBuf[(i << 1) + 0] = pY8950Buffer[i];
-			pSoundBuf[(i << 1) + 1] = pY8950Buffer[i];
+			pSoundBuf[(n << 1) + 0] = nLeftSample;
+			pSoundBuf[(n << 1) + 1] = nRightSample;
 		}
 	}
 
@@ -487,7 +529,9 @@ void BurnY8950Reset()
 
 	BurnTimerResetY8950();
 
-	Y8950ResetChip(0);
+	for (INT32 i = 0; i < nNumChips; i++) {
+		Y8950ResetChip(i);
+	}
 }
 
 void BurnY8950Exit()
@@ -500,17 +544,15 @@ void BurnY8950Exit()
 
 	BurnTimerExitY8950();
 
-	if (pBuffer) {
-		free(pBuffer);
-		pBuffer = NULL;
-	}
+	BurnFree(pBuffer);
 	
+	nNumChips = 0;
 	bY8950AddSignal = 0;
 	
 	DebugSnd_Y8950Initted = 0;
 }
 
-INT32 BurnY8950Init(INT32 nClockFrequency, UINT8* Y8950ADPCMROM, INT32 nY8950ADPCMSize, OPL_IRQHANDLER IRQCallback, INT32 (*StreamCallback)(INT32), INT32 bAddSignal)
+INT32 BurnY8950Init(INT32 num, INT32 nClockFrequency, UINT8* Y8950ADPCM0ROM, INT32 nY8950ADPCM0Size, UINT8* Y8950ADPCM1ROM, INT32 nY8950ADPCM1Size, OPL_IRQHANDLER IRQCallback, INT32 (*StreamCallback)(INT32), INT32 bAddSignal)
 {
 	BurnTimerInitY8950(&Y8950TimerOver, NULL);
 
@@ -519,7 +561,7 @@ INT32 BurnY8950Init(INT32 nClockFrequency, UINT8* Y8950ADPCMROM, INT32 nY8950ADP
 
 		BurnY8950Update = Y8950UpdateDummy;
 
-		Y8950Init(1, nClockFrequency, 11025);
+		Y8950Init(num, nClockFrequency, 11025);
 		return 0;
 	}
 
@@ -543,24 +585,58 @@ INT32 BurnY8950Init(INT32 nClockFrequency, UINT8* Y8950ADPCMROM, INT32 nY8950ADP
 		BurnY8950Update = Y8950UpdateNormal;
 	}
 
-	Y8950Init(1, nClockFrequency, nBurnY8950SoundRate);
+	Y8950Init(num, nClockFrequency, nBurnY8950SoundRate);
 	Y8950SetIRQHandler(0, IRQCallback, 0);
 	Y8950SetTimerHandler(0, &BurnOPLTimerCallbackY8950, 0);
 	Y8950SetUpdateHandler(0, &BurnY8950UpdateRequest, 0);
-	Y8950SetDeltaTMemory(0, Y8950ADPCMROM, nY8950ADPCMSize);
+	Y8950SetDeltaTMemory(0, Y8950ADPCM0ROM, nY8950ADPCM0Size);
+	if (num > 1) {
+//		Y8950SetIRQHandler(1, IRQCallback, 0); // ??
+		Y8950SetTimerHandler(1, &BurnOPLTimerCallbackY8950, 0);
+		Y8950SetUpdateHandler(1, &BurnY8950UpdateRequest, 0);
+		Y8950SetDeltaTMemory(1, Y8950ADPCM1ROM, nY8950ADPCM1Size);
+	}
 
-	pBuffer = (INT16*)malloc(4096 * sizeof(INT16));
-	memset(pBuffer, 0, 4096 * sizeof(INT16));
+	pBuffer = (INT16*)BurnMalloc(4096 * num * sizeof(INT16));
+	memset(pBuffer, 0, 4096 * num * sizeof(INT16));
 
 	nY8950Position = 0;
 
 	nFractionalPosition = 0;
 	
+	nNumChips = num;
 	bY8950AddSignal = bAddSignal;
+	
+	// default routes
+	Y8950Volumes[BURN_SND_Y8950_ROUTE] = 1.00;
+	Y8950RouteDirs[BURN_SND_Y8950_ROUTE] = BURN_SND_ROUTE_BOTH;
+	if (nNumChips > 1) {
+		Y8950Volumes[1 + BURN_SND_Y8950_ROUTE] = 1.00;
+		Y8950RouteDirs[1 + BURN_SND_Y8950_ROUTE] = BURN_SND_ROUTE_BOTH;
+	}
 	
 	DebugSnd_Y8950Initted = 1;
 
 	return 0;
+}
+
+void BurnY8950SetRoute(INT32 nChip, INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_Y8950Initted) bprintf(PRINT_ERROR, _T("BurnY8950SetRoute called without init\n"));
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("BurnY8950SetRoute called with invalid index %i\n"), nIndex);
+	if (nChip >= nNumChips) bprintf(PRINT_ERROR, _T("BurnY8950SetRoute called with invalid chip %i\n"), nChip);
+#endif
+	
+	if (nChip == 0) {
+		Y8950Volumes[nIndex] = nVolume;
+		Y8950RouteDirs[nIndex] = nRouteDir;
+	}
+	
+	if (nChip == 1) {
+		Y8950Volumes[1 + nIndex] = nVolume;
+		Y8950RouteDirs[1 + nIndex] = nRouteDir;
+	}
 }
 
 void BurnY8950Scan(INT32 nAction, INT32* pnMin)
@@ -576,3 +652,5 @@ void BurnY8950Scan(INT32 nAction, INT32* pnMin)
 		SCAN_VAR(nY8950Position);
 	}
 }
+
+#undef MAX_Y8950

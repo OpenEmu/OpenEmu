@@ -865,7 +865,8 @@ void deco16SoundInit(UINT8 *rom, UINT8 *ram, INT32 huc_clock, INT32 ym2203, void
 	deco16_sound_enable[2] = 1;			// msm6295 #0 always enabled
 	deco16_sound_enable[3] = msmclk1 ? 1 : 0;
 
-	BurnYM2151Init(3580000, ym2151vol);
+	BurnYM2151Init(3580000);
+	BurnYM2151SetAllRoutes(ym2151vol, BURN_SND_ROUTE_BOTH);
 	BurnYM2151SetIrqHandler(&deco16YM2151IrqHandler);
 	if (ym2151_port != NULL) {
 		BurnYM2151SetPortHandler(ym2151_port);
@@ -878,10 +879,12 @@ void deco16SoundInit(UINT8 *rom, UINT8 *ram, INT32 huc_clock, INT32 ym2203, void
 #endif
 	}
 
-	MSM6295Init(0, msmclk0 / 132, msmvol0, 1);
+	MSM6295Init(0, msmclk0 / 132, 1);
+	MSM6295SetRoute(0, msmvol0, BURN_SND_ROUTE_BOTH);
 
 	if (msmclk1) {
-		MSM6295Init(1, msmclk1 / 132, msmvol1, 1);
+		MSM6295Init(1, msmclk1 / 132, 1);
+		MSM6295SetRoute(1, msmvol1, BURN_SND_ROUTE_BOTH);
 	}
 }
 

@@ -391,7 +391,9 @@ static INT32 DrvInit(UINT32 speedhack)
 
 	EEPROMInit(&eeprom_interface_93C46);
 
-	YMZ280BInit(14000000, NULL, 3);
+	YMZ280BInit(14000000, NULL);
+	YMZ280BSetRoute(BURN_SND_YMZ280B_YMZ280B_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	YMZ280BSetRoute(BURN_SND_YMZ280B_YMZ280B_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	deco16Init(0, 0, 1);
 	deco16_set_bank_callback(0, backfire_bank_callback);

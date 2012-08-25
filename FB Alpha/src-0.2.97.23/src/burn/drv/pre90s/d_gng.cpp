@@ -1,5 +1,5 @@
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "m6809_intf.h"
 #include "burn_ym2203.h"
 
@@ -889,8 +889,8 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvPaletteRam1       , 0x3900, 0x39ff, M6809_RAM);
 	M6809MapMemory(DrvM6809Rom          , 0x4000, 0x5fff, M6809_ROM);
 	M6809MapMemory(DrvM6809Rom + 0x2000 , 0x6000, 0xffff, M6809_ROM);
-	M6809SetReadByteHandler(DrvGngM6809ReadByte);
-	M6809SetWriteByteHandler(DrvGngM6809WriteByte);
+	M6809SetReadHandler(DrvGngM6809ReadByte);
+	M6809SetWriteHandler(DrvGngM6809WriteByte);
 	M6809Close();
 	
 	// Setup the Z80 emulation
@@ -907,8 +907,15 @@ static INT32 DrvInit()
 	ZetClose();	
 	
 	BurnYM2203Init(2, 1500000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
-	BurnYM2203SetVolumeShift(4);
 	BurnTimerAttachZet(3000000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_YM2203_ROUTE, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_1, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_2, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_3, 0.40, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -976,8 +983,8 @@ static INT32 DiamondInit()
 	M6809MapMemory(DrvPaletteRam1       , 0x3900, 0x39ff, M6809_RAM);
 	M6809MapMemory(DrvM6809Rom          , 0x4000, 0x5fff, M6809_ROM);
 	M6809MapMemory(DrvM6809Rom + 0x2000 , 0x6000, 0xffff, M6809_ROM);
-	M6809SetReadByteHandler(DrvGngM6809ReadByte);
-	M6809SetWriteByteHandler(DrvGngM6809WriteByte);
+	M6809SetReadHandler(DrvGngM6809ReadByte);
+	M6809SetWriteHandler(DrvGngM6809WriteByte);
 	M6809Close();
 	
 	// Setup the Z80 emulation
@@ -994,8 +1001,15 @@ static INT32 DiamondInit()
 	ZetClose();	
 	
 	BurnYM2203Init(2, 1500000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
-	BurnYM2203SetVolumeShift(4);
 	BurnTimerAttachZet(3000000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_YM2203_ROUTE, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_1, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_2, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_3, 0.40, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 	
@@ -1300,7 +1314,7 @@ static INT32 DrvFrame()
 		nCyclesSegment = nNext - nCyclesDone[nCurrentCPU];
 		nCyclesDone[nCurrentCPU] += M6809Run(nCyclesSegment);
 		if (i == 24) {
-			M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 		}
 		M6809Close();
 		

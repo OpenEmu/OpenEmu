@@ -4,7 +4,7 @@
 // Fix Shoot the Bull inputs
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "bitswap.h"
 #include "sn76496.h"
 #include "namco_snd.h"
@@ -2492,11 +2492,16 @@ static INT32 DrvInit(void (*mapCallback)(), void (*pInitCallback)(), INT32 selec
 	ZetClose();
 
 	AY8910Init(0, 1789750, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.75, BURN_SND_ROUTE_BOTH);
+	if (game_select == DREMSHPR) AY8910SetAllRoutes(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	SN76496Init(0, 1789750, 0);
-	SN76496Init(1, 1789750, 1);		
+	SN76496Init(1, 1789750, 1);	
+	SN76496SetRoute(0, 0.75, BURN_SND_ROUTE_BOTH);
+	SN76496SetRoute(1, 0.75, BURN_SND_ROUTE_BOTH);
 
-	NamcoSoundInit(18432000 / 6 / 32);
+	NamcoSoundInit(18432000 / 6 / 32, 3);
+	NacmoSoundSetAllRoutes(1.00, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -2674,21 +2679,7 @@ static INT32 DrvFrame()
 			
 			if (nSegmentLength) {
 				if (game_select == DREMSHPR || game_select == CRUSHS) {
-					INT32 nSample;
-				
-					AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-					for (INT32 n = 0; n < nSegmentLength; n++) {
-						nSample  = pAY8910Buffer[0][n];
-						nSample += pAY8910Buffer[1][n];
-						nSample += pAY8910Buffer[2][n];
-	
-						nSample /= 4;
-
-						nSample = BURN_SND_CLIP(nSample);
-						
-						pSoundBuf[(n << 1) + 0] = nSample;
-						pSoundBuf[(n << 1) + 1] = nSample;
-					}
+					AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 				} else {
 					if (game_select == VANVAN) {
 						SN76496Update(0, pSoundBuf, nSegmentLength);
@@ -2708,21 +2699,7 @@ static INT32 DrvFrame()
 
 		if (nSegmentLength) {
 			if (game_select == DREMSHPR || game_select == CRUSHS) {
-				INT32 nSample;
-				
-				AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-				for (INT32 n = 0; n < nSegmentLength; n++) {
-					nSample  = pAY8910Buffer[0][n];
-					nSample += pAY8910Buffer[1][n];
-					nSample += pAY8910Buffer[2][n];
-	
-					nSample /= 4;
-
-					nSample = BURN_SND_CLIP(nSample);
-						
-					pSoundBuf[(n << 1) + 0] = nSample;
-					pSoundBuf[(n << 1) + 1] = nSample;
-				}
+				AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 			} else {
 				if (game_select == VANVAN) {
 					SN76496Update(0, pSoundBuf, nSegmentLength);

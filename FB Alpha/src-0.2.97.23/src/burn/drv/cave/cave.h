@@ -1,6 +1,6 @@
 #include "burnint.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "eeprom.h"
 
 #define CAVE_REFRESHRATE (15625.0 / 271.5)

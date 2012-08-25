@@ -19,6 +19,9 @@ typedef struct {
 
 	UINT8 * rombase;
 	UINT32 delta;
+	
+	double gain[2];
+	INT32 output_dir[2];
 
 } cps3snd_chip;
 
@@ -107,9 +110,20 @@ INT32 cps3SndInit(UINT8 * sndrom)
 			//bprintf(0, _T("BurnSnd %08x, %d, %d\n"), chip->delta, chip->burnlen, nBurnSoundLen);
 		}
 		
+		chip->gain[BURN_SND_CPS3SND_ROUTE_1] = 1.00;
+		chip->gain[BURN_SND_CPS3SND_ROUTE_2] = 1.00;
+		chip->output_dir[BURN_SND_CPS3SND_ROUTE_1] = BURN_SND_ROUTE_LEFT;
+		chip->output_dir[BURN_SND_CPS3SND_ROUTE_2] = BURN_SND_ROUTE_RIGHT;
+		
 		return 0;
 	}
 	return 1;
+}
+
+void cps3SndSetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+	chip->gain[nIndex] = nVolume;
+	chip->output_dir[nIndex] = nRouteDir;
 }
 
 void cps3SndReset()
@@ -171,22 +185,27 @@ void cps3SndUpdate()
 				sample = base[(start + pos) ^ 1];
 				frac += step;
 
-#if 1
-				INT32 sample_l;
-
-				sample_l = ((sample * vol_r) >> 8) + buffer[0];
-				if (sample_l > 32767)		buffer[0] = 32767;
-				else if (sample_l < -32768)	buffer[0] = -32768;
-				else 						buffer[0] = sample_l;
+				INT32 nLeftSample = 0, nRightSample = 0;
 				
-				sample_l = ((sample * vol_l) >> 8) + buffer[1];
-				if (sample_l > 32767)		buffer[1] = 32767;
-				else if (sample_l < -32768)	buffer[1] = -32768;
-				else 						buffer[1] = sample_l;
-#else
-				buffer[0] += (sample * (vol_l >> 8));
-				buffer[1] += (sample * (vol_r >> 8));
-#endif
+				if ((chip->output_dir[BURN_SND_CPS3SND_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+					nLeftSample += (INT32)(((sample * vol_l) >> 8) * chip->gain[BURN_SND_CPS3SND_ROUTE_1]);
+				}
+				if ((chip->output_dir[BURN_SND_CPS3SND_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+					nRightSample += (INT32)(((sample * vol_l) >> 8) * chip->gain[BURN_SND_CPS3SND_ROUTE_1]);
+				}
+				
+				if ((chip->output_dir[BURN_SND_CPS3SND_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+					nLeftSample += (INT32)(((sample * vol_r) >> 8) * chip->gain[BURN_SND_CPS3SND_ROUTE_2]);
+				}
+				if ((chip->output_dir[BURN_SND_CPS3SND_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+					nRightSample += (INT32)(((sample * vol_r) >> 8) * chip->gain[BURN_SND_CPS3SND_ROUTE_2]);
+				}
+				
+				nLeftSample = BURN_SND_CLIP(nLeftSample + buffer[0]);
+				nRightSample = BURN_SND_CLIP(nRightSample + buffer[1]);
+				
+				buffer[0] = nLeftSample;
+				buffer[1] = nRightSample;
 
 				buffer += 2;
 			}

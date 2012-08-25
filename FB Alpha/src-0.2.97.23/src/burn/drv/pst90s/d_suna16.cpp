@@ -2,8 +2,8 @@
 // Based on MAME driver by Luca Elia
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "burn_ym3526.h"
 #include "driver.h"
@@ -1459,17 +1459,21 @@ static INT32 BestbestInit()
 
 	BurnYM3526Init(3000000, &bestbestFMIRQHandler, &bestbestSynchroniseStream, 0);
 	BurnTimerAttachZetYM3526(6000000);
+	BurnYM3526SetRoute(BURN_SND_YM3526_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	AY8910Init(0, 1500000, nBurnSoundRate, NULL, NULL, bestbest_ay8910_write_a, NULL);
+	AY8910SetRoute(0, BURN_SND_AY8910_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	AY8910SetRoute(0, BURN_SND_AY8910_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
+	AY8910SetRoute(0, BURN_SND_AY8910_ROUTE_3, 0.00, BURN_SND_ROUTE_BOTH); // suppressed?
 
 	DACInit(0, 0, 1, bestbestSyncDAC);
 	DACInit(1, 0, 1, bestbestSyncDAC);
 	DACInit(2, 0, 1, bestbestSyncDAC);
 	DACInit(3, 0, 1, bestbestSyncDAC);
-	DACSetVolShift(0, 2);
-	DACSetVolShift(1, 2);
-	DACSetVolShift(2, 2);
-	DACSetVolShift(3, 2);
+	DACSetRoute(0, 0.40, BURN_SND_ROUTE_LEFT);
+	DACSetRoute(1, 0.40, BURN_SND_ROUTE_RIGHT);
+	DACSetRoute(2, 0.40, BURN_SND_ROUTE_LEFT);
+	DACSetRoute(3, 0.40, BURN_SND_ROUTE_RIGHT);
 
 	DrvDoReset();
 
@@ -1528,12 +1532,14 @@ static INT32 SunaqInit()
 	ZetMemEnd();
 	ZetClose();
 
-	BurnYM2151Init(3579545, 25.0);
+	BurnYM2151Init(3579545);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.50, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.50, BURN_SND_ROUTE_RIGHT);
 
 	DACInit(0, 0, 2, bestbestSyncDAC);
 	DACInit(1, 0, 2, bestbestSyncDAC);
-	DACSetVolShift(0, 2);
-	DACSetVolShift(1, 2);
+	DACSetRoute(0, 0.50, BURN_SND_ROUTE_LEFT);
+	DACSetRoute(1, 0.50, BURN_SND_ROUTE_RIGHT);
 
 	DrvDoReset();
 
@@ -1602,12 +1608,14 @@ static INT32 UballoonInit()
 	*((UINT16*)(Drv68KROM + 0x03c54)) = BURN_ENDIAN_SWAP_INT16(0x600c);
 	*((UINT16*)(Drv68KROM + 0x126a0)) = BURN_ENDIAN_SWAP_INT16(0x4e71);
 
-	BurnYM2151Init(3579545, 25.0);
+	BurnYM2151Init(3579545);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.50, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.50, BURN_SND_ROUTE_RIGHT);
 
 	DACInit(0, 0, 1, bssoccerSyncDAC);
 	DACInit(1, 0, 1, bssoccerSyncDAC);
-	DACSetVolShift(0, 2);
-	DACSetVolShift(1, 2);
+	DACSetRoute(0, 0.50, BURN_SND_ROUTE_LEFT);
+	DACSetRoute(1, 0.50, BURN_SND_ROUTE_RIGHT);
 
 	GenericTilesInit();
 
@@ -1677,16 +1685,18 @@ static INT32 BssoccerInit()
 	ZetMemEnd();
 	ZetClose();
 
-	BurnYM2151Init(3579545, 25.0);
+	BurnYM2151Init(3579545);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.20, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.20, BURN_SND_ROUTE_RIGHT);
 
 	DACInit(0, 0, 1, bssoccerSyncDAC);
 	DACInit(1, 0, 1, bssoccerSyncDAC);
 	DACInit(2, 0, 1, bssoccerSyncDAC);
 	DACInit(3, 0, 1, bssoccerSyncDAC);
-	DACSetVolShift(0, 2);
-	DACSetVolShift(1, 2);
-	DACSetVolShift(2, 2);
-	DACSetVolShift(3, 2);
+	DACSetRoute(0, 0.40, BURN_SND_ROUTE_LEFT);
+	DACSetRoute(1, 0.40, BURN_SND_ROUTE_RIGHT);
+	DACSetRoute(2, 0.40, BURN_SND_ROUTE_LEFT);
+	DACSetRoute(3, 0.40, BURN_SND_ROUTE_RIGHT);
 
 	DrvDoReset();
 
@@ -1937,21 +1947,8 @@ static INT32 BestbestFrame()
 		if (pBurnSoundOut) {
 			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
 			INT16* pSoundBuf = pSoundBuffer + (nSoundBufferPos << 1);
-			INT32 nSample;
 
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n];
-				nSample += pAY8910Buffer[1][n];
-				nSample += pAY8910Buffer[2][n];
-
-				nSample /= 4;
-
-				nSample = BURN_SND_CLIP(nSample);
-				
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
+			AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 			
 			nSoundBufferPos += nSegmentLength;
 		}
@@ -1961,22 +1958,9 @@ static INT32 BestbestFrame()
 	if (pBurnSoundOut) {
 		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
 		INT16* pSoundBuf = pSoundBuffer + (nSoundBufferPos << 1);
-		INT32 nSample;
 
 		if (nSegmentLength) {
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n];
-				nSample += pAY8910Buffer[1][n];
-				nSample += pAY8910Buffer[2][n];
-
-				nSample /= 4;
-
-				nSample = BURN_SND_CLIP(nSample);
-				
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
+			AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 		}
 	}
 	

@@ -7,8 +7,8 @@
  ***************************************************************/
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "msm6295.h"
 #include "burn_ym2203.h"
 
@@ -850,22 +850,27 @@ static INT32 powerinsInit()
 	}
 
 	if ( game_drv == GAME_POWERINA ) {
-		MSM6295Init(0, 990000 / 165, 80, 0);
+		MSM6295Init(0, 990000 / 165, 0);
+		MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (game_drv == GAME_POWERINS ) {
 		BurnYM2203Init(1, 12000000 / 8, &powerinsIRQHandler, powerinsSynchroniseStream, powerinsGetTime, 0);
-		BurnYM2203SetVolumeShift(2);
 		BurnTimerAttachZet(6000000);
+		BurnYM2203SetAllRoutes(0, 2.00, BURN_SND_ROUTE_BOTH);
 		BurnSetRefreshRate(56.0);
 		
-		MSM6295Init(0, 4000000 / 165, 40, 1);
-		MSM6295Init(1, 4000000 / 165, 40, 1);
+		MSM6295Init(0, 4000000 / 165, 1);
+		MSM6295Init(1, 4000000 / 165, 1);
+		MSM6295SetRoute(0, 0.15, BURN_SND_ROUTE_BOTH);
+		MSM6295SetRoute(1, 0.15, BURN_SND_ROUTE_BOTH);
 	}
 
 	if (game_drv == GAME_POWERINB ) {
-		MSM6295Init(0, 4000000 / 165, 40, 1);
-		MSM6295Init(1, 4000000 / 165, 40, 1);
+		MSM6295Init(0, 4000000 / 165, 1);
+		MSM6295Init(1, 4000000 / 165, 1);
+		MSM6295SetRoute(0, 0.15, BURN_SND_ROUTE_BOTH);
+		MSM6295SetRoute(1, 0.15, BURN_SND_ROUTE_BOTH);
 	}
 
 	GenericTilesInit();

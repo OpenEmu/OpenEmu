@@ -2,8 +2,8 @@
 // Based on MAME driver by Luca Elia, XingXing, and David Haywood
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ymf278b.h"
 #include "burn_ym3812.h"
 #include "msm6295.h"
@@ -767,14 +767,18 @@ static INT32 DrvInit(INT32 (*pInitCallback)(), INT32 lordgun)
 
 	// aliencha
 	BurnYMF278BInit(0, DrvSndROM2, &DrvFMIRQHandler, DrvSynchroniseStream);
+	BurnYMF278BSetAllRoutes(0.50, BURN_SND_ROUTE_BOTH);
 	BurnTimerAttachZet(5000000);
 
 	// lordgun
 	BurnYM3812Init(3579545, &DrvFMIRQHandler, &DrvSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(5000000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 
-	MSM6295Init(0, 1000000 / 132, 100, 1);
-	MSM6295Init(1, 1000000 / 132, 100, 1); // aliencha
+	MSM6295Init(0, 1000000 / 132, 1);
+	MSM6295Init(1, 1000000 / 132, 1); // aliencha
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
+	MSM6295SetRoute(1, 1.00, BURN_SND_ROUTE_BOTH);
 
 	ppi8255_init(2);
 	if (lordgun) {

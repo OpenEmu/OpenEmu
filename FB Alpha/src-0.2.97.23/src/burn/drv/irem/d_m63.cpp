@@ -2,7 +2,7 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "i8039.h"
 #include "driver.h"
 extern "C" {
@@ -614,6 +614,8 @@ static INT32 DrvInit(void (*pMapMainCPU)(), INT32 (*pRomLoadCallback)(), INT32 s
 
 	AY8910Init(0, 1500000, nBurnSoundRate, NULL, NULL, NULL, NULL);
 	AY8910Init(1, 1500000, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.25, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(1, 1.00, BURN_SND_ROUTE_BOTH);
 
 	sy_offset = syoffset;
 	char_color_offset = charcoloroff;
@@ -727,7 +729,11 @@ static INT32 atomboyInit()
 
 static INT32 fghtbsktInit()
 {
-	return DrvInit(fghtbskt_main_map, fghtbsktLoadRoms, 240, 0x010, 60/2);
+	INT32 nRet = DrvInit(fghtbskt_main_map, fghtbsktLoadRoms, 240, 0x010, 60/2);
+	
+	AY8910SetAllRoutes(0, 1.00, BURN_SND_ROUTE_BOTH);
+	
+	return nRet;
 }
 
 static void draw_bg_layer()
@@ -885,24 +891,7 @@ static INT32 DrvFrame()
 	ZetClose();
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-		AY8910Update(0, &pAY8910Buffer[0], nBurnSoundLen);
-		AY8910Update(0, &pAY8910Buffer[3], nBurnSoundLen);
-		for (INT32 n = 0; n < nBurnSoundLen; n++) {
-			nSample  = pAY8910Buffer[0][n];
-			nSample += pAY8910Buffer[1][n];
-			nSample += pAY8910Buffer[2][n];
-			nSample += pAY8910Buffer[3][n];
-			nSample += pAY8910Buffer[4][n];
-			nSample += pAY8910Buffer[5][n];
-
-			nSample /= 8;
-
-			nSample = BURN_SND_CLIP(nSample);
-
-			pBurnSoundOut[(n << 1) + 0] = nSample;
-			pBurnSoundOut[(n << 1) + 1] = nSample;
-		}
+		AY8910Render(&pAY8910Buffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 
 		sample_render(pBurnSoundOut, nBurnSoundLen);
 	}

@@ -11,7 +11,6 @@
 
 static INT32 bAddToStream = 0;
 static INT32 nTotalSamples = 0;
-static INT32 nSampleSetGain = 100;
 
 struct sample_format
 {
@@ -21,6 +20,8 @@ struct sample_format
 	UINT8 playing;
 	UINT8 loop;
 	UINT8 flags;
+	double gain[2];
+	INT32 output_dir[2];
 };
 
 static struct sample_format *samples		= NULL; // store samples
@@ -33,17 +34,17 @@ static void make_raw(UINT8 *src, UINT32 len)
 	if (ptr[0] != 'R' || ptr[1] != 'I' || ptr[2] != 'F' || ptr[3] != 'F') return;
 	ptr += 4; // skip RIFF
 
-	UINT32 length = get_long();	ptr += 4; // total length of file
+	UINT32 length = get_long();		ptr += 4; // total length of file
 	if (len < length) length = len - 8;		  // first 8 bytes (RIFF + Len)
 
 	/* "WAVEfmt " */			ptr += 8; // WAVEfmt + 1 space
-	UINT32 length2 = get_long();	ptr += 4; // Wavefmt length
+	UINT32 length2 = get_long();		ptr += 4; // Wavefmt length
 /*	unsigned short format = get_short();  */ptr += 2; // format?
-	UINT16 channels = get_short();	ptr += 2; // channels
+	UINT16 channels = get_short();		ptr += 2; // channels
 	UINT32 sample_rate = get_long();	ptr += 4; // sample rate
 /*	unsigned int speed = get_long();      */ptr += 4; // speed - should equal (bits * channels * sample_rate)
 /*	unsigned short align = get_short();   */ptr += 2; // block align	should be ((bits / 8) * channels)
-	UINT16 bits = get_short() / 8;	ptr += 2; // bits per sample	(0010)
+	UINT16 bits = get_short() / 8;		ptr += 2; // bits per sample	(0010)
 	ptr += length2 - 16;				  // get past the wave format chunk
 
 	// are we in the 'data' chunk? if not, skip this chunk.
@@ -88,7 +89,7 @@ static void make_raw(UINT8 *src, UINT32 len)
 		// now go through and set the gain
 		for (UINT32 i = 0; i < converted_len * 2; i++)
 		{
-			INT32 d = (data[i] * nSampleSetGain) / 100;
+			INT32 d = data[i];
 			if (d >  0x7fff) d =  0x7fff;
 			if (d < -0x7fff) d = -0x7fff;
 			data[i] = (INT16)d;
@@ -224,7 +225,7 @@ INT32 __cdecl ZipLoadOneFile(char* arcName, const char* fileName, void** Dest, I
 char* TCHARToANSI(const TCHAR* pszInString, char* pszOutString, INT32 nOutSize);
 #define _TtoA(a)	TCHARToANSI(a, NULL, 0)
 
-void BurnSampleInit(INT32 nGain /*volume percentage!*/, INT32 bAdd /*add sample to stream?*/)
+void BurnSampleInit(INT32 bAdd /*add sample to stream?*/)
 {
 	DebugSnd_SamplesInitted = 1;
 	
@@ -272,7 +273,6 @@ void BurnSampleInit(INT32 nGain /*volume percentage!*/, INT32 bAdd /*add sample 
 	if (!nEnableSamples) return;
 
 	bAddToStream = bAdd;
-	nSampleSetGain = nGain;
 	nTotalSamples = 0;
 
 	struct BurnSampleInfo si;
@@ -306,12 +306,45 @@ void BurnSampleInit(INT32 nGain /*volume percentage!*/, INT32 bAdd /*add sample 
 		} else {
 			sample_ptr->flags = SAMPLE_IGNORE;
 		}
+		
+		sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_1] = 1.00;
+		sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_2] = 1.00;
+		sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_1] = BURN_SND_ROUTE_BOTH;
+		sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_2] = BURN_SND_ROUTE_BOTH;
 
 		if (destination) {
 			free (destination);
 			destination = NULL;
 		}		
 	}
+}
+
+void BurnSampleSetRoute(INT32 sample, INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_SamplesInitted) bprintf(PRINT_ERROR, _T("BurnSampleSetRoute called without init\n"));
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("BurnSampleSetRoute called with invalid index %i\n"), nIndex);
+#endif
+
+	if (sample >= nTotalSamples) return;
+
+	sample_ptr = &samples[sample];
+	sample_ptr->gain[nIndex] = nVolume;
+	sample_ptr->output_dir[nIndex] = nRouteDir;
+}
+
+void BurnSampleSetRouteAllSamples(INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_SamplesInitted) bprintf(PRINT_ERROR, _T("BurnSampleSetRouteAllSamples called without init\n"));
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("BurnSampleSetRouteAllSamples called with invalid index %i\n"), nIndex);
+#endif
+
+	for (INT32 i = 0; i < nTotalSamples; i++) {
+		sample_ptr = &samples[i];
+		sample_ptr->gain[nIndex] = nVolume;
+		sample_ptr->output_dir[nIndex] = nRouteDir;
+	}	
 }
 
 void BurnSampleExit()
@@ -336,7 +369,6 @@ void BurnSampleExit()
 	sample_ptr = NULL;
 	nTotalSamples = 0;
 	bAddToStream = 0;
-	nSampleSetGain = 100;
 	
 	DebugSnd_SamplesInitted = 0;
 }
@@ -366,25 +398,62 @@ void BurnSampleRender(INT16 *pDest, UINT32 pLen)
 
 		if (loop) {
 			if (bAddToStream == 0 && nFirstSample == 0) {
-				for (INT32 j = 0; j < playlen; j++, position++) {
-					dest[j] = data[position % length];
+				position *= 2;
+				length *= 2;
+				INT16 *dst = (INT16*)dest;
+				INT16 *dat = (INT16*)data;
+				
+				for (INT32 j = 0; j < playlen; j++, position+=2, dst += 2) {
+					INT32 nLeftSample = 0, nRightSample = 0;
+					
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)(dat[(position + 0) % length] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_1]);
+					}
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)(dat[(position + 0) % length] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_1]);
+					}
+					
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)(dat[(position + 1) % length] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_2]);
+					}
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)(dat[(position + 1) % length] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_2]);
+					}
+					
+					nLeftSample = BURN_SND_CLIP(nLeftSample);
+					nRightSample = BURN_SND_CLIP(nRightSample);
+					
+					dst[0] = nLeftSample;
+					dst[1] = nRightSample;
 				}
 			} else {
 				position *= 2;
 				length *= 2;
 				INT16 *dst = (INT16*)dest;
 				INT16 *dat = (INT16*)data;
-
+				
 				for (INT32 j = 0; j < playlen; j++, position+=2, dst += 2) {
-					INT32 t0 = dst[0] + dat[(position + 0) % length];
-					INT32 t1 = dst[1] + dat[(position + 1) % length];
-
-					if (t0 > 0x7fff) t0 = 0x7fff;
-					if (t1 > 0x7fff) t1 = 0x7fff;
-					if (t0 < -0x7fff) t0 = -0x7fff;
-					if (t1 < -0x7fff) t1 = -0x7fff;
-					dst[0] = t0;
-					dst[1] = t1;
+					INT32 nLeftSample = 0, nRightSample = 0;
+					
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)(dat[(position + 0) % length] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_1]);
+					}
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)(dat[(position + 0) % length] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_1]);
+					}
+					
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)(dat[(position + 1) % length] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_2]);
+					}
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)(dat[(position + 1) % length] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_2]);
+					}
+					
+					nLeftSample = BURN_SND_CLIP(nLeftSample + dst[0]);
+					nRightSample = BURN_SND_CLIP(nRightSample + dst[1]);
+					
+					dst[0] = nLeftSample;
+					dst[1] = nRightSample;
 				}
 			}
 		} else {
@@ -399,25 +468,60 @@ void BurnSampleRender(INT16 *pDest, UINT32 pLen)
 
 			data += position;
 			if (playlen > length) playlen = length;
-
+			
 			if (bAddToStream == 0 && nFirstSample == 0) {
-				for (INT32 j = 0; j < playlen; j++) {
-					dest[j] = data[j];
+				INT16 *dst = (INT16*)dest;
+				INT16 *dat = (INT16*)data;
+				
+				for (INT32 j = 0; j < playlen; j++, dst +=2, dat+=2) {
+					INT32 nLeftSample = 0, nRightSample = 0;
+					
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)(dat[0] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_1]);
+					}
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)(dat[0] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_1]);
+					}
+					
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)(dat[1] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_2]);
+					}
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)(dat[1] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_2]);
+					}
+					
+					nLeftSample = BURN_SND_CLIP(nLeftSample);
+					nRightSample = BURN_SND_CLIP(nRightSample);
+					
+					dst[0] = nLeftSample;
+					dst[1] = nRightSample;
 				}
 			} else {
 				INT16 *dst = (INT16*)dest;
 				INT16 *dat = (INT16*)data;
 
 				for (INT32 j = 0; j < playlen; j++, dst +=2, dat+=2) {
-					INT32 t0 = dst[0] + dat[0];
-					INT32 t1 = dst[1] + dat[1];
-
-					if (t0 > 0x7fff) t0 = 0x7fff;
-					if (t1 > 0x7fff) t1 = 0x7fff;
-					if (t0 < -0x7fff) t0 = -0x7fff;
-					if (t1 < -0x7fff) t1 = -0x7fff;
-					dst[0] = t0;
-					dst[1] = t1;
+					INT32 nLeftSample = 0, nRightSample = 0;
+					
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)(dat[0] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_1]);
+					}
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)(dat[0] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_1]);
+					}
+					
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)(dat[1] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_2]);
+					}
+					if ((sample_ptr->output_dir[BURN_SND_SAMPLE_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)(dat[1] * sample_ptr->gain[BURN_SND_SAMPLE_ROUTE_2]);
+					}
+					
+					nLeftSample = BURN_SND_CLIP(nLeftSample + dst[0]);
+					nRightSample = BURN_SND_CLIP(nRightSample + dst[1]);
+					
+					dst[0] = nLeftSample;
+					dst[1] = nRightSample;
 				}
 			}
 		}

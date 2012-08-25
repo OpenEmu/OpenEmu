@@ -1,5 +1,5 @@
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "namco_snd.h"
 #include "samples.h"
 
@@ -705,8 +705,10 @@ static void MachineInit()
 	ZetMemEnd();
 	ZetClose();
 	
-	NamcoSoundInit(18432000 / 6 / 32);
-	BurnSampleInit(80, 0);
+	NamcoSoundInit(18432000 / 6 / 32, 3);
+	NacmoSoundSetAllRoutes(1.00, BURN_SND_ROUTE_BOTH);
+	BurnSampleInit(0);
+	BurnSampleSetAllRoutesAllSamples(0.80, BURN_SND_ROUTE_BOTH);
 	
 	GenericTilesInit();
 

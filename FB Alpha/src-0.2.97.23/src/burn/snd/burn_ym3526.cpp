@@ -1,8 +1,8 @@
 #include "burnint.h"
 #include "burn_sound.h"
 #include "burn_ym3526.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "m6809_intf.h"
 #include "hd6309_intf.h"
 #include "m6800_intf.h"
@@ -49,8 +49,6 @@ INT32 BurnTimerUpdateYM3526(INT32 nCycles)
 
 	nTicksTotal = MAKE_TIMER_TICKS(nCycles, nCPUClockspeed);
 
-//	bprintf(PRINT_NORMAL, _T(" -- Ticks: %08X, cycles %i\n"), nTicksTotal, nCycles);
-
 	while (nTicksDone < nTicksTotal) {
 		INT32 nTimer, nCyclesSegment, nTicksSegment;
 
@@ -65,12 +63,10 @@ INT32 BurnTimerUpdateYM3526(INT32 nCycles)
 		}
 
 		nCyclesSegment = MAKE_CPU_CYLES(nTicksSegment + nTicksExtra, nCPUClockspeed);
-//		bprintf(PRINT_NORMAL, _T("  - Timer: %08X, %08X, %08X, cycles %i, %i\n"), nTicksDone, nTicksSegment, nTicksTotal, nCyclesSegment, pCPUTotalCycles());
 
 		pCPURun(nCyclesSegment - pCPUTotalCycles());
 
 		nTicksDone = MAKE_TIMER_TICKS(pCPUTotalCycles() + 1, nCPUClockspeed) - 1;
-//		bprintf(PRINT_NORMAL, _T("  - ticks done -> %08X cycles -> %i\n"), nTicksDone, pCPUTotalCycles());
 
 		nTimer = 0;
 		if (nTicksDone >= nTimerCount[0]) {
@@ -79,7 +75,6 @@ INT32 BurnTimerUpdateYM3526(INT32 nCycles)
 			} else {
 				nTimerCount[0] += nTimerStart[0];
 			}
-//			bprintf(PRINT_NORMAL, _T("  - timer 0 fired\n"));
 			nTimer |= 1;
 		}
 		if (nTicksDone >= nTimerCount[1]) {
@@ -88,7 +83,6 @@ INT32 BurnTimerUpdateYM3526(INT32 nCycles)
 			} else {
 				nTimerCount[1] += nTimerStart[1];
 			}
-//			bprintf(PRINT_NORMAL, _T("  - timer 1 fired\n"));
 			nTimer |= 2;
 		}
 		if (nTimer & 1) {
@@ -117,15 +111,12 @@ void BurnTimerEndFrameYM3526(INT32 nCycles)
 
 	nTicksDone -= nTicks;
 	if (nTicksDone < 0) {
-//		bprintf(PRINT_ERROR, _T(" -- ticks done -> %08X\n"), nTicksDone);
 		nTicksDone = 0;
 	}
 }
 
 void BurnTimerUpdateEndYM3526()
 {
-//	bprintf(PRINT_NORMAL, _T("  - end %i\n"), pCPUTotalCycles());
-
 	pCPURunEnd();
 
 	nTicksTotal = 0;
@@ -137,14 +128,11 @@ void BurnOPLTimerCallbackYM3526(INT32 c, double period)
 
 	if (period == 0.0) {
 		nTimerCount[c] = MAX_TIMER_VALUE;
-//		bprintf(PRINT_NORMAL, _T("  - timer %i stopped\n"), c);
 		return;
 	}
 
 	nTimerCount[c]  = (INT32)(period * (double)TIMER_TICKS_PER_SECOND);
 	nTimerCount[c] += MAKE_TIMER_TICKS(pCPUTotalCycles(), nCPUClockspeed);
-
-//	bprintf(PRINT_NORMAL, _T("  - timer %i started, %08X ticks (fires in %lf seconds)\n"), c, nTimerCount[c], period);
 }
 
 void BurnTimerScanYM3526(INT32 nAction, INT32* pnMin)
@@ -203,8 +191,6 @@ INT32 BurnTimerAttachSekYM3526(INT32 nClockspeed)
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
-
 	return 0;
 }
 
@@ -216,8 +202,6 @@ INT32 BurnTimerAttachZetYM3526(INT32 nClockspeed)
 	pCPURunEnd = ZetRunEnd;
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
-
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
 
 	return 0;
 }
@@ -231,8 +215,6 @@ INT32 BurnTimerAttachM6809YM3526(INT32 nClockspeed)
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
-
 	return 0;
 }
 
@@ -244,8 +226,6 @@ INT32 BurnTimerAttachHD6309YM3526(INT32 nClockspeed)
 	pCPURunEnd = HD6309RunEnd;
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
-
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
 
 	return 0;
 }
@@ -259,8 +239,6 @@ INT32 BurnTimerAttachM6800YM3526(INT32 nClockspeed)
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
-
 	return 0;
 }
 
@@ -272,8 +250,6 @@ INT32 BurnTimerAttachHD63701YM3526(INT32 nClockspeed)
 	pCPURunEnd = HD63701RunEnd;
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
-
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
 
 	return 0;
 }
@@ -287,8 +263,6 @@ INT32 BurnTimerAttachM6803YM3526(INT32 nClockspeed)
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
-
 	return 0;
 }
 
@@ -300,8 +274,6 @@ INT32 BurnTimerAttachM6502YM3526(INT32 nClockspeed)
 	pCPURunEnd = M6502RunEnd; // doesn't do anything...
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
-
-//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
 
 	return 0;
 }
@@ -324,15 +296,18 @@ static INT32 nFractionalPosition;
 
 static INT32 bYM3526AddSignal;
 
+static double YM3526Volumes[1];
+static INT32 YM3526RouteDirs[1];
+
 // ----------------------------------------------------------------------------
 // Dummy functions
 
-static void YM3526UpdateDummy(INT16* , INT32 /* nSegmentEnd */)
+static void YM3526UpdateDummy(INT16* , INT32)
 {
 	return;
 }
 
-static INT32 YM3526StreamCallbackDummy(INT32 /* nSoundRate */)
+static INT32 YM3526StreamCallbackDummy(INT32)
 {
 	return 0;
 }
@@ -349,8 +324,6 @@ static void YM3526Render(INT32 nSegmentLength)
 	if (nYM3526Position >= nSegmentLength) {
 		return;
 	}
-
-//	bprintf(PRINT_NORMAL, _T("    YM3526 render %6i -> %6i\n", nYM3526Position, nSegmentLength));
 
 	nSegmentLength -= nYM3526Position;
 
@@ -371,8 +344,6 @@ static void YM3526UpdateResample(INT16* pSoundBuf, INT32 nSegmentEnd)
 	INT32 nSegmentLength = nSegmentEnd;
 	INT32 nSamplesNeeded = nSegmentEnd * nBurnYM3526SoundRate / nBurnSoundRate + 1;
 
-//	bprintf(PRINT_NORMAL, _T("    YM3526 update        -> %6i\n", nSegmentLength));
-
 	if (nSamplesNeeded < nYM3526Position) {
 		nSamplesNeeded = nYM3526Position;
 	}
@@ -387,24 +358,40 @@ static void YM3526UpdateResample(INT16* pSoundBuf, INT32 nSegmentEnd)
 	pYM3526Buffer = pBuffer + 0 * 4096 + 4;
 
 	for (INT32 i = (nFractionalPosition & 0xFFFF0000) >> 15; i < nSegmentLength; i += 2, nFractionalPosition += nSampleSize) {
-		INT16 nSample =  INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0FFF,
-												pYM3526Buffer[(nFractionalPosition >> 16) - 3],
-												pYM3526Buffer[(nFractionalPosition >> 16) - 2],
-												pYM3526Buffer[(nFractionalPosition >> 16) - 1],
-												pYM3526Buffer[(nFractionalPosition >> 16) - 0]);
+		INT32 nLeftSample[4] = {0, 0, 0, 0};
+		INT32 nRightSample[4] = {0, 0, 0, 0};
+		INT32 nTotalLeftSample, nTotalRightSample;
+		
+		if ((YM3526RouteDirs[BURN_SND_YM3526_ROUTE] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample[0] += (INT32)(pYM3526Buffer[(nFractionalPosition >> 16) - 3] * YM3526Volumes[BURN_SND_YM3526_ROUTE]);
+			nLeftSample[1] += (INT32)(pYM3526Buffer[(nFractionalPosition >> 16) - 2] * YM3526Volumes[BURN_SND_YM3526_ROUTE]);
+			nLeftSample[2] += (INT32)(pYM3526Buffer[(nFractionalPosition >> 16) - 1] * YM3526Volumes[BURN_SND_YM3526_ROUTE]);
+			nLeftSample[3] += (INT32)(pYM3526Buffer[(nFractionalPosition >> 16) - 0] * YM3526Volumes[BURN_SND_YM3526_ROUTE]);
+		}
+		if ((YM3526RouteDirs[BURN_SND_YM3526_ROUTE] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample[0] += (INT32)(pYM3526Buffer[(nFractionalPosition >> 16) - 3] * YM3526Volumes[BURN_SND_YM3526_ROUTE]);
+			nRightSample[1] += (INT32)(pYM3526Buffer[(nFractionalPosition >> 16) - 2] * YM3526Volumes[BURN_SND_YM3526_ROUTE]);
+			nRightSample[2] += (INT32)(pYM3526Buffer[(nFractionalPosition >> 16) - 1] * YM3526Volumes[BURN_SND_YM3526_ROUTE]);
+			nRightSample[3] += (INT32)(pYM3526Buffer[(nFractionalPosition >> 16) - 0] * YM3526Volumes[BURN_SND_YM3526_ROUTE]);
+		}
+		
+		nTotalLeftSample = INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0fff, nLeftSample[0], nLeftSample[1], nLeftSample[2], nLeftSample[3]);
+		nTotalRightSample = INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0fff, nRightSample[0], nRightSample[1], nRightSample[2], nRightSample[3]);
+		
+		nTotalLeftSample = BURN_SND_CLIP(nTotalLeftSample);
+		nTotalRightSample = BURN_SND_CLIP(nTotalRightSample);
+			
 		if (bYM3526AddSignal) {
-			pSoundBuf[i + 0] += nSample;
-			pSoundBuf[i + 1] += nSample;
+			pSoundBuf[i + 0] += nTotalLeftSample;
+			pSoundBuf[i + 1] += nTotalRightSample;
 		} else {
-			pSoundBuf[i + 0] = nSample;
-			pSoundBuf[i + 1] = nSample;
+			pSoundBuf[i + 0] = nTotalLeftSample;
+			pSoundBuf[i + 1] = nTotalRightSample;
 		}
 	}
 
 	if (nSegmentEnd >= nBurnSoundLen) {
 		INT32 nExtraSamples = nSamplesNeeded - (nFractionalPosition >> 16);
-
-//		bprintf(PRINT_NORMAL, _T("   %6i rendered, %i extra, %i <- %i\n"), nSamplesNeeded, nExtraSamples, nExtraSamples, (nFractionalPosition >> 16) + nExtraSamples - 1);
 
 		for (INT32 i = -4; i < nExtraSamples; i++) {
 			pYM3526Buffer[i] = pYM3526Buffer[(nFractionalPosition >> 16) + i];
@@ -424,8 +411,6 @@ static void YM3526UpdateNormal(INT16* pSoundBuf, INT32 nSegmentEnd)
 
 	INT32 nSegmentLength = nSegmentEnd;
 
-//	bprintf(PRINT_NORMAL, _T("    YM3526 render %6i -> %6i\n"), nYM3526Position, nSegmentEnd);
-
 	if (nSegmentEnd < nYM3526Position) {
 		nSegmentEnd = nYM3526Position;
 	}
@@ -438,13 +423,25 @@ static void YM3526UpdateNormal(INT16* pSoundBuf, INT32 nSegmentEnd)
 
 	pYM3526Buffer = pBuffer + 4 + 0 * 4096;
 
-	for (INT32 i = nFractionalPosition; i < nSegmentLength; i++) {
+	for (INT32 n = nFractionalPosition; n < nSegmentLength; n++) {
+		INT32 nLeftSample = 0, nRightSample = 0;
+		
+		if ((YM3526RouteDirs[BURN_SND_YM3526_ROUTE] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(pYM3526Buffer[n] * YM3526Volumes[BURN_SND_YM3526_ROUTE]);
+		}
+		if ((YM3526RouteDirs[BURN_SND_YM3526_ROUTE] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(pYM3526Buffer[n] * YM3526Volumes[BURN_SND_YM3526_ROUTE]);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+			
 		if (bYM3526AddSignal) {
-			pSoundBuf[(i << 1) + 0] += pYM3526Buffer[i];
-			pSoundBuf[(i << 1) + 1] += pYM3526Buffer[i];
+			pSoundBuf[(n << 1) + 0] += nLeftSample;
+			pSoundBuf[(n << 1) + 1] += nRightSample;
 		} else {
-			pSoundBuf[(i << 1) + 0] = pYM3526Buffer[i];
-			pSoundBuf[(i << 1) + 1] = pYM3526Buffer[i];
+			pSoundBuf[(n << 1) + 0] = nLeftSample;
+			pSoundBuf[(n << 1) + 1] = nRightSample;
 		}
 	}
 
@@ -558,8 +555,23 @@ INT32 BurnYM3526Init(INT32 nClockFrequency, OPL_IRQHANDLER IRQCallback, INT32 (*
 	nFractionalPosition = 0;
 	
 	bYM3526AddSignal = bAddSignal;
+	
+	// default routes
+	YM3526Volumes[BURN_SND_YM3526_ROUTE] = 1.00;
+	YM3526RouteDirs[BURN_SND_YM3526_ROUTE] = BURN_SND_ROUTE_BOTH;
 
 	return 0;
+}
+
+void BurnYM3526SetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_YM3526Initted) bprintf(PRINT_ERROR, _T("BurnYM3526SetRoute called without init\n"));
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("BurnYM3526SetRoute called with invalid index %i\n"), nIndex);
+#endif
+	
+	YM3526Volumes[nIndex] = nVolume;
+	YM3526RouteDirs[nIndex] = nRouteDir;
 }
 
 void BurnYM3526Scan(INT32 nAction, INT32* pnMin)

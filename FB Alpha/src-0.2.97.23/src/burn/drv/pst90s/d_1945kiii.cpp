@@ -2,7 +2,7 @@
 // Port to Finalburn Alpha by OopsWare. 2007
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "msm6295.h"
 
 static UINT8 *Mem	= NULL;
@@ -297,8 +297,10 @@ static INT32 DrvInit()
 		SekClose();
 	}
 	
-	MSM6295Init(0, 7500, 80, 1);
-	MSM6295Init(1, 7500, 80, 1);
+	MSM6295Init(0, 7500, 1);
+	MSM6295Init(1, 7500, 1);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
+	MSM6295SetRoute(1, 1.00, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

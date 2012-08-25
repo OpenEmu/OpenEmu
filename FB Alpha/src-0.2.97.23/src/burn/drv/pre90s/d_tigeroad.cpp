@@ -3,8 +3,8 @@
 // F1 Dream protection code by Eric Hustvedt
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2203.h"
 #include "msm5205.h"
 
@@ -554,7 +554,7 @@ static double TigeroadGetTime()
 
 inline static INT32 DrvMSM5205SynchroniseStream(INT32 nSoundRate)
 {
-	return (INT64)(SekTotalCycles() * nSoundRate / 10000000);
+	return (INT64)((double)SekTotalCycles() * nSoundRate / 10000000);
 }
 
 static INT32 DrvDoReset()
@@ -729,10 +729,14 @@ static INT32 DrvInit(INT32 (*pInitCallback)())
 	}
 
 	BurnYM2203Init(2, 3579545, &TigeroadIRQHandler, TigeroadSynchroniseStream, TigeroadGetTime, 0);
-	BurnYM2203SetVolumeShift(2);
 	BurnTimerAttachZet(3579545);
+	BurnYM2203SetAllRoutes(0, 0.25, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetAllRoutes(1, 0.25, BURN_SND_ROUTE_BOTH);
 	
-	if (toramich) MSM5205Init(0, DrvMSM5205SynchroniseStream, 384000, NULL, MSM5205_SEX_4B, 100, 1);
+	if (toramich) {
+		MSM5205Init(0, DrvMSM5205SynchroniseStream, 384000, NULL, MSM5205_SEX_4B, 1);
+		MSM5205SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
+	}
 
 	GenericTilesInit();
 

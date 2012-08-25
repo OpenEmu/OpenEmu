@@ -4,7 +4,7 @@
 // Heavily modified by iq_132 (Nov, 2011)
 
 #include "burnint.h"
-#include "vez.h"
+#include "nec_intf.h"
 
 #define MAX_VEZ		4
 

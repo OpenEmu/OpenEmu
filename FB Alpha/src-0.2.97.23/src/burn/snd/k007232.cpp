@@ -30,6 +30,9 @@ struct kdacPointers
 	UINT8			*pcmbuf[2];
 	UINT32  		pcmlimit;
 	K07232_PortWrite	K07232PortWriteHandler;
+	
+	double			gain[2];
+	INT32			output_dir[2];
 };
 
 static struct kdacApcm Chips[2];
@@ -97,14 +100,27 @@ void K007232Update(INT32 chip, INT16* pSoundBuf, INT32 nLength)
 	}
 	
 	for (i = 0; i < nLength; i++) {
-		if (Left[i] > 32767) Left[i] = 32767;
-		if (Left[i] < -32768) Left[i] = -32768;
+		INT32 nLeftSample = 0, nRightSample = 0;
 		
-		if (Right[i] > 32767) Right[i] = 32767;
-		if (Right[i] < -32768) Right[i] = -32768;
+		if ((Ptr->output_dir[BURN_SND_K007232_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(Left[i] * Ptr->gain[BURN_SND_K007232_ROUTE_1]);
+		}
+		if ((Ptr->output_dir[BURN_SND_K007232_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(Left[i] * Ptr->gain[BURN_SND_K007232_ROUTE_1]);
+		}
 		
-		pSoundBuf[0] += Left[i] >> 2;
-		pSoundBuf[1] += Right[i] >> 2;
+		if ((Ptr->output_dir[BURN_SND_K007232_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(Right[i] * Ptr->gain[BURN_SND_K007232_ROUTE_2]);
+		}
+		if ((Ptr->output_dir[BURN_SND_K007232_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(Right[i] * Ptr->gain[BURN_SND_K007232_ROUTE_2]);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+		
+		pSoundBuf[0] += nLeftSample;
+		pSoundBuf[1] += nRightSample;
 		pSoundBuf += 2;
 	}
 }
@@ -250,7 +266,26 @@ void K007232Init(INT32 chip, INT32 clock, UINT8 *pPCMData, INT32 PCMDataSize)
 	double Rate = (double)clock / 128 / nBurnSoundRate;
 	Chip->UpdateStep = (INT32)(Rate * 0x10000);
 	
+	Ptr->gain[BURN_SND_K007232_ROUTE_1] = 1.00;
+	Ptr->gain[BURN_SND_K007232_ROUTE_2] = 1.00;
+	Ptr->output_dir[BURN_SND_K007232_ROUTE_1] = BURN_SND_ROUTE_BOTH;
+	Ptr->output_dir[BURN_SND_K007232_ROUTE_2] = BURN_SND_ROUTE_BOTH;
+	
 	nNumChips = chip;
+}
+
+void K007232SetRoute(INT32 chip, INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_K007232Initted) bprintf(PRINT_ERROR, _T("K007232SetRoute called without init\n"));
+	if (chip >nNumChips) bprintf(PRINT_ERROR, _T("K007232SetRoute called with invalid chip %x\n"), chip);
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("K007232SetRoute called with invalid index %i\n"), nIndex);
+#endif
+
+	Ptr  = &Pointers[chip];
+	
+	Ptr->gain[nIndex] = nVolume;
+	Ptr->output_dir[nIndex] = nRouteDir;
 }
 
 void K007232Exit()

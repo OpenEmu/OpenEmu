@@ -2,7 +2,7 @@
 // Based on MAME driver by Farfetch, David Haywood, Tomasz Slanina, and nuapete
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "msm6295.h"
 #include "eeprom.h"
 #include "ymz280b.h"
@@ -11,7 +11,7 @@
 //#define ENABLE_SOUND_HARDWARE // no sound without ymf262 core anyway...
 
 #ifdef ENABLE_SOUND_HARDWARE
-#include "zet.h"
+#include "z80_intf.h"
 #endif
 
 static UINT8 *AllMem;
@@ -666,9 +666,12 @@ static INT32 CommonInit(INT32 (*pRomLoadCallback)(), INT32 spritelen, INT32 sndl
 
 	// ymf262
 
-	YMZ280BInit(16900000, NULL, 3);
+	YMZ280BInit(16900000, NULL);
+	YMZ280BSetRoute(BURN_SND_YMZ280B_YMZ280B_ROUTE_1, 0.30, BURN_SND_ROUTE_LEFT);
+	YMZ280BSetRoute(BURN_SND_YMZ280B_YMZ280B_ROUTE_2, 0.30, BURN_SND_ROUTE_RIGHT);
 
-	MSM6295Init(0, 2000000 / 132, 50.0, 1);
+	MSM6295Init(0, 2000000 / 132, 1);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 #endif
 
 	GenericTilesInit();

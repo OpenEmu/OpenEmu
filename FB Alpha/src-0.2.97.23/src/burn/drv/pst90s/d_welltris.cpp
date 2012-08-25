@@ -2,8 +2,8 @@
 // Based on MAME driver David Haywood
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2610.h"
 
 static UINT8 *AllMem;
@@ -588,7 +588,9 @@ static INT32 DrvInit()
 
 	BurnYM2610Init(8000000, DrvSndROM1, &DrvSndROMLen1, DrvSndROM0, &DrvSndROMLen0, &DrvFMIRQHandler, DrvSynchroniseStream, DrvGetTime, 0);
 	BurnTimerAttachZet(4000000);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 0.75, BURN_SND_ROUTE_BOTH);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 0.75, BURN_SND_ROUTE_BOTH);
+	BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -601,7 +603,6 @@ static INT32 DrvExit()
 {
 	GenericTilesExit();
 
-	BurnYM2610SetSoundMixMode(0);
 	BurnYM2610Exit();
 	
 	ZetExit();

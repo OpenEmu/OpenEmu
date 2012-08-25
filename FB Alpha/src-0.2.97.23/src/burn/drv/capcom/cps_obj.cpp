@@ -712,7 +712,7 @@ INT32 Sf2mdtObjGet()
 		
 		n = BURN_ENDIAN_SWAP_INT16(ps[0]);
 		a = BURN_ENDIAN_SWAP_INT16(ps[1]);
-		x = BURN_ENDIAN_SWAP_INT16(ps[2] + 0x03);
+		x = BURN_ENDIAN_SWAP_INT16(ps[2]) + 0x03;
 		
 		po[0] = n & 0xff;
 		po[1] = n >> 8;

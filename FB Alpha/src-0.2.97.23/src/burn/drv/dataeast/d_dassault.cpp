@@ -2,7 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "h6280_intf.h"
 #include "bitswap.h"
 #include "deco16ic.h"
@@ -672,7 +672,10 @@ static INT32 DrvInit()
 	SekSetReadByteHandler(1,			dassault_irq_read_byte);
 	SekClose();
 
-	deco16SoundInit(DrvHucROM, DrvHucRAM, 8055000, 1, DrvYM2151WritePort, 40.0, 1006875, 75.0, 2013750, 60.0);
+	deco16SoundInit(DrvHucROM, DrvHucRAM, 8055000, 1, DrvYM2151WritePort, 0.45, 1006875, 0.50, 2013750, 0.25);
+	BurnYM2203SetAllRoutes(0, 0.40, BURN_SND_ROUTE_BOTH);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.45, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.45, BURN_SND_ROUTE_RIGHT);
 
 	GenericTilesInit();
 
@@ -950,58 +953,58 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 }
 
 
-// Thunder Zone (World)
+// Thunder Zone (World, Rev1)
 
 static struct BurnRomInfo thndzoneRomDesc[] = {
-	{ "gz_01.bin",		0x020000, 0x15e8c328,  1 | BRF_PRG | BRF_ESS }, //  0 68k 'A' Code 
-	{ "gz_03.bin",		0x020000, 0xaab5c86e,  1 | BRF_PRG | BRF_ESS }, //  1
-	{ "gs00",		0x020000, 0xb7277175,  1 | BRF_PRG | BRF_ESS }, //  2
-	{ "gs02",		0x020000, 0xcde31e35,  1 | BRF_PRG | BRF_ESS }, //  3
+	{ "gz01-1.a15",		0x020000, 0x20250da6,  1 | BRF_PRG | BRF_ESS }, //  0 68k 'A' Code 
+	{ "gz03-1.a17",		0x020000, 0x3595fad0,  1 | BRF_PRG | BRF_ESS }, //  1
+	{ "gt00.a14",		0x020000, 0xb7277175,  1 | BRF_PRG | BRF_ESS }, //  2
+	{ "gt02.a16",		0x020000, 0xcde31e35,  1 | BRF_PRG | BRF_ESS }, //  3
 
-	{ "gz_10.bin",		0x020000, 0x79f919e9,  2 | BRF_PRG | BRF_ESS }, //  4 68k 'B' Code
-	{ "gz_08.bin",		0x020000, 0xd47d7836,  2 | BRF_PRG | BRF_ESS }, //  5
-	{ "gs11",		0x020000, 0x80cb23de,  2 | BRF_PRG | BRF_ESS }, //  6
-	{ "gs09",		0x020000, 0x0a8fa7e1,  2 | BRF_PRG | BRF_ESS }, //  7
+	{ "gz10-1.a12",		0x020000, 0x811d86d7,  2 | BRF_PRG | BRF_ESS }, //  4 68k 'B' Code
+	{ "gz08-1.a9",		0x020000, 0x8f61ab1e,  2 | BRF_PRG | BRF_ESS }, //  5
+	{ "gt11-1.a14",		0x020000, 0x80cb23de,  2 | BRF_PRG | BRF_ESS }, //  6
+	{ "gt09-1.a11",		0x020000, 0x0a8fa7e1,  2 | BRF_PRG | BRF_ESS }, //  7
 
-	{ "gs04",		0x010000, 0x81c29ebf,  3 | BRF_PRG | BRF_ESS }, //  8 Huc6280 Code
+	{ "gt04.f18",		0x010000, 0x81c29ebf,  3 | BRF_PRG | BRF_ESS }, //  8 Huc6280 Code
 
-	{ "gs05",		0x010000, 0x0aae996a,  4 | BRF_GRA },           //  9 Characters
-	{ "gs06",		0x010000, 0x4efdf03d,  4 | BRF_GRA },           // 10
+	{ "gt05.h11",		0x010000, 0x0aae996a,  4 | BRF_GRA },           //  9 Characters
+	{ "gt06.h12",		0x010000, 0x4efdf03d,  4 | BRF_GRA },           // 10
 
-	{ "maj-02",		0x100000, 0x383bbc37,  5 | BRF_GRA },           // 11 Foreground Tiles
+	{ "maj-02.h14",		0x100000, 0x383bbc37,  5 | BRF_GRA },           // 11 Foreground Tiles
 
-	{ "maj-01",		0x100000, 0x9840a204,  6 | BRF_GRA },           // 12 Background Tiles
-	{ "maj-00",		0x100000, 0x87ea8d16,  6 | BRF_GRA },           // 13
+	{ "maj-01.c18",		0x100000, 0x9840a204,  6 | BRF_GRA },           // 12 Background Tiles
+	{ "maj-00.c17",		0x100000, 0x87ea8d16,  6 | BRF_GRA },           // 13
 
-	{ "maj-04",		0x080000, 0x36e49b19,  7 | BRF_GRA },           // 14 Sprite Bank A
-	{ "maj-05",		0x080000, 0x80fc71cc,  7 | BRF_GRA },           // 15
-	{ "maj-06",		0x080000, 0x2e7a684b,  7 | BRF_GRA },           // 16
-	{ "maj-07",		0x080000, 0x3acc1f78,  7 | BRF_GRA },           // 17
-	{ "maj-08",		0x080000, 0x1958a36d,  7 | BRF_GRA },           // 18
-	{ "maj-09",		0x080000, 0xc21087a1,  7 | BRF_GRA },           // 19
-	{ "maj-10",		0x080000, 0xa02fa641,  7 | BRF_GRA },           // 20
-	{ "maj-11",		0x080000, 0xdabe9305,  7 | BRF_GRA },           // 21
+	{ "maj-04.r1",		0x080000, 0x36e49b19,  7 | BRF_GRA },           // 14 Sprite Bank A
+	{ "maj-05.r2",		0x080000, 0x80fc71cc,  7 | BRF_GRA },           // 15
+	{ "maj-06.r3",		0x080000, 0x2e7a684b,  7 | BRF_GRA },           // 16
+	{ "maj-07.r5",		0x080000, 0x3acc1f78,  7 | BRF_GRA },           // 17
+	{ "maj-08.s6",		0x080000, 0x1958a36d,  7 | BRF_GRA },           // 18
+	{ "maj-09.s8",		0x080000, 0xc21087a1,  7 | BRF_GRA },           // 19
+	{ "maj-10.s9",		0x080000, 0xa02fa641,  7 | BRF_GRA },           // 20
+	{ "maj-11.s11",		0x080000, 0xdabe9305,  7 | BRF_GRA },           // 21
 
-	{ "gs12",		0x020000, 0x9a86a015,  8 | BRF_GRA },           // 22 Sprite Bank B
-	{ "gs13",		0x020000, 0xf4709905,  8 | BRF_GRA },           // 23
-	{ "gs14",		0x020000, 0x750fc523,  8 | BRF_GRA },           // 24
-	{ "gs15",		0x020000, 0xf14edd3d,  8 | BRF_GRA },           // 25
+	{ "gt12.n1",		0x020000, 0x9a86a015,  8 | BRF_GRA },           // 22 Sprite Bank B
+	{ "gt13.n2",		0x020000, 0xf4709905,  8 | BRF_GRA },           // 23
+	{ "gt14.n3",		0x020000, 0x750fc523,  8 | BRF_GRA },           // 24
+	{ "gt15.n5",		0x020000, 0xf14edd3d,  8 | BRF_GRA },           // 25
 
-	{ "gs07",		0x020000, 0x750b7e5d,  9 | BRF_SND },           // 26 MSM6295 Samples 0
+	{ "gt07.h15",		0x020000, 0x750b7e5d,  9 | BRF_SND },           // 26 MSM6295 Samples 0
 
-	{ "maj-03",		0x080000, 0x31dcfac3, 10 | BRF_SND },           // 27 MSM6295 Samples 1
+	{ "maj-03.h16",		0x080000, 0x31dcfac3, 10 | BRF_SND },           // 27 MSM6295 Samples 1
 
 	{ "mb7128y.10m",	0x000800, 0xbde780a2, 11 | BRF_OPT },           // 28 Unknown Proms
 	{ "mb7128y.16p",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 29
 
-	{ "pal16r8a 1h",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 30 PLDs
-	{ "pal16l8b.7c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 31
-	{ "pal16l8b.7d",	0x000104, 0x199e83fd, 12 | BRF_OPT },           // 32
-	{ "pal16l8b.7e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 33
-	{ "pal16l8b.7l",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 34
-	{ "pal16l8b.8e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 35
-	{ "pal16l8b.9d",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 36
-	{ "pal16l8b.10c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 37
+	{ "pal16r8a 1h",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 32 PLDs
+	{ "pal16l8b.7c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 33
+	{ "pal16l8b.7d",	0x000104, 0x199e83fd, 12 | BRF_OPT },       // 34
+	{ "pal16l8b.7e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 35
+	{ "pal16l8b.7l",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 36
+	{ "pal16l8b.8e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 37
+	{ "pal16l8b.9d",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 38
+	{ "pal16l8b.10c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 39
 };
 
 STD_ROM_PICK(thndzone)
@@ -1009,7 +1012,7 @@ STD_ROM_FN(thndzone)
 
 struct BurnDriver BurnDrvThndzone = {
 	"thndzone", NULL, NULL, NULL, "1991",
-	"Thunder Zone (World)\0", NULL, "Data East Corporation", "DECO IC16",
+	"Thunder Zone (World, Rev 1)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 4, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, thndzoneRomInfo, thndzoneRomName, NULL, NULL, ThndzoneInputInfo, ThndzoneDIPInfo,
@@ -1018,58 +1021,206 @@ struct BurnDriver BurnDrvThndzone = {
 };
 
 
-// Desert Assault (US)
+// Thunder Zone (World)
 
-static struct BurnRomInfo dassaultRomDesc[] = {
-	{ "01.bin",		0x020000, 0x14f17ea7,  1 | BRF_PRG | BRF_ESS }, //  0 68k 'A' Code
-	{ "03.bin",		0x020000, 0xbed1b90c,  1 | BRF_PRG | BRF_ESS }, //  1
-	{ "gs00",		0x020000, 0xb7277175,  1 | BRF_PRG | BRF_ESS }, //  2
-	{ "gs02",		0x020000, 0xcde31e35,  1 | BRF_PRG | BRF_ESS }, //  3
+static struct BurnRomInfo thndzoneaRomDesc[] = {
+	{ "gz01.a15",		0x020000, 0x15e8c328,  1 | BRF_PRG | BRF_ESS }, //  0 68k 'A' Code 
+	{ "gz03.a17",		0x020000, 0xaab5c86e,  1 | BRF_PRG | BRF_ESS }, //  1
+	{ "gt00.a14",		0x020000, 0xb7277175,  1 | BRF_PRG | BRF_ESS }, //  2
+	{ "gt02.a16",		0x020000, 0xcde31e35,  1 | BRF_PRG | BRF_ESS }, //  3
 
-	{ "hc10-1.bin",		0x020000, 0xac5ac770,  2 | BRF_PRG | BRF_ESS }, //  4 68k 'B' Code
-	{ "hc08-1.bin",		0x020000, 0x864dca56,  2 | BRF_PRG | BRF_ESS }, //  5
-	{ "gs11",		0x020000, 0x80cb23de,  2 | BRF_PRG | BRF_ESS }, //  6
-	{ "gs09",		0x020000, 0x0a8fa7e1,  2 | BRF_PRG | BRF_ESS }, //  7
+	{ "gz10.a12",		0x020000, 0x79f919e9,  2 | BRF_PRG | BRF_ESS }, //  4 68k 'B' Code
+	{ "gz08.a9",		0x020000, 0xd47d7836,  2 | BRF_PRG | BRF_ESS }, //  5
+	{ "gt11-1.a14",		0x020000, 0x80cb23de,  2 | BRF_PRG | BRF_ESS }, //  6
+	{ "gt09-1.a11",		0x020000, 0x0a8fa7e1,  2 | BRF_PRG | BRF_ESS }, //  7
 
-	{ "gs04",		0x010000, 0x81c29ebf,  3 | BRF_PRG | BRF_ESS }, //  8 Huc6280 Code
+	{ "gt04.f18",		0x010000, 0x81c29ebf,  3 | BRF_PRG | BRF_ESS }, //  8 Huc6280 Code
 
-	{ "gs05",		0x010000, 0x0aae996a,  4 | BRF_GRA },           //  9 Characters
-	{ "gs06",		0x010000, 0x4efdf03d,  4 | BRF_GRA },           // 10
+	{ "gt05.h11",		0x010000, 0x0aae996a,  4 | BRF_GRA },           //  9 Characters
+	{ "gt06.h12",		0x010000, 0x4efdf03d,  4 | BRF_GRA },           // 10
 
-	{ "maj-02",		0x100000, 0x383bbc37,  5 | BRF_GRA },           // 11 Foreground Tiles
+	{ "maj-02.h14",		0x100000, 0x383bbc37,  5 | BRF_GRA },           // 11 Foreground Tiles
 
-	{ "maj-01",		0x100000, 0x9840a204,  6 | BRF_GRA },           // 12 Background Tiles
-	{ "maj-00",		0x100000, 0x87ea8d16,  6 | BRF_GRA },           // 13
+	{ "maj-01.c18",		0x100000, 0x9840a204,  6 | BRF_GRA },           // 12 Background Tiles
+	{ "maj-00.c17",		0x100000, 0x87ea8d16,  6 | BRF_GRA },           // 13
 
-	{ "maj-04",		0x080000, 0x36e49b19,  7 | BRF_GRA },           // 14 Sprite Bank A
-	{ "maj-05",		0x080000, 0x80fc71cc,  7 | BRF_GRA },           // 15
-	{ "maj-06",		0x080000, 0x2e7a684b,  7 | BRF_GRA },           // 16
-	{ "maj-07",		0x080000, 0x3acc1f78,  7 | BRF_GRA },           // 17
-	{ "maj-08",		0x080000, 0x1958a36d,  7 | BRF_GRA },           // 18
-	{ "maj-09",		0x080000, 0xc21087a1,  7 | BRF_GRA },           // 19
-	{ "maj-10",		0x080000, 0xa02fa641,  7 | BRF_GRA },           // 20
-	{ "maj-11",		0x080000, 0xdabe9305,  7 | BRF_GRA },           // 21
+	{ "maj-04.r1",		0x080000, 0x36e49b19,  7 | BRF_GRA },           // 14 Sprite Bank A
+	{ "maj-05.r2",		0x080000, 0x80fc71cc,  7 | BRF_GRA },           // 15
+	{ "maj-06.r3",		0x080000, 0x2e7a684b,  7 | BRF_GRA },           // 16
+	{ "maj-07.r5",		0x080000, 0x3acc1f78,  7 | BRF_GRA },           // 17
+	{ "maj-08.s6",		0x080000, 0x1958a36d,  7 | BRF_GRA },           // 18
+	{ "maj-09.s8",		0x080000, 0xc21087a1,  7 | BRF_GRA },           // 19
+	{ "maj-10.s9",		0x080000, 0xa02fa641,  7 | BRF_GRA },           // 20
+	{ "maj-11.s11",		0x080000, 0xdabe9305,  7 | BRF_GRA },           // 21
 
-	{ "gs12",		0x020000, 0x9a86a015,  8 | BRF_GRA },           // 22 Sprite Bank B
-	{ "gs13",		0x020000, 0xf4709905,  8 | BRF_GRA },           // 23
-	{ "gs14",		0x020000, 0x750fc523,  8 | BRF_GRA },           // 24
-	{ "gs15",		0x020000, 0xf14edd3d,  8 | BRF_GRA },           // 25
+	{ "gt12.n1",		0x020000, 0x9a86a015,  8 | BRF_GRA },           // 22 Sprite Bank B
+	{ "gt13.n2",		0x020000, 0xf4709905,  8 | BRF_GRA },           // 23
+	{ "gt14.n3",		0x020000, 0x750fc523,  8 | BRF_GRA },           // 24
+	{ "gt15.n5",		0x020000, 0xf14edd3d,  8 | BRF_GRA },           // 25
 
-	{ "gs07",		0x020000, 0x750b7e5d,  9 | BRF_SND },           // 26 MSM6295 Samples 0
+	{ "gt07.h15",		0x020000, 0x750b7e5d,  9 | BRF_SND },           // 26 MSM6295 Samples 0
 
-	{ "maj-03",		0x080000, 0x31dcfac3, 10 | BRF_SND },           // 27 MSM6295 Samples 1
+	{ "maj-03.h16",		0x080000, 0x31dcfac3, 10 | BRF_SND },           // 27 MSM6295 Samples 1
 
 	{ "mb7128y.10m",	0x000800, 0xbde780a2, 11 | BRF_OPT },           // 28 Unknown Proms
 	{ "mb7128y.16p",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 29
+	{ "mb7128y.16s",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 30
+	{ "mb7128y.17s",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 31
 
-	{ "pal16r8a 1h",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 30 PLDs
-	{ "pal16l8b.7c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 31
-	{ "pal16l8b.7d",	0x000104, 0x199e83fd, 12 | BRF_OPT },           // 32
-	{ "pal16l8b.7e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 33
-	{ "pal16l8b.7l",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 34
-	{ "pal16l8b.8e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 35
-	{ "pal16l8b.9d",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 36
-	{ "pal16l8b.10c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 37
+	{ "pal16r8a 1h",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 32 PLDs
+	{ "pal16l8b.7c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 33
+	{ "pal16l8b.7d",	0x000104, 0x199e83fd, 12 | BRF_OPT },       // 34
+	{ "pal16l8b.7e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 35
+	{ "pal16l8b.7l",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 36
+	{ "pal16l8b.8e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 37
+	{ "pal16l8b.9d",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 38
+	{ "pal16l8b.10c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 39
+};
+
+STD_ROM_PICK(thndzonea)
+STD_ROM_FN(thndzonea)
+
+struct BurnDriver BurnDrvThndzonea = {
+	"thndzonea", "thndzone", NULL, NULL, "1991",
+	"Thunder Zone (World)\0", NULL, "Data East Corporation", "DECO IC16",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
+	NULL, thndzoneaRomInfo, thndzoneaRomName, NULL, NULL, ThndzoneInputInfo, ThndzoneDIPInfo,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x1000,
+	320, 240, 4, 3
+};
+
+
+// Thunder Zone (Japan)
+
+static struct BurnRomInfo thndzonejRomDesc[] = {
+	{ "gu01.a15",		0x020000, 0xeb28f8e8,  1 | BRF_PRG | BRF_ESS }, //  0 68k 'A' Code 
+	{ "gu03.a17",		0x020000, 0x9ad2b431,  1 | BRF_PRG | BRF_ESS }, //  1
+	{ "gu00.a14",		0x020000, 0xfca9e84f,  1 | BRF_PRG | BRF_ESS }, //  2
+	{ "gu02.a16",		0x020000, 0xb6026bae,  1 | BRF_PRG | BRF_ESS }, //  3
+
+	{ "gu10.a12",		0x020000, 0x8042e87d,  2 | BRF_PRG | BRF_ESS }, //  4 68k 'B' Code
+	{ "gu08.a9",		0x020000, 0xc8895bfa,  2 | BRF_PRG | BRF_ESS }, //  5
+	{ "gu11.a14",		0x020000, 0xc0d6eb82,  2 | BRF_PRG | BRF_ESS }, //  6
+	{ "gu09.a11",		0x020000, 0x42de13a7,  2 | BRF_PRG | BRF_ESS }, //  7
+
+	{ "gu04.f18",		0x010000, 0x81c29ebf,  3 | BRF_PRG | BRF_ESS }, //  8 Huc6280 Code
+
+	{ "gu05.h11",		0x010000, 0x0aae996a,  4 | BRF_GRA },           //  9 Characters
+	{ "gu06.h12",		0x010000, 0x4efdf03d,  4 | BRF_GRA },           // 10
+
+	{ "maj-02.h14",		0x100000, 0x383bbc37,  5 | BRF_GRA },           // 11 Foreground Tiles
+
+	{ "maj-01.c18",		0x100000, 0x9840a204,  6 | BRF_GRA },           // 12 Background Tiles
+	{ "maj-00.c17",		0x100000, 0x87ea8d16,  6 | BRF_GRA },           // 13
+
+	{ "maj-04.r1",		0x080000, 0x36e49b19,  7 | BRF_GRA },           // 14 Sprite Bank A
+	{ "maj-05.r2",		0x080000, 0x80fc71cc,  7 | BRF_GRA },           // 15
+	{ "maj-06.r3",		0x080000, 0x2e7a684b,  7 | BRF_GRA },           // 16
+	{ "maj-07.r5",		0x080000, 0x3acc1f78,  7 | BRF_GRA },           // 17
+	{ "maj-08.s6",		0x080000, 0x1958a36d,  7 | BRF_GRA },           // 18
+	{ "maj-09.s8",		0x080000, 0xc21087a1,  7 | BRF_GRA },           // 19
+	{ "maj-10.s9",		0x080000, 0xa02fa641,  7 | BRF_GRA },           // 20
+	{ "maj-11.s11",		0x080000, 0xdabe9305,  7 | BRF_GRA },           // 21
+
+	{ "gt12.n1",		0x020000, 0x9a86a015,  8 | BRF_GRA },           // 22 Sprite Bank B
+	{ "gt13.n2",		0x020000, 0xf4709905,  8 | BRF_GRA },           // 23
+	{ "gt14.n3",		0x020000, 0x750fc523,  8 | BRF_GRA },           // 24
+	{ "gt15.n5",		0x020000, 0xf14edd3d,  8 | BRF_GRA },           // 25
+
+	{ "gs07.h15",		0x020000, 0x750b7e5d,  9 | BRF_SND },           // 26 MSM6295 Samples 0
+
+	{ "maj-03.h16",		0x080000, 0x31dcfac3, 10 | BRF_SND },           // 27 MSM6295 Samples 1
+
+	{ "mb7128y.10m",	0x000800, 0xbde780a2, 11 | BRF_OPT },           // 28 Unknown Proms
+	{ "mb7128y.16p",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 29
+	{ "mb7128y.16s",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 30
+	{ "mb7128y.17s",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 31
+
+	{ "pal16r8a 1h",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 32 PLDs
+	{ "pal16l8b.7c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 33
+	{ "pal16l8b.7d",	0x000104, 0x199e83fd, 12 | BRF_OPT },       // 34
+	{ "pal16l8b.7e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 35
+	{ "pal16l8b.7l",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 36
+	{ "pal16l8b.8e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 37
+	{ "pal16l8b.9d",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 38
+	{ "pal16l8b.10c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 39
+	
+	{ "mal-12.n1",		0x020000, 0x00000000,  0 | BRF_NODUMP },           // 40
+	{ "mal-13.n2",		0x020000, 0x00000000,  0 | BRF_NODUMP },           // 41
+	{ "mal-14.n3",		0x020000, 0x00000000,  0 | BRF_NODUMP },           // 42
+	{ "mal-15.n5",		0x020000, 0x00000000,  0 | BRF_NODUMP },           // 43
+	{ "mal-07.h15",		0x020000, 0x00000000,  0 | BRF_NODUMP },           // 44
+};
+
+STD_ROM_PICK(thndzonej)
+STD_ROM_FN(thndzonej)
+
+struct BurnDriver BurnDrvThndzonej = {
+	"thndzonej", "thndzone", NULL, NULL, "1991",
+	"Thunder Zone (Japan)\0", NULL, "Data East Corporation", "DECO IC16",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
+	NULL, thndzonejRomInfo, thndzonejRomName, NULL, NULL, ThndzoneInputInfo, ThndzoneDIPInfo,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x1000,
+	320, 240, 4, 3
+};
+
+
+// Desert Assault (US)
+
+static struct BurnRomInfo dassaultRomDesc[] = {
+	{ "01.a15",			0x020000, 0x14f17ea7,  1 | BRF_PRG | BRF_ESS }, //  0 68k 'A' Code
+	{ "03.a17",			0x020000, 0xbed1b90c,  1 | BRF_PRG | BRF_ESS }, //  1
+	{ "gs00.a14",		0x020000, 0xb7277175,  1 | BRF_PRG | BRF_ESS }, //  2
+	{ "gs02.a16",		0x020000, 0xcde31e35,  1 | BRF_PRG | BRF_ESS }, //  3
+
+	{ "hc10-1.a12",		0x020000, 0xac5ac770,  2 | BRF_PRG | BRF_ESS }, //  4 68k 'B' Code
+	{ "hc08-1.a9",		0x020000, 0x864dca56,  2 | BRF_PRG | BRF_ESS }, //  5
+	{ "gs11.a14",		0x020000, 0x80cb23de,  2 | BRF_PRG | BRF_ESS }, //  6
+	{ "gs09.a11",		0x020000, 0x0a8fa7e1,  2 | BRF_PRG | BRF_ESS }, //  7
+
+	{ "gs04.f18",		0x010000, 0x81c29ebf,  3 | BRF_PRG | BRF_ESS }, //  8 Huc6280 Code
+
+	{ "gs05.h11",		0x010000, 0x0aae996a,  4 | BRF_GRA },           //  9 Characters
+	{ "gs06.h12",		0x010000, 0x4efdf03d,  4 | BRF_GRA },           // 10
+
+	{ "maj-02.h14",		0x100000, 0x383bbc37,  5 | BRF_GRA },           // 11 Foreground Tiles
+
+	{ "maj-01.c18",		0x100000, 0x9840a204,  6 | BRF_GRA },           // 12 Background Tiles
+	{ "maj-00.c17",		0x100000, 0x87ea8d16,  6 | BRF_GRA },           // 13
+
+	{ "maj-04.r1",		0x080000, 0x36e49b19,  7 | BRF_GRA },           // 14 Sprite Bank A
+	{ "maj-05.r2",		0x080000, 0x80fc71cc,  7 | BRF_GRA },           // 15
+	{ "maj-06.r3",		0x080000, 0x2e7a684b,  7 | BRF_GRA },           // 16
+	{ "maj-07.r5",		0x080000, 0x3acc1f78,  7 | BRF_GRA },           // 17
+	{ "maj-08.s6",		0x080000, 0x1958a36d,  7 | BRF_GRA },           // 18
+	{ "maj-09.s8",		0x080000, 0xc21087a1,  7 | BRF_GRA },           // 19
+	{ "maj-10.s9",		0x080000, 0xa02fa641,  7 | BRF_GRA },           // 20
+	{ "maj-11.s11",		0x080000, 0xdabe9305,  7 | BRF_GRA },           // 21
+
+	{ "gs12.n1",		0x020000, 0x9a86a015,  8 | BRF_GRA },           // 22 Sprite Bank B
+	{ "gs13.n2",		0x020000, 0xf4709905,  8 | BRF_GRA },           // 23
+	{ "gs14.n3",		0x020000, 0x750fc523,  8 | BRF_GRA },           // 24
+	{ "gs15.n5",		0x020000, 0xf14edd3d,  8 | BRF_GRA },           // 25
+
+	{ "gs07.h15",		0x020000, 0x750b7e5d,  9 | BRF_SND },           // 26 MSM6295 Samples 0
+
+	{ "maj-03.h16",		0x080000, 0x31dcfac3, 10 | BRF_SND },           // 27 MSM6295 Samples 1
+
+	{ "mb7128y.10m",	0x000800, 0xbde780a2, 11 | BRF_OPT },           // 28 Unknown Proms
+	{ "mb7128y.16p",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 29
+	{ "mb7128y.16s",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 30
+	{ "mb7128y.17s",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 31
+
+	{ "pal16r8a 1h",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 32 PLDs
+	{ "pal16l8b.7c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 33
+	{ "pal16l8b.7d",	0x000104, 0x199e83fd, 12 | BRF_OPT },       // 34
+	{ "pal16l8b.7e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 35
+	{ "pal16l8b.7l",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 36
+	{ "pal16l8b.8e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 37
+	{ "pal16l8b.9d",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 38
+	{ "pal16l8b.10c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 39
 };
 
 STD_ROM_PICK(dassault)
@@ -1089,55 +1240,57 @@ struct BurnDriver BurnDrvDassault = {
 // Desert Assault (US 4 Players)
 
 static struct BurnRomInfo dassault4RomDesc[] = {
-	{ "gs01",		0x020000, 0x8613634d,  1 | BRF_PRG | BRF_ESS }, //  0 68k 'A' Code
-	{ "gs03",		0x020000, 0xea860bd4,  1 | BRF_PRG | BRF_ESS }, //  1
-	{ "gs00",		0x020000, 0xb7277175,  1 | BRF_PRG | BRF_ESS }, //  2
-	{ "gs02",		0x020000, 0xcde31e35,  1 | BRF_PRG | BRF_ESS }, //  3
+	{ "gs01.a15",		0x020000, 0x8613634d,  1 | BRF_PRG | BRF_ESS }, //  0 68k 'A' Code
+	{ "gs03.a17",		0x020000, 0xea860bd4,  1 | BRF_PRG | BRF_ESS }, //  1
+	{ "gs00.a14",		0x020000, 0xb7277175,  1 | BRF_PRG | BRF_ESS }, //  2
+	{ "gs02.a16",		0x020000, 0xcde31e35,  1 | BRF_PRG | BRF_ESS }, //  3
 
-	{ "gs10",		0x020000, 0x285f72a3,  2 | BRF_PRG | BRF_ESS }, //  4 68k 'B' Code
-	{ "gs08",		0x020000, 0x16691ede,  2 | BRF_PRG | BRF_ESS }, //  5
-	{ "gs11",		0x020000, 0x80cb23de,  2 | BRF_PRG | BRF_ESS }, //  6
-	{ "gs09",		0x020000, 0x0a8fa7e1,  2 | BRF_PRG | BRF_ESS }, //  7
+	{ "gs10.a12",		0x020000, 0x285f72a3,  2 | BRF_PRG | BRF_ESS }, //  4 68k 'B' Code
+	{ "gs08.a9",		0x020000, 0x16691ede,  2 | BRF_PRG | BRF_ESS }, //  5
+	{ "gs11.a14",		0x020000, 0x80cb23de,  2 | BRF_PRG | BRF_ESS }, //  6
+	{ "gs09.a11",		0x020000, 0x0a8fa7e1,  2 | BRF_PRG | BRF_ESS }, //  7
 
-	{ "gs04",		0x010000, 0x81c29ebf,  3 | BRF_PRG | BRF_ESS }, //  8 Huc6280 Code
+	{ "gs04.f18",		0x010000, 0x81c29ebf,  3 | BRF_PRG | BRF_ESS }, //  8 Huc6280 Code
 
-	{ "gs05",		0x010000, 0x0aae996a,  4 | BRF_GRA },           //  9 Characters
-	{ "gs06",		0x010000, 0x4efdf03d,  4 | BRF_GRA },           // 10
+	{ "gs05.h11",		0x010000, 0x0aae996a,  4 | BRF_GRA },           //  9 Characters
+	{ "gs06.h12",		0x010000, 0x4efdf03d,  4 | BRF_GRA },           // 10
 
-	{ "maj-02",		0x100000, 0x383bbc37,  5 | BRF_GRA },           // 11 Foreground Tiles
+	{ "maj-02.h14",		0x100000, 0x383bbc37,  5 | BRF_GRA },           // 11 Foreground Tiles
 
-	{ "maj-01",		0x100000, 0x9840a204,  6 | BRF_GRA },           // 12 Background Tiles
-	{ "maj-00",		0x100000, 0x87ea8d16,  6 | BRF_GRA },           // 13
+	{ "maj-01.c18",		0x100000, 0x9840a204,  6 | BRF_GRA },           // 12 Background Tiles
+	{ "maj-00.c17",		0x100000, 0x87ea8d16,  6 | BRF_GRA },           // 13
 
-	{ "maj-04",		0x080000, 0x36e49b19,  7 | BRF_GRA },           // 14 Sprite Bank A
-	{ "maj-05",		0x080000, 0x80fc71cc,  7 | BRF_GRA },           // 15
-	{ "maj-06",		0x080000, 0x2e7a684b,  7 | BRF_GRA },           // 16
-	{ "maj-07",		0x080000, 0x3acc1f78,  7 | BRF_GRA },           // 17
-	{ "maj-08",		0x080000, 0x1958a36d,  7 | BRF_GRA },           // 18
-	{ "maj-09",		0x080000, 0xc21087a1,  7 | BRF_GRA },           // 19
-	{ "maj-10",		0x080000, 0xa02fa641,  7 | BRF_GRA },           // 20
-	{ "maj-11",		0x080000, 0xdabe9305,  7 | BRF_GRA },           // 21
+	{ "maj-04.r1",		0x080000, 0x36e49b19,  7 | BRF_GRA },           // 14 Sprite Bank A
+	{ "maj-05.r2",		0x080000, 0x80fc71cc,  7 | BRF_GRA },           // 15
+	{ "maj-06.r3",		0x080000, 0x2e7a684b,  7 | BRF_GRA },           // 16
+	{ "maj-07.r5",		0x080000, 0x3acc1f78,  7 | BRF_GRA },           // 17
+	{ "maj-08.s6",		0x080000, 0x1958a36d,  7 | BRF_GRA },           // 18
+	{ "maj-09.s8",		0x080000, 0xc21087a1,  7 | BRF_GRA },           // 19
+	{ "maj-10.s9",		0x080000, 0xa02fa641,  7 | BRF_GRA },           // 20
+	{ "maj-11.s11",		0x080000, 0xdabe9305,  7 | BRF_GRA },           // 21
 
-	{ "gs12",		0x020000, 0x9a86a015,  8 | BRF_GRA },           // 22 Sprite Bank B
-	{ "gs13",		0x020000, 0xf4709905,  8 | BRF_GRA },           // 23
-	{ "gs14",		0x020000, 0x750fc523,  8 | BRF_GRA },           // 24
-	{ "gs15",		0x020000, 0xf14edd3d,  8 | BRF_GRA },           // 25
+	{ "gs12.n1",		0x020000, 0x9a86a015,  8 | BRF_GRA },           // 22 Sprite Bank B
+	{ "gs13.n2",		0x020000, 0xf4709905,  8 | BRF_GRA },           // 23
+	{ "gs14.n3",		0x020000, 0x750fc523,  8 | BRF_GRA },           // 24
+	{ "gs15.n5",		0x020000, 0xf14edd3d,  8 | BRF_GRA },           // 25
 
-	{ "gs07",		0x020000, 0x750b7e5d,  9 | BRF_SND },           // 26 MSM6295 Samples 0
+	{ "gs07.h15",		0x020000, 0x750b7e5d,  9 | BRF_SND },           // 26 MSM6295 Samples 0
 
-	{ "maj-03",		0x080000, 0x31dcfac3, 10 | BRF_SND },           // 27 MSM6295 Samples 1
+	{ "maj-03.h16",		0x080000, 0x31dcfac3, 10 | BRF_SND },           // 27 MSM6295 Samples 1
 
 	{ "mb7128y.10m",	0x000800, 0xbde780a2, 11 | BRF_OPT },           // 28 Unknown Proms
 	{ "mb7128y.16p",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 29
+	{ "mb7128y.16s",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 30
+	{ "mb7128y.17s",	0x000800, 0xc44d2751, 11 | BRF_OPT },           // 31
 
-	{ "pal16r8a 1h",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 30 PLDs
-	{ "pal16l8b.7c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 31
-	{ "pal16l8b.7d",	0x000104, 0x199e83fd, 12 | BRF_OPT },           // 32
-	{ "pal16l8b.7e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 33
-	{ "pal16l8b.7l",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 34
-	{ "pal16l8b.8e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 35
-	{ "pal16l8b.9d",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 36
-	{ "pal16l8b.10c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 37
+	{ "pal16r8a 1h",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 32 PLDs
+	{ "pal16l8b.7c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 33
+	{ "pal16l8b.7d",	0x000104, 0x199e83fd, 12 | BRF_OPT },       // 34
+	{ "pal16l8b.7e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 35
+	{ "pal16l8b.7l",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 36
+	{ "pal16l8b.8e",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 37
+	{ "pal16l8b.9d",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 38
+	{ "pal16l8b.10c",	0x000104, 0x00000000, 12 | BRF_NODUMP },	// 39
 };
 
 STD_ROM_PICK(dassault4)

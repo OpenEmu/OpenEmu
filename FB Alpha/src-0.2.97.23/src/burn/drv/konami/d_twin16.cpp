@@ -2,8 +2,8 @@
 // Based on MAME driver by Phil Stroffolino
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "upd7759.h"
 #include "k007232.h"
@@ -1020,10 +1020,14 @@ static INT32 DrvInit(INT32 (pLoadCallback)())
 
 	K007232Init(0, 3579545, DrvSndROM0, 0x20000);
 	K007232SetPortWriteHandler(0, DrvK007232VolCallback);
+	K007232PCMSetAllRoutes(0, 0.12, BURN_SND_ROUTE_BOTH);
 
-	BurnYM2151Init(3579580, 75.0);
+	BurnYM2151Init(3579580);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	UPD7759Init(0, UPD7759_STANDARD_CLOCK, DrvSndROM1);
+	UPD7759SetRoute(0, 0.20, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

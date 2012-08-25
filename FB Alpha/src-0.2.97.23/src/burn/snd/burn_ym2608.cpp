@@ -19,17 +19,20 @@ static INT32 nAY8910Position;
 static UINT32 nSampleSize;
 static INT32 nFractionalPosition;
 
-static INT32 bYM2208AddSignal;
+static INT32 bYM2608AddSignal;
+
+static double YM2608Volumes[3];
+static INT32 YM2608RouteDirs[3];
 
 // ----------------------------------------------------------------------------
 // Dummy functions
 
-static void YM2608UpdateDummy(INT16*, INT32 /* nSegmentEnd */)
+static void YM2608UpdateDummy(INT16*, INT32)
 {
 	return;
 }
 
-static INT32 YM2608StreamCallbackDummy(INT32 /* nSoundRate */)
+static INT32 YM2608StreamCallbackDummy(INT32)
 {
 	return 0;
 }
@@ -46,8 +49,6 @@ static void AY8910Render(INT32 nSegmentLength)
 	if (nAY8910Position >= nSegmentLength) {
 		return;
 	}
-
-//	bprintf(PRINT_NORMAL, _T("    AY8910 render %6i -> %6i\n"), nAY8910Position, nSegmentLength);
 
 	nSegmentLength -= nAY8910Position;
 
@@ -70,8 +71,6 @@ static void YM2608Render(INT32 nSegmentLength)
 		return;
 	}
 
-//	bprintf(PRINT_NORMAL, _T("    YM2608 render %6i -> %6i\n", nYM2608Position, nSegmentLength));
-
 	nSegmentLength -= nYM2608Position;
 
 	pYM2608Buffer[0] = pBuffer + 0 * 4096 + 4 + nYM2608Position;
@@ -93,8 +92,6 @@ static void YM2608UpdateResample(INT16* pSoundBuf, INT32 nSegmentEnd)
 
 	INT32 nSegmentLength = nSegmentEnd;
 	INT32 nSamplesNeeded = nSegmentEnd * nBurnYM2608SoundRate / nBurnSoundRate + 1;
-
-//	bprintf(PRINT_NORMAL, _T("    YM2608 update        -> %6i\n"), nSegmentLength);
 
 	if (nSamplesNeeded < nAY8910Position) {
 		nSamplesNeeded = nAY8910Position;
@@ -119,46 +116,70 @@ static void YM2608UpdateResample(INT16* pSoundBuf, INT32 nSegmentEnd)
 	pYM2608Buffer[5] = pBuffer + 5 * 4096 + 4;
 
 	for (INT32 i = (nFractionalPosition >> 16) - 4; i < nSamplesNeeded; i++) {
-		pYM2608Buffer[5][i] = (((INT32)pYM2608Buffer[2][i] + pYM2608Buffer[3][i] + pYM2608Buffer[4][i]) * (4096 * 60 / 100)) >> 12;
+		pYM2608Buffer[5][i] = (INT32)((pYM2608Buffer[2][i] + pYM2608Buffer[3][i] + pYM2608Buffer[4][i]) * YM2608Volumes[BURN_SND_YM2608_AY8910_ROUTE]);
 	}
 
 	for (INT32 i = (nFractionalPosition & 0xFFFF0000) >> 15; i < nSegmentLength; i += 2, nFractionalPosition += nSampleSize) {
-		INT32 nSample;
-
-#define CLIP(A) ((A) < -0x8000 ? -0x8000 : (A) > 0x7fff ? 0x7fff : (A))
-
-		// Left channel
-		nSample = INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0FFF,
-									   pYM2608Buffer[0][(nFractionalPosition >> 16) - 3] + pYM2608Buffer[5][(nFractionalPosition >> 16) - 3],
-									   pYM2608Buffer[0][(nFractionalPosition >> 16) - 2] + pYM2608Buffer[5][(nFractionalPosition >> 16) - 2],
-									   pYM2608Buffer[0][(nFractionalPosition >> 16) - 1] + pYM2608Buffer[5][(nFractionalPosition >> 16) - 1],
-									   pYM2608Buffer[0][(nFractionalPosition >> 16) - 0] + pYM2608Buffer[5][(nFractionalPosition >> 16) - 0]);
-		if (bYM2208AddSignal) {
-			pSoundBuf[i + 0] += CLIP(nSample);
-		} else {
-			pSoundBuf[i + 0] = CLIP(nSample);
+		INT32 nLeftSample[4] = {0, 0, 0, 0};
+		INT32 nRightSample[4] = {0, 0, 0, 0};
+		INT32 nTotalLeftSample, nTotalRightSample;
+		
+		if ((YM2608RouteDirs[BURN_SND_YM2608_AY8910_ROUTE] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample[0] += pYM2608Buffer[5][(nFractionalPosition >> 16) - 3];
+			nLeftSample[1] += pYM2608Buffer[5][(nFractionalPosition >> 16) - 2];
+			nLeftSample[2] += pYM2608Buffer[5][(nFractionalPosition >> 16) - 1];
+			nLeftSample[3] += pYM2608Buffer[5][(nFractionalPosition >> 16) - 0];
 		}
-
-		// Right channel
-		nSample = INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0FFF,
-									   pYM2608Buffer[1][(nFractionalPosition >> 16) - 3] + pYM2608Buffer[5][(nFractionalPosition >> 16) - 3],
-									   pYM2608Buffer[1][(nFractionalPosition >> 16) - 2] + pYM2608Buffer[5][(nFractionalPosition >> 16) - 2],
-									   pYM2608Buffer[1][(nFractionalPosition >> 16) - 1] + pYM2608Buffer[5][(nFractionalPosition >> 16) - 1],
-									   pYM2608Buffer[1][(nFractionalPosition >> 16) - 0] + pYM2608Buffer[5][(nFractionalPosition >> 16) - 0]);
-		if (bYM2208AddSignal) {
-			pSoundBuf[i + 1] += CLIP(nSample);
-		} else {
-			pSoundBuf[i + 1] = CLIP(nSample);
+		if ((YM2608RouteDirs[BURN_SND_YM2608_AY8910_ROUTE] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample[0] += pYM2608Buffer[5][(nFractionalPosition >> 16) - 3];
+			nRightSample[1] += pYM2608Buffer[5][(nFractionalPosition >> 16) - 2];
+			nRightSample[2] += pYM2608Buffer[5][(nFractionalPosition >> 16) - 1];
+			nRightSample[3] += pYM2608Buffer[5][(nFractionalPosition >> 16) - 0];
 		}
-
-#undef CLIP
-
+		
+		if ((YM2608RouteDirs[BURN_SND_YM2608_YM2608_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample[0] += (INT32)(pYM2608Buffer[0][(nFractionalPosition >> 16) - 3] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1]);
+			nLeftSample[1] += (INT32)(pYM2608Buffer[0][(nFractionalPosition >> 16) - 2] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1]);
+			nLeftSample[2] += (INT32)(pYM2608Buffer[0][(nFractionalPosition >> 16) - 1] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1]);
+			nLeftSample[3] += (INT32)(pYM2608Buffer[0][(nFractionalPosition >> 16) - 0] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1]);
+		}
+		if ((YM2608RouteDirs[BURN_SND_YM2608_YM2608_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample[0] += (INT32)(pYM2608Buffer[0][(nFractionalPosition >> 16) - 3] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1]);
+			nRightSample[1] += (INT32)(pYM2608Buffer[0][(nFractionalPosition >> 16) - 2] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1]);
+			nRightSample[2] += (INT32)(pYM2608Buffer[0][(nFractionalPosition >> 16) - 1] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1]);
+			nRightSample[3] += (INT32)(pYM2608Buffer[0][(nFractionalPosition >> 16) - 0] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1]);
+		}
+		
+		if ((YM2608RouteDirs[BURN_SND_YM2608_YM2608_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample[0] += (INT32)(pYM2608Buffer[1][(nFractionalPosition >> 16) - 3] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2]);
+			nLeftSample[1] += (INT32)(pYM2608Buffer[1][(nFractionalPosition >> 16) - 2] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2]);
+			nLeftSample[2] += (INT32)(pYM2608Buffer[1][(nFractionalPosition >> 16) - 1] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2]);
+			nLeftSample[3] += (INT32)(pYM2608Buffer[1][(nFractionalPosition >> 16) - 0] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2]);
+		}
+		if ((YM2608RouteDirs[BURN_SND_YM2608_YM2608_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample[0] += (INT32)(pYM2608Buffer[1][(nFractionalPosition >> 16) - 3] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2]);
+			nRightSample[1] += (INT32)(pYM2608Buffer[1][(nFractionalPosition >> 16) - 2] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2]);
+			nRightSample[2] += (INT32)(pYM2608Buffer[1][(nFractionalPosition >> 16) - 1] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2]);
+			nRightSample[3] += (INT32)(pYM2608Buffer[1][(nFractionalPosition >> 16) - 0] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2]);
+		}
+		
+		nTotalLeftSample = INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0fff, nLeftSample[0], nLeftSample[1], nLeftSample[2], nLeftSample[3]);
+		nTotalRightSample = INTERPOLATE4PS_16BIT((nFractionalPosition >> 4) & 0x0fff, nRightSample[0], nRightSample[1], nRightSample[2], nRightSample[3]);
+		
+		nTotalLeftSample = BURN_SND_CLIP(nTotalLeftSample);
+		nTotalRightSample = BURN_SND_CLIP(nTotalRightSample);
+			
+		if (bYM2608AddSignal) {
+			pSoundBuf[i + 0] += nTotalLeftSample;
+			pSoundBuf[i + 1] += nTotalRightSample;
+		} else {
+			pSoundBuf[i + 0] = nTotalLeftSample;
+			pSoundBuf[i + 1] = nTotalRightSample;
+		}
 	}
 
 	if (nSegmentEnd >= nBurnSoundLen) {
 		INT32 nExtraSamples = nSamplesNeeded - (nFractionalPosition >> 16);
-
-//		bprintf(PRINT_NORMAL, _T("   %6i rendered, %i extra, %i <- %i\n"), nSamplesNeeded, nExtraSamples, nExtraSamples, (nFractionalPosition >> 16) + nExtraSamples - 1);
 
 		for (INT32 i = -4; i < nExtraSamples; i++) {
 			pYM2608Buffer[0][i] = pYM2608Buffer[0][(nFractionalPosition >> 16) + i];
@@ -185,8 +206,6 @@ static void YM2608UpdateNormal(INT16* pSoundBuf, INT32 nSegmentEnd)
 
 	INT32 nSegmentLength = nSegmentEnd;
 
-//	bprintf(PRINT_NORMAL, _T("    YM2608 update        -> %6i\n", nSegmentLength));
-
 	if (nSegmentEnd < nAY8910Position) {
 		nSegmentEnd = nAY8910Position;
 	}
@@ -207,53 +226,43 @@ static void YM2608UpdateNormal(INT16* pSoundBuf, INT32 nSegmentEnd)
 	pYM2608Buffer[3] = pBuffer + 4 + 3 * 4096;
 	pYM2608Buffer[4] = pBuffer + 4 + 4 * 4096;
 
-	if (bBurnUseMMX) {
-#if defined BUILD_X86_ASM
-		for (INT32 n = nFractionalPosition; n < nSegmentLength; n++) {
-			pAYBuffer[n] = pYM2608Buffer[2][n] + pYM2608Buffer[3][n] + pYM2608Buffer[4][n];
+	for (INT32 n = nFractionalPosition; n < nSegmentLength; n++) {
+		INT32 nAYSample, nLeftSample = 0, nRightSample = 0;
+
+		nAYSample  = pYM2608Buffer[2][n];
+		nAYSample += pYM2608Buffer[3][n];
+		nAYSample += pYM2608Buffer[4][n];
+
+		if ((YM2608RouteDirs[BURN_SND_YM2608_AY8910_ROUTE] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(nAYSample * YM2608Volumes[BURN_SND_YM2608_AY8910_ROUTE]);
 		}
-		BurnSoundCopy_FM_OPN_A(pYM2608Buffer[0], pAYBuffer, pSoundBuf, nSegmentLength, 65536 * 60 / 100, 65536 * 60 / 100);
-#endif
-	} else {
-		for (INT32 n = nFractionalPosition; n < nSegmentLength; n++) {
-			INT32 nAYSample, nTotalSample;
-
-			nAYSample  = pYM2608Buffer[2][n];
-			nAYSample += pYM2608Buffer[3][n];
-			nAYSample += pYM2608Buffer[4][n];
-
-			nAYSample  *= 4096 * 60 / 100;
-			nAYSample >>= 12;
-
-			nTotalSample = nAYSample + pYM2608Buffer[0][n];
-			if (nTotalSample < -32768) {
-				nTotalSample = -32768;
-			} else {
-				if (nTotalSample > 32767) {
-					nTotalSample = 32767;
-				}
-			}
+		if ((YM2608RouteDirs[BURN_SND_YM2608_AY8910_ROUTE] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(nAYSample * YM2608Volumes[BURN_SND_YM2608_AY8910_ROUTE]);
+		}
+		
+		if ((YM2608RouteDirs[BURN_SND_YM2608_YM2608_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(pYM2608Buffer[0][n] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1]);
+		}
+		if ((YM2608RouteDirs[BURN_SND_YM2608_YM2608_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(pYM2608Buffer[0][n] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1]);
+		}
+		
+		if ((YM2608RouteDirs[BURN_SND_YM2608_YM2608_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(pYM2608Buffer[1][n] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2]);
+		}
+		if ((YM2608RouteDirs[BURN_SND_YM2608_YM2608_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(pYM2608Buffer[1][n] * YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2]);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
 			
-			if (bYM2208AddSignal) {
-				pSoundBuf[(n << 1) + 0] += nTotalSample;
-			} else {
-				pSoundBuf[(n << 1) + 0] = nTotalSample;
-			}
-
-			nTotalSample = nAYSample + pYM2608Buffer[1][n];
-			if (nTotalSample < -32768) {
-				nTotalSample = -32768;
-			} else {
-				if (nTotalSample > 32767) {
-					nTotalSample = 32767;
-				}
-			}
-			
-			if (bYM2208AddSignal) {
-				pSoundBuf[(n << 1) + 1] += nTotalSample;
-			} else {
-				pSoundBuf[(n << 1) + 1] = nTotalSample;
-			}
+		if (bYM2608AddSignal) {
+			pSoundBuf[(n << 1) + 0] += nLeftSample;
+			pSoundBuf[(n << 1) + 1] += nRightSample;
+		} else {
+			pSoundBuf[(n << 1) + 0] = nLeftSample;
+			pSoundBuf[(n << 1) + 1] = nRightSample;
 		}
 	}
 
@@ -334,7 +343,7 @@ void BurnYM2608Exit()
 		pAYBuffer = NULL;
 	}
 	
-	bYM2208AddSignal = 0;
+	bYM2608AddSignal = 0;
 	
 	DebugSnd_YM2608Initted = 0;
 }
@@ -387,9 +396,28 @@ INT32 BurnYM2608Init(INT32 nClockFrequency, UINT8* YM2608ADPCMROM, INT32* nYM260
 	nYM2608Position = 0;
 	nAY8910Position = 0;
 	
-	bYM2208AddSignal = bAddSignal;
+	bYM2608AddSignal = bAddSignal;
+	
+	// default routes
+	YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_1] = 1.00;
+	YM2608Volumes[BURN_SND_YM2608_YM2608_ROUTE_2] = 1.00;
+	YM2608Volumes[BURN_SND_YM2608_AY8910_ROUTE] = 1.00;
+	YM2608RouteDirs[BURN_SND_YM2608_YM2608_ROUTE_1] = BURN_SND_ROUTE_LEFT;
+	YM2608RouteDirs[BURN_SND_YM2608_YM2608_ROUTE_2] = BURN_SND_ROUTE_RIGHT;
+	YM2608RouteDirs[BURN_SND_YM2608_AY8910_ROUTE] = BURN_SND_ROUTE_BOTH;
 
 	return 0;
+}
+
+void BurnYM2608SetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_YM2608Initted) bprintf(PRINT_ERROR, _T("BurnYM2608SetRoute called without init\n"));
+	if (nIndex < 0 || nIndex > 2) bprintf(PRINT_ERROR, _T("BurnYM2608SetRoute called with invalid index %i\n"), nIndex);
+#endif
+	
+	YM2608Volumes[nIndex] = nVolume;
+	YM2608RouteDirs[nIndex] = nRouteDir;
 }
 
 void BurnYM2608Scan(INT32 nAction, INT32* pnMin)

@@ -2,8 +2,8 @@
 // Based on MAME driver by Mathis Rosenhauer
 
 #include "burnint.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "vector.h"
 #include "driver.h"
 extern "C" {
@@ -406,6 +406,10 @@ static INT32 DrvInit()
 	AY8910Init(1, 2000000, nBurnSoundRate, NULL, NULL, NULL, NULL);
 	AY8910Init(2, 2000000, nBurnSoundRate, NULL, NULL, NULL, NULL);
 	AY8910Init(3, 2000000, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.15, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(1, 0.15, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(2, 0.15, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(3, 0.15, BURN_SND_ROUTE_BOTH);
 
 	DrvPaletteInit();
 
@@ -521,31 +525,7 @@ static INT32 DrvFrame()
 	ZetClose();
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-
-		AY8910Update(0, &pFMBuffer[0], nBurnSoundLen);
-		AY8910Update(1, &pFMBuffer[3], nBurnSoundLen);
-		AY8910Update(2, &pFMBuffer[6], nBurnSoundLen);
-		AY8910Update(3, &pFMBuffer[9], nBurnSoundLen);
-		for (INT32 n = 0; n < nBurnSoundLen; n++) {
-			nSample  = pFMBuffer[ 0][n] / 2;
-			nSample += pFMBuffer[ 1][n] / 2;
-			nSample += pFMBuffer[ 2][n] / 2;
-			nSample += pFMBuffer[ 3][n] / 2;
-			nSample += pFMBuffer[ 4][n] / 2;
-			nSample += pFMBuffer[ 5][n] / 2;
-			nSample += pFMBuffer[ 6][n] / 2;
-			nSample += pFMBuffer[ 7][n] / 2;
-			nSample += pFMBuffer[ 8][n] / 2;
-			nSample += pFMBuffer[ 9][n] / 2;
-			nSample += pFMBuffer[10][n] / 2;
-			nSample += pFMBuffer[11][n] / 2;
-
-			nSample = BURN_SND_CLIP(nSample);
-
-			pBurnSoundOut[(n << 1) + 0] = nSample;
-			pBurnSoundOut[(n << 1) + 1] = nSample;
-		}
+		AY8910Render(&pFMBuffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 	}
 
 	if (pBurnDraw) {

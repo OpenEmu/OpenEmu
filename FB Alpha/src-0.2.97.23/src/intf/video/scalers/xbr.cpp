@@ -266,7 +266,7 @@ void xbr2x_a(unsigned char * pIn,  unsigned int srcPitch, unsigned char * pOut, 
      {\
           e = (df(PE,PC)+df(PE,PG)+df(PI,H5)+df(PI,F4))+(df(PH,PF)<<2); \
           i = (df(PH,PD)+df(PH,I5)+df(PF,I4)+df(PF,PB))+(df(PE,PI)<<2); \
-          if ((e<i)  && ( !eq(PF,PB) && !eq(PF,PC) || !eq(PH,PD) && !eq(PH,PG) || eq(PE,PI) && (!eq(PF,F4) && !eq(PF,I4) || !eq(PH,H5) && !eq(PH,I5)) || eq(PE,PG) || eq(PE,PC)) )\
+          if ((e<i)  && ( (!eq(PF,PB) && !eq(PF,PC)) || (!eq(PH,PD) && !eq(PH,PG)) || ((eq(PE,PI) && (!eq(PF,F4) && !eq(PF,I4))) || (!eq(PH,H5) && !eq(PH,I5))) || eq(PE,PG) || eq(PE,PC)) )\
           {\
               ke=df(PF,PG); ki=df(PH,PC); \
               ex2 = (PE!=PC && PB!=PC); ex3 = (PE!=PG && PD!=PG); px = (df(PE,PF) <= df(PE,PH)) ? PF : PH; \
@@ -306,7 +306,7 @@ void xbr2x_b(unsigned char * pIn,  unsigned int srcPitch, unsigned char * pOut, 
      {\
           e = (df(PE,PC)+df(PE,PG)+df(PI,H5)+df(PI,F4))+(df(PH,PF)<<2); \
           i = (df(PH,PD)+df(PH,I5)+df(PF,I4)+df(PF,PB))+(df(PE,PI)<<2); \
-          if ((e<i)  && ( !eq(PF,PB) && !eq(PH,PD) || eq(PE,PI) && (!eq(PF,I4) && !eq(PH,I5)) || eq(PE,PG) || eq(PE,PC)) )\
+          if ((e<i)  && ( (!eq(PF,PB) && !eq(PH,PD)) || (eq(PE,PI) && (!eq(PF,I4) && !eq(PH,I5))) || eq(PE,PG) || eq(PE,PC)) )\
           {\
               ke=df(PF,PG); ki=df(PH,PC); \
               ex2 = (PE!=PC && PB!=PC); ex3 = (PE!=PG && PD!=PG); px = (df(PE,PF) <= df(PE,PH)) ? PF : PH; \
@@ -535,7 +535,7 @@ void xbr3x_a(unsigned char * pIn,  unsigned int srcPitch, unsigned char * pOut, 
      {\
           e = (df(PE,PC)+df(PE,PG)+df(PI,H5)+df(PI,F4))+(df(PH,PF)<<2); \
           i = (df(PH,PD)+df(PH,I5)+df(PF,I4)+df(PF,PB))+(df(PE,PI)<<2); \
-          if ((e<i)  && ( !eq(PF,PB) && !eq(PF,PC) || !eq(PH,PD) && !eq(PH,PG) || eq(PE,PI) && (!eq(PF,F4) && !eq(PF,I4) || !eq(PH,H5) && !eq(PH,I5)) || eq(PE,PG) || eq(PE,PC)) )\
+          if ((e<i)  && ( (!eq(PF,PB) && !eq(PF,PC)) || (!eq(PH,PD) && !eq(PH,PG)) || ((eq(PE,PI) && (!eq(PF,F4) && !eq(PF,I4))) || (!eq(PH,H5) && !eq(PH,I5))) || eq(PE,PG) || eq(PE,PC)) )\
           {\
               ke=df(PF,PG); ki=df(PH,PC); \
               ex2 = (PE!=PC && PB!=PC); ex3 = (PE!=PG && PD!=PG); px = (df(PE,PF) <= df(PE,PH)) ? PF : PH; \
@@ -575,7 +575,7 @@ void xbr3x_b(unsigned char * pIn,  unsigned int srcPitch, unsigned char * pOut, 
      {\
           e = (df(PE,PC)+df(PE,PG)+df(PI,H5)+df(PI,F4))+(df(PH,PF)<<2); \
           i = (df(PH,PD)+df(PH,I5)+df(PF,I4)+df(PF,PB))+(df(PE,PI)<<2); \
-          if ((e<i)  && ( !eq(PF,PB) && !eq(PH,PD) || eq(PE,PI) && (!eq(PF,I4) && !eq(PH,I5)) || eq(PE,PG) || eq(PE,PC)) )\
+          if ((e<i)  && ( (!eq(PF,PB) && !eq(PH,PD)) || (eq(PE,PI) && (!eq(PF,I4) && !eq(PH,I5))) || eq(PE,PG) || eq(PE,PC)) )\
           {\
               ke=df(PF,PG); ki=df(PH,PC); \
               ex2 = (PE!=PC && PB!=PC); ex3 = (PE!=PG && PD!=PG); px = (df(PE,PF) <= df(PE,PH)) ? PF : PH; \
@@ -810,7 +810,7 @@ void xbr4x_a(unsigned char * pIn,  unsigned int srcPitch, unsigned char * pOut, 
      {\
           e = (df(PE,PC)+df(PE,PG)+df(PI,H5)+df(PI,F4))+(df(PH,PF)<<2); \
           i = (df(PH,PD)+df(PH,I5)+df(PF,I4)+df(PF,PB))+(df(PE,PI)<<2); \
-          if ((e<i)  && ( !eq(PF,PB) && !eq(PF,PC) || !eq(PH,PD) && !eq(PH,PG) || eq(PE,PI) && (!eq(PF,F4) && !eq(PF,I4) || !eq(PH,H5) && !eq(PH,I5)) || eq(PE,PG) || eq(PE,PC)) )\
+          if ((e<i)  && ( (!eq(PF,PB) && !eq(PF,PC)) || (!eq(PH,PD) && !eq(PH,PG)) || ((eq(PE,PI) && (!eq(PF,F4) && !eq(PF,I4))) || (!eq(PH,H5) && !eq(PH,I5))) || eq(PE,PG) || eq(PE,PC)) )\
           {\
               ke=df(PF,PG); ki=df(PH,PC); \
               ex2 = (PE!=PC && PB!=PC); ex3 = (PE!=PG && PD!=PG); px = (df(PE,PF) <= df(PE,PH)) ? PF : PH; \
@@ -850,7 +850,7 @@ void xbr4x_b(unsigned char * pIn,  unsigned int srcPitch, unsigned char * pOut, 
      {\
           e = (df(PE,PC)+df(PE,PG)+df(PI,H5)+df(PI,F4))+(df(PH,PF)<<2); \
           i = (df(PH,PD)+df(PH,I5)+df(PF,I4)+df(PF,PB))+(df(PE,PI)<<2); \
-          if ((e<i)  && ( !eq(PF,PB) && !eq(PH,PD) || eq(PE,PI) && (!eq(PF,I4) && !eq(PH,I5)) || eq(PE,PG) || eq(PE,PC)) )\
+          if ((e<i)  && ( (!eq(PF,PB) && !eq(PH,PD)) || (eq(PE,PI) && (!eq(PF,I4) && !eq(PH,I5))) || eq(PE,PG) || eq(PE,PC)) )\
           {\
               ke=df(PF,PG); ki=df(PH,PC); \
               ex2 = (PE!=PC && PB!=PC); ex3 = (PE!=PG && PD!=PG); px = (df(PE,PF) <= df(PE,PH)) ? PF : PH; \

@@ -220,11 +220,11 @@ void M6800Exit()
 	DebugCPU_M6800Initted = 0;
 }
 
-void M6800SetIRQ(INT32 vector, INT32 status)
+void M6800SetIRQLine(INT32 vector, INT32 status)
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("M6800SetIRQ called without init\n"));
-	if (nCpuType != CPU_TYPE_M6800) bprintf(PRINT_ERROR, _T("M6800SetIRQ called with invalid CPU Type\n"));
+	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("M6800SetIRQLine called without init\n"));
+	if (nCpuType != CPU_TYPE_M6800) bprintf(PRINT_ERROR, _T("M6800SetIRQLine called with invalid CPU Type\n"));
 #endif
 
 	if (status == M6800_IRQSTATUS_NONE) {
@@ -243,11 +243,11 @@ void M6800SetIRQ(INT32 vector, INT32 status)
 	}
 }
 
-void HD63701SetIRQ(INT32 vector, INT32 status)
+void HD63701SetIRQLine(INT32 vector, INT32 status)
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("HD63701SetIRQ called without init\n"));
-	if (nCpuType != CPU_TYPE_HD63701) bprintf(PRINT_ERROR, _T("HD63701SetIRQ called with invalid CPU Type\n"));
+	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("HD63701SetIRQLine called without init\n"));
+	if (nCpuType != CPU_TYPE_HD63701) bprintf(PRINT_ERROR, _T("HD63701SetIRQLine called with invalid CPU Type\n"));
 #endif
 
 	if (status == HD63701_IRQSTATUS_NONE) {
@@ -266,11 +266,11 @@ void HD63701SetIRQ(INT32 vector, INT32 status)
 	}
 }
 
-void M6803SetIRQ(INT32 vector, INT32 status)
+void M6803SetIRQLine(INT32 vector, INT32 status)
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("M6803SetIRQ called without init\n"));
-	if (nCpuType != CPU_TYPE_M6803) bprintf(PRINT_ERROR, _T("M6803SetIRQ called with invalid CPU Type\n"));
+	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("M6803SetIRQLine called without init\n"));
+	if (nCpuType != CPU_TYPE_M6803) bprintf(PRINT_ERROR, _T("M6803SetIRQLine called with invalid CPU Type\n"));
 #endif
 
 	if (status == M6803_IRQSTATUS_NONE) {
@@ -289,11 +289,11 @@ void M6803SetIRQ(INT32 vector, INT32 status)
 	}
 }
 
-void M6801SetIRQ(INT32 vector, INT32 status)
+void M6801SetIRQLine(INT32 vector, INT32 status)
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("M6801SetIRQ called without init\n"));
-	if (nCpuType != CPU_TYPE_M6801) bprintf(PRINT_ERROR, _T("M6800SetIRQ called with invalid CPU Type\n"));
+	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("M6801SetIRQLine called without init\n"));
+	if (nCpuType != CPU_TYPE_M6801) bprintf(PRINT_ERROR, _T("M6800SetIRQLine called with invalid CPU Type\n"));
 #endif
 
 	if (status == M6801_IRQSTATUS_NONE) {
@@ -394,19 +394,19 @@ INT32 M6800MapMemory(UINT8* pMemory, UINT16 nStart, UINT16 nEnd, INT32 nType)
 
 }
 
-void M6800SetReadByteHandler(UINT8 (*pHandler)(UINT16))
+void M6800SetReadHandler(UINT8 (*pHandler)(UINT16))
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("M6800SetReadByteHandler called without init\n"));
+	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("M6800SetReadHandler called without init\n"));
 #endif
 
 	M6800CPUContext[0].ReadByte = pHandler;
 }
 
-void M6800SetWriteByteHandler(void (*pHandler)(UINT16, UINT8))
+void M6800SetWriteHandler(void (*pHandler)(UINT16, UINT8))
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("M6800SetWriteByteHandler called without init\n"));
+	if (!DebugCPU_M6800Initted) bprintf(PRINT_ERROR, _T("M6800SetWriteHandler called without init\n"));
 #endif
 
 	M6800CPUContext[0].WriteByte = pHandler;

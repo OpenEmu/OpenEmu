@@ -158,7 +158,7 @@ void mystston_write(UINT16 address, UINT8 data)
 		return;
 
 		case 0x2010:
-			M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
+			M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
 		break;
 
 		case 0x2020:
@@ -331,12 +331,14 @@ static INT32 DrvInit()
 	M6502MapMemory(DrvFgRAM,		0x1000, 0x17ff, M6502_RAM);
 	M6502MapMemory(DrvBgRAM,		0x1800, 0x1fff, M6502_RAM);
 	M6502MapMemory(Drv6502ROM + 0x4000,	0x4000, 0xffff, M6502_ROM);
-	M6502SetWriteByteHandler(mystston_write);
-	M6502SetReadByteHandler(mystston_read);
+	M6502SetWriteHandler(mystston_write);
+	M6502SetReadHandler(mystston_read);
 	M6502Close();
 
 	AY8910Init(0, 1500000, nBurnSoundRate, NULL, NULL, NULL, NULL);
 	AY8910Init(1, 1500000, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.30, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(1, 0.30, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -494,7 +496,7 @@ static void mystston_interrupt_handler(INT32 scanline)
 		if (coin == 0)
 		{
 			coin = 1;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 			return;
 		}
 	}
@@ -502,7 +504,7 @@ static void mystston_interrupt_handler(INT32 scanline)
 
 	if (scanline == 8) vblank = 0;
 	if (scanline == 248) vblank = 0x80;
-	if ((scanline & 0x0f) == 0) M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
+	if ((scanline & 0x0f) == 0) M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
 }
 
 static INT32 DrvFrame()
@@ -539,26 +541,7 @@ static INT32 DrvFrame()
 	M6502Close();
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-		INT32 nSegmentLength = nBurnSoundLen;
-		INT16* pSoundBuf = pBurnSoundOut;
-		if (nSegmentLength) {
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			AY8910Update(1, &pAY8910Buffer[3], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n] >> 2;
-				nSample += pAY8910Buffer[1][n] >> 2;
-				nSample += pAY8910Buffer[2][n] >> 2;
-				nSample += pAY8910Buffer[3][n] >> 2;
-				nSample += pAY8910Buffer[4][n] >> 2;
-				nSample += pAY8910Buffer[5][n] >> 2;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
- 			}
-		}
+		AY8910Render(&pAY8910Buffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 	}
 
 	if (pBurnDraw) {

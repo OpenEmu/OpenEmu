@@ -769,9 +769,13 @@ static INT32 drvInit()
 
 	drvZInit();				// Initialize Z80
 
-	BurnYM2151Init(32000000 / 8, 50.0);
-	MSM6295Init(0, 32000000 / 10 / 132, 50.0, 1);
-	MSM6295Init(1, 32000000 / 10 / 165, 50.0, 1);
+	BurnYM2151Init(32000000 / 8);
+	BurnYM2151SetAllRoutes(1.00, BURN_SND_ROUTE_BOTH);
+	
+	MSM6295Init(0, 32000000 / 10 / 132, 1);
+	MSM6295Init(1, 32000000 / 10 / 165, 1);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
+	MSM6295SetRoute(1, 1.00, BURN_SND_ROUTE_BOTH);
 
 	nToaPalLen = nColCount;
 	ToaPalSrc = RamPal;

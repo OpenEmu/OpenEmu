@@ -52,6 +52,9 @@ struct k054539_info {
 	UINT32 rom_mask;
 
 	INT32 clock;
+	
+	double volume[2];
+	INT32 output_dir[2];
 
 	k054539_channel channels[8];
 };
@@ -266,12 +269,18 @@ static void k054539_init_chip(INT32 clock, UINT8 *rom, INT32 nLen)
 	info->rom = rom;
 	info->rom_size = nLen;
 	info->rom_mask = 0xffffffffU;
-	for(i=0; i<32; i++)
+	for(i=0; i<32; i++) {
 		if((1U<<i) >= info->rom_size) {
 			info->rom_mask = (1U<<i) - 1;
 			break;
 		}
-
+	}
+	
+	info->volume[BURN_SND_K054539_ROUTE_1] = 1.00;
+	info->volume[BURN_SND_K054539_ROUTE_2] = 1.00;
+	info->output_dir[BURN_SND_K054539_ROUTE_1] = BURN_SND_ROUTE_BOTH;
+	info->output_dir[BURN_SND_K054539_ROUTE_2] = BURN_SND_ROUTE_BOTH;
+	
 //	if(info->intf->irq)
 //		timer_pulse(ATTOTIME_IN_HZ(480), info, 0, k054539_irq); // 10% of usual clock...
 }
@@ -307,6 +316,20 @@ void K054539Init(INT32 chip, INT32 clock, UINT8 *rom, INT32 nLen)
 	if (soundbuf[1] == NULL) soundbuf[1] = (INT32*)malloc(nBurnSoundLen * sizeof(INT32));
 	
 	nNumChips = chip;
+}
+
+void K054539SetRoute(INT32 chip, INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_K054539Initted) bprintf(PRINT_ERROR, _T("K054539SetRoute called without init\n"));
+	if (chip >nNumChips) bprintf(PRINT_ERROR, _T("K054539SetRoute called with invalid chip %x\n"), chip);
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("K054539SetRoute called with invalid index %i\n"), nIndex);
+#endif
+
+	info = &Chips[chip];
+	
+	info->volume[nIndex] = nVolume;
+	info->output_dir[nIndex] = nRouteDir;
 }
 
 void K054539Exit()
@@ -576,14 +599,27 @@ else
 	}
 
 	for (INT32 f = 0; f < length; f++) {
-		if (buffer[0][f] >  32767) buffer[0][f] =  32767;
-		if (buffer[0][f] < -32768) buffer[0][f] = -32768;
+		INT32 nLeftSample = 0, nRightSample = 0;
 		
-		if (buffer[1][f] >  32767) buffer[1][f] =  32767;
-		if (buffer[1][f] < -32768) buffer[1][f] = -32768;
-
-		pBuf[0] += buffer[0][f];
-		pBuf[1] += buffer[1][f];
+		if ((info->output_dir[BURN_SND_K054539_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(buffer[0][f] * info->volume[BURN_SND_K054539_ROUTE_1]);
+		}
+		if ((info->output_dir[BURN_SND_K054539_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(buffer[0][f] * info->volume[BURN_SND_K054539_ROUTE_1]);
+		}
+		
+		if ((info->output_dir[BURN_SND_K054539_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(buffer[1][f] * info->volume[BURN_SND_K054539_ROUTE_2]);
+		}
+		if ((info->output_dir[BURN_SND_K054539_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(buffer[1][f] * info->volume[BURN_SND_K054539_ROUTE_2]);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+		
+		pBuf[0] += nLeftSample;
+		pBuf[1] += nRightSample;
 		pBuf += 2;
 	}
 

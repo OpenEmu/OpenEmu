@@ -6,9 +6,10 @@
 struct dac_info
 {
 	INT16	Output;
-	INT32 	nVolShift;
+	double 	nVolume;
 	INT32 	nCurrentPosition;
 	INT32	Initialized;
+	INT32	OutputDir;
 	INT32	(*pSyncCallback)();
 };
 
@@ -17,7 +18,8 @@ static struct dac_info dac_table[DAC_NUM];
 static INT16 UnsignedVolTable[256];
 static INT16 SignedVolTable[256];
 
-static INT16 *buffer = NULL;
+static INT16 *lBuffer = NULL;
+static INT16 *rBuffer = NULL;
 
 static INT32 NumChips;
 
@@ -27,9 +29,13 @@ static void UpdateStream(INT32 chip, INT32 length)
 {
 	struct dac_info *ptr;
 
-	if (buffer == NULL) {	// delay buffer allocation for cases when fps is not 60
-		buffer = (INT16*)BurnMalloc(nBurnSoundLen * sizeof(INT16));
-		memset (buffer, 0, nBurnSoundLen * sizeof(INT16));
+	if (lBuffer == NULL) {	// delay buffer allocation for cases when fps is not 60
+		lBuffer = (INT16*)BurnMalloc(nBurnSoundLen * sizeof(INT16));
+		memset (lBuffer, 0, nBurnSoundLen * sizeof(INT16));
+	}
+	if (rBuffer == NULL) {	// delay buffer allocation for cases when fps is not 60
+		rBuffer = (INT16*)BurnMalloc(nBurnSoundLen * sizeof(INT16));
+		memset (rBuffer, 0, nBurnSoundLen * sizeof(INT16));
 	}
 
         ptr = &dac_table[chip];
@@ -39,16 +45,23 @@ static void UpdateStream(INT32 chip, INT32 length)
         length -= ptr->nCurrentPosition;
         if (length <= 0) return;
 
-        INT16 *buf = buffer + ptr->nCurrentPosition;
+        INT16 *lbuf = lBuffer + ptr->nCurrentPosition;
+	INT16 *rbuf = rBuffer + ptr->nCurrentPosition;
 
-        INT16 Out = ptr->Output;
+	INT16 lOut = ((ptr->OutputDir & BURN_SND_ROUTE_LEFT ) == BURN_SND_ROUTE_LEFT ) ? ptr->Output : 0;
+        INT16 rOut = ((ptr->OutputDir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) ? ptr->Output : 0;
 
         ptr->nCurrentPosition += length;
 
-        if (Out) {              
+        if (rOut && lOut) {              
                 while (length--) {
-                        *buf++ = *buf + Out;
+                        *lbuf++ = *lbuf + lOut;
+			*rbuf++ = *rbuf + rOut;
                 }
+        } else if (lOut) {              
+                while (length--) *lbuf++ = *lbuf + lOut;
+        } else if (rOut) {            
+                while (length--) *rbuf++ = *rbuf + rOut;
         }
 }
 
@@ -64,22 +77,28 @@ void DACUpdate(INT16* Buffer, INT32 Length)
 		UpdateStream(i, nBurnSoundLen);
 	}
 
-	INT16 *buf = buffer;
+	INT16 *lbuf = lBuffer;
+	INT16 *rbuf = rBuffer;
 
 	if (bAddSignal) {
 		while (Length--) {
-			Buffer[0] = BURN_SND_CLIP((INT32)(buf[0] + Buffer[0]));
-			Buffer[1] = BURN_SND_CLIP((INT32)(buf[0] + Buffer[1]));
+			Buffer[0] = BURN_SND_CLIP((INT32)(lbuf[0] + Buffer[0]));
+			Buffer[1] = BURN_SND_CLIP((INT32)(rbuf[0] + Buffer[1]));
 			Buffer += 2;
-			buf[0] = 0; // clear buffer
-			buf++;
+			lbuf[0] = 0; // clear buffer
+			rbuf[0] = 0; // clear buffer
+			lbuf++;
+			rbuf++;
 		}
 	} else {
 		while (Length--) {
-			Buffer[1] = Buffer[0] = buf[0];
+			Buffer[0] = lbuf[0];
+			Buffer[1] = rbuf[0];
 			Buffer += 2;
-			buf[0] = 0; // clear buffer
-			buf++;
+			lbuf[0] = 0; // clear buffer
+			rbuf[0] = 0; // clear buffer
+			lbuf++;
+			rbuf++;
 		}
 	}
 
@@ -102,7 +121,7 @@ void DACWrite(INT32 Chip, UINT8 Data)
 
 	UpdateStream(Chip, ptr->pSyncCallback());
 
-	ptr->Output = UnsignedVolTable[Data] >> ptr->nVolShift;
+	ptr->Output = (INT32)(UnsignedVolTable[Data] * ptr->nVolume);
 }
 
 void DACSignedWrite(INT32 Chip, UINT8 Data)
@@ -118,7 +137,7 @@ void DACSignedWrite(INT32 Chip, UINT8 Data)
 
 	UpdateStream(Chip, ptr->pSyncCallback());
 
-	ptr->Output = SignedVolTable[Data] >> ptr->nVolShift;
+	ptr->Output = (INT32)(SignedVolTable[Data] * ptr->nVolume);
 }
 
 static void DACBuildVolTables()
@@ -147,7 +166,8 @@ void DACInit(INT32 Num, UINT32 /*Clock*/, INT32 bAdd, INT32 (*pSyncCB)())
 	memset (ptr, 0, sizeof(dac_info));
 
 	ptr->Initialized = 1;
-	ptr->nVolShift = 0;
+	ptr->nVolume = 1.00;
+	ptr->OutputDir = BURN_SND_ROUTE_BOTH;
 	ptr->pSyncCallback = pSyncCB;
 
 	DACBuildVolTables(); // necessary to build for every chip?
@@ -155,17 +175,18 @@ void DACInit(INT32 Num, UINT32 /*Clock*/, INT32 bAdd, INT32 (*pSyncCB)())
 	bAddSignal = bAdd;
 }
 
-void DACSetVolShift(INT32 Chip, INT32 nShift)
+void DACSetRoute(INT32 Chip, double nVolume, INT32 nRouteDir)
 {
 #if defined FBA_DEBUG
-	if (!DebugSnd_DACInitted) bprintf(PRINT_ERROR, _T("DACSetVolShift called without init\n"));
-	if (Chip > NumChips) bprintf(PRINT_ERROR, _T("DACSetVolShift called with invalid chip number %x\n"), Chip);
+	if (!DebugSnd_DACInitted) bprintf(PRINT_ERROR, _T("DACSetRoute called without init\n"));
+	if (Chip > NumChips) bprintf(PRINT_ERROR, _T("DACSetRoute called with invalid chip %i\n"), Chip);
 #endif
 
 	struct dac_info *ptr;
 
 	ptr = &dac_table[Chip];
-	ptr->nVolShift = nShift;
+	ptr->nVolume = nVolume;
+	ptr->OutputDir = nRouteDir;
 }
 
 void DACReset()
@@ -203,7 +224,8 @@ void DACExit()
 	
 	DebugSnd_DACInitted = 0;
 
-	BurnFree (buffer);
+	BurnFree (lBuffer);
+	BurnFree (rBuffer);
 }
 
 INT32 DACScan(INT32 nAction,INT32 *pnMin)

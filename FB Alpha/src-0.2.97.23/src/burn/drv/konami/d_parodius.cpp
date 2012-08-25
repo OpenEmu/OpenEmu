@@ -2,7 +2,7 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "konami_intf.h"
 #include "konamiic.h"
@@ -458,9 +458,13 @@ static INT32 DrvInit()
 	K053245Init(0, DrvGfxROM1, 0xfffff, K053245Callback);
 	K053245SetSpriteOffset(0, -112, -16);
 
-	BurnYM2151Init(3579545, 70.0);
+	BurnYM2151Init(3579545);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	K053260Init(0, 3579545, DrvSndROM, 0x80000);
+	K053260SetRoute(0, BURN_SND_K053260_ROUTE_1, 0.70, BURN_SND_ROUTE_LEFT);
+	K053260SetRoute(0, BURN_SND_K053260_ROUTE_2, 0.70, BURN_SND_ROUTE_RIGHT);
 
 	GenericTilesInit();
 
@@ -676,18 +680,18 @@ static INT32 DrvScan(INT32 nAction,INT32 *pnMin)
 // Parodius DA! (World, set 1)
 
 static struct BurnRomInfo parodiusRomDesc[] = {
-	{ "955l01.bin",	0x20000, 0x49a658eb, 1 | BRF_PRG | BRF_ESS }, //  0 Konami Custom Code
-	{ "955l02.bin",	0x20000, 0x161d7322, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "955l01.f5",	0x20000, 0x49a658eb, 1 | BRF_PRG | BRF_ESS }, //  0 Konami Custom Code
+	{ "955l02.h5",	0x20000, 0x161d7322, 1 | BRF_PRG | BRF_ESS }, //  1
 
-	{ "955e03.bin",	0x10000, 0x940aa356, 2 | BRF_PRG | BRF_ESS }, //  2 Z80 Code
+	{ "955e03.d14",	0x10000, 0x940aa356, 2 | BRF_PRG | BRF_ESS }, //  2 Z80 Code
 
-	{ "955d07.bin",	0x80000, 0x89473fec, 3 | BRF_GRA },           //  3 Background Tiles
-	{ "955d08.bin",	0x80000, 0x43d5cda1, 3 | BRF_GRA },           //  4
+	{ "955d07.k19",	0x80000, 0x89473fec, 3 | BRF_GRA },           //  3 Background Tiles
+	{ "955d08.k24",	0x80000, 0x43d5cda1, 3 | BRF_GRA },           //  4
 
-	{ "955d05.bin",	0x80000, 0x7a1e55e0, 4 | BRF_GRA },           //  5 Sprites
-	{ "955d06.bin",	0x80000, 0xf4252875, 4 | BRF_GRA },           //  6
+	{ "955d05.k13",	0x80000, 0x7a1e55e0, 4 | BRF_GRA },           //  5 Sprites
+	{ "955d06.k8",	0x80000, 0xf4252875, 4 | BRF_GRA },           //  6
 
-	{ "955d04.bin",	0x80000, 0xe671491a, 5 | BRF_SND },           //  7 K053260 Samples
+	{ "955d04.c5",	0x80000, 0xe671491a, 5 | BRF_SND },           //  7 K053260 Samples
 };
 
 STD_ROM_PICK(parodius)
@@ -706,30 +710,30 @@ struct BurnDriver BurnDrvParodius = {
 
 // Parodius DA! (World, set 2)
 
-static struct BurnRomInfo parodiusaRomDesc[] = {
+static struct BurnRomInfo parodiuseRomDesc[] = {
 	{ "2.f5",		0x20000, 0x26a6410b, 1 | BRF_PRG | BRF_ESS }, //  0 Konami Custom Code
 	{ "3.h5",		0x20000, 0x9410dbf2, 1 | BRF_PRG | BRF_ESS }, //  1
 
-	{ "955e03.bin",	0x10000, 0x940aa356, 2 | BRF_PRG | BRF_ESS }, //  2 Z80 Code
+	{ "955e03.d14",	0x10000, 0x940aa356, 2 | BRF_PRG | BRF_ESS }, //  2 Z80 Code
 
-	{ "955d07.bin",	0x80000, 0x89473fec, 3 | BRF_GRA },           //  3 Background Tiles
-	{ "955d08.bin",	0x80000, 0x43d5cda1, 3 | BRF_GRA },           //  4
+	{ "955d07.k19",	0x80000, 0x89473fec, 3 | BRF_GRA },           //  3 Background Tiles
+	{ "955d08.k24",	0x80000, 0x43d5cda1, 3 | BRF_GRA },           //  4
 
-	{ "955d05.bin",	0x80000, 0x7a1e55e0, 4 | BRF_GRA },           //  5 Sprites
-	{ "955d06.bin",	0x80000, 0xf4252875, 4 | BRF_GRA },           //  6
+	{ "955d05.k13",	0x80000, 0x7a1e55e0, 4 | BRF_GRA },           //  5 Sprites
+	{ "955d06.k8",	0x80000, 0xf4252875, 4 | BRF_GRA },           //  6
 
-	{ "955d04.bin",	0x80000, 0xe671491a, 5 | BRF_SND },           //  7 K053260 Samples
+	{ "955d04.c5",	0x80000, 0xe671491a, 5 | BRF_SND },           //  7 K053260 Samples
 };
 
-STD_ROM_PICK(parodiusa)
-STD_ROM_FN(parodiusa)
+STD_ROM_PICK(parodiuse)
+STD_ROM_FN(parodiuse)
 
-struct BurnDriver BurnDrvParodiusa = {
-	"parodiusa", "parodius", NULL, NULL, "1990",
+struct BurnDriver BurnDrvParodiuse = {
+	"parodiuse", "parodius", NULL, NULL, "1990",
 	"Parodius DA! (World, set 2)\0", NULL, "Konami", "GX955",
 	L"Parodius \u30D1\u30ED\u30C7\u30A3\u30A6\u30B9\u3060\uFF01 \uFF0D\u795E\u8A71\u304B\u3089\u304A\u7B11\u3044\u3078\uFF0D (World, set 2)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_HORSHOOT, 0,
-	NULL, parodiusaRomInfo, parodiusaRomName, NULL, NULL, ParodiusInputInfo, ParodiusDIPInfo,
+	NULL, parodiuseRomInfo, parodiuseRomName, NULL, NULL, ParodiusInputInfo, ParodiusDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
@@ -737,30 +741,61 @@ struct BurnDriver BurnDrvParodiusa = {
 
 // Parodius DA! (Japan)
 
-static struct BurnRomInfo parodisjRomDesc[] = {
-	{ "955e01.bin",	0x20000, 0x49baa334, 1 | BRF_PRG | BRF_ESS }, //  0 Konami Custom Code
-	{ "955e02.bin",	0x20000, 0x14010d6f, 1 | BRF_PRG | BRF_ESS }, //  1
+static struct BurnRomInfo parodiusjRomDesc[] = {
+	{ "955e01.f5",	0x20000, 0x49baa334, 1 | BRF_PRG | BRF_ESS }, //  0 Konami Custom Code
+	{ "955e02.h5",	0x20000, 0x14010d6f, 1 | BRF_PRG | BRF_ESS }, //  1
 
-	{ "955e03.bin",	0x10000, 0x940aa356, 2 | BRF_PRG | BRF_ESS }, //  2 Z80 Code
+	{ "955e03.d14",	0x10000, 0x940aa356, 2 | BRF_PRG | BRF_ESS }, //  2 Z80 Code
 
-	{ "955d07.bin",	0x80000, 0x89473fec, 3 | BRF_GRA },           //  3 Background Tiles
-	{ "955d08.bin",	0x80000, 0x43d5cda1, 3 | BRF_GRA },           //  4
+	{ "955d07.k19",	0x80000, 0x89473fec, 3 | BRF_GRA },           //  3 Background Tiles
+	{ "955d08.k24",	0x80000, 0x43d5cda1, 3 | BRF_GRA },           //  4
 
-	{ "955d05.bin",	0x80000, 0x7a1e55e0, 4 | BRF_GRA },           //  5 Sprites
-	{ "955d06.bin",	0x80000, 0xf4252875, 4 | BRF_GRA },           //  6
+	{ "955d05.k13",	0x80000, 0x7a1e55e0, 4 | BRF_GRA },           //  5 Sprites
+	{ "955d06.k8",	0x80000, 0xf4252875, 4 | BRF_GRA },           //  6
 
-	{ "955d04.bin",	0x80000, 0xe671491a, 5 | BRF_SND },           //  7 K053260 Samples
+	{ "955d04.c5",	0x80000, 0xe671491a, 5 | BRF_SND },           //  7 K053260 Samples
 };
 
-STD_ROM_PICK(parodisj)
-STD_ROM_FN(parodisj)
+STD_ROM_PICK(parodiusj)
+STD_ROM_FN(parodiusj)
 
-struct BurnDriver BurnDrvParodisj = {
+struct BurnDriver BurnDrvParodiusj = {
 	"parodiusj", "parodius", NULL, NULL, "1990",
 	"Parodius DA! (Japan)\0", NULL, "Konami", "GX955",
 	L"Parodius \u30D1\u30ED\u30C7\u30A3\u30A6\u30B9\u3060\uFF01 \uFF0D\u795E\u8A71\u304B\u3089\u304A\u7B11\u3044\u3078\uFF0D (Japan)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_HORSHOOT, 0,
-	NULL, parodisjRomInfo, parodisjRomName, NULL, NULL, ParodiusInputInfo, ParodiusDIPInfo,
+	NULL, parodiusjRomInfo, parodiusjRomName, NULL, NULL, ParodiusInputInfo, ParodiusDIPInfo,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x800,
+	288, 224, 4, 3
+};
+
+
+// Parodius DA! (Asia)
+
+static struct BurnRomInfo parodiusaRomDesc[] = {
+	{ "b-18.f5",	0x20000, 0x006356cd, 1 | BRF_PRG | BRF_ESS }, //  0 Konami Custom Code
+	{ "b-19.h5",	0x20000, 0xe5a16417, 1 | BRF_PRG | BRF_ESS }, //  1
+
+	{ "955e03.d14",	0x10000, 0x940aa356, 2 | BRF_PRG | BRF_ESS }, //  2 Z80 Code
+
+	{ "955d07.k19",	0x80000, 0x89473fec, 3 | BRF_GRA },           //  3 Background Tiles
+	{ "955d08.k24",	0x80000, 0x43d5cda1, 3 | BRF_GRA },           //  4
+
+	{ "955d05.k13",	0x80000, 0x7a1e55e0, 4 | BRF_GRA },           //  5 Sprites
+	{ "955d06.k8",	0x80000, 0xf4252875, 4 | BRF_GRA },           //  6
+
+	{ "955d04.c5",	0x80000, 0xe671491a, 5 | BRF_SND },           //  7 K053260 Samples
+};
+
+STD_ROM_PICK(parodiusa)
+STD_ROM_FN(parodiusa)
+
+struct BurnDriver BurnDrvParodiusa = {
+	"parodiusa", "parodius", NULL, NULL, "1990",
+	"Parodius DA! (Asia)\0", NULL, "Konami", "GX955",
+	L"Parodius \u30D1\u30ED\u30C7\u30A3\u30A6\u30B9\u3060\uFF01 \uFF0D\u795E\u8A71\u304B\u3089\u304A\u7B11\u3044\u3078\uFF0D (Asia)\0", NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_HORSHOOT, 0,
+	NULL, parodiusaRomInfo, parodiusaRomName, NULL, NULL, ParodiusInputInfo, ParodiusDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };

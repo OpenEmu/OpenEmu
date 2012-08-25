@@ -45,7 +45,9 @@ struct _k051649_state
 	k051649_sound_channel channel_list[5];
 
 	/* global sound parameters */
-	INT32 mclock,rate,gain;
+	INT32 mclock,rate;
+	double gain;
+	INT32 output_dir;
 
 	/* mixer tables and internal buffers */
 	INT16 *mixer_table;
@@ -93,7 +95,7 @@ void K051649Update(INT16 *pBuf, INT32 samples)
 	k051649_sound_channel *voice=info->channel_list;
 	INT16 *mix;
 	INT32 i,v,f,j,k;
-	INT32 gain = info->gain;
+	double gain = info->gain;
 
 	/* zap the contents of the mixer buffer */
 	memset(info->mixer_buffer, 0, samples * sizeof(INT16));
@@ -134,18 +136,26 @@ void K051649Update(INT16 *pBuf, INT32 samples)
 	for (i = 0; i < samples; i++) {
 		INT32 output = info->mixer_lookup[*mix++];
 		
-		if (output < -0x7fff) output = -0x7fff;
-		if (output >  0x7fff) output =  0x7fff;
+		output = BURN_SND_CLIP(output);
+		output = (INT32)(output * gain);		
+		output = BURN_SND_CLIP(output);
+		
+		INT32 nLeftSample = 0, nRightSample = 0;
+		
+		if ((info->output_dir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += output;
+		}
+		if ((info->output_dir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += output;
+		}
 
-		output = (output * gain) / 100;
-
-		pBuf[0] += output;
-		pBuf[1] += output;
+		pBuf[0] += nLeftSample;
+		pBuf[1] += nRightSample;
 		pBuf += 2;
 	}	
 }
 
-void K051649Init(INT32 clock, float gain)
+void K051649Init(INT32 clock)
 {
 	DebugSnd_K051649Initted = 1;
 
@@ -154,7 +164,8 @@ void K051649Init(INT32 clock, float gain)
 	/* get stream channels */
 	info->rate = clock/16;
 	info->mclock = clock;
-	info->gain = (INT32)(gain * 100);
+	info->gain = 1.00;
+	info->output_dir = BURN_SND_ROUTE_BOTH;
 	
 	nUpdateStep = (INT32)(((float)info->rate / nBurnSoundRate) * 32768);
 
@@ -163,6 +174,14 @@ void K051649Init(INT32 clock, float gain)
 	
 	/* build the mixer table */
 	make_mixer_table(5);
+}
+
+void K051649SetRoute(double nVolume, INT32 nRouteDir)
+{
+	info = &Chips[0];
+	
+	info->gain = nVolume;
+	info->output_dir = nRouteDir;
 }
 
 void K051649Exit()

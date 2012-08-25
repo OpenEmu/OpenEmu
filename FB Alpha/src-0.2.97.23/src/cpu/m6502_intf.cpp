@@ -237,11 +237,11 @@ INT32 M6502GetActive()
 	return nActiveCPU;
 }
 
-void M6502SetIRQ(INT32 vector, INT32 status)
+void M6502SetIRQLine(INT32 vector, INT32 status)
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6502Initted) bprintf(PRINT_ERROR, _T("M6502SetIRQLine called without init\n"));
-	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6502SetIRQLine called with no CPU open\n"));
+	if (!DebugCPU_M6502Initted) bprintf(PRINT_ERROR, _T("M6502SetIRQLineLine called without init\n"));
+	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6502SetIRQLineLine called with no CPU open\n"));
 #endif
 
 	if (status == M6502_IRQSTATUS_NONE) {
@@ -327,21 +327,21 @@ void M6502SetWritePortHandler(void (*pHandler)(UINT16, UINT8))
 	pCurrentCPU->WritePort = pHandler;
 }
 
-void M6502SetReadByteHandler(UINT8 (*pHandler)(UINT16))
+void M6502SetReadHandler(UINT8 (*pHandler)(UINT16))
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6502Initted) bprintf(PRINT_ERROR, _T("M6502SetReadByteHandler called without init\n"));
-	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6502SetReadByteHandler called with no CPU open\n"));
+	if (!DebugCPU_M6502Initted) bprintf(PRINT_ERROR, _T("M6502SetReadHandler called without init\n"));
+	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6502SetReadHandler called with no CPU open\n"));
 #endif
 
 	pCurrentCPU->ReadByte = pHandler;
 }
 
-void M6502SetWriteByteHandler(void (*pHandler)(UINT16, UINT8))
+void M6502SetWriteHandler(void (*pHandler)(UINT16, UINT8))
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_M6502Initted) bprintf(PRINT_ERROR, _T("M6502SetWriteByteHandler called without init\n"));
-	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6502SetWriteByteHandler called with no CPU open\n"));
+	if (!DebugCPU_M6502Initted) bprintf(PRINT_ERROR, _T("M6502SetWriteHandler called without init\n"));
+	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("M6502SetWriteHandler called with no CPU open\n"));
 #endif
 
 	pCurrentCPU->WriteByte = pHandler;

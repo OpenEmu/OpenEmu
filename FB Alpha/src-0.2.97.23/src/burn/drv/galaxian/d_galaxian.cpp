@@ -6495,6 +6495,22 @@ static struct BurnRomInfo WarofbuggRomDesc[] = {
 STD_ROM_PICK(Warofbugg)
 STD_ROM_FN(Warofbugg)
 
+static struct BurnRomInfo WarofbuguRomDesc[] = {
+	{ "wb-prog-1.7d",  0x00800, 0xb8dfb7e3, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "wb-prog-2.7e",  0x00800, 0xfd8854e0, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "wb-prog-3.7j",  0x00800, 0x4495aa14, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "wb-prog-4.7n",  0x00800, 0xe4bd257c, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "wb-prog-5.7p",  0x00800, 0x71257bb4, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	
+	{ "warofbug.1k",   0x00800, 0x8100fa85, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "warofbug.1j",   0x00800, 0xd1220ae9, BRF_GRA | GAL_ROM_TILES_SHARED },
+	
+	{ "warofbug.clr",  0x00020, 0x8688e64b, BRF_GRA | GAL_ROM_PROM },
+};
+
+STD_ROM_PICK(Warofbugu)
+STD_ROM_FN(Warofbugu)
+
 static struct BurnRomInfo RedufoRomDesc[] = {
 	{ "redufo.1",      0x00800, 0x6a3b873c, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "redufo.2",      0x00800, 0x202eda3b, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
@@ -7297,8 +7313,18 @@ struct BurnDriverD BurnDrvWarofbugg = {
 	"warofbugg", "warofbug", NULL, NULL, "1981",
 	"War of the Bugs or Monsterous Manouvers in a Mushroom Maze (German)\0", NULL, "Armenia", "Galaxian",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
+	BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
 	NULL, WarofbuggRomInfo, WarofbuggRomName, NULL, NULL, WarofbugInputInfo, WarofbugDIPInfo,
+	GalInit, GalExit, GalFrame, NULL, GalScan,
+	NULL, 392, 224, 256, 3, 4
+};
+
+struct BurnDriver BurnDrvWarofbugu = {
+	"warofbugu", "warofbug", NULL, NULL, "1981",
+	"War of the Bugs or Monsterous Manouvers in a Mushroom Maze (US)\0", NULL, "Armenia", "Galaxian",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
+	NULL, WarofbuguRomInfo, WarofbuguRomName, NULL, NULL, WarofbugInputInfo, WarofbugDIPInfo,
 	GalInit, GalExit, GalFrame, NULL, GalScan,
 	NULL, 392, 224, 256, 3, 4
 };
@@ -8518,7 +8544,7 @@ static INT32 ZigzagInit()
 	
 	GalDrawBulletsFunction = NULL;
 	
-	GalSoundVolumeShift = 3;
+	AY8910SetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
 	
 	return nRet;
 }
@@ -8641,7 +8667,7 @@ UINT8 __fastcall GmgalaxZ80Read(UINT16 a)
 		}
 	}
 
-	return 0xff;
+	return 0x00;
 }
 
 static void GmgalaxPostLoad()
@@ -8690,11 +8716,11 @@ static INT32 GmgalaxInit()
 	return nRet;
 }
 
-struct BurnDriverD BurnDrvGmgalax = {
+struct BurnDriver BurnDrvGmgalax = {
 	"gmgalax", NULL, NULL, NULL, "1981",
 	"Ghostmuncher Galaxian (bootleg)\0", NULL, "LAX", "Galaxian",
 	NULL, NULL, NULL, NULL,
-	BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG, 2, HARDWARE_GALAXIAN, GBF_MAZE, 0,
+	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG, 2, HARDWARE_GALAXIAN, GBF_MAZE, 0,
 	NULL, GmgalaxRomInfo, GmgalaxRomName, NULL, NULL, GmgalaxInputInfo, GmgalaxDIPInfo,
 	GmgalaxInit, GalExit, GalFrame, NULL, GalScan,
 	NULL, 392, 224, 256, 3, 4
@@ -8860,9 +8886,9 @@ static void Fourin1PostLoad()
 {
 	GalTempRom = (UINT8*)BurnMalloc(0x3000);
 	memcpy(GalTempRom, GalZ80Rom1 + 0xd000, 0x3000);
-	memset(GalZ80Rom1 + 0xd000, 0xff, 0x1000);
+	memset(GalZ80Rom1 + 0xd000, 0x00, 0x1000);
 	memcpy(GalZ80Rom1 + 0xe000, GalTempRom, 0x3000);
-	memset(GalZ80Rom1 + 0x11000, 0xff, 0x1000);
+	memset(GalZ80Rom1 + 0x11000, 0x00, 0x1000);
 	BurnFree(GalTempRom);
 	
 	for (UINT32 i = 0; i < GalZ80Rom1Size; i++) {
@@ -8870,10 +8896,21 @@ static void Fourin1PostLoad()
 	}
 
 	ZetOpen(0);
+	ZetMemCallback(0x0000, 0xffff, 0);
+	ZetMemCallback(0x0000, 0xffff, 1);
+	ZetMemCallback(0x0000, 0xffff, 2);
 	ZetSetReadHandler(Fourin1Z80Read);
 	ZetSetWriteHandler(Fourin1Z80Write);
-	ZetMapArea(0x0000, 0x3fff, 0, GalZ80Rom1 + 0x2000 + (Fourin1Bank * 0x4000));
-	ZetMapArea(0x0000, 0x3fff, 2, GalZ80Rom1 + 0x2000 + (Fourin1Bank * 0x4000));
+	ZetMapArea(0x0000, 0x3fff, 0, GalZ80Rom1);
+	ZetMapArea(0x0000, 0x3fff, 2, GalZ80Rom1);
+	ZetMapArea(0x4000, 0x43ff, 0, GalZ80Ram1);
+	ZetMapArea(0x4000, 0x43ff, 1, GalZ80Ram1);
+	ZetMapArea(0x4000, 0x43ff, 2, GalZ80Ram1);
+	ZetMapArea(0x5000, 0x53ff, 0, GalVideoRam);
+	ZetMapArea(0x5000, 0x53ff, 1, GalVideoRam);
+	ZetMapArea(0x5000, 0x53ff, 2, GalVideoRam);
+	ZetMapArea(0x5800, 0x58ff, 0, GalSpriteRam);
+	ZetMapArea(0x5800, 0x58ff, 2, GalSpriteRam);
 	ZetMapArea(0xc000, 0xdfff, 0, GalZ80Rom1);
 	ZetMapArea(0xc000, 0xdfff, 2, GalZ80Rom1);
 	ZetClose();
@@ -8935,11 +8972,11 @@ static INT32 Fourin1Init()
 	return nRet;
 }
 
-struct BurnDriverD BurnDrvFourin1 = {
+struct BurnDriver BurnDrvFourin1 = {
 	"4in1", NULL, NULL, NULL, "1981",
 	"4 Fun in 1\0", NULL, "Armenia / Food and Fun", "Galaxian",
 	NULL, NULL, NULL, NULL,
-	BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG, 2, HARDWARE_GALAXIAN, GBF_MAZE, 0,
+	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG, 2, HARDWARE_GALAXIAN, GBF_MAZE, 0,
 	NULL, Fourin1RomInfo, Fourin1RomName, NULL, NULL, Fourin1InputInfo, Fourin1DIPInfo,
 	Fourin1Init, GalExit, GalFrame, NULL, GalScan,
 	NULL, 392, 224, 256, 3, 4
@@ -10320,7 +10357,7 @@ static struct BurnRomInfo FantastcRomDesc[] = {
 	{ "37",            0x01000, 0x3a54f749, BRF_GRA | GAL_ROM_TILES_SHARED },
 	{ "38",            0x01000, 0x88b71264, BRF_GRA | GAL_ROM_TILES_SHARED },
 	
-	{ "prom-74g138",  0x00020, 0xb7cbbc1f, BRF_GRA | GAL_ROM_PROM },
+	{ "prom-74g138",   0x00020, 0x800f5718, BRF_GRA | GAL_ROM_PROM },
 };
 
 STD_ROM_PICK(Fantastc)
@@ -10704,7 +10741,7 @@ void __fastcall CkongmcZ80Write(UINT16 a, UINT8 d)
 void __fastcall FantastcZ80Write(UINT16 a, UINT8 d)
 {
 	if (a >= 0x9800 && a <= 0x98ff) {
-		int Offset = a - 0x9800;
+		INT32 Offset = a - 0x9800;
 		
 		GalSpriteRam[Offset] = d;
 		
@@ -11146,8 +11183,6 @@ static INT32 FantastcInit()
 	GalRenderFrameFunction = FantastcRenderFrame;
 	GalExtendSpriteInfoFunction = UpperExtendSpriteInfo;
 	
-	HardCodeMooncrstPROM();
-	
 	return nRet;
 }
 
@@ -11233,7 +11268,7 @@ struct BurnDriver BurnDrvKong = {
 
 struct BurnDriver BurnDrvFantastc = {
 	"fantastc", NULL, NULL, NULL, "198?",
-	"Fantastic\0", "Bad Colours", "Taito do Brasil", "Galaxian",
+	"Fantastic\0", NULL, "Taito do Brasil", "Galaxian",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
 	NULL, FantastcRomInfo, FantastcRomName, NULL, NULL, FantastcInputInfo, FantastcDIPInfo,
@@ -11637,7 +11672,7 @@ static INT32 JumpbugInit()
 	GalExtendTileInfoFunction = JumpbugExtendTileInfo;
 	GalExtendSpriteInfoFunction = JumpbugExtendSpriteInfo;
 	
-	GalSoundVolumeShift = 3;
+	AY8910SetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
 	
 	return nRet;
 }
@@ -11680,7 +11715,7 @@ static INT32 LeversInit()
 	GalExtendTileInfoFunction = JumpbugExtendTileInfo;
 	GalExtendSpriteInfoFunction = JumpbugExtendSpriteInfo;
 	
-	GalSoundVolumeShift = 2;
+	AY8910SetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
 	
 	return nRet;
 }
@@ -11715,8 +11750,6 @@ static INT32 BongoInit()
 	
 	GalExtendSpriteInfoFunction = UpperExtendSpriteInfo;
 	
-	GalSoundVolumeShift = 3;
-
 	return nRet;
 }
 
@@ -12174,6 +12207,8 @@ static INT32 CheckmanInit()
 	GalExtendTileInfoFunction = MooncrstExtendTileInfo;
 	GalExtendSpriteInfoFunction = MooncrstExtendSpriteInfo;
 	
+	AY8910SetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
+	
 	return nRet;
 }
 
@@ -12212,6 +12247,8 @@ static INT32 CheckmanjInit()
 	
 	nRet = GalInit();
 	
+	AY8910SetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
+	
 	return nRet;
 }
 
@@ -12237,7 +12274,7 @@ static INT32 DingoInit()
 	
 	nRet = GalInit();
 	
-	GalSoundVolumeShift = 0;
+	AY8910SetAllRoutes(0, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	return nRet;
 }
@@ -12272,6 +12309,8 @@ static INT32 DingoeInit()
 	GalSoundType = GAL_SOUND_HARDWARE_TYPE_CHECKMANAY8910;
 	
 	nRet = GalInit();
+	
+	AY8910SetAllRoutes(0, 1.00, BURN_SND_ROUTE_BOTH);
 	
 	return nRet;
 }
@@ -15184,9 +15223,14 @@ static INT32 TheendInit()
 	GalRenderBackgroundFunction = GalaxianDrawBackground;
 	GalDrawBulletsFunction = TheendDrawBullets;
 	
-	GalSoundVolumeShift = 3;
-	
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.02);
+	filter_rc_set_src_gain(1, 0.02);
+	filter_rc_set_src_gain(2, 0.02);
+	filter_rc_set_src_gain(3, 0.02);
+	filter_rc_set_src_gain(4, 0.02);
+	filter_rc_set_src_gain(5, 0.02);
 	
 	return nRet;
 }
@@ -15289,6 +15333,13 @@ static INT32 AtlantisInit()
 	
 	KonamiPPIInit();
 	
+	filter_rc_set_src_gain(0, 0.25);
+	filter_rc_set_src_gain(1, 0.25);
+	filter_rc_set_src_gain(2, 0.25);
+	filter_rc_set_src_gain(3, 0.25);
+	filter_rc_set_src_gain(4, 0.25);
+	filter_rc_set_src_gain(5, 0.25);
+	
 	return nRet;
 }
 
@@ -15385,8 +15436,6 @@ static INT32 MarsInit()
 	GalRenderBackgroundFunction = ScrambleDrawBackground;
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	
-	GalSoundVolumeShift = 0;
-	
 	KonamiPPIInit();
 	
 	return nRet;
@@ -15417,9 +15466,14 @@ static INT32 DevilfshInit()
 	GalRenderBackgroundFunction = ScrambleDrawBackground;
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	
-	GalSoundVolumeShift = 0;
-	
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.75);
+	filter_rc_set_src_gain(1, 0.75);
+	filter_rc_set_src_gain(2, 0.75);
+	filter_rc_set_src_gain(3, 0.75);
+	filter_rc_set_src_gain(4, 0.75);
+	filter_rc_set_src_gain(5, 0.75);
 	
 	return nRet;
 }
@@ -15477,8 +15531,6 @@ static INT32 Newsin7Init()
 	GalColourDepth = 3;
 	GalSpriteClipStart = 0;
 	GalSpriteClipEnd = 246;
-	
-	GalSoundVolumeShift = 0;
 	
 	KonamiPPIInit();
 	
@@ -15596,8 +15648,6 @@ static INT32 HotshockInit()
 	GalSpriteClipStart = 7;
 	GalSpriteClipEnd = 246;
 	
-	GalSoundVolumeShift = 0;
-	
 	return nRet;
 }
 
@@ -15628,8 +15678,6 @@ static INT32 ConquerInit()
 	
 	GalExtendTileInfoFunction = PiscesExtendTileInfo;
 	
-	GalSoundVolumeShift = 0;
-	
 	return nRet;
 }
 
@@ -15657,9 +15705,14 @@ static INT32 CavelonInit()
 	GalDrawBulletsFunction = ScrambleDrawBullets;	
 	GalExtendSpriteInfoFunction = MshuttleExtendSpriteInfo;
 	
-	GalSoundVolumeShift = 2;
-	
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -15706,6 +15759,13 @@ static INT32 MimonscrInit()
 	GalExtendSpriteInfoFunction = MimonkeyExtendSpriteInfo;
 
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -16777,8 +16837,6 @@ static INT32 Ad2083Init()
 	GalExtendTileInfoFunction = Ad2083ExtendTileInfo;
 	GalExtendSpriteInfoFunction = Ad2083ExtendSpriteInfo;
 	
-	GalSoundVolumeShift = 0;
-	
 	return nRet;
 }
 
@@ -17050,8 +17108,6 @@ static INT32 SfxInit()
 	SfxTilemap = 1;
 	GalOrientationFlipX = 1;
 	
-	GalSoundVolumeShift = 3;
-
 	return nRet;
 }
 
@@ -17226,8 +17282,7 @@ static struct BurnRomInfo ScobraRomDesc[] = {
 	{ "epr1274.5h",    0x00800, 0x64d113b4, BRF_GRA | GAL_ROM_TILES_SHARED },
 	{ "epr1273.5f",    0x00800, 0xa96316d3, BRF_GRA | GAL_ROM_TILES_SHARED },
 		
-	{ "82s123.6e",     0x00020, 0x9b87f90d, BRF_GRA | GAL_ROM_PROM },
-};
+	{ "82s123.6e",     0x00020, 0x9b87f90d, BRF_GRA | GAL_ROM_PROM },};
 
 STD_ROM_PICK(Scobra)
 STD_ROM_FN(Scobra)
@@ -17516,7 +17571,7 @@ static struct BurnRomInfo SuperbonRomDesc[] = {
 	{ "5f.cpu",        0x00800, 0x5b9d4686, BRF_GRA | GAL_ROM_TILES_SHARED },
 	{ "5h.cpu",        0x00800, 0x58c29927, BRF_GRA | GAL_ROM_TILES_SHARED },
 		
-	{ "superbon.clr",  0x00020, 0x00000000, BRF_OPT | BRF_NODUMP },
+	{ "82s123.6e",     0x00020, 0x9b87f90d, BRF_GRA | GAL_ROM_PROM },
 };
 
 STD_ROM_PICK(Superbon)
@@ -18587,6 +18642,13 @@ static INT32 LosttombInit()
 	
 	KonamiPPIInit();
 	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
+	
 	return nRet;
 }
 
@@ -18659,9 +18721,14 @@ static INT32 AnteaterInit()
 	GalRenderBackgroundFunction = AnteaterDrawBackground;
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	
-	GalSoundVolumeShift = 3;
-	
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -18712,9 +18779,14 @@ static INT32 AnteatergInit()
 	GalRenderBackgroundFunction = AnteaterDrawBackground;
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	
-	GalSoundVolumeShift = 3;
-	
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -18762,9 +18834,14 @@ static INT32 AnteaterukInit()
 	GalRenderBackgroundFunction = ScrambleDrawBackground;
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	
-	GalSoundVolumeShift = 3;
-	
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -18789,7 +18866,6 @@ static INT32 SuperbonInit()
 	
 	GalPostLoadCallbackFunction = SuperbonPostLoad;
 	GalSoundType = GAL_SOUND_HARDWARE_TYPE_KONAMIAY8910;	
-	GalPromRomSize = 0x20;
 	
 	nRet = GalInit();
 	KonamiSoundInit();
@@ -18797,11 +18873,14 @@ static INT32 SuperbonInit()
 	GalRenderBackgroundFunction = ScrambleDrawBackground;
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	
-	GalSoundVolumeShift = 3;
-	
 	KonamiPPIInit();
 		
-	HardCodeGalaxianPROM();
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -18820,9 +18899,14 @@ static INT32 CalipsoInit()
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	GalExtendSpriteInfoFunction = CalipsoExtendSpriteInfo;
 	
-	GalSoundVolumeShift = 3;
-	
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -18872,6 +18956,13 @@ static INT32 MoonwarInit()
 	
 	PPI0PortReadA = MoonwarPPIReadIN0;
 	PPI0PortWriteC = MoonwarPortSelectWrite;
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -18945,10 +19036,15 @@ static INT32 DarkplntInit()
 	GalCalcPaletteFunction = DarkplntCalcPalette;
 	GalDrawBulletsFunction = DarkplntDrawBullets;
 	
-	GalSoundVolumeShift = 2;
-	
 	KonamiPPIInit();	
 	PPI0PortReadB = DarkplntPPIReadIN1;
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -18984,9 +19080,14 @@ static INT32 RescueInit()
 	GalRenderBackgroundFunction = RescueDrawBackground;
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	
-	GalSoundVolumeShift = 3;
-	
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -19022,9 +19123,14 @@ static INT32 MinefldInit()
 	GalRenderBackgroundFunction = MinefldDrawBackground;
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	
-	GalSoundVolumeShift = 2;
-	
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -19232,6 +19338,13 @@ static INT32 MimonkeyInit()
 
 	KonamiPPIInit();
 	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
+	
 	return nRet;
 }
 
@@ -19251,6 +19364,13 @@ static INT32 MimonscoInit()
 	GalExtendSpriteInfoFunction = MimonkeyExtendSpriteInfo;
 
 	KonamiPPIInit();
+	
+	filter_rc_set_src_gain(0, 0.20);
+	filter_rc_set_src_gain(1, 0.20);
+	filter_rc_set_src_gain(2, 0.20);
+	filter_rc_set_src_gain(3, 0.20);
+	filter_rc_set_src_gain(4, 0.20);
+	filter_rc_set_src_gain(5, 0.20);
 	
 	return nRet;
 }
@@ -21098,8 +21218,6 @@ static INT32 HunchbksInit()
 	GalRenderBackgroundFunction = ScrambleDrawBackground;
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	
-	GalSoundVolumeShift = 3;
-	
 	KonamiPPIInit();
 	PPI1PortWriteB = HunchbksSoundControlWrite;
 	
@@ -21135,8 +21253,6 @@ static INT32 HncholmsInit()
 	GalExtendSpriteInfoFunction = UpperExtendSpriteInfo;
 	
 	nGalCyclesTotal[0] = (18432000 / 6 / 2 / 2) / 60;
-	
-	GalSoundVolumeShift = 3;
 	
 	KonamiPPIInit();
 	PPI1PortWriteB = HunchbksSoundControlWrite;

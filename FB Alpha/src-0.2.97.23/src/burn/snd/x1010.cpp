@@ -95,8 +95,29 @@ void x1010_sound_update()
 						break;
 					}
 					data = *(start + delta);
-					*bufL += (data * volL / 256); bufL += 2;
-					*bufR += (data * volR / 256); bufR += 2;
+					
+					INT32 nLeftSample = 0, nRightSample = 0;
+					
+					if ((x1_010_chip->output_dir[BURN_SND_X1010_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)((data * volL / 256) * x1_010_chip->gain[BURN_SND_X1010_ROUTE_1]);
+					}
+					if ((x1_010_chip->output_dir[BURN_SND_X1010_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)((data * volL / 256) * x1_010_chip->gain[BURN_SND_X1010_ROUTE_1]);
+					}
+					
+					if ((x1_010_chip->output_dir[BURN_SND_X1010_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)((data * volR / 256) * x1_010_chip->gain[BURN_SND_X1010_ROUTE_2]);
+					}
+					if ((x1_010_chip->output_dir[BURN_SND_X1010_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)((data * volR / 256) * x1_010_chip->gain[BURN_SND_X1010_ROUTE_2]);
+					}
+					
+					nLeftSample = BURN_SND_CLIP(nLeftSample);
+					nRightSample = BURN_SND_CLIP(nRightSample);
+					
+					*bufL += nLeftSample; bufL += 2;;
+					*bufR += nRightSample; bufR += 2;
+
 					smp_offs += smp_step;
 				}
 				x1_010_chip->smp_offset[ch] = smp_offs;
@@ -131,8 +152,29 @@ void x1010_sound_update()
 					volL = ((vol >> 4) & 0xf) * VOL_BASE;
 					volR = ((vol >> 0) & 0xf) * VOL_BASE;
 					data  = *(start + ((smp_offs >> FREQ_BASE_BITS) & 0x7f));
-					*bufL += (data * volL / 256); bufL += 2;
-					*bufR += (data * volR / 256); bufR += 2;
+
+					INT32 nLeftSample = 0, nRightSample = 0;
+					
+					if ((x1_010_chip->output_dir[BURN_SND_X1010_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)((data * volL / 256) * x1_010_chip->gain[BURN_SND_X1010_ROUTE_1]);
+					}
+					if ((x1_010_chip->output_dir[BURN_SND_X1010_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)((data * volL / 256) * x1_010_chip->gain[BURN_SND_X1010_ROUTE_1]);
+					}
+					
+					if ((x1_010_chip->output_dir[BURN_SND_X1010_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+						nLeftSample += (INT32)((data * volR / 256) * x1_010_chip->gain[BURN_SND_X1010_ROUTE_2]);
+					}
+					if ((x1_010_chip->output_dir[BURN_SND_X1010_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+						nRightSample += (INT32)((data * volR / 256) * x1_010_chip->gain[BURN_SND_X1010_ROUTE_2]);
+					}
+					
+					nLeftSample = BURN_SND_CLIP(nLeftSample);
+					nRightSample = BURN_SND_CLIP(nRightSample);
+					
+					*bufL += nLeftSample; bufL += 2;;
+					*bufR += nRightSample; bufR += 2;
+
 					smp_offs += smp_step;
 					env_offs += env_step;
 				}
@@ -152,6 +194,22 @@ void x1010_sound_init(UINT32 base_clock, INT32 address)
 	x1_010_chip->base_clock = base_clock;
 	x1_010_chip->rate = x1_010_chip->base_clock / 1024;
 	x1_010_chip->address = address;
+	
+	x1_010_chip->gain[BURN_SND_X1010_ROUTE_1] = 1.00;
+	x1_010_chip->gain[BURN_SND_X1010_ROUTE_2] = 1.00;
+	x1_010_chip->output_dir[BURN_SND_X1010_ROUTE_1] = BURN_SND_ROUTE_BOTH;
+	x1_010_chip->output_dir[BURN_SND_X1010_ROUTE_2] = BURN_SND_ROUTE_BOTH;
+}
+
+void x1010_set_route(INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_X1010Initted) bprintf(PRINT_ERROR, _T("x1010_set_route called without init\n"));
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("x1010_set_route called with invalid index %i\n"), nIndex);
+#endif
+
+	x1_010_chip->gain[nIndex] = nVolume;
+	x1_010_chip->output_dir[nIndex] = nRouteDir;
 }
 
 void x1010_scan(INT32 nAction,INT32 *pnMin)

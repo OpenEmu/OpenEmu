@@ -2,7 +2,7 @@
 // Based on MAME driver by Chris Moore, Brad Oliver, Nicola Salmoria, and many others
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "burn_ym2203.h"
 #include "burn_ym2151.h"
 #include "tnzs_prot.h"
@@ -40,6 +40,8 @@ static double kageki_sample_pos;
 static INT32  kageki_sample_select;
 static INT16 *kageki_sample_data[0x30];
 static INT32  kageki_sample_size[0x30];
+static double kageki_sample_gain;
+static INT32 kageki_sample_output_dir;
 
 static INT32 cpu1_reset;
 static INT32 tnzs_banks[3];
@@ -1002,6 +1004,15 @@ static void kageki_sample_init()
 			*dest++ = ((*scan++) ^ 0x80) << 8;
 		}
 	}
+	
+	kageki_sample_gain = 1.00;
+	kageki_sample_output_dir = BURN_SND_ROUTE_BOTH;
+}
+
+void kageki_sample_set_route(double nVolume, INT32 nRouteDir)
+{
+	kageki_sample_gain = nVolume;
+	kageki_sample_output_dir = nRouteDir;
 }
 
 static void kageki_sample_exit()
@@ -1312,23 +1323,25 @@ static INT32 Type1Init(INT32 mcutype)
 	tnzs_mcu_init(mcutype);
 
 	if (mcutype == MCU_NONE_JPOPNICS) {
-		BurnYM2151Init(3000000, 30.0); // jpopnics
+		BurnYM2151Init(3000000); // jpopnics
+		BurnYM2151SetAllRoutes(0.30, BURN_SND_ROUTE_BOTH);
 	} else {
 		BurnYM2203Init(1, 3000000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
+		BurnYM2203SetAllRoutes(0, 0.30, BURN_SND_ROUTE_BOTH);
 
 		if (mcutype == MCU_NONE_KAGEKI) {
 			BurnYM2203SetPorts(0, &kageki_ym2203_portA, NULL, NULL, &kageki_ym2203_write_portB);
-			BurnYM2203SetVolumeShift(2);
+			BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.35, BURN_SND_ROUTE_BOTH);
+			BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.15, BURN_SND_ROUTE_BOTH);
+			BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.15, BURN_SND_ROUTE_BOTH);
+			BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.15, BURN_SND_ROUTE_BOTH);
 		} else {
 			BurnYM2203SetPorts(0, &tnzs_ym2203_portA, &tnzs_ym2203_portB, NULL, NULL);
-		}
-		
-		if (mcutype == MCU_EXTRMATN || mcutype == MCU_DRTOPPEL) {
-			BurnYM2203SetVolumeShift(2);
 		}
 	}	
 
 	DACInit(0, 0, 1, kabukizSyncDAC); // kabukiz
+	DACSetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -1434,6 +1447,14 @@ static INT32 Type2Init()
 	BurnYM2203Init(1, 3000000, &DrvYM2203IRQHandler, DrvSynchroniseStream, DrvGetTime, 0);
 	BurnYM2203SetPorts(0, NULL, NULL, &kabukiz_sound_bankswitch, &kabukiz_dac_write);
 	BurnTimerAttachZet(6000000);
+	BurnYM2203SetAllRoutes(0, 0.30, BURN_SND_ROUTE_BOTH);
+	
+	if (strncmp(BurnDrvGetTextA(DRV_NAME), "kabukiz", 7) == 0 || strncmp(BurnDrvGetTextA(DRV_NAME), "tnzsb", 5) == 0) {
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 2.00, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 1.00, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 1.00, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 1.00, BURN_SND_ROUTE_BOTH);
+	}
 
 	DACInit(0, 0, 1, kabukizSyncDAC); // kabukiz
 
@@ -1475,14 +1496,25 @@ static void kageki_sample_render(INT16 *pSoundBuf, INT32 nLength)
 	double Step = (double)7000 / nBurnSoundRate;
 
 	double size = kageki_sample_size[kageki_sample_select];
-	short *ptr  = kageki_sample_data[kageki_sample_select];
+	INT16 *ptr  = kageki_sample_data[kageki_sample_select];
 
 	for (INT32 i = 0; i < nLength; i += 2) {
 		if (Addr >= size) break;
-		short Sample = ptr[(INT32)Addr];
+		INT16 Sample = ptr[(INT32)Addr];
 
-		pSoundBuf[i    ] = Sample;
-		pSoundBuf[i + 1] = Sample;
+//		pSoundBuf[i    ] = Sample;
+//		pSoundBuf[i + 1] = Sample;
+		INT16 nLeftSample = 0, nRightSample = 0;
+		
+		if ((kageki_sample_output_dir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(Sample * kageki_sample_gain);
+		}
+		if ((kageki_sample_output_dir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(Sample * kageki_sample_gain);
+		}
+		
+		pSoundBuf[i + 0] += nLeftSample;
+		pSoundBuf[i + 1] += nRightSample;
 
 		Addr += Step;
 	}

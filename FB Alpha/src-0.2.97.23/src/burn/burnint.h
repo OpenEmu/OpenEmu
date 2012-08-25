@@ -7,10 +7,14 @@
 #include <string.h>
 #include <assert.h>
 
-#if defined(__LIBSNES__) && defined(_MSC_VER)
+#if defined(__LIBRETRO__) && defined(_MSC_VER)
 #include <tchar.h>
 #else
 #include "tchar.h"
+#endif
+
+#ifdef __LIBRETRO_OPTIMIZATIONS__
+#include "burn_libretro_opts.h"
 #endif
 
 #include "burn.h"
@@ -144,6 +148,11 @@ void BurnExitMemoryManager();
 // Sound clipping macro
 #define BURN_SND_CLIP(A) ((A) < -0x8000 ? -0x8000 : (A) > 0x7fff ? 0x7fff : (A))
 
+// sound routes
+#define BURN_SND_ROUTE_LEFT			1
+#define BURN_SND_ROUTE_RIGHT		2
+#define BURN_SND_ROUTE_BOTH			(BURN_SND_ROUTE_LEFT | BURN_SND_ROUTE_RIGHT)
+
 // ---------------------------------------------------------------------------
 // Debug Tracker
 
@@ -173,6 +182,7 @@ extern UINT8 DebugSnd_YMF278BInitted;
 extern UINT8 DebugSnd_DACInitted;
 extern UINT8 DebugSnd_ES5506Initted;
 extern UINT8 DebugSnd_ES8712Initted;
+extern UINT8 DebugSnd_FilterRCInitted;
 extern UINT8 DebugSnd_ICS2115Initted;
 extern UINT8 DebugSnd_IremGA20Initted;
 extern UINT8 DebugSnd_K007232Initted;

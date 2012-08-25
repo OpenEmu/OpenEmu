@@ -24,6 +24,8 @@ struct rf5c68pcm
 	UINT8		wbank;
 	UINT8		enable;
 	UINT8		data[0x10000];
+	double		volume[2];
+	INT32		output_dir[2];
 };
 
 static struct rf5c68pcm *chip = NULL;
@@ -61,7 +63,7 @@ void RF5C68PCMUpdate(INT16* pSoundBuf, INT32 length)
 					if (sample == 0xff) break;
 				}
 				
-				chan->addr += (chan->step * nUpdateStep) >> 15;//(chan->step * 1181) / 1000;
+				chan->addr += (chan->step * nUpdateStep) >> 15;
 				
 				if (sample & 0x80) {
 					sample &= 0x7f;
@@ -76,15 +78,33 @@ void RF5C68PCMUpdate(INT16* pSoundBuf, INT32 length)
 	}
 	
 	for (i = 0; i < length; i++) {
-		if (left[i] > 32767) left[i] = 32767;
-		if (left[i] < -32768) left[i] = -32768;
-		left[i] = left[i] & ~0x3f;
-		if (right[i] > 32767) right[i] = 32767;
-		if (right[i] < -32768) right[i] = -32768;
-		right[i] = right[i] & ~0x3f;
+		INT32 nLeftSample = 0;
+		INT32 nRightSample = 0;
 		
-		pSoundBuf[i + 0] = left[i];
-		pSoundBuf[i + 1] = right[i];
+		left[i] = BURN_SND_CLIP(left[i]);
+		left[i] = left[i] & ~0x3f;
+		right[i] = BURN_SND_CLIP(right[i]);
+		right[i] = right[i] & ~0x3f;
+
+		if ((chip->output_dir[BURN_SND_RF5C68PCM_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(left[i] * chip->volume[BURN_SND_RF5C68PCM_ROUTE_1]);
+		}
+		if ((chip->output_dir[BURN_SND_RF5C68PCM_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(left[i] * chip->volume[BURN_SND_RF5C68PCM_ROUTE_1]);
+		}
+		
+		if ((chip->output_dir[BURN_SND_RF5C68PCM_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(right[i] * chip->volume[BURN_SND_RF5C68PCM_ROUTE_2]);
+		}
+		if ((chip->output_dir[BURN_SND_RF5C68PCM_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(right[i] * chip->volume[BURN_SND_RF5C68PCM_ROUTE_2]);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+		
+		pSoundBuf[i + 0] = nLeftSample;
+		pSoundBuf[i + 1] = nRightSample;
 	}
 }
 
@@ -94,7 +114,6 @@ void RF5C68PCMReset()
 	if (!DebugSnd_RF5C68Initted) bprintf(PRINT_ERROR, _T("RF5C68PCMReset called without init\n"));
 #endif
 
-	memset(chip, 0, sizeof(*chip));
 	memset(chip->data, 0xff, sizeof(chip->data));
 }
 
@@ -109,7 +128,23 @@ void RF5C68PCMInit(INT32 clock)
 	left = (INT32*)malloc(nBurnSoundLen * sizeof(INT32));
 	right = (INT32*)malloc(nBurnSoundLen * sizeof(INT32));
 	
+	chip->volume[BURN_SND_RF5C68PCM_ROUTE_1] = 1.00;
+	chip->volume[BURN_SND_RF5C68PCM_ROUTE_2] = 1.00;
+	chip->output_dir[BURN_SND_RF5C68PCM_ROUTE_1] = BURN_SND_ROUTE_LEFT;
+	chip->output_dir[BURN_SND_RF5C68PCM_ROUTE_2] = BURN_SND_ROUTE_RIGHT;
+	
 	DebugSnd_RF5C68Initted = 1;
+}
+
+void RF5C68PCMSetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_RF5C68Initted) bprintf(PRINT_ERROR, _T("RF5C68PCMSetRoute called without init\n"));
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("RF5C68PCMSetRoute called with invalid index %i\n"), nIndex);
+#endif
+
+	chip->volume[nIndex] = nVolume;
+	chip->output_dir[nIndex] = nRouteDir;
 }
 
 void RF5C68PCMExit()

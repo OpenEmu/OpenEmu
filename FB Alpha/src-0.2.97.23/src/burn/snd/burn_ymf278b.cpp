@@ -10,6 +10,9 @@ static INT16* pYMF278BBuffer[2];
 static INT32 nYMF278BPosition;
 static INT32 nFractionalPosition;
 
+static double YMF278BVolumes[2];
+static INT32 YMF278BRouteDirs[2];
+
 // ----------------------------------------------------------------------------
 // Dummy functions
 
@@ -75,9 +78,28 @@ void BurnYMF278BUpdate(INT32 nSegmentEnd)
 	pYMF278BBuffer[0] = pBuffer + 0 * 4096 + 4;
 	pYMF278BBuffer[1] = pBuffer + 1 * 4096 + 4;
 
-	for (INT32 i = nFractionalPosition; i < nSegmentLength; i++) {
-		pSoundBuf[(i << 1) + 0] = pYMF278BBuffer[0][i];
-		pSoundBuf[(i << 1) + 1] = pYMF278BBuffer[1][i];
+	for (INT32 n = nFractionalPosition; n < nSegmentLength; n++) {
+		INT32 nLeftSample = 0, nRightSample = 0;
+
+		if ((YMF278BRouteDirs[BURN_SND_YMF278B_YMF278B_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(pYMF278BBuffer[0][n] * YMF278BVolumes[BURN_SND_YMF278B_YMF278B_ROUTE_1]);
+		}
+		if ((YMF278BRouteDirs[BURN_SND_YMF278B_YMF278B_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(pYMF278BBuffer[0][n] * YMF278BVolumes[BURN_SND_YMF278B_YMF278B_ROUTE_1]);
+		}
+		
+		if ((YMF278BRouteDirs[BURN_SND_YMF278B_YMF278B_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(pYMF278BBuffer[1][n] * YMF278BVolumes[BURN_SND_YMF278B_YMF278B_ROUTE_2]);
+		}
+		if ((YMF278BRouteDirs[BURN_SND_YMF278B_YMF278B_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(pYMF278BBuffer[1][n] * YMF278BVolumes[BURN_SND_YMF278B_YMF278B_ROUTE_2]);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+			
+		pSoundBuf[(n << 1) + 0] = nLeftSample;
+		pSoundBuf[(n << 1) + 1] = nRightSample;
 	}
 
 	nFractionalPosition = nSegmentLength;
@@ -208,8 +230,25 @@ INT32 BurnYMF278BInit(INT32 /* nClockFrequency */, UINT8* YMF278BROM, void (*IRQ
 	nYMF278BPosition = 0;
 
 	nFractionalPosition = 0;
+	
+	// default routes
+	YMF278BVolumes[BURN_SND_YMF278B_YMF278B_ROUTE_1] = 1.00;
+	YMF278BVolumes[BURN_SND_YMF278B_YMF278B_ROUTE_2] = 1.00;
+	YMF278BRouteDirs[BURN_SND_YMF278B_YMF278B_ROUTE_1] = BURN_SND_ROUTE_LEFT;
+	YMF278BRouteDirs[BURN_SND_YMF278B_YMF278B_ROUTE_2] = BURN_SND_ROUTE_RIGHT;
 
 	return 0;
+}
+
+void BurnYMF278BSetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_YMF278BInitted) bprintf(PRINT_ERROR, _T("BurnYMF278BSetRoute called without init\n"));
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("BurnYMF278BSetRoute called with invalid index %i\n"), nIndex);
+#endif
+
+	YMF278BVolumes[nIndex] = nVolume;
+	YMF278BRouteDirs[nIndex] = nRouteDir;
 }
 
 void BurnYMF278BScan(INT32 nAction, INT32* pnMin)

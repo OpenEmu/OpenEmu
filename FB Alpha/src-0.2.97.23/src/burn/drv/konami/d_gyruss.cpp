@@ -2,7 +2,7 @@
 // Based on MAME driver by Mirko Buffoni, Michael Cuddy, and Nicola Salmoria
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "m6809_intf.h"
 #include "i8039.h"
 #include "driver.h"
@@ -646,8 +646,8 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvShareRAM,			0x6000, 0x67ff, M6809_RAM);
 	M6809MapMemory(DrvM6809ROM + 0xe000, 		0xe000, 0xffff, M6809_READ);
 	M6809MapMemory(DrvM6809DecROM + 0xe000, 	0xe000, 0xffff, M6809_FETCH);
-	M6809SetReadByteHandler(gyruss_sub_read);
-	M6809SetWriteByteHandler(gyruss_sub_write);
+	M6809SetReadHandler(gyruss_sub_read);
+	M6809SetWriteHandler(gyruss_sub_write);
 	M6809Close();
 
 	ZetInit(1);
@@ -670,6 +670,11 @@ static INT32 DrvInit()
 	AY8910Init(2, 1789773, nBurnSoundRate, AY8910_3_portA, NULL, NULL, NULL);
 	AY8910Init(3, 1789773, nBurnSoundRate, NULL, NULL, NULL, NULL);
 	AY8910Init(4, 1789773, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.25, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(1, 0.25, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(2, 0.25, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(3, 0.25, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(4, 0.25, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -843,7 +848,7 @@ static INT32 DrvFrame()
 		nCyclesSegment = nNext - nCyclesDone[1];
 		nCyclesDone[1] += M6809Run(nCyclesSegment);
 		if (i == (nInterleave - 1) && *interrupt_enable1) {
-			M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 		}
 		M6809Close();
 		ZetClose();
@@ -858,34 +863,7 @@ static INT32 DrvFrame()
 	}
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-		AY8910Update(0, &pAY8910Buffer[ 0], nBurnSoundLen);
-		AY8910Update(1, &pAY8910Buffer[ 3], nBurnSoundLen);
-		AY8910Update(2, &pAY8910Buffer[ 6], nBurnSoundLen);
-		AY8910Update(3, &pAY8910Buffer[ 9], nBurnSoundLen);
-		AY8910Update(4, &pAY8910Buffer[12], nBurnSoundLen);
-		for (INT32 n = 0; n < nBurnSoundLen; n++) {
-			nSample  = pAY8910Buffer[ 0][n] >> 2;
-			nSample += pAY8910Buffer[ 1][n] >> 2;
-			nSample += pAY8910Buffer[ 2][n] >> 2;
-			nSample += pAY8910Buffer[ 3][n] >> 2;
-			nSample += pAY8910Buffer[ 4][n] >> 2;
-			nSample += pAY8910Buffer[ 5][n] >> 2;
-			nSample += pAY8910Buffer[ 6][n] >> 2;
-			nSample += pAY8910Buffer[ 7][n] >> 2;
-			nSample += pAY8910Buffer[ 8][n] >> 2;
-			nSample += pAY8910Buffer[ 9][n] >> 2;
-			nSample += pAY8910Buffer[10][n] >> 2;
-			nSample += pAY8910Buffer[11][n] >> 2;
-			nSample += pAY8910Buffer[12][n] >> 2;
-			nSample += pAY8910Buffer[13][n] >> 2;
-			nSample += pAY8910Buffer[14][n] >> 2;
-
-			nSample = BURN_SND_CLIP(nSample);
-
-			pBurnSoundOut[(n << 1) + 0] = nSample;
-			pBurnSoundOut[(n << 1) + 1] = nSample;
-		}
+		AY8910Render(&pAY8910Buffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 	}
 
 	if (pBurnDraw) {

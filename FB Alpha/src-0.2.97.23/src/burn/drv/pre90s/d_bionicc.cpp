@@ -2,8 +2,8 @@
 // Based on MAME driver by Steven Frew, Phil Stroffolino, and Paul Leaman
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 
 static UINT8 DrvJoy1[8];
@@ -449,7 +449,8 @@ static INT32 DrvInit()
 	ZetMemEnd();
 	ZetClose();
 
-	BurnYM2151Init(3579545, 100.0);
+	BurnYM2151Init(3579545);
+	BurnYM2151SetAllRoutes(0.60, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

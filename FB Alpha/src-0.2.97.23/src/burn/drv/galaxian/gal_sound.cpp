@@ -4,7 +4,6 @@ INT16* pFMBuffer;
 INT16* pAY8910Buffer[9];
 
 UINT8 GalSoundType;
-UINT8 GalSoundVolumeShift;
 UINT8 HunchbksSoundIrqFire;
 
 #define XTAL				18432000
@@ -58,6 +57,8 @@ INT32 GalLfoVolume[3];
 double GalLfoFreq;
 double GalLfoFreqFrameVar;
 INT32 GalLfoBit[4];
+static double GalGain;
+static INT32 GalOutputDir;
 
 static INT16 GalToneWave[4][TOOTHSAW_LENGTH];
 
@@ -68,6 +69,12 @@ static const INT16 GalBackgroundWave[32] =
   -0x4000,-0x4000,-0x4000,-0x4000,-0x4000,-0x4000,-0x4000,-0x4000,
   -0x4000,-0x4000,-0x4000,-0x4000,-0x4000,-0x4000,-0x4000,-0x4000,
 };
+
+void GalaxianSoundSetRoute(double nVolume, INT32 nRouteDir)
+{
+	GalGain = nVolume;
+	GalOutputDir = nRouteDir;
+}
 
 void GalSoundReset()
 {
@@ -143,80 +150,133 @@ void GalSoundInit()
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_ZIGZAGAY8910 || GalSoundType == GAL_SOUND_HARDWARE_TYPE_CHECKMANAY8910 || GalSoundType == GAL_SOUND_HARDWARE_TYPE_JUMPBUGAY8910) {
 		AY8910Init(0, 1789750, nBurnSoundRate, NULL, NULL, NULL, NULL);
+		AY8910SetAllRoutes(0, 0.50, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_BONGOAY8910) {
 		AY8910Init(0, 1789750, nBurnSoundRate, &BongoDipSwitchRead, NULL, NULL, NULL);
+		AY8910SetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_CHECKMAJAY8910) {
 		AY8910Init(0, 1620000, nBurnSoundRate, &CheckmajPortARead, NULL, NULL, NULL);
+		AY8910SetAllRoutes(0, 0.50, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_MSHUTTLEAY8910) {
 		// Port A Write - cclimber_sample_select_w
 		AY8910Init(0, 18432000 / 3 / 4, nBurnSoundRate, NULL, NULL, NULL, NULL);
+		AY8910SetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_FROGGERAY8910) {
 		AY8910Init(0, 14318000 / 8, nBurnSoundRate, &KonamiSoundLatchRead, &FroggerSoundTimerRead, NULL, NULL);
+		
+		filter_rc_init(0, FLT_RC_LOWPASS, 1, 1, 1, 0, 0);
+		filter_rc_init(1, FLT_RC_LOWPASS, 1, 1, 1, 0, 1);
+		filter_rc_init(2, FLT_RC_LOWPASS, 1, 1, 1, 0, 1);
+		
+		filter_rc_set_src_gain(0, 0.75);
+		filter_rc_set_src_gain(1, 0.75);
+		filter_rc_set_src_gain(2, 0.75);
+		
+		filter_rc_set_route(0, 1.00, BURN_SND_ROUTE_BOTH);
+		filter_rc_set_route(1, 1.00, BURN_SND_ROUTE_BOTH);
+		filter_rc_set_route(2, 1.00, BURN_SND_ROUTE_BOTH);
 	}	
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_KONAMIAY8910) {
 		AY8910Init(0, 14318000 / 8, nBurnSoundRate, NULL, NULL, NULL, NULL);
 		AY8910Init(1, 14318000 / 8, nBurnSoundRate, &KonamiSoundLatchRead, &KonamiSoundTimerRead, NULL, NULL);
+		
+		filter_rc_init(0, FLT_RC_LOWPASS, 1, 1, 1, 0, 0);
+		filter_rc_init(1, FLT_RC_LOWPASS, 1, 1, 1, 0, 1);
+		filter_rc_init(2, FLT_RC_LOWPASS, 1, 1, 1, 0, 1);
+		filter_rc_init(3, FLT_RC_LOWPASS, 1, 1, 1, 0, 1);
+		filter_rc_init(4, FLT_RC_LOWPASS, 1, 1, 1, 0, 1);
+		filter_rc_init(5, FLT_RC_LOWPASS, 1, 1, 1, 0, 1);
+		
+		filter_rc_set_src_gain(0, 0.50);
+		filter_rc_set_src_gain(1, 0.50);
+		filter_rc_set_src_gain(2, 0.50);
+		filter_rc_set_src_gain(3, 0.50);
+		filter_rc_set_src_gain(4, 0.50);
+		filter_rc_set_src_gain(5, 0.50);
+		
+		filter_rc_set_route(0, 1.00, BURN_SND_ROUTE_BOTH);
+		filter_rc_set_route(1, 1.00, BURN_SND_ROUTE_BOTH);
+		filter_rc_set_route(2, 1.00, BURN_SND_ROUTE_BOTH);
+		filter_rc_set_route(3, 1.00, BURN_SND_ROUTE_BOTH);
+		filter_rc_set_route(4, 1.00, BURN_SND_ROUTE_BOTH);
+		filter_rc_set_route(5, 1.00, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_EXPLORERAY8910) {
 		AY8910Init(0, 14318000 / 8, nBurnSoundRate, &KonamiSoundTimerRead, NULL, NULL, NULL);
 		AY8910Init(1, 14318000 / 8, nBurnSoundRate, &KonamiSoundLatchRead, NULL, NULL, NULL);
+		AY8910SetAllRoutes(0, 0.25, BURN_SND_ROUTE_BOTH);
+		AY8910SetAllRoutes(1, 0.25, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_SCORPIONAY8910) {
 		AY8910Init(0, 14318000 / 8, nBurnSoundRate, NULL, NULL, NULL, NULL);
 		AY8910Init(1, 14318000 / 8, nBurnSoundRate, &KonamiSoundLatchRead, &KonamiSoundTimerRead, NULL, NULL);
 		AY8910Init(2, 14318000 / 8, nBurnSoundRate, NULL, NULL, NULL, NULL);
+		AY8910SetAllRoutes(0, 0.25, BURN_SND_ROUTE_BOTH);
+		AY8910SetAllRoutes(1, 0.25, BURN_SND_ROUTE_BOTH);
+		AY8910SetAllRoutes(2, 0.25, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_AD2083AY8910) {
 		AY8910Init(0, 14318000 / 8, nBurnSoundRate, &KonamiSoundTimerRead, NULL, NULL, NULL);
 		AY8910Init(1, 14318000 / 8, nBurnSoundRate, &KonamiSoundLatchRead, NULL, NULL, NULL);
+		AY8910SetAllRoutes(0, 0.50, BURN_SND_ROUTE_BOTH);
+		AY8910SetAllRoutes(1, 0.50, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_FANTASTCAY8910) {
 		AY8910Init(0, 1789750, nBurnSoundRate, NULL, NULL, NULL, NULL);
 		AY8910Init(1, 1789750, nBurnSoundRate, NULL, NULL, NULL, NULL);
+		AY8910SetAllRoutes(0, 0.25, BURN_SND_ROUTE_BOTH);
+		AY8910SetAllRoutes(1, 0.25, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_SFXAY8910DAC) {
 		AY8910Init(0, 14318000 / 8, nBurnSoundRate, NULL, NULL, &SfxSoundLatch2Write, &SfxSampleControlWrite);
 		AY8910Init(1, 14318000 / 8, nBurnSoundRate, &KonamiSoundLatchRead, &KonamiSoundTimerRead, NULL, NULL);
+		AY8910SetAllRoutes(0, 0.10, BURN_SND_ROUTE_BOTH);
+		AY8910SetAllRoutes(1, 0.10, BURN_SND_ROUTE_BOTH);
 		
 		DACInit(0, 0, 1, SfxSyncDAC);
-		DACSetVolShift(0, 2);
+		DACSetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_KINGBALLDAC) {
 		DACInit(0, 0, 1, KingballSyncDAC);
-		DACSetVolShift(0, 2);
+		DACSetRoute(0, 0.75, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_HEXPOOLASN76496) {
 		SN76496Init(0, 18432000 / 3 / 2, 0);
+		SN76496SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_RACKNROLSN76496) {
 		SN76496Init(0, 18432000 / 3 / 2, 0);
 		SN76496Init(1, 18432000 / 3 / 2, 1);
 		SN76496Init(2, 18432000 / 3 / 2, 1);
+		SN76496SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
+		SN76496SetRoute(1, 1.00, BURN_SND_ROUTE_BOTH);
+		SN76496SetRoute(2, 1.00, BURN_SND_ROUTE_BOTH);
 	}
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_HUNCHBACKAY8910) {
 		AY8910Init(0, 14318000 / 8, nBurnSoundRate, NULL, NULL, NULL, NULL);
 		AY8910Init(1, 14318000 / 8, nBurnSoundRate, &KonamiSoundLatchRead, &HunchbksSoundTimerRead, NULL, NULL);
+		
+		AY8910SetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
+		AY8910SetAllRoutes(1, 0.20, BURN_SND_ROUTE_BOTH);
 	}	 
-	
-	GalSoundVolumeShift = 1;
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_GALAXIAN || GalSoundType == GAL_SOUND_HARDWARE_TYPE_KINGBALLDAC) {
 		GalShootEnable = 0;
@@ -328,6 +388,9 @@ void GalSoundInit()
 		
 		GalLfoFreq = MAXFREQ;
 		GalLfoFreqFrameVar = 0;
+		
+		GalGain = 1.00;
+		GalOutputDir = BURN_SND_ROUTE_BOTH;
 	}
 }
 
@@ -354,6 +417,10 @@ void GalSoundExit()
 	
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_RACKNROLSN76496 || GalSoundType == GAL_SOUND_HARDWARE_TYPE_HEXPOOLASN76496) {
 		SN76496Exit();
+	}
+	
+	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_KONAMIAY8910 || GalSoundType == GAL_SOUND_HARDWARE_TYPE_FROGGERAY8910) {
+		filter_rc_exit();
 	}
 	
 	BurnFree(pFMBuffer);
@@ -563,6 +630,16 @@ void SfxSampleControlWrite(UINT32, UINT32 d)
 }
 
 // Frogger Sound CPU Memory Map
+static void filter_w(INT32 num, UINT8 d)
+{
+	INT32 C;
+	
+	C = 0;
+	if (d & 1) C += 220000;	/* 220000pF = 0.220uF */
+	if (d & 2) C +=  47000;	/*  47000pF = 0.047uF */
+	filter_rc_set_RC(num, FLT_RC_LOWPASS, 1000, 5100, 0, CAP_P(C));
+}
+
 UINT8 __fastcall FroggerSoundZ80Read(UINT16 a)
 {
 	switch (a) {
@@ -577,7 +654,10 @@ UINT8 __fastcall FroggerSoundZ80Read(UINT16 a)
 void __fastcall FroggerSoundZ80Write(UINT16 a, UINT8 d)
 {
 	if (a >= 0x6000 && a <= 0x6fff) {
-		// konami_sound_filter_w
+		INT32 Offset = a & 0xfff;
+		filter_w(0, (Offset >>  6) & 3);
+		filter_w(1, (Offset >>  8) & 3);
+		filter_w(2, (Offset >> 10) & 3);
 		return;
 	}
 	
@@ -650,7 +730,13 @@ UINT8 __fastcall KonamiSoundZ80Read(UINT16 a)
 void __fastcall KonamiSoundZ80Write(UINT16 a, UINT8 d)
 {
 	if (a >= 0x9000 && a <= 0x9fff) {
-		// konami_sound_filter_w
+		INT32 Offset = a & 0xfff;
+		filter_w(0, (Offset >>  0) & 3);
+		filter_w(1, (Offset >>  2) & 3);
+		filter_w(2, (Offset >>  4) & 3);
+		filter_w(3, (Offset >>  6) & 3);
+		filter_w(4, (Offset >>  8) & 3);
+		filter_w(5, (Offset >> 10) & 3);
 		return;
 	}
 	
@@ -758,8 +844,20 @@ static void GalRenderShootSample(INT16 *pSoundBuf, INT32 nLength)
 		INT16 Sample = (INT16)(GalShootWave[(INT32)Addr] * SHOOT_VOLUME);
 		Sample >>= 4;
 		
-		pSoundBuf[i + 0] += Sample;
-		pSoundBuf[i + 1] += Sample;
+		INT32 nLeftSample = 0, nRightSample = 0;
+			
+		if ((GalOutputDir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(Sample * GalGain);
+		}
+		if ((GalOutputDir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(Sample * GalGain);
+		}
+			
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+			
+		pSoundBuf[i + 0] += nLeftSample;
+		pSoundBuf[i + 1] += nRightSample;
 		
 		Addr += Step;
 	}
@@ -780,8 +878,20 @@ static void GalRenderNoiseSample(INT16 *pSoundBuf, INT32 nLength)
 		INT16 Sample = (INT16)(GalNoiseWave[(INT32)Addr] * (GalNoiseVolume / 100));
 		Sample >>= 4;
 		
-		pSoundBuf[i + 0] += Sample;
-		pSoundBuf[i + 1] += Sample;
+		INT32 nLeftSample = 0, nRightSample = 0;
+			
+		if ((GalOutputDir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(Sample * GalGain);
+		}
+		if ((GalOutputDir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(Sample * GalGain);
+		}
+			
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+			
+		pSoundBuf[i + 0] += nLeftSample;
+		pSoundBuf[i + 1] += nRightSample;
 		
 		Addr += Step;
 	}
@@ -815,8 +925,20 @@ static void GalRenderToneWave(INT16 *pSoundBuf, INT32 nLength)
 			INT16 Sample = mix / STEPS;
 			Sample >>= 4;
 			
-			pSoundBuf[i + 0] = Sample;
-			pSoundBuf[i + 1] = Sample;
+			INT32 nLeftSample = 0, nRightSample = 0;
+			
+			if ((GalOutputDir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+				nLeftSample += (INT32)(Sample * GalGain);
+			}
+			if ((GalOutputDir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+				nRightSample += (INT32)(Sample * GalGain);
+			}
+			
+			nLeftSample = BURN_SND_CLIP(nLeftSample);
+			nRightSample = BURN_SND_CLIP(nRightSample);
+			
+			pSoundBuf[i + 0] = nLeftSample;
+			pSoundBuf[i + 1] = nRightSample;
 		}
 	}
 }
@@ -830,8 +952,20 @@ static void GalRenderLfoWaveSample(INT32 nLfoWave, INT16 *pSoundBuf, INT32 nLeng
 		INT16 Sample = (INT16)(GalBackgroundWave[(INT32)Addr] * (GalLfoVolume[nLfoWave] ? LFO_VOLUME : 0));
 		Sample >>= 4;
 		
-		pSoundBuf[i + 0] += Sample;
-		pSoundBuf[i + 1] += Sample;
+		INT32 nLeftSample = 0, nRightSample = 0;
+			
+		if ((GalOutputDir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(Sample * GalGain);
+		}
+		if ((GalOutputDir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(Sample * GalGain);
+		}
+			
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+			
+		pSoundBuf[i + 0] += nLeftSample;
+		pSoundBuf[i + 1] += nRightSample;
 		
 		Addr += Step;
 	}

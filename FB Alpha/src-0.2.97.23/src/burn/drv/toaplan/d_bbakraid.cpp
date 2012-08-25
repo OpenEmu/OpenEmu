@@ -858,7 +858,8 @@ static INT32 bbakraidInit()
 
 	DrvZ80Init();				// Initialize Z80
 
-	YMZ280BInit(16934400, NULL, 2);
+	YMZ280BInit(16934400, NULL);
+	YMZ280BSetAllRoutes(1.00, BURN_SND_ROUTE_BOTH);
 
 	BurnTimerInit(bbakraidTimerOver, NULL);
 	BurnTimerAttachZet(TOA_Z80_SPEED);

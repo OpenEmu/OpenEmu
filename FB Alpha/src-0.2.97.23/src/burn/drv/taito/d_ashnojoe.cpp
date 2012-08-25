@@ -2,8 +2,8 @@
 // Based on MAME driver by driver by David Haywood and Pierpaolo Prazzoli
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2203.h"
 #include "msm5205.h"
 
@@ -237,7 +237,7 @@ inline static void DrvIRQHandler(INT32, INT32 nStatus)
 
 static INT32 DrvSynchroniseStream(INT32 nSoundRate)
 {
-	return (INT64)ZetTotalCycles() * nSoundRate / 4000000;
+	return (INT64)(double)ZetTotalCycles() * nSoundRate / 4000000;
 }
 
 static double DrvGetTime()
@@ -399,12 +399,13 @@ static INT32 DrvInit()
 	ZetSetInHandler(ashnojoe_sound_read_port);
 	ZetMemEnd();
 
-	MSM5205Init(0, DrvSynchroniseStream, 384000, ashnojoe_vclk_cb, MSM5205_S48_4B, 100, 1);
+	MSM5205Init(0, DrvSynchroniseStream, 384000, ashnojoe_vclk_cb, MSM5205_S48_4B, 1);
+	MSM5205SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	BurnYM2203Init(1, 4000000, &DrvIRQHandler, DrvSynchroniseStream, DrvGetTime, 0);
 	BurnYM2203SetPorts(0, NULL, NULL, &DrvYM2203WritePortA, &DrvYM2203WritePortB);
-	BurnYM2203SetVolumeShift(4);
 	BurnTimerAttachZet(4000000);
+	BurnYM2203SetAllRoutes(0, 0.10, BURN_SND_ROUTE_BOTH);
 
 	ZetClose();
 

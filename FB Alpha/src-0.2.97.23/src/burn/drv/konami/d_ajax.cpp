@@ -2,7 +2,7 @@
 // Based on MAME driver by Manuel Abadia
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "konami_intf.h"
 #include "konamiic.h"
 #include "burn_ym2151.h"
@@ -178,7 +178,7 @@ void ajax_main_write(UINT16 address, UINT8 data)
 		{
 			case 0x0000:
 				if (address == 0 && firq_enable) {
-					M6809SetIRQ(1, M6809_IRQSTATUS_AUTO);
+					M6809SetIRQLine(1, M6809_IRQSTATUS_AUTO);
 				}
 			break;
 
@@ -576,8 +576,8 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvShareRAM,		0x2000, 0x3fff, M6809_RAM);
 	M6809MapMemory(DrvM6809ROM  + 0x10000,	0x8000, 0x9fff, M6809_ROM);
 	M6809MapMemory(DrvM6809ROM  + 0x0a000,	0xa000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(ajax_sub_write);
-	M6809SetReadByteHandler(ajax_sub_read);
+	M6809SetWriteHandler(ajax_sub_write);
+	M6809SetReadHandler(ajax_sub_read);
 	M6809Close();
 
 	ZetInit(0);
@@ -592,13 +592,18 @@ static INT32 DrvInit()
 	ZetMemEnd();
 	ZetClose();
 	
-	BurnYM2151Init(3579545, 25.0);
+	BurnYM2151Init(3579545);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	K007232Init(0, 3579545, DrvSndROM0, 0x40000);
 	K007232SetPortWriteHandler(0, DrvK007232VolCallback0);
+	K007232PCMSetAllRoutes(0, 0.20, BURN_SND_ROUTE_BOTH);
 
 	K007232Init(1, 3579545, DrvSndROM1, 0x80000);
 	K007232SetPortWriteHandler(1, DrvK007232VolCallback1);
+	K007232SetRoute(1, BURN_SND_K007232_ROUTE_1, 0.50, BURN_SND_ROUTE_LEFT);
+	K007232SetRoute(1, BURN_SND_K007232_ROUTE_2, 0.50, BURN_SND_ROUTE_RIGHT);
 
 	K052109Init(DrvGfxROM0, 0x7ffff);
 	K052109SetCallback(K052109Callback);

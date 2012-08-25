@@ -6,8 +6,8 @@
 //	master of weapon title screen is incorrect
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "taito.h"
 #include "taito_ic.h"
 #include "burn_ym2610.h"
@@ -1810,7 +1810,9 @@ static void common_ym2610_init()
 
 	BurnYM2610Init(8000000, TaitoYM2610ARom, &len0, TaitoYM2610BRom, &len1, &DrvFMIRQHandler, DrvSynchroniseStream, DrvGetTime, 0);
 	BurnTimerAttachZet(cpu_speed[1]);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 1.00, BURN_SND_ROUTE_BOTH);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 1.00, BURN_SND_ROUTE_BOTH);
+	BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 }
 
 static void common_ym2203_init()
@@ -1833,12 +1835,16 @@ static void common_ym2203_init()
 
 	BurnYM2203Init(1, 3000000, DrvFMIRQHandler, DrvSynchroniseStream, DrvGetTime, 0);
 	BurnYM2203SetPorts(0, NULL, NULL, &bankswitch, NULL);
-	BurnYM2203SetVolumeShift(2);
 	BurnTimerAttachZet(cpu_speed[1]);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.80, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.25, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.25, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.25, BURN_SND_ROUTE_BOTH);
 
 	MSM6295ROM = TaitoMSM6295Rom;
 
-	MSM6295Init(0, 1056000 / 132, 40, 1);
+	MSM6295Init(0, 1056000 / 132, 1);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 }
 
 static INT32 CommonInit(void (*pInitCallback)(), INT32 sound_type, INT32 color_select, INT32 input_type, INT32 irq0, INT32 irq1)
@@ -1905,7 +1911,6 @@ static INT32 DrvExit()
 	ZetExit();
 	
 	if (sound_config == 0) {
-		BurnYM2610SetSoundMixMode(0);
 		BurnYM2610Exit();
 	} else {
 		BurnYM2203Exit();

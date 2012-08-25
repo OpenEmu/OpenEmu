@@ -154,7 +154,7 @@ static void pacland_main_write(UINT16 address, UINT8 data)
 	if ((address & 0xf000) == 0x7000) {
 		INT32 bit = ~address & (1 << 11);
 		interrupt_enable[0] = bit ? 1 : 0;
-		if (!bit) M6809SetIRQ(0, M6809_IRQSTATUS_NONE);
+		if (!bit) M6809SetIRQLine(0, M6809_IRQSTATUS_NONE);
 		return;
 	}
 
@@ -234,7 +234,7 @@ static void pacland_mcu_write(UINT16 address, UINT8 data)
 	if ((address & 0xc000) == 0x4000) {
 		INT32 bit = (~address >> 13) & 1;
 		interrupt_enable[1] = bit;
-		if (!bit) HD63701SetIRQ(0, HD63701_IRQSTATUS_NONE);
+		if (!bit) HD63701SetIRQLine(0, HD63701_IRQSTATUS_NONE);
 		return;
 	}
 }
@@ -494,8 +494,8 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvVidRAM1,		0x1000, 0x1fff, M6809_RAM);
 	M6809MapMemory(DrvSprRAM,		0x2000, 0x37ff, M6809_RAM);
 	M6809MapMemory(DrvMainROM + 0x8000,	0x8000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(pacland_main_write);
-	M6809SetReadByteHandler(pacland_main_read);
+	M6809SetWriteHandler(pacland_main_write);
+	M6809SetReadHandler(pacland_main_read);
 	M6809Close();
 
 	HD63701Init(1);
@@ -505,11 +505,12 @@ static INT32 DrvInit()
 	HD63701MapMemory(DrvMCUROM + 0xf000,	0xf000, 0xffff, HD63701_ROM);
 	HD63701SetWritePortHandler(pacland_mcu_write_port);
 	HD63701SetReadPortHandler(pacland_mcu_read_port);
-	HD63701SetWriteByteHandler(pacland_mcu_write);
-	HD63701SetReadByteHandler(pacland_mcu_read);
+	HD63701SetWriteHandler(pacland_mcu_write);
+	HD63701SetReadHandler(pacland_mcu_read);
 	// Close
 
-	NamcoSoundInit(49152000/2/1024);
+	NamcoSoundInit(49152000/2/1024, 8);
+	NacmoSoundSetAllRoutes(0.50, BURN_SND_ROUTE_BOTH); // MAME uses 1.00, which is way too loud
 
 	BurnLEDInit(2, LED_POSITION_BOTTOM_RIGHT, LED_SIZE_2x2, LED_COLOR_GREEN, 80);
 
@@ -758,7 +759,8 @@ static INT32 DrvFrame()
 	//	if (coin_lockout[0]) DrvInputs[0] |= 0x0c;
 	}
 
-	INT32 nInterleave = 200;
+	INT32 nInterleave = nBurnSoundLen;
+	INT32 nSoundBufferPos = 0;
 	INT32 nCyclesTotal[2] = { 49152000 / 32 / 60, 49152000 / 8 / 4 / 60 }; // refresh 60.606060
 	INT32 nCyclesDone[2]  = { 0, 0 };
 
@@ -769,21 +771,36 @@ static INT32 DrvFrame()
 		INT32 nSegment = nCyclesTotal[0] / nInterleave;
 
 		nCyclesDone[0] += M6809Run(nSegment);
-		if (i == (nInterleave - 1) && interrupt_enable[0]) M6809SetIRQ(0, M6809_IRQSTATUS_ACK);
+		if (i == (nInterleave - 1) && interrupt_enable[0]) M6809SetIRQLine(0, M6809_IRQSTATUS_ACK);
 		nSegment = nCyclesTotal[1] / nInterleave;
 
 		if (mcu_reset) {
 			nCyclesDone[1] += nSegment;
 		} else {
 			nCyclesDone[1] += HD63701Run(nSegment);
-			if (i == (nInterleave - 1) && interrupt_enable[1]) HD63701SetIRQ(0, HD63701_IRQSTATUS_ACK);
+			if (i == (nInterleave - 1) && interrupt_enable[1]) HD63701SetIRQLine(0, HD63701_IRQSTATUS_ACK);
+		}
+		
+		if (pBurnSoundOut) {
+			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
+			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
+			
+			if (nSegmentLength) {
+				NamcoSoundUpdate(pSoundBuf, nSegmentLength);
+			}
+			nSoundBufferPos += nSegmentLength;
 		}
 	}
 
 	M6809Close();
 
 	if (pBurnSoundOut) {
-		NamcoSoundUpdate(pBurnSoundOut, nBurnSoundLen);
+		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
+		INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
+
+		if (nSegmentLength) {
+			NamcoSoundUpdate(pSoundBuf, nSegmentLength);
+		}
 	}
 
 	if (pBurnDraw) {

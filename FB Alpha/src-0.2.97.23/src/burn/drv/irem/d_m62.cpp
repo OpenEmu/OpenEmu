@@ -1,5 +1,5 @@
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "m6800_intf.h"
 #include "msm5205.h"
 
@@ -2072,7 +2072,7 @@ void __fastcall M62Z80PortWrite(UINT16 a, UINT8 d)
 			if ((d & 0x80) == 0) {
 				M62SoundLatch = d & 0x7f;
 			} else {
-				M6803SetIRQ(M6803_IRQ_LINE, M6803_IRQSTATUS_ACK);
+				M6803SetIRQLine(M6803_IRQ_LINE, M6803_IRQSTATUS_ACK);
 			}
 			return;
 		}
@@ -2379,7 +2379,7 @@ void M62M6803WriteByte(UINT16 a, UINT8 d)
 	
 	switch (a) {
 		case 0x0800: {
-			M6803SetIRQ(M6803_IRQ_LINE, M6803_IRQSTATUS_NONE);
+			M6803SetIRQLine(M6803_IRQ_LINE, M6803_IRQSTATUS_NONE);
 			return;
 		}
 		
@@ -2492,12 +2492,12 @@ static void AY8910_0PortBWrite(UINT32, UINT32 d)
 
 inline static INT32 M62SynchroniseStream(INT32 nSoundRate)
 {
-	return (INT64)(ZetTotalCycles() * nSoundRate / M62Z80Clock);
+	return (INT64)((double)ZetTotalCycles() * nSoundRate / M62Z80Clock);
 }
 
 static void M62MSM5205Vck0()
 {
-	M6803SetIRQ(M6803_INPUT_LINE_NMI, M6803_IRQSTATUS_AUTO);
+	M6803SetIRQLine(M6803_INPUT_LINE_NMI, M6803_IRQSTATUS_AUTO);
 	M62SlaveMSM5205VClckReset = 1;
 }
 
@@ -3379,8 +3379,8 @@ static void M62MachineInit()
 	
 	M6803Init(1);
 	M6803MapMemory(M62M6803Rom, 0x4000, 0xffff, M6803_ROM);
-	M6803SetReadByteHandler(M62M6803ReadByte);
-	M6803SetWriteByteHandler(M62M6803WriteByte);
+	M6803SetReadHandler(M62M6803ReadByte);
+	M6803SetWriteHandler(M62M6803WriteByte);
 	M6803SetReadPortHandler(M62M6803ReadPort);
 	M6803SetWritePortHandler(M62M6803WritePort);
 	
@@ -3391,11 +3391,15 @@ static void M62MachineInit()
 	pAY8910Buffer[4] = pFMBuffer + nBurnSoundLen * 4;
 	pAY8910Buffer[5] = pFMBuffer + nBurnSoundLen * 5;
 
-	MSM5205Init(0, M62SynchroniseStream, 384000, M62MSM5205Vck0, MSM5205_S96_4B, 50, 1);
-	MSM5205Init(1, M62SynchroniseStream, 384000, NULL, MSM5205_SEX_4B, 50, 1);
+	MSM5205Init(0, M62SynchroniseStream, 384000, M62MSM5205Vck0, MSM5205_S96_4B, 1);
+	MSM5205Init(1, M62SynchroniseStream, 384000, NULL, MSM5205_SEX_4B, 1);
+	MSM5205SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
+	MSM5205SetRoute(1, 0.50, BURN_SND_ROUTE_BOTH);
 	
 	AY8910Init(0, 894886, nBurnSoundRate, &M62SoundLatchRead, NULL, NULL, &AY8910_0PortBWrite);
 	AY8910Init(1, 894886, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.50, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(1, 0.50, BURN_SND_ROUTE_BOTH);
 	
 	GenericTilesInit();
 	
@@ -4744,24 +4748,9 @@ static INT32 M62Frame()
 		nCyclesDone[nCurrentCPU] += nCyclesSegment;
 						
 		if (pBurnSoundOut) {
-			INT32 nSample;
 			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
 			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			AY8910Update(1, &pAY8910Buffer[3], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n] >> 2;
-				nSample += pAY8910Buffer[1][n] >> 2;
-				nSample += pAY8910Buffer[2][n] >> 2;
-				nSample += pAY8910Buffer[3][n] >> 2;
-				nSample += pAY8910Buffer[4][n] >> 2;
-				nSample += pAY8910Buffer[5][n] >> 2;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-    		}
+			AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 			nSoundBufferPos += nSegmentLength;
 		}
 		
@@ -4776,25 +4765,10 @@ static INT32 M62Frame()
 	}
 	
 	if (pBurnSoundOut) {
-		INT32 nSample;
 		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
 		INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
 		if (nSegmentLength) {
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			AY8910Update(1, &pAY8910Buffer[3], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n] >> 2;
-				nSample += pAY8910Buffer[1][n] >> 2;
-				nSample += pAY8910Buffer[2][n] >> 2;
-				nSample += pAY8910Buffer[3][n] >> 2;
-				nSample += pAY8910Buffer[4][n] >> 2;
-				nSample += pAY8910Buffer[5][n] >> 2;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
- 			}
+			AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 		}
 		
 		ZetOpen(0);

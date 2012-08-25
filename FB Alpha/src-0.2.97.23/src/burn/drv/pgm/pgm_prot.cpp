@@ -2,26 +2,661 @@
 #include "pgm.h"
 #include "bitswap.h"
 
-static UINT8 *USER1;
-static UINT16 *sharedprotram;
+//-------------------------------------------------------------------------------------------------------------------
+// Proper emulation
+//-------------------------------------------------------------------------------------------------------------------
 
-static INT32 ptr;
+//-----------------------------------
+// kov2, kov2p, Martmast, ddp2, dw2001, dwpc
 
-INT32 pstarsScan(INT32 nAction,INT32 *);
-INT32 killbldScan(INT32 nAction,INT32 *);
-INT32 kov_asic27Scan(INT32 nAction,INT32 *);
-INT32 asic3Scan(INT32 nAction,INT32 *);
-INT32 asic27aScan(INT32 nAction,INT32 *);
-INT32 oldsScan(INT32 nAction, INT32 *);
-INT32 oldsplus_asic27aScan(INT32 nAction, INT32 *);
-INT32 kovsh_asic27aScan(INT32 nAction,INT32 *);
-INT32 svg_asic27aScan(INT32 nAction,INT32 *);
-INT32 ddp3Scan(INT32 nAction, INT32 *);
+static UINT8 asic27a_to_arm = 0;
+static UINT8 asic27a_to_68k = 0;
 
-//-----------------------------------------------------------------------------------------------------
-// ASIC3 - Oriental Legends
+static inline void pgm_cpu_sync()
+{
+	INT32 nCycles = SekTotalCycles() - Arm7TotalCycles();
 
-static UINT8 asic3_reg, asic3_latch[3], asic3_x, asic3_y, asic3_z, asic3_h1, asic3_h2;
+	if (nCycles > 0) {
+		Arm7Run(nCycles);
+	}
+}
+
+static void __fastcall asic27a_write_byte(UINT32 address, UINT8 data)
+{
+	if ((address & 0xfffffe) == 0xd10000) {	// ddp2
+		pgm_cpu_sync();
+		asic27a_to_arm = data;
+		Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_ASSERT_LINE);
+		return;
+	}
+}
+
+static void __fastcall asic27a_write_word(UINT32 address, UINT16 data)
+{
+	if ((address & 0xfffffe) == 0xd10000) {
+		pgm_cpu_sync();
+		asic27a_to_arm = data & 0xff;
+		Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_ASSERT_LINE);
+		return;
+	}
+}
+
+static UINT8 __fastcall asic27a_read_byte(UINT32 address)
+{
+	if ((address & 0xfffffc) == 0xd10000) {
+		pgm_cpu_sync();
+		return asic27a_to_68k;
+	}
+
+	return 0;
+}
+
+static UINT16 __fastcall asic27a_read_word(UINT32 address)
+{
+	if ((address & 0xfffffc) == 0xd10000) {
+		pgm_cpu_sync();
+		return asic27a_to_68k;
+	}
+
+	return 0;
+}
+
+static void asic27a_arm7_write_byte(UINT32 address, UINT8 data)
+{
+	switch (address)
+	{
+		case 0x38000000:
+			asic27a_to_68k = data;
+		return;
+	}
+}
+
+static UINT8 asic27a_arm7_read_byte(UINT32 address)
+{
+	switch (address)
+	{
+		case 0x38000000:
+			Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_CLEAR_LINE);
+			return asic27a_to_arm;
+	}
+
+	return 0;
+}
+
+static INT32 asic27aScan(INT32 nAction,INT32 *)
+{
+	struct BurnArea ba;
+
+	if (nAction & ACB_MEMORY_RAM) {
+		ba.Data		= PGMARMShareRAM;
+		ba.nLen		= 0x0010000;
+		ba.nAddress	= 0xd00000;
+		ba.szName	= "ARM SHARE RAM";
+		BurnAcb(&ba);
+
+		ba.Data		= PGMARMRAM0;
+		ba.nLen		= 0x0000400;
+		ba.nAddress	= 0;
+		ba.szName	= "ARM RAM 0";
+		BurnAcb(&ba);
+
+		ba.Data		= PGMARMRAM1;
+		ba.nLen		= 0x0010000;
+		ba.nAddress	= 0;
+		ba.szName	= "ARM RAM 1";
+		BurnAcb(&ba);
+
+		ba.Data		= PGMARMRAM2;
+		ba.nLen		= 0x0000400;
+		ba.nAddress	= 0;
+		ba.szName	= "ARM RAM 2";
+		BurnAcb(&ba);
+	}
+
+	if (nAction & ACB_DRIVER_DATA) {
+		Arm7Scan(nAction);
+
+		SCAN_VAR(asic27a_to_arm);
+		SCAN_VAR(asic27a_to_68k);
+	}
+
+ 	return 0;
+}
+
+void install_protection_asic27a_martmast()
+{
+	nPGMArm7Type = 2;
+	pPgmScanCallback = asic27aScan;
+
+	SekOpen(0);
+
+	SekMapMemory(PGMARMShareRAM,	0xd00000, 0xd0ffff, SM_RAM);
+
+	SekMapHandler(4,		0xd10000, 0xd10003, SM_READ | SM_WRITE);
+	SekSetReadWordHandler(4, asic27a_read_word);
+	SekSetReadByteHandler(4, asic27a_read_byte);
+	SekSetWriteWordHandler(4, asic27a_write_word);
+	SekSetWriteByteHandler(4, asic27a_write_byte);
+	SekClose();
+
+	Arm7Init(1);
+	Arm7Open(0);
+	Arm7MapMemory(PGMARMROM,	0x00000000, 0x00003fff, ARM7_ROM);
+	Arm7MapMemory(PGMUSER0,		0x08000000, 0x08000000+(nPGMExternalARMLen-1), ARM7_ROM);
+	Arm7MapMemory(PGMARMRAM0,	0x10000000, 0x100003ff, ARM7_RAM);
+	Arm7MapMemory(PGMARMRAM1,	0x18000000, 0x1800ffff, ARM7_RAM);
+	Arm7MapMemory(PGMARMShareRAM,	0x48000000, 0x4800ffff, ARM7_RAM);
+	Arm7MapMemory(PGMARMRAM2,	0x50000000, 0x500003ff, ARM7_RAM);
+	Arm7SetWriteByteHandler(asic27a_arm7_write_byte);
+	Arm7SetReadByteHandler(asic27a_arm7_read_byte);
+	Arm7Close();
+}
+
+
+//---------------------------------------------------------------
+// kovsh / photoy2k / photoy2k2 (XingXing)
+
+static UINT16 kovsh_highlatch_arm_w;
+static UINT16 kovsh_lowlatch_arm_w;
+static UINT16 kovsh_highlatch_68k_w;
+static UINT16 kovsh_lowlatch_68k_w ;
+static UINT32 kovsh_counter;
+
+static void __fastcall kovsh_asic27a_write_word(UINT32 address, UINT16 data)
+{
+	switch (address)
+	{
+		case 0x500000:
+		case 0x600000:
+			kovsh_lowlatch_68k_w = data;
+		return;
+
+		case 0x500002:
+		case 0x600002:
+			kovsh_highlatch_68k_w = data;
+		return;
+	}
+}
+
+static UINT16 __fastcall kovsh_asic27a_read_word(UINT32 address)
+{
+	if ((address & 0xffffc0) == 0x4f0000) {
+		return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(PGMARMShareRAM + (address & 0x3e))));
+	}
+
+	switch (address)
+	{
+		case 0x500000:
+		case 0x600000:
+			pgm_cpu_sync();
+			return kovsh_lowlatch_arm_w;
+
+		case 0x500002:
+		case 0x600002:
+			pgm_cpu_sync();
+			return kovsh_highlatch_arm_w;
+	}
+
+	return 0;
+}
+
+static void kovsh_asic27a_arm7_write_word(UINT32 address, UINT16 data)
+{
+	// written... but never read?
+	if ((address & 0xffffff80) == 0x50800000) {
+		*((UINT16*)(PGMARMShareRAM + ((address>>1) & 0x3e))) = BURN_ENDIAN_SWAP_INT16(data);
+		return;
+	}
+}
+
+static void kovsh_asic27a_arm7_write_long(UINT32 address, UINT32 data)
+{
+	switch (address)
+	{
+		case 0x40000000:
+		{
+			kovsh_highlatch_arm_w = data >> 16;
+			kovsh_lowlatch_arm_w = data;
+
+			kovsh_highlatch_68k_w = 0;
+			kovsh_lowlatch_68k_w = 0;
+		}
+		return;
+	}
+}
+
+static UINT32 kovsh_asic27a_arm7_read_long(UINT32 address)
+{
+	switch (address)
+	{
+		case 0x40000000:
+			return (kovsh_highlatch_68k_w << 16) | (kovsh_lowlatch_68k_w);
+
+		case 0x4000000c:
+			return kovsh_counter++;
+	}
+
+	return 0;
+}
+
+static void reset_kovsh_asic27a()
+{
+	kovsh_highlatch_arm_w = 0;
+	kovsh_lowlatch_arm_w = 0;
+	kovsh_highlatch_68k_w = 0;
+	kovsh_lowlatch_68k_w = 0;
+	kovsh_counter = 1;
+}
+
+static INT32 kovsh_asic27aScan(INT32 nAction, INT32 *)
+{
+	struct BurnArea ba;
+
+	if (nAction & ACB_MEMORY_RAM) {
+		ba.Data		= PGMARMShareRAM;
+		ba.nLen		= 0x0000040;
+		ba.nAddress	= 0x400000;
+		ba.szName	= "ARM SHARE RAM";
+		BurnAcb(&ba);
+
+		ba.Data		= PGMARMRAM0;
+		ba.nLen		= 0x0000400;
+		ba.nAddress	= 0;
+		ba.szName	= "ARM RAM 0";
+		BurnAcb(&ba);
+
+		ba.Data		= PGMARMRAM2;
+		ba.nLen		= 0x0000400;
+		ba.nAddress	= 0;
+		ba.szName	= "ARM RAM 1";
+		BurnAcb(&ba);
+	}
+
+	if (nAction & ACB_DRIVER_DATA) {
+		Arm7Scan(nAction);
+
+		SCAN_VAR(kovsh_highlatch_arm_w);
+		SCAN_VAR(kovsh_lowlatch_arm_w);
+		SCAN_VAR(kovsh_highlatch_68k_w);
+		SCAN_VAR(kovsh_lowlatch_68k_w);
+		SCAN_VAR(kovsh_counter);
+	}
+
+ 	return 0;
+}
+
+void install_protection_asic27a_kovsh()
+{
+	nPGMArm7Type = 1;
+	pPgmScanCallback = kovsh_asic27aScan;
+	pPgmResetCallback = reset_kovsh_asic27a;
+
+	SekOpen(0);
+	SekMapMemory(PGMARMShareRAM,	0x4f0000, 0x4f003f, SM_RAM);
+
+	SekMapHandler(4,		0x500000, 0x600005, SM_READ | SM_WRITE);
+	SekSetReadWordHandler(4, 	kovsh_asic27a_read_word);
+	SekSetWriteWordHandler(4, 	kovsh_asic27a_write_word);
+	SekClose();
+
+	Arm7Init(1);
+	Arm7Open(0);
+	Arm7MapMemory(PGMARMROM,	0x00000000, 0x00003fff, ARM7_ROM);
+	Arm7MapMemory(PGMARMRAM0,	0x10000000, 0x100003ff, ARM7_RAM);
+	Arm7MapMemory(PGMARMRAM2,	0x50000000, 0x500003ff, ARM7_RAM);
+	Arm7SetWriteWordHandler(kovsh_asic27a_arm7_write_word);
+	Arm7SetWriteLongHandler(kovsh_asic27a_arm7_write_long);
+	Arm7SetReadLongHandler(kovsh_asic27a_arm7_read_long);
+	Arm7Close();
+}
+
+//-------------------------------
+// Kovshp hack
+
+void __fastcall kovshp_asic27a_write_word(UINT32 address, UINT16 data)
+{
+	switch (address & 6)
+	{
+		case 0:
+			kovsh_lowlatch_68k_w = data;
+		return;
+
+		case 2:
+		{
+			unsigned char asic_key = data >> 8;
+			unsigned char asic_cmd = (data & 0xff) ^ asic_key;
+
+			switch (asic_cmd) // Intercept commands and translate them to those used by kovsh
+			{
+				case 0x9a: asic_cmd = 0x99; break; // kovassga
+				case 0xa6: asic_cmd = 0xa9; break; // kovassga
+				case 0xaa: asic_cmd = 0x56; break; // kovassga
+				case 0xf8: asic_cmd = 0xf3; break; // kovassga
+
+		                case 0x38: asic_cmd = 0xad; break;
+		                case 0x43: asic_cmd = 0xca; break;
+		                case 0x56: asic_cmd = 0xac; break;
+		                case 0x73: asic_cmd = 0x93; break;
+		                case 0x84: asic_cmd = 0xb3; break;
+		                case 0x87: asic_cmd = 0xb1; break;
+		                case 0x89: asic_cmd = 0xb6; break;
+		                case 0x93: asic_cmd = 0x73; break;
+		                case 0xa5: asic_cmd = 0xa9; break;
+		                case 0xac: asic_cmd = 0x56; break;
+		                case 0xad: asic_cmd = 0x38; break;
+		                case 0xb1: asic_cmd = 0x87; break;
+		                case 0xb3: asic_cmd = 0x84; break;
+		                case 0xb4: asic_cmd = 0x90; break;
+		                case 0xb6: asic_cmd = 0x89; break;
+		                case 0xc5: asic_cmd = 0x8c; break;
+		                case 0xca: asic_cmd = 0x43; break;
+		                case 0xcc: asic_cmd = 0xf0; break;
+		                case 0xd0: asic_cmd = 0xe0; break;
+		                case 0xe0: asic_cmd = 0xd0; break;
+		                case 0xe7: asic_cmd = 0x70; break;
+		                case 0xed: asic_cmd = 0xcb; break;
+		                case 0xf0: asic_cmd = 0xcc; break;
+		                case 0xf1: asic_cmd = 0xf5; break;
+		                case 0xf2: asic_cmd = 0xf1; break;
+		                case 0xf4: asic_cmd = 0xf2; break;
+		                case 0xf5: asic_cmd = 0xf4; break;
+		                case 0xfc: asic_cmd = 0xc0; break;
+		                case 0xfe: asic_cmd = 0xc3; break;
+			}
+
+			kovsh_highlatch_68k_w = asic_cmd ^ (asic_key | (asic_key << 8));
+		}
+		return;
+	}
+}
+
+void install_protection_asic27a_kovshp()
+{
+	nPGMArm7Type = 1;
+	pPgmScanCallback = kovsh_asic27aScan;
+
+	SekOpen(0);
+	SekMapMemory(PGMARMShareRAM,	0x4f0000, 0x4f003f, SM_RAM);
+
+	SekMapHandler(4,		0x500000, 0x600005, SM_READ | SM_WRITE);
+	SekSetReadWordHandler(4, 	kovsh_asic27a_read_word);
+	SekSetWriteWordHandler(4, 	kovshp_asic27a_write_word);
+	SekClose();
+
+	Arm7Init(1);
+	Arm7Open(0);
+	Arm7MapMemory(PGMARMROM,	0x00000000, 0x00003fff, ARM7_ROM);
+	Arm7MapMemory(PGMARMRAM0,	0x10000000, 0x100003ff, ARM7_RAM);
+	Arm7MapMemory(PGMARMRAM2,	0x50000000, 0x500003ff, ARM7_RAM);
+	Arm7SetWriteWordHandler(kovsh_asic27a_arm7_write_word);
+	Arm7SetWriteLongHandler(kovsh_asic27a_arm7_write_long);
+	Arm7SetReadLongHandler(kovsh_asic27a_arm7_read_long);
+	Arm7Close();
+}
+
+//-------------------------------------------------------------------------------------------
+// svg / dmnfrnt / theglad / killbld / Happy6
+
+static UINT8 svg_ram_sel = 0;
+static UINT8 *svg_ram[2];
+
+static void svg_set_ram_bank(INT32 data)
+{
+	svg_ram_sel = data & 1;
+	Arm7MapMemory(svg_ram[svg_ram_sel],	0x38000000, 0x3801ffff, ARM7_RAM);
+	SekMapMemory(svg_ram[svg_ram_sel^1],	0x500000, 0x51ffff, SM_FETCH);
+}
+
+static void __fastcall svg_write_byte(UINT32 address, UINT8 data)
+{
+	pgm_cpu_sync();
+
+	if ((address & 0xffe0000) == 0x0500000) {
+		svg_ram[svg_ram_sel^1][(address & 0x1ffff)^1] = data;
+		return;
+	}
+
+	switch (address)
+	{
+		case 0x5c0000:
+		case 0x5c0001:
+			Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_HOLD_LINE);
+		return;
+	}
+}
+
+static void __fastcall svg_write_word(UINT32 address, UINT16 data)
+{
+	pgm_cpu_sync();
+
+	if ((address & 0xffe0000) == 0x0500000) {
+		*((UINT16*)(svg_ram[svg_ram_sel^1] + (address & 0x1fffe))) = BURN_ENDIAN_SWAP_INT16(data);
+		
+		return;
+	}
+
+	switch (address)
+	{
+		case 0x5c0000:
+			Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_HOLD_LINE);
+		return;
+
+		case 0x5c0300:
+			asic27a_to_arm = data;
+		return;
+	}
+}
+
+static UINT8 __fastcall svg_read_byte(UINT32 address)
+{
+	if ((address & 0xffe0000) == 0x0500000) {
+		pgm_cpu_sync();
+
+		INT32 d = svg_ram[svg_ram_sel^1][(address & 0x1ffff)^1];
+		return d;
+	}
+
+	switch (address)
+	{
+		case 0x5c0000:
+		case 0x5c0001:
+			return 0;
+	}
+
+	return 0;
+}
+
+static UINT16 __fastcall svg_read_word(UINT32 address)
+{
+	if ((address & 0xffe0000) == 0x0500000) {
+		pgm_cpu_sync();
+
+		return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(svg_ram[svg_ram_sel^1] + (address & 0x1fffe))));
+	}
+
+	switch (address)
+	{
+		case 0x5c0000:
+		case 0x5c0001:
+			return 0;
+
+		case 0x5c0300:
+			pgm_cpu_sync();
+			return asic27a_to_68k;
+	}
+
+	return 0;
+}
+
+static void svg_arm7_write_byte(UINT32 address, UINT8 data)
+{
+	switch (address)
+	{
+		case 0x40000018:
+			svg_set_ram_bank(data);
+		return;
+
+		case 0x48000000:
+			asic27a_to_68k = data;
+		return;
+	}
+}
+
+static void svg_arm7_write_word(UINT32 /*address*/, UINT16 /*data*/)
+{
+
+}
+
+static void svg_arm7_write_long(UINT32 address, UINT32 data)
+{
+	switch (address)
+	{
+		case 0x40000018:
+			svg_set_ram_bank(data);
+		return;
+
+		case 0x48000000:
+			asic27a_to_68k = data;
+		return;
+	}
+}
+
+static UINT8 svg_arm7_read_byte(UINT32 address)
+{
+	switch (address)
+	{
+		case 0x48000000:
+		case 0x48000001:
+		case 0x48000002:
+		case 0x48000003:
+			return asic27a_to_arm;
+	}
+
+	return 0;
+}
+
+static UINT16 svg_arm7_read_word(UINT32 address)
+{
+	switch (address)
+	{
+		case 0x48000000:
+		case 0x48000002:
+			return asic27a_to_arm;
+	}
+
+	return 0;
+}
+
+static UINT32 svg_arm7_read_long(UINT32 address)
+{
+	switch (address)
+	{
+		case 0x48000000:
+			return asic27a_to_arm;
+	}
+
+	return 0;
+}
+
+static INT32 svg_asic27aScan(INT32 nAction,INT32 *)
+{
+	struct BurnArea ba;
+
+	if (nAction & ACB_MEMORY_RAM) {
+		ba.Data		= PGMARMShareRAM;
+		ba.nLen		= 0x0020000;
+		ba.nAddress	= 0x400000;
+		ba.szName	= "ARM SHARE RAM #0 (address 500000)";
+		BurnAcb(&ba);
+
+		ba.Data		= PGMARMShareRAM2;
+		ba.nLen		= 0x0020000;
+		ba.nAddress	= 0x500000;
+		ba.szName	= "ARM SHARE RAM #1";
+		BurnAcb(&ba);
+
+		ba.Data		= PGMARMRAM0;
+		ba.nLen		= 0x0000400;
+		ba.nAddress	= 0;
+		ba.szName	= "ARM RAM 0";
+		BurnAcb(&ba);
+
+		ba.Data		= PGMARMRAM1;
+		ba.nLen		= 0x0040000;
+		ba.nAddress	= 0;
+		ba.szName	= "ARM RAM 1";
+		BurnAcb(&ba);
+
+		ba.Data		= PGMARMRAM2;
+		ba.nLen		= 0x0000400;
+		ba.nAddress	= 0;
+		ba.szName	= "ARM RAM 2";
+		BurnAcb(&ba);
+	}
+
+	if (nAction & ACB_DRIVER_DATA) {
+		Arm7Scan(nAction);
+		SCAN_VAR(asic27a_to_arm);
+		SCAN_VAR(asic27a_to_68k);
+
+		SCAN_VAR(svg_ram_sel);
+		svg_set_ram_bank(svg_ram_sel);
+	}
+
+ 	return 0;
+}
+
+void install_protection_asic27a_svg()
+{
+	nPGMArm7Type = 3;
+
+	pPgmScanCallback = svg_asic27aScan;
+
+	svg_ram_sel = 0;
+	svg_ram[0] = PGMARMShareRAM;
+	svg_ram[1] = PGMARMShareRAM2;
+
+	SekOpen(0);
+	SekMapHandler(5,		0x500000, 0x5fffff, SM_RAM);
+	SekSetReadWordHandler(5, 	svg_read_word);
+	SekSetReadByteHandler(5, 	svg_read_byte);
+	SekSetWriteWordHandler(5, 	svg_write_word);
+	SekSetWriteByteHandler(5, 	svg_write_byte);
+	SekClose();
+
+	Arm7Init(1);
+	Arm7Open(0);
+	Arm7MapMemory(PGMARMROM,	0x00000000, 0x00003fff, ARM7_ROM);
+	Arm7MapMemory(PGMUSER0,		0x08000000, 0x08000000 | (nPGMExternalARMLen-1), ARM7_ROM);
+	Arm7MapMemory(PGMARMRAM0,	0x10000000, 0x100003ff, ARM7_RAM);
+	Arm7MapMemory(PGMARMRAM1,	0x18000000, 0x1803ffff, ARM7_RAM);
+	Arm7MapMemory(svg_ram[1],	0x38000000, 0x3801ffff, ARM7_RAM);
+	Arm7MapMemory(PGMARMRAM2,	0x50000000, 0x500003ff, ARM7_RAM);
+	Arm7SetWriteByteHandler(svg_arm7_write_byte);
+	Arm7SetWriteWordHandler(svg_arm7_write_word);
+	Arm7SetWriteLongHandler(svg_arm7_write_long);
+	Arm7SetReadByteHandler(svg_arm7_read_byte);
+	Arm7SetReadWordHandler(svg_arm7_read_word);
+	Arm7SetReadLongHandler(svg_arm7_read_long);
+	Arm7Close();
+}
+
+
+//-------------------------------------------------------------------------------------------------------------------
+// Simulations
+//-------------------------------------------------------------------------------------------------------------------
+
+
+//---------------------
+// Oriental Legends
+
+static UINT8 asic3_latch[3];
+static UINT8 asic3_x;
+static UINT8 asic3_y;
+static UINT8 asic3_z;
+static UINT8 asic3_h1;
+static UINT8 asic3_h2;
+static UINT8 asic3_reg;
 static UINT16 asic3_hold;
 
 static UINT32 bt(UINT32 v, INT32 bit)
@@ -66,40 +701,36 @@ static void asic3_compute_hold()
 static UINT8 pgm_asic3_r()
 {
 	UINT8 res = 0;
-	/* region is supplied by the protection device */
-	switch(asic3_reg) {
-	case 0x00: res = (asic3_latch[0] & 0xf7) | ((PgmInput[7] << 3) & 0x08); break;
-	case 0x01: res = asic3_latch[1]; break;
-	case 0x02: res = (asic3_latch[2] & 0x7f) | ((PgmInput[7] << 6) & 0x80); break;
-	case 0x03:
-		res = (bt(asic3_hold, 15) << 0)
-			| (bt(asic3_hold, 12) << 1)
-			| (bt(asic3_hold, 13) << 2)
-			| (bt(asic3_hold, 10) << 3)
-			| (bt(asic3_hold,  7) << 4)
-			| (bt(asic3_hold,  9) << 5)
-			| (bt(asic3_hold,  2) << 6)
-			| (bt(asic3_hold,  5) << 7);
-		break;
-	case 0x20: res = 0x49; break;
-	case 0x21: res = 0x47; break;
-	case 0x22: res = 0x53; break;
-	case 0x24: res = 0x41; break;
-	case 0x25: res = 0x41; break;
-	case 0x26: res = 0x7f; break;
-	case 0x27: res = 0x41; break;
-	case 0x28: res = 0x41; break;
-	case 0x2a: res = 0x3e; break;
-	case 0x2b: res = 0x41; break;
-	case 0x2c: res = 0x49; break;
-	case 0x2d: res = 0xf9; break;
-	case 0x2e: res = 0x0a; break;
-	case 0x30: res = 0x26; break;
-	case 0x31: res = 0x49; break;
-	case 0x32: res = 0x49; break;
-	case 0x33: res = 0x49; break;
-	case 0x34: res = 0x32; break;
+
+	switch(asic3_reg)
+	{
+		case 0x00: res = (asic3_latch[0] & 0xf7) | ((PgmInput[7] << 3) & 0x08); break;
+		case 0x01: res =  asic3_latch[1]; break;
+		case 0x02: res = (asic3_latch[2] & 0x7f) | ((PgmInput[7] << 6) & 0x80); break;
+		case 0x03:
+			res = (bt(asic3_hold, 15) << 0)	| (bt(asic3_hold, 12) << 1) | (bt(asic3_hold, 13) << 2) | (bt(asic3_hold, 10) << 3) | 
+				(bt(asic3_hold,  7) << 4) | (bt(asic3_hold,  9) << 5) | (bt(asic3_hold,  2) << 6) | (bt(asic3_hold,  5) << 7);
+			break;
+		case 0x20: res = 0x49; break;
+		case 0x21: res = 0x47; break;
+		case 0x22: res = 0x53; break;
+		case 0x24: res = 0x41; break;
+		case 0x25: res = 0x41; break;
+		case 0x26: res = 0x7f; break;
+		case 0x27: res = 0x41; break;
+		case 0x28: res = 0x41; break;
+		case 0x2a: res = 0x3e; break;
+		case 0x2b: res = 0x41; break;
+		case 0x2c: res = 0x49; break;
+		case 0x2d: res = 0xf9; break;
+		case 0x2e: res = 0x0a; break;
+		case 0x30: res = 0x26; break;
+		case 0x31: res = 0x49; break;
+		case 0x32: res = 0x49; break;
+		case 0x33: res = 0x49; break;
+		case 0x34: res = 0x32; break;
 	}
+
 	return res;
 }
 
@@ -156,8 +787,33 @@ static UINT16 __fastcall asic3_read_word(UINT32 address)
 
 static void reset_asic3()
 {
-	asic3_latch[0] = asic3_latch[1] = asic3_latch[2] = 0;
-	asic3_hold = asic3_reg = asic3_x = asic3_y, asic3_z = asic3_h1 = asic3_h2 = 0;
+	memset (asic3_latch, 0, 3 * sizeof(UINT8));
+
+	asic3_hold = 0;
+	asic3_reg = 0;
+	asic3_x = 0;
+	asic3_y = 0;
+	asic3_z = 0;
+	asic3_h1 = 0;
+	asic3_h2 = 0;
+}
+
+static INT32 asic3Scan(INT32 nAction, INT32 *)
+{
+	if (nAction & ACB_DRIVER_DATA) {
+		SCAN_VAR(asic3_reg);
+		SCAN_VAR(asic3_latch[0]);
+		SCAN_VAR(asic3_latch[1]);
+		SCAN_VAR(asic3_latch[2]);
+		SCAN_VAR(asic3_x);
+		SCAN_VAR(asic3_y);
+		SCAN_VAR(asic3_z);
+		SCAN_VAR(asic3_h1);
+		SCAN_VAR(asic3_h2);
+		SCAN_VAR(asic3_hold);
+	}
+
+	return 0;
 }
 
 void install_protection_asic3_orlegend()
@@ -174,380 +830,19 @@ void install_protection_asic3_orlegend()
 }
 
 
-//-----------------------------------------------------------------------------------------------------
-// ASIC27 - Knights of Valour
-
-static const UINT8 BATABLE[0x40] = {
-	0x00,0x29,0x2c,0x35,0x3a,0x41,0x4a,0x4e,0x57,0x5e,0x77,0x79,0x7a,0x7b,0x7c,0x7d,
-	0x7e,0x7f,0x80,0x81,0x82,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x90,
-	0x95,0x96,0x97,0x98,0x99,0x9a,0x9b,0x9c,0x9e,0xa3,0xd4,0xa9,0xaf,0xb5,0xbb,0xc1
-};
-
-static const UINT8 B0TABLE[16] = { 2, 0, 1, 4, 3 }; // Maps char portraits to tables
-
-static UINT32 kov_slots[16];
-static UINT16 kov_internal_slot;
-static UINT16 kov_key;
-static UINT32 kov_response;
-static UINT16 kov_value;
-
-static UINT16 kov_c0_value;
-static UINT16 kov_cb_value;
-static UINT16 kov_fe_value;
-
-void __fastcall kov_asic27_write(UINT32 offset, UINT16 data)
-{
-	switch (offset & 0x06)
-	{
-		case 0: kov_value = data; return;
-
-		case 2:
-		{
-			if ((data >> 8) == 0xff) kov_key = 0xffff;
-
-			kov_value ^= kov_key;
-
-		//	bprintf (PRINT_NORMAL, _T("ASIC27 command: %2.2x data: %4.4x\n"), (data ^ kov_key) & 0xff, kov_value);
-
-			switch ((data ^ kov_key) & 0xff)
-			{
-				case 0x67: // unknown or status check?
-				case 0x8e:
-				case 0xa3:
-				case 0x33: // kovsgqyz (a3)
-				case 0x3a: // kovplus
-				case 0xc5: // kovplus
-					kov_response = 0x880000;
-				break;
-
-				case 0x99: // Reset
-					kov_response = 0x880000;
-					kov_key = 0;
-				break;
-
-				case 0x9d: // Sprite palette offset
-					kov_response = 0xa00000 + ((kov_value & 0x1f) * 0x40);
-				break;
-
-				case 0xb0: // Read from data table
-					kov_response = B0TABLE[kov_value & 0x0f];
-				break;
-
-				case 0xb4: // Copy slot 'a' to slot 'b'
-				case 0xb7: // kovsgqyz (b4)
-				{
-					kov_response = 0x880000;
-
-					if (kov_value == 0x0102) kov_value = 0x0100; // why?
-
-					kov_slots[(kov_value >> 8) & 0x0f] = kov_slots[(kov_value >> 0) & 0x0f];
-				}
-				break;
-
-				case 0xba: // Read from data table
-					kov_response = BATABLE[kov_value & 0x3f];
-				break;
-
-				case 0xc0: // Text layer 'x' select
-					kov_response = 0x880000;
-					kov_c0_value = kov_value;
-				break;
-
-				case 0xc3: // Text layer offset
-					kov_response = 0x904000 + ((kov_c0_value + (kov_value * 0x40)) * 4);
-				break;
-
-				case 0xcb: // Background layer 'x' select
-					kov_response = 0x880000;
-					kov_cb_value = kov_value;
-				break;
-
-				case 0xcc: // Background layer offset
-					if (kov_value & 0x400) kov_value = -(0x400 - (kov_value & 0x3ff));
-					kov_response = 0x900000 + ((kov_cb_value + (kov_value * 0x40)) * 4);
-				break;
-
-				case 0xd0: // Text palette offset
-				case 0xcd: // kovsgqyz (d0)
-					kov_response = 0xa01000 + (kov_value * 0x20);
-				break;
-
-				case 0xd6: // Copy slot to slot 0
-					kov_response = 0x880000;
-					kov_slots[0] = kov_slots[kov_value & 0x0f];
-				break;
-
-				case 0xdc: // Background palette offset
-				case 0x11: // kovsgqyz (dc)
-					kov_response = 0xa00800 + (kov_value * 0x40);
-				break;
-
-				case 0xe0: // Sprite palette offset
-				case 0x9e: // kovsgqyz (e0)
-					kov_response = 0xa00000 + ((kov_value & 0x1f) * 0x40);
-				break;
-
-				case 0xe5: // Write slot (low)
-				{
-					kov_response = 0x880000;
-
-					INT32 sel = (kov_internal_slot >> 12) & 0x0f;
-					kov_slots[sel] = (kov_slots[sel] & 0x00ff0000) | ((kov_value & 0xffff) <<  0);
-				}
-				break;
-
-				case 0xe7: // Write slot (and slot select) (high)
-				{
-					kov_response = 0x880000;
-					kov_internal_slot = kov_value;
-
-					INT32 sel = (kov_internal_slot >> 12) & 0x0f;
-					kov_slots[sel] = (kov_slots[sel] & 0x0000ffff) | ((kov_value & 0x00ff) << 16);
-				}
-				break;
-
-				case 0xf0: // Some sort of status read?
-					kov_response = 0x00c000;
-				break;
-
-				case 0xf8: // Read slot
-				case 0xab: // kovsgqyz (f8)
-					kov_response = kov_slots[kov_value & 0x0f] & 0x00ffffff;
-				break;
-
-				case 0xfc: // Adjust damage level to char experience level
-					kov_response = (kov_value * kov_fe_value) >> 6;
-				break;
-
-				case 0xfe: // Damage level adjust
-					kov_response = 0x880000;
-					kov_fe_value = kov_value;
-				break;
-
-				default:
-					kov_response = 0x880000;
-		//			bprintf (PRINT_NORMAL, _T("Unknown ASIC27 command: %2.2x data: %4.4x\n"), (data ^ kov_key) & 0xff, kov_value);
-				break;
-			}
-
-			kov_key = (kov_key + 0x0100) & 0xff00;
-			if (kov_key == 0xff00) kov_key = 0x0100;
-			kov_key |= kov_key >> 8;
-		}
-		return;
-
-		case 4: return;
-	}
-}
-
-static UINT16 __fastcall kov_asic27_read(UINT32 offset)
-{
-	switch (offset & 0x02)
-	{
-		case 0: return (kov_response >>  0) ^ kov_key;
-		case 2: return (kov_response >> 16) ^ kov_key;
-	}
-
-	return 0;
-}
-
-static void kov_asic27_reset()
-{
-//	memset(kov_slots, 0, 16 * sizeof(INT32));
-
-	kov_internal_slot = 0;
-	kov_key = 0;
-	kov_response = 0;
-	kov_value = 0;
-
-	kov_c0_value = 0;
-	kov_cb_value = 0;
-	kov_fe_value = 0;
-
-	memset (PGMUSER0, 0, 0x400);
-
-	*((UINT16*)(PGMUSER0 + 0x00008)) = PgmInput[7]; // region
-}
-
-void install_protection_asic27_kov()
-{
-	pPgmScanCallback = kov_asic27Scan;
-	pPgmResetCallback = kov_asic27_reset;
-
-	SekOpen(0);
-	SekMapMemory(PGMUSER0,	0x4f0000, 0x4f003f | 0x3ff, SM_READ);
-
-	SekMapHandler(4,	0x500000, 0x500003, SM_READ | SM_WRITE);
-	SekSetReadWordHandler(4, kov_asic27_read);
-	SekSetWriteWordHandler(4, kov_asic27_write);
-	SekClose();
-}
-
-
-// preliminary
-
-static INT32 puzzli_54_trigger = 0;
-
-static void __fastcall puzzli2_asic_write(UINT32 offset, UINT16 data)
-{
-	switch (offset & 0x06)
-	{
-		case 0: kov_value = data; return;
-
-		case 2:
-		{
-			if ((data >> 8) == 0xff) kov_key = 0xffff;
-
-			kov_value ^= kov_key;
-
-		//	bprintf (0, _T("ASIC Command: %2.2x, Value: %4.4x,\n"), (data ^ kov_key) & 0xff, kov_value);
-
-			switch ((data ^ kov_key) & 0xff)
-			{
-				case 0x13: // ASIC status?
-					kov_response = 0x74<<16; // 2d or 74! (based on?)
-				break;
-
-				case 0x31:
-				{
-					// how is this selected? command 54?
-
-					// just a wild guess
-					if (puzzli_54_trigger) {
-						// pc == 1387de
-						kov_response = 0x63<<16; // ?
-					} else {
-						// pc == 14cf58
-						kov_response = 0xd2<<16;
-					}
-
-					puzzli_54_trigger = 0;
-				}
-				break;
-
-				case 0x38: // Reset
-					kov_response = 0x78<<16;
-					kov_key = 0;
-					puzzli_54_trigger = 0;
-				break;
-
-				case 0x41: // ASIC status?
-					kov_response = 0x74<<16;
-				break;
-
-				case 0x47: // ASIC status?
-					kov_response = 0x74<<16;
-				break;
-
-				case 0x52: // ASIC status?
-				{
-					// how is this selected?
-
-					//if (kov_value == 6) {
-						kov_response = (0x74<<16)|1; // |1?
-					//} else {
-					//	kov_response = 0x74<<16;
-					//}
-				}
-				break;
-
-				case 0x54: // ??
-					puzzli_54_trigger = 1;
-					kov_response = 0x36<<16;
-				break;
-
-				case 0x61: // ??
-					kov_response = 0x36<<16;
-				break;
-
-				case 0x63: // probably read from a data table?
-					kov_response = 0; // wrong...
-				break;
-
-				case 0x67: // probably read from a data table?
-					kov_response = 0;
-				break;
-
-				default:
-		//			bprintf (0, _T("ASIC Command %2.2x unknown!\n"), (data ^ kov_key) & 0xff);
-					kov_response = 0x74<<16;
-				break;
-			}
-
-			kov_key = (kov_key + 0x0100) & 0xff00;
-			if (kov_key == 0xff00) kov_key = 0x0100;
-			kov_key |= kov_key >> 8;
-		}
-		return;
-
-		case 4: return;
-	}
-}
-
-void install_protection_asic27a_puzzli2()
-{
-	pPgmScanCallback = kov_asic27Scan;
-	pPgmResetCallback = kov_asic27_reset;
-
-	SekOpen(0);
-	SekMapMemory(PGMUSER0,	0x4f0000, 0x4f003f | 0x3ff, SM_READ);
-
-	SekMapHandler(4,	0x500000, 0x500003, SM_READ | SM_WRITE);
-	SekSetReadWordHandler(4, kov_asic27_read);
-	SekSetWriteWordHandler(4, puzzli2_asic_write);
-	SekClose();
-}
-
-
-//-----------------------------------------------------------------------------------------------------
-// Dragon World 2
-
-#define DW2BITSWAP(s,d,bs,bd)  d=((d&(~(1<<bd)))|(((s>>bs)&1)<<bd))
-
-static UINT16 __fastcall dw2_read_word(UINT32)
-{
-	// The value at 0x80EECE is computed in the routine at 0x107c18
-
-	UINT16 d = SekReadWord(0x80EECE);
-	UINT16 d2 = 0;
-
-	d=(d>>8)|(d<<8);
-	DW2BITSWAP(d,d2,7 ,0);
-	DW2BITSWAP(d,d2,4 ,1);
-	DW2BITSWAP(d,d2,5 ,2);
-	DW2BITSWAP(d,d2,2 ,3);
-	DW2BITSWAP(d,d2,15,4);
-	DW2BITSWAP(d,d2,1 ,5);
-	DW2BITSWAP(d,d2,10,6);
-	DW2BITSWAP(d,d2,13,7);
-
-	// ... missing bitswaps here (8-15) there is not enough data to know them
-	// the code only checks the lowest 8 bits
-
-	return d2;
-}
-
-void install_protection_asic25_asic12_dw2()
-{
-	SekOpen(0);
-	SekMapHandler(4,		0xd80000, 0xd80003, SM_READ);
-	SekSetReadWordHandler(4,	dw2_read_word);
-	SekClose();
-}
-
-
-//-----------------------------------------------------------------------------------------------------
-// Killing Blade
+//--------------------
+// killblad
 
 static UINT16 kb_cmd;
 static UINT16 kb_reg;
 static UINT16 kb_ptr;
-static UINT32   kb_regs[0x100]; //?
+static UINT32 kb_regs[0x100];
+static UINT16 *sharedprotram;
 
 static void IGS022_do_dma(UINT16 src, UINT16 dst, UINT16 size, UINT16 mode)
 {
 	UINT16 param = mode >> 8;
-	UINT16 *PROTROM = (UINT16*)USER1;
+	UINT16 *PROTROM = (UINT16*)(PGMUSER0 + 0x10000);
 
 	mode &= 0x0f;
 
@@ -722,7 +1017,7 @@ static UINT16 __fastcall killbld_read_word(UINT32 address)
 static void IGS022Reset()
 {
 	sharedprotram = (UINT16*)PGMUSER0;
-	USER1 = PGMUSER0 + 0x10000;
+	UINT8 *USER1 = PGMUSER0 + 0x10000;
 
 	if (strcmp(BurnDrvGetTextA(DRV_NAME), "killbld") == 0) {
 		BurnLoadRom(USER1, 11, 1); // load protection data
@@ -759,6 +1054,33 @@ static void IGS022Reset()
 	memset (kb_regs, 0, 0x100 * sizeof(INT32));
 }
 
+static INT32 killbldScan(INT32 nAction, INT32 *)
+{
+	struct BurnArea ba;
+
+	if (nAction & ACB_MEMORY_RAM) {
+		ba.Data		= PGMUSER0 + 0x000000;
+		ba.nLen		= 0x0004000;
+		ba.nAddress	= 0x300000;
+		ba.szName	= "ProtRAM";
+		BurnAcb(&ba);
+
+		ba.Data		= (UINT8*)kb_regs;
+		ba.nLen		= 0x00100 * sizeof(INT32);
+		ba.nAddress	= 0xfffffc00;
+		ba.szName	= "Protection Registers";
+		BurnAcb(&ba);
+	}
+
+	if (nAction & ACB_DRIVER_DATA) {
+		SCAN_VAR(kb_cmd);
+		SCAN_VAR(kb_reg);
+		SCAN_VAR(kb_ptr);
+	}
+
+	return 0;
+}
+
 void install_protection_asic25_asic22_killbld()
 {
 	pPgmScanCallback = killbldScan;
@@ -774,694 +1096,955 @@ void install_protection_asic25_asic22_killbld()
 	SekClose();
 }
 
+//------------------------------------------
+// Common asic27a simulation functions
+
+
+static UINT16 asic27a_sim_value;
+static UINT16 asic27a_sim_key;
+static UINT32 asic27a_sim_response;
+static UINT32 asic27a_sim_slots[0x100];
+static UINT16 asic27a_sim_regs[0x100];
+static UINT8  asic27a_sim_internal_slot;
+
+static void (*asic27a_sim_command)(UINT8);
+
+void __fastcall asic27a_sim_write(UINT32 offset, UINT16 data)
+{
+	switch (offset & 0x06)
+	{
+		case 0: asic27a_sim_value = data; return;
+
+		case 2:
+		{
+			if ((data >> 8) == 0xff) asic27a_sim_key = 0xffff;
+
+			asic27a_sim_value ^= asic27a_sim_key;
+
+			UINT8 command = (data ^ asic27a_sim_key) & 0xff;
+
+			asic27a_sim_regs[command] = asic27a_sim_value;
+
+		//	bprintf (0, _T("Command: %2.2x, Data: %2.2x\n"), command, asic27a_sim_value);
+
+			asic27a_sim_command(command);
+
+			asic27a_sim_key = (asic27a_sim_key + 0x0100) & 0xff00;
+			if (asic27a_sim_key == 0xff00) asic27a_sim_key = 0x0100;
+			asic27a_sim_key |= asic27a_sim_key >> 8;
+		}
+		return;
+
+		case 4: return;
+	}
+}
+
+static UINT16 __fastcall asic27a_sim_read(UINT32 offset)
+{
+	switch (offset & 0x02)
+	{
+		case 0: return (asic27a_sim_response >>  0) ^ asic27a_sim_key;
+		case 2: return (asic27a_sim_response >> 16) ^ asic27a_sim_key;
+	}
+
+	return 0;
+}
+
+static void asic27a_sim_reset()
+{
+	// The ASIC27a writes this to shared RAM
+	UINT8 ram_string[16] = {
+		'I', 'G', 'S', 'P', 'G', 'M', 0, 0, 0, 0/*REGION*/, 'C', 'H', 'I', 'N', 'A', 0
+	};
+
+	memset (PGMUSER0, 0, 0x400);
+
+	ram_string[9] = PgmInput[7]; // region
+
+	memcpy (PGMUSER0, ram_string, 16);
+
+	BurnByteswap(PGMUSER0, 0x10);
+
+	memset (asic27a_sim_slots, 0, 0x100 * sizeof(INT32));
+	memset (asic27a_sim_regs,  0, 0x100 * sizeof(INT16));
+
+	asic27a_sim_value = 0;
+	asic27a_sim_key = 0;
+	asic27a_sim_response = 0;
+	asic27a_sim_internal_slot = 0;
+}
+
+static INT32 asic27a_sim_scan(INT32 nAction, INT32 *)
+{
+	struct BurnArea ba;
+
+	if (nAction & ACB_MEMORY_RAM) {
+		ba.Data		= (UINT8*)asic27a_sim_slots;
+		ba.nLen		= 0x0000100 * sizeof(INT32);
+		ba.nAddress	= 0xff00000;
+		ba.szName	= "ASIC27a Slots";
+		BurnAcb(&ba);
+
+		ba.Data		= (UINT8*)asic27a_sim_regs;
+		ba.nLen		= 0x0000100 * sizeof(INT16);
+		ba.nAddress	= 0xff01000;
+		ba.szName	= "ASIC27a Regs";
+		BurnAcb(&ba);
+	}
+
+	if (nAction & ACB_DRIVER_DATA) {
+		SCAN_VAR(asic27a_sim_value);
+		SCAN_VAR(asic27a_sim_key);
+		SCAN_VAR(asic27a_sim_response);
+		SCAN_VAR(asic27a_sim_internal_slot);
+	}
+
+	return 0;
+}
+
+
+//---------------------------------
+// ketsui / espgaluda / ddp3
+
+static void ddp3_asic27a_sim_command(UINT8 command)
+{
+	switch (command)
+	{
+		case 0x40: // Combine slot values
+			asic27a_sim_slots[(asic27a_sim_value >> 10) & 0x1f] = (asic27a_sim_slots[(asic27a_sim_value >> 5) & 0x1f] + asic27a_sim_slots[(asic27a_sim_value >> 0) & 0x1f]) & 0xffffff;
+			asic27a_sim_response = 0x880000;
+		break;
+
+		case 0x67: // Select slot & write (high)
+			asic27a_sim_internal_slot = asic27a_sim_value >> 8;
+			asic27a_sim_slots[asic27a_sim_internal_slot] = (asic27a_sim_value & 0x00ff) << 16;
+			asic27a_sim_response = 0x880000;
+		break;
+
+		case 0xe5: // Write slot (low)
+			asic27a_sim_slots[asic27a_sim_internal_slot] |= asic27a_sim_value;
+			asic27a_sim_response = 0x880000;
+		break;
+
+		case 0x8e: // Read slot
+			asic27a_sim_response = asic27a_sim_slots[asic27a_sim_value & 0xff];
+		break;
+
+		case 0x99: // Reset?
+			asic27a_sim_key = 0;
+			asic27a_sim_response = 0x880000;
+		break;
+
+		default:
+			asic27a_sim_response = 0x880000;
+		break;
+	}
+}
+
+void install_protection_asic27a_ketsui()
+{
+	pPgmResetCallback = asic27a_sim_reset;
+	pPgmScanCallback = asic27a_sim_scan;
+	asic27a_sim_command = ddp3_asic27a_sim_command;
+
+	SekOpen(0);
+	SekMapHandler(4,		0x400000, 0x400005, SM_READ | SM_WRITE);
+	SekSetReadWordHandler(4, 	asic27a_sim_read);
+	SekSetWriteWordHandler(4, 	asic27a_sim_write);
+	SekClose();
+}
+
+void install_protection_asic27a_ddp3()
+{
+	pPgmResetCallback = asic27a_sim_reset;
+	pPgmScanCallback = asic27a_sim_scan;
+	asic27a_sim_command = ddp3_asic27a_sim_command;
+
+	SekOpen(0);
+	SekMapHandler(4,		0x500000, 0x500005, SM_READ | SM_WRITE);
+	SekSetReadWordHandler(4, 	asic27a_sim_read);
+	SekSetWriteWordHandler(4, 	asic27a_sim_write);
+	SekClose();
+}
+
+
+//--------------------------
+// oldsplus
+
+static const UINT8 oldsplus_fc[0x20]={
+	0x00,0x00,0x0a,0x3a,0x4e,0x2e,0x03,0x40,0x33,0x43,0x26,0x2c,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x44,0x4d,0x0b,0x27,0x3d,0x0f,0x37,0x2b,0x02,0x2f,0x15,0x45,0x0e,0x30
+};
+
+static const UINT16 oldsplus_90[0x7]={
+	0x50,0xa0,0xc8,0xf0,0x190,0x1f4,0x258
+};
+
+static const UINT8 oldsplus_5e[0x20]={
+	0x04,0x04,0x04,0x04,0x04,0x03,0x03,0x03,0x02,0x02,0x02,0x01,0x01,0x01,0x01,0x01,
+	0x01,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+};
+
+static const UINT8 oldsplus_b0[0xe0]={
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x02,0x03,0x04,
+	0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c,0x0d,0x0e,0x0f,0x10,0x11,0x12,0x13,0x14,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,
+	0x09,0x0a,0x0b,0x0c,0x0d,0x0e,0x0f,0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x18,
+	0x00,0x00,0x00,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c,
+	0x0d,0x0e,0x0f,0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x18,0x19,0x1a,0x1b,0x1c,
+	0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c,0x0d,0x0e,0x0f,
+	0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x18,0x19,0x1a,0x1b,0x1c,0x1d,0x1e,0x1f,
+	0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c,0x0d,0x0e,0x0f,0x10,0x11,0x12,0x13,
+	0x14,0x15,0x16,0x17,0x18,0x19,0x1a,0x1b,0x1c,0x1d,0x1e,0x1f,0x1f,0x1f,0x1f,0x1f
+};
+
+static const UINT8 oldsplus_ae[0xe0]={
+	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
+	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
+	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
+	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
+	0x1E,0x1F,0x20,0x21,0x22,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
+	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
+	0x1F,0x20,0x21,0x22,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
+	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
+	0x20,0x21,0x22,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
+	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
+	0x21,0x22,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
+	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
+	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
+	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23
+};
+
+static const UINT16 oldsplus_ba[0x4]={
+	0x3138,0x2328,0x1C20,0x1518
+};
+
+static const UINT16 oldsplus_8c[0x20]={
+	0x0032,0x0032,0x0064,0x0096,0x0096,0x00fa,0x012c,0x015e,0x0032,0x0064,0x0096,0x00c8,0x00c8,0x012c,0x015e,0x0190,
+	0x0064,0x0096,0x00c8,0x00fa,0x00fa,0x015e,0x0190,0x01c2,0x0096,0x00c8,0x00fa,0x012c,0x012c,0x0190,0x01c2,0x01f4
+};
+
+static inline UINT16 oldsplus_9d(UINT16 a)
+{
+	const UINT8 tab[8] = { 0x3c, 0x46, 0x5a, 0x6e, 0x8c, 0xc8, 0x50, };
+
+	if ((a % 0x27) <= 0x07) return (a % 0x27) * 0x64;
+	if ((a % 0x27) >= 0x17) return 0x6bc;
+	
+	return 0x2bc + (tab[a / 0x27] * ((a % 0x27) - 7));
+}
+
+static void oldsplus_asic27a_sim_command(UINT8 command)
+{
+	switch (command)
+	{
+		case 0x88: // Reset?
+			asic27a_sim_key = 0;
+			asic27a_sim_response = 0x990000;
+		break;
+
+		case 0xa0:
+			asic27a_sim_response = ((asic27a_sim_value >= 0x0f) ? 0x0f : asic27a_sim_value) * 0x23;
+		break;
+
+		case 0xd0: // Text palette offset
+			asic27a_sim_response = 0xa01000 + (asic27a_sim_value << 5);
+		break;
+
+		case 0xc0: // Sprite palette offset
+			asic27a_sim_response = 0xa00000 + (asic27a_sim_value << 6);
+		break;
+
+		case 0xc3: // Background palette offset
+			asic27a_sim_response = 0xa00800 + (asic27a_sim_value << 6);
+		break;
+
+		case 0x33: // Store regs
+			asic27a_sim_response = 0x990000;
+		break;
+
+		case 0x35: // Add '36' reg
+			asic27a_sim_regs[0x36] += asic27a_sim_value;
+			asic27a_sim_response = 0x990000;
+		break;
+
+		case 0x36: // Store regs
+			asic27a_sim_response = 0x990000;
+		break;
+
+		case 0x37: // Add '33' reg
+			asic27a_sim_regs[0x33] += asic27a_sim_value;
+			asic27a_sim_response = 0x990000;
+		break;
+
+		case 0x34: // Read '36' reg
+			asic27a_sim_response = asic27a_sim_regs[0x36];
+		break;
+
+		case 0x38: // Read '33' reg
+			asic27a_sim_response = asic27a_sim_regs[0x33];
+		break;
+
+		case 0xe7: // Select slot
+		{
+			asic27a_sim_response = 0x990000;
+
+			asic27a_sim_internal_slot = (asic27a_sim_value >> 12) & 0x0f;
+		}
+		break;
+
+		case 0xe5: // Write slot
+		{
+			asic27a_sim_response = 0x990000;
+
+			asic27a_sim_slots[asic27a_sim_internal_slot] = asic27a_sim_value;
+
+			if (asic27a_sim_internal_slot == 0x0b) asic27a_sim_slots[0xc] = 0; // ??
+		}
+		break;
+
+		case 0xf8: // Read slot
+			asic27a_sim_response = asic27a_sim_slots[asic27a_sim_value];
+		break;
+
+		case 0xc5: // Increment slot 'd'
+			asic27a_sim_slots[0xd]--;
+			asic27a_sim_response = 0x990000;
+		break;
+
+		case 0xd6: // Increment slot 'b'
+			asic27a_sim_slots[0xb]++;
+			asic27a_sim_response = 0x990000;
+		break;
+
+		case 0x3a: // Clear slot 'f'
+			asic27a_sim_slots[0xf] = 0;
+			asic27a_sim_response = 0x990000;
+		break;
+
+		case 0xf0: // Background layer 'x' select
+			asic27a_sim_response = 0x990000;
+		break;
+
+		case 0xed: // Background layer offset
+			if (asic27a_sim_value & 0x400) asic27a_sim_value = -(0x400 - (asic27a_sim_value & 0x3ff));
+			asic27a_sim_response = 0x900000 + ((asic27a_sim_regs[0xf0] + (asic27a_sim_value * 0x40)) * 4);
+		break;
+
+		case 0xe0: // Text layer 'x' select
+			asic27a_sim_response = 0x990000;
+		break;
+
+		case 0xdc: // Text layer offset
+			asic27a_sim_response = 0x904000 + ((asic27a_sim_regs[0xe0] + (asic27a_sim_value * 0x40)) * 4);
+		break;
+
+		case 0xcb: // Some sort of status read?
+			asic27a_sim_response = 0x00c000;
+		break;
+
+		case 0x5e: // Read from data table
+			asic27a_sim_response = oldsplus_5e[asic27a_sim_value];
+		break;
+
+		case 0x80: // Read from data table
+			asic27a_sim_response = (asic27a_sim_value < 4) ? ((asic27a_sim_value + 1) * 0xbb8) : 0xf4240;
+		break;
+
+		case 0x8c: // Read from data table
+			asic27a_sim_response = oldsplus_8c[asic27a_sim_value];
+		break;
+
+		case 0x90: // Read from data table
+			asic27a_sim_response = oldsplus_90[asic27a_sim_value];
+		break;
+
+		case 0x9d: // Read from data table
+			asic27a_sim_response = oldsplus_9d(asic27a_sim_value);
+		break;
+
+		case 0xae: // Read from data table
+			asic27a_sim_response = oldsplus_ae[asic27a_sim_value];
+		break;
+
+		case 0xb0: // Read from data table
+			asic27a_sim_response = oldsplus_b0[asic27a_sim_value];
+		break;
+
+		case 0xba: // Read from data table
+			asic27a_sim_response = oldsplus_ba[asic27a_sim_value];
+		break;
+
+		case 0xfc: // Read from data table
+			asic27a_sim_response = oldsplus_fc[asic27a_sim_value];
+		break;
+
+		default:
+			asic27a_sim_response = 0x990000;
+		break;
+	}
+}
+
+void install_protection_asic27a_oldsplus()
+{
+	pPgmResetCallback = asic27a_sim_reset;
+	pPgmScanCallback = asic27a_sim_scan;
+	asic27a_sim_command = oldsplus_asic27a_sim_command;
+
+	SekOpen(0);
+	SekMapMemory(PGMUSER0,		0x4f0000, 0x4f003f | 0x3ff, SM_READ); // ram
+
+	SekMapHandler(4,		0x500000, 0x500003, SM_READ | SM_WRITE);
+	SekSetReadWordHandler(4, 	asic27a_sim_read);
+	SekSetWriteWordHandler(4, 	asic27a_sim_write);
+	SekClose();
+}
+
+
+//-------------------------------------
+// Knights of Valour
+
+static const UINT8 B0TABLE[8] = { 2, 0, 1, 4, 3 }; // Maps char portraits to tables
+
+static const UINT8 BATABLE[0x40] = {
+	0x00,0x29,0x2c,0x35,0x3a,0x41,0x4a,0x4e,0x57,0x5e,0x77,0x79,0x7a,0x7b,0x7c,0x7d,
+	0x7e,0x7f,0x80,0x81,0x82,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x90,
+	0x95,0x96,0x97,0x98,0x99,0x9a,0x9b,0x9c,0x9e,0xa3,0xd4,0xa9,0xaf,0xb5,0xbb,0xc1
+};
+
+static void kov_asic27a_sim_command(UINT8 command)
+{
+	switch (command)
+	{
+		case 0x67: // unknown or status check?
+		case 0x8e:
+		case 0xa3:
+		case 0x33: // kovsgqyz (a3)
+		case 0x3a: // kovplus
+		case 0xc5: // kovplus
+			asic27a_sim_response = 0x880000;
+		break;
+
+		case 0x99: // Reset
+			asic27a_sim_response = 0x880000;
+			asic27a_sim_key = 0;
+		break;
+
+		case 0x9d: // Sprite palette offset
+			asic27a_sim_response = 0xa00000 + ((asic27a_sim_value & 0x1f) * 0x40);
+		break;
+
+		case 0xb0: // Read from data table
+			asic27a_sim_response = B0TABLE[asic27a_sim_value & 0x07];
+		break;
+
+		case 0xb4: // Copy slot 'a' to slot 'b'
+		case 0xb7: // kovsgqyz (b4)
+		{
+			asic27a_sim_response = 0x880000;
+
+			if (asic27a_sim_value == 0x0102) asic27a_sim_value = 0x0100; // why?
+
+			asic27a_sim_slots[(asic27a_sim_value >> 8) & 0x0f] = asic27a_sim_slots[(asic27a_sim_value >> 0) & 0x0f];
+		}
+		break;
+
+		case 0xba: // Read from data table
+			asic27a_sim_response = BATABLE[asic27a_sim_value & 0x3f];
+		break;
+
+		case 0xc0: // Text layer 'x' select
+			asic27a_sim_response = 0x880000;
+		break;
+
+		case 0xc3: // Text layer offset
+			asic27a_sim_response = 0x904000 + ((asic27a_sim_regs[0xc0] + (asic27a_sim_value * 0x40)) * 4);
+		break;
+
+		case 0xcb: // Background layer 'x' select
+			asic27a_sim_response = 0x880000;
+		break;
+
+		case 0xcc: // Background layer offset
+			if (asic27a_sim_value & 0x400) asic27a_sim_value = -(0x400 - (asic27a_sim_value & 0x3ff));
+			asic27a_sim_response = 0x900000 + ((asic27a_sim_regs[0xcb] + (asic27a_sim_value * 0x40)) * 4);
+		break;
+
+		case 0xd0: // Text palette offset
+		case 0xcd: // kovsgqyz (d0)
+			asic27a_sim_response = 0xa01000 + (asic27a_sim_value * 0x20);
+		break;
+
+		case 0xd6: // Copy slot to slot 0
+			asic27a_sim_response = 0x880000;
+			asic27a_sim_slots[0] = asic27a_sim_slots[asic27a_sim_value & 0x0f];
+		break;
+
+		case 0xdc: // Background palette offset
+		case 0x11: // kovsgqyz (dc)
+			asic27a_sim_response = 0xa00800 + (asic27a_sim_value * 0x40);
+		break;
+
+		case 0xe0: // Sprite palette offset
+		case 0x9e: // kovsgqyz (e0)
+			asic27a_sim_response = 0xa00000 + ((asic27a_sim_value & 0x1f) * 0x40);
+		break;
+
+		case 0xe5: // Write slot (low)
+		{
+			asic27a_sim_response = 0x880000;
+
+			asic27a_sim_slots[asic27a_sim_internal_slot] = (asic27a_sim_slots[asic27a_sim_internal_slot] & 0x00ff0000) | ((asic27a_sim_value & 0xffff) <<  0);
+		}
+		break;
+
+		case 0xe7: // Write slot (and slot select) (high)
+		{
+			asic27a_sim_response = 0x880000;
+			asic27a_sim_internal_slot = (asic27a_sim_value >> 12) & 0x0f;
+
+			asic27a_sim_slots[asic27a_sim_internal_slot] = (asic27a_sim_slots[asic27a_sim_internal_slot] & 0x0000ffff) | ((asic27a_sim_value & 0x00ff) << 16);
+		}
+		break;
+
+		case 0xf0: // Some sort of status read?
+			asic27a_sim_response = 0x00c000;
+		break;
+
+		case 0xf8: // Read slot
+		case 0xab: // kovsgqyz (f8)
+			asic27a_sim_response = asic27a_sim_slots[asic27a_sim_value & 0x0f] & 0x00ffffff;
+		break;
+
+		case 0xfc: // Adjust damage level to char experience level
+			asic27a_sim_response = (asic27a_sim_value * asic27a_sim_regs[0xfe]) >> 6;
+		break;
+
+		case 0xfe: // Damage level adjust
+			asic27a_sim_response = 0x880000;
+		break;
+
+		default:
+			asic27a_sim_response = 0x880000;
+		break;
+	}
+}
+
+void install_protection_asic27_kov()
+{
+	pPgmResetCallback = asic27a_sim_reset;
+	pPgmScanCallback = asic27a_sim_scan;
+	asic27a_sim_command = kov_asic27a_sim_command;
+
+	SekOpen(0);
+	SekMapMemory(PGMUSER0,		0x4f0000, 0x4f003f | 0x3ff, SM_READ);
+
+	SekMapHandler(4,		0x500000, 0x500003, SM_READ | SM_WRITE);
+	SekSetReadWordHandler(4, 	asic27a_sim_read);
+	SekSetWriteWordHandler(4, 	asic27a_sim_write);
+	SekClose();
+}
+
 //-------------------------------------------------------------------------
-// Puzzle Stars
+// puzlstar
 
-
-static UINT16 PSTARSKEY;
-static UINT16 PSTARSINT[2];
-static UINT32 PSTARS_REGS[16];
-static UINT32 PSTARS_VAL;
-
-static UINT16 pstar_e7,pstar_b1,pstar_ce;
-static UINT16 pstar_ram[3];
-
-static INT32 Pstar_ba[0x1E]={
-	0x02,0x00,0x00,0x01,0x00,0x03,0x00,0x00, //0
-	0x02,0x00,0x06,0x00,0x22,0x04,0x00,0x03, //8
-	0x00,0x00,0x06,0x00,0x20,0x07,0x00,0x03, //10
-	0x00,0x21,0x01,0x00,0x00,0x63
+static const UINT8 Pstar_ba[0x1e]={
+	0x02,0x00,0x00,0x01,0x00,0x03,0x00,0x00,0x02,0x00,0x06,0x00,0x22,0x04,0x00,0x03,
+	0x00,0x00,0x06,0x00,0x20,0x07,0x00,0x03,0x00,0x21,0x01,0x00,0x00,0x63
 };
 
-static INT32 Pstar_b0[0x10]={
-	0x09,0x0A,0x0B,0x00,0x01,0x02,0x03,0x04,
-	0x05,0x06,0x07,0x08,0x00,0x00,0x00,0x00
+static const UINT8 Pstar_b0[0x10]={
+	0x09,0x0A,0x0B,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x00,0x00,0x00,0x00
 };
 
-static INT32 Pstar_ae[0x10]={
-	0x5D,0x86,0x8C ,0x8B,0xE0,0x8B,0x62,0xAF,
-	0xB6,0xAF,0x10A,0xAF,0x00,0x00,0x00,0x00
+static const UINT16 Pstar_ae[0x10]={
+	0x5D,0x86,0x8C,0x8B,0xE0,0x8B,0x62,0xAF,0xB6,0xAF,0x10A,0xAF,0x00,0x00,0x00,0x00
 };
 
-static INT32 Pstar_a0[0x10]={
-	0x02,0x03,0x04,0x05,0x06,0x01,0x0A,0x0B,
-	0x0C,0x0D,0x0E,0x09,0x00,0x00,0x00,0x00,
+static const UINT8 Pstar_a0[0x10]={
+	0x02,0x03,0x04,0x05,0x06,0x01,0x0A,0x0B,0x0C,0x0D,0x0E,0x09,0x00,0x00,0x00,0x00
 };
 
-static INT32 Pstar_9d[0x10]={
-	0x05,0x03,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+static const UINT8 Pstar_9d[0x10]={
+	0x05,0x03,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
 };
 
-static INT32 Pstar_90[0x10]={
-	0x0C,0x10,0x0E,0x0C,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+static const UINT8 Pstar_90[0x10]={
+	0x0C,0x10,0x0E,0x0C,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
 };
-static INT32 Pstar_8c[0x23]={
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x01,0x01,0x01,
-	0x01,0x01,0x01,0x01,0x02,0x02,0x02,0x02,
-	0x02,0x02,0x03,0x03,0x03,0x04,0x04,0x04,
+
+static const UINT8 Pstar_8c[0x23]={
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x01,0x01,
+	0x01,0x01,0x01,0x01,0x02,0x02,0x02,0x02,0x02,0x02,0x03,0x03,0x03,0x04,0x04,0x04,
 	0x03,0x03,0x03
 };
 
-static INT32 Pstar_80[0x1a3]={
-	0x03,0x03,0x04,0x04,0x04,0x04,0x05,0x05,
-	0x05,0x05,0x06,0x06,0x03,0x03,0x04,0x04,
-	0x05,0x05,0x05,0x05,0x06,0x06,0x07,0x07,
-	0x03,0x03,0x04,0x04,0x05,0x05,0x05,0x05,
-	0x06,0x06,0x07,0x07,0x06,0x06,0x06,0x06,
-	0x06,0x06,0x06,0x07,0x07,0x07,0x07,0x07,
-	0x06,0x06,0x06,0x06,0x06,0x06,0x07,0x07,
-	0x07,0x07,0x08,0x08,0x05,0x05,0x05,0x05,
-	0x05,0x05,0x05,0x06,0x06,0x06,0x07,0x07,
-	0x06,0x06,0x06,0x07,0x07,0x07,0x08,0x08,
-	0x09,0x09,0x09,0x09,0x07,0x07,0x07,0x07,
-	0x07,0x08,0x08,0x08,0x08,0x09,0x09,0x09,
-	0x06,0x06,0x07,0x07,0x07,0x08,0x08,0x08,
-	0x08,0x08,0x09,0x09,0x05,0x05,0x06,0x06,
-	0x06,0x07,0x07,0x08,0x08,0x08,0x08,0x09,
-	0x07,0x07,0x07,0x07,0x07,0x08,0x08,0x08,
-	0x08,0x09,0x09,0x09,0x06,0x06,0x07,0x03,
-	0x07,0x06,0x07,0x07,0x08,0x07,0x05,0x04,
-	0x03,0x03,0x04,0x04,0x05,0x05,0x06,0x06,
-	0x06,0x06,0x06,0x06,0x03,0x04,0x04,0x04,
-	0x04,0x05,0x05,0x06,0x06,0x06,0x06,0x07,
-	0x04,0x04,0x05,0x05,0x06,0x06,0x06,0x06,
-	0x06,0x07,0x07,0x08,0x05,0x05,0x06,0x07,
-	0x07,0x08,0x08,0x08,0x08,0x08,0x08,0x08,
-	0x05,0x05,0x05,0x07,0x07,0x07,0x07,0x07,
-	0x07,0x08,0x08,0x08,0x08,0x08,0x09,0x09,
-	0x09,0x09,0x03,0x04,0x04,0x05,0x05,0x05,
-	0x06,0x06,0x07,0x07,0x07,0x07,0x08,0x08,
-	0x08,0x09,0x09,0x09,0x03,0x04,0x05,0x05,
-	0x04,0x03,0x04,0x04,0x04,0x05,0x05,0x04,
-	0x03,0x03,0x03,0x03,0x03,0x03,0x03,0x03,
-	0x03,0x03,0x03,0x04,0x04,0x04,0x04,0x04,
-	0x04,0x04,0x04,0x04,0x04,0x03,0x03,0x03,
-	0x03,0x03,0x03,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0xFF,0x00,0x00,0x00,
-	0x00,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+static const UINT8 Pstar_80[0x1a3]={
+	0x03,0x03,0x04,0x04,0x04,0x04,0x05,0x05,0x05,0x05,0x06,0x06,0x03,0x03,0x04,0x04,
+	0x05,0x05,0x05,0x05,0x06,0x06,0x07,0x07,0x03,0x03,0x04,0x04,0x05,0x05,0x05,0x05,
+	0x06,0x06,0x07,0x07,0x06,0x06,0x06,0x06,0x06,0x06,0x06,0x07,0x07,0x07,0x07,0x07,
+	0x06,0x06,0x06,0x06,0x06,0x06,0x07,0x07,0x07,0x07,0x08,0x08,0x05,0x05,0x05,0x05,
+	0x05,0x05,0x05,0x06,0x06,0x06,0x07,0x07,0x06,0x06,0x06,0x07,0x07,0x07,0x08,0x08,
+	0x09,0x09,0x09,0x09,0x07,0x07,0x07,0x07,0x07,0x08,0x08,0x08,0x08,0x09,0x09,0x09,
+	0x06,0x06,0x07,0x07,0x07,0x08,0x08,0x08,0x08,0x08,0x09,0x09,0x05,0x05,0x06,0x06,
+	0x06,0x07,0x07,0x08,0x08,0x08,0x08,0x09,0x07,0x07,0x07,0x07,0x07,0x08,0x08,0x08,
+	0x08,0x09,0x09,0x09,0x06,0x06,0x07,0x03,0x07,0x06,0x07,0x07,0x08,0x07,0x05,0x04,
+	0x03,0x03,0x04,0x04,0x05,0x05,0x06,0x06,0x06,0x06,0x06,0x06,0x03,0x04,0x04,0x04,
+	0x04,0x05,0x05,0x06,0x06,0x06,0x06,0x07,0x04,0x04,0x05,0x05,0x06,0x06,0x06,0x06,
+	0x06,0x07,0x07,0x08,0x05,0x05,0x06,0x07,0x07,0x08,0x08,0x08,0x08,0x08,0x08,0x08,
+	0x05,0x05,0x05,0x07,0x07,0x07,0x07,0x07,0x07,0x08,0x08,0x08,0x08,0x08,0x09,0x09,
+	0x09,0x09,0x03,0x04,0x04,0x05,0x05,0x05,0x06,0x06,0x07,0x07,0x07,0x07,0x08,0x08,
+	0x08,0x09,0x09,0x09,0x03,0x04,0x05,0x05,0x04,0x03,0x04,0x04,0x04,0x05,0x05,0x04,
+	0x03,0x03,0x03,0x03,0x03,0x03,0x03,0x03,0x03,0x03,0x03,0x04,0x04,0x04,0x04,0x04,
+	0x04,0x04,0x04,0x04,0x04,0x03,0x03,0x03,0x03,0x03,0x03,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0x00,0x00,0x00,
+	0x00,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
 	0x00,0x00,0x00
 };
 
-static UINT16 PSTARS_protram_r(UINT32 offset)
+static UINT16 __fastcall puzlstar_protram_read_word(UINT32 offset)
 {
-	offset >>= 1;
+	if ((offset & 0x3e) == 0x08) return PgmInput[7]; // Region
+	if ((offset & 0x38) == 0x20) return asic27a_sim_slots[((offset & 0x06)/2)+0x10]--; // Timer
 
-	if (offset == 4)		//region
-		return PgmInput[7];
-	else if (offset >= 0x10)  //timer
-	{
-		return pstar_ram[offset-0x10]--;
-	}
-	return 0x0000;
+	return 0;
 }
 
-static UINT16 PSTARS_r16(UINT32 offset)
+static UINT8 __fastcall puzlstar_protram_read_byte(UINT32 offset)
 {
-	offset >>= 1;
+	if ((offset & 0x3e) == 0x08) return PgmInput[7]; // Region
 
-	if(offset==0)
-	{
-		UINT16 d=PSTARS_VAL&0xffff;
-		UINT16 realkey;
-		realkey=PSTARSKEY>>8;
-		realkey|=PSTARSKEY;
-		d^=realkey;
-		return d;
-	}
-	else if(offset==1)
-	{
-		UINT16 d=PSTARS_VAL>>16;
-		UINT16 realkey;
-		realkey=PSTARSKEY>>8;
-		realkey|=PSTARSKEY;
-		d^=realkey;
-		return d;
-
-	}
-	return 0xff;
+	return 0;
 }
 
-static void PSTARS_w16(UINT32 offset, UINT16 data)
+static void puzlstar_asic27a_sim_command(UINT8 command)
 {
-	offset >>= 1;
-
-	if(offset==0)
+	switch (command)
 	{
-		PSTARSINT[0]=data;
-		return;
-	}
+		case 0x99: // Reset?
+			asic27a_sim_key = 0;
+			asic27a_sim_response = 0x890000;
+		break;
 
-	if(offset==1)
-	{
-		UINT16 realkey;
-		if((data>>8)==0xff) PSTARSKEY=0xff00;
-		realkey=PSTARSKEY>>8;
-		realkey|=PSTARSKEY;
+		case 0xb1:
+			asic27a_sim_response = 0x890000;
+		break;
+
+		case 0xbf:
+			asic27a_sim_response = asic27a_sim_regs[0xb1] * asic27a_sim_value;
+		break;
+
+		case 0xc1: // TODO: TIMER  0,1,2,FIX TO 0 should be OK?
+			asic27a_sim_response = 0;
+		break;
+
+		case 0xce: // TODO: TIMER  0,1,2
+			asic27a_sim_response = 0x890000;
+		break;
+
+		case 0xcf: // TODO:TIMER  0,1,2
+			asic27a_sim_slots[asic27a_sim_regs[0xce] + 0x10] = asic27a_sim_value;
+			asic27a_sim_response = 0x890000;
+		break;
+
+		case 0xd0: // Text palette offset
+			asic27a_sim_response = 0xa01000 + (asic27a_sim_value << 5);
+		break;
+
+		case 0xdc: // Background palette offset
+			asic27a_sim_response = 0xa00800 + (asic27a_sim_value << 6);
+		break;
+
+		case 0xe0: // Sprite palette offset
+			asic27a_sim_response = 0xa00000 + (asic27a_sim_value << 6);
+		break;
+
+		case 0xe5: // Write slot (low)
 		{
-			PSTARSKEY+=0x100;
-			PSTARSKEY&=0xff00;
-			if(PSTARSKEY==0xff00)PSTARSKEY=0x100;
+			asic27a_sim_response = 0x890000;
+
+			asic27a_sim_slots[asic27a_sim_internal_slot] = (asic27a_sim_slots[asic27a_sim_internal_slot] & 0xff0000) | (asic27a_sim_value);
 		}
-		data^=realkey;
-		PSTARSINT[1]=data;
-		PSTARSINT[0]^=realkey;
+		break;
 
-		switch(PSTARSINT[1]&0xff)
-			{
-				case 0x99:
-				{
-					PSTARSKEY=0x100;
-					PSTARS_VAL=0x880000;
-				}
-				break;
+		case 0xe7: // Write slot (and slot select) (high)
+		{
+			asic27a_sim_response = 0x890000;
 
-				case 0xE0:
-					{
-						PSTARS_VAL=0xa00000+(PSTARSINT[0]<<6);
-					}
-					break;
-				case 0xDC:
-					{
-						PSTARS_VAL=0xa00800+(PSTARSINT[0]<<6);
-					}
-					break;
-				case 0xD0:
-					{
-						PSTARS_VAL=0xa01000+(PSTARSINT[0]<<5);
-					}
-					break;
-
-				case 0xb1:
-					{
-						pstar_b1=PSTARSINT[0];
-						PSTARS_VAL=0x890000;
-					}
-					break;
-				case 0xbf:
-					{
-						PSTARS_VAL=pstar_b1*PSTARSINT[0];
-					}
-					break;
-
-				case 0xc1: //TODO:TIMER  0,1,2,FIX TO 0 should be OK?
-					{
-						PSTARS_VAL=0;
-					}
-					break;
-				case 0xce: //TODO:TIMER  0,1,2
-					{
-						pstar_ce=PSTARSINT[0];
-						PSTARS_VAL=0x890000;
-					}
-					break;
-				case 0xcf: //TODO:TIMER  0,1,2
-					{
-						pstar_ram[pstar_ce]=PSTARSINT[0];
-						PSTARS_VAL=0x890000;
-					}
-					break;
-
-
-				case 0xe7:
-					{
-						pstar_e7=(PSTARSINT[0]>>12)&0xf;
-						PSTARS_REGS[pstar_e7]&=0xffff;
-						PSTARS_REGS[pstar_e7]|=(PSTARSINT[0]&0xff)<<16;
-						PSTARS_VAL=0x890000;
-					}
-					break;
-				case 0xe5:
-					{
-
-						PSTARS_REGS[pstar_e7]&=0xff0000;
-						PSTARS_REGS[pstar_e7]|=PSTARSINT[0];
-						PSTARS_VAL=0x890000;
-					}
-					break;
-				case 0xf8: //@73C
-	   			{
-	    			PSTARS_VAL=PSTARS_REGS[PSTARSINT[0]&0xf]&0xffffff;
-	   			}
-	   			break;
-
-
-				case 0xba:
-	   			{
-	    			PSTARS_VAL=Pstar_ba[PSTARSINT[0]];
-	   			}
-	   			break;
-				case 0xb0:
-	   			{
-	    			PSTARS_VAL=Pstar_b0[PSTARSINT[0]];
-	   			}
-	   			break;
-				case 0xae:
-	   			{
-	    			PSTARS_VAL=Pstar_ae[PSTARSINT[0]];
-	   			}
-	   			break;
-				case 0xa0:
-	   			{
-	    			PSTARS_VAL=Pstar_a0[PSTARSINT[0]];
-	   			}
-	   			break;
-				case 0x9d:
-	   			{
-	    			PSTARS_VAL=Pstar_9d[PSTARSINT[0]];
-	   			}
-	   			break;
-				case 0x90:
-	   			{
-	    			PSTARS_VAL=Pstar_90[PSTARSINT[0]];
-	   			}
-	   			break;
-				case 0x8c:
-	   			{
-	    			PSTARS_VAL=Pstar_8c[PSTARSINT[0]];
-	   			}
-	   			break;
-				case 0x80:
-	   			{
-	    			PSTARS_VAL=Pstar_80[PSTARSINT[0]];
-	   			}
-	   			break;
-				default:
-					 PSTARS_VAL=0x890000;
+			asic27a_sim_internal_slot = (asic27a_sim_value >> 12) & 0xf;
+			asic27a_sim_slots[asic27a_sim_internal_slot] = (asic27a_sim_slots[asic27a_sim_internal_slot] & 0x00ffff) | ((asic27a_sim_value & 0xff) << 16);
 		}
+		break;
+
+		case 0xf8: // Read slot
+			asic27a_sim_response = asic27a_sim_slots[asic27a_sim_value];
+		break;
+
+		case 0x80: // Read from data table
+	    		asic27a_sim_response = Pstar_80[asic27a_sim_value];
+	   	break;
+
+		case 0x8c: // Read from data table
+	    		asic27a_sim_response = Pstar_8c[asic27a_sim_value];
+	   	break;
+
+		case 0x90: // Read from data table
+	    		asic27a_sim_response = Pstar_90[asic27a_sim_value];
+	   	break;
+
+		case 0x9d: // Read from data table
+	    		asic27a_sim_response = Pstar_9d[asic27a_sim_value];
+	   	break;
+
+		case 0xa0: // Read from data table
+	    		asic27a_sim_response = Pstar_a0[asic27a_sim_value];
+	   	break;
+
+		case 0xae: // Read from data table
+	    		asic27a_sim_response = Pstar_ae[asic27a_sim_value];
+	   	break;
+
+		case 0xb0: // Read from data table
+	    		asic27a_sim_response = Pstar_b0[asic27a_sim_value];
+	   	break;
+
+		case 0xba: // Read from data table
+	    		asic27a_sim_response = Pstar_ba[asic27a_sim_value];
+	   	break;
+
+		default:
+			asic27a_sim_response = 0x890000;
+		break;
 	}
-}
-
-void __fastcall pstars_write_word(UINT32 address, UINT16 data)
-{
-	if ((address & 0xfffffc) == 0x500000) {
-		PSTARS_w16(address & 3, data);
-	}
-}
-
-UINT8 __fastcall pstars_read_byte(UINT32 address)
-{
-	if ((address & 0xff0000) == 0x4f0000) {
-		return PSTARS_protram_r(address & 0xffff);
-	}
-
-	if ((address & 0xfffffc) == 0x500000) {
-		return PSTARS_r16(address & 3);
-	}
-
-	return 0;
-}
-
-UINT16 __fastcall pstars_read_word(UINT32 address)
-{
-	if ((address & 0xff0000) == 0x4f0000) {
-		return PSTARS_protram_r(address & 0xffff);
-	}
-
-	if ((address & 0xfffffc) == 0x500000) {
-		return PSTARS_r16(address & 3);
-	}
-
-	return 0;
-}
-
-static void reset_puzlstar()
-{
-	PSTARSKEY = 0;
-	PSTARS_VAL = 0;
-	PSTARSINT[0] = PSTARSINT[1] = 0;
-	pstar_e7 = pstar_b1 = pstar_ce = 0;
-
-	memset(PSTARS_REGS, 0, 16);
-	memset(pstar_ram,   0,  3);
 }
 
 void install_protection_asic27a_puzlstar()
 {
-	pPgmScanCallback = pstarsScan;
-	pPgmResetCallback = reset_puzlstar;
+	pPgmResetCallback = asic27a_sim_reset;
+	pPgmScanCallback = asic27a_sim_scan;
+
+	asic27a_sim_command = puzlstar_asic27a_sim_command;
 
 	SekOpen(0);
-	SekMapHandler(4,		0x4f0000, 0x500003, SM_READ | SM_WRITE);
-	SekSetReadWordHandler(4, 	pstars_read_word);
-	SekSetReadByteHandler(4, 	pstars_read_byte);
-	SekSetWriteWordHandler(4, 	pstars_write_word);
+	SekMapHandler(4,		0x500000, 0x500003, SM_READ | SM_WRITE);
+	SekSetReadWordHandler(4, 	asic27a_sim_read);
+	SekSetWriteWordHandler(4, 	asic27a_sim_write);
+
+	SekMapHandler(5,		0x4f0000, 0x4f03ff, SM_READ);
+	SekSetReadWordHandler(5, 	puzlstar_protram_read_word);
+	SekSetReadByteHandler(5, 	puzlstar_protram_read_byte);
 	SekClose();
 }
 
 
-//-----------------------------------------------------------------------------------------------------
-// ASIC27A - Kov2, Martmast, etc
+//--------------------
+// puzzli2
 
-static UINT8 asic27a_to_arm = 0;
-static UINT8 asic27a_to_68k = 0;
-
-static inline void pgm_cpu_sync()
+static void puzzli2_asic27a_sim_command(UINT8 command)
 {
-	INT32 nCycles = SekTotalCycles() - Arm7TotalCycles();
-
-	if (nCycles > 0) {
-		Arm7Run(nCycles);
-	}
-}
-
-static void __fastcall asic27a_write_byte(UINT32 address, UINT8 data)
-{
-#if 0
-	if ((address & 0xff0000) == 0xd00000) {
-		//pgm_cpu_sync();
-		PGMARMShareRAM[(address & 0xffff)^1] = data;
-		return;
-	}
-#endif
-
-	if ((address & 0xfffffe) == 0xd10000) {	// ddp2
-		pgm_cpu_sync();
-		asic27a_to_arm = data;
-		Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_ASSERT_LINE);
-		return;
-	}
-}
-
-static void __fastcall asic27a_write_word(UINT32 address, UINT16 data)
-{
-#if 0
-	if ((address & 0xff0000) == 0xd00000) {
-		//pgm_cpu_sync();
-		*((UINT16*)(PGMARMShareRAM + (address & 0xfffe))) = BURN_ENDIAN_SWAP_INT16(data);
-		return;
-	}
-#endif
-
-	if ((address & 0xfffffe) == 0xd10000) {
-		pgm_cpu_sync();
-		asic27a_to_arm = data & 0xff;
-		Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_ASSERT_LINE);
-		return;
-	}
-}
-
-static UINT8 __fastcall asic27a_read_byte(UINT32 address)
-{
-#if 0
-	if ((address & 0xff0000) == 0xd00000) {
-		//pgm_cpu_sync();
-		return PGMARMShareRAM[(address & 0xffff)^1];
-	}
-#endif
-
-	if ((address & 0xfffffc) == 0xd10000) {
-		pgm_cpu_sync();
-		return asic27a_to_68k;
-	}
-
-	return 0;
-}
-
-static UINT16 __fastcall asic27a_read_word(UINT32 address)
-{
-#if 0
-	if ((address & 0xff0000) == 0xd00000) {
-		//pgm_cpu_sync();
-		return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(PGMARMShareRAM + (address & 0xfffe))));
-	}
-#endif
-
-	if ((address & 0xfffffc) == 0xd10000) {
-		pgm_cpu_sync();
-		return asic27a_to_68k;
-	}
-
-	return 0;
-}
-
-static void asic27a_arm7_write_byte(UINT32 address, UINT8 data)
-{
-	switch (address)
+	switch (command)
 	{
-		case 0x38000000:
-			asic27a_to_68k = data;
-		return;
-	}
-}
+		case 0x13: // ASIC status?
+			asic27a_sim_response = 0x74<<16; // 2d or 74! (based on?)
+		break;
 
-static UINT8 asic27a_arm7_read_byte(UINT32 address)
-{
-	switch (address)
-	{
-		case 0x38000000:
-			Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_CLEAR_LINE);
-			return asic27a_to_arm;
-	}
-
-	return 0;
-}
-
-void install_protection_asic27a_martmast()
-{
-	nPGMArm7Type = 2;
-	pPgmScanCallback = asic27aScan;
-
-	SekOpen(0);
-
-	SekMapMemory(PGMARMShareRAM,	0xd00000, 0xd0ffff, SM_RAM);
-
-	SekMapHandler(4,		0xd10000, 0xd10003, SM_READ | SM_WRITE);
-	SekSetReadWordHandler(4, asic27a_read_word);
-	SekSetReadByteHandler(4, asic27a_read_byte);
-	SekSetWriteWordHandler(4, asic27a_write_word);
-	SekSetWriteByteHandler(4, asic27a_write_byte);
-	SekClose();
-
-	Arm7Init(1);
-	Arm7Open(0);
-	Arm7MapMemory(PGMARMROM,	0x00000000, 0x00003fff, ARM7_ROM);
-	Arm7MapMemory(PGMUSER0,		0x08000000, 0x08000000+(nPGMExternalARMLen-1), ARM7_ROM);
-	Arm7MapMemory(PGMARMRAM0,	0x10000000, 0x100003ff, ARM7_RAM);
-	Arm7MapMemory(PGMARMRAM1,	0x18000000, 0x1800ffff, ARM7_RAM);
-	Arm7MapMemory(PGMARMShareRAM,	0x48000000, 0x4800ffff, ARM7_RAM);
-	Arm7MapMemory(PGMARMRAM2,	0x50000000, 0x500003ff, ARM7_RAM);
-	Arm7SetWriteByteHandler(asic27a_arm7_write_byte);
-	Arm7SetReadByteHandler(asic27a_arm7_read_byte);
-	Arm7Close();
-}
-
-
-//----------------------------------------------------------------------------------------------------------
-// Kovsh/Photoy2k/Photoy2k2 asic27a emulation... (thanks to XingXing!)
-
-static UINT16 kovsh_highlatch_arm_w = 0;
-static UINT16 kovsh_lowlatch_arm_w = 0;
-static UINT16 kovsh_highlatch_68k_w = 0;
-static UINT16 kovsh_lowlatch_68k_w = 0;
-static UINT32 kovsh_counter = 1;
-
-static void __fastcall kovsh_asic27a_write_word(UINT32 address, UINT16 data)
-{
-	switch (address)
-	{
-		case 0x500000:
-		case 0x600000:
-			kovsh_lowlatch_68k_w = data;
-		return;
-
-		case 0x500002:
-		case 0x600002:
-			kovsh_highlatch_68k_w = data;
-		return;
-	}
-}
-
-static UINT16 __fastcall kovsh_asic27a_read_word(UINT32 address)
-{
-	if ((address & 0xffffc0) == 0x4f0000) {
-		return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(PGMARMShareRAM + (address & 0x3e))));
-	}
-
-	switch (address)
-	{
-		case 0x500000:
-		case 0x600000:
-			pgm_cpu_sync();
-			return kovsh_lowlatch_arm_w;
-
-		case 0x500002:
-		case 0x600002:
-			pgm_cpu_sync();
-			return kovsh_highlatch_arm_w;
-	}
-
-	return 0;
-}
-
-static void kovsh_asic27a_arm7_write_word(UINT32 address, UINT16 data)
-{
-	// written... but never read?
-	if ((address & 0xffffff80) == 0x50800000) {
-		*((UINT16*)(PGMARMShareRAM + ((address>>1) & 0x3e))) = BURN_ENDIAN_SWAP_INT16(data);
-		return;
-	}
-}
-
-static void kovsh_asic27a_arm7_write_long(UINT32 address, UINT32 data)
-{
-	switch (address)
-	{
-		case 0x40000000:
+		case 0x31:
 		{
-			kovsh_highlatch_arm_w = data >> 16;
-			kovsh_lowlatch_arm_w = data;
+			// how is this selected? command 54?
 
-			kovsh_highlatch_68k_w = 0;
-			kovsh_lowlatch_68k_w = 0;
+			// just a wild guess
+			if (asic27a_sim_regs[0x54]) {
+				// pc == 1387de
+				asic27a_sim_response = 0x63<<16; // ?
+			} else {
+				// pc == 14cf58
+				asic27a_sim_response = 0xd2<<16;
+			}
+
+			asic27a_sim_regs[0x54] = 0;
 		}
-		return;
+		break;
+
+		case 0x38: // Reset
+			asic27a_sim_response = 0x78<<16;
+			asic27a_sim_key = 0;
+			asic27a_sim_regs[0x54] = 0;
+		break;
+
+		case 0x41: // ASIC status?
+			asic27a_sim_response = 0x74<<16;
+		break;
+
+		case 0x47: // ASIC status?
+			asic27a_sim_response = 0x74<<16;
+		break;
+
+		case 0x52: // ASIC status?
+		{
+			// how is this selected?
+
+			//if (kov_value == 6) {
+				asic27a_sim_response = (0x74<<16)|1; // |1?
+			//} else {
+			//	asic27a_sim_response = 0x74<<16;
+			//}
+		}
+		break;
+
+		case 0x54: // ??
+			asic27a_sim_regs[0x54] = 1;
+			asic27a_sim_response = 0x36<<16;
+		break;
+
+		case 0x61: // ??
+			asic27a_sim_response = 0x36<<16;
+		break;
+
+		case 0x63: // probably read from a data table?
+			asic27a_sim_response = 0; // wrong...
+		break;
+
+		case 0x67: // probably read from a data table?
+			asic27a_sim_response = 0;
+		break;
+
+		default:
+		//	bprintf (0, _T("ASIC Command %2.2x unknown!\n"), (data ^ asic27a_sim_key) & 0xff);
+			asic27a_sim_response = 0x74<<16;
+		break;
 	}
 }
 
-static UINT32 kovsh_asic27a_arm7_read_long(UINT32 address)
+void install_protection_asic27a_puzzli2()
 {
-	switch (address)
-	{
-		case 0x40000000:
-			return (kovsh_highlatch_68k_w << 16) | (kovsh_lowlatch_68k_w);
-
-		case 0x4000000c:
-			return kovsh_counter++;
-	}
-
-	return 0;
-}
-
-void install_protection_asic27a_kovsh()
-{
-	nPGMArm7Type = 1;
-	pPgmScanCallback = kovsh_asic27aScan;
+	pPgmResetCallback = asic27a_sim_reset;
+	pPgmScanCallback = asic27a_sim_scan;
+	asic27a_sim_command = puzzli2_asic27a_sim_command;
 
 	SekOpen(0);
-	SekMapMemory(PGMARMShareRAM,	0x4f0000, 0x4f003f, SM_RAM);
+	SekMapMemory(PGMUSER0,		0x4f0000, 0x4f003f | 0x3ff, SM_READ);
 
-	SekMapHandler(4,		0x500000, 0x600005, SM_READ | SM_WRITE);
-	SekSetReadWordHandler(4, 	kovsh_asic27a_read_word);
-	SekSetWriteWordHandler(4, 	kovsh_asic27a_write_word);
+	SekMapHandler(4,		0x500000, 0x500003, SM_READ | SM_WRITE);
+	SekSetReadWordHandler(4, 	asic27a_sim_read);
+	SekSetWriteWordHandler(4, 	asic27a_sim_write);
 	SekClose();
-
-	Arm7Init(1);
-	Arm7Open(0);
-	Arm7MapMemory(PGMARMROM,	0x00000000, 0x00003fff, ARM7_ROM);
-	Arm7MapMemory(PGMARMRAM0,	0x10000000, 0x100003ff, ARM7_RAM);
-	Arm7MapMemory(PGMARMRAM2,	0x50000000, 0x500003ff, ARM7_RAM);
-	Arm7SetWriteWordHandler(kovsh_asic27a_arm7_write_word);
-	Arm7SetWriteLongHandler(kovsh_asic27a_arm7_write_long);
-	Arm7SetReadLongHandler(kovsh_asic27a_arm7_read_long);
-	Arm7Close();
 }
 
 
 //-------------------------------------------------------------------------------------------
-// Kovshp hack -- Intercept commands and translate them to those used by kovsh
+// py2k2
 
-void __fastcall kovshp_asic27a_write_word(UINT32 address, UINT16 data)
+static void py2k2_asic27a_sim_command(UINT8 command)
 {
-	switch (address & 6)
+	switch (command)
 	{
-		case 0:
-			kovsh_lowlatch_68k_w = data;
-		return;
+		case 0x99: // Reset?
+			asic27a_sim_key = 0x100;
+			asic27a_sim_response = 0x880000;
+		break;
 
-		case 2:
-		{
-			unsigned char asic_key = data >> 8;
-			unsigned char asic_cmd = (data & 0xff) ^ asic_key;
+		case 0x38: // ?
+			asic27a_sim_response = 0x880000;
+		break;
 
-			switch (asic_cmd)
-			{
-				case 0x9a: asic_cmd = 0x99; break; // kovassga
-				case 0xa6: asic_cmd = 0xa9; break; // kovassga
-				case 0xaa: asic_cmd = 0x56; break; // kovassga
-				case 0xf8: asic_cmd = 0xf3; break; // kovassga
+		case 0xc0:
+			asic27a_sim_response = 0x880000;
+		break;
 
-		                case 0x38: asic_cmd = 0xad; break;
-		                case 0x43: asic_cmd = 0xca; break;
-		                case 0x56: asic_cmd = 0xac; break;
-		                case 0x73: asic_cmd = 0x93; break;
-		                case 0x84: asic_cmd = 0xb3; break;
-		                case 0x87: asic_cmd = 0xb1; break;
-		                case 0x89: asic_cmd = 0xb6; break;
-		                case 0x93: asic_cmd = 0x73; break;
-		                case 0xa5: asic_cmd = 0xa9; break;
-		                case 0xac: asic_cmd = 0x56; break;
-		                case 0xad: asic_cmd = 0x38; break;
-		                case 0xb1: asic_cmd = 0x87; break;
-		                case 0xb3: asic_cmd = 0x84; break;
-		                case 0xb4: asic_cmd = 0x90; break;
-		                case 0xb6: asic_cmd = 0x89; break;
-		                case 0xc5: asic_cmd = 0x8c; break;
-		                case 0xca: asic_cmd = 0x43; break;
-		                case 0xcc: asic_cmd = 0xf0; break;
-		                case 0xd0: asic_cmd = 0xe0; break;
-		                case 0xe0: asic_cmd = 0xd0; break;
-		                case 0xe7: asic_cmd = 0x70; break;
-		                case 0xed: asic_cmd = 0xcb; break;
-		                case 0xf0: asic_cmd = 0xcc; break;
-		                case 0xf1: asic_cmd = 0xf5; break;
-		                case 0xf2: asic_cmd = 0xf1; break;
-		                case 0xf4: asic_cmd = 0xf2; break;
-		                case 0xf5: asic_cmd = 0xf4; break;
-		                case 0xfc: asic_cmd = 0xc0; break;
-		                case 0xfe: asic_cmd = 0xc3; break;
-			}
+		case 0xc3:
+			asic27a_sim_response = 0x904000 + ((asic27a_sim_regs[0xc0] + (asic27a_sim_value * 0x40)) * 4);
+		break;
 
-			kovsh_highlatch_68k_w = asic_cmd ^ (asic_key | (asic_key << 8));
-		}
-		return;
+		case 0xd0:
+			asic27a_sim_response = 0xa01000 + (asic27a_sim_value * 0x20);
+		break;
+
+		case 0xdc:
+			asic27a_sim_response = 0xa00800 + (asic27a_sim_value * 0x40);
+		break;
+
+		case 0xe0:
+			asic27a_sim_response = 0xa00000 + ((asic27a_sim_value & 0x1f) * 0x40);
+		break;
+
+	//	case 0x32: // ?
+	//	break;
+
+	//	case 0xba: // almost definitely a table...
+	//	break;
+
+		default:
+			asic27a_sim_response = 0x880000;
+			bprintf (0, _T("Uknown ASIC Command %2.2x Value: %4.4x\n"), command, asic27a_sim_value);
+		break;
 	}
 }
 
-void install_protection_asic27a_kovshp()
+void install_protection_asic27a_py2k2()
 {
-	nPGMArm7Type = 1;
-	pPgmScanCallback = kovsh_asic27aScan;
+	pPgmResetCallback = asic27a_sim_reset;
+	pPgmScanCallback = asic27a_sim_scan;
+	asic27a_sim_command = py2k2_asic27a_sim_command;
 
 	SekOpen(0);
-	SekMapMemory(PGMARMShareRAM,	0x4f0000, 0x4f003f, SM_RAM);
+	SekMapMemory(PGMUSER0,		0x4f0000, 0x4f003f | 0x3ff, SM_READ);
 
-	SekMapHandler(4,		0x500000, 0x600005, SM_READ | SM_WRITE);
-	SekSetReadWordHandler(4, 	kovsh_asic27a_read_word);
-	SekSetWriteWordHandler(4, 	kovshp_asic27a_write_word);
+	SekMapHandler(4,		0x500000, 0x500003, SM_READ | SM_WRITE);
+	SekSetReadWordHandler(4, 	asic27a_sim_read);
+	SekSetWriteWordHandler(4, 	asic27a_sim_write);
 	SekClose();
-
-	Arm7Init(1);
-	Arm7Open(0);
-	Arm7MapMemory(PGMARMROM,	0x00000000, 0x00003fff, ARM7_ROM);
-	Arm7MapMemory(PGMARMRAM0,	0x10000000, 0x100003ff, ARM7_RAM);
-	Arm7MapMemory(PGMARMRAM2,	0x50000000, 0x500003ff, ARM7_RAM);
-	Arm7SetWriteWordHandler(kovsh_asic27a_arm7_write_word);
-	Arm7SetWriteLongHandler(kovsh_asic27a_arm7_write_long);
-	Arm7SetReadLongHandler(kovsh_asic27a_arm7_read_long);
-	Arm7Close();
 }
 
 
-//----------------------------------------------------------------------------------------------------------
+//--------------------------
+// drgw2
+
+#define DW2BITSWAP(s,d,bs,bd)  d=((d&(~(1<<bd)))|(((s>>bs)&1)<<bd))
+
+static UINT16 __fastcall dw2_read_word(UINT32)
+{
+	// The value at 0x80EECE is computed in the routine at 0x107c18
+
+	UINT16 d = SekReadWord(0x80EECE);
+	UINT16 d2 = 0;
+
+	d=(d>>8)|(d<<8);
+	DW2BITSWAP(d,d2,7 ,0);
+	DW2BITSWAP(d,d2,4 ,1);
+	DW2BITSWAP(d,d2,5 ,2);
+	DW2BITSWAP(d,d2,2 ,3);
+	DW2BITSWAP(d,d2,15,4);
+	DW2BITSWAP(d,d2,1 ,5);
+	DW2BITSWAP(d,d2,10,6);
+	DW2BITSWAP(d,d2,13,7);
+
+	// ... missing bitswaps here (8-15) there is not enough data to know them
+	// the code only checks the lowest 8 bits
+
+	return d2;
+}
+
+void install_protection_asic25_asic12_dw2()
+{
+	SekOpen(0);
+	SekMapHandler(4,		0xd80000, 0xd80003, SM_READ);
+	SekSetReadWordHandler(4,	dw2_read_word);
+	SekClose();
+}
+
+
+//-------------------------
 // olds
 
 static INT32 rego;
@@ -1513,6 +2096,7 @@ static UINT32 olds_prot_addr( UINT16 addr )
 		default:
 			realaddr = 0;
 	}
+
 	return realaddr;
 }
 
@@ -1591,12 +2175,13 @@ void __fastcall olds_protection_write(UINT32 address, UINT16 data)
 				default:
 						break;
 			}
+
 			olds_cmd3 = ((data >> 4) + 1) & 0x3;
 		}
 		else if (kb_cmd == 4)
 			kb_ptr = data;
 		else if(kb_cmd == 0x20)
-		  kb_ptr++;
+			kb_ptr++;
 	}
 }
 
@@ -1614,8 +2199,31 @@ static UINT8 __fastcall olds_mainram_read_byte(UINT32 address)
 
 static void reset_olds()
 {
-	olds_bs = olds_cmd3 = kb_cmd = ptr = rego = 0;
+	olds_bs = olds_cmd3 = kb_cmd = kb_ptr = rego = 0;
 	memcpy (PGMUSER0, PGMUSER0 + 0x10000, 0x04000);
+}
+
+static INT32 oldsScan(INT32 nAction, INT32 *)
+{
+	struct BurnArea ba;
+
+	if (nAction & ACB_MEMORY_RAM) {
+		ba.Data		= PGMUSER0 + 0x000000;
+		ba.nLen		= 0x0004000;
+		ba.nAddress	= 0x400000;
+		ba.szName	= "ProtRAM";
+		BurnAcb(&ba);
+	}
+
+	if (nAction & ACB_DRIVER_DATA) {
+		SCAN_VAR(olds_cmd3);
+		SCAN_VAR(rego);
+		SCAN_VAR(olds_bs);
+		SCAN_VAR(kb_ptr);
+		SCAN_VAR(kb_cmd);
+	}
+
+	return 0;
 }
 
 void install_protection_asic25_asic28_olds()
@@ -1658,1016 +2266,4 @@ void install_protection_asic25_asic28_olds()
 	SekSetReadByteHandler(5, olds_mainram_read_byte);
 
 	SekClose();
-}
-
-//-------------------------------------------------------------------------------------------
-// Oriental Legends Special Plus! (Creamy Mami)
-
-static UINT16 m_oldsplus_key;
-static UINT16 m_oldsplus_int[2];
-static UINT32 m_oldsplus_val;
-static UINT32 m_oldsplus_regs[0x100];
-static UINT32 m_oldsplus_ram[0x100];
-
-static const INT32 oldsplus_80[0x5]={
-	0xbb8,0x1770,0x2328,0x2ee0,0xf4240
-};
-
-static const UINT8 oldsplus_fc[0x20]={
-	0x00,0x00,0x0a,0x3a,0x4e,0x2e,0x03,0x40,
-	0x33,0x43,0x26,0x2c,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x44,0x4d,0x0b,0x27,0x3d,0x0f,
-	0x37,0x2b,0x02,0x2f,0x15,0x45,0x0e,0x30
-};
-
-static const UINT16 oldsplus_a0[0x20]={
-	0x000,0x023,0x046,0x069,0x08c,0x0af,0x0d2,0x0f5,
-	0x118,0x13b,0x15e,0x181,0x1a4,0x1c7,0x1ea,0x20d,
-	0x20d,0x20d,0x20d,0x20d,0x20d,0x20d,0x20d,0x20d,
-	0x20d,0x20d,0x20d,0x20d,0x20d,0x20d,0x20d,0x20d,
-};
-
-static const UINT16 oldsplus_90[0x7]={
-	0x50,0xa0,0xc8,0xf0,0x190,0x1f4,0x258
-};
-
-static const UINT8 oldsplus_5e[0x20]={
-	0x04,0x04,0x04,0x04,0x04,0x03,0x03,0x03,
-	0x02,0x02,0x02,0x01,0x01,0x01,0x01,0x01,
-	0x01,0x01,0x01,0x01,0x01,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
-};
-
-static const UINT8 oldsplus_b0[0xe0]={
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x00,0x00,0x00,0x00,0x01,0x02,0x03,0x04,
-	0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c,
-	0x0d,0x0e,0x0f,0x10,0x11,0x12,0x13,0x14,
-
-	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-	0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,
-	0x09,0x0a,0x0b,0x0c,0x0d,0x0e,0x0f,0x10,
-	0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x18,
-
-	0x00,0x00,0x00,0x00,0x01,0x02,0x03,0x04,
-	0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c,
-	0x0d,0x0e,0x0f,0x10,0x11,0x12,0x13,0x14,
-	0x15,0x16,0x17,0x18,0x19,0x1a,0x1b,0x1c,
-
-	0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
-	0x08,0x09,0x0a,0x0b,0x0c,0x0d,0x0e,0x0f,
-	0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,
-	0x18,0x19,0x1a,0x1b,0x1c,0x1d,0x1e,0x1f,
-
-	0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,
-	0x0c,0x0d,0x0e,0x0f,0x10,0x11,0x12,0x13,
-	0x14,0x15,0x16,0x17,0x18,0x19,0x1a,0x1b,
-	0x1c,0x1d,0x1e,0x1f,0x1f,0x1f,0x1f,0x1f
-};
-
-static const UINT8 oldsplus_ae[0xe0]={
-	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
-	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
-	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
-	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
-
-	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
-	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
-	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
-	0x50,0x50,0x50,0x50,0x50,0x50,0x50,0x50,
-
-	0x1E,0x1F,0x20,0x21,0x22,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-
-	0x1F,0x20,0x21,0x22,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-
-	0x20,0x21,0x22,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-
-	0x21,0x22,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23,
-	0x23,0x23,0x23,0x23,0x23,0x23,0x23,0x23
-};
-
-static const UINT16 oldsplus_ba[0x4]={
-	0x3138,0x2328,0x1C20,0x1518
-};
-
-static const UINT16 oldsplus_9d[0x111]={
-	0x0000,0x0064,0x00c8,0x012c,0x0190,0x01f4,0x0258,0x02bc,
-	0x02f8,0x0334,0x0370,0x03ac,0x03e8,0x0424,0x0460,0x049c,
-	0x04d8,0x0514,0x0550,0x058c,0x05c8,0x0604,0x0640,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x0000,
-	0x0064,0x00c8,0x012c,0x0190,0x01f4,0x0258,0x02bc,0x0302,
-	0x0348,0x038e,0x03d4,0x041a,0x0460,0x04a6,0x04ec,0x0532,
-	0x0578,0x05be,0x0604,0x064a,0x0690,0x06d6,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x0000,0x0064,
-	0x00c8,0x012c,0x0190,0x01f4,0x0258,0x02bc,0x0316,0x0370,
-	0x03ca,0x0424,0x047e,0x04d8,0x0532,0x058c,0x05e6,0x0640,
-	0x069a,0x06f4,0x074e,0x07a8,0x0802,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x0000,0x0064,0x00c8,
-	0x012c,0x0190,0x01f4,0x0258,0x02bc,0x032a,0x0398,0x0406,
-	0x0474,0x04e2,0x0550,0x05be,0x062c,0x069a,0x0708,0x0776,
-	0x07e4,0x0852,0x08c0,0x092e,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x0000,0x0064,0x00c8,0x012c,
-	0x0190,0x01f4,0x0258,0x02bc,0x0348,0x03d4,0x0460,0x04ec,
-	0x0578,0x0604,0x0690,0x071c,0x07a8,0x0834,0x08c0,0x094c,
-	0x09d8,0x0a64,0x0af0,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x0000,0x0064,0x00c8,0x012c,0x0190,
-	0x01f4,0x0258,0x02bc,0x0384,0x044c,0x0514,0x05dc,0x06a4,
-	0x076c,0x0834,0x08fc,0x09c4,0x0a8c,0x0b54,0x0c1c,0x0ce4,
-	0x0dac,0x0e74,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x0000,0x0064,0x00c8,0x012c,0x0190,0x01f4,
-	0x0258,0x02bc,0x030c,0x035c,0x03ac,0x03fc,0x044c,0x049c,
-	0x04ec,0x053c,0x058c,0x05dc,0x062c,0x067c,0x06cc,0x071c,
-	0x076c,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,0x06bc,
-	0x06bc
-};
-
-static const UINT16 oldsplus_8c[0x20]={
-	0x0032,0x0032,0x0064,0x0096,0x0096,0x00fa,0x012c,0x015e,
-	0x0032,0x0064,0x0096,0x00c8,0x00c8,0x012c,0x015e,0x0190,
-	0x0064,0x0096,0x00c8,0x00fa,0x00fa,0x015e,0x0190,0x01c2,
-	0x0096,0x00c8,0x00fa,0x012c,0x012c,0x0190,0x01c2,0x01f4
-};
-
-UINT16 __fastcall oldsplus_prot_read(UINT32 address)
-{
-	if (address == 0x500000)
-	{
-		UINT16 d = m_oldsplus_val & 0xffff;
-		UINT16 realkey = m_oldsplus_key >> 8;
-		realkey |= m_oldsplus_key;
-		d ^= realkey;
-		return d;
-	}
-	else if (address == 0x500002)
-	{
-		UINT16 d = m_oldsplus_val >> 16;
-		UINT16 realkey = m_oldsplus_key >> 8;
-		realkey |= m_oldsplus_key;
-		d ^= realkey;
-		return d;
-
-	}
-	return 0xff;
-}
-
-void __fastcall oldsplus_prot_write(UINT32 address, UINT16 data)
-{
-	if (address == 0x500000)
-	{
-		m_oldsplus_int[0] = data;
-		return;
-	}
-
-	if (address == 0x500002)
-	{
-		UINT16 realkey;
-		if ((data >> 8) == 0xff) m_oldsplus_key = 0xff00;
-		realkey = m_oldsplus_key >> 8;
-		realkey |= m_oldsplus_key;
-		{
-			m_oldsplus_key += 0x100;
-			m_oldsplus_key &= 0xff00;
-			if (m_oldsplus_key == 0xff00) m_oldsplus_key = 0x100;
-		}
-		data ^= realkey;
-		m_oldsplus_int[1] = data;
-		m_oldsplus_int[0] ^= realkey;
-
-		switch (m_oldsplus_int[1] & 0xff)
-		{
-			case 0x88:
-				m_oldsplus_key = 0x100;
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0xd0:
-				m_oldsplus_val = 0xa01000 + (m_oldsplus_int[0] << 5);
-				break;
-
-			case 0xc0:
-				m_oldsplus_val = 0xa00000 + (m_oldsplus_int[0] << 6);
-				break;
-
-			case 0xc3:
-				m_oldsplus_val = 0xa00800 + (m_oldsplus_int[0] << 6);
-				break;
-
-			case 0x36:
-				m_oldsplus_ram[0x36] = m_oldsplus_int[0];
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0x33:
-				m_oldsplus_ram[0x33] = m_oldsplus_int[0];
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0x35:
-				m_oldsplus_ram[0x36] += m_oldsplus_int[0];
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0x37:
-				m_oldsplus_ram[0x33] += m_oldsplus_int[0];
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0x34:
-				m_oldsplus_val = m_oldsplus_ram[0x36];
-				break;
-
-			case 0x38:
-				m_oldsplus_val = m_oldsplus_ram[0x33];
-				break;
-
-			case 0x80:
-				m_oldsplus_val = oldsplus_80[m_oldsplus_int[0]];
-				break;
-
-			case 0xe7:
-				m_oldsplus_ram[0xe7] = m_oldsplus_int[0];
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0xe5:
-				switch (m_oldsplus_ram[0xe7])
-				{
-					case 0xb000:
-						m_oldsplus_regs[0xb] = m_oldsplus_int[0];
-						m_oldsplus_regs[0xc] = 0;
-						break;
-
-					case 0xc000:
-						m_oldsplus_regs[0xc] = m_oldsplus_int[0];
-						break;
-
-					case 0xd000:
-						m_oldsplus_regs[0xd] = m_oldsplus_int[0];
-						break;
-
-					case 0xf000:
-						m_oldsplus_regs[0xf] = m_oldsplus_int[0];
-						break;
-				}
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0xf8:
-				m_oldsplus_val = m_oldsplus_regs[m_oldsplus_int[0]];
-				break;
-
-			case 0xfc:
-				m_oldsplus_val = oldsplus_fc[m_oldsplus_int[0]];
-				break;
-
-			case 0xc5:
-				m_oldsplus_regs[0xd] --;
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0xd6:
-				m_oldsplus_regs[0xb] ++;
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0x3a:
-				m_oldsplus_regs[0xf] = 0;
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0xf0:
-				m_oldsplus_ram[0xf0] = m_oldsplus_int[0];
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0xed:
-				m_oldsplus_val = m_oldsplus_int[0] << 0x6;
-				m_oldsplus_val += m_oldsplus_ram[0xf0];
-				m_oldsplus_val = m_oldsplus_val << 0x2;
-				m_oldsplus_val += 0x900000;
-				break;
-
-			case 0xe0:
-				m_oldsplus_ram[0xe0] = m_oldsplus_int[0];
-				m_oldsplus_val = 0x990000;
-				break;
-
-			case 0xdc:
-				m_oldsplus_val = m_oldsplus_int[0] << 0x6;
-				m_oldsplus_val += m_oldsplus_ram[0xe0];
-				m_oldsplus_val = m_oldsplus_val << 2;
-				m_oldsplus_val += 0x904000;
-				break;
-
-			case 0xcb:
-				m_oldsplus_val =  0xc000;
-				break;
-
-			case 0xa0:
-				m_oldsplus_val = oldsplus_a0[m_oldsplus_int[0]];
-				break;
-
-			case 0xba:
-				m_oldsplus_val = oldsplus_ba[m_oldsplus_int[0]];
-				break;
-
-			case 0x5e:
-				m_oldsplus_val = oldsplus_5e[m_oldsplus_int[0]];
-				break;
-
-			case 0xb0:
-				m_oldsplus_val = oldsplus_b0[m_oldsplus_int[0]];
-				break;
-
-			case 0xae:
-				m_oldsplus_val = oldsplus_ae[m_oldsplus_int[0]];
-				break;
-
- 			case 0x9d:
-				m_oldsplus_val = oldsplus_9d[m_oldsplus_int[0]];
-				break;
-
-			case 0x90:
-				m_oldsplus_val = oldsplus_90[m_oldsplus_int[0]];
-				break;
-
-			case 0x8c:
-				m_oldsplus_val = oldsplus_8c[m_oldsplus_int[0]];
-				break;
-
-			default:
-				m_oldsplus_val = 0x990000;
-				break;
-		}
-	}
-}
-
-static void reset_asic27a_oldsplus()
-{
-	m_oldsplus_key = 0;
-	m_oldsplus_val = 0;
-	memset (m_oldsplus_int,  0, sizeof(INT16) * 2);
-	memset (m_oldsplus_regs, 0, sizeof(INT32) * 0x100);
-	memset (m_oldsplus_ram,  0, sizeof(INT32) * 0x100);
-
-	memset (PGMUSER0, 0, 0x400);
-
-	*((UINT16*)(PGMUSER0 + 0x00008)) = PgmInput[7]; // region
-}
-
-void install_protection_asic27a_oldsplus()
-{
-	pPgmScanCallback = oldsplus_asic27aScan;
-	pPgmResetCallback = reset_asic27a_oldsplus;
-
-	SekOpen(0);
-	SekMapMemory(PGMUSER0,	0x4f0000, 0x4f003f | 0x3ff, SM_READ); // ram
-
-	SekMapHandler(4,	0x500000, 0x500003, SM_READ | SM_WRITE);
-	SekSetReadWordHandler(4, oldsplus_prot_read);
-	SekSetWriteWordHandler(4, oldsplus_prot_write);
-	SekClose();
-}
-
-
-
-// add this to the bottom of pgm_prot.cpp (i added it after the oldsScan function)
-
-
-INT32 oldsplus_asic27aScan(INT32 nAction, INT32 *)
-{
-	struct BurnArea ba;
-
-	if (nAction & ACB_MEMORY_RAM) {
-		ba.Data		= (UINT8*)m_oldsplus_ram;
-		ba.nLen		= 0x0000100 * sizeof(INT32);
-		ba.nAddress	= 0xfffc00;
-		ba.szName	= "Prot RAM";
-		BurnAcb(&ba);
-
-		ba.Data		= (UINT8*)m_oldsplus_regs;
-		ba.nLen		= 0x0000100 * sizeof(INT32);
-		ba.nAddress	= 0xfff800;
-		ba.szName	= "Prot REGs";
-		BurnAcb(&ba);
-	}
-
-	if (nAction & ACB_DRIVER_DATA) {
-		SCAN_VAR(m_oldsplus_key);
-		SCAN_VAR(m_oldsplus_val);
-		SCAN_VAR(m_oldsplus_int[0]);
-		SCAN_VAR(m_oldsplus_int[1]);
-	}
-
-	return 0;
-}
-
-//-------------------------------------------------------------------------------------------
-// S.V.G. - Spectral vs Generation / Demon Front / The Gladiator / The Killing Blade EX / Happy 6in1
-
-static UINT8 svg_ram_sel = 0;
-static UINT8 *svg_ram[2];
-
-static void svg_set_ram_bank(INT32 data)
-{
-	svg_ram_sel = data & 1;
-	Arm7MapMemory(svg_ram[svg_ram_sel],	0x38000000, 0x3801ffff, ARM7_RAM);
-	SekMapMemory(svg_ram[svg_ram_sel^1],	0x500000, 0x51ffff, SM_FETCH);
-}
-
-static void __fastcall svg_write_byte(UINT32 address, UINT8 data)
-{
-	pgm_cpu_sync();
-
-	if ((address & 0xffe0000) == 0x0500000) {
-		svg_ram[svg_ram_sel^1][(address & 0x1ffff)^1] = data;
-		return;
-	}
-
-	switch (address)
-	{
-		case 0x5c0000:
-		case 0x5c0001:
-			Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_HOLD_LINE);
-		return;
-	}
-}
-
-static void __fastcall svg_write_word(UINT32 address, UINT16 data)
-{
-	pgm_cpu_sync();
-
-	if ((address & 0xffe0000) == 0x0500000) {
-		*((UINT16*)(svg_ram[svg_ram_sel^1] + (address & 0x1fffe))) = BURN_ENDIAN_SWAP_INT16(data);
-		
-		return;
-	}
-
-	switch (address)
-	{
-		case 0x5c0000:
-			Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_HOLD_LINE);
-		return;
-
-		case 0x5c0300:
-			asic27a_to_arm = data;
-		return;
-	}
-}
-
-static UINT8 __fastcall svg_read_byte(UINT32 address)
-{
-	if ((address & 0xffe0000) == 0x0500000) {
-		pgm_cpu_sync();
-
-		INT32 d = svg_ram[svg_ram_sel^1][(address & 0x1ffff)^1];
-		return d;
-	}
-
-	switch (address)
-	{
-		case 0x5c0000:
-		case 0x5c0001:
-			return 0;
-	}
-
-	return 0;
-}
-
-static UINT16 __fastcall svg_read_word(UINT32 address)
-{
-	if ((address & 0xffe0000) == 0x0500000) {
-		pgm_cpu_sync();
-
-		return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(svg_ram[svg_ram_sel^1] + (address & 0x1fffe))));
-	}
-
-	switch (address)
-	{
-		case 0x5c0000:
-		case 0x5c0001:
-			return 0;
-
-		case 0x5c0300:
-			pgm_cpu_sync();
-			return asic27a_to_68k;
-	}
-
-	return 0;
-}
-
-static void svg_arm7_write_byte(UINT32 address, UINT8 data)
-{
-	switch (address)
-	{
-		case 0x40000018:
-			svg_set_ram_bank(data);
-		return;
-
-		case 0x48000000:
-			asic27a_to_68k = data;
-		return;
-	}
-}
-
-static void svg_arm7_write_word(UINT32 /*address*/, UINT16 /*data*/)
-{
-
-}
-
-static void svg_arm7_write_long(UINT32 address, UINT32 data)
-{
-	switch (address)
-	{
-		case 0x40000018:
-			svg_set_ram_bank(data);
-		return;
-
-		case 0x48000000:
-			asic27a_to_68k = data;
-		return;
-	}
-}
-
-static UINT8 svg_arm7_read_byte(UINT32 address)
-{
-	switch (address)
-	{
-		case 0x48000000:
-		case 0x48000001:
-		case 0x48000002:
-		case 0x48000003:
-			return asic27a_to_arm;
-	}
-
-	return 0;
-}
-
-static UINT16 svg_arm7_read_word(UINT32 address)
-{
-	switch (address)
-	{
-		case 0x48000000:
-		case 0x48000002:
-			return asic27a_to_arm;
-	}
-
-	return 0;
-}
-
-static UINT32 svg_arm7_read_long(UINT32 address)
-{
-	switch (address)
-	{
-		case 0x48000000:
-			return asic27a_to_arm;
-	}
-
-	return 0;
-}
-
-void install_protection_asic27a_svg()
-{
-	nPGMArm7Type = 3;
-
-	pPgmScanCallback = svg_asic27aScan;
-
-	svg_ram_sel = 0;
-	svg_ram[0] = PGMARMShareRAM;
-	svg_ram[1] = PGMARMShareRAM2;
-
-	SekOpen(0);
-	SekMapHandler(5,		0x500000, 0x5fffff, SM_RAM);
-	SekSetReadWordHandler(5, 	svg_read_word);
-	SekSetReadByteHandler(5, 	svg_read_byte);
-	SekSetWriteWordHandler(5, 	svg_write_word);
-	SekSetWriteByteHandler(5, 	svg_write_byte);
-	SekClose();
-
-	Arm7Init(1);
-	Arm7Open(0);
-	Arm7MapMemory(PGMARMROM,	0x00000000, 0x00003fff, ARM7_ROM);
-	Arm7MapMemory(PGMUSER0,		0x08000000, 0x08000000 | (nPGMExternalARMLen-1), ARM7_ROM);
-	Arm7MapMemory(PGMARMRAM0,	0x10000000, 0x100003ff, ARM7_RAM);
-	Arm7MapMemory(PGMARMRAM1,	0x18000000, 0x1803ffff, ARM7_RAM);
-	Arm7MapMemory(svg_ram[1],	0x38000000, 0x3801ffff, ARM7_RAM);
-	Arm7MapMemory(PGMARMRAM2,	0x50000000, 0x500003ff, ARM7_RAM);
-	Arm7SetWriteByteHandler(svg_arm7_write_byte);
-	Arm7SetWriteWordHandler(svg_arm7_write_word);
-	Arm7SetWriteLongHandler(svg_arm7_write_long);
-	Arm7SetReadByteHandler(svg_arm7_read_byte);
-	Arm7SetReadWordHandler(svg_arm7_read_word);
-	Arm7SetReadLongHandler(svg_arm7_read_long);
-	Arm7Close();
-}
-
-
-//-------------------------------------------------------------------------------------------
-// ketsui / espgaluda / ddp3
-
-static UINT16 ddp3value;
-static UINT16 ddp3key;
-static UINT32   ddp3response;
-static UINT8  ddp3internal_slot;
-static UINT32   ddp3slots[0x100];
-
-void __fastcall ddp3_asic_write(UINT32 offset, UINT16 data)
-{
-	switch (offset & 0x06)
-	{
-		case 0: ddp3value = data; return;
-
-		case 2:
-		{
-			if ((data >> 8) == 0xff) ddp3key = 0xffff;
-
-			ddp3value   ^= ddp3key;
-			ddp3response = 0x880000;
-
-			switch ((data ^ ddp3key) & 0xff)
-			{
-				case 0x40:
-					ddp3slots[(ddp3value >> 10) & 0x1f] = (ddp3slots[(ddp3value >> 5) & 0x1f] + ddp3slots[(ddp3value >> 0) & 0x1f]) & 0xffffff;
-				break;
-
-				case 0x67:
-					ddp3internal_slot = ddp3value >> 8;
-					ddp3slots[ddp3internal_slot] = (ddp3value & 0x00ff) << 16;
-				break;
-		
-				case 0xe5:
-					ddp3slots[ddp3internal_slot] |= ddp3value;
-				break;
-	
-				case 0x8e:
-					ddp3response = ddp3slots[ddp3value & 0xff];
-				break;
-
-				case 0x99: // reset?
-					ddp3key = 0;
-				break;
-			}
-
-			ddp3key = (ddp3key + 0x0100) & 0xff00;
-			if (ddp3key == 0xff00) ddp3key = 0x0100;
-			ddp3key |= ddp3key >> 8;
-		}
-		return;
-
-		case 4: return;
-	}
-}
-
-static UINT16 __fastcall ddp3_asic_read(UINT32 offset)
-{
-	switch (offset & 0x02)
-	{
-		case 0: return (ddp3response >>  0) ^ ddp3key;
-		case 2: return (ddp3response >> 16) ^ ddp3key;
-	}
-
-	return 0;
-}
-
-static void reset_ddp3()
-{
-	ddp3value = 0;
-	ddp3key = 0;
-	ddp3response = 0;
-	ddp3internal_slot = 0;
-
-	memset (ddp3slots, 0, 0x100 * sizeof(INT32));
-}
-
-void install_protection_asic27a_ketsui()
-{
-	pPgmResetCallback = reset_ddp3;
-	pPgmScanCallback = ddp3Scan;
-
-	SekOpen(0);
-	SekMapHandler(4,		0x400000, 0x400005, SM_READ | SM_WRITE);
-	SekSetReadWordHandler(4, 	ddp3_asic_read);
-	SekSetWriteWordHandler(4, 	ddp3_asic_write);
-	SekClose();
-}
-
-void install_protection_asic27a_ddp3()
-{
-	pPgmResetCallback = reset_ddp3;
-	pPgmScanCallback = ddp3Scan;
-
-	SekOpen(0);
-	SekMapHandler(4,		0x500000, 0x500005, SM_READ | SM_WRITE);
-	SekSetReadWordHandler(4, 	ddp3_asic_read);
-	SekSetWriteWordHandler(4, 	ddp3_asic_write);
-	SekClose();
-}
-
-
-//-----------------------------------------------------------------------------------------------------
-// Save states
-
-INT32 kov_asic27Scan(INT32 nAction, INT32 *)
-{
-	struct BurnArea ba;
-
-	if (nAction & ACB_MEMORY_RAM) {
-		ba.Data		= (UINT8*)kov_slots;
-		ba.nLen		= 0x0000010 * sizeof(INT32);
-		ba.nAddress	= 0xff0000;
-		ba.szName	= "Asic Slot Registers";
-		BurnAcb(&ba);
-	}
-
-	if (nAction & ACB_DRIVER_DATA) {
-		SCAN_VAR(kov_internal_slot);
-		SCAN_VAR(kov_key);
-		SCAN_VAR(kov_response);
-		SCAN_VAR(kov_value);
-
-		SCAN_VAR(kov_c0_value);
-		SCAN_VAR(kov_cb_value);
-		SCAN_VAR(kov_fe_value);
-	}
-
-	return 0;
-}
-
-INT32 asic3Scan(INT32 nAction, INT32 *)
-{
-	if (nAction & ACB_DRIVER_DATA) {
-		SCAN_VAR(asic3_reg);
-		SCAN_VAR(asic3_latch[0]);
-		SCAN_VAR(asic3_latch[1]);
-		SCAN_VAR(asic3_latch[2]);
-		SCAN_VAR(asic3_x);
-		SCAN_VAR(asic3_y);
-		SCAN_VAR(asic3_z);
-		SCAN_VAR(asic3_h1);
-		SCAN_VAR(asic3_h2);
-		SCAN_VAR(asic3_hold);
-	}
-
-	return 0;
-}
-
-INT32 killbldScan(INT32 nAction, INT32 *)
-{
-	struct BurnArea ba;
-
-	if (nAction & ACB_MEMORY_RAM) {
-		ba.Data		= PGMUSER0 + 0x000000;
-		ba.nLen		= 0x0004000;
-		ba.nAddress	= 0x300000;
-		ba.szName	= "ProtRAM";
-		BurnAcb(&ba);
-
-		ba.Data		= (UINT8*)kb_regs;
-		ba.nLen		= 0x00100 * sizeof(INT32);
-		ba.nAddress	= 0xfffffc00;
-		ba.szName	= "Protection Registers";
-		BurnAcb(&ba);
-	}
-
-	if (nAction & ACB_DRIVER_DATA) {
-		SCAN_VAR(kb_cmd);
-		SCAN_VAR(kb_reg);
-		SCAN_VAR(kb_ptr);
-	}
-
-	return 0;
-}
-
-INT32 pstarsScan(INT32 nAction, INT32 *)
-{
-	struct BurnArea ba;
-
-	if (nAction & ACB_MEMORY_RAM) {
-		ba.Data		= (UINT8*)PSTARS_REGS;
-		ba.nLen		= 0x0000010 * sizeof(INT32);
-		ba.nAddress	= 0xff1000;
-		ba.szName	= "Asic Register";
-		BurnAcb(&ba);
-
-		ba.Data		= (UINT8*)pstar_ram;
-		ba.nLen		= 0x0000003 * sizeof(INT16);
-		ba.nAddress	= 0xff2000;
-		ba.szName	= "Asic RAM";
-		BurnAcb(&ba);
-	}
-
-	if (nAction & ACB_DRIVER_DATA) {
-		SCAN_VAR(PSTARSKEY);
-		SCAN_VAR(PSTARS_VAL);
-		SCAN_VAR(PSTARSINT[0]);
-		SCAN_VAR(PSTARSINT[1]);
-		SCAN_VAR(pstar_e7);
-		SCAN_VAR(pstar_b1);
-		SCAN_VAR(pstar_ce);
-	}
-
-	return 0;
-}
-
-INT32 asic27aScan(INT32 nAction,INT32 *)
-{
-	struct BurnArea ba;
-
-	if (nAction & ACB_MEMORY_RAM) {
-		ba.Data		= PGMARMShareRAM;
-		ba.nLen		= 0x0010000;
-		ba.nAddress	= 0xd00000;
-		ba.szName	= "ARM SHARE RAM";
-		BurnAcb(&ba);
-
-		ba.Data		= PGMARMRAM0;
-		ba.nLen		= 0x0000400;
-		ba.nAddress	= 0;
-		ba.szName	= "ARM RAM 0";
-		BurnAcb(&ba);
-
-		ba.Data		= PGMARMRAM1;
-		ba.nLen		= 0x0010000;
-		ba.nAddress	= 0;
-		ba.szName	= "ARM RAM 1";
-		BurnAcb(&ba);
-
-		ba.Data		= PGMARMRAM2;
-		ba.nLen		= 0x0000400;
-		ba.nAddress	= 0;
-		ba.szName	= "ARM RAM 2";
-		BurnAcb(&ba);
-	}
-
-	if (nAction & ACB_DRIVER_DATA) {
-		Arm7Scan(nAction);
-
-		SCAN_VAR(asic27a_to_arm);
-		SCAN_VAR(asic27a_to_68k);
-	}
-
- 	return 0;
-}
-
-INT32 oldsScan(INT32 nAction, INT32 *)
-{
-	struct BurnArea ba;
-
-	if (nAction & ACB_MEMORY_RAM) {
-		ba.Data		= PGMUSER0 + 0x000000;
-		ba.nLen		= 0x0004000;
-		ba.nAddress	= 0x400000;
-		ba.szName	= "ProtRAM";
-		BurnAcb(&ba);
-	}
-
-	if (nAction & ACB_DRIVER_DATA) {
-		SCAN_VAR(olds_cmd3);
-		SCAN_VAR(rego);
-		SCAN_VAR(olds_bs);
-		SCAN_VAR(ptr);
-		SCAN_VAR(kb_cmd);
-	}
-
-	return 0;
-}
-
-INT32 kovsh_asic27aScan(INT32 nAction,INT32 *)
-{
-	struct BurnArea ba;
-
-	if (nAction & ACB_MEMORY_RAM) {
-		ba.Data		= PGMARMShareRAM;
-		ba.nLen		= 0x0000040;
-		ba.nAddress	= 0x400000;
-		ba.szName	= "ARM SHARE RAM";
-		BurnAcb(&ba);
-
-		ba.Data		= PGMARMRAM0;
-		ba.nLen		= 0x0000400;
-		ba.nAddress	= 0;
-		ba.szName	= "ARM RAM 0";
-		BurnAcb(&ba);
-
-		ba.Data		= PGMARMRAM2;
-		ba.nLen		= 0x0000400;
-		ba.nAddress	= 0;
-		ba.szName	= "ARM RAM 1";
-		BurnAcb(&ba);
-	}
-
-	if (nAction & ACB_DRIVER_DATA) {
-		Arm7Scan(nAction);
-
-		SCAN_VAR(kovsh_highlatch_arm_w);
-		SCAN_VAR(kovsh_lowlatch_arm_w);
-		SCAN_VAR(kovsh_highlatch_68k_w);
-		SCAN_VAR(kovsh_lowlatch_68k_w);
-		SCAN_VAR(kovsh_counter);
-	}
-
- 	return 0;
-}
-
-INT32 svg_asic27aScan(INT32 nAction,INT32 *)
-{
-	struct BurnArea ba;
-
-	if (nAction & ACB_MEMORY_RAM) {
-		ba.Data		= PGMARMShareRAM;
-		ba.nLen		= 0x0020000;
-		ba.nAddress	= 0x400000;
-		ba.szName	= "ARM SHARE RAM #0 (address 500000)";
-		BurnAcb(&ba);
-
-		ba.Data		= PGMARMShareRAM2;
-		ba.nLen		= 0x0020000;
-		ba.nAddress	= 0x500000;
-		ba.szName	= "ARM SHARE RAM #1";
-		BurnAcb(&ba);
-
-		ba.Data		= PGMARMRAM0;
-		ba.nLen		= 0x0000400;
-		ba.nAddress	= 0;
-		ba.szName	= "ARM RAM 0";
-		BurnAcb(&ba);
-
-		ba.Data		= PGMARMRAM1;
-		ba.nLen		= 0x0040000;
-		ba.nAddress	= 0;
-		ba.szName	= "ARM RAM 1";
-		BurnAcb(&ba);
-
-		ba.Data		= PGMARMRAM2;
-		ba.nLen		= 0x0000400;
-		ba.nAddress	= 0;
-		ba.szName	= "ARM RAM 2";
-		BurnAcb(&ba);
-	}
-
-	if (nAction & ACB_DRIVER_DATA) {
-		Arm7Scan(nAction);
-		SCAN_VAR(asic27a_to_arm);
-		SCAN_VAR(asic27a_to_68k);
-
-		SCAN_VAR(svg_ram_sel);
-		svg_set_ram_bank(svg_ram_sel);
-	}
-
- 	return 0;
-}
-
-INT32 ddp3Scan(INT32 nAction, INT32 *)
-{
-	struct BurnArea ba;
-
-	if (nAction & ACB_MEMORY_RAM) {
-		ba.Data		= (UINT8*)ddp3slots;
-		ba.nLen		= 0x0000100 * sizeof(INT32);
-		ba.nAddress	= 0xff00000;
-		ba.szName	= "ProtRAM";
-		BurnAcb(&ba);
-	}
-
-	if (nAction & ACB_DRIVER_DATA) {
-		SCAN_VAR(ddp3value);
-		SCAN_VAR(ddp3key);
-		SCAN_VAR(ddp3response);
-		SCAN_VAR(ddp3internal_slot);
-	}
-
-	return 0;
 }

@@ -39,8 +39,16 @@ void __fastcall cps3SndWriteWord(UINT32 addr, UINT16 data);
 void __fastcall cps3SndWriteLong(UINT32 addr, UINT32 data);
 
 INT32 cps3SndInit(UINT8 *);
+void cps3SndSetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir);
 void cps3SndReset();
 void cps3SndExit();
 void cps3SndUpdate();
 
 INT32 cps3SndScan(INT32);
+
+#define BURN_SND_CPS3SND_ROUTE_1		0
+#define BURN_SND_CPS3SND_ROUTE_2		1
+
+#define cps3SndSetAllRoutes(v, d)						\
+	cps3SndSetRoute(BURN_SND_CPS3SND_ROUTE_1, v, d);	\
+	cps3SndSetRoute(BURN_SND_CPS3SND_ROUTE_2, v, d);

@@ -2,8 +2,8 @@
 // Based on MAME driver by David Haywood
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "msm6295.h"
 
@@ -457,10 +457,13 @@ static INT32 DrvInit()
 
 	soundlatch = DrvSndRegs + 2;
 
-	BurnYM2151Init(3579545, 100.0);
+	BurnYM2151Init(3579545);
 	BurnYM2151SetIrqHandler(&MugsmashYM2151IrqHandler);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
-	MSM6295Init(0, 1122000 / 132, 50.0, 1);
+	MSM6295Init(0, 1122000 / 132, 1);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 

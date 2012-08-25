@@ -1232,6 +1232,8 @@ INT32 cps3Init()
 	BurnDrvGetVisibleSize(&cps3_gfx_width, &cps3_gfx_height);	
 	RamScreen	+= (512 * 2) * 16 + 16; // safe draw	
 	cps3SndInit(RomUser);
+	cps3SndSetRoute(BURN_SND_CPS3SND_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	cps3SndSetRoute(BURN_SND_CPS3SND_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 	
 	pBurnDrvPalette = (UINT32*)Cps3CurPal;
 		

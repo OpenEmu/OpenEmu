@@ -2,7 +2,7 @@
 // Based on MAME driver by David Haywood
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "msm6295.h"
 
 static UINT8 *AllMem;
@@ -356,7 +356,8 @@ static INT32 GumboInit()
 	SekSetReadWordHandler(0,	gumbo_read_word);
 	SekClose();
 
-	MSM6295Init(0, 1122000 / 132, 100.0, 0);
+	MSM6295Init(0, 1122000 / 132, 0);
+	MSM6295SetRoute(0, 0.47, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -409,7 +410,8 @@ static INT32 MspuzzleInit()
 	SekSetReadWordHandler(0,	gumbo_read_word);
 	SekClose();
 
-	MSM6295Init(0, 1122000 / 132, 100.0, 0);
+	MSM6295Init(0, 1122000 / 132, 0);
+	MSM6295SetRoute(0, 0.47, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

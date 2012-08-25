@@ -967,7 +967,7 @@ void ghostb_main_write(UINT16 address, UINT8 data)
 	{
 		case 0x3800:
 			*soundlatch = data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 		return;
 
 		case 0x3840:
@@ -1098,15 +1098,15 @@ static double DrvYM2203M6809GetTime1500000()
 
 inline static INT32 CsilverMSM5205SynchroniseStream(INT32 nSoundRate)
 {
-	return (INT64)(M6809TotalCycles() * nSoundRate / 1500000);
+	return (INT64)((double)M6809TotalCycles() * nSoundRate / 1500000);
 }
 
 static void DrvYM3812FMIRQHandler(INT32, INT32 nStatus)
 {
 	if (nStatus) {
-		M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
+		M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
 	} else {
-		M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
+		M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_NONE);
 	}
 }
 
@@ -1326,8 +1326,8 @@ static INT32 DrvInit()
 	HD6309MapMemory(DrvSprRAM,		0x3000, 0x37ff, HD6309_RAM);
 	HD6309MapMemory(DrvMainROM + 0x10000, 0x4000, 0x7fff, HD6309_ROM); // bank
 	HD6309MapMemory(DrvMainROM + 0x08000, 0x8000, 0xffff, HD6309_ROM);
-	HD6309SetWriteByteHandler(ghostb_main_write);
-	HD6309SetReadByteHandler(ghostb_main_read);
+	HD6309SetWriteHandler(ghostb_main_write);
+	HD6309SetReadHandler(ghostb_main_read);
 	HD6309Close();
 
 	M6502Init(0, TYPE_M6502);
@@ -1335,17 +1335,22 @@ static INT32 DrvInit()
 	M6502MapMemory(DrvM6502RAM,          0x0000, 0x05ff, M6502_RAM);
 	M6502MapMemory(DrvM6502ROM + 0x8000, 0x8000, 0xffff, M6502_READ);
 	M6502MapMemory(DrvM6502OPS + 0x8000, 0x8000, 0xffff, M6502_FETCH);
-	M6502SetReadByteHandler(ghostb_sound_read);
-	M6502SetWriteByteHandler(ghostb_sound_write);
+	M6502SetReadHandler(ghostb_sound_read);
+	M6502SetWriteHandler(ghostb_sound_write);
 	M6502Close();
 
 	BurnSetRefreshRate(58.00);
 
 	BurnYM3812Init(3000000, &DrvYM3812FMIRQHandler, &DrvYM3812SynchroniseStream, 0);
 	BurnTimerAttachM6502YM3812(1500000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 0.70, BURN_SND_ROUTE_BOTH);
 	
 	BurnYM2203Init(1, 1500000, NULL, DrvYM2203SynchroniseStream, DrvYM2203GetTime, 1);
 	BurnTimerAttachHD6309(12000000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.23, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -1597,7 +1602,7 @@ static INT32 DrvDraw()
 static inline void do_interrupt()
 {
 	if (*interrupt_enable) {
-		HD6309SetIRQ(0, HD6309_IRQSTATUS_AUTO);
+		HD6309SetIRQLine(0, HD6309_IRQSTATUS_AUTO);
 	}
 }
 
@@ -1616,7 +1621,7 @@ static void ghostb_interrupt()
 	if (((i8751_out & 0x2) != 0x2) && latch[2]) {latch[2] = 0; do_interrupt(); i8751_return = 0x2001; } /* Player 3 coin */
 	if (((i8751_out & 0x1) != 0x1) && latch[3]) {latch[3] = 0; do_interrupt(); i8751_return = 0x1001; } /* Service */
 
-	if (*nmi_enable) HD6309SetIRQ(0x20, HD6309_IRQSTATUS_AUTO);
+	if (*nmi_enable) HD6309SetIRQLine(0x20, HD6309_IRQSTATUS_AUTO);
 }
 
 static INT32 DrvFrame()
@@ -1938,7 +1943,7 @@ void cobra_main_write(UINT16 address, UINT8 data)
 	{
 		case 0x3e00:
 			*soundlatch = data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 			M6502Run(500);
 		return;
 
@@ -2120,8 +2125,8 @@ static INT32 CobraInit()
 	M6809MapMemory(DrvPalRAM,		0x3000, 0x37ff, M6809_RAM);
 	M6809MapMemory(DrvMainROM + 0x10000,  0x4000, 0x7fff, M6809_ROM);
 	M6809MapMemory(DrvMainROM + 0x08000,  0x8000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(cobra_main_write);
-	M6809SetReadByteHandler(cobra_main_read);
+	M6809SetWriteHandler(cobra_main_write);
+	M6809SetReadHandler(cobra_main_read);
 	M6809Close();
 
 	M6502Init(0, TYPE_M6502);
@@ -2130,17 +2135,22 @@ static INT32 CobraInit()
 //	m6502MapMemory(DrvM6502ROM + 0x8000, 0x8000, 0xffff, M6502_READ);
 //	m6502MapMemory(DrvM6502OPS + 0x8000, 0x8000, 0xffff, M6502_FETCH);
 	M6502MapMemory(DrvM6502ROM + 0x8000, 0x8000, 0xffff, M6502_ROM);
-	M6502SetReadByteHandler(ghostb_sound_read);
-	M6502SetWriteByteHandler(ghostb_sound_write);
+	M6502SetReadHandler(ghostb_sound_read);
+	M6502SetWriteHandler(ghostb_sound_write);
 	M6502Close();
 
 	BurnSetRefreshRate(58.00);
 
 	BurnYM2203Init(1, 1500000, NULL, DrvYM2203M6809SynchroniseStream, DrvYM2203M6809GetTime, 0);
 	BurnTimerAttachM6809(2000000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.50, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.53, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.53, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.53, BURN_SND_ROUTE_BOTH);
 	
 	BurnYM3812Init(3000000, &DrvYM3812FMIRQHandler, &DrvYM3812SynchroniseStream, 1);
 	BurnTimerAttachM6502YM3812(1500000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 0.70, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -2309,7 +2319,7 @@ static INT32 CobraFrame()
 		if (i == 1) vblank = 0x80;
 		if (i == 31) {
 			vblank = 0;
-			M6809SetIRQ(0x20 /*NMI*/, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(0x20 /*NMI*/, M6809_IRQSTATUS_AUTO);
 		}
 
 		BurnTimerUpdate(i * (nCyclesTotal[0] / nInterleave));
@@ -2586,7 +2596,7 @@ void srdarwin_main_write(UINT16 address, UINT8 data)
 		case 0x2000:
 			*soundlatch = data;
 //			m6502SetIRQ(M6502_NMI);
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 		return;
 
 		case 0x2001:
@@ -2711,8 +2721,8 @@ static INT32 SrdarwinInit()
 	M6809MapMemory(DrvPalRAM + 0x100,	0x3000, 0x30ff, M6809_RAM);
 	M6809MapMemory(DrvMainROM + 0x10000,  0x4000, 0x7fff, M6809_ROM);
 	M6809MapMemory(DrvMainROM + 0x08000,  0x8000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(srdarwin_main_write);
-	M6809SetReadByteHandler(srdarwin_main_read);
+	M6809SetWriteHandler(srdarwin_main_write);
+	M6809SetReadHandler(srdarwin_main_read);
 	M6809Close();
 
 	M6502Init(0, TYPE_M6502);
@@ -2720,17 +2730,22 @@ static INT32 SrdarwinInit()
 	M6502MapMemory(DrvM6502RAM,          0x0000, 0x05ff, M6502_RAM);
 	M6502MapMemory(DrvM6502ROM + 0x8000, 0x8000, 0xffff, M6502_READ);
 	M6502MapMemory(DrvM6502OPS + 0x8000, 0x8000, 0xffff, M6502_FETCH);
-	M6502SetReadByteHandler(ghostb_sound_read);
-	M6502SetWriteByteHandler(ghostb_sound_write);
+	M6502SetReadHandler(ghostb_sound_read);
+	M6502SetWriteHandler(ghostb_sound_write);
 	M6502Close();
 
 	BurnSetRefreshRate(58.00);
 
 	BurnYM2203Init(1, 1500000, NULL, DrvYM2203M6809SynchroniseStream, DrvYM2203M6809GetTime, 0);
 	BurnTimerAttachM6809(2000000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.23, BURN_SND_ROUTE_BOTH);
 	
 	BurnYM3812Init(3000000, &DrvYM3812FMIRQHandler, &DrvYM3812SynchroniseStream, 1);
 	BurnTimerAttachM6502YM3812(1500000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 0.70, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -2935,7 +2950,7 @@ static INT32 SrdarwinFrame()
 		if (i == 1) vblank = 0x40;
 		if (i == 31) {
 			vblank = 0;
-			M6809SetIRQ(0x20 /*NMI*/, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(0x20 /*NMI*/, M6809_IRQSTATUS_AUTO);
 		}
 		
 		BurnTimerUpdate(i * (nCyclesTotal[0] / nInterleave));
@@ -3053,7 +3068,7 @@ static void gondo_i8751_write(INT32 offset, UINT8 data)
 	{
 		case 0:
 			i8751_value = (i8751_value & 0xff) | (data << 8);
-			if (*interrupt_enable) HD6309SetIRQ(0, HD6309_IRQSTATUS_AUTO);
+			if (*interrupt_enable) HD6309SetIRQLine(0, HD6309_IRQSTATUS_AUTO);
 		break;
 
 		case 1:
@@ -3115,7 +3130,7 @@ void gondo_main_write(UINT16 address, UINT8 data)
 	{
 		case 0x3810:
 			*soundlatch = data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 		return;
 
 		case 0x3818:
@@ -3391,11 +3406,11 @@ static INT32 GondoInit()
 	HD6309MapMemory(DrvSprRAM,		 0x3000, 0x37ff, HD6309_RAM);
 	HD6309MapMemory(DrvMainROM + 0x10000, 0x4000, 0x7fff, HD6309_ROM); // bank
 	HD6309MapMemory(DrvMainROM + 0x08000, 0x8000, 0xffff, HD6309_ROM);
-	HD6309SetWriteByteHandler(gondo_main_write);
+	HD6309SetWriteHandler(gondo_main_write);
 	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "garyoret")) {
-		HD6309SetReadByteHandler(garyoret_main_read);
+		HD6309SetReadHandler(garyoret_main_read);
 	} else {
-		HD6309SetReadByteHandler(gondo_main_read);
+		HD6309SetReadHandler(gondo_main_read);
 	}
 	HD6309Close();
 	
@@ -3403,17 +3418,22 @@ static INT32 GondoInit()
 	M6502Open(0);
 	M6502MapMemory(DrvM6502RAM,          0x0000, 0x05ff, M6502_RAM);
 	M6502MapMemory(DrvM6502ROM + 0x8000, 0x8000, 0xffff, M6502_ROM);
-	M6502SetReadByteHandler(ghostb_sound_read);
-	M6502SetWriteByteHandler(gondo_sound_write);
+	M6502SetReadHandler(ghostb_sound_read);
+	M6502SetWriteHandler(gondo_sound_write);
 	M6502Close();
 
 	BurnSetRefreshRate(58.00);
 
 	BurnYM3526Init(3000000, &DrvYM3812FMIRQHandler, &DrvYM3812SynchroniseStream, 0);
 	BurnTimerAttachM6502YM3526(1500000);
+	BurnYM3526SetRoute(BURN_SND_YM3526_ROUTE, 0.70, BURN_SND_ROUTE_BOTH);
 	
 	BurnYM2203Init(1, 1500000, NULL, DrvYM2203SynchroniseStream, DrvYM2203GetTime, 1);
 	BurnTimerAttachHD6309(1200000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.23, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -3587,7 +3607,7 @@ static INT32 GondoFrame()
 		if (i == 1) vblank = 0;
 		if (i == 31) {
 			vblank = 0x80;
-			if (*nmi_enable) HD6309SetIRQ(0x20, HD6309_IRQSTATUS_AUTO);
+			if (*nmi_enable) HD6309SetIRQLine(0x20, HD6309_IRQSTATUS_AUTO);
 		}
 		
 		BurnTimerUpdate(i * (nCyclesTotal[0] / nInterleave));
@@ -3661,9 +3681,9 @@ static struct BurnRomInfo gondoRomDesc[] = {
 	{ "dt-10.512",		0x10000, 0xcfcfc9ed, 5 }, // 20
 	{ "dt-11.256",		0x08000, 0x53e9cf17, 5 }, // 21
 
-	{ "dt-a.1b",     	0x01000, 0x03abceeb, 6 }, // 22 mcu
+	{ "dt-a.b1",     	0x01000, 0x03abceeb, 6 }, // 22 mcu
 
-	{ "mb7122e.10b",	0x00400, 0xdcbfec4e, 7 }, // 23 proms
+	{ "ds-23.b10",		0x00400, 0xdcbfec4e, 7 }, // 23 proms
 };
 
 STD_ROM_PICK(gondo)
@@ -3683,23 +3703,23 @@ struct BurnDriverD BurnDrvGondo = {
 // Makyou Senshi (Japan)
 
 static struct BurnRomInfo makyosenRomDesc[] = {
-	{ "ds00",		0x08000, 0x33bb16fe, 1 }, //  0 maincpu
+	{ "ds00.f3",		0x08000, 0x33bb16fe, 1 }, //  0 maincpu
 	{ "dt-01.512",		0x10000, 0xc39bb877, 1 }, //  1
-	{ "ds02",		0x10000, 0x925307a4, 1 }, //  2
-	{ "ds03",		0x10000, 0x9c0fcbf6, 1 }, //  3
+	{ "ds02.f6",		0x10000, 0x925307a4, 1 }, //  2
+	{ "ds03.f7",		0x10000, 0x9c0fcbf6, 1 }, //  3
 
-	{ "ds05",		0x08000, 0xe6e28ca9, 2 }, //  4 audiocpu
+	{ "ds05.h5",		0x08000, 0xe6e28ca9, 2 }, //  4 audiocpu
 
-	{ "ds14",		0x08000, 0x00cbe9c8, 3 }, //  5 gfx1
+	{ "ds14.b18",		0x08000, 0x00cbe9c8, 3 }, //  5 gfx1
 
 	{ "dt-19.512",		0x10000, 0xda2abe4b, 4 }, //  6 gfx2
-	{ "ds20",		0x08000, 0x0eef7f56, 4 }, //  7
+	{ "ds20.f15",		0x08000, 0x0eef7f56, 4 }, //  7
 	{ "dt-16.512",		0x10000, 0xe9955d8f, 4 }, //  8
-	{ "ds18",		0x08000, 0x2b2d1468, 4 }, //  9
+	{ "ds18.f12",		0x08000, 0x2b2d1468, 4 }, //  9
 	{ "dt-15.512",		0x10000, 0xa54b2eb6, 4 }, // 10
-	{ "ds17",		0x08000, 0x75ae349a, 4 }, // 11
+	{ "ds17.f11",		0x08000, 0x75ae349a, 4 }, // 11
 	{ "dt-21.512",		0x10000, 0x1c5f682d, 4 }, // 12
-	{ "ds22",		0x08000, 0xc8ffb148, 4 }, // 13
+	{ "ds22.f18",		0x08000, 0xc8ffb148, 4 }, // 13
 
 	{ "dt-08.512",		0x10000, 0xaec483f5, 5 }, // 14 gfx3
 	{ "dt-09.256",		0x08000, 0x446f0ce0, 5 }, // 15
@@ -3710,13 +3730,13 @@ static struct BurnRomInfo makyosenRomDesc[] = {
 	{ "dt-10.512",		0x10000, 0xcfcfc9ed, 5 }, // 20
 	{ "dt-11.256",		0x08000, 0x53e9cf17, 5 }, // 21
 
-	{ "ds-a.1b",     	0x01000, 0xf61b77cf, 6 }, // 22 mcu
+	{ "ds-a.b1",     	0x01000, 0xf61b77cf, 6 }, // 22 mcu
 
-	{ "mb7122e.10b",	0x00400, 0xdcbfec4e, 7 }, // 23 proms
+	{ "ds-23.b10",		0x00400, 0xdcbfec4e, 7 }, // 23 proms
 
-	{ "pal16r4nc.10u",	0x00104, 0x00000000, 8 | BRF_NODUMP }, // 24 plds
-	{ "pal16r4nc.11g",	0x00104, 0x00000000, 8 | BRF_NODUMP }, // 25
-	{ "pal16r4nc.1s",	0x00104, 0x00000000, 8 | BRF_NODUMP }, // 26
+	{ "pal16r4nc.u10",	0x00104, 0x00000000, 8 | BRF_NODUMP }, // 24 plds
+	{ "pal16r4nc.g11",	0x00104, 0x00000000, 8 | BRF_NODUMP }, // 25
+	{ "pal16r4nc.s1",	0x00104, 0x00000000, 8 | BRF_NODUMP }, // 26
 };
 
 STD_ROM_PICK(makyosen)
@@ -3824,29 +3844,29 @@ void oscar_main_write(UINT16 address, UINT8 data)
 
 		case 0x3d80:
 			*soundlatch = data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 		return;
 
 		case 0x3e80: 
 			HD6309Close();
 			HD6309Open(1);
-			HD6309SetIRQ(0, HD6309_IRQSTATUS_ACK);
+			HD6309SetIRQLine(0, HD6309_IRQSTATUS_ACK);
 			HD6309Close();
 			HD6309Open(0);
 		return;
 
 		case 0x3e81:
-			HD6309SetIRQ(0, HD6309_IRQSTATUS_NONE);
+			HD6309SetIRQLine(0, HD6309_IRQSTATUS_NONE);
 		return;
 
 		case 0x3e82:
-			HD6309SetIRQ(0, HD6309_IRQSTATUS_ACK);
+			HD6309SetIRQLine(0, HD6309_IRQSTATUS_ACK);
 		return;
 
 		case 0x3e83:
 			HD6309Close();
 			HD6309Open(1);
-			HD6309SetIRQ(0, HD6309_IRQSTATUS_NONE);
+			HD6309SetIRQLine(0, HD6309_IRQSTATUS_NONE);
 			HD6309Close();
 			HD6309Open(0);
 		return;
@@ -3864,7 +3884,7 @@ void oscar_sub_write(UINT16 address, UINT8 )
 	switch (address)
 	{
 		case 0x3e80: 
-			HD6309SetIRQ(0, HD6309_IRQSTATUS_ACK);
+			HD6309SetIRQLine(0, HD6309_IRQSTATUS_ACK);
 			HD6309Close();
 			HD6309Open(0);
 		return;
@@ -3872,7 +3892,7 @@ void oscar_sub_write(UINT16 address, UINT8 )
 		case 0x3e81:
 			HD6309Close();
 			HD6309Open(0);
-			HD6309SetIRQ(0, HD6309_IRQSTATUS_NONE);
+			HD6309SetIRQLine(0, HD6309_IRQSTATUS_NONE);
 			HD6309Close();
 			HD6309Open(1);
 		return;
@@ -3880,13 +3900,13 @@ void oscar_sub_write(UINT16 address, UINT8 )
 		case 0x3e82:
 			HD6309Close();
 			HD6309Open(0);
-			HD6309SetIRQ(0, HD6309_IRQSTATUS_ACK);
+			HD6309SetIRQLine(0, HD6309_IRQSTATUS_ACK);
 			HD6309Close();
 			HD6309Open(1);
 		return;
 
 		case 0x3e83:
-			HD6309SetIRQ(0, HD6309_IRQSTATUS_NONE);
+			HD6309SetIRQLine(0, HD6309_IRQSTATUS_NONE);
 		return;
 	}
 }
@@ -3990,8 +4010,8 @@ static INT32 OscarInit()
 	HD6309MapMemory(DrvPalRAM,		 0x3800, 0x3bff, HD6309_RAM); // xxxxBBBBGGGGRRRR_be_w
 	HD6309MapMemory(DrvMainROM + 0x10000, 0x4000, 0x7fff, HD6309_ROM); // bank
 	HD6309MapMemory(DrvMainROM + 0x08000, 0x8000, 0xffff, HD6309_ROM);
-	HD6309SetWriteByteHandler(oscar_main_write);
-	HD6309SetReadByteHandler(oscar_main_read);
+	HD6309SetWriteHandler(oscar_main_write);
+	HD6309SetReadHandler(oscar_main_read);
 	HD6309Close();
 
 	HD6309Open(1);
@@ -3999,7 +4019,7 @@ static INT32 OscarInit()
 	HD6309MapMemory(DrvPalRAM + 0x400,	0x0f00, 0x0fff, HD6309_RAM); // not really pal...
 	HD6309MapMemory(DrvMainRAM + 0x1000,	0x1000, 0x1fff, HD6309_RAM); // all shared? AM_RANGE(0x0f00, 0x0fff) AM_RAM not?
 	HD6309MapMemory(DrvSubROM + 0x04000, 0x4000, 0xffff, HD6309_ROM);
-	HD6309SetWriteByteHandler(oscar_sub_write); // 0x3e80, 0x3e83 used...
+	HD6309SetWriteHandler(oscar_sub_write); // 0x3e80, 0x3e83 used...
 	HD6309Close();
 
 	M6502Init(0, TYPE_M6502);
@@ -4007,18 +4027,22 @@ static INT32 OscarInit()
 	M6502MapMemory(DrvM6502RAM,          0x0000, 0x05ff, M6502_RAM);
 	M6502MapMemory(DrvM6502ROM + 0x8000, 0x8000, 0xffff, M6502_READ);
 	M6502MapMemory(DrvM6502OPS + 0x8000, 0x8000, 0xffff, M6502_FETCH);
-	M6502SetReadByteHandler(ghostb_sound_read);
-	M6502SetWriteByteHandler(gondo_sound_write);
+	M6502SetReadHandler(ghostb_sound_read);
+	M6502SetWriteHandler(gondo_sound_write);
 	M6502Close();
 
 	BurnSetRefreshRate(58.00);
 
 	BurnYM3526Init(3000000, &DrvYM3812FMIRQHandler, &DrvYM3812SynchroniseStream, 0);
 	BurnTimerAttachM6502YM3526(1500000);
+	BurnYM3526SetRoute(BURN_SND_YM3526_ROUTE, 0.70, BURN_SND_ROUTE_BOTH);
 	
 	BurnYM2203Init(1, 1500000, NULL, DrvYM2203SynchroniseStream6000000, DrvYM2203GetTime6000000, 1);
-	BurnYM2203SetVolumeShift(2);
 	BurnTimerAttachHD6309(6000000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.23, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -4113,7 +4137,7 @@ static INT32 OscarFrame()
 			if ((DrvInputs[2] & 7) == 7) latch = 1;
 			if ((DrvInputs[2] & 7) != 7 && latch) {
 				latch = 0;
-				HD6309SetIRQ(0x20, HD6309_IRQSTATUS_AUTO);
+				HD6309SetIRQLine(0x20, HD6309_IRQSTATUS_AUTO);
 			}
 			vblank = 0x80;
 		}
@@ -4324,7 +4348,7 @@ static void lastmiss_i8751_write(INT32 offset, INT32 data)
 	{
 		case 0:
 		i8751_value = (i8751_value & 0xff) | (data << 8);
-		M6809SetIRQ(1, M6809_IRQSTATUS_AUTO); /* Signal main cpu */
+		M6809SetIRQLine(1, M6809_IRQSTATUS_AUTO); /* Signal main cpu */
 		break;
 
 		case 1:
@@ -4358,7 +4382,7 @@ static void shackled_i8751_write(INT32 offset, INT32 data)
 	{
 	case 0: /* High byte */
 		i8751_value = (i8751_value & 0xff) | (data << 8);
-		M6809SetIRQ(1, M6809_IRQSTATUS_AUTO); /* Signal main cpu */
+		M6809SetIRQLine(1, M6809_IRQSTATUS_AUTO); /* Signal main cpu */
 		break;
 	case 1: /* Low byte */
 		i8751_value = (i8751_value & 0xff00) | data;
@@ -4388,11 +4412,11 @@ void lastmiss_main_write(UINT16 address, UINT8 data)
 	{
 		case 0x1803:
 			if (M6809GetActive() == 0) { // main
-				M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+				M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 			} else {
 				M6809Close();
 				M6809Open(0);
-				M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+				M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 				M6809Close();
 				M6809Open(1);
 			}
@@ -4402,11 +4426,11 @@ void lastmiss_main_write(UINT16 address, UINT8 data)
 			if (M6809GetActive() == 0) { // main
 				M6809Close();
 				M6809Open(1);
-				M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+				M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 				M6809Close();
 				M6809Open(0);
 			} else {
-				M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+				M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 			}
 		return;
 
@@ -4420,7 +4444,7 @@ void lastmiss_main_write(UINT16 address, UINT8 data)
 
 		case 0x180c:
 			*soundlatch = data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 		return;
 
 		// main cpu only!
@@ -4636,8 +4660,8 @@ static INT32 LastmissInit()
 	M6809MapMemory(DrvPf0RAM,		 0x3800, 0x3fff, M6809_RAM);
 	M6809MapMemory(DrvMainROM + 0x10000,     0x4000, 0x7fff, M6809_ROM);
 	M6809MapMemory(DrvMainROM + 0x08000,     0x8000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(lastmiss_main_write);
-	M6809SetReadByteHandler(lastmiss_main_read);
+	M6809SetWriteHandler(lastmiss_main_write);
+	M6809SetReadHandler(lastmiss_main_read);
 	M6809Close();
 
 	M6809Open(1);
@@ -4648,26 +4672,30 @@ static INT32 LastmissInit()
 	M6809MapMemory(DrvMainRAM + 0x1000,	 0x3000, 0x37ff, M6809_RAM);
 	M6809MapMemory(DrvPf0RAM,		 0x3800, 0x3fff, M6809_RAM);
 	M6809MapMemory(DrvSubROM + 0x04000,      0x4000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(lastmiss_main_write);
-	M6809SetReadByteHandler(lastmiss_main_read);
+	M6809SetWriteHandler(lastmiss_main_write);
+	M6809SetReadHandler(lastmiss_main_read);
 	M6809Close();
 
 	M6502Init(0, TYPE_M6502);
 	M6502Open(0);
 	M6502MapMemory(DrvM6502RAM,          0x0000, 0x05ff, M6502_RAM);
 	M6502MapMemory(DrvM6502ROM + 0x8000, 0x8000, 0xffff, M6502_ROM);
-	M6502SetReadByteHandler(ghostb_sound_read);
-	M6502SetWriteByteHandler(gondo_sound_write);
+	M6502SetReadHandler(ghostb_sound_read);
+	M6502SetWriteHandler(gondo_sound_write);
 	M6502Close();
 
 	BurnSetRefreshRate(58.00);
 
 	BurnYM3526Init(3000000, &DrvYM3812FMIRQHandler, &DrvYM3812SynchroniseStream, 0);
 	BurnTimerAttachM6502YM3526(1500000);
+	BurnYM3526SetRoute(BURN_SND_YM3526_ROUTE, 0.70, BURN_SND_ROUTE_BOTH);
 	
 	BurnYM2203Init(1, 1500000, NULL, DrvYM2203M6809SynchroniseStream, DrvYM2203M6809GetTime, 1);
-	BurnYM2203SetVolumeShift(2);
 	BurnTimerAttachM6809(2000000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.23, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -5016,33 +5044,35 @@ struct BurnDriver BurnDrvLastmsnj = {
 // Shackled (US)
 
 static struct BurnRomInfo shackledRomDesc[] = {
-	{ "dk-02.rom",		0x08000, 0x87f8fa85, 1 }, //  0 maincpu
-	{ "dk-06.rom",		0x10000, 0x69ad62d1, 1 }, //  1
-	{ "dk-05.rom",		0x10000, 0x598dd128, 1 }, //  2
-	{ "dk-04.rom",		0x10000, 0x36d305d4, 1 }, //  3
-	{ "dk-03.rom",		0x08000, 0x6fd90fd1, 1 }, //  4
+	{ "dk-02.13h",		0x08000, 0x87f8fa85, 1 }, //  0 maincpu
+	{ "dk-06.7h",		0x10000, 0x69ad62d1, 1 }, //  1
+	{ "dk-05.8h",		0x10000, 0x598dd128, 1 }, //  2
+	{ "dk-04.10h",		0x10000, 0x36d305d4, 1 }, //  3
+	{ "dk-03.11h",		0x08000, 0x6fd90fd1, 1 }, //  4
 
-	{ "dk-01.rom",		0x10000, 0x71fe3bda, 2 }, //  5 sub
+	{ "dk-01.18h",		0x10000, 0x71fe3bda, 2 }, //  5 sub
 
-	{ "dk-07.rom",		0x08000, 0x887e4bcc, 3 }, //  6 audiocpu
+	{ "dk-07.5h",		0x08000, 0x887e4bcc, 3 }, //  6 audiocpu
 
-	{ "dk-00.rom",		0x08000, 0x69b975aa, 5 }, //  8 gfx1
+	{ "dk-00.2a",		0x08000, 0x69b975aa, 5 }, //  8 gfx1
 
-	{ "dk-12.rom",		0x10000, 0x615c2371, 6 }, //  9 gfx2
-	{ "dk-13.rom",		0x10000, 0x479aa503, 6 }, // 10
-	{ "dk-14.rom",		0x10000, 0xcdc24246, 6 }, // 11
-	{ "dk-15.rom",		0x10000, 0x88db811b, 6 }, // 12
-	{ "dk-16.rom",		0x10000, 0x061a76bd, 6 }, // 13
-	{ "dk-17.rom",		0x10000, 0xa6c5d8af, 6 }, // 14
-	{ "dk-18.rom",		0x10000, 0x4d466757, 6 }, // 15
-	{ "dk-19.rom",		0x10000, 0x1911e83e, 6 }, // 16
+	{ "dk-12.15k",		0x10000, 0x615c2371, 6 }, //  9 gfx2
+	{ "dk-13.14k",		0x10000, 0x479aa503, 6 }, // 10
+	{ "dk-14.13k",		0x10000, 0xcdc24246, 6 }, // 11
+	{ "dk-15.11k",		0x10000, 0x88db811b, 6 }, // 12
+	{ "dk-16.10k",		0x10000, 0x061a76bd, 6 }, // 13
+	{ "dk-17.9k",		0x10000, 0xa6c5d8af, 6 }, // 14
+	{ "dk-18.8k",		0x10000, 0x4d466757, 6 }, // 15
+	{ "dk-19.6k",		0x10000, 0x1911e83e, 6 }, // 16
 
-	{ "dk-11.rom",		0x10000, 0x5cf5719f, 7 }, // 17 gfx3
-	{ "dk-10.rom",		0x10000, 0x408e6d08, 7 }, // 18
-	{ "dk-09.rom",		0x10000, 0xc1557fac, 7 }, // 19
-	{ "dk-08.rom",		0x10000, 0x5e54e9f5, 7 }, // 20
+	{ "dk-11.12k",		0x10000, 0x5cf5719f, 7 }, // 17 gfx3
+	{ "dk-10.14k",		0x10000, 0x408e6d08, 7 }, // 18
+	{ "dk-09.15k",		0x10000, 0xc1557fac, 7 }, // 19
+	{ "dk-08.17k",		0x10000, 0x5e54e9f5, 7 }, // 20
 
-	{ "id8751h.mcu",	0x01000, 0x00000000, 4 | BRF_NODUMP }, //  7 mcu
+	{ "dk.18a",			0x01000, 0x00000000, 4 | BRF_NODUMP }, //  7 mcu
+	
+	{ "dk-20.9c",		0x00100, 0xff3cd588, 0 | BRF_OPT }, // priority PROM
 };
 
 STD_ROM_PICK(shackled)
@@ -5062,33 +5092,35 @@ struct BurnDriver BurnDrvShackled = {
 // Breywood (Japan revision 2)
 
 static struct BurnRomInfo breywoodRomDesc[] = {
-	{ "7.bin",		0x08000, 0xc19856b9, 1 }, //  0 maincpu
-	{ "3.bin",		0x10000, 0x2860ea02, 1 }, //  1
-	{ "4.bin",		0x10000, 0x0fdd915e, 1 }, //  2
-	{ "5.bin",		0x10000, 0x71036579, 1 }, //  3
-	{ "6.bin",		0x08000, 0x308f4893, 1 }, //  4
+	{ "dj02-2.13h",	0x08000, 0xc19856b9, 1 }, //  0 maincpu
+	{ "dj06-2.7h",	0x10000, 0x2860ea02, 1 }, //  1
+	{ "dj05-2.8h",	0x10000, 0x0fdd915e, 1 }, //  2
+	{ "dj04-2.10h",	0x10000, 0x71036579, 1 }, //  3
+	{ "dj03-2.11h",	0x08000, 0x308f4893, 1 }, //  4
 
-	{ "8.bin",		0x10000, 0x3d9fb623, 2 }, //  5 sub
+	{ "dj1-2y.18h",	0x10000, 0x3d9fb623, 2 }, //  5 sub
 
-	{ "2.bin",		0x08000, 0x4a471c38, 3 }, //  6 audiocpu
+	{ "dj07-1.5h",	0x08000, 0x4a471c38, 3 }, //  6 audiocpu
 
-	{ "1.bin",		0x08000, 0x815a891a, 5 }, //  8 gfx1
+	{ "dj-00.2a",	0x08000, 0x815a891a, 5 }, //  8 gfx1
 
-	{ "20.bin",		0x10000, 0x2b7634f2, 6 }, //  9 gfx2
-	{ "19.bin",		0x10000, 0x4530a952, 6 }, // 10
-	{ "18.bin",		0x10000, 0x87c28833, 6 }, // 11
-	{ "17.bin",		0x10000, 0xbfb43a4d, 6 }, // 12
-	{ "16.bin",		0x10000, 0xf9848cc4, 6 }, // 13
-	{ "15.bin",		0x10000, 0xbaa3d218, 6 }, // 14
-	{ "14.bin",		0x10000, 0x12afe533, 6 }, // 15
-	{ "13.bin",		0x10000, 0x03373755, 6 }, // 16
+	{ "dj12.15k",	0x10000, 0x2b7634f2, 6 }, //  9 gfx2
+	{ "dj13.14k",	0x10000, 0x4530a952, 6 }, // 10
+	{ "dj14.13k",	0x10000, 0x87c28833, 6 }, // 11
+	{ "dj15.11k",	0x10000, 0xbfb43a4d, 6 }, // 12
+	{ "dj16.10k",	0x10000, 0xf9848cc4, 6 }, // 13
+	{ "dj17.9k",	0x10000, 0xbaa3d218, 6 }, // 14
+	{ "dj18.8k",	0x10000, 0x12afe533, 6 }, // 15
+	{ "dj19.6k",	0x10000, 0x03373755, 6 }, // 16
 
-	{ "9.bin",		0x10000, 0x067e2a43, 7 }, // 17 gfx3
-	{ "10.bin",		0x10000, 0xc19733aa, 7 }, // 18
-	{ "11.bin",		0x10000, 0xe37d5dbe, 7 }, // 19
-	{ "12.bin",		0x10000, 0xbeee880f, 7 }, // 20
+	{ "dj11.12k",	0x10000, 0x067e2a43, 7 }, // 17 gfx3
+	{ "dj10.14k",	0x10000, 0xc19733aa, 7 }, // 18
+	{ "dj09.15k",	0x10000, 0xe37d5dbe, 7 }, // 19
+	{ "dj08.17k",	0x10000, 0xbeee880f, 7 }, // 20
 
-	{ "id8751h.mcu",	0x01000, 0x00000000, 4 | BRF_NODUMP }, //  7 mcu
+	{ "dj.18a",		0x01000, 0x00000000, 4 | BRF_NODUMP }, //  7 mcu
+	
+	{ "dk-20.9c",		0x00100, 0xff3cd588, 0 | BRF_OPT }, // priority PROM
 };
 
 STD_ROM_PICK(breywood)
@@ -5122,7 +5154,7 @@ static void csilver_i8751_write(INT32 offset, UINT8 data)
 	{
 	case 0: /* High byte */
 		i8751_value = (i8751_value & 0xff) | (data << 8);
-		M6809SetIRQ(1, M6809_IRQSTATUS_AUTO); /* Signal main cpu */
+		M6809SetIRQLine(1, M6809_IRQSTATUS_AUTO); /* Signal main cpu */
 		break;
 	case 1: /* Low byte */
 		i8751_value = (i8751_value & 0xff00) | data;
@@ -5149,11 +5181,11 @@ void csilver_main_write(UINT16 address, UINT8 data)
 	{
 		case 0x1803:
 			if (M6809GetActive() == 0) { // main
-				M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+				M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 			} else {
 				M6809Close();
 				M6809Open(0);
-				M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+				M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 				M6809Close();
 				M6809Open(1);
 			}
@@ -5163,11 +5195,11 @@ void csilver_main_write(UINT16 address, UINT8 data)
 			if (M6809GetActive() == 0) { // main
 				M6809Close();
 				M6809Open(1);
-				M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+				M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 				M6809Close();
 				M6809Open(0);
 			} else {
-				M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+				M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 			}
 		return;
 
@@ -5181,7 +5213,7 @@ void csilver_main_write(UINT16 address, UINT8 data)
 
 		case 0x180c:
 			*soundlatch = data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
+			M6502SetIRQLine(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 		return;
 
 		case 0x1808:
@@ -5281,7 +5313,7 @@ UINT8 csilver_sound_read(UINT16 address)
 static void CsilverADPCMInt()
 {
 	Toggle ^= 1;
-	if (Toggle)	M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_AUTO);
+	if (Toggle)	M6502SetIRQLine(M6502_IRQ_LINE, M6502_IRQSTATUS_AUTO);
 
 	MSM5205DataWrite(0, MSM5205Next >> 4);
 	MSM5205Next <<= 4;
@@ -5341,8 +5373,8 @@ static INT32 CsilverInit()
 	M6809MapMemory(DrvPf0RAM,			0x3800, 0x3fff, M6809_RAM);
 	M6809MapMemory(DrvMainROM + 0x10000,		0x4000, 0x7fff, M6809_RAM);
 	M6809MapMemory(DrvMainROM + 0x08000,		0x8000, 0xffff, M6809_RAM);
-	M6809SetWriteByteHandler(csilver_main_write);
-	M6809SetReadByteHandler(csilver_main_read);
+	M6809SetWriteHandler(csilver_main_write);
+	M6809SetReadHandler(csilver_main_read);
 	M6809Close();
 
 	M6809Open(1);
@@ -5353,8 +5385,8 @@ static INT32 CsilverInit()
 	M6809MapMemory(DrvMainRAM + 0x01000,		0x3000, 0x37ff, M6809_RAM);
 	M6809MapMemory(DrvPf0RAM,			0x3800, 0x3fff, M6809_RAM);
 	M6809MapMemory(DrvSubROM + 0x04000,		0x4000, 0xffff, M6809_RAM);
-	M6809SetWriteByteHandler(csilver_main_write);
-	M6809SetReadByteHandler(csilver_main_read);
+	M6809SetWriteHandler(csilver_main_write);
+	M6809SetReadHandler(csilver_main_read);
 	M6809Close();
 
 	M6502Init(0, TYPE_M6502);
@@ -5362,20 +5394,25 @@ static INT32 CsilverInit()
 	M6502MapMemory(DrvM6502RAM,          0x0000, 0x07ff, M6502_RAM);
 	M6502MapMemory(DrvM6502ROM + 0x4000, 0x4000, 0x7fff, M6502_ROM);
 	M6502MapMemory(DrvM6502ROM + 0x8000, 0x8000, 0xffff, M6502_ROM);
-	M6502SetReadByteHandler(csilver_sound_read);
-	M6502SetWriteByteHandler(csilver_sound_write);
+	M6502SetReadHandler(csilver_sound_read);
+	M6502SetWriteHandler(csilver_sound_write);
 	M6502Close();
 
 	BurnSetRefreshRate(58.00);
 
 	BurnYM3526Init(3000000, &DrvYM3812FMIRQHandler, &DrvYM3812SynchroniseStream, 0);
 	BurnTimerAttachM6502YM3526(1500000);
+	BurnYM3526SetRoute(BURN_SND_YM3526_ROUTE, 0.70, BURN_SND_ROUTE_BOTH);
 	
 	BurnYM2203Init(1, 1500000, NULL, DrvYM2203M6809SynchroniseStream1500000, DrvYM2203M6809GetTime1500000, 1);
-	BurnYM2203SetVolumeShift(2);
 	BurnTimerAttachM6809(1500000);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.20, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.23, BURN_SND_ROUTE_BOTH);
+	BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.23, BURN_SND_ROUTE_BOTH);
 	
-	MSM5205Init(0, CsilverMSM5205SynchroniseStream, 384000, CsilverADPCMInt, MSM5205_S48_4B, 80, 1);
+	MSM5205Init(0, CsilverMSM5205SynchroniseStream, 384000, CsilverADPCMInt, MSM5205_S48_4B, 1);
+	MSM5205SetRoute(0, 0.88, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -5432,7 +5469,7 @@ static INT32 CsilverFrame()
 		nCyclesDone[1] += M6809Run(nSegment - nCyclesDone[1]);
 		if (i == DrvVBlankSlices[1]) {
 			vblank = 0;
-			M6809SetIRQ(0x20, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(0x20, M6809_IRQSTATUS_AUTO);
 		}
 		MSM5205Update();
 		M6809Close();

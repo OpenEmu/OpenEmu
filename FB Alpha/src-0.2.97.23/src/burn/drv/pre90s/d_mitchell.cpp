@@ -1,5 +1,5 @@
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "eeprom.h"
 #include "burn_ym2413.h"
 #include "msm6295.h"
@@ -1593,9 +1593,10 @@ static void MitchellMachineInit()
 	ZetMemEnd();
 	ZetClose();
 	
-	BurnYM2413Init(4000000, 1.0);
-	BurnYM2413DecreaseVolume(40);
-	MSM6295Init(0, 1000000 / 132, 10.0, 1);
+	BurnYM2413Init(4000000);
+	BurnYM2413SetAllRoutes(1.00, BURN_SND_ROUTE_BOTH);
+	MSM6295Init(0, 1000000 / 132, 1);
+	MSM6295SetRoute(0, 0.30, BURN_SND_ROUTE_BOTH);
 	MSM6295ROM = DrvSoundRom;
 	
 	EEPROMInit(&MitchellEEPROMIntf);
@@ -1628,9 +1629,10 @@ static void MahjongMachineInit()
 	ZetMemEnd();
 	ZetClose();
 	
-	BurnYM2413Init(4000000, 1.0);
-	BurnYM2413DecreaseVolume(40);
-	MSM6295Init(0, 990000 / 132, 10.0, 1);
+	BurnYM2413Init(4000000);
+	BurnYM2413SetAllRoutes(1.00, BURN_SND_ROUTE_BOTH);
+	MSM6295Init(0, 990000 / 132, 1);
+	MSM6295SetRoute(0, 0.30, BURN_SND_ROUTE_BOTH);
 	memcpy(MSM6295ROM, DrvSoundRom, 0x40000);
 	
 	EEPROMInit(&MitchellEEPROMIntf);
@@ -1700,9 +1702,10 @@ static INT32 MgakuenInit()
 	ZetMemEnd();
 	ZetClose();
 	
-	BurnYM2413Init(4000000, 1.0);
-	BurnYM2413DecreaseVolume(40);
-	MSM6295Init(0, 990000 / 132, 10.0, 1);
+	BurnYM2413Init(4000000);
+	BurnYM2413SetAllRoutes(1.00, BURN_SND_ROUTE_BOTH);
+	MSM6295Init(0, 990000 / 132, 1);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 	memcpy(MSM6295ROM, DrvSoundRom, 0x40000);
 	
 	GenericTilesInit();
@@ -2309,6 +2312,7 @@ static INT32 MstworldInit()
 	ZetMemEnd();
 	ZetClose();
 	
+	ZetInit(1);
 	ZetOpen(1);
 	ZetSetReadHandler(MstworldSoundZ80Read);
 	ZetSetWriteHandler(MstworldSoundZ80Write);
@@ -2320,7 +2324,8 @@ static INT32 MstworldInit()
 	ZetMemEnd();
 	ZetClose();
 	
-	MSM6295Init(0, 990000 / 132, 25.0, 0);
+	MSM6295Init(0, 990000 / 132, 0);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 	memcpy(MSM6295ROM, DrvSoundRom, 0x40000);
 	
 	DrvHasEEPROM = 0;

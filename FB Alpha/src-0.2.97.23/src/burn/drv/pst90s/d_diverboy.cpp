@@ -2,8 +2,8 @@
 // Based on MAME driver by David Haywood
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "msm6295.h"
 
 static UINT8 *AllMem;
@@ -311,7 +311,8 @@ static INT32 DrvInit()
 	ZetMemEnd();
 	ZetClose();
 
-	MSM6295Init(0, 1320000 / 132, 100.0, 0);
+	MSM6295Init(0, 1320000 / 132, 0);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

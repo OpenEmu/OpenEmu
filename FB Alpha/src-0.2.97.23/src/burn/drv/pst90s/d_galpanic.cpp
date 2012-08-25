@@ -5,7 +5,7 @@
  */
 
 #include "burnint.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "driver.h"
 
 #include "msm6295.h"
@@ -925,7 +925,8 @@ static INT32 GalpanicInit()
 	}
 
 	MSM6295ROM = RomSnd;
-	MSM6295Init(0, 12000, 80, 0);
+	MSM6295Init(0, 12000, 0);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	RecalcBgPalette = 1;
 
@@ -997,7 +998,8 @@ static INT32 FantasiaInit()
 	}
 
 	MSM6295ROM = RomSnd;
-	MSM6295Init(0, 12000, 80, 0);
+	MSM6295Init(0, 12000, 0);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	RecalcBgPalette = 1;
 
@@ -1066,7 +1068,8 @@ static INT32 Missw96Init()
 	}
 
 	MSM6295ROM = RomSnd;
-	MSM6295Init(0, 12000, 80, 0);
+	MSM6295Init(0, 12000, 0);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	RecalcBgPalette = 1;
 
@@ -1138,7 +1141,8 @@ static INT32 Fantsia2Init()
 	}
 
 	MSM6295ROM = RomSnd;
-	MSM6295Init(0, 12000, 80, 0);
+	MSM6295Init(0, 12000, 0);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	RecalcBgPalette = 1;
 
@@ -1204,7 +1208,8 @@ static INT32 WownfantInit()
 	}
 
 	MSM6295ROM = RomSnd;
-	MSM6295Init(0, 12000, 80, 0);
+	MSM6295Init(0, 12000, 0);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	RecalcBgPalette = 1;
 
@@ -1269,7 +1274,8 @@ static INT32 GalhustlInit()
 	}
 
 	MSM6295ROM = RomSnd;
-	MSM6295Init(0, 12000, 80, 0);
+	MSM6295Init(0, 12000, 0);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	RecalcBgPalette = 1;
 
@@ -1346,7 +1352,8 @@ static INT32 ZipzapInit()
 	}
 
 	MSM6295ROM = RomSnd;
-	MSM6295Init(0, 8000, 80, 0);
+	MSM6295Init(0, 8000, 0);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	RecalcBgPalette = 1;
 

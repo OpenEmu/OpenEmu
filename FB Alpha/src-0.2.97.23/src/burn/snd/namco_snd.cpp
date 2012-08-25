@@ -43,6 +43,9 @@ struct namco_sound
 	INT16 *waveform[MAX_VOLUME];
 	
 	INT32 update_step;
+	
+	double gain[2];
+	INT32 output_dir[2];
 };
 
 static struct namco_sound *chip = NULL;
@@ -77,8 +80,21 @@ static inline UINT32 namco_update_one(INT16 *buffer, INT32 length, const INT16 *
 {
 	while (length-- > 0)
 	{
-		*buffer++ += wave[WAVEFORM_POSITION(counter)];
-		*buffer++ += wave[WAVEFORM_POSITION(counter)];
+		INT32 nLeftSample = 0, nRightSample = 0;
+		
+		if ((chip->output_dir[BURN_SND_NAMCOSND_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(wave[WAVEFORM_POSITION(counter)] * chip->gain[BURN_SND_NAMCOSND_ROUTE_1]);
+		}
+		if ((chip->output_dir[BURN_SND_NAMCOSND_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(wave[WAVEFORM_POSITION(counter)] * chip->gain[BURN_SND_NAMCOSND_ROUTE_1]);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+		
+		*buffer++ += nLeftSample;
+		*buffer++ += nRightSample;
+		
 		counter += freq * chip->update_step;
 	}
 
@@ -89,6 +105,7 @@ static inline UINT32 namco_stereo_update_one(INT16 *buffer, INT32 length, const 
 {
 	while (length-- > 0)
 	{
+		// no route support here - no games use this currently
 		*buffer += wave[WAVEFORM_POSITION(counter)];
 		counter += freq * chip->update_step;
 		buffer +=2;
@@ -465,7 +482,7 @@ static INT32 build_decoded_waveform()
 	return 0;
 }
 
-void NamcoSoundInit(INT32 clock)
+void NamcoSoundInit(INT32 clock, INT32 num_voices)
 {
 	DebugSnd_NamcoSndInitted = 1;
 	
@@ -478,7 +495,7 @@ void NamcoSoundInit(INT32 clock)
 	namco_soundregs = (UINT8*)malloc(0x40);
 	memset(namco_soundregs, 0, 0x40);
 
-	chip->num_voices = 3;
+	chip->num_voices = num_voices;
 	chip->last_channel = chip->channel_list + chip->num_voices;
 	chip->stereo = 0;
 
@@ -513,6 +530,22 @@ void NamcoSoundInit(INT32 clock)
 	}
 	
 	chip->update_step = INTERNAL_RATE / nBurnSoundRate;
+	
+	chip->gain[BURN_SND_NAMCOSND_ROUTE_1] = 1.00;
+	chip->gain[BURN_SND_NAMCOSND_ROUTE_2] = 1.00;
+	chip->output_dir[BURN_SND_NAMCOSND_ROUTE_1] = BURN_SND_ROUTE_BOTH;
+	chip->output_dir[BURN_SND_NAMCOSND_ROUTE_2] = BURN_SND_ROUTE_BOTH;
+}
+
+void NacmoSoundSetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_NamcoSndInitted) bprintf(PRINT_ERROR, _T("NacmoSoundSetRoute called without init\n"));
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("NacmoSoundSetRoute called with invalid index %i\n"), nIndex);
+#endif
+
+	chip->gain[nIndex] = nVolume;
+	chip->output_dir[nIndex] = nRouteDir;
 }
 
 void NamcoSoundExit()

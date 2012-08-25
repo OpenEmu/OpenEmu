@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym3812.h"
 #include "msm6295.h"
 #include "msm5205.h"
@@ -906,7 +906,7 @@ static void DrvFMIRQHandler(INT32, INT32 nStatus)
 
 inline static INT32 TokibSynchroniseStream(INT32 nSoundRate)
 {
-	return (INT64)(ZetTotalCycles() * nSoundRate / 4000000);
+	return (INT64)((double)ZetTotalCycles() * nSoundRate / 4000000);
 }
 
 static void toki_adpcm_int()
@@ -982,8 +982,10 @@ static INT32 TokibInit()
 
 	BurnYM3812Init(3579545, NULL, &TokibSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(3579545);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 	
-	MSM5205Init(0, TokibSynchroniseStream, 384000, toki_adpcm_int, MSM5205_S96_4B, 45, 1);
+	MSM5205Init(0, TokibSynchroniseStream, 384000, toki_adpcm_int, MSM5205_S96_4B, 1);
+	MSM5205SetRoute(0, 0.60, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -1143,8 +1145,10 @@ static INT32 DrvInit()
 
 	BurnYM3812Init(3579545, &DrvFMIRQHandler, &DrvSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(3579545);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 	
-	MSM6295Init(0, 1000000 / 132, 100.0, 1);
+	MSM6295Init(0, 1000000 / 132, 1);
+	MSM6295SetRoute(0, 0.40, BURN_SND_ROUTE_BOTH);
 	MSM6295ROM = DrvSndROM;
 
 	GenericTilesInit();
@@ -1154,7 +1158,7 @@ static INT32 DrvInit()
 	return 0;
 }
 
-static INT32 JujubInit()
+static INT32 JujubaInit()
 {
 	is_bootleg = 0;
 
@@ -1261,8 +1265,10 @@ static INT32 JujubInit()
 
 	BurnYM3812Init(3579545, &DrvFMIRQHandler, &DrvSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(3579545);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 	
-	MSM6295Init(0, 1000000 / 132, 100.0, 1);
+	MSM6295Init(0, 1000000 / 132, 1);
+	MSM6295SetRoute(0, 0.60, BURN_SND_ROUTE_BOTH);
 	MSM6295ROM = DrvSndROM;
 
 	GenericTilesInit();
@@ -1533,7 +1539,7 @@ static INT32 TokibFrame()
 
 	assemble_inputs(0x3f3f, 0xff1f);
 	
-	INT32 nCyclesToDo[2] = { 12000000 / 60, 4000000 / 60 };
+	INT32 nCyclesToDo[2] = { 10000000 / 60, 4000000 / 60 };
 	INT32 nCyclesDone[2] = { 0, 0 };
 	
 	for (INT32 i = 0; i < nInterleave; i++) {
@@ -1711,25 +1717,25 @@ static INT32 DrvFrame()
 // Toki (World set 1)
 
 static struct BurnRomInfo tokiRomDesc[] = {
-	{ "l10_6.bin",	0x20000, 0x94015d91, 1 }, //  0 main
-	{ "k10_4e.bin",	0x20000, 0x531bd3ef, 1 }, //  1
-	{ "tokijp.005",	0x10000, 0xd6a82808, 1 }, //  2
-	{ "tokijp.003",	0x10000, 0xa01a5b10, 1 }, //  3
+	{ "l10_6.bin",			0x20000, 0x94015d91, 1 }, //  0 main
+	{ "k10_4e.bin",			0x20000, 0x531bd3ef, 1 }, //  1
+	{ "tokijp.005",			0x10000, 0xd6a82808, 1 }, //  2
+	{ "tokijp.003",			0x10000, 0xa01a5b10, 1 }, //  3
 
-	{ "tokijp.008",	0x02000, 0x6c87c4c5, 2 }, //  4 audio
-	{ "tokijp.007",	0x10000, 0xa67969c4, 2 }, //  5
+	{ "tokijp.008",			0x02000, 0x6c87c4c5, 2 }, //  4 audio
+	{ "tokijp.007",			0x10000, 0xa67969c4, 2 }, //  5
 
-	{ "tokijp.001",	0x10000, 0x8aa964a2, 3 }, //  6 gfx1
-	{ "tokijp.002",	0x10000, 0x86e87e48, 3 }, //  7
+	{ "tokijp.001",			0x10000, 0x8aa964a2, 3 }, //  6 gfx1
+	{ "tokijp.002",			0x10000, 0x86e87e48, 3 }, //  7
 
-	{ "toki.ob1",	0x80000, 0xa27a80ba, 4 }, //  8 gfx2
-	{ "toki.ob2",	0x80000, 0xfa687718, 4 }, //  9
+	{ "toki.ob1",			0x80000, 0xa27a80ba, 4 }, //  8 gfx2
+	{ "toki.ob2",			0x80000, 0xfa687718, 4 }, //  9
 
-	{ "toki.bk1",	0x80000, 0xfdaa5f4b, 5 }, // 10 gfx3
+	{ "toki.bk1",			0x80000, 0xfdaa5f4b, 5 }, // 10 gfx3
 
-	{ "toki.bk2",	0x80000, 0xd86ac664, 6 }, // 11 gfx4
+	{ "toki.bk2",			0x80000, 0xd86ac664, 6 }, // 11 gfx4
 
-	{ "tokijp.009",	0x20000, 0xae7a6b8b, 7 }, // 12 oki
+	{ "tokijp.009",			0x20000, 0xae7a6b8b, 7 }, // 12 oki
 };
 
 STD_ROM_PICK(toki)
@@ -1749,25 +1755,25 @@ struct BurnDriver BurnDrvToki = {
 // Toki (World set 2)
 
 static struct BurnRomInfo tokiaRomDesc[] = {
-	{ "tokijp.006",	0x20000, 0x03d726b1, 1 }, //  0 main
-	{ "4c.10k",	0x20000, 0xb2c345c5, 1 }, //  1
-	{ "tokijp.005",	0x10000, 0xd6a82808, 1 }, //  2
-	{ "tokijp.003",	0x10000, 0xa01a5b10, 1 }, //  3
+	{ "tokijp.006",			0x20000, 0x03d726b1, 1 }, //  0 main
+	{ "4c.10k",				0x20000, 0xb2c345c5, 1 }, //  1
+	{ "tokijp.005",			0x10000, 0xd6a82808, 1 }, //  2
+	{ "tokijp.003",			0x10000, 0xa01a5b10, 1 }, //  3
 
-	{ "tokijp.008",	0x02000, 0x6c87c4c5, 2 }, //  4 audio
-	{ "tokijp.007",	0x10000, 0xa67969c4, 2 }, //  5
+	{ "tokijp.008",			0x02000, 0x6c87c4c5, 2 }, //  4 audio
+	{ "tokijp.007",			0x10000, 0xa67969c4, 2 }, //  5
 
-	{ "tokijp.001",	0x10000, 0x8aa964a2, 3 }, //  6 gfx1
-	{ "tokijp.002",	0x10000, 0x86e87e48, 3 }, //  7
+	{ "tokijp.001",			0x10000, 0x8aa964a2, 3 }, //  6 gfx1
+	{ "tokijp.002",			0x10000, 0x86e87e48, 3 }, //  7
 
-	{ "toki.ob1",	0x80000, 0xa27a80ba, 4 }, //  8 gfx2
-	{ "toki.ob2",	0x80000, 0xfa687718, 4 }, //  9
+	{ "toki.ob1",			0x80000, 0xa27a80ba, 4 }, //  8 gfx2
+	{ "toki.ob2",			0x80000, 0xfa687718, 4 }, //  9
 
-	{ "toki.bk1",	0x80000, 0xfdaa5f4b, 5 }, // 10 gfx3
+	{ "toki.bk1",			0x80000, 0xfdaa5f4b, 5 }, // 10 gfx3
 
-	{ "toki.bk2",	0x80000, 0xd86ac664, 6 }, // 11 gfx4
+	{ "toki.bk2",			0x80000, 0xd86ac664, 6 }, // 11 gfx4
 
-	{ "tokijp.009",	0x20000, 0xae7a6b8b, 7 }, // 12 oki
+	{ "tokijp.009",			0x20000, 0xae7a6b8b, 7 }, // 12 oki
 };
 
 STD_ROM_PICK(tokia)
@@ -1787,25 +1793,25 @@ struct BurnDriver BurnDrvTokia = {
 // Toki (US)
 
 static struct BurnRomInfo tokiuRomDesc[] = {
-	{ "6b.10m",	0x20000, 0x3674d9fe, 1 }, //  0 main
-	{ "14.10k",	0x20000, 0xbfdd48af, 1 }, //  1
-	{ "tokijp.005",	0x10000, 0xd6a82808, 1 }, //  2
-	{ "tokijp.003",	0x10000, 0xa01a5b10, 1 }, //  3
+	{ "6b.10m",				0x20000, 0x3674d9fe, 1 }, //  0 main
+	{ "14.10k",				0x20000, 0xbfdd48af, 1 }, //  1
+	{ "tokijp.005",			0x10000, 0xd6a82808, 1 }, //  2
+	{ "tokijp.003",			0x10000, 0xa01a5b10, 1 }, //  3
 
-	{ "tokijp.008",	0x02000, 0x6c87c4c5, 2 }, //  4 audio
-	{ "tokijp.007",	0x10000, 0xa67969c4, 2 }, //  5
+	{ "tokijp.008",			0x02000, 0x6c87c4c5, 2 }, //  4 audio
+	{ "tokijp.007",			0x10000, 0xa67969c4, 2 }, //  5
 
-	{ "tokijp.001",	0x10000, 0x8aa964a2, 3 }, //  6 gfx1
-	{ "tokijp.002",	0x10000, 0x86e87e48, 3 }, //  7
+	{ "tokijp.001",			0x10000, 0x8aa964a2, 3 }, //  6 gfx1
+	{ "tokijp.002",			0x10000, 0x86e87e48, 3 }, //  7
 
-	{ "toki.ob1",	0x80000, 0xa27a80ba, 4 }, //  8 gfx2
-	{ "toki.ob2",	0x80000, 0xfa687718, 4 }, //  9
+	{ "toki.ob1",			0x80000, 0xa27a80ba, 4 }, //  8 gfx2
+	{ "toki.ob2",			0x80000, 0xfa687718, 4 }, //  9
 
-	{ "toki.bk1",	0x80000, 0xfdaa5f4b, 5 }, // 10 gfx3
+	{ "toki.bk1",			0x80000, 0xfdaa5f4b, 5 }, // 10 gfx3
 
-	{ "toki.bk2",	0x80000, 0xd86ac664, 6 }, // 11 gfx4
+	{ "toki.bk2",			0x80000, 0xd86ac664, 6 }, // 11 gfx4
 
-	{ "tokijp.009",	0x20000, 0xae7a6b8b, 7 }, // 12 oki
+	{ "tokijp.009",			0x20000, 0xae7a6b8b, 7 }, // 12 oki
 };
 
 STD_ROM_PICK(tokiu)
@@ -1825,25 +1831,25 @@ struct BurnDriver BurnDrvTokiu = {
 // JuJu Densetsu (Japan)
 
 static struct BurnRomInfo jujuRomDesc[] = {
-	{ "tokijp.006",	0x20000, 0x03d726b1, 1 }, //  0 main
-	{ "tokijp.004",	0x20000, 0x54a45e12, 1 }, //  1
-	{ "tokijp.005",	0x10000, 0xd6a82808, 1 }, //  2
-	{ "tokijp.003",	0x10000, 0xa01a5b10, 1 }, //  3
+	{ "tokijp.006",			0x20000, 0x03d726b1, 1 }, //  0 main
+	{ "tokijp.004",			0x20000, 0x54a45e12, 1 }, //  1
+	{ "tokijp.005",			0x10000, 0xd6a82808, 1 }, //  2
+	{ "tokijp.003",			0x10000, 0xa01a5b10, 1 }, //  3
 
-	{ "tokijp.008",	0x02000, 0x6c87c4c5, 2 }, //  4 audio
-	{ "tokijp.007",	0x10000, 0xa67969c4, 2 }, //  5
+	{ "tokijp.008",			0x02000, 0x6c87c4c5, 2 }, //  4 audio
+	{ "tokijp.007",			0x10000, 0xa67969c4, 2 }, //  5
 
-	{ "tokijp.001",	0x10000, 0x8aa964a2, 3 }, //  6 gfx1
-	{ "tokijp.002",	0x10000, 0x86e87e48, 3 }, //  7
+	{ "tokijp.001",			0x10000, 0x8aa964a2, 3 }, //  6 gfx1
+	{ "tokijp.002",			0x10000, 0x86e87e48, 3 }, //  7
 
-	{ "toki.ob1",	0x80000, 0xa27a80ba, 4 }, //  8 gfx2
-	{ "toki.ob2",	0x80000, 0xfa687718, 4 }, //  9
+	{ "toki.ob1",			0x80000, 0xa27a80ba, 4 }, //  8 gfx2
+	{ "toki.ob2",			0x80000, 0xfa687718, 4 }, //  9
 
-	{ "toki.bk1",	0x80000, 0xfdaa5f4b, 5 }, // 10 gfx3
+	{ "toki.bk1",			0x80000, 0xfdaa5f4b, 5 }, // 10 gfx3
 
-	{ "toki.bk2",	0x80000, 0xd86ac664, 6 }, // 11 gfx4
+	{ "toki.bk2",			0x80000, 0xd86ac664, 6 }, // 11 gfx4
 
-	{ "tokijp.009",	0x20000, 0xae7a6b8b, 7 }, // 12 oki
+	{ "tokijp.009",			0x20000, 0xae7a6b8b, 7 }, // 12 oki
 };
 
 STD_ROM_PICK(juju)
@@ -1860,51 +1866,47 @@ struct BurnDriver BurnDrvJuju = {
 };
 
 
-// JuJu Densetsu (Japan, bootleg)
+// JuJu Densetsu (Playmark bootleg)
 
 static struct BurnRomInfo jujubRomDesc[] = {
-	{ "8.19g",	0x10000, 0x208fb08a, 1 }, //  0 main
-	{ "5.19e",	0x10000, 0x722e5183, 1 }, //  1
-	{ "9.20g",	0x10000, 0xcb82cc33, 1 }, //  2
-	{ "6.20e",	0x10000, 0x826ab39d, 1 }, //  3
-	{ "10.21g",	0x10000, 0x6c7a3ffe, 1 }, //  4
-	{ "7.21e",	0x10000, 0xb0628230, 1 }, //  5
+	{ "jujub_playmark.e3",	0x20000, 0xb50c73ec, 1 }, //  0 main
+	{ "jujub_playmark.e5",	0x20000, 0xb2812942, 1 }, //  1
+	{ "tokijp.005",			0x10000, 0xd6a82808, 1 }, //  2
+	{ "tokijp.003",			0x10000, 0xa01a5b10, 1 }, //  3
 
-	{ "3.9c",	0x08000, 0x808f5e44, 2 }, //  6 audio
-	{ "4.11c",	0x10000, 0xa67969c4, 2 }, //  7
+	{ "toki.e1",			0x10000, 0x2832ef75, 2 }, //  4 audio
 
-	{ "5.19h",	0x10000, 0x8aa964a2, 3 }, //  8 gfx1
-	{ "6.20h",	0x10000, 0x86e87e48, 3 }, //  9
+	{ "toki.e21",			0x08000, 0xbb8cacbd, 3 }, //  5 gfx1
+	{ "toki.e13",			0x08000, 0x052ad275, 3 }, //  6
+	{ "toki.e22",			0x08000, 0x04dcdc21, 3 }, //  7
+	{ "toki.e7",			0x08000, 0x70729106, 3 }, //  8
 
-	{ "1.17d",	0x20000, 0xa027bd8e, 4 }, // 10 gfx2
-	{ "27.17b",	0x20000, 0x43a767ea, 4 }, // 11
-	{ "2.18d",	0x20000, 0x1aecc9d8, 4 }, // 12
-	{ "28.18b",	0x20000, 0xd65c0c6d, 4 }, // 13
-	{ "3.20d",	0x20000, 0xcedaccaf, 4 }, // 14
-	{ "29.20b",	0x20000, 0x013f539b, 4 }, // 15
-	{ "4.21d",	0x20000, 0x6a8e6e22, 4 }, // 16
-	{ "30.21b",	0x20000, 0x25d9a16c, 4 }, // 17
+	{ "toki.e26",			0x20000, 0xa8ba71fc, 4 }, //  9 gfx2
+	{ "toki.e28",			0x20000, 0x29784948, 4 }, // 10
+	{ "toki.e34",			0x20000, 0xe5f6e19b, 4 }, // 11
+	{ "toki.e36",			0x20000, 0x96e8db8b, 4 }, // 12
+	{ "toki.e30",			0x20000, 0x770d2b1b, 4 }, // 13
+	{ "toki.e32",			0x20000, 0xc289d246, 4 }, // 14
+	{ "toki.e38",			0x20000, 0x87f4e7fb, 4 }, // 15
+	{ "toki.e40",			0x20000, 0x96e87350, 4 }, // 16
 
-	{ "11.1j",	0x10000, 0x6ad15560, 5 }, // 18 gfx3
-	{ "12.2j",	0x10000, 0x68534844, 5 }, // 19
-	{ "13.4j",	0x10000, 0xf271be5a, 5 }, // 20
-	{ "14.5j",	0x10000, 0x5d4c187a, 5 }, // 21
-	{ "19.1l",	0x10000, 0x10afdf03, 5 }, // 22
-	{ "20.2l",	0x10000, 0x2dc54f41, 5 }, // 23
-	{ "21.4l",	0x10000, 0x946862a3, 5 }, // 24
-	{ "22.5l",	0x10000, 0xb45f5608, 5 }, // 25
+	{ "toki.e23",			0x10000, 0xfeb13d35, 5 }, // 17 gfx3
+	{ "toki.e24",			0x10000, 0x5b365637, 5 }, // 18
+	{ "toki.e15",			0x10000, 0x617c32e6, 5 }, // 19
+	{ "toki.e16",			0x10000, 0x2a11c0f0, 5 }, // 20
+	{ "toki.e17",			0x10000, 0xfbc3d456, 5 }, // 21
+	{ "toki.e18",			0x10000, 0x4c2a72e1, 5 }, // 22
+	{ "toki.e8",			0x10000, 0x46a1b821, 5 }, // 23
+	{ "toki.e9",			0x10000, 0x82ce27f6, 5 }, // 24
 
-	{ "15.18j",	0x10000, 0xcb8b1d31, 6 }, // 26 gfx4
-	{ "16.19j",	0x10000, 0x81594e0a, 6 }, // 27
-	{ "17.20j",	0x10000, 0x4acd44ce, 6 }, // 28
-	{ "18.21j",	0x10000, 0x25cfe9c3, 6 }, // 29
-	{ "23.18l",	0x10000, 0x06c8d622, 6 }, // 30
-	{ "24.19l",	0x10000, 0x362a0506, 6 }, // 31
-	{ "25.20l",	0x10000, 0xbe064c4b, 6 }, // 32
-	{ "26.21l",	0x10000, 0xf8b5b38d, 6 }, // 33
-
-	{ "1.6a",	0x10000, 0x377153ad, 7 }, // 34 oki
-	{ "2.7a",	0x10000, 0x093ca15d, 7 }, // 35
+	{ "toki.e25",			0x10000, 0x63026cad, 6 }, // 25 gfx4
+	{ "toki.e20",			0x10000, 0xa7f2ce26, 6 }, // 26
+	{ "toki.e11",			0x10000, 0x48989aa0, 6 }, // 27
+	{ "toki.e12",			0x10000, 0xc2ad9342, 6 }, // 28
+	{ "toki.e19",			0x10000, 0x6cd22b18, 6 }, // 29
+	{ "toki.e14",			0x10000, 0x859e313a, 6 }, // 30
+	{ "toki.e10",			0x10000, 0xe15c1d0f, 6 }, // 31
+	{ "toki.e6",			0x10000, 0x6f4b878a, 6 }, // 32
 };
 
 STD_ROM_PICK(jujub)
@@ -1912,56 +1914,116 @@ STD_ROM_FN(jujub)
 
 struct BurnDriver BurnDrvJujub = {
 	"jujub", "toki", NULL, NULL, "1989",
-	"JuJu Densetsu (Japan, bootleg)\0", NULL, "bootleg", "Miscellaneous",
+	"JuJu Densetsu (Playmark bootleg)\0", NULL, "bootleg (Playmark)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
-	NULL, jujubRomInfo, jujubRomName, NULL, NULL, TokiInputInfo, TokiDIPInfo,
-	JujubInit, DrvExit, DrvFrame, DrvDraw, NULL, NULL, 0x400,
+	NULL, jujubRomInfo, jujubRomName, NULL, NULL, TokibInputInfo, TokibDIPInfo,
+	TokibInit, DrvExit, TokibFrame, TokibDraw, NULL, NULL, 0x400,
 	256, 224, 4, 3
 };
 
 
-// Toki (bootleg)
+// JuJu Densetsu (Japan, bootleg)
+
+static struct BurnRomInfo jujubaRomDesc[] = {
+	{ "8.19g",				0x10000, 0x208fb08a, 1 }, //  0 main
+	{ "5.19e",				0x10000, 0x722e5183, 1 }, //  1
+	{ "9.20g",				0x10000, 0xcb82cc33, 1 }, //  2
+	{ "6.20e",				0x10000, 0x826ab39d, 1 }, //  3
+	{ "10.21g",				0x10000, 0x6c7a3ffe, 1 }, //  4
+	{ "7.21e",				0x10000, 0xb0628230, 1 }, //  5
+
+	{ "3.9c",				0x08000, 0x808f5e44, 2 }, //  6 audio
+	{ "4.11c",				0x10000, 0xa67969c4, 2 }, //  7
+
+	{ "5.19h",				0x10000, 0x8aa964a2, 3 }, //  8 gfx1
+	{ "6.20h",				0x10000, 0x86e87e48, 3 }, //  9
+
+	{ "1.17d",				0x20000, 0xa027bd8e, 4 }, // 10 gfx2
+	{ "27.17b",				0x20000, 0x43a767ea, 4 }, // 11
+	{ "2.18d",				0x20000, 0x1aecc9d8, 4 }, // 12
+	{ "28.18b",				0x20000, 0xd65c0c6d, 4 }, // 13
+	{ "3.20d",				0x20000, 0xcedaccaf, 4 }, // 14
+	{ "29.20b",				0x20000, 0x013f539b, 4 }, // 15
+	{ "4.21d",				0x20000, 0x6a8e6e22, 4 }, // 16
+	{ "30.21b",				0x20000, 0x25d9a16c, 4 }, // 17
+
+	{ "11.1j",				0x10000, 0x6ad15560, 5 }, // 18 gfx3
+	{ "12.2j",				0x10000, 0x68534844, 5 }, // 19
+	{ "13.4j",				0x10000, 0xf271be5a, 5 }, // 20
+	{ "14.5j",				0x10000, 0x5d4c187a, 5 }, // 21
+	{ "19.1l",				0x10000, 0x10afdf03, 5 }, // 22
+	{ "20.2l",				0x10000, 0x2dc54f41, 5 }, // 23
+	{ "21.4l",				0x10000, 0x946862a3, 5 }, // 24
+	{ "22.5l",				0x10000, 0xb45f5608, 5 }, // 25
+
+	{ "15.18j",				0x10000, 0xcb8b1d31, 6 }, // 26 gfx4
+	{ "16.19j",				0x10000, 0x81594e0a, 6 }, // 27
+	{ "17.20j",				0x10000, 0x4acd44ce, 6 }, // 28
+	{ "18.21j",				0x10000, 0x25cfe9c3, 6 }, // 29
+	{ "23.18l",				0x10000, 0x06c8d622, 6 }, // 30
+	{ "24.19l",				0x10000, 0x362a0506, 6 }, // 31
+	{ "25.20l",				0x10000, 0xbe064c4b, 6 }, // 32
+	{ "26.21l",				0x10000, 0xf8b5b38d, 6 }, // 33
+
+	{ "1.6a",				0x10000, 0x377153ad, 7 }, // 34 oki
+	{ "2.7a",				0x10000, 0x093ca15d, 7 }, // 35
+};
+
+STD_ROM_PICK(jujuba)
+STD_ROM_FN(jujuba)
+
+struct BurnDriver BurnDrvJujuba = {
+	"jujuba", "toki", NULL, NULL, "1989",
+	"JuJu Densetsu (Japan, bootleg)\0", NULL, "bootleg", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
+	NULL, jujubaRomInfo, jujubaRomName, NULL, NULL, TokiInputInfo, TokiDIPInfo,
+	JujubaInit, DrvExit, DrvFrame, DrvDraw, NULL, NULL, 0x400,
+	256, 224, 4, 3
+};
+
+// Toki (Datsu bootleg)
 
 static struct BurnRomInfo tokibRomDesc[] = {
-	{ "toki.e3",	0x20000, 0xae9b3da4, 1 }, //  0 main
-	{ "toki.e5",	0x20000, 0x66a5a1d6, 1 }, //  1
-	{ "tokijp.005",	0x10000, 0xd6a82808, 1 }, //  2
-	{ "tokijp.003",	0x10000, 0xa01a5b10, 1 }, //  3
+	{ "toki.e3",			0x20000, 0xae9b3da4, 1 }, //  0 main
+	{ "toki.e5",			0x20000, 0x66a5a1d6, 1 }, //  1
+	{ "tokijp.005",			0x10000, 0xd6a82808, 1 }, //  2
+	{ "tokijp.003",			0x10000, 0xa01a5b10, 1 }, //  3
 
-	{ "toki.e1",	0x10000, 0x2832ef75, 2 }, //  4 audio
+	{ "toki.e1",			0x10000, 0x2832ef75, 2 }, //  4 audio
 
-	{ "toki.e21",	0x08000, 0xbb8cacbd, 3 }, //  5 gfx1
-	{ "toki.e13",	0x08000, 0x052ad275, 3 }, //  6
-	{ "toki.e22",	0x08000, 0x04dcdc21, 3 }, //  7
-	{ "toki.e7",	0x08000, 0x70729106, 3 }, //  8
+	{ "toki.e21",			0x08000, 0xbb8cacbd, 3 }, //  5 gfx1
+	{ "toki.e13",			0x08000, 0x052ad275, 3 }, //  6
+	{ "toki.e22",			0x08000, 0x04dcdc21, 3 }, //  7
+	{ "toki.e7",			0x08000, 0x70729106, 3 }, //  8
 
-	{ "toki.e26",	0x20000, 0xa8ba71fc, 4 }, //  9 gfx2
-	{ "toki.e28",	0x20000, 0x29784948, 4 }, // 10
-	{ "toki.e34",	0x20000, 0xe5f6e19b, 4 }, // 11
-	{ "toki.e36",	0x20000, 0x96e8db8b, 4 }, // 12
-	{ "toki.e30",	0x20000, 0x770d2b1b, 4 }, // 13
-	{ "toki.e32",	0x20000, 0xc289d246, 4 }, // 14
-	{ "toki.e38",	0x20000, 0x87f4e7fb, 4 }, // 15
-	{ "toki.e40",	0x20000, 0x96e87350, 4 }, // 16
+	{ "toki.e26",			0x20000, 0xa8ba71fc, 4 }, //  9 gfx2
+	{ "toki.e28",			0x20000, 0x29784948, 4 }, // 10
+	{ "toki.e34",			0x20000, 0xe5f6e19b, 4 }, // 11
+	{ "toki.e36",			0x20000, 0x96e8db8b, 4 }, // 12
+	{ "toki.e30",			0x20000, 0x770d2b1b, 4 }, // 13
+	{ "toki.e32",			0x20000, 0xc289d246, 4 }, // 14
+	{ "toki.e38",			0x20000, 0x87f4e7fb, 4 }, // 15
+	{ "toki.e40",			0x20000, 0x96e87350, 4 }, // 16
 
-	{ "toki.e23",	0x10000, 0xfeb13d35, 5 }, // 17 gfx3
-	{ "toki.e24",	0x10000, 0x5b365637, 5 }, // 18
-	{ "toki.e15",	0x10000, 0x617c32e6, 5 }, // 19
-	{ "toki.e16",	0x10000, 0x2a11c0f0, 5 }, // 20
-	{ "toki.e17",	0x10000, 0xfbc3d456, 5 }, // 21
-	{ "toki.e18",	0x10000, 0x4c2a72e1, 5 }, // 22
-	{ "toki.e8",	0x10000, 0x46a1b821, 5 }, // 23
-	{ "toki.e9",	0x10000, 0x82ce27f6, 5 }, // 24
+	{ "toki.e23",			0x10000, 0xfeb13d35, 5 }, // 17 gfx3
+	{ "toki.e24",			0x10000, 0x5b365637, 5 }, // 18
+	{ "toki.e15",			0x10000, 0x617c32e6, 5 }, // 19
+	{ "toki.e16",			0x10000, 0x2a11c0f0, 5 }, // 20
+	{ "toki.e17",			0x10000, 0xfbc3d456, 5 }, // 21
+	{ "toki.e18",			0x10000, 0x4c2a72e1, 5 }, // 22
+	{ "toki.e8",			0x10000, 0x46a1b821, 5 }, // 23
+	{ "toki.e9",			0x10000, 0x82ce27f6, 5 }, // 24
 
-	{ "toki.e25",	0x10000, 0x63026cad, 6 }, // 25 gfx4
-	{ "toki.e20",	0x10000, 0xa7f2ce26, 6 }, // 26
-	{ "toki.e11",	0x10000, 0x48989aa0, 6 }, // 27
-	{ "toki.e12",	0x10000, 0xc2ad9342, 6 }, // 28
-	{ "toki.e19",	0x10000, 0x6cd22b18, 6 }, // 29
-	{ "toki.e14",	0x10000, 0x859e313a, 6 }, // 30
-	{ "toki.e10",	0x10000, 0xe15c1d0f, 6 }, // 31
-	{ "toki.e6",	0x10000, 0x6f4b878a, 6 }, // 32
+	{ "toki.e25",			0x10000, 0x63026cad, 6 }, // 25 gfx4
+	{ "toki.e20",			0x10000, 0xa7f2ce26, 6 }, // 26
+	{ "toki.e11",			0x10000, 0x48989aa0, 6 }, // 27
+	{ "toki.e12",			0x10000, 0xc2ad9342, 6 }, // 28
+	{ "toki.e19",			0x10000, 0x6cd22b18, 6 }, // 29
+	{ "toki.e14",			0x10000, 0x859e313a, 6 }, // 30
+	{ "toki.e10",			0x10000, 0xe15c1d0f, 6 }, // 31
+	{ "toki.e6",			0x10000, 0x6f4b878a, 6 }, // 32
 };
 
 STD_ROM_PICK(tokib)
@@ -1969,7 +2031,7 @@ STD_ROM_FN(tokib)
 
 struct BurnDriver BurnDrvTokib = {
 	"tokib", "toki", NULL, NULL, "1989",
-	"Toki (bootleg)\0", NULL, "bootleg", "Miscellaneous",
+	"Toki (bootleg)\0", NULL, "bootleg (Datsu)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, tokibRomInfo, tokibRomName, NULL, NULL, TokibInputInfo, TokibDIPInfo,

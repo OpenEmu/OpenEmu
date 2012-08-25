@@ -175,13 +175,23 @@ static INT32 DrvScan(INT32 nAction,INT32 *pnMin)
 
 static INT32 LoadRoms()
 {
-	// Load 68000 ROM
-	ToaLoadCode(Rom01, 0, 2);
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "pipibibsp")) {
+		// Load 68000 ROM
+		ToaLoadCode(Rom01, 0, 2);
 
-	// Load GP9001 tile data
-	ToaLoadGP9001Tiles(GP9001ROM[0], 2, 2, nGP9001ROMSize[0]);
+		// Load GP9001 tile data
+		ToaLoadGP9001Tiles(GP9001ROM[0], 2, 4, nGP9001ROMSize[0]);
 
-	BurnLoadRom(RomZ80, 4, 1);
+		BurnLoadRom(RomZ80, 6, 1);
+	} else {
+		// Load 68000 ROM
+		ToaLoadCode(Rom01, 0, 2);
+
+		// Load GP9001 tile data
+		ToaLoadGP9001Tiles(GP9001ROM[0], 2, 2, nGP9001ROMSize[0]);
+
+		BurnLoadRom(RomZ80, 4, 1);
+	}
 
 	return 0;
 }
@@ -388,6 +398,7 @@ static INT32 DrvInit()
 	nToa1Cycles68KSync = 0;
 	BurnYM3812Init(3375000, &toaplan1FMIRQHandler, pipibibsSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(3375000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 
 	nSpriteYOffset =  0x0001;
 
@@ -573,6 +584,34 @@ struct BurnDriver BurnDrvPipibibsa = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TOAPLAN_68K_Zx80, GBF_PLATFORM, 0,
 	NULL, pipibibsaRomInfo, pipibibsaRomName, NULL, NULL, PipibibsInputInfo, PipibibsDIPInfo,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &ToaRecalcPalette, 0x800,
+	320, 240, 4, 3
+};
+
+
+// Pipi & Bibis / Whoopee!! (prototype)
+
+static struct BurnRomInfo pipibibspRomDesc[] = {
+	{ "pip_cpu_e",		0x020000, 0xae3205bd, BRF_ESS | BRF_PRG }, //  0 CPU #0 code
+	{ "pip_cpu_o",		0x020000, 0x241669a9, BRF_ESS | BRF_PRG }, //  1
+
+	{ "cg_01_l",		0x080000, 0x21d1ef46, BRF_GRA },	   //  2 GP9001 Tile data
+	{ "cg_01_h",		0x080000, 0xd5726328, BRF_GRA },	   //  3
+	{ "cg_23_l",		0x080000, 0x114d41d0, BRF_GRA },	   //  4
+	{ "cg_23_h",		0x080000, 0xe0468152, BRF_GRA },	   //  5
+
+	{ "pip_snd",		0x008000, 0x8ebf183b, BRF_ESS | BRF_PRG }, //  6 CPU #1 code
+};
+
+STD_ROM_PICK(pipibibsp)
+STD_ROM_FN(pipibibsp)
+
+struct BurnDriver BurnDrvPipibibsp = {
+	"pipibibsp", "pipibibs", NULL, NULL, "1991",
+	"Pipi & Bibis / Whoopee!! (prototype)\0", NULL, "Toaplan", "Toaplan GP9001 based",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_PROTOTYPE, 2, HARDWARE_TOAPLAN_68K_Zx80, GBF_PLATFORM, 0,
+	NULL, pipibibspRomInfo, pipibibspRomName, NULL, NULL, PipibibsInputInfo, PipibibsDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &ToaRecalcPalette, 0x800,
 	320, 240, 4, 3
 };

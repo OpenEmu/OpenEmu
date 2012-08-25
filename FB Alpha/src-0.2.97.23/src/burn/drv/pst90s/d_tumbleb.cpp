@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "msm6295.h"
 #include "burn_ym3812.h"
@@ -1458,6 +1458,28 @@ static struct BurnRomInfo JumppopRomDesc[] = {
 STD_ROM_PICK(Jumppop)
 STD_ROM_FN(Jumppop)
 
+static struct BurnRomInfo JumppopeRomDesc[] = {
+	{ "esd2.cu02",     0x040000, 0x302dd093, BRF_ESS | BRF_PRG }, //  0	68000 Program Code
+	{ "esd1.cu03",     0x040000, 0x883392ba, BRF_ESS | BRF_PRG }, //  1
+	
+	{ "at27c020.su06", 0x040000, 0xa88d4424, BRF_ESS | BRF_PRG }, //  2	Z80 Program Code
+	
+	{ "esd7.ju03",     0x040000, 0x9c2970e0, BRF_GRA },	      //  3	Tiles
+	{ "esd8.ju04",     0x040000, 0x33bf99b0, BRF_GRA },	      //  4
+	{ "esd9.ju05",     0x040000, 0x671d21fd, BRF_GRA },	      //  5
+	{ "esd10.ju06",    0x040000, 0x85a3cc73, BRF_GRA },	      //  6
+	
+	{ "esd5.fu28",     0x080000, 0x0d47f821, BRF_GRA },	      //  7	Sprites
+	{ "esd6.fu29",     0x080000, 0xc01af40d, BRF_GRA },	      //  8
+	{ "esd4.fu26",     0x080000, 0x97b409be, BRF_GRA },	      //  9
+	{ "esd3.fu27",     0x080000, 0x3358a693, BRF_GRA },	      //  10
+	
+	{ "at27c020.su10", 0x040000, 0x066f30a7, BRF_SND },	      //  11	Samples
+};
+
+STD_ROM_PICK(Jumppope)
+STD_ROM_FN(Jumppope)
+
 static INT32 MemIndex()
 {
 	UINT8 *Next; Next = Mem;
@@ -2314,9 +2336,15 @@ static INT32 SuprtrioYOffsets[16]    = { 8, 0, 16, 24, 40, 32, 48, 56, 64, 72, 8
 static INT32 JpCharPlaneOffsets[8]   = { 0, 1, 2, 3, 4, 5, 6, 7 };
 static INT32 JpCharXOffsets[8]       = { 0x800000, 0x800008, 0, 8, 0x800010, 0x800018, 16, 24 };
 static INT32 JpCharYOffsets[8]       = { 0, 32, 64, 96, 128, 160, 192, 224 };
+static INT32 JpeCharPlaneOffsets[8]  = { 0, 1, 2, 3, 4, 5, 6, 7 };
+static INT32 JpeCharXOffsets[8]      = { 0, 16, 8, 24, 32, 48, 40, 56 };
+static INT32 JpeCharYOffsets[8]      = { 0, 64, 128, 192, 256, 320, 384, 448 };
 static INT32 JpTilePlaneOffsets[8]   = { 0, 1, 2, 3, 4, 5, 6, 7 };
 static INT32 JpTileXOffsets[16]      = { 0x800000, 0x800008, 0, 8, 0x800010, 0x800018, 16, 24, 0x800100, 0x800108, 256, 264, 0x800110, 0x800118, 272, 280 };
 static INT32 JpTileYOffsets[16]      = { 0, 32, 64, 96, 128, 160, 192, 224, 512, 544, 576, 608, 640, 672, 704, 736 };
+static INT32 JpeTilePlaneOffsets[8]  = { 0, 1, 2, 3, 4, 5, 6, 7 };
+static INT32 JpeTileXOffsets[16]     = { 0, 16, 8, 24, 32, 48, 40, 56, 512, 528, 520, 536, 544, 560, 552, 568 };
+static INT32 JpeTileYOffsets[16]     = { 0, 64, 128, 192, 256, 320, 384, 448, 1024, 1088, 1152, 1216, 1280, 1344, 1408, 1472 };
 
 static void TumblebTilesRearrange()
 {
@@ -2977,7 +3005,9 @@ static INT32 DrvInit(bool bReset, INT32 SpriteRamSize, INT32 SpriteMask, INT32 S
 	
 	if (DrvHasYM2151) {
 		if (!DrvYM2151Freq) DrvYM2151Freq = 3427190;
-		BurnYM2151Init(DrvYM2151Freq, 25.0);
+		BurnYM2151Init(DrvYM2151Freq);
+		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.10, BURN_SND_ROUTE_LEFT);
+		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.10, BURN_SND_ROUTE_RIGHT);
 		if (DrvHasZ80) { 
 			BurnYM2151SetIrqHandler(&SemicomYM2151IrqHandler);
 		}
@@ -2985,9 +3015,11 @@ static INT32 DrvInit(bool bReset, INT32 SpriteRamSize, INT32 SpriteMask, INT32 S
 	
 	// Setup the OKIM6295 emulation
 	if (DrvHasYM2151) {
-		MSM6295Init(0, OkiFreq / 132, 20.0, 1);
+		MSM6295Init(0, OkiFreq / 132, 1);
+		MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	} else {
-		MSM6295Init(0, OkiFreq / 132, 20.0, 0);
+		MSM6295Init(0, OkiFreq / 132, 0);
+		MSM6295SetRoute(0, 0.70, BURN_SND_ROUTE_BOTH);
 	}
 	
 	BurnSetRefreshRate(Refresh);
@@ -3073,7 +3105,11 @@ static INT32 PangpangInit()
 	DrvMap68k = PangpangMap68k;
 	DrvRender = PangpangDraw;
 
-	return DrvInit(1, 0x800, 0x7fff, -1, 0, 0x2000, 0x8000, 0x2000, 58.0, 8000000 / 10);
+	INT32 nRet = DrvInit(1, 0x800, 0x7fff, -1, 0, 0x2000, 0x8000, 0x2000, 58.0, 8000000 / 10);
+	
+	MSM6295SetRoute(0, 0.70, BURN_SND_ROUTE_BOTH);
+	
+	return nRet;
 }
 
 static INT32 SuprtrioInit()
@@ -3092,6 +3128,8 @@ static INT32 SuprtrioInit()
 	Pf1XOffset = -6;
 	Pf2XOffset = -2;
 	nCyclesTotal[1] = 8000000 / 60;
+	
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 	
 	return nRet;
 }
@@ -3226,6 +3264,9 @@ static INT32 FncywldInit()
 	
 	nCyclesTotal[0] = 12000000 / 60;
 	DrvSpriteColourMask = 0x3f;
+	
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.20, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.20, BURN_SND_ROUTE_RIGHT);
 	
 	return nRet;
 }
@@ -3370,28 +3411,56 @@ static INT32 JumppopInit()
 
 	DrvTempRom = (UINT8 *)BurnMalloc(0x200000);
 	
-	// Load 68000 Program Roms
-	nRet = BurnLoadRom(Drv68KRom + 0x00000, 0, 1); if (nRet != 0) return 1;
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "jumppope")) {
+		// Load 68000 Program Roms
+		nRet = BurnLoadRom(Drv68KRom + 0x00001, 0, 2); if (nRet != 0) return 1;
+		nRet = BurnLoadRom(Drv68KRom + 0x00000, 1, 2); if (nRet != 0) return 1;
 	
-	// Load Z80 Program Roms
-	memset(DrvTempRom, 0, 0x200000);
-	nRet = BurnLoadRom(DrvZ80Rom, 1, 1); if (nRet != 0) return 1;
+		// Load Z80 Program Roms
+		nRet = BurnLoadRom(DrvZ80Rom, 2, 1); if (nRet != 0) return 1;
 	
-	// Load and decode the tiles
-	memset(DrvTempRom, 0, 0x200000);
-	nRet = BurnLoadRom(DrvTempRom + 0x000000, 2, 1); if (nRet != 0) return 1;
-	nRet = BurnLoadRom(DrvTempRom + 0x100000, 3, 1); if (nRet != 0) return 1;
-	GfxDecode(DrvNumChars, 8, 8, 8, JpCharPlaneOffsets, JpCharXOffsets, JpCharYOffsets, 0x100, DrvTempRom, DrvChars);
-	GfxDecode(DrvNumTiles, 8, 16, 16, JpTilePlaneOffsets, JpTileXOffsets, JpTileYOffsets, 0x400, DrvTempRom, DrvTiles);
+		// Load and decode the tiles
+		memset(DrvTempRom, 0, 0x200000);
+		nRet = BurnLoadRom(DrvTempRom + 0x000000,  7, 4); if (nRet != 0) return 1;
+		nRet = BurnLoadRom(DrvTempRom + 0x000001,  8, 4); if (nRet != 0) return 1;
+		nRet = BurnLoadRom(DrvTempRom + 0x000002,  9, 4); if (nRet != 0) return 1;
+		nRet = BurnLoadRom(DrvTempRom + 0x000003, 10, 4); if (nRet != 0) return 1;
+		GfxDecode(DrvNumChars, 8, 8, 8, JpeCharPlaneOffsets, JpeCharXOffsets, JpeCharYOffsets, 0x200, DrvTempRom, DrvChars);
+		GfxDecode(DrvNumTiles, 8, 16, 16, JpeTilePlaneOffsets, JpeTileXOffsets, JpeTileYOffsets, 0x800, DrvTempRom, DrvTiles);
 		
-	// Load and decode the sprites
-	memset(DrvTempRom, 0, 0x200000);
-	nRet = BurnLoadRom(DrvTempRom + 0x000000, 4, 1); if (nRet != 0) return 1;
-	nRet = BurnLoadRom(DrvTempRom + 0x100000, 5, 1); if (nRet != 0) return 1;
-	GfxDecode(DrvNumSprites, 4, 16, 16, Sprite2PlaneOffsets, SpriteXOffsets, SpriteYOffsets, 0x200, DrvTempRom, DrvSprites);
+		// Load and decode the sprites
+		memset(DrvTempRom, 0, 0x200000);
+		nRet = BurnLoadRom(DrvTempRom + 0x000000, 3, 2); if (nRet != 0) return 1;
+		nRet = BurnLoadRom(DrvTempRom + 0x000001, 4, 2); if (nRet != 0) return 1;
+		nRet = BurnLoadRom(DrvTempRom + 0x100000, 5, 2); if (nRet != 0) return 1;
+		nRet = BurnLoadRom(DrvTempRom + 0x100001, 6, 2); if (nRet != 0) return 1;
+		GfxDecode(DrvNumSprites, 4, 16, 16, Sprite2PlaneOffsets, SpriteXOffsets, SpriteYOffsets, 0x200, DrvTempRom, DrvSprites);
 	
-	// Load Sample Roms
-	nRet = BurnLoadRom(MSM6295ROM, 6, 1); if (nRet != 0) return 1;
+		// Load Sample Roms
+		nRet = BurnLoadRom(MSM6295ROM, 11, 1); if (nRet != 0) return 1;
+	} else {	
+		// Load 68000 Program Roms
+		nRet = BurnLoadRom(Drv68KRom + 0x00000, 0, 1); if (nRet != 0) return 1;
+	
+		// Load Z80 Program Roms
+		nRet = BurnLoadRom(DrvZ80Rom, 1, 1); if (nRet != 0) return 1;
+	
+		// Load and decode the tiles
+		memset(DrvTempRom, 0, 0x200000);
+		nRet = BurnLoadRom(DrvTempRom + 0x000000, 2, 1); if (nRet != 0) return 1;
+		nRet = BurnLoadRom(DrvTempRom + 0x100000, 3, 1); if (nRet != 0) return 1;
+		GfxDecode(DrvNumChars, 8, 8, 8, JpCharPlaneOffsets, JpCharXOffsets, JpCharYOffsets, 0x100, DrvTempRom, DrvChars);
+		GfxDecode(DrvNumTiles, 8, 16, 16, JpTilePlaneOffsets, JpTileXOffsets, JpTileYOffsets, 0x400, DrvTempRom, DrvTiles);
+		
+		// Load and decode the sprites
+		memset(DrvTempRom, 0, 0x200000);
+		nRet = BurnLoadRom(DrvTempRom + 0x000000, 4, 1); if (nRet != 0) return 1;
+		nRet = BurnLoadRom(DrvTempRom + 0x100000, 5, 1); if (nRet != 0) return 1;
+		GfxDecode(DrvNumSprites, 4, 16, 16, Sprite2PlaneOffsets, SpriteXOffsets, SpriteYOffsets, 0x200, DrvTempRom, DrvSprites);
+	
+		// Load Sample Roms
+		nRet = BurnLoadRom(MSM6295ROM, 6, 1); if (nRet != 0) return 1;
+	}
 	
 	BurnFree(DrvTempRom);
 	
@@ -3426,9 +3495,11 @@ static INT32 JumppopInit()
 	
 	BurnYM3812Init(3500000, NULL, JumppopSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(3500000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 0.70, BURN_SND_ROUTE_BOTH);
 	
 	// Setup the OKIM6295 emulation
-	MSM6295Init(0, 875000 / 132, 100.0, 1);
+	MSM6295Init(0, 875000 / 132, 1);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 	
 	BurnSetRefreshRate(60.0);
 	
@@ -4641,12 +4712,23 @@ struct BurnDriver BurnDrvDquizgo = {
 	NULL, 0x800, 320, 240, 4, 3
 };
 
+// these should actually be in d_esd16.cpp (similar hardware)
 struct BurnDriver BurnDrvJumppop = {
 	"jumppop", NULL, NULL, NULL, "2001",
-	"Jumping Pop\0", "Missing Sounds", "ESD", "Miscellaneous",
+	"Jumping Pop (set 1)\0", NULL, "ESD", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, JumppopRomInfo, JumppopRomName, NULL, NULL, JumppopInputInfo, JumppopDIPInfo,
+	JumppopInit, JumppopExit, JumppopFrame, NULL, DrvScan,
+	NULL, 0x400, 320, 240, 4, 3
+};
+
+struct BurnDriver BurnDrvJumppope = {
+	"jumppope", "jumppop", NULL, NULL, "2001",
+	"Jumping Pop (set 2)\0", NULL, "Emag Soft", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
+	NULL, JumppopeRomInfo, JumppopeRomName, NULL, NULL, JumppopInputInfo, JumppopDIPInfo,
 	JumppopInit, JumppopExit, JumppopFrame, NULL, DrvScan,
 	NULL, 0x400, 320, 240, 4, 3
 };

@@ -4,6 +4,6 @@ void SN76489Init(INT32 Num, INT32 Clock, INT32 SignalAdd);
 void SN76489AInit(INT32 Num, INT32 Clock, INT32 SignalAdd);
 void SN76494Init(INT32 Num, INT32 Clock, INT32 SignalAdd);
 void SN76496Init(INT32 Num, INT32 Clock, INT32 SignalAdd);
+void SN76496SetRoute(INT32 Num, double nVolume, INT32 nRouteDir);
 void SN76496Exit();
-void SN76496SetVolShift(INT32 Num, INT32 nVolShift);
 INT32 SN76496Scan(INT32 nAction,INT32 *pnMin);

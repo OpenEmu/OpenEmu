@@ -2,7 +2,7 @@
 // Based on MAME driver by Ernesto Corvi and various others
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "konami_intf.h"
 #include "konamiic.h"
@@ -503,9 +503,13 @@ static INT32 DrvInit()
 	K053247Init(DrvGfxROM1, 0x3fffff, K053247Callback, 0x03 /* shadows & highlights */);
 	K053247SetSpriteOffset(-59, 39);
 
-	BurnYM2151Init(3579545, 25.0);
+	BurnYM2151Init(3579545);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 1.00, BURN_SND_ROUTE_BOTH);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.00, BURN_SND_ROUTE_BOTH); // not connected
 
 	K053260Init(0, 3579545, DrvSndROM, 0x140000);
+	K053260SetRoute(0, BURN_SND_K053260_ROUTE_1, 0.75, BURN_SND_ROUTE_LEFT);
+	K053260SetRoute(0, BURN_SND_K053260_ROUTE_2, 0.75, BURN_SND_ROUTE_RIGHT);
 
 	GenericTilesInit();
 

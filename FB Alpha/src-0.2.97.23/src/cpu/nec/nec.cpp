@@ -107,7 +107,7 @@
 #include <stdio.h>
 #include "driver.h"
 #include "state.h"
-#include "vez.h"
+#include "nec_intf.h"
 #include "bitswap.h"
 //#include "emu.h"
 //#include "debugger.h"

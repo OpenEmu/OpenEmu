@@ -47,7 +47,8 @@ struct _es8712_state
 	UINT8 *region_base;		/* pointer to the base of the region */
 
 	INT32 sample_rate;		/* samples per frame */
-	INT32 volume;			/* set gain */
+	double volume;			/* set gain */
+	INT32 output_dir;
 	INT32 addSignal;			/* add signal to stream? */
 };
 
@@ -113,7 +114,7 @@ static void generate_adpcm(INT16 *buffer, INT32 samples)
 		INT32 signal = chip->signal;
 		INT32 count = chip->count;
 		INT32 step = chip->step;
-		INT32 volume = chip->volume;
+		double volume = chip->volume;
 		INT32 val;
 
 		/* loop while we still have samples to generate */
@@ -137,7 +138,7 @@ static void generate_adpcm(INT16 *buffer, INT32 samples)
 				step = 0;
 
 			/* output to the buffer */
-			*buffer++ = (signal * 16 * volume) / 100;
+			*buffer++ = (INT32)(signal * 16 * volume);
 			samples--;
 
 			/* next! */
@@ -194,16 +195,28 @@ void es8712Update(INT32 device, INT16 *buffer, INT32 samples)
 	generate_adpcm(buf, sample_num);
 
 	float r = 0;
-	if (chip->addSignal) {
-		for (INT32 i = 0; i < samples; i++, r += step, buffer+=2) {
-			buffer[0] += buf[(INT32)r];
-			buffer[1] += buf[(INT32)r];
+	for (INT32 i = 0; i < samples; i++, r += step, buffer+=2) {
+		INT32 nLeftSample = 0, nRightSample = 0;
+		
+		if ((chip->output_dir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(buf[(INT32)r] * chip->volume);
 		}
-	} else {
-		for (INT32 i = 0; i < samples; i++, r += step, buffer+=2) {
-			buffer[0] = buffer[1] = buf[(INT32)r];
+		if ((chip->output_dir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(buf[(INT32)r] * chip->volume);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+		
+		if (chip->addSignal) {
+			buffer[0] += nLeftSample;
+			buffer[1] += nRightSample;
+		} else {
+			buffer[0] = nLeftSample;
+			buffer[1] = nRightSample;
 		}
 	}
+	
 }
 
 
@@ -213,7 +226,7 @@ void es8712Update(INT32 device, INT16 *buffer, INT32 samples)
 
 ***********************************************************************************************/
 
-void es8712Init(INT32 device, UINT8 *rom, INT32 sample_rate, float volume, INT32 addSignal)
+void es8712Init(INT32 device, UINT8 *rom, INT32 sample_rate, INT32 addSignal)
 {
 	DebugSnd_ES8712Initted = 1;
 
@@ -235,12 +248,26 @@ void es8712Init(INT32 device, UINT8 *rom, INT32 sample_rate, float volume, INT32
 
 	chip->sample_rate = sample_rate;
 
-	chip->volume = (INT32)(volume+0.5);
+	chip->volume = 1.00;
+	chip->output_dir = BURN_SND_ROUTE_BOTH;
 	chip->addSignal = addSignal;
 
 	if (tbuf[device] == NULL) {
 		tbuf[device] = (INT16*)malloc(sample_rate * sizeof(INT16));
 	}
+}
+
+void es8712SetRoute(INT32 device, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_ES8712Initted) bprintf(PRINT_ERROR, _T("es8712SetRoute called without init\n"));
+#endif
+
+	if (device >= MAX_ES8712_CHIPS) return;
+	
+	chip = &chips[device];
+	chip->volume = nVolume;
+	chip->output_dir = nRouteDir;
 }
 
 /**********************************************************************************************

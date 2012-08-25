@@ -1,5 +1,5 @@
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "burn_ym3812.h"
 #include "burn_ym2151.h"
 #include "msm6295.h"
@@ -1099,9 +1099,11 @@ static INT32 BurglarxInit()
 	
 	BurnYM3812Init(3579545, NULL, &BurglarxSynchroniseStream, 0);
 	BurnTimerAttachSekYM3812(16000000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 0.40, BURN_SND_ROUTE_BOTH);
 	
 	// Setup the OKIM6295 emulation
-	MSM6295Init(0, 1056000 / 132, 100.0, 1);
+	MSM6295Init(0, 1056000 / 132, 1);
+	MSM6295SetRoute(0, 0.80, BURN_SND_ROUTE_BOTH);
 	
 	GenericTilesInit();
 	
@@ -1180,9 +1182,11 @@ static INT32 ZeropntInit()
 	
 	BurnYM3812Init(3579545, NULL, &BurglarxSynchroniseStream, 0);
 	BurnTimerAttachSekYM3812(16000000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 0.40, BURN_SND_ROUTE_BOTH);
 	
 	// Setup the OKIM6295 emulation
-	MSM6295Init(0, 1056000 / 132, 100.0, 1);
+	MSM6295Init(0, 1056000 / 132, 1);
+	MSM6295SetRoute(0, 0.80, BURN_SND_ROUTE_BOTH);
 	
 	GenericTilesInit();
 	
@@ -1285,10 +1289,14 @@ static INT32 Zeropnt2Init()
 	
 	EEPROMInit(&zeropnt2_eeprom_interface);
 	
-	BurnYM2151Init(3579545, 25.0);
+	BurnYM2151Init(3579545);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.70, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.70, BURN_SND_ROUTE_RIGHT);
 	
-	MSM6295Init(0, 1056000 / 132, 100.0, 1);
-	MSM6295Init(1, 3960000 / 132, 100.0, 1);
+	MSM6295Init(0, 1056000 / 132, 1);
+	MSM6295Init(1, 3960000 / 132, 1);
+	MSM6295SetRoute(0, 0.40, BURN_SND_ROUTE_LEFT);
+	MSM6295SetRoute(0, 0.20, BURN_SND_ROUTE_RIGHT);
 	
 	GenericTilesInit();
 	

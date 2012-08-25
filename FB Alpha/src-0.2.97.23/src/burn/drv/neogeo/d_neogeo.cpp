@@ -687,7 +687,7 @@ static struct BurnDIPInfo neogeoDIPList[] = {
 
 	// Fake DIPs
 	// BIOS
-	{0,	0xFD, 0,	25,   "BIOS"                     	         },
+	{0,	0xFD, 0,	26,   "BIOS"                     	         },
 	{0x02,	0x01, 0x1f,	0x00, "MVS Asia/Europe ver. 6 (1 slot)"  },
 	{0x02,	0x01, 0x1f,	0x01, "MVS Asia/Europe ver. 5 (1 slot)"  },
 	{0x02,	0x01, 0x1f,	0x02, "MVS Asia/Europe ver. 3 (4 slot)"  },
@@ -702,17 +702,18 @@ static struct BurnDIPInfo neogeoDIPList[] = {
 	{0x02,	0x01, 0x1f,	0x0b, "AES Asia"                         },
 	{0x02,	0x01, 0x1f,	0x0c, "Development Kit"                  },
 	{0x02,	0x01, 0x1f,	0x0d, "Deck ver. 6 (Git Ver 1.3)"        },
-	{0x02,	0x01, 0x1f,	0x0e, "Universe BIOS ver. 2.3"           },
-	{0x02,	0x01, 0x1f,	0x0f, "Universe BIOS ver. 2.3 (alt)"     },
-	{0x02,	0x01, 0x1f,	0x10, "Universe BIOS ver. 2.2"           },
-	{0x02,	0x01, 0x1f,	0x11, "Universe BIOS ver. 2.1"           },
-	{0x02,	0x01, 0x1f,	0x12, "Universe BIOS ver. 2.0"           },
-	{0x02,	0x01, 0x1f,	0x13, "Universe BIOS ver. 1.3"           },
-	{0x02,	0x01, 0x1f,	0x14, "Universe BIOS ver. 1.2"           },
-	{0x02,	0x01, 0x1f,	0x15, "Universe BIOS ver. 1.2 (alt)"     },
-	{0x02,	0x01, 0x1f,	0x16, "Universe BIOS ver. 1.1"           },
-	{0x02,	0x01, 0x1f,	0x17, "Universe BIOS ver. 1.0"           },
-	{0x02,	0x01, 0x1f,	0x18, "NeoOpen BIOS v0.1 beta"           },
+	{0x02,	0x01, 0x1f,	0x0e, "Universe BIOS ver. 3.0"           },
+	{0x02,	0x01, 0x1f,	0x0f, "Universe BIOS ver. 2.3"           },
+	{0x02,	0x01, 0x1f,	0x10, "Universe BIOS ver. 2.3 (alt)"     },
+	{0x02,	0x01, 0x1f,	0x11, "Universe BIOS ver. 2.2"           },
+	{0x02,	0x01, 0x1f,	0x12, "Universe BIOS ver. 2.1"           },
+	{0x02,	0x01, 0x1f,	0x13, "Universe BIOS ver. 2.0"           },
+	{0x02,	0x01, 0x1f,	0x14, "Universe BIOS ver. 1.3"           },
+	{0x02,	0x01, 0x1f,	0x15, "Universe BIOS ver. 1.2"           },
+	{0x02,	0x01, 0x1f,	0x16, "Universe BIOS ver. 1.2 (alt)"     },
+	{0x02,	0x01, 0x1f,	0x17, "Universe BIOS ver. 1.1"           },
+	{0x02,	0x01, 0x1f,	0x18, "Universe BIOS ver. 1.0"           },
+	{0x02,	0x01, 0x1f,	0x19, "NeoOpen BIOS v0.1 beta"           },
 	
 	// Memory card
 	{0,		0xFD, 0,	2,	  "Memory card"},
@@ -783,7 +784,7 @@ static struct BurnDIPInfo neoFakeDIPList[] = {
 
 	// Fake DIPs
 	// BIOS
-	{0,	0xFD, 0,	25,   "BIOS"                     	         },
+	{0,	0xFD, 0,	26,   "BIOS"                     	         },
 	{0x02,	0x01, 0x1f,	0x00, "MVS Asia/Europe ver. 6 (1 slot)"  },
 	{0x02,	0x01, 0x1f,	0x01, "MVS Asia/Europe ver. 5 (1 slot)"  },
 	{0x02,	0x01, 0x1f,	0x02, "MVS Asia/Europe ver. 3 (4 slot)"  },
@@ -798,17 +799,18 @@ static struct BurnDIPInfo neoFakeDIPList[] = {
 	{0x02,	0x01, 0x1f,	0x0b, "AES Asia"                         },
 	{0x02,	0x01, 0x1f,	0x0c, "Development Kit"                  },
 	{0x02,	0x01, 0x1f,	0x0d, "Deck ver. 6 (Git Ver 1.3)"        },
-	{0x02,	0x01, 0x1f,	0x0e, "Universe BIOS ver. 2.3"           },
-	{0x02,	0x01, 0x1f,	0x0f, "Universe BIOS ver. 2.3 (alt)"     },
-	{0x02,	0x01, 0x1f,	0x10, "Universe BIOS ver. 2.2"           },
-	{0x02,	0x01, 0x1f,	0x11, "Universe BIOS ver. 2.1"           },
-	{0x02,	0x01, 0x1f,	0x12, "Universe BIOS ver. 2.0"           },
-	{0x02,	0x01, 0x1f,	0x13, "Universe BIOS ver. 1.3"           },
-	{0x02,	0x01, 0x1f,	0x14, "Universe BIOS ver. 1.2"           },
-	{0x02,	0x01, 0x1f,	0x15, "Universe BIOS ver. 1.2 (alt)"     },
-	{0x02,	0x01, 0x1f,	0x16, "Universe BIOS ver. 1.1"           },
-	{0x02,	0x01, 0x1f,	0x17, "Universe BIOS ver. 1.0"           },
-	{0x02,	0x01, 0x1f,	0x18, "NeoOpen BIOS v0.1 beta"           },
+	{0x02,	0x01, 0x1f,	0x0e, "Universe BIOS ver. 3.0"           },
+	{0x02,	0x01, 0x1f,	0x0f, "Universe BIOS ver. 2.3"           },
+	{0x02,	0x01, 0x1f,	0x10, "Universe BIOS ver. 2.3 (alt)"     },
+	{0x02,	0x01, 0x1f,	0x11, "Universe BIOS ver. 2.2"           },
+	{0x02,	0x01, 0x1f,	0x12, "Universe BIOS ver. 2.1"           },
+	{0x02,	0x01, 0x1f,	0x13, "Universe BIOS ver. 2.0"           },
+	{0x02,	0x01, 0x1f,	0x14, "Universe BIOS ver. 1.3"           },
+	{0x02,	0x01, 0x1f,	0x15, "Universe BIOS ver. 1.2"           },
+	{0x02,	0x01, 0x1f,	0x16, "Universe BIOS ver. 1.2 (alt)"     },
+	{0x02,	0x01, 0x1f,	0x17, "Universe BIOS ver. 1.1"           },
+	{0x02,	0x01, 0x1f,	0x18, "Universe BIOS ver. 1.0"           },
+	{0x02,	0x01, 0x1f,	0x19, "NeoOpen BIOS v0.1 beta"           },
 	
 	// Memory card
 	{0,		0xFD, 0,	2,	  "Memory card"},
@@ -930,27 +932,32 @@ static struct BurnRomInfo neogeoRomDesc[] = {
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 12
 #endif
 	{ "sp-1v1_3db8c.bin",  0x20000, 0x162f0ebe, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 13 Deck ver. 6 (Git Ver 1.3)
-	{ "uni-bios_2_3.rom",  0x20000, 0x27664eb5, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 14 Universe BIOS ver. 2.3
-	{ "uni-bios_2_3o.rom", 0x20000, 0x601720ae, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 15 Universe BIOS ver. 2.3 (alt)
-	{ "uni-bios_2_2.rom",  0x20000, 0x2d50996a, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 16 Universe BIOS ver. 2.2
-	{ "uni-bios_2_1.rom",  0x20000, 0x8dabf76b, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 17 Universe BIOS ver. 2.1
-	{ "uni-bios_2_0.rom",  0x20000, 0x0c12c2ad, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 18 Universe BIOS ver. 2.0
-	{ "uni-bios_1_3.rom",  0x20000, 0xb24b44a0, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 19 Universe BIOS ver. 1.3
-	{ "uni-bios_1_2.rom",  0x20000, 0x4fa698e9, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 20 Universe BIOS ver. 1.2
-	{ "uni-bios_1_2o.rom", 0x20000, 0xe19d3ce9, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 21 Universe BIOS ver. 1.2 (alt)
-	{ "uni-bios_1_1.rom",  0x20000, 0x5dda0d84, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 22 Universe BIOS ver. 1.1
-	{ "uni-bios_1_0.rom",  0x20000, 0x0ce453a0, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 23 Universe BIOS ver. 1.0
 #if !defined (ROM_VERIFY)
-	{ "neopen.sp1",        0x20000, 0xcb915e76, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 24 NeoOpen BIOS v0.1 beta
+	{ "uni-bios_3_0.rom",  0x20000, 0x4cd01e5f, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 14 Universe BIOS ver. 3.0
 #else
-	{ "",                  0x00000, 0x00000000, 0                                                   }, // 24
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 14
 #endif
-	{ "",                  0x00000, 0x00000000, 0                                                   }, // 25 Trackball BIOS loaded here
-	{ "",                  0x00000, 0x00000000, 0                                                   }, // 26 PCB BIOS loaded here
+	{ "uni-bios_2_3.rom",  0x20000, 0x27664eb5, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 15 Universe BIOS ver. 2.3
+	{ "uni-bios_2_3o.rom", 0x20000, 0x601720ae, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 16 Universe BIOS ver. 2.3 (alt)
+	{ "uni-bios_2_2.rom",  0x20000, 0x2d50996a, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 17 Universe BIOS ver. 2.2
+	{ "uni-bios_2_1.rom",  0x20000, 0x8dabf76b, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 18 Universe BIOS ver. 2.1
+	{ "uni-bios_2_0.rom",  0x20000, 0x0c12c2ad, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 19 Universe BIOS ver. 2.0
+	{ "uni-bios_1_3.rom",  0x20000, 0xb24b44a0, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 20 Universe BIOS ver. 1.3
+	{ "uni-bios_1_2.rom",  0x20000, 0x4fa698e9, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 21 Universe BIOS ver. 1.2
+	{ "uni-bios_1_2o.rom", 0x20000, 0xe19d3ce9, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 22 Universe BIOS ver. 1.2 (alt)
+	{ "uni-bios_1_1.rom",  0x20000, 0x5dda0d84, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 23 Universe BIOS ver. 1.1
+	{ "uni-bios_1_0.rom",  0x20000, 0x0ce453a0, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 24 Universe BIOS ver. 1.0
+#if !defined (ROM_VERIFY)
+	{ "neopen.sp1",        0x20000, 0xcb915e76, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 25 NeoOpen BIOS v0.1 beta
+#else
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 25
+#endif
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 26 Trackball BIOS loaded here
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 27 PCB BIOS loaded here
 
-	{ "sm1.sm1",           0x20000, 0x94416d67, BRF_ESS | BRF_PRG | BRF_BIOS },                        // 27 Z80 BIOS
-	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS },                                  // 28 Text layer tiles
-	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS },                                  // 29 Zoom table
+	{ "sm1.sm1",           0x20000, 0x94416d67, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 28 Z80 BIOS
+	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS                                  }, // 29 Text layer tiles
+	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS                                  }, // 30 Zoom table
 };
 
 STD_ROM_PICK(neogeo)
@@ -972,23 +979,24 @@ static struct BurnRomInfo neoMVSRomDesc[] = {
 	{ "neo-epo.bin",       0x20000, 0xd27a71f1, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 11 AES Asia
 	{ "neodebug.bin",      0x20000, 0x698ebb7d, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 12 Development Kit
 	{ "sp-1v1_3db8c.bin",  0x20000, 0x162f0ebe, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 13 Deck ver. 6 (Git Ver 1.3)
-	{ "uni-bios_2_3.rom",  0x20000, 0x27664eb5, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 14 Universe BIOS ver. 2.3
-	{ "uni-bios_2_3o.rom", 0x20000, 0x601720ae, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 15 Universe BIOS ver. 2.3 (alt)
-	{ "uni-bios_2_2.rom",  0x20000, 0x2d50996a, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 16 Universe BIOS ver. 2.2
-	{ "uni-bios_2_1.rom",  0x20000, 0x8dabf76b, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 17 Universe BIOS ver. 2.1
-	{ "uni-bios_2_0.rom",  0x20000, 0x0c12c2ad, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 18 Universe BIOS ver. 2.0
-	{ "uni-bios_1_3.rom",  0x20000, 0xb24b44a0, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 19 Universe BIOS ver. 1.3
-	{ "uni-bios_1_2.rom",  0x20000, 0x4fa698e9, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 20 Universe BIOS ver. 1.2
-	{ "uni-bios_1_2o.rom", 0x20000, 0xe19d3ce9, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 21 Universe BIOS ver. 1.2 (alt)
-	{ "uni-bios_1_1.rom",  0x20000, 0x5dda0d84, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 22 Universe BIOS ver. 1.1
-	{ "uni-bios_1_0.rom",  0x20000, 0x0ce453a0, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 23 Universe BIOS ver. 1.0
-	{ "neopen.sp1",        0x20000, 0xcb915e76, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 24 NeoOpen BIOS v0.1 beta
-	{ "",                  0x00000, 0x00000000, 0                                                   }, // 25 Trackball BIOS loaded here
-	{ "",                  0x00000, 0x00000000, 0                                                   }, // 26 PCB BIOS loaded here
+	{ "uni-bios_3_0.rom",  0x20000, 0x4cd01e5f, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 14 Universe BIOS ver. 3.0
+	{ "uni-bios_2_3.rom",  0x20000, 0x27664eb5, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 15 Universe BIOS ver. 2.3
+	{ "uni-bios_2_3o.rom", 0x20000, 0x601720ae, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 16 Universe BIOS ver. 2.3 (alt)
+	{ "uni-bios_2_2.rom",  0x20000, 0x2d50996a, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 17 Universe BIOS ver. 2.2
+	{ "uni-bios_2_1.rom",  0x20000, 0x8dabf76b, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 18 Universe BIOS ver. 2.1
+	{ "uni-bios_2_0.rom",  0x20000, 0x0c12c2ad, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 19 Universe BIOS ver. 2.0
+	{ "uni-bios_1_3.rom",  0x20000, 0xb24b44a0, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 20 Universe BIOS ver. 1.3
+	{ "uni-bios_1_2.rom",  0x20000, 0x4fa698e9, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 21 Universe BIOS ver. 1.2
+	{ "uni-bios_1_2o.rom", 0x20000, 0xe19d3ce9, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 22 Universe BIOS ver. 1.2 (alt)
+	{ "uni-bios_1_1.rom",  0x20000, 0x5dda0d84, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 23 Universe BIOS ver. 1.1
+	{ "uni-bios_1_0.rom",  0x20000, 0x0ce453a0, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 24 Universe BIOS ver. 1.0
+	{ "neopen.sp1",        0x20000, 0xcb915e76, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, // 25 NeoOpen BIOS v0.1 beta
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 26 Trackball BIOS loaded here
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 27 PCB BIOS loaded here
 
-	{ "sm1.sm1",           0x20000, 0x94416d67, BRF_ESS | BRF_PRG | BRF_BIOS },                        // 27 Z80 BIOS
-	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS },                                  // 28 Text layer tiles
-	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS },                                  // 29 Zoom table
+	{ "sm1.sm1",           0x20000, 0x94416d67, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 28 Z80 BIOS
+	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS                                  }, // 29 Text layer tiles
+	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS                                  }, // 30 Zoom table
 };
 
 STD_ROM_PICK(neoMVS)
@@ -1020,12 +1028,13 @@ static struct BurnRomInfo neotrackballRomDesc[] = {
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 22
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 23
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 24
-	{ "236-bios.sp1",      0x20000, 0x853e6b96, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 25 Trackball BIOS
-	{ "",                  0x00000, 0x00000000, 0                                                   }, // 26
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 25
+	{ "236-bios.sp1",      0x20000, 0x853e6b96, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 26 Trackball BIOS
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 27
 
-	{ "sm1.sm1",           0x20000, 0x94416d67, BRF_ESS | BRF_PRG | BRF_BIOS },                        // 27 Z80 BIOS
-	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS },                                  // 28 Text layer tiles
-	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS },                                  // 29 Zoom table
+	{ "sm1.sm1",           0x20000, 0x94416d67, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 28 Z80 BIOS
+	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS                                  }, // 29 Text layer tiles
+	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS                                  }, // 30 Zoom table
 };
 
 static struct BurnRomInfo ms5pcbBIOSRomDesc[] = {
@@ -1055,11 +1064,12 @@ static struct BurnRomInfo ms5pcbBIOSRomDesc[] = {
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 23
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 24
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 25
-	{ "sp-4x.sp1",         0x80000, 0xb4590283, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 26 PCB BIOS
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 26
+	{ "sp-4x.sp1",         0x80000, 0xb4590283, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 27 PCB BIOS
 
-	{ "",                  0x00000, 0x00000000, 0                                                   }, // 27 Z80 BIOS
-	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS },                                  // 28 Text layer tiles
-	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS },                                  // 29 Zoom table
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 28 Z80 BIOS
+	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS                                  }, // 29 Text layer tiles
+	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS                                  }, // 30 Zoom table
 };
 
 static struct BurnRomInfo svcpcbBIOSRomDesc[] = {
@@ -1089,11 +1099,12 @@ static struct BurnRomInfo svcpcbBIOSRomDesc[] = {
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 23
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 24
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 25
-	{ "sp-4x.sp1",         0x80000, 0xb4590283, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 26 PCB BIOS
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 26
+	{ "sp-4x.sp1",         0x80000, 0xb4590283, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 27 PCB BIOS
 
-	{ "",                  0x00000, 0x00000000, 0                                                   }, // 27 Z80 BIOS
-	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS },                                  // 28 Text layer tiles
-	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS },                                  // 29 Zoom table
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 28 Z80 BIOS
+	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS                                  }, // 29 Text layer tiles
+	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS                                  }, // 30 Zoom table
 };
 
 static struct BurnRomInfo kf2k3pcbBIOSRomDesc[] = {
@@ -1123,11 +1134,12 @@ static struct BurnRomInfo kf2k3pcbBIOSRomDesc[] = {
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 23
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 24
 	{ "",                  0x00000, 0x00000000, 0                                                   }, // 25
-	{ "spj.sp1",           0x80000, 0x148dd727, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 26 PCB BIOS
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 26
+	{ "spj.sp1",           0x80000, 0x148dd727, BRF_ESS | BRF_PRG | BRF_BIOS                        }, // 27 PCB BIOS
 
-	{ "",                  0x00000, 0x00000000, 0                                                   }, // 27 Z80 BIOS
-	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS },                                  // 28 Text layer tiles
-	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS },                                  // 29 Zoom table
+	{ "",                  0x00000, 0x00000000, 0                                                   }, // 28 Z80 BIOS
+	{ "sfix.sfix",         0x20000, 0xc2ea0cfd, BRF_GRA | BRF_BIOS                                  }, // 29 Text layer tiles
+	{ "000-lo.lo",         0x20000, 0x5a86cff2, BRF_ESS | BRF_BIOS                                  }, // 30 Zoom table
 };
 
 struct BurnDriver BurnDrvNeoGeo = {
@@ -4694,6 +4706,41 @@ struct BurnDriver BurnDrvKog = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_VSFIGHT, FBF_KOF,
 	NULL, kogRomInfo, kogRomName, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
+	kogInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000, 304, 224, 4, 3
+};
+
+// King of Gladiator Plus (The King of Fighters '97 bootleg)
+
+static struct BurnRomInfo kogplusRomDesc[] = {
+	{ "5232-p1p.bin", 0x200000, 0x0338f453, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+	{ "5232-p2p.bin", 0x400000, 0x5502b020, 1 | BRF_ESS | BRF_PRG }, //  1 
+
+	{ "5232-s1p.bin", 0x020000, 0x6271e9ba, 2 | BRF_GRA },           //  2 Text layer tiles
+
+	{ "5232-c1a.bin", 0x800000, 0x4eab9b0a, 3 | BRF_GRA },           //  3 Sprite data
+	{ "5232-c2a.bin", 0x800000, 0x697f8fd0, 3 | BRF_GRA },           //  4 
+	{ "5232-c1b.bin", 0x800000, 0x1143fdf3, 3 | BRF_GRA },           //  5 
+	{ "5232-c2b.bin", 0x800000, 0xea82cf8f, 3 | BRF_GRA },           //  6 
+	{ "5232-c3.bin",  0x400000, 0xabd1be07, 3 | BRF_GRA },           //  7 
+	{ "5232-c4.bin",  0x400000, 0xd2bd967b, 3 | BRF_GRA },           //  8 
+
+	{ "232-m1.m1",    0x020000, 0x45348747, 4 | BRF_ESS | BRF_PRG }, //  9 Z80 code
+
+	{ "232-v1.v1",    0x400000, 0x22a2b5b5, 5 | BRF_SND },           // 10 Sound data
+	{ "232-v2.v2",    0x400000, 0x2304e744, 5 | BRF_SND },           // 11 
+	{ "232-v3.v3",    0x400000, 0x759eb954, 5 | BRF_SND },           // 12 
+};
+
+STDROMPICKEXT(kogplus, kogplus, neogeo)
+STD_ROM_FN(kogplus)
+
+struct BurnDriver BurnDrvKogplus = {
+	"kogplus", "kof97", "neogeo", NULL, "1997",
+	"King of Gladiator Plus (The King of Fighters '97 bootleg)\0", NULL, "bootleg", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_VSFIGHT, FBF_KOF,
+	NULL, kogplusRomInfo, kogplusRomName, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
 	kogInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000, 304, 224, 4, 3
 };
@@ -8979,7 +9026,7 @@ static INT32 samsh5spInit()
 }
 
 struct BurnDriver BurnDrvsamsh5sp = {
-	"samsh5sp", NULL, "neogeo", NULL, "2003",
+	"samsh5sp", NULL, "neogeo", NULL, "2004",
 	"Samurai Shodown V Special / Samurai Spirits Zero Special (NGM-2720)\0", NULL, "Yuki Enterprise / SNK Playmore", "Neo Geo MVS",
 	L"Samurai Shodown V Special\0\u30B5\u30E0\u30E9\u30A4\u30B9\u30D4\u30EA\u30C3\u30C4\u96F6 Special  (NGM-2720)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO | HARDWARE_SNK_CMC50 | HARDWARE_SNK_ENCRYPTED_M1, GBF_VSFIGHT, FBF_SAMSHO,
@@ -9013,7 +9060,7 @@ STDROMPICKEXT(samsh5sph, samsh5sph, neogeo)
 STD_ROM_FN(samsh5sph)
 
 struct BurnDriver BurnDrvsamsh5sph = {
-	"samsh5sph", "samsh5sp", "neogeo", NULL, "2003",
+	"samsh5sph", "samsh5sp", "neogeo", NULL, "2004",
 	"Samurai Shodown V Special / Samurai Spirits Zero Special (NGH-2720) (2nd release, less censored)\0", NULL, "Yuki Enterprise / SNK Playmore", "Neo Geo MVS",
 	L"Samurai Shodown V Special\0\u30B5\u30E0\u30E9\u30A4\u30B9\u30D4\u30EA\u30C3\u30C4\u96F6 Special (NGH-2720) (2nd release, less censored)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO | HARDWARE_SNK_CMC50 | HARDWARE_SNK_ENCRYPTED_M1, GBF_VSFIGHT, FBF_SAMSHO,
@@ -9047,7 +9094,7 @@ STDROMPICKEXT(samsh5spho, samsh5spho, neogeo)
 STD_ROM_FN(samsh5spho)
 
 struct BurnDriver BurnDrvsamsh5spho = {
-	"samsh5spho", "samsh5sp", "neogeo", NULL, "2003",
+	"samsh5spho", "samsh5sp", "neogeo", NULL, "2004",
 	"Samurai Shodown V Special / Samurai Spirits Zero Special (NGH-2720) (1st release, censored)\0", NULL, "Yuki Enterprise / SNK Playmore", "Neo Geo MVS",
 	L"Samurai Shodown V Special\0\u30B5\u30E0\u30E9\u30A4\u30B9\u30D4\u30EA\u30C3\u30C4\u96F6 Special (NGH-2720) (1st release, censored)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO | HARDWARE_SNK_CMC50 | HARDWARE_SNK_ENCRYPTED_M1, GBF_VSFIGHT, FBF_SAMSHO,
@@ -12531,6 +12578,66 @@ struct BurnDriver BurnDrvironclado = {
 	0x1000,	304, 224, 4, 3
 };
 
+// Bang 2 Busters (Prototype)
+
+static struct BurnRomInfo b2busterRomDesc[] = {
+	{ "071-p1.bin",    0x080000, 0x7687197d, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+
+	{ "071-s1.bin",    0x020000, 0x44e5f154, 2 | BRF_GRA },           //  1 Text layer tiles
+
+	{ "071-c1.bin",    0x200000, 0x23d84a7a, 3 | BRF_GRA },           //  2 Sprite data
+	{ "071-c2.bin",    0x200000, 0xce7b6248, 3 | BRF_GRA },           //  3 	 
+
+	{ "071-m1.bin",    0x020000, 0x6da739ad, 4 | BRF_ESS | BRF_PRG }, //  6 Z80 code
+
+	{ "071-v1.bin",    0x100000, 0x50feffb0, 5 | BRF_SND },           //  7 Sound data
+	 
+};
+
+STDROMPICKEXT(b2buster, b2buster, neogeo)
+STD_ROM_FN(b2buster)
+
+struct BurnDriver BurnDrvb2buster = {
+	"b2buster", NULL, "neogeo", NULL, "2000",
+	"Bang 2 Busters (Prototype)\0", NULL, "Visco", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_PROTOTYPE, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_PLATFORM, 0,
+	NULL, b2busterRomInfo, b2busterRomName, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000, 304, 224, 4, 3
+};
+
+// Treasure of the Carribean (Prototype)
+
+static struct BurnRomInfo totcaribRomDesc[] = {
+	{ "totc-p1.bin",    0x100000, 0x99604539, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+
+	{ "totc-s1.bin",    0x020000, 0x0A3FEE41, 2 | BRF_GRA },          //  1 Text layer tiles
+
+	{ "totc-c1.bin",    0x200000, 0xCDD6600F, 3 | BRF_GRA },           //  2 Sprite data
+	{ "totc-c2.bin",    0x200000, 0xF362C271, 3 | BRF_GRA },           //  3 	 
+
+	{ "totc-m1.bin",    0x020000, 0x18B23ACE, 4 | BRF_ESS | BRF_PRG }, //  6 Z80 code
+
+	{ "totc-v1.bin",    0x200000, 0x15C7F9E6, 5 | BRF_SND },           //  7 Sound data
+	{ "totc-v2.bin",    0x200000, 0x1B264559, 5 | BRF_SND },           //  7 Sound data
+	{ "totc-v3.bin",    0x100000, 0x84B62C5D, 5 | BRF_SND },           //  7 Sound data
+	 
+};
+
+STDROMPICKEXT(totcarib, totcarib, neogeo)
+STD_ROM_FN(totcarib)
+
+struct BurnDriver BurnDrvtotcarib = {
+	"totcarib", NULL, "neogeo", NULL, "1994",
+	"Treasure of the Carribean (Prototype)\0", NULL, "FACE Corporation", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_PROTOTYPE, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_PLATFORM, 0,
+	NULL, totcaribRomInfo, totcaribRomName, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000, 304, 224, 4, 3
+};
+
 // The King of Fighters 2001 Plus (set 2, bootleg / hack)
 
 static struct BurnRomInfo kf2k1paRomDesc[] = {
@@ -13716,7 +13823,7 @@ STD_ROM_FN(cndi)
 
 struct BurnDriver BurnDrvcndi = {
 	"cndi", NULL, "neogeo", NULL, "2009",
-	"Chip n Dale (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Demo", "Neo Geo MVS",
+	"Chip n Dale (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Sergi", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_DEMO, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
 	NULL, cndiRomInfo, cndiRomName, NULL, NULL, neogeoInputInfo, neogeouniDIPInfo,
@@ -13750,10 +13857,44 @@ STD_ROM_FN(dwi)
 
 struct BurnDriver BurnDrvdwi = {
 	"dwi", NULL, "neogeo", NULL, "2009",
-	"DarkWing Duck (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Demo", "Neo Geo MVS",
+	"DarkWing Duck (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Sergi", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_DEMO, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
 	NULL, dwiRomInfo, dwiRomName, NULL, NULL, neogeoInputInfo, neogeouniDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000,	304, 224, 4, 3
+};
+
+// DarkWing Duck (Intro demo, alt)
+
+static struct BurnRomInfo dwiaRomDesc[] = {
+	{ "dwi-p1.bin",   0x800000, 0x8e3f2ea8, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+
+	{ "dwi-s1a.bin",  0x010000, 0x63b8b25e, 2 | BRF_GRA },           //  1 Text layer tiles
+
+	{ "dwi-c1.bin",   0x400000, 0x2b8bda94, 3 | BRF_GRA },           //  2 Sprite data
+	{ "dwi-c2.bin",   0x400000, 0x5345e4de, 3 | BRF_GRA },           //  3 
+	{ "dwi-c3.bin",   0x400000, 0xc6185f14, 3 | BRF_GRA },           //  4
+	{ "dwi-c4.bin",   0x400000, 0xc9e59701, 3 | BRF_GRA },           //  5 
+	{ "dwi-c5.bin",   0x400000, 0x42dd1c90, 3 | BRF_GRA },           //  6 
+	{ "dwi-c6.bin",   0x400000, 0x9fa6d651, 3 | BRF_GRA },           //  7 
+	{ "dwi-c7.bin",   0x400000, 0x5cfa6886, 3 | BRF_GRA },           //  8
+	{ "dwi-c8.bin",   0x400000, 0x59c37871, 3 | BRF_GRA },           //  9 
+
+	{ "dwi-m1a.bin",  0x002000, 0xb9f8df96, 4 | BRF_ESS | BRF_PRG }, //  10 Z80 code
+
+	{ "dwi-v1.bin",   0x09b000, 0x13bb4ce4, 5 | BRF_SND },           //  11 Sound data
+};
+
+STDROMPICKEXT(dwia, dwia, neogeo)
+STD_ROM_FN(dwia)
+
+struct BurnDriver BurnDrvdwia = {
+	"dwia", "dwi", "neogeo", NULL, "2009",
+	"DarkWing Duck (Intro demo, alt)\0", "You must use the Universe BIOS and set region to Japan AES", "Sergi", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_DEMO, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
+	NULL, dwiaRomInfo, dwiaRomName, NULL, NULL, neogeoInputInfo, neogeouniDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000,	304, 224, 4, 3
 };
@@ -13784,7 +13925,7 @@ STD_ROM_FN(ducki)
 
 struct BurnDriver BurnDrvducki = {
 	"ducki", NULL, "neogeo", NULL, "2009",
-	"Duck Tales (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Demo", "Neo Geo MVS",
+	"Duck Tales (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Sergi", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_DEMO, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
 	NULL, duckiRomInfo, duckiRomName, NULL, NULL, neogeoInputInfo, neogeouniDIPInfo,
@@ -13817,7 +13958,7 @@ STD_ROM_FN(ghostbi)
 
 struct BurnDriver BurnDrvghostbi = {
 	"ghostbi", NULL, "neogeo", NULL, "2009",
-	"Ghost Busters (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Demo", "Neo Geo MVS",
+	"Ghost Busters (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Sergi", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_DEMO, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
 	NULL, ghostbiRomInfo, ghostbiRomName, NULL, NULL, neogeoInputInfo, neogeouniDIPInfo,
@@ -13851,10 +13992,43 @@ STD_ROM_FN(robocopi)
 
 struct BurnDriver BurnDrvrobocopi = {
 	"robocopi", NULL, "neogeo", NULL, "2009",
-	"Robocop (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Demo", "Neo Geo MVS",
+	"Robocop (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Sergi", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_DEMO, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
 	NULL, robocopiRomInfo, robocopiRomName, NULL, NULL, neogeoInputInfo, neogeouniDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000,	304, 224, 4, 3
+};
+
+// Spiderman (Intro demo)
+
+static struct BurnRomInfo spidermiRomDesc[] = {
+	{ "sman-p1.bin",  0x100000, 0x66b5cfe8, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+	{ "sman-p2.bin",  0x400000, 0x72082aea, 1 | BRF_ESS | BRF_PRG }, //  1
+
+	{ "sman-s1.bin",  0x010000, 0x63b8b25e, 2 | BRF_GRA },           //  2 Text layer tiles
+
+	{ "sman-c1.bin",  0x400000, 0x8e5ccfdd, 3 | BRF_GRA },           //  3 Sprite data
+	{ "sman-c2.bin",  0x400000, 0xa6406f5b, 3 | BRF_GRA },           //  4 
+	{ "sman-c3.bin",  0x400000, 0xadfff926, 3 | BRF_GRA },           //  5
+	{ "sman-c4.bin",  0x400000, 0x068c307f, 3 | BRF_GRA },           //  6 
+	{ "sman-c5.bin",  0x400000, 0x9a5cf7a6, 3 | BRF_GRA },           //  7 
+	{ "sman-c6.bin",  0x400000, 0x934f03c0, 3 | BRF_GRA },           //  8 
+
+	{ "sman-m1.bin",  0x002000, 0x6a02cb1d, 4 | BRF_ESS | BRF_PRG }, //  9 Z80 code
+
+	{ "sman-v1.bin",  0x096100, 0x95c138da, 5 | BRF_SND },           //  10 Sound data
+};
+
+STDROMPICKEXT(spidermi, spidermi, neogeo)
+STD_ROM_FN(spidermi)
+
+struct BurnDriver BurnDrvspidermi = {
+	"spidermi", NULL, "neogeo", NULL, "2009",
+	"Spiderman (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Sergi", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_DEMO, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
+	NULL, spidermiRomInfo, spidermiRomName, NULL, NULL, neogeoInputInfo, neogeouniDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000,	304, 224, 4, 3
 };
@@ -13885,10 +14059,44 @@ STD_ROM_FN(tmnti)
 
 struct BurnDriver BurnDrvtmnti = {
 	"tmnti", NULL, "neogeo", NULL, "2009",
-	"Teenage Mutant Ninja Turtles (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Demo", "Neo Geo MVS",
+	"Teenage Mutant Ninja Turtles (Intro demo)\0", "You must use the Universe BIOS and set region to Japan AES", "Sergi", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_DEMO, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
 	NULL, tmntiRomInfo, tmntiRomName, NULL, NULL, neogeoInputInfo, neogeouniDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000,	304, 224, 4, 3
+};
+
+// Teenage Mutant Ninja Turtles (Intro demo, alt)
+
+static struct BurnRomInfo tmntiaRomDesc[] = {
+	{ "tmnt-p1a.bin", 0x800000, 0xed4f5fec, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+
+	{ "tmnt-s1.bin",  0x010000, 0x3dc5c1ef, 2 | BRF_GRA },           //  1 Text layer tiles
+
+	{ "tmnt-c1.bin",  0x400000, 0xae1735c1, 3 | BRF_GRA },           //  2 Sprite data
+	{ "tmnt-c2.bin",  0x400000, 0x344281b5, 3 | BRF_GRA },           //  3 
+	{ "tmnt-c3.bin",  0x400000, 0x1058a648, 3 | BRF_GRA },           //  4
+	{ "tmnt-c4.bin",  0x400000, 0x1c6ba1b0, 3 | BRF_GRA },           //  5 
+	{ "tmnt-c5.bin",  0x400000, 0x73a89fb0, 3 | BRF_GRA },           //  6 
+	{ "tmnt-c6.bin",  0x400000, 0xa139246a, 3 | BRF_GRA },           //  7 
+	{ "tmnt-c7.bin",  0x400000, 0xed957842, 3 | BRF_GRA },           //  8
+	{ "tmnt-c8.bin",  0x400000, 0x8c15d91b, 3 | BRF_GRA },           //  9 
+
+	{ "tmnt-m1.bin",  0x002000, 0x953542ef, 4 | BRF_ESS | BRF_PRG }, //  10 Z80 code
+
+	{ "tmnt-v1.bin",  0x094900, 0x273640c3, 5 | BRF_SND },           //  11 Sound data
+};
+
+STDROMPICKEXT(tmntia, tmntia, neogeo)
+STD_ROM_FN(tmntia)
+
+struct BurnDriver BurnDrvtmntia = {
+	"tmntia", "tmnti", "neogeo", NULL, "2009",
+	"Teenage Mutant Ninja Turtles (Intro demo, alt)\0", "You must use the Universe BIOS and set region to Japan AES", "Sergi", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_DEMO, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
+	NULL, tmntiaRomInfo, tmntiaRomName, NULL, NULL, neogeoInputInfo, neogeouniDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000,	304, 224, 4, 3
 };
@@ -14004,6 +14212,35 @@ struct BurnDriver BurnDrvneo3ddmo = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HOMEBREW, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
 	NULL, neo3ddmoRomInfo, neo3ddmoRomName, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000,	304, 224, 4, 3
+};
+
+
+// WW2 Demo - Arcade Development Project
+
+static struct BurnRomInfo neoww2RomDesc[] = {
+	{ "ww2_p1.rom",   0x080000, 0xd53762ff, 1 | BRF_ESS | BRF_PRG },	//  0 68K Code
+
+	{ "ww2_s1.rom",   0x010000, 0x3fda5d1a, 2 | BRF_GRA },		//  1 Text data
+
+	{ "ww2_c1.rom",   0x100000, 0x955efd3e, 3 | BRF_GRA },		//  2 Sprite data
+	{ "ww2_c2.rom",   0x100000, 0xc213940f, 3 | BRF_GRA },		//  3
+
+	{ "ww2_m1.rom",   0x020000, 0x99c2354e, 4 | BRF_ESS | BRF_PRG },	//  4 Z80 code
+
+	{ "ww2_v1.rom",   0x080000, 0xdebeb8fb, 5 | BRF_SND },		//  5 Sound data
+}; 
+
+STDROMPICKEXT(neoww2, neoww2, neogeo)
+STD_ROM_FN(neoww2)
+
+struct BurnDriver BurnDrvneoww2 = {
+	"neoww2", NULL, "neogeo", NULL, "2012",
+	"WW2 Demo - Arcade Development Project\0", NULL, "Charles DOTY/RasterSoft (USA)", "Neo Geo",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_HOMEBREW, 2, HARDWARE_SNK_NEOGEO, GBF_MISC, 0,
+	NULL, neoww2RomInfo, neoww2RomName, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000,	304, 224, 4, 3
 };

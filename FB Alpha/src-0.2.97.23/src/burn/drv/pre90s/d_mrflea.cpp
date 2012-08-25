@@ -2,7 +2,7 @@
 // Based on MAME driver by Phil Stroffolino
 
 #include "burnint.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "bitswap.h"
 #include "driver.h"
 extern "C" {
@@ -370,6 +370,9 @@ static INT32 DrvInit()
 	AY8910Init(0, 2000000, nBurnSoundRate, NULL, NULL, NULL, NULL);
 	AY8910Init(1, 2000000, nBurnSoundRate, NULL, NULL, NULL, NULL);
 	AY8910Init(2, 2000000, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.25, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(1, 0.25, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(2, 0.25, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 
@@ -491,61 +494,19 @@ static INT32 DrvFrame()
 
 		// Render Sound Segment
 		if (pBurnSoundOut) {
-			INT32 nSample;
 			INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
 			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			AY8910Update(1, &pAY8910Buffer[3], nSegmentLength);
-			AY8910Update(2, &pAY8910Buffer[6], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n] >> 2;
-				nSample += pAY8910Buffer[1][n] >> 2;
-				nSample += pAY8910Buffer[2][n] >> 2;
-				nSample += pAY8910Buffer[3][n] >> 2;
-				nSample += pAY8910Buffer[4][n] >> 2;
-				nSample += pAY8910Buffer[5][n] >> 2;
-				nSample += pAY8910Buffer[6][n] >> 2;
-				nSample += pAY8910Buffer[7][n] >> 2;
-				nSample += pAY8910Buffer[8][n] >> 2;
-
-				nSample /= 4;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
+			AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 			nSoundBufferPos += nSegmentLength;
 		}
 	}
 
 	// Make sure the buffer is entirely filled.
 	if (pBurnSoundOut) {
-		INT32 nSample;
 		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
 		INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
 		if (nSegmentLength) {
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			AY8910Update(1, &pAY8910Buffer[3], nSegmentLength);
-			AY8910Update(2, &pAY8910Buffer[6], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n] >> 2;
-				nSample += pAY8910Buffer[1][n] >> 2;
-				nSample += pAY8910Buffer[2][n] >> 2;
-				nSample += pAY8910Buffer[3][n] >> 2;
-				nSample += pAY8910Buffer[4][n] >> 2;
-				nSample += pAY8910Buffer[5][n] >> 2;
-				nSample += pAY8910Buffer[6][n] >> 2;
-				nSample += pAY8910Buffer[7][n] >> 2;
-				nSample += pAY8910Buffer[8][n] >> 2;
-
-				nSample /= 4;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
+			AY8910Render(&pAY8910Buffer[0], pSoundBuf, nSegmentLength, 0);
 		}
 	}
 

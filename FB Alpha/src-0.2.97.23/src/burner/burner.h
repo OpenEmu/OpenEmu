@@ -10,7 +10,7 @@
 #include <assert.h>
 #include <ctype.h>
 
-#if defined(__LIBSNES__) && defined(_XBOX)
+#if defined(__LIBRETRO__) && defined(_XBOX)
 #include <tchar.h>
 #else
 #include "tchar.h"
@@ -42,10 +42,10 @@ typedef struct tagIMAGE {
  #include "burner_win32.h"
 #elif defined (BUILD_SDL)
  #include "burner_sdl.h"
-#elif defined (_XBOX) && !defined(__LIBSNES__)
+#elif defined (_XBOX) && !defined(__LIBRETRO__)
  #include "burner_xbox.h"
-#elif defined(__LIBSNES__)
-#include "burner_libsnes.h"
+#elif defined(__LIBRETRO__)
+#include "burner_libretro.h"
 #endif
 
 #if defined (INCLUDE_LIB_PNGH)
@@ -55,7 +55,7 @@ typedef struct tagIMAGE {
 // ---------------------------------------------------------------------------
 // OS independent functionality
 
-#ifndef __LIBSNES__
+#ifndef __LIBRETRO__
 #include "interface.h"
 #endif
 
@@ -91,7 +91,7 @@ INT32 GameInpExit();
 TCHAR* InputCodeDesc(INT32 c);
 TCHAR* InpToDesc(struct GameInp* pgi);
 TCHAR* InpMacroToDesc(struct GameInp* pgi);
-#ifndef __LIBSNES__
+#ifndef __LIBRETRO__
 void GameInpCheckLeftAlt();
 void GameInpCheckMouse();
 #endif

@@ -1,10 +1,11 @@
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "dac.h"
 #include "8255ppi.h"
 #include "bitswap.h"
 #include "s2650_intf.h"
 #include "sn76496.h"
+#include "flt_rc.h"
 
 #include "driver.h"
 extern "C" {
@@ -267,7 +268,6 @@ INT32 GalScan(INT32 nAction, INT32 *pnMin);
 extern INT16* pFMBuffer;
 extern INT16* pAY8910Buffer[9];
 extern UINT8 GalSoundType;
-extern UINT8 GalSoundVolumeShift;
 extern UINT8 HunchbksSoundIrqFire;
 extern UINT8 GalLastPort2;
 extern UINT8 GalShootEnable;
@@ -281,6 +281,8 @@ extern INT32 GalLfoVolume[3];
 extern double GalLfoFreq;
 extern double GalLfoFreqFrameVar;
 extern INT32 GalLfoBit[4];
+
+void GalaxianSoundSetRoute(double nVolume, INT32 nRouteDir);
 
 void GalSoundReset();
 void GalSoundInit();

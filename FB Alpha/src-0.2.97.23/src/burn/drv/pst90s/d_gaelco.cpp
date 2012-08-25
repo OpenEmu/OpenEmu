@@ -2,7 +2,7 @@
 // Based on MAME driver by Manuel Abadia with various bits by Nicola Salmoria and Andreas Naive
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "m6809_intf.h"
 #include "msm6295.h"
 #include "burn_ym3812.h"
@@ -597,7 +597,7 @@ void __fastcall main_write_byte(UINT32 address, UINT8 data)
 		case 0x70000f:
 			if (has_sound_cpu) {
 				*soundlatch = data;
-				M6809SetIRQ(1, M6809_IRQSTATUS_AUTO);
+				M6809SetIRQLine(1, M6809_IRQSTATUS_AUTO);
 			} else {
 				MSM6295Command(0, data);
 			}
@@ -849,15 +849,17 @@ static INT32 DrvInit(INT32 (*pRomLoadCallback)(), INT32 encrypted_ram, INT32 sou
 		M6809Open(0);
 		M6809MapMemory(Drv6809RAM,		0x0000, 0x07ff, M6809_RAM);
 		M6809MapMemory(Drv6809ROM + 0x0c00,	0x0c00, 0xffff, M6809_ROM);
-		M6809SetReadByteHandler(sound_read);
-		M6809SetWriteByteHandler(sound_write);
+		M6809SetReadHandler(sound_read);
+		M6809SetWriteHandler(sound_write);
 		M6809Close();
 
 		BurnYM3812Init(3580000, NULL, &DrvSynchroniseStream, 0);
 		BurnTimerAttachM6809YM3812(2216750);
+		BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 	}
 
-	MSM6295Init(0, 1056000 / 132, 100.0, has_sound_cpu ? 1 : 0);
+	MSM6295Init(0, 1056000 / 132, has_sound_cpu ? 1 : 0);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	gaelco_encryption_param1 = encrypted_ram;
 

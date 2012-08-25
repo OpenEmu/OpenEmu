@@ -519,6 +519,8 @@ static INT32 CommonInit(int type)
 	vce_palette_init(DrvPalette);
 
 	c6280_init(3579545, 0);
+	c6280_set_route(BURN_SND_C6280_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	c6280_set_route(BURN_SND_C6280_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	GenericTilesInit();
 

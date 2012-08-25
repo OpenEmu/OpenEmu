@@ -41,5 +41,17 @@ INT32 AY8910Scan(INT32 nAction, INT32* pnMin);
 
 INT32 AY8910SetPorts(INT32 chip, read8_handler portAread, read8_handler portBread,
 		write8_handler portAwrite, write8_handler portBwrite);
+		
+void AY8910Render(INT16** buffer, INT16* dest, INT32 length, INT32 bAddSignal);
+void AY8910SetRoute(INT32 chip, INT32 nIndex, double nVolume, INT32 nRouteDir);
+
+#define BURN_SND_AY8910_ROUTE_1		0
+#define BURN_SND_AY8910_ROUTE_2		1
+#define BURN_SND_AY8910_ROUTE_3		2
+
+#define AY8910SetAllRoutes(i, v, d)							\
+	AY8910SetRoute(i, BURN_SND_AY8910_ROUTE_1, v, d);	\
+	AY8910SetRoute(i, BURN_SND_AY8910_ROUTE_2, v, d);	\
+	AY8910SetRoute(i, BURN_SND_AY8910_ROUTE_3, v, d);
 
 #endif

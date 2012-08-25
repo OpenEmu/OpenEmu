@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
 #include "burn_ym2203.h"
 #include "burn_ym2413.h"
@@ -11,51 +11,51 @@
 #include "genesis_vid.h"
 #include "8255ppi.h"
 
-#define SYS16_ROM_PROG		1
-#define SYS16_ROM_TILES		2
-#define SYS16_ROM_SPRITES	3
-#define SYS16_ROM_Z80PROG	4
-#define SYS16_ROM_KEY		5
-#define SYS16_ROM_7751PROG	6
-#define SYS16_ROM_7751DATA	7
+#define SYS16_ROM_PROG			1
+#define SYS16_ROM_TILES			2
+#define SYS16_ROM_SPRITES		3
+#define SYS16_ROM_Z80PROG		4
+#define SYS16_ROM_KEY			5
+#define SYS16_ROM_7751PROG		6
+#define SYS16_ROM_7751DATA		7
 #define SYS16_ROM_UPD7759DATA	8
-#define SYS16_ROM_PROG2		9
-#define SYS16_ROM_ROAD		10
-#define SYS16_ROM_PCMDATA	11
-#define SYS16_ROM_Z80PROG2	12
-#define SYS16_ROM_Z80PROG3	13
-#define SYS16_ROM_Z80PROG4	14
-#define SYS16_ROM_PCM2DATA	15
-#define SYS16_ROM_PROM 		16
-#define SYS16_ROM_PROG3		17
-#define SYS16_ROM_SPRITES2	18
+#define SYS16_ROM_PROG2			9
+#define SYS16_ROM_ROAD			10
+#define SYS16_ROM_PCMDATA		11
+#define SYS16_ROM_Z80PROG2		12
+#define SYS16_ROM_Z80PROG3		13
+#define SYS16_ROM_Z80PROG4		14
+#define SYS16_ROM_PCM2DATA		15
+#define SYS16_ROM_PROM 			16
+#define SYS16_ROM_PROG3			17
+#define SYS16_ROM_SPRITES2		18
 #define SYS16_ROM_RF5C68DATA	19
 
 // sys16_run.cpp
-extern UINT8  System16InputPort0[8];
-extern UINT8  System16InputPort1[8];
-extern UINT8  System16InputPort2[8];
-extern UINT8  System16InputPort3[8];
-extern UINT8  System16InputPort4[8];
-extern UINT8  System16InputPort5[8];
-extern UINT8  System16InputPort6[8];
-extern UINT8  System16Gear;
-extern INT32  System16AnalogPort0;
-extern INT32  System16AnalogPort1;
-extern INT32  System16AnalogPort2;
-extern INT32  System16AnalogPort3;
-extern INT32  System16AnalogPort4;
-extern INT32  System16AnalogPort5;
-extern INT32  System16AnalogSelect;
-extern UINT8  System16Dip[3];
-extern UINT8  System16Input[7];
-extern UINT8  System16Reset;
+extern UINT8 System16InputPort0[8];
+extern UINT8 System16InputPort1[8];
+extern UINT8 System16InputPort2[8];
+extern UINT8 System16InputPort3[8];
+extern UINT8 System16InputPort4[8];
+extern UINT8 System16InputPort5[8];
+extern UINT8 System16InputPort6[8];
+extern UINT8 System16Gear;
+extern INT32 System16AnalogPort0;
+extern INT32 System16AnalogPort1;
+extern INT32 System16AnalogPort2;
+extern INT32 System16AnalogPort3;
+extern INT32 System16AnalogPort4;
+extern INT32 System16AnalogPort5;
+extern INT32 System16AnalogSelect;
+extern UINT8 System16Dip[3];
+extern UINT8 System16Input[7];
+extern UINT8 System16Reset;
 extern UINT8 *System16Rom;
 extern UINT8 *System16Code;
 extern UINT8 *System16Rom2;
 extern UINT8 *System16Z80Rom;
 extern UINT8 *System16Z80Code;
-extern UINT8  *System16UPD7759Data;
+extern UINT8 *System16UPD7759Data;
 extern UINT8 *System16PCMData;
 extern UINT8 *System16RF5C68Data;
 extern UINT8 *System16Prom;
@@ -75,7 +75,7 @@ extern UINT8 *System16RotateRamBuff;
 extern UINT8 *System16PaletteRam;
 extern UINT8 *System16RoadRam;
 extern UINT8 *System16RoadRamBuff;
-extern UINT32  *System16Palette;
+extern UINT32 *System16Palette;
 extern UINT8 *System16Tiles;
 extern UINT8 *System16Sprites;
 extern UINT8 *System16Sprites2;
@@ -88,6 +88,7 @@ extern UINT32 System16SpriteRomSize;
 extern UINT32 System16Sprite2RomSize;
 extern UINT32 System16RoadRomSize;
 extern UINT32 System16Z80RomSize;
+extern UINT32 System16Z80Rom2Num;
 extern UINT32 System16PCMDataSize;
 extern UINT32 System16PCMDataSizePreAllocate;
 extern UINT32 System16ExtraRamSize;
@@ -134,6 +135,8 @@ extern System16MakeAnalogInputs System16MakeAnalogInputsDo;
 UINT8 __fastcall System16PPIZ80PortRead(UINT16 a);
 void __fastcall System16Z80PortWrite(UINT16 a, UINT8 d);
 
+INT32 System16LoadRoms(bool bLoad);
+
 INT32 CustomLoadRom20000();
 INT32 CustomLoadRom40000();
 
@@ -160,19 +163,19 @@ INT32 System16Scan(INT32 nAction, INT32 *pnMin);
 void System16APPI0WritePortA(UINT8 data);
 void System16APPI0WritePortB(UINT8 data);
 void System16APPI0WritePortC(UINT8 data);
-extern UINT16 __fastcall System16AReadWord(UINT32 a);
-extern UINT8 __fastcall System16AReadByte(UINT32 a);
+UINT16 __fastcall System16AReadWord(UINT32 a);
+UINT8 __fastcall System16AReadByte(UINT32 a);
 void __fastcall System16AWriteWord(UINT32 a, UINT16 d);
 void __fastcall System16AWriteByte(UINT32 a, UINT8 d);
 
 // d_sys16b.cpp
-extern UINT8 __fastcall System16BReadByte(UINT32 a);
+UINT8 __fastcall System16BReadByte(UINT32 a);
 void __fastcall System16BWriteByte(UINT32 a, UINT8 d);
 void __fastcall System16BWriteWord(UINT32 a, UINT16 d);
 
 // d_sys18.cpp
-extern UINT16 __fastcall System18ReadWord(UINT32 a);
-extern UINT8 __fastcall System18ReadByte(UINT32 a);
+UINT16 __fastcall System18ReadWord(UINT32 a);
+UINT8 __fastcall System18ReadByte(UINT32 a);
 void __fastcall System18WriteWord(UINT32 a, UINT16 d);
 void __fastcall System18WriteByte(UINT32 a, UINT8 d);
 
@@ -182,40 +185,40 @@ void HangonPPI0WritePortB(UINT8 data);
 void HangonPPI0WritePortC(UINT8 data);
 UINT8 HangonPPI1ReadPortC();
 void HangonPPI1WritePortA(UINT8 data);
-extern UINT16 __fastcall HangonReadWord(UINT32 a);
-extern UINT8 __fastcall HangonReadByte(UINT32 a);
+UINT16 __fastcall HangonReadWord(UINT32 a);
+UINT8 __fastcall HangonReadByte(UINT32 a);
 void __fastcall HangonWriteWord(UINT32 a, UINT16 d);
 void __fastcall HangonWriteByte(UINT32 a, UINT8 d);
 
 // d_outrun.cpp
 void OutrunPPI0WritePortC(UINT8 data);
-extern UINT16 __fastcall OutrunReadWord(UINT32 a);
-extern UINT8 __fastcall OutrunReadByte(UINT32 a);
+UINT16 __fastcall OutrunReadWord(UINT32 a);
+UINT8 __fastcall OutrunReadByte(UINT32 a);
 void __fastcall OutrunWriteWord(UINT32 a, UINT16 d);
 void __fastcall OutrunWriteByte(UINT32 a, UINT8 d);
-extern UINT8 __fastcall Outrun2ReadByte(UINT32 a);
+UINT8 __fastcall Outrun2ReadByte(UINT32 a);
 void __fastcall Outrun2WriteWord(UINT32 a, UINT16 d);
 void __fastcall Outrun2WriteByte(UINT32 a, UINT8 d);
 
 // d_xbrd.cpp
-extern UINT16 __fastcall XBoardReadWord(UINT32 a);
-extern UINT8 __fastcall XBoardReadByte(UINT32 a);
+UINT16 __fastcall XBoardReadWord(UINT32 a);
+UINT8 __fastcall XBoardReadByte(UINT32 a);
 void __fastcall XBoardWriteWord(UINT32 a, UINT16 d);
 void __fastcall XBoardWriteByte(UINT32 a, UINT8 d);
-extern UINT16 __fastcall XBoard2ReadWord(UINT32 a);
-extern UINT8 __fastcall XBoard2ReadByte(UINT32 a);
+UINT16 __fastcall XBoard2ReadWord(UINT32 a);
+UINT8 __fastcall XBoard2ReadByte(UINT32 a);
 void __fastcall XBoard2WriteWord(UINT32 a, UINT16 d);
 void __fastcall XBoard2WriteByte(UINT32 a, UINT8 d);
 
 // d_ybrd.cpp
-extern UINT16 __fastcall YBoardReadWord(UINT32 a);
-extern UINT8 __fastcall YBoardReadByte(UINT32 a);
+UINT16 __fastcall YBoardReadWord(UINT32 a);
+UINT8 __fastcall YBoardReadByte(UINT32 a);
 void __fastcall YBoardWriteWord(UINT32 a, UINT16 d);
 void __fastcall YBoardWriteByte(UINT32 a, UINT8 d);
-extern UINT16 __fastcall YBoard2ReadWord(UINT32 a);
+UINT16 __fastcall YBoard2ReadWord(UINT32 a);
 void __fastcall YBoard2WriteWord(UINT32 a, UINT16 d);
-extern UINT16 __fastcall YBoard3ReadWord(UINT32 a);
-extern UINT8 __fastcall YBoard3ReadByte(UINT32 a);
+UINT16 __fastcall YBoard3ReadWord(UINT32 a);
+UINT8 __fastcall YBoard3ReadByte(UINT32 a);
 void __fastcall YBoard3WriteWord(UINT32 a, UINT16 d);
 
 // sys16_gfx.cpp

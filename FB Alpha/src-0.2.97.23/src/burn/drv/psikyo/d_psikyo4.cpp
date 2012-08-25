@@ -719,6 +719,7 @@ static INT32 DrvInit(INT32 (*LoadCallback)(), INT32 gfx_len)
 	Sh2SetReadLongHandler (1,		ps4hack_read_long);
 
 	BurnYMF278BInit(0, DrvSndROM, &DrvIRQCallback, DrvSynchroniseStream);
+	BurnYMF278BSetAllRoutes(1.00, BURN_SND_ROUTE_BOTH);
 	BurnTimerAttachSh2(28636350);
 
 	EEPROMInit(&eeprom_interface_93C56);

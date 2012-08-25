@@ -2,7 +2,7 @@
 // Based on MAME driver by Brad Oliver and MANY others.
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "taito_m68705.h"
 #include "driver.h"
 extern "C" {
@@ -1103,6 +1103,8 @@ static INT32 DrvInit()
 	m67805_taito_init(DrvMcuROM, DrvMcuRAM, &arkanoid_m68705_interface);
 
 	AY8910Init(0, 1500000, nBurnSoundRate, &ay8910_read_port_5, &ay8910_read_port_4, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.33, BURN_SND_ROUTE_BOTH);
+	if (arkanoid_bootleg_id == HEXA) AY8910SetAllRoutes(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -1239,20 +1241,7 @@ static INT32 DrvFrame()
 	ZetClose();
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-		AY8910Update(0, &pAY8910Buffer[0], nBurnSoundLen);
-		for (INT32 n = 0; n < nBurnSoundLen; n++) {
-			nSample  = pAY8910Buffer[0][n];
-			nSample += pAY8910Buffer[1][n];
-			nSample += pAY8910Buffer[2][n];
-
-			nSample /= 4;
-
-			nSample = BURN_SND_CLIP(nSample);
-
-			pBurnSoundOut[(n << 1) + 0] = nSample;
-			pBurnSoundOut[(n << 1) + 1] = nSample;
-		}
+		AY8910Render(&pAY8910Buffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 	}
 
 	if (pBurnDraw) {
@@ -1467,7 +1456,7 @@ struct BurnDriver BurnDrvarknoidj = {
 };
 
 
-// Arkanoid (bootleg with MCU)
+// Arkanoid (bootleg with MCU set 1)
 
 static struct BurnRomInfo arkmcublRomDesc[] = {
 	{ "e1.6d",        0x8000, 0xdd4f2b72, 1 | BRF_ESS | BRF_PRG }, //  0 Z80 Code
@@ -1491,10 +1480,42 @@ STD_ROM_FN(arkmcubl)
 
 struct BurnDriver BurnDrvarkmcubl = {
 	"arkanoidjb", "arkanoid", NULL, NULL, "1986",
-	"Arkanoid (bootleg with MCU)\0", NULL, "bootleg", "Arkanoid",
+	"Arkanoid (bootleg with MCU set 1)\0", NULL, "bootleg", "Arkanoid",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_TAITO_MISC, GBF_BREAKOUT, 0,
 	NULL, arkmcublRomInfo, arkmcublRomName, NULL, NULL, DrvInputInfo, arknoidjDIPInfo,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x200,
+	224, 256, 3, 4
+};
+
+
+
+// Arkanoid (bootleg with MCU set 2)
+
+static struct BurnRomInfo arkanoidjb2RomDesc[] = {
+	{ "1.ic81",       0x8000, 0x9ff93dc2, 1 | BRF_ESS | BRF_PRG }, //  0 Z80 Code
+	{ "2.ic82",       0x8000, 0xbbc33ceb, 1 | BRF_ESS | BRF_PRG }, //  1
+
+	{ "a75-06.ic14",  0x0800, 0x515d77b6, 2 | BRF_ESS | BRF_PRG }, //  2 M68705 MCU
+
+	{ "a75-03.ic64",  0x8000, 0x038b74ba, 3 | BRF_GRA },	       //  3 Graphics
+	{ "a75-04.ic63",  0x8000, 0x71fae199, 3 | BRF_GRA },	       //  4
+	{ "a75-05.ic62",  0x8000, 0xc76374e2, 3 | BRF_GRA },	       //  5
+
+	{ "a75-07.ic24",  0x0200, 0x0af8b289, 4 | BRF_GRA },	       //  6 Color Proms
+	{ "a75-08.ic23",  0x0200, 0xabb002fb, 4 | BRF_GRA },	       //  7
+	{ "a75-09.ic23",  0x0200, 0xa7c6c277, 4 | BRF_GRA },	       //  8
+};
+
+STD_ROM_PICK(arkanoidjb2)
+STD_ROM_FN(arkanoidjb2)
+
+struct BurnDriver BurnDrvarkanoidjb2 = {
+	"arkanoidjb2", "arkanoid", NULL, NULL, "1986",
+	"Arkanoid (bootleg with MCU set 2)\0", NULL, "bootleg (Beta)", "Arkanoid",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_TAITO_MISC, GBF_BREAKOUT, 0,
+	NULL, arkanoidjb2RomInfo, arkanoidjb2RomName, NULL, NULL, DrvInputInfo, arknoidjDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x200,
 	224, 256, 3, 4
 };

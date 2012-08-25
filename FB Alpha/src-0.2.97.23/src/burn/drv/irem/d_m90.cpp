@@ -2,9 +2,9 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "burn_ym2151.h"
-#include "vez.h"
+#include "nec_intf.h"
 #include "irem_cpu.h"
 #include "dac.h"
 
@@ -1144,11 +1144,12 @@ static INT32 DrvInit(INT32 codesize, INT32 gfxlen, INT32 samples, INT32 bank, IN
 	ZetMemEnd();
 	ZetClose();
 
-	BurnYM2151Init(3579545, 15.0);
+	BurnYM2151Init(3579545);
 	YM2151SetIrqHandler(0, &m72YM2151IRQHandler);
+	BurnYM2151SetAllRoutes(0.15, BURN_SND_ROUTE_BOTH);
 
 	DACInit(0, 0, 1, m90SyncDAC);
-	DACSetVolShift(0, 4); // 1/16th of max
+	DACSetRoute(0, 0.10, BURN_SND_ROUTE_BOTH);
 
 	code_mask[0] = ((gfxlen * 2) - 1) / (8 * 8);
 	code_mask[1] = ((gfxlen * 2) - 1) / (16 * 16);

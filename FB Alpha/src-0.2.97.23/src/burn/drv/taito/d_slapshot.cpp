@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "taito.h"
 #include "taito_ic.h"
 #include "burn_ym2610.h"
@@ -549,6 +549,9 @@ static INT32 MachineInit()
 	
 	BurnYM2610Init(8000000, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &SlapshotFMIRQHandler, SlapshotSynchroniseStream, SlapshotGetTime, 0);
 	BurnTimerAttachZet(4000000);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 	
 	TaitoMakeInputsFunction = TC0640FIOMakeInputs;
 	TaitoDrawFunction = SlapshotDraw;

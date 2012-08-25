@@ -6,7 +6,7 @@
  ********************************************************************************/
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "burn_gun.h"
 #include "eeprom.h"
 #include "x1010.h"
@@ -1102,6 +1102,21 @@ static struct BurnRomInfo deerhundRomDesc[] = {
 STD_ROM_PICK(deerhund)
 STD_ROM_FN(deerhund)
 
+static struct BurnRomInfo deerhuneRomDesc[] = {
+	{ "as0906e01.u06",	0x100000, 0x103e3ba3, 1 }, //  0 68000 code
+	{ "as0907e01.u07",	0x100000, 0xddeb0f97, 1 }, //  1
+
+	{ "as0901m01.u38",	0x800000, 0x1d6acf8f, 2 }, //  2 GFX
+	{ "as0902m01.u39",	0x800000, 0xc7ca2128, 2 }, //  3
+	{ "as0903m01.u40",	0x800000, 0xe8ef81b3, 2 }, //  4
+	{ "as0904m01.u41",	0x800000, 0xd0f97fdc, 2 }, //  5
+
+	{ "as0905m01.u18",	0x400000, 0x8d8165bb, 3 }, //  6 PCM
+};
+
+STD_ROM_PICK(deerhune)
+STD_ROM_FN(deerhune)
+
 static struct BurnRomInfo turkhuntRomDesc[] = {
 	{ "asx906e01.u06",	0x100000, 0xc96266e1, 1 }, //  0 68000 code
 	{ "asx907e01.u07",	0x100000, 0x7c67b502, 1 }, //  1
@@ -1642,6 +1657,8 @@ static INT32 grdiansInit()
 	gfx_code_mask = 0x0800000 * 4 / 64;
 
 	x1010_sound_init(50000000 / 3, 0x0000);
+	x1010_set_route(BURN_SND_X1010_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	x1010_set_route(BURN_SND_X1010_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	DrvDoReset();	
 
@@ -1803,6 +1820,8 @@ static INT32 mj4simaiInit()
 	gfx_code_mask = 0x0800000 * 4 / 64;
 
 	x1010_sound_init(50000000 / 3, 0x0000);
+	x1010_set_route(BURN_SND_X1010_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	x1010_set_route(BURN_SND_X1010_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 //	bMahjong = 1;
 
@@ -1953,6 +1972,8 @@ static INT32 myangelInit()
 	gfx_code_mask = 0x0400000 * 4 / 64;
 
 	x1010_sound_init(50000000 / 3, 0x0000);
+	x1010_set_route(BURN_SND_X1010_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	x1010_set_route(BURN_SND_X1010_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	DrvDoReset();	
 
@@ -2101,6 +2122,8 @@ static INT32 myangel2Init()
 	gfx_code_mask = 0x0600000 * 4 / 64;
 
 	x1010_sound_init(50000000 / 3, 0x0000);
+	x1010_set_route(BURN_SND_X1010_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	x1010_set_route(BURN_SND_X1010_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	DrvDoReset();	
 
@@ -2257,6 +2280,8 @@ static INT32 pzlbowlInit()
 	gfx_code_mask = 0x0400000 * 4 / 64;
 
 	x1010_sound_init(50000000 / 3, 0x0000);
+	x1010_set_route(BURN_SND_X1010_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	x1010_set_route(BURN_SND_X1010_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	DrvDoReset();
 
@@ -2406,6 +2431,8 @@ static INT32 penbrosInit()
 	gfx_code_mask = 0x0400000 * 4 / 64;
 
 	x1010_sound_init(50000000 / 3, 0x0000);
+	x1010_set_route(BURN_SND_X1010_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	x1010_set_route(BURN_SND_X1010_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	DrvDoReset();
 
@@ -2571,6 +2598,8 @@ static INT32 gundamexInit()
 	gfx_code_mask = 0x0800000 * 4 / 64;
 
 	x1010_sound_init(50000000 / 3, 0x0000);
+	x1010_set_route(BURN_SND_X1010_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	x1010_set_route(BURN_SND_X1010_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	EEPROMInit(&eeprom_interface_93C46);
 
@@ -2703,6 +2732,8 @@ static INT32 samshootInit()
 	gfx_code_mask = 0x0800000 * 4 / 64;
 
 	x1010_sound_init(50000000 / 3, 0x0000);
+	x1010_set_route(BURN_SND_X1010_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	x1010_set_route(BURN_SND_X1010_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
 
 	BurnGunInit(2, true);
 
@@ -3370,6 +3401,16 @@ struct BurnDriver BurnDrvDeerhund = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 1, HARDWARE_SETA2, GBF_SHOOT, 0,
 	NULL, deerhundRomInfo, deerhundRomName, NULL, NULL, DeerhuntInputInfo, DeerhuntDIPInfo,
+	samshootInit, grdiansExit, samshootFrame, NULL, grdiansScan, &bRecalcPalette, 0x8000,
+	320, 240, 4, 3
+};
+
+struct BurnDriver BurnDrvDeerhune = {
+	"deerhunte", "deerhunt", NULL, NULL, "2000",
+	"Deer Hunting USA V1\0", NULL, "Sammy USA Corporation", "Newer Seta",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 1, HARDWARE_SETA2, GBF_SHOOT, 0,
+	NULL, deerhuneRomInfo, deerhuneRomName, NULL, NULL, DeerhuntInputInfo, DeerhuntDIPInfo,
 	samshootInit, grdiansExit, samshootFrame, NULL, grdiansScan, &bRecalcPalette, 0x8000,
 	320, 240, 4, 3
 };

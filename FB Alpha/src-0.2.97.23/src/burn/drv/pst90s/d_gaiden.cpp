@@ -2,8 +2,8 @@
 // Based on MAME driver by Alex Pasadyn, Phil Stroffolino, Nicola Salmoria, and various others
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "msm6295.h"
 #include "burn_ym2151.h"
 #include "burn_ym2203.h"
@@ -1052,13 +1052,23 @@ static INT32 DrvInit()
 	ZetClose();
 
 	if (game == 1) {
-		BurnYM2151Init(4000000, 100.0);
+		BurnYM2151Init(4000000);
+		BurnYM2151SetAllRoutes(0.40, BURN_SND_ROUTE_BOTH);
 	} else {
 		BurnYM2203Init(2, 4000000, &DrvYM2203IRQHandler, DrvSynchroniseStream, DrvGetTime, 0);
 		BurnTimerAttachZet(4000000);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_YM2203_ROUTE, 0.60, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_1, 0.15, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_2, 0.15, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(0, BURN_SND_YM2203_AY8910_ROUTE_3, 0.15, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(1, BURN_SND_YM2203_YM2203_ROUTE, 0.60, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_1, 0.15, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_2, 0.15, BURN_SND_ROUTE_BOTH);
+		BurnYM2203SetRoute(1, BURN_SND_YM2203_AY8910_ROUTE_3, 0.15, BURN_SND_ROUTE_BOTH);
 	}
 
-	MSM6295Init(0, 1000000 / 132, 80, 1);
+	MSM6295Init(0, 1000000 / 132, 1);
+	MSM6295SetRoute(0, 0.20, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 
@@ -1995,7 +2005,11 @@ static INT32 drgnbowlInit()
 {
 	game = 1;
 
-	return DrvInit();
+	INT32 nRet = DrvInit();
+	
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
+	
+	return nRet;
 }
 
 struct BurnDriver BurnDrvDrgnbowl = {

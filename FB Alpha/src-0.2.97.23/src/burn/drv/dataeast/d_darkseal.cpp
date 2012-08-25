@@ -2,7 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "h6280_intf.h"
 #include "bitswap.h"
 #include "deco16ic.h"
@@ -394,7 +394,8 @@ static INT32 DrvInit()
 	SekSetReadByteHandler(0,		darkseal_read_byte);
 	SekClose();
 
-	deco16SoundInit(DrvHucROM, DrvHucRAM, 8055000, 1, NULL, 40.0, 1006875, 100.0, 2013750, 60.0);
+	deco16SoundInit(DrvHucROM, DrvHucRAM, 8055000, 1, NULL, 0.55, 1006875, 1.00, 2013750, 0.60);
+	BurnYM2203SetAllRoutes(0, 0.45, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

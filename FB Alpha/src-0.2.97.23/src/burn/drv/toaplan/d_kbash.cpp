@@ -1,5 +1,5 @@
 #include "toaplan.h"
-#include "vez.h"
+#include "nec_intf.h"
 // Knuckle Bash
 
 static UINT8 DrvButton[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -451,8 +451,10 @@ static INT32 DrvInit()
 		VezClose();
 	}
 
-	BurnYM2151Init(3375000, 50.0);
-	MSM6295Init(0, 1000000 / 132, 50.0, 1);
+	BurnYM2151Init(3375000);
+	BurnYM2151SetAllRoutes(0.50, BURN_SND_ROUTE_BOTH);
+	MSM6295Init(0, 1000000 / 132, 1);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	nSpriteYOffset = 0x0011;
 

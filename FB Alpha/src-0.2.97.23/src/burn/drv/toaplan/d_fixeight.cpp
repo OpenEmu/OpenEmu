@@ -1,6 +1,6 @@
 #include "toaplan.h"
 #include "eeprom.h"
-#include "vez.h"
+#include "nec_intf.h"
 
 static UINT8 DrvButton[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 static UINT8 DrvJoy1[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -603,8 +603,10 @@ static INT32 DrvInit(INT32 region)
 	ToaPalSrc = RamPal;
 	ToaPalInit();
 
-	BurnYM2151Init(27000000 / 8, 50.0);
-	MSM6295Init(0, 1000000 / 132, 50.0, 1);
+	BurnYM2151Init(27000000 / 8);
+	BurnYM2151SetAllRoutes(0.50, BURN_SND_ROUTE_BOTH);
+	MSM6295Init(0, 1000000 / 132, 1);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	bDrawScreen = true;
 

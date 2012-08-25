@@ -111,10 +111,10 @@ void M6800Exit();
 #define M6803Exit		M6800Exit
 #define M6801Exit		M6800Exit
 
-void M6800SetIRQ(INT32 vector, INT32 status);
-void HD63701SetIRQ(INT32 vector, INT32 status);
-void M6803SetIRQ(INT32 vector, INT32 status);
-void M6801SetIRQ(INT32 vector, INT32 status);
+void M6800SetIRQLine(INT32 vector, INT32 status);
+void HD63701SetIRQLine(INT32 vector, INT32 status);
+void M6803SetIRQLine(INT32 vector, INT32 status);
+void M6801SetIRQLine(INT32 vector, INT32 status);
 
 INT32 M6800Run(INT32 cycles);
 INT32 HD63701Run(INT32 cycles);
@@ -136,15 +136,15 @@ INT32 M6800MapMemory(UINT8* pMemory, UINT16 nStart, UINT16 nEnd, INT32 nType);
 #define M6803MapMemory		M6800MapMemory
 #define M6801MapMemory		M6800MapMemory
 
-void M6800SetReadByteHandler(UINT8 (*pHandler)(UINT16));
-#define HD63701SetReadByteHandler	M6800SetReadByteHandler
-#define M6803SetReadByteHandler		M6800SetReadByteHandler
-#define M6801SetReadByteHandler		M6800SetReadByteHandler
+void M6800SetReadHandler(UINT8 (*pHandler)(UINT16));
+#define HD63701SetReadHandler	M6800SetReadHandler
+#define M6803SetReadHandler		M6800SetReadHandler
+#define M6801SetReadHandler		M6800SetReadHandler
 
-void M6800SetWriteByteHandler(void (*pHandler)(UINT16, UINT8));
-#define HD63701SetWriteByteHandler	M6800SetWriteByteHandler
-#define M6803SetWriteByteHandler	M6800SetWriteByteHandler
-#define M6801SetWriteByteHandler	M6800SetWriteByteHandler
+void M6800SetWriteHandler(void (*pHandler)(UINT16, UINT8));
+#define HD63701SetWriteHandler	M6800SetWriteHandler
+#define M6803SetWriteHandler	M6800SetWriteHandler
+#define M6801SetWriteHandler	M6800SetWriteHandler
 
 void M6800SetReadOpHandler(UINT8 (*pHandler)(UINT16));
 #define HD63701SetReadOpHandler		M6800SetReadOpHandler

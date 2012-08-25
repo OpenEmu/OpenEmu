@@ -5,7 +5,7 @@
 // Also a bug in sprite drawing, flipped case? (see special shot)
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "msm6295.h"
 #include "es8712.h"
 
@@ -347,9 +347,11 @@ static INT32 DrvInit()
 	SekSetWriteWordHandler(1,	vmetal_palette_write_word);
 	SekClose();
 
-	es8712Init(0, DrvSndROM1, 12000 / 60 /* Rate / FPS */, 50.0, 0);
+	es8712Init(0, DrvSndROM1, 12000 / 60 /* Rate / FPS */, 0);
+	es8712SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 
-	MSM6295Init(0, 1320000 / 132, 75.0, 1);
+	MSM6295Init(0, 1320000 / 132, 1);
+	MSM6295SetRoute(0, 0.75, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

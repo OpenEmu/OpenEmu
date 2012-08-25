@@ -2,8 +2,8 @@
 // Based on MAME driver by Luca Elia
 
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "eeprom.h"
 #include "burn_ym3812.h"
 #include "msm6295.h"
@@ -880,8 +880,10 @@ static INT32 DrvInit(INT32 (*pInitCallback)())
 
 	BurnYM3812Init(4000000, NULL, &DrvSynchroniseStream, 0);
 	BurnTimerAttachZetYM3812(4000000);
+	BurnYM3812SetRoute(BURN_SND_YM3812_ROUTE, 0.30, BURN_SND_ROUTE_BOTH);
 
-	MSM6295Init(0, 1056000 / 132, 60.0, 1);
+	MSM6295Init(0, 1056000 / 132, 1);
+	MSM6295SetRoute(0, 0.60, BURN_SND_ROUTE_BOTH);
 
 	EEPROMInit(&eeprom_interface_93C46); // not used in multchmp
 

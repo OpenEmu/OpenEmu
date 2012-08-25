@@ -402,8 +402,10 @@ static INT32 DrvInit()
 		SekClose();
 	}
 
-	MSM6295Init(0, 1000000 / 132, 100.0, 1);
-	MSM6295Init(1, 1000000 / 132, 100.0, 1);
+	MSM6295Init(0, 1000000 / 132, 1);
+	MSM6295Init(1, 1000000 / 132, 1);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
+	MSM6295SetRoute(1, 1.00, BURN_SND_ROUTE_BOTH);
 
 	nSpriteYOffset = 0x0011;
 

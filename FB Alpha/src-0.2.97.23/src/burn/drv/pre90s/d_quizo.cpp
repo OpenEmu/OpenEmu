@@ -2,7 +2,7 @@
 // Based on MAME driver by Tomasz Slanina
 
 #include "burnint.h"
-#include "zet.h"
+#include "z80_intf.h"
 
 #include "driver.h"
 extern "C" {
@@ -256,6 +256,7 @@ static INT32 DrvInit()
 	pAY8910Buffer[2] = pFMBuffer + nBurnSoundLen * 2;
 
 	AY8910Init(0, 1342329, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 
@@ -267,32 +268,13 @@ static INT32 DrvFrame()
 {
 	if (DrvReset) DrvDoReset();
 
-	INT32 nSoundBufferPos = 0;
-
 	ZetOpen(0);
 	ZetRun(4000000 / 60);
 	ZetRaiseIrq(1);
 	ZetClose();
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
-		INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-		if (nSegmentLength) {
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n];
-				nSample += pAY8910Buffer[1][n];
-				nSample += pAY8910Buffer[2][n];
-
-				nSample /= 4;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
-		}
+		AY8910Render(&pAY8910Buffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 	}
 
 	if (pBurnDraw) DrvDraw();

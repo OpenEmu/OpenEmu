@@ -57,6 +57,7 @@
 
 #include "burnint.h"
 #include "h6280_intf.h"
+#include "c6280.h"
 #include "math.h"
 
 typedef struct {
@@ -81,6 +82,8 @@ typedef struct {
 	UINT32 noise_freq_tab[32];
 	UINT32 wave_freq_tab[4096];
 	INT32 bAdd;
+	double gain[2];
+	INT32 output_dir[2];
 } c6280_t;
 
 static INT16 *stream_buffer = NULL;
@@ -152,6 +155,10 @@ void c6280_init(double clk, INT32 bAdd)
 	p->volume_table[31] = 0;
 
 	p->bAdd = bAdd;
+	p->gain[BURN_SND_C6280_ROUTE_1] = 1.00;
+	p->gain[BURN_SND_C6280_ROUTE_2] = 1.00;
+	p->output_dir[BURN_SND_C6280_ROUTE_1] = BURN_SND_ROUTE_LEFT;
+	p->output_dir[BURN_SND_C6280_ROUTE_2] = BURN_SND_ROUTE_RIGHT;
 
 	stream_buffer = (INT16*)BurnMalloc(nBurnSoundLen * 2 * sizeof(INT16));
 
@@ -161,6 +168,14 @@ void c6280_init(double clk, INT32 bAdd)
 #endif
 		return;
 	}
+}
+
+void c6280_set_route(INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+	c6280_t *p = &chip[0];
+	
+	p->gain[nIndex] = nVolume;
+	p->output_dir[nIndex] = nRouteDir;
 }
 
 void c6280_exit()
@@ -367,11 +382,28 @@ void c6280_update(INT16 *pBuffer, INT32 samples)
 	c6280_stream_update();
 
 	if (!p->bAdd) {
-		memset (pBuffer, 0, samples * sizeof(short) * 2); // 16-bit * 2 channels
+		memset (pBuffer, 0, samples * sizeof(INT16) * 2); // 16-bit * 2 channels
 	}
 
-	for (INT32 i = 0; i < samples*2; i++) {
-		pBuffer[i] += stream_buffer[i];
+	for (INT32 i = 0; i < samples; i++) {
+		INT32 nLeftSample = 0, nRightSample = 0;
+			
+		if ((p->output_dir[BURN_SND_C6280_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(stream_buffer[(i << 1) + 0] * p->gain[BURN_SND_C6280_ROUTE_1]);
+		}
+		if ((p->output_dir[BURN_SND_C6280_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(stream_buffer[(i << 1) + 0] * p->gain[BURN_SND_C6280_ROUTE_1]);
+		}
+			
+		if ((p->output_dir[BURN_SND_C6280_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)(stream_buffer[(i << 1) + 1] * p->gain[BURN_SND_C6280_ROUTE_2]);
+		}
+		if ((p->output_dir[BURN_SND_C6280_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)(stream_buffer[(i << 1) + 1] * p->gain[BURN_SND_C6280_ROUTE_2]);
+		}
+			
+		pBuffer[(i << 1) + 0] = BURN_SND_CLIP(nLeftSample);
+		pBuffer[(i << 1) + 1] = BURN_SND_CLIP(nRightSample);
 	}
 }
 

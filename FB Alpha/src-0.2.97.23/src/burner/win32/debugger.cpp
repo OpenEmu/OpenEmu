@@ -4,8 +4,8 @@ HWND hDbgDlg = NULL;
 
 #if defined (FBA_DEBUG)
 
-#include "sek.h"
-#include "sekdebug.h"
+#include "m68000_intf.h"
+#include "m68000_debug.h"
 #include "richedit.h"
 
 static bool bLargeWindow;

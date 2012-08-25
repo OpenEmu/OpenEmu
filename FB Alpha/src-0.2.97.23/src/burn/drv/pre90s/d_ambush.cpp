@@ -2,7 +2,7 @@
 // Based on MAME driver by Zsolt Vasvari
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "driver.h"
 extern "C" {
 #include "ay8910.h"
@@ -250,14 +250,14 @@ static INT32 MemIndex()
 	flipscreen 	= Next; Next += 0x000001;
 	color_bank	= Next; Next += 0x000001;
 
+	RamEnd		= Next;
+
 	pAY8910Buffer[0] = (INT16 *)Next; Next += nBurnSoundLen * sizeof(INT16);
 	pAY8910Buffer[1] = (INT16 *)Next; Next += nBurnSoundLen * sizeof(INT16);
 	pAY8910Buffer[2] = (INT16 *)Next; Next += nBurnSoundLen * sizeof(INT16);
 	pAY8910Buffer[3] = (INT16 *)Next; Next += nBurnSoundLen * sizeof(INT16);
 	pAY8910Buffer[4] = (INT16 *)Next; Next += nBurnSoundLen * sizeof(INT16);
 	pAY8910Buffer[5] = (INT16 *)Next; Next += nBurnSoundLen * sizeof(INT16);
-
-	RamEnd		= Next;
 
 	MemEnd		= Next;
 
@@ -316,6 +316,8 @@ static INT32 DrvInit()
 
 	AY8910Init(0, 1500000, nBurnSoundRate, &AY8910_0_port0, NULL, NULL, NULL);
 	AY8910Init(1, 1500000, nBurnSoundRate, &AY8910_1_port0, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.33, BURN_SND_ROUTE_BOTH);
+	AY8910SetAllRoutes(1, 0.33, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -486,22 +488,7 @@ static INT32 DrvFrame()
 	ZetClose();
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-		AY8910Update(0, &pAY8910Buffer[0], nBurnSoundLen);
-		AY8910Update(1, &pAY8910Buffer[3], nBurnSoundLen);
-		for (INT32 n = 0; n < nBurnSoundLen; n++) {
-			nSample  = pAY8910Buffer[0][n] >> 2;
-			nSample += pAY8910Buffer[1][n] >> 2;
-			nSample += pAY8910Buffer[2][n] >> 2;
-			nSample += pAY8910Buffer[3][n] >> 2;
-			nSample += pAY8910Buffer[4][n] >> 2;
-			nSample += pAY8910Buffer[5][n] >> 2;
-
-			nSample = BURN_SND_CLIP(nSample);
-
-			pBurnSoundOut[(n << 1) + 0] = nSample;
-			pBurnSoundOut[(n << 1) + 1] = nSample;
-		}
+		AY8910Render(&pAY8910Buffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 	}
 
 	if (pBurnDraw) {

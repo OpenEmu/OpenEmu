@@ -2,7 +2,7 @@
 // Based on MAME driver by Pierpaolo Prazzoli
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "m6809_intf.h"
 #include "burn_ym2203.h"
 
@@ -379,8 +379,8 @@ static INT32 DrvInit()
 	M6809MapMemory(DrvVidRAM,		0x0800, 0x0fff, M6809_RAM);
 	M6809MapMemory(DrvSprRAM,		0x1000, 0x1fff, M6809_RAM);
 	M6809MapMemory(DrvM6809ROM + 0x04000,	0x4000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(scotrsht_main_write);
-	M6809SetReadByteHandler(scotrsht_main_read);
+	M6809SetWriteHandler(scotrsht_main_write);
+	M6809SetReadHandler(scotrsht_main_read);
 	M6809Close();
 
 	ZetInit(0);
@@ -397,8 +397,8 @@ static INT32 DrvInit()
 	ZetClose();
 
 	BurnYM2203Init(1, 3072000, NULL, DrvSynchroniseStream, DrvGetTime, 0);
-	BurnYM2203SetVolumeShift(2);
 	BurnTimerAttachZet(3072000);
+	BurnYM2203SetAllRoutes(0, 0.40, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 
@@ -574,7 +574,7 @@ static INT32 DrvFrame()
 
 	BurnTimerEndFrame(nCyclesTotal[1]);
 
-	if (*irq_enable) M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+	if (*irq_enable) M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 
 	if (pBurnSoundOut) {
 		BurnYM2203Update(pBurnSoundOut, nBurnSoundLen);

@@ -544,7 +544,8 @@ static INT32 DrvInit()
 	CaveSpriteInit(2, 0x0200000);
 	CaveTileInitLayer(0, 0x100000, 8, 0x4000);
 
-	MSM6295Init(0, 7575, 100.0, 0);
+	MSM6295Init(0, 7575, 0);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 

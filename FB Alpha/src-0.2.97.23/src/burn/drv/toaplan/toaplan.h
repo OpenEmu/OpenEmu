@@ -1,6 +1,6 @@
 #include "burnint.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "msm6295.h"
 #include "burn_ym2151.h"
 #include "burn_ym3812.h"

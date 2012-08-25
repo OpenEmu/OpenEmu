@@ -19,9 +19,10 @@ INT32 PsmInit()
 		nRate = 11025;
 	}
 
-	if (BurnYM2151Init(3579540, 50.0)) {				// Init FM sound chip
+	if (BurnYM2151Init(3579540)) {				// Init FM sound chip
 		return 1;
 	}
+	BurnYM2151SetAllRoutes(0.35, BURN_SND_ROUTE_BOTH);
 
 	// Allocate a buffer for the intermediate sound (between YM2151 and pBurnSoundOut)
 	nMemLen = nBurnSoundLen * 2 * sizeof(INT16);
@@ -35,10 +36,11 @@ INT32 PsmInit()
 	// Init ADPCM
 	MSM6295ROM = CpsAd;
 	if (Forgottn) {
-		nRet = MSM6295Init(0, 6061, 21.5, 1);
+		nRet = MSM6295Init(0, 6061, 1);
 	} else {
-		nRet = MSM6295Init(0, 7576, 21.5, 1);
+		nRet = MSM6295Init(0, 7576, 1);
 	}
+	MSM6295SetRoute(0, 0.30, BURN_SND_ROUTE_BOTH);
 
 	if (nRet!=0) {
 		PsmExit(); return 1;

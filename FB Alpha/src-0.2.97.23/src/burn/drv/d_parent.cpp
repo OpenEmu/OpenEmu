@@ -91,39 +91,6 @@ struct BurnDriver BurnDrvCkong = {
 	NULL, 0, 224, 256, 3, 4
 };
 
-static struct BurnRomInfo DkongjrRomDesc[] = {
-	{ "dkj.5b",             0x02000, 0xdea28158, BRF_ESS | BRF_PRG },
-	{ "dkj.5c",             0x02000, 0x6fb5faf6, BRF_ESS | BRF_PRG },
-	{ "dkj.5e",             0x02000, 0xd042b6a8, BRF_ESS | BRF_PRG },
-	
-	{ "c_3h.bin",           0x01000, 0x715da5f8, BRF_ESS | BRF_PRG },
-	
-	{ "dkj.3n",             0x01000, 0x8d51aca9, BRF_ESS | BRF_PRG },
-	{ "dkj.3p",             0x01000, 0x4ef64ba5, BRF_ESS | BRF_PRG },
-	
-	{ "v_7c.bin",           0x00800, 0xdc7f4164, BRF_ESS | BRF_PRG },
-	{ "v_7d.bin",           0x00800, 0x0ce7dcf6, BRF_ESS | BRF_PRG },
-	{ "v_7e.bin",           0x00800, 0x24d1ff17, BRF_ESS | BRF_PRG },
-	{ "v_7f.bin",           0x00800, 0x0f8c083f, BRF_ESS | BRF_PRG },
-
-	{ "c-2e.bpr",           0x00100, 0x463dc7ad, BRF_GRA },
-	{ "c-2f.bpr",           0x00100, 0x47ba0042, BRF_GRA },
-	{ "v-2n.bpr",           0x00100, 0xdbf185bf, BRF_GRA },
-};
-
-STD_ROM_PICK(Dkongjr)
-STD_ROM_FN(Dkongjr)
-
-struct BurnDriver BurnDrvDkongjr = {
-	"dkongjr", NULL, NULL, NULL, "1982",
-	"Donkey Kong Junior (US)\0", "Parent set for working drivers", "Nintendo of America", "Miscellaneous",
-	NULL, NULL, NULL, NULL,
-	0, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
-	NULL, DkongjrRomInfo, DkongjrRomName, NULL, NULL, ParentInputInfo, NULL,
-	ParentInit, ParentExit, NULL, NULL, NULL,
-	NULL, 0, 224, 256, 3, 4
-};
-
 static struct BurnRomInfo DockmanRomDesc[] = {
 	{ "pe1.19",             0x01000, 0xeef2ec54, BRF_ESS | BRF_PRG },
 	{ "pe2.18",             0x01000, 0xbc48d16b, BRF_ESS | BRF_PRG },
@@ -189,6 +156,40 @@ struct BurnDriver BurnDrvEightballact = {
 	NULL, EightballactRomInfo, EightballactRomName, NULL, NULL, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
 	NULL, 0, 256, 224, 4, 3
+};
+
+static struct BurnRomInfo HeroRomDesc[] = {
+	{ "hr-gp1.bin",         0x01000, 0x82f39788, BRF_ESS | BRF_PRG },
+	{ "hr-gp2.bin",         0x01000, 0x79607812, BRF_ESS | BRF_PRG },
+	{ "hr-gp3.bin",         0x01000, 0x2902715c, BRF_ESS | BRF_PRG },
+	{ "hr-gp4.bin",         0x01000, 0x696d2f8e, BRF_ESS | BRF_PRG },
+	{ "hr-gp5.bin",         0x01000, 0x936a4ba6, BRF_ESS | BRF_PRG },
+	
+	{ "hr-sdp1.bin",        0x00800, 0xc34ecf79, BRF_ESS | BRF_PRG },
+	
+	{ "hr-sp1.bin",         0x00800, 0xa5c33cb1, BRF_SND },
+
+	{ "hr-cp1.bin",         0x00800, 0x2d201496, BRF_GRA },
+	{ "hr-cp2.bin",         0x00800, 0x21b61fe3, BRF_GRA },
+	{ "hr-cp3.bin",         0x00800, 0x9c8e3f9e, BRF_GRA },
+	
+	{ "5b.bin",             0x00800, 0xf055a624, BRF_SND },
+	
+	{ "82s185.10h",         0x00800, 0xc205bca6, BRF_GRA },
+	{ "82s123.10k",         0x00020, 0xb5221cec, BRF_GRA },
+};
+
+STD_ROM_PICK(Hero)
+STD_ROM_FN(Hero)
+
+struct BurnDriver BurnDrvHero = {
+	"hero", NULL, NULL, NULL, "1984",
+	"Hero\0", "Parent set for working drivers", "Century Electronics / Seatongrove Ltd", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	0, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
+	NULL, HeroRomInfo, HeroRomName, NULL, NULL, ParentInputInfo, NULL,
+	ParentInit, ParentExit, NULL, NULL, NULL,
+	NULL, 0, 224, 256, 3, 4
 };
 
 static struct BurnRomInfo HunchbakRomDesc[] = {
@@ -280,6 +281,41 @@ struct BurnDriver BurnDrvManiacsq = {
 	NULL, ManiacsqRomInfo, ManiacsqRomName, NULL, NULL, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
 	NULL, 0, 256, 224, 4, 3
+};
+
+static struct BurnRomInfo MarioRomDesc[] = {
+	{ "tma1-c-7f_f.7f",     0x02000, 0xc0c6e014, BRF_ESS | BRF_PRG },
+	{ "tma1-c-7e_f.7e",     0x02000, 0x94fb60d6, BRF_ESS | BRF_PRG },
+	{ "tma1-c-7d_f.7d",     0x02000, 0xdcceb6c1, BRF_ESS | BRF_PRG },
+	{ "tma1-c-7c_f.7c",     0x01000, 0x4a63d96b, BRF_ESS | BRF_PRG },
+	
+	{ "tma1-c-6k_e.6k",     0x01000, 0x06b9ff85, BRF_ESS | BRF_PRG },
+	
+	{ "tma1-v-3f.3f",       0x01000, 0x28b0c42c, BRF_GRA },
+	{ "tma1-v-3j.3j",       0x01000, 0x0c8cc04d, BRF_GRA },
+	
+	{ "tma1-v-7m.7m",       0x01000, 0x22b7372e, BRF_GRA },
+	{ "tma1-v-7n.7n",       0x01000, 0x4f3a1f47, BRF_GRA },
+	{ "tma1-v-7p.7p",       0x01000, 0x56be6ccd, BRF_GRA },
+	{ "tma1-v-7s.7s",       0x01000, 0x56f1d613, BRF_GRA },
+	{ "tma1-v-7t.7t",       0x01000, 0x641f0008, BRF_GRA },
+	{ "tma1-v-7u.7u",       0x01000, 0x7baf5309, BRF_GRA },
+	
+	{ "tma1-c-4p_1.4p",     0x00200, 0x8187d286, BRF_GRA },
+	{ "tma1-c-5p.5p",       0x00020, 0x58d86098, BRF_GRA },
+};
+
+STD_ROM_PICK(Mario)
+STD_ROM_FN(Mario)
+
+struct BurnDriver BurnDrvMario = {
+	"mario", NULL, NULL, NULL, "1983",
+	"Mario Bros. (US, Revision F)\0", "Parent set for working drivers", "Nintendo of America", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	0, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
+	NULL, MarioRomInfo, MarioRomName, NULL, NULL, ParentInputInfo, NULL,
+	ParentInit, ParentExit, NULL, NULL, NULL,
+	NULL, 0, 224, 256, 3, 4
 };
 
 static struct BurnRomInfo PhoenixRomDesc[] = {

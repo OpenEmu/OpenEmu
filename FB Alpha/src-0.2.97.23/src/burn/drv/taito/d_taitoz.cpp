@@ -1,6 +1,6 @@
 #include "tiles_generic.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "taito.h"
 #include "taito_ic.h"
 #include "burn_ym2610.h"
@@ -8,16 +8,19 @@
 #include "burn_gun.h"
 
 static INT32 Sci;
-static INT32 Dblaxle;
 static INT32 OldSteer; // Hack to centre the steering in SCI
 static INT32 SciSpriteFrame;
+
+static double TaitoZYM2610Route1MasterVol;
+static double TaitoZYM2610Route2MasterVol;
 
 static void AquajackDraw();
 static void BsharkDraw();
 static void ChasehqDraw();
 static void ContcircDraw();
-static void EnforceDraw();
 static void DblaxleDraw();
+static void EnforceDraw();
+static void RacingbDraw();
 static void SciDraw();
 static void SpacegunDraw();
 
@@ -203,6 +206,27 @@ static struct BurnInputInfo NightstrInputList[] =
 };
 
 STDINPUTINFO(Nightstr)
+
+static struct BurnInputInfo RacingbInputList[] =
+{
+	{"Coin 1"            , BIT_DIGITAL   , TC0510NIOInputPort0 + 2, "p1 coin"   },
+	{"Start 1"           , BIT_DIGITAL   , TC0510NIOInputPort1 + 3, "p1 start"  },
+	{"Coin 2"            , BIT_DIGITAL   , TC0510NIOInputPort0 + 3, "p2 coin"   },
+
+	A("Steering"         , BIT_ANALOG_REL, &TaitoAnalogPort0     , "p1 x-axis" ),
+	{"Brake"             , BIT_DIGITAL   , TC0510NIOInputPort0 + 5, "p1 fire 1" },
+	{"Accelerate"        , BIT_DIGITAL   , TC0510NIOInputPort1 + 5, "p1 fire 2" },
+	{"Pit In"            , BIT_DIGITAL   , TC0510NIOInputPort1 + 0, "p1 fire 3" },
+	{"Gear"              , BIT_DIGITAL   , TC0510NIOInputPort0 + 1, "p1 fire 4" },
+	{"Centre"            , BIT_DIGITAL   , TC0510NIOInputPort1 + 2, "p1 fire 5" },
+	
+	{"Reset"             , BIT_DIGITAL   , &TaitoReset           , "reset"     },
+	{"Service"           , BIT_DIGITAL   , TC0510NIOInputPort0 + 4, "service"   },
+	{"Dip 1"             , BIT_DIPSWITCH , TC0510NIODip + 0       , "dip"       },
+	{"Dip 2"             , BIT_DIPSWITCH , TC0510NIODip + 1       , "dip"       },
+};
+
+STDINPUTINFO(Racingb)
 
 static struct BurnInputInfo SciInputList[] =
 {
@@ -1352,6 +1376,59 @@ static struct BurnDIPInfo NightstruDIPList[]=
 
 STDDIPINFO(Nightstru)
 
+static struct BurnDIPInfo RacingbDIPList[]=
+{
+	// Default Values
+	{0x0b, 0xff, 0xff, 0xff, NULL                             },
+	{0x0c, 0xff, 0xff, 0xff, NULL                             },
+	
+	// Dip 1
+	{0   , 0xfe, 0   , 2   , "Cabinet"                        },
+	{0x0b, 0x01, 0x01, 0x00, "Type 0"                         },
+	{0x0b, 0x01, 0x01, 0x01, "Type 1"                         },
+	
+	{0   , 0xfe, 0   , 2   , "Service Mode"                   },
+	{0x0b, 0x01, 0x04, 0x04, "Off"                            },
+	{0x0b, 0x01, 0x04, 0x00, "On"                             },
+	
+	{0   , 0xfe, 0   , 2   , "Demo Sounds"                    },
+	{0x0b, 0x01, 0x08, 0x00, "Off"                            },
+	{0x0b, 0x01, 0x08, 0x08, "On"                             },
+	
+	{0   , 0xfe, 0   , 4   , "Coin A"                         },
+	{0x0b, 0x01, 0x30, 0x00, "4 Coins 1 Credit"               },
+	{0x0b, 0x01, 0x30, 0x10, "3 Coins 1 Credit"               },
+	{0x0b, 0x01, 0x30, 0x20, "2 Coins 1 Credit"               },
+	{0x0b, 0x01, 0x30, 0x30, "1 Coin  1 Credit"               },
+	
+	{0   , 0xfe, 0   , 4   , "Coin B"                         },
+	{0x0b, 0x01, 0xc0, 0xc0, "1 Coin 2 Credits"               },
+	{0x0b, 0x01, 0xc0, 0x80, "1 Coin 3 Credits"               },
+	{0x0b, 0x01, 0xc0, 0x40, "1 Coin 4 Credits"               },
+	{0x0b, 0x01, 0xc0, 0x00, "1 Coin 6 Credits"               },	
+	
+	// Dip 2
+	{0   , 0xfe, 0   , 2   , "Steering Wheel Range"           },
+	{0x0c, 0x01, 0x04, 0x04, "Normal"                         },
+	{0x0c, 0x01, 0x04, 0x00, "High"                           },
+	
+	{0   , 0xfe, 0   , 2   , "Steering Wheel Type"            },
+	{0x0c, 0x01, 0x08, 0x00, "Free"                           },
+	{0x0c, 0x01, 0x08, 0x08, "Locked"                         },
+	
+	{0   , 0xfe, 0   , 2   , "Network"                        },
+	{0x0c, 0x01, 0x10, 0x10, "Off"                            },
+	{0x0c, 0x01, 0x10, 0x00, "On"                             },
+	
+	{0   , 0xfe, 0   , 4   , "Player Car"                     },
+	{0x0c, 0x01, 0x60, 0x60, "Red"                            },
+	{0x0c, 0x01, 0x60, 0x40, "Blue"                           },
+	{0x0c, 0x01, 0x60, 0x20, "Green"                          },
+	{0x0c, 0x01, 0x60, 0x00, "Yellow"                         },
+};
+
+STDDIPINFO(Racingb)
+
 static struct BurnDIPInfo SciDIPList[]=
 {
 	// Default Values
@@ -2384,6 +2461,44 @@ static struct BurnRomInfo NightstruRomDesc[] = {
 
 STD_ROM_PICK(Nightstru)
 STD_ROM_FN(Nightstru)
+
+static struct BurnRomInfo RacingbRomDesc[] = {
+	{ "c84-110.3",     0x020000, 0x119a8d3b, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
+	{ "c84-111.5",     0x020000, 0x1f095692, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
+	{ "c84-104.2",     0x020000, 0x37077fc6, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
+	{ "c84-103.4",     0x020000, 0x4ca1d1c2, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
+	
+	{ "c84-99.35",     0x020000, 0x24778f40, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
+	{ "c84-100.36",    0x020000, 0x2b99258a, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
+	
+	{ "c84-101.42",    0x020000, 0x9322106e, BRF_ESS | BRF_PRG | TAITO_Z80ROM1 },
+
+	{ "c84-90.12",     0x080000, 0x83ee0e8d, BRF_GRA | TAITO_CHARS_BYTESWAP },
+	{ "c84-89.11",     0x080000, 0xaae43c87, BRF_GRA | TAITO_CHARS_BYTESWAP },
+	
+	{ "c84-92.25",     0x100000, 0x56e8fd55, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "c84-94.33",     0x100000, 0x6117c19b, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "c84-91.23",     0x100000, 0xb1b0146c, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "c84-93.31",     0x100000, 0x8837bb4e, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	
+	{ "c84-84.12",     0x080000, 0x34dc486b, BRF_GRA | TAITO_ROAD },
+	
+	{ "c84-88.3",      0x080000, 0xedd1f49c, BRF_GRA | TAITO_SPRITEMAP },
+	
+	{ "c84-86.33",     0x100000, 0x98d9771e, BRF_SND | TAITO_YM2610A },
+	{ "c84-87.46",     0x080000, 0x9c1dd80c, BRF_SND | TAITO_YM2610A },
+	
+	{ "c84-85.31",     0x080000, 0x24cd838d, BRF_SND | TAITO_YM2610B },
+	
+	{ "c84-19.15",     0x010000, 0x7245a6f6, BRF_OPT },
+	{ "c84-07.22",     0x000100, 0x95a15c77, BRF_OPT },
+	{ "c84-09.74",     0x000100, 0x71217472, BRF_OPT },
+	{ "c84-10.16",     0x000400, 0x643e8bfc, BRF_OPT },
+	{ "c84-11.17",     0x000400, 0x10728853, BRF_OPT },
+};
+
+STD_ROM_PICK(Racingb)
+STD_ROM_FN(Racingb)
 
 static struct BurnRomInfo SciRomDesc[] = {
 	{ "c09-37.43",     0x20000, 0x0fecea17, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
@@ -3558,6 +3673,82 @@ void __fastcall Nightstr68K1WriteWord(UINT32 a, UINT16 d)
 	}
 }
 
+UINT8 __fastcall Racingb68K1ReadByte(UINT32 a)
+{
+	TC0510NIOHalfWordSwapRead_Map(0x300000)
+	
+	switch (a) {
+		case 0x300019:
+		case 0x30001b: {
+			return DblaxleSteerRead((a - 0x300010) >> 1);
+		}
+		
+		case 0x520003: {
+			return TC0140SYTCommRead();
+		}
+		
+		default: {
+			bprintf(PRINT_NORMAL, _T("68K #1 Read byte => %06X\n"), a);
+		}
+	}
+	
+	return 0;
+}
+
+void __fastcall Racingb68K1WriteByte(UINT32 a, UINT8 d)
+{
+	TC0510NIOHalfWordSwapWrite_Map(0x300000)
+	
+	switch (a) {
+		case 0x500002: {
+			TaitoZCpuAReset(d);
+			return;
+		}
+		
+		case 0x520001: {
+			TC0140SYTPortWrite(d);
+			return;
+		}
+		
+		case 0x520003: {
+			TC0140SYTCommWrite(d);
+			return;
+		}
+		
+		case 0xb08000: {
+			SciSpriteFrame = d;
+			return;
+		}
+		
+		default: {
+			bprintf(PRINT_NORMAL, _T("68K #1 Write byte => %06X, %02X\n"), a, d);
+		}
+	}
+}
+
+UINT16 __fastcall Racingb68K1ReadWord(UINT32 a)
+{
+	switch (a) {
+		default: {
+			bprintf(PRINT_NORMAL, _T("68K #1 Read word => %06X\n"), a);
+		}
+	}
+	
+	return 0;
+}
+
+void __fastcall Racingb68K1WriteWord(UINT32 a, UINT16 d)
+{
+	TC0510NIOHalfWordSwapWrite_Map(0x300000)
+	TC0480SCPCtrlWordWrite_Map(0x930000)
+	
+	switch (a) {
+		default: {
+			bprintf(PRINT_NORMAL, _T("68K #1 Write word => %06X, %04X\n"), a, d);
+		}
+	}
+}
+
 static UINT8 SciSteerRead(INT32 Offset)
 {
 	INT32 Steer = TaitoAnalogPort0 >> 4;
@@ -3949,10 +4140,23 @@ void __fastcall TaitoZZ80Write(UINT16 a, UINT8 d)
 			return;
 		}
 		
-		case 0xe400:
-		case 0xe401:
-		case 0xe402:
+		case 0xe400: {
+			BurnYM2610SetRightVolume(BURN_SND_YM2610_YM2610_ROUTE_1, TaitoZYM2610Route1MasterVol * d / 255.0);
+			return;
+		}
+		
+		case 0xe401: {
+			BurnYM2610SetLeftVolume(BURN_SND_YM2610_YM2610_ROUTE_1, TaitoZYM2610Route1MasterVol * d / 255.0);
+			return;
+		}
+		
+		case 0xe402: {
+			BurnYM2610SetRightVolume(BURN_SND_YM2610_YM2610_ROUTE_2, TaitoZYM2610Route1MasterVol * d / 255.0);
+			return;
+		}
+		
 		case 0xe403: {
+			BurnYM2610SetLeftVolume(BURN_SND_YM2610_YM2610_ROUTE_2, TaitoZYM2610Route1MasterVol * d / 255.0);
 			return;
 		}
 		
@@ -4127,7 +4331,11 @@ static INT32 AquajackInit()
 	
 	BurnYM2610Init(16000000 / 2, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &TaitoZFMIRQHandler, TaitoZSynchroniseStream, TaitoZGetTime, 0);
 	BurnTimerAttachZet(16000000 / 4);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetLeftVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.25);
+	BurnYM2610SetRightVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.25);
+	TaitoZYM2610Route1MasterVol = 2.00;
+	TaitoZYM2610Route2MasterVol = 2.00;
+	bYM2610UseSeperateVolumes = 1;
 	
 	TaitoMakeInputsFunction = AquajackMakeInputs;
 	TaitoDrawFunction = AquajackDraw;
@@ -4217,7 +4425,9 @@ static INT32 BsharkInit()
 	
 	BurnYM2610Init(16000000 / 2, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, NULL, TaitoZ68KSynchroniseStream, TaitoZ68KGetTime, 0);
 	BurnTimerAttachSek(12000000);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 1.00, BURN_SND_ROUTE_BOTH);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 1.00, BURN_SND_ROUTE_BOTH);
+	BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 	
 	TaitoMakeInputsFunction = BsharkMakeInputs;
 	TaitoDrawFunction = BsharkDraw;
@@ -4317,7 +4527,11 @@ static INT32 ChasehqInit()
 	
 	BurnYM2610Init(16000000 / 2, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &TaitoZFMIRQHandler, TaitoZSynchroniseStream, TaitoZGetTime, 0);
 	BurnTimerAttachZet(16000000 / 4);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetLeftVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.20);
+	BurnYM2610SetRightVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.20);
+	TaitoZYM2610Route1MasterVol = 1.00;
+	TaitoZYM2610Route2MasterVol = 1.00;
+	bYM2610UseSeperateVolumes = 1;
 	
 	TaitoMakeInputsFunction = ChasehqMakeInputs;
 	TaitoDrawFunction = ChasehqDraw;
@@ -4410,7 +4624,11 @@ static INT32 ContcircInit()
 	
 	BurnYM2610Init(16000000 / 2, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &TaitoZFMIRQHandler, TaitoZSynchroniseStream, TaitoZGetTime, 0);
 	BurnTimerAttachZet(16000000 / 4);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetLeftVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.20);
+	BurnYM2610SetRightVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.20);
+	TaitoZYM2610Route1MasterVol = 2.00;
+	TaitoZYM2610Route2MasterVol = 2.00;
+	bYM2610UseSeperateVolumes = 1;
 	
 	TaitoMakeInputsFunction = ContcircMakeInputs;
 	TaitoDrawFunction = ContcircDraw;
@@ -4430,8 +4648,6 @@ static INT32 ContcircInit()
 static INT32 DblaxleInit()
 {
 	INT32 nLen;
-	
-	Dblaxle = 1;
 	
 	TaitoCharModulo = 0x400;
 	TaitoCharNumPlanes = 4;
@@ -4502,7 +4718,11 @@ static INT32 DblaxleInit()
 	
 	BurnYM2610Init(16000000 / 2, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &TaitoZFMIRQHandler, TaitoZSynchroniseStream, TaitoZGetTime, 0);
 	BurnTimerAttachZet(16000000 / 4);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetLeftVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.25);
+	BurnYM2610SetRightVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.25);
+	TaitoZYM2610Route1MasterVol = 8.00;
+	TaitoZYM2610Route2MasterVol = 8.00;
+	bYM2610UseSeperateVolumes = 1;
 	
 	TaitoMakeInputsFunction = DblaxleMakeInputs;
 	TaitoDrawFunction = DblaxleDraw;
@@ -4598,7 +4818,11 @@ static INT32 EnforceInit()
 	
 	BurnYM2610Init(16000000 / 2, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &TaitoZFMIRQHandler, TaitoZSynchroniseStream, TaitoZGetTime, 0);
 	BurnTimerAttachZet(16000000 / 4);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetLeftVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.20);
+	BurnYM2610SetRightVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.20);
+	TaitoZYM2610Route1MasterVol = 20.00;
+	TaitoZYM2610Route2MasterVol = 20.00;
+	bYM2610UseSeperateVolumes = 1;
 	
 	TaitoMakeInputsFunction = EnforceMakeInputs;
 	TaitoDrawFunction = EnforceDraw;
@@ -4698,7 +4922,11 @@ static INT32 NightstrInit()
 	
 	BurnYM2610Init(16000000 / 2, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &TaitoZFMIRQHandler, TaitoZSynchroniseStream, TaitoZGetTime, 0);
 	BurnTimerAttachZet(16000000 / 4);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetLeftVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.20);
+	BurnYM2610SetRightVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.20);
+	TaitoZYM2610Route1MasterVol = 1.00;
+	TaitoZYM2610Route2MasterVol = 1.00;
+	bYM2610UseSeperateVolumes = 1;
 	
 	TaitoMakeInputsFunction = NightstrMakeInputs;
 	TaitoDrawFunction = ChasehqDraw;
@@ -4709,6 +4937,103 @@ static INT32 NightstrInit()
 	nTaitoCyclesTotal[1] = 12000000 / 60;
 	nTaitoCyclesTotal[2] = (16000000 / 4) / 60;
 	
+	// Reset the driver
+	TaitoZDoReset();
+
+	return 0;
+}
+
+static INT32 RacingbInit()
+{
+	INT32 nLen;
+	
+	Sci = 1;
+	
+	TaitoCharModulo = 0x400;
+	TaitoCharNumPlanes = 4;
+	TaitoCharWidth = 16;
+	TaitoCharHeight = 16;
+	TaitoCharPlaneOffsets = DblaxleCharPlaneOffsets;
+	TaitoCharXOffsets = DblaxleCharXOffsets;
+	TaitoCharYOffsets = DblaxleCharYOffsets;
+	TaitoNumChar = 0x2000;
+	
+	TaitoSpriteAModulo = 0x200;
+	TaitoSpriteANumPlanes = 4;
+	TaitoSpriteAWidth = 16;
+	TaitoSpriteAHeight = 8;
+	TaitoSpriteAPlaneOffsets = SpritePlaneOffsets;
+	TaitoSpriteAXOffsets = SpriteXOffsets;
+	TaitoSpriteAYOffsets = Sprite16x8YOffsets;
+	TaitoNumSpriteA = 0x10000;
+	
+	TaitoNum68Ks = 2;
+	TaitoNumZ80s = 1;
+	TaitoNumYM2610 = 1;
+	
+	TaitoLoadRoms(0);
+	
+	// Allocate and Blank all required memory
+	TaitoMem = NULL;
+	MemIndex();
+	nLen = TaitoMemEnd - (UINT8 *)0;
+	if ((TaitoMem = (UINT8 *)malloc(nLen)) == NULL) return 1;
+	memset(TaitoMem, 0, nLen);
+	MemIndex();
+	
+	TC0150RODInit(TaitoRoadRomSize, 0);
+	TC0480SCPInit(TaitoNumChar, 0, 0x1f, 8, 4, 0, 0);
+	TC0140SYTInit();
+	TC0510NIOInit();
+	
+	if (TaitoLoadRoms(1)) return 1;
+	
+	SwitchToMusashi();
+	
+	// Setup the 68000 emulation
+	SekInit(0, 0x68000);
+	SekOpen(0);
+	SekMapMemory(Taito68KRom1            , 0x000000, 0x07ffff, SM_ROM);
+	SekMapMemory(Taito68KRam1            , 0x100000, 0x103fff, SM_RAM);
+	SekMapMemory(TaitoSharedRam          , 0x110000, 0x11ffff, SM_RAM);
+	SekMapMemory(TaitoPaletteRam         , 0x700000, 0x701fff, SM_RAM);
+	SekMapMemory(TC0480SCPRam            , 0x900000, 0x90ffff, SM_RAM);
+	SekMapMemory(TaitoSpriteRam          , 0xb00000, 0xb03fff, SM_RAM);
+	SekSetReadWordHandler(0, Racingb68K1ReadWord);
+	SekSetWriteWordHandler(0, Racingb68K1WriteWord);
+	SekSetReadByteHandler(0, Racingb68K1ReadByte);
+	SekSetWriteByteHandler(0, Racingb68K1WriteByte);
+	SekClose();
+	
+	SekInit(1, 0x68000);
+	SekOpen(1);
+	SekMapMemory(Taito68KRom2            , 0x000000, 0x03ffff, SM_ROM);
+	SekMapMemory(Taito68KRam2            , 0x400000, 0x403fff, SM_RAM);
+	SekMapMemory(TaitoSharedRam          , 0x410000, 0x41ffff, SM_RAM);
+	SekMapMemory(TC0150RODRam            , 0xa00000, 0xa01fff, SM_RAM);
+	SekClose();
+	
+	TaitoZZ80Init();
+	
+	BurnYM2610Init(32000000 / 4, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &TaitoZFMIRQHandler, TaitoZSynchroniseStream, TaitoZGetTime, 0);
+	BurnTimerAttachZet(32000000 / 8);
+	BurnYM2610SetLeftVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.25);
+	BurnYM2610SetRightVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.25);
+	TaitoZYM2610Route1MasterVol = 8.00;
+	TaitoZYM2610Route2MasterVol = 8.00;
+	bYM2610UseSeperateVolumes = 1;
+	
+	TaitoMakeInputsFunction = DblaxleMakeInputs;
+	TaitoDrawFunction = RacingbDraw;
+	TaitoIrqLine = 4;
+	TaitoFrameInterleave = 100;
+
+	nTaitoCyclesTotal[0] = 16000000 / 60;
+	nTaitoCyclesTotal[1] = 16000000 / 60;
+	nTaitoCyclesTotal[2] = (16000000 / 4) / 60;
+	
+	GenericTilesInit();
+
 	// Reset the driver
 	TaitoZDoReset();
 
@@ -4790,7 +5115,11 @@ static INT32 SciInit()
 	
 	BurnYM2610Init(16000000 / 2, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &TaitoZFMIRQHandler, TaitoZSynchroniseStream, TaitoZGetTime, 0);
 	BurnTimerAttachZet(16000000 / 4);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetLeftVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.25);
+	BurnYM2610SetRightVolume(BURN_SND_YM2610_AY8910_ROUTE, 0.25);
+	TaitoZYM2610Route1MasterVol = 1.00;
+	TaitoZYM2610Route2MasterVol = 1.00;
+	bYM2610UseSeperateVolumes = 1;
 	
 	TaitoMakeInputsFunction = SciMakeInputs;
 	TaitoDrawFunction = SciDraw;
@@ -4878,7 +5207,9 @@ static INT32 SpacegunInit()
 	
 	BurnYM2610Init(16000000 / 2, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, NULL, TaitoZ68KSynchroniseStream, TaitoZ68KGetTime, 0);
 	BurnTimerAttachSek(16000000);
-	BurnYM2610SetSoundMixMode(1);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 1.00, BURN_SND_ROUTE_BOTH);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 1.00, BURN_SND_ROUTE_BOTH);
+	BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 	
 	EEPROMInit(&spacegun_eeprom_intf);
 	if (!EEPROMAvailable()) EEPROMFill(spacegun_default_eeprom, 0, 128);
@@ -4903,13 +5234,10 @@ static INT32 SpacegunInit()
 
 static INT32 TaitoZExit()
 {
-	BurnYM2610SetSoundMixMode(0);
-	
 	TaitoExit();
 
 	SciSpriteFrame = 0;
 	OldSteer = 0;
-	Dblaxle = 0;
 	Sci = 0;
 	
 	// Switch back CPU core if needed
@@ -5634,6 +5962,30 @@ static void DblaxleDraw()
 	BurnTransferCopy(TaitoPalette);
 }
 
+static void RacingbDraw()
+{
+	UINT8 Layer[4];
+	UINT16 Priority = TC0480SCPGetBgPriority();
+	
+	Layer[0] = (Priority & 0xf000) >> 12;
+	Layer[1] = (Priority & 0x0f00) >>  8;
+	Layer[2] = (Priority & 0x00f0) >>  4;
+	Layer[3] = (Priority & 0x000f) >>  0;
+	
+	BurnTransferClear();
+	TaitoZCalcPalette();
+	
+	TC0480SCPTilemapRender(Layer[0], 1, TaitoChars);
+	TC0480SCPTilemapRender(Layer[1], 0, TaitoChars);
+	SciRenderSprites(1, 7);
+	TC0480SCPTilemapRender(Layer[2], 0, TaitoChars);
+	TC0480SCPTilemapRender(Layer[3], 0, TaitoChars);
+	TC0150RODDraw(-1, 0xc0, 0, 0, 1, 2);	
+	SciRenderSprites(0, 7);	
+	TC0480SCPRenderCharLayer();
+	BurnTransferCopy(TaitoPalette);
+}
+
 static void SciDraw()
 {
 	INT32 Disable = TC0100SCNCtrl[0][6] & 0xf7;
@@ -5708,9 +6060,7 @@ static INT32 TaitoZFrame()
 		nNext = (i + 1) * nTaitoCyclesTotal[nCurrentCPU] / nInterleave;
 		nTaitoCyclesSegment = nNext - nTaitoCyclesDone[nCurrentCPU];
 		nTaitoCyclesDone[nCurrentCPU] += SekRun(nTaitoCyclesSegment);
-		if (i == 10 && Sci && (GetCurrentFrame() & 1)) { SekSetIRQLine(6, SEK_IRQSTATUS_AUTO); nTaitoCyclesDone[0] += SekRun(200000 - 500); }
-		if (i == 10 && Dblaxle && (GetCurrentFrame() & 1)) { SekSetIRQLine(6, SEK_IRQSTATUS_AUTO); nTaitoCyclesDone[0] += SekRun(200000 - 500); }
-		if (i == 50 && Dblaxle) { SekSetIRQLine(6, SEK_IRQSTATUS_AUTO); nTaitoCyclesDone[0] += SekRun(200000 - 500); }
+		if (i == 10 && Sci && ((GetCurrentFrame() & 1) == 0)) SekSetIRQLine(6, SEK_IRQSTATUS_AUTO);
 		if (i == (TaitoFrameInterleave - 1)) SekSetIRQLine(TaitoIrqLine, SEK_IRQSTATUS_AUTO);
 		SekClose();
 		
@@ -5934,7 +6284,7 @@ struct BurnDriver BurnDrvContcircua = {
 
 struct BurnDriver BurnDrvDblaxle = {
 	"dblaxle", NULL, NULL, NULL, "1991",
-	"Double Axle (US)\0", "Imperfect sound, bad dump in sample rom?", "Taito America Corporation", "Taito-Z",
+	"Double Axle (US)\0", NULL, "Taito America Corporation", "Taito-Z",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_TAITO_TAITOZ, GBF_RACING, 0,
 	NULL, DblaxleRomInfo, DblaxleRomName, NULL, NULL, DblaxleInputInfo, DblaxleDIPInfo,
@@ -5989,6 +6339,16 @@ struct BurnDriver BurnDrvNightstru = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_TAITOZ, GBF_RACING, 0,
 	NULL, NightstruRomInfo, NightstruRomName, NULL, NULL, NightstrInputInfo, NightstruDIPInfo,
 	NightstrInit, TaitoZExit, TaitoZFrame, NULL, TaitoZScan,
+	NULL, 0x1000, 320, 240, 4, 3
+};
+
+struct BurnDriver BurnDrvRacingb = {
+	"racingb", NULL, NULL, NULL, "1991",
+	"Racing Beat (World)\0", NULL, "Taito Corporation Japan", "Taito-Z",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING, 2, HARDWARE_TAITO_TAITOZ, GBF_RACING, 0,
+	NULL, RacingbRomInfo, RacingbRomName, NULL, NULL, RacingbInputInfo, RacingbDIPInfo,
+	RacingbInit, TaitoZExit, TaitoZFrame, NULL, TaitoZScan,
 	NULL, 0x1000, 320, 240, 4, 3
 };
 

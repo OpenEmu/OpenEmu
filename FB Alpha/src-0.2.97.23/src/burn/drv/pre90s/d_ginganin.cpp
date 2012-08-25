@@ -2,7 +2,7 @@
 // Based on MAME driver by Luca Elia and Takahiro Nogi
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "m6809_intf.h"
 #include "burn_y8950.h"
 #include "driver.h"
@@ -160,7 +160,7 @@ void __fastcall ginganin_write_word(UINT32 address, UINT16 data)
 
 		case 0x06000e:
 			*soundlatch = data & 0xff;
-			M6809SetIRQ(0x20, M6809_IRQSTATUS_AUTO); // nmi
+			M6809SetIRQLine(0x20, M6809_IRQSTATUS_AUTO); // nmi
 		return;
 	}
 }
@@ -218,7 +218,7 @@ void ginganin_sound_write(UINT16 address, UINT8 data)
 
 		case 0x2000:
 		case 0x2001: // y8950
-			BurnY8950Write(address & 1, data);
+			BurnY8950Write(0, address & 1, data);
 		return;
 
 		case 0x2800:
@@ -396,14 +396,16 @@ static INT32 DrvInit()
 	M6809Open(0);
 	M6809MapMemory(DrvM6809RAM,		0x0000, 0x07ff, M6809_RAM);
 	M6809MapMemory(DrvM6809ROM + 0x4000,	0x4000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(ginganin_sound_write);
-	M6809SetReadByteHandler(ginganin_sound_read);
+	M6809SetWriteHandler(ginganin_sound_write);
+	M6809SetReadHandler(ginganin_sound_read);
 	M6809Close();
 
 	AY8910Init(0, 3579545 / 2, nBurnSoundRate, NULL, NULL, NULL, NULL);
+	AY8910SetAllRoutes(0, 0.10, BURN_SND_ROUTE_BOTH);
 	
-	BurnY8950Init(3579545, DrvSndROM, 0x20000, NULL, &DrvSynchroniseStream, 1);
+	BurnY8950Init(1, 3579545, DrvSndROM, 0x20000, NULL, 0, NULL, &DrvSynchroniseStream, 1);
 	BurnTimerAttachM6809Y8950(1000000);
+	BurnY8950SetRoute(0, BURN_SND_Y8950_ROUTE, 1.00, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 
@@ -575,7 +577,7 @@ static void sound_interrupt()
 	if (MC6840_flag) {
 		if (MC6840_ctr > MC6840_tempo) {
 			MC6840_ctr = 0;
-			M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
+			M6809SetIRQLine(0, M6809_IRQSTATUS_AUTO);
 		} else {
 			MC6840_ctr++;
 		}
@@ -623,20 +625,7 @@ static INT32 DrvFrame()
 	BurnTimerEndFrameY8950(nCyclesTotal[1]);
 
 	if (pBurnSoundOut) {
-		INT32 nSample;
-		AY8910Update(0, &pAY8910Buffer[0], nBurnSoundLen);
-		for (INT32 n = 0; n < nBurnSoundLen; n++) {
-			nSample  = pAY8910Buffer[0][n];
-			nSample += pAY8910Buffer[1][n];
-			nSample += pAY8910Buffer[2][n];
-
-			nSample /= 4;
-
-			nSample = BURN_SND_CLIP(nSample);
-
-			pBurnSoundOut[(n << 1) + 0] = nSample;
-			pBurnSoundOut[(n << 1) + 1] = nSample;
-		}
+		AY8910Render(&pAY8910Buffer[0], pBurnSoundOut, nBurnSoundLen, 0);
 		
 		BurnY8950Update(pBurnSoundOut, nBurnSoundLen);
 	}

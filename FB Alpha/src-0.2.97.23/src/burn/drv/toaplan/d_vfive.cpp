@@ -1,5 +1,5 @@
 #include "toaplan.h"
-#include "vez.h"
+#include "nec_intf.h"
 
 // V-Five & Grind Stormer
 
@@ -496,7 +496,8 @@ static INT32 DrvInit()
 		VezClose();
 	}
 
-	BurnYM2151Init(3375000, 100.0);
+	BurnYM2151Init(3375000);
+	BurnYM2151SetAllRoutes(1.00, BURN_SND_ROUTE_BOTH);
 
 	nSpriteYOffset = 0x0001;
 

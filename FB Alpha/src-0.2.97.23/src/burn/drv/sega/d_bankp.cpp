@@ -2,7 +2,7 @@
 // Based on MAME driver by Nicola Salmoria
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "sn76496.h"
 
 static UINT8 *Mem, *Rom, *Gfx0, *Gfx1, *Prom;
@@ -348,6 +348,9 @@ static INT32 DrvInit()
 	SN76489Init(0, 15468000 / 6, 0);
 	SN76489Init(1, 15468000 / 6, 1);
 	SN76489Init(2, 15468000 / 6, 1);
+	SN76496SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
+	SN76496SetRoute(1, 1.00, BURN_SND_ROUTE_BOTH);
+	SN76496SetRoute(2, 1.00, BURN_SND_ROUTE_BOTH);
 
 	DrvDoReset();
 

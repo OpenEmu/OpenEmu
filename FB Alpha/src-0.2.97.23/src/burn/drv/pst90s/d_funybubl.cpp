@@ -2,7 +2,7 @@
 // Based on MAME driver by Pierpaolo Prazzoli and David Haywood
 
 #include "tiles_generic.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "msm6295.h"
 
 // To do: 
@@ -380,7 +380,8 @@ static INT32 DrvInit()
 	ZetMemEnd();
 	ZetClose();
 
-	MSM6295Init(0, 1056000 / 132, 100.0, 0);
+	MSM6295Init(0, 1056000 / 132, 0);
+	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

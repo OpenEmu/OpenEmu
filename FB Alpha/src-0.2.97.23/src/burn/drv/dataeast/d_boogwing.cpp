@@ -2,10 +2,11 @@
 // Based on MAME driver by Bryan McPhail and David Haywood
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "h6280_intf.h"
 #include "deco16ic.h"
 #include "msm6295.h"
+#include "burn_ym2151.h"
 
 static UINT8 *AllMem;
 static UINT8 *MemEnd;
@@ -451,7 +452,9 @@ static INT32 DrvInit()
 	SekSetReadByteHandler(0,		boogwing_main_read_byte);
 	SekClose();
 
-	deco16SoundInit(DrvHucROM, DrvHucRAM, 8055000, 0, DrvYM2151WritePort, 40.0, 1006875, 140.0, 2013750, 30.0);
+	deco16SoundInit(DrvHucROM, DrvHucRAM, 8055000, 0, DrvYM2151WritePort, 0.80, 1006875, 1.40, 2013750, 0.30);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.80, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.80, BURN_SND_ROUTE_RIGHT);
 
 	GenericTilesInit();
 

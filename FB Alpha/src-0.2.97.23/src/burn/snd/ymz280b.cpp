@@ -21,13 +21,15 @@ static INT32 nYMZ280BIRQStatus;
 void (*YMZ280BIRQCallback)(INT32 nStatus) = NULL;
 
 static INT32* pBuffer = NULL;
-static INT32 nOutputChannels;
 
 static double nYMZ280BFrequency;
 
 static INT32 YMZ280BDeltaTable[16];
 
 static INT32 YMZ280BStepShift[8] = {0x0E6, 0x0E6, 0x0E6, 0x0E6, 0x133, 0x199, 0x200, 0x266};
+
+static double YMZ280BVolumes[2];
+static INT32 YMZ280BRouteDirs[2];
 
 struct sYMZ280BChannelInfo {
 	bool bEnabled;
@@ -119,7 +121,7 @@ INT32 YMZ280BScan()
 	return 0;
 }
 
-INT32 YMZ280BInit(INT32 nClock, void (*IRQCallback)(INT32), INT32 nChannels)
+INT32 YMZ280BInit(INT32 nClock, void (*IRQCallback)(INT32))
 {
 	DebugSnd_YMZ280BInitted = 1;
 	
@@ -152,11 +154,26 @@ INT32 YMZ280BInit(INT32 nClock, void (*IRQCallback)(INT32), INT32 nChannels)
 		YMZ280BChannelData[j] = (INT32*)malloc(0x1000 * sizeof(INT32));
 	}
 
-	nOutputChannels = nChannels;
+	// default routes
+	YMZ280BVolumes[BURN_SND_YMZ280B_YMZ280B_ROUTE_1] = 1.00;
+	YMZ280BVolumes[BURN_SND_YMZ280B_YMZ280B_ROUTE_2] = 1.00;
+	YMZ280BRouteDirs[BURN_SND_YMZ280B_YMZ280B_ROUTE_1] = BURN_SND_ROUTE_LEFT;
+	YMZ280BRouteDirs[BURN_SND_YMZ280B_YMZ280B_ROUTE_2] = BURN_SND_ROUTE_RIGHT;
 
 	YMZ280BReset();
 
 	return 0;
+}
+
+void YMZ280BSetRoute(INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_YMZ280BInitted) bprintf(PRINT_ERROR, _T("BurnYMZ280BSetRoute called without init\n"));
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("BurnYMZ280BSetRoute called with invalid index %i\n"), nIndex);
+#endif
+
+	YMZ280BVolumes[nIndex] = nVolume;
+	YMZ280BRouteDirs[nIndex] = nRouteDir;
 }
 
 void YMZ280BExit()
@@ -487,38 +504,25 @@ INT32 YMZ280BRender(INT16* pSoundBuf, INT32 nSegmentLength)
 		}
 	}
 
-	switch (nOutputChannels) {
-		case 1:										// Use only the left output channel
-		case 2: {									// Use only the right output channel
-			nCount = nSegmentLength;
-			buf = pBuffer + (nOutputChannels >> 1);
-			while (nCount--) {
-				nSample = *buf >> 8;
-				buf += 2;
-				if (nSample > 32767) {
-					nSample = 32767;
-				} else {
-					if (nSample < -32768) {
-						nSample = -32768;
-					}
-				}
-
-				*pSoundBuf++ = (INT16)nSample;
-				*pSoundBuf++ = (INT16)nSample;
-			}
-			break;
+	for (INT32 i = 0; i < nSegmentLength; i++) {
+		INT32 nLeftSample = 0, nRightSample = 0;
+			
+		if ((YMZ280BRouteDirs[BURN_SND_YMZ280B_YMZ280B_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)((pBuffer[(i << 1) + 0] >> 8) * YMZ280BVolumes[BURN_SND_YMZ280B_YMZ280B_ROUTE_1]);
 		}
-		case 3: {									// Use both output channels
-			if (bBurnUseMMX) {
-#if defined BUILD_X86_ASM
-				BurnSoundCopyClamp_A(pBuffer, pSoundBuf, nSegmentLength);
-#endif
-			} else {
-				BurnSoundCopyClamp_C(pBuffer, pSoundBuf, nSegmentLength);
-			}
-
-			break;
+		if ((YMZ280BRouteDirs[BURN_SND_YMZ280B_YMZ280B_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)((pBuffer[(i << 1) + 0] >> 8) * YMZ280BVolumes[BURN_SND_YMZ280B_YMZ280B_ROUTE_1]);
 		}
+			
+		if ((YMZ280BRouteDirs[BURN_SND_YMZ280B_YMZ280B_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)((pBuffer[(i << 1) + 1] >> 8) * YMZ280BVolumes[BURN_SND_YMZ280B_YMZ280B_ROUTE_2]);
+		}
+		if ((YMZ280BRouteDirs[BURN_SND_YMZ280B_YMZ280B_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)((pBuffer[(i << 1) + 1] >> 8) * YMZ280BVolumes[BURN_SND_YMZ280B_YMZ280B_ROUTE_2]);
+		}
+			
+		pSoundBuf[(i << 1) + 0] = BURN_SND_CLIP(nLeftSample);
+		pSoundBuf[(i << 1) + 1] = BURN_SND_CLIP(nRightSample);
 	}
 
 	return 0;

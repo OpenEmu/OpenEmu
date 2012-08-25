@@ -2,7 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
-#include "sek.h"
+#include "m68000_intf.h"
 #include "burn_ym2151.h"
 #include "m6809_intf.h"
 #include "msm6295.h"
@@ -188,7 +188,7 @@ static void __fastcall lemmings_main_write_word(UINT32 address, UINT16 data)
 	{
 		case 0x1a0064:
 			*soundlatch = data & 0xff;
-			M6809SetIRQ(1, M6809_IRQSTATUS_ACK);
+			M6809SetIRQLine(1, M6809_IRQSTATUS_ACK);
 		return;
 
 		case 0x1c0000:
@@ -278,7 +278,7 @@ static void lemmings_sound_write(UINT16 address, UINT8 data)
 		return;
 
 		case 0x1800:
-			M6809SetIRQ(1, M6809_IRQSTATUS_NONE);
+			M6809SetIRQLine(1, M6809_IRQSTATUS_NONE);
 		return;
 	}
 }
@@ -303,7 +303,7 @@ static UINT8 lemmings_sound_read(UINT16 address)
 
 static void lemmingsYM2151IrqHandler(INT32 irq)
 {
-	M6809SetIRQ(0, irq ? M6809_IRQSTATUS_ACK : M6809_IRQSTATUS_NONE);
+	M6809SetIRQLine(0, irq ? M6809_IRQSTATUS_ACK : M6809_IRQSTATUS_NONE);
 	M6809Run(1000); // fix music tempo
 }
 
@@ -451,14 +451,17 @@ static INT32 DrvInit()
 	M6809Open(0);
 	M6809MapMemory(DrvM6809RAM,		0x0000, 0x07ff, M6809_RAM);
 	M6809MapMemory(DrvM6809ROM + 0x8000,	0x8000, 0xffff, M6809_ROM);
-	M6809SetWriteByteHandler(lemmings_sound_write);
-	M6809SetReadByteHandler(lemmings_sound_read);
+	M6809SetWriteHandler(lemmings_sound_write);
+	M6809SetReadHandler(lemmings_sound_read);
 	M6809Close();
 
-	BurnYM2151Init(3580000, 45.0);
+	BurnYM2151Init(3580000);
 	BurnYM2151SetIrqHandler(&lemmingsYM2151IrqHandler);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.45, BURN_SND_ROUTE_LEFT);
+	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.45, BURN_SND_ROUTE_RIGHT);
 
-	MSM6295Init(0, 1023924 / 132, 50.0, 1);
+	MSM6295Init(0, 1023924 / 132, 1);
+	MSM6295SetRoute(0, 0.50, BURN_SND_ROUTE_BOTH);
 
 	GenericTilesInit();
 

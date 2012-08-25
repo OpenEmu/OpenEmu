@@ -1,7 +1,7 @@
 // TC0140SYT
 
 #include "burnint.h"
-#include "zet.h"
+#include "z80_intf.h"
 #include "taito_ic.h"
 
 #define TC0140SYT_PORT01_FULL         (0x01)

@@ -170,11 +170,11 @@ INT32 HD6309GetActive()
 	return nActiveCPU;
 }
 
-void HD6309SetIRQ(INT32 vector, INT32 status)
+void HD6309SetIRQLine(INT32 vector, INT32 status)
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_HD6309Initted) bprintf(PRINT_ERROR, _T("HD6309SetIRQ called without init\n"));
-	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("HD6309SetIRQ called when no CPU open\n"));
+	if (!DebugCPU_HD6309Initted) bprintf(PRINT_ERROR, _T("HD6309SetIRQLine called without init\n"));
+	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("HD6309SetIRQLine called when no CPU open\n"));
 #endif
 
 	if (status == HD6309_IRQSTATUS_NONE) {
@@ -275,21 +275,21 @@ INT32 HD6309MemCallback(UINT16 nStart, UINT16 nEnd, INT32 nType)
 
 }
 
-void HD6309SetReadByteHandler(UINT8 (*pHandler)(UINT16))
+void HD6309SetReadHandler(UINT8 (*pHandler)(UINT16))
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_HD6309Initted) bprintf(PRINT_ERROR, _T("HD6309SetReadByteHandler called without init\n"));
-	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("HD6309SetReadByteHandler called when no CPU open\n"));
+	if (!DebugCPU_HD6309Initted) bprintf(PRINT_ERROR, _T("HD6309SetReadHandler called without init\n"));
+	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("HD6309SetReadHandler called when no CPU open\n"));
 #endif
 
 	HD6309CPUContext[nActiveCPU].ReadByte = pHandler;
 }
 
-void HD6309SetWriteByteHandler(void (*pHandler)(UINT16, UINT8))
+void HD6309SetWriteHandler(void (*pHandler)(UINT16, UINT8))
 {
 #if defined FBA_DEBUG
-	if (!DebugCPU_HD6309Initted) bprintf(PRINT_ERROR, _T("HD6309SetWriteByteHandler called without init\n"));
-	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("HD6309SetWriteByteHandler called when no CPU open\n"));
+	if (!DebugCPU_HD6309Initted) bprintf(PRINT_ERROR, _T("HD6309SetWriteHandler called without init\n"));
+	if (nActiveCPU == -1) bprintf(PRINT_ERROR, _T("HD6309SetWriteHandler called when no CPU open\n"));
 #endif
 
 	HD6309CPUContext[nActiveCPU].WriteByte = pHandler;

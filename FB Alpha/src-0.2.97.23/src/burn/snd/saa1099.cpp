@@ -111,7 +111,8 @@ struct saa1099_state
 	struct saa1099_noise noise[2];			/* noise generators */
 	double sample_rate;
 	INT32 bAdd;
-	INT32 volume;
+	double gain[2];
+	INT32 output_dir[2];
 };
 
 static saa1099_state chips[2];
@@ -217,9 +218,7 @@ void saa1099Update(INT32 chip, INT16 *output, INT32 samples)
 #endif
 
 	saa1099_state *saa = &chips[chip];
-	INT32 j, ch, vol;
-
-	vol = saa->volume;
+	INT32 j, ch;
 
 	/* if the channels are disabled we're done */
 	if (!saa->all_ch_enable)
@@ -308,8 +307,27 @@ void saa1099Update(INT32 chip, INT16 *output, INT32 samples)
 			}
 		}
 		/* write sound data to the buffer */
-		output[LEFT] = ((output_l / 6) * vol) / 1000;
-		output[RIGHT] = ((output_r / 6) * vol) / 1000;
+		INT32 nLeftSample = 0, nRightSample = 0;
+		
+		if ((saa->output_dir[BURN_SND_SAA1099_ROUTE_1] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)((output_l / 6) * saa->gain[BURN_SND_SAA1099_ROUTE_1]);
+		}
+		if ((saa->output_dir[BURN_SND_SAA1099_ROUTE_1] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)((output_l / 6) * saa->gain[BURN_SND_SAA1099_ROUTE_1]);
+		}
+		
+		if ((saa->output_dir[BURN_SND_SAA1099_ROUTE_2] & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
+			nLeftSample += (INT32)((output_r / 6) * saa->gain[BURN_SND_SAA1099_ROUTE_2]);
+		}
+		if ((saa->output_dir[BURN_SND_SAA1099_ROUTE_2] & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
+			nRightSample += (INT32)((output_r / 6) * saa->gain[BURN_SND_SAA1099_ROUTE_2]);
+		}
+		
+		nLeftSample = BURN_SND_CLIP(nLeftSample);
+		nRightSample = BURN_SND_CLIP(nRightSample);
+		
+		output[LEFT] = nLeftSample;
+		output[RIGHT] = nRightSample;
 	}
 }
 
@@ -324,16 +342,22 @@ void saa1099Reset(INT32 chip)
 
 	double sample_rate = saa->sample_rate;
 	INT32 bAdd = saa->bAdd;
-	INT32 vol = saa->volume;
+	double gain0 = saa->gain[BURN_SND_SAA1099_ROUTE_1];
+	double gain1 = saa->gain[BURN_SND_SAA1099_ROUTE_2];
+	INT32 dir0 = saa->output_dir[BURN_SND_SAA1099_ROUTE_1];
+	INT32 dir1 = saa->output_dir[BURN_SND_SAA1099_ROUTE_2];
 
 	memset (saa, 0, sizeof(saa1099_state));
 
 	saa->sample_rate = sample_rate;
 	saa->bAdd = bAdd;
-	saa->volume = vol;
+	saa->gain[BURN_SND_SAA1099_ROUTE_1] = gain0;
+	saa->gain[BURN_SND_SAA1099_ROUTE_2] = gain1;
+	saa->output_dir[BURN_SND_SAA1099_ROUTE_1] = dir0;
+	saa->output_dir[BURN_SND_SAA1099_ROUTE_2] = dir1;
 }
 
-void saa1099Init(INT32 chip, INT32 clock, INT32 volume, INT32 bAdd)
+void saa1099Init(INT32 chip, INT32 clock, INT32 bAdd)
 {
 	DebugSnd_SAA1099Initted = 1;
 	
@@ -341,9 +365,26 @@ void saa1099Init(INT32 chip, INT32 clock, INT32 volume, INT32 bAdd)
 
 	saa->sample_rate = clock / 256;
 	saa->bAdd = bAdd;
-	saa->volume = volume;
+	saa->gain[BURN_SND_SAA1099_ROUTE_1] = 1.00;
+	saa->gain[BURN_SND_SAA1099_ROUTE_2] = 1.00;
+	saa->output_dir[BURN_SND_SAA1099_ROUTE_1] = BURN_SND_ROUTE_BOTH;
+	saa->output_dir[BURN_SND_SAA1099_ROUTE_2] = BURN_SND_ROUTE_BOTH;
 	
 	nNumChips = chip;
+}
+
+void saa1099SetRoute(INT32 chip, INT32 nIndex, double nVolume, INT32 nRouteDir)
+{
+#if defined FBA_DEBUG
+	if (!DebugSnd_SAA1099Initted) bprintf(PRINT_ERROR, _T("saa1099SetRoute called without init\n"));
+	if (chip > nNumChips) bprintf(PRINT_ERROR, _T("saa1099SetRoute called with invalid chip %x\n"), chip);
+	if (nIndex < 0 || nIndex > 1) bprintf(PRINT_ERROR, _T("saa1099SetRoute called with invalid index %i\n"), nIndex);
+#endif
+
+	saa1099_state *saa = &chips[chip];
+	
+	saa->gain[nIndex] = nVolume;
+	saa->output_dir[nIndex] = nRouteDir;
 }
 
 void saa1099Exit(INT32 )

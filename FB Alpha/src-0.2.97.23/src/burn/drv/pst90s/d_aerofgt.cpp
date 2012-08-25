@@ -19,8 +19,8 @@
  */
 
 #include "burnint.h"
-#include "sek.h"
-#include "zet.h"
+#include "m68000_intf.h"
+#include "z80_intf.h"
 #include "burn_ym2610.h"
 
 #define	USE_BURN_HIGHCOL	1
@@ -640,6 +640,9 @@ static INT32 aerofgtInit()
 	
 	BurnYM2610Init(8000000, RomSnd2, &RomSndSize2, RomSnd1, &RomSndSize1, &aerofgtFMIRQHandler, aerofgtSynchroniseStream, aerofgtGetTime, 0);
 	BurnTimerAttachZet(4000000);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 	
 	DrvDoReset();												// Reset machine
 	return 0;
@@ -1672,6 +1675,9 @@ static INT32 turbofrcInit()
 	
 	BurnYM2610Init(8000000, RomSnd2, &RomSndSize2, RomSnd1, &RomSndSize1, &aerofgtFMIRQHandler, aerofgtSynchroniseStream, aerofgtGetTime, 0);
 	BurnTimerAttachZet(4000000);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 	
 	DrvDoReset();	
 	
@@ -2633,6 +2639,9 @@ static INT32 karatblzInit()
 	
 	BurnYM2610Init(8000000, RomSnd2, &RomSndSize2, RomSnd1, &RomSndSize1, &aerofgtFMIRQHandler, aerofgtSynchroniseStream, aerofgtGetTime, 0);
 	BurnTimerAttachZet(4000000);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 	
 	DrvDoReset();	
 	
@@ -3362,6 +3371,9 @@ static INT32 spinlbrkInit()
 	
 	BurnYM2610Init(8000000, RomSnd2, &RomSndSize2, RomSnd1, &RomSndSize1, &aerofgtFMIRQHandler, aerofgtSynchroniseStream, aerofgtGetTime, 0);
 	BurnTimerAttachZet(4000000);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 	
 	bg2scrollx = 0;	// 
 	
@@ -3872,6 +3884,9 @@ static INT32 aerofgtbInit()
 	
 	BurnYM2610Init(8000000, RomSnd2, &RomSndSize2, RomSnd1, &RomSndSize1, &aerofgtFMIRQHandler, aerofgtSynchroniseStream, aerofgtGetTime, 0);
 	BurnTimerAttachZet(4000000);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_1, 1.00, BURN_SND_ROUTE_LEFT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_YM2610_ROUTE_2, 1.00, BURN_SND_ROUTE_RIGHT);
+	BurnYM2610SetRoute(BURN_SND_YM2610_AY8910_ROUTE, 0.25, BURN_SND_ROUTE_BOTH);
 	
 	DrvDoReset();												// Reset machine
 	return 0;

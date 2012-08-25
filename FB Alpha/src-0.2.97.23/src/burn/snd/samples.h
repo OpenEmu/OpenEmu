@@ -16,9 +16,22 @@ void BurnSampleSetPosition(INT32 sample, UINT32 position);
 
 void BurnSampleReset();
 
-void BurnSampleInit(INT32 nGain, INT32 bAdd);
+void BurnSampleInit(INT32 bAdd);
+void BurnSampleSetRoute(INT32 sample, INT32 nIndex, double nVolume, INT32 nRouteDir);
+void BurnSampleSetRouteAllSamples(INT32 nIndex, double nVolume, INT32 nRouteDir);
 
 INT32  BurnSampleScan(INT32 nAction, INT32 *pnMin);
 
 void BurnSampleRender(INT16 *pDest, UINT32 pLen);
 void BurnSampleExit();
+
+#define BURN_SND_SAMPLE_ROUTE_1			0
+#define BURN_SND_SAMPLE_ROUTE_2			1
+
+#define BurnSampleSetAllRoutes(i, v, d)						\
+	BurnSampleSetRoute(i, BURN_SND_SAMPLE_ROUTE_1, v, d);	\
+	BurnSampleSetRoute(i, BURN_SND_SAMPLE_ROUTE_2, v, d);
+
+#define BurnSampleSetAllRoutesAllSamples(v, d)						\
+	BurnSampleSetRouteAllSamples(BURN_SND_SAMPLE_ROUTE_1, v, d);	\
+	BurnSampleSetRouteAllSamples(BURN_SND_SAMPLE_ROUTE_2, v, d);
