@@ -5,7 +5,7 @@
 
 #if !defined ROM_VERIFY
 	// enable to match Neo Geo BIOS to MAME's (also affects dipswitches -- leaves only the MVS BIOS option)
-	// #define ROM_VERIFY
+    #define ROM_VERIFY
 #endif
 
 static struct BurnRomInfo emptyRomDesc[] = {
