@@ -38,7 +38,7 @@
 #include "shared.h"
 #include "blip.h"
 
-#define PCM_CLOCKS_PER_SAMPLE (384 * 4)
+#define PCM_MCLOCKS_PER_SAMPLE (384 * 4)
 
 #define pcm scd.pcm_hw
 
@@ -49,8 +49,8 @@ void pcm_init(double clock, double samplerate)
   pcm_shutdown();
 
   /* allocate blip buffers */
-  blip[0] = blip_alloc(clock, samplerate * PCM_CLOCKS_PER_SAMPLE, samplerate / 4);
-  blip[1] = blip_alloc(clock, samplerate * PCM_CLOCKS_PER_SAMPLE, samplerate / 4);
+  blip[0] = blip_alloc(clock, samplerate * PCM_MCLOCKS_PER_SAMPLE, samplerate / 4);
+  blip[1] = blip_alloc(clock, samplerate * PCM_MCLOCKS_PER_SAMPLE, samplerate / 4);
 }
 
 void pcm_shutdown(void)
@@ -69,16 +69,19 @@ void pcm_reset(void)
   /* reset default bank */
   pcm.bank = pcm.ram;
 
+  /* reset master clocks counter */
+  pcm.cycles = 0;
+
   /* clear blip delta buffers */
   blip_clear(blip[0]);
   blip_clear(blip[1]);
 }
 
-void pcm_update(short *buffer, int length)
+void pcm_run(unsigned int length)
 {
-  /* get number of clocks needed */
-  length = blip_clocks_needed(blip[0], length);
-
+#ifdef LOG_PCM
+  error("[%d][%d]run %d PCM samples (from %d)\n", v_counter, s68k.cycles, length, pcm.cycles);
+#endif
   /* check if PCM chip is running */
   if (pcm.enabled)
   {
@@ -117,16 +120,21 @@ void pcm_update(short *buffer, int length)
           /* infinite loop should not output any data */
           if (data != 0xff)
           {
-            /* output L & R subchannels */
+            /* check sign bit (output centered around 0) */
             if (data & 0x80)
+            {
+              /* PCM data is positive */
+              data = data & 0x7f;
+            }
+            else
             {
               /* PCM data is negative */
               data = -(data & 0x7f);
             }
 
-            /* multiply PCM data with ENV & stereo PAN data then add to outputs (13.6 fixed point) */
-            l += ((data * pcm.chan[j].env * (pcm.chan[j].pan & 0x0F)) >> 6);
-            r += ((data * pcm.chan[j].env * (pcm.chan[j].pan >> 4)) >> 6);
+            /* multiply PCM data with ENV & stereo PAN data then add to L/R outputs (14.5 fixed point) */
+            l += ((data * pcm.chan[j].env * (pcm.chan[j].pan & 0x0F)) >> 5);
+            r += ((data * pcm.chan[j].env * (pcm.chan[j].pan >> 4)) >> 5);
           }
         }
       }
@@ -169,17 +177,43 @@ void pcm_update(short *buffer, int length)
     }
   }
 
-  /* resample to output stereo buffer */
+  /* end of blib buffer frame */
   blip_end_frame(blip[0], length);
-  blip_read_samples(blip[0], buffer, 1);
   blip_end_frame(blip[1], length);
+
+  /* update PCM master clock counter */
+  pcm.cycles += length * PCM_MCLOCKS_PER_SAMPLE;
+}
+
+void pcm_update(short *buffer, int length)
+{
+  /* get number of internal clocks (samples) needed */
+  unsigned int clocks = blip_clocks_needed(blip[0], length);
+
+  /* run PCM chip */
+  pcm_run(clocks);
+
+  /* resample to output stereo buffer */
+  blip_read_samples(blip[0], buffer, 1);
   blip_read_samples(blip[1], buffer + 1, 1);
+
+  /* reset PCM master clocks counter */
+  pcm.cycles = 0;
 }
 
 void pcm_write(unsigned int address, unsigned char data)
 {
+  /* synchronize PCM chip with SUB-CPU */
+  int clocks = s68k.cycles - pcm.cycles;
+  if (clocks > 0)
+  {
+    /* number of internal clocks (samples) to run */
+    clocks = (clocks + PCM_MCLOCKS_PER_SAMPLE - 1) / PCM_MCLOCKS_PER_SAMPLE;
+    pcm_run(clocks);
+  }
+
 #ifdef LOG_PCM
-  error("[%d][%d]PCM %x write -> 0x%02x (%X)\n", v_counter, s68k.cycles, address, data, s68k.pc);
+  error("[%d][%d]PCM write %x -> 0x%02x (%X)\n", v_counter, s68k.cycles, address, data, s68k.pc);
 #endif
 
   /* external RAM is mapped to $1000-$1FFF */
@@ -293,8 +327,17 @@ void pcm_write(unsigned int address, unsigned char data)
 
 unsigned char pcm_read(unsigned int address)
 {
+  /* synchronize PCM chip with SUB-CPU */
+  int clocks = s68k.cycles - pcm.cycles;
+  if (clocks > 0)
+  {
+    /* number of internal clocks (samples) to run */
+    clocks = (clocks + PCM_MCLOCKS_PER_SAMPLE - 1) / PCM_MCLOCKS_PER_SAMPLE;
+    pcm_run(clocks);
+  }
+
 #ifdef LOG_PCM
-  error("[%d][%d]PCM %x read (%X)\n", v_counter, s68k.cycles, address, s68k.pc);
+  error("[%d][%d]PCM read (%X)\n", v_counter, s68k.cycles, address, s68k.pc);
 #endif
 
   /* external RAM (TODO: verify if possible to read, some docs claim it's not !) */
