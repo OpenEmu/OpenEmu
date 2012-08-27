@@ -22,15 +22,4 @@
     
     return item;
 }
-
-- (NSString*)description
-{
-    NSString *descr = [super description];
-    return [descr stringByAppendingFormat:@" %@", [self url]];
-}
-
-- (void)dealloc
-{
-    NSLog(@"DEALLOC ITEM!!!");
-}
 @end
