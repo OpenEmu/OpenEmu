@@ -43,6 +43,7 @@
 }
 #pragma mark -
 + (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
+
 #pragma mark -
 - (BOOL)save:(NSError**)error;
 - (NSManagedObjectContext*)managedObjectContext;
@@ -58,6 +59,8 @@
 
 #pragma mark -
 #pragma mark Database queries
+- (NSManagedObjectID*)managedObjectIDForURIRepresentation:(NSURL*)uri;
+
 - (NSArray*)systems;
 - (NSArray*)enabledSystems;
 - (OEDBSystem*)systemWithIdentifier:(NSString*)identifier;
@@ -65,7 +68,7 @@
 - (OEDBSystem*)systemWithArchiveName:(NSString*)name;
 - (OEDBSystem*)systemWithArchiveShortname:(NSString*)shortname;
 
-- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url;
+- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url DEPRECATED_ATTRIBUTE;
 - (NSInteger)systemsCount;
 
 - (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID;
@@ -77,6 +80,7 @@
 - (OEDBRom*)romForCRC32Hash:(NSString*)crc32String;
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray*)romsInCollection:(id)collection;
+
 #pragma mark -
 #pragma mark Database Collection editing
 - (void)removeCollection:(NSManagedObject*)collection;
@@ -95,6 +99,4 @@
 - (NSURL *)stateFolderURLForROM:(OEDBRom *)rom;
 - (NSURL *)coverFolderURL;
 #pragma mark -
-@property (copy) NSURL *databaseURL;
-@property (strong) NSPersistentStoreCoordinator  *persistentStoreCoordinator;
 @end

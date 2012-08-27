@@ -290,8 +290,8 @@
         filePath = [absoluteURL path];
     }
     
-    OEDBGame *game =  [OEDBGame gameWithURL:absoluteURL createIfNecessary:YES inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-    if(!game) 
+    OEDBGame *game =  [OEDBGame gameWithURL:absoluteURL inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
+    if(!game)
     {
         DLog(@"game could not be created");
         return NO;

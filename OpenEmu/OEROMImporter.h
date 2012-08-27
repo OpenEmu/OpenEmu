@@ -25,51 +25,64 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "OEImportItem.h"
 
-enum _OEImportErrorBehavior {
-    OEImportErrorAskUser,
-    OEImportErrorCancelKeepChanges,
-    OEImportErrorCancelDeleteChanges,
-    OEImportErrorIgnore
-};
-typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
-
+#pragma mark Error Constants
+#define MaxSimulatenousImports 1
+#define OEImportErrorDomain @"OEImportDomain"
+#define OEImportErrorCodeWaitingForArchiveSync 1
+#define OEImportErrorCodeMultipleSystems 2
+#define OEImportMinFatalErrorCode 10
+#pragma mark - Import Info Keys
+#define OEImportInfoMD5 @"md5"
+#define OEImportInfoCRC @"crc"
+#define OEImportInfoROMObjectID @"RomObjectID"
+#define OEImportInfoSystemID @"systemID"
+#define OEImportInfoArchiveSync @"archiveSync"
+#pragma mark -
 @class OELibraryDatabase;
 @protocol OEROMImporterDelegate;
 @interface OEROMImporter : NSObject
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase;
 
-- (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError**)outError;
-- (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError**)outError;
-
-- (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError**)outError;
-- (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError**)outError;
-
-@property OEImportErrorBehavior errorBehaviour;
 @property (weak, readonly) OELibraryDatabase *database;
-@property (readonly) NSArray *importedRoms;
 @property (readonly) BOOL isBusy;
 
 @property (strong) id <OEROMImporterDelegate> delegate;
-#pragma mark -
-#pragma Handle Spotlight importing
+
+@property NSMutableArray *queue;
+#pragma mark - Importing Items
+- (void)importItemAtPath:(NSString*)path;
+- (void)importItemsAtPaths:(NSArray*)path;
+- (void)importItemAtURL:(NSURL*)url;
+- (void)importItemsAtURLs:(NSArray*)url;
+
+- (void)importItemAtPath:(NSString*)path withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (void)importItemsAtPaths:(NSArray*)paths withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (void)importItemAtURL:(NSURL*)url withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (void)importItemsAtURLs:(NSArray*)urls withCompletionHandler:(OEImportItemCompletionBlock)handler;
+
+#pragma mark - Handle Spotlight importing
 - (void)discoverRoms:(NSArray*)volumes;
 - (void)updateSearchResults:(NSNotification*)notification;
 - (void)finalizeSearchResults:(NSNotification*)notification;
 - (void)importInBackground;
 @end
 
+#pragma mark - Controlling Import
 @interface OEROMImporter (Control)
 - (void)pause;
 - (void)start;
 - (void)cancel;
 - (void)removeFinished;
 
-- (NSUInteger)items;
+- (NSUInteger)numberOfItems;
 - (NSUInteger)finishedItems;
 @end
+
+#pragma mark - Importer Delegate
 @protocol OEROMImporterDelegate
-- (void)romImporter:(OEROMImporter*)importer startedProcessingItem:(id)item;
-- (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(id)item;
-- (void)romImporter:(OEROMImporter*)importer finishedProcessingItem:(id)item;
+- (void)romImporter:(OEROMImporter*)importer startedProcessingItem:(OEImportItem*)item;
+- (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem*)item;
+- (void)romImporter:(OEROMImporter*)importer finishedProcessingItem:(OEImportItem*)item;
 @end

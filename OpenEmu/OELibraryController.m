@@ -322,8 +322,7 @@
              // exit our initial open panels completion handler
              //[self performSelector:@selector(startImportSheet:) withObject:[openPanel URLs] afterDelay:0.0];
              OEROMImporter *romImporter = [[self database] importer];
-             [romImporter setErrorBehaviour:OEImportErrorAskUser];
-             [romImporter importROMsAtURLs:[openPanel URLs] inBackground:YES error:nil];
+             [romImporter importItemsAtURLs:[openPanel URLs]];
          }
      }];
 }

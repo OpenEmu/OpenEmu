@@ -417,7 +417,6 @@
 }
 
 #pragma mark -
-
 - (void)willHide
 {
 }
@@ -427,7 +426,6 @@
 }
 
 #pragma mark -
-
 - (void)controlTextDidBeginEditing:(NSNotification *)aNotification
 {    
 }

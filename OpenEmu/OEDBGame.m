@@ -38,15 +38,26 @@
 NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 @interface OEDBGame ()
-+ (id)_createGameWithoutChecksWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc;
 + (void)_cpyValForKey:(NSString *)keyA of:(NSDictionary *)dictionary toKey:(NSString *)keyB ofGame:(OEDBGame *)game;
-
 - (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel;
 @end
 
 @implementation OEDBGame
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBGames
++ (id)createGameWithName:(NSString*)name andSystem:(OEDBSystem*)system inDatabase:(OELibraryDatabase *)database
+{
+    NSManagedObjectContext *context = [database managedObjectContext];
+    NSEntityDescription *description = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+    
+    OEDBGame *game = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
+    
+    [game setName:name];
+    [game setImportDate:[NSDate date]];
+    [game setSystem:system];
+    
+    return game;
+}
 
 + (id)gameWithID:(NSManagedObjectID *)objID
 {
@@ -65,16 +76,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 + (id)gameWithURIURL:(NSURL*)objIDUrl inDatabase:(OELibraryDatabase *)database
 {
-    NSPersistentStoreCoordinator *storeCoordinator = [database persistentStoreCoordinator];
-    __block NSManagedObjectID *objID = nil;
-    
-    [[storeCoordinator persistentStores] enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
-     {
-		 objID = [obj managedObjectIDForURIRepresentation:objIDUrl];
-		 if(objID != nil) *stop = YES;
-     }];
-    
+    NSManagedObjectID *objID = [database managedObjectIDForURIRepresentation:objIDUrl];
     return [self gameWithID:objID inDatabase:database];
 }
 
@@ -89,106 +91,46 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     return [self gameWithURIURL:url inDatabase:database];
 }
 
-+ (id)gameWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag error:(NSError **)outError
+// returns the game from the default database that represents the file at url
++ (id)gameWithURL:(NSURL *)url error:(NSError **)outError
 {
-    return [self gameWithURL:url createIfNecessary:(BOOL)createFlag inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
+    return [self gameWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
-+ (id)gameWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
+// returns the game from the specified database that represents the file at url
++ (id)gameWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
 {
-    if(url == nil || ![url checkResourceIsReachableAndReturnError:outError])
+    if(url == nil)
     {
-        // TODO: Create error saying that url is nil
-        // DLog(@"url is nil");
+        // TODO: create error saying that url is nil
         return nil;
     }
-	
+    
     NSError __autoreleasing *nilerr;
     if(outError == NULL) outError = &nilerr;
     
-    BOOL checkFullpath = YES;
-	
+    BOOL urlReachable = [url checkResourceIsReachableAndReturnError:outError];
+    
     OEDBGame *game = nil;
-    if(game == nil && checkFullpath)
+    OEDBRom *rom = [OEDBRom romWithURL:url error:outError];
+    if(rom != nil)
     {
-        // DLog(@"checking fullpath: %@", url);
-        OEDBRom *rom = [OEDBRom romWithURL:url createIfNecessary:NO error:outError];
-        if(rom!=nil)
-        {
-            game = [rom game];
-        }
-        else if(*outError != nil)
-        {
-            return nil;
-        }
+        game = [rom game];
     }
-	
+    
     NSString *md5 = nil, *crc = nil;
     NSFileManager *defaultFileManager = [NSFileManager defaultManager];
-    if(game == nil)
+    if(game == nil && urlReachable)
     {
         [defaultFileManager hashFileAtURL:url md5:&md5 crc32:&crc error:outError];
         OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inDatabase:database error:outError];
         if(!rom) rom = [OEDBRom romWithCRC32HashString:crc inDatabase:database error:outError];
         if(rom) game = [rom game];
-        
     }
     
-    if(game == nil && createFlag)
-        return [self _createGameWithoutChecksWithURL:url inDatabase:database error:outError md5:md5 crc:crc];
-	
-    return game;
-}
+    if(!urlReachable)
+        [game setStatus:[NSNumber numberWithInt:OEDBGameStatusAlert]];
 
-+ (id)_createGameWithoutChecksWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc
-{
-    NSManagedObjectContext *context = [database managedObjectContext];
-    NSEntityDescription *description = [self entityDescriptionInContext:context];
-    
-    OEDBGame *game = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-    OEDBRom *rom = [OEDBRom createRomWithURL:url md5:md5 crc:crc inDatabase:database error:outError];
-    
-    if(rom == nil)
-    {
-        [context deleteObject:game];
-        return nil;
-    }
-    
-    NSMutableSet *romSet = [game mutableRoms];
-    if(romSet == nil)
-        [game setRoms:[NSSet setWithObject:rom]];
-    else
-        [romSet addObject:rom];
-    
-    OEDBSystem *system = [OEDBSystem systemForURL:url inDatabase:database];
-    
-    if(system == nil)
-    {
-        if(outError != NULL)
-            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:3 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Could not get system for file at url: %@!", url] forKey:NSLocalizedDescriptionKey]];
-        
-        [context deleteObject:game];
-        [context deleteObject:rom];
-        
-        return nil;
-    }
-    
-    [game setSystem:system];
-    [game setImportDate:[NSDate date]];
-    
-    NSString *gameTitleWithSuffix = [url lastPathComponent];
-    NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
-    
-    [game setName:gameTitleWithoutSuffix];
-    
-    if(![context save:outError])
-    {
-        [context deleteObject:rom];
-        [context deleteObject:game];
-        
-        return nil;
-    }
-    
     return game;
 }
 
@@ -212,7 +154,8 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(result == nil) return nil;
     
-    OEDBGame *game = [result lastObject];   
+    OEDBGame *game = [result lastObject];
+    
     return game;
 }
 

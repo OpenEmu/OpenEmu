@@ -14,6 +14,10 @@
 
 @interface OEImportViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource, OEROMImporterDelegate, OELibrarySubviewController>
 
+#pragma mark - UI Methods
+- (IBAction)togglePause:(id)sender;
+- (IBAction)cancel:(id)sender;
+
 @property (strong) IBOutlet NSProgressIndicator *progressIndicator;
 @property (strong) IBOutlet NSTextField             *statusField;
 @property (strong) IBOutlet NSTableView            *tableView;

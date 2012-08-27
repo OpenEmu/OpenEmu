@@ -55,6 +55,8 @@
 - (void)OE_setupStateWatcher;
 - (void)OE_removeStateWatcher;
 @property (strong) OEFSWatcher *saveStateWatcher;
+@property (copy) NSURL *databaseURL;
+@property (strong) NSPersistentStoreCoordinator  *persistentStoreCoordinator;
 @end
 static OELibraryDatabase *defaultDatabase = nil;
 @implementation OELibraryDatabase
@@ -243,6 +245,11 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 #pragma mark -
 #pragma mark CoreData Stuff
+- (NSManagedObjectID*)managedObjectIDForURIRepresentation:(NSURL*)uri
+{
+    return [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
+}
+
 - (NSManagedObjectModel *)managedObjectModel 
 {
     if (__managedObjectModel) 
@@ -479,7 +486,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url
+- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url DEPRECATED_ATTRIBUTE
 {
     OESystemPlugin *system = nil;
     NSString *path = [url absoluteString];
