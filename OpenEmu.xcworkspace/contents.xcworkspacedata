@@ -74,6 +74,9 @@
       location = "group:Mednafen PC-FX/Mednafen PC-FX.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:../../../Downloads/VeMU/VeMU_Alpha19_WORKING/VeMU.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Mednafen Virtual Boy/Mednafen Virtual Boy.xcodeproj">
    </FileRef>
    <FileRef
