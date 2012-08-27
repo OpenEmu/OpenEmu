@@ -454,6 +454,7 @@ void snes_cheat_set(unsigned, bool, const char*) {}
 
 static bool fba_init(unsigned driver)
 {
+    struct snes_system_timing timing;
    nBurnDrvActive = driver;
 
    if (!open_archive())
@@ -473,6 +474,10 @@ static bool fba_init(unsigned driver)
 
       unsigned pitch = 2048;
       environ_cb(SNES_ENVIRONMENT_SET_PITCH, &pitch);
+       
+       timing.sample_rate = (nBurnFPS / 100.0) * AUDIO_SEGMENT_LENGTH;
+       timing.fps = nBurnFPS / 100.0;
+       environ_cb(SNES_ENVIRONMENT_SET_TIMING, &timing);
    }
 
    return true;

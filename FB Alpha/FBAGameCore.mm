@@ -117,6 +117,7 @@ static bool environment_callback(unsigned cmd, void *data)
             snes_system_timing *t = (snes_system_timing*)data;
             current->frameInterval = t->fps;
             current->sampleRate    = t->sample_rate;
+            NSLog(@"Environ SET_TIMING: \"%.2lf %f\"\n", current->frameInterval, current->sampleRate);
             return true;
         }
         case SNES_ENVIRONMENT_GET_FULLPATH:
@@ -380,14 +381,12 @@ static void writeSaveFile(const char* path, int type)
 
 - (double)audioSampleRate
 {
-    //return sampleRate ? sampleRate : 32000;
-    return SAMPLERATE;
+    return sampleRate ? sampleRate : 32000;
 }
 
 - (NSTimeInterval)frameInterval
 {
-    //return frameInterval ? frameInterval : 59.727;
-    return 60;
+    return frameInterval ? frameInterval : 60;
 }
 
 - (NSUInteger)channelCount
