@@ -341,7 +341,6 @@
 
 - (void)restoreState:(id)state
 {
-    
 }
 
 #pragma mark -

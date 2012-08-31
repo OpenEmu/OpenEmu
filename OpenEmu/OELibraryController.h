@@ -74,7 +74,7 @@
 @property (strong) NSViewController <OELibrarySubviewController> *currentViewController;
 
 @property (strong) IBOutlet OELibrarySplitView           *mainSplitView;
-@property (strong) IBOutlet NSView                          *mainContentPlaceholderView;
+@property (strong) IBOutlet NSView                       *mainContentPlaceholderView;
 
 @property (strong) IBOutlet NSButton      *toolbarSidebarButton;
 @property (strong) IBOutlet NSButton      *toolbarGridViewButton;

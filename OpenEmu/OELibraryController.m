@@ -91,7 +91,7 @@
     
     [sidebarCtrl setDatabase:[self database]];
     [self setSidebarChangesWindowSize:YES];
-            
+
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
     [splitView setMinWidth:[defaults doubleForKey:UDSidebarMinWidth]];
@@ -121,7 +121,6 @@
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 
-    /*
     // Restore last selected collection item
     id collectionViewName = [standardUserDefaults valueForKey:UDLastCollectionSelectedKey];
     id collectionItem = nil;
@@ -139,7 +138,6 @@
     if(collectionItem != nil) [[self sidebarController] selectItem:collectionItem];
     
     [[self sidebarController] outlineViewSelectionDidChange:nil];
-    */
     
     CGFloat splitterPos = 0;
     if([self isSidebarVisible]) splitterPos = [standardUserDefaults doubleForKey:UDSidebarWidthKey];
