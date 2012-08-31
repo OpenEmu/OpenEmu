@@ -180,6 +180,7 @@
     [[self gameViewController] viewWillAppear];
     
     OEHUDWindow *window = [[OEHUDWindow alloc] initWithContentRect:windowRect];
+    [window center];
     [window setContentView:[[self gameViewController] view]];
     [window makeKeyAndOrderFront:self];
     [self setPopoutWindow:window];

@@ -53,6 +53,17 @@
 			name = "Build SystemPlugins";
 			productName = "Build SystemPlugins";
 		};
+		9479664E15EDE645004316AB /* Update Build Version */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9479665115EDE646004316AB /* Build configuration list for PBXAggregateTarget "Update Build Version" */;
+			buildPhases = (
+				9479665315EDE64C004316AB /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Update Build Version";
+			productName = "Update Build Version";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -729,6 +740,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 945E42FA1517F2B500057D08;
 			remoteInfo = Arcade;
+		};
+		9479665415EDE6B3004316AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9479664E15EDE645004316AB;
+			remoteInfo = "Update Build Version";
 		};
 		94D7E8E51507413400FBDD85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3570,6 +3588,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9479665515EDE6B3004316AB /* PBXTargetDependency */,
 				3DAA589A14464890001C09A8 /* PBXTargetDependency */,
 				C60FC00113522D9A00B53F64 /* PBXTargetDependency */,
 				C6711809136367920034379A /* PBXTargetDependency */,
@@ -3787,6 +3806,7 @@
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
+				9479664E15EDE645004316AB /* Update Build Version */,
 			);
 		};
 /* End PBXProject section */
@@ -4153,6 +4173,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p \"/Library/QuickLook\"\nrm -rf \"/Library/QuickLook/$PRODUCT_NAME.qlgenerator\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.qlgenerator\" \"/Library/QuickLook\"";
+		};
+		9479665315EDE64C004316AB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Update OEBundleBuildReference with git revision and build configuration\ngitBundle=`which git`\ngitDescribe=`${gitBundle} describe`\ngitRefInfo=$(echo $gitDescribe | grep -oE \"([0-9]{1,3})\\-([a-zA-Z0-9]{8})\")\n\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitRefInfo}-${bundleConfiguration}\"\n\nCFBuildDate=$(date)\n/usr/libexec/PlistBuddy -c \"Set :\\\"OEBundleBuildReference\\\" $buildRef\" OpenEmu-Info.plist";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4584,6 +4617,11 @@
 			isa = PBXTargetDependency;
 			target = 945E42FA1517F2B500057D08 /* Arcade */;
 			targetProxy = 945E431E1517F75B00057D08 /* PBXContainerItemProxy */;
+		};
+		9479665515EDE6B3004316AB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9479664E15EDE645004316AB /* Update Build Version */;
+			targetProxy = 9479665415EDE6B3004316AB /* PBXContainerItemProxy */;
 		};
 		94D7E8E61507413400FBDD85 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5055,6 +5093,20 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		9479664F15EDE645004316AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9479665015EDE645004316AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -5562,6 +5614,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		9479665115EDE646004316AB /* Build configuration list for PBXAggregateTarget "Update Build Version" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9479664F15EDE645004316AB /* Debug */,
+				9479665015EDE645004316AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */ = {
 			isa = XCConfigurationList;
