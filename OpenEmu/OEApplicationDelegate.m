@@ -431,11 +431,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
 }
 
-- (NSString *)buildVersion
-{
-    return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"OEBundleBuildReference"];
-}
-
 - (NSAttributedString *)projectURL
 {
     return [NSAttributedString hyperlinkFromString:@"http://openemu.org" withURL:[NSURL URLWithString:@"http://openemu.org"]];

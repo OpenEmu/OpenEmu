@@ -45,6 +45,5 @@
 @property(strong)           OEHIDManager       *HIDManager;
 @property(strong, readonly) NSString           *aboutCreditsPath;
 @property(strong, readonly) NSString           *appVersion;
-@property(strong, readonly) NSString           *buildVersion;
 @property(strong, readonly) NSAttributedString *projectURL;
 @end
