@@ -29,17 +29,11 @@
 @class OELibraryController;
 
 @interface OEMainWindowController : NSWindowController <NSWindowDelegate>
-
-#pragma mark -
-
 @property(strong) IBOutlet OELibraryController *libraryController;
 
 @property(nonatomic, strong) NSViewController  *currentContentController;
 @property(nonatomic, strong) NSViewController  *defaultContentController;
 @property                           BOOL                 allowWindowResizing;
-
-@property(copy) NSArray *deviceHandlers;
-@property(copy) NSArray *coreList;
 
 - (void)openGameDocument:(OEGameDocument *)aDocument;
 #pragma mark -

@@ -64,6 +64,8 @@
 
 - (void)OE_repositionControlsWindow;
 - (void)OE_terminateEmulationWithoutNotification;
+
+void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
 @end
 
 @implementation OEGameViewController
@@ -121,6 +123,7 @@
         }
         
         [[self rom] markAsPlayedNow];
+        [self disableOSSleep];
     }
     return self;
 }
@@ -212,7 +215,32 @@
     [[self controlsWindow] hide];
     [self terminateEmulation];
 }
+#pragma mark - OS Sleep Handling
+CFRunLoopTimerRef timer;
+- (void)enableOSSleep
+{
+    if(!timer) return;
+    
+    CFRunLoopTimerInvalidate(timer);
+    CFRelease(timer);
+    timer=NULL;
+}
 
+- (void)disableOSSleep
+{
+    if(timer) return;
+    
+    CFRunLoopTimerContext context = { 0, NULL, NULL, NULL, NULL };
+    timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 30, 0, 0, updateSystemActivity, &context);
+    if (timer != NULL); {
+        CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);
+    }
+}
+
+void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
+{
+    UpdateSystemActivity(OverallAct);
+}
 #pragma mark - Controlling Emulation
 - (void)resetGame
 {
@@ -226,6 +254,7 @@
     emulationRunning = NO;
     NSLog(@"terminateEmulation");
     
+    [self enableOSSleep];
     [self pauseGame:self];
     
     if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
@@ -285,6 +314,8 @@
 
 - (void)setPauseEmulation:(BOOL)flag
 {
+    if(flag) [self enableOSSleep]; else [self disableOSSleep];
+    
     [rootProxy setPauseEmulation:flag];
     [[self controlsWindow] reflectEmulationRunning:flag];
 }

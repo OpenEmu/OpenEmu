@@ -34,6 +34,7 @@
 @dynamic controller;
 
 static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
+static NSArray *cachedSupportedTypeExtensions = nil;
 
 + (void)initialize
 {
@@ -58,23 +59,29 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
     {
         NSLog(@"system plugins not registered in database, because the db does not exist yet!");
         
-    } 
-    else 
+    }
+    else
     {
         [OEDBSystem systemFromPlugin:plugin inDatabase:db];
     }
+    
+    // Invalidate supported type extenesions cache
+    cachedSupportedTypeExtensions = nil;
 }
 
 @synthesize responderClass, bundleIcon, gameSystemName, systemName, systemIcon, systemIdentifier;
-
 + (NSArray*)supportedTypeExtensions;
 {
-    NSMutableSet *extensions = [NSMutableSet set];
-    for (OESystemPlugin *plugin in [OEPlugin pluginsForType:self])
+    if(!cachedSupportedTypeExtensions)
     {
-        [extensions addObjectsFromArray:[plugin supportedTypeExtensions]];
+        NSMutableSet *extensions = [NSMutableSet set];
+        for (OESystemPlugin *plugin in [OEPlugin pluginsForType:self])
+        {
+            [extensions addObjectsFromArray:[plugin supportedTypeExtensions]];
+        }
+        cachedSupportedTypeExtensions = [extensions allObjects];
     }
-    return [extensions allObjects];
+    return cachedSupportedTypeExtensions;
 }
 
 + (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;

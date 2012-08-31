@@ -183,8 +183,17 @@
 
 @end
 #pragma mark -
-
 @implementation OEDBSystem (DataSourceAdditions)
+
+- (NSString*)viewControllerClassName
+{
+    return @"OECollectionViewController";
+}
+
+- (NSString*)sidebarID
+{
+    return nil;
+}
 
 - (NSImage *)sidebarIcon
 {
@@ -225,6 +234,16 @@
 #pragma mark -
 
 @implementation OEDBCollection (DataSourceAdditions)
+- (NSString*)viewControllerClassName
+{
+    return @"OECollectionViewController";
+}
+
+- (NSString*)sidebarID
+{
+    return nil;
+}
+
 - (NSImage *)sidebarIcon
 {
     return [NSImage imageNamed:@"collections_simple"];

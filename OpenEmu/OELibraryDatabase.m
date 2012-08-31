@@ -44,6 +44,7 @@
 #import "NSFileManager+OEHashingAdditions.h"
 
 #import "OEFSWatcher.h"
+#import "OEROMImporter.h"
 @interface OELibraryDatabase ()
 - (BOOL)loadPersistantStoreWithError:(NSError**)outError;
 - (BOOL)loadManagedObjectContextWithError:(NSError**)outError;
@@ -54,6 +55,8 @@
 - (void)OE_setupStateWatcher;
 - (void)OE_removeStateWatcher;
 @property (strong) OEFSWatcher *saveStateWatcher;
+@property (copy) NSURL *databaseURL;
+@property (strong) NSPersistentStoreCoordinator  *persistentStoreCoordinator;
 @end
 static OELibraryDatabase *defaultDatabase = nil;
 @implementation OELibraryDatabase
@@ -83,6 +86,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         defaultDatabase=nil;
         return NO;
     }
+    
     if(![defaultDatabase loadManagedObjectContextWithError:outError])
     {
         defaultDatabase=nil;
@@ -91,6 +95,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:UDDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
+    
     
     return YES;
 }
@@ -150,6 +155,8 @@ static OELibraryDatabase *defaultDatabase = nil;
         romsController = [[NSArrayController alloc] init];
         managedObjectContexts = [[NSMutableDictionary alloc] init];
         
+        [self setImporter:[[OEROMImporter alloc] initWithDatabase:self]];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
     }
     
@@ -180,7 +187,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSLog(@"Did save Database");
 }
 #pragma mark -
-#pragma mark Administration
+@synthesize importer;
+#pragma mark - Administration
 - (void)disableSystemsWithoutPlugin
 {
     NSArray *allSystems = [self systems];
@@ -237,6 +245,11 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 #pragma mark -
 #pragma mark CoreData Stuff
+- (NSManagedObjectID*)managedObjectIDForURIRepresentation:(NSURL*)uri
+{
+    return [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
+}
+
 - (NSManagedObjectModel *)managedObjectModel 
 {
     if (__managedObjectModel) 
@@ -473,7 +486,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url
+- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url DEPRECATED_ATTRIBUTE
 {
     OESystemPlugin *system = nil;
     NSString *path = [url absoluteString];

@@ -26,6 +26,7 @@
 
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
+#import "OESystemController.h"
 #import "OELibraryDatabase.h"
 
 @implementation OEDBSystem
@@ -82,16 +83,44 @@
     return [database systemWithArchiveShortname:shortName];
 }
 
-+ (id)systemForURL:(NSURL *)url
++ (id)systemForURL:(NSURL *)url DEPRECATED_ATTRIBUTE
 {
     return [self systemForURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (id)systemForURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
++ (id)systemForURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database DEPRECATED_ATTRIBUTE
 {
     return [database systemForHandlingRomAtURL:url];
 }
 
++ (NSArray*)systemsForFileWithURL:(NSURL *)url
+{
+    return [self systemsForFileWithURL:url error:nil];
+}
++ (NSArray*)systemsForFileWithURL:(NSURL *)url error:(NSError**)error
+{
+    return [self systemsForFileWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:error];
+}
++ (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
+{
+    return [self systemsForFileWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:nil];
+}
++ (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError**)error
+{
+    NSString *path = [url absoluteString];
+    NSArray *validPlugins = [[OESystemPlugin allPlugins] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OESystemPlugin * evaluatedObject, NSDictionary *bindings) {
+        return [[evaluatedObject controller] canHandleFile:path];
+    }]];
+    
+    NSMutableArray *validSystems = [NSMutableArray arrayWithCapacity:[validPlugins count]];
+    [validPlugins enumerateObjectsUsingBlock:^(OESystemPlugin *obj, NSUInteger idx, BOOL *stop) {
+        NSString *systemIdentifier = [obj systemIdentifier];
+        OEDBSystem *system = [database systemWithIdentifier:systemIdentifier];
+            [validSystems addObject:system];
+    }];
+
+    return validSystems;
+}
 #pragma mark -
 #pragma mark Core Data utilities
 

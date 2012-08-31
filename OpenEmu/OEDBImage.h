@@ -39,6 +39,7 @@
 @property (nonatomic, retain) NSString *sourceURL;
 #pragma mark -
 + (id)imageWithImage:(NSImage *)image inLibrary:(OELibraryDatabase *)library;
++ (id)imageWithImage:(NSImage *)image andSourceURL:(NSURL*)url inLibrary:(OELibraryDatabase *)library;
 + (id)imageWithPath:(NSString *)path  inLibrary:(OELibraryDatabase *)library;
 + (id)imageWithURL:(NSURL *)url       inLibrary:(OELibraryDatabase *)library;
 + (id)imageWithData:(NSData *)data    inLibrary:(OELibraryDatabase *)library;

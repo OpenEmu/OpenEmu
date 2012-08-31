@@ -456,7 +456,7 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 {
 	NSURL	*url	= [[self class] urlForOperation:operation withOutputFormat:format andOptions:options];
 	NSData *data	= [[self class] synchronousResultForURL:url error:outError];
-	id result			= [[self class] parseArchiveResponse:data forOperation:operation withOutputFormat:format error:outError];
+	id result		= [[self class] parseArchiveResponse:data forOperation:operation withOutputFormat:format error:outError];
 	
 	return result;
 }

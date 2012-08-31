@@ -31,6 +31,7 @@
 #import "OEMainWindow.h"
 #import "OESetupAssistant.h"
 #import "OELibraryController.h"
+
 #import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
 
@@ -49,8 +50,7 @@
 @synthesize allowWindowResizing;
 @synthesize libraryController;
 @synthesize placeholderView;
-@synthesize deviceHandlers;
-@synthesize coreList;
+
 + (void)initialize
 {
     if(self == [OEMainWindowController class])
@@ -68,12 +68,21 @@
     }
 }
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self setAllowWindowResizing:YES];
+    }
+    return self;
+}
+
 - (void)dealloc 
 {
     currentContentController = nil;
     [self setDefaultContentController:nil];
     [self setLibraryController:nil];
-    [self setPlaceholderView:nil]; 
+    [self setPlaceholderView:nil];
 }
 
 - (void)windowDidLoad
@@ -94,17 +103,16 @@
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSetupAssistantHasRun])
     {
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
-        [setupAssistant setDeviceHandlers:[self deviceHandlers]];
-        
         [setupAssistant setCompletionBlock:
          ^(BOOL discoverRoms, NSArray* volumes)
          {
-             if(discoverRoms) 
-                 [[self libraryController] discoverRoms:volumes];
-             
+             if(discoverRoms)
+                 [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
              [self setCurrentContentController:[self libraryController]];
          }];
-        
+
+        [[self window] center];
+
         [self setCurrentContentController:setupAssistant];
     }
     else

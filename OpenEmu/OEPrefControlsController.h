@@ -27,7 +27,7 @@
 #import "OEPreferencePane.h"
 
 @class OEBackgroundGradientView;
-@class OEControlsSetupView;
+@class OEControlsButtonSetupView;
 @class OESystemPlugin;
 @class OESystemController;
 @class OEControllerImageView;
@@ -51,7 +51,7 @@
 @property(weak) IBOutlet OEBackgroundGradientView *gradientOverlay;
 @property(weak) IBOutlet NSView *controlsContainer;
 
-@property(weak) IBOutlet OEControlsSetupView *controlsSetupView;
+@property(weak) IBOutlet OEControlsButtonSetupView *controlsSetupView;
 
 #pragma mark -
 #pragma UI Methods

@@ -25,7 +25,6 @@
  */
 
 #import "OELibraryController.h"
-#import "NSViewController+OEAdditions.h"
 #import "OELibraryDatabase.h"
 #import "OEDBSmartCollection.h"
 
@@ -33,63 +32,42 @@
 #import "OECollectionViewController.h"
 #import "OELibrarySplitView.h"
 
-#import "NSImage+OEDrawingAdditions.h"
-
-#import "OEGameView.h"
-
 #import "OEROMImporter.h"
+#import "OEImportViewController.h"
 
-#import "OEPlugin.h"
-#import "OECorePlugin.h"
 #import "OESystemPlugin.h"
-#import "OECompositionPlugin.h"
+#import "NSViewController+OEAdditions.h"
 
-#import "NSControl+OEAdditions.h"
-
-#import "OEGameDocument.h"
-
+#import "OEDBGame.h"
 @interface OELibraryController ()
-
-// spotlight search results.
-@property(readwrite, retain) NSMutableArray *searchResults;
-
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
 - (void)OE_setupMenu;
 - (void)OE_setupToolbarItems;
+
+@property NSMutableDictionary *subviewControllers;
+- (NSViewController <OELibrarySubviewController>*)viewControllerWithClassName:(NSString*)className;
 @end
 
 @implementation OELibraryController
-@synthesize romImporter, sidebarChangesWindowSize;
 @synthesize database;
-@synthesize sidebarController, collectionViewController, mainSplitView, mainContentPlaceholderView;
+@synthesize sidebarChangesWindowSize;
+@synthesize currentViewController;
+@synthesize sidebarController, mainSplitView, mainContentPlaceholderView;
 @synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
 @synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
 @synthesize cachedSnapshot;
 @synthesize delegate;
-
-@synthesize searchResults;
-
-- (id)initWithDatabase:(OELibraryDatabase *)aDatabase
-{
-    if((self = [super initWithNibName:@"Library" bundle:nil]))
-    {
-        [self setDatabase:aDatabase];
-    }
-    
-    return self;
-}
+@synthesize subviewControllers;
 
 - (void)dealloc
 {
     NSLog(@"Dealloc OELibraryController");
-    
     [[NSNotificationCenter defaultCenter] removeObject:self];
 }
 
 #pragma mark -
 #pragma mark NSViewController stuff
-
 - (NSString *)nibName
 {
     return @"Library";
@@ -98,46 +76,29 @@
 - (void)loadView
 {
     [super loadView];
-    
+
+    [self setSubviewControllers:[NSMutableDictionary dictionary]];
+
     if([self database] == nil) [self setDatabase:[OELibraryDatabase defaultDatabase]];
     
     [[self sidebarController] view];
-    
-    self.romImporter = [[OEROMImporter alloc] initWithDatabase:[self database]];
-    self.searchResults = [[NSMutableArray alloc] initWithCapacity:1];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     // setup sidebar controller
     OESidebarController *sidebarCtrl = [self sidebarController];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:@"SidebarSelectionChanged" object:sidebarCtrl];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:sidebarCtrl];
     
     [sidebarCtrl setDatabase:[self database]];
     [self setSidebarChangesWindowSize:YES];
-    
-    // make sure view has been loaded already
-    OECollectionViewController *collectionVC = [self collectionViewController];
-    [collectionVC view];
-    
-    // Select first view
-    [collectionVC setLibraryController:self];
-    
+
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
     [splitView setMinWidth:[defaults doubleForKey:UDSidebarMinWidth]];
     [splitView setMainViewMinWidth:[defaults doubleForKey:UDMainViewMinWidth]];
     [splitView setSidebarMaxWidth:[defaults doubleForKey:UDSidebarMaxWidth]];
     
-    // add collection controller's view to splitview
-    [collectionVC viewWillAppear];
-    
-    NSView *mainContentView = [self mainContentPlaceholderView];
-    [mainContentView addSubview:[collectionVC view]];
-    [[collectionVC view] setFrame:[mainContentView bounds]];
-    
     [splitView adjustSubviews];
-    
-    [collectionVC viewDidAppear];
     
     [[self toolbarSidebarButton] setImage:[NSImage imageNamed:@"toolbar_sidebar_button_close"]];
     
@@ -153,16 +114,14 @@
 {
     [super viewDidAppear];
     
-    [self OE_setupMenu];
-    [self OE_setupToolbarItems];
     [self layoutToolbarItems];
-    
-    [[self collectionViewController] willShow];
     
     [[self sidebarController] reloadData];
     
-    // Restore last selected collection item
+    
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+
+    // Restore last selected collection item
     id collectionViewName = [standardUserDefaults valueForKey:UDLastCollectionSelectedKey];
     id collectionItem = nil;
     
@@ -177,6 +136,8 @@
     
     // Select the found collection item, or select the first item by default
     if(collectionItem != nil) [[self sidebarController] selectItem:collectionItem];
+    
+    [[self sidebarController] outlineViewSelectionDidChange:nil];
     
     CGFloat splitterPos = 0;
     if([self isSidebarVisible]) splitterPos = [standardUserDefaults doubleForKey:UDSidebarWidthKey];
@@ -198,7 +159,6 @@
 
 #pragma mark -
 #pragma mark Toolbar Actions
-
 - (IBAction)toggleSidebar:(id)sender
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -252,27 +212,32 @@
 
 - (IBAction)switchToGridView:(id)sender
 {
-    [[self collectionViewController] selectGridView:sender];
+    if([[self currentViewController] respondsToSelector:@selector(switchToGridView:)])
+       [[self currentViewController] performSelector:@selector(switchToGridView:) withObject:sender];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
-    [[self collectionViewController] selectListView:sender];
+    if([[self currentViewController] respondsToSelector:@selector(switchToListView:)])
+        [[self currentViewController] performSelector:@selector(switchToListView:) withObject:sender];
 }
 
 - (IBAction)switchToFlowView:(id)sender
 {
-    [[self collectionViewController] selectFlowView:sender];
+    if([[self currentViewController] respondsToSelector:@selector(switchToFlowView:)])
+        [[self currentViewController] performSelector:@selector(switchToFlowView:) withObject:sender];
 }
 
 - (IBAction)search:(id)sender
 {
-    [[self collectionViewController] search:sender];
+    if([[self currentViewController] respondsToSelector:@selector(search:)])
+        [[self currentViewController] performSelector:@selector(search:) withObject:sender];
 }
 
 - (IBAction)changeGridSize:(id)sender
 {
-    [[self collectionViewController] changeGridSize:sender];
+    if([[self currentViewController] respondsToSelector:@selector(changeGridSize:)])
+        [[self currentViewController] performSelector:@selector(changeGridSize:) withObject:sender];
 }
 
 - (IBAction)addCollectionAction:(id)sender
@@ -321,7 +286,16 @@
         return [[[self sidebarController] selectedCollection] isKindOfClass:[OEDBSmartCollection class]];
     
     if([menuItem action] == @selector(startGame:))
-        return [[[self collectionViewController] selectedGames] count] != 0;
+        return [[self currentViewController] respondsToSelector:@selector(selectedGames)] && [[(OECollectionViewController*)[self currentViewController] selectedGames] count] != 0;
+    
+    if([menuItem action] == @selector(switchToGridView:))
+        return [[self currentViewController] respondsToSelector:@selector(switchToGridView:)];
+    
+    if([menuItem action] == @selector(switchToFlowView:))
+        return [[self currentViewController] respondsToSelector:@selector(switchToFlowView:)];
+    
+    if([menuItem action] == @selector(switchToListView:))
+        return [[self currentViewController] respondsToSelector:@selector(switchToListView:)];
     
     return YES;
 }
@@ -345,8 +319,8 @@
          {
              // exit our initial open panels completion handler
              //[self performSelector:@selector(startImportSheet:) withObject:[openPanel URLs] afterDelay:0.0];
-             [romImporter setErrorBehaviour:OEImportErrorAskUser];
-             [romImporter importROMsAtURLs:[openPanel URLs] inBackground:YES error:nil];
+             OEROMImporter *romImporter = [[self database] importer];
+             [romImporter importItemsAtURLs:[openPanel URLs]];
          }
      }];
 }
@@ -354,10 +328,10 @@
 #pragma mark -
 - (IBAction)startGame:(id)sender
 {
-    OEDBGame *selectedGame = [[[self collectionViewController] selectedGames] lastObject];
-    
+    NSAssert([(id)[self currentViewController] respondsToSelector:@selector(selectedGames)], @"Attempt to start a game from a view controller that doesn't announc selectedGames");
+    id selectedGame = [[(id)[self currentViewController] selectedGames] lastObject];
     NSAssert(selectedGame != nil, @"Attempt to start a game while the selection is empty");
-    
+
     if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
         [[self delegate] libraryController:self didSelectGame:selectedGame];
 }
@@ -373,164 +347,67 @@
 }
 
 #pragma mark -
-#pragma mark Spotlight Importing
-
-- (void)discoverRoms:(NSArray*)volumes
+#pragma mark Sidebar Helpers
+- (void)showViewController:(NSViewController <OELibrarySubviewController>*)nextViewController
 {
-    // TODO: limit searching or results to the volume URLs only.
+    NSViewController <OELibrarySubviewController> *oldViewController = [self currentViewController];
+    if(nextViewController == oldViewController) return;
     
-    NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
+    [oldViewController viewWillDisappear];
+    [nextViewController viewWillAppear];
     
-    // We skip common types by default.
-    NSArray *commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
-    
-    [supportedFileExtensions removeObjectsInArray:commonTypes];
-    
-    //NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
-    
-    NSString *searchString = @"";
-    for(NSString *extension in supportedFileExtensions)
+    NSView *newView    = [nextViewController view];
+    if(oldViewController)
     {
-        searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension];
-        searchString = [searchString stringByAppendingString:@" || "];
-    }
-    
-    searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
-    
-    DLog(@"SearchString: %@", searchString);
-    
-    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (__bridge CFStringRef)searchString, NULL, NULL);
-    
-    if(searchQuery)
-    {
-        // Limit Scope to selected volumes / URLs only
-        MDQuerySetSearchScope(searchQuery, (__bridge CFArrayRef) volumes, 0);
-
-        DLog(@"Valid search query ref");
+        NSView *superView = [[oldViewController view] superview];
+        NSView *oldView     = [oldViewController view];
         
-        [[self searchResults] removeAllObjects];
+        [newView setFrame:[oldView frame]];
+        [newView setAutoresizingMask:[oldView autoresizingMask]];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
-                                                     name:(NSString*)kMDQueryDidFinishNotification
-                                                   object:(__bridge id)searchQuery];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
-                                                     name:(NSString*)kMDQueryProgressNotification
-                                                   object:(__bridge id)searchQuery];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
-                                                     name:(NSString*)kMDQueryDidUpdateNotification
-                                                   object:(__bridge id)searchQuery];
-                
-        if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
-            NSLog(@"Searching for importable roms");
-        else
-        {
-            CFRelease(searchQuery);
-            searchQuery = nil;
-            // leave this log message in...
-            NSLog(@"MDQuery failed to start.");
-        }
-        
+        [superView replaceSubview:oldView with:newView];
     }
     else
-        NSLog(@"Invalid Search Query");
-}
-
-- (void)updateSearchResults:(NSNotification *)notification
-{
-    MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];
-
-    
-    // If you're going to have the same array for every iteration,
-    // don't allocate it inside the loop !
-    NSArray *excludedPaths = [NSArray arrayWithObjects:
-                              @"System",
-                              @"Library",
-                              @"Developer",
-                              @"Volumes",
-                              @"Applications",
-                              @"Application Support",
-                              @"bin",
-                              @"cores",
-                              @"dev",
-                              @"etc",
-                              @"home",
-                              @"net",
-                              @"sbin",
-                              @"private",
-                              @"tmp",
-                              @"usr",
-                              @"var",
-                              @"ReadMe", // markdown
-                              @"readme", // markdown
-                              @"README", // markdown
-                              @"Readme", // markdown
-                              nil];
-    
-    // assume the latest result is the last index?
-    for(CFIndex index = 0, limit = MDQueryGetResultCount(searchQuery); index < limit; index++)
     {
-        MDItemRef resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
-        NSString *resultPath = (__bridge_transfer NSString *)MDItemCopyAttribute(resultItem, kMDItemPath);
-        
-        // Nothing in common
-        NSString* fileName = [[resultPath lastPathComponent] stringByDeletingPathExtension];
-        BOOL containExcludedFileName = [excludedPaths containsObject:fileName];
-        
-        NSString* firstCommonObj = [excludedPaths firstObjectCommonWithArray:[resultPath pathComponents]];
-        BOOL containExcludedPathComponents = (firstCommonObj != nil);
-        
-        if(!containExcludedPathComponents && !containExcludedFileName)
-        {
-            NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                        resultPath, @"Path",
-                                        [[resultPath lastPathComponent] stringByDeletingPathExtension], @"Name",
-                                        nil];
-            
-            if(![[self searchResults] containsObject:resultDict])
-            {
-                [[self searchResults] addObject:resultDict];
-                
-//                NSLog(@"Result Path: %@", resultPath);
-            }
-        }
+        NSView *mainContentView = [self mainContentPlaceholderView];
+        [newView setFrame:[mainContentView bounds]];
+        [mainContentView addSubview:newView];
     }
-}
-
-- (void)finalizeSearchResults:(NSNotification *)notification
-{
-    MDQueryRef searchQuery = (__bridge_retained MDQueryRef)[notification object];    
-    NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
+    [self setCurrentViewController:nextViewController];
+    [self OE_setupToolbarItems];
+    [self OE_setupMenu];
     
-    if(MDQueryGetResultCount(searchQuery))
-    {
-        [self importInBackground];
-        
-        MDQueryStop(searchQuery);
-    }
-    
-    CFRelease(searchQuery);
+    [nextViewController viewDidAppear];
+    [oldViewController viewDidDisappear];
 }
-
-- (void)importInBackground;
-{
-    NSLog(@"importInBackground");
-    
-    [[self romImporter] importROMsAtPaths:[[self searchResults] valueForKey:@"Path"] inBackground:YES error:nil];;
-}
-
-#pragma mark -
-#pragma mark Sidebar Helpers
 
 - (void)sidebarSelectionDidChange:(NSNotification *)notification
 {
-    [[self collectionViewController] setCollectionItem:[[notification userInfo] objectForKey:@"selectedCollection"]];
+    // Save Current State
+    id lastState = [(id <OELibrarySubviewController>)[self currentViewController] encodeCurrentState];
+    id itemID    = [[(id <OELibrarySubviewController>)[self currentViewController] selectedItem] sidebarID];
+    if(itemID && lastState)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:lastState forKey:itemID];
+    }
+
+    // Set new item   
+    NSObject <OESidebarItem> *selectedItem = (NSObject <OESidebarItem> *)[[notification userInfo] objectForKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey];
+    
+    NSString *viewControllerClasName = [selectedItem viewControllerClassName];
+    NSViewController <OELibrarySubviewController> *viewController = [self viewControllerWithClassName:viewControllerClasName];
+    [viewController setItem:selectedItem];
+
+    // Restore State
+    itemID = [selectedItem sidebarID];
+    lastState = itemID?[[NSUserDefaults standardUserDefaults] valueForKey:itemID]:nil;
+    [viewController restoreState:lastState];
+
+    [self showViewController:viewController];
 }
 
 #pragma mark -
 #pragma mark Properties
-
 - (void)setSidebarChangesWindowSize:(BOOL)flag
 {
     flag = !!flag;
@@ -559,7 +436,6 @@
 
 #pragma mark -
 #pragma mark Private
-
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
 {
     [self setSidebarChangesWindowSize:!fsFlag];
@@ -568,15 +444,35 @@
     [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideToolbar : NSApplicationPresentationDefault)];
 }
 
-#pragma mark -
-
-- (void)OE_setupMenu
+- (NSViewController <OELibrarySubviewController>*)viewControllerWithClassName:(NSString*)className
 {
+    if(![subviewControllers valueForKey:className])
+    {
+        Class viewControllerClass = NSClassFromString(className);
+        if(viewControllerClass)
+        {
+            NSViewController <OELibrarySubviewController>*viewController = [[viewControllerClass alloc] init];
+            if([viewController respondsToSelector:@selector(setLibraryController:)])
+                [viewController setLibraryController:self];
+            [subviewControllers setObject:viewController forKey:className];
+        }
+    }
+    return [subviewControllers valueForKey:className];
 }
+#pragma mark -
+- (void)OE_setupMenu
+{}
 
 - (void)OE_setupToolbarItems
 {
     [[self toolbarSlider] setEnabled:[[self toolbarGridViewButton] state]];
+    
+    [[self toolbarSlider] setEnabled:[[self currentViewController] respondsToSelector:@selector(changeGridSize:)]];
+    [[self toolbarGridViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToGridView:)]];
+    [[self toolbarFlowViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToFlowView:)]];
+    [[self toolbarListViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToListView:)]];
+    
+    [[self toolbarSearchField] setEnabled:[[self currentViewController] respondsToSelector:@selector(search:)]];
 }
 
 - (void)layoutToolbarItems
@@ -591,40 +487,6 @@
     [toolbarItemContainer setFrame:NSMakeRect(splitterPosition, 0.0, NSWidth([[toolbarItemContainer superview] bounds]) - splitterPosition, 44.0)];
 }
 
-@end
-
-@implementation OELibraryToolbarView
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    [[NSColor blackColor] setFill];
-    NSRectFill(dirtyRect);
-    
-    if(NSMinY(dirtyRect) > 44) return;
-    
-    NSRect viewRect = [self bounds];
-    viewRect.origin.y = NSMinY(viewRect);
-    viewRect.size.height = 44.0;
-    
-    NSColor *topLineColor   = [NSColor colorWithDeviceWhite:0.32 alpha:1];
-    NSColor *gradientTop    = [NSColor colorWithDeviceWhite:0.20 alpha:1];
-    NSColor *gradientBottom = [NSColor colorWithDeviceWhite:0.15 alpha:1];
-    
-    // Draw top line
-    NSRect lineRect = NSMakeRect(0, 43, viewRect.size.width, 1);
-    [topLineColor setFill];
-    NSRectFill(lineRect);
-    
-    // Draw Gradient
-    viewRect.origin.y = 0;
-    viewRect.size.height -= 1;
-    NSGradient *backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
-    [backgroundGradient drawInRect:viewRect angle:-90.0];
-}
-
-- (BOOL)isOpaque
-{
-    return NO;
-}
 
 @end
+

@@ -37,8 +37,12 @@
 + (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database;
 + (id)systemForArchiveShortName:(NSString *)shortName;
 + (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForURL:(NSURL *)url;
-+ (id)systemForURL:(NSURL *)url  inDatabase:(OELibraryDatabase *)database;
++ (id)systemForURL:(NSURL *)url DEPRECATED_ATTRIBUTE;
++ (id)systemForURL:(NSURL *)url  inDatabase:(OELibraryDatabase *)database DEPRECATED_ATTRIBUTE;
++ (NSArray*)systemsForFileWithURL:(NSURL *)url;
++ (NSArray*)systemsForFileWithURL:(NSURL *)url error:(NSError**)error;
++ (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database;
++ (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError**)error;
 
 #pragma mark -
 #pragma mark Core Data utilities

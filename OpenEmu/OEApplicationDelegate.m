@@ -89,7 +89,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark -
-
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
 }
@@ -110,9 +109,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
     [OECompositionPlugin allPluginNames];
-    
-    [mainWindowController setDeviceHandlers:[[self HIDManager] deviceHandlers]];
-    [mainWindowController setCoreList:[[OECoreUpdater sharedUpdater] coreList]];
     
     [mainWindowController showWindow:self];
 	
@@ -294,11 +290,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 #pragma mark -
 #pragma mark About Window
-
 - (void)showAboutWindow:(id)sender
-{
+{    
     [[self aboutWindow] center];
     [[self aboutWindow] makeKeyAndOrderFront:self];
+    
 }
 
 - (NSString *)aboutCreditsPath
@@ -313,7 +309,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 #pragma mark -
 #pragma mark Updating
-
 - (void)updateBundles:(id)sender
 {
     OECoreUpdater *updater = [OECoreUpdater sharedUpdater];
@@ -334,48 +329,21 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Cores" forKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
         [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
     }
-    /*
-     if([self coreUpdater] == nil) [self setCoreUpdater:[[[OECoreUpdater alloc] init] autorelease]];
-     
-     [[self coreUpdater] showWindow:self];
-     
-     //see if QC plugins are installed
-     NSBundle *OEQCPlugin = [NSBundle bundleWithPath:@"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin"];
-     //if so, get the bundle
-     if(OEQCPlugin != nil)
-     {
-     @try
-     {
-     DLog(@"%@", [[SUUpdater updaterForBundle:OEQCPlugin] feedURL]);
-     if([[SUUpdater updaterForBundle:OEQCPlugin] feedURL])
-     {
-     [[SUUpdater updaterForBundle:OEQCPlugin] resetUpdateCycle];
-     [[SUUpdater updaterForBundle:OEQCPlugin] checkForUpdates:self];
-     }
-     }
-     @catch (NSException *e)
-     {
-     NSLog(@"Tried to update QC bundle without Sparkle");
-     }
-     }
-     */
+
 }
 
 #pragma mark -
 #pragma mark App Info
-
 - (void)updateInfoPlist
 {
     // TODO: Think of a way to register for document types without manipulating the plist
     // as it's generally bad to modify the bundle's contents and we may not have write access
-    NSArray *systemPlugins = [OESystemPlugin allPlugins];
-    
-    NSMutableDictionary *allTypes = [NSMutableDictionary dictionaryWithCapacity:[systemPlugins count]];
+    NSArray             *systemPlugins   = [OESystemPlugin allPlugins];
+    NSMutableDictionary *allTypes        = [NSMutableDictionary dictionaryWithCapacity:[systemPlugins count]];
     
     for(OESystemPlugin *plugin in systemPlugins)
     {
         NSMutableDictionary *systemDocument = [NSMutableDictionary dictionary];
-        
         for(NSString *type in [plugin supportedTypeExtensions])
         {
             [systemDocument setObject:@"OEGameDocument"                 forKey:@"NSDocumentClass"];
@@ -388,13 +356,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [systemDocument setObject:typeName forKey:@"CFBundleTypeName"];
         [allTypes setObject:systemDocument forKey:typeName];
     }
-    
     NSString *error = nil;
     NSPropertyListFormat format;
     
     NSString *infoPlistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Info.plist"];
     NSData   *infoPlistXml  = [[NSFileManager defaultManager] contentsAtPath:infoPlistPath];
-    
     NSMutableDictionary *infoPlist = [NSPropertyListSerialization propertyListFromData:infoPlistXml
                                                                       mutabilityOption:NSPropertyListMutableContainers
                                                                                 format:&format
@@ -403,12 +369,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     {
         NSLog(@"%@", error);
     }
-    
+
     NSArray *existingTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
-    
     for(NSDictionary *type in existingTypes)
         [allTypes setObject:type forKey:[type objectForKey:@"CFBundleTypeName"]];
-    
     [infoPlist setObject:[allTypes allValues] forKey:@"CFBundleDocumentTypes"];
     
     NSData *updated = [NSPropertyListSerialization dataFromPropertyList:infoPlist
@@ -421,7 +385,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     {
         NSLog(@"Error: %@", error);
     }
-    
     NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
 

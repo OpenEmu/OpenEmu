@@ -65,9 +65,11 @@ while ((view = [view superview])) {                                             
 NSLog(@"View Hierarchy: %@", viewHierachy);                                                                       \
 }
 
-
 #pragma mark - Notification Names
 #define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"
+
+#define OESidebarSelectionDidChangeNotificationName                     @"OESidebarSelectionDidChange"
+#define OESidebarSelectionDidChangeSelectedItemUserInfoKey           @"SelectedItem"
 
 #define OEPreferencesOpenPaneNotificationName @"OEPrefOpenPane"
 #define OEPreferencesOpenPanelUserInfoPanelNameKey @"panelName"
@@ -93,7 +95,7 @@ NSLog(@"View Hierarchy: %@", viewHierachy);                                     
 
 #define UDOrganizeLibraryKey		@"organizeLibrary"			/*	Preferences -> Library -> Keep Games Organized										*/
 #define UDCopyToLibraryKey			@"copyToLibrary"			/*	Preferences -> Library -> Copy files to Game Library folder when adding to Library	*/
-#define UDAutmaticallyGetInfoKey	@"automaticallyGetInfo"		/*	Preferences -> Library -> Automatically lookup game information & artwork			*/
+#define UDAutomaticallyGetInfoKey	@"automaticallyGetInfo"		/*	Preferences -> Library -> Automatically lookup game information & artwork			*/
 
 #pragma mark - Preferences, Gameplay tab
 #define UDVolumeKey					@"volume"					/*	GamePlay window -> hud bar -> volume slider start value					*/

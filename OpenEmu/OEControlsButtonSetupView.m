@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEControlsSetupView.h"
+#import "OEControlsButtonSetupView.h"
 #import "OEGameCore.h"
 
 #import "OEControlsKeyButton.h"
@@ -44,13 +44,13 @@
 #endif
 
 @interface _OEControlsSetupViewParser : NSObject
-- (id)initWithTarget:(OEControlsSetupView *)aTarget;
+- (id)initWithTarget:(OEControlsButtonSetupView *)aTarget;
 - (void)parseControlList:(NSArray *)controlList;
 - (NSArray *)elementPages;
 - (NSDictionary *)keyToButtonMap;
 @end
 
-@interface OEControlsSetupView ()
+@interface OEControlsButtonSetupView ()
 {
 	NSArray      *elementPages;
     NSDictionary *keyToButtonMap;
@@ -63,7 +63,7 @@
 
 static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSetupViewFrameSizeContext;
 
-@implementation OEControlsSetupView
+@implementation OEControlsButtonSetupView
 @synthesize selectedKey, action, target;
 
 - (id)initWithFrame:(NSRect)frame
@@ -128,9 +128,10 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
         OEControlsKeyButton *previous = [keyToButtonMap objectForKey:selectedKey];
         
         selectedKey = [value copy];
-        
+
         [previous setState:NSOffState];
         [button   setState:NSOnState];
+        
     }
 }
 
@@ -357,7 +358,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 
 @interface _OEControlsSetupViewParser ()
 {
-    OEControlsSetupView *target;
+    OEControlsButtonSetupView *target;
     NSMutableArray      *elementPages;
     NSMutableDictionary *keyToButtonMap;
     
@@ -380,7 +381,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
     return nil;
 }
 
-- (id)initWithTarget:(OEControlsSetupView *)aTarget;
+- (id)initWithTarget:(OEControlsButtonSetupView *)aTarget;
 {
     if((self = [super init]))
     {

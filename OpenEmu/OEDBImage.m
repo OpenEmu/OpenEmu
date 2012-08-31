@@ -31,7 +31,6 @@
 @end
 #pragma mark -
 @implementation OEDBImage
-
 + (id)imageWithImage:(NSImage *)image inLibrary:(OELibraryDatabase *)library
 {
     NSManagedObjectContext  *context        = [library managedObjectContext];
@@ -46,6 +45,13 @@
     }
     
     [imageObject addVersion:thumbnailImage];
+    return imageObject;
+}
+
++ (id)imageWithImage:(NSImage *)image andSourceURL:(NSURL*)url inLibrary:(OELibraryDatabase *)library
+{
+    OEDBImage *imageObject = [OEDBImage imageWithImage:image inLibrary:library];
+    [imageObject setSourceURL:[url absoluteString]];
     return imageObject;
 }
 
