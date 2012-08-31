@@ -35,6 +35,7 @@
 
 #import "NSURL+OELibraryAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
+#import "NSArray+OEAdditions.h"
 
 #import "ArchiveVGThrottling.h"
 @interface OEROMImporter ()
@@ -49,7 +50,6 @@
 @property int activeImports;
 #pragma mark - Import Steps
 - (void)performImportStepCheckDirectory:(OEImportItem*)item;
-- (void)performImportStepCheckURL:(OEImportItem*)item;
 - (void)performImportStepHash:(OEImportItem*)item;
 - (void)performImportStepCheckHash:(OEImportItem*)item;
 - (void)performImportStepDetermineSystem:(OEImportItem*)item;
@@ -60,6 +60,7 @@
 
 - (void)scheduleItemForNextStep:(OEImportItem*)item;
 - (void)finishImportForItem:(OEImportItem*)item withError:(NSError*)error;
+- (void)cleanupImportForItem:(OEImportItem*)item;
 @end
 
 @implementation OEROMImporter
@@ -89,20 +90,17 @@
 {
     self.activeImports ++;
 
-    // TODO: manual search is probably faster for large queues
-    NSPredicate *filterPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+    // TODO: we might need a lock here if simultaneous imports are allowed
+    OEImportItem * nextItem = [[self queue] firstObjectMatchingBlock:^BOOL(id evaluatedObject) {
         return [evaluatedObject importState]==OEImportItemStatusIdle;
     }];
-
-    // TODO: we might need a lock here if simultaneous imports are allowed
-    NSArray *remainingItems = [[self queue] filteredArrayUsingPredicate:filterPredicate];
-    if([remainingItems count])
+    if(nextItem)
     {
-        OEImportItem *item = [remainingItems objectAtIndex:0];
-        [item setImportState:OEImportItemStatusActive];
+        [nextItem setImportState:OEImportItemStatusActive];
         dispatch_async(dispatchQueue, ^{
-            importBlock(self, item);
+            importBlock(self, nextItem);
         });
+
         [self startQueueIfNeeded];
     }
     else
@@ -117,7 +115,6 @@
 const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = ^(OEROMImporter *importer, OEImportItem* item){   
     switch ([item importStep]){
         case OEImportStepCheckDirectory: [importer performImportStepCheckDirectory:item]; break;
-        case OEImportStepCheckURL: [importer performImportStepCheckURL:item]; break;
         case OEImportStepHash: [importer performImportStepHash:item]; break;
         case OEImportStepCheckHash: [importer performImportStepCheckHash:item]; break;
         case OEImportStepDetermineSystem: [importer performImportStepDetermineSystem:item]; break;
@@ -152,7 +149,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
                     [importItems addObject:item];
             }];
             
-            NSUInteger index = [[self queue] indexOfObject:item];
+            NSUInteger index = [[self queue] indexOfObjectIdenticalTo:item];
             if(index == NSNotFound) // Should never happen
             {
                 NSError *error = [NSError errorWithDomain:OEImportErrorDomain code:0 userInfo:nil];
@@ -162,10 +159,34 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
             
             // TODO: add items after index, not at the end
             [[self queue] addObjectsFromArray:importItems];
-            [[self queue] removeObjectAtIndex:index];
+            [[self queue] removeObjectIdenticalTo:item];
+            [item setImportState:OEImportItemStatusFinished];
             [self processNextItem];
             self.activeImports --;
         }
+    }
+}
+
+- (void)performImportStepHash:(OEImportItem*)item
+{
+    NSURL           *url = [item url];
+    NSString        *md5, *crc;
+    NSError         *error = nil;
+    NSFileManager   *fileManager = [NSFileManager defaultManager];
+    
+    if(![fileManager hashFileAtURL:url md5:&md5 crc32:&crc error:&error])
+    {
+        DLog(@"unable to hash file, this is probably a fatal error");
+        DLog(@"%@", error);
+        
+        [self finishImportForItem:item withError:error];
+    }
+    else
+    {
+        [[item importInfo] setValue:md5 forKey:OEImportInfoMD5];
+        [[item importInfo] setValue:crc forKey:OEImportInfoCRC];
+        
+        // TODO: get file size
     }
 }
 
@@ -216,7 +237,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     {
         if([validSystems count]==0)
         {
-            DLog(@"No valid system found");
+            DLog(@"No valid system found for item at url %@", [item url]);
             // TODO: create unresolvable error
             [self finishImportForItem:item withError:error];
         }
@@ -244,14 +265,12 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     if(!lookupInfo)
         return;
 
-    // TODO: set user info
     NSString *md5 = [[item importInfo] valueForKey:OEImportInfoMD5];
     NSString *crc = [[item importInfo] valueForKey:OEImportInfoCRC];
     
     // TODO: set user info in error
     NSError *error = [NSError errorWithDomain:OEImportErrorDomain code:OEImportErrorCodeWaitingForArchiveSync userInfo:nil];
     [self finishImportForItem:item withError:error];
-
     [[ArchiveVGThrottling throttled] gameInfoByMD5:md5 andCRC:crc withCallback:^(NSDictionary *result, NSError *error) {
         if(error)
             [[item importInfo] setValue:error forKey:OEImportInfoArchiveSync];
@@ -391,8 +410,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     NSError *error = nil;
     OEDBGame *game = nil;
     OEDBRom  *rom  = [OEDBRom romWithURIURL:[importInfo valueForKey:OEImportInfoROMObjectID]];
-    NSAssert(rom!=nil, @"No rom");
-    NSAssert([rom game]==nil, @"rom has game");
+    if(!rom || [rom game]) return;
     
     id archiveResult = [importInfo valueForKey:OEImportInfoArchiveSync];
     if([archiveResult isKindOfClass:[NSError class]])
@@ -454,18 +472,31 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     if(error && [[error domain] isEqualTo:OEImportErrorDomain] && [error code]>=OEImportMinFatalErrorCode) [item setImportState:OEImportItemStatusFatalError];
     else if(error) [item setImportState:OEImportItemStatusResolvableError];
     else [item setImportState:OEImportItemStatusFinished];
-
+    
     [item setError:error];
     self.activeImports --;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self startQueueIfNeeded];
-    });
+
+    [self cleanupImportForItem:item];
+    [self startQueueIfNeeded];
     
     if([item completionHandler] && ([item importState] == OEImportItemStatusFinished || [item importState]==OEImportItemStatusFatalError))
         dispatch_async(dispatch_get_main_queue(), ^{
             [item completionHandler]();
         });
+}
+
+- (void)cleanupImportForItem:(OEImportItem*)item
+{
+    NSError *error = [item error];
+    if(error && [[error domain] isEqualTo:OEImportErrorDomain] && [error code]< OEImportMinFatalErrorCode) return;
+    
+    if([item importState] == OEImportItemStatusFinished)
+        [[self database] save:nil];
+    
+    [[item importInfo] removeObjectForKey:OEImportInfoArchiveSync];
+    [[item importInfo] removeObjectForKey:OEImportInfoCRC];
+    [[item importInfo] removeObjectForKey:OEImportInfoMD5];
+    [[item importInfo] removeObjectForKey:OEImportInfoSystemID];
 }
 #pragma mark - Importing Items with completion handler
 - (void)importItemAtPath:(NSString*)path withCompletionHandler:(OEImportItemCompletionBlock)handler
@@ -484,9 +515,11 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
 
 - (void)importItemAtURL:(NSURL*)url withCompletionHandler:(OEImportItemCompletionBlock)handler
 {
-    if(![[[self queue] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject url] isEqualTo:url];
-    }]] count])
+    id item = [[self queue] firstObjectMatchingBlock:^BOOL(id item) {
+        return [[item url] isEqualTo:url];
+    }];
+    
+    if(!item)
     {
         OEImportItem *item = [OEImportItem itemWithURL:url andCompletionHandler:handler];
         

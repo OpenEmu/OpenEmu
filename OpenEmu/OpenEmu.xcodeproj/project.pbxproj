@@ -396,6 +396,7 @@
 		83AF88C2155C616400428BD5 /* ArchiveVGJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AF88C1155C616400428BD5 /* ArchiveVGJSONParser.m */; };
 		83AF88C5155C618400428BD5 /* ArchiveVGYAMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AF88C4155C618300428BD5 /* ArchiveVGYAMLParser.m */; };
 		83B1E1C914FE734E00AA652F /* mixed_state.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B1E1C814FE734E00AA652F /* mixed_state.png */; };
+		83B65F5715F0DEA100C742D2 /* NSArray+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */; };
 		83B72F5115024B1E0052BCA0 /* OEAppStoreWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B72F5015024B1E0052BCA0 /* OEAppStoreWindow.m */; };
 		83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */; };
 		83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */; };
@@ -1369,6 +1370,8 @@
 		83AF88C3155C618300428BD5 /* ArchiveVGYAMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveVGYAMLParser.h; sourceTree = "<group>"; };
 		83AF88C4155C618300428BD5 /* ArchiveVGYAMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArchiveVGYAMLParser.m; sourceTree = "<group>"; };
 		83B1E1C814FE734E00AA652F /* mixed_state.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mixed_state.png; sourceTree = "<group>"; };
+		83B65F5515F0DEA100C742D2 /* NSArray+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEAdditions.h"; sourceTree = "<group>"; };
+		83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEAdditions.m"; sourceTree = "<group>"; };
 		83B6E43D143E090800BCDB7A /* OELocalizationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELocalizationHelper.h; sourceTree = "<group>"; };
 		83B6E43E143E090800BCDB7A /* OELocalizationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELocalizationHelper.m; sourceTree = "<group>"; };
 		83B72F4F15024B1E0052BCA0 /* OEAppStoreWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAppStoreWindow.h; sourceTree = "<group>"; };
@@ -2047,6 +2050,8 @@
 				83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */,
 				83DDEE81156CDEEB009EB43D /* NSView+FadeImage.h */,
 				83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */,
+				83B65F5515F0DEA100C742D2 /* NSArray+OEAdditions.h */,
+				83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */,
 			);
 			name = "Additions to standard classes";
 			sourceTree = "<group>";
@@ -4388,6 +4393,7 @@
 				8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */,
 				8337393815BFD87900D83D2F /* OELibraryToolbarView.m in Sources */,
 				8356AEF215DA703100AA6B44 /* OEImportItem.m in Sources */,
+				83B65F5715F0DEA100C742D2 /* NSArray+OEAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -234,7 +234,7 @@
     {
         ArchiveDLog(@"Error getting gameID");
         ArchiveDLog(@"Error: %@", *outError);
-		ArchiveDLog(@"1");
+		ArchiveDLog(@"node: %@", node);
         return nil;
     }
     
