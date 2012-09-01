@@ -1,0 +1,2 @@
+Shader source files go here. Completed versions of the shader files should be
+copied into Src/Graphics/Shaders3D.h and Src/Graphics/Shaders2D.h.
