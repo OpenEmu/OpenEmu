@@ -399,6 +399,11 @@
         [cell setImageSize:[object actualGridImageSizeforSize:[gridView itemSize]]];
         [cell setImage:[object gridImageWithSize:[gridView itemSize]]];
     }
+	else
+    {
+        [cell setImageSize:[gridView itemSize]];
+        [cell setImage:nil];
+    }
 
     return cell;
 }
