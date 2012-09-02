@@ -197,6 +197,12 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         [game setName:stringValue];
     }
     
+    stringValue = [gameInfoDictionary valueForKey:AVGGameTitleKey];
+    if(stringValue != nil)
+    {
+        [game setGameTitle:stringValue];
+    }
+    
     // Get + Set game developer
     stringValue = [gameInfoDictionary valueForKey:AVGGameDeveloperKey];
     if(stringValue != nil)
@@ -307,6 +313,9 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if([self name] == nil)
         [self setName:[game name]];
+    
+    if([self gameTitle] == nil)
+        [self setGameTitle:[game gameTitle]];
 	
     if([self gameDescription] == nil)
         [self setGameDescription:[game gameDescription]];
@@ -464,6 +473,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     [self setArchiveID:[archiveGameDict valueForKey:AVGGameIDKey]];
     [self setName:[archiveGameDict valueForKey:AVGGameRomNameKey]];
+    [self setGameTitle:[archiveGameDict valueForKey:AVGGameTitleKey]];
     [self setLastArchiveSync:[NSDate date]];
     [self setImportDate:[NSDate date]];
     
@@ -539,7 +549,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 }
 #pragma mark -
 #pragma mark Data Model Properties
-@dynamic name, rating, gameDescription, importDate, lastArchiveSync, archiveID, status;
+@dynamic name, gameTitle, rating, gameDescription, importDate, lastArchiveSync, archiveID, status;
 #pragma mark -
 #pragma mark Data Model Relationships
 @dynamic boxImage, system, roms, genres, collections, credits;

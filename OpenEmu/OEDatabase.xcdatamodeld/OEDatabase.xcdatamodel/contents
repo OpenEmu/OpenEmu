@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="1.0 Beta" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="1.0 Beta" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1487" systemVersion="12B19" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AbstractCollection" representedClassName="NSManagedObject" isAbstract="YES" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="folder" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="CollectionFolder" inverseName="subcollections" inverseEntity="CollectionFolder" indexed="YES" syncable="YES"/>
@@ -23,6 +23,7 @@
     <entity name="Game" representedClassName="OEDBGame" syncable="YES">
         <attribute name="archiveID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="gameDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="importDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="lastArchiveSync" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -85,7 +86,7 @@
         <element name="CollectionFolder" positionX="-702" positionY="-189" width="128" height="60"/>
         <element name="Contributor" positionX="313" positionY="-279" width="128" height="90"/>
         <element name="Credit" positionX="117" positionY="-297" width="128" height="90"/>
-        <element name="Game" positionX="-92" positionY="-216" width="128" height="240"/>
+        <element name="Game" positionX="-92" positionY="-216" width="128" height="255"/>
         <element name="Genre" positionX="-666" positionY="105" width="128" height="75"/>
         <element name="Image" positionX="-290" positionY="-288" width="128" height="90"/>
         <element name="ImageThumbnail" positionX="-479" positionY="-369" width="128" height="105"/>
