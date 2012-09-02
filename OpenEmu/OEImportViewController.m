@@ -116,7 +116,7 @@
     if([identifier isEqualToString:@"icon"])
         return nil;
     else if([identifier isEqualToString:@"path"])
-        return [[[[[self importer] queue] objectAtIndex:row] url] path];
+        return [[[[[self importer] queue] objectAtIndex:row] URL] path];
     else if([identifier isEqualToString:@"status"]) return nil;
     
     return nil;
