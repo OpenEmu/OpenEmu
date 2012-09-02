@@ -38,7 +38,6 @@
 NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 @interface OEDBGame ()
-+ (void)_cpyValForKey:(NSString *)keyA of:(NSDictionary *)dictionary toKey:(NSString *)keyB ofGame:(OEDBGame *)game;
 - (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel;
 @end
 
@@ -407,54 +406,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 }
 
 #pragma mark -
-
-/*
- - (id)initWithPasteboardPropertyList:(id)propertyList ofType:(NSString *)type{}
- + (NSArray *)readableTypesForPasteboard:(NSPasteboard *)pasteboard{}
- + (NSPasteboardReadingOptions)readingOptionsForType:(NSString *)type pasteboard:(NSPasteboard *)pasteboard{
- return 0;
- }
- */
-
-+ (id)gameWithArchiveDictionary:(NSDictionary *)gameInfo inDatabase:(OELibraryDatabase *)database
-{
-    // DLog(@"Deprecated: Use OEDGBGame +gameWithURL:createIfNecessary:error: and OEDGBGame -setArchiveVGInfo: instead");
-    
-    NSManagedObjectContext *context = [database managedObjectContext];
-    NSEntityDescription *description = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
-    
-    NSNumber *archiveID = [gameInfo valueForKey:AVGGameIDKey];
-    OEDBGame *resultGame = [database gameWithArchiveID:archiveID];
-    if(resultGame != nil)
-    {
-        // TODO: Merge gameInfo and game
-        return resultGame;
-    }
-    
-    if([[gameInfo valueForKey:AVGGameIDKey] intValue] == 0) return nil;
-    
-    // Create new game
-    
-    // TODO: Merge full info
-    resultGame = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-    
-    [resultGame setArchiveID:[gameInfo valueForKey:AVGGameIDKey]];
-    [resultGame setName:[gameInfo valueForKey:AVGGameRomNameKey]];
-    [resultGame setLastArchiveSync:[NSDate date]];
-    [resultGame setImportDate:[NSDate date]];
-    
-    NSString *boxURLString = [gameInfo valueForKey:AVGGameBoxURLKey];
-    if(boxURLString != nil)
-        [resultGame setBoxImageByURL:[NSURL URLWithString:boxURLString]];
-    
-    NSString *gameDescription = [gameInfo valueForKey:AVGGameDescriptionKey];
-    if(gameDescription != nil)
-        [resultGame setGameDescription:gameDescription];
-    
-    return resultGame;
-}
-
-#pragma mark -
 - (void)setBoxImageByImage:(NSImage*)img
 {
     @autoreleasepool 
@@ -506,10 +457,8 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 }
 
 #pragma mark -
-
 - (void)mergeWithGameInfo:(NSDictionary *)archiveGameDict
 {  
-    // DLog(@"Deprecated: Use OEDGBGame -mergeInfoFromGame: instead");
     
     if([[archiveGameDict valueForKey:AVGGameIDKey] intValue] == 0) return;
     
@@ -527,10 +476,8 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         [self setGameDescription:gameDescription];
 }
 
-
 #pragma mark -
 #pragma mark NSPasteboardWriting#
-
 // TODO: fix pasteboard writing
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard
 {
@@ -570,7 +517,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 #pragma mark -
 #pragma mark NSPasteboardReading
 // TODO: fix pasteboard reading
-
 - (id)initWithPasteboardPropertyList:(id)propertyList ofType:(NSString *)type
 {
     if(type == OEPasteboardTypeGame)
@@ -591,17 +537,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 {
     return NSPasteboardReadingAsString;
 }
-
-#pragma mark -
-#pragma mark Private
-+ (void)_cpyValForKey:(NSString *)keyA of:(NSDictionary *)dictionary toKey:(NSString *)keyB ofGame:(OEDBGame*)game
-{
-    // DLog(@"Deprecated: Will be removed soon");
-    
-    if([dictionary valueForKey:keyA] != nil)
-        [game setValue:[dictionary valueForKey:keyA] forKey:keyB];
-}
-
 #pragma mark -
 #pragma mark Data Model Properties
 @dynamic name, rating, gameDescription, importDate, lastArchiveSync, archiveID, status;

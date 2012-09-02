@@ -52,12 +52,12 @@ extern NSString *const OEPasteboardTypeGame;
 + (id)gameWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database;
 
 // returns the game with objID in the default database
-+ (id)gameWithURIURL:(NSURL *)objIDUrl DEPRECATED_ATTRIBUTE;
++ (id)gameWithURIURL:(NSURL *)objIDUrl;
 // returns the game with objID in the specified database
 + (id)gameWithURIURL:(NSURL *)objIDUrl inDatabase:(OELibraryDatabase *)database;
 
 // returns the game with objID in the default database
-+ (id)gameWithURIString:(NSString *)objIDString DEPRECATED_ATTRIBUTE;
++ (id)gameWithURIString:(NSString *)objIDString;
 // returns the game with objID in the specified database
 + (id)gameWithURIString:(NSString *)objIDString inDatabase:(OELibraryDatabase*)database;
 
@@ -68,12 +68,12 @@ extern NSString *const OEPasteboardTypeGame;
 + (id)gameWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
 // returns the game with the archive id archiveID
-+ (id)gameWithArchiveID:(id)archiveID error:(NSError **)outError DEPRECATED_ATTRIBUTE;
++ (id)gameWithArchiveID:(id)archiveID error:(NSError **)outError;
 + (id)gameWithArchiveID:(id)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
 // returns all games in specified databse
-+ (NSArray *)allGames DEPRECATED_ATTRIBUTE;
-+ (NSArray *)allGamesWithError:(NSError **)error DEPRECATED_ATTRIBUTE;
++ (NSArray *)allGames;
++ (NSArray *)allGamesWithError:(NSError **)error;
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database;
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database error:(NSError **)error;
 
@@ -94,10 +94,6 @@ extern NSString *const OEPasteboardTypeGame;
 @property(readonly) OEDBRom         *defaultROM;
 @property(readonly) NSDate          *lastPlayed;
 @property(readonly) OEDBSaveState   *autosaveForLastPlayedRom;
-#pragma mark -
-
-+ (id)gameWithArchiveDictionary:(NSDictionary *)gameInfo inDatabase:(OELibraryDatabase *)database;
-
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage *)img;
 - (void)setBoxImageByURL:(NSURL *)url;

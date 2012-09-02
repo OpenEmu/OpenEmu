@@ -30,7 +30,7 @@ typedef enum  {
 typedef void (^OEImportItemCompletionBlock)(void);
 
 @interface OEImportItem : NSObject <NSObject>
-@property (copy) NSURL    *url;
+@property (strong) NSURL    *URL;
 @property        OEImportItemState importState;
 @property        OEImportStep  importStep;
 @property        NSMutableDictionary *importInfo;

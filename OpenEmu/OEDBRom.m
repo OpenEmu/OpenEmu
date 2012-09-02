@@ -121,39 +121,7 @@
     NSManagedObjectContext *context = [database managedObjectContext];
     NSEntityDescription *description = [self entityDescriptionInContext:context];
     OEDBRom *rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-    
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL copyToDatabase = [standardUserDefaults boolForKey:UDCopyToLibraryKey];
-    
-    NSURL *newURL = nil;
-    if(copyToDatabase && ![url isSubpathOfURL:[database romsFolderURL]])
-    {
-                       newURL                       = [url copy];
-        NSURL         *databaseUnsortedFolderURL    = [database unsortedRomsFolderURL];
-        NSFileManager *defaultManager               = [NSFileManager defaultManager];
-        
-        NSString *fileName = [[newURL lastPathComponent] stringByDeletingPathExtension];
-        NSString *fileSuffix = [newURL pathExtension];
-        
-        newURL = [databaseUnsortedFolderURL URLByAppendingPathComponent:[newURL lastPathComponent] isDirectory:NO];
-        newURL = [newURL uniqueURLUsingBlock:
-                  ^ NSURL * (NSInteger triesCount)
-                  {
-                      NSString *newFileName = [NSString stringWithFormat:@"%@ %ld.%@", fileName, triesCount, fileSuffix];
-                      return [databaseUnsortedFolderURL URLByAppendingPathComponent:newFileName isDirectory:NO];
-                  }];
-
-        if(![defaultManager copyItemAtURL:url toURL:newURL error:outError])
-        {
-            [context deleteObject:rom];
-            if(outError!=NULL)
-                *outError = [NSError errorWithDomain:@"OEErrorDomain" code:1 userInfo:[NSDictionary dictionaryWithObject:@"Copying ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
-            
-            return nil;
-        }
-    }
-    
-    [rom setURL:newURL ? : url];
+    [rom setURL:url];
     
     if(md5 != nil) [rom setMd5:md5];
     if(crc != nil) [rom setCrc32:crc];
@@ -173,7 +141,7 @@
         }
     }
     [rom setFileSize:[url fileSize]];
-    
+
     return rom;
 }
 
