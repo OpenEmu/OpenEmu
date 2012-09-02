@@ -659,9 +659,10 @@
 		C64BB09B1364798E00C1AB23 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C64BB09E13647AEF00C1AB23 /* OENESSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C64BB09D13647AEF00C1AB23 /* OENESSystemController.m */; };
 		C64BB0A113647B3500C1AB23 /* OENESSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C64BB0A013647B3500C1AB23 /* OENESSystemResponder.m */; };
-		C64CBD4F1363DC5100BEE4F3 /* OEMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C64CBD551363E40B00BEE4F3 /* OESMSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6711826136369DE0034379A /* OESMSSystemResponder.m */; };
 		C6640E031363F04100ECCAA5 /* NSUserDefaultsController+OEEventAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D268D9135BD95A00154550 /* NSUserDefaultsController+OEEventAdditions.m */; };
+		C66F5A7515F3842C0019CF9E /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
+		C66F5A7615F3843C0019CF9E /* OEMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C67117EF136367240034379A /* OEHIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */; };
 		C67117F0136367240034379A /* OEHIDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B479F712BAB576008618A7 /* OEHIDManager.m */; };
 		C67117F1136367240034379A /* OEHIDEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C98B840F55B7A800116EA2 /* OEHIDEvent.m */; };
@@ -687,7 +688,7 @@
 		C6862574157268A500EFC972 /* NDS.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */; };
 		C6862575157268A500EFC972 /* Arcade.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
 		C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */; };
-		C69259FC15045B03003E6FD3 /* OEEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = C69259FA15045B03003E6FD3 /* OEEvent.h */; };
+		C69259FC15045B03003E6FD3 /* OEEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = C69259FA15045B03003E6FD3 /* OEEvent.h */; settings = {ATTRIBUTES = (); }; };
 		C69259FD15045B03003E6FD3 /* OEEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C69259FB15045B03003E6FD3 /* OEEvent.m */; };
 		C6953CA1117293760091276F /* OEGameView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6953CA0117293760091276F /* OEGameView.m */; };
 		C69DCCED0FE99415009AE5A6 /* OEFilterPluginIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */; };
@@ -711,7 +712,6 @@
 		C6D6FA7E14E2264C0083C75D /* NSViewController+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C6E542C31363D96F0075BA8C /* OEBasicSystemResponder.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E542C01363D2D90075BA8C /* OEBasicSystemResponder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6E542C41363D9760075BA8C /* OEBasicSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6E542C11363D2D90075BA8C /* OEBasicSystemResponder.m */; };
-		C6E542C51363D9BD0075BA8C /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
 		C6EB73FC136DF5C200B39A6F /* OEPluginController.h in Headers */ = {isa = PBXBuildFile; fileRef = C67B0D5E136352A300F18A5D /* OEPluginController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6EB73FF136DF60100B39A6F /* OpenEmuBase.h in Headers */ = {isa = PBXBuildFile; fileRef = C6EB73FD136DF5FC00B39A6F /* OpenEmuBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6FC4C920FD2C5C3007CCD32 /* OEGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C6FC4C900FD2C5C3007CCD32 /* OEGameCore.m */; };
@@ -3573,15 +3573,15 @@
 		93B479F512BAB52F008618A7 /* HID */ = {
 			isa = PBXGroup;
 			children = (
-				C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */,
-				C6C98B840F55B7A800116EA2 /* OEHIDEvent.m */,
 				C6C989C50F557D9200116EA2 /* OEHIDDeviceHandler.h */,
 				C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */,
+				93B479F612BAB576008618A7 /* OEHIDManager.h */,
+				93B479F712BAB576008618A7 /* OEHIDManager.m */,
+				C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */,
+				C6C98B840F55B7A800116EA2 /* OEHIDEvent.m */,
 				C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */,
 				C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */,
 				82DD2B8C1236D0C400B58A8F /* OEHIDUsageToVK.h */,
-				93B479F612BAB576008618A7 /* OEHIDManager.h */,
-				93B479F712BAB576008618A7 /* OEHIDManager.m */,
 			);
 			name = HID;
 			sourceTree = "<group>";
@@ -4088,7 +4088,6 @@
 			isa = PBXGroup;
 			children = (
 				83977F861409107C00175858 /* preferences controls */,
-				93B479F512BAB52F008618A7 /* HID */,
 				C6EB73FD136DF5FC00B39A6F /* OpenEmuBase.h */,
 				C67B0D5E136352A300F18A5D /* OEPluginController.h */,
 				C63E7C11136298F4001CC78B /* OESystemResponderClient.h */,
@@ -4102,8 +4101,6 @@
 				C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */,
 				C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */,
 				C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */,
-				82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */,
-				82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */,
 				82AFA6670FDDC03500531EE3 /* OERingBuffer.h */,
 				82AFA6680FDDC03500531EE3 /* OERingBuffer.m */,
 				82C9B3FA14F75CB700D7E795 /* TPCircularBuffer.c */,
@@ -4284,9 +4281,9 @@
 			files = (
 				C671182C13636A300034379A /* OpenEmuSystem.h in Headers */,
 				C67117FB136367240034379A /* OEHIDDeviceHandler.h in Headers */,
-				C64CBD4F1363DC5100BEE4F3 /* OEMap.h in Headers */,
 				C67117FC136367240034379A /* OEHIDManager.h in Headers */,
 				C67117FD136367240034379A /* OEHIDEvent.h in Headers */,
+				C66F5A7615F3843C0019CF9E /* OEMap.h in Headers */,
 				C67117FE136367240034379A /* OEHIDUsageToVK.h in Headers */,
 				C67117FF136367240034379A /* OESystemController.h in Headers */,
 				C6711800136367240034379A /* OESystemResponder.h in Headers */,
@@ -5756,10 +5753,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C66F5A7515F3842C0019CF9E /* OEMap.m in Sources */,
 				C67117EF136367240034379A /* OEHIDDeviceHandler.m in Sources */,
 				C67117F0136367240034379A /* OEHIDManager.m in Sources */,
 				C67117F1136367240034379A /* OEHIDEvent.m in Sources */,
-				C6E542C51363D9BD0075BA8C /* OEMap.m in Sources */,
 				C67117F2136367240034379A /* OESystemController.m in Sources */,
 				C67117F3136367240034379A /* OESystemResponder.m in Sources */,
 				C6E542C41363D9760075BA8C /* OEBasicSystemResponder.m in Sources */,

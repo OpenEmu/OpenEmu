@@ -30,7 +30,9 @@
 
 #import "OELibraryDatabase.h"
 #import "OEDBSystem.h"
+
 @implementation OESystemPlugin
+@synthesize responderClass, bundleIcon, gameSystemName, systemName, systemIcon, systemIdentifier;
 @dynamic controller;
 
 static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
@@ -55,32 +57,24 @@ static NSArray *cachedSupportedTypeExtensions = nil;
     
     OELibraryDatabase *db = [OELibraryDatabase defaultDatabase];
     
-    if(!db)
-    {
-        NSLog(@"system plugins not registered in database, because the db does not exist yet!");
-        
-    }
-    else
-    {
-        [OEDBSystem systemFromPlugin:plugin inDatabase:db];
-    }
+    if(db == nil) NSLog(@"system plugins not registered in database, because the db does not exist yet!");
+    else          [OEDBSystem systemFromPlugin:plugin inDatabase:db];
     
     // Invalidate supported type extenesions cache
     cachedSupportedTypeExtensions = nil;
 }
 
-@synthesize responderClass, bundleIcon, gameSystemName, systemName, systemIcon, systemIdentifier;
-+ (NSArray*)supportedTypeExtensions;
++ (NSArray *)supportedTypeExtensions;
 {
-    if(!cachedSupportedTypeExtensions)
+    if(cachedSupportedTypeExtensions == nil)
     {
         NSMutableSet *extensions = [NSMutableSet set];
-        for (OESystemPlugin *plugin in [OEPlugin pluginsForType:self])
-        {
+        for(OESystemPlugin *plugin in [OEPlugin pluginsForType:self])
             [extensions addObjectsFromArray:[plugin supportedTypeExtensions]];
-        }
+        
         cachedSupportedTypeExtensions = [extensions allObjects];
     }
+    
     return cachedSupportedTypeExtensions;
 }
 
@@ -103,9 +97,9 @@ static NSArray *cachedSupportedTypeExtensions = nil;
         
         [[self class] registerGameSystemPlugin:self forIdentifier:systemIdentifier];
     }
+    
     return self;
 }
-
 
 - (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
 {
@@ -114,18 +108,19 @@ static NSArray *cachedSupportedTypeExtensions = nil;
     return [super newPluginControllerWithClass:bundleClass];
 }
 
-- (NSString*)systemName{
-    return [(OESystemController*)[self controller] systemName];
+- (NSString *)systemName
+{
+    return [[self controller] systemName];
 }
 
-
-- (NSImage*)systemIcon{
-    return [(OESystemController*)[self controller] systemIcon];
+- (NSImage *)systemIcon
+{
+    return [[self controller] systemIcon];
 }
 
 - (NSArray *)supportedTypeExtensions;
 {
-    return [(OESystemController*)[self controller] fileTypes];
+    return [[self controller] fileTypes];
 }
 
 @end

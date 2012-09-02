@@ -33,21 +33,12 @@
 @class OEHIDEvent;
 
 @interface OEHIDDeviceHandler : NSObject
-{
-@private
-    IOHIDDeviceRef           device;
-    NSUInteger               deviceNumber;
-    CGFloat                  deadZone;
-    NSMapTable              *mapTable;
-	
-	//force feedback support
-	FFDeviceObjectReference  ffDevice;
-}
 
 @property(readonly) IOHIDDeviceRef device;
 @property(readonly) NSUInteger     deviceNumber;
 @property           CGFloat        deadZone;
 
+@property(readonly) NSString *serialNumber;
 @property(readonly) NSString *manufacturer;
 @property(readonly) NSString *product;
 @property(readonly) NSNumber *productID;

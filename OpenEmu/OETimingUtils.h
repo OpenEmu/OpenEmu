@@ -31,4 +31,4 @@ void OEWaitUntil(NSTimeInterval time);
 
 void OEPerfMonitorSignpost(NSString *name, NSTimeInterval maximumTime);
 void OEPerfMonitorObserve(NSString *name, NSTimeInterval maximumTime, void (^block)(void));
-int OESetThreadRealtime(NSTimeInterval period, NSTimeInterval computation, NSTimeInterval constraint);
+BOOL OESetThreadRealtime(NSTimeInterval period, NSTimeInterval computation, NSTimeInterval constraint);

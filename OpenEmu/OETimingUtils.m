@@ -35,9 +35,7 @@ static void init_mach_time(void)
     {
         struct mach_timebase_info base;
         mach_timebase_info(&base);
-        mach_to_sec = base.numer / (double)base.denom;
-        
-        mach_to_sec = 1e-9 * mach_to_sec;
+        mach_to_sec = 1e-9 * (base.numer / (double)base.denom);
     }
 }
 
@@ -163,10 +161,9 @@ void OEPerfMonitorObserve(NSString *name, NSTimeInterval maximumTime, void (^blo
 #include <mach/thread_act.h>
 #include <pthread.h>
 
-int OESetThreadRealtime(NSTimeInterval period, NSTimeInterval computation, NSTimeInterval constraint)
+BOOL OESetThreadRealtime(NSTimeInterval period, NSTimeInterval computation, NSTimeInterval constraint)
 {
     struct thread_time_constraint_policy ttcpolicy;
-    int ret;
     thread_port_t threadport = pthread_mach_thread_np(pthread_self());
     
     init_mach_time();
@@ -181,12 +178,13 @@ int OESetThreadRealtime(NSTimeInterval period, NSTimeInterval computation, NSTim
     ttcpolicy.constraint  = constraint / mach_to_sec;
     ttcpolicy.preemptible = 1;
     
-    if((ret = thread_policy_set(threadport,
-                                THREAD_TIME_CONSTRAINT_POLICY, (thread_policy_t)&ttcpolicy,
-                                THREAD_TIME_CONSTRAINT_POLICY_COUNT)) != KERN_SUCCESS) {
+    if(thread_policy_set(threadport,
+                         THREAD_TIME_CONSTRAINT_POLICY, (thread_policy_t)&ttcpolicy,
+                         THREAD_TIME_CONSTRAINT_POLICY_COUNT) != KERN_SUCCESS)
+    {
         NSLog(@"OESetThreadRealtime() failed.");
-        return 0;
+        return NO;
     }
     
-    return 1;
+    return YES;
 }

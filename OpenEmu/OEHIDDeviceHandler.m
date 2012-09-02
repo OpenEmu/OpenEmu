@@ -35,6 +35,12 @@
 
 
 @implementation OEHIDDeviceHandler
+{
+    NSMapTable *mapTable;
+	
+	//force feedback support
+	FFDeviceObjectReference  ffDevice;
+}
 
 @synthesize device, deviceNumber, deadZone;
 
@@ -98,6 +104,11 @@ static NSUInteger lastDeviceNumber = 0;
 - (NSUInteger)hash
 {
     return [(__bridge id)device hash];
+}
+
+- (NSString *)serialNumber
+{
+    return (__bridge NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDSerialNumberKey));
 }
 
 - (NSString *)manufacturer
