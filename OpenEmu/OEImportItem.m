@@ -24,7 +24,7 @@
     {
         item = [[OEImportItem alloc] init];
         
-        [item setUrl:url];
+        [item setURL:url];
         [item setCompletionHandler:handler];
         [item setImportState:OEImportItemStatusIdle];
         [item setImportInfo:[NSMutableDictionary dictionaryWithCapacity:5]];

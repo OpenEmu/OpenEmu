@@ -1165,6 +1165,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     fieldFrame        = NSOffsetRect(NSInsetRect(fieldFrame, 0.0, -1.0), 0.0, -1.0);
     [_fieldEditor setFrame:fieldFrame];
 
+    [textLayer setHidden:YES];
+
     NSString *title = [textLayer string];
     [_fieldEditor setString:title];
     [_fieldEditor setDelegate:cell];

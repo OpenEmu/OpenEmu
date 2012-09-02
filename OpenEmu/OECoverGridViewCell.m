@@ -30,6 +30,7 @@
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSColor+OEAdditions.h"
 #import <QuickLook/QuickLook.h>
+#import <objc/runtime.h>
 
 static const CGFloat OECoverGridViewCellTitleHeight                      = 16.0;        // Height of the title view
 static const CGFloat OECoverGridViewCellImageTitleSpacing                = 17.0;        // Space between the image and the title
@@ -94,7 +95,11 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
         [self addSublayer:_titleLayer];
 
         // For some reason CATextLayer doesn't respect [CATransaction disableActions], so lets explicitly set the implicit animation to nil
-        [_titleLayer setActions:[NSDictionary dictionaryWithObject:[NSNull null] forKey:@"contents"]];
+        NSDictionary *titleLayerActions = @{
+            @"contents" : [NSNull null],
+            @"hidden"   : [NSNull null],
+        };
+        [_titleLayer setActions:titleLayerActions];
 
         _ratingLayer = [[OECoverGridViewCellRatingLayer alloc] init];
         [self addSublayer:_ratingLayer];
@@ -735,8 +740,22 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     if([self isEditing]) [self setTitle:[fieldEditor string]];
 
     [fieldEditor setHidden:YES];
+    [_titleLayer setHidden:NO];
+    
     [fieldEditor setDelegate:nil];
     [self setEditing:NO];
+}
+
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector {
+    if (sel_isEqual(commandSelector, @selector(cancelOperation:)) && [[control superview] isKindOfClass:[OEGridViewFieldEditor class]])
+    {
+        OEGridViewFieldEditor *fieldEditor = (OEGridViewFieldEditor *)[control superview];
+        [fieldEditor setString:[self title]];   // revert the title
+        [[self window] makeFirstResponder:nil]; // force end editing
+        return YES;
+    }
+
+    return NO;
 }
 
 #pragma mark - Properties
