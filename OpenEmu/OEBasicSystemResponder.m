@@ -412,4 +412,5 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 {
     [self mouseUpAtPoint];
 }
+
 @end

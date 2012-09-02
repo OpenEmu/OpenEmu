@@ -29,8 +29,6 @@
 #import "OEHIDDeviceHandler.h"
 #import <IOKit/hid/IOHIDUsageTables.h>
 #import <Carbon/Carbon.h>
-
-
 #import "OEHIDUsageToVK.h"
 
 NSString *NSStringFromOEHIDHatDirection(OEHIDHatDirection dir)
