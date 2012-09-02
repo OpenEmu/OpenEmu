@@ -1232,7 +1232,7 @@
 		829779320E743F2A00631240 /* OEGameAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameAudio.h; sourceTree = "<group>"; };
 		829779330E743F2A00631240 /* OEGameAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameAudio.m; sourceTree = "<group>"; };
 		82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEMap.h; path = /Users/remydemarest/Informatique/Projects/OpenEmu/OpenEmu/OEMap.h; sourceTree = "<absolute>"; };
-		82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEMap.m; path = /Users/remydemarest/Informatique/Projects/OpenEmu/OpenEmu/OEMap.m; sourceTree = "<absolute>"; };
+		82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMap.m; sourceTree = "<group>"; };
 		82AFA6670FDDC03500531EE3 /* OERingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERingBuffer.h; sourceTree = "<group>"; };
 		82AFA6680FDDC03500531EE3 /* OERingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERingBuffer.m; sourceTree = "<group>"; };
 		82C42C8410CAFB480046D1A3 /* download_arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download_arrow_down.png; sourceTree = "<group>"; };
