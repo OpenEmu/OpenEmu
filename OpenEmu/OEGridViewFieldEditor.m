@@ -41,6 +41,8 @@
     if((self = [super initWithFrame:frame]))
     {
         textView = [[NSTextField alloc] initWithFrame:NSMakeRect(10, 10, 80, 80)];
+        [[textView cell] setUsesSingleLineMode:YES];
+        [[textView cell] setScrollable:YES];
         [textView setBezeled:NO];
         [textView setAllowsEditingTextAttributes:NO];
         [self addSubview:textView];
