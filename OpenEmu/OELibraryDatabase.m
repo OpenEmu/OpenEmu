@@ -386,7 +386,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSEntityDescription *descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:descr];
-    [req setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    [req setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"shortname" ascending:YES]]];
     
     NSError *error = nil;
     
@@ -403,7 +403,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSEntityDescription *descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:descr];
-    [req setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    [req setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"shortname" ascending:YES]]];
     [req setPredicate:[NSPredicate predicateWithFormat:@"enabled = YES"]];
     NSError *error = nil;
     
