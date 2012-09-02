@@ -300,7 +300,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     BOOL lookupInfo      = [standardUserDefaults boolForKey:UDAutomaticallyGetInfoKey];
     
     NSURL *url = [item URL];
-    
     if(copyToLibrary && ![url isSubpathOfURL:[[self database] romsFolderURL]])
     {
         NSString *fullName  = [url lastPathComponent];
@@ -313,6 +312,17 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
             NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
             return [unsortedFolder URLByAppendingPathComponent:newName];
         }];
+        
+        NSError *error = nil;
+        if(![[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error])
+        {
+            // TODO: set user info in error
+            [self finishImportForItem:item withError:error];
+            return;
+        }
+        
+        url = [romURL copy];
+        [item setURL:url];
     }
     
     NSMutableDictionary *importInfo = [item importInfo];
@@ -322,16 +332,19 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
         if([importInfo valueForKey:OEImportInfoROMObjectID])
         {
             DLog(@"using rom object");
-
+            NSURL *objectID = [importInfo valueForKey:OEImportInfoROMObjectID];
+            system = [[OEDBRom romWithURIURL:objectID inDatabase:[self database]] system];
         }
         else if([importInfo valueForKey:OEImportInfoSystemID] && [[importInfo valueForKey:OEImportInfoSystemID] count]==1)
         {
             DLog(@"using system");
+            NSString *systemIdentifier = [[importInfo valueForKey:OEImportInfoSystemID] lastObject];
+            system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[self database]];
 
         }
         else if([importInfo valueForKey:OEImportInfoArchiveSync])
         {
-            DLog(@"using archive info");
+            DLog(@"using archive info – Not Implemented Yet");
         }
         else if(lookupInfo && ![importInfo valueForKey:OEImportInfoArchiveSync])
         {
@@ -364,7 +377,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
                 [self finishImportForItem:item withError:error];
             }
             else
-                [item setURL:url];
+                [item setURL:romURL];
             }
         else
         {
