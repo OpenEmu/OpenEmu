@@ -30,9 +30,19 @@
 #import "OEArcadeSystemResponderClient.h"
 #import <OpenGL/gl.h>
 
+#include <new>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <cstdarg>
+#include "Pkgs/glew.h"
+
+#include "Supermodel.h"
+
 @interface SupermodelGameCore () <OEArcadeSystemResponderClient>
 @end
 
+//Model3 = new CModel3();
 SupermodelGameCore *current;
 @implementation SupermodelGameCore
 
@@ -43,7 +53,7 @@ SupermodelGameCore *current;
     {
         if(videoBuffer) 
             free(videoBuffer);
-        videoBuffer = (uint16_t*)malloc(1024 * 1024 * 2);
+        videoBuffer = (uint16_t*)malloc(496 * 384 * 2);
     }
 	
 	current = self;
@@ -70,6 +80,25 @@ SupermodelGameCore *current;
 
 - (BOOL)loadFileAtPath: (NSString*) path
 {
+    const char *zipPath = [path UTF8String];
+    
+    CModel3			*Model3 = new CModel3();
+    
+	char			baseTitleStr[128], titleStr[128];
+	CRender2D		*Render2D = new CRender2D();
+	CRender3D		*Render3D = new CRender3D();
+	unsigned		prevFPSTicks, currentFPSTicks, currentTicks, targetTicks, startTicks;
+	unsigned		fpsFramesElapsed, framesElapsed;
+	unsigned		showCrosshairs = 0;	// bit 1: player 1 crosshair, bit 0: player 2
+	bool			gameHasLightguns = false;
+	bool			quit = 0;
+	bool            paused = 0;
+    
+    // Initialize and load ROMs
+    Model3->Init();
+    
+	Model3->LoadROMSet(g_Model3GameList, zipPath);
+    
     return YES;
 }
 
@@ -81,12 +110,12 @@ SupermodelGameCore *current;
 
 - (OEIntRect)screenRect
 {
-    return OERectMake(0, 0, 1000, 1000);
+    return OERectMake(0, 0, 496, 384);
 }
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(1000, 1000);
+    return OESizeMake(496, 384);
 }
 
 - (void)setupEmulation
@@ -95,6 +124,8 @@ SupermodelGameCore *current;
 
 - (void)resetEmulation
 {
+    // Reset emulator
+	//Model3->Reset();
 }
 
 - (void)stopEmulation
@@ -148,12 +179,16 @@ SupermodelGameCore *current;
 }
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
-{   
+{
+    // Save game state
+    //SaveState(Model3);
     return YES;
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
+    // Load game state
+    //LoadState(Model3);
     return YES;
 }
 
