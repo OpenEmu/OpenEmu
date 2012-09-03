@@ -19,6 +19,6 @@
 - (IBAction)cancel:(id)sender;
 
 @property (strong) IBOutlet NSProgressIndicator *progressIndicator;
-@property (strong) IBOutlet NSTextField             *statusField;
-@property (strong) IBOutlet NSTableView            *tableView;
+@property (strong) IBOutlet NSTextField         *statusField;
+@property (strong) IBOutlet NSTableView         *tableView;
 @end

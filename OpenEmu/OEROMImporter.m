@@ -47,7 +47,7 @@
 - (void)startQueueIfNeeded;
 @property BOOL isBusy;
 @property(readwrite, retain) NSMutableArray *spotlightSearchResults;
-@property int activeImports;
+@property int activeImports, multipleBlocksOnQueue;
 #pragma mark - Import Steps
 - (void)performImportStepCheckDirectory:(OEImportItem*)item;
 - (void)performImportStepHash:(OEImportItem*)item;
@@ -74,9 +74,12 @@
         [self setQueue:[NSMutableArray array]];
         [self setSpotlightSearchResults:[NSMutableArray arrayWithCapacity:1]];
         
+        self.multipleBlocksOnQueue = NO;
         dispatchQueue = dispatch_queue_create("org.openemu.importqueue", DISPATCH_QUEUE_SERIAL);
         dispatch_queue_t priority = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
         dispatch_set_target_queue(dispatchQueue, priority);
+        
+        [self setIsBusy:YES];
     }
     return self;
 }
@@ -91,6 +94,7 @@
     self.activeImports ++;
 
     // TODO: we might need a lock here if simultaneous imports are allowed
+    
     OEImportItem * nextItem = [[self queue] firstObjectMatchingBlock:^BOOL(id evaluatedObject) {
         return [evaluatedObject importState]==OEImportItemStatusIdle;
     }];
@@ -99,6 +103,8 @@
         [nextItem setImportState:OEImportItemStatusActive];
         dispatch_async(dispatchQueue, ^{
             importBlock(self, nextItem);
+            if([[self delegate] respondsToSelector:@selector(romImporter:startedProcessingItem:)])
+                [[self delegate] romImporter:self startedProcessingItem:nextItem];
         });
 
         [self startQueueIfNeeded];
@@ -112,7 +118,10 @@
     dispatch_release(dispatchQueue);
 }
 
-const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = ^(OEROMImporter *importer, OEImportItem* item){   
+const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = ^(OEROMImporter *importer, OEImportItem* item){
+    if([[importer delegate] respondsToSelector:@selector(romImporter:changedProcessingPhaseOfItem:)])
+        [[importer delegate] romImporter:importer changedProcessingPhaseOfItem:item];
+    
     switch ([item importStep]){
         case OEImportStepCheckDirectory: [importer performImportStepCheckDirectory:item]; break;
         case OEImportStepHash: [importer performImportStepHash:item]; break;
@@ -127,6 +136,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     
     if([item importState]==OEImportItemStatusActive)
         [importer scheduleItemForNextStep:item];
+    [importer setMultipleBlocksOnQueue:YES];
 };
 #pragma mark - Import Steps
 - (void)performImportStepCheckDirectory:(OEImportItem*)item
@@ -152,7 +162,8 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
             NSUInteger index = [[self queue] indexOfObjectIdenticalTo:item];
             if(index == NSNotFound) // Should never happen
             {
-                NSError *error = [NSError errorWithDomain:OEImportErrorDomain code:0 userInfo:nil];
+                // TODO: set proper error code
+                NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:0 userInfo:nil];
                 [self finishImportForItem:item withError:error];
                 return;
             }
@@ -185,8 +196,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     {
         [[item importInfo] setValue:md5 forKey:OEImportInfoMD5];
         [[item importInfo] setValue:crc forKey:OEImportInfoCRC];
-        
-        // TODO: get file size
     }
 }
 
@@ -213,9 +222,9 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
         }
         else
         {
-            DLog(@"rom in db, skipping file");
-            // TODO: create an 'error' saying that the file was skipped
-            [self finishImportForItem:item withError:nil];
+            // TODO: set user info for error
+            NSError *error = [NSError errorWithDomain:OEImportErrorDomainSuccess code:OEImportErrorCodeAlreadyInDatabase userInfo:nil];
+            [self finishImportForItem:item withError:error];
         }
     }
 }
@@ -268,8 +277,9 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     NSString *md5 = [[item importInfo] valueForKey:OEImportInfoMD5];
     NSString *crc = [[item importInfo] valueForKey:OEImportInfoCRC];
     
-    // TODO: set user info in error
-    NSError *error = [NSError errorWithDomain:OEImportErrorDomain code:OEImportErrorCodeWaitingForArchiveSync userInfo:nil];
+    // TODO: localize user info in error
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Waiting for Archive.VG sync" forKey:NSLocalizedDescriptionKey];
+    NSError *error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeWaitingForArchiveSync userInfo:userInfo];
     [self finishImportForItem:item withError:error];
     [[ArchiveVGThrottling throttled] gameInfoByMD5:md5 andCRC:crc withCallback:^(NSDictionary *result, NSError *error) {
         if(error)
@@ -303,7 +313,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     if(copyToLibrary && ![url isSubpathOfURL:[[self database] romsFolderURL]])
     {
         NSString *fullName  = [url lastPathComponent];
-        NSString *extension    = [fullName pathExtension];
+        NSString *extension = [fullName pathExtension];
         NSString *baseName  = [fullName stringByDeletingPathExtension];
         
         NSURL *unsortedFolder = [[self database] unsortedRomsFolderURL];
@@ -316,7 +326,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
         NSError *error = nil;
         if(![[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error])
         {
-            // TODO: set user info in error
             [self finishImportForItem:item withError:error];
             return;
         }
@@ -350,8 +359,9 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
         {
             DLog(@"waiting for archive info");
 
-            // TODO: set user info in error
-            NSError *error = [NSError errorWithDomain:OEImportErrorDomain code:OEImportErrorCodeWaitingForArchiveSync userInfo:nil];
+            // TODO: localize user info in error
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Waiting for Archive.VG sync" forKey:NSLocalizedDescriptionKey];
+            NSError *error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeWaitingForArchiveSync userInfo:userInfo];
             [self finishImportForItem:item withError:error];
             return;
         }
@@ -382,8 +392,9 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
         else
         {
             DLog(@"no system");
-            // TODO: set user info in error
-            NSError *error = [NSError errorWithDomain:OEImportErrorDomain code:OEImportErrorCodeMultipleSystems userInfo:nil];
+            // TODO: localize user info in error
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Could not find a valid system" forKey:NSLocalizedDescriptionKey];
+            NSError *error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:userInfo];
             [self finishImportForItem:item withError:error];
         }
     }
@@ -440,8 +451,9 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     {
         if([[importInfo valueForKey:OEImportInfoSystemID] count]>1)
         {
-            // TODO: set user info in error
-            error = [NSError errorWithDomain:OEImportErrorDomain code:OEImportErrorCodeMultipleSystems userInfo:nil];
+            // TODO: localize user info in error
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Aaargh, too many systems. You need to chose one!" forKey:NSLocalizedDescriptionKey];
+            error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:userInfo];
             [self finishImportForItem:item withError:error];            
         }
         else
@@ -451,7 +463,8 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
             if(!system)
             {
                 //TODO: create proper error
-                error = [NSError errorWithDomain:OEImportErrorDomain code:51 userInfo:nil];
+                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"No system again!" forKey:NSLocalizedDescriptionKey];
+                error = [NSError errorWithDomain:OEImportErrorDomainFatal code:51 userInfo:nil];
                  [self finishImportForItem:item withError:error];
             }
             else
@@ -479,20 +492,23 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     item.importStep ++;
     dispatch_async(dispatchQueue, ^{
         importBlock(self, item);
-
     });
 }
 
 - (void)finishImportForItem:(OEImportItem*)item withError:(NSError*)error
 {
-    if(error && [[error domain] isEqualTo:OEImportErrorDomain] && [error code]>=OEImportMinFatalErrorCode) [item setImportState:OEImportItemStatusFatalError];
-    else if(error) [item setImportState:OEImportItemStatusResolvableError];
-    else [item setImportState:OEImportItemStatusFinished];
+    if([[error domain] isEqualTo:OEImportErrorDomainResolvable]) [item setImportState:OEImportItemStatusResolvableError];
+    else if(!error || [[error domain] isEqualTo:OEImportErrorDomainSuccess]) [item setImportState:OEImportItemStatusFinished];
+    else
+        [item setImportState:OEImportItemStatusFatalError];
     
     [item setError:error];
     self.activeImports --;
 
     [self cleanupImportForItem:item];
+    if([[self delegate] respondsToSelector:@selector(romImporter:finishedProcessingItem:)])
+        [[self delegate] romImporter:self finishedProcessingItem:item];
+
     [self startQueueIfNeeded];
     
     if([item completionHandler] && ([item importState] == OEImportItemStatusFinished || [item importState]==OEImportItemStatusFatalError))
@@ -504,7 +520,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
 - (void)cleanupImportForItem:(OEImportItem*)item
 {
     NSError *error = [item error];
-    if(error && [[error domain] isEqualTo:OEImportErrorDomain] && [error code]< OEImportMinFatalErrorCode) return;
+    if(error && [[error domain] isEqualTo:OEImportErrorDomainResolvable]) return;
     
     if([item importState] == OEImportItemStatusFinished)
         [[self database] save:nil];
@@ -731,11 +747,12 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
 
 - (void)removeFinished
 {
-    DLog(@"");
-    [[self queue] filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OEImportItem *evaluatedObject, NSDictionary *bindings)
-    {
-        return [evaluatedObject importState] != OEImportItemStatusFinished && [evaluatedObject importState] != OEImportItemStatusFatalError;
-    }]];
+    dispatch_async(dispatchQueue, ^{
+        [[self queue] filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OEImportItem *evaluatedObject, NSDictionary *bindings)
+                                            {
+                                                return [evaluatedObject importState] != OEImportItemStatusFinished && [evaluatedObject importState] != OEImportItemStatusFatalError;
+                                            }]];
+    });
 }
 
 - (NSUInteger)numberOfItems
