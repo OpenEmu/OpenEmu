@@ -25,6 +25,8 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "Pkgs/glew.h"
+
 #import "SupermodelGameCore.h"
 #import <OERingBuffer.h>
 #import "OEArcadeSystemResponderClient.h"
@@ -35,7 +37,6 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdarg>
-#include "Pkgs/glew.h"
 
 #include "Supermodel.h"
 
