@@ -32,7 +32,12 @@
 
 - (void)postHIDEvent:(OEHIDEvent *)anEvent
 {
-    [[[self keyWindow] firstResponder] handleHIDEvent:anEvent];
+    static NSWindow* lastKey = nil;
+    if ([self keyWindow])
+    {
+        lastKey = [self keyWindow];
+    }
+    [[lastKey firstResponder] handleHIDEvent:anEvent];
 }
 
 @end
