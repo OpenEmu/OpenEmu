@@ -24,6 +24,8 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/*** SDLStubs.m is being compiled as Obj-C++ source ***/
+
 #include "SDL.h"
 #include "SDL_thread.h"
 #include <pthread.h>
@@ -52,7 +54,10 @@ SDL_Thread *SDL_CreateThread(int (*fn)(void *), void *data)
 
 SDL_cond *SDL_CreateCond(void)
 {
-    //TODO
+    pthread_cond_t *cond = new pthread_cond_t;
+    pthread_cond_init(cond, NULL);
+    
+    return (SDL_cond*)cond;
 }
 
 SDL_sem *SDL_CreateSemaphore(Uint32 initial_value)
@@ -75,32 +80,113 @@ int SDL_UnlockMutex(SDL_mutex *m)
 
 Uint32 SDL_SemValue(SDL_sem *sem)
 {
-    //TODO
+    int ret = 0;
+    
+    if ( sem ) {
+        //sem_getvalue(&sem->sem, &ret);
+        sem_getvalue((sem_t *)sem, &ret);
+        if ( ret < 0 ) {
+            ret = 0;
+        }
+    }
+    return (Uint32)ret;
 }
 
 int SDL_SemWait(SDL_sem *sem)
 {
-    //TODO
+    int retval;
+    
+    if ( ! sem ) {
+        //SDL_SetError("Passed a NULL semaphore");
+        return -1;
+    }
+    
+    //while ( ((retval = sem_wait(&sem->sem)) == -1) && (errno == EINTR) ) {}
+    while ( (retval = sem_wait((sem_t *)sem)) == -1 ) {}
+    
+    if ( retval < 0 ) {
+        //SDL_SetError("sem_wait() failed");
+    }
+    return retval;
 }
 
 int SDL_SemPost(SDL_sem *sem)
 {
-    //TODO
+    int retval;
+    
+    if ( ! sem ) {
+        //SDL_SetError("Passed a NULL semaphore");
+        return -1;
+    }
+    
+    //retval = sem_post(&sem->sem)
+    retval = sem_post((sem_t *)sem);
+    
+    if ( retval < 0 ) {
+        //SDL_SetError("sem_post() failed");
+    }
+    
+    return retval;
 }
 
 int SDL_CondWait(SDL_cond *cond, SDL_mutex *m)
 {
-    //TODO
+    int retval;
+    
+    if ( ! cond ) {
+        //SDL_SetError("Passed a NULL condition variable");
+        return -1;
+    }
+    
+    retval = 0;
+    
+    //if ( pthread_cond_wait(&cond->cond, &mutex->id) != 0 ) {
+    if ( pthread_cond_wait((pthread_cond_t *)cond, (pthread_mutex_t *)m) != 0 ) {
+        //SDL_SetError("pthread_cond_wait() failed");
+        retval = -1;
+    }
+    
+    return retval;
 }
 
 int SDL_CondSignal(SDL_cond *cond)
 {
-    //TODO
+    int retval;
+    
+    if ( ! cond ) {
+        //SDL_SetError("Passed a NULL condition variable");
+        return -1;
+    }
+    
+    retval = 0;
+    
+    //if ( pthread_cond_signal(&cond->cond) != 0 ) {
+    if ( pthread_cond_signal((pthread_cond_t *)cond) != 0 ) {
+        //SDL_SetError("pthread_cond_signal() failed");
+        retval = -1;
+    }
+    
+    return retval;
 }
 
 int SDL_CondBroadcast(SDL_cond *cond)
 {
-    //TODO
+    int retval;
+    
+    if ( ! cond ) {
+        //SDL_SetError("Passed a NULL condition variable");
+        return -1;
+    }
+    
+    retval = 0;
+    
+    //if ( pthread_cond_broadcast(&cond->cond) != 0 ) {
+    if ( pthread_cond_broadcast((pthread_cond_t *)cond) != 0 ) {
+        //SDL_SetError("pthread_cond_broadcast() failed");
+        retval = -1;
+    }
+    
+    return retval;
 }
 
 int SDL_mutexP(SDL_mutex *m)
@@ -192,4 +278,5 @@ void SDL_GL_SwapBuffers(void)
 
 char *SDL_GetError(void)
 {
+    return 0;
 }
