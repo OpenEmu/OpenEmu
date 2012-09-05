@@ -191,12 +191,42 @@ int SDL_CondBroadcast(SDL_cond *cond)
 
 int SDL_mutexP(SDL_mutex *m)
 {
-    //TODO
+    int retval;
+    
+    if ( m == NULL ) {
+        //SDL_SetError("Passed a NULL mutex");
+        return -1;
+    }
+    
+    retval = 0;
+    
+    //if ( pthread_mutex_lock(&mutex->id) < 0 ) {
+    if ( pthread_mutex_lock((pthread_mutex_t *)m) < 0 ) {
+        //SDL_SetError("pthread_mutex_lock() failed");
+        retval = -1;
+    }
+    
+    return retval;
 }
 
 int SDL_mutexV(SDL_mutex *m)
 {
-    //TODO
+    int retval;
+    
+    if ( m == NULL ) {
+        //SDL_SetError("Passed a NULL mutex");
+        return -1;
+    }
+    
+    retval = 0;
+    
+    //if ( pthread_mutex_unlock(&mutex->id) < 0 ) {
+    if ( pthread_mutex_unlock((pthread_mutex_t *)m) < 0 ) {
+        //SDL_SetError("pthread_mutex_unlock() failed");
+        retval = -1;
+    }
+    
+    return retval;
 }
 
 void SDL_DestroyMutex(SDL_mutex *m)
