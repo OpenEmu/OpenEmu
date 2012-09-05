@@ -44,4 +44,6 @@ void SDL_Delay(Uint32 ms);
 void SDL_PumpEvents(void);
 
 void SDL_GL_SwapBuffers(void);
+
+char *SDL_GetError(void);
 #endif

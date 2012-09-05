@@ -29,10 +29,12 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 SDL_mutex *SDL_CreateMutex(void)
 {
-    pthread_mutex_t *m = malloc(sizeof(pthread_mutex_t));
+    //pthread_mutex_t *m = malloc(sizeof(pthread_mutex_t));
+    pthread_mutex_t *m = new pthread_mutex_t;
     pthread_mutex_init(m, NULL);
     
     return (SDL_mutex*)m;
@@ -40,7 +42,8 @@ SDL_mutex *SDL_CreateMutex(void)
 
 SDL_Thread *SDL_CreateThread(int (*fn)(void *), void *data)
 {
-    pthread_t *thread = malloc(sizeof(pthread_t));
+    //pthread_t *thread = malloc(sizeof(pthread_t));
+    pthread_t *thread = new pthread_t;
     
     pthread_create(thread, NULL, (void* (*)(void *))fn, data);
     
@@ -49,12 +52,12 @@ SDL_Thread *SDL_CreateThread(int (*fn)(void *), void *data)
 
 SDL_cond *SDL_CreateCond(void)
 {
-    
+    //TODO
 }
 
 SDL_sem *SDL_CreateSemaphore(Uint32 initial_value)
 {
-    
+    //TODO
 }
 
 int SDL_LockMutex(SDL_mutex *m)
@@ -67,21 +70,90 @@ int SDL_UnlockMutex(SDL_mutex *m)
     return pthread_mutex_unlock((pthread_mutex_t*)m);
 }
 
+Uint32 SDL_SemValue(SDL_sem *sem)
+{
+    //TODO
+}
+
+int SDL_SemWait(SDL_sem *sem)
+{
+    //TODO
+}
+
+int SDL_SemPost(SDL_sem *sem)
+{
+    //TODO
+}
+
+int SDL_CondWait(SDL_cond *cond, SDL_mutex *m)
+{
+    //TODO
+}
+
+int SDL_CondSignal(SDL_cond *cond)
+{
+    //TODO
+}
+
+int SDL_CondBroadcast(SDL_cond *cond)
+{
+    //TODO
+}
+
+int SDL_mutexP(SDL_mutex *m)
+{
+    //TODO
+}
+
+int SDL_mutexV(SDL_mutex *m)
+{
+    //TODO
+}
+
 void SDL_DestroyMutex(SDL_mutex *m)
 {
     pthread_mutex_destroy((pthread_mutex_t*)m);
     free(m);
 }
 
-void SDL_DestroyCond(SDL_mutex *m)
+void SDL_DestroyCond(SDL_cond *m)
 {
     pthread_cond_destroy((pthread_cond_t*)m);
     free(m);
 }
-void SDL_DestroySemaphore(SDL_mutex *m)
+void SDL_DestroySemaphore(SDL_sem *m)
 {
     sem_destroy((sem_t *)m);
     free(m);
+}
+
+void SDL_KillThread(SDL_Thread *thr)
+{
+    pthread_t *thread = (pthread_t*)thr;
+    pthread_cancel(*thread);
+    pthread_join(*thread, NULL);
+    free(thr);
+}
+
+void SDL_WaitThread(SDL_Thread *thr, int *status)
+{
+    pthread_t *thread = (pthread_t*)thr;
+    void *data;
+    pthread_join(*thread, &data);
+    
+    if (status)
+        *status = (intptr_t)data;
+    
+    free(thr);
+}
+
+Uint32 SDL_GetThreadID(SDL_Thread *thr)
+{
+    Uint32 id;
+    
+    //TODO
+    
+    return(id);
 }
 
 Uint32 SDL_GetTicks(void)
@@ -113,4 +185,8 @@ void SDL_PumpEvents(void)
 void SDL_GL_SwapBuffers(void)
 {
     //FIXME: we might need this to do something
+}
+
+char *SDL_GetError(void)
+{
 }

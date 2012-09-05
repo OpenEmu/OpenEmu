@@ -38,8 +38,18 @@ SDL_cond *SDL_CreateCond(void);
 SDL_sem *SDL_CreateSemaphore(Uint32);
 int SDL_LockMutex(SDL_mutex *m);
 int SDL_UnlockMutex(SDL_mutex *m);
+Uint32 SDL_SemValue(SDL_sem *sem);
+int SDL_SemWait(SDL_sem *sem);
+int SDL_SemPost(SDL_sem *sem);
+int SDL_CondWait(SDL_cond *cond, SDL_mutex *m);
+int SDL_CondSignal(SDL_cond *cond);
+int SDL_CondBroadcast(SDL_cond *cond);
+int SDL_mutexP(SDL_mutex *m);
+int SDL_mutexV(SDL_mutex *m);
 void SDL_DestroyMutex(SDL_mutex *m);
-void SDL_DestroyCond(SDL_mutex *m);
-void SDL_DestroySemaphore(SDL_mutex *m);
-
+void SDL_DestroyCond(SDL_cond *m);
+void SDL_DestroySemaphore(SDL_sem *m);
+void SDL_KillThread(SDL_Thread *thr);
+void SDL_WaitThread(SDL_Thread *thr, int *status);
+Uint32 SDL_GetThreadID(SDL_Thread *thr);
 #endif

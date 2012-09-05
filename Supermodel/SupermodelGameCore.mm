@@ -243,4 +243,12 @@ bool ErrorLog(const char *fmt, ...)
 	return FAIL;
 }
 
+void SetAudioCallback(AudioCallbackFPtr newCallback, void *newData)
+{
+}
+
+bool OutputAudio(unsigned numSamples, INT16 *leftBuffer, INT16 *rightBuffer)
+{
+}
+
 @end
