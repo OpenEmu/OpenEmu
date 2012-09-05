@@ -57,7 +57,10 @@ SDL_cond *SDL_CreateCond(void)
 
 SDL_sem *SDL_CreateSemaphore(Uint32 initial_value)
 {
-    //TODO
+    sem_t *semaphore = new sem_t;
+    sem_init(semaphore, 0, initial_value);
+    
+    return (SDL_sem*)semaphore;
 }
 
 int SDL_LockMutex(SDL_mutex *m)
