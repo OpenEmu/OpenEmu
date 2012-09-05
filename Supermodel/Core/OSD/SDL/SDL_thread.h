@@ -28,7 +28,9 @@
 #define SDL_THREAD_H
 
 typedef void *SDL_mutex;
-typedef void *SDL_Thread;
+//typedef void *SDL_Thread;
+struct SDL_Thread;
+typedef struct SDL_Thread SDL_Thread;
 typedef void *SDL_cond;
 typedef void *SDL_sem;
 

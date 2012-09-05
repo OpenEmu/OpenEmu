@@ -33,6 +33,11 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+struct SDL_Thread {
+    pthread_t thrid;
+    Uint32 threadid;
+};
+
 SDL_mutex *SDL_CreateMutex(void)
 {
     //pthread_mutex_t *m = malloc(sizeof(pthread_mutex_t));
@@ -47,7 +52,9 @@ SDL_Thread *SDL_CreateThread(int (*fn)(void *), void *data)
     //pthread_t *thread = malloc(sizeof(pthread_t));
     pthread_t *thread = new pthread_t;
     
-    pthread_create(thread, NULL, (void* (*)(void *))fn, data);
+    SDL_Thread* threadset;
+    
+    threadset->threadid = (Uint32)pthread_create(thread, NULL, (void* (*)(void *))fn, data);
     
     return (SDL_Thread*)thread;
 }
@@ -270,8 +277,11 @@ Uint32 SDL_GetThreadID(SDL_Thread *thr)
 {
     Uint32 id;
     
-    //TODO
-    
+    if ( thr ) {
+        id = thr->threadid;
+    } else {
+        id = ((Uint32)getpid());
+    }
     return(id);
 }
 
