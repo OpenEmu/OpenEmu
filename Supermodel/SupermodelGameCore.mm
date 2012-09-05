@@ -43,7 +43,7 @@
 @interface SupermodelGameCore () <OEArcadeSystemResponderClient>
 @end
 
-//Model3 = new CModel3();
+CModel3			*Model3 = new CModel3();
 SupermodelGameCore *current;
 @implementation SupermodelGameCore
 
@@ -76,15 +76,13 @@ SupermodelGameCore *current;
 
 - (void)executeFrameSkippingFrame: (BOOL) skip
 {
-    //Model3->RunFrame();
+    Model3->RunFrame();
 }
 
 - (BOOL)loadFileAtPath: (NSString*) path
 {
     const char *zipPath = [path UTF8String];
-    
-    CModel3			*Model3 = new CModel3();
-    
+        
 	char			baseTitleStr[128], titleStr[128];
 	CRender2D		*Render2D = new CRender2D();
 	CRender3D		*Render3D = new CRender3D();
@@ -126,7 +124,7 @@ SupermodelGameCore *current;
 - (void)resetEmulation
 {
     // Reset emulator
-	//Model3->Reset();
+	Model3->Reset();
 }
 
 - (void)stopEmulation
@@ -191,6 +189,58 @@ SupermodelGameCore *current;
     // Load game state
     //LoadState(Model3);
     return YES;
+}
+
+/******************************************************************************
+ Error and Debug Logging
+ ******************************************************************************/
+
+// Log file names
+#define DEBUG_LOG_FILE	"debug.log"
+#define ERROR_LOG_FILE	"error.log"
+
+// Logger object is used to redirect log messages appropriately
+static CLogger *s_Logger = NULL;
+
+CLogger *GetLogger()
+{
+	return s_Logger;
+}
+
+void SetLogger(CLogger *Logger)
+{
+	s_Logger = Logger;
+}
+
+void DebugLog(const char *fmt, ...)
+{
+	if (s_Logger == NULL)
+		return;
+	va_list vl;
+	va_start(vl, fmt);
+	s_Logger->DebugLog(fmt, vl);
+	va_end(vl);
+}
+
+void InfoLog(const char *fmt, ...)
+{
+	if (s_Logger == NULL)
+		return;
+	va_list vl;
+	va_start(vl, fmt);
+	s_Logger->InfoLog(fmt, vl);
+	va_end(vl);
+}
+
+bool ErrorLog(const char *fmt, ...)
+{
+	if (s_Logger == NULL)
+		return FAIL;
+	va_list vl;
+	va_start(vl, fmt);
+	s_Logger->ErrorLog(fmt, vl);
+	va_end(vl);
+	return FAIL;
 }
 
 @end

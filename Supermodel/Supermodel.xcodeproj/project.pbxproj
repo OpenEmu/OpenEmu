@@ -108,6 +108,8 @@
 		9498B8E915F1DECB00CF66C3 /* m68kopdm.c in Sources */ = {isa = PBXBuildFile; fileRef = 9498B8E415F1DECA00CF66C3 /* m68kopdm.c */; };
 		9498B8EA15F1DECB00CF66C3 /* m68kopnz.c in Sources */ = {isa = PBXBuildFile; fileRef = 9498B8E515F1DECA00CF66C3 /* m68kopnz.c */; };
 		9498B8EB15F1DECB00CF66C3 /* m68kops.c in Sources */ = {isa = PBXBuildFile; fileRef = 9498B8E615F1DECA00CF66C3 /* m68kops.c */; };
+		94A2B28115F6F25C007401C0 /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9498B85515F1DAF300CF66C3 /* Thread.cpp */; };
+		94A2B28815F6FAC2007401C0 /* SDLStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2B28715F6FAC2007401C0 /* SDLStubs.m */; };
 		C6C71E4A0FCDE25F002FAC4D /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C63E6C640FCDA565009C8555 /* ControlsPreference.xib */; };
 /* End PBXBuildFile section */
 
@@ -340,6 +342,9 @@
 		9498B8E515F1DECA00CF66C3 /* m68kopnz.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kopnz.c; sourceTree = "<group>"; };
 		9498B8E615F1DECA00CF66C3 /* m68kops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kops.c; sourceTree = "<group>"; };
 		9498B8E715F1DECA00CF66C3 /* m68kops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kops.h; sourceTree = "<group>"; };
+		94A2B28715F6FAC2007401C0 /* SDLStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStubs.m; sourceTree = SOURCE_ROOT; };
+		94A2B2E515F6FDF0007401C0 /* SDL_thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_thread.h; sourceTree = "<group>"; };
+		94A2B2E615F6FDF0007401C0 /* SDL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL.h; sourceTree = "<group>"; };
 		B5008DAD0E8BFB3E005AECAF /* SupermodelGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupermodelGameCore.h; sourceTree = "<group>"; };
 		B5008DAE0E8BFB3E005AECAF /* SupermodelGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SupermodelGameCore.mm; sourceTree = "<group>"; };
 		C63E6C640FCDA565009C8555 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
@@ -404,6 +409,7 @@
 			isa = PBXGroup;
 			children = (
 				82EC3FED0FD9EAE90017FC19 /* Core */,
+				94A2B28715F6FAC2007401C0 /* SDLStubs.m */,
 				945E42CB1517E32F00057D08 /* OEArcadeSystemResponderClient.h */,
 				B5008DAD0E8BFB3E005AECAF /* SupermodelGameCore.h */,
 				B5008DAE0E8BFB3E005AECAF /* SupermodelGameCore.mm */,
@@ -705,6 +711,8 @@
 				9498B85415F1DAF300CF66C3 /* SDLMain_tmpl.m */,
 				9498B85515F1DAF300CF66C3 /* Thread.cpp */,
 				9498B85615F1DAF300CF66C3 /* Types.h */,
+				94A2B2E515F6FDF0007401C0 /* SDL_thread.h */,
+				94A2B2E615F6FDF0007401C0 /* SDL.h */,
 			);
 			path = SDL;
 			sourceTree = "<group>";
@@ -922,6 +930,7 @@
 				9498B8C815F1DAF300CF66C3 /* RTC72421.cpp in Sources */,
 				9498B8C915F1DAF300CF66C3 /* SoundBoard.cpp in Sources */,
 				9498B8CA15F1DAF300CF66C3 /* TileGen.cpp in Sources */,
+				94A2B28115F6F25C007401C0 /* Thread.cpp in Sources */,
 				9498B8D115F1DAF300CF66C3 /* glew.c in Sources */,
 				9498B8D215F1DAF300CF66C3 /* ioapi.c in Sources */,
 				9498B8D315F1DAF300CF66C3 /* unzip.c in Sources */,
@@ -939,6 +948,7 @@
 				9498B8DF15F1DAF300CF66C3 /* util.cpp in Sources */,
 				9498B8E015F1DAF300CF66C3 /* SCSP.cpp in Sources */,
 				9498B8E115F1DAF300CF66C3 /* SCSPDSP.cpp in Sources */,
+				94A2B28815F6FAC2007401C0 /* SDLStubs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
