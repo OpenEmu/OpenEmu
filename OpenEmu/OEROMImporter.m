@@ -484,8 +484,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
     }
     else if(archiveResult)
     {
-        
-        game = [OEDBGame gameWithArchiveID:[archiveResult valueForKey:AVGGameIDKey] error:&error];
+//        game = [OEDBGame gameWithArchiveID:[archiveResult valueForKey:AVGGameIDKey] error:&error];
     }
     
     if(!game)
