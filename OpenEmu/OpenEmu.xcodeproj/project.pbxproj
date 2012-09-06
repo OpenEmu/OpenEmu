@@ -545,7 +545,6 @@
 		C67117FE136367240034379A /* OEHIDUsageToVK.h in Headers */ = {isa = PBXBuildFile; fileRef = 82DD2B8C1236D0C400B58A8F /* OEHIDUsageToVK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C67117FF136367240034379A /* OESystemController.h in Headers */ = {isa = PBXBuildFile; fileRef = C6289C34135B27C100EEE97C /* OESystemController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6711800136367240034379A /* OESystemResponder.h in Headers */ = {isa = PBXBuildFile; fileRef = C6D1596A135B34FD009D661C /* OESystemResponder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C6711803136367240034379A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C67B0CB81363370B00F18A5D /* InfoPlist.strings */; };
 		C671180A1363679F0034379A /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C6711811136368330034379A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C671181B136368330034379A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6711819136368330034379A /* InfoPlist.strings */; };
@@ -1570,8 +1569,7 @@
 		C6711826136369DE0034379A /* OESMSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESMSSystemResponder.m; sourceTree = "<group>"; };
 		C671182B13636A300034379A /* OpenEmuSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuSystem.h; sourceTree = "<group>"; };
 		C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OECorePluginIcon.icns; sourceTree = "<group>"; };
-		C67B0CB71363370B00F18A5D /* OpenEmuGameSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuGameSystem-Info.plist"; sourceTree = "<group>"; };
-		C67B0CB91363370B00F18A5D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C67B0CB71363370B00F18A5D /* OpenEmuSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuSystem-Info.plist"; sourceTree = "<group>"; };
 		C67B0CD01363389A00F18A5D /* ForceFeedback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForceFeedback.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/ForceFeedback.framework; sourceTree = DEVELOPER_DIR; };
 		C67B0D5E136352A300F18A5D /* OEPluginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPluginController.h; sourceTree = "<group>"; };
 		C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferenceViewController.h; sourceTree = "<group>"; };
@@ -1624,6 +1622,8 @@
 		C6E542C01363D2D90075BA8C /* OEBasicSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBasicSystemResponder.h; sourceTree = "<group>"; };
 		C6E542C11363D2D90075BA8C /* OEBasicSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBasicSystemResponder.m; sourceTree = "<group>"; };
 		C6EB73FD136DF5FC00B39A6F /* OpenEmuBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuBase.h; sourceTree = "<group>"; };
+		C6F6480415F4BA7000BA9D9B /* OEUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEUtilities.h; sourceTree = "<group>"; };
+		C6F6480515F4BB2E00BA9D9B /* OpenEmuSystem_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenEmuSystem_Prefix.pch; sourceTree = "<group>"; };
 		C6FC4C900FD2C5C3007CCD32 /* OEGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCore.m; sourceTree = "<group>"; };
 		EFBD5D7614EFE19A00FBD1E0 /* NSColor+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+OEAdditions.h"; sourceTree = "<group>"; };
 		EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+OEAdditions.m"; sourceTree = "<group>"; };
@@ -2110,7 +2110,7 @@
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				C60CDDD511780DD100EB472F /* Documentation */,
-				C67B0CB51363370B00F18A5D /* OpenEmuGameSystem */,
+				C67B0CB51363370B00F18A5D /* OpenEmuSystem */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 			);
@@ -2142,6 +2142,7 @@
 				82CAFBB70FEDAA3D00CCDC7E /* config.yaml */,
 				37CC66190FF8379B00226BCB /* config_qc.yaml */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
+				C6F6480415F4BA7000BA9D9B /* OEUtilities.h */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -2216,6 +2217,8 @@
 				53439B7013B932ED005C0CC8 /* OEPrefGameplayController.m */,
 				53439B7213B932FA005C0CC8 /* OEPrefControlsController.h */,
 				53439B7313B932FA005C0CC8 /* OEPrefControlsController.m */,
+				C669163B0FC9BC3E007DE3D8 /* OEControlsButtonSetupView.h */,
+				C6AFE0D50FED6FDF00AC0CCF /* OEControlsButtonSetupView.m */,
 				53439B7513B93303005C0CC8 /* OEPrefCoresController.h */,
 				53439B7613B93303005C0CC8 /* OEPrefCoresController.m */,
 				83753F1514F537C400D708A7 /* OEPrefDebugController.h */,
@@ -3146,8 +3149,6 @@
 				C6E542C11363D2D90075BA8C /* OEBasicSystemResponder.m */,
 				82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */,
 				82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */,
-				C669163B0FC9BC3E007DE3D8 /* OEControlsButtonSetupView.h */,
-				C6AFE0D50FED6FDF00AC0CCF /* OEControlsButtonSetupView.m */,
 				C6D268D8135BD95A00154550 /* NSUserDefaultsController+OEEventAdditions.h */,
 				C6D268D9135BD95A00154550 /* NSUserDefaultsController+OEEventAdditions.m */,
 				C69259FA15045B03003E6FD3 /* OEEvent.h */,
@@ -3341,19 +3342,19 @@
 			path = SegaMasterSystem;
 			sourceTree = "<group>";
 		};
-		C67B0CB51363370B00F18A5D /* OpenEmuGameSystem */ = {
+		C67B0CB51363370B00F18A5D /* OpenEmuSystem */ = {
 			isa = PBXGroup;
 			children = (
 				C67B0CB61363370B00F18A5D /* Supporting Files */,
 			);
-			path = OpenEmuGameSystem;
+			path = OpenEmuSystem;
 			sourceTree = "<group>";
 		};
 		C67B0CB61363370B00F18A5D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C67B0CB71363370B00F18A5D /* OpenEmuGameSystem-Info.plist */,
-				C67B0CB81363370B00F18A5D /* InfoPlist.strings */,
+				C67B0CB71363370B00F18A5D /* OpenEmuSystem-Info.plist */,
+				C6F6480515F4BB2E00BA9D9B /* OpenEmuSystem_Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4092,7 +4093,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6711803136367240034379A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4769,14 +4769,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		C67B0CB81363370B00F18A5D /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C67B0CB91363370B00F18A5D /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		C6B947B41364ECA700A425F0 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -5369,10 +5361,11 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREFIX_HEADER = OpenEmuSystem/OpenEmuSystem_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "OpenEmuGameSystem/OpenEmuGameSystem-Info.plist";
+				INFOPLIST_FILE = "OpenEmuSystem/OpenEmuSystem-Info.plist";
 				INSTALL_PATH = "@rpath";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = OpenEmuSystem;
@@ -5393,8 +5386,9 @@
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREFIX_HEADER = OpenEmuSystem/OpenEmuSystem_Prefix.pch;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "OpenEmuGameSystem/OpenEmuGameSystem-Info.plist";
+				INFOPLIST_FILE = "OpenEmuSystem/OpenEmuSystem-Info.plist";
 				INSTALL_PATH = "@rpath";
 				PRODUCT_NAME = OpenEmuSystem;
 				VALID_ARCHS = x86_64;

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,35 +25,4 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <IOKit/hid/IOHIDLib.h>
-#import <IOKit/hid/IOHIDUsageTables.h>
-#import <ForceFeedback/ForceFeedback.h>
-
-@class OEHIDEvent;
-
-@interface OEHIDDeviceHandler : NSObject <NSCopying>
-
-@property(readonly) IOHIDDeviceRef device;
-@property(readonly) NSUInteger     deviceNumber;
-@property           CGFloat        deadZone;
-
-@property(readonly) NSString *serialNumber;
-@property(readonly) NSString *manufacturer;
-@property(readonly) NSString *product;
-@property(readonly) NSNumber *productID;
-@property(readonly) NSNumber *locationID;
-
-+ (id)deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice;
-
-- (id)initWithDevice:(IOHIDDeviceRef)aDevice;
-- (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue;
-- (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue;
-- (io_service_t)serviceRef;
-
-
-- (BOOL)supportsForceFeedback;
-- (void)enableForceFeedback;
-- (void)disableForceFeedback;
-
-@end
+#import "OEUtilities.h"

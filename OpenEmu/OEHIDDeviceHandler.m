@@ -67,15 +67,13 @@ static NSUInteger lastDeviceNumber = 0;
         {
             if(nilHandler == nil)
             {
-                device = NULL;
+                device       = NULL;
                 deviceNumber = 0;
-                deadZone = 0.0;
-                nilHandler = self;
+                deadZone     = 0.0;
+                nilHandler   = self;
             }
-            else
-            {
-                return nilHandler;
-            }
+            
+            return nilHandler;
         }
         else
         {
@@ -84,12 +82,18 @@ static NSUInteger lastDeviceNumber = 0;
             deadZone = 0.2;
         }
     }
+    
     return self;
 }
 
 - (void)dealloc
 {
 	if(ffDevice) FFReleaseDevice(ffDevice);
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
 }
 
 - (BOOL)isEqual:(id)anObject
