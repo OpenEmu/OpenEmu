@@ -26,18 +26,18 @@
 
 #import "OESidebarController.h"
 #import "OESidebarGroupItem.h"
-#import "OESideBarDataSourceItem.h"
+#import "OESidebarItem.h"
 #import "OELibraryDatabase.h"
 #import "OESidebarCell.h"
 
 #import "OESidebarOutlineView.h"
-#import "NSImage+OEDrawingAdditions.h"
-
 #import "OEDBGame.h"
 #import "OECollectionViewItemProtocol.h"
 
 #import "OEHUDAlert.h"
 
+#import "NSImage+OEDrawingAdditions.h"
+#import "OEROMImporter+OESidebarAdditions.h"
 @interface OESidebarController ()
 - (void)_setupDrop;
 @end
@@ -91,11 +91,12 @@
     [sidebarView setAutosaveName:@"sidebarView"];
     [sidebarView setAutoresizesOutlineColumn:NO];
     [sidebarView registerForDraggedTypes:[NSArray arrayWithObjects:@"org.openEmu.rom", NSFilenamesPboardType, nil]];
-    sidebarView.delegate = self;
-    sidebarView.dataSource = self;
+    [sidebarView setDelegate:self];
+    [sidebarView setDataSource:self];
     [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:1] byExtendingSelection:NO];
     [sidebarView expandItem:[sidebarView itemAtRow:0]];
-    
+    [sidebarView setAllowsEmptySelection:NO];
+
     NSScrollView *enclosingScrollView = [sidebarView enclosingScrollView];
     if(enclosingScrollView)
     {
@@ -104,10 +105,7 @@
     }
     else
         [sidebarView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
-    
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
-        [sidebarView setAllowsEmptySelection:YES];
-    
+        
     [self _setupDrop];
 }
 
@@ -118,7 +116,6 @@
 
 #pragma mark -
 #pragma mark Public
-
 - (void)setEnabled:(BOOL)enabled
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
@@ -196,7 +193,6 @@
 
 #pragma mark -
 #pragma mark Notifications
-
 - (void)systemsChanged
 {
     NSLog(@"systemsChanged");
@@ -204,16 +200,21 @@
     [self outlineViewSelectionDidChange:nil];
 }
 
+- (void)importingChanged
+{
+    NSLog(@"importingChanged");
+    [self reloadData];
+    [self outlineViewSelectionDidChange:nil];
+}
+
 #pragma mark -
 #pragma mark Drag and Drop
-
 - (void)_setupDrop
 {
     NSArray *acceptedTypes = [NSArray arrayWithObjects:NSFilenamesPboardType, OEPasteboardTypeGame, nil];
     [[self view] registerForDraggedTypes:acceptedTypes];
     [(OESidebarOutlineView*)[self view] setDragDelegate:self];
 }
-
 
 - (NSDragOperation)draggingEntered:(id < NSDraggingInfo >)sender
 {
@@ -250,20 +251,16 @@
 
 #pragma mark -
 #pragma mark NSOutlineView Delegate
-
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-    id<OECollectionViewItemProtocol> selectedCollection = [sidebarView itemAtRow:[sidebarView selectedRow]];
-    
-    // Selected item is not valid...header maybe?
-    if (![selectedCollection conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
-        return;
+    id selectedItem = [sidebarView itemAtRow:[sidebarView selectedRow]];
 
-    NSDictionary *userInfo = selectedCollection?[NSDictionary dictionaryWithObject:selectedCollection forKey:@"selectedCollection"]:nil;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"SidebarSelectionChanged" object:self userInfo:userInfo];
+    NSDictionary *userInfo = selectedItem?[NSDictionary dictionaryWithObject:selectedItem forKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey]:nil;
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:userInfo];
 
-    [[NSUserDefaults standardUserDefaults] setValue:[selectedCollection collectionViewName] forKey:UDLastCollectionSelectedKey];
+    if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
+        [[NSUserDefaults standardUserDefaults] setValue:[selectedItem collectionViewName] forKey:UDLastCollectionSelectedKey];
 }
 
 - (void)outlineViewSelectionIsChanging:(NSNotification *)notification
@@ -277,15 +274,14 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item
 {
-    if ( item==[self.groups objectAtIndex:0] ) 
-        return YES;
+    for(id aGroup in self.groups)
+        if(aGroup != item && [outlineView isItemExpanded:aGroup]) return YES;
 
-    return YES;
+    return NO;
 }
 
 #pragma mark -
 #pragma mark NSOutlineView DataSource
-
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
     if( item == nil)
@@ -294,15 +290,23 @@
     if( item == [self.groups objectAtIndex:0] )
         return [self.systems objectAtIndex:index];
     
-    if( item == [self.groups objectAtIndex:1] )
+    if( item == [self.groups objectAtIndex:1] && [[[self database] importer] isBusy])
+    {
+        if(index==0) return [[self database] importer]; 
+        else             return [self.collections objectAtIndex:index-1];
+    }
+    
+    if( item == [self.groups objectAtIndex:1])
+    {
         return [self.collections objectAtIndex:index];
+    }
     
     return nil;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return [(id <OESidebarDataSourceItem>)item isGroupHeaderInSdebar];
+    return [(id <OESidebarItem>)item isGroupHeaderInSdebar];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
@@ -320,7 +324,7 @@
     }
     
     if( item == [self.groups objectAtIndex:1] )
-        return [self.collections count];
+        return [self.collections count] + [[[self database] importer] isBusy];
     
     return 0;
 }
@@ -413,7 +417,6 @@
 }
 
 #pragma mark -
-
 - (void)willHide
 {
 }
@@ -423,7 +426,6 @@
 }
 
 #pragma mark -
-
 - (void)controlTextDidBeginEditing:(NSNotification *)aNotification
 {    
 }

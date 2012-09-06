@@ -217,7 +217,7 @@
 		titleFrame.origin.x += 2;
 		titleFrame.size.width -= 2;
 		
-		if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
+		if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarConsolesNotCollapsibleKey])
         {
 			titleFrame.origin.x -= 10;
 		}

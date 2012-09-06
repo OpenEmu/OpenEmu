@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
                                   // Library Tab
                                   path,                             UDDefaultDatabasePathKey,
                                   path,                             UDDatabasePathKey,
-                                  [NSNumber numberWithBool:YES],    UDAutmaticallyGetInfoKey,
+                                  [NSNumber numberWithBool:YES],    UDAutomaticallyGetInfoKey,
 
                                   // others
                                   @"Save States",                   UDSaveStateFolderNameKey,	// Default name of Save States folder

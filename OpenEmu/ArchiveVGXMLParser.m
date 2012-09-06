@@ -234,7 +234,7 @@
     {
         ArchiveDLog(@"Error getting gameID");
         ArchiveDLog(@"Error: %@", *outError);
-		ArchiveDLog(@"1");
+		ArchiveDLog(@"node: %@", node);
         return nil;
     }
     
@@ -386,6 +386,7 @@
     {
         [result setObject:[self removeHTMLEncodingsFromString:gameBoxFrontVal] forKey:AVGGameBoxURLKey];
     }
+
     if(gameSystemNameVal)
     {
         [result setObject:[self removeHTMLEncodingsFromString:gameSystemNameVal] forKey:AVGGameSystemNameKey];

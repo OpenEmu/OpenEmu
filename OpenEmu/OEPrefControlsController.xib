@@ -2,26 +2,26 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11D50</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2177</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.SystemVersion">12A269</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
+		<string key="IBDocument.AppKitVersion">1187</string>
+		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2177</string>
+			<string key="NS.object.0">2549</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSTextField</string>
-			<string>NSView</string>
 			<string>NSCustomObject</string>
+			<string>NSCustomView</string>
 			<string>NSMenu</string>
 			<string>NSMenuItem</string>
-			<string>NSScrollView</string>
 			<string>NSPopUpButton</string>
-			<string>NSCustomView</string>
 			<string>NSPopUpButtonCell</string>
+			<string>NSScrollView</string>
 			<string>NSScroller</string>
+			<string>NSTextField</string>
 			<string>NSTextFieldCell</string>
+			<string>NSView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -49,8 +49,8 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{0, 262}, {561, 274}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="347657162"/>
-						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<string key="NSReuseIdentifierKey">_NS:499</string>
 						<string key="NSClassName">NSView</string>
 					</object>
@@ -59,6 +59,7 @@
 						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{24, 22}, {512, 191}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="138075039"/>
 						<string key="NSReuseIdentifierKey">_NS:1192</string>
 						<string key="NSClassName">OEPreferencesControlsBox</string>
@@ -76,12 +77,14 @@
 										<int key="NSvFlags">268</int>
 										<string key="NSFrameSize">{510, 187}</string>
 										<reference key="NSSuperview" ref="607083126"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:404</string>
 									</object>
 								</array>
 								<string key="NSFrameSize">{510, 187}</string>
 								<reference key="NSSuperview" ref="138075039"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="837216714"/>
 								<string key="NSReuseIdentifierKey">_NS:402</string>
 								<reference key="NSDocView" ref="837216714"/>
@@ -100,8 +103,10 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{-100, -100}, {15, 183}}</string>
 								<reference key="NSSuperview" ref="138075039"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="153730345"/>
 								<string key="NSReuseIdentifierKey">_NS:408</string>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="138075039"/>
 								<string key="NSAction">_doScroller:</string>
 								<double key="NSCurValue">1</double>
@@ -112,8 +117,10 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{-100, -100}, {506, 15}}</string>
 								<reference key="NSSuperview" ref="138075039"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="607083126"/>
 								<string key="NSReuseIdentifierKey">_NS:412</string>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="138075039"/>
 								<string key="NSAction">_doScroller:</string>
@@ -122,22 +129,27 @@
 						</array>
 						<string key="NSFrame">{{25, 24}, {510, 187}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="714866421"/>
 						<string key="NSReuseIdentifierKey">_NS:400</string>
 						<int key="NSsFlags">150032</int>
 						<reference key="NSVScroller" ref="714866421"/>
 						<reference key="NSHScroller" ref="153730345"/>
 						<reference key="NSContentView" ref="607083126"/>
+						<double key="NSMinMagnification">0.25</double>
+						<double key="NSMaxMagnification">4</double>
+						<double key="NSMagnification">1</double>
 					</object>
 					<object class="NSTextField" id="967997443">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{392, 225}, {42, 17}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="214329737"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="750678677">
-							<int key="NSCellFlags">68288064</int>
+							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents">Input:</string>
 							<object class="NSFont" key="NSSupport" id="126669081">
@@ -157,20 +169,22 @@
 								</object>
 							</object>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSPopUpButton" id="433849363">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">300</int>
 						<string key="NSFrame">{{25, 219}, {206, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="687338305"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="122850583">
-							<int key="NSCellFlags">-2076049856</int>
+							<int key="NSCellFlags">-2076180416</int>
 							<int key="NSCellFlags2">2048</int>
 							<reference key="NSSupport" ref="126669081"/>
 							<reference key="NSControlView" ref="433849363"/>
-							<int key="NSButtonFlags">109199615</int>
+							<int key="NSButtonFlags">109199360</int>
 							<int key="NSButtonFlags2">129</int>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
@@ -285,20 +299,22 @@
 							<bool key="NSAltersState">YES</bool>
 							<int key="NSArrowPosition">2</int>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSPopUpButton" id="687338305">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{297, 219}, {89, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="967997443"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="989294453">
-							<int key="NSCellFlags">-2076049856</int>
+							<int key="NSCellFlags">-2076180416</int>
 							<int key="NSCellFlags2">2048</int>
 							<reference key="NSSupport" ref="126669081"/>
 							<reference key="NSControlView" ref="687338305"/>
-							<int key="NSButtonFlags">109199615</int>
+							<int key="NSButtonFlags">109199360</int>
 							<int key="NSButtonFlags2">129</int>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
@@ -362,20 +378,22 @@
 							<bool key="NSAltersState">YES</bool>
 							<int key="NSArrowPosition">2</int>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSPopUpButton" id="214329737">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{436, 219}, {98, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="26693448"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="665852651">
-							<int key="NSCellFlags">-2076049856</int>
+							<int key="NSCellFlags">-2076180416</int>
 							<int key="NSCellFlags2">2048</int>
 							<reference key="NSSupport" ref="126669081"/>
 							<reference key="NSControlView" ref="214329737"/>
-							<int key="NSButtonFlags">109199615</int>
+							<int key="NSButtonFlags">109199360</int>
 							<int key="NSButtonFlags2">129</int>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
@@ -417,20 +435,22 @@
 							<bool key="NSAltersState">YES</bool>
 							<int key="NSArrowPosition">2</int>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSCustomView" id="347657162">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{0, 495}, {561, 41}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="433849363"/>
 						<bool key="NSViewIsLayerTreeHost">YES</bool>
-						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<string key="NSClassName">OEBackgroundGradientView</string>
 					</object>
 				</array>
 				<string key="NSFrameSize">{561, 536}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="243981024"/>
 			</object>
 		</array>
@@ -786,7 +806,7 @@
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="111.CustomClassName">OEControlsScrollView</string>
 				<string key="111.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="112.CustomClassName">OEControlsSetupView</string>
+				<string key="112.CustomClassName">OEControlsButtonSetupView</string>
 				<string key="112.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="113.CustomClassName">OEControlsScroller</string>
 				<string key="113.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -858,6 +878,14 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">OEControlsButtonSetupView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEControlsButtonSetupView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">OEControlsPopupButtonCell</string>
 					<string key="superclassName">NSPopUpButtonCell</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -879,14 +907,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OEControlsScroller.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEControlsSetupView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEControlsSetupView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -928,7 +948,7 @@
 						<string key="consolesPopupButton">NSPopUpButton</string>
 						<string key="controllerContainerView">NSView</string>
 						<string key="controlsContainer">NSView</string>
-						<string key="controlsSetupView">OEControlsSetupView</string>
+						<string key="controlsSetupView">OEControlsButtonSetupView</string>
 						<string key="gradientOverlay">OEBackgroundGradientView</string>
 						<string key="inputPopupButton">NSPopUpButton</string>
 						<string key="playerPopupButton">NSPopUpButton</string>
@@ -948,7 +968,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="controlsSetupView">
 							<string key="name">controlsSetupView</string>
-							<string key="candidateClassName">OEControlsSetupView</string>
+							<string key="candidateClassName">OEControlsButtonSetupView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="gradientOverlay">
 							<string key="name">gradientOverlay</string>
@@ -996,6 +1016,10 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
+			<real value="1070" key="NS.object.0"/>
+		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
 			<real value="4200" key="NS.object.0"/>

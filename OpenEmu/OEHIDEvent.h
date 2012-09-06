@@ -145,5 +145,3 @@ extern NSString *OEHIDEventHatSwitchDisplayDescription(NSUInteger padNumber, OEH
 @interface NSNumber (OEEventConversion)
 - (NSString *)displayDescription;
 @end
-
-

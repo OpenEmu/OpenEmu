@@ -64,6 +64,8 @@
 
 - (void)OE_repositionControlsWindow;
 - (void)OE_terminateEmulationWithoutNotification;
+
+void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
 @end
 
 @implementation OEGameViewController
@@ -85,7 +87,7 @@
     return [self initWithRom:rom core:nil error:outError];
 }
 
-- (id)initWithRom:(OEDBRom *)aRom core:(OECorePlugin*)core error:(NSError **)outError
+- (id)initWithRom:(OEDBRom *)aRom core:(OECorePlugin *)core error:(NSError **)outError
 {
     if((self = [super init]))
     {
@@ -121,6 +123,7 @@
         }
         
         [[self rom] markAsPlayedNow];
+        [self disableOSSleep];
     }
     return self;
 }
@@ -140,29 +143,28 @@
     return [self initWithGame:game core:nil error:outError];
 }
 
-- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError
 {
     return [self initWithRom:[OEGameViewController OE_choseRomFromGame:game] core:core error:outError];
 }
-
 
 - (id)initWithSaveState:(OEDBSaveState *)state
 {
     return [self initWithSaveState:state error:nil];
 }
 
-
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError
 {
-    OEDBRom         *rom            = [state rom];
-    NSString        *coreIdentifier = [state coreIdentifier];
-    OECorePlugin    *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
-    id gameViewController = [self initWithRom:rom core:core error:outError];
-    if(gameViewController)
+    OEDBRom      *rom            = [state rom];
+    NSString     *coreIdentifier = [state coreIdentifier];
+    OECorePlugin *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
+    
+    if((self = [self initWithRom:rom core:core error:outError]))
     {
         [self loadState:state];
     }
-    return self;    
+    
+    return self;
 }
 
 - (void)dealloc
@@ -186,7 +188,8 @@
     
     NSWindow *window = [gameView window];
     if(window == nil) return;
-    if([window parentWindow]) window = [window parentWindow];
+    
+    if([window parentWindow] != nil) window = [window parentWindow];
     
     [window addChildWindow:controlsWindow ordered:NSWindowAbove];
     
@@ -212,7 +215,32 @@
     [[self controlsWindow] hide];
     [self terminateEmulation];
 }
+#pragma mark - OS Sleep Handling
+CFRunLoopTimerRef timer;
+- (void)enableOSSleep
+{
+    if(!timer) return;
+    
+    CFRunLoopTimerInvalidate(timer);
+    CFRelease(timer);
+    timer=NULL;
+}
 
+- (void)disableOSSleep
+{
+    if(timer) return;
+    
+    CFRunLoopTimerContext context = { 0, NULL, NULL, NULL, NULL };
+    timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 30, 0, 0, updateSystemActivity, &context);
+    if (timer != NULL); {
+        CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);
+    }
+}
+
+void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
+{
+    UpdateSystemActivity(OverallAct);
+}
 #pragma mark - Controlling Emulation
 - (void)resetGame
 {
@@ -226,6 +254,7 @@
     emulationRunning = NO;
     NSLog(@"terminateEmulation");
     
+    [self enableOSSleep];
     [self pauseGame:self];
     
     if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
@@ -285,6 +314,8 @@
 
 - (void)setPauseEmulation:(BOOL)flag
 {
+    if(flag) [self enableOSSleep]; else [self disableOSSleep];
+    
     [rootProxy setPauseEmulation:flag];
     [[self controlsWindow] reflectEmulationRunning:flag];
 }

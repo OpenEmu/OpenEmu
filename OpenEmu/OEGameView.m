@@ -170,11 +170,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     [super prepareOpenGL];
     
-    DLog(@"prepareOpenGL");        
+    DLog(@"prepareOpenGL");
     // Synchronize buffer swaps with vertical refresh rate
     GLint swapInt = 1;
     
-    [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval]; 
+    [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
     
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);
@@ -778,9 +778,22 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     location.y = frame.size.height - location.y;
     OEIntRect rect = [[[self rootProxy] gameCore] screenRect];
     
+    CGRect screenRect = { .size = { rect.size.width, rect.size.height } };
+    
+    CGFloat scale = MIN(CGRectGetWidth(frame)  / CGRectGetWidth(screenRect),
+                        CGRectGetHeight(frame) / CGRectGetHeight(screenRect));
+    
+    screenRect.size.width  *= scale;
+    screenRect.size.height *= scale;
+    screenRect.origin.x     = CGRectGetMidX(frame) - CGRectGetWidth(screenRect)  / 2;
+    screenRect.origin.y     = CGRectGetMidY(frame) - CGRectGetHeight(screenRect) / 2;
+    
+    location.x -= screenRect.origin.x;
+    location.y -= screenRect.origin.y;
+    
     OEIntPoint point = {
-        .x = round(location.x * rect.size.width  / CGRectGetWidth(frame)),
-        .y = round(location.y * rect.size.height / CGRectGetHeight(frame))
+        .x = MAX(0, MIN(round(location.x * rect.size.width  / CGRectGetWidth(screenRect)), rect.size.width)),
+        .y = MAX(0, MIN(round(location.y * rect.size.height / CGRectGetHeight(screenRect)), rect.size.height))
     };
     
     return (id)[OEEvent eventWithMouseEvent:anEvent withLocationInGameView:point];

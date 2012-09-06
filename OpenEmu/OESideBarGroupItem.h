@@ -24,10 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import <Foundation/Foundation.h>
-#import "OESidebarDataSourceItem.h"
+#import "OESidebarItem.h"
 
 
-@interface OESidebarGroupItem : NSObject <OESidebarDataSourceItem> 
+@interface OESidebarGroupItem : NSObject <OESidebarItem> 
 {
 @private
     NSString *name;

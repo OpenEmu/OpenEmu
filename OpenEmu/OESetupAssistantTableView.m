@@ -107,6 +107,9 @@
 
 - (void)drawBackgroundInClipRect:(NSRect)clipRect
 {
+    [[NSColor clearColor] setFill];
+    NSRectFill(clipRect);
+    
 	NSColor *rowBackground          = [NSColor colorWithDeviceWhite:0.0 alpha:0.1];
 	NSColor *alternateRowBackground = [NSColor colorWithDeviceWhite:1.0 alpha:0.01];
 	
@@ -114,13 +117,13 @@
     
     CGFloat rowHeight = [self rowHeight] + [self intercellSpacing].height;
     
-	NSRect rect = [self visibleRect];
+	NSRect rect = [self bounds];
     
-	for(CGFloat i = 0; i < NSMaxY(rect); i += 2 * rowHeight)
+    for(CGFloat i = 0; i < NSMaxY(rect); i += 2 * rowHeight)
 		NSRectFill(NSMakeRect(rect.origin.x, i, rect.size.width, rowHeight));
     
 	[alternateRowBackground setFill];
-	rect = [self visibleRect];
+	rect = [self bounds];
     
 	for(CGFloat i = rowHeight; i < NSMaxY(rect); i += 2 * rowHeight)
 		NSRectFill(NSMakeRect(rect.origin.x, i, rect.size.width, rowHeight));

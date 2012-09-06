@@ -74,6 +74,8 @@
 #pragma mark Core Download
 - (void)startDownload:(id)sender
 {
+    if(!appcastItem) return;
+    
     NSURL *url = [appcastItem fileURL];
     
     NSURLRequest  *request      = [NSURLRequest requestWithURL:url];
@@ -86,7 +88,6 @@
     
     if(fileDownload == nil) NSLog(@"ERROR: Couldn't download %@", self);
 }
-
 
 - (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
 {    

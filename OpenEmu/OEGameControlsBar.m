@@ -88,6 +88,8 @@
                         }];
         openMenus = 0;
         controlsView = barView;
+        
+        [NSCursor setHiddenUntilMouseMoves:YES];
     }
     return self;
 }
@@ -113,6 +115,8 @@
     [[self animator] setAlphaValue:0.0];
     [fadeTimer invalidate];
     fadeTimer = nil;
+    
+    [NSCursor setHiddenUntilMouseMoves:YES];
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent

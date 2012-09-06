@@ -44,31 +44,42 @@
 #import "NSFileManager+OEHashingAdditions.h"
 
 #import "OEFSWatcher.h"
+#import "OEROMImporter.h"
+
 @interface OELibraryDatabase ()
-- (BOOL)loadPersistantStoreWithError:(NSError**)outError;
-- (BOOL)loadManagedObjectContextWithError:(NSError**)outError;
+
+- (BOOL)loadPersistantStoreWithError:(NSError **)outError;
+- (BOOL)loadManagedObjectContextWithError:(NSError **)outError;
 - (void)managedObjectContextDidSave:(NSNotification *)notification;
 
 - (NSManagedObjectModel*)managedObjectModel;
 
 - (void)OE_setupStateWatcher;
 - (void)OE_removeStateWatcher;
-@property (strong) OEFSWatcher *saveStateWatcher;
+
+@property(strong) OEFSWatcher *saveStateWatcher;
+@property(copy)   NSURL       *databaseURL;
+@property(strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
 @end
+
 static OELibraryDatabase *defaultDatabase = nil;
+
 @implementation OELibraryDatabase
-@synthesize persistentStoreCoordinator=_persistentStoreCoordinator, databaseURL;
+@synthesize persistentStoreCoordinator = _persistentStoreCoordinator, databaseURL, importer, saveStateWatcher;
 
 #pragma mark -
-+ (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError{
+
++ (BOOL)loadFromURL:(NSURL *)url error:(NSError **)outError
+{
     NSLog(@"OELibraryDatabase loadFromURL:%@", url);
     
     BOOL isDir = NO;
     if(![[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDir] || !isDir)
     {
         if(outError!=NULL){
-			NSString *description = NSLocalizedString(@"The OpenEmu Library could not be found.", @"");
-			NSDictionary *dict = [NSDictionary dictionaryWithObject:description forKey:NSLocalizedDescriptionKey];
+			NSString     *description = NSLocalizedString(@"The OpenEmu Library could not be found.", @"");
+			NSDictionary *dict        = [NSDictionary dictionaryWithObject:description forKey:NSLocalizedDescriptionKey];
 			
             *outError = [NSError errorWithDomain:@"OELibraryDatabase" code:OELibraryErrorCodeFolderNotFound userInfo:dict];
         }
@@ -80,29 +91,31 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     if(![defaultDatabase loadPersistantStoreWithError:outError])
     {
-        defaultDatabase=nil;
+        defaultDatabase = nil;
         return NO;
     }
+    
     if(![defaultDatabase loadManagedObjectContextWithError:outError])
     {
-        defaultDatabase=nil;
+        defaultDatabase = nil;
         return NO;
     }
 
     [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:UDDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
     
+    
     return YES;
 }
 
-- (BOOL)loadManagedObjectContextWithError:(NSError**)outError
+- (BOOL)loadManagedObjectContextWithError:(NSError **)outError
 {
     __managedObjectContext = [[NSManagedObjectContext alloc] init];   
     
     NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
     [__managedObjectContext setMergePolicy:policy];
     
-    if(!__managedObjectContext) return NO;
+    if(__managedObjectContext == nil) return NO;
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];    
     [__managedObjectContext setPersistentStoreCoordinator:coordinator];
@@ -115,27 +128,31 @@ static OELibraryDatabase *defaultDatabase = nil;
     return YES;
 }
 
-- (BOOL)loadPersistantStoreWithError:(NSError**)outError
+- (BOOL)loadPersistantStoreWithError:(NSError **)outError
 {
     NSManagedObjectModel *mom = [self managedObjectModel];
-    if (!mom)
+    if(mom == nil)
     {
         NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
         return NO;
     }
     
     NSURL *url = [self.databaseURL URLByAppendingPathComponent:OEDatabaseFileName];
-    self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-    if (!self.persistentStoreCoordinator || ![self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:outError]){ 
-        self.persistentStoreCoordinator = nil;
+    [self setPersistentStoreCoordinator:[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom]];
+    
+    if([[self persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:outError] == nil)
+    {
+        [self setPersistentStoreCoordinator:nil];
         
         return NO;
-    }    
+    }
+    
     return YES;
 }
 
 #pragma mark -
-+ (OELibraryDatabase*)defaultDatabase
+
++ (OELibraryDatabase *)defaultDatabase
 {
     return defaultDatabase;
 }
@@ -143,12 +160,13 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (id)init
 {
     NSLog(@"creating new LibraryDatabase");
-    self = [super init];
     
-    if (self) 
+    if((self = [super init]))
     {
         romsController = [[NSArrayController alloc] init];
         managedObjectContexts = [[NSMutableDictionary alloc] init];
+        
+        [self setImporter:[[OEROMImporter alloc] initWithDatabase:self]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
     }
@@ -164,7 +182,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 - (void)awakeFromNib
-{}
+{
+}
 
 - (void)applicationWillTerminate:(id)sender
 {
@@ -179,8 +198,9 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSLog(@"Did save Database");
 }
-#pragma mark -
-#pragma mark Administration
+
+#pragma mark - Administration
+
 - (void)disableSystemsWithoutPlugin
 {
     NSArray *allSystems = [self systems];
@@ -190,26 +210,34 @@ static OELibraryDatabase *defaultDatabase = nil;
         [aSystem setEnabled:[NSNumber numberWithBool:NO]];
     }
 }
-#pragma mark -
-#pragma mark Save State Handling
-@synthesize saveStateWatcher;
+
+#pragma mark - Save State Handling
+
 - (void)OE_setupStateWatcher
 {
-    NSString    *stateFolderPath    = [[self stateFolderURL] path];
-    __block OEFSBlock fsBlock                 = ^(NSString *path, FSEventStreamEventFlags flags) {
+    NSString *stateFolderPath = [[self stateFolderURL] path];
+    __block OEFSBlock fsBlock =
+    ^(NSString *path, FSEventStreamEventFlags flags)
+    {
         if([path hasSuffix:@".DS_Store"]) return;
+        
         if([path rangeOfString:@".oesavestate"].location == NSNotFound)
         {
             NSError *error = nil;
             BOOL     isDir = NO;
             NSArray *folderContent = nil;
-            if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir && (folderContent=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]) && folderContent)
-                [folderContent enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    NSString *subPath = [path stringByAppendingPathComponent:obj];
-                    fsBlock(subPath, flags);
-                }];
+            if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir &&
+               (folderContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]) != nil)
+                [folderContent enumerateObjectsUsingBlock:
+                 ^(id obj, NSUInteger idx, BOOL *stop)
+                 {
+                     NSString *subPath = [path stringByAppendingPathComponent:obj];
+                     fsBlock(subPath, flags);
+                 }];
+            
             return;
         }
+        
         // Wait a little while to make sure the fs operation has completed
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -237,22 +265,24 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 #pragma mark -
 #pragma mark CoreData Stuff
+- (NSManagedObjectID*)managedObjectIDForURIRepresentation:(NSURL *)uri
+{
+    return [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
+}
+
 - (NSManagedObjectModel *)managedObjectModel 
 {
-    if (__managedObjectModel) 
-    {
-        return __managedObjectModel;
-    }
+    if(__managedObjectModel != nil) return __managedObjectModel;
     
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"OEDatabase" withExtension:@"momd"];
-    __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
+    __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
     return __managedObjectModel;
 }
 
 - (NSManagedObjectContext *) managedObjectContext 
 {
-    
-    if ([NSThread isMainThread] && __managedObjectContext) 
+    if([NSThread isMainThread] && __managedObjectContext != nil)
     {
         return __managedObjectContext;
     }
@@ -283,8 +313,8 @@ static OELibraryDatabase *defaultDatabase = nil;
         [context setMergePolicy:policy];
         [[context userInfo] setValue:self forKey:LibraryDatabaseKey];        
     }
-    return [managedObjectContexts valueForKey:[thread name]];
     
+    return [managedObjectContexts valueForKey:[thread name]];
 }
 
 - (void)managedObjectContextDidSave:(NSNotification *)notification
@@ -309,30 +339,31 @@ static OELibraryDatabase *defaultDatabase = nil;
     [managedObjectContexts removeObjectForKey:threadName];
 }
 
-- (id)objectWithURI:(NSURL*)uri
+- (id)objectWithURI:(NSURL *)uri
 {
     NSManagedObjectID *objID = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
     return [[self managedObjectContext] objectWithID:objID];
 }
 
 #pragma mark -
-- (BOOL)save:(NSError**)error
+
+- (BOOL)save:(NSError **)error
 {
     NSError *backupError;
     
-    if (![[self managedObjectContext] commitEditing]) 
+    if(![[self managedObjectContext] commitEditing]) 
     {
         NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
         return NO;
     }
     
-    if (![[self managedObjectContext] hasChanges]) 
+    if(![[self managedObjectContext] hasChanges]) 
     {
         NSLog(@"Database did not change. Skip Saving.");
         return YES;
     }
     
-    if (![[self managedObjectContext] save:error ? error : &backupError]) 
+    if(![[self managedObjectContext] save:error ? error : &backupError]) 
     {
         [[NSApplication sharedApplication] presentError:error ? *error : backupError];
         return NO;
@@ -341,56 +372,48 @@ static OELibraryDatabase *defaultDatabase = nil;
     return YES;
 }
 
-- (NSUndoManager*)undoManager
+- (NSUndoManager *)undoManager
 {
     return [[self managedObjectContext] undoManager];
 }
-#pragma mark -
-#pragma mark Database queries
-- (NSArray*)systems
+
+#pragma mark - Database queries
+
+- (NSArray *)systems
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     
     NSEntityDescription *descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:descr];
+    [req setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]]];
     
     NSError *error = nil;
     
-    id result = [context executeFetchRequest:req error:&error];
-    if(!result)
-    {
-        NSLog(@"systems: Error: %@", error);
-        return nil;
-    }
-    return [result sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [[obj1 name] compare:[obj2 name]];
-    }];
+    NSArray *result = [context executeFetchRequest:req error:&error];
+    if(result == nil) NSLog(@"systems: Error: %@", error);
+    
+    return result;
 }
 
-- (NSArray*)enabledSystems
+- (NSArray *)enabledSystems
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     
     NSEntityDescription *descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:descr];
+    [req setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]]];
     [req setPredicate:[NSPredicate predicateWithFormat:@"enabled = YES"]];
     NSError *error = nil;
     
-    id result = [context executeFetchRequest:req error:&error];
-    if(!result)
-    {
-        NSLog(@"systems: Error: %@", error);
-        return nil;
-    }
-    return [result sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [[obj1 name] compare:[obj2 name]];
-    }];
-
+    NSArray *result = [context executeFetchRequest:req error:&error];
+    if(result == nil) NSLog(@"systems: Error: %@", error);
+    
+    return result;
 }
 
-- (OEDBSystem*)systemWithIdentifier:(NSString*)identifier
+- (OEDBSystem *)systemWithIdentifier:(NSString *)identifier
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     NSEntityDescription *description = [OEDBSystem entityDescriptionInContext:context];
@@ -402,16 +425,13 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *error = nil;
     
-    id result = [context executeFetchRequest:fetchRequest error:&error];
-    if(!result)
-    {
-        NSLog(@"systemWithIdentifier: Error: %@", error);
-        return nil;
-    }
+    NSArray *result = [context executeFetchRequest:fetchRequest error:&error];
+    if(result == nil) NSLog(@"systemWithIdentifier: Error: %@", error);
+    
     return [result lastObject];
 }
 
-- (OEDBSystem*)systemWithArchiveID:(NSNumber*)aID
+- (OEDBSystem *)systemWithArchiveID:(NSNumber*)aID
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     NSEntityDescription *description = [OEDBSystem entityDescriptionInContext:context];
@@ -431,7 +451,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
     return [result lastObject];
 }
-- (OEDBSystem*)systemWithArchiveName:(NSString*)name
+- (OEDBSystem *)systemWithArchiveName:(NSString *)name
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     NSEntityDescription *description = [OEDBSystem entityDescriptionInContext:context];
@@ -451,7 +471,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
     return [result lastObject];
 }
-- (OEDBSystem*)systemWithArchiveShortname:(NSString*)shortname
+- (OEDBSystem *)systemWithArchiveShortname:(NSString *)shortname
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     
@@ -473,16 +493,19 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url
+- (OEDBSystem *)systemForHandlingRomAtURL:(NSURL *)url DEPRECATED_ATTRIBUTE
 {
     OESystemPlugin *system = nil;
     NSString *path = [url absoluteString];
-    NSArray *validPlugins = [[OESystemPlugin allPlugins] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OESystemPlugin * evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject controller] canHandleFile:path];
-    }]];
+    NSArray *validPlugins = [[OESystemPlugin allPlugins] filteredArrayUsingPredicate:
+                             [NSPredicate predicateWithBlock:
+                              ^ BOOL (OESystemPlugin * evaluatedObject, NSDictionary *bindings)
+                              {
+                                  return [[evaluatedObject controller] canHandleFile:path];
+                              }]];
    
     NSLog(@"validPLugins: %@", validPlugins);
-    if([validPlugins count] > 1)   system = [OESystemPicker pickSystemFromArray:validPlugins];
+    if([validPlugins count] > 1) system = [OESystemPicker pickSystemFromArray:validPlugins];
     else system = [validPlugins lastObject];
     
     NSString *systemIdentifier = [system systemIdentifier];
@@ -546,7 +569,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     return count;
 }
 
-- (NSArray*)collections
+- (NSArray *)collections
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     NSMutableArray *collectionsArray = [NSMutableArray array];
@@ -566,18 +589,19 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSError *error = nil;
     
     id result = [context executeFetchRequest:req error:&error];
-    if(!result)
+    if(result == nil)
     {
         NSLog(@"collections: Smart Collections Error: %@", error);
         return [NSArray array];
     }
+    
     [collectionsArray addObjectsFromArray:result];
     
     descr = [NSEntityDescription entityForName:@"Collection" inManagedObjectContext:context];
     [req setEntity:descr];
     
     result = [context executeFetchRequest:req error:&error];
-    if(!result)
+    if(result == nil)
     {
         NSLog(@"collections: Regular Collections Error: %@", error);
         return [NSArray array];
@@ -587,13 +611,14 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     return collectionsArray;
 }
-#pragma mark -
-#pragma mark Collection Editing
-- (id)addNewCollection:(NSString*)name
+
+#pragma mark - Collection Editing
+
+- (id)addNewCollection:(NSString *)name
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     
-    if(name==nil)
+    if(name == nil)
     {
         name = NSLocalizedString(@"New Collection", @"");
         
@@ -606,8 +631,10 @@ static OELibraryDatabase *defaultDatabase = nil;
         NSString *uniqueName = name;
         NSError *error = nil;
         int numberSuffix = 0;
-        while([context countForFetchRequest:request error:&error]!=0 && error==nil){
-            numberSuffix ++;
+        
+        while([context countForFetchRequest:request error:&error] != 0 && error == nil)
+        {
+            numberSuffix++;
             uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
             [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
         }
@@ -621,11 +648,11 @@ static OELibraryDatabase *defaultDatabase = nil;
     return aCollection;
 }
 
-- (id)addNewSmartCollection:(NSString*)name
+- (id)addNewSmartCollection:(NSString *)name
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     
-    if(name==nil)
+    if(name == nil)
     {
         name = NSLocalizedString(@"New Smart Collection", @"");
         
@@ -638,9 +665,10 @@ static OELibraryDatabase *defaultDatabase = nil;
         NSString *uniqueName = name;
         NSError *error = nil;
         int numberSuffix = 0;
-        while([context countForFetchRequest:request error:&error]!=0 && error==nil)
+        
+        while([context countForFetchRequest:request error:&error] != 0 && error == nil)
         {
-            numberSuffix ++;
+            numberSuffix++;
             uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
             [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
         }
@@ -654,11 +682,11 @@ static OELibraryDatabase *defaultDatabase = nil;
     return aCollection;
 }
 
-- (id)addNewCollectionFolder:(NSString*)name
+- (id)addNewCollectionFolder:(NSString *)name
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     
-    if(name==nil)
+    if(name == nil)
     {
         name = NSLocalizedString(@"New Folder", @"");
         
@@ -671,7 +699,8 @@ static OELibraryDatabase *defaultDatabase = nil;
         NSString *uniqueName = name;
         NSError *error = nil;
         int numberSuffix = 0;
-        while([context countForFetchRequest:request error:&error]!=0 && error==nil)
+        
+        while([context countForFetchRequest:request error:&error] != 0 && error == nil)
         {
             numberSuffix ++;
             uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
@@ -693,7 +722,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 #pragma mark -
-- (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID
+
+- (OEDBGame *)gameWithArchiveID:(NSNumber*)archiveID
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
@@ -709,7 +739,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *err = nil;
     NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    if(result==nil)
+    if(result == nil)
     {
         NSLog(@"Error executing fetch request to get game by archiveID");
         NSLog(@"%@", err);
@@ -718,8 +748,10 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     return [result lastObject];
 }
+
 #pragma mark -
-- (OEDBRom*)romForMD5Hash:(NSString*)hashString
+
+- (OEDBRom *)romForMD5Hash:(NSString *)hashString
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
@@ -734,7 +766,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *err = nil;
     NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    if(result==nil)
+    if(result == nil)
     {
         NSLog(@"Error executing fetch request to get rom by md5");
         NSLog(@"%@", err);
@@ -744,7 +776,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (OEDBRom*)romForCRC32Hash:(NSString*)crc32String
+- (OEDBRom *)romForCRC32Hash:(NSString *)crc32String
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
@@ -759,7 +791,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *err = nil;
     NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    if(result==nil)
+    if(result == nil)
     {
         NSLog(@"Error executing fetch request to get rom by crc");
         NSLog(@"%@", err);
@@ -769,21 +801,22 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (NSArray*)romsForPredicate:(NSPredicate*)predicate
+- (NSArray *)romsForPredicate:(NSPredicate*)predicate
 {
     [romsController setFilterPredicate:predicate];
     
     return [romsController arrangedObjects];
 }
 
-- (NSArray*)romsInCollection:(id)collection
+- (NSArray *)romsInCollection:(id)collection
 {
     // TODO: implement
     NSLog(@"Roms in collection called, but not implemented");
     return [NSArray array];
 }
-#pragma mark -
-#pragma mark Datbase Folders
+
+#pragma mark - Datbase Folders
+
 - (NSURL *)databaseFolderURL
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -814,7 +847,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system
 {
-    if(!system || ![system name]) return [self unsortedRomsFolderURL];
+    if([system name] == nil) return [self unsortedRomsFolderURL];
     
     NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:[system name] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];

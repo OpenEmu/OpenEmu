@@ -47,6 +47,26 @@
 
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBRoms
++ (id)romWithID:(NSManagedObjectID *)objID
+{
+    return [self romWithID:objID inDatabase:[OELibraryDatabase defaultDatabase]];
+}
+
++ (id)romWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database
+{
+    return [[database managedObjectContext] objectWithID:objID];
+}
+
++ (id)romWithURIURL:(NSURL *)objIDUrl
+{
+    return [self romWithURIURL:objIDUrl inDatabase:[OELibraryDatabase defaultDatabase]];
+}
+
++ (id)romWithURIURL:(NSURL*)objIDUrl inDatabase:(OELibraryDatabase *)database
+{
+    NSManagedObjectID *objID = [database managedObjectIDForURIRepresentation:objIDUrl];
+    return [self romWithID:objID inDatabase:database];
+}
 
 + (id)createRomWithURL:(NSURL *)url error:(NSError **)outError
 {
@@ -58,9 +78,9 @@
     return [self OE_createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
 } 
 
-+ (id)romWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag error:(NSError **)outError
++ (id)romWithURL:(NSURL *)url error:(NSError **)outError
 {
-    return [self romWithURL:url createIfNecessary:createFlag inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
+    return [self romWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
 + (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc error:(NSError **)outError
@@ -73,11 +93,20 @@
     return [self OE_createRomWithoutChecksWithURL:url md5:md5 crc:crc inDatabase:database error:outError];
 }
 
-+ (id)romWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (id)romWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
 {
-    if(url == nil || !createFlag) return nil;
+    if(url == nil) return nil;
     
-    return [self OE_createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
+
+    NSManagedObjectContext *context = [database managedObjectContext];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"URL == %@", url];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
+    
+    [fetchRequest setFetchLimit:1];
+    [fetchRequest setIncludesPendingChanges:YES];
+    [fetchRequest setPredicate:predicate];
+    
+    return [[context executeFetchRequest:fetchRequest error:outError] lastObject];
 }
 
 + (id)OE_createRomWithoutChecksWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
@@ -92,39 +121,7 @@
     NSManagedObjectContext *context = [database managedObjectContext];
     NSEntityDescription *description = [self entityDescriptionInContext:context];
     OEDBRom *rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-    
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL copyToDatabase = [standardUserDefaults boolForKey:UDCopyToLibraryKey];
-    
-    NSURL *newURL = nil;
-    if(copyToDatabase && ![url isSubpathOfURL:[database databaseURL]])
-    {
-                       newURL                       = [url copy];
-        NSURL         *databaseUnsortedFolderURL    = [database unsortedRomsFolderURL];
-        NSFileManager *defaultManager               = [NSFileManager defaultManager];
-        
-        NSString *fileName = [[newURL lastPathComponent] stringByDeletingPathExtension];
-        NSString *fileSuffix = [newURL pathExtension];
-        
-        newURL = [databaseUnsortedFolderURL URLByAppendingPathComponent:[newURL lastPathComponent] isDirectory:NO];
-        newURL = [newURL uniqueURLUsingBlock:
-                  ^ NSURL * (NSInteger triesCount)
-                  {
-                      NSString *newFileName = [NSString stringWithFormat:@"%@ %ld.%@", fileName, triesCount, fileSuffix];
-                      return [databaseUnsortedFolderURL URLByAppendingPathComponent:newFileName isDirectory:NO];
-                  }];
-
-        if(![defaultManager copyItemAtURL:url toURL:newURL error:outError])
-        {
-            [context deleteObject:rom];
-            if(outError!=NULL)
-                *outError = [NSError errorWithDomain:@"OEErrorDomain" code:1 userInfo:[NSDictionary dictionaryWithObject:@"Copying ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
-            
-            return nil;
-        }
-    }
-    
-    [rom setURL:newURL ? : url];
+    [rom setURL:url];
     
     if(md5 != nil) [rom setMd5:md5];
     if(crc != nil) [rom setCrc32:crc];
@@ -144,7 +141,7 @@
         }
     }
     [rom setFileSize:[url fileSize]];
-    
+
     return rom;
 }
 

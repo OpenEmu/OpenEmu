@@ -100,7 +100,7 @@
 {
     [super reloadData];
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarConsolesNotCollapsibleKey])
         [self expandItem:[self itemAtRow:0]];
 }
 
@@ -108,7 +108,7 @@
 {
     [super reloadItem:item];
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarConsolesNotCollapsibleKey])
         [self expandItem:[self itemAtRow:0]];
 }
 
@@ -191,7 +191,7 @@
 
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row
 {
-    if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
+    if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarConsolesNotCollapsibleKey])
         return NSZeroRect;
     
     NSRect rect = [super frameOfOutlineCellAtRow:row];

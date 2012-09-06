@@ -114,7 +114,7 @@
     [toolbar markItemAsSelected:selectedItem];
     [self switchView:selectedItem animate:NO];
     
-    [self.window.contentView setWantsLayer:YES];    
+    [self.window.contentView setWantsLayer:YES];
     
     CATransition *paneTransition = [CATransition animation];
     paneTransition.type = kCATransitionFade;

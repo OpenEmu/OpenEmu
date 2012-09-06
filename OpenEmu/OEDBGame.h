@@ -44,34 +44,36 @@ extern NSString *const OEPasteboardTypeGame;
 
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBGames
++ (id)createGameWithName:(NSString*)name andSystem:(OEDBSystem*)system inDatabase:(OELibraryDatabase *)database;
+
 // returns the game with objID in the default database
-+ (id)gameWithID:(NSManagedObjectID *)objID DEPRECATED_ATTRIBUTE;
++ (id)gameWithID:(NSManagedObjectID *)objID;
 // returns the game with objID in the specified database
 + (id)gameWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database;
 
 // returns the game with objID in the default database
-+ (id)gameWithURIURL:(NSURL *)objIDUrl DEPRECATED_ATTRIBUTE;
++ (id)gameWithURIURL:(NSURL *)objIDUrl;
 // returns the game with objID in the specified database
 + (id)gameWithURIURL:(NSURL *)objIDUrl inDatabase:(OELibraryDatabase *)database;
 
 // returns the game with objID in the default database
-+ (id)gameWithURIString:(NSString *)objIDString DEPRECATED_ATTRIBUTE;
++ (id)gameWithURIString:(NSString *)objIDString;
 // returns the game with objID in the specified database
 + (id)gameWithURIString:(NSString *)objIDString inDatabase:(OELibraryDatabase*)database;
 
-// returns the game from the default database that represents the file at filePath
-+ (id)gameWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag error:(NSError **)outError DEPRECATED_ATTRIBUTE;
+// returns the game from the default database that represents the file at url
++ (id)gameWithURL:(NSURL *)url error:(NSError **)outError;
 
-// returns the game from the specified database that represents the file at filePath
-+ (id)gameWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
+// returns the game from the specified database that represents the file at url
++ (id)gameWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
 // returns the game with the archive id archiveID
-+ (id)gameWithArchiveID:(id)archiveID error:(NSError **)outError DEPRECATED_ATTRIBUTE;
++ (id)gameWithArchiveID:(id)archiveID error:(NSError **)outError;
 + (id)gameWithArchiveID:(id)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
 // returns all games in specified databse
-+ (NSArray *)allGames DEPRECATED_ATTRIBUTE;
-+ (NSArray *)allGamesWithError:(NSError **)error DEPRECATED_ATTRIBUTE;
++ (NSArray *)allGames;
++ (NSArray *)allGamesWithError:(NSError **)error;
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database;
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database error:(NSError **)error;
 
@@ -93,10 +95,6 @@ extern NSString *const OEPasteboardTypeGame;
 @property(readonly) NSDate          *lastPlayed;
 @property(readonly) OEDBSaveState   *autosaveForLastPlayedRom;
 #pragma mark -
-
-+ (id)gameWithArchiveDictionary:(NSDictionary *)gameInfo inDatabase:(OELibraryDatabase *)database;
-
-#pragma mark -
 - (void)setBoxImageByImage:(NSImage *)img;
 - (void)setBoxImageByURL:(NSURL *)url;
 
@@ -111,6 +109,7 @@ extern NSString *const OEPasteboardTypeGame;
 #pragma mark -
 #pragma mark Data Model Properties
 @property(nonatomic, retain) NSString  *name;
+@property(nonatomic, retain) NSString  *gameTitle;
 @property(nonatomic, retain) NSNumber  *rating;
 @property(nonatomic, retain) NSString  *gameDescription;
 @property(nonatomic, retain) NSDate    *importDate;

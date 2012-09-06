@@ -25,7 +25,6 @@
  */
 
 #import "OEControllerImageView.h"
-#import "OEControlsSetupView.h"
 #import "NSImage+OEDrawingAdditions.h"
 
 #define OverlayAlphaON  0.5

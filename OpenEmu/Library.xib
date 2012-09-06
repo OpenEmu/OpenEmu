@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11D50b</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2177</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.SystemVersion">11E53</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
+		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2177</string>
+			<string key="NS.object.0">2182</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSScroller</string>
@@ -71,7 +71,7 @@
 														<string key="NSFrameSize">{186, 556}</string>
 														<reference key="NSSuperview" ref="411773151"/>
 														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="993169309"/>
+														<reference key="NSNextKeyView" ref="948426263"/>
 														<bool key="NSEnabled">YES</bool>
 														<object class="_NSCornerView" key="NSCornerView">
 															<nil key="NSNextResponder"/>
@@ -202,7 +202,7 @@
 										<string key="NSFrameSize">{186, 556}</string>
 										<reference key="NSSuperview" ref="214891354"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="948426263"/>
+										<reference key="NSNextKeyView" ref="411773151"/>
 										<int key="NSsFlags">133648</int>
 										<reference key="NSVScroller" ref="993169309"/>
 										<reference key="NSHScroller" ref="948426263"/>
@@ -509,7 +509,6 @@
 								<string key="NSFrame">{{14, 10}, {28, 23}}</string>
 								<reference key="NSSuperview" ref="1013514702"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<int key="NSViewLayerContentsRedrawPolicy">2</int>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="468907838">
@@ -545,9 +544,6 @@
 			<object class="NSCustomObject" id="331739331">
 				<string key="NSClassName">OESidebarController</string>
 			</object>
-			<object class="NSCustomObject" id="320399549">
-				<string key="NSClassName">OECollectionViewController</string>
-			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
@@ -558,14 +554,6 @@
 						<reference key="destination" ref="331739331"/>
 					</object>
 					<int key="connectionID">561</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">collectionViewController</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="320399549"/>
-					</object>
-					<int key="connectionID">567</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -585,35 +573,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">switchToListView:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="163324733"/>
-					</object>
-					<int key="connectionID">647</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">search:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="1055467720"/>
-					</object>
-					<int key="connectionID">648</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleSidebar:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="517166088"/>
 					</object>
 					<int key="connectionID">651</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">switchToFlowView:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="634002413"/>
-					</object>
-					<int key="connectionID">646</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -622,14 +586,6 @@
 						<reference key="destination" ref="812326747"/>
 					</object>
 					<int key="connectionID">638</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">switchToGridView:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="812326747"/>
-					</object>
-					<int key="connectionID">645</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -672,14 +628,6 @@
 					<int key="connectionID">642</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changeGridSize:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="164785778"/>
-					</object>
-					<int key="connectionID">650</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">mainContentPlaceholderView</string>
 						<reference key="source" ref="1001"/>
@@ -704,6 +652,46 @@
 					<int key="connectionID">655</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">switchToGridView:</string>
+						<reference key="source" ref="1003"/>
+						<reference key="destination" ref="812326747"/>
+					</object>
+					<int key="connectionID">663</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">switchToFlowView:</string>
+						<reference key="source" ref="1003"/>
+						<reference key="destination" ref="634002413"/>
+					</object>
+					<int key="connectionID">664</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">switchToListView:</string>
+						<reference key="source" ref="1003"/>
+						<reference key="destination" ref="163324733"/>
+					</object>
+					<int key="connectionID">665</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">search:</string>
+						<reference key="source" ref="1003"/>
+						<reference key="destination" ref="1055467720"/>
+					</object>
+					<int key="connectionID">666</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">changeGridSize:</string>
+						<reference key="source" ref="1003"/>
+						<reference key="destination" ref="164785778"/>
+					</object>
+					<int key="connectionID">667</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">libraryConroller</string>
 						<reference key="source" ref="677115977"/>
@@ -718,14 +706,6 @@
 						<reference key="destination" ref="247228052"/>
 					</object>
 					<int key="connectionID">580</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">libraryController</string>
-						<reference key="source" ref="320399549"/>
-						<reference key="destination" ref="1001"/>
-					</object>
-					<int key="connectionID">615</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -775,12 +755,6 @@
 						<reference key="object" ref="331739331"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Sidebar Controller</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">566</int>
-						<reference key="object" ref="320399549"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">CollectionView Controller</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">616</int>
@@ -1042,7 +1016,6 @@
 				<string key="554.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="557.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="558.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="566.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="616.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="617.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="619.CustomClassName">OEImageButton</string>
@@ -1084,7 +1057,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">658</int>
+			<int key="maxID">667</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1102,9 +1075,9 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeGridSize:">id</string>
 						<string key="search:">id</string>
-						<string key="selectFlowView:">id</string>
-						<string key="selectGridView:">id</string>
-						<string key="selectListView:">id</string>
+						<string key="switchToFlowView:">id</string>
+						<string key="switchToGridView:">id</string>
+						<string key="switchToListView:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="changeGridSize:">
@@ -1115,16 +1088,16 @@
 							<string key="name">search:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="selectFlowView:">
-							<string key="name">selectFlowView:</string>
+						<object class="IBActionInfo" key="switchToFlowView:">
+							<string key="name">switchToFlowView:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="selectGridView:">
-							<string key="name">selectGridView:</string>
+						<object class="IBActionInfo" key="switchToGridView:">
+							<string key="name">switchToGridView:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="selectListView:">
-							<string key="name">selectListView:</string>
+						<object class="IBActionInfo" key="switchToListView:">
+							<string key="name">switchToListView:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -1282,7 +1255,6 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="collectionViewController">OECollectionViewController</string>
 						<string key="mainContentPlaceholderView">NSView</string>
 						<string key="mainSplitView">OELibrarySplitView</string>
 						<string key="sidebarController">OESidebarController</string>
@@ -1295,10 +1267,6 @@
 						<string key="toolbarSlider">NSSlider</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="collectionViewController">
-							<string key="name">collectionViewController</string>
-							<string key="candidateClassName">OECollectionViewController</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="mainContentPlaceholderView">
 							<string key="name">mainContentPlaceholderView</string>
 							<string key="candidateClassName">NSView</string>

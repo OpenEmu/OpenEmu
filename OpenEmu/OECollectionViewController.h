@@ -29,10 +29,10 @@
 #import "IKImageFlowView.h"
 
 #import "OECollectionViewItemProtocol.h"
-
+#import "OELibrarySubviewController.h"
 @class OELibraryController;
 @class OEHorizontalSplitView;
-@interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
+@interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
 {
 @private
     NSArrayController *gamesController;
@@ -50,11 +50,12 @@
 #pragma mark -
 - (NSArray *)selectedGames;
 - (NSIndexSet *)selectedIndexes;
+
 #pragma mark -
 #pragma mark View Selection
-- (IBAction)selectGridView:(id)sender;
-- (IBAction)selectFlowView:(id)sender;
-- (IBAction)selectListView:(id)sender;
+- (IBAction)switchToGridView:(id)sender;
+- (IBAction)switchToFlowView:(id)sender;
+- (IBAction)switchToListView:(id)sender;
 
 #pragma mark -
 #pragma mark Toolbar Actions

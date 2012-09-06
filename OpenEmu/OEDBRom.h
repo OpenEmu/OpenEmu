@@ -32,13 +32,21 @@
 @interface OEDBRom : OEDBItem
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBRoms
+// returns the game with objID in the default database
++ (id)romWithID:(NSManagedObjectID *)objID;
+// returns the game with objID in the specified database
++ (id)romWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database;
+
++ (id)romWithURIURL:(NSURL*)objIDUrl;
++ (id)romWithURIURL:(NSURL*)objIDUrl inDatabase:(OELibraryDatabase *)database;
+
 // Creating / Acquireing ROMs by filesystem representation
 + (id)createRomWithURL:(NSURL *)url error:(NSError **)outError;
 + (id)createRomWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 + (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc error:(NSError **)outError;
 + (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
-+ (id)romWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag error:(NSError **)outError;
-+ (id)romWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
++ (id)romWithURL:(NSURL *)url error:(NSError **)outError;
++ (id)romWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 + (id)romWithCRC32HashString:(NSString *)crcHash error:(NSError **)outError;
 + (id)romWithCRC32HashString:(NSString *)crcHash inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 + (id)romWithMD5HashString:(NSString *)md5Hash error:(NSError **)outError;

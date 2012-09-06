@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2009, OpenEmu Team
+ 
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,16 +25,21 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
+@interface OEControlsButtonSetupView : NSView
+
+@property(unsafe_unretained) id  target;
+@property                    SEL action;
+
+@property(nonatomic, copy) NSString *selectedKey;
 
 
-@protocol OESidebarDataSourceItem <NSObject>
-- (NSImage*)sidebarIcon;
-- (NSString*)sidebarName;
-- (void)setSidebarName:(NSString*)newName;
-- (BOOL)isSelectableInSdebar;
-- (BOOL)isEditableInSdebar;
-- (BOOL)isGroupHeaderInSdebar;
+// Content of the system's Info.plist's OEControlListKey object
+- (void)setupWithControlList:(NSArray *)controlList;
 
-- (BOOL)hasSubCollections;
+// Does not trigger the action message
+- (void)selectNextKeyButton;
+
+- (void)updateButtons;
+
 @end
