@@ -38,6 +38,8 @@
 #import "OESystemPlugin.h"
 #import "NSViewController+OEAdditions.h"
 
+#import "OESidebarItem.h"
+
 #import "OEDBGame.h"
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;

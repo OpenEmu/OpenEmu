@@ -13,6 +13,10 @@
 
 #import "NSViewController+OEAdditions.h"
 #import "OEImportItem.h"
+#import "OECoreTableButtonCell.h"
+
+#import "OEMenu.h"
+#import "OEDBSystem.h"
 @interface OEImportViewController ()
 @end
 @implementation OEImportViewController
@@ -38,17 +42,6 @@
     [[self progressIndicator] startAnimation:self];
     
     [[self tableView] setDelegate:self];
-    [[self tableView] setDoubleAction:@selector(doubleAction:)];
-    [[self tableView] setTarget:self];
-}
-- (IBAction)doubleAction:(id)sender
-{
-    NSInteger row = [[self tableView] selectedRow];
-    OEImportItem *item = [[[self importer] queue] objectAtIndex:row];
-
-    DLog(@"%@", [item localizedStatusMessage]);
-    DLog(@"%@", [item importInfo]);
-    DLog(@"%@", [item error]);
 }
 @synthesize progressIndicator, statusField, tableView;
 #pragma mark -
@@ -124,6 +117,7 @@
         [[self tableView] reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:idx] columnIndexes:columnIndexes];
     }
 }
+
 #pragma mark - UI Methods
 - (IBAction)togglePause:(id)sender
 {
@@ -133,6 +127,19 @@
 - (IBAction)cancel:(id)sender
 {
     [[self importer] cancel];
+}
+
+- (void)resolveMultipleSystemsError:(NSMenuItem*)menuItem
+{
+    OEImportItem *importItem = [[[self importer] queue] objectAtIndex:[[self tableView] selectedRow]];
+    [[importItem importInfo] setValue:[NSArray arrayWithObject:[menuItem representedObject]] forKey:OEImportInfoSystemID];
+    [importItem setError:nil];
+    [importItem setImportStep:OEImportStepSyncArchive];
+    [importItem setImportState:OEImportItemStatusIdle];
+    
+    // TODO: TableView reload data for item at selected row
+    
+    [[self importer] startQueueIfNeeded];
 }
 #pragma mark - TableView Datasource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -154,6 +161,20 @@
 }
 
 #pragma mark - Table View Delegate
+- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    NSString *identifier = [tableColumn identifier];
+    if([identifier isEqualToString:@"status"])
+    {
+        OEImportItem *item = [[[self importer] queue] objectAtIndex:row];
+        if([[[item error] domain] isEqualToString:OEImportErrorDomainResolvable] && [[item error] code] == OEImportErrorCodeMultipleSystems)
+        {
+            return [[OECoreTableButtonCell alloc] initTextCell:@"Pick a system!"];
+        }
+    }
+    return [tableColumn dataCellForRow:row];
+}
+
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
         if([aCell isKindOfClass:[NSTextFieldCell class]])
@@ -175,6 +196,30 @@
         }    
 }
 
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    NSString *columnIdentifier = [aTableColumn identifier];
+    if([columnIdentifier isEqualToString:@"status"] && [anObject boolValue])
+    {
+        OEImportItem *item = [[[self importer] queue] objectAtIndex:rowIndex];
+        NSMenu     *menu = [[NSMenu alloc] init];
+        NSArray *systemIds = [[item importInfo] valueForKey:OEImportInfoSystemID];
+        [systemIds enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:obj inDatabase:[[self importer] database]];
+            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[system name] action:@selector(resolveMultipleSystemsError:) keyEquivalent:@""];
+            [menuItem setImage:[system icon]];
+            [menuItem setTarget:self];
+            [menuItem setRepresentedObject:obj];
+            [menu addItem:menuItem];
+        }];
+        OEMenu *oemenu = [menu convertToOEMenu];
+        NSRect rowRect = [[self tableView] rectOfRow:rowIndex];
+        NSRect columnRect = [[self tableView] rectOfColumn:2];
+        NSRect buttonRect = NSIntersectionRect(rowRect, columnRect);
+        NSRect rectOnWindow = [[self tableView] convertRect:buttonRect toView:nil];
+        [oemenu openOnEdge:OENoEdge ofRect:rectOnWindow ofWindow:[[self view] window]];
+    }
+}
 #pragma mark -
 - (NSImage*)sidebarIcon
 {
