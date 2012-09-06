@@ -78,16 +78,17 @@
 
 - (void)awakeFromNib
 {
-    // Prelaod window to prevent flickering when it's first shown
+    // Preload window to prevent flickering when it's first shown
     [self window];
 }
 
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    
+
     INAppStoreWindow *win = (INAppStoreWindow*)[self window];
-    
+    [win close]; // Make sure window doesn't show up in window menu until it's actual visible
+
     NSColor *windowBackgroundColor = [NSColor colorWithDeviceRed:0.149 green:0.149 blue:0.149 alpha:1.0];
     [win setBackgroundColor:windowBackgroundColor];
     
@@ -100,7 +101,6 @@
    
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger selectedTab = [standardDefaults integerForKey:UDSelectedPreferencesTab];
-    
     
     [self setVisiblePaneIndex:-1];
     
