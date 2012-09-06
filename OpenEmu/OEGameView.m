@@ -82,7 +82,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @property         IOSurfaceID gameSurfaceID;
 
 @property         OEIntSize gameScreenSize;
-@property         OEIntSize gameBufferSize;
 @property         CVDisplayLinkRef gameDisplayLinkRef;
 @property(strong) NSTimer *gameTimer;
 @property(strong) SyphonServer *gameServer;
@@ -109,7 +108,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @synthesize gameDisplayLinkRef;
 @synthesize gameTimer;
 @synthesize gameScreenSize;
-@synthesize gameBufferSize;
 @synthesize gameServer;
 
 // Filters
@@ -196,7 +194,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
     
     gameScreenSize = rootProxy.screenSize;
-    gameBufferSize = rootProxy.bufferSize;
     gameSurfaceID = rootProxy.surfaceID;
 
     // rendering
@@ -396,12 +393,13 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         filterTime -= filterStartTime;
     
     // IOSurfaceLookup performs a lock *AND A RETAIN* - 
-    IOSurfaceRef surfaceRef = IOSurfaceLookup(gameSurfaceID); 
-    if(surfaceRef == NULL)
-    {
-        gameSurfaceID = rootProxy.surfaceID;
-        surfaceRef = IOSurfaceLookup(gameSurfaceID);
-    }
+    // look up every frame, since our games surfaceRef may have changed in response to a resize
+    gameSurfaceID = rootProxy.surfaceID;
+    IOSurfaceRef surfaceRef = IOSurfaceLookup(gameSurfaceID);
+//    if(surfaceRef == NULL)
+//    {
+//        surfaceRef = IOSurfaceLookup(gameSurfaceID);
+//    }
     
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
@@ -543,8 +541,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     // calculate aspect ratio
     NSSize scaled;
-    float wr = gameBufferSize.width / self.frame.size.width;
-    float hr = gameBufferSize.height / self.frame.size.height;
+    float wr = rootProxy.aspectSize.width / self.frame.size.width;
+    float hr = rootProxy.aspectSize.height / self.frame.size.height;
     float ratio;
     ratio = (hr < wr ? wr : hr);
     scaled = NSMakeSize(( wr / ratio), (hr / ratio));
@@ -691,6 +689,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void)gameCoreDidChangeScreenSizeTo:(OEIntSize)size
 {
+    NSLog(@"gameCoreDidChangeScreenSizeTo %i %i", size.width, size.height);
     self.gameScreenSize = size;
 }
 

@@ -28,11 +28,16 @@
 #import "OEImportItem.h"
 
 #pragma mark Error Constants
-#define MaxSimulatenousImports 1
-#define OEImportErrorDomain @"OEImportDomain"
+#define MaxSimulatenousImports 1 // imports can't really be simulatenous because access to queue is not ready for multithreadding right now
+#define OEImportErrorDomainFatal @"OEImportFatalDomain"
+#define OEImportErrorDomainResolvable @"OEImportResolvableDomain"
+#define OEImportErrorDomainSuccess @"OEImportSucessDomain"
+
+#define OEImportErrorCodeAlreadyInDatabase -1
+
 #define OEImportErrorCodeWaitingForArchiveSync 1
 #define OEImportErrorCodeMultipleSystems 2
-#define OEImportMinFatalErrorCode 10
+
 #pragma mark - Import Info Keys
 #define OEImportInfoMD5 @"md5"
 #define OEImportInfoCRC @"crc"
@@ -81,7 +86,7 @@
 @end
 
 #pragma mark - Importer Delegate
-@protocol OEROMImporterDelegate
+@protocol OEROMImporterDelegate <NSObject>
 - (void)romImporter:(OEROMImporter*)importer startedProcessingItem:(OEImportItem*)item;
 - (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem*)item;
 - (void)romImporter:(OEROMImporter*)importer finishedProcessingItem:(OEImportItem*)item;

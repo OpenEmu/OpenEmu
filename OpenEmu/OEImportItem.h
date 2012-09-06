@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 typedef enum  {
     OEImportItemStatusIdle,
     OEImportItemStatusActive,
@@ -39,5 +38,5 @@ typedef void (^OEImportItemCompletionBlock)(void);
 @property (strong) OEImportItemCompletionBlock completionHandler;
 
 + (id)itemWithURL:(NSURL*)url andCompletionHandler:(OEImportItemCompletionBlock)handler;
-
+- (NSString*)localizedStatusMessage;
 @end

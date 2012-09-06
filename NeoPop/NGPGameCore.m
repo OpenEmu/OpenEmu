@@ -401,7 +401,7 @@ static BOOL read_file_to_buffer(const char *filename, _u8 *buffer, _u32 len)
     
     while ((got=fread(buffer, 1, len, fp)) < len)
     {
-        if (feof(fp) || ferror(fp) && errno != EINTR)
+        if( feof(fp) || (ferror(fp) && (errno != EINTR)))
         {
             fclose(fp);
             return NO;
@@ -417,7 +417,7 @@ static BOOL read_file_to_buffer(const char *filename, _u8 *buffer, _u32 len)
     return YES;
 }
 
-static BOOL write_file_from_buffer(char *filename, _u8 *buffer, _u32 len)
+static BOOL write_file_from_buffer(const char *filename, _u8 *buffer, _u32 len)
 {
     FILE *fp;
     _u32 written;
@@ -427,7 +427,7 @@ static BOOL write_file_from_buffer(char *filename, _u8 *buffer, _u32 len)
     
     while ((written = fwrite(buffer, 1, len, fp)) < len)
     {
-        if (feof(fp) || ferror(fp) && errno != EINTR)
+        if( feof(fp) || (ferror(fp) && (errno != EINTR)))
         {
             fclose(fp);
             return NO;

@@ -114,6 +114,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     if(![gameCore rendersToOpenGL])
         [self setupGameTexture];
 
+    // ensure we set correctedSize corectly from the get go
+    [self updateScreenSize];
+    
     [self setupIOSurface];
     [self setupFBO];
     
@@ -190,7 +193,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 {
     // init our texture and IOSurface
     NSMutableDictionary *surfaceAttributes = [[NSMutableDictionary alloc] init];
-    OEIntSize surfaceSize = gameCore.bufferSize;
+    OEIntSize surfaceSize = correctedSize;
     [surfaceAttributes setObject:[NSNumber numberWithBool:YES] forKey:(NSString*)kIOSurfaceIsGlobal];
     [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)surfaceSize.width] forKey:(NSString*)kIOSurfaceWidth];
     [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)surfaceSize.height] forKey:(NSString*)kIOSurfaceHeight];
@@ -225,7 +228,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, ioSurfaceTexture, 0);
     
-    OEIntSize surfaceSize = gameCore.bufferSize;
+    OEIntSize surfaceSize = correctedSize;
     
     // setup depthStencilRenderBuffer
     glGenRenderbuffersEXT(1, &depthStencilRB);
@@ -357,14 +360,25 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     OEIntSize bufferSize = gameCore.bufferSize;
     OEIntRect screenRect = gameCore.screenRect;
 
-    if(memcmp(&screenRect.size, &previousScreenSize, sizeof(screenRect.size)))
-    {
-        [self updateScreenSize];
-        [delegate gameCoreDidChangeScreenSizeTo:correctedSize];
-    }
-    
     CGLContextObj cgl_ctx = glContext;
     CGLSetCurrentContext(cgl_ctx);
+
+    if(memcmp(&screenRect.size, &previousScreenSize, sizeof(screenRect.size)))
+    {
+        NSLog(@"Need a resize!");
+        // recreate our surface so its the same size as our screen
+        [self destroySurface];
+
+        [self updateScreenSize];
+
+        [self setupIOSurface];
+
+        [self setupFBO];
+        
+        glFlush();
+        
+        [delegate gameCoreDidChangeScreenSizeTo:correctedSize];
+    }
     
     // Incase of a GameCore that renders direct to GL, do some state 'protection'
     glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -521,7 +535,12 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     glDeleteTextures(1, &ioSurfaceTexture);
     ioSurfaceTexture = 0;
-    
+}
+
+- (void) destroyGLResources
+{
+    CGLContextObj cgl_ctx = glContext;
+
     glDeleteTextures(1, &gameTexture);
     gameTexture = 0;
     
@@ -655,9 +674,9 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 #pragma mark -
 #pragma mark OE DO Delegate methods
 
-- (OEIntSize)bufferSize
+- (OEIntSize)aspectSize
 {
-    return [gameCore bufferSize];
+    return [gameCore aspectSize];
 }
 
 - (BOOL)isEmulationPaused

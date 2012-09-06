@@ -34,12 +34,22 @@
     [super loadView];
     
     [(OEBackgroundColorView*)[self view] setBackgroundColor:[NSColor lightGrayColor]];
-    [[self progressIndicator] setIndeterminate:YES];
+    [[self progressIndicator] setIndeterminate:NO];
     [[self progressIndicator] startAnimation:self];
     
     [[self tableView] setDelegate:self];
+    [[self tableView] setDoubleAction:@selector(doubleAction:)];
+    [[self tableView] setTarget:self];
 }
+- (IBAction)doubleAction:(id)sender
+{
+    NSInteger row = [[self tableView] selectedRow];
+    OEImportItem *item = [[[self importer] queue] objectAtIndex:row];
 
+    DLog(@"%@", [item localizedStatusMessage]);
+    DLog(@"%@", [item importInfo]);
+    DLog(@"%@", [item error]);
+}
 @synthesize progressIndicator, statusField, tableView;
 #pragma mark -
 - (void)viewWillAppear
@@ -82,17 +92,37 @@
 {}
 
 #pragma mark - OEROMImporter Delegate
+- (void)romImporterChangedItemCount:(OEROMImporter*)importer
+{
+    [[self tableView] reloadData];
+}
+
 - (void)romImporter:(OEROMImporter*)importer startedProcessingItem:(OEImportItem*)item
 {
-    DLog(@"");
+    NSUInteger idx = [[[self importer] queue] indexOfObjectIdenticalTo:item];
+    if(idx != NSNotFound)
+    {
+        NSIndexSet *columnIndexes = [[self tableView] columnIndexesInRect:[[self tableView] visibleRect]];
+        [[self tableView] reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:idx] columnIndexes:columnIndexes];
+    }
 }
 - (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem*)item
 {
-    DLog(@"");
+    NSUInteger idx = [[[self importer] queue] indexOfObjectIdenticalTo:item];
+    if(idx != NSNotFound)
+    {
+        NSIndexSet *columnIndexes = [[self tableView] columnIndexesInRect:[[self tableView] visibleRect]];
+        [[self tableView] reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:idx] columnIndexes:columnIndexes];
+    }
 }
 - (void)romImporter:(OEROMImporter*)importer finishedProcessingItem:(OEImportItem*)item
 {
-    DLog(@"");
+    NSUInteger idx = [[[self importer] queue] indexOfObjectIdenticalTo:item];
+    if(idx != NSNotFound)
+    {
+        NSIndexSet *columnIndexes = [[self tableView] columnIndexesInRect:[[self tableView] visibleRect]];
+        [[self tableView] reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:idx] columnIndexes:columnIndexes];
+    }
 }
 #pragma mark - UI Methods
 - (IBAction)togglePause:(id)sender
@@ -117,10 +147,12 @@
         return nil;
     else if([identifier isEqualToString:@"path"])
         return [[[[[self importer] queue] objectAtIndex:row] URL] path];
-    else if([identifier isEqualToString:@"status"]) return nil;
+    else if([identifier isEqualToString:@"status"])
+        return [[[[self importer] queue] objectAtIndex:row] localizedStatusMessage];
     
     return nil;
 }
+
 #pragma mark - Table View Delegate
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
