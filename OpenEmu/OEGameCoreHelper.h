@@ -43,10 +43,9 @@
 - (oneway void)setPauseEmulation:(BOOL)flag;
 
 // gamecore attributes
-@property(readonly) OEIntSize   screenSize; // the rect inside the IOSurface which the game is drawing into
-                                            // the rendering filter should resize from this rect into the entire window
-                                            // ignoring aspect ratio
-@property(readonly) OEIntSize   bufferSize; // the size of the IOSurface
+@property(readonly) OEIntSize   screenSize; 
+                                            
+@property(readonly) OEIntSize   aspectSize;
 @property(readonly) BOOL isEmulationPaused;
 
 @property(readwrite) BOOL drawSquarePixels;

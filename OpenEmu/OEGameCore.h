@@ -163,15 +163,16 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 #pragma mark -
 #pragma mark Video
-// current subrect in the videoBuffer which is being updated
-// the size of the game window is set to screenRect.size of the first frame
-// it is assumed that this size has the same aspect ratio as bufferSize
-// if screenRect.size changes, the image is resized to the original aspect ratio
-// this must not be larger than bufferSize
-// ...all these semantics are designed to match SNES hi-res mode
-@property(readonly) OEIntRect   screenRect;
-// maximum size of output video
+// The full size of the internal video buffer used by the core
+// This is typically the largest size possible.
 @property(readonly) OEIntSize   bufferSize;
+
+// The size of the current portion of the buffer that is needs to be displayed as "active" to the user
+// Note that this rect may not be have the same aspect ratio as what the end user sees. 
+@property(readonly) OEIntRect   screenRect;
+
+// The *USER INTERFACE* aspect of the actual final displayed video on screen.
+@property(readonly) OEIntSize   aspectSize;
 
 @property(readonly) const void *videoBuffer;
 @property(readonly) GLenum      pixelFormat;
