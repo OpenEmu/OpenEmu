@@ -126,7 +126,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>OEBundleBuildReference</key>
-	<string>106-g0b00beb-Debug</string>
+	<string>107-g321749f-Debug</string>
 	<key>OEBundlePath</key>
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
 	<key>OECoreListURL</key>
