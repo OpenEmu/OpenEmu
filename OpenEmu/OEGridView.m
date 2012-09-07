@@ -531,10 +531,17 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if(_noItemsView != nil)
     {
         [_noItemsView removeFromSuperview];
-        [_rootLayer setHidden:NO];
         _noItemsView = nil;
         [[self enclosingScrollView] setVerticalScrollElasticity:_previousElasticity];
         [self OE_setNeedsLayoutGridView];
+    }
+}
+
+- (void)removeAllGridViewCells
+{
+    for (id cell in [_rootLayer.sublayers copy])
+    {
+        [cell removeFromSuperlayer];
     }
 }
 
@@ -554,7 +561,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
             [self addSubview:_noItemsView];
             [_noItemsView setHidden:NO];
-            [_rootLayer setHidden:YES];
+            [self removeAllGridViewCells];
             [self OE_centerNoItemsView];
             _previousElasticity = [enclosingScrollView verticalScrollElasticity];
             [enclosingScrollView setVerticalScrollElasticity:NSScrollElasticityNone];
