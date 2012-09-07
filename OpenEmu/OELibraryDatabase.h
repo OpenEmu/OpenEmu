@@ -32,6 +32,12 @@
 #define OELibraryErrorCodeFileInFolderNotFound 11790
 
 #define OEDatabaseFileName @"Library.storedata"
+
+extern NSString * const OEDatabasePathKey;
+extern NSString * const OEDefaultDatabasePathKey;
+extern NSString * const OESaveStateLastFSEventIDKey;
+
+extern NSString * const OELibraryDatabaseUserInfoKey;
 @interface OELibraryDatabase : NSObject 
 {
 @private
@@ -81,6 +87,8 @@
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray*)romsInCollection:(id)collection;
 
+- (NSArray*)lastPlayedRoms;
+- (NSDictionary*)lastPlayedRomsBySystem;
 #pragma mark -
 #pragma mark Database Collection editing
 - (void)removeCollection:(NSManagedObject*)collection;

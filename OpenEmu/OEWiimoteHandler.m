@@ -32,6 +32,8 @@
 #define MaximumWiimotes 7
 #define SynVibrateDuration 0.35
 
+NSString * const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
+
 @interface OEWiimoteHandler ()
 @property (strong) WiimoteBrowser		*browser;
 @property (strong) NSMutableArray	*wiiRemotes;
@@ -77,7 +79,7 @@
 
 - (void)bluetoothDidPowerOn:(NSNotification*)notification
 {
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
         [[self browser] startSearch];
 }
 #pragma mark -
@@ -189,8 +191,8 @@
             tiltX = zeroX;
         if (tiltY>(zeroX-WiiNunchuckCenterTreshholdY)&&tiltY<(zeroY+WiiNunchuckCenterTreshholdY))
             tiltY = zeroY;
-        OEHIDEvent *eventX = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDAxisX minimum:0 value:tiltX maximum:WiiNunchukJoyStickMaximumX];
-        OEHIDEvent *eventY = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDAxisY minimum:0 value:tiltY maximum:WiiNunchukJoyStickMaximumY];
+        OEHIDEvent *eventX = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDEventAxisX minimum:0 value:tiltX maximum:WiiNunchukJoyStickMaximumX];
+        OEHIDEvent *eventY = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDEventAxisY minimum:0 value:tiltY maximum:WiiNunchukJoyStickMaximumY];
 		[NSApp postHIDEvent:eventX];
         [NSApp postHIDEvent:eventY];
 

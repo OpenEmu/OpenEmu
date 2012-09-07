@@ -42,19 +42,18 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEGBAButtonUp[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEGBAButtonDown[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEGBAButtonLeft[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEGBAButtonRight[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OEGBAButtonA[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEGBAButtonB[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEGBAButtonL[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEGBAButtonR[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEGBAButtonStart[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OEGBAButtonSelect[1]",
-                              nil];
-    return controls;
+    return @{
+    @"OEGBAButtonUp"     : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OEGBAButtonDown"   : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OEGBAButtonLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OEGBAButtonRight"  : @(kHIDUsage_KeyboardRightArrow),
+    @"OEGBAButtonA"      : @(kHIDUsage_KeyboardD)         ,
+    @"OEGBAButtonB"      : @(kHIDUsage_KeyboardS)         ,
+    @"OEGBAButtonL"      : @(kHIDUsage_KeyboardQ)         ,
+    @"OEGBAButtonR"      : @(kHIDUsage_KeyboardE)         ,
+    @"OEGBAButtonStart"  : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OEGBAButtonSelect" : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 @end

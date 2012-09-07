@@ -38,6 +38,10 @@
 #import "NSArray+OEAdditions.h"
 
 #import "ArchiveVGThrottling.h"
+
+NSString * const OEOrganizeLibraryKey       = @"organizeLibrary";
+NSString * const OECopyToLibraryKey         = @"copyToLibrary";
+NSString * const OEAutomaticallyGetInfoKey  = @"automaticallyGetInfo";
 @interface OEROMImporter ()
 {
     dispatch_queue_t dispatchQueue;
@@ -310,7 +314,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
         return;
     
     NSUserDefaults  *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL lookupInfo = [standardUserDefaults boolForKey:UDAutomaticallyGetInfoKey];
+    BOOL lookupInfo = [standardUserDefaults boolForKey:OEAutomaticallyGetInfoKey];
     if(!lookupInfo)
         return;
 
@@ -348,9 +352,9 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem* item) = 
 - (void)performImportStepOrganize:(OEImportItem*)item
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL copyToLibrary   = [standardUserDefaults boolForKey:UDCopyToLibraryKey];
-    BOOL organizeLibrary = [standardUserDefaults boolForKey:UDOrganizeLibraryKey];
-    BOOL lookupInfo      = [standardUserDefaults boolForKey:UDAutomaticallyGetInfoKey];
+    BOOL copyToLibrary   = [standardUserDefaults boolForKey:OECopyToLibraryKey];
+    BOOL organizeLibrary = [standardUserDefaults boolForKey:OEOrganizeLibraryKey];
+    BOOL lookupInfo      = [standardUserDefaults boolForKey:OEAutomaticallyGetInfoKey];
     
     NSURL *url = [item URL];
     if(copyToLibrary && ![url isSubpathOfURL:[[self database] romsFolderURL]])

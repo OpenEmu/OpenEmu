@@ -43,16 +43,15 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEGGButtonUp"   ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEGGButtonRight",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEGGButtonLeft" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEGGButtonDown" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEGGButtonA"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEGGButtonB"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEGGButtonStart",
-                              nil];
-    return controls;
+    return @{
+    @"OEGGButtonUp"    : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OEGGButtonRight" : @(kHIDUsage_KeyboardRightArrow),
+    @"OEGGButtonLeft"  : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OEGGButtonDown"  : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OEGGButtonA"     : @(kHIDUsage_KeyboardA)         ,
+    @"OEGGButtonB"     : @(kHIDUsage_KeyboardS)         ,
+    @"OEGGButtonStart" : @(kHIDUsage_KeyboardSpacebar)  ,
+    };
 }
 
 @end

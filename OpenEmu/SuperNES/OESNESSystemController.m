@@ -44,27 +44,26 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OESNESButtonUp[1]"          ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OESNESButtonDown[1]"        ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OESNESButtonLeft[1]"        ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OESNESButtonRight[1]"       ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OESNESButtonA[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OESNESButtonB[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OESNESButtonX[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OESNESButtonY[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OESNESButtonTriggerLeft[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OESNESButtonTriggerRight[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OESNESButtonStart[1]"       ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OESNESButtonSelect[1]"      ,
-                              nil];
-    return controls;
+    return @{
+    @"OESNESButtonUp"           : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OESNESButtonDown"         : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OESNESButtonLeft"         : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OESNESButtonRight"        : @(kHIDUsage_KeyboardRightArrow),
+    @"OESNESButtonA"            : @(kHIDUsage_KeyboardD)         ,
+    @"OESNESButtonB"            : @(kHIDUsage_KeyboardS)         ,
+    @"OESNESButtonX"            : @(kHIDUsage_KeyboardW)         ,
+    @"OESNESButtonY"            : @(kHIDUsage_KeyboardA)         ,
+    @"OESNESButtonTriggerLeft"  : @(kHIDUsage_KeyboardE)         ,
+    @"OESNESButtonTriggerRight" : @(kHIDUsage_KeyboardQ)         ,
+    @"OESNESButtonStart"        : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OESNESButtonSelect"       : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 - (NSString*)systemName{
 	if([[OELocalizationHelper sharedHelper] isRegionJAP])
 		return @"Super Famicom";
-	else 
+	else
 		return @"Super Nintendo (SNES)";
 }
 

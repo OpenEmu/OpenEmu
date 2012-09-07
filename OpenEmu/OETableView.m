@@ -29,6 +29,8 @@
 #import "OETableHeaderCell.h"
 #import "OEMenu.h"
 
+extern NSString * const OELightStyleGridViewMenu;
+
 @implementation OETableView
 @synthesize selectionColor;
 @dynamic dataSource;
@@ -224,7 +226,7 @@ static NSGradient *highlightGradient, *normalGradient;
         
         OEMenu *contextMenu = [[self dataSource] tableView:self menuForItemsAtIndexes:indexes];
         
-        if([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu])
+        if([[NSUserDefaults standardUserDefaults] boolForKey:OELightStyleGridViewMenu])
             [contextMenu setStyle:OEMenuStyleLight];
         
         mouseLocationInWindow = [self convertPoint:mouseLocationInView toView:nil];

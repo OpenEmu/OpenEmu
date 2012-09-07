@@ -33,12 +33,15 @@
 
 @property(nonatomic, copy) NSString *selectedKey;
 
+// An object which support KVC/KVO for all OEGenericControlNamesKey of the current system
+@property id bindingsProvider;
 
 // Content of the system's Info.plist's OEControlListKey object
 - (void)setupWithControlList:(NSArray *)controlList;
 
 // Does not trigger the action message
 - (void)selectNextKeyButton;
+- (void)selectNextKeyAfterKeys:(NSArray *)keys;
 
 - (void)updateButtons;
 

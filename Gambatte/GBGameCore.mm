@@ -142,6 +142,11 @@ void usecsleep(const usec_t usecs) {
     return OESizeMake(gambatte.videoWidth(), gambatte.videoHeight());
 }
 
+- (OEIntSize)aspectSize
+{
+    return OESizeMake(10, 9);
+}
+
 - (void)setVideoBuffer:(const void *)buffer
 {
     videoBuffer = buffer;

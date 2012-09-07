@@ -30,12 +30,14 @@
 #import "OELibraryDatabase.h"
 
 #import "OEDBGame.h"
+
+extern NSString * const OERegionKey;
 @implementation OEPrefDebugController
 @synthesize regionSelector, dbActionSelector, contentView;
 #pragma mark -
 - (void)awakeFromNib
 {    
-    if([[NSUserDefaults standardUserDefaults] valueForKey:UDRegionKey])
+    if([[NSUserDefaults standardUserDefaults] valueForKey:OERegionKey])
     {
         OERegion currentRegion = [[OELocalizationHelper sharedHelper] region];
         [[self regionSelector] selectItemWithTag:currentRegion];
@@ -54,9 +56,9 @@
 - (IBAction)changeRegion:(id)sender
 {
     if([sender selectedTag] == -1)
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:UDRegionKey];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:OERegionKey];
     else 
-        [[NSUserDefaults standardUserDefaults] setInteger:[sender selectedTag] forKey:UDRegionKey];
+        [[NSUserDefaults standardUserDefaults] setInteger:[sender selectedTag] forKey:OERegionKey];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsChangedNotificationName object:self];
 }

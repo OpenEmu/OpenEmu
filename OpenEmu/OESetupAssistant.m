@@ -41,6 +41,8 @@
 #import "OECoreDownload.h"
 #import "OEHIDDeviceHandler.h"
 
+NSString * const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
+
 @implementation OESetupAssistant
 @synthesize completionBlock;
 @synthesize deviceHandlers;
@@ -389,7 +391,7 @@
 - (IBAction)finishAndRevealLibrary:(id)sender
 {
     // mark setup done.
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:UDSetupAssistantHasRun];
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:OESetupAssistantHasFinishedKey];
     
     // clean up
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];

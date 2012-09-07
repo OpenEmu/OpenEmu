@@ -25,6 +25,10 @@
  */
 
 #import <Cocoa/Cocoa.h>
+
+extern NSString * const OEAllowPopoutGameWindowKey;
+extern NSString * const OEForcePopoutGameWindowKey;
+
 @class OEGameDocument;
 @class OELibraryController;
 

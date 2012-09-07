@@ -289,6 +289,11 @@ static void writeSaveFile(const char* path, int type)
     return OESizeMake(240, 160);
 }
 
+- (OEIntSize)aspectSize
+{
+    return OESizeMake(3, 2);
+}
+
 - (void)setupEmulation
 {
 }

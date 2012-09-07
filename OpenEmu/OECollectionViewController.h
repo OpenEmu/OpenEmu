@@ -33,20 +33,6 @@
 @class OELibraryController;
 @class OEHorizontalSplitView;
 @interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
-{
-@public
-    NSArrayController *gamesController;
-@private
-    
-    id<OECollectionViewItemProtocol> collectionItem;
-    
-    IBOutlet NSView *gridViewContainer;// gridview
-    IBOutlet OEGridView *gridView;// scrollview for gridview
-    
-    IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
-    IBOutlet IKImageFlowView *coverFlowView;
-    IBOutlet NSTableView *listView;
-}
 
 #pragma mark -
 - (NSArray *)selectedGames;
@@ -73,4 +59,7 @@
 
 @property(nonatomic, strong) IBOutlet NSView *emptyCollectionView;
 @property(nonatomic, strong) IBOutlet NSView *emptyConsoleView;
+
+@property(readonly) NSArrayController *gamesController;
+
 @end

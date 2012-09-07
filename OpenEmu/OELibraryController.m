@@ -41,6 +41,13 @@
 #import "OESidebarItem.h"
 
 #import "OEDBGame.h"
+
+
+NSString * const OESidebarVisibleKey = @"isSidebarVisible";
+NSString * const OESidebarWidthKey = @"lastSidebarWidth";
+NSString * const OELastCollectionViewKey = @"lastCollectionView";
+extern NSString * const OELastCollectionSelectedKey;
+
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
@@ -96,9 +103,9 @@
 
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
-    [splitView setMinWidth:[defaults doubleForKey:UDSidebarMinWidth]];
-    [splitView setMainViewMinWidth:[defaults doubleForKey:UDMainViewMinWidth]];
-    [splitView setSidebarMaxWidth:[defaults doubleForKey:UDSidebarMaxWidth]];
+    [splitView setMinWidth:[defaults doubleForKey:OESidebarMinWidth]];
+    [splitView setMainViewMinWidth:[defaults doubleForKey:OEMainViewMinWidth]];
+    [splitView setSidebarMaxWidth:[defaults doubleForKey:OESidebarMaxWidth]];
     
     [splitView adjustSubviews];
     
@@ -124,7 +131,7 @@
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 
     // Restore last selected collection item
-    id collectionViewName = [standardUserDefaults valueForKey:UDLastCollectionSelectedKey];
+    id collectionViewName = [standardUserDefaults valueForKey:OELastCollectionSelectedKey];
     id collectionItem = nil;
     
     // Look for the collection item
@@ -142,7 +149,7 @@
     [[self sidebarController] outlineViewSelectionDidChange:nil];
     
     CGFloat splitterPos = 0;
-    if([self isSidebarVisible]) splitterPos = [standardUserDefaults doubleForKey:UDSidebarWidthKey];
+    if([self isSidebarVisible]) splitterPos = [standardUserDefaults doubleForKey:OESidebarWidthKey];
     
     OELibrarySplitView *splitView = [self mainSplitView];
     [splitView setResizesLeftView:YES];
@@ -171,12 +178,12 @@
     CGFloat widthCorrection = 0;
     if(opening)
     {
-        widthCorrection = [standardDefaults doubleForKey:UDSidebarWidthKey];
+        widthCorrection = [standardDefaults doubleForKey:OESidebarWidthKey];
     }
     else
     {
         CGFloat lastWidth = [mainSplit splitterPosition];
-        [standardDefaults setDouble:lastWidth forKey:UDSidebarWidthKey];
+        [standardDefaults setDouble:lastWidth forKey:OESidebarWidthKey];
         widthCorrection = -lastWidth;
     }
     
@@ -200,7 +207,7 @@
         [mainSplit setSplitterPosition:widthCorrection animated:YES];
     }
     
-    if(!opening) [standardDefaults setDouble:abs(widthCorrection) forKey:UDSidebarWidthKey];
+    if(!opening) [standardDefaults setDouble:abs(widthCorrection) forKey:OESidebarWidthKey];
     
     NSImage *image = [NSImage imageNamed:
                       ([self sidebarChangesWindowSize] == opening
@@ -434,8 +441,14 @@
     return sidebarChangesWindowSize;
 }
 
-- (BOOL)isSidebarVisible              { return [[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarVisibleKey];    }
-- (void)setSidebarVisible:(BOOL)value { [[NSUserDefaults standardUserDefaults] setBool:value forKey:UDSidebarVisibleKey]; }
+- (BOOL)isSidebarVisible
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:OESidebarVisibleKey];
+}
+- (void)setSidebarVisible:(BOOL)value
+{
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:OESidebarVisibleKey];
+}
 
 #pragma mark -
 #pragma mark Private
@@ -474,8 +487,8 @@
     [[self toolbarGridViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToGridView:)]];
 
     OECollectionViewController * collectionViewController = (OECollectionViewController*)[self currentViewController];
-    
-    if (collectionViewController && [[self currentViewController] isKindOfClass:[OECollectionViewController class]] && [[collectionViewController->gamesController arrangedObjects] count] > 0)
+
+    if(collectionViewController && [[self currentViewController] isKindOfClass:[OECollectionViewController class]] && [[[collectionViewController gamesController] arrangedObjects] count] > 0)
     {
         [[self toolbarFlowViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToFlowView:)]];
         [[self toolbarListViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToListView:)]];
@@ -495,7 +508,7 @@
     
     CGFloat splitterPosition = [splitView splitterPosition];
     
-    if(splitterPosition != 0) [[NSUserDefaults standardUserDefaults] setDouble:splitterPosition forKey:UDSidebarWidthKey];
+    if(splitterPosition != 0) [[NSUserDefaults standardUserDefaults] setDouble:splitterPosition forKey:OESidebarWidthKey];
     
     [toolbarItemContainer setFrame:NSMakeRect(splitterPosition, 0.0, NSWidth([[toolbarItemContainer superview] bounds]) - splitterPosition, 44.0)];
 }

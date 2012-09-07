@@ -41,6 +41,10 @@
 #import "NSViewController+OEAdditions.h"
 #import "NSView+FadeImage.h"
 #import "OEHUDWindow.h"
+
+NSString * const OEPopoutHasScreenSizeKey = @"forceDefaultScreenSize";
+NSString * const UDLastPopoutFrameKey        = @"lastPopoutFrame";
+
 @interface OEGameDocument ()
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError**)outError;
 - (BOOL)OE_loadGame:(OEDBGame *)game core:(OECorePlugin*)core withError:(NSError**)outError;
@@ -165,7 +169,7 @@
     // Create a window, set gameviewcontroller.view as view, open it
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     
-    BOOL useScreenSize = [standardDefaults boolForKey:UDPopoutHasScreenSizeKey] || ![standardDefaults valueForKey:UDLastPopoutFrameKey];
+    BOOL useScreenSize = [standardDefaults boolForKey:OEPopoutHasScreenSizeKey] || ![standardDefaults valueForKey:UDLastPopoutFrameKey];
     NSRect windowRect;
     if(useScreenSize)
     {

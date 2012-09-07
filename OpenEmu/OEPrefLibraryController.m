@@ -33,6 +33,8 @@
 #import "OECorePlugin.h"
 
 #import "OEHUDAlert.h"
+
+extern NSString * const OEDatabasePathKey;
 @interface OEPrefLibraryController ()
 - (void)_rebuildAvailableLibraries;
 - (void)_calculateHeight;
@@ -54,7 +56,7 @@
     height = 473-110;
     [self _rebuildAvailableLibraries];
     
-	NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:UDDatabasePathKey];
+	NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:OEDatabasePathKey];
 	[pathField setStringValue:[path stringByAbbreviatingWithTildeInPath]];
 }
 #pragma mark ViewController Overrides
@@ -87,9 +89,9 @@
 #pragma mark UI Actions
 - (IBAction)resetLibraryFolder:(id)sender
 {
-    NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
+    NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDefaultDatabasePathKey];
     
-    [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:UDDatabasePathKey];
+    [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:OEDatabasePathKey];
     [pathField setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
 }
 
@@ -107,9 +109,9 @@
         {
             NSString *databasePath = [[openDlg URL] path];
             
-            if (databasePath && ![databasePath isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey]])
+            if (databasePath && ![databasePath isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:OEDatabasePathKey]])
             {
-                [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:UDDatabasePathKey];
+                [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:OEDatabasePathKey];
                 [(OEApplicationDelegate *) [NSApplication sharedApplication].delegate loadDatabase];
                 [pathField setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
             }

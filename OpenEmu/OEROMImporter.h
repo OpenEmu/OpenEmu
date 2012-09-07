@@ -45,6 +45,11 @@
 #define OEImportInfoSystemID @"systemID"
 #define OEImportInfoArchiveSync @"archiveSync"
 #pragma mark -
+
+extern NSString * const OEOrganizeLibraryKey;
+extern NSString * const OECopyToLibraryKey;
+extern NSString * const OEAutomaticallyGetInfoKey;
+
 @class OELibraryDatabase;
 @protocol OEROMImporterDelegate;
 @interface OEROMImporter : NSObject

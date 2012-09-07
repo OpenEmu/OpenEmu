@@ -47,7 +47,15 @@
 #import "OEHUDAlert.h"
 #import "OEGameDocument.h"
 
+#import "OEDBRom.h"
+#import "OEDBGame.h"
+
 #import "OEWiimoteHandler.h"
+#import "OEBindingsController.h"
+
+#import "OEBuildVersion.h"
+
+extern NSString * const OEDatabasePathKey;
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -56,11 +64,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 - (void)OE_loadPlugins;
 - (void)OE_setupHIDSupport;
 - (void)OE_createDatabaseAtURL:(NSURL *)aURL;
+
+@property (strong) NSArray *cachedLastPlayedInfo;
 @end
 
 @implementation OEApplicationDelegate
 @synthesize mainWindowController;
-@synthesize aboutWindow, aboutCreditsPath;
+@synthesize aboutWindow, aboutCreditsPath, cachedLastPlayedInfo;
 @synthesize HIDManager;
 
 - (id)init
@@ -112,7 +122,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     [mainWindowController showWindow:self];
 	
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
 	// Start WiiRemote support
         [OEWiimoteHandler search];
 }
@@ -141,11 +151,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     NSError *error = nil;
     
-    NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey];
-    if(databasePath == nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
+    NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDatabasePathKey];
+    if(databasePath == nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDefaultDatabasePathKey];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:NULL] &&
-       [databasePath isEqual:[[NSUserDefaults standardUserDefaults] objectForKey:UDDefaultDatabasePathKey]])
+       [databasePath isEqual:[[NSUserDefaults standardUserDefaults] objectForKey:OEDefaultDatabasePathKey]])
         [[NSFileManager defaultManager] createDirectoryAtPath:databasePath withIntermediateDirectories:YES attributes:nil error:nil];
     
     BOOL userDBSelectionRequest = ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0;
@@ -267,6 +277,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)OE_setupHIDSupport
 {
+    // Setup OEBindingsController
+    [OEBindingsController class];
+    
     NSArray *matchingTypes = [NSArray arrayWithObjects:
                               [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
@@ -279,7 +292,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
                               nil];
     
-    [self setHIDManager:[[OEHIDManager alloc] init]];
+    [self setHIDManager:[OEHIDManager sharedHIDManager]];
     [[self HIDManager] registerDeviceTypes:matchingTypes];
 }
 
@@ -396,7 +409,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (NSString *)buildVersion
 {
-    return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"OEBundleBuildReference"];
+    return BUILD_VERSION;
 }
 
 - (NSAttributedString *)projectURL
@@ -405,8 +418,65 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark -
+#pragma mark NSMenu Delegate
+- (NSInteger)numberOfItemsInMenu:(NSMenu *)menu
+{
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];    
+    NSDictionary *lastPlayedInfo = [database lastPlayedRomsBySystem];
+    if(!lastPlayedInfo)
+    {
+        [self setCachedLastPlayedInfo:nil];
+        return 1;
+    }
+    __block NSUInteger count = [[lastPlayedInfo allKeys] count];
+    [[lastPlayedInfo allValues] enumerateObjectsUsingBlock:
+     ^ (id romArray, NSUInteger idx, BOOL *stop) {
+        count += [romArray count];
+    }];
+    
+    NSMutableArray *lastPlayed = [NSMutableArray arrayWithCapacity:count];
+    NSArray *sortedSystems = [[lastPlayedInfo allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    [sortedSystems enumerateObjectsUsingBlock:
+     ^ (id obj, NSUInteger idx, BOOL *stop) {
+         [lastPlayed addObject:obj];
+         [lastPlayed addObjectsFromArray:[lastPlayedInfo valueForKey:obj]];
+     }];
+    
+    [self setCachedLastPlayedInfo:lastPlayed];
+    return count;
+}
+- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel
+{
+    [item setState:NSOffState];
+    if(![self cachedLastPlayedInfo])
+    {
+        [item setTitle:NSLocalizedString(@"No game played yet!", "")];
+        [item setEnabled:NO];
+        [item setIndentationLevel:0];
+        return YES;
+    }
+    
+    id value = [[self cachedLastPlayedInfo] objectAtIndex:index];
+    if([value isKindOfClass:[NSString class]])
+    {
+        [item setTitle:value];
+        [item setEnabled:NO];
+        [item setIndentationLevel:0];
+    }
+    else
+    {
+        [item setIndentationLevel:1];
+        [item setTitle:[(OEDBGame*)[value game] name]];
+        [item setEnabled:YES];
+        [item setRepresentedObject:value];
+        [item setAction:@selector(launchLastPlayedROM:)];
+        [item setTarget:[self mainWindowController]];
+    }
+    
+    return YES;
+}
+#pragma mark -
 #pragma mark KVO
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if(context == _OEApplicationDelegateAllPluginsContext)

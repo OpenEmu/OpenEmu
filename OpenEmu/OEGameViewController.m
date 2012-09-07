@@ -51,6 +51,18 @@
 
 #import "NSString+UUID.h"
 #import "NSURL+OELibraryAdditions.h"
+
+NSString * const OEGameVolumeKey = @"volume";
+NSString * const OEGameVideoFilterKey = @"videoFilter";
+NSString * const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
+NSString * const OEDontShowGameTitleInWindowKey = @"dontShowGameTitleInWindow";
+NSString * const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
+NSString * const OEForceCorePicker = @"forceCorePicker";
+
+NSString * const OEDefaultWindowTitle = @"OpenEmu";
+
+#define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
+#define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 @interface OEGameViewController ()
 
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game;
@@ -198,7 +210,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
     [controlsWindow orderFront:self];
     [window makeFirstResponder:gameView];
     
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDDontShowGameTitleInWindowKey])
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
         [window setTitle:[[[self rom] game] name]];
 }
 
@@ -209,7 +221,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
     NSWindow *window = [gameView window];
     
     if([window parentWindow]) window = [window parentWindow];
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDDontShowGameTitleInWindowKey])
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
         [window setTitle:OEDefaultWindowTitle];
     
     [[self controlsWindow] hide];
@@ -337,9 +349,9 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     if([[plugin bundleIdentifier] isEqualTo:[self coreIdentifier]]) return;
     
     OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"If you change the core you current progress will be lost and save states will not work anymore." defaultButton:@"Change Core" alternateButton:@"Cancel"];
-    [alert showSuppressionButtonForUDKey:UDChangeCoreAlertSuppressionKey];
-    [alert setCallbackHandler:^(OEHUDAlert *alert, NSUInteger result)
-     {         
+    [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
+    [alert setCallbackHandler:
+     ^ (OEHUDAlert *alert, NSUInteger result) {
          if(result == NSAlertDefaultReturn)
          {
              NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
@@ -401,7 +413,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
         DLog(@"Invalid argument passed: %@", sender);
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:UDVideoFilterKey];
+    [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:OEGameVideoFilterKey];
 }
 #pragma mark - Volume
 - (void)setVolume:(float)volume asDefault:(BOOL)defaultFlag
@@ -410,7 +422,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     [[self controlsWindow] reflectVolume:volume];
     
     if(defaultFlag)
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:UDVolumeKey];
+        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
 }
 
 - (void)changeVolume:(id)sender
@@ -556,7 +568,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     if([[self coreIdentifier] isNotEqualTo:[state coreIdentifier]])
     {
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"This save state was created with a different core. Do you want to switch to that core now?" defaultButton:@"OK" alternateButton:@"Cancel"];
-        [alert showSuppressionButtonForUDKey:UDAutoSwitchCoreAlertSuppressionKey];
+        [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
         if([alert runModal])
         {
             OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
@@ -677,7 +689,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
         
         gameController = [core controller];
 
-        Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:UDRunCoresInBackgroundKey]
+        Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:OEGameCoresInBackgroundKey]
                               ? [OEGameCoreThreadManager  class]
                               : [OEGameCoreProcessManager class]);
         
@@ -690,7 +702,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
             [rootProxy setupEmulation];
             
             // set initial volume
-            [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey] asDefault:NO];
+            [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
             
             OEGameCore *gameCore = [rootProxy gameCore];
             gameSystemController = [[[[[self rom] game] system] plugin] controller];
@@ -768,7 +780,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
         chosenCore = [validPlugins lastObject];
     } else {
         NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
-        BOOL forceCorePicker = [standardUserDefaults boolForKey:UDForceCorePicker];
+        BOOL forceCorePicker = [standardUserDefaults boolForKey:OEForceCorePicker];
         NSString* coreIdentifier = [standardUserDefaults valueForKey:UDSystemCoreMappingKeyForSystemIdentifier([system systemIdentifier])];
         chosenCore = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
         if(!chosenCore && !forceCorePicker)
