@@ -105,6 +105,11 @@
 		<string>OESMSButtonStart</string>
 		<string>OESMSButtonReset</string>
 	</array>
+	<key>OESystemControlNamesKey</key>
+	<array>
+		<string>OESMSButtonStart</string>
+		<string>OESMSButtonReset</string>
+	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
