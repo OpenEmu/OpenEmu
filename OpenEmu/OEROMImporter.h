@@ -78,6 +78,7 @@
 @interface OEROMImporter (Control)
 - (void)pause;
 - (void)start;
+- (void)startQueueIfNeeded;
 - (void)cancel;
 - (void)removeFinished;
 

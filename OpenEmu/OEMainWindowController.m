@@ -119,8 +119,6 @@
     {
         [self setCurrentContentController:[self libraryController]];
     }
-    
-    [self setupMenuItems];
 }
 
 - (NSString *)windowNibName
@@ -269,22 +267,29 @@
     [self setCurrentContentController:nil];
 }
 
-#pragma mark -
-#pragma mark Menu Items
 
-- (IBAction)showOpenEmuWindow:(id)sender;
+- (void)windowDidBecomeMain:(NSNotification *)notification
 {
-    [self close];
+    NSMenu *mainMenu = [NSApp mainMenu];
+
+    NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
+    NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
+    [item setState:NSOnState];
 }
 
-- (void)setupMenuItems
+- (void)windowDidResignMain:(NSNotification *)notification
 {
     NSMenu *mainMenu = [NSApp mainMenu];
     
-    // Window Menu
     NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
     NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
-    [item bind:@"state" toObject:[self window] withKeyPath:@"visible" options:nil];
+    [item setState:NSOffState];
+}
+#pragma mark -
+#pragma mark Menu Items
+- (IBAction)showOpenEmuWindow:(id)sender;
+{
+    [self close];
 }
 
 @end

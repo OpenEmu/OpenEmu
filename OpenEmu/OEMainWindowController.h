@@ -36,10 +36,6 @@
 @property                           BOOL                 allowWindowResizing;
 
 - (void)openGameDocument:(OEGameDocument *)aDocument;
-#pragma mark -
-#pragma mark Menu Items
-- (void)setupMenuItems;
-
 @property(weak) IBOutlet NSView *placeholderView;
 
 @end

@@ -7,11 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "OESidebarItem.h"
+
 #import "OEROMImporter.h"
-
 #import "OELibrarySubviewController.h"
-
 @interface OEImportViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource, OEROMImporterDelegate, OELibrarySubviewController>
 
 #pragma mark - UI Methods
