@@ -104,7 +104,12 @@ NSString * const OELastControlsDeviceTypeKey = @"lastControlsDevice";
 {
     [super awakeFromNib];
     
-    ignoredEvents = [NSMutableSet set];
+    // We're using CFSet here because NSSet is confused by the changing state of OEHIDEvents
+    CFSetCallBacks callbacks = kCFTypeSetCallBacks;
+    callbacks.equal = NULL;
+    callbacks.hash  = NULL;
+    
+    ignoredEvents = (__bridge_transfer NSMutableSet *)CFSetCreateMutable(NULL, 0, &callbacks);
     
     [[self controlsSetupView] setTarget:self];
     [[self controlsSetupView] setAction:@selector(changeInputControl:)];
