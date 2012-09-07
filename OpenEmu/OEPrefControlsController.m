@@ -370,7 +370,7 @@ NSString * const OELastControlsDeviceTypeKey = @"lastControlsDevice";
     [[self controllerView]    setSelectedKey:selectedKey animated:YES];
     [CATransaction commit];
     
-    [[[self view] window] makeFirstResponder:selectedKey != nil ? [self view] : nil];
+    if(selectedKey != nil) [[[self view] window] makeFirstResponder:[self view]];
 }
 
 - (void)setSelectedBindingType:(NSInteger)value
@@ -444,6 +444,11 @@ NSString * const OELastControlsDeviceTypeKey = @"lastControlsDevice";
 
 - (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
 {
+    if([readingEvent hasOffState]) readingEvent = nil;
+    
+    if([self selectedKey] == nil && [self view] == [[[self view] window] firstResponder])
+        [[[self view] window] makeFirstResponder:nil];
+    
     // Check if the event is ignored
     if([ignoredEvents containsObject:anEvent])
     {
