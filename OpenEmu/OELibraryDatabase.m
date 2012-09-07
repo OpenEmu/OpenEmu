@@ -46,6 +46,11 @@
 #import "OEFSWatcher.h"
 #import "OEROMImporter.h"
 
+NSString * const OEDatabasePathKey = @"databasePath";
+NSString * const OEDefaultDatabasePathKey = @"defaultDatabasePath";
+NSString * const OESaveStateLastFSEventIDKey = @"lastSaveStateEventID";
+
+NSString * const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
 @interface OELibraryDatabase ()
 
 - (BOOL)loadPersistantStoreWithError:(NSError **)outError;
@@ -101,7 +106,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         return NO;
     }
 
-    [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:UDDatabasePathKey];
+    [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:OEDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
     
     
@@ -119,11 +124,11 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];    
     [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-    [[__managedObjectContext userInfo] setValue:self forKey:LibraryDatabaseKey];
+    [[__managedObjectContext userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
 
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    [standardDefaults setObject:[self.databaseURL path] forKey:UDDatabasePathKey];
+    [standardDefaults setObject:[self.databaseURL path] forKey:OEDatabasePathKey];
     
     return YES;
 }
@@ -244,7 +249,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         });
     };
 
-    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:stateFolderPath withBlock:fsBlock];
+    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:OESaveStateLastFSEventIDKey forPath:stateFolderPath withBlock:fsBlock];
     [watcher setDelay:1.0];
     [watcher setStreamFlags:kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents];
     
@@ -310,7 +315,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
         [context setMergePolicy:policy];
-        [[context userInfo] setValue:self forKey:LibraryDatabaseKey];        
+        [[context userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
     }
     
     return [managedObjectContexts valueForKey:[thread name]];
@@ -865,7 +870,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (NSURL *)databaseFolderURL
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+    NSString *libraryFolderPath = [standardDefaults stringForKey:OEDatabasePathKey];
 
     return [NSURL fileURLWithPath:libraryFolderPath isDirectory:YES];
 }
@@ -931,7 +936,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (NSURL *)coverFolderURL
 {
     NSUserDefaults *standardDefaults  = [NSUserDefaults standardUserDefaults];
-    NSString       *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+    NSString       *libraryFolderPath = [standardDefaults stringForKey:OEDatabasePathKey];
     NSString       *coverFolderPath   = [libraryFolderPath stringByAppendingPathComponent:@"Artwork/"];
    
     NSURL *url = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];

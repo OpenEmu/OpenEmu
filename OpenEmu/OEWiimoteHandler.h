@@ -29,6 +29,7 @@
 #import "Wiimote.h"
 
 #define WiimoteBasePadNumber 100
+extern NSString * const OEWiimoteSupportDisabled;
 @interface OEWiimoteHandler : NSObject <WiimoteBrowserDelegate, WiimoteDelegate>
 + (void)search;
 + (id)sharedHandler;

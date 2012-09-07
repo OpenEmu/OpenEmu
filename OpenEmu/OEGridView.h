@@ -29,6 +29,8 @@
 #import "OEGridViewLayoutManager.h"
 #import "OEGridViewFieldEditor.h"
 
+extern NSString * const OELightStyleGridViewMenu;
+
 @class OEGridView;
 @class OEMenu;
 

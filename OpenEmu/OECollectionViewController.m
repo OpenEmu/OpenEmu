@@ -59,6 +59,12 @@
 
 #import "OETableView.h"
 
+extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
+extern NSString * const OEAllowPopoutGameWindowKey;
+
+NSString * const OELastGridSizeKey = @"lastGridSize";
+NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
+
 @interface OECollectionViewController ()
 {
     id<OECollectionViewItemProtocol> collectionItem;
@@ -151,9 +157,9 @@
     
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
-    if([userDefaults valueForKey:UDLastGridSizeKey])
+    if([userDefaults valueForKey:OELastGridSizeKey])
     {
-        [sizeSlider setFloatValue:[userDefaults floatForKey:UDLastGridSizeKey]];
+        [sizeSlider setFloatValue:[userDefaults floatForKey:OELastGridSizeKey]];
     }
     [sizeSlider setContinuous:YES];
     [self changeGridSize:sizeSlider];
@@ -178,7 +184,7 @@
         }
     }
     
-    switch ([userDefaults integerForKey:UDLastCollectionViewKey]) {
+    switch ([userDefaults integerForKey:OELastCollectionViewKey]) {
         case 0:
             [self switchToGridView:self];
             break;
@@ -276,7 +282,7 @@
         default: return;
     }
     
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:view] forKey:UDLastCollectionViewKey];
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:view] forKey:OELastCollectionViewKey];
     
     if(splitterPosition!=-1) [flowlistViewContainer setSplitterPosition:splitterPosition animated:NO];
     
@@ -318,7 +324,7 @@
     float zoomValue = [sender floatValue];
     [gridView setItemSize:NSMakeSize(roundf(26+142*zoomValue), roundf(44+7+142*zoomValue))];
     
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:UDLastGridSizeKey];
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
 }
 
 #pragma mark -
@@ -535,7 +541,7 @@
     }
     else
     {
-        if([[NSUserDefaults standardUserDefaults] boolForKey:UDAllowPopoutKey])
+        if([[NSUserDefaults standardUserDefaults] boolForKey:OEAllowPopoutGameWindowKey])
         {
             [menu addItemWithTitle:@"Play Games (Caution)" action:@selector(startGame:) keyEquivalent:@""];
         }
@@ -580,7 +586,7 @@
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
-            if([[NSUserDefaults standardUserDefaults] boolForKey:UDHUDCanDeleteStateKey])
+            if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
             {
                 OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];               
                 [oeitem setHasAlternate:YES];

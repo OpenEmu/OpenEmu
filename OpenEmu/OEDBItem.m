@@ -27,9 +27,11 @@
 
 #import "OEDBItem.h"
 
+extern NSString * const OELibraryDatabaseUserInfoKey;
+
 @implementation OEDBItem
 - (OELibraryDatabase*)libraryDatabase
 {
-    return [[[self managedObjectContext] userInfo] valueForKey:LibraryDatabaseKey];
+    return [[[self managedObjectContext] userInfo] valueForKey:OELibraryDatabaseUserInfoKey];
 }
 @end

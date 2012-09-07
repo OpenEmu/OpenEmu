@@ -28,6 +28,8 @@
 #import <AppKit/NSCell.h>
 #import "OESidebarFieldEditor.h"
 
+
+extern NSString * const OESidebarConsolesNotCollapsibleKey;
 @interface NSTextFieldCell (ApplePrivate)
 - (NSDictionary*)_textAttributes;
 @end
@@ -217,7 +219,7 @@
 		titleFrame.origin.x += 2;
 		titleFrame.size.width -= 2;
 		
-		if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarConsolesNotCollapsibleKey])
+		if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:OESidebarConsolesNotCollapsibleKey])
         {
 			titleFrame.origin.x -= 10;
 		}

@@ -30,6 +30,10 @@
 #import "OEMainWindowContentController.h"
 #import "OELibraryDatabase.h"
 
+extern NSString * const OESidebarVisibleKey;
+extern NSString * const OESidebarWidthKey;
+extern NSString * const OELastCollectionViewKey;
+
 @class OELibraryDatabase;
 @class OESidebarController;
 @class OELibrarySplitView;

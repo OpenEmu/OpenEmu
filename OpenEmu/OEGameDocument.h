@@ -26,6 +26,9 @@
 
 
 #import <Cocoa/Cocoa.h>
+
+extern NSString * const OEPopoutHasScreenSizeKey;
+
 @class OEGameViewController;
 @class OEDBRom;
 @class OEDBGame;

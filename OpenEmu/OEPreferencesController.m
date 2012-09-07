@@ -44,6 +44,9 @@
 #import "OEPrefDebugController.h"
 
 #import "OEWiimoteHandler.h"
+
+NSString * const OEDebugModeKey = @"debug";
+NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
 #define AnimationDuration 0.3
 @interface OEPreferencesController (priavte)
 - (void)_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag;
@@ -100,7 +103,7 @@
     [win setMovableByWindowBackground:NO];
    
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger selectedTab = [standardDefaults integerForKey:UDSelectedPreferencesTab];
+    NSInteger selectedTab = [standardDefaults integerForKey:OESelectedPreferencesTabKey];
     
     [self setVisiblePaneIndex:-1];
     
@@ -137,7 +140,7 @@
 {
     [super showWindow:sender];
     
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
         [OEWiimoteHandler search];
 }
 
@@ -160,7 +163,7 @@
     controller = [[OEPrefCoresController alloc] init];
     [array addObject:controller];
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:UDDebugModeKey])
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugModeKey])
     {
         controller = [[OEPrefDebugController alloc] init];
         [array addObject:controller];
@@ -251,7 +254,7 @@
     if(viewHasCustomColor) toolbar.contentseparatorColor = [nextPane toolbarSeparationColor];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    [standardDefaults setInteger:selectedTab forKey:UDSelectedPreferencesTab];
+    [standardDefaults setInteger:selectedTab forKey:OESelectedPreferencesTabKey];
     [self setVisiblePaneIndex:selectedTab];
 }
 

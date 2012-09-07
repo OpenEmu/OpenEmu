@@ -31,6 +31,11 @@
 #import <objc/runtime.h>
 #import "OESidebarOutlineButtonCell.h"
 
+NSString * const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollapsible";
+NSString * const OESidebarMinWidth = @"sidebarMinWidth";
+NSString * const OESidebarMaxWidth = @"sidebarMaxWidth";
+NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
+
 @implementation OESidebarOutlineView
 
 - (id)init
@@ -100,7 +105,7 @@
 {
     [super reloadData];
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarConsolesNotCollapsibleKey])
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OESidebarConsolesNotCollapsibleKey])
         [self expandItem:[self itemAtRow:0]];
 }
 
@@ -108,7 +113,7 @@
 {
     [super reloadItem:item];
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarConsolesNotCollapsibleKey])
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OESidebarConsolesNotCollapsibleKey])
         [self expandItem:[self itemAtRow:0]];
 }
 
@@ -191,7 +196,7 @@
 
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row
 {
-    if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarConsolesNotCollapsibleKey])
+    if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:OESidebarConsolesNotCollapsibleKey])
         return NSZeroRect;
     
     NSRect rect = [super frameOfOutlineCellAtRow:row];

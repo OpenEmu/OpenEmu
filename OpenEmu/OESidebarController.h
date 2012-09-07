@@ -27,6 +27,9 @@
 #import <Foundation/Foundation.h>
 
 #import "OESidebarOutlineView.h"
+
+extern NSString * const OESuppressRemoveCollectionConfirmationKey;
+
 @class OELibraryDatabase, OESidebarOutlineView;
 @protocol OECollectionViewItemProtocol;
 @interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource, OEDraggingDestinationDelegate>

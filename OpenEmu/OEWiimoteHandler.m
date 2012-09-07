@@ -32,6 +32,8 @@
 #define MaximumWiimotes 7
 #define SynVibrateDuration 0.35
 
+NSString * const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
+
 @interface OEWiimoteHandler ()
 @property (strong) WiimoteBrowser		*browser;
 @property (strong) NSMutableArray	*wiiRemotes;
@@ -77,7 +79,7 @@
 
 - (void)bluetoothDidPowerOn:(NSNotification*)notification
 {
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
         [[self browser] startSearch];
 }
 #pragma mark -

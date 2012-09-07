@@ -26,9 +26,7 @@
 
 #import "OELocalizationHelper.h"
 
-#ifndef UDRegionKey
-#define UDRegionKey @"region"		
-#endif
+NSString * const OERegionKey = @"region";
 @interface OELocalizationHelper ()
 - (void)OE_updateRegion;
 @end
@@ -56,14 +54,14 @@ static OELocalizationHelper *sharedHelper;
 	{
 		[self OE_updateRegion];
 
-        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:UDRegionKey options:0 context:nil];
+        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OERegionKey options:0 context:nil];
     }
 	return self;
 }
 
 - (void)dealloc
 {
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:UDRegionKey];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:OERegionKey];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -109,8 +107,8 @@ static OELocalizationHelper *sharedHelper;
 - (void)OE_updateRegion
 {
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-	if([standardUserDefaults valueForKey:UDRegionKey])
-		region = [[standardUserDefaults valueForKey:UDRegionKey] intValue];
+	if([standardUserDefaults valueForKey:OERegionKey])
+		region = [[standardUserDefaults valueForKey:OERegionKey] intValue];
 	else
     {
 		NSLocale *locale = [NSLocale currentLocale];
