@@ -567,6 +567,9 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     // Notify the -reloadCellsAtIndexes: that the reload should be aborted
     _abortReloadCells = YES;
+    
+    if (!_visibleCellByIndex || ![_visibleCellByIndex allValues]) return;
+    
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         // Wait until any pending reload operations are complete
         [[_visibleCellByIndex allValues] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
