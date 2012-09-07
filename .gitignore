@@ -1,5 +1,4 @@
 # Xcode
-OpenEmu-Info.plist
 *.DS_Store
 */build/*
 *.pbxuser
@@ -17,3 +16,5 @@ xcuserdata
 profile
 *.moved-aside
 icon?
+
+OpenEmu/OpenEmu-Info.plist
