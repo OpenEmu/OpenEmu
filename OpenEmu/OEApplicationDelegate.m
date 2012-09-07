@@ -53,6 +53,8 @@
 #import "OEWiimoteHandler.h"
 #import "OEBindingsController.h"
 
+#import "OEBuildVersion.h"
+
 extern NSString * const OEDatabasePathKey;
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
@@ -407,7 +409,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (NSString *)buildVersion
 {
-    return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"OEBundleBuildReference"];
+    return BUILD_VERSION;
 }
 
 - (NSAttributedString *)projectURL
