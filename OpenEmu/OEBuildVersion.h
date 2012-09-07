@@ -1,0 +1,1 @@
+#define BUILD_VERSION @""
