@@ -81,6 +81,8 @@
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray*)romsInCollection:(id)collection;
 
+- (NSArray*)lastPlayedRoms;
+- (NSDictionary*)lastPlayedRomsBySystem;
 #pragma mark -
 #pragma mark Database Collection editing
 - (void)removeCollection:(NSManagedObject*)collection;

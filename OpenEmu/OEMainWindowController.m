@@ -292,4 +292,20 @@
     [self close];
 }
 
+- (IBAction)launchLastPlayedROM:(id)sender
+{
+    OEDBRom *rom = [sender representedObject];
+    if(!rom) return;
+    
+    NSError        *error = nil;
+    OEGameDocument *gameDocument = [[OEGameDocument alloc] initWithRom:rom error:&error];
+    
+    if(gameDocument != nil)
+    {
+        [[NSDocumentController sharedDocumentController] addDocument:gameDocument];
+        [self openGameDocument:gameDocument];
+    }
+    else if(error != nil) [NSApp presentError:error];
+}
+
 @end

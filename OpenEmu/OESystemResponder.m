@@ -48,7 +48,6 @@
     return self;
 }
 
-
 + (Protocol *)gameSystemResponderClientProtocol;
 {
     return @protocol(OESystemResponderClient);
@@ -73,22 +72,12 @@
     
 }
 
-- (void)keyboardEvent:(id)theEvent wasSetForKey:(NSString *)keyName;
+- (void)systemBindings:(OESystemBindings *)sender didSetEvent:(id)event forBinding:(id)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
     
 }
 
-- (void)keyboardEvent:(id)theEvent wasUnsetForKey:(NSString *)keyName;
-{
-    
-}
-
-- (void)HIDEvent:(id)theEvent wasSetForKey:(NSString *)keyName;
-{
-    
-}
-
-- (void)HIDEvent:(id)theEvent wasUnsetForKey:(NSString *)keyName;
+- (void)systemBindings:(OESystemBindings *)sender didUnsetEvent:(id)event forBinding:(id)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
     
 }

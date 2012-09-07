@@ -8,35 +8,35 @@
 	<string>controller_nds_mask.png</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
-		<key>OENDSButtonUp[@]</key>
+		<key>OENDSButtonUp</key>
 		<string>{50, 250}</string>
-		<key>OENDSButtonDown[@]</key>
+		<key>OENDSButtonDown</key>
 		<string>{50, 220}</string>
-		<key>OENDSButtonA[@]</key>
+		<key>OENDSButtonA</key>
 		<string>{50, 130}</string>
-		<key>OENDSButtonLeft[@]</key>
+		<key>OENDSButtonLeft</key>
 		<string>{50, 190}</string>
-		<key>OENDSButtonRight[@]</key>
+		<key>OENDSButtonRight</key>
 		<string>{50, 160}</string>
-		<key>OENDSButtonStart[@]</key>
+		<key>OENDSButtonStart</key>
 		<string>{150, 190}</string>
-		<key>OENDSButtonSelect[@]</key>
+		<key>OENDSButtonSelect</key>
 		<string>{150, 160}</string>
-		<key>OENDSButtonB[@]</key>
+		<key>OENDSButtonB</key>
 		<string>{50, 100}</string>
-		<key>OENDSButtonL[@]</key>
+		<key>OENDSButtonL</key>
 		<string>{150, 250}</string>
-		<key>OENDSButtonR[@]</key>
+		<key>OENDSButtonR</key>
 		<string>{150, 220}</string>
-		<key>OENDSButtonX[@]</key>
+		<key>OENDSButtonX</key>
 		<string>{50, 70}</string>
-		<key>OENDSButtonY[@]</key>
+		<key>OENDSButtonY</key>
 		<string>{50, 40}</string>
-		<key>OENDSButtonMicrophone[@]</key>
+		<key>OENDSButtonMicrophone</key>
 		<string>{150, 130}</string>
-		<key>OENDSButtonLid[@]</key>
+		<key>OENDSButtonLid</key>
 		<string>{150, 100}</string>
-		<key>OENDSButtonDebug[@]</key>
+		<key>OENDSButtonDebug</key>
 		<string>{150, 70}</string>
 	</dict>
 </dict>

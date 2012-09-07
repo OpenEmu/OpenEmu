@@ -26,7 +26,7 @@
 
 @class OEHIDManager;
 @class OEMainWindowController;
-@interface OEApplicationDelegate : NSDocumentController <NSApplicationDelegate>
+@interface OEApplicationDelegate : NSDocumentController <NSApplicationDelegate, NSMenuDelegate>
 
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showPreferencesWindow:(id)sender;

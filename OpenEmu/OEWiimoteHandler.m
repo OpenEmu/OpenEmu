@@ -189,8 +189,8 @@
             tiltX = zeroX;
         if (tiltY>(zeroX-WiiNunchuckCenterTreshholdY)&&tiltY<(zeroY+WiiNunchuckCenterTreshholdY))
             tiltY = zeroY;
-        OEHIDEvent *eventX = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDAxisX minimum:0 value:tiltX maximum:WiiNunchukJoyStickMaximumX];
-        OEHIDEvent *eventY = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDAxisY minimum:0 value:tiltY maximum:WiiNunchukJoyStickMaximumY];
+        OEHIDEvent *eventX = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDEventAxisX minimum:0 value:tiltX maximum:WiiNunchukJoyStickMaximumX];
+        OEHIDEvent *eventY = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDEventAxisY minimum:0 value:tiltY maximum:WiiNunchukJoyStickMaximumY];
 		[NSApp postHIDEvent:eventX];
         [NSApp postHIDEvent:eventY];
 

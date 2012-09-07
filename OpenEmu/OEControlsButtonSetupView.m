@@ -26,7 +26,6 @@
  */
 
 #import "OEControlsButtonSetupView.h"
-#import "OEGameCore.h"
 
 #import "OEControlsKeyButton.h"
 #import "OEControlsKeyLabelCell.h"
@@ -47,12 +46,14 @@
 - (id)initWithTarget:(OEControlsButtonSetupView *)aTarget;
 - (void)parseControlList:(NSArray *)controlList;
 - (NSArray *)elementPages;
+- (NSArray *)orderedKeys;
 - (NSDictionary *)keyToButtonMap;
 @end
 
 @interface OEControlsButtonSetupView ()
 {
 	NSArray      *elementPages;
+    NSArray      *orderedKeys;
     NSDictionary *keyToButtonMap;
     CGFloat       lastWidth;
 }
@@ -64,7 +65,7 @@
 static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSetupViewFrameSizeContext;
 
 @implementation OEControlsButtonSetupView
-@synthesize selectedKey, action, target;
+@synthesize selectedKey, action, target, bindingsProvider;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -96,11 +97,13 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
     
     elementPages   = [parser elementPages];
     keyToButtonMap = [parser keyToButtonMap];
+    orderedKeys    = [parser orderedKeys];
     
     [keyToButtonMap enumerateKeysAndObjectsUsingBlock:
      ^(NSString *key, OEControlsKeyButton *obj, BOOL *stop)
      {
-         [obj bind:@"title" toObject:self withKeyPath:[NSString stringWithFormat:@"target.%@", key] options:nil];
+         [obj bind:@"title" toObject:self withKeyPath:[NSString stringWithFormat:@"bindingsProvider.%@", key] options:
+          @{ NSNullPlaceholderBindingOption : NSLocalizedString(@"<empty>", @"Displayed in controller preferences for missing keys.") }];
      }];
     
     [self OE_layoutSubviews];
@@ -288,49 +291,41 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 
 - (void)selectNextKeyButton;
 {
-    OEControlsKeyButton *currentButton = [keyToButtonMap objectForKey:[self selectedKey]];
+    if([orderedKeys count] <= 1) return;
     
-    __block OEControlsKeyButton *firstButton       = nil;
-    __block OEControlsKeyButton *nextButton        = nil;
-    __block BOOL                 selectNext        = NO;
-    __block NSInteger            currentButtonPage = 0;
-    __block NSInteger            nextButtonPage    = 0;
+    NSUInteger i = [orderedKeys indexOfObject:[self selectedKey]];
     
-    [elementPages enumerateObjectsUsingBlock:
-     ^(NSArray *page, NSUInteger pageIdx, BOOL *stop)
-     {
-         [page enumerateObjectsUsingBlock:
-          ^(NSArray *column, NSUInteger columnIdx, BOOL *stop)
-          {
-              [column enumerateObjectsUsingBlock:
-               ^(OEControlsKeyButton *item, NSUInteger controlIdx, BOOL *stop)
-               {
-                   if(firstButton == nil && [item isKindOfClass:[OEControlsKeyButton class]])
-                       firstButton = item;
-                   
-                   if(item == currentButton)
-                   {
-                       currentButtonPage = pageIdx;
-                       selectNext        = YES;
-                   }
-                   else if(selectNext && [item isKindOfClass:[OEControlsKeyButton class]])
-                   {
-                       nextButton     = item;
-                       nextButtonPage = pageIdx;
-                       *stop          = YES;
-                   }
-               }];
-              
-              if(nextButton != nil) *stop = YES;
-          }];
-         
-         if(nextButton != nil) *stop = YES;
-     }];
+    NSString *newKey = nil;
     
-    if(nextButton == nil && [[NSUserDefaults standardUserDefaults] boolForKey:UDControlsButtonHighlightRollsOver])
-        nextButton = firstButton;
+    if(i + 1 >= [orderedKeys count])
+    {
+        if([[NSUserDefaults standardUserDefaults] boolForKey:UDControlsButtonHighlightRollsOver])
+            newKey = [orderedKeys objectAtIndex:0];
+    }
+    else newKey = [orderedKeys objectAtIndex:i + 1];
     
-    [self setSelectedKey:[[keyToButtonMap allKeysForObject:nextButton] lastObject]];
+    [self setSelectedKey:newKey];
+}
+
+- (void)selectNextKeyAfterKeys:(NSArray *)keys;
+{
+    NSIndexSet *indexes = [orderedKeys indexesOfObjectsPassingTest:
+                           ^ BOOL (id obj, NSUInteger idx, BOOL *stop)
+                           {
+                               return [keys containsObject:obj];
+                           }];
+    NSUInteger i = [indexes lastIndex];
+    
+    NSString *newKey = nil;
+    
+    if(i + 1 >= [orderedKeys count])
+    {
+        if([[NSUserDefaults standardUserDefaults] boolForKey:UDControlsButtonHighlightRollsOver])
+            newKey = [orderedKeys objectAtIndex:0];
+    }
+    else newKey = [orderedKeys objectAtIndex:i + 1];
+    
+    [self setSelectedKey:newKey];
 }
 
 #pragma mark -
@@ -359,6 +354,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 {
     OEControlsButtonSetupView *target;
     NSMutableArray      *elementPages;
+    NSMutableArray      *orderedKeys;
     NSMutableDictionary *keyToButtonMap;
     
     NSMutableArray      *currentPage;
@@ -393,6 +389,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 {
     keyToButtonMap = [[NSMutableDictionary alloc] init];
     elementPages   = [[NSMutableArray      alloc] init];
+    orderedKeys    = [[NSMutableArray      alloc] init];
     currentPage    = nil;
     currentColumn  = nil;
     
@@ -436,6 +433,11 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
     return [keyToButtonMap copy];
 }
 
+- (NSArray *)orderedKeys;
+{
+    return [orderedKeys copy];
+}
+
 - (void)OE_addButtonWithName:(NSString *)aName label:(NSString *)aLabel;
 {
     OEControlsKeyButton *button = [[OEControlsKeyButton alloc] initWithFrame:NSZeroRect];
@@ -443,6 +445,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
     [button setTarget:target];
     [button setAction:@selector(OE_selectInputControl:)];
     
+    [orderedKeys    addObject:aName];
     [keyToButtonMap setObject:button forKey:aName];
     
     [currentColumn addObject:button];

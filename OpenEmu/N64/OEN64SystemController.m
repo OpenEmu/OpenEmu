@@ -43,23 +43,22 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEN64ButtonDPadUp[1]"   ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEN64ButtonDPadRight[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEN64ButtonDPadLeft[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEN64ButtonDPadDown[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardI]         , @"OEN64ButtonCUp[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardK]         , @"OEN64ButtonCDown[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardJ]         , @"OEN64ButtonCLeft[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardL]         , @"OEN64ButtonCRight[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEN64ButtonL[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OEN64ButtonR[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEN64ButtonA[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEN64ButtonB[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardZ]         , @"OEN64ButtonZ[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEN64ButtonStart[1]",
-                              nil];
-    return controls;
+    return @{
+    @"OEN64ButtonDPadUp"    : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OEN64ButtonDPadRight" : @(kHIDUsage_KeyboardRightArrow),
+    @"OEN64ButtonDPadLeft"  : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OEN64ButtonDPadDown"  : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OEN64ButtonCUp"       : @(kHIDUsage_KeyboardI)         ,
+    @"OEN64ButtonCDown"     : @(kHIDUsage_KeyboardK)         ,
+    @"OEN64ButtonCLeft"     : @(kHIDUsage_KeyboardJ)         ,
+    @"OEN64ButtonCRight"    : @(kHIDUsage_KeyboardL)         ,
+    @"OEN64ButtonL"         : @(kHIDUsage_KeyboardQ)         ,
+    @"OEN64ButtonR"         : @(kHIDUsage_KeyboardW)         ,
+    @"OEN64ButtonA"         : @(kHIDUsage_KeyboardA)         ,
+    @"OEN64ButtonB"         : @(kHIDUsage_KeyboardS)         ,
+    @"OEN64ButtonZ"         : @(kHIDUsage_KeyboardZ)         ,
+    @"OEN64ButtonStart"     : @(kHIDUsage_KeyboardSpacebar)  ,
+    };
 }
 
 @end

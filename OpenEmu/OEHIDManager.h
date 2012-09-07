@@ -33,6 +33,9 @@
 @class OEHIDDeviceHandler;
 
 @interface OEHIDManager : NSObject
+
++ (OEHIDManager *)sharedHIDManager;
+
 @property(copy) NSArray *deviceHandlers;
 
 - (void)registerDeviceTypes:(NSArray *)matchingTypes;
@@ -41,3 +44,8 @@
 - (void)removeDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice;
 
 @end
+
+NSString *const OEHIDManagerDidAddDeviceHandlerNotification;
+NSString *const OEHIDManagerDidRemoveDeviceHandlerNotification;
+
+NSString *const OEHIDManagerDeviceHandlerUserInfoKey;

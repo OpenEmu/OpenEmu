@@ -30,6 +30,8 @@
 #import "OEHIDEvent.h"
 #import "OESystemController.h"
 #import "OEEvent.h"
+#import "OEKeyBindingDescription.h"
+#import "OEKeyBindingGroupDescription.h"
 
 enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 
@@ -93,167 +95,140 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 #define KEYBOARD_MASK 0x40000000u
 #define HID_MASK      0x20000000u
 #define AXIS_MASK(anEvent) ([anEvent axis] << 16)
-#define DIRECTION_MASK(dir) (1 << ((dir) == OEHIDAxisDirectionPositive))
-
-#define GET_EMUL_KEY(keyName) ({                                      \
-    NSUInteger index, player;                                         \
-    NSString *generic = [[self controller] genericKeyForKey:keyName   \
-                                                getKeyIndex:&index    \
-                                               playerNumber:&player]; \
-    if(generic == nil) return;                                        \
-    [self emulatorKeyForKey:keyName index:index player:player];       \
-})
+#define DIRECTION_MASK(dir) (1 << ((dir) == OEHIDEventAxisDirectionPositive))
 
 - (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey
 {
     OEMapSetValue(keyMap, appKey, emulKey);
 }
 
-- (void)unsetEventForKey:(NSString *)keyName withValueMask:(NSUInteger)keyMask
+- (void)unsetEventWithMask:(NSUInteger)keyMask forEmulatorKey:(OEEmulatorKey)emulKey;
 {
-    OEEmulatorKey emulKey = GET_EMUL_KEY(keyName);
     OEMapRemoveMaskedKeysForValue(keyMap, keyMask, emulKey);
 }
 
-- (void)keyboardEvent:(id)theEvent wasSetForKey:(NSString *)keyName
+- (void)systemBindings:(OESystemBindings *)sender didSetEvent:(OEHIDEvent *)theEvent forBinding:(id)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
-    OEEmulatorKey emulKey = GET_EMUL_KEY(keyName);
-    NSInteger appKey = KEYBOARD_MASK | [theEvent keycode];
-    
-    [self setEventValue:appKey forEmulatorKey:emulKey];
-}
-
-- (void)keyboardEvent:(id)theEvent wasUnsetForKey:(NSString *)keyName;
-{
-    [self unsetEventForKey:keyName withValueMask:KEYBOARD_MASK];
-}
-
-- (void)HIDEvent:(OEHIDEvent *)theEvent wasSetForKey:(NSString *)keyName
-{
-    NSInteger appKey = HID_MASK | PAD_NUMBER(theEvent);
-    
-    switch([theEvent type])
+    if([theEvent type] == OEHIDEventTypeKeyboard)
     {
-        case OEHIDAxis :
+        OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
+        NSInteger appKey = KEYBOARD_MASK | [theEvent keycode];
+        [self setEventValue:appKey forEmulatorKey:emulKey];
+    }
+    else
+    {
+        NSInteger appKey = HID_MASK | PAD_NUMBER(theEvent);
+        
+        switch([theEvent type])
         {
-            OEHIDAxisDirection dir = [theEvent direction];
-            if(dir == OEHIDAxisDirectionNull) return;
-            
-            appKey |= ([theEvent axis] << 16);
-            
-            NSUInteger     index, player;
-            NSString      *generic     = [[self controller] genericKeyForKey:keyName getKeyIndex:&index playerNumber:&player];
-            
-            NSUInteger     oppositeIdx = 0;
-            NSString      *oppositeKey = [[self controller] oppositeKeyForAxisKey:generic getKeyIndex:&oppositeIdx];
-            
-            OEEmulatorKey  emulKey = [self emulatorKeyForKey:generic index:index player:player];
-            
-            // Register the opposite key for to opposite direction if we have an axis-based key
-            if(oppositeKey != nil)
+            case OEHIDEventTypeButton :
+                if([theEvent state] == OEHIDEventStateOff) return;
+                [self setEventValue:appKey | [theEvent cookie] forEmulatorKey:[self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber]];
+                break;
+            case OEHIDEventTypeAxis :
             {
-                OEEmulatorKey oppEmulKey = [self emulatorKeyForKey:oppositeKey index:oppositeIdx player:player];
-                [self setEventValue:appKey | DIRECTION_MASK([theEvent oppositeDirection]) forEmulatorKey:oppEmulKey];
+                OEHIDEventAxisDirection dir = [theEvent direction];
+                if(dir == OEHIDEventAxisDirectionNull) return;
                 
-                NSLog(@"Opposite key: %lx (%x), key: %lx (%x)", appKey | DIRECTION_MASK([theEvent oppositeDirection]), DIRECTION_MASK([theEvent oppositeDirection]), appKey | DIRECTION_MASK(dir), DIRECTION_MASK(dir));
-                
-                CFDictionarySetValue(joystickStates, (void *)appKey, (void *)OEHIDAxisDirectionNull);
+                if([bindingDescription isKindOfClass:[OEKeyBindingDescription class]])
+                {
+                    OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
+                    [self setEventValue:appKey | DIRECTION_MASK(dir) forEmulatorKey:emulKey];
+                }
+                else if([bindingDescription isKindOfClass:[OEOrientedKeyGroupBindingDescription class]])
+                {
+                    OEKeyBindingDescription *keyDesc = [bindingDescription baseKey];
+                    OEKeyBindingDescription *oppDesc = [bindingDescription oppositeKey];
+                    
+                    OEEmulatorKey emulKey    = [self emulatorKeyForKey:[keyDesc name] index:[keyDesc index] player:playerNumber];
+                    OEEmulatorKey oppEmulKey = [self emulatorKeyForKey:[oppDesc name] index:[oppDesc index] player:playerNumber];
+                    
+                    [self setEventValue:appKey | DIRECTION_MASK([theEvent oppositeDirection]) forEmulatorKey:oppEmulKey];
+                    [self setEventValue:appKey | DIRECTION_MASK(dir) forEmulatorKey:emulKey];
+                    
+                    CFDictionarySetValue(joystickStates, (void *)appKey, (void *)OEHIDEventAxisDirectionNull);
+                }
+                else return;
             }
-            
-            [self setEventValue:appKey | DIRECTION_MASK(dir) forEmulatorKey:emulKey];
+                break;
+            case OEHIDEventTypeHatSwitch :
+            {
+                OEHIDEventHatDirection direction = [theEvent hatDirection];
+                if(direction == OEHIDEventHatDirectionNull) return;
+                
+                if([bindingDescription isKindOfClass:[OEKeyBindingDescription class]])
+                {
+                    OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
+                    [self setEventValue:appKey | [theEvent hatDirection] | OEHatSwitchMask forEmulatorKey:emulKey];
+                }
+                else if([bindingDescription isKindOfClass:[OEOrientedKeyGroupBindingDescription class]])
+                {
+                    __block NSUInteger currentDir  = NORTH;
+                    
+                    if(direction & OEHIDEventHatDirectionNorth) currentDir = NORTH;
+                    if(direction & OEHIDEventHatDirectionEast)  currentDir = EAST;
+                    if(direction & OEHIDEventHatDirectionSouth) currentDir = SOUTH;
+                    if(direction & OEHIDEventHatDirectionWest)  currentDir = WEST;
+                    
+                    static OEHIDEventHatDirection dirs[HAT_COUNT] = { OEHIDEventHatDirectionNorth, OEHIDEventHatDirectionEast, OEHIDEventHatDirectionSouth, OEHIDEventHatDirectionWest };
+                    
+                    [bindingDescription enumerateKeysFromBaseKeyUsingBlock:
+                     ^(OEKeyBindingDescription *key, BOOL *stop)
+                     {
+                         OEEmulatorKey emulKey = [self emulatorKeyForKey:[key name] index:[key index] player:playerNumber];
+                         [self setEventValue:appKey | OEHatSwitchMask | dirs[currentDir] forEmulatorKey:emulKey];
+                         
+                         currentDir++;
+                         currentDir %= HAT_COUNT;
+                     }];
+                    
+                    CFDictionarySetValue(joystickStates, (void *)(appKey | OEHatSwitchMask), (void *)OEHIDEventHatDirectionNull);
+                }
+                else return;
+            }
+                break;
+            default :
+                break;
         }
-            break;
-        case OEHIDHatSwitch :
-        {
-            OEHIDHatDirection direction = [theEvent hatDirection];
-            if(direction == OEHIDHatDirectionNull) return;
-            
-            __block NSUInteger currentDir  = NORTH;
-            __block BOOL       isHatSwitch = NO;
-            
-            if(direction & OEHIDHatDirectionNorth) currentDir = NORTH;
-            if(direction & OEHIDHatDirectionEast)  currentDir = EAST;
-            if(direction & OEHIDHatDirectionSouth) currentDir = SOUTH;
-            if(direction & OEHIDHatDirectionWest)  currentDir = WEST;
-            
-            NSUInteger  index, player;
-            NSString   *generic = [[self controller] genericKeyForKey:keyName getKeyIndex:&index playerNumber:&player];
-            
-            static OEHIDHatDirection dirs[HAT_COUNT] = { OEHIDHatDirectionNorth, OEHIDHatDirectionEast, OEHIDHatDirectionSouth, OEHIDHatDirectionWest };
-            
-            [[self controller] enumerateKeysLinkedToHatSwitchKey:generic usingBlock:
-             ^(NSString *key, NSUInteger keyIdx, BOOL *stop)
-             {
-                 isHatSwitch = YES;
-                 
-                 OEEmulatorKey emulKey = [self emulatorKeyForKey:key index:keyIdx player:player];
-                 
-                 NSLog(@"Key: %@, direction: %@", key, OEHIDEventHatSwitchDisplayDescription(0, dirs[currentDir]));
-                 [self setEventValue:appKey | OEHatSwitchMask | dirs[currentDir] forEmulatorKey:emulKey];
-                 
-                 currentDir++;
-                 currentDir %= HAT_COUNT;
-             }];
-            
-            if(isHatSwitch)
-                CFDictionarySetValue(joystickStates, (void *)(appKey | OEHatSwitchMask), (void *)OEHIDHatDirectionNull);
-            else
-                [self setEventValue:appKey | [theEvent hatDirection] | OEHatSwitchMask forEmulatorKey:GET_EMUL_KEY(keyName)];
-        }
-            break;
-        case OEHIDButton :
-            if([theEvent state] == NSOffState) return;
-            [self setEventValue:appKey | [theEvent cookie] forEmulatorKey:GET_EMUL_KEY(keyName)];
-            break;
-        default : return;
     }
 }
 
-- (void)HIDEvent:(OEHIDEvent *)theEvent wasUnsetForKey:(NSString *)keyName;
+- (void)systemBindings:(OESystemBindings *)sender didUnsetEvent:(OEHIDEvent *)theEvent forBinding:(id)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
-    switch([theEvent type])
+    if([theEvent type] == OEHIDEventTypeKeyboard)
     {
-        case OEHIDAxis :
+        OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
+        [self unsetEventWithMask:KEYBOARD_MASK forEmulatorKey:emulKey];
+    }
+    else
+    {
+        if([bindingDescription isKindOfClass:[OEKeyBindingDescription class]])
         {
-            NSUInteger player;
-            NSString *generic     = [[self controller] genericKeyForKey:keyName getKeyIndex:NULL playerNumber:&player];
-            NSString *oppositeKey = [[self controller] oppositeKeyForAxisKey:generic getKeyIndex:NULL];
-            
-            if(oppositeKey != nil)
-            {
-                oppositeKey = [[self controller] playerKeyForKey:oppositeKey player:player];
-                [self unsetEventForKey:oppositeKey withValueMask:HID_MASK];
-                
-                CFDictionaryRemoveValue(joystickStates, (void *)(HID_MASK | PAD_NUMBER(theEvent) | AXIS_MASK(theEvent)));
-            }
-            
-            [self unsetEventForKey:keyName withValueMask:HID_MASK];
+            OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
+            [self unsetEventWithMask:HID_MASK forEmulatorKey:emulKey];
         }
-            break;
-        case OEHIDHatSwitch :
+        else if([bindingDescription isKindOfClass:[OEOrientedKeyGroupBindingDescription class]])
         {
-            __block BOOL isHID = NO;
-            
-            NSUInteger player;
-            NSString *generic = [[self controller] genericKeyForKey:keyName getKeyIndex:NULL playerNumber:&player];
-            
-            [[self controller] enumerateKeysLinkedToHatSwitchKey:generic usingBlock:
-             ^(NSString *key, NSUInteger keyIdx, BOOL *stop)
+            [bindingDescription enumerateKeysFromBaseKeyUsingBlock:
+             ^(OEKeyBindingDescription *key, BOOL *stop)
              {
-                 isHID = YES;
-                 
-                 key = [[self controller] playerKeyForKey:key player:player];
-                 [self unsetEventForKey:key withValueMask:HID_MASK];
+                 OEEmulatorKey emulKey = [self emulatorKeyForKey:[key name] index:[key index] player:playerNumber];
+                 [self unsetEventWithMask:HID_MASK forEmulatorKey:emulKey];
              }];
             
-            if(isHID) CFDictionaryRemoveValue(joystickStates, (void *)(HID_MASK | PAD_NUMBER(theEvent) | OEHatSwitchMask));
-            else      [self unsetEventForKey:keyName withValueMask:HID_MASK];
+            switch([theEvent type])
+            {
+                case OEHIDEventTypeAxis :
+                    CFDictionaryRemoveValue(joystickStates, (void *)(HID_MASK | PAD_NUMBER(theEvent) | AXIS_MASK(theEvent)));
+                    break;
+                case OEHIDEventTypeHatSwitch :
+                    CFDictionaryRemoveValue(joystickStates, (void *)(HID_MASK | PAD_NUMBER(theEvent) | OEHatSwitchMask));
+                    break;
+                default :
+                    break;
+            }
         }
-            break;
-        case OEHIDButton :
-            [self unsetEventForKey:keyName withValueMask:HID_MASK];
-            break;
-        default : break;
+        else return;
     }
 }
 
@@ -286,7 +261,7 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
     NSInteger axis = value | AXIS_MASK(anEvent);
     OEEmulatorKey key;
     
-    OEHIDAxisDirection previousDirection = OEHIDAxisDirectionNull;
+    OEHIDEventAxisDirection previousDirection = OEHIDEventAxisDirectionNull;
     
     if(CFDictionaryGetValueIfPresent(joystickStates, (void *)axis, (void *)&previousDirection))
     {
@@ -294,40 +269,40 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
         
         switch(previousDirection)
         {
-            case OEHIDAxisDirectionNegative :
-                if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDAxisDirectionNegative), &key))
+            case OEHIDEventAxisDirectionNegative :
+                if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDEventAxisDirectionNegative), &key))
                     [self releaseEmulatorKey:key];
                 break;
-            case OEHIDAxisDirectionPositive :
-                if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDAxisDirectionPositive), &key))
+            case OEHIDEventAxisDirectionPositive :
+                if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDEventAxisDirectionPositive), &key))
                     [self releaseEmulatorKey:key];
             default :
                 break;
         }
         
-        if(dir != OEHIDAxisDirectionNull && OEMapGetValue(keyMap, axis | DIRECTION_MASK(dir), &key))
+        if(dir != OEHIDEventAxisDirectionNull && OEMapGetValue(keyMap, axis | DIRECTION_MASK(dir), &key))
             [self pressEmulatorKey:key];
         
         CFDictionarySetValue(joystickStates, (void *)axis, (void *)dir);
     }
     else
     {
-        if(dir == OEHIDAxisDirectionNull)
+        if(dir == OEHIDEventAxisDirectionNull)
         {
-            if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDAxisDirectionNegative), &key))
+            if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDEventAxisDirectionNegative), &key))
                 [self releaseEmulatorKey:key];
-            if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDAxisDirectionPositive), &key))
+            if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDEventAxisDirectionPositive), &key))
                 [self releaseEmulatorKey:key];
             return;
         }
-        else if(dir == OEHIDAxisDirectionNegative)
+        else if(dir == OEHIDEventAxisDirectionNegative)
         {
-            if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDAxisDirectionPositive), &key))
+            if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDEventAxisDirectionPositive), &key))
                 [self releaseEmulatorKey:key];
         }
-        else if(dir == OEHIDAxisDirectionPositive)
+        else if(dir == OEHIDEventAxisDirectionPositive)
         {
-            if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDAxisDirectionNegative), &key))
+            if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDEventAxisDirectionNegative), &key))
                 [self releaseEmulatorKey:key];
         }
         
@@ -352,14 +327,14 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 
 - (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
 {
-    OEHIDHatDirection previousDirection = OEHIDHatDirectionNull;
+    OEHIDEventHatDirection previousDirection = OEHIDEventHatDirectionNull;
     
     NSUInteger hatSwitch = (HID_MASK | PAD_NUMBER(anEvent) | OEHatSwitchMask);
     
     if(CFDictionaryGetValueIfPresent(joystickStates, (void *)hatSwitch, (void *)&previousDirection))
     {
-        OEHIDHatDirection direction = [anEvent hatDirection];
-        OEHIDHatDirection diff      = previousDirection ^ direction;
+        OEHIDEventHatDirection direction = [anEvent hatDirection];
+        OEHIDEventHatDirection diff      = previousDirection ^ direction;
         
 #define DIFF_DIRECTION(dir) do { \
     if(diff & dir) \
@@ -378,10 +353,10 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
     } \
 } while(NO)
         
-        DIFF_DIRECTION(OEHIDHatDirectionNorth);
-        DIFF_DIRECTION(OEHIDHatDirectionEast);
-        DIFF_DIRECTION(OEHIDHatDirectionSouth);
-        DIFF_DIRECTION(OEHIDHatDirectionWest);
+        DIFF_DIRECTION(OEHIDEventHatDirectionNorth);
+        DIFF_DIRECTION(OEHIDEventHatDirectionEast);
+        DIFF_DIRECTION(OEHIDEventHatDirectionSouth);
+        DIFF_DIRECTION(OEHIDEventHatDirectionWest);
         
         CFDictionarySetValue(joystickStates, (void *)hatSwitch, (void *)direction);
     }

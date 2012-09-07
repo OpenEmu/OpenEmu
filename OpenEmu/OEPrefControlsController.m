@@ -42,22 +42,37 @@
 
 #import "OEHIDEvent.h"
 
+#import "OEBindingsController.h"
+#import "OESystemBindings.h"
+#import "OEPlayerBindings.h"
+#import "OEKeyBindingGroupDescription.h"
+
 @interface OEPrefControlsController ()
 {
-    OEHIDEventAxis readingAxis;
+    OESystemPlugin    *selectedPlugin;
+    OEHIDEvent        *readingEvent;
+    NSMutableSet      *ignoredEvents;
 }
 
+- (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;
 - (void)OE_rebuildSystemsMenu;
 - (void)OE_setupControllerImageViewWithTransition:(NSString *)transition;
 - (void)OE_openPaneWithNotification:(NSNotification *)notification;
+
+// Only one event can be managed at a time, all events should be ignored until the currently read event went back to its null state
+// All ignored events are stored until they go back to the null state
+- (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
+
+@property(nonatomic, readwrite) OESystemBindings *currentSystemBindings;
+@property(nonatomic, readwrite) OEPlayerBindings *currentPlayerBindings;
+
 @end
 
 @implementation OEPrefControlsController
 
 #pragma mark Properties
 @synthesize controllerView, controllerContainerView;
-
-@synthesize consolesPopupButton, playerPopupButton, inputPopupButton, keyBindings;
+@synthesize consolesPopupButton, playerPopupButton, inputPopupButton;
 
 @synthesize gradientOverlay;
 @synthesize controlsContainer;
@@ -65,6 +80,13 @@
 @synthesize selectedPlayer;
 @synthesize selectedBindingType;
 @synthesize selectedKey;
+
+@synthesize currentSystemBindings;
+
++ (NSSet *)keyPathsForValuesAffectingCurrentPlayerBindings
+{
+    return [NSSet setWithObjects:@"currentSystemBindings", @"currentSystemBindings.devicePlayerBindings", @"selectedPlayer", @"selectedBindingType", nil];
+}
 
 - (void)dealloc
 {
@@ -80,6 +102,8 @@
     
     [[self controlsSetupView] setTarget:self];
     [[self controlsSetupView] setAction:@selector(changeInputControl:)];
+    
+    [[self controlsSetupView] bind:@"bindingsProvider" toObject:self withKeyPath:@"currentPlayerBindings" options:nil];
     
     NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
     
@@ -170,6 +194,17 @@
     return [selectedPlugin controller];
 }
 
+- (OEPlayerBindings *)currentPlayerBindings
+{
+    OEPlayerBindings *ret = ([self isKeyboardEventSelected]
+                                       ? [[self currentSystemBindings] keyboardPlayerBindingsForPlayer:[self selectedPlayer]]
+                                       : [[self currentSystemBindings] devicePlayerBindingsForPlayer:[self selectedPlayer]]);
+    
+    NSAssert(ret == nil || [ret isKindOfClass:[OEPlayerBindings class]], @"Expecting OEPlayerBindingsController instance, got: %@", ret);
+    
+    return ret;
+}
+
 #pragma mark -
 #pragma mark UI Methods
 
@@ -220,12 +255,15 @@
     
     OESystemController *systemController = [self currentSystemController];
     
-    [self setKeyBindings:[[systemController controllerKeyPositions] allKeys]];
+    [self setCurrentSystemBindings:[[OEBindingsController defaultBindingsController] systemBindingsForSystemController:systemController]];
+    
+    //[self setKeyBindings:[[systemController controllerKeyPositions] allKeys]];
     
     // Rebuild player menu
     [self OE_setupPlayerMenuForNumberOfPlayers:[systemController numberOfPlayers]];
     
     OEControlsButtonSetupView *preferenceView = [self controlsSetupView];
+    [preferenceView setBindingsProvider:[self currentPlayerBindings]];
     [preferenceView setupWithControlList:[systemController controlPageList]];
     [preferenceView setAutoresizingMask:NSViewMaxXMargin | NSViewMaxYMargin];
     
@@ -236,9 +274,7 @@
     [[self controlsSetupView] setFrameOrigin:(NSPoint){ 0, scrollView.frame.size.height - rect.size.height}];
     
     if([[self controlsSetupView] frame].size.height <= scrollView.frame.size.height)
-    {
         [scrollView setVerticalScrollElasticity:NSScrollElasticityNone];
-    }
     else
     {
         [scrollView setVerticalScrollElasticity:NSScrollElasticityAutomatic];
@@ -294,8 +330,6 @@
         player = [sender tag];
     
     [self setSelectedPlayer:player];
-    [self resetKeyBindings];
-    [[NSUserDefaults standardUserDefaults] setInteger:player forKey:UDControlsPlayerKey];
 }
 
 - (IBAction)changeInputDevice:(id)sender
@@ -307,8 +341,6 @@
         bindingType = [sender tag];
     
     [self setSelectedBindingType:bindingType];
-    [self resetKeyBindings];
-    [[NSUserDefaults standardUserDefaults] setInteger:bindingType forKey:UDControlsDeviceTypeKey];
 }
 
 - (IBAction)changeInputControl:(id)sender
@@ -336,44 +368,57 @@
     {
         selectedBindingType = value;
         [[self inputPopupButton] selectItemWithTag:selectedBindingType];
+        [[NSUserDefaults standardUserDefaults] setInteger:selectedBindingType forKey:UDControlsDeviceTypeKey];
+    }
+}
+
+- (void)setSelectedPlayer:(NSUInteger)value
+{
+    if(selectedPlayer != value)
+    {
+        selectedPlayer = value;
+        [[self playerPopupButton] selectItemWithTag:value];
+        [[NSUserDefaults standardUserDefaults] setInteger:selectedPlayer forKey:UDControlsPlayerKey];
+    }
+}
+
+- (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;
+{
+    if([anEvent type] == OEHIDEventTypeKeyboard)
+        [self setSelectedBindingType:0];
+    else
+    {
+        NSUInteger playerNumber = [[self currentSystemBindings] playerNumberForEvent:anEvent];
+        
+        [self setSelectedBindingType:1];
+        [self setSelectedPlayer:playerNumber];
     }
 }
 
 #pragma mark -
 #pragma mark Input and bindings management methods
-- (void)resetBindingsWithKeys:(NSArray *)keys
-{
-    for(NSString *key in keys)
-    {
-        [self willChangeValueForKey:key];
-        [self didChangeValueForKey:key];
-    }
-}
-
-- (void)resetKeyBindings
-{
-    [self resetBindingsWithKeys:[self keyBindings]];
-}
 
 - (BOOL)isKeyboardEventSelected
 {
     return selectedBindingType == 0;
 }
 
-- (NSString *)keyPathForKey:(NSString *)aKey
-{
-    NSUInteger player = [self selectedPlayer];
-    
-    return player != NSNotFound ? [[self currentSystemController] playerKeyForKey:aKey player:player] : aKey;
-}
-
 - (void)registerEvent:(OEHIDEvent *)anEvent;
 {
+    // Ignore any off state events
+    if([anEvent hasOffState]) return;
+    
     if([self selectedKey] != nil)
     {
-        [[self currentSystemController] registerEvent:anEvent forKey:[self keyPathForKey:[self selectedKey]]];
-        [self resetKeyBindings];
-        [[self controlsSetupView] selectNextKeyButton];
+        [self OE_setCurrentBindingsForEvent:anEvent];
+        
+        id assignedKey = [[self currentPlayerBindings] assignEvent:anEvent toKeyWithName:[self selectedKey]];
+        
+        if([assignedKey isKindOfClass:[OEKeyBindingGroupDescription class]])
+            [[self controlsSetupView] selectNextKeyAfterKeys:[assignedKey keyNames]];
+        else
+            [[self controlsSetupView] selectNextKeyButton];
+        
         [self changeInputControl:[self controlsSetupView]];
     }
 }
@@ -386,31 +431,69 @@
 {
 }
 
+- (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
+{
+    // Check if the event is ignored
+    if([ignoredEvents containsObject:anEvent])
+    {
+        // Ignored events going back to off-state are removed from the ignored events
+        if([anEvent hasOffState]) [ignoredEvents removeObject:anEvent];
+        
+        return NO;
+    }
+    
+    // No event currently read, if it's not off state, store it and read it
+    if(readingEvent == nil)
+    {
+        // The event is not ignored but it's off, ignore it anyway
+        if([anEvent hasOffState]) return NO;
+        
+        readingEvent = anEvent;
+        return YES;
+    }
+    
+    // The event is the currently read event,
+    // if it's off state, nil the reading event,
+    // in either case, this event shouldn't be registered
+    if(readingEvent == anEvent)
+    {
+        if([anEvent hasOffState])
+            readingEvent = nil;
+        
+        return NO;
+    }
+    
+    if(![anEvent hasOffState]) [ignoredEvents addObject:anEvent];
+    
+    return NO;
+}
+
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
-    OEHIDEventAxis axis    = [anEvent axis];
-    OEHIDAxisDirection dir = [anEvent direction];
-    
-    if(readingAxis == OEHIDAxisNone && axis != OEHIDAxisNone && dir != OEHIDAxisDirectionNull)
+    if([self OE_shouldRegisterEvent:anEvent])
     {
-        readingAxis = axis;
-        
         [self setSelectedBindingType:1];
         [self registerEvent:anEvent];
     }
-    else if(readingAxis == axis && dir == OEHIDAxisDirectionNull)
-        readingAxis = OEHIDAxisNone;
 }
 
 - (void)buttonDown:(OEHIDEvent *)anEvent
 {
-    [self setSelectedBindingType:1];
-    [self registerEvent:anEvent];
+    if([self OE_shouldRegisterEvent:anEvent])
+    {
+        [self setSelectedBindingType:1];
+        [self registerEvent:anEvent];
+    }
+}
+
+- (void)buttonUp:(OEHIDEvent *)anEvent
+{
+    [self OE_shouldRegisterEvent:anEvent];
 }
 
 - (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
 {
-    if([anEvent hatDirection] != OEHIDHatDirectionNull)
+    if([self OE_shouldRegisterEvent:anEvent])
     {
         [self setSelectedBindingType:1];
         [self registerEvent:anEvent];
@@ -419,32 +502,21 @@
 
 - (void)HIDKeyDown:(OEHIDEvent *)anEvent
 {
-    [self setSelectedBindingType:0];
-    [self registerEvent:anEvent];
+    if([self OE_shouldRegisterEvent:anEvent])
+    {
+        [self setSelectedBindingType:0];
+        [self registerEvent:anEvent];
+    }
 }
 
-- (id)valueForKey:(NSString *)key
+- (void)HIDKeyUp:(OEHIDEvent *)anEvent;
 {
-    if([[[self currentSystemController] genericControlNames] containsObject:key])
-    {
-        id anEvent = nil;
-        if([self isKeyboardEventSelected])
-            anEvent = [[self currentSystemController] keyboardEventForKey:[self keyPathForKey:key]];
-        else
-            anEvent = [[self currentSystemController] HIDEventForKey:[self keyPathForKey:key]];
-        
-        return (anEvent != nil
-                ? ([anEvent respondsToSelector:@selector(displayDescription)]
-                   ? [anEvent displayDescription]
-                   : [anEvent description])
-                : @"<empty>");
-    }
-    return [super valueForKey:key];
+    [self OE_shouldRegisterEvent:anEvent];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if([self selectedKey]) [self setSelectedKey:[self selectedKey]];
+    if([self selectedKey] != nil) [self setSelectedKey:[self selectedKey]];
 }
 
 #pragma mark -
