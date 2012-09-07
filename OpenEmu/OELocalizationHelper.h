@@ -34,6 +34,7 @@ typedef enum _OERegion
 	OERegionOther
 } OERegion;
 
+extern NSString * const OERegionKey;
 @interface OELocalizationHelper : NSObject
 + (OELocalizationHelper*)sharedHelper;
 

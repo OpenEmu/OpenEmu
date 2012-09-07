@@ -47,6 +47,10 @@
 #import "OEPlayerBindings.h"
 #import "OEKeyBindingGroupDescription.h"
 
+NSString * const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
+NSString * const OELastControlsPlayerKey = @"lastControlsPlayer";
+NSString * const OELastControlsDeviceTypeKey = @"lastControlsDevice";
+
 @interface OEPrefControlsController ()
 {
     OESystemPlugin    *selectedPlugin;
@@ -115,11 +119,11 @@
     [self OE_rebuildSystemsMenu];
     
     // restore previous state
-    NSInteger binding = [sud integerForKey:UDControlsDeviceTypeKey];
+    NSInteger binding = [sud integerForKey:OELastControlsDeviceTypeKey];
     [[self inputPopupButton] selectItemWithTag:binding];
     [self changeInputDevice:self];
     
-    NSString *pluginName = [sud stringForKey:UDControlsPluginIdentifierKey];
+    NSString *pluginName = [sud stringForKey:OELastControlsPluginIdentifierKey];
     [[self consolesPopupButton] selectItemAtIndex:0];
     for(NSMenuItem *anItem in [[self consolesPopupButton] itemArray])
     {
@@ -223,7 +227,7 @@
     
     // Hide player PopupButton if there is only one player
     [[self playerPopupButton] setHidden:(numberOfPlayers == 1)];
-    [[self playerPopupButton] selectItemWithTag:[[NSUserDefaults standardUserDefaults] integerForKey:UDControlsPlayerKey]];
+    [[self playerPopupButton] selectItemWithTag:[[NSUserDefaults standardUserDefaults] integerForKey:OELastControlsPlayerKey]];
 }
 
 - (NSMenu *)OE_playerMenuForPlayerCount:(NSUInteger)numberOfPlayers;
@@ -281,7 +285,7 @@
         [scrollView flashScrollers];
     }
     
-    [sud setObject:systemIdentifier forKey:UDControlsPluginIdentifierKey];
+    [sud setObject:systemIdentifier forKey:OELastControlsPluginIdentifierKey];
     
     [self changePlayer:[self playerPopupButton]];
     [self changeInputDevice:[self inputPopupButton]];
@@ -368,7 +372,7 @@
     {
         selectedBindingType = value;
         [[self inputPopupButton] selectItemWithTag:selectedBindingType];
-        [[NSUserDefaults standardUserDefaults] setInteger:selectedBindingType forKey:UDControlsDeviceTypeKey];
+        [[NSUserDefaults standardUserDefaults] setInteger:selectedBindingType forKey:OELastControlsDeviceTypeKey];
     }
 }
 
@@ -378,7 +382,7 @@
     {
         selectedPlayer = value;
         [[self playerPopupButton] selectItemWithTag:value];
-        [[NSUserDefaults standardUserDefaults] setInteger:selectedPlayer forKey:UDControlsPlayerKey];
+        [[NSUserDefaults standardUserDefaults] setInteger:selectedPlayer forKey:OELastControlsPlayerKey];
     }
 }
 

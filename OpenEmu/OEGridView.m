@@ -33,6 +33,8 @@
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
 const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval of periodic events
 
+NSString * const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
+
 @interface OEGridView ()
 
 - (void)OE_commonGridViewInit;
@@ -1220,7 +1222,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         
         OEMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:indexes];
         
-        if([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu]) [contextMenu setStyle:OEMenuStyleLight];
+        if([[NSUserDefaults standardUserDefaults] boolForKey:OELightStyleGridViewMenu]) [contextMenu setStyle:OEMenuStyleLight];
         
         [contextMenu setDisplaysOpenEdge:YES];
         

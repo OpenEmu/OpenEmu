@@ -28,6 +28,7 @@
 #import "OEPlugin.h"
 #import "OECompositionPlugin.h"
 
+extern NSString * const OEGameVideoFilterKey;
 @implementation OEPrefGameplayController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -55,7 +56,7 @@
 	[[self filterSelection] setMenu:filterMenu];
 	
 	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-	NSString *selectedFilterName = [sud objectForKey:UDVideoFilterKey];
+	NSString *selectedFilterName = [sud objectForKey:OEGameVideoFilterKey];
 	if(selectedFilterName && [[self filterSelection] itemWithTitle:selectedFilterName])
     {
 		[[self filterSelection] selectItemWithTitle:selectedFilterName];
@@ -132,7 +133,7 @@
     }
     
 	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-	[sud setObject:filterName forKey:UDVideoFilterKey];
+	[sud setObject:filterName forKey:OEGameVideoFilterKey];
 }
 @synthesize filterPreviewContainer, filterSelection;
 @end

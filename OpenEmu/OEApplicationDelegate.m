@@ -55,6 +55,7 @@
 
 #import "OEBuildVersion.h"
 
+extern NSString * const OEDatabasePathKey;
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -121,7 +122,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     [mainWindowController showWindow:self];
 	
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDWiimoteSupportDisabled])
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
 	// Start WiiRemote support
         [OEWiimoteHandler search];
 }
@@ -150,11 +151,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     NSError *error = nil;
     
-    NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey];
-    if(databasePath == nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
+    NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDatabasePathKey];
+    if(databasePath == nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDefaultDatabasePathKey];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:NULL] &&
-       [databasePath isEqual:[[NSUserDefaults standardUserDefaults] objectForKey:UDDefaultDatabasePathKey]])
+       [databasePath isEqual:[[NSUserDefaults standardUserDefaults] objectForKey:OEDefaultDatabasePathKey]])
         [[NSFileManager defaultManager] createDirectoryAtPath:databasePath withIntermediateDirectories:YES attributes:nil error:nil];
     
     BOOL userDBSelectionRequest = ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0;

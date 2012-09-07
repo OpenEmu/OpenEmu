@@ -31,6 +31,28 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
+extern NSString * const OEGameControlsBarFadeOutDelayKey;
+extern NSString * const OEMaxSaveGameNameLengthKey;
+
+extern NSString * const OEDefaultDatabasePathKey;
+extern NSString * const OEDatabasePathKey;
+
+extern NSString * const OEAutomaticallyGetInfoKey;
+
+extern NSString * const OEGameVolumeKey;
+extern NSString * const OEGameVideoFilterKey;
+
+extern NSString * const OEBoxSizesKey;
+
+extern NSString * const OESidebarMinWidth;
+extern NSString * const OESidebarMaxWidth;
+extern NSString * const OEMainViewMinWidth;
+
+extern NSString * const OESidebarWidthKey;
+extern NSString * const OESidebarVisibleKey;
+
+extern NSString * const OELastGridSizeKey;
 int main(int argc, char *argv[])
 {	
     srand(time(NULL));
@@ -40,35 +62,33 @@ int main(int argc, char *argv[])
         
         NSDictionary *defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
                                   // default thumbnail sizes for game box images
-                                  [NSArray arrayWithObjects:@"{75,75}",
+                                  @[@"{75,75}",
                                    @"{150,150}",
                                    @"{300,300}",
-                                   @"{450,450}", nil],              UDBoxSizesKey,
+                                   @"{450,450}"],              OEBoxSizesKey,
 
                                   // Library Tab
-                                  path,                             UDDefaultDatabasePathKey,
-                                  path,                             UDDatabasePathKey,
-                                  [NSNumber numberWithBool:YES],    UDAutomaticallyGetInfoKey,
+                                  path,                             OEDefaultDatabasePathKey,
+                                  path,                             OEDatabasePathKey,
+                                  [NSNumber numberWithBool:YES],    OEAutomaticallyGetInfoKey,
 
                                   // others
-                                  @"Save States",                   UDSaveStateFolderNameKey,	// Default name of Save States folder
-                                  @"Linear",                        UDVideoFilterKey,
-                                  [NSNumber numberWithFloat:0.5],   UDVolumeKey,                // Default Volume
-                                  [NSNumber numberWithDouble:1.5],  UDHUDFadeOutDelayKey,       // Time until hud controls bar fades out
-                                  [NSNumber numberWithBool:YES],    UDHUDCanDeleteStateKey,
+                                  @"Linear",                        OEGameVideoFilterKey,
+                                  [NSNumber numberWithFloat:0.5],   OEGameVolumeKey,                // Default Volume
+                                  [NSNumber numberWithDouble:1.5],  OEGameControlsBarFadeOutDelayKey,       // Time until hud controls bar fades out
+                                  [NSNumber numberWithBool:YES],    OEGameControlsBarCanDeleteSaveStatesKey,
                                   
-                                  [NSNumber numberWithInt:40],      UDMaxSaveGameNameLengthKey,
+                                  [NSNumber numberWithInt:40],      OEMaxSaveGameNameLengthKey,
                                   
-                                  [NSNumber numberWithFloat:105.0], UDSidebarMinWidth,
-                                  [NSNumber numberWithFloat:450.0], UDSidebarMaxWidth,
-                                  [NSNumber numberWithFloat:495.0], UDMainViewMinWidth,
+                                  [NSNumber numberWithFloat:105.0], OESidebarMinWidth,
+                                  [NSNumber numberWithFloat:450.0], OESidebarMaxWidth,
+                                  [NSNumber numberWithFloat:495.0], OEMainViewMinWidth,
                                   
-                                  [NSNumber numberWithFloat:186.0], UDSidebarWidthKey,
-                                  [NSNumber numberWithBool:YES],    UDSidebarVisibleKey,
+                                  [NSNumber numberWithFloat:186.0], OESidebarWidthKey,
+                                  [NSNumber numberWithBool:YES],    OESidebarVisibleKey,
                                   
-                                  [NSNumber numberWithFloat:1.0],   UDLastGridSizeKey,
-                                  
-                                  [NSNumber numberWithBool:YES],    UDControlsButtonHighlightRollsOver,
+                                  [NSNumber numberWithFloat:1.0],   OELastGridSizeKey,
+                                
                                   nil];
         
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];

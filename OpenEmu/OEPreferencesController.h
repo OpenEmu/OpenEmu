@@ -25,6 +25,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
+
+extern NSString * const OEDebugModeKey;
 @class OEBackgroundGradientView;
 @class OEToolbarView;
 @interface OEPreferencesController : NSWindowController 

@@ -32,6 +32,8 @@
 #import "OECoreUpdater.h"
 #import "OESetupAssistantTableView.h"
 
+extern NSString * const OESetupAssistantHasFinishedKey ;
+
 @class OEGlossButton;
 @class OESetupAssistantKeyMapView;
 

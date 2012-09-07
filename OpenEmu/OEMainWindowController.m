@@ -40,6 +40,10 @@
 
 #import "NSView+FadeImage.h"
 #import "OEFadeView.h"
+
+NSString * const OEAllowPopoutGameWindowKey = @"allowPopout";
+NSString * const OEForcePopoutGameWindowKey = @"forcePopout";
+extern NSString * const OESetupAssistantHasFinishedKey;
 @interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
@@ -100,7 +104,7 @@
     [[self window] setRestorable:NO];
     [[self window] setExcludedFromWindowsMenu:YES];
     
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSetupAssistantHasRun])
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey])
     {
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
         [setupAssistant setCompletionBlock:
@@ -129,8 +133,8 @@
 - (void)openGameDocument:(OEGameDocument *)aDocument;
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
-    BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
+    BOOL allowPopout = [standardDefaults boolForKey:OEAllowPopoutGameWindowKey];
+    BOOL forcePopout = [standardDefaults boolForKey:OEForcePopoutGameWindowKey];
     
     BOOL usePopout = forcePopout || allowPopout;
     

@@ -34,8 +34,8 @@ enum _OEDBGameStatus
 };
 typedef NSUInteger OEDBGameStatus;
 
-extern NSString *const OEPasteboardTypeGame;
-
+extern NSString * const OEPasteboardTypeGame;
+extern NSString * const OEBoxSizesKey;
 @class OELibraryDatabase;
 @class OEDBSystem, OEDBRom, OEDBSaveState;
 @class OEDBImage;
