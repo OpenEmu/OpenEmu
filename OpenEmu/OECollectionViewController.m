@@ -60,6 +60,17 @@
 #import "OETableView.h"
 
 @interface OECollectionViewController ()
+{
+    id<OECollectionViewItemProtocol> collectionItem;
+    
+    IBOutlet NSView *gridViewContainer;// gridview
+    IBOutlet OEGridView *gridView;// scrollview for gridview
+    
+    IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
+    IBOutlet IKImageFlowView *coverFlowView;
+    IBOutlet NSTableView *listView;
+}
+
 - (void)OE_managedObjectContextDidSave:(NSNotification *)notification;
 - (void)OE_reloadData;
 - (void)OE_selectView:(NSInteger)view;
@@ -68,10 +79,11 @@
 - (NSMenu *)OE_saveStateMenuForGame:(OEDBGame*)game;
 - (NSMenu *)OE_ratingMenuForGames:(NSArray*)games;
 - (NSMenu *)OE_collectionsMenuForGames:(NSArray*)games;
+
 @end
 
 @implementation OECollectionViewController
-@synthesize libraryController;
+@synthesize libraryController, gamesController;
 @synthesize emptyCollectionView, emptyConsoleView;
 + (void)initialize
 {

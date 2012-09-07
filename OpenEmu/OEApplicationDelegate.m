@@ -51,6 +51,8 @@
 #import "OEDBGame.h"
 
 #import "OEWiimoteHandler.h"
+#import "OEBindingsController.h"
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -272,6 +274,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)OE_setupHIDSupport
 {
+    // Setup OEBindingsController
+    [OEBindingsController class];
+    
     NSArray *matchingTypes = [NSArray arrayWithObjects:
                               [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
@@ -284,7 +289,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
                               nil];
     
-    [self setHIDManager:[[OEHIDManager alloc] init]];
+    [self setHIDManager:[OEHIDManager sharedHIDManager]];
     [[self HIDManager] registerDeviceTypes:matchingTypes];
 }
 

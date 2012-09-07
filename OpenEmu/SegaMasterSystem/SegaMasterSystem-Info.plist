@@ -48,25 +48,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonUp[@]</string>
+					<string>OESMSButtonUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonDown[@]</string>
+					<string>OESMSButtonDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonLeft[@]</string>
+					<string>OESMSButtonLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonRight[@]</string>
+					<string>OESMSButtonRight</string>
 				</dict>
 			</array>
 			<array>
@@ -74,13 +74,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 1/Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonA[@]</string>
+					<string>OESMSButtonA</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 2</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonB[@]</string>
+					<string>OESMSButtonB</string>
 				</dict>
 				<string>-</string>
 				<dict>
@@ -96,12 +96,12 @@
 	<string>sms_library</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OESMSButtonUp[@]</string>
-		<string>OESMSButtonDown[@]</string>
-		<string>OESMSButtonLeft[@]</string>
-		<string>OESMSButtonRight[@]</string>
-		<string>OESMSButtonA[@]</string>
-		<string>OESMSButtonB[@]</string>
+		<string>OESMSButtonUp</string>
+		<string>OESMSButtonDown</string>
+		<string>OESMSButtonLeft</string>
+		<string>OESMSButtonRight</string>
+		<string>OESMSButtonA</string>
+		<string>OESMSButtonB</string>
 		<string>OESMSButtonStart</string>
 		<string>OESMSButtonReset</string>
 	</array>
@@ -110,21 +110,21 @@
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OESMSButtonUp[@]</string>
-				<string>OESMSButtonRight[@]</string>
-				<string>OESMSButtonDown[@]</string>
-				<string>OESMSButtonLeft[@]</string>
+				<string>OESMSButtonUp</string>
+				<string>OESMSButtonRight</string>
+				<string>OESMSButtonDown</string>
+				<string>OESMSButtonLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OESMSButtonUp[@]</string>
-				<string>OESMSButtonDown[@]</string>
+				<string>OESMSButtonUp</string>
+				<string>OESMSButtonDown</string>
 			</array>
 			<array>
-				<string>OESMSButtonLeft[@]</string>
-				<string>OESMSButtonRight[@]</string>
+				<string>OESMSButtonLeft</string>
+				<string>OESMSButtonRight</string>
 			</array>
 		</array>
 	</dict>

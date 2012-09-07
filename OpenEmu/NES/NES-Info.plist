@@ -48,25 +48,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENESButtonUp[@]</string>
+					<string>OENESButtonUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENESButtonDown[@]</string>
+					<string>OENESButtonDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENESButtonLeft[@]</string>
+					<string>OENESButtonLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENESButtonRight[@]</string>
+					<string>OENESButtonRight</string>
 				</dict>
 			</array>
 			<array>
@@ -74,13 +74,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENESButtonStart[@]</string>
+					<string>OENESButtonStart</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Select</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENESButtonSelect[@]</string>
+					<string>OENESButtonSelect</string>
 				</dict>
 			</array>
 			<array>
@@ -88,48 +88,48 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>A</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENESButtonA[@]</string>
+					<string>OENESButtonA</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>B</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENESButtonB[@]</string>
+					<string>OENESButtonB</string>
 				</dict>
 			</array>
 		</array>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OENESButtonUp[@]</string>
-		<string>OENESButtonDown[@]</string>
-		<string>OENESButtonLeft[@]</string>
-		<string>OENESButtonRight[@]</string>
-		<string>OENESButtonA[@]</string>
-		<string>OENESButtonB[@]</string>
-		<string>OENESButtonStart[@]</string>
-		<string>OENESButtonSelect[@]</string>
+		<string>OENESButtonUp</string>
+		<string>OENESButtonDown</string>
+		<string>OENESButtonLeft</string>
+		<string>OENESButtonRight</string>
+		<string>OENESButtonA</string>
+		<string>OENESButtonB</string>
+		<string>OENESButtonStart</string>
+		<string>OENESButtonSelect</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OENESButtonUp[@]</string>
-				<string>OENESButtonRight[@]</string>
-				<string>OENESButtonDown[@]</string>
-				<string>OENESButtonLeft[@]</string>
+				<string>OENESButtonUp</string>
+				<string>OENESButtonRight</string>
+				<string>OENESButtonDown</string>
+				<string>OENESButtonLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OENESButtonUp[@]</string>
-				<string>OENESButtonDown[@]</string>
+				<string>OENESButtonUp</string>
+				<string>OENESButtonDown</string>
 			</array>
 			<array>
-				<string>OENESButtonLeft[@]</string>
-				<string>OENESButtonRight[@]</string>
+				<string>OENESButtonLeft</string>
+				<string>OENESButtonRight</string>
 			</array>
 		</array>
 	</dict>

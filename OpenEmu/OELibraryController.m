@@ -353,6 +353,7 @@
 - (void)showViewController:(NSViewController <OELibrarySubviewController>*)nextViewController
 {
     NSViewController <OELibrarySubviewController> *oldViewController = [self currentViewController];
+    if([nextViewController isKindOfClass:[OECollectionViewController class]] && nextViewController == oldViewController) [self OE_setupToolbarItems];
     if(nextViewController == oldViewController) return;
     
     [oldViewController viewWillDisappear];
@@ -471,10 +472,21 @@
     
     [[self toolbarSlider] setEnabled:[[self currentViewController] respondsToSelector:@selector(changeGridSize:)]];
     [[self toolbarGridViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToGridView:)]];
-    [[self toolbarFlowViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToFlowView:)]];
-    [[self toolbarListViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToListView:)]];
+
+    OECollectionViewController * collectionViewController = (OECollectionViewController*)[self currentViewController];
     
-    [[self toolbarSearchField] setEnabled:[[self currentViewController] respondsToSelector:@selector(search:)]];
+    if(collectionViewController && [[self currentViewController] isKindOfClass:[OECollectionViewController class]] && [[[collectionViewController gamesController] arrangedObjects] count] > 0)
+    {
+        [[self toolbarFlowViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToFlowView:)]];
+        [[self toolbarListViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToListView:)]];
+        [[self toolbarSearchField] setEnabled:[[self currentViewController] respondsToSelector:@selector(search:)]];
+    }
+    else
+    {
+        [[self toolbarFlowViewButton] setEnabled:NO];
+        [[self toolbarListViewButton] setEnabled:NO];
+        [[self toolbarSearchField] setEnabled:NO];
+    }
 }
 
 - (void)layoutToolbarItems

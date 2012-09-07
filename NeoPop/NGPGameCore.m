@@ -216,6 +216,11 @@ static OERingBuffer *dacBuffer;
     return cfb;
 }
 
+- (OEIntSize)aspectSize
+{
+    return OESizeMake(20, 19);
+}
+
 - (GLenum)pixelFormat
 {
     return GL_RGBA;

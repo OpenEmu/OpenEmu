@@ -38,25 +38,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonUp[@]</string>
+					<string>OEArcadeButtonUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonDown[@]</string>
+					<string>OEArcadeButtonDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonLeft[@]</string>
+					<string>OEArcadeButtonLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonRight[@]</string>
+					<string>OEArcadeButtonRight</string>
 				</dict>
 			</array>
 			<array>
@@ -64,13 +64,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Insert Coin</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonInsertCoin[@]</string>
+					<string>OEArcadeButtonInsertCoin</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Player 1 Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonP1Start[@]</string>
+					<string>OEArcadeButtonP1Start</string>
 				</dict>
 			</array>
 			<array>
@@ -78,19 +78,19 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 1</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton1[@]</string>
+					<string>OEArcadeButton1</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 2</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton2[@]</string>
+					<string>OEArcadeButton2</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 3</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton3[@]</string>
+					<string>OEArcadeButton3</string>
 				</dict>
 			</array>
 			<array>
@@ -98,19 +98,19 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 4</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton4[@]</string>
+					<string>OEArcadeButton4</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 5</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton5[@]</string>
+					<string>OEArcadeButton5</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 6</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton6[@]</string>
+					<string>OEArcadeButton6</string>
 				</dict>
 			</array>
 		</array>
@@ -129,39 +129,39 @@
 	<string>Arcade</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OEArcadeButtonUp[@]</string>
-		<string>OEArcadeButtonDown[@]</string>
-		<string>OEArcadeButtonLeft[@]</string>
-		<string>OEArcadeButtonRight[@]</string>
-		<string>OEArcadeButton1[@]</string>
-		<string>OEArcadeButton2[@]</string>
-		<string>OEArcadeButton3[@]</string>
-		<string>OEArcadeButton4[@]</string>
-		<string>OEArcadeButton5[@]</string>
-		<string>OEArcadeButton6[@]</string>
-		<string>OEArcadeButtonP1Start[@]</string>
-		<string>OEArcadeButtonInsertCoin[@]</string>
+		<string>OEArcadeButtonUp</string>
+		<string>OEArcadeButtonDown</string>
+		<string>OEArcadeButtonLeft</string>
+		<string>OEArcadeButtonRight</string>
+		<string>OEArcadeButton1</string>
+		<string>OEArcadeButton2</string>
+		<string>OEArcadeButton3</string>
+		<string>OEArcadeButton4</string>
+		<string>OEArcadeButton5</string>
+		<string>OEArcadeButton6</string>
+		<string>OEArcadeButtonP1Start</string>
+		<string>OEArcadeButtonInsertCoin</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OEArcadeButtonUp[@]</string>
-				<string>OEArcadeButtonRight[@]</string>
-				<string>OEArcadeButtonDown[@]</string>
-				<string>OEArcadeButtonLeft[@]</string>
+				<string>OEArcadeButtonUp</string>
+				<string>OEArcadeButtonRight</string>
+				<string>OEArcadeButtonDown</string>
+				<string>OEArcadeButtonLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OEArcadeButtonUp[@]</string>
-				<string>OEArcadeButtonDown[@]</string>
+				<string>OEArcadeButtonUp</string>
+				<string>OEArcadeButtonDown</string>
 			</array>
 			<array>
-				<string>OEArcadeButtonLeft[@]</string>
-				<string>OEArcadeButtonRight[@]</string>
+				<string>OEArcadeButtonLeft</string>
+				<string>OEArcadeButtonRight</string>
 			</array>
 		</array>
 	</dict>

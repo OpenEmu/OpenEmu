@@ -44,24 +44,23 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OENESButtonUp[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OENESButtonRight[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OENESButtonLeft[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OENESButtonDown[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OENESButtonA[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OENESButtonB[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OENESButtonStart[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OENESButtonSelect[1]",
-                              nil];
-    return controls;
+    return @{
+    @"OENESButtonUp"     : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OENESButtonRight"  : @(kHIDUsage_KeyboardRightArrow),
+    @"OENESButtonLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OENESButtonDown"   : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OENESButtonA"      : @(kHIDUsage_KeyboardA)         ,
+    @"OENESButtonB"      : @(kHIDUsage_KeyboardS)         ,
+    @"OENESButtonStart"  : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OENESButtonSelect" : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 - (NSString *)systemName
 {
 	if([[OELocalizationHelper sharedHelper] isRegionJAP])
 		return @"Famicom";
-	else 
+	else
 		return @"Nintendo (NES)";
 }
 
