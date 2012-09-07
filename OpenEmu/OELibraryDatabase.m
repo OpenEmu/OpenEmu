@@ -151,7 +151,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 #pragma mark -
-
 + (OELibraryDatabase *)defaultDatabase
 {
     return defaultDatabase;
@@ -217,7 +216,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSString *stateFolderPath = [[self stateFolderURL] path];
     __block OEFSBlock fsBlock =
-    ^(NSString *path, FSEventStreamEventFlags flags)
+    ^ (NSString *path, FSEventStreamEventFlags flags)
     {
         if([path hasSuffix:@".DS_Store"]) return;
         
@@ -229,7 +228,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir &&
                (folderContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]) != nil)
                 [folderContent enumerateObjectsUsingBlock:
-                 ^(id obj, NSUInteger idx, BOOL *stop)
+                 ^ (id obj, NSUInteger idx, BOOL *stop)
                  {
                      NSString *subPath = [path stringByAppendingPathComponent:obj];
                      fsBlock(subPath, flags);
@@ -240,8 +239,8 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         // Wait a little while to make sure the fs operation has completed
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [OEDBSaveState updateStateWithPath:path];            
+        dispatch_after(popTime, dispatch_get_main_queue(), ^{
+            [OEDBSaveState updateStateWithPath:path];
         });
     };
 
@@ -814,7 +813,53 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSLog(@"Roms in collection called, but not implemented");
     return [NSArray array];
 }
+#pragma mark -
+- (NSArray*)lastPlayedRoms
+{
+    // TODO: get numberOfRoms from defaults or system settings
+    NSUInteger numberOfRoms = 5;
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
+        
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lastPlayed != nil"];
+    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"lastPlayed" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDesc]];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setFetchLimit:numberOfRoms];
+    
+    return [[self managedObjectContext] executeFetchRequest:fetchRequest error:nil];
+}
 
+- (NSDictionary*)lastPlayedRomsBySystem
+{
+    // TODO: get numberOfRoms from defaults or system settings
+    NSUInteger numberOfRoms = 5;
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lastPlayed != nil"];
+    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"lastPlayed" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDesc]];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setFetchLimit:numberOfRoms];
+    
+    NSArray* roms = [[self managedObjectContext] executeFetchRequest:fetchRequest error:nil];
+    NSMutableSet *systemsSet = [NSMutableSet setWithCapacity:[roms count]];
+    [roms enumerateObjectsUsingBlock:
+     ^ (id aRom, NSUInteger idx, BOOL *stop) {
+        [systemsSet addObject:[[aRom game] system]];
+    }];
+    
+    NSArray *systems = [systemsSet allObjects];
+    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[systems count]];
+    [systems enumerateObjectsUsingBlock:
+     ^(id aSystem, NSUInteger idx, BOOL *stop) {
+        NSArray *romsForSystem = [roms filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:
+                                           ^ BOOL(id aRom, NSDictionary *bindings) {
+                                               return [[aRom game] system] == aSystem;
+                                           }]];
+         [result setObject:romsForSystem forKey:[aSystem lastLocalizedName]];
+     }];
+    return result;
+}
 #pragma mark - Datbase Folders
 
 - (NSURL *)databaseFolderURL
