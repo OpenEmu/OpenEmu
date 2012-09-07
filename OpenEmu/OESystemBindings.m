@@ -555,6 +555,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     NSAssert([sender isKindOfClass:[OEKeyboardPlayerBindings class]], @"Invalid sender: OEKeyboardPlayerBindings expected, got: %@ %@", [sender class], sender);
     
     OEKeyBindingDescription *keyDesc = [allKeyBindingsDescriptions objectForKey:keyName];
+    NSAssert(keyDesc != nil, @"Could not find Key Binding Description for key with name \"%@\" in system \"%@\"", keyName, [[self systemController] systemIdentifier]);
+    
     // Trying to set the same event to the same key, ignore it
     if([[[sender OE_rawBindings] objectForKey:keyDesc] isEqual:anEvent]) return keyDesc;
     
@@ -587,6 +589,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 - (id)OE_playerBindings:(OEDevicePlayerBindings *)sender didSetDeviceEvent:(OEHIDEvent *)anEvent forKey:(NSString *)keyName;
 {
     NSAssert([sender isKindOfClass:[OEDevicePlayerBindings class]], @"Invalid sender: OEKeyboardPlayerBindings expected, got: %@ %@", [sender class], sender);
+    
+    NSAssert([allKeyBindingsDescriptions objectForKey:keyName] != nil, @"Could not find Key Binding Description for key with name \"%@\" in system \"%@\"", keyName, [[self systemController] systemIdentifier]);
     
     // sender is based on another device player bindings
     // it needs to be made independent and added to the manufacturer list
