@@ -104,6 +104,8 @@ NSString * const OELastControlsDeviceTypeKey = @"lastControlsDevice";
 {
     [super awakeFromNib];
     
+    ignoredEvents = [NSMutableSet set];
+    
     [[self controlsSetupView] setTarget:self];
     [[self controlsSetupView] setAction:@selector(changeInputControl:)];
     
