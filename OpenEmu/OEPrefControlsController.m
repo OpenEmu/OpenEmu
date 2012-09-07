@@ -406,7 +406,7 @@
 - (void)registerEvent:(OEHIDEvent *)anEvent;
 {
     // Ignore any off state events
-    if([anEvent isHasOffStatee]) return;
+    if([anEvent hasOffState]) return;
     
     if([self selectedKey] != nil)
     {
@@ -437,7 +437,7 @@
     if([ignoredEvents containsObject:anEvent])
     {
         // Ignored events going back to off-state are removed from the ignored events
-        if([anEvent isHasOffStatee]) [ignoredEvents removeObject:anEvent];
+        if([anEvent hasOffState]) [ignoredEvents removeObject:anEvent];
         
         return NO;
     }
@@ -446,7 +446,7 @@
     if(readingEvent == nil)
     {
         // The event is not ignored but it's off, ignore it anyway
-        if([anEvent isHasOffStatee]) return NO;
+        if([anEvent hasOffState]) return NO;
         
         readingEvent = anEvent;
         return YES;
@@ -457,13 +457,13 @@
     // in either case, this event shouldn't be registered
     if(readingEvent == anEvent)
     {
-        if([anEvent isHasOffStatee])
+        if([anEvent hasOffState])
             readingEvent = nil;
         
         return NO;
     }
     
-    if(![anEvent isHasOffStatee]) [ignoredEvents addObject:anEvent];
+    if(![anEvent hasOffState]) [ignoredEvents addObject:anEvent];
     
     return NO;
 }
