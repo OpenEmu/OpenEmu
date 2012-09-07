@@ -541,7 +541,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     for (id cell in [_rootLayer.sublayers copy])
     {
-        [cell removeFromSuperlayer];
+        if ([cell isKindOfClass:[OEGridViewCell class]])
+        {
+            [cell removeFromSuperlayer];
+        }
     }
 }
 
