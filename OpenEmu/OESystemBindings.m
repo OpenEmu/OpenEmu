@@ -43,7 +43,6 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     NSDictionary        *keyBindingsDescriptions;
     NSArray             *keyGroupBindingsDescriptions;
     
-    OEPlayerBindings    *keyboardSystemBindings;
     NSMutableArray      *keyboardPlayerBindings;
     
     // Map devices identifiers to an array of saved bindings
@@ -70,7 +69,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 - (void)OE_registerDefaultControls:(NSDictionary *)defaultControls;
 
 - (void)OE_setupBindingsWithDictionaryRepresentation:(NSDictionary *)representation;
-- (OEPlayerBindings *)OE_bindingsWithDictionaryRepresentation:(NSDictionary *)bindingsToConvert deviceBindings:(BOOL)isDevice;
+- (OEPlayerBindings *)OE_bindingsWithDictionaryRepresentation:(NSDictionary *)bindingsToConvert deviceBindings:(BOOL)isDevice playerNumber:(NSUInteger)playerNumber;
 - (NSDictionary *)OE_rawBindingsForDictionaryRepresentation:(NSDictionary *)rawBindings withKeyDescriptions:(NSDictionary *)descriptions;
 
 - (NSString *)OE_manufacturerKeyForDeviceHandler:(OEHIDDeviceHandler *)handler;
@@ -117,7 +116,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 
 - (NSDictionary *)OE_dictionaryRepresentation;
 {
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:4];
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:2];
     
     void (^addToDictionary)(NSString *key, id value) =
     ^(NSString *key, id value)
@@ -129,7 +128,6 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     
     addToDictionary(@"manufacturerBindings"  , [self OE_dictionaryRepresentationForManufacturerBindings]);
     addToDictionary(@"keyboardPlayerBindings", [self OE_dictionaryRepresentationsForBindingsInArray:keyboardPlayerBindings]);
-    addToDictionary(@"keyboardSystemBindings", [self OE_dictionaryRepresentationForBindings:keyboardSystemBindings]);
     
     return [dictionary copy];
 }
@@ -189,27 +187,20 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
          NSMutableArray *conv = [NSMutableArray arrayWithCapacity:[obj count]];
          
          for(NSDictionary *bindings in obj)
-             [conv addObject:[self OE_bindingsWithDictionaryRepresentation:bindings deviceBindings:YES]];
+             [conv addObject:[self OE_bindingsWithDictionaryRepresentation:bindings deviceBindings:YES playerNumber:0]];
          
          [manufacturerBindings setObject:conv forKey:key];
      }];
-    
-    // Convert system keyboard bindings if any
-    if([systemKeyBindingsDescriptions count] > 0)
-    {
-        NSDictionary *decoded = [self OE_rawBindingsForDictionaryRepresentation:[representation objectForKey:@"keyboardSystemBindings"] withKeyDescriptions:systemKeyBindingsDescriptions];
-        
-        keyboardSystemBindings = [[OEPlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:0];
-        [keyboardSystemBindings OE_setBindings:[self OE_stringValuesForBindings:decoded possibleKeys:systemKeyBindingsDescriptions]];
-    }
-    else keyboardSystemBindings = nil;
     
     // Convert keyboard bindings
     NSArray *encodedBindings = [representation objectForKey:@"keyboardPlayerBindings"];
     keyboardPlayerBindings = [[NSMutableArray alloc] initWithCapacity:[encodedBindings count]];
     
-    for(NSDictionary *encoded in encodedBindings)
-        [keyboardPlayerBindings addObject:[self OE_bindingsWithDictionaryRepresentation:encoded deviceBindings:NO]];
+    [encodedBindings enumerateObjectsUsingBlock:
+     ^(NSDictionary *encoded, NSUInteger idx, BOOL *stop)
+     {
+         [keyboardPlayerBindings addObject:[self OE_bindingsWithDictionaryRepresentation:encoded deviceBindings:NO playerNumber:idx + 1]];
+     }];
 }
 
 - (void)OE_registerDefaultControls:(NSDictionary *)defaultControls
@@ -283,8 +274,6 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 {
     NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithCapacity:[bindingsToConvert count]];
     
-    NSLog(@"Will convert: %@", bindingsToConvert);
-    
     [bindingsToConvert enumerateKeysAndObjectsUsingBlock:
      ^(id key, id obj, BOOL *stop)
      {
@@ -356,14 +345,14 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 #pragma mark -
 #pragma mark Decoding Archived Bindings for Runtime Representation
 
-- (OEPlayerBindings *)OE_bindingsWithDictionaryRepresentation:(NSDictionary *)bindingsToConvert deviceBindings:(BOOL)isDevice;
+- (OEPlayerBindings *)OE_bindingsWithDictionaryRepresentation:(NSDictionary *)bindingsToConvert deviceBindings:(BOOL)isDevice playerNumber:(NSUInteger)playerNumber;
 {
     NSDictionary *decodedBindings = [self OE_rawBindingsForDictionaryRepresentation:bindingsToConvert withKeyDescriptions:allKeyBindingsDescriptions];
     
     OEPlayerBindings *controller =
     (isDevice
-     ? [[OEDevicePlayerBindings   alloc] OE_initWithSystemBindings:self playerNumber:0 deviceHandler:nil]
-     : [[OEKeyboardPlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:0]);
+     ? [[OEDevicePlayerBindings   alloc] OE_initWithSystemBindings:self playerNumber:playerNumber deviceHandler:nil]
+     : [[OEKeyboardPlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:playerNumber]);
     
     [controller OE_setRawBindings:decodedBindings];
     [controller OE_setBindings:[self OE_stringValuesForBindings:decodedBindings possibleKeys:isDevice ? allKeyBindingsDescriptions : keyBindingsDescriptions]];
@@ -551,21 +540,12 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 {
     NSAssert([anEvent isKindOfClass:[OEHIDEvent class]], @"Can only set OEHIDEvents for bindings.");
     
-    NSLog(@"=================================================================");
     // Make a copy because events are reused to remember the previous state/timestamp
     anEvent = [anEvent copy];
-    
-    NSLog(@"Will Assign Event: %@ to Key with Name: %@", anEvent, keyName);
-    
-    NSLog(@"Sender Bindings BEFORE:\nRaw Bindings: %@\nBindings: %@", [sender OE_rawBindings], [sender OE_bindings]);
     
     id ret = ([anEvent type] == OEHIDEventTypeKeyboard
               ? [self OE_playerBindings:(OEKeyboardPlayerBindings *)sender didSetKeyboardEvent:anEvent forKey:keyName]
               : [self OE_playerBindings:(OEDevicePlayerBindings *)sender didSetDeviceEvent:anEvent forKey:keyName]);
-    
-    NSLog(@"Sender Bindings AFTER :\nRaw Bindings: %@\nBindings: %@", [sender OE_rawBindings], [sender OE_bindings]);
-    
-    NSLog(@"-----------------------------------------------------------------");
     
     return ret;
 }
@@ -575,50 +555,30 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     NSAssert([sender isKindOfClass:[OEKeyboardPlayerBindings class]], @"Invalid sender: OEKeyboardPlayerBindings expected, got: %@ %@", [sender class], sender);
     
     OEKeyBindingDescription *keyDesc = [allKeyBindingsDescriptions objectForKey:keyName];
+    NSAssert(keyDesc != nil, @"Could not find Key Binding Description for key with name \"%@\" in system \"%@\"", keyName, [[self systemController] systemIdentifier]);
+    
     // Trying to set the same event to the same key, ignore it
     if([[[sender OE_rawBindings] objectForKey:keyDesc] isEqual:anEvent]) return keyDesc;
     
-    BOOL foundPreviousKey = NO;
-    // Search a key-binding that already uses that event and remove it
-    if(keyboardSystemBindings != nil)
+    for(OEPlayerBindings *playerBindings in keyboardPlayerBindings)
     {
-        NSArray *keys = [[keyboardSystemBindings OE_rawBindings] allKeysForObject:anEvent];
+        NSArray *keys = [[playerBindings OE_rawBindings] allKeysForObject:anEvent];
         NSAssert([keys count] <= 1, @"More than one key is attached to the same event: %@ -> %@", anEvent, keys);
         
-        if([keys count] == 1)
+        OEKeyBindingDescription *desc = [keys lastObject];
+        if(desc != nil)
         {
-            foundPreviousKey = YES;
+            [playerBindings OE_setBindingsValue:nil forKey:[desc name]];
+            [playerBindings OE_setRawBindingsValue:nil forKey:desc];
             
-            // The key is bound to a system key, remove it from the system and notify all player controllers
-            OEKeyBindingDescription *removedKey = [keys lastObject];
-            NSString *keyName = [removedKey name];
-            [keyboardSystemBindings OE_setBindingsValue:nil forKey:keyName];
-            [keyboardSystemBindings OE_setRawBindingsValue:nil forKey:removedKey];
-            
-            for(OEKeyboardPlayerBindings *controller in keyboardPlayerBindings)
-                [controller OE_setBindingsValue:nil forKey:keyName];
-            
-            [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:removedKey playerNumber:0];
+            [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:desc playerNumber:[desc isSystemWide] ? 0 : [playerBindings playerNumber]];
         }
     }
     
-    if(!foundPreviousKey) [self OE_removeBindingsToEvent:anEvent fromPlayerBindings:keyboardPlayerBindings];
-    
     NSString *eventString = [self OE_descriptionForEvent:anEvent];
     
-    if([keyDesc isSystemWide])
-    {
-        [keyboardSystemBindings OE_setBindingsValue:eventString forKey:keyName];
-        [keyboardSystemBindings OE_setRawBindingsValue:anEvent forKey:keyDesc];
-        
-        for(OEKeyboardPlayerBindings *controller in keyboardPlayerBindings)
-            [keyboardSystemBindings OE_setBindingsValue:eventString forKey:keyName];
-    }
-    else
-    {
-        [sender OE_setBindingsValue:eventString forKey:keyName];
-        [sender OE_setRawBindingsValue:anEvent forKey:keyDesc];
-    }
+    [sender OE_setBindingsValue:eventString forKey:keyName];
+    [sender OE_setRawBindingsValue:anEvent forKey:keyDesc];
     
     [self OE_notifyObserversDidSetEvent:anEvent forBindingKey:keyDesc playerNumber:[sender playerNumber]];
     [[self bindingsController] OE_setRequiresSynchronization];
@@ -629,6 +589,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 - (id)OE_playerBindings:(OEDevicePlayerBindings *)sender didSetDeviceEvent:(OEHIDEvent *)anEvent forKey:(NSString *)keyName;
 {
     NSAssert([sender isKindOfClass:[OEDevicePlayerBindings class]], @"Invalid sender: OEKeyboardPlayerBindings expected, got: %@ %@", [sender class], sender);
+    
+    NSAssert([allKeyBindingsDescriptions objectForKey:keyName] != nil, @"Could not find Key Binding Description for key with name \"%@\" in system \"%@\"", keyName, [[self systemController] systemIdentifier]);
     
     // sender is based on another device player bindings
     // it needs to be made independent and added to the manufacturer list
@@ -1049,7 +1011,6 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 {
     if([bindingsObservers containsObject:observer]) return;
     
-    [self OE_notifyExistingBindings:keyboardSystemBindings  toObserver:observer];
     [self OE_notifyExistingBindingsInArray:keyboardPlayerBindings toObserver:observer];
     [self OE_notifyExistingBindingsInArray:devicePlayerBindings   toObserver:observer];
     

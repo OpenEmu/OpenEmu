@@ -49,7 +49,7 @@
     @"OEGBButtonLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
     @"OEGBButtonRight"  : @(kHIDUsage_KeyboardRightArrow),
     @"OEGBButtonA"      : @(kHIDUsage_KeyboardA)         ,
-    @"OERBButtonB"      : @(kHIDUsage_KeyboardS)         ,
+    @"OEGBButtonB"      : @(kHIDUsage_KeyboardS)         ,
     @"OEGBButtonStart"  : @(kHIDUsage_KeyboardSpacebar)  ,
     @"OEGBButtonSelect" : @(kHIDUsage_KeyboardEscape)    ,
     };
