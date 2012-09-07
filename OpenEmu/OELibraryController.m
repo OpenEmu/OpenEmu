@@ -429,7 +429,7 @@ extern NSString * const OELastCollectionSelectedKey;
         NSImage *image = [NSImage imageNamed:
                           (flag == ([[self mainSplitView] splitterPosition] == 0)
                            ? @"toolbar_sidebar_button_open"
-                           : @"toolbar_sidebar_button_close")];
+                                     : @"toolbar_sidebar_button_close")];
         
         [[self toolbarSidebarButton] setImage:image];
         [[self toolbarSidebarButton] display];
@@ -487,7 +487,7 @@ extern NSString * const OELastCollectionSelectedKey;
     [[self toolbarGridViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToGridView:)]];
 
     OECollectionViewController * collectionViewController = (OECollectionViewController*)[self currentViewController];
-
+    
     if(collectionViewController && [[self currentViewController] isKindOfClass:[OECollectionViewController class]] && [[[collectionViewController gamesController] arrangedObjects] count] > 0)
     {
         [[self toolbarFlowViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToFlowView:)]];
@@ -495,6 +495,7 @@ extern NSString * const OELastCollectionSelectedKey;
         [[self toolbarSearchField] setEnabled:[[self currentViewController] respondsToSelector:@selector(search:)]];
     } else
     {
+        if([[[collectionViewController libraryController] toolbarGridViewButton] state] == NSOffState) [self switchToGridView:self]; //If we aren't in gridview, we need to be. Landing page and all.
         [[self toolbarFlowViewButton] setEnabled:NO];
         [[self toolbarListViewButton] setEnabled:NO];
         [[self toolbarSearchField] setEnabled:NO];
