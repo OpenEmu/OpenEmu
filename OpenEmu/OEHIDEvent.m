@@ -496,7 +496,7 @@ NSString *OEHIDEventAxisDisplayDescription(OEHIDEventAxis axis, OEHIDEventAxisDi
     return [self timestamp] - [self previousTimestamp];
 }
 
-- (BOOL)isHasOffStatee
+- (BOOL)hasOffState
 {
     BOOL ret = YES;
     switch([self type])
