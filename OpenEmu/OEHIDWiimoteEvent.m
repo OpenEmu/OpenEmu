@@ -72,7 +72,7 @@
 - (NSString*)displayDescription
 {
     switch ([self type]) {
-        case OEHIDButton:
+        case OEHIDEventTypeButton:
             return [NSString stringWithFormat:@"Wi%ld %@", [self padNumber]-WiimoteBasePadNumber+1, [self stringForButtonNumber:[self buttonNumber]]];            
         default:
             return [NSString stringWithFormat:@"Wi%ld %@", [self padNumber]-WiimoteBasePadNumber+1, @"Unknown"];

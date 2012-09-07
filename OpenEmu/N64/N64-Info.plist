@@ -52,25 +52,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonDPadUp[@]</string>
+					<string>OEN64ButtonDPadUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonDPadDown[@]</string>
+					<string>OEN64ButtonDPadDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonDPadLeft[@]</string>
+					<string>OEN64ButtonDPadLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonDPadRight[@]</string>
+					<string>OEN64ButtonDPadRight</string>
 				</dict>
 			</array>
 			<array>
@@ -79,25 +79,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonCUp[@]</string>
+					<string>OEN64ButtonCUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonCDown[@]</string>
+					<string>OEN64ButtonCDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonCLeft[@]</string>
+					<string>OEN64ButtonCLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonCRight[@]</string>
+					<string>OEN64ButtonCRight</string>
 				</dict>
 			</array>
 			<array>
@@ -105,13 +105,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>L</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonL[@]</string>
+					<string>OEN64ButtonL</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>R</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonR[@]</string>
+					<string>OEN64ButtonR</string>
 				</dict>
 			</array>
 			<array>
@@ -119,25 +119,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>A</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonA[@]</string>
+					<string>OEN64ButtonA</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>B</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonB[@]</string>
+					<string>OEN64ButtonB</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonStart[@]</string>
+					<string>OEN64ButtonStart</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Z</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonZ[@]</string>
+					<string>OEN64ButtonZ</string>
 				</dict>
 			</array>
 		</array>
@@ -146,55 +146,55 @@
 	<string>n64_library</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OEN64ButtonDPadUp[@]</string>
-		<string>OEN64ButtonDPadDown[@]</string>
-		<string>OEN64ButtonDPadLeft[@]</string>
-		<string>OEN64ButtonDPadRight[@]</string>
-		<string>OEN64ButtonCUp[@]</string>
-		<string>OEN64ButtonCDown[@]</string>
-		<string>OEN64ButtonCLeft[@]</string>
-		<string>OEN64ButtonCRight[@]</string>
-		<string>OEN64ButtonA[@]</string>
-		<string>OEN64ButtonB[@]</string>
-		<string>OEN64ButtonL[@]</string>
-		<string>OEN64ButtonR[@]</string>
-		<string>OEN64ButtonZ[@]</string>
-		<string>OEN64ButtonStart[@]</string>
+		<string>OEN64ButtonDPadUp</string>
+		<string>OEN64ButtonDPadDown</string>
+		<string>OEN64ButtonDPadLeft</string>
+		<string>OEN64ButtonDPadRight</string>
+		<string>OEN64ButtonCUp</string>
+		<string>OEN64ButtonCDown</string>
+		<string>OEN64ButtonCLeft</string>
+		<string>OEN64ButtonCRight</string>
+		<string>OEN64ButtonA</string>
+		<string>OEN64ButtonB</string>
+		<string>OEN64ButtonL</string>
+		<string>OEN64ButtonR</string>
+		<string>OEN64ButtonZ</string>
+		<string>OEN64ButtonStart</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OEN64ButtonDPadUp[@]</string>
-				<string>OEN64ButtonDPadRight[@]</string>
-				<string>OEN64ButtonDPadDown[@]</string>
-				<string>OEN64ButtonDPadLeft[@]</string>
+				<string>OEN64ButtonDPadUp</string>
+				<string>OEN64ButtonDPadRight</string>
+				<string>OEN64ButtonDPadDown</string>
+				<string>OEN64ButtonDPadLeft</string>
 			</array>
 			<array>
-				<string>OEN64ButtonCUp[@]</string>
-				<string>OEN64ButtonCRight[@]</string>
-				<string>OEN64ButtonCDown[@]</string>
-				<string>OEN64ButtonCLeft[@]</string>
+				<string>OEN64ButtonCUp</string>
+				<string>OEN64ButtonCRight</string>
+				<string>OEN64ButtonCDown</string>
+				<string>OEN64ButtonCLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OEN64ButtonDPadUp[@]</string>
-				<string>OEN64ButtonDPadDown[@]</string>
+				<string>OEN64ButtonDPadUp</string>
+				<string>OEN64ButtonDPadDown</string>
 			</array>
 			<array>
-				<string>OEN64ButtonDPadLeft[@]</string>
-				<string>OEN64ButtonDPadRight[@]</string>
+				<string>OEN64ButtonDPadLeft</string>
+				<string>OEN64ButtonDPadRight</string>
 			</array>
 			<array>
-				<string>OEN64ButtonCUp[@]</string>
-				<string>OEN64ButtonCDown[@]</string>
+				<string>OEN64ButtonCUp</string>
+				<string>OEN64ButtonCDown</string>
 			</array>
 			<array>
-				<string>OEN64ButtonCLeft[@]</string>
-				<string>OEN64ButtonCRight[@]</string>
+				<string>OEN64ButtonCLeft</string>
+				<string>OEN64ButtonCRight</string>
 			</array>
 		</array>
 	</dict>

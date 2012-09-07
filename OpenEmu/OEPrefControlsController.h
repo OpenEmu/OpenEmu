@@ -33,12 +33,14 @@
 @class OEControllerImageView;
 @class OEHIDEvent;
 
+@class OESystemBindings;
+@class OEPlayerBindings;
+
 @interface OEPrefControlsController : NSViewController <OEPreferencePane>
-{
-    OESystemPlugin *selectedPlugin;
-}
 
 @property(nonatomic, readonly) OESystemController *currentSystemController;
+@property(nonatomic, readonly) OESystemBindings   *currentSystemBindings;
+@property(nonatomic, readonly) OEPlayerBindings   *currentPlayerBindings;
 
 #pragma mark -
 @property(strong) OEControllerImageView *controllerView;
@@ -56,20 +58,14 @@
 #pragma mark -
 #pragma UI Methods
 
-@property(copy)            NSArray    *keyBindings;
 @property(nonatomic, copy) NSString   *selectedKey;
 @property(nonatomic)       NSUInteger  selectedPlayer;
 @property(nonatomic)       NSInteger   selectedBindingType;
-
-- (NSString *)keyPathForKey:(NSString *)aKey;
 
 - (NSInteger)selectedBindingType;
 
 - (BOOL)isKeyboardEventSelected;
 - (void)registerEvent:(OEHIDEvent *)anEvent;
-
-- (void)resetKeyBindings;
-- (void)resetBindingsWithKeys:(NSArray *)keys;
 
 - (IBAction)changeSystem:(id)sender;
 - (IBAction)changePlayer:(id)sender;

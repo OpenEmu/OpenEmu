@@ -26,14 +26,12 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <OpenEmuSystem/OESystemBindings.h>
 
 @class    OESystemController;
 @protocol OESystemResponderClient;
 
-@interface OESystemResponder : NSResponder
-{
-    
-}
+@interface OESystemResponder : NSResponder <OESystemBindingsObserver>
 
 // Designated initializer
 - (id)initWithController:(OESystemController *)controller;
@@ -49,10 +47,5 @@
 + (Protocol *)gameSystemResponderClientProtocol;
 
 - (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
-- (void)keyboardEvent:(id)theEvent wasSetForKey:(NSString *)keyName;
-- (void)keyboardEvent:(id)theEvent wasUnsetForKey:(NSString *)keyName;
-
-- (void)HIDEvent:(id)theEvent wasSetForKey:(NSString *)keyName;
-- (void)HIDEvent:(id)theEvent wasUnsetForKey:(NSString *)keyName;
 
 @end
