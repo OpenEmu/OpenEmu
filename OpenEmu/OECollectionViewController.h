@@ -34,8 +34,9 @@
 @class OEHorizontalSplitView;
 @interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
 {
-@private
+@public
     NSArrayController *gamesController;
+@private
     
     id<OECollectionViewItemProtocol> collectionItem;
     
