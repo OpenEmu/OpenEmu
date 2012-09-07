@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
+ 
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,36 +25,30 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEGBASystemController.h"
-#import "OEGBASystemResponder.h"
-#import "OEGBASystemResponderClient.h"
+#import <Foundation/Foundation.h>
 
-@implementation OEGBASystemController
+@class OESystemBindings, OEHIDDeviceHandler, OEHIDEvent;
 
-- (NSUInteger)numberOfPlayers;
-{
-    return 4;
-}
+/// Manages the bindings for a specific player in a system, useful for preferences
+/// Instances of this class are allocated by OESystemBindings
+@interface OEPlayerBindings : NSObject
 
-- (Class)responderClass;
-{
-    return [OEGBASystemResponder class];
-}
+@property(readonly, weak) OESystemBindings *systemBindingsController;
 
-- (NSDictionary *)defaultControls
-{
-    return @{
-    @"OEGBAButtonUp"     : @(kHIDUsage_KeyboardUpArrow)   ,
-    @"OEGBAButtonDown"   : @(kHIDUsage_KeyboardDownArrow) ,
-    @"OEGBAButtonLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
-    @"OEGBAButtonRight"  : @(kHIDUsage_KeyboardRightArrow),
-    @"OEGBAButtonA"      : @(kHIDUsage_KeyboardD)         ,
-    @"OEGBAButtonB"      : @(kHIDUsage_KeyboardS)         ,
-    @"OEGBAButtonL"      : @(kHIDUsage_KeyboardQ)         ,
-    @"OEGBAButtonR"      : @(kHIDUsage_KeyboardE)         ,
-    @"OEGBAButtonStart"  : @(kHIDUsage_KeyboardSpacebar)  ,
-    @"OEGBAButtonSelect" : @(kHIDUsage_KeyboardEscape)    ,
-    };
-}
+@property(readonly) NSUInteger playerNumber;
 
+/// @param key one of the control keys
+/// @result the event value for the specific type
+- (id)valueForKey:(NSString *)key;
+
+/// @result the key or key group that got assigned
+- (id)assignEvent:(OEHIDEvent *)anEvent toKeyWithName:(NSString *)aKeyName;
+
+@end
+
+@interface OEDevicePlayerBindings : OEPlayerBindings
+@property(readonly) OEHIDDeviceHandler *deviceHandler;
+@end
+
+@interface OEKeyboardPlayerBindings : OEPlayerBindings
 @end

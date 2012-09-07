@@ -31,8 +31,6 @@
 #define BOOL_STR(var) ((var) ? "YES" : "NO")
 #endif
 
-static OSSpinLock lock;
-
 typedef struct {
     OEMapKey    key;
     OEMapValue  value;
@@ -42,6 +40,7 @@ typedef struct {
 typedef BOOL (*_OECompare)(OEMapValue, OEMapValue);
 
 typedef struct __OEMap {
+    OSSpinLock  lock;
     size_t      capacity;
     size_t      count;
     OEMapEntry *entries;
@@ -56,6 +55,7 @@ static BOOL defaultIsEqual(OEMapValue v1, OEMapValue v2)
 OEMapRef OEMapCreate(size_t capacity)
 {
     OEMapRef ret      = malloc(sizeof(OEMap));
+    ret->lock         = OS_SPINLOCK_INIT;
     ret->count        = 0;
     ret->capacity     = capacity;
     ret->entries      = malloc(sizeof(OEMapEntry) * capacity);
@@ -120,9 +120,9 @@ void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
 {
     if(map == NULL) return;
     
-    OSSpinLockLock(&lock);
+    OSSpinLockLock(&map->lock);
     _OEMapSetValue(map, key, value);
-    OSSpinLockUnlock(&lock);
+    OSSpinLockUnlock(&map->lock);
 }
 
 BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value)
@@ -130,7 +130,7 @@ BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value)
     if(map == NULL) return NO;
     
     BOOL ret = NO;
-    OSSpinLockLock(&lock);
+    OSSpinLockLock(&map->lock);
     for(size_t i = 0, max = map->count; i < max; i++)
     {
         OEMapEntry *entry = &map->entries[i];
@@ -141,31 +141,48 @@ BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value)
             break;
         }
     }
-    OSSpinLockUnlock(&lock);
+    OSSpinLockUnlock(&map->lock);
     return ret;
+}
+
+void OEMapRemoveValue(OEMapRef map, OEMapKey key)
+{
+    if(map == NULL) return;
+    
+    OSSpinLockLock(&map->lock);
+    for(size_t i = 0, max = map->count; i < max; i++)
+    {
+        OEMapEntry *entry = &map->entries[i];
+        if(entry->allocated && entry->key == key)
+        {
+            entry->allocated = NO;
+            break;
+        }
+    }
+    OSSpinLockUnlock(&map->lock);
 }
 
 void OEMapSetValueComparator(OEMapRef map, BOOL (*comparator)(OEMapValue, OEMapValue))
 {
     if(map == NULL) return;
     
-    OSSpinLockLock(&lock);
+    OSSpinLockLock(&map->lock);
     map->valueIsEqual = comparator;
-    OSSpinLockUnlock(&lock);
+    OSSpinLockUnlock(&map->lock);
 }
 
 void OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value)
 {
     if(map == NULL) return;
     
-    OSSpinLockLock(&lock);
+    OSSpinLockLock(&map->lock);
     for(size_t i = 0, max = map->count; i < max; i++)
     {
         OEMapEntry *entry = &map->entries[i];
         if(entry->allocated && map->valueIsEqual(value, entry->value) && entry->key & mask)
             entry->allocated = NO;
     }
-    OSSpinLockUnlock(&lock);
+    OSSpinLockUnlock(&map->lock);
 }
 
 #if 0

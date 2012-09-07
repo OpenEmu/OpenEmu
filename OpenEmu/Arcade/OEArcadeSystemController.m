@@ -44,21 +44,20 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEArcadeButtonUp[1]"          ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEArcadeButtonDown[1]"        ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEArcadeButtonLeft[1]"        ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEArcadeButtonRight[1]"       ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OEArcadeButton5[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEArcadeButton4[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OEArcadeButton2[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEArcadeButton1[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEArcadeButton3[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEArcadeButton6[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEArcadeButtonP1Start[1]"       ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OEArcadeButtonInsertCoin[1]"      ,
-                              nil];
-    return controls;
+    return @{
+    @"OEArcadeButtonUp"         : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OEArcadeButtonDown"       : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OEArcadeButtonLeft"       : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OEArcadeButtonRight"      : @(kHIDUsage_KeyboardRightArrow),
+    @"OEArcadeButton5"          : @(kHIDUsage_KeyboardD)         ,
+    @"OEArcadeButton4"          : @(kHIDUsage_KeyboardS)         ,
+    @"OEArcadeButton2"          : @(kHIDUsage_KeyboardW)         ,
+    @"OEArcadeButton1"          : @(kHIDUsage_KeyboardA)         ,
+    @"OEArcadeButton3"          : @(kHIDUsage_KeyboardE)         ,
+    @"OEArcadeButton6"          : @(kHIDUsage_KeyboardQ)         ,
+    @"OEArcadeButtonP1Start"    : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OEArcadeButtonInsertCoin" : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 @end

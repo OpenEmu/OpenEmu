@@ -42,24 +42,22 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OENDSButtonUp[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OENDSButtonDown[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OENDSButtonLeft[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OENDSButtonRight[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardX]         , @"OENDSButtonA[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardZ]         , @"OENDSButtonB[1]"     ,
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OENDSButtonX[1]"     ,
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OENDSButtonY[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OENDSButtonL[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OENDSButtonR[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardReturnOrEnter]       , @"OENDSButtonStart[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardTab]    , @"OENDSButtonSelect[1]",
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardGraveAccentAndTilde]    , @"OENDSButtonMicrophone[1]",
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDeleteOrBackspace]    , @"OENDSButtonLid[1]",
-                              nil];
-							  // Note that we skip Debug since we're not exposing that control through the UI at this time.
-    return controls;
+    return @{
+    @"OENDSButtonUp"         : @(kHIDUsage_KeyboardUpArrow)            ,
+    @"OENDSButtonDown"       : @(kHIDUsage_KeyboardDownArrow)          ,
+    @"OENDSButtonLeft"       : @(kHIDUsage_KeyboardLeftArrow)          ,
+    @"OENDSButtonRight"      : @(kHIDUsage_KeyboardRightArrow)         ,
+    @"OENDSButtonA"          : @(kHIDUsage_KeyboardX)                  ,
+    @"OENDSButtonB"          : @(kHIDUsage_KeyboardZ)                  ,
+    @"OENDSButtonX"          : @(kHIDUsage_KeyboardS)                  ,
+    @"OENDSButtonY"          : @(kHIDUsage_KeyboardA)                  ,
+    @"OENDSButtonL"          : @(kHIDUsage_KeyboardQ)                  ,
+    @"OENDSButtonR"          : @(kHIDUsage_KeyboardW)                  ,
+    @"OENDSButtonStart"      : @(kHIDUsage_KeyboardReturnOrEnter)      ,
+    @"OENDSButtonSelect"     : @(kHIDUsage_KeyboardTab)                ,
+    @"OENDSButtonMicrophone" : @(kHIDUsage_KeyboardGraveAccentAndTilde),
+    @"OENDSButtonLid"        : @(kHIDUsage_KeyboardDeleteOrBackspace)  ,
+    };
 }
 
 @end

@@ -44,15 +44,23 @@ extern NSString *const OEProjectURLKey;
 extern NSString *const OEArchiveIDs;
 extern NSString *const OEFileTypes;
 
+// NSArray - contains NSString objects representing control names that are independent from a player
+extern NSString *const OESystemControlNamesKey;
+// NSArray - contains NSString objects representing control names of the system
+// it must contain all the keys contained in OESystemControlNamesKey if any.
 extern NSString *const OEGenericControlNamesKey;
 
 // NSDictionary - contains OEHatSwitchControlsKey and OEAxisControlsKey keys
 extern NSString *const OEControlTypesKey;
-// NSArray - contains strings that are also contained in OEGenericControlNamesKey array
+// NSDictionay -
+// - key: system-unique name for the hat switch
+// - value: NSArray - contains strings that are also contained in OEGenericControlNamesKey array
 // They represent keys that should be linked together if one of them were to be associated with a hat switch event
 // The order of the key follows the rotation order: i.e. [ up, right, down, left ]
 extern NSString *const OEHatSwitchControlsKey;
-// NSArray - contains strings that are also contained in OEGenericControlNamesKey array
+// NSDictionay -
+// - key: system-unique name for the axis
+// - value: NSArray - contains strings that are also contained in OEGenericControlNamesKey array
 // They represent keys that are the opposite of each other on an axis and
 // should be associated together if one of them was associated to an axis event
 extern NSString *const OEAxisControlsKey;
@@ -64,7 +72,7 @@ extern NSString *const OEAxisControlsKey;
  *       <string>D-Pad</string>                   <!-- One column label
  *       <dict>                                   <!-- One control with its data -->
  *         <key>OEControlListKeyNameKey</key>
- *         <string>OESMSButtonUp[@]</string>
+ *         <string>OESMSButtonUp</string>
  *         <key>OEControlListKeyLabelKey</key>
  *         <string>Up</string>                    <!-- The colon is added by the app -->
  *         <key>OEControlListKeyPositionKey</key>
@@ -109,8 +117,10 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 @property(readonly)       NSUInteger    numberOfPlayers;
 @property(readonly)       Class         responderClass;
 @property(readonly, copy) NSArray      *genericSettingNames;
+@property(readonly, copy) NSArray      *systemControlNames;
 @property(readonly, copy) NSArray      *genericControlNames;
-@property(readonly, copy) NSString     *playerString;
+@property(readonly, copy) NSArray      *axisControls;
+@property(readonly, copy) NSArray      *hatSwitchControls;
 
 @property(readonly, copy) NSArray      *controlPageList;
 @property(readonly, copy) NSDictionary *controllerKeyPositions;
@@ -120,45 +130,11 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 @property(readonly, copy) NSImage      *controllerImage;
 @property(readonly, copy) NSImage      *controllerImageMask;
 
-- (NSString *)genericKeyForKey:(NSString *)keyName getKeyIndex:(NSUInteger *)keyIndex playerNumber:(NSUInteger *)playerNumber;
-
-- (NSUInteger)keyIndexForKey:(NSString *)keyName getPlayerNumber:(NSUInteger *)playerNumber DEPRECATED_ATTRIBUTE;
-- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx DEPRECATED_ATTRIBUTE;
-
 #pragma mark -
 #pragma mark Bindings settings
 
 // Dictionary containing the default values to register for the system
 @property(readonly) NSDictionary *defaultControls;
-- (void)registerDefaultControls;
-
-// Converts anObject, usually representing an event, into a value registerable into the defaults
-- (id)registarableValueWithObject:(id)anObject;
-
-// Returns the keyPath associating the key name to the type of the value
-- (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType;
-
-// Register an event into the user defaults
-// The keypath should be built using -keyPathForKey:withValueType:
-- (void)registerValue:(id)aValue forKeyPath:(NSString *)keyPath;
-
-- (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
-- (id)settingForKey:(NSString *)keyName;
-- (id)HIDEventForKey:(NSString *)keyName;
-- (id)keyboardEventForKey:(NSString *)keyName;
-- (void)registerSetting:(id)settingValue forKey:(NSString *)keyName;
-- (void)registerEvent:(OEHIDEvent *)theEvent forKey:(NSString *)keyName;
-
-// The block is not called if the key is not part of a hat switch key type
-// The keyIndex in the enumerator is the same as the index in -genericControlNames array
-// The keys are enumerated in the order they appear in the OEHatSwitchControlsKey array
-- (BOOL)enumerateKeysLinkedToHatSwitchKey:(NSString *)aKey usingBlock:(void(^)(NSString *key, NSUInteger keyIdx, BOOL *stop))block;
-// Same as above except it takes a non-generic key
-- (BOOL)enumeratePlayersKeysLinkedToHatSwitchKey:(NSString *)aKey usingBlock:(void(^)(NSString *key, NSUInteger keyIdx, BOOL *stop))block;
-// The method returns nil if the key is not associated with an axis
-- (NSString *)oppositeKeyForAxisKey:(NSString *)aKey getKeyIndex:(NSUInteger *)keyIndex;
-// Same as above except it takes a non-generic key
-- (NSString *)oppositePlayerKeyForAxisKey:(NSString *)aKey getKeyIndex:(NSUInteger *)keyIndex;
 
 #pragma mark -
 #pragma mark Game System Responder objects

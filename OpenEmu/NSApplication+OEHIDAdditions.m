@@ -43,34 +43,32 @@ static dispatch_queue_t oehid_queue;
 
 - (void)handleHIDEvent:(OEHIDEvent *)anEvent
 {
-    if (!oehid_queue) {
-       oehid_queue = dispatch_queue_create("OEHIDAdditions HID forwarding", DISPATCH_QUEUE_SERIAL);
-    }
+    if(oehid_queue == NULL) oehid_queue = dispatch_queue_create("OEHIDAdditions HID forwarding", DISPATCH_QUEUE_SERIAL);
     
     dispatch_async(oehid_queue, ^{
-    switch ([anEvent type])
-    {
-        case OEHIDAxis :
-            [self axisMoved:anEvent];
-            break;
-        case OEHIDButton :
-            if([anEvent state] == NSOffState)
-                [self buttonUp:anEvent];
-            else
-                [self buttonDown:anEvent];
-            break;
-        case OEHIDHatSwitch :
-            [self hatSwitchChanged:anEvent];
-            break;
-        case OEHIDKeypress :
-            if([anEvent state] == NSOffState)
-                [self HIDKeyUp:anEvent];
-            else
-                [self HIDKeyDown:anEvent];
-            break;
-        default:
-            break;
-    }
+        switch([anEvent type])
+        {
+            case OEHIDEventTypeAxis :
+                [self axisMoved:anEvent];
+                break;
+            case OEHIDEventTypeButton :
+                if([anEvent state] == OEHIDEventStateOff)
+                    [self buttonUp:anEvent];
+                else
+                    [self buttonDown:anEvent];
+                break;
+            case OEHIDEventTypeHatSwitch :
+                [self hatSwitchChanged:anEvent];
+                break;
+            case OEHIDEventTypeKeyboard :
+                if([anEvent state] == OEHIDEventStateOff)
+                    [self HIDKeyUp:anEvent];
+                else
+                    [self HIDKeyDown:anEvent];
+                break;
+            default:
+                break;
+        }
     });
 }
 

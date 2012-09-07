@@ -2,32 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>OEControllerImageKey</key>
-    <string>controller_gba.png</string>
-    <key>OEControllerImageMaskKey</key>
-    <string>controller_gba_mask.png</string>
-    <key>OEControllerKeyPositionKey</key>
-    <dict>
-        <key>OEGBAButtonUp[@]</key>
-        <string>{146, 173}</string>
-        <key>OEGBAButtonDown[@]</key>
-        <string>{146, 138}</string>
-        <key>OEGBAButtonLeft[@]</key>
-        <string>{128, 155}</string>
-        <key>OEGBAButtonRight[@]</key>
-        <string>{168, 155}</string>
-        <key>OEGBAButtonStart[@]</key>
-        <string>{173, 97}</string>
-        <key>OEGBAButtonSelect[@]</key>
-        <string>{173, 73}</string>
-        <key>OEGBAButtonA[@]</key>
-        <string>{471, 161}</string>
-        <key>OEGBAButtonB[@]</key>
-        <string>{437, 148}</string>
-        <key>OEGBAButtonL[@]</key>
-        <string>{131, 237}</string>
-        <key>OEGBAButtonR[@]</key>
-        <string>{469, 237}</string>
-    </dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_gba.png</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_gba_mask.png</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEGBAButtonUp</key>
+		<string>{146, 173}</string>
+		<key>OEGBAButtonDown</key>
+		<string>{146, 138}</string>
+		<key>OEGBAButtonLeft</key>
+		<string>{128, 155}</string>
+		<key>OEGBAButtonRight</key>
+		<string>{168, 155}</string>
+		<key>OEGBAButtonStart</key>
+		<string>{173, 97}</string>
+		<key>OEGBAButtonSelect</key>
+		<string>{173, 73}</string>
+		<key>OEGBAButtonA</key>
+		<string>{471, 161}</string>
+		<key>OEGBAButtonB</key>
+		<string>{437, 148}</string>
+		<key>OEGBAButtonL</key>
+		<string>{131, 237}</string>
+		<key>OEGBAButtonR</key>
+		<string>{469, 237}</string>
+	</dict>
 </dict>
 </plist>

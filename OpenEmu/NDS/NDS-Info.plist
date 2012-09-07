@@ -49,25 +49,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonUp[@]</string>
+					<string>OENDSButtonUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonDown[@]</string>
+					<string>OENDSButtonDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonLeft[@]</string>
+					<string>OENDSButtonLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonRight[@]</string>
+					<string>OENDSButtonRight</string>
 				</dict>
 			</array>
 			<array>
@@ -75,25 +75,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>A</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonA[@]</string>
+					<string>OENDSButtonA</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>B</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonB[@]</string>
+					<string>OENDSButtonB</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>X</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonX[@]</string>
+					<string>OENDSButtonX</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Y</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonY[@]</string>
+					<string>OENDSButtonY</string>
 				</dict>
 			</array>
 			<array>
@@ -101,25 +101,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left Trigger</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonL[@]</string>
+					<string>OENDSButtonL</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right Trigger</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonR[@]</string>
+					<string>OENDSButtonR</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonStart[@]</string>
+					<string>OENDSButtonStart</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Select</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonSelect[@]</string>
+					<string>OENDSButtonSelect</string>
 				</dict>
 			</array>
 			<array>
@@ -127,13 +127,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Lid</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonLid[@]</string>
+					<string>OENDSButtonLid</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Mic</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OENDSButtonMicrophone[@]</string>
+					<string>OENDSButtonMicrophone</string>
 				</dict>
 			</array>
 		</array>
@@ -142,42 +142,42 @@
 	<string>nds_library</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OENDSButtonUp[@]</string>
-		<string>OENDSButtonDown[@]</string>
-		<string>OENDSButtonLeft[@]</string>
-		<string>OENDSButtonRight[@]</string>
-		<string>OENDSButtonA[@]</string>
-		<string>OENDSButtonB[@]</string>
-		<string>OENDSButtonX[@]</string>
-		<string>OENDSButtonY[@]</string>
-		<string>OENDSButtonL[@]</string>
-		<string>OENDSButtonR[@]</string>
-		<string>OENDSButtonStart[@]</string>
-		<string>OENDSButtonSelect[@]</string>
-		<string>OENDSButtonMicrophone[@]</string>
-		<string>OENDSButtonLid[@]</string>
-		<string>OENDSButtonDebug[@]</string>
+		<string>OENDSButtonUp</string>
+		<string>OENDSButtonDown</string>
+		<string>OENDSButtonLeft</string>
+		<string>OENDSButtonRight</string>
+		<string>OENDSButtonA</string>
+		<string>OENDSButtonB</string>
+		<string>OENDSButtonX</string>
+		<string>OENDSButtonY</string>
+		<string>OENDSButtonL</string>
+		<string>OENDSButtonR</string>
+		<string>OENDSButtonStart</string>
+		<string>OENDSButtonSelect</string>
+		<string>OENDSButtonMicrophone</string>
+		<string>OENDSButtonLid</string>
+		<string>OENDSButtonDebug</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OENDSButtonUp[@]</string>
-				<string>OENDSButtonRight[@]</string>
-				<string>OENDSButtonDown[@]</string>
-				<string>OENDSButtonLeft[@]</string>
+				<string>OENDSButtonUp</string>
+				<string>OENDSButtonRight</string>
+				<string>OENDSButtonDown</string>
+				<string>OENDSButtonLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OENDSButtonUp[@]</string>
-				<string>OENDSButtonDown[@]</string>
+				<string>OENDSButtonUp</string>
+				<string>OENDSButtonDown</string>
 			</array>
 			<array>
-				<string>OENDSButtonLeft[@]</string>
-				<string>OENDSButtonRight[@]</string>
+				<string>OENDSButtonLeft</string>
+				<string>OENDSButtonRight</string>
 			</array>
 		</array>
 	</dict>

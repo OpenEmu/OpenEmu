@@ -67,29 +67,36 @@ static NSUInteger lastDeviceNumber = 0;
         {
             if(nilHandler == nil)
             {
-                device = NULL;
+                device       = NULL;
                 deviceNumber = 0;
-                deadZone = 0.0;
-                nilHandler = self;
+                deadZone     = 0.0;
+                nilHandler   = self;
             }
-            else
-            {
-                return nilHandler;
-            }
+            
+            return nilHandler;
         }
         else
         {
+            CFRetain(aDevice);
+            
             deviceNumber = ++lastDeviceNumber;
             device = aDevice;
             deadZone = 0.2;
         }
     }
+    
     return self;
 }
 
 - (void)dealloc
 {
-	if(ffDevice) FFReleaseDevice(ffDevice);
+	if(ffDevice != NULL) FFReleaseDevice(ffDevice);
+    if(device   != NULL) CFRelease(device);
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
 }
 
 - (BOOL)isEqual:(id)anObject
@@ -131,19 +138,22 @@ static NSUInteger lastDeviceNumber = 0;
     return (__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey));
 }
 
+- (BOOL)isKeyboardDevice;
+{
+    return IOHIDDeviceConformsTo(device, kHIDPage_GenericDesktop, kHIDUsage_GD_Keyboard);
+}
+
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue
 {
     IOHIDElementRef  elem     = IOHIDValueGetElement(aValue);
     uint32_t         cookie   = (uint32_t)IOHIDElementGetCookie(elem);
-    NSNumber        *nscookie = [NSNumber numberWithUnsignedInt:cookie];
     
-    
-    OEHIDEvent *event = [mapTable objectForKey:nscookie];
+    OEHIDEvent *event = [mapTable objectForKey:@(cookie)];
     
     if(event == nil)
     {
         event = [OEHIDEvent eventWithDeviceHandler:self value:aValue];
-        [mapTable setObject:event forKey:nscookie];
+        [mapTable setObject:event forKey:@(cookie)];
     }
     else NSAssert1([event OE_setupEventWithDeviceHandler:self value:aValue], @"The event setup went wrong for event: %@", event);
     
@@ -202,6 +212,11 @@ static NSUInteger lastDeviceNumber = 0;
         FFReleaseDevice(ffDevice);
         ffDevice = NULL;
     }
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p manufacturer: %@ product: %@ serialNumber: %@ deviceNumber: %lu isKeyboard: %@>", [self class], self, [self manufacturer], [self product], [self serialNumber], [self deviceNumber], [self isKeyboardDevice] ? @"YES" : @"NO"];
 }
 
 @end

@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
+ 
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,36 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEGBASystemController.h"
-#import "OEGBASystemResponder.h"
-#import "OEGBASystemResponderClient.h"
-
-@implementation OEGBASystemController
-
-- (NSUInteger)numberOfPlayers;
-{
-    return 4;
-}
-
-- (Class)responderClass;
-{
-    return [OEGBASystemResponder class];
-}
-
-- (NSDictionary *)defaultControls
-{
-    return @{
-    @"OEGBAButtonUp"     : @(kHIDUsage_KeyboardUpArrow)   ,
-    @"OEGBAButtonDown"   : @(kHIDUsage_KeyboardDownArrow) ,
-    @"OEGBAButtonLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
-    @"OEGBAButtonRight"  : @(kHIDUsage_KeyboardRightArrow),
-    @"OEGBAButtonA"      : @(kHIDUsage_KeyboardD)         ,
-    @"OEGBAButtonB"      : @(kHIDUsage_KeyboardS)         ,
-    @"OEGBAButtonL"      : @(kHIDUsage_KeyboardQ)         ,
-    @"OEGBAButtonR"      : @(kHIDUsage_KeyboardE)         ,
-    @"OEGBAButtonStart"  : @(kHIDUsage_KeyboardSpacebar)  ,
-    @"OEGBAButtonSelect" : @(kHIDUsage_KeyboardEscape)    ,
-    };
-}
-
-@end
+#define GENERATE_PRAGMA(x) _Pragma(#x)
+#define TODO(x) GENERATE_PRAGMA(message("[TODO] " #x))
+#define FIXME(x) GENERATE_PRAGMA(message("[FIXME] " #x))
+#define NOTE(x) GENERATE_PRAGMA(message("[NOTE] " #x))

@@ -2,28 +2,28 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>OEControllerImageKey</key>
-    <string>controller_nes.png</string>
-    <key>OEControllerImageMaskKey</key>
-    <string>controller_nes_mask.png</string>
-    <key>OEControllerKeyPositionKey</key>
-    <dict>
-        <key>OENESButtonUp[@]</key>
-        <string>{159, 147}</string>
-        <key>OENESButtonDown[@]</key>
-        <string>{159, 100}</string>
-        <key>OENESButtonLeft[@]</key>
-        <string>{136, 123}</string>
-        <key>OENESButtonRight[@]</key>
-        <string>{183, 123}</string>
-        <key>OENESButtonStart[@]</key>
-        <string>{306, 101}</string>
-        <key>OENESButtonSelect[@]</key>
-        <string>{256, 101}</string>
-        <key>OENESButtonA[@]</key>
-        <string>{441, 100}</string>
-        <key>OENESButtonB[@]</key>
-        <string>{384, 100}</string>
-    </dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_nes.png</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_nes_mask.png</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<string>{159, 147}</string>
+		<key>OENESButtonDown</key>
+		<string>{159, 100}</string>
+		<key>OENESButtonLeft</key>
+		<string>{136, 123}</string>
+		<key>OENESButtonRight</key>
+		<string>{183, 123}</string>
+		<key>OENESButtonStart</key>
+		<string>{306, 101}</string>
+		<key>OENESButtonSelect</key>
+		<string>{256, 101}</string>
+		<key>OENESButtonA</key>
+		<string>{441, 100}</string>
+		<key>OENESButtonB</key>
+		<string>{384, 100}</string>
+	</dict>
 </dict>
 </plist>

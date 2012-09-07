@@ -36,6 +36,11 @@
 #import <OpenEmuSystem/OESystemResponder.h>
 #import <OpenEmuSystem/OEBasicSystemResponder.h>
 #import <OpenEmuSystem/OESystemResponderClient.h>
+#import <OpenEmuSystem/OEBindingsController.h>
+#import <OpenEmuSystem/OESystemBindings.h>
+#import <OpenEmuSystem/OEPlayerBindings.h>
+#import <OpenEmuSystem/OEKeyBindingDescription.h>
+#import <OpenEmuSystem/OEKeyBindingGroupDescription.h>
 #import <OpenEmuSystem/OEHIDEvent.h>
 #import <OpenEmuSystem/OEHIDManager.h>
 #import <OpenEmuSystem/OEHIDDeviceHandler.h>
