@@ -25,6 +25,12 @@
  */
 #import <Foundation/Foundation.h>
 
+extern NSString * const OESidebarConsolesNotCollapsibleKey;
+extern NSString * const OESidebarMinWidth;
+extern NSString * const OESidebarMaxWidth;
+extern NSString * const OEMainViewMinWidth;
+
+
 @protocol OEDraggingDestinationDelegate <NSObject>
 - (NSDragOperation)draggingEntered:(id < NSDraggingInfo >)sender;
 - (NSDragOperation)draggingUpdated:(id < NSDraggingInfo >)sender;

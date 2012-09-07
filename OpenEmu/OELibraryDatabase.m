@@ -46,6 +46,11 @@
 #import "OEFSWatcher.h"
 #import "OEROMImporter.h"
 
+NSString * const OEDatabasePathKey = @"databasePath";
+NSString * const OEDefaultDatabasePathKey = @"defaultDatabasePath";
+NSString * const OESaveStateLastFSEventIDKey = @"lastSaveStateEventID";
+
+NSString * const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
 @interface OELibraryDatabase ()
 
 - (BOOL)loadPersistantStoreWithError:(NSError **)outError;
@@ -101,7 +106,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         return NO;
     }
 
-    [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:UDDatabasePathKey];
+    [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:OEDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
     
     
@@ -119,11 +124,11 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];    
     [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-    [[__managedObjectContext userInfo] setValue:self forKey:LibraryDatabaseKey];
+    [[__managedObjectContext userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
 
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    [standardDefaults setObject:[self.databaseURL path] forKey:UDDatabasePathKey];
+    [standardDefaults setObject:[self.databaseURL path] forKey:OEDatabasePathKey];
     
     return YES;
 }
@@ -151,7 +156,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 #pragma mark -
-
 + (OELibraryDatabase *)defaultDatabase
 {
     return defaultDatabase;
@@ -217,7 +221,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSString *stateFolderPath = [[self stateFolderURL] path];
     __block OEFSBlock fsBlock =
-    ^(NSString *path, FSEventStreamEventFlags flags)
+    ^ (NSString *path, FSEventStreamEventFlags flags)
     {
         if([path hasSuffix:@".DS_Store"]) return;
         
@@ -229,7 +233,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir &&
                (folderContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]) != nil)
                 [folderContent enumerateObjectsUsingBlock:
-                 ^(id obj, NSUInteger idx, BOOL *stop)
+                 ^ (id obj, NSUInteger idx, BOOL *stop)
                  {
                      NSString *subPath = [path stringByAppendingPathComponent:obj];
                      fsBlock(subPath, flags);
@@ -240,12 +244,12 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         // Wait a little while to make sure the fs operation has completed
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [OEDBSaveState updateStateWithPath:path];            
+        dispatch_after(popTime, dispatch_get_main_queue(), ^{
+            [OEDBSaveState updateStateWithPath:path];
         });
     };
 
-    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:UDSaveStateLastFSEventIDKey forPath:stateFolderPath withBlock:fsBlock];
+    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:OESaveStateLastFSEventIDKey forPath:stateFolderPath withBlock:fsBlock];
     [watcher setDelay:1.0];
     [watcher setStreamFlags:kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents];
     
@@ -311,7 +315,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
         [context setMergePolicy:policy];
-        [[context userInfo] setValue:self forKey:LibraryDatabaseKey];        
+        [[context userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
     }
     
     return [managedObjectContexts valueForKey:[thread name]];
@@ -814,13 +818,59 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSLog(@"Roms in collection called, but not implemented");
     return [NSArray array];
 }
+#pragma mark -
+- (NSArray*)lastPlayedRoms
+{
+    // TODO: get numberOfRoms from defaults or system settings
+    NSUInteger numberOfRoms = 5;
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
+        
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lastPlayed != nil"];
+    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"lastPlayed" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDesc]];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setFetchLimit:numberOfRoms];
+    
+    return [[self managedObjectContext] executeFetchRequest:fetchRequest error:nil];
+}
 
+- (NSDictionary*)lastPlayedRomsBySystem
+{
+    // TODO: get numberOfRoms from defaults or system settings
+    NSUInteger numberOfRoms = 5;
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lastPlayed != nil"];
+    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"lastPlayed" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDesc]];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setFetchLimit:numberOfRoms];
+    
+    NSArray* roms = [[self managedObjectContext] executeFetchRequest:fetchRequest error:nil];
+    NSMutableSet *systemsSet = [NSMutableSet setWithCapacity:[roms count]];
+    [roms enumerateObjectsUsingBlock:
+     ^ (id aRom, NSUInteger idx, BOOL *stop) {
+        [systemsSet addObject:[[aRom game] system]];
+    }];
+    
+    NSArray *systems = [systemsSet allObjects];
+    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[systems count]];
+    [systems enumerateObjectsUsingBlock:
+     ^(id aSystem, NSUInteger idx, BOOL *stop) {
+        NSArray *romsForSystem = [roms filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:
+                                           ^ BOOL(id aRom, NSDictionary *bindings) {
+                                               return [[aRom game] system] == aSystem;
+                                           }]];
+         [result setObject:romsForSystem forKey:[aSystem lastLocalizedName]];
+     }];
+    return result;
+}
 #pragma mark - Datbase Folders
 
 - (NSURL *)databaseFolderURL
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+    NSString *libraryFolderPath = [standardDefaults stringForKey:OEDatabasePathKey];
 
     return [NSURL fileURLWithPath:libraryFolderPath isDirectory:YES];
 }
@@ -886,7 +936,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (NSURL *)coverFolderURL
 {
     NSUserDefaults *standardDefaults  = [NSUserDefaults standardUserDefaults];
-    NSString       *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+    NSString       *libraryFolderPath = [standardDefaults stringForKey:OEDatabasePathKey];
     NSString       *coverFolderPath   = [libraryFolderPath stringByAppendingPathComponent:@"Artwork/"];
    
     NSURL *url = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];

@@ -35,7 +35,8 @@
 
 #import "NSFileManager+OEHashingAdditions.h"
 
-NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
+NSString * const OEPasteboardTypeGame = @"org.openEmu.game";
+NSString * const OEBoxSizesKey = @"BoxSizes";
 
 @interface OEDBGame ()
 - (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel;
@@ -428,7 +429,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
         
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-        NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
+        NSArray *sizes = [standardDefaults objectForKey:OEBoxSizesKey];
         // For each thumbnail size specified in defaults...
         for(NSString *aSizeString in sizes)
         {
@@ -452,7 +453,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
         
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-        NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
+        NSArray *sizes = [standardDefaults objectForKey:OEBoxSizesKey];
         // For each thumbnail size...
         for(NSString *aSizeString in sizes)
         {

@@ -42,6 +42,11 @@
 
 #import "OEDBSaveState.h"
 
+NSString * const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState";
+NSString * const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
+NSString * const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
+
+extern NSString * const OEGameVideoFilterKey;
 @class OEHUDSlider, OEImageButton;
 @interface OEHUDControlsBarView : NSView
 
@@ -64,7 +69,7 @@
 
 - (id)initWithGameViewController:(OEGameViewController *)controller
 {
-    BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:UDHUDHideOptionsKey];
+    BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarHidesOptionButtonKey];
     
     self = [super initWithContentRect:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45) styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:YES];
     if(self != nil)
@@ -139,7 +144,7 @@
 {
     if(!fadeTimer)
     {
-        NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:UDHUDFadeOutDelayKey];
+        NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
         fadeTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
     }
     
@@ -149,7 +154,7 @@
 
 - (void)timerDidFire:(NSTimer *)timer
 {
-    NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:UDHUDFadeOutDelayKey];
+    NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
     NSDate *hideDate = [lastMouseMovement dateByAddingTimeInterval:interval];
     
     if([hideDate timeIntervalSinceNow] <= 0.0)
@@ -163,7 +168,7 @@
         }
         else
         {
-            NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:UDHUDFadeOutDelayKey];
+            NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
             NSDate *nextTime = [NSDate dateWithTimeIntervalSinceNow:interval];
             
             [fadeTimer setFireDate:nextTime];
@@ -230,7 +235,7 @@
     // These filters are loaded and run by GL, and do not rely on QTZs
     NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:OEOpenGLFilterNameArray];
     
-    NSString *selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:UDVideoFilterKey];
+    NSString *selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameVideoFilterKey];
     for(NSString *aName in filterNames)
     {
         NSMenuItem *filterItem = [[NSMenuItem alloc] initWithTitle:aName action:@selector(selectFilter:) keyEquivalent:@""];
@@ -277,7 +282,7 @@
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
-            if([[NSUserDefaults standardUserDefaults] boolForKey:UDHUDCanDeleteStateKey])
+            if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
             {
                 OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
                 
@@ -478,7 +483,7 @@
     [saveButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:saveButton];
     
-    BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:UDHUDHideOptionsKey];
+    BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarHidesOptionButtonKey];
     if(!hideOptions)
     {
         OEImageButton *optionsButton = [[OEImageButton alloc] init];
@@ -513,7 +518,7 @@
     [slider setContinuous:YES];
     [slider setMaxValue:1.0];
     [slider setMinValue:0.0];
-    [slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey]];
+    [slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey]];
     [slider setAction:@selector(changeVolume:)];
     
     

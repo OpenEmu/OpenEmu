@@ -31,6 +31,9 @@
 #define OverlayAlphaOFF 0.0
 #define RingRadius 37.0
 
+NSString * const OEControlsDisableMouseSelection = @"controlsDisableMouseSelection";
+NSString * const OEControlsDisableMouseDeactivation = @"controlsDisableMouseDeactivation";
+NSString * const OEDebugDrawControllerMaskKey = @"drawControllerMask";
 @protocol OEControlsButtonHighlightProtocol  <NSObject>
 - (NSPoint)highlightPoint;
 @end
@@ -98,7 +101,7 @@
     
     [[self image] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:NoInterpol];
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:UDDebugDrawControllerMaskKey])
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugDrawControllerMaskKey])
         [[self imageMask] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:NoInterpol];
 
     
@@ -249,8 +252,8 @@
 - (void)mouseDown:(NSEvent *)theEvent
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL allowDeactivationByMouse        = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
-    BOOL allowSwitchingByMouse           = ![standardUserDefaults boolForKey:UDControlsDisableMouseSelection];
+    BOOL allowDeactivationByMouse        = ![standardUserDefaults boolForKey:OEControlsDisableMouseDeactivation];
+    BOOL allowSwitchingByMouse           = ![standardUserDefaults boolForKey:OEControlsDisableMouseSelection];
     
     if(!allowDeactivationByMouse && !allowSwitchingByMouse) return;
     

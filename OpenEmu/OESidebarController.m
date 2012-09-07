@@ -38,6 +38,10 @@
 
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEROMImporter+OESidebarAdditions.h"
+
+NSString * const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
+extern NSString * const OELastCollectionSelectedKey;
+
 @interface OESidebarController ()
 - (void)_setupDrop;
 @end
@@ -260,7 +264,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:userInfo];
 
     if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
-        [[NSUserDefaults standardUserDefaults] setValue:[selectedItem collectionViewName] forKey:UDLastCollectionSelectedKey];
+        [[NSUserDefaults standardUserDefaults] setValue:[selectedItem collectionViewName] forKey:OELastCollectionSelectedKey];
 }
 
 - (void)outlineViewSelectionIsChanging:(NSNotification *)notification
@@ -398,7 +402,7 @@
         NSString *cancel = NSLocalizedString(@"Cancel", @"");
 
         OEHUDAlert* alert = [OEHUDAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
-        [alert showSuppressionButtonForUDKey:UDRemoveCollectionSuppresedKey];
+        [alert showSuppressionButtonForUDKey:OESuppressRemoveCollectionConfirmationKey];
         removeItem = [alert runModal];
     }
     

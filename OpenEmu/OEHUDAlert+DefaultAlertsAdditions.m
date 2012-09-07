@@ -27,6 +27,15 @@
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
+NSString * const OEMaxSaveGameNameLengthKey = @"MaxSaveGameNameLength";
+
+NSString * const OERemoveGameFromCollectionAlertSuppressionKey = @"removeGamesFromCollectionWithoutConfirmation";
+NSString * const OELoadAutoSaveAlertSuppressionKey   = @"loadAutosaveDialogChoice";
+NSString * const OESaveGameWhenQuitAlertSuppressionKey = @"autosaveOnStopDialogChoice";
+NSString * const OEDeleteGameAlertSuppressionKey = @"removeStatesWithoutConfirmation";
+NSString * const OESaveGameAlertSuppressionKey = @"saveGameWithoutConfirmation";
+NSString * const OEChangeCoreAlertSuppressionKey = @"changeCoreWithoutConfirmation";
+
 @implementation OEHUDAlert (DefaultAlertsAdditions)
 
 + (id)saveAutoSaveGameAlert
@@ -39,7 +48,7 @@
     alert.headlineLabelText = NSLocalizedString(@"Would you like to save your game before you quit?", @"");
     
     [alert setSuppressOnDefaultReturnOnly:NO];
-    [alert showSuppressionButtonForUDKey:UDSaveGameWhenQuitAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OESaveGameWhenQuitAlertSuppressionKey];
     
     return alert;
 }
@@ -54,7 +63,7 @@
     alert.headlineLabelText = NSLocalizedString(@"Would you like to continue your last game?", @"");
     
     [alert setSuppressOnDefaultReturnOnly:NO];
-    [alert showSuppressionButtonForUDKey:UDLoadAutoSaveAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OELoadAutoSaveAlertSuppressionKey];
     
     return alert;
 }
@@ -69,7 +78,7 @@
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setShowsInputField:YES];
     
-    NSInteger maxiumumSaveGameLength = [[NSUserDefaults standardUserDefaults] integerForKey:UDMaxSaveGameNameLengthKey];
+    NSInteger maxiumumSaveGameLength = [[NSUserDefaults standardUserDefaults] integerForKey:OEMaxSaveGameNameLengthKey];
     if([name length]>maxiumumSaveGameLength)
     {
         name = [name substringToIndex:maxiumumSaveGameLength];
@@ -79,7 +88,7 @@
     [alert setWidth:372.0];
     [alert setInputLimit:40];
     
-    [alert showSuppressionButtonForUDKey:UDSaveGameAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OESaveGameAlertSuppressionKey];
     [alert setSuppressionLabelText:NSLocalizedString(@"Don't ask again", @"")];
     
     return alert;
@@ -93,7 +102,7 @@
     [alert setDefaultButtonTitle:NSLocalizedString(@"Delete Game", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setHeadlineLabelText:nil];
-    [alert showSuppressionButtonForUDKey:UDDelteGameAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OEDeleteGameAlertSuppressionKey];
     
     return alert;
 }
@@ -106,7 +115,7 @@
     [alert setDefaultButtonTitle:NSLocalizedString(@"Remove", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setHeadlineLabelText:nil];
-    [alert showSuppressionButtonForUDKey:UDRemoveGameFromCollectionAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OERemoveGameFromCollectionAlertSuppressionKey];
     
     return alert;
 }
@@ -121,7 +130,7 @@
     [alert setDefaultButtonTitle:multipleGames?NSLocalizedString(@"Delete Games", @""):NSLocalizedString(@"Delete Game", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setHeadlineLabelText:nil];
-    [alert showSuppressionButtonForUDKey:UDRemoveGameFromCollectionAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OERemoveGameFromCollectionAlertSuppressionKey];
     
     return alert;
 }
