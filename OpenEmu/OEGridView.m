@@ -563,7 +563,12 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (void)reloadData
 {
-    if (!_visibleCellByIndex || [_visibleCellByIndex count] == 0 || ![_visibleCellByIndex allValues]) return;
+    NSMutableArray * transformedVisibleCellByIndex = [NSMutableArray new];
+    for (id key in _visibleCellByIndex)
+    {
+        if (key != nil && [_visibleCellByIndex objectForKey:key])
+            [transformedVisibleCellByIndex addObject:[_visibleCellByIndex objectForKey:key]];
+    }
     
     _needsReloadData = NO;
 
@@ -572,7 +577,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         // Wait until any pending reload operations are complete
-        [[_visibleCellByIndex allValues] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
+        //[[_visibleCellByIndex allValues] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
+        [transformedVisibleCellByIndex makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
         [_visibleCellByIndex removeAllObjects];
         [_visibleCellsIndexes removeAllIndexes];
         [_reuseableCells removeAllObjects];
@@ -635,7 +641,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
                      [newCell setHidden:NO];
 
                      if(!oldCell) [newCell setFrame:[self rectForCellAtIndex:idx]];
-
                      [_visibleCellByIndex setObject:newCell forKey:[NSNumber numberWithUnsignedInteger:idx]];
                      [_rootLayer addSublayer:newCell];
                  }
