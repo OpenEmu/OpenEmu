@@ -28,19 +28,13 @@
 
 #import "OESidebarOutlineView.h"
 
-extern NSString * const OESuppressRemoveCollectionConfirmationKey;
+extern NSString *const OESuppressRemoveCollectionConfirmationKey;
 
 @class OELibraryDatabase, OESidebarOutlineView;
 @protocol OECollectionViewItemProtocol;
+
 @interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource, OEDraggingDestinationDelegate>
-{
-@private
-    NSArray *groups;
-    OELibraryDatabase *database;
-    NSArray *systems, *collections;
-@private
-    id editingItem;
-}
+
 - (IBAction)addCollectionAction:(id)sender;
 
 - (void)setEnabled:(BOOL)enabled;

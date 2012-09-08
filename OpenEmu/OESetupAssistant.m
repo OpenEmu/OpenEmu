@@ -41,7 +41,7 @@
 #import "OECoreDownload.h"
 #import "OEHIDDeviceHandler.h"
 
-NSString * const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
+NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 
 @implementation OESetupAssistant
 @synthesize completionBlock;

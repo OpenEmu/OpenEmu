@@ -33,11 +33,11 @@
 
 #define OEDatabaseFileName @"Library.storedata"
 
-extern NSString * const OEDatabasePathKey;
-extern NSString * const OEDefaultDatabasePathKey;
-extern NSString * const OESaveStateLastFSEventIDKey;
+extern NSString *const OEDatabasePathKey;
+extern NSString *const OEDefaultDatabasePathKey;
+extern NSString *const OESaveStateLastFSEventIDKey;
+extern NSString *const OELibraryDatabaseUserInfoKey;
 
-extern NSString * const OELibraryDatabaseUserInfoKey;
 @interface OELibraryDatabase : NSObject 
 {
 @private

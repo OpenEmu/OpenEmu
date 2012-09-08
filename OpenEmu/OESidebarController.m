@@ -29,6 +29,7 @@
 #import "OESidebarItem.h"
 #import "OELibraryDatabase.h"
 #import "OESidebarCell.h"
+#import "OECollectionViewController.h"
 
 #import "OESidebarOutlineView.h"
 #import "OEDBGame.h"
@@ -39,11 +40,19 @@
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEROMImporter+OESidebarAdditions.h"
 
-NSString * const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
-extern NSString * const OELastCollectionSelectedKey;
+NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
 
 @interface OESidebarController ()
-- (void)_setupDrop;
+{
+    NSArray *groups;
+    OELibraryDatabase *database;
+    NSArray *systems;
+    NSArray *collections;
+    id editingItem;
+}
+
+- (void)OE_setupDrop;
+
 @end
 
 @implementation OESidebarController
@@ -102,7 +111,7 @@ extern NSString * const OELastCollectionSelectedKey;
     [sidebarView setAllowsEmptySelection:NO];
 
     NSScrollView *enclosingScrollView = [sidebarView enclosingScrollView];
-    if(enclosingScrollView)
+    if(enclosingScrollView != nil)
     {
         [enclosingScrollView setDrawsBackground:NO];
         [sidebarView setBackgroundColor:[NSColor clearColor]];
@@ -110,7 +119,7 @@ extern NSString * const OELastCollectionSelectedKey;
     else
         [sidebarView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
         
-    [self _setupDrop];
+    [self OE_setupDrop];
 }
 
 - (void)dealloc
@@ -120,6 +129,7 @@ extern NSString * const OELastCollectionSelectedKey;
 
 #pragma mark -
 #pragma mark Public
+
 - (void)setEnabled:(BOOL)enabled
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
@@ -133,12 +143,7 @@ extern NSString * const OELastCollectionSelectedKey;
 
 - (id)addCollection:(BOOL)isSmart
 {
-    id item;
-    
-    if(isSmart)
-        item = [[self database] addNewSmartCollection:nil];
-    else 
-        item = [[self database] addNewCollection:nil];
+    id item = isSmart ? [[self database] addNewSmartCollection:nil] : [[self database] addNewCollection:nil];
     
     [self reloadData];    
     [self expandCollections:self];
@@ -150,8 +155,8 @@ extern NSString * const OELastCollectionSelectedKey;
 
 - (void)reloadData
 {
-    self.systems = [self database] ? [[self database] enabledSystems] : [NSArray array];
-    self.collections = [self database] ? [[self database] collections] : [NSArray array];
+    self.systems     = [[self database] enabledSystems] ? : [NSArray array];
+    self.collections = [[self database] collections]    ? : [NSArray array];
     
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView reloadData];
@@ -163,9 +168,10 @@ extern NSString * const OELastCollectionSelectedKey;
     
     if(![item isSelectableInSdebar]) return;
     NSInteger index = [sidebarView rowForItem:item];
+    
     if(index == -1) return;
     
-    if ([sidebarView selectedRow] != index)
+    if([sidebarView selectedRow] != index)
     {
         [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
         [self outlineViewSelectionDidChange:nil];
@@ -197,6 +203,7 @@ extern NSString * const OELastCollectionSelectedKey;
 
 #pragma mark -
 #pragma mark Notifications
+
 - (void)systemsChanged
 {
     NSLog(@"systemsChanged");
@@ -213,51 +220,53 @@ extern NSString * const OELastCollectionSelectedKey;
 
 #pragma mark -
 #pragma mark Drag and Drop
-- (void)_setupDrop
+
+- (void)OE_setupDrop
 {
     NSArray *acceptedTypes = [NSArray arrayWithObjects:NSFilenamesPboardType, OEPasteboardTypeGame, nil];
     [[self view] registerForDraggedTypes:acceptedTypes];
     [(OESidebarOutlineView*)[self view] setDragDelegate:self];
 }
 
-- (NSDragOperation)draggingEntered:(id < NSDraggingInfo >)sender
+- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
 {
     NSPasteboard *pboard = [sender draggingPasteboard];
     return [[pboard types] containsObject:OEPasteboardTypeGame] || NSFilenamesPboardType?NSDragOperationCopy:NSDragOperationNone;
 }
 
-- (NSDragOperation)draggingUpdated:(id < NSDraggingInfo >)sender
+- (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
 {
     return [self draggingEntered:sender];
 }
 
-- (void)draggingEnded:(id < NSDraggingInfo >)sender
+- (void)draggingEnded:(id<NSDraggingInfo>)sender
 {
 }
 
-- (void)draggingExited:(id < NSDraggingInfo >)sender
+- (void)draggingExited:(id<NSDraggingInfo>)sender
 {
 }
 
-- (BOOL)prepareForDragOperation:(id < NSDraggingInfo >)sender
+- (BOOL)prepareForDragOperation:(id<NSDraggingInfo>)sender
 {
     return YES;
 }
 
-- (BOOL)performDragOperation:(id < NSDraggingInfo >)sender
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
     return NO;
 }
 
-- (void)concludeDragOperation:(id < NSDraggingInfo >)sender
+- (void)concludeDragOperation:(id<NSDraggingInfo>)sender
 {
 }
 
 #pragma mark -
 #pragma mark NSOutlineView Delegate
+
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)[self view];
     id selectedItem = [sidebarView itemAtRow:[sidebarView selectedRow]];
 
     NSDictionary *userInfo = selectedItem?[NSDictionary dictionaryWithObject:selectedItem forKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey]:nil;
@@ -286,48 +295,46 @@ extern NSString * const OELastCollectionSelectedKey;
 
 #pragma mark -
 #pragma mark NSOutlineView DataSource
+
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
-    if( item == nil)
+    if(item == nil)
         return [self.groups objectAtIndex:index];
     
-    if( item == [self.groups objectAtIndex:0] )
+    if(item == [self.groups objectAtIndex:0] )
         return [self.systems objectAtIndex:index];
     
-    if( item == [self.groups objectAtIndex:1] && [[[self database] importer] isBusy])
+    if(item == [self.groups objectAtIndex:1] && [[[self database] importer] isBusy])
     {
-        if(index==0) return [[self database] importer]; 
-        else             return [self.collections objectAtIndex:index-1];
+        if(index == 0) return [[self database] importer];
+        else           return [self.collections objectAtIndex:index-1];
     }
     
-    if( item == [self.groups objectAtIndex:1])
-    {
+    if(item == [self.groups objectAtIndex:1])
         return [self.collections objectAtIndex:index];
-    }
     
     return nil;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return [(id <OESidebarItem>)item isGroupHeaderInSdebar];
+    return [(id<OESidebarItem>)item isGroupHeaderInSdebar];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    if( item == nil )
-        return [self.groups count];
+    if(item == nil) return [self.groups count];
     
     if(![self database])
         return 0;
     
-    if( item == [self.groups objectAtIndex:0] )
+    if(item == [self.groups objectAtIndex:0])
     {
         int count = [self.systems count];
         return count;
     }
     
-    if( item == [self.groups objectAtIndex:1] )
+    if(item == [self.groups objectAtIndex:1])
         return [self.collections count] + [[[self database] importer] isBusy];
     
     return 0;
@@ -395,6 +402,7 @@ extern NSString * const OELastCollectionSelectedKey;
     
     id item = [outlineView itemAtRow:index];
     BOOL removeItem = NO;
+    
     if([item isEditableInSdebar])
     {   
         NSString *msg = NSLocalizedString(@"Do you really want to remove this collection", @"");
@@ -421,6 +429,7 @@ extern NSString * const OELastCollectionSelectedKey;
 }
 
 #pragma mark -
+
 - (void)willHide
 {
 }
@@ -430,6 +439,7 @@ extern NSString * const OELastCollectionSelectedKey;
 }
 
 #pragma mark -
+
 - (void)controlTextDidBeginEditing:(NSNotification *)aNotification
 {    
 }

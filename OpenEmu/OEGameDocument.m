@@ -42,8 +42,8 @@
 #import "NSView+FadeImage.h"
 #import "OEHUDWindow.h"
 
-NSString * const OEPopoutHasScreenSizeKey = @"forceDefaultScreenSize";
-NSString * const UDLastPopoutFrameKey        = @"lastPopoutFrame";
+NSString *const OEPopoutHasScreenSizeKey = @"forceDefaultScreenSize";
+NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
 
 @interface OEGameDocument ()
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError**)outError;

@@ -31,6 +31,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+FIXME("I still don't think it's the right place for any of that, put it in the app delegate +initialize method");
 extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 extern NSString * const OEGameControlsBarFadeOutDelayKey;
 extern NSString * const OEMaxSaveGameNameLengthKey;
@@ -95,7 +96,6 @@ int main(int argc, char *argv[])
         [standardDefaults registerDefaults:defaults];
         defaults = nil;
     }
-    
     
 	return NSApplicationMain(argc, (const char **) argv);
 }

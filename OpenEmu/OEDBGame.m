@@ -35,8 +35,8 @@
 
 #import "NSFileManager+OEHashingAdditions.h"
 
-NSString * const OEPasteboardTypeGame = @"org.openEmu.game";
-NSString * const OEBoxSizesKey = @"BoxSizes";
+NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
+NSString *const OEBoxSizesKey = @"BoxSizes";
 
 @interface OEDBGame ()
 - (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel;

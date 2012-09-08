@@ -334,8 +334,6 @@ NSString *OEHIDEventAxisDisplayDescription(OEHIDEventAxis axis, OEHIDEventAxisDi
     ret->_data              = _data;
     ret->_hasPreviousState  = NO;
     
-    NSLog(@"Original: %@, Copy: %@", self, ret);
-    
     return ret;
 }
 
@@ -496,7 +494,7 @@ NSString *OEHIDEventAxisDisplayDescription(OEHIDEventAxis axis, OEHIDEventAxisDi
     return [self timestamp] - [self previousTimestamp];
 }
 
-- (BOOL)isHasOffStatee
+- (BOOL)hasOffState
 {
     BOOL ret = YES;
     switch([self type])
@@ -672,7 +670,7 @@ NSString *OEHIDEventAxisDisplayDescription(OEHIDEventAxis axis, OEHIDEventAxisDi
     
 #undef STATE_STR
     
-    return [NSString stringWithFormat:@"HID Event: pad=%lld %@ %@ cookie=%lu", (int64_t)_padNumber, subs, [self displayDescription], _cookie];
+    return [NSString stringWithFormat:@"<%@ %p pad=%lld %@ %@ cookie=%lu>", [self class], self, (int64_t)_padNumber, subs, [self displayDescription], _cookie];
 }
 
 - (NSUInteger)hash
@@ -712,6 +710,8 @@ NSString *OEHIDEventAxisDisplayDescription(OEHIDEventAxis axis, OEHIDEventAxisDi
 
 - (BOOL)isEqual:(id)object
 {
+    if(self == object) return YES;
+    
     if([object isKindOfClass:[OEHIDEvent class]])
         return [self isEqualToEvent:object];
     

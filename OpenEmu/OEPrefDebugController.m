@@ -31,9 +31,9 @@
 
 #import "OEDBGame.h"
 
-extern NSString * const OERegionKey;
 @implementation OEPrefDebugController
 @synthesize regionSelector, dbActionSelector, contentView;
+
 #pragma mark -
 - (void)awakeFromNib
 {    

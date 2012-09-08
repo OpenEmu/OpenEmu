@@ -116,7 +116,7 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
         [self setSystemControlNames: [[_bundle infoDictionary] objectForKey:OESystemControlNamesKey]];
         
         [self OE_setupControlTypes];
-        
+        [self OE_setupControllerPreferencesKeys];
         [self OE_initROMHandling];
     }
     

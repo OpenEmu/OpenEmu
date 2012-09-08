@@ -27,14 +27,14 @@
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
-NSString * const OEMaxSaveGameNameLengthKey = @"MaxSaveGameNameLength";
+NSString *const OEMaxSaveGameNameLengthKey = @"MaxSaveGameNameLength";
 
-NSString * const OERemoveGameFromCollectionAlertSuppressionKey = @"removeGamesFromCollectionWithoutConfirmation";
-NSString * const OELoadAutoSaveAlertSuppressionKey   = @"loadAutosaveDialogChoice";
-NSString * const OESaveGameWhenQuitAlertSuppressionKey = @"autosaveOnStopDialogChoice";
-NSString * const OEDeleteGameAlertSuppressionKey = @"removeStatesWithoutConfirmation";
-NSString * const OESaveGameAlertSuppressionKey = @"saveGameWithoutConfirmation";
-NSString * const OEChangeCoreAlertSuppressionKey = @"changeCoreWithoutConfirmation";
+NSString *const OERemoveGameFromCollectionAlertSuppressionKey = @"removeGamesFromCollectionWithoutConfirmation";
+NSString *const OELoadAutoSaveAlertSuppressionKey   = @"loadAutosaveDialogChoice";
+NSString *const OESaveGameWhenQuitAlertSuppressionKey = @"autosaveOnStopDialogChoice";
+NSString *const OEDeleteGameAlertSuppressionKey = @"removeStatesWithoutConfirmation";
+NSString *const OESaveGameAlertSuppressionKey = @"saveGameWithoutConfirmation";
+NSString *const OEChangeCoreAlertSuppressionKey = @"changeCoreWithoutConfirmation";
 
 @implementation OEHUDAlert (DefaultAlertsAdditions)
 

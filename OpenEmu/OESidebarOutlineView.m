@@ -23,6 +23,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #import "OESidebarOutlineView.h"
 
 #import "OESidebarFieldEditor.h"
@@ -31,22 +32,13 @@
 #import <objc/runtime.h>
 #import "OESidebarOutlineButtonCell.h"
 
-NSString * const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollapsible";
-NSString * const OESidebarMinWidth = @"sidebarMinWidth";
-NSString * const OESidebarMaxWidth = @"sidebarMaxWidth";
-NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
+NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollapsible";
+NSString *const OESidebarMinWidth = @"sidebarMinWidth";
+NSString *const OESidebarMaxWidth = @"sidebarMaxWidth";
+NSString *const OEMainViewMinWidth = @"mainViewMinWidth";
 
 @implementation OESidebarOutlineView
-
-- (id)init
-{
-    self = [super init];
-    if (self) 
-    {
-        [self setupOutlineCell];
-    }
-    return self;
-}
+@synthesize dragDelegate;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {    
@@ -57,6 +49,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     }
     return self;
 }
+
 - (id)initWithFrame:(NSRect)frameRect
 {
     self = [super initWithFrame:frameRect];
@@ -70,37 +63,44 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 #pragma mark -
 #pragma mark Drag and Drop
-@synthesize dragDelegate;
-- (NSDragOperation)draggingEntered:(id < NSDraggingInfo >)sender
+
+- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
 {
     return [self.dragDelegate draggingEntered:sender];
 }
-- (NSDragOperation)draggingUpdated:(id < NSDraggingInfo >)sender
+
+- (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
 {
     return [self.dragDelegate draggingUpdated:sender];
 }
-- (void)draggingEnded:(id < NSDraggingInfo >)sender
+
+- (void)draggingEnded:(id<NSDraggingInfo>)sender
 {
     return [self.dragDelegate draggingEnded:sender];
 }
-- (void)draggingExited:(id < NSDraggingInfo >)sender
+
+- (void)draggingExited:(id<NSDraggingInfo>)sender
 {
     return [self.dragDelegate draggingExited:sender];
 }
 
-- (BOOL)prepareForDragOperation:(id < NSDraggingInfo >)sender
+- (BOOL)prepareForDragOperation:(id<NSDraggingInfo>)sender
 {
     return [self.dragDelegate prepareForDragOperation:sender];
 }
-- (BOOL)performDragOperation:(id < NSDraggingInfo >)sender
+
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
     return [self.dragDelegate performDragOperation:sender];
 }
-- (void)concludeDragOperation:(id < NSDraggingInfo >)sender
+
+- (void)concludeDragOperation:(id<NSDraggingInfo>)sender
 {
     return [self.dragDelegate concludeDragOperation:sender];
 }
+
 #pragma mark -
+
 - (void)reloadData
 {
     [super reloadData];
@@ -161,7 +161,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     NSUInteger anEndRow = aRow + aVisibleRowIndexes.length;
      
     // draw highlight for the visible, selected rows
-    for ( ; aRow < anEndRow; aRow++)
+    for( ; aRow < anEndRow; aRow++)
     {
         if([aSelectedRowIndexes containsIndex:aRow])
         {
@@ -187,6 +187,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         }
     }
 }
+
 - (NSRect)rectOfRow:(NSInteger)row 
 {
     NSRect rect = [super rectOfRow:row];
@@ -207,16 +208,13 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 }
 
 #pragma mark -
-- (void) keyDown:(NSEvent *) theEvent
+
+- (void)keyDown:(NSEvent *)theEvent
 {
-    if([theEvent keyCode]==51 || [theEvent keyCode]==117)
-    {
+    if([theEvent keyCode] == 51 || [theEvent keyCode] == 117)
         [NSApp sendAction:@selector(removeSelectedItemsOfOutlineView:) to:[self dataSource] from:self];
-    } 
     else
-    {
         [super keyDown:theEvent];
-    }
 }
 
 @end

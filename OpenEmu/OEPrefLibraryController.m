@@ -34,11 +34,11 @@
 
 #import "OEHUDAlert.h"
 
-extern NSString * const OEDatabasePathKey;
 @interface OEPrefLibraryController ()
 - (void)_rebuildAvailableLibraries;
 - (void)_calculateHeight;
 @end
+
 @implementation OEPrefLibraryController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{

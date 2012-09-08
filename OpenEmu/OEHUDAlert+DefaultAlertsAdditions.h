@@ -27,7 +27,7 @@
 
 #import "OEHUDAlert.h"
 
-extern NSString * const OEMaxSaveGameNameLengthKey;
+extern NSString *const OEMaxSaveGameNameLengthKey;
 
 @interface OEHUDAlert (DefaultAlertsAdditions)
 

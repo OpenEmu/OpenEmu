@@ -55,7 +55,6 @@
 
 #import "OEBuildVersion.h"
 
-extern NSString * const OEDatabasePathKey;
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()

@@ -27,19 +27,10 @@
 #import "OEPrefGameplayController.h"
 #import "OEPlugin.h"
 #import "OECompositionPlugin.h"
+#import "OEGameViewController.h"
 
-extern NSString * const OEGameVideoFilterKey;
 @implementation OEPrefGameplayController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) 
-    {
-    }
-    return self;
-}
-
+@synthesize filterPreviewContainer, filterSelection;
 
 - (void)awakeFromNib
 {   
@@ -49,22 +40,20 @@ extern NSString * const OEGameVideoFilterKey;
     NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:OEOpenGLFilterNameArray];
     
 	NSMenu *filterMenu = [[NSMenu alloc] init];
+    
     for(NSString *aName in filterNames)
-    {
 		[filterMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
-	}
+    
 	[[self filterSelection] setMenu:filterMenu];
 	
 	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
 	NSString *selectedFilterName = [sud objectForKey:OEGameVideoFilterKey];
-	if(selectedFilterName && [[self filterSelection] itemWithTitle:selectedFilterName])
-    {
+    
+	if(selectedFilterName != nil && [[self filterSelection] itemWithTitle:selectedFilterName])
 		[[self filterSelection] selectItemWithTitle:selectedFilterName];
-	} 
     else 
-    {
 		[[self filterSelection] selectItemAtIndex:0];
-	}
+    
 	[self changeFilter:[self filterSelection]];
     
     
@@ -77,24 +66,27 @@ extern NSString * const OEGameVideoFilterKey;
     [[self filterPreviewContainer] setAnimations:[NSDictionary dictionaryWithObject:awesomeCrossFade forKey:@"subviews"]];
 
 }
+
 #pragma mark ViewController Overrides
-- (NSString*)nibName
+
+- (NSString *)nibName
 {
 	return @"OEPrefGameplayController";
 }
 
 #pragma mark OEPreferencePane Protocol
-- (NSImage*)icon
+
+- (NSImage *)icon
 {
 	return [NSImage imageNamed:@"gameplay_tab_icon"];
 }
 
-- (NSString*)title
+- (NSString *)title
 {
 	return @"Gameplay";
 }
 
-- (NSString*)localizedTitle
+- (NSString *)localizedTitle
 {
     return NSLocalizedString([self title], "");
 }
@@ -103,11 +95,13 @@ extern NSString * const OEGameVideoFilterKey;
 {
 	return NSMakeSize(423, 381);
 }
+
 #pragma mark -
 #pragma mark UI Actions
+
 - (IBAction)changeFilter:(id)sender
 {
-	NSString *filterName =  [[[self filterSelection] selectedItem] title];
+	NSString *filterName = [[[self filterSelection] selectedItem] title];
     
     OECompositionPlugin *plugin = [OECompositionPlugin compositionPluginWithName:filterName];
     NSImage *filterPreviewImage;
@@ -121,19 +115,16 @@ extern NSString * const OEGameVideoFilterKey;
     [newPreviewView setImageAlignment:NSImageAlignCenter];
     [newPreviewView setImageFrameStyle:NSImageFrameNone];
     [newPreviewView setImageScaling:NSImageScaleNone];
+    
     NSView *currentImageView = [[[self filterPreviewContainer] subviews] lastObject];
+    
     if(currentImageView)
-    {  
         [[[self filterPreviewContainer] animator] replaceSubview:currentImageView with:newPreviewView];
-
-    }
     else
-    {
         [[self filterPreviewContainer] addSubview:newPreviewView];
-    }
     
 	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
 	[sud setObject:filterName forKey:OEGameVideoFilterKey];
 }
-@synthesize filterPreviewContainer, filterSelection;
+
 @end

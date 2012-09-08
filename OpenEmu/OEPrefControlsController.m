@@ -47,15 +47,15 @@
 #import "OEPlayerBindings.h"
 #import "OEKeyBindingGroupDescription.h"
 
-NSString * const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
-NSString * const OELastControlsPlayerKey = @"lastControlsPlayer";
-NSString * const OELastControlsDeviceTypeKey = @"lastControlsDevice";
+NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
+NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";
+NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 @interface OEPrefControlsController ()
 {
-    OESystemPlugin    *selectedPlugin;
-    OEHIDEvent        *readingEvent;
-    NSMutableSet      *ignoredEvents;
+    OESystemPlugin *selectedPlugin;
+    OEHIDEvent     *readingEvent;
+    NSMutableSet   *ignoredEvents;
 }
 
 - (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;
@@ -103,6 +103,13 @@ NSString * const OELastControlsDeviceTypeKey = @"lastControlsDevice";
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    
+    // We're using CFSet here because NSSet is confused by the changing state of OEHIDEvents
+    CFSetCallBacks callbacks = kCFTypeSetCallBacks;
+    callbacks.equal = NULL;
+    callbacks.hash  = NULL;
+    
+    ignoredEvents = (__bridge_transfer NSMutableSet *)CFSetCreateMutable(NULL, 0, &callbacks);
     
     [[self controlsSetupView] setTarget:self];
     [[self controlsSetupView] setAction:@selector(changeInputControl:)];
@@ -363,7 +370,7 @@ NSString * const OELastControlsDeviceTypeKey = @"lastControlsDevice";
     [[self controllerView]    setSelectedKey:selectedKey animated:YES];
     [CATransaction commit];
     
-    [[[self view] window] makeFirstResponder:selectedKey != nil ? [self view] : nil];
+    if(selectedKey != nil) [[[self view] window] makeFirstResponder:[self view]];
 }
 
 - (void)setSelectedBindingType:(NSInteger)value
@@ -437,6 +444,11 @@ NSString * const OELastControlsDeviceTypeKey = @"lastControlsDevice";
 
 - (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
 {
+    if([readingEvent hasOffState]) readingEvent = nil;
+    
+    if([self selectedKey] == nil && [self view] == [[[self view] window] firstResponder])
+        [[[self view] window] makeFirstResponder:nil];
+    
     // Check if the event is ignored
     if([ignoredEvents containsObject:anEvent])
     {

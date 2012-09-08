@@ -24,12 +24,11 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "OETableView.h"
+#import "OEGridView.h"
 
 #import "OETableCornerView.h"
 #import "OETableHeaderCell.h"
 #import "OEMenu.h"
-
-extern NSString * const OELightStyleGridViewMenu;
 
 @implementation OETableView
 @synthesize selectionColor;

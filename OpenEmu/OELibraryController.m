@@ -46,7 +46,6 @@
 NSString * const OESidebarVisibleKey = @"isSidebarVisible";
 NSString * const OESidebarWidthKey = @"lastSidebarWidth";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
-extern NSString * const OELastCollectionSelectedKey;
 
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
@@ -429,7 +428,7 @@ extern NSString * const OELastCollectionSelectedKey;
         NSImage *image = [NSImage imageNamed:
                           (flag == ([[self mainSplitView] splitterPosition] == 0)
                            ? @"toolbar_sidebar_button_open"
-                           : @"toolbar_sidebar_button_close")];
+                                     : @"toolbar_sidebar_button_close")];
         
         [[self toolbarSidebarButton] setImage:image];
         [[self toolbarSidebarButton] display];
@@ -493,9 +492,9 @@ extern NSString * const OELastCollectionSelectedKey;
         [[self toolbarFlowViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToFlowView:)]];
         [[self toolbarListViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToListView:)]];
         [[self toolbarSearchField] setEnabled:[[self currentViewController] respondsToSelector:@selector(search:)]];
-    }
-    else
+    } else
     {
+        if([[[collectionViewController libraryController] toolbarGridViewButton] state] == NSOffState) [self switchToGridView:self]; //If we aren't in gridview, we need to be. Landing page and all.
         [[self toolbarFlowViewButton] setEnabled:NO];
         [[self toolbarListViewButton] setEnabled:NO];
         [[self toolbarSearchField] setEnabled:NO];

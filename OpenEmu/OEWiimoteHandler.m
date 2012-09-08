@@ -32,49 +32,55 @@
 #define MaximumWiimotes 7
 #define SynVibrateDuration 0.35
 
-NSString * const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
+NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 
 @interface OEWiimoteHandler ()
-@property (strong) WiimoteBrowser		*browser;
-@property (strong) NSMutableArray	*wiiRemotes;
+@property(strong) WiimoteBrowser *browser;
+@property(strong) NSMutableArray *wiiRemotes;
 @end
+
 @implementation OEWiimoteHandler
+@synthesize wiiRemotes;
+@synthesize browser;
+
 + (void)search
 {
-	[[[self sharedHandler] browser] startSearch];
+    [[[self sharedHandler] browser] startSearch];
 }
 
 + (id)sharedHandler
 {
-	static OEWiimoteHandler *sharedHandler = NULL;
-	if(!sharedHandler)
-	{
-		sharedHandler = [[OEWiimoteHandler alloc] init];
-		[sharedHandler setWiiRemotes:[NSMutableArray arrayWithCapacity:MaximumWiimotes]];
-
-		WiimoteBrowser *aBrowser =  [[WiimoteBrowser alloc] init];
-		[aBrowser setDelegate:sharedHandler];
-		[aBrowser setMaxWiimoteCount:1];
-		sharedHandler.browser = aBrowser;
-		
-		[aBrowser startSearch];
+    static OEWiimoteHandler *sharedHandler = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedHandler = [[OEWiimoteHandler alloc] init];
+        [sharedHandler setWiiRemotes:[NSMutableArray arrayWithCapacity:MaximumWiimotes]];
         
-		[[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
+        WiimoteBrowser *aBrowser =  [[WiimoteBrowser alloc] init];
+        [aBrowser setDelegate:sharedHandler];
+        [aBrowser setMaxWiimoteCount:1];
+        sharedHandler.browser = aBrowser;
+        
+        [aBrowser startSearch];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(bluetoothDidPowerOn:) name:IOBluetoothHostControllerPoweredOnNotification object:nil];
-	}
-	return sharedHandler;
-}
 
+    });
+    
+    return sharedHandler;
+}
 
 - (void)applicationWillTerminate:(NSNotification*)notification
 {
-	[self.browser stopSearch];
-	self.browser = nil;
-	
-	for (Wiimote *aWiimote in [self wiiRemotes]) {
-		[aWiimote disconnect];
-	}
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.browser stopSearch];
+    self.browser = nil;
+    
+    for(Wiimote *aWiimote in [self wiiRemotes])
+        [aWiimote disconnect];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)bluetoothDidPowerOn:(NSNotification*)notification
@@ -82,71 +88,81 @@ NSString * const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
         [[self browser] startSearch];
 }
+
 #pragma mark -
-@synthesize wiiRemotes;
-- (NSArray*)connectedWiiRemotes
+
+- (NSArray *)connectedWiiRemotes
 {
-	return [self wiiRemotes];
+    return [self wiiRemotes];
 }
+
 #pragma mark - Wiimote Browser
-@synthesize browser;
+
 - (void)wiimoteBrowserWillSearch
-{}
+{
+}
+
 - (void)wiimoteBrowserDidStopSearchWithResults:(NSArray*)discoveredDevices
 {
-	[discoveredDevices enumerateObjectsUsingBlock:^(Wiimote* wiimote, NSUInteger idx, BOOL *stop) {
-		[[self wiiRemotes] addObject:wiimote];
+    [discoveredDevices enumerateObjectsUsingBlock:
+     ^(Wiimote * wiimote, NSUInteger idx, BOOL *stop)
+     {
+        [[self wiiRemotes] addObject:wiimote];
 
-		[wiimote setDelegate:self];
-		[wiimote setIrSensorEnabled:NO];
-		[wiimote setMotionSensorEnabled:NO];
-		[wiimote setSpeakerEnabled:NO];
-		[wiimote setRumbleActivated:YES];
-		[wiimote setExpansionPortEnabled:YES];
+        [wiimote setDelegate:self];
+        [wiimote setIrSensorEnabled:NO];
+        [wiimote setMotionSensorEnabled:NO];
+        [wiimote setSpeakerEnabled:NO];
+        [wiimote setRumbleActivated:YES];
+        [wiimote setExpansionPortEnabled:YES];
 
-		NSInteger count = [[self wiiRemotes] count];
-		[wiimote setLED1:count>0&&count<4 LED2:count>1&&count<5 LED3:count>2&&count<6 LED4:count>3];
-		[wiimote connect];
-	}];
-	
-	if([discoveredDevices count] && [[self wiiRemotes] count] < MaximumWiimotes)
-		[self.browser startSearch];
+        NSInteger count = [[self wiiRemotes] count];
+        [wiimote setLED1:count>0&&count<4 LED2:count>1&&count<5 LED3:count>2&&count<6 LED4:count>3];
+        [wiimote connect];
+    }];
+    
+    if([discoveredDevices count] && [[self wiiRemotes] count] < MaximumWiimotes)
+        [self.browser startSearch];
 }
 
 - (void)wiimoteBrowserSearchFailedWithError:(int)code
 {
-	DLog(@"wiimoteBrowserSearchFailedWithError: %d", code);
+    DLog(@"wiimoteBrowserSearchFailedWithError: %d", code);
 }
+
 #pragma mark - WiiRemote Handling
-- (void)wiimoteDidConnect:(Wiimote*)theWiimote
+
+- (void)wiimoteDidConnect:(Wiimote *)theWiimote
 {
-	DLog(@"wiimoteDidConnect: %@", theWiimote);
-	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, SynVibrateDuration * NSEC_PER_SEC);
-	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-		[theWiimote setRumbleActivated:NO];
-		[theWiimote syncLEDAndRumble];
-	});
-}
-- (void)wiimoteDidDisconnect:(Wiimote*)theWiimote
-{
-	DLog(@"wiimoteDidDisconnect: %@", theWiimote);
-	[self.wiiRemotes removeObject:theWiimote];
-	[self.browser startSearch];
+    DLog(@"wiimoteDidConnect: %@", theWiimote);
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, SynVibrateDuration * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^{
+        [theWiimote setRumbleActivated:NO];
+        [theWiimote syncLEDAndRumble];
+    });
 }
 
-- (void)wiimote:(Wiimote*)theWiimote didNotConnect:(NSError*)err
+- (void)wiimoteDidDisconnect:(Wiimote *)theWiimote
 {
-	DLog(@"wiimote: %@ didNotConnect: %@", theWiimote, err);
-}
-- (void)wiimote:(Wiimote*)theWiimote didNotDisconnect:(NSError*)err
-{
-	DLog(@"wiimote: %@ didNotDisconnect: %@", theWiimote, err);
+    DLog(@"wiimoteDidDisconnect: %@", theWiimote);
+    [self.wiiRemotes removeObject:theWiimote];
+    [self.browser startSearch];
 }
 
-- (void)wiimoteReportsExpansionPortChanged:(Wiimote*)theWiimote
+- (void)wiimote:(Wiimote *)theWiimote didNotConnect:(NSError *)err
 {
-	DLog(@"wiimoteReportsExpansionPortChanged: %@", theWiimote);
-    switch ([theWiimote expansionType]) {
+    DLog(@"wiimote: %@ didNotConnect: %@", theWiimote, err);
+}
+- (void)wiimote:(Wiimote *)theWiimote didNotDisconnect:(NSError *)err
+{
+    DLog(@"wiimote: %@ didNotDisconnect: %@", theWiimote, err);
+}
+
+- (void)wiimoteReportsExpansionPortChanged:(Wiimote *)theWiimote
+{
+    DLog(@"wiimoteReportsExpansionPortChanged: %@", theWiimote);
+    switch([theWiimote expansionType])
+    {
         case WiiExpansionUnkown:
             NSLog(@"WiiExpansionUnkown");
             break;
@@ -162,41 +178,45 @@ NSString * const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
         case WiiExpansionNunchuck:
             NSLog(@"WiiExpansionNunchuck");
             break;
-            
         default:
             break;
     }
 }
-- (void)wiimote:(Wiimote*)theWiimote reportsButtonChanged:(WiiButtonType)type isPressed:(BOOL)isPressed
-{
-	NSInteger padNumber = [[self connectedWiiRemotes] indexOfObject:theWiimote];
-	if(padNumber>=0)
-	{
-		OEHIDWiimoteEvent *event = [OEHIDWiimoteEvent buttonEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:[NSDate timeIntervalSinceReferenceDate] buttonNumber:type	state:isPressed cookie:type];
-		[NSApp postHIDEvent:event];
-	}
-}
-- (void)wiimote:(Wiimote*)theWiimote reportsIrPointMovedX:(float)px Y:(float)py
-{
-}
-- (void)wiimote:(Wiimote*)theWiimote reportsJoystickChanged:(WiiJoyStickType)type tiltX:(unsigned short)tiltX tiltY:(unsigned short)tiltY
+
+- (void)wiimote:(Wiimote *)theWiimote reportsButtonChanged:(WiiButtonType)type isPressed:(BOOL)isPressed
 {
     NSInteger padNumber = [[self connectedWiiRemotes] indexOfObject:theWiimote];
-	if(padNumber>=0)
-	{
+    if(padNumber >= 0)
+    {
+        OEHIDWiimoteEvent *event = [OEHIDWiimoteEvent buttonEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:[NSDate timeIntervalSinceReferenceDate] buttonNumber:type    state:isPressed cookie:type];
+        [NSApp postHIDEvent:event];
+    }
+}
+
+- (void)wiimote:(Wiimote *)theWiimote reportsIrPointMovedX:(float)px Y:(float)py
+{
+}
+
+- (void)wiimote:(Wiimote *)theWiimote reportsJoystickChanged:(WiiJoyStickType)type tiltX:(unsigned short)tiltX tiltY:(unsigned short)tiltY
+{
+    NSInteger padNumber = [[self connectedWiiRemotes] indexOfObject:theWiimote];
+    
+    if(padNumber >= 0)
+    {
         NSTimeInterval timestamp = [NSDate timeIntervalSinceReferenceDate];
         NSInteger zeroX = (0 + WiiNunchukJoyStickMaximumX) / 2 + 1;
         NSInteger zeroY = (0 + WiiNunchukJoyStickMaximumX) / 2 + 1;
-        if (tiltX>(zeroX-WiiNunchuckCenterTreshholdX)&&tiltX<(zeroX+WiiNunchuckCenterTreshholdX))
+        
+        if(tiltX>(zeroX-WiiNunchuckCenterTreshholdX)&&tiltX<(zeroX+WiiNunchuckCenterTreshholdX))
             tiltX = zeroX;
-        if (tiltY>(zeroX-WiiNunchuckCenterTreshholdY)&&tiltY<(zeroY+WiiNunchuckCenterTreshholdY))
+        if(tiltY>(zeroX-WiiNunchuckCenterTreshholdY)&&tiltY<(zeroY+WiiNunchuckCenterTreshholdY))
             tiltY = zeroY;
+        
         OEHIDEvent *eventX = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDEventAxisX minimum:0 value:tiltX maximum:WiiNunchukJoyStickMaximumX];
         OEHIDEvent *eventY = [OEHIDEvent axisEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:timestamp axis:OEHIDEventAxisY minimum:0 value:tiltY maximum:WiiNunchukJoyStickMaximumY];
-		[NSApp postHIDEvent:eventX];
+        [NSApp postHIDEvent:eventX];
         [NSApp postHIDEvent:eventY];
-
-	}
+    }
 }
 @end
 

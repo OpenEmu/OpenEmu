@@ -33,7 +33,7 @@
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
 const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval of periodic events
 
-NSString * const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
+NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 
 @interface OEGridView ()
 
@@ -539,6 +539,17 @@ NSString * const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
     }
 }
 
+- (void)removeAllGridViewCells
+{
+    for (id cell in [_rootLayer.sublayers copy])
+    {
+        if ([cell isKindOfClass:[OEGridViewCell class]])
+        {
+            [cell removeFromSuperlayer];
+        }
+    }
+}
+
 - (void)OE_addNoItemsView
 {
     // Enqueue all the cells for later use and remove them from the view
@@ -555,6 +566,7 @@ NSString * const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 
             [self addSubview:_noItemsView];
             [_noItemsView setHidden:NO];
+            [self removeAllGridViewCells];
             [self OE_centerNoItemsView];
             _previousElasticity = [enclosingScrollView verticalScrollElasticity];
             [enclosingScrollView setVerticalScrollElasticity:NSScrollElasticityNone];

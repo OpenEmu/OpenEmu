@@ -52,14 +52,14 @@
 #import "NSString+UUID.h"
 #import "NSURL+OELibraryAdditions.h"
 
-NSString * const OEGameVolumeKey = @"volume";
-NSString * const OEGameVideoFilterKey = @"videoFilter";
-NSString * const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
-NSString * const OEDontShowGameTitleInWindowKey = @"dontShowGameTitleInWindow";
-NSString * const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
-NSString * const OEForceCorePicker = @"forceCorePicker";
+NSString *const OEGameVolumeKey = @"volume";
+NSString *const OEGameVideoFilterKey = @"videoFilter";
+NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
+NSString *const OEDontShowGameTitleInWindowKey = @"dontShowGameTitleInWindow";
+NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
+NSString *const OEForceCorePicker = @"forceCorePicker";
 
-NSString * const OEDefaultWindowTitle = @"OpenEmu";
+NSString *const OEDefaultWindowTitle = @"OpenEmu";
 
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
