@@ -48,25 +48,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonUp[@]</string>
+					<string>OESegaCDButtonUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonDown[@]</string>
+					<string>OESegaCDButtonDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonLeft[@]</string>
+					<string>OESegaCDButtonLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonRight[@]</string>
+					<string>OESegaCDButtonRight</string>
 				</dict>
 			</array>
 			<array>
@@ -74,13 +74,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonStart[@]</string>
+					<string>OESegaCDButtonStart</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Mode</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonMode[@]</string>
+					<string>OESegaCDButtonMode</string>
 				</dict>
 			</array>
 			<array>
@@ -88,19 +88,19 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>A</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonA[@]</string>
+					<string>OESegaCDButtonA</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>B</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonB[@]</string>
+					<string>OESegaCDButtonB</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>C</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonC[@]</string>
+					<string>OESegaCDButtonC</string>
 				</dict>
 			</array>
 			<array>
@@ -108,19 +108,19 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>X</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonX[@]</string>
+					<string>OESegaCDButtonX</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Y</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonY[@]</string>
+					<string>OESegaCDButtonY</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Z</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OESegaCDButtonZ[@]</string>
+					<string>OESegaCDButtonZ</string>
 				</dict>
 			</array>
 		</array>
@@ -129,39 +129,39 @@
 	<string>segacd_library</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OESegaCDButtonUp[@]</string>
-		<string>OESegaCDButtonDown[@]</string>
-		<string>OESegaCDButtonLeft[@]</string>
-		<string>OESegaCDButtonRight[@]</string>
-		<string>OESegaCDButtonA[@]</string>
-		<string>OESegaCDButtonB[@]</string>
-		<string>OESegaCDButtonC[@]</string>
-		<string>OESegaCDButtonX[@]</string>
-		<string>OESegaCDButtonY[@]</string>
-		<string>OESegaCDButtonZ[@]</string>
-		<string>OESegaCDButtonStart[@]</string>
-		<string>OESegaCDButtonMode[@]</string>
+		<string>OESegaCDButtonUp</string>
+		<string>OESegaCDButtonDown</string>
+		<string>OESegaCDButtonLeft</string>
+		<string>OESegaCDButtonRight</string>
+		<string>OESegaCDButtonA</string>
+		<string>OESegaCDButtonB</string>
+		<string>OESegaCDButtonC</string>
+		<string>OESegaCDButtonX</string>
+		<string>OESegaCDButtonY</string>
+		<string>OESegaCDButtonZ</string>
+		<string>OESegaCDButtonStart</string>
+		<string>OESegaCDButtonMode</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OESegaCDButtonUp[@]</string>
-				<string>OESegaCDButtonRight[@]</string>
-				<string>OESegaCDButtonDown[@]</string>
-				<string>OESegaCDButtonLeft[@]</string>
+				<string>OESegaCDButtonUp</string>
+				<string>OESegaCDButtonRight</string>
+				<string>OESegaCDButtonDown</string>
+				<string>OESegaCDButtonLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OESegaCDButtonUp[@]</string>
-				<string>OESegaCDButtonDown[@]</string>
+				<string>OESegaCDButtonUp</string>
+				<string>OESegaCDButtonDown</string>
 			</array>
 			<array>
-				<string>OESegaCDButtonLeft[@]</string>
-				<string>OESegaCDButtonRight[@]</string>
+				<string>OESegaCDButtonLeft</string>
+				<string>OESegaCDButtonRight</string>
 			</array>
 		</array>
 	</dict>

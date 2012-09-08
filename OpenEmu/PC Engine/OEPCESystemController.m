@@ -43,17 +43,16 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEPCEButtonUp[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEPCEButtonDown[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEPCEButtonLeft[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEPCEButtonRight[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardX]         , @"OEPCEButton1[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardZ]         , @"OEPCEButton2[1]"     ,
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardReturnOrEnter]    , @"OEPCEButtonRun[1]",
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDeleteOrBackspace]    , @"OEPCEButtonSelect[1]",
-                              nil];
-    return controls;
+    return @{
+    @"OEPCEButtonUp"     : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OEPCEButtonDown"   : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OEPCEButtonLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OEPCEButtonRight"  : @(kHIDUsage_KeyboardRightArrow),
+    @"OEPCEButton1"      : @(kHIDUsage_KeyboardA)         ,
+    @"OEPCEButton2"      : @(kHIDUsage_KeyboardS)         ,
+    @"OEPCEButtonRun"    : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OEPCEButtonSelect" : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 - (NSString*)systemName{

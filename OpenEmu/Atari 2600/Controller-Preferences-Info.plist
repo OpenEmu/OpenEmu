@@ -8,27 +8,27 @@
 	<string>controller_2600_mask.png</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
-		<key>OE2600ButtonUp[@]</key>
+		<key>OE2600ButtonUp</key>
 		<string>{50, 250}</string>
-		<key>OE2600ButtonDown[@]</key>
+		<key>OE2600ButtonDown</key>
 		<string>{50, 220}</string>
-		<key>OE2600ButtonFire1[@]</key>
+		<key>OE2600ButtonFire1</key>
 		<string>{50, 130}</string>
-		<key>OE2600ButtonLeft[@]</key>
+		<key>OE2600ButtonLeft</key>
 		<string>{50, 190}</string>
-		<key>OE2600ButtonRight[@]</key>
+		<key>OE2600ButtonRight</key>
 		<string>{50, 160}</string>
-		<key>OE2600ButtonStart[@]</key>
+		<key>OE2600ButtonReset</key>
 		<string>{150, 190}</string>
-		<key>OE2600ButtonSelect[@]</key>
+		<key>OE2600ButtonSelect</key>
 		<string>{150, 160}</string>
-		<key>OE2600ButtonLeftDiffA[@]</key>
+		<key>OE2600ButtonLeftDiffA</key>
 		<string>{50, 100}</string>
-		<key>OE2600ButtonLeftDiffB[@]</key>
+		<key>OE2600ButtonLeftDiffB</key>
 		<string>{50, 70}</string>
-		<key>OE2600ButtonRightDiffA[@]</key>
+		<key>OE2600ButtonRightDiffA</key>
 		<string>{50, 100}</string>
-		<key>OE2600ButtonRightDiffB[@]</key>
+		<key>OE2600ButtonRightDiffB</key>
 		<string>{50, 70}</string>
 	</dict>
 </dict>

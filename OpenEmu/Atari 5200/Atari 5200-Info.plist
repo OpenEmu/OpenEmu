@@ -48,25 +48,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OE5200ButtonUp[@]</string>
+					<string>OE5200ButtonUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OE5200ButtonDown[@]</string>
+					<string>OE5200ButtonDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OE5200ButtonLeft[@]</string>
+					<string>OE5200ButtonLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OE5200ButtonRight[@]</string>
+					<string>OE5200ButtonRight</string>
 				</dict>
 			</array>
 			<array>
@@ -74,25 +74,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Fire 1</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OE5200ButtonFire1[@]</string>
+					<string>OE5200ButtonFire1</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Fire 2</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OE5200ButtonFire2[@]</string>
+					<string>OE5200ButtonFire2</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OE5200ButtonStart[@]</string>
+					<string>OE5200ButtonStart</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Pause</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OE5200ButtonPause[@]</string>
+					<string>OE5200ButtonPause</string>
 				</dict>
 			</array>
 			<array>
@@ -100,7 +100,7 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Reset</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OE5200ButtonReset[@]</string>
+					<string>OE5200ButtonReset</string>
 				</dict>
 			</array>
 		</array>
@@ -109,36 +109,36 @@
 	<string>atari5200_library</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OE5200ButtonUp[@]</string>
-		<string>OE5200ButtonDown[@]</string>
-		<string>OE5200ButtonLeft[@]</string>
-		<string>OE5200ButtonRight[@]</string>
-		<string>OE5200ButtonFire1[@]</string>
-		<string>OE5200ButtonFire2[@]</string>
-		<string>OE5200ButtonStart[@]</string>
-		<string>OE5200ButtonPause[@]</string>
-		<string>OE5200ButtonReset[@]</string>
+		<string>OE5200ButtonUp</string>
+		<string>OE5200ButtonDown</string>
+		<string>OE5200ButtonLeft</string>
+		<string>OE5200ButtonRight</string>
+		<string>OE5200ButtonFire1</string>
+		<string>OE5200ButtonFire2</string>
+		<string>OE5200ButtonStart</string>
+		<string>OE5200ButtonPause</string>
+		<string>OE5200ButtonReset</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OE5200ButtonUp[@]</string>
-				<string>OE5200ButtonRight[@]</string>
-				<string>OE5200ButtonDown[@]</string>
-				<string>OE5200ButtonLeft[@]</string>
+				<string>OE5200ButtonUp</string>
+				<string>OE5200ButtonRight</string>
+				<string>OE5200ButtonDown</string>
+				<string>OE5200ButtonLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OE5200ButtonUp[@]</string>
-				<string>OE5200ButtonDown[@]</string>
+				<string>OE5200ButtonUp</string>
+				<string>OE5200ButtonDown</string>
 			</array>
 			<array>
-				<string>OE5200ButtonLeft[@]</string>
-				<string>OE5200ButtonRight[@]</string>
+				<string>OE5200ButtonLeft</string>
+				<string>OE5200ButtonRight</string>
 			</array>
 		</array>
 	</dict>

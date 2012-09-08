@@ -49,25 +49,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButtonUp[@]</string>
+					<string>OEPCEButtonUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButtonDown[@]</string>
+					<string>OEPCEButtonDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButtonLeft[@]</string>
+					<string>OEPCEButtonLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButtonRight[@]</string>
+					<string>OEPCEButtonRight</string>
 				</dict>
 			</array>
 			<array>
@@ -75,13 +75,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>1</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButton1[@]</string>
+					<string>OEPCEButton1</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>2</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButton2[@]</string>
+					<string>OEPCEButton2</string>
 				</dict>
 			</array>
 			<array>
@@ -89,13 +89,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Run</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButtonRun[@]</string>
+					<string>OEPCEButtonRun</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Select</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButtonSelect[@]</string>
+					<string>OEPCEButtonSelect</string>
 				</dict>
 			</array>
 		</array>
@@ -104,35 +104,35 @@
 	<string>tg16_library</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OEPCEButtonUp[@]</string>
-		<string>OEPCEButtonDown[@]</string>
-		<string>OEPCEButtonLeft[@]</string>
-		<string>OEPCEButtonRight[@]</string>
-		<string>OEPCEButton1[@]</string>
-		<string>OEPCEButton2[@]</string>
-		<string>OEPCEButtonRun[@]</string>
-		<string>OEPCEButtonSelect[@]</string>
+		<string>OEPCEButtonUp</string>
+		<string>OEPCEButtonDown</string>
+		<string>OEPCEButtonLeft</string>
+		<string>OEPCEButtonRight</string>
+		<string>OEPCEButton1</string>
+		<string>OEPCEButton2</string>
+		<string>OEPCEButtonRun</string>
+		<string>OEPCEButtonSelect</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OEPCEButtonUp[@]</string>
-				<string>OEPCEButtonRight[@]</string>
-				<string>OEPCEButtonDown[@]</string>
-				<string>OEPCEButtonLeft[@]</string>
+				<string>OEPCEButtonUp</string>
+				<string>OEPCEButtonRight</string>
+				<string>OEPCEButtonDown</string>
+				<string>OEPCEButtonLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OEPCEButtonUp[@]</string>
-				<string>OEPCEButtonDown[@]</string>
+				<string>OEPCEButtonUp</string>
+				<string>OEPCEButtonDown</string>
 			</array>
 			<array>
-				<string>OEPCEButtonLeft[@]</string>
-				<string>OEPCEButtonRight[@]</string>
+				<string>OEPCEButtonLeft</string>
+				<string>OEPCEButtonRight</string>
 			</array>
 		</array>
 	</dict>

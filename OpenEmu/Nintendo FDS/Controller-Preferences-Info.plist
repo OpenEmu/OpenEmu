@@ -8,23 +8,23 @@
 	<string>controller_fc_mask.png</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
-		<key>OEFDSButtonUp[@]</key>
+		<key>OEFDSButtonUp</key>
 		<string>{159, 137}</string>
-		<key>OEFDSButtonDown[@]</key>
+		<key>OEFDSButtonDown</key>
 		<string>{159, 90}</string>
-		<key>OEFDSButtonLeft[@]</key>
+		<key>OEFDSButtonLeft</key>
 		<string>{136, 113}</string>
-		<key>OEFDSButtonRight[@]</key>
+		<key>OEFDSButtonRight</key>
 		<string>{183, 113}</string>
-		<key>OEFDSButtonStart[@]</key>
+		<key>OEFDSButtonStart</key>
 		<string>{260, 92}</string>
-		<key>OEFDSButtonSelect[@]</key>
+		<key>OEFDSButtonSelect</key>
 		<string>{309, 92}</string>
-		<key>OEFDSButtonA[@]</key>
+		<key>OEFDSButtonA</key>
 		<string>{449, 95}</string>
-		<key>OEFDSButtonB[@]</key>
+		<key>OEFDSButtonB</key>
 		<string>{391, 95}</string>
-		<key>OEFDSButtonChangeSide[@]</key>
+		<key>OEFDSButtonChangeSide</key>
 		<string>{391, 95}</string>
 	</dict>
 </dict>

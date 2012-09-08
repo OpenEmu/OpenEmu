@@ -48,25 +48,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFDSButtonUp[@]</string>
+					<string>OEFDSButtonUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFDSButtonDown[@]</string>
+					<string>OEFDSButtonDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFDSButtonLeft[@]</string>
+					<string>OEFDSButtonLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFDSButtonRight[@]</string>
+					<string>OEFDSButtonRight</string>
 				</dict>
 			</array>
 			<array>
@@ -74,13 +74,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFDSButtonStart[@]</string>
+					<string>OEFDSButtonStart</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Select</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFDSButtonSelect[@]</string>
+					<string>OEFDSButtonSelect</string>
 				</dict>
 			</array>
 			<array>
@@ -88,19 +88,19 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>A</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFDSButtonA[@]</string>
+					<string>OEFDSButtonA</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>B</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFDSButtonB[@]</string>
+					<string>OEFDSButtonB</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Change Disk Side</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFDSButtonChangeSide[@]</string>
+					<string>OEFDSButtonChangeSide</string>
 				</dict>
 			</array>
 		</array>
@@ -109,36 +109,36 @@
 	<string>famicom_library</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OEFDSButtonUp[@]</string>
-		<string>OEFDSButtonDown[@]</string>
-		<string>OEFDSButtonLeft[@]</string>
-		<string>OEFDSButtonRight[@]</string>
-		<string>OEFDSButtonA[@]</string>
-		<string>OEFDSButtonB[@]</string>
-		<string>OEFDSButtonStart[@]</string>
-		<string>OEFDSButtonSelect[@]</string>
-		<string>OEFDSButtonChangeSide[@]</string>
+		<string>OEFDSButtonUp</string>
+		<string>OEFDSButtonDown</string>
+		<string>OEFDSButtonLeft</string>
+		<string>OEFDSButtonRight</string>
+		<string>OEFDSButtonA</string>
+		<string>OEFDSButtonB</string>
+		<string>OEFDSButtonStart</string>
+		<string>OEFDSButtonSelect</string>
+		<string>OEFDSButtonChangeSide</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OEFDSButtonUp[@]</string>
-				<string>OEFDSButtonRight[@]</string>
-				<string>OEFDSButtonDown[@]</string>
-				<string>OEFDSButtonLeft[@]</string>
+				<string>OEFDSButtonUp</string>
+				<string>OEFDSButtonRight</string>
+				<string>OEFDSButtonDown</string>
+				<string>OEFDSButtonLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OEFDSButtonUp[@]</string>
-				<string>OEFDSButtonDown[@]</string>
+				<string>OEFDSButtonUp</string>
+				<string>OEFDSButtonDown</string>
 			</array>
 			<array>
-				<string>OEFDSButtonLeft[@]</string>
-				<string>OEFDSButtonRight[@]</string>
+				<string>OEFDSButtonLeft</string>
+				<string>OEFDSButtonRight</string>
 			</array>
 		</array>
 	</dict>

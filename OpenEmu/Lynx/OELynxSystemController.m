@@ -43,17 +43,16 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OELynxButtonUp[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OELynxButtonDown[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OELynxButtonLeft[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OELynxButtonRight[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardX]         , @"OELynxButtonA[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardZ]         , @"OELynxButtonB[1]"     ,
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardReturnOrEnter]    , @"OELynxButtonOption1[1]",
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDeleteOrBackspace]    , @"OELynxButtonOption2[1]",
-                              nil];
-    return controls;
+    return @{
+    @"OELynxButtonUp"      : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OELynxButtonDown"    : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OELynxButtonLeft"    : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OELynxButtonRight"   : @(kHIDUsage_KeyboardRightArrow),
+    @"OELynxButtonA"       : @(kHIDUsage_KeyboardA)         ,
+    @"OELynxButtonB"       : @(kHIDUsage_KeyboardS)         ,
+    @"OELynxButtonOption1" : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OELynxButtonOption2" : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 @end

@@ -43,25 +43,22 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEVBButtonRightUp[1]"   ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow], @"OEVBButtonRightDown[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEVBButtonRightLeft[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow] , @"OEVBButtonRightRight[1]" ,
-                              
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW], @"OEVBButtonLeftUp[1]"   ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS], @"OEVBButtonLeftDown[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA], @"OEVBButtonLeftLeft[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD], @"OEVBButtonLeftRight[1]" ,
-                              
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardOpenBracket]         , @"OEVBButtonL[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardCloseBracket]         , @"OEVBButtonR[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEVBButtonA[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEVBButtonB[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardReturnOrEnter]    , @"OEVBButtonStart[1]"   ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardTab]  , @"OEVBButtonSelect[1]"   ,
-                              nil];
-    return controls;
+    return @{
+    @"OEVBButtonLeftUp"     : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OEVBButtonLeftDown"   : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OEVBButtonLeftLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OEVBButtonLeftRight"  : @(kHIDUsage_KeyboardRightArrow),
+    @"OEVBButtonRightUp"    : @(kHIDUsage_KeyboardW)         ,
+    @"OEVBButtonRightDown"  : @(kHIDUsage_KeyboardS)         ,
+    @"OEVBButtonRightLeft"  : @(kHIDUsage_KeyboardA)         ,
+    @"OEVBButtonRightRight" : @(kHIDUsage_KeyboardD)         ,
+    @"OEVBButtonL"          : @(kHIDUsage_KeyboardQ)         ,
+    @"OEVBButtonR"          : @(kHIDUsage_KeyboardE)         ,
+    @"OEVBButtonA"          : @(kHIDUsage_KeyboardZ)         ,
+    @"OEVBButtonB"          : @(kHIDUsage_KeyboardX)         ,
+    @"OEVBButtonStart"      : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OEVBButtonSelect"     : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 @end

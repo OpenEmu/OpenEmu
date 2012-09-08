@@ -8,33 +8,33 @@
 	<string>controller_vb_mask.png</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
-		<key>OEVBButtonLeftUp[@]</key>
+		<key>OEVBButtonLeftUp</key>
 		<string>{228, 172}</string>
-		<key>OEVBButtonLeftDown[@]</key>
+		<key>OEVBButtonLeftDown</key>
 		<string>{228, 134}</string>
-		<key>OEVBButtonLeftLeft[@]</key>
+		<key>OEVBButtonLeftLeft</key>
 		<string>{206, 153}</string>
-		<key>OEVBButtonLeftRight[@]</key>
+		<key>OEVBButtonLeftRight</key>
 		<string>{247, 154}</string>
-		<key>OEVBButtonRightUp[@]</key>
+		<key>OEVBButtonRightUp</key>
 		<string>{228, 172}</string>
-		<key>OEVBButtonRightDown[@]</key>
+		<key>OEVBButtonRightDown</key>
 		<string>{228, 134}</string>
-		<key>OEVBButtonRightLeft[@]</key>
+		<key>OEVBButtonRightLeft</key>
 		<string>{206, 153}</string>
-		<key>OEVBButtonRightRight[@]</key>
+		<key>OEVBButtonRightRight</key>
 		<string>{247, 154}</string>
-		<key>OEVBButtonL[@]</key>
+		<key>OEVBButtonL</key>
 		<string>{390, 166}</string>
-		<key>OEVBButtonR[@]</key>
+		<key>OEVBButtonR</key>
 		<string>{350, 149}</string>
-		<key>OEVBButtonA[@]</key>
+		<key>OEVBButtonA</key>
 		<string>{350, 149}</string>
-		<key>OEVBButtonB[@]</key>
+		<key>OEVBButtonB</key>
 		<string>{350, 149}</string>
-		<key>OEVBButtonStart[@]</key>
+		<key>OEVBButtonStart</key>
 		<string>{350, 149}</string>
-		<key>OEVBButtonSelect[@]</key>
+		<key>OEVBButtonSelect</key>
 		<string>{350, 149}</string>
 	</dict>
 </dict>

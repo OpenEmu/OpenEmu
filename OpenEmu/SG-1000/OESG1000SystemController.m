@@ -43,15 +43,14 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OESG1000ButtonUp"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OESG1000ButtonDown"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OESG1000ButtonLeft"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OESG1000ButtonRight" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OESG1000Button1"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OESG1000Button2"     ,
-                              nil];
-    return controls;
+    return @{
+    @"OESG1000ButtonUp"    : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OESG1000ButtonDown"  : @(kHIDUsage_KeyboardRightArrow),
+    @"OESG1000ButtonLeft"  : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OESG1000ButtonRight" : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OESG1000Button1"     : @(kHIDUsage_KeyboardA)         ,
+    @"OESG1000Button2"     : @(kHIDUsage_KeyboardS)         ,
+    };
 }
 
 @end

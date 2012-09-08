@@ -8,21 +8,21 @@
 	<string>controller_pce_mask.png</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
-		<key>OEPCEButtonUp[@]</key>
+		<key>OEPCEButtonUp</key>
 		<string>{50, 250}</string>
-		<key>OEPCEButtonDown[@]</key>
+		<key>OEPCEButtonDown</key>
 		<string>{50, 220}</string>
-		<key>OEPCEButtonLeft[@]</key>
+		<key>OEPCEButtonLeft</key>
 		<string>{50, 190}</string>
-		<key>OEPCEButtonRight[@]</key>
+		<key>OEPCEButtonRight</key>
 		<string>{50, 160}</string>
-		<key>OEPCEButton1[@]</key>
+		<key>OEPCEButton1</key>
 		<string>{150, 250}</string>
-		<key>OEPCEButton2[@]</key>
+		<key>OEPCEButton2</key>
 		<string>{150, 220}</string>
-		<key>OEPCEButtonRun[@]</key>
+		<key>OEPCEButtonRun</key>
 		<string>{150, 190}</string>
-		<key>OEPCEButtonSelect[@]</key>
+		<key>OEPCEButtonSelect</key>
 		<string>{150, 160}</string>
 	</dict>
 </dict>

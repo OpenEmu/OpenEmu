@@ -38,25 +38,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonLeftUp[@]</string>
+					<string>OEVBButtonLeftUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonLeftDown[@]</string>
+					<string>OEVBButtonLeftDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonLeftLeft[@]</string>
+					<string>OEVBButtonLeftLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonLeftRight[@]</string>
+					<string>OEVBButtonLeftRight</string>
 				</dict>
 			</array>
 			<array>
@@ -64,25 +64,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonRightUp[@]</string>
+					<string>OEVBButtonRightUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonRightDown[@]</string>
+					<string>OEVBButtonRightDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonRightLeft[@]</string>
+					<string>OEVBButtonRightLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonRightRight[@]</string>
+					<string>OEVBButtonRightRight</string>
 				</dict>
 			</array>
 			<array>
@@ -90,25 +90,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>L</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonL[@]</string>
+					<string>OEVBButtonL</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>R</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonR[@]</string>
+					<string>OEVBButtonR</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>A</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonA[@]</string>
+					<string>OEVBButtonA</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>B</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonB[@]</string>
+					<string>OEVBButtonB</string>
 				</dict>
 			</array>
 			<array>
@@ -116,13 +116,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonStart[@]</string>
+					<string>OEVBButtonStart</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Select</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEVBButtonSelect[@]</string>
+					<string>OEVBButtonSelect</string>
 				</dict>
 			</array>
 		</array>
@@ -132,21 +132,21 @@
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OEVBButtonLeftUp[@]</string>
-				<string>OEVBButtonLeftDown[@]</string>
+				<string>OEVBButtonLeftUp</string>
+				<string>OEVBButtonLeftDown</string>
 			</array>
 			<array>
-				<string>OEVBButtonLeftLeft[@]</string>
-				<string>OEVBButtonLeftRight[@]</string>
+				<string>OEVBButtonLeftLeft</string>
+				<string>OEVBButtonLeftRight</string>
 			</array>
 		</array>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OEVBButtonLeftUp[@]</string>
-				<string>OEVBButtonLeftRight[@]</string>
-				<string>OEVBButtonLeftDown[@]</string>
-				<string>OEVBButtonLeftLeft[@]</string>
+				<string>OEVBButtonLeftUp</string>
+				<string>OEVBButtonLeftRight</string>
+				<string>OEVBButtonLeftDown</string>
+				<string>OEVBButtonLeftLeft</string>
 			</array>
 		</array>
 	</dict>
@@ -156,20 +156,20 @@
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OEVBButtonLeftUp[@]</string>
-		<string>OEVBButtonLeftDown[@]</string>
-		<string>OEVBButtonLeftLeft[@]</string>
-		<string>OEVBButtonLeftRight[@]</string>
-		<string>OEVBButtonRightUp[@]</string>
-		<string>OEVBButtonRightDown[@]</string>
-		<string>OEVBButtonRightLeft[@]</string>
-		<string>OEVBButtonRightRight[@]</string>
-		<string>OEVBButtonL[@]</string>
-		<string>OEVBButtonR[@]</string>
-		<string>OEVBButtonA[@]</string>
-		<string>OEVBButtonB[@]</string>
-		<string>OEVBButtonStart[@]</string>
-		<string>OEVBButtonSelect[@]</string>
+		<string>OEVBButtonLeftUp</string>
+		<string>OEVBButtonLeftDown</string>
+		<string>OEVBButtonLeftLeft</string>
+		<string>OEVBButtonLeftRight</string>
+		<string>OEVBButtonRightUp</string>
+		<string>OEVBButtonRightDown</string>
+		<string>OEVBButtonRightLeft</string>
+		<string>OEVBButtonRightRight</string>
+		<string>OEVBButtonL</string>
+		<string>OEVBButtonR</string>
+		<string>OEVBButtonA</string>
+		<string>OEVBButtonB</string>
+		<string>OEVBButtonStart</string>
+		<string>OEVBButtonSelect</string>
 	</array>
 	<key>OESystemIcon</key>
 	<string>vb_library</string>

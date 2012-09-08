@@ -8,37 +8,37 @@
 	<string>controller_psx_mask.png</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
-		<key>OEPSXButtonUp[@]</key>
+		<key>OEPSXButtonUp</key>
 		<string>{50, 250}</string>
-		<key>OEPSXButtonDown[@]</key>
+		<key>OEPSXButtonDown</key>
 		<string>{50, 220}</string>
-		<key>OEPSXButtonTriangle[@]</key>
+		<key>OEPSXButtonTriangle</key>
 		<string>{50, 130}</string>
-		<key>OEPSXButtonLeft[@]</key>
+		<key>OEPSXButtonLeft</key>
 		<string>{50, 190}</string>
-		<key>OEPSXButtonRight[@]</key>
+		<key>OEPSXButtonRight</key>
 		<string>{50, 160}</string>
-		<key>OEPSXButtonStart[@]</key>
+		<key>OEPSXButtonStart</key>
 		<string>{150, 190}</string>
-		<key>OEPSXButtonSelect[@]</key>
+		<key>OEPSXButtonSelect</key>
 		<string>{150, 160}</string>
-		<key>OEPSXButtonCircle[@]</key>
+		<key>OEPSXButtonCircle</key>
 		<string>{50, 100}</string>
-		<key>OEPSXButtonL1[@]</key>
+		<key>OEPSXButtonL1</key>
 		<string>{150, 250}</string>
-		<key>OEPSXButtonL2[@]</key>
+		<key>OEPSXButtonL2</key>
 		<string>{150, 220}</string>
-		<key>OEPSXButtonL3[@]</key>
+		<key>OEPSXButtonL3</key>
 		<string>{150, 220}</string>
-		<key>OEPSXButtonCross[@]</key>
+		<key>OEPSXButtonCross</key>
 		<string>{50, 70}</string>
-		<key>OEPSXButtonSquare[@]</key>
+		<key>OEPSXButtonSquare</key>
 		<string>{50, 40}</string>
-		<key>OEPSXButtonR1[@]</key>
+		<key>OEPSXButtonR1</key>
 		<string>{150, 130}</string>
-		<key>OEPSXButtonR2[@]</key>
+		<key>OEPSXButtonR2</key>
 		<string>{150, 100}</string>
-		<key>OEPSXButtonR3[@]</key>
+		<key>OEPSXButtonR3</key>
 		<string>{150, 100}</string>
 	</dict>
 </dict>

@@ -39,7 +39,7 @@ typedef enum _OE2600Button
     OE2600ButtonLeftDiffB,
 	OE2600ButtonRightDiffA,
     OE2600ButtonRightDiffB,
-    OE2600ButtonStart,
+    OE2600ButtonReset,
 	OE2600ButtonSelect,
 	OE2600ButtonCount
 } OE2600Button;

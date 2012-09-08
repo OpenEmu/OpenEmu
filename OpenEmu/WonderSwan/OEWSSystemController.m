@@ -43,21 +43,20 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEWSButtonX1[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEWSButtonX3[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEWSButtonX4[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEWSButtonX2[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OEWSButtonY1[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEWSButtonY3[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEWSButtonY4[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OEWSButtonY2[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardX]         , @"OEWSButtonA[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardZ]         , @"OEWSButtonB[1]"     ,
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardReturnOrEnter]    , @"OEWSButtonStart[1]",
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDeleteOrBackspace]    , @"OEWSButtonSound[1]",
-                              nil];
-    return controls;
+    return @{
+    @"OEWSButtonX1"    : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OEWSButtonX3"    : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OEWSButtonX4"    : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OEWSButtonX2"    : @(kHIDUsage_KeyboardRightArrow),
+    @"OEWSButtonY1"    : @(kHIDUsage_KeyboardW)         ,
+    @"OEWSButtonY3"    : @(kHIDUsage_KeyboardS)         ,
+    @"OEWSButtonY4"    : @(kHIDUsage_KeyboardA)         ,
+    @"OEWSButtonY2"    : @(kHIDUsage_KeyboardD)         ,
+    @"OEWSButtonA"     : @(kHIDUsage_KeyboardZ)         ,
+    @"OEWSButtonB"     : @(kHIDUsage_KeyboardX)         ,
+    @"OEWSButtonStart" : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OEWSButtonSound" : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 @end

@@ -48,25 +48,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButtonUp[@]</string>
+					<string>OEPCFXButtonUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButtonDown[@]</string>
+					<string>OEPCFXButtonDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButtonLeft[@]</string>
+					<string>OEPCFXButtonLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButtonRight[@]</string>
+					<string>OEPCFXButtonRight</string>
 				</dict>
 			</array>
 			<array>
@@ -74,13 +74,13 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Run</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButtonRun[@]</string>
+					<string>OEPCFXButtonRun</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Select</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButtonSelect[@]</string>
+					<string>OEPCFXButtonSelect</string>
 				</dict>
 			</array>
 			<array>
@@ -88,19 +88,19 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>1</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButton1[@]</string>
+					<string>OEPCFXButton1</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>2</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButton2[@]</string>
+					<string>OEPCFXButton2</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>3</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButton3[@]</string>
+					<string>OEPCFXButton3</string>
 				</dict>
 			</array>
 			<array>
@@ -108,19 +108,19 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>4</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButton4[@]</string>
+					<string>OEPCFXButton4</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>5</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButton5[@]</string>
+					<string>OEPCFXButton5</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>6</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPCFXButton6[@]</string>
+					<string>OEPCFXButton6</string>
 				</dict>
 			</array>
 		</array>
@@ -129,39 +129,39 @@
 	<string>pcfx_library</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OEPCFXButtonUp[@]</string>
-		<string>OEPCFXButtonDown[@]</string>
-		<string>OEPCFXButtonLeft[@]</string>
-		<string>OEPCFXButtonRight[@]</string>
-		<string>OEPCFXButton1[@]</string>
-		<string>OEPCFXButton2[@]</string>
-		<string>OEPCFXButton3[@]</string>
-		<string>OEPCFXButton4[@]</string>
-		<string>OEPCFXButton5[@]</string>
-		<string>OEPCFXButton6[@]</string>
-		<string>OEPCFXButtonRun[@]</string>
-		<string>OEPCFXButtonSelect[@]</string>
+		<string>OEPCFXButtonUp</string>
+		<string>OEPCFXButtonDown</string>
+		<string>OEPCFXButtonLeft</string>
+		<string>OEPCFXButtonRight</string>
+		<string>OEPCFXButton1</string>
+		<string>OEPCFXButton2</string>
+		<string>OEPCFXButton3</string>
+		<string>OEPCFXButton4</string>
+		<string>OEPCFXButton5</string>
+		<string>OEPCFXButton6</string>
+		<string>OEPCFXButtonRun</string>
+		<string>OEPCFXButtonSelect</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OEPCFXButtonUp[@]</string>
-				<string>OEPCFXButtonRight[@]</string>
-				<string>OEPCFXButtonDown[@]</string>
-				<string>OEPCFXButtonLeft[@]</string>
+				<string>OEPCFXButtonUp</string>
+				<string>OEPCFXButtonRight</string>
+				<string>OEPCFXButtonDown</string>
+				<string>OEPCFXButtonLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OEPCFXButtonUp[@]</string>
-				<string>OEPCFXButtonDown[@]</string>
+				<string>OEPCFXButtonUp</string>
+				<string>OEPCFXButtonDown</string>
 			</array>
 			<array>
-				<string>OEPCFXButtonLeft[@]</string>
-				<string>OEPCFXButtonRight[@]</string>
+				<string>OEPCFXButtonLeft</string>
+				<string>OEPCFXButtonRight</string>
 			</array>
 		</array>
 	</dict>

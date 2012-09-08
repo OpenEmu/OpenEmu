@@ -8,29 +8,29 @@
     <string>controller_genesis_mask.png</string>
     <key>OEControllerKeyPositionKey</key>
     <dict>
-        <key>OESegaCDButtonUp[@]</key>
+        <key>OESegaCDButtonUp</key>
         <string>{190, 180}</string>
-        <key>OESegaCDButtonDown[@]</key>
+        <key>OESegaCDButtonDown</key>
         <string>{190, 130}</string>
-        <key>OESegaCDButtonLeft[@]</key>
+        <key>OESegaCDButtonLeft</key>
         <string>{161, 154}</string>
-        <key>OESegaCDButtonRight[@]</key>
+        <key>OESegaCDButtonRight</key>
         <string>{218, 154}</string>
-        <key>OESegaCDButtonStart[@]</key>
+        <key>OESegaCDButtonStart</key>
         <string>{291, 155}</string>
-        <key>OESegaCDButtonMode[@]</key>
+        <key>OESegaCDButtonMode</key>
         <string>{0, 0}</string>
-        <key>OESegaCDButtonA[@]</key>
+        <key>OESegaCDButtonA</key>
         <string>{368, 115}</string>
-        <key>OESegaCDButtonB[@]</key>
+        <key>OESegaCDButtonB</key>
         <string>{412, 134}</string>
-        <key>OESegaCDButtonC[@]</key>
+        <key>OESegaCDButtonC</key>
         <string>{455, 147}</string>
-        <key>OESegaCDButtonX[@]</key>
+        <key>OESegaCDButtonX</key>
         <string>{354, 158}</string>
-        <key>OESegaCDButtonY[@]</key>
+        <key>OESegaCDButtonY</key>
         <string>{390, 175}</string>
-        <key>OESegaCDButtonZ[@]</key>
+        <key>OESegaCDButtonZ</key>
         <string>{427, 187}</string>
     </dict>
 </dict>

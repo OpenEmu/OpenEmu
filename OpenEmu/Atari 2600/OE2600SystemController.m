@@ -42,20 +42,19 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OE2600ButtonUp[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OE2600ButtonDown[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OE2600ButtonLeft[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OE2600ButtonRight[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardX]         , @"OE2600ButtonFire1[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OE2600ButtonLeftDiffA[1]"     ,
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OE2600ButtonLeftDiffB[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardR]         , @"OE2600ButtonRightDiffA[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardT]         , @"OE2600ButtonRightDiffB[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]    , @"OE2600ButtonStart[1]",
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDeleteOrBackspace]    , @"OE2600ButtonSelect[1]",
-                              nil];
-    return controls;
+    return @{
+    @"OE2600ButtonUp"         : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OE2600ButtonDown"       : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OE2600ButtonLeft"       : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OE2600ButtonRight"      : @(kHIDUsage_KeyboardRightArrow),
+    @"OE2600ButtonFire1"      : @(kHIDUsage_KeyboardA)         ,
+    @"OE2600ButtonLeftDiffA"  : @(kHIDUsage_KeyboardQ)         ,
+    @"OE2600ButtonLeftDiffB"  : @(kHIDUsage_KeyboardW)         ,
+    @"OE2600ButtonRightDiffA" : @(kHIDUsage_KeyboardE)         ,
+    @"OE2600ButtonRightDiffB" : @(kHIDUsage_KeyboardR)         ,
+    @"OE2600ButtonReset"      : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OE2600ButtonSelect"     : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 @end

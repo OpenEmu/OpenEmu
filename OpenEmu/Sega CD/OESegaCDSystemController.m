@@ -43,21 +43,19 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OESegaCDButtonUp[1]"   ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OESegaCDButtonDown[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OESegaCDButtonLeft[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OESegaCDButtonRight[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OESegaCDButtonA[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OESegaCDButtonB[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OESegaCDButtonC[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OESegaCDButtonX[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OESegaCDButtonY[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OESegaCDButtonZ[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OESegaCDButtonStart[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OESegaCDButtonMode[1]" ,
-                              nil];
-    return controls;
+    return @{
+    @"OESegaCDButtonUp"    : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OESegaCDButtonDown"  : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OESegaCDButtonLeft"  : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OESegaCDButtonRight" : @(kHIDUsage_KeyboardRightArrow),
+    @"OESegaCDButtonA"     : @(kHIDUsage_KeyboardA)         ,
+    @"OESegaCDButtonB"     : @(kHIDUsage_KeyboardS)         ,
+    @"OESegaCDButtonC"     : @(kHIDUsage_KeyboardD)         ,
+    @"OESegaCDButtonX"     : @(kHIDUsage_KeyboardQ)         ,
+    @"OESegaCDButtonY"     : @(kHIDUsage_KeyboardW)         ,
+    @"OESegaCDButtonZ"     : @(kHIDUsage_KeyboardE)         ,
+    @"OESegaCDButtonStart" : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OESegaCDButtonMode"  : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
-
 @end

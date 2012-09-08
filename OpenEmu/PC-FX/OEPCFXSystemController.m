@@ -43,21 +43,20 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEPCFXButtonUp[1]"   ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEPCFXButtonDown[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEPCFXButtonLeft[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEPCFXButtonRight[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEPCFXButton1[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEPCFXButton2[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OEPCFXButton3[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEPCFXButton4[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OEPCFXButton5[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEPCFXButton6[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEPCFXButtonRun[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OEPCFXButtonSelect[1]" ,
-                              nil];
-    return controls;
+    return @{
+    @"OEPCFXButtonUp"     : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OEPCFXButtonDown"   : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OEPCFXButtonLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OEPCFXButtonRight"  : @(kHIDUsage_KeyboardRightArrow),
+    @"OEPCFXButton1"      : @(kHIDUsage_KeyboardA)         ,
+    @"OEPCFXButton2"      : @(kHIDUsage_KeyboardS)         ,
+    @"OEPCFXButton3"      : @(kHIDUsage_KeyboardD)         ,
+    @"OEPCFXButton4"      : @(kHIDUsage_KeyboardQ)         ,
+    @"OEPCFXButton5"      : @(kHIDUsage_KeyboardW)         ,
+    @"OEPCFXButton6"      : @(kHIDUsage_KeyboardE)         ,
+    @"OEPCFXButtonRun"    : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OEPCFXButtonSelect" : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 @end

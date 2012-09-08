@@ -42,25 +42,24 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEPSXButtonUp[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEPSXButtonDown[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEPSXButtonLeft[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEPSXButtonRight[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardX]         , @"OEPSXButtonTriangle[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardZ]         , @"OEPSXButtonCircle[1]"     ,
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEPSXButtonCross[1]"     ,
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEPSXButtonSquare[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEPSXButtonL1[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OEPSXButtonL2[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEPSXButtonL3[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardReturnOrEnter]       , @"OEPSXButtonR1[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardTab]    , @"OEPSXButtonR2[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardR]    , @"OEPSXButtonR3[1]",
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardGraveAccentAndTilde]    , @"OEPSXButtonStart[1]",
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDeleteOrBackspace]    , @"OEPSXButtonSelect[1]",
-                              nil];
-    return controls;
+    return @{
+    @"OEPSXButtonUp"        : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OEPSXButtonDown"      : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OEPSXButtonLeft"      : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OEPSXButtonRight"     : @(kHIDUsage_KeyboardRightArrow),
+    @"OEPSXButtonTriangle"  : @(kHIDUsage_KeyboardX)         ,
+    @"OEPSXButtonCircle"    : @(kHIDUsage_KeyboardZ)         ,
+    @"OEPSXButtonCross"     : @(kHIDUsage_KeyboardS)         ,
+    @"OEPSXButtonSquare"    : @(kHIDUsage_KeyboardA)         ,
+    @"OEPSXButtonL1"        : @(kHIDUsage_KeyboardQ)         ,
+    @"OEPSXButtonL2"        : @(kHIDUsage_KeyboardW)         ,
+    @"OEPSXButtonL3"        : @(kHIDUsage_KeyboardE)         ,
+    @"OEPSXButtonR1"        : @(kHIDUsage_KeyboardD)         ,
+    @"OEPSXButtonR2"        : @(kHIDUsage_KeyboardF)         ,
+    @"OEPSXButtonR3"        : @(kHIDUsage_KeyboardG)         ,
+    @"OEPSXButtonStart"     : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OEPSXButtonSelect"    : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 @end

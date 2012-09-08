@@ -42,18 +42,17 @@
 
 - (NSDictionary *)defaultControls
 {
-    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OE5200ButtonUp[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OE5200ButtonDown[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OE5200ButtonLeft[1]"  ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OE5200ButtonRight[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardX]         , @"OE5200ButtonFire1[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardC]         , @"OE5200ButtonFire2[1]"     ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]    , @"OE5200ButtonStart[1]",
-							  [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDeleteOrBackspace]    , @"OE5200ButtonPause[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardR]    , @"OE5200ButtonReset[1]",
-                              nil];
-    return controls;
+    return @{
+    @"OE5200ButtonUp"         : @(kHIDUsage_KeyboardUpArrow)   ,
+    @"OE5200ButtonDown"       : @(kHIDUsage_KeyboardDownArrow) ,
+    @"OE5200ButtonLeft"       : @(kHIDUsage_KeyboardLeftArrow) ,
+    @"OE5200ButtonRight"      : @(kHIDUsage_KeyboardRightArrow),
+    @"OE5200ButtonFire1"      : @(kHIDUsage_KeyboardA)         ,
+    @"OE5200ButtonFire2"      : @(kHIDUsage_KeyboardS)         ,
+    @"OE5200ButtonStart"      : @(kHIDUsage_KeyboardSpacebar)  ,
+    @"OE5200ButtonPause"      : @(kHIDUsage_KeyboardQ)         ,
+    @"OE5200ButtonReset"      : @(kHIDUsage_KeyboardEscape)    ,
+    };
 }
 
 @end

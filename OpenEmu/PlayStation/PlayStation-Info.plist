@@ -48,25 +48,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonUp[@]</string>
+					<string>OEPSXButtonUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonDown[@]</string>
+					<string>OEPSXButtonDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonLeft[@]</string>
+					<string>OEPSXButtonLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonRight[@]</string>
+					<string>OEPSXButtonRight</string>
 				</dict>
 			</array>
 			<array>
@@ -74,25 +74,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>△</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonTriangle[@]</string>
+					<string>OEPSXButtonTriangle</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>◯</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonCircle[@]</string>
+					<string>OEPSXButtonCircle</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>✕</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonCross[@]</string>
+					<string>OEPSXButtonCross</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>⬜</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonSquare[@]</string>
+					<string>OEPSXButtonSquare</string>
 				</dict>
 			</array>
 			<array>
@@ -100,25 +100,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>L1</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonL1[@]</string>
+					<string>OEPSXButtonL1</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>L2</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonL2[@]</string>
+					<string>OEPSXButtonL2</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>R1</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonR1[@]</string>
+					<string>OEPSXButtonR1</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>R2</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonR2[@]</string>
+					<string>OEPSXButtonR2</string>
 				</dict>
 			</array>
 			<array>
@@ -126,25 +126,25 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>L3</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonL3[@]</string>
+					<string>OEPSXButtonL3</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>R3</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonR3[@]</string>
+					<string>OEPSXButtonR3</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonStart[@]</string>
+					<string>OEPSXButtonStart</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Select</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEPSXButtonSelect[@]</string>
+					<string>OEPSXButtonSelect</string>
 				</dict>
 			</array>
 		</array>
@@ -153,43 +153,43 @@
 	<string>psx_library</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OEPSXButtonUp[@]</string>
-		<string>OEPSXButtonDown[@]</string>
-		<string>OEPSXButtonLeft[@]</string>
-		<string>OEPSXButtonRight[@]</string>
-		<string>OEPSXButtonTriangle[@]</string>
-		<string>OEPSXButtonCircle[@]</string>
-		<string>OEPSXButtonCross[@]</string>
-		<string>OEPSXButtonSquare[@]</string>
-		<string>OEPSXButtonL1[@]</string>
-		<string>OEPSXButtonL2[@]</string>
-		<string>OEPSXButtonL3[@]</string>
-		<string>OEPSXButtonR1[@]</string>
-		<string>OEPSXButtonR2[@]</string>
-		<string>OEPSXButtonR3[@]</string>
-		<string>OEPSXButtonStart[@]</string>
-		<string>OEPSXButtonSelect[@]</string>
+		<string>OEPSXButtonUp</string>
+		<string>OEPSXButtonDown</string>
+		<string>OEPSXButtonLeft</string>
+		<string>OEPSXButtonRight</string>
+		<string>OEPSXButtonTriangle</string>
+		<string>OEPSXButtonCircle</string>
+		<string>OEPSXButtonCross</string>
+		<string>OEPSXButtonSquare</string>
+		<string>OEPSXButtonL1</string>
+		<string>OEPSXButtonL2</string>
+		<string>OEPSXButtonL3</string>
+		<string>OEPSXButtonR1</string>
+		<string>OEPSXButtonR2</string>
+		<string>OEPSXButtonR3</string>
+		<string>OEPSXButtonStart</string>
+		<string>OEPSXButtonSelect</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OEPSXButtonUp[@]</string>
-				<string>OEPSXButtonRight[@]</string>
-				<string>OEPSXButtonDown[@]</string>
-				<string>OEPSXButtonLeft[@]</string>
+				<string>OEPSXButtonUp</string>
+				<string>OEPSXButtonRight</string>
+				<string>OEPSXButtonDown</string>
+				<string>OEPSXButtonLeft</string>
 			</array>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OEPSXButtonUp[@]</string>
-				<string>OEPSXButtonDown[@]</string>
+				<string>OEPSXButtonUp</string>
+				<string>OEPSXButtonDown</string>
 			</array>
 			<array>
-				<string>OEPSXButtonLeft[@]</string>
-				<string>OEPSXButtonRight[@]</string>
+				<string>OEPSXButtonLeft</string>
+				<string>OEPSXButtonRight</string>
 			</array>
 		</array>
 	</dict>
