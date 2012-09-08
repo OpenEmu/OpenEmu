@@ -80,21 +80,21 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
 - (void)OE_reloadData;
 - (void)OE_selectView:(NSInteger)view;
 
-- (OEMenu *)OE_menuForItemsAtIndexes:(NSIndexSet*)indexes;
-- (NSMenu *)OE_saveStateMenuForGame:(OEDBGame*)game;
-- (NSMenu *)OE_ratingMenuForGames:(NSArray*)games;
-- (NSMenu *)OE_collectionsMenuForGames:(NSArray*)games;
+- (OEMenu *)OE_menuForItemsAtIndexes:(NSIndexSet *)indexes;
+- (NSMenu *)OE_saveStateMenuForGame:(OEDBGame *)game;
+- (NSMenu *)OE_ratingMenuForGames:(NSArray *)games;
+- (NSMenu *)OE_collectionsMenuForGames:(NSArray *)games;
 
 @end
 
 @implementation OECollectionViewController
 @synthesize libraryController, gamesController;
 @synthesize emptyCollectionView, emptyConsoleView;
+
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
-    if (self != [OECollectionViewController class])
-        return;
+    if(self != [OECollectionViewController class]) return;
     
     // Indicators for list view
     NSImage *image = [NSImage imageNamed:@"list_indicators"];
@@ -156,10 +156,10 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
     
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
+    
     if([userDefaults valueForKey:OELastGridSizeKey])
-    {
         [sizeSlider setFloatValue:[userDefaults floatForKey:OELastGridSizeKey]];
-    }
+    
     [sizeSlider setContinuous:YES];
     [self changeGridSize:sizeSlider];
     
@@ -176,14 +176,13 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
 
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-    for (NSTableColumn *aColumn in [listView tableColumns]) {
-        if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
-        {
-            [[aColumn dataCell] setWidthInset:9];
-        }
-    }
     
-    switch ([userDefaults integerForKey:OELastCollectionViewKey]) {
+    for(NSTableColumn *aColumn in [listView tableColumns])
+        if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
+            [[aColumn dataCell] setWidthInset:9];
+    
+    switch([userDefaults integerForKey:OELastCollectionViewKey])
+    {
         case 0:
             [self switchToGridView:self];
             break;
@@ -202,13 +201,13 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
 }
 
-- (NSString*)nibName
+- (NSString *)nibName
 {
     return @"CollectionView";
 }
 
 #pragma mark -
-- (NSArray*)selectedGames
+- (NSArray *)selectedGames
 {
     return [gamesController selectedObjects];
 }
@@ -471,7 +470,7 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
-- (OEMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (OEMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes
 {
     return [self OE_menuForItemsAtIndexes:indexes];
 }
@@ -499,7 +498,7 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
 
 #pragma mark -
 #pragma mark Context Menu
-- (OEMenu *)OE_menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (OEMenu *)OE_menuForItemsAtIndexes:(NSIndexSet *)indexes
 {
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
@@ -569,7 +568,7 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
     return [menu convertToOEMenu];
 }
 
-- (NSMenu *)OE_saveStateMenuForGame:(OEDBGame*)game
+- (NSMenu *)OE_saveStateMenuForGame:(OEDBGame *)game
 {
     NSMenu    *saveGamesMenu = [[NSMenu alloc] init];
     NSSet     *roms = [game roms];
@@ -612,7 +611,7 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
     return saveGamesMenu;
 }
 
-- (NSMenu *)OE_ratingMenuForGames:(NSArray*)games
+- (NSMenu *)OE_ratingMenuForGames:(NSArray *)games
 {
     NSMenu   *ratingMenu = [[NSMenu alloc] init];
     NSString *ratingLabel = @"★★★★★";
@@ -628,7 +627,7 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
     BOOL valuesDiffer = NO;
     for(NSInteger i=0; i<[games count]; i++)
     {
-        NSNumber   *gameRating = [(OEDBGame*)[games objectAtIndex:i] rating];
+        NSNumber   *gameRating = [(OEDBGame *)[games objectAtIndex:i] rating];
         NSInteger   itemIndex = [gameRating integerValue];
         NSMenuItem *item = [ratingMenu itemAtIndex:itemIndex];
         
@@ -643,7 +642,7 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
     
     if(valuesDiffer)
     {
-        NSNumber   *gameRating = [(OEDBGame*)[games objectAtIndex:0] rating];
+        NSNumber   *gameRating = [(OEDBGame *)[games objectAtIndex:0] rating];
         NSMenuItem *item = [ratingMenu itemAtIndex:[gameRating integerValue]];
         [item setState:NSMixedState];
     }
@@ -651,7 +650,7 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
     return ratingMenu;
 }
 
-- (NSMenu *)OE_collectionsMenuForGames:(NSArray*)games
+- (NSMenu *)OE_collectionsMenuForGames:(NSArray *)games
 {
     NSMenu  *collectionMenu = [[NSMenu alloc] init];
     NSArray *collections = [[[self libraryController] database] collections];
@@ -1082,7 +1081,7 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
 }
 #pragma mark -
 #pragma mark OETableView Menu
-- (OEMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (OEMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet *)indexes
 {
     return [self OE_menuForItemsAtIndexes:indexes];
 }
@@ -1175,13 +1174,13 @@ NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
     [self performSelector:@selector(_reloadVisibleData) withObject:nil afterDelay:reloadDelay];
 }
 
-- (void)setNeedsReloadIndexes:(NSIndexSet*)indexes
+- (void)setNeedsReloadIndexes:(NSIndexSet *)indexes
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:indexes];
     [self performSelector:@selector(reloadDataIndexes:) withObject:indexes afterDelay:reloadDelay];
 }
 
-- (void)reloadDataIndexes:(NSIndexSet*)indexSet
+- (void)reloadDataIndexes:(NSIndexSet *)indexSet
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadDataIndexes:) object:nil];
     if(!gamesController) return;
