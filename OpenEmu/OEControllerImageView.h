@@ -27,9 +27,9 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-extern NSString * const OEControlsDisableMouseSelection;
-extern NSString * const OEControlsDisableMouseDeactivation;
-extern NSString * const OEDebugDrawControllerMaskKey;
+extern NSString *const OEControlsDisableMouseSelection;
+extern NSString *const OEControlsDisableMouseDeactivation;
+extern NSString *const OEDebugDrawControllerMaskKey;
 
 @class OEControlsViewController;
 

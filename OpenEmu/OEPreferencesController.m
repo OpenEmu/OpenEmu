@@ -45,23 +45,32 @@
 
 #import "OEWiimoteHandler.h"
 
-NSString * const OEDebugModeKey = @"debug";
-NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
+NSString *const OEDebugModeKey = @"debug";
+NSString *const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
+
 #define AnimationDuration 0.3
-@interface OEPreferencesController (priavte)
-- (void)_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag;
-- (void)_reloadPreferencePanes;
-- (void)_rebuildToolbar;
-- (void)_openPreferencePane:(NSNotification*)notification;
+
+@interface OEPreferencesController ()
+{
+	OEToolbarView *toolbar;
+	IBOutlet OEBackgroundGradientView *coreGradientOverlayView;
+}
+
+- (void)OE_showView:(NSView *)view atSize:(NSSize)size animate:(BOOL)animateFlag;
+- (void)OE_reloadPreferencePanes;
+- (void)OE_rebuildToolbar;
+- (void)OE_openPreferencePane:(NSNotification*)notification;
 @end
+
 @implementation OEPreferencesController
 @synthesize preferencePanes, visiblePaneIndex;
+
 - (id)initWithWindow:(NSWindow *)window
 {
     self = [super initWithWindow:window];
     if (self) 
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_openPreferencePane:) name:OEPreferencesOpenPaneNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_openPreferencePane:) name:OEPreferencesOpenPaneNotificationName object:nil];
     }
     
     return self;
@@ -95,7 +104,7 @@ NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
     NSColor *windowBackgroundColor = [NSColor colorWithDeviceRed:0.149 green:0.149 blue:0.149 alpha:1.0];
     [win setBackgroundColor:windowBackgroundColor];
     
-    [self _reloadPreferencePanes];
+    [self OE_reloadPreferencePanes];
     
     [win setTitleBarView:toolbar];
     [win setCenterTrafficLightButtons:NO];
@@ -109,25 +118,25 @@ NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
     
     // Make sure that value from User Defaults is valid
     if(selectedTab < 0 || selectedTab >= [[toolbar items] count])
-    {
         selectedTab = 0;
-    }
     
     OEToolbarItem *selectedItem = [[toolbar items] objectAtIndex:selectedTab];
     [toolbar markItemAsSelected:selectedItem];
     [self switchView:selectedItem animate:NO];
     
-    [self.window.contentView setWantsLayer:YES];
+    [[[self window] contentView] setWantsLayer:YES];
     
     CATransition *paneTransition = [CATransition animation];
     paneTransition.type = kCATransitionFade;
     paneTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     paneTransition.duration = AnimationDuration;
     
-    [self.window.contentView setAnimations:[NSDictionary dictionaryWithObject:paneTransition  forKey:@"subviews"]];
+    [[[self window] contentView] setAnimations:[NSDictionary dictionaryWithObject:paneTransition  forKey:@"subviews"]];
 }
+
 #pragma mark -
-#pragma mark NSWindow Delegte
+#pragma mark NSWindow Delegate
+
 - (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
 {
     if([window isKindOfClass:[INAppStoreWindow class]])
@@ -145,7 +154,7 @@ NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
 }
 
 #pragma mark -
-- (void)_reloadPreferencePanes
+- (void)OE_reloadPreferencePanes
 {
     NSMutableArray *array = [NSMutableArray array];
     
@@ -170,10 +179,10 @@ NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
     }
     
     [self setPreferencePanes:array];    
-    [self _rebuildToolbar];
+    [self OE_rebuildToolbar];
 }
 
-- (void)_rebuildToolbar
+- (void)OE_rebuildToolbar
 {
     if(toolbar)
     {
@@ -195,7 +204,7 @@ NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
     }
 }
 
-- (void)_openPreferencePane:(NSNotification*)notification
+- (void)OE_openPreferencePane:(NSNotification*)notification
 {
     NSDictionary* userInfo = [notification userInfo];
     NSString* paneName = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
@@ -211,7 +220,9 @@ NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
     [self switchView:[NSNumber numberWithInteger:index] animate:[[self window] isVisible]];
     [[self window] makeKeyAndOrderFront:self];
 }
+
 #pragma mark -
+
 - (void)switchView:(id)sender
 {
     [self switchView:sender animate:YES];
@@ -220,16 +231,12 @@ NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
 - (void)switchView:(id)sender animate:(BOOL)animateFlag
 {
     NSInteger selectedTab;
+    
     if([sender isKindOfClass:[OEToolbarItem class]])
-    {
         selectedTab = [[toolbar items] indexOfObject:sender];
-    }
     else if([sender isKindOfClass:[NSNumber class]])
-    {
         selectedTab = [sender integerValue];
-    } else {
-        return;
-    }
+    else return;
     
     NSViewController <OEPreferencePane>  *currentPane = nil;
     if([self visiblePaneIndex] != -1)
@@ -246,7 +253,7 @@ NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
     
     toolbar.contentseparatorColor = [NSColor blackColor];
     
-    [self _showView:view atSize:viewSize animate:animateFlag];
+    [self OE_showView:view atSize:viewSize animate:animateFlag];
     [nextPane viewDidAppear];
     [currentPane viewDidDisappear];
     
@@ -258,16 +265,16 @@ NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
     [self setVisiblePaneIndex:selectedTab];
 }
 
-- (void)_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag
+- (void)OE_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag
 {
     NSWindow *win = [self window];
     
-    if(view==[win contentView]) return;
+    if(view == [win contentView]) return;
 
     NSRect contentRect = [win contentRectForFrameRect:[win frame]];
     contentRect.size = size;
     NSRect frameRect = [win frameRectForContentRect:contentRect];
-    frameRect.origin.y += win.frame.size.height-frameRect.size.height;
+    frameRect.origin.y += win.frame.size.height -frameRect.size.height;
     
     [view setFrameSize:size];
     
@@ -276,12 +283,18 @@ NSString * const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
     [win setAnimations:[NSDictionary dictionaryWithObject:anim forKey:@"frame"]];
     
     [CATransaction begin];
-    if([win.contentView subviews].count)
-        [animateFlag?[win.contentView animator]:win.contentView replaceSubview:[win.contentView subviews].lastObject with:view];
-    else {
-        [animateFlag?[win.contentView animator]:win.contentView addSubview:view];
-    }
-    [animateFlag?[win animator]:win setFrame:frameRect display:YES];
+    
+    id target = [win contentView];
+    if(animateFlag) target = [target animator];
+    
+    if([[[win contentView] subviews] count] >= 1)
+        [target replaceSubview:[[[win contentView] subviews] lastObject] with:view];
+    else
+        [target addSubview:view];
+    
+    [animateFlag ? [win animator] : win setFrame:frameRect display:YES];
+    
     [CATransaction commit];
 }
+
 @end

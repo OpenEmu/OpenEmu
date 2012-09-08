@@ -26,12 +26,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString * const OEGameVolumeKey;
-extern NSString * const OEGameVideoFilterKey;
-extern NSString * const OEGameCoresInBackgroundKey;
-extern NSString * const OEDontShowGameTitleInWindowKey;
-extern NSString * const OEAutoSwitchCoreAlertSuppressionKey;
-extern NSString * const OEForceCorePicker;
+extern NSString *const OEGameVolumeKey;
+extern NSString *const OEGameVideoFilterKey;
+extern NSString *const OEGameCoresInBackgroundKey;
+extern NSString *const OEDontShowGameTitleInWindowKey;
+extern NSString *const OEAutoSwitchCoreAlertSuppressionKey;
+extern NSString *const OEForceCorePicker;
 
 @class OEDBRom;
 @class OEDBGame;

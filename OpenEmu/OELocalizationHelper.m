@@ -26,7 +26,8 @@
 
 #import "OELocalizationHelper.h"
 
-NSString * const OERegionKey = @"region";
+NSString *const OERegionKey = @"region";
+
 @interface OELocalizationHelper ()
 - (void)OE_updateRegion;
 @end

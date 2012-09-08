@@ -27,18 +27,20 @@
 #import "OESidebarCell.h"
 #import <AppKit/NSCell.h>
 #import "OESidebarFieldEditor.h"
+#import "OESidebarOutlineView.h"
 
-
-extern NSString * const OESidebarConsolesNotCollapsibleKey;
 @interface NSTextFieldCell (ApplePrivate)
-- (NSDictionary*)_textAttributes;
+
+- (NSDictionary *)_textAttributes;
+
 @end
 
 @implementation OESidebarCell
 @synthesize isGroup, isEditing, image;
+
 - (id)init 
 {
-    if ((self = [super init])) 
+    if((self = [super init]))
     {
         [self setLineBreakMode:NSLineBreakByTruncatingTail];
         [self setSelectable:YES];
@@ -46,7 +48,6 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
     }
     return self;
 }
-
 
 - (id)copyWithZone:(NSZone *)zone 
 {
@@ -58,7 +59,7 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 - (NSRect)imageRectForBounds:(NSRect)cellFrame 
 {
     NSRect result;
-    if (image != nil) 
+    if(image != nil)
     {
 		NSSize iconSize = [image size];
 		result = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+ (cellFrame.size.height-iconSize.height)/2, iconSize.width, iconSize.height);
@@ -74,7 +75,7 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 - (NSRect)titleRectForBounds:(NSRect)cellFrame 
 {
     NSRect result;
-    if (image != nil) 
+    if(image != nil)
     {
         CGFloat imageWidth = [image size].width;
         result = cellFrame;
@@ -95,7 +96,7 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent 
 {
 	NSRect textFrame = [self titleRectForBounds:NSInsetRect(aRect, 0, 1)];
-	textFrame.size.width -= (6.0);
+	textFrame.size.width -= 6.0;
 	
 	OESidebarFieldEditor *fieldEditor = [OESidebarFieldEditor fieldEditor];
 	[fieldEditor setFrame:[textObj frame]];
@@ -106,7 +107,7 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 - (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength 
 {
 	NSRect textFrame = [self titleRectForBounds:aRect];
-	textFrame.size.width -= (6.0);
+	textFrame.size.width -= 6.0;
 	
 	textFrame.size.height += 2;
 	textFrame.origin.y -= 1;
@@ -161,7 +162,8 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 {
 	NSDictionary *typeAttributes = [super _textAttributes];
 	
-	if(self.isEditing){
+	if([self isEditing])
+    {
         NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
         NSColor *textColor = [NSColor blackColor];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -178,11 +180,10 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView 
 {
-	
 	NSRect imageFrame = [self imageRectForBounds:cellFrame];
-    if ([self image] != nil)
+    if([self image] != nil)
     {
-        if ([self drawsBackground]) 
+        if([self drawsBackground])
         {
             [[self backgroundColor] set];
             NSRectFill(imageFrame);
@@ -205,7 +206,7 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 	BOOL isActive = [win isMainWindow] && [win firstResponder]==controlView;
 	
 	// set style
-	if(self.isGroup)
+	if([self isGroup])
     {
 		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
 		textColor = [NSColor colorWithDeviceRed:0.682 green:0.678 blue:0.678 alpha:1.0];
@@ -219,13 +220,12 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 		titleFrame.origin.x += 2;
 		titleFrame.size.width -= 2;
 		
-		if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:OESidebarConsolesNotCollapsibleKey])
-        {
+		if(row == 0 && [[NSUserDefaults standardUserDefaults] boolForKey:OESidebarConsolesNotCollapsibleKey])
 			titleFrame.origin.x -= 10;
-		}
 	} 
-    else if( (isSelected && isActive))
-    { // selected active
+    else if(isSelected && isActive)
+    {
+        // selected active
 		[shadow setShadowBlurRadius:1];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];	
 		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
@@ -233,7 +233,8 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 		[shadow setShadowColor:[NSColor blackColor]];
 	}
     else if(isSelected)
-    {  // selected inactive
+    {
+        // selected inactive
 		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
 		[shadow setShadowBlurRadius:1];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];
@@ -249,8 +250,6 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 		[shadow setShadowBlurRadius:1];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];
 	}
-	
-	
 	
 	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
 								textColor, NSForegroundColorAttributeName,
@@ -269,13 +268,13 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
 {
     NSPoint point = [controlView convertPoint:[event locationInWindow] fromView:nil];
     // If we have an image, we need to see if the user clicked on the image portion.
-    if (image != nil) 
+    if(image != nil)
     {
         // This code closely mimics drawWithFrame:inView:
         NSRect imageFrame = [self imageRectForBounds:cellFrame];
 		
 		// If the point is in the image rect, then it is a content hit
-        if (NSMouseInRect(point, imageFrame, [controlView isFlipped])) 
+        if(NSMouseInRect(point, imageFrame, [controlView isFlipped]))
         {
             // We consider this just a content area. It is not trackable, nor it it editable text. If it was, we would or in the additional items.
             // By returning the correct parts, we allow NSTableView to correctly begin an edit when the text portion is clicked on.
@@ -284,9 +283,7 @@ extern NSString * const OESidebarConsolesNotCollapsibleKey;
     }
 	
 	if(NSMouseInRect(point, cellFrame, [controlView isFlipped]))
-    {
 		return NSCellHitEditableTextArea;
-	}
 	
     // At this point, the cellFrame has been modified to exclude the portion for the image. Let the superclass handle the hit testing at this point.
     return [super hitTestForEvent:event inRect:cellFrame ofView:controlView];    

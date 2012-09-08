@@ -46,11 +46,12 @@
 #import "OEFSWatcher.h"
 #import "OEROMImporter.h"
 
-NSString * const OEDatabasePathKey = @"databasePath";
-NSString * const OEDefaultDatabasePathKey = @"defaultDatabasePath";
-NSString * const OESaveStateLastFSEventIDKey = @"lastSaveStateEventID";
+NSString *const OEDatabasePathKey            = @"databasePath";
+NSString *const OEDefaultDatabasePathKey     = @"defaultDatabasePath";
+NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
 
-NSString * const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
+NSString *const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
+
 @interface OELibraryDatabase ()
 
 - (BOOL)loadPersistantStoreWithError:(NSError **)outError;
