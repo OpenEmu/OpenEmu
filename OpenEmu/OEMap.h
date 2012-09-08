@@ -70,6 +70,8 @@ OE_INLINE OEEmulatorKey OEMakeEmulatorKey(NSUInteger player, NSUInteger key)
     return ret;
 }
 
+NSString *NSStringFromOEEmulatorKey(OEEmulatorKey aKey);
+
 typedef NSInteger     OEMapKey;
 typedef OEEmulatorKey OEMapValue;
 

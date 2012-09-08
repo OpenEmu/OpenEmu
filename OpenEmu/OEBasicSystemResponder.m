@@ -90,12 +90,15 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
     
 }
 
-#define OEHatSwitchMask     (0x39 << 16)
-#define PAD_NUMBER(anEvent) ([anEvent padNumber] << 24)
-#define KEYBOARD_MASK 0x40000000u
-#define HID_MASK      0x20000000u
-#define AXIS_MASK(anEvent) ([anEvent axis] << 16)
-#define DIRECTION_MASK(dir) (1 << ((dir) == OEHIDEventAxisDirectionPositive))
+#define OEHatSwitchMask        (0x39 << 16)
+#define PAD_NUMBER(anEvent)    ([anEvent padNumber] << 24)
+#define KEYBOARD_MASK          0x40000000u
+#define HID_MASK               0x20000000u
+#define BUTTON_TYPE_MASK       0x00100000u
+#define AXIS_TYPE_MASK         0x00200000u
+#define BUTTON_NUMBER(anEvent) ([anEvent buttonNumber])
+#define AXIS_MASK(anEvent)     ([anEvent axis] << 16)
+#define DIRECTION_MASK(dir)    (1 << ((dir) == OEHIDEventAxisDirectionPositive))
 
 - (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey
 {
@@ -123,17 +126,20 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
         {
             case OEHIDEventTypeButton :
                 if([theEvent state] == OEHIDEventStateOff) return;
-                [self setEventValue:appKey | [theEvent cookie] forEmulatorKey:[self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber]];
+                [self setEventValue:appKey | BUTTON_TYPE_MASK | BUTTON_NUMBER(theEvent) forEmulatorKey:[self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber]];
                 break;
             case OEHIDEventTypeAxis :
             {
                 OEHIDEventAxisDirection dir = [theEvent direction];
                 if(dir == OEHIDEventAxisDirectionNull) return;
                 
+                OEHIDEventAxis axis = [theEvent axis];
+                if(axis == OEHIDEventAxisNone) return;
+                
                 if([bindingDescription isKindOfClass:[OEKeyBindingDescription class]])
                 {
                     OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
-                    [self setEventValue:appKey | DIRECTION_MASK(dir) forEmulatorKey:emulKey];
+                    [self setEventValue:appKey | AXIS_MASK(theEvent) | DIRECTION_MASK(dir) forEmulatorKey:emulKey];
                 }
                 else if([bindingDescription isKindOfClass:[OEOrientedKeyGroupBindingDescription class]])
                 {
@@ -143,8 +149,8 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
                     OEEmulatorKey emulKey    = [self emulatorKeyForKey:[keyDesc name] index:[keyDesc index] player:playerNumber];
                     OEEmulatorKey oppEmulKey = [self emulatorKeyForKey:[oppDesc name] index:[oppDesc index] player:playerNumber];
                     
-                    [self setEventValue:appKey | DIRECTION_MASK([theEvent oppositeDirection]) forEmulatorKey:oppEmulKey];
-                    [self setEventValue:appKey | DIRECTION_MASK(dir) forEmulatorKey:emulKey];
+                    [self setEventValue:appKey | AXIS_MASK(theEvent) | DIRECTION_MASK([theEvent oppositeDirection]) forEmulatorKey:oppEmulKey];
+                    [self setEventValue:appKey | AXIS_MASK(theEvent) | DIRECTION_MASK(dir) forEmulatorKey:emulKey];
                     
                     CFDictionarySetValue(joystickStates, (void *)appKey, (void *)OEHIDEventAxisDirectionNull);
                 }
@@ -159,7 +165,7 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
                 if([bindingDescription isKindOfClass:[OEKeyBindingDescription class]])
                 {
                     OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
-                    [self setEventValue:appKey | [theEvent hatDirection] | OEHatSwitchMask forEmulatorKey:emulKey];
+                    [self setEventValue:appKey | OEHatSwitchMask | [theEvent hatDirection] forEmulatorKey:emulKey];
                 }
                 else if([bindingDescription isKindOfClass:[OEOrientedKeyGroupBindingDescription class]])
                 {
@@ -257,8 +263,8 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
     NSUInteger value = HID_MASK | PAD_NUMBER(anEvent);
-    NSInteger dir  = [anEvent direction];
-    NSInteger axis = value | AXIS_MASK(anEvent);
+    NSInteger  dir   = [anEvent direction];
+    NSInteger  axis  = value | AXIS_MASK(anEvent);
     OEEmulatorKey key;
     
     OEHIDEventAxisDirection previousDirection = OEHIDEventAxisDirectionNull;
@@ -314,14 +320,14 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 - (void)buttonDown:(OEHIDEvent *)anEvent
 {
     OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER(anEvent) | [anEvent cookie], &key))
+    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER(anEvent) | BUTTON_TYPE_MASK | BUTTON_NUMBER(anEvent), &key))
         [self pressEmulatorKey:key];
 }
 
 - (void)buttonUp:(OEHIDEvent *)anEvent
 {
     OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER(anEvent) | [anEvent cookie], &key))
+    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER(anEvent) | BUTTON_TYPE_MASK | BUTTON_NUMBER(anEvent), &key))
         [self releaseEmulatorKey:key];
 }
 

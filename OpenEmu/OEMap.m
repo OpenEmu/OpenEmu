@@ -31,6 +31,11 @@
 #define BOOL_STR(var) ((var) ? "YES" : "NO")
 #endif
 
+NSString *NSStringFromOEEmulatorKey(OEEmulatorKey aKey)
+{
+    return [NSString stringWithFormat:@"{ player: %lu key: %lu }", aKey.player, aKey.key];
+}
+
 typedef struct {
     OEMapKey    key;
     OEMapValue  value;

@@ -122,6 +122,11 @@
     else             [_rawBindings setObject:value forKey:aKey];
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p playerNumber: %lu rawBindings: %@ bindings: %@>", [self class], self, [self playerNumber], [self OE_rawBindings], [self OE_bindings]];
+}
+
 @end
 
 @implementation OEKeyboardPlayerBindings
