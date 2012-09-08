@@ -42,11 +42,10 @@
 
 #import "OEDBSaveState.h"
 
-NSString * const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState";
-NSString * const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
-NSString * const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
+NSString *const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState";
+NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
+NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
-extern NSString * const OEGameVideoFilterKey;
 @class OEHUDSlider, OEImageButton;
 @interface OEHUDControlsBarView : NSView
 

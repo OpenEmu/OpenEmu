@@ -41,9 +41,9 @@
 #import "NSView+FadeImage.h"
 #import "OEFadeView.h"
 
-NSString * const OEAllowPopoutGameWindowKey = @"allowPopout";
-NSString * const OEForcePopoutGameWindowKey = @"forcePopout";
-extern NSString * const OESetupAssistantHasFinishedKey;
+NSString *const OEAllowPopoutGameWindowKey = @"allowPopout";
+NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
+
 @interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end

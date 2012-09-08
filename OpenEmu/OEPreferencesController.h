@@ -26,15 +26,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString * const OEDebugModeKey;
+extern NSString *const OEDebugModeKey;
+
 @class OEBackgroundGradientView;
 @class OEToolbarView;
-@interface OEPreferencesController : NSWindowController 
-{
-@private
-	OEToolbarView *toolbar;	
-	IBOutlet OEBackgroundGradientView *coreGradientOverlayView;
-}
+
+@interface OEPreferencesController : NSWindowController
 
 - (void)switchView:(id)sender;
 - (void)switchView:(id)sender animate:(BOOL)animateFlag;

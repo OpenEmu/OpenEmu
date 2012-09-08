@@ -26,6 +26,8 @@
 
 #import "OECollectionViewController.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "OEGameControlsBar.h"
+#import "OEMainWindowController.h"
 
 #import "OELibraryController.h"
 #import "OEROMImporter.h"
@@ -59,11 +61,8 @@
 
 #import "OETableView.h"
 
-extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
-extern NSString * const OEAllowPopoutGameWindowKey;
-
-NSString * const OELastGridSizeKey = @"lastGridSize";
-NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
+NSString *const OELastGridSizeKey = @"lastGridSize";
+NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
 
 @interface OECollectionViewController ()
 {

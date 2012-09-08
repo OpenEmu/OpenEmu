@@ -46,7 +46,6 @@
 NSString * const OESidebarVisibleKey = @"isSidebarVisible";
 NSString * const OESidebarWidthKey = @"lastSidebarWidth";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
-extern NSString * const OELastCollectionSelectedKey;
 
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;

@@ -26,6 +26,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OEDBItem.h"
+
 enum _OEDBGameStatus
 {
     OEDBGameStatusOK,
@@ -34,8 +35,9 @@ enum _OEDBGameStatus
 };
 typedef NSUInteger OEDBGameStatus;
 
-extern NSString * const OEPasteboardTypeGame;
-extern NSString * const OEBoxSizesKey;
+extern NSString *const OEPasteboardTypeGame;
+extern NSString *const OEBoxSizesKey;
+
 @class OELibraryDatabase;
 @class OEDBSystem, OEDBRom, OEDBSaveState;
 @class OEDBImage;

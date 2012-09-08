@@ -33,7 +33,7 @@
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
 const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval of periodic events
 
-NSString * const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
+NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 
 @interface OEGridView ()
 

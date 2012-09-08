@@ -27,13 +27,14 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString * const OEPopoutHasScreenSizeKey;
+extern NSString *const OEPopoutHasScreenSizeKey;
 
 @class OEGameViewController;
 @class OEDBRom;
 @class OEDBGame;
 @class OEDBSaveState;
 @class OECorePlugin;
+
 @interface OEGameDocument : NSDocument
 
 - (id)initWithRom:(OEDBRom *)rom;

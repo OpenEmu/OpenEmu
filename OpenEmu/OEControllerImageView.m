@@ -31,9 +31,10 @@
 #define OverlayAlphaOFF 0.0
 #define RingRadius 37.0
 
-NSString * const OEControlsDisableMouseSelection = @"controlsDisableMouseSelection";
-NSString * const OEControlsDisableMouseDeactivation = @"controlsDisableMouseDeactivation";
-NSString * const OEDebugDrawControllerMaskKey = @"drawControllerMask";
+NSString *const OEControlsDisableMouseSelection = @"controlsDisableMouseSelection";
+NSString *const OEControlsDisableMouseDeactivation = @"controlsDisableMouseDeactivation";
+NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
+
 @protocol OEControlsButtonHighlightProtocol  <NSObject>
 - (NSPoint)highlightPoint;
 @end

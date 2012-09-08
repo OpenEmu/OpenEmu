@@ -47,15 +47,15 @@
 #import "OEPlayerBindings.h"
 #import "OEKeyBindingGroupDescription.h"
 
-NSString * const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
-NSString * const OELastControlsPlayerKey = @"lastControlsPlayer";
-NSString * const OELastControlsDeviceTypeKey = @"lastControlsDevice";
+NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
+NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";
+NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 @interface OEPrefControlsController ()
 {
-    OESystemPlugin    *selectedPlugin;
-    OEHIDEvent        *readingEvent;
-    NSMutableSet      *ignoredEvents;
+    OESystemPlugin *selectedPlugin;
+    OEHIDEvent     *readingEvent;
+    NSMutableSet   *ignoredEvents;
 }
 
 - (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;

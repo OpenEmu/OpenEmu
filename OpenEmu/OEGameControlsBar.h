@@ -27,9 +27,9 @@
 #import <Cocoa/Cocoa.h>
 #import "OEMenu.h"
 
-extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
-extern NSString * const OEGameControlsBarHidesOptionButtonKey;
-extern NSString * const OEGameControlsBarFadeOutDelayKey;
+extern NSString *const OEGameControlsBarCanDeleteSaveStatesKey;
+extern NSString *const OEGameControlsBarHidesOptionButtonKey;
+extern NSString *const OEGameControlsBarFadeOutDelayKey;
 
 @class OEGameViewController;
 @interface OEGameControlsBar : NSWindow <OEMenuDelegate>
