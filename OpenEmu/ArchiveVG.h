@@ -27,6 +27,11 @@
 #import <Foundation/Foundation.h>
 #import "ArchiveVGTypes.h"
 
+#pragma mark - Archive.vg constants
+extern NSString * const AVGAPIBase;;
+extern NSString * const AVGAPIVersion;
+extern NSString * const AVGAPIKey;
+
 @interface ArchiveVG : NSObject
 + (id)throttled;
 + (id)unthrottled;

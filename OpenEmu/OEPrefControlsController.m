@@ -51,6 +51,10 @@ NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
 NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";
 NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
+extern NSString * const OEPreferencesOpenPaneNotificationName;
+extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
+extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
+
 @interface OEPrefControlsController ()
 {
     OESystemPlugin *selectedPlugin;

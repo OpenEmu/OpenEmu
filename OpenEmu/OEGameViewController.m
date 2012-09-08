@@ -61,6 +61,10 @@ NSString *const OEForceCorePicker = @"forceCorePicker";
 
 NSString *const OEDefaultWindowTitle = @"OpenEmu";
 
+extern NSString * const OEPreferencesOpenPaneNotificationName;
+extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
+extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
+
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 @interface OEGameViewController ()

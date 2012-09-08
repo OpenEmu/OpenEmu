@@ -31,6 +31,10 @@
 
 #import "OEDBGame.h"
 
+extern NSString * const OESidebarSelectionDidChangeNotificationName;
+extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
+extern NSString * const OEDBSystemsChangedNotificationName;
+
 @implementation OEPrefDebugController
 @synthesize regionSelector, dbActionSelector, contentView;
 

@@ -29,6 +29,7 @@
 #import "OESystemController.h"
 #import "OELibraryDatabase.h"
 
+NSString * const OEDBSystemsChangedNotificationName = @"OEDBSystemsChanged";
 @implementation OEDBSystem
 
 + (id)systemFromPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database

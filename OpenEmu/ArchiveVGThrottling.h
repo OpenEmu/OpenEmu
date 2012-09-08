@@ -27,8 +27,6 @@
 #import <Foundation/Foundation.h>
 #import "ArchiveVG.h"
 @interface ArchiveVGThrottling : ArchiveVG
-
-
 #pragma mark - Throttling
 - (BOOL)isOperationThrottled:(ArchiveVGOperation)operation;
 @property NSMutableArray *highPriorityQueue;

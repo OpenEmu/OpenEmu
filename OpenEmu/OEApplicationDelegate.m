@@ -57,6 +57,9 @@
 
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
+extern NSString * const OEPreferencesOpenPaneNotificationName;
+extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
+
 @interface OEApplicationDelegate ()
 - (void)OE_performDatabaseSelection;
 

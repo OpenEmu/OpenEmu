@@ -66,35 +66,8 @@ while ((view = [view superview])) {                                             
 }                                                                                                   \
 NSLog(@"View Hierarchy: %@", viewHierachy);                                                                       \
 }
-
-#pragma mark - Notification Names
-#define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"
-
-#define OESidebarSelectionDidChangeNotificationName                     @"OESidebarSelectionDidChange"
-#define OESidebarSelectionDidChangeSelectedItemUserInfoKey           @"SelectedItem"
-
-#define OEPreferencesOpenPaneNotificationName @"OEPrefOpenPane"
-#define OEPreferencesOpenPanelUserInfoPanelNameKey @"panelName"
-#define OEPreferencesOpenPanelUserInfoSystemIdentifierKey @"systemIdentifier"
-
-#pragma mark - Archive.vg constants
-// Archive.vg Support
-#define APIBase		@"http://api.archive.vg"
-#define APIVersion	@"2.0"
-#define APIKey		@"6CVC46HWMLJNU986TRM5A4XG927HA0K0"
-
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Default installed, non QTZ based filters names, used to identify filters 
 //  (see OEHudControlsBar.m, OEPrefGameplayController.m and OEGameLayer.m)
 //  Please note that the stated string must match a shader defined and created in OEGameLayer.m 
 #define OEOpenGLFilterNameArray [NSArray arrayWithObjects:@"Linear", @"Nearest Neighbor", @"Scale2xHQ", @"Scale2xPlus", @"Scale4x", @"Scale4xHQ", @"Scale2xBR", @"Scale4xBR", nil]
-
-
-#pragma mark - Main Menu Item Tags
-enum {
-    MainMenu_View_GridViewTag         = 301,
-    MainMenu_View_FlowViewTag         = 302,
-    MainMenu_View_ListViewTag         = 303,
-
-    MainMenu_Window_OpenEmuTag        = 501,
-};
