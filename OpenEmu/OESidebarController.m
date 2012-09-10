@@ -88,9 +88,8 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"") andAutosaveName:OESidebarGroupCollectionsAutosaveName],
                    nil];
     
-    // Setup toolbar button
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-    // setup sidebar outline view
+
     [sidebarView setHeaderView:nil];
     
     OESidebarCell *cell = [[OESidebarCell alloc] init];

@@ -408,10 +408,7 @@ extern NSString * const OELastCollectionSelectedKey;
     // Save Current State
     id lastState = [(id <OELibrarySubviewController>)[self currentViewController] encodeCurrentState];
     id itemID    = [[[self currentViewController] representedObject] sidebarID];
-    if(itemID && lastState)
-    {
-        [[NSUserDefaults standardUserDefaults] setObject:lastState forKey:itemID];
-    }
+    [self OE_storeState:lastState forSidebarItemWithID:itemID];
 
     // Set new item
     NSObject <OESidebarItem> *selectedItem = (NSObject <OESidebarItem> *)[[notification userInfo] objectForKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey];
@@ -422,14 +419,32 @@ extern NSString * const OELastCollectionSelectedKey;
 
     [self showViewController:viewController];
     
+    
     itemID = [selectedItem sidebarID];
-    if(itemID)
-    {
-        id state = [[NSUserDefaults standardUserDefaults] objectForKey:itemID];
-        [viewController restoreState:state];
-    }
+    [viewController restoreState:[self OE_storedStateForSidebarItemWithID:itemID]];
 }
 
+- (void)OE_storeState:(id)state forSidebarItemWithID:(NSString*)itemID
+{
+    if(!itemID || !state) return;
+    
+    NSUserDefaults      *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary        *libraryStates        = [standardUserDefaults valueForKey:@"Library States"];
+    NSMutableDictionary *mutableLibraryStates = libraryStates ? [libraryStates mutableCopy] : [NSMutableDictionary dictionary];
+    
+    [mutableLibraryStates setObject:state forKey:itemID];
+    [standardUserDefaults setObject:mutableLibraryStates forKey:@"Library States"];
+}
+
+- (id)OE_storedStateForSidebarItemWithID:(NSString*)itemID
+{
+    if(!itemID) return nil;
+    
+    NSUserDefaults      *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary        *libraryStates        = [standardUserDefaults valueForKey:@"Library States"];
+    
+    return [libraryStates objectForKey:itemID];
+}
 #pragma mark -
 #pragma mark Properties
 - (void)setSidebarChangesWindowSize:(BOOL)flag
