@@ -1290,8 +1290,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				EXPORTED_SYMBOLS_FILE = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "Mednafen PSX_Prefix.pch";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../OpenEmu\"/**",
 					"\"$(SRCROOT)/Core\"/**",
@@ -1306,6 +1308,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Core\"",
 				);
+				LLVM_LTO = YES;
 				OTHER_CFLAGS = (
 					"-fno-strict-overflow",
 					"-ffast-math",
@@ -1336,8 +1339,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				EXPORTED_SYMBOLS_FILE = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "Mednafen PSX_Prefix.pch";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../OpenEmu\"/**",
 					"\"$(SRCROOT)/Core\"/**",
@@ -1352,6 +1357,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Core\"",
 				);
+				LLVM_LTO = YES;
 				OTHER_CFLAGS = (
 					"-fno-strict-overflow",
 					"-ffast-math",
