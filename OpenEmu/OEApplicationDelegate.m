@@ -450,12 +450,13 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 {
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];    
     NSDictionary *lastPlayedInfo = [database lastPlayedRomsBySystem];
-    if(!lastPlayedInfo)
+    __block NSUInteger count = [[lastPlayedInfo allKeys] count];
+
+    if(!lastPlayedInfo || !count)
     {
         [self setCachedLastPlayedInfo:nil];
         return 1;
     }
-    __block NSUInteger count = [[lastPlayedInfo allKeys] count];
     [[lastPlayedInfo allValues] enumerateObjectsUsingBlock:
      ^ (id romArray, NSUInteger idx, BOOL *stop) {
         count += [romArray count];
