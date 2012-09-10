@@ -31,8 +31,6 @@
 #import "OECollectionViewItemProtocol.h"
 #import "OELibrarySubviewController.h"
 
-extern NSString *const OELastCollectionSelectedKey;
-
 @class OELibraryController;
 @class OEHorizontalSplitView;
 

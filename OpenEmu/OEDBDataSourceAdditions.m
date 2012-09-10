@@ -241,7 +241,7 @@
 
 - (NSString*)sidebarID
 {
-    return nil;
+    return [[[self objectID] URIRepresentation] absoluteString];
 }
 
 - (NSImage *)sidebarIcon

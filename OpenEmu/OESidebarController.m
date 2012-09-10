@@ -29,7 +29,6 @@
 #import "OESidebarItem.h"
 #import "OELibraryDatabase.h"
 #import "OESidebarCell.h"
-#import "OECollectionViewController.h"
 
 #import "OESidebarOutlineView.h"
 #import "OEDBGame.h"
@@ -39,7 +38,9 @@
 
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEROMImporter+OESidebarAdditions.h"
+#import "NSArray+OEAdditions.h"
 
+extern NSString *const OELastCollectionSelectedKey;
 NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
 extern NSString * const OEDBSystemsChangedNotificationName;
 
@@ -51,7 +52,6 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 @interface OESidebarController ()
 {
     NSArray *groups;
-    OELibraryDatabase *database;
     NSArray *systems;
     NSArray *collections;
     id editingItem;
@@ -62,7 +62,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 @end
 
 @implementation OESidebarController
-@synthesize groups, database, editingItem;
+@synthesize groups, database=_database, editingItem;
 @synthesize systems, collections;
 @dynamic view;
 
@@ -88,9 +88,8 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"") andAutosaveName:OESidebarGroupCollectionsAutosaveName],
                    nil];
     
-    // Setup toolbar button
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-    // setup sidebar outline view
+
     [sidebarView setHeaderView:nil];
     
     OESidebarCell *cell = [[OESidebarCell alloc] init];
@@ -135,6 +134,45 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)OE_finishAwakingUp
+{
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    // Restore last selected collection item
+    id itemID = [standardUserDefaults valueForKey:OELastCollectionSelectedKey];
+    DLog(@"%@", itemID);
+    
+}
+
+- (void)setDatabase:(OELibraryDatabase *)database
+{
+    // get last selected collection item
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    id itemID = [standardUserDefaults valueForKey:OELastCollectionSelectedKey];
+
+    // set database
+    _database = database;
+    [self reloadData];
+    
+    // Look for the collection item
+    id collectionItem = nil;
+    if(itemID != nil && [itemID isKindOfClass:[NSString class]])
+    {
+        collectionItem = [[self systems] firstObjectMatchingBlock:
+                          ^ BOOL (id obj) {
+                              return [[obj sidebarID] isEqualTo:itemID];
+                          }];
+        if(!collectionItem)
+            collectionItem = [[self collections] firstObjectMatchingBlock:
+                              ^ BOOL (id obj) {
+                                  return [[obj sidebarID] isEqualTo:itemID];
+                              }];
+    }
+    
+    // Select the found collection item, or select the first item by default
+    if(collectionItem != nil) [self selectItem:collectionItem];
+}
 #pragma mark -
 #pragma mark Public
 - (void)setEnabled:(BOOL)enabled
@@ -162,9 +200,11 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (void)reloadData
 {
+    if(![self database]) return;
+    
     self.systems     = [[self database] enabledSystems] ? : [NSArray array];
     self.collections = [[self database] collections]    ? : [NSArray array];
-    
+        
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView reloadData];
 }
@@ -266,7 +306,6 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 #pragma mark -
 #pragma mark NSOutlineView Delegate
-
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)[self view];
@@ -275,8 +314,9 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     NSDictionary *userInfo = selectedItem?[NSDictionary dictionaryWithObject:selectedItem forKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey]:nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:userInfo];
 
+    if(![self database]) return;
     if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
-        [[NSUserDefaults standardUserDefaults] setValue:[selectedItem collectionViewName] forKey:OELastCollectionSelectedKey];
+        [[NSUserDefaults standardUserDefaults] setValue:[selectedItem sidebarID] forKey:OELastCollectionSelectedKey];
 }
 
 - (void)outlineViewSelectionIsChanging:(NSNotification *)notification
@@ -285,7 +325,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-    return ![item isGroupHeaderInSdebar];
+    return [self database]!=nil && ![item isGroupHeaderInSdebar];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item
@@ -327,7 +367,9 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     if(item == nil) return [self.groups count];
     
     if(![self database])
+    {
         return 0;
+    }
     
     if(item == [self.groups objectAtIndex:0])
     {
@@ -430,17 +472,6 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 }
 
 #pragma mark -
-
-- (void)willHide
-{
-}
-
-- (void)willShow
-{
-}
-
-#pragma mark -
-
 - (void)controlTextDidBeginEditing:(NSNotification *)aNotification
 {    
 }

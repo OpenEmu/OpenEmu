@@ -156,7 +156,6 @@ NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
 }
 
 #pragma mark -
-
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
 {     
     NSView *contentView = [self placeholderView];

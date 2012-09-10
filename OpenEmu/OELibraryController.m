@@ -39,14 +39,15 @@
 #import "OEDBSmartCollection.h"
 
 #import "NSViewController+OEAdditions.h"
+#import "NSArray+OEAdditions.h"
 
 NSString * const OESidebarVisibleKey = @"isSidebarVisible";
 NSString * const OESidebarWidthKey = @"lastSidebarWidth";
+NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
 
 extern NSString * const OESidebarSelectionDidChangeNotificationName;
 extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
 
-extern NSString * const OELastCollectionSelectedKey;
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
@@ -132,24 +133,6 @@ extern NSString * const OELastCollectionSelectedKey;
     
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-
-    // Restore last selected collection item
-    id collectionViewName = [standardUserDefaults valueForKey:OELastCollectionSelectedKey];
-    id collectionItem = nil;
-    
-    // Look for the collection item
-    if(collectionViewName != nil && [collectionViewName isKindOfClass:[NSString class]])
-    {
-        NSPredicate *filterCollectionViewNamePredicate = [NSPredicate predicateWithFormat:@"collectionViewName == %@", collectionViewName];
-        
-        collectionItem = ([[[[self sidebarController] systems] filteredArrayUsingPredicate:filterCollectionViewNamePredicate] lastObject]
-                          ? : [[[[self sidebarController] collections] filteredArrayUsingPredicate:filterCollectionViewNamePredicate] lastObject]);
-    }
-    
-    // Select the found collection item, or select the first item by default
-    if(collectionItem != nil) [[self sidebarController] selectItem:collectionItem];
-    
-    [[self sidebarController] outlineViewSelectionDidChange:nil];
     
     CGFloat splitterPos = 0;
     if([self isSidebarVisible]) splitterPos = [standardUserDefaults doubleForKey:OESidebarWidthKey];
@@ -226,7 +209,6 @@ extern NSString * const OELastCollectionSelectedKey;
 {
     if([[self currentViewController] respondsToSelector:@selector(switchToGridView:)])
        [[self currentViewController] performSelector:@selector(switchToGridView:) withObject:sender];
-
 }
 
 - (IBAction)switchToListView:(id)sender
@@ -408,10 +390,7 @@ extern NSString * const OELastCollectionSelectedKey;
     // Save Current State
     id lastState = [(id <OELibrarySubviewController>)[self currentViewController] encodeCurrentState];
     id itemID    = [[[self currentViewController] representedObject] sidebarID];
-    if(itemID && lastState)
-    {
-        [[NSUserDefaults standardUserDefaults] setObject:lastState forKey:itemID];
-    }
+    [self OE_storeState:lastState forSidebarItemWithID:itemID];
 
     // Set new item
     NSObject <OESidebarItem> *selectedItem = (NSObject <OESidebarItem> *)[[notification userInfo] objectForKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey];
@@ -422,14 +401,32 @@ extern NSString * const OELastCollectionSelectedKey;
 
     [self showViewController:viewController];
     
+    
     itemID = [selectedItem sidebarID];
-    if(itemID)
-    {
-        id state = [[NSUserDefaults standardUserDefaults] objectForKey:itemID];
-        [viewController restoreState:state];
-    }
+    [viewController restoreState:[self OE_storedStateForSidebarItemWithID:itemID]];
 }
 
+- (void)OE_storeState:(id)state forSidebarItemWithID:(NSString*)itemID
+{
+    if(!itemID || !state) return;
+    
+    NSUserDefaults      *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary        *libraryStates        = [standardUserDefaults valueForKey:@"Library States"];
+    NSMutableDictionary *mutableLibraryStates = libraryStates ? [libraryStates mutableCopy] : [NSMutableDictionary dictionary];
+    
+    [mutableLibraryStates setObject:state forKey:itemID];
+    [standardUserDefaults setObject:mutableLibraryStates forKey:@"Library States"];
+}
+
+- (id)OE_storedStateForSidebarItemWithID:(NSString*)itemID
+{
+    if(!itemID) return nil;
+    
+    NSUserDefaults      *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary        *libraryStates        = [standardUserDefaults valueForKey:@"Library States"];
+    
+    return [libraryStates objectForKey:itemID];
+}
 #pragma mark -
 #pragma mark Properties
 - (void)setSidebarChangesWindowSize:(BOOL)flag

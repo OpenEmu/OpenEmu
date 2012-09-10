@@ -50,7 +50,7 @@
 
 - (NSString*)sidebarID
 {
-    return nil;
+    return @"OEDBAllGamesCollection";
 }
 
 - (BOOL)isSelectableInSdebar

@@ -47,13 +47,10 @@ extern NSString *const OESuppressRemoveCollectionConfirmationKey;
 - (void)expandCollections:(id)sender;
 - (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView;
 
-- (void)willHide;
-- (void)willShow;
-
 - (id<OECollectionViewItemProtocol>)selectedCollection;
 
 @property (retain, nonatomic) OESidebarOutlineView *view;
-@property (strong) OELibraryDatabase *database;
+@property (strong, nonatomic) OELibraryDatabase *database;
 @property (retain, readwrite) NSArray *groups;
 @property (retain, readwrite) NSArray *systems, *collections;
 @property (nonatomic, strong, readwrite) id editingItem;
