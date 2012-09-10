@@ -27,7 +27,6 @@
 @class OEHIDManager;
 @class OEMainWindowController;
 @interface OEApplicationDelegate : NSDocumentController <NSApplicationDelegate, NSMenuDelegate>
-
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showPreferencesWindow:(id)sender;
 
@@ -47,4 +46,7 @@
 @property(strong, readonly) NSString           *appVersion;
 @property(strong, readonly) NSString           *buildVersion;
 @property(strong, readonly) NSAttributedString *projectURL;
+
+#pragma mark - Debug
+- (IBAction)OEDebug_logResponderChain:(id)sender;
 @end

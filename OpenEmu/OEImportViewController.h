@@ -28,13 +28,13 @@
 
 #import "OEROMImporter.h"
 #import "OELibrarySubviewController.h"
+@class OELibraryController;
 @interface OEImportViewController : NSViewController <NSTableViewDelegate, NSTableViewDataSource, OEROMImporterDelegate, OELibrarySubviewController>
 
 #pragma mark - UI Methods
 - (IBAction)togglePause:(id)sender;
 - (IBAction)cancel:(id)sender;
 
-@property (strong) IBOutlet NSProgressIndicator *progressIndicator;
-@property (strong) IBOutlet NSTextField         *statusField;
+@property (strong) OELibraryController *libraryController;
 @property (strong) IBOutlet NSTableView         *tableView;
 @end

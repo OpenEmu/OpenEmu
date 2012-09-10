@@ -54,14 +54,11 @@ extern NSString *const OELastCollectionSelectedKey;
 - (IBAction)changeGridSize:(id)sender;
 
 #pragma mark -
-- (void)willShow;
 - (void)setNeedsReload;
 
+- (id <OECollectionViewItemProtocol>)representedObject;
 #pragma mark -
-
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
-@property(nonatomic, strong) id <OECollectionViewItemProtocol> collectionItem;
-
 @property(nonatomic, strong) IBOutlet NSView *emptyCollectionView;
 @property(nonatomic, strong) IBOutlet NSView *emptyConsoleView;
 

@@ -184,7 +184,7 @@ NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
         [(id <OEMainWindowContentController>)currentContentController setCachedSnapshot:currentState];
     
     [currentContentController viewWillDisappear];
-    [controller                     viewWillAppear];
+    [controller viewWillAppear];
     
     NSView *placeHolderView = [self placeholderView];
     OEFadeView *fadeView = [[OEFadeView alloc] initWithFrame:[placeHolderView bounds]];
@@ -207,7 +207,7 @@ NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
          [[self window] makeFirstResponder:[controller view]];
          
          [currentContentController viewDidDisappear];
-         [controller                     viewDidAppear];
+         [controller viewDidAppear];
          currentContentController = controller;
          
          [fadeView removeFromSuperview];

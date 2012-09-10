@@ -50,9 +50,6 @@ extern NSString * const OELastCollectionSelectedKey;
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
-- (void)OE_setupMenu;
-- (void)OE_setupToolbarItems;
-
 @property NSMutableDictionary *subviewControllers;
 - (NSViewController <OELibrarySubviewController>*)viewControllerWithClassName:(NSString*)className;
 @end
@@ -72,13 +69,12 @@ extern NSString * const OELastCollectionSelectedKey;
 {
     if(self == [OELibraryController class])
     {
-        [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESidebarVisibleKey : @TRUE }];        
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESidebarVisibleKey : @TRUE }];
     }
 }
 
 - (void)dealloc
 {
-    NSLog(@"Dealloc OELibraryController");
     [[NSNotificationCenter defaultCenter] removeObject:self];
 }
 
@@ -174,7 +170,7 @@ extern NSString * const OELastCollectionSelectedKey;
 }
 
 #pragma mark -
-#pragma mark Toolbar Actions
+#pragma mark Toolbar
 - (IBAction)toggleSidebar:(id)sender
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -230,6 +226,7 @@ extern NSString * const OELastCollectionSelectedKey;
 {
     if([[self currentViewController] respondsToSelector:@selector(switchToGridView:)])
        [[self currentViewController] performSelector:@selector(switchToGridView:) withObject:sender];
+
 }
 
 - (IBAction)switchToListView:(id)sender
@@ -304,16 +301,22 @@ extern NSString * const OELastCollectionSelectedKey;
     if([menuItem action] == @selector(startGame:))
         return [[self currentViewController] respondsToSelector:@selector(selectedGames)] && [[[self currentViewController] selectedGames] count] != 0;
     
+    if([menuItem action] == @selector(find:))
+    {
+        return [[self toolbarSearchField] isEnabled];
+    }
+    
+    NSButton *button = nil;
     if([menuItem action] == @selector(switchToGridView:))
-        return [[self currentViewController] respondsToSelector:@selector(switchToGridView:)];
+        button = [self toolbarGridViewButton];
+    else if([menuItem action] == @selector(switchToFlowView:))
+        button = [self toolbarFlowViewButton];
+    else if([menuItem action] == @selector(switchToListView:))
+        button = [self toolbarListViewButton];
+    else return YES;
     
-    if([menuItem action] == @selector(switchToFlowView:))
-        return [[self currentViewController] respondsToSelector:@selector(switchToFlowView:)];
-    
-    if([menuItem action] == @selector(switchToListView:))
-        return [[self currentViewController] respondsToSelector:@selector(switchToListView:)];
-    
-    return YES;
+    [menuItem setState:[button state]];
+     return [button isEnabled];
 }
 
 #pragma mark -
@@ -369,6 +372,9 @@ extern NSString * const OELastCollectionSelectedKey;
     NSViewController <OELibrarySubviewController> *oldViewController = [self currentViewController];
     if(nextViewController == oldViewController) return;
     
+    if([nextViewController respondsToSelector:@selector(setLibraryController:)])
+        [nextViewController setLibraryController:self];
+
     [oldViewController viewWillDisappear];
     [nextViewController viewWillAppear];
     
@@ -390,18 +396,18 @@ extern NSString * const OELastCollectionSelectedKey;
         [mainContentView addSubview:newView];
     }
     [self setCurrentViewController:nextViewController];
-    [self OE_setupToolbarItems];
-    [self OE_setupMenu];
     
     [nextViewController viewDidAppear];
     [oldViewController viewDidDisappear];
+    if([oldViewController respondsToSelector:@selector(setLibraryController:)])
+        [oldViewController setLibraryController:nil];
 }
 
 - (void)sidebarSelectionDidChange:(NSNotification *)notification
 {
     // Save Current State
     id lastState = [(id <OELibrarySubviewController>)[self currentViewController] encodeCurrentState];
-    id itemID    = [[(id <OELibrarySubviewController>)[self currentViewController] selectedItem] sidebarID];
+    id itemID    = [[[self currentViewController] representedObject] sidebarID];
     if(itemID && lastState)
     {
         [[NSUserDefaults standardUserDefaults] setObject:lastState forKey:itemID];
@@ -412,7 +418,7 @@ extern NSString * const OELastCollectionSelectedKey;
     
     NSString *viewControllerClasName = [selectedItem viewControllerClassName];
     NSViewController <OELibrarySubviewController> *viewController = [self viewControllerWithClassName:viewControllerClasName];
-    [viewController setItem:selectedItem];
+    [viewController setRepresentedObject:selectedItem];
 
     // Restore State
     itemID = [selectedItem sidebarID];
@@ -474,25 +480,12 @@ extern NSString * const OELastCollectionSelectedKey;
         if(viewControllerClass)
         {
             NSViewController <OELibrarySubviewController>*viewController = [[viewControllerClass alloc] init];
-            if([viewController respondsToSelector:@selector(setLibraryController:)])
-                [viewController setLibraryController:self];
             [subviewControllers setObject:viewController forKey:className];
         }
     }
     return [subviewControllers valueForKey:className];
 }
 #pragma mark -
-- (void)OE_setupMenu
-{}
-
-- (void)OE_setupToolbarItems
-{
-    [[self toolbarSlider] setEnabled:[[self toolbarGridViewButton] state]];
-    
-    [[self toolbarSlider] setEnabled:[[self currentViewController] respondsToSelector:@selector(changeGridSize:)]];
-    [[self toolbarGridViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToGridView:)]];
-}
-
 - (void)layoutToolbarItems
 {
     OELibrarySplitView *splitView = [self mainSplitView];
@@ -504,7 +497,5 @@ extern NSString * const OELastCollectionSelectedKey;
     
     [toolbarItemContainer setFrame:NSMakeRect(splitterPosition, 0.0, NSWidth([[toolbarItemContainer superview] bounds]) - splitterPosition, 44.0)];
 }
-
-
 @end
 

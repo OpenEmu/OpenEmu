@@ -26,11 +26,19 @@
 
 #import <Foundation/Foundation.h>
 #import "OELibraryController.h"
+
+/* NOTE:
+ * If the sidebar changes selection and the selected item is suitable for a Library Subview Controller it will be set as representedObject 
+ * and the view controllers view will be presented
+ */
+
+/* NOTE: Toolbar Items
+ *   Library Subview Controllers are responsible for managing the toolbar item states, this can be done by implementing setLibraryController,
+ * and using the toolbar button properties of OELibraryController in the subviews controller didAppear, or whenever necessary.
+ * OELibraryController will setup the view menu based on the toolbar button states.
+ */
+
 @protocol OELibrarySubviewController <NSObject>
-
-- (void)setItem:(id)item;
-- (id)selectedItem;
-
 #pragma mark - State Handling
 - (id)encodeCurrentState;
 - (void)restoreState:(id)state;

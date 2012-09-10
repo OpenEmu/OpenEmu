@@ -59,7 +59,6 @@ extern NSString *const OEAutomaticallyGetInfoKey;
 @property (readonly) BOOL isBusy;
 
 @property (strong) id <OEROMImporterDelegate> delegate;
-
 @property NSMutableArray *queue;
 #pragma mark - Importing Items
 - (void)importItemAtPath:(NSString*)path;

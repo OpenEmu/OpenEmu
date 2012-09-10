@@ -208,18 +208,18 @@ NSString *const OEMainViewMinWidth = @"mainViewMinWidth";
 }
 
 #pragma mark -
-- (void)expandItem:(id)item
+- (void)expandItem:(id)item expandChildren:(BOOL)expandChildren
 {
-    [super expandItem:item];
+    [super expandItem:item expandChildren:expandChildren];
     if([item isKindOfClass:[OESidebarGroupItem class]])
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[item autosaveName]];
     }
 }
 
-- (void)collapseItem:(id)item
+- (void)collapseItem:(id)item collapseChildren:(BOOL)expandChildren
 {
-    [super collapseItem:item];
+    [super collapseItem:item collapseChildren:expandChildren];
     if([item isKindOfClass:[OESidebarGroupItem class]])
     {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:[item autosaveName]];

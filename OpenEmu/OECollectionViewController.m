@@ -54,6 +54,7 @@
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 
+#import "NSViewController+OEAdditions.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
 
@@ -70,9 +71,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 #define     MainMenu_View_ListViewTag 303
 
 @interface OECollectionViewController ()
-{
-    id<OECollectionViewItemProtocol> collectionItem;
-    
+{    
     IBOutlet NSView *gridViewContainer;// gridview
     IBOutlet OEGridView *gridView;// scrollview for gridview
     
@@ -83,7 +82,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 - (void)OE_managedObjectContextDidSave:(NSNotification *)notification;
 - (void)OE_reloadData;
-- (void)OE_selectView:(NSInteger)view;
+- (void)OE_selectView:(NSInteger)view andUpdateToolbar:(BOOL)updateToolbarFlag;
 
 - (OEMenu *)OE_menuForItemsAtIndexes:(NSIndexSet *)indexes;
 - (NSMenu *)OE_saveStateMenuForGame:(OEDBGame *)game;
@@ -93,6 +92,9 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 @end
 
 @implementation OECollectionViewController
+{
+    BOOL blankSlateVisible;
+}
 @synthesize libraryController, gamesController;
 @synthesize emptyCollectionView, emptyConsoleView;
 
@@ -120,7 +122,6 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    collectionItem = nil;
     gamesController = nil;
 }
 
@@ -212,7 +213,26 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 {
     return @"CollectionView";
 }
+#pragma mark - OELibrarySubviewControllerProtocol Implementation
+- (void)setRepresentedObject:(id)representedObject
+{
+    [super setRepresentedObject:representedObject];
+    [self OE_reloadData];
+}
 
+- (id <OECollectionViewItemProtocol>)representedObject
+{
+    return [super representedObject];
+}
+
+- (id)encodeCurrentState
+{
+    return nil;
+}
+
+- (void)restoreState:(id)state
+{
+}
 #pragma mark -
 - (NSArray *)selectedGames
 {
@@ -228,63 +248,68 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 #pragma mark View Selection
 - (IBAction)switchToGridView:(id)sender
 {
-    [self OE_selectView:0];
+    [self OE_selectView:0 andUpdateToolbar:YES];
 }
 
 - (IBAction)switchToFlowView:(id)sender
 {
-    [self OE_selectView:1];
+    [self OE_selectView:1 andUpdateToolbar:YES];
 }
 
 - (IBAction)switchToListView:(id)sender
-{ 
-    [self OE_selectView:2];
+{
+    [self OE_selectView:2 andUpdateToolbar:YES];
 }
 
 
-- (void)OE_selectView:(NSInteger)view
+- (void)OE_selectView:(NSInteger)view andUpdateToolbar:(BOOL)updateToolbarFlag
 {
-    NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
+    if(updateToolbarFlag)
+    {
+        [[[self libraryController] toolbarGridViewButton] setState:NSOffState];
+        [[[self libraryController] toolbarFlowViewButton] setState:NSOffState];
+        [[[self libraryController] toolbarListViewButton] setState:NSOffState];
+    }
     
-    NSMenu *mainMenu = [NSApp mainMenu];
-    NSMenu *viewMenu = [[mainMenu itemAtIndex:3] submenu];
-    
-    [[[self libraryController] toolbarGridViewButton] setState: NSOffState];
-    [[viewMenu itemWithTag:MainMenu_View_GridViewTag] setState:NSOffState];
-    [[[self libraryController] toolbarFlowViewButton] setState: NSOffState];
-    [[viewMenu itemWithTag:MainMenu_View_FlowViewTag] setState:NSOffState];
-    [[[self libraryController] toolbarListViewButton] setState: NSOffState];
-    [[viewMenu itemWithTag:MainMenu_View_ListViewTag] setState:NSOffState];
+    NSButton *buttonToSelect = nil;
+    BOOL sliderEnabledFlag = NO;
     
     NSView *nextView = nil;
     float splitterPosition =-1;
     switch (view)
     {
         case 0: ;// Grid View
-            [[[self libraryController] toolbarGridViewButton] setState:NSOnState];
-            [[viewMenu itemWithTag:MainMenu_View_GridViewTag] setState:NSOnState];
+            buttonToSelect = [[self libraryController] toolbarGridViewButton];
+            sliderEnabledFlag = YES;
             nextView = gridViewContainer;
-            [sizeSlider setEnabled:YES];
             break;
         case 1: ;// CoverFlow View
-            [[[self libraryController] toolbarFlowViewButton] setState: NSOnState];
-            [[viewMenu itemWithTag:MainMenu_View_FlowViewTag] setState:NSOnState];
+            buttonToSelect = [[self libraryController] toolbarFlowViewButton];
+            sliderEnabledFlag = NO;
             nextView = flowlistViewContainer;
-            [sizeSlider setEnabled:NO];
             
             // Set Splitter Position
+            // TODO: Fix Splitter position here
             splitterPosition = 500;
             break;
         case 2: ;// List View
-            [[[self libraryController] toolbarListViewButton] setState: NSOnState];
-            [[viewMenu itemWithTag:MainMenu_View_ListViewTag] setState:NSOnState];
+            buttonToSelect = [[self libraryController] toolbarListViewButton];
+            sliderEnabledFlag = NO;
             nextView = flowlistViewContainer;
-            [sizeSlider setEnabled:NO];
-            
+
             // Set Splitter position
+            // TODO: Fix Splitter position here too
             splitterPosition = 0;
             break;
         default: return;
+    }
+    
+    if(updateToolbarFlag)
+    {
+        [buttonToSelect setState:NSOnState];
+        
+        NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
+        [sizeSlider setEnabled:sliderEnabledFlag];
     }
     
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:view] forKey:OELastCollectionViewKey];
@@ -302,18 +327,20 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     
     [[self view] addSubview:nextView];
     [nextView setFrame:[[self view] bounds]];
+    [[[self view] window] makeFirstResponder:nextView];
 }
 
 #pragma mark -
-
-- (void)willShow
+- (void)viewDidAppear
 {
-    [listView setEnabled:YES];
+    [super viewDidAppear];
+    
+    [[[self libraryController] toolbarGridViewButton] setEnabled:YES];
+    [[[self libraryController] toolbarFlowViewButton] setEnabled:YES];
+    [[[self libraryController] toolbarListViewButton] setEnabled:YES];
 }
-
 #pragma mark -
 #pragma mark Toolbar Actions
-
 - (IBAction)search:(id)sender
 {
     NSPredicate *pred = [[sender stringValue] isEqualToString:@""]?nil:[NSPredicate predicateWithFormat:@"name contains[cd] %@", [sender stringValue]];
@@ -330,40 +357,6 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [gridView setItemSize:NSMakeSize(roundf(26+142*zoomValue), roundf(44+7+142*zoomValue))];
     
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
-}
-
-#pragma mark -
-#pragma mark Property Getters / Setters
-- (void)setCollectionItem:(id <NSObject, OECollectionViewItemProtocol>)_collectionItem
-{
-    collectionItem = _collectionItem;    
-    [self OE_reloadData];
-}
-
-- (id)collectionItem
-{
-    return collectionItem;
-}
-
-#pragma mark - OELibrarySubviewControllerProtocol Implementation
-- (void)setItem:(id)item
-{
-    collectionItem = item;
-    [self OE_reloadData];
-}
-
-- (id)selectedItem
-{
-    return [self collectionItem];
-}
-
-- (id)encodeCurrentState
-{
-    return nil;
-}
-
-- (void)restoreState:(id)state
-{
 }
 
 #pragma mark -
@@ -396,7 +389,6 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 #pragma mark -
 #pragma mark Grid View DataSource
-
 - (NSUInteger)numberOfItemsInGridView:(OEGridView *)view
 {
     return [[gamesController arrangedObjects] count];
@@ -463,11 +455,11 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 - (NSView *)viewForNoItemsInGridView:(OEGridView *)view
 {
-    if([collectionItem isKindOfClass:[OEDBSystem class]])
-        return [[OEGridBlankSlateView alloc] initWithSystemPlugin:[(OEDBSystem*)collectionItem plugin]];
+    if([[self representedObject] isKindOfClass:[OEDBSystem class]])
+        return [[OEGridBlankSlateView alloc] initWithSystemPlugin:[(OEDBSystem*)[self representedObject] plugin]];
     
-    if([collectionItem respondsToSelector:@selector(collectionViewName)])
-        return [[OEGridBlankSlateView alloc] initWithCollectionName:[collectionItem collectionViewName]];
+    if([[self representedObject] respondsToSelector:@selector(collectionViewName)])
+        return [[OEGridBlankSlateView alloc] initWithCollectionName:[[self representedObject] collectionViewName]];
     
     return nil;
 }
@@ -666,7 +658,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     
     for(id collection in collections)
     {
-        if([collection isMemberOfClass:[OEDBCollection class]] && collection != [self collectionItem])
+        if([collection isMemberOfClass:[OEDBCollection class]] && collection != [self representedObject])
         {
             NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:[collection valueForKey:@"name"] action:@selector(addSelectedGamesToCollection:) keyEquivalent:@""];
             
@@ -711,9 +703,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 - (void)deleteSaveState:(id)stateItem
 {
-    // TODO: use OEAlert once it's been written
     // TODO: localize and rephrase text
-    
     id state = [stateItem representedObject];
     NSString *stateName = [state name];
     OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
@@ -746,11 +736,11 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 {
     NSArray *selectedGames = [self selectedGames];
     
-    if([[self collectionItem] isKindOfClass:[OEDBCollection class]])
+    if([[self representedObject] isKindOfClass:[OEDBCollection class]])
     {
         if([[OEHUDAlert removeGamesFromCollectionAlert] runModal])
         {
-            OEDBCollection* collection = (OEDBCollection*)[self collectionItem];
+            OEDBCollection* collection = (OEDBCollection*)[self representedObject];
             [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];
             [[collection managedObjectContext] save:nil];
         }
@@ -1157,6 +1147,35 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
         NSLog(@"Error while fetching: %@", error);
         return;
     }
+    
+    NSUInteger count = [[gamesController arrangedObjects] count];
+    if(count && blankSlateVisible)
+    {
+        blankSlateVisible = NO;
+        if([[[self libraryController] toolbarFlowViewButton] state] == NSOnState)
+            [self switchToFlowView:self];
+        else if([[[self libraryController] toolbarListViewButton] state] == NSOnState)
+            [self switchToListView:self];
+        
+        [[[self libraryController] toolbarGridViewButton] setEnabled:YES];
+        [[[self libraryController] toolbarFlowViewButton] setEnabled:YES];
+        [[[self libraryController] toolbarListViewButton] setEnabled:YES];
+        
+        [[[self libraryController] toolbarSearchField] setEnabled:YES];
+        [[[self libraryController] toolbarSlider] setEnabled:YES];
+    }
+    else if(![[gamesController arrangedObjects] count] && !blankSlateVisible)
+    {
+        blankSlateVisible = YES;
+        [self OE_selectView:0 andUpdateToolbar:NO];
+        
+        [[[self libraryController] toolbarGridViewButton] setEnabled:NO];
+        [[[self libraryController] toolbarFlowViewButton] setEnabled:NO];
+        [[[self libraryController] toolbarListViewButton] setEnabled:NO];
+        
+        [[[self libraryController] toolbarSearchField] setEnabled:NO];
+        [[[self libraryController] toolbarSlider] setEnabled:NO];
+    }
 }
 
 - (void)updateViews
@@ -1216,7 +1235,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_reloadData) object:nil];
     if(!gamesController) return;
     
-    NSPredicate *pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];
+    NSPredicate *pred = [self representedObject]?[[self representedObject] predicate]:[NSPredicate predicateWithValue:NO];
     [gamesController setFetchPredicate:pred];
     
     [self OE_fetchGames];

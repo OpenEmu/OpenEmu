@@ -56,23 +56,43 @@
     [super loadView];
     
     [(OEBackgroundColorView*)[self view] setBackgroundColor:[NSColor lightGrayColor]];
-    [[self progressIndicator] setIndeterminate:NO];
-    [[self progressIndicator] startAnimation:self];
     
     [[self tableView] setDelegate:self];
 }
-@synthesize progressIndicator, statusField, tableView;
+@synthesize tableView;
 #pragma mark -
 - (void)viewWillAppear
 {
+    [super viewWillAppear];
+    
     [[self importer] setDelegate:self];
     
     [[self tableView] setDataSource:self];
     [[self tableView] reloadData];
 }
 
+- (void)viewDidAppear
+{
+    [super viewDidAppear];
+    
+    [[[self libraryController] toolbarGridViewButton] setEnabled:NO];
+    [[[self libraryController] toolbarFlowViewButton] setEnabled:NO];
+    [[[self libraryController] toolbarListViewButton] setEnabled:NO];
+    
+    [[[self libraryController] toolbarGridViewButton] setState:NSOffState];
+    [[[self libraryController] toolbarFlowViewButton] setState:NSOffState];
+    [[[self libraryController] toolbarListViewButton] setState:NSOnState];
+    
+    [[[self libraryController] toolbarSearchField] setEnabled:NO];
+    [[[self libraryController] toolbarSearchField] setStringValue:@""];
+    
+    [[[self libraryController] toolbarSlider] setEnabled:NO];
+}
+
 - (void)viewDidDisappear
 {
+    [super viewDidDisappear];
+    
     [[self tableView] setDataSource:nil];
     [[self tableView] reloadData];
     
@@ -86,10 +106,10 @@
     return [[OELibraryDatabase defaultDatabase] importer];
 }
 #pragma mark - OELibrarySubviewController Protocol Implementation
-- (void)setItem:(id)item
+- (void)setRepresentedObject:(id)representedObject
 {}
 
-- (id)selectedItem
+- (id)representedObject
 {
     return [self importer];
 }

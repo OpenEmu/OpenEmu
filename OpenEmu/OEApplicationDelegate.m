@@ -497,8 +497,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     
     return YES;
 }
-#pragma mark -
-#pragma mark KVO
+#pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if(context == _OEApplicationDelegateAllPluginsContext)
@@ -507,4 +506,10 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
+#pragma mark - Debug
+- (IBAction)OEDebug_logResponderChain:(id)sender;
+{
+    DLog(@"NSApp.KeyWindow: %@", [NSApp keyWindow]);
+    LogResponderChain([[NSApp keyWindow] firstResponder]);
+}
 @end
