@@ -26,22 +26,21 @@
 
 #import "OELibraryController.h"
 #import "OELibraryDatabase.h"
-#import "OEDBSmartCollection.h"
 
+#import "OESidebarItem.h"
 #import "OESidebarController.h"
-#import "OECollectionViewController.h"
 #import "OELibrarySplitView.h"
 
 #import "OEROMImporter.h"
+
+#import "OECollectionViewController.h"
 #import "OEImportViewController.h"
 
-#import "OESystemPlugin.h"
-#import "NSViewController+OEAdditions.h"
-
-#import "OESidebarItem.h"
-
 #import "OEDBGame.h"
+#import "OESystemPlugin.h"
+#import "OEDBSmartCollection.h"
 
+#import "NSViewController+OEAdditions.h"
 
 NSString * const OESidebarVisibleKey = @"isSidebarVisible";
 NSString * const OESidebarWidthKey = @"lastSidebarWidth";
@@ -70,6 +69,14 @@ extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
 @synthesize cachedSnapshot;
 @synthesize delegate;
 @synthesize subviewControllers;
+
++ (void)initialize
+{
+    if(self == [OELibraryController class])
+    {
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESidebarVisibleKey : @TRUE }];        
+    }
+}
 
 - (void)dealloc
 {

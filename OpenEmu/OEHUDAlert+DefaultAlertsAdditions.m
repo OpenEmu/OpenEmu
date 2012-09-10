@@ -72,6 +72,8 @@ NSString *const OEChangeCoreAlertSuppressionKey = @"changeCoreWithoutConfirmatio
 + (id)saveGameAlertWithProposedName:(NSString*)name
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{OEMaxSaveGameNameLengthKey:@40}];
     
     [alert setInputLabelText:@"Save As:"];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Save Game", @"")];

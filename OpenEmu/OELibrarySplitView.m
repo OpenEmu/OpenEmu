@@ -27,6 +27,13 @@
 #import "OELibrarySplitView.h"
 #import "OELibraryController.h"
 
+extern NSString * const OESidebarMinWidth;
+extern NSString * const OESidebarMaxWidth;
+extern NSString * const OEMainViewMinWidth;
+
+extern NSString * const OESidebarWidthKey;
+extern NSString * const OESidebarVisibleKey;
+
 @interface OELibrarySplitView ()
 - (void)OE_commonLibrarySplitViewInit;
 - (void)OE_replaceView:(NSView *)aView withView:(NSView *)anotherView animated:(BOOL)flag;
@@ -37,7 +44,13 @@
 @synthesize minWidth, sidebarMaxWidth, mainViewMinWidth;
 @synthesize libraryConroller;
 
-- (id)init 
++ (void)inititalize
+{
+    NSDictionary *defaults = @{ OESidebarMinWidth : @105.0f, OESidebarMaxWidth : @450.0f, OEMainViewMinWidth : @495.0f, OESidebarWidthKey : @186.0f };
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+}
+
+- (id)init
 {
     if((self = [super init]))
     {

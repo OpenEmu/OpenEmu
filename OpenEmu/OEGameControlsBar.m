@@ -66,6 +66,12 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 @synthesize gameViewController;
 @synthesize controlsView;
 
++ (void)initialize
+{
+    // Time until hud controls bar fades out
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OEGameControlsBarFadeOutDelayKey : @1.5 } ];
+}
+
 - (id)initWithGameViewController:(OEGameViewController *)controller
 {
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarHidesOptionButtonKey];

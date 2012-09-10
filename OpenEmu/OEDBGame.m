@@ -43,6 +43,12 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
 @end
 
 @implementation OEDBGame
++ (void)initialize
+{
+     if (self == [OEDBGame class]) {
+         [[NSUserDefaults standardUserDefaults] registerDefaults:@{OEBoxSizesKey:@[@"{75,75}", @"{150,150}", @"{300,300}", @"{450,450}"]}];
+     }
+}
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBGames
 + (id)createGameWithName:(NSString*)name andSystem:(OEDBSystem*)system inDatabase:(OELibraryDatabase *)database
