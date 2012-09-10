@@ -94,6 +94,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 @implementation OECollectionViewController
 {
     BOOL blankSlateVisible;
+    int _selectedViewTag;
 }
 @synthesize libraryController, gamesController;
 @synthesize emptyCollectionView, emptyConsoleView;
@@ -227,11 +228,42 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 - (id)encodeCurrentState
 {
-    return nil;
+    if(![self libraryController]) return nil;
+    
+    NSMutableData    *data  = [NSMutableData data];
+    NSKeyedArchiver  *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    NSSlider *sizeSlider    = [[self libraryController] toolbarSlider];
+    NSString *searchString  = [[[self libraryController] toolbarSearchField] stringValue];
+
+    [coder encodeInt:_selectedViewTag forKey:@"selectedView"];
+    [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
+    [coder encodeObject:searchString forKey:@"searchString"];
+    [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
+    
+    [coder finishEncoding];
+    
+    return data;
 }
 
 - (void)restoreState:(id)state
 {
+    if(![self libraryController] || !state) return;
+    
+    NSKeyedUnarchiver *coder = [NSKeyedUnarchiver unarchiveObjectWithData:state];
+    if(!coder) return;
+    
+    NSSlider *sizeSlider    = [[self libraryController] toolbarSlider];
+    NSTextField *searchField   = [[self libraryController] toolbarSearchField];
+
+    int selectedViewTag          = [coder decodeIntForKey:@"selectedView"];
+    float sliderValue            = [coder decodeFloatForKey:@"sliderValue"];
+    NSString   *searchString     = [coder decodeObjectForKey:@"searchString"];
+    NSIndexSet *selectionIndexes = [coder decodeObjectForKey:@"selectionIndexes"];
+    
+    [self OE_selectView:selectedViewTag andUpdateToolbar:YES];
+    [sizeSlider setFloatValue:sliderValue];
+    [searchField setStringValue:searchString];
+    // TODO: restore selection using selectionIndexes
 }
 #pragma mark -
 - (NSArray *)selectedGames
@@ -312,6 +344,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
         [sizeSlider setEnabled:sliderEnabledFlag];
     }
     
+    _selectedViewTag = view;
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:view] forKey:OELastCollectionViewKey];
     
     if(splitterPosition!=-1) [flowlistViewContainer setSplitterPosition:splitterPosition animated:NO];
@@ -319,6 +352,8 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     if(!nextView || [nextView superview]!=nil)
         return;
     
+    id firstResponder = [[[self view] window] firstResponder];
+    BOOL makeFirstResponder = [firstResponder isKindOfClass:[NSView class]] && [firstResponder isDescendantOf:[self view]];
     while([[[self view] subviews] count]!=0)
     {
         NSView *currentSubview = [[[self view] subviews] objectAtIndex:0];
@@ -327,17 +362,15 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     
     [[self view] addSubview:nextView];
     [nextView setFrame:[[self view] bounds]];
-    [[[self view] window] makeFirstResponder:nextView];
+    
+    if(makeFirstResponder)
+        [[[self view] window] makeFirstResponder:nextView];
 }
 
 #pragma mark -
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-    
-    [[[self libraryController] toolbarGridViewButton] setEnabled:YES];
-    [[[self libraryController] toolbarFlowViewButton] setEnabled:YES];
-    [[[self libraryController] toolbarListViewButton] setEnabled:YES];
 }
 #pragma mark -
 #pragma mark Toolbar Actions
