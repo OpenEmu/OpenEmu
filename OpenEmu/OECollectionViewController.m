@@ -63,6 +63,7 @@
 
 NSString *const OELastGridSizeKey = @"lastGridSize";
 NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
+NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 #define     MainMenu_View_GridViewTag 301
 #define     MainMenu_View_FlowViewTag 302

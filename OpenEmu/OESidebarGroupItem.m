@@ -29,10 +29,11 @@
 
 @implementation OESidebarGroupItem
 
-+ (id)groupItemWithName:(NSString*)name
++ (id)groupItemWithName:(NSString*)name andAutosaveName:(NSString*)autosaveName
 {
     OESidebarGroupItem *newItem = [[self alloc] init];
     newItem.name = name;
+    newItem.autosaveName = autosaveName;
     return newItem;
 }
 

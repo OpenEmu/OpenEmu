@@ -46,6 +46,8 @@ extern NSString * const OEDBSystemsChangedNotificationName;
 NSString * const OESidebarSelectionDidChangeNotificationName = @"OESidebarSelectionDidChange";
 NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey = @"SelectedItem";
 
+NSString * const OESidebarGroupConsolesAutosaveName = @"sidebarConsolesItem";
+NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsItem";
 @interface OESidebarController ()
 {
     NSArray *groups;
@@ -75,25 +77,19 @@ NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey = @"Selected
     
     [image setName:@"collections_simple" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
     [image setName:@"collections_smart" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESidebarGroupConsolesAutosaveName : @TRUE }];
 }
 
 - (void)awakeFromNib
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
-}
-
-- (void)setView:(NSView *)view
-{
-    [super setView:view];
-
     self.groups = [NSArray arrayWithObjects:
-                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"")],
-                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"")],
+                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"") andAutosaveName:OESidebarGroupConsolesAutosaveName],
+                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"") andAutosaveName:OESidebarGroupCollectionsAutosaveName],
                    nil];
     
     // Setup toolbar button
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-
     // setup sidebar outline view
     [sidebarView setHeaderView:nil];
     
@@ -110,10 +106,15 @@ NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey = @"Selected
     [sidebarView registerForDraggedTypes:[NSArray arrayWithObjects:@"org.openEmu.rom", NSFilenamesPboardType, nil]];
     [sidebarView setDelegate:self];
     [sidebarView setDataSource:self];
-    [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:1] byExtendingSelection:NO];
-    [sidebarView expandItem:[sidebarView itemAtRow:0]];
+    for(OESidebarGroupItem *groupItem in [self groups])
+    {
+        if([[NSUserDefaults standardUserDefaults] boolForKey:[groupItem autosaveName]])
+            [sidebarView expandItem:groupItem];
+        else
+            [sidebarView collapseItem:groupItem];
+    }
     [sidebarView setAllowsEmptySelection:NO];
-
+    
     NSScrollView *enclosingScrollView = [sidebarView enclosingScrollView];
     if(enclosingScrollView != nil)
     {
@@ -122,9 +123,12 @@ NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey = @"Selected
     }
     else
         [sidebarView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
-        
+    
     [self OE_setupDrop];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
 }
+ 
 
 - (void)dealloc
 {
@@ -133,7 +137,6 @@ NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey = @"Selected
 
 #pragma mark -
 #pragma mark Public
-
 - (void)setEnabled:(BOOL)enabled
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
@@ -207,24 +210,20 @@ NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey = @"Selected
 
 #pragma mark -
 #pragma mark Notifications
-
 - (void)systemsChanged
 {
-    NSLog(@"systemsChanged");
     [self reloadData];
     [self outlineViewSelectionDidChange:nil];
 }
 
 - (void)importingChanged
 {
-    NSLog(@"importingChanged");
     [self reloadData];
     [self outlineViewSelectionDidChange:nil];
 }
 
 #pragma mark -
 #pragma mark Drag and Drop
-
 - (void)OE_setupDrop
 {
     NSArray *acceptedTypes = [NSArray arrayWithObjects:NSFilenamesPboardType, OEPasteboardTypeGame, nil];
@@ -296,10 +295,8 @@ NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey = @"Selected
 
     return NO;
 }
-
 #pragma mark -
 #pragma mark NSOutlineView DataSource
-
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
     if(item == nil)

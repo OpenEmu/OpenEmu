@@ -31,10 +31,8 @@
 #import "OESidebarController.h"
 #import "OELibrarySplitView.h"
 
+#import "OELibrarySubviewController.h"
 #import "OEROMImporter.h"
-
-#import "OECollectionViewController.h"
-#import "OEImportViewController.h"
 
 #import "OEDBGame.h"
 #import "OESystemPlugin.h"
@@ -44,11 +42,11 @@
 
 NSString * const OESidebarVisibleKey = @"isSidebarVisible";
 NSString * const OESidebarWidthKey = @"lastSidebarWidth";
-NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 extern NSString * const OESidebarSelectionDidChangeNotificationName;
 extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
 
+extern NSString * const OELastCollectionSelectedKey;
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
@@ -301,10 +299,10 @@ extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
     if([menuItem action] == @selector(newCollectionFolder:)) return NO;
     
     if([menuItem action] == @selector(editSmartCollection:))
-        return [[[self sidebarController] selectedCollection] isKindOfClass:[OEDBSmartCollection class]];
+        return [(id)[[self sidebarController] selectedCollection] isKindOfClass:[OEDBSmartCollection class]];
     
     if([menuItem action] == @selector(startGame:))
-        return [[self currentViewController] respondsToSelector:@selector(selectedGames)] && [[(OECollectionViewController*)[self currentViewController] selectedGames] count] != 0;
+        return [[self currentViewController] respondsToSelector:@selector(selectedGames)] && [[[self currentViewController] selectedGames] count] != 0;
     
     if([menuItem action] == @selector(switchToGridView:))
         return [[self currentViewController] respondsToSelector:@selector(switchToGridView:)];
@@ -347,7 +345,7 @@ extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
 - (IBAction)startGame:(id)sender
 {
     NSAssert([(id)[self currentViewController] respondsToSelector:@selector(selectedGames)], @"Attempt to start a game from a view controller that doesn't announc selectedGames");
-    id selectedGame = [[(id)[self currentViewController] selectedGames] lastObject];
+    id selectedGame = [[(id <OELibrarySubviewController>)[self currentViewController] selectedGames] lastObject];
     NSAssert(selectedGame != nil, @"Attempt to start a game while the selection is empty");
 
     if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
@@ -369,7 +367,6 @@ extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
 - (void)showViewController:(NSViewController <OELibrarySubviewController>*)nextViewController
 {
     NSViewController <OELibrarySubviewController> *oldViewController = [self currentViewController];
-    if([nextViewController isKindOfClass:[OECollectionViewController class]] && nextViewController == oldViewController) [self OE_setupToolbarItems];
     if(nextViewController == oldViewController) return;
     
     [oldViewController viewWillDisappear];
@@ -494,21 +491,6 @@ extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
     
     [[self toolbarSlider] setEnabled:[[self currentViewController] respondsToSelector:@selector(changeGridSize:)]];
     [[self toolbarGridViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToGridView:)]];
-
-    OECollectionViewController * collectionViewController = (OECollectionViewController*)[self currentViewController];
-    
-    if(collectionViewController && [[self currentViewController] isKindOfClass:[OECollectionViewController class]] && [[[collectionViewController gamesController] arrangedObjects] count] > 0)
-    {
-        [[self toolbarFlowViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToFlowView:)]];
-        [[self toolbarListViewButton] setEnabled:[[self currentViewController] respondsToSelector:@selector(switchToListView:)]];
-        [[self toolbarSearchField] setEnabled:[[self currentViewController] respondsToSelector:@selector(search:)]];
-    } else
-    {
-        if([[[collectionViewController libraryController] toolbarGridViewButton] state] == NSOffState) [self switchToGridView:self]; //If we aren't in gridview, we need to be. Landing page and all.
-        [[self toolbarFlowViewButton] setEnabled:NO];
-        [[self toolbarListViewButton] setEnabled:NO];
-        [[self toolbarSearchField] setEnabled:NO];
-    }
 }
 
 - (void)layoutToolbarItems

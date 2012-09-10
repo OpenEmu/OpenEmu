@@ -40,4 +40,5 @@
 - (void)setLibraryController:(OELibraryController*)controller;
 - (OELibraryController*)libraryController;
 
+- (NSArray*)selectedGames;
 @end
