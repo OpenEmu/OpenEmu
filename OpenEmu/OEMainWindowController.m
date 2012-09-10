@@ -44,6 +44,7 @@
 NSString *const OEAllowPopoutGameWindowKey = @"allowPopout";
 NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
 
+#define MainMenu_Window_OpenEmuTag 501
 @interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end

@@ -175,6 +175,9 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
     {
         windowRect.size = [[self gameViewController] defaultScreenSize];
         windowRect.origin = NSZeroPoint;
+        windowRect.size.height *= 3;
+        windowRect.size.height += 21;
+        windowRect.size.width *= 3;
     }
     else
     {

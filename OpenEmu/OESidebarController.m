@@ -41,6 +41,10 @@
 #import "OEROMImporter+OESidebarAdditions.h"
 
 NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
+extern NSString * const OEDBSystemsChangedNotificationName;
+
+NSString * const OESidebarSelectionDidChangeNotificationName = @"OESidebarSelectionDidChange";
+NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey = @"SelectedItem";
 
 @interface OESidebarController ()
 {

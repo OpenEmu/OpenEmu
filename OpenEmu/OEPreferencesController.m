@@ -48,6 +48,10 @@
 NSString *const OEDebugModeKey = @"debug";
 NSString *const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
 
+NSString * const OEPreferencesOpenPaneNotificationName = @"OEPrefOpenPane";
+NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey = @"panelName";
+NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIdentifier";
+
 #define AnimationDuration 0.3
 
 @interface OEPreferencesController ()

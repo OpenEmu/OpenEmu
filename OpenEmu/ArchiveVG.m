@@ -32,8 +32,12 @@
 
 #import "ArchiveVGThrottling.h"
 
-#pragma mark Default Output Format
+#pragma mark Constants
 const AVGOutputFormat AVGDefaultOutputFormat = AVGOutputFormatXML;
+// Archive.vg Support
+NSString * const AVGAPIBase = @"http://api.archive.vg";
+NSString * const AVGAPIVersion = @"2.0";
+NSString * const AVGAPIKey = @"6CVC46HWMLJNU986TRM5A4XG927HA0K0";
 
 #pragma mark Response Dictionary Keys
 NSString * const AVGGameTitleKey         = @"AVGGameTitleKey";
@@ -505,7 +509,7 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 {
 	NSString			*apiCall		= [self apiCallForOperation:op];
 	NSString			*formatStr	= [self stringFromOutputFormat:format];
-	NSMutableString	*urlString	= [[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@/%@", APIBase, APIVersion, apiCall, formatStr, APIKey];
+	NSMutableString	*urlString	= [[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@/%@", AVGAPIBase, AVGAPIVersion, apiCall, formatStr, AVGAPIKey];
     for(id anOption in options)
     {
         NSString *optionString = [NSString stringWithFormat:@"%@", anOption];

@@ -25,6 +25,7 @@
  */
 
 #import "ArchiveVGThrottling.h"
+
 @interface ArchiveVG ()
 - (id)performStandardCallWithOperation:(ArchiveVGOperation)operation format:(AVGOutputFormat)format andOptions:(NSArray*)options error:(NSError**)outError;
 - (void)performAsynchronousCallWithOperation:(ArchiveVGOperation)operation callback:(void(^)(id result, NSError *error))block format:(AVGOutputFormat)format andOptions:(NSArray*)options;
@@ -62,7 +63,7 @@
 	
 	NSDictionary	*generalConfig			= [result valueForKey:AVGConfigGeneralKey];
 	NSString		*remoteAPIVersion	= [generalConfig valueForKey:AVGConfigCurrentAPIKey];
-	if([remoteAPIVersion isNotEqualTo:APIVersion])
+	if([remoteAPIVersion isNotEqualTo:AVGAPIVersion])
 	{
 		if(!remoteAPIVersion || [remoteAPIVersion isEqualToString:@""])
 			remoteAPIVersion = NSLocalizedString(@"none", "");
