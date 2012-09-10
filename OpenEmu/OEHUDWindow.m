@@ -137,7 +137,6 @@
     contentRect.origin = NSMakePoint(0, 0);
     contentRect.size = [self frame].size;
     
-    contentRect = NSInsetRect(contentRect, 1, 1);
     contentRect.size.height -= 21;
     
     [aView setFrame:contentRect];
