@@ -94,6 +94,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 @implementation OECollectionViewController
 {
     BOOL blankSlateVisible;
+    BOOL _stateRewriteRequired;
     int _selectedViewTag;
 }
 @synthesize libraryController, gamesController;
@@ -218,6 +219,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 - (void)setRepresentedObject:(id)representedObject
 {
     [super setRepresentedObject:representedObject];
+    _stateRewriteRequired = YES;
     [self OE_reloadData];
 }
 
@@ -228,7 +230,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 - (id)encodeCurrentState
 {
-    if(![self libraryController]) return nil;
+    if(!_stateRewriteRequired || ![self libraryController]) return nil;
     
     NSMutableData    *data  = [NSMutableData data];
     NSKeyedArchiver  *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -249,10 +251,10 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 {
     if(![self libraryController] || !state) return;
     
-    NSKeyedUnarchiver *coder = [NSKeyedUnarchiver unarchiveObjectWithData:state];
+    NSKeyedUnarchiver *coder = [[NSKeyedUnarchiver alloc] initForReadingWithData:state];
     if(!coder) return;
     
-    NSSlider *sizeSlider    = [[self libraryController] toolbarSlider];
+    NSSlider *sizeSlider        = [[self libraryController] toolbarSlider];
     NSTextField *searchField   = [[self libraryController] toolbarSearchField];
 
     int selectedViewTag          = [coder decodeIntForKey:@"selectedView"];
@@ -260,9 +262,13 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     NSString   *searchString     = [coder decodeObjectForKey:@"searchString"];
     NSIndexSet *selectionIndexes = [coder decodeObjectForKey:@"selectionIndexes"];
     
+    [coder finishDecoding];
+    
     [self OE_selectView:selectedViewTag andUpdateToolbar:YES];
     [sizeSlider setFloatValue:sliderValue];
     [searchField setStringValue:searchString];
+    
+    _stateRewriteRequired = NO;
     // TODO: restore selection using selectionIndexes
 }
 #pragma mark -
@@ -280,17 +286,29 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 #pragma mark View Selection
 - (IBAction)switchToGridView:(id)sender
 {
-    [self OE_selectView:0 andUpdateToolbar:YES];
+    if(_selectedViewTag != 0)
+    {
+        [self OE_selectView:0 andUpdateToolbar:YES];
+        _stateRewriteRequired = YES;
+    }
 }
 
 - (IBAction)switchToFlowView:(id)sender
 {
-    [self OE_selectView:1 andUpdateToolbar:YES];
+    if(_selectedViewTag != 1)
+    {
+        [self OE_selectView:1 andUpdateToolbar:YES];
+        _stateRewriteRequired = YES;
+    }
 }
 
 - (IBAction)switchToListView:(id)sender
 {
-    [self OE_selectView:2 andUpdateToolbar:YES];
+    if(_selectedViewTag != 2)
+    {
+        [self OE_selectView:2 andUpdateToolbar:YES];
+        _stateRewriteRequired = YES;
+    }
 }
 
 
@@ -310,6 +328,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     float splitterPosition =-1;
     switch (view)
     {
+        case -1:;
         case 0: ;// Grid View
             buttonToSelect = [[self libraryController] toolbarGridViewButton];
             sliderEnabledFlag = YES;
@@ -343,9 +362,11 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
         NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
         [sizeSlider setEnabled:sliderEnabledFlag];
     }
-    
-    _selectedViewTag = view;
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:view] forKey:OELastCollectionViewKey];
+    if(view != -1)
+    {
+        _selectedViewTag = view;
+        [[NSUserDefaults standardUserDefaults] setValue:@( view ) forKey:OELastCollectionViewKey];
+    }
     
     if(splitterPosition!=-1) [flowlistViewContainer setSplitterPosition:splitterPosition animated:NO];
     
@@ -371,6 +392,17 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 - (void)viewDidAppear
 {
     [super viewDidAppear];
+    
+    [[[self libraryController] toolbarGridViewButton] setEnabled:YES];
+    [[[self libraryController] toolbarFlowViewButton] setEnabled:YES];
+    [[[self libraryController] toolbarListViewButton] setEnabled:YES];
+    
+    [[[self libraryController] toolbarSearchField] setEnabled:YES];
+    [[[self libraryController] toolbarSlider] setEnabled:YES];
+    
+    blankSlateVisible = NO;
+
+    [self OE_updateToolbarAndShowBlankSlateIfNecessary];
 }
 #pragma mark -
 #pragma mark Toolbar Actions
@@ -382,6 +414,8 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     [gridView reloadData];
+    
+    _stateRewriteRequired = YES;
 }
 
 - (IBAction)changeGridSize:(id)sender
@@ -390,6 +424,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [gridView setItemSize:NSMakeSize(roundf(26+142*zoomValue), roundf(44+7+142*zoomValue))];
     
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
+    _stateRewriteRequired = YES;
 }
 
 #pragma mark -
@@ -397,6 +432,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 - (void)selectionChangedInGridView:(OEGridView *)view
 {
     [gamesController setSelectionIndexes:[view selectionIndexes]];
+    _stateRewriteRequired = YES;
 }
 
 - (NSDragOperation)gridView:(OEGridView *)gridView validateDrop:(id<NSDraggingInfo>)draggingInfo
@@ -1181,6 +1217,13 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
         return;
     }
     
+    [self OE_updateToolbarAndShowBlankSlateIfNecessary];
+}
+
+- (void)OE_updateToolbarAndShowBlankSlateIfNecessary
+{
+    if(![self libraryController]) return;
+    
     NSUInteger count = [[gamesController arrangedObjects] count];
     if(count && blankSlateVisible)
     {
@@ -1189,6 +1232,8 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
             [self switchToFlowView:self];
         else if([[[self libraryController] toolbarListViewButton] state] == NSOnState)
             [self switchToListView:self];
+        else
+            _selectedViewTag = 0;
         
         [[[self libraryController] toolbarGridViewButton] setEnabled:YES];
         [[[self libraryController] toolbarFlowViewButton] setEnabled:YES];
@@ -1197,10 +1242,10 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
         [[[self libraryController] toolbarSearchField] setEnabled:YES];
         [[[self libraryController] toolbarSlider] setEnabled:YES];
     }
-    else if(![[gamesController arrangedObjects] count] && !blankSlateVisible)
+    else if(!count && !blankSlateVisible)
     {
         blankSlateVisible = YES;
-        [self OE_selectView:0 andUpdateToolbar:NO];
+        [self OE_selectView:-1 andUpdateToolbar:NO];
         
         [[[self libraryController] toolbarGridViewButton] setEnabled:NO];
         [[[self libraryController] toolbarFlowViewButton] setEnabled:NO];

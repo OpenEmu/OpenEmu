@@ -374,7 +374,7 @@ extern NSString * const OELastCollectionSelectedKey;
     
     if([nextViewController respondsToSelector:@selector(setLibraryController:)])
         [nextViewController setLibraryController:self];
-
+    
     [oldViewController viewWillDisappear];
     [nextViewController viewWillAppear];
     
@@ -382,7 +382,7 @@ extern NSString * const OELastCollectionSelectedKey;
     if(oldViewController)
     {
         NSView *superView = [[oldViewController view] superview];
-        NSView *oldView     = [oldViewController view];
+        NSView *oldView   = [oldViewController view];
         
         [newView setFrame:[oldView frame]];
         [newView setAutoresizingMask:[oldView autoresizingMask]];
@@ -413,19 +413,21 @@ extern NSString * const OELastCollectionSelectedKey;
         [[NSUserDefaults standardUserDefaults] setObject:lastState forKey:itemID];
     }
 
-    // Set new item   
+    // Set new item
     NSObject <OESidebarItem> *selectedItem = (NSObject <OESidebarItem> *)[[notification userInfo] objectForKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey];
     
     NSString *viewControllerClasName = [selectedItem viewControllerClassName];
     NSViewController <OELibrarySubviewController> *viewController = [self viewControllerWithClassName:viewControllerClasName];
     [viewController setRepresentedObject:selectedItem];
 
-    // Restore State
-    itemID = [selectedItem sidebarID];
-    lastState = itemID?[[NSUserDefaults standardUserDefaults] valueForKey:itemID]:nil;
-    [viewController restoreState:lastState];
-
     [self showViewController:viewController];
+    
+    itemID = [selectedItem sidebarID];
+    if(itemID)
+    {
+        id state = [[NSUserDefaults standardUserDefaults] objectForKey:itemID];
+        [viewController restoreState:state];
+    }
 }
 
 #pragma mark -
