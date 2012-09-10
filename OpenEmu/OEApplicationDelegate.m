@@ -236,24 +236,27 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
                 NSURL *databaseURL = [openPanel URL];
                 if(![[NSFileManager defaultManager] fileExistsAtPath:[[databaseURL URLByAppendingPathComponent:OEDatabaseFileName] path]])
                 {
-                    NSError *error = [[NSError alloc] initWithDomain:@"blub" code:120 userInfo:nil];
+                    NSError *error = [[NSError alloc] initWithDomain:@"No library exists here" code:120 userInfo:nil];
                     [[NSAlert alertWithError:error] runModal];
                     [self OE_performDatabaseSelection];
                 }
                 else [self OE_createDatabaseAtURL:databaseURL];
-            }
+            } else [self OE_performDatabaseSelection];
         }
             break;
         case NSAlertOtherReturn:
         {
             NSSavePanel *savePanel = [NSSavePanel savePanel];
+            [savePanel setNameFieldStringValue:@"OpenEmu Library"];
             result = [savePanel runModal];
             if(result == NSOKButton)
             {
                 NSURL *databaseURL = [savePanel URL];
+                [[NSFileManager defaultManager] removeItemAtURL:databaseURL error:nil];
                 [[NSFileManager defaultManager] createDirectoryAtURL:databaseURL withIntermediateDirectories:YES attributes:nil error:nil];
+
                 [self OE_createDatabaseAtURL:databaseURL];
-            }
+            } else [self OE_performDatabaseSelection];
             
             break;
         }
@@ -274,6 +277,8 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
             // if the library was loaded after migration, we exit
             if([OELibraryDatabase loadFromURL:databaseURL error:&error])
                 return;
+            
+            [NSApp presentError:error];
         }
         
         // otherwise performDatabaseSelection starts over
