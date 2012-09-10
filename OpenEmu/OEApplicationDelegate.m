@@ -60,6 +60,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 extern NSString * const OEPreferencesOpenPaneNotificationName;
 extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
 
+extern NSString * const OEGameVideoFilterKey;
+extern NSString * const OEGameVolumeKey;
+extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 @interface OEApplicationDelegate ()
 - (void)OE_performDatabaseSelection;
 
@@ -75,6 +78,23 @@ extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
 @synthesize aboutWindow, aboutCreditsPath, cachedLastPlayedInfo;
 @synthesize HIDManager;
 
++ (void)initialize
+{
+    if(self == [OEApplicationDelegate class])
+    {
+        NSString *path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
+        
+        [[NSUserDefaults standardUserDefaults] registerDefaults:
+         @{
+                                      OEDefaultDatabasePathKey : path,
+                                             OEDatabasePathKey : path,
+                                     OEAutomaticallyGetInfoKey : @TRUE,
+                                          OEGameVideoFilterKey : @"Linear",
+                                               OEGameVolumeKey : @0.5f,
+                       OEGameControlsBarCanDeleteSaveStatesKey : @TRUE
+         }];
+    }
+}
 - (id)init
 {
     if((self = [super init]))
@@ -477,8 +497,7 @@ extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
     
     return YES;
 }
-#pragma mark -
-#pragma mark KVO
+#pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if(context == _OEApplicationDelegateAllPluginsContext)
@@ -487,4 +506,10 @@ extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
+#pragma mark - Debug
+- (IBAction)OEDebug_logResponderChain:(id)sender;
+{
+    DLog(@"NSApp.KeyWindow: %@", [NSApp keyWindow]);
+    LogResponderChain([[NSApp keyWindow] firstResponder]);
+}
 @end

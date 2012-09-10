@@ -39,34 +39,26 @@ extern NSString *const OELastCollectionSelectedKey;
 @interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
 
 #pragma mark -
-
 - (NSArray *)selectedGames;
 - (NSIndexSet *)selectedIndexes;
 
 #pragma mark -
 #pragma mark View Selection
-
 - (IBAction)switchToGridView:(id)sender;
 - (IBAction)switchToFlowView:(id)sender;
 - (IBAction)switchToListView:(id)sender;
 
 #pragma mark -
 #pragma mark Toolbar Actions
-
 - (IBAction)search:(id)sender;
 - (IBAction)changeGridSize:(id)sender;
 
 #pragma mark -
-
-- (void)willShow;
-
 - (void)setNeedsReload;
 
+- (id <OECollectionViewItemProtocol>)representedObject;
 #pragma mark -
-
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
-@property(nonatomic, strong) id <OECollectionViewItemProtocol> collectionItem;
-
 @property(nonatomic, strong) IBOutlet NSView *emptyCollectionView;
 @property(nonatomic, strong) IBOutlet NSView *emptyConsoleView;
 

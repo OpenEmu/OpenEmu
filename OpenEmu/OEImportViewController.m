@@ -1,10 +1,28 @@
-//
-//  OEImportViewController.m
-//  OpenEmu
-//
-//  Created by Carl Leimbrock on 29.05.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ Copyright (c) 2012, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "OEImportViewController.h"
 
@@ -38,23 +56,43 @@
     [super loadView];
     
     [(OEBackgroundColorView*)[self view] setBackgroundColor:[NSColor lightGrayColor]];
-    [[self progressIndicator] setIndeterminate:NO];
-    [[self progressIndicator] startAnimation:self];
     
     [[self tableView] setDelegate:self];
 }
-@synthesize progressIndicator, statusField, tableView;
+@synthesize tableView;
 #pragma mark -
 - (void)viewWillAppear
 {
+    [super viewWillAppear];
+    
     [[self importer] setDelegate:self];
     
     [[self tableView] setDataSource:self];
     [[self tableView] reloadData];
 }
 
+- (void)viewDidAppear
+{
+    [super viewDidAppear];
+    
+    [[[self libraryController] toolbarGridViewButton] setEnabled:NO];
+    [[[self libraryController] toolbarFlowViewButton] setEnabled:NO];
+    [[[self libraryController] toolbarListViewButton] setEnabled:NO];
+    
+    [[[self libraryController] toolbarGridViewButton] setState:NSOffState];
+    [[[self libraryController] toolbarFlowViewButton] setState:NSOffState];
+    [[[self libraryController] toolbarListViewButton] setState:NSOnState];
+    
+    [[[self libraryController] toolbarSearchField] setEnabled:NO];
+    [[[self libraryController] toolbarSearchField] setStringValue:@""];
+    
+    [[[self libraryController] toolbarSlider] setEnabled:NO];
+}
+
 - (void)viewDidDisappear
 {
+    [super viewDidDisappear];
+    
     [[self tableView] setDataSource:nil];
     [[self tableView] reloadData];
     
@@ -68,10 +106,10 @@
     return [[OELibraryDatabase defaultDatabase] importer];
 }
 #pragma mark - OELibrarySubviewController Protocol Implementation
-- (void)setItem:(id)item
+- (void)setRepresentedObject:(id)representedObject
 {}
 
-- (id)selectedItem
+- (id)representedObject
 {
     return [self importer];
 }

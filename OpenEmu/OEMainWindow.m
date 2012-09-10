@@ -29,27 +29,8 @@
 #define titleBarHeight 21.0
 
 @implementation OEMainWindow
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    
-    NSView *contentView       = [self contentView];
-    NSView *windowBorderView  = [contentView superview];
-    NSRect  windowBorderFrame = [windowBorderView frame];
-    
-    NSRect titlebarRect = NSMakeRect(0, windowBorderFrame.size.height - 22.0, windowBorderFrame.size.width, 22.0);
-    OEMainWindowTitleBarView *titlebarView = [[OEMainWindowTitleBarView alloc] initWithFrame:titlebarRect];
-    [titlebarView setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
-    [windowBorderView addSubview:titlebarView positioned:NSWindowAbove relativeTo:[[windowBorderView subviews] objectAtIndex:0]];
-    
-    [self setOpaque:NO];
-    [self setBackgroundColor:[NSColor blackColor]];
-}
-
 #pragma mark -
 #pragma mark Custom Theme Drawing
-
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
@@ -77,6 +58,23 @@
     
     [NSColor blackColor];
     NSRectFill(dirtyRect);
+}
+#pragma mark -
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    NSView *contentView       = [self contentView];
+    NSView *windowBorderView  = [contentView superview];
+    NSRect  windowBorderFrame = [windowBorderView frame];
+    
+    NSRect titlebarRect = NSMakeRect(0, windowBorderFrame.size.height - 22.0, windowBorderFrame.size.width, 22.0);
+    OEMainWindowTitleBarView *titlebarView = [[OEMainWindowTitleBarView alloc] initWithFrame:titlebarRect];
+    [titlebarView setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
+    [windowBorderView addSubview:titlebarView positioned:NSWindowAbove relativeTo:[[windowBorderView subviews] objectAtIndex:0]];
+    
+    [self setOpaque:NO];
+    [self setBackgroundColor:[NSColor blackColor]];
 }
 
 @end

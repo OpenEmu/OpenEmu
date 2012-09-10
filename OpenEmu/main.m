@@ -31,72 +31,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-FIXME("I still don't think it's the right place for any of that, put it in the app delegate +initialize method");
-extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
-extern NSString * const OEGameControlsBarFadeOutDelayKey;
-extern NSString * const OEMaxSaveGameNameLengthKey;
-
-extern NSString * const OEDefaultDatabasePathKey;
-extern NSString * const OEDatabasePathKey;
-
-extern NSString * const OEAutomaticallyGetInfoKey;
-
-extern NSString * const OEGameVolumeKey;
-extern NSString * const OEGameVideoFilterKey;
-
-extern NSString * const OEBoxSizesKey;
-
-extern NSString * const OESidebarMinWidth;
-extern NSString * const OESidebarMaxWidth;
-extern NSString * const OEMainViewMinWidth;
-
-extern NSString * const OESidebarWidthKey;
-extern NSString * const OESidebarVisibleKey;
-
-extern NSString * const OELastGridSizeKey;
 int main(int argc, char *argv[])
 {	
     srand(time(NULL));
-    
-    @autoreleasepool {
-        NSString *path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
-        
-        NSDictionary *defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  // default thumbnail sizes for game box images
-                                  @[@"{75,75}",
-                                   @"{150,150}",
-                                   @"{300,300}",
-                                   @"{450,450}"],              OEBoxSizesKey,
-
-                                  // Library Tab
-                                  path,                             OEDefaultDatabasePathKey,
-                                  path,                             OEDatabasePathKey,
-                                  [NSNumber numberWithBool:YES],    OEAutomaticallyGetInfoKey,
-
-                                  // others
-                                  @"Linear",                        OEGameVideoFilterKey,
-                                  [NSNumber numberWithFloat:0.5],   OEGameVolumeKey,                // Default Volume
-                                  [NSNumber numberWithDouble:1.5],  OEGameControlsBarFadeOutDelayKey,       // Time until hud controls bar fades out
-                                  [NSNumber numberWithBool:YES],    OEGameControlsBarCanDeleteSaveStatesKey,
-                                  
-                                  [NSNumber numberWithInt:40],      OEMaxSaveGameNameLengthKey,
-                                  
-                                  [NSNumber numberWithFloat:105.0], OESidebarMinWidth,
-                                  [NSNumber numberWithFloat:450.0], OESidebarMaxWidth,
-                                  [NSNumber numberWithFloat:495.0], OEMainViewMinWidth,
-                                  
-                                  [NSNumber numberWithFloat:186.0], OESidebarWidthKey,
-                                  [NSNumber numberWithBool:YES],    OESidebarVisibleKey,
-                                  
-                                  [NSNumber numberWithFloat:1.0],   OELastGridSizeKey,
-                                
-                                  nil];
-        
-        NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-        [standardDefaults registerDefaults:defaults];
-        defaults = nil;
-    }
-    
-	return NSApplicationMain(argc, (const char **) argv);
+    return NSApplicationMain(argc, (const char **) argv);
 }
 

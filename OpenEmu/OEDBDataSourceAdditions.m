@@ -192,7 +192,7 @@
 
 - (NSString*)sidebarID
 {
-    return nil;
+    return [self systemIdentifier];
 }
 
 - (NSImage *)sidebarIcon

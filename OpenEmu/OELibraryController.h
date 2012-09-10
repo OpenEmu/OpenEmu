@@ -32,7 +32,6 @@
 
 extern NSString *const OESidebarVisibleKey;
 extern NSString *const OESidebarWidthKey;
-extern NSString *const OELastCollectionViewKey;
 
 @class OELibraryDatabase;
 @class OESidebarController;
@@ -42,7 +41,8 @@ extern NSString *const OELastCollectionViewKey;
 
 @interface OELibraryController : NSViewController <OEMainWindowContentController>
 - (void)layoutToolbarItems;
-@property(unsafe_unretained) id<OELibraryControllerDelegate> delegate;
+
+@property(unsafe_unretained) id <OELibraryControllerDelegate> delegate;
 
 #pragma mark -
 #pragma mark Toolbar Actions
@@ -85,9 +85,9 @@ extern NSString *const OELastCollectionViewKey;
 @property (strong) IBOutlet NSButton      *toolbarFlowViewButton;
 @property (strong) IBOutlet NSButton      *toolbarListViewButton;
 
-@property (strong) IBOutlet NSButton       *toolbarAddToSidebarButton;
+@property (strong) IBOutlet NSButton      *toolbarAddToSidebarButton;
 @property (strong) IBOutlet NSSearchField *toolbarSearchField;
-@property (strong) IBOutlet NSSlider         *toolbarSlider;
+@property (strong) IBOutlet NSSlider      *toolbarSlider;
 
 @property (strong) NSBitmapImageRep *cachedSnapshot;
 @end

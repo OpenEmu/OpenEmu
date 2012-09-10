@@ -31,7 +31,7 @@
 
 #import <objc/runtime.h>
 #import "OESidebarOutlineButtonCell.h"
-
+#import "OESideBarGroupItem.h"
 NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollapsible";
 NSString *const OESidebarMinWidth = @"sidebarMinWidth";
 NSString *const OESidebarMaxWidth = @"sidebarMaxWidth";
@@ -208,7 +208,24 @@ NSString *const OEMainViewMinWidth = @"mainViewMinWidth";
 }
 
 #pragma mark -
+- (void)expandItem:(id)item expandChildren:(BOOL)expandChildren
+{
+    [super expandItem:item expandChildren:expandChildren];
+    if([item isKindOfClass:[OESidebarGroupItem class]])
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[item autosaveName]];
+    }
+}
 
+- (void)collapseItem:(id)item collapseChildren:(BOOL)expandChildren
+{
+    [super collapseItem:item collapseChildren:expandChildren];
+    if([item isKindOfClass:[OESidebarGroupItem class]])
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:[item autosaveName]];
+    }
+}
+#pragma mark -
 - (void)keyDown:(NSEvent *)theEvent
 {
     if([theEvent keyCode] == 51 || [theEvent keyCode] == 117)
