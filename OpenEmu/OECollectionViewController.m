@@ -59,11 +59,9 @@
 #import "NSURL+OELibraryAdditions.h"
 
 #import "OESidebarController.h"
-
 #import "OETableView.h"
 
 NSString *const OELastGridSizeKey = @"lastGridSize";
-NSString *const OELastCollectionSelectedKey = @"lastCollectionSelected";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 #define     MainMenu_View_GridViewTag 301
@@ -134,9 +132,7 @@ const int OE_ListViewTag = 2;
 - (void)loadView
 {
     [super loadView];
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
+        
     // Set up games controller
     gamesController = [[NSArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
@@ -168,12 +164,7 @@ const int OE_ListViewTag = 2;
     
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
-    
-    if([userDefaults valueForKey:OELastGridSizeKey])
-        [sizeSlider setFloatValue:[userDefaults floatForKey:OELastGridSizeKey]];
-    
     [sizeSlider setContinuous:YES];
-    [self changeGridSize:sizeSlider];
     
     // set up flow view
     [coverFlowView setDelegate:self];
