@@ -55,15 +55,14 @@
 
 #import "OEBuildVersion.h"
 
+#import "OEPreferencesController.h"
+#import "OEGameViewController.h"
+#import "OEGameControlsBar.h"
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
-extern NSString * const OEPreferencesOpenPaneNotificationName;
-extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
-
-extern NSString * const OEGameVideoFilterKey;
-extern NSString * const OEGameVolumeKey;
-extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 @interface OEApplicationDelegate ()
+
 - (void)OE_performDatabaseSelection;
 
 - (void)OE_loadPlugins;
@@ -88,13 +87,14 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
          @{
                                       OEDefaultDatabasePathKey : path,
                                              OEDatabasePathKey : path,
-                                     OEAutomaticallyGetInfoKey : @TRUE,
+                                     OEAutomaticallyGetInfoKey : @YES,
                                           OEGameVideoFilterKey : @"Linear",
                                                OEGameVolumeKey : @0.5f,
-                       OEGameControlsBarCanDeleteSaveStatesKey : @TRUE
+                       OEGameControlsBarCanDeleteSaveStatesKey : @YES
          }];
     }
 }
+
 - (id)init
 {
     if((self = [super init]))
@@ -121,6 +121,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 }
 
 #pragma mark -
+
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
 }
@@ -169,6 +170,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 #pragma mark -
 #pragma mark Loading The Database
+
 - (void)loadDatabase
 {
     NSError *error = nil;
@@ -182,22 +184,33 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     
     BOOL userDBSelectionRequest = ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0;
     NSURL *databaseURL = [NSURL fileURLWithPath:databasePath];
-    // if user holds down alt-key or the database can not be loaded because no file was found 
-    if(userDBSelectionRequest || ![OELibraryDatabase loadFromURL:databaseURL error:&error])
-    {
-        if(error != nil) [NSApp presentError:error];
-        
+    // if user holds down alt-key
+    if(userDBSelectionRequest)
+    {        
         // we ask the user to either select/create one, or quit open emu
         [self OE_performDatabaseSelection];
     }
-    else if(error != nil) // if the database could not be loaded because it has the wrong version
+    else if(![OELibraryDatabase loadFromURL:databaseURL error:&error]) // if the database could not be loaded
     {
-        // we try to migrate the databse to the new version
-        [[OEVersionMigrationController defaultMigrationController] runDatabaseMigration];
+        DLog(@"%@", error);
+        DLog(@"%@", [error domain]);
+        DLog(@"%ld", [error code]);
         
-        // and try to load it again, if that fails, the user must select one
-        if(![OELibraryDatabase loadFromURL:databaseURL error:&error])
-            [self OE_performDatabaseSelection];
+        if([error domain]==NSCocoaErrorDomain && [error code]==NSPersistentStoreIncompatibleVersionHashError)
+        {
+            // we try to migrate the databse to the new version
+            [[OEVersionMigrationController defaultMigrationController] runDatabaseMigration];
+            // try to load db again
+            if([OELibraryDatabase loadFromURL:databaseURL error:&error])
+                return;
+        }
+        else
+        {
+            [NSApp presentError:error];
+        }
+        
+        // user must select a library
+        [self OE_performDatabaseSelection];
     }
 }
 
@@ -231,6 +244,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
             [openPanel setCanChooseDirectories:YES];
             [openPanel setAllowsMultipleSelection:NO];
             result = [openPanel runModal];
+            
             if(result == NSOKButton)
             {
                 NSURL *databaseURL = [openPanel URL];
@@ -241,7 +255,8 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
                     [self OE_performDatabaseSelection];
                 }
                 else [self OE_createDatabaseAtURL:databaseURL];
-            } else [self OE_performDatabaseSelection];
+            }
+            else [self OE_performDatabaseSelection];
         }
             break;
         case NSAlertOtherReturn:
@@ -249,6 +264,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
             NSSavePanel *savePanel = [NSSavePanel savePanel];
             [savePanel setNameFieldStringValue:@"OpenEmu Library"];
             result = [savePanel runModal];
+            
             if(result == NSOKButton)
             {
                 NSURL *databaseURL = [savePanel URL];
@@ -256,7 +272,8 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
                 [[NSFileManager defaultManager] createDirectoryAtURL:databaseURL withIntermediateDirectories:YES attributes:nil error:nil];
 
                 [self OE_createDatabaseAtURL:databaseURL];
-            } else [self OE_performDatabaseSelection];
+            }
+            else [self OE_performDatabaseSelection];
             
             break;
         }
@@ -287,6 +304,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 }
 
 #pragma mark -
+
 - (void)OE_loadPlugins
 {
     [OEPlugin registerPluginClass:[OECorePlugin class]];
@@ -325,11 +343,14 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 #pragma mark -
 #pragma mark Preferences Window
+
 - (IBAction)showPreferencesWindow:(id)sender
 {
 }
+
 #pragma mark -
 #pragma mark About Window
+
 - (void)showAboutWindow:(id)sender
 {    
     [[self aboutWindow] center];
@@ -349,6 +370,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 #pragma mark -
 #pragma mark Updating
+
 - (void)updateBundles:(id)sender
 {
     OECoreUpdater *updater = [OECoreUpdater sharedUpdater];
@@ -374,6 +396,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 #pragma mark -
 #pragma mark App Info
+
 - (void)updateInfoPlist
 {
     // TODO: Think of a way to register for document types without manipulating the plist
@@ -391,11 +414,13 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
             [systemDocument setObject:@"Owner"                          forKey:@"LSHandlerRank"];
             [systemDocument setObject:[NSArray arrayWithObject:@"????"] forKey:@"CFBundleTypeOSTypes"];
         }
+        
         [systemDocument setObject:[plugin supportedTypeExtensions] forKey:@"CFBundleTypeExtensions"];
         NSString *typeName = [NSString stringWithFormat:@"%@ Game", [plugin systemName]];
         [systemDocument setObject:typeName forKey:@"CFBundleTypeName"];
         [allTypes setObject:systemDocument forKey:typeName];
     }
+    
     NSString *error = nil;
     NSPropertyListFormat format;
     
@@ -405,10 +430,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
                                                                       mutabilityOption:NSPropertyListMutableContainers
                                                                                 format:&format
                                                                       errorDescription:&error];
-    if(infoPlist == nil)
-    {
-        NSLog(@"%@", error);
-    }
+    if(infoPlist == nil) NSLog(@"%@", error);
 
     NSArray *existingTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
     for(NSDictionary *type in existingTypes)
@@ -418,16 +440,15 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     NSData *updated = [NSPropertyListSerialization dataFromPropertyList:infoPlist
                                                                  format:NSPropertyListXMLFormat_v1_0
                                                        errorDescription:&error];
+    
     BOOL isUpdated = NO;
     if(updated != nil)
         isUpdated = [updated writeToFile:infoPlistPath atomically:YES];
     else
-    {
         NSLog(@"Error: %@", error);
-    }
+    
     NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
-
 
 - (NSString *)appVersion
 {
@@ -446,25 +467,30 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 #pragma mark -
 #pragma mark NSMenu Delegate
+
 - (NSInteger)numberOfItemsInMenu:(NSMenu *)menu
 {
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];    
     NSDictionary *lastPlayedInfo = [database lastPlayedRomsBySystem];
-    if(!lastPlayedInfo)
+    __block NSUInteger count = [[lastPlayedInfo allKeys] count];
+
+    if(!lastPlayedInfo || !count)
     {
         [self setCachedLastPlayedInfo:nil];
         return 1;
     }
-    __block NSUInteger count = [[lastPlayedInfo allKeys] count];
+    
     [[lastPlayedInfo allValues] enumerateObjectsUsingBlock:
-     ^ (id romArray, NSUInteger idx, BOOL *stop) {
-        count += [romArray count];
-    }];
+     ^(id romArray, NSUInteger idx, BOOL *stop)
+     {
+         count += [romArray count];
+     }];
     
     NSMutableArray *lastPlayed = [NSMutableArray arrayWithCapacity:count];
     NSArray *sortedSystems = [[lastPlayedInfo allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     [sortedSystems enumerateObjectsUsingBlock:
-     ^ (id obj, NSUInteger idx, BOOL *stop) {
+     ^(id obj, NSUInteger idx, BOOL *stop)
+     {
          [lastPlayed addObject:obj];
          [lastPlayed addObjectsFromArray:[lastPlayedInfo valueForKey:obj]];
      }];
@@ -472,10 +498,11 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [self setCachedLastPlayedInfo:lastPlayed];
     return count;
 }
+
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel
 {
     [item setState:NSOffState];
-    if(![self cachedLastPlayedInfo])
+    if([self cachedLastPlayedInfo] == nil)
     {
         [item setTitle:NSLocalizedString(@"No game played yet!", "")];
         [item setEnabled:NO];
@@ -493,7 +520,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     else
     {
         [item setIndentationLevel:1];
-        [item setTitle:[(OEDBGame*)[value game] name]];
+        [item setTitle:[(OEDBGame *)[value game] name]];
         [item setEnabled:YES];
         [item setRepresentedObject:value];
         [item setAction:@selector(launchLastPlayedROM:)];
@@ -502,7 +529,9 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     
     return YES;
 }
+
 #pragma mark - KVO
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if(context == _OEApplicationDelegateAllPluginsContext)
@@ -512,9 +541,11 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 }
 
 #pragma mark - Debug
+
 - (IBAction)OEDebug_logResponderChain:(id)sender;
 {
     DLog(@"NSApp.KeyWindow: %@", [NSApp keyWindow]);
     LogResponderChain([[NSApp keyWindow] firstResponder]);
 }
+
 @end

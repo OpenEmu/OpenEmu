@@ -763,34 +763,6 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
             break;
     }
 }
-    
-
-- (void)OE_removeBindingsToEvent:(OEHIDEvent *)anEvent fromPlayerBindings:(NSArray *)controllers;
-{
-    for(OEPlayerBindings *playerBindings in controllers)
-    {
-        NSArray *allKeys = [[playerBindings OE_rawBindings] allKeysForObject:anEvent];
-        NSAssert([allKeys count] <= 1, @"More than one key is attached to the same event: %@ -> %@", anEvent, allKeys);
-        
-        id keyDesc = [allKeys lastObject];
-        if(keyDesc == nil) continue;
-        
-        if([keyDesc isKindOfClass:[OEKeyBindingDescription class]])
-            [playerBindings OE_setBindingsValue:nil forKey:[keyDesc name]];
-        else if([keyDesc isKindOfClass:[OEOrientedKeyGroupBindingDescription class]])
-            [keyDesc enumerateKeysFromBaseKeyUsingBlock:
-             ^(OEKeyBindingDescription *key, BOOL *stop)
-             {
-                 [playerBindings OE_setBindingsValue:nil forKey:[key name]];
-             }];
-        
-        [playerBindings OE_setRawBindingsValue:nil forKey:keyDesc];
-        [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:keyDesc playerNumber:[playerBindings playerNumber]];
-        
-        // No need to go further the key should be set only once
-        break;
-    }
-}
 
 #pragma mark -
 #pragma mark Device Handlers Management
@@ -802,11 +774,17 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 
 - (void)OE_didAddDeviceHandler:(OEHIDDeviceHandler *)aHandler;
 {
+    // Ignore extra keyboards for now
+    if([aHandler isKeyboardDevice]) return;
+    
     [self OE_notifyObserversForAddedDeviceBindings:[self OE_deviceBindingsForDeviceHandler:aHandler]];
 }
 
 - (void)OE_didRemoveDeviceHandler:(OEHIDDeviceHandler *)aHandler;
 {
+    // Ignore extra keyboards for now
+    if([aHandler isKeyboardDevice]) return;
+    
     OEDevicePlayerBindings *controller = [deviceHandlersToBindings objectForKey:aHandler];
     
     if(controller == nil)

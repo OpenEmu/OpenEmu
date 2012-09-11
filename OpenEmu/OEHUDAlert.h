@@ -61,12 +61,13 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 #pragma mark Buttons
 @property(readonly, strong) NSButton *defaultButton;
 @property(readonly, strong) NSButton *alternateButton;
+@property(readonly, strong) NSButton *otherButton;
 
 @property(readonly, strong) NSTextView *messageTextView;
 @property(readonly, strong) NSTextField *headlineLabelField;
 
 @property(strong) NSString *stringValue, *inputLabelText;
-@property(strong) NSString *defaultButtonTitle, *alternateButtonTitle, *title, *messageText, *headlineLabelText;
+@property(strong) NSString *defaultButtonTitle, *alternateButtonTitle, *otherButtonTitle, *title, *messageText, *headlineLabelText;
 
 #pragma mark -
 #pragma mark Input Field
@@ -86,7 +87,7 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 #pragma mark Button Actions
 - (void)setDefaultButtonAction:(SEL)sel andTarget:(id)target;
 - (void)setAlternateButtonAction:(SEL)sel andTarget:(id)target;
-
+- (void)setOtherButtonAction:(SEL)sel andTarget:(id)target;
 #pragma mark -
 #pragma mark Callbacks
 @property (weak) id target;

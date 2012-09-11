@@ -92,7 +92,7 @@
 
 #pragma mark -
 #pragma mark Data Model Properties
-@property(nonatomic, retain)                    NSData    *bookmarkData;
+@property(nonatomic, retain)                    NSString  *location;
 @property(nonatomic, retain, getter=isFavorite) NSNumber  *favorite;
 @property(nonatomic, retain)                    NSString  *crc32;
 @property(nonatomic, retain)                    NSString  *md5;

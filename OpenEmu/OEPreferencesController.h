@@ -27,6 +27,8 @@
 #import <Cocoa/Cocoa.h>
 
 extern NSString *const OEDebugModeKey;
+extern NSString *const OEPreferencesOpenPaneNotificationName;
+extern NSString *const OEPreferencesOpenPanelUserInfoPanelNameKey;
 
 @class OEBackgroundGradientView;
 @class OEToolbarView;

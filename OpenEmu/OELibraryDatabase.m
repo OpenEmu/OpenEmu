@@ -53,6 +53,14 @@ NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
 NSString *const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
 
 @interface OELibraryDatabase ()
+{
+    @private
+    NSArrayController *romsController;
+
+    NSManagedObjectModel *__managedObjectModel;
+    NSManagedObjectContext *__managedObjectContext;
+    NSMutableDictionary *managedObjectContexts;
+}
 
 - (BOOL)loadPersistantStoreWithError:(NSError **)outError;
 - (BOOL)loadManagedObjectContextWithError:(NSError **)outError;
@@ -146,7 +154,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSURL *url = [self.databaseURL URLByAppendingPathComponent:OEDatabaseFileName];
     [self setPersistentStoreCoordinator:[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom]];
     
-    if([[self persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:outError] == nil)
+    NSDictionary *options = @{ NSMigratePersistentStoresAutomaticallyOption : @YES };
+    if([[self persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:options error:outError] == nil)
     {
         [self setPersistentStoreCoordinator:nil];
         
@@ -205,10 +214,9 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 #pragma mark - Administration
-
 - (void)disableSystemsWithoutPlugin
 {
-    NSArray *allSystems = [self systems];
+    NSArray *allSystems = [OEDBSystem allSystems];
     for(OEDBSystem *aSystem in allSystems)
     {
         if([aSystem plugin]) continue;
@@ -383,41 +391,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 #pragma mark - Database queries
-
-- (NSArray *)systems
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    
-    NSEntityDescription *descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
-    NSFetchRequest *req = [[NSFetchRequest alloc] init];
-    [req setEntity:descr];
-    [req setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]]];
-    
-    NSError *error = nil;
-    
-    NSArray *result = [context executeFetchRequest:req error:&error];
-    if(result == nil) NSLog(@"systems: Error: %@", error);
-    
-    return result;
-}
-
-- (NSArray *)enabledSystems
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    
-    NSEntityDescription *descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
-    NSFetchRequest *req = [[NSFetchRequest alloc] init];
-    [req setEntity:descr];
-    [req setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]]];
-    [req setPredicate:[NSPredicate predicateWithFormat:@"enabled = YES"]];
-    NSError *error = nil;
-    
-    NSArray *result = [context executeFetchRequest:req error:&error];
-    if(result == nil) NSLog(@"systems: Error: %@", error);
-    
-    return result;
-}
-
+/*
 - (OEDBSystem *)systemWithIdentifier:(NSString *)identifier
 {
     NSManagedObjectContext *context = [self managedObjectContext];
@@ -456,89 +430,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
     return [result lastObject];
 }
-- (OEDBSystem *)systemWithArchiveName:(NSString *)name
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSEntityDescription *description = [OEDBSystem entityDescriptionInContext:context];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"archiveName == %@", name];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setPredicate:predicate];
-    [fetchRequest setFetchLimit:1];
-    [fetchRequest setEntity:description];
-    
-    NSError *error = nil;
-    
-    id result = [context executeFetchRequest:fetchRequest error:&error];
-    if(!result)
-    {
-        NSLog(@"systemWithArchiveName: Error: %@", error);
-        return nil;
-    }
-    return [result lastObject];
-}
-- (OEDBSystem *)systemWithArchiveShortname:(NSString *)shortname
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    
-    NSEntityDescription *description = [OEDBSystem entityDescriptionInContext:context];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"archiveShortname == %@", shortname];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setPredicate:predicate];
-    [fetchRequest setFetchLimit:1];
-    [fetchRequest setEntity:description];
-    
-    NSError *error = nil;
-    
-    id result = [context executeFetchRequest:fetchRequest error:&error];
-    if(!result)
-    {
-        NSLog(@"systemWithArchiveShortname: Error: %@", error);
-        return nil;
-    }
-    return [result lastObject];
-}
 
-- (OEDBSystem *)systemForHandlingRomAtURL:(NSURL *)url DEPRECATED_ATTRIBUTE
-{
-    OESystemPlugin *system = nil;
-    NSString *path = [url absoluteString];
-    NSArray *validPlugins = [[OESystemPlugin allPlugins] filteredArrayUsingPredicate:
-                             [NSPredicate predicateWithBlock:
-                              ^ BOOL (OESystemPlugin * evaluatedObject, NSDictionary *bindings)
-                              {
-                                  return [[evaluatedObject controller] canHandleFile:path];
-                              }]];
-   
-    NSLog(@"validPLugins: %@", validPlugins);
-    if([validPlugins count] > 1) system = [OESystemPicker pickSystemFromArray:validPlugins];
-    else system = [validPlugins lastObject];
-    
-    NSString *systemIdentifier = [system systemIdentifier];
-    return [self systemWithIdentifier:systemIdentifier];
-}
-
-- (NSInteger)systemsCount
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    
-    NSEntityDescription *descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
-    NSFetchRequest *req = [[NSFetchRequest alloc] init];
-    [req setEntity:descr];
-    
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
-    [req setSortDescriptors:[NSArray arrayWithObject:sort]];
-    
-    NSError *error = nil;
-    NSUInteger count = [context countForFetchRequest:req error:&error];
-    if(count == NSNotFound)
-    {
-        NSLog(@"systemsCount: Error: %@", error);
-        return 0;
-    }
-    
-    return count;
-}
-
+ */
 - (NSUInteger)collectionsCount
 {
     NSUInteger count = 1;
@@ -725,35 +618,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     [[collection managedObjectContext] deleteObject:collection];
 }
-
-#pragma mark -
-
-- (OEDBGame *)gameWithArchiveID:(NSNumber*)archiveID
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:entityDescription];
-    [fetchRequest setFetchLimit:1];
-    [fetchRequest setIncludesPendingChanges:YES];
-    [fetchRequest setResultType:NSManagedObjectResultType];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"archiveID == %@", archiveID];
-    [fetchRequest setPredicate:predicate];
-    
-    NSError *err = nil;
-    NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    if(result == nil)
-    {
-        NSLog(@"Error executing fetch request to get game by archiveID");
-        NSLog(@"%@", err);
-        return nil;
-    }
-    
-    return [result lastObject];
-}
-
 #pragma mark -
 
 - (OEDBRom *)romForMD5Hash:(NSString *)hashString
@@ -913,7 +777,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];    
     result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];
 
-    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+    // [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     
     return result;
 }

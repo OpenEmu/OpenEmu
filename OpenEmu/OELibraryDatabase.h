@@ -26,7 +26,11 @@
 
 #import <Foundation/Foundation.h>
 #import "OEROMImporter.h"
-@class OEDBSystem, OEDBGame, OEDBRom;
+
+#import "OEDBRom.h"
+#import "OEDBGame.h"
+#import "OEDBSystem.h"
+
 @class OEROMImporter;
 #define OELibraryErrorCodeFolderNotFound 11789
 #define OELibraryErrorCodeFileInFolderNotFound 11790
@@ -39,65 +43,38 @@ extern NSString *const OESaveStateLastFSEventIDKey;
 extern NSString *const OELibraryDatabaseUserInfoKey;
 
 @interface OELibraryDatabase : NSObject 
-{
-@private
-    NSArrayController *romsController;
-    
-    NSManagedObjectModel *__managedObjectModel;
-    NSManagedObjectContext *__managedObjectContext;    
-    NSMutableDictionary *managedObjectContexts;
-}
-#pragma mark -
-+ (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
++ (OELibraryDatabase*)defaultDatabase;
 
-#pragma mark -
++ (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
 - (BOOL)save:(NSError**)error;
+
 - (NSManagedObjectContext*)managedObjectContext;
 
-+ (OELibraryDatabase*)defaultDatabase;
 - (id)objectWithURI:(NSURL*)uri;
-#pragma mark -
+
 @property (strong) OEROMImporter *importer;
 
-#pragma mark -
-#pragma mark Administration
+#pragma mark - Administration
 - (void)disableSystemsWithoutPlugin;
 
-#pragma mark -
-#pragma mark Database queries
+#pragma mark - Database queries
 - (NSManagedObjectID*)managedObjectIDForURIRepresentation:(NSURL*)uri;
-
-- (NSArray*)systems;
-- (NSArray*)enabledSystems;
-- (OEDBSystem*)systemWithIdentifier:(NSString*)identifier;
-- (OEDBSystem*)systemWithArchiveID:(NSNumber*)aID;
-- (OEDBSystem*)systemWithArchiveName:(NSString*)name;
-- (OEDBSystem*)systemWithArchiveShortname:(NSString*)shortname;
-
-- (OEDBSystem*)systemForHandlingRomAtURL:(NSURL *)url DEPRECATED_ATTRIBUTE;
-- (NSInteger)systemsCount;
-
-- (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID;
 
 - (NSUInteger)collectionsCount;
 - (NSArray*)collections;
 
-- (OEDBRom*)romForMD5Hash:(NSString*)hashString;
-- (OEDBRom*)romForCRC32Hash:(NSString*)crc32String;
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray*)romsInCollection:(id)collection;
 
 - (NSArray*)lastPlayedRoms;
 - (NSDictionary*)lastPlayedRomsBySystem;
-#pragma mark -
-#pragma mark Database Collection editing
+#pragma mark - Database Collection editing
 - (void)removeCollection:(NSManagedObject*)collection;
 
 - (id)addNewCollection:(NSString*)name;
 - (id)addNewSmartCollection:(NSString*)name;
 - (id)addNewCollectionFolder:(NSString*)name;
-#pragma mark -
-#pragma mark Database Folders
+#pragma mark - Database Folders
 - (NSURL *)databaseFolderURL;
 - (NSURL *)romsFolderURL;
 - (NSURL *)unsortedRomsFolderURL;
@@ -106,5 +83,4 @@ extern NSString *const OELibraryDatabaseUserInfoKey;
 - (NSURL *)stateFolderURLForSystem:(OEDBSystem *)system;
 - (NSURL *)stateFolderURLForROM:(OEDBRom *)rom;
 - (NSURL *)coverFolderURL;
-#pragma mark -
 @end

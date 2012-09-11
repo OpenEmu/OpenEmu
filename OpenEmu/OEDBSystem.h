@@ -28,23 +28,40 @@
 #import "OEDBItem.h"
 
 extern NSString * const OEDBSystemsChangedNotificationName;
+
 @class OESystemPlugin, OELibraryDatabase;
 @interface OEDBSystem : OEDBItem
++ (NSInteger)systemsCount;
++ (NSInteger)systemsCountInDatabase:(OELibraryDatabase *)database;
++ (NSInteger)systemsCountInDatabase:(OELibraryDatabase *)database error:(NSError**)error;
 
-+ (id)systemFromPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForPluginIdentifier:(NSString *)identifier inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForArchiveID:(NSNumber *)number;
-+ (id)systemForArchiveID:(NSNumber *)number inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForArchiveName:(NSString *)name;
-+ (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForArchiveShortName:(NSString *)shortName;
-+ (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForURL:(NSURL *)url DEPRECATED_ATTRIBUTE;
-+ (id)systemForURL:(NSURL *)url  inDatabase:(OELibraryDatabase *)database DEPRECATED_ATTRIBUTE;
++ (NSArray*)allSystems;
++ (NSArray*)allSystemsInDatabase:(OELibraryDatabase *)database;
++ (NSArray*)allSystemsInDatabase:(OELibraryDatabase *)database error:(NSError**)error;
+
++ (NSArray*)enabledSystems;
++ (NSArray*)enabledSystemsInDatabase:(OELibraryDatabase *)database;
++ (NSArray*)enabledSystemsInDatabase:(OELibraryDatabase *)database error:(NSError**)outError;
+
 + (NSArray*)systemsForFileWithURL:(NSURL *)url;
 + (NSArray*)systemsForFileWithURL:(NSURL *)url error:(NSError**)error;
 + (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database;
 + (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError**)error;
+
++ (id)systemForPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database;
++ (id)systemForPluginIdentifier:(NSString *)identifier inDatabase:(OELibraryDatabase *)database;
+
++ (id)systemForArchiveID:(NSNumber *)archiveID;
++ (id)systemForArchiveID:(NSNumber *)archiveID inDatabase:(OELibraryDatabase *)database;
++ (id)systemForArchiveID:(NSNumber *)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError**)error;
+
++ (id)systemForArchiveName:(NSString *)name;
++ (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database;
++ (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database error:(NSError**)error;
+
++ (id)systemForArchiveShortName:(NSString *)shortName;
++ (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database;
++ (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database error:(NSError**)error;
 
 #pragma mark -
 #pragma mark Core Data utilities

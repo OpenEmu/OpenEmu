@@ -35,6 +35,13 @@
 
 #import "OEUtilities.h"
 
+#if __has_feature(objc_bool)
+#undef YES
+#undef NO
+#define YES __objc_yes
+#define NO __objc_no
+#endif
+
 #pragma mark Debug Logging
 #define BOOL_STR(var) ((var) ? "YES" : "NO")
 
