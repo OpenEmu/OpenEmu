@@ -146,7 +146,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSURL *url = [self.databaseURL URLByAppendingPathComponent:OEDatabaseFileName];
     [self setPersistentStoreCoordinator:[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom]];
     
-    if([[self persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:outError] == nil)
+    if([[self persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:@{ NSMigratePersistentStoresAutomaticallyOption : @TRUE } error:outError] == nil)
     {
         [self setPersistentStoreCoordinator:nil];
         
@@ -913,7 +913,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];    
     result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];
 
-    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+    // [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     
     return result;
 }

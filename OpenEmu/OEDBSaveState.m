@@ -83,7 +83,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 {
     NSManagedObjectContext  *context    = [database managedObjectContext];
     NSFetchRequest          *request    = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
-    NSPredicate             *predicate  = [NSPredicate predicateWithFormat:@"path == %@", [url path]];
+    NSPredicate             *predicate  = [NSPredicate predicateWithFormat:@"location == %@", [url absoluteString]];
     [request setPredicate:predicate];
     
     return [[context executeFetchRequest:request error:nil] lastObject];
@@ -107,11 +107,11 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 + (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase*)database
 {
     OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database managedObjectContext]];
-    [newSaveState setPath:[url path]];
+    [newSaveState setLocation:[url absoluteString]];
     if(![newSaveState reloadFromInfoPlist])
     {
         // setting path to nil so file won't be deleted in -remove
-        [newSaveState setPath:nil];
+        [newSaveState setLocation:nil];
         [newSaveState remove];
         newSaveState = nil;
     }
@@ -120,7 +120,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 //TODO: use validation here instead of save
     if(![[newSaveState managedObjectContext] save:&error])
     {
-        [newSaveState setPath:nil];
+        [newSaveState setLocation:nil];
         [newSaveState remove];
         newSaveState = nil;
         
@@ -321,17 +321,16 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 #pragma mark -
 #pragma mark Data Model Properties
 @dynamic name, userDescription, timestamp;
-@dynamic coreIdentifier, path;
+@dynamic coreIdentifier, location;
 
 - (NSURL*)URL
 {
-    if(![self path]) return nil;
-    return [NSURL fileURLWithPath:[self path]];
+    return [NSURL URLWithString:[self location]];
 }
 
 - (void)setURL:(NSURL *)url
 {
-    [self setPath:[url path]];
+    [self setLocation:[url absoluteString]];
 }
 
 - (NSURL*)screenshotURL

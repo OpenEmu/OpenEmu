@@ -116,7 +116,7 @@
     NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
     
     OEDBImageThumbnail *originalImage = [thumbnails lastObject];
-    NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[originalImage path]];
+    NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[originalImage relativePath]];
     NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
     return image;
 }
@@ -144,7 +144,7 @@
     
     if(!usableThumbnail) return nil;
     
-    NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[usableThumbnail path]];
+    NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[usableThumbnail relativePath]];
     NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
     return image;
 }
@@ -187,7 +187,7 @@
         NSArray             *thumbnails     = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
         
         OEDBImageThumbnail  *originalImageThumb  = [thumbnails lastObject];
-        NSURL               *originalURL         = [coverFolderURL URLByAppendingPathComponent:[originalImageThumb path]];
+        NSURL               *originalURL         = [coverFolderURL URLByAppendingPathComponent:[originalImageThumb relativePath]];
         NSImage             *originalImage       = [[NSImage alloc] initWithContentsOfURL:originalURL];
         
         if(!originalImage){
