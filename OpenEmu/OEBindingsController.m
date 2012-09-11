@@ -238,7 +238,8 @@ static NSString            *configurationsFolderPath = nil;
         [systemRepresentations removeObjectForKey:identifier];
         
         for(OEHIDDeviceHandler *handler in [[OEHIDManager sharedHIDManager] deviceHandlers])
-            [bindingsController OE_didAddDeviceHandler:handler];
+            if(![handler isKeyboardDevice])
+                [bindingsController OE_didAddDeviceHandler:handler];
         
         [systems setObject:bindingsController forKey:identifier];
     }
