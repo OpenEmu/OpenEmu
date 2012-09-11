@@ -260,7 +260,8 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 #pragma mark - Controlling Emulation
 - (void)resetGame
 {
-    [[rootProxy gameCore] resetEmulation];
+    if([[OEHUDAlert resetSystemAlert] runModal]==NSAlertDefaultReturn)
+        [[rootProxy gameCore] resetEmulation];
     // TODO: draw one frame to reflect reset
 }
 
@@ -373,7 +374,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 {
     if(core == [gameCoreManager plugin])
     {
-        [self resetGame];
+        [[rootProxy gameCore] resetEmulation];
     }
     else
     {

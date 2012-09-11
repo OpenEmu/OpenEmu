@@ -35,6 +35,7 @@ NSString *const OESaveGameWhenQuitAlertSuppressionKey = @"autosaveOnStopDialogCh
 NSString *const OEDeleteGameAlertSuppressionKey = @"removeStatesWithoutConfirmation";
 NSString *const OESaveGameAlertSuppressionKey = @"saveGameWithoutConfirmation";
 NSString *const OEChangeCoreAlertSuppressionKey = @"changeCoreWithoutConfirmation";
+NSString *const OEResetSystemAlertSuppressionKey = @"resetSystemWithoutConfirmation";
 
 @implementation OEHUDAlert (DefaultAlertsAdditions)
 
@@ -92,6 +93,21 @@ NSString *const OEChangeCoreAlertSuppressionKey = @"changeCoreWithoutConfirmatio
     
     [alert showSuppressionButtonForUDKey:OESaveGameAlertSuppressionKey];
     [alert setSuppressionLabelText:NSLocalizedString(@"Don't ask again", @"")];
+    
+    return alert;
+}
+
++ (id)resetSystemAlert
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    
+    alert.messageText = NSLocalizedString(@"Are you sure you want to reset the console?", @"");
+    alert.defaultButtonTitle = NSLocalizedString(@"Restart", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
+    alert.headlineLabelText = NSLocalizedString(@"", @"");
+    
+    [alert setSuppressOnDefaultReturnOnly:YES];
+    [alert showSuppressionButtonForUDKey:OEResetSystemAlertSuppressionKey];
     
     return alert;
 }
