@@ -31,67 +31,71 @@
 
 NSString * const OEDBSystemsChangedNotificationName = @"OEDBSystemsChanged";
 @implementation OEDBSystem
-
-+ (id)systemFromPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database
++ (NSInteger)systemsCount
 {
-    NSString *systemIdentifier = [plugin systemIdentifier];
-    OEDBSystem *system = [database systemWithIdentifier:systemIdentifier];
+    return [self systemsCountInDatabase:[OELibraryDatabase defaultDatabase]];
+}
++ (NSInteger)systemsCountInDatabase:(OELibraryDatabase *)database
+{
+    return [self systemsCountInDatabase:[OELibraryDatabase defaultDatabase] error:nil];
+}
+
++ (NSInteger)systemsCountInDatabase:(OELibraryDatabase *)database error:(NSError**)outError
+{
+    NSManagedObjectContext *context  = [database managedObjectContext];
+    NSEntityDescription    *descr    = [self entityDescriptionInContext:context];
+    NSFetchRequest         *req      = [[NSFetchRequest alloc] init];
     
-    if(system) return system;
+    [req setEntity:descr];
     
-    NSManagedObjectContext *moc = [database managedObjectContext];
+    NSError *error    = outError != NULL ? *outError : nil;
+    NSUInteger result = [context countForFetchRequest:req error:&error];
+    if(result == NSNotFound)
+    {
+        result = 0;
+        DLog(@"Error: %@", error);
+    }
     
-    system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
-    // TODO: get archive id(s) from plugin
-    [system setSystemIdentifier:systemIdentifier];
-    [system setLastLocalizedName:[system name]];
+    return result;
+}
+
++ (NSArray*)allSystems
+{
+    return [self allSystemsInDatabase:[OELibraryDatabase defaultDatabase]];
+}
++ (NSArray*)allSystemsInDatabase:(OELibraryDatabase *)database
+{
+    return [self allSystemsInDatabase:database error:nil];
+}
++ (NSArray*)allSystemsInDatabase:(OELibraryDatabase *)database error:(NSError**)outError
+{
+    NSError     *error    = outError != NULL ? *outError : nil;
+    NSArray     *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
+    NSArray     *result   = [self OE_queryDatabase:database predicate:nil sortDescriptors:sortDesc limit:-1 error:&error];
+    if(result == nil)
+        DLog(@"Error: %@", error);
     
-    return system;
+    return result;
 }
 
-+ (id)systemForPluginIdentifier:(NSString *)identifier inDatabase:(OELibraryDatabase *)database
++ (NSArray*)enabledSystems
 {
-    return [database systemWithIdentifier:identifier];
+    return [self enabledSystemsInDatabase:[OELibraryDatabase defaultDatabase]];
 }
-
-+ (id)systemForArchiveID:(NSNumber *)archiveID
++ (NSArray*)enabledSystemsInDatabase:(OELibraryDatabase *)database
 {
-    return [self systemForArchiveID:archiveID inDatabase:[OELibraryDatabase defaultDatabase]];
+    return [self enabledSystemsInDatabase:database error:nil];
 }
-
-+ (id)systemForArchiveID:(NSNumber *)archiveID inDatabase:(OELibraryDatabase *)database
++ (NSArray*)enabledSystemsInDatabase:(OELibraryDatabase *)database error:(NSError**)outError
 {
-    return [database systemWithArchiveID:archiveID];
-}
-
-+ (id)systemForArchiveName:(NSString *)name
-{
-    return [self systemForArchiveName:name inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database
-{
-    return [database systemWithArchiveName:name];
-}
-
-+ (id)systemForArchiveShortName:(NSString *)shortName
-{
-    return [self systemForArchiveShortName:shortName inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database
-{
-    return [database systemWithArchiveShortname:shortName];
-}
-
-+ (id)systemForURL:(NSURL *)url DEPRECATED_ATTRIBUTE
-{
-    return [self systemForURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)systemForURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database DEPRECATED_ATTRIBUTE
-{
-    return [database systemForHandlingRomAtURL:url];
+    NSError     *error    = outError != NULL ? *outError : nil;
+    NSArray     *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
+    NSPredicate *pred     = [NSPredicate predicateWithFormat:@"enabled = YES"];
+    NSArray     *result   = [self OE_queryDatabase:database predicate:pred sortDescriptors:sortDesc limit:-1 error:&error];
+    if(result == nil)
+        DLog(@"Error: %@", error);
+    
+    return result;
 }
 
 + (NSArray*)systemsForFileWithURL:(NSURL *)url
@@ -116,14 +120,124 @@ NSString * const OEDBSystemsChangedNotificationName = @"OEDBSystemsChanged";
     NSMutableArray *validSystems = [NSMutableArray arrayWithCapacity:[validPlugins count]];
     [validPlugins enumerateObjectsUsingBlock:^(OESystemPlugin *obj, NSUInteger idx, BOOL *stop) {
         NSString *systemIdentifier = [obj systemIdentifier];
-        OEDBSystem *system = [database systemWithIdentifier:systemIdentifier];
-            [validSystems addObject:system];
+        OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inDatabase:database];
+        [validSystems addObject:system];
     }];
-
+    
     return validSystems;
 }
-#pragma mark -
-#pragma mark Core Data utilities
+
++ (id)systemForPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database
+{
+    NSString *systemIdentifier = [plugin systemIdentifier];
+    OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inDatabase:database];
+    
+    if(system) return system;
+    
+    NSManagedObjectContext *moc = [database managedObjectContext];
+    
+    system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
+    // TODO: get archive id(s) from plugin
+    [system setSystemIdentifier:systemIdentifier];
+    [system setLastLocalizedName:[system name]];
+    
+    return system;
+}
+
++ (id)systemForPluginIdentifier:(NSString *)identifier inDatabase:(OELibraryDatabase *)database
+{
+    NSError *error    = nil;
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", identifier];
+    NSArray *result   = [self OE_queryDatabase:database predicate:pred sortDescriptors:nil limit:1 error:&error];
+    if(result == nil)
+        DLog(@"Error: %@", error);
+    
+    return [result lastObject];
+}
+
++ (id)systemForArchiveID:(NSNumber *)archiveID
+{
+    return [self systemForArchiveID:archiveID inDatabase:[OELibraryDatabase defaultDatabase]];
+}
+
++ (id)systemForArchiveID:(NSNumber *)archiveID inDatabase:(OELibraryDatabase *)database
+{
+    return [self systemForArchiveID:archiveID inDatabase:database error:nil];
+}
+
++ (id)systemForArchiveID:(NSNumber *)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing *)outError
+{
+    NSError *error    = outError != NULL ? *outError : nil;
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"archiveID == %@", archiveID];
+    NSArray *result   = [self OE_queryDatabase:database predicate:pred sortDescriptors:nil limit:1 error:&error];
+    if(result == nil)
+        DLog(@"Error: %@", error);
+    
+    return [result lastObject];
+}
+
++ (id)systemForArchiveName:(NSString *)name
+{
+    return [self systemForArchiveName:name inDatabase:[OELibraryDatabase defaultDatabase]];
+}
+
++ (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database
+{
+    return [self systemForArchiveShortName:name inDatabase:database error:nil];
+}
+
++ (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing *)outError
+{
+    NSError *error    = outError != NULL ? *outError : nil;
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"archiveName = %@", name];
+    NSArray *result   = [self OE_queryDatabase:database predicate:pred sortDescriptors:nil limit:1 error:&error];
+    if(result == nil)
+        DLog(@"Error: %@", error);
+    
+    return [result lastObject];
+}
+
++ (id)systemForArchiveShortName:(NSString *)shortName
+{
+    return [self systemForArchiveShortName:shortName inDatabase:[OELibraryDatabase defaultDatabase]];
+}
+
++ (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database
+{
+    return [self systemForArchiveShortName:shortName inDatabase:database error:nil];
+}
+
++ (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database error:(NSError**)outError
+{
+    NSError *error    = outError != NULL ? *outError : nil;
+
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"archiveShortname = %@", shortName];
+    NSArray *result   = [self OE_queryDatabase:database predicate:pred sortDescriptors:nil limit:1 error:&error];
+    if(result == nil)
+        DLog(@"Error: %@", error);
+    
+    return [result lastObject];
+}
+
++ (id)OE_queryDatabase:(OELibraryDatabase *)database predicate:(NSPredicate*)pred sortDescriptors:(NSArray*)sort limit:(NSInteger)limit error:(NSError**)error
+{
+    NSManagedObjectContext *context  = [database managedObjectContext];
+    NSEntityDescription    *descr    = [self entityDescriptionInContext:context];
+    NSFetchRequest         *req      = [[NSFetchRequest alloc] init];
+    [req setEntity:descr];
+    if(pred)
+        [req setPredicate:pred];
+    if(sort)
+        [req setSortDescriptors:sort];
+    if(limit != -1)
+        [req setFetchLimit:limit];
+    
+    return [context executeFetchRequest:req error:error];
+}
+#pragma mark - Core Data utilities
 
 + (NSString *)entityName
 {

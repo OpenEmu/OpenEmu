@@ -70,7 +70,7 @@ extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
 {
     if(self == [OELibraryController class])
     {
-        [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESidebarVisibleKey : @TRUE }];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESidebarVisibleKey : @YES }];
     }
 }
 

@@ -591,8 +591,8 @@ extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 
 - (void)OE_rebuildSystemsMenu
 {
-    NSMenu *consolesMenu = [[NSMenu alloc] init];
-    NSArray *enabledSystems = [[OELibraryDatabase defaultDatabase] enabledSystems]; 
+    NSMenu *consolesMenu    = [[NSMenu alloc] init];
+    NSArray *enabledSystems = [OEDBSystem enabledSystems]; 
 
     for(OEDBSystem *system in enabledSystems)
     {

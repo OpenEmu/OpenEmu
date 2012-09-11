@@ -58,7 +58,7 @@ static NSArray *cachedSupportedTypeExtensions = nil;
     OELibraryDatabase *db = [OELibraryDatabase defaultDatabase];
     
     if(db == nil) NSLog(@"system plugins not registered in database, because the db does not exist yet!");
-    else          [OEDBSystem systemFromPlugin:plugin inDatabase:db];
+    else          [OEDBSystem systemForPlugin:plugin inDatabase:db];
     
     // Invalidate supported type extenesions cache
     cachedSupportedTypeExtensions = nil;

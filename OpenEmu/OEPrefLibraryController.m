@@ -128,7 +128,7 @@
     BOOL disabled = ![sender state];
     // Make sure that at least one system is enabled.
     // Otherwise the mainwindow sidebar would be messed up
-    if(disabled && [[[OELibraryDatabase defaultDatabase] enabledSystems] count]==1)
+    if(disabled && [[OEDBSystem enabledSystems] count]==1)
     {
         NSString *message = NSLocalizedString(@"At least one System must be enabled", @"");
         NSString *button = NSLocalizedString(@"OK", @"");
@@ -168,7 +168,7 @@
     [[[librariesView subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
     
     // get all system plugins, ordered them by name
-    NSArray *systems = [[OELibraryDatabase defaultDatabase] systems];
+    NSArray *systems = [OEDBSystem allSystems];
     
     // calculate number of rows (using 2 columns)
     int rows = ceil([systems count]/2.0);
