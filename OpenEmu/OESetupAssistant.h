@@ -34,7 +34,6 @@
 
 extern NSString *const OESetupAssistantHasFinishedKey;
 
-@class OEGlossButton;
 @class OESetupAssistantKeyMapView;
 
 @interface OESetupAssistant : NSViewController <NSTableViewDelegate, NSTableViewDataSource>
@@ -45,7 +44,7 @@ extern NSString *const OESetupAssistantHasFinishedKey;
 @property(strong) NSMutableArray* enabledVolumesForDownloading;
 @property(strong) NSMutableArray* allowedVolumes; 
 
-@property(weak) IBOutlet OEGlossButton *goButton;
+@property(weak) IBOutlet NSButton *goButton;
 
 @property(retain) CATransition *transition;
 

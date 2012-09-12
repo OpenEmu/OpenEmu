@@ -32,7 +32,6 @@
 #import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 
-#import "OEGlossButton.h"
 #import "OESetupAssistantKeyMapView.h"
 
 #import "OEApplicationDelegate.h"
