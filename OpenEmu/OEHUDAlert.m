@@ -108,6 +108,7 @@
         
         _suppressionButton = [[OEButton alloc] init];
         [_suppressionButton setButtonType:NSSwitchButton];
+        [(OEButton*)_suppressionButton setThemeKey:@"dark_checkbox"];
         
         _defaultButton = [[NSButton alloc] init];
         _alternateButton = [[NSButton alloc] init];
