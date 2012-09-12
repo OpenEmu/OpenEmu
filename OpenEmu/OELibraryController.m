@@ -112,8 +112,6 @@ extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
     [splitView setSidebarMaxWidth:[defaults doubleForKey:OESidebarMaxWidth]];
     
     [splitView adjustSubviews];
-    
-    [collectionVC viewDidAppear];
 }
 
 - (void)viewDidAppear
@@ -186,7 +184,7 @@ extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
         [mainSplit setSplitterPosition:widthCorrection animated:YES];
     }
     
-    if(!opening) [standardDefaults setDouble:abs(widthCorrection) forKey:UDSidebarWidthKey];
+    if(!opening) [standardDefaults setDouble:abs(widthCorrection) forKey:OESidebarWidthKey];
 
     [self setSidebarVisible:opening];
 }

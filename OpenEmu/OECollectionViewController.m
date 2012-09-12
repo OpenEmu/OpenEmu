@@ -84,7 +84,7 @@ const int OE_ListViewTag = 2;
 - (void)OE_managedObjectContextDidSave:(NSNotification *)notification;
 - (void)OE_reloadData;
 
-- (OEMenu *)OE_menuForItemsAtIndexes:(NSIndexSet *)indexes;
+- (NSMenu *)OE_menuForItemsAtIndexes:(NSIndexSet *)indexes;
 - (NSMenu *)OE_saveStateMenuForGame:(OEDBGame *)game;
 - (NSMenu *)OE_ratingMenuForGames:(NSArray *)games;
 - (NSMenu *)OE_collectionsMenuForGames:(NSArray *)games;
@@ -576,7 +576,7 @@ const int OE_ListViewTag = 2;
 
 #pragma mark -
 #pragma mark Context Menu
-- (NSMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (NSMenu*)OE_menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
@@ -666,7 +666,7 @@ const int OE_ListViewTag = 2;
             [item setRepresentedObject:saveState];
             [saveGamesMenu addItem:item];
 
-            if([[NSUserDefaults standardUserDefaults] boolForKey:UDHUDCanDeleteStateKey])
+            if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
             {
                 NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
                 [alternateItem setAlternate:YES];
@@ -877,7 +877,7 @@ const int OE_ListViewTag = 2;
 {
     NSArray *selectedGames = [self selectedGames];
     [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj performInfoSyncWithArchiveVG:nil];
+        [obj setNeedsInfoSyncWithArchiveVG];
     }];
     
     [self reloadDataIndexes:[self selectedIndexes]];
@@ -887,7 +887,7 @@ const int OE_ListViewTag = 2;
 {
     NSArray *selectedGames = [self selectedGames];
     [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj performCoverSyncWithArchiveVG:nil];
+        [obj setNeedsCoverSyncWithArchiveVG];
     }];
     
     [self reloadDataIndexes:[self selectedIndexes]];
@@ -1155,7 +1155,7 @@ const int OE_ListViewTag = 2;
 #pragma mark OETableView Menu
 - (NSMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
-    return [self menuForItemsAtIndexes:indexes];
+    return [self OE_menuForItemsAtIndexes:indexes];
 }
 
 #pragma mark -

@@ -1234,7 +1234,7 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
         NSMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:[self selectionIndexes]];
         if(contextMenu)
         {
-            OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu] ? OEMenuStyleLight : OEMenuStyleDark);
+            OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:OELightStyleGridViewMenu] ? OEMenuStyleLight : OEMenuStyleDark);
             OEGridViewCell *itemCell   = [self cellForItemAtIndex:index makeIfNecessary:YES];
 
             NSRect hitRect             = NSInsetRect([itemCell hitRect], 5, 5);

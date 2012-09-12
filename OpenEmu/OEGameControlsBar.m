@@ -295,7 +295,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
             [item setRepresentedObject:saveState];
             [menu addItem:item];
 
-            if([[NSUserDefaults standardUserDefaults] boolForKey:UDHUDCanDeleteStateKey])
+            if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
             {
                 NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
                 [alternateItem setAlternate:YES];
