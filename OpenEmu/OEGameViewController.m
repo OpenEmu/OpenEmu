@@ -652,7 +652,12 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     OEGameCore *gameCore = [rootProxy gameCore];
     OEIntRect screenRect = [gameCore screenRect];
     
-    return NSSizeFromOEIntSize(screenRect.size);
+    float wr = (float) rootProxy.aspectSize.width / screenRect.size.width;
+    float hr = (float) rootProxy.aspectSize.height / screenRect.size.height;
+    float ratio = (hr < wr ? wr : hr);
+    NSSize scaled = NSMakeSize(( wr / ratio), (hr / ratio));
+    
+    return NSMakeSize(screenRect.size.width * scaled.width, screenRect.size.height * scaled.height);
 }
 
 - (NSString*)systemIdentifier
