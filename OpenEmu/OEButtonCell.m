@@ -115,7 +115,16 @@
                 break;
             }
             default:
-                result.origin.x -= 2;
+                if(NSIsEmptyRect(result))
+                {
+                    NSSize imageSize = [self image].size;
+                    // TODO: Take imagePosition and imageScaling into account
+                    result.origin.x = round(NSMinX(theRect) + (NSWidth(theRect)-imageSize.width) / 2.0);
+                    result.origin.y = round(NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0);
+                    result.size = imageSize;
+                }
+                else
+                    result.origin.x -= 2;
                 break;
         }
     }
@@ -157,6 +166,7 @@
 
 - (void)drawImage:(NSImage *)image withFrame:(NSRect)frame inView:(NSView *)controlView
 {
+    DLog(@"drawImage %@", image);
     if(_themed)
     {
         [image drawInRect:frame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
@@ -169,10 +179,13 @@
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
+    DLog(@"%@: _themed: %d",self, _themed);
     if(_themed)
     {
         NSRect textRect  = NSIntegralRect([self titleRectForBounds:cellFrame]);
         NSRect imageRect = NSIntegralRect([self imageRectForBounds:cellFrame]);
+        
+        DLog(@"%@: NSIsEmptyRect(imageRect): %d",self, NSIsEmptyRect(imageRect));
 
         if(!NSIsEmptyRect(textRect))  [self drawTitle:[self attributedTitle] withFrame:textRect inView:controlView];
         if(!NSIsEmptyRect(imageRect)) [self drawImage:[self image] withFrame:imageRect inView:controlView];

@@ -357,16 +357,14 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 {
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
 
-    [[view fullScreenButton] setImage:[NSImage imageNamed:@"hud_exit_fullscreen_glyph_normal"]];
-    [[view fullScreenButton] setAlternateImage:[NSImage imageNamed:@"hud_exit_fullscreen_glyph_pressed"]];
+    [[view fullScreenButton] setState:NSOnState];
 }
 
 - (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
 {
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
 
-    [[view fullScreenButton] setImage:[NSImage imageNamed:@"hud_fullscreen_glyph_normal"]];
-    [[view fullScreenButton] setAlternateImage:[NSImage imageNamed:@"hud_fullscreen_glyph_pressed"]];
+    [[view fullScreenButton] setState:NSOffState];
 }
 
 - (void)setParentWindow:(NSWindow *)window
@@ -415,21 +413,11 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [spriteSheet setName:@"hud_restart" forSubimageInRect:NSMakeRect(0, 2*itemHeight, spriteSheet.size.width, itemHeight)];
     [spriteSheet setName:@"hud_save" forSubimageInRect:NSMakeRect(0, 1*itemHeight, spriteSheet.size.width, itemHeight)];
     [spriteSheet setName:@"hud_options" forSubimageInRect:NSMakeRect(0, 0, spriteSheet.size.width, itemHeight)];
-    
-    NSImage *fsImage = [NSImage imageNamed:@"hud_fullscreen_glyph"];
-    [fsImage setName:@"hud_fullscreen_glyph_pressed" forSubimageInRect:NSMakeRect(fsImage.size.width/2, fsImage.size.height/2, fsImage.size.width/2, fsImage.size.height/2)];
-    [fsImage setName:@"hud_fullscreen_glyph_normal" forSubimageInRect:NSMakeRect(0, fsImage.size.height/2, fsImage.size.width/2, fsImage.size.height/2)];
-    [fsImage setName:@"hud_exit_fullscreen_glyph_pressed" forSubimageInRect:NSMakeRect(fsImage.size.width/2, 0, fsImage.size.width/2, fsImage.size.height/2)];
-    [fsImage setName:@"hud_exit_fullscreen_glyph_normal" forSubimageInRect:NSMakeRect(0, 0, fsImage.size.width/2, fsImage.size.height/2)];
-    
+        
     NSImage *volume = [NSImage imageNamed:@"hud_volume"];
     [volume setName:@"hud_volume_down" forSubimageInRect:NSMakeRect(0, 0, 13, volume.size.height)];
     [volume setName:@"hud_volume_up" forSubimageInRect:NSMakeRect(13, 0, 15, volume.size.height)];
-    
-    NSImage *power = [NSImage imageNamed:@"hud_power_glyph"];
-    [power setName:@"hud_power_glyph_normal" forSubimageInRect:(NSRect){{power.size.width/2,0}, {power.size.width/2, power.size.height}}];
-    [power setName:@"hud_power_glyph_pressed" forSubimageInRect:(NSRect){{0,0}, {power.size.width/2, power.size.height}}];
-}
+    }
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -456,13 +444,14 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (void)setupControls
 {
     OEButton *stopButton = [[OEButton alloc] init];
-    [stopButton setThemeKey:@"hud_button_red"];
-    [stopButton setImage:[NSImage imageNamed:@"hud_power_glyph_normal"]];
-    [stopButton setAlternateImage:[NSImage imageNamed:@"hud_power_glyph_pressed"]];
+    [stopButton setThemeKey:@"hud_button_power"];
+    [stopButton setTitle:nil];
     [stopButton setAction:@selector(terminateEmulation)];
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:stopButton];
+    
+    DLog(@"%@ | %@", stopButton, [stopButton cell]);
     
     pauseButton = [[OEImageButton alloc] init];
     OEImageButtonHoverSelectable *cell = [[OEImageButtonHoverSelectable alloc] init];
@@ -537,15 +526,14 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
     [slider setAnimations:[NSDictionary dictionaryWithObject:animation forKey:@"floatValue"]];
     [self addSubview:slider];
-    
+
     fullScreenButton = [[OEButton alloc] init];
-    [fullScreenButton setThemeKey:@"hud_button"];
-    [fullScreenButton setImage:[NSImage imageNamed:@"hud_fullscreen_glyph_normal"]];
-    [fullScreenButton setAlternateImage:[NSImage imageNamed:@"hud_fullscreen_glyph_pressed"]];
+    [fullScreenButton setTitle:nil];
+    [fullScreenButton setThemeKey:@"hud_button_fullscreen"];
+    [fullScreenButton setButtonType:NSPushOnPushOffButton];
     [fullScreenButton setAction:@selector(toggleFullScreen:)];
     [fullScreenButton setFrame:NSMakeRect(370 + (hideOptions ? 0 : 50), 13, 51, 23)];
     [fullScreenButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:fullScreenButton];
-    [fullScreenButton setTitle:@""];
 }
 @end

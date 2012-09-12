@@ -439,6 +439,51 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>hud_power_button</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<real>3</real>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Alignment</key>
+			<string>Center</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+			</dict>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Color</key>
+					<string>rgba(232,232,232,1.0)</string>
+					<key>Shadow</key>
+					<dict>
+						<key>Color</key>
+						<string>black</string>
+						<key>Offset</key>
+						<string>{0, 1}</string>
+					</dict>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>rgba(8,8,8,1.0)</string>
+					<key>Shadow</key>
+					<dict>
+						<key>Color</key>
+						<string>rgba(255,255,255,0.4)</string>
+						<key>Offset</key>
+						<string>{0, -1}</string>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
 		<key>dark_popup_button</key>
 		<dict>
 			<key>Family</key>
@@ -670,6 +715,18 @@
 				<string>{{16,16},{16,16}}</string>
 			</dict>
 		</dict>
+		<key>hud_button_power</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_power_glyph</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{16,0},{16,20}}</string>
+				<key>Pressed</key>
+				<string>{{0,0},{16,20}}</string>
+			</dict>
+		</dict>
 		<key>gloss_checkbox</key>
 		<dict>
 			<key>Resource</key>
@@ -688,6 +745,22 @@
 				<string>{{16,16},{16,16}}</string>
 				<key>Toggle On, Window Inactive</key>
 				<string>{{16,32},{16,16}}</string>
+			</dict>
+		</dict>
+		<key>hud_button_fullscreen</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_fullscreen_glyph</string>
+			<key>States</key>
+			<dict>
+				<key>Toggle Off</key>
+				<string>{{0,0},{15,17}}</string>
+				<key>Toggle Off, Pressed</key>
+				<string>{{15,0},{15,17}}</string>
+				<key>Toggle On</key>
+				<string>{{0,17},{15,17}}</string>
+				<key>Toggle On, Pressed</key>
+				<string>{{15,17},{15,17}}</string>
 			</dict>
 		</dict>
 		<key>dark_button_background</key>
@@ -777,6 +850,32 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>hud_button_fullscreen_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_button</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0},{5,23}}</string>
+						<string>{{5,0},{41,23}}</string>
+						<string>{{46,0},{5,23}}</string>
+					</array>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,23},{5,23}}</string>
+						<string>{{5,23},{41,23}}</string>
+						<string>{{46,23},{5,23}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
 		<key>hud_button_blue_background</key>
 		<dict>
 			<key>Resource</key>
@@ -804,6 +903,32 @@
 			</dict>
 		</dict>
 		<key>hud_button_red_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_button</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,69},{5,23}}</string>
+						<string>{{5,69},{41,23}}</string>
+						<string>{{46,69},{5,23}}</string>
+					</array>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,23},{5,23}}</string>
+						<string>{{5,23},{41,23}}</string>
+						<string>{{46,23},{5,23}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>hud_button_power_background</key>
 		<dict>
 			<key>Resource</key>
 			<string>hud_button</string>
