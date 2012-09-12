@@ -28,7 +28,7 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 #import "OEImageButton.h"
-#import "OEHUDButtonCell.h"
+#import "OEButton.h"
 #import "OEHUDSlider.h"
 
 #import "OEMenu.h"
@@ -50,7 +50,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 @interface OEHUDControlsBarView : NSView
 
 @property (strong, readonly) OEHUDSlider     *slider;
-@property (strong, readonly) NSButton        *fullScreenButton;
+@property (strong, readonly) OEButton        *fullScreenButton;
 @property (strong, readonly) OEImageButton   *pauseButton;
 
 - (void)setupControls;
@@ -455,10 +455,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 - (void)setupControls
 {
-    NSButton *stopButton = [[NSButton alloc] init];
-    OEHUDButtonCell *pcell = [[OEHUDButtonCell alloc] init];
-    pcell.buttonColor = OEHUDButtonColorRed;
-    [stopButton setCell:pcell];
+    OEButton *stopButton = [[OEButton alloc] init];
+    [stopButton setThemeKey:@"hud_button_red"];
     [stopButton setImage:[NSImage imageNamed:@"hud_power_glyph_normal"]];
     [stopButton setAlternateImage:[NSImage imageNamed:@"hud_power_glyph_pressed"]];
     [stopButton setAction:@selector(terminateEmulation)];
@@ -540,9 +538,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [slider setAnimations:[NSDictionary dictionaryWithObject:animation forKey:@"floatValue"]];
     [self addSubview:slider];
     
-    fullScreenButton = [[NSButton alloc] init];
-    pcell = [[OEHUDButtonCell alloc] init];
-    [fullScreenButton setCell:pcell];
+    fullScreenButton = [[OEButton alloc] init];
+    [fullScreenButton setThemeKey:@"hud_button"];
     [fullScreenButton setImage:[NSImage imageNamed:@"hud_fullscreen_glyph_normal"]];
     [fullScreenButton setAlternateImage:[NSImage imageNamed:@"hud_fullscreen_glyph_pressed"]];
     [fullScreenButton setAction:@selector(toggleFullScreen:)];

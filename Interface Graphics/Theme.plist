@@ -304,6 +304,141 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>hud_button</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<real>3</real>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Alignment</key>
+			<string>Center</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+			</dict>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Color</key>
+					<string>rgba(232,232,232,1.0)</string>
+					<key>Shadow</key>
+					<dict>
+						<key>Color</key>
+						<string>black</string>
+						<key>Offset</key>
+						<string>{0, 1}</string>
+					</dict>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>rgba(8,8,8,1.0)</string>
+					<key>Shadow</key>
+					<dict>
+						<key>Color</key>
+						<string>rgba(255,255,255,0.4)</string>
+						<key>Offset</key>
+						<string>{0, -1}</string>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
+		<key>hud_button_blue</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<real>3</real>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Alignment</key>
+			<string>Center</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+			</dict>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Color</key>
+					<string>rgba(232,232,232,1.0)</string>
+					<key>Shadow</key>
+					<dict>
+						<key>Color</key>
+						<string>black</string>
+						<key>Offset</key>
+						<string>{0, 1}</string>
+					</dict>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>rgba(8,8,8,1.0)</string>
+					<key>Shadow</key>
+					<dict>
+						<key>Color</key>
+						<string>rgba(255,255,255,0.4)</string>
+						<key>Offset</key>
+						<string>{0, -1}</string>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
+		<key>hud_button_red</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<real>3</real>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Alignment</key>
+			<string>Center</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+			</dict>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Color</key>
+					<string>rgba(232,232,232,1.0)</string>
+					<key>Shadow</key>
+					<dict>
+						<key>Color</key>
+						<string>black</string>
+						<key>Offset</key>
+						<string>{0, 1}</string>
+					</dict>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>rgba(8,8,8,1.0)</string>
+					<key>Shadow</key>
+					<dict>
+						<key>Color</key>
+						<string>rgba(255,255,255,0.4)</string>
+						<key>Offset</key>
+						<string>{0, -1}</string>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
 		<key>dark_popup_button</key>
 		<dict>
 			<key>Family</key>
@@ -612,6 +747,84 @@
 						<string>{{0,45},{5,23}}</string>
 						<string>{{5,45},{41,23}}</string>
 						<string>{{46,45},{5,23}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>hud_button_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_button</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0},{5,23}}</string>
+						<string>{{5,0},{41,23}}</string>
+						<string>{{46,0},{5,23}}</string>
+					</array>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,23},{5,23}}</string>
+						<string>{{5,23},{41,23}}</string>
+						<string>{{46,23},{5,23}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>hud_button_blue_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_button</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,46},{5,23}}</string>
+						<string>{{5,46},{41,23}}</string>
+						<string>{{46,46},{5,23}}</string>
+					</array>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,23},{5,23}}</string>
+						<string>{{5,23},{41,23}}</string>
+						<string>{{46,23},{5,23}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>hud_button_red_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_button</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,69},{5,23}}</string>
+						<string>{{5,69},{41,23}}</string>
+						<string>{{46,69},{5,23}}</string>
+					</array>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,23},{5,23}}</string>
+						<string>{{5,23},{41,23}}</string>
+						<string>{{46,23},{5,23}}</string>
 					</array>
 				</dict>
 			</dict>

@@ -28,7 +28,7 @@
 
 @class OEHUDAlert;
 @class OEHUDProgressbar;
-
+@class OEButton;
 typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 
 @interface OEHUDAlert : NSObject
@@ -59,9 +59,9 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 
 #pragma mark -
 #pragma mark Buttons
-@property(readonly, strong) NSButton *defaultButton;
-@property(readonly, strong) NSButton *alternateButton;
-@property(readonly, strong) NSButton *otherButton;
+@property(readonly, strong) OEButton *defaultButton;
+@property(readonly, strong) OEButton *alternateButton;
+@property(readonly, strong) OEButton *otherButton;
 
 @property(readonly, strong) NSTextView *messageTextView;
 @property(readonly, strong) NSTextField *headlineLabelField;

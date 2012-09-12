@@ -175,7 +175,6 @@
 		53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */; };
 		53439B7E13B933D0005C0CC8 /* OEHUDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7D13B933D0005C0CC8 /* OEHUDSlider.m */; };
 		53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B8113B933E9005C0CC8 /* OEHUDWindow.m */; };
-		53439B8513B9342F005C0CC8 /* OEHUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B8413B9342F005C0CC8 /* OEHUDButtonCell.m */; };
 		53439B8713B934DB005C0CC8 /* ImageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53439B8613B934DB005C0CC8 /* ImageKit.framework */; };
 		53439B8913B936DA005C0CC8 /* CollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53439B8813B936DA005C0CC8 /* CollectionView.xib */; };
 		53439B8B13B936E1005C0CC8 /* Library.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53439B8A13B936E1005C0CC8 /* Library.xib */; };
@@ -1124,8 +1123,6 @@
 		53439B7D13B933D0005C0CC8 /* OEHUDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDSlider.m; sourceTree = "<group>"; };
 		53439B8013B933E9005C0CC8 /* OEHUDWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDWindow.h; sourceTree = "<group>"; };
 		53439B8113B933E9005C0CC8 /* OEHUDWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDWindow.m; sourceTree = "<group>"; };
-		53439B8313B9342F005C0CC8 /* OEHUDButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDButtonCell.h; sourceTree = "<group>"; };
-		53439B8413B9342F005C0CC8 /* OEHUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDButtonCell.m; sourceTree = "<group>"; };
 		53439B8613B934DB005C0CC8 /* ImageKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageKit.framework; path = /System/Library/Frameworks/Quartz.framework/Versions/A/Frameworks/ImageKit.framework; sourceTree = "<absolute>"; };
 		53439B8813B936DA005C0CC8 /* CollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionView.xib; sourceTree = "<group>"; };
 		53439B8A13B936E1005C0CC8 /* Library.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Library.xib; sourceTree = "<group>"; };
@@ -2620,8 +2617,6 @@
 		53439B7F13B933DA005C0CC8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				53439B8313B9342F005C0CC8 /* OEHUDButtonCell.h */,
-				53439B8413B9342F005C0CC8 /* OEHUDButtonCell.m */,
 				831C9924147BBDAE00F422A5 /* OEHUDTextFieldCell.h */,
 				831C9925147BBDAE00F422A5 /* OEHUDTextFieldCell.m */,
 				83D7F2F7147E3FEB004419A6 /* OEHUDTextFieldEditor.h */,
@@ -4526,7 +4521,6 @@
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
 				53439B7E13B933D0005C0CC8 /* OEHUDSlider.m in Sources */,
 				53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */,
-				53439B8513B9342F005C0CC8 /* OEHUDButtonCell.m in Sources */,
 				53439B9013B937DB005C0CC8 /* NSImage+OEHighlight.m in Sources */,
 				53439B9313B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m in Sources */,
 				53439B9613B937F5005C0CC8 /* NSURL+OELibraryAdditions.m in Sources */,

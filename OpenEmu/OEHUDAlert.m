@@ -27,7 +27,6 @@
 #import "OEHUDAlert.h"
 
 #import "OEButton.h"
-#import "OEHUDButtonCell.h"
 #import "OEHUDTextFieldCell.h"
 #import "OEHUDTextFieldEditor.h"
 #import "OECenteredTextFieldCell.h"
@@ -110,9 +109,9 @@
         [_suppressionButton setButtonType:NSSwitchButton];
         [(OEButton*)_suppressionButton setThemeKey:@"dark_checkbox"];
         
-        _defaultButton = [[NSButton alloc] init];
-        _alternateButton = [[NSButton alloc] init];
-        _otherButton = [[NSButton alloc] init];
+        _defaultButton = [[OEButton alloc] init];
+        _alternateButton = [[OEButton alloc] init];
+        _otherButton = [[OEButton alloc] init];
         
         _progressbar = [[OEHUDProgressbar alloc] init];
         
@@ -306,7 +305,7 @@
 {
     BOOL showsDefaultButton   = [[self defaultButtonTitle] length] != 0;
     BOOL showsAlternateButton = [[self alternateButtonTitle] length] != 0;
-    BOOL showsOtherButton = [[self alternateButtonTitle] length] != 0;
+    BOOL showsOtherButton = [[self otherButtonTitle] length] != 0;
     
     NSRect defaultButtonRect = NSMakeRect(304 - 3, 14 - 1, 103, 23);
     
@@ -521,9 +520,7 @@
     [_window setFrame:f display:NO];
     
     // Setup Button
-    OEHUDButtonCell *cell = [[OEHUDButtonCell alloc] init];
-    [cell setButtonColor:OEHUDButtonColorBlue];    
-    [[self defaultButton] setCell:cell];
+    [[self defaultButton] setThemeKey:@"hud_button_blue"];
     [[self defaultButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
     [[self defaultButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self defaultButton] setHidden:YES];
@@ -531,9 +528,8 @@
     [[self defaultButton] setKeyEquivalent:@"\r"];
     [[_window contentView] addSubview:[self defaultButton]];
     
-    cell = [[OEHUDButtonCell alloc] init];
-    [cell setButtonColor:OEHUDButtonColorDefault];
-    [[self alternateButton] setCell:cell];
+    
+    [[self alternateButton] setThemeKey:@"hud_button"];
     [[self alternateButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
     [[self alternateButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self alternateButton] setHidden:YES];
@@ -541,9 +537,7 @@
     [[self alternateButton] setKeyEquivalent:@"\E"];
     [[_window contentView] addSubview:[self alternateButton]];
     
-    cell = [[OEHUDButtonCell alloc] init];
-    [cell setButtonColor:OEHUDButtonColorDefault];
-    [[self otherButton] setCell:cell];
+    [[self otherButton] setThemeKey:@"hud_button"];
     [[self otherButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
     [[self otherButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self otherButton] setHidden:YES];
