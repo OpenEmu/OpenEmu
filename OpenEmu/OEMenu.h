@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,19 +24,20 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <QuartzCore/QuartzCore.h>
-#import "OEMenuItem.h"
-@class OEPopupButton;
-@protocol OEMenuDelegate;
-@class OEMenuContentView;
+#import <Cocoa/Cocoa.h>
 
-typedef enum _OEMenuStyle {
+@class OEPopUpButton;
+
+#pragma mark -
+#pragma mark Enumerations
+
+typedef enum
+{
     OEMenuStyleDark,
     OEMenuStyleLight
 } OEMenuStyle;
 
-typedef enum _OERectEdge
+typedef enum
 {
     OENoEdge,
     OEMinYEdge,
@@ -45,68 +46,49 @@ typedef enum _OERectEdge
     OEMaxXEdge
 } OERectEdge;
 
-@interface OEMenu : NSWindow 
+#pragma mark -
+#pragma mark Menu option keys
+
+extern NSString * const OEMenuOptionsStyleKey;           // Defines the menu style (dark or light), OEMenuStyle encapsulated in an -[NSNumber numberWithUnsignedInteger:]
+extern NSString * const OEMenuOptionsArrowEdgeKey;       // Defines the edge that the arrow is on, OERectEdge encapsulated in an -[NSNumber numberWithUnsignedInteger:]
+extern NSString * const OEMenuOptionsMaximumSizeKey;     // Maximum size of the menu, NSSize encapsulated in an NSValue
+extern NSString * const OEMenuOptionsHighlightedItemKey; // Initial item to be highlighted, NSMenuItem
+extern NSString * const OEMenuOptionsScreenRectKey;      // Reference screen rect to attach the menu to, NSRect encapsulated in an NSValue
+
+#pragma mark -
+#pragma mark Implementation
+
+static inline NSRect OENSInsetRectWithEdgeInsets(NSRect rect, NSEdgeInsets insets)
 {
-@private
-    NSMenu *menu;
-    NSMenuItem *highlightedItem;
-    
-    OEMenu *submenu;
-    OEPopupButton *popupButton;
-    
-    int itemsAboveScroller, itemsBelowScroller;
-    
-    id _localMonitor;
-    BOOL visible;
-    BOOL closing;
-    
-    OEMenuStyle style;
+    return NSMakeRect(NSMinX(rect) + insets.left, NSMinY(rect) + insets.bottom, NSWidth(rect) - insets.left - insets.right, NSHeight(rect) - insets.bottom - insets.top);
 }
 
-// If edge==OENoEdge and rect.size != {0,0} the menu is centered in the rect
-// IF edee==OENoEdge and rect.size == {0,0} the top left corner of the menu is placed on rect.origin
-- (void)openOnEdge:(OERectEdge)anedge ofRect:(NSRect)rect ofWindow:(NSWindow*)win;
+@class OEMenuView;
+@class OEMenuDocumentView;
 
-- (void)closeMenuWithoutChanges:(id)sender;
-- (void)closeMenu;
+@interface OEMenu : NSWindow
+{
+@private
+    BOOL _cancelTracking; // Event tracking loop canceled
+    BOOL _closing;        // Menu is closing
 
-- (void)menuMouseDragged:(NSEvent *)theEvent;
-- (void)menuMouseUp:(NSEvent*)theEvent;
+    OEMenuView *_view;    // Menu's content view
+    OEMenu     *_submenu; // Used to track opened submenu
+}
 
-- (void)updateSize;
-#pragma mark - NSMenu wrapping
-- (NSArray *)itemArray;
++ (void)openMenuForPopUpButton:(OEPopUpButton *)button withEvent:(NSEvent *)event options:(NSDictionary *)options;
++ (void)openMenu:(NSMenu *)menu withEvent:(NSEvent *)event forView:(NSView *)view options:(NSDictionary *)options;
 
-@property (readonly) BOOL alternate;
+- (void)cancelTracking;
+- (void)cancelTrackingWithoutAnimation;
 
-@property (readwrite)                    NSSize         minSize, maxSize;
-@property (strong)                       OEPopupButton  *popupButton;
-@property (nonatomic, strong)            OEMenu         *submenu;
-@property (nonatomic, unsafe_unretained) OEMenu         *supermenu;
+@property(nonatomic, readonly) OEMenuStyle style;                        // Menu's theme style
+@property(nonatomic, readonly) OERectEdge  arrowEdge;                    // Edge that the arrow should appear on
 
-@property OEMenuStyle   style;
-@property OERectEdge    openEdge;
-@property BOOL          allowsOppositeEdge;
-@property BOOL          displaysOpenEdge;
+@property(nonatomic, readonly, getter = isSubmenu) BOOL   submenu;       // Identifies if this menu represents a submenu
+@property(nonatomic, readonly)                     NSSize intrinsicSize; // Natural, unrestricted size of the menu
+@property(nonatomic, readonly)                     NSSize size;          // A confined representation of the menu's size, this ensures a menu is completely visible on the screen and does not extend beyond the maximum size specified
 
-@property (nonatomic, strong)   NSMenu      *menu;
-@property (strong)              NSMenuItem  *highlightedItem;
-@property (readonly, getter=isVisible) BOOL visible;
+@property(nonatomic, assign) NSMenuItem *highlightedItem;                // Currently highlighted menu item (can be a primary or alternate menu item)
 
-@property int itemsAboveScroller, itemsBelowScroller;
-@property (nonatomic, unsafe_unretained) id <OEMenuDelegate> delegate;
-
-@property BOOL containsItemWithImage;
-@end
-
-@interface NSMenu (OEAdditions)
-- (OEMenu*)convertToOEMenu;
-@end
-
-@protocol OEMenuDelegate <NSObject>
-@optional
-- (void)menuDidShow:(OEMenu*)men;
-- (void)menuDidHide:(OEMenu*)men;
-- (void)menuDidSelect:(OEMenu*)men;
-- (void)menuDidCancel:(OEMenu*)men;
 @end

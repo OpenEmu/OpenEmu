@@ -256,15 +256,19 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [item setSubmenu:filterMenu];
 
     // Create OEMenu and display it
-    OEMenu *oemenu = [menu convertToOEMenu];
-    [oemenu setStyle:OEMenuStyleLight];
-    [oemenu setDelegate:self];
-    oemenu.itemsAboveScroller = 2;
-    oemenu.maxSize = NSMakeSize(500, 256);
-    NSRect targetRect = (NSRect){{[sender frame].origin.x,0},{[sender frame].size.width -6, NSHeight([self frame])}};
-    targetRect = NSInsetRect(targetRect, 0, 17);
-    [oemenu setDisplaysOpenEdge:YES];
-    [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
+    [menu setDelegate:self];
+
+    NSRect targetRect = [sender bounds];
+    targetRect.size.width -= 6.0;
+    targetRect = NSInsetRect([self convertRectToScreen:[[sender superview] convertRect:targetRect toView:nil]], 0.0, 17.0);
+
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithUnsignedInteger:OEMenuStyleLight], OEMenuOptionsStyleKey,
+                             [NSValue valueWithSize:NSMakeSize(500, 256)], OEMenuOptionsMaximumSizeKey,
+                             [NSNumber numberWithUnsignedInteger:OEMinYEdge], OEMenuOptionsArrowEdgeKey,
+                             [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
+                             nil];
+    [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
 }
 
 - (void)showSaveMenu:(id)sender
@@ -287,45 +291,44 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
-            if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
+            item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
+            [item setRepresentedObject:saveState];
+            [menu addItem:item];
+
+            if([[NSUserDefaults standardUserDefaults] boolForKey:UDHUDCanDeleteStateKey])
             {
-                OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
-                
-                [oeitem setHasAlternate:YES];
-                [oeitem setAlternateAction:@selector(deleteSaveState:)];
-                
-                [oeitem setRepresentedObject:saveState];
-                [menu addItem:oeitem];
-            }
-            else
-            {
-                item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
-                [item setRepresentedObject:saveState];
-                [menu addItem:item];
+                NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
+                [alternateItem setAlternate:YES];
+                [alternateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+                [alternateItem setRepresentedObject:saveState];
+                [menu addItem:alternateItem];
             }
         }
     }
-    
-    OEMenu *oemenu = [menu convertToOEMenu];
-    [oemenu setDelegate:self];
-    [oemenu setDisplaysOpenEdge:YES];
-    [oemenu setStyle:OEMenuStyleLight];
-    [oemenu setItemsAboveScroller:2];
-    [oemenu setMaxSize:(NSSize){5000, 256}];
 
-    NSRect targetRect = (NSRect){{[sender frame].origin.x,0},{[sender frame].size.width -6, NSHeight([self frame])}};
-    targetRect = NSInsetRect(targetRect, 0, 17);
-    [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
+    [menu setDelegate:self];
+
+    NSRect targetRect = [sender bounds];
+    targetRect.size.width -= 6.0;
+    targetRect = NSInsetRect([self convertRectToScreen:[[sender superview] convertRect:targetRect toView:nil]], 0.0, 17.0);
+
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithUnsignedInteger:OEMenuStyleLight], OEMenuOptionsStyleKey,
+                             [NSValue valueWithSize:NSMakeSize(500, 256)], OEMenuOptionsMaximumSizeKey,
+                             [NSNumber numberWithUnsignedInteger:OEMinYEdge], OEMenuOptionsArrowEdgeKey,
+                             [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
+                             nil];
+    [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
 }
 
 #pragma mark -
 #pragma mark OEMenuDelegate Implementation
-- (void)menuDidShow:(OEMenu *)men
+- (void)menuWillOpen:(NSMenu *)menu
 {
     openMenus++;
 }
 
-- (void)menuDidHide:(OEMenu *)men
+- (void)menuDidClose:(NSMenu *)menu
 {
     openMenus--;
 }

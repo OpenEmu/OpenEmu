@@ -26,8 +26,6 @@
 
 #import "OEHUDWindow.h"
 #import "NSImage+OEDrawingAdditions.h"
-
-#import "OEImageButton.h"
 #import "NSColor+OEAdditions.h"
 
 @interface OEHUDWindow ()

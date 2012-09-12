@@ -24,13 +24,26 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
+#import "OETheme.h"
+#import "OECell.h"
 
-extern NSColor *OENSColorFromString(NSString *colorString);
+@protocol OEControl <NSObject>
 
-@interface NSColor (OEAdditions)
+@optional
+- (void)updateHoverFlagWithMousePoint:(NSPoint)point;
 
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
+@required
+- (void)setThemeKey:(NSString *)key;
+- (void)setBackgroundThemeImageKey:(NSString *)key;
+- (void)setThemeImageKey:(NSString *)key;
+- (void)setThemeTextAttributesKey:(NSString *)key;
+
+@property(nonatomic, retain) OEThemeImage          *backgroundThemeImage;
+@property(nonatomic, retain) OEThemeImage          *themeImage;
+@property(nonatomic, retain) OEThemeTextAttributes *themeTextAttributes;
+
+@property(nonatomic, readonly, getter = isTrackingWindowActivity) BOOL trackWindowActivity;
+@property(nonatomic, readonly, getter = isTrackingMouseActivity)  BOOL trackMouseActivity;
 
 @end

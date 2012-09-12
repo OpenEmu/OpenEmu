@@ -24,13 +24,17 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import "OEThemeObject.h"
 
-extern NSColor *OENSColorFromString(NSString *colorString);
+@interface NSGradient (OEThemeGradientAdditions)
 
-@interface NSColor (OEAdditions)
+- (void)drawInRect:(NSRect)rect;
+- (void)drawInBezierPath:(NSBezierPath *)path;
 
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
+@end
+
+@interface OEThemeGradient : OEThemeObject
+
+- (NSGradient *)gradientForState:(OEThemeState)state;
 
 @end

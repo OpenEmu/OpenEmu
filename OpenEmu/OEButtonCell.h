@@ -24,13 +24,13 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
+#import "OETheme.h"
+#import "OECell.h"
 
-extern NSColor *OENSColorFromString(NSString *colorString);
-
-@interface NSColor (OEAdditions)
-
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
-
+@interface OEButtonCell : NSButtonCell <OECell>
+{
+@private
+    NSMutableParagraphStyle *_style;  // Cached paragraph style used to render text
+}
 @end

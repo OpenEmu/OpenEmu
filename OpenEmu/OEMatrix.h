@@ -24,13 +24,15 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
+#import "OEControl.h"
+#import "OECell.h"
 
-extern NSColor *OENSColorFromString(NSString *colorString);
-
-@interface NSColor (OEAdditions)
-
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
+@interface OEMatrix : NSMatrix <OEControl>
+{
+@private
+    NSTrackingArea *_trackingArea;   // Mouse tracking area used only if the control reacts to the mouse's location
+    id<OECell> _hoverCell;
+}
 
 @end

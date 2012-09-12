@@ -24,13 +24,50 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import "OEMenuItemExtraData.h"
+#import "NSMenuItem+OEMenuItemExtraDataAdditions.h"
 
-extern NSColor *OENSColorFromString(NSString *colorString);
+@implementation OEMenuItemExtraData
+@synthesize ownerItem = _ownerItem;
+@synthesize primaryItem = _primaryItem;
+@synthesize alternateItems = _alternateItems;
+@synthesize frame = _frame;
 
-@interface NSColor (OEAdditions)
+- (id)initWithOwnerItem:(NSMenuItem *)ownerItem
+{
+    if(!ownerItem) return nil;
 
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
+    if((self = [super init]))
+    {
+        _ownerItem = ownerItem;
+    }
+    return self;
+}
+
+- (void)addAlternateItem:(NSMenuItem *)item
+{
+    if(!_alternateItems) _alternateItems = [NSMutableDictionary dictionaryWithObject:item forKey:[NSNumber numberWithUnsignedInteger:[item keyEquivalentModifierMask]]];
+    else                [_alternateItems setObject:item forKey:[NSNumber numberWithUnsignedInteger:[item keyEquivalentModifierMask]]];
+
+    [[item extraData] setPrimaryItem:_ownerItem];
+}
+
+- (NSMenuItem *)itemWithModifierMask:(NSUInteger)mask
+{
+    if(mask == 0 || !_alternateItems) return _ownerItem;
+
+    __block NSMenuItem *result = _ownerItem;
+    [_alternateItems enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, NSMenuItem *obj, BOOL *stop)
+     {
+         if(![obj isHidden] && (([key unsignedIntegerValue] & mask) == mask))
+         {
+             result = obj;
+             *stop  = YES;
+         }
+     }];
+
+    return result;
+}
 
 @end

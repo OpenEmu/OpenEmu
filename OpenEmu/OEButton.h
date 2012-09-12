@@ -24,13 +24,16 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
+#import "OEButtonCell.h"
+#import "OEControl.h"
 
-extern NSColor *OENSColorFromString(NSString *colorString);
+@interface OEButton : NSButton <OEControl>
+{
+@private
+    NSTrackingArea *_trackingArea;   // Mouse tracking area used only if the control reacts to the mouse's location
+}
 
-@interface NSColor (OEAdditions)
-
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
+@property(nonatomic, readonly) NSPoint badgePosition;
 
 @end

@@ -27,15 +27,15 @@
 
 @class OEMenu;
 @class OETableView;
-
-@protocol OETableViewMenuSource <NSTableViewDataSource, NSObject>
-- (OEMenu  *)tableView:(OETableView *)tableView menuForItemsAtIndexes:(NSIndexSet *)indexes;
+@protocol OETableViewMenuSource <NSObject>
+- (NSMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes;
 @end
 
-@interface OETableView : NSTableView
-
+@interface OETableView : NSTableView 
+{
+@private
+	NSColor *selectionColor;
+}
 - (void)setHeaderClickable:(BOOL)flag;
-@property(strong) NSColor *selectionColor;
-@property(assign) id<OETableViewMenuSource> dataSource;
-
+@property (strong, readwrite) NSColor *selectionColor;
 @end

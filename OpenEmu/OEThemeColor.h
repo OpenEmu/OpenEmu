@@ -24,13 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import "OEThemeObject.h"
 
-extern NSColor *OENSColorFromString(NSString *colorString);
+@interface OEThemeColor : OEThemeObject
 
-@interface NSColor (OEAdditions)
-
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
+- (NSColor *)colorForState:(OEThemeState)state;
 
 @end

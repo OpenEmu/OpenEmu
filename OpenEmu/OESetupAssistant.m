@@ -170,8 +170,6 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
     [[self gamePadRunNextButton]       setEnabled:NO];
     [[self gamePadJumpNextButton]      setEnabled:NO];
     
-    [[self goButton] setButtonColor:OEGlossButtonColorGreen];
-    
     [[self replaceView] setWantsLayer:YES];
     
     [self resetKeyViews];
