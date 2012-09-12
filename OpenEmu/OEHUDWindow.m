@@ -232,14 +232,6 @@
     DLog(@"OEHUDWindowThemeView");
 }
 
-- (NSRect)resizeRect
-{
-    // unused // const CGFloat resizeBoxSize = 11.0;
-    // unused // const CGFloat contentViewPadding = 2.0;
-    
-    return NSMakeRect([self bounds].size.width-11, 0, 11, 11);
-}
-
 - (NSRect)titleBarRect
 {
     NSRect titleBarRect = [self bounds];
@@ -291,9 +283,7 @@
     
     lastMouseLocation = NSZeroPoint;
     
-    isResizing = NO;
-    
-    if(!isResizing && !NSPointInRect(pointInView, [self titleBarRect])){
+    if(!NSPointInRect(pointInView, [self titleBarRect])){
         [[self nextResponder] mouseDown:theEvent];
         return;
     }
@@ -313,22 +303,12 @@
     
     NSPoint delta = NSMakePoint(newMousePosition.x-lastMouseLocation.x, newMousePosition.y-lastMouseLocation.y);
     
-    if(isResizing){
-        NSRect frame = [window frame];
-        
-        frame.size.width += delta.x;
-        frame.size.height -= delta.y;
-        frame.origin.y += delta.y;
-        
-        [[self window] setFrame:frame display:YES];
-    } else {
         NSPoint frameOrigin = [window frame].origin;
         
         frameOrigin.x += delta.x;
         frameOrigin.y += delta.y;
         
         [window setFrameOrigin:frameOrigin];
-    }
     
     
     lastMouseLocation = newMousePosition;
@@ -339,8 +319,6 @@
         [[self nextResponder] mouseUp:theEvent];
         return;
     }
-    
-    isResizing = NO;
 }
 
 @end
