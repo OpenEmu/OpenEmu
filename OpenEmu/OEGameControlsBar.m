@@ -268,6 +268,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
                              [NSNumber numberWithUnsignedInteger:OEMinYEdge], OEMenuOptionsArrowEdgeKey,
                              [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
                              nil];
+    
+    FIXME("Figure out how to open the new OEMenu and implement that here");
     [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
 }
 
@@ -319,6 +321,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
                              [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
                              nil];
     [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
+    FIXME("Figure out how to open the new OEMenu and implement that here");
 }
 
 #pragma mark -
