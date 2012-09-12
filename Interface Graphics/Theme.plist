@@ -763,6 +763,88 @@
 				<string>{{15,17},{15,17}}</string>
 			</dict>
 		</dict>
+		<key>hud_button_toggle_pause</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_glyphs</string>
+			<key>States</key>
+			<dict>
+				<key>Toggle Off</key>
+				<string>{{0,0},{32,32}}</string>
+				<key>Toggle Off, Mouse Over</key>
+				<string>{{32,0},{32,32}}</string>
+				<key>Toggle Off, Mouse Over, Pressed</key>
+				<string>{{64,0},{32,32}}</string>
+				<key>Toggle On</key>
+				<string>{{0,32},{32,32}}</string>
+				<key>Toggle On, Mouse Over</key>
+				<string>{{32,32},{32,32}}</string>
+				<key>Toggle On, Mouse Over, Pressed</key>
+				<string>{{64,32},{32,32}}</string>
+			</dict>
+		</dict>
+		<key>hud_button_restart</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_glyphs</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,64},{32,32}}</string>
+				<key>Mouse Over</key>
+				<string>{{32,64},{32,32}}</string>
+				<key>Mouse Over, Pressed</key>
+				<string>{{64,64},{32,32}}</string>
+			</dict>
+		</dict>
+		<key>hud_button_save</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_glyphs</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,96},{32,32}}</string>
+				<key>Mouse Over</key>
+				<string>{{32,96},{32,32}}</string>
+				<key>Mouse Over, Pressed</key>
+				<string>{{64,96},{32,32}}</string>
+			</dict>
+		</dict>
+		<key>hud_button_options</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_glyphs</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,128},{32,32}}</string>
+				<key>Mouse Over</key>
+				<string>{{32,128},{32,32}}</string>
+				<key>Mouse Over, Pressed</key>
+				<string>{{64,128},{32,32}}</string>
+			</dict>
+		</dict>
+		<key>hud_button_volume_up</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_volume</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{13,0},{15, 14}}</string>
+			</dict>
+		</dict>
+		<key>hud_button_volume_down</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_volume</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0},{13, 14}}</string>
+			</dict>
+		</dict>
 		<key>dark_button_background</key>
 		<dict>
 			<key>Resource</key>

@@ -51,7 +51,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 @property (strong, readonly) OEHUDSlider     *slider;
 @property (strong, readonly) OEButton        *fullScreenButton;
-@property (strong, readonly) OEImageButton   *pauseButton;
+@property (strong, readonly) OEButton        *pauseButton;
 
 - (void)setupControls;
 @end
@@ -399,33 +399,10 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 @implementation OEHUDControlsBarView
 @synthesize slider, fullScreenButton, pauseButton;
 
-+ (void)initialize
-{
-    // Make sure not to reinitialize for subclassed objects
-    if(self != [OEHUDControlsBarView class])
-        return;
-
-    NSImage *spriteSheet = [NSImage imageNamed:@"hud_glyphs"];
-    
-    float itemHeight = (spriteSheet.size.height/5);
-    [spriteSheet setName:@"hud_playpause" forSubimageInRect:NSMakeRect(0, 3*itemHeight, spriteSheet.size.width, itemHeight*2)];
-    
-    [spriteSheet setName:@"hud_restart" forSubimageInRect:NSMakeRect(0, 2*itemHeight, spriteSheet.size.width, itemHeight)];
-    [spriteSheet setName:@"hud_save" forSubimageInRect:NSMakeRect(0, 1*itemHeight, spriteSheet.size.width, itemHeight)];
-    [spriteSheet setName:@"hud_options" forSubimageInRect:NSMakeRect(0, 0, spriteSheet.size.width, itemHeight)];
-        
-    NSImage *volume = [NSImage imageNamed:@"hud_volume"];
-    [volume setName:@"hud_volume_down" forSubimageInRect:NSMakeRect(0, 0, 13, volume.size.height)];
-    [volume setName:@"hud_volume_up" forSubimageInRect:NSMakeRect(13, 0, 15, volume.size.height)];
-    }
-
 - (id)initWithFrame:(NSRect)frame
 {
     if((self = [super initWithFrame:frame]))
-    {
         [self setWantsLayer:YES];
-    }
-    
     return self;
 }
 
@@ -450,31 +427,24 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:stopButton];
-    
-    DLog(@"%@ | %@", stopButton, [stopButton cell]);
-    
-    pauseButton = [[OEImageButton alloc] init];
-    OEImageButtonHoverSelectable *cell = [[OEImageButtonHoverSelectable alloc] init];
-    [pauseButton setCell:cell];
-    [cell setImage:[NSImage imageNamed:@"hud_playpause"]];
+        
+    pauseButton = [[OEButton alloc] init];
+    [pauseButton setButtonType:NSToggleButton];
+    [pauseButton setThemeKey:@"hud_button_toggle_pause"];
     [pauseButton setAction:@selector(toggleEmulationPaused)];
     [pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
     [pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:pauseButton];
     
-    OEImageButton *restartButton = [[OEImageButton alloc] init];
-    OEImageButtonHoverPressed *hcell = [[OEImageButtonHoverPressed alloc] init];
-    [restartButton setCell:hcell];
-    [hcell setImage:[NSImage imageNamed:@"hud_restart"]];
+    OEButton *restartButton = [[OEButton alloc] init];
+    [restartButton setThemeKey:@"hud_button_restart"];
     [restartButton setAction:@selector(resetGame)];
     [restartButton setFrame:NSMakeRect(111, 9, 32, 32)];
     [restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:restartButton];
     
-    OEImageButton *saveButton = [[OEImageButton alloc] init];
-    hcell = [[OEImageButtonHoverPressed alloc] init];
-    [saveButton setCell:hcell];
-    [hcell setImage:[NSImage imageNamed:@"hud_save"]];
+    OEButton *saveButton = [[OEButton alloc] init];
+    [saveButton setThemeKey:@"hud_button_save"];
     [saveButton setTarget:[self window]];
     [saveButton setAction:@selector(showSaveMenu:)];
     [saveButton setFrame:NSMakeRect(162, 6, 32, 32)];
@@ -484,10 +454,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarHidesOptionButtonKey];
     if(!hideOptions)
     {
-        OEImageButton *optionsButton = [[OEImageButton alloc] init];
-        hcell = [[OEImageButtonHoverPressed alloc] init];
-        [optionsButton setCell:hcell];
-        [hcell setImage:[NSImage imageNamed:@"hud_options"]];
+        OEButton *optionsButton = [[OEButton alloc] init];
+        [optionsButton setThemeKey:@"hud_button_options"];
         [optionsButton setTarget:[self window]];
         [optionsButton setAction:@selector(showOptionsMenu:)];
         [optionsButton setFrame:NSMakeRect(212, 6, 32, 32)];
@@ -495,19 +463,15 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [self addSubview:optionsButton];
     }
     
-    NSButton *volumeDownView = [[NSButton alloc] initWithFrame:NSMakeRect(223 + (hideOptions ? 0 : 50), 17, 13, 14)];
-    [volumeDownView setBordered:NO];
-    [[volumeDownView cell] setHighlightsBy:NSNoCellMask];
-    [volumeDownView setImage:[NSImage imageNamed:@"hud_volume_down"]];
-    [volumeDownView setAction:@selector(mute:)];    
-    [self addSubview:volumeDownView];
+    OEButton *volumeDownButton = [[OEButton alloc] initWithFrame:NSMakeRect(223 + (hideOptions ? 0 : 50), 17, 13, 14)];
+    [volumeDownButton setThemeKey:@"hud_button_volume_down"];
+    [volumeDownButton setAction:@selector(mute:)];
+    [self addSubview:volumeDownButton];
     
-    NSButton *volumeUpView = [[NSButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 17, 15, 14)];
-    [volumeUpView setBordered:NO];
-    [[volumeUpView cell] setHighlightsBy:NSNoCellMask];
-    [volumeUpView setImage:[NSImage imageNamed:@"hud_volume_up"]];
-    [volumeUpView setAction:@selector(unmute:)];
-    [self addSubview:volumeUpView];
+    OEButton *volumeUpButton = [[OEButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 17, 15, 14)];
+    [volumeUpButton setThemeKey:@"hud_button_volume_up"];
+    [volumeUpButton setAction:@selector(unmute:)];
+    [self addSubview:volumeUpButton];
     
     slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(240 + (hideOptions ? 0 : 50), 13, 80, 23)];
     
@@ -518,7 +482,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [slider setMinValue:0.0];
     [slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey]];
     [slider setAction:@selector(changeVolume:)];
-    
     
     CABasicAnimation *animation     = [CABasicAnimation animation];
     animation.timingFunction    = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
