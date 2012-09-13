@@ -167,5 +167,6 @@ extern NSString *const OELightStyleGridViewMenu;
 
 @property(nonatomic, assign) id<OEGridViewDataSource> dataSource; // Responsible for supplying the cells of each object represented in the grid
 @property(nonatomic, assign) id<OEGridViewDelegate>   delegate;   // Receives information regarding the user interaction of the grid and it's cells
+- (IBAction)OEDebug_logGridViewFrames:(id)sender;
 
 @end

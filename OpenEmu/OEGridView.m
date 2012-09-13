@@ -160,10 +160,8 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
     return layer;
 }
-
 #pragma mark -
 #pragma mark Query Data Sources
-
 - (id)dequeueReusableCell
 {
     if([_reuseableCells count] == 0) return nil;
@@ -354,7 +352,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     if(!indexes || [indexes count] == 0) return;
 
     NSIndexSet *indexesToQueue = [indexes copy];
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [indexesToQueue enumerateIndexesUsingBlock:
          ^ (NSUInteger idx, BOOL *stop)
          {
@@ -595,7 +593,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     // Notify the -reloadCellsAtIndexes: that the reload should be aborted
     _abortReloadCells = YES;
     
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         // Wait until any pending reload operations are complete
         //[[_visibleCellByIndex allValues] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
         [transformedVisibleCellByIndex makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
@@ -631,7 +629,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     if(!indexes || [indexes count] == 0 || !_dataSource) return;
 
     NSIndexSet *indexesToReload = [indexes copy];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [indexesToReload enumerateIndexesUsingBlock:
          ^ (NSUInteger idx, BOOL *stop)
          {
@@ -695,6 +693,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_windowChangedKey:) name:NSWindowDidBecomeKeyNotification object:[self window]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_windowChangedKey:) name:NSWindowDidResignKeyNotification object:[self window]];
     }
+    [_rootLayer setFrame:[self bounds]];
 }
 
 - (void)viewWillMoveToSuperview:(NSView *)newSuperview
@@ -1574,7 +1573,24 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     // Make an immutable copy
     return [_selectionIndexes copy];
 }
-
+#pragma mark - Debug
+- (IBAction)OEDebug_logGridViewFrames:(id)sender
+{
+    DLog(@"–––––––––––––––––––––––––––––");
+    DLog(@"view frame: %@", NSStringFromRect([self frame]));
+    DLog(@"view bounds: %@", NSStringFromRect([self bounds]));
+    
+    DLog(@"layer frame: %@", NSStringFromRect([self.layer frame]));
+    DLog(@"layer bounds: %@", NSStringFromRect([self.layer bounds]));
+    
+    DLog(@"_root layer frame: %@", NSStringFromRect(_rootLayer.frame));
+    DLog(@"_rootlayer bounds: %@", NSStringFromRect(_rootLayer.bounds));
+    
+    DLog(@"view visibleRect: %@", NSStringFromRect([self visibleRect]));
+    
+    DLog(@"Trying to fix!");
+    [_rootLayer setFrame:[self bounds]];
+}
 @end
 
 @implementation OEGridView (OEGridViewCell)
