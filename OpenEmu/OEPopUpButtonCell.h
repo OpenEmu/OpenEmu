@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,13 +24,13 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
+#import "OETheme.h"
+#import "OECell.h"
 
-@interface OEMenuItem : NSMenuItem
-
-@property(unsafe_unretained) id  alternateTarget;
-@property                    SEL alternateAction;
-
-@property BOOL isAlternate;
-@property BOOL hasAlternate;
+@interface OEPopUpButtonCell : NSPopUpButtonCell <OECell>
+{
+@private
+    NSMutableParagraphStyle *_style;  // Cached paragraph style used to render text
+}
 @end

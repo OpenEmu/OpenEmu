@@ -24,13 +24,31 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
+#import "OEMenu.h"
+#import "OETheme.h"
 
-extern NSColor *OENSColorFromString(NSString *colorString);
+@interface OEMenuDocumentView : NSView
+{
+@private
+    BOOL   _needsLayout;             // Flag used to notify that the menu item's frames should be invalidated
+    NSSize _intrinsicSize;           // Natural size of the menu items
 
-@interface NSColor (OEAdditions)
+    NSUInteger _keyModifierMask;     // Aggregate mask of all the key modifiers used within the menu item (used to trim NSEvent's modifierFlags)
+    NSUInteger _lastKeyModifierMask; // Last NSEvent's modifierFlags
 
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
+    // Themed elements
+    NSImage               *_separatorImage;
+    OEThemeGradient       *_backgroundGradient;
+    OEThemeImage          *_tickImage;
+    OEThemeTextAttributes *_textAttributes;
+    OEThemeImage          *_submenuArrowImage;
+}
+
+@property(nonatomic, readonly, getter = doesContainImages) BOOL containImages;
+
+@property(nonatomic, retain)   NSArray     *itemArray;
+@property(nonatomic, assign)   OEMenuStyle  style;
+@property(nonatomic, readonly) NSSize       intrinsicSize;
 
 @end

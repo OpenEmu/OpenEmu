@@ -32,7 +32,7 @@ extern NSString *const OEGameControlsBarHidesOptionButtonKey;
 extern NSString *const OEGameControlsBarFadeOutDelayKey;
 
 @class OEGameViewController;
-@interface OEGameControlsBar : NSWindow <OEMenuDelegate>
+@interface OEGameControlsBar : NSWindow <NSMenuDelegate>
 {
     NSTimer *fadeTimer;
     id       eventMonitor;

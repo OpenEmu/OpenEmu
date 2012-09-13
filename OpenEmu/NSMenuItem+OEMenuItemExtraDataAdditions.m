@@ -24,13 +24,28 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import "NSMenuItem+OEMenuItemExtraDataAdditions.h"
+#import "OEMenuItemExtraData.h"
+#import <objc/runtime.h>
 
-extern NSColor *OENSColorFromString(NSString *colorString);
+const static char OEMenuItemExtraDataKey;
 
-@interface NSColor (OEAdditions)
+@implementation NSMenuItem (OEMenuItemExtraDataAdditions)
 
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
+- (void)setExtraData:(OEMenuItemExtraData *)extraData
+{
+    objc_setAssociatedObject(self, &OEMenuItemExtraDataKey, extraData, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (OEMenuItemExtraData  *)extraData
+{
+    OEMenuItemExtraData *extraData = objc_getAssociatedObject(self, &OEMenuItemExtraDataKey);
+    if(!extraData)
+    {
+        extraData = [[OEMenuItemExtraData alloc] initWithOwnerItem:self];
+        [self setExtraData:extraData];
+    }
+    return extraData;
+}
 
 @end

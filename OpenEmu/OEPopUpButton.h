@@ -24,13 +24,17 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
+#import "OEPopUpButtonCell.h"
+#import "OEMenu.h"
+#import "OEControl.h"
 
-extern NSColor *OENSColorFromString(NSString *colorString);
+@interface OEPopUpButton : NSPopUpButton <OEControl>
+{
+@private
+    NSTrackingArea *_trackingArea;   // Mouse tracking area used only if the control reacts to the mouse's location
+}
 
-@interface NSColor (OEAdditions)
-
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
+@property(nonatomic, assign) OEMenuStyle menuStyle;
 
 @end

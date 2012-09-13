@@ -27,7 +27,6 @@
 #import <Foundation/Foundation.h>
 
 @class OEHUDWindowThemeView;
-@class OEImageButton;
 @interface OEHUDWindow : NSWindow <NSWindowDelegate>
 {
 @private

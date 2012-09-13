@@ -24,14 +24,13 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "OEPrefLibraryController.h"
-#import "OECheckBox.h"
-
 #import "OEApplicationDelegate.h"
 #import "OELibraryDatabase.h"
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 #import "OECorePlugin.h"
 
+#import "OEButton.h"
 #import "OEHUDAlert.h"
 
 @interface OEPrefLibraryController ()
@@ -201,9 +200,10 @@
          
          // creating the button
          NSRect rect = (NSRect){{x, y}, {iWidth, iHeight}};
-         OECheckBox *button = [[OECheckBox alloc] initWithFrame:rect];
-         
          NSString *systemIdentifier = [system systemIdentifier];
+         OEButton *button = [[OEButton alloc] initWithFrame:rect];
+         [button setThemeKey:@"dark_checkbox"];
+         [button setButtonType:NSSwitchButton];
          [button setTarget:self];
          [button setAction:@selector(toggleLibrary:)];
          [button setTitle:[system name]];

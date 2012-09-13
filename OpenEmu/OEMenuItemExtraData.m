@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,9 +24,50 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "OEMenuItemExtraData.h"
+#import "NSMenuItem+OEMenuItemExtraDataAdditions.h"
 
+@implementation OEMenuItemExtraData
+@synthesize ownerItem = _ownerItem;
+@synthesize primaryItem = _primaryItem;
+@synthesize alternateItems = _alternateItems;
+@synthesize frame = _frame;
 
-@interface OEPopupButtonCell : NSPopUpButtonCell
+- (id)initWithOwnerItem:(NSMenuItem *)ownerItem
+{
+    if(!ownerItem) return nil;
+
+    if((self = [super init]))
+    {
+        _ownerItem = ownerItem;
+    }
+    return self;
+}
+
+- (void)addAlternateItem:(NSMenuItem *)item
+{
+    if(!_alternateItems) _alternateItems = [NSMutableDictionary dictionaryWithObject:item forKey:[NSNumber numberWithUnsignedInteger:[item keyEquivalentModifierMask]]];
+    else                [_alternateItems setObject:item forKey:[NSNumber numberWithUnsignedInteger:[item keyEquivalentModifierMask]]];
+
+    [[item extraData] setPrimaryItem:_ownerItem];
+}
+
+- (NSMenuItem *)itemWithModifierMask:(NSUInteger)mask
+{
+    if(mask == 0 || !_alternateItems) return _ownerItem;
+
+    __block NSMenuItem *result = _ownerItem;
+    [_alternateItems enumerateKeysAndObjectsUsingBlock:
+     ^ (NSNumber *key, NSMenuItem *obj, BOOL *stop)
+     {
+         if(![obj isHidden] && (([key unsignedIntegerValue] & mask) == mask))
+         {
+             result = obj;
+             *stop  = YES;
+         }
+     }];
+
+    return result;
+}
 
 @end

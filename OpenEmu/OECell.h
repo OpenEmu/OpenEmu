@@ -24,13 +24,23 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
+#import "OETheme.h"
 
-extern NSColor *OENSColorFromString(NSString *colorString);
+@protocol OECell <NSObject>
 
-@interface NSColor (OEAdditions)
+@required
+- (void)setThemeKey:(NSString *)key;
+- (void)setBackgroundThemeImageKey:(NSString *)key;
+- (void)setThemeImageKey:(NSString *)key;
+- (void)setThemeTextAttributesKey:(NSString *)key;
 
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
+@property (nonatomic, retain) OEThemeImage          *backgroundThemeImage;
+@property (nonatomic, retain) OEThemeImage          *themeImage;
+@property (nonatomic, retain) OEThemeTextAttributes *themeTextAttributes;
+
+@property(nonatomic, assign, getter = isHovering) BOOL         hovering;
+@property(nonatomic, readonly, getter = isThemed) BOOL         themed;
+@property (nonatomic, readonly)                   OEThemeState stateMask;
 
 @end

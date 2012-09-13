@@ -32,7 +32,6 @@
 #import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 
-#import "OEGlossButton.h"
 #import "OESetupAssistantKeyMapView.h"
 
 #import "OEApplicationDelegate.h"
@@ -169,8 +168,6 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
     [[self gamePadRightNextButton]     setEnabled:NO];
     [[self gamePadRunNextButton]       setEnabled:NO];
     [[self gamePadJumpNextButton]      setEnabled:NO];
-    
-    [[self goButton] setButtonColor:OEGlossButtonColorGreen];
     
     [[self replaceView] setWantsLayer:YES];
     

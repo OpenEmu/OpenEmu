@@ -1209,47 +1209,44 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
-    [[self window] makeFirstResponder:self];
-    
-    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
-    NSPoint mouseLocationInView   = [self convertPoint:mouseLocationInWindow fromView:nil];
-    
-    NSUInteger index = [self indexForCellAtPoint:mouseLocationInView];
+    if(!_dataSourceHas.menuForItemsAtIndexes) return [self menu];
+
+    const NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    const NSPoint mouseLocationInView   = [self convertPoint:mouseLocationInWindow fromView:nil];
+    const NSUInteger index              = [self indexForCellAtPoint:mouseLocationInView];
     if(index != NSNotFound && _dataSourceHas.menuForItemsAtIndexes)
     {
         BOOL            itemIsSelected      = [[self selectionIndexes] containsIndex:index];
-        OEGridViewCell *itemCell            = [self cellForItemAtIndex:index makeIfNecessary:YES];
         NSIndexSet     *indexes             = itemIsSelected ? [self selectionIndexes] : [NSIndexSet indexSetWithIndex:index];
-
-        NSRect          hitRect             = NSInsetRect([itemCell hitRect], 5, 5);
-        NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
-#ifndef MAC_OS_X_VERSION_10_8
-        hitRectOnView.origin.y = self.bounds.size.height - hitRectOnView.origin.y - hitRectOnView.size.height;
-#endif
-        NSRect          hitRectOnWindow     = [self convertRect:hitRectOnView toView:nil];
-        NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
-        NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
         
-        if(!itemIsSelected) [self setSelectionIndexes:[NSIndexSet indexSetWithIndex:index]];
+        [self setSelectionIndexes:indexes];
         
-        OEMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:indexes];
-        
-        if([[NSUserDefaults standardUserDefaults] boolForKey:OELightStyleGridViewMenu]) [contextMenu setStyle:OEMenuStyleLight];
-        
-        [contextMenu setDisplaysOpenEdge:YES];
-        
-        OERectEdge edge = OEMaxXEdge;
-        if(NSHeight(visibleItemRect) < 25.0) 
+        NSMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:[self selectionIndexes]];
+        if(contextMenu)
         {
-            edge = NSMinY(visibleItemRect) == NSMinY(visibleRectOnWindow) ? OEMaxYEdge : OEMinYEdge;
-            [contextMenu setAllowsOppositeEdge:NO];
+            OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:OELightStyleGridViewMenu] ? OEMenuStyleLight : OEMenuStyleDark);
+            OEGridViewCell *itemCell   = [self cellForItemAtIndex:index makeIfNecessary:YES];
+
+            NSRect          hitRect             = NSInsetRect([itemCell hitRect], 5, 5);
+            NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
+#ifndef MAC_OS_X_VERSION_10_8
+            hitRectOnView.origin.y = self.bounds.size.height - hitRectOnView.origin.y - hitRectOnView.size.height;
+#endif
+            NSRect          hitRectOnWindow     = [self convertRect:hitRectOnView toView:nil];
+            NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
+            NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
             
-            if(NSEqualRects(visibleItemRect, NSZeroRect))
-            {
-                visibleItemRect = hitRectOnWindow;
-            }
-        }     
-        [contextMenu openOnEdge:edge ofRect:visibleItemRect ofWindow:[self window]];
+            const NSRect  targetRect = [[self window] convertRectToScreen:visibleItemRect];
+            NSDictionary *options    = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithUnsignedInteger:style], OEMenuOptionsStyleKey,
+                                        [NSNumber numberWithUnsignedInteger:OEMinXEdge], OEMenuOptionsArrowEdgeKey,
+                                        [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
+                                        nil];
+
+            // Display the menu
+            [[self window] makeFirstResponder:self];
+            [OEMenu openMenu:contextMenu withEvent:theEvent forView:self options:options];
+        }
         
         return nil;
     }
@@ -1322,6 +1319,8 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
             const NSUInteger rowFirstIndex = (_indexOfKeyboardSelection / _cachedNumberOfVisibleColumns) * _cachedNumberOfVisibleColumns;
             index = MAX(rowFirstIndex, _indexOfKeyboardSelection - 1);
         }
+        else
+            index = 0;
     }
 
     [self OE_moveKeyboardSelectionToIndex:index];
