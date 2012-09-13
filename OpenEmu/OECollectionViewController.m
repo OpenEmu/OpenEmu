@@ -987,6 +987,7 @@ const int OE_ListViewTag = 2;
             
             [obj setListViewTitle:anObject];
         }
+        [self reloadDataIndexes:[NSIndexSet indexSetWithIndex:rowIndex]];
     }
 }
 
