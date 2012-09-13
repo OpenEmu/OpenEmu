@@ -33,7 +33,8 @@
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
 const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval of periodic events
 
-NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
+NSString * const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
+NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 @interface OEGridView ()
 
@@ -79,6 +80,11 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 @synthesize rowSpacing=_rowSpacing;
 @synthesize itemSize=_itemSize;
 @synthesize delegate = _delegate, dataSource = _dataSource;
+
++ (void)initialize
+{
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OEUseSpacebarToLaunchGames : @YES }];
+}
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -1342,7 +1348,12 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 
 - (void)keyDown:(NSEvent *)theEvent
 {
-    if ([theEvent keyCode] == kVK_Delete || [theEvent keyCode] == kVK_ForwardDelete) [NSApp sendAction:@selector(delete:) to:nil from:self];
+    if ([theEvent keyCode] == kVK_Delete || [theEvent keyCode] == kVK_ForwardDelete)
+        [NSApp sendAction:@selector(delete:) to:nil from:self];
+
+    // check if the pressed key is 'space' or 'return' and send the delegate a gridView:doubleclickedCellForItemAtIndex: message
+    else if (([theEvent keyCode] == kVK_Space || [theEvent keyCode] == kVK_Return) && [[NSUserDefaults standardUserDefaults] boolForKey:OEUseSpacebarToLaunchGames] && [[self selectionIndexes] count] == 1 && _delegateHas.doubleClickedCellForItemAtIndex)
+            [_delegate gridView:self doubleClickedCellForItemAtIndex:[[self selectionIndexes] firstIndex]];
     else                                                                             [super keyDown:theEvent];
 }
 

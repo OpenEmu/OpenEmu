@@ -61,7 +61,7 @@
 #import "OESidebarController.h"
 #import "OETableView.h"
 
-NSString *const OELastGridSizeKey = @"lastGridSize";
+NSString * const OELastGridSizeKey = @"lastGridSize";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 #define     MainMenu_View_GridViewTag 301

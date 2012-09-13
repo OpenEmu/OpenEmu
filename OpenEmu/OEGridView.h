@@ -158,7 +158,6 @@ extern NSString *const OELightStyleGridViewMenu;
 
 #pragma mark -
 #pragma mark Properties
-
 @property(nonatomic, strong) CALayer    *foregroundLayer;      // A decorative background layer, the layer should return nil for -hitTest
 @property(nonatomic, strong) CALayer    *backgroundLayer;      // A decorative foreground layer, the layer should return nil for -hitTest
 @property(nonatomic, assign) CGFloat     minimumColumnSpacing; // Minimum spacing between columns
