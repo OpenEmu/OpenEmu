@@ -1217,19 +1217,9 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
     if(index != NSNotFound && _dataSourceHas.menuForItemsAtIndexes)
     {
         BOOL            itemIsSelected      = [[self selectionIndexes] containsIndex:index];
-        OEGridViewCell *itemCell            = [self cellForItemAtIndex:index makeIfNecessary:YES];
         NSIndexSet     *indexes             = itemIsSelected ? [self selectionIndexes] : [NSIndexSet indexSetWithIndex:index];
-
-        NSRect          hitRect             = NSInsetRect([itemCell hitRect], 5, 5);
-        NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
-#ifndef MAC_OS_X_VERSION_10_8
-        hitRectOnView.origin.y = self.bounds.size.height - hitRectOnView.origin.y - hitRectOnView.size.height;
-#endif
-        NSRect          hitRectOnWindow     = [self convertRect:hitRectOnView toView:nil];
-        NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
-        NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
         
-        if(!itemIsSelected) [self setSelectionIndexes:[NSIndexSet indexSetWithIndex:index]];
+        [self setSelectionIndexes:indexes];
         
         NSMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:[self selectionIndexes]];
         if(contextMenu)
@@ -1237,11 +1227,15 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
             OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:OELightStyleGridViewMenu] ? OEMenuStyleLight : OEMenuStyleDark);
             OEGridViewCell *itemCell   = [self cellForItemAtIndex:index makeIfNecessary:YES];
 
-            NSRect hitRect             = NSInsetRect([itemCell hitRect], 5, 5);
-            NSRect hitRectOnWindow     = [itemCell convertRect:hitRect toLayer:nil];
-            NSRect visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
-            NSRect visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
-
+            NSRect          hitRect             = NSInsetRect([itemCell hitRect], 5, 5);
+            NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
+#ifndef MAC_OS_X_VERSION_10_8
+            hitRectOnView.origin.y = self.bounds.size.height - hitRectOnView.origin.y - hitRectOnView.size.height;
+#endif
+            NSRect          hitRectOnWindow     = [self convertRect:hitRectOnView toView:nil];
+            NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
+            NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
+            
             const NSRect  targetRect = [[self window] convertRectToScreen:visibleItemRect];
             NSDictionary *options    = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithUnsignedInteger:style], OEMenuOptionsStyleKey,
