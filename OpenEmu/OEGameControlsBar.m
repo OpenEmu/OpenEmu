@@ -27,7 +27,6 @@
 #import "OEGameControlsBar.h"
 #import "NSImage+OEDrawingAdditions.h"
 
-#import "OEImageButton.h"
 #import "OEButton.h"
 #import "OEHUDSlider.h"
 
@@ -46,7 +45,7 @@ NSString *const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState
 NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
-@class OEHUDSlider, OEImageButton;
+@class OEHUDSlider;
 @interface OEHUDControlsBarView : NSView
 
 @property (strong, readonly) OEHUDSlider     *slider;
@@ -259,17 +258,15 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [menu setDelegate:self];
 
     NSRect targetRect = [sender bounds];
-    targetRect.size.width -= 6.0;
-    targetRect = NSInsetRect([self convertRectToScreen:[[sender superview] convertRect:targetRect toView:nil]], 0.0, 17.0);
+    targetRect.size.width -= 7.0;
+    targetRect = NSInsetRect(targetRect, 0.0, 3.0);
+    targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
 
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithUnsignedInteger:OEMenuStyleLight], OEMenuOptionsStyleKey,
-                             [NSValue valueWithSize:NSMakeSize(500, 256)], OEMenuOptionsMaximumSizeKey,
-                             [NSNumber numberWithUnsignedInteger:OEMinYEdge], OEMenuOptionsArrowEdgeKey,
-                             [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
-                             nil];
+    NSDictionary *options = @{ OEMenuOptionsStyleKey : @(OEMenuStyleLight),
+                           OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
+                         OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
+                          OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect] };
     
-    FIXME("Figure out how to open the new OEMenu and implement that here");
     [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
 }
 
@@ -311,17 +308,17 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [menu setDelegate:self];
 
     NSRect targetRect = [sender bounds];
-    targetRect.size.width -= 6.0;
-    targetRect = NSInsetRect([self convertRectToScreen:[[sender superview] convertRect:targetRect toView:nil]], 0.0, 17.0);
+    targetRect.size.width -= 7.0;
+    targetRect = NSInsetRect(targetRect, 0.0, 3.0);
+    targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
+    
 
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithUnsignedInteger:OEMenuStyleLight], OEMenuOptionsStyleKey,
-                             [NSValue valueWithSize:NSMakeSize(500, 256)], OEMenuOptionsMaximumSizeKey,
-                             [NSNumber numberWithUnsignedInteger:OEMinYEdge], OEMenuOptionsArrowEdgeKey,
-                             [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
-                             nil];
+    NSDictionary *options = @{ OEMenuOptionsStyleKey : @(OEMenuStyleLight),
+    OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
+    OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
+    OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect] };
+
     [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
-    FIXME("Figure out how to open the new OEMenu and implement that here");
 }
 
 #pragma mark -

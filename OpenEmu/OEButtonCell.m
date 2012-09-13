@@ -166,7 +166,6 @@
 
 - (void)drawImage:(NSImage *)image withFrame:(NSRect)frame inView:(NSView *)controlView
 {
-    DLog(@"drawImage %@", image);
     if(_themed)
     {
         [image drawInRect:frame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
@@ -179,14 +178,11 @@
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    DLog(@"%@: _themed: %d",self, _themed);
     if(_themed)
     {
         NSRect textRect  = NSIntegralRect([self titleRectForBounds:cellFrame]);
         NSRect imageRect = NSIntegralRect([self imageRectForBounds:cellFrame]);
         
-        DLog(@"%@: NSIsEmptyRect(imageRect): %d",self, NSIsEmptyRect(imageRect));
-
         if(!NSIsEmptyRect(textRect))  [self drawTitle:[self attributedTitle] withFrame:textRect inView:controlView];
         if(!NSIsEmptyRect(imageRect)) [self drawImage:[self image] withFrame:imageRect inView:controlView];
     }

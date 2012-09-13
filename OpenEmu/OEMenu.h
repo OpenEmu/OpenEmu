@@ -31,13 +31,13 @@
 #pragma mark -
 #pragma mark Enumerations
 
-typedef enum
+typedef enum : NSUInteger
 {
     OEMenuStyleDark,
     OEMenuStyleLight
 } OEMenuStyle;
 
-typedef enum
+typedef enum : NSUInteger
 {
     OENoEdge,
     OEMinYEdge,
