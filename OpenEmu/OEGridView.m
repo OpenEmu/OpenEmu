@@ -33,7 +33,8 @@
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
 const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval of periodic events
 
-NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
+NSString * const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
+NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 @interface OEGridView ()
 
@@ -79,6 +80,11 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 @synthesize rowSpacing=_rowSpacing;
 @synthesize itemSize=_itemSize;
 @synthesize delegate = _delegate, dataSource = _dataSource;
+
++ (void)initialize
+{
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OEUseSpacebarToLaunchGames : @YES }];
+}
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -154,10 +160,8 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 
     return layer;
 }
-
 #pragma mark -
 #pragma mark Query Data Sources
-
 - (id)dequeueReusableCell
 {
     if([_reuseableCells count] == 0) return nil;
@@ -348,7 +352,7 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
     if(!indexes || [indexes count] == 0) return;
 
     NSIndexSet *indexesToQueue = [indexes copy];
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [indexesToQueue enumerateIndexesUsingBlock:
          ^ (NSUInteger idx, BOOL *stop)
          {
@@ -589,7 +593,7 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
     // Notify the -reloadCellsAtIndexes: that the reload should be aborted
     _abortReloadCells = YES;
     
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         // Wait until any pending reload operations are complete
         //[[_visibleCellByIndex allValues] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
         [transformedVisibleCellByIndex makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
@@ -625,7 +629,7 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
     if(!indexes || [indexes count] == 0 || !_dataSource) return;
 
     NSIndexSet *indexesToReload = [indexes copy];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [indexesToReload enumerateIndexesUsingBlock:
          ^ (NSUInteger idx, BOOL *stop)
          {
@@ -827,6 +831,8 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 {
     // -layoutSublayers is called for every little thing, this checks to see if we really intended to adjust the location of the cells. This value can
     // be set using OE_setNeedsLayoutGridView
+    [_rootLayer setFrame:[self bounds]];
+
     if(_needsLayoutGridView) [self OE_layoutGridView];
 }
 
@@ -1342,7 +1348,12 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 
 - (void)keyDown:(NSEvent *)theEvent
 {
-    if ([theEvent keyCode] == kVK_Delete || [theEvent keyCode] == kVK_ForwardDelete) [NSApp sendAction:@selector(delete:) to:nil from:self];
+    if ([theEvent keyCode] == kVK_Delete || [theEvent keyCode] == kVK_ForwardDelete)
+        [NSApp sendAction:@selector(delete:) to:nil from:self];
+
+    // check if the pressed key is 'space' or 'return' and send the delegate a gridView:doubleclickedCellForItemAtIndex: message
+    else if (([theEvent keyCode] == kVK_Space || [theEvent keyCode] == kVK_Return) && [[NSUserDefaults standardUserDefaults] boolForKey:OEUseSpacebarToLaunchGames] && [[self selectionIndexes] count] == 1 && _delegateHas.doubleClickedCellForItemAtIndex)
+            [_delegate gridView:self doubleClickedCellForItemAtIndex:[[self selectionIndexes] firstIndex]];
     else                                                                             [super keyDown:theEvent];
 }
 
@@ -1563,7 +1574,24 @@ NSString *const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
     // Make an immutable copy
     return [_selectionIndexes copy];
 }
-
+#pragma mark - Debug
+- (IBAction)OEDebug_logGridViewFrames:(id)sender
+{
+    DLog(@"–––––––––––––––––––––––––––––");
+    DLog(@"view frame: %@", NSStringFromRect([self frame]));
+    DLog(@"view bounds: %@", NSStringFromRect([self bounds]));
+    
+    DLog(@"layer frame: %@", NSStringFromRect([self.layer frame]));
+    DLog(@"layer bounds: %@", NSStringFromRect([self.layer bounds]));
+    
+    DLog(@"_root layer frame: %@", NSStringFromRect(_rootLayer.frame));
+    DLog(@"_rootlayer bounds: %@", NSStringFromRect(_rootLayer.bounds));
+    
+    DLog(@"view visibleRect: %@", NSStringFromRect([self visibleRect]));
+    
+    DLog(@"Trying to fix!");
+    [_rootLayer setFrame:[self bounds]];
+}
 @end
 
 @implementation OEGridView (OEGridViewCell)
