@@ -693,7 +693,6 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_windowChangedKey:) name:NSWindowDidBecomeKeyNotification object:[self window]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_windowChangedKey:) name:NSWindowDidResignKeyNotification object:[self window]];
     }
-    [_rootLayer setFrame:[self bounds]];
 }
 
 - (void)viewWillMoveToSuperview:(NSView *)newSuperview
@@ -832,6 +831,8 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 {
     // -layoutSublayers is called for every little thing, this checks to see if we really intended to adjust the location of the cells. This value can
     // be set using OE_setNeedsLayoutGridView
+    [_rootLayer setFrame:[self bounds]];
+
     if(_needsLayoutGridView) [self OE_layoutGridView];
 }
 

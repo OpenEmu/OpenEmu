@@ -300,6 +300,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         return __managedObjectContext;
     }
     
+    DLog(@"Using CoreData on background thread!");
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     
     NSThread *thread = [NSThread currentThread];
