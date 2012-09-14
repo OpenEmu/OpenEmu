@@ -147,7 +147,11 @@
         
         NSImage *icon = anItem.icon;
 
-        if(anItem == highlightedItem && NSPointInRect([self convertPointFromBase:[[self window] convertScreenToBase:[NSEvent mouseLocation]]], anItem.itemRect)){
+        NSPoint mouseLocationOnScreen = [NSEvent mouseLocation];
+        NSPoint mouseLocationOnWindow = [[self window] convertScreenToBase:mouseLocationOnScreen];
+        NSPoint mouseLocationOnView   = [self convertPoint:mouseLocationOnWindow fromView:nil];
+
+        if(anItem == highlightedItem && NSPointInRect(mouseLocationOnView, anItem.itemRect)){
             icon = [icon imageForHighlight];
         }
         
@@ -162,7 +166,7 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    NSPoint loc = [self convertPointFromBase:[theEvent locationInWindow]];
+    NSPoint loc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     
     highlightedItem = nil;
     for(OEToolbarItem *anItem in [self items])
@@ -179,7 +183,7 @@
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    NSPoint loc = [self convertPointFromBase:[theEvent locationInWindow]];
+    NSPoint loc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     
     if(highlightedItem && NSPointInRect(loc, [highlightedItem itemRect]))
     {

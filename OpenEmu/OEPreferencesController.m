@@ -195,7 +195,7 @@ NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIde
     }
     
     INAppStoreWindow *win = (INAppStoreWindow*)[self window];
-    toolbar = [[OEToolbarView alloc] initWithFrame:NSMakeRect(0, 0, win.frame.size.width-10, 58)];
+    toolbar = [[OEToolbarView alloc] initWithFrame:NSMakeRect(0, 0, win.frame.size.width-10.0, 58.0)];
     
     for(id <OEPreferencePane> aPreferencePane in self.preferencePanes)
     {
