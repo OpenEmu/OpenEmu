@@ -26,8 +26,6 @@
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OEGGSystemController</string>
-	<key>OESystemPluginName</key>
-	<string>Game Gear</string>
 	<key>OESystemName</key>
 	<string>Game Gear</string>
 	<key>OESystemIdentifier</key>

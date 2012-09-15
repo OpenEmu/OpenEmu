@@ -125,8 +125,6 @@
 	<string>openemu.system.arcade</string>
 	<key>OESystemName</key>
 	<string>Arcade</string>
-	<key>OESystemPluginName</key>
-	<string>Arcade</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
 		<string>OEArcadeButtonUp</string>

@@ -26,8 +26,6 @@
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OEGBSystemController</string>
-	<key>OESystemPluginName</key>
-	<string>Game Boy SystemPluginName</string>
 	<key>OESystemName</key>
 	<string>Game Boy</string>
 	<key>OESystemIdentifier</key>

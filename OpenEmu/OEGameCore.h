@@ -126,7 +126,6 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 @property(weak)     OEGameCoreController *owner;
 @property(readonly) NSString             *pluginName;
-@property(readonly) NSString             *gameSystemName DEPRECATED_ATTRIBUTE;
 
 @property(readonly) NSString             *supportDirectoryPath;
 @property(readonly) NSString             *batterySavesDirectoryPath;

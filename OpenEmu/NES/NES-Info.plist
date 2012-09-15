@@ -26,7 +26,7 @@
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OENESSystemController</string>
-	<key>OESystemPluginName</key>
+	<key>OESystemName</key>
 	<string>Nintendo (NES)</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.nes</string>

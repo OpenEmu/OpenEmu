@@ -63,7 +63,6 @@ NSString *const OEHIDEventValueKey          = @"OEHIDEventValueKey";
 NSString *const OEHIDEventExtraValueKey     = @"OEHIDEventExtraValueKey";
 NSString *const OEKeyboardEventValueKey     = @"OEKeyboardEventValueKey";
 NSString *const OEControlsPreferenceKey     = @"OEControlsPreferenceKey";
-NSString *const OESystemPluginName          = @"OESystemPluginName";
 NSString *const OESystemIdentifier          = @"OESystemIdentifier";
 NSString *const OEProjectURLKey             = @"OEProjectURL";
 NSString *const OESystemName                = @"OESystemName";
@@ -89,7 +88,6 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
 
 @implementation OESystemController
 @synthesize controllerKeyPositions, controllerImageMaskName, controllerImageName, controllerImage, controllerImageMask;
-@synthesize systemIdentifier;
 @synthesize fileTypes, archiveIDs;
 @synthesize axisControls, hatSwitchControls, genericSettingNames, genericControlNames, systemControlNames;
 
@@ -97,13 +95,11 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
 {
     if((self = [super init]))
     {
-        _bundle          = [NSBundle bundleForClass:[self class]];
-        systemIdentifier = (    [[_bundle infoDictionary] objectForKey:OESystemIdentifier]
-                            ? : [[_bundle infoDictionary] objectForKey:OESystemPluginName]
-                            ? : [[_bundle infoDictionary] objectForKey:@"CFBundleName"]);
-        
+        _bundle                    = [NSBundle bundleForClass:[self class]];
         _gameSystemResponders      = [[NSMutableArray alloc] init];
         _preferenceViewControllers = [[NSMutableDictionary alloc] init];
+        _systemIdentifier          = (    [[_bundle infoDictionary] objectForKey:OESystemIdentifier]
+                                      ? : [_bundle bundleIdentifier]);
         
         _systemName = [[[_bundle infoDictionary] objectForKey:OESystemName] copy];
         

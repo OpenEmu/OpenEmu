@@ -26,8 +26,6 @@
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OENDSSystemController</string>
-	<key>OESystemPluginName</key>
-	<string>Nintendo DS</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.nds</string>
 	<key>OESystemName</key>

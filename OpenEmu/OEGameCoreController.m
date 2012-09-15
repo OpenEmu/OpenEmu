@@ -47,11 +47,19 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 
 @interface OEGameCoreController () <OESettingObserver>
 {
-    Class     gameCoreClass;
-    NSInteger playerCount;
+    NSBundle            *bundle;
+    NSString            *pluginName;
+    NSString            *supportDirectoryPath;
+    NSMutableArray      *gameDocuments;
+    NSMutableArray      *settingObservers;
+    NSMutableDictionary *preferenceViewControllers;
+    
+    Class                gameCoreClass;
+    NSInteger            playerCount;
 }
 
 - (void)OE_enumerateSettingKeysUsingBlock:(void(^)(NSString *keyPath, NSString *keyName))block;
+
 @end
 
 
@@ -112,12 +120,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
         preferenceViewControllers = [[NSMutableDictionary alloc] init];
     }
     return self;
-}
-
-- (NSString *)gameSystemName;
-{
-    // FIXME: This is pretty weak
-    return [[[self bundle] infoDictionary] objectForKey:@"OESystemPluginName"];
 }
 
 - (NSArray *)systemIdentifiers

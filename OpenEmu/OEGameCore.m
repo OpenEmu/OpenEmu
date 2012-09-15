@@ -94,11 +94,6 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     return [[self owner] pluginName];
 }
 
-- (NSString *)gameSystemName;
-{
-    return [[self owner] gameSystemName];
-}
-
 - (NSString *)supportDirectoryPath
 {
     return [[self owner] supportDirectoryPath];
