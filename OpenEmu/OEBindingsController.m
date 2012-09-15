@@ -233,6 +233,8 @@ static NSString            *configurationsFolderPath = nil;
     
     if(bindingsController == nil)
     {
+        [self willChangeValueForKey:@"systemBindings"];
+        
         bindingsController = [[OESystemBindings alloc] OE_initWithBindingsController:self systemController:aController dictionaryRepresentation:[systemRepresentations objectForKey:identifier]];
         
         [systemRepresentations removeObjectForKey:identifier];
@@ -242,7 +244,14 @@ static NSString            *configurationsFolderPath = nil;
                 [bindingsController OE_didAddDeviceHandler:handler];
         
         [systems setObject:bindingsController forKey:identifier];
+        
+        [self didChangeValueForKey:@"systemBindings"];
     }
+}
+
+- (NSArray *)systemBindings
+{
+    return [systems allValues];
 }
 
 - (OESystemBindings *)systemBindingsForSystemIdentifier:(NSString *)systemIdentifier;

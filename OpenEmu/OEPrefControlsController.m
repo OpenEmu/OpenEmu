@@ -156,9 +156,11 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_openPaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
 }
 
-- (void)viewWillAppear
+- (void)viewWillDisappear
 {
-	[super viewWillAppear];
+    [super viewWillDisappear];
+    
+    [[OEBindingsController defaultBindingsController] synchronize];
 }
 
 - (void)animationDidStart:(CAAnimation *)theAnimation
@@ -210,8 +212,8 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (OEPlayerBindings *)currentPlayerBindings
 {
     OEPlayerBindings *ret = ([self isKeyboardEventSelected]
-                                       ? [[self currentSystemBindings] keyboardPlayerBindingsForPlayer:[self selectedPlayer]]
-                                       : [[self currentSystemBindings] devicePlayerBindingsForPlayer:[self selectedPlayer]]);
+                             ? [[self currentSystemBindings] keyboardPlayerBindingsForPlayer:[self selectedPlayer]]
+                             : [[self currentSystemBindings] devicePlayerBindingsForPlayer:[self selectedPlayer]]);
     
     NSAssert(ret == nil || [ret isKindOfClass:[OEPlayerBindings class]], @"Expecting OEPlayerBindingsController instance, got: %@", ret);
     

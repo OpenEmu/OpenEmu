@@ -37,6 +37,15 @@
 
 @property(readonly) NSUInteger playerNumber;
 
+// Keys:   NSString - All key-name for each existing bindings excluding key groups
+// Values: NSString - String representation of the associated event
+// There are no key-groups in this case, all keys have their own strings
+@property(readonly, copy) NSDictionary *bindingDescriptions;
+
+// Keys:   OEKeyBindingsDescription or OEOrientedKeyGroupBindingDescription - All keys for saved bindings
+// Values: OEHIDEvent - Associated event
+@property(readonly, copy) NSDictionary *bindingEvents;
+
 /// @param key one of the control keys
 /// @result the event value for the specific type
 - (id)valueForKey:(NSString *)key;

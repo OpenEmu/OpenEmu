@@ -46,6 +46,8 @@
 
 - (NSString *)filePath;
 
+@property(readonly, copy) NSArray *systemBindings;
+
 - (OESystemBindings *)systemBindingsForSystemIdentifier:(NSString *)systemIdentifier;
 - (OESystemBindings *)systemBindingsForSystemController:(OESystemController *)systemController;
 

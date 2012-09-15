@@ -31,6 +31,7 @@ extern NSString *const OEPreferencesOpenPaneNotificationName;
 extern NSString *const OEPreferencesOpenPanelUserInfoPanelNameKey;
 extern NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 
+@protocol OEPreferencePane;
 @class OEBackgroundGradientView;
 @class OEToolbarView;
 
@@ -39,6 +40,8 @@ extern NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 - (void)switchView:(id)sender;
 - (void)switchView:(id)sender animate:(BOOL)animateFlag;
 
-@property (strong, readwrite) NSArray *preferencePanes;
+@property NSArray *preferencePanes;
 @property NSInteger visiblePaneIndex;
+@property(readonly) NSViewController<OEPreferencePane> *selectedPreferencePane;
+
 @end

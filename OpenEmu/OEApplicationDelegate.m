@@ -311,6 +311,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [OEPlugin registerPluginClass:[OESystemPlugin class]];
     [OEPlugin registerPluginClass:[OECompositionPlugin class]];
     
+    // Register all system controllers with the bindings controller
+    for(OESystemPlugin *plugin in [OESystemPlugin allPlugins])
+        [OEBindingsController registerSystemController:[plugin controller]];
+    
     // Preload composition plugins
     [OECompositionPlugin allPlugins];
     
