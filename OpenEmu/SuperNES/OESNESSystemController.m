@@ -44,19 +44,19 @@
 
 - (NSDictionary *)defaultControls
 {
-    return @{
-    @"OESNESButtonUp"           : @(kHIDUsage_KeyboardUpArrow)   ,
-    @"OESNESButtonDown"         : @(kHIDUsage_KeyboardDownArrow) ,
-    @"OESNESButtonLeft"         : @(kHIDUsage_KeyboardLeftArrow) ,
-    @"OESNESButtonRight"        : @(kHIDUsage_KeyboardRightArrow),
-    @"OESNESButtonA"            : @(kHIDUsage_KeyboardD)         ,
-    @"OESNESButtonB"            : @(kHIDUsage_KeyboardS)         ,
-    @"OESNESButtonX"            : @(kHIDUsage_KeyboardW)         ,
-    @"OESNESButtonY"            : @(kHIDUsage_KeyboardA)         ,
-    @"OESNESButtonTriggerLeft"  : @(kHIDUsage_KeyboardE)         ,
-    @"OESNESButtonTriggerRight" : @(kHIDUsage_KeyboardQ)         ,
-    @"OESNESButtonStart"        : @(kHIDUsage_KeyboardSpacebar)  ,
-    @"OESNESButtonSelect"       : @(kHIDUsage_KeyboardEscape)    ,
+    return @ {
+        @"OESNESButtonUp"           : @(kHIDUsage_KeyboardUpArrow)   ,
+        @"OESNESButtonDown"         : @(kHIDUsage_KeyboardDownArrow) ,
+        @"OESNESButtonLeft"         : @(kHIDUsage_KeyboardLeftArrow) ,
+        @"OESNESButtonRight"        : @(kHIDUsage_KeyboardRightArrow),
+        @"OESNESButtonA"            : @(kHIDUsage_KeyboardD)         ,
+        @"OESNESButtonB"            : @(kHIDUsage_KeyboardS)         ,
+        @"OESNESButtonX"            : @(kHIDUsage_KeyboardW)         ,
+        @"OESNESButtonY"            : @(kHIDUsage_KeyboardA)         ,
+        @"OESNESButtonTriggerLeft"  : @(kHIDUsage_KeyboardE)         ,
+        @"OESNESButtonTriggerRight" : @(kHIDUsage_KeyboardQ)         ,
+        @"OESNESButtonStart"        : @(kHIDUsage_KeyboardSpacebar)  ,
+        @"OESNESButtonSelect"       : @(kHIDUsage_KeyboardEscape)    ,
     };
 }
 

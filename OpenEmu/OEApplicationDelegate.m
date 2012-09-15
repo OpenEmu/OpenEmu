@@ -388,8 +388,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)updateInfoPlist
 {
-    // TODO: Think of a way to register for document types without manipulating the plist
-    // as it's generally bad to modify the bundle's contents and we may not have write access
     NSArray             *systemPlugins   = [OESystemPlugin allPlugins];
     NSMutableDictionary *allTypes        = [NSMutableDictionary dictionaryWithCapacity:[systemPlugins count]];
     
