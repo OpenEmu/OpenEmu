@@ -36,7 +36,6 @@ extern NSString *const OEHIDEventValueKey;
 extern NSString *const OEHIDEventExtraValueKey;
 extern NSString *const OEKeyboardEventValueKey;
 extern NSString *const OEControlsPreferenceKey;
-extern NSString *const OESystemPluginName;
 extern NSString *const OESystemName;
 extern NSString *const OESystemIdentifier;
 extern NSString *const OESystemIconName;

@@ -41,15 +41,6 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 @class OEGameCore, OEGameDocument, OEHIDEvent, OESystemResponder;
 
 @interface OEGameCoreController : NSResponder <OEPluginController>
-{
-@private
-    NSBundle            *bundle;
-    NSString            *pluginName;
-    NSString            *supportDirectoryPath;
-    NSMutableArray      *gameDocuments;
-    NSMutableArray      *settingObservers;
-    NSMutableDictionary *preferenceViewControllers;
-}
 
 - (id)initWithBundle:(NSBundle *)aBundle;
 
@@ -77,7 +68,6 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 - (NSDictionary *)preferenceViewControllerClasses;
 
 @property(readonly) NSString   *pluginName;
-@property(readonly) NSString   *gameSystemName DEPRECATED_ATTRIBUTE;
 @property(readonly) NSArray    *systemIdentifiers;
 
 @property(readonly) NSString   *supportDirectoryPath;

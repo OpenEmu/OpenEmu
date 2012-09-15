@@ -26,8 +26,6 @@
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OEGBASystemController</string>
-	<key>OESystemPluginName</key>
-	<string>Game Boy Advance</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.gba</string>
 	<key>OESystemName</key>

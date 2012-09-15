@@ -30,14 +30,12 @@
 
 @class OESystemController;
 
-extern NSString *const OESystemPluginName;
 extern NSString *const OEArchiveIDs;
 
 @interface OESystemPlugin : OEPlugin
 
 @property(weak, readonly) OESystemController<OEPluginController> *controller;
 
-@property(strong, readonly) NSString *gameSystemName DEPRECATED_ATTRIBUTE;
 @property(strong, readonly) NSString *systemIdentifier;
 @property(strong, readonly) NSString *systemName;
 @property(strong, readonly) NSImage  *systemIcon;

@@ -26,8 +26,6 @@
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OEN64SystemController</string>
-	<key>OESystemPluginName</key>
-	<string>Nintendo 64</string>
 	<key>OESystemName</key>
 	<string>Nintendo 64</string>
 	<key>OESystemIdentifier</key>

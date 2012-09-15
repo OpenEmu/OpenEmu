@@ -26,8 +26,6 @@
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OENGPSystemController</string>
-	<key>OESystemPluginName</key>
-	<string>NeoGeo Pocket</string>
 	<key>OESystemName</key>
 	<string>NeoGeo Pocket</string>
 	<key>OESystemIdentifier</key>

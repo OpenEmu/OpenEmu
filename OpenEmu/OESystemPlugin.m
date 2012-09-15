@@ -32,7 +32,7 @@
 #import "OEDBSystem.h"
 
 @implementation OESystemPlugin
-@synthesize responderClass, bundleIcon, gameSystemName, systemName, systemIcon, systemIdentifier;
+@synthesize responderClass, bundleIcon, systemName, systemIcon, systemIdentifier;
 @dynamic controller;
 
 static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
@@ -87,9 +87,8 @@ static NSArray *cachedSupportedTypeExtensions = nil;
 {
     if((self = [super initWithBundle:aBundle]))
     {
-        gameSystemName = [[self infoDictionary] objectForKey:OESystemPluginName];
         systemIdentifier = [[self infoDictionary] objectForKey:OESystemIdentifier];
-        responderClass = [[self controller] responderClass];
+        responderClass   = [[self controller] responderClass];
         
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         
