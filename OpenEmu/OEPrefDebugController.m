@@ -28,17 +28,15 @@
 #import "OEPrefDebugController.h"
 #import "OELocalizationHelper.h"
 #import "OELibraryDatabase.h"
+#import "OESidebarController.h"
 
 #import "OEDBGame.h"
-
-extern NSString * const OESidebarSelectionDidChangeNotificationName;
-extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
-extern NSString * const OEDBSystemsChangedNotificationName;
 
 @implementation OEPrefDebugController
 @synthesize regionSelector, dbActionSelector, contentView;
 
 #pragma mark -
+
 - (void)awakeFromNib
 {    
     if([[NSUserDefaults standardUserDefaults] valueForKey:OERegionKey])
@@ -49,14 +47,16 @@ extern NSString * const OEDBSystemsChangedNotificationName;
         
     NSScrollView *scrollView = (NSScrollView*)[self view];    
     [scrollView setDocumentView:[self contentView]];
-    [[self contentView] setFrameOrigin:(NSPoint){0,-[[self contentView] frame].size.height+[scrollView frame].size.height}];
+    [[self contentView] setFrameOrigin:(NSPoint){ 0 , -[[self contentView] frame].size.height + [scrollView frame].size.height}];
 }
 
 - (NSString *)nibName
 {
     return @"OEPrefDebugController";
 }
+
 #pragma mark -
+
 - (IBAction)changeRegion:(id)sender
 {
     if([sender selectedTag] == -1)
@@ -67,50 +67,45 @@ extern NSString * const OEDBSystemsChangedNotificationName;
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsChangedNotificationName object:self];
 }
 
-
 - (IBAction)executeDatbaseAction:(id)sender
 {
     NSError *error = nil;
     NSArray *allGames = [OEDBGame allGamesInDatabase:[OELibraryDatabase defaultDatabase] error:&error];
-    if(!allGames)
+    
+    if(allGames == nil)
     {
         NSLog(@"Error getting all games");
         NSLog(@"%@", [error localizedDescription]);
         return;
     }
     
-    switch ([[self dbActionSelector] selectedTag]) {
-        case 0:
+    switch([[self dbActionSelector] selectedTag])
+    {
+        case 0 :
             printf("\nLogging all games with archive ID\n\n");
-            [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if([[obj archiveID] integerValue]!=0)
-                {
-                    NSSet* roms = [obj roms];
-                    [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-                      printf("%s\n", [[obj path] cStringUsingEncoding:NSUTF8StringEncoding]);
-                    }];
-                    
-                }
-            }];
+            [allGames enumerateObjectsUsingBlock:
+             ^(OEDBGame *obj, NSUInteger idx, BOOL *stop)
+             {
+                 if([[obj archiveID] integerValue] != 0)
+                     printf("%s\n", [[[[[obj roms] valueForKey:@"path"] allObjects] componentsJoinedByString:@"\n"] UTF8String]);
+             }];
             printf("\nDone\n");
             break;
-        case 1:
+        case 1 :
             printf("\nLogging all games without archive ID\n\n");
-            [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if([[obj archiveID] integerValue]==0)
-                {
-                    NSSet* roms = [obj roms];
-                    [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-                        printf("%s\n", [[obj path] cStringUsingEncoding:NSUTF8StringEncoding]);
-                    }];
-                    
-                }
-            }];
+            [allGames enumerateObjectsUsingBlock:
+             ^(OEDBGame *obj, NSUInteger idx, BOOL *stop)
+             {
+                if([[obj archiveID] integerValue] == 0)
+                    printf("%s\n", [[[[[obj roms] valueForKey:@"path"] allObjects] componentsJoinedByString:@"\n"] UTF8String]);
+             }];
             printf("\nDone\n");
             break;
-        case 2:
+        case 2 :
             printf("\nRemoving All Metadata\n\n");
-            [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [allGames enumerateObjectsUsingBlock:
+             ^(id obj, NSUInteger idx, BOOL *stop)
+             {
                 [obj setArchiveID:nil];
                 [obj setGameDescription:nil];
                 [obj setLastArchiveSync:nil];
@@ -124,15 +119,19 @@ extern NSString * const OEDBSystemsChangedNotificationName;
             
         case 3:
             printf("\nRunning archive sync on all games\n\n");
-            [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [(OEDBGame*)obj setNeedsFullSyncWithArchiveVG];
-			}];
+            [allGames enumerateObjectsUsingBlock:
+             ^(id obj, NSUInteger idx, BOOL *stop)
+             {
+                 [(OEDBGame*)obj setNeedsFullSyncWithArchiveVG];
+             }];
             printf("\nDone\n");
             break;
     }
 }
+
 #pragma mark -
 #pragma mark OEPreferencePane Protocol
+
 - (NSImage *)icon
 {
     return [NSImage imageNamed:@"debug_tab_icon"];
@@ -143,7 +142,7 @@ extern NSString * const OEDBSystemsChangedNotificationName;
     return @"Debug";
 }
 
-- (NSString*)localizedTitle
+- (NSString *)localizedTitle
 {
     return NSLocalizedString([self title], "");
 }

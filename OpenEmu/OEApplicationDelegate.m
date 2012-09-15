@@ -311,6 +311,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [OEPlugin registerPluginClass:[OESystemPlugin class]];
     [OEPlugin registerPluginClass:[OECompositionPlugin class]];
     
+    // Register all system controllers with the bindings controller
+    for(OESystemPlugin *plugin in [OESystemPlugin allPlugins])
+        [OEBindingsController registerSystemController:[plugin controller]];
+    
     // Preload composition plugins
     [OECompositionPlugin allPlugins];
     
@@ -401,8 +405,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     // TODO: Think of a way to register for document types without manipulating the plist
     // as it's generally bad to modify the bundle's contents and we may not have write access
-    NSArray             *systemPlugins   = [OESystemPlugin allPlugins];
-    NSMutableDictionary *allTypes        = [NSMutableDictionary dictionaryWithCapacity:[systemPlugins count]];
+    NSArray             *systemPlugins = [OESystemPlugin allPlugins];
+    NSMutableDictionary *allTypes      = [NSMutableDictionary dictionaryWithCapacity:[systemPlugins count]];
     
     for(OESystemPlugin *plugin in systemPlugins)
     {

@@ -38,22 +38,22 @@
 
 @interface OEPrefControlsController : NSViewController <OEPreferencePane>
 
-@property(nonatomic, readonly) OESystemController *currentSystemController;
-@property(nonatomic, readonly) OESystemBindings   *currentSystemBindings;
-@property(nonatomic, readonly) OEPlayerBindings   *currentPlayerBindings;
+@property(nonatomic, readonly) OESystemController    *currentSystemController;
+@property(nonatomic, readonly) OESystemBindings      *currentSystemBindings;
+@property(nonatomic, readonly) OEPlayerBindings      *currentPlayerBindings;
 
 #pragma mark -
-@property(strong) OEControllerImageView *controllerView;
-@property(weak) IBOutlet NSView         *controllerContainerView;
+@property(strong) OEControllerImageView              *controllerView;
+@property(weak)   IBOutlet NSView                    *controllerContainerView;
 
-@property(weak) IBOutlet NSPopUpButton *consolesPopupButton;
-@property(weak) IBOutlet NSPopUpButton *playerPopupButton;
-@property(weak) IBOutlet NSPopUpButton *inputPopupButton;
+@property(weak)   IBOutlet NSPopUpButton             *consolesPopupButton;
+@property(weak)   IBOutlet NSPopUpButton             *playerPopupButton;
+@property(weak)   IBOutlet NSPopUpButton             *inputPopupButton;
 
-@property(weak) IBOutlet OEBackgroundGradientView *gradientOverlay;
-@property(weak) IBOutlet NSView *controlsContainer;
+@property(weak)   IBOutlet OEBackgroundGradientView  *gradientOverlay;
+@property(weak)   IBOutlet NSView                    *controlsContainer;
 
-@property(weak) IBOutlet OEControlsButtonSetupView *controlsSetupView;
+@property(weak)   IBOutlet OEControlsButtonSetupView *controlsSetupView;
 
 #pragma mark -
 #pragma UI Methods

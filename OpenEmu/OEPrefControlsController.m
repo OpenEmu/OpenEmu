@@ -47,13 +47,11 @@
 #import "OEPlayerBindings.h"
 #import "OEKeyBindingGroupDescription.h"
 
+#import "OEPreferencesController.h"
+
 NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
 NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";
 NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
-
-extern NSString * const OEPreferencesOpenPaneNotificationName;
-extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
-extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 
 @interface OEPrefControlsController ()
 {
@@ -158,21 +156,23 @@ extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_openPaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
 }
 
-- (void)viewWillAppear
+- (void)viewWillDisappear
 {
-	[super viewWillAppear];
+    [super viewWillDisappear];
+    
+    [[OEBindingsController defaultBindingsController] synchronize];
 }
 
 - (void)animationDidStart:(CAAnimation *)theAnimation
 {
-    [[self controllerView].layer setValue:[NSNumber numberWithFloat:1.0] forKeyPath:@"filters.pixellate.inputScale"];
+    [[[self controllerView] layer] setValue:[NSNumber numberWithFloat:1.0] forKeyPath:@"filters.pixellate.inputScale"];
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
     if(flag)
     {          
-        [[self controllerView].layer setValue:[NSNumber numberWithInt:10.0] forKeyPath:@"filters.pixellate.inputScale"];
+        [[[self controllerView] layer] setValue:[NSNumber numberWithInt:10.0] forKeyPath:@"filters.pixellate.inputScale"];
     }
 }
 
@@ -212,8 +212,8 @@ extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 - (OEPlayerBindings *)currentPlayerBindings
 {
     OEPlayerBindings *ret = ([self isKeyboardEventSelected]
-                                       ? [[self currentSystemBindings] keyboardPlayerBindingsForPlayer:[self selectedPlayer]]
-                                       : [[self currentSystemBindings] devicePlayerBindingsForPlayer:[self selectedPlayer]]);
+                             ? [[self currentSystemBindings] keyboardPlayerBindingsForPlayer:[self selectedPlayer]]
+                             : [[self currentSystemBindings] devicePlayerBindingsForPlayer:[self selectedPlayer]]);
     
     NSAssert(ret == nil || [ret isKindOfClass:[OEPlayerBindings class]], @"Expecting OEPlayerBindingsController instance, got: %@", ret);
     
@@ -568,6 +568,7 @@ extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 }
 
 #pragma mark -
+
 - (void)OE_openPaneWithNotification:(NSNotification *)notification
 {
     NSDictionary *userInfo = [notification userInfo];

@@ -209,7 +209,12 @@ static NSString            *configurationsFolderPath = nil;
 {
     if(!requiresSynchronization) return YES;
     
-    NSMutableDictionary *systemReps = [NSMutableDictionary dictionaryWithCapacity:[systems count]];
+    /* systemRepresentations contains all the representations that were stored
+     * in the original file but not yet parsed because its OESystemController
+     * was not yet registered, so we have to save the already registered
+     * system controllers but also keep the unregistered ones.
+     */
+    NSMutableDictionary *systemReps = [systemRepresentations mutableCopy];
     
     [systems enumerateKeysAndObjectsUsingBlock:
      ^(NSString *identifier, OESystemBindings *ctrl, BOOL *stop)
@@ -233,6 +238,8 @@ static NSString            *configurationsFolderPath = nil;
     
     if(bindingsController == nil)
     {
+        [self willChangeValueForKey:@"systemBindings"];
+        
         bindingsController = [[OESystemBindings alloc] OE_initWithBindingsController:self systemController:aController dictionaryRepresentation:[systemRepresentations objectForKey:identifier]];
         
         [systemRepresentations removeObjectForKey:identifier];
@@ -242,7 +249,14 @@ static NSString            *configurationsFolderPath = nil;
                 [bindingsController OE_didAddDeviceHandler:handler];
         
         [systems setObject:bindingsController forKey:identifier];
+        
+        [self didChangeValueForKey:@"systemBindings"];
     }
+}
+
+- (NSArray *)systemBindings
+{
+    return [systems allValues];
 }
 
 - (OESystemBindings *)systemBindingsForSystemIdentifier:(NSString *)systemIdentifier;

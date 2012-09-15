@@ -145,9 +145,10 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 
 #pragma mark -
 #pragma mark ROM Handling
-@property(readonly, strong) NSArray *fileTypes;
-@property(readonly, strong) NSArray *archiveIDs;
 
-- (BOOL)canHandleFile:(NSString*)path;
+@property(readonly, copy) NSArray *fileTypes;
+@property(readonly, copy) NSArray *archiveIDs;
+
+- (BOOL)canHandleFile:(NSString *)path;
 
 @end

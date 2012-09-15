@@ -65,20 +65,21 @@
 
 - (id)OE_initWithSystemBindings:(OESystemBindings *)aController playerNumber:(NSUInteger)playerNumber __attribute__((objc_method_family(init)));
 
+@property(readwrite, setter=OE_setPlayerNumber:) NSUInteger playerNumber;
+
 // Keys:   NSString - All key-name for each existing bindings excluding key groups
 // Values: NSString - String representation of the associated event
-@property(copy, getter=OE_bindings, setter=OE_setBindings:) NSDictionary *_bindings;
+@property(readwrite, copy, setter=OE_setBindingDescriptions:) NSDictionary *bindingDescriptions;
+
+- (id)OE_bindingDescriptionForKey:(NSString *)aKey;
+- (void)OE_setBindingDescription:(id)value forKey:(NSString *)aKey;
 
 // Keys:   OEKeyBindingsDescription or OEOrientedKeyGroupBindingDescription - All keys for saved bindings
 // Values: OEHIDEvent - Associated event
-@property(copy, getter=OE_rawBindings, setter=OE_setRawBindings:) NSDictionary *_rawBindings;
+@property(readwrite, copy, setter=OE_setBindingEvents:) NSDictionary *bindingEvents;
 
-@property(readwrite, setter=OE_setPlayerNumber:) NSUInteger playerNumber;
-
-- (id)OE_bindingsValueForKey:(NSString *)aKey;
-- (void)OE_setBindingsValue:(id)value forKey:(NSString *)aKey;
-- (id)OE_rawBindingsValueForKey:(id)aKey;
-- (void)OE_setRawBindingsValue:(id)value forKey:(id)aKey;
+- (id)OE_bindingEventForKey:(id)aKey;
+- (void)OE_setBindingEvent:(id)value forKey:(id)aKey;
 
 @end
 

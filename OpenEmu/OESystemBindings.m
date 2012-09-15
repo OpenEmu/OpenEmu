@@ -267,7 +267,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 
 - (NSDictionary *)OE_dictionaryRepresentationForBindings:(OEPlayerBindings *)controller;
 {
-    return [self OE_dictionaryRepresentationForRawBindings:[controller OE_rawBindings]];
+    return [self OE_dictionaryRepresentationForRawBindings:[controller bindingEvents]];
 }
 
 - (NSDictionary *)OE_dictionaryRepresentationForRawBindings:(NSDictionary *)bindingsToConvert;
@@ -354,8 +354,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
      ? [[OEDevicePlayerBindings   alloc] OE_initWithSystemBindings:self playerNumber:playerNumber deviceHandler:nil]
      : [[OEKeyboardPlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:playerNumber]);
     
-    [controller OE_setRawBindings:decodedBindings];
-    [controller OE_setBindings:[self OE_stringValuesForBindings:decodedBindings possibleKeys:isDevice ? allKeyBindingsDescriptions : keyBindingsDescriptions]];
+    [controller OE_setBindingEvents:decodedBindings];
+    [controller OE_setBindingDescriptions:[self OE_stringValuesForBindings:decodedBindings possibleKeys:isDevice ? allKeyBindingsDescriptions : keyBindingsDescriptions]];
     
     return controller;
 }
@@ -422,8 +422,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
             OEPlayerBindings *controller = [[OEKeyboardPlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:[keyboardPlayerBindings count] + 1];
             
             // At this point, if a keyboard bindings doesn't exist, it means none were saved for this player
-            [controller OE_setBindings:[self OE_stringValuesForBindings:nil possibleKeys:keyBindingsDescriptions]];
-            [controller OE_setRawBindings:@{ }];
+            [controller OE_setBindingDescriptions:[self OE_stringValuesForBindings:nil possibleKeys:keyBindingsDescriptions]];
+            [controller OE_setBindingEvents:@{ }];
             
             [keyboardPlayerBindings addObject:controller];
         }
@@ -558,18 +558,18 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     NSAssert(keyDesc != nil, @"Could not find Key Binding Description for key with name \"%@\" in system \"%@\"", keyName, [[self systemController] systemIdentifier]);
     
     // Trying to set the same event to the same key, ignore it
-    if([[[sender OE_rawBindings] objectForKey:keyDesc] isEqual:anEvent]) return keyDesc;
+    if([[[sender bindingEvents] objectForKey:keyDesc] isEqual:anEvent]) return keyDesc;
     
     for(OEPlayerBindings *playerBindings in keyboardPlayerBindings)
     {
-        NSArray *keys = [[playerBindings OE_rawBindings] allKeysForObject:anEvent];
+        NSArray *keys = [[playerBindings bindingEvents] allKeysForObject:anEvent];
         NSAssert([keys count] <= 1, @"More than one key is attached to the same event: %@ -> %@", anEvent, keys);
         
         OEKeyBindingDescription *desc = [keys lastObject];
         if(desc != nil)
         {
-            [playerBindings OE_setBindingsValue:nil forKey:[desc name]];
-            [playerBindings OE_setRawBindingsValue:nil forKey:desc];
+            [playerBindings OE_setBindingDescription:nil forKey:[desc name]];
+            [playerBindings OE_setBindingEvent:nil forKey:desc];
             
             [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:desc playerNumber:[desc isSystemWide] ? 0 : [playerBindings playerNumber]];
         }
@@ -577,8 +577,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     
     NSString *eventString = [self OE_descriptionForEvent:anEvent];
     
-    [sender OE_setBindingsValue:eventString forKey:keyName];
-    [sender OE_setRawBindingsValue:anEvent forKey:keyDesc];
+    [sender OE_setBindingDescription:eventString forKey:keyName];
+    [sender OE_setBindingEvent:anEvent forKey:keyDesc];
     
     [self OE_notifyObserversDidSetEvent:anEvent forBindingKey:keyDesc playerNumber:[sender playerNumber]];
     [[self bindingsController] OE_setRequiresSynchronization];
@@ -602,8 +602,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     }
     
     // Search for keys bound to the same event
-    NSArray *keys = [[sender OE_rawBindings] allKeysForObject:anEvent];
-    if([keys count] == 0) keys = [[[sender OE_rawBindings] keysOfEntriesPassingTest:
+    NSArray *keys = [[sender bindingEvents] allKeysForObject:anEvent];
+    if([keys count] == 0) keys = [[[sender bindingEvents] keysOfEntriesPassingTest:
                                    ^ BOOL (OEOrientedKeyGroupBindingDescription *key, OEHIDEvent *obj, BOOL *stop)
                                    {
                                        if(![key isKindOfClass:[OEOrientedKeyGroupBindingDescription class]]) return NO;
@@ -623,9 +623,9 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
         else if([keyDesc isKindOfClass:[OEKeyBindingGroupDescription class]])
             keys = [keyDesc keyNames];
         
-        for(NSString *key in keys) [sender OE_setBindingsValue:nil forKey:key];
+        for(NSString *key in keys) [sender OE_setBindingDescription:nil forKey:key];
         
-        [sender OE_setRawBindingsValue:nil forKey:keyDesc];
+        [sender OE_setBindingEvent:nil forKey:keyDesc];
         [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:keyDesc playerNumber:[sender playerNumber]];
     }
     
@@ -653,10 +653,10 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     [eventStrings enumerateKeysAndObjectsUsingBlock:
      ^(NSString *key, NSString *obj, BOOL *stop)
      {
-         [sender OE_setBindingsValue:obj forKey:key];
+         [sender OE_setBindingDescription:obj forKey:key];
      }];
     
-    [sender OE_setRawBindingsValue:anEvent forKey:keyDesc];
+    [sender OE_setBindingEvent:anEvent forKey:keyDesc];
     [self OE_notifyObserversDidSetEvent:anEvent forBindingKey:keyDesc playerNumber:[sender playerNumber]];
     [[self bindingsController] OE_setRequiresSynchronization];
     
@@ -665,7 +665,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 
 - (void)OE_removeConcurrentBindings:(OEDevicePlayerBindings *)sender ofKey:(OEKeyBindingDescription *)keyDesc withEvent:(OEHIDEvent *)anEvent;
 {
-    NSDictionary                  *rawBindings = [[sender OE_rawBindings] copy];
+    NSDictionary                 *rawBindings = [[sender bindingEvents] copy];
     OEKeyBindingGroupDescription *axisGroup   = [keyDesc OE_axisGroup];
     OEKeyBindingGroupDescription *hatGroup    = [keyDesc OE_hatSwitchGroup];
     
@@ -686,10 +686,10 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
                  [[keyGroup keyNames] enumerateObjectsUsingBlock:
                   ^(NSString *key, NSUInteger idx, BOOL *stop)
                   {
-                      [sender OE_setBindingsValue:nil forKey:key];
+                      [sender OE_setBindingDescription:nil forKey:key];
                   }];
                  
-                 [sender OE_setRawBindingsValue:nil forKey:keyDesc];
+                 [sender OE_setBindingEvent:nil forKey:keyDesc];
                  [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:keyDesc playerNumber:[sender playerNumber]];
              }];
         }
@@ -701,8 +701,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
                 OEHIDEvent *event = [rawBindings objectForKey:keyDesc];
                 if(event != nil)
                 {
-                    [sender OE_setBindingsValue:nil forKey:[keyDesc name]];
-                    [sender OE_setRawBindingsValue:nil forKey:keyDesc];
+                    [sender OE_setBindingDescription:nil forKey:[keyDesc name]];
+                    [sender OE_setBindingEvent:nil forKey:keyDesc];
                     [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:keyDesc playerNumber:[sender playerNumber]];
                 }
             }
@@ -718,10 +718,10 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
                  [[keyDesc keyNames] enumerateObjectsUsingBlock:
                   ^(NSString *key, NSUInteger idx, BOOL *stop)
                   {
-                      [sender OE_setBindingsValue:nil forKey:key];
+                      [sender OE_setBindingDescription:nil forKey:key];
                   }];
                  
-                 [sender OE_setRawBindingsValue:nil forKey:keyDesc];
+                 [sender OE_setBindingEvent:nil forKey:keyDesc];
                  [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:keyDesc playerNumber:[sender playerNumber]];
              }];
         }
@@ -734,8 +734,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
                 OEHIDEvent *event = [rawBindings objectForKey:keyDesc];
                 if(event != nil)
                 {
-                    [sender OE_setBindingsValue:nil forKey:[keyDesc name]];
-                    [sender OE_setRawBindingsValue:nil forKey:keyDesc];
+                    [sender OE_setBindingDescription:nil forKey:[keyDesc name]];
+                    [sender OE_setBindingEvent:nil forKey:keyDesc];
                     [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:keyDesc playerNumber:[sender playerNumber]];
                 }
                 
@@ -751,10 +751,10 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
                  [[keyDesc keyNames] enumerateObjectsUsingBlock:
                   ^(NSString *key, NSUInteger idx, BOOL *stop)
                   {
-                      [sender OE_setBindingsValue:nil forKey:key];
+                      [sender OE_setBindingDescription:nil forKey:key];
                   }];
                  
-                 [sender OE_setRawBindingsValue:nil forKey:keyDesc];
+                 [sender OE_setBindingEvent:nil forKey:keyDesc];
                  [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:keyDesc playerNumber:[sender playerNumber]];
              }];
         }
@@ -813,6 +813,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     
     [self OE_notifyObserversForRemovedDeviceBindings:controller];
     
+    [controller OE_makeIndependent];
+    
     [controller OE_setDeviceHandler:nil];
     [controller OE_setPlayerNumber:0];
 }
@@ -821,7 +823,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 {
     NSUInteger playerNumber = [aHandler playerNumber];
     
-    [[aHandler OE_rawBindings] enumerateKeysAndObjectsUsingBlock:
+    [[aHandler bindingEvents] enumerateKeysAndObjectsUsingBlock:
      ^(id key, id obj, BOOL *stop)
      {
          for(id<OESystemBindingsObserver> observer in bindingsObservers)
@@ -834,7 +836,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     NSUInteger playerNumber = [aHandler playerNumber];
     
     // Tell the controllers that the bindings are not used anymore
-    [[aHandler OE_rawBindings] enumerateKeysAndObjectsUsingBlock:
+    [[aHandler bindingEvents] enumerateKeysAndObjectsUsingBlock:
      ^(id key, id event, BOOL *stop)
      {
          for(id<OESystemBindingsObserver> observer in bindingsObservers)
@@ -864,8 +866,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     {
         // This handler is the first of its kind for the application
         controller = [[OEDevicePlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:0 deviceHandler:aHandler];
-        [controller OE_setRawBindings:@{ }];
-        [controller OE_setBindings:[self OE_stringValuesForBindings:nil possibleKeys:allKeyBindingsDescriptions]];
+        [controller OE_setBindingEvents:@{ }];
+        [controller OE_setBindingDescriptions:[self OE_stringValuesForBindings:nil possibleKeys:allKeyBindingsDescriptions]];
         
         // Add the device to the manufacturer's bindings even if the user never set any bindings
         [manuBindings addObject:controller];
@@ -964,7 +966,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     
     NSUInteger playerNumber = [bindings playerNumber];
     
-    [[bindings OE_rawBindings] enumerateKeysAndObjectsUsingBlock:
+    [[bindings bindingEvents] enumerateKeysAndObjectsUsingBlock:
      ^(id key, id event, BOOL *stop)
      {
          NSUInteger player = playerNumber;

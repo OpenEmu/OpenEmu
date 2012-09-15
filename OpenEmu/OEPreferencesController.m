@@ -48,13 +48,13 @@
 NSString *const OEDebugModeKey = @"debug";
 NSString *const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
 
-NSString * const OEPreferencesOpenPaneNotificationName = @"OEPrefOpenPane";
-NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey = @"panelName";
-NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIdentifier";
+NSString *const OEPreferencesOpenPaneNotificationName = @"OEPrefOpenPane";
+NSString *const OEPreferencesOpenPanelUserInfoPanelNameKey = @"panelName";
+NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIdentifier";
 
 #define AnimationDuration 0.3
 
-@interface OEPreferencesController ()
+@interface OEPreferencesController () <NSWindowDelegate>
 {
 	OEToolbarView *toolbar;
 	IBOutlet OEBackgroundGradientView *coreGradientOverlayView;
@@ -102,7 +102,7 @@ NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIde
 {
     [super windowDidLoad];
 
-    INAppStoreWindow *win = (INAppStoreWindow*)[self window];
+    INAppStoreWindow *win = (INAppStoreWindow *)[self window];
     [win close]; // Make sure window doesn't show up in window menu until it's actual visible
 
     NSColor *windowBackgroundColor = [NSColor colorWithDeviceRed:0.149 green:0.149 blue:0.149 alpha:1.0];
@@ -157,7 +157,19 @@ NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIde
         [OEWiimoteHandler search];
 }
 
+- (void)windowWillClose:(NSNotification *)notification
+{
+    [[self selectedPreferencePane] viewWillDisappear];
+}
+
 #pragma mark -
+
+- (NSViewController<OEPreferencePane> *)selectedPreferencePane
+{
+    NSInteger selected = [self visiblePaneIndex];
+    return selected >= 0 && selected < [preferencePanes count] ? [[self preferencePanes] objectAtIndex:selected] : nil;
+}
+
 - (void)OE_reloadPreferencePanes
 {
     NSMutableArray *array = [NSMutableArray array];
@@ -210,14 +222,14 @@ NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIde
 
 - (void)OE_openPreferencePane:(NSNotification*)notification
 {
-    NSDictionary* userInfo = [notification userInfo];
-    NSString* paneName = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
+    NSDictionary *userInfo = [notification userInfo];
+    NSString     *paneName = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
     
     NSInteger index = 0;
-    for(id <OEPreferencePane> aPreferencePane in self.preferencePanes)
+    for(id<OEPreferencePane> aPreferencePane in [self preferencePanes])
     {
-        if([[aPreferencePane title] isEqualToString:paneName])
-            break;
+        if([[aPreferencePane title] isEqualToString:paneName]) break;
+        
         index++;
     }
 
@@ -242,10 +254,8 @@ NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIde
         selectedTab = [sender integerValue];
     else return;
     
-    NSViewController <OEPreferencePane>  *currentPane = nil;
-    if([self visiblePaneIndex] != -1)
-        currentPane = [self.preferencePanes objectAtIndex:[self visiblePaneIndex]];
-    NSViewController <OEPreferencePane>  *nextPane = [self.preferencePanes objectAtIndex:selectedTab];
+    NSViewController<OEPreferencePane> *currentPane = [self selectedPreferencePane];
+    NSViewController<OEPreferencePane> *nextPane    = [[self preferencePanes] objectAtIndex:selectedTab];
     
     if(currentPane == nextPane) return;
     
@@ -269,7 +279,7 @@ NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIde
     [self setVisiblePaneIndex:selectedTab];
 }
 
-- (void)OE_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag
+- (void)OE_showView:(NSView *)view atSize:(NSSize)size animate:(BOOL)animateFlag
 {
     NSWindow *win = [self window];
     
@@ -278,7 +288,7 @@ NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIde
     NSRect contentRect = [win contentRectForFrameRect:[win frame]];
     contentRect.size = size;
     NSRect frameRect = [win frameRectForContentRect:contentRect];
-    frameRect.origin.y += win.frame.size.height -frameRect.size.height;
+    frameRect.origin.y += win.frame.size.height - frameRect.size.height;
     
     [view setFrameSize:size];
     

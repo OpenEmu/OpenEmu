@@ -28,12 +28,12 @@
 
 
 @protocol OEPreferencePane <NSObject>
-- (NSImage*)icon;
-- (NSString*)title;
-- (NSString*)localizedTitle;
+- (NSImage *)icon;
+- (NSString *)title;
+- (NSString *)localizedTitle;
 
 - (NSSize)viewSize;
 
 @optional
-- (NSColor*)toolbarSeparationColor;
+- (NSColor *)toolbarSeparationColor;
 @end

@@ -268,6 +268,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
         pageY -= pageHeight+pageSpacing;
     }
 }
+
 #pragma mark -
 
 - (void)scrollToPage:(NSUInteger)p
