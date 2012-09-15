@@ -89,7 +89,7 @@
         }
     }
     
-    [self setPath:[NSString stringWithFormat:@"%@/%@", version, uuid]];
+    [self setRelativePath:[NSString stringWithFormat:@"%@/%@", version, uuid]];
     [self setWidth:[NSNumber numberWithFloat:thumbnailSize.width]];
     [self setHeight:[NSNumber numberWithFloat:thumbnailSize.height]];
     
@@ -111,11 +111,11 @@
 
 - (NSString*)absolutePath
 {
-    return [self path] ? [[[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[self path]] path] : nil;
+    return [self relativePath] ? [[[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[self relativePath]] path] : nil;
 }
 @dynamic height;
 @dynamic width;
-@dynamic path;
+@dynamic relativePath;
 @dynamic image;
 
 #pragma mark -

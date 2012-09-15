@@ -41,7 +41,7 @@
 @implementation OEDBRom
 @dynamic URL;
 // Data Model Properties
-@dynamic bookmarkData, favorite, crc32, md5, lastPlayed, fileSize;
+@dynamic location, favorite, crc32, md5, lastPlayed, fileSize;
 // Data Model Relationships
 @dynamic game, saveStates, tosec;
 
@@ -99,7 +99,7 @@
     
 
     NSManagedObjectContext *context = [database managedObjectContext];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"URL == %@", url];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", [url absoluteString]];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     
     [fetchRequest setFetchLimit:1];
@@ -191,13 +191,12 @@
 
 - (NSURL *)URL
 {
-    return [NSURL URLByResolvingBookmarkData:[self bookmarkData] options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:nil];
+    return [NSURL URLWithString:[self location]];
 }
 
 - (void)setURL:(NSURL *)url
 {
-    NSData *data = [url bookmarkDataWithOptions:NSURLBookmarkCreationMinimalBookmark includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
-    if(data != nil) [self setBookmarkData:data];
+    [self setLocation:[url absoluteString]];
 }
 
 - (NSString *)md5Hash

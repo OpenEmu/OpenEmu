@@ -115,8 +115,10 @@
         rollover = [(OEImageButton*)controlView isInHover];
     else
     {
-        NSPoint p = [controlView convertPointFromBase:[[controlView window] convertScreenToBase:[NSEvent mouseLocation]]];
-        rollover = NSPointInRect(p, controlView.frame);
+        NSPoint mouseLocationOnScreen = [NSEvent mouseLocation];
+        NSPoint mouseLocationOnWindow = [[controlView window] convertScreenToBase:mouseLocationOnScreen];
+        NSPoint mouseLocationOnView   = [controlView convertPoint:mouseLocationOnWindow fromView:nil];
+        rollover = NSPointInRect(mouseLocationOnView, controlView.frame);
     }
     
     OEButtonState buttonState;
@@ -386,8 +388,10 @@
         rollover = [(OEImageButton*)controlView isInHover];
     else
     {
-        NSPoint p = [controlView convertPointFromBase:[[controlView window] convertScreenToBase:[NSEvent mouseLocation]]];
-        rollover = NSPointInRect(p, controlView.frame);
+        NSPoint mouseLocationOnScreen = [NSEvent mouseLocation];
+        NSPoint mouseLocationOnWindow = [[controlView window] convertScreenToBase:mouseLocationOnScreen];
+        NSPoint mouseLocationOnView   = [controlView convertPoint:mouseLocationOnWindow fromView:nil];
+        rollover = NSPointInRect(mouseLocationOnView, controlView.frame);
     }
     
     if([self text])

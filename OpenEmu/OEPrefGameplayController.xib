@@ -2,28 +2,28 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11D50</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.SystemVersion">12B19</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
+		<string key="IBDocument.AppKitVersion">1187</string>
+		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
+			<string key="NS.object.0">2549</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSPopUpButton</string>
 			<string>NSButton</string>
-			<string>NSMenu</string>
-			<string>NSTextFieldCell</string>
 			<string>NSButtonCell</string>
-			<string>NSImageView</string>
-			<string>NSImageCell</string>
-			<string>NSCustomView</string>
 			<string>NSCustomObject</string>
-			<string>NSView</string>
+			<string>NSCustomView</string>
+			<string>NSImageCell</string>
+			<string>NSImageView</string>
+			<string>NSMenu</string>
+			<string>NSPopUpButton</string>
 			<string>NSPopUpButtonCell</string>
 			<string>NSTextField</string>
+			<string>NSTextFieldCell</string>
 			<string>NSUserDefaultsController</string>
+			<string>NSView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -64,7 +64,7 @@
 						<reference key="NSNextKeyView" ref="1021236093"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="164630669">
-							<int key="NSCellFlags">-2080244224</int>
+							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">0</int>
 							<string key="NSContents">Always launch games fullscreen</string>
 							<object class="NSFont" key="NSSupport" id="975884823">
@@ -73,7 +73,7 @@
 								<int key="NSfFlags">1044</int>
 							</object>
 							<reference key="NSControlView" ref="982783455"/>
-							<int key="NSButtonFlags">1211912703</int>
+							<int key="NSButtonFlags">1211912448</int>
 							<int key="NSButtonFlags2">2</int>
 							<object class="NSCustomResource" key="NSNormalImage" id="93587353">
 								<string key="NSClassName">NSImage</string>
@@ -87,6 +87,7 @@
 							<int key="NSPeriodicDelay">200</int>
 							<int key="NSPeriodicInterval">25</int>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSButton" id="307976280">
 						<reference key="NSNextResponder" ref="450679658"/>
@@ -97,12 +98,12 @@
 						<reference key="NSNextKeyView" ref="491901795"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="609558108">
-							<int key="NSCellFlags">-2080244224</int>
+							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">0</int>
 							<string key="NSContents">Enable V-Sync</string>
 							<reference key="NSSupport" ref="975884823"/>
 							<reference key="NSControlView" ref="307976280"/>
-							<int key="NSButtonFlags">1211912703</int>
+							<int key="NSButtonFlags">1211912448</int>
 							<int key="NSButtonFlags2">2</int>
 							<reference key="NSNormalImage" ref="93587353"/>
 							<reference key="NSAlternateImage" ref="175154493"/>
@@ -111,6 +112,7 @@
 							<int key="NSPeriodicDelay">200</int>
 							<int key="NSPeriodicInterval">25</int>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSButton" id="1021236093">
 						<reference key="NSNextResponder" ref="450679658"/>
@@ -121,12 +123,12 @@
 						<reference key="NSNextKeyView" ref="1017937277"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="691447346">
-							<int key="NSCellFlags">-2080244224</int>
+							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">0</int>
 							<string key="NSContents">Allow popout gameplay window</string>
 							<reference key="NSSupport" ref="975884823"/>
 							<reference key="NSControlView" ref="1021236093"/>
-							<int key="NSButtonFlags">1211912703</int>
+							<int key="NSButtonFlags">1211912448</int>
 							<int key="NSButtonFlags2">2</int>
 							<reference key="NSNormalImage" ref="93587353"/>
 							<reference key="NSAlternateImage" ref="175154493"/>
@@ -135,6 +137,7 @@
 							<int key="NSPeriodicDelay">200</int>
 							<int key="NSPeriodicInterval">25</int>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSButton" id="1017937277">
 						<reference key="NSNextResponder" ref="450679658"/>
@@ -145,12 +148,12 @@
 						<reference key="NSNextKeyView" ref="1051657740"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="465085204">
-							<int key="NSCellFlags">-2080244224</int>
+							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">0</int>
 							<string key="NSContents">only use popout gameplay window</string>
 							<reference key="NSSupport" ref="975884823"/>
 							<reference key="NSControlView" ref="1017937277"/>
-							<int key="NSButtonFlags">1211912703</int>
+							<int key="NSButtonFlags">1211912448</int>
 							<int key="NSButtonFlags2">2</int>
 							<reference key="NSNormalImage" ref="93587353"/>
 							<reference key="NSAlternateImage" ref="175154493"/>
@@ -159,6 +162,7 @@
 							<int key="NSPeriodicDelay">200</int>
 							<int key="NSPeriodicInterval">25</int>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSButton" id="1051657740">
 						<reference key="NSNextResponder" ref="450679658"/>
@@ -168,12 +172,12 @@
 						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="255100288">
-							<int key="NSCellFlags">-2080244224</int>
+							<int key="NSCellFlags">-2080374784</int>
 							<int key="NSCellFlags2">0</int>
 							<string key="NSContents">Always pause gameplay when in background</string>
 							<reference key="NSSupport" ref="975884823"/>
 							<reference key="NSControlView" ref="1051657740"/>
-							<int key="NSButtonFlags">1211912703</int>
+							<int key="NSButtonFlags">1211912448</int>
 							<int key="NSButtonFlags2">2</int>
 							<reference key="NSNormalImage" ref="93587353"/>
 							<reference key="NSAlternateImage" ref="175154493"/>
@@ -182,6 +186,7 @@
 							<int key="NSPeriodicDelay">200</int>
 							<int key="NSPeriodicInterval">25</int>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSTextField" id="406681499">
 						<reference key="NSNextResponder" ref="450679658"/>
@@ -192,7 +197,7 @@
 						<reference key="NSNextKeyView" ref="982783455"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="307261816">
-							<int key="NSCellFlags">68288064</int>
+							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents">Window Management</string>
 							<object class="NSFont" key="NSSupport" id="496331748">
@@ -220,6 +225,7 @@
 								</object>
 							</object>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSTextField" id="131891071">
 						<reference key="NSNextResponder" ref="450679658"/>
@@ -230,7 +236,7 @@
 						<reference key="NSNextKeyView" ref="1044078460"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="946475770">
-							<int key="NSCellFlags">68288064</int>
+							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents">Display Mode</string>
 							<reference key="NSSupport" ref="496331748"/>
@@ -238,6 +244,7 @@
 							<reference key="NSBackgroundColor" ref="142873849"/>
 							<reference key="NSTextColor" ref="606577446"/>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSCustomView" id="162244038">
 						<reference key="NSNextResponder" ref="450679658"/>
@@ -258,7 +265,7 @@
 						<reference key="NSNextKeyView" ref="139973920"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="860766252">
-							<int key="NSCellFlags">68288064</int>
+							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents">Filter:</string>
 							<reference key="NSSupport" ref="975884823"/>
@@ -266,6 +273,7 @@
 							<reference key="NSBackgroundColor" ref="142873849"/>
 							<reference key="NSTextColor" ref="606577446"/>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSPopUpButton" id="139973920">
 						<reference key="NSNextResponder" ref="450679658"/>
@@ -276,11 +284,11 @@
 						<reference key="NSNextKeyView" ref="307976280"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="745490644">
-							<int key="NSCellFlags">-2076049856</int>
-							<int key="NSCellFlags2">2048</int>
+							<int key="NSCellFlags">-2076180416</int>
+							<int key="NSCellFlags2">34816</int>
 							<reference key="NSSupport" ref="975884823"/>
 							<reference key="NSControlView" ref="139973920"/>
-							<int key="NSButtonFlags">109199615</int>
+							<int key="NSButtonFlags">109199360</int>
 							<int key="NSButtonFlags2">129</int>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
@@ -299,6 +307,7 @@
 							<bool key="NSAltersState">YES</bool>
 							<int key="NSArrowPosition">2</int>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 					</object>
 					<object class="NSImageView" id="1044078460">
 						<reference key="NSNextResponder" ref="450679658"/>
@@ -317,7 +326,7 @@
 						<reference key="NSNextKeyView" ref="162244038"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSImageCell" key="NSCell" id="876784234">
-							<int key="NSCellFlags">130560</int>
+							<int key="NSCellFlags">134217728</int>
 							<int key="NSCellFlags2">33554432</int>
 							<object class="NSCustomResource" key="NSContents">
 								<string key="NSClassName">NSImage</string>
@@ -328,6 +337,7 @@
 							<int key="NSStyle">0</int>
 							<bool key="NSAnimates">NO</bool>
 						</object>
+						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						<bool key="NSEditable">YES</bool>
 					</object>
 				</array>
@@ -552,6 +562,7 @@
 							<reference ref="164630669"/>
 						</array>
 						<reference key="parent" ref="450679658"/>
+						<string key="objectName">Check Box</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
@@ -560,6 +571,7 @@
 							<reference ref="691447346"/>
 						</array>
 						<reference key="parent" ref="450679658"/>
+						<string key="objectName">Check Box</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">7</int>
@@ -568,6 +580,7 @@
 							<reference ref="465085204"/>
 						</array>
 						<reference key="parent" ref="450679658"/>
+						<string key="objectName">Check Box</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">8</int>
@@ -600,6 +613,7 @@
 							<reference ref="609558108"/>
 						</array>
 						<reference key="parent" ref="450679658"/>
+						<string key="objectName">Check Box</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">13</int>
@@ -618,6 +632,7 @@
 						<int key="objectID">15</int>
 						<reference key="object" ref="609558108"/>
 						<reference key="parent" ref="307976280"/>
+						<string key="objectName">Check Box Cell</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">16</int>
@@ -647,16 +662,19 @@
 						<int key="objectID">24</int>
 						<reference key="object" ref="465085204"/>
 						<reference key="parent" ref="1017937277"/>
+						<string key="objectName">Check Box Cell</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">25</int>
 						<reference key="object" ref="691447346"/>
 						<reference key="parent" ref="1021236093"/>
+						<string key="objectName">Check Box Cell</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">26</int>
 						<reference key="object" ref="164630669"/>
 						<reference key="parent" ref="982783455"/>
+						<string key="objectName">Check Box Cell</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">28</int>
@@ -684,11 +702,13 @@
 							<reference ref="255100288"/>
 						</array>
 						<reference key="parent" ref="450679658"/>
+						<string key="objectName">Check Box</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">57</int>
 						<reference key="object" ref="255100288"/>
 						<reference key="parent" ref="1051657740"/>
+						<string key="objectName">Check Box Cell</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">63</int>
@@ -702,43 +722,133 @@
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="11.CustomClassName">OEPopupButton</string>
+				<string key="11.CustomClassName">OEPopUpButton</string>
+				<object class="NSMutableDictionary" key="11.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="139973920"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">themeKey</string>
+								<string key="value">dark_popup_button</string>
+							</object>
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.number</string>
+								<string key="keyPath">menuStyle</string>
+								<real value="1" key="value"/>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="12.CustomClassName">OECheckBox</string>
+				<string key="12.CustomClassName">OEButton</string>
+				<object class="NSMutableDictionary" key="12.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="307976280"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">themeKey</string>
+								<string key="value">dark_checkbox</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="14.CustomClassName">OEPrefHeadlineLabelCell</string>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="15.CustomClassName">OECheckBoxCell</string>
+				<string key="15.CustomClassName">OEButtonCell</string>
 				<string key="15.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="16.CustomClassName">OEPopupButtonCell</string>
+				<string key="16.CustomClassName">OEPopUpButtonCell</string>
 				<string key="16.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="17.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="21.CustomClassName">OEPrefHeadlineLabelCell</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="23.CustomClassName">OEPrefHeadlineLabelCell</string>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="24.CustomClassName">OECheckBoxCell</string>
+				<string key="24.CustomClassName">OEButtonCell</string>
 				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="25.CustomClassName">OECheckBoxCell</string>
+				<string key="25.CustomClassName">OEButtonCell</string>
 				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="26.CustomClassName">OECheckBoxCell</string>
+				<string key="26.CustomClassName">OEButtonCell</string>
+				<dictionary class="NSMutableDictionary" key="26.IBAttributePlaceholdersKey"/>
 				<string key="26.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="45.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="46.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="5.CustomClassName">OECheckBox</string>
+				<string key="5.CustomClassName">OEButton</string>
+				<object class="NSMutableDictionary" key="5.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="982783455"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">themeKey</string>
+								<string key="value">dark_checkbox</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="56.CustomClassName">OECheckBox</string>
+				<string key="56.CustomClassName">OEButton</string>
+				<object class="NSMutableDictionary" key="56.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="1051657740"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">themeKey</string>
+								<string key="value">dark_checkbox</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="57.CustomClassName">OECheckBoxCell</string>
+				<string key="57.CustomClassName">OEButtonCell</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="6.CustomClassName">OECheckBox</string>
+				<string key="6.CustomClassName">OEButton</string>
+				<object class="NSMutableDictionary" key="6.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="1021236093"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">themeKey</string>
+								<string key="value">dark_checkbox</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="7.CustomClassName">OECheckBox</string>
+				<string key="7.CustomClassName">OEButton</string>
+				<object class="NSMutableDictionary" key="7.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="1017937277"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">themeKey</string>
+								<string key="value">dark_checkbox</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
@@ -759,19 +869,19 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">OECheckBox</string>
+					<string key="className">OEButton</string>
 					<string key="superclassName">NSButton</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OECheckBox.h</string>
+						<string key="minorKey">./Classes/OEButton.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">OECheckBoxCell</string>
+					<string key="className">OEButtonCell</string>
 					<string key="superclassName">NSButtonCell</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OECheckBoxCell.h</string>
+						<string key="minorKey">./Classes/OEButtonCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -783,19 +893,19 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">OEPopupButton</string>
+					<string key="className">OEPopUpButton</string>
 					<string key="superclassName">NSPopUpButton</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEPopupButton.h</string>
+						<string key="minorKey">./Classes/OEPopUpButton.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">OEPopupButtonCell</string>
+					<string key="className">OEPopUpButtonCell</string>
 					<string key="superclassName">NSPopUpButtonCell</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEPopupButtonCell.h</string>
+						<string key="minorKey">./Classes/OEPopUpButtonCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -846,6 +956,10 @@
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
+		</object>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
+			<real value="1070" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>

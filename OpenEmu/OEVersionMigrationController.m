@@ -102,7 +102,9 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
 }
 
 - (void)runDatabaseMigration
-{}
+{
+    DLog(@"");
+}
 
 - (void)runMigrationIfNeeded
 {

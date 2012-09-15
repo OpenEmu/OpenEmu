@@ -78,7 +78,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     [image setName:@"collections_simple" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
     [image setName:@"collections_smart" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
     
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESidebarGroupConsolesAutosaveName : @TRUE }];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESidebarGroupConsolesAutosaveName : @YES }];
 }
 
 - (void)awakeFromNib
@@ -202,7 +202,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 {
     if(![self database]) return;
     
-    self.systems     = [[self database] enabledSystems] ? : [NSArray array];
+    self.systems     = [OEDBSystem enabledSystemsInDatabase:[self database]] ? : [NSArray array];
     self.collections = [[self database] collections]    ? : [NSArray array];
         
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];

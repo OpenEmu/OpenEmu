@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -34,8 +34,12 @@
 #define NSPointSub(P1, P2) (NSPoint){P1.x-P2.x,+P1.y-P2.y}
 #define NSSizeAdd(S1, S2) (NSSize){S1.width+S2.width,+S1.height+S2.height}
 #define NSSizeSub(S1, S2) (NSSize){S1.width-S2.width,+S1.height-S2.height}
-@interface NSImage (NSImage_OEDrawingAdditions)
+
+@interface NSImage (OEDrawingAdditions)
+
 - (void)drawInRect:(NSRect)targetRect fromRect:(NSRect)sourceRect operation:(NSCompositingOperation)op fraction:(CGFloat)requestedAlpha respectFlipped:(BOOL)respectContextIsFlipped hints:(NSDictionary *)hints leftBorder:(float)leftBorder rightBorder:(float)rightBorder topBorder:(float)topBorder bottomBorder:(float)bottomBorder;
-- (NSImage*)subImageFromRect:(NSRect)rect;
-- (void)setName:(NSString*)name forSubimageInRect:(NSRect)aRect;
+- (NSImage *)subImageFromRect:(NSRect)rect;
+- (void)setName:(NSString *)name forSubimageInRect:(NSRect)aRect;
+- (NSImage *)imageFromParts:(NSArray *)parts vertical:(BOOL)vertical;
+
 @end

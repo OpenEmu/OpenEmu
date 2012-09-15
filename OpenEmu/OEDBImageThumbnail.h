@@ -34,7 +34,7 @@
 
 @property (nonatomic, retain) NSNumber * height;
 @property (nonatomic, retain) NSNumber * width;
-@property (nonatomic, retain) NSString * path;
+@property (nonatomic, retain) NSString * relativePath;
 @property (nonatomic, retain) OEDBImage *image;
 
 - (NSString*)absolutePath;

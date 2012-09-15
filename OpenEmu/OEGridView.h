@@ -32,7 +32,6 @@
 extern NSString *const OELightStyleGridViewMenu;
 
 @class OEGridView;
-@class OEMenu;
 
 @protocol OEGridViewDelegate <NSObject>
 
@@ -57,7 +56,7 @@ extern NSString *const OELightStyleGridViewMenu;
 - (void)gridView:(OEGridView *)gridView willBeginEditingCellForItemAtIndex:(NSUInteger)index;
 - (void)gridView:(OEGridView *)gridView didEndEditingCellForItemAtIndex:(NSUInteger)index;
 - (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index;
-- (OEMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes;
+- (NSMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes;
 
 @end
 
@@ -159,7 +158,6 @@ extern NSString *const OELightStyleGridViewMenu;
 
 #pragma mark -
 #pragma mark Properties
-
 @property(nonatomic, strong) CALayer    *foregroundLayer;      // A decorative background layer, the layer should return nil for -hitTest
 @property(nonatomic, strong) CALayer    *backgroundLayer;      // A decorative foreground layer, the layer should return nil for -hitTest
 @property(nonatomic, assign) CGFloat     minimumColumnSpacing; // Minimum spacing between columns
@@ -169,5 +167,6 @@ extern NSString *const OELightStyleGridViewMenu;
 
 @property(nonatomic, assign) id<OEGridViewDataSource> dataSource; // Responsible for supplying the cells of each object represented in the grid
 @property(nonatomic, assign) id<OEGridViewDelegate>   delegate;   // Receives information regarding the user interaction of the grid and it's cells
+- (IBAction)OEDebug_logGridViewFrames:(id)sender;
 
 @end

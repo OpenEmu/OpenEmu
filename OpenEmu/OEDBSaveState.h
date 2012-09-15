@@ -71,7 +71,7 @@ extern NSString *const OESaveStateQuicksaveName;
 @property (nonatomic, retain)           NSString *coreIdentifier;
 
 @property (nonatomic, retain, readonly) NSString *systemIdentifier;
-@property (nonatomic, retain)           NSString *path;
+@property (nonatomic, retain)           NSString *location;
 @property (nonatomic, retain)           NSURL    *URL;
 @property (nonatomic, retain, readonly) NSURL    *screenshotURL;
 @property (nonatomic, retain, readonly) NSURL    *stateFileURL;

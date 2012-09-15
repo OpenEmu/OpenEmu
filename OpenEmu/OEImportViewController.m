@@ -250,12 +250,8 @@
             [menuItem setRepresentedObject:obj];
             [menu addItem:menuItem];
         }];
-        OEMenu *oemenu = [menu convertToOEMenu];
-        NSRect rowRect = [[self tableView] rectOfRow:rowIndex];
-        NSRect columnRect = [[self tableView] rectOfColumn:2];
-        NSRect buttonRect = NSIntersectionRect(rowRect, columnRect);
-        NSRect rectOnWindow = [[self tableView] convertRect:buttonRect toView:nil];
-        [oemenu openOnEdge:OENoEdge ofRect:rectOnWindow ofWindow:[[self view] window]];
+        
+        FIXME("Figure out how to open the new OEMenu and implement that here");
     }
 }
 #pragma mark -

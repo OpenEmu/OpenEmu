@@ -26,8 +26,7 @@
 
 #import "OEHUDAlert.h"
 
-#import "OECheckBox.h"
-#import "OEHUDButtonCell.h"
+#import "OEButton.h"
 #import "OEHUDTextFieldCell.h"
 #import "OEHUDTextFieldEditor.h"
 #import "OECenteredTextFieldCell.h"
@@ -59,7 +58,7 @@
 @synthesize target, callback;
 @synthesize suppressOnDefaultReturnOnly;
 
-@synthesize defaultButton = _defaultButton, alternateButton = _alternateButton;
+@synthesize defaultButton = _defaultButton, alternateButton = _alternateButton, otherButton=_otherButton;
 @synthesize progressbar = _progressbar;
 @synthesize messageTextView = _messageTextView, headlineLabelField = _headlineLabelField;
 @synthesize suppressionButton = _suppressionButton;
@@ -106,10 +105,13 @@
         _window = [[OEAlertWindow alloc] init];
         [_window setReleasedWhenClosed:NO];
         
-        _suppressionButton = [[OECheckBox alloc] init];
+        _suppressionButton = [[OEButton alloc] init];
+        [_suppressionButton setButtonType:NSSwitchButton];
+        [(OEButton*)_suppressionButton setThemeKey:@"dark_checkbox"];
         
-        _defaultButton = [[NSButton alloc] init];
-        _alternateButton = [[NSButton alloc] init];
+        _defaultButton = [[OEButton alloc] init];
+        _alternateButton = [[OEButton alloc] init];
+        _otherButton = [[OEButton alloc] init];
         
         _progressbar = [[OEHUDProgressbar alloc] init];
         
@@ -243,7 +245,6 @@
 
 #pragma mark -
 #pragma mark Buttons
-
 - (void)setDefaultButtonTitle:(NSString *)defaultButtonTitle
 {
     [[self defaultButton] setTitle:defaultButtonTitle ? : @""];
@@ -268,16 +269,29 @@
     return [[self alternateButton] title];
 }
 
+- (void)setOtherButtonTitle:(NSString *)otherButtonTitle
+{
+    [[self otherButton] setTitle:otherButtonTitle ? : @""];
+    [self OE_layoutButtons];
+}
+
+- (NSString*)otherButtonTitle
+{
+    return [[self otherButton] title];
+}
+
 - (void)buttonAction:(id)sender
 {
     if(sender == [self defaultButton] || sender == [self inputField])
         result = NSAlertDefaultReturn;
     else if(sender == [self alternateButton])
         result = NSAlertAlternateReturn;
-    else
+    else if(sender == [self otherButton])
+        result = NSAlertOtherReturn;
+    else 
         result = NSAlertDefaultReturn;
 
-    if([[self suppressionButton] state] && (result || ![self suppressOnDefaultReturnOnly]) && [self suppressionUDKey])
+    if(result != NSAlertOtherReturn && [[self suppressionButton] state] && (result || ![self suppressOnDefaultReturnOnly]) && [self suppressionUDKey])
     {
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
         [standardUserDefaults setInteger:result forKey:[self suppressionUDKey]];
@@ -291,6 +305,7 @@
 {
     BOOL showsDefaultButton   = [[self defaultButtonTitle] length] != 0;
     BOOL showsAlternateButton = [[self alternateButtonTitle] length] != 0;
+    BOOL showsOtherButton = [[self otherButtonTitle] length] != 0;
     
     NSRect defaultButtonRect = NSMakeRect(304 - 3, 14 - 1, 103, 23);
     
@@ -302,8 +317,15 @@
         [[self alternateButton] setFrame:alternateButtonRect];
     }
     
+    if(showsOtherButton)
+    {
+        NSRect otherButtonRect = NSMakeRect(190 - 3, 14 - 1, 103, 23);
+        [[self otherButton] setFrame:otherButtonRect];
+    }
+    
     [[self defaultButton] setHidden:!showsDefaultButton];
     [[self alternateButton] setHidden:!showsAlternateButton];
+    [[self otherButton] setHidden:!showsOtherButton];
 }
 
 - (void)setDefaultButtonAction:(SEL)sel andTarget:(id)aTarget
@@ -313,6 +335,13 @@
 }
 
 - (void)setAlternateButtonAction:(SEL)sel andTarget:(id)aTarget
+{
+    [[self alternateButton] setTarget:aTarget];
+    [[self alternateButton] setAction:sel];
+}
+
+
+- (void)setOtherButtonAction:(SEL)sel andTarget:(id)aTarget
 {
     [[self alternateButton] setTarget:aTarget];
     [[self alternateButton] setAction:sel];
@@ -357,6 +386,8 @@
     [[self alternateButton] setAction:@selector(buttonAction:)];
     [[self defaultButton] setTarget:self];
     [[self defaultButton] setAction:@selector(buttonAction:)];
+    [[self otherButton] setTarget:self];
+    [[self otherButton] setAction:@selector(buttonAction:)];
 }
 
 - (OEAlertCompletionHandler)callbackHandler
@@ -489,24 +520,31 @@
     [_window setFrame:f display:NO];
     
     // Setup Button
-    OEHUDButtonCell *cell = [[OEHUDButtonCell alloc] init];
-    [cell setButtonColor:OEHUDButtonColorBlue];    
-    [[self defaultButton] setCell:cell];
+    [[self defaultButton] setThemeKey:@"hud_button_blue"];
     [[self defaultButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
     [[self defaultButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self defaultButton] setHidden:YES];
+    [[self defaultButton] setTitle:@""];
     [[self defaultButton] setKeyEquivalent:@"\r"];
     [[_window contentView] addSubview:[self defaultButton]];
     
-    cell = [[OEHUDButtonCell alloc] init];
-    [cell setButtonColor:OEHUDButtonColorDefault];
-    [[self alternateButton] setCell:cell];
+    
+    [[self alternateButton] setThemeKey:@"hud_button"];
     [[self alternateButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
     [[self alternateButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self alternateButton] setHidden:YES];
+    [[self alternateButton] setTitle:@""];
     [[self alternateButton] setKeyEquivalent:@"\E"];
     [[_window contentView] addSubview:[self alternateButton]];
     
+    [[self otherButton] setThemeKey:@"hud_button"];
+    [[self otherButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
+    [[self otherButton] setTarget:self andAction:@selector(buttonAction:)];
+    [[self otherButton] setHidden:YES];
+    [[self otherButton] setTitle:@""];
+    [[self otherButton] setKeyEquivalent:@"\r"];
+    [[_window contentView] addSubview:[self otherButton]];
+
     // Setup Box
     [[self boxView] setFrame:(NSRect){{18, 51},{387, 82}}];
     [[self boxView] setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];

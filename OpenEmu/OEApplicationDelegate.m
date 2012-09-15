@@ -184,22 +184,33 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     BOOL userDBSelectionRequest = ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0;
     NSURL *databaseURL = [NSURL fileURLWithPath:databasePath];
-    // if user holds down alt-key or the database can not be loaded because no file was found 
-    if(userDBSelectionRequest || ![OELibraryDatabase loadFromURL:databaseURL error:&error])
-    {
-        if(error != nil) [NSApp presentError:error];
-        
+    // if user holds down alt-key
+    if(userDBSelectionRequest)
+    {        
         // we ask the user to either select/create one, or quit open emu
         [self OE_performDatabaseSelection];
     }
-    else if(error != nil) // if the database could not be loaded because it has the wrong version
+    else if(![OELibraryDatabase loadFromURL:databaseURL error:&error]) // if the database could not be loaded
     {
-        // we try to migrate the databse to the new version
-        [[OEVersionMigrationController defaultMigrationController] runDatabaseMigration];
+        DLog(@"%@", error);
+        DLog(@"%@", [error domain]);
+        DLog(@"%ld", [error code]);
         
-        // and try to load it again, if that fails, the user must select one
-        if(![OELibraryDatabase loadFromURL:databaseURL error:&error])
-            [self OE_performDatabaseSelection];
+        if([error domain]==NSCocoaErrorDomain && [error code]==NSPersistentStoreIncompatibleVersionHashError)
+        {
+            // we try to migrate the databse to the new version
+            [[OEVersionMigrationController defaultMigrationController] runDatabaseMigration];
+            // try to load db again
+            if([OELibraryDatabase loadFromURL:databaseURL error:&error])
+                return;
+        }
+        else
+        {
+            [NSApp presentError:error];
+        }
+        
+        // user must select a library
+        [self OE_performDatabaseSelection];
     }
 }
 

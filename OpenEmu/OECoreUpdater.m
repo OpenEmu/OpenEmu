@@ -32,7 +32,7 @@
 #import "OECorePlugin.h"
 
 #import "OEHUDAlert.h"
-#import "OEHUDButtonCell.h"
+#import "OEButton.h"
 
 @interface OECoreUpdater ()
 {
@@ -239,8 +239,7 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
         [[self alert] setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
         [[self alert] setAlternateButtonTitle:nil];
         
-        [[[[self alert] defaultButton] cell] setButtonColor:OEHUDButtonColorRed];
-        
+        [[[self alert] defaultButton] setThemeKey:@"hud_button_red"];
         [[self alert] setDefaultButtonAction:@selector(buttonAction:) andTarget:[self alert]];
         return;
     }

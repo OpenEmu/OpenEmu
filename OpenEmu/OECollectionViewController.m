@@ -61,7 +61,7 @@
 #import "OESidebarController.h"
 #import "OETableView.h"
 
-NSString *const OELastGridSizeKey = @"lastGridSize";
+NSString * const OELastGridSizeKey = @"lastGridSize";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 #define     MainMenu_View_GridViewTag 301
@@ -84,7 +84,7 @@ const int OE_ListViewTag = 2;
 - (void)OE_managedObjectContextDidSave:(NSNotification *)notification;
 - (void)OE_reloadData;
 
-- (OEMenu *)OE_menuForItemsAtIndexes:(NSIndexSet *)indexes;
+- (NSMenu *)OE_menuForItemsAtIndexes:(NSIndexSet *)indexes;
 - (NSMenu *)OE_saveStateMenuForGame:(OEDBGame *)game;
 - (NSMenu *)OE_ratingMenuForGames:(NSArray *)games;
 - (NSMenu *)OE_collectionsMenuForGames:(NSArray *)games;
@@ -548,7 +548,7 @@ const int OE_ListViewTag = 2;
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
-- (OEMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes
+- (NSMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     return [self OE_menuForItemsAtIndexes:indexes];
 }
@@ -576,7 +576,7 @@ const int OE_ListViewTag = 2;
 
 #pragma mark -
 #pragma mark Context Menu
-- (OEMenu *)OE_menuForItemsAtIndexes:(NSIndexSet *)indexes
+- (NSMenu*)OE_menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
@@ -643,7 +643,7 @@ const int OE_ListViewTag = 2;
     }
     
     [menu setAutoenablesItems:YES];
-    return [menu convertToOEMenu];
+    return menu;
 }
 
 - (NSMenu *)OE_saveStateMenuForGame:(OEDBGame *)game
@@ -662,20 +662,17 @@ const int OE_ListViewTag = 2;
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
+            item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];
+            [item setRepresentedObject:saveState];
+            [saveGamesMenu addItem:item];
+
             if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
             {
-                OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];               
-                [oeitem setHasAlternate:YES];
-                [oeitem setAlternateAction:@selector(deleteSaveState:)];
-                
-                [oeitem setRepresentedObject:saveState];
-                [saveGamesMenu addItem:oeitem];
-            }
-            else
-            {
-                item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];
-                [item setRepresentedObject:saveState];
-                [saveGamesMenu addItem:item];
+                NSMenuItem *alternateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
+                [alternateItem setAlternate:YES];
+                [alternateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+                [alternateItem setRepresentedObject:saveState];
+                [saveGamesMenu addItem:alternateItem];
             }
         }
     }];
@@ -689,7 +686,7 @@ const int OE_ListViewTag = 2;
     return saveGamesMenu;
 }
 
-- (NSMenu *)OE_ratingMenuForGames:(NSArray *)games
+- (NSMenu*)OE_ratingMenuForGames:(NSArray*)games
 {
     NSMenu   *ratingMenu = [[NSMenu alloc] init];
     NSString *ratingLabel = @"★★★★★";
@@ -823,6 +820,7 @@ const int OE_ListViewTag = 2;
             [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];
             [[collection managedObjectContext] save:nil];
         }
+        [self setNeedsReload];
     }
     else if([[OEHUDAlert removeGamesFromLibraryAlert:[selectedGames count]>1] runModal])
     {
@@ -848,6 +846,8 @@ const int OE_ListViewTag = 2;
                 [game deleteByMovingFile:alertReturn==NSAlertDefaultReturn keepSaveStates:YES];
             }];
             [[[selectedGames lastObject] managedObjectContext] save:nil];
+            
+            [self setNeedsReload];
         }
     }
 }
@@ -876,19 +876,21 @@ const int OE_ListViewTag = 2;
 - (void)getGameInfoFromArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-	for(OEDBGame *game in selectedGames)
-	{
-        [game setNeedsInfoSyncWithArchiveVG];
-    }
+    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
+        [obj setNeedsInfoSyncWithArchiveVG];
+    }];
+    
+    [self reloadDataIndexes:[self selectedIndexes]];
 }
 
 - (void)getCoverFromArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-	for(OEDBGame *game in selectedGames)
-	{
-        [game setNeedsCoverSyncWithArchiveVG];
-    }
+    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
+        [obj setNeedsCoverSyncWithArchiveVG];
+    }];
+    
+    [self reloadDataIndexes:[self selectedIndexes]];
 }
 
 - (void)addCoverArtFromFile:(id)sender
@@ -985,6 +987,7 @@ const int OE_ListViewTag = 2;
             
             [obj setListViewTitle:anObject];
         }
+        [self reloadDataIndexes:[NSIndexSet indexSetWithIndex:rowIndex]];
     }
 }
 
@@ -1054,13 +1057,7 @@ const int OE_ListViewTag = 2;
                         [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
             }
             
-            if([aCell isKindOfClass:[OEAttributedTextFieldCell class]])
-            {
-                [(OEAttributedTextFieldCell*)aCell setTextAttributes:attr];
-                [(OEAttributedTextFieldCell*)aCell setupAttributes];
-            }
-            else
-                [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
+            [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
         }
         
         if(![aCell isKindOfClass:[OERatingCell class]])
@@ -1157,7 +1154,7 @@ const int OE_ListViewTag = 2;
 }
 #pragma mark -
 #pragma mark OETableView Menu
-- (OEMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet *)indexes
+- (NSMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     return [self OE_menuForItemsAtIndexes:indexes];
 }
@@ -1289,7 +1286,13 @@ const int OE_ListViewTag = 2;
     NSPredicate *pred = [self representedObject]?[[self representedObject] predicate]:[NSPredicate predicateWithValue:NO];
     [gamesController setFetchPredicate:pred];
     
-    [self OE_fetchGames];
+    NSError *error = nil;
+    BOOL ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
+    if(!ok)
+    {
+        NSLog(@"Error while fetching: %@", error);
+        return;
+    }
     
     [gridView reloadData];
     [listView reloadData];

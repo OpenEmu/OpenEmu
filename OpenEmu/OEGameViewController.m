@@ -260,7 +260,8 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 #pragma mark - Controlling Emulation
 - (void)resetGame
 {
-    [[rootProxy gameCore] resetEmulation];
+    if([[OEHUDAlert resetSystemAlert] runModal]==NSAlertDefaultReturn)
+        [[rootProxy gameCore] resetEmulation];
     // TODO: draw one frame to reflect reset
 }
 
@@ -373,7 +374,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 {
     if(core == [gameCoreManager plugin])
     {
-        [self resetGame];
+        [[rootProxy gameCore] resetEmulation];
     }
     else
     {
@@ -651,7 +652,12 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     OEGameCore *gameCore = [rootProxy gameCore];
     OEIntRect screenRect = [gameCore screenRect];
     
-    return NSSizeFromOEIntSize(screenRect.size);
+    float wr = (float) rootProxy.aspectSize.width / screenRect.size.width;
+    float hr = (float) rootProxy.aspectSize.height / screenRect.size.height;
+    float ratio = (hr < wr ? wr : hr);
+    NSSize scaled = NSMakeSize(( wr / ratio), (hr / ratio));
+    
+    return NSMakeSize(screenRect.size.width * scaled.width, screenRect.size.height * scaled.height);
 }
 
 - (NSString*)systemIdentifier
