@@ -104,7 +104,7 @@
 	NSString *filterName = [[[self filterSelection] selectedItem] title];
     
     OECompositionPlugin *plugin = [OECompositionPlugin compositionPluginWithName:filterName];
-    NSImage *filterPreviewImage = (plugin == nil && ![plugin isBuiltIn]
+    NSImage *filterPreviewImage = (plugin != nil && ![plugin isBuiltIn]
                                    ? [plugin previewImage]
                                    : [[NSBundle mainBundle] imageForResource:[filterName stringByAppendingPathExtension:@"png"]]);
 
