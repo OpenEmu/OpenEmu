@@ -47,13 +47,11 @@
 #import "OEPlayerBindings.h"
 #import "OEKeyBindingGroupDescription.h"
 
+#import "OEPreferencesController.h"
+
 NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
 NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";
 NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
-
-extern NSString * const OEPreferencesOpenPaneNotificationName;
-extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
-extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 
 @interface OEPrefControlsController ()
 {
@@ -165,14 +163,14 @@ extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 
 - (void)animationDidStart:(CAAnimation *)theAnimation
 {
-    [[self controllerView].layer setValue:[NSNumber numberWithFloat:1.0] forKeyPath:@"filters.pixellate.inputScale"];
+    [[[self controllerView] layer] setValue:[NSNumber numberWithFloat:1.0] forKeyPath:@"filters.pixellate.inputScale"];
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
     if(flag)
     {          
-        [[self controllerView].layer setValue:[NSNumber numberWithInt:10.0] forKeyPath:@"filters.pixellate.inputScale"];
+        [[[self controllerView] layer] setValue:[NSNumber numberWithInt:10.0] forKeyPath:@"filters.pixellate.inputScale"];
     }
 }
 
@@ -568,6 +566,7 @@ extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 }
 
 #pragma mark -
+
 - (void)OE_openPaneWithNotification:(NSNotification *)notification
 {
     NSDictionary *userInfo = [notification userInfo];

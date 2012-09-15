@@ -27,15 +27,19 @@
 #import <Cocoa/Cocoa.h>
 #import "OEPreferencePane.h"
 
-@interface OEPrefGameplayController : NSViewController <OEPreferencePane> 
-- (NSImage*)icon;
-- (NSString*)title;
+@interface OEPrefGameplayController : NSViewController <OEPreferencePane>
+
+- (NSImage *)icon;
+- (NSString *)title;
 
 - (NSSize)viewSize;
+
 #pragma mark -
 #pragma mark UI Actions
+
 - (IBAction)changeFilter:(id)sender;
 
-@property (weak, readonly) IBOutlet NSPopUpButton   *filterSelection;
-@property (weak, readonly) IBOutlet NSView          *filterPreviewContainer;
+@property(weak, readonly) IBOutlet NSPopUpButton *filterSelection;
+@property(weak, readonly) IBOutlet NSView        *filterPreviewContainer;
+
 @end

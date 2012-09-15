@@ -104,13 +104,11 @@
 	NSString *filterName = [[[self filterSelection] selectedItem] title];
     
     OECompositionPlugin *plugin = [OECompositionPlugin compositionPluginWithName:filterName];
-    NSImage *filterPreviewImage;
-    if(plugin && ![plugin isBuiltIn])
-        filterPreviewImage = [plugin previewImage];
-    else
-        filterPreviewImage = [[NSBundle mainBundle] imageForResource:[NSString stringWithFormat:@"%@.png", filterName]];
+    NSImage *filterPreviewImage = (plugin == nil && ![plugin isBuiltIn]
+                                   ? [plugin previewImage]
+                                   : [[NSBundle mainBundle] imageForResource:[filterName stringByAppendingPathExtension:@"png"]]);
 
-	NSImageView *newPreviewView = [[NSImageView alloc] initWithFrame:(NSRect){{0,0}, [[self filterPreviewContainer] frame].size}];
+	NSImageView *newPreviewView = [[NSImageView alloc] initWithFrame:(NSRect){ .size = [[self filterPreviewContainer] frame].size }];
     [newPreviewView setImage:filterPreviewImage];
     [newPreviewView setImageAlignment:NSImageAlignCenter];
     [newPreviewView setImageFrameStyle:NSImageFrameNone];
@@ -118,13 +116,12 @@
     
     NSView *currentImageView = [[[self filterPreviewContainer] subviews] lastObject];
     
-    if(currentImageView)
+    if(currentImageView != nil)
         [[[self filterPreviewContainer] animator] replaceSubview:currentImageView with:newPreviewView];
     else
         [[self filterPreviewContainer] addSubview:newPreviewView];
     
-	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-	[sud setObject:filterName forKey:OEGameVideoFilterKey];
+	[[NSUserDefaults standardUserDefaults] setObject:filterName forKey:OEGameVideoFilterKey];
 }
 
 @end

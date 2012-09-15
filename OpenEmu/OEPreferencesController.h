@@ -29,6 +29,7 @@
 extern NSString *const OEDebugModeKey;
 extern NSString *const OEPreferencesOpenPaneNotificationName;
 extern NSString *const OEPreferencesOpenPanelUserInfoPanelNameKey;
+extern NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 
 @class OEBackgroundGradientView;
 @class OEToolbarView;
