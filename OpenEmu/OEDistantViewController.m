@@ -66,7 +66,9 @@
 {
     NSRect newBounds  = [[self view] bounds];
     NSWindow *window = [[self view] window];
-    NSRect newDistantWindowFrame = [window convertRectToScreen:[[self view] convertRectToBase:newBounds]];
+    
+    NSRect boundsOnWindow = [[self view] convertRect:newBounds toView:nil];
+    NSRect newDistantWindowFrame = [window convertRectToScreen:boundsOnWindow];
     
     [[self distantWindow] setFrame:newDistantWindowFrame display:YES];
 }

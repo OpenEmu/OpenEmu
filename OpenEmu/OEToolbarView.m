@@ -148,7 +148,7 @@
         NSImage *icon = anItem.icon;
 
         NSPoint mouseLocationOnScreen = [NSEvent mouseLocation];
-        NSPoint mouseLocationOnWindow = [[self window] convertScreenToBase:mouseLocationOnScreen];
+        NSPoint mouseLocationOnWindow = [[self window] convertRectFromScreen:(NSRect){mouseLocationOnScreen, {0,0}}].origin;
         NSPoint mouseLocationOnView   = [self convertPoint:mouseLocationOnWindow fromView:nil];
 
         if(anItem == highlightedItem && NSPointInRect(mouseLocationOnView, anItem.itemRect)){
