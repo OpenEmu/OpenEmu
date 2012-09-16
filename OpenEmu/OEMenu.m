@@ -352,7 +352,8 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
 
     if(!NSEqualPoints(attachedPoint, NSZeroPoint))
     {
-        attachedPoint = [_view convertPoint:[self convertScreenToBase:attachedPoint] fromView:nil];
+        NSPoint p = [[_view window] convertRectFromScreen:(NSRect){attachedPoint, {0,0}}].origin;
+        attachedPoint = [_view convertPoint:p fromView:nil];
         [_view setAttachedPoint:attachedPoint];
     }
 }
@@ -478,7 +479,8 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
 {
     if([event window] == self) return event;
 
-    const NSPoint location = [self convertScreenToBase:[OEMenu OE_locationInScreenForEvent:event]];
+    NSPoint screenLocation = [OEMenu OE_locationInScreenForEvent:event];
+    const NSPoint location = [self convertRectFromScreen:(NSRect){screenLocation, {0,0}}].origin;
     return [NSEvent mouseEventWithType:[event type] location:location modifierFlags:[event modifierFlags] timestamp:[event timestamp] windowNumber:[self windowNumber] context:[event context] eventNumber:[event eventNumber] clickCount:[event clickCount] pressure:[event pressure]];
 }
 

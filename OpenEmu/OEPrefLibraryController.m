@@ -49,7 +49,7 @@
     if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
         [self OE_calculateHeight];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_rebuildAvailableLibraries) name:OEDBSystemsChangedNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildAvailableLibraries) name:OEDBSystemsChangedNotificationName object:nil];
     }
     
     return self;

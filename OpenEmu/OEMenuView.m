@@ -323,7 +323,10 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
 
 - (void)OE_highlightItemUnderMouse
 {
-    [self highlightItemAtPoint:[self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil]];
+    NSPoint screenLocation = [NSEvent mouseLocation];
+    NSPoint windowLocation = [[self window] convertRectFromScreen:(NSRect){screenLocation, {0,0}}].origin;
+    NSPoint viewLocation   = [self convertPoint:windowLocation fromView:nil];
+    [self highlightItemAtPoint:viewLocation];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent

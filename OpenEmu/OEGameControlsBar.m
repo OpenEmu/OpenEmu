@@ -428,6 +428,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     pauseButton = [[OEButton alloc] init];
     [pauseButton setButtonType:NSToggleButton];
     [pauseButton setThemeKey:@"hud_button_toggle_pause"];
+    [pauseButton setTitle:nil];
     [pauseButton setAction:@selector(toggleEmulationPaused)];
     [pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
     [pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
@@ -435,6 +436,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     
     OEButton *restartButton = [[OEButton alloc] init];
     [restartButton setThemeKey:@"hud_button_restart"];
+    [restartButton setTitle:nil];
     [restartButton setAction:@selector(resetGame)];
     [restartButton setFrame:NSMakeRect(111, 9, 32, 32)];
     [restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
@@ -442,6 +444,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     
     OEButton *saveButton = [[OEButton alloc] init];
     [saveButton setThemeKey:@"hud_button_save"];
+    [saveButton setTitle:nil];
     [saveButton setTarget:[self window]];
     [saveButton setAction:@selector(showSaveMenu:)];
     [saveButton setFrame:NSMakeRect(162, 6, 32, 32)];
@@ -453,6 +456,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     {
         OEButton *optionsButton = [[OEButton alloc] init];
         [optionsButton setThemeKey:@"hud_button_options"];
+        [optionsButton setTitle:nil];
         [optionsButton setTarget:[self window]];
         [optionsButton setAction:@selector(showOptionsMenu:)];
         [optionsButton setFrame:NSMakeRect(212, 6, 32, 32)];
@@ -461,11 +465,13 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     }
     
     OEButton *volumeDownButton = [[OEButton alloc] initWithFrame:NSMakeRect(223 + (hideOptions ? 0 : 50), 17, 13, 14)];
+    [volumeDownButton setTitle:nil];
     [volumeDownButton setThemeKey:@"hud_button_volume_down"];
     [volumeDownButton setAction:@selector(mute:)];
     [self addSubview:volumeDownButton];
     
     OEButton *volumeUpButton = [[OEButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 17, 15, 14)];
+    [volumeUpButton setTitle:nil];
     [volumeUpButton setThemeKey:@"hud_button_volume_up"];
     [volumeUpButton setAction:@selector(unmute:)];
     [self addSubview:volumeUpButton];

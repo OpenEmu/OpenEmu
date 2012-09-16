@@ -47,7 +47,8 @@
     [self willMakeFadeImage];
     
     NSWindow *window = [self window];
-    NSRect captureRect = [window convertRectToScreen:[self convertRectToBase:[self bounds]]];
+    NSRect boundsOnWindow = [self convertRect:[self bounds] toView:nil];
+    NSRect captureRect = [window convertRectToScreen:boundsOnWindow];
     captureRect = NSIntersectionRect([window screen].frame, captureRect);
     captureRect.origin.y = [[window screen] frame].size.height - captureRect.origin.y - captureRect.size.height;   
     
