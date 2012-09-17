@@ -225,27 +225,31 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     [_view OE_layoutIfNeeded];
 
     // Calculate the positioning frames
-    const NSRect        selectedItemRect  = [self convertRectToScreen:[[_view documentView] convertRect:[[[self highlightedItem] extraData] frame] toView:nil]];
-    const NSRect        screenFrame       = [self OE_confinementRectForScreen];
-    const NSEdgeInsets  edgeInsets        = [_view backgroundEdgeInsets];
-    const NSRect        buttonFrame       = [button bounds];
-    const BOOL          doesContainImages = [[_view documentView] doesContainImages];
+    const NSRect        selectedItemRectOnView   = [[[self highlightedItem] extraData] frame];
+    const NSRect        selectedItemRectOnWindow = [[_view documentView] convertRect:selectedItemRectOnView toView:nil];
+    const NSRect        selectedItemRectOnScreen  = [[[_view documentView] window] convertRectToScreen:selectedItemRectOnWindow];
+
+    const NSRect        actualScreenFrame  = [[self screen] frame];
+    const NSRect        visibleScreenFrame = [self OE_confinementRectForScreen];
+    const NSEdgeInsets  edgeInsets         = [_view backgroundEdgeInsets];
+    const NSRect        buttonFrame        = [button bounds];
+    const BOOL          doesContainImages  = [[_view documentView] doesContainImages];
 
     NSRect frame = {  .origin = rect.origin, .size = [self size] };
-
+    
     // TODO: Adjust origin based on the button's and menu item's shadows
     frame.origin.x   -= edgeInsets.left + OEMenuItemTickMarkWidth + (doesContainImages ? OEMenuItemImageWidth : 0.0);
-    frame.origin.y   -= NSMinY(selectedItemRect) + 2.0 + (doesContainImages ? 1.0 : 0.0);
+    frame.origin.y   -= NSMinY(selectedItemRectOnScreen)-NSMinY(actualScreenFrame) + 2.0 + (doesContainImages ? 1.0 : 0.0);
     frame.size.width  = buttonFrame.size.width  + edgeInsets.left + edgeInsets.right + OEMenuContentEdgeInsets.left + OEMenuContentEdgeInsets.right + OEMenuItemInsets.left + OEMenuItemInsets.right;
 
     // Adjust the frame's dimensions not to be bigger than the screen
-    frame.size.height = MIN(NSHeight(frame), NSHeight(screenFrame));
-    frame.size.width  = MIN(NSWidth(frame), NSWidth(screenFrame));
+    frame.size.height = MIN(NSHeight(frame), NSHeight(visibleScreenFrame));
+    frame.size.width  = MIN(NSWidth(frame), NSWidth(visibleScreenFrame));
 
     // Adjust the frame's position to make the menu completely visible
-    frame.origin.x = MIN(MAX(NSMinX(frame), NSMinX(screenFrame)), NSMaxX(screenFrame) - NSWidth(frame));
-    frame.origin.y = MIN(MAX(NSMinY(frame), NSMinY(screenFrame)), NSMaxY(screenFrame) - NSHeight(frame));
-
+    frame.origin.x = MIN(MAX(NSMinX(frame), NSMinX(visibleScreenFrame)), NSMaxX(visibleScreenFrame) - NSWidth(frame));
+    frame.origin.y = MIN(MAX(NSMinY(frame), NSMinY(visibleScreenFrame)), NSMaxY(visibleScreenFrame) - NSHeight(frame));
+        
     [self setFrame:frame display:[self isVisible]];
 }
 
