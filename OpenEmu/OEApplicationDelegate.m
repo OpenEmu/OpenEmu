@@ -90,7 +90,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                      OEAutomaticallyGetInfoKey : @YES,
                                           OEGameVideoFilterKey : @"Linear",
                                                OEGameVolumeKey : @0.5f,
-                       OEGameControlsBarCanDeleteSaveStatesKey : @YES
+                       OEGameControlsBarCanDeleteSaveStatesKey : @YES,
+                            @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x"
          }];
     }
 }
