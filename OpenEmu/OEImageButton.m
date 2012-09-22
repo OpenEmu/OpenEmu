@@ -116,7 +116,7 @@
     else
     {
         NSPoint mouseLocationOnScreen = [NSEvent mouseLocation];
-        NSPoint mouseLocationOnWindow = [[controlView window] convertScreenToBase:mouseLocationOnScreen];
+        NSPoint mouseLocationOnWindow = [[controlView window] convertRectFromScreen:(NSRect){mouseLocationOnScreen, {0,0}}].origin;
         NSPoint mouseLocationOnView   = [controlView convertPoint:mouseLocationOnWindow fromView:nil];
         rollover = NSPointInRect(mouseLocationOnView, controlView.frame);
     }
@@ -389,7 +389,7 @@
     else
     {
         NSPoint mouseLocationOnScreen = [NSEvent mouseLocation];
-        NSPoint mouseLocationOnWindow = [[controlView window] convertScreenToBase:mouseLocationOnScreen];
+        NSPoint mouseLocationOnWindow = [[controlView window] convertRectFromScreen:(NSRect){mouseLocationOnScreen, {0,0}}].origin;
         NSPoint mouseLocationOnView   = [controlView convertPoint:mouseLocationOnWindow fromView:nil];
         rollover = NSPointInRect(mouseLocationOnView, controlView.frame);
     }
