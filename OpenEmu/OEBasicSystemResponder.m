@@ -154,16 +154,13 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
                     
                     CFDictionarySetValue(joystickStates, (void *)appKey, (void *)OEHIDEventAxisDirectionNull);
                 }
-                else return;
             }
+                break;
             case OEHIDEventTypeTrigger :
             {
                 // Trigger events are axis events with only one possible direction, they won't clash with axis event
-                if([bindingDescription isKindOfClass:[OEKeyBindingDescription class]])
-                {
-                    OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
-                    [self setEventValue:appKey | AXIS_MASK(theEvent) | DIRECTION_MASK(OEHIDEventAxisDirectionPositive) forEmulatorKey:emulKey];
-                }
+                OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
+                [self setEventValue:appKey | AXIS_MASK(theEvent) | DIRECTION_MASK(OEHIDEventAxisDirectionPositive) forEmulatorKey:emulKey];
             }
                 break;
             case OEHIDEventTypeHatSwitch :
@@ -198,7 +195,6 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
                     
                     CFDictionarySetValue(joystickStates, (void *)(appKey | OEHatSwitchMask), (void *)OEHIDEventHatDirectionNull);
                 }
-                else return;
             }
                 break;
             default :
