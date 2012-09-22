@@ -674,6 +674,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     switch([anEvent type])
     {
         case OEHIDEventTypeButton :
+        case OEHIDEventTypeTrigger :
         {
             [rawBindings enumerateKeysAndObjectsUsingBlock:
              ^ void (OEOrientedKeyGroupBindingDescription *keyDesc, OEHIDEvent *anEvent, BOOL *stop)

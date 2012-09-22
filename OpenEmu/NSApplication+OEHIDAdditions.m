@@ -51,8 +51,14 @@ static dispatch_queue_t oehid_queue;
             case OEHIDEventTypeAxis :
                 [self axisMoved:anEvent];
                 break;
+            case OEHIDEventTypeTrigger :
+                if([anEvent hasOffState])
+                    [self triggerRelease:anEvent];
+                else
+                    [self triggerPull:anEvent];
+                break;
             case OEHIDEventTypeButton :
-                if([anEvent state] == OEHIDEventStateOff)
+                if([anEvent hasOffState])
                     [self buttonUp:anEvent];
                 else
                     [self buttonDown:anEvent];
@@ -61,7 +67,7 @@ static dispatch_queue_t oehid_queue;
                 [self hatSwitchChanged:anEvent];
                 break;
             case OEHIDEventTypeKeyboard :
-                if([anEvent state] == OEHIDEventStateOff)
+                if([anEvent hasOffState])
                     [self HIDKeyUp:anEvent];
                 else
                     [self HIDKeyDown:anEvent];
@@ -76,6 +82,18 @@ static dispatch_queue_t oehid_queue;
 {
     if(_nextResponder != nil)
         [_nextResponder axisMoved:anEvent];
+}
+
+- (void)triggerPull:(OEHIDEvent *)anEvent;
+{
+    if(_nextResponder != nil)
+        [_nextResponder triggerPull:anEvent];
+}
+
+- (void)triggerRelease:(OEHIDEvent *)anEvent;
+{
+    if(_nextResponder != nil)
+        [_nextResponder triggerRelease:anEvent];
 }
 
 - (void)buttonDown:(OEHIDEvent *)anEvent

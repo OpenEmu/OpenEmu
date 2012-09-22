@@ -605,6 +605,18 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
         [self gotEvent:anEvent];
 }
 
+- (void)triggerPull:(OEHIDEvent *)anEvent;
+{
+    if([self selectedGamePadDeviceNum] == [anEvent padNumber])
+        [self gotEvent:anEvent];
+}
+
+- (void)triggerRelease:(OEHIDEvent *)anEvent;
+{
+    if([self selectedGamePadDeviceNum] == [anEvent padNumber])
+        [self gotEvent:anEvent];
+}
+
 - (void)buttonDown:(OEHIDEvent *)anEvent
 {
     if([self selectedGamePadDeviceNum] == [anEvent padNumber])
