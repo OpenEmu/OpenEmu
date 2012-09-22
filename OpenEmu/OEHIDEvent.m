@@ -505,12 +505,15 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
                         _data.axis.value   = value;
                         _data.axis.maximum = IOHIDElementGetLogicalMax(elem);
                         
-                        NSInteger zero = (_data.axis.maximum + _data.axis.minimum) / 2 + 1;
                         
                         if(_data.axis.minimum >= 0)
+                        {
+                            NSInteger zero = (_data.axis.maximum + _data.axis.minimum) / 2 + 1;
+                            
                             _data.axis.minimum -= zero,
                             _data.axis.value   -= zero,
                             _data.axis.maximum -= zero;
+                        }
                         
                         NSInteger deadZone = (NSInteger)ceil(_data.axis.maximum * [aDeviceHandler deadZone]);
                         
