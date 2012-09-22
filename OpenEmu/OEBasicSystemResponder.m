@@ -159,8 +159,11 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
             case OEHIDEventTypeTrigger :
             {
                 // Trigger events are axis events with only one possible direction, they won't clash with axis event
-                OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
-                [self setEventValue:appKey | AXIS_MASK(theEvent) | DIRECTION_MASK(OEHIDEventAxisDirectionPositive) forEmulatorKey:emulKey];
+                if([bindingDescription isKindOfClass:[OEKeyBindingDescription class]])
+                {
+                    OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
+                    [self setEventValue:appKey | AXIS_MASK(theEvent) | DIRECTION_MASK(OEHIDEventAxisDirectionPositive) forEmulatorKey:emulKey];
+                }
             }
                 break;
             case OEHIDEventTypeHatSwitch :
