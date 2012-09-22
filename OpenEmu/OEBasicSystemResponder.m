@@ -95,7 +95,6 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 #define KEYBOARD_MASK          0x40000000u
 #define HID_MASK               0x20000000u
 #define BUTTON_TYPE_MASK       0x00100000u
-#define AXIS_TYPE_MASK         0x00200000u
 #define BUTTON_NUMBER(anEvent) ([anEvent buttonNumber])
 #define AXIS_MASK(anEvent)     ([anEvent axis] << 16)
 #define DIRECTION_MASK(dir)    (1 << ((dir) == OEHIDEventAxisDirectionPositive))
@@ -112,6 +111,9 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 
 - (void)systemBindings:(OESystemBindings *)sender didSetEvent:(OEHIDEvent *)theEvent forBinding:(id)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
+    // Ignore off state events.
+    if([theEvent hasOffState]) return;
+    
     if([theEvent type] == OEHIDEventTypeKeyboard)
     {
         OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
@@ -125,15 +127,13 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
         switch([theEvent type])
         {
             case OEHIDEventTypeButton :
-                if([theEvent state] == OEHIDEventStateOff) return;
                 [self setEventValue:appKey | BUTTON_TYPE_MASK | BUTTON_NUMBER(theEvent) forEmulatorKey:[self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber]];
                 break;
             case OEHIDEventTypeAxis :
             {
-                OEHIDEventAxisDirection dir = [theEvent direction];
-                if(dir == OEHIDEventAxisDirectionNull) return;
+                OEHIDEventAxisDirection dir  = [theEvent direction];
+                OEHIDEventAxis          axis = [theEvent axis];
                 
-                OEHIDEventAxis axis = [theEvent axis];
                 if(axis == OEHIDEventAxisNone) return;
                 
                 if([bindingDescription isKindOfClass:[OEKeyBindingDescription class]])
@@ -156,11 +156,16 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
                 }
                 else return;
             }
+            case OEHIDEventTypeTrigger :
+            {
+                // Trigger events are axis events with only one possible direction, they won't clash with axis event
+                OEEmulatorKey emulKey = [self emulatorKeyForKey:[bindingDescription name] index:[bindingDescription index] player:playerNumber];
+                [self setEventValue:appKey | AXIS_MASK(theEvent) | DIRECTION_MASK(OEHIDEventAxisDirectionPositive) forEmulatorKey:emulKey];
+            }
                 break;
             case OEHIDEventTypeHatSwitch :
             {
                 OEHIDEventHatDirection direction = [theEvent hatDirection];
-                if(direction == OEHIDEventHatDirectionNull) return;
                 
                 if([bindingDescription isKindOfClass:[OEKeyBindingDescription class]])
                 {
@@ -315,6 +320,20 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
         if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(dir), &key))
             [self pressEmulatorKey:key];
     }
+}
+
+- (void)triggerPull:(OEHIDEvent *)anEvent;
+{
+    OEEmulatorKey key;
+    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER(anEvent) | AXIS_MASK(anEvent) | DIRECTION_MASK(OEHIDEventAxisDirectionPositive), &key))
+        [self pressEmulatorKey:key];
+}
+
+- (void)triggerRelease:(OEHIDEvent *)anEvent;
+{
+    OEEmulatorKey key;
+    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER(anEvent) | AXIS_MASK(anEvent) | DIRECTION_MASK(OEHIDEventAxisDirectionPositive), &key))
+        [self releaseEmulatorKey:key];
 }
 
 - (void)buttonDown:(OEHIDEvent *)anEvent

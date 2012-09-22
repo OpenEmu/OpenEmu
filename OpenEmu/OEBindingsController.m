@@ -214,7 +214,7 @@ static NSString            *configurationsFolderPath = nil;
      * was not yet registered, so we have to save the already registered
      * system controllers but also keep the unregistered ones.
      */
-    NSMutableDictionary *systemReps = [systemRepresentations mutableCopy];
+    NSMutableDictionary *systemReps = [systemRepresentations mutableCopy] ? : [NSMutableDictionary dictionaryWithCapacity:[systems count]];
     
     [systems enumerateKeysAndObjectsUsingBlock:
      ^(NSString *identifier, OESystemBindings *ctrl, BOOL *stop)

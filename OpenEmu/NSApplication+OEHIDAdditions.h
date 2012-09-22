@@ -39,6 +39,9 @@
 
 - (void)axisMoved:(OEHIDEvent *)anEvent;
 
+- (void)triggerPull:(OEHIDEvent *)anEvent;
+- (void)triggerRelease:(OEHIDEvent *)anEvent;
+
 - (void)buttonDown:(OEHIDEvent *)anEvent;
 - (void)buttonUp:(OEHIDEvent *)anEvent;
 

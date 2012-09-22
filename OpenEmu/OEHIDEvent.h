@@ -34,6 +34,8 @@
 
 typedef enum _OEHIDEventType : NSUInteger {
     OEHIDEventTypeAxis      = 1,
+    // Only for analogic triggers
+    OEHIDEventTypeTrigger   = 5,
     OEHIDEventTypeButton    = 2,
     OEHIDEventTypeHatSwitch = 3,
 	OEHIDEventTypeKeyboard  = 4,
@@ -83,6 +85,8 @@ extern NSString *NSStringFromOEHIDHatDirection(OEHIDEventHatDirection dir);
 extern NSString *OEHIDEventAxisDisplayDescription(OEHIDEventAxis axis, OEHIDEventAxisDirection direction);
 
 extern NSString *NSStringFromOEHIDEventType(OEHIDEventType type);
+extern NSString *NSStringFromOEHIDEventAxis(OEHIDEventAxis axis);
+extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 
 @interface OEHIDEvent : NSObject <NSCopying, NSCoding>
 
@@ -91,6 +95,7 @@ extern NSString *NSStringFromOEHIDEventType(OEHIDEventType type);
 + (NSUInteger)keyCodeForVK:(CGCharCode)charCode;
 + (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis scaledValue:(CGFloat)value;
 + (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum;
++ (id)triggerEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis value:(NSInteger)value maximum:(NSInteger)maximum;
 + (id)buttonEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp buttonNumber:(NSUInteger)number state:(OEHIDEventState)state cookie:(NSUInteger)cookie;
 + (id)hatSwitchEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp type:(OEHIDEventHatSwitchType)hatSwitchType direction:(OEHIDEventHatDirection)aDirection cookie:(NSUInteger)cookie;
 + (id)keyEventWithTimestamp:(NSTimeInterval)timestamp keyCode:(NSUInteger)keyCode state:(OEHIDEventState)state cookie:(NSUInteger)cookie;
@@ -105,15 +110,15 @@ extern NSString *NSStringFromOEHIDEventType(OEHIDEventType type);
 @property(readonly) BOOL                    hasPreviousState;
 @property(readonly) BOOL                    hasOffState;
 
-// Axis event
-@property(readonly) OEHIDEventAxis          axis;
-@property(readonly) OEHIDEventAxisDirection previousDirection;
-@property(readonly) OEHIDEventAxisDirection direction;
-@property(readonly) OEHIDEventAxisDirection oppositeDirection;
-@property(readonly) NSInteger               minimum;
-@property(readonly) NSInteger               previousValue;
-@property(readonly) NSInteger               value;
-@property(readonly) NSInteger               maximum;
+// Axis event or Trigger event
+@property(readonly) OEHIDEventAxis          axis;              // Axis and Trigger
+@property(readonly) OEHIDEventAxisDirection previousDirection; // Axis and Trigger (only Null and Positive for Trigger)
+@property(readonly) OEHIDEventAxisDirection direction;         // Axis and Trigger (only Null and Positive for Trigger)
+@property(readonly) OEHIDEventAxisDirection oppositeDirection; // Axis only
+@property(readonly) NSInteger               minimum;           // Axis only
+@property(readonly) NSInteger               previousValue;     // Axis and Trigger
+@property(readonly) NSInteger               value;             // Axis and Trigger
+@property(readonly) NSInteger               maximum;           // Axis and Trigger
 
 // Button event
 @property(readonly) NSUInteger              buttonNumber;

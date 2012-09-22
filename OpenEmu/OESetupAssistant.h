@@ -139,6 +139,8 @@ extern NSString *const OESetupAssistantHasFinishedKey;
 
 // HID event handling.
 - (void)axisMoved:(OEHIDEvent *)anEvent;
+- (void)triggerPull:(OEHIDEvent *)anEvent;
+- (void)triggerRelease:(OEHIDEvent *)anEvent;
 - (void)buttonDown:(OEHIDEvent *)anEvent;
 - (void)buttonUp:(OEHIDEvent *)anEvent;
 - (void)hatSwitchChanged:(OEHIDEvent *)anEvent;

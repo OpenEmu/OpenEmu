@@ -29,6 +29,13 @@
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDEvent.h"
 
+#if __has_feature(objc_bool)
+#undef YES
+#undef NO
+#define YES __objc_yes
+#define NO __objc_no
+#endif
+
 @interface OEHIDEvent ()
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 @end
@@ -82,6 +89,40 @@ static NSUInteger lastDeviceNumber = 0;
             deviceNumber = ++lastDeviceNumber;
             device = aDevice;
             deadZone = 0.2;
+            
+            if(![self isKeyboardDevice])
+            {
+                NSArray *elements = (__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(device, (__bridge CFDictionaryRef)@{ @kIOHIDElementUsagePageKey : @(kHIDPage_GenericDesktop) }, 0);
+                NSMutableArray *searchElements = [NSMutableArray arrayWithCapacity:[elements count]];
+                
+                NSLog(@"Device: %@", self);
+                
+                NSMutableArray *posNegElements = [NSMutableArray array];
+                NSMutableArray *posElements    = [NSMutableArray array];
+                
+                for(id element in elements)
+                {
+                    IOHIDElementRef elem  = (__bridge IOHIDElementRef)element;
+                    uint32_t        usage = IOHIDElementGetUsage(elem);
+                    
+                    if(usage < kHIDUsage_GD_X || usage > kHIDUsage_GD_Rz) continue;
+                    
+                    CFIndex minimum = IOHIDElementGetLogicalMin(elem);
+                    CFIndex maximum = IOHIDElementGetLogicalMax(elem);
+                    
+                    if(minimum == 0) [posElements addObject:element];
+                    else if(minimum < 0 && maximum > 0) [posNegElements addObject:element];
+                }
+                
+                if([posNegElements count] != 0 && [posElements count] != 0)
+                {
+                    for(id element in posElements)
+                    {
+                        IOHIDElementRef elem  = (__bridge IOHIDElementRef)element;
+                        IOHIDElementSetProperty(elem, CFSTR(kOEHIDElementIsTriggerKey), (__bridge CFTypeRef)@YES);
+                    }
+                }
+            }
         }
     }
     

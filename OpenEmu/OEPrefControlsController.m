@@ -497,6 +497,20 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     }
 }
 
+- (void)triggerPull:(OEHIDEvent *)anEvent;
+{
+    if([self OE_shouldRegisterEvent:anEvent])
+    {
+        [self setSelectedBindingType:1];
+        [self registerEvent:anEvent];
+    }
+}
+
+- (void)triggerRelease:(OEHIDEvent *)anEvent;
+{
+    [self OE_shouldRegisterEvent:anEvent];
+}
+
 - (void)buttonDown:(OEHIDEvent *)anEvent
 {
     if([self OE_shouldRegisterEvent:anEvent])

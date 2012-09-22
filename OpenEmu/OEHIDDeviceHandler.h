@@ -32,6 +32,8 @@
 
 @class OEHIDEvent;
 
+#define kOEHIDElementIsTriggerKey "OEHIDElementIsTrigger"
+
 @interface OEHIDDeviceHandler : NSObject <NSCopying>
 
 @property(readonly) IOHIDDeviceRef device;
