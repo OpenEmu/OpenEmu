@@ -251,7 +251,17 @@
             [menu addItem:menuItem];
         }];
         
-        FIXME("Figure out how to open the new OEMenu and implement that here");
+        NSRect rowRect = [[self tableView] rectOfRow:rowIndex];
+        NSRect columnRect = [[self tableView] rectOfColumn:2];
+        NSRect buttonRect = NSIntersectionRect(rowRect, columnRect);
+        NSRect targetRect = [[aTableView window] convertRectToScreen:[[self tableView] convertRect:buttonRect toView:nil]];
+        
+        NSDictionary *options = @{ OEMenuOptionsStyleKey : @(OEMenuStyleLight),
+        OEMenuOptionsArrowEdgeKey : @(OENoEdge),
+        OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
+        OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect] };
+        
+        [OEMenu openMenu:menu withEvent:nil forView:[self view] options:options];
     }
 }
 #pragma mark -
