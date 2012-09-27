@@ -45,7 +45,6 @@ NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWi
 extern NSString * const OEDBSystemsChangedNotificationName;
 
 NSString * const OESidebarSelectionDidChangeNotificationName = @"OESidebarSelectionDidChange";
-NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey = @"SelectedItem";
 
 NSString * const OESidebarGroupConsolesAutosaveName = @"sidebarConsolesItem";
 NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsItem";
@@ -214,8 +213,8 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     
     if(![item isSelectableInSdebar]) return;
+
     NSInteger index = [sidebarView rowForItem:item];
-    
     if(index == -1) return;
     
     if([sidebarView selectedRow] != index)
@@ -243,9 +242,13 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     [sidebarView expandItem:[self.groups objectAtIndex:1]];
 }
 
-- (id<OECollectionViewItemProtocol>)selectedCollection;
+- (id<OESidebarItem>)selectedSidebarItem
 {
-    return [[self view] itemAtRow:[[self view] selectedRow]];
+    id<OESidebarItem> item = [[self view] itemAtRow:[[self view] selectedRow]];
+
+    NSAssert([item conformsToProtocol:@protocol(OESidebarItem)], @"All sidebar items must conform to OESidebarItem");
+
+    return item;
 }
 
 #pragma mark -
@@ -308,13 +311,11 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 #pragma mark NSOutlineView Delegate
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)[self view];
-    id selectedItem = [sidebarView itemAtRow:[sidebarView selectedRow]];
-
-    NSDictionary *userInfo = selectedItem?[NSDictionary dictionaryWithObject:selectedItem forKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey]:nil;
-    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:[NSDictionary dictionary]];
 
     if(![self database]) return;
+
+    id<OESidebarItem> selectedItem = [self selectedSidebarItem];
     if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
         [[NSUserDefaults standardUserDefaults] setValue:[selectedItem sidebarID] forKey:OELastCollectionSelectedKey];
 }

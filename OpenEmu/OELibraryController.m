@@ -46,7 +46,6 @@ NSString * const OESidebarWidthKey = @"lastSidebarWidth";
 NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
 
 extern NSString * const OESidebarSelectionDidChangeNotificationName;
-extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
 
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
@@ -262,7 +261,7 @@ extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
     if([menuItem action] == @selector(newCollectionFolder:)) return NO;
     
     if([menuItem action] == @selector(editSmartCollection:))
-        return [(id)[[self sidebarController] selectedCollection] isKindOfClass:[OEDBSmartCollection class]];
+        return [[[self sidebarController] selectedSidebarItem] isKindOfClass:[OEDBSmartCollection class]];
     
     if([menuItem action] == @selector(startGame:))
         return [[self currentViewController] respondsToSelector:@selector(selectedGames)] && [[[self currentViewController] selectedGames] count] != 0;
@@ -377,7 +376,7 @@ extern NSString * const OESidebarSelectionDidChangeSelectedItemUserInfoKey;
     [self OE_storeState:lastState forSidebarItemWithID:itemID];
 
     // Set new item
-    NSObject <OESidebarItem> *selectedItem = (NSObject <OESidebarItem> *)[[notification userInfo] objectForKey:OESidebarSelectionDidChangeSelectedItemUserInfoKey];
+    id<OESidebarItem> selectedItem = [[self sidebarController] selectedSidebarItem];
     
     NSString *viewControllerClasName = [selectedItem viewControllerClassName];
     NSViewController <OELibrarySubviewController> *viewController = [self viewControllerWithClassName:viewControllerClasName];
