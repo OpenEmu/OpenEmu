@@ -326,7 +326,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     
     NSAssert(saveState != nil, @"Attempt to start a save state without valid item");
 
-    if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
+    if([[self delegate] respondsToSelector:@selector(libraryController:didSelectSaveState:)])
         [[self delegate] libraryController:self didSelectSaveState:saveState];
 }
 
