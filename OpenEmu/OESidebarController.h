@@ -32,6 +32,7 @@ extern NSString *const OESuppressRemoveCollectionConfirmationKey;
 
 @class OELibraryDatabase, OESidebarOutlineView;
 @protocol OECollectionViewItemProtocol;
+@protocol OESidebarItem;
 
 @interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource, OEDraggingDestinationDelegate>
 
@@ -47,7 +48,7 @@ extern NSString *const OESuppressRemoveCollectionConfirmationKey;
 - (void)expandCollections:(id)sender;
 - (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView;
 
-- (id<OECollectionViewItemProtocol>)selectedCollection;
+- (id<OESidebarItem>)selectedSidebarItem;
 
 @property (retain, nonatomic) OESidebarOutlineView *view;
 @property (strong, nonatomic) OELibraryDatabase *database;
