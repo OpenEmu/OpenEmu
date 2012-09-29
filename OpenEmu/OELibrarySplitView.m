@@ -34,6 +34,10 @@ extern NSString * const OEMainViewMinWidth;
 extern NSString * const OESidebarWidthKey;
 extern NSString * const OESidebarVisibleKey;
 
+
+NSString * const OELibrarySplitViewDidResizeSubviewsNotification = @"OELibrarySplitViewDidResizeSubviewsNotification";
+
+
 @interface OELibrarySplitView ()
 - (void)OE_commonLibrarySplitViewInit;
 - (void)OE_replaceView:(NSView *)aView withView:(NSView *)anotherView animated:(BOOL)flag;
@@ -42,7 +46,6 @@ extern NSString * const OESidebarVisibleKey;
 @implementation OELibrarySplitView
 @synthesize resizesLeftView, drawsWindowResizer;
 @synthesize minWidth, sidebarMaxWidth, mainViewMinWidth;
-@synthesize libraryController;
 
 #pragma mark - Lifecycle
 
@@ -231,7 +234,8 @@ extern NSString * const OESidebarVisibleKey;
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
-    [[self libraryController] layoutToolbarItems];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:OELibrarySplitViewDidResizeSubviewsNotification object:self];
 }
 
 @end

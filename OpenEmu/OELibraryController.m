@@ -106,11 +106,11 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(splitViewDidResizeSubviews:) name:OELibrarySplitViewDidResizeSubviewsNotification object:splitView];
+
     [splitView setMinWidth:[defaults doubleForKey:OESidebarMinWidth]];
     [splitView setMainViewMinWidth:[defaults doubleForKey:OEMainViewMinWidth]];
     [splitView setSidebarMaxWidth:[defaults doubleForKey:OESidebarMaxWidth]];
-    [splitView setLibraryController:self];
-    
     [splitView adjustSubviews];
 }
 
@@ -411,6 +411,16 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     
     return [libraryStates objectForKey:itemID];
 }
+
+
+#pragma mark - Split view helpers
+
+- (void)splitViewDidResizeSubviews:(NSNotification *)notification
+{
+    [self layoutToolbarItems];
+}
+
+
 #pragma mark -
 #pragma mark Properties
 - (void)setSidebarChangesWindowSize:(BOOL)flag
