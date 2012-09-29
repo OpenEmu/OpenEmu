@@ -762,4 +762,9 @@ static int Heights[2] =
                                 : OESizeMake(Widths[0], Heights[0]);
 }
 
+- (OEIntSize)aspectSize
+{
+    return OESizeMake(256, 240);
+}
+
 @end
