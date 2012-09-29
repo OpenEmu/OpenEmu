@@ -26,7 +26,10 @@
 
 #import <Foundation/Foundation.h>
 // TODO: rewrite this whole splitview thingy
-@class OELibraryController;
+
+
+extern NSString * const OELibrarySplitViewDidResizeSubviewsNotification;
+
 
 @interface OELibrarySplitView : NSSplitView <NSSplitViewDelegate>
 // returns view on the right/left that can be used wthout changeing toolbar background
@@ -41,7 +44,6 @@
 - (void)setSplitterPosition:(CGFloat)newPosition animated:(BOOL)animatedFlag;
 - (float)splitterPosition;
 
-@property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
 @property float minWidth;
 @property float sidebarMaxWidth;
 @property float mainViewMinWidth;
