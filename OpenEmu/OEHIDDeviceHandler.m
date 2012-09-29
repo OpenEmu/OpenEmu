@@ -93,7 +93,6 @@ static NSUInteger lastDeviceNumber = 0;
             if(![self isKeyboardDevice])
             {
                 NSArray *elements = (__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(device, (__bridge CFDictionaryRef)@{ @kIOHIDElementUsagePageKey : @(kHIDPage_GenericDesktop) }, 0);
-                NSMutableArray *searchElements = [NSMutableArray arrayWithCapacity:[elements count]];
                 
                 NSLog(@"Device: %@", self);
                 

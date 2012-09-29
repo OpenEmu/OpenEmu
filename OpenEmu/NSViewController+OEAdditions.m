@@ -54,7 +54,6 @@ static NSView *_OENSViewControllerView(NSViewController *self)
 
 - (void)viewWillDisappear;
 {
-    [[self view] setNextResponder:[self nextResponder]];
 }
 
 - (void)viewDidDisappear;
