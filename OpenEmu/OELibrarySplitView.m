@@ -42,12 +42,17 @@ extern NSString * const OESidebarVisibleKey;
 @implementation OELibrarySplitView
 @synthesize resizesLeftView, drawsWindowResizer;
 @synthesize minWidth, sidebarMaxWidth, mainViewMinWidth;
-@synthesize libraryConroller;
+@synthesize libraryController;
 
-+ (void)inititalize
+#pragma mark - Lifecycle
+
++ (void)initialize
 {
-    NSDictionary *defaults = @{ OESidebarMinWidth : @105.0f, OESidebarMaxWidth : @450.0f, OEMainViewMinWidth : @495.0f, OESidebarWidthKey : @186.0f };
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    if(self == [OELibrarySplitView class])
+    {
+        NSDictionary *defaults = @{ OESidebarMinWidth : @105.0f, OESidebarMaxWidth : @450.0f, OEMainViewMinWidth : @495.0f, OESidebarWidthKey : @186.0f };
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    }
 }
 
 - (id)init
@@ -87,128 +92,7 @@ extern NSString * const OESidebarVisibleKey;
     [self setDelegate:self];
 }
 
-
-#pragma mark -
-#pragma mark NSSplitViewDelegate protocol methods
-
-- (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)dividerIndex
-{
-    return [self minWidth];
-}
-
-- (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
-{
-    return ([self frame].size.width - [self mainViewMinWidth] > [self sidebarMaxWidth]
-            ? [self sidebarMaxWidth]
-            : [self frame].size.width - [self mainViewMinWidth]);
-}
-
-- (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
-{    
-    if(subview == [[self subviews] objectAtIndex:0]) return NO;
-    return NO;
-}
-
-- (BOOL)isSubviewCollapsed:(NSView *)view
-{
-    return NO;
-}
-
-- (BOOL)splitView:(NSSplitView *)splitView shouldHideDividerAtIndex:(NSInteger)dividerIndex
-{
-    return dividerIndex == 0 && [self splitterPosition] == 0;
-}
-
-- (void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize
-{
-    NSView *view0      = [[self subviews] objectAtIndex:0];
-    NSView *view1      = [[self subviews] objectAtIndex:1];
-    
-    NSSize  newSize    = [aSplitView frame].size;
-    NSRect  leftFrame  = [view0 frame];
-    NSRect  rightFrame = [view1 frame];
-    
-    if([self resizesLeftView])
-    {
-        leftFrame.size.height  = newSize.height;
-        rightFrame.size.height = newSize.height;
-        
-        leftFrame.size.width   = MAX(newSize.width - rightFrame.size.width - [self dividerThickness], 0.0);
-        
-        rightFrame.origin.x    = leftFrame.size.width+[self dividerThickness];
-    }
-    else
-    {
-        leftFrame.size.height  = newSize.height;
-        
-        rightFrame.size.height = newSize.height;
-        rightFrame.size.width  = MAX(newSize.width - leftFrame.size.width - [self dividerThickness], 0.0);
-    }
-    
-    [view0 setFrame:leftFrame];
-    [view1 setFrame:rightFrame];
-    
-    [[self libraryConroller] layoutToolbarItems];
-}
-
-- (void)splitViewDidResizeSubviews:(NSNotification *)notification
-{
-    [[self libraryConroller] layoutToolbarItems];
-}
-
-- (NSRect)splitView:(NSSplitView *)splitView effectiveRect:(NSRect)proposedEffectiveRect forDrawnRect:(NSRect)drawnRect ofDividerAtIndex:(NSInteger)dividerIndex
-{
-    return proposedEffectiveRect;
-}
-
-- (CGFloat)dividerThickness
-{
-    return 0.0;
-}
-
-- (BOOL)isFlipped
-{
-    return YES;
-}
-
-- (void)drawDividerInRect:(NSRect)rect
-{
-    if([self splitView:self shouldHideDividerAtIndex:0]) return;
-    
-    [[NSColor blackColor] setFill];
-    NSRectFill(rect);
-}
-
-- (void)setSplitterPosition:(CGFloat)newPosition animated:(BOOL)animatedFlag
-{
-    NSView *view0 = [[self subviews] objectAtIndex: 0];
-    NSView *view1 = [[self subviews] objectAtIndex: 1];
-    
-    NSRect view0TargetFrame, view1TargetFrame;
-    
-    view0TargetFrame = NSMakeRect(view0.frame.origin.x, view0.frame.origin.y, newPosition, view0.frame.size.height);
-    view1TargetFrame = NSMakeRect(newPosition + self.dividerThickness, view1.frame.origin.y, NSMaxX(view1.frame) - newPosition - self.dividerThickness, view1.frame.size.height);
-    
-    if(animatedFlag)
-    {
-        [NSAnimationContext beginGrouping];
-        [[NSAnimationContext currentContext] setDuration:0.2];
-        [[view0 animator] setFrame:view0TargetFrame];
-        [[view1 animator] setFrame:view1TargetFrame];
-        [NSAnimationContext endGrouping];
-    }
-    else
-    {
-        [view0 setFrame:view0TargetFrame];
-        [view1 setFrame:view1TargetFrame];
-    }
-}
-
-- (float)splitterPosition
-{
-    NSView *view0 = [self.subviews objectAtIndex:0];
-    return [view0 frame].size.width;
-}
+#pragma mark - Main methods
 
 - (NSView *)rightContentView
 {
@@ -226,7 +110,7 @@ extern NSString * const OESidebarVisibleKey;
     {
         NSRect frame = [aView frame];
         NSView *superView = [aView superview];
-        
+
         [superView replaceSubview:aView with:anotherView];
         [anotherView setFrame:frame];
     }
@@ -244,6 +128,110 @@ extern NSString * const OESidebarVisibleKey;
 - (void)replaceRightContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag
 {
     [self OE_replaceView:[self rightContentView] withView:contentView animated:animationFlag];
+}
+
+- (void)setSplitterPosition:(CGFloat)newPosition animated:(BOOL)animatedFlag
+{
+    NSView *leftView  = [[self subviews] objectAtIndex:0];
+    NSView *rightView = [[self subviews] objectAtIndex:1];
+
+    NSRect newLeftFrame, newRightFrame;
+
+    newLeftFrame            = [leftView frame];
+    newLeftFrame.size.width = newPosition;
+
+    newRightFrame            = [rightView frame];
+    newRightFrame.origin.x   = newPosition + [self dividerThickness];
+    newRightFrame.size.width = NSMaxX([rightView frame]) - newRightFrame.origin.x;
+
+    if(animatedFlag)
+    {
+        [NSAnimationContext beginGrouping];
+        {{
+            [[NSAnimationContext currentContext] setDuration:0.2];
+            [[leftView animator] setFrame:newLeftFrame];
+            [[rightView animator] setFrame:newRightFrame];
+        }}
+        [NSAnimationContext endGrouping];
+    }
+    else
+    {
+        [leftView setFrame:newLeftFrame];
+        [rightView setFrame:newRightFrame];
+    }
+}
+
+- (float)splitterPosition
+{
+    NSView *leftView = [self.subviews objectAtIndex:0];
+    return NSWidth([leftView frame]);
+}
+
+#pragma mark - NSSplitView overridden methods
+
+- (CGFloat)dividerThickness
+{
+    return 0.0;
+}
+
+- (BOOL)isFlipped
+{
+    return YES;
+}
+
+- (void)drawDividerInRect:(NSRect)rect
+{
+    if([self splitView:self shouldHideDividerAtIndex:0]) return;
+
+    [[NSColor blackColor] setFill];
+    NSRectFill(rect);
+}
+
+#pragma mark - NSSplitViewDelegate protocol methods
+
+- (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)dividerIndex
+{
+    return [self minWidth];
+}
+
+- (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
+{
+    return MIN([self sidebarMaxWidth], NSWidth([self frame]) - [self mainViewMinWidth]);
+}
+
+- (BOOL)splitView:(NSSplitView *)splitView shouldHideDividerAtIndex:(NSInteger)dividerIndex
+{
+    return dividerIndex == 0 && [self splitterPosition] == 0;
+}
+
+- (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+    NSView *leftView   = [[self subviews] objectAtIndex:0];
+    NSView *rightView  = [[self subviews] objectAtIndex:1];
+
+    NSSize  newSize    = [splitView frame].size;
+    NSRect  leftFrame  = [leftView frame];
+    NSRect  rightFrame = [rightView frame];
+
+    leftFrame.size.height = rightFrame.size.height = newSize.height;
+
+    if([self resizesLeftView])
+    {
+        leftFrame.size.width  = MAX(newSize.width - rightFrame.size.width - [self dividerThickness], 0.0);
+        rightFrame.origin.x   = leftFrame.size.width + [self dividerThickness];
+    }
+    else
+    {
+        rightFrame.size.width = MAX(newSize.width - leftFrame.size.width - [self dividerThickness], 0.0);
+    }
+
+    [leftView setFrame:leftFrame];
+    [rightView setFrame:rightFrame];
+}
+
+- (void)splitViewDidResizeSubviews:(NSNotification *)notification
+{
+    [[self libraryController] layoutToolbarItems];
 }
 
 @end

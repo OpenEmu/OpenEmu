@@ -109,6 +109,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [splitView setMinWidth:[defaults doubleForKey:OESidebarMinWidth]];
     [splitView setMainViewMinWidth:[defaults doubleForKey:OEMainViewMinWidth]];
     [splitView setSidebarMaxWidth:[defaults doubleForKey:OESidebarMaxWidth]];
+    [splitView setLibraryController:self];
     
     [splitView adjustSubviews];
 }

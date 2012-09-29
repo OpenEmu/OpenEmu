@@ -29,10 +29,6 @@
 @class OELibraryController;
 
 @interface OELibrarySplitView : NSSplitView <NSSplitViewDelegate>
-{
-    BOOL _hidingLeftView;
-}
-
 // returns view on the right/left that can be used wthout changeing toolbar background
 - (NSView *)rightContentView;
 - (NSView *)leftContentView;
@@ -45,7 +41,7 @@
 - (void)setSplitterPosition:(CGFloat)newPosition animated:(BOOL)animatedFlag;
 - (float)splitterPosition;
 
-@property(unsafe_unretained) IBOutlet OELibraryController *libraryConroller;
+@property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
 @property float minWidth;
 @property float sidebarMaxWidth;
 @property float mainViewMinWidth;
