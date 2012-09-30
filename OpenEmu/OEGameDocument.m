@@ -57,8 +57,10 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
 @property (strong) NSWindow *popoutWindow;
 @end
 #pragma mark -
+
 @implementation OEGameDocument
 @synthesize gameViewController, viewController, popoutWindow;
+
 - (id)init
 {
     self = [super init];
@@ -194,7 +196,10 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
     [self setPopoutWindow:window];
     [[self gameViewController] viewDidAppear];
     [window display];
+    
     if(fullScreen) [window toggleFullScreen:self];
+    
+    [self addWindowController:[[NSWindowController alloc] initWithWindow:window]];
 }
 
 #pragma mark -
@@ -209,7 +214,6 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
     
     return YES;
 }
-
 
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError **)outError
 {
@@ -227,12 +231,14 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
 }
 #pragma mark -
 
-- (OEDistantViewController*)distantViewController
+- (OEDistantViewController *)distantViewController
 {
-    return (OEDistantViewController*)[self viewController];
+    return (OEDistantViewController *)[self viewController];
 }
+
 #pragma mark -
 #pragma mark NSDocument Stuff
+
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
     DLog(@"%@", typeName);
@@ -310,4 +316,5 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
     // TODO: Load rom that was just imported instead of the default one
     return [self OE_loadRom:[game defaultROM] core:nil withError:outError];
 }
+
 @end
