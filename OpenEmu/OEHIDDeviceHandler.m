@@ -202,7 +202,8 @@ static NSUInteger lastDeviceNumber = 0;
 
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue
 {
-    [NSApp postHIDEvent:[self eventWithHIDValue:aValue]];
+    OEHIDEvent *event = [self eventWithHIDValue:aValue];
+    if([event hasChanges]) [NSApp postHIDEvent:event];
 }
 
 - (io_service_t)serviceRef

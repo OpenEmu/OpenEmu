@@ -503,7 +503,6 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
                         _data.axis.value   = value;
                         _data.axis.maximum = IOHIDElementGetLogicalMax(elem);
                         
-                        
                         if(_data.axis.minimum >= 0)
                         {
                             NSInteger zero = (_data.axis.maximum + _data.axis.minimum) / 2 + 1;
@@ -632,6 +631,33 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     }
     
     return ret;
+}
+
+- (BOOL)hasChanges
+{
+    BOOL hasChanges = YES;
+    
+    if(_hasPreviousState)
+    {
+        switch([self type])
+        {
+            case OEHIDEventTypeAxis :
+            case OEHIDEventTypeTrigger :
+                hasChanges = [self direction] != [self previousDirection] || [self value] != [self previousValue];
+                break;
+            case OEHIDEventTypeHatSwitch :
+                hasChanges = [self hatDirection] != [self previousHatDirection];
+                break;
+            case OEHIDEventTypeButton :
+            case OEHIDEventTypeKeyboard :
+                hasChanges = [self state] != [self previousState];
+                break;
+            default :
+                break;
+        }
+    }
+    
+    return hasChanges;
 }
 
 - (OEHIDEventAxis)axis
