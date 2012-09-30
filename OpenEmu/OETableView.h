@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2011-2012, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -23,19 +23,17 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #import <Foundation/Foundation.h>
 
-@class OEMenu;
 @class OETableView;
+
+
 @protocol OETableViewMenuSource <NSObject>
 - (NSMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes;
 @end
 
-@interface OETableView : NSTableView 
-{
-@private
-	NSColor *selectionColor;
-}
+
+@interface OETableView : NSTableView
 - (void)setHeaderClickable:(BOOL)flag;
-@property (strong, readwrite) NSColor *selectionColor;
 @end
