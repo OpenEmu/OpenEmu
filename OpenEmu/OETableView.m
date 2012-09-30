@@ -238,5 +238,23 @@ static NSGradient *highlightGradient, *normalGradient;
         [super keyDown:theEvent];        
 }
 
+#pragma mark - Context menu
+
+- (void)renameSelectedGame:(id)sender
+{
+    if([[self selectedRowIndexes] count] != 1)
+    {
+        DLog(@"I can only rename a single game, sir.");
+        return;
+    }
+
+    NSInteger selectedRow = [[self selectedRowIndexes] firstIndex];
+
+    NSInteger romNameColumnIndex = [self columnWithIdentifier:@"romName"];
+    NSAssert(romNameColumnIndex != -1, @"The list view must have a column identified by romName");
+
+    [self editColumn:romNameColumnIndex row:selectedRow withEvent:nil select:NO];
+}
+
 @synthesize selectionColor;
 @end
