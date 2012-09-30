@@ -91,6 +91,13 @@
     }
 }
 
+- (void)markItemIndexAsSelected:(NSUInteger)itemIndex;
+{
+    selectedItem = (itemIndex < [[self items] count] ?
+                    [[self items] objectAtIndex:itemIndex] :
+                    nil);
+}
+
 #pragma mark -
 - (BOOL)isOpaque{
     return NO;
