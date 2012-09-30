@@ -1179,6 +1179,7 @@ const int OE_ListViewTag = 2;
 {}
 - (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
 {
+    [[self libraryController] startGame:self];
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
