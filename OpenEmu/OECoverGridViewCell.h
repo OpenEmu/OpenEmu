@@ -62,4 +62,6 @@
 
 @property(nonatomic, assign) OECoverGridViewCellIndicationType indicationType;
 
+@property(nonatomic, readonly) CATextLayer *titleLayer;
+
 @end
