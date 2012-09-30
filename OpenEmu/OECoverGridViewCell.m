@@ -68,6 +68,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 @synthesize image = _image;
 @synthesize imageSize = _imageSize;
+@synthesize titleLayer = _titleLayer;
 
 + (void)initialize
 {

@@ -26,6 +26,7 @@
 
 #import "OEGridView.h"
 #import "OEGridViewCell+OEGridView.h"
+#import "OECoverGridViewCell.h"
 #import "NSColor+OEAdditions.h"
 #import "OEMenu.h"
 #import <Carbon/Carbon.h>
@@ -1474,6 +1475,28 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 - (void)draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
     _draggingSession = nil;
+}
+
+#pragma mark - Context menu
+
+- (void)renameSelectedGame:(id)sender
+{
+    if([_selectionIndexes count] != 1)
+    {
+        DLog(@"I can only rename a single game, sir.");
+        return;
+    }
+
+    NSUInteger selectedIndex = [_selectionIndexes firstIndex];
+
+    OECoverGridViewCell *selectedCell = (OECoverGridViewCell *)[self cellForItemAtIndex:selectedIndex makeIfNecessary:NO];
+    if(!selectedCell) return;
+    if(![selectedCell isKindOfClass:[OECoverGridViewCell class]]) return;
+
+    CATextLayer *selectedTextLayer = [selectedCell titleLayer];
+    if(!selectedTextLayer) return;
+
+    [self OE_setupFieldEditorForCell:selectedCell titleLayer:selectedTextLayer];
 }
 
 #pragma mark -
