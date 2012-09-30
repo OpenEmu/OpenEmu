@@ -29,11 +29,13 @@
 
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEMainWindow.h"
+#import "NSWindow+OEFullScreenAdditions.h"
 #import "OESetupAssistant.h"
 #import "OELibraryController.h"
 
 #import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
+#import "OEGameViewController.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEDBGame.h"
@@ -43,9 +45,12 @@
 
 NSString *const OEAllowPopoutGameWindowKey = @"allowPopout";
 NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
+NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 
 #define MainMenu_Window_OpenEmuTag 501
-@interface OEMainWindowController () <OELibraryControllerDelegate>
+@interface OEMainWindowController () <OELibraryControllerDelegate> {
+    OEGameDocument *_documentForFullScreenWindow;
+}
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
 
@@ -110,18 +115,43 @@ NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     BOOL allowPopout = [standardDefaults boolForKey:OEAllowPopoutGameWindowKey];
     BOOL forcePopout = [standardDefaults boolForKey:OEForcePopoutGameWindowKey];
-    
+    BOOL fullScreen  = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
+
     BOOL usePopout = forcePopout || allowPopout;
-    
-    if(usePopout) 
-        [aDocument showInSeparateWindow:self];
+
+    if(usePopout)
+    {
+        [aDocument showInSeparateWindow:self fullScreen:fullScreen];
+        [[aDocument gameViewController] playGame:self];
+    }
     else
-        [self setCurrentContentController:[aDocument viewController]];
+    {
+        if(fullScreen && ![[self window] OE_isFullScreen])
+        {
+            _documentForFullScreenWindow = aDocument;
+            [self OE_replaceCurrentContentController:[self currentContentController] withViewController:nil];
+            [[self window] toggleFullScreen:self];
+        }
+        else
+        {
+            [self setCurrentContentController:[aDocument viewController]];
+            [[aDocument gameViewController] playGame:self];
+        }
+    }
 }
 
 - (void)windowWillEnterFullScreen:(NSNotification *)notification
 {
     [[self libraryController] setSidebarChangesWindowSize:NO];
+}
+
+- (void)windowDidEnterFullScreen:(NSNotification *)notification
+{
+    if(_documentForFullScreenWindow)
+    {
+        [self setCurrentContentController:[_documentForFullScreenWindow viewController]];
+        [[_documentForFullScreenWindow gameViewController] playGame:self];
+    }
 }
 
 - (void)windowDidExitFullScreen:(NSNotification *)notification
@@ -137,52 +167,77 @@ NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
     // final target
     [[newController view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [[newController view] setFrame:[contentView frame]];
-    
+
+    [oldController viewWillDisappear];
+    [newController viewWillAppear];
+
     if(oldController != nil)
-       [contentView replaceSubview:[oldController view] with:[newController view]];
+    {
+        if(newController != nil)
+        {
+            [contentView replaceSubview:[oldController view] with:[newController view]];
+        }
+        else
+        {
+            [[oldController view] removeFromSuperview];
+        }
+    }
     else
-        [contentView addSubview:[newController view]];
-        
-    [[self window] makeFirstResponder:[newController view]];
+    {
+        if(newController != nil)
+        {
+            [contentView addSubview:[newController view]];
+        }
+    }
+
+    [oldController viewDidDisappear];
+    [newController viewDidAppear];
+
+    if(newController)
+    {
+        [[self window] makeFirstResponder:[newController view]];
+    }
+
+    currentContentController = newController;
 }
 
 - (void)setCurrentContentController:(NSViewController *)controller
 {
     if(controller == nil) controller = [self libraryController];
-    
+
     if(controller == [self currentContentController]) return;
 
     NSBitmapImageRep *currentState = [[self placeholderView] fadeImage], *newState = nil;
     if([currentContentController respondsToSelector:@selector(setCachedSnapshot:)])
         [(id <OEMainWindowContentController>)currentContentController setCachedSnapshot:currentState];
-    
+
     [currentContentController viewWillDisappear];
     [controller viewWillAppear];
-    
+
     NSView *placeHolderView = [self placeholderView];
     OEFadeView *fadeView = [[OEFadeView alloc] initWithFrame:[placeHolderView bounds]];
-    
+
     if(currentContentController)
         [placeholderView replaceSubview:[currentContentController view] with:fadeView];
-    else 
+    else
         [placeholderView addSubview:fadeView];
-    
+
     if([controller respondsToSelector:@selector(cachedSnapshot)])
         newState = [(id <OEMainWindowContentController>)controller cachedSnapshot];
-    
+
     [fadeView fadeFromImage:currentState toImage:newState callback:
      ^{
          [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
          [[controller view] setFrame:[placeHolderView frame]];
-         
+
          [placeHolderView replaceSubview:fadeView with:[controller view]];
-         
+
          [[self window] makeFirstResponder:[controller view]];
-         
+
          [currentContentController viewDidDisappear];
          [controller viewDidAppear];
          currentContentController = controller;
-         
+
          [fadeView removeFromSuperview];
      }];
 }
@@ -228,10 +283,19 @@ NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
 #pragma mark - OEGameViewControllerDelegate protocol conformance
 - (void)emulationDidFinishForGameViewController:(id)sender
 {
-
+    if(_documentForFullScreenWindow)
+    {
+        _documentForFullScreenWindow = nil;
+        if([[self window] OE_isFullScreen])
+        {
+            [[self window] toggleFullScreen:self];
+        }
+    }
 }
-- (void)emulationWillFinishForGameViewController:(OEGameViewController *)sender{
-        [self setCurrentContentController:nil];
+
+- (void)emulationWillFinishForGameViewController:(OEGameViewController *)sender
+{
+    [self setCurrentContentController:nil];
 }
 #pragma mark -
 #pragma mark NSWindow delegate
