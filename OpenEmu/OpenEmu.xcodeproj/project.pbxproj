@@ -73,6 +73,7 @@
 		141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 141554201442B7B100A01683 /* OEN64SystemResponder.m */; };
 		141554291442C12200A01683 /* controller_n64.png in Resources */ = {isa = PBXBuildFile; fileRef = 141554281442C12200A01683 /* controller_n64.png */; };
 		1415542D1442C84B00A01683 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		14E4A7FA1616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */; };
 		1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1B2B6D7714DB659F000D0BF7 /* Scale4xBR.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7314DB6363000D0BF7 /* Scale4xBR.frag */; };
 		1B2B6D7814DB659F000D0BF7 /* Scale4xBR.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7514DB6375000D0BF7 /* Scale4xBR.vert */; };
@@ -924,6 +925,8 @@
 		141554201442B7B100A01683 /* OEN64SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64SystemResponder.m; sourceTree = "<group>"; };
 		141554221442B85000A01683 /* OEN64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponderClient.h; sourceTree = "<group>"; };
 		141554281442C12200A01683 /* controller_n64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_n64.png; sourceTree = "<group>"; };
+		14E4A7F81616EF8B00082311 /* NSWindow+OEFullScreenAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OEFullScreenAdditions.h"; sourceTree = "<group>"; };
+		14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OEFullScreenAdditions.m"; sourceTree = "<group>"; };
 		1B223EFA100B89BE00F42067 /* CRTDisplace.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.vert; sourceTree = "<group>"; };
 		1B223EFB100B89BE00F42067 /* CRTDisplace.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.frag; sourceTree = "<group>"; };
 		1B224006100BD61D00F42067 /* Debug.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Debug.qtz; sourceTree = "<group>"; };
@@ -2132,6 +2135,8 @@
 				83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */,
 				83B65F5515F0DEA100C742D2 /* NSArray+OEAdditions.h */,
 				83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */,
+				14E4A7F81616EF8B00082311 /* NSWindow+OEFullScreenAdditions.h */,
+				14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */,
 			);
 			name = "Additions to standard classes";
 			sourceTree = "<group>";
@@ -4618,6 +4623,7 @@
 				831C9ADC1600973B00038D0D /* OEPopUpButton.m in Sources */,
 				831C9ADD1600973B00038D0D /* OEPopUpButtonCell.m in Sources */,
 				838E2A271600A23800CF7198 /* NSMenuItem+OEMenuItemExtraDataAdditions.m in Sources */,
+				14E4A7FA1616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
