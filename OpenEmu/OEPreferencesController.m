@@ -67,7 +67,8 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
 @end
 
 @implementation OEPreferencesController
-@synthesize preferencePanes, visiblePaneIndex;
+@synthesize preferencePanes;
+@synthesize visiblePaneIndex = _visiblePaneIndex;
 
 - (id)initWithWindow:(NSWindow *)window
 {
@@ -309,6 +310,14 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
     [animateFlag ? [win animator] : win setFrame:frameRect display:YES];
     
     [CATransaction commit];
+}
+
+#pragma mark - Properties
+
+- (void)setVisiblePaneIndex:(NSInteger)visiblePaneIndex
+{
+    _visiblePaneIndex = visiblePaneIndex;
+    [toolbar markItemIndexAsSelected:visiblePaneIndex];
 }
 
 @end

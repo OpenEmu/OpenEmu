@@ -41,6 +41,7 @@
 - (OEToolbarItem*)selectedItem;
 - (NSUInteger)selectedItemIndex;
 - (void)markItemAsSelected:(OEToolbarItem*)tbItem; // basically selects a toolbar item without invoking its actions
+- (void)markItemIndexAsSelected:(NSUInteger)itemIndex;
 
 // FIXME: This is atrotious !
 @property(strong) NSMutableArray *items;
