@@ -41,6 +41,7 @@
 #import "NSViewController+OEAdditions.h"
 #import "NSView+FadeImage.h"
 #import "OEHUDWindow.h"
+#import "NSWindow+OEFullScreenAdditions.h"
 
 NSString *const OEPopoutHasScreenSizeKey = @"forceDefaultScreenSize";
 NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
@@ -154,7 +155,6 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowWillCloseNotification object:[self popoutWindow]];
 }
 
 #pragma mark -
@@ -164,7 +164,7 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
     [[self gameViewController] terminateEmulation];
 }
 
-- (void)showInSeparateWindow:(id)sender;
+- (void)showInSeparateWindow:(id)sender fullScreen:(BOOL)fullScreen;
 {
     // Create a window, set gameviewcontroller.view as view, open it
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -187,12 +187,14 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
     [[self gameViewController] viewWillAppear];
     
     OEHUDWindow *window = [[OEHUDWindow alloc] initWithContentRect:windowRect];
+    [window setCollectionBehavior:([window collectionBehavior] | NSWindowCollectionBehaviorFullScreenPrimary)];
     [window center];
     [window setContentView:[[self gameViewController] view]];
     [window makeKeyAndOrderFront:self];
     [self setPopoutWindow:window];
     [[self gameViewController] viewDidAppear];
     [window display];
+    if(fullScreen) [window toggleFullScreen:self];
 }
 
 #pragma mark -

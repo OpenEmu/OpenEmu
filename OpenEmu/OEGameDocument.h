@@ -47,7 +47,7 @@ extern NSString *const OEPopoutHasScreenSizeKey;
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError;
 - (id)initWithSaveState:(OEDBSaveState *)state;
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
-- (void)showInSeparateWindow:(id)sender;
+- (void)showInSeparateWindow:(id)sender fullScreen:(BOOL)fullScreen;
 @property (readonly, strong) NSViewController *viewController;
 @property (readonly, strong) OEGameViewController *gameViewController;
 @end
