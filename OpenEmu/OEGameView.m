@@ -511,7 +511,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         CFRelease(surfaceRef);
     }
     else
-        NSLog(@"Surface is null");
+    {
+        // note that a null surface is a valid situation: it is possible that a game document has been opened but the underlying game emulation
+        // hasn't started yet
+        //NSLog(@"Surface is null");
+    }
 }
 
 // GL render method
