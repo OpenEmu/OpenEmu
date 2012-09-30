@@ -621,7 +621,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     }
     else
     {
-        if([[NSUserDefaults standardUserDefaults] boolForKey:OEAllowPopoutGameWindowKey])
+        if([[NSUserDefaults standardUserDefaults] boolForKey:OEForcePopoutGameWindowKey])
         {
             [menu addItemWithTitle:@"Play Games (Caution)" action:@selector(startGame:) keyEquivalent:@""];
         }

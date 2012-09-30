@@ -43,7 +43,6 @@
 #import "NSView+FadeImage.h"
 #import "OEFadeView.h"
 
-NSString *const OEAllowPopoutGameWindowKey = @"allowPopout";
 NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
 NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 
@@ -113,13 +112,13 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 - (void)openGameDocument:(OEGameDocument *)aDocument;
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL allowPopout = [standardDefaults boolForKey:OEAllowPopoutGameWindowKey];
+//    BOOL allowPopout = [standardDefaults boolForKey:OEAllowPopoutGameWindowKey];
     BOOL forcePopout = [standardDefaults boolForKey:OEForcePopoutGameWindowKey];
     BOOL fullScreen  = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
 
-    BOOL usePopout = forcePopout || allowPopout;
+//    BOOL usePopout = forcePopout || allowPopout;
 
-    if(usePopout)
+    if(forcePopout)
     {
         [aDocument showInSeparateWindow:self fullScreen:fullScreen];
         [[aDocument gameViewController] playGame:self];

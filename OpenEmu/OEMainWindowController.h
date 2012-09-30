@@ -26,7 +26,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString *const OEAllowPopoutGameWindowKey;
 extern NSString *const OEForcePopoutGameWindowKey;
 extern NSString *const OEFullScreenGameWindowKey;
 
