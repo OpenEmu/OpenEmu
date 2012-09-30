@@ -27,6 +27,7 @@
 #import "OESlider.h"
 #import "NSImage+OEDrawingAdditions.h"
 @implementation OESlider
+
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
@@ -41,6 +42,9 @@
     [image setName:@"grid_slider_small_enabled" forSubimageInRect:NSMakeRect(0, 0, 7, 7)];
     [image setName:@"grid_slider_small_disabled" forSubimageInRect:NSMakeRect(7, 0, 7, 7)];
 }
+
+@synthesize maxHint, minHint;
+
 - (void)setHintImages
 {
     BOOL enabled = [self isEnabled];
@@ -96,11 +100,10 @@
     [self performSelectorInBackground:@selector(setHintImages) withObject:nil];
 }
 
-@synthesize maxHint;
-@synthesize minHint;
 @end
 
 @implementation OESliderCell
+
 - (id)initWithCoder:(NSCoder *)coder 
 {
     self = [super initWithCoder:coder];
@@ -109,7 +112,8 @@
     }
     return self;
 }
-- (id)init 
+
+- (id)init
 {
     self = [super init];
     if (self) 
@@ -118,18 +122,20 @@
     }
     return self;
 }
+
+// Apple private method that we override
 - (BOOL)_usesCustomTrackImage
 {
     return YES;
 }
 
-
 #pragma mark -
+
 - (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped 
 {
     BOOL windowActive = [[[self controlView] window] isMainWindow];
     
-    if([self sliderType]==NSLinearSlider && ![self isVertical]) 
+    if([self sliderType] == NSLinearSlider && ![self isVertical])
     {
         NSImage *track = [NSImage imageNamed:@"grid_slider_track"];
         
@@ -139,7 +145,8 @@
         [track drawInRect:targetRect fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:4 rightBorder:3 topBorder:0 bottomBorder:0];
     }
     else 
-    { // Not supported
+    {
+        // Not supported
         NSLog(@"Track: Slider style is not supported");
         [[NSColor greenColor] setFill];
         NSRectFill(aRect);
@@ -159,7 +166,7 @@
     [clipPath appendBezierPathWithRect:knobRect];
     [clipPath addClip];
     
-    if([self sliderType]==NSLinearSlider && ![self isVertical]) 
+    if([self sliderType] == NSLinearSlider && ![self isVertical]) 
     {
         NSImage *track = [NSImage imageNamed:@"grid_slider_thumb"];
         
@@ -170,18 +177,20 @@
         [track drawInRect:targetRect fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:0 rightBorder:0 topBorder:0 bottomBorder:0];
     }
     else
-    { // Not supported
+    {
+        // Not supported
         NSLog(@"Knob: Slider style is not supported");
         [[NSColor redColor] setFill];
         NSRectFill(knobRect);
     }
 }
+
 #pragma mark -
+
 - (NSRect)trackImageRectForState:(OEUIState)state
 {
     NSRect rect = NSMakeRect(0, 0, 8, 6);
-    if(state==OEUIStateActive)
-        rect.origin.y += 6;
+    if(state == OEUIStateActive) rect.origin.y += 6;
     
     return rect;
 }
@@ -189,9 +198,9 @@
 - (NSRect)knobImageRectForState:(OEUIState)state
 {
     NSRect rect = NSMakeRect(0, 0, 13, 14);
-    if(state==OEUIStateInactive)
-        rect.origin.x += 13;
+    if(state == OEUIStateInactive) rect.origin.x += 13;
     
     return rect;
 }
+
 @end

@@ -41,6 +41,7 @@
 #import "NSViewController+OEAdditions.h"
 #import "NSView+FadeImage.h"
 #import "OEHUDWindow.h"
+#import "NSWindow+OEFullScreenAdditions.h"
 
 NSString *const OEPopoutHasScreenSizeKey = @"forceDefaultScreenSize";
 NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
@@ -56,8 +57,10 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
 @property (strong) NSWindow *popoutWindow;
 @end
 #pragma mark -
+
 @implementation OEGameDocument
 @synthesize gameViewController, viewController, popoutWindow;
+
 - (id)init
 {
     self = [super init];
@@ -154,7 +157,6 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowWillCloseNotification object:[self popoutWindow]];
 }
 
 #pragma mark -
@@ -164,7 +166,7 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
     [[self gameViewController] terminateEmulation];
 }
 
-- (void)showInSeparateWindow:(id)sender;
+- (void)showInSeparateWindow:(id)sender fullScreen:(BOOL)fullScreen;
 {
     // Create a window, set gameviewcontroller.view as view, open it
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -187,12 +189,17 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
     [[self gameViewController] viewWillAppear];
     
     OEHUDWindow *window = [[OEHUDWindow alloc] initWithContentRect:windowRect];
+    [window setCollectionBehavior:([window collectionBehavior] | NSWindowCollectionBehaviorFullScreenPrimary)];
     [window center];
     [window setContentView:[[self gameViewController] view]];
     [window makeKeyAndOrderFront:self];
     [self setPopoutWindow:window];
     [[self gameViewController] viewDidAppear];
     [window display];
+    
+    if(fullScreen) [window toggleFullScreen:self];
+    
+    [self addWindowController:[[NSWindowController alloc] initWithWindow:window]];
 }
 
 #pragma mark -
@@ -207,7 +214,6 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
     
     return YES;
 }
-
 
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError **)outError
 {
@@ -225,12 +231,14 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
 }
 #pragma mark -
 
-- (OEDistantViewController*)distantViewController
+- (OEDistantViewController *)distantViewController
 {
-    return (OEDistantViewController*)[self viewController];
+    return (OEDistantViewController *)[self viewController];
 }
+
 #pragma mark -
 #pragma mark NSDocument Stuff
+
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
     DLog(@"%@", typeName);
@@ -308,4 +316,5 @@ NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
     // TODO: Load rom that was just imported instead of the default one
     return [self OE_loadRom:[game defaultROM] core:nil withError:outError];
 }
+
 @end

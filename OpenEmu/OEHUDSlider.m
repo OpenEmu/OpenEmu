@@ -63,6 +63,7 @@
     return self;
 }
 
+// Apple private method that we override
 - (BOOL)_usesCustomTrackImage
 {
     return YES;

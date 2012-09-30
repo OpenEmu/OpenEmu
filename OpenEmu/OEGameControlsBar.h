@@ -33,13 +33,6 @@ extern NSString *const OEGameControlsBarFadeOutDelayKey;
 
 @class OEGameViewController;
 @interface OEGameControlsBar : NSWindow <NSMenuDelegate>
-{
-    NSTimer *fadeTimer;
-    id       eventMonitor;
-    NSDate  *lastMouseMovement;
-    
-    int openMenus;
-}
 
 - (id)initWithGameViewController:(OEGameViewController*)controller;
 
@@ -51,6 +44,6 @@ extern NSString *const OEGameControlsBarFadeOutDelayKey;
 #pragma mark - Updating UI States
 - (void)reflectVolume:(float)volume;
 - (void)reflectEmulationRunning:(BOOL)flag;
-@property (unsafe_unretained) OEGameViewController *gameViewController;
+@property(unsafe_unretained) OEGameViewController *gameViewController;
 @end
 

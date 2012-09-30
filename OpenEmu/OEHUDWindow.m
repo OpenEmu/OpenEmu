@@ -29,7 +29,12 @@
 #import "NSColor+OEAdditions.h"
 
 @interface OEHUDWindow ()
-- (void)_initialSetup;
+{
+	NSWindow *_borderWindow;
+}
+
+- (void)OE_commonHUDWindowInit;
+
 @end
 
 @interface OEHUDBorderWindow : NSWindow
@@ -40,14 +45,13 @@
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
-    if(self != [OEHUDWindow class])
-        return;
+    if(self != [OEHUDWindow class]) return;
     
     if([NSImage imageNamed:@"hud_window_active"]) return;
     NSImage *img = [NSImage imageNamed:@"hud_window"];
     
-    [img setName:@"hud_window_active" forSubimageInRect:NSMakeRect(0, 0, img.size.width/2, img.size.height)];
-    [img setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(img.size.width/2, 0, img.size.width/2, img.size.height)];
+    [img setName:@"hud_window_active"   forSubimageInRect:NSMakeRect(0, 0, img.size.width / 2, img.size.height)];
+    [img setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(img.size.width / 2, 0, img.size.width / 2, img.size.height)];
 }
 
 #pragma mark -
@@ -56,7 +60,7 @@
 {
     if((self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask | NSResizableWindowMask backing:bufferingType defer:deferCreation]))
     {
-        [self _initialSetup];
+        [self OE_commonHUDWindowInit];
     }
     return self;
 }
@@ -72,7 +76,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    [self _initialSetup];
+    [self OE_commonHUDWindowInit];
 }
 
 - (void)dealloc 
@@ -85,7 +89,7 @@
 #pragma mark -
 #pragma mark Private
 
-- (void)_initialSetup
+- (void)OE_commonHUDWindowInit
 {
     DLog(@"OEHUDWindow");
     
@@ -93,11 +97,9 @@
     [self setOpaque:NO];
     [self setBackgroundColor:[NSColor clearColor]];
     
-    NSRect frame;
-    frame.size = [self frame].size;
-    frame.origin = NSMakePoint(0, 0);
     [super setContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
     [self setContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
+    
     // Register for notifications
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(_layout) name:NSWindowDidResizeNotification object:self];
@@ -138,7 +140,7 @@
     contentRect.size.height -= 21;
     
     [aView setFrame:contentRect];
-    [aView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    [aView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 }
 
 #pragma mark -
@@ -209,6 +211,10 @@
 @end
 
 @implementation OEHUDWindowThemeView
+{
+    NSPoint lastMouseLocation;
+    BOOL isResizing;
+}
 
 #pragma mark -
 
@@ -220,12 +226,14 @@
 - (id)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         DLog(@"OEHUDWindowThemeView");
     }
     return self;
 }
--(void)dealloc
+
+- (void)dealloc
 {
     DLog(@"OEHUDWindowThemeView");
 }
@@ -276,12 +284,14 @@
     [attributedWindowTitle drawInRect:titleBarRect];
 }
 
-- (void)mouseDown:(NSEvent *)theEvent{
+- (void)mouseDown:(NSEvent *)theEvent
+{
     NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     
     lastMouseLocation = NSZeroPoint;
     
-    if(!NSPointInRect(pointInView, [self titleBarRect])){
+    if(!NSPointInRect(pointInView, [self titleBarRect]))
+    {
         [[self nextResponder] mouseDown:theEvent];
         return;
     }
@@ -290,8 +300,10 @@
     lastMouseLocation = [window convertBaseToScreen:[theEvent locationInWindow]];
 }
 
-- (void)mouseDragged:(NSEvent *)theEvent{
-    if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+    if(NSEqualPoints(lastMouseLocation, NSZeroPoint))
+    {
         [[self nextResponder] mouseDragged:theEvent];
         return;
     }
@@ -312,8 +324,10 @@
     lastMouseLocation = newMousePosition;
 }
 
-- (void)mouseUp:(NSEvent *)theEvent{
-    if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    if(NSEqualPoints(lastMouseLocation, NSZeroPoint))
+    {
         [[self nextResponder] mouseUp:theEvent];
         return;
     }

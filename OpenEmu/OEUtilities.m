@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
+ 
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,13 +25,28 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "OEUtilities.m"
 
-@class OEHUDWindowThemeView;
+void OEPrintFirstResponderChain(void)
+{
+    NSWindow *keyWindow = [NSApp keyWindow];
+    
+    if(keyWindow == nil) return;
+    
+    NSLog(@"responders: %@", OENextRespondersFromResponder([keyWindow firstResponder]));
+}
 
-@interface OEHUDWindow : NSWindow
-- (id)initWithContentRect:(NSRect)frame;
-@end
-
-@interface OEHUDWindowThemeView : NSView
-@end
+NSArray *OENextRespondersFromResponder(NSResponder *responder)
+{
+    if(responder == nil) return @[ ];
+    
+    NSMutableArray *responders = [NSMutableArray array];
+    
+    while(responder != nil)
+    {
+        [responders addObject:responder];
+        responder = [responder nextResponder];
+    }
+    
+    return responders;
+}

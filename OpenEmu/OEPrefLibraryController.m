@@ -112,21 +112,22 @@
     openDlg.canChooseDirectories = YES;
     openDlg.canCreateDirectories = YES;
     
-    [openDlg beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result)
-    {
-        if(NSFileHandlingPanelOKButton == result)
-        {
-            NSString *databasePath = [[openDlg URL] path];
-            
-            if(databasePath != nil && ![databasePath isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:OEDatabasePathKey]])
-            {
-                [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:OEDatabasePathKey];
-                FIXME("ewwwwwwwwww that's ugly, don't get the app delegate like that, EVER.");
-                [(OEApplicationDelegate *) [NSApplication sharedApplication].delegate loadDatabase];
-                [[self pathField] setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
-            }
-        }
-    }];
+    [openDlg beginSheetModalForWindow:self.view.window completionHandler:
+     ^(NSInteger result)
+     {
+         if(NSFileHandlingPanelOKButton == result)
+         {
+             NSString *databasePath = [[openDlg URL] path];
+             
+             if(databasePath != nil && ![databasePath isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:OEDatabasePathKey]])
+             {
+                 [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:OEDatabasePathKey];
+                 FIXME("ewwwwwwwwww that's ugly, don't get the app delegate like that, EVER.");
+                 [(OEApplicationDelegate *) [NSApplication sharedApplication].delegate loadDatabase];
+                 [[self pathField] setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
+             }
+         }
+     }];
 }
 
 - (IBAction)toggleLibrary:(id)sender

@@ -44,6 +44,12 @@
 @end
 
 @interface OEHUDAlert ()
+{
+    NSWindow *_window;
+    NSUInteger result;
+    
+    OEAlertCompletionHandler callbackHandler;
+}
 
 - (void)OE_performCallback;
 - (void)OE_layoutButtons;
@@ -107,7 +113,7 @@
         
         _suppressionButton = [[OEButton alloc] init];
         [_suppressionButton setButtonType:NSSwitchButton];
-        [(OEButton*)_suppressionButton setThemeKey:@"dark_checkbox"];
+        [(OEButton *)_suppressionButton setThemeKey:@"dark_checkbox"];
         
         _defaultButton = [[OEButton alloc] init];
         _alternateButton = [[OEButton alloc] init];

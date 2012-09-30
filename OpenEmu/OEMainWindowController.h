@@ -28,6 +28,7 @@
 
 extern NSString *const OEAllowPopoutGameWindowKey;
 extern NSString *const OEForcePopoutGameWindowKey;
+extern NSString *const OEFullScreenGameWindowKey;
 
 @class OEGameDocument;
 @class OELibraryController;
@@ -37,7 +38,7 @@ extern NSString *const OEForcePopoutGameWindowKey;
 
 @property(nonatomic, strong) NSViewController  *currentContentController;
 @property(nonatomic, strong) NSViewController  *defaultContentController;
-@property                           BOOL                 allowWindowResizing;
+@property                    BOOL               allowWindowResizing;
 
 - (void)openGameDocument:(OEGameDocument *)aDocument;
 @property(weak) IBOutlet NSView *placeholderView;

@@ -85,8 +85,8 @@ extern NSString *const OEForceCorePicker;
 - (id)initWithSaveState:(OEDBSaveState *)state;
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
 #pragma mark -
-@property (strong) OEGameControlsBar *controlsWindow;
-@property (readonly) OEGameView* gameView;
+@property(strong) OEGameControlsBar *controlsWindow;
+@property(readonly) OEGameView* gameView;
 
 @property(unsafe_unretained) id<OEGameViewControllerDelegate> delegate;
 

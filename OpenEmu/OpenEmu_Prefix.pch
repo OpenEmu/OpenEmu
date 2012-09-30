@@ -43,7 +43,6 @@
 #endif
 
 #pragma mark Debug Logging
-#define BOOL_STR(var) ((var) ? "YES" : "NO")
 
 #ifdef DEBUG_PRINT
 #define DLog(format, ...) NSLog(@"%s: " format, __FUNCTION__, ##__VA_ARGS__)

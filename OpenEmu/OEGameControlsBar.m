@@ -56,8 +56,16 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 @end
 
 @interface OEGameControlsBar ()
-@property (strong) OEHUDControlsBarView *controlsView;
-@property (strong, nonatomic) NSDate *lastMouseMovement;
+{
+    NSTimer *fadeTimer;
+    id       eventMonitor;
+    NSDate  *lastMouseMovement;
+    
+    int openMenus;
+}
+
+@property(strong) OEHUDControlsBarView *controlsView;
+@property(strong, nonatomic) NSDate *lastMouseMovement;
 @end
 
 @implementation OEGameControlsBar
@@ -114,6 +122,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 }
 
 #pragma mark -
+
 - (void)show
 {
     [[self animator] setAlphaValue:1.0];
@@ -194,6 +203,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 }
 
 #pragma mark - Menus
+
 - (void)showOptionsMenu:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
@@ -284,7 +294,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     if([[self gameViewController] rom] != nil && (saveStates = [[[self gameViewController] rom] normalSaveStatesByTimestampAscending:YES]) && [saveStates count] != 0)
     {
         [menu addItem:[NSMenuItem separatorItem]];
-        for(OEDBSaveState* saveState in saveStates)
+        for(OEDBSaveState *saveState in saveStates)
         {
             NSString *itemTitle = [saveState name];
             if(!itemTitle || [itemTitle isEqualToString:@""])
@@ -323,6 +333,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 #pragma mark -
 #pragma mark OEMenuDelegate Implementation
+
 - (void)menuWillOpen:(NSMenu *)menu
 {
     openMenus++;
@@ -334,6 +345,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 }
 
 #pragma mark - Updating UI States
+
 - (void)reflectVolume:(float)volume
 {
     OEHUDControlsBarView    *view   = [[[self contentView] subviews] lastObject];
@@ -409,6 +421,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 }
 
 #pragma mark -
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     NSImage *barBackground = [NSImage imageNamed:@"hud_bar"];
@@ -502,4 +515,5 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [fullScreenButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:fullScreenButton];
 }
+
 @end
