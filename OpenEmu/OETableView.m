@@ -33,7 +33,7 @@
 #import "OEGridView.h"
 
 
-static NSColor *cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor, *insertionPointColor;
+static NSColor *cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor;
 static NSGradient *highlightGradient, *normalGradient;
 
 
@@ -77,11 +77,6 @@ static NSGradient *highlightGradient, *normalGradient;
 			strokeColor = [NSColor blackColor];
 		}
 
-        if(!insertionPointColor)
-        {
-            insertionPointColor = [NSColor cyanColor];
-        }
-		
 		if(!normalGradient)
 		{
 			NSColor *c1 = [NSColor colorWithDeviceWhite:0.29 alpha:1.0];
@@ -300,7 +295,7 @@ static NSGradient *highlightGradient, *normalGradient;
     if(![fieldEditor isKindOfClass:[NSTextView class]]) return;
 
     _fieldEditorOriginalInsertionPointColor = [fieldEditor insertionPointColor];
-    [fieldEditor setInsertionPointColor:insertionPointColor];
+    [fieldEditor setInsertionPointColor:[fieldEditor textColor]];
 }
 
 - (void)textDidEndEditing:(NSNotification *)notification
