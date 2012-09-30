@@ -109,6 +109,7 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 @property(readonly) NSUInteger              cookie;
 @property(readonly) BOOL                    hasPreviousState;
 @property(readonly) BOOL                    hasOffState;
+@property(readonly) BOOL                    hasChanges;
 
 // Axis event or Trigger event
 @property(readonly) OEHIDEventAxis          axis;              // Axis and Trigger

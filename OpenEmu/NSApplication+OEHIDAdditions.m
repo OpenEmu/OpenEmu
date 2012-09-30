@@ -32,6 +32,8 @@
 
 - (void)postHIDEvent:(OEHIDEvent *)anEvent
 {
+    if(anEvent == nil) return;
+    
     [[[self keyWindow] firstResponder] handleHIDEvent:anEvent];
 }
 
