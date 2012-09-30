@@ -25,7 +25,15 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+#import <Cocoa/Cocoa.h>
+
 #define GENERATE_PRAGMA(x) _Pragma(#x)
 #define TODO(x) GENERATE_PRAGMA(message("[TODO] " #x))
 #define FIXME(x) GENERATE_PRAGMA(message("[FIXME] " #x))
 #define NOTE(x) GENERATE_PRAGMA(message("[NOTE] " #x))
+
+#define BOOL_STR(value) ((value) ? "YES" : "NO")
+
+void OEPrintFirstResponderChain(void);
+NSArray *OENextRespondersFromResponder(NSResponder *responder);

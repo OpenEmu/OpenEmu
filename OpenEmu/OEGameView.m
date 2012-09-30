@@ -714,6 +714,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     return YES;
 }
+
 - (OESystemResponder *)gameResponder { return gameResponder; }
 - (void)setGameResponder:(OESystemResponder *)value
 {

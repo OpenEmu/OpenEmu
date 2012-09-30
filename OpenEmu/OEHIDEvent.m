@@ -31,8 +31,6 @@
 #import <Carbon/Carbon.h>
 #import "OEHIDUsageToVK.h"
 
-#define BOOL_STR(b) ((b) ? "YES" : "NO")
-
 static BOOL _OEHIDElementIsTrigger(IOHIDElementRef elem)
 {
     return [(__bridge NSNumber *)IOHIDElementGetProperty(elem, CFSTR(kOEHIDElementIsTriggerKey)) boolValue];
