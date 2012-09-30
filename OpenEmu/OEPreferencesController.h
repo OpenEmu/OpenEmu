@@ -41,7 +41,7 @@ extern NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 - (void)switchView:(id)sender animate:(BOOL)animateFlag;
 
 @property NSArray *preferencePanes;
-@property NSInteger visiblePaneIndex;
+@property(nonatomic) NSInteger visiblePaneIndex;
 @property(readonly) NSViewController<OEPreferencePane> *selectedPreferencePane;
 
 @end
