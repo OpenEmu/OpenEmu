@@ -238,6 +238,15 @@ static NSGradient *highlightGradient, *normalGradient;
         [super keyDown:theEvent];        
 }
 
+- (void)cancelOperation:(id)sender
+{
+    if([self currentEditor])
+    {
+        [self abortEditing];
+        [[self window] makeFirstResponder:self];
+    }
+}
+
 #pragma mark - Context menu
 
 - (void)renameSelectedGame:(id)sender
