@@ -71,6 +71,10 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 const int OE_GridViewTag = 0;
 const int OE_FlowViewTag = 1;
 const int OE_ListViewTag = 2;
+
+static const float OE_coverFlowHeightPercentage = .75;
+
+
 @interface OECollectionViewController ()
 {    
     IBOutlet NSView *gridViewContainer;// gridview
@@ -316,8 +320,8 @@ const int OE_ListViewTag = 2;
             view = gridViewContainer;
             break;
         case OE_FlowViewTag:
-            splitterPosition = 500.0f; //  TODO: fix splitter position here
             view = flowlistViewContainer;
+            splitterPosition = NSHeight([view frame]) * OE_coverFlowHeightPercentage;
             break;
         case OE_ListViewTag:
             view = flowlistViewContainer; //  TODO: fix splitter position here too
