@@ -67,7 +67,9 @@ extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
-@interface OEGameViewController ()
+@interface OEGameViewController () {
+    BOOL _emulationHasBeenSetUp;
+}
 
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game;
 
@@ -206,7 +208,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
     if(window == nil) return;
     
     if([window parentWindow] != nil) window = [window parentWindow];
-    
+
     [window addChildWindow:controlsWindow ordered:NSWindowAbove];
     
     [self OE_repositionControlsWindow];
@@ -276,7 +278,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     
     if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
         [self saveStateWithName:OESaveStateAutosaveName];
-    
+
     [NSApp sendAction:@selector(emulationWillFinishForGameViewController:) to:nil from:self];
 
     [self OE_terminateEmulationWithoutNotification];
@@ -291,9 +293,10 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
     
     emulationRunning = NO;
+    _emulationHasBeenSetUp = NO;
     [gameView setRootProxy:nil];
     [gameView setGameResponder:nil];
-    
+
     gameView = nil;
     
     [gameController removeSettingObserver:[rootProxy gameCore]];
@@ -331,6 +334,8 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 
 - (void)setPauseEmulation:(BOOL)flag
 {
+    [self OE_setupEmulation];
+
     if(flag) [self enableOSSleep]; else [self disableOSSleep];
     
     [rootProxy setPauseEmulation:flag];
@@ -688,9 +693,8 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
         gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
         [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [[self view] addSubview:gameView];
-        [nc addObserver:self selector:@selector(viewDidChangeFrame:)  name:NSViewFrameDidChangeNotification object:gameView];
+        [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
         
-        emulationRunning = YES;
         if(!core)
             core = [self OE_coreForSystem:[[[[self rom] game] system] plugin] error:outError];
         
@@ -709,8 +713,6 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
         {
             rootProxy = [gameCoreManager rootProxy];
             
-            [rootProxy setupEmulation];
-            
             // set initial volume
             [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
             
@@ -718,7 +720,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
             gameSystemController = [[[[[self rom] game] system] plugin] controller];
             gameSystemResponder  = [gameSystemController newGameSystemResponder];
             [gameSystemResponder setClient:gameCore];
-            
+
             if(gameView != nil)
             {
                 [gameView setRootProxy:rootProxy];
@@ -727,7 +729,9 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 
             [[[self view] window] makeFirstResponder:gameView];
             [gameView resizeSubviewsWithOldSize:[[self view] frame].size];
-            
+
+            [[self controlsWindow] reflectEmulationRunning:YES]; // FIXME: -reflect's argument is reversed
+
             return YES;
         }
     }
@@ -745,6 +749,15 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     }
     
     return NO;
+}
+
+- (void)OE_setupEmulation
+{
+    if (_emulationHasBeenSetUp) return;
+
+    [rootProxy setupEmulation];
+    _emulationHasBeenSetUp = YES;
+    emulationRunning       = YES;
 }
 
 - (void)OE_repositionControlsWindow
