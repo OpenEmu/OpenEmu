@@ -127,7 +127,7 @@ static NSString            *configurationsFolderPath = nil;
     __block OEBindingsController *ret = nil;
     
     dispatch_sync(bindingsControllerQueue, ^{
-        [bindingsControllers objectForKey:aName];
+        ret = [bindingsControllers objectForKey:aName];
     });
     
     if(ret == nil)
