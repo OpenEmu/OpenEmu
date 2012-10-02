@@ -381,11 +381,13 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     
     NSString *viewControllerClasName = [selectedItem viewControllerClassName];
     NSViewController <OELibrarySubviewController> *viewController = [self viewControllerWithClassName:viewControllerClasName];
+
+    // Make sure the view is loaded (-showViewController:) before setting the represented object.
+    // This prepares the view controller (via its -loadView implementation) so that it can effectively act upon receiving a new
+    // represented object
+    [self showViewController:viewController];
     [viewController setRepresentedObject:selectedItem];
 
-    [self showViewController:viewController];
-    
-    
     itemID = [selectedItem sidebarID];
     [viewController restoreState:[self OE_storedStateForSidebarItemWithID:itemID]];
 }
