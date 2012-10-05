@@ -190,11 +190,6 @@ static const float OE_coverFlowHeightPercentage = .75;
         
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
-
-    // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
-    // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
-    // empty collection until -setRepresentedObject: is received again
-    if([self representedObject]) [self OE_reloadData];
 }
 
 - (NSString *)nibName
