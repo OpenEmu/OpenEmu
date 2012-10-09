@@ -217,7 +217,10 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
     [window makeFirstResponder:gameView];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
+    {
         [window setTitle:[[[self rom] game] name]];
+        gameView.gameTitle = [[[self rom] game] name];
+    }
 }
 
 - (void)viewWillDisappear
