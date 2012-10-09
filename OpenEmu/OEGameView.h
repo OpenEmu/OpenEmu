@@ -45,6 +45,7 @@
 // QC based filters
 @property(copy) NSDictionary *filters;
 @property(nonatomic, copy) NSString *filterName;
+@property(strong) NSString* gameTitle;
 
 @property (copy) void (^screenshotHandler)(NSImage *img);
 - (void) captureScreenshotUsingBlock:(void(^)(NSImage *img))block;

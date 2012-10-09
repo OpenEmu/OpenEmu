@@ -109,6 +109,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @synthesize gameTimer;
 @synthesize gameScreenSize;
 @synthesize gameServer;
+@synthesize gameTitle;
 
 // Filters
 @synthesize rgbColorSpace;
@@ -180,8 +181,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // GL resources
     glGenTextures(1, &gameTexture);
        
-    filters = [self OE_shadersForContext:cgl_ctx];
-    self.gameServer = [[SyphonServer alloc] initWithName:@"Game Name" context:cgl_ctx options:nil];
+    filters = [self OE_shadersForContext:cgl_ctx];    
+    self.gameServer = [[SyphonServer alloc] initWithName:self.gameTitle context:cgl_ctx options:nil];
     
     CGLUnlockContext(cgl_ctx);
     
@@ -199,6 +200,20 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // rendering
     [self setupDisplayLink];
     //[self createTimer];
+}
+
+- (NSString*) gameTitle
+{
+    return gameTitle;
+}
+
+- (void) setGameTitle:(NSString *)title
+{
+    if(gameTitle)
+        gameTitle = nil;
+    
+    gameTitle = title;
+    [self.gameServer setName:title];
 }
 
 - (void)removeFromSuperview
@@ -317,16 +332,18 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void)dealloc
 {    
     DLog(@"OEGameView dealloc");
-
     [self tearDownDisplayLink];
     
     [gameTimer invalidate];
     self.gameTimer = nil;
 
+    [self.gameServer setName:@""];
+    [self.gameServer stop];
+    self.gameServer = nil;
+
     self.gameResponder = nil;
     self.rootProxy = nil;
     
-    self.gameServer = nil;
     self.gameCIImage = nil;
     
     // filters
@@ -337,6 +354,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     CGColorSpaceRelease(rgbColorSpace);
     rgbColorSpace = NULL;
     
+       
     [self unbind:@"filterName"];
 }
 
@@ -501,8 +519,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             [self setScreenshotHandler:nil];
         }
         
-        if([gameServer hasClients])
-            [gameServer publishFrameTexture:gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
+        if([self.gameServer hasClients])
+            [self.gameServer publishFrameTexture:gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
         
         [[self openGLContext] flushBuffer];
 
