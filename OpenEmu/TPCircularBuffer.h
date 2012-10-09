@@ -78,7 +78,7 @@ void  TPCircularBufferClear(TPCircularBuffer *buffer);
  */
 static __inline__ __attribute__((always_inline)) void* TPCircularBufferTail(TPCircularBuffer *buffer, int32_t* availableBytes) {
     *availableBytes = buffer->fillCount;
-    if ( *availableBytes == 0 ) return NULL;
+    //if ( *availableBytes == 0 ) return NULL;
     return (void*)((char*)buffer->buffer + buffer->tail);
 }
 
@@ -115,7 +115,7 @@ static __inline__ __attribute__((always_inline)) void TPCircularBufferConsume(TP
  */
 static __inline__ __attribute__((always_inline)) void* TPCircularBufferHead(TPCircularBuffer *buffer, int32_t* availableBytes) {
     *availableBytes = (buffer->length - buffer->fillCount);
-    if ( *availableBytes == 0 ) return NULL;
+    //if ( *availableBytes == 0 ) return NULL;
     return (void*)((char*)buffer->buffer + buffer->head);
 }
     
