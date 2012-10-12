@@ -150,6 +150,8 @@ NSString *SNESEmulatorKeys[] = { @"Up", @"Down", @"Left", @"Right", @"A", @"B", 
         NSLog(@"Couldn't init sound");
     
     Settings.NoPatch = true;
+    Settings.BSXBootup = false;
+    
     if(Memory.LoadROM([path UTF8String]))
     {
         NSString *path = [NSString stringWithUTF8String:Memory.ROMFilename];
