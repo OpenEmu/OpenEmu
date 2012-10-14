@@ -1076,11 +1076,8 @@ static void OPLL_initalize(void)
 {
   int i;
 
-  /* frequency base */
-  double freqbase = (ym2413.clock / 72.0) / (double)ym2413.rate;
-
-  /* YM2413 running at original frequency */
-  if (config.hq_fm) freqbase = 1.0;
+  /* YM2413 always running at original frequency */
+  double freqbase = 1.0;
 
   /* make fnumber -> increment counter table */
   for( i = 0 ; i < 1024; i++ )
@@ -1592,15 +1589,12 @@ static void OPLLWriteReg(int r, int v)
 }
 
 
-void YM2413Init(double clock, int rate)
+void YM2413Init(void)
 {
   init_tables();
 
   /* clear */
   memset(&ym2413,0,sizeof(YM2413));
-
-  ym2413.clock = clock;
-  ym2413.rate  = rate;
 
   /* init global tables */
   OPLL_initalize();
@@ -1724,19 +1718,4 @@ unsigned char *YM2413GetContextPtr(void)
 unsigned int YM2413GetContextSize(void)
 {
   return sizeof(YM2413);
-}
-
-void YM2413Restore(unsigned char *buffer)
-{
-  /* save current timings */
-  double clock = ym2413.clock;
-  int rate = ym2413.rate;
-
-  /* restore internal state */
-  memcpy(&ym2413, buffer, sizeof(YM2413));
-
-  /* keep current timings */
-  ym2413.clock = clock;
-  ym2413.rate  = rate;
-  OPLL_initalize();
 }

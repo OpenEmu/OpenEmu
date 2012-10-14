@@ -69,4 +69,6 @@ extern int UpdateDirectory(bool go_up, char *filename);
 extern int ParseDirectory(void);
 extern int LoadFile(int selection);
 
+extern char rom_filename[256];
+
 #endif

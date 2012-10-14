@@ -59,17 +59,20 @@
 /*************************************************/
 
 #ifdef HW_RVL
-#define VERSION "Genesis Plus GX 1.7.0 (WII)"
+#define VERSION "Genesis Plus GX 1.7.1 (WII)"
 #else
-#define VERSION "Genesis Plus GX 1.7.0 (GCN)"
+#define VERSION "Genesis Plus GX 1.7.1 (GCN)"
 #endif
+
+#define NO_SYNC    0
+#define SYNC_VIDEO 1
+#define SYNC_AUDIO 2
 
 /* globals */
 extern void legal(void);
 extern double get_framerate(void);
 extern void reloadrom(void);
 extern void shutdown(void);
-extern u32 frameticker;
 extern u32 Shutdown;
 extern u32 ConfigRequested;
 

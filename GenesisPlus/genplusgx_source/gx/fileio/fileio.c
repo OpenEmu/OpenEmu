@@ -137,7 +137,7 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize, char *exten
     }
 
     sprintf (msg, "Unzipping %d bytes ...", size);
-    GUI_MsgBoxOpen("Information",msg,1);
+    GUI_MsgBoxUpdate("Information",msg);
 
     /* Initialize zip stream */
     z_stream zs;
@@ -227,7 +227,7 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize, char *exten
     }
 
     sprintf((char *)msg,"Loading %d bytes ...", size);
-    GUI_MsgBoxOpen("Information", (char *)msg, 1);
+    GUI_MsgBoxUpdate("Information", (char *)msg);
 
     /* filename extension */
     if (extension)
@@ -253,7 +253,6 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize, char *exten
   fclose(fd);
 
   /* Return loaded ROM size */
-  GUI_MsgBoxClose();
   SILENT = 0;
   return size;
 }

@@ -52,7 +52,6 @@ typedef struct
     int16 lg;
     int16 mg;
     int16 hg;
-    float rolloff;
     uint8 system;
     uint8 region_detect;
     uint8 master_clock;
@@ -66,6 +65,7 @@ typedef struct
     uint8 invert_mouse;
     uint8 gun_cursor[2];
     uint8 overscan;
+    uint8 gg_extra;
     uint8 ntsc;
     uint8 vsync;
     uint8 render;
@@ -114,7 +114,7 @@ extern int16 soundbuffer[2048 * 2]; //3068 1920 ?
 //static short soundframe[SOUND_SAMPLES_SIZE];
 //int size = audio_update(soundframe) * 2;
 
-#define VERSION "Genesis Plus GX 1.7.0 (libretro)"
+#define VERSION "Genesis Plus GX 1.7.1 (libretro)"
 
 void osd_input_update(void);
 int load_archive(char *filename, unsigned char *buffer, int maxsize, char *extension);

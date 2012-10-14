@@ -111,6 +111,75 @@ void cdc_reset(void)
   }
 }
 
+int cdc_context_save(uint8 *state)
+{
+  uint8 tmp8;
+  int bufferptr = 0;
+
+  if (cdc.dma_w == pcm_ram_dma_w)
+  {
+    tmp8 = 1;
+  }
+  else if (cdc.dma_w == prg_ram_dma_w)
+  {
+    tmp8 = 2;
+  }
+  else if (cdc.dma_w == word_ram_0_dma_w)
+  {
+    tmp8 = 3;
+  }
+  else if (cdc.dma_w == word_ram_1_dma_w)
+  {
+    tmp8 = 4;
+  }
+  else if (cdc.dma_w == word_ram_2M_dma_w)
+  {
+    tmp8 = 5;
+  }
+  else
+  {
+    tmp8 = 0;
+  }
+
+  save_param(&cdc, sizeof(cdc));
+  save_param(&tmp8, 1);
+
+  return bufferptr;
+}
+
+int cdc_context_load(uint8 *state)
+{
+  uint8 tmp8;
+  int bufferptr = 0;
+
+  load_param(&cdc, sizeof(cdc));
+  load_param(&tmp8, 1);
+
+  switch (tmp8)
+  {
+    case 1:
+      cdc.dma_w = pcm_ram_dma_w;
+      break;
+    case 2:
+      cdc.dma_w = prg_ram_dma_w;
+      break;
+    case 3:
+      cdc.dma_w = word_ram_0_dma_w;
+      break;
+    case 4:
+      cdc.dma_w = word_ram_1_dma_w;
+      break;
+    case 5:
+      cdc.dma_w = word_ram_2M_dma_w;
+      break;
+    default:
+      cdc.dma_w = 0;
+      break;
+  }
+
+  return bufferptr;
+}
+
 void cdc_dma_update(void)
 {
   /* maximal transfer length */
@@ -207,7 +276,7 @@ int cdc_decoder_update(uint32 header)
       *(uint32 *)(cdc.ram + offset) = header;
 
       /* write CDD block data (2048 bytes) */
-      cdd_read(cdc.ram + 4 + offset);
+      cdd_read_data(cdc.ram + 4 + offset);
 
       /* take care of buffer overrun */
       if (offset > (0x4000 - 2048 - 4))

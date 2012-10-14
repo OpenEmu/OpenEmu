@@ -40,17 +40,12 @@
 #ifndef _GC_AUDIO_H_
 #define _GC_AUDIO_H_
 
-/* Length is dimensionned for at least one frame of emulation */
-#define SOUND_BUFFER_MAX_SIZE 4096
-
-extern u8 soundbuffer[2][SOUND_BUFFER_MAX_SIZE];
-extern u32 mixbuffer;
 extern u32 audioStarted;
 
 extern void gx_audio_Init(void);
 extern void gx_audio_Shutdown(void);
 extern void gx_audio_Start(void);
 extern void gx_audio_Stop(void);
-extern void gx_audio_Update(void);
+extern int gx_audio_Update(void);
 
 #endif

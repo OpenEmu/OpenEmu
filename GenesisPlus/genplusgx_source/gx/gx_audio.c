@@ -39,24 +39,27 @@
 
 #include "shared.h"
 
+/* Length is dimensionned for at least one frame of emulation */
+#define SOUND_BUFFER_LEN 4096
 
-/* DMA soundbuffers (required to be 32-bytes aligned)
-   To prevent audio clashes, we use double buffering technique:
-    one buffer is the active DMA buffer
-    the other one is the current work buffer (updated during frame emulation)
-   We do not need more since frame emulation and DMA operation are synchronized
-*/
-u8 soundbuffer[2][SOUND_BUFFER_MAX_SIZE] ATTRIBUTE_ALIGN(32);
-
-/* Current work soundbuffer */
-u32 mixbuffer;
+/* Number of sound buffers */
+#define SOUND_BUFFER_NUM 3
 
 /* audio DMA status */
 u32 audioStarted;
 
+/* DMA soundbuffers (required to be 32-bytes aligned) */
+static u8 soundbuffer[SOUND_BUFFER_NUM][SOUND_BUFFER_LEN] ATTRIBUTE_ALIGN(32);
+
+/* Current work soundbuffer */
+static u8 mixbuffer;
+
 /* Background music */
 static u8 *Bg_music_ogg = NULL;
 static u32 Bg_music_ogg_size = 0;
+
+/* Frame Sync */
+static u8 audio_sync;
 
 /***************************************************************************************/
 /*   Audio engine                                                                      */
@@ -74,7 +77,8 @@ static void ai_callback(void)
   }
   prevtime = current;
 #endif
-  frameticker ++;
+
+  audio_sync = 1;
 }
 
 /* AUDIO engine initialization */
@@ -122,47 +126,52 @@ void gx_audio_Shutdown(void)
      This function retrieves samples for the frame then set the next DMA parameters 
      Parameters will be taken in account only when current DMA operation is over
  ***/
-void gx_audio_Update(void)
+int gx_audio_Update(void)
 {
-  /* Current available soundbuffer */
-  s16 *sb = (s16 *)(soundbuffer[mixbuffer]);
-
-  /* Retrieve audio samples (size must be multiple of 32 bytes) */
-  int size = audio_update(sb) * 4;
-
-#ifdef LOG_TIMING
-  if (prevtime && (frame_cnt < LOGSIZE - 1))
+  if (audio_sync)
   {
-    delta_samp[frame_cnt + 1] = size;
-  }
-  else
-  {
-    delta_samp[0] = size;
-  }
-#endif
+    /* Current available soundbuffer */
+    s16 *sb = (s16 *)(soundbuffer[mixbuffer]);
 
-  /* Update DMA settings */
-  DCFlushRange((void *)sb, size);
-  AUDIO_InitDMA((u32) sb, size);
-  mixbuffer ^= 1;
+    /* Retrieve audio samples (size must be multiple of 32 bytes) */
+    int size = audio_update(sb) * 4;
 
-  /* Start Audio DMA */
-  /* this is called once to kick-off DMA from external memory to audio interface        */
-  /* DMA operation is automatically restarted when all samples have been sent.          */
-  /* If DMA settings are not updated at that time, previous sound buffer will be used.  */
-  /* Therefore we need to make sure frame emulation is completed before current DMA is  */
-  /* completed, either by synchronizing frame emulation with DMA start or by syncing it */
-  /* with Vertical Interrupt and outputing a suitable number of samples per frame.      */
-  if (!audioStarted)
-  {
-    /* restart audio DMA */
-    AUDIO_StopDMA();
-    AUDIO_StartDMA();
-    audioStarted = 1;
+  #ifdef LOG_TIMING
+    if (prevtime && (frame_cnt < LOGSIZE - 1))
+    {
+      delta_samp[frame_cnt + 1] = size;
+    }
+    else
+    {
+      delta_samp[0] = size;
+    }
+  #endif
 
-    /* resynchronize emulation */
-    frameticker = 1;
+    /* Update DMA settings */
+    DCFlushRange((void *)sb, size);
+    AUDIO_InitDMA((u32) sb, size);
+    mixbuffer = (mixbuffer + 1) % SOUND_BUFFER_NUM;
+    audio_sync = 0;
+
+    /* Start Audio DMA */
+    /* this is called once to kick-off DMA from external memory to audio interface        */
+    /* DMA operation is automatically restarted when all samples have been sent.          */
+    /* If DMA settings are not updated at that time, previous sound buffer will be used.  */
+    /* Therefore we need to make sure frame emulation is completed before current DMA is  */
+    /* completed, by synchronizing frame emulation with DMA start and also by syncing it  */
+    /* with Video Interrupt and outputing a suitable number of samples per frame.         */
+    if (!audioStarted)
+    {
+      /* restart audio DMA */
+      AUDIO_StopDMA();
+      AUDIO_StartDMA();
+      audioStarted = 1;
+    }
+
+    return SYNC_AUDIO;
   }
+
+  return NO_SYNC;
 }
 
 /*** 
@@ -184,17 +193,14 @@ void gx_audio_Start(void)
   AUDIO_RegisterDMACallback(NULL);
   DSP_Halt();
 
-  /* when VSYNC is forced OFF or AUTO with TV mode not matching emulated video mode, emulation is synchronized with Audio Hardware */
-  if (!config.vsync || (config.tv_mode == !vdp_pal))
-  {
-    /* DMA Interrupt callback */
-    AUDIO_RegisterDMACallback(ai_callback);
-  }
+  /* DMA Interrupt callback */
+  AUDIO_RegisterDMACallback(ai_callback);
 
   /* reset emulation audio processing */
-  memset(soundbuffer, 0, 2 * SOUND_BUFFER_MAX_SIZE);
+  memset(soundbuffer, 0, 3 * SOUND_BUFFER_LEN);
   audioStarted = 0;
   mixbuffer = 0;
+  audio_sync = 1;
 }
 
 /***

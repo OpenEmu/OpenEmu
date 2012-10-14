@@ -231,7 +231,7 @@ void z80_md_port_w(unsigned int port, unsigned char data)
     case 0x40:
     case 0x41:
     {
-      psg_write(Z80.cycles, data);
+      SN76489_Write(Z80.cycles, data);
       return;
     }
 
@@ -340,7 +340,7 @@ void z80_gg_port_w(unsigned int port, unsigned char data)
     case 0x40:
     case 0x41:
     {
-      psg_write(Z80.cycles, data);
+      SN76489_Write(Z80.cycles, data);
       return;
     }
 
@@ -437,7 +437,7 @@ void z80_ms_port_w(unsigned int port, unsigned char data)
     case 0x40:
     case 0x41:
     {
-      psg_write(Z80.cycles, data);
+      SN76489_Write(Z80.cycles, data);
       return;
     }
 
@@ -543,7 +543,7 @@ void z80_m3_port_w(unsigned int port, unsigned char data)
     case 0x40:
     case 0x41:
     {
-      psg_write(Z80.cycles, data);
+      SN76489_Write(Z80.cycles, data);
       return;
     }
 
@@ -630,7 +630,7 @@ void z80_sg_port_w(unsigned int port, unsigned char data)
     case 0x40:
     case 0x41:
     {
-      psg_write(Z80.cycles, data);
+      SN76489_Write(Z80.cycles, data);
       return;
     }
 

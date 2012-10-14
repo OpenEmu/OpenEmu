@@ -107,7 +107,6 @@ void config_default(void)
   config.lg             = 1.0;
   config.mg             = 1.0;
   config.hg             = 1.0;
-  config.rolloff        = 0.990;
   config.dac_bits 		  = 14;
   config.ym2413         = 2; /* AUTO */
 
@@ -129,6 +128,7 @@ void config_default(void)
   config.yscale   = 0;
   config.aspect   = 1;
   config.overscan = 3; /* FULL */
+  config.gg_extra = 0;
   config.ntsc     = 0;
   config.vsync    = 1; /* AUTO */
 

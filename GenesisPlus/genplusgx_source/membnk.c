@@ -294,7 +294,7 @@ void zbank_write_vdp(unsigned int address, unsigned int data)
     {
       if (address & 1)
       {
-        psg_write(Z80.cycles, data);
+        SN76489_Write(Z80.cycles, data);
         return;
       }
       zbank_unused_w(address, data);

@@ -38,6 +38,7 @@
  ****************************************************************************************/
 
 #include "shared.h"
+#include "file_load.h"
 #include "cheats.h"
 #include "font.h"
 #include "gui.h"

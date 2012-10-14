@@ -175,10 +175,14 @@ void slot_autoload(int slot, int device)
         memcpy(scd.cartridge.area + scd.cartridge.mask + 1 - 0x40, brm_format, 0x40);
       }
     }
+  }
 
+  /* configurable SRAM & State auto-saving */
+  if ((slot && !(config.s_auto & 2)) || (!slot && !(config.s_auto & 1)))
+  {
     return;
   }
-  
+
   if (strlen(rom_filename))
   {  
     SILENT = 1;
@@ -244,7 +248,11 @@ void slot_autosave(int slot, int device)
         }
       }
     }
+  }
 
+  /* configurable SRAM & State auto-saving */
+  if ((slot && !(config.s_auto & 2)) || (!slot && !(config.s_auto & 1)))
+  {
     return;
   }
 
@@ -396,13 +404,13 @@ int slot_load(int slot, int device)
   }
   else
   {
-    if (!sram.on || (system_hw == SYSTEM_MCD))
+    if (!sram.on)
     {
-      GUI_WaitPrompt("Error","SRAM is disabled !");
+      GUI_WaitPrompt("Error","Backup RAM is disabled !");
       return 0;
     }
 
-    GUI_MsgBoxOpen("Information","Loading SRAM ...",1);
+    GUI_MsgBoxOpen("Information","Loading Backup RAM ...",1);
   }
 
   /* Device Type */
@@ -595,20 +603,20 @@ int slot_save(int slot, int device)
   else
   {
     /* only save if SRAM is enabled */
-    if (!sram.on || (system_hw == SYSTEM_MCD))
+    if (!sram.on)
     {
-       GUI_WaitPrompt("Error","SRAM disabled !");
+       GUI_WaitPrompt("Error","Backup RAM disabled !");
        return 0;
     }
 
     /* only save if SRAM has been modified */
     if (crc32(0, &sram.sram[0], 0x10000) == sram.crc)
     {
-       GUI_WaitPrompt("Warning","SRAM not modified !");
+       GUI_WaitPrompt("Warning","Backup RAM not modified !");
        return 0;
     }
 
-    GUI_MsgBoxOpen("Information","Saving SRAM ...",1);
+    GUI_MsgBoxOpen("Information","Saving Backup RAM ...",1);
 
     /* allocate buffer */
     buffer = (u8 *)memalign(32, 0x10000);
@@ -816,7 +824,7 @@ int slot_save(int slot, int device)
 
     /* Close message box */
     GUI_MsgBoxClose();
- }
+  }
 
   return 1;
 }

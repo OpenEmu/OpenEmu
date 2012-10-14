@@ -44,7 +44,6 @@
 #include "cheats.h"
 #include "file_load.h"
 #include "file_slot.h"
-#include "md_eeprom.h"
 
 #ifdef HW_RVL
 #include <ogc/usbmouse.h>
@@ -333,21 +332,20 @@ static gui_item items_options[5] =
 };
 
 /* Audio options */
-static gui_item items_audio[13] =
+static gui_item items_audio[12] =
 {
-  {NULL,NULL,"Master System FM: AUTO", "Enable/disable YM2413 chip",               56,132,276,48},
-  {NULL,NULL,"High-Quality FM: ON",    "Enable/disable YM2612/YM2413 resampling",  56,132,276,48},
-  {NULL,NULL,"FM Roll-off: 0.999",     "Adjust FIR low-pass filtering",            56,132,276,48},
-  {NULL,NULL,"FM Resolution: MAX",     "Adjust YM2612 DAC precision",              56,132,276,48},
-  {NULL,NULL,"FM Volume: 1.00",        "Adjust YM2612/YM2413 output level",        56,132,276,48},
-  {NULL,NULL,"PSG Volume: 2.50",       "Adjust SN76489 output level",              56,132,276,48},
-  {NULL,NULL,"PSG Noise Boost: OFF",   "Boost SN76489 Noise Channel",              56,132,276,48},
-  {NULL,NULL,"Filtering: 3-BAND EQ",   "Setup Audio filtering",                    56,132,276,48},
-  {NULL,NULL,"Low Gain: 1.00",         "Adjust EQ Low Band Gain",                  56,132,276,48},
-  {NULL,NULL,"Mid Gain: 1.00",         "Adjust EQ Mid Band Gain",                  56,132,276,48},
-  {NULL,NULL,"High Gain: 1.00",        "Adjust EQ High BandGain",                  56,132,276,48},
-  {NULL,NULL,"Low Freq: 200 Hz",       "Adjust EQ Lowest Frequency",               56,132,276,48},
-  {NULL,NULL,"High Freq: 20000 Hz",    "Adjust EQ Highest Frequency",              56,132,276,48}
+  {NULL,NULL,"Master System FM: AUTO", "Enable/disable YM2413 chip",              56,132,276,48},
+  {NULL,NULL,"High-Quality FM: ON",    "Adjust YM2612/YM2413 resampling quality", 56,132,276,48},
+  {NULL,NULL,"FM Resolution: MAX",     "Adjust YM2612 DAC precision",             56,132,276,48},
+  {NULL,NULL,"FM Volume: 1.00",        "Adjust YM2612/YM2413 output level",       56,132,276,48},
+  {NULL,NULL,"PSG Volume: 2.50",       "Adjust SN76489 output level",             56,132,276,48},
+  {NULL,NULL,"PSG Noise Boost: OFF",   "Boost SN76489 Noise Channel",             56,132,276,48},
+  {NULL,NULL,"Filtering: 3-BAND EQ",   "Setup Audio filtering",                   56,132,276,48},
+  {NULL,NULL,"Low Gain: 1.00",         "Adjust EQ Low Band Gain",                 56,132,276,48},
+  {NULL,NULL,"Mid Gain: 1.00",         "Adjust EQ Mid Band Gain",                 56,132,276,48},
+  {NULL,NULL,"High Gain: 1.00",        "Adjust EQ High Band Gain",                56,132,276,48},
+  {NULL,NULL,"Low Freq: 200 Hz",       "Adjust EQ Lowest Frequency",              56,132,276,48},
+  {NULL,NULL,"High Freq: 20000 Hz",    "Adjust EQ Highest Frequency",             56,132,276,48}
 };
 
 /* System options */
@@ -367,14 +365,14 @@ static gui_item items_system[10] =
 
 /* Video options */
 #ifdef HW_RVL
-static gui_item items_video[11] =
+static gui_item items_video[12] =
 #else
-static gui_item items_video[9] =
+static gui_item items_video[10] =
 #endif
 {
   {NULL,NULL,"Display: PROGRESSIVE",    "Select video mode",                          56,132,276,48},
   {NULL,NULL,"TV mode: 50/60Hz",        "Select video refresh rate",                  56,132,276,48},
-  {NULL,NULL,"VSYNC: AUTO", "Enable/disable synchronization with Video Hardware",     56,132,276,48},
+  {NULL,NULL,"VSYNC: AUTO",             "Enable/disable sync with Video Hardware",    56,132,276,48},
   {NULL,NULL,"GX Bilinear Filter: OFF", "Enable/disable texture hardware filtering",  56,132,276,48},
 #ifdef HW_RVL
   {NULL,NULL,"VI Trap Filter: ON",      "Enable/disable video hardware filtering",    56,132,276,48},
@@ -382,6 +380,7 @@ static gui_item items_video[9] =
 #endif
   {NULL,NULL,"NTSC Filter: COMPOSITE",  "Enable/disable NTSC software filtering",     56,132,276,48},
   {NULL,NULL,"Borders: OFF",            "Enable/disable overscan emulation",          56,132,276,48},
+  {NULL,NULL,"GG screen: ORIGINAL",     "Enable/disable Game Gear extended screen",   56,132,276,48},
   {NULL,NULL,"Aspect: ORIGINAL (4:3)",  "Select display aspect ratio",                56,132,276,48},
   {NULL,NULL,"Screen Position (+0,+0)", "Adjust display position",                    56,132,276,48},
   {NULL,NULL,"Screen Scaling (+0,+0)",  "Adjust display scaling",                     56,132,276,48}
@@ -579,7 +578,7 @@ static gui_menu menu_video =
 {
   "Video Settings",
   0,0,
-  9,4,6,0,
+  10,4,6,0,
   items_video,
   buttons_list,
   bg_list,
@@ -792,96 +791,55 @@ static void prefmenu ()
  * Audio Settings menu
  *
  ****************************************************************************/
-static int update_snd_items(void)
-{
-  gui_menu *m = &menu_audio;
-  gui_item *items = m->items;
-  int offset;
-  float fm_volume = (float)config.fm_preamp/100.0;
-  float psg_volume = (float)config.psg_preamp/100.0;
-  float rolloff = config.rolloff * 100.0;
-  float lg = (float)config.lg/100.0;
-  float mg = (float)config.mg/100.0;
-  float hg = (float)config.hg/100.0;
-  
-  if (config.hq_fm)
-  {
-    sprintf (items[1].text, "High-Quality FM: ON");
-    sprintf (items[2].text, "FM Roll-off: %1.2f %%",rolloff);
-    strcpy  (items[2].comment, "Adjust FIR low-pass filtering");
-    offset = 3;
-  }
-  else
-  {
-    sprintf (items[1].text, "High-Quality FM: OFF");
-    offset = 2;
-  }
- 
-  strcpy(items[offset].comment, "Adjust YM2612 DAC precision");
-  strcpy(items[offset+1].comment, "Adjust YM2612/YM2413 output level");
-  strcpy(items[offset+2].comment, "Adjust SN76489 output level");
-  strcpy(items[offset+3].comment, "Boost SN76489 Noise Channel");
-  strcpy(items[offset+4].comment, "Configure Audio filtering");
-
-  if (config.dac_bits < 14)
-    sprintf (items[offset].text, "FM Resolution: %d bits", config.dac_bits);
-  else 
-    sprintf (items[offset].text, "FM Resolution: MAX");
-
-  sprintf (items[offset+1].text, "FM Volume: %1.2f", fm_volume);
-  sprintf (items[offset+2].text, "PSG Volume: %1.2f", psg_volume);
-  sprintf (items[offset+3].text, "PSG Noise Boost: %s", config.psgBoostNoise ? "ON":"OFF");
-
-  if (config.filter == 2)
-  {
-    sprintf (items[offset+4].text, "Filtering: 3-BAND EQ");
-    sprintf (items[offset+5].text, "Low Gain: %1.2f", lg);
-    m->max_items  = offset + 10;
-  }
-  else if (config.filter == 1)
-  {
-    sprintf (items[offset+4].text, "Filtering: LOW-PASS");
-    sprintf (items[offset+5].text, "Low-Pass Rate: %d %%", config.lp_range);
-    strcpy (items[offset+5].comment, "Adjust Low Pass filter");
-    m->max_items  = offset + 6;
-  }
-  else
-  {
-    sprintf (items[offset+4].text, "Filtering: OFF");
-    m->max_items  = offset + 5;
-  }
-
-  sprintf (items[offset+6].text, "Middle Gain: %1.2f", mg);
-  sprintf (items[offset+7].text, "High Gain: %1.2f", hg);
-  sprintf (items[offset+8].text, "Low Freq: %d", config.low_freq);
-  sprintf (items[offset+9].text, "High Freq: %d", config.high_freq);
-  strcpy  (items[offset+5].comment, "Adjust EQ Low Band Gain");
-  strcpy  (items[offset+6].comment, "Adjust EQ Mid Band Gain");
-  strcpy  (items[offset+7].comment, "Adjust EQ High Band Gain");
-  strcpy  (items[offset+8].comment, "Adjust EQ Lowest Frequency");
-  strcpy  (items[offset+9].comment, "Adjust EQ Highest Frequency");
-
-  return offset;
-}
-
 static void soundmenu ()
 {
   int ret, quit = 0;
-  int reinit = 0;
-  gui_menu *m = &menu_audio;
-  gui_item *items = m->items;
   float fm_volume = (float)config.fm_preamp/100.0;
   float psg_volume = (float)config.psg_preamp/100.0;
-  float rolloff = config.rolloff * 100.0;
-  float lg = (float)config.lg/100.0;
-  float mg = (float)config.mg/100.0;
-  float hg = (float)config.hg/100.0;
-
-  int offset = update_snd_items();
+  gui_menu *m = &menu_audio;
+  gui_item *items = m->items;
 
   if (config.ym2413 == 0) sprintf (items[0].text, "Master System FM: OFF");
   else if (config.ym2413 == 1) sprintf (items[0].text, "Master System FM: ON");
   else sprintf (items[0].text, "Master System FM: AUTO");
+
+  if (config.hq_fm) sprintf (items[1].text, "High-Quality FM: ON");
+  else sprintf (items[1].text, "High-Quality FM: OFF");
+
+  if (config.dac_bits < 14) sprintf (items[2].text, "FM Resolution: %d bits", config.dac_bits);
+  else  sprintf (items[2].text, "FM Resolution: MAX");
+
+  sprintf (items[3].text, "FM Volume: %1.2f", fm_volume);
+  sprintf (items[4].text, "PSG Volume: %1.2f", psg_volume);
+  sprintf (items[5].text, "PSG Noise Boost: %s", config.psgBoostNoise ? "ON":"OFF");
+
+  if (config.filter == 2)
+  {
+    float lg = (float)config.lg/100.0;
+    float mg = (float)config.mg/100.0;
+    float hg = (float)config.hg/100.0;
+
+    sprintf(items[6].text, "Filtering: 3-BAND EQ");
+    sprintf(items[7].text, "Low Gain: %1.2f", lg);
+    strcpy(items[7].comment, "Adjust EQ Low Band Gain");
+    sprintf(items[8].text, "Middle Gain: %1.2f", mg);
+    sprintf(items[9].text, "High Gain: %1.2f", hg);
+    sprintf(items[10].text, "Low Freq: %d", config.low_freq);
+    sprintf(items[11].text, "High Freq: %d", config.high_freq);
+    m->max_items = 12;
+  }
+  else if (config.filter == 1)
+  {
+    sprintf (items[6].text, "Filtering: LOW-PASS");
+    sprintf (items[7].text, "Low-Pass Rate: %d %%", config.lp_range);
+    strcpy (items[7].comment, "Adjust Low Pass filter");
+    m->max_items = 8;
+  }
+  else
+  {
+    sprintf (items[6].text, "Filtering: OFF");
+    m->max_items = 7;
+  }
 
   GUI_InitMenu(m);
   GUI_SlideMenuTitle(m,strlen("Audio "));
@@ -889,23 +847,6 @@ static void soundmenu ()
   while (quit == 0)
   {
     ret = GUI_RunMenu(m);
-
-    /* special case */
-    if (config.hq_fm)
-    {
-      if (ret == 2)
-      {
-        GUI_OptionBox(m,0,"FM Roll-off",(void *)&rolloff,0.1,95.0,99.9,0);
-        sprintf (items[2].text, "FM Roll-off: %1.2f %%",rolloff);
-        config.rolloff = rolloff / 100.0;
-        reinit = 1;
-        ret = 255;
-      }
-      else if (ret > 2)
-      {
-        ret--;
-      }
-    }
 
     switch (ret)
     {
@@ -924,10 +865,7 @@ static void soundmenu ()
           sms_cart_init();
 
           /* restore SRAM */
-          if (config.s_auto & 1)
-          {
-            slot_autoload(0,config.s_device);
-          }
+          slot_autoload(0,config.s_device);
         }
         break;
       }
@@ -935,8 +873,8 @@ static void soundmenu ()
       case 1:
       {
         config.hq_fm ^= 1;
-        reinit = 1;
-        offset = update_snd_items();
+        if (config.hq_fm) sprintf (items[1].text, "High-Quality FM: ON");
+        else sprintf (items[1].text, "High-Quality FM: OFF");
         break;
       }
 
@@ -944,16 +882,16 @@ static void soundmenu ()
       {
         config.dac_bits++;
         if (config.dac_bits > 14) config.dac_bits = 7;
-        if (config.dac_bits < 14) sprintf (items[offset].text, "FM Resolution: %d bits", config.dac_bits);
-        else sprintf (items[offset].text, "FM Resolution: MAX");
-        reinit = 1;
+        if (config.dac_bits < 14) sprintf (items[2].text, "FM Resolution: %d bits", config.dac_bits);
+        else sprintf (items[2].text, "FM Resolution: MAX");
+        YM2612Config(config.dac_bits);
         break;
       }
 
       case 3:
       {
         GUI_OptionBox(m,0,"FM Volume",(void *)&fm_volume,0.01,0.0,5.0,0);
-        sprintf (items[offset+1].text, "FM Volume: %1.2f", fm_volume);
+        sprintf (items[3].text, "FM Volume: %1.2f", fm_volume);
         config.fm_preamp = (int)(fm_volume * 100.0 + 0.5);
         break;
       }
@@ -961,16 +899,31 @@ static void soundmenu ()
       case 4:
       {
         GUI_OptionBox(m,0,"PSG Volume",(void *)&psg_volume,0.01,0.0,5.0,0);
-        sprintf (items[offset+2].text, "PSG Volume: %1.2f", psg_volume);
+        sprintf (items[4].text, "PSG Volume: %1.2f", psg_volume);
         config.psg_preamp = (int)(psg_volume * 100.0 + 0.5);
+        if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
+        {
+          SN76489_Config(config.psg_preamp, config.psgBoostNoise, 0xff);
+        }
+        else
+        {
+          SN76489_Config(config.psg_preamp, config.psgBoostNoise, io_reg[6]);
+        }
         break;
       }
 
       case 5:
       {
         config.psgBoostNoise ^= 1;
-        sprintf (items[offset+3].text, "PSG Noise Boost: %s", config.psgBoostNoise ? "ON":"OFF");
-        SN76489_BoostNoise(config.psgBoostNoise);
+        sprintf (items[5].text, "PSG Noise Boost: %s", config.psgBoostNoise ? "ON":"OFF");
+        if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
+        {
+          SN76489_Config(config.psg_preamp, config.psgBoostNoise, 0xff);
+        }
+        else
+        {
+          SN76489_Config(config.psg_preamp, config.psgBoostNoise, io_reg[6]);
+        }
         break;
       }
 
@@ -979,23 +932,24 @@ static void soundmenu ()
         config.filter = (config.filter + 1) % 3;
         if (config.filter == 2)
         {
-          sprintf (items[offset+4].text, "Filtering: 3-BAND EQ");
-          sprintf (items[offset+5].text, "Low Gain: %1.2f", lg);
-          strcpy (items[offset+5].comment, "Adjust EQ Low Band Gain");
-          m->max_items = offset + 10;
+          float lg = (float)config.lg/100.0;
+          sprintf (items[6].text, "Filtering: 3-BAND EQ");
+          sprintf (items[7].text, "Low Gain: %1.2f", lg);
+          strcpy (items[7].comment, "Adjust EQ Low Band Gain");
+          m->max_items = 12;
           audio_set_equalizer();
         }
         else if (config.filter == 1)
         {
-          sprintf (items[offset+4].text, "Filtering: LOW-PASS");
-          sprintf (items[offset+5].text, "Low-Pass Rate: %d %%", config.lp_range);
-          strcpy (items[offset+5].comment, "Adjust Low Pass filter");
-          m->max_items = offset + 6;
+          sprintf (items[6].text, "Filtering: LOW-PASS");
+          sprintf (items[7].text, "Low-Pass Rate: %d %%", config.lp_range);
+          strcpy (items[7].comment, "Adjust Low Pass filter");
+          m->max_items = 8;
         }
         else
         {
-          sprintf (items[offset+4].text, "Filtering: OFF");
-          m->max_items = offset + 5;
+          sprintf (items[6].text, "Filtering: OFF");
+          m->max_items = 7;
         }
 
         while ((m->offset + 4) > m->max_items)
@@ -1011,12 +965,13 @@ static void soundmenu ()
         if (config.filter == 1)
         {
           GUI_OptionBox(m,0,"Low-Pass Rate",(void *)&config.lp_range,1,0,100,1);
-          sprintf (items[offset+5].text, "Low-Pass Rate: %d %%", config.lp_range);
+          sprintf (items[7].text, "Low-Pass Rate: %d %%", config.lp_range);
         }
         else
         {
+          float lg = (float)config.lg/100.0;
           GUI_OptionBox(m,0,"Low Gain",(void *)&lg,0.01,0.0,2.0,0);
-          sprintf (items[offset+5].text, "Low Gain: %1.2f", lg);
+          sprintf (items[7].text, "Low Gain: %1.2f", lg);
           config.lg = (int)(lg * 100.0);
           audio_set_equalizer();
         }
@@ -1025,8 +980,9 @@ static void soundmenu ()
 
       case 8:
       {
-       GUI_OptionBox(m,0,"Middle Gain",(void *)&mg,0.01,0.0,2.0,0);
-        sprintf (items[offset+6].text, "Middle Gain: %1.2f", mg);
+        float mg = (float)config.mg/100.0;
+        GUI_OptionBox(m,0,"Middle Gain",(void *)&mg,0.01,0.0,2.0,0);
+        sprintf (items[8].text, "Middle Gain: %1.2f", mg);
         config.mg = (int)(mg * 100.0);
         audio_set_equalizer();
         break;
@@ -1034,8 +990,9 @@ static void soundmenu ()
 
       case 9:
       {
+        float hg = (float)config.hg/100.0;
         GUI_OptionBox(m,0,"High Gain",(void *)&hg,0.01,0.0,2.0,0);
-        sprintf (items[offset+7].text, "High Gain: %1.2f", hg);
+        sprintf (items[9].text, "High Gain: %1.2f", hg);
         config.hg = (int)(hg * 100.0);
         audio_set_equalizer();
         break;
@@ -1044,7 +1001,7 @@ static void soundmenu ()
       case 10:
       {
         GUI_OptionBox(m,0,"Low Frequency",(void *)&config.low_freq,10,0,config.high_freq,1);
-        sprintf (items[offset+8].text, "Low Freq: %d", config.low_freq);
+        sprintf (items[10].text, "Low Freq: %d", config.low_freq);
         audio_set_equalizer();
         break;
       }
@@ -1052,7 +1009,7 @@ static void soundmenu ()
       case 11:
       {
         GUI_OptionBox(m,0,"High Frequency",(void *)&config.high_freq,100,config.low_freq,30000,1);
-        sprintf (items[offset+9].text, "High Freq: %d", config.high_freq);
+        sprintf (items[11].text, "High Freq: %d", config.high_freq);
         audio_set_equalizer();
         break;
       }
@@ -1063,12 +1020,6 @@ static void soundmenu ()
         break;
       }
     }
-  }
-
-  if (reinit && system_hw) 
-  {
-    audio_init(snd.sample_rate, snd.frame_rate);
-    sound_restore();
   }
 
   GUI_DeleteMenu(m);
@@ -1095,26 +1046,26 @@ static void systemmenu ()
   gui_item *items = m->items;
 
   if (config.system == 0)
-    sprintf (items[0].text, "Console Hardware: AUTO");
+    sprintf (items[0].text, "Console Type: AUTO");
   else if (config.system == SYSTEM_SG)
-    sprintf (items[0].text, "Console Hardware: SG-1000");
+    sprintf (items[0].text, "Console Type: SG-1000");
   else if (config.system == SYSTEM_MARKIII)
-    sprintf (items[0].text, "Console Hardware: MARK-III");
+    sprintf (items[0].text, "Console Type: MARK-III");
   else if (config.system == SYSTEM_SMS)
-    sprintf (items[0].text, "Console Hardware: SMS");
+    sprintf (items[0].text, "Console Type: SMS");
   else if (config.system == SYSTEM_SMS2)
-    sprintf (items[0].text, "Console Hardware: SMS-II");
+    sprintf (items[0].text, "Console Type: SMS II");
   else if (config.system == SYSTEM_GG)
-    sprintf (items[0].text, "Console Hardware: GG");
+    sprintf (items[0].text, "Console Type: GG");
   else if (config.system == SYSTEM_MD)
-    sprintf (items[0].text, "Console Hardware: MD");
+    sprintf (items[0].text, "Console Type: MD");
 
   if (config.region_detect == 0)
     sprintf (items[1].text, "Console Region: AUTO");
   else if (config.region_detect == 1)
     sprintf (items[1].text, "Console Region: USA");
   else if (config.region_detect == 2)
-    sprintf (items[1].text, "Console Region: EUR");
+    sprintf (items[1].text, "Console Region: EUROPE");
   else if (config.region_detect == 3)
     sprintf (items[1].text, "Console Region: JAPAN");
 
@@ -1171,81 +1122,91 @@ static void systemmenu ()
         if (config.system == SYSTEM_MD)
         {
           config.system = 0;
-          sprintf (items[0].text, "Console Hardware: AUTO");
+          sprintf (items[0].text, "Console Type: AUTO");
 
           /* Default system hardware (auto) */
-          system_hw = romtype;
+          if (system_hw) system_hw = romtype;
        }
         else if (config.system == 0)
         {
           config.system = SYSTEM_SG;
-          sprintf (items[0].text, "Console Hardware: SG-1000");
-          system_hw = SYSTEM_SG;
+          sprintf (items[0].text, "Console Type: SG-1000");
+          if (system_hw) system_hw = SYSTEM_SG;
         }
         else if (config.system == SYSTEM_SG)
         {
           config.system = SYSTEM_MARKIII;
-          sprintf (items[0].text, "Console Hardware: MARK-III");
-          system_hw = SYSTEM_MARKIII;
+          sprintf (items[0].text, "Console Type: MARK-III");
+          if (system_hw) system_hw = SYSTEM_MARKIII;
         }
         else if (config.system == SYSTEM_MARKIII)
         {
           config.system = SYSTEM_SMS;
-          sprintf (items[0].text, "Console Hardware: SMS");
-          system_hw = SYSTEM_SMS;
+          sprintf (items[0].text, "Console Type: SMS");
+          if (system_hw) system_hw = SYSTEM_SMS;
         }
         else if (config.system == SYSTEM_SMS)
         {
           config.system = SYSTEM_SMS2;
-          sprintf (items[0].text, "Console Hardware: SMS-II");
-          system_hw = SYSTEM_SMS2;
+          sprintf (items[0].text, "Console Type: SMS II");
+          if (system_hw) system_hw = SYSTEM_SMS2;
         }
         else if (config.system == SYSTEM_SMS2)
         {
           config.system = SYSTEM_GG;
-          sprintf (items[0].text, "Console Hardware: GG");
+          sprintf (items[0].text, "Console Type: GG");
 
           if (romtype == SYSTEM_GG)
           {
             /* Game Gear mode  */
-            system_hw = SYSTEM_GG;
+            if (system_hw) system_hw = SYSTEM_GG;
           }
           else
           {
             /* Game Gear in MS compatibility mode  */
-            system_hw = SYSTEM_GGMS;
+            if (system_hw) system_hw = SYSTEM_GGMS;
           }
         }
         else if (config.system == SYSTEM_GG)
         {
           config.system = SYSTEM_MD;
-          sprintf (items[0].text, "Console Hardware: MD");
+          sprintf (items[0].text, "Console Type: MD");
 
           if (romtype & SYSTEM_MD)
           {
             /* Default mode */
-            system_hw = romtype;
+            if (system_hw) system_hw = romtype;
           }
           else
           {
             /* Mega Drive in MS compatibility mode  */
-            system_hw = SYSTEM_PBC;
+            if (system_hw) system_hw = SYSTEM_PBC;
           }
         }
 
-        /* reinitialize audio streams */
-        audio_init(snd.sample_rate, snd.frame_rate);
-
-        /* force hard reset */
-        system_init();
-        system_reset();
-
-        /* restore SRAM */
-        if (config.s_auto & 1)
+        if (system_hw)
         {
+          /* restore previous input settings */
+          if (old_system[0] != -1)
+          {
+            input.system[0] = old_system[0];
+          }
+          if (old_system[1] != -1)
+          {
+            input.system[1] = old_system[1];
+          }
+
+          /* reinitialize audio streams */
+          audio_init(snd.sample_rate, snd.frame_rate);
+
+          /* force hard reset */
+          system_init();
+          system_reset();
+
+          /* restore SRAM */
           slot_autoload(0,config.s_device);
         }
-
+        
         break;
       }
 
@@ -1261,7 +1222,7 @@ static void systemmenu ()
         else if (config.region_detect == 3)
           sprintf (items[1].text, "Console Region: JAPAN");
 
-        /* force system reinitialization  + region BIOS */
+        /* force system reinitialization + region BIOS */
         reinit = 2;
         break;
       }
@@ -1309,10 +1270,7 @@ static void systemmenu ()
           system_reset();
 
           /* restore SRAM */
-          if (config.s_auto & 1)
-          {
-            slot_autoload(0,config.s_device);
-          }
+          slot_autoload(0,config.s_device);
         }
         break;
       }
@@ -1333,10 +1291,7 @@ static void systemmenu ()
           md_cart_init();
 
           /* restore SRAM */
-          if (config.s_auto & 1)
-          {
-            slot_autoload(0,config.s_device);
-          }
+          slot_autoload(0,config.s_device);
         }
         sprintf (items[6].text, "68k Address Error: %s", config.addr_error ? "ON" : "OFF");
         break;
@@ -1361,10 +1316,7 @@ static void systemmenu ()
           system_reset();
 
           /* restore SRAM */
-          if (config.s_auto & 1)
-          {
-            slot_autoload(0,config.s_device);
-          }
+          slot_autoload(0,config.s_device);
 
           /* Action Replay switch */
           if (areplay_get_status() < 0)
@@ -1414,9 +1366,9 @@ static void systemmenu ()
   if (reinit && system_hw)
   {
     /* reinitialize console region */
-    get_region(0);
+    get_region(NULL);
 
-    /* framerate has changed, reinitialize audio timings */
+    /* framerate might have changed, reinitialize audio timings */
     audio_init(snd.sample_rate, get_framerate());
 
     /* system with region BIOS should be reinitialized if region code has changed */
@@ -1426,10 +1378,7 @@ static void systemmenu ()
        system_reset();
 
        /* restore SRAM */
-       if (config.s_auto & 1)
-       {
-         slot_autoload(0,config.s_device);
-       }
+       slot_autoload(0,config.s_device);
     }
     else
     {
@@ -1472,9 +1421,6 @@ static void systemmenu ()
           vc_max = vc_table[3][vdp_pal];
           break;
       }
-
-      /* reinitialize sound emulation */
-      sound_restore();
     }
   }
 
@@ -1548,25 +1494,27 @@ static void videomenu ()
   else
     sprintf (items[VI_OFFSET+1].text, "Borders: NONE");
 
-  if (config.aspect == 1)
-    sprintf (items[VI_OFFSET+2].text,"Aspect: ORIGINAL (4:3)");
-  else if (config.aspect == 2)
-    sprintf (items[VI_OFFSET+2].text, "Aspect: ORIGINAL (16:9)");
-  else
-    sprintf (items[VI_OFFSET+2].text, "Aspect: SCALED");
+  sprintf(items[VI_OFFSET+2].text, "GG Screen: %s", config.gg_extra ? "EXTENDED":"ORIGINAL");
 
-  sprintf (items[VI_OFFSET+3].text, "Screen Position: (%s%02d,%s%02d)",
+  if (config.aspect == 1)
+    sprintf (items[VI_OFFSET+3].text,"Aspect: ORIGINAL (4:3)");
+  else if (config.aspect == 2)
+    sprintf (items[VI_OFFSET+3].text, "Aspect: ORIGINAL (16:9)");
+  else
+    sprintf (items[VI_OFFSET+3].text, "Aspect: SCALED");
+
+  sprintf (items[VI_OFFSET+4].text, "Screen Position: (%s%02d,%s%02d)",
     (config.xshift < 0) ? "":"+", config.xshift,
     (config.yshift < 0) ? "":"+", config.yshift);
 
-  sprintf (items[VI_OFFSET+4].text, "Screen Scaling: (%s%02d,%s%02d)",
+  sprintf (items[VI_OFFSET+5].text, "Screen Scaling: (%s%02d,%s%02d)",
     (config.xscale < 0) ? "":"+", config.xscale,
     (config.yscale < 0) ? "":"+", config.yscale);
 
   if (config.aspect)
-    m->max_items  = VI_OFFSET+4;
-  else
     m->max_items  = VI_OFFSET+5;
+  else
+    m->max_items  = VI_OFFSET+6;
 
   GUI_InitMenu(m);
   GUI_SlideMenuTitle(m,strlen("Video "));
@@ -1695,36 +1643,41 @@ static void videomenu ()
           sprintf (items[VI_OFFSET+1].text, "Borders: NONE");
         break;
 
-      case VI_OFFSET+2: /*** aspect ratio ***/
+      case VI_OFFSET+2: /*** Game Gear extended screen */
+        config.gg_extra ^= 1;
+        sprintf(items[VI_OFFSET+2].text, "GG Screen: %s", config.gg_extra ? "EXTENDED":"ORIGINAL");
+        break;
+
+      case VI_OFFSET+3: /*** aspect ratio ***/
         config.aspect = (config.aspect + 1) % 3;
         if (config.aspect == 1)
-          sprintf (items[VI_OFFSET+2].text,"Aspect: ORIGINAL (4:3)");
+          sprintf (items[VI_OFFSET+3].text,"Aspect: ORIGINAL (4:3)");
         else if (config.aspect == 2)
-          sprintf (items[VI_OFFSET+2].text, "Aspect: ORIGINAL (16:9)");
+          sprintf (items[VI_OFFSET+3].text, "Aspect: ORIGINAL (16:9)");
         else
-          sprintf (items[VI_OFFSET+2].text, "Aspect: SCALED");
+          sprintf (items[VI_OFFSET+3].text, "Aspect: SCALED");
 
         if (config.aspect)
         {
           /* disable items */
-          m->max_items  = VI_OFFSET+4;
+          m->max_items  = VI_OFFSET+5;
 
           /* reset menu selection */
           if (m->offset > VI_OFFSET)
           {
             m->offset  = VI_OFFSET;
-            m->selected = 2;
+            m->selected = 3;
           }
         }
         else
         {
           /* enable items */
-          m->max_items  = VI_OFFSET+5;
+          m->max_items  = VI_OFFSET+6;
         }
 
         break;
 
-      case VI_OFFSET+3: /*** screen position ***/
+      case VI_OFFSET+4: /*** screen position ***/
         if (system_hw) 
         {
           state[0] = m->arrows[0]->state;
@@ -1742,9 +1695,9 @@ static void videomenu ()
           m->arrows[1]->state = state[1];
           m->screenshot = 0;
           strcpy(m->title,"Video Settings");
-          sprintf (items[VI_OFFSET+3].text, "Screen Position: (%s%02d,%s%02d)",
-            (config.xshift < 0) ? "":"+", config.xshift,
-            (config.yshift < 0) ? "":"+", config.yshift);
+          sprintf (items[VI_OFFSET+4].text, "Screen Position: (%s%02d,%s%02d)",
+                                            (config.xshift < 0) ? "":"+", config.xshift,
+                                            (config.yshift < 0) ? "":"+", config.yshift);
         }
         else
         {
@@ -1752,7 +1705,7 @@ static void videomenu ()
         }
         break;
 
-      case VI_OFFSET+4: /*** screen scaling ***/
+      case VI_OFFSET+5: /*** screen scaling ***/
         if (system_hw) 
         {
           state[0] = m->arrows[0]->state;
@@ -1770,9 +1723,9 @@ static void videomenu ()
           m->arrows[1]->state = state[1];
           m->screenshot = 0;
           strcpy(m->title,"Video Settings");
-          sprintf (items[VI_OFFSET+4].text, "Screen Scaling: (%s%02d,%s%02d)",
-            (config.xscale < 0) ? "":"+", config.xscale,
-            (config.yscale < 0) ? "":"+", config.yscale);
+          sprintf (items[VI_OFFSET+5].text, "Screen Scaling: (%s%02d,%s%02d)",
+                                            (config.xscale < 0) ? "":"+", config.xscale,
+                                            (config.yscale < 0) ? "":"+", config.yscale);
         }
         else
         {
@@ -1788,11 +1741,8 @@ static void videomenu ()
 
   if (reinit && system_hw)
   {
-    /* framerate has changed, reinitialize audio timings */
+    /* framerate might have changed, reinitialize audio timings */
     audio_init(snd.sample_rate, get_framerate());
-
-    /* reinitialize sound chips */
-    sound_restore();
   }
 
   GUI_DeleteMenu(m);
@@ -3222,14 +3172,18 @@ static void showrominfo (void)
   sprintf (items[11], "ROM end: $%06X", rominfo.romend);
 
   if (sram.custom)
-    sprintf (items[12], "EEPROM(%dK): $%06X", ((md_eeprom.type.size_mask+1)* 8) /1024, md_eeprom.type.sda_in_adr);
+    sprintf (items[12], "Serial EEPROM");
   else if (sram.detected)
     sprintf (items[12], "SRAM Start: $%06X", sram.start);
   else
     sprintf (items[12], "No Backup Memory specified");
 
-  if (sram.custom) 
-    sprintf (items[13], "EEPROM(%dK): $%06X", ((md_eeprom.type.size_mask+1)* 8) /1024, md_eeprom.type.sda_out_adr);
+  if (sram.custom == 1) 
+    sprintf (items[13], "Type: I2C (24Cxx)");
+  else if (sram.custom == 2) 
+    sprintf (items[13], "Type: SPI (25x512/95x512)");
+  else if (sram.custom == 3) 
+    sprintf (items[13], "Type: I2C (93C46)");
   else if (sram.detected)
     sprintf (items[13], "SRAM End: $%06X", sram.end);
   else if (sram.on)
@@ -3292,9 +3246,9 @@ static void showcredits(void)
     FONT_writeCenter("original Z80 core by Juergen Buchmueller", 18, 0, 640, 552 - offset, (GXColor)WHITE);
     FONT_writeCenter("original 68k core (Musashi) by Karl Stenerud", 18, 0, 640, 570 - offset, (GXColor)WHITE);
     FONT_writeCenter("original YM2612/2413 cores by Jarek Burczynski, Tatsuyuki Satoh", 18, 0, 640, 588 - offset, (GXColor)WHITE);
-    FONT_writeCenter("SN76489 core by Maxim", 18, 0, 640, 606 - offset, (GXColor)WHITE);
+    FONT_writeCenter("original SN76489 core by Maxim", 18, 0, 640, 606 - offset, (GXColor)WHITE);
     FONT_writeCenter("SVP core by Gravydas Ignotas (Notaz)", 18, 0, 640, 624 - offset, (GXColor)WHITE);
-    FONT_writeCenter("FIR Resampler & NTSC Video Filter by Shay Green (Blargg)", 18, 0, 640, 642 - offset, (GXColor)WHITE);
+    FONT_writeCenter("Blip Buffer Library & NTSC Video Filter by Shay Green (Blargg)", 18, 0, 640, 642 - offset, (GXColor)WHITE);
     FONT_writeCenter("3-Band EQ implementation by Neil C", 18, 0, 640, 660 - offset, (GXColor)WHITE);
 
     FONT_writeCenter("Special thanks to ...", 20, 0, 640, 700 - offset, (GXColor)LIGHT_GREEN);
@@ -3306,9 +3260,9 @@ static void showcredits(void)
     FONT_writeCenter("porting code, GUI engine & design by Eke-Eke", 18, 0, 640, 866 - offset, (GXColor)WHITE);
     FONT_writeCenter("original Gamecube port by Softdev, Honkeykong & Markcube", 18, 0, 640, 884 - offset, (GXColor)WHITE);
     FONT_writeCenter("original icons, logo & button design by Low Lines", 18, 0, 640, 906 - offset, (GXColor)WHITE);
-    FONT_writeCenter("credit illustration by Orioto (from Deviant Art)", 18, 0, 640, 924 - offset, (GXColor)WHITE);
+    FONT_writeCenter("credit illustration by Orioto (Deviant Art)", 18, 0, 640, 924 - offset, (GXColor)WHITE);
     FONT_writeCenter("memory card icon design by Brakken", 18, 0, 640, 942 - offset, (GXColor)WHITE);
-    FONT_writeCenter("libogc by Shagkur & other contibutors", 18, 0, 640, 960 - offset, (GXColor)WHITE);
+    FONT_writeCenter("libogc by Shagkur & various other contibutors", 18, 0, 640, 960 - offset, (GXColor)WHITE);
     FONT_writeCenter("libfat by Chism", 18, 0, 640, 978 - offset, (GXColor)WHITE);
     FONT_writeCenter("wiiuse by Michael Laforest (Para)", 18, 0, 640, 996 - offset, (GXColor)WHITE);
     FONT_writeCenter("asndlib & OGG player by Francisco Muñoz (Hermes)", 18, 0, 640, 1014 - offset, (GXColor)WHITE);
@@ -3317,7 +3271,7 @@ static void showcredits(void)
 
     FONT_writeCenter("Special thanks to ...", 20, 0, 640, 1090 - offset, (GXColor)LIGHT_GREEN);
     FONT_writeCenter("Softdev, Tmbinc, Costis, Emukiddid, Team Twiizer", 18, 0, 640, 1126 - offset, (GXColor)WHITE);
-    FONT_writeCenter("Brakken & Tehskeen members for their support", 18, 0, 640, 1144 - offset, (GXColor)WHITE);
+    FONT_writeCenter("Brakken & former Tehskeen members for their support", 18, 0, 640, 1144 - offset, (GXColor)WHITE);
     FONT_writeCenter("Anca, my wife, for her patience & various ideas", 18, 0, 640, 1162 - offset, (GXColor)WHITE);
 
     gxSetScreen();
@@ -3430,11 +3384,8 @@ void mainmenu(void)
   char filename[MAXPATHLEN];
   int status, quit = 0;
 
-  if ((config.s_auto & 1) || (system_hw == SYSTEM_MCD))
-  {
-    /* Autosave Backup RAM */
-    slot_autosave(0, config.s_device);
-  }
+  /* Autosave Backup RAM */
+  slot_autosave(0, config.s_device);
 
 #ifdef HW_RVL
   /* Wiimote shutdown */
@@ -3619,10 +3570,7 @@ void mainmenu(void)
           system_reset();
 
           /* restore SRAM */
-          if (config.s_auto & 1)
-          {
-            slot_autoload(0,config.s_device);
-          }
+          slot_autoload(0,config.s_device);
         }
 
         /* exit to game */

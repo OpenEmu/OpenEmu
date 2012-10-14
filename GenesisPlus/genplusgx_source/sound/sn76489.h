@@ -6,18 +6,18 @@
 #ifndef _SN76489_H_
 #define _SN76489_H_
 
-/* Function prototypes */
+#include "blip_buf.h"
 
-extern void SN76489_Init(double PSGClockValue, int SamplingRate);
+#define SN_DISCRETE    0
+#define SN_INTEGRATED  1
+
+/* Function prototypes */
+extern void SN76489_Init(blip_t* left, blip_t* right, int type);
 extern void SN76489_Reset(void);
-extern void SN76489_Shutdown(void);
-extern void SN76489_SetContext(uint8 *data);
-extern void SN76489_GetContext(uint8 *data);
-extern uint8 *SN76489_GetContextPtr(void);
+extern void SN76489_Config(int preAmp, int boostNoise, int stereo);
+extern void SN76489_Write(unsigned int clocks, unsigned int data);
+extern void SN76489_Update(unsigned int cycles);
+extern void *SN76489_GetContextPtr(void);
 extern int SN76489_GetContextSize(void);
-extern void SN76489_Write(int data);
-extern int SN76489_Update(INT16 *buffer, int clock_length);
-extern int SN76489_Clocks(int length);
-extern void SN76489_BoostNoise(int boost);
 
 #endif /* _SN76489_H_ */

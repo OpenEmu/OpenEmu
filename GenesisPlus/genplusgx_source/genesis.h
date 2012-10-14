@@ -65,7 +65,6 @@ extern uint8 pico_current;
 /* Function prototypes */
 extern void gen_init(void);
 extern void gen_reset(int hard_reset);
-extern void gen_shutdown(void);
 extern void gen_tmss_w(unsigned int offset, unsigned int data);
 extern void gen_bankswitch_w(unsigned int data);
 extern unsigned int gen_bankswitch_r(void);

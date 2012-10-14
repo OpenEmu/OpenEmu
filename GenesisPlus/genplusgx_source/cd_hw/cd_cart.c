@@ -1,6 +1,6 @@
 /***************************************************************************************
  *  Genesis Plus
- *  CD cartridge (external RAM or ROM)
+ *  CD compatible ROM/RAM cartridge support
  *
  *  Copyright (C) 2012  Eke-Eke (Genesis Plus GX)
  *
@@ -40,7 +40,7 @@
 
 
 /*--------------------------------------------------------------------------*/
-/* cartridge backup RAM (max. 512KB)                                        */
+/* backup RAM cartridge (max. 512KB)                                        */
 /*--------------------------------------------------------------------------*/
 static unsigned int cart_ram_read_byte(unsigned int address)
 {
@@ -74,7 +74,7 @@ static void cart_ram_write_word(unsigned int address, unsigned int data)
 
 
 /*--------------------------------------------------------------------------*/
-/* cartridge RAM ID                                                         */
+/* backup RAM cartridge ID                                                  */
 /*--------------------------------------------------------------------------*/
 
 static unsigned int cart_id_read_byte(unsigned int address)
@@ -95,7 +95,7 @@ static unsigned int cart_id_read_word(unsigned int address)
 
 
 /*--------------------------------------------------------------------------*/
-/* cartridge RAM write protection                                           */
+/* backup RAM cartridge write protection                                    */
 /*--------------------------------------------------------------------------*/
 
 static unsigned int cart_prot_read_byte(unsigned int address)
@@ -175,7 +175,7 @@ static void cart_prot_write_word(unsigned int address, unsigned int data)
 }
 
 /*--------------------------------------------------------------------------*/
-/* cartridge hardware initialization                                        */
+/* ROM/RAM cartridge initialization                                         */
 /*--------------------------------------------------------------------------*/
 void cd_cart_init(void)
 {
@@ -184,25 +184,31 @@ void cd_cart_init(void)
   /* System boot mode */
   if (scd.cartridge.boot)
   {
-    /* disable backup RAM Cart when booting from cartridge (Mode 1) */
+    /* disable backup RAM cartridge when booting from cartridge (Mode 1) */
     scd.cartridge.id = 0;
   }
   else
   {
-    /* enable 512K backup RAM Cart when booting from CD (Mode 2) */
+    /* enable 512K backup RAM cartridge when booting from CD (Mode 2) */
     scd.cartridge.id = 6;
   }
 
-  /* RAM cart enabled ? */
+  /* RAM cartridge enabled ? */
   if (scd.cartridge.id)
   {
-    /* cartridge RAM size mask */
+    /* disable cartridge backup memory */
+    memset(&sram, 0, sizeof (T_SRAM));
+
+    /* clear backup RAM */
+    memset(scd.cartridge.area, 0x00, sizeof(scd.cartridge.area));
+
+    /* backup RAM size mask */
     scd.cartridge.mask = (1 << (scd.cartridge.id + 13)) - 1;
 
-    /* enable cartridge RAM write access */
+    /* enable RAM cartridge write access */
     scd.cartridge.prot = 1;
 
-    /* cartridge ID register (read-only) */
+    /* RAM cartridge ID register (read-only) */
     for (i=0x40; i<0x60; i++)
     {
       m68k.memory_map[i].base    = NULL;
@@ -214,7 +220,7 @@ void cd_cart_init(void)
       zbank_memory_map[i].write  = zbank_unused_w;
     }
 
-    /* cartridge RAM */
+    /* RAM cartridge memory */
     for (i=0x60; i<0x70; i++)
     {
       m68k.memory_map[i].base    = NULL;
@@ -226,7 +232,7 @@ void cd_cart_init(void)
       zbank_memory_map[i].write  = cart_ram_write_byte;
     }
 
-    /* cartridge write protection register */
+    /* RAM cartridge write protection register */
     for (i=0x70; i<0x80; i++)
     {
       m68k.memory_map[i].base    = NULL;
@@ -240,19 +246,22 @@ void cd_cart_init(void)
   }
   else
   {
-    /* $000000-$3FFFFF (boot from cartridge) or $400000-$7FFFFF (boot from CD) */
-    uint8 base = scd.cartridge.boot ^ 0x40;
+    /* initialize ROM cartridge */
+    md_cart_init();
 
-    /* cartridge ROM */
-    for (i=base; i<base+0x40; i++)
+    /* when booting from CD, cartridge is mapped to $400000-$7FFFFF */
+    if (!scd.cartridge.boot)
     {
-      m68k.memory_map[i].base    = scd.cartridge.area + ((i & 0x3f) << 16);
-      m68k.memory_map[i].read8   = NULL;
-      m68k.memory_map[i].read16  = NULL;
-      m68k.memory_map[i].write8  = m68k_unused_8_w;
-      m68k.memory_map[i].write16 = m68k_unused_16_w;
-      zbank_memory_map[i].read   = NULL;
-      zbank_memory_map[i].write  = zbank_unused_w;
+      for (i=0; i<0x40; i++)
+      {
+        m68k.memory_map[i+0x40].base    = m68k.memory_map[i].base;
+        m68k.memory_map[i+0x40].read8   = m68k.memory_map[i].read8;
+        m68k.memory_map[i+0x40].read16  = m68k.memory_map[i].read16;
+        m68k.memory_map[i+0x40].write8  = m68k.memory_map[i].write8;
+        m68k.memory_map[i+0x40].write16 = m68k.memory_map[i].write16;
+        zbank_memory_map[i+0x40].read   = zbank_memory_map[i].read;
+        zbank_memory_map[i+0x40].write  = zbank_memory_map[i].write;
+      }
     }
   }
 }

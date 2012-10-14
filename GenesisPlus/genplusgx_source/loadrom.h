@@ -61,7 +61,6 @@ typedef struct
 
 /* Global variables */
 extern ROMINFO rominfo;
-extern char rom_filename[256];
 extern uint8 romtype;
 
 /* Function prototypes */
@@ -70,6 +69,7 @@ extern int load_rom(char *filename);
 extern void get_region(char *romheader);
 extern char *get_company(void);
 extern char *get_peripheral(int index);
+extern void getrominfo(char *romheader);
 
 #endif /* _LOADROM_H_ */
 

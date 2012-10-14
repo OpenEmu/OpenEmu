@@ -85,6 +85,9 @@ static gx_texture *crosshair[2];
 static u32 *xfb[2];
 static u32 whichfb = 0;
 
+/*** Frame Sync ***/
+static u8 video_sync;
+
 /***************************************************************************************/
 /*   Emulation video modes                                                             */
 /***************************************************************************************/
@@ -314,7 +317,6 @@ static GXRModeObj *tvmodes[6] =
    &TV50hz_576i   
 };
 
-
 /***************************************************************************************/
 /*   GX rendering engine                                                               */
 /***************************************************************************************/
@@ -360,7 +362,8 @@ static void vi_callback(u32 cnt)
   }
   prevtime = current;
 #endif
-  frameticker ++;
+
+  video_sync = 1;
 }
 
 /* Vertex Rendering */
@@ -491,7 +494,7 @@ static void gxSetAspectRatio(int *xscale, int *yscale)
     }
 
     /* Horizontal Scaling */
-    /* Wii/NGC pixel clock = 13.5 Mhz */
+    /* Wii/Gamecube pixel clock = 13.5 Mhz */
     /* "H32" pixel clock = Master Clock / 10 = 5.3693175 Mhz (NTSC) or 5.3203424 (PAL) */
     /* "H40" pixel clock = Master Clock / 8 = 6,711646875 Mhz (NTSC) or 6,650428 Mhz (PAL) */
     if (config.overscan & 2)
@@ -499,26 +502,26 @@ static void gxSetAspectRatio(int *xscale, int *yscale)
       /* Horizontal borders are emulated */
       if (reg[12] & 1)
       {
-        /* 348 "H40" pixels = 348 * Wii pixel clock / "H40" pixel clock = approx. 700 (NTSC) or 707 (PAL) Wii/NGC pixels */
+        /* 348 "H40" pixels = 348 * Wii/GC pixel clock / "H40" pixel clock = approx. 700 (NTSC) or 707 (PAL) Wii/GC pixels */
         *xscale = (system_clock == MCLOCK_NTSC) ? 350 : 354; 
       }
       else
       {
-        /* 284 "H32" pixels = 284 * Wii pixel clock / "H40" pixel clock = approx. 714 (NTSC) or 721 (PAL) Wii/NGC pixels */
+        /* 284 "H32" pixels = 284 * Wii/GC pixel clock / "H40" pixel clock = approx. 714 (NTSC) or 721 (PAL) Wii/GC pixels */
         *xscale = (system_clock == MCLOCK_NTSC) ? 357 : 361; 
       }
     }
     else
     {
       /* Horizontal borders are simulated */
-      if (system_hw == SYSTEM_GG)
+      if ((system_hw == SYSTEM_GG) && !config.gg_extra)
       {
-        /* 160 "H32" pixels = 160 * Wii pixel clock / "H32" pixel clock = approx. 403 Wii/NGC pixels (NTSC only) */
+        /* 160 "H32" pixels = 160 * Wii/GC pixel clock / "H32" pixel clock = approx. 403 Wii/GC pixels (NTSC only) */
         *xscale = 202;
       }
       else
       {
-        /* 320 "H40" pixels = 256 "H32" pixels = 256 * Wii pixel clock / "H32" pixel clock = approx. 644 (NTSC) or 650 (PAL) Wii/NGC pixels */
+        /* 320 "H40" pixels = 256 "H32" pixels = 256 * Wii/GC pixel clock / "H32" pixel clock = approx. 644 (NTSC) or 650 (PAL) Wii/GC pixels */
         *xscale = (system_clock == MCLOCK_NTSC) ? 322 : 325; 
       }
     }
@@ -544,7 +547,7 @@ static void gxSetAspectRatio(int *xscale, int *yscale)
     }
 
     /* Game Gear specific: if borders are disabled, upscale to fullscreen */
-    if (system_hw == SYSTEM_GG)
+    if ((system_hw == SYSTEM_GG) && !config.gg_extra)
     {
       if (!(config.overscan & 1))
       {
@@ -1359,6 +1362,9 @@ void gxTextureClose(gx_texture **p_texture)
 /* Emulation mode -> Menu mode */
 void gx_video_Stop(void)
 {
+  /* wait for next VBLANK */
+  VIDEO_WaitVSync ();
+
   /* unallocate NTSC filters */
   if (sms_ntsc) free(sms_ntsc);
   if (md_ntsc) free(md_ntsc);
@@ -1373,12 +1379,12 @@ void gx_video_Stop(void)
   gxResetRendering(1);
   gxResetMode(vmode);
 
-  /* display game snapshot */
+  /* render game snapshot */
   gxClearScreen((GXColor)BLACK);
   gxDrawScreenshot(0xff);
 
   /* default VI settings */
-  VIDEO_SetPreRetraceCallback(NULL);
+  VIDEO_SetPostRetraceCallback(NULL);
 #ifdef HW_RVL
   VIDEO_SetTrapFilter(1);
   VIDEO_SetGamma(VI_GM_1_0);
@@ -1413,11 +1419,11 @@ void gx_video_Start(void)
     gc_pal = 0;
   }
 
-  /* When VSYNC is forced ON or AUTO with TV mode matching emulated video mode, emulation is synchronized with video hardware */
+  /* When VSYNC is set to AUTO & console TV mode matches emulated video mode, emulation is synchronized with video hardware as well */
   if (config.vsync && (gc_pal == vdp_pal))
   {
     /* VSYNC callback */
-    VIDEO_SetPreRetraceCallback(vi_callback);
+    VIDEO_SetPostRetraceCallback(vi_callback);
     VIDEO_Flush();
   }
 
@@ -1434,7 +1440,7 @@ void gx_video_Start(void)
   }
 
   /* update horizontal border width */
-  if (system_hw == SYSTEM_GG)
+  if ((system_hw == SYSTEM_GG) && !config.gg_extra)
   {
     bitmap.viewport.x = (config.overscan & 2) ? 14 : -48;
   }
@@ -1522,12 +1528,14 @@ void gx_video_Start(void)
 }
 
 /* GX render update */
-void gx_video_Update(void)
+int gx_video_Update(void)
 {
-  int update = bitmap.viewport.changed & 1;
+  if (!video_sync && config.vsync && (gc_pal == vdp_pal)) return NO_SYNC;
+
+  video_sync = 0;
 
   /* check if display has changed during frame */
-  if (update)
+  if (bitmap.viewport.changed & 1)
   {
     /* update texture size */
     vwidth = bitmap.viewport.w + (2 * bitmap.viewport.x);
@@ -1621,14 +1629,14 @@ void gx_video_Update(void)
 
   /* copy EFB to XFB */
   GX_DrawDone();
-  GX_CopyDisp(xfb[whichfb], GX_TRUE);
+  GX_CopyDisp(xfb[whichfb], GX_FALSE);
   GX_Flush();
 
   /* XFB is ready to be displayed */
   VIDEO_SetNextFramebuffer(xfb[whichfb]);
   VIDEO_Flush();
 
-  if (update)
+  if (bitmap.viewport.changed & 1)
   {
     /* clear update flags */
     bitmap.viewport.changed &= ~1;
@@ -1647,6 +1655,8 @@ void gx_video_Update(void)
     /* Audio DMA need to be resynchronized with VSYNC */                    
     audioStarted = 0;
   }
+
+  return SYNC_VIDEO;
 }
 
 /* Initialize VIDEO subsystem */

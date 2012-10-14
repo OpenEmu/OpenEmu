@@ -49,16 +49,11 @@
 
 #include <fat.h>
 
-/* audio "exact" samplerate, measured on real hardware */
-#ifdef HW_RVL
-#define SAMPLERATE_48KHZ 48000
-#else
-#define SAMPLERATE_48KHZ 48044
-#endif
+/* output samplerate, adjusted to take resampler precision in account */
+#define SAMPLERATE_48KHZ 47992
 
 u32 Shutdown = 0;
 u32 ConfigRequested = 1;
-u32 frameticker;
 
 #ifdef LOG_TIMING
 u64 prevtime;
@@ -139,6 +134,8 @@ static void init_machine(void)
 
 static void run_emulation(void)
 {
+  int sync;
+
   /* main emulation loop */
   while (1)
   {
@@ -148,37 +145,28 @@ static void run_emulation(void)
       /* 16-bit hardware + CD */
       while (!ConfigRequested)
       {
-        /* automatic frame skipping */
-        if (frameticker > 1)
-        {
-          /* skip frame */
-          system_frame_scd(1);
-          frameticker = 1;
-        }
-        else
-        {
-          /* render frame */
-          frameticker = 0;
-          system_frame_scd(0);
+        /* render frame */
+        system_frame_scd(0);
 
+        /* audio/video sync */
+        sync = NO_SYNC;
+        while (sync != (SYNC_VIDEO | SYNC_AUDIO))
+        {
           /* update video */
-          gx_video_Update();
-        }
+          sync |= gx_video_Update();
 
-        /* update audio */
-        gx_audio_Update();
+          /* update audio */
+          sync |= gx_audio_Update();
+        }
 
         /* check interlaced mode change */
         if (bitmap.viewport.changed & 4)
         {
           /* VSYNC "original" mode */
-          if (!config.render && (gc_pal == vdp_pal))
+          if (!config.render && config.vsync && (gc_pal == vdp_pal))
           {
             /* framerate has changed, reinitialize audio timings */
             audio_init(SAMPLERATE_48KHZ, get_framerate());
-
-            /* reinitialize sound chips */
-            sound_restore();
           }
 
           /* clear flag */
@@ -189,9 +177,6 @@ static void run_emulation(void)
         /* use Wii DVD light to simulate CD Drive access led */
         *(u32*)0xcd0000c0 = (*(u32*)0xcd0000c0 & ~0x20) | ((scd.regs[0x06>>1].byte.h & 0x01) << 5);
 #endif
-
-        /* wait for next frame */
-        while (frameticker < 1) usleep(1);
       }
     }
     else if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
@@ -199,45 +184,33 @@ static void run_emulation(void)
       /* 16-bit hardware */
       while (!ConfigRequested)
       {
-        /* automatic frame skipping (only needed when running Virtua Racing on Gamecube) */
-        if (frameticker > 1)
-        {
-          /* skip frame */
-          system_frame_gen(1);
-          frameticker = 1;
-        }
-        else
-        {
-          /* render frame */
-          frameticker = 0;
-          system_frame_gen(0);
+        /* render frame */
+        system_frame_gen(0);
 
+        /* audio/video sync */
+        sync = NO_SYNC;
+        while (sync != (SYNC_VIDEO | SYNC_AUDIO))
+        {
           /* update video */
-          gx_video_Update();
-        }
+          sync |= gx_video_Update();
 
-        /* update audio */
-        gx_audio_Update();
+          /* update audio */
+          sync |= gx_audio_Update();
+        }
 
         /* check interlaced mode change */
         if (bitmap.viewport.changed & 4)
         {
           /* VSYNC "original" mode */
-          if (!config.render && (gc_pal == vdp_pal))
+          if (!config.render && config.vsync && (gc_pal == vdp_pal))
           {
             /* framerate has changed, reinitialize audio timings */
             audio_init(SAMPLERATE_48KHZ, get_framerate());
-
-            /* reinitialize sound chips */
-            sound_restore();
           }
 
           /* clear flag */
           bitmap.viewport.changed &= ~4;
         }
-
-        /* wait for next frame */
-        while (frameticker < 1) usleep(1);
       }
     }
     else
@@ -245,35 +218,33 @@ static void run_emulation(void)
       /* 8-bit hardware */
       while (!ConfigRequested)
       {
-        /* render frame (no frame skipping needed) */
-        frameticker = 0;
+        /* render frame */
         system_frame_sms(0);
 
-        /* update video */
-        gx_video_Update();
+        /* audio/video sync */
+        sync = NO_SYNC;
+        while (sync != (SYNC_VIDEO | SYNC_AUDIO))
+        {
+          /* update video */
+          sync |= gx_video_Update();
 
-        /* update audio */
-        gx_audio_Update();
+          /* update audio */
+          sync |= gx_audio_Update();
+        }
 
         /* check interlaced mode change (PBC mode only) */
         if (bitmap.viewport.changed & 4)
         {
           /* "original" mode */
-          if (!config.render)
+          if (!config.render && config.vsync && (gc_pal == vdp_pal))
           {
             /* framerate has changed, reinitialize audio timings */
             audio_init(SAMPLERATE_48KHZ, get_framerate());
-
-            /* reinitialize sound chips */
-            sound_restore();
           }
 
           /* clear flag */
           bitmap.viewport.changed &= ~4;
         }
-
-        /* wait for next frame */
-        while (frameticker < 1) usleep(1);
       }
     }
 
@@ -374,24 +345,21 @@ static void run_emulation(void)
     /* restart video & audio */
     gx_video_Start();
     gx_audio_Start();
-    frameticker = 1;
   }
 }
 
 /*********************************************************************************************************************************************************
-  Output exact framerate (used for sound chips emulation -- see sound.c)
+  Get emulator input framerate (actually used by audio emulation to approximate number of samples rendered on each frame, see audio_init in system.c)
 *********************************************************************************************************************************************************/
 double get_framerate(void)
 {
-  /* VSYNC is forced OFF or AUTO with TV mode not matching emulated video mode: emulation is synchronized with audio hardware (DMA interrupt) */
+  /* Run emulator at original VDP framerate if console TV mode does not match emulated TV mode or VSYNC is disabled */
   if (!config.vsync || (config.tv_mode == !vdp_pal))
   {
-    /* emulator will use original VDP framerate, which (theorically) provides more accurate frequencies but occasional video desynchronization */
     return 0.0;
   }
 
-  /* VSYNC is forced ON or AUTO with TV mode matching emulated video mode: emulation is synchronized with video hardware (VSYNC) */
-  /* emulator use exact output framerate for perfect video synchronization and (theorically) no sound skipping */
+  /* Otherwise, run emulator at Wii/Gamecube framerate to ensure perfect video synchronization */
   if (vdp_pal)
   {
     /* 288p      -> 13500000 pixels/sec, 864 pixels/line, 312 lines/field -> fps = 13500000/864/312 = 50.08 hz */
@@ -412,35 +380,28 @@ double get_framerate(void)
 ********************************************/
 void reloadrom(void)
 {
-  /* restore previous input settings */
-  if (old_system[0] != -1)
+  /* Cartridge "Hot Swap" support (make sure system has already been inited once and use cartridges) */
+  if ((config.hot_swap == 3) && ((system_hw != SYSTEM_MCD) || scd.cartridge.boot))
   {
-    input.system[0] = old_system[0];
-  }
-  if (old_system[1] != -1)
-  {
-    input.system[1] = old_system[1];
-  }
-
-  /* Cartridge Hot Swap (make sure system has already been inited once) */
-  if ((config.hot_swap == 3) && (system_hw != SYSTEM_MCD))
-  {
-    /* Initialize cartridge hardware only */
+    /* Only initialize cartridge hardware */
     if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
     {
+      /* 16-bit cartridge */
       md_cart_init();
       md_cart_reset(1);
     }
     else
     {
+      /* 8-bit cartridge */
       sms_cart_init();
       sms_cart_reset();
     }
   }
-  else
+
+  /* Disc Swap support (automatically enabled if CD tray is open) */
+  else if ((system_hw != SYSTEM_MCD) || (cdd.status != CD_OPEN))
   {
     /* Initialize audio emulation */
-    /* To prevent any sound skipping, sound chips must run at the exact same speed as the rest of emulation (see sound.c) */
     interlaced = 0;
     audio_init(SAMPLERATE_48KHZ, get_framerate());
      
@@ -452,17 +413,11 @@ void reloadrom(void)
     config.hot_swap |= 2;
   }
 
-  if ((config.s_auto & 1) || (system_hw == SYSTEM_MCD))
-  {
-    /* Auto-Load Backup RAM */
-    slot_autoload(0,config.s_device);
-  }
+  /* Auto-Load Backup RAM */
+  slot_autoload(0,config.s_device);
             
   /* Auto-Load State */
-  if (config.s_auto & 2)
-  {
-    slot_autoload(config.s_default,config.s_device);
-  }
+  slot_autoload(config.s_default,config.s_device);
 
   /* Load Cheat file */
   CheatLoad();
@@ -476,14 +431,10 @@ void shutdown(void)
   /* save current config */
   config_save();
 
-  if (config.s_auto & 2)
-  {
-    /* Auto-Save State file */
-    slot_autosave(config.s_default,config.s_device);
-  }
+  /* auto-save State file */
+  slot_autosave(config.s_default,config.s_device);
 
   /* shutdown emulation */
-  system_shutdown();
   audio_shutdown();
   gx_audio_Shutdown();
   gx_video_Shutdown();
@@ -649,7 +600,6 @@ int main (int argc, char *argv[])
         reloadrom();
         gx_video_Start();
         gx_audio_Start();
-        frameticker = 1;
         ConfigRequested = 0;
       }
     }

@@ -37,7 +37,7 @@
  ****************************************************************************************/
 
 #include "shared.h"
-#include "gg_eeprom.h"
+#include "eeprom_93c.h"
 #include "terebi_oekaki.h"
 
 #define MAPPER_NONE        (0x00)
@@ -446,7 +446,7 @@ void sms_cart_init(void)
   if (cart_rom.mapper == MAPPER_93C46)
   {
     /* 93C46 eeprom */
-    gg_eeprom_init();
+    eeprom_93c_init();
   }
   else if (cart_rom.mapper == MAPPER_TEREBI)
   {
@@ -456,6 +456,9 @@ void sms_cart_init(void)
 
   /* initialize SRAM */
   sram_init();
+
+  /* enable cartridge backup memory by default */
+  sram.on = 1;
 
   /* save current settings */
   if (old_system[0] == -1)
@@ -1230,15 +1233,24 @@ static void write_mapper_korea_16k(unsigned int address, unsigned char data)
 
 static void write_mapper_93c46(unsigned int address, unsigned char data)
 {
-  if ((address == 0x8000) && gg_eeprom.enabled)
+  /* EEPROM serial input */
+  if ((address == 0x8000) && eeprom_93c.enabled)
   {
-    gg_eeprom_write(data);
+    eeprom_93c_write(data);
     return;
   }
 
+  /* EEPROM ctrl */
   if (address == 0xFFFC)
   {
-    gg_eeprom_ctrl(data);
+    /* enable/disable EEPROM */
+    eeprom_93c.enabled = data & 0x08;
+
+    if (data & 0x80)
+    {
+      /* reset EEPROM */
+      eeprom_93c_init();
+    }
   }
 
   /* SEGA mapper compatibility */
@@ -1263,9 +1275,9 @@ static void write_mapper_terebi(unsigned int address, unsigned char data)
 
 static unsigned char read_mapper_93c46(unsigned int address)
 {
-  if ((address == 0x8000) && gg_eeprom.enabled)
+  if ((address == 0x8000) && eeprom_93c.enabled)
   {
-    return gg_eeprom_read();
+    return eeprom_93c_read();
   }
 
   return z80_readmap[address >> 10][address & 0x03FF];

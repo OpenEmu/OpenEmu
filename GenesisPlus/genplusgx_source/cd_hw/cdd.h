@@ -1,6 +1,6 @@
 /***************************************************************************************
  *  Genesis Plus
- *  CD drive processor
+ *  CD drive processor & CD-DA fader
  *
  *  Copyright (C) 2012  Eke-Eke (Genesis Plus GX)
  *
@@ -38,15 +38,29 @@
 #ifndef _HW_CDD_
 #define _HW_CDD_
 
+#include "blip_buf.h"
 
 #define cdd scd.cdd_hw
 
-#define CD_MAX_TRACKS 99
+/* CDD status */
+#define NO_DISC  0x00
+#define CD_PLAY  0x01
+#define CD_SEEK  0x02
+#define CD_SCAN  0x03
+#define CD_READY 0x04
+#define CD_OPEN  0x05
+#define CD_STOP  0x09
+
+/* CD blocks scanning speed */
+#define CD_SCAN_SPEED 10
+
+#define CD_MAX_TRACKS 100
 
 /* CD track */
 typedef struct
 {
   FILE *fd;
+  int offset;
   int start;
   int end;
 } track_t; 
@@ -68,17 +82,22 @@ typedef struct
   int index;
   int lba;
   int scanOffset;
+  int volume;
   uint8 status;
   uint16 sectorSize;
   toc_t toc;
+  int16 audio[2];
 } cdd_t; 
 
 /* Function prototypes */
-extern void cdd_init(void);
+extern void cdd_init(blip_t* left, blip_t* right);
 extern void cdd_reset(void);
-extern void cdd_load(char *filename, int type_bin);
+extern int cdd_context_save(uint8 *state);
+extern int cdd_context_load(uint8 *state);
+extern int cdd_load(char *filename, char *header);
 extern void cdd_unload(void);
-extern void cdd_read(uint8 *dst);
+extern void cdd_read_data(uint8 *dst);
+extern void cdd_read_audio(unsigned int samples);
 extern void cdd_update(void);
 extern void cdd_process(void);
 

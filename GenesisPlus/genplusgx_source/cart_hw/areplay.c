@@ -65,9 +65,9 @@ void areplay_init(void)
   memset(&action_replay,0,sizeof(action_replay));
 
   /* store Action replay ROM (max. 128k) & RAM (64k) above cartridge ROM + SRAM area */
-  if (cart.romsize > 0x600000) return;
-  action_replay.rom = cart.rom + 0x600000;
-  action_replay.ram = cart.rom + 0x620000;
+  if (cart.romsize > 0x810000) return;
+  action_replay.rom = cart.rom + 0x810000;
+  action_replay.ram = cart.rom + 0x830000;
 
   /* Open Action Replay ROM */
   f = fopen(AR_ROM,"rb");

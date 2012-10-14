@@ -26,7 +26,6 @@ typedef struct
   int16 lg;
   int16 mg;
   int16 hg;
-  float rolloff;
   uint8 system;
   uint8 region_detect;
   uint8 vdp_mode;
@@ -40,6 +39,7 @@ typedef struct
   uint8 invert_mouse;
   uint8 gun_cursor[2];
   uint8 overscan;
+  uint8 gg_extra;
   uint8 ntsc;
   uint8 render;
   t_input_config input[MAX_INPUTS];

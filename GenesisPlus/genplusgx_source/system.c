@@ -40,7 +40,6 @@
  ****************************************************************************************/
 
 #include "shared.h"
-#include "Fir_Resampler.h"
 #include "eq.h"
 
 /* Global variables */
@@ -56,59 +55,84 @@ static uint8 pause_b;
 static EQSTATE eq;
 static int32 llp,rrp;
 
-/****************************************************************
- * Audio subsystem
- ****************************************************************/
+/******************************************************************************************/
+/* Audio subsystem                                                                        */
+/******************************************************************************************/
 
 int audio_init(int samplerate, double framerate)
 {
+  /* Number of M-cycles executed per second. */
+  /* All emulated chips are kept in sync by using a common oscillator (MCLOCK)            */
+  /*                                                                                      */
+  /* The original console would run exactly 53693175 M-cycles per sec (53203424 for PAL), */
+  /* 3420 M-cycles per line and 262 (313 for PAL) lines per frame, which gives an exact   */
+  /* framerate of 59.92 (49.70 for PAL) frames per second.                                */
+  /*                                                                                      */
+  /* Since audio samples are generated at the end of the frame, to prevent audio skipping */
+  /* or lag between emulated frames, number of samples rendered per frame must be set to  */
+  /* output samplerate (number of samples played per second) divided by input framerate   */
+  /* (number of frames emulated per seconds).                                             */
+  /*                                                                                      */
+  /* On some systems, we may want to achieve 100% smooth video rendering by synchronizing */
+  /* frame emulation with VSYNC, which frequency is generally not exactly those values.   */
+  /* In that case, input framerate (number of frames emulated per seconds) is the same as */
+  /* output framerate (number of frames rendered per seconds) by the host video hardware. */
+  /*                                                                                      */
+  /* When no framerate is specified, base clock is set to original master clock value.    */
+  /* Otherwise, it is set to number of M-cycles emulated per line (fixed) multiplied by   */
+  /* number of lines per frame (VDP mode specific) multiplied by input framerate.         */
+  /*                                                                                      */
+  double mclk = framerate ? (MCYCLES_PER_LINE * (vdp_pal ? 313 : 262) * framerate) : system_clock;
+
   /* Shutdown first */
   audio_shutdown();
 
   /* Clear the sound data context */
   memset(&snd, 0, sizeof (snd));
 
-  /* Default settings */
+  /* Initialize audio rates */
   snd.sample_rate = samplerate;
   snd.frame_rate  = framerate;
 
-  /* If no framerate is specified, assume emulator is running at the original frequency */
-  if (!framerate)
+  /* Initialize Blip Buffers */
+  snd.blips[0][0] = blip_new(samplerate / 10);
+  snd.blips[0][1] = blip_new(samplerate / 10);
+  if (!snd.blips[0][0] || !snd.blips[0][1])
   {
-    if (vdp_pal)
-    {
-      /* PAL mode -> MCLK cycles/sec, 3420 cycles/line, 313 lines/field */
-      /* fps = MCLK/3420/313 = 49.70 hz (PAL console) or 50.16 hz (NTSC console w/ 50 hz switch) */
-      framerate = (double)system_clock / (double)MCYCLES_PER_LINE / 313.0;
-    }
-    else
-    {
-      /* NTSC mode -> MCLK cycles/sec, 3420 cycles/line, 262 lines/field */
-      /* fps = MCLK/3420/262 = 59.92 hz (NTSC console) or 59.38 hz (PAL console w/ 60 hz switch) */
-      framerate = (double)system_clock / (double)MCYCLES_PER_LINE / 262.0;
-    }
+    audio_shutdown();
+    return -1;
   }
 
-  /* Sound buffer maximal size (for at least one frame) */
-  snd.buffer_size = (int)((double)samplerate / framerate) + 32;
+  /* For maximal accuracy, sound chips are running at their original rate using common */
+  /* master clock timebase so they remain perfectly synchronized together, while still */
+  /* being synchronized with 68K and Z80 CPUs as well. Mixed sound chip output is then */
+  /* resampled to desired rate at the end of each frame, using Blip Buffer.            */
+  blip_set_rates(snd.blips[0][0], mclk, samplerate);
+  blip_set_rates(snd.blips[0][1], mclk, samplerate);
 
-  /* SN76489 stream buffer */
-  snd.psg.buffer = (int16 *) malloc(snd.buffer_size * sizeof(int16));
-  if (!snd.psg.buffer) return (-1);
+  /* Initialize PSG core */
+  SN76489_Init(snd.blips[0][0], snd.blips[0][1], (system_hw < SYSTEM_MARKIII) ? SN_DISCRETE : SN_INTEGRATED);
 
-  /* YM2612 stream buffer */
-  snd.fm.buffer = (int32 *) malloc(snd.buffer_size * sizeof(int32) * 2);
-  if (!snd.fm.buffer) return (-1);
-
-  /* PCM stream buffer */
+  /* Mega CD sound hardware */
   if (system_hw == SYSTEM_MCD)
   {
-    snd.pcm.buffer = (int16 *) malloc(snd.buffer_size * sizeof(int16) * 2);
-    if (!snd.pcm.buffer) return (-1);
+    /* allocate blip buffers */
+    snd.blips[1][0] = blip_new(samplerate / 10);
+    snd.blips[1][1] = blip_new(samplerate / 10);
+    snd.blips[2][0] = blip_new(samplerate / 10);
+    snd.blips[2][1] = blip_new(samplerate / 10);
+    if (!snd.blips[1][0] || !snd.blips[1][1] || !snd.blips[2][0] || !snd.blips[2][1])
+    {
+      audio_shutdown();
+      return -1;
+    }
+
+    /* Initialize PCM core */
+    pcm_init(snd.blips[1][0], snd.blips[1][1]);
+
+    /* Initialize CDD core */
+    cdd_init(snd.blips[2][0], snd.blips[2][1]);
   }
-  
-  /* Resampling buffer */
-  if (config.hq_fm && !Fir_Resampler_initialize(4096)) return (-1);
 
   /* Set audio enable flag */
   snd.enabled = 1;
@@ -121,23 +145,26 @@ int audio_init(int samplerate, double framerate)
 
 void audio_reset(void)
 {
+  int i,j;
+  
+  /* Clear blip buffers */
+  for (i=0; i<3; i++)
+  {
+    for (j=0; j<2; j++)
+    {
+      if (snd.blips[i][j])
+      {
+        blip_clear(snd.blips[i][j]);
+      }
+    }
+  }
+
   /* Low-Pass filter */
   llp = 0;
   rrp = 0;
 
   /* 3 band EQ */
   audio_set_equalizer();
-
-  /* Resampling buffer */
-  Fir_Resampler_clear();
-
-  /* Audio buffers */
-  snd.psg.pos = snd.psg.buffer;
-  snd.fm.pos  = snd.fm.buffer;
-  snd.pcm.pos = snd.pcm.buffer;
-  if (snd.psg.buffer) memset (snd.psg.buffer, 0, snd.buffer_size * sizeof(int16));
-  if (snd.fm.buffer) memset (snd.fm.buffer, 0, snd.buffer_size * sizeof(int32) * 2);
-  if (snd.pcm.buffer) memset (snd.pcm.buffer, 0, snd.buffer_size * sizeof(int16) * 2);
 }
 
 void audio_set_equalizer(void)
@@ -150,128 +177,121 @@ void audio_set_equalizer(void)
 
 void audio_shutdown(void)
 {
-  /* Sound buffers */
-  if (snd.fm.buffer) free(snd.fm.buffer);
-  if (snd.psg.buffer) free(snd.psg.buffer);
-  if (snd.pcm.buffer) free(snd.pcm.buffer);
-
-  /* Resampling buffer */
-  Fir_Resampler_shutdown();
+  int i,j;
+  
+  /* Delete blip buffers */
+  for (i=0; i<3; i++)
+  {
+    for (j=0; j<2; j++)
+    {
+      blip_delete(snd.blips[i][j]);
+      snd.blips[i][j] = 0;
+    }
+  }
 }
 
 int audio_update(int16 *buffer)
 {
-  int32 i, l, r;
-  int32 ll = llp;
-  int32 rr = rrp;
-
-  int psg_preamp  = config.psg_preamp;
-  int fm_preamp   = config.fm_preamp;
-  int filter      = config.filter;
-  uint32 factora  = (config.lp_range << 16) / 100;
-  uint32 factorb  = 0x10000 - factora;
-
-  int32 *fm       = snd.fm.buffer;
-  int16 *psg      = snd.psg.buffer;
-  int16 *pcm      = snd.pcm.buffer;
-
-  /* get number of available samples */
+  /* run sound chips until end of frame */
   int size = sound_update(mcycles_vdp);
 
+  /* Mega CD specific */
+  if (system_hw == SYSTEM_MCD)
+  {
+    /* sync PCM chip with other sound chips */
+    pcm_update(size);
+
+    /* read CDDA samples */
+    cdd_read_audio(size);
+  }
+
 #ifdef ALIGN_SND
-  /* return an aligned number of samples if necessary*/
+  /* return an aligned number of samples if required */
   size &= ALIGN_SND;
 #endif
 
-  if (config.hq_fm)
-  {
-    /* resample into FM output buffer */
-    Fir_Resampler_read(fm, size);
-
-#ifdef LOGSOUND
-    error("%d FM samples remaining\n",Fir_Resampler_written() >> 1);
-#endif
-  }
-  else
-  {  
-    /* adjust remaining samples in FM output buffer*/
-    snd.fm.pos -= (size * 2);
-
-#ifdef LOGSOUND
-    error("%d FM samples remaining\n",(snd.fm.pos - snd.fm.buffer)>>1);
-#endif
-  }
-
-  /* adjust remaining samples in PSG output buffer*/
-  snd.psg.pos -= size;
-
-#ifdef LOGSOUND
-  error("%d PSG samples remaining\n",snd.psg.pos - snd.psg.buffer);
+  /* resample FM & PSG mixed stream to output buffer */
+#ifdef LSB_FIRST
+  blip_read_samples(snd.blips[0][0], buffer, size);
+  blip_read_samples(snd.blips[0][1], buffer + 1, size);
+#else
+  blip_read_samples(snd.blips[0][0], buffer + 1, size);
+  blip_read_samples(snd.blips[0][1], buffer, size);
 #endif
 
-  /* PCM sound chip */
-  if (pcm)
+  /* Mega CD specific */
+  if (system_hw == SYSTEM_MCD)
   {
-    /* get needed samples */
-    pcm_update(pcm, size);
+    /* resample PCM & CD-DA streams to output buffer */
+#ifdef LSB_FIRST
+    blip_mix_samples(snd.blips[1][0], buffer, size);
+    blip_mix_samples(snd.blips[1][1], buffer + 1, size);
+    blip_mix_samples(snd.blips[2][0], buffer, size);
+    blip_mix_samples(snd.blips[2][1], buffer + 1, size);
+#else
+    blip_mix_samples(snd.blips[1][0], buffer + 1, size);
+    blip_mix_samples(snd.blips[1][1], buffer, size);
+    blip_mix_samples(snd.blips[2][0], buffer + 1, size);
+    blip_mix_samples(snd.blips[2][1], buffer, size);
+#endif
   }
 
-  /* mix samples */
-  for (i = 0; i < size; i ++)
+  /* Audio filtering */
+  if (config.filter)
   {
-    /* PSG samples (mono) */
-    l = r = (((*psg++) * psg_preamp) / 100);
+    int32 i, l, r;
 
-    /* FM samples (stereo) */
-    l += ((*fm++ * fm_preamp) / 100);
-    r += ((*fm++ * fm_preamp) / 100);
-
-    /* PCM samples (stereo) */
-    if (pcm)
-    {
-      l += *pcm++;
-      r += *pcm++;
-    }
-
-    /* filtering */
-    if (filter & 1)
+    if (config.filter & 1)
     {
       /* single-pole low-pass filter (6 dB/octave) */
-      ll = (ll>>16)*factora + l*factorb;
-      rr = (rr>>16)*factora + r*factorb;
-      l = ll >> 16;
-      r = rr >> 16;
+      uint32 factora  = (config.lp_range << 16) / 100;
+      uint32 factorb  = 0x10000 - factora;
+      int32 ll = llp;
+      int32 rr = rrp;
+
+      for (i = 0; i < size; i ++)
+      {
+        /* apply low-pass filter */
+        ll = (ll>>16)*factora + buffer[0]*factorb;
+        rr = (rr>>16)*factora + buffer[1]*factorb;
+        l = ll >> 16;
+        r = rr >> 16;
+
+        /* clipping (16-bit samples) */
+        if (l > 32767) l = 32767;
+        else if (l < -32768) l = -32768;
+        if (r > 32767) r = 32767;
+        else if (r < -32768) r = -32768;
+
+        /* update sound buffer */
+        *buffer++ = l;
+        *buffer++ = r;
+      }
+
+      /* save last samples for next frame */
+      llp = ll;
+      rrp = rr;
     }
-    else if (filter & 2)
+    else if (config.filter & 2)
     {
-      /* 3 Band EQ */
-      l = do_3band(&eq,l);
-      r = do_3band(&eq,r);
+      for (i = 0; i < size; i ++)
+      {
+        /* 3 Band EQ */
+        l = do_3band(&eq,buffer[0]);
+        r = do_3band(&eq,buffer[1]);
+
+        /* clipping (16-bit samples) */
+        if (l > 32767) l = 32767;
+        else if (l < -32768) l = -32768;
+        if (r > 32767) r = 32767;
+        else if (r < -32768) r = -32768;
+
+        /* update sound buffer */
+        *buffer++ = l;
+        *buffer++ = r;
+      }
     }
-
-    /* clipping (16-bit samples) */
-    if (l > 32767) l = 32767;
-    else if (l < -32768) l = -32768;
-    if (r > 32767) r = 32767;
-    else if (r < -32768) r = -32768;
-
-    /* update sound buffer */
-#ifdef LSB_FIRST
-    *buffer++ = l;
-    *buffer++ = r;
-#else
-    *buffer++ = r;
-    *buffer++ = l;
-#endif
   }
-
-  /* save filtered samples for next frame */
-  llp = ll;
-  rrp = rr;
-
-  /* keep remaining samples for next frame */
-  memcpy(snd.fm.buffer, fm, (snd.fm.pos - snd.fm.buffer) * 4);
-  memcpy(snd.psg.buffer, psg, (snd.psg.pos - snd.psg.buffer) * 2);
 
 #ifdef LOGSOUND
   error("%d samples returned\n\n",size);
@@ -290,12 +310,6 @@ void system_init(void)
   vdp_init();
   render_init();
   sound_init();
-}
-
-void system_shutdown (void)
-{
-  gen_shutdown();
-  sound_shutdown();
 }
 
 void system_reset(void)
@@ -1084,7 +1098,7 @@ void system_frame_sms(int do_skip)
       }
       else
       {
-        if (system_hw == SYSTEM_GG)
+        if ((system_hw == SYSTEM_GG) && !config.gg_extra)
         {
           /* Display area reduced to 160x144 */
           bitmap.viewport.y = (144 - bitmap.viewport.h) / 2;

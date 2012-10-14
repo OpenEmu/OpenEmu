@@ -86,7 +86,7 @@ static int sdl_sound_init()
   }
 
   sdl_sound.current_emulated_samples = 0;
-  n = SOUND_SAMPLES_SIZE * 2 * sizeof(short) * 11;
+  n = SOUND_SAMPLES_SIZE * 2 * sizeof(short) * 20;
   sdl_sound.buffer = (char*)malloc(n);
   if(!sdl_sound.buffer) {
     MessageBox(NULL, "Can't allocate audio buffer", "Error", 0);
@@ -308,7 +308,6 @@ static int sdl_control_update(SDLKey keystate)
     {
       case SDLK_TAB:
       {
-        system_init();
         system_reset();
         break;
       }
@@ -369,8 +368,8 @@ static int sdl_control_update(SDLKey keystate)
         if (f)
         {
           uint8 buf[STATE_SIZE];
-          state_save(buf);
-          fwrite(&buf, STATE_SIZE, 1, f);
+          int len = state_save(buf);
+          fwrite(&buf, len, 1, f);
           fclose(f);
         }
         break;
@@ -427,9 +426,6 @@ static int sdl_control_update(SDLKey keystate)
               vc_max = vc_table[3][vdp_pal];
               break;
           }
-
-          /* reinitialize sound emulation */
-          sound_restore();
         }
         break;
       }
@@ -443,7 +439,7 @@ static int sdl_control_update(SDLKey keystate)
       case SDLK_F11:
       {
         config.overscan =  (config.overscan + 1) & 3;
-        if (system_hw == SYSTEM_GG)
+        if ((system_hw == SYSTEM_GG) && !config.gg_extra)
         {
           bitmap.viewport.x = (config.overscan & 2) ? 14 : -48;
         }
@@ -809,7 +805,8 @@ int main (int argc, char **argv)
       }
     }
   }
-  else
+
+  if (sram.on)
   {
     /* load SRAM */
     fp = fopen("./game.srm", "rb");
@@ -883,7 +880,8 @@ int main (int argc, char **argv)
       }
     }
   }
-  else
+
+  if (sram.on)
   {
     /* save SRAM */
     fp = fopen("./game.srm", "wb");

@@ -2989,7 +2989,7 @@ void render_obj_tms(int max_width)
   }
 
   /* handle Game Gear reduced screen (160x144) */
-  if ((system_hw == SYSTEM_GG) && (v_counter < bitmap.viewport.h))
+  if ((system_hw == SYSTEM_GG) && !config.gg_extra && (v_counter < bitmap.viewport.h))
   {
     int line = v_counter - (bitmap.viewport.h - 144) / 2;
     if ((line < 0) || (line >= 144))
@@ -3094,7 +3094,7 @@ void render_obj_m4(int max_width)
   }
 
   /* handle Game Gear reduced screen (160x144) */
-  if ((system_hw == SYSTEM_GG) && (v_counter < bitmap.viewport.h))
+  if ((system_hw == SYSTEM_GG) && !config.gg_extra && (v_counter < bitmap.viewport.h))
   {
     int line = v_counter - (bitmap.viewport.h - 144) / 2;
     if ((line < 0) || (line >= 144))

@@ -48,13 +48,13 @@ int state_load(unsigned char *state)
   version[16] = 0;
   if (memcmp(version,STATE_VERSION,11))
   {
-    return -1;
+    return 0;
   }
 
-  /* version check (support from previous 1.6.x state format) */
-  if ((version[11] < 0x31) || (version[13] < 0x36))
+  /* version check (1.7.1 and above only) */
+  if ((version[11] < 0x31) || (version[13] < 0x37) || (version[15] < 0x31))
   {
-    return -1;
+    return 0;
   }
 
   /* reset system */
@@ -98,32 +98,32 @@ int state_load(unsigned char *state)
     load_param(work_ram, 0x2000);
   }
 
-  /* CPU cycles */
-  load_param(&m68k.cycles, sizeof(m68k.cycles));
-  load_param(&Z80.cycles, sizeof(Z80.cycles));
-
   /* IO */
+  load_param(io_reg, sizeof(io_reg));
   if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
   {
-    load_param(io_reg, sizeof(io_reg));
     io_reg[0] = region_code | 0x20 | (config.bios & 1);
   }
   else
   {
-    /* 1.6.1 or 1.7.x specific */
-    if ((version[15] == 0x31) || (version[13] == 0x37))
-    {
-      load_param(&io_reg[0x0E], 1);
-    }
-
-    load_param(&io_reg[0x0F], 1);
+    io_reg[0] = 0x80 | (region_code >> 1);
   }
 
   /* VDP */
-  bufferptr += vdp_context_load(&state[bufferptr], version);
+  bufferptr += vdp_context_load(&state[bufferptr]);
 
   /* SOUND */
   bufferptr += sound_context_load(&state[bufferptr]);
+  if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
+  {
+    SN76489_Init(snd.blips[0][0], snd.blips[0][1], SN_INTEGRATED);
+    SN76489_Config(config.psg_preamp, config.psgBoostNoise, 0xff);
+  }
+  else
+  {
+    SN76489_Init(snd.blips[0][0], snd.blips[0][1], (system_hw < SYSTEM_MARKIII) ? SN_DISCRETE : SN_INTEGRATED);
+    SN76489_Config(config.psg_preamp, config.psgBoostNoise, io_reg[6]);
+  }
 
   /* 68000 */
   if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
@@ -149,19 +149,11 @@ int state_load(unsigned char *state)
     load_param(&tmp32, 4); m68k_set_reg(M68K_REG_PC, tmp32);  
     load_param(&tmp16, 2); m68k_set_reg(M68K_REG_SR, tmp16);
     load_param(&tmp32, 4); m68k_set_reg(M68K_REG_USP,tmp32);
+    load_param(&tmp32, 4); m68k_set_reg(M68K_REG_ISP,tmp32);
 
-    /* 1.6.1 or 1.7.x specific */
-    if ((version[15] == 0x31) || (version[13] == 0x37))
-    {
-      load_param(&tmp32, 4); m68k_set_reg(M68K_REG_ISP,tmp32);
-
-      /* 1.7.x specific */
-      if (version[13] == 0x37)
-      {
-        load_param(&m68k.int_level, sizeof(m68k.int_level));
-        load_param(&m68k.stopped, sizeof(m68k.stopped));
-      }
-    }
+  	load_param(&m68k.cycles, sizeof(m68k.cycles));
+    load_param(&m68k.int_level, sizeof(m68k.int_level));
+    load_param(&m68k.stopped, sizeof(m68k.stopped));
   }
 
   /* Z80 */ 
@@ -171,6 +163,17 @@ int state_load(unsigned char *state)
   /* Extra HW */
   if (system_hw == SYSTEM_MCD)
   {
+    /* handle case of MD cartridge using or not CD hardware */
+    char id[5];
+    load_param(id,4);
+    id[4] = 0;
+
+    /* check if CD hardware was enabled before attempting to restore */
+    if (memcmp(id,"SCD!",4))
+    {
+       return 0;
+    }
+
     /* CD hardware */
     bufferptr += scd_context_load(&state[bufferptr]);
   }
@@ -183,15 +186,10 @@ int state_load(unsigned char *state)
   {
     /* MS cartridge hardware */
     bufferptr += sms_cart_context_load(&state[bufferptr]);
-
-    /* 1.6.1 or 1.7.x specific */
-    if ((version[15] == 0x31) || (version[13] == 0x37))
-    {
-      sms_cart_switch(~io_reg[0x0E]);
-    }
+    sms_cart_switch(~io_reg[0x0E]);
   }
 
-  return 1;
+  return bufferptr;
 }
 
 int state_save(unsigned char *state)
@@ -217,20 +215,8 @@ int state_save(unsigned char *state)
     save_param(work_ram, 0x2000);
   }
 
-  /* CPU cycles */
-  save_param(&m68k.cycles, sizeof(m68k.cycles));
-  save_param(&Z80.cycles, sizeof(Z80.cycles));
-
   /* IO */
-  if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
-  {
-    save_param(io_reg, sizeof(io_reg));
-  }
-  else
-  {
-    save_param(&io_reg[0x0E], 1);
-    save_param(&io_reg[0x0F], 1);
-  }
+  save_param(io_reg, sizeof(io_reg));
 
   /* VDP */
   bufferptr += vdp_context_save(&state[bufferptr]);
@@ -264,6 +250,7 @@ int state_save(unsigned char *state)
     tmp32 = m68k_get_reg(M68K_REG_USP); save_param(&tmp32, 4);
     tmp32 = m68k_get_reg(M68K_REG_ISP); save_param(&tmp32, 4);
 
+    save_param(&m68k.cycles, sizeof(m68k.cycles));
     save_param(&m68k.int_level, sizeof(m68k.int_level));
     save_param(&m68k.stopped, sizeof(m68k.stopped));
   }
@@ -271,9 +258,14 @@ int state_save(unsigned char *state)
   /* Z80 */ 
   save_param(&Z80, sizeof(Z80_Regs));
 
-  /* Extra HW */
+  /* External HW */
   if (system_hw == SYSTEM_MCD)
   {
+    /* CD hardware ID flag */
+    char id[5];
+    strncpy(id,"SCD!",4);
+    save_param(id, 4);
+
     /* CD hardware */
     bufferptr += scd_context_save(&state[bufferptr]);
   }

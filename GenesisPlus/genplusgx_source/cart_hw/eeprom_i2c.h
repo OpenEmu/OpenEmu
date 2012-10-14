@@ -1,8 +1,8 @@
-/***************************************************************************************
+/****************************************************************************
  *  Genesis Plus
- *  PCM sound chip (315-5476A) (RF5C164 compatible)
+ *  I2C Serial EEPROM (24Cxx) support
  *
- *  Copyright (C) 2012  Eke-Eke (Genesis Plus GX)
+ *  Copyright (C) 2007-2011  Eke-Eke (Genesis Plus GX)
  *
  *  Redistribution and use of this code or any derivative works are permitted
  *  provided that the following conditions are met:
@@ -35,43 +35,11 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  ****************************************************************************************/
-#ifndef _CD_PCM_
-#define _CD_PCM_
 
-#include "blip_buf.h"
-
-/* PCM channel */
-typedef struct
-{
-  uint32 addr;  /* current Wave RAM address (16.11 fixed point) */
-  uint32 st;    /* Wave RAM start address (16.11 fixed point) */
-  reg16_t ls;   /* Wave RAM loop address ($0000-$ffff) */
-  reg16_t fd;   /* Wave RAM address increment (5.11 fixed point) */
-  uint8 env;    /* enveloppe multiplier */
-  uint8 pan;    /* stereo panning */
-} chan_t;
-
-/* PCM sound chip */
-typedef struct
-{
-  chan_t chan[8];     /* PCM channels 1-8 */
-  int16 out[2];       /* previous PCM stereo output */
-  uint8 *bank;        /* external RAM bank pointer */
-  uint8 enabled;      /* PCM chip ON/OFF status */
-  uint8 status;       /* channels ON/OFF status */
-  uint8 index;        /* current channel index */
-  uint8 ram[0x10000]; /* 64k external RAM */
-  uint32 cycles;
-} pcm_t;
+#ifndef _EEPROM_I2C_H_
+#define _EEPROM_I2C_H_
 
 /* Function prototypes */
-extern void pcm_init(blip_t* left, blip_t* right);
-extern void pcm_reset(void);
-extern int pcm_context_save(uint8 *state);
-extern int pcm_context_load(uint8 *state);
-extern void pcm_update(unsigned int samples);
-extern void pcm_write(unsigned int address, unsigned char data);
-extern unsigned char pcm_read(unsigned int address);
-extern void pcm_ram_dma_w(unsigned int words);
+extern void eeprom_i2c_init();
 
 #endif

@@ -223,14 +223,6 @@ void gen_init(void)
   }
 }
 
-void gen_shutdown(void)
-{
-  if (system_hw == SYSTEM_MCD)
-  {
-    scd_shutdown();
-  }
-}
-
 void gen_reset(int hard_reset)
 {
   /* System Reset */

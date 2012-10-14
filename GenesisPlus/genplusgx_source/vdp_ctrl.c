@@ -279,7 +279,7 @@ void vdp_reset(void)
   bitmap.viewport.oh  = 192;
 
   /* default overscan area */
-  if (system_hw == SYSTEM_GG)
+  if ((system_hw == SYSTEM_GG) && !config.gg_extra)
   {
     /* Display area reduced to 160x144 if overscan is disabled */
     bitmap.viewport.x = (config.overscan & 2) ? 14 : -48;
@@ -423,7 +423,7 @@ int vdp_context_save(uint8 *state)
   return bufferptr;
 }
 
-int vdp_context_load(uint8 *state, char *version)
+int vdp_context_load(uint8 *state)
 {
   int i, bufferptr = 0;
   uint8 temp_reg[0x20];
@@ -474,12 +474,7 @@ int vdp_context_load(uint8 *state, char *version)
   load_param(&vint_pending, sizeof(vint_pending));
   load_param(&dma_length, sizeof(dma_length));
   load_param(&dma_type, sizeof(dma_type));
-
-  /* 1.7.x specific */
-  if (version[13] == 0x37)
-  {
-    load_param(&dma_src, sizeof(dma_src));
-  }
+  load_param(&dma_src, sizeof(dma_src));
 
   load_param(&cached_write, sizeof(cached_write));
 
@@ -750,11 +745,12 @@ void vdp_68k_ctrl_w(unsigned int data)
             /* DMA source address */
             dma_src = (reg[22] << 8) | reg[21];
 
-            /* SVP RAM or CD Word-RAM transfer */
-            if (((system_hw == SYSTEM_MCD) || svp) && ((reg[23] & 0x70) == 0x10))
+            /* Transfer from SVP DRAM ($300000-$31ffff) or CD Word-RAM ($200000-$3fffff/$600000-$7fffff) */
+            if (((system_hw == SYSTEM_MCD) && ((reg[23] & 0x70) == ((scd.cartridge.boot >> 1) + 0x10))) || (svp && ((reg[23] & 0x70) == 0x10)))
             {
-              /* source data is available with one cycle delay, which means the first word written by VDP is previous data being held */
-              /* on 68k bus at that time, then source words are written normally to VDP RAM, with only last source word being ignored */
+              /* source data is available with one cycle delay, i.e first word written by VDP is */
+              /* previous data being held on 68k bus at that time, then source words are written */
+              /* normally to VDP RAM, with only last source word being ignored */
               addr += reg[15];
               dma_length--;
             }
@@ -990,7 +986,7 @@ void vdp_sms_ctrl_w(unsigned int data)
               }
               else
               {
-                if (system_hw == SYSTEM_GG)
+                if ((system_hw == SYSTEM_GG) && !config.gg_extra)
                 {
                   /* Display area reduced to 160x144 */
                   bitmap.viewport.y = (144 - height) / 2;

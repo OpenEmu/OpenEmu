@@ -40,7 +40,7 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#define CONFIG_VERSION "GENPLUS-GX 1.7.0"
+#define CONFIG_VERSION "GENPLUS-GX 1.7.1"
 
 /****************************************************************************
  * Config Option 
@@ -62,7 +62,6 @@ typedef struct
   int16 lg;
   int16 mg;
   int16 hg;
-  float rolloff;
   uint8 system;
   uint8 region_detect;
   uint8 master_clock;
@@ -76,6 +75,7 @@ typedef struct
   uint8 invert_mouse;
   uint8 gun_cursor[2];
   uint8 overscan;
+  uint8 gg_extra;
   uint8 ntsc;
   uint8 vsync;
   uint8 render;

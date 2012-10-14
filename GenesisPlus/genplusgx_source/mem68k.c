@@ -320,41 +320,42 @@ unsigned int ctrl_io_read_byte(unsigned int address)
 #ifdef LOG_SCD
       error("[%d][%d]read byte CD register %X (%X)\n", v_counter, m68k.cycles, address, m68k.pc);
 #endif
-
-      /* Memory Mode */
-      if (address == 0xa12003)
+      if (system_hw == SYSTEM_MCD)
       {
-        m68k_poll_detect(0x03);
-        return scd.regs[0x03>>1].byte.l;
-      }
-
-      /* SUB-CPU communication flags */
-      if (address == 0xa1200f)
-      {
-        m68k_poll_detect(0x0f);
-        return scd.regs[0x0f>>1].byte.l;
-      }
-
-      /* default registers */
-      if (address < 0xa12030)
-      {
-        /* SUB-CPU communication words */
-        if (address >= 0xa12020)
+        /* Memory Mode */
+        if (address == 0xa12003)
         {
-          m68k_poll_detect((address - 0x10) & 0x1f);
+          m68k_poll_detect(0x03);
+          return scd.regs[0x03>>1].byte.l;
         }
 
-        /* register LSB */
-        if (address & 1)
+        /* SUB-CPU communication flags */
+        if (address == 0xa1200f)
         {
-          return scd.regs[(address >> 1) & 0xff].byte.l;
+          m68k_poll_detect(0x0f);
+          return scd.regs[0x0f>>1].byte.l;
         }
-            
-        /* register MSB */
-        return scd.regs[(address >> 1) & 0xff].byte.h;
+
+        /* default registers */
+        if (address < 0xa12030)
+        {
+          /* SUB-CPU communication words */
+          if (address >= 0xa12020)
+          {
+            m68k_poll_detect((address - 0x10) & 0x1f);
+          }
+
+          /* register LSB */
+          if (address & 1)
+          {
+            return scd.regs[(address >> 1) & 0xff].byte.l;
+          }
+              
+          /* register MSB */
+          return scd.regs[(address >> 1) & 0xff].byte.h;
+        }
       }
 
-      /* invalid address */
       return m68k_read_bus_8(address); 
     }
 
@@ -438,35 +439,38 @@ unsigned int ctrl_io_read_word(unsigned int address)
 #ifdef LOG_SCD
       error("[%d][%d]read word CD register %X (%X)\n", v_counter, m68k.cycles, address, m68k.pc);
 #endif
-      /* Memory Mode */
-      if (address == 0xa12002)
+      if (system_hw == SYSTEM_MCD)
       {
-        m68k_poll_detect(0x03);
-        return scd.regs[0x03>>1].w;
-      }
-
-      /* CDC host data (word access only ?) */
-      if (address == 0xa12008)
-      {
-        return cdc_host_r();
-      }
-
-      /* H-INT vector (word access only ?) */
-      if (address == 0xa12006)
-      {
-        return *(uint16 *)(m68k.memory_map[0].base + 0x72);
-      }
-
-      /* default registers */
-      if (address < 0xa12030)
-      {
-        /* SUB-CPU communication words */
-        if (address >= 0xa12020)
+        /* Memory Mode */
+        if (address == 0xa12002)
         {
-          m68k_poll_detect((address - 0x10) & 0x1e);
+          m68k_poll_detect(0x03);
+          return scd.regs[0x03>>1].w;
         }
-        
-        return scd.regs[(address >> 1) & 0xff].w;
+
+        /* CDC host data (word access only ?) */
+        if (address == 0xa12008)
+        {
+          return cdc_host_r();
+        }
+
+        /* H-INT vector (word access only ?) */
+        if (address == 0xa12006)
+        {
+          return *(uint16 *)(m68k.memory_map[0].base + 0x72);
+        }
+
+        /* default registers */
+        if (address < 0xa12030)
+        {
+          /* SUB-CPU communication words */
+          if (address >= 0xa12020)
+          {
+            m68k_poll_detect((address - 0x10) & 0x1e);
+          }
+          
+          return scd.regs[(address >> 1) & 0xff].w;
+        }
       }
 
       /* invalid address */
@@ -559,161 +563,167 @@ void ctrl_io_write_byte(unsigned int address, unsigned int data)
 #ifdef LOG_SCD
       error("[%d][%d]write byte CD register %X -> 0x%02X (%X)\n", v_counter, m68k.cycles, address, data, m68k.pc);
 #endif
-      switch (address & 0xff)
+      if (system_hw == SYSTEM_MCD)
       {
-        case 0x00:  /* SUB-CPU interrupt */
+        switch (address & 0xff)
         {
-          /* IFL2 bit */
-          if (data & 0x01)
+          case 0x00:  /* SUB-CPU interrupt */
           {
-            /* level 2 interrupt enabled ? */
-            if (scd.regs[0x32>>1].byte.l & 0x04)
+            /* IFL2 bit */
+            if (data & 0x01)
             {
-              /* relative SUB-CPU cycle counter */
-              unsigned int cycles = (m68k.cycles * SCYCLES_PER_LINE) / MCYCLES_PER_LINE;
-
-              /* sync SUB-CPU with MAIN-CPU */
-              if (!s68k.stopped && (s68k.cycles < cycles))
+              /* level 2 interrupt enabled ? */
+              if (scd.regs[0x32>>1].byte.l & 0x04)
               {
-                s68k_run(cycles);
+                /* relative SUB-CPU cycle counter */
+                unsigned int cycles = (m68k.cycles * SCYCLES_PER_LINE) / MCYCLES_PER_LINE;
+
+                /* sync SUB-CPU with MAIN-CPU */
+                if (!s68k.stopped && (s68k.cycles < cycles))
+                {
+                  s68k_run(cycles);
+                }
+
+                /* set IFL2 flag */
+                scd.regs[0x00].byte.h |= 0x01;
+
+                /* trigger level 2 interrupt */
+                scd.pending |= (1 << 2);
+
+                /* update IRQ level */
+                s68k_update_irq((scd.pending & scd.regs[0x32>>1].byte.l) >> 1);
               }
-
-              /* set IFL2 flag */
-              scd.regs[0x00].byte.h |= 0x01;
-
-              /* trigger level 2 interrupt */
-              scd.pending |= (1 << 2);
-
-              /* update IRQ level */
-              s68k_update_irq((scd.pending & scd.regs[0x32>>1].byte.l) >> 1);
-            }
-          }
-
-          /* writing 0 does nothing */
-          return;
-        }
-
-        case 0x01:  /* SUB-CPU control */
-        {
-          /* RESET bit */
-          if (data & 0x01)
-          {
-            /* trigger reset on 0->1 transition */
-            if (!(scd.regs[0x00].byte.l & 0x01))
-            {
-              /* reset SUB-CPU */
-              s68k_pulse_reset();
             }
 
-            /* BUSREQ bit */
-            if (data & 0x02)
-            {
-              /* SUB-CPU bus requested */
-              s68k_pulse_halt();
-            }
-            else
-            {
-              /* SUB-CPU bus released */
-              s68k_clear_halt();
-            }
-          }
-          else
-          {
-            /* SUB-CPU is halted while !RESET is asserted */
-            s68k_pulse_halt();
-          }
-
-          scd.regs[0x00].byte.l = data;
-          return;
-        }
-
-        case 0x03:  /* Memory mode */
-        {
-          m68k_poll_sync(0x02);
-
-          /* PRG-RAM 128k bank mapped to $020000-$03FFFF (resp. $420000-$43FFFF) */
-          m68k.memory_map[scd.cartridge.boot + 0x02].base = scd.prg_ram + ((data & 0xc0) << 11);
-          m68k.memory_map[scd.cartridge.boot + 0x03].base = m68k.memory_map[scd.cartridge.boot + 0x02].base + 0x10000;
-
-          /* check current mode */
-          if (scd.regs[0x03>>1].byte.l & 0x04)
-          {
-            /* DMNA bit */
-            if (data & 0x02)
-            {
-              /* writing 1 to DMNA in 1M mode will return Word-RAM to SUB-CPU in 2M mode */
-              scd.dmna = 1;
-            }
-            else
-            {
-              /* writing 0 to DMNA in 1M mode actually set DMNA bit */
-              data |= 0x02;
-
-              /* update BK0-1 & DMNA bits */
-              scd.regs[0x03>>1].byte.l = (scd.regs[0x03>>1].byte.l & ~0xc2) | (data & 0xc2);
-              return;
-            }
-          }
-          else
-          {
-            /* writing 0 in 2M mode does nothing */
-            if (data & 0x02)
-            {
-              /* Word-RAM is assigned to SUB-CPU */
-              scd.dmna = 1;
-
-              /* clear RET bit */
-              scd.regs[0x03>>1].byte.l = (scd.regs[0x03>>1].byte.l & ~0xc3) | (data & 0xc2);
-              return;
-            }
-          }
-           
-          /* update BK0-1 bits */
-          scd.regs[0x03>>1].byte.l = (scd.regs[0x02>>1].byte.l & ~0xc0) | (data & 0xc0);
-          return;
-        }
-
-        case 0x0f:  /* SUB-CPU communication flags, normally read-only (Space Ace, Dragon's Lair) */
-        {
-          /* ROL8 operation */
-          data = (data << 1) | ((data >> 7) & 1);
-        }
-
-        case 0x0e:  /* MAIN-CPU communication flags */
-        {
-          m68k_poll_sync(0x0e);
-          scd.regs[0x0e>>1].byte.h = data;
-          return;
-        }
-
-        default:
-        {
-          /* default registers */
-          if (address < 0xa12020)
-          {
-            /* MAIN-CPU communication words */
-            if (address >= 0xa12010)
-            {
-              m68k_poll_sync(address & 0x1e);
-            }
-
-            /* register LSB */
-            if (address & 1)
-            {
-              scd.regs[(address >> 1) & 0xff].byte.l = data;
-              return;
-            }
-
-            /* register MSB */
-            scd.regs[(address >> 1) & 0xff].byte.h = data;
+            /* writing 0 does nothing */
             return;
           }
-          
-          /* invalid address */
-          m68k_unused_8_w(address, data);
-          return;
+
+          case 0x01:  /* SUB-CPU control */
+          {
+            /* RESET bit */
+            if (data & 0x01)
+            {
+              /* trigger reset on 0->1 transition */
+              if (!(scd.regs[0x00].byte.l & 0x01))
+              {
+                /* reset SUB-CPU */
+                s68k_pulse_reset();
+              }
+
+              /* BUSREQ bit */
+              if (data & 0x02)
+              {
+                /* SUB-CPU bus requested */
+                s68k_pulse_halt();
+              }
+              else
+              {
+                /* SUB-CPU bus released */
+                s68k_clear_halt();
+              }
+            }
+            else
+            {
+              /* SUB-CPU is halted while !RESET is asserted */
+              s68k_pulse_halt();
+            }
+
+            scd.regs[0x00].byte.l = data;
+            return;
+          }
+
+          case 0x03:  /* Memory mode */
+          {
+            m68k_poll_sync(0x02);
+
+            /* PRG-RAM 128k bank mapped to $020000-$03FFFF (resp. $420000-$43FFFF) */
+            m68k.memory_map[scd.cartridge.boot + 0x02].base = scd.prg_ram + ((data & 0xc0) << 11);
+            m68k.memory_map[scd.cartridge.boot + 0x03].base = m68k.memory_map[scd.cartridge.boot + 0x02].base + 0x10000;
+
+            /* check current mode */
+            if (scd.regs[0x03>>1].byte.l & 0x04)
+            {
+              /* DMNA bit */
+              if (data & 0x02)
+              {
+                /* writing 1 to DMNA in 1M mode will return Word-RAM to SUB-CPU in 2M mode */
+                scd.dmna = 1;
+              }
+              else
+              {
+                /* writing 0 to DMNA in 1M mode actually set DMNA bit */
+                data |= 0x02;
+
+                /* update BK0-1 & DMNA bits */
+                scd.regs[0x03>>1].byte.l = (scd.regs[0x03>>1].byte.l & ~0xc2) | (data & 0xc2);
+                return;
+              }
+            }
+            else
+            {
+              /* writing 0 in 2M mode does nothing */
+              if (data & 0x02)
+              {
+                /* Word-RAM is assigned to SUB-CPU */
+                scd.dmna = 1;
+
+                /* clear RET bit */
+                scd.regs[0x03>>1].byte.l = (scd.regs[0x03>>1].byte.l & ~0xc3) | (data & 0xc2);
+                return;
+              }
+            }
+             
+            /* update BK0-1 bits */
+            scd.regs[0x03>>1].byte.l = (scd.regs[0x02>>1].byte.l & ~0xc0) | (data & 0xc0);
+            return;
+          }
+
+          case 0x0f:  /* SUB-CPU communication flags, normally read-only (Space Ace, Dragon's Lair) */
+          {
+            /* ROL8 operation */
+            data = (data << 1) | ((data >> 7) & 1);
+          }
+
+          case 0x0e:  /* MAIN-CPU communication flags */
+          {
+            m68k_poll_sync(0x0e);
+            scd.regs[0x0e>>1].byte.h = data;
+            return;
+          }
+
+          default:
+          {
+            /* default registers */
+            if (address < 0xa12020)
+            {
+              /* MAIN-CPU communication words */
+              if (address >= 0xa12010)
+              {
+                m68k_poll_sync(address & 0x1e);
+              }
+
+              /* register LSB */
+              if (address & 1)
+              {
+                scd.regs[(address >> 1) & 0xff].byte.l = data;
+                return;
+              }
+
+              /* register MSB */
+              scd.regs[(address >> 1) & 0xff].byte.h = data;
+              return;
+            }
+            
+            /* invalid address */
+            m68k_unused_8_w(address, data);
+            return;
+          }
         }
       }
+
+      m68k_unused_8_w(address, data);
+      return;
     }
 
     case 0x30:  /* TIME */
@@ -783,141 +793,147 @@ void ctrl_io_write_word(unsigned int address, unsigned int data)
 #ifdef LOG_SCD
       error("[%d][%d]write word CD register %X -> 0x%04X (%X)\n", v_counter, m68k.cycles, address, data, m68k.pc);
 #endif
-      switch (address & 0xfe)
+      if (system_hw == SYSTEM_MCD)
       {
-        case 0x00:  /* SUB-CPU interrupt & control */
+        switch (address & 0xfe)
         {
-          /* RESET bit */
-          if (data & 0x01)
+          case 0x00:  /* SUB-CPU interrupt & control */
           {
-            /* trigger reset on 0->1 transition */
-            if (!(scd.regs[0x00].byte.l & 0x01))
+            /* RESET bit */
+            if (data & 0x01)
             {
-              /* reset SUB-CPU */
-              s68k_pulse_reset();
-            }
+              /* trigger reset on 0->1 transition */
+              if (!(scd.regs[0x00].byte.l & 0x01))
+              {
+                /* reset SUB-CPU */
+                s68k_pulse_reset();
+              }
 
-            /* BUSREQ bit */
-            if (data & 0x02)
+              /* BUSREQ bit */
+              if (data & 0x02)
+              {
+                /* SUB-CPU bus requested */
+                s68k_pulse_halt();
+              }
+              else
+              {
+                /* SUB-CPU bus released */
+                s68k_clear_halt();
+              }
+            }
+            else
             {
-              /* SUB-CPU bus requested */
+              /* SUB-CPU is halted while !RESET is asserted */
               s68k_pulse_halt();
             }
-            else
+
+            /* IFL2 bit */
+            if (data & 0x100)
             {
-              /* SUB-CPU bus released */
-              s68k_clear_halt();
-            }
-          }
-          else
-          {
-            /* SUB-CPU is halted while !RESET is asserted */
-            s68k_pulse_halt();
-          }
+              /* level 2 interrupt enabled ? */
+              if (scd.regs[0x32>>1].byte.l & 0x04)
+              {
+                /* set IFL2 flag */
+                scd.regs[0x00].byte.h |= 0x01;
 
-          /* IFL2 bit */
-          if (data & 0x100)
-          {
-            /* level 2 interrupt enabled ? */
-            if (scd.regs[0x32>>1].byte.l & 0x04)
-            {
-              /* set IFL2 flag */
-              scd.regs[0x00].byte.h |= 0x01;
+                /* trigger level 2 interrupt */
+                scd.pending |= (1 << 2);
 
-              /* trigger level 2 interrupt */
-              scd.pending |= (1 << 2);
-
-              /* update IRQ level */
-              s68k_update_irq((scd.pending & scd.regs[0x32>>1].byte.l) >> 1);
-            }
-          }
-
-          /* update LSB only */
-          scd.regs[0x00].byte.l = data & 0xff;
-          return;
-        }
-
-        case 0x02:  /* Memory Mode */
-        {
-          m68k_poll_sync(0x02);
-
-          /* PRG-RAM 128k bank mapped to $020000-$03FFFF (resp. $420000-$43FFFF) */
-          m68k.memory_map[scd.cartridge.boot + 0x02].base = scd.prg_ram + ((data & 0xc0) << 11);
-          m68k.memory_map[scd.cartridge.boot + 0x03].base = m68k.memory_map[scd.cartridge.boot + 0x02].base + 0x10000;
-
-          /* check current mode */
-          if (scd.regs[0x03>>1].byte.l & 0x04)
-          {
-            /* DMNA bit */
-            if (data & 0x02)
-            {
-              /* writing 1 to DMNA in 1M mode will return Word-RAM to SUB-CPU in 2M mode */
-              scd.dmna = 1;
-            }
-            else
-            {
-              /* writing 0 to DMNA in 1M mode actually set DMNA bit */
-              data |= 0x02;
-
-              /* update WP0-7, BK0-1 & DMNA bits */
-              scd.regs[0x02>>1].w = (scd.regs[0x02>>1].w & ~0xffc2) | (data & 0xffc2);
-              return;
-            }
-          }
-          else
-          {
-            /* writing 0 in 2M mode does nothing */
-            if (data & 0x02)
-            {
-              /* Word-RAM is assigned to SUB-CPU */
-              scd.dmna = 1;
-
-              /* clear RET bit */
-              scd.regs[0x02>>1].w = (scd.regs[0x02>>1].w & ~0xffc3) | (data & 0xffc2);
-              return;
-            }
-          }
-           
-          /* update WP0-7 & BK0-1 bits */
-          scd.regs[0x02>>1].w = (scd.regs[0x02>>1].w & ~0xffc0) | (data & 0xffc0);
-          return;
-        }
-
-        case 0x06:  /* H-INT vector (word access only ?) */
-        {
-          *(uint16 *)(m68k.memory_map[0].base + 0x72) = data;
-          return;
-        }
-
-        case 0x0e:  /* MAIN-CPU communication flags */
-        {
-          m68k_poll_sync(0x0e);
-
-          /* LSB is read-only (Mortal Kombat) */
-          scd.regs[0x0e>>1].byte.h = data;
-          return;
-        }
-
-        default:
-        {
-          if (address < 0xa12020)
-          {
-            /* MAIN-CPU communication words */
-            if (address >= 0xa12010)
-            {
-              m68k_poll_sync(address & 0x1e);
+                /* update IRQ level */
+                s68k_update_irq((scd.pending & scd.regs[0x32>>1].byte.l) >> 1);
+              }
             }
 
-            /* default registers */
-            scd.regs[(address >> 1) & 0xff].w = data;
+            /* update LSB only */
+            scd.regs[0x00].byte.l = data & 0xff;
             return;
           }
 
-          /* invalid address */
-          m68k_unused_16_w (address, data);
-          return;
+          case 0x02:  /* Memory Mode */
+          {
+            m68k_poll_sync(0x02);
+
+            /* PRG-RAM 128k bank mapped to $020000-$03FFFF (resp. $420000-$43FFFF) */
+            m68k.memory_map[scd.cartridge.boot + 0x02].base = scd.prg_ram + ((data & 0xc0) << 11);
+            m68k.memory_map[scd.cartridge.boot + 0x03].base = m68k.memory_map[scd.cartridge.boot + 0x02].base + 0x10000;
+
+            /* check current mode */
+            if (scd.regs[0x03>>1].byte.l & 0x04)
+            {
+              /* DMNA bit */
+              if (data & 0x02)
+              {
+                /* writing 1 to DMNA in 1M mode will return Word-RAM to SUB-CPU in 2M mode */
+                scd.dmna = 1;
+              }
+              else
+              {
+                /* writing 0 to DMNA in 1M mode actually set DMNA bit */
+                data |= 0x02;
+
+                /* update WP0-7, BK0-1 & DMNA bits */
+                scd.regs[0x02>>1].w = (scd.regs[0x02>>1].w & ~0xffc2) | (data & 0xffc2);
+                return;
+              }
+            }
+            else
+            {
+              /* writing 0 in 2M mode does nothing */
+              if (data & 0x02)
+              {
+                /* Word-RAM is assigned to SUB-CPU */
+                scd.dmna = 1;
+
+                /* clear RET bit */
+                scd.regs[0x02>>1].w = (scd.regs[0x02>>1].w & ~0xffc3) | (data & 0xffc2);
+                return;
+              }
+            }
+             
+            /* update WP0-7 & BK0-1 bits */
+            scd.regs[0x02>>1].w = (scd.regs[0x02>>1].w & ~0xffc0) | (data & 0xffc0);
+            return;
+          }
+
+          case 0x06:  /* H-INT vector (word access only ?) */
+          {
+            *(uint16 *)(m68k.memory_map[0].base + 0x72) = data;
+            return;
+          }
+
+          case 0x0e:  /* MAIN-CPU communication flags */
+          {
+            m68k_poll_sync(0x0e);
+
+            /* LSB is read-only (Mortal Kombat) */
+            scd.regs[0x0e>>1].byte.h = data;
+            return;
+          }
+
+          default:
+          {
+            if (address < 0xa12020)
+            {
+              /* MAIN-CPU communication words */
+              if (address >= 0xa12010)
+              {
+                m68k_poll_sync(address & 0x1e);
+              }
+
+              /* default registers */
+              scd.regs[(address >> 1) & 0xff].w = data;
+              return;
+            }
+
+            /* invalid address */
+            m68k_unused_16_w (address, data);
+            return;
+          }
         }
       }
+
+      m68k_unused_16_w (address, data);
+      return;
     }
 
     case 0x30:  /* TIME */
@@ -1089,7 +1105,7 @@ void vdp_write_byte(unsigned int address, unsigned int data)
     {
       if (address & 1)
       {
-        psg_write(m68k.cycles, data);
+        SN76489_Write(m68k.cycles, data);
         return;
       }
       m68k_unused_8_w(address, data);
@@ -1135,7 +1151,7 @@ void vdp_write_word(unsigned int address, unsigned int data)
     case 0x10:  /* PSG */
     case 0x14:
     {
-      psg_write(m68k.cycles, data & 0xFF);
+      SN76489_Write(m68k.cycles, data & 0xFF);
       return;
     }
 

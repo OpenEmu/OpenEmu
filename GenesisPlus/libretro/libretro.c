@@ -25,6 +25,7 @@ md_ntsc_t  *md_ntsc;
 static int vwidth;
 static int vheight;
 static bool failed_init;
+char rom_filename[256];
 
 unsigned retro_api_version(void) { return RETRO_API_VERSION; }
 
@@ -209,7 +210,6 @@ static void config_default(void)
    config.mg             = 1.0;
    config.hg             = 1.0;
    config.lp_range       = 60;
-   config.rolloff        = 0.995;
    config.dac_bits 		 = 14;
    config.ym2413         = 2; /* AUTO */
 
@@ -231,6 +231,7 @@ static void config_default(void)
    config.yscale   = 0;
    config.aspect   = 0;
    config.overscan = 0; /* 3 == FULL */
+   config.gg_extra = 0;
 #if defined(USE_NTSC)
    config.ntsc     = 1;
 #endif
@@ -912,7 +913,6 @@ void retro_init(void)
 
 void retro_deinit(void)
 {
-   system_shutdown();
 #if defined(USE_NTSC)
    free(md_ntsc);
    free(sms_ntsc);

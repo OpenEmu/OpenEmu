@@ -60,6 +60,8 @@ typedef struct
 /* Function prototypes */
 extern void cdc_init(void);
 extern void cdc_reset(void);
+extern int cdc_context_save(uint8 *state);
+extern int cdc_context_load(uint8 *state);
 extern void cdc_dma_update(void);
 extern int cdc_decoder_update(uint32 header);
 extern void cdc_reg_w(unsigned char data);

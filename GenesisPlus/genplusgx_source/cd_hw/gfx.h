@@ -108,6 +108,8 @@ extern void cell_ram_1_write8(unsigned int address, unsigned int data);
 /***************************************************************/
 extern void gfx_init(void);
 extern void gfx_reset(void);
+extern int gfx_context_save(uint8 *state);
+extern int gfx_context_load(uint8 *state);
 extern void gfx_start(unsigned int base, int cycles);
 extern void gfx_update(int cycles);
 

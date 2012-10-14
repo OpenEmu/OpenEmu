@@ -55,7 +55,8 @@
 /* CD hardware */
 typedef struct 
 {
-  uint8 bootrom[0x20000];     /* 128K internal BOOTROM */
+  cd_cart_t cartridge;        /* ROM/RAM Cartridge */
+  uint8 bootrom[0x20000];     /* 128K internal BOOT ROM */
   uint8 prg_ram[0x80000];     /* 512K PRG-RAM */
   uint8 word_ram[2][0x20000]; /* 2 x 128K Word RAM (1M mode) */
   uint8 word_ram_2M[0x40000]; /* 256K Word RAM (2M mode) */
@@ -69,12 +70,10 @@ typedef struct
   cdc_t cdc_hw;               /* CD data controller */
   cdd_t cdd_hw;               /* CD drive processor */
   pcm_t pcm_hw;               /* PCM chip */
-  cd_cart_t cartridge;        /* Cartridge hardware */
 } cd_hw_t;
 
 /* Function prototypes */
 extern void scd_init(void);
-extern void scd_shutdown(void);
 extern void scd_reset(int hard);
 extern void scd_update(unsigned int cycles);
 extern int scd_context_load(uint8 *state);

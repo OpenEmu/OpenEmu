@@ -20,7 +20,6 @@ void set_config_defaults(void)
 	config.lg             = 1.0;
 	config.mg             = 1.0;
 	config.hg             = 1.0;
-	config.rolloff        = 0.995;
 	config.dac_bits       = 14;
     config.ym2413         = 2;
 	
@@ -44,6 +43,7 @@ void set_config_defaults(void)
 	config.yscale   = 0;
 	config.aspect   = 1;
 	config.overscan = 1;
+    config.gg_extra = 0;
 	config.render = 0;
 	config.ntsc     = 0;
 	config.bilinear = 0;

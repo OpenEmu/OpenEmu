@@ -36,29 +36,24 @@
  *
  ****************************************************************************************/
 #include "shared.h"
-#include "blip.h"
 
-#define PCM_MCLOCKS_PER_SAMPLE (384 * 4)
+#define PCM_SCYCLES_RATIO (384 * 4)
 
 #define pcm scd.pcm_hw
 
-static struct blip_buffer_t* blip[2];
+static blip_t* blip[2];
 
-void pcm_init(double clock, double samplerate)
+void pcm_init(blip_t* left, blip_t* right)
 {
-  pcm_shutdown();
+  /* number of SCD master clocks run per second */
+  double mclk = snd.frame_rate ? (SCYCLES_PER_LINE * (vdp_pal ? 313 : 262) * snd.frame_rate) : SCD_CLOCK;
 
-  /* allocate blip buffers */
-  blip[0] = blip_alloc(clock, samplerate * PCM_MCLOCKS_PER_SAMPLE, samplerate / 4);
-  blip[1] = blip_alloc(clock, samplerate * PCM_MCLOCKS_PER_SAMPLE, samplerate / 4);
-}
-
-void pcm_shutdown(void)
-{
-  /* desallocate blip buffers */
-  if (blip[0]) blip_free(blip[0]);
-  if (blip[1]) blip_free(blip[1]);
-  blip[0] = blip[1] = 0;
+  /* PCM chips is running at original rate and is synchronized with SUB-CPU  */
+  /* Chip output is resampled to desired rate using Blip Buffer. */
+  blip[0] = left;
+  blip[1] = right;
+  blip_set_rates(left, mclk / PCM_SCYCLES_RATIO, snd.sample_rate);
+  blip_set_rates(right, mclk / PCM_SCYCLES_RATIO, snd.sample_rate);
 }
 
 void pcm_reset(void)
@@ -72,9 +67,46 @@ void pcm_reset(void)
   /* reset master clocks counter */
   pcm.cycles = 0;
 
-  /* clear blip delta buffers */
+  /* clear blip buffers */
   blip_clear(blip[0]);
   blip_clear(blip[1]);
+}
+
+int pcm_context_save(uint8 *state)
+{
+  uint8 tmp8;
+  int bufferptr = 0;
+
+  tmp8 = (scd.pcm_hw.bank - scd.pcm_hw.ram) >> 12;
+
+  save_param(scd.pcm_hw.chan, sizeof(scd.pcm_hw.chan));
+  save_param(scd.pcm_hw.out, sizeof(scd.pcm_hw.out));
+  save_param(&tmp8, 1);
+  save_param(&scd.pcm_hw.enabled, sizeof(scd.pcm_hw.enabled));
+  save_param(&scd.pcm_hw.status, sizeof(scd.pcm_hw.status));
+  save_param(&scd.pcm_hw.index, sizeof(scd.pcm_hw.index));
+  save_param(scd.pcm_hw.ram, sizeof(scd.pcm_hw.ram));
+
+  return bufferptr;
+}
+
+int pcm_context_load(uint8 *state)
+{
+  uint8 tmp8;
+  int bufferptr = 0;
+
+  load_param(scd.pcm_hw.chan, sizeof(scd.pcm_hw.chan));
+  load_param(scd.pcm_hw.out, sizeof(scd.pcm_hw.out));
+
+  load_param(&tmp8, 1);
+  scd.pcm_hw.bank = &scd.pcm_hw.ram[(tmp8 & 0x0f) << 12];
+
+  load_param(&scd.pcm_hw.enabled, sizeof(scd.pcm_hw.enabled));
+  load_param(&scd.pcm_hw.status, sizeof(scd.pcm_hw.status));
+  load_param(&scd.pcm_hw.index, sizeof(scd.pcm_hw.index));
+  load_param(scd.pcm_hw.ram, sizeof(scd.pcm_hw.ram));
+
+  return bufferptr;
 }
 
 void pcm_run(unsigned int length)
@@ -148,14 +180,14 @@ void pcm_run(unsigned int length)
       /* check if PCM left output changed */
       if (pcm.out[0] != l)
       {
-        blip_add(blip[0], i, l-pcm.out[0]);
+        blip_add_delta_fast(blip[0], i, l-pcm.out[0]);
         pcm.out[0] = l;
       }
 
       /* check if PCM right output changed */
       if (pcm.out[1] != r)
       {
-        blip_add(blip[1], i, r-pcm.out[1]);
+        blip_add_delta_fast(blip[1], i, r-pcm.out[1]);
         pcm.out[1] = r;
       }
     }
@@ -165,14 +197,14 @@ void pcm_run(unsigned int length)
     /* check if PCM left output changed */
     if (pcm.out[0])
     {
-      blip_add(blip[0], 0, -pcm.out[0]);
+      blip_add_delta_fast(blip[0], 0, -pcm.out[0]);
       pcm.out[0] = 0;
     }
 
     /* check if PCM right output changed */
     if (pcm.out[1])
     {
-      blip_add(blip[1], 0, -pcm.out[1]);
+      blip_add_delta_fast(blip[1], 0, -pcm.out[1]);
       pcm.out[1] = 0;
     }
   }
@@ -182,20 +214,19 @@ void pcm_run(unsigned int length)
   blip_end_frame(blip[1], length);
 
   /* update PCM master clock counter */
-  pcm.cycles += length * PCM_MCLOCKS_PER_SAMPLE;
+  pcm.cycles += length * PCM_SCYCLES_RATIO;
 }
 
-void pcm_update(short *buffer, int length)
+void pcm_update(unsigned int samples)
 {
   /* get number of internal clocks (samples) needed */
-  unsigned int clocks = blip_clocks_needed(blip[0], length);
+  unsigned int clocks = blip_clocks_needed(blip[0], samples);
 
   /* run PCM chip */
-  pcm_run(clocks);
-
-  /* resample to output stereo buffer */
-  blip_read_samples(blip[0], buffer, 1);
-  blip_read_samples(blip[1], buffer + 1, 1);
+  if (clocks > 0)
+  {
+    pcm_run(clocks);
+  }
 
   /* reset PCM master clocks counter */
   pcm.cycles = 0;
@@ -208,7 +239,7 @@ void pcm_write(unsigned int address, unsigned char data)
   if (clocks > 0)
   {
     /* number of internal clocks (samples) to run */
-    clocks = (clocks + PCM_MCLOCKS_PER_SAMPLE - 1) / PCM_MCLOCKS_PER_SAMPLE;
+    clocks = (clocks + PCM_SCYCLES_RATIO - 1) / PCM_SCYCLES_RATIO;
     pcm_run(clocks);
   }
 
@@ -332,7 +363,7 @@ unsigned char pcm_read(unsigned int address)
   if (clocks > 0)
   {
     /* number of internal clocks (samples) to run */
-    clocks = (clocks + PCM_MCLOCKS_PER_SAMPLE - 1) / PCM_MCLOCKS_PER_SAMPLE;
+    clocks = (clocks + PCM_SCYCLES_RATIO - 1) / PCM_SCYCLES_RATIO;
     pcm_run(clocks);
   }
 

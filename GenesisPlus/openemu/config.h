@@ -35,7 +35,6 @@ typedef struct
 	int16 lg;
 	int16 mg;
 	int16 hg;
-	float rolloff;
 	uint8 region_detect;
 	uint8 force_dtack;
 	uint8 addr_error;
@@ -46,6 +45,7 @@ typedef struct
 	uint8 invert_mouse;
 	uint8 gun_cursor[2];
 	uint8 overscan;
+    uint8 gg_extra;
 	uint8 ntsc;
 	uint8 render;
 	uint8 tv_mode;

@@ -51,6 +51,8 @@
 #include <ogc/dvd.h>
 #endif
 
+char rom_filename[256];
+
 /* device root directories */
 #ifdef HW_RVL
 static const char rootdir[TYPE_RECENT][10] = {"sd:/","usb:/","dvd:/"};
@@ -208,7 +210,10 @@ int ParseDirectory(void)
   /* list entries */
   while ((entry != NULL)&& (nbfiles < MAXFILES))
   {
-    if (entry->d_name[0] != '.')
+    /* filter entries */
+    if ((entry->d_name[0] != '.') 
+       && strncasecmp(".wav", &entry->d_name[strlen(entry->d_name) - 4], 4) 
+       && strncasecmp(".mp3", &entry->d_name[strlen(entry->d_name) - 4], 4))
     {
       memset(&filelist[nbfiles], 0, sizeof (FILEENTRIES));
       sprintf(filelist[nbfiles].filename,"%s",entry->d_name);
@@ -235,13 +240,13 @@ int ParseDirectory(void)
 /****************************************************************************
  * LoadFile
  *
- * This function will load a BIN, SMD or ZIP file into the ROM buffer.
+ * This function will load a game file into the ROM buffer.
  * This functions return the actual size of data copied into the buffer
  *
  ****************************************************************************/ 
 int LoadFile(int selection) 
 {
-  int filetype;
+  int size = 0, filetype;
   char filename[MAXPATHLEN];
 
   /* file path */
@@ -262,16 +267,36 @@ int LoadFile(int selection)
     }
   }
 
-  /* try to load file */
-  int size = load_rom(filename);
+  /* open message box */
+  GUI_MsgBoxOpen("Information", "Loading game...", 1);
+
+  /* check if virtual CD tray was open */
+  if ((system_hw == SYSTEM_MCD) && (cdd.status == CD_OPEN))
+  {
+    /* swap CD image file */
+    size = cdd_load(filename, (char *)(cdc.ram));
+
+    /* update CD header informations */
+    if (!scd.cartridge.boot)
+    {
+      getrominfo((char *)(cdc.ram));
+    }
+  }
+
+  /* no CD image file loaded */
+  if (!size)
+  {
+    /* close CD tray to force system reset */
+    cdd.status = CD_STOP;
+
+    /* load game file */
+    size = load_rom(filename);
+  }
 
   if (size > 0)
   {
     /* auto-save previous game state */
-    if (config.s_auto & 2)
-    {
-      slot_autosave(config.s_default,config.s_device);
-    }
+    slot_autosave(config.s_default,config.s_device);
 
     /* update pathname for screenshot, save & cheat files */
     if (romtype & SYSTEM_SMS)
@@ -316,10 +341,14 @@ int LoadFile(int selection)
     /* recent file list may have changed */
     if (deviceType == TYPE_RECENT) deviceType = -1;
 
+    /* close message box */
+    GUI_MsgBoxClose();
+
     /* valid image has been loaded */
     return 1;
   }
 
+  GUI_WaitPrompt("Error", "Unable to load game");
   return 0;
 }
 

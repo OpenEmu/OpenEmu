@@ -1,6 +1,6 @@
 /***************************************************************************************
  *  Genesis Plus
- *  CD cartridge (external RAM or ROM)
+ *  CD compatible ROM/RAM cartridge support
  *
  *  Copyright (C) 2012  Eke-Eke (Genesis Plus GX)
  *
@@ -36,14 +36,15 @@
  *
  ****************************************************************************************/
  
- /* CD cartridge (backup RAM or game) */
+
+ /* CD compatible ROM/RAM cartridge */
 typedef struct 
 {
-  uint8 boot;            /* boot mode (0x00: boot from CD, 0x40: boot from cartridge) */
-  uint8 id;              /* cartridge ID (indicates RAM size, 0 if disabled) */
-  uint8 prot;            /* cartridge RAM write protection */
-  uint32 mask;           /* cartridge RAM size mask */
-  uint8 area[0x400000];  /* cartridge ROM/RAM area (4MB) */
+  uint8 area[0x810000];  /* cartridge ROM/RAM area (max. 8MB + 64KB backup) */
+  uint8 boot;            /* cartridge boot mode (0x00: boot from CD with ROM/RAM cartridge enabled, 0x40: boot from ROM cartridge with CD enabled) */
+  uint8 id;              /* RAM cartridge ID (related to RAM size, 0 if disabled) */
+  uint8 prot;            /* RAM cartridge write protection */
+  uint32 mask;           /* RAM cartridge size mask */
 } cd_cart_t;
 
 /* Function prototypes */

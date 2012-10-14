@@ -57,13 +57,13 @@ T_SRAM sram;
  ****************************************************************************/
 void sram_init()
 {
-  memset (&sram, 0, sizeof (T_SRAM));
+  memset(&sram, 0, sizeof (T_SRAM));
 
-  /* SRAM data is stored above cartridge ROM area, at $500000-$50FFFF (max. 64K) */
-  if (cart.romsize > 0x500000) return;
-  sram.sram = cart.rom + 0x500000;
+  /* backup RAM data is stored above cartridge ROM area, at $800000-$80FFFF (max. 64K) */
+  if (cart.romsize > 0x800000) return;
+  sram.sram = cart.rom + 0x800000;
 
-  /* initialize SRAM */
+  /* initialize Backup RAM */
   memset(sram.sram, 0xFF, 0x10000);
   sram.crc = crc32(0, sram.sram, 0x10000);
 
@@ -73,85 +73,105 @@ void sram_init()
     sram.start = READ_WORD_LONG(cart.rom, 0x1b4);
     sram.end   = READ_WORD_LONG(cart.rom, 0x1b8);
 
-    /* fixe some bad header informations */
-    if ((sram.start > sram.end) || ((sram.end - sram.start) >= 0x10000))
+    /* autodetect games with wrong header infos */
+    if (strstr(rominfo.product,"T-26013") != NULL)
+    {
+      /* Psy-O-Blade (wrong header) */
+      sram.start = 0x200001;
+      sram.end = 0x203fff;
+    }
+
+    /* fixe other bad header informations */
+    else if ((sram.start > sram.end) || ((sram.end - sram.start) >= 0x10000))
     {
       sram.end = sram.start + 0xffff;
     }
-    sram.start &= 0xfffffffe;
+    sram.start &= 0xfffffe;
     sram.end |= 1;
 
-    /* enable SRAM */
+    /* enable backup RAM */
     sram.on = 1;
     sram.detected = 1;
   }
   else
   {
-    /* by default, enable SRAM only for ROM <= 2MB */
-    if (cart.romsize <= 0x200000)
+    /* autodetect games with missing header infos */
+    if (strstr(rominfo.product,"T-50086") != NULL)
+    {
+      /* PGA Tour Golf */
+      sram.on = 1;
+      sram.start = 0x200001;
+      sram.end = 0x203fff;
+    }
+    else if (strstr(rominfo.product,"ACLD007") != NULL)
+    {
+      /* Winter Challenge */
+      sram.on = 1;
+      sram.start = 0x200001;
+      sram.end = 0x200fff;
+    }
+    else if (strstr(rominfo.product,"T-50286") != NULL)
+    {
+      /* Buck Rogers - Countdown to Doomsday */
+      sram.on = 1;
+      sram.start = 0x200001;
+      sram.end = 0x203fff;
+    }
+    else if (((rominfo.realchecksum == 0xaeaa) || (rominfo.realchecksum == 0x8dba)) && 
+             (rominfo.checksum ==  0x8104))
+    {
+      /* Xin Qigai Wangzi (use uncommon area) */
+      sram.on = 1;
+      sram.start = 0x400000;
+      sram.end = 0x40ffff;
+    }
+    else if ((strstr(rominfo.ROMType,"SF") != NULL) && (strstr(rominfo.product,"001") != NULL))
+    {
+      /* SF-001 (use bankswitching) */
+      sram.on = 1;
+      sram.start = 0x3c0001;
+      sram.end = 0x3cffff;
+    }
+    else if ((strstr(rominfo.ROMType,"SF") != NULL) && (strstr(rominfo.product,"004") != NULL))
+    {
+      /* SF-004 (use bankswitching) */
+      sram.on = 1;
+      sram.start = 0x200001;
+      sram.end = 0x203fff;
+    }
+    else if (strstr(rominfo.international,"SONIC & KNUCKLES") != NULL)
+    {
+      /* standalone Sonic & Knuckle does not use backup RAM */
+      if (cart.romsize == 0x400000)
+      {
+        /* Sonic 3 & Knuckles combined ROM */
+        /* it shows S&K header but should obviously use FRAM from Sonic 3 */
+        sram.on = 1;
+        sram.start = 0x200000;
+        sram.end = 0x203fff;
+      }
+    }
+
+    /* auto-detect games which need disabled backup RAM */
+    else if (strstr(rominfo.product,"T-113016") != NULL)
+    {
+      /* Pugsy (try writing outside ROM area as copy protection) */
+      sram.on = 0;
+    }
+    else if (strstr(rominfo.international,"SONIC THE HEDGEHOG 2") != NULL)
+    {
+      /* Sonic the Hedgehog 2 (does not use backup RAM) */
+      /* this prevents backup RAM from being mapped in place of mirrored ROM when using S&K LOCK-ON feature */
+      sram.on = 0;
+    }
+
+    /* by default, enable backup RAM for ROM smaller than 2MB */
+    else if (cart.romsize <= 0x200000)
     {
       /* SRAM mapped to $200000-$20ffff */
       sram.start = 0x200000;
       sram.end = 0x20ffff;
       sram.on = 1;
     }
-  }
-
-  /* autodetect some games with bad header or specific configuration */
-  if (strstr(rominfo.product,"T-113016") != NULL)
-  {
-    /* Pugsy (try accessing unmapped area for copy protection) */
-    sram.on = 0;
-  }
-  else if (strstr(rominfo.international,"SONIC THE HEDGEHOG 2") != NULL)
-  {
-    /* Sonic the Hedgehog 2 does not use SRAM */
-    /* this prevents SRAM activation when using Sonic & Knuckles LOCK-ON feature */
-    sram.on = 0;
-  }
-  else if (strstr(rominfo.international,"SONIC & KNUCKLES") != NULL)
-  {
-    if (cart.romsize == 0x400000)
-    {
-      /* Sonic 3 & Knuckles */
-      /* the combined ROM has S&K header but should obviously use FRAM from Sonic the Hedgehog 3 */
-      sram.on = 1;
-    }
-  }
-  else if (strstr(rominfo.product,"T-26013") != NULL)
-  {
-    /* Psy-O-Blade (bad header) */
-    sram.on = 1;
-    sram.start = 0x200001;
-    sram.end = 0x203fff;
-  }
-  else if (strstr(rominfo.product,"T-50086") != NULL)
-  {
-    /* PGA Tour Golf (no header) */
-    sram.on = 1;
-    sram.start = 0x200001;
-    sram.end = 0x203fff;
-  }
-  else if (strstr(rominfo.product,"ACLD007") != NULL)
-  {
-    /* Winter Challenge (no header) */
-    sram.on = 1;
-    sram.start = 0x200001;
-    sram.end = 0x200fff;
-  }
-  else if (strstr(rominfo.product,"T-50286") != NULL)
-  {
-    /* Buck Rogers - Countdown to Doomsday (no header) */
-    sram.on = 1;
-    sram.start = 0x200001;
-    sram.end = 0x203fff;
-  }
-  else if (((rominfo.realchecksum == 0xaeaa) || (rominfo.realchecksum == 0x8dba)) && 
-           (rominfo.checksum ==  0x8104))
-  {
-    /* Xin Qigai Wangzi, aka Beggar Prince (no header, use uncommon area) */
-    sram.on = 1;
-    sram.start = 0x400000;
-    sram.end = 0x40ffff;
   }
 }

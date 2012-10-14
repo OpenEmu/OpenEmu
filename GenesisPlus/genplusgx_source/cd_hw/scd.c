@@ -276,7 +276,7 @@ static unsigned int scd_read_byte(unsigned int address)
   {
     unsigned int data = cdc_reg_r();
 #ifdef LOG_CDC
-    error("CDC register %X read 0x%02X (%X) ", scd.regs[0x04>>1].byte.l & 0x0F, data, s68k.pc);
+    error("CDC register %X read 0x%02X (%X)\n", scd.regs[0x04>>1].byte.l & 0x0F, data, s68k.pc);
 #endif
     return data;
   }
@@ -1037,6 +1037,9 @@ void scd_init(void)
   /* 0x00: boot from CD (Mode 2), 0x40: boot from cartridge (Mode 1) */
   uint8 base = scd.cartridge.boot;
 
+  /* $400000-$7FFFFF (resp. $000000-$3FFFFF): cartridge area (4MB) */
+  cd_cart_init();
+
   /* $000000-$1FFFFF (resp. $400000-$5FFFFF): CD memory area */
   for (i=base; i<base+0x20; i++)
   {
@@ -1088,9 +1091,6 @@ void scd_init(void)
     zbank_memory_map[i].read    = zbank_unused_r;
     zbank_memory_map[i].write   = zbank_unused_w;
   }
-
-  /* $400000-$7FFFFF (resp. $000000-$3FFFFF): cartridge area (4MB) */
-  cd_cart_init();
   
   /****************************************************************/
   /*  SUB-CPU memory map ($000000-$FFFFFF)                        */
@@ -1147,20 +1147,14 @@ void scd_init(void)
   s68k.memory_map[0xff].write16  = scd_write_word;
 
   /* Initialize CD hardware */
-  cdd_init();
   cdc_init();
   gfx_init();
-  pcm_init(SCD_CLOCK, snd.sample_rate);
 
   /* Clear RAM */
   memset(scd.prg_ram, 0x00, sizeof(scd.prg_ram));
   memset(scd.word_ram, 0x00, sizeof(scd.word_ram));
   memset(scd.word_ram_2M, 0x00, sizeof(scd.word_ram_2M));
-}
-
-void scd_shutdown(void)
-{
-  pcm_shutdown();
+  memset(scd.bram, 0x00, sizeof(scd.bram));
 }
 
 void scd_reset(int hard)
@@ -1251,7 +1245,7 @@ void scd_update(unsigned int cycles)
     /* reload CDD cycle counter */
     cdd.cycles -= (500000 * 4);
 
-    /* update CDD */
+    /* update CDD sector */
     cdd_update();
 
     /* check if a new CDD command has been processed */
@@ -1307,7 +1301,6 @@ void scd_update(unsigned int cycles)
 
 int scd_context_save(uint8 *state)
 {
-  uint8 tmp8;
   uint16 tmp16;
   uint32 tmp32;
   int bufferptr = 0;
@@ -1320,62 +1313,16 @@ int scd_context_save(uint8 *state)
   save_param(&scd.dmna, sizeof(scd.dmna));
 
   /* GFX processor */
-  save_param(&gfx.cycles, sizeof(gfx.cycles));
-  save_param(&gfx.cyclesPerLine, sizeof(gfx.cyclesPerLine));
-  save_param(&gfx.dotMask, sizeof(gfx.dotMask));
-  save_param(&gfx.stampShift, sizeof(gfx.stampShift));
-  save_param(&gfx.mapShift, sizeof(gfx.mapShift));
-  save_param(&gfx.bufferOffset, sizeof(gfx.bufferOffset));
-  save_param(&gfx.bufferStart, sizeof(gfx.bufferStart));
-  tmp32 = (uint8 *)(gfx.tracePtr) - scd.word_ram_2M;
-  save_param(&tmp32, 4);
-  tmp32 = (uint8 *)(gfx.mapPtr) - scd.word_ram_2M;
-  save_param(&tmp32, 4);
+  bufferptr += gfx_context_save(&state[bufferptr]);
 
   /* CD Data controller */
-  save_param(&cdc, sizeof(cdc));
-  if (cdc.dma_w == pcm_ram_dma_w)
-  {
-    tmp8 = 1;
-  }
-  else if (cdc.dma_w == prg_ram_dma_w)
-  {
-    tmp8 = 2;
-  }
-  else if (cdc.dma_w == word_ram_0_dma_w)
-  {
-    tmp8 = 3;
-  }
-  else if (cdc.dma_w == word_ram_1_dma_w)
-  {
-    tmp8 = 4;
-  }
-  else if (cdc.dma_w == word_ram_2M_dma_w)
-  {
-    tmp8 = 5;
-  }
-  else
-  {
-    tmp8 = 0;
-  }
-  save_param(&tmp8, 1);
+  bufferptr += cdc_context_save(&state[bufferptr]);
 
   /* CD Drive processor */
-  save_param(&cdd.cycles, sizeof(cdd.cycles));
-  save_param(&cdd.latency, sizeof(cdd.latency));
-  save_param(&cdd.index, sizeof(cdd.index));
-  save_param(&cdd.lba, sizeof(cdd.lba));
-  save_param(&cdd.status, sizeof(cdd.status));
+  bufferptr += cdd_context_save(&state[bufferptr]);
 
   /* PCM chip */
-  save_param(scd.pcm_hw.chan, sizeof(scd.pcm_hw.chan));
-  save_param(scd.pcm_hw.out, sizeof(scd.pcm_hw.out));
-  tmp8 = (scd.pcm_hw.bank - scd.pcm_hw.ram) >> 12;
-  save_param(&tmp8, sizeof(tmp8));
-  save_param(&scd.pcm_hw.enabled, sizeof(scd.pcm_hw.enabled));
-  save_param(&scd.pcm_hw.status, sizeof(scd.pcm_hw.status));
-  save_param(&scd.pcm_hw.index, sizeof(scd.pcm_hw.index));
-  save_param(scd.pcm_hw.ram, sizeof(scd.pcm_hw.ram));
+  bufferptr += pcm_context_save(&state[bufferptr]);
 
   /* PRG-RAM */
   save_param(scd.prg_ram, sizeof(scd.prg_ram));
@@ -1427,13 +1374,18 @@ int scd_context_save(uint8 *state)
   tmp32 = s68k_get_reg(M68K_REG_USP); save_param(&tmp32, 4);
   tmp32 = s68k_get_reg(M68K_REG_ISP); save_param(&tmp32, 4);
 
+  /* bootable MD cartridge */
+  if (scd.cartridge.boot)
+  {
+    bufferptr += md_cart_context_save(&state[bufferptr]);
+  }
+
   return bufferptr;
 }
 
 int scd_context_load(uint8 *state)
 {
   int i;
-  uint8 tmp8;
   uint16 tmp16;
   uint32 tmp32;
   int bufferptr = 0;
@@ -1446,70 +1398,16 @@ int scd_context_load(uint8 *state)
   load_param(&scd.dmna, sizeof(scd.dmna));
 
   /* GFX processor */
-  load_param(&gfx.cycles, sizeof(gfx.cycles));
-  load_param(&gfx.cyclesPerLine, sizeof(gfx.cyclesPerLine));
-  load_param(&gfx.dotMask, sizeof(gfx.dotMask));
-  load_param(&gfx.stampShift, sizeof(gfx.stampShift));
-  load_param(&gfx.mapShift, sizeof(gfx.mapShift));
-  load_param(&gfx.bufferOffset, sizeof(gfx.bufferOffset));
-  load_param(&gfx.bufferStart, sizeof(gfx.bufferStart));
-  load_param(&tmp32, 4);
-  gfx.tracePtr = (uint16 *)(scd.word_ram_2M + tmp32);
-  load_param(&tmp32, 4);
-  gfx.mapPtr = (uint16 *)(scd.word_ram_2M + tmp32);
+  bufferptr += gfx_context_load(&state[bufferptr]);
 
   /* CD Data controller */
-  load_param(&cdc, sizeof(cdc));
-  load_param(&tmp8, 1);
-  switch (tmp8)
-  {
-    case 1:
-      cdc.dma_w = pcm_ram_dma_w;
-      break;
-    case 2:
-      cdc.dma_w = prg_ram_dma_w;
-      break;
-    case 3:
-      cdc.dma_w = word_ram_0_dma_w;
-      break;
-    case 4:
-      cdc.dma_w = word_ram_1_dma_w;
-      break;
-    case 5:
-      cdc.dma_w = word_ram_2M_dma_w;
-      break;
-    default:
-      cdc.dma_w = 0;
-      break;
-  }
+  bufferptr += cdc_context_load(&state[bufferptr]);
 
   /* CD Drive processor */
-  load_param(&cdd.cycles, sizeof(cdd.cycles));
-  load_param(&cdd.latency, sizeof(cdd.latency));
-  load_param(&cdd.index, sizeof(cdd.index));
-  load_param(&cdd.lba, sizeof(cdd.lba));
-  load_param(&cdd.status, sizeof(cdd.status));
-  if (!cdd.index)
-  {
-    if (cdd.lba < 0)
-    {
-      fseek(cdd.toc.tracks[0].fd, 0, SEEK_SET);
-    }
-    else
-    {
-      fseek(cdd.toc.tracks[0].fd, cdd.lba * cdd.sectorSize, SEEK_SET);
-    }
-  }
+  bufferptr += cdd_context_load(&state[bufferptr]);
 
   /* PCM chip */
-  load_param(scd.pcm_hw.chan, sizeof(scd.pcm_hw.chan));
-  load_param(scd.pcm_hw.out, sizeof(scd.pcm_hw.out));
-  load_param(&tmp8, sizeof(tmp8));
-  scd.pcm_hw.bank = &scd.pcm_hw.ram[(tmp8 & 0x0f) << 12];
-  load_param(&scd.pcm_hw.enabled, sizeof(scd.pcm_hw.enabled));
-  load_param(&scd.pcm_hw.status, sizeof(scd.pcm_hw.status));
-  load_param(&scd.pcm_hw.index, sizeof(scd.pcm_hw.index));
-  load_param(scd.pcm_hw.ram, sizeof(scd.pcm_hw.ram));
+  bufferptr += pcm_context_load(&state[bufferptr]);
 
   /* PRG-RAM */
   load_param(scd.prg_ram, sizeof(scd.prg_ram));
@@ -1675,6 +1573,12 @@ int scd_context_load(uint8 *state)
   load_param(&tmp16, 2); s68k_set_reg(M68K_REG_SR, tmp16);
   load_param(&tmp32, 4); s68k_set_reg(M68K_REG_USP,tmp32);
   load_param(&tmp32, 4); s68k_set_reg(M68K_REG_ISP,tmp32);
+
+  /* bootable MD cartridge hardware */
+  if (scd.cartridge.boot)
+  {
+    bufferptr += md_cart_context_load(&state[bufferptr]);
+  }
 
   return bufferptr;
 }

@@ -42,7 +42,8 @@
  ****************************************************************************************/
 
 #include "shared.h"
-#include "md_eeprom.h"
+#include "eeprom_i2c.h"
+#include "eeprom_spi.h"
 #include "gamepad.h"
 
 #define CART_CNT (48)
@@ -60,7 +61,12 @@ typedef struct
 /* Function prototypes */
 static void mapper_sega_w(uint32 data);
 static void mapper_ssf2_w(uint32 address, uint32 data);
-static void mapper_wukong_w(uint32 address, uint32 data);
+static void mapper_sf001_w(uint32 address, uint32 data);
+static void mapper_sf002_w(uint32 address, uint32 data);
+static void mapper_sf004_w(uint32 address, uint32 data);
+static uint32 mapper_sf004_r(uint32 address);
+static void mapper_t5740_w(uint32 address, uint32 data);
+static uint32 mapper_t5740_r(uint32 address);
 static void mapper_realtec_w(uint32 address, uint32 data);
 static void mapper_seganet_w(uint32 address, uint32 data);
 static void mapper_32k_w(uint32 data);
@@ -242,11 +248,10 @@ void md_cart_init(void)
     memset(cart.rom + cart.romsize, 0xff, size - cart.romsize);
   }
 
-  /* special case: Sonic & Knuckles */
-  /* $200000-$3fffff is mapped to external cartridge */
+  /* Sonic & Knuckles */
   if (strstr(rominfo.international,"SONIC & KNUCKLES") != NULL)
   {
-    /* disable ROM mirroring */
+    /* disable ROM mirroring at $200000-$3fffff (normally mapped to external cartridge) */
     size = 0x400000;
   }
 
@@ -280,29 +285,36 @@ void md_cart_init(void)
     zbank_memory_map[i].write   = zbank_unused_w;
   }
 
+  /* support for Quackshot REV 01 (real) dump */
+  if ((strstr(rominfo.product,"00004054-01") != NULL) && (cart.romsize == 0x80000))
+  {
+    /* $000000-$0fffff: first 256K mirrored (A18 not connected to ROM chip, A19 not decoded) */
+    for (i=0x00; i<0x10; i++)
+    {
+      /* $200000-$3fffff: mirror of $000000-$1fffff (A21 not decoded) */
+      m68k.memory_map[i].base = m68k.memory_map[i + 0x20].base = cart.rom + ((i & 0x03) << 16);
+    }
+
+    /* $100000-$1fffff: second 256K mirrored (A20 connected to ROM chip A18) */
+    for (i=0x10; i<0x20; i++)
+    {
+      /* $200000-$3fffff: mirror of $000000-$1fffff (A21 not decoded) */
+      m68k.memory_map[i].base = m68k.memory_map[i + 0x20].base = cart.rom + 0x40000 + ((i & 0x03) << 16);
+    }
+  }
+
   /**********************************************
           BACKUP MEMORY 
   ***********************************************/
   sram_init();
-  md_eeprom_init();
+  eeprom_i2c_init();
+  
   if (sram.on)
   {
-    if (sram.custom)
+    /* static RAM only (64KB max.) */
+    if (!sram.custom)
     {
-      /* Serial EEPROM */
-      m68k.memory_map[md_eeprom.type.sda_out_adr >> 16].read8   = md_eeprom_read_byte;
-      m68k.memory_map[md_eeprom.type.sda_out_adr >> 16].read16  = md_eeprom_read_word;
-      m68k.memory_map[md_eeprom.type.sda_in_adr >> 16].read8    = md_eeprom_read_byte;
-      m68k.memory_map[md_eeprom.type.sda_in_adr >> 16].read16   = md_eeprom_read_word;
-      m68k.memory_map[md_eeprom.type.scl_adr >> 16].write8      = md_eeprom_write_byte;
-      m68k.memory_map[md_eeprom.type.scl_adr >> 16].write16     = md_eeprom_write_word;
-      zbank_memory_map[md_eeprom.type.sda_out_adr >> 16].read   = md_eeprom_read_byte;
-      zbank_memory_map[md_eeprom.type.sda_in_adr >> 16].read    = md_eeprom_read_byte;
-      zbank_memory_map[md_eeprom.type.scl_adr >> 16].write      = md_eeprom_write_byte;
-    }
-    else
-    {
-      /* Static RAM (64k max.) - disabled on reset if ROM is mapped in same area */
+      /* disabled on startup if ROM is mapped in same area */
       if (cart.romsize <= sram.start)
       {
         m68k.memory_map[sram.start >> 16].base    = sram.sram;
@@ -438,7 +450,7 @@ void md_cart_init(void)
   /**********************************************
           J-CART 
   ***********************************************/
-  if (((strstr(rominfo.product,"00000000")  != NULL) && (rominfo.checksum == 0x168b)) ||  /* Super Skidmarks, Micro Machines Military*/
+  if (((strstr(rominfo.product,"00000000")  != NULL) && (rominfo.checksum == 0x168b)) ||  /* Super Skidmarks, Micro Machines Military */
       ((strstr(rominfo.product,"00000000")  != NULL) && (rominfo.checksum == 0x165e)) ||  /* Pete Sampras Tennis (1991), Micro Machines 96 */
       ((strstr(rominfo.product,"00000000")  != NULL) && (rominfo.checksum == 0xcee0)) ||  /* Micro Machines Military (bad) */
       ((strstr(rominfo.product,"00000000")  != NULL) && (rominfo.checksum == 0x2c41)) ||  /* Micro Machines 96 (bad) */
@@ -493,11 +505,11 @@ void md_cart_init(void)
     {
       FILE *f;
       
-      /* store S&K ROM above cartridge ROM + SRAM */
+      /* store S&K ROM above cartridge ROM (and before backup memory) */
       if (cart.romsize > 0x600000) break;
 
-       /* load Sonic & Knuckles ROM (2 MBytes) */
-      f = fopen(SK_ROM,"r+b");
+      /* load Sonic & Knuckles ROM (2 MB) */
+      f = fopen(SK_ROM,"rb");
       if (!f) break;
       for (i=0; i<0x200000; i+=0x1000)
       {
@@ -505,22 +517,30 @@ void md_cart_init(void)
       }
       fclose(f);
 
-      /* load Sonic 2 UPMEM ROM (256 KBytes) */
-      f = fopen(SK_UPMEM,"r+b");
+      /* load Sonic 2 UPMEM ROM (256 KB) */
+      f = fopen(SK_UPMEM,"rb");
       if (!f) break;
       for (i=0; i<0x40000; i+=0x1000)
       {
-        fread(cart.rom + 0x800000 + i, 0x1000, 1, f);
+        fread(cart.rom + 0x900000 + i, 0x1000, 1, f);
       }
       fclose(f);
           
 #ifdef LSB_FIRST
-      for (i=0; i<0x240000; i+=2)
+      for (i=0; i<0x200000; i+=2)
       {
         /* Byteswap ROM */
         uint8 temp = cart.rom[i + 0x600000];
         cart.rom[i + 0x600000] = cart.rom[i + 0x600000 + 1];
         cart.rom[i + 0x600000 + 1] = temp;
+      }
+      
+      for (i=0; i<0x40000; i+=2)
+      {
+        /* Byteswap ROM */
+        uint8 temp = cart.rom[i + 0x900000];
+        cart.rom[i + 0x900000] = cart.rom[i + 0x900000 + 1];
+        cart.rom[i + 0x900000 + 1] = temp;
       }
 #endif
 
@@ -601,10 +621,92 @@ void md_cart_init(void)
   m68k.aerr_enabled = config.addr_error; 
 #endif
 
-  /* detect special cartridges */
-  if (cart.romsize > 0x800000)
+  /* detect specific mappers */
+  if (strstr(rominfo.domestic,"SUPER STREET FIGHTER2") != NULL)
   {
-    /* Ultimate MK3 (hack) */
+    /* SSF2 mapper */
+    cart.hw.bankshift = 1;
+
+    /* specific !TIME handler */
+    cart.hw.time_w = mapper_ssf2_w;
+  }
+  else if (strstr(rominfo.product,"T-5740") != NULL)
+  {
+    /* T-5740XX-XX mapper */
+    cart.hw.bankshift = 1;
+    m68k.memory_map[0x01].read8 = mapper_t5740_r;
+    zbank_memory_map[0x01].read = mapper_t5740_r;
+
+    /* specific !TIME handlers */
+    cart.hw.time_w = mapper_t5740_w;
+    cart.hw.time_r = eeprom_spi_read;
+
+    /* initialize SPI EEPROM board */
+    eeprom_spi_init();
+  }
+  else if ((strstr(rominfo.ROMType,"SF") != NULL) && (strstr(rominfo.product,"001") != NULL))
+  {
+    /* SF-001 mapper */
+    m68k.memory_map[0x00].write8 = mapper_sf001_w;
+    m68k.memory_map[0x00].write16 = mapper_sf001_w;
+    zbank_memory_map[0x00].write = mapper_sf001_w;
+
+    /* no !TIME handler */
+    cart.hw.time_w = m68k_unused_8_w;
+  }
+  else if ((strstr(rominfo.ROMType,"SF") != NULL) && (strstr(rominfo.product,"002") != NULL))
+  {
+    /* SF-002 mapper */
+    m68k.memory_map[0x00].write8 = mapper_sf002_w;
+    m68k.memory_map[0x00].write16 = mapper_sf002_w;
+    zbank_memory_map[0x00].write = mapper_sf002_w;
+
+    /* no !TIME handler */
+    cart.hw.time_w = m68k_unused_8_w;
+  }
+  else if ((strstr(rominfo.ROMType,"SF") != NULL) && (strstr(rominfo.product,"004") != NULL))
+  {
+    /* SF-004 mapper */
+    m68k.memory_map[0x00].write8 = mapper_sf004_w;
+    m68k.memory_map[0x00].write16 = mapper_sf004_w;
+    zbank_memory_map[0x00].write = mapper_sf004_w;
+
+    /* specific !TIME handlers */
+    cart.hw.time_r = mapper_sf004_r;
+    cart.hw.time_w = m68k_unused_8_w;
+
+    /* first 256K ROM bank is initially mirrored into $000000-$1FFFFF */
+    for (i=0x00; i<0x20; i++)
+    {
+      m68k.memory_map[i].base = cart.rom + ((i & 0x03) << 16);
+    }
+
+    /* 32K SRAM is initially disabled at $200000-$2FFFFF */
+    for (i=0x20; i<0x30; i++)
+    {
+      m68k.memory_map[i].base    = sram.sram;
+      m68k.memory_map[i].read8   = m68k_read_bus_8;
+      m68k.memory_map[i].read16  = m68k_read_bus_16;
+      m68k.memory_map[i].write8  = m68k_unused_8_w;
+      m68k.memory_map[i].write16 = m68k_unused_16_w;
+      zbank_memory_map[i].read   = m68k_read_bus_8;
+      zbank_memory_map[i].write  = zbank_unused_w;
+    }
+
+    /* $300000-$3FFFFF is not mapped */
+    for (i=0x30; i<0x40; i++)
+    {
+      m68k.memory_map[i].read8   = m68k_read_bus_8;
+      m68k.memory_map[i].read16  = m68k_read_bus_16;
+      m68k.memory_map[i].write8  = m68k_unused_8_w;
+      m68k.memory_map[i].write16 = m68k_unused_16_w;
+      zbank_memory_map[i].read   = m68k_read_bus_8;
+      zbank_memory_map[i].write  = zbank_unused_w;
+    }
+  }
+  else if (cart.romsize > 0x400000)
+  {
+    /* assume linear ROM mapper without bankswitching (max. 10MB) */
     for (i=0x40; i<0xA0; i++)
     {
       m68k.memory_map[i].base   = cart.rom + (i<<16);
@@ -612,34 +714,6 @@ void md_cart_init(void)
       m68k.memory_map[i].read16 = NULL;
       zbank_memory_map[i].read  = NULL;
     }
-
-#if M68K_EMULATE_ADDRESS_ERROR
-    /* this game does not work properly on real hardware */
-    m68k.aerr_enabled = 0;  
-#endif
-  }
-  else if (cart.romsize > 0x400000)
-  {
-    /* assume SSF2 mapper */
-    cart.hw.bankshift = 1;
-    cart.hw.time_w = mapper_ssf2_w;
-  }
-
-  /* Legend of Wukong mapper */
-  if (strstr(rominfo.international,"LEGEND OF WUKONG") != NULL)
-  {
-    /* 128K ROM Bankswitch */
-    m68k.memory_map[0].write8 = mapper_wukong_w;
-    zbank_memory_map[0].write = mapper_wukong_w;
-
-    /* 8K SRAM */
-    m68k.memory_map[0x3C].base    = sram.sram;
-    m68k.memory_map[0x3C].read8   = NULL;
-    m68k.memory_map[0x3C].read16  = NULL;
-    m68k.memory_map[0x3C].write8  = NULL;
-    m68k.memory_map[0x3C].write16 = NULL;
-    zbank_memory_map[0x3C].read   = NULL;
-    zbank_memory_map[0x3C].write  = NULL;
   }
 
   /* default write handler for !TIME range ($A130xx)*/
@@ -664,7 +738,10 @@ void md_cart_reset(int hard_reset)
   }
   
   /* SVP chip */
-  if (svp) svp_reset();
+  if (svp)
+  {
+    svp_reset();
+  }
 
   /* Lock-ON */
   switch (config.lock_on)
@@ -782,7 +859,7 @@ int md_cart_context_load(uint8 *state)
 *************************************************************/
 
 /* 
-  ROM/SRAM Bankswitch (Phantasy Star IV, Story of Thor/Beyond Oasis, Sonic 3 & Knuckles)
+  "official" ROM/SRAM bankswitch (Phantasy Star IV, Story of Thor/Beyond Oasis, Sonic 3 & Knuckles)
 */
 static void mapper_sega_w(uint32 data)
 {
@@ -813,7 +890,7 @@ static void mapper_sega_w(uint32 data)
       /* S2K upmem chip mapped to $300000-$3fffff (256K mirrored) */
       for (i=0x30; i<0x40; i++)
       {
-        m68k.memory_map[i].base = (cart.rom + 0x800000) + ((i & 3) << 16);
+        m68k.memory_map[i].base = (cart.rom + 0x900000) + ((i & 3) << 16);
       }
     }
   }
@@ -831,7 +908,7 @@ static void mapper_sega_w(uint32 data)
 }
 
 /*
-   Super Street Fighter 2 ROM Bankswitch
+   Super Street Fighter 2 ROM bankswitch
    documented by Bart Trzynadlowski (http://www.trzy.org/files/ssf2.txt) 
 */
 static void mapper_ssf2_w(uint32 address, uint32 data)
@@ -853,17 +930,112 @@ static void mapper_ssf2_w(uint32 address, uint32 data)
 }
 
 /* 
-  Legend of Wukong ROM Bankswitch
+  SF-001 mapper
 */
-static void mapper_wukong_w(uint32 address, uint32 data)
+static void mapper_sf001_w(uint32 address, uint32 data)
+{
+  switch ((address >> 8) & 0xf)
+  {
+    case 0xe:
+    {
+      int i;
+
+      /* bit 6: enable / disable cartridge access  */
+      if (data & 0x40)
+      {
+        /* $000000-$3FFFFF is not mapped */
+        for (i=0x00; i<0x40; i++)
+        {
+          m68k.memory_map[i].base     = cart.rom + (i << 16);
+          m68k.memory_map[i].read8    = m68k_read_bus_8;
+          m68k.memory_map[i].read16   = m68k_read_bus_16;
+          m68k.memory_map[i].write8   = m68k_unused_8_w;
+          m68k.memory_map[i].write16  = m68k_unused_16_w;
+          zbank_memory_map[i].read    = zbank_unused_r;
+          zbank_memory_map[i].write   = m68k_unused_8_w;
+        }
+      }
+
+      /* bit 7: enable / disable SRAM & ROM bankswitching */
+      else if (data & 0x80)
+      {
+        /* 256K ROM bank #15 mapped to $000000-$03FFFF  */
+        for (i=0x00; i<0x04; i++)
+        {
+          m68k.memory_map[i].base     = cart.rom + ((0x38 + i) << 16);
+          m68k.memory_map[i].read8    = NULL;
+          m68k.memory_map[i].read16   = NULL;
+          zbank_memory_map[i].read    = NULL;
+        }
+
+        /* 256K ROM banks #2 to #15 mapped to $040000-$3BFFFF  */
+        for (i=0x04; i<0x3c; i++)
+        {
+          m68k.memory_map[i].base     = cart.rom + (i << 16);
+          m68k.memory_map[i].read8    = NULL;
+          m68k.memory_map[i].read16   = NULL;
+          zbank_memory_map[i].read    = NULL;
+        }
+
+        /* 32K static RAM mirrored into $3C0000-$3FFFFF (odd bytes only) */
+        for (i=0x3c; i<0x40; i++)
+        {
+          m68k.memory_map[i].base     = sram.sram;
+          m68k.memory_map[i].read8    = NULL;
+          m68k.memory_map[i].read16   = NULL;
+          m68k.memory_map[i].write8   = NULL;
+          m68k.memory_map[i].write16  = NULL;
+          zbank_memory_map[i].read    = NULL;
+          zbank_memory_map[i].write   = NULL;
+        }
+      }
+      else
+      {
+        /* 256K ROM banks #1 to #16 mapped to $000000-$3FFFFF  */
+        for (i=0x00; i<0x40; i++)
+        {
+          m68k.memory_map[i].base     = cart.rom + (i << 16);
+          m68k.memory_map[i].read8    = NULL;
+          m68k.memory_map[i].read16   = NULL;
+          m68k.memory_map[i].write8   = m68k_unused_8_w;
+          m68k.memory_map[i].write16  = m68k_unused_16_w;
+          zbank_memory_map[i].read    = NULL;
+          zbank_memory_map[i].write   = m68k_unused_8_w;
+        }
+      }
+
+      /* bit 5: lock bankswitch hardware when set */
+      if (data & 0x20)
+      {
+        /* disable bankswitch hardware access until hard reset */
+        m68k.memory_map[0x00].write8  = m68k_unused_8_w;
+        m68k.memory_map[0x00].write16 = m68k_unused_16_w;
+        zbank_memory_map[0x00].write  = m68k_unused_8_w;
+      }
+
+      return;
+    }
+
+    default:
+    {
+      m68k_unused_8_w(address, data);
+      return;
+    }
+  }
+}
+
+/* 
+  SF-002 mapper
+*/
+static void mapper_sf002_w(uint32 address, uint32 data)
 {
   int i;
   if (data & 0x80)
   {
-    /* $200000-$3BFFFF mapped to $000000-$1BFFFF */
+    /* $000000-$1BFFFF mapped to $200000-$3BFFFF */
     for (i=0x20; i<0x3C; i++)
     {
-      m68k.memory_map[i].base = cart.rom + (((i&0x1F)<<16) & cart.mask);
+      m68k.memory_map[i].base = cart.rom + ((i & 0x1F) << 16);
     }
   }
   else
@@ -871,13 +1043,236 @@ static void mapper_wukong_w(uint32 address, uint32 data)
     /* $200000-$3BFFFF mapped to $200000-$3BFFFF */
     for (i=0x20; i<0x3C; i++)
     {
-      m68k.memory_map[i].base = cart.rom + ((i<<16) & cart.mask);
+      m68k.memory_map[i].base = cart.rom + (i << 16);
     }
   }
 }
 
 /* 
-  Realtec ROM Bankswitch (Earth Defend, Balloon Boy & Funny World, Whac-A-Critter)
+  SF-004 mapper
+*/
+static void mapper_sf004_w(uint32 address, uint32 data)
+{
+  int i;
+  switch ((address >> 8) & 0xf)
+  {
+    case 0xd:
+    {
+      /* bit 7: enable/disable static RAM access */
+      if (data & 0x80)
+      {
+        /* 32KB static RAM mirrored into $200000-$2FFFFF (odd bytes only) */
+        for (i=0x20; i<0x30; i++)
+        {
+          m68k.memory_map[i].read8   = NULL;
+          m68k.memory_map[i].read16  = NULL;
+          m68k.memory_map[i].write8  = NULL;
+          m68k.memory_map[i].write16 = NULL;
+          zbank_memory_map[i].read   = NULL;
+          zbank_memory_map[i].write  = NULL;
+        }
+      }
+      else
+      {
+        /* 32KB static RAM disabled at $200000-$2FFFFF */
+        for (i=0x20; i<0x30; i++)
+        {
+          m68k.memory_map[i].read8   = m68k_read_bus_8;
+          m68k.memory_map[i].read16  = m68k_read_bus_16;
+          m68k.memory_map[i].write8  = m68k_unused_8_w;
+          m68k.memory_map[i].write16 = m68k_unused_16_w;
+          zbank_memory_map[i].read   = m68k_read_bus_8;
+          zbank_memory_map[i].write  = m68k_unused_8_w;
+        }
+      }
+
+      return;
+    }
+
+    case 0x0e:
+    {
+      /* bit 5: enable / disable cartridge ROM access */
+      if (data & 0x20)
+      {
+        /* $000000-$1FFFFF is not mapped */
+        for (i=0x00; i<0x20; i++)
+        {
+          m68k.memory_map[i].read8  = m68k_read_bus_8;
+          m68k.memory_map[i].read16 = m68k_read_bus_16;
+          zbank_memory_map[i].read  = m68k_read_bus_8;
+        }
+      }
+
+      /* bit 6: enable / disable first page mirroring */
+      else if (data & 0x40)
+      {
+        /* first page ROM bank */
+        uint8 base = (m68k.memory_map[0x00].base - cart.rom) >> 16;
+
+        /* 5 x 256K ROM banks mapped to $000000-$13FFFF, starting from first page ROM bank */
+        for (i=0x00; i<0x14; i++)
+        {
+          m68k.memory_map[i].base   = cart.rom + (((base + i) & 0x1f) << 16);
+          m68k.memory_map[i].read8  = NULL;
+          m68k.memory_map[i].read16 = NULL;
+          zbank_memory_map[i].read  = NULL;
+        }
+
+        /* $140000-$1FFFFF is not mapped */
+        for (i=0x14; i<0x20; i++)
+        {
+          m68k.memory_map[i].read8  = m68k_read_bus_8;
+          m68k.memory_map[i].read16 = m68k_read_bus_16;
+          zbank_memory_map[i].read  = m68k_read_bus_8;
+        }
+      }
+      else
+      {
+        /* first page 256K ROM bank mirrored into $000000-$1FFFFF */
+        for (i=0x00; i<0x20; i++)
+        {
+          m68k.memory_map[i].base = m68k.memory_map[0].base + ((i & 0x03) << 16);
+          m68k.memory_map[i].read8  = NULL;
+          m68k.memory_map[i].read16 = NULL;
+          zbank_memory_map[i].read  = NULL;
+        }
+      }
+
+      /* bit 7: lock ROM bankswitching hardware when cleared */
+      if (!(data & 0x80))
+      {
+        /* disable bankswitch hardware access */
+        m68k.memory_map[0x00].write8 = m68k_unused_8_w;
+        m68k.memory_map[0x00].write16 = m68k_unused_16_w;
+        zbank_memory_map[0x00].write = m68k_unused_8_w;
+      }
+
+      return;
+    }
+
+    case 0x0f:
+    {
+      /* bits 6-4: select first page ROM bank (8 x 256K ROM banks) */
+      uint8 base = ((data >> 4) & 7) << 2;
+
+      if (m68k.memory_map[0].base == m68k.memory_map[4].base)
+      {
+        /* selected 256K ROM bank mirrored into $000000-$1FFFFF */
+        for (i=0x00; i<0x20; i++)
+        {
+          m68k.memory_map[i].base = cart.rom + ((base + (i & 0x03)) << 16);
+        }
+      }
+      else
+      {
+        /* 5 x 256K ROM banks mapped to $000000-$13FFFF, starting from selected bank */
+        for (i=0x00; i<0x14; i++)
+        {
+          m68k.memory_map[i].base = cart.rom + (((base + i) & 0x1f) << 16);
+        }
+      }
+
+      return;
+    }
+
+    default:
+    {
+      m68k_unused_8_w(address, data);
+      return;
+    }
+  }
+}
+
+static uint32 mapper_sf004_r(uint32 address)
+{
+  /* return first page 256K bank index ($00,$10,$20,...,$70) */
+  return (((m68k.memory_map[0x00].base - cart.rom) >> 18) << 4);
+}
+
+/* 
+  T-5740xx-xx mapper
+*/
+static void mapper_t5740_w(uint32 address, uint32 data)
+{
+  int i;
+  uint8 *base;
+
+  switch (address & 0xff)
+  {
+    case 0x01: /* mode register */
+    {
+      /* bits 7-4: unused ?                           */
+      /* bit 3: enable SPI registers access ?         */
+      /* bit 2: not used ?                            */
+      /* bit 1: enable bankswitch registers access ?  */
+      /* bit 0: always set, enable hardware access ?  */
+      return;
+    }
+
+    case 0x03: /* page #5 register */
+    {
+      /* map any of 16 x 512K ROM banks to $280000-$2FFFFF */
+      base = cart.rom + ((data & 0x0f) << 19);
+      for (i=0x28; i<0x30; i++)
+      {
+        m68k.memory_map[i].base = base + ((i & 0x07) << 16);
+      }
+      return;
+    }
+
+    case 0x05: /* page #6 register */
+    {
+      /* map any of 16 x 512K ROM banks to $300000-$37FFFF */
+      base = cart.rom + ((data & 0x0f) << 19);
+      for (i=0x30; i<0x38; i++)
+      {
+        m68k.memory_map[i].base = base + ((i & 0x07) << 16);
+      }
+      return;
+    }
+
+    case 0x07: /* page #7 register */
+    {
+      /* map any of 16 x 512K ROM banks to $380000-$3FFFFF */
+      base = cart.rom + ((data & 0x0f) << 19);
+      for (i=0x38; i<0x40; i++)
+      {
+        m68k.memory_map[i].base = base + ((i & 0x07) << 16);
+      }
+      return;
+    }
+
+    case 0x09: /* serial EEPROM SPI board support */
+    {
+      eeprom_spi_write(data);
+      return;
+    }
+
+    default:
+    {
+      /* unknown registers */
+      m68k_unused_8_w(address, data);
+      return;
+    }
+  }
+}
+
+static uint32 mapper_t5740_r(uint32 address)
+{
+  /* By default, first 32K of each eight 512K pages mapped in $000000-$3FFFFF are mirrored in the 512K page   */
+  /* mirroring is disabled/enabled when a specific number of words is being read from specific ROM addresses  */
+  /* Exact decoding isn't known but mirrored data is expected on startup when reading a few times from $181xx */
+  /* this area doesn't seem to be accessed as byte later so it seems safe to always return mirrored data here */
+  if ((address & 0xff00) == 0x8100)
+  {
+    return READ_BYTE(cart.rom , (address & 0x7fff));
+  }
+
+  return READ_BYTE(cart.rom, address);
+}
+
+/* 
+  Realtec ROM bankswitch (Earth Defend, Balloon Boy & Funny World, Whac-A-Critter)
   (Note: register usage is inverted in TascoDlx documentation)
 */
 static void mapper_realtec_w(uint32 address, uint32 data)
