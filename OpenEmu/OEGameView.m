@@ -412,8 +412,15 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     // IOSurfaceLookup performs a lock *AND A RETAIN* - 
     // look up every frame, since our games surfaceRef may have changed in response to a resize
-    gameSurfaceID = rootProxy.surfaceID;
-    IOSurfaceRef surfaceRef = IOSurfaceLookup(gameSurfaceID);
+
+    IOSurfaceRef surfaceRef = NULL;
+    if(gameSurfaceID == 0)
+    {
+        gameSurfaceID = rootProxy.surfaceID;
+    }
+    
+    surfaceRef = IOSurfaceLookup(gameSurfaceID);
+    
 //    if(surfaceRef == NULL)
 //    {
 //        surfaceRef = IOSurfaceLookup(gameSurfaceID);
@@ -711,7 +718,10 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (void)gameCoreDidChangeScreenSizeTo:(OEIntSize)size
 {
-    NSLog(@"gameCoreDidChangeScreenSizeTo %i %i", size.width, size.height);
+    // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
+    gameSurfaceID = rootProxy.surfaceID;
+
+    DLog(@"gameCoreDidChangeScreenSizeTo %i %i", size.width, size.height);
     self.gameScreenSize = size;
 }
 
