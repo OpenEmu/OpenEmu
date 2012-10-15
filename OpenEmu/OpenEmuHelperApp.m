@@ -214,6 +214,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     {
         NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
     }
+    
+    // Cache our new surfaceID as soon as possible, and we only need to set it on size changes and re-creation.
+    surfaceID = IOSurfaceGetID(surfaceRef);
 }
 
 // make an FBO and bind out IOSurface backed texture to it
@@ -451,9 +454,6 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     // flush to make sure IOSurface updates are seen in parent app.
     glFlushRenderAPPLE();
-    
-    // get the updated surfaceID to pass to STDOut...
-    surfaceID = IOSurfaceGetID(surfaceRef);
 }
 
 - (void)drawGameTexture
