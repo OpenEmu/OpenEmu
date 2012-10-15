@@ -473,7 +473,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (NSTimeInterval)frameInterval
 {
-    return frameInterval ? frameInterval : 60;
+    return frameInterval ? frameInterval : 59.92;
     //frameInterval = vdp_pal ? 53203424./896040. : 53693175./896040.;
 }
 

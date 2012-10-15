@@ -202,14 +202,14 @@ static void config_default(void)
    config.psg_preamp     = 150;
    config.fm_preamp      = 100;
    config.hq_fm          = 1;
-   config.psgBoostNoise  = 0;
-   config.filter         = 1;
-   config.low_freq       = 200;
-   config.high_freq      = 8000;
+   config.psgBoostNoise  = 1;
+   config.filter         = 0;
+   config.lp_range       = 50;
+   config.low_freq       = 880;
+   config.high_freq      = 5000;
    config.lg             = 1.0;
    config.mg             = 1.0;
    config.hg             = 1.0;
-   config.lp_range       = 60;
    config.dac_bits 		 = 14;
    config.ym2413         = 2; /* AUTO */
 
@@ -231,7 +231,7 @@ static void config_default(void)
    config.yscale   = 0;
    config.aspect   = 0;
    config.overscan = 0; /* 3 == FULL */
-   config.gg_extra = 0;
+   config.gg_extra = 0; /* 1 = show extended Game Gear screen (256x192) */
 #if defined(USE_NTSC)
    config.ntsc     = 1;
 #endif
@@ -262,11 +262,12 @@ static void config_default(void)
 }
 
 static const double pal_fps = 53203424.0 / (3420.0 * 313.0); //49.70
-static const double ntsc_fps = 60; //59.92
+static const double ntsc_fps = 59.92;
 
 static void init_audio(void)
 {
    audio_init(48000, vdp_pal ? pal_fps : ntsc_fps);
+   //audio_init(44100, 0);
 }
 
 static void configure_controls(void)
@@ -654,7 +655,7 @@ static struct retro_system_av_info g_av_info;
 void retro_get_system_info(struct retro_system_info *info)
 {
    info->library_name = "Genesis Plus GX";
-   info->library_version = "v1.7.0";
+   info->library_version = "v1.7.1";
    info->valid_extensions = "md|smd|bin|cue|gen|zip|MD|SMD|bin|CUE|GEN|ZIP|sms|SMS|gg|GG|sg|SG";
    info->block_extract = false;
    info->need_fullpath = true;
@@ -913,6 +914,7 @@ void retro_init(void)
 
 void retro_deinit(void)
 {
+   audio_shutdown();
 #if defined(USE_NTSC)
    free(md_ntsc);
    free(sms_ntsc);
