@@ -80,7 +80,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 // rendering
 @property         GLuint gameTexture;
 @property         IOSurfaceID gameSurfaceID;
-@property         BOOL gameDidChangeSurfaceID;
 
 @property         OEIntSize gameScreenSize;
 @property         CVDisplayLinkRef gameDisplayLinkRef;
@@ -106,7 +105,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 // rendering
 @synthesize gameTexture;
 @synthesize gameSurfaceID;
-@synthesize gameDidChangeSurfaceID;
 @synthesize gameDisplayLinkRef;
 @synthesize gameTimer;
 @synthesize gameScreenSize;
@@ -413,13 +411,13 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         filterTime -= filterStartTime;
     
     // IOSurfaceLookup performs a lock *AND A RETAIN* - 
+    // look up every frame, since our games surfaceRef may have changed in response to a resize
+    gameSurfaceID = rootProxy.surfaceID;
     IOSurfaceRef surfaceRef = IOSurfaceLookup(gameSurfaceID);
-    if(gameDidChangeSurfaceID)
-    {
-        gameSurfaceID = rootProxy.surfaceID;
-        //surfaceRef = IOSurfaceLookup(gameSurfaceID);
-        gameDidChangeSurfaceID = NO;
-    }
+//    if(surfaceRef == NULL)
+//    {
+//        surfaceRef = IOSurfaceLookup(gameSurfaceID);
+//    }
     
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
@@ -715,7 +713,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     NSLog(@"gameCoreDidChangeScreenSizeTo %i %i", size.width, size.height);
     self.gameScreenSize = size;
-    gameDidChangeSurfaceID = YES;
 }
 
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block
