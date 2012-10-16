@@ -11,6 +11,28 @@
 	</dict>
 	<key>Fonts</key>
 	<dict>
+		<key>preferences_headline</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Color</key>
+			<string>rgb(245,245,245)</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>8</integer>
+			<key>Shadow</key>
+			<dict>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+			</dict>
+		</dict>
 		<key>open_weblink</key>
 		<dict>
 			<key>Family</key>
