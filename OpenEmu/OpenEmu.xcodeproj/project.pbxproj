@@ -156,7 +156,6 @@
 		53439B2E13B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2513B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m */; };
 		53439B2F13B930A1005C0CC8 /* OEPrefCtrlHeadlineLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2713B930A1005C0CC8 /* OEPrefCtrlHeadlineLabelCell.m */; };
 		53439B3013B930A1005C0CC8 /* OEPrefCtrlLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2913B930A1005C0CC8 /* OEPrefCtrlLabelCell.m */; };
-		53439B3213B930A1005C0CC8 /* OEPrefLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2D13B930A1005C0CC8 /* OEPrefLabelCell.m */; };
 		53439B3913B930E0005C0CC8 /* OEHorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */; };
 		53439B4A13B93138005C0CC8 /* OECoreSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B4313B93138005C0CC8 /* OECoreSliderCell.m */; };
 		53439B5513B9316F005C0CC8 /* OEPreferencesControlsBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5013B9316F005C0CC8 /* OEPreferencesControlsBox.m */; };
@@ -1087,8 +1086,6 @@
 		53439B2713B930A1005C0CC8 /* OEPrefCtrlHeadlineLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefCtrlHeadlineLabelCell.m; sourceTree = "<group>"; };
 		53439B2813B930A1005C0CC8 /* OEPrefCtrlLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefCtrlLabelCell.h; sourceTree = "<group>"; };
 		53439B2913B930A1005C0CC8 /* OEPrefCtrlLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefCtrlLabelCell.m; sourceTree = "<group>"; };
-		53439B2C13B930A1005C0CC8 /* OEPrefLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefLabelCell.h; sourceTree = "<group>"; };
-		53439B2D13B930A1005C0CC8 /* OEPrefLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefLabelCell.m; sourceTree = "<group>"; };
 		53439B3713B930E0005C0CC8 /* OEHorizontalLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHorizontalLine.h; sourceTree = "<group>"; };
 		53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHorizontalLine.m; sourceTree = "<group>"; };
 		53439B4213B93138005C0CC8 /* OECoreSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreSliderCell.h; sourceTree = "<group>"; };
@@ -2535,8 +2532,6 @@
 				53439B2713B930A1005C0CC8 /* OEPrefCtrlHeadlineLabelCell.m */,
 				53439B2813B930A1005C0CC8 /* OEPrefCtrlLabelCell.h */,
 				53439B2913B930A1005C0CC8 /* OEPrefCtrlLabelCell.m */,
-				53439B2C13B930A1005C0CC8 /* OEPrefLabelCell.h */,
-				53439B2D13B930A1005C0CC8 /* OEPrefLabelCell.m */,
 			);
 			name = "Label Cells";
 			sourceTree = "<group>";
@@ -4530,7 +4525,6 @@
 				53439B2E13B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m in Sources */,
 				53439B2F13B930A1005C0CC8 /* OEPrefCtrlHeadlineLabelCell.m in Sources */,
 				53439B3013B930A1005C0CC8 /* OEPrefCtrlLabelCell.m in Sources */,
-				53439B3213B930A1005C0CC8 /* OEPrefLabelCell.m in Sources */,
 				53439B3913B930E0005C0CC8 /* OEHorizontalLine.m in Sources */,
 				53439B4A13B93138005C0CC8 /* OECoreSliderCell.m in Sources */,
 				53439B5513B9316F005C0CC8 /* OEPreferencesControlsBox.m in Sources */,

@@ -13,11 +13,6 @@
 }
 @end
 @implementation OELabelCell
-
-- (void)setStringValue:(NSString *)aString
-{
-    [super setAttributedStringValue:[[NSAttributedString alloc] initWithString:aString attributes:[[self themeTextAttributes] textAttributesForState:[self OE_currentState]]]];
-}
 - (OEThemeState)OE_currentState
 {
     // This is a convenience method that retrieves the current state of the button
@@ -45,7 +40,7 @@
     NSDictionary *attributes = [_themeTextAttributes textAttributesForState:state];
     if(![attributes objectForKey:NSParagraphStyleAttributeName])
     {
-        [_style setLineBreakMode:([self wraps] ? NSLineBreakByWordWrapping : NSLineBreakByClipping)];
+        [_style setLineBreakMode:[self lineBreakMode]];
         [_style setAlignment:[self alignment]];
         
         NSMutableDictionary *newAttributes = [attributes mutableCopy];
@@ -56,11 +51,10 @@
     return attributes;
 }
 
-/*
-
 - (NSRect)titleRectForBounds:(NSRect)theRect
 {
     NSRect result = [super titleRectForBounds:theRect];
+    result = NSInsetRect(result, 2, 0);
     return result;
 }
 
@@ -82,7 +76,7 @@
     NSDictionary *attributes = (_themed ? [self OE_attributesForState:[self OE_currentState]] : nil);
     return attributes?[[NSAttributedString alloc] initWithString:[self title] attributes:attributes]:[super attributedStringValue];
 }
-*/
+
 - (void)OE_recomputeStateMask
 {
     _themed    = (_backgroundThemeImage != nil || _themeImage != nil || _themeTextAttributes != nil);
@@ -99,8 +93,6 @@
     }
     [self setBackgroundThemeImageKey:backgroundKey];
     [self setThemeTextAttributesKey:key];
-    
-    
 }
 
 - (void)setBackgroundThemeImageKey:(NSString *)key
@@ -146,7 +138,7 @@
     {
         // TODO: Only invalidate area of the control view
         _themeTextAttributes = themeTextAttributes;
-        [self setStringValue:[self stringValue]];
+        [[self controlView] setNeedsDisplay:YES];
         [self OE_recomputeStateMask];
     }
 }

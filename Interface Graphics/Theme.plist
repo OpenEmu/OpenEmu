@@ -33,6 +33,28 @@
 				<string>rgba(0,0,0,0.4)</string>
 			</dict>
 		</dict>
+		<key>preferences_text</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Color</key>
+			<string>rgb(227,227,227)</string>
+			<key>Weight</key>
+			<real>4</real>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+			</dict>
+		</dict>
 		<key>open_weblink</key>
 		<dict>
 			<key>Family</key>
