@@ -709,19 +709,6 @@
 	</dict>
 	<key>Images</key>
 	<dict>
-		<key>game_scanner_box</key>
-		<dict>
-			<key>Colors</key>
-			<array>
-				<string>rgb(74, 74, 74)</string>
-				<string>rgba(41,41,41, 1)</string>
-			</array>
-			<key>Locations</key>
-			<array>
-				<integer>0</integer>
-				<integer>1</integer>
-			</array>
-		</dict>
 		<key>game_scanner_toggle_pause</key>
 		<dict>
 			<key>Resource</key>
@@ -1619,6 +1606,32 @@
 	</dict>
 	<key>Gradients</key>
 	<dict>
+		<key>preferences_line</key>
+		<dict>
+			<key>Colors</key>
+			<array>
+				<string>#373737</string>
+				<string>rgb(0,0,0)</string>
+			</array>
+			<key>Locations</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+			</array>
+		</dict>
+		<key>game_scanner_line</key>
+		<dict>
+			<key>Colors</key>
+			<array>
+				<string>rgb(74, 74, 74)</string>
+				<string>rgba(41,41,41, 1)</string>
+			</array>
+			<key>Locations</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+			</array>
+		</dict>
 		<key>dark_menu_background</key>
 		<dict>
 			<key>Colors</key>

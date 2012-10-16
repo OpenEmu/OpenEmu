@@ -139,7 +139,6 @@
 		53439AE713B92E59005C0CC8 /* OETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE213B92E59005C0CC8 /* OETableView.m */; };
 		53439AEB13B92E91005C0CC8 /* OELibrarySplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */; };
 		53439AEE13B92E9A005C0CC8 /* OEMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AED13B92E9A005C0CC8 /* OEMainWindow.m */; };
-		53439AF113B92EA1005C0CC8 /* OEBackgroundColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF013B92EA1005C0CC8 /* OEBackgroundColorView.m */; };
 		53439AF413B92EA8005C0CC8 /* OESearchFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF313B92EA8005C0CC8 /* OESearchFieldCell.m */; };
 		53439AF713B92EAD005C0CC8 /* OESlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF613B92EAD005C0CC8 /* OESlider.m */; };
 		53439AFA13B92EB3005C0CC8 /* OEImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF913B92EB3005C0CC8 /* OEImageButton.m */; };
@@ -154,7 +153,6 @@
 		53439B1B13B92FFA005C0CC8 /* OESidebarOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B1613B92FFA005C0CC8 /* OESidebarOutlineView.m */; };
 		53439B2113B93078005C0CC8 /* OEMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B1E13B93078005C0CC8 /* OEMenu.m */; };
 		53439B2E13B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2513B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m */; };
-		53439B3913B930E0005C0CC8 /* OEHorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */; };
 		53439B4A13B93138005C0CC8 /* OECoreSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B4313B93138005C0CC8 /* OECoreSliderCell.m */; };
 		53439B5513B9316F005C0CC8 /* OEPreferencesControlsBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5013B9316F005C0CC8 /* OEPreferencesControlsBox.m */; };
 		53439B5613B9316F005C0CC8 /* OEPreferencesDarkBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5213B9316F005C0CC8 /* OEPreferencesDarkBox.m */; };
@@ -444,8 +442,8 @@
 		83DDEE8D156CFFF2009EB43D /* OEDistantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE8C156CFFF2009EB43D /* OEDistantView.m */; };
 		83DEE48F162D52DC005D8AD7 /* OELabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE48C162D52DC005D8AD7 /* OELabel.m */; };
 		83DEE490162D52DC005D8AD7 /* OELabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE48E162D52DC005D8AD7 /* OELabelCell.m */; };
-		83DEE495162D61C7005D8AD7 /* OEThemedBackgroundColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE494162D61C7005D8AD7 /* OEThemedBackgroundColorView.m */; };
-		83DEE498162D6218005D8AD7 /* OEThemedHorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE497162D6217005D8AD7 /* OEThemedHorizontalLine.m */; };
+		83DEE495162D61C7005D8AD7 /* OEBackgroundColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE494162D61C7005D8AD7 /* OEBackgroundColorView.m */; };
+		83DEE498162D6218005D8AD7 /* OEHorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE497162D6217005D8AD7 /* OEHorizontalLine.m */; };
 		83DEE49D162D62B2005D8AD7 /* game_scanner_buttons.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE499162D62B2005D8AD7 /* game_scanner_buttons.png */; };
 		83DEE49E162D62B2005D8AD7 /* game_scanner_progress_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE49A162D62B2005D8AD7 /* game_scanner_progress_bar.png */; };
 		83DEE49F162D62B2005D8AD7 /* game_scanner_progress_candy.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE49B162D62B2005D8AD7 /* game_scanner_progress_candy.png */; };
@@ -1055,8 +1053,6 @@
 		53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibrarySplitView.m; sourceTree = "<group>"; };
 		53439AEC13B92E9A005C0CC8 /* OEMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindow.h; sourceTree = "<group>"; };
 		53439AED13B92E9A005C0CC8 /* OEMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMainWindow.m; sourceTree = "<group>"; };
-		53439AEF13B92EA1005C0CC8 /* OEBackgroundColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBackgroundColorView.h; sourceTree = "<group>"; };
-		53439AF013B92EA1005C0CC8 /* OEBackgroundColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBackgroundColorView.m; sourceTree = "<group>"; };
 		53439AF213B92EA8005C0CC8 /* OESearchFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESearchFieldCell.h; sourceTree = "<group>"; };
 		53439AF313B92EA8005C0CC8 /* OESearchFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESearchFieldCell.m; sourceTree = "<group>"; };
 		53439AF513B92EAD005C0CC8 /* OESlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESlider.h; sourceTree = "<group>"; };
@@ -1087,8 +1083,6 @@
 		53439B1E13B93078005C0CC8 /* OEMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMenu.m; sourceTree = "<group>"; };
 		53439B2413B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefCoreSliderLabelCell.h; sourceTree = "<group>"; };
 		53439B2513B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefCoreSliderLabelCell.m; sourceTree = "<group>"; };
-		53439B3713B930E0005C0CC8 /* OEHorizontalLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHorizontalLine.h; sourceTree = "<group>"; };
-		53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHorizontalLine.m; sourceTree = "<group>"; };
 		53439B4213B93138005C0CC8 /* OECoreSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreSliderCell.h; sourceTree = "<group>"; };
 		53439B4313B93138005C0CC8 /* OECoreSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreSliderCell.m; sourceTree = "<group>"; };
 		53439B4F13B9316F005C0CC8 /* OEPreferencesControlsBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferencesControlsBox.h; sourceTree = "<group>"; };
@@ -1489,10 +1483,10 @@
 		83DEE48C162D52DC005D8AD7 /* OELabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELabel.m; sourceTree = "<group>"; };
 		83DEE48D162D52DC005D8AD7 /* OELabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELabelCell.h; sourceTree = "<group>"; };
 		83DEE48E162D52DC005D8AD7 /* OELabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELabelCell.m; sourceTree = "<group>"; };
-		83DEE493162D61C7005D8AD7 /* OEThemedBackgroundColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemedBackgroundColorView.h; sourceTree = "<group>"; };
-		83DEE494162D61C7005D8AD7 /* OEThemedBackgroundColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemedBackgroundColorView.m; sourceTree = "<group>"; };
-		83DEE496162D6217005D8AD7 /* OEThemedHorizontalLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemedHorizontalLine.h; sourceTree = "<group>"; };
-		83DEE497162D6217005D8AD7 /* OEThemedHorizontalLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemedHorizontalLine.m; sourceTree = "<group>"; };
+		83DEE493162D61C7005D8AD7 /* OEBackgroundColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBackgroundColorView.h; sourceTree = "<group>"; };
+		83DEE494162D61C7005D8AD7 /* OEBackgroundColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBackgroundColorView.m; sourceTree = "<group>"; };
+		83DEE496162D6217005D8AD7 /* OEHorizontalLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHorizontalLine.h; sourceTree = "<group>"; };
+		83DEE497162D6217005D8AD7 /* OEHorizontalLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHorizontalLine.m; sourceTree = "<group>"; };
 		83DEE499162D62B2005D8AD7 /* game_scanner_buttons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_scanner_buttons.png; sourceTree = "<group>"; };
 		83DEE49A162D62B2005D8AD7 /* game_scanner_progress_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_scanner_progress_bar.png; sourceTree = "<group>"; };
 		83DEE49B162D62B2005D8AD7 /* game_scanner_progress_candy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_scanner_progress_candy.png; sourceTree = "<group>"; };
@@ -2475,8 +2469,6 @@
 				53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */,
 				53439AEC13B92E9A005C0CC8 /* OEMainWindow.h */,
 				53439AED13B92E9A005C0CC8 /* OEMainWindow.m */,
-				53439AEF13B92EA1005C0CC8 /* OEBackgroundColorView.h */,
-				53439AF013B92EA1005C0CC8 /* OEBackgroundColorView.m */,
 				53439AF213B92EA8005C0CC8 /* OESearchFieldCell.h */,
 				53439AF313B92EA8005C0CC8 /* OESearchFieldCell.m */,
 				53439AF513B92EAD005C0CC8 /* OESlider.h */,
@@ -2546,8 +2538,6 @@
 		53439B3313B930A9005C0CC8 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				53439B3713B930E0005C0CC8 /* OEHorizontalLine.h */,
-				53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */,
 				53439B3A13B93106005C0CC8 /* Buttons */,
 				53439B4E13B93151005C0CC8 /* Boxes */,
 				53439B5813B93255005C0CC8 /* OEAttributedTextFieldCell.h */,
@@ -2961,10 +2951,10 @@
 			children = (
 				831C9ACE160096E000038D0D /* OEMatrix.h */,
 				831C9ACF160096E000038D0D /* OEMatrix.m */,
-				83DEE496162D6217005D8AD7 /* OEThemedHorizontalLine.h */,
-				83DEE497162D6217005D8AD7 /* OEThemedHorizontalLine.m */,
-				83DEE493162D61C7005D8AD7 /* OEThemedBackgroundColorView.h */,
-				83DEE494162D61C7005D8AD7 /* OEThemedBackgroundColorView.m */,
+				83DEE496162D6217005D8AD7 /* OEHorizontalLine.h */,
+				83DEE497162D6217005D8AD7 /* OEHorizontalLine.m */,
+				83DEE493162D61C7005D8AD7 /* OEBackgroundColorView.h */,
+				83DEE494162D61C7005D8AD7 /* OEBackgroundColorView.m */,
 			);
 			name = Containers;
 			sourceTree = "<group>";
@@ -4537,7 +4527,6 @@
 				53439AE713B92E59005C0CC8 /* OETableView.m in Sources */,
 				53439AEB13B92E91005C0CC8 /* OELibrarySplitView.m in Sources */,
 				53439AEE13B92E9A005C0CC8 /* OEMainWindow.m in Sources */,
-				53439AF113B92EA1005C0CC8 /* OEBackgroundColorView.m in Sources */,
 				53439AF413B92EA8005C0CC8 /* OESearchFieldCell.m in Sources */,
 				53439AF713B92EAD005C0CC8 /* OESlider.m in Sources */,
 				53439AFA13B92EB3005C0CC8 /* OEImageButton.m in Sources */,
@@ -4552,7 +4541,6 @@
 				53439B1B13B92FFA005C0CC8 /* OESidebarOutlineView.m in Sources */,
 				53439B2113B93078005C0CC8 /* OEMenu.m in Sources */,
 				53439B2E13B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m in Sources */,
-				53439B3913B930E0005C0CC8 /* OEHorizontalLine.m in Sources */,
 				53439B4A13B93138005C0CC8 /* OECoreSliderCell.m in Sources */,
 				53439B5513B9316F005C0CC8 /* OEPreferencesControlsBox.m in Sources */,
 				53439B5613B9316F005C0CC8 /* OEPreferencesDarkBox.m in Sources */,
@@ -4671,8 +4659,8 @@
 				C6F738FC1617FF2B00BB2519 /* OEUtilities.m in Sources */,
 				83DEE48F162D52DC005D8AD7 /* OELabel.m in Sources */,
 				83DEE490162D52DC005D8AD7 /* OELabelCell.m in Sources */,
-				83DEE495162D61C7005D8AD7 /* OEThemedBackgroundColorView.m in Sources */,
-				83DEE498162D6218005D8AD7 /* OEThemedHorizontalLine.m in Sources */,
+				83DEE495162D61C7005D8AD7 /* OEBackgroundColorView.m in Sources */,
+				83DEE498162D6218005D8AD7 /* OEHorizontalLine.m in Sources */,
 				83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
