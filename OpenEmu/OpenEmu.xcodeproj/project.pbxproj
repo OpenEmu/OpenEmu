@@ -444,6 +444,13 @@
 		83DDEE8D156CFFF2009EB43D /* OEDistantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE8C156CFFF2009EB43D /* OEDistantView.m */; };
 		83DEE48F162D52DC005D8AD7 /* OELabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE48C162D52DC005D8AD7 /* OELabel.m */; };
 		83DEE490162D52DC005D8AD7 /* OELabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE48E162D52DC005D8AD7 /* OELabelCell.m */; };
+		83DEE495162D61C7005D8AD7 /* OEThemedBackgroundColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE494162D61C7005D8AD7 /* OEThemedBackgroundColorView.m */; };
+		83DEE498162D6218005D8AD7 /* OEThemedHorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE497162D6217005D8AD7 /* OEThemedHorizontalLine.m */; };
+		83DEE49D162D62B2005D8AD7 /* game_scanner_buttons.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE499162D62B2005D8AD7 /* game_scanner_buttons.png */; };
+		83DEE49E162D62B2005D8AD7 /* game_scanner_progress_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE49A162D62B2005D8AD7 /* game_scanner_progress_bar.png */; };
+		83DEE49F162D62B2005D8AD7 /* game_scanner_progress_candy.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE49B162D62B2005D8AD7 /* game_scanner_progress_candy.png */; };
+		83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE49C162D62B2005D8AD7 /* game_scanner_progress_track.png */; };
+		83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
 		83E8E82A156A84060027B7A9 /* OEHIDWiimoteEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8E829156A84060027B7A9 /* OEHIDWiimoteEvent.m */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
@@ -1482,6 +1489,16 @@
 		83DEE48C162D52DC005D8AD7 /* OELabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELabel.m; sourceTree = "<group>"; };
 		83DEE48D162D52DC005D8AD7 /* OELabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELabelCell.h; sourceTree = "<group>"; };
 		83DEE48E162D52DC005D8AD7 /* OELabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELabelCell.m; sourceTree = "<group>"; };
+		83DEE493162D61C7005D8AD7 /* OEThemedBackgroundColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemedBackgroundColorView.h; sourceTree = "<group>"; };
+		83DEE494162D61C7005D8AD7 /* OEThemedBackgroundColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemedBackgroundColorView.m; sourceTree = "<group>"; };
+		83DEE496162D6217005D8AD7 /* OEThemedHorizontalLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemedHorizontalLine.h; sourceTree = "<group>"; };
+		83DEE497162D6217005D8AD7 /* OEThemedHorizontalLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThemedHorizontalLine.m; sourceTree = "<group>"; };
+		83DEE499162D62B2005D8AD7 /* game_scanner_buttons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_scanner_buttons.png; sourceTree = "<group>"; };
+		83DEE49A162D62B2005D8AD7 /* game_scanner_progress_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_scanner_progress_bar.png; sourceTree = "<group>"; };
+		83DEE49B162D62B2005D8AD7 /* game_scanner_progress_candy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_scanner_progress_candy.png; sourceTree = "<group>"; };
+		83DEE49C162D62B2005D8AD7 /* game_scanner_progress_track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_scanner_progress_track.png; sourceTree = "<group>"; };
+		83DEE4A2162D62E4005D8AD7 /* OEProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEProgressIndicator.h; sourceTree = "<group>"; };
+		83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEProgressIndicator.m; sourceTree = "<group>"; };
 		83E25057147BC6BF0074EE14 /* hud_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_textfield.png; sourceTree = "<group>"; };
 		83E41F27158546E90069B8AF /* OESystemPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemPicker.h; sourceTree = "<group>"; };
 		83E41F28158546E90069B8AF /* OESystemPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESystemPicker.m; sourceTree = "<group>"; };
@@ -2622,6 +2639,10 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				83DEE499162D62B2005D8AD7 /* game_scanner_buttons.png */,
+				83DEE49A162D62B2005D8AD7 /* game_scanner_progress_bar.png */,
+				83DEE49B162D62B2005D8AD7 /* game_scanner_progress_candy.png */,
+				83DEE49C162D62B2005D8AD7 /* game_scanner_progress_track.png */,
 				8303BBFE14E318C200FCD701 /* Menu */,
 				83C0B37314D6FC58007CAC00 /* sidebar_triangle.png */,
 				83D435F114718890003FE856 /* closed_weblink_arrow.png */,
@@ -2910,6 +2931,7 @@
 				831C9ACD160096D400038D0D /* Containers */,
 				831C9AD1160096EF00038D0D /* Buttons */,
 				83DEE489162D52C5005D8AD7 /* Text */,
+				83DEE4A1162D62C2005D8AD7 /* Other Controls */,
 			);
 			name = "Theme Controls";
 			sourceTree = "<group>";
@@ -2939,6 +2961,10 @@
 			children = (
 				831C9ACE160096E000038D0D /* OEMatrix.h */,
 				831C9ACF160096E000038D0D /* OEMatrix.m */,
+				83DEE496162D6217005D8AD7 /* OEThemedHorizontalLine.h */,
+				83DEE497162D6217005D8AD7 /* OEThemedHorizontalLine.m */,
+				83DEE493162D61C7005D8AD7 /* OEThemedBackgroundColorView.h */,
+				83DEE494162D61C7005D8AD7 /* OEThemedBackgroundColorView.m */,
 			);
 			name = Containers;
 			sourceTree = "<group>";
@@ -3168,6 +3194,15 @@
 				83DEE48E162D52DC005D8AD7 /* OELabelCell.m */,
 			);
 			name = "Text Cells";
+			sourceTree = "<group>";
+		};
+		83DEE4A1162D62C2005D8AD7 /* Other Controls */ = {
+			isa = PBXGroup;
+			children = (
+				83DEE4A2162D62E4005D8AD7 /* OEProgressIndicator.h */,
+				83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */,
+			);
+			name = "Other Controls";
 			sourceTree = "<group>";
 		};
 		83EE16D2155E9ADE0063F9D3 /* Output Parsers */ = {
@@ -4216,6 +4251,10 @@
 				831C9AE81600992B00038D0D /* light_menu_arrows_body.png in Resources */,
 				831C9AEA1600993B00038D0D /* light_menu_separator_item.png in Resources */,
 				838E2A231600A05C00CF7198 /* Theme.plist in Resources */,
+				83DEE49D162D62B2005D8AD7 /* game_scanner_buttons.png in Resources */,
+				83DEE49E162D62B2005D8AD7 /* game_scanner_progress_bar.png in Resources */,
+				83DEE49F162D62B2005D8AD7 /* game_scanner_progress_candy.png in Resources */,
+				83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4632,6 +4671,9 @@
 				C6F738FC1617FF2B00BB2519 /* OEUtilities.m in Sources */,
 				83DEE48F162D52DC005D8AD7 /* OELabel.m in Sources */,
 				83DEE490162D52DC005D8AD7 /* OELabelCell.m in Sources */,
+				83DEE495162D61C7005D8AD7 /* OEThemedBackgroundColorView.m in Sources */,
+				83DEE498162D6218005D8AD7 /* OEThemedHorizontalLine.m in Sources */,
+				83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

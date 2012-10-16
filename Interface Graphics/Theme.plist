@@ -4,6 +4,8 @@
 <dict>
 	<key>Colors</key>
 	<dict>
+		<key>game_scanner_background</key>
+		<string>rgba(63,63,63,1.0)</string>
 		<key>dark_menu_background</key>
 		<string>rgba(0,0,0,0.8)</string>
 		<key>light_menu_background</key>
@@ -11,6 +13,46 @@
 	</dict>
 	<key>Fonts</key>
 	<dict>
+		<key>game_scanner_text</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Color</key>
+			<string>rgba(156,156,156,1.0)</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+		</dict>
+		<key>game_scanner_headline</key>
+		<dict>
+			<key>Color</key>
+			<string>rgba(174,173,173,1.0)</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>3</integer>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,1.0)</string>
+				<key>Offset</key>
+				<string>{0,1}</string>
+			</dict>
+		</dict>
 		<key>preferences_headline</key>
 		<dict>
 			<key>Family</key>
@@ -667,6 +709,94 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>game_scanner_box</key>
+		<dict>
+			<key>Colors</key>
+			<array>
+				<string>rgb(74, 74, 74)</string>
+				<string>rgba(41,41,41, 1)</string>
+			</array>
+			<key>Locations</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+			</array>
+		</dict>
+		<key>game_scanner_toggle_pause</key>
+		<dict>
+			<key>Resource</key>
+			<string>game_scanner_buttons</string>
+			<key>States</key>
+			<dict>
+				<key>Toggle Off</key>
+				<string>{{0,0},{25,25}}</string>
+				<key>Toggle Off, Mouse Over</key>
+				<string>{{25,0},{25,25}}</string>
+				<key>Toggle Off, Mouse Over, Pressed</key>
+				<string>{{50,0},{25,25}}</string>
+				<key>Toggle On</key>
+				<string>{{0,25},{25,25}}</string>
+				<key>Toggle On, Mouse Over</key>
+				<string>{{25,25},{25,25}}</string>
+				<key>Toggle On, Mouse Over, Pressed</key>
+				<string>{{50,25},{25,25}}</string>
+			</dict>
+		</dict>
+		<key>game_scanner_progress_candy</key>
+		<dict>
+			<key>Resource</key>
+			<string>game_scanner_progress_candy</string>
+			<key>States</key>
+			<dict>
+				<key>Toggle Off</key>
+				<string>{{0,10},{10,10}}</string>
+				<key>Toggle On</key>
+				<string>{{0,0},{10,10}}</string>
+			</dict>
+		</dict>
+		<key>game_scanner_progress_bar</key>
+		<dict>
+			<key>Resource</key>
+			<string>game_scanner_progress_bar</string>
+			<key>States</key>
+			<dict>
+				<key>Toggle On</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0},{3,12}}</string>
+						<string>{{3,0},{1,12}}</string>
+						<string>{{4,0},{3,12}}</string>
+					</array>
+				</dict>
+				<key>Toggle Off</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,12},{3,12}}</string>
+						<string>{{3,12},{1,12}}</string>
+						<string>{{4,12},{3,12}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>game_scanner_progress_track_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>game_scanner_progress_track</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0},{5,13}}</string>
+						<string>{{5,0},{1,13}}</string>
+						<string>{{6,0},{5,13}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
 		<key>open_weblink</key>
 		<dict>
 			<key>Resource</key>
