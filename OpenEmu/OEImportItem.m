@@ -75,6 +75,9 @@
         case OEImportItemStatusResolvableError:
             [message appendString:[[self error] localizedDescription]];
             break;
+        case OEImportItemStatusCanceld:
+            [message appendString:@"Canceld"];
+            break;
     }
     
     return message;

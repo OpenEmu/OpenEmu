@@ -24,7 +24,20 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Cocoa/Cocoa.h>
+
 #import "OEROMImporter.h"
-#import "OESidebarItem.h"
-@interface OEROMImporter (OESidebarAdditions)  <OESidebarItem> 
+#import "OELibrarySubviewController.h"
+@class OELibraryController;
+@interface GameScannerViewController : NSViewController <OEROMImporterDelegate, OELibrarySubviewController>
+
+#pragma mark - UI Methods
+- (IBAction)togglePause:(id)sender;
+- (IBAction)cancel:(id)sender;
+
+@property (strong) IBOutlet NSView              *gameScannerView;
+
+@property (strong) IBOutlet NSButton            *togglePauseButton;
+@property (strong) IBOutlet NSProgressIndicator *progressIndicator;
+@property (strong) IBOutlet NSTextField         *statusLabel;
 @end

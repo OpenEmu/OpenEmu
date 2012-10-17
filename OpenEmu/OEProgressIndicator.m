@@ -46,14 +46,6 @@
     [self setNeedsDisplay:YES];
 }
 
-// TODO: remove after debugging
-- (void)awakeFromNib
-{
-    [self setMinValue:0.5];
-    [self setDoubleValue:0.75];
-    [self setMaxValue:1.0];
-}
-
 - (void)drawRect:(NSRect)dirtyRect
 {
     NSRect trackRect = [self trackRect];
@@ -127,8 +119,8 @@
     result.size.height = 12.0;
     
     double percentValue = (self.doubleValue-self.minValue)/(self.maxValue-self.minValue);
-    float width = MAX([self bounds].size.width*percentValue, 11.0);
-    result.size.width = width;
+    float width = MAX([self bounds].size.width*percentValue, 5.0);
+    result.size.width = roundf(width);
     
     return result;
 }

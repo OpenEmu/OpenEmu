@@ -5,7 +5,7 @@
 	<key>Colors</key>
 	<dict>
 		<key>game_scanner_background</key>
-		<string>rgba(63,63,63,1.0)</string>
+		<string>#3f3f3f</string>
 		<key>dark_menu_background</key>
 		<string>rgba(0,0,0,0.8)</string>
 		<key>light_menu_background</key>
@@ -751,18 +751,18 @@
 				<dict>
 					<key>Parts</key>
 					<array>
-						<string>{{0,0},{3,12}}</string>
-						<string>{{3,0},{1,12}}</string>
-						<string>{{4,0},{3,12}}</string>
+						<string>{{0,0},{2,12}}</string>
+						<string>{{2,0},{1,12}}</string>
+						<string>{{3,0},{2,12}}</string>
 					</array>
 				</dict>
 				<key>Toggle Off</key>
 				<dict>
 					<key>Parts</key>
 					<array>
-						<string>{{0,12},{3,12}}</string>
-						<string>{{3,12},{1,12}}</string>
-						<string>{{4,12},{3,12}}</string>
+						<string>{{0,12},{2,12}}</string>
+						<string>{{2,12},{1,12}}</string>
+						<string>{{3,12},{2,12}}</string>
 					</array>
 				</dict>
 			</dict>
