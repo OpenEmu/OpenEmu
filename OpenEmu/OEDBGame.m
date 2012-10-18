@@ -577,4 +577,37 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
 {
     return [self mutableSetValueForKeyPath:@"credits"];
 }
+
+#pragma mark - Debug
+
+- (void)dump
+{
+    [self dumpWithPrefix:@"---"];
+}
+
+- (void)dumpWithPrefix:(NSString *)prefix
+{
+    NSString *subPrefix = [prefix stringByAppendingString:@"-----"];
+    NSLog(@"%@ Beginning of game dump", prefix);
+
+    NSLog(@"%@ Game name is %@", prefix, [self name]);
+    NSLog(@"%@ title is %@", prefix, [self gameTitle]);
+    NSLog(@"%@ rating is %@", prefix, [self rating]);
+    NSLog(@"%@ description is %@", prefix, [self gameDescription]);
+    NSLog(@"%@ import date is %@", prefix, [self importDate]);
+    NSLog(@"%@ last archive sync is %@", prefix, [self lastArchiveSync]);
+    NSLog(@"%@ archive ID is %@", prefix, [self archiveID]);
+    NSLog(@"%@ last played is %@", prefix, [self lastPlayed]);
+    NSLog(@"%@ status is %@", prefix, [self status]);
+
+    NSLog(@"%@ Number of ROMs for this game is %lu", prefix, (unsigned long)[[self roms] count]);
+
+    for(id rom in [self roms])
+    {
+        if([rom respondsToSelector:@selector(dumpWithPrefix:)]) [rom dumpWithPrefix:subPrefix];
+        else NSLog(@"%@ ROM is %@", subPrefix, rom);
+    }
+
+    NSLog(@"%@ End of game dump\n\n", prefix);
+}
 @end

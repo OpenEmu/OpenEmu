@@ -281,4 +281,35 @@ NSString * const OEDBSystemsChangedNotificationName = @"OEDBSystemsChanged";
     return [[self plugin] systemName] ? : [self lastLocalizedName];
 }
 
+#pragma mark - Debug
+
+- (void)dump
+{
+    [self dumpWithPrefix:@"---"];
+}
+
+- (void)dumpWithPrefix:(NSString *)prefix
+{
+    NSString *subPrefix = [prefix stringByAppendingString:@"-----"];
+    NSLog(@"%@ Beginning of system dump", prefix);
+
+    NSLog(@"%@ System last localized name is %@", prefix, [self lastLocalizedName]);
+    NSLog(@"%@ short name is %@", prefix, [self shortname]);
+    NSLog(@"%@ system identifier is %@", prefix, [self systemIdentifier]);
+    NSLog(@"%@ archiveID is %@", prefix, [self archiveID]);
+    NSLog(@"%@ archive name is %@", prefix, [self archiveName]);
+    NSLog(@"%@ archive short name is %@", prefix, [self archiveShortname]);
+    NSLog(@"%@ enabled? %s", prefix, BOOL_STR([self enabled]));
+
+    NSLog(@"%@ Number of games in this system is %lu", prefix, (unsigned long)[[self games] count]);
+
+    for(id game in [self games])
+    {
+        if([game respondsToSelector:@selector(dumpWithPrefix:)]) [game dumpWithPrefix:subPrefix];
+        else NSLog(@"%@ Game is %@", subPrefix, game);
+    }
+
+    NSLog(@"%@ End of system dump\n\n", prefix);
+}
+
 @end

@@ -812,4 +812,54 @@ static OELibraryDatabase *defaultDatabase = nil;
     return url;
 }
 
+#pragma mark - Debug
+
+- (void)dump
+{
+    [self dumpWithPrefix:@"***"];
+}
+
+- (void)dumpWithPrefix:(NSString *)prefix
+{
+    NSString *subPrefix = [prefix stringByAppendingString:@"-----"];
+    NSLog(@"%@ Beginning of database dump\n", prefix);
+
+    NSLog(@"%@ Database folder is %@", prefix, [[self databaseFolderURL] path]);
+    NSLog(@"%@ Number of collections is %lu", prefix, (unsigned long)[self collectionsCount]);
+
+    for(id collection in [self collections])
+    {
+        if([collection respondsToSelector:@selector(dumpWithPrefix:)]) [collection dumpWithPrefix:subPrefix];
+        else NSLog(@"%@ Collection is %@", subPrefix, collection);
+    }
+
+    NSLog(@"%@", prefix);
+    NSLog(@"%@ Number of systems is %lu", prefix, (unsigned long)[OEDBSystem systemsCountInDatabase:self]);
+    for(id system in [OEDBSystem allSystemsInDatabase:self])
+    {
+        if([system respondsToSelector:@selector(dumpWithPrefix:)]) [system dumpWithPrefix:subPrefix];
+        else NSLog(@"%@ System is %@", subPrefix, system);
+    }
+
+    NSLog(@"%@", prefix);
+    NSLog(@"%@ ALL ROMs", prefix);
+    for(id ROM in [self allROMsForDump])
+    {
+        if([ROM respondsToSelector:@selector(dumpWithPrefix:)]) [ROM dumpWithPrefix:subPrefix];
+        else NSLog(@"%@ ROM is %@", subPrefix, ROM);
+    }
+
+    NSLog(@"%@ End of database dump\n\n", prefix);
+}
+
+- (NSArray *)allROMsForDump
+{
+    NSManagedObjectContext *MOC = [self managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:MOC];
+    NSFetchRequest *fetchReq = [NSFetchRequest new];
+    [fetchReq setEntity:entity];
+    NSArray *ROMs = [MOC executeFetchRequest:fetchReq error:NULL];
+    return ROMs;
+}
+
 @end

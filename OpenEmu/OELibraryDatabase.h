@@ -84,4 +84,7 @@ extern NSString *const OESaveStateFolderURLKey;
 - (NSURL *)stateFolderURLForSystem:(OEDBSystem *)system;
 - (NSURL *)stateFolderURLForROM:(OEDBRom *)rom;
 - (NSURL *)coverFolderURL;
+
+#pragma mark - Debug
+- (void)dump;
 @end
