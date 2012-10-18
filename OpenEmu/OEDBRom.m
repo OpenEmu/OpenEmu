@@ -329,6 +329,22 @@
     [set makeObjectsPerformSelector:@selector(removeIfMissing)];
 }
 
+// Core Data does not care about getter= overrides in modelled property declarations,
+// so we provide our own -isFavorite
+- (NSNumber *)isFavorite
+{
+    // We cannot use -valueForKey:@"favorite" since vanilla KVC would end up
+    // calling this very method, so we use -primitiveValueForKey: instead
+
+    NSString *key = @"favorite";
+    
+    [self willAccessValueForKey:key];
+    NSNumber *value = [self primitiveValueForKey:key];
+    [self didAccessValueForKey:key];
+
+    return value;
+}
+
 #pragma mark -
 #pragma mark Mainpulating a rom
 
