@@ -63,10 +63,12 @@ NSString * const OEDBSystemsChangedNotificationName = @"OEDBSystemsChanged";
 {
     return [self allSystemsInDatabase:[OELibraryDatabase defaultDatabase]];
 }
+
 + (NSArray*)allSystemsInDatabase:(OELibraryDatabase *)database
 {
     return [self allSystemsInDatabase:database error:nil];
 }
+
 + (NSArray*)allSystemsInDatabase:(OELibraryDatabase *)database error:(NSError**)outError
 {
     NSError     *error    = outError != NULL ? *outError : nil;
@@ -112,11 +114,11 @@ NSString * const OEDBSystemsChangedNotificationName = @"OEDBSystemsChanged";
 }
 + (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError**)error
 {
-    NSString *path = [url absoluteString];
+    NSString *path = [url path];
     NSArray *validPlugins = [[OESystemPlugin allPlugins] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OESystemPlugin * evaluatedObject, NSDictionary *bindings) {
         return [[evaluatedObject controller] canHandleFile:path];
     }]];
-    
+        
     NSMutableArray *validSystems = [NSMutableArray arrayWithCapacity:[validPlugins count]];
     [validPlugins enumerateObjectsUsingBlock:^(OESystemPlugin *obj, NSUInteger idx, BOOL *stop) {
         NSString *systemIdentifier = [obj systemIdentifier];

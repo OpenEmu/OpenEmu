@@ -352,7 +352,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         {
             NSMutableArray *systemIDs = [NSMutableArray arrayWithCapacity:[validSystems count]];
             [validSystems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
-                DLog(@"%@", [obj className]);
                 [systemIDs addObject:[obj systemIdentifier]];
             }];
             
@@ -648,7 +647,8 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         [item setImportState:OEImportItemStatusResolvableError];
     else if(error == nil || [[error domain] isEqualTo:OEImportErrorDomainSuccess])
         [item setImportState:OEImportItemStatusFinished];
-    else [item setImportState:OEImportItemStatusFatalError];
+    else
+        [item setImportState:OEImportItemStatusFatalError];
     
     [item setError:error];
     self.activeImports--;
@@ -711,9 +711,12 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     if(item == nil)
     {
         OEImportItem *item = [OEImportItem itemWithURL:url andCompletionHandler:handler];
-        [[self queue] addObject:item];
-        self.totalNumberOfItems ++;
-        [self start];
+        if(item)
+        {
+            [[self queue] addObject:item];
+            self.totalNumberOfItems ++;
+            [self start];
+        }
     }
 }
 
