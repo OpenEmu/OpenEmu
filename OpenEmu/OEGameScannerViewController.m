@@ -24,7 +24,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GameScannerViewController.h"
+#import "OEGameScannerViewController.h"
 
 #import "OELibraryDatabase.h"
 #import "OEBackgroundColorView.h"
@@ -34,9 +34,9 @@
 
 #import "OEMenu.h"
 #import "OEDBSystem.h"
-@interface GameScannerViewController ()
+@interface OEGameScannerViewController ()
 @end
-@implementation GameScannerViewController
+@implementation OEGameScannerViewController
 
 - (void)setView:(NSView *)view
 {

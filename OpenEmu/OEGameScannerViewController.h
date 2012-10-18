@@ -29,7 +29,7 @@
 #import "OEROMImporter.h"
 #import "OELibrarySubviewController.h"
 @class OELibraryController;
-@interface GameScannerViewController : NSViewController <OEROMImporterDelegate, OELibrarySubviewController>
+@interface OEGameScannerViewController : NSViewController <OEROMImporterDelegate, OELibrarySubviewController>
 
 #pragma mark - UI Methods
 - (IBAction)togglePause:(id)sender;
