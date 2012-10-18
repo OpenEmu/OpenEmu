@@ -352,6 +352,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         {
             NSMutableArray *systemIDs = [NSMutableArray arrayWithCapacity:[validSystems count]];
             [validSystems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+                DLog(@"%@", [obj className]);
                 [systemIDs addObject:[obj systemIdentifier]];
             }];
             

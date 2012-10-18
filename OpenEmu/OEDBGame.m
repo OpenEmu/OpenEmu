@@ -265,7 +265,7 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
 - (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel
 {	
 	// using URI representations should allow us to use core data on a different thread and at the same time makes sure that the current object is not copied for the block
-	NSURL				  *objectID				= [[self objectID] URIRepresentation];
+	NSURL		      *objectID				= [[self objectID] URIRepresentation];
 	OELibraryDatabase *blockDatabase		= [self libraryDatabase];
 	void(^block)(NSDictionary *gameInfo)	= ^(NSDictionary *gameInfo){
 		if(detailLevel != 0)
