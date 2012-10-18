@@ -41,6 +41,7 @@ extern NSString *const OEDatabasePathKey;
 extern NSString *const OEDefaultDatabasePathKey;
 extern NSString *const OESaveStateLastFSEventIDKey;
 extern NSString *const OELibraryDatabaseUserInfoKey;
+extern NSString *const OESaveStateFolderURLKey;
 
 @interface OELibraryDatabase : NSObject 
 + (OELibraryDatabase*)defaultDatabase;

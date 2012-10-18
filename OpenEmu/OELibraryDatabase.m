@@ -51,6 +51,7 @@ NSString *const OEDefaultDatabasePathKey     = @"defaultDatabasePath";
 NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
 
 NSString *const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
+NSString *const OESaveStateFolderURLKey      = @"saveStateFolder";
 
 @interface OELibraryDatabase ()
 {
@@ -773,6 +774,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)stateFolderURL
 {
+    if([[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey]) return [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey]];
+    
     NSString *saveStateFolderName = NSLocalizedString(@"Save States", @"Save States Folder Name");
     NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];    

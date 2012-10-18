@@ -129,6 +129,21 @@
     }
 }
 
+
+- (IBAction)choseSaveStateFolder:(id)sender
+{
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanChooseDirectories:YES];
+    [openPanel setCanChooseFiles:NO];
+    
+    if([openPanel runModal] == NSAlertDefaultReturn)
+        [[NSUserDefaults standardUserDefaults] setObject:[[openPanel URL] absoluteString] forKey:OESaveStateFolderURLKey];
+}
+
+- (IBAction)defaultSaveStateFolder:(id)sender
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:OESaveStateFolderURLKey];
+}
 #pragma mark -
 #pragma mark OEPreferencePane Protocol
 
