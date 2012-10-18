@@ -121,7 +121,8 @@ NSString * const OEDBSystemsChangedNotificationName = @"OEDBSystemsChanged";
     [validPlugins enumerateObjectsUsingBlock:^(OESystemPlugin *obj, NSUInteger idx, BOOL *stop) {
         NSString *systemIdentifier = [obj systemIdentifier];
         OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inDatabase:database];
-        [validSystems addObject:system];
+        if([[system enabled] boolValue])
+            [validSystems addObject:system];
     }];
     
     return validSystems;
