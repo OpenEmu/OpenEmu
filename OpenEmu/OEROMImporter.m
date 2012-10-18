@@ -109,10 +109,13 @@ const int OEImporterStatusStopping = 5;
         [self setSpotlightSearchResults:[NSMutableArray arrayWithCapacity:1]];
         [self setNumberOfProcessedItems:0];
         
+        /*
+        dispatchQueue = dispatch_get_main_queue();
+         */
+
         dispatchQueue = dispatch_queue_create("org.openemu.importqueue", DISPATCH_QUEUE_SERIAL);
         dispatch_queue_t priority = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
         dispatch_set_target_queue(dispatchQueue, priority);
-        
         [self setStatus:OEImporterStatusStopped];
     }
     return self;
@@ -152,13 +155,18 @@ const int OEImporterStatusStopping = 5;
         self.activeImports--;
         if([self numberOfProcessedItems] == [self totalNumberOfItems])
         {
-            [self setStatus:OEImporterStatusStopped];
             dispatch_async(dispatchQueue, ^{
-                [self setQueue:[NSMutableArray array]];
-                [self setNumberOfProcessedItems:0];
-                [self setTotalNumberOfItems:0];
-                
-                [self OE_performSelectorOnDelegate:@selector(romImporterDidFinish:) withObject:nil];
+                if([[self queue] count] == 0)
+                {
+                    [self setQueue:[NSMutableArray array]];
+                    [self setNumberOfProcessedItems:0];
+                    [self setTotalNumberOfItems:0];
+                    
+                    [self OE_performSelectorOnDelegate:@selector(romImporterDidFinish:) withObject:nil];
+                    [self setStatus:OEImporterStatusStopped];
+                }
+                else
+                    [self startQueueIfNeeded];
             });
         }
     }
@@ -174,6 +182,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
 {
     if([importer status] == OEImporterStatusPausing || [importer status] == OEImporterStatusPaused)
     {
+        DLog(@"skipping item!");
         importer.activeImports --;
         if([item importState] == OEImportItemStatusActive)
             [item setImportState:OEImportItemStatusIdle];
@@ -184,6 +193,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         [item setError:nil];
         [item setImportState:OEImportItemStatusCanceld];
         [importer cleanupImportForItem:item];
+        DLog(@"deleting item!");
     }
     else
     {
@@ -239,9 +249,8 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
             {
                 // TODO: add items after index, not at the end
                 [item setImportState:OEImportItemStatusFinished];
-                [[self queue] removeObjectIdenticalTo:item];
-                
                 [[self queue] addObjectsFromArray:importItems];
+                [[self queue] removeObjectIdenticalTo:item];
                 self.totalNumberOfItems += ([importItems count]-1);
                 [self processNextItem];
                 self.activeImports --;
@@ -464,7 +473,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         }
         else if([[importInfo valueForKey:OEImportInfoSystemID] count] == 1)
         {
-            DLog(@"using system");
             NSString *systemIdentifier = [[importInfo valueForKey:OEImportInfoSystemID] lastObject];
             system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[self database]];
             
@@ -486,8 +494,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         
         if(system != nil)
         {
-            DLog(@"got system");
-            
             NSString *fullName  = [url lastPathComponent];
             NSString *extension = [fullName pathExtension];
             NSString *baseName  = [fullName stringByDeletingPathExtension];
@@ -520,6 +526,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
 
 - (void)performImportStepCreateRom:(OEImportItem *)item
 {
+    DLog();
     NSMutableDictionary *importInfo = [item importInfo];
     if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
     {
@@ -541,6 +548,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     
     NSURL *objectIDURIRep = [[rom objectID] URIRepresentation];
     [importInfo setValue:objectIDURIRep forKey:OEImportInfoROMObjectID];
+    DLog(@"created rom");
 }
 
 - (void)performImportStepCreateGame:(OEImportItem *)item
@@ -613,7 +621,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
                 NSURL *url = [rom URL];
                 NSString *gameTitleWithSuffix = [url lastPathComponent];
                 NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
-                
                 game = [OEDBGame createGameWithName:gameTitleWithoutSuffix andSystem:system inDatabase:[self database]];
                 if([importInfo valueForKey:OEImportInfoArchiveSync])
                     [game setArchiveVGInfo:[importInfo valueForKey:OEImportInfoArchiveSync]];
@@ -624,6 +631,8 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     if(game != nil)
     {
         [rom setGame:game];
+        NSAssert([[game mutableRoms] count] != 0, @"THIS IS BAD!!!");
+        [[game managedObjectContext] save:nil];
         [self stopImportForItem:item withError:nil];
     }
 }
@@ -894,7 +903,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
 - (void)start
 {
     if([self status] == OEImporterStatusPaused || [self status] == OEImporterStatusStopped)
-    {        
+    {
         [self setStatus:OEImporterStatusRunning];
         [self startQueueIfNeeded];
         [self OE_performSelectorOnDelegate:@selector(romImporterDidStart:) withObject:self];

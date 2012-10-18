@@ -833,7 +833,7 @@ static const float OE_coverFlowHeightPercentage = .75;
         [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
             [[game roms] enumerateObjectsUsingBlock:^(OEDBRom *rom, BOOL *stopRoms) {
                 NSURL *romURL = [rom URL];
-                if(romURL && [romURL isSubpathOfURL:romsFolderURL])
+                if(romURL != nil && [romURL isSubpathOfURL:romsFolderURL])
                 {
                     romsAreInRomsFolder = YES;
                     
