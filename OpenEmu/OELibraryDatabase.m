@@ -445,21 +445,20 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *error = nil;
     NSUInteger ccount = [context countForFetchRequest:req error:&error];
-    if(count == NSNotFound)
+    if(ccount == NSNotFound)
     {
         ccount = 0;
         NSLog(@"collectionsCount: Smart Collections Error: %@", error);
     }
     count += ccount;
-    
+
     
     descr = [NSEntityDescription entityForName:@"Collection" inManagedObjectContext:context];
     req = [[NSFetchRequest alloc] init];
     [req setEntity:descr];
     
-    error = nil;
     ccount = [context countForFetchRequest:req error:&error];
-    if(count == NSNotFound)
+    if(ccount == NSNotFound)
     {
         ccount = 0;
         NSLog(@"collectionsCount: Regular Collections Error: %@", error);
