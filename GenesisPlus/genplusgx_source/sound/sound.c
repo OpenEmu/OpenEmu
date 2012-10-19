@@ -102,7 +102,7 @@ void sound_init( void )
   }
 
   /* Initialize PSG chip */
-  SN76489_Config(config.psg_preamp, config.psgBoostNoise, 0xff);
+  SN76489_Config(0, config.psg_preamp, config.psgBoostNoise, 0xff);
 }
 
 void sound_reset(void)

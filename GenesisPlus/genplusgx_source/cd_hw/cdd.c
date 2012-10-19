@@ -751,11 +751,21 @@ void cdd_read_audio(unsigned int samples)
       blip_add_delta_fast(blip[1], i, delta);
 
       /* update CD-DA fader volume (one step/sample) */
-      if (curVol < endVol) curVol++;
-      else if (curVol > endVol) curVol--;
-
-      /* audio is muted */
-      if (!endVol) break;
+      if (curVol < endVol)
+      {
+        /* fade-in */
+        curVol++;
+      }
+      else if (curVol > endVol)
+      {
+        /* fade-out */
+        curVol--;
+      }
+      else if (!curVol)
+      {
+        /* audio will remain muted until next setup */
+        break;
+      }
     }
 
     /* save current CD-DA fader volume */

@@ -547,7 +547,7 @@ void io_gg_write(unsigned int offset, unsigned int data)
 
     case 6: /* PSG Stereo output control */
       io_reg[6] = data;
-      SN76489_Config(config.psg_preamp, config.psgBoostNoise, data);
+      SN76489_Config(Z80.cycles, config.psg_preamp, config.psgBoostNoise, data);
       return;
 
     default: /* Read-only */

@@ -8,8 +8,6 @@
 
 #include "blip_buf.h"
 
-#define BLIP_ASSERT 1
-
 #ifdef BLIP_ASSERT
 #include <assert.h>
 #endif
@@ -236,11 +234,10 @@ int blip_read_samples( blip_t* m, short out [], int count)
 		buf_t const* in  = SAMPLES( m );
 		buf_t const* end = in + count;
 		int sum = m->integrator;
-    int s;
 		do
 		{
 			/* Eliminate fraction */
-			s = ARITH_SHIFT( sum, delta_bits );
+			int s = ARITH_SHIFT( sum, delta_bits );
 			
 			sum += *in++;
 			
@@ -275,24 +272,23 @@ int blip_mix_samples( blip_t* m, short out [], int count)
 		buf_t const* in  = SAMPLES( m );
 		buf_t const* end = in + count;
 		int sum = m->integrator;
-    int s, temp;
 		do
 		{
 			/* Eliminate fraction */
-			s = ARITH_SHIFT( sum, delta_bits );
+			int s = ARITH_SHIFT( sum, delta_bits );
 			
 			sum += *in++;
-
-      /* Add to current buffer */
-      temp = s + *out;
-			
-			CLAMP( temp );
-			
-			*out = temp;
-			out += 2;
 			
 			/* High-pass filter */
 			sum -= s << (delta_bits - bass_shift);
+
+            /* Add current buffer value */
+            s += *out;
+			
+			CLAMP( s );
+			
+			*out = s;
+			out += 2;
 		}
 		while ( in != end );
 		m->integrator = sum;

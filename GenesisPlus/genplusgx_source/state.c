@@ -117,12 +117,12 @@ int state_load(unsigned char *state)
   if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
   {
     SN76489_Init(snd.blips[0][0], snd.blips[0][1], SN_INTEGRATED);
-    SN76489_Config(config.psg_preamp, config.psgBoostNoise, 0xff);
+    SN76489_Config(0, config.psg_preamp, config.psgBoostNoise, 0xff);
   }
   else
   {
     SN76489_Init(snd.blips[0][0], snd.blips[0][1], (system_hw < SYSTEM_MARKIII) ? SN_DISCRETE : SN_INTEGRATED);
-    SN76489_Config(config.psg_preamp, config.psgBoostNoise, io_reg[6]);
+    SN76489_Config(0, config.psg_preamp, config.psgBoostNoise, io_reg[6]);
   }
 
   /* 68000 */

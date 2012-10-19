@@ -64,6 +64,16 @@ void pcm_reset(void)
   /* reset default bank */
   pcm.bank = pcm.ram;
 
+  /* reset channels stereo panning */
+  pcm.chan[0].pan = 0xff;
+  pcm.chan[1].pan = 0xff;
+  pcm.chan[2].pan = 0xff;
+  pcm.chan[3].pan = 0xff;
+  pcm.chan[4].pan = 0xff;
+  pcm.chan[5].pan = 0xff;
+  pcm.chan[6].pan = 0xff;
+  pcm.chan[7].pan = 0xff;
+
   /* reset master clocks counter */
   pcm.cycles = 0;
 
@@ -77,15 +87,15 @@ int pcm_context_save(uint8 *state)
   uint8 tmp8;
   int bufferptr = 0;
 
-  tmp8 = (scd.pcm_hw.bank - scd.pcm_hw.ram) >> 12;
+  tmp8 = (pcm.bank - pcm.ram) >> 12;
 
-  save_param(scd.pcm_hw.chan, sizeof(scd.pcm_hw.chan));
-  save_param(scd.pcm_hw.out, sizeof(scd.pcm_hw.out));
+  save_param(pcm.chan, sizeof(pcm.chan));
+  save_param(pcm.out, sizeof(pcm.out));
   save_param(&tmp8, 1);
-  save_param(&scd.pcm_hw.enabled, sizeof(scd.pcm_hw.enabled));
-  save_param(&scd.pcm_hw.status, sizeof(scd.pcm_hw.status));
-  save_param(&scd.pcm_hw.index, sizeof(scd.pcm_hw.index));
-  save_param(scd.pcm_hw.ram, sizeof(scd.pcm_hw.ram));
+  save_param(&pcm.enabled, sizeof(pcm.enabled));
+  save_param(&pcm.status, sizeof(pcm.status));
+  save_param(&pcm.index, sizeof(pcm.index));
+  save_param(pcm.ram, sizeof(pcm.ram));
 
   return bufferptr;
 }
@@ -95,16 +105,16 @@ int pcm_context_load(uint8 *state)
   uint8 tmp8;
   int bufferptr = 0;
 
-  load_param(scd.pcm_hw.chan, sizeof(scd.pcm_hw.chan));
-  load_param(scd.pcm_hw.out, sizeof(scd.pcm_hw.out));
+  load_param(pcm.chan, sizeof(pcm.chan));
+  load_param(pcm.out, sizeof(pcm.out));
 
   load_param(&tmp8, 1);
-  scd.pcm_hw.bank = &scd.pcm_hw.ram[(tmp8 & 0x0f) << 12];
+  pcm.bank = &pcm.ram[(tmp8 & 0x0f) << 12];
 
-  load_param(&scd.pcm_hw.enabled, sizeof(scd.pcm_hw.enabled));
-  load_param(&scd.pcm_hw.status, sizeof(scd.pcm_hw.status));
-  load_param(&scd.pcm_hw.index, sizeof(scd.pcm_hw.index));
-  load_param(scd.pcm_hw.ram, sizeof(scd.pcm_hw.ram));
+  load_param(&pcm.enabled, sizeof(pcm.enabled));
+  load_param(&pcm.status, sizeof(pcm.status));
+  load_param(&pcm.index, sizeof(pcm.index));
+  load_param(pcm.ram, sizeof(pcm.ram));
 
   return bufferptr;
 }
@@ -209,7 +219,7 @@ void pcm_run(unsigned int length)
     }
   }
 
-  /* end of blib buffer frame */
+  /* end of blip buffer frame */
   blip_end_frame(blip[0], length);
   blip_end_frame(blip[1], length);
 
