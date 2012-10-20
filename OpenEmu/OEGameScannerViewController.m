@@ -41,7 +41,6 @@
 - (void)setView:(NSView *)view
 {
     [super setView:view];
-    DLog();
     [[self importer] setDelegate:self];
 }
 
@@ -151,14 +150,12 @@
 #pragma mark - UI Methods
 - (IBAction)togglePause:(id)sender
 {
-    DLog();
     [[self importer] togglePause];
     [self OE_updateProgress];
 }
 
 - (IBAction)cancel:(id)sender
 {
-    DLog();
     [[self importer] cancel];
 }
 
