@@ -79,6 +79,10 @@ const int OEImporterStatusStopping = 5;
 @property (weak) OELibraryDatabase *database;
 
 - (void)startQueueIfNeeded;
+
+@property (readwrite, retain) NSMutableSet *unsavedMD5Hashes;
+@property (readwrite, retain) NSMutableSet *unsavedCRCHashes;
+
 #pragma mark - Import Steps
 - (void)performImportStepCheckDirectory:(OEImportItem *)item;
 - (void)performImportStepHash:(OEImportItem *)item;
@@ -109,6 +113,8 @@ const int OEImporterStatusStopping = 5;
         [self setSpotlightSearchResults:[NSMutableArray arrayWithCapacity:1]];
         [self setNumberOfProcessedItems:0];
         
+        [self setUnsavedCRCHashes:[NSMutableSet set]];
+        [self setUnsavedMD5Hashes:[NSMutableSet set]];
         /*
         dispatchQueue = dispatch_get_main_queue();
          */
@@ -310,6 +316,18 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
             [self stopImportForItem:item withError:error];
         }
     }
+    else
+    {
+        if([[self unsavedCRCHashes] containsObject:crc] || [[self unsavedMD5Hashes] containsObject:md5])
+        {
+            DLog(@"Hash is unsaved!!!!!!");
+            NSError *error = [NSError errorWithDomain:OEImportErrorDomainSuccess code:OEImportErrorCodeAlreadyInDatabase userInfo:nil];
+            [self stopImportForItem:item withError:error];
+        }
+        
+        [[self unsavedCRCHashes] addObject:crc];
+        [[self unsavedMD5Hashes] addObject:md5];
+    }
 }
 
 // Tries to find out which system the file belongs to
@@ -439,7 +457,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     
     NSError *error        = nil;
     BOOL    romFileLocked = NO;
-    if([[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:&error] objectForKey:NSFileImmutable])
+    if([[[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:&error] objectForKey:NSFileImmutable] boolValue])
     {
         romFileLocked = YES;
         [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
@@ -689,6 +707,12 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         if([item error]) DLog(@"%@", [item error]);
         [[self queue] removeObjectIdenticalTo:item];
         self.numberOfProcessedItems ++;
+        
+        NSString *md5 = [[item importInfo] valueForKey:OEImportInfoMD5];
+        NSString *crc = [[item importInfo] valueForKey:OEImportInfoCRC];
+        [[self unsavedMD5Hashes] removeObject:md5];
+        [[self unsavedMD5Hashes] removeObject:crc];
+    
     }
     
     [self startQueueIfNeeded];
