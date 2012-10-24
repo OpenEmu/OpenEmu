@@ -344,15 +344,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [oldViewController viewWillDisappear];
     [nextViewController viewWillAppear];
     
-    NSView *newView    = [nextViewController view];
-    
-    if(newView == nil)
-    {
-        [oldViewController viewWillAppear];
-        [oldViewController viewDidAppear];
-        return;
-    }
-    
+    NSView *newView    = [nextViewController view];    
     if(oldViewController)
     {
         NSView *superView = [[oldViewController view] superview];
