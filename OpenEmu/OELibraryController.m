@@ -345,6 +345,14 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [nextViewController viewWillAppear];
     
     NSView *newView    = [nextViewController view];
+    
+    if(newView == nil)
+    {
+        [oldViewController viewWillAppear];
+        [oldViewController viewDidAppear];
+        return;
+    }
+    
     if(oldViewController)
     {
         NSView *superView = [[oldViewController view] superview];
@@ -370,7 +378,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 - (void)sidebarSelectionDidChange:(NSNotification *)notification
-{
+{    
     // Save Current State
     id lastState = [(id <OELibrarySubviewController>)[self currentViewController] encodeCurrentState];
     id itemID    = [[[self currentViewController] representedObject] sidebarID];
@@ -384,8 +392,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [viewController setRepresentedObject:selectedItem];
 
     [self showViewController:viewController];
-    
-    
+
     itemID = [selectedItem sidebarID];
     [viewController restoreState:[self OE_storedStateForSidebarItemWithID:itemID]];
 }

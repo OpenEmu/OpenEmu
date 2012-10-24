@@ -52,6 +52,7 @@ NSString * const OEImportErrorDomainSuccess  = @"OEImportSuccessDomain";
 const int OEImportErrorCodeAlreadyInDatabase = -1;
 const int OEImportErrorCodeWaitingForArchiveSync = 1;
 const int OEImportErrorCodeMultipleSystems = 2;
+const int OEImportErrorCodeNoSystem        = 3;
 #pragma mark Import Info Keys -
 NSString * const OEImportInfoMD5 = @"md5";
 NSString * const OEImportInfoCRC = @"crc";
@@ -343,6 +344,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
             // Try to find a system for archvie name
             NSString *archiveSystemName = [archiveResult valueForKey:AVGGameSystemNameKey];
             OEDBSystem *system = [OEDBSystem systemForArchiveName:archiveSystemName inDatabase:[self database]];
+            DLog(@"%@", system);
             if(system)
             {
                 systemIdentifier = [system systemIdentifier];
@@ -367,6 +369,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         {
             DLog(@"No valid system found for item at url %@", [item URL]);
             // TODO: create unresolvable error
+            error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
             [self stopImportForItem:item withError:error];
             return;
         }

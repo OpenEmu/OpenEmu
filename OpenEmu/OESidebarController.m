@@ -314,6 +314,16 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
     if(![self database]) return;
 
+    
+    if(![self outlineView:[self view] shouldSelectItem:[self selectedSidebarItem]])
+    {
+        DLog(@"invalid selection");
+        NSInteger row = [[self view] selectedRow];
+        if(row == NSNotFound) row = 1;
+        else row ++;
+        [[self view] selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+    }
+    
     id<OESidebarItem> selectedItem = [self selectedSidebarItem];
     if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
         [[NSUserDefaults standardUserDefaults] setValue:[selectedItem sidebarID] forKey:OELastCollectionSelectedKey];
@@ -325,7 +335,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-    return [self database]!=nil && ![item isGroupHeaderInSdebar];
+    return [self database]!=nil && ![item isGroupHeaderInSdebar] && [item isSelectableInSdebar];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item
@@ -335,6 +345,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
     return NO;
 }
+
 #pragma mark -
 #pragma mark NSOutlineView DataSource
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
