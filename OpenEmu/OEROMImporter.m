@@ -216,7 +216,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     }
 };
 
-#pragma mark - Import Ste ps
+#pragma mark - Import Steps
 // Checks if item.url points to a directory and adds its contents to the queue (by replacing item)
 - (void)performImportStepCheckDirectory:(OEImportItem *)item
 {
@@ -377,7 +377,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     }
     else
         [[item importInfo] setValue:[NSArray arrayWithObject:systemIdentifier] forKey:OEImportInfoSystemID];
-    
 }
 
 - (void)performImportStepSyncArchive:(OEImportItem *)item
@@ -437,6 +436,16 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     BOOL lookupInfo      = [standardUserDefaults boolForKey:OEAutomaticallyGetInfoKey];
     
     NSURL *url = [item URL];
+    
+    NSError *error        = nil;
+    BOOL    romFileLocked = NO;
+    if([[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:&error] objectForKey:NSFileImmutable])
+    {
+        romFileLocked = YES;
+        [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
+    }
+
+    
     if(copyToLibrary && ![url isSubpathOfURL:[[self database] romsFolderURL]])
     {
         NSString *fullName  = [url lastPathComponent];
@@ -449,9 +458,12 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
             NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
             return [unsortedFolder URLByAppendingPathComponent:newName];
         }];
-        
-        NSError *error = nil;
-        if(![[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error])
+    
+        [[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error];
+        if(romFileLocked)
+            [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:&error];
+
+        if(error != nil)
         {
             [self stopImportForItem:item withError:error];
             return;
@@ -464,6 +476,11 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     NSMutableDictionary *importInfo = [item importInfo];
     if(organizeLibrary && [url isSubpathOfURL:[[self database] romsFolderURL]])
     {
+        if([[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:&error] objectForKey:NSFileImmutable])
+        {
+            [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
+        }
+        
         OEDBSystem *system = nil;
         if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
         {
@@ -526,7 +543,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
 
 - (void)performImportStepCreateRom:(OEImportItem *)item
 {
-    DLog();
     NSMutableDictionary *importInfo = [item importInfo];
     if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
     {
@@ -548,7 +564,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     
     NSURL *objectIDURIRep = [[rom objectID] URIRepresentation];
     [importInfo setValue:objectIDURIRep forKey:OEImportInfoROMObjectID];
-    DLog(@"created rom");
 }
 
 - (void)performImportStepCreateGame:(OEImportItem *)item
@@ -671,6 +686,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
             });
         }
         
+        if([item error]) DLog(@"%@", [item error]);
         [[self queue] removeObjectIdenticalTo:item];
         self.numberOfProcessedItems ++;
     }

@@ -36,7 +36,6 @@
     id item = nil;
     
     NSDictionary *resourceValues = [url resourceValuesForKeys:[NSArray arrayWithObjects:NSURLIsPackageKey, NSURLIsHiddenKey, nil] error:nil];
-    DLog(@"%d | %d", [[resourceValues objectForKey:NSURLIsHiddenKey] boolValue], [[resourceValues objectForKey:NSURLIsPackageKey] boolValue]);
     if([[resourceValues objectForKey:NSURLIsHiddenKey] boolValue] || [[resourceValues objectForKey:NSURLIsPackageKey] boolValue])
         return nil;    
 
