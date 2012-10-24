@@ -666,7 +666,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     {
         [rom setGame:game];
         NSAssert([[game mutableRoms] count] != 0, @"THIS IS BAD!!!");
-        [[game managedObjectContext] save:nil];
         [self stopImportForItem:item withError:nil];
     }
 }
@@ -706,14 +705,9 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         }
         
         if([item error]) DLog(@"%@", [item error]);
-        [[self queue] removeObjectIdenticalTo:item];
         self.numberOfProcessedItems ++;
         
-        NSString *md5 = [[item importInfo] valueForKey:OEImportInfoMD5];
-        NSString *crc = [[item importInfo] valueForKey:OEImportInfoCRC];
-        [[self unsavedMD5Hashes] removeObject:md5];
-        [[self unsavedMD5Hashes] removeObject:crc];
-    
+        [self cleanupImportForItem:item];
     }
     
     [self startQueueIfNeeded];
@@ -729,6 +723,11 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     
     if([item importState] == OEImportItemStatusFinished)
         [[self database] save:nil];
+    
+    NSString *md5 = [[item importInfo] valueForKey:OEImportInfoMD5];
+    NSString *crc = [[item importInfo] valueForKey:OEImportInfoCRC];
+    [[self unsavedMD5Hashes] removeObject:md5];
+    [[self unsavedMD5Hashes] removeObject:crc];
     
     [[self queue] removeObjectIdenticalTo:item];
 }
