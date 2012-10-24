@@ -504,7 +504,8 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         {
             DLog(@"using rom object");
             NSURL *objectID = [importInfo valueForKey:OEImportInfoROMObjectID];
-            system = [[OEDBRom romWithURIURL:objectID inDatabase:[self database]] system];
+            OEDBRom *rom = [[OEDBRom romWithURIURL:objectID inDatabase:[self database]] system];
+            system = [[rom game] system];
         }
         else if([[importInfo valueForKey:OEImportInfoSystemID] count] == 1)
         {
