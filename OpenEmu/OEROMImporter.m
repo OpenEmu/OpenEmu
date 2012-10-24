@@ -320,7 +320,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     {
         if([[self unsavedCRCHashes] containsObject:crc] || [[self unsavedMD5Hashes] containsObject:md5])
         {
-            DLog(@"Hash is unsaved!!!!!!");
             NSError *error = [NSError errorWithDomain:OEImportErrorDomainSuccess code:OEImportErrorCodeAlreadyInDatabase userInfo:nil];
             [self stopImportForItem:item withError:error];
         }
@@ -504,7 +503,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         {
             DLog(@"using rom object");
             NSURL *objectID = [importInfo valueForKey:OEImportInfoROMObjectID];
-            OEDBRom *rom = [[OEDBRom romWithURIURL:objectID inDatabase:[self database]] system];
+            OEDBRom *rom = [OEDBRom romWithURIURL:objectID inDatabase:[self database]];
             system = [[rom game] system];
         }
         else if([[importInfo valueForKey:OEImportInfoSystemID] count] == 1)
