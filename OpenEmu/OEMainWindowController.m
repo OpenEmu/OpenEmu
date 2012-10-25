@@ -49,6 +49,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 #define MainMenu_Window_OpenEmuTag 501
 @interface OEMainWindowController () <OELibraryControllerDelegate> {
     OEGameDocument *_documentForFullScreenWindow;
+    BOOL            _shouldExitFullScreenWhenGameFinishes;
 }
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
@@ -112,22 +113,22 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 - (void)openGameDocument:(OEGameDocument *)aDocument;
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-//    BOOL allowPopout = [standardDefaults boolForKey:OEAllowPopoutGameWindowKey];
     BOOL forcePopout = [standardDefaults boolForKey:OEForcePopoutGameWindowKey];
     BOOL fullScreen  = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
 
-//    BOOL usePopout = forcePopout || allowPopout;
+    _shouldExitFullScreenWhenGameFinishes = NO;
 
     if(forcePopout)
     {
-        [aDocument showInSeparateWindow:self fullScreen:fullScreen];
         [[aDocument gameViewController] playGame:self];
+        [aDocument showInSeparateWindow:self fullScreen:fullScreen];
     }
     else
     {
         if(fullScreen && ![[self window] OE_isFullScreen])
         {
             _documentForFullScreenWindow = aDocument;
+            _shouldExitFullScreenWhenGameFinishes = YES;
             [self OE_replaceCurrentContentController:[self currentContentController] withViewController:nil];
             [[self window] toggleFullScreen:self];
         }
@@ -139,28 +140,10 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     }
 }
 
-- (void)windowWillEnterFullScreen:(NSNotification *)notification
-{
-    [[self libraryController] setSidebarChangesWindowSize:NO];
-}
-
-- (void)windowDidEnterFullScreen:(NSNotification *)notification
-{
-    if(_documentForFullScreenWindow)
-    {
-        [self setCurrentContentController:[_documentForFullScreenWindow viewController]];
-        [[_documentForFullScreenWindow gameViewController] playGame:self];
-    }
-}
-
-- (void)windowDidExitFullScreen:(NSNotification *)notification
-{
-    [[self libraryController] setSidebarChangesWindowSize:YES];
-}
 
 #pragma mark -
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
-{     
+{
     NSView *contentView = [self placeholderView];
 
     // final target
@@ -282,13 +265,10 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 #pragma mark - OEGameViewControllerDelegate protocol conformance
 - (void)emulationDidFinishForGameViewController:(id)sender
 {
-    if(_documentForFullScreenWindow)
+    if(_shouldExitFullScreenWhenGameFinishes && [[self window] OE_isFullScreen])
     {
-        _documentForFullScreenWindow = nil;
-        if([[self window] OE_isFullScreen])
-        {
-            [[self window] toggleFullScreen:self];
-        }
+        [[self window] toggleFullScreen:self];
+        _shouldExitFullScreenWhenGameFinishes = NO;
     }
 }
 
@@ -326,6 +306,29 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
     [item setState:NSOffState];
 }
+
+
+- (void)windowWillEnterFullScreen:(NSNotification *)notification
+{
+    [[self libraryController] setSidebarChangesWindowSize:NO];
+}
+
+- (void)windowDidEnterFullScreen:(NSNotification *)notification
+{
+    if(_documentForFullScreenWindow)
+    {
+        [self setCurrentContentController:[_documentForFullScreenWindow viewController]];
+        [[_documentForFullScreenWindow gameViewController] playGame:self];
+        _documentForFullScreenWindow = nil;
+    }
+}
+
+- (void)windowDidExitFullScreen:(NSNotification *)notification
+{
+    [[self libraryController] setSidebarChangesWindowSize:YES];
+}
+
+
 #pragma mark -
 #pragma mark Menu Items
 - (IBAction)showOpenEmuWindow:(id)sender;

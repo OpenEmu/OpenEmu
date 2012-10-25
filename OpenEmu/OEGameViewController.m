@@ -65,10 +65,22 @@ extern NSString * const OEPreferencesOpenPaneNotificationName;
 extern NSString * const OEPreferencesOpenPanelUserInfoPanelNameKey;
 extern NSString * const OEPreferencesOpenPanelUserInfoSystemIdentifierKey;
 
+
+typedef enum : NSUInteger
+{
+    OEGameViewControllerEmulationStatusNotStarted  = 0 << 0,
+    OEGameViewControllerEmulationStatusPlaying     = 1 << 0,
+    OEGameViewControllerEmulationStatusPaused      = 1 << 1,
+    OEGameViewControllerEmulationStatusTerminating = 1 << 2,
+} OEGameViewControllerEmulationStatus;
+
+
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 @interface OEGameViewController () {
-    BOOL _emulationHasBeenSetUp;
+    OECorePlugin                        *_corePlugin;
+    OEGameViewControllerEmulationStatus  _emulationStatus;
+    OEDBSaveState                       *_saveStateForGameStart;
 }
 
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game;
@@ -139,9 +151,6 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
             }
             return nil;
         }
-        
-        [[self rom] markAsPlayedNow];
-        [self disableOSSleep];
     }
     return self;
 }
@@ -177,11 +186,8 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
     NSString     *coreIdentifier = [state coreIdentifier];
     OECorePlugin *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
     
-    if((self = [self initWithRom:rom core:core error:outError]))
-    {
-        [self loadState:state];
-    }
-    
+    if((self = [self initWithRom:rom core:core error:outError])) _saveStateForGameStart = state;
+
     return self;
 }
 
@@ -272,15 +278,15 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 
 - (void)terminateEmulation
 {
-    if(!emulationRunning) return;
-    emulationRunning = NO;
-    NSLog(@"terminateEmulation");
-    
+    if(_emulationStatus == OEGameViewControllerEmulationStatusNotStarted || _emulationStatus == OEGameViewControllerEmulationStatusTerminating) return;
+
     [self enableOSSleep];
     [self pauseGame:self];
     
     if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
         [self saveStateWithName:OESaveStateAutosaveName];
+
+    _emulationStatus = OEGameViewControllerEmulationStatusTerminating;
 
     [NSApp sendAction:@selector(emulationWillFinishForGameViewController:) to:nil from:self];
 
@@ -294,9 +300,9 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 - (void)OE_terminateEmulationWithoutNotification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
-    
-    emulationRunning = NO;
-    _emulationHasBeenSetUp = NO;
+
+    _emulationStatus = OEGameViewControllerEmulationStatusNotStarted;
+
     [gameView setRootProxy:nil];
     [gameView setGameResponder:nil];
 
@@ -315,34 +321,95 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     gameController = nil;
 }
 
+- (void)OE_startEmulation
+{
+    if(_emulationStatus != OEGameViewControllerEmulationStatusNotStarted) return;
+
+    gameController = [_corePlugin controller];
+
+    NSError *error;
+    Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:OEGameCoresInBackgroundKey]
+                          ? [OEGameCoreThreadManager  class]
+                          : [OEGameCoreProcessManager class]);
+    gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin owner:gameController error:&error];
+
+    if(!gameCoreManager)
+    {
+        [[self document] presentError:error];
+
+        if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
+            [[self delegate] emulationDidFinishForGameViewController:self];
+
+        [[self document] close];
+    }
+
+    rootProxy = [gameCoreManager rootProxy];
+    [rootProxy setupEmulation];
+    _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
+
+    // set initial volume
+    [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
+
+    OEGameCore *gameCore = [rootProxy gameCore];
+    gameSystemController = [[[[[self rom] game] system] plugin] controller];
+    gameSystemResponder  = [gameSystemController newGameSystemResponder];
+    [gameSystemResponder setClient:gameCore];
+
+    gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
+    [gameView setRootProxy:rootProxy];
+    [gameView setGameResponder:gameSystemResponder];
+    [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [[self view] addSubview:gameView];
+    [gameView resizeSubviewsWithOldSize:[[self view] frame].size];
+
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
+
+    NSWindow *window = [gameView window];
+    if([window parentWindow]) window = [window parentWindow];
+    [window makeFirstResponder:gameView];
+
+    [[self controlsWindow] reflectEmulationRunning:NO]; // FIXME: -reflect's argument is reversed
+
+    if(_saveStateForGameStart)
+    {
+        [self loadState:_saveStateForGameStart];
+        _saveStateForGameStart = nil;
+    }
+}
+
 - (IBAction)pauseGame:(id)sender
 {
-    [self setPauseEmulation:YES];
+    if(_emulationStatus == OEGameViewControllerEmulationStatusPlaying) [self setPauseEmulation:YES];
 }
 
 - (IBAction)playGame:(id)sender
 {
-    [self setPauseEmulation:NO];
-}
-
-- (BOOL)isEmulationPaused
-{
-    return [rootProxy isEmulationPaused];
+    if(_emulationStatus == OEGameViewControllerEmulationStatusNotStarted) [self OE_startEmulation];
+    else if(_emulationStatus == OEGameViewControllerEmulationStatusPaused) [self setPauseEmulation:NO];
 }
 
 - (void)toggleEmulationPaused
 {
-    [self setPauseEmulation:![self isEmulationPaused]];
+    [self setPauseEmulation:(_emulationStatus == OEGameViewControllerEmulationStatusPlaying)];
 }
 
-- (void)setPauseEmulation:(BOOL)flag
+- (void)setPauseEmulation:(BOOL)pauseEmulation
 {
-    [self OE_setupEmulation];
+    if(pauseEmulation)
+    {
+        [self enableOSSleep];
+        _emulationStatus = OEGameViewControllerEmulationStatusPaused;
+    }
+    else
+    {
+        [self disableOSSleep];
+        [[self rom] markAsPlayedNow];
+        _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
+    }
 
-    if(flag) [self enableOSSleep]; else [self disableOSSleep];
-    
-    [rootProxy setPauseEmulation:flag];
-    [[self controlsWindow] reflectEmulationRunning:flag];
+    [rootProxy setPauseEmulation:pauseEmulation];
+    [[self controlsWindow] reflectEmulationRunning:pauseEmulation];
 }
 
 #pragma mark - HUD Bar Actions
@@ -383,23 +450,25 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     if(core == [gameCoreManager plugin])
     {
         [[rootProxy gameCore] resetEmulation];
+        return;
     }
-    else
+
+    [self OE_terminateEmulationWithoutNotification];
+
+    NSURL   *url   = [[self rom] URL];
+    NSError *error = nil;
+    if(![self OE_loadFromURL:url core:core error:&error])
     {
-        [self OE_terminateEmulationWithoutNotification];
-        
-        NSURL   *url   = [[self rom] URL];
-        NSError *error = nil;
-        if(![self OE_loadFromURL:url core:core error:&error])
-        {
-            [NSApp presentError:error];
-            
-            if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
-                [[self delegate] emulationDidFinishForGameViewController:self];
-            
-            [[self document] close];   
-        }
+        [NSApp presentError:error];
+
+        if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
+            [[self delegate] emulationDidFinishForGameViewController:self];
+
+        [[self document] close];
+        return;
     }
+
+    [self OE_startEmulation];
 }
 
 - (void)editControls:(id)sender
@@ -488,115 +557,111 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 
 - (void)saveStateWithName:(NSString *)stateName
 {
+    NSAssert(_emulationStatus != OEGameViewControllerEmulationStatusNotStarted, @"Cannot save state if emulation has not been set up");
+
     // calling pauseGame here because it might need some time to execute
-    BOOL paused = [self isEmulationPaused]; 
-    
-    if(!paused)
-        [self pauseGame:self];
- 
-    if([self rom] == nil)
+    BOOL wasPreviouslyPlaying = (_emulationStatus == OEGameViewControllerEmulationStatusPlaying);
+    if(wasPreviouslyPlaying) [self pauseGame:self];
+
+    @try
     {
-        NSLog(@"Error: Can not save states without rom");
-        [self playGame:self];
-        return;
-    }
-    
-    __block BOOL    success                 = NO;
-    NSString        *temporaryDirectoryPath = NSTemporaryDirectory();
-    NSURL           *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
-    NSURL           *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
-    
-    temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-        [self playGame:self];
-        return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
-    }];
-    
-    success = [rootProxy saveStateToFileAtPath:[temporaryStateFileURL path]];
-    if(!success)
-    {
-        NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
-        [self playGame:self];
-        return;
-    }
-    
-    BOOL isSpecialSaveState = [stateName hasPrefix:OESaveStateSpecialNamePrefix];
-    OEDBSaveState *state;
-    if(isSpecialSaveState)
-    {
-        state = [[self rom] saveStateWithName:stateName];
-    }
-    
-    if(!state)
-        state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:[gameCoreManager plugin] withFile:temporaryStateFileURL];
-    else
-    {
-        [state replaceStateFileWithFile:temporaryStateFileURL];
-        [state setTimestamp:[NSDate date]];
-        [state rewriteInfoPlist];
-    }
-    
-    [self OE_captureScreenshotUsingBlock:^(NSImage *img) {
-        if(!img)
+         if([self rom] == nil)
         {
-            success = NO;
+            NSLog(@"Error: Can not save states without rom");
             return;
         }
-        success = [[img TIFFRepresentation] writeToURL:[state screenshotURL] atomically:YES];
-    }];
-    
-    if(!success)
-    {
-        NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
-        [self playGame:self];
-        return;
+
+        __block BOOL    success                 = NO;
+        NSString        *temporaryDirectoryPath = NSTemporaryDirectory();
+        NSURL           *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
+        NSURL           *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+
+        temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+            return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+        }];
+
+        success = [rootProxy saveStateToFileAtPath:[temporaryStateFileURL path]];
+        if(!success)
+        {
+            NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
+            return;
+        }
+
+        BOOL isSpecialSaveState = [stateName hasPrefix:OESaveStateSpecialNamePrefix];
+        OEDBSaveState *state;
+        if(isSpecialSaveState)
+        {
+            state = [[self rom] saveStateWithName:stateName];
+        }
+
+        if(!state)
+            state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:[gameCoreManager plugin] withFile:temporaryStateFileURL];
+        else
+        {
+            [state replaceStateFileWithFile:temporaryStateFileURL];
+            [state setTimestamp:[NSDate date]];
+            [state rewriteInfoPlist];
+        }
+
+        [self OE_captureScreenshotUsingBlock:^(NSImage *img) {
+            success = [[img TIFFRepresentation] writeToURL:[state screenshotURL] atomically:YES];
+        }];
+        
+        if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
     }
-    
-    if(!paused)
-        [self playGame:self];
+    @finally
+    {
+        if(wasPreviouslyPlaying) [self playGame:self];
+    }
 }
 
 #pragma mark - Loading States
 - (IBAction)loadState:(id)sender
 {
     // calling pauseGame here because it might need some time to execute
-    [self pauseGame:self];
-    
-    OEDBSaveState *state;
-    if([sender isKindOfClass:[OEDBSaveState class]])
-        state = sender;
-    else if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OEDBSaveState class]])
-        state = [sender representedObject];
-    else {
-        DLog(@"Invalid argument passed: %@", sender);
-        return;        
-    }
+    BOOL wasPreviouslyPlaying = (_emulationStatus == OEGameViewControllerEmulationStatusPlaying);
+    if(wasPreviouslyPlaying) [self pauseGame:self];
 
-    if([state rom] != [self rom])
+    @try
     {
-        NSLog(@"Invalid save state for current rom");
-        [self playGame:self];
-        return;
-    }
-    
-    if([[self coreIdentifier] isNotEqualTo:[state coreIdentifier]])
-    {
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"This save state was created with a different core. Do you want to switch to that core now?" defaultButton:@"OK" alternateButton:@"Cancel"];
-        [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
-        if([alert runModal])
-        {
-            OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
-            [self OE_restartUsingCore:core];
-        }
-        else
-        {
-            [self playGame:self];
+        OEDBSaveState *state;
+        if([sender isKindOfClass:[OEDBSaveState class]])
+            state = sender;
+        else if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OEDBSaveState class]])
+            state = [sender representedObject];
+        else {
+            DLog(@"Invalid argument passed: %@", sender);
             return;
         }
+
+        if([state rom] != [self rom])
+        {
+            NSLog(@"Invalid save state for current rom");
+            return;
+        }
+
+        if([[self coreIdentifier] isNotEqualTo:[state coreIdentifier]])
+        {
+            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"This save state was created with a different core. Do you want to switch to that core now?" defaultButton:@"OK" alternateButton:@"Cancel"];
+            [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
+            if([alert runModal])
+            {
+                OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
+                [self OE_restartUsingCore:core];
+            }
+            else
+            {
+                return;
+            }
+        }
+        
+        NSString *path = [[state stateFileURL] path];
+        [self OE_loadStateFromFile:path error:nil];
     }
-    
-    NSString *path = [[state stateFileURL] path];
-    [self OE_loadStateFromFile:path error:nil];
-    [self playGame:self];
+    @finally
+    {
+        if(wasPreviouslyPlaying) [self playGame:self];
+    }
 }
 
 - (IBAction)quickLoad:(id)sender;
@@ -624,7 +689,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
         DLog(@"Invalid argument passed: %@", sender);
         return;        
     }
-    
+
     NSString *stateName = [state name];
     OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
     
@@ -647,9 +712,9 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     if(action==@selector(quickLoad:))
         return [[self rom] quickSaveStateInSlot:0]!=nil;
     else if(action==@selector(pauseGame:))
-        return ![self isEmulationPaused];
+        return _emulationStatus == OEGameViewControllerEmulationStatusPlaying;
     else if(action==@selector(playGame:))
-        return [self isEmulationPaused];
+        return _emulationStatus == OEGameViewControllerEmulationStatusPaused;
     
     return YES;
 }
@@ -657,6 +722,8 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 #pragma mark - Info
 - (NSSize)defaultScreenSize
 {
+    NSAssert(rootProxy, @"Default screen size requires a running rootProxy");
+
     OEGameCore *gameCore = [rootProxy gameCore];
     OEIntRect screenRect = [gameCore screenRect];
     
@@ -689,78 +756,30 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin *)core error:(NSError **)outError
 {
     NSString *romPath = [aurl path];
-    if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
+    if(![[NSFileManager defaultManager] fileExistsAtPath:romPath])
     {
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        
-        gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
-        [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [[self view] addSubview:gameView];
-        [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
-        
-        if(!core)
-            core = [self OE_coreForSystem:[[[[self rom] game] system] plugin] error:outError];
-        
-        if(core == nil)
-            return NO;
-        
-        gameController = [core controller];
-
-        Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:OEGameCoresInBackgroundKey]
-                              ? [OEGameCoreThreadManager  class]
-                              : [OEGameCoreProcessManager class]);
-        
-        gameCoreManager = [[managerClass alloc] initWithROMAtPath:romPath corePlugin:core owner:gameController error:outError];
-        
-        if(gameCoreManager != nil)
+        if(outError != NULL)
         {
-            rootProxy = [gameCoreManager rootProxy];
-            
-            // set initial volume
-            [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
-            
-            OEGameCore *gameCore = [rootProxy gameCore];
-            gameSystemController = [[[[[self rom] game] system] plugin] controller];
-            gameSystemResponder  = [gameSystemController newGameSystemResponder];
-            [gameSystemResponder setClient:gameCore];
-
-            if(gameView != nil)
-            {
-                [gameView setRootProxy:rootProxy];
-                [gameView setGameResponder:gameSystemResponder];
-            }
-
-            [[[self view] window] makeFirstResponder:gameView];
-            [gameView resizeSubviewsWithOldSize:[[self view] frame].size];
-
-            [[self controlsWindow] reflectEmulationRunning:YES]; // FIXME: -reflect's argument is reversed
-
-            return YES;
+            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                            code:OEFileDoesNotExistError
+                                        userInfo:
+                         [NSDictionary dictionaryWithObjectsAndKeys:
+                          NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
+                          NSLocalizedFailureReasonErrorKey,
+                          NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
+                          NSLocalizedRecoverySuggestionErrorKey,
+                          nil]];
         }
+
+        return NO;
     }
-    else if(outError != NULL)
-    {
-        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                        code:OEFileDoesNotExistError
-                                    userInfo:
-                     [NSDictionary dictionaryWithObjectsAndKeys:
-                      NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
-                      NSLocalizedFailureReasonErrorKey,
-                      NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
-                      NSLocalizedRecoverySuggestionErrorKey,
-                      nil]];
-    }
+
+    if(!core) core = [self OE_coreForSystem:[[[[self rom] game] system] plugin] error:outError];
+    if(!core) return NO;
     
-    return NO;
-}
+    _corePlugin = core;
 
-- (void)OE_setupEmulation
-{
-    if (_emulationHasBeenSetUp) return;
-
-    [rootProxy setupEmulation];
-    _emulationHasBeenSetUp = YES;
-    emulationRunning       = YES;
+    return YES;
 }
 
 - (void)OE_repositionControlsWindow
@@ -771,10 +790,9 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     NSPoint origin = [gameWindow convertBaseToScreen:[gameView frame].origin];
     origin.x += ([gameView frame].size.width - [controlsWindow frame].size.width) / 2;
     origin.y += 19;
-    
+
     [controlsWindow setFrameOrigin:origin];
 }
-
 
 
 #pragma mark - Notifications
