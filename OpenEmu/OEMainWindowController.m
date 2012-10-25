@@ -69,6 +69,19 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     [self setPlaceholderView:nil];
 }
 
+- (id)initWithWindow:(NSWindow *)window
+{
+    self = [super initWithWindow:window];
+    if(!self) return nil;
+
+    // Since restoration from autosave happens before NSWindowController
+    // receives -windowDidLoad and we are autosaving the window size, we
+    // need to set allowWindowResizing to YES before -windowDidLoad
+    allowWindowResizing = YES;
+
+    return self;
+}
+
 - (void)windowDidLoad
 {
     [super windowDidLoad];
@@ -76,7 +89,6 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     [[self libraryController] setDelegate:self];
     [[self libraryController] setSidebarChangesWindowSize:YES];
     
-    [self setAllowWindowResizing:YES];
     [[self window] setWindowController:self];
     [[self window] setDelegate:self];
     
