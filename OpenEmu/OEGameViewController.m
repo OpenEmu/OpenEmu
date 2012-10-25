@@ -194,7 +194,6 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
 - (void)dealloc
 {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
     [nc removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
     
     [controlsWindow close];
