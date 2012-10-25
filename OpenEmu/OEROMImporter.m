@@ -240,9 +240,9 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         {
             NSMutableArray *importItems = [NSMutableArray arrayWithCapacity:[contents count]];
             [contents enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                OEImportItem *item = [OEImportItem itemWithURL:obj andCompletionHandler:[item completionHandler]];
-                if(item)
-                    [importItems addObject:item];
+                OEImportItem *subItem = [OEImportItem itemWithURL:obj andCompletionHandler:[item completionHandler]];
+                if(subItem)
+                    [importItems addObject:subItem];
             }];
             
             NSUInteger index = [[self queue] indexOfObjectIdenticalTo:item];
