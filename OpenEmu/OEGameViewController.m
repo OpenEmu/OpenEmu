@@ -83,7 +83,7 @@ typedef enum : NSUInteger
     OEDBSaveState                       *_saveStateForGameStart;
 }
 
-+ (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game;
++ (OEDBRom *)OE_chooseRomFromGame:(OEDBGame *)game;
 
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin*)core error:(NSError **)outError;
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin*)system error:(NSError **)outError;
@@ -172,7 +172,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
 
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError
 {
-    return [self initWithRom:[OEGameViewController OE_choseRomFromGame:game] core:core error:outError];
+    return [self initWithRom:[OEGameViewController OE_chooseRomFromGame:game] core:core error:outError];
 }
 
 - (id)initWithSaveState:(OEDBSaveState *)state
@@ -746,7 +746,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 
 #pragma mark - Private Methods
 
-+ (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game
++ (OEDBRom *)OE_chooseRomFromGame:(OEDBGame *)game
 {
     // TODO: we could display a list of roms here if we wanted to, do we?
     return [game defaultROM];

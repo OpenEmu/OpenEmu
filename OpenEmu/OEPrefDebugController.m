@@ -130,7 +130,7 @@
 }
 
 
-- (IBAction)choseSaveStateFolder:(id)sender
+- (IBAction)chooseSaveStateFolder:(id)sender
 {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setCanChooseDirectories:YES];

@@ -391,7 +391,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     
     if(systemIdentifier == nil)
     {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Aaargh, too many systems. You need to chose one!" forKey:NSLocalizedDescriptionKey];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Aaargh, too many systems. You need to choose one!" forKey:NSLocalizedDescriptionKey];
         NSError *error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:userInfo];
         [self stopImportForItem:item withError:error];
     }
@@ -614,7 +614,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
                 [[game managedObjectContext] deleteObject:game];
                 
                 // TODO: localize user info in error
-                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Aaargh, too many systems. You need to chose one!" forKey:NSLocalizedDescriptionKey];
+                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Aaargh, too many systems. You need to choose one!" forKey:NSLocalizedDescriptionKey];
                 error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:userInfo];
                 [self stopImportForItem:item withError:error];
             }
@@ -628,7 +628,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
                     [[game managedObjectContext] deleteObject:game];
                     
                     // TODO: localize user info in error
-                    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Aaargh, too many systems. You need to chose one!" forKey:NSLocalizedDescriptionKey];
+                    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Aaargh, too many systems. You need to choose one!" forKey:NSLocalizedDescriptionKey];
                     error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:userInfo];
                     [self stopImportForItem:item withError:error];
                     return;

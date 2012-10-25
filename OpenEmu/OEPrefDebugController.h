@@ -41,6 +41,6 @@
 - (IBAction)changeRegion:(id)sender;
 - (IBAction)executeDatbaseAction:(id)sender;
 
-- (IBAction)choseSaveStateFolder:(id)sender;
+- (IBAction)chooseSaveStateFolder:(id)sender;
 - (IBAction)defaultSaveStateFolder:(id)sender;
 @end
