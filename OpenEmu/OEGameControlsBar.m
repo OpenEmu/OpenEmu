@@ -355,11 +355,11 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [[slider animator] setFloatValue:volume];
 }
 
-- (void)reflectEmulationRunning:(BOOL)flag
+- (void)reflectEmulationRunning:(BOOL)isEmulationRunning
 {
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
     NSButton                *pauseButton = [view pauseButton];
-    [pauseButton setState:flag];
+    [pauseButton setState:!isEmulationRunning];
 }
 
 - (void)parentWindowDidEnterFullScreen:(NSNotification *)notification;

@@ -368,7 +368,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     if([window parentWindow]) window = [window parentWindow];
     [window makeFirstResponder:gameView];
 
-    [[self controlsWindow] reflectEmulationRunning:NO]; // FIXME: -reflect's argument is reversed
+    [[self controlsWindow] reflectEmulationRunning:YES];
 
     if(_saveStateForGameStart)
     {
@@ -408,7 +408,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     }
 
     [rootProxy setPauseEmulation:pauseEmulation];
-    [[self controlsWindow] reflectEmulationRunning:pauseEmulation];
+    [[self controlsWindow] reflectEmulationRunning:!pauseEmulation];
 }
 
 #pragma mark - HUD Bar Actions
