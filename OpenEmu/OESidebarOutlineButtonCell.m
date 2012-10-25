@@ -57,7 +57,7 @@
     shadowRect.origin.y -= 1;
     [triangleImage drawInRect:shadowRect fromRect:NSZeroRect operation:NSCompositeDestinationOver fraction:1 respectFlipped:YES hints:nil]; 
     
-    [[NSColor colorWithDeviceWhite:0.19 alpha:1.0] setFill];
+    [[NSColor colorWithDeviceWhite:(63/255.0) alpha:1.0] setFill];
     NSRectFillUsingOperation(triangleRect, NSCompositeDestinationOver);
 }
 
