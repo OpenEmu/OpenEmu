@@ -87,7 +87,7 @@ typedef enum : NSUInteger
 
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin*)core error:(NSError **)outError;
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin*)system error:(NSError **)outError;
-- (BOOL)OE_loadStateFromFile:(NSString*)fileName error:(NSError**)error;
+- (BOOL)OE_loadStateFromFile:(NSString*)fileName;
 - (void)OE_captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
 - (void)OE_restartUsingCore:(OECorePlugin*)core;
@@ -656,7 +656,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
         }
         
         NSString *path = [[state stateFileURL] path];
-        [self OE_loadStateFromFile:path error:nil];
+        [self OE_loadStateFromFile:path];
     }
     @finally
     {
@@ -671,9 +671,8 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
         [self loadState:quicksaveState];
 }
 
-- (BOOL)OE_loadStateFromFile:(NSString*)fileName error:(NSError**)error
+- (BOOL)OE_loadStateFromFile:(NSString*)fileName
 {
-    if(error != NULL) *error = nil;
     return [rootProxy loadStateFromFileAtPath:fileName];
 }
 #pragma mark 
