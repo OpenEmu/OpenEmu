@@ -1,5 +1,5 @@
 //
-//  OEBackgroundColorView.h
+//  OEProgressIndicator.h
 //  OETheme
 //
 //  Created by Christoph Leimbrock on 13.10.12.
@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OEControl.h"
-
-@interface OEBackgroundColorView : NSView <OEControl>
-@property (copy, nonatomic) NSColor *backgroundColor;
+#import "OECell.h"
+@interface OEProgressIndicator : NSProgressIndicator <OEControl, OECell>
+@property (getter=isPaused) BOOL paused;
 @end

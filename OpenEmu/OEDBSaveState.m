@@ -335,7 +335,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 - (NSURL*)screenshotURL
 {
-    return [NSURL URLWithString:OESaveStateScreenshotFile relativeToURL:[self URL]];
+    return [[self URL] URLByAppendingPathComponent:OESaveStateScreenshotFile];
 }
 
 - (NSURL*)stateFileURL

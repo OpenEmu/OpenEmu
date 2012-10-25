@@ -32,6 +32,7 @@ typedef enum  {
     OEImportItemStatusResolvableError,
     OEImportItemStatusFatalError,
     OEImportItemStatusFinished,
+    OEImportItemStatusCanceld,
 } OEImportItemState;
 
 typedef enum  {

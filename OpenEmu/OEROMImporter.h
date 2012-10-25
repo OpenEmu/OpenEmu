@@ -27,40 +27,41 @@
 #import <Foundation/Foundation.h>
 #import "OEImportItem.h"
 
-#pragma mark Error Constants
-#define MaxSimulatenousImports 1 // imports can't really be simulatenous because access to queue is not ready for multithreadding right now
-#define OEImportErrorDomainFatal @"OEImportFatalDomain"
-#define OEImportErrorDomainResolvable @"OEImportResolvableDomain"
-#define OEImportErrorDomainSuccess @"OEImportSucessDomain"
+const int MaxSimulatenousImports;
+#pragma mark User Default Keys -
+extern NSString * const OEOrganizeLibraryKey;
+extern NSString * const OECopyToLibraryKey;
+extern NSString * const OEAutomaticallyGetInfoKey;
+#pragma mark Error Codes -
+extern NSString * const OEImportErrorDomainFatal;
+extern NSString * const OEImportErrorDomainResolvable;
+extern NSString * const OEImportErrorDomainSuccess;
 
-#define OEImportErrorCodeAlreadyInDatabase -1
-
-#define OEImportErrorCodeWaitingForArchiveSync 1
-#define OEImportErrorCodeMultipleSystems 2
-
-#pragma mark - Import Info Keys
-#define OEImportInfoMD5 @"md5"
-#define OEImportInfoCRC @"crc"
-#define OEImportInfoROMObjectID @"RomObjectID"
-#define OEImportInfoSystemID @"systemID"
-#define OEImportInfoArchiveSync @"archiveSync"
-#pragma mark -
-
-extern NSString *const OEOrganizeLibraryKey;
-extern NSString *const OECopyToLibraryKey;
-extern NSString *const OEAutomaticallyGetInfoKey;
+extern const int OEImportErrorCodeAlreadyInDatabase;
+extern const int OEImportErrorCodeWaitingForArchiveSync;
+extern const int OEImportErrorCodeMultipleSystems;
+#pragma mark Import Info Keys -
+extern NSString * const OEImportInfoMD5;
+extern NSString * const OEImportInfoCRC;
+extern NSString * const OEImportInfoROMObjectID;
+extern NSString * const OEImportInfoSystemID;
+extern NSString * const OEImportInfoArchiveSync;
+#pragma mark Importer Status -
+extern const int OEImporterStatusStopped;
+extern const int OEImporterStatusRunning;
+extern const int OEImporterStatusPausing;
+extern const int OEImporterStatusPaused;
+extern const int OEImporterStatusStopping;
 
 @class OELibraryDatabase;
 @protocol OEROMImporterDelegate;
 @interface OEROMImporter : NSObject
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase;
-
 @property (weak, readonly) OELibraryDatabase *database;
-@property (readonly) BOOL isBusy;
-
 @property (strong) id <OEROMImporterDelegate> delegate;
-@property NSMutableArray *queue;
-#pragma mark - Importing Items
+
+@property (readonly) int status;
+#pragma mark - Importing Items -
 - (void)importItemAtPath:(NSString*)path;
 - (void)importItemsAtPaths:(NSArray*)path;
 - (void)importItemAtURL:(NSURL*)url;
@@ -71,28 +72,36 @@ extern NSString *const OEAutomaticallyGetInfoKey;
 - (void)importItemAtURL:(NSURL*)url withCompletionHandler:(OEImportItemCompletionBlock)handler;
 - (void)importItemsAtURLs:(NSArray*)urls withCompletionHandler:(OEImportItemCompletionBlock)handler;
 
-#pragma mark - Handle Spotlight importing
+#pragma mark - Spotlight importing -
 - (void)discoverRoms:(NSArray*)volumes;
 - (void)updateSearchResults:(NSNotification*)notification;
 - (void)finalizeSearchResults:(NSNotification*)notification;
-- (void)importInBackground;
+- (void)importSpotlightResultsInBackground;
 @end
 
 #pragma mark - Controlling Import
 @interface OEROMImporter (Control)
-- (void)pause;
 - (void)start;
-- (void)startQueueIfNeeded;
+- (void)togglePause;
+- (void)pause;
 - (void)cancel;
+
+- (void)startQueueIfNeeded;
 - (void)removeFinished;
 
-- (NSUInteger)numberOfItems;
-- (NSUInteger)finishedItems;
+@property (readonly) NSInteger totalNumberOfItems;
+@property (readonly) NSInteger numberOfProcessedItems;
 @end
 
 #pragma mark - Importer Delegate
 @protocol OEROMImporterDelegate <NSObject>
+@optional
+- (void)romImporterDidStart:(OEROMImporter*)importer;
+- (void)romImporterDidCancel:(OEROMImporter*)importer;
+- (void)romImporterDidPause:(OEROMImporter*)importer;
+- (void)romImporterDidFinish:(OEROMImporter*)importer;
+- (void)romImporterChangedItemCount:(OEROMImporter*)importer;
 - (void)romImporter:(OEROMImporter*)importer startedProcessingItem:(OEImportItem*)item;
 - (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem*)item;
-- (void)romImporter:(OEROMImporter*)importer finishedProcessingItem:(OEImportItem*)item;
+- (void)romImporter:(OEROMImporter*)importer stoppedProcessingItem:(OEImportItem*)item;
 @end

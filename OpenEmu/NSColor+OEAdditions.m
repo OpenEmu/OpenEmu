@@ -155,8 +155,8 @@ NSColor *_OENSColorFromString(NSString *colorString)
                 (CGFloat)((colorARGB & 0x0000FF00) >>  8) / 255.0f, // b
                 (CGFloat)((colorARGB & 0x000000FF) >>  0) / 255.0f  // a
             };
-
-            result = [NSColor colorWithColorSpace:[NSColorSpace genericRGBColorSpace] components:components count:4];
+            
+            result = [NSColor colorWithColorSpace:[NSColorSpace deviceRGBColorSpace] components:components count:4];
         }
     }
     return result;

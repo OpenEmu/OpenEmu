@@ -130,7 +130,7 @@
      }];
 }
 
-- (IBAction)toggleLibrary:(id)sender
+- (IBAction)toggleSystem:(id)sender
 {
     NSString *systemIdentifier = [[sender cell] representedObject];
     
@@ -161,11 +161,11 @@
         [alert runModal];
         
         [sender setState:NSOffState];
-        
-        return;        
+        return;
     }
     
     [system setEnabled:[NSNumber numberWithBool:!disabled]];
+    [[system libraryDatabase] save:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsChangedNotificationName object:system userInfo:nil];
 }
 
@@ -219,7 +219,7 @@
          [button setThemeKey:@"dark_checkbox"];
          [button setButtonType:NSSwitchButton];
          [button setTarget:self];
-         [button setAction:@selector(toggleLibrary:)];
+         [button setAction:@selector(toggleSystem:)];
          [button setTitle:[system name]];
          [button setState:[[system enabled] intValue]];
          [[button cell] setRepresentedObject:systemIdentifier];

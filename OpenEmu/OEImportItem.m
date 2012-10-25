@@ -53,6 +53,7 @@
 
     return item;
 }
+
 - (NSString*)localizedStatusMessage
 {
     NSMutableString *message = [NSMutableString string];
@@ -74,6 +75,9 @@
             break;
         case OEImportItemStatusResolvableError:
             [message appendString:[[self error] localizedDescription]];
+            break;
+        case OEImportItemStatusCanceld:
+            [message appendString:@"Canceld"];
             break;
     }
     

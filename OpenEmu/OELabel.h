@@ -1,5 +1,5 @@
 //
-//  OEBackgroundColorView.h
+//  OETextField.h
 //  OETheme
 //
 //  Created by Christoph Leimbrock on 13.10.12.
@@ -8,7 +8,5 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OEControl.h"
-
-@interface OEBackgroundColorView : NSView <OEControl>
-@property (copy, nonatomic) NSColor *backgroundColor;
+@interface OELabel : NSTextField <OEControl>
 @end

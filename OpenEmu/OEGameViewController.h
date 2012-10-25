@@ -68,8 +68,6 @@ extern NSString *const OEForceCorePicker;
     OEGameCoreController *gameController;
     BOOL                  keyedOnce;
     
-    BOOL emulationRunning;
-    
     NSTimer* gameViewTransitionTimer;
 }
 
@@ -114,9 +112,8 @@ extern NSString *const OEForceCorePicker;
 
 - (IBAction)pauseGame:(id)sender;
 - (IBAction)playGame:(id)sender;
-- (BOOL)isEmulationPaused;
 - (void)toggleEmulationPaused;
-- (void)setPauseEmulation:(BOOL)flag;
+- (void)setPauseEmulation:(BOOL)pauseEmulation;
 
 #pragma mark - Saving States
 - (IBAction)saveState:(id)sender;
