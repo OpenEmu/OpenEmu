@@ -162,7 +162,7 @@
     if(self.canBeInstalled)
     {
         OECorePlugin *plugin = [OECorePlugin pluginWithBundleAtPath:fullPluginPath type:[OECorePlugin class]];
-        [self OE_setInfoUsingPlugin:plugin];
+        [self OE_setValuesUsingPlugin:plugin];
     }
     downloading = NO;
     
