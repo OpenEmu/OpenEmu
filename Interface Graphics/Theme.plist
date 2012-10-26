@@ -826,6 +826,8 @@
 				<string>{{0,0},{28,23}}</string>
 				<key>Pressed</key>
 				<string>{{56,0},{28,23}}</string>
+				<key>Disabled</key>
+				<string>{{0,0},{28,23}}</string>
 			</dict>
 		</dict>
 		<key>toolbar_view_button_grid_background</key>
@@ -844,6 +846,10 @@
 				<string>{{0,69},{27,23}}</string>
 				<key>Toggle On, Window Inactive</key>
 				<string>{{0,23},{27,23}}</string>
+				<key>Toggle On, Disabled</key>
+				<string>{{0,23},{27,23}}</string>
+				<key>Toggle Off, Disabled</key>
+				<string>{{0,0},{27,23}}</string>
 			</dict>
 		</dict>
 		<key>toolbar_view_button_flow_background</key>
@@ -862,6 +868,8 @@
 				<string>{{27,69},{27,23}}</string>
 				<key>Toggle On, Window Inactive</key>
 				<string>{{27,23},{27,23}}</string>
+				<key>Toggle Off, Disabled</key>
+				<string>{{27,0},{27,23}}</string>
 			</dict>
 		</dict>
 		<key>toolbar_view_button_list_background</key>
@@ -872,6 +880,8 @@
 			<dict>
 				<key>Default</key>
 				<string>{{54,46},{27,23}}</string>
+				<key>Toggle Off, Disabled</key>
+				<string>{{54,0},{27,23}}</string>
 				<key>Window Inactive</key>
 				<string>{{54,0},{27,23}}</string>
 				<key>Pressed</key>
