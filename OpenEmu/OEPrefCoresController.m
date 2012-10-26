@@ -89,6 +89,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
 - (void)OE_updateOrInstallItemAtRow:(NSInteger)rowIndex
 {
     OECoreDownload *plugin = [self OE_coreDownloadAtRow:rowIndex];
+
     [plugin startDownload:self];
 }
 
@@ -116,7 +117,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     } 
     else if([columnIdentifier isEqualToString:@"systemColumn"])
     {
-        return [plugin description];
+        return [plugin systemNames];
     }
     else if([columnIdentifier isEqualToString:@"versionColumn"])
     {
