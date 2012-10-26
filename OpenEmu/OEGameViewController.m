@@ -271,8 +271,10 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 - (void)resetGame
 {
     if([[OEHUDAlert resetSystemAlert] runModal]==NSAlertDefaultReturn)
+    {
         [[rootProxy gameCore] resetEmulation];
-    // TODO: draw one frame to reflect reset
+        [self playGame:self];
+    }
 }
 
 - (void)terminateEmulation

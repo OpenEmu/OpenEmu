@@ -3,14 +3,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -18,10 +18,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OECoreDownload.h"
@@ -31,8 +31,9 @@
 #import <XADMaster/XADArchive.h>
 
 #import "NSString+UUID.h"
+#import "OESystemPlugin.h"
 @implementation OECoreDownload
-@synthesize name, description, version;
+@synthesize name, systemNames, version;
 
 @synthesize hasUpdate, canBeInstalled, downloading;
 @synthesize progress;
@@ -58,12 +59,7 @@
     self = [self init];
     if(self)
     {
-        self.name = [plugin displayName];
-        self.description = [plugin details];
-        self.version = [plugin version];
-        
-        hasUpdate = NO;
-        canBeInstalled = NO;
+        [self OE_setValuesUsingPlugin:plugin];
     }
     return self;
 }
@@ -71,6 +67,29 @@
     self.delegate = nil;
 }
 
+- (void)OE_setValuesUsingPlugin:(OECorePlugin *)plugin
+{
+    self.name = [plugin displayName];
+    self.version = [plugin version];
+    self.hasUpdate = NO;
+    self.canBeInstalled = NO;
+    
+    NSMutableString *mutableSystemNames = nil;
+    for(NSString *aSystemIdentifier in [plugin systemIdentifiers])
+    {
+        OESystemPlugin *plugin = [OESystemPlugin gameSystemPluginForIdentifier:aSystemIdentifier];
+        NSString *systemName = [plugin systemName];
+        if(systemName != nil && mutableSystemNames == nil)
+        {
+            mutableSystemNames = [NSMutableString stringWithString:systemName];
+        }
+        else
+        {
+            [mutableSystemNames appendFormat:@", %@", systemName];
+        }
+    }
+    self.systemNames = mutableSystemNames;
+}
 #pragma mark Core Download
 - (void)startDownload:(id)sender
 {
@@ -90,8 +109,8 @@
 }
 
 - (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
-{    
-    downloadPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"OEDownload.%@", [NSString stringWithUUID]]];    
+{
+    downloadPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"OEDownload.%@", [NSString stringWithUUID]]];
     [download setDestination:downloadPath allowOverwrite:NO];
 }
 
@@ -99,7 +118,7 @@
 {
     // inform the user
     [[NSApplication sharedApplication] presentError:error];
-
+    
     downloading = NO;
 }
 
@@ -140,14 +159,14 @@
     // Delete the temp file
     [[NSFileManager defaultManager] removeItemAtPath:downloadPath error:nil];
     
-    [delegate OEDownloadDidFinish:self];
-    
     if(self.canBeInstalled)
-        [OECorePlugin pluginWithBundleAtPath:fullPluginPath type:[OECorePlugin class]];
-    
-    self.canBeInstalled = NO;
-    self.hasUpdate = NO;
+    {
+        OECorePlugin *plugin = [OECorePlugin pluginWithBundleAtPath:fullPluginPath type:[OECorePlugin class]];
+        [self OE_setValuesUsingPlugin:plugin];
+    }
     downloading = NO;
+    
+    [delegate OEDownloadDidFinish:self];
 }
 
 @end

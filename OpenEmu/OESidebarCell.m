@@ -204,11 +204,12 @@
 	NSInteger row = [(NSTableView*)controlView rowAtPoint:cellFrame.origin]; 
 	BOOL isSelected = [self isHighlighted];
 	BOOL isActive = [win isMainWindow] && [win firstResponder]==controlView;
-	
+
+    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
+
 	// set style
 	if([self isGroup])
     {
-		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
 		textColor = [NSColor colorWithDeviceRed:0.682 green:0.678 blue:0.678 alpha:1.0];
 		[shadow setShadowColor:[NSColor blackColor]];
 		[shadow setShadowBlurRadius:1];
@@ -228,14 +229,12 @@
         // selected active
 		[shadow setShadowBlurRadius:1];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];	
-		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
 		textColor = [NSColor whiteColor];
 		[shadow setShadowColor:[NSColor blackColor]];
 	}
     else if(isSelected)
     {
         // selected inactive
-		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
 		[shadow setShadowBlurRadius:1];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];
 		[shadow setShadowColor:[NSColor colorWithDeviceRed:0.682 green:0.678 blue:0.678 alpha:1.0]];
@@ -244,8 +243,8 @@
 	}
     else
     {
-		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:7 size:11.0];
-		textColor = [NSColor colorWithDeviceRed:0.882 green:0.878 blue:0.878 alpha:1.0];
+        // not a group, not selected
+		textColor = [NSColor colorWithDeviceRed:(225/255.0) green:(224/255.0) blue:(224/255.0) alpha:1.0];
 		[shadow setShadowColor:[NSColor blackColor]];
 		[shadow setShadowBlurRadius:1];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];

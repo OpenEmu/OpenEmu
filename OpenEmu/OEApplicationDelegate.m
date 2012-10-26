@@ -88,7 +88,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                       OEDefaultDatabasePathKey : path,
                                              OEDatabasePathKey : path,
                                      OEAutomaticallyGetInfoKey : @YES,
-                                          OEGameVideoFilterKey : @"Linear",
+                                          OEGameVideoFilterKey : @"Nearest Neighbor",
                                                OEGameVolumeKey : @0.5f,
                        OEGameControlsBarCanDeleteSaveStatesKey : @YES,
                             @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x"

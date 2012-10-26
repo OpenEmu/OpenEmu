@@ -187,6 +187,18 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 
 - (void)viewDidAppear
 {
+    [super viewDidAppear];
+    
+    NSWindow *window = [[self view] window];
+    [window setStyleMask:[window styleMask] ^ NSClosableWindowMask];
+}
+
+- (void)viewWillDisappear
+{
+    [super viewWillDisappear];
+    
+    NSWindow *window = [[self view] window];
+    [window setStyleMask:[window styleMask] | NSClosableWindowMask];
 }
 
 #pragma mark -

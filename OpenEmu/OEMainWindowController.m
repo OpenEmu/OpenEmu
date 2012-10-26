@@ -345,7 +345,8 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 #pragma mark Menu Items
 - (IBAction)showOpenEmuWindow:(id)sender;
 {
-    [self close];
+    if([[self window] styleMask] & NSClosableWindowMask)
+        [self close];
 }
 
 - (IBAction)launchLastPlayedROM:(id)sender

@@ -393,7 +393,7 @@
 													<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 													<string>NeXT TIFF v4.0 pasteboard type</string>
 												</set>
-												<string key="NSFrame">{{138, 18}, {10, 10}}</string>
+												<string key="NSFrame">{{138, 17}, {10, 10}}</string>
 												<reference key="NSSuperview" ref="930045241"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="462781134"/>
@@ -412,7 +412,7 @@
 											<object class="NSSlider" id="164785778">
 												<reference key="NSNextResponder" ref="930045241"/>
 												<int key="NSvFlags">298</int>
-												<string key="NSFrame">{{27, 14}, {103, 15}}</string>
+												<string key="NSFrame">{{27, 13}, {103, 15}}</string>
 												<reference key="NSSuperview" ref="930045241"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="684353025"/>
@@ -444,7 +444,7 @@
 													<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 													<string>NeXT TIFF v4.0 pasteboard type</string>
 												</set>
-												<string key="NSFrame">{{15, 19}, {7, 7}}</string>
+												<string key="NSFrame">{{15, 18}, {7, 7}}</string>
 												<reference key="NSSuperview" ref="930045241"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="164785778"/>
