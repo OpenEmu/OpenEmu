@@ -1243,7 +1243,10 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
             NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
             NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
             
-            const NSRect  targetRect = [[self window] convertRectToScreen:visibleItemRect];
+            // we enhance the calculated rect to get a visible gap between the item and the menu
+            NSRect enhancedVisibleItemRect = NSInsetRect(visibleItemRect, -3, -3);
+            
+            const NSRect  targetRect = [[self window] convertRectToScreen:enhancedVisibleItemRect];
             NSDictionary *options    = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithUnsignedInteger:style], OEMenuOptionsStyleKey,
                                         [NSNumber numberWithUnsignedInteger:OEMinXEdge], OEMenuOptionsArrowEdgeKey,
