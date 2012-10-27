@@ -31,7 +31,7 @@ extern NSString *const OESaveStateInfoNameKey;
 extern NSString *const OESaveStateInfoDescriptionKey;
 extern NSString *const OESaveStateInfoROMMD5Key;
 extern NSString *const OESaveStateInfoCoreIdentifierKey;
-
+extern NSString *const OESaveStateInfoCoreVersionKey;
 // extern NSString *const OESaveStateInfoCreationDateKey;
 // extern NSString *const OESaveStateInfoBookmarkDataKey;
 
@@ -69,6 +69,7 @@ extern NSString *const OESaveStateQuicksaveName;
 @property (nonatomic, retain)           NSString *userDescription;
 @property (nonatomic, retain)           NSDate   *timestamp;
 @property (nonatomic, retain)           NSString *coreIdentifier;
+@property (nonatomic, retain)           NSString *coreVersion;
 
 @property (nonatomic, retain, readonly) NSString *systemIdentifier;
 @property (nonatomic, retain)           NSString *location;

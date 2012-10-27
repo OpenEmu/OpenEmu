@@ -409,6 +409,7 @@
 		83920CDD147E675C00D219EA /* hud_alert_window.png in Resources */ = {isa = PBXBuildFile; fileRef = 83920CDC147E675C00D219EA /* hud_alert_window.png */; };
 		839310BC147802380020058E /* OECoreDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 839310BB147802380020058E /* OECoreDownload.m */; };
 		8396CC52140687EE0096F791 /* wood_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 8396CC51140687EE0096F791 /* wood_textfield.png */; };
+		8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */; };
 		83977F641408FE4700175858 /* controller_snes_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F611408FE4700175858 /* controller_snes_eu.png */; };
 		83977F651408FE4700175858 /* controller_snes_jap.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F621408FE4700175858 /* controller_snes_jap.png */; };
 		83977F661408FE4700175858 /* controller_snes_usa.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F631408FE4700175858 /* controller_snes_usa.png */; };
@@ -1706,6 +1707,8 @@
 		8396CC5514068DA90096F791 /* OEControlsKeyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyButton.m; sourceTree = "<group>"; };
 		8396CC5A140693830096F791 /* OEControlsKeyLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyLabelCell.h; sourceTree = "<group>"; };
 		8396CC5B140693830096F791 /* OEControlsKeyLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyLabelCell.m; sourceTree = "<group>"; };
+		8397082C163C3FD300E04871 /* OEDatabase 0.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OEDatabase 0.3.xcdatamodel"; sourceTree = "<group>"; };
+		8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "0.2 to 0.3.xcmappingmodel"; sourceTree = "<group>"; };
 		83977F611408FE4700175858 /* controller_snes_eu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_eu.png; sourceTree = "<group>"; };
 		83977F621408FE4700175858 /* controller_snes_jap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_jap.png; sourceTree = "<group>"; };
 		83977F631408FE4700175858 /* controller_snes_usa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_usa.png; sourceTree = "<group>"; };
@@ -3618,6 +3621,7 @@
 			isa = PBXGroup;
 			children = (
 				8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */,
+				8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */,
 			);
 			name = "Mapping Models";
 			sourceTree = "<group>";
@@ -5831,6 +5835,7 @@
 				83DEE498162D6218005D8AD7 /* OEHorizontalLine.m in Sources */,
 				83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */,
 				83200BF9162F5C1C00BCFA9D /* OESidebarBackgroundView.m in Sources */,
+				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7975,10 +7980,11 @@
 		C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				8397082C163C3FD300E04871 /* OEDatabase 0.3.xcdatamodel */,
 				8353EB1A15FF41930026E326 /* OEDatabase 0.2.xcdatamodel */,
 				C68A54E51516AD3C001053F2 /* OEDatabase.xcdatamodel */,
 			);
-			currentVersion = 8353EB1A15FF41930026E326 /* OEDatabase 0.2.xcdatamodel */;
+			currentVersion = 8397082C163C3FD300E04871 /* OEDatabase 0.3.xcdatamodel */;
 			path = OEDatabase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
