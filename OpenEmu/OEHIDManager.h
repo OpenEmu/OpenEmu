@@ -45,7 +45,7 @@
 
 @end
 
-NSString *const OEHIDManagerDidAddDeviceHandlerNotification;
-NSString *const OEHIDManagerDidRemoveDeviceHandlerNotification;
+extern NSString *const OEHIDManagerDidAddDeviceHandlerNotification;
+extern NSString *const OEHIDManagerDidRemoveDeviceHandlerNotification;
 
-NSString *const OEHIDManagerDeviceHandlerUserInfoKey;
+extern NSString *const OEHIDManagerDeviceHandlerUserInfoKey;
