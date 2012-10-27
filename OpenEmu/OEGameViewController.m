@@ -238,7 +238,6 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
         [window setTitle:OEDefaultWindowTitle];
     
-    DLog(@"HIDE");
     [[self controlsWindow] hide];
     [self terminateEmulation];
 }
