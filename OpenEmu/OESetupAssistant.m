@@ -38,9 +38,22 @@
 #import "NSApplication+OEHIDAdditions.h"
 
 #import "OECoreDownload.h"
+#import "OEHIDManager.h"
 #import "OEHIDDeviceHandler.h"
 
+#import "OEHUDAlert.h"
+
+
+#pragma mark - Exported variables
 NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
+
+
+#pragma mark - OESetupAssistant
+@interface OESetupAssistant ()
+{
+    BOOL _viewHasBeenLoaded;
+}
+@end
 
 @implementation OESetupAssistant
 @synthesize completionBlock;
@@ -128,9 +141,48 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
         
         self.enabledCoresForDownloading = [NSMutableArray array];
         self.enabledVolumesForDownloading = [NSMutableArray array];
-        
-        self.deviceHandlers = [[[NSApp delegate] HIDManager] deviceHandlers];
-    
+        self.deviceHandlers = [NSMutableArray array];
+        self.selectedGamePadDeviceNum = NSNotFound;
+
+        [[NSNotificationCenter defaultCenter] addObserverForName:OEHIDManagerDidAddDeviceHandlerNotification
+                                                          object:[OEHIDManager sharedHIDManager]
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:
+         ^(NSNotification *notification)
+         {
+             self.deviceHandlers = [[OEHIDManager sharedHIDManager] deviceHandlers];
+             [[self gamePadTableView] reloadData];
+         }];
+
+        [[NSNotificationCenter defaultCenter] addObserverForName:OEHIDManagerDidRemoveDeviceHandlerNotification
+                                                          object:[OEHIDManager sharedHIDManager]
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:
+         ^(NSNotification *notification)
+         {
+             self.deviceHandlers = [[OEHIDManager sharedHIDManager] deviceHandlers];
+             [[self gamePadTableView] reloadData];
+
+             OEHIDDeviceHandler *oldHandler = [[notification userInfo] objectForKey:OEHIDManagerDeviceHandlerUserInfoKey];
+             NSUInteger oldDeviceNumber = [oldHandler deviceNumber];
+             if(oldDeviceNumber == [self selectedGamePadDeviceNum])
+             {
+                 [self setSelectedGamePadDeviceNum:NSNotFound];
+
+                 OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"The gamepad has been disconnected.", @"Gamepad disconnected during setup alert")
+                                                        defaultButton:@"Setup Gamepad"
+                                                      alternateButton:@"Skip Setup"];
+                 OEAlertCompletionHandler alertHandler = ^(OEHUDAlert *alert, NSUInteger result)
+                 {
+                     if(result == NSAlertDefaultReturn) [self goForwardToView:[self step4]];
+                     else [self toLastStep:self];
+                 };
+
+                 [alert setCallbackHandler:alertHandler];
+                 [alert runModal];
+             }
+         }];
+
         // udpate our data for our volumes
         [self reload];
     }
@@ -146,6 +198,7 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
     self.enabledVolumesForDownloading = nil;
     
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self setCompletionBlock:nil];
 }
 
@@ -156,6 +209,10 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 
 - (void)viewDidLoad
 {
+    // TODO: Why is -viewDidLoad received multiple times?
+    if(_viewHasBeenLoaded) return;
+
+    _viewHasBeenLoaded = YES;
     [super viewDidLoad];
     
     [self setCurrentKeyMapView:[self upKeyMapView]];
@@ -180,7 +237,7 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
     [[self transition] setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
     [[self transition] setDuration:1.0];
     [[self replaceView] setAnimations:[NSDictionary dictionaryWithObject:[self transition] forKey:@"subviews"]];
-    
+
     // Time bringing in our first view to conincide with our animation
     [self performSelector:@selector(toStep1:) withObject:nil afterDelay:10.0];
 }
@@ -188,7 +245,7 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-    
+
     NSWindow *window = [[self view] window];
     [window setStyleMask:[window styleMask] ^ NSClosableWindowMask];
 }
@@ -580,9 +637,13 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
     if([aNotification object] == [self gamePadTableView])
     {
         [[self gamePadSelectionNextButton] setEnabled:[[self gamePadTableView] numberOfSelectedRows] > 0];
-        
-        [self setSelectedGamePadDeviceNum:[[self gamePadTableView] selectedRow] + 1];
-    }    
+        NSInteger selectedRow = [[self gamePadTableView] selectedRow];
+        if(selectedRow >= 0 && selectedRow < [[self deviceHandlers] count])
+        {
+            OEHIDDeviceHandler *selectedHandler = [[self deviceHandlers] objectAtIndex:selectedRow];
+            [self setSelectedGamePadDeviceNum:[selectedHandler deviceNumber]];
+        }
+    }
 }
 
 - (void)reload
