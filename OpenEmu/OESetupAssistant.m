@@ -501,12 +501,12 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
         if([identifier isEqualToString:@"enabled"])
             //return [NSNumber numberWithBool:YES];
             return [enabledCoresForDownloading objectAtIndex:rowIndex];
-            
+
         else if([identifier isEqualToString:@"emulatorName"])
             return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] name];
         
         else if([identifier isEqualToString:@"emulatorSystem"])
-            return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] description];
+            return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] systemNames];
     }
     else if(aTableView == [self mountedVolumes])
     {
