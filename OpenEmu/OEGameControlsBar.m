@@ -164,7 +164,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 - (void)timerDidFire:(NSTimer *)timer
 {
-    DLog();
     NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
     NSDate *hideDate = [lastMouseMovement dateByAddingTimeInterval:interval];
     
@@ -172,7 +171,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     {
         if([self canFadeOut])
         {
-            DLog(@"hide");
             [fadeTimer invalidate];
             fadeTimer = nil;
             
@@ -180,7 +178,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         }
         else
         {
-            DLog(@"wait");
             NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
             NSDate *nextTime = [NSDate dateWithTimeIntervalSinceNow:interval];
             
@@ -199,7 +196,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 - (BOOL)canFadeOut
 {
-    DLog(@"%s && %s", BOOL_STR(openMenus == 0), BOOL_STR(!NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds])));
     return openMenus == 0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
 }
 
@@ -270,7 +266,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
     NSRect targetRect = [sender bounds];
     targetRect.size.width -= 7.0;
-    targetRect = NSInsetRect(targetRect, 0.0, 3.0);
+    targetRect = NSInsetRect(targetRect, -2.0, 1.0);
     targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
 
     NSDictionary *options = @{ OEMenuOptionsStyleKey : @(OEMenuStyleLight),
@@ -320,7 +316,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
     NSRect targetRect = [sender bounds];
     targetRect.size.width -= 7.0;
-    targetRect = NSInsetRect(targetRect, 0.0, 3.0);
+    targetRect = NSInsetRect(targetRect, -2.0, 1.0);
     targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
     
 
