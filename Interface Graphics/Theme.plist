@@ -6,6 +6,8 @@
 	<dict>
 		<key>game_scanner_background</key>
 		<string>#3f3f3f</string>
+		<key>black_background</key>
+		<string>black</string>
 		<key>dark_menu_background</key>
 		<string>rgba(0,0,0,0.8)</string>
 		<key>light_menu_background</key>
