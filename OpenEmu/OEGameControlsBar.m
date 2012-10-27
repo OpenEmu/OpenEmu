@@ -69,9 +69,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 @end
 
 @implementation OEGameControlsBar
-@synthesize lastMouseMovement;
-@synthesize gameViewController;
-@synthesize controlsView;
+@synthesize lastMouseMovement, gameViewController, controlsView;
 
 + (void)initialize
 {
@@ -90,7 +88,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [self setOpaque:NO];
         [self setBackgroundColor:[NSColor clearColor]];
         [self setAlphaValue:0.0];
-        
+        [self setCanShow:YES];
         [self setGameViewController:controller];
         
         OEHUDControlsBarView *barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
@@ -122,10 +120,10 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 }
 
 #pragma mark -
-
 - (void)show
 {
-    [[self animator] setAlphaValue:1.0];
+    if([self canShow])
+        [[self animator] setAlphaValue:1.0];
 }
 
 - (void)hide
@@ -161,12 +159,12 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         fadeTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
     }
     
-    
     lastMouseMovement = lastMouseMovementDate;
 }
 
 - (void)timerDidFire:(NSTimer *)timer
 {
+    DLog();
     NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
     NSDate *hideDate = [lastMouseMovement dateByAddingTimeInterval:interval];
     
@@ -174,6 +172,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     {
         if([self canFadeOut])
         {
+            DLog(@"hide");
             [fadeTimer invalidate];
             fadeTimer = nil;
             
@@ -181,6 +180,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         }
         else
         {
+            DLog(@"wait");
             NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
             NSDate *nextTime = [NSDate dateWithTimeIntervalSinceNow:interval];
             
@@ -199,6 +199,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 - (BOOL)canFadeOut
 {
+    DLog(@"%s && %s", BOOL_STR(openMenus == 0), BOOL_STR(!NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds])));
     return openMenus == 0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
 }
 

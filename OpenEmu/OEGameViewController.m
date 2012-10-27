@@ -238,6 +238,7 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info);
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
         [window setTitle:OEDefaultWindowTitle];
     
+    DLog(@"HIDE");
     [[self controlsWindow] hide];
     [self terminateEmulation];
 }
@@ -283,6 +284,8 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
 
     [self enableOSSleep];
     [self pauseGame:self];
+    
+    [[self controlsWindow] setCanShow:NO];
     
     if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
         [self saveStateWithName:OESaveStateAutosaveName];
