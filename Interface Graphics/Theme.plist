@@ -6,6 +6,8 @@
 	<dict>
 		<key>game_scanner_background</key>
 		<string>#3f3f3f</string>
+		<key>black_background</key>
+		<string>black</string>
 		<key>dark_menu_background</key>
 		<string>rgba(0,0,0,0.8)</string>
 		<key>light_menu_background</key>
@@ -1637,8 +1639,8 @@
 		<dict>
 			<key>Colors</key>
 			<array>
-				<string>rgb(74, 74, 74)</string>
-				<string>rgba(41,41,41, 1)</string>
+				<string>#4a4a4a</string>
+				<string>#292929</string>
 			</array>
 			<key>Locations</key>
 			<array>

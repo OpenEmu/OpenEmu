@@ -42,6 +42,12 @@
 {
     [super setView:view];
     [[self importer] setDelegate:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameChanged:) name:NSViewFrameDidChangeNotification object:view];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:[self view]];
 }
 
 #pragma mark -
@@ -80,6 +86,27 @@
     }
     
     [[self statusLabel] setStringValue:status];
+}
+
+- (void)viewFrameChanged:(NSNotification*)notification
+{
+    NSRect bounds = [[notification object] bounds];
+    CGFloat width = NSWidth(bounds);
+    
+    NSRect frame = [[self progressIndicator] frame];
+    frame.origin.x = 16;
+    frame.size.width = width-16-38;
+    [[self progressIndicator] setFrame:frame];
+    
+    frame = [[self headlineLabel] frame];
+    frame.origin.x = 17;
+    frame.size.width = width-17-12;
+    [[self headlineLabel] setFrame:frame];
+    
+    frame = [[self statusLabel] frame];
+    frame.origin.x = 17;
+    frame.size.width = width-17-12;
+    [[self statusLabel] setFrame:frame];
 }
 #pragma mark - OELibrarySubviewController Protocol Implementation
 - (void)setRepresentedObject:(id)representedObject

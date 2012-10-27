@@ -69,9 +69,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 @end
 
 @implementation OEGameControlsBar
-@synthesize lastMouseMovement;
-@synthesize gameViewController;
-@synthesize controlsView;
+@synthesize lastMouseMovement, gameViewController, controlsView;
 
 + (void)initialize
 {
@@ -90,7 +88,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [self setOpaque:NO];
         [self setBackgroundColor:[NSColor clearColor]];
         [self setAlphaValue:0.0];
-        
+        [self setCanShow:YES];
         [self setGameViewController:controller];
         
         OEHUDControlsBarView *barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
@@ -122,10 +120,10 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 }
 
 #pragma mark -
-
 - (void)show
 {
-    [[self animator] setAlphaValue:1.0];
+    if([self canShow])
+        [[self animator] setAlphaValue:1.0];
 }
 
 - (void)hide
@@ -160,7 +158,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
         fadeTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
     }
-    
     
     lastMouseMovement = lastMouseMovementDate;
 }
@@ -269,7 +266,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
     NSRect targetRect = [sender bounds];
     targetRect.size.width -= 7.0;
-    targetRect = NSInsetRect(targetRect, 0.0, 3.0);
+    targetRect = NSInsetRect(targetRect, -2.0, 1.0);
     targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
 
     NSDictionary *options = @{ OEMenuOptionsStyleKey : @(OEMenuStyleLight),
@@ -319,7 +316,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
     NSRect targetRect = [sender bounds];
     targetRect.size.width -= 7.0;
-    targetRect = NSInsetRect(targetRect, 0.0, 3.0);
+    targetRect = NSInsetRect(targetRect, -2.0, 1.0);
     targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
     
 
