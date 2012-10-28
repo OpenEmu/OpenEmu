@@ -674,8 +674,12 @@ NSString *const OESetupAssistantGamepadDefaultSecondaryEventKey = @"OESetupAssis
 {
     [self setCurrentEventToArchive:event];
     [self setGotNewEvent:YES];
-    [[self currentKeyMapView] setKey:OESetupAssistantKeySucess];
-    [[self currentNextButton] setEnabled:YES];
+
+    // Make sure UI behaviour happens on the main thread since HID events are fired from the HID queue
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self currentKeyMapView] setKey:OESetupAssistantKeySucess];
+        [[self currentNextButton] setEnabled:YES];
+    });
 }
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
