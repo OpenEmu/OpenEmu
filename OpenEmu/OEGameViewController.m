@@ -639,8 +639,7 @@ typedef enum : NSUInteger
 - (IBAction)loadState:(id)sender
 {
     // calling pauseGame here because it might need some time to execute
-    BOOL wasPreviouslyPlaying = (_emulationStatus == OEGameViewControllerEmulationStatusPlaying);
-    if(wasPreviouslyPlaying) [self pauseGame:self];
+    [self pauseGame:self];
 
     @try
     {
@@ -680,7 +679,7 @@ typedef enum : NSUInteger
     }
     @finally
     {
-        if(wasPreviouslyPlaying) [self playGame:self];
+        [self playGame:self];
     }
 }
 
