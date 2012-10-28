@@ -185,7 +185,7 @@
     
     // calculate number of rows (using 2 columns)
     NSInteger rows = ceil([systems count] / 2.0);
-    
+
     // set some spaces and dimensions
     CGFloat hSpace = 16, vSpace = 10;
     CGFloat iWidth = 163, iHeight = 18;
@@ -205,7 +205,7 @@
      ^(OEDBSystem *system, NSUInteger idx, BOOL *stop)
      {
          // if we're still in the first column an we should be in the second
-         if(x == 0 && idx > [systems count] / 2)
+         if(x == 0 && idx >= rows)
          {
              // we reset x and y
              x += iWidth+hSpace;
