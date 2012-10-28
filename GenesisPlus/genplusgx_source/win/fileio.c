@@ -41,7 +41,6 @@
  ****************************************************************************************/
 
 #include "shared.h"
-#include <windows.h>
 #include <zlib.h>
 
 static int check_zip(char *filename);

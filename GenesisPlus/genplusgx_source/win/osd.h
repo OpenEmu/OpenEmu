@@ -6,7 +6,6 @@
 #include <string.h>
 #include <stdarg.h>
 #include <time.h>
-#include <conio.h>
 
 #include <SDL.h>
 #include <stdlib.h>

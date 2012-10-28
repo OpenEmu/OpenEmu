@@ -1045,7 +1045,7 @@ void scd_init(void)
   {
     if (i & 2)
     {
-      /* PRG-RAM (first 128KB bank, mirrored ?) */
+      /* PRG-RAM (first 128KB bank, mirrored) */
       m68k.memory_map[i].base    = scd.prg_ram + ((i & 1) << 16);
       m68k.memory_map[i].read8   = NULL;
       m68k.memory_map[i].read16  = NULL;
@@ -1068,8 +1068,8 @@ void scd_init(void)
     }
   }
 
-  /* $200000-$23FFFF (resp. $600000-$63FFFF): Word-RAM in 2M mode (256KB) */
-  for (i=base+0x20; i<base+0x24; i++)
+  /* $200000-$3FFFFF (resp. $600000-$7FFFFF): Word-RAM in 2M mode (256KB mirrored) */
+  for (i=base+0x20; i<base+0x40; i++)
   {
     m68k.memory_map[i].base    = scd.word_ram_2M + ((i & 3) << 16);
     m68k.memory_map[i].read8   = NULL;
@@ -1078,18 +1078,6 @@ void scd_init(void)
     m68k.memory_map[i].write16 = NULL;
     zbank_memory_map[i].read   = NULL;
     zbank_memory_map[i].write  = NULL;
-  }
-
-  /* $240000-$3FFFFF (resp. $400000-$7FFFFF): unused area (Word-RAM mirrored ?) */
-  for (i=base+0x24; i<base+0x40; i++)
-  {
-    m68k.memory_map[i].base     = scd.word_ram_2M + ((i & 3) << 16);
-    m68k.memory_map[i].read8    = m68k_read_bus_8;
-    m68k.memory_map[i].read16   = m68k_read_bus_16;
-    m68k.memory_map[i].write8   = m68k_unused_8_w;
-    m68k.memory_map[i].write16  = m68k_unused_16_w;
-    zbank_memory_map[i].read    = zbank_unused_r;
-    zbank_memory_map[i].write   = zbank_unused_w;
   }
   
   /****************************************************************/

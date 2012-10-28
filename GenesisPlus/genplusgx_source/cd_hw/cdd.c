@@ -357,7 +357,7 @@ int cdd_load(char *filename, char *header)
       if (!(memcmp(lptr, "FILE", 4)))
       {
         /* check supported file types */
-        if (!strstr(lptr," BINARY") && !strstr(lptr," WAVE"))
+        if (!strstr(lptr," BINARY") && !strstr(lptr," WAV"))
         {
           /* unsupported file type */
           break;
@@ -375,7 +375,7 @@ int cdd_load(char *filename, char *header)
         if (ptr - fname) ptr++;
 
         /* append filename characters after filepath */
-        while ((*lptr != '\"') && memcmp(lptr, " BINARY", 7) && memcmp(lptr, " WAVE", 5))
+        while ((*lptr != '\"') && memcmp(lptr, " BINARY", 7) && memcmp(lptr, " WAV", 4))
         {
           *ptr++ = *lptr++;
         }
@@ -636,6 +636,9 @@ int cdd_load(char *filename, char *header)
     }
   }
 
+  /* Lead-out */
+  cdd.toc.tracks[cdd.toc.last].start = cdd.toc.end;
+
   /* CD loaded */
   cdd.loaded = 1;
   return 1;
@@ -839,6 +842,7 @@ void cdd_update(void)
     }
     else
     {
+      cdd.status = CD_END;
       return;
     }
 
@@ -898,6 +902,10 @@ void cdd_update(void)
     }
     else if (cdd.index >= cdd.toc.last)
     {
+      /* no AUDIO track playing */
+      scd.regs[0x36>>1].byte.h = 0x01;
+
+      /* end of disc */
       cdd.index = cdd.toc.last;
       cdd.lba = cdd.toc.end;
     }
@@ -905,10 +913,16 @@ void cdd_update(void)
     /* seek to current block */
     if (!cdd.index)
     {
+      /* no AUDIO track playing */
+      scd.regs[0x36>>1].byte.h = 0x01;
+
       fseek(cdd.toc.tracks[0].fd, cdd.lba * cdd.sectorSize, SEEK_SET);
     }
     else if (cdd.toc.tracks[cdd.index].fd)
     {
+      /* AUDIO track playing */
+      scd.regs[0x36>>1].byte.h = 0x00;
+
       if (cdd.lba < cdd.toc.tracks[cdd.index].start)
       {
         fseek(cdd.toc.tracks[cdd.index].fd, (cdd.toc.tracks[cdd.index].start * 2352) - cdd.toc.tracks[cdd.index].offset, SEEK_SET);
@@ -950,38 +964,37 @@ void cdd_process(void)
     case 0x02:  /* Read TOC */
     {
       /* Infos automatically retrieved by CDD processor from Q-Channel */
-      /* commands 0x00-0x02: from current block Q-Channel data field  */
-      /* commands 0x03-0x05: from Lead-In area Q-Channel data field  */
+      /* commands 0x00-0x02 (current block) and 0x03-0x05 (Lead-In) */
       switch (scd.regs[0x44>>1].byte.l)
       {
-        case 0x00:  /* Absolute position (MM:SS:FF) */
+        case 0x00:  /* Current Absolute Time (MM:SS:FF) */
         {
           int lba = cdd.lba + 150;
           scd.regs[0x38>>1].w = cdd.status << 8;
           scd.regs[0x3a>>1].w = lut_BCD_16[(lba/75)/60];
           scd.regs[0x3c>>1].w = lut_BCD_16[(lba/75)%60];
           scd.regs[0x3e>>1].w = lut_BCD_16[(lba%75)];
-          scd.regs[0x40>>1].byte.h = 0x00;
+          scd.regs[0x40>>1].byte.h = cdd.index ? 0x00 : 0x04; /* Current block flags (bit0 = mute status, bit1: pre-emphasis status, bit2: track type) */
           break;
         }
 
-        case 0x01:  /* Track relative position (MM:SS:FF) */
+        case 0x01:  /* Current Track Relative Time (MM:SS:FF) */
         {
           int lba = cdd.lba - cdd.toc.tracks[cdd.index].start;
           scd.regs[0x38>>1].w = (cdd.status << 8) | 0x01;
           scd.regs[0x3a>>1].w = lut_BCD_16[(lba/75)/60];
           scd.regs[0x3c>>1].w = lut_BCD_16[(lba/75)%60];
           scd.regs[0x3e>>1].w = lut_BCD_16[(lba%75)];
-          scd.regs[0x40>>1].byte.h = 0x00;
+          scd.regs[0x40>>1].byte.h = cdd.index ? 0x00 : 0x04; /* Current block flags (bit0 = mute status, bit1: pre-emphasis status, bit2: track type) */
           break;
         }
 
-        case 0x02:  /* Current track */
+        case 0x02:  /* Current Track Number */
         {
           scd.regs[0x38>>1].w = (cdd.status << 8) | 0x02;
           scd.regs[0x3a>>1].w = (cdd.index < cdd.toc.last) ? lut_BCD_16[cdd.index + 1] : 0x0A0A;
           scd.regs[0x3c>>1].w = 0x0000;
-          scd.regs[0x3e>>1].w = 0x0000;
+          scd.regs[0x3e>>1].w = 0x0000; /* Disk Control Code (?) in RS6 */
           scd.regs[0x40>>1].byte.h = 0x00;
           break;
         }
@@ -997,17 +1010,17 @@ void cdd_process(void)
           break;
         }
 
-        case 0x04:  /* Number of tracks */
+        case 0x04:  /* First & Last Track Numbers */
         {
           scd.regs[0x38>>1].w = (cdd.status << 8) | 0x04;
           scd.regs[0x3a>>1].w = 0x0001;
           scd.regs[0x3c>>1].w = lut_BCD_16[cdd.toc.last];
-          scd.regs[0x3e>>1].w = 0x0000;
-          scd.regs[0x40>>1].byte.h = 0x00;
+          scd.regs[0x3e>>1].w = 0x0000; /* Drive Version (?) in RS6-RS7 */
+          scd.regs[0x40>>1].byte.h = 0x00;  /* Lead-In flags (bit0 = mute status, bit1: pre-emphasis status, bit2: track type) */
           break;
         }
 
-        case 0x05:  /* Track start (MM:SS:FF) */
+        case 0x05:  /* Track Start Time (MM:SS:FF) */
         {
           int track = scd.regs[0x46>>1].byte.h * 10 + scd.regs[0x46>>1].byte.l;
           int lba = cdd.toc.tracks[track-1].start + 150;
@@ -1015,10 +1028,10 @@ void cdd_process(void)
           scd.regs[0x3a>>1].w = lut_BCD_16[(lba/75)/60];
           scd.regs[0x3c>>1].w = lut_BCD_16[(lba/75)%60];
           scd.regs[0x3e>>1].w = lut_BCD_16[(lba%75)];
-          scd.regs[0x40>>1].byte.h = track % 10;
+          scd.regs[0x40>>1].byte.h = track % 10;  /* Track Number (low digit) */
           if (track == 1)
           {
-            /* data track */
+            /* RS6 bit 3 is set for the first (DATA) track */
             scd.regs[0x3e>>1].byte.h |= 0x08;
           }
           break;
@@ -1081,7 +1094,14 @@ void cdd_process(void)
         /* Some delay is also needed when playing AUDIO tracks located at the end of the disc (ex: Sonic CD intro) */
         /* max. seek time = 1.5s = 1.5 x 75 = 112.5 CDD interrupts (rounded to 120) for 270000 sectors max on disc */
         /* Note: this is only a rough approximation, on real hardware, drive seek time is much likely not linear */
-        cdd.latency += ((abs(lba - cdd.lba) * 120) / 270000);
+        if (lba < cdd.lba)
+        {
+          cdd.latency += (((cdd.lba - lba) * 120) / 270000);
+        }
+        else 
+        {
+          cdd.latency += (((lba - cdd.lba) * 120) / 270000);
+        }
 
         /* seek AUDIO track */
         if (lba < cdd.toc.tracks[index].start)

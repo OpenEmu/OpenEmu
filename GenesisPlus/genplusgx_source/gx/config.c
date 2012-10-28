@@ -99,15 +99,15 @@ void config_default(void)
   config.psg_preamp     = 150;
   config.fm_preamp      = 100;
   config.hq_fm          = 1;
-  config.psgBoostNoise  = 0;
+  config.psgBoostNoise  = 1;
   config.filter         = 0;
-  config.lp_range       = 50;
+  config.lp_range       = 60;
   config.low_freq       = 880;
   config.high_freq      = 5000;
   config.lg             = 1.0;
   config.mg             = 1.0;
   config.hg             = 1.0;
-  config.dac_bits 		  = 14;
+  config.dac_bits       = 14;
   config.ym2413         = 2; /* AUTO */
 
   /* system options */

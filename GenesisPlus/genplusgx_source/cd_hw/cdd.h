@@ -50,9 +50,10 @@
 #define CD_READY 0x04
 #define CD_OPEN  0x05
 #define CD_STOP  0x09
+#define CD_END   0x0C
 
 /* CD blocks scanning speed */
-#define CD_SCAN_SPEED 10
+#define CD_SCAN_SPEED 30
 
 #define CD_MAX_TRACKS 100
 

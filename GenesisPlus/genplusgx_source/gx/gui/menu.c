@@ -903,11 +903,11 @@ static void soundmenu ()
         config.psg_preamp = (int)(psg_volume * 100.0 + 0.5);
         if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
         {
-          SN76489_Config(config.psg_preamp, config.psgBoostNoise, 0xff);
+          SN76489_Config(0, config.psg_preamp, config.psgBoostNoise, 0xff);
         }
         else
         {
-          SN76489_Config(config.psg_preamp, config.psgBoostNoise, io_reg[6]);
+          SN76489_Config(0, config.psg_preamp, config.psgBoostNoise, io_reg[6]);
         }
         break;
       }
@@ -918,11 +918,11 @@ static void soundmenu ()
         sprintf (items[5].text, "PSG Noise Boost: %s", config.psgBoostNoise ? "ON":"OFF");
         if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
         {
-          SN76489_Config(config.psg_preamp, config.psgBoostNoise, 0xff);
+          SN76489_Config(0, config.psg_preamp, config.psgBoostNoise, 0xff);
         }
         else
         {
-          SN76489_Config(config.psg_preamp, config.psgBoostNoise, io_reg[6]);
+          SN76489_Config(0, config.psg_preamp, config.psgBoostNoise, io_reg[6]);
         }
         break;
       }

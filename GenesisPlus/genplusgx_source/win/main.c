@@ -1,4 +1,8 @@
+#ifdef __WIN32__
 #include <windows.h>
+#else
+#define MessageBox(owner, text, caption, type) printf("%s: %s\n", caption, text)
+#endif
 
 #include "SDL.h"
 #include "SDL_thread.h"
@@ -197,7 +201,8 @@ static void sdl_video_update()
     /* clear destination surface */
     SDL_FillRect(sdl_video.surf_screen, 0, 0);
 
-    /*if (config.render && (interlaced || config.ntsc))  rect.h *= 2;
+#if 0
+    if (config.render && (interlaced || config.ntsc))  rect.h *= 2;
     if (config.ntsc) rect.w = (reg[12]&1) ? MD_NTSC_OUT_WIDTH(rect.w) : SMS_NTSC_OUT_WIDTH(rect.w);
     if (config.ntsc)
     {
@@ -233,7 +238,8 @@ static void sdl_video_update()
         free(md_ntsc);
         md_ntsc = NULL;
       }
-    } */
+    }
+#endif
   }
 
   SDL_BlitSurface(sdl_video.surf_bitmap, &sdl_video.srect, sdl_video.surf_screen, &sdl_video.drect);
@@ -658,8 +664,6 @@ int sdl_input_update(void)
       break;
     }
   }
-
-  free (keystate);
   return 1;
 }
 
@@ -892,7 +896,6 @@ int main (int argc, char **argv)
     }
   }
 
-  system_shutdown();
   audio_shutdown();
   error_shutdown();
 

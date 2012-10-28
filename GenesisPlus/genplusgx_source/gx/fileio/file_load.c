@@ -246,7 +246,7 @@ int ParseDirectory(void)
  ****************************************************************************/ 
 int LoadFile(int selection) 
 {
-  int size = 0, filetype;
+  int size, cd_mode1, filetype;
   char filename[MAXPATHLEN];
 
   /* file path */
@@ -270,15 +270,24 @@ int LoadFile(int selection)
   /* open message box */
   GUI_MsgBoxOpen("Information", "Loading game...", 1);
 
+  /* no cartridge or CD game loaded */
+  size = cd_mode1 = 0;
+
   /* check if virtual CD tray was open */
   if ((system_hw == SYSTEM_MCD) && (cdd.status == CD_OPEN))
   {
-    /* swap CD image file */
+    /* swap CD image file in (without changing region, system,...) */
     size = cdd_load(filename, (char *)(cdc.ram));
 
-    /* update CD header informations */
-    if (!scd.cartridge.boot)
+    /* check if a cartridge is currently loaded  */
+    if (scd.cartridge.boot)
     {
+      /* CD Mode 1 */
+      cd_mode1 = size;
+    }
+    else
+    {
+      /* update game informations from CD image file header */
       getrominfo((char *)(cdc.ram));
     }
   }
@@ -287,7 +296,7 @@ int LoadFile(int selection)
   if (!size)
   {
     /* close CD tray to force system reset */
-    cdd.status = CD_STOP;
+    cdd.status = NO_DISC;
 
     /* load game file */
     size = load_rom(filename);
@@ -295,45 +304,54 @@ int LoadFile(int selection)
 
   if (size > 0)
   {
-    /* auto-save previous game state */
-    slot_autosave(config.s_default,config.s_device);
-
-    /* update pathname for screenshot, save & cheat files */
-    if (romtype & SYSTEM_SMS)
+    /* do not update game basename if a CD was loaded with a cartridge (Mode 1) */
+    if (cd_mode1)
     {
-      /* Master System ROM file */
-      filetype = 2;
-      sprintf(rom_filename,"ms/%s",filelist[selection].filename);
-    }
-    else if (romtype & SYSTEM_GG)
-    {
-      /* Game Gear ROM file */
-      filetype = 3;
-      sprintf(rom_filename,"gg/%s",filelist[selection].filename);
-    }
-    else if (romtype == SYSTEM_SG)
-    {
-      /* SG-1000 ROM file */
-      filetype = 4;
-      sprintf(rom_filename,"sg/%s",filelist[selection].filename);
-    }
-    else if (romtype == SYSTEM_MCD)
-    {
-      /* CD image file */
+      /* add CD image file to history list */
       filetype = 1;
-      sprintf(rom_filename,"cd/%s",filelist[selection].filename);
     }
     else
     {
-      /* by default, Genesis ROM file */
-      filetype = 0;
-      sprintf(rom_filename,"md/%s",filelist[selection].filename);
-    }
+      /* auto-save previous game state */
+      slot_autosave(config.s_default,config.s_device);
 
-    /* remove file extension */
-    int i = strlen(rom_filename) - 1;
-    while ((i > 0) && (rom_filename[i] != '.')) i--;
-    if (i > 0) rom_filename[i] = 0;
+      /* update game basename (for screenshot, save & cheat files) */
+      if (romtype & SYSTEM_SMS)
+      {
+        /* Master System ROM file */
+        filetype = 2;
+        sprintf(rom_filename,"ms/%s",filelist[selection].filename);
+      }
+      else if (romtype & SYSTEM_GG)
+      {
+        /* Game Gear ROM file */
+        filetype = 3;
+        sprintf(rom_filename,"gg/%s",filelist[selection].filename);
+      }
+      else if (romtype == SYSTEM_SG)
+      {
+        /* SG-1000 ROM file */
+        filetype = 4;
+        sprintf(rom_filename,"sg/%s",filelist[selection].filename);
+      }
+      else if (romtype == SYSTEM_MCD)
+      {
+        /* CD image file */
+        filetype = 1;
+        sprintf(rom_filename,"cd/%s",filelist[selection].filename);
+      }
+      else
+      {
+        /* by default, Genesis ROM file */
+        filetype = 0;
+        sprintf(rom_filename,"md/%s",filelist[selection].filename);
+      }
+
+      /* remove file extension */
+      int i = strlen(rom_filename) - 1;
+      while ((i > 0) && (rom_filename[i] != '.')) i--;
+      if (i > 0) rom_filename[i] = 0;
+    }
 
     /* add/move the file to the top of the history. */
     history_add_file(filepath, filelist[selection].filename, filetype);

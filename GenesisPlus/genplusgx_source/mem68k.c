@@ -322,37 +322,40 @@ unsigned int ctrl_io_read_byte(unsigned int address)
 #endif
       if (system_hw == SYSTEM_MCD)
       {
+        /* register index ($A12000-A1203F mirrored up to $A120FF) */
+        uint8 index = address & 0x3f;
+
         /* Memory Mode */
-        if (address == 0xa12003)
+        if (index == 0x03)
         {
           m68k_poll_detect(0x03);
           return scd.regs[0x03>>1].byte.l;
         }
 
         /* SUB-CPU communication flags */
-        if (address == 0xa1200f)
+        if (index == 0x0f)
         {
           m68k_poll_detect(0x0f);
           return scd.regs[0x0f>>1].byte.l;
         }
 
         /* default registers */
-        if (address < 0xa12030)
+        if (index < 0x30)
         {
           /* SUB-CPU communication words */
-          if (address >= 0xa12020)
+          if (index >= 0x20)
           {
-            m68k_poll_detect((address - 0x10) & 0x1f);
+            m68k_poll_detect(index - 0x10);
           }
 
           /* register LSB */
           if (address & 1)
           {
-            return scd.regs[(address >> 1) & 0xff].byte.l;
+            return scd.regs[index >> 1].byte.l;
           }
               
           /* register MSB */
-          return scd.regs[(address >> 1) & 0xff].byte.h;
+          return scd.regs[index >> 1].byte.h;
         }
       }
 
@@ -441,35 +444,38 @@ unsigned int ctrl_io_read_word(unsigned int address)
 #endif
       if (system_hw == SYSTEM_MCD)
       {
+        /* register index ($A12000-A1203F mirrored up to $A120FF) */
+        uint8 index = address & 0x3f;
+
         /* Memory Mode */
-        if (address == 0xa12002)
+        if (index == 0x02)
         {
           m68k_poll_detect(0x03);
           return scd.regs[0x03>>1].w;
         }
 
         /* CDC host data (word access only ?) */
-        if (address == 0xa12008)
+        if (index == 0x08)
         {
           return cdc_host_r();
         }
 
         /* H-INT vector (word access only ?) */
-        if (address == 0xa12006)
+        if (index == 0x06)
         {
           return *(uint16 *)(m68k.memory_map[0].base + 0x72);
         }
 
         /* default registers */
-        if (address < 0xa12030)
+        if (index < 0x30)
         {
           /* SUB-CPU communication words */
-          if (address >= 0xa12020)
+          if (index >= 0x20)
           {
-            m68k_poll_detect((address - 0x10) & 0x1e);
+            m68k_poll_detect(index - 0x10);
           }
           
-          return scd.regs[(address >> 1) & 0xff].w;
+          return scd.regs[index >> 1].w;
         }
       }
 
@@ -565,7 +571,8 @@ void ctrl_io_write_byte(unsigned int address, unsigned int data)
 #endif
       if (system_hw == SYSTEM_MCD)
       {
-        switch (address & 0xff)
+        /* register index ($A12000-A1203F mirrored up to $A120FF) */
+        switch (address & 0x3f)
         {
           case 0x00:  /* SUB-CPU interrupt */
           {
@@ -795,7 +802,8 @@ void ctrl_io_write_word(unsigned int address, unsigned int data)
 #endif
       if (system_hw == SYSTEM_MCD)
       {
-        switch (address & 0xfe)
+        /* register index ($A12000-A1203F mirrored up to $A120FF) */
+        switch (address & 0x3e)
         {
           case 0x00:  /* SUB-CPU interrupt & control */
           {

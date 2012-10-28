@@ -1629,7 +1629,7 @@ int gx_video_Update(void)
 
   /* copy EFB to XFB */
   GX_DrawDone();
-  GX_CopyDisp(xfb[whichfb], GX_FALSE);
+  GX_CopyDisp(xfb[whichfb], GX_TRUE);
   GX_Flush();
 
   /* XFB is ready to be displayed */
