@@ -48,7 +48,7 @@ NSString *const OEAutomaticallyGetInfoKey  = @"automaticallyGetInfo";
     dispatch_queue_t dispatchQueue;
 }
 
-@property (weak) OELibraryDatabase *database;
+@property(weak) OELibraryDatabase *database;
 
 - (void)startQueueIfNeeded;
 @property BOOL isBusy;
