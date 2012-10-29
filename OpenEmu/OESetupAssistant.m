@@ -46,6 +46,12 @@
 
 #pragma mark - Exported variables
 NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
+NSString *const OESetupAssistantGamepadDefaultUpEventKey = @"OESetupAssistantGamepadDefaultUpEventKey";
+NSString *const OESetupAssistantGamepadDefaultDownEventKey = @"OESetupAssistantGamepadDefaultDownEventKey";
+NSString *const OESetupAssistantGamepadDefaultLeftEventKey = @"OESetupAssistantGamepadDefaultLeftEventKey";
+NSString *const OESetupAssistantGamepadDefaultRightEventKey = @"OESetupAssistantGamepadDefaultRightEventKey";
+NSString *const OESetupAssistantGamepadDefaultPrimaryEventKey = @"OESetupAssistantGamepadDefaultPrimaryEventKey";
+NSString *const OESetupAssistantGamepadDefaultSecondaryEventKey = @"OESetupAssistantGamepadDefaultSecondaryEventKey";
 
 
 #pragma mark - OESetupAssistant
@@ -372,7 +378,7 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 
 - (IBAction)toStep6:(id)sender
 {
-    [self archiveEventForKey:@"userDefaultUp"];
+    [self archiveEventForKey:OESetupAssistantGamepadDefaultUpEventKey];
     
     [self setCurrentKeyMapView:[self downKeyMapView]];
     [self setCurrentNextButton:[self gamePadDownNextButton]];
@@ -388,7 +394,7 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 
 - (IBAction)toStep7:(id)sender
 {    
-    [self archiveEventForKey:@"userDefaultDown"];
+    [self archiveEventForKey:OESetupAssistantGamepadDefaultDownEventKey];
     [self setCurrentKeyMapView:[self leftKeyMapView]];
     [self setCurrentNextButton:[self gamePadLeftNextButton]];
     [self goForwardToView:[self step7]];
@@ -403,7 +409,7 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 
 - (IBAction)toStep8:(id)sender
 {
-    [self archiveEventForKey:@"userDefaultLeft"];
+    [self archiveEventForKey:OESetupAssistantGamepadDefaultLeftEventKey];
     [self setCurrentKeyMapView:[self rightKeyMapView]];
     [self setCurrentNextButton:[self gamePadRightNextButton]];
     [self goForwardToView:[self step8]];
@@ -418,7 +424,7 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 
 - (IBAction)toStep9:(id)sender
 {
-    [self archiveEventForKey:@"userDefaultRight"];
+    [self archiveEventForKey:OESetupAssistantGamepadDefaultRightEventKey];
     [self setCurrentKeyMapView:[self runKeyMapView]];
     [self setCurrentNextButton:[self gamePadRunNextButton]];
     [self goForwardToView:[self step9]];
@@ -433,7 +439,7 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 
 - (IBAction)toStep10:(id)sender
 {
-    [self archiveEventForKey:@"userDefaultPrimary"];
+    [self archiveEventForKey:OESetupAssistantGamepadDefaultPrimaryEventKey];
     
     [self setCurrentKeyMapView:[self jumpKeyMapView]];
     [self setCurrentNextButton:[self gamePadJumpNextButton]];
@@ -449,7 +455,7 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 
 - (IBAction)toLastStep:(id)sender
 {
-    [self archiveEventForKey:@"userDefaultSecondary"];
+    [self archiveEventForKey:OESetupAssistantGamepadDefaultSecondaryEventKey];
     
     [self goForwardToView:[self lastStep]];
 }
@@ -668,8 +674,12 @@ NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
 {
     [self setCurrentEventToArchive:event];
     [self setGotNewEvent:YES];
-    [[self currentKeyMapView] setKey:OESetupAssistantKeySucess];
-    [[self currentNextButton] setEnabled:YES];
+
+    // Make sure UI behaviour happens on the main thread since HID events are fired from the HID queue
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self currentKeyMapView] setKey:OESetupAssistantKeySucess];
+        [[self currentNextButton] setEnabled:YES];
+    });
 }
 
 - (void)axisMoved:(OEHIDEvent *)anEvent

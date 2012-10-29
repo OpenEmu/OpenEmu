@@ -33,6 +33,13 @@
 #import "OESetupAssistantTableView.h"
 
 extern NSString *const OESetupAssistantHasFinishedKey;
+extern NSString *const OESetupAssistantGamepadDefaultUpEventKey;
+extern NSString *const OESetupAssistantGamepadDefaultDownEventKey;
+extern NSString *const OESetupAssistantGamepadDefaultLeftEventKey;
+extern NSString *const OESetupAssistantGamepadDefaultRightEventKey;
+extern NSString *const OESetupAssistantGamepadDefaultPrimaryEventKey;
+extern NSString *const OESetupAssistantGamepadDefaultSecondaryEventKey;
+
 
 @class OESetupAssistantKeyMapView;
 
