@@ -35,9 +35,6 @@ extern NSString * const OESidebarWidthKey;
 extern NSString * const OESidebarVisibleKey;
 
 
-NSString * const OELibrarySplitViewDidResizeSubviewsNotification = @"OELibrarySplitViewDidResizeSubviewsNotification";
-
-
 @interface OELibrarySplitView ()
 - (void)OE_commonLibrarySplitViewInit;
 - (void)OE_replaceView:(NSView *)aView withView:(NSView *)anotherView animated:(BOOL)flag;
@@ -109,18 +106,13 @@ NSString * const OELibrarySplitViewDidResizeSubviewsNotification = @"OELibrarySp
 
 - (void)OE_replaceView:(NSView *)aView withView:(NSView *)anotherView animated:(BOOL)animated;
 {
-    if(!animated)
-    {
-        NSRect frame = [aView frame];
-        NSView *superView = [aView superview];
+    if(animated) NSLog(@"OELibrarySplitView hasn't implemented animation yet. Sorry about that; we'll proceed without animation");
 
-        [superView replaceSubview:aView with:anotherView];
-        [anotherView setFrame:frame];
-    }
-    else
-    {
-        NSLog(@"animation not implemented yet");
-    }
+    NSRect frame = [aView frame];
+    NSView *superView = [aView superview];
+
+    [superView replaceSubview:aView with:anotherView];
+    [anotherView setFrame:frame];
 }
 
 - (void)replaceLeftContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag
@@ -135,6 +127,8 @@ NSString * const OELibrarySplitViewDidResizeSubviewsNotification = @"OELibrarySp
 
 - (void)setSplitterPosition:(CGFloat)newPosition animated:(BOOL)animatedFlag
 {
+    // Note that newPosition may be 0, in which case we are being asked to hide the left view
+
     NSView *leftView  = [[self subviews] objectAtIndex:0];
     NSView *rightView = [[self subviews] objectAtIndex:1];
 
@@ -164,7 +158,7 @@ NSString * const OELibrarySplitViewDidResizeSubviewsNotification = @"OELibrarySp
     }
 }
 
-- (float)splitterPosition
+- (CGFloat)splitterPosition
 {
     NSView *leftView = [self.subviews objectAtIndex:0];
     return NSWidth([leftView frame]);
@@ -199,7 +193,8 @@ NSString * const OELibrarySplitViewDidResizeSubviewsNotification = @"OELibrarySp
 
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
 {
-    return MIN([self sidebarMaxWidth], NSWidth([self frame]) - [self mainViewMinWidth]);
+    NSAssert(NSWidth([self frame]) - [self mainViewMinWidth] > [self sidebarMaxWidth], @"We should never get to the point where the library right view is this small");
+    return [self sidebarMaxWidth];
 }
 
 - (BOOL)splitView:(NSSplitView *)splitView shouldHideDividerAtIndex:(NSInteger)dividerIndex
@@ -207,35 +202,9 @@ NSString * const OELibrarySplitViewDidResizeSubviewsNotification = @"OELibrarySp
     return dividerIndex == 0 && [self splitterPosition] == 0;
 }
 
-- (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
+- (BOOL)splitView:(NSSplitView *)splitView shouldAdjustSizeOfSubview:(NSView *)view
 {
-    NSView *leftView   = [[self subviews] objectAtIndex:0];
-    NSView *rightView  = [[self subviews] objectAtIndex:1];
-
-    NSSize  newSize    = [splitView frame].size;
-    NSRect  leftFrame  = [leftView frame];
-    NSRect  rightFrame = [rightView frame];
-
-    leftFrame.size.height = rightFrame.size.height = newSize.height;
-
-    if([self resizesLeftView])
-    {
-        leftFrame.size.width  = MAX(newSize.width - rightFrame.size.width - [self dividerThickness], 0.0);
-        rightFrame.origin.x   = leftFrame.size.width + [self dividerThickness];
-    }
-    else
-    {
-        rightFrame.size.width = MAX(newSize.width - leftFrame.size.width - [self dividerThickness], 0.0);
-    }
-
-    [leftView setFrame:leftFrame];
-    [rightView setFrame:rightFrame];
-}
-
-- (void)splitViewDidResizeSubviews:(NSNotification *)notification
-{
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc postNotificationName:OELibrarySplitViewDidResizeSubviewsNotification object:self];
+    return view != [[self subviews] objectAtIndex:0] || [self resizesLeftView];
 }
 
 @end

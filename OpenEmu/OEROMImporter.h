@@ -28,54 +28,67 @@
 #import "OEImportItem.h"
 
 const int MaxSimulatenousImports;
-#pragma mark User Default Keys -
-extern NSString * const OEOrganizeLibraryKey;
-extern NSString * const OECopyToLibraryKey;
-extern NSString * const OEAutomaticallyGetInfoKey;
-#pragma mark Error Codes -
-extern NSString * const OEImportErrorDomainFatal;
-extern NSString * const OEImportErrorDomainResolvable;
-extern NSString * const OEImportErrorDomainSuccess;
 
-extern const int OEImportErrorCodeAlreadyInDatabase;
-extern const int OEImportErrorCodeWaitingForArchiveSync;
-extern const int OEImportErrorCodeMultipleSystems;
-#pragma mark Import Info Keys -
-extern NSString * const OEImportInfoMD5;
-extern NSString * const OEImportInfoCRC;
-extern NSString * const OEImportInfoROMObjectID;
-extern NSString * const OEImportInfoSystemID;
-extern NSString * const OEImportInfoArchiveSync;
-#pragma mark Importer Status -
-extern const int OEImporterStatusStopped;
-extern const int OEImporterStatusRunning;
-extern const int OEImporterStatusPausing;
-extern const int OEImporterStatusPaused;
-extern const int OEImporterStatusStopping;
+#pragma mark User Default Keys -
+extern NSString *const OEOrganizeLibraryKey;
+extern NSString *const OECopyToLibraryKey;
+extern NSString *const OEAutomaticallyGetInfoKey;
+
+#pragma mark Error Codes -
+extern NSString *const OEImportErrorDomainFatal;
+extern NSString *const OEImportErrorDomainResolvable;
+extern NSString *const OEImportErrorDomainSuccess;
+
+typedef enum : NSInteger {
+    OEImportErrorCodeAlreadyInDatabase     = -1,
+    OEImportErrorCodeWaitingForArchiveSync = 1,
+    OEImportErrorCodeMultipleSystems       = 2,
+    OEImportErrorCodeNoSystem              = 3,
+} OEImportErrorCode;
+
+#pragma mark - Import Info Keys
+extern NSString *const OEImportInfoMD5;
+extern NSString *const OEImportInfoCRC;
+extern NSString *const OEImportInfoROMObjectID;
+extern NSString *const OEImportInfoSystemID;
+extern NSString *const OEImportInfoArchiveSync;
+
+#pragma mark - Importer Status
+typedef enum : NSInteger {
+    OEImporterStatusStopped  = 1,
+    OEImporterStatusRunning  = 2,
+    OEImporterStatusPausing  = 3,
+    OEImporterStatusPaused   = 4,
+    OEImporterStatusStopping = 5,
+} OEImporterStatus;
 
 @class OELibraryDatabase;
 @protocol OEROMImporterDelegate;
+
 @interface OEROMImporter : NSObject
+
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase;
-@property (weak, readonly) OELibraryDatabase *database;
-@property (strong) id <OEROMImporterDelegate> delegate;
 
-@property (readonly) int status;
+@property(weak, readonly) OELibraryDatabase *database;
+@property(strong) id<OEROMImporterDelegate> delegate;
+
+@property(readonly) NSInteger status;
+
 #pragma mark - Importing Items -
-- (void)importItemAtPath:(NSString*)path;
-- (void)importItemsAtPaths:(NSArray*)path;
-- (void)importItemAtURL:(NSURL*)url;
-- (void)importItemsAtURLs:(NSArray*)url;
+- (void)importItemAtPath:(NSString *)path;
+- (void)importItemsAtPaths:(NSArray *)path;
+- (void)importItemAtURL:(NSURL *)url;
+- (void)importItemsAtURLs:(NSArray *)url;
 
-- (void)importItemAtPath:(NSString*)path withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (void)importItemsAtPaths:(NSArray*)paths withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (void)importItemAtURL:(NSURL*)url withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (void)importItemsAtURLs:(NSArray*)urls withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (void)importItemAtPath:(NSString *)path withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (void)importItemsAtPaths:(NSArray *)paths withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (void)importItemAtURL:(NSURL *)url withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (void)importItemsAtURLs:(NSArray *)urls withCompletionHandler:(OEImportItemCompletionBlock)handler;
 
 #pragma mark - Spotlight importing -
-- (void)discoverRoms:(NSArray*)volumes;
-- (void)updateSearchResults:(NSNotification*)notification;
-- (void)finalizeSearchResults:(NSNotification*)notification;
+- (void)discoverRoms:(NSArray *)volumes;
+- (void)updateSearchResults:(NSNotification *)notification;
+- (void)finalizeSearchResults:(NSNotification *)notification;
 - (void)importSpotlightResultsInBackground;
 @end
 
@@ -89,19 +102,20 @@ extern const int OEImporterStatusStopping;
 - (void)startQueueIfNeeded;
 - (void)removeFinished;
 
-@property (readonly) NSInteger totalNumberOfItems;
-@property (readonly) NSInteger numberOfProcessedItems;
+@property(readonly) NSInteger totalNumberOfItems;
+@property(readonly) NSInteger numberOfProcessedItems;
 @end
 
 #pragma mark - Importer Delegate
+
 @protocol OEROMImporterDelegate <NSObject>
 @optional
-- (void)romImporterDidStart:(OEROMImporter*)importer;
-- (void)romImporterDidCancel:(OEROMImporter*)importer;
-- (void)romImporterDidPause:(OEROMImporter*)importer;
-- (void)romImporterDidFinish:(OEROMImporter*)importer;
-- (void)romImporterChangedItemCount:(OEROMImporter*)importer;
-- (void)romImporter:(OEROMImporter*)importer startedProcessingItem:(OEImportItem*)item;
-- (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem*)item;
-- (void)romImporter:(OEROMImporter*)importer stoppedProcessingItem:(OEImportItem*)item;
+- (void)romImporterDidStart:(OEROMImporter *)importer;
+- (void)romImporterDidCancel:(OEROMImporter *)importer;
+- (void)romImporterDidPause:(OEROMImporter *)importer;
+- (void)romImporterDidFinish:(OEROMImporter *)importer;
+- (void)romImporterChangedItemCount:(OEROMImporter *)importer;
+- (void)romImporter:(OEROMImporter *)importer startedProcessingItem:(OEImportItem *)item;
+- (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem *)item;
+- (void)romImporter:(OEROMImporter *)importer stoppedProcessingItem:(OEImportItem *)item;
 @end

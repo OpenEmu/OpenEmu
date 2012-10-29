@@ -31,16 +31,18 @@
 #import "OEROMImporter.h"
 
 @implementation OEImportItem
-+ (id)itemWithURL:(NSURL*)url andCompletionHandler:(OEImportItemCompletionBlock)handler
+
++ (id)itemWithURL:(NSURL *)url andCompletionHandler:(OEImportItemCompletionBlock)handler
 {
     id item = nil;
     
-    NSDictionary *resourceValues = [url resourceValuesForKeys:[NSArray arrayWithObjects:NSURLIsPackageKey, NSURLIsHiddenKey, nil] error:nil];
+    NSDictionary *resourceValues = [url resourceValuesForKeys:@[ NSURLIsPackageKey, NSURLIsHiddenKey ] error:nil];
     if([[resourceValues objectForKey:NSURLIsHiddenKey] boolValue] || [[resourceValues objectForKey:NSURLIsPackageKey] boolValue])
         return nil;    
 
     NSArray *validExtensions = [OESystemPlugin supportedTypeExtensions];
     NSString *extension = [[url pathExtension] lowercaseString];
+    
     if([extension length] == 0 || [validExtensions containsObject:extension])
     {
         item = [[OEImportItem alloc] init];
@@ -54,70 +56,58 @@
     return item;
 }
 
-- (NSString*)localizedStatusMessage
+- (NSString *)localizedStatusMessage
 {
-    NSMutableString *message = [NSMutableString string];
-    switch ([self importState]) {
-        case OEImportItemStatusActive:
-            [message appendString:[self localizedStepMessage]];
+    NSString *message = @"";
+    
+    switch([self importState])
+    {
+        case OEImportItemStatusActive :
+            message = [self localizedStepMessage];
             break;
-        case OEImportItemStatusIdle:
-            [message appendString:@"Waiting"];
+            
+        case OEImportItemStatusIdle :
+            message = @"Waiting";
             break;
-        case OEImportItemStatusFatalError:
-            [message appendString:[[self error] localizedDescription]];
+            
+        case OEImportItemStatusFatalError :
+        case OEImportItemStatusResolvableError :
+            message = [[self error] localizedDescription];
             break;
-        case OEImportItemStatusFinished:
-            if([[[self error] domain] isEqualTo:OEImportErrorDomainSuccess] && [[self error] code]==OEImportErrorCodeAlreadyInDatabase)
-                [message appendString:@"Skipped (already in database)"];
+            
+        case OEImportItemStatusFinished :
+            if([[[self error] domain] isEqualToString:OEImportErrorDomainSuccess] && [[self error] code] == OEImportErrorCodeAlreadyInDatabase)
+                message = @"Skipped (already in database)";
             else
-                [message appendString:@"Finished"];
+                message = @"Finished";
             break;
-        case OEImportItemStatusResolvableError:
-            [message appendString:[[self error] localizedDescription]];
-            break;
-        case OEImportItemStatusCanceld:
-            [message appendString:@"Canceld"];
+            
+        case OEImportItemStatusCancelled :
+            message = @"Cancelled";
             break;
     }
     
     return message;
 }
 
-- (NSString*)localizedStepMessage
+- (NSString *)localizedStepMessage
 {
-    NSMutableString *message = [NSMutableString string];
+    NSString *message = @"Unkown";
 
-    switch ([self importStep]) {
-        case OEImportStepCheckDirectory:
-            [message appendString:@"Check Directory"];
-            break;
-        case OEImportStepCheckHash:
-            [message appendString:@"Check Hash"];
-            break;
-        case OEImportStepCreateGame:
-            [message appendString:@"Create Game"];
-            break;
-        case OEImportStepCreateRom:
-            [message appendString:@"Create ROM"];
-            break;
-        case OEImportStepDetermineSystem:
-            [message appendString:@"Determine System"];
-            break;
-        case OEImportStepHash:
-            [message appendString:@"Calculating Hash"];
-            break;
-        case OEImportStepOrganize:
-            [message appendString:@"Copying File"];
-            break;
-        case OEImportStepSyncArchive:
-            [message appendString:@"Syncing with Archive.vg"];
-            break;
-            
-        default:
-            [message appendString:@"Unkown"];
-            break;
+    switch([self importStep])
+    {
+        case OEImportStepCheckDirectory  : message = @"Check Directory";         break;
+        case OEImportStepCheckHash       : message = @"Check Hash";              break;
+        case OEImportStepCreateGame      : message = @"Create Game";             break;
+        case OEImportStepCreateRom       : message = @"Create ROM";              break;
+        case OEImportStepDetermineSystem : message = @"Determine System";        break;
+        case OEImportStepHash            : message = @"Calculating Hash";        break;
+        case OEImportStepOrganize        : message = @"Copying File";            break;
+        case OEImportStepSyncArchive     : message = @"Syncing with Archive.vg"; break;
+        default : break;
     }
-            return message;
+    
+    return message;
 }
+
 @end

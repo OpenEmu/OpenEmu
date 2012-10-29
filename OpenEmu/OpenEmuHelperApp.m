@@ -192,15 +192,16 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 - (void)setupIOSurface
 {
     // init our texture and IOSurface
-    NSMutableDictionary *surfaceAttributes = [[NSMutableDictionary alloc] init];
     OEIntSize surfaceSize = correctedSize;
-    [surfaceAttributes setObject:[NSNumber numberWithBool:YES] forKey:(NSString*)kIOSurfaceIsGlobal];
-    [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)surfaceSize.width] forKey:(NSString*)kIOSurfaceWidth];
-    [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)surfaceSize.height] forKey:(NSString*)kIOSurfaceHeight];
-    [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)4] forKey:(NSString*)kIOSurfaceBytesPerElement];
+    NSDictionary *surfaceAttributes = @{
+    (NSString *)kIOSurfaceIsGlobal        : @YES,
+    (NSString *)kIOSurfaceWidth           : @(surfaceSize.width),
+    (NSString *)kIOSurfaceHeight          : @(surfaceSize.height),
+    (NSString *)kIOSurfaceBytesPerElement : @4
+    };
     
     // TODO: do we need to ensure openGL Compatibility and CALayer compatibility?
-    surfaceRef = IOSurfaceCreate((__bridge CFDictionaryRef) surfaceAttributes);
+    surfaceRef = IOSurfaceCreate((__bridge CFDictionaryRef)surfaceAttributes);
         
     // make a new texture.
     CGLContextObj cgl_ctx = glContext;
