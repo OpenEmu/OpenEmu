@@ -405,6 +405,11 @@ static void writeSaveFile(const char* path, int type)
     return OESizeMake(320, 210);
     //return OESizeMake(current->videoWidth, current->videoHeight);
 }
+
+- (OEIntSize)aspectSize
+{
+    return OESizeMake(videoWidth * 2, videoHeight);
+}
 /*
  - (void)setupEmulation
  {
