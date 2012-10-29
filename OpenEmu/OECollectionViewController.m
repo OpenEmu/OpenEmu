@@ -71,6 +71,10 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 const int OE_GridViewTag = 0;
 const int OE_FlowViewTag = 1;
 const int OE_ListViewTag = 2;
+
+static const float OE_coverFlowHeightPercentage = .75;
+
+
 @interface OECollectionViewController ()
 {    
     IBOutlet NSView *gridViewContainer;// gridview
@@ -186,6 +190,11 @@ const int OE_ListViewTag = 2;
         
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
+
+    // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
+    // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
+    // empty collection until -setRepresentedObject: is received again
+    if([self representedObject]) [self OE_reloadData];
 }
 
 - (NSString *)nibName
@@ -316,8 +325,8 @@ const int OE_ListViewTag = 2;
             view = gridViewContainer;
             break;
         case OE_FlowViewTag:
-            splitterPosition = 500.0f; //  TODO: fix splitter position here
             view = flowlistViewContainer;
+            splitterPosition = NSHeight([view frame]) * OE_coverFlowHeightPercentage;
             break;
         case OE_ListViewTag:
             view = flowlistViewContainer; //  TODO: fix splitter position here too
@@ -473,63 +482,26 @@ const int OE_ListViewTag = 2;
     return [[gamesController arrangedObjects] count];
 }
 
-- (OEGridViewCell *)OE_gridView:(OEGridView *)view cellForObjectID:(NSManagedObjectID *)oid atIndex:(NSUInteger)index
-{
-    if(!oid) return nil;
-    
-    OECoverGridViewCell *cell = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
-    
-    if(cell == nil) cell = (OECoverGridViewCell *)[view dequeueReusableCell];
-    if(cell == nil) cell = [[OECoverGridViewCell alloc] init];
-
-    NSManagedObject<OECoverGridDataSourceItem> *object = (id<OECoverGridDataSourceItem>)[[[OELibraryDatabase defaultDatabase] managedObjectContext] objectWithID:oid];
-
-    [cell setTitle:[object gridTitle]];
-    [cell setRating:[object gridRating]];
-    [cell setIndicationType:(OECoverGridViewCellIndicationType)[object gridStatus]];
-
-    if([object hasImage])
-    {
-        [cell setImageSize:[object actualGridImageSizeforSize:[gridView itemSize]]];
-        [cell setImage:[object gridImageWithSize:[gridView itemSize]]];
-    }
-	else
-    {
-        [cell setImageSize:[gridView itemSize]];
-        [cell setImage:nil];
-    }
-
-    return cell;
-}
-
 - (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
-    // Make sure that the index is within the bounds of the available games
-    id arrangedObjects = [gamesController arrangedObjects];
-    if(index >= [arrangedObjects count]) return nil;
-
-    // Capture the object's ID so that we can extract the data on the appropriate MOC
-    NSManagedObjectID *oid = [(NSManagedObject *)[arrangedObjects objectAtIndex:index] objectID];
-    if(!oid)
+    if (index >= [[gamesController arrangedObjects] count]) return nil;
+    
+    OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
+    
+    if(item == nil) item = (OECoverGridViewCell *)[view dequeueReusableCell];
+    if(item == nil) item = [[OECoverGridViewCell alloc] init];
+    
+    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
+    [item setTitle:[object gridTitle]];
+    [item setRating:[object gridRating]];
+    
+    if([object hasImage])
     {
-        DLog(@"ERROR: Unable to retrieve object at index %ld from gamesController.", index);
-        return nil;
+        [item setImageSize:[object actualGridImageSizeforSize:[view itemSize]]];
+        [item setImage:[object gridImageWithSize:[gridView itemSize]]];
     }
-
-    if([NSThread isMainThread] || [[OELibraryDatabase defaultDatabase] managedObjectContext])
-    {
-        return [self OE_gridView:view cellForObjectID:oid atIndex:index];
-    }
-    else
-    {
-        // If the MOC doesn't exist, then try to retrieve the cell from the main thread
-        DLog(@"WARNING: Unable to retrieve object from current thread's (%@) moc.", [NSThread currentThread]);
-        __block OEGridViewCell *cell = nil;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            cell = [self OE_gridView:view cellForObjectID:oid atIndex:index];
-        });
-        return cell;
-    }
+    
+    return item;
 }
 
 - (NSView *)viewForNoItemsInGridView:(OEGridView *)view
@@ -617,7 +589,7 @@ const int OE_ListViewTag = 2;
     }
     else
     {
-        if([[NSUserDefaults standardUserDefaults] boolForKey:OEAllowPopoutGameWindowKey])
+        if([[NSUserDefaults standardUserDefaults] boolForKey:OEForcePopoutGameWindowKey])
         {
             [menu addItemWithTitle:@"Play Games (Caution)" action:@selector(startGame:) keyEquivalent:@""];
         }
@@ -829,7 +801,7 @@ const int OE_ListViewTag = 2;
         [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
             [[game roms] enumerateObjectsUsingBlock:^(OEDBRom *rom, BOOL *stopRoms) {
                 NSURL *romURL = [rom URL];
-                if(romURL && [romURL isSubpathOfURL:romsFolderURL])
+                if(romURL != nil && [romURL isSubpathOfURL:romsFolderURL])
                 {
                     romsAreInRomsFolder = YES;
                     
@@ -1179,6 +1151,7 @@ const int OE_ListViewTag = 2;
 {}
 - (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
 {
+    [[self libraryController] startGame:self];
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index

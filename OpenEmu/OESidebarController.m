@@ -37,7 +37,6 @@
 #import "OEHUDAlert.h"
 
 #import "NSImage+OEDrawingAdditions.h"
-#import "OEROMImporter+OESidebarAdditions.h"
 #import "NSArray+OEAdditions.h"
 
 extern NSString *const OELastCollectionSelectedKey;
@@ -46,7 +45,7 @@ extern NSString * const OEDBSystemsChangedNotificationName;
 
 NSString * const OESidebarSelectionDidChangeNotificationName = @"OESidebarSelectionDidChange";
 
-NSString * const OESidebarGroupConsolesAutosaveName = @"sidebarConsolesItem";
+NSString * const OESidebarGroupConsolesAutosaveName    = @"sidebarConsolesItem";
 NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsItem";
 @interface OESidebarController ()
 {
@@ -315,6 +314,16 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
     if(![self database]) return;
 
+    
+    if(![self outlineView:[self view] shouldSelectItem:[self selectedSidebarItem]])
+    {
+        DLog(@"invalid selection");
+        NSInteger row = [[self view] selectedRow];
+        if(row == NSNotFound) row = 1;
+        else row ++;
+        [[self view] selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+    }
+    
     id<OESidebarItem> selectedItem = [self selectedSidebarItem];
     if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
         [[NSUserDefaults standardUserDefaults] setValue:[selectedItem sidebarID] forKey:OELastCollectionSelectedKey];
@@ -326,7 +335,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-    return [self database]!=nil && ![item isGroupHeaderInSdebar];
+    return [self database]!=nil && ![item isGroupHeaderInSdebar] && [item isSelectableInSdebar];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item
@@ -336,6 +345,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
     return NO;
 }
+
 #pragma mark -
 #pragma mark NSOutlineView DataSource
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
@@ -345,12 +355,6 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     
     if(item == [self.groups objectAtIndex:0] )
         return [self.systems objectAtIndex:index];
-    
-    if(item == [self.groups objectAtIndex:1] && [[[self database] importer] isBusy])
-    {
-        if(index == 0) return [[self database] importer];
-        else           return [self.collections objectAtIndex:index-1];
-    }
     
     if(item == [self.groups objectAtIndex:1])
         return [self.collections objectAtIndex:index];
@@ -379,7 +383,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     }
     
     if(item == [self.groups objectAtIndex:1])
-        return [self.collections count] + [[[self database] importer] isBusy];
+        return [self.collections count];
     
     return 0;
 }

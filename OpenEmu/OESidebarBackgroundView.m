@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2012, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  * Neither the name of the OpenEmu Team nor the
  names of its contributors may be used to endorse or promote products
  derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,7 +24,21 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEROMImporter.h"
-#import "OESidebarItem.h"
-@interface OEROMImporter (OESidebarAdditions)  <OESidebarItem> 
+#import "OESidebarBackgroundView.h"
+
+@implementation OESidebarBackgroundView
+
+- (void)drawRect:(NSRect)dirtyRect
+{    
+    [[NSColor colorWithDeviceWhite:(63/255.0) alpha:1.0] setFill];
+    NSRectFill(dirtyRect);
+    [[NSColor blackColor] setFill];
+    NSRect blackBorderLine = [self bounds];
+    
+    blackBorderLine.origin.x += blackBorderLine.size.width-1;
+    blackBorderLine.size.width = 1;
+    
+    NSRectFill(NSIntersectionRect(blackBorderLine, dirtyRect));
+}
+
 @end

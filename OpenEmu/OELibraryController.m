@@ -344,7 +344,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [oldViewController viewWillDisappear];
     [nextViewController viewWillAppear];
     
-    NSView *newView    = [nextViewController view];
+    NSView *newView    = [nextViewController view];    
     if(oldViewController)
     {
         NSView *superView = [[oldViewController view] superview];
@@ -370,7 +370,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 - (void)sidebarSelectionDidChange:(NSNotification *)notification
-{
+{    
     // Save Current State
     id lastState = [(id <OELibrarySubviewController>)[self currentViewController] encodeCurrentState];
     id itemID    = [[[self currentViewController] representedObject] sidebarID];
@@ -381,11 +381,13 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     
     NSString *viewControllerClasName = [selectedItem viewControllerClassName];
     NSViewController <OELibrarySubviewController> *viewController = [self viewControllerWithClassName:viewControllerClasName];
+
+    // Make sure the view is loaded (-showViewController:) before setting the represented object.
+    // This prepares the view controller (via its -loadView implementation) so that it can effectively act upon receiving a new
+    // represented object
+    [self showViewController:viewController];
     [viewController setRepresentedObject:selectedItem];
 
-    [self showViewController:viewController];
-    
-    
     itemID = [selectedItem sidebarID];
     [viewController restoreState:[self OE_storedStateForSidebarItemWithID:itemID]];
 }

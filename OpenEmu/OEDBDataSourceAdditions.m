@@ -411,7 +411,7 @@
 
 - (NSPredicate *)predicate
 {
-    return [NSPredicate predicateWithValue:YES];
+    return [NSPredicate predicateWithFormat:@"system.enabled = YES"];
 }
 
 @end

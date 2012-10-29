@@ -1,10 +1,28 @@
-//
-//  OETableView.m
-//  OpenEmuMockup
-//
-//  Created by Christoph Leimbrock on 03.04.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/*
+ Copyright (c) 2011-2012, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "OETableView.h"
 
@@ -13,9 +31,21 @@
 
 #import "OEMenu.h"
 #import "OEGridView.h"
-@implementation OETableView
+
+
 static NSColor *cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor;
 static NSGradient *highlightGradient, *normalGradient;
+
+
+@interface OETableView ()
+{
+    NSColor *_fieldEditorOriginalInsertionPointColor;
+}
+@property (strong, readwrite) NSColor *selectionColor;
+@end
+
+
+@implementation OETableView
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -41,12 +71,12 @@ static NSGradient *highlightGradient, *normalGradient;
 		{
 			highlightGradient = [[NSGradient alloc] initWithStartingColor:[NSColor greenColor] endingColor:[NSColor magentaColor]];
 		}
-		
+
 		if(!strokeColor)
 		{
 			strokeColor = [NSColor blackColor];
 		}
-		
+
 		if(!normalGradient)
 		{
 			NSColor *c1 = [NSColor colorWithDeviceWhite:0.29 alpha:1.0];
@@ -236,6 +266,65 @@ static NSGradient *highlightGradient, *normalGradient;
         [NSApp sendAction:@selector(delete:) to:nil from:self];
     else
         [super keyDown:theEvent];        
+}
+
+- (void)cancelOperation:(id)sender
+{
+    NSTextView *fieldEditor = (NSTextView *)[self currentEditor];
+    if(fieldEditor)
+    {
+        [self abortEditing];
+
+        if([fieldEditor isKindOfClass:[NSTextView class]] && _fieldEditorOriginalInsertionPointColor)
+        {
+            [fieldEditor setInsertionPointColor:_fieldEditorOriginalInsertionPointColor];
+        }
+
+        [[self window] makeFirstResponder:self];
+    }
+}
+
+- (void)editColumn:(NSInteger)column row:(NSInteger)row withEvent:(NSEvent *)theEvent select:(BOOL)select
+{
+    [super editColumn:column row:row withEvent:theEvent select:select];
+
+    NSTextFieldCell *cell = (NSTextFieldCell *)[self preparedCellAtColumn:column row:row];
+    if(![cell isKindOfClass:[NSTextFieldCell class]]) return;
+
+    NSTextView *fieldEditor = (NSTextView *)[[self window] fieldEditor:YES forObject:cell];
+    if(![fieldEditor isKindOfClass:[NSTextView class]]) return;
+
+    _fieldEditorOriginalInsertionPointColor = [fieldEditor insertionPointColor];
+    [fieldEditor setInsertionPointColor:[fieldEditor textColor]];
+}
+
+- (void)textDidEndEditing:(NSNotification *)notification
+{
+    NSTextView *fieldEditor = [notification object];
+    if([fieldEditor isKindOfClass:[NSTextView class]] && _fieldEditorOriginalInsertionPointColor)
+    {
+        [fieldEditor setInsertionPointColor:_fieldEditorOriginalInsertionPointColor];
+    }
+
+    [super textDidEndEditing:notification];
+}
+
+#pragma mark - Context menu
+
+- (void)renameSelectedGame:(id)sender
+{
+    if([[self selectedRowIndexes] count] != 1)
+    {
+        DLog(@"I can only rename a single game, sir.");
+        return;
+    }
+
+    NSInteger selectedRow = [[self selectedRowIndexes] firstIndex];
+
+    NSInteger romNameColumnIndex = [self columnWithIdentifier:@"romName"];
+    NSAssert(romNameColumnIndex != -1, @"The list view must have a column identified by romName");
+
+    [self editColumn:romNameColumnIndex row:selectedRow withEvent:nil select:NO];
 }
 
 @synthesize selectionColor;

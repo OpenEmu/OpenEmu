@@ -51,6 +51,7 @@ NSString *const OEDefaultDatabasePathKey     = @"defaultDatabasePath";
 NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
 
 NSString *const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
+NSString *const OESaveStateFolderURLKey      = @"saveStateFolder";
 
 @interface OELibraryDatabase ()
 {
@@ -300,7 +301,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         return __managedObjectContext;
     }
     
-    DLog(@"Using CoreData on background thread!");
+    // DLog(@"Using CoreData on background thread!");
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     
     NSThread *thread = [NSThread currentThread];
@@ -444,21 +445,20 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *error = nil;
     NSUInteger ccount = [context countForFetchRequest:req error:&error];
-    if(count == NSNotFound)
+    if(ccount == NSNotFound)
     {
         ccount = 0;
         NSLog(@"collectionsCount: Smart Collections Error: %@", error);
     }
     count += ccount;
-    
+
     
     descr = [NSEntityDescription entityForName:@"Collection" inManagedObjectContext:context];
     req = [[NSFetchRequest alloc] init];
     [req setEntity:descr];
     
-    error = nil;
     ccount = [context countForFetchRequest:req error:&error];
-    if(count == NSNotFound)
+    if(ccount == NSNotFound)
     {
         ccount = 0;
         NSLog(@"collectionsCount: Regular Collections Error: %@", error);
@@ -773,6 +773,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)stateFolderURL
 {
+    if([[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey]) return [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey]];
+    
     NSString *saveStateFolderName = NSLocalizedString(@"Save States", @"Save States Folder Name");
     NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];    
@@ -808,6 +810,56 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSURL *url = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
     return url;
+}
+
+#pragma mark - Debug
+
+- (void)dump
+{
+    [self dumpWithPrefix:@"***"];
+}
+
+- (void)dumpWithPrefix:(NSString *)prefix
+{
+    NSString *subPrefix = [prefix stringByAppendingString:@"-----"];
+    NSLog(@"%@ Beginning of database dump\n", prefix);
+
+    NSLog(@"%@ Database folder is %@", prefix, [[self databaseFolderURL] path]);
+    NSLog(@"%@ Number of collections is %lu", prefix, (unsigned long)[self collectionsCount]);
+
+    for(id collection in [self collections])
+    {
+        if([collection respondsToSelector:@selector(dumpWithPrefix:)]) [collection dumpWithPrefix:subPrefix];
+        else NSLog(@"%@ Collection is %@", subPrefix, collection);
+    }
+
+    NSLog(@"%@", prefix);
+    NSLog(@"%@ Number of systems is %lu", prefix, (unsigned long)[OEDBSystem systemsCountInDatabase:self]);
+    for(id system in [OEDBSystem allSystemsInDatabase:self])
+    {
+        if([system respondsToSelector:@selector(dumpWithPrefix:)]) [system dumpWithPrefix:subPrefix];
+        else NSLog(@"%@ System is %@", subPrefix, system);
+    }
+
+    NSLog(@"%@", prefix);
+    NSLog(@"%@ ALL ROMs", prefix);
+    for(id ROM in [self allROMsForDump])
+    {
+        if([ROM respondsToSelector:@selector(dumpWithPrefix:)]) [ROM dumpWithPrefix:subPrefix];
+        else NSLog(@"%@ ROM is %@", subPrefix, ROM);
+    }
+
+    NSLog(@"%@ End of database dump\n\n", prefix);
+}
+
+- (NSArray *)allROMsForDump
+{
+    NSManagedObjectContext *MOC = [self managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:MOC];
+    NSFetchRequest *fetchReq = [NSFetchRequest new];
+    [fetchReq setEntity:entity];
+    NSArray *ROMs = [MOC executeFetchRequest:fetchReq error:NULL];
+    return ROMs;
 }
 
 @end

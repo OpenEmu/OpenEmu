@@ -43,6 +43,7 @@ NSString *const OESaveStateInfoNameKey              = @"Name";
 NSString *const OESaveStateInfoDescriptionKey       = @"Description";
 NSString *const OESaveStateInfoROMMD5Key            = @"ROM MD5";
 NSString *const OESaveStateInfoCoreIdentifierKey    = @"Core Identifier";
+NSString *const OESaveStateInfoCoreVersionKey       = @"Core Version";
 NSString *const OESaveStateInfoTimestampKey         = @"Timestamp";
 
 // NSString *const OESaveStateInfoCreationDateKey   = @"Creation Date";
@@ -141,6 +142,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [newSaveState setName:name];
     [newSaveState setRom:rom];
     [newSaveState setCoreIdentifier:[core bundleIdentifier]];
+    [newSaveState setCoreVersion:[core version]];
     [newSaveState setTimestamp:[NSDate date]];
     
     if([name hasPrefix:OESaveStateSpecialNamePrefix])
@@ -223,6 +225,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     {
         NSString *infoName              = [infoPlist valueForKey:OESaveStateInfoNameKey];
         NSString *infoCoreIdentifier    = [infoPlist valueForKey:OESaveStateInfoCoreIdentifierKey];
+        NSString *infoCoreVersion       = [infoPlist valueForKey:OESaveStateInfoCoreVersionKey];
         NSString *infoUserDescription   = [infoPlist valueForKey:OESaveStateInfoDescriptionKey];
         NSString *infoRomMD5            = [infoPlist valueForKey:OESaveStateInfoROMMD5Key];
         NSDate   *infoTimestamp         = [infoPlist valueForKey:OESaveStateInfoTimestampKey];
@@ -233,6 +236,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     
         [self setName:infoName];
         [self setCoreIdentifier:infoCoreIdentifier];
+        [self setCoreVersion:infoCoreVersion];
         [self setRom:rom];
         
 
@@ -261,6 +265,8 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [infoPlist setObject:OESaveStateLatestVersion   forKey:OESaveStateInfoVersionKey];
     [infoPlist setObject:[self name]                forKey:OESaveStateInfoNameKey];
     [infoPlist setObject:[self coreIdentifier]      forKey:OESaveStateInfoCoreIdentifierKey];
+    if([self coreVersion])
+        [infoPlist setObject:[self coreVersion]         forKey:OESaveStateInfoCoreVersionKey];
     [infoPlist setObject:[[self rom] md5Hash]       forKey:OESaveStateInfoROMMD5Key];
     [infoPlist setObject:[self timestamp]           forKey:OESaveStateInfoTimestampKey];
     if([self userDescription])
@@ -321,7 +327,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 #pragma mark -
 #pragma mark Data Model Properties
 @dynamic name, userDescription, timestamp;
-@dynamic coreIdentifier, location;
+@dynamic coreIdentifier, location, coreVersion;
 
 - (NSURL*)URL
 {
@@ -335,7 +341,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 - (NSURL*)screenshotURL
 {
-    return [NSURL URLWithString:OESaveStateScreenshotFile relativeToURL:[self URL]];
+    return [[self URL] URLByAppendingPathComponent:OESaveStateScreenshotFile];
 }
 
 - (NSURL*)stateFileURL

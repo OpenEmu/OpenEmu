@@ -154,7 +154,7 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
             
             OECoreDownload *download = [[OECoreDownload alloc] init];
             [download setName:[[coreNode attributeForName:@"name"] stringValue]];
-            [download setDescription:elementChildAsString(coreNode, @"description")];
+            [download setSystemNames:elementChildAsString(coreNode, @"systems")];
             [download setCanBeInstalled:YES];
             
             NSURL *appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];

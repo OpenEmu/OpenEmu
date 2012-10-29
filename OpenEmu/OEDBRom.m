@@ -329,6 +329,22 @@
     [set makeObjectsPerformSelector:@selector(removeIfMissing)];
 }
 
+// Core Data does not care about getter= overrides in modelled property declarations,
+// so we provide our own -isFavorite
+- (NSNumber *)isFavorite
+{
+    // We cannot use -valueForKey:@"favorite" since vanilla KVC would end up
+    // calling this very method, so we use -primitiveValueForKey: instead
+
+    NSString *key = @"favorite";
+    
+    [self willAccessValueForKey:key];
+    NSNumber *value = [self primitiveValueForKey:key];
+    [self didAccessValueForKey:key];
+
+    return value;
+}
+
 #pragma mark -
 #pragma mark Mainpulating a rom
 
@@ -371,6 +387,31 @@
 - (NSMutableSet *)mutableSaveStates
 {
     return [self mutableSetValueForKey:@"saveStates"];
+}
+
+#pragma mark - Debug
+
+- (void)dump
+{
+    [self dumpWithPrefix:@"---"];
+}
+
+- (void)dumpWithPrefix:(NSString *)prefix
+{
+//    NSString *subPrefix = [prefix stringByAppendingString:@"-----"];
+    NSLog(@"%@ Beginning of ROM dump", prefix);
+
+    NSLog(@"%@ ROM location is %@", prefix, [self location]);
+    NSLog(@"%@ favorite? %s", prefix, BOOL_STR([self isFavorite]));
+    NSLog(@"%@ CRC32 is %@", prefix, [self crc32]);
+    NSLog(@"%@ MD5 is %@", prefix, [self md5]);
+    NSLog(@"%@ last played is %@", prefix, [self lastPlayed]);
+    NSLog(@"%@ file size is %@", prefix, [self fileSize]);
+    NSLog(@"%@ ROM is linked to a game? %s", prefix, ([self game] ? "YES" : "NO"));
+
+    NSLog(@"%@ Number of save states for this ROM is %ld", prefix, (unsigned long)[self saveStateCount]);
+
+    NSLog(@"%@ End of ROM dump\n\n", prefix);
 }
 
 @end

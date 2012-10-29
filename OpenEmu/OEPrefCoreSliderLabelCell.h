@@ -29,7 +29,5 @@
 #import "OEAttributedTextFieldCell.h"
 @interface OEPrefCoreSliderLabelCell : OEAttributedTextFieldCell {
 @private
-    
 }
-
 @end

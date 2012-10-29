@@ -130,8 +130,18 @@ const char * S9xGetSPC7110Directory(void)
 }
 const char *S9xGetDirectory (enum s9x_getdirtype dirtype)
 {
+    NSString *biosPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+                                  stringByAppendingPathComponent:@"Application Support"]
+                                 stringByAppendingPathComponent:@"OpenEmu"]
+                                stringByAppendingPathComponent:@"BIOS"];
+    
     NSLog(@"Get dir");
-    return NULL;
+	switch (dirtype)
+	{
+        case SRAM_DIR:			return [NSHomeDirectory() UTF8String];	break;
+		case BIOS_DIR:			return [biosPath UTF8String];	break;
+		default:				return NULL;	break;
+	}
 }
 
 const char *S9xChooseFilename (bool8 read_only)
