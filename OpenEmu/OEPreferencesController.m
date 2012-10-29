@@ -266,14 +266,15 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
     NSSize viewSize = [nextPane viewSize];
     NSView *view = [nextPane view];
     
-    toolbar.contentseparatorColor = [NSColor blackColor];
+    [(OEAppStoreWindow*)[self window] setBaselineSeparatorColor:[NSColor blackColor]];
     
     [self OE_showView:view atSize:viewSize animate:animateFlag];
     [nextPane viewDidAppear];
     [currentPane viewDidDisappear];
     
     BOOL viewHasCustomColor = [nextPane respondsToSelector:@selector(toolbarSeparationColor)];
-    if(viewHasCustomColor) toolbar.contentseparatorColor = [nextPane toolbarSeparationColor];
+    if(viewHasCustomColor) [(OEAppStoreWindow*)[self window] setBaselineSeparatorColor:[nextPane toolbarSeparationColor]];
+    else [(OEAppStoreWindow*)[self window] setBaselineSeparatorColor:[NSColor blackColor]];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setInteger:selectedTab forKey:OESelectedPreferencesTabKey];

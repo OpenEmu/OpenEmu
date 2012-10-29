@@ -42,6 +42,8 @@
 - (void)OE_calculateHeight;
 @end
 
+#define baseViewHeight 479.0
+#define librariesContainerHeight 110.0
 @implementation OEPrefLibraryController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -57,7 +59,7 @@
 
 - (void)awakeFromNib
 {
-    height = 473 - 110;
+    height = baseViewHeight - librariesContainerHeight;
     [self OE_rebuildAvailableLibraries];
     
 	NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:OEDatabasePathKey];
@@ -185,31 +187,31 @@
     
     // calculate number of rows (using 2 columns)
     NSInteger rows = ceil([systems count] / 2.0);
-    
+
     // set some spaces and dimensions
     CGFloat hSpace = 16, vSpace = 10;
     CGFloat iWidth = 163, iHeight = 18;
     
     // calculate complete view height
-    height = 374 + (iHeight * rows + (rows - 1) * vSpace);
+    height = baseViewHeight-librariesContainerHeight + (iHeight * rows + (rows - 1) * vSpace);
     
     if([self librariesView] == nil) return;
     
     [[self librariesView] setFrameSize:(NSSize){ [[self librariesView] frame].size.width, (iHeight * rows + (rows - 1) * vSpace)}];
     
     __block CGFloat x = 0;
-    __block CGFloat y = [[self librariesView] frame].size.height - iHeight;
+    __block CGFloat y = [[self librariesView] frame].size.height - iHeight -1;
     
     // enumerate plugins and add buttons for them
     [systems enumerateObjectsUsingBlock:
      ^(OEDBSystem *system, NSUInteger idx, BOOL *stop)
      {
          // if we're still in the first column an we should be in the second
-         if(x == 0 && idx > [systems count] / 2)
+         if(x == 0 && idx >= rows)
          {
              // we reset x and y
              x += iWidth+hSpace;
-             y = [[self librariesView] frame].size.height-iHeight;
+             y = [[self librariesView] frame].size.height-iHeight -1;
          }
          
          // creating the button

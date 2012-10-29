@@ -125,7 +125,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         [newSaveState remove];
         newSaveState = nil;
         
-        NSLog(@"State verification failed");
+        NSLog(@"State verification failed: %@", error);
     }
 
     return newSaveState;

@@ -573,7 +573,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(561, 534);
+    return NSMakeSize(561, 543);
 }
 
 - (NSColor *)toolbarSeparationColor

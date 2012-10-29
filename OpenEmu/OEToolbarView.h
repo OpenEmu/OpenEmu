@@ -33,8 +33,6 @@
     
     OEToolbarItem *highlightedItem;
     OEToolbarItem *selectedItem;
-    
-    NSColor *_contentseparatorColor;
 }
 
 - (void)addItem:(OEToolbarItem*)item;
@@ -45,7 +43,6 @@
 
 // FIXME: This is atrotious !
 @property(strong) NSMutableArray *items;
-@property(nonatomic, strong) NSColor *contentseparatorColor;
 @end
 
 @interface OEToolbarItem : NSObject
