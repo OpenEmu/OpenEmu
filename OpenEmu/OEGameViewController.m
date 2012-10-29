@@ -258,9 +258,7 @@ CFRunLoopTimerRef timer;
     
     CFRunLoopTimerContext context = { 0, NULL, NULL, NULL, NULL };
     timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 30, 0, 0, updateSystemActivity, &context);
-    if (timer != NULL); {
-        CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);
-    }
+    if (timer != NULL) CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);
 }
 
 void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
@@ -371,6 +369,8 @@ void updateSystemActivity(CFRunLoopTimerRef timer, void *info)
     NSWindow *window = [gameView window];
     if([window parentWindow]) window = [window parentWindow];
     [window makeFirstResponder:gameView];
+
+    [self disableOSSleep];
 
     [[self controlsWindow] reflectEmulationRunning:YES];
 
