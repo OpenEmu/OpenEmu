@@ -160,7 +160,7 @@ typedef enum : NSUInteger
     return [self initWithGame:game core:nil error:nil];
 }
 
-- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core
 {
     return [self initWithGame:game core:core error:nil];
 }
@@ -454,7 +454,7 @@ typedef enum : NSUInteger
     [alert runModal];
 }
 
-- (void)OE_restartUsingCore:(OECorePlugin*)core
+- (void)OE_restartUsingCore:(OECorePlugin *)core
 {
     if(core == [gameCoreManager plugin])
     {
@@ -582,20 +582,22 @@ typedef enum : NSUInteger
 
     @try
     {
-         if([self rom] == nil)
+        if([self rom] == nil)
         {
             NSLog(@"Error: Can not save states without rom");
             return;
         }
 
-        __block BOOL    success                 = NO;
-        NSString        *temporaryDirectoryPath = NSTemporaryDirectory();
-        NSURL           *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
-        NSURL           *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+        __block BOOL  success                = NO;
+        NSString     *temporaryDirectoryPath = NSTemporaryDirectory();
+        NSURL        *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
+        NSURL        *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
 
-        temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-            return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
-        }];
+        temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:
+                                 ^ NSURL *(NSInteger triesCount)
+                                 {
+                                     return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+                                 }];
 
         success = [rootProxy saveStateToFileAtPath:[temporaryStateFileURL path]];
         if(!success)
@@ -647,7 +649,8 @@ typedef enum : NSUInteger
             state = sender;
         else if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OEDBSaveState class]])
             state = [sender representedObject];
-        else {
+        else
+        {
             DLog(@"Invalid argument passed: %@", sender);
             return;
         }
@@ -673,8 +676,7 @@ typedef enum : NSUInteger
             }
         }
         
-        NSString *path = [[state stateFileURL] path];
-        [self OE_loadStateFromFile:path];
+        [self OE_loadStateFromFile:[[state stateFileURL] path]];
     }
     @finally
     {
@@ -713,8 +715,7 @@ typedef enum : NSUInteger
     NSString *stateName = [state name];
     OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
     
-    NSUInteger result = [alert runModal];
-    if(result) [state remove];
+    if([alert runModal]) [state remove];
 }
 
 #pragma mark -
@@ -730,11 +731,11 @@ typedef enum : NSUInteger
 {
     SEL action = [menuItem action];
     
-    if(action==@selector(quickLoad:))
+    if(action == @selector(quickLoad:))
         return [[self rom] quickSaveStateInSlot:0]!=nil;
-    else if(action==@selector(pauseGame:))
+    else if(action == @selector(pauseGame:))
         return _emulationStatus == OEGameViewControllerEmulationStatusPlaying;
-    else if(action==@selector(playGame:))
+    else if(action == @selector(playGame:))
         return _emulationStatus == OEGameViewControllerEmulationStatusPaused;
     
     return YES;

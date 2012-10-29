@@ -26,13 +26,14 @@
  */
 
 #import <Foundation/Foundation.h>
+
 typedef enum  {
     OEImportItemStatusIdle,
     OEImportItemStatusActive,
     OEImportItemStatusResolvableError,
     OEImportItemStatusFatalError,
     OEImportItemStatusFinished,
-    OEImportItemStatusCanceld,
+    OEImportItemStatusCancelled,
 } OEImportItemState;
 
 typedef enum  {
@@ -49,14 +50,15 @@ typedef enum  {
 typedef void (^OEImportItemCompletionBlock)(void);
 
 @interface OEImportItem : NSObject <NSObject>
-@property (strong) NSURL    *URL;
-@property        OEImportItemState importState;
-@property        OEImportStep  importStep;
-@property        NSMutableDictionary *importInfo;
 
-@property          NSError  *error;
-@property (strong) OEImportItemCompletionBlock completionHandler;
+@property(copy) NSURL               *URL;
+@property       OEImportItemState    importState;
+@property       OEImportStep         importStep;
+@property       NSMutableDictionary *importInfo;
+
+@property       NSError  *error;
+@property(copy) OEImportItemCompletionBlock completionHandler;
 
 + (id)itemWithURL:(NSURL*)url andCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (NSString*)localizedStatusMessage;
+- (NSString *)localizedStatusMessage;
 @end

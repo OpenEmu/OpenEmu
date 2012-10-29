@@ -39,6 +39,8 @@
 
 #import "ArchiveVGThrottling.h"
 
+#import <objc/runtime.h>
+
 const int MaxSimulatenousImports = 1; // imports can't really be simulatenous because access to queue is not ready for multithreadding right now
 
 #pragma mark User Default Keys -
@@ -47,28 +49,16 @@ NSString *const OECopyToLibraryKey         = @"copyToLibrary";
 NSString *const OEAutomaticallyGetInfoKey  = @"automaticallyGetInfo";
 
 #pragma mark Error Codes -
-NSString *const OEImportErrorDomainFatal  = @"OEImportFatalDomain";
-NSString *const OEImportErrorDomainResolvable  = @"OEImportResolvableDomain";
-NSString *const OEImportErrorDomainSuccess  = @"OEImportSuccessDomain";
-
-const int OEImportErrorCodeAlreadyInDatabase = -1;
-const int OEImportErrorCodeWaitingForArchiveSync = 1;
-const int OEImportErrorCodeMultipleSystems = 2;
-const int OEImportErrorCodeNoSystem        = 3;
+NSString *const OEImportErrorDomainFatal      = @"OEImportFatalDomain";
+NSString *const OEImportErrorDomainResolvable = @"OEImportResolvableDomain";
+NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
 #pragma mark Import Info Keys -
-NSString *const OEImportInfoMD5 = @"md5";
-NSString *const OEImportInfoCRC = @"crc";
+NSString *const OEImportInfoMD5         = @"md5";
+NSString *const OEImportInfoCRC         = @"crc";
 NSString *const OEImportInfoROMObjectID = @"RomObjectID";
-NSString *const OEImportInfoSystemID = @"systemID";
+NSString *const OEImportInfoSystemID    = @"systemID";
 NSString *const OEImportInfoArchiveSync = @"archiveSync";
-
-#pragma mark Importer Status -
-const int OEImporterStatusStopped  = 1;
-const int OEImporterStatusRunning  = 2;
-const int OEImporterStatusPausing  = 3;
-const int OEImporterStatusPaused   = 4;
-const int OEImporterStatusStopping = 5;
 
 @interface OEROMImporter ()
 {
@@ -187,22 +177,23 @@ const int OEImporterStatusStopping = 5;
 {
     dispatch_release(dispatchQueue);
 }
+
 #pragma mark - Import Block
-const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
-^(OEROMImporter *importer, OEImportItem * item)
+
+static void importBlock(OEROMImporter *importer, OEImportItem *item)
 {
     if([importer status] == OEImporterStatusPausing || [importer status] == OEImporterStatusPaused)
     {
         DLog(@"skipping item!");
-        importer.activeImports --;
+        importer.activeImports--;
         if([item importState] == OEImportItemStatusActive)
             [item setImportState:OEImportItemStatusIdle];
     }
     else if([importer status] == OEImporterStatusStopping || [importer status] == OEImporterStatusStopped)
     {
-        importer.activeImports --;
+        importer.activeImports--;
         [item setError:nil];
-        [item setImportState:OEImportItemStatusCanceld];
+        [item setImportState:OEImportItemStatusCancelled];
         [importer cleanupImportForItem:item];
         DLog(@"deleting item!");
     }
@@ -219,13 +210,13 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
             case OEImportStepOrganize        : [importer performImportStepOrganize:item];        break;
             case OEImportStepCreateRom       : [importer performImportStepCreateRom:item];       break;
             case OEImportStepCreateGame      : [importer performImportStepCreateGame:item];      break;
-            default: return;
+            default : return;
         }
         
         if([item importState] == OEImportItemStatusActive)
             [importer scheduleItemForNextStep:item];
     }
-};
+}
 
 #pragma mark - Import Steps
 // Checks if item.url points to a directory and adds its contents to the queue (by replacing item)
@@ -236,7 +227,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     {
         NSError *error = nil;
         NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:url includingPropertiesForKeys:nil options:0 error:&error];
-        if(!contents)
+        if(contents == nil)
         {
             [self stopImportForItem:item withError:error];
         }
@@ -264,7 +255,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
                 [[self queue] removeObjectIdenticalTo:item];
                 self.totalNumberOfItems += ([importItems count]-1);
                 [self processNextItem];
-                self.activeImports --;
+                self.activeImports--;
             }
         }
     }
@@ -362,6 +353,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         NSError *error        = nil;
         NSURL   *url          = [item URL];
         NSArray *validSystems = [OEDBSystem systemsForFileWithURL:url inDatabase:[self database] error:&error];
+        
         if(validSystems == nil)
         {
             DLog(@"Could not get valid systems");
@@ -469,7 +461,6 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
     }
 
-    
     if(copyToLibrary && ![url isSubpathOfURL:[[self database] romsFolderURL]])
     {
         NSString *fullName  = [url lastPathComponent];
@@ -541,6 +532,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
             NSString *baseName  = [fullName stringByDeletingPathExtension];
             
             NSURL *systemFolder = [[self database] romsFolderURLForSystem:system];
+            // FIXME: The initialization is pointless here.
             NSURL *romURL       = [systemFolder URLByAppendingPathComponent:fullName];
             romURL = [romURL uniqueURLUsingBlock:
                       ^ NSURL *(NSInteger triesCount)
@@ -678,7 +670,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
 
 - (void)scheduleItemForNextStep:(OEImportItem *)item
 {
-    item.importStep ++;
+    item.importStep++;
     if([self status] == OEImporterStatusRunning)
     {
         dispatch_async(dispatchQueue, ^{
@@ -686,7 +678,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         });
     }
     else
-        self.activeImports --;
+        self.activeImports--;
 }
 
 - (void)stopImportForItem:(OEImportItem *)item withError:(NSError *)error
@@ -701,7 +693,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     [item setError:error];
     self.activeImports--;
     
-    if(([item importState] == OEImportItemStatusFinished || [item importState] == OEImportItemStatusFatalError || [item importState] == OEImportItemStatusCanceld))
+    if(([item importState] == OEImportItemStatusFinished || [item importState] == OEImportItemStatusFatalError || [item importState] == OEImportItemStatusCancelled))
     {
         if([item completionHandler] != nil)
         {
@@ -711,7 +703,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         }
         
         if([item error]) DLog(@"%@", [item error]);
-        self.numberOfProcessedItems ++;
+        self.numberOfProcessedItems++;
         
         [self cleanupImportForItem:item];
     }
@@ -769,7 +761,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
         if(item)
         {
             [[self queue] addObject:item];
-            self.totalNumberOfItems ++;
+            self.totalNumberOfItems++;
             [self start];
         }
     }
@@ -876,29 +868,28 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
     
     // If you're going to have the same array for every iteration,
     // don't allocate it inside the loop !
-    NSArray *excludedPaths = [NSArray arrayWithObjects:
-                              @"System",
-                              @"Library",
-                              @"Developer",
-                              @"Volumes",
-                              @"Applications",
-                              @"bin",
-                              @"cores",
-                              @"dev",
-                              @"etc",
-                              @"home",
-                              @"net",
-                              @"sbin",
-                              @"private",
-                              @"tmp",
-                              @"usr",
-                              @"var",
-                              @"ReadMe", // markdown
-                              @"readme", // markdown
-                              @"README", // markdown
-                              @"Readme", // markdown
-                              
-                              nil];
+    NSArray *excludedPaths = @[
+                               @"System",
+                               @"Library",
+                               @"Developer",
+                               @"Volumes",
+                               @"Applications",
+                               @"bin",
+                               @"cores",
+                               @"dev",
+                               @"etc",
+                               @"home",
+                               @"net",
+                               @"sbin",
+                               @"private",
+                               @"tmp",
+                               @"usr",
+                               @"var",
+                               @"ReadMe", // markdown
+                               @"readme", // markdown
+                               @"README", // markdown
+                               @"Readme", // markdown
+                              ];
     
     // assume the latest result is the last index?
     for(CFIndex index = 0, limit = MDQueryGetResultCount(searchQuery); index < limit; index++)
@@ -971,13 +962,9 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
 - (void)togglePause
 {
     if([self status] == OEImporterStatusPaused)
-    {
         [self start];
-    }
     else if([self status] == OEImporterStatusRunning)
-    {
         [self pause];
-    }
 }
 
 - (void)cancel
@@ -1005,7 +992,7 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
          [NSPredicate predicateWithBlock:
           ^ BOOL (OEImportItem *evaluatedObject, NSDictionary *bindings)
           {
-              return [evaluatedObject importState] != OEImportItemStatusFinished && [evaluatedObject importState] != OEImportItemStatusFatalError && [evaluatedObject importState] != OEImportItemStatusCanceld;
+              return [evaluatedObject importState] != OEImportItemStatusFinished && [evaluatedObject importState] != OEImportItemStatusFatalError && [evaluatedObject importState] != OEImportItemStatusCancelled;
           }]];
     });
 }
@@ -1019,31 +1006,14 @@ const static void (^importBlock)(OEROMImporter *importer, OEImportItem * item) =
 
 - (void)OE_performSelectorOnDelegate:(SEL)selector withObject:(id)object
 {
-    if(![[self delegate] respondsToSelector:selector]) return;
+    if(![[self delegate] respondsToSelector:selector] ||
+       ![[self delegate] respondsToSelector:@selector(performSelectorOnMainThread:withObject:waitUntilDone:)])
+        return;
     
-    void(^block)(void);
-    if(selector == @selector(romImporter:changedProcessingPhaseOfItem:))
-        block = ^{ [[self delegate] romImporter:self changedProcessingPhaseOfItem:object]; };
-    else if(selector == @selector(romImporterChangedItemCount:))
-        block = ^{ [[self delegate] romImporterChangedItemCount:self]; };
-    else if(selector == @selector(romImporter:stoppedProcessingItem:))
-        block = ^{ [[self delegate] romImporter:self stoppedProcessingItem:object]; };
-    else if(selector == @selector(romImporter:startedProcessingItem:))
-        block = ^{ [[self delegate] romImporter:self startedProcessingItem:object]; };
+    NSAssert(protocol_getMethodDescription(@protocol(OEROMImporterDelegate), selector, NO, YES).name == selector,
+             @"Unknown delegate method %@", NSStringFromSelector(selector));
     
-    
-    else if(selector == @selector(romImporterDidStart:))
-        block = ^{ [[self delegate] romImporterDidStart:self]; };
-    else if(selector == @selector(romImporterDidPause:))
-        block = ^{ [[self delegate] romImporterDidPause:self]; };
-    else if(selector == @selector(romImporterDidFinish:))
-        block = ^{ [[self delegate] romImporterDidFinish:self]; };
-    else if(selector == @selector(romImporterDidCancel:))
-        block = ^{ [[self delegate] romImporterDidCancel:self]; };
-    
-    if(block != NULL)
-        dispatch_async(dispatch_get_main_queue(), block);
-    else
-        DLog(@"Unkown delegate method");
+    [(NSObject *)[self delegate] performSelectorOnMainThread:selector withObject:object waitUntilDone:NO];
 }
+
 @end

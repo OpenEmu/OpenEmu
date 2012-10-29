@@ -39,23 +39,28 @@ extern NSString *const OEImportErrorDomainFatal;
 extern NSString *const OEImportErrorDomainResolvable;
 extern NSString *const OEImportErrorDomainSuccess;
 
-extern const int OEImportErrorCodeAlreadyInDatabase;
-extern const int OEImportErrorCodeWaitingForArchiveSync;
-extern const int OEImportErrorCodeMultipleSystems;
+typedef enum : NSInteger {
+    OEImportErrorCodeAlreadyInDatabase     = -1,
+    OEImportErrorCodeWaitingForArchiveSync = 1,
+    OEImportErrorCodeMultipleSystems       = 2,
+    OEImportErrorCodeNoSystem              = 3,
+} OEImportErrorCode;
 
-#pragma mark Import Info Keys -
+#pragma mark - Import Info Keys
 extern NSString *const OEImportInfoMD5;
 extern NSString *const OEImportInfoCRC;
 extern NSString *const OEImportInfoROMObjectID;
 extern NSString *const OEImportInfoSystemID;
 extern NSString *const OEImportInfoArchiveSync;
 
-#pragma mark Importer Status -
-extern const int OEImporterStatusStopped;
-extern const int OEImporterStatusRunning;
-extern const int OEImporterStatusPausing;
-extern const int OEImporterStatusPaused;
-extern const int OEImporterStatusStopping;
+#pragma mark - Importer Status
+typedef enum : NSInteger {
+    OEImporterStatusStopped  = 1,
+    OEImporterStatusRunning  = 2,
+    OEImporterStatusPausing  = 3,
+    OEImporterStatusPaused   = 4,
+    OEImporterStatusStopping = 5,
+} OEImporterStatus;
 
 @class OELibraryDatabase;
 @protocol OEROMImporterDelegate;
@@ -65,7 +70,7 @@ extern const int OEImporterStatusStopping;
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase;
 
 @property(weak, readonly) OELibraryDatabase *database;
-@property(strong) id <OEROMImporterDelegate> delegate;
+@property(strong) id<OEROMImporterDelegate> delegate;
 
 @property(readonly) NSInteger status;
 
