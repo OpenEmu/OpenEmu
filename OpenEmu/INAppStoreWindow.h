@@ -68,4 +68,6 @@ typedef void (^INAppStoreWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow,
                                                      CGRect drawingRect, CGPathRef clippingPath);
 @property (INAppStoreWindowCopy) INAppStoreWindowTitleBarDrawingBlock titleBarDrawingBlock;
 
+// OpenEmu Addition: Support for custom baseline separator color as used in the preferences window
+@property (nonatomic) NSColor *baselineSeparatorColor;
 @end

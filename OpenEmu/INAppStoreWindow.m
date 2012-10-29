@@ -226,7 +226,9 @@ static inline CGGradientRef createGradientWithColors(NSColor *startingColor, NSC
 
         if ([window showsBaselineSeparator]) {
             NSColor *bottomColor = nil;
-            if (IN_RUNNING_LION) {
+            if ([(INAppStoreWindow*)[self window] baselineSeparatorColor] != nil) {
+                bottomColor = [(INAppStoreWindow*)[self window] baselineSeparatorColor];
+            } else if (IN_RUNNING_LION) {
               bottomColor = drawsAsMainWindow ? IN_COLOR_MAIN_BOTTOM_L : IN_COLOR_NOTMAIN_BOTTOM_L;
             } else {
               bottomColor = drawsAsMainWindow ? IN_COLOR_MAIN_BOTTOM : IN_COLOR_NOTMAIN_BOTTOM;
@@ -306,6 +308,7 @@ static inline CGGradientRef createGradientWithColors(NSColor *startingColor, NSC
 @synthesize hideTitleBarInFullScreen = _hideTitleBarInFullScreen;
 @synthesize titleBarDrawingBlock = _titleBarDrawingBlock;
 @synthesize showsBaselineSeparator = _showsBaselineSeparator;
+@synthesize baselineSeparatorColor = _baselineSeparatorColor;
 @synthesize fullScreenButtonRightMargin = _fullScreenButtonRightMargin;
 @synthesize trafficLightButtonsLeftMargin = _trafficLightButtonsLeftMargin;
 
@@ -428,6 +431,19 @@ static inline CGGradientRef createGradientWithColors(NSColor *startingColor, NSC
 - (BOOL)showsBaselineSeparator
 {
     return _showsBaselineSeparator;
+}
+
+- (void)setBaselineSeparatorColor:(NSColor *)baselineSeparatorColor
+{
+    if (_baselineSeparatorColor != baselineSeparatorColor) {
+        _baselineSeparatorColor = baselineSeparatorColor;
+        [self.titleBarView setNeedsDisplay:YES];
+    }
+}
+
+- (NSColor*)baselineSeparatorColor
+{
+    return _baselineSeparatorColor;
 }
 
 - (void)setTrafficLightButtonsLeftMargin:(CGFloat)newTrafficLightButtonsLeftMargin
