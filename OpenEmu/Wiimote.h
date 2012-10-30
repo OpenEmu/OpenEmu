@@ -134,7 +134,7 @@ typedef enum {
 @end
 
 
-@interface Wiimote : NSObject {	
+@interface Wiimote : NSObject {
 	IOBluetoothDevice* _btDevice;
 	IOBluetoothL2CAPChannel * _ichan;
 	IOBluetoothL2CAPChannel * _cchan;

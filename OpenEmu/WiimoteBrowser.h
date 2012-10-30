@@ -34,7 +34,8 @@
 
 #include "Wiimote.h"
 @protocol WiimoteBrowserDelegate;
-@interface WiimoteBrowser : NSObject {
+@interface WiimoteBrowser : NSObject
+{
 	BOOL _isSearching;
 	
 	IOBluetoothDeviceInquiry* _inquiry;
@@ -57,9 +58,7 @@
 @end
 
 @protocol WiimoteBrowserDelegate <NSObject>
-
 - (void)wiimoteBrowserWillSearch;
 - (void)wiimoteBrowserDidStopSearchWithResults:(NSArray*)discoveredDevices;
 - (void)wiimoteBrowserSearchFailedWithError:(int)code;
-
 @end

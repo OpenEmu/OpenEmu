@@ -81,10 +81,12 @@ typedef enum {
 @implementation Wiimote
 
 # pragma mark -
-- (Wiimote*) init{
+- (Wiimote*) init
+{
 	self = [super init];
 	
-	if (self != nil) {
+	if (self != nil)
+    {
 		_LED1Illuminated = YES;
 		_LED2Illuminated = YES;
 		_LED3Illuminated = YES;
@@ -109,29 +111,33 @@ typedef enum {
 	return self;
 }
 
-- (Wiimote*)initWithDelegate:(id)newDelegate{
+- (Wiimote*)initWithDelegate:(id)newDelegate
+{
 	self = [self init];
-	
-	if(self!=nil){
+	if(self != nil)
+    {
 		[self setDelegate:newDelegate];
 	}
 	
 	return self;
 }
 
-- (Wiimote*)initWithDevice:(IOBluetoothDevice*)newDevice{
+- (Wiimote*)initWithDevice:(IOBluetoothDevice*)newDevice
+{
 	self = [self init];
-	
-	if(self!=nil){
+	if(self != nil)
+    {
 		[self setDevice:newDevice];
 	}
 	
 	return self;
 }
-- (Wiimote*)initWithDevice:(IOBluetoothDevice*)newDevice andDelegate:(id)newDelegate{
+- (Wiimote*)initWithDevice:(IOBluetoothDevice*)newDevice andDelegate:(id)newDelegate
+{
 	self = [self init];
 	
-	if(self!=nil){
+	if(self != nil)
+    {
 		[self setDevice:_btDevice];
 	}
 	
@@ -140,15 +146,17 @@ typedef enum {
 # pragma mark -
 @synthesize delegate;
 # pragma mark - Connection
-- (void)setDevice:(IOBluetoothDevice*)newDev{	
+- (void)setDevice:(IOBluetoothDevice*)newDev
+{
 	if(_connected) // disconnect when changing device
 		[self disconnect];
 	
-	_btDevice = newDev;	
+	_btDevice = newDev;
 }
 
-- (void)connect{
-	if(_connected || _btDevice==nil)
+- (void)connect
+{
+	if(_connected || _btDevice == nil)
 		return;
 	
 	_connected = YES;
@@ -165,10 +173,11 @@ typedef enum {
 		if([[self delegate] respondsToSelector:@selector(wiimoteDidConnect:)])
 			[[self delegate] performSelector:@selector(wiimoteDidConnect:) withObject:self];
     }
-	else {
+	else
+    {
 		[_cchan closeChannel];
 		[_ichan closeChannel];
-	
+        
 		if([[self delegate] respondsToSelector:@selector(wiimote:didNotConnect:)])
 			[[self delegate] performSelector:@selector(wiimote:didNotConnect:) withObject:self withObject:nil]; // actually we want to post our error instead of nil!
 		
@@ -182,11 +191,13 @@ typedef enum {
 	[self syncLEDAndRumble];
 }
 
-- (BOOL)isConnected{
+- (BOOL)isConnected
+{
 	return _connected;
 }
 
-- (void)disconnect{
+- (void)disconnect
+{
 	if(!_connected)
 		return;
 	
@@ -195,14 +206,15 @@ typedef enum {
 	// Close Channel
 	[_cchan closeChannel];
 	[_ichan closeChannel];
-		
+    
     [_btDevice closeConnection];
 	
 	if([[self delegate] respondsToSelector:@selector(wiimoteDidDisconnect:)])
 		[[self delegate] performSelector:@selector(wiimoteDidDisconnect:) withObject:self];
 }
 # pragma mark -
-- (void)requestStatus{
+- (void)requestStatus
+{
 	unsigned char cmd[] = {0x15, 0x00};
 	[self sendCommand:cmd length:2];
     self.statusReportRequested = YES;
@@ -210,87 +222,110 @@ typedef enum {
 
 # pragma mark -
 # pragma mark Wiimote Configuration
-- (void)syncConfig{
+- (void)syncConfig
+{
 	// Set the report type the Wiimote should send.
 	unsigned char cmd[] = {0x12, 0x02, 0x30}; // Just buttons.
 	
-	if (_irSensorEnabled) {
+	if (_irSensorEnabled)
+    {
 		cmd[2] = _expansionPortEnabled ? 0x36 : 0x33;	// Buttons, 10 IR Bytes, 9 Extension Bytes
 		irMode = _expansionPortEnabled ? kWiiIRModeBasic : kWiiIRModeExtended;
 		
 		// Set IR Mode
-		// I don't think it should be here ...		
+		// I don't think it should be here ...
 		[self writeData:(darr){ irMode } at:0x04B00033 length:1];
 		usleep(10000);
-	} else {
-		cmd[2] = _expansionPortEnabled ? 0x34 : 0x30;	// Buttons, 19 Extension Bytes	 
 	}
-    	
+    else
+    {
+		cmd[2] = _expansionPortEnabled ? 0x34 : 0x30;	// Buttons, 19 Extension Bytes
+	}
+    
 	[self sendCommand:cmd length:3];
 }
 - (void)syncLEDAndRumble
 {
 	unsigned char cmd[] = {0x11, 0x00};
-	if (_rumbleActivated)     cmd[1] |= 0x01;
-	if (_LED1Illuminated)	cmd[1] |= 0x10;
-	if (_LED2Illuminated)	cmd[1] |= 0x20;
-	if (_LED3Illuminated)	cmd[1] |= 0x40;
-	if (_LED4Illuminated)	cmd[1] |= 0x80;
+	if (_rumbleActivated)
+        cmd[1] |= 0x01;
+	if (_LED1Illuminated)
+        cmd[1] |= 0x10;
+	if (_LED2Illuminated)
+        cmd[1] |= 0x20;
+	if (_LED3Illuminated)
+        cmd[1] |= 0x40;
+	if (_LED4Illuminated)
+        cmd[1] |= 0x80;
 	
 	[self sendCommand:cmd length:2];
 }
 # pragma mark -
-- (BOOL)motionSensorEnabled{
+- (BOOL)motionSensorEnabled
+{
 	return _motionSensorEnabled;
 }
-- (void)setMotionSensorEnabled:(BOOL)flag{
+- (void)setMotionSensorEnabled:(BOOL)flag
+{
 	_motionSensorEnabled = flag;
 }
 
-- (BOOL)irSensorEnabled{
+- (BOOL)irSensorEnabled
+{
 	return _irSensorEnabled;
 }
-- (void)setIrSensorEnabled:(BOOL)flag{
+- (void)setIrSensorEnabled:(BOOL)flag
+{
 	_irSensorEnabled = flag;
 }
 
 # pragma mark -
-- (void)setRumbleActivated:(BOOL)flag{
+- (void)setRumbleActivated:(BOOL)flag
+{
 	_rumbleActivated = flag;
 }
-- (BOOL)rumbleActivated{
+- (BOOL)rumbleActivated
+{
 	return _rumbleActivated;
 }
 #pragma mark - LEDs
-- (void)setLED1:(BOOL)flag1 LED2:(BOOL)flag2 LED3:(BOOL)flag3 LED4:(BOOL)flag4{
+- (void)setLED1:(BOOL)flag1 LED2:(BOOL)flag2 LED3:(BOOL)flag3 LED4:(BOOL)flag4
+{
 	_LED1Illuminated = flag1;
 	_LED2Illuminated = flag2;
 	_LED3Illuminated = flag3;
 	_LED4Illuminated = flag4;
 }
-- (BOOL)LED1Illuminted{
+- (BOOL)LED1Illuminted
+{
 	return _LED1Illuminated;
 }
-- (BOOL)LED2Illuminted{
+- (BOOL)LED2Illuminted
+{
 	return _LED2Illuminated;
 }
-- (BOOL)LED3Illuminted{
+- (BOOL)LED3Illuminted
+{
 	return _LED3Illuminated;
 }
-- (BOOL)LED4Illuminted{
+- (BOOL)LED4Illuminted
+{
 	return _LED4Illuminated;
 }
 #pragma mark -
 @synthesize batteryLevel;
 #pragma mark - Expansion
-- (BOOL)expansionPortEnabled{
+- (BOOL)expansionPortEnabled
+{
 	return _expansionPortEnabled;
 }
-- (void)setExpansionPortEnabled:(BOOL)flag{
+- (void)setExpansionPortEnabled:(BOOL)flag
+{
 	_expansionPortEnabled = flag;
 }
 
-- (BOOL)expansionPortAttached{
+- (BOOL)expansionPortAttached
+{
 	return _expansionPortAttached;
 }
 
@@ -309,36 +344,43 @@ typedef enum {
 }
 @synthesize expansionType;
 # pragma mark - Sound
-- (void)playSound:(NSSound*)theSound{
+- (void)playSound:(NSSound*)theSound
+{
 	DLog(@"playSound: Sound is not implemented yet!");
 }
-- (void)setSpeakerEnabled:(BOOL)flag{
+- (void)setSpeakerEnabled:(BOOL)flag
+{
 	DLog(@"setSpeakerEnabled: Sound is not implemented yet!");
-	_speakerEnabled = flag;	
+	_speakerEnabled = flag;
 }
-- (void)setSpeakerMute:(BOOL)flag{
+- (void)setSpeakerMute:(BOOL)flag
+{
 	DLog(@"setSpeakerMute: Sound is not implemented yet!");
 	_speakerMuted = flag;
 }
 
-- (BOOL)speakerEnabled{
+- (BOOL)speakerEnabled
+{
 	DLog(@"speakerEnabled: Sound is not implemented yet!");
 	return _speakerEnabled;
 }
 
-- (void)toggleMute{
+- (void)toggleMute
+{
 	DLog(@"toggleMute: Sound is not implemented yet!");
 	_speakerMuted = !_speakerMuted;
 }
 
-- (BOOL)speakerMuted{
+- (BOOL)speakerMuted
+{
 	DLog(@"speakerMuted: Sound is not implemented yet!");
 	return _speakerMuted;
 }
 
 # pragma mark -
 # pragma mark Data Handling
-- (void)writeData:(const unsigned char*)data at:(unsigned long)address length:(size_t)length{
+- (void)writeData:(const unsigned char*)data at:(unsigned long)address length:(size_t)length
+{
 	unsigned char cmd [22];
 	
 	if (length > 16)
@@ -365,7 +407,9 @@ typedef enum {
 	
 	[self sendCommand:cmd length:22];
 }
-- (void)readData:(unsigned long)address length:(unsigned short)length{
+
+- (void)readData:(unsigned long)address length:(unsigned short)length
+{
 	unsigned char cmd[7];
 	unsigned long addr = address;
 	unsigned short len = length;
@@ -387,24 +431,29 @@ typedef enum {
 	
 	[self sendCommand:cmd length:7];
 }
-- (void)sendCommand:(const unsigned char*)data length:(size_t)length{
+
+- (void)sendCommand:(const unsigned char*)data length:(size_t)length
+{
 	if(!_connected)
 		return;
 	
 	unsigned char buf[40];
-	memset (buf, 0, 40);
+	memset(buf, 0, 40);
 	
 	buf[0] = 0x52;
-	memcpy (buf+1, data, length);
-	if (buf[1] == 0x16) length = 23;
-	else length++;
-
+	memcpy(buf+1, data, length);
+	if (buf[1] == 0x16)
+        length = 23;
+	else
+        length++;
+    
 	// cam: i think there is no need to do the loop many times in order to see there is an error
 	// if there's an error it must be managed right away
 	int i;
 	IOReturn ret = kIOReturnSuccess;
-	for (i=0; i<10 ; i++) {
-		ret = [_cchan writeSync:buf length:length];	
+	for (i=0; i < 10 ; i++)
+    {
+		ret = [_cchan writeSync:buf length:length];
 		if (ret != kIOReturnSuccess)
         {
             DLog(@"send command needed a another try");
@@ -413,7 +462,8 @@ typedef enum {
 		else break;
 	}
 	
-	if(ret != kIOReturnSuccess){
+	if(ret != kIOReturnSuccess)
+    {
 		DLog(@"Could not send command!");
 		DLog(@"Did Wiimote Disconnect? - we might need to disconnect");
 	}
@@ -431,7 +481,8 @@ typedef enum {
     }
     
     // Expansion Port
-    switch (dp[1]) {
+    switch(dp[1])
+    {
 		case 0x34:
 			[self handleExtensionReport:dp length:dataLength startByte:4];
 			break;
@@ -454,7 +505,8 @@ typedef enum {
     if(![self expansionPortEnabled] || ![self expansionPortAttached])
         return;
     
-    switch ([self expansionType]) {
+    switch ([self expansionType])
+    {
         case WiiExpansionNunchuck:
             [self parseNunchuckJoystickData: ((short)dp[startByte] << 8) + dp[startByte+1]];
             [self parseNunchuckButtonData: dp[startByte+5]];
@@ -468,68 +520,82 @@ typedef enum {
     }
 }
 
-- (void)parseWiiRemoteButtonData:(UInt16) data {
+- (void)parseWiiRemoteButtonData:(UInt16) data
+{
     UInt16 buttonChanges = data ^ lastWiimoteButtonReport;
     lastWiimoteButtonReport = data;
     
     if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
         return;
-
+    
     // One, Two, A, B Buttons:
-	if (buttonChanges & kWiiRemoteOneButton){
+	if (buttonChanges & kWiiRemoteOneButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteOneButton isPressed:(data & kWiiRemoteOneButton)!=0];
 	}
     
-    if (buttonChanges & kWiiRemoteTwoButton){
+    if (buttonChanges & kWiiRemoteTwoButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteTwoButton isPressed:(data & kWiiRemoteTwoButton)!=0];
 	}
     
-    if (buttonChanges & kWiiRemoteAButton){
+    if (buttonChanges & kWiiRemoteAButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteAButton isPressed:(data & kWiiRemoteAButton)!=0];
 	}
     
-    if (buttonChanges & kWiiRemoteBButton){
+    if (buttonChanges & kWiiRemoteBButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteBButton isPressed:(data & kWiiRemoteBButton)!=0];
 	}
     
     // +, -, Home Buttons:
-    if (buttonChanges & kWiiRemoteMinusButton){
+    if (buttonChanges & kWiiRemoteMinusButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteMinusButton isPressed:(data & kWiiRemoteMinusButton)!=0];
 	}
     
-    if (buttonChanges & kWiiRemoteHomeButton){
+    if (buttonChanges & kWiiRemoteHomeButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteHomeButton isPressed:(data & kWiiRemoteHomeButton)!=0];
 	}
     
-    if (buttonChanges & kWiiRemotePlusButton){
+    if (buttonChanges & kWiiRemotePlusButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemotePlusButton isPressed:(data & kWiiRemotePlusButton)!=0];
 	}
     
     // D-Pad Buttons:
-    if (buttonChanges & kWiiRemoteUpButton){
+    if (buttonChanges & kWiiRemoteUpButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteUpButton isPressed:(data & kWiiRemoteUpButton)!=0];
 	}
     
-    if (buttonChanges & kWiiRemoteDownButton){
+    if (buttonChanges & kWiiRemoteDownButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteDownButton isPressed:(data & kWiiRemoteDownButton)!=0];
 	}
     
-    if (buttonChanges & kWiiRemoteLeftButton){
+    if (buttonChanges & kWiiRemoteLeftButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteLeftButton isPressed:(data & kWiiRemoteLeftButton)!=0];
 	}
     
-    if (buttonChanges & kWiiRemoteRightButton){
+    if (buttonChanges & kWiiRemoteRightButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiRemoteRightButton isPressed:(data & kWiiRemoteRightButton)!=0];
 	}
 }
 
-- (void)parseNunchuckJoystickData:(UInt16)analogData {
+- (void)parseNunchuckJoystickData:(UInt16)analogData
+{
     if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsJoystickChanged:tiltX:tiltY:)])
         return;
+    
     UInt8 yAxisData = analogData & 0xff;
     UInt8 xAxisData = (analogData >> 8) & 0xff;
     [[self delegate] wiimote:self reportsJoystickChanged:WiiNunchukJoyStick tiltX:xAxisData tiltY:yAxisData];
-
+    
 }
 
 - (void)parseNunchuckButtonData:(UInt8)data
@@ -539,12 +605,14 @@ typedef enum {
     
     UInt8 buttonChanges = data ^ lastNunchuckButtonReport;
     lastNunchuckButtonReport = data;
-
-    if (buttonChanges & kWiiNunchukCButton){
+    
+    if (buttonChanges & kWiiNunchukCButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukCButton isPressed:(data & kWiiNunchukCButton)!=0];
 	}
     
-    if (buttonChanges & kWiiNunchukZButton){
+    if (buttonChanges & kWiiNunchukZButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiNunchukZButton isPressed:(data & kWiiNunchukZButton)!=0];
 	}
 }
@@ -557,105 +625,132 @@ typedef enum {
     UInt16 buttonChanges = data ^ lastClassicControllerButtonReport;
     lastClassicControllerButtonReport = data;
     
-    if (buttonChanges & kWiiClassicControllerXButton){
+    if (buttonChanges & kWiiClassicControllerXButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerXButton isPressed:(data & kWiiClassicControllerXButton)!=0];
 	}
     
-    if (buttonChanges & kWiiClassicControllerYButton){
+    if (buttonChanges & kWiiClassicControllerYButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerYButton isPressed:(data & kWiiClassicControllerYButton)!=0];
 	}
     
-    if (buttonChanges & kWiiClassicControllerAButton){
+    if (buttonChanges & kWiiClassicControllerAButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerAButton isPressed:(data & kWiiClassicControllerAButton)!=0];
 	}
     
-	if (buttonChanges & kWiiClassicControllerBButton){
+	if (buttonChanges & kWiiClassicControllerBButton)
+    {
 		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerBButton isPressed:(data & kWiiClassicControllerBButton)!=0];
 	}
     
     
-	if (buttonChanges & kWiiClassicControllerLButton){
+	if (buttonChanges & kWiiClassicControllerLButton)
+    {
 		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerLButton isPressed:(data & kWiiClassicControllerLButton)!=0];
 	}
     
-	if (buttonChanges & kWiiClassicControllerRButton){
+	if (buttonChanges & kWiiClassicControllerRButton)
+    {
 		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerRButton isPressed:(data & kWiiClassicControllerRButton)!=0];
 	}
     
     
-	if (buttonChanges & kWiiClassicControllerRButton){
+	if (buttonChanges & kWiiClassicControllerRButton)
+    {
 		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerRButton isPressed:(data & kWiiClassicControllerRButton)!=0];
 	}
     
-	if (buttonChanges & kWiiClassicControllerZRButton){
+	if (buttonChanges & kWiiClassicControllerZRButton)
+    {
 		[[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerZRButton isPressed:(data & kWiiClassicControllerZRButton)!=0];
 	}
     
     
     // +, -, Home Buttons:
-    if (buttonChanges & kWiiClassicControllerMinusButton){
+    if (buttonChanges & kWiiClassicControllerMinusButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerMinusButton isPressed:(data & kWiiClassicControllerMinusButton)!=0];
     }
     
-    if (buttonChanges & kWiiClassicControllerHomeButton){
+    if (buttonChanges & kWiiClassicControllerHomeButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerHomeButton isPressed:(data & kWiiClassicControllerHomeButton)!=0];
     }
     
-    if (buttonChanges & kWiiClassicControllerPlusButton){
+    if (buttonChanges & kWiiClassicControllerPlusButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerPlusButton isPressed:(data & kWiiClassicControllerPlusButton)!=0];
     }
     
     // D-Pad Buttons:
-    if (buttonChanges & kWiiClassicControllerUpButton){
+    if (buttonChanges & kWiiClassicControllerUpButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerUpButton isPressed:(data & kWiiClassicControllerUpButton)!=0];
     }
     
-    if (buttonChanges & kWiiClassicControllerDownButton){
+    if (buttonChanges & kWiiClassicControllerDownButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerDownButton isPressed:(data & kWiiClassicControllerDownButton)!=0];
     }
     
-    if (buttonChanges & kWiiClassicControllerLeftButton){
+    if (buttonChanges & kWiiClassicControllerLeftButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerLeftButton isPressed:(data & kWiiClassicControllerLeftButton)!=0];
     }
     
-    if (buttonChanges & kWiiClassicControllerRightButton){
+    if (buttonChanges & kWiiClassicControllerRightButton)
+    {
         [[self delegate] wiimote:self reportsButtonChanged:WiiClassicControllerRightButton isPressed:(data & kWiiClassicControllerRightButton)!=0];
     }
 }
 
 # pragma mark -
 # pragma mark Response Handler
-- (void)handleWriteResponse:(unsigned char *)dp length:(size_t)dataLength{
-    if(dataLength > 5) switch (dp[5]) {
-                                case 0x00:
-                                    DLog(@"Write %0x - Success", dp[4]);
-                                    break;
-                                case 0x03:
-                                    DLog(@"Write %0x - Error", dp[4]);
-                                    break;
-                                default:
-                                    DLog(@"Write %0x - Unkown", dp[4]);
-                                    break;
+- (void)handleWriteResponse:(unsigned char *)dp length:(size_t)dataLength
+{
+    if(dataLength > 5)
+    {
+        switch (dp[5])
+        {
+            case 0x00:
+                DLog(@"Write %0x - Success", dp[4]);
+                break;
+            case 0x03:
+                DLog(@"Write %0x - Error", dp[4]);
+                break;
+            default:
+                DLog(@"Write %0x - Unkown", dp[4]);
+                break;
+        }
     }
 }
 
-- (void)handleRAMData:(unsigned char *)dp length:(size_t)dataLength{
+- (void)handleRAMData:(unsigned char *)dp length:(size_t)dataLength
+{
     unsigned short addr = (dp[5] * 256) + dp[6];
-    if (addr == 0x00FE) { // Response to expansion type request
+    if (addr == 0x00FE) // Response to expansion type request
+    {
         UInt16 identifier = ((dp[7]&0xFF) << 8)|(dp[8]&0xFF);
         WiiExpansionType connectedExpansion = WiiExpansionNotConnected;
-        if(!(dp[4] & 0x0F)) switch (identifier) {
-            case kWiiExpansionNunchuck:
-                connectedExpansion = WiiExpansionNunchuck;
-                break;
-            case kWiiExpansionClassicController:
-                connectedExpansion = WiiExpansionClassicController;
-                break;
-            default:
-                connectedExpansion = WiiExpansionUnkown;
-                break;
+        if(!(dp[4] & 0x0F))
+        {
+            switch (identifier)
+            {
+                case kWiiExpansionNunchuck:
+                    connectedExpansion = WiiExpansionNunchuck;
+                    break;
+                case kWiiExpansionClassicController:
+                    connectedExpansion = WiiExpansionClassicController;
+                    break;
+                default:
+                    connectedExpansion = WiiExpansionUnkown;
+                    break;
+            }
         }
-        if (connectedExpansion != self.expansionType) {
+        if (connectedExpansion != self.expansionType)
+        {
             self.expansionType = connectedExpansion;
             _expansionPortAttached = (connectedExpansion != WiiExpansionNotConnected);
             if([[self delegate] respondsToSelector:@selector(wiimoteReportsExpansionPortChanged:)])
@@ -665,14 +760,17 @@ typedef enum {
     }
 }
 
-- (void)handleStatusReport:(unsigned char *) dp length:(size_t)dataLength{
-	if(!self.statusReportRequested) [self syncConfig];
+- (void)handleStatusReport:(unsigned char *) dp length:(size_t)dataLength
+{
+	if(!self.statusReportRequested)
+        [self syncConfig];
     else
         self.statusReportRequested = NO;
-
+    
 	self.batteryLevel =  (double) dp[7]/(double) 0xC0; // C0 = fully charged.
     
-    if ((dp[4] & 0x02) && !_expansionPortAttached) {    // Expansion port changed
+    if ((dp[4] & 0x02) && !_expansionPortAttached)  // Expansion port changed
+    {
         self.expansionType = WiiExpansionNotInitialized;
         if([[self delegate] respondsToSelector:@selector(wiimoteReportsExpansionPortChanged:)])
             [[self delegate] wiimoteReportsExpansionPortChanged:self];
@@ -682,12 +780,13 @@ typedef enum {
     {
         _expansionPortAttached = NO;
         if([[self delegate] respondsToSelector:@selector(wiimoteReportsExpansionPortChanged:)])
-           [[self delegate] wiimoteReportsExpansionPortChanged:self];
+            [[self delegate] wiimoteReportsExpansionPortChanged:self];
     }
 }
 # pragma mark -
 # pragma mark BluetoothChannel Delegate methods
-- (void) l2capChannelClosed:(IOBluetoothL2CAPChannel*) l2capChannel{	
+- (void) l2capChannelClosed:(IOBluetoothL2CAPChannel*) l2capChannel
+{
 	if (l2capChannel == _cchan)
 		_cchan = nil;
 	
@@ -697,32 +796,44 @@ typedef enum {
 	[self disconnect];
 }
 
-- (void)l2capChannelData:(IOBluetoothL2CAPChannel*) l2capChannel data:(void *) dataPointer length:(size_t) dataLength	{			
+- (void)l2capChannelData:(IOBluetoothL2CAPChannel*) l2capChannel data:(void *) dataPointer length:(size_t) dataLength
+{
 	unsigned char * dp = (unsigned char *) dataPointer;
-
-	if (dp[1] == 0x20 && dataLength >= 8) {
+    
+	if (dp[1] == 0x20 && dataLength >= 8)
+    {
 		[self handleStatusReport:dp length:dataLength];
-	} else if (dp[1] == 0x21) { // read data response
+	}
+    else if (dp[1] == 0x21) // read data response
+    {
 		[self handleRAMData:dp length:dataLength];
         [self handleDataReport:dp length:dataLength];
-	} else if (dp[1] == 0x22) { // Write data response
+	}
+    else if (dp[1] == 0x22) // Write data response
+    {
 		[self handleWriteResponse:dp length:dataLength];
         [self handleDataReport:dp length:dataLength];
-	} else if ((dp[1] & 0xF0) == 0x30) { // report contains button info
+	}
+    else if ((dp[1] & 0xF0) == 0x30) // report contains button info
+    {
         [self handleDataReport:dp length:dataLength];
 	}
 }
 
-- (IOBluetoothL2CAPChannel *)openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm delegate:(id)aDelegate{
+- (IOBluetoothL2CAPChannel *)openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm delegate:(id)aDelegate
+{
 	IOBluetoothL2CAPChannel * channel = nil;
 	
 	DLog(@"Open channel (PSM:%i) ...", psm);
-	if ([_btDevice openL2CAPChannelSync:&channel withPSM:psm delegate:aDelegate] != kIOReturnSuccess) {
+	if ([_btDevice openL2CAPChannelSync:&channel withPSM:psm delegate:aDelegate] != kIOReturnSuccess)
+    {
 		DLog (@"Could not open L2CAP channel (psm:%i)", psm);
 		
 		channel = nil;
 		[self disconnect];
-	} else {
+	}
+    else
+    {
 		[channel setDelegate:self];
 	}
 	
