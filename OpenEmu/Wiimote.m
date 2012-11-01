@@ -24,6 +24,9 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "Wiimote.h"
+#import <IOKit/hid/IOHIDLib.h>
+#import <mach/mach_time.h>
+#import "OEHIDEvent.h"
 // this type is used a lot (data array):
 typedef unsigned char darr[];
 typedef enum {
@@ -70,7 +73,9 @@ typedef enum {
 	kWiiExpansionClassicController = 0x0101,
 } WiiExpansionIdentifier;
 
-@interface Wiimote ()
+@interface Wiimote (){
+    IOHIDElementRef element;
+}
 @property BOOL statusReportRequested;
 @property float batteryLevel;
 @property WiiExpansionType expansionType;
@@ -83,7 +88,7 @@ typedef enum {
 # pragma mark -
 - (Wiimote*) init
 {
-	self = [super init];
+	self = [super initWithDevice:NULL];
 	
 	if (self != nil)
     {
@@ -106,6 +111,13 @@ typedef enum {
         lastWiimoteButtonReport = 0;
         lastNunchuckButtonReport = 0;
         lastClassicControllerButtonReport = 0;
+        
+        
+        NSDictionary *dict = @{
+            @(kIOHIDElementUsageKey)     : @(11),
+            @(kIOHIDElementUsagePageKey) : @(kHIDPage_Button)
+        };
+        element = IOHIDElementCreateWithDictionary(NULL, (__bridge CFDictionaryRef)dict);
 	}
 	
 	return self;
@@ -139,6 +151,7 @@ typedef enum {
 	if(self != nil)
     {
 		[self setDevice:_btDevice];
+        
 	}
 	
 	return self;
@@ -471,6 +484,61 @@ typedef enum {
 
 @synthesize statusReportRequested;
 # pragma mark -
+- (BOOL)supportsForceFeedback
+{
+    return NO;
+}
+
+- (void)enableForceFeedback
+{}
+- (void)disableForceFeedback
+{}
+
+- (BOOL)isKeyboardDevice
+{
+    return NO;
+}
+
+- (NSUInteger)deviceNumber
+{
+    return 100;
+}
+
+- (IOHIDDeviceRef)device
+{
+    return NULL;
+}
+
+- (CGFloat)deadZone
+{
+    return 0.2;
+}
+
+- (NSString*)serialNumber
+{
+    return @"1";
+}
+
+- (NSString*)manufacturer
+{
+    return @"nintendo";
+}
+
+- (NSString*)product
+{
+    return @"wiimote";
+}
+
+- (NSNumber*)productID
+{
+    return @(1);
+}
+- (NSNumber*)locationID
+{
+    return @(1);
+}
+
+# pragma mark -
 - (void)handleDataReport:(unsigned char *) dp length:(size_t) dataLength
 {
 	// wiimote buttons
@@ -480,6 +548,9 @@ typedef enum {
         [self parseWiiRemoteButtonData:buttonData];
     }
     
+    IOHIDValueRef value = IOHIDValueCreateWithBytes(NULL, element, mach_absolute_time(), dp, 2);
+    OEHIDEvent *event = [OEHIDEvent eventWithDeviceHandler:self value:value];
+    DLog(@"%@ | %@ | %@", element, value, event);
     // Expansion Port
     switch(dp[1])
     {

@@ -440,6 +440,8 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     IOHIDElementRef elem   = IOHIDValueGetElement(aValue);
     const uint32_t  page   = IOHIDElementGetUsagePage(elem);
     const uint32_t  usage  = IOHIDElementGetUsage(elem);
+    
+    NSLog(@"%d | %d", page, usage);
     NSUInteger      cookie = (uint32_t)IOHIDElementGetCookie(elem);
     
     _hasPreviousState = _type != 0;

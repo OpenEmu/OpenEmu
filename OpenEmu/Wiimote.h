@@ -32,6 +32,7 @@
 #import <IOBluetooth/objc/IOBluetoothL2CAPChannel.h>
 #import <IOBluetooth/objc/IOBluetoothDevice.h>
 
+#import "OEHIDDeviceHandler.h"
 # pragma mark Type definitions
 typedef unsigned char WiiIRModeType;
 enum {
@@ -134,7 +135,7 @@ typedef enum {
 @end
 
 
-@interface Wiimote : NSObject {
+@interface Wiimote : OEHIDDeviceHandler {
 	IOBluetoothDevice* _btDevice;
 	IOBluetoothL2CAPChannel * _ichan;
 	IOBluetoothL2CAPChannel * _cchan;
