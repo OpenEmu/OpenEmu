@@ -94,7 +94,12 @@ static void *const _OESetupAssistantKeyMapViewContext = (void *)&_OESetupAssista
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if(context == _OESetupAssistantKeyMapViewContext)
-        [self OE_updateKeyView];
+    {
+        // Make sure UI behaviour happens on the main thread since a key may be changed in an arbitrary thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self OE_updateKeyView];
+        });
+    }
     else
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }

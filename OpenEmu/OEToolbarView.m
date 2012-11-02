@@ -65,16 +65,6 @@
 }
 
 #pragma mark -
-- (void)setContentseparatorColor:(NSColor *)contentseparatorColor{
-    
-    _contentseparatorColor = contentseparatorColor;
-    [self setNeedsDisplay:YES];
-}
-- (NSColor*)contentseparatorColor{
-    return _contentseparatorColor;
-}
-
-#pragma mark -
 - (OEToolbarItem*)selectedItem{
     return selectedItem;
 }
@@ -105,15 +95,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect{
     [super drawRect:dirtyRect];
-    
-    if(self.contentseparatorColor){
-        NSRect lineRect = [self bounds];
-        lineRect.size.height = 1;
         
-        [self.contentseparatorColor setFill];
-        NSRectFill(lineRect);
-    }
-    
     float itemSpacing = 5;
     float titlePadding = 8;
     float imageSideLength = 36;

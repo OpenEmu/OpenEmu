@@ -31,7 +31,8 @@
 - (NSString*)stringForButtonNumber:(NSUInteger)buttonNumber
 {
     WiiButtonType btnType = buttonNumber;
-    switch (btnType) {
+    switch (btnType)
+    {
         case WiiRemoteAButton: return @"A";
         case WiiRemoteBButton: return @"B";
         case WiiRemoteOneButton: return @"1";
@@ -69,11 +70,13 @@
     }
     return [NSString stringWithFormat:@"%ld", buttonNumber];
 }
+
 - (NSString*)displayDescription
 {
-    switch ([self type]) {
+    switch ([self type])
+    {
         case OEHIDEventTypeButton:
-            return [NSString stringWithFormat:@"Wi%ld %@", [self padNumber]-WiimoteBasePadNumber+1, [self stringForButtonNumber:[self buttonNumber]]];            
+            return [NSString stringWithFormat:@"Wi%ld %@", [self padNumber]-WiimoteBasePadNumber+1, [self stringForButtonNumber:[self buttonNumber]]];
         default:
             return [NSString stringWithFormat:@"Wi%ld %@", [self padNumber]-WiimoteBasePadNumber+1, @"Unknown"];
     }

@@ -37,6 +37,7 @@
 
 @property (strong) IBOutlet NSView              *gameScannerView;
 
+@property (strong) IBOutlet NSTextField         *headlineLabel;
 @property (strong) IBOutlet NSButton            *togglePauseButton;
 @property (strong) IBOutlet NSProgressIndicator *progressIndicator;
 @property (strong) IBOutlet NSTextField         *statusLabel;

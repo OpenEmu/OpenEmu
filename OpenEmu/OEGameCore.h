@@ -102,24 +102,23 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 @interface OEGameCore : NSResponder <OESystemResponderClient, OESettingObserver>
 {    
-    NSThread              *emulationThread;
-    NSTimeInterval         frameInterval;
-    __strong OERingBuffer         **ringBuffers;
-    //OEMapRef               keyMap;
-    NSUInteger             frameSkip;
-    NSUInteger             frameCounter;
-    NSUInteger             tenFrameCounter;
-    NSUInteger             autoFrameSkipLastTime;
-    NSUInteger             frameskipadjust;
+    NSThread               *emulationThread;
+    NSTimeInterval          frameInterval;
+    OERingBuffer __strong **ringBuffers;
+    NSUInteger              frameSkip;
+    NSUInteger              frameCounter;
+    NSUInteger              tenFrameCounter;
+    NSUInteger              autoFrameSkipLastTime;
+    NSUInteger              frameskipadjust;
     
     // for lightgun/pointer support.
-    NSPoint                mousePosition;
+    NSPoint                 mousePosition;
     
-    BOOL                   frameFinished;
-    BOOL                   willSkipFrame;
+    BOOL                    frameFinished;
+    BOOL                    willSkipFrame;
     
-    BOOL                   isRunning;
-    BOOL                   shouldStop;
+    BOOL                    isRunning;
+    BOOL                    shouldStop;
 }
 
 @property(weak)     id<OERenderDelegate>  renderDelegate;

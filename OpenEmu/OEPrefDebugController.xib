@@ -689,11 +689,12 @@
 						<string key="NSFrame">{{218, 16}, {82, 25}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="414806367">
 							<int key="NSCellFlags">67108864</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Chose</string>
+							<string key="NSContents">Choose</string>
 							<reference key="NSSupport" ref="126669081"/>
 							<reference key="NSControlView" ref="853516866"/>
 							<int key="NSButtonFlags">-2038284288</int>
@@ -907,19 +908,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">choseSaveStateFolder:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="853516866"/>
-					</object>
-					<int key="connectionID">282</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">defaultSaveStateFolder:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="313146737"/>
 					</object>
 					<int key="connectionID">283</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">chooseSaveStateFolder:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="853516866"/>
+					</object>
+					<int key="connectionID">284</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2181,7 +2182,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">283</int>
+			<int key="maxID">284</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2246,7 +2247,7 @@
 					<string key="superclassName">NSViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeRegion:">id</string>
-						<string key="choseSaveStateFolder:">id</string>
+						<string key="chooseSaveStateFolder:">id</string>
 						<string key="defaultSaveStateFolder:">id</string>
 						<string key="executeDatbaseAction:">id</string>
 					</dictionary>
@@ -2255,8 +2256,8 @@
 							<string key="name">changeRegion:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="choseSaveStateFolder:">
-							<string key="name">choseSaveStateFolder:</string>
+						<object class="IBActionInfo" key="chooseSaveStateFolder:">
+							<string key="name">chooseSaveStateFolder:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="defaultSaveStateFolder:">

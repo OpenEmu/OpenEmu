@@ -6,6 +6,8 @@
 	<dict>
 		<key>game_scanner_background</key>
 		<string>#3f3f3f</string>
+		<key>black_background</key>
+		<string>black</string>
 		<key>dark_menu_background</key>
 		<string>rgba(0,0,0,0.8)</string>
 		<key>light_menu_background</key>
@@ -826,6 +828,8 @@
 				<string>{{0,0},{28,23}}</string>
 				<key>Pressed</key>
 				<string>{{56,0},{28,23}}</string>
+				<key>Disabled</key>
+				<string>{{0,0},{28,23}}</string>
 			</dict>
 		</dict>
 		<key>toolbar_view_button_grid_background</key>
@@ -844,6 +848,10 @@
 				<string>{{0,69},{27,23}}</string>
 				<key>Toggle On, Window Inactive</key>
 				<string>{{0,23},{27,23}}</string>
+				<key>Toggle On, Disabled</key>
+				<string>{{0,23},{27,23}}</string>
+				<key>Toggle Off, Disabled</key>
+				<string>{{0,0},{27,23}}</string>
 			</dict>
 		</dict>
 		<key>toolbar_view_button_flow_background</key>
@@ -861,6 +869,10 @@
 				<key>Toggle On</key>
 				<string>{{27,69},{27,23}}</string>
 				<key>Toggle On, Window Inactive</key>
+				<string>{{27,23},{27,23}}</string>
+				<key>Toggle Off, Disabled</key>
+				<string>{{27,0},{27,23}}</string>
+				<key>Toggle On, Disabled</key>
 				<string>{{27,23},{27,23}}</string>
 			</dict>
 		</dict>
@@ -880,6 +892,10 @@
 				<string>{{54,69},{27,23}}</string>
 				<key>Toggle On, Window Inactive</key>
 				<string>{{54,23},{27,23}}</string>
+				<key>Toggle On, Disabled</key>
+				<string>{{54,23},{27,23}}</string>
+				<key>Toggle Off, Disabled</key>
+				<string>{{54,0},{27,23}}</string>
 			</dict>
 		</dict>
 		<key>dark_checkbox</key>
@@ -1490,10 +1506,30 @@
 				<string>{{0,0},{9,7}}</string>
 			</dict>
 		</dict>
+		<key>light_menu_scroll_up_arrow</key>
+		<dict>
+			<key>Resource</key>
+			<string>light_menu_scroll_arrows</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0},{9,7}}</string>
+			</dict>
+		</dict>
 		<key>dark_menu_scroll_down_arrow</key>
 		<dict>
 			<key>Resource</key>
 			<string>dark_menu_scroll_arrows</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{9,0},{9,7}}</string>
+			</dict>
+		</dict>
+		<key>light_menu_scroll_down_arrow</key>
+		<dict>
+			<key>Resource</key>
+			<string>light_menu_scroll_arrows</string>
 			<key>States</key>
 			<dict>
 				<key>Default</key>
@@ -1623,8 +1659,8 @@
 		<dict>
 			<key>Colors</key>
 			<array>
-				<string>rgb(74, 74, 74)</string>
-				<string>rgba(41,41,41, 1)</string>
+				<string>#4a4a4a</string>
+				<string>#292929</string>
 			</array>
 			<key>Locations</key>
 			<array>

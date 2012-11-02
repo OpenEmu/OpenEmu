@@ -68,25 +68,23 @@ extern NSString *const OEForceCorePicker;
     OEGameCoreController *gameController;
     BOOL                  keyedOnce;
     
-    BOOL emulationRunning;
-    
     NSTimer* gameViewTransitionTimer;
 }
 
 - (id)initWithRom:(OEDBRom *)rom;
-- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin*)core;
+- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core;
 - (id)initWithRom:(OEDBRom *)rom error:(NSError **)outError;
-- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin*)core error:(NSError **)outError;
+- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core error:(NSError **)outError;
 - (id)initWithGame:(OEDBGame *)game;
-- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core;
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core;
 - (id)initWithGame:(OEDBGame *)game error:(NSError **)outError;
-- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError;
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError;
 
 - (id)initWithSaveState:(OEDBSaveState *)state;
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
 #pragma mark -
 @property(strong) OEGameControlsBar *controlsWindow;
-@property(readonly) OEGameView* gameView;
+@property(readonly) OEGameView *gameView;
 
 @property(unsafe_unretained) id<OEGameViewControllerDelegate> delegate;
 
@@ -114,9 +112,8 @@ extern NSString *const OEForceCorePicker;
 
 - (IBAction)pauseGame:(id)sender;
 - (IBAction)playGame:(id)sender;
-- (BOOL)isEmulationPaused;
 - (void)toggleEmulationPaused;
-- (void)setPauseEmulation:(BOOL)flag;
+- (void)setPauseEmulation:(BOOL)pauseEmulation;
 
 #pragma mark - Saving States
 - (IBAction)saveState:(id)sender;
@@ -140,6 +137,7 @@ extern NSString *const OEForceCorePicker;
 #pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
+
 @end
 
 

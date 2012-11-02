@@ -93,7 +93,7 @@
 
 - (NSSize)viewSize
 {
-	return NSMakeSize(423, 348);
+	return NSMakeSize(423, 354);
 }
 
 #pragma mark -
