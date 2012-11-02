@@ -368,7 +368,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
     if(memcmp(&screenRect.size, &previousScreenSize, sizeof(screenRect.size)))
     {
-        NSLog(@"Need a resize!");
+        DLog(@"Need a resize!");
         // recreate our surface so its the same size as our screen
         [self destroySurface];
 
