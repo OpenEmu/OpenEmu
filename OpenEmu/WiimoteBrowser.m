@@ -27,26 +27,32 @@
 #import "WiimoteBrowser.h"
 
 @implementation WiimoteBrowser
-- (id) init{
+- (id)init
+{
 	self = [super init];
-	if (self != nil) {
+	if (self != nil)
+    {
 		_maxWiimotes = -1;
 	}
 	return self;
 }
 
-- (int)maxWiimoteCount{
+- (int)maxWiimoteCount
+{
 	return _maxWiimotes;
 }
 
-- (void)setMaxWiimoteCount:(int)newMax{
+- (void)setMaxWiimoteCount:(int)newMax
+{
 	_maxWiimotes = newMax;
 }
 
 @synthesize delegate;
 
-- (void)startSearch{
-	if(![self delegate]){ // check if delegate is set
+- (void)startSearch
+{
+	if(![self delegate]) // check if delegate is set
+    {
 		DLog(@"Error: Can't run WiimoteBrowser without delegate!");
 		return;
 	}
@@ -64,10 +70,9 @@
 	[_inquiry setUpdateNewDeviceNames:NO];
 
 	IOReturn status = [_inquiry start];
-	if (status == kIOReturnSuccess) {
-
-	} else { // not likely to happen, but we handle it anyway
-		DLog(@"Error: Inquiry did not start, error %d", status);
+	if (status != kIOReturnSuccess)
+    {
+        DLog(@"Error: Inquiry did not start, error %d", status);
 		[_inquiry setDelegate:nil];
 		_inquiry = nil;
 		
@@ -78,18 +83,22 @@
 	}		
 }
 
-- (void)stopSearch{}
+- (void)stopSearch
+{}
 
-- (NSArray*)discoveredDevices{
+- (NSArray*)discoveredDevices
+{
 	return _discoveredDevices;
 }
 #pragma mark -
 #pragma mark privat methods
-- (NSArray*)_convertFoundDevicesToWiimotes:(NSArray*)foundDevices{
+- (NSArray*)_convertFoundDevicesToWiimotes:(NSArray*)foundDevices
+{
 	NSMutableArray* wiimotes = [[NSMutableArray alloc] init];
 	
 	Wiimote* wiimo = nil;
-	for(IOBluetoothDevice* btDev in foundDevices){
+	for(IOBluetoothDevice* btDev in foundDevices)
+    {
 		wiimo = [[Wiimote alloc] initWithDevice:btDev];		
 		[wiimotes addObject:wiimo];
 	}
@@ -99,13 +108,15 @@
 
 #pragma mark -
 #pragma mark BT Inquiry	Delegates
-- (void)deviceInquiryDeviceFound:(IOBluetoothDeviceInquiry *)sender device:(IOBluetoothDevice *)device{
+- (void)deviceInquiryDeviceFound:(IOBluetoothDeviceInquiry *)sender device:(IOBluetoothDevice *)device
+{
 	// note: never try to connect to the wiimote while the inquiry is still running! (cf apple docs)
 	if([[sender foundDevices] count]==_maxWiimotes)
 		[_inquiry stop];
 }
 
-- (void) deviceInquiryComplete:(IOBluetoothDeviceInquiry*)sender error:(IOReturn)error aborted:(BOOL)aborted{
+- (void) deviceInquiryComplete:(IOBluetoothDeviceInquiry*)sender error:(IOReturn)error aborted:(BOOL)aborted
+{
 	DLog(@"inquiry stopped, was aborted: %d", aborted);
 	DLog(@"We've found: %lu devices, the maxiumum was set to %d", [[sender foundDevices] count], _maxWiimotes);
 	_isSearching = FALSE;

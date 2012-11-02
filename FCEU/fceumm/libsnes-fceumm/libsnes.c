@@ -410,7 +410,7 @@ void snes_init(void)
 static void emulator_set_input(void)
 {
     FCEUI_SetInput(0, SI_GAMEPAD, &JSReturn[0], 0);
-    FCEUI_SetInput(1, SI_GAMEPAD, &JSReturn[1], 0);
+    FCEUI_SetInput(1, SI_GAMEPAD, &JSReturn[0], 0);
 }
 
 static void emulator_set_custom_palette (void)
@@ -489,8 +489,8 @@ static void update_input(void)
 		pad[0] |= input_cb(SNES_PORT_1, SNES_DEVICE_JOYPAD, 0, bindmap[i].snes) ? bindmap[i].nes : 0;
 	for ( i = 0; i < 8; i++)
 		pad[1] |= input_cb(SNES_PORT_2, SNES_DEVICE_JOYPAD, 0, bindmap[i].snes) ? bindmap[i].nes : 0;
-    JSReturn[0] = pad[0];
-        JSReturn[1] = pad[1];
+    
+    JSReturn[0] = pad[0] | (pad[1] << 8);
 }
 
 EXPORT void snes_run(void)
