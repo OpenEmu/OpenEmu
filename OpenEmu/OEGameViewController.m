@@ -623,7 +623,10 @@ typedef enum : NSUInteger
         }
 
         [self OE_captureScreenshotUsingBlock:^(NSImage *img) {
-            success = [[img TIFFRepresentation] writeToURL:[state screenshotURL] atomically:YES];
+            NSData *TIFFData = [img TIFFRepresentation];
+            NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
+            NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+            success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
         }];
         
         if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
