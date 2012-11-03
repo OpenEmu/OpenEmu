@@ -431,18 +431,19 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     {
         NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
         CGRect textureRect = CGRectMake(0, 0, gameScreenSize.width, gameScreenSize.height);
-        
-        // always set the CIImage, so save states save
-        [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
 
-        OEGameShader *shader = [filters objectForKey:filterName];
-        
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
         
         [[self openGLContext] makeCurrentContext];
         
         CGLLockContext(cgl_ctx);
-                
+
+        // always set the CIImage, so save states save
+        [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
+
+        OEGameShader *shader = [filters objectForKey:filterName];
+        
+        
         // Attempted fix for Issue #142
         // update our game texture
 //        glEnable(GL_TEXTURE_RECTANGLE_EXT);
@@ -469,7 +470,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
-        
         if(shader != nil)
             [self OE_drawSurface:surfaceRef inCGLContext:cgl_ctx usingShader:shader];
         else
@@ -510,17 +510,40 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
         if(screenshotHandler != nil)
         {
+            
+            NSBitmapImageRep *imageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+                                                                                 pixelsWide:textureRect.size.width
+                                                                                 pixelsHigh:textureRect.size.height
+                                                                              bitsPerSample:8
+                                                                            samplesPerPixel:4
+                                                                                   hasAlpha:YES
+                                                                                   isPlanar:NO
+                                                                             colorSpaceName:NSDeviceRGBColorSpace
+                                                                                bytesPerRow:textureRect.size.width * 4
+                                                                               bitsPerPixel:32];
+            
+//            glReadPixels(0, 0, textureRect.size.width, textureRect.size.height, GL_RGBA, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
+
+            IOSurfaceLock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
+            
+            void * src = IOSurfaceGetBaseAddress(surfaceRef);
+            
+            memcpy([imageRep bitmapData], src, sizeof(unsigned char) * textureRect.size.height * textureRect.size.width * 4);
+            
+            IOSurfaceUnlock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
+            
             NSImage *img = nil;
-            // TODO: Drawing the content of the image
             
             NSRect extent = NSRectFromCGRect([[self gameCIImage] extent]);
             int width = extent.size.width; 
             int height = extent.size.height;  
-            
-            NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];
-            
+                        
             img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
-            [img addRepresentation:rep];
+            [img addRepresentation:imageRep];
+            
+            [img setFlipped:YES]; // this is deprecated in 10.6
+            [img lockFocusOnRepresentation:imageRep]; // this will flip the rep
+            [img unlockFocus];
             
             screenshotHandler(img);
             [self setScreenshotHandler:nil];
@@ -555,7 +578,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
+    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_RGBA, GL_UNSIGNED_BYTE, surfaceRef, 0);
     
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
