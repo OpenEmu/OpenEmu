@@ -157,6 +157,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     {
         NSOpenGLPFAAccelerated, 
         NSOpenGLPFADoubleBuffer,
+        NSOpenGLPFAAllowOfflineRenderers,
         0
     };
     
