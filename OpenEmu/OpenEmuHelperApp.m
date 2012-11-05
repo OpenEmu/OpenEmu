@@ -156,8 +156,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (void)setupOpenGLOnScreen:(NSScreen *)screen
 {
-    // init our fullscreen context.
-    CGLPixelFormatAttribute attributes[] = {kCGLPFAAccelerated, 0};
+    // init our context.
+    CGLPixelFormatAttribute attributes[] = {kCGLPFAAccelerated, kCGLPFAAllowOfflineRenderers, 0};
     
     CGLError err = kCGLNoError;
     CGLPixelFormatObj pf;

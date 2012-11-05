@@ -87,8 +87,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     [super windowDidLoad];
     
     [[self libraryController] setDelegate:self];
-    [[self libraryController] setSidebarChangesWindowSize:YES];
-    
+
     [[self window] setWindowController:self];
     [[self window] setDelegate:self];
     
@@ -319,12 +318,6 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     [item setState:NSOffState];
 }
 
-
-- (void)windowWillEnterFullScreen:(NSNotification *)notification
-{
-    [[self libraryController] setSidebarChangesWindowSize:NO];
-}
-
 - (void)windowDidEnterFullScreen:(NSNotification *)notification
 {
     if(_documentForFullScreenWindow)
@@ -334,12 +327,6 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
         _documentForFullScreenWindow = nil;
     }
 }
-
-- (void)windowDidExitFullScreen:(NSNotification *)notification
-{
-    [[self libraryController] setSidebarChangesWindowSize:YES];
-}
-
 
 #pragma mark -
 #pragma mark Menu Items
