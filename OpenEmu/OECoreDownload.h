@@ -49,7 +49,8 @@
 @property (weak) id <OECoreDownloadDelegate> delegate;
 
 @property (copy) NSString *name;
-@property (copy) NSString *systemNames;
+@property (copy) NSArray  *systemIdentifiers;
+@property (copy) NSArray  *systemNames;
 @property (copy) NSString *version;
 
 @property BOOL hasUpdate;

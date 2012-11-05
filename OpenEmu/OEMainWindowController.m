@@ -35,6 +35,7 @@
 
 #import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
+#import "OEGameCoreManager.h"
 #import "OEGameViewController.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
@@ -61,7 +62,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 @synthesize libraryController;
 @synthesize placeholderView;
 
-- (void)dealloc 
+- (void)dealloc
 {
     currentContentController = nil;
     [self setDefaultContentController:nil];
@@ -73,12 +74,12 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 {
     self = [super initWithWindow:window];
     if(!self) return nil;
-
+    
     // Since restoration from autosave happens before NSWindowController
     // receives -windowDidLoad and we are autosaving the window size, we
     // need to set allowWindowResizing to YES before -windowDidLoad
     allowWindowResizing = YES;
-
+    
     return self;
 }
 
@@ -87,7 +88,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     [super windowDidLoad];
     
     [[self libraryController] setDelegate:self];
-
+    
     [[self window] setWindowController:self];
     [[self window] setDelegate:self];
     
@@ -105,9 +106,9 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
                  [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
              [self setCurrentContentController:[self libraryController]];
          }];
-
+        
         [[self window] center];
-
+        
         [self setCurrentContentController:setupAssistant];
     }
     else
@@ -126,9 +127,9 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     BOOL forcePopout = [standardDefaults boolForKey:OEForcePopoutGameWindowKey];
     BOOL fullScreen  = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
-
+    
     _shouldExitFullScreenWhenGameFinishes = NO;
-
+    
     if(forcePopout)
     {
         [[aDocument gameViewController] playGame:self];
@@ -156,14 +157,14 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
 {
     NSView *contentView = [self placeholderView];
-
+    
     // final target
     [[newController view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [[newController view] setFrame:[contentView frame]];
-
+    
     [oldController viewWillDisappear];
     [newController viewWillAppear];
-
+    
     if(oldController != nil)
     {
         if(newController != nil)
@@ -182,55 +183,55 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
             [contentView addSubview:[newController view]];
         }
     }
-
+    
     [oldController viewDidDisappear];
     [newController viewDidAppear];
-
+    
     if(newController)
     {
         [[self window] makeFirstResponder:[newController view]];
     }
-
+    
     currentContentController = newController;
 }
 
 - (void)setCurrentContentController:(NSViewController *)controller
 {
     if(controller == nil) controller = [self libraryController];
-
+    
     if(controller == [self currentContentController]) return;
-
+    
     NSBitmapImageRep *currentState = [[self placeholderView] fadeImage], *newState = nil;
     if([currentContentController respondsToSelector:@selector(setCachedSnapshot:)])
         [(id <OEMainWindowContentController>)currentContentController setCachedSnapshot:currentState];
-
+    
     [currentContentController viewWillDisappear];
     [controller viewWillAppear];
-
+    
     NSView *placeHolderView = [self placeholderView];
     OEFadeView *fadeView = [[OEFadeView alloc] initWithFrame:[placeHolderView bounds]];
-
+    
     if(currentContentController)
         [placeholderView replaceSubview:[currentContentController view] with:fadeView];
     else
         [placeholderView addSubview:fadeView];
-
+    
     if([controller respondsToSelector:@selector(cachedSnapshot)])
         newState = [(id <OEMainWindowContentController>)controller cachedSnapshot];
-
+    
     [fadeView fadeFromImage:currentState toImage:newState callback:
      ^{
          [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
          [[controller view] setFrame:[placeHolderView frame]];
-
+         
          [placeHolderView replaceSubview:fadeView with:[controller view]];
-
+         
          [[self window] makeFirstResponder:[controller view]];
-
+         
          [currentContentController viewDidDisappear];
          [controller viewDidAppear];
          currentContentController = controller;
-
+         
          [fadeView removeFromSuperview];
      }];
 }
@@ -242,7 +243,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     NSError         *error = nil;
     OEDBSaveState   *state = [aGame autosaveForLastPlayedRom];
     OEGameDocument  *gameDocument = nil;
-
+    
     if(state && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn)
         gameDocument = [[OEGameDocument alloc] initWithSaveState:state error:&error];
     else
@@ -251,7 +252,19 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     if(gameDocument == nil)
     {
         if(error!=nil)
-            [NSApp presentError:error];
+        {
+            if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code]==OENoCoreForSystemError)
+            {
+                [[OECoreUpdater sharedUpdater] installCoreForGame:aGame withCompletionHandler:^(NSError *error) {
+                    if(error == nil)
+                        [self libraryController:sender didSelectGame:aGame];
+                    else
+                        [NSApp presentError:error];
+                }];
+            }
+            else
+                [NSApp presentError:error];
+        }
         return;
     }
     
@@ -270,7 +283,20 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
         [[NSDocumentController sharedDocumentController] addDocument:gameDocument];
         [self openGameDocument:gameDocument];
     }
-    else if(error != nil) [NSApp presentError:error];
+    else if(error != nil)
+    {
+        if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code]==OENoCoreForSaveStateError)
+        {
+            [[OECoreUpdater sharedUpdater] installCoreForSaveState:aSaveState withCompletionHandler:^(NSError *error) {
+                if(error == nil)
+                    [self libraryController:sender didSelectSaveState:aSaveState];
+                else
+                    [NSApp presentError:error];
+            }];
+        }
+        else
+            [NSApp presentError:error];
+    }
 }
 
 #pragma mark - OEGameViewControllerDelegate protocol conformance
@@ -303,7 +329,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 - (void)windowDidBecomeMain:(NSNotification *)notification
 {
     NSMenu *mainMenu = [NSApp mainMenu];
-
+    
     NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
     NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
     [item setState:NSOnState];

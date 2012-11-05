@@ -27,20 +27,6 @@
 #import <Cocoa/Cocoa.h>
 #import "OETaskWrapper.h"
 
-extern NSString *const OEGameDocumentErrorDomain;
-
-enum _OEGameDocumentErrorCodes 
-{
-    OENoError                      =  0,
-    OEFileDoesNotExistError        = -1,
-    OEIncorrectFileError           = -2,
-    OEHelperAppNotRunningError     = -3,
-    OEConnectionTimedOutError      = -4,
-    OEInvalidHelperConnectionError = -5,
-    OENilRootProxyObjectError      = -6,
-    OECouldNotLoadROMError         = -10,
-};
-
 @protocol OEGameCoreHelper;
 @class OECorePlugin, OEGameCoreController, OpenEmuHelperApp;
 

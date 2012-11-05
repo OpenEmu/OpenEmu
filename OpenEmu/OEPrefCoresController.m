@@ -117,7 +117,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     } 
     else if([columnIdentifier isEqualToString:@"systemColumn"])
     {
-        return [plugin systemNames];
+        return [[plugin systemNames] componentsJoinedByString:@", "];
     }
     else if([columnIdentifier isEqualToString:@"versionColumn"])
     {

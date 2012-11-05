@@ -30,9 +30,7 @@
 #import "OEGameCoreController.h"
 #import "NSString+UUID.h"
 #import "OpenEmuHelperApp.h"
-
-NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
-
+#import "OEGameDocument.h"
 #import "OETaskWrapper.h"
 
 @implementation OEGameCoreManager

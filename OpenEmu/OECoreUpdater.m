@@ -34,6 +34,12 @@
 #import "OEHUDAlert.h"
 #import "OEButton.h"
 
+#import "OEDBGame.h"
+#import "OEDBSystem.h"
+#import "OEDBSaveState.h"
+
+NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
+
 @interface OECoreUpdater ()
 {
     NSMutableDictionary *coresDict;
@@ -46,18 +52,6 @@
 
 @implementation OECoreUpdater
 @synthesize coreList;
-
-static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
-{
-    NSString *value = nil;
-    NSArray *nodes = [element elementsForName:name];
-    if([nodes count] > 0)
-    {
-        NSXMLElement *childNode = [nodes objectAtIndex:0];
-        value = [childNode stringValue];
-    }
-    return value;
-}
 
 // TODO: remove when feed holds correct ids
 - (NSString *)lowerCaseID:(NSString*)mixedCaseID
@@ -154,7 +148,20 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
             
             OECoreDownload *download = [[OECoreDownload alloc] init];
             [download setName:[[coreNode attributeForName:@"name"] stringValue]];
-            [download setSystemNames:elementChildAsString(coreNode, @"systems")];
+            
+            NSArray *nodes = [coreNode nodesForXPath:@"./systems/system" error:NULL];
+            NSMutableArray *systemNames = [NSMutableArray arrayWithCapacity:[nodes count]];
+            NSMutableArray *systemIdentifiers = [NSMutableArray arrayWithCapacity:[nodes count]];
+            [nodes enumerateObjectsUsingBlock:^(NSXMLElement *systemNode, NSUInteger idx, BOOL *stop) {
+                NSString *systemName = [systemNode objectValue];
+                NSString *systemIdentifier = [[systemNode attributeForName:@"id"] objectValue];
+                
+                [systemNames addObject:systemName];
+                [systemIdentifiers addObject:systemIdentifier];
+            }];
+            
+            [download setSystemNames:systemNames];
+            [download setSystemIdentifiers:systemIdentifiers];
             [download setCanBeInstalled:YES];
             
             NSURL *appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
@@ -175,20 +182,59 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
 #pragma mark -
 #pragma mark Installing with OEHUDAlert
 @synthesize completionHandler, coreIdentifier, alert, coreDownload;
+- (void)installCoreForGame:(OEDBGame*)game withCompletionHandler:(void(^)(NSError *error))handler
+{
+    NSString *systemIdentifier = [[game system] systemIdentifier];
+    NSArray *validPlugins = [[self coreList] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        return [[evaluatedObject systemIdentifiers] containsObject:systemIdentifier];
+    }]];
 
-- (void)installCoreWithIdentifier:(NSString *)aCoreIdentifier coreName:(NSString *)coreName systemName:(NSString *)systemName withCompletionHandler:(void (^)(void))handle
+    if([validPlugins count])
+    {
+        OECoreDownload *download = [validPlugins lastObject];
+        NSString *coreName = [download name];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Unfortunately, in order to play %@ you will need to install the '%@' Core", @""), [game name], coreName];
+        [self installCoreWithDownload:download message:message andCompletionHandler:handler];
+    }
+    else
+    {
+        NSError *error = [NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENoDownloadableCoreForIdentifier userInfo:nil];
+        handler(error);
+    }
+}
+
+- (void)installCoreForSaveState:(OEDBSaveState*)state withCompletionHandler:(void(^)(NSError *error))handler
+{
+    NSString *aCoreIdentifier = [state coreIdentifier];
+    OECoreDownload *download = [coresDict objectForKey:[aCoreIdentifier lowercaseString]];
+    if(download)
+    {
+        NSString *coreName = [download name];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"To launch the save state %@ you will need to install the '%@' Core", @""), [state name], coreName];
+        [self installCoreWithDownload:download message:message andCompletionHandler:handler];
+    }
+    else
+    {
+        // TODO: create proper error saying that no core is available for the state
+        NSError *error = [NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENoDownloadableCoreForIdentifier userInfo:nil];
+        handler(error);
+    }
+}
+
+- (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message andCompletionHandler:(void(^)(NSError *error))handler
 {
     OEHUDAlert *aAlert = [[OEHUDAlert alloc] init];
     [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
     [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     
     [aAlert setTitle:NSLocalizedString(@"Missing Core", @"")];
-    [aAlert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Unfortunately, in order to play %@ games you will need to install the '%@' Core", @""), systemName, coreName]];
+    [aAlert setMessageText:message];
     
     [aAlert setDefaultButtonAction:@selector(startInstall) andTarget:self];
     
+    NSString *aCoreIdentifier = [[coresDict allKeysForObject:download] lastObject];
     [self setCoreIdentifier:aCoreIdentifier];
-    [self setCompletionHandler:handle];
+    [self setCompletionHandler:handler];
     
     [self setAlert:aAlert];
     
@@ -200,6 +246,8 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
     
     [self setAlert:nil];
 }
+
+#pragma mark -
 
 - (void)cancelInstall
 {
@@ -255,7 +303,7 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
 {
     [[self alert] closeWithResult:NSAlertDefaultReturn];
     
-    if([self completionHandler] != nil) [self completionHandler]();
+    if([self completionHandler] != nil) [self completionHandler](nil);
     
     [self setAlert:nil];
     [self setCoreIdentifier:nil];
@@ -290,7 +338,6 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 
 #pragma mark -
 #pragma mark SUUpdater Delegate
-
 - (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update
 {
     for(OECorePlugin *plugin in [OECorePlugin allPlugins])
