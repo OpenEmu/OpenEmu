@@ -46,6 +46,8 @@
 NSString *const OEPopoutHasScreenSizeKey = @"forceDefaultScreenSize";
 NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
 
+NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
+
 @interface OEGameDocument ()
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError**)outError;
 - (BOOL)OE_loadGame:(OEDBGame *)game core:(OECorePlugin*)core withError:(NSError**)outError;

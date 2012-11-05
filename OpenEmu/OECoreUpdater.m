@@ -34,6 +34,9 @@
 #import "OEHUDAlert.h"
 #import "OEButton.h"
 
+#import "OEDBGame.h"
+#import "OEDBSystem.h"
+#import "OEDBSaveState.h"
 @interface OECoreUpdater ()
 {
     NSMutableDictionary *coresDict;
@@ -176,28 +179,61 @@
 #pragma mark -
 #pragma mark Installing with OEHUDAlert
 @synthesize completionHandler, coreIdentifier, alert, coreDownload;
-
-- (void)installCoreWithDownload:(OECoreDownload *)download systemName:(NSString *)systemName withCompletionHandler:(void(^)(void))handle
+- (void)installCoreForGame:(OEDBGame*)game withCompletionHandler:(void(^)(NSError *error))handler
 {
-    NSString *name = [download name];
-    NSString *identifier = [[coresDict allKeysForObject:download] lastObject];
-    
-    [self installCoreWithIdentifier:identifier coreName:name systemName:systemName withCompletionHandler:handle];
+    NSString *systemIdentifier = [[game system] systemIdentifier];
+    NSArray *validPlugins = [[self coreList] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        return [[evaluatedObject systemIdentifiers] containsObject:systemIdentifier];
+    }]];
+
+    DLog(@"%@", validPlugins);
+    if([validPlugins count])
+    {
+        OECoreDownload *download = [validPlugins lastObject];
+        NSString *coreName = [download name];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Unfortunately, in order to play %@ you will need to install the '%@' Core", @""), [game name], coreName];
+        [self installCoreWithDownload:download message:message andCompletionHandler:handler];
+    }
+    else
+    {
+        // TODO: create proper error saying that no core is available for the game
+        NSError *error = [NSError errorWithDomain:@"someerrordomain" code:-1 userInfo:nil];
+        handler(error);
+    }
 }
 
-- (void)installCoreWithIdentifier:(NSString *)aCoreIdentifier coreName:(NSString *)coreName systemName:(NSString *)systemName withCompletionHandler:(void (^)(void))handle
+- (void)installCoreForSaveState:(OEDBSaveState*)state withCompletionHandler:(void(^)(NSError *error))handler
+{
+    NSString *aCoreIdentifier = [state coreIdentifier];
+    OECoreDownload *download = [coresDict objectForKey:[aCoreIdentifier lowercaseString]];
+    if(download)
+    {
+        NSString *coreName = [download name];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"To launch the save state %@ you will need to install the '%@' Core", @""), [state name], coreName];
+        [self installCoreWithDownload:download message:message andCompletionHandler:handler];
+    }
+    else
+    {
+        // TODO: create proper error saying that no core is available for the state
+        NSError *error = [NSError errorWithDomain:@"someerrordomain" code:-2 userInfo:nil];
+        handler(error);
+    }
+}
+
+- (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message andCompletionHandler:(void(^)(NSError *error))handler
 {
     OEHUDAlert *aAlert = [[OEHUDAlert alloc] init];
     [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
     [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     
     [aAlert setTitle:NSLocalizedString(@"Missing Core", @"")];
-    [aAlert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Unfortunately, in order to play %@ games you will need to install the '%@' Core", @""), systemName, coreName]];
+    [aAlert setMessageText:message];
     
     [aAlert setDefaultButtonAction:@selector(startInstall) andTarget:self];
     
+    NSString *aCoreIdentifier = [[coresDict allKeysForObject:download] lastObject];
     [self setCoreIdentifier:aCoreIdentifier];
-    [self setCompletionHandler:handle];
+    [self setCompletionHandler:handler];
     
     [self setAlert:aAlert];
     
@@ -209,6 +245,8 @@
     
     [self setAlert:nil];
 }
+
+#pragma mark -
 
 - (void)cancelInstall
 {
@@ -264,7 +302,7 @@
 {
     [[self alert] closeWithResult:NSAlertDefaultReturn];
     
-    if([self completionHandler] != nil) [self completionHandler]();
+    if([self completionHandler] != nil) [self completionHandler](nil);
     
     [self setAlert:nil];
     [self setCoreIdentifier:nil];
@@ -299,7 +337,6 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 
 #pragma mark -
 #pragma mark SUUpdater Delegate
-
 - (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update
 {
     for(OECorePlugin *plugin in [OECorePlugin allPlugins])

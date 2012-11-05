@@ -28,7 +28,7 @@
 #import "OECoreDownload.h"
 
 @class OEHUDAlert;
-
+@class OEDBGame, OEDBSaveState;
 @interface OECoreUpdater : NSObject <OECoreDownloadDelegate>
 
 + (id)sharedUpdater;
@@ -36,12 +36,13 @@
 - (void)checkForUpdates;
 - (void)checkForNewCores:(NSNumber *)fromModal;
 
-- (void)installCoreWithDownload:(OECoreDownload *)download systemName:(NSString *)systemName withCompletionHandler:(void(^)(void))handle;
-- (void)installCoreWithIdentifier:(NSString *)coreIdentifier coreName:(NSString *)coreName systemName:(NSString *)systemName withCompletionHandler:(void(^)(void))handle;
+- (void)installCoreForGame:(OEDBGame*)game withCompletionHandler:(void(^)(NSError *error))handler;
+- (void)installCoreForSaveState:(OEDBSaveState*)state withCompletionHandler:(void(^)(NSError *error))handler;
+- (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message andCompletionHandler:(void(^)(NSError *error))handler;
 
 @property(strong, readonly) NSArray *coreList;
 
-@property(copy)    void(^completionHandler)(void);
+@property(copy)    void(^completionHandler)(NSError*);
 @property(strong)  NSString *coreIdentifier;
 @property(strong)  OEHUDAlert *alert;
 @property(strong)  OECoreDownload *coreDownload;

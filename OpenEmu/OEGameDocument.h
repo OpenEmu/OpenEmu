@@ -29,6 +29,22 @@
 
 extern NSString *const OEPopoutHasScreenSizeKey;
 
+extern NSString *const OEGameDocumentErrorDomain;
+
+enum _OEGameDocumentErrorCodes
+{
+    OENoError                      =  0,
+    OEFileDoesNotExistError        = -1,
+    OEIncorrectFileError           = -2,
+    OEHelperAppNotRunningError     = -3,
+    OEConnectionTimedOutError      = -4,
+    OEInvalidHelperConnectionError = -5,
+    OENilRootProxyObjectError      = -6,
+    OENoCoreForSystemError         = -7,
+    OENoCoreForSaveStateError      = -8,
+    OECouldNotLoadROMError         = -10,
+};
+
 @class OEGameViewController;
 @class OEDBRom;
 @class OEDBGame;

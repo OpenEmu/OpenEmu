@@ -44,6 +44,8 @@
 #import "OEDBSaveState.h"
 #import "OEGameControlsBar.h"
 
+#import "OECoreUpdater.h"
+
 #import "OEGameCore.h"
 #import "OEGameDocument.h"
 
@@ -185,6 +187,26 @@ typedef enum : NSUInteger
     OEDBRom      *rom            = [state rom];
     NSString     *coreIdentifier = [state coreIdentifier];
     OECorePlugin *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
+    
+    if(core == nil)
+    {
+        NSError *error = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                             code:OENoCoreForSaveStateError
+                                         userInfo:
+                          [NSDictionary dictionaryWithObjectsAndKeys:
+                           NSLocalizedString(@"No suitable core found.", @"Core not installed error reason."),
+                           NSLocalizedFailureReasonErrorKey,
+                           NSLocalizedString(@"Install a core for this save state.", @"Core not installed error recovery suggestion."),
+                           NSLocalizedRecoverySuggestionErrorKey,
+                           nil]];
+
+        if(outError != NULL)
+            *outError = error;
+        else
+            [NSApp presentError:error];
+        
+        return nil;
+    }
     
     if((self = [self initWithRom:rom core:core error:outError])) _saveStateForGameStart = state;
 
@@ -643,47 +665,57 @@ typedef enum : NSUInteger
 {
     // calling pauseGame here because it might need some time to execute
     [self pauseGame:self];
-
-    @try
+    
+    
+    OEDBSaveState *state;
+    if([sender isKindOfClass:[OEDBSaveState class]])
+        state = sender;
+    else if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OEDBSaveState class]])
+        state = [sender representedObject];
+    else
     {
-        OEDBSaveState *state;
-        if([sender isKindOfClass:[OEDBSaveState class]])
-            state = sender;
-        else if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OEDBSaveState class]])
-            state = [sender representedObject];
-        else
+        DLog(@"Invalid argument passed: %@", sender);
+        return;
+    }
+    
+    if([state rom] != [self rom])
+    {
+        NSLog(@"Invalid save state for current rom");
+        return;
+    }
+    
+    if([[self coreIdentifier] isNotEqualTo:[state coreIdentifier]])
+    {
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"This save state was created with a different core. Do you want to switch to that core now?" defaultButton:@"OK" alternateButton:@"Cancel"];
+        [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
+        if([alert runModal])
         {
-            DLog(@"Invalid argument passed: %@", sender);
-            return;
-        }
-
-        if([state rom] != [self rom])
-        {
-            NSLog(@"Invalid save state for current rom");
-            return;
-        }
-
-        if([[self coreIdentifier] isNotEqualTo:[state coreIdentifier]])
-        {
-            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"This save state was created with a different core. Do you want to switch to that core now?" defaultButton:@"OK" alternateButton:@"Cancel"];
-            [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
-            if([alert runModal])
-            {
-                OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
+            OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
+            if(core != nil)
                 [self OE_restartUsingCore:core];
-            }
             else
             {
+                [[OECoreUpdater sharedUpdater] installCoreForSaveState:state withCompletionHandler:^(NSError *error) {
+                    if(error == nil)
+                    {
+                        OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
+                        [self OE_restartUsingCore:core];
+                        [self OE_loadStateFromFile:[[state stateFileURL] path]];
+                        [self playGame:self];
+                        DLog(@"OE_restartUsingCore, core was not avilable");
+                    }
+                }];
                 return;
             }
         }
-        
-        [self OE_loadStateFromFile:[[state stateFileURL] path]];
+        else
+        {
+            [self playGame:self];
+            return;
+        }
     }
-    @finally
-    {
-        [self playGame:self];
-    }
+    [self OE_loadStateFromFile:[[state stateFileURL] path]];
+    [self playGame:self];
 }
 
 - (IBAction)quickLoad:(id)sender;
@@ -803,7 +835,7 @@ typedef enum : NSUInteger
     if(!core)
     {
         *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                        code:OENoCoreError
+                                        code:OENoCoreForSystemError
                                     userInfo:
                      [NSDictionary dictionaryWithObjectsAndKeys:
                       NSLocalizedString(@"No suitable core found.", @"Core not installed error reason."),
