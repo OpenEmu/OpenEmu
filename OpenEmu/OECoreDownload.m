@@ -33,7 +33,7 @@
 #import "NSString+UUID.h"
 #import "OESystemPlugin.h"
 @implementation OECoreDownload
-@synthesize name, systemNames, version;
+@synthesize name, version;
 
 @synthesize hasUpdate, canBeInstalled, downloading;
 @synthesize progress;
@@ -74,21 +74,15 @@
     self.hasUpdate = NO;
     self.canBeInstalled = NO;
     
-    NSMutableString *mutableSystemNames = nil;
-    for(NSString *aSystemIdentifier in [plugin systemIdentifiers])
-    {
-        OESystemPlugin *plugin = [OESystemPlugin gameSystemPluginForIdentifier:aSystemIdentifier];
+    NSMutableArray *mutableSystemNames = [NSMutableArray arrayWithCapacity:[[plugin systemIdentifiers] count]];
+    [[plugin systemIdentifiers] enumerateObjectsUsingBlock:^(NSString *systemIdentifier, NSUInteger idx, BOOL *stop) {
+        OESystemPlugin *plugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
         NSString *systemName = [plugin systemName];
-        if(systemName != nil && mutableSystemNames == nil)
-        {
-            mutableSystemNames = [NSMutableString stringWithString:systemName];
-        }
-        else
-        {
-            [mutableSystemNames appendFormat:@", %@", systemName];
-        }
-    }
-    self.systemNames = mutableSystemNames;
+        [mutableSystemNames addObject:systemName];
+    }];
+    
+    [self setSystemNames:mutableSystemNames];
+    [self setSystemIdentifiers:[plugin systemIdentifiers]];
 }
 #pragma mark Core Download
 - (void)startDownload:(id)sender

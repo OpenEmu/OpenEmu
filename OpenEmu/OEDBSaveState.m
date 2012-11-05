@@ -91,7 +91,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         absoluteString = [absoluteString stringByAppendingString:@"/"];
     }
     
-    NSPredicate             *predicate  = [NSPredicate predicateWithFormat:@"location == %@", absoluteString];
+    NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"location == %@", absoluteString];
     [request setPredicate:predicate];
     
     return [[context executeFetchRequest:request error:nil] lastObject];

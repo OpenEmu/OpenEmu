@@ -569,7 +569,7 @@ NSString *const OESetupAssistantGamepadDefaultSecondaryEventKey = @"OESetupAssis
             return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] name];
         
         else if([identifier isEqualToString:@"emulatorSystem"])
-            return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] systemNames];
+            return [[(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] systemNames] componentsJoinedByString:@", "];
     }
     else if(aTableView == [self mountedVolumes])
     {

@@ -47,18 +47,6 @@
 @implementation OECoreUpdater
 @synthesize coreList;
 
-static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
-{
-    NSString *value = nil;
-    NSArray *nodes = [element elementsForName:name];
-    if([nodes count] > 0)
-    {
-        NSXMLElement *childNode = [nodes objectAtIndex:0];
-        value = [childNode stringValue];
-    }
-    return value;
-}
-
 // TODO: remove when feed holds correct ids
 - (NSString *)lowerCaseID:(NSString*)mixedCaseID
 {
@@ -154,7 +142,20 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
             
             OECoreDownload *download = [[OECoreDownload alloc] init];
             [download setName:[[coreNode attributeForName:@"name"] stringValue]];
-            [download setSystemNames:elementChildAsString(coreNode, @"systems")];
+            
+            NSArray *nodes = [coreNode nodesForXPath:@"./systems/system" error:NULL];
+            NSMutableArray *systemNames = [NSMutableArray arrayWithCapacity:[nodes count]];
+            NSMutableArray *systemIdentifiers = [NSMutableArray arrayWithCapacity:[nodes count]];
+            [nodes enumerateObjectsUsingBlock:^(NSXMLElement *systemNode, NSUInteger idx, BOOL *stop) {
+                NSString *systemName = [systemNode objectValue];
+                NSString *systemIdentifier = [[systemNode attributeForName:@"id"] objectValue];
+                
+                [systemNames addObject:systemName];
+                [systemIdentifiers addObject:systemIdentifier];
+            }];
+            
+            [download setSystemNames:systemNames];
+            [download setSystemIdentifiers:systemIdentifiers];
             [download setCanBeInstalled:YES];
             
             NSURL *appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
