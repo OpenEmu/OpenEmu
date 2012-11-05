@@ -226,37 +226,46 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 #pragma mark - Save State Handling
-
 - (void)OE_setupStateWatcher
 {
     NSString *stateFolderPath = [[self stateFolderURL] path];
-    __block OEFSBlock fsBlock =
-    ^ (NSString *path, FSEventStreamEventFlags flags)
+    __block OEFSBlock fsBlock = ^ (NSString *path, FSEventStreamEventFlags flags)
     {
-        if([path hasSuffix:@".DS_Store"]) return;
-        
-        if([path rangeOfString:@".oesavestate"].location == NSNotFound)
+        if( (flags & (kFSEventStreamEventFlagItemModified | kFSEventStreamEventFlagItemIsFile)) && [[path lastPathComponent] isEqualToString:@"Info.plist"])
         {
-            NSError *error = nil;
-            BOOL     isDir = NO;
-            NSArray *folderContent = nil;
-            if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir &&
-               (folderContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]) != nil)
-                [folderContent enumerateObjectsUsingBlock:
-                 ^ (id obj, NSUInteger idx, BOOL *stop)
-                 {
-                     NSString *subPath = [path stringByAppendingPathComponent:obj];
-                     fsBlock(subPath, flags);
-                 }];
-            
-            return;
+            path = [path stringByDeletingLastPathComponent];
+        }
+        else if(flags & (kFSEventStreamEventFlagItemIsDir))
+        {
+            if((flags & kFSEventStreamEventFlagMustScanSubDirs) && [[path pathExtension] isNotEqualTo:@"oesavestate"])
+            {
+                NSError *error = nil;
+                BOOL     isDir = NO;
+                NSArray *folderContent = nil;
+                if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]
+                   && isDir
+                   && (folderContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]) != nil)
+                    [folderContent enumerateObjectsUsingBlock: ^ (id obj, NSUInteger idx, BOOL *stop)
+                     {
+                         NSString *subPath = [path stringByAppendingPathComponent:obj];
+                         fsBlock(subPath, flags);
+                     }];
+                path = nil;
+            }
+        }
+        else
+        {
+            path = nil;
         }
         
-        // Wait a little while to make sure the fs operation has completed
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^{
-            [OEDBSaveState updateStateWithPath:path];
-        });
+        if( path != nil)
+        {
+            // Wait a little while to make sure the fs operation has completed
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                [OEDBSaveState updateStateWithPath:path];
+            });
+        }
     };
 
     OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:OESaveStateLastFSEventIDKey forPath:stateFolderPath withBlock:fsBlock];
@@ -273,10 +282,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[self saveStateWatcher] stopWatching];
     [self setSaveStateWatcher:nil];
 }
-#pragma mark -
-#pragma mark Database Info
-
-
 #pragma mark -
 #pragma mark CoreData Stuff
 - (NSManagedObjectID*)managedObjectIDForURIRepresentation:(NSURL *)uri

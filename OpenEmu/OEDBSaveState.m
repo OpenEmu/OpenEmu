@@ -84,7 +84,14 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 {
     NSManagedObjectContext  *context    = [database managedObjectContext];
     NSFetchRequest          *request    = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
-    NSPredicate             *predicate  = [NSPredicate predicateWithFormat:@"location == %@", [url absoluteString]];
+    
+    NSString *absoluteString = [url absoluteString];
+    if([absoluteString characterAtIndex:[absoluteString length]-1] != '/')
+    {
+        absoluteString = [absoluteString stringByAppendingString:@"/"];
+    }
+    
+    NSPredicate             *predicate  = [NSPredicate predicateWithFormat:@"location == %@", absoluteString];
     [request setPredicate:predicate];
     
     return [[context executeFetchRequest:request error:nil] lastObject];
@@ -153,10 +160,10 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     NSError  *error              = nil;
     NSString *fileName           = [NSURL validFilenameFromString:name];
     NSURL    *saveStateFolderURL = [database stateFolderURLForROM:rom];
-    NSURL    *saveStateURL       = [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", fileName, OESaveStateSuffix]];
+    NSURL    *saveStateURL       = [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@/", fileName, OESaveStateSuffix]];
     
     saveStateURL = [saveStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %ld.%@", fileName, triesCount, OESaveStateSuffix]];
+        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %ld.%@/", fileName, triesCount, OESaveStateSuffix]];
     }];
 
     if(![newSaveState OE_createBundleAtURL:saveStateURL withStateFile:stateFileURL error:&error])
@@ -195,24 +202,28 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 + (void)updateStateWithPath:(NSString*)path
 {
-    NSRange         range           = [path rangeOfString:@".oesavestate" options:NSCaseInsensitiveSearch];
+    NSRange range     = [path rangeOfString:@".oesavestate" options:NSCaseInsensitiveSearch];
     if(range.location == NSNotFound) return;
     
     NSFileManager   *defaultManager = [NSFileManager defaultManager];
     NSString        *saveStatePath  = [path substringToIndex:range.location+range.length];
     NSURL           *url            = [NSURL fileURLWithPath:saveStatePath];
     OEDBSaveState   *saveState      = [OEDBSaveState saveStateWithURL:url]; 
-    
+
     if(saveState)
         if([defaultManager fileExistsAtPath:saveStatePath])
-            [saveState reloadFromInfoPlist];
+        {
+           [saveState reloadFromInfoPlist]; 
+        }
         else
         {
             [saveState remove];
             return;
         }
     else if([defaultManager fileExistsAtPath:saveStatePath])
+    {
         saveState = [OEDBSaveState createSaveStateWithURL:url];
+    }
 
     [saveState moveFileToDefaultLocation];
 }

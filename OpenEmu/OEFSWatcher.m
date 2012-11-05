@@ -29,15 +29,13 @@
 @interface OEFSWatcher ()
 - (id)initWithPersistentKey:(NSString*)key;
 @property           FSEventStreamRef            stream;
-
-- (void)OE_updateLastEventID:(uint64_t)eventID;
-@property (strong) NSNumber *lastEventID;
 @property (copy)   NSString *persistentKey;
 
 - (void)OE_setupRestartingProperties;
 - (void)OE_removeRestartingProperties;
 - (NSArray*)OE_restartingPropertyKeys;
 
+- (void)OE_storeLastEventID;
 void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
                      void *userData,
                      size_t numEvents,
@@ -74,9 +72,6 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
 {
     self = [super init];
     if (self) {
-        NSUserDefaults  *defaults = [NSUserDefaults standardUserDefaults];
-        NSNumber        *eventID  = key && [defaults valueForKey:key] ? [defaults valueForKey:key] : [NSNumber numberWithUnsignedLongLong:kFSEventStreamEventIdSinceNow];
-        [self setLastEventID:eventID];
         [self setPersistentKey:key];
     }
     return self;
@@ -100,13 +95,15 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
     
     FSEventStreamContext context       = {0, (__bridge void *)self, NULL, NULL, NULL};
     CFArrayRef           paths         = (__bridge CFArrayRef)[NSArray arrayWithObject:path];
-    uint64_t             lastEventID_t = [[self lastEventID] unsignedLongLongValue];
+    NSString             *key          = [self persistentKey];
+    NSUserDefaults       *defaults     = [NSUserDefaults standardUserDefaults];
+    uint64_t             lastEventID   = key && [defaults valueForKey:key] ? [[defaults valueForKey:key] unsignedLongLongValue] : kFSEventStreamEventIdSinceNow;
     
 	stream = FSEventStreamCreate(NULL,
 	                             &OEFSWatcher_callback,
 	                             &context,
 	                             paths,
-                                 lastEventID_t,
+                                 lastEventID,
 	                             [self delay],
 	                             kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents
                                  );
@@ -127,8 +124,15 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
     OEFSWatcher *watcher = (__bridge OEFSWatcher *)userData;
 	NSArray     *paths   = (__bridge NSArray*)eventPaths;
     [paths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [watcher OE_updateLastEventID:eventIDs[idx]];
-        [watcher callbackBlock](obj, eventFlags[idx]);
+        if((eventFlags[idx] & kFSEventStreamEventFlagHistoryDone) || (eventFlags[idx] & kFSEventStreamEventFlagEventIdsWrapped))
+        {
+            DLog(@"history done or (less likely) ids wrapped");
+            [watcher OE_storeLastEventID];
+        }
+        else
+        {
+            [watcher callbackBlock](obj, eventFlags[idx]);
+        }
     }];
 }
 
@@ -137,18 +141,12 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
     if(stream == NULL)
         return;
     
-    if([self persistentKey])
-    {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:[self lastEventID] forKey:[self persistentKey]];
-        [defaults synchronize];
-    }
-    
     FSEventStreamStop(stream);
     FSEventStreamInvalidate(stream);
     
     stream = NULL;
     
+    [self OE_storeLastEventID];
     [self OE_removeRestartingProperties];
 }
 #pragma mark -
@@ -185,10 +183,15 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
     return [NSArray arrayWithObjects:@"path", @"delay", @"callbackBlock", @"streamFlags", nil];
 }
 #pragma mark -
-@synthesize persistentKey;
-@synthesize lastEventID;
-- (void)OE_updateLastEventID:(uint64_t)eventID
+- (void)OE_storeLastEventID
 {
-    [self setLastEventID:[NSNumber numberWithUnsignedLongLong:eventID]];
+    if([self persistentKey])
+    {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        FSEventStreamEventId lastID = FSEventsGetCurrentEventId();
+        [defaults setObject:@(lastID) forKey:[self persistentKey]];
+        [defaults synchronize];
+    }    
 }
+@synthesize persistentKey;
 @end
