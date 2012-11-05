@@ -29,9 +29,7 @@
 #import "OEUIDrawingUtils.h"
 #import "OEMainWindowContentController.h"
 #import "OELibraryDatabase.h"
-
-extern NSString *const OESidebarVisibleKey;
-extern NSString *const OESidebarWidthKey;
+#import "OELibrarySplitView.h"
 
 @class OELibraryDatabase;
 @class OESidebarController;
@@ -39,8 +37,8 @@ extern NSString *const OESidebarWidthKey;
 
 @protocol OELibraryControllerDelegate, OELibrarySubviewController;
 
-@interface OELibraryController : NSViewController <OEMainWindowContentController>
-- (void)layoutToolbarItems;
+@interface OELibraryController : NSViewController <OEMainWindowContentController, OELibrarySplitViewDelegate>
+- (void)layoutToolbar;
 
 @property(unsafe_unretained) id <OELibraryControllerDelegate> delegate;
 
@@ -71,7 +69,6 @@ extern NSString *const OESidebarWidthKey;
 #pragma mark -
 #pragma mark Properties
 @property (nonatomic, getter=isSidebarVisible) BOOL sidebarVisible;
-@property (nonatomic) BOOL sidebarChangesWindowSize;
 @property (strong)    OELibraryDatabase *database;
 
 @property (strong) IBOutlet OESidebarController         *sidebarController;

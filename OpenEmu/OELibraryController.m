@@ -40,12 +40,17 @@
 
 #import "NSViewController+OEAdditions.h"
 #import "NSArray+OEAdditions.h"
+#import "NSWindow+OEFullScreenAdditions.h"
 
-NSString * const OESidebarVisibleKey = @"isSidebarVisible";
-NSString * const OESidebarWidthKey = @"lastSidebarWidth";
+
+#pragma mark - Exported variables
 NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
 
+#pragma mark - Imported variables
 extern NSString * const OESidebarSelectionDidChangeNotificationName;
+
+#pragma mark - Private variables
+static const CGFloat _OEToolbarHeight = 44;
 
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
@@ -56,7 +61,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 @implementation OELibraryController
 @synthesize database;
-@synthesize sidebarChangesWindowSize;
 @synthesize currentViewController;
 @synthesize sidebarController, mainSplitView, mainContentPlaceholderView;
 @synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
@@ -64,14 +68,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 @synthesize cachedSnapshot;
 @synthesize delegate;
 @synthesize subviewControllers;
-
-+ (void)initialize
-{
-    if(self == [OELibraryController class])
-    {
-        [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESidebarVisibleKey : @YES }];
-    }
-}
 
 - (void)dealloc
 {
@@ -95,43 +91,36 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     
     [[self sidebarController] view];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
     // setup sidebar controller
     OESidebarController *sidebarCtrl = [self sidebarController];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:sidebarCtrl];
     
     [sidebarCtrl setDatabase:[self database]];
-    [self setSidebarChangesWindowSize:YES];
+    [self updateToggleSidebarButtonState];
 
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(splitViewDidResizeSubviews:) name:NSSplitViewDidResizeSubviewsNotification object:splitView];
-
-    [splitView setMinWidth:[defaults doubleForKey:OESidebarMinWidth]];
-    [splitView setMainViewMinWidth:[defaults doubleForKey:OEMainViewMinWidth]];
-    [splitView setSidebarMaxWidth:[defaults doubleForKey:OESidebarMaxWidth]];
-    [splitView adjustSubviews];
+    [splitView setDelegate:self];
 }
 
 - (void)viewDidAppear
 {
     [super viewDidAppear];
     
-    [self layoutToolbarItems];
+    [self layoutToolbar];
     
     [[self sidebarController] reloadData];
     
     
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    
-    CGFloat splitterPos = 0;
-    if([self isSidebarVisible]) splitterPos = [standardUserDefaults doubleForKey:OESidebarWidthKey];
-    
-    OELibrarySplitView *splitView = [self mainSplitView];
-    [splitView setResizesLeftView:YES];
-    [splitView setSplitterPosition:splitterPos animated:NO];
-    [splitView setResizesLeftView:NO];
+//    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+//    
+//    CGFloat splitterPos = 0;
+//    if([self isSidebarVisible]) splitterPos = [standardUserDefaults doubleForKey:OESidebarWidthKey];
+//    
+//    OELibrarySplitView *splitView = [self mainSplitView];
+//    [splitView setResizesLeftView:YES];
+//    [splitView setSplitterPosition:splitterPos animated:NO];
+//    [splitView setResizesLeftView:NO];
 }
 
 - (void)viewWillDisappear
@@ -147,46 +136,13 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 #pragma mark Toolbar
 - (IBAction)toggleSidebar:(id)sender
 {
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    OELibrarySplitView *mainSplit = [self mainSplitView];
-    
-    BOOL opening = ![self isSidebarVisible];
-    
-    CGFloat widthCorrection = 0;
-    if(opening)
-    {
-        widthCorrection = [standardDefaults doubleForKey:OESidebarWidthKey];
-    }
-    else
-    {
-        CGFloat lastWidth = [mainSplit splitterPosition];
-        [standardDefaults setDouble:lastWidth forKey:OESidebarWidthKey];
-        widthCorrection = -lastWidth;
-    }
-    
-    if([self sidebarChangesWindowSize])
-    {
-        NSWindow *window = [[self view] window];
-        NSRect frameRect = [window frame];
-        
-        frameRect.origin.x -= widthCorrection;
-        frameRect.size.width += widthCorrection;
-        NSRect splitViewRect = [mainSplit frame];
-        splitViewRect.size.width += widthCorrection;
-        
-        [mainSplit setResizesLeftView:YES];
-        [window setFrame:frameRect display:YES animate:YES];
-        [mainSplit setResizesLeftView:NO];
-    }
-    else
-    {
-        widthCorrection = MAX(widthCorrection, 0);
-        [mainSplit setSplitterPosition:widthCorrection animated:YES];
-    }
-    
-    if(!opening) [standardDefaults setDouble:abs(widthCorrection) forKey:OESidebarWidthKey];
+    [[self mainSplitView] toggleSidebar];
+}
 
-    [self setSidebarVisible:opening];
+- (void)updateToggleSidebarButtonState
+{
+    [[self toolbarSidebarButton] setState:([[self mainSplitView] isSidebarVisible] ? NSOnState : NSOffState)];
+    [[self toolbarSidebarButton] display];
 }
 
 - (IBAction)switchToGridView:(id)sender
@@ -415,50 +371,22 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 
-#pragma mark - Split view helpers
+#pragma mark - OELibrarySplitViewDelegate
+
+- (void)librarySplitViewDidToggleSidebar:(NSNotification *)notification
+{
+    [self layoutToolbar];
+}
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
-    [self layoutToolbarItems];
-}
-
-
-#pragma mark -
-#pragma mark Properties
-- (void)setSidebarChangesWindowSize:(BOOL)flag
-{
-    flag = !!flag;
-    
-    if(sidebarChangesWindowSize != flag)
-    {
-        sidebarChangesWindowSize = flag;
-        
-        [[self toolbarSidebarButton] setState:(flag == ([[self mainSplitView] splitterPosition] == 0) ? NSOffState : NSOnState)];
-        [[self toolbarSidebarButton] display];
-    }
-}
-
-- (BOOL)sidebarChangesWindowSize
-{
-    return sidebarChangesWindowSize;
-}
-
-- (BOOL)isSidebarVisible
-{
-    return [[NSUserDefaults standardUserDefaults] boolForKey:OESidebarVisibleKey];
-}
-- (void)setSidebarVisible:(BOOL)value
-{
-    [[NSUserDefaults standardUserDefaults] setBool:value forKey:OESidebarVisibleKey];
+    [self layoutToolbar];
 }
 
 #pragma mark -
 #pragma mark Private
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
 {
-    [self setSidebarChangesWindowSize:!fsFlag];
-    [[self mainSplitView] setDrawsWindowResizer:!fsFlag];
-    
     [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideToolbar : NSApplicationPresentationDefault)];
 }
 
@@ -476,16 +404,20 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     return [subviewControllers valueForKey:className];
 }
 #pragma mark -
-- (void)layoutToolbarItems
+- (void)layoutToolbar
 {
-    OELibrarySplitView *splitView = [self mainSplitView];
+    CGFloat splitterPosition = [[self mainSplitView] splitterPosition];
     NSView *toolbarItemContainer = [[self toolbarSearchField] superview];
-    
-    CGFloat splitterPosition = [splitView splitterPosition];
-    
-    if(splitterPosition != 0) [[NSUserDefaults standardUserDefaults] setDouble:splitterPosition forKey:OESidebarWidthKey];
-    
-    [toolbarItemContainer setFrame:NSMakeRect(splitterPosition, 0.0, NSWidth([[toolbarItemContainer superview] bounds]) - splitterPosition, 44.0)];
+
+    NSRect toolbarItemContainerFrame =
+    {
+        .origin.x = splitterPosition,
+        .origin.y = 0,
+        .size.width = NSWidth([[toolbarItemContainer superview] bounds]) - splitterPosition,
+        .size.height = _OEToolbarHeight
+    };
+
+    [toolbarItemContainer setFrame:toolbarItemContainerFrame];
 }
 @end
 

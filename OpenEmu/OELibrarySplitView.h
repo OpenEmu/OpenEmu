@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -25,23 +25,33 @@
  */
 
 #import <Foundation/Foundation.h>
-// TODO: rewrite this whole splitview thingy
 
 
-@interface OELibrarySplitView : NSSplitView <NSSplitViewDelegate>
-// returns view on the right/left that can be used wthout changeing toolbar background
-- (NSView *)rightContentView;
-- (NSView *)leftContentView;
+@protocol OELibrarySplitViewDelegate;
 
-- (void)replaceLeftContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag;
-- (void)replaceRightContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag;
-@property BOOL resizesLeftView;
-@property BOOL drawsWindowResizer;
+@interface OELibrarySplitView : NSSplitView
 
-- (void)setSplitterPosition:(CGFloat)newPosition animated:(BOOL)animatedFlag;
+- (BOOL)isSidebarVisible;
+- (void)toggleSidebar;
+- (void)setDelegate:(id<OELibrarySplitViewDelegate>)delegate;
+
+/* Return the splitter position as shown on screen.
+   If the sidebar is hidden, return 0.
+   If the sidebar is being toggled, return the current splitter position according to the hide/reveal animation.
+*/
 - (CGFloat)splitterPosition;
 
-@property float minWidth;
-@property float sidebarMaxWidth;
-@property float mainViewMinWidth;
 @end
+
+
+@protocol OELibrarySplitViewDelegate <NSSplitViewDelegate>
+@optional
+/* Respond as if the delegate had registered for the OELibrarySplitViewDidToggleSidebarNotification notification.
+   This message is sent after sidebar animation has finished. To receive notifications whilst the sidebar is
+   being toggled, use -splitViewDidResizeSubviews: or the corresponding notification.
+*/
+- (void)librarySplitViewDidToggleSidebar:(NSNotification *)notification;
+@end
+
+
+extern NSString *const OELibrarySplitViewDidToggleSidebarNotification;
