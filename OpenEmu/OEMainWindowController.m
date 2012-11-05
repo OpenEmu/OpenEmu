@@ -35,6 +35,7 @@
 
 #import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
+#import "OEGameCoreManager.h"
 #import "OEGameViewController.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
@@ -251,7 +252,28 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     if(gameDocument == nil)
     {
         if(error!=nil)
-            [NSApp presentError:error];
+        {
+            if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code]==OENoCoreError)
+            {
+                NSString *systemIdentifier = [[aGame system] systemIdentifier];
+                OECoreUpdater *updater = [OECoreUpdater sharedUpdater];
+                NSArray *validCores = [[updater coreList] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+                    return [[evaluatedObject systemIdentifiers] containsObject:systemIdentifier];
+                }]];
+                
+                if([validCores count])
+                {
+                    OECoreDownload *coreToInstall = [validCores lastObject];
+                    [updater installCoreWithDownload:coreToInstall systemName:[[aGame system] lastLocalizedName] withCompletionHandler:^{
+                        [self libraryController:sender didSelectGame:aGame];
+                    }];
+                }
+                else
+                    [NSApp presentError:error];
+            }
+            else
+                [NSApp presentError:error];
+        }
         return;
     }
     

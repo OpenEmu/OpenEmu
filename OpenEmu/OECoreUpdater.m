@@ -177,6 +177,14 @@
 #pragma mark Installing with OEHUDAlert
 @synthesize completionHandler, coreIdentifier, alert, coreDownload;
 
+- (void)installCoreWithDownload:(OECoreDownload *)download systemName:(NSString *)systemName withCompletionHandler:(void(^)(void))handle
+{
+    NSString *name = [download name];
+    NSString *identifier = [[coresDict allKeysForObject:download] lastObject];
+    
+    [self installCoreWithIdentifier:identifier coreName:name systemName:systemName withCompletionHandler:handle];
+}
+
 - (void)installCoreWithIdentifier:(NSString *)aCoreIdentifier coreName:(NSString *)coreName systemName:(NSString *)systemName withCompletionHandler:(void (^)(void))handle
 {
     OEHUDAlert *aAlert = [[OEHUDAlert alloc] init];

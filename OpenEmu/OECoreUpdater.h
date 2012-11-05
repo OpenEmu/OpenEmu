@@ -36,6 +36,7 @@
 - (void)checkForUpdates;
 - (void)checkForNewCores:(NSNumber *)fromModal;
 
+- (void)installCoreWithDownload:(OECoreDownload *)download systemName:(NSString *)systemName withCompletionHandler:(void(^)(void))handle;
 - (void)installCoreWithIdentifier:(NSString *)coreIdentifier coreName:(NSString *)coreName systemName:(NSString *)systemName withCompletionHandler:(void(^)(void))handle;
 
 @property(strong, readonly) NSArray *coreList;
