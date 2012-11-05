@@ -702,7 +702,6 @@ typedef enum : NSUInteger
                         [self OE_restartUsingCore:core];
                         [self OE_loadStateFromFile:[[state stateFileURL] path]];
                         [self playGame:self];
-                        DLog(@"OE_restartUsingCore, core was not avilable");
                     }
                 }];
                 return;

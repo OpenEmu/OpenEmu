@@ -27,6 +27,12 @@
 #import <Foundation/Foundation.h>
 #import "OECoreDownload.h"
 
+extern NSString * const OECoreUpdaterErrorDomain;
+enum _OECoreUpdaterErrorCode
+{
+    OENoDownloadableCoreForIdentifier = -1,
+};
+
 @class OEHUDAlert;
 @class OEDBGame, OEDBSaveState;
 @interface OECoreUpdater : NSObject <OECoreDownloadDelegate>

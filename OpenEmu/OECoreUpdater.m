@@ -37,6 +37,9 @@
 #import "OEDBGame.h"
 #import "OEDBSystem.h"
 #import "OEDBSaveState.h"
+
+NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
+
 @interface OECoreUpdater ()
 {
     NSMutableDictionary *coresDict;
@@ -186,7 +189,6 @@
         return [[evaluatedObject systemIdentifiers] containsObject:systemIdentifier];
     }]];
 
-    DLog(@"%@", validPlugins);
     if([validPlugins count])
     {
         OECoreDownload *download = [validPlugins lastObject];
@@ -196,8 +198,7 @@
     }
     else
     {
-        // TODO: create proper error saying that no core is available for the game
-        NSError *error = [NSError errorWithDomain:@"someerrordomain" code:-1 userInfo:nil];
+        NSError *error = [NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENoDownloadableCoreForIdentifier userInfo:nil];
         handler(error);
     }
 }
@@ -215,7 +216,7 @@
     else
     {
         // TODO: create proper error saying that no core is available for the state
-        NSError *error = [NSError errorWithDomain:@"someerrordomain" code:-2 userInfo:nil];
+        NSError *error = [NSError errorWithDomain:OECoreUpdaterErrorDomain code:OENoDownloadableCoreForIdentifier userInfo:nil];
         handler(error);
     }
 }
