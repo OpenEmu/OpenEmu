@@ -1721,6 +1721,8 @@
 						<string>rgb(123,5,18)</string>
 					</array>
 				</dict>
+				<key>Disabled</key>
+				<dict/>
 			</dict>
 		</dict>
 		<key>light_menu_item_background</key>
@@ -1750,6 +1752,8 @@
 						<string>rgb(123,5,18)</string>
 					</array>
 				</dict>
+				<key>Disabled</key>
+				<dict/>
 			</dict>
 		</dict>
 	</dict>
