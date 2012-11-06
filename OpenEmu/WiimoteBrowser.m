@@ -53,7 +53,7 @@
 {
 	if(![self delegate]) // check if delegate is set
     {
-		DLog(@"Error: Can't run WiimoteBrowser without delegate!");
+		// DLog(@"Error: Can't run WiimoteBrowser without delegate!");
 		return;
 	}
 
@@ -72,7 +72,7 @@
 	IOReturn status = [_inquiry start];
 	if (status != kIOReturnSuccess)
     {
-        DLog(@"Error: Inquiry did not start, error %d", status);
+        // DLog(@"Error: Inquiry did not start, error %d", status);
 		[_inquiry setDelegate:nil];
 		_inquiry = nil;
 		
@@ -117,8 +117,8 @@
 
 - (void) deviceInquiryComplete:(IOBluetoothDeviceInquiry*)sender error:(IOReturn)error aborted:(BOOL)aborted
 {
-	DLog(@"inquiry stopped, was aborted: %d", aborted);
-	DLog(@"We've found: %lu devices, the maxiumum was set to %d", [[sender foundDevices] count], _maxWiimotes);
+	// DLog(@"inquiry stopped, was aborted: %d", aborted);
+	// DLog(@"We've found: %lu devices, the maxiumum was set to %d", [[sender foundDevices] count], _maxWiimotes);
 	_isSearching = FALSE;
 
 	NSArray* results = [self _convertFoundDevicesToWiimotes:[sender foundDevices]];

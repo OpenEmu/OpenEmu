@@ -50,7 +50,7 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 
-#import "OEWiimoteHandler.h"
+#import "OEWiimoteManager.h"
 #import "OEBindingsController.h"
 
 #import "OEBuildVersion.h"
@@ -148,7 +148,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 	
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
 	// Start WiiRemote support
-        [OEWiimoteHandler search];
+        [OEWiimoteManager search];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender

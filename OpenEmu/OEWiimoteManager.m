@@ -24,9 +24,12 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEWiimoteHandler.h"
+#import "OEWiimoteManager.h"
+#import "OEHIDManager.h"
+#import "OEHIDEvent.h"
+#import "OEWiimoteDeviceHandler.h"
+
 #import "NSApplication+OEHIDAdditions.h"
-#import "OEHIDWiimoteEvent.h"
 
 #import <IOBluetooth/IOBluetooth.h>
 #define MaximumWiimotes 7
@@ -34,12 +37,12 @@
 
 NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 
-@interface OEWiimoteHandler ()
+@interface OEWiimoteManager ()
 @property(strong) WiimoteBrowser *browser;
 @property(strong) NSMutableArray *wiiRemotes;
 @end
 
-@implementation OEWiimoteHandler
+@implementation OEWiimoteManager
 @synthesize wiiRemotes;
 @synthesize browser;
 
@@ -50,11 +53,11 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 
 + (id)sharedHandler
 {
-    static OEWiimoteHandler *sharedHandler = nil;
+    static OEWiimoteManager *sharedHandler = nil;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedHandler = [[OEWiimoteHandler alloc] init];
+        sharedHandler = [[OEWiimoteManager alloc] init];
         [sharedHandler setWiiRemotes:[NSMutableArray arrayWithCapacity:MaximumWiimotes]];
         
         WiimoteBrowser *aBrowser =  [[WiimoteBrowser alloc] init];
@@ -140,6 +143,11 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
         [theWiimote setRumbleActivated:NO];
         [theWiimote syncLEDAndRumble];
     });
+    
+    OEWiimoteDeviceHandler *handler = [OEWiimoteDeviceHandler deviceHandlerWithWiimote:theWiimote];
+    OEHIDManager *hidManager = [OEHIDManager sharedHIDManager];
+    [theWiimote setDelegate:handler];
+    [hidManager addDeviceHandler:handler];
 }
 
 - (void)wiimoteDidDisconnect:(Wiimote *)theWiimote
@@ -188,7 +196,7 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
     NSInteger padNumber = [[self connectedWiiRemotes] indexOfObject:theWiimote];
     if(padNumber >= 0)
     {
-        OEHIDWiimoteEvent *event = [OEHIDWiimoteEvent buttonEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:[NSDate timeIntervalSinceReferenceDate] buttonNumber:type    state:isPressed cookie:type];
+        OEHIDEvent *event = [OEHIDEvent buttonEventWithPadNumber:WiimoteBasePadNumber+padNumber timestamp:[NSDate timeIntervalSinceReferenceDate] buttonNumber:type    state:isPressed cookie:type];
         [NSApp postHIDEvent:event];
     }
 }

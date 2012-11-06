@@ -140,6 +140,9 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 - (BOOL)isUsageEqualToEvent:(OEHIDEvent *)anObject; // Checks all properties but state
 
 @end
+@interface OEHIDEvent (OECustomEventAccess)
+- (void)setState:(OEHIDEventState)newState;
+@end
 
 @interface NSEvent (OEEventConversion)
 + (NSEvent *)eventWithKeyCode:(unsigned short)keyCode;

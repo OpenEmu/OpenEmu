@@ -91,7 +91,8 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 	//we do this before release to ensure that we've properly cleaned up our HIDManager references and removed our devices from the runloop
 	for(OEHIDDeviceHandler *handler in deviceHandlers)
 	{
-		[self removeDeviceHandlerForDevice:[handler device]];
+        if([handler device] != NULL)
+            [self removeDeviceHandlerForDevice:[handler device]];
 	}
 	
     if(hidManager != NULL) 
@@ -181,16 +182,11 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 - (void)addDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice
 {
 	OEHIDDeviceHandler *handler = [self deviceHandlerForDevice:inDevice];
-	
-    [self willChangeValueForKey:@"deviceHandlers"];
     
 	if(handler == nil)
 	{
 		handler = [OEHIDDeviceHandler deviceHandlerWithDevice:inDevice];
-		
-		//add to array
-		[deviceHandlers addObject:handler];
-		
+
 		//Register for removal
 		IOHIDDeviceRegisterRemovalCallback(inDevice, OEHandle_DeviceRemovalCallback, (__bridge void *)(self));
 		
@@ -199,11 +195,9 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 		
 		//attach to the runloop
 		IOHIDDeviceScheduleWithRunLoop(inDevice, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
+        
+        [self addDeviceHandler:handler];
 	}
-
-    [self didChangeValueForKey:@"deviceHandlers"];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEHIDManagerDidAddDeviceHandlerNotification object:self userInfo:@{ OEHIDManagerDeviceHandlerUserInfoKey : handler }];
 }
 
 - (void)removeDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice
@@ -211,10 +205,26 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 	//remove from the runloop
 	IOHIDDeviceUnscheduleFromRunLoop(inDevice, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 	
-	//remove from array
+    OEHIDDeviceHandler *handler = [self deviceHandlerForDevice:inDevice];
+    [self removeDeviceHandler:handler];
+}
+
+
+- (void)addDeviceHandler:(OEHIDDeviceHandler*)handler
+{
     [self willChangeValueForKey:@"deviceHandlers"];
     
-    OEHIDDeviceHandler *handler = [self deviceHandlerForDevice:inDevice];
+    [deviceHandlers addObject:handler];
+    
+    [self didChangeValueForKey:@"deviceHandlers"];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEHIDManagerDidAddDeviceHandlerNotification object:self userInfo:@{ OEHIDManagerDeviceHandlerUserInfoKey : handler }];
+}
+
+- (void)removeDeviceHandler:(OEHIDDeviceHandler*)handler
+{
+    //remove from array
+    [self willChangeValueForKey:@"deviceHandlers"];
     
 	[deviceHandlers removeObject:handler];
     

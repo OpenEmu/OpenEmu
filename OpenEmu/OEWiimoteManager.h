@@ -24,7 +24,18 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEHIDEvent.h"
+#import <Foundation/Foundation.h>
+#import "WiimoteBrowser.h"
+#import "Wiimote.h"
 
-@interface OEHIDWiimoteEvent : OEHIDEvent
+#define WiimoteBasePadNumber 100
+
+extern NSString *const OEWiimoteSupportDisabled;
+
+@interface OEWiimoteManager : NSObject <WiimoteBrowserDelegate, WiimoteDelegate>
+
++ (void)search;
++ (id)sharedHandler;
+
+@property(readonly) NSArray *connectedWiiRemotes;
 @end

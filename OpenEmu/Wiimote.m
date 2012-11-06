@@ -73,9 +73,7 @@ typedef enum {
 	kWiiExpansionClassicController = 0x0101,
 } WiiExpansionIdentifier;
 
-@interface Wiimote (){
-    IOHIDElementRef element;
-}
+@interface Wiimote ()
 @property BOOL statusReportRequested;
 @property float batteryLevel;
 @property WiiExpansionType expansionType;
@@ -88,7 +86,7 @@ typedef enum {
 # pragma mark -
 - (Wiimote*) init
 {
-	self = [super initWithDevice:NULL];
+	self = [super init];
 	
 	if (self != nil)
     {
@@ -111,14 +109,7 @@ typedef enum {
         lastWiimoteButtonReport = 0;
         lastNunchuckButtonReport = 0;
         lastClassicControllerButtonReport = 0;
-        
-        
-        NSDictionary *dict = @{
-            @(kIOHIDElementUsageKey)     : @(11),
-            @(kIOHIDElementUsagePageKey) : @(kHIDPage_Button)
-        };
-        element = IOHIDElementCreateWithDictionary(NULL, (__bridge CFDictionaryRef)dict);
-	}
+    }
 	
 	return self;
 }
@@ -220,7 +211,8 @@ typedef enum {
 	[_cchan closeChannel];
 	[_ichan closeChannel];
     
-    [_btDevice closeConnection];
+    if(_btDevice)
+        [_btDevice closeConnection];
 	
 	if([[self delegate] respondsToSelector:@selector(wiimoteDidDisconnect:)])
 		[[self delegate] performSelector:@selector(wiimoteDidDisconnect:) withObject:self];
@@ -359,34 +351,34 @@ typedef enum {
 # pragma mark - Sound
 - (void)playSound:(NSSound*)theSound
 {
-	DLog(@"playSound: Sound is not implemented yet!");
+	// DLog(@"playSound: Sound is not implemented yet!");
 }
 - (void)setSpeakerEnabled:(BOOL)flag
 {
-	DLog(@"setSpeakerEnabled: Sound is not implemented yet!");
+	// DLog(@"setSpeakerEnabled: Sound is not implemented yet!");
 	_speakerEnabled = flag;
 }
 - (void)setSpeakerMute:(BOOL)flag
 {
-	DLog(@"setSpeakerMute: Sound is not implemented yet!");
+	// DLog(@"setSpeakerMute: Sound is not implemented yet!");
 	_speakerMuted = flag;
 }
 
 - (BOOL)speakerEnabled
 {
-	DLog(@"speakerEnabled: Sound is not implemented yet!");
+	// DLog(@"speakerEnabled: Sound is not implemented yet!");
 	return _speakerEnabled;
 }
 
 - (void)toggleMute
 {
-	DLog(@"toggleMute: Sound is not implemented yet!");
+	// DLog(@"toggleMute: Sound is not implemented yet!");
 	_speakerMuted = !_speakerMuted;
 }
 
 - (BOOL)speakerMuted
 {
-	DLog(@"speakerMuted: Sound is not implemented yet!");
+	// DLog(@"speakerMuted: Sound is not implemented yet!");
 	return _speakerMuted;
 }
 
@@ -397,7 +389,7 @@ typedef enum {
 	unsigned char cmd [22];
 	
 	if (length > 16)
-		DLog (@"Error! Trying to write more than 16 bytes of data (length=%lu)", length);
+		; // DLog (@"Error! Trying to write more than 16 bytes of data (length=%lu)", length);
 	
 	memset (cmd, 0, 22);
 	memcpy (cmd + 6, data, length);
@@ -469,7 +461,7 @@ typedef enum {
 		ret = [_cchan writeSync:buf length:length];
 		if (ret != kIOReturnSuccess)
         {
-            DLog(@"send command needed a another try");
+            // DLog(@"send command needed a another try");
             usleep (10000);
         }
 		else break;
@@ -477,8 +469,8 @@ typedef enum {
 	
 	if(ret != kIOReturnSuccess)
     {
-		DLog(@"Could not send command!");
-		DLog(@"Did Wiimote Disconnect? - we might need to disconnect");
+		// DLog(@"Could not send command!");
+		// DLog(@"Did Wiimote Disconnect? - we might need to disconnect");
 	}
 }
 
@@ -548,9 +540,6 @@ typedef enum {
         [self parseWiiRemoteButtonData:buttonData];
     }
     
-    IOHIDValueRef value = IOHIDValueCreateWithBytes(NULL, element, mach_absolute_time(), dp, 2);
-    OEHIDEvent *event = [OEHIDEvent eventWithDeviceHandler:self value:value];
-    DLog(@"%@ | %@ | %@", element, value, event);
     // Expansion Port
     switch(dp[1])
     {
@@ -596,7 +585,7 @@ typedef enum {
     UInt16 buttonChanges = data ^ lastWiimoteButtonReport;
     lastWiimoteButtonReport = data;
     
-    if(![self delegate] || ![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
+    if(![[self delegate] respondsToSelector:@selector(wiimote:reportsButtonChanged:isPressed:)])
         return;
     
     // One, Two, A, B Buttons:
@@ -786,13 +775,13 @@ typedef enum {
         switch (dp[5])
         {
             case 0x00:
-                DLog(@"Write %0x - Success", dp[4]);
+                // DLog(@"Write %0x - Success", dp[4]);
                 break;
             case 0x03:
-                DLog(@"Write %0x - Error", dp[4]);
+                // DLog(@"Write %0x - Error", dp[4]);
                 break;
             default:
-                DLog(@"Write %0x - Unkown", dp[4]);
+                // DLog(@"Write %0x - Unkown", dp[4]);
                 break;
         }
     }
@@ -895,10 +884,10 @@ typedef enum {
 {
 	IOBluetoothL2CAPChannel * channel = nil;
 	
-	DLog(@"Open channel (PSM:%i) ...", psm);
+	// DLog(@"Open channel (PSM:%i) ...", psm);
 	if ([_btDevice openL2CAPChannelSync:&channel withPSM:psm delegate:aDelegate] != kIOReturnSuccess)
     {
-		DLog (@"Could not open L2CAP channel (psm:%i)", psm);
+		// DLog (@"Could not open L2CAP channel (psm:%i)", psm);
 		
 		channel = nil;
 		[self disconnect];

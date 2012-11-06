@@ -1006,6 +1006,14 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
     }
 }
 
+- (void)setState:(OEHIDEventState)newState
+{
+    self->_data.button.previousState = self->_data.button.state;
+    self->_previousTimestamp = self->_timestamp;
+    
+    self->_timestamp = [NSDate timeIntervalSinceReferenceDate];
+    self->_data.button.state = newState;
+}
 @end
 
 @implementation NSEvent (OEEventConversion)
