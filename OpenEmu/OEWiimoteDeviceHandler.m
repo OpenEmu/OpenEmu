@@ -33,7 +33,7 @@
 {
     if((self = [super initWithDevice:NULL]))
     {
-        eventMap = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsOpaqueMemory | NSPointerFunctionsIntegerPersonality valueOptions:NSPointerFunctionsObjectPersonality capacity:10];
+        eventMap = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsOpaqueMemory | NSPointerFunctionsIntegerPersonality valueOptions:NSPointerFunctionsObjectPersonality capacity:WiiButtonCount];
         [self setWiimote:aWiimote];
     }
     return self;
@@ -114,6 +114,26 @@ FIXME(Return dynamic values below)
 {
     return [[self wiimote] locationID];
 }
+#pragma mark -
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+- (BOOL)isEqual:(id)anObject
+{
+    if(self == anObject)
+        return YES;
+    if([anObject isKindOfClass:[self class]])
+        return [[[self wiimote] address] isEqual:[[self wiimote] address]];
+    return [super isEqual:anObject];
+}
+
+- (NSUInteger)hash
+{
+    return [[self wiimote] hash];
+}
+
 #pragma mark - Force Feedback -
 - (BOOL)supportsForceFeedback
 {

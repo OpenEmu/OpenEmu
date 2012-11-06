@@ -64,7 +64,9 @@ typedef enum {
 	WiiClassicControllerRightButton,
 	WiiClassicControllerMinusButton,
 	WiiClassicControllerHomeButton,
-	WiiClassicControllerPlusButton
+	WiiClassicControllerPlusButton,
+    
+	WiiButtonCount
 } WiiButtonType;
 
 typedef enum {

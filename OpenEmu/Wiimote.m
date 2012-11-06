@@ -129,7 +129,7 @@ typedef enum {
         expansionType          = WiiExpansionNotConnected;
         
 		speakerEnabled = NO;	// sound is not implemented yet
-		speakerMuted   = YES;	// sound is not implemented yet
+		speakerMuted   = NO;	// sound is not implemented yet
         
         lastWiimoteButtonReport = 0;
         lastNunchuckButtonReport = 0;
@@ -250,6 +250,7 @@ typedef enum {
 	
 	if (irSensorEnabled)
     {
+        NSLog(@"ir enabled");
 		cmd[2] = expansionPortEnabled ? 0x36 : 0x33;	// Buttons, 10 IR Bytes, 9 Extension Bytes
 		irMode = expansionPortEnabled ? kWiiIRModeBasic : kWiiIRModeExtended;
 		
@@ -554,14 +555,16 @@ typedef enum {
 {
     UInt8 buttonChanges = data ^ lastNunchuckButtonReport;
     lastNunchuckButtonReport = data;
-    
+    NSLog(@"Nun?");
     if (buttonChanges & kWiiNunchukCButton)
     {
+        NSLog(@"\tNun C");
         [[self handler] dispatchEventWithWiiButton:WiiNunchukCButton state:(data & kWiiNunchukCButton)!=0];
 	}
     
     if (buttonChanges & kWiiNunchukZButton)
     {
+        NSLog(@"\tNun Z");
         [[self handler] dispatchEventWithWiiButton:WiiNunchukZButton state:(data & kWiiNunchukZButton)!=0];
 	}
 }
