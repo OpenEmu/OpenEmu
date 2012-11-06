@@ -43,6 +43,8 @@
 - (void)addDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice;
 - (void)removeDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice;
 
+- (void)addDeviceHandler:(OEHIDDeviceHandler*)handler;
+- (void)removeDeviceHandler:(OEHIDDeviceHandler*)handler;
 @end
 
 extern NSString *const OEHIDManagerDidAddDeviceHandlerNotification;

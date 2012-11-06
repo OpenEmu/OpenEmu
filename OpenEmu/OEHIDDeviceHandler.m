@@ -61,7 +61,6 @@
     return [self initWithDevice:NULL];
 }
 
-static OEHIDDeviceHandler *nilHandler = nil;
 static NSUInteger lastDeviceNumber = 0;
  
 - (id)initWithDevice:(IOHIDDeviceRef)aDevice
@@ -70,23 +69,16 @@ static NSUInteger lastDeviceNumber = 0;
     {
         mapTable = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsOpaqueMemory | NSPointerFunctionsIntegerPersonality valueOptions:NSPointerFunctionsObjectPersonality capacity:10];
         
+        deviceNumber = ++lastDeviceNumber;
         if(aDevice == NULL)
         {
-            if(nilHandler == nil)
-            {
-                device       = NULL;
-                deviceNumber = 0;
-                deadZone     = 0.0;
-                nilHandler   = self;
-            }
-            
-            return nilHandler;
+            deadZone     = 0.0;
+            device       = NULL;
         }
         else
         {
             CFRetain(aDevice);
-            
-            deviceNumber = ++lastDeviceNumber;
+
             device = aDevice;
             deadZone = 0.2;
             
