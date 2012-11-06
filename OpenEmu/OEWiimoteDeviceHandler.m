@@ -31,7 +31,7 @@
 
 - (id)initWithWiimote:(Wiimote*)aWiimote
 {
-    if((self = [super init]))
+    if((self = [super initWithDevice:NULL]))
     {
         eventMap = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsOpaqueMemory | NSPointerFunctionsIntegerPersonality valueOptions:NSPointerFunctionsObjectPersonality capacity:10];
         [self setWiimote:aWiimote];

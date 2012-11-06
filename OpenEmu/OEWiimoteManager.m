@@ -126,7 +126,7 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
     }];
     
     if([discoveredDevices count] && [[self wiiRemotes] count] < MaximumWiimotes)
-        [self.browser startSearch];
+        [[self browser] startSearch];
 }
 
 - (void)wiimoteBrowserSearchFailedWithError:(int)code
@@ -153,8 +153,8 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 - (void)wiimoteDidDisconnect:(NSNotification *)notification
 {
     Wiimote *theWiimote = [notification object];
-    [self.wiiRemotes removeObject:theWiimote];
-    [self.browser startSearch];
+    [[self wiiRemotes] removeObject:theWiimote];
+    [[self browser] startSearch];
 }
 @end
 
