@@ -129,7 +129,7 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
 
 - (void)removeChildWindow:(NSWindow *)childWin
 {
-    // Make sure we nullify the _submenu reference if its one of the windows that we are trying to remove from the heirarchy
+    // Make sure we nullify the _submenu reference if it's one of the windows that we are trying to remove from the hierarchy
     if(childWin == _submenu) _submenu = nil;
     [super removeChildWindow:childWin];
 }

@@ -34,7 +34,6 @@
     BOOL   _needsLayout;             // Flag used to notify that the menu item's frames should be invalidated
     NSSize _intrinsicSize;           // Natural size of the menu items
 
-    NSUInteger _keyModifierMask;     // Aggregate mask of all the key modifiers used within the menu item (used to trim NSEvent's modifierFlags)
     NSUInteger _lastKeyModifierMask; // Last NSEvent's modifierFlags
 
     // Themed elements
@@ -50,5 +49,6 @@
 @property(nonatomic, retain)   NSArray     *itemArray;
 @property(nonatomic, assign)   OEMenuStyle  style;
 @property(nonatomic, readonly) NSSize       intrinsicSize;
+@property(nonatomic, readonly) NSUInteger   keyModifierMask; // Aggregate mask of all the key modifiers used within the menu item (used to trim NSEvent's modifierFlags)
 
 @end

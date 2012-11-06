@@ -129,7 +129,7 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
         }
         else
         {
-            // Retreive theme based attributes
+            // Retrieve theme based attributes
             OEThemeState  menuItemState     = [self OE_currentStateFromMenuItem:item];
             NSDictionary *textAttributes    = [self OE_textAttributesForState:menuItemState];
             NSImage      *tickMarkImage     = [_tickImage imageForState:menuItemState];
@@ -197,11 +197,11 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
 - (void)flagsChanged:(NSEvent *)theEvent
 {
     // Figure out if any of the modifier flags that we are interested have changed
-    NSUInteger modiferFlags = [theEvent modifierFlags] & _keyModifierMask;
-    if(_lastKeyModifierMask != modiferFlags)
+    NSUInteger modifierFlags = [theEvent modifierFlags] & _keyModifierMask;
+    if(_lastKeyModifierMask != modifierFlags)
     {
         // A redraw will change the menu items, we should probably just redraw the items that need to be redrawn -- but figuring this out may be more expensive than what it is worth
-        _lastKeyModifierMask = modiferFlags;
+        _lastKeyModifierMask = modifierFlags;
         [self setNeedsDisplay:YES];
     }
 }
@@ -209,7 +209,6 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
 // Returns an OEThemeState with the window and mouse activity excluded (see OEMenuItemStateMask)
 - (OEThemeState)OE_currentStateFromMenuItem:(NSMenuItem *)item
 {
-    // TODO: Fix regression bug when highlighting alternate items
     return [OEThemeObject themeStateWithWindowActive:NO buttonState:[item state] selected:([(OEMenu *)[self window] highlightedItem] == item) enabled:[item isEnabled] focused:[item isAlternate] houseHover:NO] & OEMenuItemStateMask;
 }
 
@@ -347,11 +346,12 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
 - (void)OE_updateTheme
 {
     NSString *styleKeyPrefix = (_style == OEMenuStyleDark ? @"dark_menu_" : @"light_menu_");
-    _separatorImage          = [[OETheme sharedTheme] imageForKey:[styleKeyPrefix stringByAppendingString:@"separator_item"] forState:OEThemeStateDefault];
-    _backgroundGradient      = [[OETheme sharedTheme] themeGradientForKey:[styleKeyPrefix stringByAppendingString:@"item_background"]];
-    _tickImage               = [[OETheme sharedTheme] themeImageForKey:[styleKeyPrefix stringByAppendingString:@"item_tick"]];
-    _textAttributes          = [[OETheme sharedTheme] themeTextAttributesForKey:[styleKeyPrefix stringByAppendingString:@"item"]];
-    _submenuArrowImage       = [[OETheme sharedTheme] themeImageForKey:[styleKeyPrefix stringByAppendingString:@"submenu_arrow"]];
+
+    _separatorImage     = [[OETheme sharedTheme] imageForKey:[styleKeyPrefix stringByAppendingString:@"separator_item"] forState:OEThemeStateDefault];
+    _backgroundGradient = [[OETheme sharedTheme] themeGradientForKey:[styleKeyPrefix stringByAppendingString:@"item_background"]];
+    _tickImage          = [[OETheme sharedTheme] themeImageForKey:[styleKeyPrefix stringByAppendingString:@"item_tick"]];
+    _textAttributes     = [[OETheme sharedTheme] themeTextAttributesForKey:[styleKeyPrefix stringByAppendingString:@"item"]];
+    _submenuArrowImage  = [[OETheme sharedTheme] themeImageForKey:[styleKeyPrefix stringByAppendingString:@"submenu_arrow"]];
 
     [self setNeedsDisplay:YES];
 }
@@ -370,7 +370,15 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
 {
     for(NSMenuItem *item in _itemArray)
     {
-        if(NSPointInRect(point, [[item extraData] frame])) return [item isSeparatorItem] ? nil : ([[item extraData] primaryItem] ?: item);
+        if(NSPointInRect(point, [[item extraData] frame]))
+        {
+            if([item isSeparatorItem]) return nil;
+
+            NSMenuItem *alternateItem = [[item extraData] itemWithModifierMask:_lastKeyModifierMask];
+            if(alternateItem) return alternateItem;
+
+            return ([[item extraData] primaryItem] ?: item);
+        }
     }
 
     return nil;
