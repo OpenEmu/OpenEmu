@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerDatabase</key>
+	<array>
+		<dict>
+			<key>OEControllerName</key>
+			<string>PS3 Sixaxis</string>
+			<key>OEGenericControllerName</key>
+			<string>OEControllerSonyPS3Sixaxis</string>
+			<key>OEControllerDevices</key>
+			<array>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Sony PS3 Sixaxis Wireless</string>
+					<key>OEControllerVendorID</key>
+					<string>0x054C</string>
+					<key>OEControllerProductID</key>
+					<string>0x0268</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>OEControllerName</key>
+			<string>Xbox 360</string>
+			<key>OEGenericControllerName</key>
+			<string>OEControllerMicrosoftXbox360</string>
+			<key>OEControllerDevices</key>
+			<array>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Microsoft Official Wired</string>
+					<key>OEControllerVendorID</key>
+					<string>0x045E</string>
+					<key>OEControllerProductID</key>
+					<string>0x028E</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Microsoft Official Wireless</string>
+					<key>OEControllerVendorID</key>
+					<string>0x045E</string>
+					<key>OEControllerProductID</key>
+					<string>0x028F</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>JoyTek 360</string>
+					<key>OEControllerVendorID</key>
+					<string>0x162E</string>
+					<key>OEControllerProductID</key>
+					<string>0xBEEF</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>BigBen 360</string>
+					<key>OEControllerVendorID</key>
+					<string>0x146B</string>
+					<key>OEControllerProductID</key>
+					<string>0x0601</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Pelican 360</string>
+					<key>OEControllerVendorID</key>
+					<string>0x0E6F</string>
+					<key>OEControllerProductID</key>
+					<string>0x0201</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>MadCatz Gamepad</string>
+					<key>OEControllerVendorID</key>
+					<string>0x0738</string>
+					<key>OEControllerProductID</key>
+					<string>0x4716</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>MadCatz Pro Gamepad</string>
+					<key>OEControllerVendorID</key>
+					<string>0x0738</string>
+					<key>OEControllerProductID</key>
+					<string>0x4726</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>MadCatz Microcon</string>
+					<key>OEControllerVendorID</key>
+					<string>0x0738</string>
+					<key>OEControllerProductID</key>
+					<string>0x4736</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Hori DOA4 Stick</string>
+					<key>OEControllerVendorID</key>
+					<string>0x0F0D</string>
+					<key>OEControllerProductID</key>
+					<string>0x000A</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>OEControllerName</key>
+			<string>Logitech Dual Action</string>
+			<key>OEGenericControllerName</key>
+			<string>OEControllerLogitechDualAction</string>
+			<key>OEControllerDevices</key>
+			<array>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Logitech Dual Action</string>
+					<key>OEControllerVendorID</key>
+					<string>0x046D</string>
+					<key>OEControllerProductID</key>
+					<string>0xC216</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Logitech Rumble Pad 2</string>
+					<key>OEControllerVendorID</key>
+					<string>0x046D</string>
+					<key>OEControllerProductID</key>
+					<string>0xC218</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Logitech Cordless Rumble Pad 2</string>
+					<key>OEControllerVendorID</key>
+					<string>0x046D</string>
+					<key>OEControllerProductID</key>
+					<string>0xC219</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>OEControllerName</key>
+			<string>PS3 Neo Geo Pad USB</string>
+			<key>OEGenericControllerName</key>
+			<string>OEControllerPS3NeoGeoPad</string>
+			<key>OEControllerDevices</key>
+			<array>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>PS3 Neo Geo Pad USB</string>
+					<key>OEControllerVendorID</key>
+					<string>0x1F4F</string>
+					<key>OEControllerProductID</key>
+					<string>0x0008</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>OEControllerName</key>
+			<string>Sega Saturn</string>
+			<key>OEGenericControllerName</key>
+			<string>OEControllerSegaSaturn</string>
+			<key>OEControllerDevices</key>
+			<array>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Sega Saturn USB Gamepad</string>
+					<key>OEControllerVendorID</key>
+					<string>0x04B4</string>
+					<key>OEControllerProductID</key>
+					<string>0x010A</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>OEControllerName</key>
+			<string>Retrode</string>
+			<key>OEGenericControllerName</key>
+			<string>OEControllerRetrode</string>
+			<key>OEControllerDevices</key>
+			<array>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Retrode 1</string>
+					<key>OEControllerVendorID</key>
+					<string>0x0403</string>
+					<key>OEControllerProductID</key>
+					<string>0x97C0</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Retrode 2</string>
+					<key>OEControllerVendorID</key>
+					<string>0x0403</string>
+					<key>OEControllerProductID</key>
+					<string>0x97C1</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>OEControllerName</key>
+			<string>Wiimote</string>
+			<key>OEGenericControllerName</key>
+			<string>OEControllerWiimote</string>
+			<key>OEControllerDevices</key>
+			<array>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Wiimote (Nintendo RVL-CNT-01)</string>
+					<key>OEControllerVendorID</key>
+					<string>0x057E</string>
+					<key>OEControllerProductID</key>
+					<string>0x0306</string>
+				</dict>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>Wiimote Plus (Nintendo RVL-CNT-01-TR)</string>
+					<key>OEControllerVendorID</key>
+					<string>0x057E</string>
+					<key>OEControllerProductID</key>
+					<string>0x0330</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>OEControllerName</key>
+			<string>N64 Adaptoid</string>
+			<key>OEGenericControllerName</key>
+			<string>OEControllerAdaptoid</string>
+			<key>OEControllerDevices</key>
+			<array>
+				<dict>
+					<key>OEControllerDeviceName</key>
+					<string>N64 Adaptoid</string>
+					<key>OEControllerVendorID</key>
+					<string>0x06F7</string>
+					<key>OEControllerProductID</key>
+					<string>0x0001</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

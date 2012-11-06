@@ -342,10 +342,18 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
     if([[self OE_menu] OE_closing]) return;
 
     // Figure out if any of the modifier flags that we are interested have changed
-    NSUInteger modiferFlags = [theEvent modifierFlags] & _keyModifierMask;
-    if(_lastKeyModifierMask != modiferFlags)
+    NSUInteger modifierFlags = [theEvent modifierFlags] & [_documentView keyModifierMask];
+    if(_lastKeyModifierMask != modifierFlags)
     {
-        _lastKeyModifierMask = modiferFlags;
+        _lastKeyModifierMask = modifierFlags;
+
+        OEMenu *menu = [self OE_menu];
+        NSMenuItem *previousHighlightedItem = [menu highlightedItem];
+        NSMenuItem *newHighlightedItem = ([previousHighlightedItem isAlternate] ?
+                                          [[previousHighlightedItem extraData] primaryItem] :
+                                          [[previousHighlightedItem extraData] itemWithModifierMask:modifierFlags]);
+        [menu setHighlightedItem:newHighlightedItem];
+
         [_documentView flagsChanged:theEvent];
     }
 }
@@ -401,7 +409,7 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
     NSInteger   index = [itemArray indexOfObject:item];
     if(index == 0) return;
 
-    // If no item is highlighted then we begin from the bottom of the list, if an item is highlighted we go to the next preceeding valid item (not seperator, not disabled, and not hidden)
+    // If no item is highlighted then we begin from the bottom of the list, if an item is highlighted we go to the next preceeding valid item (not separator, not disabled, and not hidden)
     for(NSInteger i = (item == nil ? count : index) - 1; i >= 0; i--)
     {
         NSMenuItem *obj = [[[itemArray objectAtIndex:i] extraData] itemWithModifierMask:_lastKeyModifierMask];
@@ -429,7 +437,7 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
     NSInteger   index = [itemArray indexOfObject:item];
     if(index == count - 1) return;
 
-    // If no item is highlighted then we begin from the top of the list, if an item is highlighted we go to the next proceeding valid item (not seperator, not disabled, and not hidden)
+    // If no item is highlighted then we begin from the top of the list, if an item is highlighted we go to the next proceeding valid item (not separator, not disabled, and not hidden)
     for(NSInteger i = (item == nil ? -1 : index) + 1; i < count; i++)
     {
         NSMenuItem *obj = [[[itemArray objectAtIndex:i] extraData] itemWithModifierMask:_lastKeyModifierMask];
