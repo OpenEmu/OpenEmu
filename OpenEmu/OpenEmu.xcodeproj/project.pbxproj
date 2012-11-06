@@ -401,6 +401,7 @@
 		83920CDD147E675C00D219EA /* hud_alert_window.png in Resources */ = {isa = PBXBuildFile; fileRef = 83920CDC147E675C00D219EA /* hud_alert_window.png */; };
 		839213F4164338D60006CEE0 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5380E82313B9596500E76DEF /* IOKit.framework */; };
 		839310BC147802380020058E /* OECoreDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 839310BB147802380020058E /* OECoreDownload.m */; };
+		839319241649572D000919BD /* WiimoteTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 839319231649572D000919BD /* WiimoteTypes.h */; };
 		8396CC52140687EE0096F791 /* wood_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 8396CC51140687EE0096F791 /* wood_textfield.png */; };
 		8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */; };
 		83977F641408FE4700175858 /* controller_snes_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F611408FE4700175858 /* controller_snes_eu.png */; };
@@ -1413,6 +1414,7 @@
 		83920CDC147E675C00D219EA /* hud_alert_window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_alert_window.png; sourceTree = "<group>"; };
 		839310BA147802380020058E /* OECoreDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreDownload.h; sourceTree = "<group>"; };
 		839310BB147802380020058E /* OECoreDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreDownload.m; sourceTree = "<group>"; };
+		839319231649572D000919BD /* WiimoteTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiimoteTypes.h; sourceTree = "<group>"; };
 		8396CC51140687EE0096F791 /* wood_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_textfield.png; sourceTree = "<group>"; };
 		8396CC5414068DA90096F791 /* OEControlsKeyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyButton.h; sourceTree = "<group>"; };
 		8396CC5514068DA90096F791 /* OEControlsKeyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyButton.m; sourceTree = "<group>"; };
@@ -2887,15 +2889,16 @@
 			path = Menu;
 			sourceTree = "<group>";
 		};
-		8310126216492F22000F8EC3 /* Old */ = {
+		8310126216492F22000F8EC3 /* Wiimote */ = {
 			isa = PBXGroup;
 			children = (
+				839319231649572D000919BD /* WiimoteTypes.h */,
 				8322D748156A99CA00FC0E81 /* Wiimote.h */,
 				8322D749156A99CA00FC0E81 /* Wiimote.m */,
 				8322D74A156A99CA00FC0E81 /* WiimoteBrowser.h */,
 				8322D74B156A99CB00FC0E81 /* WiimoteBrowser.m */,
 			);
-			name = Old;
+			name = Wiimote;
 			sourceTree = "<group>";
 		};
 		8314A9B8155422E800DF13B5 /* Archive.VG */ = {
@@ -3070,16 +3073,16 @@
 			name = Items;
 			sourceTree = "<group>";
 		};
-		8353CE321561BF6D0045A3DD /* WiiRemote Handling */ = {
+		8353CE321561BF6D0045A3DD /* Wiimote HID */ = {
 			isa = PBXGroup;
 			children = (
-				8310126216492F22000F8EC3 /* Old */,
+				8310126216492F22000F8EC3 /* Wiimote */,
 				8353CE761561C0DE0045A3DD /* OEWiimoteManager.h */,
 				8353CE771561C0DE0045A3DD /* OEWiimoteManager.m */,
 				8310126416492FA7000F8EC3 /* OEWiimoteDeviceHandler.h */,
 				8310126516492FA7000F8EC3 /* OEWiimoteDeviceHandler.m */,
 			);
-			name = "WiiRemote Handling";
+			name = "Wiimote HID";
 			sourceTree = "<group>";
 		};
 		8353EB1D15FF5C9B0026E326 /* Migration */ = {
@@ -3360,7 +3363,7 @@
 				C69259FA15045B03003E6FD3 /* OEEvent.h */,
 				C69259FB15045B03003E6FD3 /* OEEvent.m */,
 				C6DC91CB15F3B5530082184C /* Bindings Controller */,
-				8353CE321561BF6D0045A3DD /* WiiRemote Handling */,
+				8353CE321561BF6D0045A3DD /* Wiimote HID */,
 				93B479F512BAB52F008618A7 /* HID */,
 			);
 			name = "System Input Core";
@@ -3692,6 +3695,7 @@
 				C6DC91DD15F3B9090082184C /* OEBindingsController_Internal.h in Headers */,
 				8310126916494314000F8EC3 /* OEWiimoteManager.h in Headers */,
 				8310126A16494319000F8EC3 /* OEWiimoteDeviceHandler.h in Headers */,
+				839319241649572D000919BD /* WiimoteTypes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

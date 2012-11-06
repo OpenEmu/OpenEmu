@@ -183,7 +183,7 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 {
 	OEHIDDeviceHandler *handler = [self deviceHandlerForDevice:inDevice];
     
-	if(handler == nil)
+	if(handler == nil && inDevice != NULL)
 	{
 		handler = [OEHIDDeviceHandler deviceHandlerWithDevice:inDevice];
 

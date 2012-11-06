@@ -115,7 +115,7 @@
 		[_inquiry stop];
 }
 
-- (void) deviceInquiryComplete:(IOBluetoothDeviceInquiry*)sender error:(IOReturn)error aborted:(BOOL)aborted
+- (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry*)sender error:(IOReturn)error aborted:(BOOL)aborted
 {
 	// DLog(@"inquiry stopped, was aborted: %d", aborted);
 	// DLog(@"We've found: %lu devices, the maxiumum was set to %d", [[sender foundDevices] count], _maxWiimotes);
