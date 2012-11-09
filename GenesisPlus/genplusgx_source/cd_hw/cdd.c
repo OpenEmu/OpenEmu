@@ -84,6 +84,12 @@ static const uint16 toc_lunar[52] =
   685, 3167
 };
 
+static const uint32 toc_shadow[15] =
+{
+  10226, 70054, 11100, 12532, 12444, 11923, 10059, 10167, 10138, 13792,
+  11637,  2547,  2521,  3856, 900
+};
+
 /* supported WAVE file header (16-bit stereo samples @44.1kHz) */
 static const unsigned char waveHeader[32] =
 {
@@ -91,7 +97,7 @@ static const unsigned char waveHeader[32] =
   0x44,0xac,0x00,0x00,0x10,0xb1,0x02,0x00,0x04,0x00,0x10,0x00,0x64,0x61,0x74,0x61
 };
 
-/* supported file extensions */
+/* supported WAVE file extensions */
 static const char extensions[10][16] =
 {
   "%02d.wav",
@@ -595,7 +601,7 @@ int cdd_load(char *filename, char *header)
   /* Simulate audio tracks if none found */
   if (cdd.toc.last == 1)
   {
-    /* Some games require specific TOC infos */
+    /* Some games require exact TOC infos */
     if (strstr(header + 0x180,"T-95035") != NULL)
     {
       /* Snatcher */
@@ -621,6 +627,19 @@ int cdd_load(char *filename, char *header)
         cdd.toc.last++;
       }
       while (cdd.toc.last < 52);
+    }
+    else if (strstr(header + 0x180,"T-113045") != NULL)
+    {
+      /* Shadow of the Beast II */
+      cdd.toc.last = cdd.toc.end = 0;
+      do
+      {
+        cdd.toc.tracks[cdd.toc.last].start = cdd.toc.end;
+        cdd.toc.tracks[cdd.toc.last].end = cdd.toc.tracks[cdd.toc.last].start + toc_shadow[cdd.toc.last];
+        cdd.toc.end = cdd.toc.tracks[cdd.toc.last].end;
+        cdd.toc.last++;
+      }
+      while (cdd.toc.last < 15);
     }
     else
     {
@@ -1063,9 +1082,10 @@ void cdd_process(void)
       {
         /* Fixes a few games hanging during intro because they expect data to be read with some delay */
         /* Wolf Team games (Anet Futatabi, Cobra Command, Road Avenger & Time Gal) need at least 6 interrupts delay */
-        /* Radical Rex need at least one interrupt delay */
-        /* Jeopardy need at least 9 interrupts delay (without counting seek time delay below )*/
-        cdd.latency = 9;
+        /* Radical Rex needs at least one interrupt delay */
+        /* Jeopardy needs at least 9 interrupts delay */
+        /* Space Adventure Cobra (2nd morgue scene) needs at least 13 interrupts delay */
+        cdd.latency = 13;
       }
 
       /* update current track index */
@@ -1161,7 +1181,7 @@ void cdd_process(void)
       /* no audio track playing */
       scd.regs[0x36>>1].byte.h = 0x01;
 
-      /* update status (TODO: figure what is returned in RS1-RS8) */
+      /* update status */
       cdd.status = CD_READY;
       scd.regs[0x38>>1].w = CD_SEEK << 8;
       scd.regs[0x3a>>1].w = 0x0000;
@@ -1176,7 +1196,7 @@ void cdd_process(void)
       /* no audio track playing */
       scd.regs[0x36>>1].byte.h = 0x01;
 
-      /* update status (TODO: figure what is returned in RS1-RS8) */
+      /* update status */
       cdd.status = CD_READY;
       scd.regs[0x38>>1].w = CD_READY << 8;
       scd.regs[0x3a>>1].w = 0x0000;
@@ -1203,7 +1223,7 @@ void cdd_process(void)
       cdd.scanOffset = CD_SCAN_SPEED;
       cdd.status = CD_SCAN;
       scd.regs[0x38>>1].w = (CD_SCAN << 8) | 0x02;
-      scd.regs[0x3a>>1].w = lut_BCD_16[cdd.index+1];
+      scd.regs[0x3a>>1].w = (cdd.index < cdd.toc.last) ? lut_BCD_16[cdd.index + 1] : 0x0A0A;
       scd.regs[0x3c>>1].w = 0x0000;
       scd.regs[0x3e>>1].w = 0x0000;
       scd.regs[0x40>>1].byte.h = 0x00;
@@ -1215,7 +1235,7 @@ void cdd_process(void)
       cdd.scanOffset = -CD_SCAN_SPEED;
       cdd.status = CD_SCAN;
       scd.regs[0x38>>1].w = (CD_SCAN << 8) | 0x02;
-      scd.regs[0x3a>>1].w = lut_BCD_16[cdd.index+1];
+      scd.regs[0x3a>>1].w = (cdd.index < cdd.toc.last) ? lut_BCD_16[cdd.index + 1] : 0x0A0A;
       scd.regs[0x3c>>1].w = 0x0000;
       scd.regs[0x3e>>1].w = 0x0000;
       scd.regs[0x40>>1].byte.h = 0x00;

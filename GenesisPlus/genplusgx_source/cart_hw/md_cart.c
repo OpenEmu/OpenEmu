@@ -67,6 +67,8 @@ static void mapper_sf004_w(uint32 address, uint32 data);
 static uint32 mapper_sf004_r(uint32 address);
 static void mapper_t5740_w(uint32 address, uint32 data);
 static uint32 mapper_t5740_r(uint32 address);
+static uint32 mapper_smw_64_r(uint32 address);
+static void mapper_smw_64_w(uint32 address, uint32 data);
 static void mapper_realtec_w(uint32 address, uint32 data);
 static void mapper_seganet_w(uint32 address, uint32 data);
 static void mapper_32k_w(uint32 data);
@@ -704,6 +706,38 @@ void md_cart_init(void)
       zbank_memory_map[i].write  = zbank_unused_w;
     }
   }
+  else if ((*(uint16 *)(cart.rom + 0x08) == 0x6000) && (*(uint16 *)(cart.rom + 0x0a) == 0x01f6))
+  {
+    /* Super Mario World 64 (unlicensed) mapper */
+    for (i=0x08; i<0x10; i++)
+    {
+      /* lower 512KB mirrored */
+      m68k.memory_map[i].base = cart.rom + ((i & 7) << 16);
+    }
+
+    for (i=0x10; i<0x40; i++)
+    {
+      /* unused area */
+      m68k.memory_map[i].read8   = m68k_read_bus_8;
+      m68k.memory_map[i].read16  = m68k_read_bus_16;
+      m68k.memory_map[i].write8  = m68k_unused_8_w;
+      m68k.memory_map[i].write16 = m68k_unused_16_w;
+      zbank_memory_map[i].read   = m68k_read_bus_8;
+      zbank_memory_map[i].write  = zbank_unused_w;
+    }
+
+    for (i=0x60; i<0x70; i++)
+    {
+      /* custom hardware */
+      m68k.memory_map[i].base   = cart.rom + 0x0f0000;
+      m68k.memory_map[i].read8  = ((i & 0x07) < 0x04) ? NULL : mapper_smw_64_r;
+      m68k.memory_map[i].read16  = ((i & 0x07) < 0x04) ? NULL : mapper_smw_64_r;
+      m68k.memory_map[i].write8 = mapper_smw_64_w;
+      m68k.memory_map[i].write16 = mapper_smw_64_w;
+      zbank_memory_map[i].read  = ((i & 0x07) < 0x04) ? NULL : mapper_smw_64_r;
+      zbank_memory_map[i].write = mapper_smw_64_w;
+    }
+  }
   else if (cart.romsize > 0x400000)
   {
     /* assume linear ROM mapper without bankswitching (max. 10MB) */
@@ -1269,6 +1303,173 @@ static uint32 mapper_t5740_r(uint32 address)
   }
 
   return READ_BYTE(cart.rom, address);
+}
+
+/* 
+  Super Mario World 64 (unlicensed) mapper
+*/
+static void mapper_smw_64_w(uint32 address, uint32 data)
+{
+  /* internal registers (saved to backup RAM) */
+  switch ((address >> 16) & 0x07)
+  {
+    case 0x00:  /* $60xxxx */
+    {
+      if (address & 2)
+      {
+        /* $600003 data write mode ? */
+        switch (sram.sram[0x00] & 0x07)
+        {
+          case 0x00:
+          {
+            /* update value returned at $660001-$660003 */
+            sram.sram[0x06] = ((sram.sram[0x06] ^ sram.sram[0x01]) ^ data) & 0xFE;
+            break;
+          }
+
+          case 0x01:
+          {
+            /* update value returned at $660005-$660007 */
+            sram.sram[0x07] = data & 0xFE;
+            break;
+          }
+
+          case 0x07:
+          {
+            /* update selected ROM bank (upper 512K) mapped at $610000-$61ffff */
+            m68k.memory_map[0x61].base = m68k.memory_map[0x69].base = cart.rom + 0x080000 + ((data & 0x1c) << 14);
+            break;
+          }
+
+          default:
+          {
+            /* unknown mode */
+            break;
+          }
+        }
+
+        /* $600003 data register */
+        sram.sram[0x01] = data;
+      }
+      else
+      {
+        /* $600001 ctrl register */
+        sram.sram[0x00] = data;
+      }
+      return;
+    }
+
+    case 0x01:  /* $61xxxx */
+    {
+      if (address & 2)
+      {
+        /* $610003 ctrl register */
+        sram.sram[0x02] = data;
+      }
+      return;
+    }
+
+    case 0x04:  /* $64xxxx */
+    {
+      if (address & 2)
+      {
+        /* $640003 data register */
+        sram.sram[0x04] = data;
+      }
+      else
+      {
+        /* $640001 data register */
+        sram.sram[0x03] = data;
+      }
+      return;
+    }
+
+    case 0x06:  /* $66xxxx */
+    {
+      /* unknown */
+      return;
+    }
+
+    case 0x07:  /* $67xxxx */
+    {
+      if (!(address & 2))
+      {
+        /* $670001 ctrl register */
+        sram.sram[0x05] = data;
+
+        /* upper 512K ROM bank-switching enabled ? */
+        if (sram.sram[0x02] & 0x80)
+        {
+          /* update selected ROM bank (upper 512K) mapped at $600000-$60ffff */
+          m68k.memory_map[0x60].base = m68k.memory_map[0x68].base = cart.rom + 0x080000 + ((data & 0x1c) << 14);
+        }
+      }
+      return;
+    }
+
+    default:  /* not used */
+    {
+      m68k_unused_8_w(address, data);
+      return;
+    }
+  }
+}
+
+static uint32 mapper_smw_64_r(uint32 address)
+{
+  /* internal registers (saved to backup RAM) */
+  switch ((address >> 16) & 0x03)
+  {
+    case 0x02:  /* $66xxxx */
+    {
+      switch ((address >> 1) & 7)
+      {
+        case 0x00:  return sram.sram[0x06];
+        case 0x01:  return sram.sram[0x06] + 1;
+        case 0x02:  return sram.sram[0x07];
+        case 0x03:  return sram.sram[0x07] + 1;
+        case 0x04:  return sram.sram[0x08];
+        case 0x05:  return sram.sram[0x08] + 1;
+        case 0x06:  return sram.sram[0x08] + 2;
+        case 0x07:  return sram.sram[0x08] + 3;
+      }
+    }
+
+    case 0x03:  /* $67xxxx */
+    {
+      uint8 data = (sram.sram[0x02] & 0x80) ? ((sram.sram[0x05] & 0x40) ? (sram.sram[0x03] & sram.sram[0x04]) : (sram.sram[0x03] ^ 0xFF)) : 0x00;
+
+      if (address & 2)
+      {
+        /* $670003 */
+        data &= 0x7f;
+      }
+      else
+      {
+        /* $66xxxx data registers update */
+        if (sram.sram[0x05] & 0x80)
+        {
+          if (sram.sram[0x05] & 0x20)
+          {
+            /* update $660009-$66000f data register */
+            sram.sram[0x08] = (sram.sram[0x04] << 2) & 0xFC;
+          }
+          else
+          {
+            /* update $660001-$660003 data register */
+            sram.sram[0x06] = (sram.sram[0x01] ^ (sram.sram[0x03] << 1)) & 0xFE;
+          }
+        }
+      }
+
+      return data;
+    }
+
+    default:  /* 64xxxx-$65xxxx */
+    {
+      return 0x00;
+    }
+  }
 }
 
 /* 
