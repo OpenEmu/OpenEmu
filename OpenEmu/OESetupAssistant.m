@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2009-2012, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,226 +26,156 @@
 
 #import "OESetupAssistant.h"
 #import "NSViewController+OEAdditions.h"
+#import "OESetupAssistantTableView.h"
+#import "OEFiniteStateMachine.h"
+#import "OEButton.h"
+#import <objc/runtime.h>
 
-#import "OESystemPlugin.h"
-
-#import "OELibraryController.h"
-#import "OELibraryDatabase.h"
-
-#import "OESetupAssistantKeyMapView.h"
-
-#import "OEApplicationDelegate.h"
-#import "NSApplication+OEHIDAdditions.h"
-
+#import "OECoreUpdater.h"
 #import "OECoreDownload.h"
-#import "OEHIDManager.h"
-#import "OEHIDDeviceHandler.h"
 
-#import "OEHUDAlert.h"
+#pragma mark - Public variables
 
-
-#pragma mark - Exported variables
+// Public user default keys
 NSString *const OESetupAssistantHasFinishedKey = @"setupAssistantFinished";
-NSString *const OESetupAssistantGamepadDefaultUpEventKey = @"OESetupAssistantGamepadDefaultUpEventKey";
-NSString *const OESetupAssistantGamepadDefaultDownEventKey = @"OESetupAssistantGamepadDefaultDownEventKey";
-NSString *const OESetupAssistantGamepadDefaultLeftEventKey = @"OESetupAssistantGamepadDefaultLeftEventKey";
-NSString *const OESetupAssistantGamepadDefaultRightEventKey = @"OESetupAssistantGamepadDefaultRightEventKey";
-NSString *const OESetupAssistantGamepadDefaultPrimaryEventKey = @"OESetupAssistantGamepadDefaultPrimaryEventKey";
-NSString *const OESetupAssistantGamepadDefaultSecondaryEventKey = @"OESetupAssistantGamepadDefaultSecondaryEventKey";
 
+#pragma mark - Private variables
+
+static const NSTimeInterval _OEVideoIntroductionDuration = 10;
+
+enum : OEFSMStateLabel
+{
+    _OEFSMVideoIntroState,
+    _OEFSMWelcomeState,
+    _OEFSMCoreSelectionState,
+    _OEFSMGameScannerSelectionState,
+    _OEFSMGameScannerVolumeSelectionState,
+    _OEFSMLastScreenState,
+    _OEFSMEndState,
+};
+
+// We need to keep event values in sync with the OEFSMEventNumber user-defined runtime attribute in the nib file.
+// Currently, it is being used by OEButtons (Next, Back, Go) only.
+enum : OEFSMEventLabel
+{
+    _OEFSMBackEvent                 = 1,
+    _OEFSMNextEvent                 = 2,
+    _OEFSMNextWithCheckmarkEvent    = 3,
+    _OEFSMNextWithoutCheckmarkEvent = 4,
+};
+
+// The enum above makes Xcode think it needs to indent all lines past this point. The following NOP code
+// convinces Xcode that it does not need to indent.
+#if 0
+}
+#endif
+
+#pragma mark - OESetupCoreInfo
+
+@interface OESetupCoreInfo : NSObject
+@property(nonatomic, weak) OECoreDownload                       *core;
+@property(nonatomic, assign, getter = isSelected) BOOL           selected;
+@property(nonatomic, assign, getter = isDownloadRequested) BOOL  downloadRequested;
++ (instancetype)setupCoreInfoWithCore:(OECoreDownload *)core;
+@end
+
+#pragma mark - OESetupVolumeInfo
+
+@interface OESetupVolumeInfo : NSObject
+@property(nonatomic, strong) NSURL                     *URL;
+@property(nonatomic, copy) NSString                    *name;
+@property(nonatomic, assign, getter = isSelected) BOOL  selected;
++ (instancetype)setupVolumeInfoWithURL:(NSURL *)URL name:(NSString *)name;
+@end
+
+
+#pragma mark - OEButton (OESetupAssistantAdditions)
+
+@interface OEButton (OESetupAssistantAdditions)
+@property(nonatomic, strong) NSNumber *OEFSMEventNumber;
+@end
 
 #pragma mark - OESetupAssistant
+
 @interface OESetupAssistant ()
 {
-    BOOL _viewHasBeenLoaded;
+    NSMutableArray       *_coresToDownload; // contains OESetupCoreInfo objects; it's a table view data source
+    NSMutableArray       *_volumesToScan;   // contains OESetupVolumeInfo objects; it's a table view data source
+    CATransition         *_viewTransition;
+    OEFiniteStateMachine *_fsm;
 }
+
+// IB outlets
+@property(nonatomic, weak) IBOutlet NSView *replaceView;
+@property(nonatomic, weak) IBOutlet NSView *welcomeView;
+@property(nonatomic, weak) IBOutlet NSView *coreSelectionView;
+@property(nonatomic, weak) IBOutlet NSView *gameScannerAllowView;
+@property(nonatomic, weak) IBOutlet NSView *gameScannerVolumeSelectionView;
+@property(nonatomic, weak) IBOutlet NSView *lastStepView;
+@property(nonatomic, weak) IBOutlet NSButton *allowScanForGames;
+@property(nonatomic, weak) IBOutlet OESetupAssistantTableView *installCoreTableView;
+@property(nonatomic, weak) IBOutlet OESetupAssistantTableView *mountedVolumesTableView;
+
+- (IBAction)processFSMButtonAction:(id)sender;
+- (IBAction)processAllowGameScannerNextButtonAction:(id)sender;
+
+- (void)OE_goForwardToView:(NSView *)view;
+- (void)OE_goBackToView:(NSView *)view;
+- (void)OE_dissolveToView:(NSView *)view;
+- (void)OE_processVolumeNotification:(NSNotification *)notification;;
+
 @end
 
 @implementation OESetupAssistant
-@synthesize completionBlock;
-@synthesize deviceHandlers;
-@synthesize enabledCoresForDownloading;
-@synthesize enabledVolumesForDownloading;
-@synthesize allowedVolumes;
-
-@synthesize transition;
-@synthesize replaceView;
-@synthesize step1;
-@synthesize step2;
-@synthesize step3;
-@synthesize step3a;
-@synthesize step4;
-@synthesize step5;
-@synthesize step6;
-@synthesize step7;
-@synthesize step8;
-@synthesize step9;
-@synthesize step10;
-@synthesize lastStep;
-
-// decision tree
-@synthesize allowScanForGames;
-
-// Tables
-@synthesize installCoreTableView;
-@synthesize mountedVolumes;
-@synthesize gamePadTableView;
-
-
-// Buttons
-@synthesize gamePadSelectionNextButton;
-@synthesize gamePadUpNextButton;
-@synthesize gamePadDownNextButton;
-@synthesize gamePadLeftNextButton;
-@synthesize gamePadRightNextButton;
-@synthesize gamePadRunNextButton;
-@synthesize gamePadJumpNextButton;
-
-@synthesize selectedGamePadDeviceNum;
-@synthesize gotNewEvent;
-
-// key map views
-@synthesize upKeyMapView;
-@synthesize downKeyMapView;
-@synthesize leftKeyMapView;
-@synthesize rightKeyMapView;
-@synthesize runKeyMapView;
-@synthesize jumpKeyMapView;
-
-@synthesize currentKeyMapView;
-@synthesize currentNextButton;
-@synthesize currentEventToArchive;
-
-// Special buttons
-@synthesize goButton;
-
-/*
- @synthesize resultTableView;
- @synthesize resultProgress;
- @synthesize resultFinishedLabel;
- @synthesize resultController;
- @synthesize dontSearchCommonTypes;
- */
-
-- (id)init
-{
-    DLog(@"Init Assistant");
-    
-    if((self = [self initWithNibName:@"OESetupAssistant" bundle:[NSBundle mainBundle]]))
-    {
-        // TODO: need to fail gracefully if we have no internet connection.
-        [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForNewCores:) withObject:[NSNumber numberWithBool:NO]];
-        [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForUpdates) withObject:nil];
-        
-        // set default prefs
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"organizeLibrary"];
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"copyToLibrary"];
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"automaticallyGetInfo"];
-        
-        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidMountNotification object:nil];
-        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidUnmountNotification object:nil];
-        
-        self.enabledCoresForDownloading = [NSMutableArray array];
-        self.enabledVolumesForDownloading = [NSMutableArray array];
-        self.deviceHandlers = [NSMutableArray array];
-        self.selectedGamePadDeviceNum = NSNotFound;
-
-        [[NSNotificationCenter defaultCenter] addObserverForName:OEHIDManagerDidAddDeviceHandlerNotification
-                                                          object:[OEHIDManager sharedHIDManager]
-                                                           queue:[NSOperationQueue mainQueue]
-                                                      usingBlock:
-         ^(NSNotification *notification)
-         {
-             self.deviceHandlers = [[OEHIDManager sharedHIDManager] deviceHandlers];
-             [[self gamePadTableView] reloadData];
-         }];
-
-        [[NSNotificationCenter defaultCenter] addObserverForName:OEHIDManagerDidRemoveDeviceHandlerNotification
-                                                          object:[OEHIDManager sharedHIDManager]
-                                                           queue:[NSOperationQueue mainQueue]
-                                                      usingBlock:
-         ^(NSNotification *notification)
-         {
-             self.deviceHandlers = [[OEHIDManager sharedHIDManager] deviceHandlers];
-             [[self gamePadTableView] reloadData];
-
-             OEHIDDeviceHandler *oldHandler = [[notification userInfo] objectForKey:OEHIDManagerDeviceHandlerUserInfoKey];
-             NSUInteger oldDeviceNumber = [oldHandler deviceNumber];
-             if(oldDeviceNumber == [self selectedGamePadDeviceNum])
-             {
-                 [self setSelectedGamePadDeviceNum:NSNotFound];
-
-                 OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"The gamepad has been disconnected.", @"Gamepad disconnected during setup alert")
-                                                        defaultButton:@"Setup Gamepad"
-                                                      alternateButton:@"Skip Setup"];
-                 OEAlertCompletionHandler alertHandler = ^(OEHUDAlert *alert, NSUInteger result)
-                 {
-                     if(result == NSAlertDefaultReturn) [self goForwardToView:[self step4]];
-                     else [self toLastStep:self];
-                 };
-
-                 [alert setCallbackHandler:alertHandler];
-                 [alert runModal];
-             }
-         }];
-
-        // udpate our data for our volumes
-        [self reload];
-    }
-    
-    return self;
-}
 
 - (void)dealloc
 {
-    DLog(@"Dealloc Assistant");
-    
-    self.enabledCoresForDownloading = nil;
-    self.enabledVolumesForDownloading = nil;
-    
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self setCompletionBlock:nil];
 }
 
-- (BOOL)acceptsFirstResponder
+- (NSString *)nibName
 {
-    return YES;
+    return @"OESetupAssistant";
 }
 
-- (void)viewDidLoad
+// For some reason, -viewDidLoad is sent multiple times to the setup assistant.
+// Good old -loadView is sent only once, so we prefer it.
+- (void)loadView
 {
-    // TODO: Why is -viewDidLoad received multiple times?
-    if(_viewHasBeenLoaded) return;
+    [super loadView];
+    
+    // TODO: need to fail gracefully if we have no internet connection.
+    [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForNewCores:) withObject:@(NO)];
+    [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForUpdates) withObject:nil];
 
-    _viewHasBeenLoaded = YES;
-    [super viewDidLoad];
-    
-    [self setCurrentKeyMapView:[self upKeyMapView]];
-    
-    // setup buttons
-    [[self gamePadSelectionNextButton] setEnabled:NO];
-    [[self gamePadUpNextButton]        setEnabled:NO];
-    [[self gamePadDownNextButton]      setEnabled:NO];
-    [[self gamePadLeftNextButton]      setEnabled:NO];
-    [[self gamePadRightNextButton]     setEnabled:NO];
-    [[self gamePadRunNextButton]       setEnabled:NO];
-    [[self gamePadJumpNextButton]      setEnabled:NO];
-    
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(OE_processVolumeNotification:) name:NSWorkspaceDidMountNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(OE_processVolumeNotification:) name:NSWorkspaceDidUnmountNotification object:nil];
+
+    _coresToDownload = [NSMutableArray array];
+
+    _volumesToScan   = [NSMutableArray array];
+    NSArray *volumes = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:@[NSURLLocalizedNameKey] options:NSVolumeEnumerationSkipHiddenVolumes];
+    for(NSURL *volumeURL in volumes)
+    {
+        NSString *volumeName = nil;
+        if(![volumeURL getResourceValue:&volumeName forKey:NSURLVolumeLocalizedNameKey error:NULL]) volumeName = @"Unnamed Volume";
+
+        [_volumesToScan addObject:[OESetupVolumeInfo setupVolumeInfoWithURL:volumeURL name:volumeName]];
+    }
+
+
     [[self replaceView] setWantsLayer:YES];
-    
-    [self resetKeyViews];
-    
-    // setup default transition proerties
-    [self setTransition:[CATransition animation]];
-    [[self transition] setType:kCATransitionFade];
-    [[self transition] setSubtype:kCATransitionFromRight];
-    [[self transition] setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
-    [[self transition] setDuration:1.0];
-    [[self replaceView] setAnimations:[NSDictionary dictionaryWithObject:[self transition] forKey:@"subviews"]];
 
-    // Time bringing in our first view to conincide with our animation
-    [self performSelector:@selector(toStep1:) withObject:nil afterDelay:10.0];
+    // setup default transition properties
+    _viewTransition = [CATransition animation];
+    [_viewTransition setType:kCATransitionFade];
+    [_viewTransition setSubtype:kCATransitionFromRight];
+    [_viewTransition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
+    [_viewTransition setDuration:1.0];
+    [[self replaceView] setAnimations:@{@"subviews" : _viewTransition}];
+
+    [self OE_setupFiniteStateMachine];
+    [_fsm start];
 }
 
 - (void)viewDidAppear
@@ -264,478 +194,324 @@ NSString *const OESetupAssistantGamepadDefaultSecondaryEventKey = @"OESetupAssis
     [window setStyleMask:[window styleMask] | NSClosableWindowMask];
 }
 
-#pragma mark -
-
-- (void)resetKeyViews;
+- (IBAction)processFSMButtonAction:(id)sender
 {
-    // set up key map views
-    [[self upKeyMapView]    setKey:OESetupAssistantKeyUp];
-    [[self downKeyMapView]  setKey:OESetupAssistantKeyDown];
-    [[self leftKeyMapView]  setKey:OESetupAssistantKeyLeft];
-    [[self rightKeyMapView] setKey:OESetupAssistantKeyRight];
-    [[self runKeyMapView]   setKey:OESetupAssistantKeyQuestionMark];
-    [[self jumpKeyMapView]  setKey:OESetupAssistantKeyQuestionMark];
+    OEFSMEventLabel event = [[(OEButton *)sender OEFSMEventNumber] unsignedIntegerValue];
+    [_fsm processEvent:event];
 }
 
-- (IBAction)toStep1:(id)sender
+- (IBAction)processAllowGameScannerNextButtonAction:(id)sender
 {
-    [[self transition] setType:kCATransitionFade];
-    
-    [step1 setFrame:[[self replaceView] frame]];
-    
-    [[[self replaceView] animator] addSubview:step1];
-    
-    // Hopefully we have the updated core list by now. Lets init an NSMutableArray with 
-    for (int i = 0; i < [[[OECoreUpdater sharedUpdater] coreList] count]; i ++ )
+    OEFSMEventLabel event = ([[self allowScanForGames] state] == NSOnState ? _OEFSMNextWithCheckmarkEvent : _OEFSMNextWithoutCheckmarkEvent);
+    [_fsm processEvent:event];
+}
+
+- (void)OE_processVolumeNotification:(NSNotification *)notification
+{
+    if([[notification name] isEqualToString:NSWorkspaceDidMountNotification])
     {
-        [enabledCoresForDownloading addObject:[NSNumber numberWithBool:YES]];
+        // NSWorkspaceVolumeLocalizedNameKey, NSWorkspaceVolumeURLKey
+        NSURL *volumeURL     = [[notification userInfo] objectForKey:NSWorkspaceVolumeURLKey];
+        NSString *volumeName = [[notification userInfo] objectForKey:NSWorkspaceVolumeLocalizedNameKey];
+
+        [_volumesToScan addObject:[OESetupVolumeInfo setupVolumeInfoWithURL:volumeURL name:volumeName]];
     }
-}
-
-- (IBAction)backToStep1:(id)sender
-{
-    [self goBackToView:[self step1]];
-}
-
-- (IBAction)toStep2:(id)sender
-{
-    [self goForwardToView:[self step2]];
-}
-
-- (IBAction)backToStep2:(id)sender
-{
-    [self goBackToView:[self step2]];
-}
-
-- (IBAction)toStep3:(id)sender
-{
-    // install our cores    
-    for (int i = 0; i < [[[OECoreUpdater sharedUpdater] coreList] count]; i ++ )
+    else if([[notification name] isEqualToString:NSWorkspaceDidUnmountNotification])
     {
-        if([[enabledCoresForDownloading objectAtIndex:i] boolValue])
+        // @"NSDevicePath"
+        NSString *volumePath = [[notification userInfo] objectForKey:@"NSDevicePath"];
+        NSUInteger indexForRemoval = [_volumesToScan indexOfObjectPassingTest:^BOOL(OESetupVolumeInfo *volumeInfo, NSUInteger idx, BOOL *stop) {
+            if([[[volumeInfo URL] path] isEqualToString:volumePath])
+            {
+                *stop = YES;
+                return YES;
+            }
+            return NO;
+        }];
+
+        if(indexForRemoval != NSNotFound) [_volumesToScan removeObjectAtIndex:indexForRemoval];
+    }
+
+    [_mountedVolumesTableView reloadData];
+}
+
+#pragma mark - Finite state machine setup
+
+- (void)OE_setupFiniteStateMachine
+{
+    NSDictionary *stateDescriptions = (@{
+                                       @(_OEFSMVideoIntroState)                 : @"Video introduction",
+                                       @(_OEFSMWelcomeState)                    : @"Welcome screen",
+                                       @(_OEFSMCoreSelectionState)              : @"Core selection",
+                                       @(_OEFSMGameScannerSelectionState)       : @"Game scanner allow checkbox",
+                                       @(_OEFSMGameScannerVolumeSelectionState) : @"Game scanner volume selection",
+                                       @(_OEFSMLastScreenState)                 : @"Last screen",
+                                       @(_OEFSMEndState)                        : @"This is the end, beautiful friend",
+                                       });
+    NSDictionary *eventDescriptions = (@{
+                                       @(_OEFSMBackEvent)                 : @"Back",
+                                       @(_OEFSMNextEvent)                 : @"Next",
+                                       @(_OEFSMNextWithCheckmarkEvent)    : @"Next with checkmark",
+                                       @(_OEFSMNextWithoutCheckmarkEvent) : @"Next without checkmark",
+                                       });
+
+    _fsm = [OEFiniteStateMachine new];
+    [_fsm setStateDescriptions:stateDescriptions];
+    [_fsm setEventDescriptions:eventDescriptions];
+    [_fsm setActionsQueue:dispatch_get_main_queue()];
+
+    OESetupAssistant __unsafe_unretained *blockSelf = self;
+
+    // Video introduction
+
+    [_fsm addState:_OEFSMVideoIntroState];
+    [_fsm setTimerTransitionFrom:_OEFSMVideoIntroState to:_OEFSMWelcomeState delay:_OEVideoIntroductionDuration action:^{
+        [blockSelf OE_dissolveToView:[blockSelf welcomeView]];
+    }];
+
+    // Welcome screen
+
+    [_fsm addState:_OEFSMWelcomeState entry:^{
+        // Note: we are not worrying about a core being removed from the core list
+        NSArray *knownCores = [blockSelf->_coresToDownload valueForKey:@"core"];
+        for(OECoreDownload *core in [[OECoreUpdater sharedUpdater] coreList])
         {
-            [self OE_updateOrInstallItemAtRow:i];
+            if(![knownCores containsObject:core]) [blockSelf->_coresToDownload addObject:[OESetupCoreInfo setupCoreInfoWithCore:core]];
         }
+    }];
+    [_fsm addTransitionFrom:_OEFSMWelcomeState to:_OEFSMCoreSelectionState event:_OEFSMNextEvent action:^{
+        [blockSelf OE_goForwardToView:[blockSelf coreSelectionView]];
+    }];
+
+    // Core selection screen
+
+    [_fsm addState:_OEFSMCoreSelectionState exit:^{
+        // Note: if the user selected a few cores and clicked next, we start downloading them.
+        //       if the user goes back to the core selection screen, he shouldn't really deselect because
+        //       once the download started, we don't cancel or remove it
+        for(OESetupCoreInfo *coreInfo in blockSelf->_coresToDownload)
+        {
+            if([coreInfo isSelected] && ![coreInfo isDownloadRequested])
+            {
+                [[coreInfo core] startDownload:blockSelf];
+                [coreInfo setDownloadRequested:YES];
+            }
+        }
+     }];
+    [_fsm addTransitionFrom:_OEFSMCoreSelectionState to:_OEFSMWelcomeState event:_OEFSMBackEvent action:^{
+        [blockSelf OE_goBackToView:[blockSelf welcomeView]];
+    }];
+    [_fsm addTransitionFrom:_OEFSMCoreSelectionState to:_OEFSMGameScannerSelectionState event:_OEFSMNextEvent action:^{
+        [blockSelf OE_goForwardToView:[blockSelf gameScannerAllowView]];
+    }];
+
+    // Game scanner allow checkbox screen
+
+    [_fsm addState:_OEFSMGameScannerSelectionState];
+    [_fsm addTransitionFrom:_OEFSMGameScannerSelectionState to:_OEFSMCoreSelectionState event:_OEFSMBackEvent action:^{
+        [blockSelf OE_goBackToView:[blockSelf coreSelectionView]];
+    }];
+    [_fsm addTransitionFrom:_OEFSMGameScannerSelectionState to:_OEFSMGameScannerVolumeSelectionState event:_OEFSMNextWithCheckmarkEvent action:^{
+        [blockSelf OE_goForwardToView:[blockSelf gameScannerVolumeSelectionView]];
+    }];
+    [_fsm addTransitionFrom:_OEFSMGameScannerSelectionState to:_OEFSMLastScreenState event:_OEFSMNextWithoutCheckmarkEvent action:^{
+        [blockSelf OE_goForwardToView:[blockSelf lastStepView]];
+    }];
+
+    // Game scanner volume selection screen
+
+    [_fsm addState:_OEFSMGameScannerVolumeSelectionState];
+    [_fsm addTransitionFrom:_OEFSMGameScannerVolumeSelectionState to:_OEFSMGameScannerSelectionState event:_OEFSMBackEvent action:^{
+        [blockSelf OE_goBackToView:[blockSelf gameScannerAllowView]];
+    }];
+    [_fsm addTransitionFrom:_OEFSMGameScannerVolumeSelectionState to:_OEFSMLastScreenState event:_OEFSMNextEvent action:^{
+        [blockSelf OE_goForwardToView:[blockSelf lastStepView]];
+    }];
+
+    // Last screen
+
+    [_fsm addState:_OEFSMLastScreenState];
+    [_fsm addTransitionFrom:_OEFSMLastScreenState to:_OEFSMGameScannerSelectionState event:_OEFSMBackEvent action:^{
+        [blockSelf OE_goBackToView:[blockSelf gameScannerAllowView]];
+    }];
+    [_fsm addTransitionFrom:_OEFSMLastScreenState to:_OEFSMEndState event:_OEFSMNextEvent action:nil];
+
+    // This is the end, beautiful friend
+
+    [_fsm addState:_OEFSMEndState entry:^{
+        // Mark setup done
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OESetupAssistantHasFinishedKey];
+
+        NSMutableArray *selectedVolumes = nil;
+        BOOL shouldScan = ([[blockSelf allowScanForGames] state] == NSOnState);
+        if(shouldScan)
+        {
+            selectedVolumes = [NSMutableArray new];
+            for(OESetupVolumeInfo *volumeInfo in blockSelf->_volumesToScan)
+            {
+                if([volumeInfo isSelected]) [selectedVolumes addObject:[volumeInfo URL]];
+            }
+        }
+
+        if([blockSelf completionBlock] != nil) [blockSelf completionBlock](shouldScan, selectedVolumes);
+    }];
+}
+
+#pragma mark - View switching
+
+- (void)OE_goBackToView:(NSView *)view
+{
+    [self OE_switchToView:view transitionType:kCATransitionPush transitionSubtype:kCATransitionFromLeft];
+}
+
+- (void)OE_goForwardToView:(NSView *)view
+{
+    [self OE_switchToView:view transitionType:kCATransitionPush transitionSubtype:kCATransitionFromRight];
+}
+
+- (void)OE_dissolveToView:(NSView *)view
+{
+    [self OE_switchToView:view transitionType:kCATransitionFade transitionSubtype:@""];
+}
+
+- (void)OE_switchToView:(NSView *)view transitionType:(NSString *)transitionType transitionSubtype:(NSString *)transitionSubtype
+{
+    [_viewTransition setType:transitionType];
+    [_viewTransition setSubtype:transitionSubtype];
+
+    [view setFrame:[_replaceView frame]];
+
+    if([[_replaceView subviews] count] == 0)
+    {
+        [[_replaceView animator] addSubview:view];
     }
-    
-    [self goForwardToView:[self step3]];
-}
-
-- (IBAction)backToStep3:(id)sender
-{
-    [self goBackToView:[self step3]];
-}
-
-- (IBAction)toStep3aOr4:(id)sender
-{
-    if([self.allowScanForGames state] == NSOnState)
-        [self goForwardToView:[self step3a]];
     else
-        [self goForwardToView:[self step4]];
-}
-
-- (IBAction)toStep4:(id)sender;
-{
-    // If the user came from step3a, get cache the selected volume URLs for searching
-    if(self.allowScanForGames)
     {
-        NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
-        allowedVolumes = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] mutableCopy];
-		NSMutableIndexSet *disallowedVolumes = [NSMutableIndexSet indexSet];
-		
-        for(int i = 0; i < [enabledVolumesForDownloading count]; i++)
-        {
-            if(![[enabledVolumesForDownloading objectAtIndex:i] boolValue])
-				[disallowedVolumes addIndex:i];
-        }
-		
-		[allowedVolumes removeObjectsAtIndexes:disallowedVolumes];
+        NSView *oldView = [[_replaceView subviews] objectAtIndex:0];
+        [[_replaceView animator] replaceSubview:oldView with:view];
     }
-    
-    [self goForwardToView:[self step4]];
 }
 
-- (IBAction)backToStep4:(id)sender
+#pragma mark - NSTableViewDataSource
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    [self goBackToView:[self step4]];
-}
+    if(tableView == [self installCoreTableView])         return [_coresToDownload count];
+    else if(tableView == [self mountedVolumesTableView]) return [_volumesToScan count];
 
-- (IBAction)toStep5:(id)sender;
-{
-    // monitor Gamepad inputs from now on, since we selected a game pad.
-    [[[self view] window] makeFirstResponder:self];
-    [self setCurrentKeyMapView:[self upKeyMapView]];
-    [self setCurrentNextButton:[self gamePadUpNextButton]];
-    [self goForwardToView:[self step5]];
-}
-
-- (IBAction)backToStep5:(id)sender
-{
-    [self setCurrentKeyMapView:[self upKeyMapView]];
-    [self setCurrentNextButton:[self gamePadUpNextButton]];
-    [self goBackToView:[self step5]];
-}
-
-- (IBAction)toStep6:(id)sender
-{
-    [self archiveEventForKey:OESetupAssistantGamepadDefaultUpEventKey];
-    
-    [self setCurrentKeyMapView:[self downKeyMapView]];
-    [self setCurrentNextButton:[self gamePadDownNextButton]];
-    [self goForwardToView:[self step6]];
-}
-
-- (IBAction)backToStep6:(id)sender
-{
-    [self setCurrentKeyMapView:[self downKeyMapView]];
-    [self setCurrentNextButton:[self gamePadDownNextButton]];
-    [self goBackToView:[self step6]];
-}
-
-- (IBAction)toStep7:(id)sender
-{    
-    [self archiveEventForKey:OESetupAssistantGamepadDefaultDownEventKey];
-    [self setCurrentKeyMapView:[self leftKeyMapView]];
-    [self setCurrentNextButton:[self gamePadLeftNextButton]];
-    [self goForwardToView:[self step7]];
-}
-
-- (IBAction)backToStep7:(id)sender
-{
-    [self setCurrentKeyMapView:[self leftKeyMapView]];
-    [self setCurrentNextButton:[self gamePadLeftNextButton]];
-    [self goBackToView:[self step7]];
-}
-
-- (IBAction)toStep8:(id)sender
-{
-    [self archiveEventForKey:OESetupAssistantGamepadDefaultLeftEventKey];
-    [self setCurrentKeyMapView:[self rightKeyMapView]];
-    [self setCurrentNextButton:[self gamePadRightNextButton]];
-    [self goForwardToView:[self step8]];
-}
-
-- (IBAction)backToStep8:(id)sender
-{
-    [self setCurrentKeyMapView:[self rightKeyMapView]];
-    [self setCurrentNextButton:[self gamePadRightNextButton]];
-    [self goBackToView:[self step8]];
-}
-
-- (IBAction)toStep9:(id)sender
-{
-    [self archiveEventForKey:OESetupAssistantGamepadDefaultRightEventKey];
-    [self setCurrentKeyMapView:[self runKeyMapView]];
-    [self setCurrentNextButton:[self gamePadRunNextButton]];
-    [self goForwardToView:[self step9]];
-}
-
-- (IBAction)backToStep9:(id)sender
-{
-    [self setCurrentKeyMapView:[self runKeyMapView]];
-    [self setCurrentNextButton:[self gamePadRunNextButton]];
-    [self goBackToView:[self step9]];
-}
-
-- (IBAction)toStep10:(id)sender
-{
-    [self archiveEventForKey:OESetupAssistantGamepadDefaultPrimaryEventKey];
-    
-    [self setCurrentKeyMapView:[self jumpKeyMapView]];
-    [self setCurrentNextButton:[self gamePadJumpNextButton]];
-    [self goForwardToView:[self step10]];
-}
-
-- (IBAction)backToStep10:(id)sender
-{
-    [self setCurrentKeyMapView:[self jumpKeyMapView]];
-    [self setCurrentNextButton:[self gamePadJumpNextButton]];
-    [self goBackToView:[self step10]];
-}
-
-- (IBAction)toLastStep:(id)sender
-{
-    [self archiveEventForKey:OESetupAssistantGamepadDefaultSecondaryEventKey];
-    
-    [self goForwardToView:[self lastStep]];
-}
-
-- (IBAction)finishAndRevealLibrary:(id)sender
-{
-    // mark setup done.
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:OESetupAssistantHasFinishedKey];
-    
-    // clean up
-    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
-    
-    BOOL shouldScan = ([[self allowScanForGames] state] == NSOnState) && ([allowedVolumes count] > 0);
-    
-    if(completionBlock != nil) 
-        completionBlock(shouldScan, allowedVolumes);
-}
-
-#pragma mark -
-#pragma mark View Switching Helpers
-
-- (void)goBackToView:(NSView *)view
-{
-    [self setGotNewEvent:NO];
-    [self resetKeyViews];
-    
-    [view setFrame:[[self replaceView] frame]];
-    
-    self.transition.type = kCATransitionPush;
-    self.transition.subtype = kCATransitionFromLeft;
-    
-    NSView *subview = [[[self replaceView] subviews] objectAtIndex:0];
-    
-    [[[self replaceView] animator] replaceSubview:subview with:view];
-}
-
-- (void)goForwardToView:(NSView *)view
-{
-    [self setGotNewEvent:NO];
-    
-    [view setFrame:[[self replaceView] frame]];
-    
-    [[self transition] setType:kCATransitionPush];
-    [[self transition] setSubtype:kCATransitionFromRight];
-    
-    NSView *subview  = [[[self replaceView] subviews] objectAtIndex:0];
-    
-    [[[self replaceView] animator] replaceSubview:subview with:view];
-}
-
-- (void)dissolveToView:(NSView *)view
-{
-    [self setGotNewEvent:NO];
-    
-    [view setFrame:[[self replaceView] frame]];
-    
-    [[self transition] setType:kCATransitionFade];
-    
-    NSView *subview  = [[replaceView subviews] objectAtIndex:0];
-    
-    [[[self replaceView] animator] replaceSubview:subview with:view];
-}
-
-#pragma mark -
-#pragma mark Table View Data Protocol
-
-// for Core Downloader
-
-- (void)OE_updateOrInstallItemAtRow:(NSInteger)rowIndex
-{
-    OECoreDownload *plugin = [self OE_coreDownloadAtRow:rowIndex];
-    [plugin startDownload:self];
-}
-
-- (OECoreDownload*)OE_coreDownloadAtRow:(NSInteger)row
-{
-    return [[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:row];
-}
-
-
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
-{
-    if(aTableView == [self installCoreTableView])
-    {
-        return [[[OECoreUpdater sharedUpdater] coreList] count];
-    }
-    else if(aTableView == [self mountedVolumes])
-    {
-        NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
-        return [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] count];
-    }
-    else if(aTableView == [self gamePadTableView])
-    {
-        return [[self deviceHandlers] count];
-    }
-    
     return 0;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
 {    
-    if(aTableView == [self installCoreTableView])
-    {
-        NSString *identifier = [aTableColumn identifier];
-        
-        if([identifier isEqualToString:@"enabled"])
-            //return [NSNumber numberWithBool:YES];
-            return [enabledCoresForDownloading objectAtIndex:rowIndex];
+    NSString *identifier = [tableColumn identifier];
 
-        else if([identifier isEqualToString:@"emulatorName"])
-            return [(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] name];
-        
-        else if([identifier isEqualToString:@"emulatorSystem"])
-            return [[(OECoreDownload *)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] systemNames] componentsJoinedByString:@", "];
-    }
-    else if(aTableView == [self mountedVolumes])
+    if(tableView == [self installCoreTableView])
     {
-        NSString *identifier = [aTableColumn identifier];
+        OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:rowIndex];
         
-        if([identifier isEqualToString:@"enabled"])
-            return [enabledVolumesForDownloading objectAtIndex:rowIndex];
-        
-        else if([identifier isEqualToString:@"mountName"])
-        {
-            NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
-            NSURL *mountUrl = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] objectAtIndex:rowIndex];
-            
-            NSString *volumeName = @"";
-            if([mountUrl getResourceValue:&volumeName forKey:NSURLVolumeLocalizedNameKey error:nil])
-                return volumeName;
-            else 
-                return @"Unnamed Volume";
-        }
+        if([identifier isEqualToString:@"enabled"])             return @([coreInfo isSelected]);
+        else if([identifier isEqualToString:@"emulatorName"])   return [[coreInfo core] name];
+        else if([identifier isEqualToString:@"emulatorSystem"]) return [[[coreInfo core] systemNames] componentsJoinedByString:@", "];
     }
-    else if(aTableView == [self gamePadTableView])
+    else if(tableView == [self mountedVolumesTableView])
     {
-        OEHIDDeviceHandler *handler = [[self deviceHandlers] objectAtIndex:rowIndex];
-        
-        NSString *identifier = [aTableColumn identifier];
-        if([identifier isEqualToString:@"usbPort"])
-            return [NSString stringWithFormat:@"Device %li", [handler deviceNumber]];
-        else if([identifier isEqualToString:@"gamePadName"])
-            return [handler product];
+        OESetupVolumeInfo *volumeInfo = [_volumesToScan objectAtIndex:rowIndex];
+
+        if([identifier isEqualToString:@"enabled"])        return @([volumeInfo isSelected]);
+        else if([identifier isEqualToString:@"mountName"]) return ([volumeInfo name]);
     }
-    
+
     return nil;
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
 {
-    
-    if(aTableView == [self installCoreTableView])
+    NSString *identifier = [tableColumn identifier];
+
+    if(tableView == [self installCoreTableView])
     {
-        NSString *identifier = [aTableColumn identifier];
-        
-        if([identifier isEqualToString:@"enabled"])
-            [enabledCoresForDownloading replaceObjectAtIndex:rowIndex withObject:anObject];
+        OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:rowIndex];
+        if([identifier isEqualToString:@"enabled"]) [coreInfo setSelected:[(NSNumber *)object boolValue]];
     }
-    
-    else if(aTableView == [self mountedVolumes])
+    else if(tableView == [self mountedVolumesTableView])
     {
-        NSString *identifier = [aTableColumn identifier];
-        
-        if([identifier isEqualToString:@"enabled"])
-            [enabledVolumesForDownloading replaceObjectAtIndex:rowIndex withObject:anObject];
+        OESetupVolumeInfo *volumeInfo = [_volumesToScan objectAtIndex:rowIndex];
+        if([identifier isEqualToString:@"enabled"]) [volumeInfo setSelected:[(NSNumber *)object boolValue]];
     }
 
 }
 
-#pragma mark -
-#pragma mark Table View Delegate Protocol
+#pragma mark - NSTableViewDelegate
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
 {
-    NSString *identifier = [aTableColumn identifier];
-    
-    if([identifier isEqualToString:@"enabled"])
-        return YES;
-    
-    return NO;
-}
-
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
-{
-    if([aNotification object] == [self gamePadTableView])
+    if(tableView == _installCoreTableView)
     {
-        [[self gamePadSelectionNextButton] setEnabled:[[self gamePadTableView] numberOfSelectedRows] > 0];
-        NSInteger selectedRow = [[self gamePadTableView] selectedRow];
-        if(selectedRow >= 0 && selectedRow < [[self deviceHandlers] count])
+        if([[tableColumn identifier] isEqualToString:@"enabled"])
         {
-            OEHIDDeviceHandler *selectedHandler = [[self deviceHandlers] objectAtIndex:selectedRow];
-            [self setSelectedGamePadDeviceNum:[selectedHandler deviceNumber]];
+            OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:rowIndex];
+            return ![coreInfo isDownloadRequested];
         }
+
+        return NO;
     }
+    return [[tableColumn identifier] isEqualToString:@"enabled"];
 }
 
-- (void)reload
+- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    NSArray *keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
-    NSUInteger volumeCount = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] count];
-    
-    [enabledVolumesForDownloading removeAllObjects];
-    
-    for(int i = 0; i < volumeCount; i++)
+    NSCell *cell = [tableColumn dataCellForRow:row];
+
+    if(tableView == _installCoreTableView && [[tableColumn identifier] isEqualToString:@"enabled"])
     {
-        [enabledVolumesForDownloading addObject:[NSNumber numberWithBool:YES]];
+        OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:row];
+        NSButtonCell *buttonCell = (NSButtonCell *)cell;
+        [buttonCell setEnabled:(![coreInfo isDownloadRequested])];
     }
-    
-    [[self mountedVolumes] reloadData];
+
+    return cell;
 }
 
-#pragma mark -
-#pragma mark HID event handling
+@end
 
-- (void)gotEvent:(OEHIDEvent *)event
+#pragma mark - OESetupCoreInfo
+
+@implementation OESetupCoreInfo
++ (instancetype)setupCoreInfoWithCore:(OECoreDownload *)core
 {
-    [self setCurrentEventToArchive:event];
-    [self setGotNewEvent:YES];
+    OESetupCoreInfo *newCore = [self new];
+    [newCore setCore:core];
+    [newCore setSelected:YES];
+    return newCore;
+}
+@end
 
-    // Make sure UI behaviour happens on the main thread since HID events are fired from the HID queue
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[self currentKeyMapView] setKey:OESetupAssistantKeySucess];
-        [[self currentNextButton] setEnabled:YES];
-    });
+#pragma mark - OESetupVolumeInfo
+
+@implementation OESetupVolumeInfo
++ (instancetype)setupVolumeInfoWithURL:(NSURL *)URL name:(NSString *)name
+{
+    OESetupVolumeInfo *newVolume = [self new];
+    [newVolume setURL:URL];
+    [newVolume setName:name];
+    [newVolume setSelected:YES];
+    return newVolume;
+}
+@end
+
+#pragma mark - OEButton (OESetupAssistantAdditions)
+
+@implementation OEButton (OESetupAssistantAdditions)
+
+- (void)setOEFSMEventNumber:(NSNumber *)number
+{
+    objc_setAssociatedObject(self, @"OEFSMEventNumber", number, OBJC_ASSOCIATION_RETAIN);
 }
 
-- (void)axisMoved:(OEHIDEvent *)anEvent
+- (NSNumber *)OEFSMEventNumber
 {
-    if([self selectedGamePadDeviceNum] == [anEvent padNumber])
-        [self gotEvent:anEvent];
-}
-
-- (void)triggerPull:(OEHIDEvent *)anEvent;
-{
-    if([self selectedGamePadDeviceNum] == [anEvent padNumber])
-        [self gotEvent:anEvent];
-}
-
-- (void)triggerRelease:(OEHIDEvent *)anEvent;
-{
-    if([self selectedGamePadDeviceNum] == [anEvent padNumber])
-        [self gotEvent:anEvent];
-}
-
-- (void)buttonDown:(OEHIDEvent *)anEvent
-{
-    if([self selectedGamePadDeviceNum] == [anEvent padNumber])
-        [self gotEvent:anEvent];
-}
-
-- (void)buttonUp:(OEHIDEvent *)anEvent
-{
-    if([self selectedGamePadDeviceNum] == [anEvent padNumber])
-        [self gotEvent:anEvent];
-}
-
-- (void)hatSwitchChanged:(OEHIDEvent *)anEvent
-{
-    if([self selectedGamePadDeviceNum] == [anEvent padNumber])
-        [self gotEvent:anEvent];
-}
-
-- (void)HIDKeyDown:(OEHIDEvent *)anEvent
-{
-    if([self selectedGamePadDeviceNum] == [anEvent padNumber])
-        [self gotEvent:anEvent];
-}
-
-- (void)HIDKeyUp:(OEHIDEvent *)anEvent
-{
-    if([self selectedGamePadDeviceNum] == [anEvent padNumber])
-        [self gotEvent:anEvent];
-}
-
-#pragma mark -
-#pragma mark Preference Saving
-
-- (void)archiveEventForKey:(NSString *)key
-{
-    [[NSUserDefaults standardUserDefaults] setValue:[NSKeyedArchiver archivedDataWithRootObject:[self currentEventToArchive]] forKey:key];
+    return objc_getAssociatedObject(self, @"OEFSMEventNumber");
 }
 
 @end

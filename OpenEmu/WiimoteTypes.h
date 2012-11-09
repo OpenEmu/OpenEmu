@@ -76,6 +76,11 @@ typedef enum {
 } WiiJoyStickType;
 
 typedef enum {
+	WiiClassicControllerLeftTrigger     = 0,
+	WiiClassicControllerRightTrigger	= 1
+} WiiTriggerType;
+
+typedef enum {
 	WiiNunchukJoyStickMaximumX					= 255,
     WiiNunchukJoyStickMaximumY					= 255
 } WiiAxisMaximums;

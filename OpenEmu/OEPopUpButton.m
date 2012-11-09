@@ -107,6 +107,18 @@
     }
 }
 
+- (void)setNeedsDisplay:(BOOL)flag
+{
+    if(![NSThread isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setNeedsDisplay:flag];
+        });
+    }
+    else
+        [super setNeedsDisplay:flag];
+}
+
 - (void)OE_windowKeyChanged:(NSNotification *)notification
 {
     // The keyedness of the window has changed, we want to redisplay the button with the new state, this is only fired when NSWindowDidBecomeMainNotification and NSWindowDidResignMainNotification is registered.

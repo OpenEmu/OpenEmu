@@ -19,4 +19,5 @@
 
 - (OEHIDEvent*)eventWithWiiJoystick:(WiiJoyStickType)joystick;
 - (void)dispatchEventWithWiiJoystick:(WiiJoyStickType)joystick tiltX:(CGFloat)tiltX tiltY:(CGFloat)tiltY;
+- (void)dispatchEventWithWiiTrigger:(WiiTriggerType)trigger value:(CGFloat)triggerVal;
 @end

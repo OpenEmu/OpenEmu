@@ -25,15 +25,20 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "WiimoteBrowser.h"
 #import "Wiimote.h"
 
 extern NSString *const OEWiimoteSupportDisabled;
 
-@interface OEWiimoteManager : NSObject <WiimoteBrowserDelegate>
+@class IOBluetoothDevice;
+@interface OEWiimoteManager : NSObject
 
-+ (void)search;
 + (id)sharedHandler;
++ (void)startSearch;
 
-@property(readonly) NSArray *connectedWiiRemotes;
+- (void)addWiimoteWithDevice:(IOBluetoothDevice*)device;
+
+- (void)startSearch;
+- (void)stopSearch;
+
+@property (readonly) NSArray *connectedWiimotes;
 @end

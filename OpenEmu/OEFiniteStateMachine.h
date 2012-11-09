@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2012, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  * Neither the name of the OpenEmu Team nor the
  names of its contributors may be used to endorse or promote products
  derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,41 +24,31 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//  Based on WiiRemoteFramework by KIMURA Hiroaki on 06/12/04.
-//  Copyright 2006 KIMURA Hiroaki. All rights reserved.
+#import <Foundation/Foundation.h>
 
-#import <Cocoa/Cocoa.h>
+typedef NSUInteger OEFSMStateLabel;
+typedef NSUInteger OEFSMEventLabel;
 
-#import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
-#import <IOBluetooth/objc/IOBluetoothDevice.h>
+@interface OEFiniteStateMachine : NSObject
 
-#include "Wiimote.h"
-@protocol WiimoteBrowserDelegate;
-@interface WiimoteBrowser : NSObject
-{
-	BOOL _isSearching;
-	
-	IOBluetoothDeviceInquiry* _inquiry;
-	
-	int _maxWiimotes; // maximum number of wiimotes to discover (-1 for unlimited)
-	
-	NSArray* _discoveredDevices;
-}
+- (void)addState:(OEFSMStateLabel)state;
+- (void)addState:(OEFSMStateLabel)state entry:(void(^)(void))entry;
+- (void)addState:(OEFSMStateLabel)state exit:(void(^)(void))exit;
+- (void)addState:(OEFSMStateLabel)state entry:(void(^)(void))entry exit:(void(^)(void))exit;
 
-- (int)maxWiimoteCount;
-- (void)setMaxWiimoteCount:(int)newMax;
+- (void)addTransitionFrom:(OEFSMStateLabel)fromState to:(OEFSMStateLabel)nextState event:(OEFSMEventLabel)eventLabel action:(void(^)(void))action;
+- (void)setTimerTransitionFrom:(OEFSMStateLabel)fromState to:(OEFSMStateLabel)nextState delay:(NSTimeInterval)delay action:(void(^)(void))action;
 
-@property (strong) id <WiimoteBrowserDelegate> delegate;
-- (NSArray*)discoveredDevices;
+- (void)setInitialState:(OEFSMStateLabel)initialState;
+- (void)setActionsQueue:(dispatch_queue_t)actionsQueue;
+- (void)setStateDescriptions:(NSDictionary *)stateDescriptions;
+- (void)setEventDescriptions:(NSDictionary *)eventDescriptions;
 
-- (void)startSearch;
-- (void)stopSearch;
+- (void)start;
+- (void)processEvent:(OEFSMEventLabel)event;
 
-- (NSArray*)_convertFoundDevicesToWiimotes:(NSArray*)foundDevices;
-@end
+- (NSString *)descriptionForState:(OEFSMStateLabel)state;
+- (NSString *)descriptionForEvent:(OEFSMEventLabel)event;
+- (void)writeDOTRepresentationToURL:(NSURL *)URL;
 
-@protocol WiimoteBrowserDelegate <NSObject>
-- (void)wiimoteBrowserWillSearch;
-- (void)wiimoteBrowserDidStopSearchWithResults:(NSArray*)discoveredDevices;
-- (void)wiimoteBrowserSearchFailedWithError:(int)code;
 @end

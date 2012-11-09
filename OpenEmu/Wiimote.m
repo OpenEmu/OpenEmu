@@ -73,6 +73,13 @@ typedef enum {
     kWiiNunchukMaxValue = 255
 } WiiNunchukParameters;
 
+
+typedef enum {
+    kWiiClassicControllerLeftJoystickMaxValue = 63,
+    kWiiClassicControllerRightJoystickMaxValue = 31,
+    kWiiClassicControllerTriggerMaxValue = 31,
+} WiiClassicControllerParameters;
+
 typedef enum {
 	kWiiExpansionNunchuck = 0x0000,
 	kWiiExpansionClassicController = 0x0101,
@@ -106,7 +113,8 @@ typedef enum {
 @end
 
 @implementation Wiimote
-@synthesize irSensorEnabled, motionSensorEnabled, rumbleActivated;
+@synthesize rumbleActivated;
+#define ConcatBE(hi, lo) (UInt16)(hi << 8 | lo)
 
 # pragma mark -
 - (Wiimote*)init
@@ -115,25 +123,21 @@ typedef enum {
 	
 	if (self != nil)
     {
-		LED1Illuminated = YES;
+        LED1Illuminated = YES;
 		LED2Illuminated = YES;
 		LED3Illuminated = YES;
 		LED4Illuminated = YES;
 		
 		rumbleActivated = NO;
-		irSensorEnabled = NO;
-		motionSensorEnabled = NO;
 		
 		expansionPortEnabled   = YES;
 		expansionPortAttached  = NO;
         expansionType          = WiiExpansionNotConnected;
         
-		speakerEnabled = NO;	// sound is not implemented yet
-		speakerMuted   = NO;	// sound is not implemented yet
-        
         lastWiimoteButtonReport = 0;
         lastNunchuckButtonReport = 0;
         lastClassicControllerButtonReport = 0;
+
     }
 	return self;
 }
@@ -246,26 +250,10 @@ typedef enum {
 - (void)syncConfig
 {
 	// Set the report type the Wiimote should send.
-	unsigned char cmd[] = {0x12, 0x02, 0x30}; // Just buttons.
-	
-	if (irSensorEnabled)
-    {
-        NSLog(@"ir enabled");
-		cmd[2] = expansionPortEnabled ? 0x36 : 0x33;	// Buttons, 10 IR Bytes, 9 Extension Bytes
-		irMode = expansionPortEnabled ? kWiiIRModeBasic : kWiiIRModeExtended;
-		
-		// Set IR Mode
-		// I don't think it should be here ...
-		[self writeData:(darr){ irMode } at:0x04B00033 length:1];
-		usleep(10000);
-	}
-    else
-    {
-		cmd[2] = expansionPortEnabled ? 0x34 : 0x30;	// Buttons, 19 Extension Bytes
-	}
-    
+	unsigned char cmd[] = {0x12, 0x02, 0x32}; // Butons + 8 Extension bytes
 	[self sendCommand:cmd length:3];
 }
+
 - (void)syncLEDAndRumble
 {
 	unsigned char cmd[] = {0x11, 0x00};
@@ -296,6 +284,8 @@ typedef enum {
 #pragma mark - Expansion Port -
 - (void)initializeExpansionPort
 {
+    NSLog(@"-initializeExpansionPort");
+    
     // Initializing expansion port based on http://wiibrew.org/wiki/Wiimote/Extension_Controllers#The_New_Way
     unsigned char data = 0x55;
     [self writeData:&data at:0x04A400F0 length:1];
@@ -308,40 +298,7 @@ typedef enum {
     [self readData:0x04A400FE length:2]; // read expansion type
 }
 @synthesize expansionType, expansionPortAttached, expansionPortEnabled;
-# pragma mark - Sound -
-- (void)playSound:(NSSound*)theSound
-{
-	NSLog(@"playSound: Sound is not implemented yet!");
-}
-- (void)setSpeakerEnabled:(BOOL)flag
-{
-	NSLog(@"setSpeakerEnabled: Sound is not implemented yet!");
-	speakerEnabled = flag;
-}
-- (void)setSpeakerMuted:(BOOL)flag
-{
-	NSLog(@"setSpeakerMuted: Sound is not implemented yet!");
-	speakerMuted = flag;
-}
 
-- (BOOL)speakerEnabled
-{
-	NSLog(@"speakerEnabled: Sound is not implemented yet!");
-	return speakerEnabled;
-}
-
-- (void)toggleMute
-{
-	NSLog(@"toggleMute: Sound is not implemented yet!");
-	speakerMuted = !speakerMuted;
-}
-
-- (BOOL)speakerMuted
-{
-	// DLog(@"speakerMuted: Sound is not implemented yet!");
-	return speakerMuted;
-}
-@synthesize speakerEnabled, speakerMuted;
 # pragma mark -
 # pragma mark Data Handling
 - (void)writeData:(const unsigned char*)data at:(unsigned long)address length:(size_t)length
@@ -349,7 +306,7 @@ typedef enum {
 	unsigned char cmd [22];
 	
 	if (length > 16)
-		; // DLog (@"Error! Trying to write more than 16 bytes of data (length=%lu)", length);
+		; // NSLog (@"Error! Trying to write more than 16 bytes of data (length=%lu)", length);
 	
 	memset (cmd, 0, 22);
 	memcpy (cmd + 6, data, length);
@@ -426,23 +383,30 @@ typedef enum {
 	
 	if(ret != kIOReturnSuccess)
     {
-		// DLog(@"Did Wiimote Disconnect? - we might need to disconnect");
+		// NSLog(@"Did Wiimote Disconnect? - we might need to disconnect");
 	}
 }
 @synthesize statusReportRequested;
 # pragma mark -
+NSString *byteString(short x);
+NSString *byteString(short x)
+{
+    if(x >= 0x10)
+        return [NSString stringWithFormat:@"%x", x];
+    return [NSString stringWithFormat:@"0%x", x];
+}
 - (void)handleDataReport:(unsigned char *) dp length:(size_t) dataLength
 {
 	// wiimote buttons
     if(dp[1] != 0x3d)
-    {
-        UInt16 buttonData = ((short)dp[2] << 8) + dp[3];
-        [self parseWiiRemoteButtonData:buttonData];
-    }
+        [self parseWiiRemoteButtonData:ConcatBE(dp[2], dp[3])];
     
     // Expansion Port
     switch(dp[1])
     {
+		case 0x32:
+			[self handleExtensionReport:dp length:dataLength startByte:4];
+			break;
 		case 0x34:
 			[self handleExtensionReport:dp length:dataLength startByte:4];
 			break;
@@ -458,6 +422,9 @@ typedef enum {
         case 0x3d:
 			[self handleExtensionReport:dp length:dataLength startByte:2];
 			break;
+        case 0x22:
+			NSLog(@"Ack 0x%x, Err: 0x%x", dp[4], dp[5]);
+			break;
 	}
 }
 - (void)handleExtensionReport:(unsigned char *) dp length:(size_t)dataLength startByte:(char)startByte
@@ -468,12 +435,13 @@ typedef enum {
     switch ([self expansionType])
     {
         case WiiExpansionNunchuck:
-            [self parseNunchuckJoystickData: ((short)dp[startByte] << 8) + dp[startByte+1]];
-            [self parseNunchuckButtonData: dp[startByte+5]];
+            [self parseNunchuckButtonData:dp[startByte+5]];
+            [self parseNunchuckJoystickData:ConcatBE(dp[startByte], dp[startByte+1])];
             break;
-        case WiiExpansionClassicController:;
-            UInt16 data = ((short)dp[startByte+4] << 8) + dp[startByte+5];
-            [self parseClassicControllerButtonData:data];
+        case WiiExpansionClassicController:
+            [self parseClassicControllerButtonData:ConcatBE(dp[startByte+4], dp[startByte+5])];
+            [self parseClassicControllerJoystickData:dp startByte:startByte];
+            [self parseClassicControllerTriggerData:dp startByte:startByte];
             break;
         default:
             break;
@@ -545,27 +513,25 @@ typedef enum {
 }
 
 - (void)parseNunchuckJoystickData:(UInt16)analogData
-{   
+{
     UInt8 yAxisData = analogData & 0xff;
     UInt8 xAxisData = (analogData >> 8) & 0xff;
-    [[self handler] dispatchEventWithWiiJoystick:WiiNunchukJoyStick tiltX:xAxisData tiltY:yAxisData];
+    
+    [[self handler] dispatchEventWithWiiJoystick:WiiNunchukJoyStick tiltX:xAxisData/(CGFloat)kWiiNunchukMaxValue tiltY:yAxisData/(CGFloat)kWiiNunchukMaxValue];
 }
 
 - (void)parseNunchuckButtonData:(UInt8)data
 {
     UInt8 buttonChanges = data ^ lastNunchuckButtonReport;
     lastNunchuckButtonReport = data;
-    NSLog(@"Nun?");
     if (buttonChanges & kWiiNunchukCButton)
     {
-        NSLog(@"\tNun C");
-        [[self handler] dispatchEventWithWiiButton:WiiNunchukCButton state:(data & kWiiNunchukCButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiNunchukCButton state:(data & kWiiNunchukCButton)==0];
 	}
     
     if (buttonChanges & kWiiNunchukZButton)
     {
-        NSLog(@"\tNun Z");
-        [[self handler] dispatchEventWithWiiButton:WiiNunchukZButton state:(data & kWiiNunchukZButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiNunchukZButton state:(data & kWiiNunchukZButton)==0];
 	}
 }
 
@@ -576,85 +542,113 @@ typedef enum {
     
     if (buttonChanges & kWiiClassicControllerXButton)
     {
-        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerXButton state:(data & kWiiClassicControllerXButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerXButton state:(data & kWiiClassicControllerXButton)==0];
 	}
     
     if (buttonChanges & kWiiClassicControllerYButton)
     {
-        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerYButton state:(data & kWiiClassicControllerYButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerYButton state:(data & kWiiClassicControllerYButton)==0];
 	}
     
     if (buttonChanges & kWiiClassicControllerAButton)
     {
-        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerAButton state:(data & kWiiClassicControllerAButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerAButton state:(data & kWiiClassicControllerAButton)==0];
 	}
     
 	if (buttonChanges & kWiiClassicControllerBButton)
     {
-		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerBButton state:(data & kWiiClassicControllerBButton)!=0];
+		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerBButton state:(data & kWiiClassicControllerBButton)==0];
 	}
-    
     
 	if (buttonChanges & kWiiClassicControllerLButton)
     {
-		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerLButton state:(data & kWiiClassicControllerLButton)!=0];
+		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerLButton state:(data & kWiiClassicControllerLButton)==0];
 	}
     
 	if (buttonChanges & kWiiClassicControllerRButton)
     {
-		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerRButton state:(data & kWiiClassicControllerRButton)!=0];
+		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerRButton state:(data & kWiiClassicControllerRButton)==0];
 	}
     
     
 	if (buttonChanges & kWiiClassicControllerRButton)
     {
-		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerRButton state:(data & kWiiClassicControllerRButton)!=0];
+		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerRButton state:(data & kWiiClassicControllerRButton)==0];
 	}
     
 	if (buttonChanges & kWiiClassicControllerZRButton)
     {
-		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerZRButton state:(data & kWiiClassicControllerZRButton)!=0];
+		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerZRButton state:(data & kWiiClassicControllerZRButton)==0];
 	}
     
     
     // +, -, Home Buttons:
     if (buttonChanges & kWiiClassicControllerMinusButton)
     {
-        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerMinusButton state:(data & kWiiClassicControllerMinusButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerMinusButton state:(data & kWiiClassicControllerMinusButton)==0];
     }
     
     if (buttonChanges & kWiiClassicControllerHomeButton)
     {
-        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerHomeButton state:(data & kWiiClassicControllerHomeButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerHomeButton state:(data & kWiiClassicControllerHomeButton)==0];
     }
     
     if (buttonChanges & kWiiClassicControllerPlusButton)
     {
-        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerPlusButton state:(data & kWiiClassicControllerPlusButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerPlusButton state:(data & kWiiClassicControllerPlusButton)==0];
     }
     
     // D-Pad Buttons:
     if (buttonChanges & kWiiClassicControllerUpButton)
     {
-        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerUpButton state:(data & kWiiClassicControllerUpButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerUpButton state:(data & kWiiClassicControllerUpButton)==0];
     }
     
     if (buttonChanges & kWiiClassicControllerDownButton)
     {
-        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerDownButton state:(data & kWiiClassicControllerDownButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerDownButton state:(data & kWiiClassicControllerDownButton)==0];
     }
     
     if (buttonChanges & kWiiClassicControllerLeftButton)
     {
-        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerLeftButton state:(data & kWiiClassicControllerLeftButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerLeftButton state:(data & kWiiClassicControllerLeftButton)==0];
     }
     
     if (buttonChanges & kWiiClassicControllerRightButton)
     {
-        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerRightButton state:(data & kWiiClassicControllerRightButton)!=0];
+        [[self handler] dispatchEventWithWiiButton:WiiClassicControllerRightButton state:(data & kWiiClassicControllerRightButton)==0];
     }
 }
 
+- (void)parseClassicControllerJoystickData:(unsigned char *)dp startByte:(char)sb
+{   
+    short rX = (dp[sb] & 0xC0)>>3 | (dp[sb+1] & 0xC0)>>5 | (dp[sb+2] & 0x80)>>7;
+    short rY = dp[sb+2] & 0xF;
+
+    short lX = dp[sb] & 0x1F;
+    short lY = dp[sb+1] & 0x1F;
+    
+    CGFloat rightX = rX / (CGFloat)kWiiClassicControllerRightJoystickMaxValue;
+    CGFloat rightY = rY / (CGFloat)kWiiClassicControllerRightJoystickMaxValue;
+    
+    CGFloat leftX = lX / (CGFloat)kWiiClassicControllerLeftJoystickMaxValue;
+    CGFloat leftY = lY / (CGFloat)kWiiClassicControllerLeftJoystickMaxValue;
+    
+    [[self handler] dispatchEventWithWiiJoystick:WiiClassicControllerLeftJoyStick tiltX:leftX tiltY:leftY];
+    [[self handler] dispatchEventWithWiiJoystick:WiiClassicControllerRightJoyStick tiltX:rightX tiltY:rightY];
+}
+
+- (void)parseClassicControllerTriggerData:(unsigned char *)dp startByte:(char)sb
+{
+    short rT = dp[sb+3] & 0xF;
+    short lT = (dp[sb+2] & 0x60)>>2|(dp[sb+3] & 0xE0)>>5;
+    
+    CGFloat rightTrigger = rT / (CGFloat)kWiiClassicControllerTriggerMaxValue;
+    CGFloat leftTrigger = lT / (CGFloat)kWiiClassicControllerTriggerMaxValue;
+    
+    [[self handler] dispatchEventWithWiiTrigger:WiiClassicControllerLeftTrigger value:leftTrigger];
+    [[self handler] dispatchEventWithWiiTrigger:WiiClassicControllerRightTrigger value:rightTrigger];
+}
 # pragma mark -
 # pragma mark Response Handler
 - (void)handleWriteResponse:(unsigned char *)dp length:(size_t)dataLength
@@ -664,13 +658,13 @@ typedef enum {
         switch (dp[5])
         {
             case 0x00:
-                // DLog(@"Write %0x - Success", dp[4]);
+                // NSLog(@"Write %0x - Success", dp[4]);
                 break;
             case 0x03:
-                // DLog(@"Write %0x - Error", dp[4]);
+                // NSLog(@"Write %0x - Error", dp[4]);
                 break;
             default:
-                // DLog(@"Write %0x - Unkown", dp[4]);
+                // NSLog(@"Write %0x - Unkown", dp[4]);
                 break;
         }
     }
@@ -700,6 +694,9 @@ typedef enum {
         }
         if (connectedExpansion != self.expansionType)
         {
+            lastClassicControllerButtonReport = 0xFFFF;
+            lastNunchuckButtonReport          = 0xFF;
+            
             self.expansionType = connectedExpansion;
             expansionPortAttached = (connectedExpansion != WiiExpansionNotConnected);
             // TODO: implement expansion port changes when needed
@@ -769,11 +766,10 @@ typedef enum {
 - (IOBluetoothL2CAPChannel *)openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm delegate:(id)aDelegate
 {
 	IOBluetoothL2CAPChannel * channel = nil;
-	
-	// DLog(@"Open channel (PSM:%i) ...", psm);
+	NSLog(@"Open channel (PSM:%i) ...", psm);
 	if ([_btDevice openL2CAPChannelSync:&channel withPSM:psm delegate:aDelegate] != kIOReturnSuccess)
     {
-		// DLog (@"Could not open L2CAP channel (psm:%i)", psm);
+		NSLog (@"Could not open L2CAP channel (psm:%i)", psm);
 		channel = nil;
 		[self disconnect];
 	}

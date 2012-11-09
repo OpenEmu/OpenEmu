@@ -59,6 +59,8 @@
 #import "OEGameViewController.h"
 #import "OEGameControlsBar.h"
 
+#import "OEFiniteStateMachine.h"
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -148,7 +150,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 	
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
 	// Start WiiRemote support
-        [OEWiimoteManager search];
+        [OEWiimoteManager startSearch];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
