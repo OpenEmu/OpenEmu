@@ -73,6 +73,13 @@ typedef enum {
     kWiiNunchukMaxValue = 255
 } WiiNunchukParameters;
 
+
+typedef enum {
+    kWiiClassicControllerLeftJoystickMaxValue = 63,
+    kWiiClassicControllerRightJoystickMaxValue = 31,
+    kWiiClassicControllerTriggerMaxValue = 31,
+} WiiClassicControllerParameters;
+
 typedef enum {
 	kWiiExpansionNunchuck = 0x0000,
 	kWiiExpansionClassicController = 0x0101,
@@ -490,6 +497,8 @@ NSString *byteString(short x)
             break;
         case WiiExpansionClassicController:
             [self parseClassicControllerButtonData:ConcatBE(dp[startByte+4], dp[startByte+5])];
+            [self parseClassicControllerJoystickData:dp startByte:startByte];
+            [self parseClassicControllerTriggerData:dp startByte:startByte];
             break;
         default:
             break;
@@ -564,7 +573,8 @@ NSString *byteString(short x)
 {
     UInt8 yAxisData = analogData & 0xff;
     UInt8 xAxisData = (analogData >> 8) & 0xff;
-    [[self handler] dispatchEventWithWiiJoystick:WiiNunchukJoyStick tiltX:xAxisData tiltY:yAxisData];
+    
+    [[self handler] dispatchEventWithWiiJoystick:WiiNunchukJoyStick tiltX:xAxisData/(CGFloat)kWiiNunchukMaxValue tiltY:yAxisData/(CGFloat)kWiiNunchukMaxValue];
 }
 
 - (void)parseNunchuckButtonData:(UInt8)data
@@ -606,7 +616,6 @@ NSString *byteString(short x)
     {
 		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerBButton state:(data & kWiiClassicControllerBButton)==0];
 	}
-    
     
 	if (buttonChanges & kWiiClassicControllerLButton)
     {
@@ -668,6 +677,35 @@ NSString *byteString(short x)
     }
 }
 
+- (void)parseClassicControllerJoystickData:(unsigned char *)dp startByte:(char)sb
+{   
+    short rX = (dp[sb] & 0xC0)>>3 | (dp[sb+1] & 0xC0)>>5 | (dp[sb+2] & 0x80)>>7;
+    short rY = dp[sb+2] & 0xF;
+
+    short lX = dp[sb] & 0x1F;
+    short lY = dp[sb+1] & 0x1F;
+    
+    CGFloat rightX = rX / (CGFloat)kWiiClassicControllerRightJoystickMaxValue;
+    CGFloat rightY = rY / (CGFloat)kWiiClassicControllerRightJoystickMaxValue;
+    
+    CGFloat leftX = lX / (CGFloat)kWiiClassicControllerLeftJoystickMaxValue;
+    CGFloat leftY = lY / (CGFloat)kWiiClassicControllerLeftJoystickMaxValue;
+    
+    [[self handler] dispatchEventWithWiiJoystick:WiiClassicControllerLeftJoyStick tiltX:leftX tiltY:leftY];
+    [[self handler] dispatchEventWithWiiJoystick:WiiClassicControllerRightJoyStick tiltX:rightX tiltY:rightY];
+}
+
+- (void)parseClassicControllerTriggerData:(unsigned char *)dp startByte:(char)sb
+{
+    short rT = dp[sb+3] & 0xF;
+    short lT = (dp[sb+2] & 0x60)>>2|(dp[sb+3] & 0xE0)>>5;
+    
+    CGFloat rightTrigger = rT / (CGFloat)kWiiClassicControllerTriggerMaxValue;
+    CGFloat leftTrigger = lT / (CGFloat)kWiiClassicControllerTriggerMaxValue;
+    
+    [[self handler] dispatchEventWithWiiTrigger:WiiClassicControllerLeftTrigger value:leftTrigger];
+    [[self handler] dispatchEventWithWiiTrigger:WiiClassicControllerRightTrigger value:rightTrigger];
+}
 # pragma mark -
 # pragma mark Response Handler
 - (void)handleWriteResponse:(unsigned char *)dp length:(size_t)dataLength

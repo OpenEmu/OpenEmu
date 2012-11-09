@@ -175,9 +175,17 @@ FIXME(Return dynamic values below)
 {
     return nil;
 }
+
 - (void)dispatchEventWithWiiJoystick:(WiiJoyStickType)joystick tiltX:(CGFloat)tiltX tiltY:(CGFloat)tiltY
 {
+    NSLog(@"%d: %f | %f", joystick, tiltX, tiltY);
 }
+
+- (void)dispatchEventWithWiiTrigger:(WiiTriggerType)trigger value:(CGFloat)triggerVal
+{
+    NSLog(@"%d: %f", trigger, triggerVal);
+}
+
 #pragma mark - Handling Disconnect -
 - (void)wiimoteDidDisconnection:(NSNotification*)notification
 {

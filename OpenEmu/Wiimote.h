@@ -50,6 +50,7 @@ extern NSString *const OEWiimoteDidDisconnectNotificationName;
 # pragma mark - Connection -
 - (void)connect;
 - (void)disconnect;
+
 @property (readonly, getter=isConnected) BOOL connected;
 
 # pragma mark -
