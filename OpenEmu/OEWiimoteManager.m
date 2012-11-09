@@ -48,6 +48,7 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 
 + (void)search
 {
+    NSLog(@"Searching for Wiimotes");
     [[[self sharedHandler] browser] startSearch];
 }
 
