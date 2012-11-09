@@ -29,21 +29,16 @@
 
 extern NSString *const OEWiimoteSupportDisabled;
 
+@class IOBluetoothDevice;
 @interface OEWiimoteManager : NSObject
 
-+ (void)search;
 + (id)sharedHandler;
++ (void)startSearch;
 
-@property(readonly) NSArray *connectedWiiRemotes;
-#pragma mark - former WiimoteBrowser -
-- (int)maxWiimoteCount;
-- (void)setMaxWiimoteCount:(int)newMax;
-
-- (NSArray*)discoveredDevices;
+- (void)addWiimoteWithDevice:(IOBluetoothDevice*)device;
 
 - (void)startSearch;
 - (void)stopSearch;
 
-- (NSArray*)_convertFoundDevicesToWiimotes:(NSArray*)foundDevices;
-
+@property (readonly) NSArray *connectedWiimotes;
 @end

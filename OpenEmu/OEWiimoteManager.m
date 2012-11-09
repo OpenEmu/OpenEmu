@@ -35,28 +35,22 @@
 #import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
 #import <IOBluetooth/objc/IOBluetoothDevice.h>
 
-#define MaximumWiimotes 7
 #define SynVibrateDuration 0.35
 
 NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 
 @interface OEWiimoteManager ()
-{
-    BOOL _isSearching;
-	IOBluetoothDeviceInquiry* _inquiry;
-	int _maxWiimotes; // maximum number of wiimotes to discover (-1 for unlimited)
 
-	NSArray* _discoveredDevices;
-}
-@property(strong) NSMutableArray *wiiRemotes;
+@property (strong) IOBluetoothDeviceInquiry *inquiry;
+@property (strong) NSMutableDictionary      *wiiRemotes;
+@property NSLock *searching;
 @end
 
 @implementation OEWiimoteManager
-@synthesize wiiRemotes;
+@synthesize wiiRemotes, searching, inquiry;
 
-+ (void)search
++ (void)startSearch
 {
-    NSLog(@"Searching for Wiimotes");
     [[self sharedHandler] startSearch];
 }
 
@@ -67,12 +61,12 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedHandler = [[OEWiimoteManager alloc] init];
-        [sharedHandler setWiiRemotes:[NSMutableArray arrayWithCapacity:MaximumWiimotes]];
+        [sharedHandler setWiiRemotes:[NSMutableDictionary dictionary]];
+        [sharedHandler setSearching:[NSLock new]];
         
         [[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(wiimoteDidConnect:) name:OEWiimoteDidConnectNotificationName object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(wiimoteDidDisconnect:) name:OEWiimoteDidDisconnectNotificationName object:nil];
         
-        [sharedHandler setMaxWiimoteCount:1];        
         [sharedHandler startSearch];
         
         [[NSNotificationCenter defaultCenter] addObserver:sharedHandler selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
@@ -87,7 +81,7 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 {
     [self stopSearch];
     
-    for(Wiimote *aWiimote in [self wiiRemotes])
+    for(Wiimote *aWiimote in [[self wiiRemotes] allValues])
         [aWiimote disconnect];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -99,47 +93,10 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
         [self startSearch];
 }
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        _maxWiimotes = -1;
-    }
-    return self;
-}
 #pragma mark -
-
-- (NSArray *)connectedWiiRemotes
+- (NSArray *)connectedWiimotes
 {
-    return [self wiiRemotes];
-}
-
-#pragma mark - Wiimote Browser Delegate -
-- (void)wiimoteBrowserWillSearch
-{
-}
-
-- (void)wiimoteBrowserDidStopSearchWithResults:(NSArray*)discoveredDevices
-{
-    [discoveredDevices enumerateObjectsUsingBlock:
-     ^(Wiimote * wiimote, NSUInteger idx, BOOL *stop)
-     {
-        [[self wiiRemotes] addObject:wiimote];
-        [wiimote setRumbleActivated:YES];
-        [wiimote setExpansionPortEnabled:YES];
-
-        NSInteger count = [[self wiiRemotes] count];
-        [wiimote setLED1:count>0&&count<4 LED2:count>1&&count<5 LED3:count>2&&count<6 LED4:count>3];
-        [wiimote connect];
-    }];
-    
-    if([discoveredDevices count] && [[self wiiRemotes] count] < MaximumWiimotes)
-        [self startSearch];
-}
-
-- (void)wiimoteBrowserSearchFailedWithError:(int)code
-{
-    DLog(@"wiimoteBrowserSearchFailedWithError: %d", code);
+    return [[self wiiRemotes] allValues];
 }
 
 #pragma mark - Wiimote Notifications -
@@ -158,101 +115,86 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
     [hidManager addDeviceHandler:handler];
 }
 
+- (void)wiimoteDidNotConnect:(NSNotification *)notification
+{
+    // TODO: actually send notification Wiimote (Wiimote.m)
+    NSLog(@"wiimoteDidNotConnect:");
+    Wiimote *theWiimote = [notification object];
+    [[self wiiRemotes] removeObjectForKey:[theWiimote address]];
+    [self startSearch];
+}
+
 - (void)wiimoteDidDisconnect:(NSNotification *)notification
 {
     Wiimote *theWiimote = [notification object];
-    [[self wiiRemotes] removeObject:theWiimote];
+    [[self wiiRemotes] removeObjectForKey:[theWiimote address]];
     [self startSearch];
 }
 
 #pragma mark - Former WiimoteBrowser -
-
-- (int)maxWiimoteCount
-{
-	return _maxWiimotes;
-}
-
-- (void)setMaxWiimoteCount:(int)newMax
-{
-	_maxWiimotes = newMax;
-}
-
-
 - (void)startSearch
 {
-    
-	if(_isSearching) // already searching, just igone startSearch ;)
+	if(![[self searching] tryLock])
 		return;
-	
-	_isSearching = YES;
-	if([self respondsToSelector:@selector(wiimoteBrowserWillSearch)])
-		[self performSelector:@selector(wiimoteBrowserWillSearch)];
-	
-	_inquiry = [IOBluetoothDeviceInquiry inquiryWithDelegate:self];
-	[_inquiry setSearchCriteria:kBluetoothServiceClassMajorAny majorDeviceClass:0x05 minorDeviceClass:0x01];
-	[_inquiry setInquiryLength:20];
-	[_inquiry setUpdateNewDeviceNames:NO];
     
-	IOReturn status = [_inquiry start];
+    NSLog(@"Searching for Wiimotes");
+	
+	inquiry = [IOBluetoothDeviceInquiry inquiryWithDelegate:self];
+	[inquiry setSearchCriteria:kBluetoothServiceClassMajorAny majorDeviceClass:0x05 minorDeviceClass:0x01];
+	[inquiry setInquiryLength:60];
+	[inquiry setUpdateNewDeviceNames:NO];
+    
+	IOReturn status = [inquiry start];
 	if (status != kIOReturnSuccess)
     {
-        // DLog(@"Error: Inquiry did not start, error %d", status);
-		[_inquiry setDelegate:nil];
-		_inquiry = nil;
-		
-		_isSearching = FALSE;
-		
-		if([self respondsToSelector:@selector(wiimoteBrowserSearchFailedWithError:)])
-			[self performSelector:@selector(wiimoteBrowserSearchFailedWithError:)];
+		[inquiry setDelegate:nil];
+		inquiry = nil;
+        [[self searching] unlock];
+        NSLog(@"Error: Inquiry did not start, error %d", status);
 	}
+}
+
+- (void)addWiimoteWithDevice:(IOBluetoothDevice*)device
+{
+    if([[self wiiRemotes] objectForKey:[device addressString]])
+        return;
+ 
+    Wiimote *wiimote = [[Wiimote alloc] initWithDevice:device];
+    [[self wiiRemotes] setObject:wiimote forKey:[wiimote address]];
+
+    [wiimote setRumbleActivated:YES];
+    [wiimote setExpansionPortEnabled:YES];
+    
+    NSInteger count = [[[self wiiRemotes] allKeys] count];
+    [wiimote setLED1:count>0&&count<4 LED2:count>1&&count<5 LED3:count>2&&count<6 LED4:count>3];
+    [wiimote connect];
+    
 }
 
 - (void)stopSearch
-{}
-
-- (NSArray*)discoveredDevices
 {
-	return _discoveredDevices;
-}
-#pragma mark -
-#pragma mark privat methods
-- (NSArray*)_convertFoundDevicesToWiimotes:(NSArray*)foundDevices
-{
-	NSMutableArray* wiimotes = [[NSMutableArray alloc] init];
-	
-	Wiimote* wiimo = nil;
-	for(IOBluetoothDevice* btDev in foundDevices)
-    {
-		wiimo = [[Wiimote alloc] initWithDevice:btDev];
-		[wiimotes addObject:wiimo];
-	}
-	
-	return wiimotes;
+    if(![[self searching] tryLock])
+       [inquiry stop];
+    [[self searching] unlock];
 }
 
-#pragma mark -
-#pragma mark BT Inquiry	Delegates
+#pragma mark - IOBluetoothDeviceInquiry Delegates -
 - (void)deviceInquiryDeviceFound:(IOBluetoothDeviceInquiry *)sender device:(IOBluetoothDevice *)device
 {
 	// note: never try to connect to the wiimote while the inquiry is still running! (cf apple docs)
-	if([[sender foundDevices] count]==_maxWiimotes)
-		[_inquiry stop];
+    [[self inquiry] stop];
 }
 
 - (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry*)sender error:(IOReturn)error aborted:(BOOL)aborted
 {
-	// DLog(@"inquiry stopped, was aborted: %d", aborted);
-	// DLog(@"We've found: %lu devices, the maxiumum was set to %d", [[sender foundDevices] count], _maxWiimotes);
-	_isSearching = FALSE;
-    
-	NSArray* results = [self _convertFoundDevicesToWiimotes:[sender foundDevices]];
-    
-	_discoveredDevices = results;
-	
-	if([self respondsToSelector:@selector(wiimoteBrowserDidStopSearchWithResults:)])
-		[self performSelector:@selector(wiimoteBrowserDidStopSearchWithResults:) withObject:results];
-	
-}
+    [[sender foundDevices] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [self addWiimoteWithDevice:obj];
+    }];
 
+    if(aborted && [[sender foundDevices] count])
+        [inquiry start];
+    else if(!aborted)
+        [self stopSearch];
+}
 @end
 

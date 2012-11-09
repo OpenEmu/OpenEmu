@@ -155,7 +155,7 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
     [super showWindow:sender];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
-        [OEWiimoteManager search];
+        [OEWiimoteManager startSearch];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
