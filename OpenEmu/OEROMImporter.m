@@ -99,6 +99,17 @@ NSString *const OEImportInfoArchiveSync = @"archiveSync";
 @synthesize database, delegate;
 @synthesize spotlightSearchResults;
 
++ (void)initialize
+{
+    if(self != [OEROMImporter class]) return;
+
+    [[NSUserDefaults standardUserDefaults] registerDefaults:(@{
+                                                             OEOrganizeLibraryKey      : @(YES),
+                                                             OECopyToLibraryKey        : @(YES),
+                                                             OEAutomaticallyGetInfoKey : @(YES),
+                                                             })];
+}
+
 - (id)initWithDatabase:(OELibraryDatabase *)aDatabase
 {
     self = [super init];
