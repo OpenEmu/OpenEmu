@@ -328,7 +328,6 @@
 		8310126916494314000F8EC3 /* OEWiimoteManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8353CE761561C0DE0045A3DD /* OEWiimoteManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8310126A16494319000F8EC3 /* OEWiimoteDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 8310126416492FA7000F8EC3 /* OEWiimoteDeviceHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8310126B1649432B000F8EC3 /* Wiimote.m in Sources */ = {isa = PBXBuildFile; fileRef = 8322D749156A99CA00FC0E81 /* Wiimote.m */; };
-		8310126C16494331000F8EC3 /* WiimoteBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8322D74B156A99CB00FC0E81 /* WiimoteBrowser.m */; };
 		8310126F16494493000F8EC3 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8322D746156A973400FC0E81 /* IOBluetooth.framework */; };
 		8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310447013BE419000B283B0 /* OEHorizontalSplitView.m */; };
 		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
@@ -1348,8 +1347,6 @@
 		8322D746156A973400FC0E81 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
 		8322D748156A99CA00FC0E81 /* Wiimote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wiimote.h; sourceTree = "<group>"; };
 		8322D749156A99CA00FC0E81 /* Wiimote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wiimote.m; sourceTree = "<group>"; };
-		8322D74A156A99CA00FC0E81 /* WiimoteBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiimoteBrowser.h; sourceTree = "<group>"; };
-		8322D74B156A99CB00FC0E81 /* WiimoteBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WiimoteBrowser.m; sourceTree = "<group>"; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OEDBImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		832D293E1451A68700BDF950 /* OEMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindowController.h; sourceTree = "<group>"; };
@@ -2897,8 +2894,6 @@
 				839319231649572D000919BD /* WiimoteTypes.h */,
 				8322D748156A99CA00FC0E81 /* Wiimote.h */,
 				8322D749156A99CA00FC0E81 /* Wiimote.m */,
-				8322D74A156A99CA00FC0E81 /* WiimoteBrowser.h */,
-				8322D74B156A99CB00FC0E81 /* WiimoteBrowser.m */,
 			);
 			name = Wiimote;
 			sourceTree = "<group>";
@@ -4746,7 +4741,6 @@
 				83101267164942FE000F8EC3 /* OEWiimoteManager.m in Sources */,
 				831012681649430D000F8EC3 /* OEWiimoteDeviceHandler.m in Sources */,
 				8310126B1649432B000F8EC3 /* Wiimote.m in Sources */,
-				8310126C16494331000F8EC3 /* WiimoteBrowser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

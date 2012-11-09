@@ -25,15 +25,25 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "WiimoteBrowser.h"
 #import "Wiimote.h"
 
 extern NSString *const OEWiimoteSupportDisabled;
 
-@interface OEWiimoteManager : NSObject <WiimoteBrowserDelegate>
+@interface OEWiimoteManager : NSObject
 
 + (void)search;
 + (id)sharedHandler;
 
 @property(readonly) NSArray *connectedWiiRemotes;
+#pragma mark - former WiimoteBrowser -
+- (int)maxWiimoteCount;
+- (void)setMaxWiimoteCount:(int)newMax;
+
+- (NSArray*)discoveredDevices;
+
+- (void)startSearch;
+- (void)stopSearch;
+
+- (NSArray*)_convertFoundDevicesToWiimotes:(NSArray*)foundDevices;
+
 @end
