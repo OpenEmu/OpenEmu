@@ -113,7 +113,7 @@ typedef enum {
 @end
 
 @implementation Wiimote
-@synthesize irSensorEnabled, motionSensorEnabled, rumbleActivated;
+@synthesize rumbleActivated;
 #define ConcatBE(hi, lo) (UInt16)(hi << 8 | lo)
 
 # pragma mark -
@@ -129,15 +129,10 @@ typedef enum {
 		LED4Illuminated = YES;
 		
 		rumbleActivated = NO;
-		irSensorEnabled = NO;
-		motionSensorEnabled = NO;
 		
 		expansionPortEnabled   = YES;
 		expansionPortAttached  = NO;
         expansionType          = WiiExpansionNotConnected;
-        
-		speakerEnabled = NO;	// sound is not implemented yet
-		speakerMuted   = NO;	// sound is not implemented yet
         
         lastWiimoteButtonReport = 0;
         lastNunchuckButtonReport = 0;
@@ -255,29 +250,10 @@ typedef enum {
 - (void)syncConfig
 {
 	// Set the report type the Wiimote should send.
-	unsigned char cmd[] = {0x12, 0x02, 0x30}; // Just buttons.
-	
-	if (irSensorEnabled)
-    {
-		cmd[2] = expansionPortEnabled ? 0x36 : 0x33;	// Buttons, 10 IR Bytes, 9 Extension Bytes
-		irMode = expansionPortEnabled ? kWiiIRModeBasic : kWiiIRModeExtended;
-		
-		// Set IR Mode
-		// I don't think it should be here ...
-		[self writeData:(darr){ irMode } at:0x04B00033 length:1];
-		usleep(10000);
-	}
-    else if(motionSensorEnabled)
-    {
-		cmd[2] = expansionPortEnabled ? 0x34 : 0x30;	// Buttons, 19 Extension Bytes
-	}
-    else
-    {
-        cmd[2] = expansionPortEnabled ? 0x32 : 0x30;	// Buttons, 8 Extension Bytes
-    }
-    
+	unsigned char cmd[] = {0x12, 0x02, 0x32}; // Butons + 8 Extension bytes
 	[self sendCommand:cmd length:3];
 }
+
 - (void)syncLEDAndRumble
 {
 	unsigned char cmd[] = {0x11, 0x00};
@@ -322,40 +298,7 @@ typedef enum {
     [self readData:0x04A400FE length:2]; // read expansion type
 }
 @synthesize expansionType, expansionPortAttached, expansionPortEnabled;
-# pragma mark - Sound -
-- (void)playSound:(NSSound*)theSound
-{
-	NSLog(@"playSound: Sound is not implemented yet!");
-}
-- (void)setSpeakerEnabled:(BOOL)flag
-{
-	NSLog(@"setSpeakerEnabled: Sound is not implemented yet!");
-	speakerEnabled = flag;
-}
-- (void)setSpeakerMuted:(BOOL)flag
-{
-	NSLog(@"setSpeakerMuted: Sound is not implemented yet!");
-	speakerMuted = flag;
-}
 
-- (BOOL)speakerEnabled
-{
-	NSLog(@"speakerEnabled: Sound is not implemented yet!");
-	return speakerEnabled;
-}
-
-- (void)toggleMute
-{
-	NSLog(@"toggleMute: Sound is not implemented yet!");
-	speakerMuted = !speakerMuted;
-}
-
-- (BOOL)speakerMuted
-{
-	// NSLog(@"speakerMuted: Sound is not implemented yet!");
-	return speakerMuted;
-}
-@synthesize speakerEnabled, speakerMuted;
 # pragma mark -
 # pragma mark Data Handling
 - (void)writeData:(const unsigned char*)data at:(unsigned long)address length:(size_t)length
@@ -823,11 +766,10 @@ NSString *byteString(short x)
 - (IOBluetoothL2CAPChannel *)openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm delegate:(id)aDelegate
 {
 	IOBluetoothL2CAPChannel * channel = nil;
-	
-	// NSLog(@"Open channel (PSM:%i) ...", psm);
+	NSLog(@"Open channel (PSM:%i) ...", psm);
 	if ([_btDevice openL2CAPChannelSync:&channel withPSM:psm delegate:aDelegate] != kIOReturnSuccess)
     {
-		// NSLog (@"Could not open L2CAP channel (psm:%i)", psm);
+		NSLog (@"Could not open L2CAP channel (psm:%i)", psm);
 		channel = nil;
 		[self disconnect];
 	}

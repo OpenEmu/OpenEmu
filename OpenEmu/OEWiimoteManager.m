@@ -114,10 +114,6 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
      ^(Wiimote * wiimote, NSUInteger idx, BOOL *stop)
      {
         [[self wiiRemotes] addObject:wiimote];
-
-        [wiimote setIrSensorEnabled:NO];
-        [wiimote setMotionSensorEnabled:NO];
-        [wiimote setSpeakerEnabled:NO];
         [wiimote setRumbleActivated:YES];
         [wiimote setExpansionPortEnabled:YES];
 

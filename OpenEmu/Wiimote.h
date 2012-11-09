@@ -47,6 +47,7 @@ extern NSString *const OEWiimoteDidDisconnectNotificationName;
 - (NSNumber*)productID;
 - (NSNumber*)vendorID;
 - (NSNumber*)locationID;
+
 # pragma mark - Connection -
 - (void)connect;
 - (void)disconnect;
@@ -68,19 +69,9 @@ extern NSString *const OEWiimoteDidDisconnectNotificationName;
 @property (readonly) BOOL LED4Illuminated;
 
 #pragma mark - Report Modes -
-@property (nonatomic) BOOL motionSensorEnabled;
-@property (nonatomic) BOOL irSensorEnabled;
 @property (nonatomic) BOOL rumbleActivated;
 @property (nonatomic) BOOL expansionPortEnabled;
 @property (nonatomic, readonly) BOOL expansionPortAttached;
-
-@property (readonly) WiiExpansionType expansionType;
-
-# pragma mark - Sound -
-@property (nonatomic) BOOL speakerEnabled;
-@property (nonatomic) BOOL speakerMuted;
-
-- (void)toggleMute;
 
 # pragma mark -
 # pragma mark Delegate
