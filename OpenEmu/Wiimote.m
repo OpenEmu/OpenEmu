@@ -571,9 +571,9 @@ NSString *byteString(short x)
 	}
     
     
-	if (buttonChanges & kWiiClassicControllerRButton)
+	if (buttonChanges & kWiiClassicControllerZLButton)
     {
-		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerRButton state:(data & kWiiClassicControllerRButton)==0];
+		[[self handler] dispatchEventWithWiiButton:WiiClassicControllerZLButton state:(data & kWiiClassicControllerZLButton)==0];
 	}
     
 	if (buttonChanges & kWiiClassicControllerZRButton)
