@@ -62,6 +62,9 @@
 #include "lirc.h"
 #endif //WITH_LIRC
 
+/* version number for Core config section */
+#define CONFIG_PARAM_VERSION 1.01
+
 /** globals **/
 m64p_handle g_CoreConfig = NULL;
 
@@ -69,10 +72,10 @@ m64p_frame_callback g_FrameCallback = NULL;
 
 int         g_MemHasBeenBSwapped = 0;   // store byte-swapped flag so we don't swap twice when re-playing game
 int         g_EmulatorRunning = 0;      // need separate boolean to tell if emulator is running, since --nogui doesn't use a thread
-int         g_TakeScreenshot = 0;       // Tell OSD Rendering callback to take a screenshot just before drawing the OSD
 
 /** static (local) variables **/
 static int   l_CurrentFrame = 0;         // frame counter
+static int   l_TakeScreenshot = 0;       // Tell OSD Rendering callback to take a screenshot just before drawing the OSD
 static int   l_SpeedFactor = 100;        // percentage of nominal game speed at which emulator is running
 static int   l_FrameAdvance = 0;         // variable to check if we pause on next frame
 static int   l_MainSpeedLimit = 1;       // insert delay during vi_interrupt to keep speed at real-time
@@ -82,25 +85,18 @@ static osd_message_t *l_msgFF = NULL;
 static osd_message_t *l_msgPause = NULL;
 
 /*********************************************************************************************************
-* helper functions
+* static functions
 */
-const char *get_savespath(void)
+
+static const char *get_savepathdefault(const char *configpath)
 {
     static char path[1024];
-    const char *savestatepath = NULL;
-    m64p_handle CoreHandle = NULL;
 
-    /* try to get the SaveStatePath string variable in the Core configuration section */
-    if (ConfigOpenSection("Core", &CoreHandle) == M64ERR_SUCCESS)
-    {
-        savestatepath = ConfigGetParamString(CoreHandle, "SaveStatePath");
-    }
-
-    if (!savestatepath || (strlen(savestatepath) == 0)) {
+    if (!configpath || (strlen(configpath) == 0)) {
         snprintf(path, 1024, "%ssave%c", ConfigGetUserDataPath(), OSAL_DIR_SEPARATOR);
         path[1023] = 0;
     } else {
-        snprintf(path, 1024, "%s%c", savestatepath, OSAL_DIR_SEPARATOR);
+        snprintf(path, 1024, "%s%c", configpath, OSAL_DIR_SEPARATOR);
         path[1023] = 0;
     }
 
@@ -108,6 +104,24 @@ const char *get_savespath(void)
     osal_mkdirp(path, 0700);
 
     return path;
+}
+
+
+/*********************************************************************************************************
+* helper functions
+*/
+
+
+const char *get_savestatepath(void)
+{
+    /* try to get the SaveStatePath string variable in the Core configuration section */
+    return get_savepathdefault(ConfigGetParamString(g_CoreConfig, "SaveStatePath"));
+}
+
+const char *get_savesrampath(void)
+{
+    /* try to get the SaveSRAMPath string variable in the Core configuration section */
+    return get_savepathdefault(ConfigGetParamString(g_CoreConfig, "SaveSRAMPath"));
 }
 
 void main_message(m64p_msg_level level, unsigned int corner, const char *format, ...)
@@ -167,9 +181,36 @@ static int GetVILimit(void)
 * global functions, for adjusting the core emulator behavior
 */
 
-void main_set_core_defaults(void)
+int main_set_core_defaults(void)
 {
+    float fConfigParamsVersion;
+    int bSaveConfig = 0, bUpgrade = 0;
+
+    if (ConfigGetParameter(g_CoreConfig, "Version", M64TYPE_FLOAT, &fConfigParamsVersion, sizeof(float)) != M64ERR_SUCCESS)
+    {
+        DebugMessage(M64MSG_WARNING, "No version number in 'Core' config section. Setting defaults.");
+        ConfigDeleteSection("Core");
+        ConfigOpenSection("Core", &g_CoreConfig);
+        bSaveConfig = 1;
+    }
+    else if (((int) fConfigParamsVersion) != ((int) CONFIG_PARAM_VERSION))
+    {
+        DebugMessage(M64MSG_WARNING, "Incompatible version %.2f in 'Core' config section: current is %.2f. Setting defaults.", fConfigParamsVersion, (float) CONFIG_PARAM_VERSION);
+        ConfigDeleteSection("Core");
+        ConfigOpenSection("Core", &g_CoreConfig);
+        bSaveConfig = 1;
+    }
+    else if ((CONFIG_PARAM_VERSION - fConfigParamsVersion) >= 0.0001f)
+    {
+        float fVersion = (float) CONFIG_PARAM_VERSION;
+        ConfigSetParameter(g_CoreConfig, "Version", M64TYPE_FLOAT, &fVersion);
+        DebugMessage(M64MSG_INFO, "Updating parameter set version in 'Core' config section to %.2f", fVersion);
+        bUpgrade = 1;
+        bSaveConfig = 1;
+    }
+
     /* parameters controlling the operation of the core */
+    ConfigSetDefaultFloat(g_CoreConfig, "Version", (float) CONFIG_PARAM_VERSION,  "Mupen64Plus Core config parameter set version number.  Please don't change");
     ConfigSetDefaultBool(g_CoreConfig, "OnScreenDisplay", 1, "Draw on-screen display if True, otherwise don't draw OSD");
 #if defined(DYNAREC)
     ConfigSetDefaultInt(g_CoreConfig, "R4300Emulator", 2, "Use Pure Interpreter if 0, Cached Interpreter if 1, or Dynamic Recompiler if 2 or more");
@@ -182,11 +223,26 @@ void main_set_core_defaults(void)
     ConfigSetDefaultBool(g_CoreConfig, "EnableDebugger", 0, "Activate the R4300 debugger when ROM execution begins, if core was built with Debugger support");
     ConfigSetDefaultInt(g_CoreConfig, "CurrentStateSlot", 0, "Save state slot (0-9) to use when saving/loading the emulator state");
     ConfigSetDefaultString(g_CoreConfig, "ScreenshotPath", "", "Path to directory where screenshots are saved. If this is blank, the default value of ${UserConfigPath}/screenshot will be used");
-    ConfigSetDefaultString(g_CoreConfig, "SaveStatePath", "", "Path to directory where save states are saved. If this is blank, the default value of ${UserConfigPath}/save will be used");
+    ConfigSetDefaultString(g_CoreConfig, "SaveStatePath", "", "Path to directory where emulator save states (snapshots) are saved. If this is blank, the default value of ${UserConfigPath}/save will be used");
+    ConfigSetDefaultString(g_CoreConfig, "SaveSRAMPath", "", "Path to directory where SRAM/EEPROM data (in-game saves) are stored. If this is blank, the default value of ${UserConfigPath}/save will be used");
     ConfigSetDefaultString(g_CoreConfig, "SharedDataPath", "", "Path to a directory to search when looking for shared data files");
 
+    /* handle upgrades */
+    if (bUpgrade)
+    {
+        if (fConfigParamsVersion < 1.01f)
+        {  // added separate SaveSRAMPath parameter in v1.01
+            const char *pccSaveStatePath = ConfigGetParamString(g_CoreConfig, "SaveStatePath");
+            if (pccSaveStatePath != NULL)
+                ConfigSetParameter(g_CoreConfig, "SaveSRAMPath", M64TYPE_STRING, pccSaveStatePath);
+        }
+    }
+
+    if (bSaveConfig)
+        ConfigSaveSection("Core");
+
     /* set config parameters for keyboard and joystick commands */
-    event_set_core_defaults();
+    return event_set_core_defaults();
 }
 
 void main_speeddown(int percent)
@@ -342,7 +398,7 @@ void main_draw_volume_osd(void)
    LIRC command, or 'testshots' command-line option timer */
 void main_take_next_screenshot(void)
 {
-    g_TakeScreenshot = l_CurrentFrame + 1;
+    l_TakeScreenshot = l_CurrentFrame + 1;
 }
 
 void main_state_set_slot(int slot)
@@ -435,17 +491,24 @@ m64p_error main_core_state_query(m64p_core_param param, int *rval)
 * global functions, callbacks from the r4300 core or from other plugins
 */
 
-static void video_plugin_render_callback(void)
+static void video_plugin_render_callback(int bScreenRedrawn)
 {
+    int bOSD = ConfigGetParamBool(g_CoreConfig, "OnScreenDisplay");
+
     // if the flag is set to take a screenshot, then grab it now
-    if (g_TakeScreenshot != 0)
+    if (l_TakeScreenshot != 0)
     {
-        TakeScreenshot(g_TakeScreenshot - 1);  // current frame number +1 is in g_TakeScreenshot
-        g_TakeScreenshot = 0; // reset flag
+        // if the OSD is enabled, and the screen has not been recently redrawn, then we cannot take a screenshot now because
+        // it contains the OSD text.  Wait until the next redraw
+        if (!bOSD || bScreenRedrawn)
+        {
+            TakeScreenshot(l_TakeScreenshot - 1);  // current frame number +1 is in l_TakeScreenshot
+            l_TakeScreenshot = 0; // reset flag
+        }
     }
 
     // if the OSD is enabled, then draw it now
-    if (ConfigGetParamBool(g_CoreConfig, "OnScreenDisplay"))
+    if (bOSD)
     {
         osd_render();
     }

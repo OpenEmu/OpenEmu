@@ -33,10 +33,10 @@ extern m64p_error plugin_check(void);
 extern CONTROL Controls[4];
 
 /*** Version requirement information ***/
-#define RSP_API_MAJOR_VERSION   0x20000
-#define GFX_API_MAJOR_VERSION   0x20000
-#define AUDIO_API_MAJOR_VERSION 0x20000
-#define INPUT_API_MAJOR_VERSION 0x20000
+#define RSP_API_VERSION   0x20000
+#define GFX_API_VERSION   0x20100
+#define AUDIO_API_VERSION 0x20000
+#define INPUT_API_VERSION 0x20000
 
 /* video plugin function pointers */
 extern ptr_ChangeWindow    changeWindow;

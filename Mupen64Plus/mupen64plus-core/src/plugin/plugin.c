@@ -30,6 +30,7 @@
 #include "api/m64p_types.h"
 
 #include "main/rom.h"
+#include "main/version.h"
 #include "memory/memory.h"
 
 #include "osal/dynamiclib.h"
@@ -82,7 +83,7 @@ void (*updateScreen)() = dummyvideo_UpdateScreen;
 void (*viStatusChanged)() = dummyvideo_ViStatusChanged;
 void (*viWidthChanged)() = dummyvideo_ViWidthChanged;
 void (*readScreen)(void *dest, int *width, int *height, int front) = dummyvideo_ReadScreen2;
-void (*setRenderingCallback)(void (*callback)(void)) = dummyvideo_SetRenderingCallback;
+void (*setRenderingCallback)(void (*callback)(int)) = dummyvideo_SetRenderingCallback;
 
 void (*fBRead)(unsigned int addr) = dummyvideo_FBRead;
 void (*fBWrite)(unsigned int addr, unsigned int size) = dummyvideo_FBWrite;
@@ -208,7 +209,7 @@ static m64p_error plugin_connect_rsp(m64p_dynlib_handle plugin_handle)
         }
         /* check the version info */
         (*getVersion)(&PluginType, &PluginVersion, &APIVersion, NULL, NULL);
-        if (PluginType != M64PLUGIN_RSP || (APIVersion & 0xffff0000) != RSP_API_MAJOR_VERSION)
+        if (PluginType != M64PLUGIN_RSP || (APIVersion & 0xffff0000) != (RSP_API_VERSION & 0xffff0000))
         {
             DebugMessage(M64MSG_ERROR, "incompatible RSP plugin");
             return M64ERR_INCOMPATIBLE;
@@ -259,7 +260,7 @@ static m64p_error plugin_connect_input(m64p_dynlib_handle plugin_handle)
         }
         /* check the version info */
         (*getVersion)(&PluginType, &PluginVersion, &APIVersion, NULL, NULL);
-        if (PluginType != M64PLUGIN_INPUT || (APIVersion & 0xffff0000) != INPUT_API_MAJOR_VERSION)
+        if (PluginType != M64PLUGIN_INPUT || (APIVersion & 0xffff0000) != (INPUT_API_VERSION & 0xffff0000))
         {
             DebugMessage(M64MSG_ERROR, "incompatible Input plugin");
             return M64ERR_INCOMPATIBLE;
@@ -321,7 +322,7 @@ static m64p_error plugin_connect_audio(m64p_dynlib_handle plugin_handle)
         }
         /* check the version info */
         (*getVersion)(&PluginType, &PluginVersion, &APIVersion, NULL, NULL);
-        if (PluginType != M64PLUGIN_AUDIO || (APIVersion & 0xffff0000) != AUDIO_API_MAJOR_VERSION)
+        if (PluginType != M64PLUGIN_AUDIO || (APIVersion & 0xffff0000) != (AUDIO_API_VERSION & 0xffff0000))
         {
             DebugMessage(M64MSG_ERROR, "incompatible Audio plugin");
             return M64ERR_INCOMPATIBLE;
@@ -330,6 +331,21 @@ static m64p_error plugin_connect_audio(m64p_dynlib_handle plugin_handle)
     }
 
     return M64ERR_SUCCESS;
+}
+
+// code to handle backwards-compatibility to video plugins with API_VERSION < 02.1.0.  This API version introduced a boolean
+// flag in the rendering callback, which told the core whether or not the current screen has been freshly redrawn since the
+// last time the callback was called.
+static void                     (*l_mainRenderCallback)(int) = NULL;
+static ptr_SetRenderingCallback   l_old1SetRenderingCallback = NULL;
+static void backcompat_videoRenderCallback(int unused)  // this function will be called by the video plugin as the render callback
+{
+    if (l_mainRenderCallback != NULL)
+        l_mainRenderCallback(1);  // assume screen is always freshly redrawn (otherwise screenshots won't work w/ OSD enabled)
+}
+static void backcompat_setRenderCallbackIntercept(void (*callback)(int))
+{
+    l_mainRenderCallback = callback;
 }
 
 static m64p_error plugin_connect_gfx(m64p_dynlib_handle plugin_handle)
@@ -354,6 +370,7 @@ static m64p_error plugin_connect_gfx(m64p_dynlib_handle plugin_handle)
         fBWrite = dummyvideo_FBWrite;
         fBGetFrameBufferInfo = dummyvideo_FBGetFrameBufferInfo;
         l_GfxAttached = 0;
+        l_mainRenderCallback = NULL;
     }
     else
     {
@@ -390,10 +407,19 @@ static m64p_error plugin_connect_gfx(m64p_dynlib_handle plugin_handle)
         }
         /* check the version info */
         (*getVersion)(&PluginType, &PluginVersion, &APIVersion, NULL, NULL);
-        if (PluginType != M64PLUGIN_GFX || (APIVersion & 0xffff0000) != GFX_API_MAJOR_VERSION)
+        if (PluginType != M64PLUGIN_GFX || (APIVersion & 0xffff0000) != (GFX_API_VERSION & 0xffff0000))
         {
             DebugMessage(M64MSG_ERROR, "incompatible Video plugin");
             return M64ERR_INCOMPATIBLE;
+        }
+        /* handle backwards-compatibility */
+        if (APIVersion < 0x020100)
+        {
+            DebugMessage(M64MSG_WARNING, "Fallback for Video plugin API (%02i.%02i.%02i) < 2.1.0. Screenshots may contain On Screen Display text", VERSION_PRINTF_SPLIT(APIVersion));
+            // tell the video plugin to make its rendering callback to me (it's old, and doesn't have the bScreenRedrawn flag)
+            setRenderingCallback(backcompat_videoRenderCallback);
+            l_old1SetRenderingCallback = setRenderingCallback; // save this just for future use
+            setRenderingCallback = (ptr_SetRenderingCallback) backcompat_setRenderCallbackIntercept;
         }
         l_GfxAttached = 1;
     }
