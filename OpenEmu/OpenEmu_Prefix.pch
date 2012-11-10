@@ -76,4 +76,4 @@ NSLog(@"View Hierarchy: %@", viewHierachy);                                     
 //  Default installed, non QTZ based filters names, used to identify filters 
 //  (see OEHudControlsBar.m, OEPrefGameplayController.m and OEGameLayer.m)
 //  Please note that the stated string must match a shader defined and created in OEGameLayer.m 
-#define OEOpenGLFilterNameArray [NSArray arrayWithObjects:@"Linear", @"Nearest Neighbor", @"Scale2xHQ", @"Scale2xPlus", @"Scale4x", @"Scale4xHQ", @"Scale2xBR", @"Scale4xBR", nil]
+#define OEOpenGLFilterNameArray [NSArray arrayWithObjects:@"Linear", @"Nearest Neighbor", @"Scale2xHQ", @"Scale2xPlus", @"Scale4x", @"Scale4xHQ", @"Scale4xBR", nil]
