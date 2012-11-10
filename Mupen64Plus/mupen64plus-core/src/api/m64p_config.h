@@ -83,6 +83,15 @@ typedef m64p_error (*ptr_ConfigSaveSection)(const char *);
 EXPORT m64p_error CALL ConfigSaveSection(const char *);
 #endif
 
+/* ConfigHasUnsavedChanges()
+ *
+ * This function determines if a given Section (or all sections) of the Mupen64Plus Core configuration file has been modified since it was last saved or loaded.
+ */
+typedef int (*ptr_ConfigHasUnsavedChanges)(const char *);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT int CALL ConfigHasUnsavedChanges(const char *);
+#endif
+
 /* ConfigDeleteSection()
  *
  * This function deletes a section from the Mupen64Plus configuration data.
@@ -90,6 +99,15 @@ EXPORT m64p_error CALL ConfigSaveSection(const char *);
 typedef m64p_error (*ptr_ConfigDeleteSection)(const char *SectionName);
 #if defined(M64P_CORE_PROTOTYPES)
 EXPORT m64p_error CALL ConfigDeleteSection(const char *SectionName);
+#endif
+
+/* ConfigRevertChanges()
+ *
+ * This function reverts changes previously made to one section of the configuration file, so that it will match with the configuration at the last time that it was loaded from or saved to disk.
+ */
+typedef m64p_error (*ptr_ConfigRevertChanges)(const char *SectionName);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL ConfigRevertChanges(const char *SectionName);
 #endif
 
 /* ConfigSetParameter()

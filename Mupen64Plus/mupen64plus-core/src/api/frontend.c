@@ -76,7 +76,10 @@ EXPORT m64p_error CALL CoreStartup(int APIVersion, const char *ConfigPath, const
     /* set default configuration parameter values for Core */
     if (ConfigOpenSection("Core", &g_CoreConfig) != M64ERR_SUCCESS || g_CoreConfig == NULL)
         return M64ERR_INTERNAL;
+    
     main_set_core_defaults();
+    //if (!main_set_core_defaults())
+    //    return M64ERR_INTERNAL;
 
     /* The ROM database contains MD5 hashes, goodnames, and some game-specific parameters */
     romdatabase_open();

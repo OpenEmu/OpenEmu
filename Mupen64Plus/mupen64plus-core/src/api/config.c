@@ -64,6 +64,7 @@ typedef config_section *config_list;
 static int         l_ConfigInit = 0;
 static int         l_SaveConfigOnExit = 0;
 static char       *l_DataDirOverride = NULL;
+static char       *l_ConfigDirOverride = NULL;
 static config_list l_ConfigListActive = NULL;
 static config_list l_ConfigListSaved = NULL;
 
@@ -188,9 +189,8 @@ static void delete_list(config_list *pConfigList)
     *pConfigList = NULL;
 }
 
-static config_section * section_deepcopy(config_section *orig_section)
+static config_section * section_deepcopy(config_section *orig_section, config_section *new_section)
 {
-    config_section *new_section;
     config_var *orig_var, *last_new_var;
 
     /* Input validation */
@@ -198,7 +198,8 @@ static config_section * section_deepcopy(config_section *orig_section)
         return NULL;
 
     /* create and copy section struct */
-    new_section = (config_section *) malloc(sizeof(config_section));
+    if (new_section == NULL)
+        new_section = (config_section *) malloc(sizeof(config_section));
     if (new_section == NULL)
         return NULL;
     new_section->magic = SECTION_MAGIC;
@@ -276,7 +277,7 @@ static void copy_configlist_active_to_saved(void)
     /* duplicate all of the config sections in the Active list, adding them to the Saved list */
     while (curr_section != NULL)
     {
-        config_section *new_section = section_deepcopy(curr_section);
+        config_section *new_section = section_deepcopy(curr_section, NULL);
         if (new_section == NULL) break;
         if (last_section == NULL)
             l_ConfigListSaved = new_section;
@@ -377,15 +378,20 @@ m64p_error ConfigInit(const char *ConfigDirOverride, const char *DataDirOverride
         strcpy(l_DataDirOverride, DataDirOverride);
     }
 
-    /* get the full pathname to the config file and try to open it */
+    /* if a config directory was specified, make a copy of it */
     if (ConfigDirOverride != NULL)
-        configpath = ConfigDirOverride;
-    else
     {
-        configpath = ConfigGetUserConfigPath();
-        if (configpath == NULL)
-            return M64ERR_FILES;
+        l_ConfigDirOverride = (char *) malloc(strlen(ConfigDirOverride) + 1);
+        if (l_ConfigDirOverride == NULL)
+            return M64ERR_NO_MEMORY;
+        strcpy(l_ConfigDirOverride, ConfigDirOverride);
     }
+
+
+    /* get the full pathname to the config file and try to open it */
+    configpath = ConfigGetUserConfigPath();
+    if (configpath == NULL)
+        return M64ERR_FILES;
 
     filepath = (char *) malloc(strlen(configpath) + 32);
     if (filepath == NULL)
@@ -542,6 +548,11 @@ m64p_error ConfigShutdown(void)
         free(l_DataDirOverride);
         l_DataDirOverride = NULL;
     }
+    if (l_ConfigDirOverride != NULL)
+    {
+        free(l_ConfigDirOverride);
+        l_ConfigDirOverride = NULL;
+    }
 
     /* free all of the memory in the 2 lists */
     delete_list(&l_ConfigListActive);
@@ -649,82 +660,123 @@ EXPORT m64p_error CALL ConfigListParameters(m64p_handle ConfigSectionHandle, voi
   return M64ERR_SUCCESS;
 }
 
-EXPORT m64p_error CALL ConfigSaveFile(void)
+EXPORT int CALL ConfigHasUnsavedChanges(const char *SectionName)
 {
+    config_section *input_section, *curr_section;
+    config_var *active_var, *saved_var;
+
+    /* check input conditions */
     if (!l_ConfigInit)
-        return M64ERR_NOT_INIT;
+    {
+        DebugMessage(M64MSG_ERROR, "ConfigHasUnsavedChanges(): Core config not initialized!");
+        return 0;
+    }
 
-    /* copy the active config list to the saved config list */
-    copy_configlist_active_to_saved();
-
-    /* write the saved config list out to a file */
-    return (write_configlist_file());
-}
-
-EXPORT m64p_error CALL ConfigSaveSection(const char *SectionName)
-{
-    config_section *curr_section, *new_section;
-
-    if (!l_ConfigInit)
-        return M64ERR_NOT_INIT;
+    /* if SectionName is NULL or blank, then check all sections */
     if (SectionName == NULL || strlen(SectionName) < 1)
-        return M64ERR_INPUT_ASSERT;
+    {
+        int iNumActiveSections = 0, iNumSavedSections = 0;
+        /* first, search through all sections in Active list.  Recursively call ourself and return 1 if changed */
+        curr_section = l_ConfigListActive;
+        while (curr_section != NULL)
+        {
+            if (ConfigHasUnsavedChanges(curr_section->name))
+                return 1;
+            curr_section = curr_section->next;
+            iNumActiveSections++;
+        }
+        /* Next, count the number of Saved sections and see if the count matches */
+        curr_section = l_ConfigListSaved;
+        while (curr_section != NULL)
+        {
+            curr_section = curr_section->next;
+            iNumSavedSections++;
+        }
+        if (iNumActiveSections == iNumSavedSections)
+            return 0;  /* no changes */
+        else
+            return 1;
+    }
 
-    /* walk through the Active section list, looking for a case-insensitive name match */
-    curr_section = l_ConfigListActive;
+    /* walk through the Active section list, looking for a case-insensitive name match with input string */
+    input_section = l_ConfigListActive;
+    while (input_section != NULL)
+    {
+        if (osal_insensitive_strcmp(SectionName, input_section->name) == 0)
+            break;
+        input_section = input_section->next;
+    }
+    if (input_section == NULL)
+    {
+        DebugMessage(M64MSG_ERROR, "ConfigHasUnsavedChanges(): section name '%s' not found!", SectionName);
+        return 0;
+    }
+
+    /* walk through the Saved section list, looking for a case-insensitive name match */
+    curr_section = l_ConfigListSaved;
     while (curr_section != NULL)
     {
-        if (osal_insensitive_strcmp(SectionName, curr_section->name) == 0)
+        if (osal_insensitive_strcmp(input_section->name, curr_section->name) == 0)
             break;
         curr_section = curr_section->next;
     }
+    /* if this section isn't present in saved list, then it has been newly created */
     if (curr_section == NULL)
-        return M64ERR_INPUT_NOT_FOUND;
+        return 1;
 
-    /* duplicate this section */
-    new_section = section_deepcopy(curr_section);
-    if (new_section == NULL)
-        return M64ERR_NO_MEMORY;
-
-    /* update config section that's in the Saved list with the new one */
-    if (l_ConfigListSaved == NULL || osal_insensitive_strcmp(SectionName, l_ConfigListSaved->name) < 0)
+    /* compare all of the variables in the two sections. They are expected to be in the same order */
+    active_var = input_section->first_var;
+    saved_var = curr_section->first_var;
+    while (active_var != NULL && saved_var != NULL)
     {
-        /* the saved section is new and goes at the beginning of the list */
-        new_section->next = l_ConfigListSaved;
-        l_ConfigListSaved = new_section;
-    }
-    else if (osal_insensitive_strcmp(SectionName, l_ConfigListSaved->name) == 0)
-    {
-        /* the saved section replaces the first section in the list */
-        new_section->next = l_ConfigListSaved->next;
-        delete_section_vars(l_ConfigListSaved);
-        free(l_ConfigListSaved);
-        l_ConfigListSaved = new_section;
-    }
-    else
-    {
-        curr_section = l_ConfigListSaved;
-        while (curr_section->next != NULL && osal_insensitive_strcmp(SectionName, curr_section->next->name) > 0)
-            curr_section = curr_section->next;
-        if (curr_section->next == NULL || osal_insensitive_strcmp(SectionName, curr_section->next->name) < 0)
+        if (strncmp(active_var->name, saved_var->name, 64) != 0)
+            return 1;
+        if (active_var->type != saved_var->type)
+            return 1;
+        switch(active_var->type)
         {
-            /* the saved section is new and goes after the curr_section */
-            new_section->next = curr_section->next;
-            curr_section->next = new_section;
+            case M64TYPE_INT:
+                if (active_var->val_int != saved_var->val_int)
+                    return 1;
+                break;
+            case M64TYPE_FLOAT:
+                if (active_var->val_float != saved_var->val_float)
+                    return 1;
+                break;
+            case M64TYPE_BOOL:
+                if ((active_var->val_int != 0) != (saved_var->val_int != 0))
+                    return 1;
+                break;
+            case M64TYPE_STRING:
+                if (active_var->val_string == NULL)
+                {
+                    DebugMessage(M64MSG_ERROR, "ConfigHasUnsavedChanges(): Variable '%s' NULL Active string pointer!", active_var->name);
+                    return 1;
+                }
+                if (saved_var->val_string == NULL)
+                {
+                    DebugMessage(M64MSG_ERROR, "ConfigHasUnsavedChanges(): Variable '%s' NULL Saved string pointer!", active_var->name);
+                    return 1;
+                }
+                if (strcmp(active_var->val_string, saved_var->val_string) != 0)
+                    return 1;
+                break;
+            default:
+                DebugMessage(M64MSG_ERROR, "ConfigHasUnsavedChanges(): Invalid variable '%s' type %i!", active_var->name, active_var->type);
+                return 1;
         }
-        else
-        {
-            /* the saved section replaces curr_section->next */
-            config_section *old_section = curr_section->next;
-            new_section->next = old_section->next;
-            delete_section_vars(old_section);
-            free(old_section);
-            curr_section->next = new_section;
-        }
+        if (active_var->comment != NULL && saved_var->comment != NULL && strcmp(active_var->comment, saved_var->comment) != 0)
+            return 1;
+        active_var = active_var->next;
+        saved_var = saved_var->next;
     }
 
-    /* write the saved config list out to a file */
-    return (write_configlist_file());
+    /* any extra new variables on the end, or deleted variables? */
+    if (active_var != NULL || saved_var != NULL)
+        return 1;
+
+    /* exactly the same */
+    return 0;
 }
 
 /* ------------------------------------------------------- */
@@ -779,6 +831,132 @@ EXPORT m64p_error CALL ConfigDeleteSection(const char *SectionName)
     /* delete the section itself */
     free(curr_section);
 
+    return M64ERR_SUCCESS;
+}
+
+EXPORT m64p_error CALL ConfigSaveFile(void)
+{
+    if (!l_ConfigInit)
+        return M64ERR_NOT_INIT;
+
+    /* copy the active config list to the saved config list */
+    copy_configlist_active_to_saved();
+
+    /* write the saved config list out to a file */
+    return (write_configlist_file());
+}
+
+EXPORT m64p_error CALL ConfigSaveSection(const char *SectionName)
+{
+    config_section *curr_section, *new_section;
+
+    if (!l_ConfigInit)
+        return M64ERR_NOT_INIT;
+    if (SectionName == NULL || strlen(SectionName) < 1)
+        return M64ERR_INPUT_ASSERT;
+
+    /* walk through the Active section list, looking for a case-insensitive name match */
+    curr_section = l_ConfigListActive;
+    while (curr_section != NULL)
+    {
+        if (osal_insensitive_strcmp(SectionName, curr_section->name) == 0)
+            break;
+        curr_section = curr_section->next;
+    }
+    if (curr_section == NULL)
+        return M64ERR_INPUT_NOT_FOUND;
+
+    /* duplicate this section */
+    new_section = section_deepcopy(curr_section, NULL);
+    if (new_section == NULL)
+        return M64ERR_NO_MEMORY;
+
+    /* update config section that's in the Saved list with the new one */
+    if (l_ConfigListSaved == NULL || osal_insensitive_strcmp(SectionName, l_ConfigListSaved->name) < 0)
+    {
+        /* the saved section is new and goes at the beginning of the list */
+        new_section->next = l_ConfigListSaved;
+        l_ConfigListSaved = new_section;
+    }
+    else if (osal_insensitive_strcmp(SectionName, l_ConfigListSaved->name) == 0)
+    {
+        /* the saved section replaces the first section in the list */
+        new_section->next = l_ConfigListSaved->next;
+        delete_section_vars(l_ConfigListSaved);
+        free(l_ConfigListSaved);
+        l_ConfigListSaved = new_section;
+    }
+    else
+    {
+        curr_section = l_ConfigListSaved;
+        while (curr_section->next != NULL && osal_insensitive_strcmp(SectionName, curr_section->next->name) > 0)
+            curr_section = curr_section->next;
+        if (curr_section->next == NULL || osal_insensitive_strcmp(SectionName, curr_section->next->name) < 0)
+        {
+            /* the saved section is new and goes after the curr_section */
+            new_section->next = curr_section->next;
+            curr_section->next = new_section;
+        }
+        else
+        {
+            /* the saved section replaces curr_section->next */
+            config_section *old_section = curr_section->next;
+            new_section->next = old_section->next;
+            delete_section_vars(old_section);
+            free(old_section);
+            curr_section->next = new_section;
+        }
+    }
+
+    /* write the saved config list out to a file */
+    return (write_configlist_file());
+}
+
+EXPORT m64p_error CALL ConfigRevertChanges(const char *SectionName)
+{
+    config_section *input_section, *curr_section, *new_section, *temp_next_ptr;
+
+    /* check input conditions */
+    if (!l_ConfigInit)
+        return M64ERR_NOT_INIT;
+    if (SectionName == NULL)
+        return M64ERR_INPUT_ASSERT;
+
+    /* walk through the Active section list, looking for a case-insensitive name match with input string */
+    input_section = l_ConfigListActive;
+    while (input_section != NULL)
+    {
+        if (osal_insensitive_strcmp(SectionName, input_section->name) == 0)
+            break;
+        input_section = input_section->next;
+    }
+    if (input_section == NULL)
+        return M64ERR_INPUT_NOT_FOUND;
+
+    /* walk through the Saved section list, looking for a case-insensitive name match */
+    curr_section = l_ConfigListSaved;
+    while (curr_section != NULL)
+    {
+        if (osal_insensitive_strcmp(SectionName, curr_section->name) == 0)
+            break;
+        curr_section = curr_section->next;
+    }
+    /* if this section isn't present in saved list, then it has been newly created */
+    if (curr_section == NULL)
+        return M64ERR_INPUT_NOT_FOUND;
+
+    /* we need to save the "next" pointer in the active section, because this will get blown away by the deepcopy */
+    temp_next_ptr = input_section->next;
+    /* delete the variables from the Active section */
+    delete_section_vars(input_section);
+    /* copy all of the section data from the Saved section to the Active one */
+    new_section = section_deepcopy(curr_section, input_section);
+    if (new_section == NULL)
+        return M64ERR_NO_MEMORY;  /* it's very bad if this happens, because original data from Active section has been deleted */
+    /* new_section should be == to input_section.  now put the "next" pointer back */
+    input_section->next = temp_next_ptr;
+
+    /* should be good to go */
     return M64ERR_SUCCESS;
 }
 
@@ -1344,7 +1522,10 @@ EXPORT const char * CALL ConfigGetSharedDataFilepath(const char *filename)
 
 EXPORT const char * CALL ConfigGetUserConfigPath(void)
 {
-  return osal_get_user_configpath();
+    if (l_ConfigDirOverride != NULL)
+        return l_ConfigDirOverride;
+    else
+        return osal_get_user_configpath();
 }
 
 EXPORT const char * CALL ConfigGetUserDataPath(void)
