@@ -154,9 +154,9 @@ void savestates_save(void)
     else
         {
         filename = savestates_get_filename();
-        length = strlen(get_savespath())+strlen(filename)+1;
+        length = strlen(get_savestatepath())+strlen(filename)+1;
         file = malloc(length);
-        snprintf(file, length, "%s%s", get_savespath(), filename);
+        snprintf(file, length, "%s%s", get_savestatepath(), filename);
         }
 
     f = gzopen(file, "wb");
@@ -261,9 +261,9 @@ void savestates_load(void)
     else
         {
         filename = savestates_get_filename();
-        length = strlen(get_savespath())+strlen(filename)+1;
+        length = strlen(get_savestatepath())+strlen(filename)+1;
         file = malloc(length);
-        snprintf(file, length, "%s%s", get_savespath(), filename);
+        snprintf(file, length, "%s%s", get_savestatepath(), filename);
         }
 
     f = gzopen(file, "rb");
@@ -416,9 +416,9 @@ int savestates_save_pj64(void)
     else
         {
         filename = savestates_get_pj64_filename();
-        length = strlen(get_savespath())+strlen(filename)+1;
+        length = strlen(get_savestatepath())+strlen(filename)+1;
         file = malloc(length);
-        snprintf(file, length, "%s%s", get_savespath(), filename);
+        snprintf(file, length, "%s%s", get_savestatepath(), filename);
         }
 
     zipfile = zipOpen(file, APPEND_STATUS_CREATE);
@@ -548,9 +548,9 @@ void savestates_load_pj64(void)
     else
         {
         filename = savestates_get_pj64_filename();
-        length = strlen(get_savespath())+strlen(filename)+1;
+        length = strlen(get_savestatepath())+strlen(filename)+1;
         file = malloc(length);
-        snprintf(file, length, "%s%s", get_savespath(), filename);
+        snprintf(file, length, "%s%s", get_savestatepath(), filename);
         }
 
     zipstatefile = unzOpen(file); /*Open the .zip file. */

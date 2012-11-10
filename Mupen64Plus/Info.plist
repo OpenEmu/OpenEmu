@@ -19,9 +19,13 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.0 hg</string>
+	<string>1.99.5</string>
 	<key>NSPrincipalClass</key>
 	<string>OEGameCoreController</string>
+	<key>OEGameCoreClass</key>
+	<string>MupenGameCore</string>
+	<key>OEGameCorePlayerCount</key>
+	<string>8</string>
 	<key>OEProjectURL</key>
 	<string>http://bitbucket.org/richard42/</string>
 	<key>OESystemIdentifiers</key>
@@ -34,9 +38,5 @@
 	<string>http://openemu.org/update/mupen64plus_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
-	<key>OEGameCoreClass</key>
-	<string>MupenGameCore</string>
-	<key>OEGameCorePlayerCount</key>
-	<string>8</string>
 </dict>
 </plist>
