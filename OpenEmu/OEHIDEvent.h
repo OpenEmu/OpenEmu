@@ -81,10 +81,13 @@ typedef enum _OEHIDEventState : NSInteger {
     OEHIDEventStateOn
 } OEHIDEventState;
 
+extern OEHIDEventHatDirection OEHIDEventHatDirectionFromNSString(NSString *string);
 extern NSString *NSStringFromOEHIDHatDirection(OEHIDEventHatDirection dir);
+extern NSString *NSLocalizedStringFromOEHIDHatDirection(OEHIDEventHatDirection dir);
 extern NSString *OEHIDEventAxisDisplayDescription(OEHIDEventAxis axis, OEHIDEventAxisDirection direction);
 
 extern NSString *NSStringFromOEHIDEventType(OEHIDEventType type);
+extern OEHIDEventAxis OEHIDEventAxisFromNSString(NSString *string);
 extern NSString *NSStringFromOEHIDEventAxis(OEHIDEventAxis axis);
 extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 
@@ -93,8 +96,10 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 - (NSString *)displayDescription;
 
 + (NSUInteger)keyCodeForVK:(CGCharCode)charCode;
++ (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis direction:(OEHIDEventAxisDirection)direction;
 + (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis scaledValue:(CGFloat)value;
 + (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum;
++ (id)triggerEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis direction:(OEHIDEventAxisDirection)direction;
 + (id)triggerEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis value:(NSInteger)value maximum:(NSInteger)maximum;
 + (id)buttonEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp buttonNumber:(NSUInteger)number state:(OEHIDEventState)state cookie:(NSUInteger)cookie;
 + (id)hatSwitchEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp type:(OEHIDEventHatSwitchType)hatSwitchType direction:(OEHIDEventHatDirection)aDirection cookie:(NSUInteger)cookie;
