@@ -151,23 +151,18 @@ static NSMutableSet        *allPluginClasses = nil;
         Class principalClass = [[self bundle] principalClass];
         
         if(principalClass != Nil && ![principalClass conformsToProtocol:@protocol(OEPluginController)])
-        {
             return nil;
-        }
         
         controller = [self newPluginControllerWithClass:principalClass];
         
-        if(controller == nil && principalClass != Nil)
-        {
-            return nil;
-        }
+        if(controller == nil && principalClass != Nil) return nil;
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [bundle         unload];
+    [bundle unload];
 }
 
 - (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass

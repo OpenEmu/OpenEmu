@@ -30,6 +30,10 @@
 	<string>Super Nintendo (SNES)</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.snes</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>8</integer>
+	<key>OEResponderClassKey</key>
+	<string>OESNESSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>47</integer>

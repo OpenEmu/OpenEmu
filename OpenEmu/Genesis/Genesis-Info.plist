@@ -25,11 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OEGenesisSystemController</string>
+	<string>OESystemController</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.sg</string>
 	<key>OESystemName</key>
 	<string>Sega Genesis</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>2</integer>
+    <key>OEResponderClassKey</key>
+    <string>OEGenesisSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>48</integer>

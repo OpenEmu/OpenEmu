@@ -42,6 +42,11 @@ extern NSString *const OESystemIconName;
 extern NSString *const OEProjectURLKey;
 extern NSString *const OEArchiveIDs;
 extern NSString *const OEFileTypes;
+extern NSString *const OENumberOfPlayersKey;
+extern NSString *const OEResponderClassKey;
+
+extern NSString *const OEKeyboardMappingsFileName;
+extern NSString *const OEControllerMappingsFileName;
 
 // NSArray - contains NSString objects representing control names that are independent from a player
 extern NSString *const OESystemControlNamesKey;
@@ -94,6 +99,8 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 
 @interface OESystemController : NSObject <OEPluginController>
 
+- (id)initWithBundle:(NSBundle *)aBundle;
+
 /*
   *The method search for a class associated with aKey and instantiate the controller
   *with the default Nib name provided by the key.
@@ -133,7 +140,8 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 #pragma mark Bindings settings
 
 // Dictionary containing the default values to register for the system
-@property(readonly) NSDictionary *defaultControls;
+@property(readonly) NSDictionary *defaultKeyboardControls;
+@property(readonly) NSDictionary *defaultDeviceControls;
 
 #pragma mark -
 #pragma mark Game System Responder objects

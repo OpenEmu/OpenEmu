@@ -56,46 +56,67 @@
 - (void)OE_setupControlTypes;
 
 - (void)OE_initROMHandling;
+
+- (id)OE_propertyListWithFileName:(NSString *)fileName;
+
 @end
 
-NSString *const OESettingValueKey           = @"OESettingValueKey";
-NSString *const OEHIDEventValueKey          = @"OEHIDEventValueKey";
-NSString *const OEHIDEventExtraValueKey     = @"OEHIDEventExtraValueKey";
-NSString *const OEKeyboardEventValueKey     = @"OEKeyboardEventValueKey";
-NSString *const OEControlsPreferenceKey     = @"OEControlsPreferenceKey";
-NSString *const OESystemIdentifier          = @"OESystemIdentifier";
-NSString *const OEProjectURLKey             = @"OEProjectURL";
-NSString *const OESystemName                = @"OESystemName";
+NSString *const OESettingValueKey            = @"OESettingValueKey";
+NSString *const OEHIDEventValueKey           = @"OEHIDEventValueKey";
+NSString *const OEHIDEventExtraValueKey      = @"OEHIDEventExtraValueKey";
+NSString *const OEKeyboardEventValueKey      = @"OEKeyboardEventValueKey";
+NSString *const OEControlsPreferenceKey      = @"OEControlsPreferenceKey";
+NSString *const OESystemIdentifier           = @"OESystemIdentifier";
+NSString *const OEProjectURLKey              = @"OEProjectURL";
+NSString *const OESystemName                 = @"OESystemName";
+NSString *const OENumberOfPlayersKey         = @"OENumberOfPlayersKey";
+NSString *const OEResponderClassKey          = @"OEResponderClassKey";
 
-NSString *const OESystemIconName            = @"OESystemIcon";
-NSString *const OEArchiveIDs                = @"OEArchiveIDs";
-NSString *const OEFileTypes                 = @"OEFileSuffixes";
+NSString *const OEKeyboardMappingsFileName   = @"Keyboard-Mappings";
+NSString *const OEControllerMappingsFileName = @"Controller-Mappings";
 
-NSString *const OESystemControlNamesKey     = @"OESystemControlNamesKey";
-NSString *const OEGenericControlNamesKey    = @"OEGenericControlNamesKey";
-NSString *const OEControlTypesKey           = @"OEControlTypesKey";
-NSString *const OEHatSwitchControlsKey      = @"OEHatSwitchControlsKey";
-NSString *const OEAxisControlsKey           = @"OEAxisControlsKey";
+NSString *const OESystemIconName             = @"OESystemIcon";
+NSString *const OEArchiveIDs                 = @"OEArchiveIDs";
+NSString *const OEFileTypes                  = @"OEFileSuffixes";
 
-NSString *const OEControlListKey            = @"OEControlListKey";
-NSString *const OEControlListKeyNameKey     = @"OEControlListKeyNameKey";
-NSString *const OEControlListKeyLabelKey    = @"OEControlListKeyLabelKey";
-NSString *const OEControlListKeyPositionKey = @"OEControlListKeyPositionKey";
+NSString *const OESystemControlNamesKey      = @"OESystemControlNamesKey";
+NSString *const OEGenericControlNamesKey     = @"OEGenericControlNamesKey";
+NSString *const OEControlTypesKey            = @"OEControlTypesKey";
+NSString *const OEHatSwitchControlsKey       = @"OEHatSwitchControlsKey";
+NSString *const OEAxisControlsKey            = @"OEAxisControlsKey";
 
-NSString *const OEControllerImageKey        = @"OEControllerImageKey";
-NSString *const OEControllerImageMaskKey    = @"OEControllerImageMaskKey";
-NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
+NSString *const OEControlListKey             = @"OEControlListKey";
+NSString *const OEControlListKeyNameKey      = @"OEControlListKeyNameKey";
+NSString *const OEControlListKeyLabelKey     = @"OEControlListKeyLabelKey";
+NSString *const OEControlListKeyPositionKey  = @"OEControlListKeyPositionKey";
+
+NSString *const OEControllerImageKey         = @"OEControllerImageKey";
+NSString *const OEControllerImageMaskKey     = @"OEControllerImageMaskKey";
+NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 
 @implementation OESystemController
 @synthesize controllerKeyPositions, controllerImageMaskName, controllerImageName, controllerImage, controllerImageMask;
 @synthesize fileTypes, archiveIDs;
 @synthesize axisControls, hatSwitchControls, genericSettingNames, genericControlNames, systemControlNames;
 
+- (BOOL)OE_isBundleValid:(NSBundle *)aBundle forClass:(Class)aClass
+{
+    return [aBundle principalClass] == aClass;
+}
+
 - (id)init
 {
+    return [self initWithBundle:[NSBundle bundleForClass:[self class]]];
+}
+
+- (id)initWithBundle:(NSBundle *)aBundle
+{
+    if(![self OE_isBundleValid:aBundle forClass:[self class]])
+        return nil;
+    
     if((self = [super init]))
     {
-        _bundle                    = [NSBundle bundleForClass:[self class]];
+        _bundle                    = aBundle;
         _gameSystemResponders      = [[NSMutableArray alloc] init];
         _preferenceViewControllers = [[NSMutableDictionary alloc] init];
         _systemIdentifier          = (    [[_bundle infoDictionary] objectForKey:OESystemIdentifier]
@@ -107,6 +128,16 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
         NSString *iconFilePath = [_bundle pathForImageResource:iconFileName];
         _systemIcon = [[NSImage alloc] initWithContentsOfFile:iconFilePath];
         
+        _numberOfPlayers = [[[_bundle infoDictionary] objectForKey:OENumberOfPlayersKey] integerValue];
+        
+        Class cls = NSClassFromString([[_bundle infoDictionary] objectForKey:OEResponderClassKey]);
+        if(cls != [OESystemResponder class] && [cls isSubclassOfClass:[OESystemResponder class]])
+            _responderClass = cls;
+        
+        _defaultKeyboardControls = [self OE_propertyListWithFileName:OEKeyboardMappingsFileName];
+        
+        _defaultDeviceControls = [self OE_propertyListWithFileName:OEControllerMappingsFileName];
+        
         // TODO: Do the same thing for generic settings
         [self setGenericControlNames:[[_bundle infoDictionary] objectForKey:OEGenericControlNamesKey]];
         [self setSystemControlNames: [[_bundle infoDictionary] objectForKey:OESystemControlNamesKey]];
@@ -117,6 +148,17 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
     }
     
     return self;
+}
+
+- (id)OE_propertyListWithFileName:(NSString *)fileName
+{
+    NSString *path = [_bundle pathForResource:fileName ofType:@"plist"];
+    
+    id ret = nil;
+    if(path != nil)
+        ret = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:path options:NSDataReadingMappedIfSafe error:NULL] options:0 format:NULL error:NULL];
+    
+    return ret;
 }
 
 #pragma mark -
@@ -143,7 +185,7 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
 
 - (NSDictionary *)OE_defaultControllerPreferences;
 {
-    return [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:[_bundle pathForResource:@"Controller-Preferences-Info" ofType:@"plist"]] mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:NULL];
+    return [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:[_bundle pathForResource:@"Controller-Preferences" ofType:@"plist"]] mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:NULL];
 }
 
 - (NSDictionary *)OE_localizedControllerPreferences;
@@ -152,9 +194,9 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
     
     switch([[OELocalizationHelper sharedHelper] region])
     {
-        case OERegionEU  : fileName = @"Controller-Preferences-Info-EU";  break;
-        case OERegionNA  : fileName = @"Controller-Preferences-Info-NA";  break;
-        case OERegionJAP : fileName = @"Controller-Preferences-Info-JAP"; break;
+        case OERegionEU  : fileName = @"Controller-Preferences-EU";  break;
+        case OERegionNA  : fileName = @"Controller-Preferences-NA";  break;
+        case OERegionJAP : fileName = @"Controller-Preferences-JAP"; break;
         default : break;
     }
     
@@ -187,27 +229,12 @@ NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
     controllerKeyPositions = [converted copy];
 }
 
-- (Class)responderClass
-{
-    return [OESystemController class];
-}
-
 - (id)newGameSystemResponder;
 {
     OESystemResponder *responder = [[[self responderClass] alloc] initWithController:self];
     [self registerGameSystemResponder:responder];
     
     return responder;
-}
-
-- (NSDictionary *)defaultControls
-{
-    return nil;
-}
-
-- (NSUInteger)numberOfPlayers;
-{
-    return 0;
 }
 
 - (NSDictionary *)preferenceViewControllerClasses;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEN64ButtonDPadUp</key>
+	<integer>82</integer>
+	<key>OEN64ButtonDPadDown</key>
+	<integer>81</integer>
+	<key>OEN64ButtonDPadLeft</key>
+	<integer>80</integer>
+	<key>OEN64ButtonDPadRight</key>
+	<integer>79</integer>
+	<key>OEN64ButtonCUp</key>
+	<integer>12</integer>
+	<key>OEN64ButtonCDown</key>
+	<integer>14</integer>
+	<key>OEN64ButtonCLeft</key>
+	<integer>13</integer>
+	<key>OEN64ButtonCRight</key>
+	<integer>15</integer>
+	<key>OEN64ButtonL</key>
+	<integer>20</integer>
+	<key>OEN64ButtonR</key>
+	<integer>26</integer>
+	<key>OEN64ButtonA</key>
+	<integer>4</integer>
+	<key>OEN64ButtonB</key>
+	<integer>22</integer>
+	<key>OEN64ButtonZ</key>
+	<integer>29</integer>
+	<key>OEN64ButtonStart</key>
+	<integer>44</integer>
+</dict>
+</plist>

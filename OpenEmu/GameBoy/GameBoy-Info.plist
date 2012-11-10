@@ -25,11 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OEGBSystemController</string>
+	<string>OESystemController</string>
 	<key>OESystemName</key>
 	<string>Game Boy</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.gb</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+    <key>OEResponderClassKey</key>
+    <string>OEGBSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>49</integer>

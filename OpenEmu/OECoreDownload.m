@@ -75,11 +75,14 @@
     self.canBeInstalled = NO;
     
     NSMutableArray *mutableSystemNames = [NSMutableArray arrayWithCapacity:[[plugin systemIdentifiers] count]];
-    [[plugin systemIdentifiers] enumerateObjectsUsingBlock:^(NSString *systemIdentifier, NSUInteger idx, BOOL *stop) {
-        OESystemPlugin *plugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
-        NSString *systemName = [plugin systemName];
-        [mutableSystemNames addObject:systemName];
-    }];
+    [[plugin systemIdentifiers] enumerateObjectsUsingBlock:
+     ^(NSString *systemIdentifier, NSUInteger idx, BOOL *stop)
+     {
+         OESystemPlugin *plugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
+         NSString *systemName = [plugin systemName];
+         
+         if(systemName != nil) [mutableSystemNames addObject:systemName];
+     }];
     
     [self setSystemNames:mutableSystemNames];
     [self setSystemIdentifiers:[plugin systemIdentifiers]];
