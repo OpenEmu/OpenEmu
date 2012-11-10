@@ -131,7 +131,7 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
         _numberOfPlayers = [[[_bundle infoDictionary] objectForKey:OENumberOfPlayersKey] integerValue];
         
         Class cls = NSClassFromString([[_bundle infoDictionary] objectForKey:OEResponderClassKey]);
-        if(cls != [OESystemResponder class] && [cls isKindOfClass:[OESystemResponder class]])
+        if(cls != [OESystemResponder class] && [cls isSubclassOfClass:[OESystemResponder class]])
             _responderClass = cls;
         
         _defaultKeyboardControls = [self OE_propertyListWithFileName:OEKeyboardMappingsFileName];
