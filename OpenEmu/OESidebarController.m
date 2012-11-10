@@ -76,7 +76,10 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     [image setName:@"collections_simple" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
     [image setName:@"collections_smart" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
     
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESidebarGroupConsolesAutosaveName : @YES }];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:(@{
+                                                             OESidebarGroupConsolesAutosaveName    : @YES,
+                                                             OESidebarGroupCollectionsAutosaveName : @YES,
+                                                             })];
 }
 
 - (void)awakeFromNib
