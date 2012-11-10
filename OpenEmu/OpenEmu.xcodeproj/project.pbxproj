@@ -546,15 +546,6 @@
 		945E43171517F5BC00057D08 /* controller_arcade.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E43121517F5BC00057D08 /* controller_arcade.png */; };
 		945E43181517F5BC00057D08 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 945E43131517F5BC00057D08 /* Controller-Preferences-Info.plist */; };
 		945E431B1517F64800057D08 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
-		948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
-		948E54101571D78D002D26E0 /* SuperNES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
-		948E54111571D78D002D26E0 /* GameBoy.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C6B947AF1364ECA600A425F0 /* GameBoy.oesystemplugin */; };
-		948E54121571D78D002D26E0 /* Genesis.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */; };
-		948E54131571D78D002D26E0 /* GameBoy Advance.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
-		948E54141571D78D002D26E0 /* NeoGeo Pocket.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
-		948E54151571D78D002D26E0 /* GameGear.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
-		949623E7164E0CD600952A86 /* Controller-Mappings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949623E6164E0CD600952A86 /* Controller-Mappings-Info.plist */; };
 		94619C8115C4C3190019AC8E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94619C8715C4C31A0019AC8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94619C8515C4C3190019AC8E /* InfoPlist.strings */; };
 		94619C8F15C4CBDD0019AC8E /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -575,14 +566,15 @@
 		94619CC415C50F8F0019AC8E /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC015C50F8E0019AC8E /* Controller-Preferences-Info.plist */; };
 		94619CC515C50F8F0019AC8E /* famicom_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC115C50F8E0019AC8E /* famicom_library.png */; };
 		94619CC815C50FC30019AC8E /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94619CA815C507B60019AC8E /* Nintendo FDS.oesystemplugin */; };
-		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
-		948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
-		948E54101571D78D002D26E0 /* SuperNES.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
-		948E54111571D78D002D26E0 /* GameBoy.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = C6B947AF1364ECA600A425F0 /* GameBoy.oesystemplugin */; };
-		948E54121571D78D002D26E0 /* Genesis.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */; };
-		948E54131571D78D002D26E0 /* GameBoy Advance.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
-		948E54141571D78D002D26E0 /* NeoGeo Pocket.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
-		948E54151571D78D002D26E0 /* GameGear.oesystemplugin in Copy System Plugins to App PlugIns */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
+		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
+		948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
+		948E54101571D78D002D26E0 /* SuperNES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
+		948E54111571D78D002D26E0 /* GameBoy.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C6B947AF1364ECA600A425F0 /* GameBoy.oesystemplugin */; };
+		948E54121571D78D002D26E0 /* Genesis.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */; };
+		948E54131571D78D002D26E0 /* GameBoy Advance.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
+		948E54141571D78D002D26E0 /* NeoGeo Pocket.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
+		948E54151571D78D002D26E0 /* GameGear.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
+		949623E7164E0CD600952A86 /* Controller-Mappings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949623E6164E0CD600952A86 /* Controller-Mappings-Info.plist */; };
 		94A1E9BD1586F3B600986376 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94A1E9C31586F3B600986376 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9C11586F3B600986376 /* InfoPlist.strings */; };
 		94A1E9CB1586F5CD00986376 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -985,13 +977,6 @@
 			remoteGlobalIDString = 945E42FA1517F2B500057D08;
 			remoteInfo = Arcade;
 		};
-		9479665415EDE6B3004316AB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9479664E15EDE645004316AB;
-			remoteInfo = "Update Build Version";
-		};
 		94619C8D15C4CBD20019AC8E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1019,6 +1004,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 94619CA715C507B60019AC8E;
 			remoteInfo = "Nintendo FDS";
+		};
+		9479665415EDE6B3004316AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9479664E15EDE645004316AB;
+			remoteInfo = "Update Build Version";
 		};
 		94A1E9C91586F5C000986376 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1922,7 +1914,6 @@
 		945E43111517F5BC00057D08 /* controller_arcade_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade_mask.png; sourceTree = "<group>"; };
 		945E43121517F5BC00057D08 /* controller_arcade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade.png; sourceTree = "<group>"; };
 		945E43131517F5BC00057D08 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		949623E6164E0CD600952A86 /* Controller-Mappings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings-Info.plist"; sourceTree = "<group>"; };
 		94619C8015C4C3190019AC8E /* Atari 5200.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 5200.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94619C8415C4C3190019AC8E /* Atari 5200-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 5200-Info.plist"; sourceTree = "<group>"; };
 		94619C8615C4C3190019AC8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1947,6 +1938,7 @@
 		94619CBF15C50F8E0019AC8E /* controller_fc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc.png; sourceTree = "<group>"; };
 		94619CC015C50F8E0019AC8E /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
 		94619CC115C50F8E0019AC8E /* famicom_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = famicom_library.png; sourceTree = "<group>"; };
+		949623E6164E0CD600952A86 /* Controller-Mappings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings-Info.plist"; sourceTree = "<group>"; };
 		94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual Boy.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A1E9C01586F3B600986376 /* Virtual Boy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Virtual Boy-Info.plist"; sourceTree = "<group>"; };
 		94A1E9C21586F3B600986376 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -5584,7 +5576,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6711803136367240034379A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6265,11 +6256,6 @@
 			target = 945E42FA1517F2B500057D08 /* Arcade */;
 			targetProxy = 945E431E1517F75B00057D08 /* PBXContainerItemProxy */;
 		};
-		9479665515EDE6B3004316AB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9479664E15EDE645004316AB /* Update Build Version */;
-			targetProxy = 9479665415EDE6B3004316AB /* PBXContainerItemProxy */;
-		};
 		94619C8E15C4CBD20019AC8E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -6289,6 +6275,11 @@
 			isa = PBXTargetDependency;
 			target = 94619CA715C507B60019AC8E /* Nintendo FDS */;
 			targetProxy = 94619CC615C50FB20019AC8E /* PBXContainerItemProxy */;
+		};
+		9479665515EDE6B3004316AB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9479664E15EDE645004316AB /* Update Build Version */;
+			targetProxy = 9479665415EDE6B3004316AB /* PBXContainerItemProxy */;
 		};
 		94A1E9CA1586F5C000986376 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6573,14 +6564,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				C671181A136368330034379A /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		C67B0CB81363370B00F18A5D /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C67B0CB91363370B00F18A5D /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -7147,6 +7130,20 @@
 			};
 			name = Release;
 		};
+		9479664F15EDE645004316AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9479665015EDE645004316AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		94A1E9C51586F3B700986376 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -7227,8 +7224,6 @@
 				ARCHS = x86_64;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
-				PRODUCT_NAME = Disribution;
-				VALIDATE_PRODUCT = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -7243,6 +7238,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = NO;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
@@ -7253,9 +7249,6 @@
 				ARCHS = x86_64;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
-				PRODUCT_NAME = Disribution;
-				VALIDATE_PRODUCT = NO;
-				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -7263,6 +7256,7 @@
 				INFOPLIST_FILE = "PC-FX/PC-FX-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = NO;
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
@@ -7306,60 +7300,6 @@
 		94D7E8D215073BA000FBDD85 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "NDS/NDS-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = oesystemplugin;
-			};
-			name = Debug;
-		};
-		94D7E8D315073BA000FBDD85 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "NDS/NDS-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = oesystemplugin;
-			};
-			name = Release;
-		};
-		9479664F15EDE645004316AB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		9479665015EDE645004316AB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		94D7E8D215073BA000FBDD85 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -7382,6 +7322,23 @@
 				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
+		};
+		94D7E8D315073BA000FBDD85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "NDS/NDS-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
 		};
 		94EFD18515ACA626009BED8F /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -7908,15 +7865,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9479665115EDE646004316AB /* Build configuration list for PBXAggregateTarget "Update Build Version" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9479664F15EDE645004316AB /* Debug */,
-				9479665015EDE645004316AB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		94619C8B15C4C31A0019AC8E /* Build configuration list for PBXNativeTarget "Atari 5200" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -7931,6 +7879,15 @@
 			buildConfigurations = (
 				94619CB215C507B70019AC8E /* Debug */,
 				94619CB315C507B70019AC8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9479665115EDE646004316AB /* Build configuration list for PBXAggregateTarget "Update Build Version" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9479664F15EDE645004316AB /* Debug */,
+				9479665015EDE645004316AB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -7983,7 +7940,6 @@
 		94EFD18315ACA626009BED8F /* Build configuration list for PBXNativeTarget "Sega CD" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				94EFD18415ACA626009BED8F /* Debug */,
 				94EFD18515ACA626009BED8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
