@@ -25,11 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OENGPSystemController</string>
+	<string>OESystemController</string>
 	<key>OESystemName</key>
 	<string>NeoGeo Pocket</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.ngp</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+    <key>OEResponderClassKey</key>
+    <string>OENGPSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>94</integer>

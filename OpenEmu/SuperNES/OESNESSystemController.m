@@ -32,57 +32,28 @@
 
 @implementation OESNESSystemController
 
-- (NSUInteger)numberOfPlayers;
+- (NSString *)systemName
 {
-    return 8;
+    return ( [[OELocalizationHelper sharedHelper] isRegionJAP]
+            ? @"Super Famicom"
+            : @"Super Nintendo (SNES)");
 }
 
-- (Class)responderClass;
+- (NSImage *)systemIcon
 {
-    return [OESNESSystemResponder class];
-}
-
-- (NSDictionary *)defaultControls
-{
-    return @ {
-        @"OESNESButtonUp"           : @(kHIDUsage_KeyboardUpArrow)   ,
-        @"OESNESButtonDown"         : @(kHIDUsage_KeyboardDownArrow) ,
-        @"OESNESButtonLeft"         : @(kHIDUsage_KeyboardLeftArrow) ,
-        @"OESNESButtonRight"        : @(kHIDUsage_KeyboardRightArrow),
-        @"OESNESButtonA"            : @(kHIDUsage_KeyboardD)         ,
-        @"OESNESButtonB"            : @(kHIDUsage_KeyboardS)         ,
-        @"OESNESButtonX"            : @(kHIDUsage_KeyboardW)         ,
-        @"OESNESButtonY"            : @(kHIDUsage_KeyboardA)         ,
-        @"OESNESButtonTriggerLeft"  : @(kHIDUsage_KeyboardE)         ,
-        @"OESNESButtonTriggerRight" : @(kHIDUsage_KeyboardQ)         ,
-        @"OESNESButtonStart"        : @(kHIDUsage_KeyboardSpacebar)  ,
-        @"OESNESButtonSelect"       : @(kHIDUsage_KeyboardEscape)    ,
-    };
-}
-
-- (NSString*)systemName{
-	if([[OELocalizationHelper sharedHelper] isRegionJAP])
-		return @"Super Famicom";
-	else
-		return @"Super Nintendo (SNES)";
-}
-
-- (NSImage*)systemIcon
-{
-    NSString* imageName;
-	if([[OELocalizationHelper sharedHelper] isRegionNA])
-		imageName = @"snes_usa_library";
-	else 
-		imageName = @"snes_eujap_library"; 
+    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionNA]
+                           ? @"snes_usa_library"
+                           : @"snes_eujap_library");
     
-    NSImage* image = [NSImage imageNamed:imageName];
-    if(!image)
+    NSImage *image = [NSImage imageNamed:imageName];
+    if(image == nil)
     {
-        NSBundle* bundle = [NSBundle bundleForClass:[self class]];
-        NSString* path = [bundle pathForImageResource:imageName];
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        NSString *path = [bundle pathForImageResource:imageName];
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
     }
+    
     return image;
 }
 

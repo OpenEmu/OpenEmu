@@ -25,11 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OENDSSystemController</string>
+	<string>OESystemController</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.nds</string>
 	<key>OESystemName</key>
 	<string>Nintendo DS</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>4</integer>
+    <key>OEResponderClassKey</key>
+    <string>OENDSSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>103</integer>

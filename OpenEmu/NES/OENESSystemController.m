@@ -32,54 +32,28 @@
 
 @implementation OENESSystemController
 
-- (Class)responderClass;
-{
-    return [OENESSystemResponder class];
-}
-
-- (NSUInteger)numberOfPlayers;
-{
-    return 4;
-}
-
-- (NSDictionary *)defaultControls
-{
-    return @{
-    @"OENESButtonUp"     : @(kHIDUsage_KeyboardUpArrow)   ,
-    @"OENESButtonRight"  : @(kHIDUsage_KeyboardRightArrow),
-    @"OENESButtonLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
-    @"OENESButtonDown"   : @(kHIDUsage_KeyboardDownArrow) ,
-    @"OENESButtonA"      : @(kHIDUsage_KeyboardA)         ,
-    @"OENESButtonB"      : @(kHIDUsage_KeyboardS)         ,
-    @"OENESButtonStart"  : @(kHIDUsage_KeyboardSpacebar)  ,
-    @"OENESButtonSelect" : @(kHIDUsage_KeyboardEscape)    ,
-    };
-}
-
 - (NSString *)systemName
 {
-	if([[OELocalizationHelper sharedHelper] isRegionJAP])
-		return @"Famicom";
-	else
-		return @"Nintendo (NES)";
+    return (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+            ? @"Famicom"
+            : @"Nintendo (NES)");
 }
 
-- (NSImage*)systemIcon
+- (NSImage *)systemIcon
 {
-    NSString* imageName;
-	if([[OELocalizationHelper sharedHelper] isRegionJAP])
-		imageName = @"famicom_library";
-	else 
-		imageName = @"nes_library"; 
+    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+                           ? @"famicom_library"
+                           : @"nes_library");
     
-    NSImage* image = [NSImage imageNamed:imageName];
-    if(!image)
+    NSImage *image = [NSImage imageNamed:imageName];
+    if(image == nil)
     {
-        NSBundle* bundle = [NSBundle bundleForClass:[self class]];
-        NSString* path = [bundle pathForImageResource:imageName];
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        NSString *path = [bundle pathForImageResource:imageName];
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
     }
+    
     return image;
 }
 

@@ -41,7 +41,7 @@
     return [OENGPSystemResponder class];
 }
 
-- (NSDictionary *)defaultControls
+- (NSDictionary *)defaultKeyboardControls
 {
     return @{
     @"OENGPButtonUp"     : @(kHIDUsage_KeyboardUpArrow)   ,

@@ -108,7 +108,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
         [self OE_setupKeyBindingDescriptionsWithSystemController:aController];
         
         if(aDictionary != nil) [self OE_setupBindingsWithDictionaryRepresentation:aDictionary];
-        else                   [self OE_registerDefaultControls:[systemController defaultControls]];
+        else                   [self OE_registerDefaultControls:[systemController defaultKeyboardControls]];
     }
     
     return self;

@@ -104,7 +104,7 @@ static NSArray *cachedSupportedTypeExtensions = nil;
 {
     if(![bundleClass isSubclassOfClass:[OESystemController class]]) return nil;
     
-    return [super newPluginControllerWithClass:bundleClass];
+    return [[bundleClass alloc] initWithBundle:[self bundle]];
 }
 
 - (NSString *)systemName

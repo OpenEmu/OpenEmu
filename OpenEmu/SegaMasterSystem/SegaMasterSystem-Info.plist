@@ -25,11 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESMSSystemController</string>
+	<string>OESystemController</string>
 	<key>OESystemName</key>
 	<string>Sega Master System</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.sms</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>2</integer>
+    <key>OEResponderClassKey</key>
+    <string>OESMSSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>34</integer>

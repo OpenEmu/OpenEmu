@@ -25,7 +25,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OEArcadeSystemController</string>
+	<string>OESystemController</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>101</integer>
@@ -125,6 +125,10 @@
 	<string>openemu.system.arcade</string>
 	<key>OESystemName</key>
 	<string>Arcade</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEArcadeSystemResponder</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
 		<string>OEArcadeButtonUp</string>

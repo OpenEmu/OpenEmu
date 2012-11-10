@@ -69,7 +69,6 @@
 /* Begin PBXBuildFile section */
 		141554101442B3B300A01683 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		141554161442B3B300A01683 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 141554141442B3B300A01683 /* InfoPlist.strings */; };
-		1415541E1442B61700A01683 /* OEN64SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1415541D1442B61700A01683 /* OEN64SystemController.m */; };
 		141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 141554201442B7B100A01683 /* OEN64SystemResponder.m */; };
 		141554291442C12200A01683 /* controller_n64.png in Resources */ = {isa = PBXBuildFile; fileRef = 141554281442C12200A01683 /* controller_n64.png */; };
 		1415542D1442C84B00A01683 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -268,7 +267,6 @@
 		82277547148946DF00B19E27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		822775611489471A00B19E27 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 822775531489471A00B19E27 /* controller_sms.png */; };
 		822775651489471A00B19E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 822775551489471A00B19E27 /* InfoPlist.strings */; };
-		822775691489471A00B19E27 /* OEGGSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755A1489471A00B19E27 /* OEGGSystemController.m */; };
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
 		8245FD0814F763E600C64574 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 82C9B3FA14F75CB700D7E795 /* TPCircularBuffer.c */; };
 		8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C9B3FD14F75CD900D7E795 /* TPCircularBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -487,12 +485,11 @@
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
-		945E430D1517F59900057D08 /* OEArcadeSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E43091517F59800057D08 /* OEArcadeSystemController.m */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
 		945E43141517F5BC00057D08 /* arcade_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E430F1517F5BC00057D08 /* arcade_library.png */; };
 		945E43161517F5BC00057D08 /* controller_arcade_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E43111517F5BC00057D08 /* controller_arcade_mask.png */; };
 		945E43171517F5BC00057D08 /* controller_arcade.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E43121517F5BC00057D08 /* controller_arcade.png */; };
-		945E43181517F5BC00057D08 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 945E43131517F5BC00057D08 /* Controller-Preferences-Info.plist */; };
+		945E43181517F5BC00057D08 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 945E43131517F5BC00057D08 /* Controller-Preferences.plist */; };
 		945E431B1517F64800057D08 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
@@ -502,30 +499,29 @@
 		948E54131571D78D002D26E0 /* GameBoy Advance.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
 		948E54141571D78D002D26E0 /* NeoGeo Pocket.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
 		948E54151571D78D002D26E0 /* GameGear.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
-		949623E7164E0CD600952A86 /* Controller-Mappings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949623E6164E0CD600952A86 /* Controller-Mappings-Info.plist */; };
+		949623E7164E0CD600952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949623E6164E0CD600952A86 /* Controller-Mappings.plist */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
 		94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */; };
 		94D7E8DB15073DB000FBDD85 /* controller_nds.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D715073DB000FBDD85 /* controller_nds.png */; };
-		94D7E8DC15073DB000FBDD85 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D815073DB000FBDD85 /* Controller-Preferences-Info.plist */; };
+		94D7E8DC15073DB000FBDD85 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D815073DB000FBDD85 /* Controller-Preferences.plist */; };
 		94D7E8DD15073DB000FBDD85 /* nds_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D915073DB000FBDD85 /* nds_library.png */; };
-		94D7E8E315073E3900FBDD85 /* OENDSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D7E8DF15073E3800FBDD85 /* OENDSSystemController.m */; };
 		94D7E8E415073E3900FBDD85 /* OENDSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */; };
 		94D7E8E71507413D00FBDD85 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6252DA814E71D0500350A13 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = C6252DA914E71D0500350A13 /* controller_fc.png */; };
-		C6252DAC14E752E300350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAA14E752E300350A13 /* Controller-Preferences-Info.plist */; };
-		C6252DAE14E7556800350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAD14E7556800350A13 /* Controller-Preferences-Info.plist */; };
-		C6252DB214E7566600350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DB114E7566600350A13 /* Controller-Preferences-Info.plist */; };
-		C6252DB414E7572C00350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DB314E7572C00350A13 /* Controller-Preferences-Info.plist */; };
-		C6252DB614E7578D00350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DB514E7578D00350A13 /* Controller-Preferences-Info.plist */; };
-		C6252DB814E7590C00350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DB714E7590C00350A13 /* Controller-Preferences-Info.plist */; };
-		C6252DBA14E759DB00350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DB914E759DB00350A13 /* Controller-Preferences-Info.plist */; };
-		C6252DBC14E75A4800350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DBB14E75A4800350A13 /* Controller-Preferences-Info.plist */; };
-		C6252DBE14E75AE700350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DBD14E75AE700350A13 /* Controller-Preferences-Info.plist */; };
-		C6252DC114E79EFB00350A13 /* Controller-Preferences-Info-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DBF14E79EF900350A13 /* Controller-Preferences-Info-JAP.plist */; };
-		C6252DC214E79EFB00350A13 /* Controller-Preferences-Info-NA.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DC014E79EFA00350A13 /* Controller-Preferences-Info-NA.plist */; };
-		C6252DC414E7A00000350A13 /* Controller-Preferences-Info-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DC314E7A00000350A13 /* Controller-Preferences-Info-JAP.plist */; };
+		C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAA14E752E300350A13 /* Controller-Preferences.plist */; };
+		C6252DAE14E7556800350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAD14E7556800350A13 /* Controller-Preferences.plist */; };
+		C6252DB214E7566600350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DB114E7566600350A13 /* Controller-Preferences.plist */; };
+		C6252DB414E7572C00350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DB314E7572C00350A13 /* Controller-Preferences.plist */; };
+		C6252DB614E7578D00350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DB514E7578D00350A13 /* Controller-Preferences.plist */; };
+		C6252DB814E7590C00350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DB714E7590C00350A13 /* Controller-Preferences.plist */; };
+		C6252DBA14E759DB00350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DB914E759DB00350A13 /* Controller-Preferences.plist */; };
+		C6252DBC14E75A4800350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DBB14E75A4800350A13 /* Controller-Preferences.plist */; };
+		C6252DBE14E75AE700350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DBD14E75AE700350A13 /* Controller-Preferences.plist */; };
+		C6252DC114E79EFB00350A13 /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DBF14E79EF900350A13 /* Controller-Preferences-JAP.plist */; };
+		C6252DC214E79EFB00350A13 /* Controller-Preferences-NA.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DC014E79EFA00350A13 /* Controller-Preferences-NA.plist */; };
+		C6252DC414E7A00000350A13 /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DC314E7A00000350A13 /* Controller-Preferences-JAP.plist */; };
 		C6252DC814E7A38000350A13 /* OEControlsButtonSetupView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AFE0D50FED6FDF00AC0CCF /* OEControlsButtonSetupView.m */; };
 		C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C6289C31135B215B00EEE97C /* OESystemPlugin.m */; };
 		C62D53050FFB51D6007C2649 /* OECompositionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62D53040FFB51D6007C2649 /* OECompositionPlugin.m */; };
@@ -535,7 +531,6 @@
 		C646574913771F12002A4F70 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C646574F13771F12002A4F70 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C646574D13771F12002A4F70 /* InfoPlist.strings */; };
 		C646575613771F38002A4F70 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		C6465764137721D5002A4F70 /* OEGBASystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6465763137721D5002A4F70 /* OEGBASystemController.m */; };
 		C646576713772251002A4F70 /* OEGBASystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C646576613772251002A4F70 /* OEGBASystemResponder.m */; };
 		C6480FC213648F670094FA33 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C6480FC813648F670094FA33 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6480FC613648F670094FA33 /* InfoPlist.strings */; };
@@ -548,6 +543,7 @@
 		C64BB09E13647AEF00C1AB23 /* OENESSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C64BB09D13647AEF00C1AB23 /* OENESSystemController.m */; };
 		C64BB0A113647B3500C1AB23 /* OENESSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C64BB0A013647B3500C1AB23 /* OENESSystemResponder.m */; };
 		C64CBD551363E40B00BEE4F3 /* OESMSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6711826136369DE0034379A /* OESMSSystemResponder.m */; };
+		C6527BC1164E22AA0030FB25 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6527BC0164E22AA0030FB25 /* Keyboard-Mappings.plist */; };
 		C6640E031363F04100ECCAA5 /* NSUserDefaultsController+OEEventAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D268D9135BD95A00154550 /* NSUserDefaultsController+OEEventAdditions.m */; };
 		C66F5A7515F3842C0019CF9E /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
 		C66F5A7615F3843C0019CF9E /* OEMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -568,7 +564,6 @@
 		C671180A1363679F0034379A /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C6711811136368330034379A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C671181B136368330034379A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6711819136368330034379A /* InfoPlist.strings */; };
-		C6711824136369020034379A /* OESMSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6711823136369020034379A /* OESMSSystemController.m */; };
 		C671182A13636A080034379A /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C671182C13636A300034379A /* OpenEmuSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = C671182B13636A300034379A /* OpenEmuSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C67A36AA0FE7F1F500A665E2 /* OECorePluginIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */; };
@@ -585,15 +580,22 @@
 		C6AC9D391190C6490083DDFD /* OpenEmuHelperAppMain.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AC9D371190C5E60083DDFD /* OpenEmuHelperAppMain.m */; };
 		C6AC9D4D1190C9AE0083DDFD /* OEGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AC9D4C1190C9AE0083DDFD /* OEGameCoreManager.m */; };
 		C6AC9DEF1190E2C90083DDFD /* OpenEmuHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */; };
+		C6AF284A164E424600681A06 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6AF2849164E424600681A06 /* Keyboard-Mappings.plist */; };
+		C6AF284C164E45D400681A06 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6AF284B164E45D400681A06 /* Keyboard-Mappings.plist */; };
+		C6AF284E164E469C00681A06 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6AF284D164E469C00681A06 /* Keyboard-Mappings.plist */; };
+		C6AF2850164E46AC00681A06 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6AF284F164E46AC00681A06 /* Keyboard-Mappings.plist */; };
+		C6AF2852164E46BD00681A06 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6AF2851164E46BD00681A06 /* Keyboard-Mappings.plist */; };
+		C6AF2854164E470B00681A06 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6AF2853164E470B00681A06 /* Keyboard-Mappings.plist */; };
+		C6AF2856164E471E00681A06 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6AF2855164E471E00681A06 /* Keyboard-Mappings.plist */; };
+		C6AF2858164E472A00681A06 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6AF2857164E472A00681A06 /* Keyboard-Mappings.plist */; };
+		C6AF285A164E473C00681A06 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6AF2859164E473C00681A06 /* Keyboard-Mappings.plist */; };
 		C6B947B01364ECA700A425F0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C6B947B61364ECA700A425F0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6B947B41364ECA700A425F0 /* InfoPlist.strings */; };
 		C6B947C01364EE6C00A425F0 /* OEGBSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B947BB1364EE6C00A425F0 /* OEGBSystemResponder.m */; };
-		C6B947C11364EE6C00A425F0 /* OEGBSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B947BD1364EE6C00A425F0 /* OEGBSystemController.m */; };
 		C6B947E11364FEB600A425F0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C6B947E71365080B00A425F0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C6B947ED1365080B00A425F0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6B947EB1365080B00A425F0 /* InfoPlist.strings */; };
 		C6B948101365096800A425F0 /* OEGenesisSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B9480B1365096800A425F0 /* OEGenesisSystemResponder.m */; };
-		C6B948111365096800A425F0 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B9480D1365096800A425F0 /* OEGenesisSystemController.m */; };
 		C6B94814136511E100A425F0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
 		C6D268D6135BCE4900154550 /* NSString+OEAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6D268D4135BCE4900154550 /* NSString+OEAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -613,6 +615,7 @@
 		C6EB73FC136DF5C200B39A6F /* OEPluginController.h in Headers */ = {isa = PBXBuildFile; fileRef = C67B0D5E136352A300F18A5D /* OEPluginController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6EB73FF136DF60100B39A6F /* OpenEmuBase.h in Headers */ = {isa = PBXBuildFile; fileRef = C6EB73FD136DF5FC00B39A6F /* OpenEmuBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6F696BF1648F64B00B243DB /* Controller-Database.plist */; };
+		C6F697D6164E0EFD00B243DB /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6F697D5164E0EFD00B243DB /* Keyboard-Mappings.plist */; };
 		C6F738FC1617FF2B00BB2519 /* OEUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F738FB1617FF2B00BB2519 /* OEUtilities.m */; };
 		C6FC4C920FD2C5C3007CCD32 /* OEGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C6FC4C900FD2C5C3007CCD32 /* OEGameCore.m */; };
 		EF2FDBE514CFFBB8002A64F2 /* OEGameViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 830155791456BF7A0093D681 /* OEGameViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -954,8 +957,6 @@
 		1415540F1442B3B300A01683 /* N64.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = N64.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		141554131442B3B300A01683 /* N64-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "N64-Info.plist"; sourceTree = "<group>"; };
 		141554151442B3B300A01683 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1415541C1442B61700A01683 /* OEN64SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemController.h; sourceTree = "<group>"; };
-		1415541D1442B61700A01683 /* OEN64SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64SystemController.m; sourceTree = "<group>"; };
 		1415541F1442B7B100A01683 /* OEN64SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponder.h; sourceTree = "<group>"; };
 		141554201442B7B100A01683 /* OEN64SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64SystemResponder.m; sourceTree = "<group>"; };
 		141554221442B85000A01683 /* OEN64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponderClient.h; sourceTree = "<group>"; };
@@ -1248,8 +1249,6 @@
 		8227754F148946DF00B19E27 /* GameGear.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameGear.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		822775531489471A00B19E27 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
 		822775561489471A00B19E27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		822775591489471A00B19E27 /* OEGGSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGGSystemController.h; sourceTree = "<group>"; };
-		8227755A1489471A00B19E27 /* OEGGSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGGSystemController.m; sourceTree = "<group>"; };
 		8227755B1489471A00B19E27 /* OEGGSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGGSystemResponder.h; sourceTree = "<group>"; };
 		8227755C1489471A00B19E27 /* OEGGSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGGSystemResponder.m; sourceTree = "<group>"; };
 		8227755D1489471A00B19E27 /* OEGGSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGGSystemResponderClient.h; sourceTree = "<group>"; };
@@ -1569,25 +1568,21 @@
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		945E43081517F59800057D08 /* OEArcadeSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemController.h; sourceTree = "<group>"; };
-		945E43091517F59800057D08 /* OEArcadeSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArcadeSystemController.m; sourceTree = "<group>"; };
 		945E430A1517F59900057D08 /* OEArcadeSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemResponder.h; sourceTree = "<group>"; };
 		945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArcadeSystemResponder.m; sourceTree = "<group>"; };
 		945E430C1517F59900057D08 /* OEArcadeSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemResponderClient.h; sourceTree = "<group>"; };
 		945E430F1517F5BC00057D08 /* arcade_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arcade_library.png; sourceTree = "<group>"; };
 		945E43111517F5BC00057D08 /* controller_arcade_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade_mask.png; sourceTree = "<group>"; };
 		945E43121517F5BC00057D08 /* controller_arcade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade.png; sourceTree = "<group>"; };
-		945E43131517F5BC00057D08 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		949623E6164E0CD600952A86 /* Controller-Mappings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings-Info.plist"; sourceTree = "<group>"; };
+		945E43131517F5BC00057D08 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		949623E6164E0CD600952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NDS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NDS-Info.plist"; sourceTree = "<group>"; };
 		94D7E8CF15073BA000FBDD85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nds_mask.png; sourceTree = "<group>"; };
 		94D7E8D715073DB000FBDD85 /* controller_nds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nds.png; sourceTree = "<group>"; };
-		94D7E8D815073DB000FBDD85 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94D7E8D815073DB000FBDD85 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94D7E8D915073DB000FBDD85 /* nds_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nds_library.png; sourceTree = "<group>"; };
-		94D7E8DE15073E3700FBDD85 /* OENDSSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemController.h; sourceTree = "<group>"; };
-		94D7E8DF15073E3800FBDD85 /* OENDSSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemController.m; sourceTree = "<group>"; };
 		94D7E8E015073E3800FBDD85 /* OENDSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponder.h; sourceTree = "<group>"; };
 		94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemResponder.m; sourceTree = "<group>"; };
 		94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponderClient.h; sourceTree = "<group>"; };
@@ -1595,18 +1590,18 @@
 		C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCoreController.m; sourceTree = "<group>"; };
 		C60CDDD611780DF100EB472F /* OpenGL Format Table.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenGL Format Table.txt"; sourceTree = "<group>"; };
 		C6252DA914E71D0500350A13 /* controller_fc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc.png; sourceTree = "<group>"; };
-		C6252DAA14E752E300350A13 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		C6252DAD14E7556800350A13 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		C6252DB114E7566600350A13 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		C6252DB314E7572C00350A13 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		C6252DB514E7578D00350A13 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		C6252DB714E7590C00350A13 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		C6252DB914E759DB00350A13 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		C6252DBB14E75A4800350A13 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		C6252DBD14E75AE700350A13 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		C6252DBF14E79EF900350A13 /* Controller-Preferences-Info-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info-JAP.plist"; sourceTree = "<group>"; };
-		C6252DC014E79EFA00350A13 /* Controller-Preferences-Info-NA.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info-NA.plist"; sourceTree = "<group>"; };
-		C6252DC314E7A00000350A13 /* Controller-Preferences-Info-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info-JAP.plist"; sourceTree = "<group>"; };
+		C6252DAA14E752E300350A13 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		C6252DAD14E7556800350A13 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		C6252DB114E7566600350A13 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		C6252DB314E7572C00350A13 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		C6252DB514E7578D00350A13 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		C6252DB714E7590C00350A13 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		C6252DB914E759DB00350A13 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		C6252DBB14E75A4800350A13 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		C6252DBD14E75AE700350A13 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		C6252DBF14E79EF900350A13 /* Controller-Preferences-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-JAP.plist"; sourceTree = "<group>"; };
+		C6252DC014E79EFA00350A13 /* Controller-Preferences-NA.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-NA.plist"; sourceTree = "<group>"; };
+		C6252DC314E7A00000350A13 /* Controller-Preferences-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-JAP.plist"; sourceTree = "<group>"; };
 		C6289C30135B215B00EEE97C /* OESystemPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemPlugin.h; sourceTree = "<group>"; };
 		C6289C31135B215B00EEE97C /* OESystemPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESystemPlugin.m; sourceTree = "<group>"; };
 		C6289C34135B27C100EEE97C /* OESystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OESystemController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1622,8 +1617,6 @@
 		C646574C13771F12002A4F70 /* GameBoy Advance-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GameBoy Advance-Info.plist"; sourceTree = "<group>"; };
 		C646574E13771F12002A4F70 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C6465761137720D5002A4F70 /* OEGBASystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemResponderClient.h; sourceTree = "<group>"; };
-		C6465762137721D5002A4F70 /* OEGBASystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemController.h; sourceTree = "<group>"; };
-		C6465763137721D5002A4F70 /* OEGBASystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBASystemController.m; sourceTree = "<group>"; };
 		C646576513772251002A4F70 /* OEGBASystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemResponder.h; sourceTree = "<group>"; };
 		C646576613772251002A4F70 /* OEGBASystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBASystemResponder.m; sourceTree = "<group>"; };
 		C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperNES.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1641,6 +1634,7 @@
 		C64BB09D13647AEF00C1AB23 /* OENESSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENESSystemController.m; sourceTree = "<group>"; };
 		C64BB09F13647B3500C1AB23 /* OENESSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENESSystemResponder.h; sourceTree = "<group>"; };
 		C64BB0A013647B3500C1AB23 /* OENESSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENESSystemResponder.m; sourceTree = "<group>"; };
+		C6527BC0164E22AA0030FB25 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		C669163B0FC9BC3E007DE3D8 /* OEControlsButtonSetupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsButtonSetupView.h; sourceTree = "<group>"; };
 		C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAbstractAdditions.h; sourceTree = "<group>"; };
 		C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAbstractAdditions.m; sourceTree = "<group>"; };
@@ -1654,8 +1648,6 @@
 		C6711815136368330034379A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C6711818136368330034379A /* SegaMasterSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SegaMasterSystem-Info.plist"; sourceTree = "<group>"; };
 		C671181A136368330034379A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C6711822136369020034379A /* OESMSSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESMSSystemController.h; sourceTree = "<group>"; };
-		C6711823136369020034379A /* OESMSSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESMSSystemController.m; sourceTree = "<group>"; };
 		C6711825136369DE0034379A /* OESMSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESMSSystemResponder.h; sourceTree = "<group>"; };
 		C6711826136369DE0034379A /* OESMSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESMSSystemResponder.m; sourceTree = "<group>"; };
 		C671182B13636A300034379A /* OpenEmuSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuSystem.h; sourceTree = "<group>"; };
@@ -1676,6 +1668,15 @@
 		C6AC9D371190C5E60083DDFD /* OpenEmuHelperAppMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuHelperAppMain.m; sourceTree = "<group>"; };
 		C6AC9D4B1190C9AE0083DDFD /* OEGameCoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreManager.h; sourceTree = "<group>"; };
 		C6AC9D4C1190C9AE0083DDFD /* OEGameCoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCoreManager.m; sourceTree = "<group>"; };
+		C6AF2849164E424600681A06 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		C6AF284B164E45D400681A06 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		C6AF284D164E469C00681A06 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		C6AF284F164E46AC00681A06 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		C6AF2851164E46BD00681A06 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		C6AF2853164E470B00681A06 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		C6AF2855164E471E00681A06 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		C6AF2857164E472A00681A06 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		C6AF2859164E473C00681A06 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		C6AFE0D50FED6FDF00AC0CCF /* OEControlsButtonSetupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsButtonSetupView.m; sourceTree = "<group>"; };
 		C6B3E67B1365250D00D34947 /* OESMSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESMSSystemResponderClient.h; sourceTree = "<group>"; };
 		C6B3E691136525D100D34947 /* OENESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENESSystemResponderClient.h; sourceTree = "<group>"; };
@@ -1686,17 +1687,13 @@
 		C6B947B51364ECA700A425F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C6B947BB1364EE6C00A425F0 /* OEGBSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBSystemResponder.m; sourceTree = "<group>"; };
 		C6B947BC1364EE6C00A425F0 /* OEGBSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBSystemResponderClient.h; sourceTree = "<group>"; };
-		C6B947BD1364EE6C00A425F0 /* OEGBSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBSystemController.m; sourceTree = "<group>"; };
 		C6B947BE1364EE6C00A425F0 /* OEGBSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBSystemResponder.h; sourceTree = "<group>"; };
-		C6B947BF1364EE6C00A425F0 /* OEGBSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBSystemController.h; sourceTree = "<group>"; };
 		C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Genesis.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B947EA1365080B00A425F0 /* Genesis-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Genesis-Info.plist"; sourceTree = "<group>"; };
 		C6B947EC1365080B00A425F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C6B9480A1365096800A425F0 /* OEGenesisSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemResponderClient.h; sourceTree = "<group>"; };
 		C6B9480B1365096800A425F0 /* OEGenesisSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemResponder.m; sourceTree = "<group>"; };
 		C6B9480C1365096800A425F0 /* OEGenesisSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemResponder.h; sourceTree = "<group>"; };
-		C6B9480D1365096800A425F0 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
-		C6B9480E1365096800A425F0 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
 		C6BFB29C0F7CC8A600040FFA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C6C989C50F557D9200116EA2 /* OEHIDDeviceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDDeviceHandler.h; sourceTree = "<group>"; };
 		C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDDeviceHandler.m; sourceTree = "<group>"; };
@@ -1725,6 +1722,7 @@
 		C6F6480415F4BA7000BA9D9B /* OEUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEUtilities.h; sourceTree = "<group>"; };
 		C6F6480515F4BB2E00BA9D9B /* OpenEmuSystem_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenEmuSystem_Prefix.pch; sourceTree = "<group>"; };
 		C6F696BF1648F64B00B243DB /* Controller-Database.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Database.plist"; sourceTree = "<group>"; };
+		C6F697D5164E0EFD00B243DB /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		C6F738FB1617FF2B00BB2519 /* OEUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEUtilities.m; sourceTree = "<group>"; };
 		C6FC4C900FD2C5C3007CCD32 /* OEGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCore.m; sourceTree = "<group>"; };
 		EFBD5D7614EFE19A00FBD1E0 /* NSColor+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+OEAdditions.h"; sourceTree = "<group>"; };
@@ -1951,8 +1949,6 @@
 		141554111442B3B300A01683 /* N64 */ = {
 			isa = PBXGroup;
 			children = (
-				1415541C1442B61700A01683 /* OEN64SystemController.h */,
-				1415541D1442B61700A01683 /* OEN64SystemController.m */,
 				1415541F1442B7B100A01683 /* OEN64SystemResponder.h */,
 				141554201442B7B100A01683 /* OEN64SystemResponder.m */,
 				141554221442B85000A01683 /* OEN64SystemResponderClient.h */,
@@ -1967,7 +1963,8 @@
 				83FBA37214F2C699001F1299 /* n64_library.png */,
 				141554281442C12200A01683 /* controller_n64.png */,
 				141554131442B3B300A01683 /* N64-Info.plist */,
-				C6252DB114E7566600350A13 /* Controller-Preferences-Info.plist */,
+				C6AF284F164E46AC00681A06 /* Keyboard-Mappings.plist */,
+				C6252DB114E7566600350A13 /* Controller-Preferences.plist */,
 				141554141442B3B300A01683 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -2811,8 +2808,6 @@
 		822775521489471A00B19E27 /* GameGear */ = {
 			isa = PBXGroup;
 			children = (
-				822775591489471A00B19E27 /* OEGGSystemController.h */,
-				8227755A1489471A00B19E27 /* OEGGSystemController.m */,
 				8227755B1489471A00B19E27 /* OEGGSystemResponder.h */,
 				8227755C1489471A00B19E27 /* OEGGSystemResponder.m */,
 				8227755D1489471A00B19E27 /* OEGGSystemResponderClient.h */,
@@ -3300,8 +3295,6 @@
 		945E42FD1517F2B500057D08 /* Arcade */ = {
 			isa = PBXGroup;
 			children = (
-				945E43081517F59800057D08 /* OEArcadeSystemController.h */,
-				945E43091517F59800057D08 /* OEArcadeSystemController.m */,
 				945E430A1517F59900057D08 /* OEArcadeSystemResponder.h */,
 				945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */,
 				945E430C1517F59900057D08 /* OEArcadeSystemResponderClient.h */,
@@ -3318,7 +3311,8 @@
 				945E43121517F5BC00057D08 /* controller_arcade.png */,
 				945E43001517F2B500057D08 /* InfoPlist.strings */,
 				945E42FF1517F2B500057D08 /* Arcade-Info.plist */,
-				945E43131517F5BC00057D08 /* Controller-Preferences-Info.plist */,
+				C6527BC0164E22AA0030FB25 /* Keyboard-Mappings.plist */,
+				945E43131517F5BC00057D08 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3326,8 +3320,6 @@
 		94D7E8CB15073BA000FBDD85 /* NDS */ = {
 			isa = PBXGroup;
 			children = (
-				94D7E8DE15073E3700FBDD85 /* OENDSSystemController.h */,
-				94D7E8DF15073E3800FBDD85 /* OENDSSystemController.m */,
 				94D7E8E015073E3800FBDD85 /* OENDSSystemResponder.h */,
 				94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */,
 				94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */,
@@ -3344,7 +3336,8 @@
 				94D7E8D715073DB000FBDD85 /* controller_nds.png */,
 				94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */,
 				94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */,
-				94D7E8D815073DB000FBDD85 /* Controller-Preferences-Info.plist */,
+				C6AF2849164E424600681A06 /* Keyboard-Mappings.plist */,
+				94D7E8D815073DB000FBDD85 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3365,7 +3358,8 @@
 				820EB74E1483F9D3008EC398 /* controller_sms.png */,
 				820EB7501483F9D3008EC398 /* InfoPlist.strings */,
 				820EB7591483F9D3008EC398 /* NeoGeoPocket-Info.plist */,
-				C6252DAD14E7556800350A13 /* Controller-Preferences-Info.plist */,
+				C6AF284D164E469C00681A06 /* Keyboard-Mappings.plist */,
+				C6252DAD14E7556800350A13 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3378,7 +3372,8 @@
 				822775531489471A00B19E27 /* controller_sms.png */,
 				822775551489471A00B19E27 /* InfoPlist.strings */,
 				8227755E1489471A00B19E27 /* GameGear-Info.plist */,
-				C6252DAA14E752E300350A13 /* Controller-Preferences-Info.plist */,
+				C6AF284B164E45D400681A06 /* Keyboard-Mappings.plist */,
+				C6252DAA14E752E300350A13 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3400,8 +3395,8 @@
 				C69259FA15045B03003E6FD3 /* OEEvent.h */,
 				C69259FB15045B03003E6FD3 /* OEEvent.m */,
 				C6DC91CB15F3B5530082184C /* Bindings Controller */,
-				8353CE321561BF6D0045A3DD /* Wiimote HID */,
 				93B479F512BAB52F008618A7 /* HID */,
+				8353CE321561BF6D0045A3DD /* Wiimote HID */,
 			);
 			name = "System Input Core";
 			sourceTree = "<group>";
@@ -3424,8 +3419,6 @@
 		C646574A13771F12002A4F70 /* GameBoy Advance */ = {
 			isa = PBXGroup;
 			children = (
-				C6465762137721D5002A4F70 /* OEGBASystemController.h */,
-				C6465763137721D5002A4F70 /* OEGBASystemController.m */,
 				C646576513772251002A4F70 /* OEGBASystemResponder.h */,
 				C646576613772251002A4F70 /* OEGBASystemResponder.m */,
 				C6465761137720D5002A4F70 /* OEGBASystemResponderClient.h */,
@@ -3441,7 +3434,8 @@
 				830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */,
 				83DC1FCA1470857900F3D77A /* controller_gba.png */,
 				C646574C13771F12002A4F70 /* GameBoy Advance-Info.plist */,
-				C6252DBD14E75AE700350A13 /* Controller-Preferences-Info.plist */,
+				C6AF2859164E473C00681A06 /* Keyboard-Mappings.plist */,
+				C6252DBD14E75AE700350A13 /* Controller-Preferences.plist */,
 				C646574D13771F12002A4F70 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -3470,10 +3464,11 @@
 				83977F621408FE4700175858 /* controller_snes_jap.png */,
 				83977F631408FE4700175858 /* controller_snes_usa.png */,
 				C6480FC513648F670094FA33 /* SuperNES-Info.plist */,
-				949623E6164E0CD600952A86 /* Controller-Mappings-Info.plist */,
-				C6252DB714E7590C00350A13 /* Controller-Preferences-Info.plist */,
-				C6252DBF14E79EF900350A13 /* Controller-Preferences-Info-JAP.plist */,
-				C6252DC014E79EFA00350A13 /* Controller-Preferences-Info-NA.plist */,
+				C6F697D5164E0EFD00B243DB /* Keyboard-Mappings.plist */,
+				949623E6164E0CD600952A86 /* Controller-Mappings.plist */,
+				C6252DB714E7590C00350A13 /* Controller-Preferences.plist */,
+				C6252DBF14E79EF900350A13 /* Controller-Preferences-JAP.plist */,
+				C6252DC014E79EFA00350A13 /* Controller-Preferences-NA.plist */,
 				C6480FC613648F670094FA33 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -3502,8 +3497,9 @@
 				83977F6A1408FE8E00175858 /* controller_nes.png */,
 				83F4DE1814E0096500A82E36 /* controller_nes_mask.png */,
 				C64BB091136478E600C1AB23 /* NES-Info.plist */,
-				C6252DB514E7578D00350A13 /* Controller-Preferences-Info.plist */,
-				C6252DC314E7A00000350A13 /* Controller-Preferences-Info-JAP.plist */,
+				C6AF2853164E470B00681A06 /* Keyboard-Mappings.plist */,
+				C6252DB514E7578D00350A13 /* Controller-Preferences.plist */,
+				C6252DC314E7A00000350A13 /* Controller-Preferences-JAP.plist */,
 				C64BB092136478E600C1AB23 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -3553,7 +3549,8 @@
 				83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */,
 				83977F6D1408FEA800175858 /* controller_sms.png */,
 				C6711818136368330034379A /* SegaMasterSystem-Info.plist */,
-				C6252DB314E7572C00350A13 /* Controller-Preferences-Info.plist */,
+				C6AF2851164E46BD00681A06 /* Keyboard-Mappings.plist */,
+				C6252DB314E7572C00350A13 /* Controller-Preferences.plist */,
 				C6711819136368330034379A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -3580,8 +3577,6 @@
 		C6711821136368A30034379A /* Sega Master System */ = {
 			isa = PBXGroup;
 			children = (
-				C6711822136369020034379A /* OESMSSystemController.h */,
-				C6711823136369020034379A /* OESMSSystemController.m */,
 				C6711825136369DE0034379A /* OESMSSystemResponder.h */,
 				C6711826136369DE0034379A /* OESMSSystemResponder.m */,
 				C6B3E67B1365250D00D34947 /* OESMSSystemResponderClient.h */,
@@ -3611,8 +3606,6 @@
 		C6B947B11364ECA700A425F0 /* GameBoy */ = {
 			isa = PBXGroup;
 			children = (
-				C6B947BF1364EE6C00A425F0 /* OEGBSystemController.h */,
-				C6B947BD1364EE6C00A425F0 /* OEGBSystemController.m */,
 				C6B947BE1364EE6C00A425F0 /* OEGBSystemResponder.h */,
 				C6B947BB1364EE6C00A425F0 /* OEGBSystemResponder.m */,
 				C6B947BC1364EE6C00A425F0 /* OEGBSystemResponderClient.h */,
@@ -3628,7 +3621,8 @@
 				83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */,
 				83977F671408FE6700175858 /* controller_gb.png */,
 				C6B947B31364ECA700A425F0 /* GameBoy-Info.plist */,
-				C6252DB914E759DB00350A13 /* Controller-Preferences-Info.plist */,
+				C6AF2855164E471E00681A06 /* Keyboard-Mappings.plist */,
+				C6252DB914E759DB00350A13 /* Controller-Preferences.plist */,
 				C6B947B41364ECA700A425F0 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -3637,8 +3631,6 @@
 		C6B947E81365080B00A425F0 /* Genesis */ = {
 			isa = PBXGroup;
 			children = (
-				C6B9480E1365096800A425F0 /* OEGenesisSystemController.h */,
-				C6B9480D1365096800A425F0 /* OEGenesisSystemController.m */,
 				C6B9480C1365096800A425F0 /* OEGenesisSystemResponder.h */,
 				C6B9480B1365096800A425F0 /* OEGenesisSystemResponder.m */,
 				C6B9480A1365096800A425F0 /* OEGenesisSystemResponderClient.h */,
@@ -3654,7 +3646,8 @@
 				83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */,
 				83AE9F0A14B271E200E91BD8 /* controller_genesis.png */,
 				C6B947EA1365080B00A425F0 /* Genesis-Info.plist */,
-				C6252DBB14E75A4800350A13 /* Controller-Preferences-Info.plist */,
+				C6AF2857164E472A00681A06 /* Keyboard-Mappings.plist */,
+				C6252DBB14E75A4800350A13 /* Controller-Preferences.plist */,
 				C6B947EB1365080B00A425F0 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -4123,8 +4116,9 @@
 			files = (
 				141554161442B3B300A01683 /* InfoPlist.strings in Resources */,
 				141554291442C12200A01683 /* controller_n64.png in Resources */,
-				C6252DB214E7566600350A13 /* Controller-Preferences-Info.plist in Resources */,
+				C6252DB214E7566600350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37314F2C699001F1299 /* n64_library.png in Resources */,
+				C6AF2850164E46AC00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4142,8 +4136,9 @@
 				82C2909214840028007C0214 /* InfoPlist.strings in Resources */,
 				82C290931484002F007C0214 /* controller_sms.png in Resources */,
 				83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */,
-				C6252DAE14E7556800350A13 /* Controller-Preferences-Info.plist in Resources */,
+				C6252DAE14E7556800350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37114F2C672001F1299 /* neogeopocket_library.png in Resources */,
+				C6AF284E164E469C00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4154,8 +4149,9 @@
 				822775651489471A00B19E27 /* InfoPlist.strings in Resources */,
 				822775611489471A00B19E27 /* controller_sms.png in Resources */,
 				83F4DE2014E00EE600A82E36 /* controller_sms_mask.png in Resources */,
-				C6252DAC14E752E300350A13 /* Controller-Preferences-Info.plist in Resources */,
+				C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA36F14F2C62F001F1299 /* gamegear_library.png in Resources */,
+				C6AF284C164E45D400681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4340,7 +4336,8 @@
 				945E43141517F5BC00057D08 /* arcade_library.png in Resources */,
 				945E43161517F5BC00057D08 /* controller_arcade_mask.png in Resources */,
 				945E43171517F5BC00057D08 /* controller_arcade.png in Resources */,
-				945E43181517F5BC00057D08 /* Controller-Preferences-Info.plist in Resources */,
+				945E43181517F5BC00057D08 /* Controller-Preferences.plist in Resources */,
+				C6527BC1164E22AA0030FB25 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4351,8 +4348,9 @@
 				94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */,
 				94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */,
 				94D7E8DB15073DB000FBDD85 /* controller_nds.png in Resources */,
-				94D7E8DC15073DB000FBDD85 /* Controller-Preferences-Info.plist in Resources */,
+				94D7E8DC15073DB000FBDD85 /* Controller-Preferences.plist in Resources */,
 				94D7E8DD15073DB000FBDD85 /* nds_library.png in Resources */,
+				C6AF284A164E424600681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4363,8 +4361,9 @@
 				C646574F13771F12002A4F70 /* InfoPlist.strings in Resources */,
 				83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */,
 				830BC86C14D5F1DD000826E2 /* controller_gba_mask.png in Resources */,
-				C6252DBE14E75AE700350A13 /* Controller-Preferences-Info.plist in Resources */,
+				C6252DBE14E75AE700350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA38314F2C870001F1299 /* gba_library.png in Resources */,
+				C6AF285A164E473C00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4377,12 +4376,13 @@
 				83977F651408FE4700175858 /* controller_snes_jap.png in Resources */,
 				83977F661408FE4700175858 /* controller_snes_usa.png in Resources */,
 				830BC86914D5E35A000826E2 /* controller_snes_mask.png in Resources */,
-				C6252DB814E7590C00350A13 /* Controller-Preferences-Info.plist in Resources */,
-				C6252DC114E79EFB00350A13 /* Controller-Preferences-Info-JAP.plist in Resources */,
-				C6252DC214E79EFB00350A13 /* Controller-Preferences-Info-NA.plist in Resources */,
+				C6252DB814E7590C00350A13 /* Controller-Preferences.plist in Resources */,
+				C6252DC114E79EFB00350A13 /* Controller-Preferences-JAP.plist in Resources */,
+				C6252DC214E79EFB00350A13 /* Controller-Preferences-NA.plist in Resources */,
 				83FBA37C14F2C7DB001F1299 /* snes_eujap_library.png in Resources */,
 				83FBA37D14F2C7DB001F1299 /* snes_usa_library.png in Resources */,
-				949623E7164E0CD600952A86 /* Controller-Mappings-Info.plist in Resources */,
+				949623E7164E0CD600952A86 /* Controller-Mappings.plist in Resources */,
+				C6F697D6164E0EFD00B243DB /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4397,8 +4397,9 @@
 				83977F6C1408FE8E00175858 /* controller_nes.png in Resources */,
 				83F4DE1714E005DB00A82E36 /* controller_fc_mask.png in Resources */,
 				83F4DE1A14E0096F00A82E36 /* controller_nes_mask.png in Resources */,
-				C6252DB614E7578D00350A13 /* Controller-Preferences-Info.plist in Resources */,
-				C6252DC414E7A00000350A13 /* Controller-Preferences-Info-JAP.plist in Resources */,
+				C6252DB614E7578D00350A13 /* Controller-Preferences.plist in Resources */,
+				C6252DC414E7A00000350A13 /* Controller-Preferences-JAP.plist in Resources */,
+				C6AF2854164E470B00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4416,8 +4417,9 @@
 				C671181B136368330034379A /* InfoPlist.strings in Resources */,
 				83977F6E1408FEA800175858 /* controller_sms.png in Resources */,
 				83F4DE1D14E00C9800A82E36 /* controller_sms_mask.png in Resources */,
-				C6252DB414E7572C00350A13 /* Controller-Preferences-Info.plist in Resources */,
+				C6252DB414E7572C00350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37914F2C795001F1299 /* sms_library.png in Resources */,
+				C6AF2852164E46BD00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4428,8 +4430,9 @@
 				C6B947B61364ECA700A425F0 /* InfoPlist.strings in Resources */,
 				83977F681408FE6700175858 /* controller_gb.png in Resources */,
 				83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */,
-				C6252DBA14E759DB00350A13 /* Controller-Preferences-Info.plist in Resources */,
+				C6252DBA14E759DB00350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37F14F2C81C001F1299 /* gameboy_library.png in Resources */,
+				C6AF2856164E471E00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4440,8 +4443,9 @@
 				C6B947ED1365080B00A425F0 /* InfoPlist.strings in Resources */,
 				83AE9F0D14B2725300E91BD8 /* controller_genesis.png in Resources */,
 				83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */,
-				C6252DBC14E75A4800350A13 /* Controller-Preferences-Info.plist in Resources */,
+				C6252DBC14E75A4800350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA38114F2C857001F1299 /* genesis_library.png in Resources */,
+				C6AF2858164E472A00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4504,7 +4508,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1415541E1442B61700A01683 /* OEN64SystemController.m in Sources */,
 				141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4546,7 +4549,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				822775691489471A00B19E27 /* OEGGSystemController.m in Sources */,
 				8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4750,7 +4752,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				945E430D1517F59900057D08 /* OEArcadeSystemController.m in Sources */,
 				945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4759,7 +4760,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94D7E8E315073E3900FBDD85 /* OENDSSystemController.m in Sources */,
 				94D7E8E415073E3900FBDD85 /* OENDSSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4768,7 +4768,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6465764137721D5002A4F70 /* OEGBASystemController.m in Sources */,
 				C646576713772251002A4F70 /* OEGBASystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4821,7 +4820,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6711824136369020034379A /* OESMSSystemController.m in Sources */,
 				C64CBD551363E40B00BEE4F3 /* OESMSSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4831,7 +4829,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6B947C01364EE6C00A425F0 /* OEGBSystemResponder.m in Sources */,
-				C6B947C11364EE6C00A425F0 /* OEGBSystemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4840,7 +4837,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6B948101365096800A425F0 /* OEGenesisSystemResponder.m in Sources */,
-				C6B948111365096800A425F0 /* OEGenesisSystemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
