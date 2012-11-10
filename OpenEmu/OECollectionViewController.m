@@ -573,7 +573,11 @@ static const float OE_coverFlowHeightPercentage = .75;
         [menu addItem:menuItem];    
         [menu addItemWithTitle:@"Show In Finder" action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
+
+        // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
+        // See the corresponding menu item a few lines below.
+//        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
+
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:@"Add Cover Art From File..." action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
@@ -601,7 +605,11 @@ static const float OE_coverFlowHeightPercentage = .75;
         [menu addItemWithTitle:@"Show In Finder" action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         
         [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
+
+        // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
+        // See the corresponding menu item a few lines above.
+//        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
+
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
         
         [menu addItem:[NSMenuItem separatorItem]];

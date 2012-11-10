@@ -29,29 +29,46 @@
 #import "OESystemPlugin.h"
 #import "NSURL+OELibraryAdditions.h"
 #import "OEROMImporter.h"
+#import <MagicKit/MagicKit.h>
 
 @implementation OEImportItem
 
 + (id)itemWithURL:(NSURL *)url andCompletionHandler:(OEImportItemCompletionBlock)handler
 {
     id item = nil;
-    
+
+    // Ignore hidden or package files
     NSDictionary *resourceValues = [url resourceValuesForKeys:@[ NSURLIsPackageKey, NSURLIsHiddenKey ] error:nil];
     if([[resourceValues objectForKey:NSURLIsHiddenKey] boolValue] || [[resourceValues objectForKey:NSURLIsPackageKey] boolValue])
-        return nil;    
+    {
+        DLog(@"%@ is a hidden file or a package directory, skipping", [url path]);
+        return nil;
+    }
 
+    // Ignore text files
+    GEMagicResult *magicResult = [GEMagicKit magicForFileAtURL:url];
+    if([[magicResult uniformTypeHierarchy] containsObject:(id)kUTTypeText])
+    {
+        DLog(@"%@ is a text file, skipping", [url path]);
+        return nil;
+    }
+
+    // Ignore unsupported file extensions
     NSArray *validExtensions = [OESystemPlugin supportedTypeExtensions];
     NSString *extension = [[url pathExtension] lowercaseString];
     
-    if([extension length] == 0 || [validExtensions containsObject:extension])
+    if([extension length] > 0 && ![validExtensions containsObject:extension])
     {
-        item = [[OEImportItem alloc] init];
-        
-        [item setURL:url];
-        [item setCompletionHandler:handler];
-        [item setImportState:OEImportItemStatusIdle];
-        [item setImportInfo:[NSMutableDictionary dictionaryWithCapacity:5]];
+        DLog(@"%@ is not a supported file extension, skipping", extension);
+        return nil;
     }
+
+    item = [[OEImportItem alloc] init];
+
+    [item setURL:url];
+    [item setCompletionHandler:handler];
+    [item setImportState:OEImportItemStatusIdle];
+    [item setImportInfo:[NSMutableDictionary dictionaryWithCapacity:5]];
 
     return item;
 }
