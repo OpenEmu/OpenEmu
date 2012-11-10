@@ -554,6 +554,7 @@
 		948E54131571D78D002D26E0 /* GameBoy Advance.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
 		948E54141571D78D002D26E0 /* NeoGeo Pocket.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
 		948E54151571D78D002D26E0 /* GameGear.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
+		949623E7164E0CD600952A86 /* Controller-Mappings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949623E6164E0CD600952A86 /* Controller-Mappings-Info.plist */; };
 		94619C8115C4C3190019AC8E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94619C8715C4C31A0019AC8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94619C8515C4C3190019AC8E /* InfoPlist.strings */; };
 		94619C8F15C4CBDD0019AC8E /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -1921,6 +1922,7 @@
 		945E43111517F5BC00057D08 /* controller_arcade_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade_mask.png; sourceTree = "<group>"; };
 		945E43121517F5BC00057D08 /* controller_arcade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade.png; sourceTree = "<group>"; };
 		945E43131517F5BC00057D08 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		949623E6164E0CD600952A86 /* Controller-Mappings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings-Info.plist"; sourceTree = "<group>"; };
 		94619C8015C4C3190019AC8E /* Atari 5200.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 5200.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94619C8415C4C3190019AC8E /* Atari 5200-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 5200-Info.plist"; sourceTree = "<group>"; };
 		94619C8615C4C3190019AC8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4293,6 +4295,7 @@
 				83977F621408FE4700175858 /* controller_snes_jap.png */,
 				83977F631408FE4700175858 /* controller_snes_usa.png */,
 				C6480FC513648F670094FA33 /* SuperNES-Info.plist */,
+				949623E6164E0CD600952A86 /* Controller-Mappings-Info.plist */,
 				C6252DB714E7590C00350A13 /* Controller-Preferences-Info.plist */,
 				C6252DBF14E79EF900350A13 /* Controller-Preferences-Info-JAP.plist */,
 				C6252DC014E79EFA00350A13 /* Controller-Preferences-Info-NA.plist */,
@@ -5557,6 +5560,7 @@
 				C6252DC214E79EFB00350A13 /* Controller-Preferences-Info-NA.plist in Resources */,
 				83FBA37C14F2C7DB001F1299 /* snes_eujap_library.png in Resources */,
 				83FBA37D14F2C7DB001F1299 /* snes_usa_library.png in Resources */,
+				949623E7164E0CD600952A86 /* Controller-Mappings-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
