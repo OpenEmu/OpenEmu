@@ -53,6 +53,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     NSMutableDictionary *deviceHandlersToBindings;
     
     NSMutableArray      *devicePlayerBindings;
+    
+    OEDevicePlayerBindings *emptyConfiguration;
 }
 
 - (NSString *)OE_descriptionForEvent:(id)anEvent;
@@ -113,6 +115,10 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
         
         if(aDictionary != nil) [self OE_setupBindingsWithDictionaryRepresentation:aDictionary];
         else                   [self OE_registerDefaultControls:[systemController defaultKeyboardControls]];
+        
+        emptyConfiguration = [[OEDevicePlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:0 deviceHandler:nil];
+        [emptyConfiguration OE_setBindingEvents:@{ }];
+        [emptyConfiguration OE_setBindingDescriptions:[self OE_stringValuesForBindings:nil possibleKeys:allKeyBindingsDescriptions]];
     }
     
     return self;
@@ -963,12 +969,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     if(controller == nil)
     {
         // This handler is the first of its kind for the application
-        controller = [[OEDevicePlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:0 deviceHandler:aHandler];
-        [controller OE_setBindingEvents:@{ }];
-        [controller OE_setBindingDescriptions:[self OE_stringValuesForBindings:nil possibleKeys:allKeyBindingsDescriptions]];
-        
-        // Add the device to the manufacturer's bindings even if the user never set any bindings
-        [manuBindings addObject:controller];
+        controller = [emptyConfiguration OE_playerBindingsWithDeviceHandler:aHandler playerNumber:0];
     }
     
     // Keep track of device handlers
