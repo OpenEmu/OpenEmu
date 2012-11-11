@@ -1,9 +1,5 @@
-
-
-
-
 /*
- Copyright (c) 2009-2011, OpenEmu Team
+ Copyright (c) 2009-2012, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -36,4 +32,3 @@ int main(int argc, char *argv[])
     srand(time(NULL));
     return NSApplicationMain(argc, (const char **) argv);
 }
-
