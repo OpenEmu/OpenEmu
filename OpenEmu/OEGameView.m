@@ -555,8 +555,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
             [img addRepresentation:imageRep];
             
-            [img setFlipped:YES]; // this is deprecated in 10.6
-            [img lockFocusOnRepresentation:imageRep]; // this will flip the rep
+            // this will flip the rep
+            [img lockFocusFlipped:YES];
+            [imageRep drawInRect:NSMakeRect(0,0,[img size].width, [img size].height)];
             [img unlockFocus];
             
             screenshotHandler(img);
