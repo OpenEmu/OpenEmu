@@ -507,6 +507,7 @@
 		949628D4164F77C400952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628D3164F77C400952A86 /* Controller-Mappings.plist */; };
 		94962908164F7D9E00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94962907164F7D9E00952A86 /* Controller-Mappings.plist */; };
 		9496290A164F7F7E00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94962909164F7F7E00952A86 /* Controller-Mappings.plist */; };
+		9496290C164F834D00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9496290B164F834D00952A86 /* Controller-Mappings.plist */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
 		94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */; };
@@ -1590,6 +1591,7 @@
 		949628D3164F77C400952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94962907164F7D9E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94962909164F7F7E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		9496290B164F834D00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NDS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NDS-Info.plist"; sourceTree = "<group>"; };
 		94D7E8CF15073BA000FBDD85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3668,6 +3670,7 @@
 				83AE9F0A14B271E200E91BD8 /* controller_genesis.png */,
 				C6B947EA1365080B00A425F0 /* Genesis-Info.plist */,
 				C6AF2857164E472A00681A06 /* Keyboard-Mappings.plist */,
+				9496290B164F834D00952A86 /* Controller-Mappings.plist */,
 				C6252DBB14E75A4800350A13 /* Controller-Preferences.plist */,
 				C6B947EB1365080B00A425F0 /* InfoPlist.strings */,
 			);
@@ -4473,6 +4476,7 @@
 				83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */,
 				C6252DBC14E75A4800350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA38114F2C857001F1299 /* genesis_library.png in Resources */,
+				9496290C164F834D00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2858164E472A00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
