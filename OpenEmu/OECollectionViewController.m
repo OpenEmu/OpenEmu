@@ -500,6 +500,11 @@ static const float OE_coverFlowHeightPercentage = .75;
         [item setImageSize:[object actualGridImageSizeforSize:[view itemSize]]];
         [item setImage:[object gridImageWithSize:[gridView itemSize]]];
     }
+    else
+    {
+        [item setImageSize:[gridView itemSize]];
+        [item setImage:nil];
+    }
     
     return item;
 }
