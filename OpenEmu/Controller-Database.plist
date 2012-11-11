@@ -234,5 +234,22 @@
 			</dict>
 		</array>
 	</dict>
+	<dict>
+		<key>OEControllerName</key>
+		<string>Gravis GamePad Pro</string>
+		<key>OEGenericControllerName</key>
+		<string>OEControllerGravisGamePadPro</string>
+		<key>OEControllerDevices</key>
+		<array>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Gravis GamePad Pro</string>
+				<key>OEControllerVendorID</key>
+				<integer>1064</integer>
+				<key>OEControllerProductID</key>
+				<integer>16385</integer>
+			</dict>
+		</array>
+	</dict>
 </array>
 </plist>
