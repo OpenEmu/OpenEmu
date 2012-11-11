@@ -4,84 +4,84 @@
 <dict>
 	<key>OEControllerMicrosoftXbox360</key>
 	<dict>
-		<key>OESNESButtonUp</key>
+		<key>OENDSButtonUp</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>12</integer>
 		</dict>
-		<key>OESNESButtonDown</key>
+		<key>OENDSButtonDown</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>13</integer>
 		</dict>
-		<key>OESNESButtonLeft</key>
+		<key>OENDSButtonLeft</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>14</integer>
 		</dict>
-		<key>OESNESButtonRight</key>
+		<key>OENDSButtonRight</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>15</integer>
 		</dict>
-		<key>OESNESButtonA</key>
+		<key>OENDSButtonA</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>2</integer>
 		</dict>
-		<key>OESNESButtonB</key>
+		<key>OENDSButtonB</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>1</integer>
 		</dict>
-		<key>OESNESButtonX</key>
+		<key>OENDSButtonX</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>4</integer>
 		</dict>
-		<key>OESNESButtonY</key>
+		<key>OENDSButtonY</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>3</integer>
 		</dict>
-		<key>OESNESButtonTriggerLeft</key>
+		<key>OENDSButtonL</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>5</integer>
 		</dict>
-		<key>OESNESButtonTriggerRight</key>
+		<key>OENDSButtonR</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>6</integer>
 		</dict>
-		<key>OESNESButtonStart</key>
+		<key>OENDSButtonStart</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>9</integer>
 		</dict>
-		<key>OESNESButtonSelect</key>
+		<key>OENDSButtonSelect</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
@@ -91,84 +91,84 @@
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
-		<key>OESNESButtonUp</key>
+		<key>OENDSButtonUp</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>5</integer>
 		</dict>
-		<key>OESNESButtonDown</key>
+		<key>OENDSButtonDown</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>7</integer>
 		</dict>
-		<key>OESNESButtonLeft</key>
+		<key>OENDSButtonLeft</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>8</integer>
 		</dict>
-		<key>OESNESButtonRight</key>
+		<key>OENDSButtonRight</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>6</integer>
 		</dict>
-		<key>OESNESButtonA</key>
+		<key>OENDSButtonA</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>14</integer>
 		</dict>
-		<key>OESNESButtonB</key>
+		<key>OENDSButtonB</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>15</integer>
 		</dict>
-		<key>OESNESButtonX</key>
+		<key>OENDSButtonX</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>13</integer>
 		</dict>
-		<key>OESNESButtonY</key>
+		<key>OENDSButtonY</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>16</integer>
 		</dict>
-		<key>OESNESButtonTriggerLeft</key>
+		<key>OENDSButtonL</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>11</integer>
 		</dict>
-		<key>OESNESButtonTriggerRight</key>
+		<key>OENDSButtonR</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>12</integer>
 		</dict>
-		<key>OESNESButtonStart</key>
+		<key>OENDSButtonStart</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>4</integer>
 		</dict>
-		<key>OESNESButtonSelect</key>
+		<key>OENDSButtonSelect</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
@@ -178,63 +178,63 @@
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
-		<key>OESNESButtonUp</key>
+		<key>OENDSButtonUp</key>
 		<dict>
 			<key>Type</key>
 			<string>HatSwitch</string>
 			<key>Direction</key>
 			<string>N</string>
 		</dict>
-		<key>OESNESButtonA</key>
+		<key>OENDSButtonA</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>3</integer>
 		</dict>
-		<key>OESNESButtonB</key>
+		<key>OENDSButtonB</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>2</integer>
 		</dict>
-		<key>OESNESButtonX</key>
+		<key>OENDSButtonX</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>4</integer>
 		</dict>
-		<key>OESNESButtonY</key>
+		<key>OENDSButtonY</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>1</integer>
 		</dict>
-		<key>OESNESButtonTriggerLeft</key>
+		<key>OENDSButtonL</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>5</integer>
 		</dict>
-		<key>OESNESButtonTriggerRight</key>
+		<key>OENDSButtonR</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>6</integer>
 		</dict>
-		<key>OESNESButtonStart</key>
+		<key>OENDSButtonStart</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>9</integer>
 		</dict>
-		<key>OESNESButtonSelect</key>
+		<key>OENDSButtonSelect</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
@@ -244,7 +244,7 @@
 	</dict>
 	<key>OEControllerSegaSaturn</key>
 	<dict>
-		<key>OESNESButtonUp</key>
+		<key>OENDSButtonUp</key>
 		<dict>
 			<key>Type</key>
 			<string>Axis</string>
@@ -253,7 +253,7 @@
 			<key>Direction</key>
 			<string>-1</string>
 		</dict>
-		<key>OESNESButtonLeft</key>
+		<key>OENDSButtonLeft</key>
 		<dict>
 			<key>Type</key>
 			<string>Axis</string>
@@ -262,56 +262,56 @@
 			<key>Direction</key>
 			<string>-1</string>
 		</dict>
-		<key>OESNESButtonA</key>
+		<key>OENDSButtonA</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>3</integer>
 		</dict>
-		<key>OESNESButtonB</key>
+		<key>OENDSButtonB</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>2</integer>
 		</dict>
-		<key>OESNESButtonX</key>
+		<key>OENDSButtonX</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>6</integer>
 		</dict>
-		<key>OESNESButtonY</key>
+		<key>OENDSButtonY</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>5</integer>
 		</dict>
-		<key>OESNESButtonTriggerLeft</key>
+		<key>OENDSButtonL</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>7</integer>
 		</dict>
-		<key>OESNESButtonTriggerRight</key>
+		<key>OENDSButtonR</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>8</integer>
 		</dict>
-		<key>OESNESButtonStart</key>
+		<key>OENDSButtonStart</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>9</integer>
 		</dict>
-		<key>OESNESButtonSelect</key>
+		<key>OENDSButtonSelect</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
@@ -321,7 +321,7 @@
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
-		<key>OESNESButtonUp</key>
+		<key>OENDSButtonUp</key>
 		<dict>
 			<key>Type</key>
 			<string>Axis</string>
@@ -330,7 +330,7 @@
 			<key>Direction</key>
 			<string>-1</string>
 		</dict>
-		<key>OESNESButtonLeft</key>
+		<key>OENDSButtonLeft</key>
 		<dict>
 			<key>Type</key>
 			<string>Axis</string>
@@ -339,56 +339,56 @@
 			<key>Direction</key>
 			<string>-1</string>
 		</dict>
-		<key>OESNESButtonA</key>
+		<key>OENDSButtonA</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>3</integer>
 		</dict>
-		<key>OESNESButtonB</key>
+		<key>OENDSButtonB</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>2</integer>
 		</dict>
-		<key>OESNESButtonX</key>
+		<key>OENDSButtonX</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>4</integer>
 		</dict>
-		<key>OESNESButtonY</key>
+		<key>OENDSButtonY</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>1</integer>
 		</dict>
-		<key>OESNESButtonTriggerLeft</key>
+		<key>OENDSButtonL</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>5</integer>
 		</dict>
-		<key>OESNESButtonTriggerRight</key>
+		<key>OENDSButtonR</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>6</integer>
 		</dict>
-		<key>OESNESButtonStart</key>
+		<key>OENDSButtonStart</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
 			<integer>10</integer>
 		</dict>
-		<key>OESNESButtonSelect</key>
+		<key>OENDSButtonSelect</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>

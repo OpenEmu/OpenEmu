@@ -572,6 +572,14 @@
 		948E54141571D78D002D26E0 /* NeoGeo Pocket.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
 		948E54151571D78D002D26E0 /* GameGear.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
 		949623E7164E0CD600952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949623E6164E0CD600952A86 /* Controller-Mappings.plist */; };
+		949628CC164F677500952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628CB164F677400952A86 /* Controller-Mappings.plist */; };
+		949628CE164F6A3C00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628CD164F6A3C00952A86 /* Controller-Mappings.plist */; };
+		949628D0164F6F2F00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628CF164F6F2F00952A86 /* Controller-Mappings.plist */; };
+		949628D2164F73D200952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628D1164F73D200952A86 /* Controller-Mappings.plist */; };
+		949628D4164F77C400952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628D3164F77C400952A86 /* Controller-Mappings.plist */; };
+		94962908164F7D9E00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94962907164F7D9E00952A86 /* Controller-Mappings.plist */; };
+		9496290A164F7F7E00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94962909164F7F7E00952A86 /* Controller-Mappings.plist */; };
+		9496290C164F834D00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9496290B164F834D00952A86 /* Controller-Mappings.plist */; };
 		94A1E9BD1586F3B600986376 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94A1E9C31586F3B600986376 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9C11586F3B600986376 /* InfoPlist.strings */; };
 		94A1E9CB1586F5CD00986376 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -1936,6 +1944,14 @@
 		94619CC015C50F8E0019AC8E /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
 		94619CC115C50F8E0019AC8E /* famicom_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = famicom_library.png; sourceTree = "<group>"; };
 		949623E6164E0CD600952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		949628CB164F677400952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		949628CD164F6A3C00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		949628CF164F6F2F00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		949628D1164F73D200952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		949628D3164F77C400952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94962907164F7D9E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94962909164F7F7E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		9496290B164F834D00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual Boy.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A1E9C01586F3B600986376 /* Virtual Boy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Virtual Boy-Info.plist"; sourceTree = "<group>"; };
 		94A1E9C21586F3B600986376 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4128,6 +4144,7 @@
 				94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */,
 				94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */,
 				C6AF2849164E424600681A06 /* Keyboard-Mappings.plist */,
+				949628D1164F73D200952A86 /* Controller-Mappings.plist */,
 				94D7E8D815073DB000FBDD85 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
@@ -4176,6 +4193,7 @@
 				820EB7501483F9D3008EC398 /* InfoPlist.strings */,
 				820EB7591483F9D3008EC398 /* NeoGeoPocket-Info.plist */,
 				C6AF284D164E469C00681A06 /* Keyboard-Mappings.plist */,
+				94962909164F7F7E00952A86 /* Controller-Mappings.plist */,
 				C6252DAD14E7556800350A13 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
@@ -4190,6 +4208,7 @@
 				822775551489471A00B19E27 /* InfoPlist.strings */,
 				8227755E1489471A00B19E27 /* GameGear-Info.plist */,
 				C6AF284B164E45D400681A06 /* Keyboard-Mappings.plist */,
+				949628D3164F77C400952A86 /* Controller-Mappings.plist */,
 				C6252DAA14E752E300350A13 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
@@ -4252,6 +4271,7 @@
 				83DC1FCA1470857900F3D77A /* controller_gba.png */,
 				C646574C13771F12002A4F70 /* GameBoy Advance-Info.plist */,
 				C6AF2859164E473C00681A06 /* Keyboard-Mappings.plist */,
+				949628CF164F6F2F00952A86 /* Controller-Mappings.plist */,
 				C6252DBD14E75AE700350A13 /* Controller-Preferences.plist */,
 				C646574D13771F12002A4F70 /* InfoPlist.strings */,
 			);
@@ -4315,6 +4335,7 @@
 				83F4DE1814E0096500A82E36 /* controller_nes_mask.png */,
 				C64BB091136478E600C1AB23 /* NES-Info.plist */,
 				C6AF2853164E470B00681A06 /* Keyboard-Mappings.plist */,
+				949628CB164F677400952A86 /* Controller-Mappings.plist */,
 				C6252DB514E7578D00350A13 /* Controller-Preferences.plist */,
 				C6252DC314E7A00000350A13 /* Controller-Preferences-JAP.plist */,
 				C64BB092136478E600C1AB23 /* InfoPlist.strings */,
@@ -4367,6 +4388,7 @@
 				83977F6D1408FEA800175858 /* controller_sms.png */,
 				C6711818136368330034379A /* SegaMasterSystem-Info.plist */,
 				C6AF2851164E46BD00681A06 /* Keyboard-Mappings.plist */,
+				94962907164F7D9E00952A86 /* Controller-Mappings.plist */,
 				C6252DB314E7572C00350A13 /* Controller-Preferences.plist */,
 				C6711819136368330034379A /* InfoPlist.strings */,
 			);
@@ -4450,6 +4472,7 @@
 				83977F671408FE6700175858 /* controller_gb.png */,
 				C6B947B31364ECA700A425F0 /* GameBoy-Info.plist */,
 				C6AF2855164E471E00681A06 /* Keyboard-Mappings.plist */,
+				949628CD164F6A3C00952A86 /* Controller-Mappings.plist */,
 				C6252DB914E759DB00350A13 /* Controller-Preferences.plist */,
 				C6B947B41364ECA700A425F0 /* InfoPlist.strings */,
 			);
@@ -4475,6 +4498,7 @@
 				83AE9F0A14B271E200E91BD8 /* controller_genesis.png */,
 				C6B947EA1365080B00A425F0 /* Genesis-Info.plist */,
 				C6AF2857164E472A00681A06 /* Keyboard-Mappings.plist */,
+				9496290B164F834D00952A86 /* Controller-Mappings.plist */,
 				C6252DBB14E75A4800350A13 /* Controller-Preferences.plist */,
 				C6B947EB1365080B00A425F0 /* InfoPlist.strings */,
 			);
@@ -5175,6 +5199,7 @@
 				83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */,
 				C6252DAE14E7556800350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37114F2C672001F1299 /* neogeopocket_library.png in Resources */,
+				9496290A164F7F7E00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF284E164E469C00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5188,6 +5213,7 @@
 				83F4DE2014E00EE600A82E36 /* controller_sms_mask.png in Resources */,
 				C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA36F14F2C62F001F1299 /* gamegear_library.png in Resources */,
+				949628D4164F77C400952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF284C164E45D400681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5508,6 +5534,7 @@
 				94D7E8DB15073DB000FBDD85 /* controller_nds.png in Resources */,
 				94D7E8DC15073DB000FBDD85 /* Controller-Preferences.plist in Resources */,
 				94D7E8DD15073DB000FBDD85 /* nds_library.png in Resources */,
+				949628D2164F73D200952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF284A164E424600681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5533,6 +5560,7 @@
 				830BC86C14D5F1DD000826E2 /* controller_gba_mask.png in Resources */,
 				C6252DBE14E75AE700350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA38314F2C870001F1299 /* gba_library.png in Resources */,
+				949628D0164F6F2F00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF285A164E473C00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5569,6 +5597,7 @@
 				83F4DE1A14E0096F00A82E36 /* controller_nes_mask.png in Resources */,
 				C6252DB614E7578D00350A13 /* Controller-Preferences.plist in Resources */,
 				C6252DC414E7A00000350A13 /* Controller-Preferences-JAP.plist in Resources */,
+				949628CC164F677500952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2854164E470B00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5589,6 +5618,7 @@
 				83F4DE1D14E00C9800A82E36 /* controller_sms_mask.png in Resources */,
 				C6252DB414E7572C00350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37914F2C795001F1299 /* sms_library.png in Resources */,
+				94962908164F7D9E00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2852164E46BD00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5602,6 +5632,7 @@
 				83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */,
 				C6252DBA14E759DB00350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37F14F2C81C001F1299 /* gameboy_library.png in Resources */,
+				949628CE164F6A3C00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2856164E471E00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5615,6 +5646,7 @@
 				83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */,
 				C6252DBC14E75A4800350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA38114F2C857001F1299 /* genesis_library.png in Resources */,
+				9496290C164F834D00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2858164E472A00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
