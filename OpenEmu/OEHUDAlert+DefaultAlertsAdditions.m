@@ -88,12 +88,10 @@ NSString *const OEResetSystemAlertSuppressionKey = @"resetSystemWithoutConfirmat
     }
     [alert setStringValue:name];
     [alert setHeight:112.0];    
-    [alert setWidth:372.0];
     [alert setInputLimit:40];
     
     [alert showSuppressionButtonForUDKey:OESaveGameAlertSuppressionKey];
-    [alert setSuppressionLabelText:NSLocalizedString(@"Don't ask again", @"")];
-    
+
     return alert;
 }
 
