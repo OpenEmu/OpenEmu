@@ -109,6 +109,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
         
         [self OE_setupKeyBindingDescriptionsWithSystemController:aController];
         
+        [self OE_setupDefaultDeviceBindingsWithDictionary:[aController defaultDeviceControls]];
+        
         if(aDictionary != nil) [self OE_setupBindingsWithDictionaryRepresentation:aDictionary];
         else                   [self OE_registerDefaultControls:[systemController defaultKeyboardControls]];
     }
@@ -191,7 +193,13 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
               }
           }];
          
-         [parsedDefaults setObject:[rawBindings copy] forKey:device];
+         
+         OEDevicePlayerBindings *controller = [[OEDevicePlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:0 deviceHandler:nil];
+         
+         [controller OE_setBindingEvents:rawBindings];
+         [controller OE_setBindingDescriptions:[self OE_stringValuesForBindings:rawBindings possibleKeys:allKeyBindingsDescriptions]];
+
+         [parsedDefaults setObject:controller forKey:device];
      }];
     
     _defaultDeviceBindings = [parsedDefaults copy];
@@ -933,17 +941,26 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     }
     
     for(OEDevicePlayerBindings *ctrl in manuBindings)
-    {
         if([ctrl deviceHandler] == nil)
         {
             controller = ctrl;
             [controller OE_setDeviceHandler:aHandler];
             break;
         }
+    
+    // No available slots in the known configurations, look for defaults
+    if(controller == nil)
+    {
+        OEDevicePlayerBindings *ctrl = [[self defaultDeviceBindings] objectForKey:manufacturerKey];
+        controller = [ctrl OE_playerBindingsWithDeviceHandler:aHandler playerNumber:0];
     }
     
-    // Search a suitable OEDevicePlayerBindings
-    if([manuBindings count] == 0)
+    // No defaults, duplicate the first manufacturer  device
+    if(controller == nil && [manuBindings count] > 0)
+        controller = [[manuBindings objectAtIndex:0] OE_playerBindingsWithDeviceHandler:aHandler playerNumber:0];
+    
+    // Still nothing, create a completely empty controller
+    if(controller == nil)
     {
         // This handler is the first of its kind for the application
         controller = [[OEDevicePlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:0 deviceHandler:aHandler];
@@ -952,30 +969,6 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
         
         // Add the device to the manufacturer's bindings even if the user never set any bindings
         [manuBindings addObject:controller];
-    }
-    else
-    {
-        // Search for an existing OEDevicePlayerBindings that is not yet assigned
-        OEDevicePlayerBindings *first = nil;
-        for(OEDevicePlayerBindings *ctrl in manuBindings)
-        {
-            if(first == nil) first = ctrl;
-            
-            if([ctrl deviceHandler] == nil)
-            {
-                controller = ctrl;
-                break;
-            }
-        }
-        
-        if(controller != nil)
-            // A free bindings controller was found, assign it the device
-            // The device will receive the settings of that slot
-            [controller OE_setDeviceHandler:aHandler];
-        else
-            // No free slot available, "duplicate" the first slot settings that already exist at this point
-            // DO NOT add the new controller to the manufacturer, it will be added if the user changes this device specifically
-            controller = [first OE_playerBindingsWithDeviceHandler:aHandler playerNumber:0];
     }
     
     // Keep track of device handlers

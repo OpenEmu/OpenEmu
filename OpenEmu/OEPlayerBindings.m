@@ -243,7 +243,9 @@ static void *const OEDevicePlayerBindingOriginalBindingsObserver = (void *)&OEDe
 
 - (NSDictionary *)bindingEvents
 {
-    return _originalBindingsController != nil ? [_originalBindingsController bindingEvents] : [super bindingEvents];
+    return (_originalBindingsController != nil
+            ? [self OE_convertBindings:[_originalBindingsController bindingEvents] forDeviceHandler:[self deviceHandler]]
+            : [super bindingEvents]);
 }
 
 - (OEHIDDeviceHandler *)deviceHandler
@@ -265,19 +267,24 @@ static void *const OEDevicePlayerBindingOriginalBindingsObserver = (void *)&OEDe
     }
 }
 
+- (NSDictionary *)OE_convertBindings:(NSDictionary *)bindings forDeviceHandler:(OEHIDDeviceHandler *)aHandler
+{
+    NSMutableDictionary *converted = [NSMutableDictionary dictionaryWithCapacity:[bindings count]];
+    
+    [bindings enumerateKeysAndObjectsUsingBlock:
+     ^(NSString *key, OEHIDEvent *obj, BOOL *stop)
+     {
+         [converted setObject:[obj OE_eventWithDeviceHandler:aHandler] forKey:key];
+     }];
+    
+    return converted;
+}
+
 - (void)OE_setBindingEvents:(NSDictionary *)value
 {
     NSAssert(_originalBindingsController == nil, @"Cannot set raw bindings when %@ is dependent on %@", self, _originalBindingsController);
     
-    NSMutableDictionary *converted = [NSMutableDictionary dictionaryWithCapacity:[value count]];
-    
-    [value enumerateKeysAndObjectsUsingBlock:
-     ^(NSString *key, OEHIDEvent *obj, BOOL *stop)
-     {
-         [converted setObject:[obj OE_eventWithDeviceHandler:[self deviceHandler]] forKey:key];
-     }];
-    
-    [super OE_setBindingEvents:converted];
+    [super OE_setBindingEvents:[self OE_convertBindings:value forDeviceHandler:[self deviceHandler]]];
 }
 
 - (void)willChangeValueForKey:(NSString *)key
