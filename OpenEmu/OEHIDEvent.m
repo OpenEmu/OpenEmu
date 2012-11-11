@@ -36,7 +36,48 @@ static BOOL _OEHIDElementIsTrigger(IOHIDElementRef elem)
     return [(__bridge NSNumber *)IOHIDElementGetProperty(elem, CFSTR(kOEHIDElementIsTriggerKey)) boolValue];
 }
 
+OEHIDEventHatDirection OEHIDEventHatDirectionFromNSString(NSString *string)
+{
+    static NSDictionary *allDirections = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        allDirections = @{
+        @"N"  : @(OEHIDEventHatDirectionNorth),
+        @"NE" : @(OEHIDEventHatDirectionNorthEast),
+        @"E"  : @(OEHIDEventHatDirectionEast),
+        @"SE" : @(OEHIDEventHatDirectionSouthEast),
+        @"S"  : @(OEHIDEventHatDirectionSouth),
+        @"SW" : @(OEHIDEventHatDirectionSouthWest),
+        @"W"  : @(OEHIDEventHatDirectionWest),
+        @"NW" : @(OEHIDEventHatDirectionNorthWest)
+        };
+    });
+    
+    return [[allDirections objectForKey:string] integerValue];
+}
+
 NSString *NSStringFromOEHIDHatDirection(OEHIDEventHatDirection dir)
+{
+    NSString *ret = @"Null";
+    
+    switch(dir)
+    {
+        case OEHIDEventHatDirectionNorth     : ret = @"N";  break;
+        case OEHIDEventHatDirectionNorthEast : ret = @"NE"; break;
+        case OEHIDEventHatDirectionEast      : ret = @"E";  break;
+        case OEHIDEventHatDirectionSouthEast : ret = @"SE"; break;
+        case OEHIDEventHatDirectionSouth     : ret = @"S";  break;
+        case OEHIDEventHatDirectionSouthWest : ret = @"SW"; break;
+        case OEHIDEventHatDirectionWest      : ret = @"W";  break;
+        case OEHIDEventHatDirectionNorthWest : ret = @"NW"; break;
+        default : break;
+    }
+    
+    return ret;
+}
+
+NSString *NSLocalizedStringFromOEHIDHatDirection(OEHIDEventHatDirection dir)
 {
     NSString *ret = @"Null";
     
@@ -68,6 +109,25 @@ NSString *NSStringFromOEHIDEventType(OEHIDEventType type)
     }
     
     return @"<unknown>";
+}
+
+OEHIDEventAxis OEHIDEventAxisFromNSString(NSString *string)
+{
+    static NSDictionary *keyTypes = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        keyTypes = @{
+        @"X" : @(OEHIDEventAxisX),
+        @"Y" : @(OEHIDEventAxisY),
+        @"Z" : @(OEHIDEventAxisZ),
+        @"Rx" : @(OEHIDEventAxisRx),
+        @"Ry" : @(OEHIDEventAxisRy),
+        @"Rz" : @(OEHIDEventAxisRz),
+        };
+    });
+    
+    return [[keyTypes objectForKey:string] integerValue];
 }
 
 NSString *NSStringFromOEHIDEventAxis(OEHIDEventAxis axis)
@@ -287,7 +347,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         case OEHIDEventTypeTrigger :
             return [NSString stringWithFormat:NSLocalizedString(@"Trigger %@", @"Trigger key name with axis string."), NSStringFromOEHIDEventAxis(_data.trigger.axis)];
         case OEHIDEventTypeHatSwitch :
-            return NSStringFromOEHIDHatDirection(_data.hatSwitch.hatDirection);
+            return NSLocalizedStringFromOEHIDHatDirection(_data.hatSwitch.hatDirection);
         case OEHIDEventTypeButton :
             // Example: ret = @"P1 B12" for Pad One Button 12
             return [NSString stringWithFormat:NSLocalizedString(@"Button %ld", @"Button key name with button number.") , _data.button.buttonNumber];
@@ -315,6 +375,21 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     return self;
 }
 
++ (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis direction:(OEHIDEventAxisDirection)direction;
+{
+    OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
+    ret->_type = OEHIDEventTypeAxis;
+    ret->_data.axis.axis = axis;
+    
+    ret->_data.axis.direction = MIN(OEHIDEventAxisDirectionPositive, MAX(direction, OEHIDEventAxisDirectionNegative));
+    
+    ret->_data.axis.minimum = -INT_MAX;
+    ret->_data.axis.value   =  INT_MAX * ret->_data.axis.direction;
+    ret->_data.axis.maximum =  INT_MAX;
+    
+    return ret;
+}
+
 + (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis scaledValue:(CGFloat)value
 {
     OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
@@ -327,7 +402,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     
     ret->_data.axis.minimum = -INT_MAX;
     ret->_data.axis.value   = (NSInteger)(value * INT_MAX);
-    ret->_data.axis.maximum = INT_MAX;
+    ret->_data.axis.maximum =  INT_MAX;
     
     return ret;
 }
@@ -347,6 +422,20 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     if(value < zero)      ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
     else if(value > zero) ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
     else                  ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
+    
+    return ret;
+}
+
++ (id)triggerEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis direction:(OEHIDEventAxisDirection)direction;
+{
+    OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
+    ret->_type = OEHIDEventTypeTrigger;
+    ret->_data.trigger.axis = axis;
+    
+    ret->_data.trigger.direction = !!direction;
+    
+    ret->_data.trigger.value   = INT_MAX * ret->_data.trigger.direction;
+    ret->_data.trigger.maximum = INT_MAX;
     
     return ret;
 }
@@ -819,8 +908,8 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         }
         
         subs = [NSString stringWithFormat:@"type=HatSwitch type=%@ position=%@ previousPosition=%@", subtype,
-                NSStringFromOEHIDHatDirection(_data.hatSwitch.hatDirection),
-                NSStringFromOEHIDHatDirection(_data.hatSwitch.previousHatDirection)];
+                NSLocalizedStringFromOEHIDHatDirection(_data.hatSwitch.hatDirection),
+                NSLocalizedStringFromOEHIDHatDirection(_data.hatSwitch.previousHatDirection)];
     }
     else if(_type == OEHIDEventTypeKeyboard)
         subs = [NSString stringWithFormat:@"type=Key number=%lld state=%s previousState=%s",

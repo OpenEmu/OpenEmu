@@ -68,6 +68,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 
 - (void)OE_registerDefaultControls:(NSDictionary *)defaultControls;
 
+- (void)OE_setupDefaultDeviceBindingsWithDictionary:(NSDictionary *)dict;
+
 - (void)OE_setupBindingsWithDictionaryRepresentation:(NSDictionary *)representation;
 - (OEPlayerBindings *)OE_bindingsWithDictionaryRepresentation:(NSDictionary *)bindingsToConvert deviceBindings:(BOOL)isDevice playerNumber:(NSUInteger)playerNumber;
 - (NSDictionary *)OE_rawBindingsForDictionaryRepresentation:(NSDictionary *)rawBindings withKeyDescriptions:(NSDictionary *)descriptions;
@@ -107,6 +109,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
         
         [self OE_setupKeyBindingDescriptionsWithSystemController:aController];
         
+        [self OE_setupDefaultDeviceBindingsWithDictionary:[aController defaultDeviceControls]];
+        
         if(aDictionary != nil) [self OE_setupBindingsWithDictionaryRepresentation:aDictionary];
         else                   [self OE_registerDefaultControls:[systemController defaultKeyboardControls]];
     }
@@ -130,6 +134,75 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     addToDictionary(@"keyboardPlayerBindings", [self OE_dictionaryRepresentationsForBindingsInArray:keyboardPlayerBindings]);
     
     return [dictionary copy];
+}
+
+- (void)OE_setupDefaultDeviceBindingsWithDictionary:(NSDictionary *)dict;
+{
+    NSMutableDictionary *parsedDefaults = [NSMutableDictionary dictionaryWithCapacity:[dict count]];
+    
+    [dict enumerateKeysAndObjectsUsingBlock:
+     ^(NSString *device, NSDictionary *allKeys, BOOL *stop)
+     {
+         NSMutableDictionary *rawBindings = [NSMutableDictionary dictionaryWithCapacity:[allKeyBindingsDescriptions count]];
+         [allKeyBindingsDescriptions enumerateKeysAndObjectsUsingBlock:
+          ^(NSString *keyName, OEKeyBindingDescription *keyDesc, BOOL *stop)
+          {
+              NSDictionary *eventDesc = [allKeys objectForKey:keyName];
+              
+              NSString *type = [eventDesc objectForKey:@"Type"];
+              
+              if([type isEqualToString:@"Button"])
+              {
+                  NSInteger btnNumber = [[eventDesc objectForKey:@"Number"] integerValue];
+                  OEHIDEvent *event = [OEHIDEvent buttonEventWithPadNumber:0 timestamp:0 buttonNumber:btnNumber state:OEHIDEventStateOn cookie:NSNotFound];
+                  [rawBindings setObject:event forKey:keyDesc];
+              }
+              else if([type isEqualToString:@"Axis"])
+              {
+                  NSString *axis = [eventDesc objectForKey:@"Axis"];
+                  OEHIDEventAxisDirection direction = [[eventDesc objectForKey:@"Direction"] integerValue];
+                  
+                  OEHIDEvent *event = [OEHIDEvent axisEventWithPadNumber:0 timestamp:0 axis:OEHIDEventAxisFromNSString(axis) direction:direction];
+                  
+                  id insertedKey = keyDesc;
+                  OEKeyBindingGroupDescription *group = [keyDesc OE_axisGroup];
+                  if(group != nil)
+                      insertedKey = [group orientedKeyGroupWithBaseKey:keyDesc];
+                  
+                  [rawBindings setObject:event forKey:insertedKey];
+              }
+              else if([type isEqualToString:@"Trigger"])
+              {
+                  NSString *axis = [eventDesc objectForKey:@"Axis"];
+                  OEHIDEvent *event = [OEHIDEvent triggerEventWithPadNumber:0 timestamp:0 axis:OEHIDEventAxisFromNSString(axis) direction:OEHIDEventAxisDirectionPositive];
+                  
+                  [rawBindings setObject:event forKey:keyDesc];
+              }
+              else if([type isEqualToString:@"HatSwitch"])
+              {
+                  OEHIDEventHatDirection dir = OEHIDEventHatDirectionFromNSString([eventDesc objectForKey:@"Direction"]);
+                  
+                  OEHIDEvent *event = [OEHIDEvent hatSwitchEventWithPadNumber:0 timestamp:0 type:OEHIDEventHatSwitchType8Ways direction:dir cookie:NSNotFound];
+                  
+                  id insertedKey = keyDesc;
+                  OEKeyBindingGroupDescription *group = [keyDesc OE_hatSwitchGroup];
+                  if(group != nil)
+                      insertedKey = [group orientedKeyGroupWithBaseKey:keyDesc];
+                  
+                  [rawBindings setObject:event forKey:insertedKey];
+              }
+          }];
+         
+         
+         OEDevicePlayerBindings *controller = [[OEDevicePlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:0 deviceHandler:nil];
+         
+         [controller OE_setBindingEvents:rawBindings];
+         [controller OE_setBindingDescriptions:[self OE_stringValuesForBindings:rawBindings possibleKeys:allKeyBindingsDescriptions]];
+
+         [parsedDefaults setObject:controller forKey:device];
+     }];
+    
+    _defaultDeviceBindings = [parsedDefaults copy];
 }
 
 - (void)OE_setupKeyBindingDescriptionsWithSystemController:(OESystemController *)aController;
@@ -181,9 +254,14 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     manufacturerBindings        = [NSMutableDictionary dictionaryWithCapacity:[manufacturers count]];
     
     // Convert manufacturer bindings
-    [manufacturers enumerateKeysAndObjectsWithOptions:NSEnumerationConcurrent usingBlock:
+    [manufacturers enumerateKeysAndObjectsUsingBlock:
      ^(NSString *key, NSArray *obj, BOOL *stop)
      {
+         NSString *ident = [OEHIDDeviceHandler standardDeviceIdentifierForDeviceIdentifier:key];
+         if(ident == nil) return;
+         
+         key = ident;
+         
          NSMutableArray *conv = [NSMutableArray arrayWithCapacity:[obj count]];
          
          for(NSDictionary *bindings in obj)
@@ -472,7 +550,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
          else if([key isKindOfClass:[OEOrientedKeyGroupBindingDescription class]])
          {
              OEOrientedKeyGroupBindingDescription *group = key;
-             OEHIDEvent                 *event = obj;
+             OEHIDEvent *event = obj;
              
              // In case of key-group, we need to create multiple key-strings for each cases of the key, usually 2 for axis type and 4 for hat switch type
              NSAssert([event isKindOfClass:[OEHIDEvent class]], @"Only OEHIDEvent can be associated to binding groups, got: %@ %@", [event class], event);
@@ -520,7 +598,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
                      [group enumerateKeysFromBaseKeyUsingBlock:
                       ^(OEKeyBindingDescription *key, BOOL *stop)
                       {
-                          [ret setObject:NSStringFromOEHIDHatDirection(dirs[dirIdx % 8]) forKey:[key name]];
+                          [ret setObject:NSLocalizedStringFromOEHIDHatDirection(dirs[dirIdx % 8]) forKey:[key name]];
                           
                           dirIdx += 2;
                       }];
@@ -770,7 +848,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 
 - (NSString *)OE_manufacturerKeyForDeviceHandler:(OEHIDDeviceHandler *)handler;
 {
-    return [NSString stringWithFormat:@"%@ %@", [handler manufacturer], [handler product]];
+    return [handler deviceIdentifier];
 }
 
 - (void)OE_didAddDeviceHandler:(OEHIDDeviceHandler *)aHandler;
@@ -862,8 +940,27 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
         [manufacturerBindings setObject:manuBindings forKey:manufacturerKey];
     }
     
-    // Search a suitable OEDevicePlayerBindings
-    if([manuBindings count] == 0)
+    for(OEDevicePlayerBindings *ctrl in manuBindings)
+        if([ctrl deviceHandler] == nil)
+        {
+            controller = ctrl;
+            [controller OE_setDeviceHandler:aHandler];
+            break;
+        }
+    
+    // No available slots in the known configurations, look for defaults
+    if(controller == nil)
+    {
+        OEDevicePlayerBindings *ctrl = [[self defaultDeviceBindings] objectForKey:manufacturerKey];
+        controller = [ctrl OE_playerBindingsWithDeviceHandler:aHandler playerNumber:0];
+    }
+    
+    // No defaults, duplicate the first manufacturer  device
+    if(controller == nil && [manuBindings count] > 0)
+        controller = [[manuBindings objectAtIndex:0] OE_playerBindingsWithDeviceHandler:aHandler playerNumber:0];
+    
+    // Still nothing, create a completely empty controller
+    if(controller == nil)
     {
         // This handler is the first of its kind for the application
         controller = [[OEDevicePlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:0 deviceHandler:aHandler];
@@ -872,30 +969,6 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
         
         // Add the device to the manufacturer's bindings even if the user never set any bindings
         [manuBindings addObject:controller];
-    }
-    else
-    {
-        // Search for an existing OEDevicePlayerBindings that is not yet assigned
-        OEDevicePlayerBindings *first = nil;
-        for(OEDevicePlayerBindings *ctrl in manuBindings)
-        {
-            if(first == nil) first = ctrl;
-            
-            if([ctrl deviceHandler] == nil)
-            {
-                controller = ctrl;
-                break;
-            }
-        }
-        
-        if(controller != nil)
-            // A free bindings controller was found, assign it the device
-            // The device will receive the settings of that slot
-            [controller OE_setDeviceHandler:aHandler];
-        else
-            // No free slot available, "duplicate" the first slot settings that already exist at this point
-            // DO NOT add the new controller to the manufacturer, it will be added if the user changes this device specifically
-            controller = [first OE_playerBindingsWithDeviceHandler:aHandler playerNumber:0];
     }
     
     // Keep track of device handlers
@@ -972,7 +1045,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
      {
          NSUInteger player = playerNumber;
          // playerNumber for system-wide keys should always be 0
-         if(systemKeyBindingsDescriptions != nil                 &&
+         if(systemKeyBindingsDescriptions != nil                &&
             [key isKindOfClass:[OEKeyBindingDescription class]] &&
             [key isSystemWide])
              player = 0;

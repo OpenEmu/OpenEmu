@@ -764,7 +764,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 {
     if(!_noItemsView) return;
 
-    const NSRect  visibleRect = [[self enclosingScrollView] visibleRect];
+    const NSRect  visibleRect = [[self enclosingScrollView] documentVisibleRect];
     const NSSize  viewSize    = [_noItemsView frame].size;
     const NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(visibleRect) - viewSize.width) / 2.0), ceil((NSHeight(visibleRect) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
     [_noItemsView setFrame:viewFrame];

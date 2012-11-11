@@ -43,6 +43,8 @@
 
 @property(readonly) NSUInteger numberOfPlayers;
 
+@property(readonly) NSDictionary *defaultDeviceBindings;
+
 @property(readonly) NSArray *keyboardPlayerBindings;
 @property(readonly) NSArray *devicePlayerBindings;
 

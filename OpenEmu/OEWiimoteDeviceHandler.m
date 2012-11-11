@@ -12,28 +12,33 @@
 #import "NSApplication+OEHIDAdditions.h"
 
 #pragma mark - Debugging -
-#define DLogInvalid(){ NSLog(@"Invalid for %@", NSStringFromClass([self class])); NSLog(@"%@", [NSThread callStackSymbols]); }
-#define DLogInvalidFromClass(){ NSLog(@"Invalid for %@", NSStringFromClass(self)); NSLog(@"%@", [NSThread callStackSymbols]);}
+#define DLogInvalid() { NSLog(@"Invalid for %@", NSStringFromClass([self class])); NSLog(@"%@", [NSThread callStackSymbols]); }
+#define DLogInvalidFromClass() { NSLog(@"Invalid for %@", NSStringFromClass(self)); NSLog(@"%@", [NSThread callStackSymbols]);}
 #define DLogNotImplemented() { NSLog(@"Not implemented for %@", NSStringFromClass([self class])); }
 
 @interface OEWiimoteDeviceHandler ()
 {
-    NSMapTable *eventMap;
+    NSMutableDictionary *eventMap;
 }
-- (OEHIDEvent*)OE_createEventWithWiiButton:(WiiButtonType)button;
-@property Wiimote* wiimote;
+
+- (OEHIDEvent *)OE_createEventWithWiiButton:(WiiButtonType)button;
+
+@property Wiimote *wiimote;
+
 @end
+
 @implementation OEWiimoteDeviceHandler
-+ (id)deviceHandlerWithWiimote:(Wiimote*)aWiimote
+
++ (id)deviceHandlerWithWiimote:(Wiimote *)aWiimote
 {
     return [[self alloc] initWithWiimote:aWiimote];
 }
 
-- (id)initWithWiimote:(Wiimote*)aWiimote
+- (id)initWithWiimote:(Wiimote *)aWiimote
 {
     if((self = [super initWithDevice:NULL]))
     {
-        eventMap = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsOpaqueMemory | NSPointerFunctionsIntegerPersonality valueOptions:NSPointerFunctionsObjectPersonality capacity:WiiButtonCount];
+        eventMap = [[NSMutableDictionary alloc] initWithCapacity:WiiButtonCount];
         [self setWiimote:aWiimote];
     }
     return self;
@@ -55,7 +60,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[self wiimote] disconnect];
 }
+
 #pragma mark -
+
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue
 {
     DLogInvalid();
@@ -66,12 +73,15 @@
 {
     DLogInvalid();
 }
+
 - (io_service_t)serviceRef
 {
     DLogInvalid();
     return 0;
 }
+
 #pragma mark -
+
 - (BOOL)isKeyboardDevice
 {
     return NO;
@@ -90,31 +100,33 @@ FIXME(Return dynamic values below)
     return 0.2;
 }
 
-- (NSString*)serialNumber
+- (NSString *)serialNumber
 {
     return [[self wiimote] address];
 }
 
-- (NSString*)manufacturer
+- (NSString *)manufacturer
 {
     return @"Nintendo";
 }
 
-- (NSString*)product
+- (NSString *)product
 {
     return [[self wiimote] nameOrAddress];
 }
 
-- (NSNumber*)productID
+- (NSNumber *)productID
 {
     return [[self wiimote] productID];
 }
 
-- (NSNumber*)locationID
+- (NSNumber *)locationID
 {
     return [[self wiimote] locationID];
 }
+
 #pragma mark -
+
 - (id)copyWithZone:(NSZone *)zone
 {
     return self;
@@ -126,6 +138,7 @@ FIXME(Return dynamic values below)
         return YES;
     if([anObject isKindOfClass:[self class]])
         return [[[self wiimote] address] isEqual:[[self wiimote] address]];
+    
     return [super isEqual:anObject];
 }
 
@@ -135,6 +148,7 @@ FIXME(Return dynamic values below)
 }
 
 #pragma mark - Force Feedback -
+
 - (BOOL)supportsForceFeedback
 {
     return NO;
@@ -144,12 +158,15 @@ FIXME(Return dynamic values below)
 {
     DLogNotImplemented();
 }
+
 - (void)disableForceFeedback
 {
     DLogNotImplemented();
 }
+
 #pragma mark - Custom Event Handling -
-- (OEHIDEvent*)eventWithWiiButton:(WiiButtonType)button
+
+- (OEHIDEvent *)eventWithWiiButton:(WiiButtonType)button
 {
     OEHIDEvent *event = [eventMap objectForKey:@((int)button)];
     if(event == nil)
@@ -157,7 +174,7 @@ FIXME(Return dynamic values below)
     return event;
 }
 
-- (OEHIDEvent*)OE_createEventWithWiiButton:(WiiButtonType)button
+- (OEHIDEvent *)OE_createEventWithWiiButton:(WiiButtonType)button
 {
     OEHIDEvent *event = [OEHIDEvent buttonEventWithPadNumber:[self deviceNumber] timestamp:[NSDate timeIntervalSinceReferenceDate] buttonNumber:button state:OEHIDEventStateOff cookie:button];
     [eventMap setObject:event forKey:@((int)button)];
@@ -171,7 +188,7 @@ FIXME(Return dynamic values below)
     [NSApp postHIDEvent:event];
 }
 
-- (OEHIDEvent*)eventWithWiiJoystick:(WiiJoyStickType)joystick
+- (OEHIDEvent *)eventWithWiiJoystick:(WiiJoyStickType)joystick
 {
     return nil;
 }
@@ -187,8 +204,10 @@ FIXME(Return dynamic values below)
 }
 
 #pragma mark - Handling Disconnect -
-- (void)wiimoteDidDisconnection:(NSNotification*)notification
+
+- (void)wiimoteDidDisconnection:(NSNotification *)notification
 {
     [[OEHIDManager sharedHIDManager] removeDeviceHandler:self];
 }
+
 @end

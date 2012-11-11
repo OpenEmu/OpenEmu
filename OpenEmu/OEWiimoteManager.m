@@ -196,5 +196,5 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
     else if(!aborted)
         [self stopSearch];
 }
-@end
 
+@end

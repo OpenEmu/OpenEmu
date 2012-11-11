@@ -36,13 +36,19 @@
 
 @interface OEHIDDeviceHandler : NSObject <NSCopying>
 
+// Returns aString if aString is a parsable identifier or a known identifier, returns nil otherwise.
++ (NSString *)standardDeviceIdentifierForDeviceIdentifier:(NSString *)aString;
+
 @property(readonly) IOHIDDeviceRef device;
 @property(readonly) NSUInteger     deviceNumber;
 @property           CGFloat        deadZone;
 
+@property(readonly) NSString *deviceIdentifier;
+
 @property(readonly) NSString *serialNumber;
 @property(readonly) NSString *manufacturer;
 @property(readonly) NSString *product;
+@property(readonly) NSNumber *vendorID;
 @property(readonly) NSNumber *productID;
 @property(readonly) NSNumber *locationID;
 
