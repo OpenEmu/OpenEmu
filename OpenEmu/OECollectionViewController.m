@@ -822,10 +822,11 @@ static const float OE_coverFlowHeightPercentage = .75;
         NSUInteger alertReturn = NSAlertAlternateReturn;
         if(!romsAreInRomsFolder || (alertReturn=[[OEHUDAlert removeGameFilesFromLibraryAlert:[selectedGames count]>1] runModal]))
         {
+            NSManagedObjectContext *moc = [[selectedGames lastObject] managedObjectContext];
             [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
                 [game deleteByMovingFile:alertReturn==NSAlertDefaultReturn keepSaveStates:YES];
             }];
-            [[[selectedGames lastObject] managedObjectContext] save:nil];
+            [moc save:nil];
             
             [self setNeedsReload];
         }
