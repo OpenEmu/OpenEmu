@@ -527,9 +527,22 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
             IOSurfaceLock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
             
-            void * src = IOSurfaceGetBaseAddress(surfaceRef);
-            
-            memcpy([imageRep bitmapData], src, sizeof(unsigned char) * textureRect.size.height * textureRect.size.width * 4);
+            uint32_t * src = IOSurfaceGetBaseAddress(surfaceRef);
+            uint32_t * dest = (uint32_t*)[imageRep bitmapData];
+            for (uint64_t y = 0; y < textureRect.size.height; ++y)
+            {
+                for (uint64_t x = 0; x < textureRect.size.width; ++x)
+                {
+                    uint32_t pixel = *src;
+                    uint8_t r = (pixel & 0xFF);
+                    uint8_t g = ((pixel >> 8) & 0xFF);
+                    uint8_t b = ((pixel >> 16) & 0xFF);
+                    uint8_t a = ((pixel >> 24) & 0xFF);
+                    *dest = (a << 24) | (r << 16) | (g << 8) | b;
+                    src++;
+                    dest++;
+                }
+            }
             
             IOSurfaceUnlock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
             
@@ -579,7 +592,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_RGBA, GL_UNSIGNED_BYTE, surfaceRef, 0);
+    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
     
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
