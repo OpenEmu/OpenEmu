@@ -302,7 +302,7 @@ typedef struct
 {
     if(actionsQueue != _actionsQueue)
     {
-        dispatch_retain(actionsQueue);
+        if(actionsQueue) dispatch_retain(actionsQueue);
         if(_actionsQueue) dispatch_release(_actionsQueue);
         _actionsQueue = actionsQueue;
     }
