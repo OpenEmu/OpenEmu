@@ -33,6 +33,7 @@
 
 @protocol OEGameCoreHelperDelegate <NSObject>
 - (void) gameCoreDidChangeScreenSizeTo:(OEIntSize)screenSize;
+- (void) gameCoreDidChangeAspectSizeTo:(OEIntSize)aspectSize;
 @end
 
 // our helper app needs to handle these functions

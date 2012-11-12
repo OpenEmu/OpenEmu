@@ -369,8 +369,6 @@ typedef enum : NSUInteger
     }
 
     rootProxy = [gameCoreManager rootProxy];
-    [rootProxy setupEmulation];
-    _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
 
     // set initial volume
     [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
@@ -386,6 +384,9 @@ typedef enum : NSUInteger
     [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [[self view] addSubview:gameView];
     [gameView resizeSubviewsWithOldSize:[[self view] frame].size];
+    
+    [rootProxy setupEmulation];
+    _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
