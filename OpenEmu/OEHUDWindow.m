@@ -286,7 +286,6 @@
     titleBarRect.origin.y -= 2;
     
     NSString *windowTitle = [[self window].parentWindow title];
-    DLog(@"---*---*---*---*---*--- window title is %@", windowTitle);
     NSAttributedString *attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttribtues];
     [attributedWindowTitle drawInRect:titleBarRect];
 }
