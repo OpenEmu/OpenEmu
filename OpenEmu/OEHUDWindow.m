@@ -143,6 +143,12 @@
     [aView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 }
 
+- (void)setTitle:(NSString *)newTitle
+{
+    [super setTitle:newTitle];
+    [_borderWindow display];
+}
+
 #pragma mark -
 #pragma mark NSWindow Overrides
 
@@ -280,6 +286,7 @@
     titleBarRect.origin.y -= 2;
     
     NSString *windowTitle = [[self window].parentWindow title];
+    DLog(@"---*---*---*---*---*--- window title is %@", windowTitle);
     NSAttributedString *attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttribtues];
     [attributedWindowTitle drawInRect:titleBarRect];
 }

@@ -33,6 +33,7 @@
 
 #import "OEApplicationDelegate.h"
 #import "OEGameViewController.h"
+#import "OEGameView.h"
 #import "OEGameCoreManager.h"
 
 #import "OEBackgroundColorView.h"
@@ -202,6 +203,11 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     if(fullScreen) [window toggleFullScreen:self];
     
     [self addWindowController:[[NSWindowController alloc] initWithWindow:window]];
+}
+
+- (NSString *)displayName
+{
+    return ([[[self gameViewController] gameView] gameTitle] ? : [super displayName]);
 }
 
 #pragma mark -

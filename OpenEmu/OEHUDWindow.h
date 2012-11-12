@@ -26,8 +26,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class OEHUDWindowThemeView;
-
 @interface OEHUDWindow : NSWindow
 - (id)initWithContentRect:(NSRect)frame;
 @end
