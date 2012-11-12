@@ -59,6 +59,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 @implementation OpenEmuHelperApp
 {
+    OEIntSize previousAspectSize;
     BOOL isIntel;
 }
 
@@ -120,6 +121,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [self setupIOSurface];
     [self setupFBO];
     
+    [self updateAspectSize];
     [self updateScreenSize];
 }
 
@@ -380,9 +382,9 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         [self setupFBO];
         
         glFlush();
-        
-        [delegate gameCoreDidChangeScreenSizeTo:correctedSize];
     }
+    
+    [self updateAspectSize];
     
     // Incase of a GameCore that renders direct to GL, do some state 'protection'
     glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -525,6 +527,20 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     }
     else
         correctedSize = screenRect.size;
+    
+    DLog(@"Sending did change size to %d %d", correctedSize.width, correctedSize.height);
+    [delegate gameCoreDidChangeScreenSizeTo:correctedSize];
+}
+
+- (void)updateAspectSize
+{
+    OEIntSize aspectSize = gameCore.aspectSize;
+    
+    if (memcmp(&aspectSize, &previousAspectSize, sizeof(aspectSize))) {
+        previousAspectSize = aspectSize;
+        DLog(@"Sending did change aspect to %d %d", aspectSize.width, aspectSize.height);
+        [delegate gameCoreDidChangeAspectSizeTo:aspectSize];
+    }
 }
 
 - (void)destroySurface
