@@ -417,6 +417,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // look up every frame, since our games surfaceRef may have changed in response to a resize
 
     IOSurfaceRef surfaceRef = NULL;
+
     surfaceRef = IOSurfaceLookup(gameSurfaceID);
 
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
