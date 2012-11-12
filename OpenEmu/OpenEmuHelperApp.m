@@ -122,7 +122,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [self setupFBO];
     
     [self updateAspectSize];
-    [self updateScreenSize];
+    [self signalUpdatedScreenSize];
 }
 
 - (void)setupProcessPollingTimer
@@ -382,6 +382,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         [self setupFBO];
         
         glFlush();
+        
+        [self signalUpdatedScreenSize];
     }
     
     [self updateAspectSize];
@@ -527,7 +529,10 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     }
     else
         correctedSize = screenRect.size;
-    
+}
+
+- (void)signalUpdatedScreenSize
+{
     DLog(@"Sending did change size to %d %d", correctedSize.width, correctedSize.height);
     [delegate gameCoreDidChangeScreenSizeTo:correctedSize];
 }
