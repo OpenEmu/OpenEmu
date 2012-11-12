@@ -143,6 +143,12 @@
     [aView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 }
 
+- (void)setTitle:(NSString *)newTitle
+{
+    [super setTitle:newTitle];
+    [_borderWindow display];
+}
+
 #pragma mark -
 #pragma mark NSWindow Overrides
 

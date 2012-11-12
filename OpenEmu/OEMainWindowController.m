@@ -196,45 +196,68 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     currentContentController = newController;
 }
 
-- (void)setCurrentContentController:(NSViewController *)controller
+- (void)setCurrentContentController:(NSViewController *)controller animate:(BOOL)shouldAnimate
 {
     if(controller == nil) controller = [self libraryController];
     
     if(controller == [self currentContentController]) return;
-    
-    NSBitmapImageRep *currentState = [[self placeholderView] fadeImage], *newState = nil;
-    if([currentContentController respondsToSelector:@selector(setCachedSnapshot:)])
-        [(id <OEMainWindowContentController>)currentContentController setCachedSnapshot:currentState];
-    
-    [currentContentController viewWillDisappear];
-    [controller viewWillAppear];
-    
+
     NSView *placeHolderView = [self placeholderView];
-    OEFadeView *fadeView = [[OEFadeView alloc] initWithFrame:[placeHolderView bounds]];
-    
-    if(currentContentController)
-        [placeholderView replaceSubview:[currentContentController view] with:fadeView];
+
+    // We use Objective-C blocks to factor out common code used in both animated and non-animated controller switching
+    void (^sendViewWillDisappear)(void) = ^{
+        [currentContentController viewWillDisappear];
+        [controller viewWillAppear];
+    };
+
+    void (^replaceController)(NSView *) =
+    ^(NSView *viewToReplace){
+        [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [[controller view] setFrame:[placeHolderView frame]];
+
+        [placeHolderView replaceSubview:viewToReplace with:[controller view]];
+
+        [[self window] makeFirstResponder:[controller view]];
+
+        [currentContentController viewDidDisappear];
+        [controller viewDidAppear];
+        currentContentController = controller;
+
+        [viewToReplace removeFromSuperview];
+    };
+
+    if(shouldAnimate)
+    {
+        NSBitmapImageRep *currentState = [[self placeholderView] fadeImage], *newState = nil;
+        if([currentContentController respondsToSelector:@selector(setCachedSnapshot:)])
+            [(id <OEMainWindowContentController>)currentContentController setCachedSnapshot:currentState];
+
+        sendViewWillDisappear();
+
+        OEFadeView *fadeView = [[OEFadeView alloc] initWithFrame:[placeHolderView bounds]];
+
+        if(currentContentController)
+            [placeholderView replaceSubview:[currentContentController view] with:fadeView];
+        else
+            [placeholderView addSubview:fadeView];
+
+        if([controller respondsToSelector:@selector(cachedSnapshot)])
+            newState = [(id <OEMainWindowContentController>)controller cachedSnapshot];
+
+        [fadeView fadeFromImage:currentState toImage:newState callback:^{
+            replaceController(fadeView);
+         }];
+    }
     else
-        [placeholderView addSubview:fadeView];
-    
-    if([controller respondsToSelector:@selector(cachedSnapshot)])
-        newState = [(id <OEMainWindowContentController>)controller cachedSnapshot];
-    
-    [fadeView fadeFromImage:currentState toImage:newState callback:
-     ^{
-         [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-         [[controller view] setFrame:[placeHolderView frame]];
-         
-         [placeHolderView replaceSubview:fadeView with:[controller view]];
-         
-         [[self window] makeFirstResponder:[controller view]];
-         
-         [currentContentController viewDidDisappear];
-         [controller viewDidAppear];
-         currentContentController = controller;
-         
-         [fadeView removeFromSuperview];
-     }];
+    {
+        sendViewWillDisappear();
+        replaceController([currentContentController view]);
+    }
+}
+
+- (void)setCurrentContentController:(NSViewController *)newCurrentContentController
+{
+    [self setCurrentContentController:newCurrentContentController animate:YES];
 }
 
 #pragma mark -
@@ -312,7 +335,12 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 
 - (void)emulationWillFinishForGameViewController:(OEGameViewController *)sender
 {
-    [self setCurrentContentController:nil];
+    // If we are in full screen mode and terminating the emulation will exit full screen,
+    // the controller switching animation interferes with the exiting full screen animation.
+    // We therefore only animate controller switching in case there won't be a concurrent
+    // exit full screen animation. See issue #245.
+    BOOL animate = !(_shouldExitFullScreenWhenGameFinishes && [[self window] OE_isFullScreen]);
+    [self setCurrentContentController:nil animate:animate];
 }
 #pragma mark -
 #pragma mark NSWindow delegate
