@@ -116,6 +116,7 @@
 		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
 		3887A8971024D796000FC4CF /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887A8961024D796000FC4CF /* QuickLook.framework */; };
 		3D15428114E20E22009C3DEE /* OENonARCHacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D15428014E20E22009C3DEE /* OENonARCHacks.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1D8D811650C22900DBC37D /* Accelerate.framework */; };
 		3D71183E1500650D0056E3BF /* PSYBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D711839150064F50056E3BF /* PSYBlockTimer.m */; };
 		3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */; };
 		3DD90BA81500A6BF00FE5DFD /* OETimingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD90BA61500A6BF00FE5DFD /* OETimingUtils.m */; };
@@ -1052,6 +1053,7 @@
 		3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OESaveStateQLPlugin-Info.plist"; sourceTree = "<group>"; };
 		3887A8961024D796000FC4CF /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		3D15428014E20E22009C3DEE /* OENonARCHacks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENonARCHacks.m; sourceTree = "<group>"; };
+		3D1D8D811650C22900DBC37D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		3D711838150064F50056E3BF /* PSYBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSYBlockTimer.h; sourceTree = "<group>"; };
 		3D711839150064F50056E3BF /* PSYBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSYBlockTimer.m; sourceTree = "<group>"; };
 		3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETimingUtils.h; sourceTree = "<group>"; };
@@ -1827,6 +1829,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */,
 				839213F4164338D60006CEE0 /* IOKit.framework in Frameworks */,
 				8305267513FBC999006179C6 /* Security.framework in Frameworks */,
 				83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */,
@@ -1939,6 +1942,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D1D8D811650C22900DBC37D /* Accelerate.framework */,
 				8322D746156A973400FC0E81 /* IOBluetooth.framework */,
 				1B42C66C1429510A004691D7 /* Syphon.framework */,
 				8305267413FBC999006179C6 /* Security.framework */,

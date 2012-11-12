@@ -39,6 +39,7 @@
 #import <OpenGL/CGLMacro.h>
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>
+#import <Accelerate/Accelerate.h>
 
 // TODO: bind vsync. Is it even necessary, why do we want it off at all?
 
@@ -527,22 +528,18 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
             IOSurfaceLock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
             
-            uint32_t * src = IOSurfaceGetBaseAddress(surfaceRef);
-            uint32_t * dest = (uint32_t*)[imageRep bitmapData];
-            for (uint64_t y = 0; y < textureRect.size.height; ++y)
-            {
-                for (uint64_t x = 0; x < textureRect.size.width; ++x)
-                {
-                    uint32_t pixel = *src;
-                    uint8_t r = (pixel & 0xFF);
-                    uint8_t g = ((pixel >> 8) & 0xFF);
-                    uint8_t b = ((pixel >> 16) & 0xFF);
-                    uint8_t a = ((pixel >> 24) & 0xFF);
-                    *dest = (a << 24) | (r << 16) | (g << 8) | b;
-                    src++;
-                    dest++;
-                }
-            }
+            vImage_Buffer src = {.data = IOSurfaceGetBaseAddress(surfaceRef),
+                                .width = textureRect.size.width,
+                               .height = textureRect.size.height,
+                             .rowBytes = IOSurfaceGetBytesPerRow(surfaceRef)};
+            vImage_Buffer dest= {.data = [imageRep bitmapData],
+                                .width = textureRect.size.width,
+                               .height = textureRect.size.height,
+                             .rowBytes = 4*textureRect.size.width};
+            
+            // Convert IOSurface pixel format to NSBitmapImageRep
+            const uint8_t permuteMap[] = {2,1,0,3};
+            vImagePermuteChannels_ARGB8888(&src, &dest, permuteMap, 0);
             
             IOSurfaceUnlock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
             
