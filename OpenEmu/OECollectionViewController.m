@@ -1030,18 +1030,10 @@ static const float OE_coverFlowHeightPercentage = .75;
     {
         if([aCell isKindOfClass:[NSTextFieldCell class]])
         {
-            NSDictionary *attr;
-            
-            if([[aTableView selectedRowIndexes] containsIndex:rowIndex])
-            {
-                attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0], NSFontAttributeName,
-                        [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
-            } else {
-                attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0], NSFontAttributeName,
-                        [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
-            }
+            NSDictionary *attr = (@{
+                                  NSFontAttributeName            : [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0],
+                                  NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:1.0 alpha:1.0],
+                                  });
             
             [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
         }
