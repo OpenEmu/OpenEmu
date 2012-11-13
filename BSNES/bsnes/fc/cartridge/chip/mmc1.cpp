@@ -1,12 +1,12 @@
 struct MMC1 : Chip {
 
 enum class Revision : unsigned {
-  MMC1,
-  MMC1A,
-  MMC1B1,
-  MMC1B2,
-  MMC1B3,
-  MMC1C,
+  revMMC1,
+  revMMC1A,
+  revMMC1B1,
+  revMMC1B2,
+  revMMC1B3,
+  revMMC1C,
 } revision;
 
 unsigned writedelay;
@@ -130,7 +130,7 @@ void serialize(serializer &s) {
 }
 
 MMC1(Board &board) : Chip(board) {
-  revision = Revision::MMC1B2;
+  revision = Revision::revMMC1B2;
 }
 
 };

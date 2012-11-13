@@ -1,8 +1,8 @@
 struct MMC5 : Chip {
 
 enum class Revision : unsigned {
-  MMC5,
-  MMC5B,
+  revMMC5,
+  revMMC5B,
 } revision;
 
 uint8 exram[1024];
@@ -491,7 +491,7 @@ void serialize(serializer &s) {
 }
 
 MMC5(Board &board) : Chip(board) {
-  revision = Revision::MMC5;
+  revision = Revision::revMMC5;
 }
 
 };

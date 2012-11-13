@@ -1,4 +1,5 @@
 #include <fc/fc.hpp>
+#include <cmath>
 
 #define VIDEO_CPP
 namespace Famicom {
