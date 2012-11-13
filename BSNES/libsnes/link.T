@@ -1,4 +1,0 @@
-{
-   global: snes_*;
-   local: *;
-};

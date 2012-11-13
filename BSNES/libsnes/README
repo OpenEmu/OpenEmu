@@ -1,7 +1,0 @@
-This repo aims to support building libsnes with C++98 compilers (with some GNU extensions), and is stripped down to only build libsnes. It will also aim to support building for various console targets, such as PlayStation 3.
-
-libsnes/bsnes author: byuu
-
-Porters:
-Ver Greeneyes
-Themaister
