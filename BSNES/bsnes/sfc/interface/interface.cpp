@@ -273,18 +273,18 @@ Interface::Interface() {
   {
     Device device{1, ID::Port1 | ID::Port2, "Multitap"};
     for(unsigned p = 1, n = 0; p <= 4; p++, n += 12) {
-      device.input.append({n +  0, 0, {"Port ", p, " - ", "B"     }});
-      device.input.append({n +  1, 0, {"Port ", p, " - ", "Y"     }});
-      device.input.append({n +  2, 0, {"Port ", p, " - ", "Select"}});
-      device.input.append({n +  3, 0, {"Port ", p, " - ", "Start" }});
-      device.input.append({n +  4, 0, {"Port ", p, " - ", "Up"    }});
-      device.input.append({n +  5, 0, {"Port ", p, " - ", "Down"  }});
-      device.input.append({n +  6, 0, {"Port ", p, " - ", "Left"  }});
-      device.input.append({n +  7, 0, {"Port ", p, " - ", "Right" }});
-      device.input.append({n +  8, 0, {"Port ", p, " - ", "A"     }});
-      device.input.append({n +  9, 0, {"Port ", p, " - ", "X"     }});
-      device.input.append({n + 10, 0, {"Port ", p, " - ", "L"     }});
-      device.input.append({n + 11, 0, {"Port ", p, " - ", "R"     }});
+      device.input.append({n +  0, 0, string{"Port ", p, " - ", "B"     }});
+      device.input.append({n +  1, 0, string{"Port ", p, " - ", "Y"     }});
+      device.input.append({n +  2, 0, string{"Port ", p, " - ", "Select"}});
+      device.input.append({n +  3, 0, string{"Port ", p, " - ", "Start" }});
+      device.input.append({n +  4, 0, string{"Port ", p, " - ", "Up"    }});
+      device.input.append({n +  5, 0, string{"Port ", p, " - ", "Down"  }});
+      device.input.append({n +  6, 0, string{"Port ", p, " - ", "Left"  }});
+      device.input.append({n +  7, 0, string{"Port ", p, " - ", "Right" }});
+      device.input.append({n +  8, 0, string{"Port ", p, " - ", "A"     }});
+      device.input.append({n +  9, 0, string{"Port ", p, " - ", "X"     }});
+      device.input.append({n + 10, 0, string{"Port ", p, " - ", "L"     }});
+      device.input.append({n + 11, 0, string{"Port ", p, " - ", "R"     }});
       device.order.append(n + 4, n + 5, n +  6, n +  7, n + 0, n + 8);
       device.order.append(n + 1, n + 9, n + 10, n + 11, n + 2, n + 3);
     }

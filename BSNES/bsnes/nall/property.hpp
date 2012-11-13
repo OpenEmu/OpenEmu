@@ -56,24 +56,24 @@ namespace nall {
       const T* operator->() const { return &value; }
       const T& operator()() const { return value; }
       operator const T&() const { return value; }
-    private:
+    //private:
       T* operator->() { return &value; }
       operator T&() { return value; }
       const T& operator=(const T& value_) { return value = value_; }
       T value;
-      friend class traits<C>::type;
+      //friend class traits<C>::type;
     };
 
     template<typename T> struct writeonly {
       void operator=(const T& value_) { value = value_; }
-    private:
+    //private:
       const T* operator->() const { return &value; }
       const T& operator()() const { return value; }
       operator const T&() const { return value; }
       T* operator->() { return &value; }
       operator T&() { return value; }
       T value;
-      friend class traits<C>::type;
+      //friend class traits<C>::type;
     };
 
     template<typename T> struct readwrite {

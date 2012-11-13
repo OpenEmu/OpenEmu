@@ -9,13 +9,13 @@ namespace Processor {
 #include "serialization.cpp"
 
 void uPD96050::power() {
-  if(revision == Revision::uPD7725) {
+  if(revision == Revision::revuPD96050) {
     regs.pc.bits(11);
     regs.rp.bits(10);
     regs.dp.bits( 8);
   }
 
-  if(revision == Revision::uPD96050) {
+  if(revision == Revision::revuPD96050) {
     regs.pc.bits(14);
     regs.rp.bits(11);
     regs.dp.bits(11);

@@ -8,7 +8,7 @@ namespace Processor {
 //NEC uPD96050
 
 struct uPD96050 {
-  enum class Revision : unsigned { uPD7725, uPD96050 } revision;
+  enum class Revision : unsigned { revuPD7725, revuPD96050 } revision;
   uint24 programROM[16384];
   uint16 dataROM[2048];
   uint16 dataRAM[2048];

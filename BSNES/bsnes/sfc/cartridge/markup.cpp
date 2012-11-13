@@ -211,17 +211,17 @@ void Cartridge::parse_markup_necdsp(XML::Node &root) {
   necdsp.frequency = numeral(root["frequency"].data);
   if(necdsp.frequency == 0) necdsp.frequency = 8000000;
   necdsp.revision
-  = root["model"].data == "uPD7725"  ? NECDSP::Revision::uPD7725
-  : root["model"].data == "uPD96050" ? NECDSP::Revision::uPD96050
-  : NECDSP::Revision::uPD7725;
+  = root["model"].data == "uPD7725"  ? NECDSP::Revision::revuPD7725
+  : root["model"].data == "uPD96050" ? NECDSP::Revision::revuPD96050
+  : NECDSP::Revision::revuPD7725;
   string firmware = root["firmware"].data;
   string sha256 = root["sha256"].data;
 
-  if(necdsp.revision == NECDSP::Revision::uPD7725) {
+  if(necdsp.revision == NECDSP::Revision::revuPD7725) {
     interface->loadRequest(ID::Nec7725DSP, firmware);
   }
 
-  if(necdsp.revision == NECDSP::Revision::uPD96050) {
+  if(necdsp.revision == NECDSP::Revision::revuPD96050) {
     interface->loadRequest(ID::Nec96050DSP, firmware);
   }
 
