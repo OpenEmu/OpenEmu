@@ -83,6 +83,8 @@ static const float OE_coverFlowHeightPercentage = .75;
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
     IBOutlet NSTableView *listView;
+
+    NSDate *_listViewSelectionChangeDate;
 }
 
 - (void)OE_managedObjectContextDidSave:(NSNotification *)notification;
@@ -1030,18 +1032,10 @@ static const float OE_coverFlowHeightPercentage = .75;
     {
         if([aCell isKindOfClass:[NSTextFieldCell class]])
         {
-            NSDictionary *attr;
-            
-            if([[aTableView selectedRowIndexes] containsIndex:rowIndex])
-            {
-                attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:9 size:11.0], NSFontAttributeName, 
-                        [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
-            } else {
-                attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:7 size:11.0], NSFontAttributeName, 
-                        [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
-            }
+            NSDictionary *attr = (@{
+                                  NSFontAttributeName            : [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0],
+                                  NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:1.0 alpha:1.0],
+                                  });
             
             [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
         }
@@ -1096,12 +1090,26 @@ static const float OE_coverFlowHeightPercentage = .75;
     return YES;
 }
 
+- (void)tableViewSelectionIsChanging:(NSNotification *)notification
+{
+    NSTableView *tableView = [notification object];
+
+    // We use _listViewSelectionChangeDate to make sure the rating cell tracks the mouse only
+    // if a row selection changed some time ago. Since -tableView:shouldTrackCell:forTableColumn:row:
+    // is sent *before* -tableViewSelectionDidChange:, we need to make sure that the rating cell
+    // does not track the mouse until the selection has changed and we have been able to assign
+    // the proper date to _listViewSelectionChangeDate.
+    if(tableView == listView) _listViewSelectionChangeDate = [NSDate distantFuture];
+}
+
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
     NSTableView *aTableView = [aNotification object];
     
     if( aTableView == listView )
     {
+        _listViewSelectionChangeDate = [NSDate date];
+
         [gamesController setSelectionIndexes:[aTableView selectedRowIndexes]];
         
         NSIndexSet *selectedIndexes = [listView selectedRowIndexes];
@@ -1119,7 +1127,17 @@ static const float OE_coverFlowHeightPercentage = .75;
 {
     if( tableView == listView && [[tableColumn identifier] isEqualToString:@"romRating"] )
     {
-        return YES;
+        // We only track the rating cell in selected rows...
+        if(![[listView selectedRowIndexes] containsIndex:row]) return NO;
+
+        // ...if we know when the last selection change happened...
+        if(!_listViewSelectionChangeDate) return NO;
+
+        // ...and the selection happened a while ago, where 'a while' is the standard double click interval.
+        // This means that the user has to click a row to select it, wait the standard double click internval
+        // and then click the rating cell to change it. See issue #294.
+        return [_listViewSelectionChangeDate timeIntervalSinceNow] < -[NSEvent doubleClickInterval];
+
     }
     return NO;
 }

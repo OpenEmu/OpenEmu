@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
  
 
  Redistribution and use in source and binary forms, with or without
@@ -30,58 +30,41 @@
 #import "OESNESSystemResponderClient.h"
 #import <OpenGL/gl.h>
 
-#include "libsnes.hpp"
+#include "libretro.h"
 
 @interface BSNESGameCore () <OESNESSystemResponderClient>
 @end
 
-NSUInteger BSNESEmulatorValues[] = { SNES_DEVICE_ID_JOYPAD_UP, SNES_DEVICE_ID_JOYPAD_DOWN, SNES_DEVICE_ID_JOYPAD_LEFT, SNES_DEVICE_ID_JOYPAD_RIGHT, SNES_DEVICE_ID_JOYPAD_A, SNES_DEVICE_ID_JOYPAD_B, SNES_DEVICE_ID_JOYPAD_X, SNES_DEVICE_ID_JOYPAD_Y, SNES_DEVICE_ID_JOYPAD_L, SNES_DEVICE_ID_JOYPAD_R, SNES_DEVICE_ID_JOYPAD_START, SNES_DEVICE_ID_JOYPAD_SELECT };
+NSUInteger BSNESEmulatorValues[] = { RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_X, RETRO_DEVICE_ID_JOYPAD_Y, RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_START, RETRO_DEVICE_ID_JOYPAD_SELECT };
 NSString *BSNESEmulatorKeys[] = { @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left", @"Joypad@ Right", @"Joypad@ A", @"Joypad@ B", @"Joypad@ X", @"Joypad@ Y", @"Joypad@ L", @"Joypad@ R", @"Joypad@ Start", @"Joypad@ Select"};
 
 BSNESGameCore *current;
 @implementation BSNESGameCore
 
-//BSNES callbacks
-static void audio_callback(uint16_t left, uint16_t right)
+static void audio_callback(int16_t left, int16_t right)
 {
 	[[current ringBufferAtIndex:0] write:&left maxLength:2];
     [[current ringBufferAtIndex:0] write:&right maxLength:2];
 }
 
-static void video_callback(const uint16_t *data, unsigned width, unsigned height)
-{
-    // Normally our pitch is 2048 bytes.
-    int stride = 1024;
-    // If we have an interlaced mode, pitch is 1024 bytes.
-    if ( height == 448 || height == 478 )
-        stride = 512;
+static size_t audio_batch_callback(const int16_t *data, size_t frames){
+    [[current ringBufferAtIndex:0] write:data maxLength:frames << 2];
+    return frames;
+}
 
+static void video_callback(const void *data, unsigned width, unsigned height, size_t pitch)
+{
     current->videoWidth  = width;
     current->videoHeight = height;
     
     dispatch_queue_t the_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
+    
     dispatch_apply(height, the_queue, ^(size_t y){
-        const uint16_t *src = data + y * stride;
-        uint16_t *dst = current->videoBuffer + y * 512;
-
-        memcpy(dst, src, sizeof(uint16_t)*width);
+        const uint16_t *src = (uint16_t*)data + y * (pitch >> 1); //pitch is in bytes not pixels
+        uint32_t *dst = current->videoBuffer + y * 512;
+        
+        memcpy(dst, src, sizeof(uint32_t)*width);
     });
-}
-
-static bool environment_callback(unsigned env, void *data)
-{
-    switch (env) {
-        case SNES_ENVIRONMENT_SET_TIMING:
-        {
-            snes_system_timing *t = (snes_system_timing*)data;
-            current->frameInterval = t->fps;
-            current->sampleRate    = t->sample_rate;
-            return true;
-        }
-        default:
-            return false; // TODO implement the other stuff?
-    }
 }
 
 static void input_poll_callback(void)
@@ -89,19 +72,54 @@ static void input_poll_callback(void)
 	//NSLog(@"poll callback");
 }
 
-static int16_t input_state_callback(bool port, unsigned device, unsigned index, unsigned id)
+static int16_t input_state_callback(unsigned port, unsigned device, unsigned index, unsigned _id)
 {
-    //NSLog(@"polled input: port: %d device: %d id: %d", port, device, id);
-    
-	if (port == SNES_PORT_1 & device == SNES_DEVICE_JOYPAD) {
-        return current->pad[0][id];
+	if (port == 0 & device == RETRO_DEVICE_JOYPAD) {
+        return current->pad[0][_id];
     }
-    else if(port == SNES_PORT_2 & device == SNES_DEVICE_JOYPAD) {
-        return current->pad[1][id];
+    else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
+        return current->pad[1][_id];
     }
     
     return 0;
 }
+
+static bool environment_callback(unsigned cmd, void *data)
+{
+    switch (cmd)
+    {
+        case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
+        {
+            /* Path where BSNES will look for the required coprocessor chips:
+             cx4.rom (3,072 bytes)
+             dsp1.rom (8,192 bytes)
+             dsp1b.rom (8,192 bytes)
+             dsp2.rom (8,192 bytes)
+             dsp3.rom (8,192 bytes)
+             dsp4.rom (8,192 bytes)
+             st010.rom (53,248 bytes)
+             st011.rom (53,248 bytes)
+             st018.rom (163,840 bytes)
+             */
+            
+            NSString *appSupportPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+                                          stringByAppendingPathComponent:@"Application Support"]
+                                         stringByAppendingPathComponent:@"OpenEmu"]
+                                        stringByAppendingPathComponent:@"BIOS"];
+            
+            *(const char **)data = [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] ? [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] : NULL;
+            NSLog(@"Environ SYSTEM_DIRECTORY: \"%@\".\n", appSupportPath);
+            break;
+        }
+            
+        default:
+            NSLog(@"Environ UNSUPPORTED (#%u).\n", cmd);
+            return false;
+    }
+    
+    return true;
+}
+
 
 static void loadSaveFile(const char* path, int type)
 {
@@ -113,8 +131,8 @@ static void loadSaveFile(const char* path, int type)
         return;
     }
     
-    size_t size = snes_get_memory_size(type);
-    uint8_t *data = snes_get_memory_data(type);
+    size_t size = retro_get_memory_size(type);
+    void *data = retro_get_memory_data(type);
     
     if (size == 0 || !data)
     {
@@ -135,8 +153,8 @@ static void loadSaveFile(const char* path, int type)
 
 static void writeSaveFile(const char* path, int type)
 {
-    size_t size = snes_get_memory_size(type);
-    uint8_t *data = snes_get_memory_data(type);
+    size_t size = retro_get_memory_size(type);
+    void *data = retro_get_memory_data(type);
     
     if ( data && size > 0 )
     {
@@ -144,6 +162,7 @@ static void writeSaveFile(const char* path, int type)
         if ( file != NULL )
         {
             NSLog(@"Saving state %s. Size: %d bytes.", path, (int)size);
+            retro_serialize(data, size);
             if ( fwrite(data, sizeof(uint8_t), size, file) != size )
                 NSLog(@"Did not save state properly.");
             fclose(file);
@@ -153,7 +172,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (oneway void)didPushSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {
-    pad[player-1][BSNESEmulatorValues[button]] = 0xFFFF;
+    pad[player-1][BSNESEmulatorValues[button]] = 1;
 }
 
 - (oneway void)didReleaseSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
@@ -166,9 +185,9 @@ static void writeSaveFile(const char* path, int type)
 	self = [super init];
     if(self != nil)
     {
-        if(videoBuffer) 
+        if(videoBuffer)
             free(videoBuffer);
-        videoBuffer = (uint16_t*)malloc(512 * 478 * 2);
+        videoBuffer = (uint32_t*)malloc(512 * 480 * 2);
     }
 	
 	current = self;
@@ -185,15 +204,15 @@ static void writeSaveFile(const char* path, int type)
 
 - (void)executeFrameSkippingFrame: (BOOL) skip
 {
-    snes_run();
+    retro_run();
 }
 
 - (BOOL)loadFileAtPath: (NSString*) path
 {
 	memset(pad, 0, sizeof(int16_t) * 24);
-
-    uint8_t *data;
-    unsigned size;
+    
+    const void *data;
+    size_t size;
     romName = [path copy];
     
     //load cart, read bytes, get length
@@ -201,45 +220,54 @@ static void writeSaveFile(const char* path, int type)
     if(dataObj == nil) return false;
     size = [dataObj length];
     data = (uint8_t*)[dataObj bytes];
+    const char *meta = NULL;
     
-    //remove copier header, if it exists
-    if((size & 0x7fff) == 512) memmove(data, data + 512, size -= 512);
-    
-    //memory.copy(data, size);
-    
-	snes_init();
+    retro_set_environment(environment_callback);
+	retro_init();
 	
-    snes_set_audio_sample(audio_callback);
-    snes_set_video_refresh(video_callback);
-    snes_set_input_poll(input_poll_callback);
-    snes_set_input_state(input_state_callback);
-	snes_set_environment(environment_callback);
+    retro_set_audio_sample(audio_callback);
+    retro_set_audio_sample_batch(audio_batch_callback);
+    retro_set_video_refresh(video_callback);
+    retro_set_input_poll(input_poll_callback);
+    retro_set_input_state(input_state_callback);
     
-    if(snes_load_cartridge_normal(NULL, data, size))
+    const char *fullPath = [path UTF8String];
+
+    struct retro_game_info gameInfo = {NULL};
+    gameInfo.path = fullPath;
+    gameInfo.data = data;
+    gameInfo.size = size;
+    gameInfo.meta = meta;
+    
+    if(retro_load_game(&gameInfo))
     {
         NSString *path = romName;
         NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
         
         NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
         
-        //        if((batterySavesDirectory != nil) && ![batterySavesDirectory isEqualToString:@""])
         if([batterySavesDirectory length] != 0)
         {
             [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
             
             NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
             
-            loadSaveFile([filePath UTF8String], SNES_MEMORY_CARTRIDGE_RAM);
+            loadSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
         }
         
-        snes_set_controller_port_device(SNES_PORT_1, SNES_DEVICE_JOYPAD);
-        snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_JOYPAD);
+        struct retro_system_av_info avInfo;
+        retro_get_system_av_info(&avInfo);
         
-        snes_get_region();
-            
-        snes_run();
+        current->frameInterval = avInfo.timing.fps;
+        current->sampleRate = avInfo.timing.sample_rate;
+        
+        //retro_set_controller_port_device(0, RETRO_DEVICE_JOYPAD);
+        
+        retro_get_region();
+        
+        retro_run();
     }
-
+    
     return YES;
 }
 
@@ -251,13 +279,12 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntRect)screenRect
 {
-    // hope this handles hires :/
-    return OERectMake(0, 0, videoWidth, videoHeight);
+    return OERectMake(0, 0, current->videoWidth, current->videoHeight);
 }
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(512, 478);
+    return OESizeMake(512, 480);
 }
 
 - (void)setupEmulation
@@ -266,7 +293,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (void)resetEmulation
 {
-    snes_reset();
+    retro_reset();
 }
 
 - (void)stopEmulation
@@ -285,12 +312,12 @@ static void writeSaveFile(const char* path, int type)
         
         NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
         
-        writeSaveFile([filePath UTF8String], SNES_MEMORY_CARTRIDGE_RAM);
+        writeSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
     }
     
     NSLog(@"snes term");
-    //snes_unload_cartridge();
-    snes_term();
+    retro_unload_game();
+    retro_deinit();
     [super stopEmulation];
 }
 
@@ -303,16 +330,17 @@ static void writeSaveFile(const char* path, int type)
 {
     return GL_BGRA;
 }
-
+ 
 - (GLenum)pixelType
 {
-    return GL_UNSIGNED_SHORT_1_5_5_5_REV;
+    return GL_UNSIGNED_INT_8_8_8_8_REV;
 }
-
+ 
 - (GLenum)internalPixelFormat
 {
-    return GL_RGB5;
+    return GL_RGB8;
 }
+
 
 - (double)audioSampleRate
 {
@@ -330,12 +358,12 @@ static void writeSaveFile(const char* path, int type)
 }
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
-{   
-    int serial_size = snes_serialize_size();
+{
+    int serial_size = retro_serialize_size();
     uint8_t *serial_data = (uint8_t *) malloc(serial_size);
     
-    snes_serialize(serial_data, serial_size);
-
+    retro_serialize(serial_data, serial_size);
+    
     FILE *state_file = fopen([fileName UTF8String], "wb");
     long bytes_written = fwrite(serial_data, sizeof(uint8_t), serial_size, state_file);
     
@@ -359,7 +387,7 @@ static void writeSaveFile(const char* path, int type)
         return NO;
     }
     
-    int serial_size = snes_serialize_size();
+    int serial_size = retro_serialize_size();
     uint8_t *serial_data = (uint8_t *) malloc(serial_size);
     
     if(!fread(serial_data, sizeof(uint8_t), serial_size, state_file))
@@ -369,14 +397,14 @@ static void writeSaveFile(const char* path, int type)
     }
     fclose(state_file);
     
-    if(!snes_unserialize(serial_data, serial_size))
+    if(!retro_unserialize(serial_data, serial_size))
     {
         NSLog(@"Couldn't unpack state");
         return NO;
     }
     
     free(serial_data);
-
+    
     return YES;
 }
 
