@@ -211,7 +211,10 @@ static const float OE_coverFlowHeightPercentage = .75;
 - (void)setRepresentedObject:(id)representedObject
 {
     if(representedObject == [self representedObject]) return;
-     [super setRepresentedObject:representedObject];
+    [super setRepresentedObject:representedObject];
+
+    BOOL libraryIsSystem = [[[[self libraryController] sidebarController] systems] containsObject:representedObject];
+    [[listView tableColumnWithIdentifier:@"consoleName"] setHidden:libraryIsSystem];
     
     _stateRewriteRequired = YES;
     [self OE_reloadData];
@@ -950,7 +953,7 @@ static const float OE_coverFlowHeightPercentage = .75;
         {
             result = [obj listViewLastPlayed];
         }
-        else if([colIdent isEqualToString:@"romConsole"])
+        else if([colIdent isEqualToString:@"consoleName"])
         {
             result = [obj listViewConsoleName];
         } 
