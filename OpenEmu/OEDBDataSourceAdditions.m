@@ -139,10 +139,18 @@
 #pragma mark -
 #pragma mark ListView DataSource Item
 
-- (NSImage *)listViewStatus:(BOOL)selected
+- (NSImage *)listViewStatusWithSelected:(BOOL)selected playing:(BOOL)playing
 {
-    return nil;
+    NSString *imageName = (playing            ? @"list_indicators_playing"  :
+                           ![self boxImage]   ? @"list_indicators_missing"  :
+                           ![self lastPlayed] ? @"list_indicators_unplayed" : nil);
+
+    if(!imageName) return nil;
+
+    if(selected) imageName = [imageName stringByAppendingString:@"_selected"];
+    return [NSImage imageNamed:imageName];
 }
+
 
 - (void)setListViewRating:(NSNumber *)number
 {
@@ -153,7 +161,6 @@
 {
     return [self rating];
 }
-
 
 - (void)setListViewTitle:(NSString*)title
 {

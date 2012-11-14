@@ -28,6 +28,8 @@
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEGameControlsBar.h"
 #import "OEMainWindowController.h"
+#import "OEGameViewController.h"
+#import "OEGameDocument.h"
 
 #import "OELibraryController.h"
 #import "OEROMImporter.h"
@@ -192,6 +194,8 @@ static const float OE_coverFlowHeightPercentage = .75;
         
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_emulationDidFinish:) name:OEGameViewControllerEmulationDidFinishNotification object:nil];
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
@@ -925,13 +929,15 @@ static const float OE_coverFlowHeightPercentage = .75;
     if( aTableView == listView )
     {
         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
+        if(![obj isKindOfClass:[OEDBGame class]]) return nil;
         
         NSString *colIdent = [aTableColumn identifier];
         id result = nil;
         if([colIdent isEqualToString:@"romStatus"])
         {
-            result = [obj listViewStatus:([aTableView selectedRow]==rowIndex)];
-        } 
+            BOOL selected = [[listView selectedRowIndexes] containsIndex:rowIndex];
+            result = [obj listViewStatusWithSelected:selected playing:[self OE_isGameOpen:(OEDBGame *)obj]];
+        }
         else if([colIdent isEqualToString:@"romName"])
         {
             result = [obj listViewTitle];
@@ -985,6 +991,25 @@ static const float OE_coverFlowHeightPercentage = .75;
     {
     }
 }
+
+- (BOOL)OE_isGameOpen:(OEDBGame *)game
+{
+    BOOL open = NO;
+    for(id openDocument in [[NSDocumentController sharedDocumentController] documents])
+    {
+        if(![openDocument isKindOfClass:[OEGameDocument class]]) continue;
+
+        OEGameDocument *doc = openDocument;
+        if([[[[doc gameViewController] rom] game] isEqual:game])
+        {
+            open = YES;
+            break;
+        }
+    }
+
+    return open;
+}
+
 #pragma mark -
 #pragma mark TableView Drag and Drop 
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
@@ -1190,6 +1215,23 @@ static const float OE_coverFlowHeightPercentage = .75;
 {    
     [listView selectRowIndexes:[NSIndexSet indexSetWithIndex:[sender selectedIndex]] byExtendingSelection:NO];
     [listView scrollRowToVisible:index];
+}
+
+#pragma mark - Notifications
+- (void)OE_emulationDidFinish:(NSNotification *)notification
+{
+    OEDBRom *rom = [[notification userInfo] objectForKey:OEGameViewControllerROMKey];
+    if(!rom) return;
+
+    NSUInteger rowIndex = [[gamesController arrangedObjects] indexOfObject:[rom game]];
+    if(rowIndex == NSNotFound) return;
+
+    NSInteger columnIndex = [listView columnWithIdentifier:@"romStatus"];
+    NSAssert(columnIndex != -1, @"We should have a column identified by 'romStatus' in the library list view");
+
+    [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] columnIndexes:[NSIndexSet indexSetWithIndex:columnIndex]];
+
+    // If we ever implement indicators in the grid view, we may want to use -setNeedsReloadIndexes:
 }
 
 #pragma mark -
