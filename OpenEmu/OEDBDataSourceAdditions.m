@@ -27,6 +27,9 @@
 #import "OEDBDataSourceAdditions.h"
 #import "OEDBImage.h"
 
+static NSDateFormatter *_OEListViewDateFormatter;
+static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));
+
 @implementation OEDBGame (DataSourceAdditions)
 
 #pragma mark -
@@ -174,8 +177,9 @@
 
 - (NSString *)listViewLastPlayed
 {
-    // TODO: properly format date
-    return [[self lastPlayed] description] ? : @"";
+    return ([self lastPlayed] ?
+            [_OEListViewDateFormatter stringFromDate:[self lastPlayed]] :
+            @"");
 }
 
 - (NSString *)listViewConsoleName
@@ -186,6 +190,16 @@
 - (void)setGridViewRating:(NSNumber *)number
 {
     [self setRating:number];
+}
+
+static void OE_initOEListViewDateFormatter(void)
+{
+    @autoreleasepool
+    {
+        _OEListViewDateFormatter = [NSDateFormatter new];
+        [_OEListViewDateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [_OEListViewDateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    }
 }
 
 @end
