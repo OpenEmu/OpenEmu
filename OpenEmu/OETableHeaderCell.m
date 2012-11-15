@@ -178,7 +178,7 @@
     
 	NSSortDescriptor *sortDesc = [[tableView sortDescriptors] objectAtIndex:0];
 	
-    NSInteger priority = [[sortDesc key] isEqualToString:[column identifier]];
+    NSInteger priority = [[sortDesc key] isEqualToString:[[column sortDescriptorPrototype] key]];
 	BOOL ascending = [sortDesc ascending];
 	
 	NSRect sortIndicatorRect = NSMakeRect(cellFrame.origin.x + cellFrame.size.width - 5 - 15, roundf(cellFrame.origin.y + (cellFrame.size.height-14)/2)-1, 15, 14);

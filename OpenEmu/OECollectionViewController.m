@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -36,6 +36,7 @@
 #import "OECoverGridForegroundLayer.h"
 #import "OECoverGridViewCell.h"
 
+#import "OETableHeaderCell.h"
 #import "OEListViewDataSourceItem.h"
 #import "OERatingCell.h"
 #import "OEHorizontalSplitView.h"
@@ -152,13 +153,13 @@ static const float OE_coverFlowHeightPercentage = .75;
     
     [gamesController setManagedObjectContext:context];
     [gamesController setEntityName:@"Game"];
-    [gamesController setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    [gamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
     [gamesController prepareContent];
     
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    
+
     // Set up GridView
     [gridView setItemSize:NSMakeSize(168, 193)];
     [gridView setMinimumColumnSpacing:22.0];
@@ -185,6 +186,10 @@ static const float OE_coverFlowHeightPercentage = .75;
     [listView setDelegate:self];
     [listView setDataSource:self];
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
+
+    // There's no natural order for status indicators, so we don't allow that column to be sorted
+    OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"romStatus"] headerCell];
+    [romStatusHeaderCell setClickable:NO];
 
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
     
@@ -238,6 +243,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
     [coder encodeObject:searchString forKey:@"searchString"];
     [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
+    if([listView sortDescriptors]) [coder encodeObject:[listView sortDescriptors] forKey:@"listViewSortDescriptors"];
     
     [coder finishEncoding];
     
@@ -252,14 +258,16 @@ static const float OE_coverFlowHeightPercentage = .75;
     float sliderValue;
     NSString   *searchString;
     NSIndexSet *selectionIndexes;
+    NSArray    *listViewSortDescriptors = nil;
          
     NSKeyedUnarchiver *coder = state ? [[NSKeyedUnarchiver alloc] initForReadingWithData:state] : nil;
     if(coder)
     {
-        selectedViewTag  = [coder decodeIntForKey:@"selectedView"];
-        sliderValue      = [coder decodeFloatForKey:@"sliderValue"];
-        searchString     = [coder decodeObjectForKey:@"searchString"];
-        selectionIndexes = [coder decodeObjectForKey:@"selectionIndexes"];
+        selectedViewTag         = [coder decodeIntForKey:@"selectedView"];
+        sliderValue             = [coder decodeFloatForKey:@"sliderValue"];
+        searchString            = [coder decodeObjectForKey:@"searchString"];
+        selectionIndexes        = [coder decodeObjectForKey:@"selectionIndexes"];
+        listViewSortDescriptors = [coder decodeObjectForKey:@"listViewSortDescriptors"];
         
         [coder finishDecoding];
         // TODO: Validate decoded values
@@ -280,7 +288,15 @@ static const float OE_coverFlowHeightPercentage = .75;
     [self OE_setupToolbarStatesForViewTag:selectedViewTag];
     [sizeSlider setFloatValue:sliderValue];
     [searchField setStringValue:searchString];
-    
+    [listView setSortDescriptors:listViewSortDescriptors];
+
+    if(selectedViewTag == OE_FlowViewTag || selectedViewTag == OE_ListViewTag)
+    {
+        [[self gamesController] setSortDescriptors:listViewSortDescriptors];
+        [[self gamesController] rearrangeObjects];
+        [listView reloadData];
+    }
+
     [self OE_updateBlankSlate];
     
     _stateRewriteRequired = NO;
@@ -301,16 +317,28 @@ static const float OE_coverFlowHeightPercentage = .75;
 #pragma mark View Selection
 - (IBAction)switchToGridView:(id)sender
 {
+    [[self gamesController] setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    [[self gamesController] rearrangeObjects];
+    [gridView reloadData];
+
     [self OE_switchToView:OE_GridViewTag];
 }
 
 - (IBAction)switchToFlowView:(id)sender
 {
+    [[self gamesController] setSortDescriptors:[listView sortDescriptors]];
+    [[self gamesController] rearrangeObjects];
+    [listView reloadData];
+
     [self OE_switchToView:OE_FlowViewTag];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
+    [[self gamesController] setSortDescriptors:[listView sortDescriptors]];
+    [[self gamesController] rearrangeObjects];
+    [listView reloadData];
+
     [self OE_switchToView:OE_ListViewTag];
 }
 
@@ -988,10 +1016,14 @@ static const float OE_coverFlowHeightPercentage = .75;
     }
 }
 
-- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
+- (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
-    if( aTableView==listView )
+    if(tableView == listView)
     {
+        [[self gamesController] setSortDescriptors:[listView sortDescriptors]];
+        [[self gamesController] rearrangeObjects];
+        [listView reloadData];
+        _stateRewriteRequired = YES;
     }
 }
 
