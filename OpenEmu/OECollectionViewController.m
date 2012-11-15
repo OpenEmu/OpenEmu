@@ -1205,16 +1205,15 @@ static const float OE_coverFlowHeightPercentage = .75;
 #pragma mark -
 #pragma mark NSTableView Interaction
 - (void)tableViewWasDoubleClicked:(id)sender{
+    NSAssert(sender == listView, @"Sorry, but we're accepting listView senders only at this time");
+
+    NSInteger row = [listView clickedRow];
+    if(row == -1) return;
     
-    NSInteger selectedRow = [sender selectedRow];
-    if(selectedRow == -1)
-        return;
-    
-    id game = [self tableView:sender objectValueForTableColumn:nil row:selectedRow];
-    if(game)
-    {
-        [[self libraryController] startGame:nil];
-    }    
+    id game = [self tableView:sender objectValueForTableColumn:nil row:row];
+    if(!game) return;
+
+    [[self libraryController] startGame:game];
 }
 #pragma mark -
 #pragma mark OETableView Menu
