@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,11 @@
 #include "ly_counter.h"
 #include "../savestate.h"
 
-LyCounter::LyCounter() : VideoEvent(0) {
+namespace gambatte {
+
+LyCounter::LyCounter()
+: time_(0), lineTime_(0), ly_(0), ds(false)
+{
 	setDoubleSpeed(false);
 	reset(0, 0);
 }
@@ -30,11 +34,11 @@ void LyCounter::doEvent() {
 	if (ly_ == 154)
 		ly_ = 0;
 	
-	setTime(time() + lineTime_);
+	time_ = time_ + lineTime_;
 }
 
 unsigned long LyCounter::nextLineCycle(const unsigned lineCycle, const unsigned long cycleCounter) const {
-	unsigned long tmp = time() + (lineCycle << ds);
+	unsigned long tmp = time_ + (lineCycle << ds);
 	
 	if (tmp - cycleCounter > lineTime_)
 		tmp -= lineTime_;
@@ -43,7 +47,7 @@ unsigned long LyCounter::nextLineCycle(const unsigned lineCycle, const unsigned 
 }
 
 unsigned long LyCounter::nextFrameCycle(const unsigned long frameCycle, const unsigned long cycleCounter) const {
-	unsigned long tmp = time() + (((153U - ly()) * 456U + frameCycle) << ds);
+	unsigned long tmp = time_ + (((153U - ly()) * 456U + frameCycle) << ds);
 	
 	if (tmp - cycleCounter > 70224U << ds)
 		tmp -= 70224U << ds;
@@ -53,10 +57,12 @@ unsigned long LyCounter::nextFrameCycle(const unsigned long frameCycle, const un
 
 void LyCounter::reset(const unsigned long videoCycles, const unsigned long lastUpdate) {
 	ly_ = videoCycles / 456;
-	setTime(lastUpdate + ((456 - (videoCycles - ly_ * 456ul)) << isDoubleSpeed()));
+	time_ = lastUpdate + ((456 - (videoCycles - ly_ * 456ul)) << isDoubleSpeed());
 }
 
 void LyCounter::setDoubleSpeed(const bool ds_in) {
 	ds = ds_in;
 	lineTime_ = 456U << ds_in;
+}
+
 }

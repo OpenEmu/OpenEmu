@@ -17,19 +17,22 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "sprite_mapper.h"
-#include "m3_extra_cycles.h"
+#include "counterdef.h"
+#include "next_m0_time.h"
 #include "../insertion_sort.h"
 #include <cstring>
-
 #include <algorithm>
 
+namespace gambatte {
+
 SpriteMapper::OamReader::OamReader(const LyCounter &lyCounter, const unsigned char *oamram)
-: lyCounter(lyCounter), oamram(oamram) {
-	reset(oamram);
+: lyCounter(lyCounter), oamram(oamram), cgb_(false) {
+	reset(oamram, false);
 }
 
-void SpriteMapper::OamReader::reset(const unsigned char *const oamram) {
+void SpriteMapper::OamReader::reset(const unsigned char *const oamram, const bool cgb) {
 	this->oamram = oamram;
+	this->cgb_   = cgb;
 	setLargeSpritesSrc(false);
 	lu = 0;
 	lastChange = 0xFF;
@@ -45,12 +48,12 @@ void SpriteMapper::OamReader::reset(const unsigned char *const oamram) {
 }
 
 static unsigned toPosCycles(const unsigned long cc, const LyCounter &lyCounter) {
-	unsigned lc = lyCounter.lineCycles(cc) + 4 - lyCounter.isDoubleSpeed() * 3u;
+	unsigned lc = lyCounter.lineCycles(cc) + 3 - lyCounter.isDoubleSpeed() * 3u;
 
 	if (lc >= 456)
 		lc -= 456;
 
-	return lc >> 1;
+	return lc;
 }
 
 void SpriteMapper::OamReader::update(const unsigned long cc) {
@@ -58,17 +61,17 @@ void SpriteMapper::OamReader::update(const unsigned long cc) {
 		if (changed()) {
 			const unsigned lulc = toPosCycles(lu, lyCounter);
 
-			unsigned pos = std::min(lulc, 40u);
-			unsigned distance = 40;
+			unsigned pos = std::min(lulc, 80u);
+			unsigned distance = 80;
 
 			if ((cc - lu) >> lyCounter.isDoubleSpeed() < 456) {
 				const unsigned cclc = toPosCycles(cc, lyCounter);
 
-				distance = std::min(cclc, 40u) - pos + (cclc < lulc ? 40 : 0);
+				distance = std::min(cclc, 80u) - pos + (cclc < lulc ? 80 : 0);
 			}
 
 			{
-				const unsigned targetDistance = lastChange - pos + (lastChange <= pos ? 40 : 0);
+				const unsigned targetDistance = lastChange - pos + (lastChange <= pos ? 80 : 0);
 
 				if (targetDistance <= distance) {
 					distance = targetDistance;
@@ -77,12 +80,17 @@ void SpriteMapper::OamReader::update(const unsigned long cc) {
 			}
 
 			while (distance--) {
-				if (pos >= 40)
-					pos = 0;
-
-				szbuf[pos] = largeSpritesSrc;
-				buf[pos * 2] = oamram[pos * 4];
-				buf[pos * 2 + 1] = oamram[pos * 4 + 1];
+				if (!(pos & 1)) {
+					if (pos == 80)
+						pos = 0;
+					
+					if (cgb_)
+						szbuf[pos >> 1] = largeSpritesSrc;
+					
+					buf[pos    ] = oamram[pos * 2    ];
+					buf[pos + 1] = oamram[pos * 2 + 1];
+				} else
+					szbuf[pos >> 1] = (szbuf[pos >> 1] & cgb_) | largeSpritesSrc;
 
 				++pos;
 			}
@@ -94,7 +102,7 @@ void SpriteMapper::OamReader::update(const unsigned long cc) {
 
 void SpriteMapper::OamReader::change(const unsigned long cc) {
 	update(cc);
-	lastChange = std::min(toPosCycles(lu, lyCounter), 40u);
+	lastChange = std::min(toPosCycles(lu, lyCounter), 80u);
 }
 
 void SpriteMapper::OamReader::setStatePtrs(SaveState &state) {
@@ -102,44 +110,36 @@ void SpriteMapper::OamReader::setStatePtrs(SaveState &state) {
 	state.ppu.oamReaderSzbuf.set(szbuf, sizeof(szbuf) / sizeof(bool));
 }
 
+void SpriteMapper::OamReader::loadState(const SaveState &ss, const unsigned char *const oamram) {
+	this->oamram = oamram;
+	largeSpritesSrc = ss.mem.ioamhram.get()[0x140] >> 2 & 1;
+	lu = ss.ppu.enableDisplayM0Time;
+	change(lu);
+}
+
 void SpriteMapper::OamReader::enableDisplay(const unsigned long cc) {
 	std::memset(buf, 0x00, sizeof(buf));
 	std::fill(szbuf, szbuf + 40, false);
-	lu = cc + 160;
-	lastChange = 40;
+	lu = cc + (80 << lyCounter.isDoubleSpeed());
+	lastChange = 80;
 }
 
-bool SpriteMapper::OamReader::oamAccessible(const unsigned long cycleCounter, const M3ExtraCycles &m3ExtraCycles) const {
-	unsigned ly = lyCounter.ly();
-	unsigned lc = lyCounter.lineCycles(cycleCounter) + 4 - lyCounter.isDoubleSpeed() * 3u;
-
-	if (lc >= 456) {
-		lc -= 456;
-		++ly;
-	}
-
-	return cycleCounter < lu || ly >= 144 || lc >= 80 + 173 + m3ExtraCycles(ly);
-}
-
-SpriteMapper::SpriteMapper(M3ExtraCycles &m3ExtraCycles,
+SpriteMapper::SpriteMapper(NextM0Time &nextM0Time,
                            const LyCounter &lyCounter,
                            const unsigned char *const oamram) :
-	VideoEvent(2),
-	m3ExtraCycles(m3ExtraCycles),
-	oamReader(lyCounter, oamram),
-	cgb(false)
+	nextM0Time_(nextM0Time),
+	oamReader(lyCounter, oamram)
 {
 	clearMap();
 }
 
-void SpriteMapper::reset(const unsigned char *const oamram, const bool cgb_in) {
-	oamReader.reset(oamram);
-	cgb = cgb_in;
+void SpriteMapper::reset(const unsigned char *const oamram, const bool cgb) {
+	oamReader.reset(oamram, cgb);
 	clearMap();
 }
 
 void SpriteMapper::clearMap() {
-	std::memset(num, cgb ? 0 : NEED_SORTING_MASK, sizeof(num));
+	std::memset(num, NEED_SORTING_MASK, sizeof(num));
 }
 
 void SpriteMapper::mapSprites() {
@@ -172,7 +172,7 @@ void SpriteMapper::mapSprites() {
 		} while (n <= end);
 	}
 
-	m3ExtraCycles.invalidateCache();
+	nextM0Time_.invalidatePredictedNextM0Time();
 }
 
 void SpriteMapper::sortLine(const unsigned ly) const {
@@ -180,8 +180,10 @@ void SpriteMapper::sortLine(const unsigned ly) const {
 	insertionSort(spritemap + ly * 10, spritemap + ly * 10 + num[ly], SpxLess(posbuf()));
 }
 
-void SpriteMapper::doEvent() {
-	oamReader.update(time());
+unsigned long SpriteMapper::doEvent(const unsigned long time) {
+	oamReader.update(time);
 	mapSprites();
-	setTime(oamReader.changed() ? time() + oamReader.lyCounter.lineTime() : static_cast<unsigned long>(DISABLED_TIME));
+	return oamReader.changed() ? time + oamReader.lyCounter.lineTime() : static_cast<unsigned long>(DISABLED_TIME);
+}
+
 }

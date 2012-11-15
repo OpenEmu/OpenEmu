@@ -18,56 +18,46 @@ Free Software Foundation, Inc.,
 ***************************************************************************/
 
 #include "file.h"
+#include <algorithm>
 
 using namespace std;
 
-static const unsigned int MAX_FILE_NAME = 512;
+namespace gambatte {
 
-File::File(const char *filename) : stream(filename, ios::in | ios::binary), is_zip(false), fsize(0), count(0)
+File::File(const void *buffer, std::size_t size)
 {
-  if (stream)
-  {
-    stream.seekg(0, ios::end);
-    fsize = stream.tellg();
-    stream.seekg(0, ios::beg);
-  }
+  mem.ptr = 0;
+  mem.size = size;
+  mem.data.reserve(size);
+  std::copy(reinterpret_cast<const uint8_t*>(buffer),
+      reinterpret_cast<const uint8_t*>(buffer) + size,
+      mem.data.begin());
 }
 
 File::~File()
-{
-  close();
-}
+{}
 
 void File::rewind()
 {
-  if (is_open())
-  {
-    stream.seekg(0, ios::beg);
-  }
+   mem.ptr = 0;
 }
 
 bool File::is_open()
 {
-  return(stream.is_open());
+  return true;
 }
 
 void File::close()
-{
-  if (is_open())
-  {
-    stream.close();
-  }
-}
+{}
 
 void File::read(char *buffer, size_t amount)
 {
-  if (is_open())
-  {
-    stream.read(buffer, amount);
-    count = stream.gcount();
-  }
-  else
-  {
-    count = 0;
-  }
+   size_t max_read = std::min(amount, mem.size - mem.ptr);
+   std::copy(reinterpret_cast<const char*>(&mem.data[mem.ptr]),
+         reinterpret_cast<const char*>(&mem.data[mem.ptr + max_read]),
+         buffer);
+   mem.ptr += max_read;
+   mem.count = max_read;
+}
+
 }

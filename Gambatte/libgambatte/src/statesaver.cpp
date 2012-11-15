@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Sindre Aamås                                    *
+ *   Copyright (C) 2008 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,7 +22,89 @@
 #include <vector>
 #include <cstring>
 #include <algorithm>
-#include <fstream>
+
+class omemstream
+{
+   public:
+      omemstream(void *data) : wr_ptr(static_cast<uint8_t*>(data)), has_written(0) {}
+
+      void put(uint8_t data)
+      {
+         if (wr_ptr)
+            *wr_ptr++ = data;
+         has_written++;
+      }
+
+      void write(const void *data, size_t size)
+      {
+         if (wr_ptr)
+         {
+            std::memcpy(wr_ptr, data, size);
+            wr_ptr += size;
+         }
+
+         has_written += size;
+      }
+
+      size_t size() const { return has_written; }
+      bool fail() const { return false; }
+      bool good() const { return true; }
+
+   private:
+      uint8_t *wr_ptr;
+      size_t has_written;
+};
+
+class imemstream
+{
+   public:
+      imemstream(const void *data) : rd_ptr(static_cast<const uint8_t*>(data)), has_read(0) {}
+
+      uint8_t get()
+      {
+         uint8_t ret = *rd_ptr++;
+         has_read++;
+         return ret;
+      }
+
+      void read(void *data, size_t size)
+      {
+         std::memcpy(data, rd_ptr, size);
+         rd_ptr += size;
+      }
+
+      void ignore(size_t len = 1)
+      {
+         rd_ptr += len;
+         has_read += len;
+      }
+
+      void getline(char *data, size_t size, char delim = '\n')
+      {
+         size_t count = 0;
+         while ((count < size - 1) && (*rd_ptr != delim))
+         {
+            *data++ = *rd_ptr++;
+            has_read++;
+         }
+
+         rd_ptr++;
+         has_read++;
+         *data = '\0';
+      }
+
+      bool fail() const { return false; }
+      bool good() const { return true; }
+
+   private:
+      const uint8_t *rd_ptr;
+      size_t has_read;
+};
+
+
+namespace {
+
+using namespace gambatte;
 
 enum AsciiChar {
 	NUL, SOH, STX, ETX, EOT, ENQ, ACK, BEL,  BS, TAB,  LF,  VT,  FF,  CR,  SO,  SI,
@@ -37,8 +119,8 @@ enum AsciiChar {
 
 struct Saver {
 	const char *label;
-	void (*save)(std::ofstream &file, const SaveState &state);
-	void (*load)(std::ifstream &file, SaveState &state);
+	void (*save)(omemstream &file, const SaveState &state);
+	void (*load)(imemstream &file, SaveState &state);
 	unsigned char labelsize;
 };
 
@@ -46,27 +128,27 @@ static inline bool operator<(const Saver &l, const Saver &r) {
 	return std::strcmp(l.label, r.label) < 0;
 }
 
-static void put24(std::ofstream &file, const unsigned long data) {
+static void put24(omemstream &file, const unsigned long data) {
 	file.put(data >> 16 & 0xFF);
 	file.put(data >> 8 & 0xFF);
 	file.put(data & 0xFF);
 }
 
-static void put32(std::ofstream &file, const unsigned long data) {
+static void put32(omemstream &file, const unsigned long data) {
 	file.put(data >> 24 & 0xFF);
 	file.put(data >> 16 & 0xFF);
 	file.put(data >> 8 & 0xFF);
 	file.put(data & 0xFF);
 }
 
-static void write(std::ofstream &file, const unsigned char data) {
+static void write(omemstream &file, const unsigned char data) {
 	static const char inf[] = { 0x00, 0x00, 0x01 };
 	
 	file.write(inf, sizeof(inf));
 	file.put(data & 0xFF);
 }
 
-static void write(std::ofstream &file, const unsigned short data) {
+static void write(omemstream &file, const unsigned short data) {
 	static const char inf[] = { 0x00, 0x00, 0x02 };
 	
 	file.write(inf, sizeof(inf));
@@ -74,30 +156,30 @@ static void write(std::ofstream &file, const unsigned short data) {
 	file.put(data & 0xFF);
 }
 
-static void write(std::ofstream &file, const unsigned long data) {
+static void write(omemstream &file, const unsigned long data) {
 	static const char inf[] = { 0x00, 0x00, 0x04 };
 	
 	file.write(inf, sizeof(inf));
 	put32(file, data);
 }
 
-static inline void write(std::ofstream &file, const bool data) {
+static inline void write(omemstream &file, const bool data) {
 	write(file, static_cast<unsigned char>(data));
 }
 
-static void write(std::ofstream &file, const unsigned char *data, const unsigned long sz) {
+static void write(omemstream &file, const unsigned char *data, const unsigned long sz) {
 	put24(file, sz);
 	file.write(reinterpret_cast<const char*>(data), sz);
 }
 
-static void write(std::ofstream &file, const bool *data, const unsigned long sz) {
+static void write(omemstream &file, const bool *data, const unsigned long sz) {
 	put24(file, sz);
 	
 	for (unsigned long i = 0; i < sz; ++i)
 		file.put(data[i]);
 }
 
-static unsigned long get24(std::ifstream &file) {
+static unsigned long get24(imemstream &file) {
 	unsigned long tmp = file.get() & 0xFF;
 	
 	tmp = tmp << 8 | (file.get() & 0xFF);
@@ -105,7 +187,7 @@ static unsigned long get24(std::ifstream &file) {
 	return tmp << 8 | (file.get() & 0xFF);
 }
 
-static unsigned long read(std::ifstream &file) {
+static unsigned long read(imemstream &file) {
 	unsigned long size = get24(file);
 	
 	if (size > 4) {
@@ -125,23 +207,23 @@ static unsigned long read(std::ifstream &file) {
 	return out;
 }
 
-static inline void read(std::ifstream &file, unsigned char &data) {
+static inline void read(imemstream &file, unsigned char &data) {
 	data = read(file) & 0xFF;
 }
 
-static inline void read(std::ifstream &file, unsigned short &data) {
+static inline void read(imemstream &file, unsigned short &data) {
 	data = read(file) & 0xFFFF;
 }
 
-static inline void read(std::ifstream &file, unsigned long &data) {
+static inline void read(imemstream &file, unsigned long &data) {
 	data = read(file);
 }
 
-static inline void read(std::ifstream &file, bool &data) {
+static inline void read(imemstream &file, bool &data) {
 	data = read(file);
 }
 
-static void read(std::ifstream &file, unsigned char *data, unsigned long sz) {
+static void read(imemstream &file, unsigned char *data, unsigned long sz) {
 	const unsigned long size = get24(file);
 	
 	if (size < sz)
@@ -156,7 +238,7 @@ static void read(std::ifstream &file, unsigned char *data, unsigned long sz) {
 	}
 }
 
-static void read(std::ifstream &file, bool *data, unsigned long sz) {
+static void read(imemstream &file, bool *data, unsigned long sz) {
 	const unsigned long size = get24(file);
 	
 	if (size < sz)
@@ -167,6 +249,10 @@ static void read(std::ifstream &file, bool *data, unsigned long sz) {
 	
 	file.ignore(size - sz);
 }
+
+} // anon namespace
+
+namespace gambatte {
 
 class SaverList {
 public:
@@ -184,25 +270,39 @@ public:
 	unsigned maxLabelsize() const { return maxLabelsize_; }
 };
 
+static void pushSaver(SaverList::list_t &list, const char *label,
+		void (*save)(omemstream &file, const SaveState &state),
+		void (*load)(imemstream &file, SaveState &state), unsigned labelsize) {
+	const Saver saver = { label, save, load, labelsize };
+	list.push_back(saver);
+}
+
 SaverList::SaverList() {
 #define ADD(arg) do { \
 	struct Func { \
-		static void save(std::ofstream &file, const SaveState &state) { write(file, state.arg); } \
-		static void load(std::ifstream &file, SaveState &state) { read(file, state.arg); } \
+		static void save(omemstream &file, const SaveState &state) { write(file, state.arg); } \
+		static void load(imemstream &file, SaveState &state) { read(file, state.arg); } \
 	}; \
 	\
-	Saver saver = { label, Func::save, Func::load, sizeof label }; \
-	list.push_back(saver); \
+	pushSaver(list, label, Func::save, Func::load, sizeof label); \
 } while (0)
 
 #define ADDPTR(arg) do { \
 	struct Func { \
-		static void save(std::ofstream &file, const SaveState &state) { write(file, state.arg.get(), state.arg.getSz()); } \
-		static void load(std::ifstream &file, SaveState &state) { read(file, state.arg.ptr, state.arg.getSz()); } \
+		static void save(omemstream &file, const SaveState &state) { write(file, state.arg.get(), state.arg.getSz()); } \
+		static void load(imemstream &file, SaveState &state) { read(file, state.arg.ptr, state.arg.getSz()); } \
 	}; \
 	\
-	Saver saver = { label, Func::save, Func::load, sizeof label }; \
-	list.push_back(saver); \
+	pushSaver(list, label, Func::save, Func::load, sizeof label); \
+} while (0)
+
+#define ADDARRAY(arg) do { \
+	struct Func { \
+		static void save(omemstream &file, const SaveState &state) { write(file, state.arg, sizeof(state.arg)); } \
+		static void load(imemstream &file, SaveState &state) { read(file, state.arg, sizeof(state.arg)); } \
+	}; \
+	\
+	pushSaver(list, label, Func::save, Func::load, sizeof label); \
 } while (0)
 	
 	{ static const char label[] = { c,c,           NUL }; ADD(cpu.cycleCounter); }
@@ -217,45 +317,57 @@ SaverList::SaverList() {
 	{ static const char label[] = { h,             NUL }; ADD(cpu.H); }
 	{ static const char label[] = { l,             NUL }; ADD(cpu.L); }
 	{ static const char label[] = { s,k,i,p,       NUL }; ADD(cpu.skip); }
-	{ static const char label[] = { h,a,l,t,       NUL }; ADD(cpu.halted); }
+	{ static const char label[] = { h,a,l,t,       NUL }; ADD(mem.halted); }
 	{ static const char label[] = { v,r,a,m,       NUL }; ADDPTR(mem.vram); }
 	{ static const char label[] = { s,r,a,m,       NUL }; ADDPTR(mem.sram); }
 	{ static const char label[] = { w,r,a,m,       NUL }; ADDPTR(mem.wram); }
 	{ static const char label[] = { h,r,a,m,       NUL }; ADDPTR(mem.ioamhram); }
-	{ static const char label[] = { l,d,i,v,u,p,   NUL }; ADD(mem.div_lastUpdate); }
-	{ static const char label[] = { l,t,i,m,a,u,p, NUL }; ADD(mem.tima_lastUpdate); }
+	{ static const char label[] = { l,d,i,v,u,p,   NUL }; ADD(mem.divLastUpdate); }
+	{ static const char label[] = { l,t,i,m,a,u,p, NUL }; ADD(mem.timaLastUpdate); }
 	{ static const char label[] = { t,m,a,t,i,m,e, NUL }; ADD(mem.tmatime); }
-	{ static const char label[] = { s,e,r,i,a,l,t, NUL }; ADD(mem.next_serialtime); }
+	{ static const char label[] = { s,e,r,i,a,l,t, NUL }; ADD(mem.nextSerialtime); }
 	{ static const char label[] = { l,o,d,m,a,u,p, NUL }; ADD(mem.lastOamDmaUpdate); }
 	{ static const char label[] = { m,i,n,i,n,t,t, NUL }; ADD(mem.minIntTime); }
+	{ static const char label[] = { u,n,h,a,l,t,t, NUL }; ADD(mem.unhaltTime); }
 	{ static const char label[] = { r,o,m,b,a,n,k, NUL }; ADD(mem.rombank); }
 	{ static const char label[] = { d,m,a,s,r,c,   NUL }; ADD(mem.dmaSource); }
 	{ static const char label[] = { d,m,a,d,s,t,   NUL }; ADD(mem.dmaDestination); }
 	{ static const char label[] = { r,a,m,b,a,n,k, NUL }; ADD(mem.rambank); }
 	{ static const char label[] = { o,d,m,a,p,o,s, NUL }; ADD(mem.oamDmaPos); }
 	{ static const char label[] = { i,m,e,         NUL }; ADD(mem.IME); }
-	{ static const char label[] = { s,r,a,m,o,n,   NUL }; ADD(mem.enable_ram); }
-	{ static const char label[] = { r,a,m,b,m,o,d, NUL }; ADD(mem.rambank_mode); }
-	{ static const char label[] = { h,d,m,a,       NUL }; ADD(mem.hdma_transfer); }
+	{ static const char label[] = { s,r,a,m,o,n,   NUL }; ADD(mem.enableRam); }
+	{ static const char label[] = { r,a,m,b,m,o,d, NUL }; ADD(mem.rambankMode); }
+	{ static const char label[] = { h,d,m,a,       NUL }; ADD(mem.hdmaTransfer); }
 	{ static const char label[] = { b,g,p,         NUL }; ADDPTR(ppu.bgpData); }
 	{ static const char label[] = { o,b,j,p,       NUL }; ADDPTR(ppu.objpData); }
 	{ static const char label[] = { s,p,o,s,b,u,f, NUL }; ADDPTR(ppu.oamReaderBuf); }
 	{ static const char label[] = { s,p,s,z,b,u,f, NUL }; ADDPTR(ppu.oamReaderSzbuf); }
+	{ static const char label[] = { s,p,a,t,t,r,   NUL }; ADDARRAY(ppu.spAttribList); }
+	{ static const char label[] = { s,p,b,y,t,e,NO0, NUL }; ADDARRAY(ppu.spByte0List); }
+	{ static const char label[] = { s,p,b,y,t,e,NO1, NUL }; ADDARRAY(ppu.spByte1List); }
 	{ static const char label[] = { v,c,y,c,l,e,s, NUL }; ADD(ppu.videoCycles); }
 	{ static const char label[] = { e,d,M,NO0,t,i,m, NUL }; ADD(ppu.enableDisplayM0Time); }
+	{ static const char label[] = { m,NO0,t,i,m,e, NUL }; ADD(ppu.lastM0Time); }
+	{ static const char label[] = { n,m,NO0,i,r,q, NUL }; ADD(ppu.nextM0Irq); }
+	{ static const char label[] = { b,g,t,w,       NUL }; ADD(ppu.tileword); }
+	{ static const char label[] = { b,g,n,t,w,     NUL }; ADD(ppu.ntileword); }
 	{ static const char label[] = { w,i,n,y,p,o,s, NUL }; ADD(ppu.winYPos); }
-	{ static const char label[] = { d,r,a,w,c,y,c, NUL }; ADD(ppu.drawStartCycle); }
-	{ static const char label[] = { s,c,r,d,c,y,c, NUL }; ADD(ppu.scReadOffset); }
-	{ static const char label[] = { l,c,d,c,       NUL }; ADD(ppu.lcdc); }
-	{ static const char label[] = { s,c,x,NO0,     NUL }; ADD(ppu.scx[0]); }
-	{ static const char label[] = { s,c,x,NO1,     NUL }; ADD(ppu.scx[1]); }
-	{ static const char label[] = { s,c,y,NO0,     NUL }; ADD(ppu.scy[0]); }
-	{ static const char label[] = { s,c,y,NO1,     NUL }; ADD(ppu.scy[1]); }
-	{ static const char label[] = { s,c,x,AMP,NO7, NUL }; ADD(ppu.scxAnd7); }
+	{ static const char label[] = { x,p,o,s,       NUL }; ADD(ppu.xpos); }
+	{ static const char label[] = { e,n,d,x,       NUL }; ADD(ppu.endx); }
+	{ static const char label[] = { p,p,u,r,NO0,   NUL }; ADD(ppu.reg0); }
+	{ static const char label[] = { p,p,u,r,NO1,   NUL }; ADD(ppu.reg1); }
+	{ static const char label[] = { b,g,a,t,r,b,   NUL }; ADD(ppu.attrib); }
+	{ static const char label[] = { b,g,n,a,t,r,b, NUL }; ADD(ppu.nattrib); }
+	{ static const char label[] = { p,p,u,s,t,a,t, NUL }; ADD(ppu.state); }
+	{ static const char label[] = { n,s,p,r,i,t,e, NUL }; ADD(ppu.nextSprite); }
+	{ static const char label[] = { c,s,p,r,i,t,e, NUL }; ADD(ppu.currentSprite); }
+	{ static const char label[] = { l,y,c,         NUL }; ADD(ppu.lyc); }
+	{ static const char label[] = { m,NO0,l,y,c,   NUL }; ADD(ppu.m0lyc); }
+	{ static const char label[] = { o,l,d,w,y,     NUL }; ADD(ppu.oldWy); }
+	{ static const char label[] = { w,i,n,d,r,a,w, NUL }; ADD(ppu.winDrawState); }
+	{ static const char label[] = { w,s,c,x,       NUL }; ADD(ppu.wscx); }
 	{ static const char label[] = { w,e,m,a,s,t,r, NUL }; ADD(ppu.weMaster); }
-	{ static const char label[] = { w,x,           NUL }; ADD(ppu.wx); }
-	{ static const char label[] = { w,y,           NUL }; ADD(ppu.wy); }
-	{ static const char label[] = { l,y,c,s,k,i,p, NUL }; ADD(ppu.lycIrqSkip); }
+	{ static const char label[] = { l,c,d,s,i,r,q, NUL }; ADD(ppu.pendingLcdstatIrq); }
 	{ static const char label[] = { s,p,u,c,n,t,r, NUL }; ADD(spu.cycleCounter); }
 	{ static const char label[] = { s,w,p,c,n,t,r, NUL }; ADD(spu.ch1.sweep.counter); }
 	{ static const char label[] = { s,w,p,s,h,d,w, NUL }; ADD(spu.ch1.sweep.shadow); }
@@ -309,7 +421,7 @@ SaverList::SaverList() {
 	
 #undef ADD
 #undef ADDPTR
-#undef ADDTIME
+#undef ADDARRAY
 
 	list.resize(list.size());
 	std::sort(list.begin(), list.end());
@@ -322,45 +434,29 @@ SaverList::SaverList() {
 	}
 }
 
-static void writeSnapShot(std::ofstream &file, const Gambatte::uint_least32_t *pixels, const unsigned pitch) {
-	put24(file, pixels ? StateSaver::SS_WIDTH * StateSaver::SS_HEIGHT * sizeof(Gambatte::uint_least32_t) : 0);
-	
-	if (pixels) {
-		Gambatte::uint_least32_t buf[StateSaver::SS_WIDTH];
-		
-		for (unsigned h = StateSaver::SS_HEIGHT; h--;) {
-			for (unsigned x = 0; x < StateSaver::SS_WIDTH; ++x) {
-				unsigned long rb = 0;
-				unsigned long g = 0;
-				
-				static const unsigned w[StateSaver::SS_DIV] = { 3, 5, 5, 3 };
-				
-				for (unsigned y = 0; y < StateSaver::SS_DIV; ++y)
-					for (unsigned xx = 0; xx < StateSaver::SS_DIV; ++xx) {
-						rb += (pixels[x * StateSaver::SS_DIV + y * pitch + xx] & 0xFF00FF) * w[y] * w[xx];
-						g += (pixels[x * StateSaver::SS_DIV + y * pitch + xx] & 0x00FF00) * w[y] * w[xx];
-					}
-				
-				buf[x] = (rb >> 8 & 0xFF00FF) | (g >> 8 & 0x00FF00);
-			}
-			
-			file.write(reinterpret_cast<const char*>(buf), sizeof(buf));
-			pixels += pitch * StateSaver::SS_DIV;
-		}
-	}
+}
+
+namespace {
+
+static void writeSnapShot(omemstream &file) {
+	put24(file, 0);
 }
 
 static SaverList list;
 
-void StateSaver::saveState(const SaveState &state, const char *filename) {
-	std::ofstream file(filename, std::ios_base::binary);
+} // anon namespace
+
+namespace gambatte {
+
+void StateSaver::saveState(const SaveState &state, void *data) {
+   omemstream file(data);
 	
 	if (file.fail())
 		return;
 	
-	{ static const char ver[] = { 0, 0 }; file.write(ver, sizeof(ver)); }
+	{ static const char ver[] = { 0, 1 }; file.write(ver, sizeof(ver)); }
 	
-	writeSnapShot(file, state.ppu.drawBuffer.get(), state.ppu.drawBuffer.getSz() / 144);
+	writeSnapShot(file);
 	
 	for (SaverList::const_iterator it = list.begin(); it != list.end(); ++it) {
 		file.write(it->label, it->labelsize);
@@ -368,40 +464,61 @@ void StateSaver::saveState(const SaveState &state, const char *filename) {
 	}
 }
 
-bool StateSaver::loadState(SaveState &state, const char *filename) {
-	std::ifstream file(filename, std::ios_base::binary);
-	
-	if (file.fail() || file.get() != 0)
-		return false;
-	
-	file.ignore();
-	file.ignore(get24(file));
-	
-	Array<char> labelbuf(list.maxLabelsize());
-	const Saver labelbufSaver = { .label = labelbuf, .save = 0, .load = 0, .labelsize = list.maxLabelsize() };
-	
-	SaverList::const_iterator done = list.begin();
-	
-	while (file.good() && done != list.end()) {
-		file.getline(labelbuf, list.maxLabelsize(), NUL);
-		
-		SaverList::const_iterator it = done;
-		
-		if (std::strcmp(labelbuf, it->label)) {
-			it = std::lower_bound(it + 1, list.end(), labelbufSaver);
-			
-			if (it == list.end() || std::strcmp(labelbuf, it->label)) {
-				file.ignore(get24(file));
-				continue;
-			}
-		} else
-			++done;
-		
-		(*it->load)(file, state);
-	}
-	
-	state.cpu.cycleCounter &= 0x7FFFFFFF;
-	state.spu.cycleCounter &= 0x7FFFFFFF;
-	
-	return true;
+bool StateSaver::loadState(SaveState &state, const void *data) {
+   imemstream file(data);
+
+   if (file.fail() || file.get() != 0)
+      return false;
+
+   file.ignore();
+   file.ignore(get24(file));
+
+   const Array<char> labelbuf(list.maxLabelsize());
+   const Saver labelbufSaver = { labelbuf, 0, 0, list.maxLabelsize() };
+
+   SaverList::const_iterator done = list.begin();
+
+   while (file.good() && done != list.end()) {
+      file.getline(labelbuf, list.maxLabelsize(), NUL);
+
+      SaverList::const_iterator it = done;
+
+      if (std::strcmp(labelbuf, it->label)) {
+         it = std::lower_bound(it + 1, list.end(), labelbufSaver);
+
+         if (it == list.end() || std::strcmp(labelbuf, it->label)) {
+            file.ignore(get24(file));
+            continue;
+         }
+      } else
+         ++done;
+
+      (*it->load)(file, state);
+   }
+
+   state.cpu.cycleCounter &= 0x7FFFFFFF;
+   state.spu.cycleCounter &= 0x7FFFFFFF;
+
+   return true;
 }
+
+size_t StateSaver::stateSize(const SaveState &state) {
+   omemstream file(0);
+
+   if (file.fail())
+      return 0;
+
+   { static const char ver[] = { 0, 1 }; file.write(ver, sizeof(ver)); }
+
+   writeSnapShot(file);
+
+   for (SaverList::const_iterator it = list.begin(); it != list.end(); ++it) {
+      file.write(it->label, it->labelsize);
+      (*it->save)(file, state);
+   }
+
+   return file.size();
+}
+
+}
+

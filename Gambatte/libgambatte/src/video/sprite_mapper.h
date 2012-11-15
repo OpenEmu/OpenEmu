@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,16 +19,13 @@
 #ifndef SPRITE_MAPPER_H
 #define SPRITE_MAPPER_H
 
-#include "video_event.h"
-//#include "video_event_comparer.h"
 #include "ly_counter.h"
-#include "basic_add_event.h"
 #include "../savestate.h"
 
-class M3ExtraCycles;
-class SaveState;
+namespace gambatte {
+class NextM0Time;
 
-class SpriteMapper : public VideoEvent {
+class SpriteMapper {
 	class OamReader {
 		unsigned char buf[80];
 		bool szbuf[40];
@@ -41,25 +38,24 @@ class SpriteMapper : public VideoEvent {
 		unsigned long lu;
 		unsigned char lastChange;
 		bool largeSpritesSrc;
+		bool cgb_;
 
 	public:
 		OamReader(const LyCounter &lyCounter, const unsigned char *oamram);
-		void reset(const unsigned char *oamram);
+		void reset(const unsigned char *oamram, bool cgb);
 		void change(unsigned long cc);
 		void change(const unsigned char *oamram, unsigned long cc) { change(cc); this->oamram = oamram; }
 		bool changed() const { return lastChange != 0xFF; }
 		bool largeSprites(unsigned spNr) const { return szbuf[spNr]; }
 		const unsigned char *oam() const { return oamram; }
-		void resetCycleCounter(const unsigned long oldCc, const unsigned long newCc) { lu = lu + newCc - oldCc; }
+		void resetCycleCounter(const unsigned long oldCc, const unsigned long newCc) { lu -= oldCc - newCc; }
 		void setLargeSpritesSrc(const bool src) { largeSpritesSrc = src; }
 		void update(unsigned long cc);
 		const unsigned char *spritePosBuf() const { return buf; }
 		void setStatePtrs(SaveState &state);
 		void enableDisplay(unsigned long cc);
 		void saveState(SaveState &state) const { state.ppu.enableDisplayM0Time = lu; }
-		void loadState(const SaveState &state) { lu = state.ppu.enableDisplayM0Time; }
-		void resetVideoState() { change(lu); }
-		bool oamAccessible(unsigned long cycleCounter, const M3ExtraCycles &m3ExtraCycles) const;
+		void loadState(const SaveState &ss, const unsigned char *oamram);
 		bool inactivePeriodAfterDisplayEnable(const unsigned long cc) const { return cc < lu; }
 	};
 
@@ -70,7 +66,7 @@ public:
 		const unsigned char *const posbuf_plus1;
 
 	public:
-		SpxLess(const unsigned char *const posbuf) : posbuf_plus1(posbuf + 1) {}
+		explicit SpxLess(const unsigned char *const posbuf) : posbuf_plus1(posbuf + 1) {}
 
 		bool operator()(const unsigned char l, const unsigned char r) const {
 			return posbuf_plus1[l] < posbuf_plus1[r];
@@ -80,32 +76,31 @@ public:
 private:
 	mutable unsigned char spritemap[144*10];
 	mutable unsigned char num[144];
-
-	M3ExtraCycles &m3ExtraCycles;
+	
+	NextM0Time &nextM0Time_;
 	OamReader oamReader;
-
-	bool cgb;
 
 	void clearMap();
 	void mapSprites();
 	void sortLine(unsigned ly) const;
 
 public:
-	SpriteMapper(M3ExtraCycles &m3ExtraCycles,
+	SpriteMapper(NextM0Time &nextM0Time,
 	             const LyCounter &lyCounter,
 	             const unsigned char *oamram_in);
-	void reset(const unsigned char *oamram, bool cgb_in);
-	void doEvent();
-	bool isCgb() const { return cgb; }
+	void reset(const unsigned char *oamram, bool cgb);
+	unsigned long doEvent(unsigned long time);
 	bool largeSprites(unsigned spNr) const { return oamReader.largeSprites(spNr); }
 	unsigned numSprites(const unsigned ly) const { return num[ly] & ~NEED_SORTING_MASK; }
-	void oamChange(const unsigned long cc) { oamReader.change(cc); }
-	void oamChange(const unsigned char *oamram, const unsigned long cc) { oamReader.change(oamram, cc); }
+	void oamChange(unsigned long cc) { oamReader.change(cc); }
+	void oamChange(const unsigned char *oamram, unsigned long cc) { oamReader.change(oamram, cc); }
 	const unsigned char *oamram() const { return oamReader.oam(); }
 	const unsigned char *posbuf() const { return oamReader.spritePosBuf(); }
-	void preCounterChange(const unsigned long cc) { oamReader.update(cc); }
+	void  preSpeedChange(const unsigned long cc) { oamReader.update(cc); }
+	void postSpeedChange(const unsigned long cc) { oamReader.change(cc); }
 
 	void resetCycleCounter(const unsigned long oldCc, const unsigned long newCc) {
+		oamReader.update(oldCc);
 		oamReader.resetCycleCounter(oldCc, newCc);
 	}
 
@@ -113,7 +108,7 @@ public:
 		return lyCounter.nextLineCycle(80, cycleCounter);
 	}
 
-	void setLargeSpritesSource(const bool src) { oamReader.setLargeSpritesSrc(src); }
+	void setLargeSpritesSource(bool src) { oamReader.setLargeSpritesSrc(src); }
 
 	const unsigned char* sprites(const unsigned ly) const {
 		if (num[ly] & NEED_SORTING_MASK)
@@ -125,24 +120,10 @@ public:
 	void setStatePtrs(SaveState &state) { oamReader.setStatePtrs(state); }
 	void enableDisplay(unsigned long cc) { oamReader.enableDisplay(cc); }
 	void saveState(SaveState &state) const { oamReader.saveState(state); }
-	void loadState(const SaveState &state) { oamReader.loadState(state); }
-	void resetVideoState() { oamReader.resetVideoState(); }
-
-	bool oamAccessible(unsigned long cycleCounter) const {
-		return oamReader.oamAccessible(cycleCounter, m3ExtraCycles);
-	}
-
-	bool inactivePeriodAfterDisplayEnable(const unsigned long cc) const {
-		return oamReader.inactivePeriodAfterDisplayEnable(cc);
-	}
+	void loadState(const SaveState &state, const unsigned char *const oamram) { oamReader.loadState(state, oamram); mapSprites(); }
+	bool inactivePeriodAfterDisplayEnable(unsigned long cc) const { return oamReader.inactivePeriodAfterDisplayEnable(cc); }
 };
 
-static inline void addEvent(event_queue<VideoEvent*,VideoEventComparer> &q, SpriteMapper *const e, const unsigned long newTime) {
-	addUnconditionalEvent(q, e, newTime);
-}
-
-static inline void addFixedtimeEvent(event_queue<VideoEvent*,VideoEventComparer> &q, SpriteMapper *const e, const unsigned long newTime) {
-	addUnconditionalFixedtimeEvent(q, e, newTime);
 }
 
 #endif

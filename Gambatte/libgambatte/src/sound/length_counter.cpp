@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aamås                                    *
+ *   Copyright (C) 2007 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,6 +19,8 @@
 #include "length_counter.h"
 #include "master_disabler.h"
 #include <algorithm>
+
+namespace gambatte {
 
 LengthCounter::LengthCounter(MasterDisabler &disabler, const unsigned mask) :
 	disableMaster(disabler),
@@ -84,4 +86,6 @@ void LengthCounter::saveState(SaveState::SPU::LCounter &lstate) const {
 void LengthCounter::loadState(const SaveState::SPU::LCounter &lstate, const unsigned long cc) {
 	counter = std::max(lstate.counter, cc);
 	lengthCounter = lstate.lengthCounter;
+}
+
 }

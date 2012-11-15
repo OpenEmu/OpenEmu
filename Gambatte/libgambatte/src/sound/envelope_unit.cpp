@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aamås                                    *
+ *   Copyright (C) 2007 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,8 @@
  ***************************************************************************/
 #include "envelope_unit.h"
 #include <algorithm>
+
+namespace gambatte {
 
 EnvelopeUnit::VolOnOffEvent EnvelopeUnit::nullEvent;
 
@@ -79,11 +81,12 @@ bool EnvelopeUnit::nr4Init(const unsigned long cc) {
 	return !(nr2 & 0xF8);
 }
 
-EnvelopeUnit::EnvelopeUnit(VolOnOffEvent &volOnOffEvent) :
-volOnOffEvent(volOnOffEvent),
-nr2(0),
-volume(0)
-{}
+EnvelopeUnit::EnvelopeUnit(VolOnOffEvent &volOnOffEvent)
+: volOnOffEvent(volOnOffEvent),
+  nr2(0),
+  volume(0)
+{
+}
 
 void EnvelopeUnit::reset() {
 	counter = COUNTER_DISABLED;
@@ -98,4 +101,6 @@ void EnvelopeUnit::loadState(const SaveState::SPU::Env &estate, const unsigned n
 	counter = std::max(estate.counter, cc);
 	volume = estate.volume;
 	this->nr2 = nr2;
+}
+
 }

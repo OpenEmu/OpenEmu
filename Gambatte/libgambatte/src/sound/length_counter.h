@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aamås                                    *
+ *   Copyright (C) 2007 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,8 @@
 #include "sound_unit.h"
 #include "../savestate.h"
 
+namespace gambatte {
+
 class MasterDisabler;
 
 class LengthCounter : public SoundUnit {
@@ -40,5 +42,7 @@ public:
 	void saveState(SaveState::SPU::LCounter &lstate) const;
 	void loadState(const SaveState::SPU::LCounter &lstate, unsigned long cc);
 };
+
+}
 
 #endif

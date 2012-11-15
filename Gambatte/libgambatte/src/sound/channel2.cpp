@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,8 @@
  ***************************************************************************/
 #include "channel2.h"
 #include "../savestate.h"
+
+namespace gambatte {
 
 Channel2::Channel2() :
 	staticOutputTest(*this, dutyUnit),
@@ -117,7 +119,7 @@ void Channel2::loadState(const SaveState &state) {
 	master = state.spu.ch2.master;
 }
 
-void Channel2::update(Gambatte::uint_least32_t *buf, const unsigned long soBaseVol, unsigned long cycles) {
+void Channel2::update(uint_least32_t *buf, const unsigned long soBaseVol, unsigned long cycles) {
 	const unsigned long outBase = envelopeUnit.dacIsOn() ? soBaseVol & soMask : 0;
 	const unsigned long outLow = outBase * (0 - 15ul);
 	const unsigned long endCycles = cycleCounter + cycles;
@@ -158,4 +160,6 @@ void Channel2::update(Gambatte::uint_least32_t *buf, const unsigned long soBaseV
 		
 		cycleCounter -= SoundUnit::COUNTER_MAX;
 	}
+}
+
 }

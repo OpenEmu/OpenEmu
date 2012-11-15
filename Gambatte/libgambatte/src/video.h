@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,274 +19,235 @@
 #ifndef VIDEO_H
 #define VIDEO_H
 
-namespace Gambatte {
-class VideoBlitter;
-struct FilterInfo;
-}
-
-class Filter;
-class SaveState;
-
-#include <vector>
-#include <memory>
-#include "event_queue.h"
-#include "videoblitter.h"
-#include "array.h"
-#include "int.h"
-#include "colorconversion.h"
-#include "osd_element.h"
-
-#include "video/video_event_comparer.h"
-#include "video/ly_counter.h"
-#include "video/window.h"
-#include "video/scx_reader.h"
-#include "video/sprite_mapper.h"
-#include "video/sc_reader.h"
-#include "video/break_event.h"
-#include "video/mode3_event.h"
-
+#include "video/ppu.h"
 #include "video/lyc_irq.h"
-#include "video/mode0_irq.h"
-#include "video/mode1_irq.h"
-#include "video/mode2_irq.h"
-#include "video/irq_event.h"
-#include "video/m3_extra_cycles.h"
+#include "video/next_m0_time.h"
+#include "interruptrequester.h"
+#include "osd_element.h"
+#include "minkeeper.h"
+#include <memory>
+
+namespace gambatte {
+
+class VideoInterruptRequester {
+	InterruptRequester * intreq;
+	
+public:
+	explicit VideoInterruptRequester(InterruptRequester * intreq) : intreq(intreq) {}
+	void flagHdmaReq() const { gambatte::flagHdmaReq(intreq); }
+	void flagIrq(const unsigned bit) const { intreq->flagIrq(bit); }
+	void setNextEventTime(const unsigned long time) const { intreq->setEventTime<VIDEO>(time); }
+};
+
+class M0Irq {
+	unsigned char statReg_;
+	unsigned char lycReg_;
+	
+public:
+	M0Irq() : statReg_(0), lycReg_(0) {}
+	
+	void lcdReset(const unsigned statReg, const unsigned lycReg) {
+		statReg_ = statReg;
+		 lycReg_ =  lycReg;
+	}
+	
+	void statRegChange(const unsigned statReg,
+			const unsigned long nextM0IrqTime, const unsigned long cc, const bool cgb) {
+		if (nextM0IrqTime - cc > cgb * 2U)
+			statReg_ = statReg;
+	}
+	
+	void lycRegChange(const unsigned lycReg,
+			const unsigned long nextM0IrqTime, const unsigned long cc, const bool ds, const bool cgb) {
+		if (nextM0IrqTime - cc > cgb * 5 + 1U - ds)
+			lycReg_ = lycReg;
+	}
+	
+	void doEvent(unsigned char *const ifreg, const unsigned ly, const unsigned statReg, const unsigned lycReg) {
+		if (((statReg_ | statReg) & 0x08) && (!(statReg_ & 0x40) || ly != lycReg_))
+			*ifreg |= 2;
+		
+		statReg_ = statReg;
+		 lycReg_ =  lycReg;
+	}
+	
+	void saveState(SaveState &state) const {
+		state.ppu.m0lyc = lycReg_;
+	}
+	
+	void loadState(const SaveState &state) {
+		 lycReg_ = state.ppu.m0lyc;
+		statReg_ = state.mem.ioamhram.get()[0x141];
+	}
+	
+	unsigned statReg() const { return statReg_; }
+};
 
 class LCD {
-	//static const uint8_t xflipt[0x100];
+	enum Event { MEM_EVENT, LY_COUNT }; enum { NUM_EVENTS = LY_COUNT + 1 };
+	enum MemEvent { ONESHOT_LCDSTATIRQ, ONESHOT_UPDATEWY2, MODE1_IRQ, LYC_IRQ, SPRITE_MAP,
+	                HDMA_REQ, MODE2_IRQ, MODE0_IRQ }; enum { NUM_MEM_EVENTS = MODE0_IRQ + 1 };
+	
+	class EventTimes {
+		MinKeeper<NUM_EVENTS> eventMin_;
+		MinKeeper<NUM_MEM_EVENTS> memEventMin_;
+		VideoInterruptRequester memEventRequester_;
+		
+		void setMemEvent() {
+			const unsigned long nmet = nextMemEventTime();
+			eventMin_.setValue<MEM_EVENT>(nmet);
+			memEventRequester_.setNextEventTime(nmet);
+		}
+		
+	public:
+		explicit EventTimes(const VideoInterruptRequester memEventRequester) : memEventRequester_(memEventRequester) {}
+		
+		Event nextEvent() const { return static_cast<Event>(eventMin_.min()); }
+		unsigned long nextEventTime() const { return eventMin_.minValue(); }
+		unsigned long operator()(const Event e) const { return eventMin_.value(e); }
+		template<Event e> void set(const unsigned long time) { eventMin_.setValue<e>(time); }
+		void set(const Event e, const unsigned long time) { eventMin_.setValue(e, time); }
+		
+		MemEvent nextMemEvent() const { return static_cast<MemEvent>(memEventMin_.min()); }
+		unsigned long nextMemEventTime() const { return memEventMin_.minValue(); }
+		unsigned long operator()(const MemEvent e) const { return memEventMin_.value(e); }
+		template<MemEvent e> void setm(const unsigned long time) { memEventMin_.setValue<e>(time); setMemEvent(); }
+		void set(const MemEvent e, const unsigned long time) { memEventMin_.setValue(e, time); setMemEvent(); }
+		
+		void flagIrq(const unsigned bit) { memEventRequester_.flagIrq(bit); }
+		void flagHdmaReq() { memEventRequester_.flagHdmaReq(); }
+	};
+	
+	PPU ppu;
 	unsigned long dmgColorsRgb32[3 * 4];
-	unsigned long dmgColorsRgb16[3 * 4];
-	unsigned long dmgColorsUyvy[3 * 4];
-
-	unsigned long bgPalette[8 * 4];
-	unsigned long spPalette[8 * 4];
-
-	unsigned char bgpData[8 * 8];
+	unsigned char  bgpData[8 * 8];
 	unsigned char objpData[8 * 8];
 
-	const unsigned char *const vram;
-	const unsigned char *bgTileData;
-	const unsigned char *bgTileMap;
-	const unsigned char *wdTileMap;
-
-	Gambatte::VideoBlitter *vBlitter;
-	Filter *filter;
-
-	void *dbuffer;
-	void (LCD::*draw)(unsigned xpos, unsigned ypos, unsigned endX);
-	unsigned long (*gbcToFormat)(unsigned bgr15);
-	const unsigned long *dmgColors;
-
-	unsigned long lastUpdate;
-	unsigned long videoCycles;
-
-	unsigned dpitch;
-	unsigned winYPos;
-
-	event_queue<VideoEvent*,VideoEventComparer> m3EventQueue;
-	event_queue<VideoEvent*,VideoEventComparer> irqEventQueue;
-	event_queue<VideoEvent*,VideoEventComparer> vEventQueue;
-
-	LyCounter lyCounter;
-	Window win;
-	ScxReader scxReader;
-	SpriteMapper spriteMapper;
-	M3ExtraCycles m3ExtraCycles;
-	ScReader scReader;
-	BreakEvent breakEvent;
-	Mode3Event mode3Event;
-
+	EventTimes eventTimes_;
+	M0Irq m0Irq_;
 	LycIrq lycIrq;
-	Mode0Irq mode0Irq;
-	Mode1Irq mode1Irq;
-	Mode2Irq mode2Irq;
-	IrqEvent irqEvent;
+	NextM0Time nextM0Time_;
 
-	Gambatte::PixelBuffer pb;
-	Array<Gambatte::uint_least32_t> tmpbuf;
-	Rgb32ToUyvy rgb32ToUyvy;
 	std::auto_ptr<OsdElement> osdElement;
 
-	std::vector<Filter*> filters;
-
-	unsigned char drawStartCycle;
-	unsigned char scReadOffset;
-	unsigned char ifReg;
-	unsigned char tileIndexSign;
 	unsigned char statReg;
-
-	bool doubleSpeed;
-	bool enabled;
-	bool cgb;
-	bool bgEnable;
-	bool spriteEnable;
+	unsigned char m2IrqStatReg_;
+	unsigned char m1IrqStatReg_;
 
 	static void setDmgPalette(unsigned long *palette, const unsigned long *dmgColors, unsigned data);
 	void setDmgPaletteColor(unsigned index, unsigned long rgb32);
-	static unsigned long gbcToRgb32(unsigned bgr15);
-	static unsigned long gbcToRgb16(unsigned bgr15);
-	static unsigned long gbcToUyvy(unsigned bgr15);
 
 	void refreshPalettes();
 	void setDBuffer();
-	void resetVideoState(unsigned long cycleCounter);
 
-	void setDoubleSpeed(bool enabled);
-
+	void doMode2IrqEvent();
 	void event();
 
+	unsigned long m0TimeOfCurrentLine(unsigned long cc);
 	bool cgbpAccessible(unsigned long cycleCounter);
-	bool isMode0IrqPeriod(unsigned long cycleCounter);
-	bool isMode2IrqPeriod(unsigned long cycleCounter);
-	bool isLycIrqPeriod(unsigned lycReg, unsigned endCycles, unsigned long cycleCounter);
-	bool isMode1IrqPeriod(unsigned long cycleCounter);
-
-	template<typename T> void bg_drawPixels(T *buffer_line, unsigned xpos, unsigned end, unsigned scx, unsigned tilemappos,
-			const unsigned char *tilemap, const unsigned char *tiledata);
-	template<typename T> void drawSprites(T *buffer_line, unsigned ypos);
-
-	template<typename T> void cgb_bg_drawPixels(T *buffer_line, unsigned xpos, unsigned end, unsigned scx, unsigned tilemappos,
-			const unsigned char *tilemap, const unsigned char *tiledata, unsigned tileline);
-	template<typename T> void cgb_drawSprites(T *buffer_line, unsigned ypos);
-
-	void null_draw(unsigned xpos, unsigned ypos, unsigned endX);
-	template<typename T> void dmg_draw(unsigned xpos, unsigned ypos, unsigned endX);
-	template<typename T> void cgb_draw(unsigned xpos, unsigned ypos, unsigned endX);
-
-	void do_update(unsigned cycles);
-	void update(unsigned long cycleCounter);
+	
+	void mode3CyclesChange();
+	void doCgbBgColorChange(unsigned index, unsigned data, unsigned long cycleCounter);
+	void doCgbSpColorChange(unsigned index, unsigned data, unsigned long cycleCounter);
 
 public:
-	LCD(const unsigned char *oamram, const unsigned char *vram_in);
-	~LCD();
+	LCD(const unsigned char *oamram, const unsigned char *vram_in, VideoInterruptRequester memEventRequester);
 	void reset(const unsigned char *oamram, bool cgb);
 	void setStatePtrs(SaveState &state);
 	void saveState(SaveState &state) const;
 	void loadState(const SaveState &state, const unsigned char *oamram);
-	void setVideoBlitter(Gambatte::VideoBlitter *vb);
-	void videoBufferChange();
-	void setVideoFilter(unsigned n);
-	std::vector<const Gambatte::FilterInfo*> filterInfo() const;
-	unsigned videoWidth() const;
-	unsigned videoHeight() const;
 	void setDmgPaletteColor(unsigned palNum, unsigned colorNum, unsigned long rgb32);
+	void setVideoBuffer(uint_least32_t *videoBuf, int pitch);
 
-	void setOsdElement(std::auto_ptr<OsdElement> osdElement) {
-		this->osdElement = osdElement;
-	}
-
-	void wdTileMapSelectChange(bool newValue, unsigned long cycleCounter);
-	void bgTileMapSelectChange(bool newValue, unsigned long cycleCounter);
-	void bgTileDataSelectChange(bool newValue, unsigned long cycleCounter);
-	void bgEnableChange(bool newValue, unsigned long cycleCounter);
-	void spriteEnableChange(bool newValue, unsigned long cycleCounter);
+	void setOsdElement(std::auto_ptr<OsdElement> osdElement) { this->osdElement = osdElement; }
 
 	void dmgBgPaletteChange(const unsigned data, const unsigned long cycleCounter) {
 		update(cycleCounter);
 		bgpData[0] = data;
-		setDmgPalette(bgPalette, dmgColors, data);
+		setDmgPalette(ppu.bgPalette(), dmgColorsRgb32, data);
 	}
 
 	void dmgSpPalette1Change(const unsigned data, const unsigned long cycleCounter) {
 		update(cycleCounter);
 		objpData[0] = data;
-		setDmgPalette(spPalette, dmgColors + 4, data);
+		setDmgPalette(ppu.spPalette(), dmgColorsRgb32 + 4, data);
 	}
 
 	void dmgSpPalette2Change(const unsigned data, const unsigned long cycleCounter) {
 		update(cycleCounter);
 		objpData[1] = data;
-		setDmgPalette(spPalette + 4, dmgColors + 8, data);
+		setDmgPalette(ppu.spPalette() + 4, dmgColorsRgb32 + 8, data);
 	}
 
 	void cgbBgColorChange(unsigned index, const unsigned data, const unsigned long cycleCounter) {
-		if (bgpData[index] != data && cgbpAccessible(cycleCounter)) {
-			update(cycleCounter);
-			bgpData[index] = data;
-			index >>= 1;
-			bgPalette[index] = (*gbcToFormat)(bgpData[index << 1] | bgpData[(index << 1) + 1] << 8);
-		}
+		if (bgpData[index] != data)
+			doCgbBgColorChange(index, data, cycleCounter);
 	}
 
 	void cgbSpColorChange(unsigned index, const unsigned data, const unsigned long cycleCounter) {
-		if (objpData[index] != data && cgbpAccessible(cycleCounter)) {
-			update(cycleCounter);
-			objpData[index] = data;
-			index >>= 1;
-			spPalette[index] = (*gbcToFormat)(objpData[index << 1] | objpData[(index << 1) + 1] << 8);
-		}
+		if (objpData[index] != data)
+			doCgbSpColorChange(index, data, cycleCounter);
 	}
 
 	unsigned cgbBgColorRead(const unsigned index, const unsigned long cycleCounter) {
-		return cgb & cgbpAccessible(cycleCounter) ? bgpData[index] : 0xFF;
+		return ppu.cgb() & cgbpAccessible(cycleCounter) ? bgpData[index] : 0xFF;
 	}
 
 	unsigned cgbSpColorRead(const unsigned index, const unsigned long cycleCounter) {
-		return cgb & cgbpAccessible(cycleCounter) ? objpData[index] : 0xFF;
+		return ppu.cgb() & cgbpAccessible(cycleCounter) ? objpData[index] : 0xFF;
 	}
 
-	void updateScreen(unsigned long cc);
-	void enableChange(unsigned long cycleCounter);
-	void preResetCounter(unsigned long cycleCounter);
-	void postResetCounter(unsigned long oldCC, unsigned long cycleCounter);
-	void preSpeedChange(unsigned long cycleCounter);
-	void postSpeedChange(unsigned long cycleCounter);
-// 	unsigned get_mode(unsigned cycleCounter) /*const*/;
+	void updateScreen(bool blanklcd, unsigned long cc);
+	void resetCc(unsigned long oldCC, unsigned long newCc);
+	void speedChange(unsigned long cycleCounter);
 	bool vramAccessible(unsigned long cycleCounter);
-	bool oamAccessible(unsigned long cycleCounter);
-	void weChange(bool newValue, unsigned long cycleCounter);
+	bool oamReadable(unsigned long cycleCounter);
+	bool oamWritable(unsigned long cycleCounter);
 	void wxChange(unsigned newValue, unsigned long cycleCounter);
 	void wyChange(unsigned newValue, unsigned long cycleCounter);
 	void oamChange(unsigned long cycleCounter);
 	void oamChange(const unsigned char *oamram, unsigned long cycleCounter);
 	void scxChange(unsigned newScx, unsigned long cycleCounter);
 	void scyChange(unsigned newValue, unsigned long cycleCounter);
-	void spriteSizeChange(bool newLarge, unsigned long cycleCounter);
 
-	void vramChange(const unsigned long cycleCounter) {
-		update(cycleCounter);
-	}
+	void vramChange(const unsigned long cycleCounter) { update(cycleCounter); }
 
-	unsigned get_stat(unsigned lycReg, unsigned long cycleCounter);
+	unsigned getStat(unsigned lycReg, unsigned long cycleCounter);
 
 	unsigned getLyReg(const unsigned long cycleCounter) {
 		unsigned lyReg = 0;
 
-		if (enabled) {
-			if (cycleCounter >= lyCounter.time())
+		if (ppu.lcdc() & 0x80) {
+			if (cycleCounter >= ppu.lyCounter().time())
 				update(cycleCounter);
 
-			lyReg = lyCounter.ly();
-
-			if (lyCounter.time() - cycleCounter <= 4) {
-				if (lyReg == 153)
-					lyReg = 0;
-				else
-					++lyReg;
-			} else if (lyReg == 153)
+			lyReg = ppu.lyCounter().ly();
+			
+			if (lyReg == 153) {
 				lyReg = 0;
+			} else if (ppu.lyCounter().time() - cycleCounter <= 4)
+				++lyReg;
 		}
 
 		return lyReg;
 	}
 
-	unsigned long nextMode1IrqTime() const {
-		return mode1Irq.time();
-	}
+	unsigned long nextMode1IrqTime() const { return eventTimes_(MODE1_IRQ); }
 
-	void lyWrite(unsigned long cycleCounter);
+	void lcdcChange(unsigned data, unsigned long cycleCounter);
 	void lcdstatChange(unsigned data, unsigned long cycleCounter);
 	void lycRegChange(unsigned data, unsigned long cycleCounter);
-	unsigned long nextIrqEvent() const;
-	unsigned getIfReg(unsigned long cycleCounter);
-	void setIfReg(unsigned ifReg_in, unsigned long cycleCounter);
-
-	unsigned long nextHdmaTime(unsigned long cycleCounter);
-	bool isHdmaPeriod(unsigned long cycleCounter);
-
-	unsigned long nextHdmaTimeInvalid() const {
-		return mode3Event.time();
-	}
+	
+	void enableHdma(unsigned long cycleCounter);
+	void disableHdma(unsigned long cycleCounter);
+	bool hdmaIsEnabled() const { return eventTimes_(HDMA_REQ) != DISABLED_TIME; }
+	
+	void update(unsigned long cycleCounter);
+	
+	bool isCgb() const { return ppu.cgb(); }
+	bool isDoubleSpeed() const { return ppu.lyCounter().isDoubleSpeed(); }
 };
+
+}
 
 #endif

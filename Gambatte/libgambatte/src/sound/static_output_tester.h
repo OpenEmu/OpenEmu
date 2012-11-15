@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aamås                                    *
+ *   Copyright (C) 2007 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,8 @@
 
 #include "envelope_unit.h"
 
+namespace gambatte {
+
 template<class Channel, class Unit>
 class StaticOutputTester : public EnvelopeUnit::VolOnOffEvent {
 	const Channel &ch;
@@ -36,6 +38,8 @@ void StaticOutputTester<Channel, Unit>::operator()(const unsigned long cc) {
 		unit.reviveCounter(cc);
 	else
 		unit.killCounter();
+}
+
 }
 
 #endif

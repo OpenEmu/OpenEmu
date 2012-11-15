@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aamås                                    *
+ *   Copyright (C) 2007 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,6 +19,7 @@
 #ifndef MASTER_DISABLER_H
 #define MASTER_DISABLER_H
 
+namespace gambatte {
 class MasterDisabler {
 	bool &master;
 	
@@ -27,5 +28,6 @@ public:
 	virtual ~MasterDisabler() {}
 	virtual void operator()() { master = false; }
 };
+}
 
 #endif

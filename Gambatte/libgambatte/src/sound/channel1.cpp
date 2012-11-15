@@ -20,6 +20,9 @@
 #include "../savestate.h"
 #include <algorithm>
 
+
+namespace gambatte {
+
 Channel1::SweepUnit::SweepUnit(MasterDisabler &disabler, DutyUnit &dutyUnit) :
 	disableMaster(disabler),
 	dutyUnit(dutyUnit),
@@ -212,7 +215,7 @@ void Channel1::loadState(const SaveState &state) {
 	master = state.spu.ch1.master;
 }
 
-void Channel1::update(Gambatte::uint_least32_t *buf, const unsigned long soBaseVol, unsigned long cycles) {
+void Channel1::update(uint_least32_t *buf, const unsigned long soBaseVol, unsigned long cycles) {
 	const unsigned long outBase = envelopeUnit.dacIsOn() ? soBaseVol & soMask : 0;
 	const unsigned long outLow = outBase * (0 - 15ul);
 	const unsigned long endCycles = cycleCounter + cycles;
@@ -254,4 +257,6 @@ void Channel1::update(Gambatte::uint_least32_t *buf, const unsigned long soBaseV
 		
 		cycleCounter -= SoundUnit::COUNTER_MAX;
 	}
+}
+
 }
