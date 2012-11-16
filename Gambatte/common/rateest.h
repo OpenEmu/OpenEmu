@@ -24,13 +24,6 @@
 #include <utility>
 
 class RateEst {
-public:
-	struct Result {
-		long est;
-		long var;
-	};
-
-private:
 	class SumQueue {
 		typedef std::pair<long, usec_t> pair_t;
 		typedef std::deque<pair_t> q_t;
@@ -51,7 +44,7 @@ private:
 	enum { UPSHIFT = 5 };
 	enum { UP = 1 << UPSHIFT };
 
-	Result srate;
+	long srate;
 	SumQueue sumq;
 	usec_t last;
 	usec_t usecs;
@@ -67,7 +60,7 @@ public:
 	void init(long srate, long reference, long maxSamplePeriod);
 	void reset() { last = 0; }
 	void feed(long samples, usec_t usecs = getusecs());
-	const Result result() const { const Result res = { (srate.est + UP / 2) >> UPSHIFT, (srate.var + UP / 2) >> UPSHIFT }; return res; }
+	long result() const { return (srate + UP / 2) >> UPSHIFT; }
 };
 
 #endif

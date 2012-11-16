@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
  
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,26 +28,17 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuBase/OEGameCore.h>
 
-typedef enum GBButtons {
-    GB_Up      = 0,
-    GB_Down    = 1,
-    GB_Left    = 2,
-    GB_Right   = 3,
-    GB_A       = 4,
-    GB_B       = 5,
-    GB_Start   = 6,
-    GB_Select  = 7,
-    GBButtonCount = 8
-} GBButtons;
-
 @class OERingBuffer;
 
 OE_EXPORTED_CLASS
 @interface GBGameCore : OEGameCore
 {
-    const void *videoBuffer;
-    UInt16     *tmpBuf;
+    @public
+    uint32_t *videoBuffer;
+    int videoWidth, videoHeight;
+    int16_t pad[2][8];
+    NSString *romName;
+    double sampleRate;
 }
-@property(readwrite) const void *videoBuffer;
-@property(copy) NSString *romPath;
+
 @end

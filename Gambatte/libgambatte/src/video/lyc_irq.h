@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aamås                                    *
+ *   Copyright (C) 2007 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,49 +19,41 @@
 #ifndef VIDEO_LYC_IRQ_H
 #define VIDEO_LYC_IRQ_H
 
-#include "ly_counter.h"
+namespace gambatte {
 
-class LycIrq : public VideoEvent {
-	unsigned char &ifReg;
-	unsigned long frameTime;
+struct SaveState;
+class LyCounter;
+
+class LycIrq {
+	unsigned long time_;
+ 	unsigned char lycRegSrc_;
+ 	unsigned char statRegSrc_;
 	unsigned char lycReg_;
-	bool m2IrqEnabled;
-	bool skip;
+	unsigned char statReg_;
+	bool cgb_;
+	
+	void regChange(unsigned statReg, unsigned lycReg, const LyCounter &lyCounter, unsigned long cc);
 	
 public:
-	LycIrq(unsigned char &ifReg_in);
+	LycIrq();
+	void doEvent(unsigned char *ifreg, const LyCounter &lyCounter);
+	unsigned lycReg() const { return lycRegSrc_; }
+	void loadState(const SaveState &state);
+	void saveState(SaveState &state) const;
+	unsigned long time() const { return time_; }
+	void setCgb(const bool cgb) { cgb_ = cgb; }
+	void lcdReset();
+	void reschedule(const LyCounter & lyCounter, unsigned long cc);
 	
-	void doEvent();
-	
-	unsigned lycReg() const {
-		return lycReg_;
+	void statRegChange(unsigned statReg, const LyCounter &lyCounter, unsigned long cc) {
+		regChange(statReg, lycRegSrc_, lyCounter, cc);
 	}
 	
-	static unsigned long schedule(unsigned statReg, unsigned lycReg, const LyCounter &lyCounter, unsigned long cycleCounter);
-	
-	void setDoubleSpeed(const bool ds) {
-		frameTime = 70224 << ds;
-	}
-	
-	void setLycReg(const unsigned lycReg_in) {
-		lycReg_ = lycReg_in;
-	}
-	
-	void setM2IrqEnabled(const bool enabled) {
-		m2IrqEnabled = enabled;
-	}
-	
-	void setSkip(const bool skip) {
-		this->skip = skip;
-	}
-	
-	bool skips() const {
-		return skip;
-	}
-	
-	bool isSkipPeriod(const unsigned long cycleCounter, const bool doubleSpeed) const {
-		return lycReg_ > 0 && time() - cycleCounter > 4U >> doubleSpeed && time() - cycleCounter < 9;
+	void lycRegChange(unsigned lycReg, const LyCounter &lyCounter, unsigned long cc) {
+		regChange(statRegSrc_, lycReg, lyCounter, cc);
 	}
 };
+
+}
 
 #endif

@@ -56,11 +56,10 @@ void RateEst::init(long srate, long reference, const long maxSamplePeriod) {
 	srate <<= UPSHIFT;
 	reference <<= UPSHIFT;
 
-	this->srate.est = limit(srate, reference);
-	this->srate.var = srate >> 12;
+	this->srate = limit(srate, reference);
 	last = 0;
 	this->reference = reference;
-	samples = ((this->srate.est >> UPSHIFT) * 12) << 5;
+	samples = ((this->srate >> UPSHIFT) * 12) << 5;
 	usecs = 12000000 << 5;
 	sumq.reset();
 }
@@ -80,9 +79,8 @@ void RateEst::feed(long samplesIn, const usec_t now) {
 				usecs += (usecsIn - sumq.usecs()) << 5;
 
 				long est = static_cast<long>(samples * (1000000.0f * UP) / usecs + 0.5f);
-				est = limit((srate.est * 31 + est + 16) >> 5, reference);
-				srate.var = (srate.var * 15 + std::abs(est - srate.est) + 8) >> 4;
-				srate.est = est;
+				est = limit((srate * 31 + est + 16) >> 5, reference);
+				srate = est;
 
 				if (usecs > 16000000 << 5) {
 					samples = (samples * 3 + 2) >> 2;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Sindre Aamås                                    *
+ *   Copyright (C) 2008 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,9 +19,9 @@
 #ifndef BITMAP_FONT_H
 #define BITMAP_FONT_H
 
-#include "int.h"
+#include "gbint.h"
 
-namespace BitmapFont {
+namespace bitmapfont {
 enum Char {
 	NUL,
 	N0, N1, N2, N3, N4, N5, N6, N7, N8, N9,
@@ -42,7 +42,7 @@ unsigned getWidth(const char *chars);
 template<class RandomAccessIterator, class Fill>
 void print(RandomAccessIterator dest, unsigned pitch, Fill fill, const char *chars);
 
-void print(Gambatte::uint_least32_t *dest, unsigned pitch, unsigned long color, const char *chars);
+void print(gambatte::uint_least32_t *dest, unsigned pitch, unsigned long color, const char *chars);
 void utoa(unsigned u, char *a);
 
 // --- INTERFACE END ---

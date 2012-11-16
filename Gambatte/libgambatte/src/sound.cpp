@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,7 +17,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "sound.h"
-
 #include "savestate.h"
 #include <cstring>
 #include <algorithm>
@@ -41,16 +40,17 @@ S	1       -           Clock       -
 S) start step on sound power on.
 */
 
-// static const unsigned bufferSize = 35112 + 16 + 2048; //FIXME: DMA can prevent process from returning for up to 4096 cycles.
+namespace gambatte {
 
-PSG::PSG() :
-buffer(NULL),
-lastUpdate(0),
-soVol(0),
-rsum(0x8000), // initialize to 0x8000 to prevent borrows from high word, xor away later
-bufferPos(0),
-enabled(false)
-{}
+PSG::PSG()
+: buffer(0),
+  lastUpdate(0),
+  soVol(0),
+  rsum(0x8000), // initialize to 0x8000 to prevent borrows from high word, xor away later
+  bufferPos(0),
+  enabled(false)
+{
+}
 
 void PSG::init(const bool cgb) {
 	ch1.init(cgb);
@@ -90,9 +90,9 @@ void PSG::loadState(const SaveState &state) {
 }
 
 void PSG::accumulate_channels(const unsigned long cycles) {
-	Gambatte::uint_least32_t *const buf = buffer + bufferPos;
+	uint_least32_t *const buf = buffer + bufferPos;
 	
-	std::memset(buf, 0, cycles * sizeof(Gambatte::uint_least32_t));
+	std::memset(buf, 0, cycles * sizeof(uint_least32_t));
 	ch1.update(buf, soVol, cycles);
 	ch2.update(buf, soVol, cycles);
 	ch3.update(buf, soVol, cycles);
@@ -115,9 +115,34 @@ void PSG::resetCounter(const unsigned long newCc, const unsigned long oldCc, con
 }
 
 unsigned PSG::fillBuffer() {
-	Gambatte::uint_least32_t sum = rsum;
-	Gambatte::uint_least32_t *b = buffer;
+	uint_least32_t sum = rsum;
+	uint_least32_t *b = buffer;
 	unsigned n = bufferPos;
+	
+	if (unsigned n2 = n >> 3) {
+		n -= n2 << 3;
+		
+		do {
+			sum += b[0];
+			b[0] = sum ^ 0x8000;
+			sum += b[1];
+			b[1] = sum ^ 0x8000;
+			sum += b[2];
+			b[2] = sum ^ 0x8000;
+			sum += b[3];
+			b[3] = sum ^ 0x8000;
+			sum += b[4];
+			b[4] = sum ^ 0x8000;
+			sum += b[5];
+			b[5] = sum ^ 0x8000;
+			sum += b[6];
+			b[6] = sum ^ 0x8000;
+			sum += b[7];
+			b[7] = sum ^ 0x8000;
+			
+			b += 8;
+		} while (--n2);
+	}
 	
 	while (n--) {
 		sum += *b;
@@ -151,5 +176,7 @@ void PSG::map_so(const unsigned nr51) {
 }
 
 unsigned PSG::getStatus() const {
-	return ch1.isActive() | (ch2.isActive() << 1) | (ch3.isActive() << 2) | (ch4.isActive() << 3);
+	return ch1.isActive() | ch2.isActive() << 1 | ch3.isActive() << 2 | ch4.isActive() << 3;
+}
+
 }

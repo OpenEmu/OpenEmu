@@ -25,20 +25,12 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#define SAMPLERATE 48000
-#define NEWSIZESOUNDBUFFER 80000
-
-#import <OpenEmuBase/OERingBuffer.h>
-#import <OpenGL/gl.h>
-#import "OEGBSystemResponderClient.h"
 #import "GBGameCore.h"
-#include "gambatte.h"
-#include "CocoaBlitter.h"
-#include "InputGetter.h"
-#include "adaptivesleep.h"
-#include "resamplerinfo.h"
-#include <sys/time.h>
+#import <OpenEmuBase/OERingBuffer.h>
+#import "OEGBSystemResponderClient.h"
+#import <OpenGL/gl.h>
 
+#include "libretro.h"
 NSTimeInterval framerate = 2097152./35112.;
 
 @interface GBGameCore () <OEGBSystemResponderClient>
@@ -56,149 +48,253 @@ NSTimeInterval framerate = 2097152./35112.;
     bool **tabInput;
 }
 
-- (void)GB_setInputForButton:(OEGBButton)gameButton isPressed:(BOOL)isPressed;
+@interface GBGameCore () <OEGBSystemResponderClient>
 @end
 
+NSUInteger GBEmulatorValues[] = { RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_START, RETRO_DEVICE_ID_JOYPAD_SELECT };
+NSString *GBEmulatorKeys[] = { @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left", @"Joypad@ Right", @"Joypad@ 1", @"Joypad@ 2", @"Joypad@ Run", @"Joypad@ Select"};
 
+GBGameCore *current;
 @implementation GBGameCore
-@synthesize romPath;
 
-usec_t getusecs() {
-    timeval t;
-    gettimeofday(&t, NULL);
-    return t.tv_sec * usec_t(1000000) + t.tv_usec;
+static void audio_callback(int16_t left, int16_t right)
+{
+	[[current ringBufferAtIndex:0] write:&left maxLength:2];
+    [[current ringBufferAtIndex:0] write:&right maxLength:2];
 }
 
-void usecsleep(const usec_t usecs) {
-    timespec tspec =
-    {
-        .tv_sec  = 0,
-        .tv_nsec = usecs * 1000
-    };
+static size_t audio_batch_callback(const int16_t *data, size_t frames){
+    [[current ringBufferAtIndex:0] write:data maxLength:frames << 2];
+    return frames;
+}
+
+static void video_callback(const void *data, unsigned width, unsigned height, size_t pitch)
+{
+    current->videoWidth  = width;
+    current->videoHeight = height;
     
-    nanosleep(&tspec, NULL);
+    dispatch_queue_t the_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    dispatch_apply(height, the_queue, ^(size_t y){
+        const uint32_t *src = (uint32_t*)data + y * (pitch >> 2); //pitch is in bytes not pixels
+        uint32_t *dst = current->videoBuffer + y * 160;
+        
+        memcpy(dst, src, sizeof(uint32_t)*width);
+    });
 }
 
-/*
- OpenEmu Core internal functions
- */
+static void input_poll_callback(void)
+{
+	//NSLog(@"poll callback");
+}
+
+static int16_t input_state_callback(unsigned port, unsigned device, unsigned index, unsigned id)
+{
+    if (port == 0 & device == RETRO_DEVICE_JOYPAD) {
+        return current->pad[0][id];
+    }
+    else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
+        return current->pad[1][id];
+    }
+    
+    return 0;
+}
+
+static bool environment_callback(unsigned cmd, void *data)
+{
+    switch (cmd)
+    {
+        default:
+            NSLog(@"Environ UNSUPPORTED (#%u).\n", cmd);
+            return false;
+    }
+    
+    return true;
+}
+
+
+static void loadSaveFile(const char* path, int type)
+{
+    FILE *file;
+    
+    file = fopen(path, "rb");
+    if ( !file )
+    {
+        return;
+    }
+    
+    size_t size = retro_get_memory_size(type);
+    void *data = retro_get_memory_data(type);
+    
+    if (size == 0 || !data)
+    {
+        fclose(file);
+        return;
+    }
+    
+    int rc = fread(data, sizeof(uint8_t), size, file);
+    if ( rc != size )
+    {
+        NSLog(@"Couldn't load save file.");
+    }
+    
+    NSLog(@"Loaded save file: %s", path);
+    
+    fclose(file);
+}
+
+static void writeSaveFile(const char* path, int type)
+{
+    size_t size = retro_get_memory_size(type);
+    void *data = retro_get_memory_data(type);
+    
+    if ( data && size > 0 )
+    {
+        FILE *file = fopen(path, "wb");
+        if ( file != NULL )
+        {
+            NSLog(@"Saving state %s. Size: %d bytes.", path, (int)size);
+            retro_serialize(data, size);
+            if ( fwrite(data, sizeof(uint8_t), size, file) != size )
+                NSLog(@"Did not save state properly.");
+            fclose(file);
+        }
+    }
+}
+
+- (oneway void)didPushGBButton:(OEGBButton)button;
+{
+    pad[0][GBEmulatorValues[button]] = 1;
+}
+
+- (oneway void)didReleaseGBButton:(OEGBButton)button;
+{
+    pad[0][GBEmulatorValues[button]] = 0;
+}
+
 - (id)init
 {
-    self = [super init];
+	self = [super init];
     if(self != nil)
     {
-        NSLog(@"setup");
-        tmpBuf = new UInt16[NEWSIZESOUNDBUFFER];
-        sndBuf = new UInt16[NEWSIZESOUNDBUFFER];
-        memset(sndBuf, 0, NEWSIZESOUNDBUFFER*sizeof(UInt16));
-        memset(tmpBuf, 0, (NEWSIZESOUNDBUFFER*sizeof(UInt16)));
-        
-        soundLock = [NSLock new];
-        bufLock = [NSLock new];
-        resampler.reset(ResamplerInfo::get(1).create(2097152, SAMPLERATE, 35112));
-        
-        gambatte.setVideoFilter(0);
-        
-        blitter.setCore(self);
-        gambatte.setVideoBlitter(&blitter);
-        
-        gambatte.setInputStateGetter(&input);
-        //tabInput =(bool **) malloc(8*sizeof(bool *));
-        //input.FillTabInput(tabInput);
+        if(videoBuffer)
+            free(videoBuffer);
+        videoBuffer = (uint32_t*)malloc(160 * 144 * 4);
     }
-    return self;
+	
+	current = self;
+    
+	return self;
 }
+
+#pragma mark Exectuion
 
 - (void)executeFrame
 {
-    static int samples = 0;
-    [bufLock lock];
-    [soundLock lock];
-    
-    samples += gambatte.runFor(reinterpret_cast<Gambatte::uint_least32_t*>(static_cast<UInt16*>(&sndBuf[0])) + samples, 35112 - samples);
-    samples -= 35112;
-    int size = resampler->resample((short int*)tmpBuf, (short int*)sndBuf, 35112);
-    [[self ringBufferAtIndex:0] write:tmpBuf maxLength:size * sizeof(UInt16) * 2];
-    //memmove(sndBuf, sndBuf + 35112 * 2, samples * sizeof(UInt16) * 2);
-    [soundLock unlock];
-    [bufLock unlock];
+    [self executeFrameSkippingFrame:NO];
 }
 
-- (BOOL)loadFileAtPath:(NSString *)path
+- (void)executeFrameSkippingFrame: (BOOL) skip
 {
-    NSLog(@"loading");
-    
-    [self setRomPath:path];
-    
-    NSString *batteryPath = [self batterySavesDirectoryPath];
-    
-    [[NSFileManager defaultManager] createDirectoryAtPath:batteryPath withIntermediateDirectories:YES attributes:nil error:NULL];
-    
-    gambatte.set_savedir([batteryPath UTF8String]);
-    
-    return !(gambatte.load([path UTF8String]));
+    retro_run();
 }
 
-- (OEIntSize)bufferSize
+- (BOOL)loadFileAtPath: (NSString*) path
 {
-    return OESizeMake(gambatte.videoWidth(), gambatte.videoHeight());
+	memset(pad, 0, sizeof(int16_t) * 9);
+    
+    const void *data;
+    size_t size;
+    romName = [path copy];
+    
+    //load cart, read bytes, get length
+    NSData* dataObj = [NSData dataWithContentsOfFile:[romName stringByStandardizingPath]];
+    if(dataObj == nil) return false;
+    size = [dataObj length];
+    data = (uint8_t*)[dataObj bytes];
+    const char *meta = NULL;
+    
+    retro_set_environment(environment_callback);
+	retro_init();
+	
+    retro_set_audio_sample(audio_callback);
+    retro_set_audio_sample_batch(audio_batch_callback);
+    retro_set_video_refresh(video_callback);
+    retro_set_input_poll(input_poll_callback);
+    retro_set_input_state(input_state_callback);
+    
+    
+    const char *fullPath = [path UTF8String];
+    
+    struct retro_game_info gameInfo = {NULL};
+    gameInfo.path = fullPath;
+    gameInfo.data = data;
+    gameInfo.size = size;
+    gameInfo.meta = meta;
+    
+    if(retro_load_game(&gameInfo))
+    {
+        NSString *path = romName;
+        NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
+        
+        NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+        
+        if([batterySavesDirectory length] != 0)
+        {
+            [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+            
+            NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+            
+            loadSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
+        }
+        
+        struct retro_system_av_info avInfo;
+        retro_get_system_av_info(&avInfo);
+        
+        current->frameInterval = avInfo.timing.fps;
+        current->sampleRate = avInfo.timing.sample_rate;
+        
+        //retro_set_controller_port_device(SNES_PORT_1, RETRO_DEVICE_JOYPAD);
+        
+        retro_get_region();
+        
+        retro_run();
+    }
+    
+    return YES;
 }
 
-- (OEIntSize)aspectSize
-{
-    return OESizeMake(10, 9);
-}
-
-- (void)setVideoBuffer:(const void *)buffer
-{
-    videoBuffer = buffer;
-}
-
+#pragma mark Video
 - (const void *)videoBuffer
 {
     return videoBuffer;
 }
 
-- (void)resetEmulation
+- (OEIntRect)screenRect
 {
-    gambatte.reset();
+    return OERectMake(0, 0, current->videoWidth, current->videoHeight);
 }
 
-- (BOOL)saveStateToFileAtPath: (NSString*) fileName
+- (OEIntSize)bufferSize
 {
-    gambatte.saveState([fileName UTF8String]);
-    return YES;
-}
-
-- (BOOL)loadStateFromFileAtPath: (NSString*) fileName
-{
-    gambatte.loadState([fileName UTF8String]);
-    return YES;
+    return OESizeMake(160, 144);
 }
 
 - (void)setupEmulation
 {
-    
 }
 
-- (void)stopEmulation;
+- (void)resetEmulation
 {
-    gambatte.reset();
+    retro_reset();
 }
 
-- (GLenum)pixelFormat
+- (void)stopEmulation
 {
-    return GL_BGRA;
-}
-
-- (GLenum)pixelType
-{
-    return GL_UNSIGNED_INT_8_8_8_8_REV;
-}
-
-- (GLenum)internalPixelFormat
-{
-    return GL_RGB8;
+    NSLog(@"gb term");
+    retro_unload_game();
+    retro_deinit();
+    [super stopEmulation];
 }
 
 - (oneway void)didPushTurboButton;
@@ -216,46 +312,47 @@ void usecsleep(const usec_t usecs) {
 
 - (oneway void)didPushGBButton:(OEGBButton)button;
 {
-    [self GB_setInputForButton:(OEGBButton)button isPressed:YES];
-}
-
-- (oneway void)didReleaseGBButton:(OEGBButton)button;
-{
-    [self GB_setInputForButton:(OEGBButton)button isPressed:NO];
-}
-
-- (void)GB_setInputForButton:(OEGBButton)gameButton isPressed:(BOOL)isPressed
-{
-    switch(gameButton)
+    NSString *path = romName;
+    NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
+    
+    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+    
+    if([batterySavesDirectory length] != 0)
     {
-        case OEGBButtonUp     : input.setUp(isPressed);     break;
-        case OEGBButtonDown   : input.setDown(isPressed);   break;
-        case OEGBButtonLeft   : input.setLeft(isPressed);   break;
-        case OEGBButtonRight  : input.setRight(isPressed);  break;
-        case OEGBButtonA      : input.setButA(isPressed);   break;
-        case OEGBButtonB      : input.setButB(isPressed);   break;
-        case OEGBButtonStart  : input.setStart(isPressed);  break;
-        case OEGBButtonSelect : input.setSelect(isPressed); break;
-        default : break;
+        
+        [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+        
+        NSLog(@"Trying to save SRAM");
+        
+        NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+        
+        writeSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
     }
 }
 
-
-NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", @"GB_PAD_RIGHT", @"GB_PAD_A", @"GB_PAD_B",  @"GB_START", @"GB_SELECT" };
-
-- (BOOL)shouldPauseForButton:(NSInteger)button
+- (void)dealloc
 {
-    return NO;
+    free(videoBuffer);
 }
 
-- (NSUInteger)channelCount
+- (GLenum)pixelFormat
 {
-    return 2;
+    return GL_BGRA;
+}
+
+- (GLenum)pixelType
+{
+    return GL_UNSIGNED_INT_8_8_8_8_REV;
+}
+
+- (GLenum)internalPixelFormat
+{
+    return GL_RGB8;
 }
 
 - (double)audioSampleRate
 {
-    return SAMPLERATE;
+    return sampleRate ? sampleRate : 48000;
 }
 
 - (NSTimeInterval)frameInterval
@@ -264,9 +361,60 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
     //return 2097152./35112.; // 59.7
 }
 
-- (void) dealloc
+- (NSUInteger)channelCount
 {
-    free(sndBuf);
+    return 2;
+}
+
+- (BOOL)saveStateToFileAtPath:(NSString *)fileName
+{
+    int serial_size = retro_serialize_size();
+    uint8_t *serial_data = (uint8_t *) malloc(serial_size);
+    
+    retro_serialize(serial_data, serial_size);
+    
+    FILE *state_file = fopen([fileName UTF8String], "wb");
+    long bytes_written = fwrite(serial_data, sizeof(uint8_t), serial_size, state_file);
+    
+    free(serial_data);
+    
+    if( bytes_written != serial_size )
+    {
+        NSLog(@"Couldn't write state");
+        return NO;
+    }
+    fclose( state_file );
+    return YES;
+}
+
+- (BOOL)loadStateFromFileAtPath:(NSString *)fileName
+{
+    FILE *state_file = fopen([fileName UTF8String], "rb");
+    if( !state_file )
+    {
+        NSLog(@"Could not open state file");
+        return NO;
+    }
+    
+    int serial_size = retro_serialize_size();
+    uint8_t *serial_data = (uint8_t *) malloc(serial_size);
+    
+    if(!fread(serial_data, sizeof(uint8_t), serial_size, state_file))
+    {
+        NSLog(@"Couldn't read file");
+        return NO;
+    }
+    fclose(state_file);
+    
+    if(!retro_unserialize(serial_data, serial_size))
+    {
+        NSLog(@"Couldn't unpack state");
+        return NO;
+    }
+    
+    free(serial_data);
+    
+    return YES;
 }
 
 @end

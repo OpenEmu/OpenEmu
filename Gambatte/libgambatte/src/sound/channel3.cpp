@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,8 @@
 static inline unsigned toPeriod(const unsigned nr3, const unsigned nr4) {
 	return 0x800 - ((nr4 << 8 & 0x700) | nr3);
 }
+
+namespace gambatte {
 
 Channel3::Channel3() :
 	disableMaster(master, waveCounter),
@@ -141,7 +143,7 @@ void Channel3::updateWaveCounter(const unsigned long cc) {
 	}
 }
 
-void Channel3::update(Gambatte::uint_least32_t *buf, const unsigned long soBaseVol, unsigned long cycles) {
+void Channel3::update(uint_least32_t *buf, const unsigned long soBaseVol, unsigned long cycles) {
 	const unsigned long outBase = (nr0/* & 0x80*/) ? soBaseVol & soMask : 0;
 	
 	if (outBase && rShift != 4) {
@@ -204,4 +206,6 @@ void Channel3::update(Gambatte::uint_least32_t *buf, const unsigned long soBaseV
 		lastReadTime -= SoundUnit::COUNTER_MAX;
 		cycleCounter -= SoundUnit::COUNTER_MAX;
 	}
+}
+
 }

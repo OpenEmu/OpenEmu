@@ -39,8 +39,8 @@ usec_t AdaptiveSleep::sleepUntil(usec_t base, usec_t inc) {
 			if (negate(curOversleep) < curOversleep)
 				curOversleep = 0;
 			
-			oversleepVar = (oversleepVar * 15 + (curOversleep < oversleep ? oversleep - curOversleep : curOversleep - oversleep)) >> 4;
-			oversleep = (oversleep * 15 + curOversleep) >> 4;
+			oversleepVar = (oversleepVar * 15 + (curOversleep < oversleep ? oversleep - curOversleep : curOversleep - oversleep) + 8) >> 4;
+			oversleep = (oversleep * 15 + curOversleep + 8) >> 4;
 		}
 		
 		noSleep = 60;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Sindre Aamås                                    *
+ *   Copyright (C) 2008 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,9 +21,12 @@
 
 #include "osd_element.h"
 #include <memory>
+#include <string>
 
+namespace gambatte {
 std::auto_ptr<OsdElement> newStateLoadedOsdElement(unsigned stateNo);
 std::auto_ptr<OsdElement> newStateSavedOsdElement(unsigned stateNo);
-std::auto_ptr<OsdElement> newSaveStateOsdElement(const char *fileName, unsigned stateNo);
+std::auto_ptr<OsdElement> newSaveStateOsdElement(const std::string &fileName, unsigned stateNo);
+}
 
 #endif

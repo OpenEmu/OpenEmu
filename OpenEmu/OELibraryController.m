@@ -269,12 +269,22 @@ static const CGFloat _OEToolbarHeight = 44;
 #pragma mark -
 - (IBAction)startGame:(id)sender
 {
-    NSAssert([(id)[self currentViewController] respondsToSelector:@selector(selectedGames)], @"Attempt to start a game from a view controller that doesn't announc selectedGames");
-    id selectedGame = [[(id <OELibrarySubviewController>)[self currentViewController] selectedGames] lastObject];
-    NSAssert(selectedGame != nil, @"Attempt to start a game while the selection is empty");
+    NSMutableArray *gamesToStart = [NSMutableArray new];
+
+    if([sender isKindOfClass:[OEDBGame class]]) [gamesToStart addObject:sender];
+    else
+    {
+        NSAssert([(id)[self currentViewController] respondsToSelector:@selector(selectedGames)], @"Attempt to start a game from a view controller that doesn't announc selectedGames");
+
+        [gamesToStart addObjectsFromArray:[(id <OELibrarySubviewController>)[self currentViewController] selectedGames]];
+    }
+
+    NSAssert([gamesToStart count] > 0, @"Attempt to start a game while the selection is empty");
 
     if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
-        [[self delegate] libraryController:self didSelectGame:selectedGame];
+    {
+        for(OEDBGame *game in gamesToStart) [[self delegate] libraryController:self didSelectGame:game];
+    }
 }
 
 - (void)startSelectedGameWithSaveState:(id)stateItem
