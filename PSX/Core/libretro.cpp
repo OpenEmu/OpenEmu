@@ -15,14 +15,14 @@ static retro_input_state_t input_state_cb;
 
 static MDFN_Surface *surf;
 
-static uint16_t conv_buf[680 * 480] __attribute__((aligned(16)));
-static uint32_t mednafen_buf[680 * 480] __attribute__((aligned(16)));
+static uint16_t conv_buf[680 * 576] __attribute__((aligned(16)));
+static uint32_t mednafen_buf[680 * 576];
 static bool failed_init;
 
 void retro_init()
 {
    MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 24);
-   surf = new MDFN_Surface(mednafen_buf, 680, 480, 680, pix_fmt);
+   surf = new MDFN_Surface(mednafen_buf, 680, 576, 680, pix_fmt);
 
    std::vector<MDFNGI*> ext;
    MDFNI_InitializeModules(ext);
@@ -226,7 +226,8 @@ void retro_run()
    update_input();
 
    static int16_t sound_buf[0x10000];
-   static MDFN_Rect rects[480];
+   static MDFN_Rect rects[576];
+   rects[0].w = ~0;
 
    EmulateSpecStruct spec = {0}; 
    spec.surface = surf;
@@ -241,26 +242,38 @@ void retro_run()
 
    unsigned width = rects[0].w;
    unsigned height = spec.DisplayRect.h;
+   unsigned int ptrDiff = 0;
 
-   convert_surface();
-    /*if (width == 272)
+    bool isPal = false;
+    if (height == 576)
     {
-        width = 256;
+        ptrDiff += width * 47;
+        height = 480;
+        isPal = true;
     }
-    else if (width == 340)
+    else if (height == 288)
     {
-        width = 320;
+        // TODO: This seems to be OK as is, but I might be wrong.
+        isPal = true;
     }
-    else if (width == 544)
-    {
-        width = 512;
-    }
-    else if (width == 680)
-    {
-        width = 640;
-    }*/
-   video_cb(conv_buf, width, height, 680 << 1);
-
+    
+    if (isPal && width == 680)
+        ptrDiff += 7;
+    
+    // The core handles vertical overscan for NTSC pretty well, but it ignores
+    // horizontal overscan. This is a tough estimation of what the horizontal
+    // overscan should be, tested with all major NTSC resolutions. Mayeb make it
+    // configurable?
+    float hoverscan = 0.941176471;
+    
+    width = width * hoverscan;
+    ptrDiff += ((rects[0].w - width) / 2);
+    
+    const uint32_t *ptr = surf->pixels;
+    ptr += ptrDiff;
+    
+    video_cb(ptr, width, height, 680 << 2);
+    
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 }
 
@@ -268,7 +281,7 @@ void retro_get_system_info(struct retro_system_info *info)
 {
    memset(info, 0, sizeof(*info));
    info->library_name     = "Mednafen PSX";
-   info->library_version  = "0.9.22";
+   info->library_version  = "0.9.24";
    info->need_fullpath    = true;
    info->valid_extensions = "cue|CUE";
 }
@@ -279,10 +292,10 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
    // Just assume NTSC for now. TODO: Verify FPS.
    info->timing.fps            = 59.94;
    info->timing.sample_rate    = 44100;
-   info->geometry.base_width   = game->nominal_width; //320
-   info->geometry.base_height  = game->nominal_height; //240
-   info->geometry.max_width    = 680; //640
-   info->geometry.max_height   = 480; //480
+   info->geometry.base_width   = 320;
+   info->geometry.base_height  = 240;
+   info->geometry.max_width    = 680;
+   info->geometry.max_height   = 480;
    info->geometry.aspect_ratio = 4.0 / 3.0;
 }
 
