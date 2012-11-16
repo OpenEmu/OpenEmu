@@ -536,6 +536,8 @@
 		9425B19415818B960086FFB6 /* OELynxSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9425B19015818B960086FFB6 /* OELynxSystemController.m */; };
 		9425B19515818B960086FFB6 /* OELynxSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9425B19215818B960086FFB6 /* OELynxSystemResponder.m */; };
 		9425B198158190220086FFB6 /* Lynx.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 9425B1771581822A0086FFB6 /* Lynx.oesystemplugin */; };
+		943813A9165619EC00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943813A7165619EC00D55731 /* Keyboard-Mappings.plist */; };
+		943813AB16561F0500D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943813AA16561F0500D55731 /* Controller-Mappings.plist */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -593,11 +595,10 @@
 		94A1E9DF1586FD7600986376 /* Virtual Boy.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */; };
 		94A9E164157C3B080083A7DC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94A9E16A157C3B080083A7DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E168157C3B080083A7DC /* InfoPlist.strings */; };
-		94A9E174157C3C2A0083A7DC /* OEPSXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E170157C3C2A0083A7DC /* OEPSXSystemController.m */; };
 		94A9E175157C3C2A0083A7DC /* OEPSXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E172157C3C2A0083A7DC /* OEPSXSystemResponder.m */; };
 		94A9E17A157C3C420083A7DC /* controller_psx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E176157C3C420083A7DC /* controller_psx_mask.png */; };
 		94A9E17B157C3C420083A7DC /* controller_psx.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E177157C3C420083A7DC /* controller_psx.png */; };
-		94A9E17C157C3C420083A7DC /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E178157C3C420083A7DC /* Controller-Preferences-Info.plist */; };
+		94A9E17C157C3C420083A7DC /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E178157C3C420083A7DC /* Controller-Preferences.plist */; };
 		94A9E17D157C3C420083A7DC /* psx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E179157C3C420083A7DC /* psx_library.png */; };
 		94A9E183157C44970083A7DC /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		94A9E184157C44F60083A7DC /* PlayStation.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */; };
@@ -1911,6 +1912,8 @@
 		9425B19115818B960086FFB6 /* OELynxSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELynxSystemResponder.h; sourceTree = "<group>"; };
 		9425B19215818B960086FFB6 /* OELynxSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELynxSystemResponder.m; sourceTree = "<group>"; };
 		9425B19315818B960086FFB6 /* OELynxSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELynxSystemResponderClient.h; sourceTree = "<group>"; };
+		943813A7165619EC00D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		943813AA16561F0500D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1969,14 +1972,12 @@
 		94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayStation.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A9E167157C3B080083A7DC /* PlayStation-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlayStation-Info.plist"; sourceTree = "<group>"; };
 		94A9E169157C3B080083A7DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A9E16F157C3C2A0083A7DC /* OEPSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemController.h; sourceTree = "<group>"; };
-		94A9E170157C3C2A0083A7DC /* OEPSXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPSXSystemController.m; sourceTree = "<group>"; };
 		94A9E171157C3C2A0083A7DC /* OEPSXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemResponder.h; sourceTree = "<group>"; };
 		94A9E172157C3C2A0083A7DC /* OEPSXSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPSXSystemResponder.m; sourceTree = "<group>"; };
 		94A9E173157C3C2A0083A7DC /* OEPSXSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemResponderClient.h; sourceTree = "<group>"; };
 		94A9E176157C3C420083A7DC /* controller_psx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx_mask.png; sourceTree = "<group>"; };
 		94A9E177157C3C420083A7DC /* controller_psx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx.png; sourceTree = "<group>"; };
-		94A9E178157C3C420083A7DC /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94A9E178157C3C420083A7DC /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94A9E179157C3C420083A7DC /* psx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = psx_library.png; sourceTree = "<group>"; };
 		94AB8542158532C20035D12C /* PC-FX.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC-FX.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94AB8546158532C20035D12C /* PC-FX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC-FX-Info.plist"; sourceTree = "<group>"; };
@@ -4053,8 +4054,6 @@
 		94A9E165157C3B080083A7DC /* PlayStation */ = {
 			isa = PBXGroup;
 			children = (
-				94A9E16F157C3C2A0083A7DC /* OEPSXSystemController.h */,
-				94A9E170157C3C2A0083A7DC /* OEPSXSystemController.m */,
 				94A9E171157C3C2A0083A7DC /* OEPSXSystemResponder.h */,
 				94A9E172157C3C2A0083A7DC /* OEPSXSystemResponder.m */,
 				94A9E173157C3C2A0083A7DC /* OEPSXSystemResponderClient.h */,
@@ -4070,7 +4069,9 @@
 				94A9E176157C3C420083A7DC /* controller_psx_mask.png */,
 				94A9E177157C3C420083A7DC /* controller_psx.png */,
 				94A9E167157C3B080083A7DC /* PlayStation-Info.plist */,
-				94A9E178157C3C420083A7DC /* Controller-Preferences-Info.plist */,
+				943813A7165619EC00D55731 /* Keyboard-Mappings.plist */,
+				943813AA16561F0500D55731 /* Controller-Mappings.plist */,
+				94A9E178157C3C420083A7DC /* Controller-Preferences.plist */,
 				94A9E168157C3B080083A7DC /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -5500,8 +5501,10 @@
 				94A9E16A157C3B080083A7DC /* InfoPlist.strings in Resources */,
 				94A9E17A157C3C420083A7DC /* controller_psx_mask.png in Resources */,
 				94A9E17B157C3C420083A7DC /* controller_psx.png in Resources */,
-				94A9E17C157C3C420083A7DC /* Controller-Preferences-Info.plist in Resources */,
+				94A9E17C157C3C420083A7DC /* Controller-Preferences.plist in Resources */,
 				94A9E17D157C3C420083A7DC /* psx_library.png in Resources */,
+				943813A9165619EC00D55731 /* Keyboard-Mappings.plist in Resources */,
+				943813AB16561F0500D55731 /* Controller-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6029,7 +6032,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94A9E174157C3C2A0083A7DC /* OEPSXSystemController.m in Sources */,
 				94A9E175157C3C2A0083A7DC /* OEPSXSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -25,13 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OEPSXSystemController</string>
-	<key>OESystemPluginName</key>
-	<string>Sony PlayStation</string>
+	<string>OESystemController</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.psx</string>
 	<key>OESystemName</key>
 	<string>Sony PlayStation</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>4</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEPSXSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>65</integer>

@@ -26,7 +26,6 @@
 
 #import "OEPSXSystemResponder.h"
 #import "OEPSXSystemResponderClient.h"
-#import "OEEvent.h"
 
 @implementation OEPSXSystemResponder
 @dynamic client;
