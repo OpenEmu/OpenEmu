@@ -34,21 +34,6 @@
 NSTimeInterval framerate = 2097152./35112.;
 
 @interface GBGameCore () <OEGBSystemResponderClient>
-{
-    Gambatte::GB gambatte;
-    CocoaBlitter blitter;
-    Gambatte::InputGetter input;
-    
-    NSLock *soundLock;
-    NSLock *bufLock;
-    UInt16 *sndBuf;
-    
-    std::auto_ptr<Resampler> resampler;
-    
-    bool **tabInput;
-}
-
-@interface GBGameCore () <OEGBSystemResponderClient>
 @end
 
 NSUInteger GBEmulatorValues[] = { RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_START, RETRO_DEVICE_ID_JOYPAD_SELECT };
@@ -162,12 +147,12 @@ static void writeSaveFile(const char* path, int type)
     }
 }
 
-- (oneway void)didPushGBButton:(OEGBButton)button;
+- (oneway void)didPushGBButton:(OEGBButton)button
 {
     pad[0][GBEmulatorValues[button]] = 1;
 }
 
-- (oneway void)didReleaseGBButton:(OEGBButton)button;
+- (oneway void)didReleaseGBButton:(OEGBButton)button
 {
     pad[0][GBEmulatorValues[button]] = 0;
 }
@@ -291,6 +276,23 @@ static void writeSaveFile(const char* path, int type)
 
 - (void)stopEmulation
 {
+    NSString *path = romName;
+    NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
+    
+    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+    
+    if([batterySavesDirectory length] != 0)
+    {
+        
+        [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+        
+        NSLog(@"Trying to save SRAM");
+        
+        NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+        
+        writeSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
+    }
+    
     NSLog(@"gb term");
     retro_unload_game();
     retro_deinit();
@@ -308,26 +310,6 @@ static void writeSaveFile(const char* path, int type)
 {
     framerate = 2097152./35112.;
     [self performSelector:@selector(frameRefreshThread:) withObject:nil afterDelay:0.0];
-}
-
-- (oneway void)didPushGBButton:(OEGBButton)button;
-{
-    NSString *path = romName;
-    NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
-    
-    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
-    
-    if([batterySavesDirectory length] != 0)
-    {
-        
-        [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-        
-        NSLog(@"Trying to save SRAM");
-        
-        NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-        
-        writeSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
-    }
 }
 
 - (void)dealloc
