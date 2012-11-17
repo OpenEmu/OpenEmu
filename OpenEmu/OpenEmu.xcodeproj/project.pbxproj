@@ -548,6 +548,8 @@
 		9438162C16577A9200D55731 /* OESegaCDSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9438162B16577A9200D55731 /* OESegaCDSystemController.m */; };
 		9438162F16577C9D00D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438162D16577C9D00D55731 /* Controller-Mappings.plist */; };
 		9438163016577C9D00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438162E16577C9D00D55731 /* Keyboard-Mappings.plist */; };
+		943816971658373C00D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943816951658373C00D55731 /* Controller-Mappings.plist */; };
+		943816981658373C00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943816961658373C00D55731 /* Keyboard-Mappings.plist */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -613,13 +615,12 @@
 		94A9E184157C44F60083A7DC /* PlayStation.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */; };
 		94AB8543158532C20035D12C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94AB8549158532C20035D12C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94AB8547158532C20035D12C /* InfoPlist.strings */; };
-		94AB855315853AE30035D12C /* OEPCFXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AB854F15853AE30035D12C /* OEPCFXSystemController.m */; };
 		94AB855415853AE30035D12C /* OEPCFXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AB855115853AE30035D12C /* OEPCFXSystemResponder.m */; };
 		94AB855715853B000035D12C /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		94AB855C15853B930035D12C /* PC-FX.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94AB8542158532C20035D12C /* PC-FX.oesystemplugin */; };
 		94AB856115853BB20035D12C /* controller_pcfx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855D15853BB20035D12C /* controller_pcfx_mask.png */; };
 		94AB856215853BB20035D12C /* controller_pcfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855E15853BB20035D12C /* controller_pcfx.png */; };
-		94AB856315853BB20035D12C /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855F15853BB20035D12C /* Controller-Preferences-Info.plist */; };
+		94AB856315853BB20035D12C /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855F15853BB20035D12C /* Controller-Preferences.plist */; };
 		94AB856415853BB20035D12C /* pcfx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB856015853BB20035D12C /* pcfx_library.png */; };
 		94AB85DD158656090035D12C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94AB85E3158656090035D12C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94AB85E1158656090035D12C /* InfoPlist.strings */; };
@@ -1933,6 +1934,8 @@
 		9438162B16577A9200D55731 /* OESegaCDSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESegaCDSystemController.m; sourceTree = "<group>"; };
 		9438162D16577C9D00D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		9438162E16577C9D00D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		943816951658373C00D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		943816961658373C00D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1999,14 +2002,12 @@
 		94AB8542158532C20035D12C /* PC-FX.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC-FX.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94AB8546158532C20035D12C /* PC-FX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC-FX-Info.plist"; sourceTree = "<group>"; };
 		94AB8548158532C20035D12C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94AB854E15853AE30035D12C /* OEPCFXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCFXSystemController.h; sourceTree = "<group>"; };
-		94AB854F15853AE30035D12C /* OEPCFXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCFXSystemController.m; sourceTree = "<group>"; };
 		94AB855015853AE30035D12C /* OEPCFXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCFXSystemResponder.h; sourceTree = "<group>"; };
 		94AB855115853AE30035D12C /* OEPCFXSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCFXSystemResponder.m; sourceTree = "<group>"; };
 		94AB855215853AE30035D12C /* OEPCFXSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCFXSystemResponderClient.h; sourceTree = "<group>"; };
 		94AB855D15853BB20035D12C /* controller_pcfx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcfx_mask.png; sourceTree = "<group>"; };
 		94AB855E15853BB20035D12C /* controller_pcfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcfx.png; sourceTree = "<group>"; };
-		94AB855F15853BB20035D12C /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94AB855F15853BB20035D12C /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94AB856015853BB20035D12C /* pcfx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcfx_library.png; sourceTree = "<group>"; };
 		94AB85DC158656080035D12C /* SG-1000.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SG-1000.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94AB85E0158656090035D12C /* SG-1000-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SG-1000-Info.plist"; sourceTree = "<group>"; };
@@ -4095,8 +4096,6 @@
 		94AB8544158532C20035D12C /* PC-FX */ = {
 			isa = PBXGroup;
 			children = (
-				94AB854E15853AE30035D12C /* OEPCFXSystemController.h */,
-				94AB854F15853AE30035D12C /* OEPCFXSystemController.m */,
 				94AB855015853AE30035D12C /* OEPCFXSystemResponder.h */,
 				94AB855115853AE30035D12C /* OEPCFXSystemResponder.m */,
 				94AB855215853AE30035D12C /* OEPCFXSystemResponderClient.h */,
@@ -4112,7 +4111,9 @@
 				94AB855D15853BB20035D12C /* controller_pcfx_mask.png */,
 				94AB855E15853BB20035D12C /* controller_pcfx.png */,
 				94AB8546158532C20035D12C /* PC-FX-Info.plist */,
-				94AB855F15853BB20035D12C /* Controller-Preferences-Info.plist */,
+				943816961658373C00D55731 /* Keyboard-Mappings.plist */,
+				943816951658373C00D55731 /* Controller-Mappings.plist */,
+				94AB855F15853BB20035D12C /* Controller-Preferences.plist */,
 				94AB8547158532C20035D12C /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -5538,8 +5539,10 @@
 				94AB8549158532C20035D12C /* InfoPlist.strings in Resources */,
 				94AB856115853BB20035D12C /* controller_pcfx_mask.png in Resources */,
 				94AB856215853BB20035D12C /* controller_pcfx.png in Resources */,
-				94AB856315853BB20035D12C /* Controller-Preferences-Info.plist in Resources */,
+				94AB856315853BB20035D12C /* Controller-Preferences.plist in Resources */,
 				94AB856415853BB20035D12C /* pcfx_library.png in Resources */,
+				943816971658373C00D55731 /* Controller-Mappings.plist in Resources */,
+				943816981658373C00D55731 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6066,7 +6069,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94AB855315853AE30035D12C /* OEPCFXSystemController.m in Sources */,
 				94AB855415853AE30035D12C /* OEPCFXSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

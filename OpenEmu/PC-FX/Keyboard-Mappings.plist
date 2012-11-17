@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEPCFXButtonUp</key>
+	<integer>82</integer>
+	<key>OEPCFXButtonDown</key>
+	<integer>81</integer>
+	<key>OEPCFXButtonLeft</key>
+	<integer>80</integer>
+	<key>OEPCFXButtonRight</key>
+	<integer>79</integer>
+	<key>OEPCFXButton1</key>
+	<integer>4</integer>
+	<key>OEPCFXButton2</key>
+	<integer>22</integer>
+	<key>OEPCFXButton3</key>
+	<integer>7</integer>
+	<key>OEPCFXButton4</key>
+	<integer>20</integer>
+	<key>OEPCFXButton5</key>
+	<integer>26</integer>
+	<key>OEPCFXButton6</key>
+	<integer>8</integer>
+	<key>OEPCFXButtonRun</key>
+	<integer>44</integer>
+	<key>OEPCFXButtonSelect</key>
+	<integer>41</integer>
+</dict>
+</plist>

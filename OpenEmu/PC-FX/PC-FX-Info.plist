@@ -23,15 +23,17 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
+	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OEPCFXSystemController</string>
-	<key>OESystemPluginName</key>
+	<string>OESystemController</string>
+	<key>OESystemName</key>
 	<string>PC-FX</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.pcfx</string>
-	<key>OESystemName</key>
-	<string>PC-FX</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>2</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEPCFXSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>80</integer>
