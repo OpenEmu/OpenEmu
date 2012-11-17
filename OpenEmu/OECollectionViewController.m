@@ -155,6 +155,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     [gamesController setEntityName:@"Game"];
     [gamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
+    [gamesController setAvoidsEmptySelection:NO];
     [gamesController prepareContent];
     
     // Setup View
@@ -213,13 +214,14 @@ static const float OE_coverFlowHeightPercentage = .75;
     return @"CollectionView";
 }
 #pragma mark - OELibrarySubviewControllerProtocol Implementation
-- (void)setRepresentedObject:(id)representedObject
+- (void)setRepresentedObject:(id<OECollectionViewItemProtocol>)representedObject
 {
+    NSAssert([representedObject conformsToProtocol:@protocol(OECollectionViewItemProtocol)], @"OECollectionViewController accepts OECollectionViewItemProtocol represented objects only");
+
     if(representedObject == [self representedObject]) return;
     [super setRepresentedObject:representedObject];
 
-    BOOL libraryIsSystem = [[[[self libraryController] sidebarController] systems] containsObject:representedObject];
-    [[listView tableColumnWithIdentifier:@"consoleName"] setHidden:libraryIsSystem];
+    [[listView tableColumnWithIdentifier:@"consoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
     
     _stateRewriteRequired = YES;
     [self OE_reloadData];
@@ -1173,13 +1175,14 @@ static const float OE_coverFlowHeightPercentage = .75;
         [gamesController setSelectionIndexes:[aTableView selectedRowIndexes]];
         
         NSIndexSet *selectedIndexes = [listView selectedRowIndexes];
-        [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
+        if([selectedIndexes count] > 0)
+        {
+            [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
         
-        [selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-            [listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
-        }];
-        
-        return;
+            [selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                [listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
+            }];
+        }
     }
 }
 

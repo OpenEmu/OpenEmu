@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
+ 
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,12 +25,18 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "OEGenesisSystemController.h"
+#import "OEGenesisSystemResponder.h"
+#import "OEGenesisSystemResponderClient.h"
+#import "OELocalizationHelper.h"
 
+@implementation OEGenesisSystemController
 
-@protocol OECollectionViewItemProtocol <NSObject>
-- (NSString *)collectionViewName;
-- (BOOL)isCollectionEditable;
-- (NSPredicate *)predicate;
-- (BOOL)shouldShowSystemColumnInListView;
+- (NSString *)systemName
+{
+    return ( [[OELocalizationHelper sharedHelper] isRegionNA]
+            ? @"Sega Genesis"
+            : @"Sega Mega Drive");
+}
+
 @end
