@@ -16,14 +16,14 @@
 		<string>{50, 190}</string>
 		<key>OEPCEButtonRight</key>
 		<string>{50, 160}</string>
-		<key>OEPCEButton1</key>
-		<string>{150, 250}</string>
-		<key>OEPCEButton2</key>
-		<string>{150, 220}</string>
 		<key>OEPCEButtonRun</key>
 		<string>{150, 190}</string>
 		<key>OEPCEButtonSelect</key>
 		<string>{150, 160}</string>
+		<key>OEPCEButton1</key>
+		<string>{150, 250}</string>
+		<key>OEPCEButton2</key>
+		<string>{150, 220}</string>
 	</dict>
 </dict>
 </plist>

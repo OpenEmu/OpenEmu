@@ -502,7 +502,7 @@
 		940236E71580384F00083DCC /* OEPCESystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 940236E41580384F00083DCC /* OEPCESystemResponder.m */; };
 		940236ED15803AC300083DCC /* controller_pce_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236E815803AC300083DCC /* controller_pce_mask.png */; };
 		940236EE15803AC300083DCC /* controller_pce.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236E915803AC300083DCC /* controller_pce.png */; };
-		940236EF15803AC300083DCC /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940236EA15803AC300083DCC /* Controller-Preferences-Info.plist */; };
+		940236EF15803AC300083DCC /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940236EA15803AC300083DCC /* Controller-Preferences.plist */; };
 		940236F015803AC300083DCC /* pcengine_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EB15803AC300083DCC /* pcengine_library.png */; };
 		940236F115803AC300083DCC /* tg16_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EC15803AC300083DCC /* tg16_library.png */; };
 		940237CA1580456E00083DCC /* PC Engine.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 940236D11580323400083DCC /* PC Engine.oesystemplugin */; };
@@ -538,6 +538,8 @@
 		9425B198158190220086FFB6 /* Lynx.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 9425B1771581822A0086FFB6 /* Lynx.oesystemplugin */; };
 		943813A9165619EC00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943813A7165619EC00D55731 /* Keyboard-Mappings.plist */; };
 		943813AB16561F0500D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943813AA16561F0500D55731 /* Controller-Mappings.plist */; };
+		943814B2165756F600D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943814B0165756F600D55731 /* Controller-Mappings.plist */; };
+		943814B3165756F600D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943814B1165756F600D55731 /* Keyboard-Mappings.plist */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -1873,7 +1875,7 @@
 		940236E51580384F00083DCC /* OEPCESystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCESystemResponderClient.h; sourceTree = "<group>"; };
 		940236E815803AC300083DCC /* controller_pce_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pce_mask.png; sourceTree = "<group>"; };
 		940236E915803AC300083DCC /* controller_pce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pce.png; sourceTree = "<group>"; };
-		940236EA15803AC300083DCC /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		940236EA15803AC300083DCC /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		940236EB15803AC300083DCC /* pcengine_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcengine_library.png; sourceTree = "<group>"; };
 		940236EC15803AC300083DCC /* tg16_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tg16_library.png; sourceTree = "<group>"; };
 		941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 2600.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1914,6 +1916,8 @@
 		9425B19315818B960086FFB6 /* OELynxSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELynxSystemResponderClient.h; sourceTree = "<group>"; };
 		943813A7165619EC00D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943813AA16561F0500D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		943814B0165756F600D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		943814B1165756F600D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3864,7 +3868,9 @@
 				940236E815803AC300083DCC /* controller_pce_mask.png */,
 				940236E915803AC300083DCC /* controller_pce.png */,
 				940236D51580323400083DCC /* PC Engine-Info.plist */,
-				940236EA15803AC300083DCC /* Controller-Preferences-Info.plist */,
+				943814B1165756F600D55731 /* Keyboard-Mappings.plist */,
+				943814B0165756F600D55731 /* Controller-Mappings.plist */,
+				940236EA15803AC300083DCC /* Controller-Preferences.plist */,
 				940236D61580323400083DCC /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -5403,9 +5409,11 @@
 				940236D81580323400083DCC /* InfoPlist.strings in Resources */,
 				940236ED15803AC300083DCC /* controller_pce_mask.png in Resources */,
 				940236EE15803AC300083DCC /* controller_pce.png in Resources */,
-				940236EF15803AC300083DCC /* Controller-Preferences-Info.plist in Resources */,
+				940236EF15803AC300083DCC /* Controller-Preferences.plist in Resources */,
 				940236F015803AC300083DCC /* pcengine_library.png in Resources */,
 				940236F115803AC300083DCC /* tg16_library.png in Resources */,
+				943814B2165756F600D55731 /* Controller-Mappings.plist in Resources */,
+				943814B3165756F600D55731 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

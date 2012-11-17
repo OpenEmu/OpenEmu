@@ -26,7 +26,6 @@
 
 #import "OEPCESystemResponder.h"
 #import "OEPCESystemResponderClient.h"
-#import "OEEvent.h"
 
 @implementation OEPCESystemResponder
 @dynamic client;

@@ -26,12 +26,14 @@
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OEPCESystemController</string>
-	<key>OESystemPluginName</key>
+	<key>OESystemName</key>
 	<string>TurboGrafx-16</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.pce</string>
-	<key>OESystemName</key>
-	<string>TurboGrafx-16</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEPCESystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>64</integer>
@@ -73,20 +75,6 @@
 			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>1</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButton1</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>2</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEPCEButton2</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
 					<string>Run</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEPCEButtonRun</string>
@@ -98,10 +86,22 @@
 					<string>OEPCEButtonSelect</string>
 				</dict>
 			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>1</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEPCEButton1</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>2</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEPCEButton2</string>
+				</dict>
+			</array>
 		</array>
 	</array>
-	<key>OESystemIcon</key>
-	<string>tg16_library</string>
 	<key>OEGenericControlNamesKey</key>
 	<array>
 		<string>OEPCEButtonUp</string>

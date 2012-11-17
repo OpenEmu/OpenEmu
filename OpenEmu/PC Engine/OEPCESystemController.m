@@ -31,55 +31,29 @@
 
 @implementation OEPCESystemController
 
-- (NSUInteger)numberOfPlayers;
+- (NSString *)systemName
 {
-    return 1;
+    return (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+            ? @"PC Engine"
+            : @"TurboGrafx-16");
 }
 
-- (Class)responderClass;
+- (NSImage *)systemIcon
 {
-    return [OEPCESystemResponder class];
-}
-
-- (NSDictionary *)defaultControls
-{
-    return @{
-    @"OEPCEButtonUp"     : @(kHIDUsage_KeyboardUpArrow)   ,
-    @"OEPCEButtonDown"   : @(kHIDUsage_KeyboardDownArrow) ,
-    @"OEPCEButtonLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
-    @"OEPCEButtonRight"  : @(kHIDUsage_KeyboardRightArrow),
-    @"OEPCEButton1"      : @(kHIDUsage_KeyboardA)         ,
-    @"OEPCEButton2"      : @(kHIDUsage_KeyboardS)         ,
-    @"OEPCEButtonRun"    : @(kHIDUsage_KeyboardSpacebar)  ,
-    @"OEPCEButtonSelect" : @(kHIDUsage_KeyboardEscape)    ,
-    };
-}
-
-- (NSString*)systemName{
-	if([[OELocalizationHelper sharedHelper] isRegionJAP])
-		return @"PC Engine";
-	else 
-		return @"TurboGrafx-16";
-}
-
-- (NSImage*)systemIcon
-{
-    NSString* imageName;
-	if([[OELocalizationHelper sharedHelper] isRegionNA])
-		imageName = @"tg16_library";
-	else 
-		imageName = @"pcengine_library"; 
+    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+                           ? @"pcengine_library"
+                           : @"tg16_library");
     
-    NSImage* image = [NSImage imageNamed:imageName];
-    if(!image)
+    NSImage *image = [NSImage imageNamed:imageName];
+    if(image == nil)
     {
-        NSBundle* bundle = [NSBundle bundleForClass:[self class]];
-        NSString* path = [bundle pathForImageResource:imageName];
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        NSString *path = [bundle pathForImageResource:imageName];
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
     }
+    
     return image;
 }
-
 
 @end
