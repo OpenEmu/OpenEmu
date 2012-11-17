@@ -214,13 +214,14 @@ static const float OE_coverFlowHeightPercentage = .75;
     return @"CollectionView";
 }
 #pragma mark - OELibrarySubviewControllerProtocol Implementation
-- (void)setRepresentedObject:(id)representedObject
+- (void)setRepresentedObject:(id<OECollectionViewItemProtocol>)representedObject
 {
+    NSAssert([representedObject conformsToProtocol:@protocol(OECollectionViewItemProtocol)], @"OECollectionViewController accepts OECollectionViewItemProtocol represented objects only");
+
     if(representedObject == [self representedObject]) return;
     [super setRepresentedObject:representedObject];
 
-    BOOL libraryIsSystem = [[[[self libraryController] sidebarController] systems] containsObject:representedObject];
-    [[listView tableColumnWithIdentifier:@"consoleName"] setHidden:libraryIsSystem];
+    [[listView tableColumnWithIdentifier:@"consoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
     
     _stateRewriteRequired = YES;
     [self OE_reloadData];

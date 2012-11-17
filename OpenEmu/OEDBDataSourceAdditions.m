@@ -348,6 +348,11 @@ static void OE_initOEListViewDateFormatter(void)
     return [NSPredicate predicateWithFormat:@"system == %@", self];
 }
 
+- (BOOL)shouldShowSystemColumnInListView
+{
+    return NO;
+}
+
 @end
 
 @implementation OEDBCollection (OECollectionViewItemAdditions)
@@ -372,6 +377,11 @@ static void OE_initOEListViewDateFormatter(void)
     return [NSPredicate predicateWithFormat:@"ANY collections == %@", self];
 }
 
+- (BOOL)shouldShowSystemColumnInListView
+{
+    return YES;
+}
+
 @end
 
 // TODO: check how itunes treats folders
@@ -392,6 +402,11 @@ static void OE_initOEListViewDateFormatter(void)
     return [NSPredicate predicateWithValue:NO];
 }
 
+- (BOOL)shouldShowSystemColumnInListView
+{
+    return NO;
+}
+
 @end
 
 @implementation OEDBSmartCollection (OECollectionViewItemAdditions)
@@ -409,6 +424,11 @@ static void OE_initOEListViewDateFormatter(void)
 - (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithValue:NO];
+}
+
+- (BOOL)shouldShowSystemColumnInListView
+{
+    return YES;
 }
 
 @end
@@ -433,6 +453,11 @@ static void OE_initOEListViewDateFormatter(void)
 - (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithFormat:@"system.enabled = YES"];
+}
+
+- (BOOL)shouldShowSystemColumnInListView
+{
+    return YES;
 }
 
 @end
