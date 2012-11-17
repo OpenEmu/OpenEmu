@@ -155,6 +155,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     [gamesController setEntityName:@"Game"];
     [gamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
+    [gamesController setAvoidsEmptySelection:NO];
     [gamesController prepareContent];
     
     // Setup View
@@ -1173,13 +1174,14 @@ static const float OE_coverFlowHeightPercentage = .75;
         [gamesController setSelectionIndexes:[aTableView selectedRowIndexes]];
         
         NSIndexSet *selectedIndexes = [listView selectedRowIndexes];
-        [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
+        if([selectedIndexes count] > 0)
+        {
+            [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
         
-        [selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-            [listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
-        }];
-        
-        return;
+            [selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                [listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
+            }];
+        }
     }
 }
 
