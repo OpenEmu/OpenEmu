@@ -542,6 +542,8 @@
 		943814B3165756F600D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943814B1165756F600D55731 /* Keyboard-Mappings.plist */; };
 		9438151A1657661400D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943815181657661400D55731 /* Controller-Mappings.plist */; };
 		9438151B1657661400D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943815191657661400D55731 /* Keyboard-Mappings.plist */; };
+		9438158216576CB800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438158016576CB700D55731 /* Controller-Mappings.plist */; };
+		9438158316576CB800D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438158116576CB800D55731 /* Keyboard-Mappings.plist */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -635,11 +637,10 @@
 		94D7E8E71507413D00FBDD85 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		94EFD17B15ACA625009BED8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94EFD18115ACA625009BED8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD17F15ACA625009BED8F /* InfoPlist.strings */; };
-		94EFD18B15ACA7FA009BED8F /* OESegaCDSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFD18715ACA7FA009BED8F /* OESegaCDSystemController.m */; };
 		94EFD18C15ACA7FA009BED8F /* OESegaCDSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFD18915ACA7FA009BED8F /* OESegaCDSystemResponder.m */; };
 		94EFD19115ACA814009BED8F /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD18D15ACA814009BED8F /* controller_genesis_mask.png */; };
 		94EFD19215ACA814009BED8F /* controller_genesis.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD18E15ACA814009BED8F /* controller_genesis.png */; };
-		94EFD19315ACA814009BED8F /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD18F15ACA814009BED8F /* Controller-Preferences-Info.plist */; };
+		94EFD19315ACA814009BED8F /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD18F15ACA814009BED8F /* Controller-Preferences.plist */; };
 		94EFD19415ACA814009BED8F /* segacd_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD19015ACA814009BED8F /* segacd_library.png */; };
 		94EFD19715ACA8C0009BED8F /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		94EFD19A15ACA8E9009BED8F /* Sega CD.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */; };
@@ -1921,6 +1922,8 @@
 		943814B1165756F600D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943815181657661400D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		943815191657661400D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		9438158016576CB700D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		9438158116576CB800D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2021,14 +2024,12 @@
 		94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sega CD.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94EFD17E15ACA625009BED8F /* Sega CD-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sega CD-Info.plist"; sourceTree = "<group>"; };
 		94EFD18015ACA625009BED8F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94EFD18615ACA7FA009BED8F /* OESegaCDSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESegaCDSystemController.h; sourceTree = "<group>"; };
-		94EFD18715ACA7FA009BED8F /* OESegaCDSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESegaCDSystemController.m; sourceTree = "<group>"; };
 		94EFD18815ACA7FA009BED8F /* OESegaCDSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESegaCDSystemResponder.h; sourceTree = "<group>"; };
 		94EFD18915ACA7FA009BED8F /* OESegaCDSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESegaCDSystemResponder.m; sourceTree = "<group>"; };
 		94EFD18A15ACA7FA009BED8F /* OESegaCDSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESegaCDSystemResponderClient.h; sourceTree = "<group>"; };
 		94EFD18D15ACA814009BED8F /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
 		94EFD18E15ACA814009BED8F /* controller_genesis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis.png; sourceTree = "<group>"; };
-		94EFD18F15ACA814009BED8F /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94EFD18F15ACA814009BED8F /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94EFD19015ACA814009BED8F /* segacd_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = segacd_library.png; sourceTree = "<group>"; };
 		C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreController.h; sourceTree = "<group>"; };
 		C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCoreController.m; sourceTree = "<group>"; };
@@ -4165,8 +4166,6 @@
 		94EFD17C15ACA625009BED8F /* Sega CD */ = {
 			isa = PBXGroup;
 			children = (
-				94EFD18615ACA7FA009BED8F /* OESegaCDSystemController.h */,
-				94EFD18715ACA7FA009BED8F /* OESegaCDSystemController.m */,
 				94EFD18815ACA7FA009BED8F /* OESegaCDSystemResponder.h */,
 				94EFD18915ACA7FA009BED8F /* OESegaCDSystemResponder.m */,
 				94EFD18A15ACA7FA009BED8F /* OESegaCDSystemResponderClient.h */,
@@ -4182,7 +4181,9 @@
 				94EFD18D15ACA814009BED8F /* controller_genesis_mask.png */,
 				94EFD18E15ACA814009BED8F /* controller_genesis.png */,
 				94EFD17E15ACA625009BED8F /* Sega CD-Info.plist */,
-				94EFD18F15ACA814009BED8F /* Controller-Preferences-Info.plist */,
+				9438158116576CB800D55731 /* Keyboard-Mappings.plist */,
+				9438158016576CB700D55731 /* Controller-Mappings.plist */,
+				94EFD18F15ACA814009BED8F /* Controller-Preferences.plist */,
 				94EFD17F15ACA625009BED8F /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -5564,8 +5565,10 @@
 				94EFD18115ACA625009BED8F /* InfoPlist.strings in Resources */,
 				94EFD19115ACA814009BED8F /* controller_genesis_mask.png in Resources */,
 				94EFD19215ACA814009BED8F /* controller_genesis.png in Resources */,
-				94EFD19315ACA814009BED8F /* Controller-Preferences-Info.plist in Resources */,
+				94EFD19315ACA814009BED8F /* Controller-Preferences.plist in Resources */,
 				94EFD19415ACA814009BED8F /* segacd_library.png in Resources */,
+				9438158216576CB800D55731 /* Controller-Mappings.plist in Resources */,
+				9438158316576CB800D55731 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6076,7 +6079,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94EFD18B15ACA7FA009BED8F /* OESegaCDSystemController.m in Sources */,
 				94EFD18C15ACA7FA009BED8F /* OESegaCDSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

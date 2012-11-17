@@ -25,13 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESegaCDSystemController</string>
-	<key>OESystemPluginName</key>
-	<string>Sega CD</string>
+	<string>OESystemController</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.scd</string>
 	<key>OESystemName</key>
 	<string>Sega CD</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>2</integer>
+	<key>OEResponderClassKey</key>
+	<string>OESegaCDSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>61</integer>
