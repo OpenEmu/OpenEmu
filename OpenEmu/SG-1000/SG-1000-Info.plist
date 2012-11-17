@@ -25,10 +25,22 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESG1000SystemController</string>
+	<string>OESystemController</string>
+	<key>OESystemName</key>
+	<string>SG-1000</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.sg1000</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>2</integer>
+	<key>OEResponderClassKey</key>
+	<string>OESG1000SystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>26</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>sg</string>
 	</array>
 	<key>OEControlListKey</key>
 	<array>
@@ -75,6 +87,8 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIcon</key>
+	<string>sg1000_library</string>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEAxisControlsKey</key>
@@ -98,10 +112,6 @@
 			</array>
 		</array>
 	</dict>
-	<key>OEFileSuffixes</key>
-	<array>
-		<string>sg</string>
-	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
 		<string>OESG1000ButtonUp</string>
@@ -111,13 +121,5 @@
 		<string>OESG1000Button1</string>
 		<string>OESG1000Button2</string>
 	</array>
-	<key>OESystemIcon</key>
-	<string>sg1000_library</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.sg1000</string>
-	<key>OESystemName</key>
-	<string>SG-1000</string>
-	<key>OESystemPluginName</key>
-	<string>SG-1000</string>
 </dict>
 </plist>
