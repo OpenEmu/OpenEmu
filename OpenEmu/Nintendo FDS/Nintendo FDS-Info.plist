@@ -25,13 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OEFDSSystemController</string>
-	<key>OESystemPluginName</key>
+	<string>OESystemController</string>
+	<key>OESystemName</key>
 	<string>Famicom Disk System</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.fds</string>
-	<key>OESystemName</key>
-	<string>Famicom Disk System</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>4</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEFDSSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>36</integer>

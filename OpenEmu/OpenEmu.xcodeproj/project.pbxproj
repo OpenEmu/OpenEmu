@@ -540,6 +540,8 @@
 		943813AB16561F0500D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943813AA16561F0500D55731 /* Controller-Mappings.plist */; };
 		943814B2165756F600D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943814B0165756F600D55731 /* Controller-Mappings.plist */; };
 		943814B3165756F600D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943814B1165756F600D55731 /* Keyboard-Mappings.plist */; };
+		9438151A1657661400D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943815181657661400D55731 /* Controller-Mappings.plist */; };
+		9438151B1657661400D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943815191657661400D55731 /* Keyboard-Mappings.plist */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -561,11 +563,10 @@
 		94619CA915C507B60019AC8E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94619CAF15C507B70019AC8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94619CAD15C507B70019AC8E /* InfoPlist.strings */; };
 		94619CB615C50EF00019AC8E /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		94619CBC15C50F730019AC8E /* OEFDSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94619CB815C50F730019AC8E /* OEFDSSystemController.m */; };
 		94619CBD15C50F730019AC8E /* OEFDSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94619CBA15C50F730019AC8E /* OEFDSSystemResponder.m */; };
 		94619CC215C50F8F0019AC8E /* controller_fc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CBE15C50F8E0019AC8E /* controller_fc_mask.png */; };
 		94619CC315C50F8F0019AC8E /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CBF15C50F8E0019AC8E /* controller_fc.png */; };
-		94619CC415C50F8F0019AC8E /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC015C50F8E0019AC8E /* Controller-Preferences-Info.plist */; };
+		94619CC415C50F8F0019AC8E /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC015C50F8E0019AC8E /* Controller-Preferences.plist */; };
 		94619CC515C50F8F0019AC8E /* famicom_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC115C50F8E0019AC8E /* famicom_library.png */; };
 		94619CC815C50FC30019AC8E /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94619CA815C507B60019AC8E /* Nintendo FDS.oesystemplugin */; };
 		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
@@ -1918,6 +1919,8 @@
 		943813AA16561F0500D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		943814B0165756F600D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		943814B1165756F600D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		943815181657661400D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		943815191657661400D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1943,14 +1946,12 @@
 		94619CA815C507B60019AC8E /* Nintendo FDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Nintendo FDS.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94619CAC15C507B70019AC8E /* Nintendo FDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Nintendo FDS-Info.plist"; sourceTree = "<group>"; };
 		94619CAE15C507B70019AC8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94619CB715C50F730019AC8E /* OEFDSSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFDSSystemController.h; sourceTree = "<group>"; };
-		94619CB815C50F730019AC8E /* OEFDSSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFDSSystemController.m; sourceTree = "<group>"; };
 		94619CB915C50F730019AC8E /* OEFDSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFDSSystemResponder.h; sourceTree = "<group>"; };
 		94619CBA15C50F730019AC8E /* OEFDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFDSSystemResponder.m; sourceTree = "<group>"; };
 		94619CBB15C50F730019AC8E /* OEFDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFDSSystemResponderClient.h; sourceTree = "<group>"; };
 		94619CBE15C50F8E0019AC8E /* controller_fc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc_mask.png; sourceTree = "<group>"; };
 		94619CBF15C50F8E0019AC8E /* controller_fc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc.png; sourceTree = "<group>"; };
-		94619CC015C50F8E0019AC8E /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94619CC015C50F8E0019AC8E /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94619CC115C50F8E0019AC8E /* famicom_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = famicom_library.png; sourceTree = "<group>"; };
 		949623E6164E0CD600952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628CB164F677400952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -4008,8 +4009,6 @@
 		94619CAA15C507B70019AC8E /* Nintendo FDS */ = {
 			isa = PBXGroup;
 			children = (
-				94619CB715C50F730019AC8E /* OEFDSSystemController.h */,
-				94619CB815C50F730019AC8E /* OEFDSSystemController.m */,
 				94619CB915C50F730019AC8E /* OEFDSSystemResponder.h */,
 				94619CBA15C50F730019AC8E /* OEFDSSystemResponder.m */,
 				94619CBB15C50F730019AC8E /* OEFDSSystemResponderClient.h */,
@@ -4025,7 +4024,9 @@
 				94619CBE15C50F8E0019AC8E /* controller_fc_mask.png */,
 				94619CBF15C50F8E0019AC8E /* controller_fc.png */,
 				94619CAC15C507B70019AC8E /* Nintendo FDS-Info.plist */,
-				94619CC015C50F8E0019AC8E /* Controller-Preferences-Info.plist */,
+				943815191657661400D55731 /* Keyboard-Mappings.plist */,
+				943815181657661400D55731 /* Controller-Mappings.plist */,
+				94619CC015C50F8E0019AC8E /* Controller-Preferences.plist */,
 				94619CAD15C507B70019AC8E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -5485,8 +5486,10 @@
 				94619CAF15C507B70019AC8E /* InfoPlist.strings in Resources */,
 				94619CC215C50F8F0019AC8E /* controller_fc_mask.png in Resources */,
 				94619CC315C50F8F0019AC8E /* controller_fc.png in Resources */,
-				94619CC415C50F8F0019AC8E /* Controller-Preferences-Info.plist in Resources */,
+				94619CC415C50F8F0019AC8E /* Controller-Preferences.plist in Resources */,
 				94619CC515C50F8F0019AC8E /* famicom_library.png in Resources */,
+				9438151A1657661400D55731 /* Controller-Mappings.plist in Resources */,
+				9438151B1657661400D55731 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6022,7 +6025,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94619CBC15C50F730019AC8E /* OEFDSSystemController.m in Sources */,
 				94619CBD15C50F730019AC8E /* OEFDSSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
