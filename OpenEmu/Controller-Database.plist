@@ -251,5 +251,30 @@
 			</dict>
 		</array>
 	</dict>
+	<dict>
+		<key>OEControllerName</key>
+		<string>RetroUSB</string>
+		<key>OEGenericControllerName</key>
+		<string>OEControllerRetroUSBSNES</string>
+		<key>OEControllerDevices</key>
+		<array>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>RetroUSB SNES RetroPort</string>
+				<key>OEControllerVendorID</key>
+				<integer>61440</integer>
+				<key>OEControllerProductID</key>
+				<integer>241</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>RetroUSB RetroPad</string>
+				<key>OEControllerVendorID</key>
+				<integer>61440</integer>
+				<key>OEControllerProductID</key>
+				<integer>3</integer>
+			</dict>
+		</array>
+	</dict>
 </array>
 </plist>

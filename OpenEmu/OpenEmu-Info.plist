@@ -116,7 +116,7 @@
 	<key>CFBundleSignature</key>
 	<string>OpEm</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0b8</string>
+	<string>1.0.0b9</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.games</string>
 	<key>LSMinimumSystemVersion</key>
