@@ -36,19 +36,14 @@
     return @protocol(OEPCFXSystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(thePlayer, index);
+    [[self client] didPushPCFXButton:(OEPCFXButton)[aKey key] forPlayer:[aKey player]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushPCFXButton:(OEPCFXButton)aKey.key forPlayer:aKey.player];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    [[self client] didReleasePCFXButton:(OEPCFXButton)aKey.key forPlayer:aKey.player];
+    [[self client] didReleasePCFXButton:(OEPCFXButton)[aKey key] forPlayer:[aKey player]];
 }
 
 @end

@@ -36,19 +36,14 @@
     return @protocol(OE2600SystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(thePlayer, index);
+    [[self client] didPush2600Button:(OE2600Button)[aKey key] forPlayer:[aKey player]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPush2600Button:(OE2600Button)aKey.key forPlayer:aKey.player];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    [[self client] didRelease2600Button:(OE2600Button)aKey.key forPlayer:aKey.player];
+    [[self client] didRelease2600Button:(OE2600Button)[aKey key] forPlayer:[aKey player]];
 }
 
 @end

@@ -36,19 +36,14 @@
     return @protocol(OE5200SystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(thePlayer, index);
+    [[self client] didPush5200Button:(OE5200Button)[aKey key] forPlayer:[aKey player]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPush5200Button:(OE5200Button)aKey.key forPlayer:aKey.player];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    [[self client] didRelease5200Button:(OE5200Button)aKey.key forPlayer:aKey.player];
+    [[self client] didRelease5200Button:(OE5200Button)[aKey key] forPlayer:[aKey player]];
 }
 
 @end

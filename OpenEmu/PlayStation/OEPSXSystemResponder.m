@@ -35,19 +35,14 @@
     return @protocol(OEPSXSystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(thePlayer, index);
+    [[self client] didPushPSXButton:(OEPSXButton)[aKey key] forPlayer:[aKey player]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushPSXButton:(OEPSXButton)aKey.key forPlayer:aKey.player];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    [[self client] didReleasePSXButton:(OEPSXButton)aKey.key forPlayer:aKey.player];
+    [[self client] didReleasePSXButton:(OEPSXButton)[aKey key] forPlayer:[aKey player]];
 }
 
 @end

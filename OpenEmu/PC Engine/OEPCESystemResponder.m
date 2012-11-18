@@ -35,19 +35,14 @@
     return @protocol(OEPCESystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(thePlayer, index);
+    [[self client] didPushPCEButton:(OEPCEButton)[aKey key] forPlayer:[aKey player]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushPCEButton:(OEPCEButton)aKey.key forPlayer:aKey.player];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    [[self client] didReleasePCEButton:(OEPCEButton)aKey.key forPlayer:aKey.player];
+    [[self client] didReleasePCEButton:(OEPCEButton)[aKey key] forPlayer:[aKey player]];
 }
 
 @end

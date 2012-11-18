@@ -36,19 +36,14 @@
     return @protocol(OESG1000SystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(0, index);
+    [[self client] didPushSG1000Button:(OESG1000Button)[aKey key]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushSG1000Button:(OESG1000Button)aKey.key];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    [[self client] didReleaseSG1000Button:(OESG1000Button)aKey.key];
+    [[self client] didReleaseSG1000Button:(OESG1000Button)[aKey key]];
 }
 
 @end

@@ -37,19 +37,14 @@
     return @protocol(OEVBSystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(thePlayer, index);
+    [[self client] didPushVBButton:(OEVBButton)[aKey key] forPlayer:[aKey player]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushVBButton:(OEVBButton)aKey.key forPlayer:aKey.player];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    [[self client] didReleaseVBButton:(OEVBButton)aKey.key forPlayer:aKey.player];
+    [[self client] didReleaseVBButton:(OEVBButton)[aKey key] forPlayer:[aKey player]];
 }
 
 @end
