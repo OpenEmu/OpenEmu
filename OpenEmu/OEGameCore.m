@@ -63,7 +63,6 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         tenFrameCounter = 10;
         NSUInteger count = [self audioBufferCount];
         ringBuffers = (__strong OERingBuffer **)calloc(count, sizeof(OERingBuffer*));
-        //keyMap = OEMapCreate(32);
     }
     return self;
 }
@@ -71,7 +70,6 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 - (void)dealloc
 {
     DLog(@"%s", __FUNCTION__);
-    //if(keyMap != NULL) OEMapRelease(keyMap);
     
     for(NSUInteger i = 0, count = [self audioBufferCount]; i < count; i++) {
         ringBuffers[i] = nil;
