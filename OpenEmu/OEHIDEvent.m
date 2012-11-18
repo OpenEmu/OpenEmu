@@ -923,30 +923,30 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 - (NSUInteger)hash
 {
     NSUInteger hash = [self padNumber] << 24;
-    
+
     switch([self type])
     {
         case OEHIDEventTypeKeyboard :
-            hash |= 0x10000000u;
+            hash |= 0x1000000000000000u;
             hash |= [self state] << 16;
             hash |= [self keycode];
             break;
         case OEHIDEventTypeAxis :
         case OEHIDEventTypeTrigger :
-            hash |= 0x20000000u;
-            hash |= [self axis] << 16;
+            hash |= 0x2000000000000000u;
+            hash |= [self axis] << 8;
             
             OEHIDEventAxisDirection dir = [self direction];
             if(dir != OEHIDEventAxisDirectionNull)
                 hash |= (1 << ((dir) > OEHIDEventAxisDirectionNull));
             break;
         case OEHIDEventTypeButton :
-            hash |= 0x40000000u;
+            hash |= 0x4000000000000000u;
             hash |= [self state] << 16;
             hash |= [self buttonNumber];
             break;
         case OEHIDEventTypeHatSwitch :
-            hash |= 0x80000000u;
+            hash |= 0x8000000000000000u;
             hash |= [self hatDirection];
             break;
         default :
@@ -969,7 +969,10 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 - (BOOL)isEqualToEvent:(OEHIDEvent *)anObject;
 {
     if(_type != anObject->_type) return NO;
-    
+
+    if(_cookie != NSNotFound && anObject->_cookie != NSNotFound && _cookie != anObject->_cookie)
+        return NO;
+
     switch(_type)
     {
         case OEHIDEventTypeKeyboard :
@@ -993,14 +996,16 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         default :
             break;
     }
-    
+
     return NO;
 }
 
 - (BOOL)isUsageEqualToEvent:(OEHIDEvent *)anObject;
 {
     if(_type != anObject->_type) return NO;
-    
+
+    if(_cookie != anObject->_cookie) return NO;
+
     switch(_type)
     {
         case OEHIDEventTypeKeyboard :
@@ -1024,6 +1029,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 }
 
 static NSString *OEHIDEventTypeKey               = @"OEHIDEventTypeKey";
+static NSString *OEHIDEventCookieKey             = @"OEHIDEventCookieKey";
 static NSString *OEHIDEventAxisKey               = @"OEHIDEventAxisKey";
 static NSString *OEHIDEventDirectionKey          = @"OEHIDEventDirectionKey";
 static NSString *OEHIDEventButtonNumberKey       = @"OEHIDEventButtonNumberKey";
@@ -1036,7 +1042,8 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
 {
     if((self = [super init]))
     {
-        _type = [decoder decodeIntegerForKey:OEHIDEventTypeKey];
+        _type   = [decoder decodeIntegerForKey:OEHIDEventTypeKey];
+        _cookie = [decoder decodeIntegerForKey:OEHIDEventCookieKey];
         
         switch([self type])
         {
@@ -1068,7 +1075,8 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    [encoder encodeInteger:[self type] forKey:OEHIDEventTypeKey];
+    [encoder encodeInteger:[self type]   forKey:OEHIDEventTypeKey];
+    [encoder encodeInteger:[self cookie] forKey:OEHIDEventCookieKey];
     
     switch([self type])
     {
