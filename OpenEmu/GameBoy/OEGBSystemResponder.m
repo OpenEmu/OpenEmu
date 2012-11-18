@@ -36,37 +36,28 @@
     return @protocol(OEGBSystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(0, index);
-}
-
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
-{
-    //[[self client] didPushGBButton:(OEGBButton)aKey.key];
-    
-    OEGBButton button = (OEGBButton)aKey.key;
+    OEGBButton button = (OEGBButton)[aKey key];
     
     switch(button)
     {
         case OEGBButtonTurbo : [[self client] didPushTurboButton]; break;
         default :
-            [[self client] didPushGBButton:(OEGBButton)aKey.key];
+			[[self client] didPushGBButton:(OEGBButton)[aKey key]];
             break;
     }
 }
 
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    //[[self client] didReleaseGBButton:(OEGBButton)aKey.key];
-    
-    OEGBButton button = (OEGBButton)aKey.key;
+    OEGBButton button = (OEGBButton)[aKey key];
     
     switch(button)
     {
         case OEGBButtonTurbo : [[self client] didReleaseTurboButton]; break;
         default :
-            [[self client] didReleaseGBButton:(OEGBButton)aKey.key];
+			[[self client] didReleaseGBButton:(OEGBButton)[aKey key]];
             break;
     }
 }

@@ -36,35 +36,30 @@
     return @protocol(OESMSSystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(thePlayer, index);
-}
-
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
-{
-    OESMSButton button = (OESMSButton)aKey.key;
+    OESMSButton button = (OESMSButton)[aKey key];
     
     switch(button)
     {
         case OESMSButtonStart : [[self client] didPushSMSStartButton]; break;
         case OESMSButtonReset : [[self client] didPushSMSResetButton]; break;
         default :
-            [[self client] didPushSMSButton:button forPlayer:aKey.player];
+            [[self client] didPushSMSButton:button forPlayer:[aKey player]];
             break;
     }
 }
 
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    OESMSButton button = (OESMSButton)aKey.key;
+    OESMSButton button = (OESMSButton)[aKey key];
     
     switch(button)
     {
         case OESMSButtonStart : [[self client] didReleaseSMSStartButton]; break;
         case OESMSButtonReset : [[self client] didReleaseSMSResetButton]; break;
         default :
-            [[self client] didReleaseSMSButton:button forPlayer:aKey.player];
+            [[self client] didReleaseSMSButton:button forPlayer:[aKey player]];
             break;
     }
 }

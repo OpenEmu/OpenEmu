@@ -31,7 +31,7 @@
 #import <IOKit/hid/IOHIDUsageTables.h>
 #import <ForceFeedback/ForceFeedback.h>
 
-#import <OpenEmuSystem/OEMap.h>
+#import <OpenEmuSystem/OEBindingMap.h>
 #import <OpenEmuSystem/OESystemController.h>
 #import <OpenEmuSystem/OESystemResponder.h>
 #import <OpenEmuSystem/OEBasicSystemResponder.h>

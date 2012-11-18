@@ -27,13 +27,13 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OESystemResponder.h>
-#import <OpenEmuSystem/OEMap.h>
+#import <OpenEmuSystem/OEBindingMap.h>
 #import <OpenEmuBase/OEGameCore.h>
 
 @interface OEBasicSystemResponder : OESystemResponder
-- (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey;
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey;
+- (OESystemKey *)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;
+- (OESystemKey *)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
+- (void)pressEmulatorKey:(OESystemKey *)aKey;
+- (void)releaseEmulatorKey:(OESystemKey *)aKey;
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint;
 @end

@@ -36,21 +36,16 @@
     return @protocol(OEN64SystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
-{
-    return OEMakeEmulatorKey(thePlayer, index);
-}
-
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
     OEN64Button button = (OEN64Button)aKey.key;
-    [[self client] didPushN64Button:button forPlayer:aKey.player];
+    [[self client] didPushN64Button:button forPlayer:[aKey player]];
 }
 
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
     OEN64Button button = (OEN64Button)aKey.key;
-    [[self client] didReleaseN64Button:button forPlayer:aKey.player];
+    [[self client] didReleaseN64Button:button forPlayer:[aKey player]];
 }
 
 @end
