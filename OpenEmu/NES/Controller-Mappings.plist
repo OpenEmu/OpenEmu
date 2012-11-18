@@ -256,6 +256,63 @@
 			<integer>9</integer>
 		</dict>
 	</dict>
+	<key>OEControllerRetroUSBSNES</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>Y</string>
+			<key>Direction</key>
+			<string>-1</string>
+		</dict>
+		<key>OENESButtonLeft</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>X</string>
+			<key>Direction</key>
+			<string>-1</string>
+		</dict>
+		<key>OENESButtonA</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>2</integer>
+			<key>Cookie</key>
+			<integer>8</integer>
+		</dict>
+		<key>OENESButtonB</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>2</integer>
+			<key>Cookie</key>
+			<integer>4</integer>
+		</dict>
+		<key>OENESButtonStart</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>4</integer>
+			<key>Cookie</key>
+			<integer>6</integer>
+		</dict>
+		<key>OENESButtonSelect</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>3</integer>
+			<key>Cookie</key>
+			<integer>5</integer>
+		</dict>
+	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OENESButtonUp</key>
