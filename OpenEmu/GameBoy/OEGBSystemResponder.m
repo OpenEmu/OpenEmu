@@ -36,19 +36,14 @@
     return @protocol(OEGBSystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(0, index);
+    [[self client] didPushGBButton:(OEGBButton)[aKey key]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushGBButton:(OEGBButton)aKey.key];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    [[self client] didReleaseGBButton:(OEGBButton)aKey.key];
+    [[self client] didReleaseGBButton:(OEGBButton)[aKey key]];
 }
 
 @end

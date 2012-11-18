@@ -1111,6 +1111,40 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
     self->_timestamp = [NSDate timeIntervalSinceReferenceDate];
     self->_data.button.state = newState;
 }
+
+@end
+
+@implementation OEHIDEvent (OEHIDEventCopy)
+
+// Axis event copy
+- (instancetype)axisEventWithOppositeDirection;
+{
+    return [self axisEventWithDirection:[self oppositeDirection]];
+}
+
+- (instancetype)axisEventWithDirection:(OEHIDEventAxisDirection)aDirection;
+{
+    if(aDirection == [self direction]) return self;
+
+    OEHIDEvent *event = [self copy];
+
+    event->_data.axis.direction = aDirection;
+
+    return event;
+}
+
+// Hatswitch event copy
+- (instancetype)hatSwitchEventWithDirection:(OEHIDEventHatDirection)aDirection;
+{
+    if(aDirection == [self hatDirection]) return self;
+
+    OEHIDEvent *event = [self copy];
+
+    event->_data.hatSwitch.hatDirection = aDirection;
+
+    return event;
+}
+
 @end
 
 @implementation NSEvent (OEEventConversion)
@@ -1196,8 +1230,10 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
 @end
 
 @implementation NSNumber (OEEventConversion)
+
 - (NSString *)displayDescription
 {
     return [NSEvent displayDescriptionForKeyCode:[self unsignedShortValue]];
 }
+
 @end

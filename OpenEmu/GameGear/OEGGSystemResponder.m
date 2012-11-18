@@ -36,21 +36,14 @@
     return @protocol(OEGGSystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(0, index);
+    [[self client] didPushGGButton:(OEGGButton)[aKey key]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    OEGGButton button = (OEGGButton)aKey.key;
-    [[self client] didPushGGButton:button];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    OEGGButton button = (OEGGButton)aKey.key;
-    [[self client] didReleaseGGButton:button];
+    [[self client] didReleaseGGButton:(OEGGButton)[aKey key]];
 }
 
 @end

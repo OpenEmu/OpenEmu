@@ -36,21 +36,14 @@
     return @protocol(OENGPSystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(0, index);
+    [[self client] didPushNGPButton:(OENGPButton)[aKey key]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    OENGPButton button = (OENGPButton)aKey.key;    
-    [[self client] didPushNGPButton:button];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    OENGPButton button = (OENGPButton)aKey.key;
-    [[self client] didReleaseNGPButton:button];
+    [[self client] didReleaseNGPButton:(OENGPButton)[aKey key]];
 }
 
 @end

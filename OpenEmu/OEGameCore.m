@@ -31,7 +31,6 @@
 #import "OEGameCoreController.h"
 #import "OEAbstractAdditions.h"
 #import "OEHIDEvent.h"
-#import "OEMap.h"
 #import "OERingBuffer.h"
 #import "PSYBlockTimer.h"
 #import "OETimingUtils.h"

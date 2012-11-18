@@ -36,19 +36,14 @@
     return @protocol(OENDSSystemResponderClient);
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    return OEMakeEmulatorKey(thePlayer, index);
+    [[self client] didPushNDSButton:(OENDSButton)[aKey key] forPlayer:[aKey player]];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushNDSButton:(OENDSButton)aKey.key forPlayer:aKey.player];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    [[self client] didReleaseNDSButton:(OENDSButton)aKey.key forPlayer:aKey.player];
+    [[self client] didReleaseNDSButton:(OENDSButton)[aKey key] forPlayer:[aKey player]];
 }
 
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint

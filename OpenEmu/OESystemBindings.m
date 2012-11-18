@@ -575,38 +575,24 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
                  {
                      NSAssert([event type] == OEHIDEventTypeHatSwitch, @"Excepting OEHIDEventTypeHatSwitch event type for Axis key group, got: %@", NSStringFromOEHIDEventType([event type]));
                      
-                     static OEHIDEventHatDirection dirs[] = {
-                         OEHIDEventHatDirectionNorth,
-                         OEHIDEventHatDirectionNorthEast,
-                         OEHIDEventHatDirectionEast,
-                         OEHIDEventHatDirectionSouthEast,
-                         OEHIDEventHatDirectionSouth,
-                         OEHIDEventHatDirectionSouthWest,
-                         OEHIDEventHatDirectionWest,
-                         OEHIDEventHatDirectionNorthWest
-                     };
+                     enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
                      
-                     OEHIDEventHatDirection baseDir = [event hatDirection];
-                     
-                     // First find what is the index of the base event direction in dirs[]
-                     __block NSUInteger dirIdx = NSNotFound;
-                     for(NSUInteger i = 0; i < 8; i++)
-                     {
-                         if(dirs[i] == baseDir)
-                         {
-                             dirIdx = i;
-                             break;
-                         }
-                     }
-                     
-                     NSAssert(dirIdx != NSNotFound, @"Invalid hat direction for event %@", event);
+                     OEHIDEventHatDirection direction = [event hatDirection];
+                     __block NSUInteger currentDir  = NORTH;
+
+                     if(direction & OEHIDEventHatDirectionNorth) currentDir = NORTH;
+                     if(direction & OEHIDEventHatDirectionEast)  currentDir = EAST;
+                     if(direction & OEHIDEventHatDirectionSouth) currentDir = SOUTH;
+                     if(direction & OEHIDEventHatDirectionWest)  currentDir = WEST;
+
+                     static OEHIDEventHatDirection dirs[HAT_COUNT] = { OEHIDEventHatDirectionNorth, OEHIDEventHatDirectionEast, OEHIDEventHatDirectionSouth, OEHIDEventHatDirectionWest };
                      
                      [group enumerateKeysFromBaseKeyUsingBlock:
                       ^(OEKeyBindingDescription *key, BOOL *stop)
                       {
-                          [ret setObject:NSLocalizedStringFromOEHIDHatDirection(dirs[dirIdx % 8]) forKey:[key name]];
-                          
-                          dirIdx += 2;
+                          [ret setObject:NSLocalizedStringFromOEHIDHatDirection(dirs[currentDir % HAT_COUNT]) forKey:[key name]];
+
+                          currentDir++;
                       }];
                  }
                      break;
