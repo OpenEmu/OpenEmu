@@ -10,18 +10,18 @@
 	<integer>80</integer>
 	<key>OEArcadeButtonRight</key>
 	<integer>79</integer>
-	<key>OEArcadeButton5</key>
-	<integer>7</integer>
-	<key>OEArcadeButton4</key>
-	<integer>22</integer>
+	<key>OEArcadeButton1</key>
+	<integer>20</integer>
 	<key>OEArcadeButton2</key>
 	<integer>26</integer>
-	<key>OEArcadeButton1</key>
-	<integer>4</integer>
 	<key>OEArcadeButton3</key>
 	<integer>8</integer>
+	<key>OEArcadeButton4</key>
+	<integer>4</integer>
+	<key>OEArcadeButton5</key>
+	<integer>22</integer>
 	<key>OEArcadeButton6</key>
-	<integer>20</integer>
+	<integer>7</integer>
 	<key>OEArcadeButtonP1Start</key>
 	<integer>44</integer>
 	<key>OEArcadeButtonInsertCoin</key>
