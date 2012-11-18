@@ -187,7 +187,7 @@ static void writeSaveFile(const char* path, int type)
     {
         if(videoBuffer)
             free(videoBuffer);
-        videoBuffer = (uint32_t*)malloc(512 * 480 * 2);
+        videoBuffer = (uint32_t*)malloc(512 * 480 * sizeof(uint32_t));
     }
 	
 	current = self;
