@@ -510,12 +510,11 @@
 		941DFB3315B761B400C6552F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB3115B761B400C6552F /* InfoPlist.strings */; };
 		941DFB3B15B761FE00C6552F /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		941DFB3E15B7623200C6552F /* Atari 2600.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */; };
-		941DFB4415B765BC00C6552F /* OE2600SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941DFB4015B765BB00C6552F /* OE2600SystemController.m */; };
 		941DFB4515B765BC00C6552F /* OE2600SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 941DFB4215B765BB00C6552F /* OE2600SystemResponder.m */; };
 		941DFB4A15B765DB00C6552F /* atari2600_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4615B765DB00C6552F /* atari2600_library.png */; };
 		941DFB4B15B765DB00C6552F /* controller_2600_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4715B765DB00C6552F /* controller_2600_mask.png */; };
 		941DFB4C15B765DB00C6552F /* controller_2600.png in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4815B765DB00C6552F /* controller_2600.png */; };
-		941DFB4D15B765DB00C6552F /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4915B765DB00C6552F /* Controller-Preferences-Info.plist */; };
+		941DFB4D15B765DB00C6552F /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4915B765DB00C6552F /* Controller-Preferences.plist */; };
 		9425B0D0158115860086FFB6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		9425B0D6158115860086FFB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0D4158115860086FFB6 /* InfoPlist.strings */; };
 		9425B0E0158118110086FFB6 /* controller_ws_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DC158118110086FFB6 /* controller_ws_mask.png */; };
@@ -551,6 +550,8 @@
 		943816981658373C00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943816961658373C00D55731 /* Keyboard-Mappings.plist */; };
 		9438169B1658581B00D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943816991658581B00D55731 /* Controller-Mappings.plist */; };
 		9438169C1658581B00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438169A1658581B00D55731 /* Keyboard-Mappings.plist */; };
+		943817031658AB5100D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943817011658AB5000D55731 /* Controller-Mappings.plist */; };
+		943817041658AB5100D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943817021658AB5100D55731 /* Keyboard-Mappings.plist */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -1888,15 +1889,13 @@
 		941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 2600.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		941DFB3015B761B400C6552F /* Atari 2600-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 2600-Info.plist"; sourceTree = "<group>"; };
 		941DFB3215B761B400C6552F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		941DFB3F15B765BA00C6552F /* OE2600SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemController.h; sourceTree = "<group>"; };
-		941DFB4015B765BB00C6552F /* OE2600SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE2600SystemController.m; sourceTree = "<group>"; };
 		941DFB4115B765BB00C6552F /* OE2600SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemResponder.h; sourceTree = "<group>"; };
 		941DFB4215B765BB00C6552F /* OE2600SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE2600SystemResponder.m; sourceTree = "<group>"; };
 		941DFB4315B765BC00C6552F /* OE2600SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemResponderClient.h; sourceTree = "<group>"; };
 		941DFB4615B765DB00C6552F /* atari2600_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atari2600_library.png; sourceTree = "<group>"; };
 		941DFB4715B765DB00C6552F /* controller_2600_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_2600_mask.png; sourceTree = "<group>"; };
 		941DFB4815B765DB00C6552F /* controller_2600.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_2600.png; sourceTree = "<group>"; };
-		941DFB4915B765DB00C6552F /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		941DFB4915B765DB00C6552F /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WonderSwan.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		9425B0D3158115860086FFB6 /* WonderSwan-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WonderSwan-Info.plist"; sourceTree = "<group>"; };
 		9425B0D5158115860086FFB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1937,6 +1936,8 @@
 		943816961658373C00D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943816991658581B00D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		9438169A1658581B00D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		943817011658AB5000D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		943817021658AB5100D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3890,8 +3891,6 @@
 		941DFB2E15B761B400C6552F /* Atari 2600 */ = {
 			isa = PBXGroup;
 			children = (
-				941DFB3F15B765BA00C6552F /* OE2600SystemController.h */,
-				941DFB4015B765BB00C6552F /* OE2600SystemController.m */,
 				941DFB4115B765BB00C6552F /* OE2600SystemResponder.h */,
 				941DFB4215B765BB00C6552F /* OE2600SystemResponder.m */,
 				941DFB4315B765BC00C6552F /* OE2600SystemResponderClient.h */,
@@ -3907,7 +3906,9 @@
 				941DFB4715B765DB00C6552F /* controller_2600_mask.png */,
 				941DFB4815B765DB00C6552F /* controller_2600.png */,
 				941DFB3015B761B400C6552F /* Atari 2600-Info.plist */,
-				941DFB4915B765DB00C6552F /* Controller-Preferences-Info.plist */,
+				943817021658AB5100D55731 /* Keyboard-Mappings.plist */,
+				943817011658AB5000D55731 /* Controller-Mappings.plist */,
+				941DFB4915B765DB00C6552F /* Controller-Preferences.plist */,
 				941DFB3115B761B400C6552F /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -5440,7 +5441,9 @@
 				941DFB4A15B765DB00C6552F /* atari2600_library.png in Resources */,
 				941DFB4B15B765DB00C6552F /* controller_2600_mask.png in Resources */,
 				941DFB4C15B765DB00C6552F /* controller_2600.png in Resources */,
-				941DFB4D15B765DB00C6552F /* Controller-Preferences-Info.plist in Resources */,
+				941DFB4D15B765DB00C6552F /* Controller-Preferences.plist in Resources */,
+				943817031658AB5100D55731 /* Controller-Mappings.plist in Resources */,
+				943817041658AB5100D55731 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6003,7 +6006,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				941DFB4415B765BC00C6552F /* OE2600SystemController.m in Sources */,
 				941DFB4515B765BC00C6552F /* OE2600SystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

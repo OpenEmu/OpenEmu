@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OE2600ButtonUp</key>
+	<integer>82</integer>
+	<key>OE2600ButtonDown</key>
+	<integer>81</integer>
+	<key>OE2600ButtonLeft</key>
+	<integer>80</integer>
+	<key>OE2600ButtonRight</key>
+	<integer>79</integer>
+	<key>OE2600ButtonFire1</key>
+	<integer>4</integer>
+	<key>OE2600ButtonReset</key>
+	<integer>44</integer>
+	<key>OE2600ButtonSelect</key>
+	<integer>41</integer>
+	<key>OE2600ButtonLeftDiffA</key>
+	<integer>20</integer>
+	<key>OE2600ButtonLeftDiffB</key>
+	<integer>26</integer>
+	<key>OE2600ButtonRightDiffA</key>
+	<integer>8</integer>
+	<key>OE2600ButtonRightDiffB</key>
+	<integer>21</integer>
+</dict>
+</plist>

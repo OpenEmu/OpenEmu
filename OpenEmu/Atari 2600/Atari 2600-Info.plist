@@ -25,13 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OE2600SystemController</string>
-	<key>OESystemPluginName</key>
+	<string>OESystemController</string>
+	<key>OESystemName</key>
 	<string>Atari 2600</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.2600</string>
-	<key>OESystemName</key>
-	<string>Atari 2600</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>2</integer>
+	<key>OEResponderClassKey</key>
+	<string>OE2600SystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>5</integer>
