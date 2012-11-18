@@ -25,7 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OELynxSystemController</string>
+	<string>OESystemController</string>
+	<key>OESystemName</key>
+	<string>Atari Lynx</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.lynx</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+	<key>OEResponderClassKey</key>
+	<string>OELynxSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>57</integer>
@@ -129,11 +137,5 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>lynx_library</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.lynx</string>
-	<key>OESystemName</key>
-	<string>Atari Lynx</string>
-	<key>OESystemPluginName</key>
-	<string>Atari Lynx</string>
 </dict>
 </plist>

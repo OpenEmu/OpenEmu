@@ -531,9 +531,8 @@
 		9425B186158184C80086FFB6 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		9425B18B15818B170086FFB6 /* controller_lynx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B18715818B170086FFB6 /* controller_lynx_mask.png */; };
 		9425B18C15818B170086FFB6 /* controller_lynx.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B18815818B170086FFB6 /* controller_lynx.png */; };
-		9425B18D15818B170086FFB6 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9425B18915818B170086FFB6 /* Controller-Preferences-Info.plist */; };
+		9425B18D15818B170086FFB6 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9425B18915818B170086FFB6 /* Controller-Preferences.plist */; };
 		9425B18E15818B170086FFB6 /* lynx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B18A15818B170086FFB6 /* lynx_library.png */; };
-		9425B19415818B960086FFB6 /* OELynxSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9425B19015818B960086FFB6 /* OELynxSystemController.m */; };
 		9425B19515818B960086FFB6 /* OELynxSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9425B19215818B960086FFB6 /* OELynxSystemResponder.m */; };
 		9425B198158190220086FFB6 /* Lynx.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 9425B1771581822A0086FFB6 /* Lynx.oesystemplugin */; };
 		943813A9165619EC00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943813A7165619EC00D55731 /* Keyboard-Mappings.plist */; };
@@ -550,6 +549,8 @@
 		9438163016577C9D00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438162E16577C9D00D55731 /* Keyboard-Mappings.plist */; };
 		943816971658373C00D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943816951658373C00D55731 /* Controller-Mappings.plist */; };
 		943816981658373C00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943816961658373C00D55731 /* Keyboard-Mappings.plist */; };
+		9438169B1658581B00D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943816991658581B00D55731 /* Controller-Mappings.plist */; };
+		9438169C1658581B00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438169A1658581B00D55731 /* Keyboard-Mappings.plist */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -1913,10 +1914,8 @@
 		9425B17D1581822A0086FFB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9425B18715818B170086FFB6 /* controller_lynx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_lynx_mask.png; sourceTree = "<group>"; };
 		9425B18815818B170086FFB6 /* controller_lynx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_lynx.png; sourceTree = "<group>"; };
-		9425B18915818B170086FFB6 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		9425B18915818B170086FFB6 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		9425B18A15818B170086FFB6 /* lynx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lynx_library.png; sourceTree = "<group>"; };
-		9425B18F15818B960086FFB6 /* OELynxSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELynxSystemController.h; sourceTree = "<group>"; };
-		9425B19015818B960086FFB6 /* OELynxSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELynxSystemController.m; sourceTree = "<group>"; };
 		9425B19115818B960086FFB6 /* OELynxSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELynxSystemResponder.h; sourceTree = "<group>"; };
 		9425B19215818B960086FFB6 /* OELynxSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELynxSystemResponder.m; sourceTree = "<group>"; };
 		9425B19315818B960086FFB6 /* OELynxSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELynxSystemResponderClient.h; sourceTree = "<group>"; };
@@ -1936,6 +1935,8 @@
 		9438162E16577C9D00D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943816951658373C00D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		943816961658373C00D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		943816991658581B00D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		9438169A1658581B00D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3941,8 +3942,6 @@
 		9425B1791581822A0086FFB6 /* Lynx */ = {
 			isa = PBXGroup;
 			children = (
-				9425B18F15818B960086FFB6 /* OELynxSystemController.h */,
-				9425B19015818B960086FFB6 /* OELynxSystemController.m */,
 				9425B19115818B960086FFB6 /* OELynxSystemResponder.h */,
 				9425B19215818B960086FFB6 /* OELynxSystemResponder.m */,
 				9425B19315818B960086FFB6 /* OELynxSystemResponderClient.h */,
@@ -3958,7 +3957,9 @@
 				9425B18715818B170086FFB6 /* controller_lynx_mask.png */,
 				9425B18815818B170086FFB6 /* controller_lynx.png */,
 				9425B17B1581822A0086FFB6 /* Lynx-Info.plist */,
-				9425B18915818B170086FFB6 /* Controller-Preferences-Info.plist */,
+				9438169A1658581B00D55731 /* Keyboard-Mappings.plist */,
+				943816991658581B00D55731 /* Controller-Mappings.plist */,
+				9425B18915818B170086FFB6 /* Controller-Preferences.plist */,
 				9425B17C1581822A0086FFB6 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -5462,8 +5463,10 @@
 				9425B17E1581822A0086FFB6 /* InfoPlist.strings in Resources */,
 				9425B18B15818B170086FFB6 /* controller_lynx_mask.png in Resources */,
 				9425B18C15818B170086FFB6 /* controller_lynx.png in Resources */,
-				9425B18D15818B170086FFB6 /* Controller-Preferences-Info.plist in Resources */,
+				9425B18D15818B170086FFB6 /* Controller-Preferences.plist in Resources */,
 				9425B18E15818B170086FFB6 /* lynx_library.png in Resources */,
+				9438169B1658581B00D55731 /* Controller-Mappings.plist in Resources */,
+				9438169C1658581B00D55731 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6018,7 +6021,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9425B19415818B960086FFB6 /* OELynxSystemController.m in Sources */,
 				9425B19515818B960086FFB6 /* OELynxSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
