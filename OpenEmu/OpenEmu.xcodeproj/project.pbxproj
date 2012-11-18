@@ -543,6 +543,7 @@
 		9438158216576CB800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438158016576CB700D55731 /* Controller-Mappings.plist */; };
 		9438158316576CB800D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438158116576CB800D55731 /* Keyboard-Mappings.plist */; };
 		943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.m */; };
+		943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943819C31658DAE800D55731 /* Controller-Mappings.plist */; };
 		9438162C16577A9200D55731 /* OESegaCDSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9438162B16577A9200D55731 /* OESegaCDSystemController.m */; };
 		9438162F16577C9D00D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438162D16577C9D00D55731 /* Controller-Mappings.plist */; };
 		9438163016577C9D00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9438162E16577C9D00D55731 /* Keyboard-Mappings.plist */; };
@@ -1928,6 +1929,7 @@
 		9438158116576CB800D55731 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943815B6165771EB00D55731 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
 		943815B7165771EB00D55731 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
+		943819C31658DAE800D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		9438162A16577A9200D55731 /* OESegaCDSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESegaCDSystemController.h; sourceTree = "<group>"; };
 		9438162B16577A9200D55731 /* OESegaCDSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESegaCDSystemController.m; sourceTree = "<group>"; };
 		9438162D16577C9D00D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -3986,6 +3988,7 @@
 				945E43001517F2B500057D08 /* InfoPlist.strings */,
 				945E42FF1517F2B500057D08 /* Arcade-Info.plist */,
 				C6527BC0164E22AA0030FB25 /* Keyboard-Mappings.plist */,
+				943819C31658DAE800D55731 /* Controller-Mappings.plist */,
 				945E43131517F5BC00057D08 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
@@ -5483,6 +5486,7 @@
 				945E43171517F5BC00057D08 /* controller_arcade.png in Resources */,
 				945E43181517F5BC00057D08 /* Controller-Preferences.plist in Resources */,
 				C6527BC1164E22AA0030FB25 /* Keyboard-Mappings.plist in Resources */,
+				943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
