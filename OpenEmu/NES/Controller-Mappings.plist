@@ -313,6 +313,44 @@
 			<integer>5</integer>
 		</dict>
 	</dict>
+	<key>OEControllerPS3NeoGeoPad</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<dict>
+			<key>Type</key>
+			<string>HatSwitch</string>
+			<key>Direction</key>
+			<string>N</string>
+		</dict>
+		<key>OENESButtonA</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>2</integer>
+		</dict>
+		<key>OENESButtonB</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>1</integer>
+		</dict>
+		<key>OENESButtonStart</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>10</integer>
+		</dict>
+		<key>OENESButtonSelect</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>9</integer>
+		</dict>
+	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OENESButtonUp</key>

@@ -269,5 +269,36 @@
 			<integer>6</integer>
 		</dict>
 	</dict>
+	<key>OEControllerPS3NeoGeoPad</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<dict>
+			<key>Type</key>
+			<string>HatSwitch</string>
+			<key>Direction</key>
+			<string>N</string>
+		</dict>
+		<key>OENGPButtonA</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>1</integer>
+		</dict>
+		<key>OENGPButtonB</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>2</integer>
+		</dict>
+		<key>OENGPButtonOption</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>10</integer>
+		</dict>
+	</dict>
 </dict>
 </plist>
