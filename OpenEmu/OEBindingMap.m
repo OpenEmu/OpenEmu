@@ -18,6 +18,31 @@
 
 @end
 
+static const void *_OEBindingMapKeyRetainCallBack(CFAllocatorRef allocator, OEHIDEvent *value)
+{
+    return (__bridge_retained void *)value;
+}
+
+static void _OEBindingMapKeyReleaseCallBack(CFAllocatorRef allocator, const void *value)
+{
+    (void)(__bridge_transfer OEHIDEvent *)value;
+}
+
+static CFStringRef _OEBindingMapKeyDescriptionCallBack(OEHIDEvent *value)
+{
+    return (__bridge_retained CFStringRef)[value description];
+}
+
+static Boolean _OEBindingMapKeyEqualCallBack(OEHIDEvent *value1, OEHIDEvent *value2)
+{
+    return [value1 isBindingEqualToEvent:value2];
+}
+
+static CFHashCode _OEBindingMapKeyHashCallBack(OEHIDEvent *value)
+{
+    return [value bindingHash];
+}
+
 @implementation OEBindingMap
 
 - (id)init
@@ -37,7 +62,15 @@
 {
     if((self = [super init]))
     {
-        keyMap = [[NSMutableDictionary alloc] initWithCapacity:totalNumberOfKeys];
+        CFDictionaryKeyCallBacks keyCallbacks = {
+            .retain          = (CFDictionaryRetainCallBack)         _OEBindingMapKeyRetainCallBack,
+            .release         = (CFDictionaryReleaseCallBack)        _OEBindingMapKeyReleaseCallBack,
+            .copyDescription = (CFDictionaryCopyDescriptionCallBack)_OEBindingMapKeyDescriptionCallBack,
+            .equal           = (CFDictionaryEqualCallBack)          _OEBindingMapKeyEqualCallBack,
+            .hash            = (CFDictionaryHashCallBack)           _OEBindingMapKeyHashCallBack
+        };
+
+        keyMap = (__bridge_transfer NSMutableDictionary *)CFDictionaryCreateMutable(NULL, totalNumberOfKeys, &keyCallbacks, &kCFTypeDictionaryValueCallBacks);
         queue  = dispatch_queue_create("org.openemu.OEBindingMap.queue", DISPATCH_QUEUE_CONCURRENT);
     }
 
@@ -48,7 +81,7 @@
 {
     __block OESystemKey *ret = nil;
     dispatch_sync(queue, ^{
-        ret = [keyMap objectForKey:ret];
+        ret = [keyMap objectForKey:anEvent];
     });
 
     return ret;
@@ -71,6 +104,11 @@
 - (void)dealloc
 {
     dispatch_release(queue);
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p events: %@>", [self class], self, keyMap];
 }
 
 @end
@@ -106,6 +144,11 @@
         return _key == object->_key && _player == object->_player;
 
     return NO;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p key: %lu player: %lu>", [self class], self, _key, _player];
 }
 
 @end

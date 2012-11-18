@@ -157,6 +157,13 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 
 @end
 
+@interface OEHIDEvent (OEHIDEventBinding)
+
+- (NSUInteger)bindingHash;
+- (BOOL)isBindingEqualToEvent:(OEHIDEvent *)anEvent;
+
+@end
+
 @interface OEHIDEvent (OECustomEventAccess)
 - (void)setState:(OEHIDEventState)newState;
 @end

@@ -917,7 +917,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     
 #undef STATE_STR
     
-    return [NSString stringWithFormat:@"<%@ %p pad=%lld %@ %@ cookie=%lu>", [self class], self, (int64_t)_padNumber, subs, [self displayDescription], _cookie];
+    return [NSString stringWithFormat:@"<%@ %p pad=%lu %@ '%@' cookie=%lu>", [self class], self, _padNumber, subs, [self displayDescription], _cookie];
 }
 
 - (NSUInteger)hash
@@ -1004,7 +1004,8 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 {
     if(_type != anObject->_type) return NO;
 
-    if(_cookie != anObject->_cookie) return NO;
+    if(_cookie != NSNotFound && anObject->_cookie != NSNotFound && _cookie != anObject->_cookie)
+        return NO;
 
     switch(_type)
     {
@@ -1143,6 +1144,78 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
     event->_data.hatSwitch.hatDirection = aDirection;
 
     return event;
+}
+
+@end
+
+@implementation OEHIDEvent (OEHIDEventBinding)
+
+- (NSUInteger)bindingHash;
+{
+    NSUInteger hash = [self padNumber] << 24;
+
+    switch([self type])
+    {
+        case OEHIDEventTypeKeyboard :
+            hash |= 0x1000000000000000u;
+            hash |= [self keycode];
+            break;
+        case OEHIDEventTypeAxis :
+            hash |= 0x2000000000000000u;
+            hash |= [self axis] << 8;
+
+            OEHIDEventAxisDirection dir = [self direction];
+            if(dir != OEHIDEventAxisDirectionNull)
+                hash |= (1 << ((dir) > OEHIDEventAxisDirectionNull));
+            break;
+        case OEHIDEventTypeTrigger :
+            hash |= 0x2000000000000000u;
+            hash |= [self axis] << 8;
+            break;
+        case OEHIDEventTypeButton :
+            hash |= 0x4000000000000000u;
+            hash |= [self buttonNumber];
+            break;
+        case OEHIDEventTypeHatSwitch :
+            hash |= 0x8000000000000000u;
+            hash |= [self hatDirection];
+            break;
+        default :
+            break;
+    }
+
+    return hash;
+}
+
+- (BOOL)isBindingEqualToEvent:(OEHIDEvent *)anObject;
+{
+    if(_type != anObject->_type) return NO;
+
+    if(_cookie != NSNotFound && anObject->_cookie != NSNotFound && _cookie != anObject->_cookie)
+        return NO;
+
+    switch(_type)
+    {
+        case OEHIDEventTypeKeyboard :
+            return _data.key.keycode == anObject->_data.key.keycode;
+        case OEHIDEventTypeAxis :
+            return (_padNumber           == anObject->_padNumber           &&
+                    _data.axis.direction == anObject->_data.axis.direction &&
+                    _data.axis.axis      == anObject->_data.axis.axis);
+        case OEHIDEventTypeTrigger :
+            return (_padNumber              == anObject->_padNumber              &&
+                    _data.trigger.axis      == anObject->_data.trigger.axis);
+        case OEHIDEventTypeButton :
+            return (_padNumber                == anObject->_padNumber                &&
+                    _data.button.buttonNumber == anObject->_data.button.buttonNumber);
+        case OEHIDEventTypeHatSwitch :
+            return (_padNumber                   == anObject->_padNumber &&
+                    _data.hatSwitch.hatDirection == anObject->_data.hatSwitch.hatDirection);
+        default :
+            break;
+    }
+
+    return NO;
 }
 
 @end
