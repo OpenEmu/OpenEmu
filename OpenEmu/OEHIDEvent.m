@@ -371,6 +371,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     {
         _padNumber = padNumber;
         _timestamp = timestamp;
+        _cookie    = NSNotFound;
     }
     return self;
 }
