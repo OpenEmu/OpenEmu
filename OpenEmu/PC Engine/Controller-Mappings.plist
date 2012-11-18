@@ -37,14 +37,14 @@
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>3</integer>
+			<integer>1</integer>
 		</dict>
 		<key>OEPCEButton2</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>1</integer>
+			<integer>3</integer>
 		</dict>
 		<key>OEPCEButtonRun</key>
 		<dict>
@@ -96,14 +96,14 @@
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>16</integer>
+			<integer>15</integer>
 		</dict>
 		<key>OEPCEButton2</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>15</integer>
+			<integer>16</integer>
 		</dict>
 		<key>OEPCEButtonRun</key>
 		<dict>
@@ -134,14 +134,14 @@
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<key>OEPCEButton2</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<key>OEPCEButtonRun</key>
 		<dict>
@@ -183,14 +183,14 @@
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>6</integer>
+			<integer>3</integer>
 		</dict>
 		<key>OEPCEButton2</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>3</integer>
+			<integer>6</integer>
 		</dict>
 		<key>OEPCEButtonRun</key>
 		<dict>
@@ -232,14 +232,14 @@
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<key>OEPCEButton2</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<key>OEPCEButtonRun</key>
 		<dict>
@@ -291,14 +291,14 @@
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<key>OEPCEButton2</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>3</integer>
+			<integer>2</integer>
 		</dict>
 		<key>OEPCEButtonRun</key>
 		<dict>
