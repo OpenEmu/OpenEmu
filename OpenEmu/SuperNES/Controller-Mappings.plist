@@ -423,7 +423,7 @@
 			<key>Number</key>
 			<integer>2</integer>
 			<key>Cookie</key>
-			<integer>0</integer>
+			<integer>8</integer>
 		</dict>
 		<key>OESNESButtonB</key>
 		<dict>
@@ -432,7 +432,7 @@
 			<key>Number</key>
 			<integer>2</integer>
 			<key>Cookie</key>
-			<integer>0</integer>
+			<integer>4</integer>
 		</dict>
 		<key>OESNESButtonX</key>
 		<dict>
@@ -441,7 +441,7 @@
 			<key>Number</key>
 			<integer>1</integer>
 			<key>Cookie</key>
-			<integer>0</integer>
+			<integer>7</integer>
 		</dict>
 		<key>OESNESButtonY</key>
 		<dict>
@@ -450,7 +450,7 @@
 			<key>Number</key>
 			<integer>1</integer>
 			<key>Cookie</key>
-			<integer>0</integer>
+			<integer>3</integer>
 		</dict>
 		<key>OESNESButtonTriggerLeft</key>
 		<dict>
@@ -459,7 +459,7 @@
 			<key>Number</key>
 			<integer>3</integer>
 			<key>Cookie</key>
-			<integer>0</integer>
+			<integer>9</integer>
 		</dict>
 		<key>OESNESButtonTriggerRight</key>
 		<dict>
@@ -468,7 +468,7 @@
 			<key>Number</key>
 			<integer>4</integer>
 			<key>Cookie</key>
-			<integer>0</integer>
+			<integer>10</integer>
 		</dict>
 		<key>OESNESButtonStart</key>
 		<dict>
@@ -477,7 +477,7 @@
 			<key>Number</key>
 			<integer>4</integer>
 			<key>Cookie</key>
-			<integer>0</integer>
+			<integer>6</integer>
 		</dict>
 		<key>OESNESButtonSelect</key>
 		<dict>
@@ -486,7 +486,7 @@
 			<key>Number</key>
 			<integer>3</integer>
 			<key>Cookie</key>
-			<integer>0</integer>
+			<integer>5</integer>
 		</dict>
 	</dict>
 </dict>
