@@ -148,14 +148,14 @@
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>9</integer>
+			<integer>10</integer>
 		</dict>
 		<key>OENESButtonSelect</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>10</integer>
+			<integer>9</integer>
 		</dict>
 	</dict>
 	<key>OEControllerSegaSaturn</key>
@@ -254,6 +254,65 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>9</integer>
+		</dict>
+	</dict>
+	<key>OEControllerWiimote</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>10</integer>
+		</dict>
+		<key>OENESButtonDown</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>9</integer>
+		</dict>
+		<key>OENESButtonLeft</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>7</integer>
+		</dict>
+		<key>OENESButtonRight</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>8</integer>
+		</dict>
+		<key>OENESButtonA</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>3</integer>
+		</dict>
+		<key>OENESButtonB</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>2</integer>
+		</dict>
+		<key>OENESButtonStart</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>6</integer>
+		</dict>
+		<key>OENESButtonSelect</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>4</integer>
 		</dict>
 	</dict>
 </dict>

@@ -23,6 +23,8 @@
 #include "master_disabler.h"
 #include "../savestate.h"
 
+namespace gambatte {
+
 class DutyUnit : public SoundUnit {
 	unsigned long nextPosUpdate;
 	unsigned short period;
@@ -60,5 +62,7 @@ public:
 	DutyMasterDisabler(bool &m, DutyUnit &dutyUnit) : MasterDisabler(m), dutyUnit(dutyUnit) {}
 	void operator()() { MasterDisabler::operator()(); dutyUnit.killCounter(); }
 };
+
+}
 
 #endif

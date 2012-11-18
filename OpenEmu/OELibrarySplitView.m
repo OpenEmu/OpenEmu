@@ -310,7 +310,6 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
     NSSize contentMinSize = [[self window] contentMinSize];
 #ifdef DEBUG_PRINT
     if(contentMinWidth > contentMinSize.width) DLog(@"Content mininum width had to be adjusted from %f to %f", contentMinSize.width, contentMinWidth);
-    else DLog(@"We didn't need to adjust minimum width since the proposed minimum was %f and we require %f", contentMinSize.width, contentMinWidth);
 #endif
     contentMinSize.width = MAX(contentMinSize.width, contentMinWidth);
     [[self window] setContentMinSize:contentMinSize];

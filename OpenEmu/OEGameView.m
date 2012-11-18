@@ -39,6 +39,7 @@
 #import <OpenGL/CGLMacro.h>
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>
+#import <Accelerate/Accelerate.h>
 
 // TODO: bind vsync. Is it even necessary, why do we want it off at all?
 
@@ -82,6 +83,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @property         IOSurfaceID gameSurfaceID;
 
 @property         OEIntSize gameScreenSize;
+@property         OEIntSize gameAspectSize;
 @property         CVDisplayLinkRef gameDisplayLinkRef;
 @property(strong) NSTimer *gameTimer;
 @property(strong) SyphonServer *gameServer;
@@ -107,7 +109,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @synthesize gameSurfaceID;
 @synthesize gameDisplayLinkRef;
 @synthesize gameTimer;
-@synthesize gameScreenSize;
+@synthesize gameScreenSize, gameAspectSize;
 @synthesize gameServer;
 @synthesize gameTitle;
 
@@ -415,18 +417,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // look up every frame, since our games surfaceRef may have changed in response to a resize
 
     IOSurfaceRef surfaceRef = NULL;
-    if(gameSurfaceID == 0)
-    {
-        gameSurfaceID = rootProxy.surfaceID;
-    }
-    
+
     surfaceRef = IOSurfaceLookup(gameSurfaceID);
-    
-//    if(surfaceRef == NULL)
-//    {
-//        surfaceRef = IOSurfaceLookup(gameSurfaceID);
-//    }
-    
+
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
     {
@@ -527,9 +520,18 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
             IOSurfaceLock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
             
-            void * src = IOSurfaceGetBaseAddress(surfaceRef);
+            vImage_Buffer src = {.data = IOSurfaceGetBaseAddress(surfaceRef),
+                                .width = textureRect.size.width,
+                               .height = textureRect.size.height,
+                             .rowBytes = IOSurfaceGetBytesPerRow(surfaceRef)};
+            vImage_Buffer dest= {.data = [imageRep bitmapData],
+                                .width = textureRect.size.width,
+                               .height = textureRect.size.height,
+                             .rowBytes = 4*textureRect.size.width};
             
-            memcpy([imageRep bitmapData], src, sizeof(unsigned char) * textureRect.size.height * textureRect.size.width * 4);
+            // Convert IOSurface pixel format to NSBitmapImageRep
+            const uint8_t permuteMap[] = {2,1,0,3};
+            vImagePermuteChannels_ARGB8888(&src, &dest, permuteMap, 0);
             
             IOSurfaceUnlock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
             
@@ -542,8 +544,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
             [img addRepresentation:imageRep];
             
-            [img setFlipped:YES]; // this is deprecated in 10.6
-            [img lockFocusOnRepresentation:imageRep]; // this will flip the rep
+            // this will flip the rep
+            [img lockFocusFlipped:YES];
+            [imageRep drawInRect:NSMakeRect(0,0,[img size].width, [img size].height)];
             [img unlockFocus];
             
             screenshotHandler(img);
@@ -579,7 +582,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_RGBA, GL_UNSIGNED_BYTE, surfaceRef, 0);
+    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
     
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -594,8 +597,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     // calculate aspect ratio
     NSSize scaled;
-    float wr = rootProxy.aspectSize.width / self.frame.size.width;
-    float hr = rootProxy.aspectSize.height / self.frame.size.height;
+    OEIntSize aspectSize = self.gameAspectSize;
+    float wr = aspectSize.width / self.frame.size.width;
+    float hr = aspectSize.height / self.frame.size.height;
     float ratio;
     ratio = (hr < wr ? wr : hr);
     scaled = NSMakeSize(( wr / ratio), (hr / ratio));
@@ -745,8 +749,12 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
     gameSurfaceID = rootProxy.surfaceID;
 
-    DLog(@"gameCoreDidChangeScreenSizeTo %i %i", size.width, size.height);
     self.gameScreenSize = size;
+}
+
+- (void)gameCoreDidChangeAspectSizeTo:(OEIntSize)size
+{
+    self.gameAspectSize = size;
 }
 
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block

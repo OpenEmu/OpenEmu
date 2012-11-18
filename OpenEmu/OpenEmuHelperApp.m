@@ -59,6 +59,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 @implementation OpenEmuHelperApp
 {
+    OEIntSize previousAspectSize;
     BOOL isIntel;
 }
 
@@ -120,7 +121,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [self setupIOSurface];
     [self setupFBO];
     
-    [self updateScreenSize];
+    [self updateAspectSize];
+    [self signalUpdatedScreenSize];
 }
 
 - (void)setupProcessPollingTimer
@@ -210,7 +212,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, ioSurfaceTexture);
     
-    CGLError err = CGLTexImageIOSurface2D(glContext, GL_TEXTURE_RECTANGLE_ARB, GL_RGBA8, (GLsizei)surfaceSize.width, (GLsizei)surfaceSize.height, GL_RGBA, GL_UNSIGNED_BYTE, surfaceRef, 0);
+    CGLError err = CGLTexImageIOSurface2D(glContext, GL_TEXTURE_RECTANGLE_ARB, GL_RGBA8, (GLsizei)surfaceSize.width, (GLsizei)surfaceSize.height, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
     if(err != kCGLNoError)
     {
         NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
@@ -381,8 +383,10 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         
         glFlush();
         
-        [delegate gameCoreDidChangeScreenSizeTo:correctedSize];
+        [self signalUpdatedScreenSize];
     }
+    
+    [self updateAspectSize];
     
     // Incase of a GameCore that renders direct to GL, do some state 'protection'
     glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -525,6 +529,23 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     }
     else
         correctedSize = screenRect.size;
+}
+
+- (void)signalUpdatedScreenSize
+{
+    DLog(@"Sending did change size to %d %d", correctedSize.width, correctedSize.height);
+    [delegate gameCoreDidChangeScreenSizeTo:correctedSize];
+}
+
+- (void)updateAspectSize
+{
+    OEIntSize aspectSize = gameCore.aspectSize;
+    
+    if (memcmp(&aspectSize, &previousAspectSize, sizeof(aspectSize))) {
+        previousAspectSize = aspectSize;
+        DLog(@"Sending did change aspect to %d %d", aspectSize.width, aspectSize.height);
+        [delegate gameCoreDidChangeAspectSizeTo:aspectSize];
+    }
 }
 
 - (void)destroySurface

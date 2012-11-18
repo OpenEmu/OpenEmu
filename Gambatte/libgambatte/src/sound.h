@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,14 +19,12 @@
 #ifndef SOUND_H
 #define SOUND_H
 
-class SaveState;
-
-#include "int.h"
-
 #include "sound/channel1.h"
 #include "sound/channel2.h"
 #include "sound/channel3.h"
 #include "sound/channel4.h"
+
+namespace gambatte {
 
 class PSG {
 	Channel1 ch1;
@@ -34,12 +32,12 @@ class PSG {
 	Channel3 ch3;
 	Channel4 ch4;
 		
-	Gambatte::uint_least32_t *buffer;
+	uint_least32_t *buffer;
 	
 	unsigned long lastUpdate;
 	unsigned long soVol;
 	
-	Gambatte::uint_least32_t rsum;
+	uint_least32_t rsum;
 	
 	unsigned bufferPos;
 	
@@ -58,7 +56,7 @@ public:
 	void generate_samples(unsigned long cycleCounter, unsigned doubleSpeed);
 	void resetCounter(unsigned long newCc, unsigned long oldCc, unsigned doubleSpeed);
 	unsigned fillBuffer();
-	void setBuffer(Gambatte::uint_least32_t *const buf) { buffer = buf; bufferPos = 0; }
+	void setBuffer(uint_least32_t *const buf) { buffer = buf; bufferPos = 0; }
 	
 	bool isEnabled() const { return enabled; }
 	void setEnabled(bool value) { enabled = value; }
@@ -91,5 +89,7 @@ public:
 	void map_so(unsigned nr51);
 	unsigned getStatus() const;
 };
+
+}
 
 #endif

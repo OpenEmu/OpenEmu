@@ -116,6 +116,7 @@
 		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
 		3887A8971024D796000FC4CF /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887A8961024D796000FC4CF /* QuickLook.framework */; };
 		3D15428114E20E22009C3DEE /* OENonARCHacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D15428014E20E22009C3DEE /* OENonARCHacks.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1D8D811650C22900DBC37D /* Accelerate.framework */; };
 		3D71183E1500650D0056E3BF /* PSYBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D711839150064F50056E3BF /* PSYBlockTimer.m */; };
 		3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */; };
 		3DD90BA81500A6BF00FE5DFD /* OETimingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD90BA61500A6BF00FE5DFD /* OETimingUtils.m */; };
@@ -483,6 +484,7 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.m */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -505,6 +507,9 @@
 		949628D0164F6F2F00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628CF164F6F2F00952A86 /* Controller-Mappings.plist */; };
 		949628D2164F73D200952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628D1164F73D200952A86 /* Controller-Mappings.plist */; };
 		949628D4164F77C400952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628D3164F77C400952A86 /* Controller-Mappings.plist */; };
+		94962908164F7D9E00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94962907164F7D9E00952A86 /* Controller-Mappings.plist */; };
+		9496290A164F7F7E00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94962909164F7F7E00952A86 /* Controller-Mappings.plist */; };
+		9496290C164F834D00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9496290B164F834D00952A86 /* Controller-Mappings.plist */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
 		94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */; };
@@ -1049,6 +1054,7 @@
 		3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OESaveStateQLPlugin-Info.plist"; sourceTree = "<group>"; };
 		3887A8961024D796000FC4CF /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		3D15428014E20E22009C3DEE /* OENonARCHacks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENonARCHacks.m; sourceTree = "<group>"; };
+		3D1D8D811650C22900DBC37D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		3D711838150064F50056E3BF /* PSYBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSYBlockTimer.h; sourceTree = "<group>"; };
 		3D711839150064F50056E3BF /* PSYBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSYBlockTimer.m; sourceTree = "<group>"; };
 		3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETimingUtils.h; sourceTree = "<group>"; };
@@ -1570,6 +1576,8 @@
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93B479F612BAB576008618A7 /* OEHIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDManager.h; sourceTree = "<group>"; };
 		93B479F712BAB576008618A7 /* OEHIDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDManager.m; sourceTree = "<group>"; };
+		943815B6165771EB00D55731 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
+		943815B7165771EB00D55731 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1586,6 +1594,9 @@
 		949628CF164F6F2F00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628D1164F73D200952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628D3164F77C400952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94962907164F7D9E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94962909164F7F7E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		9496290B164F834D00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NDS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NDS-Info.plist"; sourceTree = "<group>"; };
 		94D7E8CF15073BA000FBDD85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1821,6 +1832,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */,
 				839213F4164338D60006CEE0 /* IOKit.framework in Frameworks */,
 				8305267513FBC999006179C6 /* Security.framework in Frameworks */,
 				83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */,
@@ -1933,6 +1945,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D1D8D811650C22900DBC37D /* Accelerate.framework */,
 				8322D746156A973400FC0E81 /* IOBluetooth.framework */,
 				1B42C66C1429510A004691D7 /* Syphon.framework */,
 				8305267413FBC999006179C6 /* Security.framework */,
@@ -3370,6 +3383,7 @@
 				820EB7501483F9D3008EC398 /* InfoPlist.strings */,
 				820EB7591483F9D3008EC398 /* NeoGeoPocket-Info.plist */,
 				C6AF284D164E469C00681A06 /* Keyboard-Mappings.plist */,
+				94962909164F7F7E00952A86 /* Controller-Mappings.plist */,
 				C6252DAD14E7556800350A13 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
@@ -3564,6 +3578,7 @@
 				83977F6D1408FEA800175858 /* controller_sms.png */,
 				C6711818136368330034379A /* SegaMasterSystem-Info.plist */,
 				C6AF2851164E46BD00681A06 /* Keyboard-Mappings.plist */,
+				94962907164F7D9E00952A86 /* Controller-Mappings.plist */,
 				C6252DB314E7572C00350A13 /* Controller-Preferences.plist */,
 				C6711819136368330034379A /* InfoPlist.strings */,
 			);
@@ -3646,6 +3661,8 @@
 		C6B947E81365080B00A425F0 /* Genesis */ = {
 			isa = PBXGroup;
 			children = (
+				943815B6165771EB00D55731 /* OEGenesisSystemController.h */,
+				943815B7165771EB00D55731 /* OEGenesisSystemController.m */,
 				C6B9480C1365096800A425F0 /* OEGenesisSystemResponder.h */,
 				C6B9480B1365096800A425F0 /* OEGenesisSystemResponder.m */,
 				C6B9480A1365096800A425F0 /* OEGenesisSystemResponderClient.h */,
@@ -3662,6 +3679,7 @@
 				83AE9F0A14B271E200E91BD8 /* controller_genesis.png */,
 				C6B947EA1365080B00A425F0 /* Genesis-Info.plist */,
 				C6AF2857164E472A00681A06 /* Keyboard-Mappings.plist */,
+				9496290B164F834D00952A86 /* Controller-Mappings.plist */,
 				C6252DBB14E75A4800350A13 /* Controller-Preferences.plist */,
 				C6B947EB1365080B00A425F0 /* InfoPlist.strings */,
 			);
@@ -4153,6 +4171,7 @@
 				83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */,
 				C6252DAE14E7556800350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37114F2C672001F1299 /* neogeopocket_library.png in Resources */,
+				9496290A164F7F7E00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF284E164E469C00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4438,6 +4457,7 @@
 				83F4DE1D14E00C9800A82E36 /* controller_sms_mask.png in Resources */,
 				C6252DB414E7572C00350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37914F2C795001F1299 /* sms_library.png in Resources */,
+				94962908164F7D9E00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2852164E46BD00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4465,6 +4485,7 @@
 				83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */,
 				C6252DBC14E75A4800350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA38114F2C857001F1299 /* genesis_library.png in Resources */,
+				9496290C164F834D00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2858164E472A00681A06 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4857,6 +4878,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6B948101365096800A425F0 /* OEGenesisSystemResponder.m in Sources */,
+				943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

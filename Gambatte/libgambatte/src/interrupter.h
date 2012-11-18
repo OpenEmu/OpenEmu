@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,20 +19,17 @@
 #ifndef INTERRUPTER_H
 #define INTERRUPTER_H
 
-class Memory;
+namespace gambatte {
 
 class Interrupter {
 	unsigned short &SP;
 	unsigned short &PC;
-	bool &halted;
 	
 public:
-	Interrupter(unsigned short &SP, unsigned short &PC, bool &halted);
-	unsigned long interrupt(const unsigned address, unsigned long cycleCounter, Memory &memory);
-	
-	void unhalt() {
-		halted = false;
-	}
+	Interrupter(unsigned short &SP, unsigned short &PC);
+	unsigned long interrupt(const unsigned address, unsigned long cycleCounter, class Memory &memory);
 };
+
+}
 
 #endif

@@ -148,14 +148,14 @@
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>9</integer>
+			<integer>10</integer>
 		</dict>
 		<key>OEGBButtonSelect</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>10</integer>
+			<integer>9</integer>
 		</dict>
 	</dict>
 	<key>OEControllerSegaSaturn</key>

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aamås                                    *
+ *   Copyright (C) 2007 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,51 +19,38 @@
 #ifndef LY_COUNTER_H
 #define LY_COUNTER_H
 
-class SaveState;
+namespace gambatte {
 
-#include "video_event.h"
-#include "basic_add_event.h"
+struct SaveState;
 
-class LyCounter : public VideoEvent {
+class LyCounter {
+	unsigned long time_;
 	unsigned short lineTime_;
 	unsigned char ly_;
 	bool ds;
 	
 public:
 	LyCounter();
-	
 	void doEvent();
+	bool isDoubleSpeed() const { return ds; }
 	
-	bool isDoubleSpeed() const {
-		return ds;
+	unsigned long frameCycles(const unsigned long cc) const {
+		return ly_ * 456ul + lineCycles(cc);
 	}
 	
 	unsigned lineCycles(const unsigned long cc) const {
-		return 456u - ((time() - cc) >> isDoubleSpeed());
+		return 456u - ((time_ - cc) >> isDoubleSpeed());
 	}
 	
-	unsigned lineTime() const {
-		return lineTime_;
-	}
-	
-	unsigned ly() const {
-		return ly_;
-	}
-	
+	unsigned lineTime() const { return lineTime_; }
+	unsigned ly() const { return ly_; }
 	unsigned long nextLineCycle(unsigned lineCycle, unsigned long cycleCounter) const;
 	unsigned long nextFrameCycle(unsigned long frameCycle, unsigned long cycleCounter) const;
-	
 	void reset(unsigned long videoCycles, unsigned long lastUpdate);
-	
 	void setDoubleSpeed(bool ds_in);
+	unsigned long time() const { return time_; }
 };
 
-static inline void addEvent(event_queue<VideoEvent*,VideoEventComparer> &q, LyCounter *const e, const unsigned long newTime) {
-	addUnconditionalEvent(q, e, newTime);
-}
-
-static inline void addFixedtimeEvent(event_queue<VideoEvent*,VideoEventComparer> &q, LyCounter *const e, const unsigned long newTime) {
-	addUnconditionalFixedtimeEvent(q, e, newTime);
 }
 
 #endif

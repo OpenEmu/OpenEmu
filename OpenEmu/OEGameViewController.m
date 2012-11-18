@@ -62,6 +62,9 @@ NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
 NSString *const OEDontShowGameTitleInWindowKey = @"dontShowGameTitleInWindow";
 NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
 NSString *const OEForceCorePicker = @"forceCorePicker";
+NSString *const OEGameViewControllerEmulationWillFinishNotification = @"OEGameViewControllerEmulationWillFinishNotification";
+NSString *const OEGameViewControllerEmulationDidFinishNotification = @"OEGameViewControllerEmulationDidFinishNotification";
+NSString *const OEGameViewControllerROMKey = @"OEROM";
 
 NSString *const OEDefaultWindowTitle = @"OpenEmu";
 
@@ -313,12 +316,16 @@ typedef enum : NSUInteger
 
     _emulationStatus = OEGameViewControllerEmulationStatusTerminating;
 
+    NSDictionary *userInfo = @{OEGameViewControllerROMKey : [self rom]};
+    // TODO: why isn't this being sent to the delegate directly?
     [NSApp sendAction:@selector(emulationWillFinishForGameViewController:) to:nil from:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameViewControllerEmulationWillFinishNotification object:self userInfo:userInfo];
 
     [self OE_terminateEmulationWithoutNotification];
     
     [NSApp sendAction:@selector(emulationDidFinishForGameViewController:) to:nil from:self];
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameViewControllerEmulationDidFinishNotification object:self userInfo:userInfo];
+
     [[self document] close];
 }
 
@@ -369,8 +376,6 @@ typedef enum : NSUInteger
     }
 
     rootProxy = [gameCoreManager rootProxy];
-    [rootProxy setupEmulation];
-    _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
 
     // set initial volume
     [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
@@ -386,6 +391,9 @@ typedef enum : NSUInteger
     [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [[self view] addSubview:gameView];
     [gameView resizeSubviewsWithOldSize:[[self view] frame].size];
+    
+    [rootProxy setupEmulation];
+    _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
@@ -395,6 +403,7 @@ typedef enum : NSUInteger
     [window makeFirstResponder:gameView];
 
     [self disableOSSleep];
+    [[self rom] markAsPlayedNow];
 
     [[self controlsWindow] reflectEmulationRunning:YES];
 

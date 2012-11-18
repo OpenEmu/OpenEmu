@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aamås                                    *
+ *   Copyright (C) 2007 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,6 +28,8 @@ static inline bool toOutState(const unsigned duty, const unsigned pos) {
 static inline unsigned toPeriod(const unsigned freq) {
 	return (2048 - freq) << 1;
 }
+
+namespace gambatte {
 
 void DutyUnit::updatePos(const unsigned long cc) {
 	if (cc >= nextPosUpdate) {
@@ -145,4 +147,6 @@ void DutyUnit::reviveCounter(const unsigned long cc) {
 	high = toOutState(duty, pos);
 	enableEvents = true;
 	setCounter();
+}
+
 }

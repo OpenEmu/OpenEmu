@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,12 +28,15 @@
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEGameControlsBar.h"
 #import "OEMainWindowController.h"
+#import "OEGameViewController.h"
+#import "OEGameDocument.h"
 
 #import "OELibraryController.h"
 #import "OEROMImporter.h"
 #import "OECoverGridForegroundLayer.h"
 #import "OECoverGridViewCell.h"
 
+#import "OETableHeaderCell.h"
 #import "OEListViewDataSourceItem.h"
 #import "OERatingCell.h"
 #import "OEHorizontalSplitView.h"
@@ -83,6 +86,8 @@ static const float OE_coverFlowHeightPercentage = .75;
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
     IBOutlet NSTableView *listView;
+
+    NSDate *_listViewSelectionChangeDate;
 }
 
 - (void)OE_managedObjectContextDidSave:(NSNotification *)notification;
@@ -148,13 +153,14 @@ static const float OE_coverFlowHeightPercentage = .75;
     
     [gamesController setManagedObjectContext:context];
     [gamesController setEntityName:@"Game"];
-    [gamesController setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    [gamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
+    [gamesController setAvoidsEmptySelection:NO];
     [gamesController prepareContent];
     
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    
+
     // Set up GridView
     [gridView setItemSize:NSMakeSize(168, 193)];
     [gridView setMinimumColumnSpacing:22.0];
@@ -182,6 +188,10 @@ static const float OE_coverFlowHeightPercentage = .75;
     [listView setDataSource:self];
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
 
+    // There's no natural order for status indicators, so we don't allow that column to be sorted
+    OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"romStatus"] headerCell];
+    [romStatusHeaderCell setClickable:NO];
+
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
     
     for(NSTableColumn *aColumn in [listView tableColumns])
@@ -190,6 +200,8 @@ static const float OE_coverFlowHeightPercentage = .75;
         
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_emulationDidFinish:) name:OEGameViewControllerEmulationDidFinishNotification object:nil];
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
@@ -202,10 +214,14 @@ static const float OE_coverFlowHeightPercentage = .75;
     return @"CollectionView";
 }
 #pragma mark - OELibrarySubviewControllerProtocol Implementation
-- (void)setRepresentedObject:(id)representedObject
+- (void)setRepresentedObject:(id<OECollectionViewItemProtocol>)representedObject
 {
+    NSAssert([representedObject conformsToProtocol:@protocol(OECollectionViewItemProtocol)], @"OECollectionViewController accepts OECollectionViewItemProtocol represented objects only");
+
     if(representedObject == [self representedObject]) return;
-     [super setRepresentedObject:representedObject];
+    [super setRepresentedObject:representedObject];
+
+    [[listView tableColumnWithIdentifier:@"consoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
     
     _stateRewriteRequired = YES;
     [self OE_reloadData];
@@ -229,6 +245,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
     [coder encodeObject:searchString forKey:@"searchString"];
     [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
+    if([listView sortDescriptors]) [coder encodeObject:[listView sortDescriptors] forKey:@"listViewSortDescriptors"];
     
     [coder finishEncoding];
     
@@ -243,14 +260,16 @@ static const float OE_coverFlowHeightPercentage = .75;
     float sliderValue;
     NSString   *searchString;
     NSIndexSet *selectionIndexes;
+    NSArray    *listViewSortDescriptors = nil;
          
     NSKeyedUnarchiver *coder = state ? [[NSKeyedUnarchiver alloc] initForReadingWithData:state] : nil;
     if(coder)
     {
-        selectedViewTag  = [coder decodeIntForKey:@"selectedView"];
-        sliderValue      = [coder decodeFloatForKey:@"sliderValue"];
-        searchString     = [coder decodeObjectForKey:@"searchString"];
-        selectionIndexes = [coder decodeObjectForKey:@"selectionIndexes"];
+        selectedViewTag         = [coder decodeIntForKey:@"selectedView"];
+        sliderValue             = [coder decodeFloatForKey:@"sliderValue"];
+        searchString            = [coder decodeObjectForKey:@"searchString"];
+        selectionIndexes        = [coder decodeObjectForKey:@"selectionIndexes"];
+        listViewSortDescriptors = [coder decodeObjectForKey:@"listViewSortDescriptors"];
         
         [coder finishDecoding];
         // TODO: Validate decoded values
@@ -271,7 +290,15 @@ static const float OE_coverFlowHeightPercentage = .75;
     [self OE_setupToolbarStatesForViewTag:selectedViewTag];
     [sizeSlider setFloatValue:sliderValue];
     [searchField setStringValue:searchString];
-    
+    [listView setSortDescriptors:listViewSortDescriptors];
+
+    if(selectedViewTag == OE_FlowViewTag || selectedViewTag == OE_ListViewTag)
+    {
+        [[self gamesController] setSortDescriptors:listViewSortDescriptors];
+        [[self gamesController] rearrangeObjects];
+        [listView reloadData];
+    }
+
     [self OE_updateBlankSlate];
     
     _stateRewriteRequired = NO;
@@ -292,16 +319,28 @@ static const float OE_coverFlowHeightPercentage = .75;
 #pragma mark View Selection
 - (IBAction)switchToGridView:(id)sender
 {
+    [[self gamesController] setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    [[self gamesController] rearrangeObjects];
+    [gridView reloadData];
+
     [self OE_switchToView:OE_GridViewTag];
 }
 
 - (IBAction)switchToFlowView:(id)sender
 {
+    [[self gamesController] setSortDescriptors:[listView sortDescriptors]];
+    [[self gamesController] rearrangeObjects];
+    [listView reloadData];
+
     [self OE_switchToView:OE_FlowViewTag];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
+    [[self gamesController] setSortDescriptors:[listView sortDescriptors]];
+    [[self gamesController] rearrangeObjects];
+    [listView reloadData];
+
     [self OE_switchToView:OE_ListViewTag];
 }
 
@@ -923,13 +962,15 @@ static const float OE_coverFlowHeightPercentage = .75;
     if( aTableView == listView )
     {
         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
+        if(![obj isKindOfClass:[OEDBGame class]]) return nil;
         
         NSString *colIdent = [aTableColumn identifier];
         id result = nil;
         if([colIdent isEqualToString:@"romStatus"])
         {
-            result = [obj listViewStatus:([aTableView selectedRow]==rowIndex)];
-        } 
+            BOOL selected = [[listView selectedRowIndexes] containsIndex:rowIndex];
+            result = [obj listViewStatusWithSelected:selected playing:[self OE_isGameOpen:(OEDBGame *)obj]];
+        }
         else if([colIdent isEqualToString:@"romName"])
         {
             result = [obj listViewTitle];
@@ -942,7 +983,7 @@ static const float OE_coverFlowHeightPercentage = .75;
         {
             result = [obj listViewLastPlayed];
         }
-        else if([colIdent isEqualToString:@"romConsole"])
+        else if([colIdent isEqualToString:@"consoleName"])
         {
             result = [obj listViewConsoleName];
         } 
@@ -977,12 +1018,35 @@ static const float OE_coverFlowHeightPercentage = .75;
     }
 }
 
-- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
+- (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
-    if( aTableView==listView )
+    if(tableView == listView)
     {
+        [[self gamesController] setSortDescriptors:[listView sortDescriptors]];
+        [[self gamesController] rearrangeObjects];
+        [listView reloadData];
+        _stateRewriteRequired = YES;
     }
 }
+
+- (BOOL)OE_isGameOpen:(OEDBGame *)game
+{
+    BOOL open = NO;
+    for(id openDocument in [[NSDocumentController sharedDocumentController] documents])
+    {
+        if(![openDocument isKindOfClass:[OEGameDocument class]]) continue;
+
+        OEGameDocument *doc = openDocument;
+        if([[[[doc gameViewController] rom] game] isEqual:game])
+        {
+            open = YES;
+            break;
+        }
+    }
+
+    return open;
+}
+
 #pragma mark -
 #pragma mark TableView Drag and Drop 
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
@@ -1030,18 +1094,10 @@ static const float OE_coverFlowHeightPercentage = .75;
     {
         if([aCell isKindOfClass:[NSTextFieldCell class]])
         {
-            NSDictionary *attr;
-            
-            if([[aTableView selectedRowIndexes] containsIndex:rowIndex])
-            {
-                attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:9 size:11.0], NSFontAttributeName, 
-                        [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
-            } else {
-                attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:7 size:11.0], NSFontAttributeName, 
-                        [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
-            }
+            NSDictionary *attr = (@{
+                                  NSFontAttributeName            : [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0],
+                                  NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:1.0 alpha:1.0],
+                                  });
             
             [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
         }
@@ -1096,22 +1152,37 @@ static const float OE_coverFlowHeightPercentage = .75;
     return YES;
 }
 
+- (void)tableViewSelectionIsChanging:(NSNotification *)notification
+{
+    NSTableView *tableView = [notification object];
+
+    // We use _listViewSelectionChangeDate to make sure the rating cell tracks the mouse only
+    // if a row selection changed some time ago. Since -tableView:shouldTrackCell:forTableColumn:row:
+    // is sent *before* -tableViewSelectionDidChange:, we need to make sure that the rating cell
+    // does not track the mouse until the selection has changed and we have been able to assign
+    // the proper date to _listViewSelectionChangeDate.
+    if(tableView == listView) _listViewSelectionChangeDate = [NSDate distantFuture];
+}
+
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
     NSTableView *aTableView = [aNotification object];
     
     if( aTableView == listView )
     {
+        _listViewSelectionChangeDate = [NSDate date];
+
         [gamesController setSelectionIndexes:[aTableView selectedRowIndexes]];
         
         NSIndexSet *selectedIndexes = [listView selectedRowIndexes];
-        [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
+        if([selectedIndexes count] > 0)
+        {
+            [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
         
-        [selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-            [listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
-        }];
-        
-        return;
+            [selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                [listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
+            }];
+        }
     }
 }
 
@@ -1119,7 +1190,17 @@ static const float OE_coverFlowHeightPercentage = .75;
 {
     if( tableView == listView && [[tableColumn identifier] isEqualToString:@"romRating"] )
     {
-        return YES;
+        // We only track the rating cell in selected rows...
+        if(![[listView selectedRowIndexes] containsIndex:row]) return NO;
+
+        // ...if we know when the last selection change happened...
+        if(!_listViewSelectionChangeDate) return NO;
+
+        // ...and the selection happened a while ago, where 'a while' is the standard double click interval.
+        // This means that the user has to click a row to select it, wait the standard double click internval
+        // and then click the rating cell to change it. See issue #294.
+        return [_listViewSelectionChangeDate timeIntervalSinceNow] < -[NSEvent doubleClickInterval];
+
     }
     return NO;
 }
@@ -1127,16 +1208,15 @@ static const float OE_coverFlowHeightPercentage = .75;
 #pragma mark -
 #pragma mark NSTableView Interaction
 - (void)tableViewWasDoubleClicked:(id)sender{
+    NSAssert(sender == listView, @"Sorry, but we're accepting listView senders only at this time");
+
+    NSInteger row = [listView clickedRow];
+    if(row == -1) return;
     
-    NSInteger selectedRow = [sender selectedRow];
-    if(selectedRow == -1)
-        return;
-    
-    id game = [self tableView:sender objectValueForTableColumn:nil row:selectedRow];
-    if(game)
-    {
-        [[self libraryController] startGame:nil];
-    }    
+    id game = [self tableView:sender objectValueForTableColumn:nil row:row];
+    if(!game) return;
+
+    [[self libraryController] startGame:game];
 }
 #pragma mark -
 #pragma mark OETableView Menu
@@ -1172,6 +1252,23 @@ static const float OE_coverFlowHeightPercentage = .75;
 {    
     [listView selectRowIndexes:[NSIndexSet indexSetWithIndex:[sender selectedIndex]] byExtendingSelection:NO];
     [listView scrollRowToVisible:index];
+}
+
+#pragma mark - Notifications
+- (void)OE_emulationDidFinish:(NSNotification *)notification
+{
+    OEDBRom *rom = [[notification userInfo] objectForKey:OEGameViewControllerROMKey];
+    if(!rom) return;
+
+    NSUInteger rowIndex = [[gamesController arrangedObjects] indexOfObject:[rom game]];
+    if(rowIndex == NSNotFound) return;
+
+    NSInteger columnIndex = [listView columnWithIdentifier:@"romStatus"];
+    NSAssert(columnIndex != -1, @"We should have a column identified by 'romStatus' in the library list view");
+
+    [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] columnIndexes:[NSIndexSet indexSetWithIndex:columnIndex]];
+
+    // If we ever implement indicators in the grid view, we may want to use -setNeedsReloadIndexes:
 }
 
 #pragma mark -

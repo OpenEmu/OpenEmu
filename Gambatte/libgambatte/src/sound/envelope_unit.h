@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aamås                                    *
+ *   Copyright (C) 2007 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,8 @@
 #include "sound_unit.h"
 #include "../savestate.h"
 
+namespace gambatte {
+
 class EnvelopeUnit : public SoundUnit {
 public:
 	struct VolOnOffEvent {
@@ -36,7 +38,7 @@ private:
 	unsigned char volume;
 	
 public:
-	EnvelopeUnit(VolOnOffEvent &volOnOffEvent = nullEvent);
+	explicit EnvelopeUnit(VolOnOffEvent &volOnOffEvent = nullEvent);
 	void event();
 	bool dacIsOn() const { return nr2 & 0xF8; }
 	unsigned getVolume() const { return volume; }
@@ -46,5 +48,7 @@ public:
 	void saveState(SaveState::SPU::Env &estate) const;
 	void loadState(const SaveState::SPU::Env &estate, unsigned nr2, unsigned long cc);
 };
+
+}
 
 #endif

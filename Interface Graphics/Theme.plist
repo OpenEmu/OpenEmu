@@ -230,6 +230,8 @@
 		<dict>
 			<key>Family</key>
 			<string>Lucida Grande</string>
+			<key>Traits</key>
+			<string>Bold</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Shadow</key>

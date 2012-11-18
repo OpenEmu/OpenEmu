@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Sindre Aam�s                                    *
+ *   Copyright (C) 2008 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,21 +20,20 @@
 #define ARRAY_H
 
 #include <cstddef>
+#include "uncopyable.h"
 
 template<typename T>
-class Array {
+class Array : Uncopyable {
 	T *a;
 	std::size_t sz;
 	
-	Array(const Array &ar);
-	
 public:
-	Array(const std::size_t size = 0) : a(size ? new T[size] : 0), sz(size) {}
+	explicit Array(const std::size_t size = 0) : a(size ? new T[size] : 0), sz(size) {}
 	~Array() { delete []a; }
-	void reset(const std::size_t size) { delete []a; a = size ? new T[size] : 0; sz = size; }
+	void reset(const std::size_t size = 0) { delete []a; a = size ? new T[size] : 0; sz = size; }
 	std::size_t size() const { return sz; }
-	operator T*() { return a; }
-	operator const T*() const { return a; }
+	T * get() const { return a; }
+	operator T*() const { return a; }
 };
 
 #endif

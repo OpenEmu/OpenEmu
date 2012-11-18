@@ -42,20 +42,6 @@ NSString *GBAEmulatorKeys[] = { @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left",
 GBAGameCore *current;
 @implementation GBAGameCore
 
-static uint16_t conv555Rto565(uint16_t p)
-{
-    unsigned r, g, b;
-    
-    b = (p >> 10);
-    g = (p >> 5) & 0x1f;
-    r = p & 0x1f;
-    
-    // 5 to 6 bit
-    g = (g << 1) + (g >> 4);
-    
-    return r | (g << 5) | (b << 11);
-}
-
 static void video_callback(const uint16_t *data, unsigned width, unsigned height)
 {
     // Normally our pitch is 2048 bytes.
@@ -69,14 +55,11 @@ static void video_callback(const uint16_t *data, unsigned width, unsigned height
     
     dispatch_queue_t the_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
-    // TODO opencl CPU device?
     dispatch_apply(height, the_queue, ^(size_t y){
         const uint16_t *src = data + y * stride;
         uint16_t *dst = current->videoBuffer + y * 240;
         
-        for (int x = 0; x < width; x++) {
-            dst[x] = src[x];
-        }
+        memcpy(dst, src, sizeof(uint16_t)*width);
     });
 }
 

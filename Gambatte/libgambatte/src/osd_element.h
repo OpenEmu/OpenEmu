@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Sindre Aam�s                                    *
+ *   Copyright (C) 2008 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,9 @@
 #ifndef OSD_ELEMENT_H
 #define OSD_ELEMENT_H
 
-#include "int.h"
+#include "gbint.h"
+
+namespace gambatte {
 
 class OsdElement {
 public:
@@ -33,10 +35,9 @@ private:
 	unsigned h_;
 	
 protected:
-	OsdElement(unsigned x = 0, unsigned y = 0, unsigned w = 0, unsigned h = 0, Opacity opacity = SEVEN_EIGHTHS) {
-		setPos(x, y);
-		setSize(w, h);
-		setOpacity(opacity);
+	explicit OsdElement(unsigned x = 0, unsigned y = 0, unsigned w = 0, unsigned h = 0, Opacity opacity = SEVEN_EIGHTHS)
+	: opacity_(opacity), x_(x), y_(y), w_(w), h_(h)
+	{
 	}
 	
 	void setPos(unsigned x, unsigned y) {
@@ -59,7 +60,9 @@ public:
 	unsigned h() const { return h_; }
 	Opacity opacity() const { return opacity_; }
 	
-	virtual const Gambatte::uint_least32_t* update() = 0;
+	virtual const uint_least32_t* update() = 0;
 };
+
+}
 
 #endif

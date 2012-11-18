@@ -34,7 +34,7 @@ OE_EXPORTED_CLASS
 @interface BSNESGameCore : OEGameCore
 {
     @public
-    uint16_t *videoBuffer;
+    uint32_t *videoBuffer;
     int videoWidth, videoHeight;
     int16_t pad[2][12];
     NSString *romName;

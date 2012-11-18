@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,6 +31,8 @@ static unsigned long toPeriod(const unsigned nr3) {
 	
 	return r << s;
 }
+
+namespace gambatte {
 
 Channel4::Lfsr::Lfsr() :
 backupCounter(COUNTER_DISABLED),
@@ -256,7 +258,7 @@ void Channel4::loadState(const SaveState &state) {
 	master = state.spu.ch4.master;
 }
 
-void Channel4::update(Gambatte::uint_least32_t *buf, const unsigned long soBaseVol, unsigned long cycles) {
+void Channel4::update(uint_least32_t *buf, const unsigned long soBaseVol, unsigned long cycles) {
 	const unsigned long outBase = envelopeUnit.dacIsOn() ? soBaseVol & soMask : 0;
 	const unsigned long outLow = outBase * (0 - 15ul);
 	const unsigned long endCycles = cycleCounter + cycles;
@@ -297,4 +299,6 @@ void Channel4::update(Gambatte::uint_least32_t *buf, const unsigned long soBaseV
 		
 		cycleCounter -= SoundUnit::COUNTER_MAX;
 	}
+}
+
 }

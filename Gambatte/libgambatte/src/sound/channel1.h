@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,15 +19,16 @@
 #ifndef SOUND_CHANNEL1_H
 #define SOUND_CHANNEL1_H
 
-class SaveState;
-
-#include "int.h"
-
+#include "gbint.h"
 #include "master_disabler.h"
 #include "length_counter.h"
 #include "duty_unit.h"
 #include "envelope_unit.h"
 #include "static_output_tester.h"
+
+namespace gambatte {
+
+struct SaveState;
 
 class Channel1 {
 	class SweepUnit : public SoundUnit {
@@ -80,12 +81,14 @@ public:
 	void setSo(unsigned long soMask);
 	bool isActive() const { return master; }
 	
-	void update(Gambatte::uint_least32_t *buf, unsigned long soBaseVol, unsigned long cycles);
+	void update(uint_least32_t *buf, unsigned long soBaseVol, unsigned long cycles);
 	
 	void reset();
 	void init(bool cgb);
 	void saveState(SaveState &state);
 	void loadState(const SaveState &state);
 };
+
+}
 
 #endif

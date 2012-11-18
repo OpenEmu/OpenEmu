@@ -32,8 +32,8 @@
 	<string>Sega Genesis</string>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>
-    <key>OEResponderClassKey</key>
-    <string>OEGenesisSystemResponder</string>
+	<key>OEResponderClassKey</key>
+	<string>OEGenesisSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>48</integer>

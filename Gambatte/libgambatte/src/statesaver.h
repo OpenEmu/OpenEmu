@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Sindre Aamås                                    *
+ *   Copyright (C) 2008 by Sindre AamÃ¥s                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,12 @@
 #ifndef STATESAVER_H
 #define STATESAVER_H
 
-class SaveState;
+#include "gbint.h"
+#include <string>
+
+namespace gambatte {
+
+struct SaveState;
 
 class StateSaver {
 	StateSaver();
@@ -30,8 +35,11 @@ public:
 	enum { SS_WIDTH = 160 >> SS_SHIFT };
 	enum { SS_HEIGHT = 144 >> SS_SHIFT };
 	
-	static void saveState(const SaveState &state, const char *filename);
-	static bool loadState(SaveState &state, const char *filename);
+   static void saveState(const SaveState &state, void *data);
+   static bool loadState(SaveState &state, const void *data);
+   static size_t stateSize(const SaveState &state);
 };
+
+}
 
 #endif

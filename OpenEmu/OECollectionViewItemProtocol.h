@@ -31,4 +31,5 @@
 - (NSString *)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (NSPredicate *)predicate;
+- (BOOL)shouldShowSystemColumnInListView;
 @end

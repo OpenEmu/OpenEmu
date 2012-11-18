@@ -21,11 +21,27 @@
 
 #include "resampler.h"
 
+/** Used for creating instances of resamplers, and getting information on available resamplers.
+  * Currently creates resamplers that expect stereo samples. All 'numbers of samples' are in
+  * number of stereo samples. (This can be changed by adjusting the 'channels' enum in src/chainresampler.h
+  * to the number of desired channels.).
+  */
 struct ResamplerInfo {
+	/** Short character string description of the resampler. */
 	const char *desc;
+	
+	/** Points to a function that can be used to create an instance of the resampler.
+	  * @param inRate The input sampling rate.
+	  * @param outRate The desired output sampling rate.
+	  * @param periodSz The maximum number of input samples to resample at a time. That is the maximal inlen passed to Resampler::resample.
+	  * @return Pointer to the created instance (on the heap). Caller must free this with the delete operator.
+	  */
 	Resampler* (*create)(long inRate, long outRate, std::size_t periodSz);
 	
+	/** Returns the number of ResamplerInfos that can be gotten with get(). */
 	static unsigned num() { return num_; }
+	
+	/** Returns ResamplerInfo number n. Where n is less than num(). */
 	static const ResamplerInfo& get(unsigned n) { return resamplers[n]; }
 	
 private:

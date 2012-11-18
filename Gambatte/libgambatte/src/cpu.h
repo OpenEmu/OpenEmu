@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sindre Aam�s                                    *
+ *   Copyright (C) 2007 by Sindre Aamås                                    *
  *   aamas@stud.ntnu.no                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,10 +19,9 @@
 #ifndef CPU_H
 #define CPU_H
 
-class SaveState;
-
-#include "int.h"
 #include "memory.h"
+
+namespace gambatte {
 
 class CPU {
 	Memory memory;
@@ -37,7 +36,6 @@ class CPU {
 	unsigned char A_, B, C, D, E, /*F,*/ H, L;
 
 	bool skip;
-	bool halted;
 	
 	void process(unsigned long cycles);
 	
@@ -48,57 +46,36 @@ public:
 
 // 	unsigned interrupt(unsigned address, unsigned cycleCounter);
 	
-	void runFor(unsigned long cycles);
+	long runFor(unsigned long cycles);
 	void setStatePtrs(SaveState &state);
 	void saveState(SaveState &state);
 	void loadState(const SaveState &state);
 	
-	void loadSavedata() { memory.loadSavedata(); }
-	void saveSavedata() { memory.saveSavedata(); }
+   void *savedata_ptr() { return memory.savedata_ptr(); }
+   unsigned savedata_size() { return memory.savedata_size(); }
+   void *rtcdata_ptr() { return memory.rtcdata_ptr(); }
+   unsigned rtcdata_size() { return memory.rtcdata_size(); }
 	
-	void setVideoBlitter(Gambatte::VideoBlitter *vb) {
-		memory.setVideoBlitter(vb);
+	void setVideoBuffer(uint_least32_t *const videoBuf, const int pitch) {
+		memory.setVideoBuffer(videoBuf, pitch);
 	}
 	
-	void videoBufferChange() {
-		memory.videoBufferChange();
+	void setInputGetter(InputGetter *getInput) {
+		memory.setInputGetter(getInput);
 	}
 	
-	unsigned int videoWidth() const {
-		return memory.videoWidth();
-	}
-	
-	unsigned int videoHeight() const {
-		return memory.videoHeight();
-	}
-	
-	void setVideoFilter(const unsigned int n) {
-		memory.setVideoFilter(n);
-	}
-	
-	std::vector<const Gambatte::FilterInfo*> filterInfo() const {
-		return memory.filterInfo();
-	}
-	
-	void setInputStateGetter(Gambatte::InputStateGetter *getInput) {
-		memory.setInputStateGetter(getInput);
-	}
-	
-	void set_savedir(const char *sdir) {
-		memory.set_savedir(sdir);
-	}
-	
-	const std::string saveBasePath() const {
-		return memory.saveBasePath();
+	void setSaveDir(const std::string &sdir) {
+		memory.setSaveDir(sdir);
 	}
 	
 	void setOsdElement(std::auto_ptr<OsdElement> osdElement) {
 		memory.setOsdElement(osdElement);
 	}
 	
-	bool load(const char* romfile, bool forceDmg);
+	bool load(const std::string &romfile, bool forceDmg);
+	bool load(const void *romdata, unsigned romsize, bool forceDmg);
 	
-	void setSoundBuffer(Gambatte::uint_least32_t *const buf) { memory.setSoundBuffer(buf); }
+	void setSoundBuffer(uint_least32_t *const buf) { memory.setSoundBuffer(buf); }
 	unsigned fillSoundBuffer() { return memory.fillSoundBuffer(cycleCounter_); }
 	
 	bool isCgb() const { return memory.isCgb(); }
@@ -107,5 +84,7 @@ public:
 		memory.setDmgPaletteColor(palNum, colorNum, rgb32);
 	}
 };
+
+}
 
 #endif
