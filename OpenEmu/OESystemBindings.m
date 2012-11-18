@@ -156,11 +156,12 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
               NSDictionary *eventDesc = [allKeys objectForKey:keyName];
               
               NSString *type = [eventDesc objectForKey:@"Type"];
+              NSUInteger cookie = [[eventDesc objectForKey:@"Cookie"] ? : @(NSNotFound) unsignedIntegerValue];
               
               if([type isEqualToString:@"Button"])
               {
                   NSInteger btnNumber = [[eventDesc objectForKey:@"Number"] integerValue];
-                  OEHIDEvent *event = [OEHIDEvent buttonEventWithPadNumber:0 timestamp:0 buttonNumber:btnNumber state:OEHIDEventStateOn cookie:NSNotFound];
+                  OEHIDEvent *event = [OEHIDEvent buttonEventWithPadNumber:0 timestamp:0 buttonNumber:btnNumber state:OEHIDEventStateOn cookie:cookie];
                   [rawBindings setObject:event forKey:keyDesc];
               }
               else if([type isEqualToString:@"Axis"])
@@ -188,7 +189,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
               {
                   OEHIDEventHatDirection dir = OEHIDEventHatDirectionFromNSString([eventDesc objectForKey:@"Direction"]);
                   
-                  OEHIDEvent *event = [OEHIDEvent hatSwitchEventWithPadNumber:0 timestamp:0 type:OEHIDEventHatSwitchType8Ways direction:dir cookie:NSNotFound];
+                  OEHIDEvent *event = [OEHIDEvent hatSwitchEventWithPadNumber:0 timestamp:0 type:OEHIDEventHatSwitchType8Ways direction:dir cookie:cookie];
                   
                   id insertedKey = keyDesc;
                   OEKeyBindingGroupDescription *group = [keyDesc OE_hatSwitchGroup];
@@ -198,7 +199,6 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
                   [rawBindings setObject:event forKey:insertedKey];
               }
           }];
-         
          
          OEDevicePlayerBindings *controller = [[OEDevicePlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:0 deviceHandler:nil];
          
