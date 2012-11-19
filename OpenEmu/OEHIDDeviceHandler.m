@@ -325,7 +325,7 @@ static NSUInteger lastDeviceNumber = 0;
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@ %p manufacturer: %@ product: %@ serialNumber: %@ deviceNumber: %lu isKeyboard: %@>", [self class], self, [self manufacturer], [self product], [self serialNumber], [self deviceNumber], [self isKeyboardDevice] ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"<%@ %p deviceIdentifier: '%@' manufacturer: %@ product: %@ serialNumber: %@ deviceNumber: %lu isKeyboard: %@>", [self class], self, [self deviceIdentifier], [self manufacturer], [self product], [self serialNumber], [self deviceNumber], [self isKeyboardDevice] ? @"YES" : @"NO"];
 }
 
 @end

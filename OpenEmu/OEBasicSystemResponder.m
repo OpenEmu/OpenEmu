@@ -213,11 +213,10 @@ static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
+    OESystemKey             *key               = nil;
     void                    *joystickKey       = _OEJoystickStateKeyForEvent(anEvent);
     OEHIDEventAxisDirection  direction         = [anEvent direction];
     OEHIDEventAxisDirection  previousDirection = OEHIDEventAxisDirectionNull;
-
-    OESystemKey *key = nil;
 
     previousDirection = (OEHIDEventAxisDirection)CFDictionaryGetValue(joystickStates, joystickKey);
 
