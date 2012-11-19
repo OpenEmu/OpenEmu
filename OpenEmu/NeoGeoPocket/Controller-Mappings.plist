@@ -300,5 +300,47 @@
 			<integer>10</integer>
 		</dict>
 	</dict>
+	<key>OEControllerRetrode</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>Y</string>
+			<key>Direction</key>
+			<string>-1</string>
+		</dict>
+		<key>OENGPButtonLeft</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>X</string>
+			<key>Direction</key>
+			<string>-1</string>
+		</dict>
+		<key>OENGPButtonA</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>2</integer>
+		</dict>
+		<key>OENGPButtonB</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>1</integer>
+		</dict>
+		<key>OENGPButtonOption</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>4</integer>
+		</dict>
+	</dict>
 </dict>
 </plist>
