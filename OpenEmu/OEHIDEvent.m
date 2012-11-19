@@ -696,6 +696,9 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 - (OEHIDEvent *)OE_eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
 {
     OEHIDEvent *ret = [self copy];
+
+    IOHIDElementRef element = [aDeviceHandler elementForEvent:self];
+    if(element != NULL) ret->_cookie = IOHIDElementGetCookie(element);
     
     ret->_padNumber        = [aDeviceHandler deviceNumber];
     ret->_hasPreviousState = NO;

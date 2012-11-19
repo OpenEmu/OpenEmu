@@ -59,6 +59,8 @@
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue;
 - (io_service_t)serviceRef;
 
+- (IOHIDElementRef)elementForEvent:(OEHIDEvent *)anEvent;
+
 - (BOOL)isKeyboardDevice;
 
 - (BOOL)supportsForceFeedback;

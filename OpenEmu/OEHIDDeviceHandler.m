@@ -246,6 +246,36 @@ static NSUInteger lastDeviceNumber = 0;
     return (__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey));
 }
 
+- (IOHIDElementRef)elementForEvent:(OEHIDEvent *)anEvent;
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+
+    switch([anEvent type])
+    {
+        case OEHIDEventTypeAxis :
+        case OEHIDEventTypeTrigger :
+            [dict setObject:@(kHIDPage_GenericDesktop) forKey:@kIOHIDElementUsagePageKey];
+            [dict setObject:@([anEvent axis])          forKey:@kIOHIDElementUsageKey];
+            break;
+        case OEHIDEventTypeButton :
+            [dict setObject:@(kHIDPage_Button)         forKey:@kIOHIDElementUsagePageKey];
+            [dict setObject:@([anEvent buttonNumber])  forKey:@kIOHIDElementUsageKey];
+            break;
+        case OEHIDEventTypeHatSwitch :
+            [dict setObject:@(kHIDPage_GenericDesktop) forKey:@kIOHIDElementUsagePageKey];
+            [dict setObject:@(kHIDUsage_GD_Hatswitch)  forKey:@kIOHIDElementUsageKey];
+            break;
+        default : return nil;
+    }
+
+    NSUInteger cookie = [anEvent cookie];
+    if(cookie != NSNotFound) [dict setObject:@(cookie) forKey:@kIOHIDElementCookieKey];
+
+    NSArray *elements = (__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(device, (__bridge CFDictionaryRef)dict, 0);
+
+    return (__bridge IOHIDElementRef)[elements lastObject];
+}
+
 - (BOOL)isKeyboardDevice;
 {
     return IOHIDDeviceConformsTo(device, kHIDPage_GenericDesktop, kHIDUsage_GD_Keyboard);
