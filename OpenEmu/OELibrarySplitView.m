@@ -44,8 +44,10 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
 #pragma mark - OELibrarySplitViewDelegateProxy
 
 @interface OELibrarySplitViewDelegateProxy : NSObject <OELibrarySplitViewDelegate>
-@property(nonatomic, weak) id<NSSplitViewDelegate>        superDelegate;
-@property(nonatomic, weak) id<OELibrarySplitViewDelegate> localDelegate;
+@property(nonatomic, weak) id<NSSplitViewDelegate>                     superDelegate;
+@property(nonatomic, unsafe_unretained) id<OELibrarySplitViewDelegate> localDelegate;
+// can't use weak for localDelegate yet because OELibraryController, the delegate, inherits from NSViewController,
+// which is weak-unavailable in 10.7. See issue #345.
 @end
 
 #pragma mark - OELibrarySplitView
