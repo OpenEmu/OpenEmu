@@ -67,16 +67,14 @@
 NSString * const OELastGridSizeKey = @"lastGridSize";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
-#define     MainMenu_View_GridViewTag 301
-#define     MainMenu_View_FlowViewTag 302
-#define     MainMenu_View_ListViewTag 303
+typedef enum {
+    OEBlankSlateTag = -1,
+    OEGridViewTag    = 0,
+    OEFlowViewTag    = 1,
+    OEListViewTag    = 2
+} OECollectionViewControllerViewTag;
 
-const int OE_GridViewTag = 0;
-const int OE_FlowViewTag = 1;
-const int OE_ListViewTag = 2;
-
-static const float OE_coverFlowHeightPercentage = .75;
-
+static const float OE_coverFlowHeightPercentage = 0.75;
 
 @interface OECollectionViewController ()
 {    
@@ -234,7 +232,7 @@ static const float OE_coverFlowHeightPercentage = .75;
 
 - (id)encodeCurrentState
 {
-    if(!_stateRewriteRequired || ![self libraryController] || _selectedViewTag==-1)
+    if(!_stateRewriteRequired || ![self libraryController] || _selectedViewTag==OEBlankSlateTag)
         return nil;
     
     NSMutableData    *data  = [NSMutableData data];
@@ -293,7 +291,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     [searchField setStringValue:searchString];
     [listView setSortDescriptors:listViewSortDescriptors];
 
-    if(selectedViewTag == OE_FlowViewTag || selectedViewTag == OE_ListViewTag)
+    if(selectedViewTag == OEFlowViewTag || selectedViewTag == OEListViewTag)
     {
         [[self gamesController] setSortDescriptors:listViewSortDescriptors];
         [[self gamesController] rearrangeObjects];
@@ -324,7 +322,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     [[self gamesController] rearrangeObjects];
     [gridView reloadData];
 
-    [self OE_switchToView:OE_GridViewTag];
+    [self OE_switchToView:OEGridViewTag];
 }
 
 - (IBAction)switchToFlowView:(id)sender
@@ -333,7 +331,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     [[self gamesController] rearrangeObjects];
     [listView reloadData];
 
-    [self OE_switchToView:OE_FlowViewTag];
+    [self OE_switchToView:OEFlowViewTag];
 }
 
 - (IBAction)switchToListView:(id)sender
@@ -342,10 +340,10 @@ static const float OE_coverFlowHeightPercentage = .75;
     [[self gamesController] rearrangeObjects];
     [listView reloadData];
 
-    [self OE_switchToView:OE_ListViewTag];
+    [self OE_switchToView:OEListViewTag];
 }
 
-- (void)OE_switchToView:(int)tag
+- (void)OE_switchToView:(OECollectionViewControllerViewTag)tag
 {
     [self OE_setupToolbarStatesForViewTag:tag];
     if(_selectedViewTag == tag) return;
@@ -355,21 +353,21 @@ static const float OE_coverFlowHeightPercentage = .75;
     _selectedViewTag = tag;
 }
 
-- (void)OE_showView:(int)tag
+- (void)OE_showView:(OECollectionViewControllerViewTag)tag
 {
     NSView *view;
     float splitterPosition = -1;
     switch (tag) {
-        case -1:
-            _selectedViewTag = -1;
-        case OE_GridViewTag:
+        case OEBlankSlateTag:
+            _selectedViewTag = OEBlankSlateTag;
+        case OEGridViewTag:
             view = gridViewContainer;
             break;
-        case OE_FlowViewTag:
+        case OEFlowViewTag:
             view = flowlistViewContainer;
             splitterPosition = NSHeight([view frame]) * OE_coverFlowHeightPercentage;
             break;
-        case OE_ListViewTag:
+        case OEListViewTag:
             view = flowlistViewContainer; //  TODO: fix splitter position here too
             splitterPosition = 0.0f;
             break;
@@ -401,25 +399,26 @@ static const float OE_coverFlowHeightPercentage = .75;
         [[[self view] window] makeFirstResponder:view];
 }
 
-- (void)OE_setupToolbarStatesForViewTag:(int)tag
+- (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag
 {
     switch (tag)
     {
-        case 0:
+        case OEGridViewTag:
             [[[self libraryController] toolbarGridViewButton] setState:NSOnState];
             [[[self libraryController] toolbarFlowViewButton] setState:NSOffState];
             [[[self libraryController] toolbarListViewButton] setState:NSOffState];
             break;
-        case 1:
+        case OEFlowViewTag:
             [[[self libraryController] toolbarGridViewButton] setState:NSOffState];
             [[[self libraryController] toolbarFlowViewButton] setState:NSOnState];
             [[[self libraryController] toolbarListViewButton] setState:NSOffState];
             break;
-        case 2:
+        case OEListViewTag:
             [[[self libraryController] toolbarGridViewButton] setState:NSOffState];
             [[[self libraryController] toolbarFlowViewButton] setState:NSOffState];
             [[[self libraryController] toolbarListViewButton] setState:NSOnState];
             break;
+        default:break;
     }
     
     [[[self libraryController] toolbarSlider] setEnabled:(!blankSlateVisible && tag==0)];
@@ -447,7 +446,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     else
     {
         blankSlateVisible = YES;
-        [self OE_showView:-1];
+        [self OE_showView:OEBlankSlateTag];
         
         [[[self libraryController] toolbarGridViewButton] setEnabled:NO];
         [[[self libraryController] toolbarFlowViewButton] setEnabled:NO];
