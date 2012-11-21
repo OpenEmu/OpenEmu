@@ -96,6 +96,9 @@ extern NSString *const OEBoxSizesKey;
 @property(readonly) OEDBRom         *defaultROM;
 @property(readonly) NSDate          *lastPlayed;
 @property(readonly) OEDBSaveState   *autosaveForLastPlayedRom;
+@property(readonly) NSNumber        *saveStateCount;
+@property(readonly) NSNumber        *playCount;
+@property(readonly) NSNumber        *playTime;
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage *)img;
 - (void)setBoxImageByURL:(NSURL *)url;

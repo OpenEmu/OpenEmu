@@ -33,6 +33,9 @@
 - (NSString *)listViewTitle;
 - (NSString *)listViewLastPlayed;
 - (NSString *)listViewConsoleName;
+- (NSNumber *)listViewSaveStateCount;
+- (NSNumber *)listViewPlayCount;
+- (NSString *)listViewPlayTime;
 
 - (void)setListViewRating:(NSNumber *)number;
 - (void)setListViewTitle:(NSString*)title;

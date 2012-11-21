@@ -46,16 +46,15 @@
 
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
-
+#import "OEDBGame.h"
+#import "OEDBRom.h"
+#import "OEDBCollection.h"
 #import "OEDBSaveState.h"
 
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
 #import "OEMenu.h"
-#import "OEDBGame.h"
-#import "OEDBRom.h"
-#import "OEDBCollection.h"
 
 #import "NSViewController+OEAdditions.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
@@ -143,7 +142,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     // Set up games controller
     gamesController = [[NSArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
-    [gamesController setAutomaticallyPreparesContent:YES];
+    [gamesController setAutomaticallyPreparesContent:NO];
     [gamesController setUsesLazyFetching:NO];
     
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
@@ -154,7 +153,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [gamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
     [gamesController setAvoidsEmptySelection:NO];
-    [gamesController prepareContent];
     
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
@@ -463,6 +461,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [super viewDidAppear];
     [self OE_updateBlankSlate];
 }
+
 #pragma mark -
 #pragma mark Toolbar Actions
 - (IBAction)search:(id)sender
@@ -957,45 +956,30 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     return 0;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    
-    if( aTableView == listView )
+    if(tableView != listView) return nil;
+
+    id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
+    if(![obj isKindOfClass:[OEDBGame class]]) return nil;
+
+    NSString *colIdent = [aTableColumn identifier];
+    id result = nil;
+    if([colIdent isEqualToString:@"romStatus"])
     {
-        id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
-        if(![obj isKindOfClass:[OEDBGame class]]) return nil;
-        
-        NSString *colIdent = [aTableColumn identifier];
-        id result = nil;
-        if([colIdent isEqualToString:@"romStatus"])
-        {
-            BOOL selected = [[listView selectedRowIndexes] containsIndex:rowIndex];
-            result = [obj listViewStatusWithSelected:selected playing:[self OE_isGameOpen:(OEDBGame *)obj]];
-        }
-        else if([colIdent isEqualToString:@"romName"])
-        {
-            result = [obj listViewTitle];
-        } 
-        else if([colIdent isEqualToString:@"romRating"])
-        {
-            result = [obj listViewRating];
-        } 
-        else if([colIdent isEqualToString:@"romLastPlayed"])
-        {
-            result = [obj listViewLastPlayed];
-        }
-        else if([colIdent isEqualToString:@"consoleName"])
-        {
-            result = [obj listViewConsoleName];
-        } 
-        else if(colIdent == nil)
-        {
-            result = obj;
-        }
-        return result;
+        BOOL selected = [[listView selectedRowIndexes] containsIndex:rowIndex];
+        result = [obj listViewStatusWithSelected:selected playing:[self OE_isGameOpen:(OEDBGame *)obj]];
     }
-    
-    return nil;
+    else if([colIdent isEqualToString:@"romName"])        result = [obj listViewTitle];
+    else if([colIdent isEqualToString:@"romRating"])      result = [obj listViewRating];
+    else if([colIdent isEqualToString:@"romLastPlayed"])  result = [obj listViewLastPlayed];
+    else if([colIdent isEqualToString:@"consoleName"])    result = [obj listViewConsoleName];
+    else if([colIdent isEqualToString:@"saveStateCount"]) result = [obj listViewSaveStateCount];
+    else if([colIdent isEqualToString:@"playCount"])      result = [obj listViewPlayCount];
+    else if([colIdent isEqualToString:@"playTime"])       result = [obj listViewPlayTime];
+    else if(colIdent == nil) result = obj;
+
+    return result;
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
@@ -1093,18 +1077,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 {
     if(aTableView == listView)
     {
-        if([aCell isKindOfClass:[NSTextFieldCell class]])
-        {
-            NSDictionary *attr = (@{
-                                  NSFontAttributeName            : [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0],
-                                  NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:1.0 alpha:1.0],
-                                  });
-            
-            [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
-        }
-        
-        if(![aCell isKindOfClass:[OERatingCell class]])
-            [aCell setHighlighted:NO];
+        if(![aCell isKindOfClass:[OERatingCell class]]) [aCell setHighlighted:NO];
     }
     
 }
@@ -1264,12 +1237,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     NSUInteger rowIndex = [[gamesController arrangedObjects] indexOfObject:[rom game]];
     if(rowIndex == NSNotFound) return;
 
-    NSInteger columnIndex = [listView columnWithIdentifier:@"romStatus"];
-    NSAssert(columnIndex != -1, @"We should have a column identified by 'romStatus' in the library list view");
-
-    [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] columnIndexes:[NSIndexSet indexSetWithIndex:columnIndex]];
-
-    // If we ever implement indicators in the grid view, we may want to use -setNeedsReloadIndexes:
+    [self reloadDataIndexes:[NSIndexSet indexSetWithIndex:rowIndex]];
 }
 
 #pragma mark -

@@ -41,7 +41,7 @@
 @implementation OEDBRom
 @dynamic URL;
 // Data Model Properties
-@dynamic location, favorite, crc32, md5, lastPlayed, fileSize;
+@dynamic location, favorite, crc32, md5, lastPlayed, fileSize, playCount, playTime;
 // Data Model Relationships
 @dynamic game, saveStates, tosec;
 
@@ -329,6 +329,20 @@
     [set makeObjectsPerformSelector:@selector(removeIfMissing)];
 }
 
+- (void)incrementPlayCount
+{
+    NSInteger currentCount = [[self playCount] integerValue];
+    currentCount++;
+    [self setPlayCount:@(currentCount)];
+}
+
+- (void)addTimeIntervalToPlayTime:(NSTimeInterval)timeInterval
+{
+    NSTimeInterval currentPlayTime = [[self playTime] doubleValue];
+    currentPlayTime += timeInterval;
+    [self setPlayTime:@(currentPlayTime)];
+}
+
 // Core Data does not care about getter= overrides in modelled property declarations,
 // so we provide our own -isFavorite
 - (NSNumber *)isFavorite
@@ -407,6 +421,8 @@
     NSLog(@"%@ MD5 is %@", prefix, [self md5]);
     NSLog(@"%@ last played is %@", prefix, [self lastPlayed]);
     NSLog(@"%@ file size is %@", prefix, [self fileSize]);
+    NSLog(@"%@ play count is %@", prefix, [self playCount]);
+    NSLog(@"%@ play time is %@", prefix, [self playTime]);
     NSLog(@"%@ ROM is linked to a game? %s", prefix, ([self game] ? "YES" : "NO"));
 
     NSLog(@"%@ Number of save states for this ROM is %ld", prefix, (unsigned long)[self saveStateCount]);

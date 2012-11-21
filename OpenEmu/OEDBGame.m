@@ -388,12 +388,33 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
     return [[sortedByLastPlayed lastObject] autosaveState];
 }
 
+- (NSNumber *)saveStateCount
+{
+    NSUInteger count = 0;
+    for(OEDBRom *rom in [self roms]) count += [rom saveStateCount];
+    return @(count);
+}
+
 - (OEDBRom *)defaultROM
 {
     NSSet *roms = [self roms];
     // TODO: if multiple roms are available we should select one based on version/revision and language
     
     return [roms anyObject];
+}
+
+- (NSNumber *)playCount
+{
+    NSUInteger count = 0;
+    for(OEDBRom *rom in [self roms]) count += [[rom playCount] unsignedIntegerValue];
+    return @(count);
+}
+
+- (NSNumber *)playTime
+{
+    NSTimeInterval time = 0;
+    for(OEDBRom *rom in [self roms]) time += [[rom playTime] doubleValue];
+    return @(time);
 }
 #pragma mark -
 #pragma mark Core Data utilities

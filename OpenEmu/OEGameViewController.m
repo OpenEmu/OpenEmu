@@ -70,10 +70,10 @@ NSString *const OEDefaultWindowTitle = @"OpenEmu";
 
 typedef enum : NSUInteger
 {
-    OEGameViewControllerEmulationStatusNotStarted  = 0 << 0,
-    OEGameViewControllerEmulationStatusPlaying     = 1 << 0,
-    OEGameViewControllerEmulationStatusPaused      = 1 << 1,
-    OEGameViewControllerEmulationStatusTerminating = 1 << 2,
+    OEGameViewControllerEmulationStatusNotStarted  = 0,
+    OEGameViewControllerEmulationStatusPlaying     = 1,
+    OEGameViewControllerEmulationStatusPaused      = 2,
+    OEGameViewControllerEmulationStatusTerminating = 3,
 } OEGameViewControllerEmulationStatus;
 
 
@@ -85,6 +85,7 @@ typedef enum : NSUInteger
     OECorePlugin                        *_corePlugin;
     OEGameViewControllerEmulationStatus  _emulationStatus;
     OEDBSaveState                       *_saveStateForGameStart;
+    NSDate                              *_lastPlayStartDate;
 }
 
 + (OEDBRom *)OE_chooseRomFromGame:(OEDBGame *)game;
@@ -127,7 +128,7 @@ typedef enum : NSUInteger
         controlsWindow = [[OEGameControlsBar alloc] initWithGameViewController:self];
         [controlsWindow setReleasedWhenClosed:YES];
         
-        [self setRom:aRom];        
+        [self setRom:aRom];
         NSURL *url = [[self rom] URL];
 
         if(url == nil)
@@ -351,6 +352,10 @@ typedef enum : NSUInteger
     gameCoreManager = nil;
     rootProxy = nil;
     gameController = nil;
+
+    [[self rom] addTimeIntervalToPlayTime:ABS([_lastPlayStartDate timeIntervalSinceNow])];
+    _lastPlayStartDate = nil;
+
 }
 
 - (void)OE_startEmulation
@@ -403,7 +408,9 @@ typedef enum : NSUInteger
     [window makeFirstResponder:gameView];
 
     [self disableOSSleep];
+    [[self rom] incrementPlayCount];
     [[self rom] markAsPlayedNow];
+    _lastPlayStartDate = [NSDate date];
 
     [[self controlsWindow] reflectEmulationRunning:YES];
 
@@ -436,11 +443,14 @@ typedef enum : NSUInteger
     {
         [self enableOSSleep];
         _emulationStatus = OEGameViewControllerEmulationStatusPaused;
+        [[self rom] addTimeIntervalToPlayTime:ABS([_lastPlayStartDate timeIntervalSinceNow])];
+        _lastPlayStartDate = nil;
     }
     else
     {
         [self disableOSSleep];
         [[self rom] markAsPlayedNow];
+        _lastPlayStartDate = [NSDate date];
         _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
     }
 

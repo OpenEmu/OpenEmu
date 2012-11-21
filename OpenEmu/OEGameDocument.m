@@ -167,6 +167,11 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
     [[self gameViewController] terminateEmulation];
+
+    // Since the library database is also saved when OELibraryDatabase receives the same notification, it's possible that
+    // the database is saved _before_ we terminate emulation. In order to prevent loss of changes that have happened
+    // after the database was saved, we save it again.
+    [[OELibraryDatabase defaultDatabase] save:NULL];
 }
 
 - (void)showInSeparateWindow:(id)sender fullScreen:(BOOL)fullScreen;
