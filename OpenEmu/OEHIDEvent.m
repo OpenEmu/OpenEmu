@@ -931,7 +931,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     switch([self type])
     {
         case OEHIDEventTypeKeyboard :
-            hash |= 0x1000000000000000u;
+            hash  = 0x1000000000000000u; // keyboard events do not care about padNumber
             hash |= [self state] << 16;
             hash |= [self keycode];
             break;
