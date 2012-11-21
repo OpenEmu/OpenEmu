@@ -36,7 +36,7 @@ tell application "Finder"
 	¥ ~/Library/Preferences/org.openemu.*
 	¥ ~/Library/Saved Application State/
 	    org.openemu.OpenEmu.savedState/
-	¥ ~/Library/Cache/org.openemu.OpenEmu/"
+	¥ ~/Library/Caches/org.openemu.OpenEmu/"
 	
 	display alert title message msg as warning buttons {"Cancel", "Delete"} default button "Cancel" cancel button "Cancel"
 	
