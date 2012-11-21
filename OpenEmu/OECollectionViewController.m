@@ -234,7 +234,8 @@ static const float OE_coverFlowHeightPercentage = .75;
 
 - (id)encodeCurrentState
 {
-    if(!_stateRewriteRequired || ![self libraryController] || _selectedViewTag==-1) return nil;
+    if(!_stateRewriteRequired || ![self libraryController] || _selectedViewTag==-1)
+        return nil;
     
     NSMutableData    *data  = [NSMutableData data];
     NSKeyedArchiver  *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -254,7 +255,7 @@ static const float OE_coverFlowHeightPercentage = .75;
 
 - (void)restoreState:(id)state
 {
-    if(![self libraryController]) return;
+    if([self libraryController] == nil) return;
     
     int selectedViewTag;
     float sliderValue;
@@ -360,6 +361,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     float splitterPosition = -1;
     switch (tag) {
         case -1:
+            _selectedViewTag = -1;
         case OE_GridViewTag:
             view = gridViewContainer;
             break;
@@ -379,7 +381,7 @@ static const float OE_coverFlowHeightPercentage = .75;
     
     if([view superview] == [self view]) return;
     
-    // Determine if we are about to replace the current first respodner or one of its superviews
+    // Determine if we are about to replace the current first responder or one of its superviews
     id firstResponder = [[[self view] window] firstResponder];
     BOOL makeFirstResponder = [firstResponder isKindOfClass:[NSView class]] && [firstResponder isDescendantOf:[self view]];
     
