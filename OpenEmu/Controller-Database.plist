@@ -98,6 +98,334 @@
 				<key>OEControllerProductID</key>
 				<integer>10</integer>
 			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz Arcade GameStick</string>
+				<key>OEControllerVendorID</key>
+				<integer>1848</integer>
+				<key>OEControllerProductID</key>
+				<integer>18264</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Strike Controller</string>
+				<key>OEControllerVendorID</key>
+				<integer>5769</integer>
+				<key>OEControllerProductID</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Hori Fighting Stick EX2B</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>62725</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Hori Pad EX Turbo</string>
+				<key>OEControllerVendorID</key>
+				<integer>3853</integer>
+				<key>OEControllerProductID</key>
+				<integer>12</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Hori Pad EX 2 Turbo</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>62721</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Hori Fighting Stick VX</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>62723</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Hori Real Arcade Pro VX SA</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>62722</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Hori Unnamed</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>21760</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Hori Unnamed Blue Solo</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>64001</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Hori SC4 VF5 Stick</string>
+				<key>OEControllerVendorID</key>
+				<integer>3853</integer>
+				<key>OEControllerProductID</key>
+				<integer>13</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Hori Real Arcade Pro EX-SE</string>
+				<key>OEControllerVendorID</key>
+				<integer>3853</integer>
+				<key>OEControllerProductID</key>
+				<integer>22</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Guitar Hero</string>
+				<key>OEControllerVendorID</key>
+				<integer>5168</integer>
+				<key>OEControllerProductID</key>
+				<integer>18248</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>RedOctane Controller</string>
+				<key>OEControllerVendorID</key>
+				<integer>5168</integer>
+				<key>OEControllerProductID</key>
+				<integer>63489</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>RedOctane Controller</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>3</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Rock Band Guitar</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>2</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Rock Band Guitar</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>2</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz Gamepad 2</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>63746</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz Pad 3</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>61462</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz Portable Drum</string>
+				<key>OEControllerVendorID</key>
+				<integer>1848</integer>
+				<key>OEControllerProductID</key>
+				<integer>39025</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Saitek CB360</string>
+				<key>OEControllerVendorID</key>
+				<integer>1848</integer>
+				<key>OEControllerProductID</key>
+				<integer>51970</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz SF4 FightPad</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>61480</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz SF4 FightPad 2</string>
+				<key>OEControllerVendorID</key>
+				<integer>1848</integer>
+				<key>OEControllerProductID</key>
+				<integer>18216</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz SF4 Stick SE</string>
+				<key>OEControllerVendorID</key>
+				<integer>1848</integer>
+				<key>OEControllerProductID</key>
+				<integer>18200</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz SF4 Stick TE</string>
+				<key>OEControllerVendorID</key>
+				<integer>1848</integer>
+				<key>OEControllerProductID</key>
+				<integer>18232</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz SF4 Stick TER2</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>61496</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz MVC2 TE Stick</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>61497</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz MVC2 TE Stick 2</string>
+				<key>OEControllerVendorID</key>
+				<integer>1848</integer>
+				<key>OEControllerProductID</key>
+				<integer>46904</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz SSF4 Stick TE</string>
+				<key>OEControllerVendorID</key>
+				<integer>1848</integer>
+				<key>OEControllerProductID</key>
+				<integer>63288</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz SSFIV TE Chun Li</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>61501</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>MadCatz Brawl Stick</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>61465</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Gamestop Gamepad</string>
+				<key>OEControllerVendorID</key>
+				<integer>4779</integer>
+				<key>OEControllerProductID</key>
+				<integer>770</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Gamestop Gamepad 2</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>63745</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>PDP Afterglow</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>63744</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>PDP Tron</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>63747</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>PDP Versus Pad</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>63748</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Razer Onza</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>64769</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Razer Onza 2</string>
+				<key>OEControllerVendorID</key>
+				<integer>5769</integer>
+				<key>OEControllerProductID</key>
+				<integer>64769</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Razer Onza TE</string>
+				<key>OEControllerVendorID</key>
+				<integer>7085</integer>
+				<key>OEControllerProductID</key>
+				<integer>64768</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Razer Onza TE 2</string>
+				<key>OEControllerVendorID</key>
+				<integer>5769</integer>
+				<key>OEControllerProductID</key>
+				<integer>64768</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Power A Mini Pro EX</string>
+				<key>OEControllerVendorID</key>
+				<integer>5604</integer>
+				<key>OEControllerProductID</key>
+				<integer>16128</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Konami Dance Pad</string>
+				<key>OEControllerVendorID</key>
+				<integer>4779</integer>
+				<key>OEControllerProductID</key>
+				<integer>4</integer>
+			</dict>
 		</array>
 	</dict>
 	<dict>
