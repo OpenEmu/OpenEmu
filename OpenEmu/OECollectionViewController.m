@@ -272,7 +272,10 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     NSString   *searchString;
     NSIndexSet *selectionIndexes;
     NSArray    *listViewSortDescriptors = nil;
-         
+    
+    NSSlider    *sizeSlider     = [[self libraryController] toolbarSlider];
+    NSTextField *searchField    = [[self libraryController] toolbarSearchField];
+
     NSKeyedUnarchiver *coder = state ? [[NSKeyedUnarchiver alloc] initForReadingWithData:state] : nil;
     if(coder)
     {
@@ -283,7 +286,14 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         listViewSortDescriptors = [coder decodeObjectForKey:@"listViewSortDescriptors"];
         
         [coder finishDecoding];
-        // TODO: Validate decoded values
+                
+        // Make sure selected view tag is valid
+        if(selectedViewTag != OEListViewTag && selectedViewTag != OEListViewTag && selectedViewTag != OEFlowViewTag)
+           selectedViewTag = OEGridViewTag;
+        
+        // Make sure slider value is valid
+        if(sliderValue < [sizeSlider minValue] | sliderValue > [sizeSlider maxValue])
+           sliderValue = [sizeSlider doubleValue];
     }
     else
     {
@@ -295,9 +305,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         selectionIndexes = [NSIndexSet indexSet];
     }
         
-    NSSlider    *sizeSlider     = [[self libraryController] toolbarSlider];
-    NSTextField *searchField    = [[self libraryController] toolbarSearchField];
-    
     [self OE_setupToolbarStatesForViewTag:selectedViewTag];
     [sizeSlider setFloatValue:sliderValue];
     [self changeGridSize:sizeSlider];
