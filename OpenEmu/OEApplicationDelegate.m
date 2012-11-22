@@ -159,6 +159,28 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     return NO;
 }
 
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+    if([filenames count] == 1)
+    {
+        NSURL *url = [NSURL fileURLWithPath:[filenames lastObject]];
+        [self openDocumentWithContentsOfURL:url display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+            NSApplicationDelegateReply reply = (document != nil) ? NSApplicationDelegateReplySuccess : NSApplicationDelegateReplyFailure;
+            [NSApp replyToOpenOrPrint:reply];
+        }];
+    }
+    else
+    {
+        NSApplicationDelegateReply reply = NSApplicationDelegateReplyFailure;
+        OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
+        if([importer importItemsAtPaths:filenames])
+        {
+            reply = NSApplicationDelegateReplySuccess;
+        }
+        [NSApp replyToOpenOrPrint:reply];
+    }
+}
+
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
 {
     [super openDocumentWithContentsOfURL:url display:NO completionHandler:
