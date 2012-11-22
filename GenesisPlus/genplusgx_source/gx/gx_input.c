@@ -1258,7 +1258,7 @@ void gx_input_SetDefault(void)
 
 #ifdef HW_RVL
   /* Autodetect Wii Controllers */
-  VIDEO_WaitVSync();
+  WPAD_ScanPads();
   for (i=0; i<4; i++)
   {
     /* try to autodetect connected controller */

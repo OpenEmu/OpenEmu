@@ -659,25 +659,29 @@ static void gxDrawCrosshair(gx_texture *texture, int x, int y)
 {
   if (texture->data)
   {
+    /* EFB scale & shift */
+    int xwidth = square[3] - square[9];
+    int ywidth = square[4] - square[10];
+    int xshift = (square[3] + square[9]) / 2;
+    int yshift = (square[4] + square[10]) / 2;
+
+    /* adjust texture dimensions to XFB->VI scaling */
+    int w = (texture->width * rmode->fbWidth) / (rmode->viWidth);
+    int h = (texture->height * rmode->efbHeight) / (rmode->viHeight);
+
+    /* adjust texture coordinates to EFB */
+    x = (((x + bitmap.viewport.x) * xwidth) / (bitmap.viewport.w + 2*bitmap.viewport.x)) - w/2 - (xwidth/2) + xshift;
+    y = (((y + bitmap.viewport.y) * ywidth) / (bitmap.viewport.h + 2*bitmap.viewport.y)) - h/2 - (ywidth/2) + yshift;
+
+    /* reset GX rendering */
+    gxResetRendering(1);
+
     /* load texture object */
     GXTexObj texObj;
     GX_InitTexObj(&texObj, texture->data, texture->width, texture->height, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
     GX_InitTexObjLOD(&texObj,GX_LINEAR,GX_LIN_MIP_LIN,0.0,10.0,0.0,GX_FALSE,GX_TRUE,GX_ANISO_4);
     GX_LoadTexObj(&texObj, GX_TEXMAP0);
     GX_InvalidateTexAll();
-
-    /* reset GX rendering */
-    gxResetRendering(1);
-
-    /* adjust texture dimensions to XFB->VI scaling */
-    int w = (texture->width * rmode->fbWidth) / (rmode->viWidth);
-    int h = (texture->height * rmode->efbHeight) / (rmode->viHeight);
-	
-    /* adjust texture coordinates to EFB */
-    int fb_w = square[3] - square[9];
-    int fb_h = square[4] - square[10];
-    x = (((x + bitmap.viewport.x) * fb_w) / (bitmap.viewport.w + 2*bitmap.viewport.x)) - w/2 - (fb_w/2);
-    y = (((y + bitmap.viewport.y) * fb_h) / (bitmap.viewport.h + 2*bitmap.viewport.y)) - h/2 - (fb_h/2);
 
     /* Draw textured quad */
     GX_Begin(GX_QUADS, GX_VTXFMT0, 4);

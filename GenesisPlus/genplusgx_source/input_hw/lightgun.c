@@ -92,8 +92,8 @@ static struct
 
 void lightgun_reset(int port)
 {
-  input.analog[port][0] = bitmap.viewport.w >> 1;
-  input.analog[port][1] = bitmap.viewport.h >> 1;
+  input.analog[port][0] = bitmap.viewport.w / 2;
+  input.analog[port][1] = bitmap.viewport.h / 2;
   lightgun.State = 0x40;
   lightgun.Port = 4;
 }
@@ -103,32 +103,47 @@ void lightgun_refresh(int port)
   /* Check that lightgun is enabled */
   if (port == lightgun.Port)
   {
+    /* screen Y position */
+    int y = (input.analog[port][1] + lines_per_frame + input.y_offset) % lines_per_frame;
+
     /* check if line falls within current gun Y position */
-    if ((input.analog[port][1] == v_counter + input.y_offset))
+    if (v_counter == y)
     {
       /* HL enabled ? */
       if (io_reg[5] & 0x80)
       {
+        /* screen X position */
+        int x = input.analog[port][0];
+
+        /* Sega Menacer specific */
+        if (input.system[1] == SYSTEM_MENACER)
+        {
+          /* raw position is scaled up by games */
+          if (system_hw == SYSTEM_MCD)
+          {
+            x = (x * 304) / 320;
+          }
+          else
+          {
+            x = (x * 289) / 320;
+          }
+        }
+
         /* External Interrupt ? */
         if (reg[11] & 0x08) 
         {
           m68k_update_irq(2);
         }
 
-        /* HV Counter Latch:
-          1) some games does not enable HVC latch but instead use bigger X offset 
-              --> we force the HV counter value read by the gun routine 
-          2) for games using H40 mode, the gun routine scales up the Hcounter value
-              --> H-Counter range is approx. 290 dot clocks
-        */
+        /* force HV Counter Latch (some games does not lock HV Counter but instead use larger offset value) */
         hvc_latch = 0x10000 | (v_counter << 8);
         if (reg[12] & 1) 
         {
-          hvc_latch |= hc_320[((input.analog[port][0] * 290) / (2 * 320) + input.x_offset) % 210];
+          hvc_latch |= hc_320[((x / 2) + input.x_offset) % 210];
         }
         else
         {
-          hvc_latch |= hc_256[(input.analog[port][0] / 2 + input.x_offset) % 171];
+          hvc_latch |= hc_256[((x / 2) + input.x_offset) % 171];
         }
       }
     }

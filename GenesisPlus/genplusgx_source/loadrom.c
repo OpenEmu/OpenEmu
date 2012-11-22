@@ -74,7 +74,7 @@
 #define PMOUSE      8192
 
 #define MAXCOMPANY 64
-#define MAXPERIPHERALS 14
+#define MAXPERIPHERALS 15
 
 typedef struct
 {
@@ -190,6 +190,7 @@ static const PERIPHERALINFO peripheralinfo[MAXPERIPHERALS] =
   {"V", "Paddle"},
   {"C", "CD-ROM"},
   {"M", "Mega Mouse"},
+  {"G", "Menacer"},
 };
 
 /***************************************************************************
@@ -769,6 +770,175 @@ int load_rom(char *filename)
   if (old_system[1] != -1)
   {
     input.system[1] = old_system[1];
+  }
+
+  /* default gun settings */
+  input.x_offset = (input.system[1] == SYSTEM_MENACER) ? 64 : 0;
+  input.y_offset = 0;
+
+  /* autodetect gun support */
+  if (strstr(rominfo.international,"MENACER") != NULL)
+  {
+    /* save current setting */
+    if (old_system[0] == -1)
+    {
+      old_system[0] = input.system[0];
+    }
+    if (old_system[1] == -1)
+    {
+      old_system[1] = input.system[1];
+    }
+
+    /* force MENACER configuration */
+    input.system[0] = SYSTEM_MD_GAMEPAD;
+    input.system[1] = SYSTEM_MENACER;
+    input.x_offset = 82;
+    input.y_offset = 0;
+  }
+  else if (strstr(rominfo.international,"T2 ; THE ARCADE GAME") != NULL)
+  {
+    /* save current setting */
+    if (old_system[0] == -1)
+    {
+      old_system[0] = input.system[0];
+    }
+    if (old_system[1] == -1)
+    {
+      old_system[1] = input.system[1];
+    }
+
+    /* force MENACER configuration */
+    input.system[0] = SYSTEM_MD_GAMEPAD;
+    input.system[1] = SYSTEM_MENACER;
+    input.x_offset = 133;
+    input.y_offset = -8;
+  }
+  else if (strstr(rominfo.international,"BODY COUNT") != NULL)
+  {
+    /* save current setting */
+    if (old_system[0] == -1)
+    {
+      old_system[0] = input.system[0];
+    }
+    if (old_system[1] == -1)
+    {
+      old_system[1] = input.system[1];
+    }
+
+    /* force MOUSE+MENACER configuration */
+    input.system[0] = SYSTEM_MOUSE;
+    input.system[1] = SYSTEM_MENACER;
+    input.x_offset = 68;
+    input.y_offset = -24;
+  }
+  else if (strstr(rominfo.international,"CORPSE KILLER") != NULL)
+  {
+    /* save current setting */
+    if (old_system[0] == -1)
+    {
+      old_system[0] = input.system[0];
+    }
+    if (old_system[1] == -1)
+    {
+      old_system[1] = input.system[1];
+    }
+
+    /* force MENACER configuration */
+    input.system[0] = SYSTEM_MD_GAMEPAD;
+    input.system[1] = SYSTEM_MENACER;
+    input.x_offset = 64;
+    input.y_offset = -8;
+  }
+  else if (strstr(rominfo.international,"CRIME PATROL") != NULL)
+  {
+    /* save current setting */
+    if (old_system[0] == -1)
+    {
+      old_system[0] = input.system[0];
+    }
+    if (old_system[1] == -1)
+    {
+      old_system[1] = input.system[1];
+    }
+
+    /* force MENACER configuration */
+    input.system[0] = SYSTEM_MD_GAMEPAD;
+    input.system[1] = SYSTEM_MENACER;
+    input.x_offset = 61;
+    input.y_offset = 0;
+  }
+  else if (strstr(rominfo.international,"MAD DOG II THE LOST GOLD") != NULL)
+  {
+    /* save current setting */
+    if (old_system[0] == -1)
+    {
+      old_system[0] = input.system[0];
+    }
+    if (old_system[1] == -1)
+    {
+      old_system[1] = input.system[1];
+    }
+
+    /* force MENACER configuration */
+    input.system[0] = SYSTEM_MD_GAMEPAD;
+    input.system[1] = SYSTEM_MENACER;
+    input.x_offset = 70;
+    input.y_offset = 18;
+  }
+  else if (strstr(rominfo.international,"MAD DOG MCCREE") != NULL)
+  {
+    /* save current setting */
+    if (old_system[0] == -1)
+    {
+      old_system[0] = input.system[0];
+    }
+    if (old_system[1] == -1)
+    {
+      old_system[1] = input.system[1];
+    }
+
+    /* force MENACER configuration */
+    input.system[0] = SYSTEM_MD_GAMEPAD;
+    input.system[1] = SYSTEM_MENACER;
+    input.x_offset = 49;
+    input.y_offset = 0;
+  }
+  else if (strstr(rominfo.international,"WHO SHOT JOHNNY ROCK?") != NULL)
+  {
+    /* save current setting */
+    if (old_system[0] == -1)
+    {
+      old_system[0] = input.system[0];
+    }
+    if (old_system[1] == -1)
+    {
+      old_system[1] = input.system[1];
+    }
+
+    /* force MENACER configuration */
+    input.system[0] = SYSTEM_MD_GAMEPAD;
+    input.system[1] = SYSTEM_MENACER;
+    input.x_offset = 60;
+    input.y_offset = 30;
+  }
+  else if ((strstr(rominfo.international,"LETHAL ENFORCERS") != NULL) ||
+           (strstr(rominfo.international,"SNATCHER") != NULL))
+  {
+    /* save current setting */
+    if (old_system[0] == -1)
+    {
+      old_system[0] = input.system[0];
+    }
+    if (old_system[1] == -1)
+    {
+      old_system[1] = input.system[1];
+    }
+
+    /* force JUSTIFIER configuration */
+    input.system[0] = SYSTEM_MD_GAMEPAD;
+    input.system[1] = SYSTEM_JUSTIFIER;
+    input.x_offset = (strstr(rominfo.international,"GUN FIGHTERS") != NULL) ? 24 : 0;
+    input.y_offset = 0;
   }
 
   return(1);

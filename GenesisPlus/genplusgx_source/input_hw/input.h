@@ -133,8 +133,8 @@ typedef struct
   uint8 dev[MAX_DEVICES];       /* can be one of the DEVICE_* values */
   uint16 pad[MAX_DEVICES];      /* digital inputs (any of INPUT_* values)  */
   int16 analog[MAX_DEVICES][2]; /* analog inputs (x/y) */
-  uint8 x_offset;               /* gun horizontal offset */
-  uint8 y_offset;               /* gun vertical offset */
+  int x_offset;                 /* gun horizontal offset */
+  int y_offset;                 /* gun vertical offset */
 } t_input;
 
 /* Global variables */

@@ -745,8 +745,8 @@ void vdp_68k_ctrl_w(unsigned int data)
             /* DMA source address */
             dma_src = (reg[22] << 8) | reg[21];
 
-            /* Transfer from SVP DRAM ($300000-$31ffff) or CD Word-RAM ($200000-$3fffff/$600000-$7fffff) */
-            if (((system_hw == SYSTEM_MCD) && ((reg[23] & 0x70) == ((scd.cartridge.boot >> 1) + 0x10))) || (svp && ((reg[23] & 0x70) == 0x10)))
+            /* Transfer from SVP ROM/RAM ($000000-$3fffff) or CD Word-RAM ($200000-$3fffff/$600000-$7fffff) */
+            if (((system_hw == SYSTEM_MCD) && ((reg[23] & 0x70) == ((scd.cartridge.boot >> 1) + 0x10))) || (svp && !(reg[23] & 0x60)))
             {
               /* source data is available with one cycle delay, i.e first word written by VDP is */
               /* previous data being held on 68k bus at that time, then source words are written */

@@ -351,107 +351,9 @@ void md_cart_init(void)
   }
 
   /**********************************************
-          SPECIFIC PERIPHERAL SUPPORT 
-  ***********************************************/
-
-  /* default GUN settings */
-  input.x_offset = 0x00;
-  input.y_offset = 0x00;
-
-  /* SEGA Menacer */
-  if (strstr(rominfo.international,"MENACER") != NULL)
-  {
-    /* save current setting */
-    if (old_system[0] == -1)
-    {
-      old_system[0] = input.system[0];
-    }
-    if (old_system[1] == -1)
-    {
-      old_system[1] = input.system[1];
-    }
-
-    input.system[0] = SYSTEM_MD_GAMEPAD;
-    input.system[1] = SYSTEM_MENACER;
-    input.x_offset = 0x52;
-    input.y_offset = 0x00;
-  }
-  else if (strstr(rominfo.international,"T2 ; THE ARCADE GAME") != NULL)
-  {
-    /* save current setting */
-    if (old_system[0] == -1)
-    {
-      old_system[0] = input.system[0];
-    }
-    if (old_system[1] == -1)
-    {
-      old_system[1] = input.system[1];
-    }
-
-    input.system[0] = SYSTEM_MD_GAMEPAD;
-    input.system[1] = SYSTEM_MENACER;
-    input.x_offset = 0x84;
-    input.y_offset = 0x08;
-  }
-  else if (strstr(rominfo.international,"BODY COUNT") != NULL)
-  {
-    /* save current setting */
-    if (old_system[0] == -1)
-    {
-      old_system[0] = input.system[0];
-    }
-    if (old_system[1] == -1)
-    {
-      old_system[1] = input.system[1];
-    }
-
-    input.system[0] = SYSTEM_MOUSE;
-    input.system[1] = SYSTEM_MENACER;
-    input.x_offset = 0x44;
-    input.y_offset = 0x18;
-  }
-
-  /* KONAMI Justifiers */
-  else if (strstr(rominfo.international,"LETHAL ENFORCERSII") != NULL)
-  {
-    /* save current setting */
-    if (old_system[0] == -1)
-    {
-      old_system[0] = input.system[0];
-    }
-    if (old_system[1] == -1)
-    {
-      old_system[1] = input.system[1];
-    }
-
-    input.system[0] = SYSTEM_MD_GAMEPAD;
-    input.system[1] = SYSTEM_JUSTIFIER;
-    input.x_offset = 0x18;
-    input.y_offset = 0x00;
-  }
-  else if (strstr(rominfo.international,"LETHAL ENFORCERS") != NULL)
-  {
-    /* save current setting */
-    if (old_system[0] == -1)
-    {
-      old_system[0] = input.system[0];
-    }
-    if (old_system[1] == -1)
-    {
-      old_system[1] = input.system[1];
-    }
-
-    input.system[0] = SYSTEM_MD_GAMEPAD;
-    input.system[1] = SYSTEM_JUSTIFIER;
-    input.x_offset = 0x00;
-    input.y_offset = 0x00;
-  }
-
-  cart.special = 0;
-
-  /**********************************************
           J-CART 
   ***********************************************/
+  cart.special = 0;
   if (((strstr(rominfo.product,"00000000")  != NULL) && (rominfo.checksum == 0x168b)) ||  /* Super Skidmarks, Micro Machines Military */
       ((strstr(rominfo.product,"00000000")  != NULL) && (rominfo.checksum == 0x165e)) ||  /* Pete Sampras Tennis (1991), Micro Machines 96 */
       ((strstr(rominfo.product,"00000000")  != NULL) && (rominfo.checksum == 0xcee0)) ||  /* Micro Machines Military (bad) */
@@ -465,7 +367,7 @@ void md_cart_init(void)
     {
       cart.special |= HW_J_CART;
 
-      /* set default port 1 setting */
+      /* force port 1 setting */
       if (input.system[1] != SYSTEM_WAYPLAY)
       {
         old_system[1] = input.system[1];
@@ -568,7 +470,7 @@ void md_cart_init(void)
   memset(&cart.hw, 0, sizeof(cart.hw));
 
   /* search for game into database */
-  for (i=0; i < CART_CNT + 1; i++)
+  for (i=0; i<CART_CNT; i++)
   {
     /* known cart found ! */
     if ((rominfo.checksum == rom_database[i].chk_1) &&
@@ -598,7 +500,7 @@ void md_cart_init(void)
       }
 
       /* leave loop */
-      i = CART_CNT + 1;
+      i = CART_CNT;
     }
   }
 
