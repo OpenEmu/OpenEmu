@@ -47,7 +47,7 @@
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSSplitView" id="6079965">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSCustomView" id="977515685">
@@ -55,7 +55,6 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{735, 332}</string>
 						<reference key="NSSuperview" ref="6079965"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="664306359"/>
 						<string key="NSClassName">IKImageFlowView</string>
 					</object>
@@ -72,8 +71,7 @@
 										<int key="NSvFlags">4370</int>
 										<string key="NSFrameSize">{922, 319}</string>
 										<reference key="NSSuperview" ref="311889962"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="1040507511"/>
+										<reference key="NSNextKeyView" ref="247794307"/>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -82,7 +80,6 @@
 											<int key="NSvFlags">4352</int>
 											<string key="NSFrameSize">{922, 17}</string>
 											<reference key="NSSuperview" ref="247794307"/>
-											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="311889962"/>
 											<reference key="NSTableView" ref="887282208"/>
 										</object>
@@ -402,7 +399,6 @@
 								</array>
 								<string key="NSFrame">{{0, 17}, {735, 319}}</string>
 								<reference key="NSSuperview" ref="664306359"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="887282208"/>
 								<reference key="NSDocView" ref="887282208"/>
 								<object class="NSColor" key="NSBGColor">
@@ -417,7 +413,6 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{720, 17}, {15, 303}}</string>
 								<reference key="NSSuperview" ref="664306359"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="364856155"/>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="664306359"/>
@@ -429,9 +424,12 @@
 								<int key="NSvFlags">256</int>
 								<string key="NSFrame">{{0, 320}, {735, 16}}</string>
 								<reference key="NSSuperview" ref="664306359"/>
+<<<<<<< HEAD
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
+=======
+>>>>>>> Separating grid view and blank slate view.
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="664306359"/>
@@ -446,7 +444,6 @@
 								</array>
 								<string key="NSFrameSize">{735, 17}</string>
 								<reference key="NSSuperview" ref="664306359"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1012813773"/>
 								<reference key="NSDocView" ref="1012813773"/>
 								<reference key="NSBGColor" ref="455417535"/>
@@ -455,9 +452,14 @@
 						</array>
 						<string key="NSFrame">{{0, 333}, {735, 336}}</string>
 						<reference key="NSSuperview" ref="6079965"/>
+<<<<<<< HEAD
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="247794307"/>
 						<int key="NSsFlags">133808</int>
+=======
+						<reference key="NSNextKeyView" ref="311889962"/>
+						<int key="NSsFlags">133680</int>
+>>>>>>> Separating grid view and blank slate view.
 						<reference key="NSVScroller" ref="1040507511"/>
 						<reference key="NSHScroller" ref="364856155"/>
 						<reference key="NSContentView" ref="311889962"/>
@@ -469,8 +471,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{735, 669}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="977515685"/>
 				<int key="NSDividerStyle">2</int>
 			</object>
@@ -539,6 +539,15 @@
 				<double key="NSMaxMagnification">4</double>
 				<double key="NSMagnification">1</double>
 			</object>
+			<object class="NSCustomView" id="328078279">
+				<reference key="NSNextResponder"/>
+				<int key="NSvFlags">268</int>
+				<string key="NSFrameSize">{480, 272}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView"/>
+				<string key="NSClassName">OEBlankSlateView</string>
+			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
@@ -589,6 +598,14 @@
 						<reference key="destination" ref="1005"/>
 					</object>
 					<int key="connectionID">102</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">blankSlateView</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="328078279"/>
+					</object>
+					<int key="connectionID">104</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -771,6 +788,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">103</int>
+<<<<<<< HEAD
 						<reference key="object" ref="585892955"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="904614460"/>
@@ -807,6 +825,10 @@
 						<int key="objectID">108</int>
 						<reference key="object" ref="538760213"/>
 						<reference key="parent" ref="902657274"/>
+=======
+						<reference key="object" ref="328078279"/>
+						<reference key="parent" ref="0"/>
+>>>>>>> Separating grid view and blank slate view.
 					</object>
 				</array>
 			</object>
@@ -817,11 +839,14 @@
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="103.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+<<<<<<< HEAD
 				<string key="104.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="105.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="106.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="107.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="108.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+=======
+>>>>>>> Separating grid view and blank slate view.
 				<string key="11.CustomClassName">OEScrollView</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -863,7 +888,11 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
+<<<<<<< HEAD
 			<int key="maxID">108</int>
+=======
+			<int key="maxID">104</int>
+>>>>>>> Separating grid view and blank slate view.
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -881,6 +910,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OEAttributedTextFieldCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEBlankSlateView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEBlankSlateView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -932,9 +969,8 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="blankSlateView">OEBlankSlateView</string>
 						<string key="coverFlowView">IKImageFlowView</string>
-						<string key="emptyCollectionView">NSView</string>
-						<string key="emptyConsoleView">NSView</string>
 						<string key="flowlistViewContainer">OEHorizontalSplitView</string>
 						<string key="gridView">OEGridView</string>
 						<string key="gridViewContainer">NSView</string>
@@ -942,17 +978,13 @@
 						<string key="listView">NSTableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="blankSlateView">
+							<string key="name">blankSlateView</string>
+							<string key="candidateClassName">OEBlankSlateView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="coverFlowView">
 							<string key="name">coverFlowView</string>
 							<string key="candidateClassName">IKImageFlowView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="emptyCollectionView">
-							<string key="name">emptyCollectionView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="emptyConsoleView">
-							<string key="name">emptyConsoleView</string>
-							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="flowlistViewContainer">
 							<string key="name">flowlistViewContainer</string>
