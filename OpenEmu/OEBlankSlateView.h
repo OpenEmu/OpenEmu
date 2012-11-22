@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -22,22 +22,26 @@
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+*/
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
+#import "OESystemPlugin.h"
 
-@protocol OEListViewDataSourceItem <NSObject>
+@class OEBlankSlateView;
 
-- (NSImage *)listViewStatusWithSelected:(BOOL)selected playing:(BOOL)playing;
-- (NSNumber *)listViewRating;
-- (NSString *)listViewTitle;
-- (NSString *)listViewLastPlayed;
-- (NSString *)listViewConsoleName;
-- (NSNumber *)listViewSaveStateCount;
-- (NSNumber *)listViewPlayCount;
-- (NSString *)listViewPlayTime;
+@protocol OEBlankSlateViewDelegate <NSObject>
+@optional
+- (NSDragOperation)blankSlateView:(OEBlankSlateView *)gridView validateDrop:(id<NSDraggingInfo>)sender;
+- (NSDragOperation)blankSlateView:(OEBlankSlateView *)gridView draggingUpdated:(id<NSDraggingInfo>)sender;
+- (BOOL)blankSlateView:(OEBlankSlateView *)gridView acceptDrop:(id<NSDraggingInfo>)sender;
+@end
 
-- (void)setListViewRating:(NSNumber *)number;
-- (void)setListViewTitle:(NSString*)title;
+@interface OEBlankSlateView : NSView
 
+@property (nonatomic) NSString* representedCollectionName;
+@property (nonatomic) OESystemPlugin* representedSystemPlugin;
+
+@property (assign) id <OEBlankSlateViewDelegate> delegate;
+
+- (void)gotoProjectURL:(id)sender;
 @end

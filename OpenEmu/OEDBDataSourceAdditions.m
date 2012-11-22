@@ -29,6 +29,7 @@
 
 static NSDateFormatter *_OEListViewDateFormatter;
 static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));
+static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
 @implementation OEDBGame (DataSourceAdditions)
 
@@ -192,6 +193,21 @@ static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));
     [self setRating:number];
 }
 
+- (NSNumber *)listViewSaveStateCount
+{
+    return [self saveStateCount];
+}
+
+- (NSNumber *)listViewPlayCount
+{
+    return [self playCount];
+}
+
+- (NSString *)listViewPlayTime
+{
+    return OE_stringFromElapsedTime([[self playTime] doubleValue]);
+}
+
 static void OE_initOEListViewDateFormatter(void)
 {
     @autoreleasepool
@@ -200,6 +216,46 @@ static void OE_initOEListViewDateFormatter(void)
         [_OEListViewDateFormatter setDateStyle:NSDateFormatterMediumStyle];
         [_OEListViewDateFormatter setTimeStyle:NSDateFormatterNoStyle];
     }
+}
+
+NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
+{
+    const int oneMinuteInSeconds = 60;
+    const int oneHourInSeconds   = 60 * oneMinuteInSeconds;
+    const int oneDayInSeconds    = 24 * oneHourInSeconds;
+
+    NSString *dayUnit    = @"d";
+    NSString *hourUnit   = @"h";
+    NSString *minuteUnit = @"m";
+    NSString *secondUnit = @"s";
+
+    NSMutableString *s = [NSMutableString new];
+    NSUInteger       t = ABS(timeInterval);
+
+    if(t > oneDayInSeconds)
+    {
+        [s appendFormat:@"%lu%@", (unsigned long)(t / oneDayInSeconds), dayUnit];
+        t %= oneDayInSeconds;
+    }
+
+    if(t > oneHourInSeconds)
+    {
+        NSString *format = ([s length] > 0 ? @"%02u%@" : @"%u%@");
+        [s appendFormat:format, (unsigned)(t / oneHourInSeconds), hourUnit];
+        t %= oneHourInSeconds;
+    }
+
+    if(t > oneMinuteInSeconds)
+    {
+        NSString *format = ([s length] > 0 ? @"%02u%@" : @"%u%@");
+        [s appendFormat:format, (unsigned)(t / oneMinuteInSeconds), minuteUnit];
+        t %= oneMinuteInSeconds;
+    }
+
+    NSString *format = ([s length] > 0 ? @"%02u%@" : @"%u%@");
+    [s appendFormat:format, (unsigned)t, secondUnit];
+
+    return s;
 }
 
 @end

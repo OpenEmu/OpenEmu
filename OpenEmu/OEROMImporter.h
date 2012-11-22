@@ -75,15 +75,15 @@ typedef enum : NSInteger {
 @property(readonly) NSInteger status;
 
 #pragma mark - Importing Items -
-- (void)importItemAtPath:(NSString *)path;
-- (void)importItemsAtPaths:(NSArray *)path;
-- (void)importItemAtURL:(NSURL *)url;
-- (void)importItemsAtURLs:(NSArray *)url;
+- (BOOL)importItemAtPath:(NSString *)path;
+- (BOOL)importItemsAtPaths:(NSArray *)path;
+- (BOOL)importItemAtURL:(NSURL *)url;
+- (BOOL)importItemsAtURLs:(NSArray *)url;
 
-- (void)importItemAtPath:(NSString *)path withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (void)importItemsAtPaths:(NSArray *)paths withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (void)importItemAtURL:(NSURL *)url withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (void)importItemsAtURLs:(NSArray *)urls withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (BOOL)importItemAtPath:(NSString *)path withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (BOOL)importItemsAtPaths:(NSArray *)paths withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (BOOL)importItemAtURL:(NSURL *)url withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (BOOL)importItemsAtURLs:(NSArray *)urls withCompletionHandler:(OEImportItemCompletionBlock)handler;
 
 #pragma mark - Spotlight importing -
 - (void)discoverRoms:(NSArray *)volumes;

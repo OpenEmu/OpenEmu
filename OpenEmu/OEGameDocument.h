@@ -42,6 +42,7 @@ enum _OEGameDocumentErrorCodes
     OENilRootProxyObjectError      = -6,
     OENoCoreForSystemError         = -7,
     OENoCoreForSaveStateError      = -8,
+    OEImportRequiredError          = -9,
     OECouldNotLoadROMError         = -10,
 };
 

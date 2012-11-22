@@ -27,50 +27,13 @@
 #import "OEGridScrollView.h"
 #import "NSColor+OEAdditions.h"
 
-// Following code inspired by: http://stackoverflow.com/questions/2520978/how-to-tile-the-contents-of-a-calayer
-// callback for CreateImagePattern.
-static void drawPatternImage(void *info, CGContextRef ctx)
-{
-    CGImageRef image = (CGImageRef)info;
-    CGContextDrawImage(ctx, CGRectMake(0.0, 0.0, CGImageGetWidth(image), CGImageGetHeight(image)), image);
-}
-
-// callback for CreateImagePattern.
-static void releasePatternImage(void *info)
-{
-    CGImageRef image = (CGImageRef)info;
-    CGImageRelease(image);
-}
+#import "OEBackgroundNoisePattern.h"
 
 @implementation OEGridScrollView
 
 - (void)OE_commonInit
 {
-    static CGImageRef      noiseImageRef = nil;
-    static CGColorRef      noiseColorRef = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        // Create a pattern from the noise image and apply as the background color
-        static const CGPatternCallbacks callbacks = {0, &drawPatternImage, &releasePatternImage};
-
-        NSURL            *noiseImageURL = [[NSBundle mainBundle] URLForImageResource:@"noise"];
-        CGImageSourceRef  source        = CGImageSourceCreateWithURL((__bridge CFURLRef)noiseImageURL, NULL);
-        noiseImageRef                   = CGImageSourceCreateImageAtIndex(source, 0, NULL);
-
-        CGFloat width  = CGImageGetWidth(noiseImageRef);
-        CGFloat height = CGImageGetHeight(noiseImageRef);
-
-        CGPatternRef    pattern       = CGPatternCreate(noiseImageRef, CGRectMake(0.0, 0.0, width, height), CGAffineTransformMake(1.0, 0.0, 0.0, 1.0, 0.0, 0.0), width, height, kCGPatternTilingConstantSpacing, YES, &callbacks);
-        CGColorSpaceRef space         = CGColorSpaceCreatePattern(NULL);
-        CGFloat         components[1] = {1.0};
-
-        noiseColorRef = CGColorCreateWithPattern(space, pattern, components);
-
-        CGColorSpaceRelease(space);
-        CGPatternRelease(pattern);
-        CFRelease(source);
-    });
-
+    OEBackgroundNoisePatternCreate();
     [self setWantsLayer:YES];
 
     CALayer *layer = [CALayer layer];
@@ -85,7 +48,7 @@ static void releasePatternImage(void *info)
     [noiseLayer setFrame:[self bounds]];
     [noiseLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
     [noiseLayer setGeometryFlipped:YES];
-    [noiseLayer setBackgroundColor:noiseColorRef];
+    [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
     [layer addSublayer:noiseLayer];
 }
 

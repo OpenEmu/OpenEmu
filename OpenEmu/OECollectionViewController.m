@@ -42,20 +42,19 @@
 #import "OEHorizontalSplitView.h"
 
 #import "OECoverGridDataSourceItem.h"
-#import "OEGridBlankSlateView.h"
+#import "OEBlankSlateView.h"
 
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
-
+#import "OEDBGame.h"
+#import "OEDBRom.h"
+#import "OEDBCollection.h"
 #import "OEDBSaveState.h"
 
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
 #import "OEMenu.h"
-#import "OEDBGame.h"
-#import "OEDBRom.h"
-#import "OEDBCollection.h"
 
 #import "NSViewController+OEAdditions.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
@@ -84,7 +83,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
     IBOutlet NSTableView *listView;
-
+    IBOutlet OEBlankSlateView *blankSlateView;
+    
     NSDate *_listViewSelectionChangeDate;
 }
 
@@ -101,11 +101,9 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 @implementation OECollectionViewController
 {
     BOOL _stateRewriteRequired;
-    BOOL blankSlateVisible;
     int _selectedViewTag;
 }
 @synthesize libraryController, gamesController;
-@synthesize emptyCollectionView, emptyConsoleView;
 
 + (void)initialize
 {
@@ -128,6 +126,16 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OELastGridSizeKey : @1.0f }];
 }
 
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _selectedViewTag = -2;
+    }
+    return self;
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -143,7 +151,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     // Set up games controller
     gamesController = [[NSArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
-    [gamesController setAutomaticallyPreparesContent:YES];
+    [gamesController setAutomaticallyPreparesContent:NO];
     [gamesController setUsesLazyFetching:NO];
     
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
@@ -154,7 +162,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [gamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
     [gamesController setAvoidsEmptySelection:NO];
-    [gamesController prepareContent];
     
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
@@ -195,7 +202,12 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     for(NSTableColumn *aColumn in [listView tableColumns])
         if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
             [[aColumn dataCell] setWidthInset:9];
-        
+    
+    // Setup BlankSlate View
+    [blankSlateView setDelegate:self];
+    [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    [blankSlateView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+    
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
 
@@ -260,7 +272,10 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     NSString   *searchString;
     NSIndexSet *selectionIndexes;
     NSArray    *listViewSortDescriptors = nil;
-         
+    
+    NSSlider    *sizeSlider     = [[self libraryController] toolbarSlider];
+    NSTextField *searchField    = [[self libraryController] toolbarSearchField];
+
     NSKeyedUnarchiver *coder = state ? [[NSKeyedUnarchiver alloc] initForReadingWithData:state] : nil;
     if(coder)
     {
@@ -271,7 +286,14 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         listViewSortDescriptors = [coder decodeObjectForKey:@"listViewSortDescriptors"];
         
         [coder finishDecoding];
-        // TODO: Validate decoded values
+                
+        // Make sure selected view tag is valid
+        if(selectedViewTag != OEListViewTag && selectedViewTag != OEListViewTag && selectedViewTag != OEFlowViewTag)
+           selectedViewTag = OEGridViewTag;
+        
+        // Make sure slider value is valid
+        if(sliderValue < [sizeSlider minValue] | sliderValue > [sizeSlider maxValue])
+           sliderValue = [sizeSlider doubleValue];
     }
     else
     {
@@ -283,11 +305,10 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         selectionIndexes = [NSIndexSet indexSet];
     }
         
-    NSSlider    *sizeSlider     = [[self libraryController] toolbarSlider];
-    NSTextField *searchField    = [[self libraryController] toolbarSearchField];
-    
     [self OE_setupToolbarStatesForViewTag:selectedViewTag];
     [sizeSlider setFloatValue:sliderValue];
+    [self changeGridSize:sizeSlider];
+
     [searchField setStringValue:searchString];
     [listView setSortDescriptors:listViewSortDescriptors];
 
@@ -318,38 +339,46 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 #pragma mark View Selection
 - (IBAction)switchToGridView:(id)sender
 {
-    [[self gamesController] setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
-    [[self gamesController] rearrangeObjects];
-    [gridView reloadData];
-
     [self OE_switchToView:OEGridViewTag];
 }
 
 - (IBAction)switchToFlowView:(id)sender
 {
-    [[self gamesController] setSortDescriptors:[listView sortDescriptors]];
-    [[self gamesController] rearrangeObjects];
-    [listView reloadData];
-
     [self OE_switchToView:OEFlowViewTag];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
-    [[self gamesController] setSortDescriptors:[listView sortDescriptors]];
-    [[self gamesController] rearrangeObjects];
-    [listView reloadData];
-
     [self OE_switchToView:OEListViewTag];
 }
 
 - (void)OE_switchToView:(OECollectionViewControllerViewTag)tag
 {
-    [self OE_setupToolbarStatesForViewTag:tag];
-    if(_selectedViewTag == tag) return;
+    // Set sort descriptors and reload data
+    NSArray *sortDescriptors = nil;
+    BOOL reloadListView = NO;
+    switch (tag) {
+        case OEGridViewTag:
+            sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+            break;
+        default:
+            sortDescriptors = [listView sortDescriptors];
+            reloadListView = YES;
+            break;
+    }
+    [[self gamesController] setSortDescriptors:sortDescriptors];
+    [[self gamesController] rearrangeObjects];
+    if(reloadListView)
+        [listView reloadData];
+    else
+        [gridView reloadData];
     
+    if(_selectedViewTag == tag && tag != OEBlankSlateTag) return;
+
+    [self OE_setupToolbarStatesForViewTag:tag];
     [self OE_showView:tag];
-    _stateRewriteRequired = YES;
+    
+    _stateRewriteRequired = (tag != OEBlankSlateTag);
     _selectedViewTag = tag;
 }
 
@@ -359,7 +388,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     float splitterPosition = -1;
     switch (tag) {
         case OEBlankSlateTag:
-            _selectedViewTag = OEBlankSlateTag;
+            view = blankSlateView;
+            break;
         case OEGridViewTag:
             view = gridViewContainer;
             break;
@@ -407,21 +437,24 @@ static const float OE_coverFlowHeightPercentage = 0.75;
             [[[self libraryController] toolbarGridViewButton] setState:NSOnState];
             [[[self libraryController] toolbarFlowViewButton] setState:NSOffState];
             [[[self libraryController] toolbarListViewButton] setState:NSOffState];
+            [[[self libraryController] toolbarSlider] setEnabled:YES];
             break;
         case OEFlowViewTag:
             [[[self libraryController] toolbarGridViewButton] setState:NSOffState];
             [[[self libraryController] toolbarFlowViewButton] setState:NSOnState];
             [[[self libraryController] toolbarListViewButton] setState:NSOffState];
+            [[[self libraryController] toolbarSlider] setEnabled:NO];
             break;
         case OEListViewTag:
             [[[self libraryController] toolbarGridViewButton] setState:NSOffState];
             [[[self libraryController] toolbarFlowViewButton] setState:NSOffState];
             [[[self libraryController] toolbarListViewButton] setState:NSOnState];
+            [[[self libraryController] toolbarSlider] setEnabled:NO];
             break;
-        default:break;
+        case OEBlankSlateTag:
+            [[[self libraryController] toolbarSlider] setEnabled:NO];
+            break;
     }
-    
-    [[[self libraryController] toolbarSlider] setEnabled:(!blankSlateVisible && tag==0)];
 }
 
 - (void)OE_updateBlankSlate
@@ -429,13 +462,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     NSUInteger count = [[gamesController arrangedObjects] count];
     if(count)
     {
-        blankSlateVisible = NO;
-        if([[[self libraryController] toolbarFlowViewButton] state] == NSOnState)
-            [self switchToFlowView:self];
-        else if([[[self libraryController] toolbarListViewButton] state] == NSOnState)
-            [self switchToListView:self];
-        else
-            [self switchToGridView:self];
+        [self OE_switchToView:[self OE_currentViewTagByToolbarState]];
         
         [[[self libraryController] toolbarGridViewButton] setEnabled:YES];
         [[[self libraryController] toolbarFlowViewButton] setEnabled:YES];
@@ -445,8 +472,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     }
     else
     {
-        blankSlateVisible = YES;
-        [self OE_showView:OEBlankSlateTag];
+        [self OE_switchToView:OEBlankSlateTag];
         
         [[[self libraryController] toolbarGridViewButton] setEnabled:NO];
         [[[self libraryController] toolbarFlowViewButton] setEnabled:NO];
@@ -454,15 +480,30 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         
         [[[self libraryController] toolbarSearchField] setEnabled:NO];
         [[[self libraryController] toolbarSlider] setEnabled:NO];
+        
+        if([[self representedObject] isKindOfClass:[OEDBSystem class]])
+            [blankSlateView setRepresentedSystemPlugin:[(OEDBSystem*)[self representedObject] plugin]];
+        else if([[self representedObject] respondsToSelector:@selector(collectionViewName)])
+            [blankSlateView setRepresentedCollectionName:[[self representedObject] collectionViewName]];
     }
 }
 
+- (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
+{
+    if([[[self libraryController] toolbarGridViewButton] state] == NSOnState)
+        return OEGridViewTag;
+    else if([[[self libraryController] toolbarFlowViewButton] state] == NSOnState)
+        return OEFlowViewTag;
+    else
+        return OEListViewTag;
+}
 #pragma mark -
 - (void)viewDidAppear
 {
     [super viewDidAppear];
     [self OE_updateBlankSlate];
 }
+
 #pragma mark -
 #pragma mark Toolbar Actions
 - (IBAction)search:(id)sender
@@ -549,17 +590,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     return item;
 }
 
-- (NSView *)viewForNoItemsInGridView:(OEGridView *)view
-{
-    if([[self representedObject] isKindOfClass:[OEDBSystem class]])
-        return [[OEGridBlankSlateView alloc] initWithSystemPlugin:[(OEDBSystem*)[self representedObject] plugin]];
-    
-    if([[self representedObject] respondsToSelector:@selector(collectionViewName)])
-        return [[OEGridBlankSlateView alloc] initWithCollectionName:[[self representedObject] collectionViewName]];
-    
-    return nil;
-}
-
 - (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index
 {
     return [[gamesController arrangedObjects] objectAtIndex:index];
@@ -568,6 +598,28 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (NSMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     return [self OE_menuForItemsAtIndexes:indexes];
+}
+
+#pragma mark - Blank Slate Delegate
+- (NSDragOperation)blankSlateView:(OEBlankSlateView *)blankSlateView validateDrop:(id<NSDraggingInfo>)draggingInfo
+{
+    if (![[[draggingInfo draggingPasteboard] types] containsObject:NSFilenamesPboardType])
+        return NSDragOperationNone;
+    
+    return NSDragOperationCopy;
+}
+
+- (BOOL)blankSlateView:(OEBlankSlateView*)blankSlateView acceptDrop:(id<NSDraggingInfo>)draggingInfo
+{
+    NSPasteboard *pboard = [draggingInfo draggingPasteboard];
+    if (![[pboard types] containsObject:NSFilenamesPboardType])
+        return NO;
+    
+    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    OEROMImporter *romImporter = [[[self libraryController] database] importer];
+    [romImporter importItemsAtPaths:files];
+    
+    return YES;
 }
 #pragma mark -
 #pragma mark GridView Interaction
@@ -957,45 +1009,30 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     return 0;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    
-    if( aTableView == listView )
+    if(tableView != listView) return nil;
+
+    id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
+    if(![obj isKindOfClass:[OEDBGame class]]) return nil;
+
+    NSString *colIdent = [aTableColumn identifier];
+    id result = nil;
+    if([colIdent isEqualToString:@"romStatus"])
     {
-        id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
-        if(![obj isKindOfClass:[OEDBGame class]]) return nil;
-        
-        NSString *colIdent = [aTableColumn identifier];
-        id result = nil;
-        if([colIdent isEqualToString:@"romStatus"])
-        {
-            BOOL selected = [[listView selectedRowIndexes] containsIndex:rowIndex];
-            result = [obj listViewStatusWithSelected:selected playing:[self OE_isGameOpen:(OEDBGame *)obj]];
-        }
-        else if([colIdent isEqualToString:@"romName"])
-        {
-            result = [obj listViewTitle];
-        } 
-        else if([colIdent isEqualToString:@"romRating"])
-        {
-            result = [obj listViewRating];
-        } 
-        else if([colIdent isEqualToString:@"romLastPlayed"])
-        {
-            result = [obj listViewLastPlayed];
-        }
-        else if([colIdent isEqualToString:@"consoleName"])
-        {
-            result = [obj listViewConsoleName];
-        } 
-        else if(colIdent == nil)
-        {
-            result = obj;
-        }
-        return result;
+        BOOL selected = [[listView selectedRowIndexes] containsIndex:rowIndex];
+        result = [obj listViewStatusWithSelected:selected playing:[self OE_isGameOpen:(OEDBGame *)obj]];
     }
-    
-    return nil;
+    else if([colIdent isEqualToString:@"romName"])        result = [obj listViewTitle];
+    else if([colIdent isEqualToString:@"romRating"])      result = [obj listViewRating];
+    else if([colIdent isEqualToString:@"romLastPlayed"])  result = [obj listViewLastPlayed];
+    else if([colIdent isEqualToString:@"consoleName"])    result = [obj listViewConsoleName];
+    else if([colIdent isEqualToString:@"saveStateCount"]) result = [obj listViewSaveStateCount];
+    else if([colIdent isEqualToString:@"playCount"])      result = [obj listViewPlayCount];
+    else if([colIdent isEqualToString:@"playTime"])       result = [obj listViewPlayTime];
+    else if(colIdent == nil) result = obj;
+
+    return result;
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
@@ -1093,18 +1130,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 {
     if(aTableView == listView)
     {
-        if([aCell isKindOfClass:[NSTextFieldCell class]])
-        {
-            NSDictionary *attr = (@{
-                                  NSFontAttributeName            : [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0],
-                                  NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:1.0 alpha:1.0],
-                                  });
-            
-            [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
-        }
-        
-        if(![aCell isKindOfClass:[OERatingCell class]])
-            [aCell setHighlighted:NO];
+        if(![aCell isKindOfClass:[OERatingCell class]]) [aCell setHighlighted:NO];
     }
     
 }
@@ -1264,12 +1290,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     NSUInteger rowIndex = [[gamesController arrangedObjects] indexOfObject:[rom game]];
     if(rowIndex == NSNotFound) return;
 
-    NSInteger columnIndex = [listView columnWithIdentifier:@"romStatus"];
-    NSAssert(columnIndex != -1, @"We should have a column identified by 'romStatus' in the library list view");
-
-    [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:rowIndex] columnIndexes:[NSIndexSet indexSetWithIndex:columnIndex]];
-
-    // If we ever implement indicators in the grid view, we may want to use -setNeedsReloadIndexes:
+    [self reloadDataIndexes:[NSIndexSet indexSetWithIndex:rowIndex]];
 }
 
 #pragma mark -

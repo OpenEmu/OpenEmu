@@ -159,6 +159,33 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     return NO;
 }
 
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey]){
+        [NSApp replyToOpenOrPrint:NSApplicationDelegateReplyCancel];
+        return;
+    }
+    
+    if([filenames count] == 1)
+    {
+        NSURL *url = [NSURL fileURLWithPath:[filenames lastObject]];
+        [self openDocumentWithContentsOfURL:url display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+            NSApplicationDelegateReply reply = (document != nil) ? NSApplicationDelegateReplySuccess : NSApplicationDelegateReplyFailure;
+            [NSApp replyToOpenOrPrint:reply];
+        }];
+    }
+    else
+    {
+        NSApplicationDelegateReply reply = NSApplicationDelegateReplyFailure;
+        OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
+        if([importer importItemsAtPaths:filenames])
+        {
+            reply = NSApplicationDelegateReplySuccess;
+        }
+        [NSApp replyToOpenOrPrint:reply];
+    }
+}
+
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
 {
     [super openDocumentWithContentsOfURL:url display:NO completionHandler:
@@ -167,7 +194,14 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
          if([document isKindOfClass:[OEGameDocument class]])
              [mainWindowController openGameDocument:(OEGameDocument *)document];
          
-         completionHandler(document, documentWasAlreadyOpen, error);
+         if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code]==OEImportRequiredError)
+         {
+             completionHandler(nil, NO, nil);
+             return;
+         }
+         
+         if(completionHandler != nil)
+             completionHandler(document, documentWasAlreadyOpen, error);
      }];
 }
 
@@ -538,7 +572,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark - KVO
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if(context == _OEApplicationDelegateAllPluginsContext)

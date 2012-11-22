@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -22,15 +22,12 @@
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+*/
 
-#import <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
 
-@class OESystemPlugin;
+extern void OEBackgroundNoisePatternCreate(void);
+extern void OEBackgroundNoisePatternDrawInContext(void *info, CGContextRef ctx);
+extern void OEBackgroundNoisePatternRelease(void *info);
 
-@interface OEGridBlankSlateView : NSView
-
-- (id)initWithCollectionName:(NSString *)collectionName;
-- (id)initWithSystemPlugin:(OESystemPlugin *)plugin;
-
-@end
+extern CGColorRef OEBackgroundNoiseColorRef;

@@ -139,7 +139,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setObject:[self.databaseURL path] forKey:OEDatabasePathKey];
-    
+
     return YES;
 }
 
@@ -155,7 +155,10 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSURL *url = [self.databaseURL URLByAppendingPathComponent:OEDatabaseFileName];
     [self setPersistentStoreCoordinator:[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom]];
     
-    NSDictionary *options = @{ NSMigratePersistentStoresAutomaticallyOption : @YES };
+    NSDictionary *options = (@{
+                             NSMigratePersistentStoresAutomaticallyOption : @YES,
+                             NSInferMappingModelAutomaticallyOption       : @YES,
+                             });
     if([[self persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:options error:outError] == nil)
     {
         [self setPersistentStoreCoordinator:nil];
@@ -210,7 +213,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         [NSApp presentError:error];
         return;
     }
-    
+
     NSLog(@"Did save Database");
 }
 

@@ -27,6 +27,7 @@
 #import <Cocoa/Cocoa.h>
 #import "OEGridView.h"
 #import "IKImageFlowView.h"
+#import "OEBlankSlateView.h"
 
 #import "OECollectionViewItemProtocol.h"
 #import "OELibrarySubviewController.h"
@@ -34,7 +35,7 @@
 @class OELibraryController;
 @class OEHorizontalSplitView;
 
-@interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
+@interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
 
 #pragma mark -
 - (NSArray *)selectedGames;
@@ -57,9 +58,6 @@
 - (id <OECollectionViewItemProtocol>)representedObject;
 #pragma mark -
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
-@property(nonatomic, strong) IBOutlet NSView *emptyCollectionView;
-@property(nonatomic, strong) IBOutlet NSView *emptyConsoleView;
-
 @property(readonly) NSArrayController *gamesController;
 
 @end

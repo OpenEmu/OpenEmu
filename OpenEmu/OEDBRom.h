@@ -78,6 +78,9 @@
 - (OEDBSaveState *)quickSaveStateInSlot:(int)num;
 - (OEDBSaveState *)saveStateWithName:(NSString*)string;
 
+- (void)incrementPlayCount;
+- (void)addTimeIntervalToPlayTime:(NSTimeInterval)timeInterval;
+
 - (void)removeMissingStates;
 #pragma mark -
 #pragma mark Mainpulating a rom
@@ -98,6 +101,8 @@
 @property(nonatomic, retain)                    NSString  *md5;
 @property(nonatomic, retain)                    NSDate    *lastPlayed;
 @property(nonatomic, retain)                    NSNumber  *fileSize;
+@property(nonatomic, retain)                    NSNumber  *playCount;
+@property(nonatomic, retain)                    NSNumber  *playTime;
 
 #pragma mark -
 #pragma mark Data Model Relationships

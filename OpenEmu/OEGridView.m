@@ -59,7 +59,6 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 - (void)OE_setNeedsReloadData;
 - (void)OE_reloadDataIfNeeded;
 
-- (void)OE_centerNoItemsView;
 - (void)OE_reorderSublayers;
 - (void)OE_updateDecorativeLayers;
 
@@ -436,13 +435,12 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         {
             contentSize.height = viewSize.height;
 
-            // If we previously had items and now we don't, then add the no items view
-            if(_cachedNumberOfItems > 0) [self OE_addNoItemsView];
+            // If we previously had items and now we don't, then remove all cells
+            if(_cachedNumberOfItems > 0) [self OE_removeAllCells];
         }
         else
         {
             contentSize.height = MAX(viewSize.height, ceil(numberOfRows * itemSize.height) + _rowSpacing);
-            [self OE_removeNoItemsView];
         }
         ++_supressFrameResize;
         [super setFrameSize:contentSize];
@@ -530,17 +528,6 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     [self OE_calculateCachedValuesAndQueryForDataChanges:YES];
 }
 
-- (void)OE_removeNoItemsView
-{
-    if(_noItemsView != nil)
-    {
-        [_noItemsView removeFromSuperview];
-        _noItemsView = nil;
-        [[self enclosingScrollView] setVerticalScrollElasticity:_previousElasticity];
-        [self OE_setNeedsLayoutGridView];
-    }
-}
-
 - (void)removeAllGridViewCells
 {
     for (id cell in [_rootLayer.sublayers copy])
@@ -552,29 +539,11 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     }
 }
 
-- (void)OE_addNoItemsView
+- (void)OE_removeAllCells
 {
     // Enqueue all the cells for later use and remove them from the view
     [self OE_enqueueCellsAtIndexes:_visibleCellsIndexes];
     [_visibleCellsIndexes removeAllIndexes];
-
-    // Check to see if the dataSource has a view to display when there is nothing to display
-    if(_dataSourceHas.viewForNoItemsInGridView)
-    {
-        _noItemsView = [_dataSource viewForNoItemsInGridView:self];
-        if(_noItemsView)
-        {
-            NSScrollView *enclosingScrollView = [self enclosingScrollView];
-
-            [self addSubview:_noItemsView];
-            [_noItemsView setHidden:NO];
-            [self removeAllGridViewCells];
-            [self OE_centerNoItemsView];
-            _previousElasticity = [enclosingScrollView verticalScrollElasticity];
-            [enclosingScrollView setVerticalScrollElasticity:NSScrollElasticityNone];
-            [self OE_setNeedsLayoutGridView];
-        }
-    }
 }
 
 - (void)reloadData
@@ -595,12 +564,11 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     _cachedItemSize               = NSZeroSize;
     _cachedColumnSpacing          = 0.0;
     
-    [self OE_removeNoItemsView];
     [self setFrameSize:NSZeroSize];
     
     // Recalculate all of the required cached values
     [self OE_calculateCachedValuesAndQueryForDataChanges:YES];
-    if(_cachedNumberOfItems == 0) [self OE_addNoItemsView];
+    if(_cachedNumberOfItems == 0) [self OE_removeAllCells];
     
     _needsReloadData = NO;
 }
@@ -733,19 +701,11 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     if(_supressFrameResize > 0) return;
     [self OE_updateDecorativeLayers];
 
-    if(_noItemsView)
+    const NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
+    if(!NSEqualSizes(_cachedViewSize, visibleRect.size))
     {
-        [self setFrame:[[self enclosingScrollView] bounds]];
-        [self OE_centerNoItemsView];
-    }
-    else
-    {
-        const NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
-        if(!NSEqualSizes(_cachedViewSize, visibleRect.size))
-        {
-            [self OE_cancelFieldEditor];
-            [self performSelector:@selector(OE_calculateCachedValuesAndQueryForDataChanges:) withObject:[NSNumber numberWithBool:NO] afterDelay:0.25];
-        }
+        [self OE_cancelFieldEditor];
+        [self performSelector:@selector(OE_calculateCachedValuesAndQueryForDataChanges:) withObject:[NSNumber numberWithBool:NO] afterDelay:0.25];
     }
 }
 
@@ -758,16 +718,6 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         _cachedContentOffset = visibleRect.origin;
         [self OE_checkForDataReload];
     }
-}
-
-- (void)OE_centerNoItemsView
-{
-    if(!_noItemsView) return;
-
-    const NSRect  visibleRect = [[self enclosingScrollView] documentVisibleRect];
-    const NSSize  viewSize    = [_noItemsView frame].size;
-    const NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(visibleRect) - viewSize.width) / 2.0), ceil((NSHeight(visibleRect) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
-    [_noItemsView setFrame:viewFrame];
 }
 
 #pragma mark -
@@ -974,8 +924,8 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    // Exit immediately if the noItemsView is visible or if we are not tracking anything
-    if(_trackingLayer == nil || _noItemsView != nil) return;
+    // Exit immediately if we are not tracking anything
+    if(_trackingLayer == nil) return;
 
     if([_trackingLayer isKindOfClass:[OEGridViewCell class]])
     {
@@ -1536,7 +1486,6 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     if(_dataSource != dataSource)
     {
         _dataSource = dataSource;
-        _dataSourceHas.viewForNoItemsInGridView           = [_dataSource respondsToSelector:@selector(viewForNoItemsInGridView:)];
         _dataSourceHas.willBeginEditingCellForItemAtIndex = [_dataSource respondsToSelector:@selector(gridView:willBeginEditingCellForItemAtIndex:)];
         _dataSourceHas.didEndEditingCellForItemAtIndex    = [_dataSource respondsToSelector:@selector(gridView:didEndEditingCellForItemAtIndex:)];
         _dataSourceHas.pasteboardWriterForIndex           = [_dataSource respondsToSelector:@selector(gridView:pasteboardWriterForIndex:)];

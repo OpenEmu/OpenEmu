@@ -743,22 +743,24 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 #pragma mark - Importing Items with completion handler
 
-- (void)importItemAtPath:(NSString *)path withCompletionHandler:(OEImportItemCompletionBlock)handler
+- (BOOL)importItemAtPath:(NSString *)path withCompletionHandler:(OEImportItemCompletionBlock)handler
 {
     NSURL *url = [NSURL fileURLWithPath:path];
-    [self importItemAtURL:url withCompletionHandler:handler];
+    return [self importItemAtURL:url withCompletionHandler:handler];
 }
 
-- (void)importItemsAtPaths:(NSArray *)paths withCompletionHandler:(OEImportItemCompletionBlock)handler
+- (BOOL)importItemsAtPaths:(NSArray *)paths withCompletionHandler:(OEImportItemCompletionBlock)handler
 {
+    __block BOOL success = NO;
     [paths enumerateObjectsUsingBlock:
      ^(id obj, NSUInteger idx, BOOL *stop)
      {
-         [self importItemAtPath:obj withCompletionHandler:handler];
+         success = [self importItemAtPath:obj withCompletionHandler:handler] || success;
      }];
+    return success;
 }
 
-- (void)importItemAtURL:(NSURL *)url withCompletionHandler:(OEImportItemCompletionBlock)handler
+- (BOOL)importItemAtURL:(NSURL *)url withCompletionHandler:(OEImportItemCompletionBlock)handler
 {
     id item = [[self queue] firstObjectMatchingBlock:
                ^ BOOL (id item)
@@ -774,38 +776,42 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             [[self queue] addObject:item];
             self.totalNumberOfItems++;
             [self start];
+            return YES;
         }
     }
+    return NO;
 }
 
-- (void)importItemsAtURLs:(NSArray *)urls withCompletionHandler:(OEImportItemCompletionBlock)handler
+- (BOOL)importItemsAtURLs:(NSArray *)urls withCompletionHandler:(OEImportItemCompletionBlock)handler
 {
+    __block BOOL success = NO;
     [urls enumerateObjectsUsingBlock:
      ^(id obj, NSUInteger idx, BOOL *stop)
      {
-         [self importItemAtURL:obj withCompletionHandler:handler];
+         success = [self importItemAtURL:obj withCompletionHandler:handler] || success;
      }];
+    return success;
 }
 
 #pragma mark - Importing Items without completion handler
-- (void)importItemAtPath:(NSString *)path
+- (BOOL)importItemAtPath:(NSString *)path
 {
-    [self importItemAtPath:path withCompletionHandler:nil];
+    return [self importItemAtPath:path withCompletionHandler:nil];
 }
 
-- (void)importItemsAtPaths:(NSArray *)paths
+- (BOOL)importItemsAtPaths:(NSArray *)paths
 {
-    [self importItemsAtPaths:paths withCompletionHandler:nil];
+    return [self importItemsAtPaths:paths withCompletionHandler:nil];
 }
 
-- (void)importItemAtURL:(NSURL *)url
+- (BOOL)importItemAtURL:(NSURL *)url
 {
-    [self importItemAtURL:url withCompletionHandler:nil];
+    return [self importItemAtURL:url withCompletionHandler:nil];
 }
 
-- (void)importItemsAtURLs:(NSArray *)urls
+- (BOOL)importItemsAtURLs:(NSArray *)urls
 {
-    [self importItemsAtURLs:urls withCompletionHandler:nil];
+    return [self importItemsAtURLs:urls withCompletionHandler:nil];
 }
 
 #pragma mark - Spotlight importing -

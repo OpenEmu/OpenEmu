@@ -167,6 +167,11 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
     [[self gameViewController] terminateEmulation];
+
+    // Since the library database is also saved when OELibraryDatabase receives the same notification, it's possible that
+    // the database is saved _before_ we terminate emulation. In order to prevent loss of changes that have happened
+    // after the database was saved, we save it again.
+    [[OELibraryDatabase defaultDatabase] save:NULL];
 }
 
 - (void)showInSeparateWindow:(id)sender fullScreen:(BOOL)fullScreen;
@@ -315,9 +320,25 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     }
     
     OEDBGame *game =  [OEDBGame gameWithURL:absoluteURL inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-    if(!game)
+    if(game == nil)
     {
-        DLog(@"game could not be created");
+        // Could not find game in database. Try to import the file
+        OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
+        OEImportItemCompletionBlock completion = ^{
+            NSString *fileName    = [[absoluteURL lastPathComponent] stringByDeletingPathExtension];
+            NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' was imported.", ""), fileName];
+            NSAlert *alert = [NSAlert alertWithMessageText:messageText defaultButton:@"Yes" alternateButton:@"No" otherButton:nil informativeTextWithFormat:@"Your game finished importing, do you want to play it now?"];
+            if([alert runModal] == NSAlertDefaultReturn)
+            {
+                [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:absoluteURL display:YES completionHandler:nil];
+            }
+        };
+        
+        if([importer importItemAtURL:absoluteURL withCompletionHandler:completion])
+        {
+            if(outError != NULL)
+                *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain code:OEImportRequiredError userInfo:nil];
+        }
         return NO;
     }
     
