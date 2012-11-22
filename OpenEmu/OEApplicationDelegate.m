@@ -167,7 +167,14 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
          if([document isKindOfClass:[OEGameDocument class]])
              [mainWindowController openGameDocument:(OEGameDocument *)document];
          
-         completionHandler(document, documentWasAlreadyOpen, error);
+         if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code]==OEImportRequiredError)
+         {
+             completionHandler(nil, NO, nil);
+             return;
+         }
+         
+         if(completionHandler != nil)
+             completionHandler(document, documentWasAlreadyOpen, error);
      }];
 }
 
@@ -538,7 +545,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark - KVO
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if(context == _OEApplicationDelegateAllPluginsContext)

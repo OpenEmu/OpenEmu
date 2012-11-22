@@ -320,9 +320,23 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     }
     
     OEDBGame *game =  [OEDBGame gameWithURL:absoluteURL inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-    if(!game)
+    if(game == nil)
     {
-        DLog(@"game could not be created");
+        // Could not find game in database. Try to import the file
+        OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
+        OEImportItemCompletionBlock completion = ^{
+            NSAlert *alert = [NSAlert alertWithMessageText:@"The Game '%@' was imported" defaultButton:@"Yes" alternateButton:@"No" otherButton:nil informativeTextWithFormat:@"Your game finished importing, do you want to paly it now?"];
+            if([alert runModal] == NSAlertDefaultReturn)
+            {
+                [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:absoluteURL display:YES completionHandler:nil];
+            }
+        };
+        
+        if([importer importItemAtURL:absoluteURL withCompletionHandler:completion])
+        {
+            if(outError != NULL)
+                *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain code:OEImportRequiredError userInfo:nil];
+        }
         return NO;
     }
     
