@@ -34,7 +34,10 @@
 #import "OEBackgroundNoisePattern.h"
 #import "OECoverGridForegroundLayer.h"
 
+#import "NSColor+OEAdditions.h"
+
 @interface OEBlankSlateView ()
+@property CALayer *dragIndicationLayer;
 @property NSDragOperation lastDragOperation;
 - (void)OE_commonInit;
 - (void)OE_showView:(NSView*)view;
@@ -67,7 +70,7 @@
 
 - (id)initWithFrame:(NSRect)frameRect
 {
-    self = [super initWithFrame:NSZeroRect];
+    self = [super initWithFrame:frameRect];
     if (self) {
         [self OE_commonInit];
     }
@@ -77,37 +80,36 @@
 - (void)OE_commonInit
 {
     OEBackgroundNoisePatternCreate();
-    
+        
     [self setWantsLayer:YES];
     CALayer *layer = [CALayer layer];
+    [layer setLayoutManager:self];
+    [layer setDelegate:self];
+    [layer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [layer setFrame:[self bounds]];
     [self setLayer:layer];
-    
-    // Disable implicit animations
-    [layer setActions:@{ @"onOrderIn" : [NSNull null],
-                        @"onOrderOut" : [NSNull null],
-                         @"sublayers" : [NSNull null],
-                          @"contents" : [NSNull null],
-                            @"bounds" : [NSNull null]
-     }];
     
     // Set background lighting
     [layer setContentsGravity:kCAGravityResize];
     [layer setContents:[NSImage imageNamed:@"background_lighting"]];
-    [layer setFrame:[self bounds]];
     
     // Setup noise
     CALayer *noiseLayer = [CALayer layer];
-    [noiseLayer setFrame:[self bounds]];
-    [noiseLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
     [noiseLayer setGeometryFlipped:YES];
     [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
     [layer addSublayer:noiseLayer];
     
     // Setup foreground
     OECoverGridForegroundLayer *foregroundLayer = [[OECoverGridForegroundLayer alloc] init];
-    [foregroundLayer setFrame:[self bounds]];
-    [foregroundLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
     [layer addSublayer:foregroundLayer];
+
+    // Setup drag indication layer
+    _dragIndicationLayer = [[CALayer alloc] init];
+    [_dragIndicationLayer setBorderColor:[[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor]];
+    [_dragIndicationLayer setBorderWidth:2.0];
+    [_dragIndicationLayer setCornerRadius:8.0];
+    [_dragIndicationLayer setHidden:YES];
+    [layer addSublayer:_dragIndicationLayer];
 }
 
 #pragma mark -
@@ -122,6 +124,7 @@
     [self OE_setupView:view withCollectionName:representedCollectionName];
     [self OE_showView:view];
 }
+
 - (void)OE_setupView:(NSView*)view withCollectionName:(NSString *)collectionName
 {
     [self OE_setupBoxInView:view];
@@ -383,17 +386,32 @@
 
 
 - (void)OE_showView:(NSView*)view
-{
+{    
     // Remove current blank slate subview
     [[[self subviews] lastObject] removeFromSuperview];
     
-    const NSRect  bounds      = [self bounds];
-    const NSSize  viewSize    = [view frame].size;
-    const NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(bounds) - viewSize.width) / 2.0), ceil((NSHeight(bounds) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
+    NSRect  bounds      = [self bounds];
+    NSSize  viewSize    = [view frame].size;
+    NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(bounds) - viewSize.width) / 2.0), ceil((NSHeight(bounds) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
+    [view setAutoresizingMask:NSViewMaxXMargin|NSViewMinXMargin|NSViewMaxYMargin|NSViewMinYMargin];
     [view setFrame:viewFrame];
-    [view setAutoresizingMask:NSViewMaxXMargin|NSViewMinXMargin|NSViewMinYMargin|NSViewMaxYMargin];
     [self addSubview:view];
 }
+
+- (void)layoutSublayersOfLayer:(CALayer *)theLayer
+{
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    
+    const NSRect bounds = [self bounds];
+    [[theLayer sublayers] enumerateObjectsUsingBlock:^(CALayer *obj, NSUInteger idx, BOOL *stop) {
+        if(obj == _dragIndicationLayer) [obj setFrame:NSInsetRect(bounds, 1.0, 1.0)];
+        else if(obj!=[[[self subviews] lastObject] layer]) [obj setFrame:bounds];
+    }];
+    
+    [CATransaction flush];
+}
+
 #pragma mark -
 #pragma mark NSDraggingDestination
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
@@ -404,6 +422,8 @@
         _lastDragOperation = [_delegate blankSlateView:self validateDrop:sender];
     }
     
+    [_dragIndicationLayer setHidden:(_lastDragOperation==NSDragOperationNone)];
+    
     return _lastDragOperation;
 }
 
@@ -413,20 +433,31 @@
     {
         _lastDragOperation = [_delegate blankSlateView:self draggingUpdated:sender];
     }
+    
+    [_dragIndicationLayer setHidden:(_lastDragOperation==NSDragOperationNone)];
+    
     return _lastDragOperation;
 }
 
 - (void)draggingExited:(id<NSDraggingInfo>)sender
 {
+    [_dragIndicationLayer setHidden:YES];
 }
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
+    [_dragIndicationLayer setHidden:YES];
     return [_delegate respondsToSelector:@selector(blankSlateView:acceptDrop:)] && [_delegate blankSlateView:self acceptDrop:sender];
+}
+#pragma mark - CALayer Delegate
+- (id < CAAction >)actionForLayer:(CALayer *)layer forKey:(NSString *)key
+{
+    return (id < CAAction >)[NSNull null];
 }
 #pragma mark - Properties
 @synthesize delegate=_delegate;
 @synthesize lastDragOperation=_lastDragOperation;
 @synthesize representedCollectionName=_representedCollectionName;
 @synthesize representedSystemPlugin=_representedSystemPlugin;
+@synthesize dragIndicationLayer=_dragIndicationLayer;
 @end
