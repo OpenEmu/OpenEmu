@@ -325,7 +325,9 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
         // Could not find game in database. Try to import the file
         OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
         OEImportItemCompletionBlock completion = ^{
-            NSAlert *alert = [NSAlert alertWithMessageText:@"The Game '%@' was imported" defaultButton:@"Yes" alternateButton:@"No" otherButton:nil informativeTextWithFormat:@"Your game finished importing, do you want to paly it now?"];
+            NSString *fileName    = [[absoluteURL lastPathComponent] stringByDeletingPathExtension];
+            NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' was imported.", ""), fileName];
+            NSAlert *alert = [NSAlert alertWithMessageText:messageText defaultButton:@"Yes" alternateButton:@"No" otherButton:nil informativeTextWithFormat:@"Your game finished importing, do you want to play it now?"];
             if([alert runModal] == NSAlertDefaultReturn)
             {
                 [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:absoluteURL display:YES completionHandler:nil];
