@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -39,7 +38,7 @@ static BOOL _OEHIDElementIsTrigger(IOHIDElementRef elem)
 OEHIDEventHatDirection OEHIDEventHatDirectionFromNSString(NSString *string)
 {
     static NSDictionary *allDirections = nil;
-    
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         allDirections = @{
@@ -53,14 +52,14 @@ OEHIDEventHatDirection OEHIDEventHatDirectionFromNSString(NSString *string)
         @"NW" : @(OEHIDEventHatDirectionNorthWest)
         };
     });
-    
+
     return [[allDirections objectForKey:string] integerValue];
 }
 
 NSString *NSStringFromOEHIDHatDirection(OEHIDEventHatDirection dir)
 {
     NSString *ret = @"Null";
-    
+
     switch(dir)
     {
         case OEHIDEventHatDirectionNorth     : ret = @"N";  break;
@@ -73,14 +72,14 @@ NSString *NSStringFromOEHIDHatDirection(OEHIDEventHatDirection dir)
         case OEHIDEventHatDirectionNorthWest : ret = @"NW"; break;
         default : break;
     }
-    
+
     return ret;
 }
 
 NSString *NSLocalizedStringFromOEHIDHatDirection(OEHIDEventHatDirection dir)
 {
     NSString *ret = @"Null";
-    
+
     switch(dir)
     {
         case OEHIDEventHatDirectionNorth     : ret = NSLocalizedString(@"North"     , @"Hat Switch North Direction");      break;
@@ -93,7 +92,7 @@ NSString *NSLocalizedStringFromOEHIDHatDirection(OEHIDEventHatDirection dir)
         case OEHIDEventHatDirectionNorthWest : ret = NSLocalizedString(@"North-West", @"Hat Switch North-West Direction"); break;
         default : break;
     }
-    
+
     return ret;
 }
 
@@ -107,14 +106,14 @@ NSString *NSStringFromOEHIDEventType(OEHIDEventType type)
         case OEHIDEventTypeHatSwitch : return @"OEHIDEventTypeHatSwitch";
         case OEHIDEventTypeKeyboard  : return @"OEHIDEventTypeKeyboard";
     }
-    
+
     return @"<unknown>";
 }
 
 OEHIDEventAxis OEHIDEventAxisFromNSString(NSString *string)
 {
     static NSDictionary *keyTypes = nil;
-    
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         keyTypes = @{
@@ -126,7 +125,7 @@ OEHIDEventAxis OEHIDEventAxisFromNSString(NSString *string)
         @"Rz" : @(OEHIDEventAxisRz),
         };
     });
-    
+
     return [[keyTypes objectForKey:string] integerValue];
 }
 
@@ -144,7 +143,7 @@ NSString *NSStringFromOEHIDEventAxis(OEHIDEventAxis axis)
         case OEHIDEventAxisRz : ret = @"Rz"; break;
         default : break;
     }
-    
+
     return ret;
 }
 
@@ -152,11 +151,11 @@ NSString *OEHIDEventAxisDisplayDescription(OEHIDEventAxis axis, OEHIDEventAxisDi
 {
     // Example: ret = @"P1 -X" for Pad One X axis Negative
     NSString *ret = NSStringFromOEHIDEventAxis(axis);
-    
+
     char sign = (direction == OEHIDEventAxisDirectionNull     ? '=' :
                  direction == OEHIDEventAxisDirectionPositive ? '+' :
                  direction == OEHIDEventAxisDirectionNegative ? '-' : '?');
-    
+
     return ret != nil ? [NSString stringWithFormat:@"%@%c", ret, sign] : @"";
 }
 
@@ -164,9 +163,9 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 {
     const uint32_t page  = IOHIDElementGetUsagePage(elem);
     const uint32_t usage = IOHIDElementGetUsage(elem);
-    
+
     NSString *string = nil;
-    
+
     switch(page)
     {
         case kHIDPage_GenericDesktop :
@@ -189,15 +188,15 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
                     NSInteger min = IOHIDElementGetLogicalMin(elem);
                     NSInteger max = IOHIDElementGetLogicalMax(elem);
                     NSInteger count = max - min + 1;
-                    
+
                     NSString *type = @"Unknown";
-                    
+
                     switch(count)
                     {
                         case 4 : type = @"Four Ways"; break;
                         case 8 : type = @"Eight Ways"; break;
                     }
-                    
+
                     string = [NSString stringWithFormat:@"HatSwitch: %@ min: %ld max: %ld", type, min, max];
                 }
                     break;
@@ -211,11 +210,11 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             if(!(((usage >= 0x04) && (usage <= 0xA4)) ||
                  ((usage >= 0xE0) && (usage <= 0xE7))))
                 return nil;
-            
+
             string = [NSString stringWithFormat:@"Keyboard: %x", usage];
             break;
     }
-    
+
     return string;
 }
 
@@ -254,11 +253,11 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             OEHIDEventHatDirection  previousHatDirection;
             OEHIDEventHatDirection  hatDirection;
         } hatSwitch;
-		struct {
-			NSUInteger         keycode;
+        struct {
+            NSUInteger         keycode;
             OEHIDEventState    previousState;
-			OEHIDEventState    state;
-		} key;
+            OEHIDEventState    state;
+        } key;
     }                          _data;
     BOOL                       _hasPreviousState;
 }
@@ -276,66 +275,66 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 
 + (NSUInteger)keyCodeForVK:(CGCharCode)charCode
 {
-	for(int i = 0; i < sizeof(hidvk_codes) / sizeof(*hidvk_codes); ++i)
-		if(hidvk_codes[i].vkCode == charCode)
-			return hidvk_codes[i].hidCode;
-    
-	return 0;
+    for(int i = 0; i < sizeof(hidvk_codes) / sizeof(*hidvk_codes); ++i)
+        if(hidvk_codes[i].vkCode == charCode)
+            return hidvk_codes[i].hidCode;
+
+    return 0;
 }
 
 + (NSString *)stringForHIDKeyCode:(NSUInteger)hidCode
 {
-	CGKeyCode keyCode = 0xFFFF;
-	for(int i = 0; i < sizeof(hidvk_codes) / sizeof(*hidvk_codes); ++i)
-		if(hidvk_codes[i].hidCode == hidCode)
-		{
-			keyCode = hidvk_codes[i].vkCode;
-			break;
-		}
-	
-	for(int i = 0; i < sizeof(hidlabels) / sizeof(*hidlabels); ++i)
-		if(hidlabels[i].hidCode == hidCode)
-			 return hidlabels[i].string;
-		
-	TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
-	CFDataRef uchr = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
-	CFRelease(currentKeyboard);
-	
+    CGKeyCode keyCode = 0xFFFF;
+    for(int i = 0; i < sizeof(hidvk_codes) / sizeof(*hidvk_codes); ++i)
+        if(hidvk_codes[i].hidCode == hidCode)
+        {
+            keyCode = hidvk_codes[i].vkCode;
+            break;
+        }
+
+    for(int i = 0; i < sizeof(hidlabels) / sizeof(*hidlabels); ++i)
+        if(hidlabels[i].hidCode == hidCode)
+            return hidlabels[i].string;
+
+    TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
+    CFDataRef uchr = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+    if(currentKeyboard != nil) CFRelease(currentKeyboard);
+
     // For non-unicode layouts such as Chinese, Japanese, and Korean, get the ASCII capable layout
-    if(!uchr)
+    if(uchr == nil)
     {
         currentKeyboard = TISCopyCurrentASCIICapableKeyboardLayoutInputSource();
         uchr = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
-        CFRelease(currentKeyboard);
+        if(currentKeyboard != nil) CFRelease(currentKeyboard);
     }
-    
+
     const UCKeyboardLayout *keyboardLayout = (const UCKeyboardLayout*)CFDataGetBytePtr(uchr);
-    
-	if(keyboardLayout)
+
+    if(keyboardLayout)
     {
-		UInt32 deadKeyState = 0;
-		UniCharCount maxStringLength = 255;
-		UniCharCount actualStringLength = 0;
-		UniChar unicodeString[maxStringLength];
-		
-		OSStatus status = UCKeyTranslate(keyboardLayout,
-										 keyCode, kUCKeyActionDisplay, 0,
-										 LMGetKbdType(), 0,
-										 &deadKeyState,
-										 maxStringLength,
-										 &actualStringLength, unicodeString);
-		
-        
-		if(actualStringLength > 0 && status == noErr)
+        UInt32 deadKeyState = 0;
+        UniCharCount maxStringLength = 255;
+        UniCharCount actualStringLength = 0;
+        UniChar unicodeString[maxStringLength];
+
+        OSStatus status = UCKeyTranslate(keyboardLayout,
+                                         keyCode, kUCKeyActionDisplay, 0,
+                                         LMGetKbdType(), 0,
+                                         &deadKeyState,
+                                         maxStringLength,
+                                         &actualStringLength, unicodeString);
+
+
+        if(actualStringLength > 0 && status == noErr)
         {
             NSString *lowercaseString = [NSString stringWithCharacters:unicodeString length:(NSUInteger)actualStringLength];
             if (![lowercaseString isEqualToString:[[lowercaseString uppercaseString] lowercaseString]])
                 return lowercaseString;
             return [lowercaseString uppercaseString];
         }
-	}
-    
-	return nil;
+    }
+
+    return nil;
 }
 
 - (NSString *)displayDescription
@@ -352,10 +351,10 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             // Example: ret = @"P1 B12" for Pad One Button 12
             return [NSString stringWithFormat:NSLocalizedString(@"Button %ld", @"Button key name with button number.") , _data.button.buttonNumber];
             break;
-		case OEHIDEventTypeKeyboard :
-			return [OEHIDEvent stringForHIDKeyCode:_data.key.keycode];
+        case OEHIDEventTypeKeyboard :
+            return [OEHIDEvent stringForHIDKeyCode:_data.key.keycode];
     }
-    
+
     return @"";
 }
 
@@ -381,13 +380,13 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
     ret->_type = OEHIDEventTypeAxis;
     ret->_data.axis.axis = axis;
-    
+
     ret->_data.axis.direction = MIN(OEHIDEventAxisDirectionPositive, MAX(direction, OEHIDEventAxisDirectionNegative));
-    
+
     ret->_data.axis.minimum = -INT_MAX;
     ret->_data.axis.value   =  INT_MAX * ret->_data.axis.direction;
     ret->_data.axis.maximum =  INT_MAX;
-    
+
     return ret;
 }
 
@@ -396,15 +395,15 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
     ret->_type = OEHIDEventTypeAxis;
     ret->_data.axis.axis = axis;
-    
+
     if(value < 0.0)      ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
     else if(value > 0.0) ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
     else                 ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
-    
+
     ret->_data.axis.minimum = -INT_MAX;
     ret->_data.axis.value   = (NSInteger)(value * INT_MAX);
     ret->_data.axis.maximum =  INT_MAX;
-    
+
     return ret;
 }
 
@@ -413,17 +412,17 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
     ret->_type = OEHIDEventTypeAxis;
     ret->_data.axis.axis = axis;
-    
+
     ret->_data.axis.minimum = minimum;
     ret->_data.axis.value   = value;
     ret->_data.axis.maximum = maximum;
-    
+
     NSInteger zero = (ret->_data.axis.maximum + ret->_data.axis.minimum) / 2 + 1;
-    
+
     if(value < zero)      ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
     else if(value > zero) ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
     else                  ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
-    
+
     return ret;
 }
 
@@ -432,12 +431,12 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
     ret->_type = OEHIDEventTypeTrigger;
     ret->_data.trigger.axis = axis;
-    
+
     ret->_data.trigger.direction = !!direction;
-    
+
     ret->_data.trigger.value   = INT_MAX * ret->_data.trigger.direction;
     ret->_data.trigger.maximum = INT_MAX;
-    
+
     return ret;
 }
 
@@ -446,48 +445,48 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
     ret->_type = OEHIDEventTypeTrigger;
     ret->_data.trigger.axis = axis;
-    
+
     ret->_data.trigger.value   = value;
     ret->_data.trigger.maximum = value;
-    
+
     ret->_data.trigger.direction = ret->_data.trigger.value == 0 ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
-    
+
     return ret;
 }
 
 + (id)buttonEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp buttonNumber:(NSUInteger)number state:(OEHIDEventState)state cookie:(NSUInteger)cookie
 {
     OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
-    
+
     ret->_type = OEHIDEventTypeButton;
     ret->_cookie = cookie;
     ret->_data.button.buttonNumber = number;
     ret->_data.button.state = state;
-    
+
     return ret;
 }
 
 + (id)hatSwitchEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp type:(OEHIDEventHatSwitchType)hatSwitchType direction:(OEHIDEventHatDirection)aDirection cookie:(NSUInteger)cookie;
 {
     OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
-    
+
     ret->_type = OEHIDEventTypeHatSwitch;
     ret->_cookie = cookie;
     ret->_data.hatSwitch.hatSwitchType = hatSwitchType;
     ret->_data.hatSwitch.hatDirection  = aDirection;
-    
+
     return ret;
 }
 
 + (id)keyEventWithTimestamp:(NSTimeInterval)timestamp keyCode:(NSUInteger)keyCode state:(OEHIDEventState)state cookie:(NSUInteger)cookie
 {
     OEHIDEvent *ret = [[self alloc] initWithPadNumber:0 timestamp:timestamp];
-    
+
     ret->_type = OEHIDEventTypeKeyboard;
     ret->_cookie = cookie;
     ret->_data.key.keycode = keyCode;
     ret->_data.key.state = state;
-    
+
     return ret;
 }
 
@@ -506,14 +505,14 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             return nil;
         }
     }
-    
+
     return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
     OEHIDEvent *ret = [[OEHIDEvent alloc] initWithPadNumber:[self padNumber] timestamp:[self timestamp]];
-    
+
     ret->_type              = _type;
     ret->_padNumber         = _padNumber;
     ret->_timestamp         = _timestamp;
@@ -521,7 +520,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     ret->_cookie            = _cookie;
     ret->_data              = _data;
     ret->_hasPreviousState  = NO;
-    
+
     return ret;
 }
 
@@ -530,23 +529,23 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     IOHIDElementRef elem   = IOHIDValueGetElement(aValue);
     const uint32_t  page   = IOHIDElementGetUsagePage(elem);
     const uint32_t  usage  = IOHIDElementGetUsage(elem);
-    
+
     NSUInteger      cookie = (uint32_t)IOHIDElementGetCookie(elem);
-    
+
     _hasPreviousState = _type != 0;
-    
+
     if(!_hasPreviousState) _cookie = cookie;
     else if(_cookie != cookie) return NO;
-    
+
     if(IOHIDValueGetLength(aValue) == 0 ||
        IOHIDValueGetLength(aValue) >  8)
         return NO;
-    
+
     _previousTimestamp   = _timestamp;
     _timestamp           = IOHIDValueGetTimeStamp(aValue) / 1e9;
-    
+
     CFIndex value        = IOHIDValueGetIntegerValue(aValue);
-    
+
     switch(page)
     {
         case kHIDPage_GenericDesktop :
@@ -563,51 +562,51 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
                     {
                         _type = OEHIDEventTypeTrigger;
                         _data.trigger.axis = usage;
-                        
+
                         if(_hasPreviousState)
                         {
                             _data.trigger.previousValue     = _data.trigger.value;
                             _data.trigger.previousDirection = _data.trigger.direction;
                         }
-                        
+
                         _data.trigger.value   = value;
                         _data.trigger.maximum = IOHIDElementGetLogicalMax(elem);
-                        
+
                         NSInteger deadZone = (NSInteger)ceil(_data.trigger.maximum * [aDeviceHandler deadZone]);
-                        
+
                         if(_data.trigger.value <= deadZone) _data.trigger.value = 0;
-                        
+
                         _data.trigger.direction = (_data.trigger.value > 0 ? OEHIDEventAxisDirectionPositive : OEHIDEventAxisDirectionNull);
                     }
                     else
                     {
                         _type = OEHIDEventTypeAxis;
                         _data.axis.axis = usage;
-                        
+
                         if(_hasPreviousState)
                         {
                             _data.axis.previousValue     = _data.axis.value;
                             _data.axis.previousDirection = _data.axis.direction;
                         }
-                        
+
                         _data.axis.minimum = IOHIDElementGetLogicalMin(elem);
                         _data.axis.value   = value;
                         _data.axis.maximum = IOHIDElementGetLogicalMax(elem);
-                        
+
                         if(_data.axis.minimum >= 0)
                         {
                             NSInteger zero = (_data.axis.maximum + _data.axis.minimum) / 2 + 1;
-                            
+
                             _data.axis.minimum -= zero,
                             _data.axis.value   -= zero,
                             _data.axis.maximum -= zero;
                         }
-                        
+
                         NSInteger deadZone = (NSInteger)ceil(_data.axis.maximum * [aDeviceHandler deadZone]);
-                        
+
                         if(-deadZone <= _data.axis.value && _data.axis.value <= deadZone)
                             _data.axis.value = 0;
-                        
+
                         if(_data.axis.value > 0)      _data.axis.direction = OEHIDEventAxisDirectionPositive;
                         else if(_data.axis.value < 0) _data.axis.direction = OEHIDEventAxisDirectionNegative;
                         else                          _data.axis.direction = OEHIDEventAxisDirectionNull;
@@ -615,19 +614,19 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
                     break;
                 case kHIDUsage_GD_Hatswitch :
                     _type = OEHIDEventTypeHatSwitch;
-                    
+
                     NSInteger min = IOHIDElementGetLogicalMin(elem);
                     NSInteger max = IOHIDElementGetLogicalMax(elem);
-                    
+
                     if(_hasPreviousState) _data.hatSwitch.previousHatDirection = _data.hatSwitch.hatDirection;
-                    
+
                     // value is outside of the logical range, it's therefore NULL
                     if(value < min || max < value) _data.hatSwitch.hatDirection = OEHIDEventHatDirectionNull;
                     else
                     {
                         NSInteger count = max - min + 1;
                         OEHIDEventHatDirection dir = OEHIDEventHatDirectionNull;
-                        
+
                         switch(count)
                         {
                             case 4 :
@@ -670,9 +669,9 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         }
         case kHIDPage_Button :
             _type = OEHIDEventTypeButton;
-            
+
             if(_hasPreviousState) _data.button.previousState = _data.button.state;
-            
+
             _data.button.buttonNumber = usage;
             _data.button.state = !!value;
             break;
@@ -680,16 +679,16 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             if(!(((usage >= 0x04) && (usage <= 0xA4)) ||
                  ((usage >= 0xE0) && (usage <= 0xE7))))
                 return NO;
-            
+
             _type = OEHIDEventTypeKeyboard;
-            
+
             if(_hasPreviousState) _data.key.previousState = _data.key.state;
-            
+
             _data.key.keycode = usage;
             _data.key.state = !!value;
             break;
     }
-    
+
     return YES;
 }
 
@@ -699,10 +698,10 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 
     IOHIDElementRef element = [aDeviceHandler elementForEvent:self];
     if(element != NULL) ret->_cookie = IOHIDElementGetCookie(element);
-    
+
     ret->_padNumber        = [aDeviceHandler deviceNumber];
     ret->_hasPreviousState = NO;
-    
+
     return ret;
 }
 
@@ -723,14 +722,14 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         case OEHIDEventTypeKeyboard  : ret = [self state]        == OEHIDEventStateOff;          break;
         default : break;
     }
-    
+
     return ret;
 }
 
 - (BOOL)hasChanges
 {
     BOOL hasChanges = YES;
-    
+
     if(_hasPreviousState)
     {
         switch([self type])
@@ -750,7 +749,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
                 break;
         }
     }
-    
+
     return hasChanges;
 }
 
@@ -778,16 +777,16 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 - (OEHIDEventAxisDirection)oppositeDirection
 {
     NSAssert1([self type] == OEHIDEventTypeAxis, @"Invalid message sent to event \"%@\"", self);
-    
+
     OEHIDEventAxisDirection ret = _data.axis.direction;
-    
+
     switch(ret)
     {
         case OEHIDEventAxisDirectionNegative : ret = OEHIDEventAxisDirectionPositive; break;
         case OEHIDEventAxisDirectionPositive : ret = OEHIDEventAxisDirectionNegative; break;
         default : break;
     }
-    
+
     return ret;
 }
 
@@ -857,8 +856,8 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 
 - (NSUInteger)keycode
 {
-    NSAssert1([self type] == OEHIDEventTypeKeyboard, @"Invalid message sent to event \"%@\"", self);	
-	return _data.key.keycode;
+    NSAssert1([self type] == OEHIDEventTypeKeyboard, @"Invalid message sent to event \"%@\"", self);
+    return _data.key.keycode;
 }
 
 - (NSUInteger)cookie
@@ -869,9 +868,9 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 - (NSString *)description
 {
     NSString *subs = @"UNKNOWN TYPE";
-    
+
 #define STATE_STR(state) (state == NSOnState ? "On" : "Off")
-    
+
     if(_type == OEHIDEventTypeAxis)
     {
         char *ax;
@@ -885,13 +884,13 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             case OEHIDEventAxisRz : ax = "Rz";   break;
             default          : ax = "none"; break;
         }
-        
+
         const char * (^dirStr)(OEHIDEventAxisDirection dir) =
         ^ const char * (OEHIDEventAxisDirection dir)
         {
             return (dir == OEHIDEventAxisDirectionNegative ? "Neg" : (dir == OEHIDEventAxisDirectionPositive ? "Pos" : "Nul"));
         };
-        
+
         subs = [NSString stringWithFormat:@"type=Axis axis=%s direction=%s previousDirection=%s min=%lld max=%lld value=%lld previousValue=%lld",
                 ax, dirStr(_data.axis.direction), dirStr(_data.axis.previousDirection),
                 (int64_t)_data.axis.minimum, (int64_t)_data.axis.maximum,
@@ -903,14 +902,14 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     else if(_type == OEHIDEventTypeHatSwitch)
     {
         NSString *subtype = @"Unknown";
-        
+
         switch(_data.hatSwitch.hatSwitchType)
         {
             case OEHIDEventHatSwitchType4Ways : subtype = @"4-Ways"; break;
             case OEHIDEventHatSwitchType8Ways : subtype = @"8-Ways"; break;
             default : break;
         }
-        
+
         subs = [NSString stringWithFormat:@"type=HatSwitch type=%@ position=%@ previousPosition=%@", subtype,
                 NSLocalizedStringFromOEHIDHatDirection(_data.hatSwitch.hatDirection),
                 NSLocalizedStringFromOEHIDHatDirection(_data.hatSwitch.previousHatDirection)];
@@ -918,9 +917,9 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     else if(_type == OEHIDEventTypeKeyboard)
         subs = [NSString stringWithFormat:@"type=Key number=%lld state=%s previousState=%s",
                 (int64_t)_data.key.keycode, STATE_STR(_data.key.state), STATE_STR(_data.key.previousState)];
-    
+
 #undef STATE_STR
-    
+
     return [NSString stringWithFormat:@"<%@ %p pad=%lu %@ '%@' cookie=%lu>", [self class], self, _padNumber, subs, [self displayDescription], _cookie];
 }
 
@@ -939,7 +938,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         case OEHIDEventTypeTrigger :
             hash |= 0x2000000000000000u;
             hash |= [self axis] << 8;
-            
+
             OEHIDEventAxisDirection dir = [self direction];
             if(dir != OEHIDEventAxisDirectionNull)
                 hash |= (1 << ((dir) > OEHIDEventAxisDirectionNull));
@@ -956,17 +955,17 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         default :
             break;
     }
-    
+
     return hash;
 }
 
 - (BOOL)isEqual:(id)object
 {
     if(self == object) return YES;
-    
+
     if([object isKindOfClass:[OEHIDEvent class]])
         return [self isEqualToEvent:object];
-    
+
     return NO;
 }
 
@@ -1029,7 +1028,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         default :
             break;
     }
-    
+
     return NO;
 }
 
@@ -1049,7 +1048,7 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
     {
         _type   = [decoder decodeIntegerForKey:OEHIDEventTypeKey];
         _cookie = [decoder decodeIntegerForKey:OEHIDEventCookieKey];
-        
+
         switch([self type])
         {
             case OEHIDEventTypeAxis :
@@ -1074,7 +1073,7 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
                 break;
         }
     }
-    
+
     return self;
 }
 
@@ -1082,7 +1081,7 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
 {
     [encoder encodeInteger:[self type]   forKey:OEHIDEventTypeKey];
     [encoder encodeInteger:[self cookie] forKey:OEHIDEventCookieKey];
-    
+
     switch([self type])
     {
         case OEHIDEventTypeAxis :
@@ -1098,11 +1097,11 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
             [encoder encodeInteger:[self state]         forKey:OEHIDEventStateKey];
             break;
         case OEHIDEventTypeHatSwitch :
-			[encoder encodeInteger:[self hatSwitchType] forKey:OEHIDEventHatSwitchTypeKey];
+            [encoder encodeInteger:[self hatSwitchType] forKey:OEHIDEventHatSwitchTypeKey];
             [encoder encodeInteger:[self hatDirection]  forKey:OEHIDEventHatSwitchDirectionKey];
             break;
-		case OEHIDEventTypeKeyboard :
-			[encoder encodeInteger:[self keycode]       forKey:OEHIDEventKeycodeKey];
+        case OEHIDEventTypeKeyboard :
+            [encoder encodeInteger:[self keycode]       forKey:OEHIDEventKeycodeKey];
             [encoder encodeInteger:[self state]         forKey:OEHIDEventStateKey];
             break;
     }
@@ -1112,7 +1111,7 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
 {
     self->_data.button.previousState = self->_data.button.state;
     self->_previousTimestamp = self->_timestamp;
-    
+
     self->_timestamp = [NSDate timeIntervalSinceReferenceDate];
     self->_data.button.state = newState;
 }
@@ -1262,13 +1261,13 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
 - (NSString *)displayDescription
 {
     NSString *characters = [self characters];
-    
+
     if([characters length] == 0) return characters;
-    
+
     NSString *ret = nil;
-    
+
     unichar tested = [characters characterAtIndex:0];
-    
+
     if(NSF1FunctionKey <= tested && tested <= NSF35FunctionKey)
         ret = [NSString stringWithFormat:@"F%u", tested - NSF1FunctionKey + 1];
     else if(tested == ' ' || tested == 0xA0)//[[NSCharacterSet whitespaceCharacterSet] characterIsMember:tested])
@@ -1296,11 +1295,11 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
         LAZY_CASE(0x7F,                    0x232B); // '⌫'
         LAZY_CASE(0x1B,                    0x238B); // '⎋'
 #undef  LAZY_CASE
-        
+
         if(curr != 0) ret = [NSString stringWithCharacters:&curr length:1];
         else          ret = characters;
     }
-    
+
     return ret;
 }
 
