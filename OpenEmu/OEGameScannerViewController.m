@@ -43,13 +43,16 @@
     [super setView:view];
     [[self importer] setDelegate:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameChanged:) name:NSViewFrameDidChangeNotification object:view];
+    
+    // Show game scanner if importer is running already
+    if([[self importer] status] == OEImporterStatusRunning)
+            [self OE_showView];
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:[self view]];
 }
-
 #pragma mark -
 - (OEROMImporter*)importer
 {
