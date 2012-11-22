@@ -98,7 +98,13 @@
 
     return attributes;
 }
-
+- (NSSize)cellSize
+{
+    NSSize size = [super cellSize];
+    if(_themed && _themeImage)
+        size.width += [self image].size.width;
+    return size;
+}
 - (NSRect)imageRectForBounds:(NSRect)theRect
 {
     NSRect result = [super imageRectForBounds:theRect];
@@ -118,10 +124,19 @@
                 if(NSIsEmptyRect(result))
                 {
                     NSSize imageSize = [self image].size;
-                    // TODO: Take imagePosition and imageScaling into account
-                    result.origin.x = round(NSMinX(theRect) + (NSWidth(theRect)-imageSize.width) / 2.0);
-                    result.origin.y = round(NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0);
                     result.size = imageSize;
+                    
+                    switch ([self imagePosition]) {
+                        // TODO: Take other imagePositions and imageScaling into account
+                        case NSImageRight:
+                            result.origin.x = round(NSMaxX(theRect) - imageSize.width);
+                            result.origin.y = round(NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0);
+                            break;
+                        default:
+                            result.origin.x = round(NSMinX(theRect) + (NSWidth(theRect)-imageSize.width) / 2.0);
+                            result.origin.y = round(NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0);
+                            break;
+                    }
                 }
                 else
                     result.origin.x -= 2;
@@ -144,6 +159,20 @@
                 result = NSInsetRect(result, 3.0, 0.0);
                 break;
             default:
+                if(_themeImage)
+                {
+                    NSSize imageSize = [self image].size;
+                    switch ([self imagePosition]) {
+                    // TODO: Take other imagePositions and imageScaling into account
+                        case NSImageRight:
+                            result.size.width -= imageSize.width;
+                            result.origin.y += 1;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                
                 result.origin.y -= 2;
                 break;
         }
