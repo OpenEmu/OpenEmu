@@ -426,7 +426,6 @@
 		83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */; };
 		83BF5292146C2F0A00B5F742 /* blank_slate_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */; };
 		83BF5295146C2F4000B5F742 /* blank_slate_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5294146C2F4000B5F742 /* blank_slate_box.png */; };
-		83BF5298146C370A00B5F742 /* OEGridBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BF5297146C370A00B5F742 /* OEGridBlankSlateView.m */; };
 		83C0B37114D6EF02007CAC00 /* OESidebarOutlineButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C0B37014D6EF01007CAC00 /* OESidebarOutlineButtonCell.m */; };
 		83C0B37414D6FC58007CAC00 /* sidebar_triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C0B37314D6FC58007CAC00 /* sidebar_triangle.png */; };
 		83C68ED114483579000F720A /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
@@ -1496,8 +1495,6 @@
 		83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEHUDAlert+DefaultAlertsAdditions.m"; sourceTree = "<group>"; };
 		83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_arrow.png; sourceTree = "<group>"; };
 		83BF5294146C2F4000B5F742 /* blank_slate_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_box.png; sourceTree = "<group>"; };
-		83BF5296146C370A00B5F742 /* OEGridBlankSlateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridBlankSlateView.h; sourceTree = "<group>"; };
-		83BF5297146C370A00B5F742 /* OEGridBlankSlateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridBlankSlateView.m; sourceTree = "<group>"; };
 		83C0B36F14D6EF01007CAC00 /* OESidebarOutlineButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarOutlineButtonCell.h; sourceTree = "<group>"; };
 		83C0B37014D6EF01007CAC00 /* OESidebarOutlineButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarOutlineButtonCell.m; sourceTree = "<group>"; };
 		83C0B37314D6FC58007CAC00 /* sidebar_triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidebar_triangle.png; sourceTree = "<group>"; };
@@ -2455,8 +2452,7 @@
 				53439AAC13B92CF1005C0CC8 /* Cover Flow View */,
 				53439AAE13B92CFE005C0CC8 /* Grid View */,
 				53439AAD13B92CFC005C0CC8 /* List View */,
-				83955CB3165D939100572B34 /* OEBlankSlateView.h */,
-				83955CB4165D939100572B34 /* OEBlankSlateView.m */,
+				83955CB9165DAE7900572B34 /* Blank Slate View */,
 			);
 			name = "Collection View";
 			sourceTree = "<group>";
@@ -2503,8 +2499,6 @@
 				53439AD113B92E10005C0CC8 /* Fore- /BackgroundLayers */,
 				83F688BE13C6433600AA0F83 /* OEGridScrollView.h */,
 				83F688BF13C6433600AA0F83 /* OEGridScrollView.m */,
-				83BF5296146C370A00B5F742 /* OEGridBlankSlateView.h */,
-				83BF5297146C370A00B5F742 /* OEGridBlankSlateView.m */,
 				53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */,
 				53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */,
 				83955CB6165DA9B100572B34 /* OEGridNoisePattern.h */,
@@ -3198,6 +3192,15 @@
 				8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */,
 			);
 			name = Preferences;
+			sourceTree = "<group>";
+		};
+		83955CB9165DAE7900572B34 /* Blank Slate View */ = {
+			isa = PBXGroup;
+			children = (
+				83955CB3165D939100572B34 /* OEBlankSlateView.h */,
+				83955CB4165D939100572B34 /* OEBlankSlateView.m */,
+			);
+			name = "Blank Slate View";
 			sourceTree = "<group>";
 		};
 		83977F861409107C00175858 /* preferences controls */ = {
@@ -4725,7 +4728,6 @@
 				83F2988A1458B6DC00ECB4F4 /* OESetupAssistantScrollView.m in Sources */,
 				83025E60146BDD5E00A06EF9 /* OECoreTableButtonCell.m in Sources */,
 				83025E66146BE68E00A06EF9 /* OECoreTableProgressCell.m in Sources */,
-				83BF5298146C370A00B5F742 /* OEGridBlankSlateView.m in Sources */,
 				831E95D814705D8C008487A6 /* OEControlsScrollView.m in Sources */,
 				83D435EF147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m in Sources */,
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
