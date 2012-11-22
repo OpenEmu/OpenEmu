@@ -52,7 +52,6 @@ extern NSString *const OELightStyleGridViewMenu;
 - (NSUInteger)numberOfItemsInGridView:(OEGridView *)gridView;
 
 @optional
-- (NSView *)viewForNoItemsInGridView:(OEGridView *)gridView;
 - (void)gridView:(OEGridView *)gridView willBeginEditingCellForItemAtIndex:(NSUInteger)index;
 - (void)gridView:(OEGridView *)gridView didEndEditingCellForItemAtIndex:(NSUInteger)index;
 - (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index;
@@ -67,7 +66,6 @@ extern NSString *const OELightStyleGridViewMenu;
     OEGridLayer *_rootLayer;                        // Root layer, where all other layers are inserted into
     CALayer     *_selectionLayer;                   // Selection box that appears when selecting multiple cells
     OEGridLayer *_dragIndicationLayer;              // A visual indication that a file is being dragged onto the grid view
-    NSView      *_noItemsView;                      // A decorative view when there are no items to show, e.g. blank slate
 
     NSScrollElasticity _previousElasticity;         // Caches the original elasticity of the scroller eview before the blank slate is added
 
@@ -114,7 +112,6 @@ extern NSString *const OELightStyleGridViewMenu;
 
     struct
     {
-        unsigned int viewForNoItemsInGridView : 1;
         unsigned int willBeginEditingCellForItemAtIndex : 1;
         unsigned int didEndEditingCellForItemAtIndex : 1;
         unsigned int pasteboardWriterForIndex : 1;

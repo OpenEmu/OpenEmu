@@ -400,7 +400,7 @@
 		839310BC147802380020058E /* OECoreDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 839310BB147802380020058E /* OECoreDownload.m */; };
 		839319241649572D000919BD /* WiimoteTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 839319231649572D000919BD /* WiimoteTypes.h */; };
 		83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB4165D939100572B34 /* OEBlankSlateView.m */; };
-		83955CB8165DA9BC00572B34 /* OEGridNoisePattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB7165DA9BC00572B34 /* OEGridNoisePattern.m */; };
+		83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */; };
 		8396CC52140687EE0096F791 /* wood_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 8396CC51140687EE0096F791 /* wood_textfield.png */; };
 		8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */; };
 		83977F641408FE4700175858 /* controller_snes_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F611408FE4700175858 /* controller_snes_eu.png */; };
@@ -1454,8 +1454,8 @@
 		839319231649572D000919BD /* WiimoteTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiimoteTypes.h; sourceTree = "<group>"; };
 		83955CB3165D939100572B34 /* OEBlankSlateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateView.h; sourceTree = "<group>"; };
 		83955CB4165D939100572B34 /* OEBlankSlateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateView.m; sourceTree = "<group>"; };
-		83955CB6165DA9B100572B34 /* OEGridNoisePattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGridNoisePattern.h; sourceTree = "<group>"; };
-		83955CB7165DA9BC00572B34 /* OEGridNoisePattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridNoisePattern.m; sourceTree = "<group>"; };
+		83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEBackgroundNoisePattern.h; sourceTree = "<group>"; };
+		83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBackgroundNoisePattern.m; sourceTree = "<group>"; };
 		8396CC51140687EE0096F791 /* wood_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_textfield.png; sourceTree = "<group>"; };
 		8396CC5414068DA90096F791 /* OEControlsKeyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyButton.h; sourceTree = "<group>"; };
 		8396CC5514068DA90096F791 /* OEControlsKeyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyButton.m; sourceTree = "<group>"; };
@@ -2501,8 +2501,8 @@
 				83F688BF13C6433600AA0F83 /* OEGridScrollView.m */,
 				53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */,
 				53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */,
-				83955CB6165DA9B100572B34 /* OEGridNoisePattern.h */,
-				83955CB7165DA9BC00572B34 /* OEGridNoisePattern.m */,
+				83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */,
+				83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */,
 			);
 			name = "Grid View";
 			sourceTree = "<group>";
@@ -4804,7 +4804,7 @@
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 				14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */,
 				83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */,
-				83955CB8165DA9BC00572B34 /* OEGridNoisePattern.m in Sources */,
+				83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

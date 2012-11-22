@@ -300,6 +300,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     
     [self OE_setupToolbarStatesForViewTag:selectedViewTag];
     [sizeSlider setFloatValue:sliderValue];
+    [self changeGridSize:sizeSlider];
+
     [searchField setStringValue:searchString];
     [listView setSortDescriptors:listViewSortDescriptors];
 
@@ -379,8 +381,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     float splitterPosition = -1;
     switch (tag) {
         case OEBlankSlateTag:
-            FIXME("replace viewForNoItemsInGridView:")
-            view = [self viewForNoItemsInGridView:self];
+            view = blankSlateView;
             break;
         case OEGridViewTag:
             view = gridViewContainer;
@@ -472,6 +473,11 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         
         [[[self libraryController] toolbarSearchField] setEnabled:NO];
         [[[self libraryController] toolbarSlider] setEnabled:NO];
+        
+        if([[self representedObject] isKindOfClass:[OEDBSystem class]])
+            [blankSlateView setRepresentedSystemPlugin:[(OEDBSystem*)[self representedObject] plugin]];
+        else if([[self representedObject] respondsToSelector:@selector(collectionViewName)])
+            [blankSlateView setRepresentedCollectionName:[[self representedObject] collectionViewName]];
     }
 }
 
@@ -575,20 +581,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     }
     
     return item;
-}
-
-- (NSView *)viewForNoItemsInGridView:(OEGridView *)view
-{
-    FIXME("remove method");
-    if(view != (OEGridView *)self) return nil;
-    
-    DLog(@"%@", [self representedObject]);
-    if([[self representedObject] isKindOfClass:[OEDBSystem class]])
-        [blankSlateView setRepresentedSystemPlugin:[(OEDBSystem*)[self representedObject] plugin]];
-    else if([[self representedObject] respondsToSelector:@selector(collectionViewName)])
-        [blankSlateView setRepresentedCollectionName:[[self representedObject] collectionViewName]];
-    
-    return blankSlateView;
 }
 
 - (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index

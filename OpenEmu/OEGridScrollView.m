@@ -27,7 +27,7 @@
 #import "OEGridScrollView.h"
 #import "NSColor+OEAdditions.h"
 
-#import "OEGridNoisePattern.h"
+#import "OEBackgroundNoisePattern.h"
 
 @implementation OEGridScrollView
 
