@@ -42,4 +42,6 @@
 @property (nonatomic) OESystemPlugin* representedSystemPlugin;
 
 @property (assign) id <OEBlankSlateViewDelegate> delegate;
+
+- (void)gotoProjectURL:(id)sender;
 @end

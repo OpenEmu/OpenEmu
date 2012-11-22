@@ -29,8 +29,9 @@
 #import "OESystemPlugin.h"
 #import "OECorePlugin.h"
 #import "OECenteredTextFieldCell.h"
-#import "OEImageButton.h"
 
+#import "OEButton.h"
+#import "OEPopUpButtonCell.h"
 #import "OEBackgroundNoisePattern.h"
 #import "OECoverGridForegroundLayer.h"
 
@@ -112,6 +113,12 @@
     [layer addSublayer:_dragIndicationLayer];
 }
 
+- (void)gotoProjectURL:(id)sender
+{
+    NSString *urlString = [[sender cell] representedObject];
+    NSURL    *url       = [NSURL URLWithString:urlString];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
 #pragma mark -
 - (void)setRepresentedCollectionName:(NSString *)representedCollectionName
 {
@@ -217,84 +224,30 @@
     [coreSuppliedByLabel setStringValue:NSLocalizedString(@"Core Provided By...", @"")];
     [view addSubview:coreSuppliedByLabel];
     
-    dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                  [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0], NSFontAttributeName,
-                  shadow, NSShadowAttributeName,
-                  [NSColor colorWithDeviceWhite:0.86 alpha:1.0], NSForegroundColorAttributeName,
-                  nil];
-    [cell setTextAttributes:dictionary];
-    
-    NSFont  *font;
-    NSColor *textColor;
-    
-    font      = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
-    textColor = [NSColor colorWithDeviceWhite:0.80 alpha:1.0];
-    shadow    = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor blackColor]];
-    [shadow setShadowOffset:NSMakeSize(0, -1)];
-    
-    NSDictionary *normalDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                      font, NSFontAttributeName,
-                                      shadow, NSShadowAttributeName,
-                                      textColor, NSForegroundColorAttributeName,
-                                      nil];
-    
-    font      = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
-    textColor = [NSColor colorWithDeviceWhite:1.0 alpha:1.0];
-    shadow    = [[NSShadow alloc] init];
-    
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.4]];
-    [shadow setShadowOffset:NSMakeSize(0, 0)];
-    [shadow setShadowBlurRadius:5];
-    
-    NSDictionary *clickDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                     font, NSFontAttributeName,
-                                     shadow, NSShadowAttributeName,
-                                     textColor, NSForegroundColorAttributeName,
-                                     nil];
-    
-    font      = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
-    textColor = [NSColor colorWithDeviceWhite:1.0 alpha:1.0];
-    shadow    = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor blackColor]];
-    [shadow setShadowOffset:NSMakeSize(0, -1)];
-    
-    NSDictionary *hoverDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                     font, NSFontAttributeName,
-                                     shadow, NSShadowAttributeName,
-                                     textColor, NSForegroundColorAttributeName,
-                                     nil];
-    
-    int idx = 0;
-    
-    // FIXME: I don't think that's the proper place to have that kind of code (spaghetti code)
-    NSArray *allPlugins = [OECorePlugin allPlugins];
-    for(OECorePlugin *obj in allPlugins)
-    {
-        if(![[obj systemIdentifiers] containsObject:[plugin systemIdentifier]]) continue;
+    // Get core plugins that can handle the system
+    NSPredicate *pluginFilter = [NSPredicate predicateWithBlock: ^ BOOL(OECorePlugin *evaluatedPlugin, NSDictionary *bindings) {
+        return [[evaluatedPlugin systemIdentifiers] containsObject:[plugin systemIdentifier]];
+    }];
+    NSArray *pluginsForSystem = [[OECorePlugin allPlugins] filteredArrayUsingPredicate:pluginFilter];
+    [pluginsForSystem enumerateObjectsUsingBlock:^(OECorePlugin *core, NSUInteger idx, BOOL *stop) {
+        NSString *projectURL = [[core infoDictionary] valueForKey:@"OEProjectURL"];
+        NSString *name       = [core displayName];
         
-        NSString *projectURL = [[obj infoDictionary] valueForKey:@"OEProjectURL"];
-        NSString *name       = [obj displayName];
+        // Create weblink button for current core
+        OEButton *gotoButton = [[OEButton alloc] initWithFrame:(NSRect){{ rightColumnX, bottomTextViewHeight - 16 * (idx+2) -1}, { [view frame].size.width - rightColumnX, 20 }}];
+        [gotoButton setAutoresizingMask:NSViewWidthSizable];
+        [gotoButton setAlignment:NSLeftTextAlignment];
+        [gotoButton setImagePosition:NSImageRight];
+        [gotoButton setThemeKey:@"open_weblink"];
+        [gotoButton setTarget:self];
+        [gotoButton setAction:@selector(gotoProjectURL:)];
+        [gotoButton setTitle:name];
+        [gotoButton setToolTip:[NSString stringWithFormat:NSLocalizedString(@"Takes you to the %@ project website", @"Weblink tooltip"), name]];
+        [[gotoButton cell] setRepresentedObject:projectURL];
+        [gotoButton sizeToFit];
         
-        float y = bottomTextViewHeight - 2 * 17 - 17 * idx + 1;
-        
-        OEImageButton                 *imageButton = [[OEImageButton alloc] initWithFrame:(NSRect){{ rightColumnX - 3, y}, { [self frame].size.width - rightColumnX + 10, 21 }}];
-        OEImageButtonHoverPressedText *cell        = [[OEImageButtonHoverPressedText alloc] initTextCell:name];
-        
-        [cell setNormalAttributes:normalDictionary];
-        [cell setHoverAttributes:hoverDictionary];
-        [cell setClickAttributes:clickDictionary];
-        [cell setSplitVertically:YES];
-        [cell setImage:[NSImage imageNamed:@"open_weblink_arrow"]];
-        [imageButton setTarget:self];
-        [imageButton setAction:@selector(gotoProjectURL:)];
-        [imageButton setObjectValue:projectURL];
-        [cell setText:name];
-        [imageButton setCell:cell];
-        [view addSubview:imageButton];
-        
-        idx++;
-    }
+        [view addSubview:gotoButton];
+    }];
 }
 
 - (void)OE_addLeftHeadlineWithText:(NSString*)text toView:(NSView*)view
