@@ -161,6 +161,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
 {
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey]){
+        [NSApp replyToOpenOrPrint:NSApplicationDelegateReplyCancel];
+        return;
+    }
+    
     if([filenames count] == 1)
     {
         NSURL *url = [NSURL fileURLWithPath:[filenames lastObject]];
