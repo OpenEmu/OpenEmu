@@ -226,7 +226,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
 - (NSString *)listViewPlayTime
 {
-    return OE_stringFromElapsedTime([[self playTime] doubleValue]);
+    return ([[self playTime] doubleValue] > 0 ? OE_stringFromElapsedTime([[self playTime] doubleValue]) : @"");
 }
 
 static void OE_initOEListViewDateFormatter(void)
