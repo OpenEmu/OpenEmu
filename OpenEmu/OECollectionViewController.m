@@ -1172,8 +1172,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         NSIndexSet *selectedIndexes = [listView selectedRowIndexes];
         if([selectedIndexes count] > 0)
         {
-            [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
-        
+            if([selectedIndexes count] == 1) [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
+
             [selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
                 [listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
             }];
