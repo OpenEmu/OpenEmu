@@ -604,16 +604,18 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     if(rom == nil || [rom game] != nil) return;
     
     id archiveResult = [importInfo valueForKey:OEImportInfoArchiveSync];
+    NSDictionary *archiveDict = nil;
+
     if([archiveResult isKindOfClass:[NSError class]])
         DLog(@"archiveError: %@", archiveResult);
     else if(archiveResult != nil)
     {
+        archiveDict = archiveResult;
         //game = [OEDBGame gameWithArchiveID:[archiveResult valueForKey:AVGGameIDKey] error:&error];
     }
     
     if(game == nil)
     {
-        NSDictionary *archiveDict = [importInfo valueForKey:OEImportInfoArchiveSync];
         if([[importInfo valueForKey:OEImportInfoSystemID] count] > 1)
         {
             if([archiveDict valueForKey:AVGGameSystemNameKey] == nil)
@@ -665,8 +667,8 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
                 NSString *gameTitleWithSuffix = [url lastPathComponent];
                 NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
                 game = [OEDBGame createGameWithName:gameTitleWithoutSuffix andSystem:system inDatabase:[self database]];
-                if([importInfo valueForKey:OEImportInfoArchiveSync])
-                    [game setArchiveVGInfo:[importInfo valueForKey:OEImportInfoArchiveSync]];
+                if(archiveDict)
+                    [game setArchiveVGInfo:archiveDict];
             }
         }
     }

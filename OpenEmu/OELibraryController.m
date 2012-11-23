@@ -110,22 +110,16 @@ static const CGFloat _OEToolbarHeight = 44;
     [self layoutToolbar];
     
     [[self sidebarController] reloadData];
-    
-    
-//    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-//    
-//    CGFloat splitterPos = 0;
-//    if([self isSidebarVisible]) splitterPos = [standardUserDefaults doubleForKey:OESidebarWidthKey];
-//    
-//    OELibrarySplitView *splitView = [self mainSplitView];
-//    [splitView setResizesLeftView:YES];
-//    [splitView setSplitterPosition:splitterPos animated:NO];
-//    [splitView setResizesLeftView:NO];
 }
 
 - (void)viewWillDisappear
 {
     [super viewWillDisappear];
+    
+    // Save Current State
+    id lastState = [(id <OELibrarySubviewController>)[self currentViewController] encodeCurrentState];
+    id itemID    = [[[self currentViewController] representedObject] sidebarID];
+    [self OE_storeState:lastState forSidebarItemWithID:itemID];
     
     NSView *toolbarItemContainer = [[self toolbarSearchField] superview];
     
@@ -368,6 +362,7 @@ static const CGFloat _OEToolbarHeight = 44;
     
     [mutableLibraryStates setObject:state forKey:itemID];
     [standardUserDefaults setObject:mutableLibraryStates forKey:@"Library States"];
+    [standardUserDefaults synchronize];
 }
 
 - (id)OE_storedStateForSidebarItemWithID:(NSString*)itemID
@@ -376,7 +371,7 @@ static const CGFloat _OEToolbarHeight = 44;
     
     NSUserDefaults      *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary        *libraryStates        = [standardUserDefaults valueForKey:@"Library States"];
-    
+   
     return [libraryStates objectForKey:itemID];
 }
 

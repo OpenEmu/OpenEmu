@@ -351,6 +351,15 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 
 - (void)windowWillClose:(NSNotification *)notification
 {
+    // Make sure the current content controller gets viewWillDisappear / viewDidAppear so it has a chance to store its state
+    if([self currentContentController] == [self libraryController])
+    {
+        [[self libraryController] viewWillDisappear];
+        [[self libraryController] viewDidDisappear];
+        [[self libraryController] viewWillAppear];
+        [[self libraryController] viewDidAppear];
+    }
+    
     [self setCurrentContentController:nil];
 }
 
