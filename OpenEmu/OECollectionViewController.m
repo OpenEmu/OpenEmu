@@ -198,7 +198,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [romStatusHeaderCell setClickable:NO];
 
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-    
+
     for(NSTableColumn *aColumn in [listView tableColumns])
     {
         if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
@@ -235,7 +235,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     if(representedObject == [self representedObject]) return;
     [super setRepresentedObject:representedObject];
 
-    [[listView tableColumnWithIdentifier:@"consoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
+    [[listView tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
     
     _stateRewriteRequired = YES;
     [self OE_reloadData];
