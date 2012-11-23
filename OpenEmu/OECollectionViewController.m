@@ -200,8 +200,12 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
     
     for(NSTableColumn *aColumn in [listView tableColumns])
+    {
         if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
             [[aColumn dataCell] setWidthInset:9];
+
+        [[aColumn headerCell] setAlignment:[[aColumn dataCell] alignment]];
+    }
     
     // Setup BlankSlate View
     [blankSlateView setDelegate:self];

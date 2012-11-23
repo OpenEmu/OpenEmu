@@ -119,6 +119,7 @@
 	NSFont *titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4 size:11];
 	NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
 	[paraStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+    [paraStyle setAlignment:[self alignment]];
 	
 	NSShadow *shadow = [[NSShadow alloc] init];
 	[shadow setShadowColor:[NSColor blackColor]];
