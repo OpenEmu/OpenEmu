@@ -285,7 +285,7 @@ static unsigned int scd_read_byte(unsigned int address)
   if (address == 0xff8000)
   {
     /* register $00 is reserved for MAIN-CPU, we use $06 instead */
-    return scd.regs[0x06 >> 1].byte.h;
+    return scd.regs[0x06>>1].byte.h;
   }
 
   /* RESET status */
@@ -299,10 +299,10 @@ static unsigned int scd_read_byte(unsigned int address)
   if ((address >= 0xff8050) && (address <= 0xff8056))
   {
     /* shifted 4-bit input (xxxx00) */
-    uint8 bits = (scd.regs[0x4e >> 1].w >> (((address & 6) ^ 6) << 1)) << 2;
+    uint8 bits = (scd.regs[0x4e>>1].w >> (((address & 6) ^ 6) << 1)) << 2;
     
     /* color code */
-    uint8 code = scd.regs[0x4c >> 1].byte.l;
+    uint8 code = scd.regs[0x4c>>1].byte.l;
     
     /* 16-bit font data (4 pixels = 16 bits) */
     uint16 data = (code >> (bits & 4)) & 0x0f;
@@ -320,7 +320,7 @@ static unsigned int scd_read_byte(unsigned int address)
   }
 
   /* MAIN-CPU communication words */
-  if ((address & 0xf0) == 0x10)
+  if ((address & 0x1f0) == 0x10)
   {
     s68k_poll_detect(address & 0x1f);
   }
@@ -366,17 +366,24 @@ static unsigned int scd_read_word(unsigned int address)
   if (address == 0xff8000)
   {
     /* register $00 is reserved for MAIN-CPU, we use $06 instead */
-    return scd.regs[0x06 >> 1].w;
+    return scd.regs[0x06>>1].w;
+  }
+
+  /* Stopwatch counter (word access only ?) */
+  if (address == 0xff800c)
+  {
+    /* cycle-accurate counter value */
+    return (scd.regs[0x0c>>1].w + ((s68k.cycles - scd.stopwatch) / TIMERS_SCYCLES_RATIO)) & 0xfff;
   }
 
   /* Font data */
   if ((address >= 0xff8050) && (address <= 0xff8056))
   {
     /* shifted 4-bit input (xxxx00) */
-    uint8 bits = (scd.regs[0x4e >> 1].w >> (((address & 6) ^ 6) << 1)) << 2;
+    uint8 bits = (scd.regs[0x4e>>1].w >> (((address & 6) ^ 6) << 1)) << 2;
     
     /* color code */
-    uint8 code = scd.regs[0x4c >> 1].byte.l;
+    uint8 code = scd.regs[0x4c>>1].byte.l;
     
     /* 16-bit font data (4 pixels = 16 bits) */
     uint16 data = (code >> (bits & 4)) & 0x0f;
@@ -394,7 +401,7 @@ static unsigned int scd_read_word(unsigned int address)
   }
 
   /* MAIN-CPU communication words */
-  if ((address & 0xf0) == 0x10)
+  if ((address & 0x1f0) == 0x10)
   {
     /* relative MAIN-CPU cycle counter */
     unsigned int cycles = (s68k.cycles * MCYCLES_PER_LINE) / SCYCLES_PER_LINE;
@@ -682,7 +689,7 @@ static void scd_write_byte(unsigned int address, unsigned int data)
     case 0x31: /* Timer */
     {
       /* reload timer (one timer clock = 384 CPU cycles) */
-      scd.timer = data * 384 * 4;
+      scd.timer = data * TIMERS_SCYCLES_RATIO;
 
       /* only non-zero data starts timer, writing zero stops it */
       if (data)
@@ -939,8 +946,12 @@ static void scd_write_word(unsigned int address, unsigned int data)
       return;
     }
 
-    case 0x0c: /* Stopwatch */
+    case 0x0c: /* Stopwatch (word access only) */
     {
+      /* synchronize the counter with SUB-CPU */
+      int ticks = (s68k.cycles - scd.stopwatch) / TIMERS_SCYCLES_RATIO;
+      scd.stopwatch += (ticks * TIMERS_SCYCLES_RATIO);
+
       /* any writes clear the counter */
       scd.regs[0x0c>>1].w = 0;
       return;
@@ -961,7 +972,7 @@ static void scd_write_word(unsigned int address, unsigned int data)
       data &= 0xff;
 
       /* reload timer (one timer clock = 384 CPU cycles) */
-      scd.timer = data * 384 * 4;
+      scd.timer = data * TIMERS_SCYCLES_RATIO;
 
       /* only non-zero data starts timer, writing zero stops it */
       if (data)
@@ -1187,8 +1198,9 @@ void scd_reset(int hard)
   /* RESET register always return 1 (register $06 is unused by both sides, it is used for SUB-CPU first register) */
   scd.regs[0x06>>1].byte.l = 0x01;
 
-  /* Reset TIMER counter */
+  /* Reset Timer & Stopwatch counters */
   scd.timer = 0;
+  scd.stopwatch = 0;
 
   /* Reset frame cycle counter */
   scd.cycles = 0;
@@ -1254,9 +1266,6 @@ void scd_update(unsigned int cycles)
     }
   }
 
-  /* Stop Watch (TODO: improve timing accuracy, one unit = 384 CPU cycles) */
-  scd.regs[0x0c>>1].w = (scd.regs[0x0c>>1].w + 2) & 0xfff;
-
   /* Timer */
   if (scd.timer)
   {
@@ -1265,7 +1274,7 @@ void scd_update(unsigned int cycles)
     if (scd.timer <= 0)
     {
       /* reload timer (one timer clock = 384 CPU cycles) */
-      scd.timer += (scd.regs[0x30>>1].byte.l * 384 * 4);
+      scd.timer += (scd.regs[0x30>>1].byte.l * TIMERS_SCYCLES_RATIO);
 
       /* level 3 interrupt enabled ? */
       if (scd.regs[0x32>>1].byte.l & 0x08)
@@ -1285,6 +1294,24 @@ void scd_update(unsigned int cycles)
     /* update graphics operation if running */
     gfx_update(scd.cycles);
   }
+}
+
+void scd_end_frame(unsigned int cycles)
+{
+  /* run Stopwatch until end of frame */
+  int ticks = (cycles - scd.stopwatch) / TIMERS_SCYCLES_RATIO;
+  scd.regs[0x0c>>1].w = (scd.regs[0x0c>>1].w + ticks) & 0xfff;
+
+  /* adjust Stopwatch counter for next frame (can be negative) */
+  scd.stopwatch += (ticks * TIMERS_SCYCLES_RATIO) - cycles;
+
+  /* adjust SUB-CPU & GPU cycle counters for next frame */
+  s68k.cycles -= cycles;
+  gfx.cycles  -= cycles;
+
+  /* reset CPU registers polling */
+  m68k.poll.cycle = 0;
+  s68k.poll.cycle = 0;
 }
 
 int scd_context_save(uint8 *state)

@@ -992,15 +992,12 @@ void system_frame_scd(int do_skip)
   }
   while (++line < (lines_per_frame - 1));
   
-  /* reset CPU registers polling */
-  m68k.poll.cycle = 0;
-  s68k.poll.cycle = 0;
+  /* prepare for next SCD frame */
+  scd_end_frame(scd.cycles);
 
   /* adjust CPU cycle counters for next frame */
   Z80.cycles  -= mcycles_vdp;
   m68k.cycles -= mcycles_vdp;
-  s68k.cycles -= scd.cycles;
-  gfx.cycles  -= scd.cycles;
 }
 
 void system_frame_sms(int do_skip)

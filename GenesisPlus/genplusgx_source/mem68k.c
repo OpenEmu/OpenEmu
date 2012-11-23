@@ -466,6 +466,16 @@ unsigned int ctrl_io_read_word(unsigned int address)
           return *(uint16 *)(m68k.memory_map[0].base + 0x72);
         }
 
+        /* Stopwatch counter (word read access only ?) */
+        if (index == 0x0c)
+        {
+          /* relative SUB-CPU cycle counter */
+          unsigned int cycles = (m68k.cycles * SCYCLES_PER_LINE) / MCYCLES_PER_LINE;
+
+          /* cycle-accurate counter value */
+          return (scd.regs[0x0c>>1].w + ((cycles - scd.stopwatch) / TIMERS_SCYCLES_RATIO)) & 0xfff;
+        }
+
         /* default registers */
         if (index < 0x30)
         {

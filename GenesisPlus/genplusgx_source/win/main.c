@@ -152,7 +152,6 @@ static int sdl_video_init()
   sdl_video.surf_bitmap = SDL_CreateRGBSurface(SDL_SWSURFACE, 720, 576, 16, 0, 0, 0, 0);
   sdl_video.frames_rendered = 0;
   SDL_ShowCursor(0);
-
   return 1;
 }
 
@@ -263,19 +262,25 @@ struct {
   unsigned ticks;
 } sdl_sync;
 
-/* sync */
-
 static Uint32 sdl_sync_timer_callback(Uint32 interval)
 {
-  char caption[100];  
   SDL_SemPost(sdl_sync.sem_sync);
   sdl_sync.ticks++;
   if (sdl_sync.ticks == (vdp_pal ? 50 : 20))
   {
-    int fps = vdp_pal ? (sdl_video.frames_rendered / 3) : sdl_video.frames_rendered;
+    SDL_Event event;
+    SDL_UserEvent userevent;
+
+    userevent.type = SDL_USEREVENT;
+    userevent.code = vdp_pal ? (sdl_video.frames_rendered / 3) : sdl_video.frames_rendered;
+    userevent.data1 = NULL;
+    userevent.data2 = NULL;
     sdl_sync.ticks = sdl_video.frames_rendered = 0;
-    sprintf(caption,"%d fps - %s", fps, (rominfo.international[0] != 0x20) ? rominfo.international : rominfo.domestic);
-    SDL_WM_SetCaption(caption, NULL);
+
+    event.type = SDL_USEREVENT;
+    event.user = userevent;
+
+    SDL_PushEvent(&event);
   }
   return interval;
 }
@@ -315,6 +320,13 @@ static int sdl_control_update(SDLKey keystate)
       case SDLK_TAB:
       {
         system_reset();
+        break;
+      }
+
+      case SDLK_F1:
+      {
+        if (SDL_ShowCursor(-1)) SDL_ShowCursor(0);
+        else SDL_ShowCursor(1);
         break;
       }
 
@@ -490,13 +502,15 @@ int sdl_input_update(void)
   {
     case DEVICE_LIGHTGUN:
     {
-      /* get mouse (absolute values) */
+      /* get mouse coordinates (absolute values) */
       int x,y;
       int state = SDL_GetMouseState(&x,&y);
 
-      /* Calculate X Y axis values */
-      input.analog[joynum][0] = (x * bitmap.viewport.w) / VIDEO_WIDTH;
-      input.analog[joynum][1] = (y * bitmap.viewport.h) / VIDEO_HEIGHT;
+      /* X axis */
+      input.analog[joynum][0] =  x - (VIDEO_WIDTH-bitmap.viewport.w)/2;
+
+      /* Y axis */
+      input.analog[joynum][1] =  y - (VIDEO_HEIGHT-bitmap.viewport.h)/2;
 
       /* TRIGGER, B, C (Menacer only), START (Menacer & Justifier only) */
       if(state & SDL_BUTTON_LMASK) input.pad[joynum] |= INPUT_A;
@@ -838,13 +852,25 @@ int main (int argc, char **argv)
     {
       switch(event.type) 
       {
+        case SDL_USEREVENT:
+        {
+          char caption[100];  
+          sprintf(caption,"Genesis Plus GX - %d fps - %s)", event.user.code, (rominfo.international[0] != 0x20) ? rominfo.international : rominfo.domestic);
+          SDL_WM_SetCaption(caption, NULL);
+          break;
+        }
+
         case SDL_QUIT:
+        {
           running = 0;
           break;
+        }
 
         case SDL_KEYDOWN:
+        {
           running = sdl_control_update(event.key.keysym.sym);
           break;
+        }
       }
     }
 

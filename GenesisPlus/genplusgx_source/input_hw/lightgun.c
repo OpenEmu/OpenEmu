@@ -106,8 +106,8 @@ void lightgun_refresh(int port)
     /* screen Y position */
     int y = (input.analog[port][1] + lines_per_frame + input.y_offset) % lines_per_frame;
 
-    /* check if line falls within current gun Y position */
-    if (v_counter == y)
+    /* check if active line falls within current gun Y position */
+    if ((y == v_counter) && (y < bitmap.viewport.h))
     {
       /* HL enabled ? */
       if (io_reg[5] & 0x80)

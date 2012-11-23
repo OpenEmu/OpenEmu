@@ -46,11 +46,15 @@
 
 #define scd ext.cd_hw
 
-/* 5000000 clocks/s = approx. 3184 clocks/line with a master clock of 53.693175 Mhz */
-/* TODO: use emulated master clock as reference ? */
+/* 5000000 SCD clocks/s = ~3184 clocks/line with a Master Clock of 53.693175 MHz */
+/* This would be slightly (~30 clocks) more on PAL systems because of the slower */
+/* Master Clock (53.203424 MHz) but not enough to really care about since clocks */
+/* are not running in sync anyway. */
 #define SCD_CLOCK 50000000
 #define SCYCLES_PER_LINE 3184 
 
+/* Timer & Stopwatch clocks divider */
+#define TIMERS_SCYCLES_RATIO (384 * 4)
 
 /* CD hardware */
 typedef struct 
@@ -63,6 +67,7 @@ typedef struct
   uint8 bram[0x2000];         /* 8K Backup RAM */
   reg16_t regs[0x100];        /* 256 x 16-bit ASIC registers */
   uint32 cycles;              /* Master clock counter */
+  int32 stopwatch;            /* Stopwatch counter */
   int32 timer;                /* Timer counter */
   uint8 pending;              /* Pending interrupts */
   uint8 dmna;                 /* Pending DMNA write status */
@@ -76,6 +81,7 @@ typedef struct
 extern void scd_init(void);
 extern void scd_reset(int hard);
 extern void scd_update(unsigned int cycles);
+extern void scd_end_frame(unsigned int cycles);
 extern int scd_context_load(uint8 *state);
 extern int scd_context_save(uint8 *state);
 extern int scd_68k_irq_ack(int level);
