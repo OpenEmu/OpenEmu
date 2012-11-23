@@ -314,6 +314,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [self changeGridSize:sizeSlider];
 
     [searchField setStringValue:searchString];
+	[self search:searchField];
     [listView setSortDescriptors:listViewSortDescriptors];
 
     if(selectedViewTag == OEFlowViewTag || selectedViewTag == OEListViewTag)
@@ -370,8 +371,10 @@ static const float OE_coverFlowHeightPercentage = 0.75;
             reloadListView = YES;
             break;
     }
+	
     [[self gamesController] setSortDescriptors:sortDescriptors];
     [[self gamesController] rearrangeObjects];
+	
     if(reloadListView)
         [listView reloadData];
     else
