@@ -29,4 +29,6 @@
 #import "OEAttributedTextFieldCell.h"
 @interface OECenteredTextFieldCell : OEAttributedTextFieldCell
 @property float widthInset;
+
+- (NSSize)insetForFrame:(NSRect)frame;
 @end

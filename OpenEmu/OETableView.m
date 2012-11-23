@@ -28,6 +28,7 @@
 
 #import "OETableCornerView.h"
 #import "OETableHeaderCell.h"
+#import "OECenteredTextFieldCell.h"
 
 #import "OEMenu.h"
 #import "OEGridView.h"
@@ -296,6 +297,18 @@ static NSGradient *highlightGradient, *normalGradient;
 
     _fieldEditorOriginalInsertionPointColor = [fieldEditor insertionPointColor];
     [fieldEditor setInsertionPointColor:[fieldEditor textColor]];
+
+    // OECenteredTextFieldCell has two insets: its `widthInset` property and the computed height inset used
+    // to centre text inside the cell. We need to apply both insets to the field editor so that it matches
+    // the text frame.
+    // Note that NSTextView’s text container already uses a inset; namely, -lineFragmentPadding
+    if([cell isKindOfClass:[OECenteredTextFieldCell class]])
+    {
+        NSRect cellFrame = [self frameOfCellAtColumn:column row:row];
+        NSSize inset = [(OECenteredTextFieldCell *)cell insetForFrame:cellFrame];
+        inset.width -= [[fieldEditor textContainer] lineFragmentPadding];
+        [fieldEditor setTextContainerInset:inset];
+    }
 }
 
 - (void)textDidEndEditing:(NSNotification *)notification

@@ -194,14 +194,18 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
 
     // There's no natural order for status indicators, so we don't allow that column to be sorted
-    OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"romStatus"] headerCell];
+    OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"listViewStatus"] headerCell];
     [romStatusHeaderCell setClickable:NO];
 
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-    
+
     for(NSTableColumn *aColumn in [listView tableColumns])
+    {
         if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
             [[aColumn dataCell] setWidthInset:9];
+
+        [[aColumn headerCell] setAlignment:[[aColumn dataCell] alignment]];
+    }
     
     // Setup BlankSlate View
     [blankSlateView setDelegate:self];
@@ -231,7 +235,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     if(representedObject == [self representedObject]) return;
     [super setRepresentedObject:representedObject];
 
-    [[listView tableColumnWithIdentifier:@"consoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
+    [[listView tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
     
     _stateRewriteRequired = YES;
     [self OE_reloadData];
@@ -1009,28 +1013,17 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
 {
     if(tableView != listView) return nil;
 
-    id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
-    if(![obj isKindOfClass:[OEDBGame class]]) return nil;
+    NSObject<OEListViewDataSourceItem> *item = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
+    NSString *columnId                       = [tableColumn identifier];
+    id result                                = nil;
 
-    NSString *colIdent = [aTableColumn identifier];
-    id result = nil;
-    if([colIdent isEqualToString:@"romStatus"])
-    {
-        BOOL selected = [[listView selectedRowIndexes] containsIndex:rowIndex];
-        result = [obj listViewStatusWithSelected:selected playing:[self OE_isGameOpen:(OEDBGame *)obj]];
-    }
-    else if([colIdent isEqualToString:@"romName"])        result = [obj listViewTitle];
-    else if([colIdent isEqualToString:@"romRating"])      result = [obj listViewRating];
-    else if([colIdent isEqualToString:@"romLastPlayed"])  result = [obj listViewLastPlayed];
-    else if([colIdent isEqualToString:@"consoleName"])    result = [obj listViewConsoleName];
-    else if([colIdent isEqualToString:@"saveStateCount"]) result = [obj listViewSaveStateCount];
-    else if([colIdent isEqualToString:@"playCount"])      result = [obj listViewPlayCount];
-    else if([colIdent isEqualToString:@"playTime"])       result = [obj listViewPlayTime];
-    else if(colIdent == nil) result = obj;
+    if(columnId == nil)                                               result = item;
+    else if([columnId isEqualToString:@"listViewStatus"])             result = ([[listView selectedRowIndexes] containsIndex:rowIndex] ? [item listViewSelectedStatus] : [item listViewStatus]);
+    else if([item respondsToSelector:NSSelectorFromString(columnId)]) result = [item valueForKey:columnId];
 
     return result;
 }
@@ -1042,10 +1035,10 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     {
         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
         NSString *columnIdentifier = [aTableColumn identifier];
-        if([columnIdentifier isEqualToString:@"romRating"])
+        if([columnIdentifier isEqualToString:@"listViewRating"])
         {
             [obj setListViewRating:anObject];
-        } else if([columnIdentifier isEqualToString:@"romName"])
+        } else if([columnIdentifier isEqualToString:@"listViewTitle"])
         {
             if([anObject isKindOfClass:[NSAttributedString class]])
                 anObject = [anObject string];
@@ -1065,24 +1058,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         [listView reloadData];
         _stateRewriteRequired = YES;
     }
-}
-
-- (BOOL)OE_isGameOpen:(OEDBGame *)game
-{
-    BOOL open = NO;
-    for(id openDocument in [[NSDocumentController sharedDocumentController] documents])
-    {
-        if(![openDocument isKindOfClass:[OEGameDocument class]]) continue;
-
-        OEGameDocument *doc = openDocument;
-        if([[[[doc gameViewController] rom] game] isEqual:game])
-        {
-            open = YES;
-            break;
-        }
-    }
-
-    return open;
 }
 
 #pragma mark -
@@ -1135,16 +1110,9 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
 {
-    if( aTableView == listView )
-    {
-        if([[aTableColumn identifier] isEqualToString:@"romRating"]) return NO;
-        
-        return YES;
-    }
-    
-    return NO;
+    return (tableView == listView && [[tableColumn identifier] isEqualToString:@"listViewTitle"]);
 }
 
 - (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView
@@ -1215,7 +1183,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
 - (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    if( tableView == listView && [[tableColumn identifier] isEqualToString:@"romRating"] )
+    if( tableView == listView && [[tableColumn identifier] isEqualToString:@"listViewRating"] )
     {
         // We only track the rating cell in selected rows...
         if(![[listView selectedRowIndexes] containsIndex:row]) return NO;

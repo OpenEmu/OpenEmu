@@ -28,7 +28,8 @@
 
 @protocol OEListViewDataSourceItem <NSObject>
 
-- (NSImage *)listViewStatusWithSelected:(BOOL)selected playing:(BOOL)playing;
+- (NSImage *)listViewStatus;
+- (NSImage *)listViewSelectedStatus;
 - (NSNumber *)listViewRating;
 - (NSString *)listViewTitle;
 - (NSString *)listViewLastPlayed;

@@ -76,6 +76,12 @@
     return copy;
 }
 
+- (NSSize)insetForFrame:(NSRect)cellFrame
+{
+    CGFloat heightInset = (cellFrame.size.height - [self cellSize].height) / 2;
+    return (NSSize){[self widthInset], heightInset};
+}
+
 #pragma mark -
 #pragma mark Drawing
 
