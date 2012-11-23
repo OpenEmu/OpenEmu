@@ -96,7 +96,7 @@
 										</object>
 										<array class="NSMutableArray" key="NSTableColumns">
 											<object class="NSTableColumn" id="166201363">
-												<string key="NSIdentifier">romStatus</string>
+												<string key="NSIdentifier">listViewStatus</string>
 												<double key="NSWidth">17</double>
 												<double key="NSMinWidth">17</double>
 												<double key="NSMaxWidth">17</double>
@@ -136,7 +136,7 @@
 												<reference key="NSTableView" ref="887282208"/>
 											</object>
 											<object class="NSTableColumn" id="962319201">
-												<string key="NSIdentifier">romName</string>
+												<string key="NSIdentifier">listViewTitle</string>
 												<double key="NSWidth">334</double>
 												<double key="NSMinWidth">100</double>
 												<double key="NSMaxWidth">1000</double>
@@ -179,7 +179,7 @@
 												</object>
 											</object>
 											<object class="NSTableColumn" id="590944517">
-												<string key="NSIdentifier">romRating</string>
+												<string key="NSIdentifier">listViewRating</string>
 												<double key="NSWidth">70</double>
 												<double key="NSMinWidth">55</double>
 												<double key="NSMaxWidth">80</double>
@@ -220,7 +220,7 @@
 												</object>
 											</object>
 											<object class="NSTableColumn" id="277904794">
-												<string key="NSIdentifier">romLastPlayed</string>
+												<string key="NSIdentifier">listViewLastPlayed</string>
 												<double key="NSWidth">103</double>
 												<double key="NSMinWidth">100</double>
 												<double key="NSMaxWidth">1000</double>
@@ -252,7 +252,7 @@
 												</object>
 											</object>
 											<object class="NSTableColumn" id="479031962">
-												<string key="NSIdentifier">consoleName</string>
+												<string key="NSIdentifier">listViewConsoleName</string>
 												<double key="NSWidth">104</double>
 												<double key="NSMinWidth">100</double>
 												<double key="NSMaxWidth">1000</double>
@@ -283,7 +283,7 @@
 												</object>
 											</object>
 											<object class="NSTableColumn" id="585892955">
-												<string key="NSIdentifier">saveStateCount</string>
+												<string key="NSIdentifier">listViewSaveStateCount</string>
 												<double key="NSWidth">90</double>
 												<double key="NSMinWidth">90</double>
 												<double key="NSMaxWidth">3.4028234663852886e+38</double>
@@ -314,7 +314,7 @@
 												</object>
 											</object>
 											<object class="NSTableColumn" id="32142498">
-												<string key="NSIdentifier">playCount</string>
+												<string key="NSIdentifier">listViewPlayCount</string>
 												<double key="NSWidth">90</double>
 												<double key="NSMinWidth">90</double>
 												<double key="NSMaxWidth">3.4028234663852886e+38</double>
@@ -345,7 +345,7 @@
 												</object>
 											</object>
 											<object class="NSTableColumn" id="902657274">
-												<string key="NSIdentifier">playTime</string>
+												<string key="NSIdentifier">listViewPlayTime</string>
 												<double key="NSWidth">90</double>
 												<double key="NSMinWidth">90</double>
 												<double key="NSMaxWidth">3.4028234663852886e+38</double>
@@ -478,7 +478,7 @@
 				<int key="NSDividerStyle">2</int>
 			</object>
 			<object class="NSScrollView" id="700958242">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSClipView" id="384876260">
@@ -490,14 +490,12 @@
 								<int key="NSvFlags">18</int>
 								<string key="NSFrameSize">{643, 510}</string>
 								<reference key="NSSuperview" ref="384876260"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="941444314"/>
+								<reference key="NSNextKeyView" ref="102222795"/>
 								<string key="NSClassName">OEGridView</string>
 							</object>
 						</array>
 						<string key="NSFrameSize">{643, 510}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="705979620"/>
 						<reference key="NSDocView" ref="705979620"/>
 						<object class="NSColor" key="NSBGColor">
@@ -511,8 +509,6 @@
 						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{628, 0}, {15, 495}}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSViewCanDrawConcurrently">YES</bool>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						<reference key="NSTarget" ref="700958242"/>
@@ -526,7 +522,6 @@
 						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{-100, -100}, {628, 15}}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="384876260"/>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						<int key="NSsFlags">1</int>
@@ -537,9 +532,7 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{643, 510}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="102222795"/>
+				<reference key="NSNextKeyView" ref="384876260"/>
 				<int key="NSsFlags">133680</int>
 				<reference key="NSVScroller" ref="941444314"/>
 				<reference key="NSHScroller" ref="102222795"/>
@@ -550,12 +543,9 @@
 				<double key="NSMagnification">1</double>
 			</object>
 			<object class="NSCustomView" id="101446984">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<string key="NSFrameSize">{480, 272}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSClassName">OEBlankSlateView</string>
 			</object>
 		</array>

@@ -26,6 +26,10 @@
 
 #import "OEDBDataSourceAdditions.h"
 #import "OEDBImage.h"
+#import "OEDBRom.h"
+#import "OEGameDocument.h"
+#import "OEGameViewController.h"
+#import "NSArray+OEAdditions.h"
 
 static NSDateFormatter *_OEListViewDateFormatter;
 static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));
@@ -143,18 +147,35 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 #pragma mark -
 #pragma mark ListView DataSource Item
 
-- (NSImage *)listViewStatusWithSelected:(BOOL)selected playing:(BOOL)playing
+- (NSImage *)listViewStatus
 {
-    NSString *imageName = (playing            ? @"list_indicators_playing"  :
-                           ![self boxImage]   ? @"list_indicators_missing"  :
-                           ![self lastPlayed] ? @"list_indicators_unplayed" : nil);
-
-    if(!imageName) return nil;
-
-    if(selected) imageName = [imageName stringByAppendingString:@"_selected"];
-    return [NSImage imageNamed:imageName];
+    NSString *imageName = [self OE_listViewStatusImageName];
+    return (imageName ? [NSImage imageNamed:imageName] : nil);
 }
 
+- (NSImage *)listViewSelectedStatus
+{
+    NSString *imageName = [self OE_listViewStatusImageName];
+    return (imageName ? [NSImage imageNamed:[imageName stringByAppendingString:@"_selected"]] : nil);
+}
+
+- (NSString *)OE_listViewStatusImageName
+{
+    return ([self OE_hasOpenDocument] ? @"list_indicators_playing"  :
+            ![self boxImage]          ? @"list_indicators_missing"  :
+            ![self lastPlayed]        ? @"list_indicators_unplayed" : nil);
+}
+
+- (BOOL)OE_hasOpenDocument
+{
+    id doc = [[[NSDocumentController sharedDocumentController] documents] firstObjectMatchingBlock:
+              ^ BOOL (OEGameDocument *doc)
+              {
+                  return [doc isKindOfClass:[OEGameDocument class]] && [[[[doc gameViewController] rom] game] isEqual:self];
+              }];
+    
+    return doc != nil;
+}
 
 - (void)setListViewRating:(NSNumber *)number
 {
