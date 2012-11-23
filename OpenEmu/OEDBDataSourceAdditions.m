@@ -216,12 +216,12 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
 - (NSNumber *)listViewSaveStateCount
 {
-    return [self saveStateCount];
+    return ([[self saveStateCount] unsignedIntegerValue] > 0 ? [self saveStateCount] : nil);
 }
 
 - (NSNumber *)listViewPlayCount
 {
-    return [self playCount];
+    return ([[self playCount] unsignedIntegerValue] > 0 ? [self playCount] : nil);
 }
 
 - (NSString *)listViewPlayTime
