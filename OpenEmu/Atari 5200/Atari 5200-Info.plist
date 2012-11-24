@@ -25,13 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OE5200SystemController</string>
-	<key>OESystemPluginName</key>
+	<string>OESystemController</string>
+	<key>OESystemName</key>
 	<string>Atari 5200</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.5200</string>
-	<key>OESystemName</key>
-	<string>Atari 5200</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>2</integer>
+	<key>OEResponderClassKey</key>
+	<string>OE5200SystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>14</integer>

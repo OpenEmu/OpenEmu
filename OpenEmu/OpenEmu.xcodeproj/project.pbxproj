@@ -569,8 +569,7 @@
 		94619C9715C4D14B0019AC8E /* atari5200_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619C9315C4D14B0019AC8E /* atari5200_library.png */; };
 		94619C9815C4D14B0019AC8E /* controller_5200_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619C9415C4D14B0019AC8E /* controller_5200_mask.png */; };
 		94619C9915C4D14B0019AC8E /* controller_5200.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619C9515C4D14B0019AC8E /* controller_5200.png */; };
-		94619C9A15C4D14B0019AC8E /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94619C9615C4D14B0019AC8E /* Controller-Preferences-Info.plist */; };
-		94619CA015C4D1690019AC8E /* OE5200SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94619C9C15C4D1690019AC8E /* OE5200SystemController.m */; };
+		94619C9A15C4D14B0019AC8E /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94619C9615C4D14B0019AC8E /* Controller-Preferences.plist */; };
 		94619CA115C4D1690019AC8E /* OE5200SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94619C9E15C4D1690019AC8E /* OE5200SystemResponder.m */; };
 		94619CA915C507B60019AC8E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94619CAF15C507B70019AC8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94619CAD15C507B70019AC8E /* InfoPlist.strings */; };
@@ -608,6 +607,8 @@
 		94A1E9D91586F68800986376 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9D51586F68800986376 /* Controller-Preferences-Info.plist */; };
 		94A1E9DA1586F68800986376 /* vb_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9D61586F68800986376 /* vb_library.png */; };
 		94A1E9DF1586FD7600986376 /* Virtual Boy.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */; };
+		94A31B6716605ED700D123FC /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B6516605ED700D123FC /* Controller-Mappings.plist */; };
+		94A31B6816605ED700D123FC /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B6616605ED700D123FC /* Keyboard-Mappings.plist */; };
 		94A9E164157C3B080083A7DC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94A9E16A157C3B080083A7DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E168157C3B080083A7DC /* InfoPlist.strings */; };
 		94A9E175157C3C2A0083A7DC /* OEPSXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E172157C3C2A0083A7DC /* OEPSXSystemResponder.m */; };
@@ -1958,9 +1959,7 @@
 		94619C9315C4D14B0019AC8E /* atari5200_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atari5200_library.png; sourceTree = "<group>"; };
 		94619C9415C4D14B0019AC8E /* controller_5200_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_5200_mask.png; sourceTree = "<group>"; };
 		94619C9515C4D14B0019AC8E /* controller_5200.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_5200.png; sourceTree = "<group>"; };
-		94619C9615C4D14B0019AC8E /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
-		94619C9B15C4D1690019AC8E /* OE5200SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemController.h; sourceTree = "<group>"; };
-		94619C9C15C4D1690019AC8E /* OE5200SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE5200SystemController.m; sourceTree = "<group>"; };
+		94619C9615C4D14B0019AC8E /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94619C9D15C4D1690019AC8E /* OE5200SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemResponder.h; sourceTree = "<group>"; };
 		94619C9E15C4D1690019AC8E /* OE5200SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE5200SystemResponder.m; sourceTree = "<group>"; };
 		94619C9F15C4D1690019AC8E /* OE5200SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemResponderClient.h; sourceTree = "<group>"; };
@@ -1995,6 +1994,8 @@
 		94A1E9D41586F68800986376 /* controller_vb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vb.png; sourceTree = "<group>"; };
 		94A1E9D51586F68800986376 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
 		94A1E9D61586F68800986376 /* vb_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vb_library.png; sourceTree = "<group>"; };
+		94A31B6516605ED700D123FC /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A31B6616605ED700D123FC /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayStation.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A9E167157C3B080083A7DC /* PlayStation-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlayStation-Info.plist"; sourceTree = "<group>"; };
 		94A9E169157C3B080083A7DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4011,8 +4012,6 @@
 		94619C8215C4C3190019AC8E /* Atari 5200 */ = {
 			isa = PBXGroup;
 			children = (
-				94619C9B15C4D1690019AC8E /* OE5200SystemController.h */,
-				94619C9C15C4D1690019AC8E /* OE5200SystemController.m */,
 				94619C9D15C4D1690019AC8E /* OE5200SystemResponder.h */,
 				94619C9E15C4D1690019AC8E /* OE5200SystemResponder.m */,
 				94619C9F15C4D1690019AC8E /* OE5200SystemResponderClient.h */,
@@ -4028,7 +4027,9 @@
 				94619C9415C4D14B0019AC8E /* controller_5200_mask.png */,
 				94619C9515C4D14B0019AC8E /* controller_5200.png */,
 				94619C8415C4C3190019AC8E /* Atari 5200-Info.plist */,
-				94619C9615C4D14B0019AC8E /* Controller-Preferences-Info.plist */,
+				94A31B6616605ED700D123FC /* Keyboard-Mappings.plist */,
+				94A31B6516605ED700D123FC /* Controller-Mappings.plist */,
+				94619C9615C4D14B0019AC8E /* Controller-Preferences.plist */,
 				94619C8515C4C3190019AC8E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -5512,7 +5513,9 @@
 				94619C9715C4D14B0019AC8E /* atari5200_library.png in Resources */,
 				94619C9815C4D14B0019AC8E /* controller_5200_mask.png in Resources */,
 				94619C9915C4D14B0019AC8E /* controller_5200.png in Resources */,
-				94619C9A15C4D14B0019AC8E /* Controller-Preferences-Info.plist in Resources */,
+				94619C9A15C4D14B0019AC8E /* Controller-Preferences.plist in Resources */,
+				94A31B6716605ED700D123FC /* Controller-Mappings.plist in Resources */,
+				94A31B6816605ED700D123FC /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6058,7 +6061,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94619CA015C4D1690019AC8E /* OE5200SystemController.m in Sources */,
 				94619CA115C4D1690019AC8E /* OE5200SystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
