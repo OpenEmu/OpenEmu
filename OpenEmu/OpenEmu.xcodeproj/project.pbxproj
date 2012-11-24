@@ -600,15 +600,16 @@
 		94A1E9BD1586F3B600986376 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94A1E9C31586F3B600986376 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9C11586F3B600986376 /* InfoPlist.strings */; };
 		94A1E9CB1586F5CD00986376 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		94A1E9D11586F5F500986376 /* OEVBSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A1E9CD1586F5F500986376 /* OEVBSystemController.m */; };
 		94A1E9D21586F5F500986376 /* OEVBSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A1E9CF1586F5F500986376 /* OEVBSystemResponder.m */; };
 		94A1E9D71586F68800986376 /* controller_vb_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9D31586F68800986376 /* controller_vb_mask.png */; };
 		94A1E9D81586F68800986376 /* controller_vb.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9D41586F68800986376 /* controller_vb.png */; };
-		94A1E9D91586F68800986376 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9D51586F68800986376 /* Controller-Preferences-Info.plist */; };
+		94A1E9D91586F68800986376 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9D51586F68800986376 /* Controller-Preferences.plist */; };
 		94A1E9DA1586F68800986376 /* vb_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9D61586F68800986376 /* vb_library.png */; };
 		94A1E9DF1586FD7600986376 /* Virtual Boy.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */; };
 		94A31B6716605ED700D123FC /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B6516605ED700D123FC /* Controller-Mappings.plist */; };
 		94A31B6816605ED700D123FC /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B6616605ED700D123FC /* Keyboard-Mappings.plist */; };
+		94A31B6B166074F400D123FC /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B69166074F400D123FC /* Controller-Mappings.plist */; };
+		94A31B6C166074F400D123FC /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B6A166074F400D123FC /* Keyboard-Mappings.plist */; };
 		94A9E164157C3B080083A7DC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94A9E16A157C3B080083A7DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E168157C3B080083A7DC /* InfoPlist.strings */; };
 		94A9E175157C3C2A0083A7DC /* OEPSXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E172157C3C2A0083A7DC /* OEPSXSystemResponder.m */; };
@@ -1985,17 +1986,17 @@
 		94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual Boy.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A1E9C01586F3B600986376 /* Virtual Boy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Virtual Boy-Info.plist"; sourceTree = "<group>"; };
 		94A1E9C21586F3B600986376 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A1E9CC1586F5F500986376 /* OEVBSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVBSystemController.h; sourceTree = "<group>"; };
-		94A1E9CD1586F5F500986376 /* OEVBSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVBSystemController.m; sourceTree = "<group>"; };
 		94A1E9CE1586F5F500986376 /* OEVBSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVBSystemResponder.h; sourceTree = "<group>"; };
 		94A1E9CF1586F5F500986376 /* OEVBSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVBSystemResponder.m; sourceTree = "<group>"; };
 		94A1E9D01586F5F500986376 /* OEVBSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVBSystemResponderClient.h; sourceTree = "<group>"; };
 		94A1E9D31586F68800986376 /* controller_vb_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vb_mask.png; sourceTree = "<group>"; };
 		94A1E9D41586F68800986376 /* controller_vb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vb.png; sourceTree = "<group>"; };
-		94A1E9D51586F68800986376 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94A1E9D51586F68800986376 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94A1E9D61586F68800986376 /* vb_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vb_library.png; sourceTree = "<group>"; };
 		94A31B6516605ED700D123FC /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94A31B6616605ED700D123FC /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A31B69166074F400D123FC /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A31B6A166074F400D123FC /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayStation.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A9E167157C3B080083A7DC /* PlayStation-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlayStation-Info.plist"; sourceTree = "<group>"; };
 		94A9E169157C3B080083A7DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4064,8 +4065,6 @@
 		94A1E9BE1586F3B600986376 /* Virtual Boy */ = {
 			isa = PBXGroup;
 			children = (
-				94A1E9CC1586F5F500986376 /* OEVBSystemController.h */,
-				94A1E9CD1586F5F500986376 /* OEVBSystemController.m */,
 				94A1E9CE1586F5F500986376 /* OEVBSystemResponder.h */,
 				94A1E9CF1586F5F500986376 /* OEVBSystemResponder.m */,
 				94A1E9D01586F5F500986376 /* OEVBSystemResponderClient.h */,
@@ -4081,7 +4080,9 @@
 				94A1E9D31586F68800986376 /* controller_vb_mask.png */,
 				94A1E9D41586F68800986376 /* controller_vb.png */,
 				94A1E9C01586F3B600986376 /* Virtual Boy-Info.plist */,
-				94A1E9D51586F68800986376 /* Controller-Preferences-Info.plist */,
+				94A31B6A166074F400D123FC /* Keyboard-Mappings.plist */,
+				94A31B69166074F400D123FC /* Controller-Mappings.plist */,
+				94A1E9D51586F68800986376 /* Controller-Preferences.plist */,
 				94A1E9C11586F3B600986376 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -5540,8 +5541,10 @@
 				94A1E9C31586F3B600986376 /* InfoPlist.strings in Resources */,
 				94A1E9D71586F68800986376 /* controller_vb_mask.png in Resources */,
 				94A1E9D81586F68800986376 /* controller_vb.png in Resources */,
-				94A1E9D91586F68800986376 /* Controller-Preferences-Info.plist in Resources */,
+				94A1E9D91586F68800986376 /* Controller-Preferences.plist in Resources */,
 				94A1E9DA1586F68800986376 /* vb_library.png in Resources */,
+				94A31B6B166074F400D123FC /* Controller-Mappings.plist in Resources */,
+				94A31B6C166074F400D123FC /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6077,7 +6080,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94A1E9D11586F5F500986376 /* OEVBSystemController.m in Sources */,
 				94A1E9D21586F5F500986376 /* OEVBSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

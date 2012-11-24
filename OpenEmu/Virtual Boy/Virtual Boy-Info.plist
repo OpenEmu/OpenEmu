@@ -25,7 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OEVBSystemController</string>
+	<string>OESystemController</string>
+	<key>OESystemName</key>
+	<string>Virtual Boy</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.vb</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEVBSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>82</integer>
@@ -173,11 +181,5 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>vb_library</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.vb</string>
-	<key>OESystemName</key>
-	<string>Virtual Boy</string>
-	<key>OESystemPluginName</key>
-	<string>Virtual Boy</string>
 </dict>
 </plist>
