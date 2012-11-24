@@ -520,10 +520,9 @@
 		9425B0D6158115860086FFB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0D4158115860086FFB6 /* InfoPlist.strings */; };
 		9425B0E0158118110086FFB6 /* controller_ws_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DC158118110086FFB6 /* controller_ws_mask.png */; };
 		9425B0E1158118110086FFB6 /* controller_ws.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DD158118110086FFB6 /* controller_ws.png */; };
-		9425B0E2158118110086FFB6 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DE158118110086FFB6 /* Controller-Preferences-Info.plist */; };
+		9425B0E2158118110086FFB6 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DE158118110086FFB6 /* Controller-Preferences.plist */; };
 		9425B0E3158118110086FFB6 /* wonderswan_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DF158118110086FFB6 /* wonderswan_library.png */; };
 		9425B0E6158118350086FFB6 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		9425B0EC158119110086FFB6 /* OEWSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9425B0E8158119110086FFB6 /* OEWSSystemController.m */; };
 		9425B0ED158119110086FFB6 /* OEWSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9425B0EA158119110086FFB6 /* OEWSSystemResponder.m */; };
 		9425B0F01581200E0086FFB6 /* WonderSwan.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */; };
 		9425B1781581822A0086FFB6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -610,6 +609,8 @@
 		94A31B6816605ED700D123FC /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B6616605ED700D123FC /* Keyboard-Mappings.plist */; };
 		94A31B6B166074F400D123FC /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B69166074F400D123FC /* Controller-Mappings.plist */; };
 		94A31B6C166074F400D123FC /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B6A166074F400D123FC /* Keyboard-Mappings.plist */; };
+		94A31BD216607ACC00D123FC /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31BD116607ACC00D123FC /* Controller-Mappings.plist */; };
+		94A31BD416607C1A00D123FC /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31BD316607C1A00D123FC /* Keyboard-Mappings.plist */; };
 		94A9E164157C3B080083A7DC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94A9E16A157C3B080083A7DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E168157C3B080083A7DC /* InfoPlist.strings */; };
 		94A9E175157C3C2A0083A7DC /* OEPSXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E172157C3C2A0083A7DC /* OEPSXSystemResponder.m */; };
@@ -1906,10 +1907,8 @@
 		9425B0D5158115860086FFB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9425B0DC158118110086FFB6 /* controller_ws_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ws_mask.png; sourceTree = "<group>"; };
 		9425B0DD158118110086FFB6 /* controller_ws.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ws.png; sourceTree = "<group>"; };
-		9425B0DE158118110086FFB6 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		9425B0DE158118110086FFB6 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		9425B0DF158118110086FFB6 /* wonderswan_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wonderswan_library.png; sourceTree = "<group>"; };
-		9425B0E7158119110086FFB6 /* OEWSSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWSSystemController.h; sourceTree = "<group>"; };
-		9425B0E8158119110086FFB6 /* OEWSSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEWSSystemController.m; sourceTree = "<group>"; };
 		9425B0E9158119110086FFB6 /* OEWSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWSSystemResponder.h; sourceTree = "<group>"; };
 		9425B0EA158119110086FFB6 /* OEWSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEWSSystemResponder.m; sourceTree = "<group>"; };
 		9425B0EB158119110086FFB6 /* OEWSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWSSystemResponderClient.h; sourceTree = "<group>"; };
@@ -1997,6 +1996,8 @@
 		94A31B6616605ED700D123FC /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		94A31B69166074F400D123FC /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94A31B6A166074F400D123FC /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A31BD116607ACC00D123FC /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A31BD316607C1A00D123FC /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayStation.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A9E167157C3B080083A7DC /* PlayStation-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlayStation-Info.plist"; sourceTree = "<group>"; };
 		94A9E169157C3B080083A7DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3935,8 +3936,6 @@
 		9425B0D1158115860086FFB6 /* WonderSwan */ = {
 			isa = PBXGroup;
 			children = (
-				9425B0E7158119110086FFB6 /* OEWSSystemController.h */,
-				9425B0E8158119110086FFB6 /* OEWSSystemController.m */,
 				9425B0E9158119110086FFB6 /* OEWSSystemResponder.h */,
 				9425B0EA158119110086FFB6 /* OEWSSystemResponder.m */,
 				9425B0EB158119110086FFB6 /* OEWSSystemResponderClient.h */,
@@ -3952,7 +3951,9 @@
 				9425B0DC158118110086FFB6 /* controller_ws_mask.png */,
 				9425B0DD158118110086FFB6 /* controller_ws.png */,
 				9425B0D3158115860086FFB6 /* WonderSwan-Info.plist */,
-				9425B0DE158118110086FFB6 /* Controller-Preferences-Info.plist */,
+				94A31BD316607C1A00D123FC /* Keyboard-Mappings.plist */,
+				94A31BD116607ACC00D123FC /* Controller-Mappings.plist */,
+				9425B0DE158118110086FFB6 /* Controller-Preferences.plist */,
 				9425B0D4158115860086FFB6 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -5473,8 +5474,10 @@
 				9425B0D6158115860086FFB6 /* InfoPlist.strings in Resources */,
 				9425B0E0158118110086FFB6 /* controller_ws_mask.png in Resources */,
 				9425B0E1158118110086FFB6 /* controller_ws.png in Resources */,
-				9425B0E2158118110086FFB6 /* Controller-Preferences-Info.plist in Resources */,
+				9425B0E2158118110086FFB6 /* Controller-Preferences.plist in Resources */,
 				9425B0E3158118110086FFB6 /* wonderswan_library.png in Resources */,
+				94A31BD216607ACC00D123FC /* Controller-Mappings.plist in Resources */,
+				94A31BD416607C1A00D123FC /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6039,7 +6042,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9425B0EC158119110086FFB6 /* OEWSSystemController.m in Sources */,
 				9425B0ED158119110086FFB6 /* OEWSSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

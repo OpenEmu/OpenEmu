@@ -25,7 +25,15 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OEWSSystemController</string>
+	<string>OESystemController</string>
+	<key>OESystemName</key>
+	<string>WonderSwan</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.ws</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEWSSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>83</integer>
@@ -161,11 +169,5 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>wonderswan_library</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.ws</string>
-	<key>OESystemName</key>
-	<string>WonderSwan</string>
-	<key>OESystemPluginName</key>
-	<string>WonderSwan</string>
 </dict>
 </plist>

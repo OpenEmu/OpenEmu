@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEWSButtonX1</key>
+	<integer>82</integer>
+	<key>OEWSButtonX3</key>
+	<integer>81</integer>
+	<key>OEWSButtonX4</key>
+	<integer>80</integer>
+	<key>OEWSButtonX2</key>
+	<integer>79</integer>
+	<key>OEWSButtonY1</key>
+	<integer>26</integer>
+	<key>OEWSButtonY3</key>
+	<integer>22</integer>
+	<key>OEWSButtonY4</key>
+	<integer>4</integer>
+	<key>OEWSButtonY2</key>
+	<integer>7</integer>
+	<key>OEWSButtonA</key>
+	<integer>29</integer>
+	<key>OEWSButtonB</key>
+	<integer>27</integer>
+	<key>OEWSButtonStart</key>
+	<integer>44</integer>
+	<key>OEWSButtonSound</key>
+	<integer>41</integer>
+</dict>
+</plist>
