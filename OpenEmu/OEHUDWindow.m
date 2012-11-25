@@ -218,8 +218,9 @@
 
 @implementation OEHUDWindowThemeView
 {
-    NSPoint lastMouseLocation;
-    BOOL isResizing;
+    NSPoint baseMouseLocation;
+    NSPoint baseOrigin;
+    BOOL isDragging;
 }
 
 #pragma mark -
@@ -294,7 +295,7 @@
 {
     NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     
-    lastMouseLocation = NSZeroPoint;
+    isDragging = NO;
     
     if(!NSPointInRect(pointInView, [self titleBarRect]))
     {
@@ -303,40 +304,66 @@
     }
     
     NSWindow *window = [self window];
-    lastMouseLocation = [window convertBaseToScreen:[theEvent locationInWindow]];
+    baseMouseLocation = [window convertRectToScreen:(NSRect){[theEvent locationInWindow], NSZeroSize}].origin;
+    baseOrigin = [window frame].origin;
+    isDragging = YES;
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    if(NSEqualPoints(lastMouseLocation, NSZeroPoint))
+    if (!isDragging)
     {
         [[self nextResponder] mouseDragged:theEvent];
         return;
     }
     
     NSWindow *window = [[self window] parentWindow];
-    NSPoint newMousePosition = [window convertBaseToScreen:[theEvent locationInWindow]];
+    NSPoint newMousePosition = [window convertRectToScreen:(NSRect){[theEvent locationInWindow], NSZeroSize}].origin;
+    NSPoint delta = NSMakePoint(newMousePosition.x-baseMouseLocation.x, newMousePosition.y-baseMouseLocation.y);
     
-    NSPoint delta = NSMakePoint(newMousePosition.x-lastMouseLocation.x, newMousePosition.y-lastMouseLocation.y);
+    NSScreen *primaryScreen = [[NSScreen screens] objectAtIndex:0];
+    NSRect menuRect = (NSRect){
+        .origin = NSZeroPoint,
+        .size = {
+            .width = [primaryScreen frame].size.width,
+            .height = [[NSApp mainMenu] menuBarHeight]
+        }
+    };
+    menuRect.origin.y = [primaryScreen frame].size.height - menuRect.size.height;
     
-        NSPoint frameOrigin = [window frame].origin;
-        
-        frameOrigin.x += delta.x;
-        frameOrigin.y += delta.y;
-        
-        [window setFrameOrigin:frameOrigin];
+    NSRect frame = [window frame];
+    BOOL isAboveMenu = (NSMaxX(frame) > NSMinX(menuRect) && NSMinX(frame) < NSMaxX(menuRect) && NSMaxY(frame) > NSMaxY(menuRect)); // are we already above the menubar somehow?
+    frame.origin = (NSPoint){baseOrigin.x + delta.x, baseOrigin.y + delta.y};
     
+    if (!isAboveMenu) {
+        // we're not already above the menubar. Does this mouse movement attempt to intersect us with the menubar?
+        if (NSIntersectsRect(frame, menuRect)) {
+            // prohibit the movement into the rect. Depending on which side we were on to start with (left, bottom, right), constrain in that direction
+            NSRect origFrame = [window frame];
+            if (NSMaxX(origFrame) <= NSMinX(menuRect)) {
+                // left
+                frame.origin.x = menuRect.origin.x - frame.size.width;
+            } else if (NSMinX(origFrame) >= NSMaxX(menuRect)) {
+                // right
+                frame.origin.x = NSMaxX(menuRect);
+            } else {
+                // assume bottom
+                frame.origin.y = menuRect.origin.y - frame.size.height;
+            }
+        }
+    }
     
-    lastMouseLocation = newMousePosition;
+    [window setFrameOrigin:frame.origin];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    if(NSEqualPoints(lastMouseLocation, NSZeroPoint))
+    if (!isDragging)
     {
         [[self nextResponder] mouseUp:theEvent];
         return;
     }
+    isDragging = NO;
 }
 
 @end
