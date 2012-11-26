@@ -145,6 +145,10 @@ static MDFNSetting RenamedSettings[] =
  { "glvsync", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS         , "video.glvsync" },
  { "fs", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS              , "video.fs" },
 
+ { "autofirefreq", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS    , "input.autofirefreq" },
+ { "analogthreshold", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS , "input.joystick.axis_threshold" },
+ { "ckdelay", MDFNSF_NOFLAGS, NULL, NULL, MDFNST_ALIAS         , "input.ckdelay" },
+
  { NULL }
 };
 
@@ -449,14 +453,22 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
    for(unsigned i = 0; i < file_list.size(); i++)
    {
-    CDInterfaces.push_back(new CDIF(file_list[i].c_str()));
+#if 1
+    CDInterfaces.push_back(new CDIF_MT(file_list[i].c_str()));
+#else
+    CDInterfaces.push_back(new CDIF_ST(file_list[i].c_str()));
+#endif
    }
 
    GetFileBase(devicename);
   }
   else
   {
-   CDInterfaces.push_back(new CDIF(devicename));
+#if 1
+   CDInterfaces.push_back(new CDIF_MT(devicename));
+#else
+   CDInterfaces.push_back(new CDIF_ST(devicename));
+#endif
    if(CDInterfaces[0]->IsPhysical())
    {
     GetFileBase("cdrom");
@@ -636,7 +648,9 @@ static bool LoadIPS(MDFNFILE &GameFile, const char *path)
  {
   ErrnoHolder ene(errno);
 
+  MDFN_indent(1);
   MDFN_printf(_("Failed: %s\n"), ene.StrError());
+  MDFN_indent(-1);
 
   if(ene.Errno() == ENOENT)
    return(1);
@@ -785,6 +799,21 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
         MDFNGameInfo->soundrate = 0;
         MDFNGameInfo->name = NULL;
         MDFNGameInfo->rotated = 0;
+
+
+	//
+	// Load per-game settings
+	//
+	// Maybe we should make a "pgcfg" subdir, and automatically load all files in it?
+#if 0
+	{
+	 char hash_string[n + 1];
+	 const char *section_names[3] = { MDFNGameInfo->shortname, hash_string, NULL };
+	//asdfasdfMDFN_LoadSettings(std::string(basedir) + std::string(PSS) + std::string("pergame.cfg");
+	}
+#endif
+	// End load per-game settings
+	//
 
         if(MDFNGameInfo->Load(name, &GameFile) <= 0)
 	{
@@ -1029,25 +1058,18 @@ bool MDFNI_InitializeModules(const std::vector<MDFNGI *> &ExternalSystems)
 
  MDFNSystemsPrio.sort(MDFNSystemsPrio_CompareFunc);
 
- #if 0
- std::string a_modules;
-
- std::list<MDFNGI *>:iterator it;
-
- for(it = MDFNSystemsPrio.
- f
- #endif
-
  CDUtility::CDUtility_Init();
 
  return(1);
 }
 
+static std::string settings_file_path;
 int MDFNI_Initialize(const char *basedir, const std::vector<MDFNSetting> &DriverSettings)
 {
 	// FIXME static
 	static std::vector<MDFNSetting> dynamic_settings;
 
+	// DO NOT REMOVE/DISABLE THESE MATH AND COMPILER SANITY TESTS.  THEY EXIST FOR A REASON.
 	if(!MDFN_RunMathTests())
 	{
 	 return(0);
@@ -1109,7 +1131,8 @@ int MDFNI_Initialize(const char *basedir, const std::vector<MDFNSetting> &Driver
 
 	MDFN_MergeSettings(RenamedSettings);
 
-        if(!MFDN_LoadSettings(basedir))
+	settings_file_path = std::string(basedir) + std::string(PSS) + std::string("mednafen-09x.cfg");
+	if(!MDFN_LoadSettings(settings_file_path.c_str()))
 	 return(0);
 
 	#ifdef WANT_DEBUGGER
@@ -1121,7 +1144,8 @@ int MDFNI_Initialize(const char *basedir, const std::vector<MDFNSetting> &Driver
 
 void MDFNI_Kill(void)
 {
- MDFN_SaveSettings();
+ MDFN_SaveSettings(settings_file_path.c_str());
+ MDFN_KillSettings();
 }
 
 static double multiplier_save, volume_save;

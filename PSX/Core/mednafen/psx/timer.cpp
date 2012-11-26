@@ -71,12 +71,12 @@
 
 /*
  FIXME: Clock appropriately(and update events) when using SetRegister() via the debugger.
+
+ TODO: If we ever return randomish values to "simulate" open bus, remember to change the return type and such of the TIMER_Read() function to full 32-bit too.
 */
 
 namespace MDFN_IEN_PSX
 {
-
-extern PS_GPU *GPU;
 
 struct Timer
 {
@@ -87,8 +87,11 @@ struct Timer
  int32 Div8Counter;
 
  bool IRQDone;
+ int32 DoZeCounting;
 };
 
+static bool vblank;
+static bool hretrace;
 static Timer Timers[3];
 static pscpu_timestamp_t lastts;
 
@@ -123,6 +126,9 @@ static int32 CalcNextEvent(int32 next_event)
   {
    int32 tmp_clocks;
 
+   if(Timers[i].DoZeCounting <= 0)
+    continue;
+
    if((i == 0x2) && (Timers[i].Mode & 0x1))
     continue;
 
@@ -149,6 +155,9 @@ static void ClockTimer(int i, uint32 clocks)
  int32 before = Timers[i].Counter;
  int32 target = 0x10000;
  bool zero_tm = false;
+
+ if(Timers[i].DoZeCounting <= 0)
+  clocks = 0;
 
  if(i == 0x2)
  {
@@ -218,6 +227,52 @@ static void ClockTimer(int i, uint32 clocks)
 
 }
 
+void TIMER_SetVBlank(bool status)
+{
+ switch(Timers[1].Mode & 0x7)
+ {
+  case 0x1:
+	Timers[1].DoZeCounting = !status;
+	break;
+
+  case 0x3:
+	if(vblank && !status)
+	 Timers[1].Counter = 0;
+	break;
+
+  case 0x5:
+	Timers[1].DoZeCounting = status;
+	if(vblank && !status)
+	 Timers[1].Counter = 0;
+	break;
+
+  case 0x7:
+	if(Timers[1].DoZeCounting == -1)
+	{
+	 if(!vblank && status)
+	  Timers[1].DoZeCounting = 0;
+	}
+	else if(Timers[1].DoZeCounting == 0)
+	{
+	 if(vblank && !status)
+	  Timers[1].DoZeCounting = 1;
+	}
+	break;
+ }
+ vblank = status;
+}
+
+void TIMER_SetHRetrace(bool status)
+{
+ if(hretrace && !status)
+ {
+  if((Timers[0].Mode & 0x7) == 0x3)
+   Timers[0].Counter = 0;
+ }
+
+ hretrace = status;
+}
+
 void TIMER_AddDotClocks(uint32 count)
 {
  if(Timers[0].Mode & 0x100)
@@ -249,15 +304,42 @@ pscpu_timestamp_t TIMER_Update(const pscpu_timestamp_t timestamp)
  return(timestamp + CalcNextEvent(1024));
 }
 
+static void CalcCountingStart(unsigned which)
+{
+ Timers[which].DoZeCounting = true;
+
+ switch(which)
+ {
+  case 1:
+	switch(Timers[which].Mode & 0x07)
+	{
+	 case 0x1:
+		Timers[which].DoZeCounting = !vblank;
+		break;
+
+	 case 0x5:
+		Timers[which].DoZeCounting = vblank;
+		break;
+
+	 case 0x7:
+		Timers[which].DoZeCounting = -1;
+		break;
+	}
+	break;
+
+
+ }
+}
+
 void TIMER_Write(const pscpu_timestamp_t timestamp, uint32 A, uint16 V)
 {
  TIMER_Update(timestamp);
 
  int which = (A >> 4) & 0x3;
 
- assert(!(A & 3));
+ V <<= (A & 3) * 8;
 
- PSX_DBGINFO("[TIMER] Write: %08x %04x", A, V);
+ PSX_DBGINFO("[TIMER] Write: %08x %04x\n", A, V);
 
  if(which >= 3)
   return;
@@ -296,12 +378,14 @@ void TIMER_Write(const pscpu_timestamp_t timestamp, uint32 A, uint16 V)
 	    }
 	    Timers[which].Counter = 0;
 #endif
+	    CalcCountingStart(which);	// Call after setting .Mode
 	    break;
 
   case 0x8: Timers[which].Target = V & 0xFFFF;
 	    break;
 
-  default: assert(0);
+  case 0xC: // Open bus
+	    break;
  }
 
  // TIMER_Update(timestamp);
@@ -314,10 +398,12 @@ uint16 TIMER_Read(const pscpu_timestamp_t timestamp, uint32 A)
  uint16 ret = 0;
  int which = (A >> 4) & 0x3;
 
- assert(!(A & 3));
-
  if(which >= 3)
-  assert(0);
+ {
+  PSX_WARNING("[TIMER] Open Bus Read: 0x%08x", A);
+
+  return(ret >> ((A & 3) * 8));
+ }
 
  TIMER_Update(timestamp);
 
@@ -333,10 +419,11 @@ uint16 TIMER_Read(const pscpu_timestamp_t timestamp, uint32 A)
   case 0x8: ret = Timers[which].Target;
 	    break;
 
-  default: assert(0);
+  case 0xC: PSX_WARNING("[TIMER] Open Bus Read: 0x%08x", A);
+	    break;
  }
 
- return(ret);
+ return(ret >> ((A & 3) * 8));
 }
 
 
@@ -350,6 +437,8 @@ void TIMER_Power(void)
 {
  lastts = 0;
 
+ hretrace = false;
+ vblank = false;
  memset(Timers, 0, sizeof(Timers));
 }
 

@@ -15,7 +15,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-// TODO: is &ing the address ok, or should we report an error to the game if it tries to read/write an out-of-range area?
+// I could find no other commands than 'R', 'W', and 'S' (not sure what 'S' is for, however)
 
 #include "../psx.h"
 #include "../frontio.h"
@@ -179,7 +179,8 @@ bool InputDevice_Memcard::Clock(bool TxD, int32 &dsr_pulse_delay)
 
  if(!bitpos)
  {
-  //printf("Receive=0x%02x\n", receive_buffer);
+  //if(command_phase > 0 || transmit_count)
+  // printf("[MCRDATA] Received_data=0x%02x, Sent_data=0x%02x\n", receive_buffer, transmit_buffer);
 
   if(transmit_count)
   {
@@ -264,6 +265,13 @@ bool InputDevice_Memcard::Clock(bool TxD, int32 &dsr_pulse_delay)
 	transmit_buffer = ']';
 	transmit_count = 1;
 	command_phase++;
+
+	// TODO: enable this code(or something like it) when CPU instruction timing is a bit better.
+	//
+	//dsr_pulse_delay = 32000;
+	//goto SkipDPD;
+	//
+
 	break;
 
   case 1003:
@@ -326,7 +334,6 @@ bool InputDevice_Memcard::Clock(bool TxD, int32 &dsr_pulse_delay)
 	calced_xor ^= receive_buffer;
         addr |= receive_buffer & 0xFF;
 	//printf("[MCR]   WRITE ADDR=0x%04x\n", addr);
-	addr &= (sizeof(card_data) >> 7) - 1;
         transmit_buffer = receive_buffer;
         transmit_count = 1;
         command_phase = 2048;
@@ -357,7 +364,12 @@ bool InputDevice_Memcard::Clock(bool TxD, int32 &dsr_pulse_delay)
   case (2048 + 130):	// End flag
 	//MDFN_DispMessage("%02x %02x", calced_xor, write_xor);
 	//printf("[MCR] Write End.  Actual_XOR=0x%02x, CW_XOR=0x%02x\n", calced_xor, write_xor);
-	if(calced_xor == write_xor)
+
+	if(calced_xor != write_xor)
+ 	 transmit_buffer = 'N';
+	else if(addr >= (sizeof(card_data) >> 7))
+	 transmit_buffer = 0xFF;
+	else
 	{
 	 transmit_buffer = 'G';
 	 presence_new = false;
@@ -370,8 +382,6 @@ bool InputDevice_Memcard::Clock(bool TxD, int32 &dsr_pulse_delay)
 	  dirty_count++;
 	 }
 	}
-	else
- 	 transmit_buffer = 'N';
 
 	transmit_count = 1;
 	command_phase = -1;
@@ -385,6 +395,8 @@ bool InputDevice_Memcard::Clock(bool TxD, int32 &dsr_pulse_delay)
 
  if(!bitpos && transmit_count)
   dsr_pulse_delay = 0x100;
+
+ //SkipDPD: ;
 
  return(ret);
 }

@@ -88,7 +88,7 @@ static const int32 dither_table[4][4] =
  {  3, -1,  2, -2 },
 };
 
-PS_GPU::PS_GPU(bool pal_clock_and_tv) : BlitterFIFO(0x10)
+PS_GPU::PS_GPU(bool pal_clock_and_tv) : BlitterFIFO(0x20) // 0x10 on actual PS1 GPU, 0x20 here(see comment at top of gpu.h)	// 0x10)
 {
  HardwarePALType = pal_clock_and_tv;
 
@@ -135,12 +135,11 @@ void PS_GPU::SoftReset(void) // Control command 0x00
 {
  DMAControl = 0;
 
- BlitterFIFO.Flush();
+ if(DrawTimeAvail < 0)
+  DrawTimeAvail = 0;
 
- ParsingLineOrPolygonCommand = false;
- InPLine = false;
- InFBRead = false;
- InFBWrite = false;
+ BlitterFIFO.Flush();
+ InCmd = INCMD_NONE;
 
  DisplayMode = 0;
  DisplayOff = 1;
@@ -190,11 +189,7 @@ void PS_GPU::Power(void)
 
  BlitterFIFO.Flush();
 
- ParsingLineOrPolygonCommand = false;
- InPLine = false;
-
- InFBRead = false;
- InFBWrite = false;
+ InCmd = INCMD_NONE;
  FBRW_X = 0;
  FBRW_Y = 0;
  FBRW_W = 0;
@@ -402,6 +397,7 @@ void PS_GPU::Command_FBFill(const uint32 *cb)
  int32 height = (cb[2] >> 16) & 0x1FF;
 
  //printf("[GPU] FB Fill %d:%d w=%d, h=%d\n", destX, destY, width, height);
+ DrawTimeAvail -= 46;	// Approximate
  DrawTimeAvail -= ((width * height) >> 3) + (height * 9);
 
  for(int32 y = 0; y < height; y++)
@@ -459,7 +455,7 @@ void PS_GPU::Command_FBCopy(const uint32 *cb)
 
 void PS_GPU::Command_FBWrite(const uint32 *cb)
 {
- assert(!InFBRead);
+ assert(InCmd == INCMD_NONE);
 
  FBRW_X = (cb[1] >>  0) & 0x3FF;
  FBRW_Y = (cb[1] >> 16) & 0x3FF;
@@ -476,15 +472,13 @@ void PS_GPU::Command_FBWrite(const uint32 *cb)
  FBRW_CurX = FBRW_X;
  FBRW_CurY = FBRW_Y;
 
- InFBWrite = true;
-
- if(FBRW_W == 0 || FBRW_H == 0)
-  InFBWrite = false;
+ if(FBRW_W != 0 && FBRW_H != 0)
+  InCmd = INCMD_FBWRITE;
 }
 
 void PS_GPU::Command_FBRead(const uint32 *cb)
 {
- assert(!InFBWrite);
+ assert(InCmd == INCMD_NONE);
 
  FBRW_X = (cb[1] >>  0) & 0x3FF;
  FBRW_Y = (cb[1] >> 16) & 0x3FF;
@@ -501,10 +495,8 @@ void PS_GPU::Command_FBRead(const uint32 *cb)
  FBRW_CurX = FBRW_X;
  FBRW_CurY = FBRW_Y;
 
- InFBRead = true;
-
- if(FBRW_W == 0 || FBRW_H == 0)
-  InFBRead = false;
+ if(FBRW_W != 0 && FBRW_H != 0)
+  InCmd = INCMD_FBREAD;
 }
 
 
@@ -622,70 +614,109 @@ CTEntry PS_GPU::Commands[4][256] =
 
 static uint64 PrimitiveCounter[256] = { 0 }; // Debug
 
-void PS_GPU::ProcessFIFO(bool force)
+void PS_GPU::ProcessFIFO(void)
 {
  if(!BlitterFIFO.CanRead())
   return;
 
- if(DrawTimeAvail < 0 && !force)
-  return;
-
- if(InFBWrite)
+ switch(InCmd)
  {
-  uint32 InData = BlitterFIFO.ReadUnit();
+  default:
+	abort();
+	break;
 
-  for(int i = 0; i < 2; i++)
-  {
-   if(!(GPURAM[FBRW_CurY & 511][FBRW_CurX & 1023] & MaskEvalAND))
-    GPURAM[FBRW_CurY & 511][FBRW_CurX & 1023] = InData | MaskSetOR;
+  case INCMD_NONE:
+	break;
 
-   FBRW_CurX++;
-   if(FBRW_CurX == (FBRW_X + FBRW_W))
-   {
-    FBRW_CurX = FBRW_X;
-    FBRW_CurY++;
-    if(FBRW_CurY == (FBRW_Y + FBRW_H))
-    {
-     InFBWrite = false;
-     break;
-    }
-   }
-   InData >>= 16;
-  }
-  return;
- }
+  case INCMD_FBREAD:
+	puts("BOGUS SALAMANDERS, CAPTAIN!");
+	return;
 
- if(InPLine)
- {
-  const uint32 cc = InPLine;
-  const CTEntry *command = &Commands[abr][cc];
-  unsigned vl = 1 + (bool)(InPLine & 0x10);
-  uint32 CB[2];
+  case INCMD_FBWRITE:
+       {
+  	uint32 InData = BlitterFIFO.ReadUnit();
 
-  if((BlitterFIFO.ReadUnit(true) & 0xF000F000) == 0x50005000)
-  {
-   BlitterFIFO.ReadUnit();
-   InPLine = false;
-   ParsingLineOrPolygonCommand = false;
-   return;
-  }
+  	for(int i = 0; i < 2; i++)
+  	{
+   	 if(!(GPURAM[FBRW_CurY & 511][FBRW_CurX & 1023] & MaskEvalAND))
+    	  GPURAM[FBRW_CurY & 511][FBRW_CurX & 1023] = InData | MaskSetOR;
 
-  if(BlitterFIFO.CanRead() >= vl)
-  {
-   for(unsigned i = 0; i < vl; i++)
-   {
-    CB[i] = BlitterFIFO.ReadUnit();
-   }
+	 FBRW_CurX++;
+   	 if(FBRW_CurX == (FBRW_X + FBRW_W))
+	 {
+	  FBRW_CurX = FBRW_X;
+	  FBRW_CurY++;
+	  if(FBRW_CurY == (FBRW_Y + FBRW_H))
+	  {
+	   InCmd = INCMD_NONE;
+	   break;	// Break out of the for() loop.
+	  }
+	 }
+	 InData >>= 16;
+  	}
+  	return;
+       }
+       break;
 
-   ((this)->*(command->func[TexMode | (MaskEvalAND ? 0x4 : 0x0)]))(CB);
-  }
-  return;
+  case INCMD_QUAD:
+       {
+	if(DrawTimeAvail < 0)
+	 return;
+
+	const uint32 cc = InCmd_CC;
+	const CTEntry *command = &Commands[abr][cc];
+	unsigned vl = 1 + (bool)(cc & 0x4) + (bool)(cc & 0x10);
+	uint32 CB[3];
+
+	if(BlitterFIFO.CanRead() >= vl)
+	{
+	 for(unsigned i = 0; i < vl; i++)
+	 {
+	  CB[i] = BlitterFIFO.ReadUnit();
+	 }
+
+	 ((this)->*(command->func[TexMode | (MaskEvalAND ? 0x4 : 0x0)]))(CB);
+	}
+	return;
+       }
+       break;
+
+  case INCMD_PLINE:
+       {
+  	if(DrawTimeAvail < 0)
+	 return;
+
+	const uint32 cc = InCmd_CC;
+	const CTEntry *command = &Commands[abr][cc];
+	unsigned vl = 1 + (bool)(InCmd_CC & 0x10);
+	uint32 CB[2];
+
+  	if((BlitterFIFO.ReadUnit(true) & 0xF000F000) == 0x50005000)
+	{
+	 BlitterFIFO.ReadUnit();
+	 InCmd = INCMD_NONE;
+	 return;
+	}
+
+	if(BlitterFIFO.CanRead() >= vl)
+	{
+	 for(unsigned i = 0; i < vl; i++)
+	 {
+	  CB[i] = BlitterFIFO.ReadUnit();
+	 }
+
+	 ((this)->*(command->func[TexMode | (MaskEvalAND ? 0x4 : 0x0)]))(CB);
+	}
+	return;
+       }
+       break;
  }
 
  const uint32 cc = BlitterFIFO.ReadUnit(true) >> 24;
  const CTEntry *command = &Commands[0][cc];
 
- ParsingLineOrPolygonCommand = (cc >= 0x20 && cc < 0x60);
+ if(DrawTimeAvail < 0 && !command->ss_cmd)
+  return;
 
  if(BlitterFIFO.CanRead() >= command->len)
  {
@@ -694,14 +725,15 @@ void PS_GPU::ProcessFIFO(bool force)
   for(unsigned i = 0; i < command->len; i++)
    CB[i] = BlitterFIFO.ReadUnit();
 
-  DrawTimeAvail -= 2;
+  if(!command->ss_cmd)
+   DrawTimeAvail -= 2;
 
   PrimitiveCounter[cc]++;
 
   if(!command->func[TexMode])
   {
-   if(CB[0])
-    PSX_WARNING("[GPU] Unknown command: %08x, %d", CB[0], scanline);
+   //if(CB[0])
+   // PSX_WARNING("[GPU] Unknown command: %08x, %d", CB[0], scanline);
   }
   else
   {
@@ -737,16 +769,17 @@ void PS_GPU::ProcessFIFO(bool force)
    ((this)->*(command->func[TexMode | (MaskEvalAND ? 0x4 : 0x0)]))(CB);
    //printf("COMMAND: %08x -- %8d ---- scanline=%d -- adta=%8d\n", CB[0], DrawTimeAvail - olddt, scanline, DrawTimeAvail);
   }
-
-  if(!InPLine)
-   ParsingLineOrPolygonCommand = false;
  }
 }
 
 INLINE void PS_GPU::WriteCB(uint32 InData)
 {
- if(!BlitterFIFO.CanWrite())
-  ProcessFIFO(true);
+ if(BlitterFIFO.CanRead() >= 0x10 && (InCmd != INCMD_NONE || (BlitterFIFO.CanRead() - 0x10) >= Commands[0][BlitterFIFO.ReadUnit(true) >> 24].fifo_fb_len))
+ {
+  MDFN_DispMessage("GPU FIFO overflow!!!");
+  fprintf(stderr, "GPU FIFO overflow!!!");
+  return;
+ }
 
  BlitterFIFO.WriteUnit(InData);
  ProcessFIFO();
@@ -754,6 +787,8 @@ INLINE void PS_GPU::WriteCB(uint32 InData)
 
 void PS_GPU::Write(const pscpu_timestamp_t timestamp, uint32 A, uint32 V)
 {
+ V <<= (A & 3) * 8;
+
  if(A & 4)	// GP1 ("Control")
  {
   uint32 command = V >> 24;
@@ -776,14 +811,10 @@ void PS_GPU::Write(const pscpu_timestamp_t timestamp, uint32 A, uint32 V)
 	break;
 
    case 0x01:	// Reset command buffer
-	//if(DrawTimeAvail < 0)
-	// DrawTimeAvail = 0;
-
+	if(DrawTimeAvail < 0)
+	 DrawTimeAvail = 0;
 	BlitterFIFO.Flush();
-	ParsingLineOrPolygonCommand = false;
-	InPLine = false;
-	InFBRead = false;
-	InFBWrite = false;
+	InCmd = INCMD_NONE;
 	break;
 
    case 0x02: 	// Reset IRQ ???
@@ -881,14 +912,13 @@ uint32 PS_GPU::Read(const pscpu_timestamp_t timestamp, uint32 A)
 
   ret |= DisplayOff << 23;
 
-  if(!InFBRead && !InFBWrite && !InPLine && DrawTimeAvail >= 0 && BlitterFIFO.CanWrite() == 0x10)	// GPU idle bit.
+  if(InCmd == INCMD_NONE && DrawTimeAvail >= 0 && BlitterFIFO.CanRead() == 0x00)	// GPU idle bit.
    ret |= 1 << 26;
 
-  if(InFBRead)
+  if(InCmd == INCMD_FBREAD)	// Might want to more accurately emulate this in the future?
    ret |= (1 << 27);
 
-  if(BlitterFIFO.CanWrite() && !ParsingLineOrPolygonCommand)	// FIFO has room bit? (kinda).
-   ret |= (1 << 28);
+  ret |= CalcFIFOReadyBit() << 28;		// FIFO has room bit? (kinda).
 
   //
   //
@@ -908,7 +938,7 @@ uint32 PS_GPU::Read(const pscpu_timestamp_t timestamp, uint32 A)
  }
  else		// "Data"
  {
-  if(InFBRead)
+  if(InCmd == INCMD_FBREAD)
   {
    DataReadBuffer = 0;
    for(int i = 0; i < 2; i++)
@@ -922,7 +952,7 @@ uint32 PS_GPU::Read(const pscpu_timestamp_t timestamp, uint32 A)
      FBRW_CurY++;
      if(FBRW_CurY == (FBRW_Y + FBRW_H))
      {
-      InFBRead = false;
+      InCmd = INCMD_NONE;
       break;
      }
     }
@@ -937,7 +967,7 @@ uint32 PS_GPU::Read(const pscpu_timestamp_t timestamp, uint32 A)
   //PSX_WARNING("[GPU READ WHEN (DMACONTROL&2)] 0x%08x - ret=0x%08x, scanline=%d", A, ret, scanline);
  }
 
- return(ret);
+ return(ret >> ((A & 3) * 8));
 }
 
 INLINE void PS_GPU::ReorderRGB_Var(uint32 out_Rshift, uint32 out_Gshift, uint32 out_Bshift, bool bpp24, const uint16 *src, uint32 *dest, const int32 dx_start, const int32 dx_end, int32 fb_x)
@@ -984,11 +1014,10 @@ pscpu_timestamp_t PS_GPU::Update(const pscpu_timestamp_t sys_timestamp)
 {
  static const uint32 DotClockRatios[5] = { 10, 8, 5, 4, 7 };
  const uint32 dmc = (DisplayMode & 0x40) ? 4 : (DisplayMode & 0x3);
- const uint32 dmw = 2720 / DotClockRatios[dmc];
+ const uint32 dmw = 2720 / DotClockRatios[dmc];	// Must be <= 768
 
  int32 sys_clocks = sys_timestamp - lastts;
  int32 gpu_clocks;
- int32 dot_clocks;
 
  //printf("GPUISH: %d\n", sys_timestamp - lastts);
 
@@ -1009,33 +1038,42 @@ pscpu_timestamp_t PS_GPU::Update(const pscpu_timestamp_t sys_timestamp)
  gpu_clocks = GPUClockCounter >> 16;
  GPUClockCounter -= gpu_clocks << 16;
 
- DotClockCounter += gpu_clocks;
- dot_clocks = DotClockCounter / DotClockRatios[DisplayMode & 0x3];
- DotClockCounter -= dot_clocks * DotClockRatios[DisplayMode & 0x3];
-
- TIMER_AddDotClocks(dot_clocks);
-
  while(gpu_clocks > 0)
  {
   int32 chunk_clocks = gpu_clocks;
+  int32 dot_clocks;
 
   if(chunk_clocks > LineClockCounter)
+  {
+   //printf("Chunk: %u, LCC: %u\n", chunk_clocks, LineClockCounter);
    chunk_clocks = LineClockCounter;
+  }
 
   gpu_clocks -= chunk_clocks;
   LineClockCounter -= chunk_clocks;
 
+  DotClockCounter += chunk_clocks;
+  dot_clocks = DotClockCounter / DotClockRatios[DisplayMode & 0x3];
+  DotClockCounter -= dot_clocks * DotClockRatios[DisplayMode & 0x3];
+
+  TIMER_AddDotClocks(dot_clocks);
+
+
   if(!LineClockCounter)
   {
+   PSX_SetEventNT(PSX_EVENT_TIMER, TIMER_Update(sys_timestamp));  // We could just call this at the top of GPU_Update(), but do it here for slightly less CPU usage(presumably).
+
    LinePhase = (LinePhase + 1) & 1;
 
    if(LinePhase)
    {
+    TIMER_SetHRetrace(true);
     LineClockCounter = 200;
     TIMER_ClockHRetrace();
    }
    else
    {
+    TIMER_SetHRetrace(false);
     if(PALMode)
      LineClockCounter = 3405 - 200;
     else
@@ -1046,6 +1084,7 @@ pscpu_timestamp_t PS_GPU::Update(const pscpu_timestamp_t sys_timestamp)
 
     if(scanline == (LinesPerField - 1))
     {
+     //printf("Exit: scanline=%u, st=%u\n", scanline, sys_timestamp);
      PSX_RequestMLExit();
     }
 
@@ -1069,10 +1108,16 @@ pscpu_timestamp_t PS_GPU::Update(const pscpu_timestamp_t sys_timestamp)
 	memset(PrimitiveCounter, 0, sizeof(PrimitiveCounter));
 #endif
 
-     //MDFN_DispMessage("%8d %d %d %d", DrawTimeAvail, InFBRead, InFBWrite, DMA_GPUWriteActive());
      IRQ_Assert(IRQ_VSYNC, true);
      IRQ_Assert(IRQ_VSYNC, false);
     }
+
+    // Might not be right:
+    if(scanline == 0)
+     TIMER_SetVBlank(true);
+    else if(scanline == VisibleStartLine)
+     TIMER_SetVBlank(false);
+
 
     if(scanline == 0)
     {
@@ -1127,9 +1172,9 @@ pscpu_timestamp_t PS_GPU::Update(const pscpu_timestamp_t sys_timestamp)
      DisplayFB_CurYOffset = 0;
     }
 
-    const int32 VS_Adjust = 7; //PALMode ? (34 - 6) : 7;
+    const uint32 VS_Adjust = 7; //PALMode ? (34 - 6) : 7;
 
-    if(scanline == (5 + field_atvs))
+    if(scanline == (5U + field_atvs))
     {
      if(FrameInterlaced)
      {
@@ -1192,7 +1237,7 @@ pscpu_timestamp_t PS_GPU::Update(const pscpu_timestamp_t sys_timestamp)
       dx_start = 0;
      }
 
-     if(dx_end > dmw)
+     if((uint32)dx_end > dmw)
       dx_end = dmw;
 
      if(!DisplayHeightCounter || DisplayOff)
@@ -1224,9 +1269,18 @@ pscpu_timestamp_t PS_GPU::Update(const pscpu_timestamp_t sys_timestamp)
       else
        ReorderRGB_Var(surface->format.Rshift, surface->format.Gshift, surface->format.Bshift, DisplayMode & 0x10, src, dest, dx_start, dx_end, fb_x);
 
-      for(int32 x = dx_end; x < dmw; x++)
+      for(uint32 x = dx_end; x < dmw; x++)
        dest[x] = black;
      }
+
+     //if(scanline == 64)
+     // printf("%u\n", sys_timestamp - ((uint64)gpu_clocks * 65536) / GPUClockRatio);
+
+     PSX_GPULineHook(sys_timestamp, sys_timestamp - ((uint64)gpu_clocks * 65536) / GPUClockRatio, scanline == 0, dest, &surface->format, dmw, (528 - 146) / DotClockRatios[dmc], (HardwarePALType ? 53203425 : 53693182) / DotClockRatios[dmc]);
+    }
+    else
+    {
+     PSX_GPULineHook(sys_timestamp, sys_timestamp - ((uint64)gpu_clocks * 65536) / GPUClockRatio, scanline == 0, NULL, &surface->format, 0, 0, 0);
     }
 
     if(DisplayHeightCounter)

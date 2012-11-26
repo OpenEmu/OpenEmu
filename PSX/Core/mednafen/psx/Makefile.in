@@ -78,15 +78,19 @@ libpsx_a_LIBADD =
 am__libpsx_a_SOURCES_DIST = psx.cpp irq.cpp timer.cpp dma.cpp \
 	frontio.cpp sio.cpp cpu.cpp gte.cpp dis.cpp cdc.cpp spu.cpp \
 	gpu.cpp mdec.cpp input/gamepad.cpp input/dualanalog.cpp \
-	input/memcard.cpp input/multitap.cpp input/mouse.cpp debug.cpp
+	input/dualshock.cpp input/memcard.cpp input/multitap.cpp \
+	input/mouse.cpp input/negcon.cpp input/guncon.cpp \
+	input/justifier.cpp debug.cpp
 am__dirstamp = $(am__leading_dot)dirstamp
 @WANT_DEBUGGER_TRUE@am__objects_1 = debug.$(OBJEXT)
 am_libpsx_a_OBJECTS = psx.$(OBJEXT) irq.$(OBJEXT) timer.$(OBJEXT) \
 	dma.$(OBJEXT) frontio.$(OBJEXT) sio.$(OBJEXT) cpu.$(OBJEXT) \
 	gte.$(OBJEXT) dis.$(OBJEXT) cdc.$(OBJEXT) spu.$(OBJEXT) \
 	gpu.$(OBJEXT) mdec.$(OBJEXT) input/gamepad.$(OBJEXT) \
-	input/dualanalog.$(OBJEXT) input/memcard.$(OBJEXT) \
-	input/multitap.$(OBJEXT) input/mouse.$(OBJEXT) \
+	input/dualanalog.$(OBJEXT) input/dualshock.$(OBJEXT) \
+	input/memcard.$(OBJEXT) input/multitap.$(OBJEXT) \
+	input/mouse.$(OBJEXT) input/negcon.$(OBJEXT) \
+	input/guncon.$(OBJEXT) input/justifier.$(OBJEXT) \
 	$(am__objects_1)
 libpsx_a_OBJECTS = $(am_libpsx_a_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -325,8 +329,9 @@ noinst_LIBRARIES = libpsx.a
 libpsx_a_SOURCES = psx.cpp irq.cpp timer.cpp dma.cpp frontio.cpp \
 	sio.cpp cpu.cpp gte.cpp dis.cpp cdc.cpp spu.cpp gpu.cpp \
 	mdec.cpp input/gamepad.cpp input/dualanalog.cpp \
-	input/memcard.cpp input/multitap.cpp input/mouse.cpp \
-	$(am__append_1)
+	input/dualshock.cpp input/memcard.cpp input/multitap.cpp \
+	input/mouse.cpp input/negcon.cpp input/guncon.cpp \
+	input/justifier.cpp $(am__append_1)
 all: all-am
 
 .SUFFIXES:
@@ -374,11 +379,19 @@ input/gamepad.$(OBJEXT): input/$(am__dirstamp) \
 	input/$(DEPDIR)/$(am__dirstamp)
 input/dualanalog.$(OBJEXT): input/$(am__dirstamp) \
 	input/$(DEPDIR)/$(am__dirstamp)
+input/dualshock.$(OBJEXT): input/$(am__dirstamp) \
+	input/$(DEPDIR)/$(am__dirstamp)
 input/memcard.$(OBJEXT): input/$(am__dirstamp) \
 	input/$(DEPDIR)/$(am__dirstamp)
 input/multitap.$(OBJEXT): input/$(am__dirstamp) \
 	input/$(DEPDIR)/$(am__dirstamp)
 input/mouse.$(OBJEXT): input/$(am__dirstamp) \
+	input/$(DEPDIR)/$(am__dirstamp)
+input/negcon.$(OBJEXT): input/$(am__dirstamp) \
+	input/$(DEPDIR)/$(am__dirstamp)
+input/guncon.$(OBJEXT): input/$(am__dirstamp) \
+	input/$(DEPDIR)/$(am__dirstamp)
+input/justifier.$(OBJEXT): input/$(am__dirstamp) \
 	input/$(DEPDIR)/$(am__dirstamp)
 libpsx.a: $(libpsx_a_OBJECTS) $(libpsx_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libpsx.a
@@ -388,10 +401,14 @@ libpsx.a: $(libpsx_a_OBJECTS) $(libpsx_a_DEPENDENCIES)
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f input/dualanalog.$(OBJEXT)
+	-rm -f input/dualshock.$(OBJEXT)
 	-rm -f input/gamepad.$(OBJEXT)
+	-rm -f input/guncon.$(OBJEXT)
+	-rm -f input/justifier.$(OBJEXT)
 	-rm -f input/memcard.$(OBJEXT)
 	-rm -f input/mouse.$(OBJEXT)
 	-rm -f input/multitap.$(OBJEXT)
+	-rm -f input/negcon.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -411,10 +428,14 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@input/$(DEPDIR)/dualanalog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@input/$(DEPDIR)/dualshock.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@input/$(DEPDIR)/gamepad.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@input/$(DEPDIR)/guncon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@input/$(DEPDIR)/justifier.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@input/$(DEPDIR)/memcard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@input/$(DEPDIR)/mouse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@input/$(DEPDIR)/multitap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@input/$(DEPDIR)/negcon.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

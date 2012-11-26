@@ -28,24 +28,24 @@ struct OpEntry
  const char *format;
 };
 
-#define MASK_OP (0x3F << 26)
-#define MASK_FUNC (0x3F)
-#define MASK_RS (0x1F << 21)
-#define MASK_RT (0x1F << 16)
-#define MASK_RD (0x1F << 11)
-#define MASK_SA (0x1F << 6)
+#define MASK_OP (0x3FU << 26)
+#define MASK_FUNC (0x3FU)
+#define MASK_RS (0x1FU << 21)
+#define MASK_RT (0x1FU << 16)
+#define MASK_RD (0x1FU << 11)
+#define MASK_SA (0x1FU << 6)
 
-#define MK_OP(mnemonic, format, op, func, extra_mask)	{ MASK_OP | (op ? 0 : MASK_FUNC) | extra_mask, (op << 26) | func, mnemonic, format }
+#define MK_OP(mnemonic, format, op, func, extra_mask)	{ MASK_OP | (op ? 0 : MASK_FUNC) | extra_mask, ((unsigned)op << 26) | func, mnemonic, format }
 
-#define MK_OP_REGIMM(mnemonic, regop)	{ MASK_OP | MASK_RT, (0x01 << 26) | (regop << 16), mnemonic, "s, p" }
+#define MK_OP_REGIMM(mnemonic, regop)	{ MASK_OP | MASK_RT, (0x01U << 26) | (regop << 16), mnemonic, "s, p" }
 
 
-#define MK_COPZ(z) { MASK_OP | (0x1 << 25), (0x1 << 25) | ((0x10 | z) << 26), "cop" #z, "F" }
-#define MK_COP0_FUNC(mnemonic, func) { MASK_OP | (0x1 << 25) | MASK_FUNC, (0x10 << 26) | (0x1 << 25) | func, mnemonic, "" }
+#define MK_COPZ(z) { MASK_OP | (0x1U << 25), (0x1U << 25) | ((0x10U | z) << 26), "cop" #z, "F" }
+#define MK_COP0_FUNC(mnemonic, func) { MASK_OP | (0x1U << 25) | MASK_FUNC, (0x10U << 26) | (0x1U << 25) | func, mnemonic, "" }
 
-#define MK_COPZ_XFER(z, mnemonic, format, xf) { MASK_OP | (0x1F << 21), ((0x10 | z) << 26) | (xf << 21), mnemonic, format }
+#define MK_COPZ_XFER(z, mnemonic, format, xf) { MASK_OP | (0x1FU << 21), ((0x10U | z) << 26) | (xf << 21), mnemonic, format }
 
-#define MK_GTE(mnemonic, format, func) { MASK_OP | (0x1 << 25) | MASK_FUNC, (0x1 << 25) | (0x12 << 26) | func, mnemonic, format }
+#define MK_GTE(mnemonic, format, func) { MASK_OP | (0x1U << 25) | MASK_FUNC, (0x1U << 25) | (0x12U << 26) | func, mnemonic, format }
 
 static OpEntry ops[] =
 {

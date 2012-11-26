@@ -5,10 +5,12 @@
 
 #include "settings-common.h"
 
-bool MFDN_LoadSettings(const char *);
+bool MDFN_LoadSettings(const char *path, const char *section = NULL, bool override = false);
 bool MDFN_MergeSettings(const MDFNSetting *);
 bool MDFN_MergeSettings(const std::vector<MDFNSetting> &);
-bool MDFN_SaveSettings(void);
+bool MDFN_SaveSettings(const char *path);
+
+void MDFN_KillSettings(void);	// Free any resources acquired.
 
 // This should assert() or something if the setting isn't found, since it would
 // be a totally tubular error!

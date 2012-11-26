@@ -91,7 +91,7 @@
       
 #else /* OUTSIDE_SPEEX */
 
-#include "speex/speex_mednafen-types.h"
+#include "speex/speex_types.h"
 
 #endif /* OUTSIDE_SPEEX */
 

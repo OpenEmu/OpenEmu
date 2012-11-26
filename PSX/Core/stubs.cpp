@@ -1,5 +1,6 @@
 #include "mednafen/mednafen-types.h"
 #include "mednafen/mednafen.h"
+#include "mednafen/md5.h"
 #include "mednafen/git.h"
 #include "mednafen/general.h"
 #include "mednafen/mednafen-driver.h"
@@ -25,6 +26,43 @@ void MDFND_Sleep(unsigned int time)
 #endif
 }
 
+extern std::string retro_base_directory;
+extern std::string retro_base_name;
+/*
+#ifdef _WIN32
+static void sanitize_path(std::string &path)
+{
+    size_t size = path.size();
+    for (size_t i = 0; i < size; i++)
+        if (path[i] == '/')
+            path[i] = '\\';
+}
+#endif
+
+// Use a simpler approach to make sure that things go right for libretro.
+std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
+{
+    std::string ret;
+    switch (type)
+    {
+        case MDFNMKF_SAV:
+            ret = retro_base_directory + std::string(PSS) + retro_base_name +
+            std::string(".") + md5_context::asciistr(MDFNGameInfo->MD5, 0) + std::string(".") +
+            std::string(cd1);
+            break;
+        case MDFNMKF_FIRMWARE:
+            ret = std::string(cd1);
+            break;
+        default:
+            break;
+    }
+    
+#ifdef _WIN32
+    sanitize_path(ret); // Because Windows path handling is mongoloid.
+#endif
+    return ret;
+}
+*/
 void MDFND_DispMessage(unsigned char *str)
 {
    std::cerr << str;

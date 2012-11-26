@@ -48,7 +48,7 @@ enum
 };
 
 static int PlayMode;
-static uint32 PlaySector;
+static int32 PlaySector;
 static int16 CDDABuffer[588 * 2];
 
 static int16 ResampBuffer[588 * 2][2];	// Resampler input buffer, * 2 for resampler leftovers
@@ -199,7 +199,21 @@ static void Emulate(EmulateSpecStruct *espec)
 
  //printf("%d %d\n", toc.tracks[100].lba, AudioTrackList[AudioTrackList.size() - 1] + 1);
 
- if(PlaySector > AudioTrackList[CurrentATLI].final_lba)
+ if(PlaySector < AudioTrackList[CurrentATLI].lba)	// Reverse-scanning handling.
+ {
+  if(CurrentATLI > 0)
+  {
+   CurrentATLI--;
+   PlaySector = AudioTrackList[CurrentATLI].final_lba;
+  }
+  else
+  {
+   CurrentATLI = 0;
+   PlayMode = PLAYMODE_STOP;
+   PlaySector = AudioTrackList[CurrentATLI].lba;
+  }
+ }
+ else if(PlaySector > AudioTrackList[CurrentATLI].final_lba)
  {
   if((CurrentATLI + 1) < AudioTrackList.size())
    CurrentATLI++;
@@ -207,11 +221,11 @@ static void Emulate(EmulateSpecStruct *espec)
   {
    CurrentATLI = 0;
    PlayMode = PLAYMODE_STOP;
-  }   
+  }
 
   PlaySector = AudioTrackList[CurrentATLI].lba;
  }
- 
+
  if(PlayMode == PLAYMODE_STOP || PlayMode == PLAYMODE_PAUSE)
  {
   //memset(CDDABuffer, 0, sizeof(CDDABuffer));
@@ -407,7 +421,16 @@ static void Emulate(EmulateSpecStruct *espec)
  }
 
  if(PlayMode != PLAYMODE_STOP && PlayMode != PLAYMODE_PAUSE)
-  PlaySector++;
+ {
+  const int scan_amount = 4; //16;
+
+  if(new_controller & 0x40)
+   PlaySector += scan_amount;
+  else if(new_controller & 0x80)
+   PlaySector -= scan_amount;
+  else
+   PlaySector++;
+ }
 
  if(!(last_controller & 0x1) && (new_controller & 1))
  {
@@ -501,6 +524,7 @@ static InputDeviceInfoStruct InputDeviceInfo[] =
   "controller",
   "Controller",
   NULL,
+  NULL,
   sizeof(IDII) / sizeof(InputDeviceInputInfoStruct),
   IDII,
  }
@@ -508,7 +532,7 @@ static InputDeviceInfoStruct InputDeviceInfo[] =
 
 static const InputPortInfoStruct PortInfo[] =
 {
- { 0, "builtin", "Built-In", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo }
+ { "builtin", "Built-In", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo }
 };
 
 static InputInfoStruct InputInfo =

@@ -26,33 +26,6 @@ namespace MDFN_IEN_PSX
 extern PS_GPU *GPU;
 extern PS_SPU *SPU;
 
-
-
-//
-//
-//
-
-void DBG_GPUScanlineHook(unsigned scanline)
-{
-
-
-
-
-}
-
-//
-//
-//
-
-
-
-
-
-
-
-
-
-
 static void (*CPUHook)(uint32) = NULL;
 static void (*BPCallB)(uint32 PC) = NULL;
 
@@ -350,6 +323,60 @@ static void Disassemble(uint32 &A, uint32 SpecialA, char *TextBuf)
  A += 4;
 }
 
+static MDFN_Surface *GfxDecode_Buf = NULL;
+static int GfxDecode_Line = -1;
+static int GfxDecode_Layer = 0;
+static int GfxDecode_Scroll = 0;
+static int GfxDecode_PBN = 0;
+
+static void DoGfxDecode(void)
+{
+ unsigned tp_w, tp_h;
+
+ tp_w = 256;
+ tp_h = 256;
+
+ if(GfxDecode_Buf)
+ {
+  for(int sy = 0; sy < GfxDecode_Buf->h; sy++)
+  {
+   for(int sx = 0; sx < GfxDecode_Buf->w; sx++)
+   {
+    unsigned fb_x = ((sx % GfxDecode_Buf->w) + ((sy + GfxDecode_Scroll) / GfxDecode_Buf->w * GfxDecode_Buf->w)) & 1023;
+    unsigned fb_y = (((sy + GfxDecode_Scroll) % GfxDecode_Buf->w) + ((((sx % GfxDecode_Buf->w) + ((sy + GfxDecode_Scroll) / GfxDecode_Buf->w * GfxDecode_Buf->w)) / 1024) * 256)) & 511;
+
+    uint16 pixel = GPU->PeekRAM(fb_y * 1024 + fb_x);
+
+    GfxDecode_Buf->pixels[(sy * GfxDecode_Buf->w * 3) + sx] = GfxDecode_Buf->MakeColor(((pixel >> 0) & 0x1F) * 255 / 31,
+											((pixel >> 5) & 0x1F) * 255 / 31,
+											((pixel >> 10) & 0x1F) * 255 / 31, 0xFF);
+   }
+  }
+ }
+}
+
+
+void DBG_GPUScanlineHook(unsigned scanline)
+{
+ if((int)scanline == GfxDecode_Line)
+ {
+  DoGfxDecode();
+ }
+}
+
+
+static void SetGraphicsDecode(MDFN_Surface *surface, int line, int which, int xscroll, int yscroll, int pbn)
+{
+ GfxDecode_Buf = surface;
+ GfxDecode_Line = line;
+ GfxDecode_Layer = which;
+ GfxDecode_Scroll = yscroll;
+ GfxDecode_PBN = pbn;
+
+ if(GfxDecode_Buf && GfxDecode_Line == -1)
+  DoGfxDecode();
+}
+
 DebuggerInfoStruct PSX_DBGInfo =
 {
  "shift_jis",
@@ -358,7 +385,7 @@ DebuggerInfoStruct PSX_DBGInfo =
  32,		// Logical address bits
  32,		// Physical address bits
  0x00000000,	// Default watch addr
- ~0,		// ZP addr
+ ~0U,		// ZP addr
 
  MemPeek,
  Disassemble,
@@ -370,7 +397,7 @@ DebuggerInfoStruct PSX_DBGInfo =
  SetCPUCallback,
  SetBPCallback,
  GetBranchTrace,
- NULL, //KING_SetGraphicsDecode,
+ SetGraphicsDecode,
  NULL, //PCFXDBG_SetLogFunc,
 };
 
@@ -519,10 +546,15 @@ static RegType Regs_SPU_Voices[] =
  VOICE_HELPER(2),
  VOICE_HELPER(3),
 #else
- VOICE_HELPER(20),
- VOICE_HELPER(21),
+ VOICE_HELPER(9),
+ VOICE_HELPER(12),
+ VOICE_HELPER(17),
  VOICE_HELPER(22),
- VOICE_HELPER(23),
+
+ //VOICE_HELPER(20),
+ //VOICE_HELPER(21),
+ //VOICE_HELPER(22),
+ //VOICE_HELPER(23),
 #endif
  { 0, "", "", 0 },
 };
@@ -639,3 +671,4 @@ bool DBG_Init(void)
 
 
 }
+

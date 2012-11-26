@@ -1,8 +1,8 @@
 #define POLY_HELPER_SUB(cv, tm, mam)	\
 	 &PS_GPU::Command_DrawPolygon<3 + ((cv & 0x8) >> 3), ((cv & 0x10) >> 4), ((cv & 0x4) >> 2), ((cv & 0x2) >> 1) ? BLENDMODE_MAC : -1, ((cv & 1) ^ 1) & ((cv & 0x4) >> 2), tm, mam >
 
-#define POLY_HELPER(cv) { 1 + (3 + ((cv & 0x8) >> 3)) * ( 1 + ((cv & 0x4) >> 2) + ((cv & 0x10) >> 4) ) - ((cv & 0x10) >> 4),	\
-	"Polygon", { POLY_HELPER_SUB(cv, ((cv & 0x4) ? 0 : 0), 0), POLY_HELPER_SUB(cv, ((cv & 0x4) ? 1 : 0), 0),	\
+#define POLY_HELPER(cv) { 1 + (3 /*+ ((cv & 0x8) >> 3)*/) * ( 1 + ((cv & 0x4) >> 2) + ((cv & 0x10) >> 4) ) - ((cv & 0x10) >> 4),	\
+	1, false, "Polygon", { POLY_HELPER_SUB(cv, ((cv & 0x4) ? 0 : 0), 0), POLY_HELPER_SUB(cv, ((cv & 0x4) ? 1 : 0), 0),	\
 		     POLY_HELPER_SUB(cv, ((cv & 0x4) ? 2 : 0), 0), POLY_HELPER_SUB(cv, ((cv & 0x4) ? 2 : 0), 0),	\
 		     POLY_HELPER_SUB(cv, ((cv & 0x4) ? 0 : 0), 1), POLY_HELPER_SUB(cv, ((cv & 0x4) ? 1 : 0), 1),	\
 		     POLY_HELPER_SUB(cv, ((cv & 0x4) ? 2 : 0), 1), POLY_HELPER_SUB(cv, ((cv & 0x4) ? 2 : 0), 1),	\
@@ -13,7 +13,7 @@
 
 #define SPR_HELPER_SUB(cv, tm, mam) &PS_GPU::Command_DrawSprite<(cv >> 3) & 0x3,	((cv & 0x4) >> 2), ((cv & 0x2) >> 1) ? BLENDMODE_MAC : -1, ((cv & 1) ^ 1) & ((cv & 0x4) >> 2), tm, mam>
 
-#define SPR_HELPER(cv) { 2 + ((cv & 0x4) >> 2) + ((cv & 0x18) ? 0 : 1), "Sprite", {	\
+#define SPR_HELPER(cv) { 2 + ((cv & 0x4) >> 2) + ((cv & 0x18) ? 0 : 1), 2 | ((cv & 0x4) >> 2) | ((cv & 0x18) ? 0 : 1), false, "Sprite", {	\
 		SPR_HELPER_SUB(cv, ((cv & 0x4) ? 0 : 0), 0), SPR_HELPER_SUB(cv, ((cv & 0x4) ? 1 : 0), 0),	\
 		SPR_HELPER_SUB(cv, ((cv & 0x4) ? 2 : 0), 0), SPR_HELPER_SUB(cv, ((cv & 0x4) ? 2 : 0), 0),	\
 		SPR_HELPER_SUB(cv, ((cv & 0x4) ? 0 : 0), 1), SPR_HELPER_SUB(cv, ((cv & 0x4) ? 1 : 0), 1),	\
@@ -25,22 +25,22 @@
 
 #define LINE_HELPER_SUB(cv, mam) &PS_GPU::Command_DrawLine<((cv & 0x08) >> 3), ((cv & 0x10) >> 4), ((cv & 0x2) >> 1) ? BLENDMODE_MAC : -1, mam>
 
-#define LINE_HELPER(cv) { 3 + ((cv & 0x10) >> 4), "Line",	\
+#define LINE_HELPER(cv) { 3 + ((cv & 0x10) >> 4), 1, false, "Line",	\
 	 { LINE_HELPER_SUB(cv, 0), LINE_HELPER_SUB(cv, 0), LINE_HELPER_SUB(cv, 0), LINE_HELPER_SUB(cv, 0),	\
 	   LINE_HELPER_SUB(cv, 1), LINE_HELPER_SUB(cv, 1), LINE_HELPER_SUB(cv, 1), LINE_HELPER_SUB(cv, 1), } }
 
 //
 //
 
-#define OTHER_HELPER(arg_cs, arg_name, arg_ptr) { arg_cs, arg_name, { arg_ptr, arg_ptr, arg_ptr, arg_ptr, arg_ptr, arg_ptr, arg_ptr, arg_ptr } }
+#define OTHER_HELPER(arg_cs, arg_fbcs, arg_ss, arg_name, arg_ptr) { arg_cs, arg_fbcs, arg_ss, arg_name, { arg_ptr, arg_ptr, arg_ptr, arg_ptr, arg_ptr, arg_ptr, arg_ptr, arg_ptr } }
 
-#define NULLCMD() { 1, NULL, { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL } }
+#define NULLCMD() { 1, 1, true, NULL, { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL } }
 
 
  /* 0x00 */
- OTHER_HELPER(1, "UNKNOWN", NULL),
- OTHER_HELPER(1, "Clear Cache", &PS_GPU::Command_ClearCache),
- OTHER_HELPER(3, "FB Fill", &PS_GPU::Command_FBFill),
+ NULLCMD(),
+ OTHER_HELPER(1, 2, false, "Clear Cache", &PS_GPU::Command_ClearCache),
+ OTHER_HELPER(3, 3, false, "FB Fill", &PS_GPU::Command_FBFill),
 
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),
@@ -150,7 +150,7 @@
  SPR_HELPER(0x7f),
 
  /* 0x80 */
- OTHER_HELPER(4, "FB Copy", &PS_GPU::Command_FBCopy),
+ OTHER_HELPER(4, 2, false, "FB Copy", &PS_GPU::Command_FBCopy),
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),
 
@@ -159,7 +159,7 @@
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),
 
  /* 0xA0 */
- OTHER_HELPER(3, "FB Write", &PS_GPU::Command_FBWrite),
+ OTHER_HELPER(3, 2, false, "FB Write", &PS_GPU::Command_FBWrite),
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),
 
@@ -168,7 +168,7 @@
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),
 
  /* 0xC0 */
- OTHER_HELPER(3, "FB Read", &PS_GPU::Command_FBRead),
+ OTHER_HELPER(3, 2, false, "FB Read", &PS_GPU::Command_FBRead),
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),
 
@@ -179,12 +179,12 @@
  /* 0xE0 */
 
  NULLCMD(),
- OTHER_HELPER(1, "Draw mode settings", &PS_GPU::Command_DrawMode),
- OTHER_HELPER(1, "Texture window settings", &PS_GPU::Command_TexWindow),
- OTHER_HELPER(1, "Drawing area top left", &PS_GPU::Command_Clip0),
- OTHER_HELPER(1, "Drawing area bottom right", &PS_GPU::Command_Clip1),
- OTHER_HELPER(1, "Drawing offset", &PS_GPU::Command_DrawingOffset),
- OTHER_HELPER(1, "Mask settings",  &PS_GPU::Command_MaskSetting),
+ OTHER_HELPER(1, 2, false, "Draw mode settings", &PS_GPU::Command_DrawMode),
+ OTHER_HELPER(1, 2, false, "Texture window settings", &PS_GPU::Command_TexWindow),
+ OTHER_HELPER(1, 1, true, "Drawing area top left", &PS_GPU::Command_Clip0),
+ OTHER_HELPER(1, 1, true, "Drawing area bottom right", &PS_GPU::Command_Clip1),
+ OTHER_HELPER(1, 1, true, "Drawing offset", &PS_GPU::Command_DrawingOffset),
+ OTHER_HELPER(1, 2, false, "Mask settings",  &PS_GPU::Command_MaskSetting),
 
  NULLCMD(),
  NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(), NULLCMD(),

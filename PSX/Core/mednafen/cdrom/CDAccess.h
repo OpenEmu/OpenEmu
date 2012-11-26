@@ -21,6 +21,6 @@ class CDAccess
  virtual void Eject(bool eject_status) = 0;		// Eject a disc if it's physical, otherwise NOP.  Returns true on success(or NOP), false on error
 };
 
-CDAccess *cdaccess_open(const char *path);
+CDAccess *cdaccess_open(const char *path, bool image_memcache);
 
 #endif

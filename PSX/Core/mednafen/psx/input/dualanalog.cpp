@@ -195,7 +195,10 @@ bool InputDevice_DualAnalog::Clock(bool TxD, int32 &dsr_pulse_delay)
          transmit_count = 0;
 	}
 	break;
-
+   case 2:
+	//if(receive_buffer)
+	// printf("%d: %02x\n", 7 - transmit_count, receive_buffer);
+	break;
   }
  }
 
@@ -261,10 +264,10 @@ InputDeviceInputInfoStruct Device_AnalogJoy_IDII[24] =
  { "l1", "Left stick, L-thumb", 0, IDIT_BUTTON, NULL },
  { "r1", "Left stick, R-thumb", 1, IDIT_BUTTON, NULL },
 
- { "triangle", "Right stick, Pinky", 13, IDIT_BUTTON_CAN_RAPID, NULL },
- { "circle", "Right stick, R-thumb", 11, IDIT_BUTTON_CAN_RAPID, NULL },
- { "cross",  "Right stick, L-thumb", 10, IDIT_BUTTON_CAN_RAPID, NULL },
- { "square", "Right stick, Trigger", 12, IDIT_BUTTON_CAN_RAPID, NULL },
+ { "triangle", "Right stick, Pinky", 13, IDIT_BUTTON, NULL },
+ { "circle", "Right stick, R-thumb", 11, IDIT_BUTTON, NULL },
+ { "cross",  "Right stick, L-thumb", 10, IDIT_BUTTON, NULL },
+ { "square", "Right stick, Trigger", 12, IDIT_BUTTON, NULL },
 
  { "rstick_right", "Right Stick, RIGHT →", 21, IDIT_BUTTON_ANALOG },
  { "rstick_left", "Right Stick, LEFT ←", 20, IDIT_BUTTON_ANALOG },

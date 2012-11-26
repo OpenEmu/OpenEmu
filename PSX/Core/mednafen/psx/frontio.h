@@ -16,13 +16,23 @@ class InputDevice
  virtual void Power(void);
  virtual void UpdateInput(const void *data);
 
- virtual void Update(const pscpu_timestamp_t timestamp);
+ virtual bool RequireNoFrameskip(void);
+ virtual pscpu_timestamp_t GPULineHook(const pscpu_timestamp_t line_timestamp, bool vsync, uint32 *pixels, const MDFN_PixelFormat* const format, const unsigned width, const unsigned pix_clock_offset, const unsigned pix_clock);
+
+ virtual void Update(const pscpu_timestamp_t timestamp);	// Partially-implemented, don't rely on for timing any more fine-grained than a video frame for now.
  virtual void ResetTS(void);
+
+ //
+ //
+ //
+ virtual void SetAMCT(bool enabled);
+ virtual void SetCrosshairsColor(uint32 color);
+
  //
  //
  //
  virtual void SetDTR(bool new_dtr);
- virtual bool GetDSR(void);
+ virtual bool GetDSR(void);	// Currently unused.
 
  virtual bool Clock(bool TxD, int32 &dsr_pulse_delay);
 
@@ -50,12 +60,17 @@ class FrontIO
  void Power(void);
  void Write(pscpu_timestamp_t timestamp, uint32 A, uint32 V);
  uint32 Read(pscpu_timestamp_t timestamp, uint32 A);
- int32 CalcNextEvent(int32 next_event);
+ pscpu_timestamp_t CalcNextEventTS(pscpu_timestamp_t timestamp, int32 next_event);
  pscpu_timestamp_t Update(pscpu_timestamp_t timestamp);
  void ResetTS(void);
 
+ bool RequireNoFrameskip(void);
+ void GPULineHook(const pscpu_timestamp_t timestamp, const pscpu_timestamp_t line_timestamp, bool vsync, uint32 *pixels, const MDFN_PixelFormat* const format, const unsigned width, const unsigned pix_clock_offset, const unsigned pix_clock);
+
  void UpdateInput(void);
  void SetInput(unsigned int port, const char *type, void *ptr);
+ void SetAMCT(bool enabled);
+ void SetCrosshairsColor(unsigned port, uint32 color);
 
  uint64 GetMemcardDirtyCount(unsigned int which);
  void LoadMemcard(unsigned int which, const char *path);
@@ -110,9 +125,15 @@ class FrontIO
  bool istatus;
  //
  //
+ pscpu_timestamp_t irq10_pulse_ts[2];
+
  int32 dsr_pulse_delay[4];
  int32 dsr_active_until_ts[4];
  int32 lastts;
+ //
+ //
+ bool amct_enabled;
+ uint32 chair_colors[8];
 };
 
 extern InputInfoStruct FIO_InputInfo;

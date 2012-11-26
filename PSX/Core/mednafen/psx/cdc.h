@@ -132,6 +132,7 @@ class PS_CDC
  uint8 SubQBuf_Safe[0xC];
  bool SubQChecksumOK;
 
+ bool HeaderBufValid;
  uint8 HeaderBuf[12];
 
  void RecalcIRQ(void);
@@ -189,6 +190,7 @@ class PS_CDC
 
  enum
  {
+  DS_STANDBY = -2,
   DS_PAUSED = -1,
   DS_STOPPED = 0,
   DS_SEEKING,
@@ -213,6 +215,8 @@ class PS_CDC
  unsigned AsyncIRQPending;
  uint8 AsyncResultsPending[16];
  uint8 AsyncResultsPendingCount;
+
+ int32 CalcSeekTime(int32 initial, int32 target, bool motor_on, bool paused);
 
  void ClearAIP(void);
  void CheckAIP(void);
@@ -265,6 +269,7 @@ class PS_CDC
  int32 Command_Backward(const int arg_count, const uint8 *args);
  int32 Command_ReadN(const int arg_count, const uint8 *args);
  int32 Command_Standby(const int arg_count, const uint8 *args);
+ int32 Command_Standby_Part2(void);
  int32 Command_Stop(const int arg_count, const uint8 *args);
  int32 Command_Stop_Part2(void); 
  int32 Command_Pause(const int arg_count, const uint8 *args);

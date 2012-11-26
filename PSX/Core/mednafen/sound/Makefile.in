@@ -74,7 +74,7 @@ am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))
 am__v_at_0 = @
 libmdfnsound_a_AR = $(AR) $(ARFLAGS)
 libmdfnsound_a_LIBADD =
-am_libmdfnsound_a_OBJECTS = sound.$(OBJEXT) Blip_Buffer.$(OBJEXT) \
+am_libmdfnsound_a_OBJECTS = Blip_Buffer.$(OBJEXT) \
 	Stereo_Buffer.$(OBJEXT) Fir_Resampler.$(OBJEXT) \
 	WAVRecord.$(OBJEXT)
 libmdfnsound_a_OBJECTS = $(am_libmdfnsound_a_OBJECTS)
@@ -113,6 +113,8 @@ ALLOCA = @ALLOCA@
 ALSA_CFLAGS = @ALSA_CFLAGS@
 ALSA_LIBS = @ALSA_LIBS@
 AMTAR = @AMTAR@
+AM_CFLAGS = @AM_CFLAGS@
+AM_CXXFLAGS = @AM_CXXFLAGS@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
@@ -231,6 +233,8 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SNDFILE_CFLAGS = @SNDFILE_CFLAGS@
 SNDFILE_LIBS = @SNDFILE_LIBS@
+SNES_EXTRA_CXXFLAGS = @SNES_EXTRA_CXXFLAGS@
+SNES_EXTRA_FLAGS = @SNES_EXTRA_FLAGS@
 SSE2_CFLAGS = @SSE2_CFLAGS@
 SSE3_CFLAGS = @SSE3_CFLAGS@
 SSE_CFLAGS = @SSE_CFLAGS@
@@ -239,6 +243,7 @@ TRIO_CFLAGS = @TRIO_CFLAGS@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+WARNING_FLAGS = @WARNING_FLAGS@
 WINDRES = @WINDRES@
 WOE32 = @WOE32@
 WOE32DLL = @WOE32DLL@
@@ -306,7 +311,7 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = subdir-objects
 DEFAULT_INCLUDES = -I$(top_builddir)/include -I$(top_srcdir)/intl -I$(top_builddir)/include/blip
 noinst_LIBRARIES = libmdfnsound.a
-libmdfnsound_a_SOURCES = sound.cpp Blip_Buffer.cpp Stereo_Buffer.cpp Fir_Resampler.cpp WAVRecord.cpp
+libmdfnsound_a_SOURCES = Blip_Buffer.cpp Stereo_Buffer.cpp Fir_Resampler.cpp WAVRecord.cpp
 all: all-am
 
 .SUFFIXES:
@@ -359,7 +364,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Fir_Resampler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Stereo_Buffer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/WAVRecord.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sound.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

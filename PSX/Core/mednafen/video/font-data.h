@@ -1,3 +1,5 @@
+// Note: The size of each these structs shouldn't exceed 256 bytes(current worst-case is about 56 bytes with the 18x18 font).
+
 typedef struct
 {
         uint16 glyph_num;

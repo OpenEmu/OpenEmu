@@ -1,10 +1,3 @@
-struct tri_vertex
-{
- int32 x, y;
- int32 u, v;
- int32 r, g, b;
-};
-
 struct i_group
 {
  int32 u, v;
@@ -408,133 +401,89 @@ void PS_GPU::DrawTriangle(tri_vertex *vertices, uint32 clut)
 template<int numvertices, bool goraud, bool textured, int BlendMode, bool TexMult, uint32 TexMode_TA, bool MaskEval_TA>
 void PS_GPU::Command_DrawPolygon(const uint32 *cb)
 {
- tri_vertex vertices[4];
- uint32 raw_colors[4];
+ const unsigned cb0 = cb[0];
+ tri_vertex vertices[3];
  uint32 clut = 0;
+ unsigned sv = 0;
  //uint32 tpage = 0;
 
- if(numvertices == 4)
-  DrawTimeAvail -= 64; 	// FIXME, correct time.
+ // Base timing is approximate, and could be improved.
+ if(numvertices == 4 && InCmd == INCMD_QUAD)
+  DrawTimeAvail -= (28 + 18);
  else
-  DrawTimeAvail -= 32;	// FIXME, correct time.
+  DrawTimeAvail -= (64 + 18);
 
- memset(vertices, 0, sizeof(vertices));
-
- raw_colors[0] = (*cb & 0xFFFFFF);
- cb++;
-
- vertices[0].x = (int16)(*cb & 0xFFFF);
- vertices[0].y = (int16)(*cb >> 16);
- cb++;
-
-
- if(textured)
- {
-  vertices[0].u = (*cb & 0xFF);
-  vertices[0].v = (*cb >> 8) & 0xFF;
-  clut = ((*cb >> 16) & 0xFFFF) << 4;
-  cb++;
- }
-
- if(goraud)
- {
-  raw_colors[1] = (*cb & 0xFFFFFF);
-  cb++;
- }
-
- vertices[1].x = (int16)(*cb & 0xFFFF);
- vertices[1].y = (int16)(*cb >> 16);
- cb++;
-
- if(textured)
- {
-  vertices[1].u = (*cb & 0xFF);
-  vertices[1].v = (*cb >> 8) & 0xFF;
-  cb++;
- }
-
- if(goraud)
- {
-  raw_colors[2] = (*cb & 0xFFFFFF);
-  cb++;
- }
-
- vertices[2].x = (int16)(*cb & 0xFFFF);
- vertices[2].y = (int16)(*cb >> 16);
- cb++;
-
- if(textured)
- {
-  vertices[2].u = (*cb & 0xFF);
-  vertices[2].v = (*cb >> 8) & 0xFF;
-  cb++;
- }
+ if(goraud && textured)
+  DrawTimeAvail -= 150 * 3;
+ else if(goraud)
+  DrawTimeAvail -= 96 * 3;
+ else if(textured)
+  DrawTimeAvail -= 60 * 3;
 
  if(numvertices == 4)
  {
-  if(goraud)
+  if(InCmd == INCMD_QUAD)
   {
-   raw_colors[3] = (*cb & 0xFFFFFF);
+   memcpy(&vertices[0], &InQuad_F3Vertices[1], 2 * sizeof(tri_vertex));
+   clut = InQuad_clut;
+   sv = 2;
+  }
+ }
+ //else
+ // memset(vertices, 0, sizeof(vertices));
+
+ for(unsigned v = sv; v < 3; v++)
+ {
+  if(v == 0 || goraud)
+  {
+   uint32 raw_color = (*cb & 0xFFFFFF);
+
+   vertices[v].r = raw_color & 0xFF;
+   vertices[v].g = (raw_color >> 8) & 0xFF;
+   vertices[v].b = (raw_color >> 16) & 0xFF;
+
    cb++;
   }
+  else
+  {
+   vertices[v].r = vertices[0].r;
+   vertices[v].g = vertices[0].g;
+   vertices[v].b = vertices[0].b;
+  }
 
-  vertices[3].x = (int16)(*cb & 0xFFFF);
-  vertices[3].y = (int16)(*cb >> 16);
+  vertices[v].x = sign_x_to_s32(11, ((int16)(*cb & 0xFFFF))) + OffsX;
+  vertices[v].y = sign_x_to_s32(11, ((int16)(*cb >> 16))) + OffsY;
   cb++;
 
   if(textured)
   {
-   vertices[3].u = (*cb & 0xFF);
-   vertices[3].v = (*cb >> 8) & 0xFF;
+   vertices[v].u = (*cb & 0xFF);
+   vertices[v].v = (*cb >> 8) & 0xFF;
+
+   if(v == 0)
+   {
+    clut = ((*cb >> 16) & 0xFFFF) << 4;
+   }
+
    cb++;
   }
  }
- else
+
+ if(numvertices == 4)
  {
-  raw_colors[3] = raw_colors[0];
+  if(InCmd == INCMD_QUAD)
+  {
+   InCmd = INCMD_NONE;
+  }
+  else
+  {
+   InCmd = INCMD_QUAD;
+   InCmd_CC = cb0 >> 24;
+   memcpy(&InQuad_F3Vertices[0], &vertices[0], sizeof(tri_vertex) * 3);
+   InQuad_clut = clut;
+  }
  }
 
- if(!goraud)
-  raw_colors[1] = raw_colors[2] = raw_colors[3] = raw_colors[0];
-
- for(int i = 0; i < numvertices; i++)
- {
-  //raw_colors[i] = rand() & 0xFFFFFF;
-
-  vertices[i].r = raw_colors[i] & 0xFF;
-  vertices[i].g = (raw_colors[i] >> 8) & 0xFF;
-  vertices[i].b = (raw_colors[i] >> 16) & 0xFF;
- }
-
- for(int i = 0; i < numvertices; i++)
- {
-  vertices[i].x = sign_x_to_s32(11, vertices[i].x) + OffsX;
-  vertices[i].y = sign_x_to_s32(11, vertices[i].y) + OffsY;
- }
-
-#if 0
- printf("Draw polygon %d: ", numvertices);
-
- for(int i = 0; i < numvertices; i++)
- {
-  printf("%d:%d ", vertices[i].x, vertices[i].y);
-  //GPURAM[vertices[i].y & 511][vertices[i].x & 1023] = rand();
- }
-
- printf("\n");
-
-#endif
-
- if(numvertices == 3)
-  DrawTriangle<goraud, textured, BlendMode, TexMult, TexMode_TA, MaskEval_TA>(vertices, clut);
- else
- {
-  tri_vertex vertices_tmp[3];
-
-  memcpy(&vertices_tmp[0], &vertices[1], 3 * sizeof(tri_vertex));
-
-  DrawTriangle<goraud, textured, BlendMode, TexMult, TexMode_TA, MaskEval_TA>(vertices, clut);
-  DrawTriangle<goraud, textured, BlendMode, TexMult, TexMode_TA, MaskEval_TA>(vertices_tmp, clut);
- }
+ DrawTriangle<goraud, textured, BlendMode, TexMult, TexMode_TA, MaskEval_TA>(vertices, clut);
 }
 

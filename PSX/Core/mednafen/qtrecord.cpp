@@ -16,7 +16,7 @@
  */
 
 #include "mednafen.h"
-#include "mednafen-endian.h"
+#include "endian.h"
 #include "qtrecord.h"
 #include "compress/minilzo.h"
 #include "video/png.h"
@@ -939,7 +939,7 @@ void QTRecord::Write_udta(void)
 
   atom_begin("@swr");
 
-   qtfile.put_string("Mednafen "MEDNAFEN_VERSION" -- qtrecord.cpp compiled " __DATE__ " " __TIME__);
+   qtfile.put_string("Mednafen " MEDNAFEN_VERSION " -- qtrecord.cpp compiled " __DATE__ " " __TIME__);
 
   atom_end();
 

@@ -28,7 +28,8 @@ uint16 TIMER_Read(const pscpu_timestamp_t timestamp, uint32 A);
 
 void TIMER_AddDotClocks(uint32 count);
 void TIMER_ClockHRetrace(void);
-void TIMER_SetVSync(bool status);	// TODO
+void TIMER_SetHRetrace(bool status);
+void TIMER_SetVBlank(bool status);
 
 pscpu_timestamp_t TIMER_Update(const pscpu_timestamp_t);
 void TIMER_ResetTS(void);

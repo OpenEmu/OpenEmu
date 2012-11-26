@@ -111,116 +111,235 @@ static struct
  };
 } SysControl;
 
+
 //
 // Event stuff
 //
-static pscpu_timestamp_t next_timestamps[6];
+// Comment out this define for extra speeeeed.
+#define PSX_EVENT_SYSTEM_CHECKS	1
+
+static pscpu_timestamp_t Running;	// Set to -1 when not desiring exit, and 0 when we are.
+
+struct event_list_entry
+{
+ uint32 which;
+ pscpu_timestamp_t event_time;
+ event_list_entry *prev;
+ event_list_entry *next;
+};
+
+static event_list_entry events[PSX_EVENT__COUNT];
 
 static void EventReset(void)
 {
- next_timestamps[PSX_EVENT_GPU] = PSX_EVENT_MAXTS;
- next_timestamps[PSX_EVENT_CDC] = PSX_EVENT_MAXTS;
- //next_timestamps[PSX_EVENT_SPU] = PSX_EVENT_MAXTS;
- next_timestamps[PSX_EVENT_TIMER] = PSX_EVENT_MAXTS;
- next_timestamps[PSX_EVENT_DMA] = PSX_EVENT_MAXTS;
- next_timestamps[PSX_EVENT_FIO] = PSX_EVENT_MAXTS;
+ for(unsigned i = 0; i < PSX_EVENT__COUNT; i++)
+ {
+  events[i].which = i;
+
+  if(i == PSX_EVENT__SYNFIRST)
+   events[i].event_time = 0;
+  else if(i == PSX_EVENT__SYNLAST)
+   events[i].event_time = 0x7FFFFFFF;
+  else
+   events[i].event_time = PSX_EVENT_MAXTS;
+
+  events[i].prev = (i > 0) ? &events[i - 1] : NULL;
+  events[i].next = (i < (PSX_EVENT__COUNT - 1)) ? &events[i + 1] : NULL;
+ }
 }
 
-static INLINE pscpu_timestamp_t CalcNextTS(void)
-{
- pscpu_timestamp_t next_timestamp = next_timestamps[PSX_EVENT_GPU];
-
- if(next_timestamp > next_timestamps[PSX_EVENT_CDC])
-  next_timestamp  = next_timestamps[PSX_EVENT_CDC];
-
- //if(next_timestamp > next_timestamps[PSX_EVENT_SPU])
- // next_timestamp  = next_timestamps[PSX_EVENT_SPU];
-
- if(next_timestamp > next_timestamps[PSX_EVENT_TIMER])
-  next_timestamp  = next_timestamps[PSX_EVENT_TIMER];
-
- if(next_timestamp > next_timestamps[PSX_EVENT_DMA])
-  next_timestamp  = next_timestamps[PSX_EVENT_DMA];
-
- if(next_timestamp > next_timestamps[PSX_EVENT_FIO])
-  next_timestamp  = next_timestamps[PSX_EVENT_FIO];
-
- //printf("%d %d %d %d %d %d -- %08x\n", next_timestamps[PSX_EVENT_GPU], next_timestamps[PSX_EVENT_CDC], next_timestamps[PSX_EVENT_SPU], next_timestamps[PSX_EVENT_TIMER], next_timestamps[PSX_EVENT_DMA], next_timestamps[PSX_EVENT_FIO], next_timestamp);
-
- return(next_timestamp);
-}
+//static void RemoveEvent(event_list_entry *e)
+//{
+// e->prev->next = e->next;
+// e->next->prev = e->prev;
+//}
 
 static void RebaseTS(const pscpu_timestamp_t timestamp)
 {
- //printf("Rebase: %08x %08x %08x\n", timestamp, next_vip_ts, next_timestamps[PSX_EVENT_TIMER]);
- assert(next_timestamps[PSX_EVENT_GPU] > timestamp);
- assert(next_timestamps[PSX_EVENT_CDC] > timestamp);
- //assert(next_timestamps[PSX_EVENT_SPU] > timestamp);
- assert(next_timestamps[PSX_EVENT_TIMER] > timestamp);
- assert(next_timestamps[PSX_EVENT_DMA] > timestamp);
- assert(next_timestamps[PSX_EVENT_FIO] > timestamp);
+ for(unsigned i = 0; i < PSX_EVENT__COUNT; i++)
+ {
+  if(i == PSX_EVENT__SYNFIRST || i == PSX_EVENT__SYNLAST)
+   continue;
 
- next_timestamps[PSX_EVENT_GPU] -= timestamp;
- next_timestamps[PSX_EVENT_CDC] -= timestamp;
- //next_timestamps[PSX_EVENT_SPU] -= timestamp;
- next_timestamps[PSX_EVENT_TIMER] -= timestamp;
- next_timestamps[PSX_EVENT_DMA] -= timestamp;
- next_timestamps[PSX_EVENT_FIO] -= timestamp;
+  assert(events[i].event_time > timestamp);
+  events[i].event_time -= timestamp;
+ }
 
- CPU->SetEventNT(CalcNextTS());
+ CPU->SetEventNT(events[PSX_EVENT__SYNFIRST].next->event_time);
 }
 
 void PSX_SetEventNT(const int type, const pscpu_timestamp_t next_timestamp)
 {
- //assert(next_timestamp > VB_V810->v810_timestamp);
+ assert(type > PSX_EVENT__SYNFIRST && type < PSX_EVENT__SYNLAST);
+ event_list_entry *e = &events[type];
 
- assert(type >= 0 && type < 6);
+ if(next_timestamp < e->event_time)
+ {
+  event_list_entry *fe = e;
 
- next_timestamps[type] = next_timestamp;
+  do
+  {
+   fe = fe->prev;
+  }
+  while(next_timestamp < fe->event_time);
 
- if(next_timestamp < CPU->GetEventNT())
-  CPU->SetEventNT(next_timestamp);
+  // Remove this event from the list, temporarily of course.
+  e->prev->next = e->next;
+  e->next->prev = e->prev;
+
+  // Insert into the list, just after "fe".
+  e->prev = fe;
+  e->next = fe->next;
+  fe->next->prev = e;
+  fe->next = e;
+
+  e->event_time = next_timestamp;
+ }
+ else if(next_timestamp > e->event_time)
+ {
+  event_list_entry *fe = e;
+
+  do
+  {
+   fe = fe->next;
+  } while(next_timestamp > fe->event_time);
+
+  // Remove this event from the list, temporarily of course
+  e->prev->next = e->next;
+  e->next->prev = e->prev;
+
+  // Insert into the list, just BEFORE "fe".
+  e->prev = fe->prev;
+  e->next = fe;
+  fe->prev->next = e;
+  fe->prev = e;
+
+  e->event_time = next_timestamp;
+ }
+
+ CPU->SetEventNT(events[PSX_EVENT__SYNFIRST].next->event_time & Running);
 }
 
 static void ForceEventUpdates(const pscpu_timestamp_t timestamp)
 {
- next_timestamps[PSX_EVENT_GPU] = GPU->Update(timestamp);
- next_timestamps[PSX_EVENT_CDC] = CDC->Update(timestamp);
- //next_timestamps[PSX_EVENT_SPU] = SPU->Update(timestamp);
+ PSX_SetEventNT(PSX_EVENT_GPU, GPU->Update(timestamp));
+ PSX_SetEventNT(PSX_EVENT_CDC, CDC->Update(timestamp));
 
- next_timestamps[PSX_EVENT_TIMER] = TIMER_Update(timestamp);
+ PSX_SetEventNT(PSX_EVENT_TIMER, TIMER_Update(timestamp));
 
- next_timestamps[PSX_EVENT_DMA] = DMA_Update(timestamp);
+ PSX_SetEventNT(PSX_EVENT_DMA, DMA_Update(timestamp));
 
- next_timestamps[PSX_EVENT_FIO] = FIO->Update(timestamp);
+ PSX_SetEventNT(PSX_EVENT_FIO, FIO->Update(timestamp));
 
- CPU->SetEventNT(CalcNextTS());
+ CPU->SetEventNT(events[PSX_EVENT__SYNFIRST].next->event_time);
+}
+
+bool MDFN_FASTCALL PSX_EventHandler(const pscpu_timestamp_t timestamp)
+{
+ event_list_entry *e = events[PSX_EVENT__SYNFIRST].next;
+#ifdef PSX_EVENT_SYSTEM_CHECKS
+ pscpu_timestamp_t prev_event_time = 0;
+#endif
+#if 0
+ {
+   printf("EventHandler - timestamp=%8d\n", timestamp);
+   event_list_entry *moo = &events[PSX_EVENT__SYNFIRST];
+   while(moo)
+   {
+    printf("%u: %8d\n", moo->which, moo->event_time);
+    moo = moo->next;
+   }
+ }
+#endif
+
+#ifdef PSX_EVENT_SYSTEM_CHECKS
+ assert(Running == 0 || timestamp >= e->event_time);	// If Running == 0, our EventHandler 
+#endif
+
+ while(timestamp >= e->event_time)	// If Running = 0, PSX_EventHandler() may be called even if there isn't an event per-se, so while() instead of do { ... } while
+ {
+  event_list_entry *prev = e->prev;
+  pscpu_timestamp_t nt;
+
+#ifdef PSX_EVENT_SYSTEM_CHECKS
+ // Sanity test to make sure events are being evaluated in temporal order.
+  if(e->event_time < prev_event_time)
+   abort();
+  prev_event_time = e->event_time;
+#endif
+
+  //printf("Event: %u %8d\n", e->which, e->event_time);
+#ifdef PSX_EVENT_SYSTEM_CHECKS
+  if((timestamp - e->event_time) > 50)
+   printf("Late: %u %d --- %8d\n", e->which, timestamp - e->event_time, timestamp);
+#endif
+
+  switch(e->which)
+  {
+   default: abort();
+
+   case PSX_EVENT_GPU:
+	nt = GPU->Update(e->event_time);
+	break;
+
+   case PSX_EVENT_CDC:
+	nt = CDC->Update(e->event_time);
+	break;
+
+   case PSX_EVENT_TIMER:
+	nt = TIMER_Update(e->event_time);
+	break;
+
+   case PSX_EVENT_DMA:
+	nt = DMA_Update(e->event_time);
+	break;
+
+   case PSX_EVENT_FIO:
+	nt = FIO->Update(e->event_time);
+	break;
+  }
+#ifdef PSX_EVENT_SYSTEM_CHECKS
+  assert(nt > e->event_time);
+#endif
+
+  PSX_SetEventNT(e->which, nt);
+
+  // Order of events can change due to calling PSX_SetEventNT(), this prev business ensures we don't miss an event due to reordering.
+  e = prev->next;
+ }
+
+#ifdef PSX_EVENT_SYSTEM_CHECKS
+ for(int i = PSX_EVENT__SYNFIRST + 1; i < PSX_EVENT__SYNLAST; i++)
+ {
+  if(timestamp >= events[i].event_time)
+  {
+   printf("BUG: %u\n", i);
+
+   event_list_entry *moo = &events[PSX_EVENT__SYNFIRST];
+
+   while(moo)
+   {
+    printf("%u: %8d\n", moo->which, moo->event_time);
+    moo = moo->next;
+   }
+
+   abort();
+  }
+ }
+#endif
+
+//#ifdef PSX_EVENT_SYSTEM_CHECKS
+// abort();
+//#endif
+
+ return(Running);
 }
 
 
-pscpu_timestamp_t MDFN_FASTCALL PSX_EventHandler(const pscpu_timestamp_t timestamp)
+void PSX_RequestMLExit(void)
 {
- // FIXME: This seems rather inefficient.
-
- if(timestamp >= next_timestamps[PSX_EVENT_GPU])
-  next_timestamps[PSX_EVENT_GPU] = GPU->Update(timestamp);
-
- if(timestamp >= next_timestamps[PSX_EVENT_CDC])
-  next_timestamps[PSX_EVENT_CDC] = CDC->Update(timestamp);
-
- //if(timestamp >= next_timestamps[PSX_EVENT_SPU])
- // next_timestamps[PSX_EVENT_SPU] = SPU->Update(timestamp);
-
- if(timestamp >= next_timestamps[PSX_EVENT_TIMER])
-  next_timestamps[PSX_EVENT_TIMER] = TIMER_Update(timestamp);
-
- if(timestamp >= next_timestamps[PSX_EVENT_DMA])
-  next_timestamps[PSX_EVENT_DMA] = DMA_Update(timestamp);
-
- if(timestamp >= next_timestamps[PSX_EVENT_FIO])
-  next_timestamps[PSX_EVENT_FIO] = FIO->Update(timestamp);
-
- return(CalcNextTS());
+ Running = 0;
+ CPU->SetEventNT(0);
 }
 
 
@@ -307,6 +426,9 @@ template<typename T, bool IsWrite, bool Access24, bool Peek> static INLINE void 
 
   return;
  }
+
+ if(timestamp >= events[PSX_EVENT__SYNFIRST].next->event_time)
+  PSX_EventHandler(timestamp);
 
  if(A >= 0x1F801000 && A <= 0x1F802FFF && !Peek)	// Hardware register region. (TODO: Implement proper peek suppor)
  {
@@ -452,7 +574,7 @@ template<typename T, bool IsWrite, bool Access24, bool Peek> static INLINE void 
    return;
   }
 
-  if(A >= 0x1F801100 && A <= 0x1F80112F)	// Root counters
+  if(A >= 0x1F801100 && A <= 0x1F80113F)	// Root counters
   {
    if(IsWrite)
     TIMER_Write(timestamp, A, V);
@@ -598,7 +720,8 @@ uint32 PSX_MemPeek32(uint32 A)
  return(V);
 }
 
-void PSX_Power(void)
+// FIXME: Add PSX_Reset() and FrontIO::Reset() so that emulated input devices don't get power-reset on reset-button reset.
+static void PSX_Power(void)
 {
  memset(MainRAM.data32, 0, 2048 * 1024);
  memset(ScratchRAM.data32, 0, 1024);
@@ -626,9 +749,10 @@ void PSX_Power(void)
  ForceEventUpdates(0);
 }
 
-void PSX_RequestMLExit(void)
+
+void PSX_GPULineHook(const pscpu_timestamp_t timestamp, const pscpu_timestamp_t line_timestamp, bool vsync, uint32 *pixels, const MDFN_PixelFormat* const format, const unsigned width, const unsigned pix_clock_offset, const unsigned pix_clock)
 {
- CPU->Exit();
+ FIO->GPULineHook(timestamp, line_timestamp, vsync, pixels, format, width, pix_clock_offset, pix_clock);
 }
 
 }
@@ -639,6 +763,12 @@ using namespace MDFN_IEN_PSX;
 static void Emulate(EmulateSpecStruct *espec)
 {
  pscpu_timestamp_t timestamp = 0;
+
+ if(FIO->RequireNoFrameskip())
+ {
+  //puts("MEOW");
+  espec->skip = false;	//TODO: Save here, and restore at end of Emulate() ?
+ }
 
  MDFNGameInfo->mouse_sensitivity = MDFN_GetSettingF("psx.input.mouse_sensitivity");
 
@@ -652,13 +782,16 @@ static void Emulate(EmulateSpecStruct *espec)
  GPU->StartFrame(psf_loader ? NULL : espec);
  SPU->StartFrame(espec->SoundRate, MDFN_GetSettingUI("psx.spu.resamp_quality"));
 
+ Running = -1;
  timestamp = CPU->Run(timestamp, psf_loader != NULL);
-
- //printf("Timestamp: %d\n", timestamp);
 
  assert(timestamp);
 
  ForceEventUpdates(timestamp);
+ if(GPU->GetScanlineNum() < 100)
+  printf("[BUUUUUUUG] Frame timing end glitch; scanline=%u, st=%u\n", GPU->GetScanlineNum(), timestamp);
+
+ //printf("scanline=%u, st=%u\n", GPU->GetScanlineNum(), timestamp);
 
  espec->SoundBufSize = SPU->EndFrame(espec->SoundBuf);
 
@@ -711,7 +844,7 @@ static void Emulate(EmulateSpecStruct *espec)
      MDFN_PrintError("Memcard %d save error: %s", i, e.what());
      MDFN_DispMessage("Memcard %d save error: %s", i, e.what());
     }
-    MDFN_DispMessage("Memcard %d saved.", i);
+    //MDFN_DispMessage("Memcard %d saved.", i);
    }
   }
  }
@@ -748,6 +881,14 @@ static bool TestMagic(const char *name, MDFNFILE *fp)
 static bool TestMagicCD(std::vector<CDIF *> *CDInterfaces)
 {
  uint8 buf[2048];
+ CDUtility::TOC toc;
+ int dt;
+
+ (*CDInterfaces)[0]->ReadTOC(&toc);
+
+ dt = toc.FindTrackByLBA(4);
+ if(dt > 0 && !(toc.tracks[dt].control & 0x4))
+  return(false);
 
  if((*CDInterfaces)[0]->ReadSector(buf, 4, 1) != 0x2)
   return(false);
@@ -765,6 +906,138 @@ static bool TestMagicCD(std::vector<CDIF *> *CDInterfaces)
  return(true);
 }
 
+static const char *CalcDiscSCEx_BySYSTEMCNF(CDIF *c, unsigned *rr)
+{
+ const char *ret = NULL;
+ Stream *fp = NULL;
+ CDUtility::TOC toc;
+
+ //(*CDInterfaces)[disc]->ReadTOC(&toc);
+
+ //if(toc.first_track > 1 || toc.
+
+ try
+ {
+  uint8 pvd[2048];
+  unsigned pvd_search_count = 0;
+
+  fp = c->MakeStream(0, ~0U);
+  fp->seek(0x8000, SEEK_SET);
+
+  do
+  {
+   if((pvd_search_count++) == 32)
+    throw MDFN_Error(0, "PVD search count limit met.");
+
+   fp->read(pvd, 2048);
+
+   if(memcmp(&pvd[1], "CD001", 5))
+    throw MDFN_Error(0, "Not ISO-9660");
+
+   if(pvd[0] == 0xFF)
+    throw MDFN_Error(0, "Missing Primary Volume Descriptor");
+  } while(pvd[0] != 0x01);
+  //[156 ... 189], 34 bytes
+  uint32 rdel = MDFN_de32lsb(&pvd[0x9E]);
+  uint32 rdel_len = MDFN_de32lsb(&pvd[0xA6]);
+
+  if(rdel_len >= (1024 * 1024 * 10))	// Arbitrary sanity check.
+   throw MDFN_Error(0, "Root directory table too large");
+
+  fp->seek((int64)rdel * 2048, SEEK_SET);
+  //printf("%08x, %08x\n", rdel * 2048, rdel_len);
+  while(fp->tell() < (((int64)rdel * 2048) + rdel_len))
+  {
+   uint8 len_dr = fp->get_u8();
+   uint8 dr[256 + 1];
+
+   memset(dr, 0xFF, sizeof(dr));
+
+   if(!len_dr)
+    break;
+
+   memset(dr, 0, sizeof(dr));
+   dr[0] = len_dr;
+   fp->read(dr + 1, len_dr - 1);
+
+   uint8 len_fi = dr[0x20];
+
+   if(len_fi == 12 && !memcmp(&dr[0x21], "SYSTEM.CNF;1", 12))
+   {
+    uint32 file_lba = MDFN_de32lsb(&dr[0x02]);
+    //uint32 file_len = MDFN_de32lsb(&dr[0x0A]);
+    uint8 fb[2048 + 1];
+    char *bootpos;
+
+    memset(fb, 0, sizeof(fb));
+    fp->seek(file_lba * 2048, SEEK_SET);
+    fp->read(fb, 2048);
+
+    bootpos = strstr((char*)fb, "BOOT") + 4;
+    while(*bootpos == ' ' || *bootpos == '\t') bootpos++;
+    if(*bootpos == '=')
+    {
+     bootpos++;
+     while(*bootpos == ' ' || *bootpos == '\t') bootpos++;
+     if(!strncasecmp(bootpos, "cdrom:\\", 7))
+     { 
+      bootpos += 7;
+      char *tmp;
+
+      if((tmp = strchr(bootpos, '_'))) *tmp = 0;
+      if((tmp = strchr(bootpos, '.'))) *tmp = 0;
+      if((tmp = strchr(bootpos, ';'))) *tmp = 0;
+      //puts(bootpos);
+
+      if(strlen(bootpos) == 4 && bootpos[0] == 'S' && (bootpos[1] == 'C' || bootpos[1] == 'L' || bootpos[1] == 'I'))
+      {
+       switch(bootpos[2])
+       {
+	case 'E': if(rr)
+		   *rr = REGION_EU;
+		  ret = "SCEE";
+		  goto Breakout;
+
+	case 'U': if(rr)
+		   *rr = REGION_NA;
+		  ret = "SCEA";
+		  goto Breakout;
+
+	case 'K':	// Korea?
+	case 'B':
+	case 'P': if(rr)
+		   *rr = REGION_JP;
+		  ret = "SCEI";
+		  goto Breakout;
+       }
+      }
+     }
+    }
+  
+    //puts((char*)fb);
+    //puts("ASOFKOASDFKO");
+   }
+  }
+ }
+ catch(std::exception &e)
+ {
+  //puts(e.what());
+ }
+ catch(...)
+ {
+
+ }
+
+ Breakout:
+ if(fp != NULL)
+ {
+  delete fp;
+  fp = NULL;
+ }
+
+ return(ret);
+}
+
 static unsigned CalcDiscSCEx(void)
 {
  const char *prev_valid_id = NULL;
@@ -780,9 +1053,12 @@ if(cdifs)
   uint8 fbuf[2048 + 1];
   unsigned ipos, opos;
 
+
+  id = CalcDiscSCEx_BySYSTEMCNF((*cdifs)[i], (i == 0) ? &ret_region : NULL);
+
   memset(fbuf, 0, sizeof(fbuf));
 
-  if((*cdifs)[i]->ReadSector(buf, 4, 1) == 0x2)
+  if(id == NULL && (*cdifs)[i]->ReadSector(buf, 4, 1) == 0x2)
   {
    for(ipos = 0, opos = 0; ipos < 0x48; ipos++)
    {
@@ -865,14 +1141,14 @@ static bool InitCommon(std::vector<CDIF *> *CDInterfaces, const bool EmulateMemc
  for(unsigned i = 0; i < 8; i++)
  {
   char buf[64];
-  trio_snprintf(buf, sizeof(buf), "psx.input.port%d.memcard", i + 1);
+  trio_snprintf(buf, sizeof(buf), "psx.input.port%u.memcard", i + 1);
   emulate_memcard[i] = EmulateMemcards && MDFN_GetSettingB(buf);
  }
 
  for(unsigned i = 0; i < 2; i++)
  {
   char buf[64];
-  trio_snprintf(buf, sizeof(buf), "psx.input.port%d.multitap", i + 1);
+  trio_snprintf(buf, sizeof(buf), "psx.input.port%u.multitap", i + 1);
   emulate_multitap[i] = MDFN_GetSettingB(buf);
  }
 
@@ -888,6 +1164,14 @@ static bool InitCommon(std::vector<CDIF *> *CDInterfaces, const bool EmulateMemc
  GPU = new PS_GPU(region == REGION_EU);
  CDC = new PS_CDC();
  FIO = new FrontIO(emulate_memcard, emulate_multitap);
+ FIO->SetAMCT(MDFN_GetSettingB("psx.input.analog_mode_ct"));
+ for(unsigned i = 0; i < 8; i++)
+ {
+  char buf[64];
+  trio_snprintf(buf, sizeof(buf), "psx.input.port%u.gun_chairs", i + 1);
+  FIO->SetCrosshairsColor(i, MDFN_GetSettingUI(buf));
+ }
+
  DMA_Init();
 
  if(region == REGION_EU)
@@ -895,7 +1179,7 @@ static bool InitCommon(std::vector<CDIF *> *CDInterfaces, const bool EmulateMemc
   EmulatedPSX.nominal_width = 367;	// Dunno. :(
   EmulatedPSX.nominal_height = 288;
 
-  EmulatedPSX.fb_width = 1024;
+  EmulatedPSX.fb_width = 768;
   EmulatedPSX.fb_height = 576;
  }
  else
@@ -903,10 +1187,10 @@ static bool InitCommon(std::vector<CDIF *> *CDInterfaces, const bool EmulateMemc
   EmulatedPSX.lcm_width = 2720;
   EmulatedPSX.lcm_height = 480;
 
-  EmulatedPSX.nominal_width = 306;
+  EmulatedPSX.nominal_width = 310;
   EmulatedPSX.nominal_height = 240;
 
-  EmulatedPSX.fb_width = 1024;
+  EmulatedPSX.fb_width = 768;
   EmulatedPSX.fb_height = 480;
  }
 
@@ -1169,13 +1453,19 @@ static int Load(const char *name, MDFNFILE *fp)
  const bool IsPSF = PSFLoader::TestMagic(0x01, fp);
 
  if(!TestMagic(name, fp))
+ {
+  MDFN_PrintError(_("File format is unknown to module \"%s\"."), MDFNGameInfo->shortname);
   return(0);
+ }
 
 // For testing.
 #if 0
+ #warning "GREMLINS GREMLINS EVERYWHEREE IYEEEEEE"
+ #warning "Seriously, GREMLINS!  Or peanut butter.  Or maybe...DINOSAURS."
+
  static std::vector<CDIF *> CDInterfaces;
 
- CDInterfaces.push_back(new CDIF("/extra/games/PSX/Jumping Flash! (USA)/Jumping Flash! (USA).cue"));
+ CDInterfaces.push_back(new CDIF_MT("/extra/games/PSX/Jumping Flash! (USA)/Jumping Flash! (USA).cue"));
  //CDInterfaces.push_back(new CDIF("/extra/games/PSX/Tony Hawk's Pro Skater 2 (USA)/Tony Hawk's Pro Skater 2 (USA).cue"));
 
  if(!InitCommon(&CDInterfaces, !IsPSF))
@@ -1218,7 +1508,7 @@ static int LoadCD(std::vector<CDIF *> *CDInterfaces)
 
  // TODO: fastboot setting
  //if(MDFN_GetSettingB("psx.fastboot"))
- //BIOSROM->WriteU32(0x6990, 0);
+ // BIOSROM->WriteU32(0x6990, 0);
 
  MDFNGameInfo->GameType = GMT_CDROM;
 
@@ -1310,7 +1600,10 @@ static void CloseGame(void)
 
 static void SetInput(int port, const char *type, void *ptr)
 {
- FIO->SetInput(port, type, ptr);
+ if(psf_loader)
+  FIO->SetInput(port, "none", NULL);
+ else
+  FIO->SetInput(port, type, ptr);
 }
 
 static int StateAction(StateMem *sm, int load, int data_only)
@@ -1323,7 +1616,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
   SFARRAY(MainRAM.data8, 1024 * 2048),
   SFARRAY(ScratchRAM.data8, 1024),
   SFARRAY32(SysControl.Regs, 9),
-  SFARRAY32(next_timestamps, sizeof(next_timestamps) / sizeof(next_timestamps[0])),
+  //SFARRAY32(next_timestamps, sizeof(next_timestamps) / sizeof(next_timestamps[0])),
   SFEND
  };
 
@@ -1444,6 +1737,8 @@ static MDFNSetting PSXSettings[] =
 {
  { "psx.input.mouse_sensitivity", MDFNSF_NOFLAGS, gettext_noop("Emulated mouse sensitivity."), NULL, MDFNST_FLOAT, "1.00", NULL, NULL },
 
+ { "psx.input.analog_mode_ct", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Enable analog mode combo-button alternate toggle."), gettext_noop("When enabled, instead of the configured Analog mode toggle button for the emulated DualShock, use a combination of buttons to toggle it instead.  When Select, Start, and all four shoulder buttons are held down for about 1 second, the mode will toggle."), MDFNST_BOOL, "0", NULL, NULL },
+
  { "psx.input.port1.multitap", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Enable multitap on PSX port 1."), gettext_noop("Makes ports 1B-1D available."), MDFNST_BOOL, "0", NULL, NULL },
  { "psx.input.port2.multitap", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Enable multitap on PSX port 2."), gettext_noop("Makes ports 2B-2D available."), MDFNST_BOOL, "0", NULL, NULL },
 
@@ -1456,6 +1751,15 @@ static MDFNSetting PSXSettings[] =
  { "psx.input.port7.memcard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Emulate memcard on port 2C."), NULL, MDFNST_BOOL, "1", NULL, NULL, },
  { "psx.input.port8.memcard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Emulate memcard on port 2D."), NULL, MDFNST_BOOL, "1", NULL, NULL, },
 
+
+ { "psx.input.port1.gun_chairs", MDFNSF_NOFLAGS, gettext_noop("Crosshairs color for lightgun on port 1/1A."), gettext_noop("A value of 0x1000000 disables crosshair drawing."), MDFNST_UINT, "0xFF0000", "0x000000", "0x1000000" },
+ { "psx.input.port2.gun_chairs", MDFNSF_NOFLAGS, gettext_noop("Crosshairs color for lightgun on port 2/2A."), gettext_noop("A value of 0x1000000 disables crosshair drawing."), MDFNST_UINT, "0x00FF00", "0x000000", "0x1000000" },
+ { "psx.input.port3.gun_chairs", MDFNSF_NOFLAGS, gettext_noop("Crosshairs color for lightgun on port 1B."),   gettext_noop("A value of 0x1000000 disables crosshair drawing."), MDFNST_UINT, "0xFF00FF", "0x000000", "0x1000000" },
+ { "psx.input.port4.gun_chairs", MDFNSF_NOFLAGS, gettext_noop("Crosshairs color for lightgun on port 1C."),   gettext_noop("A value of 0x1000000 disables crosshair drawing."), MDFNST_UINT, "0xFF8000", "0x000000", "0x1000000" },
+ { "psx.input.port5.gun_chairs", MDFNSF_NOFLAGS, gettext_noop("Crosshairs color for lightgun on port 1D."),   gettext_noop("A value of 0x1000000 disables crosshair drawing."), MDFNST_UINT, "0xFFFF00", "0x000000", "0x1000000" },
+ { "psx.input.port6.gun_chairs", MDFNSF_NOFLAGS, gettext_noop("Crosshairs color for lightgun on port 2B."),   gettext_noop("A value of 0x1000000 disables crosshair drawing."), MDFNST_UINT, "0x00FFFF", "0x000000", "0x1000000" },
+ { "psx.input.port7.gun_chairs", MDFNSF_NOFLAGS, gettext_noop("Crosshairs color for lightgun on port 2C."),   gettext_noop("A value of 0x1000000 disables crosshair drawing."), MDFNST_UINT, "0x0080FF", "0x000000", "0x1000000" },
+ { "psx.input.port8.gun_chairs", MDFNSF_NOFLAGS, gettext_noop("Crosshairs color for lightgun on port 2D."),   gettext_noop("A value of 0x1000000 disables crosshair drawing."), MDFNST_UINT, "0x8000FF", "0x000000", "0x1000000" },
 
  //{ "psx.fastboot", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Skip BIOS intro sequence."), gettext_noop("MAY BREAK GAMES."), MDFNST_BOOL, "0" },
  { "psx.region_autodetect", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Attempt to auto-detect region of game."), NULL, MDFNST_BOOL, "1" },
@@ -1470,7 +1774,9 @@ static MDFNSetting PSXSettings[] =
  { NULL },
 };
 
-
+// Note for the future: If we ever support PSX emulation with non-8-bit RGB color components, or add a new linear RGB colorspace to MDFN_PixelFormat, we'll need
+// to buffer the intermediate 24-bit non-linear RGB calculation into an array and pass that into the GPULineHook stuff, otherwise netplay could break when
+// an emulated GunCon is used.  This IS assuming, of course, that we ever implement save state support so that netplay actually works at all...
 MDFNGI EmulatedPSX =
 {
  "psx",
@@ -1489,7 +1795,7 @@ MDFNGI EmulatedPSX =
  TestMagicCD,
  CloseGame,
  NULL,	//ToggleLayer,
- NULL,	//"Background Scroll\0Foreground Scroll\0Sprites\0",
+ "GPU\0",	//"Background Scroll\0Foreground Scroll\0Sprites\0",
  NULL,
  NULL,
  NULL,
@@ -1513,7 +1819,7 @@ MDFNGI EmulatedPSX =
  0,	// lcm_height
  NULL,  // Dummy
 
- 306,   // Nominal width
+ 310,   // Nominal width
  240,   // Nominal height
 
  0,   // Framebuffer width

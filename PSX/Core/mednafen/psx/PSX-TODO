@@ -5,16 +5,18 @@ Battle Arena Toshinden, Final Fantasy 7 have some kind of GPU timing issues.
 Zero Divide runs too fast(related to CPU emulation speed?).
 
 Chrono Cross has several-second freezes during some large special attack/magic sequences.
+-----------------------------------------------------------------------------------------------
+
 
 Tiny Toon Adventures - Plucky's Big Adventure is failing and BREAK'ing for some reason, maybe memcard related.
 
-Shadow Master has broken startup images.
-
-Rayman (Europe) has somewhat broken FMV.
+Shadow Master might have broken startup images.
 
 Crusaders of Might and Magic - The CD-XA buffering increase for ToD II is apparently exacerbating the early voice cutoff problem in this game.
 
-Misadventures of Trone Bonne - Voice problems, lockup, possibly due to excessively long seek delays?
+Crash Team Racing - Noticed a game lockup once in the arcade mode stage select screen, having trouble reproducing it.
+-----------------------------------------------------------------------------------------------
+
 
 Test time delta between GPU LL DMA end and GPU non-busy status for various primitive types in sequence on a PS1.
 

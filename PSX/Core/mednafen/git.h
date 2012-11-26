@@ -4,7 +4,6 @@
 #include <string>
 
 #include "video.h"
-#include "sound.h"
 
 typedef struct
 {
@@ -57,12 +56,15 @@ typedef enum
  IDIT_BUTTON,		// 1-bit
  IDIT_BUTTON_CAN_RAPID, // 1-bit
  IDIT_BUTTON_BYTE, // 8-bits, Button as a byte instead of a bit.
- IDIT_X_AXIS,	   // 32-bits
- IDIT_Y_AXIS,	   // 32-bits
- IDIT_X_AXIS_REL,  // 32-bits, signed
- IDIT_Y_AXIS_REL,  // 32-bits, signed
+ IDIT_X_AXIS,	   // (mouse) 32-bits, signed, fixed-point: 1.15.16 - in-screen/window range: [0.0, nominal_width)
+ IDIT_Y_AXIS,	   // (mouse) 32-bits, signed, fixed-point: 1.15.16 - in-screen/window range: [0.0, nominal_height)
+ IDIT_X_AXIS_REL,  // (mouse) 32-bits, signed
+ IDIT_Y_AXIS_REL,  // (mouse) 32-bits, signed
  IDIT_BYTE_SPECIAL,
  IDIT_BUTTON_ANALOG, // 32-bits, 0 - 32767
+ IDIT_RUMBLE,	// 32-bits, lower 8 bits are weak rumble(0-255), next 8 bits are strong rumble(0-255), 0=no rumble, 255=max rumble.  Somewhat subjective, too...
+		// May extend to 16-bit each in the future.
+		// It's also rather a special case of game module->driver code communication.
 } InputDeviceInputType;
 
 #include "git-virtb.h"
@@ -86,9 +88,10 @@ typedef struct
 {
  const char *ShortName;
  const char *FullName;
+ const char *Description;
 
  //struct InputPortInfoStruct *PortExpanderDeviceInfo;
- const void *PortExpanderDeviceInfo;
+ const void *PortExpanderDeviceInfo;	// DON'T USE, IT'S NOT IMPLEMENTED PROPERLY CURRENTLY.
  int NumInputs; // Usually just the number of buttons....OR if PortExpanderDeviceInfo is non-NULL, it's the number of input
 		// ports this port expander device provides.
  const InputDeviceInputInfoStruct *IDII;
@@ -96,7 +99,6 @@ typedef struct
 
 typedef struct
 {
- const int pid_offset;
  const char *ShortName;
  const char *FullName;
  int NumTypes; // Number of unique input devices available for this input port
@@ -169,8 +171,8 @@ enum
 
 typedef struct
 {
-	// Pitch(32-bit) must be equal to width and >= the pitch specified in the MDFNGI struct for the emulated system.
-	// Height must be >= to the fb_height specified in the MDFNGI struct for the emulated system.
+	// Pitch(32-bit) must be equal to width and >= the "fb_width" specified in the MDFNGI struct for the emulated system.
+	// Height must be >= to the "fb_height" specified in the MDFNGI struct for the emulated system.
 	// The framebuffer pointed to by surface->pixels is written to by the system emulation code.
 	MDFN_Surface *surface;
 
@@ -326,7 +328,7 @@ typedef struct
  const MDFNSetting *Settings;
 
  // Time base for EmulateSpecStruct::MasterCycles
- #define MDFN_MASTERCLOCK_FIXED(n)	((n) * (1LL << 32))
+ #define MDFN_MASTERCLOCK_FIXED(n)	((int64)((double)(n) * (1LL << 32)))
  int64 MasterClock;
 
  uint32 fps; // frames per second * 65536 * 256, truncated

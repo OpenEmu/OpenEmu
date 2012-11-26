@@ -16,7 +16,7 @@ namespace MDFN_IEN_PSX
 {
  typedef int32 pscpu_timestamp_t;
 
- pscpu_timestamp_t MDFN_FASTCALL PSX_EventHandler(const pscpu_timestamp_t timestamp);
+ bool MDFN_FASTCALL PSX_EventHandler(const pscpu_timestamp_t timestamp);
 
  void MDFN_FASTCALL PSX_MemWrite8(const pscpu_timestamp_t timestamp, uint32 A, uint32 V);
  void MDFN_FASTCALL PSX_MemWrite16(const pscpu_timestamp_t timestamp, uint32 A, uint32 V);
@@ -41,19 +41,23 @@ namespace MDFN_IEN_PSX
 
  void PSX_RequestMLExit(void);
 
- // Insert new event types at end, not in the beginning or middile.
  enum
  {
-  PSX_EVENT_GPU = 0,
+  PSX_EVENT__SYNFIRST = 0,
+  PSX_EVENT_GPU,
   PSX_EVENT_CDC,
-  PSX_EVENT_SPU,
+  //PSX_EVENT_SPU,
   PSX_EVENT_TIMER,
   PSX_EVENT_DMA,
   PSX_EVENT_FIO,
+  PSX_EVENT__SYNLAST,
+  PSX_EVENT__COUNT,
  };
 
  #define PSX_EVENT_MAXTS       		0x20000000
  void PSX_SetEventNT(const int type, const pscpu_timestamp_t next_timestamp);
+
+ void PSX_GPULineHook(const pscpu_timestamp_t timestamp, const pscpu_timestamp_t line_timestamp, bool vsync, uint32 *pixels, const MDFN_PixelFormat* const format, const unsigned width, const unsigned pix_clock_offset, const unsigned pix_clock);
 };
 
 

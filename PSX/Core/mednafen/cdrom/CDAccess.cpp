@@ -41,7 +41,7 @@ CDAccess::~CDAccess()
 
 }
 
-CDAccess *cdaccess_open(const char *path)
+CDAccess *cdaccess_open(const char *path, bool image_memcache)
 {
  CDAccess *ret;
  struct stat stat_buf;
@@ -51,7 +51,7 @@ CDAccess *cdaccess_open(const char *path)
   ret = new CDAccess_Physical(path);
  else
  #endif
-  ret = new CDAccess_Image(path);
+  ret = new CDAccess_Image(path, image_memcache);
 
  return ret;
 }

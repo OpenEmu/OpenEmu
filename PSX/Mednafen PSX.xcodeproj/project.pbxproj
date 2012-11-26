@@ -43,6 +43,13 @@
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		9425977215146D680074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9425977115146D680074E3A3 /* OpenEmuBase.framework */; };
 		942D755415DC3DB100809AA5 /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 942D755315DC3DB100809AA5 /* thread.cpp */; };
+		94A31CAA1660A9A600D123FC /* dualshock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A31CA21660A9A600D123FC /* dualshock.cpp */; };
+		94A31CAB1660A9A600D123FC /* guncon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A31CA41660A9A600D123FC /* guncon.cpp */; };
+		94A31CAC1660A9A600D123FC /* justifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A31CA61660A9A600D123FC /* justifier.cpp */; };
+		94A31CAD1660A9A600D123FC /* negcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A31CA81660A9A600D123FC /* negcon.cpp */; };
+		94A31D181660AB7700D123FC /* FileStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A31D121660AB7700D123FC /* FileStream.cpp */; };
+		94A31D191660AB7700D123FC /* MemoryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A31D141660AB7700D123FC /* MemoryStream.cpp */; };
+		94A31D1A1660AB7700D123FC /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A31D161660AB7700D123FC /* Stream.cpp */; };
 		94A9E3C7157D637C0083A7DC /* libretro.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E280157D637B0083A7DC /* libretro.cpp */; };
 		94A9E3C8157D637C0083A7DC /* cdplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E283157D637B0083A7DC /* cdplay.cpp */; };
 		94A9E3C9157D637C0083A7DC /* audioreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E285157D637B0083A7DC /* audioreader.cpp */; };
@@ -113,7 +120,6 @@
 		94A9E431157D637C0083A7DC /* settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E35B157D637C0083A7DC /* settings.cpp */; };
 		94A9E432157D637C0083A7DC /* Blip_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E35E157D637C0083A7DC /* Blip_Buffer.cpp */; };
 		94A9E433157D637C0083A7DC /* Fir_Resampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E35F157D637C0083A7DC /* Fir_Resampler.cpp */; };
-		94A9E436157D637C0083A7DC /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E362157D637C0083A7DC /* sound.cpp */; };
 		94A9E437157D637C0083A7DC /* Stereo_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E363157D637C0083A7DC /* Stereo_Buffer.cpp */; };
 		94A9E438157D637C0083A7DC /* WAVRecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E364157D637C0083A7DC /* WAVRecord.cpp */; };
 		94A9E439157D637C0083A7DC /* state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E369157D637C0083A7DC /* state.cpp */; };
@@ -128,7 +134,6 @@
 		94A9E447157D637C0083A7DC /* floor1.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E384157D637C0083A7DC /* floor1.c */; };
 		94A9E448157D637C0083A7DC /* framing.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E385157D637C0083A7DC /* framing.c */; };
 		94A9E449157D637C0083A7DC /* info.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E386157D637C0083A7DC /* info.c */; };
-		94A9E44A157D637C0083A7DC /* iseeking_example.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E387157D637C0083A7DC /* iseeking_example.c */; };
 		94A9E44D157D637C0083A7DC /* mapping0.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E38D157D637C0083A7DC /* mapping0.c */; };
 		94A9E44E157D637C0083A7DC /* mdct.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E38E157D637C0083A7DC /* mdct.c */; };
 		94A9E450157D637C0083A7DC /* registry.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E396157D637C0083A7DC /* registry.c */; };
@@ -195,6 +200,20 @@
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9425977115146D680074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		942D755315DC3DB100809AA5 /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
+		94A31CA21660A9A600D123FC /* dualshock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dualshock.cpp; sourceTree = "<group>"; };
+		94A31CA31660A9A600D123FC /* dualshock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dualshock.h; sourceTree = "<group>"; };
+		94A31CA41660A9A600D123FC /* guncon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = guncon.cpp; sourceTree = "<group>"; };
+		94A31CA51660A9A600D123FC /* guncon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = guncon.h; sourceTree = "<group>"; };
+		94A31CA61660A9A600D123FC /* justifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = justifier.cpp; sourceTree = "<group>"; };
+		94A31CA71660A9A600D123FC /* justifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = justifier.h; sourceTree = "<group>"; };
+		94A31CA81660A9A600D123FC /* negcon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = negcon.cpp; sourceTree = "<group>"; };
+		94A31CA91660A9A600D123FC /* negcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = negcon.h; sourceTree = "<group>"; };
+		94A31D121660AB7700D123FC /* FileStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileStream.cpp; sourceTree = "<group>"; };
+		94A31D131660AB7700D123FC /* FileStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileStream.h; sourceTree = "<group>"; };
+		94A31D141660AB7700D123FC /* MemoryStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemoryStream.cpp; sourceTree = "<group>"; };
+		94A31D151660AB7700D123FC /* MemoryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryStream.h; sourceTree = "<group>"; };
+		94A31D161660AB7700D123FC /* Stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
+		94A31D171660AB7700D123FC /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
 		94A9E185157C451B0083A7DC /* OEPSXSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPSXSystemResponderClient.h; path = ../OpenEmu/PlayStation/OEPSXSystemResponderClient.h; sourceTree = "<group>"; };
 		94A9E280157D637B0083A7DC /* libretro.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libretro.cpp; sourceTree = "<group>"; };
 		94A9E281157D637B0083A7DC /* libretro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libretro.h; sourceTree = "<group>"; };
@@ -339,8 +358,6 @@
 		94A9E314157D637B0083A7DC /* player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
 		94A9E315157D637B0083A7DC /* PSFLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PSFLoader.cpp; sourceTree = "<group>"; };
 		94A9E316157D637B0083A7DC /* PSFLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSFLoader.h; sourceTree = "<group>"; };
-		94A9E318157D637B0083A7DC /* .Makefile.am.swp */ = {isa = PBXFileReference; lastKnownFileType = file; path = .Makefile.am.swp; sourceTree = "<group>"; };
-		94A9E319157D637B0083A7DC /* .Tpo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .Tpo; sourceTree = "<group>"; };
 		94A9E31A157D637B0083A7DC /* cdc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cdc.cpp; sourceTree = "<group>"; };
 		94A9E31B157D637B0083A7DC /* cdc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdc.h; sourceTree = "<group>"; };
 		94A9E31C157D637B0083A7DC /* cpu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cpu.cpp; sourceTree = "<group>"; };
@@ -621,6 +638,12 @@
 		94A9E282157D637B0083A7DC /* mednafen */ = {
 			isa = PBXGroup;
 			children = (
+				94A31D121660AB7700D123FC /* FileStream.cpp */,
+				94A31D131660AB7700D123FC /* FileStream.h */,
+				94A31D141660AB7700D123FC /* MemoryStream.cpp */,
+				94A31D151660AB7700D123FC /* MemoryStream.h */,
+				94A31D161660AB7700D123FC /* Stream.cpp */,
+				94A31D171660AB7700D123FC /* Stream.h */,
 				94A9E283157D637B0083A7DC /* cdplay.cpp */,
 				94A9E284157D637B0083A7DC /* cdrom */,
 				94A9E2A1157D637B0083A7DC /* clamp.h */,
@@ -847,8 +870,6 @@
 		94A9E317157D637B0083A7DC /* psx */ = {
 			isa = PBXGroup;
 			children = (
-				94A9E318157D637B0083A7DC /* .Makefile.am.swp */,
-				94A9E319157D637B0083A7DC /* .Tpo */,
 				94A9E31A157D637B0083A7DC /* cdc.cpp */,
 				94A9E31B157D637B0083A7DC /* cdc.h */,
 				94A9E31C157D637B0083A7DC /* cpu.cpp */,
@@ -899,6 +920,14 @@
 		94A9E32F157D637B0083A7DC /* input */ = {
 			isa = PBXGroup;
 			children = (
+				94A31CA21660A9A600D123FC /* dualshock.cpp */,
+				94A31CA31660A9A600D123FC /* dualshock.h */,
+				94A31CA41660A9A600D123FC /* guncon.cpp */,
+				94A31CA51660A9A600D123FC /* guncon.h */,
+				94A31CA61660A9A600D123FC /* justifier.cpp */,
+				94A31CA71660A9A600D123FC /* justifier.h */,
+				94A31CA81660A9A600D123FC /* negcon.cpp */,
+				94A31CA91660A9A600D123FC /* negcon.h */,
 				94A9E330157D637B0083A7DC /* dualanalog.cpp */,
 				94A9E331157D637B0083A7DC /* dualanalog.h */,
 				94A9E332157D637B0083A7DC /* gamepad.cpp */,
@@ -1219,7 +1248,6 @@
 				94A9E431157D637C0083A7DC /* settings.cpp in Sources */,
 				94A9E432157D637C0083A7DC /* Blip_Buffer.cpp in Sources */,
 				94A9E433157D637C0083A7DC /* Fir_Resampler.cpp in Sources */,
-				94A9E436157D637C0083A7DC /* sound.cpp in Sources */,
 				94A9E437157D637C0083A7DC /* Stereo_Buffer.cpp in Sources */,
 				94A9E438157D637C0083A7DC /* WAVRecord.cpp in Sources */,
 				94A9E439157D637C0083A7DC /* state.cpp in Sources */,
@@ -1234,7 +1262,6 @@
 				94A9E447157D637C0083A7DC /* floor1.c in Sources */,
 				94A9E448157D637C0083A7DC /* framing.c in Sources */,
 				94A9E449157D637C0083A7DC /* info.c in Sources */,
-				94A9E44A157D637C0083A7DC /* iseeking_example.c in Sources */,
 				94A9E44D157D637C0083A7DC /* mapping0.c in Sources */,
 				94A9E44E157D637C0083A7DC /* mdct.c in Sources */,
 				94A9E450157D637C0083A7DC /* registry.c in Sources */,
@@ -1255,6 +1282,13 @@
 				94A9E466157D637C0083A7DC /* text.cpp in Sources */,
 				94A9E467157D637C0083A7DC /* video.cpp in Sources */,
 				942D755415DC3DB100809AA5 /* thread.cpp in Sources */,
+				94A31CAA1660A9A600D123FC /* dualshock.cpp in Sources */,
+				94A31CAB1660A9A600D123FC /* guncon.cpp in Sources */,
+				94A31CAC1660A9A600D123FC /* justifier.cpp in Sources */,
+				94A31CAD1660A9A600D123FC /* negcon.cpp in Sources */,
+				94A31D181660AB7700D123FC /* FileStream.cpp in Sources */,
+				94A31D191660AB7700D123FC /* MemoryStream.cpp in Sources */,
+				94A31D1A1660AB7700D123FC /* Stream.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1308,7 +1342,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Core\"",
 				);
-				LLVM_LTO = YES;
+				LLVM_LTO = NO;
 				OTHER_CFLAGS = (
 					"-fno-strict-overflow",
 					"-ffast-math",
@@ -1319,14 +1353,15 @@
 					"-DLSB_FIRST",
 					"-DHAVE_MKDIR",
 					"-DSIZEOF_DOUBLE=8",
-					"-DMEDNAFEN_VERSION=\\\"0.9.24\\\"",
+					"-DMEDNAFEN_VERSION=\\\"0.9.25\\\"",
 					"-DPACKAGE=\\\"mednafen\\\"",
-					"-DMEDNAFEN_VERSION_NUMERIC=924",
+					"-DMEDNAFEN_VERSION_NUMERIC=925",
 					"-DPSS_STYLE=1",
 					"-DMPC_FIXED_POINT",
 					"-DARCH_X86",
 					"-DWANT_PSX_EMU",
 					"-DSTDC_HEADERS",
+					"-D__STDC_LIMIT_MACROS",
 				);
 				PRODUCT_NAME = "Mednafen PSX";
 				VALID_ARCHS = x86_64;
@@ -1357,7 +1392,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Core\"",
 				);
-				LLVM_LTO = YES;
+				LLVM_LTO = NO;
 				OTHER_CFLAGS = (
 					"-fno-strict-overflow",
 					"-ffast-math",
@@ -1368,14 +1403,15 @@
 					"-DLSB_FIRST",
 					"-DHAVE_MKDIR",
 					"-DSIZEOF_DOUBLE=8",
-					"-DMEDNAFEN_VERSION=\\\"0.9.24\\\"",
+					"-DMEDNAFEN_VERSION=\\\"0.9.25\\\"",
 					"-DPACKAGE=\\\"mednafen\\\"",
-					"-DMEDNAFEN_VERSION_NUMERIC=924",
+					"-DMEDNAFEN_VERSION_NUMERIC=925",
 					"-DPSS_STYLE=1",
 					"-DMPC_FIXED_POINT",
 					"-DARCH_X86",
 					"-DWANT_PSX_EMU",
 					"-DSTDC_HEADERS",
+					"-D__STDC_LIMIT_MACROS",
 				);
 				PRODUCT_NAME = "Mednafen PSX";
 				VALID_ARCHS = x86_64;

@@ -21,42 +21,44 @@
 
 typedef struct
 {
-        uint32 glyph_width;
-        uint32 glyph_height;
-        int extension;
+        uint8 glyph_width;
+        uint8 glyph_height;
+	int8 extension;
+        uint8 entry_bsize;
+	const uint8 *base_ptr;
 } FontDescriptor_t;
 
 static FontDescriptor_t FontDescriptors[_MDFN_FONT_COUNT] =
 {
  #ifdef WANT_INTERNAL_CJK
- { 9, 18, MDFN_FONT_18x18 },
- { 5, 7, -1 },
- { 4, 5, -1 },
- { 6, 13, MDFN_FONT_12x13 },
- { 12, 13, -1 },
- { 18, 18, -1 },
+ { 9, 18,	MDFN_FONT_18x18,	sizeof(FontData9x18[0]),	&FontData9x18[0].data[0] },
+ { 5, 7, 	-1,			sizeof(FontData5x7[0]),		&FontData5x7[0].data[0] },
+ { 4, 5, 	-1,			sizeof(FontData4x5[0]),		&FontData4x5[0].data[0] },
+ { 6, 13,	MDFN_FONT_12x13,	sizeof(FontData6x13[0]),	&FontData6x13[0].data[0] },
+ { 12, 13, 	-1,			sizeof(FontData12x13[0]),	&FontData12x13[0].data[0] },
+ { 18, 18, 	-1,			sizeof(FontData18x18[0]),	&FontData18x18[0].data[0] },
  #else
  { 9, 18, -1 },
- { 5, 7, -1 },
+ { 5, 7,  -1 },
  { 4, 5, -1 },
  { 6, 13, -1 },
  #endif
 };
 
-static const uint8 *FontDataCache[_MDFN_FONT_COUNT][65536];
+static uint16 FontDataIndexCache[_MDFN_FONT_COUNT][65536];
 
 void MDFN_InitFontData(void)
 {
  unsigned int x;
  unsigned int inx;
 
- memset(FontDataCache, 0, sizeof(FontDataCache));
+ memset(FontDataIndexCache, 0xFF, sizeof(FontDataIndexCache));
 
  for(inx=x=0;x<65536;x++)
  {
   if(inx < (FontData4x5_Size / sizeof(font4x5)) && FontData4x5[inx].glyph_num == x)
   {
-   FontDataCache[MDFN_FONT_4x5][x] = FontData4x5[inx].data;
+   FontDataIndexCache[MDFN_FONT_4x5][x] = inx;
    inx++;
   }
  }
@@ -65,7 +67,7 @@ void MDFN_InitFontData(void)
  {
   if(inx < (FontData5x7_Size / sizeof(font5x7)) && FontData5x7[inx].glyph_num == x)
   {
-   FontDataCache[MDFN_FONT_5x7][x] = FontData5x7[inx].data;
+   FontDataIndexCache[MDFN_FONT_5x7][x] = inx;
    inx++;
   }
  }
@@ -74,7 +76,7 @@ void MDFN_InitFontData(void)
  {
   if(inx < (FontData6x13_Size / sizeof(font6x13)) && FontData6x13[inx].glyph_num == x)
   {
-   FontDataCache[MDFN_FONT_6x13_12x13][x] = FontData6x13[inx].data;
+   FontDataIndexCache[MDFN_FONT_6x13_12x13][x] = inx;
    inx++;
   }
  }
@@ -83,7 +85,7 @@ void MDFN_InitFontData(void)
  {
   if(inx < (FontData9x18_Size / sizeof(font9x18)) && FontData9x18[inx].glyph_num == x)
   {
-   FontDataCache[MDFN_FONT_9x18_18x18][x] = FontData9x18[inx].data;
+   FontDataIndexCache[MDFN_FONT_9x18_18x18][x] = inx;
    inx++;
   }
  }
@@ -93,7 +95,7 @@ void MDFN_InitFontData(void)
  {
   if(inx < (FontData12x13_Size / sizeof(font12x13)) && FontData12x13[inx].glyph_num == x)
   {
-   FontDataCache[MDFN_FONT_12x13][x] =  FontData12x13[inx].data;
+   FontDataIndexCache[MDFN_FONT_12x13][x] = inx;
    inx++;
   }
  }
@@ -102,7 +104,7 @@ void MDFN_InitFontData(void)
  {
   if(inx < (FontData18x18_Size / sizeof(font18x18)) && FontData18x18[inx].glyph_num == x)
   {
-   FontDataCache[MDFN_FONT_18x18][x] =  FontData18x18[inx].data;
+   FontDataIndexCache[MDFN_FONT_18x18][x] = inx;
    inx++;
   }
  }
@@ -130,9 +132,9 @@ static void DrawTextSub(const UTF32 *utf32_buf, uint32 &slen, const uint8 **glyp
 
   while(!GlyphFound)
   {
-   if(FontDataCache[recurse_which_font][thisglyph])
+   if(FontDataIndexCache[recurse_which_font][thisglyph] != 0xFFFF)
    {
-    glyph_ptrs[x] = FontDataCache[recurse_which_font][thisglyph];
+    glyph_ptrs[x] = FontDescriptors[recurse_which_font].base_ptr + (FontDescriptors[recurse_which_font].entry_bsize * FontDataIndexCache[recurse_which_font][thisglyph]);
     glyph_width[x] = FontDescriptors[recurse_which_font].glyph_width;
     GlyphFound = TRUE;
    }
@@ -144,7 +146,7 @@ static void DrawTextSub(const UTF32 *utf32_buf, uint32 &slen, const uint8 **glyp
 
   if(!GlyphFound)
   {
-   glyph_ptrs[x] = FontDataCache[which_font][(unsigned char)'?'];
+   glyph_ptrs[x] = FontDescriptors[which_font].base_ptr + (FontDescriptors[which_font].entry_bsize * FontDataIndexCache[which_font][(unsigned char)'?']);
    glyph_width[x] = FontDescriptors[which_font].glyph_width;
   }
 
@@ -307,10 +309,13 @@ uint32 DrawTextTransShadow(uint32 *dest, int pitch, uint32 width, const std::str
 }
 
 #if 0
-uint32 DrawText(MDFN_Surface *surface, const MDFN_Rect &rect, const std::string &textmsg, uint32 color,
+uint32 DrawText(MDFN_Surface *surface, const MDFN_Rect &rect, const char *textmsg, uint32 color,
 		bool centered, uint32 which_font)
 {
  MDFN_Rect tr = rect;
+
+ if(tr.w < 0 || tr.h < 0)
+  return;
 
  if((tr.x + tr.w) > surface->w)
   tr.w = surface->w - tr.x;

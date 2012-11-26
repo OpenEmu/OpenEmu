@@ -25,15 +25,8 @@ class PS_CPU
   next_event_ts = next_event_ts_arg;
  }
 
- INLINE pscpu_timestamp_t GetEventNT(void)
- {
-  return(next_event_ts);
- }
-
-
  pscpu_timestamp_t Run(pscpu_timestamp_t timestamp_in, bool ILHMode);
 
- void Exit(void);
  void Power(void);
 
  // which ranges 0-5, inclusive
@@ -67,7 +60,6 @@ class PS_CPU
 
  pscpu_timestamp_t next_event_ts;
  pscpu_timestamp_t gte_ts_done;
- bool Running;
 
  uint8 *FastMap[1 << (32 - FAST_MAP_SHIFT)];
  uint8 DummyPage[FAST_MAP_PSIZE];

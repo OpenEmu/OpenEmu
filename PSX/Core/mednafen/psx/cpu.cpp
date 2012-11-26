@@ -54,7 +54,7 @@ void PS_CPU::SetFastMap(void *region_mem, uint32 region_address, uint32 region_s
  // FAST_MAP_SHIFT
  // FAST_MAP_PSIZE
 
- for(uint64 A = region_address; A < region_address + region_size; A += FAST_MAP_PSIZE)
+ for(uint64 A = region_address; A < (uint64)region_address + region_size; A += FAST_MAP_PSIZE)
  {
   FastMap[A >> FAST_MAP_SHIFT] = ((uint8 *)region_mem - region_address);
  }
@@ -123,8 +123,6 @@ int PS_CPU::StateAction(StateMem *sm, int load, int data_only)
   SFVAR(next_event_ts),
   SFVAR(gte_ts_done),
 
-  SFVAR(Running),	// Important for save states in step mode in the debugger.
-
   SFARRAY32(CP0.Regs, 32),
 
   SFEND
@@ -139,12 +137,6 @@ int PS_CPU::StateAction(StateMem *sm, int load, int data_only)
  }
 
  return(ret);
-}
-
-
-void PS_CPU::Exit(void)
-{
- Running = false;
 }
 
 void PS_CPU::AssertIRQ(int which, bool asserted)
@@ -272,9 +264,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
  
  BACKING_TO_ACTIVE;
 
- Running = true;
-
- while(Running)
+ do
  {
   //printf("Running: %d %d\n", timestamp, next_event_ts);
   while(timestamp < next_event_ts)
@@ -303,6 +293,11 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
       //if(GPR[4] == 'L')
       // DBG_Break();
       fputc(GPR[4], stderr);
+      //if(GPR[4] == '\n')
+      //{
+      // fputc('%', stderr);
+      // fputc(' ', stderr);
+      //}
      }
     }
    }
@@ -340,11 +335,14 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 	 {								\
 	  uint32 old_PC = PC;						\
 	  PC = (PC & new_PC_mask) + new_PC;				\
-	  if(old_PC == ((PC & (mask)) + (offset)))				\
+	  if(old_PC == ((PC & (mask)) + (offset)))			\
 	  {								\
 	   if(*(uint32 *)&FastMap[PC >> FAST_MAP_SHIFT][PC] == 0)	\
 	   {								\
-	    timestamp = next_event_ts;					\
+	    if(next_event_ts > timestamp) /* Necessary since next_event_ts might be set to something like "0" to force a call to the event handler. */		\
+	    {								\
+	     timestamp = next_event_ts;					\
+	    }								\
 	   }								\
 	  }								\
 	 }						\
@@ -1645,9 +1643,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 
    //printf("\n");
   }
-
-  next_event_ts = PSX_EventHandler(timestamp);
- }
+ } while(PSX_EventHandler(timestamp));
 
  if(gte_ts_done > 0)
   gte_ts_done -= timestamp;
@@ -1765,7 +1761,6 @@ void PS_CPU::SetRegister(unsigned int which, uint32 value)
 #define MK_OPF(op, funct)	((op) ? (0x40 | (op)) : (funct))
 #define BEGIN_OPF(op, funct) case MK_OPF(op, funct): {
 #define END_OPF } break;
-
 
 // FIXME: should we breakpoint on an illegal address?  And with LWC2/SWC2 if CP2 isn't enabled?
 void PS_CPU::CheckBreakpoints(void (*callback)(bool write, uint32 address, unsigned int len), uint32 instr)

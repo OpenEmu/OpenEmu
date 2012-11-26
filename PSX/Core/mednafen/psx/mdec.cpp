@@ -432,6 +432,7 @@ uint32 MDEC_DMARead(void)
  }
  else
  {
+  puts("BONUS GNOMES");
   V = rand();
  }
  return(V);
@@ -439,7 +440,7 @@ uint32 MDEC_DMARead(void)
 
 bool MDEC_DMACanRead(void)
 {
- return (OutBuffer.CanRead() >= 2) || ((Command & 0xF5FF0000) != 0x30000000);
+ return(OutBuffer.CanRead() >= 2); //(OutBuffer.CanRead() >= 2) || ((Command & 0xF5FF0000) != 0x30000000);
 }
 
 void MDEC_Write(const pscpu_timestamp_t timestamp, uint32 A, uint32 V)

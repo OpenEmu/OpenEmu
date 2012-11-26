@@ -198,7 +198,7 @@ void PS_GPU::Command_DrawLine(const uint32 *cb)
 
  DrawTimeAvail -= 16;	// FIXME, correct time.
 
- if(polyline && InPLine)
+ if(polyline && InCmd == INCMD_PLINE)
  {
   //printf("PLINE N\n");
   points[0] = InPLine_PrevPoint;
@@ -237,8 +237,11 @@ void PS_GPU::Command_DrawLine(const uint32 *cb)
  {
   InPLine_PrevPoint = points[1];
 
-  if(!InPLine)
-   InPLine = cc;
+  if(InCmd != INCMD_PLINE)
+  {
+   InCmd = INCMD_PLINE;
+   InCmd_CC = cc;
+  }
  }
 
  DrawLine<goraud, BlendMode, MaskEval_TA>(points);

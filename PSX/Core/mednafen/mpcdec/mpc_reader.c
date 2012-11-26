@@ -36,7 +36,6 @@
 #include "reader.h"
 #include "internal.h"
 #include <stdio.h>
-#include <string.h>
 
 #define STDIO_MAGIC 0xF34B963C ///< Just a random safe-check value...
 typedef struct mpc_reader_stdio_t {

@@ -1,3 +1,6 @@
+// WARNING WARNING WARNING:  ONLY use CanRead() method of BlitterFIFO, and NOT CanWrite(), since the FIFO is larger than the actual PS1 GPU FIFO to accommodate
+// our lack of fancy superscalarish command sequencer.
+
 #ifndef __MDFN_PSX_GPU_H
 #define __MDFN_PSX_GPU_H
 
@@ -10,12 +13,20 @@ class PS_GPU;
 
 struct CTEntry
 {
- uint32 len;
+ uint8 len;
+ uint8 fifo_fb_len;
+ bool ss_cmd;
  const char *name;
  void (PS_GPU::*func[8])(const uint32 *cb);
 };
 
-struct tri_vertex;
+struct tri_vertex
+{
+ int32 x, y;
+ int32 u, v;
+ int32 r, g, b;
+};
+
 struct i_group;
 struct i_deltas;
 
@@ -42,9 +53,32 @@ class PS_GPU
 
  void Write(const pscpu_timestamp_t timestamp, uint32 A, uint32 V);
 
+ INLINE bool CalcFIFOReadyBit(void)
+ {
+  if(InCmd & (INCMD_PLINE | INCMD_QUAD))
+   return(false);
+
+  if(BlitterFIFO.CanRead() == 0)
+   return(true);
+
+  if(InCmd & (INCMD_FBREAD | INCMD_FBWRITE))
+   return(false);
+
+  if(BlitterFIFO.CanRead() >= Commands[0][BlitterFIFO.ReadUnit(true) >> 24].fifo_fb_len)
+   return(false);
+
+  return(true);
+ }
+
  INLINE bool DMACanWrite(void)
  {
-  return BlitterFIFO.CanWrite(); // && (DMAControl & 2);
+  return CalcFIFOReadyBit();
+ }
+
+ INLINE void AbortDMA(void)
+ {
+  BlitterFIFO.Flush();
+  InCmd = INCMD_NONE;
  }
 
  void WriteDMA(uint32 V);
@@ -66,20 +100,9 @@ class PS_GPU
   GPURAM[(A >> 10) & 0x1FF][A & 0x3FF] = V;
  }
 
- INLINE void DTAResetKludge(void)
- {
-  DrawTimeAvail = 0;
- }
-
- INLINE int32 DTAGetWaitKludge(void)
- {
-  return std::max<int32>((0 - DrawTimeAvail) >> 1, 0);
- }
-
  private:
 
-
- void ProcessFIFO(bool force = false);
+ void ProcessFIFO(void);
  void WriteCB(uint32 data);
  void SoftReset(void);
 
@@ -194,13 +217,25 @@ class PS_GPU
 
  uint32 DataReadBuffer;
 
- bool ParsingLineOrPolygonCommand;
+ //
+ //
+ //
+ // Powers of 2 for faster multiple equality testing(just for multi-testing; InCmd itself will only contain 0, or a power of 2).
+ enum
+ {
+  INCMD_NONE = 0,
+  INCMD_PLINE = (1 << 0),
+  INCMD_QUAD = (1 << 1),
+  INCMD_FBWRITE = (1 << 2),
+  INCMD_FBREAD = (1 << 3)
+ };
+ uint8 InCmd;
+ uint8 InCmd_CC;
 
- uint32 InPLine;
+ tri_vertex InQuad_F3Vertices[3];
+ uint32 InQuad_clut;
+
  line_point InPLine_PrevPoint;
-
- bool InFBWrite;
- bool InFBRead;
 
  uint32 FBRW_X;
  uint32 FBRW_Y;

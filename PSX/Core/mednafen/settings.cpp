@@ -27,7 +27,8 @@
 #include "md5.h"
 #include "string/world_strtod.h"
 #include "string/escape.h"
-#include "FileWrapper.h"
+#include "FileStream.h"
+#include "MemoryStream.h"
 
 typedef struct
 {
@@ -76,7 +77,7 @@ static bool TranslateSettingValueI(const char *value, long long &tlated_value)
 }
 
 
-static bool ValidateSetting(const char *value, const MDFNSetting *setting)
+static void ValidateSetting(const char *value, const MDFNSetting *setting)
 {
  MDFNSettingType base_type = setting->type;
 
@@ -86,8 +87,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
 
   if(!TranslateSettingValueUI(value, ullvalue))
   {
-   MDFN_PrintError(_("Setting \"%s\", value \"%s\", is not set to a valid unsigned integer."), setting->name, value);
-   return(0);
+   throw MDFN_Error(0, _("Setting \"%s\", value \"%s\", is not set to a valid unsigned integer."), setting->name, value);
   }
   if(setting->minimum)
   {
@@ -96,8 +96,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
    TranslateSettingValueUI(setting->minimum, minimum);
    if(ullvalue < minimum)
    {
-    MDFN_PrintError(_("Setting \"%s\" is set too small(\"%s\"); the minimum acceptable value is \"%s\"."), setting->name, value, setting->minimum);
-    return(0);
+    throw MDFN_Error(0, _("Setting \"%s\" is set too small(\"%s\"); the minimum acceptable value is \"%s\"."), setting->name, value, setting->minimum);
    }
   }
   if(setting->maximum)
@@ -107,8 +106,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
    TranslateSettingValueUI(setting->maximum, maximum);
    if(ullvalue > maximum)
    {
-    MDFN_PrintError(_("Setting \"%s\" is set too large(\"%s\"); the maximum acceptable value is \"%s\"."), setting->name, value, setting->maximum);
-    return(0);
+    throw MDFN_Error(0, _("Setting \"%s\" is set too large(\"%s\"); the maximum acceptable value is \"%s\"."), setting->name, value, setting->maximum);
    }
   }
  }
@@ -118,8 +116,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
 
   if(!TranslateSettingValueI(value, llvalue))
   {
-   MDFN_PrintError(_("Setting \"%s\", value \"%s\", is not set to a valid signed integer."), setting->name, value);
-   return(0);
+   throw MDFN_Error(0, _("Setting \"%s\", value \"%s\", is not set to a valid signed integer."), setting->name, value);
   }
   if(setting->minimum)
   {
@@ -128,8 +125,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
    TranslateSettingValueI(setting->minimum, minimum);
    if(llvalue < minimum)
    {
-    MDFN_PrintError(_("Setting \"%s\" is set too small(\"%s\"); the minimum acceptable value is \"%s\"."), setting->name, value, setting->minimum);
-    return(0);
+    throw MDFN_Error(0, _("Setting \"%s\" is set too small(\"%s\"); the minimum acceptable value is \"%s\"."), setting->name, value, setting->minimum);
    }
   }
   if(setting->maximum)
@@ -139,8 +135,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
    TranslateSettingValueI(setting->maximum, maximum);
    if(llvalue > maximum)
    {
-    MDFN_PrintError(_("Setting \"%s\" is set too large(\"%s\"); the maximum acceptable value is \"%s\"."), setting->name, value, setting->maximum);
-    return(0);
+    throw MDFN_Error(0, _("Setting \"%s\" is set too large(\"%s\"); the maximum acceptable value is \"%s\"."), setting->name, value, setting->maximum);
    }
   }
  }
@@ -153,8 +148,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
 
   if(!endptr || *endptr != 0)
   {
-   MDFN_PrintError(_("Setting \"%s\", value \"%s\", is not set to a floating-point(real) number."), setting->name, value);
-   return(0);
+   throw MDFN_Error(0, _("Setting \"%s\", value \"%s\", is not set to a floating-point(real) number."), setting->name, value);
   }
   if(setting->minimum)
   {
@@ -163,8 +157,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
    minimum = world_strtod(setting->minimum, NULL);
    if(dvalue < minimum)
    {
-    MDFN_PrintError(_("Setting \"%s\" is set too small(\"%s\"); the minimum acceptable value is \"%s\"."), setting->name, value, setting->minimum);
-    return(0);
+    throw MDFN_Error(0, _("Setting \"%s\" is set too small(\"%s\"); the minimum acceptable value is \"%s\"."), setting->name, value, setting->minimum);
    }
   }
   if(setting->maximum)
@@ -174,8 +167,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
    maximum = world_strtod(setting->maximum, NULL);
    if(dvalue > maximum)
    {
-    MDFN_PrintError(_("Setting \"%s\" is set too large(\"%s\"); the maximum acceptable value is \"%s\"."), setting->name, value, setting->maximum);
-    return(0);
+    throw MDFN_Error(0, _("Setting \"%s\" is set too large(\"%s\"); the maximum acceptable value is \"%s\"."), setting->name, value, setting->maximum);
    }
   }
  }
@@ -183,8 +175,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
  {
   if(strlen(value) != 1 || (value[0] != '0' && value[0] != '1'))
   {
-   MDFN_PrintError(_("Setting \"%s\", value \"%s\",  is not a valid boolean value."), setting->name, value);
-   return(0);
+   throw MDFN_Error(0, _("Setting \"%s\", value \"%s\",  is not a valid boolean value."), setting->name, value);
   }
  }
  else if(base_type == MDFNST_ENUM)
@@ -211,8 +202,7 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
 
   if(!found)
   {
-   MDFN_PrintError(_("Setting \"%s\", value \"%s\", is not a recognized string.  Recognized strings: %s"), setting->name, value, valid_string_list.c_str());
-   return(0);
+   throw MDFN_Error(0, _("Setting \"%s\", value \"%s\", is not a recognized string.  Recognized strings: %s"), setting->name, value, valid_string_list.c_str());
   }
  }
 
@@ -220,13 +210,10 @@ static bool ValidateSetting(const char *value, const MDFNSetting *setting)
  if(setting->validate_func && !setting->validate_func(setting->name, value))
  {
   if(base_type == MDFNST_STRING)
-   MDFN_PrintError(_("Setting \"%s\" is not set to a valid string: \"%s\""), setting->name, value);
+   throw MDFN_Error(0, _("Setting \"%s\" is not set to a valid string: \"%s\""), setting->name, value);
   else
-   MDFN_PrintError(_("Setting \"%s\" is not set to a valid unsigned integer: \"%s\""), setting->name, value);
-  return(0);
+   throw MDFN_Error(0, _("Setting \"%s\" is not set to a valid unsigned integer: \"%s\""), setting->name, value);
  }
-
- return(1);
 }
 
 static uint32 MakeNameHash(const char *name)
@@ -238,129 +225,182 @@ static uint32 MakeNameHash(const char *name)
  return(name_hash);
 }
 
-static bool ParseSettingLine(char *linebuf, bool IsOverrideSetting = false)
+static void ParseSettingLine(std::string &linebuf, bool IsOverrideSetting = false)
 {
-  MDFNCS *zesetting;
-  char *spacepos = strchr(linebuf, ' ');
+ MDFNCS *zesetting;
+ size_t spacepos = linebuf.find(' ');
 
-  if(!spacepos) return(true);	// EOF or bad line
+ // EOF or bad line
+ if(spacepos == std::string::npos)
+  return;	
 
-  if(spacepos == linebuf) return(true);	// No name(key)
-  if(spacepos[1] == 0) return(true);	// No value
-  if(spacepos[0] == ';') return(true);	// Comment
+ // No name(key)
+ if(spacepos == 0)
+  return;
 
-  // FIXME
-  if(linebuf[0] == ';')
-   return(true);
+ // No value
+ if((spacepos + 1) == linebuf.size())
+  return;
 
-  *spacepos = 0;
- 
-  char *lfpos = strchr(spacepos + 1, '\n');
-  if(lfpos) *lfpos = 0;
-  lfpos = strchr(spacepos + 1, '\r');
-  if(lfpos) *lfpos = 0;
+ // Comment
+ if(linebuf[0] == ';')
+  return;
 
-  if(spacepos[1] == 0)
-   return(true);        // No value
+ linebuf[spacepos] = 0;
+ zesetting = FindSetting(linebuf.c_str(), true, true);
 
-  zesetting = FindSetting(linebuf, true, true);
+ if(zesetting)
+ {
+  char *nv = strdup(linebuf.c_str() + spacepos + 1);
 
-  if(zesetting)
+  if(IsOverrideSetting)
   {
-   char *nv = strdup(spacepos + 1);
+   if(zesetting->game_override)
+    free(zesetting->game_override);
 
-   if(IsOverrideSetting)
-   {
-    if(zesetting->game_override)
-     free(zesetting->game_override);
-
-    zesetting->game_override = nv;
-   }
-   else
-   {
-    if(zesetting->value)
-     free(zesetting->value);
-
-    zesetting->value = nv;
-   }
-
-   if(!ValidateSetting(nv, zesetting->desc))	// TODO: Validate later(so command line options can override invalid setting file data correctly)
-    return(false);
+   zesetting->game_override = nv;
   }
-  else if(!IsOverrideSetting)
+  else
   {
-   UnknownSetting_t unks;
+   if(zesetting->value)
+    free(zesetting->value);
 
-   unks.name = strdup(linebuf);
-   unks.value = strdup(spacepos + 1);
-
-   UnknownSettings.push_back(unks);
+   zesetting->value = nv;
   }
- return(true);
+
+  ValidateSetting(nv, zesetting->desc);	// TODO: Validate later(so command line options can override invalid setting file data correctly)
+ }
+ else if(!IsOverrideSetting)
+ {
+  UnknownSetting_t unks;
+
+  unks.name = strdup(linebuf.c_str());
+  unks.value = strdup(linebuf.c_str() + spacepos + 1);
+
+  UnknownSettings.push_back(unks);
+ }
 }
 
-// TODO: not used yet.
-void MDFN_LoadPGOSettings(const char *path, const char *section)
+static void LoadSettings(Stream *fp, const char *section, bool override)
 {
- FileWrapper fp(path, FileWrapper::MODE_READ);
- char linebuf[1024];
- bool InCorrectSection = true;	// To allow for all-game overrides at the start of the override file, might be useful in certain scenarios.
+ bool InCorrectSection = true;	// To also allow for all-game overrides at the start of the override file, might be useful in certain scenarios.
+ std::string linebuf;
 
- while(fp.get_line(linebuf, 1024))
+ linebuf.reserve(1024);
+
+ while(fp->get_line(linebuf) != -1)
  {
   if(linebuf[0] == '[')
   {
-   if(!strcasecmp(&linebuf[1], section) && linebuf[1 + strlen(section)] == ']')
-    InCorrectSection = true;
-   else
-    InCorrectSection = false;
+   if(section)
+   {
+    if(!strcasecmp(linebuf.c_str() + 1, section) && linebuf[1 + strlen(section)] == ']')
+     InCorrectSection = true;
+    else
+     InCorrectSection = false;
+   }
   }
   else if(InCorrectSection)
   {
-   if(!ParseSettingLine(linebuf))
-    throw(MDFN_Error(0, "I AM ERROR"));
+   ParseSettingLine(linebuf, override);
   }
  }
-
 }
 
-bool MFDN_LoadSettings(const char *basedir)
+bool MDFN_LoadSettings(const char *path, const char *section, bool override)
 {
- char linebuf[1024];
- FILE *fp;
+ MDFN_printf(_("Loading settings from \"%s\"..."), path);
 
- fname = basedir;
- fname += PSS;
- fname += "mednafen-09x.cfg";
-
- MDFN_printf(_("Loading settings from \"%s\"..."), fname.c_str());
-
- //printf("%s\n", fname.c_str());
- if(!(fp = fopen(fname.c_str(), "rb")))
+ try
  {
-  ErrnoHolder ene(errno);
-
-  MDFN_printf(_("Failed: %s\n"), ene.StrError());
-
-  if(ene.Errno() == ENOENT) // Don't return failure if the file simply doesn't exist.
-   return(1);
-  else
-   return(0);
+  MemoryStream mp(new FileStream(path, FileStream::MODE_READ));
+  LoadSettings(&mp, section, override);
  }
- MDFN_printf("\n");
-
- while(fgets(linebuf, 1024, fp) > 0)
+ catch(MDFN_Error &e)
  {
-  if(!ParseSettingLine(linebuf))
+  if(e.GetErrno() == ENOENT)
   {
-   fclose(fp);
+   MDFN_indent(1);
+   MDFN_printf(_("Failed: %s\n"), e.what());
+   MDFN_indent(-1);
+   return(true);
+  }
+  else
+  {
+   MDFN_printf("\n");
+   MDFN_PrintError(_("Failed to load settings from \"%s\": %s"), fname.c_str(), e.what());
    return(false);
   }
  }
+ catch(std::exception &e)
+ {
+  MDFN_printf("\n");
+  MDFN_PrintError(_("Failed to load settings from \"%s\": %s"), fname.c_str(), e.what());
+  return(false);
+ }
 
- fclose(fp);
+ MDFN_printf("\n");
+
+ return(true);
+}
+
+static bool compare_sname(MDFNCS *first, MDFNCS *second)
+{
+ return(strcmp(first->name, second->name) < 0);
+}
+
+static void SaveSettings(Stream *fp)
+{
+ std::multimap <uint32, MDFNCS>::iterator sit;
+ std::list<MDFNCS *> SortedList;
+ std::list<MDFNCS *>::iterator lit;
+
+ fp->printf(";VERSION %s\n", MEDNAFEN_VERSION);
+
+ fp->printf(_(";Edit this file at your own risk!\n"));
+ fp->printf(_(";File format: <key><single space><value><LF or CR+LF>\n\n"));
+
+ for(sit = CurrentSettings.begin(); sit != CurrentSettings.end(); sit++)
+  SortedList.push_back(&sit->second);
+
+ SortedList.sort(compare_sname);
+
+ for(lit = SortedList.begin(); lit != SortedList.end(); lit++)
+ {
+  if((*lit)->desc->type == MDFNST_ALIAS)
+   continue;
+
+  fp->printf(";%s\n%s %s\n\n", _((*lit)->desc->description), (*lit)->name, (*lit)->value);
+ }
+
+ if(UnknownSettings.size())
+ {
+  fp->printf("\n;\n;Unrecognized settings follow:\n;\n\n");
+  for(unsigned int i = 0; i < UnknownSettings.size(); i++)
+  {
+   fp->printf("%s %s\n\n", UnknownSettings[i].name, UnknownSettings[i].value);
+  }
+ }
+
+ fp->close();
+}
+
+bool MDFN_SaveSettings(const char *path)
+{
+ try
+ {
+  FileStream fp(path, FileStream::MODE_WRITE);
+  SaveSettings(&fp);
+ }
+ catch(std::exception &e)
+ {
+  MDFND_PrintError(e.what());
+  return(0);
+ }
+
  return(1);
 }
+
 
 static INLINE void MergeSettingSub(const MDFNSetting *setting)
 {
@@ -409,64 +449,30 @@ bool MDFN_MergeSettings(const std::vector<MDFNSetting> &setting)
  return(1);
 }
 
-static bool compare_sname(MDFNCS *first, MDFNCS *second)
-{
- return(strcmp(first->name, second->name) < 0);
-}
 
-bool MDFN_SaveSettings(void)
+void MDFN_KillSettings(void)
 {
  std::multimap <uint32, MDFNCS>::iterator sit;
- std::list<MDFNCS *> SortedList;
- std::list<MDFNCS *>::iterator lit;
-
- FILE *fp;
-
- if(!(fp = fopen(fname.c_str(), "wb")))
-  return(0);
-
- trio_fprintf(fp, ";VERSION %s\n", MEDNAFEN_VERSION);
-
- trio_fprintf(fp, _(";Edit this file at your own risk!\n"));
- trio_fprintf(fp, _(";File format: <key><single space><value><LF or CR+LF>\n\n"));
 
  for(sit = CurrentSettings.begin(); sit != CurrentSettings.end(); sit++)
  {
-  SortedList.push_back(&sit->second);
-  //trio_fprintf(fp, ";%s\n%s %s\n\n", _(sit->second.desc->description), sit->second.name, sit->second.value);
-  //free(sit->second.name);
-  //free(sit->second.value);
- }
-
- SortedList.sort(compare_sname);
-
- for(lit = SortedList.begin(); lit != SortedList.end(); lit++)
- {
-  if((*lit)->desc->type == MDFNST_ALIAS)
+  if(sit->second.desc->type == MDFNST_ALIAS)
    continue;
 
-  trio_fprintf(fp, ";%s\n%s %s\n\n", _((*lit)->desc->description), (*lit)->name, (*lit)->value);
-  free((*lit)->name);
-  free((*lit)->value);
+  free(sit->second.name);
+  free(sit->second.value);
  }
 
  if(UnknownSettings.size())
  {
-  trio_fprintf(fp, "\n;\n;Unrecognized settings follow:\n;\n\n");
   for(unsigned int i = 0; i < UnknownSettings.size(); i++)
   {
-   trio_fprintf(fp, "%s %s\n\n", UnknownSettings[i].name, UnknownSettings[i].value);
-
    free(UnknownSettings[i].name);
    free(UnknownSettings[i].value);
   }
  }
-
-
  CurrentSettings.clear();	// Call after the list is all handled
  UnknownSettings.clear();
- fclose(fp);
- return(1);
 }
 
 static MDFNCS *FindSetting(const char *name, bool dref_alias, bool dont_freak_out_on_fail)
@@ -606,8 +612,13 @@ bool MDFNI_SetSetting(const char *name, const char *value, bool NetplayOverride)
 
  if(zesetting)
  {
-  if(!ValidateSetting(value, zesetting->desc))
+  try
   {
+   ValidateSetting(value, zesetting->desc);
+  }
+  catch(std::exception &e)
+  {
+   MDFND_PrintError(e.what());
    return(0);
   }
 
@@ -621,6 +632,13 @@ bool MDFNI_SetSetting(const char *name, const char *value, bool NetplayOverride)
   }
   else
   {
+   // Overriding the per-game override.  Poetic.  Though not really.
+   if(zesetting->game_override)
+   {
+    free(zesetting->game_override);
+    zesetting->game_override = NULL;
+   }
+
    if(zesetting->value)
     free(zesetting->value);
    zesetting->value = strdup(value);
@@ -674,9 +692,9 @@ bool MDFNI_SetSettingUI(const char *name, uint64 value)
  return(MDFNI_SetSetting(name, tmpstr, FALSE));
 }
 
-bool MDFNI_DumpSettingsDef(const char *path)
+void MDFNI_DumpSettingsDef(const char *path)
 {
- FILE *fp = fopen(path, "wb");
+ FileStream fp(path, FileStream::MODE_WRITE);
 
  std::multimap <uint32, MDFNCS>::iterator sit;
  std::list<MDFNCS *> SortedList;
@@ -705,7 +723,6 @@ bool MDFNI_DumpSettingsDef(const char *path)
  fts[MDFNSF_REQUIRES_RESTART] = "MDFNSF_REQUIRES_RESTART";
 
 
-
  for(sit = CurrentSettings.begin(); sit != CurrentSettings.end(); sit++)
   SortedList.push_back(&sit->second);
 
@@ -720,32 +737,32 @@ bool MDFNI_DumpSettingsDef(const char *path)
   if(setting->type == MDFNST_ALIAS)
    continue;
 
-  fprintf(fp, "%s\n", setting->name);
+  fp.printf("%s\n", setting->name);
 
   for(unsigned int i = 0; i < 32; i++)
   {
    if(setting->flags & (1 << i))
-    fprintf(fp, "%s ", fts[1 << i]);
+    fp.printf("%s ", fts[1 << i]);
   }
-  fprintf(fp, "\n");
+  fp.printf("\n");
 
   desc_escaped = escape_string(setting->description ? setting->description : "");
   desc_extra_escaped = escape_string(setting->description_extra ? setting->description_extra : "");
 
 
-  fprintf(fp, "%s\n", desc_escaped);
-  fprintf(fp, "%s\n", desc_extra_escaped);
+  fp.printf("%s\n", desc_escaped);
+  fp.printf("%s\n", desc_extra_escaped);
 
   free(desc_escaped);
   free(desc_extra_escaped);
 
-  fprintf(fp, "%s\n", tts[setting->type]);
-  fprintf(fp, "%s\n", setting->default_value ? setting->default_value : "");
-  fprintf(fp, "%s\n", setting->minimum ? setting->minimum : "");
-  fprintf(fp, "%s\n", setting->maximum ? setting->maximum : "");
+  fp.printf("%s\n", tts[setting->type]);
+  fp.printf("%s\n", setting->default_value ? setting->default_value : "");
+  fp.printf("%s\n", setting->minimum ? setting->minimum : "");
+  fp.printf("%s\n", setting->maximum ? setting->maximum : "");
 
   if(!setting->enum_list)
-   fprintf(fp, "0\n");
+   fp.printf("0\n");
   else
   {
    const MDFNSetting_EnumList *el = setting->enum_list;
@@ -757,7 +774,7 @@ bool MDFNI_DumpSettingsDef(const char *path)
     el++;
    }
 
-   fprintf(fp, "%d\n", count);
+   fp.printf("%d\n", count);
 
    el = setting->enum_list;
    while(el->string)
@@ -765,9 +782,9 @@ bool MDFNI_DumpSettingsDef(const char *path)
     desc_escaped = escape_string(el->description ? el->description : "");
     desc_extra_escaped = escape_string(el->description_extra ? el->description_extra : "");
 
-    fprintf(fp, "%s\n", el->string);
-    fprintf(fp, "%s\n", desc_escaped);
-    fprintf(fp, "%s\n", desc_extra_escaped);
+    fp.printf("%s\n", el->string);
+    fp.printf("%s\n", desc_escaped);
+    fp.printf("%s\n", desc_extra_escaped);
 
     free(desc_escaped);
     free(desc_extra_escaped);
@@ -777,9 +794,5 @@ bool MDFNI_DumpSettingsDef(const char *path)
   }
  }
 
-
-
- fclose(fp);
-
- return(1);
+ fp.close();
 }

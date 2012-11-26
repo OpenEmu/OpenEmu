@@ -1,0 +1,1 @@
+mednafen_SOURCES	+= video/surface.cpp video/font-data.cpp video/font-data-18x18.c video/font-data-12x13.c video/png.cpp video/primitives.cpp video/text.cpp video/video.cpp video/tblur.cpp video/selblur.cpp video/resize.cpp video/Deinterlacer.cpp

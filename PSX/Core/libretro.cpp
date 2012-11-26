@@ -19,6 +19,9 @@ static uint16_t conv_buf[680 * 576] __attribute__((aligned(16)));
 static uint32_t mednafen_buf[680 * 576];
 static bool failed_init;
 
+//std::string retro_base_directory;
+//std::string retro_base_name;
+
 void retro_init()
 {
    MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 24);
@@ -36,6 +39,12 @@ void retro_init()
     environ_cb(RETRO_ENVIRONMENT_GET_SAVES_DIRECTORY, &saves);
     if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)
     {
+        //retro_base_directory = dir;
+        //size_t last = retro_base_directory.find_last_not_of("/\\");
+        //if (last != std::string::npos)
+        //    last++;
+        //retro_base_directory = retro_base_directory.substr(0, last);
+        
         std::string eu_path = dir;
         eu_path += "/scph5502.bin";
         
@@ -88,8 +97,23 @@ bool retro_load_game(const struct retro_game_info *info)
 {
     if (failed_init)
         return false;
-   game = MDFNI_LoadGame("psx", info->path);
-   return game;
+    /*
+    const char *base = strrchr(info->path, '/');
+    if (!base)
+        base = strrchr(info->path, '\\');
+    
+    if (base)
+        retro_base_name = base + 1;
+    else
+        retro_base_name = info->path;
+    
+    retro_base_name = retro_base_name.substr(0, retro_base_name.find_last_of('.'));
+    */
+    game = MDFNI_LoadGame("psx", info->path);
+    //if (!game)
+    //    return false;
+    
+    return game;
 }
 
 void retro_unload_game()

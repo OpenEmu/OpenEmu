@@ -57,9 +57,6 @@ int MDFND_UnlockMutex(MDFN_Mutex *mutex);
 void MDFNI_Reset(void);
 void MDFNI_Power(void);
 
-/* Called from the physical CD disc reading code. */
-bool MDFND_ExitBlockingLoop(void);
-
 /* path = path of game/file to load.  returns NULL on failure. */
 MDFNGI *MDFNI_LoadGame(const char *force_module, const char *path);
 

@@ -21,7 +21,12 @@
 
 #include "input/gamepad.h"
 #include "input/dualanalog.h"
+#include "input/dualshock.h"
 #include "input/mouse.h"
+#include "input/negcon.h"
+#include "input/guncon.h"
+#include "input/justifier.h"
+
 #include "input/memcard.h"
 
 #include "input/multitap.h"
@@ -51,6 +56,26 @@ void InputDevice::Update(const pscpu_timestamp_t timestamp)
 void InputDevice::ResetTS(void)
 {
 
+}
+
+void InputDevice::SetAMCT(bool)
+{
+
+}
+
+void InputDevice::SetCrosshairsColor(uint32 color)
+{
+
+}
+
+bool InputDevice::RequireNoFrameskip(void)
+{
+ return(false);
+}
+
+pscpu_timestamp_t InputDevice::GPULineHook(const pscpu_timestamp_t timestamp, bool vsync, uint32 *pixels, const MDFN_PixelFormat* const format, const unsigned width, const unsigned pix_clock_offset, const unsigned pix_clock)
+{
+ return(PSX_EVENT_MAXTS);
 }
 
 
@@ -158,11 +183,13 @@ FrontIO::FrontIO(bool emulate_memcards_[8], bool emulate_multitap_[2])
 
  DummyDevice = new InputDevice();
 
- for(int i = 0; i < 8; i++)
+ for(unsigned i = 0; i < 8; i++)
  {
   DeviceData[i] = NULL;
   Devices[i] = new InputDevice();
   DevicesMC[i] = Device_Memcard_Create();
+  chair_colors[i] = 1 << 24;
+  Devices[i]->SetCrosshairsColor(chair_colors[i]);
  }
 
  for(unsigned i = 0; i < 2; i++)
@@ -171,6 +198,23 @@ FrontIO::FrontIO(bool emulate_memcards_[8], bool emulate_multitap_[2])
  }
 
  MapDevicesToPorts();
+}
+
+void FrontIO::SetAMCT(bool enabled)
+{
+ for(unsigned i = 0; i < 8; i++)
+ {
+  Devices[i]->SetAMCT(enabled);
+ }
+ amct_enabled = enabled;
+}
+
+void FrontIO::SetCrosshairsColor(unsigned port, uint32 color)
+{
+ assert(port >= 0 && port < 8);
+
+ chair_colors[port] = color;
+ Devices[port]->SetCrosshairsColor(color);
 }
 
 FrontIO::~FrontIO()
@@ -205,8 +249,10 @@ FrontIO::~FrontIO()
  }
 }
 
-int32 FrontIO::CalcNextEvent(int32 next_event)
+pscpu_timestamp_t FrontIO::CalcNextEventTS(pscpu_timestamp_t timestamp, int32 next_event)
 {
+ pscpu_timestamp_t ret;
+
  if(ClockDivider > 0 && ClockDivider < next_event)
   next_event = ClockDivider;
 
@@ -214,7 +260,15 @@ int32 FrontIO::CalcNextEvent(int32 next_event)
   if(dsr_pulse_delay[i] > 0 && next_event > dsr_pulse_delay[i])
    next_event = dsr_pulse_delay[i];
 
- return(next_event);
+ ret = timestamp + next_event;
+
+ if(irq10_pulse_ts[0] < ret)
+  ret = irq10_pulse_ts[0];
+
+ if(irq10_pulse_ts[1] < ret)
+  ret = irq10_pulse_ts[1];
+
+ return(ret);
 }
 
 void FrontIO::CheckStartStopPending(pscpu_timestamp_t timestamp, bool skip_event_set)
@@ -256,7 +310,7 @@ void FrontIO::CheckStartStopPending(pscpu_timestamp_t timestamp, bool skip_event
   ClockDivider = 0;
 
  if(!(skip_event_set))
-  PSX_SetEventNT(PSX_EVENT_FIO, timestamp + CalcNextEvent(0x10000000));
+  PSX_SetEventNT(PSX_EVENT_FIO, CalcNextEventTS(timestamp, 0x10000000));
 }
 
 // DSR IRQ bit setting appears(from indirect tests on real PS1) to be level-sensitive, not edge-sensitive
@@ -295,6 +349,7 @@ void FrontIO::Write(pscpu_timestamp_t timestamp, uint32 A, uint32 V)
 	if(ClockDivider > 0 && ((V & 0x2000) != (Control & 0x2000)) && ((Control & 0x2) == (V & 0x2))  )
 	 fprintf(stderr, "FIO device selection changed during comm %04x->%04x", Control, V);
 
+	//printf("Control: %d, %04x\n", timestamp, V);
 	Control = V & 0x3F2F;
 
 	if(V & 0x10)
@@ -439,6 +494,16 @@ pscpu_timestamp_t FrontIO::Update(pscpu_timestamp_t timestamp)
    }
   }
 
+ for(int i = 0; i < 2; i++)
+ {
+  if(timestamp >= irq10_pulse_ts[i])
+  {
+   //printf("Yay: %d %u\n", i, timestamp);
+   irq10_pulse_ts[i] = PSX_EVENT_MAXTS;
+   IRQ_Assert(IRQ_PIO, true);
+   IRQ_Assert(IRQ_PIO, false);
+  }
+ }
 
  if(ClockDivider > 0)
  {
@@ -510,7 +575,7 @@ pscpu_timestamp_t FrontIO::Update(pscpu_timestamp_t timestamp)
   CheckStartStopPending(timestamp, true);
  }
 
- return(timestamp + CalcNextEvent(0x10000000));
+ return(CalcNextEventTS(timestamp, 0x10000000));
 }
 
 void FrontIO::ResetTS(void)
@@ -528,6 +593,12 @@ void FrontIO::ResetTS(void)
  {
   DevicesTap[i]->Update(lastts);
   DevicesTap[i]->ResetTS();
+ }
+
+ for(int i = 0; i < 2; i++)
+ {
+  if(irq10_pulse_ts[i] != PSX_EVENT_MAXTS)
+   irq10_pulse_ts[i] -= lastts;
  }
 
  for(int i = 0; i < 4; i++)
@@ -548,6 +619,11 @@ void FrontIO::Power(void)
  {
   dsr_pulse_delay[i] = 0;
   dsr_active_until_ts[i] = -1;
+ }
+
+ for(int i = 0; i < 2; i++)
+ {
+  irq10_pulse_ts[i] = PSX_EVENT_MAXTS;
  }
 
  lastts = 0;
@@ -595,17 +671,34 @@ void FrontIO::SetInput(unsigned int port, const char *type, void *ptr)
  delete Devices[port];
  Devices[port] = NULL;
 
- if(!strcmp(type, "gamepad"))
+ if(port < 2)
+  irq10_pulse_ts[port] = PSX_EVENT_MAXTS;
+
+ if(!strcmp(type, "gamepad") || !strcmp(type, "dancepad"))
   Devices[port] = Device_Gamepad_Create();
  else if(!strcmp(type, "dualanalog"))
   Devices[port] = Device_DualAnalog_Create(false);
  else if(!strcmp(type, "analogjoy"))
   Devices[port] = Device_DualAnalog_Create(true);
+ else if(!strcmp(type, "dualshock"))
+ {
+  char name[256];
+  trio_snprintf(name, 256, _("DualShock on port %u"), port + 1);
+  Devices[port] = Device_DualShock_Create(std::string(name));
+ }
  else if(!strcmp(type, "mouse"))
   Devices[port] = Device_Mouse_Create();
+ else if(!strcmp(type, "negcon"))
+  Devices[port] = Device_neGcon_Create();
+ else if(!strcmp(type, "guncon"))
+  Devices[port] = Device_GunCon_Create();
+ else if(!strcmp(type, "justifier"))
+  Devices[port] = Device_Justifier_Create();
  else
   Devices[port] = new InputDevice();
 
+ Devices[port]->SetAMCT(amct_enabled);
+ Devices[port]->SetCrosshairsColor(chair_colors[port]);
  DeviceData[port] = ptr;
 
  MapDevicesToPorts();
@@ -667,7 +760,38 @@ void FrontIO::SaveMemcard(unsigned int which, const char *path)
  }
 }
 
+bool FrontIO::RequireNoFrameskip(void)
+{
+ for(unsigned i = 0; i < 8; i++)
+  if(Devices[i]->RequireNoFrameskip())
+   return(true);
+ 
+ return(false);
+}
 
+void FrontIO::GPULineHook(const pscpu_timestamp_t timestamp, const pscpu_timestamp_t line_timestamp, bool vsync, uint32 *pixels, const MDFN_PixelFormat* const format, const unsigned width, const unsigned pix_clock_offset, const unsigned pix_clock)
+{
+ Update(timestamp);
+
+ for(unsigned i = 0; i < 8; i++)
+ {
+  pscpu_timestamp_t plts = Devices[i]->GPULineHook(line_timestamp, vsync, pixels, format, width, pix_clock_offset, pix_clock);
+
+  if(i < 2)
+  {
+   irq10_pulse_ts[i] = plts;
+
+   if(irq10_pulse_ts[i] <= timestamp)
+   {
+    irq10_pulse_ts[i] = PSX_EVENT_MAXTS;
+    IRQ_Assert(IRQ_PIO, true);
+    IRQ_Assert(IRQ_PIO, false);
+   }
+  }
+ }
+
+ PSX_SetEventNT(PSX_EVENT_FIO, CalcNextEventTS(timestamp, 0x10000000));
+}
 
 static InputDeviceInfoStruct InputDeviceInfoPSXPort[] =
 {
@@ -675,6 +799,7 @@ static InputDeviceInfoStruct InputDeviceInfoPSXPort[] =
  {
   "none",
   "none",
+  NULL,
   NULL,
   0,
   NULL 
@@ -684,15 +809,27 @@ static InputDeviceInfoStruct InputDeviceInfoPSXPort[] =
  {
   "gamepad",
   "Digital Gamepad",
+  "PlayStation digital gamepad; SCPH-1080.",
   NULL,
   sizeof(Device_Gamepad_IDII) / sizeof(InputDeviceInputInfoStruct),
   Device_Gamepad_IDII,
+ },
+
+ // Dual Shock Gamepad(SCPH-1200)
+ {
+  "dualshock",
+  "DualShock",
+  "DualShock gamepad; SCPH-1200.  Emulation in Mednafen includes the analog mode toggle button.",
+  NULL,
+  sizeof(Device_DualShock_IDII) / sizeof(InputDeviceInputInfoStruct),
+  Device_DualShock_IDII,
  },
 
  // Dual Analog Gamepad(SCPH-1180), forced to analog mode.
  {
   "dualanalog",
   "Dual Analog",
+  "Dual Analog gamepad; SCPH-1180.  It is the predecessor/prototype to the more advanced DualShock.  Emulated in Mednafen as forced to analog mode, and without rumble.",
   NULL,
   sizeof(Device_DualAnalog_IDII) / sizeof(InputDeviceInputInfoStruct),
   Device_DualAnalog_IDII,
@@ -703,6 +840,7 @@ static InputDeviceInfoStruct InputDeviceInfoPSXPort[] =
  {
   "analogjoy",
   "Analog Joystick",
+  "Flight-game-oriented dual-joystick controller; SCPH-1110.   Emulated in Mednafen as forced to analog mode.",
   NULL,
   sizeof(Device_AnalogJoy_IDII) / sizeof(InputDeviceInputInfoStruct),
   Device_AnalogJoy_IDII,
@@ -712,22 +850,59 @@ static InputDeviceInfoStruct InputDeviceInfoPSXPort[] =
   "mouse",
   "Mouse",
   NULL,
+  NULL,
   sizeof(Device_Mouse_IDII) / sizeof(InputDeviceInputInfoStruct),
   Device_Mouse_IDII,
+ },
+
+ {
+  "negcon",
+  "neGcon",
+  "Namco's unconventional twisty racing-game-oriented gamepad; NPC-101.",
+  NULL,
+  sizeof(Device_neGcon_IDII) / sizeof(InputDeviceInputInfoStruct),
+  Device_neGcon_IDII,
+ },
+
+ {
+  "guncon",
+  "GunCon",
+  "Namco's light gun; NPC-103.",
+  NULL,
+  sizeof(Device_GunCon_IDII) / sizeof(InputDeviceInputInfoStruct),
+  Device_GunCon_IDII,
+ },
+
+ {
+  "justifier",
+  "Konami Justifier",
+  "Konami's light gun; SLUH-00017.  Rumored to be wrought of the coagulated rage of all who tried to shoot The Dog.  If the game you want to play supports the \"GunCon\", you should use that instead. NOTE: Currently does not work properly when on any of ports 1B-1D and 2B-2D.",
+  NULL,
+  sizeof(Device_Justifier_IDII) / sizeof(InputDeviceInputInfoStruct),
+  Device_Justifier_IDII,
+ },
+
+ {
+  "dancepad",
+  "Dance Pad",
+  "Dingo Dingo Rodeo!",
+  NULL,
+  sizeof(Device_Dancepad_IDII) / sizeof(InputDeviceInputInfoStruct),
+  Device_Dancepad_IDII,
  },
 
 };
 
 static const InputPortInfoStruct PortInfo[] =
 {
- { 0, "port1", "Port 1/1A", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
- { 0, "port2", "Port 2/2A", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
- { 0, "port3", "Port 1B", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
- { 0, "port4", "Port 1C", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
- { 0, "port5", "Port 1D", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
- { 0, "port6", "Port 2B", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
- { 0, "port7", "Port 2C", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
- { 0, "port8", "Port 2D", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
+ { "port1", "Port 1/1A", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
+ { "port2", "Port 2/2A", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
+ { "port3", "Port 1B", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
+ { "port4", "Port 1C", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
+ { "port5", "Port 1D", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
+ { "port6", "Port 2B", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
+ { "port7", "Port 2C", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
+ { "port8", "Port 2D", sizeof(InputDeviceInfoPSXPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPSXPort, "gamepad" },
 };
 
 InputInfoStruct FIO_InputInfo =

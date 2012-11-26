@@ -43,7 +43,8 @@
 
 #include "../general.h"
 #include "../mednafen-endian.h"
-#include "../FileWrapper.h"
+#include "../FileStream.h"
+#include "../MemoryStream.h"
 
 #include "CDAccess.h"
 #include "CDAccess_Image.h"
@@ -161,53 +162,26 @@ uint32 CDAccess_Image::GetSectorCount(CDRFILE_TRACK_INFO *track)
    return(((track->AReader->FrameCount() * 4) - track->FileOffset) / 2352);
   else
   {
-   struct stat stat_buf;
-   fstat(fileno(track->fp), &stat_buf);
+   const int64 size = track->fp->size();
 
    //printf("%d %d %d\n", (int)stat_buf.st_size, (int)track->FileOffset, (int)stat_buf.st_size - (int)track->FileOffset);
    if(track->SubchannelMode)
-    return((stat_buf.st_size - track->FileOffset) / (2352 + 96));
+    return((size - track->FileOffset) / (2352 + 96));
    else
-    return((stat_buf.st_size - track->FileOffset) / 2352);
+    return((size - track->FileOffset) / 2352);
   }
  }
  else
  {
-  struct stat stat_buf;
-
-  if(fstat(fileno(track->fp), &stat_buf))
-  {
-   ErrnoHolder ene(errno);
-
-   throw MDFN_Error(ene.Errno(), "%s", ene.StrError());
-  }
-
-  return((stat_buf.st_size - track->FileOffset) / DI_Size_Table[track->DIFormat]);
+  const int64 size = track->fp->size();
+  
+  return((size - track->FileOffset) / DI_Size_Table[track->DIFormat]);
  }
 
  return(0);
 }
 
-CDAccess_Image::~CDAccess_Image()
-{
- for(int32 track = FirstTrack; track < (FirstTrack + NumTracks); track++)
- {
-  CDRFILE_TRACK_INFO *this_track = &Tracks[track];
-
-  if(this_track->FirstFileInstance)
-  {
-   if(Tracks[track].AReader)
-   {
-    delete Tracks[track].AReader;
-    Tracks[track].AReader = NULL;
-   }
-   else if(this_track->fp)
-    fclose(this_track->fp);
-  }
- }
-}
-
-void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int tracknum, const char *filename, const char *binoffset, const char *msfoffset, const char *length)
+void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int tracknum, const char *filename, const char *binoffset, const char *msfoffset, const char *length, bool image_memcache)
 {
  long offset = 0; // In bytes!
  long tmp_long;
@@ -217,13 +191,9 @@ void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int t
  std::string efn;
 
  efn = MDFN_EvalFIP(base_dir, filename);
-
- if(NULL == (track->fp = fopen(efn.c_str(), "rb")))
- {
-  ErrnoHolder ene(errno);
-
-  throw MDFN_Error(ene.Errno(), _("Could not open referenced file \"%s\": %s\n"), efn.c_str(), ene.StrError());
- }
+ track->fp = new FileStream(efn.c_str(), FileStream::MODE_READ);
+ if(image_memcache)
+  track->fp = new MemoryStream(track->fp);
 
  if(strlen(filename) >= 4 && !strcasecmp(filename + strlen(filename) - 4, ".wav"))
  {
@@ -287,7 +257,7 @@ void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int t
 
 
 
-void CDAccess_Image::ImageOpen(const char *path)
+void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
 {
  FileWrapper fp(path, FileWrapper::MODE_READ);
  bool IsTOC = FALSE;
@@ -306,6 +276,22 @@ void CDAccess_Image::ImageOpen(const char *path)
   puts("TOC file detected.");
   IsTOC = true;
  }
+
+ // Check for annoying UTF-8 BOM.
+ if(!IsTOC)
+ {
+  uint8 bom_tmp[3];
+
+  if(fp.read(bom_tmp, 3, false) == 3 && bom_tmp[0] == 0xEF && bom_tmp[1] == 0xBB && bom_tmp[2] == 0xBF)
+  {
+   // Print an annoying error message, but don't actually error out.
+   MDFN_PrintError(_("UTF-8 BOM detected at start of CUE sheet."));
+  }
+  else
+   fp.seek(0, SEEK_SET);
+ }
+
+
  // Assign opposite maximum values so our tests will work!
  FirstTrack = 99;
  LastTrack = 0;
@@ -429,7 +415,7 @@ void CDAccess_Image::ImageOpen(const char *path)
       length = args[2];
      }
      //printf("%s, %s, %s, %s\n", args[0], binoffset, msfoffset, length);
-     ParseTOCFileLineInfo(&TmpTrack, active_track, args[0], binoffset, msfoffset, length);
+     ParseTOCFileLineInfo(&TmpTrack, active_track, args[0], binoffset, msfoffset, length, image_memcache);
     }
     else if(!strcasecmp(cmdbuf, "DATAFILE"))
     {
@@ -444,7 +430,7 @@ void CDAccess_Image::ImageOpen(const char *path)
      else
       length = args[1];
 
-     ParseTOCFileLineInfo(&TmpTrack, active_track, args[0], binoffset, NULL, length);
+     ParseTOCFileLineInfo(&TmpTrack, active_track, args[0], binoffset, NULL, length, image_memcache);
     }
     else if(!strcasecmp(cmdbuf, "INDEX"))
     {
@@ -488,14 +474,12 @@ void CDAccess_Image::ImageOpen(const char *path)
      }
 
      std::string efn = MDFN_EvalFIP(base_dir, args[0]);
-
-     if(NULL == (TmpTrack.fp = fopen(efn.c_str(), "rb")))
-     {
-      ErrnoHolder ene(errno);
-
-      throw(MDFN_Error(ene.Errno(), _("Could not open referenced file \"%s\": %s\n"), efn.c_str(), ene.StrError()));
-     }
+     TmpTrack.fp = new FileStream(efn.c_str(), FileStream::MODE_READ);
      TmpTrack.FirstFileInstance = 1;
+
+     if(image_memcache)
+      TmpTrack.fp = new MemoryStream(TmpTrack.fp);
+
      if(!strcasecmp(args[1], "BINARY"))
      {
       //TmpTrack.Format = TRACK_FORMAT_DATA;
@@ -683,9 +667,47 @@ void CDAccess_Image::ImageOpen(const char *path)
  total_sectors = RunningLBA;
 }
 
-CDAccess_Image::CDAccess_Image(const char *path)
+void CDAccess_Image::Cleanup(void)
 {
- ImageOpen(path);
+ for(int32 track = 0; track < 100; track++)
+ {
+  CDRFILE_TRACK_INFO *this_track = &Tracks[track];
+
+  if(this_track->FirstFileInstance)
+  {
+   if(Tracks[track].AReader)
+   {
+    delete Tracks[track].AReader;
+    Tracks[track].AReader = NULL;
+   }
+
+   if(this_track->fp)
+   {
+    delete this_track->fp;
+    this_track->fp = NULL;
+   }
+  }
+ }
+}
+
+CDAccess_Image::CDAccess_Image(const char *path, bool image_memcache) : NumTracks(0), FirstTrack(0), LastTrack(0), total_sectors(0)
+{
+ memset(Tracks, 0, sizeof(Tracks));
+
+ try
+ {
+  ImageOpen(path, image_memcache);
+ }
+ catch(...)
+ {
+  Cleanup();
+  throw;
+ }
+}
+
+CDAccess_Image::~CDAccess_Image()
+{
+ Cleanup();
 }
 
 void CDAccess_Image::Read_Raw_Sector(uint8 *buf, int32 lba)
@@ -744,29 +766,29 @@ void CDAccess_Image::Read_Raw_Sector(uint8 *buf, int32 lba)
       if(ct->SubchannelMode)
        SeekPos += 96 * (lba - ct->LBA);
 
-      fseek(ct->fp, SeekPos, SEEK_SET);
+      ct->fp->seek(SeekPos, SEEK_SET);
 
       switch(ct->DIFormat)
       {
 	case DI_FORMAT_AUDIO:
-		fread(buf, 1, 2352, ct->fp);
+		ct->fp->read(buf, 2352);
 
 		if(ct->RawAudioMSBFirst)
 		 Endian_A16_Swap(buf, 588 * 2);
 		break;
 
 	case DI_FORMAT_MODE1:
-		fread(buf + 12 + 3 + 1, 1, 2048, ct->fp);
+		ct->fp->read(buf + 12 + 3 + 1, 2048);
 		encode_mode1_sector(lba + 150, buf);
 		break;
 
 	case DI_FORMAT_MODE1_RAW:
 	case DI_FORMAT_MODE2_RAW:
-		fread(buf, 1, 2352, ct->fp);
+		ct->fp->read(buf, 2352);
 		break;
 
 	case DI_FORMAT_MODE2:
-		fread(buf + 16, 1, 2336, ct->fp);
+		ct->fp->read(buf + 16, 2336);
 		encode_mode2_sector(lba + 150, buf);
 		break;
 
@@ -774,19 +796,19 @@ void CDAccess_Image::Read_Raw_Sector(uint8 *buf, int32 lba)
 	// FIXME: M2F1, M2F2, does sub-header come before or after user data(standards say before, but I wonder
 	// about cdrdao...).
 	case DI_FORMAT_MODE2_FORM1:
-		fread(buf + 24, 1, 2048, ct->fp);
+		ct->fp->read(buf + 24, 2048);
 		//encode_mode2_form1_sector(lba + 150, buf);
 		break;
 
 	case DI_FORMAT_MODE2_FORM2:
-		fread(buf + 24, 1, 2324, ct->fp);
+		ct->fp->read(buf + 24, 2324);
 		//encode_mode2_form2_sector(lba + 150, buf);
 		break;
 
       }
 
       if(ct->SubchannelMode)
-       fread(buf + 2352, 1, 96, ct->fp);
+       ct->fp->read(buf + 2352, 96);
      }
     } // end if audible part of audio track read.
     break;

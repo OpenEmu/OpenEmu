@@ -136,10 +136,10 @@ static void RecalcHalt(void)
  if((DMACH[0].WordCounter || (DMACH[0].ChanControl & (1 << 24))) && (DMACH[0].ChanControl & 0x200) /*&& MDEC_DMACanWrite()*/)
   Halt = true;
 
- if((DMACH[1].WordCounter || (DMACH[1].ChanControl & (1 << 24))) && (DMACH[1].ChanControl & 0x200) && MDEC_DMACanRead())
+ if((DMACH[1].WordCounter || (DMACH[1].ChanControl & (1 << 24))) && (DMACH[1].ChanControl & 0x200) && (DMACH[1].WordCounter || MDEC_DMACanRead()))
   Halt = true;
 
- if((DMACH[2].WordCounter || (DMACH[2].ChanControl & (1 << 24))) && (DMACH[2].ChanControl & 0x200) && ((DMACH[2].ChanControl & 0x1) && GPU->DMACanWrite()))
+ if((DMACH[2].WordCounter || (DMACH[2].ChanControl & (1 << 24))) && (DMACH[2].ChanControl & 0x200) && ((DMACH[2].ChanControl & 0x1) && (DMACH[2].WordCounter || GPU->DMACanWrite())))
   Halt = true;
 
  if((DMACH[3].WordCounter || (DMACH[3].ChanControl & (1 << 24))) && !(DMACH[3].ChanControl & 0x100))
@@ -278,6 +278,8 @@ static INLINE void RunChannelT(pscpu_timestamp_t timestamp, int32 clocks)
 
    if(DMACH[ch].NextAddr & 0x800000)
    {
+    //if(ch == 2)
+    // PSX_WARNING("[DMA] LL Channel 2 ended normally: %d\n", GPU->GetScanlineNum());
     DMACH[ch].ChanControl &= ~(0x11 << 24);
     if(DMAIntControl & (1 << (16 + ch)))
     {
@@ -287,15 +289,12 @@ static INLINE void RunChannelT(pscpu_timestamp_t timestamp, int32 clocks)
     break;
    }
 
+   if(!ChCan<ch, write_mode>())
+    break;
+
    if((DMACH[ch].ChanControl & (1 << 10)) && write_mode)
    {
     uint32 header;
-    uint32 null_bull = 0;
-
-    if(!ChCan<ch, write_mode>())
-     break;
-
-    ChRW<ch, write_mode>(timestamp, &null_bull);
 
     DMACH[ch].CurAddr = DMACH[ch].NextAddr & 0x1FFFFC;
     header = MainRAM.ReadU32(DMACH[ch].CurAddr);
@@ -303,6 +302,9 @@ static INLINE void RunChannelT(pscpu_timestamp_t timestamp, int32 clocks)
 
     DMACH[ch].WordCounter = header >> 24;
     DMACH[ch].NextAddr = header & 0xFFFFFF;
+
+    if(DMACH[ch].WordCounter > 0x10) 
+     printf("What the lala?  0x%02x @ 0x%08x\n", DMACH[ch].WordCounter, DMACH[ch].CurAddr - 4);
 
     if(DMACH[ch].WordCounter)
      DMACH[ch].ClockCounter -= 15;
@@ -324,8 +326,12 @@ static INLINE void RunChannelT(pscpu_timestamp_t timestamp, int32 clocks)
    }
   }
 
-  if(!ChCan<ch, write_mode>())
-   break;
+  if(ch != 2 && ch != 1)
+  {
+   if(!ChCan<ch, write_mode>())
+    break;
+  }
+
 
   {
    uint32 vtmp;
@@ -428,6 +434,7 @@ void DMA_Write(const pscpu_timestamp_t timestamp, uint32 A, uint32 V)
 {
  int ch = (A & 0x7F) >> 4;
 
+ //if(ch == 2 || ch == 7)
  //PSX_WARNING("[DMA] Write: %08x %08x, DMAIntStatus=%08x", A, V, DMAIntStatus);
 
  // FIXME if we ever have "accurate" bus emulation
@@ -487,17 +494,23 @@ void DMA_Write(const pscpu_timestamp_t timestamp, uint32 A, uint32 V)
 	    if((DMACH[ch].ChanControl & (1 << 24)) && !(V & (1 << 24)))
 	    {
 	     DMACH[ch].ChanControl &= ~(1 << 24);	// Clear bit before RunChannel(), so it will only finish the block it's on at most.
-	     RunChannel(timestamp, 128, ch);
+	     RunChannel(timestamp, 128 * 16, ch);
 	     DMACH[ch].BlockCounter = 0;
 	     DMACH[ch].WordCounter = 0;
 
+#if 0	// TODO(maybe, need to work out worst-case performance for abnormally/brokenly large block sizes)
+	     DMACH[ch].ClockCounter = (1 << 30);
+	     RunChannel(timestamp, 1, ch);
+	     DMACH[ch].ClockCounter = 0;
+#endif
+
 	     if(ch == 2)
 	     {
-	      GPU->Write(timestamp, 0x04, 0x01 << 24);
+	      GPU->AbortDMA();
 	     }
 
 	     PSX_WARNING("[DMA] Forced stop for channel %d -- scanline=%d", ch, GPU->GetScanlineNum());
-	     MDFN_DispMessage("[DMA] Forced stop for channel %d", ch);
+	     //MDFN_DispMessage("[DMA] Forced stop for channel %d", ch);
 	    }
 
 	    if(ch == 6)
@@ -507,6 +520,8 @@ void DMA_Write(const pscpu_timestamp_t timestamp, uint32 A, uint32 V)
 
 	    if(!(OldCC & (1 << 24)) && (V & (1 << 24)))
 	    {
+	     //if(ch == 2)
+		//if(ch == 4)
 	     //PSX_WARNING("[DMA] Started DMA for channel=%d --- CHCR=0x%08x --- BCR=0x%08x --- scanline=%d", ch, DMACH[ch].ChanControl, DMACH[ch].BlockControl, GPU->GetScanlineNum());
 
 	     DMACH[ch].ClockCounter = 0;
@@ -534,11 +549,6 @@ uint32 DMA_Read(const pscpu_timestamp_t timestamp, uint32 A)
 {
  int ch = (A & 0x7F) >> 4;
  uint32 ret = 0;
- 
- //assert(!(A & 3));
-
- //if(ch == 2)
- // printf("DMA Read: %08x --- %d\n", A, GPU->GetScanlineNum());
 
  if(ch == 7)
  {
