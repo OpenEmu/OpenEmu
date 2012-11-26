@@ -104,7 +104,7 @@ void lightgun_refresh(int port)
   if (port == lightgun.Port)
   {
     /* screen Y position */
-    int y = (input.analog[port][1] + lines_per_frame + input.y_offset) % lines_per_frame;
+    int y = input.analog[port][1] + input.y_offset;
 
     /* check if active line falls within current gun Y position */
     if ((y == v_counter) && (y < bitmap.viewport.h))
@@ -136,7 +136,7 @@ void lightgun_refresh(int port)
         }
 
         /* force HV Counter Latch (some games does not lock HV Counter but instead use larger offset value) */
-        hvc_latch = 0x10000 | (v_counter << 8);
+        hvc_latch = 0x10000 | (y << 8);
         if (reg[12] & 1) 
         {
           hvc_latch |= hc_320[((x / 2) + input.x_offset) % 210];

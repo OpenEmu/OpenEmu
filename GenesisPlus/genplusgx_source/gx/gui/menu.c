@@ -387,7 +387,7 @@ static gui_item items_video[10] =
 };
 
 /* Menu options */
-static gui_item items_prefs[9] =
+static gui_item items_prefs[10] =
 {
   {NULL,NULL,"Auto ROM Load: OFF",  "Enable/Disable automatic ROM loading on startup", 56,132,276,48},
   {NULL,NULL,"Auto Cheats: OFF",    "Enable/Disable automatic cheats activation",      56,132,276,48},
@@ -398,6 +398,7 @@ static gui_item items_prefs[9] =
   {NULL,NULL,"BGM Volume: 100",     "Adjust background music volume",                  56,132,276,48},
   {NULL,NULL,"BG Overlay: ON",      "Enable/disable background overlay",               56,132,276,48},
   {NULL,NULL,"Screen Width: 658",   "Adjust menu screen width in pixels",              56,132,276,48},
+  {NULL,NULL,"Show CD Leds: OFF",   "Enable/Disable CD leds display",                  56,132,276,48},
 };
 
 /* Save Manager */
@@ -606,7 +607,7 @@ static gui_menu menu_prefs =
 {
   "Menu Settings",
   0,0,
-  9,4,6,0,
+  10,4,6,0,
   items_prefs,
   buttons_list,
   bg_list,
@@ -673,6 +674,7 @@ static void prefmenu ()
   sprintf (items[6].text, "BGM Volume: %1.1f", config.bgm_volume);
   sprintf (items[7].text, "BG Overlay: %s", config.bg_overlay ? "ON":"OFF");
   sprintf (items[8].text, "Screen Width: %d", config.screen_w);
+  sprintf (items[9].text, "Show CD Leds: %s", config.cd_leds ? "ON":"OFF");
 
   GUI_InitMenu(m);
   GUI_SlideMenuTitle(m,strlen("Menu "));
@@ -755,6 +757,11 @@ static void prefmenu ()
       case 8:   /*** Screen Width ***/
         GUI_OptionBox(m,update_screen_w,"Screen Width",(void *)&config.screen_w,2,640,VI_MAX_WIDTH_NTSC,1);
         sprintf (items[8].text, "Screen Width: %d", config.screen_w);
+        break;
+
+      case 9:   /*** CD LEDS ***/
+        config.cd_leds ^= 1;
+        sprintf (items[9].text, "Show CD Leds: %s", config.cd_leds ? "ON":"OFF");
         break;
 
       case -1:
@@ -3300,7 +3307,7 @@ static void exitmenu(void)
   };
 
   /* autodetect loader stub */
-  bool stub = FALSE;
+  int maxitems = 2;
   u32 *sig = (u32*)0x80001800;
   void (*reload)() = (void(*)())0x80001800;
 
@@ -3309,10 +3316,12 @@ static void exitmenu(void)
 #else
   if (sig[0] == 0x7c6000a6) // SDLOAD
 #endif
-    stub = TRUE;
+  {
+    maxitems = 3;
+  }
 
   /* display option window */
-  switch (GUI_OptionWindow(&menu_main, VERSION, items, stub ? 3:2))
+  switch (GUI_OptionWindow(&menu_main, osd_version, items, maxitems))
   {
     case 0: /* credits */
       GUI_DeleteMenu(&menu_main);

@@ -167,7 +167,9 @@ void config_default(void)
   config.gun_cursor[0]  = 1;
   config.gun_cursor[1]  = 1;
   config.invert_mouse   = 0;
-  gx_input_SetDefault();
+
+  /* on-screen options */
+  config.cd_leds = 0;
 
   /* menu options */
   config.autoload     = 0;
@@ -251,5 +253,6 @@ void config_default(void)
   if (!loaded)
   {
     GUI_WaitPrompt("Warning","Default Settings restored");
+    gx_input_SetDefault();
   }
 }

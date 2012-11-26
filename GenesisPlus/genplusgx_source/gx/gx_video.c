@@ -61,6 +61,10 @@ typedef struct
 
 extern const u8 Crosshair_p1_png[];
 extern const u8 Crosshair_p2_png[];
+extern const u8 CD_access_off_png[];
+extern const u8 CD_access_on_png[];
+extern const u8 CD_ready_off_png[];
+extern const u8 CD_ready_on_png[];
 
 /*** VI ***/
 GXRModeObj *vmode;  /* Default Video Mode    */
@@ -80,6 +84,7 @@ static u8 gp_fifo[DEFAULT_FIFO_SIZE] ATTRIBUTE_ALIGN (32);
 /*** GX Textures ***/
 static u32 vwidth,vheight;
 static gx_texture *crosshair[2];
+static gx_texture *cd_leds[2][2];
 
 /*** Framebuffers ***/
 static u32 *xfb[2];
@@ -657,60 +662,134 @@ static void gxResetScaler(u32 width)
 
 static void gxDrawCrosshair(gx_texture *texture, int x, int y)
 {
-  if (texture->data)
+  /* adjust texture dimensions to XFB->VI scaling */
+  int w = (texture->width * rmode->fbWidth) / (rmode->viWidth);
+  int h = (texture->height * rmode->efbHeight) / (rmode->viHeight);
+
+  /* EFB scale & shift */
+  int xwidth = square[3] - square[9];
+  int ywidth = square[4] - square[10];
+
+  /* adjust texture coordinates to EFB */
+  x = (((x + bitmap.viewport.x) * xwidth) / vwidth) + square[9] - w/2;
+  y = (((y + bitmap.viewport.y) * ywidth) / vheight) + square[10] - h/2;
+
+  /* reset GX rendering */
+  gxResetRendering(1);
+
+  /* load texture object */
+  GXTexObj texObj;
+  GX_InitTexObj(&texObj, texture->data, texture->width, texture->height, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+  GX_InitTexObjLOD(&texObj,GX_LINEAR,GX_LIN_MIP_LIN,0.0,10.0,0.0,GX_FALSE,GX_TRUE,GX_ANISO_4);
+  GX_LoadTexObj(&texObj, GX_TEXMAP0);
+  GX_InvalidateTexAll();
+
+  /* Draw textured quad */
+  GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
+  GX_Position2s16(x,y+h);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(0.0, 1.0);
+  GX_Position2s16(x+w,y+h);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(1.0, 1.0);
+  GX_Position2s16(x+w,y);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(1.0, 0.0);
+  GX_Position2s16(x,y);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(0.0, 0.0);
+  GX_End();
+
+  /* restore GX rendering */
+  gxResetRendering(0);
+
+  /* restore texture object */
+  GXTexObj texobj;
+  GX_InitTexObj(&texobj, texturemem, vwidth, vheight, GX_TF_RGB565, GX_CLAMP, GX_CLAMP, GX_FALSE);
+  if (!config.bilinear)
   {
-    /* EFB scale & shift */
-    int xwidth = square[3] - square[9];
-    int ywidth = square[4] - square[10];
-    int xshift = (square[3] + square[9]) / 2;
-    int yshift = (square[4] + square[10]) / 2;
-
-    /* adjust texture dimensions to XFB->VI scaling */
-    int w = (texture->width * rmode->fbWidth) / (rmode->viWidth);
-    int h = (texture->height * rmode->efbHeight) / (rmode->viHeight);
-
-    /* adjust texture coordinates to EFB */
-    x = (((x + bitmap.viewport.x) * xwidth) / (bitmap.viewport.w + 2*bitmap.viewport.x)) - w/2 - (xwidth/2) + xshift;
-    y = (((y + bitmap.viewport.y) * ywidth) / (bitmap.viewport.h + 2*bitmap.viewport.y)) - h/2 - (ywidth/2) + yshift;
-
-    /* reset GX rendering */
-    gxResetRendering(1);
-
-    /* load texture object */
-    GXTexObj texObj;
-    GX_InitTexObj(&texObj, texture->data, texture->width, texture->height, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    GX_InitTexObjLOD(&texObj,GX_LINEAR,GX_LIN_MIP_LIN,0.0,10.0,0.0,GX_FALSE,GX_TRUE,GX_ANISO_4);
-    GX_LoadTexObj(&texObj, GX_TEXMAP0);
-    GX_InvalidateTexAll();
-
-    /* Draw textured quad */
-    GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
-    GX_Position2s16(x,y+h);
-    GX_Color4u8(0xff,0xff,0xff,0xff);
-    GX_TexCoord2f32(0.0, 1.0);
-    GX_Position2s16(x+w,y+h);
-    GX_Color4u8(0xff,0xff,0xff,0xff);
-    GX_TexCoord2f32(1.0, 1.0);
-    GX_Position2s16(x+w,y);
-    GX_Color4u8(0xff,0xff,0xff,0xff);
-    GX_TexCoord2f32(1.0, 0.0);
-    GX_Position2s16(x,y);
-    GX_Color4u8(0xff,0xff,0xff,0xff);
-    GX_TexCoord2f32(0.0, 0.0);
-    GX_End();
-
-    /* restore GX rendering */
-    gxResetRendering(0);
-
-    /* restore texture object */
-    GXTexObj texobj;
-    GX_InitTexObj(&texobj, texturemem, vwidth, vheight, GX_TF_RGB565, GX_CLAMP, GX_CLAMP, GX_FALSE);
-    if (!config.bilinear) GX_InitTexObjLOD(&texobj,GX_NEAR,GX_NEAR_MIP_NEAR,0.0,10.0,0.0,GX_FALSE,GX_FALSE,GX_ANISO_1);
-    GX_LoadTexObj(&texobj, GX_TEXMAP0);
-    GX_InvalidateTexAll();
+    GX_InitTexObjLOD(&texobj,GX_NEAR,GX_NEAR_MIP_NEAR,0.0,10.0,0.0,GX_FALSE,GX_FALSE,GX_ANISO_1);
   }
+  GX_LoadTexObj(&texobj, GX_TEXMAP0);
+  GX_InvalidateTexAll();
 }
 
+static void gxDrawCdLeds(gx_texture *texture_l, gx_texture *texture_r)
+{
+  /* adjust texture dimensions to XFB->VI scaling */
+  int w = (texture_l->width * rmode->fbWidth) / (rmode->viWidth);
+  int h = (texture_r->height * rmode->efbHeight) / (rmode->viHeight);
+
+  /* EFB scale & shift */
+  int xwidth = square[3] - square[9];
+  int ywidth = square[4] - square[10];
+
+  /* adjust texture coordinates to EFB */
+  int xl = (((bitmap.viewport.x + 4) * xwidth) / vwidth) + square[9];
+  int xr = (((bitmap.viewport.x + bitmap.viewport.w - 4) * xwidth) / vwidth) + square[9] - w;
+  int y = (((bitmap.viewport.y + bitmap.viewport.h - 4) * ywidth) / vheight) + square[10] - h;
+
+  /* reset GX rendering */
+  gxResetRendering(1);
+
+  /* load left screen texture */
+  GXTexObj texObj;
+  GX_InitTexObj(&texObj, texture_l->data, texture_l->width, texture_l->height, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+  GX_InitTexObjLOD(&texObj,GX_LINEAR,GX_LIN_MIP_LIN,0.0,10.0,0.0,GX_FALSE,GX_TRUE,GX_ANISO_4);
+  GX_LoadTexObj(&texObj, GX_TEXMAP0);
+  GX_InvalidateTexAll();
+
+  /* Draw textured quad */
+  GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
+  GX_Position2s16(xl,y+h);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(0.0, 1.0);
+  GX_Position2s16(xl+w,y+h);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(1.0, 1.0);
+  GX_Position2s16(xl+w,y);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(1.0, 0.0);
+  GX_Position2s16(xl,y);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(0.0, 0.0);
+  GX_End();
+
+  /* load right screen texture */
+  GX_InitTexObj(&texObj, texture_r->data, texture_r->width, texture_r->height, GX_TF_RGBA8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+  GX_InitTexObjLOD(&texObj,GX_LINEAR,GX_LIN_MIP_LIN,0.0,10.0,0.0,GX_FALSE,GX_TRUE,GX_ANISO_4);
+  GX_LoadTexObj(&texObj, GX_TEXMAP0);
+  GX_InvalidateTexAll();
+
+  /* Draw textured quad */
+  GX_Begin(GX_QUADS, GX_VTXFMT0, 4);
+  GX_Position2s16(xr,y+h);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(0.0, 1.0);
+  GX_Position2s16(xr+w,y+h);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(1.0, 1.0);
+  GX_Position2s16(xr+w,y);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(1.0, 0.0);
+  GX_Position2s16(xr,y);
+  GX_Color4u8(0xff,0xff,0xff,0xff);
+  GX_TexCoord2f32(0.0, 0.0);
+  GX_End();
+
+  /* restore GX rendering */
+  gxResetRendering(0);
+
+  /* restore texture object */
+  GXTexObj texobj;
+  GX_InitTexObj(&texobj, texturemem, vwidth, vheight, GX_TF_RGB565, GX_CLAMP, GX_CLAMP, GX_FALSE);
+  if (!config.bilinear)
+  {
+    GX_InitTexObjLOD(&texobj,GX_NEAR,GX_NEAR_MIP_NEAR,0.0,10.0,0.0,GX_FALSE,GX_FALSE,GX_ANISO_1);
+  }
+  GX_LoadTexObj(&texobj, GX_TEXMAP0);
+  GX_InvalidateTexAll();
+}
 
 void gxDrawRectangle(s32 x, s32 y, s32 w, s32 h, u8 alpha, GXColor color)
 {
@@ -1379,6 +1458,12 @@ void gx_video_Stop(void)
   gxTextureClose(&crosshair[0]);
   gxTextureClose(&crosshair[1]);
 
+  /* CD leds textures */
+  gxTextureClose(&cd_leds[0][0]);
+  gxTextureClose(&cd_leds[0][1]);
+  gxTextureClose(&cd_leds[1][0]);
+  gxTextureClose(&cd_leds[1][1]);
+
   /* GX menu rendering */
   gxResetRendering(1);
   gxResetMode(vmode);
@@ -1524,6 +1609,18 @@ void gx_video_Start(void)
     }
   }
 
+  /* CD leds textures */
+  if (system_hw == SYSTEM_MCD)
+  {
+    if (config.cd_leds)
+    {
+      cd_leds[0][0] = gxTextureOpenPNG(CD_access_off_png,0);
+      cd_leds[0][1] = gxTextureOpenPNG(CD_access_on_png,0);
+      cd_leds[1][0] = gxTextureOpenPNG(CD_ready_off_png,0);
+      cd_leds[1][1] = gxTextureOpenPNG(CD_ready_on_png,0);
+    }
+  }
+
   /* GX emulation rendering */
   gxResetRendering(0);
 
@@ -1626,6 +1723,14 @@ int gx_video_Update(void)
     {
       gxDrawCrosshair(crosshair[1], input.analog[5][0],input.analog[5][1]);
     }
+  }
+
+  /* CD LEDS */
+  if (cd_leds[1][1])
+  {
+    /* CD LEDS status */
+    u8 mode = scd.regs[0x06 >> 1].byte.h;
+    gxDrawCdLeds(cd_leds[1][(mode >> 1) & 1], cd_leds[0][mode & 1]);
   }
 
   /* swap XFB */ 

@@ -54,6 +54,7 @@
 
 u32 Shutdown = 0;
 u32 ConfigRequested = 1;
+char osd_version[32];
 
 #ifdef LOG_TIMING
 u64 prevtime;
@@ -172,11 +173,6 @@ static void run_emulation(void)
           /* clear flag */
           bitmap.viewport.changed &= ~4;
         }
-
-#ifdef HW_RVL
-        /* use Wii DVD light to simulate CD Drive access led */
-        *(u32*)0xcd0000c0 = (*(u32*)0xcd0000c0 & ~0x20) | ((scd.regs[0x06>>1].byte.h & 0x01) << 5);
-#endif
       }
     }
     else if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
@@ -247,11 +243,6 @@ static void run_emulation(void)
         }
       }
     }
-
-#ifdef HW_RVL
-    /* reset Wii DVD light */
-    *(u32*)0xcd0000c0 = (*(u32*)0xcd0000c0 & ~0x20);
-#endif
 
     /* stop video & audio */
     gx_audio_Stop();
@@ -456,6 +447,10 @@ int main (int argc, char *argv[])
   /* initialize DI interface */
   DI_UseCache(0);
   DI_Init();
+
+  sprintf(osd_version, "%s (IOS %d)", VERSION, IOS_GetVersion());
+#else
+  sprintf(osd_version, "%s (GCN)", VERSION);
 #endif
 
   /* initialize video engine */

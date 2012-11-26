@@ -1269,6 +1269,10 @@ void cdd_process(void)
       scd.regs[0x3c>>1].w = 0x0000;
       scd.regs[0x3e>>1].w = 0x0000;
       scd.regs[0x40>>1].w = 0x000f;
+
+#ifdef CD_TRAY_CALLBACK
+      CD_TRAY_CALLBACK
+#endif
       return;
     }
 
@@ -1283,6 +1287,10 @@ void cdd_process(void)
       scd.regs[0x3c>>1].w = 0x0000;
       scd.regs[0x3e>>1].w = 0x0000;
       scd.regs[0x40>>1].w = 0x0001;
+
+#ifdef CD_TRAY_CALLBACK
+      CD_TRAY_CALLBACK
+#endif
       return;
     }
 

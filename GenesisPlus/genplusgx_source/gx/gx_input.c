@@ -1257,13 +1257,12 @@ void gx_input_SetDefault(void)
   }
 
 #ifdef HW_RVL
-  /* Autodetect Wii Controllers */
-  WPAD_ScanPads();
+  /* autodetect connected Wii Controllers */
   for (i=0; i<4; i++)
   {
-    /* try to autodetect connected controller */
     exp = 255;
     WPAD_Probe(i, &exp);
+
     if (exp == WPAD_EXP_CLASSIC)
     {
       /* use Classic Controller */
@@ -1276,7 +1275,7 @@ void gx_input_SetDefault(void)
       config.input[i].device = 2;
       config.input[i].port = i;
     }
-    else if (exp <= EXP_MOTION_PLUS)
+    else if (exp != 255)
     {
       /* use Wiimote by default */
       config.input[i].device = 1;
