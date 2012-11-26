@@ -56,6 +56,7 @@ static OERingBuffer *ringBuffer;
 /*
  OpenEmu Core internal functions
  */
+
 - (id)init
 {
     self = [super init];
@@ -95,12 +96,10 @@ static OERingBuffer *ringBuffer;
 {
     DLog(@"Loaded File");
     //TODO: add choice NTSC/PAL
-    if(sms_init(SMS_VIDEO_NTSC, SMS_REGION_DOMESTIC))
-        return NO;
+    if(sms_init(SMS_VIDEO_NTSC, SMS_REGION_DOMESTIC)) return NO;
     
-    if(sms_mem_load_rom([path UTF8String])) {
-        return NO;
-    }
+    if(sms_mem_load_rom([path UTF8String])) return NO;
+
     return YES;
 }
 - (void)resetEmulation
@@ -177,7 +176,6 @@ static OERingBuffer *ringBuffer;
 {
     return sms_load_state([fileName UTF8String]) == 0;
 }
-
 
 /*
  CrabEmu callbacks

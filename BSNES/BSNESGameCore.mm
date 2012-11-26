@@ -33,13 +33,22 @@
 #include "libretro.h"
 
 @interface BSNESGameCore () <OESNESSystemResponderClient>
+{
+    uint32_t *videoBuffer;
+    int videoWidth, videoHeight;
+    int16_t pad[2][12];
+    NSString *romName;
+    double sampleRate;
+}
+
 @end
 
 NSUInteger BSNESEmulatorValues[] = { RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_X, RETRO_DEVICE_ID_JOYPAD_Y, RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_START, RETRO_DEVICE_ID_JOYPAD_SELECT };
 NSString *BSNESEmulatorKeys[] = { @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left", @"Joypad@ Right", @"Joypad@ A", @"Joypad@ B", @"Joypad@ X", @"Joypad@ Y", @"Joypad@ L", @"Joypad@ R", @"Joypad@ Start", @"Joypad@ Select"};
 
-BSNESGameCore *current;
 @implementation BSNESGameCore
+
+static BSNESGameCore *current;
 
 static void audio_callback(int16_t left, int16_t right)
 {
@@ -47,7 +56,8 @@ static void audio_callback(int16_t left, int16_t right)
     [[current ringBufferAtIndex:0] write:&right maxLength:2];
 }
 
-static size_t audio_batch_callback(const int16_t *data, size_t frames){
+static size_t audio_batch_callback(const int16_t *data, size_t frames)
+{
     [[current ringBufferAtIndex:0] write:data maxLength:frames << 2];
     return frames;
 }
@@ -59,7 +69,7 @@ static void video_callback(const void *data, unsigned width, unsigned height, si
     
     dispatch_queue_t the_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
-    dispatch_apply(height, the_queue, ^(size_t y){
+    dispatch_apply(height, the_queue, ^(size_t y) {
         const uint16_t *src = (uint16_t*)data + y * (pitch >> 1); //pitch is in bytes not pixels
         uint32_t *dst = current->videoBuffer + y * 512;
         
@@ -74,21 +84,19 @@ static void input_poll_callback(void)
 
 static int16_t input_state_callback(unsigned port, unsigned device, unsigned index, unsigned _id)
 {
-	if (port == 0 & device == RETRO_DEVICE_JOYPAD) {
+	if(port == 0 & device == RETRO_DEVICE_JOYPAD)
         return current->pad[0][_id];
-    }
-    else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
+    else if(port == 1 & device == RETRO_DEVICE_JOYPAD)
         return current->pad[1][_id];
-    }
     
     return 0;
 }
 
 static bool environment_callback(unsigned cmd, void *data)
 {
-    switch (cmd)
+    switch(cmd)
     {
-        case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
+        case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY :
         {
             /* Path where BSNES will look for the required coprocessor chips:
              cx4.rom (3,072 bytes)
@@ -101,23 +109,22 @@ static bool environment_callback(unsigned cmd, void *data)
              st011.rom (53,248 bytes)
              st018.rom (163,840 bytes)
              */
+
+            // FIXME: Build a path in a more appropriate place
+            NSString *appSupportPath = [NSString pathWithComponents:@[
+                                        [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
+                                        @"OpenEmu", @"BIOS"]];
             
-            NSString *appSupportPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
-                                          stringByAppendingPathComponent:@"Application Support"]
-                                         stringByAppendingPathComponent:@"OpenEmu"]
-                                        stringByAppendingPathComponent:@"BIOS"];
-            
-            *(const char **)data = [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] ? [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] : NULL;
+            *(const char **)data = [appSupportPath UTF8String];
             NSLog(@"Environ SYSTEM_DIRECTORY: \"%@\".\n", appSupportPath);
             break;
         }
-            
-        default:
+        default :
             NSLog(@"Environ UNSUPPORTED (#%u).\n", cmd);
-            return false;
+            return NO;
     }
     
-    return true;
+    return YES;
 }
 
 
@@ -126,27 +133,22 @@ static void loadSaveFile(const char* path, int type)
     FILE *file;
     
     file = fopen(path, "rb");
-    if ( !file )
-    {
-        return;
-    }
+    if(file == NULL) return;
     
     size_t size = retro_get_memory_size(type);
     void *data = retro_get_memory_data(type);
     
-    if (size == 0 || !data)
+    if(size == 0 || !data)
     {
         fclose(file);
         return;
     }
     
     int rc = fread(data, sizeof(uint8_t), size, file);
-    if ( rc != size )
-    {
-        NSLog(@"Couldn't load save file.");
-    }
-    
-    NSLog(@"Loaded save file: %s", path);
+    if(rc != size)
+        NSLog(@"Couldn't load save file: %s.", path);
+    else
+        NSLog(@"Loaded save file: %s", path);
     
     fclose(file);
 }
@@ -156,14 +158,14 @@ static void writeSaveFile(const char* path, int type)
     size_t size = retro_get_memory_size(type);
     void *data = retro_get_memory_data(type);
     
-    if ( data && size > 0 )
+    if(data != NULL && size > 0)
     {
         FILE *file = fopen(path, "wb");
-        if ( file != NULL )
+        if(file != NULL)
         {
             NSLog(@"Saving state %s. Size: %d bytes.", path, (int)size);
             retro_serialize(data, size);
-            if ( fwrite(data, sizeof(uint8_t), size, file) != size )
+            if(fwrite(data, sizeof(uint8_t), size, file) != size)
                 NSLog(@"Did not save state properly.");
             fclose(file);
         }
@@ -182,12 +184,9 @@ static void writeSaveFile(const char* path, int type)
 
 - (id)init
 {
-	self = [super init];
-    if(self != nil)
+    if((self = [super init]))
     {
-        if(videoBuffer)
-            free(videoBuffer);
-        videoBuffer = (uint32_t*)malloc(512 * 480 * sizeof(uint32_t));
+        videoBuffer = (uint32_t *)malloc(512 * 480 * sizeof(uint32_t));
     }
 	
 	current = self;
@@ -202,12 +201,12 @@ static void writeSaveFile(const char* path, int type)
     [self executeFrameSkippingFrame:NO];
 }
 
-- (void)executeFrameSkippingFrame: (BOOL) skip
+- (void)executeFrameSkippingFrame:(BOOL)skip
 {
     retro_run();
 }
 
-- (BOOL)loadFileAtPath: (NSString*) path
+- (BOOL)loadFileAtPath:(NSString *)path
 {
 	memset(pad, 0, sizeof(int16_t) * 24);
     
@@ -216,10 +215,12 @@ static void writeSaveFile(const char* path, int type)
     romName = [path copy];
     
     //load cart, read bytes, get length
-    NSData* dataObj = [NSData dataWithContentsOfFile:[romName stringByStandardizingPath]];
-    if(dataObj == nil) return false;
+    NSData *dataObj = [NSData dataWithContentsOfFile:[romName stringByStandardizingPath]];
+
+    if(dataObj == nil) return NO;
+
     size = [dataObj length];
-    data = (uint8_t*)[dataObj bytes];
+    data = (uint8_t *)[dataObj bytes];
     const char *meta = NULL;
     
     retro_set_environment(environment_callback);
@@ -266,12 +267,15 @@ static void writeSaveFile(const char* path, int type)
         retro_get_region();
         
         retro_run();
+
+        return YES;
     }
     
-    return YES;
+    return NO;
 }
 
 #pragma mark Video
+
 - (const void *)videoBuffer
 {
     return videoBuffer;
@@ -305,7 +309,6 @@ static void writeSaveFile(const char* path, int type)
     
     if([batterySavesDirectory length] != 0)
     {
-        
         [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
         
         NSLog(@"Trying to save SRAM");
@@ -318,6 +321,7 @@ static void writeSaveFile(const char* path, int type)
     NSLog(@"snes term");
     retro_unload_game();
     retro_deinit();
+
     [super stopEmulation];
 }
 
@@ -369,19 +373,20 @@ static void writeSaveFile(const char* path, int type)
     
     free(serial_data);
     
-    if( bytes_written != serial_size )
+    if(bytes_written != serial_size)
     {
         NSLog(@"Couldn't write state");
         return NO;
     }
-    fclose( state_file );
+
+    fclose(state_file);
     return YES;
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
     FILE *state_file = fopen([fileName UTF8String], "rb");
-    if( !state_file )
+    if(state_file == NULL)
     {
         NSLog(@"Could not open state file");
         return NO;

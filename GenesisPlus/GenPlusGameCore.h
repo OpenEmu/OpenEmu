@@ -32,13 +32,6 @@
 
 OE_EXPORTED_CLASS
 @interface GenPlusGameCore : OEGameCore
-{
-    unsigned char *videoBuffer;
-    NSLock        *bufLock;
-    int            oldrun;
-    int            position;
-    BOOL           paused;
-}
 
 @property(copy) NSString *romPath;
 

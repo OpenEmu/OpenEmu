@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -46,17 +46,17 @@
 
 #pragma mark --NES-specific features--
 @implementation NESGameCore (NesAdditions)
-NSString * const NESNTSC = @"NESNTSC";
-NSString * const NESBrightness = @"NESBrightness";
-NSString * const NESSaturation = @"NESSaturation";
-NSString * const NESContrast = @"NESContrast";
-NSString * const NESSharpness = @"NESSharpness";
-NSString * const NESColorRes = @"NESColorRes";
-NSString * const NESColorBleed = @"NESColorBleed";
-NSString * const NESColorArtifacts = @"NESColorArtifacts";
-NSString * const NESColorFringing = @"NESColorFringing";
-NSString * const NESHue = @"NESHue";
-NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
+NSString *const NESNTSC             = @"NESNTSC";
+NSString *const NESBrightness       = @"NESBrightness";
+NSString *const NESSaturation       = @"NESSaturation";
+NSString *const NESContrast         = @"NESContrast";
+NSString *const NESSharpness        = @"NESSharpness";
+NSString *const NESColorRes         = @"NESColorRes";
+NSString *const NESColorBleed       = @"NESColorBleed";
+NSString *const NESColorArtifacts   = @"NESColorArtifacts";
+NSString *const NESColorFringing    = @"NESColorFringing";
+NSString *const NESHue              = @"NESHue";
+NSString *const NESUnlimitedSprites = @"NESUnlimitedSprites";
 
 
 - (BOOL)isUnlimitedSpritesEnabled
@@ -121,14 +121,14 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
         [self setupVideo:emu withFilter:1];//[[[OpenNestopiaPreferencesController sharedPreferencesController:self] filter] intValue]];
     else
         [self setupVideo:emu withFilter:0];
-    
+
 }
 
 - (void)applyNTSC:(id)sender
 {
     NSLog(@"Filters!");
     Nes::Api::Video video( *emu );
-    
+
     video.SetSharpness([self sharpness]);
     video.SetColorResolution([self colorRes]);
     video.SetColorBleed([self colorBleed]);
@@ -147,10 +147,10 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
     //[self enableUnlimitedSprites:[self isUnlimitedSpritesEnabled]];
 }
 
-- (void)enableUnlimitedSprites:(BOOL)enable 
+- (void)enableUnlimitedSprites:(BOOL)enable
 {
     Nes::Api::Video video( *emu );
-    
+
     video.EnableUnlimSprites(enable ? true : false);
 }
 
@@ -171,7 +171,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
     }
 }
 
-- (void)enableRewinder:(BOOL)rewind 
+- (void)enableRewinder:(BOOL)rewind
 {
     Nes::Api::Rewinder rewinder(*emu);
     rewinder.Enable(rewind);
@@ -186,7 +186,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 - (void)rewinderDirection: (NSUInteger) rewinderDirection
 {
     Nes::Api::Rewinder rewinder(*emu);
-    
+
     if(rewinderDirection == 1) {
         rewinder.SetDirection(Nes::Api::Rewinder::FORWARD);
         DLog(@"rewinder direction is forward");
@@ -200,11 +200,11 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 - (void)enableRewinderBackwardsSound: (BOOL) rewindSound
 {
     Nes::Api::Rewinder rewinder(*emu);
-    if(rewindSound) 
+    if(rewindSound)
     {
         rewinder.EnableSound(YES);
-    } 
-    else 
+    }
+    else
     {
         rewinder.EnableSound(NO);
     }
@@ -219,20 +219,20 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 - (void)setRamBytes:(double)off value:(double)val
 {
     Nes::Api::Ram ram(*emu);
-    
+
     int prgRomOffset = (off * 0x2000) + 0x8000;
     int prgRomValue = (int) (val * 256);
-    
+
     ram.SetRAM(prgRomOffset, prgRomValue);
 }
 
-- (int)cartVRamSize 
+- (int)cartVRamSize
 {
     // note: some cartridges had VRAM some, some did not.  If they didn't, they used the PPU's 2K of RAM alone.
     Nes::Api::Cartridge cart(*emu);
     const Nes::Api::Cartridge::Profile* profile = cart.GetProfile();
     int vRamSize = profile->board.GetVram();
-    
+
     //    DLog(@"vRamSize is %U",vRamSize);
     if(vRamSize == 0)    //in other words, if the cartridge has no VRAM, set the size to 2K
         return vRamSize = 2048;
@@ -243,18 +243,18 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 // incoming doubles are 0.0 - > 1.0 range. We un-normalize
 - (void)setNmtRamBytes:(double)off value:(double)val
 {
-    int nameTableSize = 960;    // each nametable (there are 4) is 1024bytes, but the last 64 bytes of each 
+    int nameTableSize = 960;    // each nametable (there are 4) is 1024bytes, but the last 64 bytes of each
                                 // nametable is an attribute table, which controls the palette of the preceding nametable's tiles.
                                 // note: depending on the cartridge's mirroring mode, there can be one, two or four nametables (functionally speaking), while the others are just mirrors (copies).
-    
+
     Nes::Api::Machine machine(*emu);
-    
+
     int numPages = 3;
-    
+
     int unnormalizedOffset = off * nameTableSize;            // subtract 64bytes to stay out of the attribute table
-    int unnormalizedVal = (int) (val * 256);                // Nametable values are addresses in the pattern tables, which are at $0000 and $1000 in the PPU's RAM and $1000bytes each.  
+    int unnormalizedVal = (int) (val * 256);                // Nametable values are addresses in the pattern tables, which are at $0000 and $1000 in the PPU's RAM and $1000bytes each.
                                                             // Here's a really good, short explanation of all the tables: http://nesdev.parodius.com/NESTechFAQ.htm#namattpat
-    
+
     for(int i = 0; i < numPages; i++)
     {
         machine.PokeNmt((i * 0x400) + 0x2000 + unnormalizedOffset, unnormalizedVal); //note: 0x400 = 1024bytes
@@ -264,9 +264,9 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 - (void)setNMTRamByTable:(NSNumber*)table array:(NSArray*)nmtValueArray
 {
     Nes::Api::Machine machine(*emu);
-    
+
     int startOfNameTable = [table unsignedIntValue] * 0x400;
-    
+
     for (int i = 0; i < 960; i++)
     {
         machine.PokeNmt(i + startOfNameTable + 0x2000, [[nmtValueArray objectAtIndex:i] intValue]);
@@ -286,19 +286,19 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 - (void)setChrRamBytes:(double)off value:(double)val
 {
     // FIXME: this method needs to be rethunk.  and i shall do the rethunking!  --dan
-    
+
     int pageSize = 2048;    // this should be 1024 (according to Josh), but it seems
                             // using 2K makes glitches across all screens, whereas 1K
                             // occasionally would leave entire screen widths unaltered...
-    
+
     Nes::Api::Ram ram(*emu);
-    
-    int romSize = [self chrRomSize];    // should be 4096  --ORLY? :P TODO: prove it. 
+
+    int romSize = [self chrRomSize];    // should be 4096  --ORLY? :P TODO: prove it.
     int numPages = romSize / pageSize;
-    
+
     int unnormalizedOffset = (int) (off * pageSize);
     int unnormalizedVal = ((int) (val * pageSize)) % 64;    // this % may fix a crash in glitching chr ram when looking up a palette above max val.
-    
+
     for(int i = 0; i < numPages ; i++)
     {
         ram.SetCHR(0, unnormalizedOffset , unnormalizedVal);
@@ -308,23 +308,23 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 - (void)recordMovie:(NSString*) moviePath mode:(BOOL)append
 {
     Nes::Api::Movie movie(*emu);
-    Nes::Result result; 
-    
+    Nes::Result result;
+
     std::fstream movieFile([moviePath cStringUsingEncoding:NSUTF8StringEncoding], std::ios::in | std::ios::binary);
-    
-    if(append) 
+
+    if(append)
         result = movie.Record(movieFile,Nes::Api::Movie::APPEND);
-    else 
+    else
         result = movie.Record(movieFile, Nes::Api::Movie::CLEAN);
 }
 
 - (void)playMovie:(NSString*) moviePath
 {
     Nes::Api::Movie movie(*emu);
-    Nes::Result result; 
-    
+    Nes::Result result;
+
     std::ifstream movieFile([moviePath cStringUsingEncoding:NSUTF8StringEncoding], std::ios::in | std::ios::binary);
-    
+
     result = movie.Play(movieFile);
 }
 

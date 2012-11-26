@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -35,27 +35,33 @@
 
 #define SAMPLERATE 48000
 
+@interface GenPlusGameCore () <OEGenesisSystemResponderClient>
+{
+    unsigned char *videoBuffer;
+    NSLock        *bufLock;
+    int            oldrun;
+    int            position;
+    BOOL           paused;
+}
+
+@end
+
 extern void set_config_defaults(void);
+
+@implementation GenPlusGameCore
+@synthesize romPath;
 
 void openemu_input_UpdateEmu(void)
 {
 }
 
-@implementation GenPlusGameCore
-
-@synthesize romPath;
-
-/*
- OpenEmu Core internal functions
- */
 - (id)init
 {
-    self = [super init];
-    if(self != nil)
+    if((self = [super init]))
     {
         bufLock = [[NSLock alloc] init];
         videoBuffer = malloc(720 * 576 * 2);
-        
+
         position = 0;
     }
     return self;
@@ -64,7 +70,7 @@ void openemu_input_UpdateEmu(void)
 - (void) dealloc
 {
     DLog(@"releasing/deallocating memory");
-    free(videoBuffer);    
+    free(videoBuffer);
 }
 
 - (void)executeFrame
@@ -80,7 +86,7 @@ void openemu_input_UpdateEmu(void)
 
 void update_input()
 {
-    
+
 }
 
 - (void)setupEmulation
@@ -90,16 +96,19 @@ void update_input()
 - (BOOL)loadFileAtPath:(NSString*)path
 {
     DLog(@"Loaded File");
-    
+
     set_config_defaults();
-    
+
     /* allocate cart.rom here (10 MBytes) */
     cart.rom = malloc(MAXROMSIZE);
-    
-    if (!cart.rom)
+
+    if(cart.rom == NULL)
+    {
         DLog(@"error allocating");
-    
-    if( load_rom((char*)[path UTF8String]) )
+        return NO;
+    }
+
+    if(load_rom((char *)[path UTF8String]))
     {
         /* allocate global work bitmap */
         memset (&bitmap, 0, sizeof (bitmap));
@@ -113,21 +122,23 @@ void update_input()
         //bitmap.viewport.x = 0;
         //bitmap.viewport.y = 0;
         bitmap.data = videoBuffer;
-        
+
         /* default system */
         input.system[0] = SYSTEM_MD_GAMEPAD;
         input.system[1] = SYSTEM_MD_GAMEPAD;
-        
+
         frameInterval = vdp_pal ? 53203424./896040. : 53693175./896040.; // from sound_init()
 		audio_init(SAMPLERATE, frameInterval);
         system_init();
         system_reset();
-        
+
         [self setRomPath:path];
 		[self loadSram];
+
+        return YES;
     }
-    
-    return YES;
+
+    return NO;
 }
 
 - (NSTimeInterval)frameInterval
@@ -210,16 +221,16 @@ NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RI
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
     NSMutableData *data = [[NSMutableData alloc] initWithLength:STATE_SIZE];
-    
+
     NSInteger bytesCount = state_save([data mutableBytes]);
-    
+
     return bytesCount > 0 && [[[NSData alloc] initWithBytesNoCopy:[data mutableBytes] length:bytesCount freeWhenDone:NO] writeToFile:fileName atomically:NO];
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
     NSData *loaded = [[NSData alloc] initWithContentsOfFile:fileName];
-    
+
     return loaded != nil && state_load([loaded bytes], [loaded length]) == 1;
 }
 
@@ -240,11 +251,11 @@ NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RI
 - (void)loadSram
 {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-    
+
     NSString *extensionlessFilename = [[romPath lastPathComponent] stringByDeletingPathExtension];
     NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
     [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-    
+
 	NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
 	if([fileManager fileExistsAtPath:filePath])
 	{

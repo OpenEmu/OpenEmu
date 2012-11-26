@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2010 OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
  * Neither the name of the OpenEmu Team nor the
  names of its contributors may be used to endorse or promote products
  derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -34,10 +34,26 @@
 #import <OpenGL/gl.h>
 #import "OEN64SystemResponderClient.h"
 
+NSString *MupenControlNames[] = {
+    @"N64_DPadU", @"N64_DPadD", @"N64_DPadL", @"N64_DPadR",
+    @"N64_CU", @"N64_CD", @"N64_CL", @"N64_CR",
+    @"N64_B", @"N64_A", @"N64_R", @"N64_L", @"N64_Z", @"N64_Start"
+}; // FIXME: missing: joypad X, joypad Y, mempak switch, rumble switch
+
+@interface MupenGameCore ()
+{
+    NSData  *romData;
+    uint8_t *black;
+}
+
+@end
+
+@implementation MupenGameCore
+
 pthread_mutex_t gEmuVIMutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t  gEmuVICond  = PTHREAD_COND_INITIALIZER;
 
-static void MupenDebugCallback(void *Context, int level, const char *message)
+static void MupenDebugCallback(void *context, int level, const char *message)
 {
     NSLog(@"Mupen (%d): %s", level, message);
 }
@@ -47,38 +63,31 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
     NSLog(@"Mupen: param %d -> %d", ParamChanged, NewValue);
 }
 
-NSString *MupenControlNames[] = {
-    @"N64_DPadU", @"N64_DPadD", @"N64_DPadL", @"N64_DPadR",
-    @"N64_CU", @"N64_CD", @"N64_CL", @"N64_CR",
-    @"N64_B", @"N64_A", @"N64_R", @"N64_L", @"N64_Z", @"N64_Start"
-}; // FIXME: missing: joypad X, joypad Y, mempak switch, rumble switch
-
-@implementation MupenGameCore
-
-- (BOOL)loadFileAtPath:(NSString*) path
+- (BOOL)loadFileAtPath:(NSString *)path
 {
     NSBundle *coreBundle = [NSBundle bundleForClass:[self class]];
     const char *configPath, *dataPath;
-    
+
     configPath = [[self supportDirectoryPath] UTF8String];
     dataPath   = [[coreBundle resourcePath] UTF8String]; // FIXME: should be path to bundle
-    
+
     // open core here
     //CoreStartup(MUPEN_API_VERSION, configPath, dataPath, self, MupenDebugCallback, self, MupenStateCallback);
-    CoreStartup(CONFIG_API_VERSION, configPath, dataPath, (__bridge void *)(self), MupenDebugCallback, (__bridge void *)(self), MupenStateCallback);
-    
+    CoreStartup(CONFIG_API_VERSION, configPath, dataPath, (__bridge void *)self, MupenDebugCallback, (__bridge void *)self, MupenStateCallback);
+
     // plugins + config
     m64p_handle section;
     int ival = 0;
     ConfigOpenSection("Core", &section);
     ConfigSetParameter(section, "R4300Emulator", M64TYPE_INT, &ival);
-    
+
     // load rom here
     romData = [NSData dataWithContentsOfMappedFile:path];
-    
-    CoreDoCommand(M64CMD_ROM_OPEN, [romData length], (void*)[romData bytes]);
-    
-    return YES;
+
+    if(CoreDoCommand(M64CMD_ROM_OPEN, [romData length], (void *)[romData bytes]) == M64ERR_SUCCESS)
+        return YES;
+
+    return NO;
 }
 
 #if 0
@@ -90,22 +99,22 @@ NSString *MupenControlNames[] = {
 
 - (void)startEmulation
 {
-    if (!isRunning) {
+    if(!isRunning)
+    {
         [super startEmulation];
-        [NSThread detachNewThreadSelector:@selector(mupenEmuThread) toTarget:self withObject:nil];  
+        [NSThread detachNewThreadSelector:@selector(mupenEmuThread) toTarget:self withObject:nil];
     }
 }
 
 - (void)mupenEmuThread
 {
-    @autoreleasepool {
-    
+    @autoreleasepool
+    {
         CoreDoCommand(M64CMD_EXECUTE, 0, NULL);
-    
     }
 }
 
-- (void)executeFrameSkippingFrame: (BOOL) skip
+- (void)executeFrameSkippingFrame:(BOOL)skip
 {
     // FIXME: skip
     pthread_mutex_lock(&gEmuVIMutex);
@@ -119,14 +128,14 @@ NSString *MupenControlNames[] = {
 }
 
 - (void)stopEmulation
-{    
+{
     // FIXME: this needs to send a quit event into the input
     // which will be read by the emu thread
     // which will then die
     //CoreDoCommand(M64CMD_STOP, 0, NULL);
 }
 
-- (BOOL)saveStateToFileAtPath: (NSString *)fileName
+- (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
     // freeze save
     //FIXME how to fit into emu event loop?
@@ -134,7 +143,7 @@ NSString *MupenControlNames[] = {
     return YES;
 }
 
-- (BOOL)loadStateFromFileAtPath: (NSString *)fileName
+- (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
     // freeze load
     //FIXME how to fit into emu event loop?
@@ -151,9 +160,8 @@ NSString *MupenControlNames[] = {
 
 - (const void *)videoBuffer
 {
-    if (!black) {
-        black = calloc(1, 640 * 480 * 2);
-    }
+    if(black == NULL) black = calloc(1, 640 * 480 * 2);
+
     return black;
 }
 

@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -49,6 +49,14 @@
 #define SAMPLERATE      48000
 #define SIZESOUNDBUFFER SAMPLERATE / 50 * 4
 
+@interface SNESGameCore () <OESNESSystemResponderClient>
+{
+    UInt16        *soundBuffer;
+    unsigned char *videoBuffer;
+}
+
+@end
+
 @implementation SNESGameCore
 
 NSString *SNESEmulatorKeys[] = { @"Up", @"Down", @"Left", @"Right", @"A", @"B", @"X", @"Y", @"L", @"R", @"Start", @"Select", nil };
@@ -68,9 +76,9 @@ NSString *SNESEmulatorKeys[] = { @"Up", @"Down", @"Left", @"Right", @"A", @"B", 
     for(NSUInteger player = 1; player <= 8; player++)
     {
         NSUInteger playerMask = player << 16;
-        
+
         NSString *playerString = [NSString stringWithFormat:@"Joypad%d ", player];
-        
+
         for(NSUInteger idx = 0; idx < OESNESButtonCount; idx++)
         {
             s9xcommand_t cmd = S9xGetCommandT([[playerString stringByAppendingString:SNESEmulatorKeys[idx]] UTF8String]);
@@ -86,61 +94,65 @@ NSString *SNESEmulatorKeys[] = { @"Up", @"Down", @"Left", @"Right", @"A", @"B", 
     [self executeFrameSkippingFrame:NO];
 }
 
-- (void)executeFrameSkippingFrame: (BOOL) skip
+- (void)executeFrameSkippingFrame:(BOOL)skip
 {
     IPPU.RenderThisFrame = !skip;
     S9xMainLoop();
-    
-    S9xMixSamples((unsigned char*)soundBuffer, (SAMPLERATE / [self frameInterval]) * [self channelCount]);
+
+    S9xMixSamples((unsigned char *)soundBuffer, (SAMPLERATE / [self frameInterval]) * [self channelCount]);
     [[self ringBufferAtIndex:0] write:soundBuffer maxLength:sizeof(UInt16) * [self channelCount] * (SAMPLERATE / [self frameInterval])];
 }
 
-- (BOOL)loadFileAtPath: (NSString*) path
+- (BOOL)loadFileAtPath:(NSString *)path
 {
     memset(&Settings, 0, sizeof(Settings));
-    Settings.ForcePAL            = false;
-    Settings.ForceNTSC           = false;
-    Settings.ForceHeader         = false;
-    Settings.ForceNoHeader       = false;
-    
-    Settings.MouseMaster = true;
-    Settings.SuperScopeMaster = true;
-    Settings.MultiPlayer5Master = true;
-    Settings.JustifierMaster = true;
+    Settings.ForcePAL      = false;
+    Settings.ForceNTSC     = false;
+    Settings.ForceHeader   = false;
+    Settings.ForceNoHeader = false;
+
+    Settings.MouseMaster            = true;
+    Settings.SuperScopeMaster       = true;
+    Settings.MultiPlayer5Master     = true;
+    Settings.JustifierMaster        = true;
     Settings.BlockInvalidVRAMAccess = true;
-    Settings.HDMATimingHack = 100;
-    Settings.SoundPlaybackRate = 48000;
-    Settings.Stereo = true;
-    Settings.SixteenBitSound = true;
-    Settings.Transparency = true;
-    Settings.SupportHiRes = true;
-    GFX.InfoString = NULL;
-    GFX.InfoStringTimeout = 0;
-    //Settings.OpenGLEnable = true; -enable this and use (BOOL)rendersToOpenGL
-    Settings.SoundInputRate = 32000;
-    //Settings.DumpStreamsMaxFrames = -1;
-    //Settings.AutoDisplayMessages = true;
-    //Settings.FrameTimeNTSC = 16667;
-    
-    if(videoBuffer) 
-        free(videoBuffer);
-    videoBuffer = (unsigned char*)malloc(MAX_SNES_WIDTH*MAX_SNES_HEIGHT*sizeof(uint16_t));
+    Settings.HDMATimingHack         = 100;
+    Settings.SoundPlaybackRate      = 48000;
+    Settings.Stereo                 = true;
+    Settings.SixteenBitSound        = true;
+    Settings.Transparency           = true;
+    Settings.SupportHiRes           = true;
+    GFX.InfoString                  = NULL;
+    GFX.InfoStringTimeout           = 0;
+    //Settings.OpenGLEnable           = true; -enable this and use (BOOL)rendersToOpenGL
+    Settings.SoundInputRate         = 32000;
+    //Settings.DumpStreamsMaxFrames   = -1;
+    //Settings.AutoDisplayMessages    = true;
+    //Settings.FrameTimeNTSC          = 16667;
+
+    if(videoBuffer) free(videoBuffer);
+
+    videoBuffer = (unsigned char *)malloc(MAX_SNES_WIDTH * MAX_SNES_HEIGHT * sizeof(uint16_t));
     //GFX.PixelFormat = 3;
-    
+
     GFX.Pitch = 512 * 2;
     //GFX.PPL = SNES_WIDTH;
-    GFX.Screen = (short unsigned int*)videoBuffer;
-    
+    GFX.Screen = (short unsigned int *)videoBuffer;
+
     S9xUnmapAllControls();
-    
+
     [self mapButtons];
-    
-    S9xSetController(0, CTL_JOYPAD,     0, 0, 0, 0);
-    S9xSetController(1, CTL_JOYPAD,     1, 0, 0, 0);
-    
+
+    S9xSetController(0, CTL_JOYPAD, 0, 0, 0, 0);
+    S9xSetController(1, CTL_JOYPAD, 1, 0, 0, 0);
+
     //S9xSetRenderPixelFormat(RGB565);
     if(!Memory.Init() || !S9xInitAPU() || !S9xGraphicsInit())
+    {
         NSLog(@"Couldn't init");
+        return NO;
+    }
+
     NSLog(@"loading %@", path);
 
     /* buffer_ms : buffer size given in millisecond
@@ -148,37 +160,40 @@ NSString *SNESEmulatorKeys[] = { @"Up", @"Down", @"Left", @"Right", @"A", @"B", 
      S9xInitSound(macSoundBuffer_ms, macSoundLagEnable ? macSoundBuffer_ms / 2 : 0); */
     if(!S9xInitSound(SIZESOUNDBUFFER, 0))
         NSLog(@"Couldn't init sound");
-    
+
     Settings.NoPatch = true;
     Settings.BSXBootup = false;
-    
+
     if(Memory.LoadROM([path UTF8String]))
     {
         NSString *path = [NSString stringWithUTF8String:Memory.ROMFilename];
         NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
-        
+
         NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
-        
-//        if((batterySavesDirectory != nil) && ![batterySavesDirectory isEqualToString:@""])
+
+        //if((batterySavesDirectory != nil) && ![batterySavesDirectory isEqualToString:@""])
         if([batterySavesDirectory length] != 0)
         {
             [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-        
+
             NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-        
+
             Memory.LoadSRAM([filePath UTF8String]);
         }
+
+        return YES;
     }
-    return YES;
+
+    return NO;
 }
 
-bool8 S9xOpenSoundDevice (void)
+bool8 S9xOpenSoundDevice(void)
 {
-	return (true);
+	return true;
 }
-
 
 #pragma mark Video
+
 - (const void *)videoBuffer
 {
     return GFX.Screen;
@@ -196,10 +211,10 @@ bool8 S9xOpenSoundDevice (void)
 
 - (void)setupEmulation
 {
-    if(soundBuffer)
-        free(soundBuffer);
-    soundBuffer = (UInt16*)malloc(SIZESOUNDBUFFER* sizeof(UInt16));
-    memset(soundBuffer, 0, SIZESOUNDBUFFER*sizeof(UInt16));
+    if(soundBuffer) free(soundBuffer);
+
+    soundBuffer = (UInt16 *)malloc(SIZESOUNDBUFFER * sizeof(UInt16));
+    memset(soundBuffer, 0, SIZESOUNDBUFFER * sizeof(UInt16));
 }
 
 - (void)resetEmulation
@@ -211,21 +226,21 @@ bool8 S9xOpenSoundDevice (void)
 {
     NSString *path = [NSString stringWithUTF8String:Memory.ROMFilename];
     NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
-    
+
     NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
-    
+
     if([batterySavesDirectory length] != 0)
     {
-        
+
         [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-    
+
         NSLog(@"Trying to save SRAM");
-    
+
         NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-    
+
         Memory.SaveSRAM([filePath UTF8String]);
     }
-    
+
     [super stopEmulation];
 }
 
@@ -257,10 +272,7 @@ bool8 S9xOpenSoundDevice (void)
 
 - (NSTimeInterval)frameInterval
 {
-    if( Settings.PAL )
-        return 50;
-    else
-        return 60;
+    return Settings.PAL ? 50 : 60;
 }
 
 - (NSUInteger)channelCount
@@ -270,20 +282,12 @@ bool8 S9xOpenSoundDevice (void)
 
 - (BOOL)saveStateToFileAtPath: (NSString *) fileName
 {
-    bool8 success = S9xFreezeGame([fileName UTF8String]);
-    
-    if(success)
-        return YES;
-    return NO;
+    return S9xFreezeGame([fileName UTF8String]) ? YES : NO;
 }
 
 - (BOOL)loadStateFromFileAtPath: (NSString *) fileName
 {
-    bool8 success = S9xUnfreezeGame([fileName UTF8String]);
-    
-    if(success)
-        return YES;
-    return NO;
+    return S9xUnfreezeGame([fileName UTF8String]) ? YES : NO;
 }
 
 @end
