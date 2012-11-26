@@ -130,7 +130,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     BOOL fullScreen  = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
     
     _shouldExitFullScreenWhenGameFinishes = NO;
-    
+
     if(forcePopout)
     {
         [[aDocument gameViewController] playGame:self];
@@ -138,10 +138,11 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     }
     else
     {
+        _shouldExitFullScreenWhenGameFinishes = ![[self window] OE_isFullScreen];
+
         if(fullScreen && ![[self window] OE_isFullScreen])
         {
             _documentForFullScreenWindow = aDocument;
-            _shouldExitFullScreenWhenGameFinishes = YES;
             [self OE_replaceCurrentContentController:[self currentContentController] withViewController:nil];
             [[self window] toggleFullScreen:self];
         }
