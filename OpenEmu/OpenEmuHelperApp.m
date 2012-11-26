@@ -38,6 +38,10 @@
 #import "OECorePlugin.h"
 #import "NSApplication+OEHIDAdditions.h"
 
+// Compression support
+#import <CommonCrypto/CommonDigest.h>
+#import <zlib.h>
+
 #ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
@@ -607,6 +611,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         
         DLog(@"Loaded bundle. About to load rom...");
         
+        aPath = [self decompressedPathForRomAtPath:aPath];
+        
         if([gameCore loadFileAtPath:aPath])
         {
             DLog(@"Loaded new Rom: %@", aPath);
@@ -622,6 +628,212 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     else NSLog(@"bad ROM path or filename");
     
     return NO;
+}
+
+// output must be at least 2*len+1 bytes
+static void tohex(const unsigned char *input, size_t len, char *output) {
+    static char table[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    for (int i = 0; i < len; ++i) {
+        output[2*i] = table[input[i]>>4];
+        output[2*i+1] = table[input[i]&0xF];
+    }
+    output[2*len+1] = '\0';
+}
+
+- (NSString *)decompressedPathForRomAtPath:(NSString *)aPath {
+    // we check for known compression types for the ROM at the path
+    // If we detect one, we decompress it and store it in /tmp at a known location
+    NSFileManager *fm = [NSFileManager new];
+    NSError *error;
+    
+    // First, check that known location in case we've already dealt with this one
+    unsigned char hash[CC_SHA1_DIGEST_LENGTH];
+    CC_SHA1([aPath UTF8String], strlen([aPath UTF8String]), hash);
+    
+    char hexhash[2*CC_SHA1_DIGEST_LENGTH+1];
+    tohex(hash, CC_SHA1_DIGEST_LENGTH, hexhash);
+    // get the bundle identifier of ourself, or our parent app if we have none
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *folder = [bundle bundleIdentifier];
+    if (!folder) {
+        NSString *path = [bundle bundlePath];
+        path = [[path stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+        bundle = [NSBundle bundleWithPath:path];
+        folder = [bundle bundleIdentifier];
+        if (!folder) {
+            DLog(@"Couldn't get bundle identifier of OpenEmu");
+            folder = @"OpenEmu";
+        }
+    }
+    folder = [NSTemporaryDirectory() stringByAppendingPathComponent:folder];
+    if (![fm createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:&error]) {
+        DLog(@"Couldn't create temp directory %@, %@", folder, error);
+        return aPath;
+    }
+    
+    NSString *tmpPath = [folder stringByAppendingPathComponent:[NSString stringWithUTF8String:hexhash]];
+    if ([[aPath pathExtension] length] > 0) {
+        tmpPath = [tmpPath stringByAppendingPathExtension:[aPath pathExtension]];
+    }
+    BOOL isdir;
+    if ([fm fileExistsAtPath:tmpPath isDirectory:&isdir] && !isdir) {
+        DLog(@"Found existing decompressed ROM for path %@", aPath);
+        return tmpPath;
+    }
+    
+    char *reason;
+    
+    // open the ROM file for reading
+    FILE *romf;
+    {
+        int romfd = open([aPath fileSystemRepresentation], O_RDONLY|O_CLOEXEC);
+        if (romfd == -1) {
+            reason = strerror(errno);
+            DLog(@"[%s] Couldn't open rom for reading at path %@", reason, aPath);
+            return aPath;
+        }
+        romf = fdopen(romfd, "r");
+        if (romf == NULL) {
+            reason = strerror(errno);
+            DLog(@"[%s] Couldn't create FILE from fd for rom at path %@", reason, aPath);
+            close(romfd);
+            return aPath;
+        }
+    }
+    
+    FILE *tmpf;
+    char pathbuf[MAXPATHLEN];
+    {
+        char *template = strdup([[tmpPath stringByAppendingString:@".XXXXXX"] fileSystemRepresentation]);
+        int tmpfd = mkstemp(template);
+        reason = strerror(errno);
+        free(template);
+        if (tmpfd == -1) {
+            DLog(@"[%s] Couldn't create temp file for path %@", reason, tmpPath);
+            fclose(romf);
+            return aPath;
+        }
+        if (fcntl(tmpfd, F_GETPATH, pathbuf) == -1) {
+            reason = strerror(errno);
+            DLog(@"[%s] Couldn't get path for temp file from path %@", reason, tmpPath);
+            fclose(romf);
+            close(tmpfd);
+            return aPath;
+        }
+        tmpf = fdopen(tmpfd, "w");
+        if (tmpf == NULL) {
+            reason = strerror(errno);
+            DLog(@"[%s] Couldn't create FILE from fd for temp file for path %@", reason, tmpPath);
+            fclose(romf);
+            close(tmpfd);
+            return aPath;
+        }
+    }
+    
+    DLog(@"Checking for ROM compressions");
+    
+    // check for known compressions
+    static const unsigned int CHUNK = 128*1024; // 128kB
+    unsigned char *inbuf = malloc(CHUNK);
+    unsigned char *outbuf = malloc(CHUNK);
+    
+    // zlib
+    {
+        rewind(romf);
+        rewind(tmpf);
+        if (ftruncate(fileno(tmpf), 0) != 0) {
+            reason = strerror(errno);
+            DLog(@"[%s] Couldn't truncate temp file for path %@", reason, tmpPath);
+            goto failure;
+        }
+        z_stream strm;
+        strm.zalloc = Z_NULL;
+        strm.zfree = Z_NULL;
+        strm.opaque = Z_NULL;
+        strm.avail_in = 0;
+        strm.next_in = Z_NULL;
+        
+        int ret = inflateInit2(&strm, 32+15);
+        if (ret != Z_OK) {
+            DLog(@"ROM is not gzipped");
+            goto afterzlib;
+        }
+        
+        // decompress until deflate stream ends or eof
+        do {
+            strm.avail_in = fread(inbuf, 1, CHUNK, romf);
+            if (ferror(romf)) {
+                DLog(@"Error reading ROM file at path %@", aPath);
+                (void)inflateEnd(&strm);
+                goto failure;
+            }
+            if (strm.avail_in == 0) {
+                break;
+            }
+            strm.next_in = inbuf;
+            
+            // inflate() the input until we can't
+            do {
+                strm.avail_out = CHUNK;
+                strm.next_out = outbuf;
+                ret = inflate(&strm, Z_NO_FLUSH);
+                assert(ret != Z_STREAM_ERROR); // Z_STREAM_ERROR indicates programmer error
+                switch (ret) {
+                    case Z_NEED_DICT:
+                        // we don't have dicts
+                        // treat as a data error
+                    case Z_DATA_ERROR:
+                        DLog(@"Data error inflating ROM file at path %@", aPath);
+                        goto endzlib;
+                    case Z_MEM_ERROR:
+                        DLog(@"Memory error inflating ROM file at path %@", aPath);
+                        goto endzlib;
+                        
+                }
+                unsigned int have = CHUNK - strm.avail_out;
+                if (fwrite(outbuf, 1, have, tmpf) != have || ferror(tmpf)) {
+                    DLog(@"Error writing to temp file for path %@", tmpPath);
+                    (void)inflateEnd(&strm);
+                    goto failure;
+                }
+            } while (strm.avail_out == 0);
+        } while (ret != Z_STREAM_END);
+        if (ret == Z_STREAM_END) {
+            // we successfully inflated
+            DLog(@"Successfully decompressed gzipped ROM at path %@", aPath);
+            (void)inflateEnd(&strm);
+            goto success;
+        }
+    endzlib:
+        (void)inflateEnd(&strm);
+    }
+afterzlib:
+    
+    // we're done looking for compressions, we found nothing
+    
+failure:
+    // ensure the temporary files are gone
+    fclose(romf);
+    fclose(tmpf);
+    unlink(pathbuf);
+    [fm removeItemAtPath:tmpPath error:NULL];
+    free(inbuf);
+    free(outbuf);
+    return aPath;
+    
+success:
+    free(inbuf);
+    free(outbuf);
+    fclose(romf);
+    fclose(tmpf);
+    
+    if (rename(pathbuf, [tmpPath fileSystemRepresentation]) == -1) {
+        reason = strerror(errno);
+        DLog(@"[%s] Error renaming temp file for path %@", reason, tmpPath);
+        unlink(pathbuf);
+        return aPath;
+    }
+    return tmpPath;
 }
 
 - (void)OE_gameCoreThread:(id)anObject;
