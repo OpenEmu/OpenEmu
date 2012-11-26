@@ -175,7 +175,7 @@
 												<object class="NSSortDescriptor" key="NSSortDescriptorPrototype">
 													<string key="NSKey">listViewTitle</string>
 													<bool key="NSAscending">YES</bool>
-													<string key="NSSelector">compare:</string>
+													<string key="NSSelector">localizedCaseInsensitiveCompare:</string>
 												</object>
 											</object>
 											<object class="NSTableColumn" id="590944517">
@@ -248,7 +248,7 @@
 												<object class="NSSortDescriptor" key="NSSortDescriptorPrototype">
 													<string key="NSKey">lastPlayed</string>
 													<bool key="NSAscending">YES</bool>
-													<string key="NSSelector">compare:</string>
+													<string key="NSSelector">OE_compareDMYTranslatingNilToDistantPast:</string>
 												</object>
 											</object>
 											<object class="NSTableColumn" id="479031962">
