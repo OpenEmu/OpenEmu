@@ -27,6 +27,7 @@
 
 #import "OEDistantViewController.h"
 #import "OEDistantView.h"
+#import "OEDistantWindow.h"
 
 #import "NSViewController+OEAdditions.h"
 @interface OEDistantViewController ()
@@ -47,9 +48,9 @@
         [view setController:self];
         [self setView:view];
         
-        NSWindow *window = [[NSWindow alloc] initWithContentRect:(NSRect){{0,0}, {0,0}}
-                                                       styleMask:NSBorderlessWindowMask
-                                                         backing:NSWindowBackingLocationDefault defer:NO];
+        NSWindow *window = [[OEDistantWindow alloc] initWithContentRect:(NSRect){{0,0}, {0,0}}
+                                                              styleMask:NSBorderlessWindowMask
+                                                                backing:NSWindowBackingLocationDefault defer:NO];
         [window setAlphaValue:0.0];
         
         [self setDistantWindow:window];

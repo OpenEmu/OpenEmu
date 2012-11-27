@@ -74,6 +74,7 @@
 		141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 141554201442B7B100A01683 /* OEN64SystemResponder.m */; };
 		141554291442C12200A01683 /* controller_n64.png in Resources */ = {isa = PBXBuildFile; fileRef = 141554281442C12200A01683 /* controller_n64.png */; };
 		1415542D1442C84B00A01683 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		14335518166452680033D402 /* OEDistantWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 14335517166452680033D402 /* OEDistantWindow.m */; };
 		143F299A164DE0CC00544CCF /* MagicKit.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 143F2995164DE0B300544CCF /* MagicKit.framework */; };
 		143F299D164DE18100544CCF /* MagicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143F2995164DE0B300544CCF /* MagicKit.framework */; };
 		14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */; };
@@ -978,6 +979,8 @@
 		141554221442B85000A01683 /* OEN64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponderClient.h; sourceTree = "<group>"; };
 		141554281442C12200A01683 /* controller_n64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_n64.png; sourceTree = "<group>"; };
 		142689BD16585F0E00AD0B63 /* OEDatabase 0.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.4.xcdatamodel"; sourceTree = "<group>"; };
+		14335516166452680033D402 /* OEDistantWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDistantWindow.h; sourceTree = "<group>"; };
+		14335517166452680033D402 /* OEDistantWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDistantWindow.m; sourceTree = "<group>"; };
 		143F298A164DE0B300544CCF /* MagicKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MagicKit.xcodeproj; path = ../MagicKit/MagicKit.xcodeproj; sourceTree = "<group>"; };
 		1486195E166076A400BDB800 /* NSDate+OESortAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OESortAdditions.h"; sourceTree = "<group>"; };
 		1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OESortAdditions.m"; sourceTree = "<group>"; };
@@ -2579,6 +2582,8 @@
 				83DDEE89156CFFE1009EB43D /* OEDistantViewController.m */,
 				83DDEE8B156CFFF2009EB43D /* OEDistantView.h */,
 				83DDEE8C156CFFF2009EB43D /* OEDistantView.m */,
+				14335516166452680033D402 /* OEDistantWindow.h */,
+				14335517166452680033D402 /* OEDistantWindow.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -4817,6 +4822,7 @@
 				83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */,
 				83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */,
 				14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */,
+				14335518166452680033D402 /* OEDistantWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
