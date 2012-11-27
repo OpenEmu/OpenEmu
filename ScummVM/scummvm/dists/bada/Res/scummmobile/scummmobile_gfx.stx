@@ -1,0 +1,671 @@
+<?xml version = "1.0"?>
+<!-- ScummVM - Graphic Adventure Engine
+ -
+ - ScummVM is the legal property of its developers, whose names
+ - are too numerous to list here. Please refer to the COPYRIGHT
+ - file distributed with this source distribution.
+ -
+ - This program is free software; you can redistribute it and/or
+ - modify it under the terms of the GNU General Public License
+ - as published by the Free Software Foundation; either version 2
+ - of the License, or (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program; if not, write to the Free Software
+ - Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ -
+ -->
+<render_info>
+	<palette>
+		<!-- Main background colors -->
+		<color name = 'darkorange'
+				rgb = '210, 114, 10'
+		/>
+		<color name = 'brightorange'
+				rgb = '239, 196, 24'
+		/>
+
+		<!-- Idle button/slider -->
+		<color name = 'darkred'
+				rgb = '169, 42, 12'
+		/>
+		<color name = 'brightred'
+				rgb = '203, 126, 107'
+		/>
+
+		<!-- Disabled button/slider -->
+		<color name = 'darkeneddarkred'
+				rgb = '120, 28, 0'
+		/>
+		<color name = 'darkenedbrightred'
+				rgb = '144, 84, 72'
+		/>
+
+		<!-- Highlighted button/slider -->
+		<color name = 'brightpink'
+				rgb = '255, 210, 200'
+		/>
+		<color name = 'darkpink'
+				rgb = '200, 70, 50'
+		/>
+
+		<!-- Dialog background -->
+		<color name = 'xtrabrightred'
+				rgb = '251, 241, 206'
+		/>
+		<color name = 'blandyellow'
+				rgb = '248, 228, 152'
+		/>
+
+		<!-- Others -->
+		<color name = 'bgreen'
+				rgb = '100, 162, 8'
+		/>
+		<color name = 'black'
+				rgb = '0, 0, 0'
+		/>
+		<color name = 'white'
+				rgb = '255, 255, 255'
+		/>
+		<color name = 'shadowcolor'
+				rgb = '63, 60, 17'
+		/>
+		<color name = 'darkgray'
+				rgb = '176, 168, 144'
+		/>
+		<color name = 'lightgray'
+				rgb = '210, 200, 170'
+		/>
+		<color name = 'lightgray2'
+				rgb = '231, 223, 189'
+		/>
+		<color name = 'paleyellow'
+				rgb = '247, 228, 166'
+		/>
+	</palette>
+
+	<bitmaps>
+		<bitmap filename = 'logo.bmp'/>
+		<bitmap filename = 'cursor.bmp'/>
+		<bitmap filename = 'cursor_small.bmp'/>
+		<bitmap filename = 'checkbox.bmp'/>
+		<bitmap filename = 'checkbox_empty.bmp'/>
+		<bitmap filename = 'radiobutton.bmp'/>
+		<bitmap filename = 'radiobutton_empty.bmp'/>
+		<bitmap filename = 'logo_small.bmp'/>
+		<bitmap filename = 'search.bmp'/>
+	</bitmaps>
+
+	<fonts>
+		<font	id = 'text_default'
+				file = 'helvB14.bdf'
+		/>
+		<font	id = 'text_button'
+				file = 'helvB14.bdf'
+		/>
+		<font	id = 'text_normal'
+				file = 'helvB12.bdf'
+		/>
+		<font	id = 'tooltip_normal'
+				file = 'fixed5x8.bdf'
+		/>
+
+		<text_color	id = 'color_normal'
+				color = 'black'
+		/>
+
+		<text_color	id = 'color_normal_inverted'
+				color = 'black'
+		/>
+
+		<text_color	id = 'color_normal_hover'
+				color = 'bgreen'
+		/>
+
+		<text_color	id = 'color_normal_disabled'
+				color = '192, 192, 192'
+		/>
+
+		<text_color	id = 'color_alternative'
+				color = '128, 128, 128'
+		/>
+
+		<text_color	id = 'color_alternative_inverted'
+				color = 'white'
+		/>
+
+		<text_color	id = 'color_alternative_hover'
+				color = 'darkgray'
+		/>
+
+		<text_color	id = 'color_alternative_disabled'
+				color = '192, 192, 192'
+		/>
+
+		<text_color	id = 'color_button'
+				color = 'white'
+		/>
+
+		<text_color	id = 'color_button_hover'
+				color = '255, 214, 84'
+		/>
+
+		<text_color	id = 'color_button_disabled'
+				color = '192, 192, 192'
+		/>
+	</fonts>
+
+	<!-- <defaults fill = 'gradient' fg_color = 'white'/> -->
+
+	<cursor file = 'cursor.bmp' hotspot = '0, 0' scale = '3'/>
+	<cursor resolution = 'y<400' file = 'cursor_small.bmp' hotspot = '0, 0' scale = '3'/>
+
+	<!-- Selection (text or list items) -->
+	<drawdata id = 'text_selection' cache = 'false'>
+		<drawstep	func = 'square'
+					fill = 'foreground'
+					fg_color = 'darkgray'
+		/>
+	</drawdata>
+
+	<drawdata id = 'text_selection_focus' cache = 'false'>
+		<drawstep	func = 'square'
+					fill = 'foreground'
+					fg_color = 'bgreen'
+		/>
+	</drawdata>
+
+	<!-- Main background -->
+	<drawdata id = 'mainmenu_bg' cache = 'false'>
+		<drawstep	func = 'fill'
+					fill = 'gradient'
+					gradient_start = 'darkorange'
+					gradient_end = 'brightorange'
+		/>
+	</drawdata>
+
+	<!-- Load screen -->
+	<drawdata id = 'special_bg' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					radius = '5'
+					fill = 'gradient'
+					stroke = '0'
+					gradient_start = 'darkorange'
+					gradient_end = 'brightorange'
+					shadow = '3'
+					gradient_factor = '3'
+		/>
+	</drawdata>
+
+	<!-- Separator in popup lists -->
+	<drawdata id = 'separator' cache = 'false'>
+		<drawstep	func = 'square'
+					fill = 'foreground'
+					height = '1'
+					ypos = 'center'
+					fg_color = 'black'
+		/>
+	</drawdata>
+
+	<!-- Background of the scrollbar -->
+	<drawdata id = 'scrollbar_base' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					stroke = '1'
+					radius = '10'
+					fill = 'background'
+					fg_color = 'darkgray'
+					bg_color = 'paleyellow'
+		/>
+	</drawdata>
+
+	<!-- Handle of the scrollbar -->
+	<drawdata id = 'scrollbar_handle_hover' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					stroke = '1'
+					radius = '10'
+					fill = 'gradient'
+					fg_color = 'blandyellow'
+					gradient_start = 'brightpink'
+					gradient_end = 'darkpink'
+		/>
+	</drawdata>
+
+	<drawdata id = 'scrollbar_handle_idle' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					stroke = '1'
+					radius = '10'
+					fill = 'gradient'
+					fg_color = 'blandyellow'
+					gradient_start = 'brightred'
+					gradient_end = 'darkred'
+		/>
+	</drawdata>
+
+	<!-- Buttons at the top and bottom of the scrollbar -->
+	<drawdata id = 'scrollbar_button_idle' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					radius = '10'
+					fill = 'none'
+					fg_color = 'darkgray'
+					stroke = '1'
+		/>
+		<drawstep	func = 'triangle'
+					fg_color = 'shadowcolor'
+					fill = 'foreground'
+					width = 'auto'
+					height = 'auto'
+					xpos = 'center'
+					ypos = 'center'
+					orientation = 'top'
+		/>
+	</drawdata>
+
+	<drawdata id = 'scrollbar_button_hover' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					radius = '10'
+					fill = 'gradient'
+					gradient_start = 'brightpink'
+					gradient_end = 'darkpink'
+					stroke = '1'
+					fg_color = 'darkred'
+					bevel = '1'
+					bevel_color = 'brightred'
+		/>
+		<drawstep	func = 'triangle'
+					fg_color = 'shadowcolor'
+					fill = 'foreground'
+					width = 'auto'
+					height = 'auto'
+					xpos = 'center'
+					ypos = 'center'
+					orientation = 'top'
+		/>
+	</drawdata>
+
+	<!-- Active tab in the tabs list -->
+	<drawdata id = 'tab_active' cache = 'false'>
+		<text	font = 'text_default'
+				text_color = 'color_normal'
+				vertical_align = 'center'
+				horizontal_align = 'center'
+		/>
+		<!-- Custom color to match the tab content's gradient: -->
+		<drawstep	func = 'tab'
+					radius = '4'
+					stroke = '0'
+					fill = 'background'
+					bg_color = '248, 232, 168'
+					shadow = '3'
+		/>
+	</drawdata>
+
+	<!-- Inactive tab in the tabs list -->
+	<drawdata id = 'tab_inactive' cache = 'false'>
+		<text	font = 'text_default'
+				text_color = 'color_normal'
+				vertical_align = 'center'
+				horizontal_align = 'center'
+		/>
+		<drawstep	func = 'tab'
+					radius = '4'
+					stroke = '0'
+					fill = 'background'
+					bg_color = '239, 202, 109'
+					shadow = '3'
+		/>
+	</drawdata>
+
+	<!-- Background of the tabs list -->
+	<drawdata id = 'tab_background' cache = 'false'>
+		<drawstep	func = 'tab'
+					radius = '6'
+					stroke = '0'
+					fill = 'foreground'
+					fg_color = '232, 180, 80'
+					shadow = '3'
+		/>
+	</drawdata>
+
+	<!-- Background of the slider widget -->
+	<drawdata id = 'widget_slider' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					stroke = '0'
+					radius = '5'
+					fill = 'foreground'
+					fg_color = 'paleyellow'
+					bevel = '1'
+					bevel_color = 'shadowcolor'
+		/>
+	</drawdata>
+
+	<!-- Full part of the slider widget -->
+	<drawdata id = 'slider_full' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					stroke = '1'
+					radius = '5'
+					fill = 'gradient'
+					fg_color = '123, 112, 56'
+					gradient_start = 'brightred'
+					gradient_end = 'darkred'
+		/>
+	</drawdata>
+
+	<!-- Hovered full part of the slider widget -->
+	<drawdata id = 'slider_hover' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					stroke = '1'
+					radius = '5'
+					fill = 'gradient'
+					fg_color = '123, 112, 56'
+					gradient_start = 'brightpink'
+					gradient_end = 'darkpink'
+		/>
+	</drawdata>
+
+	<!-- Disabled slider widget -->
+	<drawdata id = 'slider_disabled' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					stroke = '1'
+					radius = '5'
+					fill = 'gradient'
+					fg_color = '123, 112, 56'
+					gradient_start = 'darkenedbrightred'
+					gradient_end = 'darkeneddarkred'
+		/>
+	</drawdata>
+
+	<!-- Idle popup -->
+	<drawdata id = 'popup_idle' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					radius = '5'
+					stroke = '1'
+					fg_color = 'lightgray2'
+					fill = 'background'
+					bg_color = 'xtrabrightred'
+					shadow = '2'
+		/>
+		<drawstep	func = 'triangle'
+					bg_color = 'shadowcolor'
+					fill = 'background'
+					width = 'height'
+					height = 'auto'
+					xpos = 'right'
+					ypos = 'center'
+					orientation = 'bottom'
+		/>
+		<text	font = 'text_default'
+				text_color = 'color_normal'
+				vertical_align = 'center'
+				horizontal_align = 'left'
+		/>
+	</drawdata>
+
+	<!-- Disabled popup -->
+	<drawdata id = 'popup_disabled' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					radius = '5'
+					fill = 'foreground'
+					fg_color = 'darkgray'
+					shadow = '2'
+		/>
+		<drawstep	func = 'triangle'
+					fg_color = 'shadowcolor'
+					fill = 'foreground'
+					width = 'height'
+					height = 'auto'
+					xpos = 'right'
+					ypos = 'center'
+					orientation = 'bottom'
+		/>
+		<text	font = 'text_default'
+				text_color = 'color_normal_disabled'
+				vertical_align = 'center'
+				horizontal_align = 'left'
+		/>
+	</drawdata>
+
+	<!-- Hovered popup -->
+	<drawdata id = 'popup_hover' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					stroke = '1'
+					fg_color = 'lightgray'
+					radius = '5'
+					fill = 'gradient'
+					gradient_start = 'blandyellow'
+					gradient_end = 'xtrabrightred'
+					shadow = '0'
+		/>
+		<drawstep	func = 'triangle'
+					fg_color = 'shadowcolor'
+					fill = 'foreground'
+					width = 'height'
+					height = 'auto'
+					xpos = 'right'
+					ypos = 'center'
+					orientation = 'bottom'
+		/>
+		<text	font = 'text_default'
+				text_color = 'color_normal_hover'
+				vertical_align = 'center'
+				horizontal_align = 'left'
+		/>
+	</drawdata>
+
+	<!-- Background of the textedit widget -->
+	<drawdata id = 'widget_textedit' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					fill = 'foreground'
+					radius = '5'
+					fg_color = 'paleyellow'
+					shadow = '0'
+					bevel = '1'
+					bevel_color = 'shadowcolor'
+		/>
+	</drawdata>
+
+	<!-- Background of the chooser dialogs (file chooser, theme browser, ...) -->
+	<drawdata id = 'plain_bg' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					radius = '6'
+					stroke = '0'
+					gradient_start = 'blandyellow'
+					gradient_end = 'xtrabrightred'
+					fill = 'gradient'
+					shadow = '3'
+		/>
+	</drawdata>
+
+	<!-- Cursor in the text edit widget -->
+	<drawdata id = 'caret' cache = 'false'>
+		<drawstep	func = 'square'
+					fill = 'foreground'
+					fg_color = 'black'
+		/>
+	</drawdata>
+
+	<!-- Tab contents and game picker background -->
+	<drawdata id = 'default_bg' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					radius = '6'
+					stroke = '0'
+					fill = 'gradient'
+					gradient_start = 'blandyellow'
+					gradient_end = 'xtrabrightred'
+					gradient_factor = '4'
+					shadow = '3'
+		/>
+	</drawdata>
+
+	<!-- Tooltip -->
+	<drawdata id = 'tooltip_bg' cache = 'false'>
+		<drawstep	func = 'square'
+					fill = 'foreground'
+					fg_color = 'blandyellow'
+					shadow = '3'
+		/>
+	</drawdata>
+
+	<!-- Idle button -->
+	<drawdata id = 'button_idle' cache = 'false'>
+		<text	font = 'text_button'
+				text_color = 'color_button'
+				vertical_align = 'center'
+				horizontal_align = 'center'
+		/>
+		<drawstep	func = 'roundedsq'
+					radius = '5'
+					stroke = '1'
+					fill = 'gradient'
+					shadow = '0'
+					fg_color = 'shadowcolor'
+					gradient_start = 'brightred'
+					gradient_end = 'darkred'
+					bevel = '1'
+					bevel_color = '237, 169, 72'
+		/>
+	</drawdata>
+
+	<!-- Hovered button -->
+	<drawdata id = 'button_hover' cache = 'false'>
+		<text	font = 'text_button'
+				text_color = 'color_button_hover'
+				vertical_align = 'center'
+				horizontal_align = 'center'
+		/>
+		<drawstep	func = 'roundedsq'
+					radius = '5'
+					stroke = '1'
+					fill = 'gradient'
+					shadow = '0'
+					fg_color = 'shadowcolor'
+					gradient_start = 'brightpink'
+					gradient_end = 'darkpink'
+					bevel = '1'
+					bevel_color = 'xtrabrightred'
+		/>
+	</drawdata>
+
+	<!-- Disabled button -->
+	<drawdata id = 'button_disabled' cache = 'false'>
+		<text	font = 'text_button'
+				text_color = 'color_button_disabled'
+				vertical_align = 'center'
+				horizontal_align = 'center'
+		/>
+		<drawstep	func = 'roundedsq'
+					radius = '5'
+					stroke = '1'
+					fill = 'gradient'
+					shadow = '0'
+					fg_color = 'shadowcolor'
+					gradient_start = 'darkenedbrightred'
+					gradient_end = 'darkeneddarkred'
+					bevel = '1'
+					bevel_color = 'darkgray'
+		/>
+	</drawdata>
+
+	<!-- Disabled checkbox -->
+	<drawdata id = 'checkbox_disabled' cache = 'false'>
+		<text	font = 'text_default'
+				text_color = 'color_normal_disabled'
+				vertical_align = 'top'
+				horizontal_align = 'left'
+		/>
+		<drawstep	func = 'bitmap'
+					file = 'checkbox_empty.bmp'
+		/>
+	</drawdata>
+
+	<!-- Selected checkbox -->
+	<drawdata id = 'checkbox_selected' cache = 'false'>
+		<text	font = 'text_default'
+				text_color = 'color_normal'
+				vertical_align = 'top'
+				horizontal_align = 'left'
+		/>
+		<drawstep	func = 'bitmap'
+					file = 'checkbox.bmp'
+		/>
+	</drawdata>
+
+	<!-- Idle checkbox -->
+	<drawdata id = 'checkbox_default' cache = 'false'>
+		<text	font = 'text_default'
+				text_color = 'color_normal'
+				vertical_align = 'top'
+				horizontal_align = 'left'
+		/>
+		<drawstep	func = 'bitmap'
+					file = 'checkbox_empty.bmp'
+		/>
+	</drawdata>
+
+	<!-- Idle radiobutton -->
+	<drawdata id = 'radiobutton_default' cache = 'false'>
+		<text	font = 'text_default'
+				text_color = 'color_normal'
+				vertical_align = 'center'
+				horizontal_align = 'left'
+		/>
+		<drawstep	func = 'bitmap'
+					file = 'radiobutton_empty.bmp'
+		/>
+	</drawdata>
+
+	<!-- Selected radiobutton -->
+	<drawdata id = 'radiobutton_selected' cache = 'false'>
+		<text	font = 'text_default'
+				text_color = 'color_normal'
+				vertical_align = 'center'
+				horizontal_align = 'left'
+		/>
+		<drawstep	func = 'bitmap'
+					file = 'radiobutton.bmp'
+		/>
+	</drawdata>
+
+	<!-- Disabled radiobutton -->
+	<drawdata id = 'radiobutton_disabled' cache = 'false'>
+		<text	font = 'text_default'
+				text_color = 'color_normal_disabled'
+				vertical_align = 'center'
+				horizontal_align = 'left'
+		/>
+		<drawstep	func = 'bitmap'
+					file = 'radiobutton_empty.bmp'
+		/>
+	</drawdata>
+
+	<!-- Background of the list widget (the games list and the list in the choosers) -->
+	<!-- TODO: Have separate options for the games list (with gradient background) and the list in the choosers (without gradient) -->
+	<drawdata id = 'widget_default' cache = 'false'>
+		<drawstep	func = 'roundedsq'
+					radius = '6'
+					stroke = '1'
+					fg_color = 'lightgray'
+					gradient_start = 'blandyellow'
+					gradient_end = 'xtrabrightred'
+					gradient_factor = '6'
+					fill = 'gradient'
+					bg_color = 'xtrabrightred'
+					shadow = '3'
+		/>
+	</drawdata>
+
+	<drawdata id = 'widget_small' cache = 'false'>
+		<drawstep	func = 'square'
+					stroke = '0'
+					gradient_start = 'blandyellow'
+					gradient_end = 'xtrabrightred'
+					gradient_factor = '6'
+					fill = 'gradient'
+					shadow = '3'
+		/>
+	</drawdata>
+</render_info>

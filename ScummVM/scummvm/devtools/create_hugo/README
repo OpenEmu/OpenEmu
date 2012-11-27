@@ -1,0 +1,6 @@
+This tool creates hugo.dat. 
+This file contains all the hardcoded strings, logic, fonts, and bitmaps and 
+is used by the engine depending on the version of the game started.
+
+In order to work properly, the content of the DATA sub-directory has to be
+copy next to the executable.

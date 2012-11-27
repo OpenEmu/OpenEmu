@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">ScummVM</string>
+  <string name="app_desc">Graphic adventure game engine</string>
+  <string name="quit">Quit</string>
+  <string name="scummvm_perm_plugin_label">ScummVM plugin</string>
+  <string name="scummvm_perm_plugin_desc">Allows the application to
+  provide a ScummVM loadable plugin: code that will be executed in the
+  ScummVM application.  Malicious plugins may do anything ScummVM
+  itself could do: write to your SD card, delete your savegames,
+  change the ScummVM background to puce, replace menu labels with rude
+  words, etc.</string>
+  <string name="no_sdcard_title">No SD card?</string>
+  <string name="no_sdcard">Unable to read your SD card.  This usually
+  means you still have it mounted on your PC.  Unmount, reinsert,
+  whatever and then try again.</string>
+  <string name="no_plugins_title">No plugins found</string>
+  <string name="no_plugins_found">ScummVM requires at least one <i>game
+  engine</i> to be useful.  Engines are available as separate plugin
+  packages, from wherever you found ScummVM.</string>
+  <string name="to_market">To Market</string>
+</resources>

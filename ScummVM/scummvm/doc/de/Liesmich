@@ -1,0 +1,2436 @@
+ScummVM - Liesmich-Datei
+------------------------------------------------------------------------
+
+Für weitere Informationen, Kompatibilitätslisten, Einzelheiten zu Spenden, die
+neusten veröffentlichten Versionen, Fortschrittsberichte und mehr besuchen Sie
+bitte die ScummVM-Website unter der Adresse: http://www.scummvm.org/
+
+
+Inhaltsverzeichnis:
+-------------------
+1.0) Einführung
+ * 1.1 Über ScummVM
+ * 1.2 Schnellstart
+2.0) Kontakt
+ * 2.1 Fehler berichten
+3.0) Unterstützte Spiele
+ * 3.1 Kopierschutz
+ * 3.2 Hinweise zu Commodore64-Spielen
+ * 3.3 Hinweise zu Maniac Mansion NES
+ * 3.4 Hinweise zu Macintosh-Spielen
+ * 3.5 Hinweise zu Spielen auf mehren CDs
+ * 3.6 Hinweise zu The Curse of Monkey Island
+ * 3.7 Hinweise zu Baphomets Fluch I und II
+ * 3.8 Hinweise zu Beneath a Steel Sky
+ * 3.9 Hinweise zu Flight of the Amazon Queen
+ * 3.10 Hinweise zu Gobliiins
+ * 3.11 Hinweise zu Inherit the Earth: Quest for the Orb (Macintosh)
+ * 3.12 Hinweise zu Simon the Sorcerer 1 und 2
+ * 3.13 Hinweise zu Floyd - Es gibt noch Helden
+ * 3.14 Hinweise zu The Legend of Kyrandia
+ * 3.15 Hinweise zum vorhersagenden Eingabedialog bei Sierras AGI-Spielen
+ * 3.16 Hinweise zu Mickey's Space Adventure
+ * 3.17 Hinweise zu Winnie the Pooh
+ * 3.18 Hinweise zu Troll's Tale
+ * 3.19 Hinweise zu Drači Historie
+ * 3.20 Bekannte Probleme
+4.0) Unterstützte Plattformen
+5.0) ScummVM verwenden
+ * 5.1 Kommandozeilenoptionen
+ * 5.2 Sprachoptionen
+ * 5.3 Grafikfilter
+ * 5.4 Globales Menü
+ * 5.5 Tastenkürzel
+6.0) Spielstände
+ * 6.1 Automatische Spielstände
+ * 6.2 Spielstände umwandeln
+ * 6.3 Spielstände von Kommandozeile aus anzeigen/laden
+7.0) Musik und Sound
+ * 7.1 AdLib-Emulation
+ * 7.2 FluidSynth-MIDI-Emulation
+ * 7.3 MT-32-Emulation
+ * 7.4 MIDI-Emulation
+ * 7.5 Native MIDI-Unterstützung
+ * 7.6 UNIX-eigene, ALSA- und IRIX' Sequenzer-Unterstützung
+ * 7.7 TiMidity++-MIDI-Server-Unterstützung
+ * 7.8 Komprimierte Audio-Dateien verwenden (MP3, Ogg Vorbis, FLAC)
+ * 7.9 Ausgabefrequenzen
+8.0) Konfigurationsdatei
+ * 8.1 Verwendbare Konfigurationsschlüsselwörter
+ * 8.2 Spielspezifische Optionen bei der grafischen Benutzeroberfläche
+9.0) Kompilierung
+
+
+1.0) Einführung:
+---- -----------
+
+1.1) Über ScummVM:
+---- -------------
+ScummVM ist ein Programm, welches es Ihnen ermöglicht, bestimmte klassische
+Grafik-Adventure (unter anderem aus dem Point-and-Click-Bereich) zu spielen,
+vorausgesetzt, Sie sind im Besitz der Dateien des Spiels. Der Trick dabei ist:
+ScummVM ersetzt lediglich die Funktion der ausführbaren Dateien, die mit den
+Spielen kamen, was ermöglicht, diese Spiele auf Systemen zu spielen, für welche
+sie nie erstellt wurden!
+
+Ursprünglich wurde dieses Programm dafür entwickelt, um SCUMM-Spiele von
+LucasArts auszuführen, wie beispielsweise Maniac Mansion, Monkey Island, Day of
+the Tentacle oder Sam & Max. SCUMM steht als Abkürzung für „Script Creation
+Utility for Maniac Mansion“ (deutsch etwa: Skripterstellungsdienstprogramm für
+Maniac Mansion), was das erste Spiel von LucasArts war, für welches LucasArts
+dieses System entworfen hatte. Und viel später verlieh es seinen Namen an
+ScummVM (wobei „VM“ für „Virtuelle Maschine“ steht).
+
+Mit der Zeit wurde Unterstützung für viele Nicht-SCUMM-Spiele hinzugefügt und
+ScummVM unterstützt nun auch viele AGI- und SCI-Spiele von Sierra (wie
+beispielsweise King's Quest 1-6, Space Quest 1-5, ...), Discworld 1 und 2, Simon
+the Sorcerer 1 und 2, Beneath A Steel Sky, Lure of the Temptress, Baphomets
+Fluch I und II, Flight of the Amazon Queen, Gobliiins 1-3, die Adventure-Reihe
+The Legend of Kyrandia, viele der SCUMM-Spiele für Kinder von Humongous
+Entertainment (einschließlich der Spiele von Fritzi Fisch und Töff-Töff) und
+viele mehr. Sie können eine vollständige Liste mit Einzelheiten einsehen, welche
+Auskunft darüber gibt, welche Spiele unterstützt werden und wie gut. Gehen Sie
+hierfür auf die Kompatibilitätsseite. ScummVM wird fortlaufend verbessert, also
+schauen Sie öfter einmal vorbei.
+
+Unter den Systemen, mit denen Sie diese Spiele spielen können, befinden sich
+normale Schreibtisch-Computer (mit den Betriebssystemen Windows, Linux,
+Mac OS X, ...), Spielekonsolen (Dreamcast, Nintendo DS & Wii, PS2, PSP, ...),
+Smartphones (Android, iPhone, PocketPC, Symbian ...) und einige weitere.
+
+Zurzeit befindet sich ScummVM immer noch stark in der Entwicklung. Seien Sie
+sich bewusst, dass wir zwar versuchen, dass viele Spiele mit wenigen erheblichen
+Fehlern durchgespielt werden können, aber es dennoch zu Abstürzen kommen kann
+und wir keine Gewähr übernehmen. Davon abgesehen: Einige Spiele werden seit
+längerer Zeit unterstützt und sollten in jeder neusten stabilen veröffentlichten
+Version ohne größere Probleme laufen. Sie können sich einen Eindruck davon
+verschaffen, wie gut jedes Spiel unter ScummVM läuft, indem Sie auf die
+Kompatibilitätsseite schauen. Wenn Sie sich ein wenig im Internet umsehen,
+können Sie feststellen, dass ScummVM sogar kommerziell genutzt wird, um einige
+der unterstützen Spiele für moderne Plattformen wiederzuveröffentlichen. Dies
+zeigt, dass mehrere Firmen mit der Qualität der Software zufrieden sind und wie
+gut einige der Spiele mit Hilfe des Programms laufen.
+
+Wenn Ihnen ScummVM gefällt, können Sie uns gerne Geld spenden, indem Sie auf die
+PayPal-Schaltfläche auf der ScummVM-Website klicken. Dies hilft uns dabei,
+notwendige Dienstprogramme zu kaufen, um ScummVM einfacher und schneller zu
+entwickeln. Wenn Sie nicht spenden können, dürfen Sie auch gerne einen Patch
+beisteuern.
+
+1.2) Schnellstart:
+---- -------------
+WICHTIG: In dieser kurzen Anleitung wird davon ausgegangen, dass Sie ScummVM auf
+Deutsch benutzen. Standardmäßig wird ScummVM die Sprache Ihres Betriebssystems
+verwenden. Wenn Sie ScummVM lieber auf Englisch verwenden möchten, benutzen Sie
+bitte die Anleitung in der englischen README-Datei.
+
+Für die ungeduldigen unter den Anwendern ist hier in fünf einfachen Schritten
+kurz beschrieben, wie man ScummVM lauffähig macht und das Programm verwendet.
+
+1. Laden Sie ScummVM unter der Adresse http://www.scummvm.org/downloads.php
+herunter und installieren Sie es.
+
+2. Erstellen Sie ein Verzeichnis auf Ihrer Festplatte und kopieren Sie die
+Dateien des Spiels vom Original-Datenträger in dieses Verzeichnis. Wiederholen
+Sie diesen Vorgang für jedes Spiel, das Sie spielen möchten (es ist besser, für
+jedes Spiel ein eigenes Verzeichnis zu verwenden).
+
+3. Starten Sie ScummVM.
+
+Sollte an diesem Punkt ScummVM auf Englisch statt auf Deutsch erscheinen, gehen
+Sie wie folgt vor, um die Spracheinstellung zu ändern:
+-Klicken Sie auf „Options“.
+-Klicken Sie auf den rechten Pfeil in der Reiterleiste und wählen den Reiter
+ „Misc“ aus.
+-Wählen Sie im Feld „GUI Language“ „Deutsch“ aus und klicken auf „OK“.
+-Bestätigen Sie die erscheinende Nachricht, klicken auf „Quit“, um ScummVM zu
+ beenden, und starten dann das Programm erneut.
+
+Nun klicken Sie auf „Spiel hinzufügen“, wählen das Verzeichnis mit den Dateien
+des Spiels aus (versuchen Sie nicht, die Dateien des Spiels selbst auszuwählen!)
+und klicken Sie auf „Auswählen“.
+
+4. Ein Dialog sollte erscheinen, der Ihnen ermöglicht, verschiedene
+Einstellungen vorzunehmen, sollten Sie dies wünschen (es sollte jedoch in
+Ordnung sein, alles voreingestellt zu belassen). Bestätigen Sie diesen Dialog.
+
+5. Wählen Sie das Spiel aus der Liste aus, welches Sie spielen möchten, und
+klicken Sie auf „Starten“.
+
+ScummVM behält die Spiele in der Liste, die Sie hinzufügen. Wenn Sie also
+ScummVM schließen, werden beim nächsten Start alle Spiele, die Sie zuvor
+hinzugefügt haben, in der Liste angezeigt. Sie können somit direkt zu Schritt 5
+übergehen, außer Sie wollen noch mehr Spiele hinzufügen.
+
+Tipp: Wenn Sie mehrere Spiele auf einmal hinzufügen möchten, drücken Sie die
+Umschalt-Taste (Shift), bevor Sie auf „Spiel hinzufügen“ klicken. Diese
+Schaltfläche wird somit ihren Text zu „Durchsuchen“ umändern und wenn Sie dann
+auf diese klicken, werden Sie auch dazu aufgefordert, ein Verzeichnis
+auszuwählen, nur dieses Mal wird ScummVM alle Unterverzeichnisse automatisch
+nach unterstützen Spielen durchsuchen.
+
+
+2.0) Kontakt:
+---- --------
+Der einfachste Weg, um mit dem ScummVM-Team in Verbindung zu treten, ist,
+Fehlerberichte einzusenden (siehe Abschnitt 2.1) oder durch Verwendung des
+Forums unter der Adresse http://forums.scummvm.org .
+Sie können ebenso der Mailing-Liste scummvm-devel beitreten und an diese E-Mails
+versenden oder mit uns im IRC chatten (#scummvm unter irc.freenode.net). Bitte
+fordern Sie uns nicht dazu auf, ein nicht unterstütztes Spiel zu unterstützen.
+Lesen Sie zuerst die Seite FAQ (Häufig gestellte Fragen) auf unserer Website.
+Bitte beachten Sie, dass die offizielle Sprache des Forums, der Mailing-Liste
+und des Chats Englisch ist und keine andere Sprache dort verwendet werden
+sollte.
+
+
+2.1) Fehler berichten:
+---- -----------------
+Um einen Fehler zu berichten, erstellen Sie bitte ein SourceForge-Konto und
+folgen Sie dem Link „Bug Tracker“ auf der ScummVM-Website. Bitte stellen Sie
+sicher, dass sich der Bug wiedererzeugen lässt und immer noch in der neusten
+Version von Git oder des Daily Builds auftritt. Bitte sehen Sie auch auf der
+Kompatibilitätsliste der ScummVM-Website für dieses Spiel nach, um
+sicherzustellen, dass das Problem nicht bereits bekannt ist:
+
+  http://www.scummvm.org/compatibility_stable.php
+
+Bitte berichten Sie keine Fehler zu Spielen, die nicht als durchspielbar im
+Bereich „Supported Games“ oder der Kompatibilitätsliste aufgelistet sind.
+Wir -wissen-, dass diese Spiele Fehler aufweisen.
+
+Bitte liefern Sie folgende Informationen:
+    - ScummVM-Version (BITTE mit neuster Version von Git oder des Daily Builds
+      testen)
+    - Einzelheiten zum Fehler, einschließlich Anweisungen, um den Fehler
+      hervorzurufen
+    - Sprache des Spiels (Deutsch, Englisch ...)
+    - Version des Spiels (Version mit Sprachausgabe [Talkie],
+      Diskettenversion, ...)
+    - Plattform und gegebenenfalls Compiler (Win32, Linux, FreeBSD, ...)
+    - Fügen Sie - wenn möglich - einen Speicherstand hinzu.
+    - Wenn dieser Fehler erst seit kurzem Auftritt, teilen Sie bitte die letzte
+      Version ohne den Fehler mit und die erste Version mit diesem Fehler.
+      Auf diese Weise können wir diesen schneller beseitigen, indem wir die
+      vorgenommen Veränderungen einsehen.
+
+Zum Schluss möchten wir Sie noch bitten, jeden Punkt einzeln zu berichten. Bitte
+senden Sie nicht mehrere Punkte mit demselben Ticket ein, ansonsten wird es
+schwierig, den Status jedes einzelnen Fehlers zu verfolgen. Denken Sie bitte
+auch daran, dass alle Fehlerberichte in Englisch verfasst sein müssen.
+
+
+3.0) Unterstützte Spiele:
+---- --------------------
+Im Moment gelten folgende Spiele als funktionsfähig gemeldet und sollten bis zum
+Ende spielbar sein:
+
+SCUMM-Spiele von LucasArts:
+     Maniac Mansion                              [maniac]
+     Zak McKracken and the Alien Mindbenders     [zak]
+     Indiana Jones and the Last Crusade          [indy3]
+     Loom                                        [loom]
+     The Secret of Monkey Island                 [monkey]
+     Monkey Island 2: LeChuck's Revenge          [monkey2]
+     Indiana Jones and the Fate of Atlantis      [atlantis]
+     Day of the Tentacle                         [tentacle]
+     Sam & Max Hit the Road                      [samnmax]
+     Vollgas                                     [ft]
+     The Dig                                     [dig]
+     The Curse of Monkey Island                  [comi]
+
+AGI-Spiele von Sierra:
+     The Black Cauldron                          [bc]
+     Gold Rush!                                  [goldrush]
+     King's Quest I                              [kq1]
+     King's Quest II                             [kq2]
+     King's Quest III                            [kq3]
+     King's Quest IV                             [kq4]
+     Leisure Suit Larry in the Land of the
+     Lounge Lizards                              [lsl1]
+     Mixed-Up Mother Goose                       [mixedup]
+     Manhunter 1: New York                       [mh1]
+     Manhunter 2: San Francisco                  [mh2]
+     Police Quest I: In Pursuit of the Death
+     Angel                                       [pq1]
+     Space Quest I: The Sarien Encounter         [sq1]
+     Space Quest II: Vohaul's Revenge            [sq2]
+     Erstellte Spiele von Fans                   [agi-fanmade]
+
+AGOS-Spiele von Adventuresoft/Horrorsoft:
+     Elvira - Mistress of the Dark               [elvira1]
+     Elvira II - The Jaws of Cerberus            [elvira2]
+     Personal Nightmare                          [pn]
+     Waxworks                                    [waxworks]
+     Simon the Sorcerer 1                        [simon1]
+     Simon the Sorcerer 2                        [simon2]
+     Simon the Sorcerer's Game Pack
+         - Dämonen in meinem PC                  [dimp]
+     Simon the Sorcerer's Game Pack
+         - Jumble                                [jumble]
+     Simon the Sorcerer's Game Pack
+         - NoPatience                            [puzzle]
+     Simon the Sorcerer's Game Pack
+         - Swampy Adventures                     [swampy]
+     Floyd - Es gibt noch Helden                 [feeble]
+
+GOB-Spiele von Coktel Vision:
+     Bambou le sauveur de la jungle              [bambou]
+     Bargon Attack                               [bargon]
+     Fascination                                 [fascination]
+     Geisha                                      [geisha]
+     Gobliiins                                   [gob1]
+     Gobliins 2                                  [gob2]
+     Goblins 3                                   [gob3]
+     Lost in Time                                [lostintime]
+     Once Upon A Time: Little Red Riding Hood    [littlered]
+     Urban Runner                                [urban]
+     Woodruff and the Schnibble of Azimuth       [woodruff]
+     Ween: The Prophecy                          [ween]
+
+MADE-Spiele von Activision:
+     Leather Goddesses of Phobos 2               [lgop2]
+     Return to Zork                              [rtz]
+     Rodney's Funscreen                          [rodney]
+     The Manhole                                 [manhole]
+
+Andere Spiele:
+     Beneath a Steel Sky                         [sky]
+     Baphomets Fluch                             [sword1]
+     Baphomets Fluch II:
+         Die Spiegel der Finsternis              [sword2]
+     Cruise for a Corpse                         [cruise]
+     Discworld                                   [dw]
+     Discworld 2: Vermutlich vermisst            [dw2]
+     Drači Historie                              [draci]
+     Drascula: The Vampire Strikes Back          [drascula]
+     Flight of the Amazon Queen                  [queen]
+     Future Wars                                 [fw]
+     Erben der Erde: Die große Suche             [ite]
+     Nippon Safes Inc.                           [nippon]
+     The Legend of Kyrandia                      [kyra1]
+     The Legend of Kyrandia: The Hand of Fate    [kyra2]
+     The Legend of Kyrandia: Malcolm's Revenge   [kyra3]
+     Touché: Die Abenteuer des fünften
+         Musketiers                              [touche]
+
+SCUMM-Spiele von Humongous Entertainment:
+     Backyard Baseball                           [baseball]
+     Backyard Baseball 2001                      [baseball2001]
+     Backyard Baseball 2003                      [baseball2003]
+     Backyard Football                           [football]
+     Big Thinkers First Grade                    [thinker1]
+     Big Thinkers Kindergarten                   [thinkerk]
+     Blue's 123 Time Activities                  [Blues123Time]
+     Blue's ABC Time Activities                  [BluesABCTime]
+     Blue's Art Time Activities                  [arttime]
+     Blue's Birthday Adventure                   [BluesBirthday]
+     Blue's Reading Time Activities              [readtime]
+     Fatty Bear's Birthday Surprise              [fbear]
+     Fatty Bear's Fun Pack                       [fbpack]
+     Fritzi Fisch und der verschwundene Schatz   [freddi]
+     Fritzi Fisch und das Flossengespenst        [freddi2]
+     Fritzi Fisch und der Fall der gestohlenen
+         Trompetenschnecke                       [freddi3]
+     Freddi Fisch und das Geheimnis
+         der Salzwasserschlucht                  [freddi4]
+     Freddi Fisch und das Rätsel
+          der Korallenbucht                      [freddicove]
+     Freddi Fish and Luther's Maze Madness       [maze]
+     Freddi Fish and Luther's Water Worries      [water]
+     Let's Explore the Airport with Buzzy        [airport]
+     Let's Explore the Farm with Buzzy           [farm]
+     Let's Explore the Jungle with Buzzy         [jungle]
+     Pyjama Pit: Keine Angst im Dunkeln          [pajama]
+     Pyjama Sam: Donner und Blitz
+         machen mir nix                          [pajama2]
+     Pyjama Sam 3: Süßigkeiten kriegen Saures    [pajama3]
+     Pajama Sam's Lost & Found                   [lost]
+     Pajama Sam's Sock Works                     [socks]
+     Putt-Putt Joins the Parade                  [puttputt]
+     Putt-Putt Goes to the Moon                  [puttmoon]
+     Töff-Töff rettet den Zoo                    [puttzoo]
+     Töff-Töff reist durch die Zeit              [putttime]
+     Töff-Töff und das große Rennen              [puttrace]
+     Töff-Töff geht zum Zirkus                   [puttcircus]
+     Putt-Putt and Pep's Balloon-O-Rama          [balloon]
+     Putt-Putt and Pep's Dog on a Stick          [dog]
+     Putt-Putt & Fatty Bear's Activity Pack      [activity]
+     Putt-Putt's Fun Pack                        [funpack]
+     SPY Fox: Das Milchkartell                   [spyfox]
+     SPY Fox: Operation Robohund                 [spyfox2]
+     SPY Fox: Alarm im Weltall                   [spyozon]
+     SPY Fox in Cheese Chase                     [chase]
+     SPY Fox in Hold the Mustard                 [mustard]
+
+Spiele von Living Books:
+     Aesop's Fables: The Tortoise and the Hare   [tortoise]
+     Arthur's Birthday                           [arthurbday]
+     Arthur's Teacher Trouble                    [arthur]
+     Dr. Seuss's ABC                             [seussabc]
+     Green Eggs and Ham                          [greeneggs]
+     Harry and the Haunted House                 [harryhh]
+     Just Grandma and Me                         [grandma]
+     Little Monster at School                    [lilmonster]
+     Ruff's Bone                                 [ruff]
+     Sheila Rae, the Brave                       [sheila]
+     Stellaluna                                  [stellaluna]
+     The Berenstain Bears Get in a Fight         [bearfight]
+     The Berenstain Bears in the Dark            [beardark]
+     The New Kid on the Block                    [newkid]
+
+Die folgenden Spiele sollten geladen werden, sind aber noch nicht vollständig
+spielbar. Spielen erfolgt auf eigenes Risiko. Bitte reichen Sie für diese Spiele
+keine Fehlerberichte ein.
+Wenn Sie über den neusten Stand bezüglich der Kompatibilität des Spiels erfahren
+möchten, besuchen Sie unsere Website und schauen Sie in der Kompatibilitätsliste
+nach.
+
+     Backyard Football 2002                      [football2002]
+     Backyard Soccer                             [soccer]
+     Backyard Soccer MLS                         [soccermls]
+     Backyard Soccer 2004                        [soccer2004]
+     Blue's Treasure Hunt                        [BluesTreasureHunt]
+     Pajama Sam: Games to Play on Any Day        [pjgames]
+
+Die folgenden Spiele basieren auf der SCUMM-Engine, werden aber (noch) nicht von
+ScummVM unterstützt:
+
+     Andere Spiele von Humongous Entertainment
+
+Seien Sie sich bitte bewusst, dass die Engines („Motoren“ der Spiele) Fehler
+enthalten können und manche Funktionen möglicherweise fehlen, was es unmöglich
+macht, das Spiel zu Ende zu spielen. Speichern Sie oft und bitte schicken Sie
+englische Fehlerberichte ein (Anweisungen zum Senden von Fehlerberichten finden
+Sie oben), wenn Sie einen solchen Fehler in einem „unterstützten“ Spiel
+vorfinden.
+
+
+3.1) Kopierschutz:
+---- -------------
+Das ScummVM-Team duldet keine Spielepiraterie. Es gibt jedoch Fälle, in denen
+die Spielefirmen (wie beispielsweise LucasArts) selbst „gecrackte“
+Ausführdateien in ihre Spiele gepackt haben -- in diesen Fällen beinhalten die
+Dateien des Spiels immer noch die Kopierschutzskripte, aber der Interpreter
+umgeht sie (ähnlich wie illegale gecrackte Versionen es tun können, nur dass es
+hier der Spielehersteller getan hat). Es gibt für uns keinerlei Möglichkeit, den
+Unterschied zwischen einer legitimen und einer illegalen Spieldatei zu erkennen,
+also wird ScummVM bei Spielen, von denen wir wissen, dass eine gecrackte Version
+des Orginalinterpreters zu irgendeinem Zeitpunkt verkauft wurde, immer den
+Kopierschutz umgehen müssen.
+
+In einigen Fällen wird ScummVM immer noch den Kopierschutzbildschirm anzeigen.
+Versuchen Sie, irgendeine Antwort einzugeben. Die Chancen stehen gut, dass sie
+akzeptiert wird.
+
+ScummVM wird den Kopierschutz in folgenden Spielen überspringen:
+
+  * Maniac Mansion
+  * Zak McKracken and the Alien Mindbenders
+  * Loom (EGA)
+  * The Secret of Monkey Island (VGA)
+  * Monkey Island 2: LeChuck's Revenge
+  * Beneath a Steel Sky
+      -- umgangen mit freundlicher Genehmigung von Revolution Software.
+  * Erben der Erde: Die große Suche (Diskettenversion)
+      -- umgangen mit freundlicher Genehmigung von Wyrmkeep Entertainment,
+         da er in allen CD-Versionen des Spiels umgangen wurde.
+  * Simon the Sorcerer 1 (Diskettenversion)
+  * Simon the Sorcerer 2 (Diskettenversion)
+      -- umgangen mit freundlicher Genehmigung von Adventure Soft,
+         da er in allen CD-Versionen des Spiels umgangen wurde.
+  * Waxworks
+
+3.2) Hinweise zu Commodore64-Spielen:
+---- --------------------------------
+Sowohl Maniac Mansion als auch Zak McKracken laufen, aber Maniac Mansion ist
+noch nicht spielbar. Benennen Sie einfach die D64-Datenträger um in
+„maniac1.d64“ und „maniac2.d64“ und entsprechend „zak1.d64“ und „zak2.d64“, dann
+sollte ScummVM in der Lage sein, das Spiel automatisch zu erkennen, wenn Sie auf
+das richtige Verzeichnis zeigen.
+
+Alternativ können Sie „extract_mm_c64“ aus dem Tools-Paket verwenden, um die
+Spieldateien zu extrahieren. Dann wird das Spiel jedoch nicht einwandfrei von
+ScummVM automatisch erkannt und Sie müssen sicherstellen, dass Commodore64 als
+Plattform eingestellt ist. Wir empfehlen, auf die viel einfachere Methode
+zurückzugreifen, die im vorherigen Absatz beschrieben ist.
+
+
+3.3) Hinweise zu Maniac Mansion NES:
+---- -------------------------------
+Unterstützte Versionen sind Deutsch (G) [G=German], Englisch GB (E), Französisch
+(F), Italienisch (I), Schwedisch (SW) und Englisch US (U). ScummVM benötigt nur
+den PRG-Bereich und nicht die gesamte ROM-Datei, um das Spiel laufen zu lassen.
+
+Damit das Spiel funktioniert, müssen Sie die ersten 16 Bytes aus der ROM-Datei
+entfernen, die Sie verwenden wollen. Das klappt mit jedem Hexeditor, solange Sie
+mit diesem kopieren und einfügen können. Nachdem Sie die ROM-Datei mit dem
+Hexeditor geöffnet haben, kopieren Sie alles von der zweiten Reihe (17. Byte)
+bis zum Ende. Danach fügen Sie den kopierten Inhalt in eine neue Hexdatei ein.
+Speichern Sie die neue Datei unter dem Namen „Maniac Mansion (XX).prg“, wobei XX
+für die Sprachversion steht, die Sie verwenden wollen (G, E, F, I, SW oder U).
+Die Größe der neuen Datei sollte genau 262144 Bytes betragen.
+
+Wenn Sie das Spiel manuell hinzufügen, stellen Sie sicher, dass die Plattform
+auf NES eingestellt ist.
+
+Die häufigsten Fehler, die verhindern, dass das Spiel läuft:
+
+  * Fehlerhafte Datei
+  * ROM extrahiert mit den Tools der Version 0.7.0
+  * Sie versuchen, in ScummVM die VOLLE ROM-DATEI zu laden und nicht nur den
+    PRG-Bereich.
+
+Es ist auch möglich, die einzelnen LFL-Dateien aus dem PRG-Bereich zu
+extrahieren. Um dies zu tun, verwenden Sie das Dienstprogramm „extract_mm_nes“
+aus dem Tools-Paket.
+
+
+3.4) Hinweise zu Macintosh-Spielen:
+---- ------------------------------
+Alle auf SCUMM basierenden Adventures von Lucasarts, mit Ausnahme von COMI,
+existieren auch als Versionen für den Macintosh. ScummVM kann die meisten
+(alle?) von diesen verwenden, jedoch ist in manchen Fällen zusätzliche Arbeit
+erforderlich. Zuallererst: Wenn Sie keinen Macintosh dafür verwenden, könnte es
+kompliziert werden, auf die CD- oder Diskettendaten zuzugreifen. Der Grund
+hierfür ist, dass der Mac ein spezielles Datenträgerformat nutzt, welches sich
+HFS nennt, und das andere Systeme normalerweise nicht unterstützen. Es gibt
+jedoch zahlreiche kostenlose Tools, die es ermöglichen, einen solchen
+HFS-Datenträger zu lesen. Z. B. „HFVExplorer“ für Windows und „hfsutils“ für
+Linux und andere Betriebssysteme, die Unix ähnlich sind.
+
+Die meisten neueren Spiele für den Macintosh wurden nur mit einer einzigen
+Spieldatei ausgeliefert (beachten Sie, dass in manchen Fällen diese Spieldatei
+unsichtbar gemacht wurde und Sie somit zusätzliche Tools benötigen, um diese zu
+kopieren). ScummVM ist in der Lage, eine solche Spieldatei direkt zu verwenden;
+verweisen Sie ScummVM einfach auf das Verzeichnis, welches diese enthält und es
+sollte klappen (so wie mit jedem anderen unterstützten Spiel).
+
+Wir stellen außerdem ein Tool mit dem Namen „extract_scumm_mac“ im Tools-Paket
+zur Verfügung, um die Daten aus diesen Spieldateien zu extrahieren, aber dies
+ist weder erforderlich, noch wird es empfohlen.
+
+Für weitere Informationen dazu, wie Sie Macintosh-Spieldateien auf Ihre
+Festplatte kopieren können, lesen Sie:
+
+  http://wiki.scummvm.org/index.php/HOWTO-Mac_Games
+
+
+3.5) Hinweise zu Spielen auf mehren CDs:
+---- -----------------------------------
+Allgemein kann ScummVM nicht sehr gut mit Spielen auf mehreren CDs umgehen. Das
+liegt daran, dass ScummVM annimmt, alles von einem Spiel in einem Verzeichnis
+vorzufinden. Selbst wenn ScummVM einige Fälle berücksichtigt und den Anwender
+dazu auffordert, die CD zu wechseln, so installierten die ursprünglichen
+ausführbaren Dateien des Spiels normalerweise eine kleine Anzahl an Dateien auf
+die Festplatte. Sofern diese Dateien nicht auf allen CDs vorgefunden werden
+können, wird ScummVM Schwierigkeiten haben.
+
+Glücklicherweise hat ScummVM keine Probleme damit, die Spiele komplett von der
+Festplatte aus laufen zu lassen, wenn Sie ein Verzeichnis mit der richtigen
+Kombination der Dateien erstellen. Wenn eine Datei auf mehr als einer CD
+vorkommt, ist es normalerweise egal, welche sie in das Verzeichnis
+hineinkopieren.
+
+
+3.6) Hinweise zu The Curse of Monkey Island:
+---- ---------------------------------------
+Für dieses Spiel benötigen Sie die Dateien comi.la0, comi.la1 und comi.la2. Die
+Datei comi.la0 kann auf beiden CDs vorgefunden werden, ist aber auf beiden
+identisch, womit es egal ist, welche der beiden Sie verwenden.
+
+Zusätzlich müssen Sie ein Unterverzeichnis namens „resource“ erstellen, das alle
+Dateien des Unterverzeichnisses „resource“ auf -beiden- CDs beinhaltet. Einige
+dieser Dateien lassen sich auf beiden CDs vorfinden, jedoch sind sie auch in
+diesem Fall identisch.
+
+
+3.7) Hinweise zu Baphomets Fluch I und II:
+---- -------------------------------------
+Die Anweisungen für die Spiele Baphomets Fluch I und II sind für die
+ausverkauften Software-Versionen, bei welchen sich jedes Spiel auf je zwei CDs
+befindet, da diese am leichtesten erhältlich waren, als ScummVM Unterstützung
+für diese Spiele erlangte. Wir hoffen, dass sie allgemein ausreichend
+ausführlich sind, um für andere Ausgaben genauso hilfreich zu sein.
+
+
+3.7.1) Zwischensequenzen von Baphomets Fluch I und II:
+------ -----------------------------------------------
+Die Zwischensequenzen für Baphomets Fluch I und II haben eine kleine Geschichte
+(schauen Sie im nächsten Abschnitt, wenn Sie interessiert sind), aber im Großen
+und Ganzen müssen Sie nur die .SMK-Dateien aus den „SMACKS“- oder „SMACKSHI“-
+Verzeichnissen auf den CDs in dasselbe Verzeichnis wie die anderen Spieldateien
+kopieren. (Baphomets Fluch hat ein „SMACKSLO“-Verzeichnis mit denselben
+Zwischensequenzen, aber diese sind von niedrigerer Qualität.) Sie können sie
+auch in einem Unterverzeichnis namens „video“ ablegen, wenn Ihnen das lieber
+ist.
+
+Bei PlayStation-Versionen können Sie die Original-Videos von CD ausgeben lassen.
+Alle Dateien mit der Endung „STR“ sollten als Raw-Sektoren von der CD ausgelesen
+werden (alle 2352 Bytes pro Sektor). Sie können stattdessen auch die weiter
+unten erwähnten umgewandelten Zwischensequenzen verwenden, aber dies
+funktioniert nicht bei allen Videos in Baphomets Fluch II. Weitere Informationen
+finden Sie hier:
+
+  http://wiki.scummvm.org/index.php/HOWTO-PlayStation_Videos
+
+Einige Neuausgaben der Spiele, wie beispielsweise die PlayStation-Version, haben
+keine Smacker-Videos. Revolution Software hat uns freundlicherweise erlaubt, die
+Zwischensequenzen umgewandelt auf unserer Website als Download zur Verfügung zu
+stellen. Siehe hierfür:
+
+  http://www.scummvm.org/downloads.php
+
+Diese Zwischensequenzen werden im DXA-Format mit FLAC-Audio zur Verfügung
+gestellt. Ihre Qualität ist durch die Verwendung verlustfreier Kompression
+gleich wie im Originalspiel. Um diese Zwischensequenzen abspielen zu können, ist
+eine Version von ScummVM erforderlich, die sowohl mit Unterstützung von FLAC als
+auch zlib kompiliert wurde.
+
+Für Systeme, die zu langsam sind, um die Entschlüsselung von FLAC-Audio zu
+handhaben, wird die Tonspur für diese Zwischensequenzen gesondert auch mit
+Ogg-Vorbis-Audio angeboten. Um diese Zwischensequenzen mit Ogg-Vorbis-Audio
+abspielen zu können, ist eine Version von ScummVM erforderlich, die sowohl mit
+Unterstützung von libVorbis als auch zlib kompiliert wurde.
+
+Für Baphomets Fluch bieten wir außerdem ein Untertitelpaket an. Entpacken Sie es
+einfach und folgen Sie den Anweisungen in der liesmich.txt. Das Untertitelpaket
+funktioniert momentan nicht bei der Verwendung von PlayStation-Videos.
+(Baphomets Fluch II hat bereits Untertitel; für diese ist keine zusätzliche
+Arbeit notwendig.)
+
+
+3.7.2) Zwischensequenzen von Baphomets Fluch I und II im Rückblick:
+------ ------------------------------------------------------------
+Die Originalausgaben von Baphomets Fluch I und II verwendeten das
+Smacker™-Format der RAD Game Tools. Da RAD uns nicht die ältere Ur-Version
+dieses Formats offenlegen wollte und uns aufforderte, es nicht mittels Reverse
+Engineering zu rekonstruieren, musste eine alternative Lösung gefunden werden.
+
+In Baphomets Fluch II war es möglich, die Sprachausgabe ohne das Video
+wiederzugeben. Dies blieb bis ScummVM 1.0.0 eine Ausweichmöglichkeit, war aber
+nie die alleinige Lösung für eine stabile Veröffentlichung.
+
+In ScummVM 0.6.0 verwendeten wir MPEG, das einen zumutbaren Kompromiss zwischen
+Größe und Qualität bot. In ScummVM 0.10.0 wurde dies durch DXA abgelöst (das
+ursprünglich für Adventure Softs „Floyd - Es gibt noch Helden“ hinzugefügt
+wurde). Dies gab uns die Möglichkeit, die Zwischensequenzen mit genau derselben
+Qualität wie im Original anzubieten, zu dem Preis, dass die Dateien größer
+waren.
+
+Schließlich wurde Anfang 2006 das Smacker-Format für das FFmpeg-Projekt mittels
+Reverse Engineering rekonstruiert. Dank der harten Arbeit in diesem Projekt
+unterstützt ScummVM nun die originalen Zwischensequenzen. Zur selben Zeit wurde
+die MPEG-Unterstützung eingestellt. Vom technischen Standpunkt war das eine gute
+Sache, da das Entschlüsseln von MPEG-Filmen mit vielen Schwierigkeiten verbunden
+war und diese ohnehin nicht so gut aussahen wie Smacker- und DXA-Versionen.
+
+
+3.7.3) Baphomets Fluch:
+------ ----------------
+Für dieses Spiel benötigen Sie die Dateien aus dem Verzeichnis clusters von
+beiden CDs. Für die Windows- und Macintosh-Versionen benötigen Sie auch die
+Datei speech.clu aus dem Verzeichnis speech von beiden CDs. Da diese jedoch
+nicht identisch sind, müssen Sie diese in speech1.clu und speech2.clu für CD 1
+und 2 entsprechend umbenennen. Die PlayStation-Version erfordert die Dateien
+speech.tab, speech.dat, speech.lis, und speech.inf.
+
+Zusätzlich benötigen die Windows- und Macintosh-Versionen das Unterverzeichnis
+„music“ mit allen Dateien der „music“-Unterverzeichnisse auf beiden CDs. Einige
+dieser Dateien tauchen auf beiden CDs auf, aber in diesen Fällen sind sie
+entweder identisch oder in einem Fall nahezu so identisch, dass es wenig
+Unterschied macht. Die PlayStation-Version erfordert die Dateien tunes.dat und
+tunes.tab.
+
+
+3.7.4) Baphomets Fluch II:
+------ -------------------
+Für dieses Spiel benötigen Sie die Dateien aus dem Verzeichnis clusters von
+beiden CDs. (Ein paar von ihnen sind streng genommen eigentlich nicht notwendig,
+aber diejenigen, über die Unsicherheit besteht, sind alle ziemlich klein.)
+Sie müssen die Dateien speech.clu und music.clu umbenennen, und zwar in
+speech1.clu, speech2.clu, music1.clu und music2.clu, sodass ScummVM weiß, welche
+dieser Dateien von CD 1 und welche von CD 2 sind. Alle anderen Dateien, die in
+beiden „clusters“-Verzeichnissen auftauchen, sind identisch. Verwenden Sie in
+diesen Fällen die Datei, die Sie möchten.
+
+Zusätzlich brauchen Sie die Datei cd.inf und optional die Datei startup.inf aus
+dem Verzeichnis sword2 von CD 1.
+
+
+3.8) Hinweise zu Beneath a Steel Sky:
+---- --------------------------------
+Beginnend mit ScummVM 0.8.0 benötigen Sie die zusätzliche Datei „SKY.CPT“, um
+Beneath a Steel Sky laufen lassen.
+
+Diese Datei ist auf der Seite „Downloads“ der ScummVM-Website verfügbar. Sie
+können sie entweder im Verzeichnis mit den anderen Spieldateien (SKY.DNR,
+SKY.DSK) ablegen, in einem Extrapfad oder im Verzeichnis, in dem sich Ihre
+ausführbare ScummVM-Datei befindet.
+
+
+3.9) Hinweise zu Flight of the Amazon Queen:
+---- ---------------------------------------
+Um eine Nicht-Freeware-Version von Flight of the Amazon Queen zu verwenden (von
+einer Original-CD), müssen Sie die Datei „queen.tbl“ (erhältlich von der Seite
+„Downloads“ auf unserer Website) entweder im Verzeichnis mit der Spieldatei
+„queen.1“ ablegen, in einem Extrapfad oder im Verzeichnis, in dem sich Ihre
+ausführbare ScummVM-Datei befindet.
+
+Alternativ können Sie das Tool „compress_queen“ aus dem Tools-Paket verwenden,
+um Ihre FOTAQ-Spieldatei neu „zusammenzubauen“, um die Tabellendatei für diese
+spezielle Version miteinzubeziehen und somit die Laufzeit-Abhängigkeit von der
+Datei „queen.tbl“ zu lösen. Dieses Tool kann auch die Sprachausgabe und
+Sound-Effekte mittels MP3, Ogg Vorbis oder FLAC komprimieren.
+
+
+3.10) Hinweise zu Gobliiins:
+----- ----------------------
+Die CD-Versionen der Gobliiins-Serie enthalten einen großen Audio-Titel, den Sie
+extrahieren müssen (siehe Abschnitt über die Verwendung komprimierter
+Audio-Dateien) sowie ins Spielverzeichnis kopieren, wenn Sie Musik im Spiel
+hören möchten, ohne die CD die ganze Zeit im Laufwerk haben zu müssen. Die
+Sprachausgabe ist auch in diesem Titel und ihre Lautstärke wird deshalb ebenso
+über die Musiklautstärke-Regelung geändert.
+
+
+3.11) Hinweise zu Inherit the Earth: Quest for the Orb (Macintosh):
+----- -------------------------------------------------------------
+Um die Neuausgabe des Spiels für Mac OS X von Wyrmkeep laufen zu lassen, müssen
+Sie die Daten von der CD auf die Festplatte kopieren. Wenn Sie an einem PC
+arbeiten, lesen Sie hierfür:
+
+  http://wiki.scummvm.org/index.php/HOWTO-Mac_Games
+
+Obwohl hier in erster Linie über SCUMM-Spiele gesprochen wird, findet das
+Dienstprogramm „HFVExplorer“ Erwähnung, welches Sie benötigen, um die Dateien zu
+extrahieren. Beachten Sie, dass Sie die Sprachausgabedaten aus „Inherit the
+Earth Voices“ im selben Verzeichnis ablegen müssen wie die Spieldaten, die sich
+an folgendem Ort befinden:
+
+  Inherit the Earth.app/Contents/Resources
+
+Bei der alten Ausgabe für Mac OS 9 müssen Sie die Dateien im MacBinary-Format
+kopieren, da sie sowohl Ressourcen- als auch Datenverzweigungen beinhalten
+sollten. Kopieren Sie alle „ITE *“-Dateien.
+
+
+3.12) Hinweise zu Simon the Sorcerer 1 und 2:
+----- ---------------------------------------
+Wenn Sie die Doppel-Version von Simon the Sorcerer 1 oder 2 auf CD haben, finden
+Sie die Windows-Version im Hauptverzeichnis der CD und die DOS-Version im
+DOS-Verzeichnis der CD.
+
+
+3.13) Hinweise zu Floyd - Es gibt noch Helden:
+----- ----------------------------------------
+Wenn Sie die Windows-Version von Floyd - Es gibt noch Helden haben, sind einige
+Dinge zu beachten.
+
+Viele notwendige Dateien für das Spiel sind in einer InstallShield-Datei namens
+data1.cab gespeichert, die ScummVM nicht entpacken kann. Sie müssen das
+Original-Installationsprogramm oder i5comp verwenden, um die Inhalte dieser
+Datei zu entpacken. Das Tool i5comp für die Dekompression kann durch Suchen im
+Internet gefunden werden.
+
+Um die Sprachdateien in ScummVM zu verwenden, müssen sie nach dem Kopiervorgang
+wie folgt umbenannt werden:
+voices.wav von CD1 in voices1.wav
+voices.wav von CD2 in voices2.wav
+voices.wav von CD3 in voices3.wav
+voices.wav von CD4 in voices4.wav
+
+
+3.14) Hinweise zu The Legend of Kyrandia:
+----- -----------------------------------
+Um The Legend of Kyrandia unter ScummVM laufen zu lassen, benötigen Sie die
+Datei „kyra.dat“. Die Datei sollte immer in offiziellen ScummVM-Paketen
+enthalten sein. Wenn ScummVM beanstandet, dass die Datei fehlt, können Sie sie
+auf der Seite „Downloads“ der ScummVM-Website finden. Beachten Sie, dass in der
+momentanen Windows-Version von ScummVM diese Datei in der ausführbaren Datei
+eingebettet sein sollte. Also müssen Sie sich nur diese besorgen, wenn sich
+ScummVM darüber beschwert, dass diese Datei fehlt.
+
+
+3.15) Hinweise zum vorhersagenden Eingabedialog bei Sierras AGI-Spielen:
+----- ------------------------------------------------------------------
+Der vorhersagende Eingabedialog ist ein ScummVM-Hilfsmittel, um die englischen
+Spiele der AGI-Engine (die offensichtlich Kommandozeilen-Eingabe erfordern) auf
+Geräten laufen zu lassen, die eingeschränkte Tastatur-Unterstützung haben. Da es
+mühsam ist, mit emulierten Tastaturen zu tippen, können in solchen Fällen
+Befehle schnell und einfach über den vorhersagenden Eingabedialog eingegeben
+werden.
+
+Um die vorhersagende Eingabe in AGI-Spielen zu aktivieren, müssen Sie die Datei
+pred.dic in den Extrapfad von ScummVM oder in das Verzeichnis des Spiels
+kopieren, das Sie spielen möchten. Dieses Wörterbuch wurde erstellt, indem alle
+bekannten AGI-Spiele analysiert wurden, und enthält den maximalen Satz
+gebräuchlicher Wörter.
+
+Wenn das Wörterbuch erkannt wurde, wird der vorhersagende Eingabedialog entweder
+durch Klicken auf den Kommandozeilenbereich angezeigt (dort, wo auch immer eine
+Tastatureingabe erforderlich ist, auch in Dialogfeldern) oder in einigen Ports
+durch Drücken eines bestimmten Tastenkürzels.
+
+Der vorhersagende Eingabedialog funktioniert in drei Modi, zwischen denen mit
+der Schaltfläche (*)Pre/123/Abc gewechselt werden kann. Die primäre
+Eingabemethode ist der vorhersagende Modus (Pre), welcher der Worterkennung bei
+„schnellem Tippen“ auf Mobilfunktelefonen ähnelt. Das Alphabet ist in neun
+Gruppen unterteilt, die naturgemäß den neun Ziffern auf dem Ziffernblock
+zugeteilt sind (0 ist die Leertaste). Um ein Wort einzugeben, drücken Sie einmal
+die Ziffer der Gruppe, die den Buchstaben des Worts enthält, den Sie tippen
+möchten, dann gehen Sie zum nächsten Buchstaben über. Um z. B. den Befehl „look“
+einzugeben, sollten Sie 5665 drücken. Während Sie schrittweise die Ziffernfolge
+des beabsichtigten Wortes eingeben, wird auf das Wörterbuch zugegriffen, um
+bekannte Wörter, die mit Ihrer Eingabe bis zu diesem Punkt übereinstimmen, zu
+finden. Während Sie mehr und mehr Tasten drücken, läuft die Vorhersage auf das
+richtige Wort zu. Das ist der Grund, warum das angezeigte Wort sich zwischen
+einem Tastendruck drastisch verändern kann. Es gibt jedoch Fälle, in denen mehr
+als ein Wort dieselbe Zahlenkombination teilen. Z. B. haben die Worte „quit“ und
+„suit“ dieselbe Nummer, nämlich 7848. In diesen Fällen hilft die Schaltfläche
+(#)next weiter. Durch ihre Betätigung können Sie durch die Liste der Wörter
+schalten, welche denselben Zahlencode haben und schließlich das richtige Wort
+akzeptieren, indem Sie die (0) für Leertaste oder OK drücken.
+
+Die zweite Eingabemethode (123) ist die numerische Eingabe: Jede Taste, die Sie
+drücken, wird als tatsächliche Ziffer eingegeben.
+
+Die dritte Eingabemethode (Abc) ist die Multi-Tipp-Alpha-Eingabemthode. Dieser
+Modus ist dazu gedacht, um freien Text einzugeben, ohne die Hilfe des
+Wörterbuchschemas des vorhersagenden Modus (Pre). Der Text wird Buchstabe für
+Buchstabe eingegeben. Für jeden Buchstaben drücken Sie zuerst die Ziffer der
+Gruppe, die den Buchstaben beinhaltet, den Sie tippen wollen, dann verwenden Sie
+die Schaltfläche (#)next, um durch die Buchstaben zu schalten, bis der richtige
+erscheint, und wiederholen dies mit der nächsten Ziffer. Um z. B. das Wort
+„look“ einzugeben, müssen Sie Folgendes drücken: 5##6##6##5#
+
+Der Dialog kann vollständig mit der Maus verwendet werden, aber ein paar
+Maßnahmen wurden getroffen, um dessen Verwendung bei einigen ScummVM-Ports
+komfortabler zu gestalten, indem naturgemäß dessen Funktionsweise dem
+Ziffernblock zugewiesen wurde. Ebenso können die Schaltflächen mittels der
+Pfeiltasten und der Eingabetaste gesteuert werden.
+
+
+3.16) Hinweise zu Mickey's Space Adventure:
+----- -------------------------------------
+Um Mickey's Space Adventure unter ScummVM laufen zu lassen, benötigen Sie die
+originale EXE-Datei des Spiels (mickey.exe) sowie die Spieldateien.
+
+Für das Spiel gibt es unter ScummVM umfangreiche Mausunterstützung, obwohl es im
+Originalspiel überhaupt keine Mausunterstützung gab. Menüpunkte können mit der
+Maus ausgewählt werden und es ist auch möglich, mittels Maus an andere Orte zu
+wechseln. Wenn die Maus über den Rand des Bildschirms bewegt wird, ändert sich
+die Farbe des Zeigers in Rot, wenn es möglich ist, in diese Richtung zu gehen.
+Der Spieler kann dann einfach auf den Rand des Spielbildschirms klicken, um den
+Ort zu wechseln, ähnlich wie in vielen Adventures, was einfacher und viel
+unkomplizierter ist, als sich mit dem Menü umherzubewegen.
+
+
+3.17) Hinweise zu Winnie the Pooh:
+----- ----------------------------
+Es ist möglich, Spielstände vom Original-Interpreter des Spiels in ScummVM zu
+importieren.
+
+Für das Spiel gibt es unter ScummVM umfangreiche Mausunterstützung, obwohl es im
+Originalspiel überhaupt keine Mausunterstützung gab. Menüpunkte können mit der
+Maus ausgewählt werden und es ist auch möglich, mittels Maus an andere Orte zu
+wechseln. Wenn die Maus über den Rand des Bildschirms bewegt wird, ändert sich
+die Farbe des Zeigers in Rot, wenn es möglich ist, in diese Richtung zu gehen.
+Der Spieler kann dann einfach auf den Rand des Spielbildschirms klicken, um den
+Ort zu wechseln, ähnlich wie in vielen Adventures, was einfacher und viel
+unkomplizierter ist, als sich mit dem Menü umherzubewegen.
+
+
+3.18) Hinweise zu Troll's Tale:
+----- -------------------------
+Das Originalspiel wurde auf einer PC-Boot-Diskette ausgeliefert, weshalb es
+notwendig ist, die Inhalte dieser Diskette in einer Abbild-Datei auszugeben und
+diese „troll.img“ zu nennen, um das Spiel unter ScummVM spielen zu können.
+
+
+3.19) Hinweise zu Drači Historie:
+----- ---------------------------
+Es gibt vier Sprachvarianten des Spiels: Tschechisch, Deutsch, Englisch und
+Polnisch. Jede von ihnen wird in einem gesonderten Archiv bereitgestellt. Die
+einzige offizielle Version ist die tschechische, während die deutsche, englische
+und polnische immer in Bearbeitung waren und nie offiziell veröffentlicht
+wurden. Obwohl alle Texte vollständig übersetzt sind, ist bekannt, dass einige
+von ihnen Fehler enthalten.
+
+Es existiert optionale tschechische Sprachausgabe für das Spiel. Aus Gründen der
+Bandbreite können Sie diese in einem gesonderten Archiv herunterladen und dann
+im Verzeichnis des Spiels entpacken. Sie können mit allen Sprachvarianten die
+tschechische Sprachausgabe hören, während Sie Untertitel lesen.
+
+Alle Spieldateien und die Komplettlösung können von der folgenden Website
+heruntergeladen werden: http://www.ucw.cz/draci-historie/index-en.html
+
+
+3.20) Bekannte Probleme:
+----- ------------------
+Diese veröffentlichte Version hat die unten folgenden bekannten Probleme. Es ist
+nicht notwendig, diese zu berichten, jedoch sind Patches, um diese zu beheben,
+willkommen. Wenn Sie einen Fehler entdecken, der weder hier noch auf der
+Kompatibilitätsseite der Website aufgeführt ist, sehen Sie bitte im Abschnitt
+„Fehler berichten“ nach, wenn Sie ihn melden möchten.
+
+  Spiele mit Ton von CD:
+    - Bei Spielen, die auf Audio von CD zurückgreifen (FM-TOWNS-Spiele,
+      Loom-CD-Version usw.), ist es möglich, dass Anwender von Microsoft Windows
+      2000/XP zufällige Abstürze erleben. Das liegt an einem lange bestehenden
+      Windows-Fehler, der dazu führt, dass fehlerhafte Spieldaten von der CD
+      ausgelesen werden. Bitte kopieren Sie die Spieldaten in ein Verzeichnis
+      Ihrer Festplatte, um dies zu vermeiden.
+
+  FM-TOWNS-Versionen:
+    - Die Kanji-Versionen erfordern die Schriftart-ROM-Datei von FM-TOWNS.
+
+  Loom:
+    - Das Abschalten der Untertitel über die Spieleinstellungen funktioniert
+      nicht zuverlässig, da die Loom-Skripte diese wieder einschalten.
+    - MIDI-Unterstützung in der EGA-Version erfordert das Roland-Update von
+      LucasArts.
+    - Die Kanji-Version der PC-Engine erfordert die Systemkarten-ROM-Datei.
+
+  The Secret of Monkey Island:
+    - MIDI-Unterstützung in der EGA-Version erfordert das Roland-Update von
+      LucasArts.
+
+  Beneath a Steel Sky:
+    - Amiga-Versionen werden nicht unterstützt.
+    - Disketten-Demos werden nicht unterstützt.
+    - Kein Fehler: In der CD-Version fehlt in einigen Dialogen Sprachausgabe;
+      das ist normal.
+
+  Elvira - Mistress of the Dark
+    - Keine Musik in der Atari-ST-Version
+
+  Elvira II - The Jaws of Cerberus
+    - Keine Musik in der Atari-ST-Version
+    - Keine Sound-Effekte in der PC-Version
+    - Palettenprobleme in der Atari-ST-Version
+
+  Inherit the Earth: Quest for the Orb
+    - Amiga-Versionen werden nicht unterstützt.
+
+  Simon the Sorcerer 1:
+    - Untertitel sind in den deutschen und englischen CD-Versionen nicht
+      verfügbar, da bei diesen der überwiegende Teil der Untertiteltexte fehlt.
+
+  Simon the Sorcerer 2:
+    - Sprache und Untertitel zusammen führen manchmal dazu, dass die
+      Sprachausgabe vorzeitig abgeschnitten wird. Dies ist eine Beschränkung des
+      Originalspiels.
+    - Nur die Standard-Sprache (Englisch) der Spieldaten wird bei den Amiga- und
+      Macintosh-Versionen unterstützt.
+
+  Simon the Sorcerer's Game Pack:
+    - Keine Unterstützung für das Anzeigen, Anlegen, Laden oder Speichern von
+      Highscores.
+    - Keine Unterstützung in Swampy Adventures für das Anzeigen von Namen von
+      Gegenständen, wenn man über diese mit der Maus fährt
+
+  Floyd - Es gibt noch Helden:
+    - Untertitel sind oft unvollständig und nur in Englisch, da sie im
+      Originalspiel immer ausgeschaltet waren.
+
+  The Legend of Kyrandia:
+    - Keine Musik oder Sound-Effekte in der Macintosh-Diskettenversion
+    - Die Macintosh-CD-Version verwendet eingebundene DOS-Musik und
+      DOS-Sound-Effekte.
+
+  Spiele von Humongous Entertainment:
+    - Nur die Originaloberfläche kann zum Laden und Speichern verwendet werden.
+    - Keine Unterstützung für den Mehrspielermodus und das Ausdrucken von
+      Bildern
+
+
+4.0) Unterstützte Plattformen:
+---- -------------------------
+ScummVM wurde portiert, um auf vielen Plattformen und Betriebssystemen lauffähig
+zu sein. Links zu diesen Ports können entweder auf der ScummVM-Website oder
+durch Suchen mit einer Suchmaschine gefunden werden. Vielen Dank an unsere
+Porter für ihre Bemühungen. Wenn Sie eine Portierung für ScummVM haben und diese
+zum Entwicklungsbereich (master Git) beisteuern möchten, können Sie uns gerne
+kontaktieren!
+
+Die unterstützten Plattformen beinhalten (aber beschränken sich nicht auf):
+
+        UNIX            (Linux, Solaris, IRIX, *BSD, ...)
+        Windows
+        Windows CE und Windows Mobile (einschließlich Smartphones und PocketPCs)
+        Mac OS X
+        AmigaOS
+        Android
+        BeOS
+        Dreamcast
+        GP2x
+        iPhone          (einschließlich iPod Touch und iPad)
+        Maemo           (Nokia-Internet-Tablet N810)
+        Nintendo 64
+        Nintendo DS
+        Nintendo GameCube
+        Nintendo Wii
+        OS/2
+        PlayStation 2
+        PlayStation Portable
+        Symbian
+        WebOS
+
+Die Portierung von Dreamcast unterstützt weder The Curse of Monkey Island noch
+The Dig. Der Portierung von Nintendo DS fehlt Unterstützung für Vollgas, The Dig
+und The Curse of Monkey Island.
+Für weitere plattformabhängige Beschränkungen verweisen wir auf unser Wiki:
+  http://wiki.scummvm.org/index.php/Platforms
+
+In der Portierung von Macintosh wird die rechte Maustaste über den Cmd-Klick
+emuliert (d. h. Sie klicken die Maustaste, während Sie die
+Command-/Apple-/Propeller-Taste gedrückt halten).
+
+Es gibt inoffizielle Portierungen für eine Vielzahl von Plattformen,
+einschließlich PlayStation 3, Xbox und Xbox 360. Bitte beachten Sie, dass diese
+nicht von uns hergestellt werden, weshalb wir diese weder befürworten noch
+unterstützen können. Benutzung erfolgt auf eigene Gefahr!
+
+
+5.0) ScummVM verwenden:
+---- ------------------
+Bitte beachten Sie, dass ScummVM standardmäßig Spielstände in dem Verzeichnis
+speichert, in welchem es ausgeführt wird, also sollten Sie davon absehen, es von
+mehr als einem Ort aus zu verwenden. Weitere Informationen, einschließlich
+darüber, wie man einen Pfad für Spielstände bestimmt, um diesen Sachverhalt zu
+vermeiden, befinden sich im Abschnitt 6.0.
+
+ScummVM kann direkt durch Aufruf der ausführbaren Datei gestartet werden. In
+diesem Fall wird das eingebaute Startmenü aktiviert. Hier können Sie Spiele
+hinzufügen, (klicken Sie auf „Spiel hinzufügen“) oder Spiele starten, die
+bereits konfiguriert wurden. Es können auch mehrere Spiele auf einmal
+hinzugefügt werden. Indem Sie die Umschalttaste (Shift) gedrückt halten und auf
+„Spiel hinzufügen“ klicken (beachten Sie, dass sich die Beschreibung in
+„Durchsuchen“ ändert), können Sie ein Verzeichnis bestimmen, wodurch ScummVM
+versuchen wird, in allen Unterverzeichnissen dieses Verzeichnisses Spiele zu
+erkennen.
+
+ScummVM kann mittels Argumenten in der Kommandozeile auch direkt in ein Spiel
+gestartet werden -- siehe nächster Abschnitt.
+
+
+5.1) Kommandozeilenoptionen:
+---- -----------------------
+
+  Verwendung: scummvm [OPTIONEN]... [SPIEL]
+
+  [SPIEL]                  Kurzer Name des zu ladenden Spiels. Z. B. „monkey“
+                           für Monkey Island. Dies kann entweder eine
+                           vorbestimmte Kennung eines Spiels sein oder ein
+                           benutzerkonfiguriertes Ziel.
+
+  -v, --version            Zeigt ScummVM-Versionsinformation und beendet.
+  -h, --help               Zeigt kurzen Hilfetext und beendet.
+  -z, --list-games         Zeigt Liste unterstützter Spiele und beendet.
+  -t, --list-targets       Zeigt Liste konfigurierter Ziele und beendet.
+  --list-saves=ZIEL        Zeigt Liste von Spielständen für das festgelegte
+                           Spiel (ZIEL)
+  --console                Aktiviert das Konsolenfenster
+                           (standardmäßig aktiviert) (nur Windows)
+
+  -c, --config=KONFIGURATIONSDATEI
+                           Verwendet alternative Konfigurationsdatei.
+  -p, --path=PFAD          Pfad zum installierten Spiel
+  -x, --save-slot[=ZAHL]   Zu ladender Speicherplatz
+                           (Standard: automatischer Spielstand)
+  -f, --fullscreen         Erzwingt Vollbildmodus.
+  -F, --no-fullscreen      Erzwingt Fenstermodus.
+  -g, --gfx-mode=MODUS     Wählt Grafikwandler (siehe auch Abschnitt 5.3).
+  --gui-theme=THEMA        Wählt Oberflächenthema (default, modern, classic).
+  --themepath=PFAD         Pfad zu gespeicherten Oberflächenthemen
+  --list-themes            Zeigt Liste aller verwendbaren Oberflächenthemen.
+  -e, --music-driver=MODUS
+                           Wählt Musiktreiber (siehe auch Abschnitt 7.0).
+  --list-audio-devices     Listet alle verfügbaren Audiogeräte auf.
+  -q, --language=SPRACHE   Wählt Spielsprache (siehe auch Abschnitt 5.2).
+  -m, --music-volume=ZAHL  Wählt Musiklautstärke, 0-255 (Standard: 192).
+  -s, --sfx-volume=ZAHL    Wählt Effektlautstärke, 0-255 (Standard: 192).
+  -r, --speech-volume=ZAHL
+                           Wählt Sprachlautstärke, 0-255 (Standard: 192).
+  --midi-gain=ZAHL         Wählt MIDI-Lautstärke, 0-1000 (Standard: 100)
+                           (wird nur von einigen MIDI-Treibern unterstützt).
+  -n, --subtitles          Aktiviert Untertitel (in Spielen mit Sprachausgabe).
+  -b, --boot-param=ZAHL    Ruft Boot-Skript (Boot-Parameter) mit dieser Nummer
+                           auf.
+  -d, --debuglevel=ZAHL    Legt Debug-Ausführlichkeit fest.
+  --debugflags=FLAGGEN     Aktiviert für Engine spezifische Debug-Flaggen
+                           (getrennt durch Kommas).
+  -u, --dump-scripts       Aktiviert die Skriptausgabe, wenn ein Verzeichnis
+                           namens „dumps“ im aktuellen Verzeichnis existiert.
+
+  --cdrom=ZAHL             CD-Laufwerk, von dem CD-Titel wiedergegeben werden
+                           sollen (Standard: 0 = erstes Laufwerk)
+  --joystick[=ZAHL]        Aktiviert Joystick (Standard: 0 = erster Joystick).
+  --platform=WORT          Bestimmt Spielplattform (erlaubte Werte: 2gs, 3do,
+                           acorn, amiga, atari, c64, fmtowns, mac, nes, pc,
+                           pce, segacd, windows).
+  --savepath=PFAD          Pfad zu gespeicherten Spielständen
+  --extrapath=PFAD         Extrapfad zu zusätzlichen Spieldaten
+  --soundfont=DATEI        Wählt SoundFont für MIDI-Wiedergabe (wird nur
+                           von einigen MIDI-Treibern unterstützt).
+  --multi-midi             Aktiviert Kombinierung von AdLib und MIDI.
+  --native-mt32            Echte Roland-MT-32-Emulation
+                           (GM-Emulation deaktiviert)
+  --enable-gs              Aktiviert Roland-GS-Modus für MIDI-Wiedergabe.
+  --output-rate=FREQUENZ   Wählt Ausgabefrequenz in Hz (z. B. 22050).
+  --opl-driver=TREIBER     Wählt AdLib-(OPL-)Emulator (db, mame).
+  --aspect-ratio           Aktiviert Seitenverhältniskorrektur.
+  --render-mode=MODUS      Aktiviert zusätzlichen Render-Modus (cga, ega,
+                           hercGreen, hercAmber, amiga).
+
+  --alt-intro              Verwendet alternativen Vorspann in CD-Versionen von
+                           Beneath a Steel Sky und Flight of the Amazon Queen.
+  --copy-protection        Aktiviert Kopierschutz in Spielen, für welche ihn
+                           ScummVM standardmäßig deaktiviert.
+  --talkspeed=ZAHL         Wählt Textverzögerung bei SCUMM-Spielen oder
+                           Texttempo bei anderen Spielen (Standard: 60).
+  --demo-mode              Startet Maniac Mansion im Demo-Modus
+                           (klassische Version).
+  --tempo=ZAHL             Wählt Musiktempo (in Prozent, 50-200) für
+                           SCUMM-Spiele (Standard: 100).
+
+
+Die Bedeutung der meisten langen Optionen (d. h. diejenigen Optionen, die mit
+einem Doppelstrich beginnen) kann durch Anhängen der Vorsilbe „no-“ umgekehrt
+werden. Z. B. wird --no-aspect-ratio die Seitenverhältniskorrektur ausschalten.
+Das ist nützlich, falls man eine Einstellung in der Konfigurationsdatei
+übergehen möchte.
+
+Ein kurzer Spielname („Spielziel“), den Sie am Ende der Kommandozeile sehen,
+legt fest, welches Spiel gestartet wird. Dieser bezieht sich entweder auf ein
+willkürlich vom Anwender definiertes Ziel (aus der Konfigurationsdatei) oder auf
+eine vorbestimmte Spielkennung. Eine kurze Liste von Letzterem ist in
+Abschnitt 3.0 zu finden.
+
+Beispiele:
+ * Win32:
+  Startet Monkey Island im Vollbildmodus von Festplatte:
+   C:\Spiele\LucasArts\scummvm.exe -f -pC:\Spiele\LucasArts\monkey\ monkey
+  Startet Vollgas von CD, im Vollbildmodus und mit aktivierten Untertiteln:
+   C:\Spiele\LucasArts\scummvm.exe -f -n -pD:\resource\ ft
+
+* Unix:
+  Startet Monkey Island im Vollbildmodus von Festplatte:
+   /Pfad/zu/scummvm -f -p/Spiele/LucasArts/monkey/ monkey
+  Startet Vollgas von CD, im Vollbildmodus und mit aktivierten Untertiteln:
+   /Pfad/zu/scummvm -f -n -p/cdrom/resource/ ft
+
+
+5.2) Sprachoptionen:
+---- ---------------
+ScummVM beinhaltet Sprachoptionen für Maniac Mansion, Zak McKracken,
+The Dig, The Curse of Monkey Island, Beneath a Steel Sky und Baphomets Fluch.
+
+Beachten Sie, dass mit Ausnahme von Beneath a Steel Sky, Baphomets Fluch,
+mehrsprachigen Versionen der Goblins-Spiele und Nippon Safes Inc. die Verwendung
+dieser Option nicht die Sprache des Spiels ändert (die normalerweise fest
+programmiert ist), sondern nur dazu verwendet wird, um die passende Schriftart
+zu wählen (z. B. für eine deutsche Version eines Spiels, in der Umlaute
+enthalten sind).
+
+Eine Ausnahme bilden The Dig und The Curse of Monkey Island -- nicht-englische
+Versionen dieser Spiele können auf Englisch eingestellt werden. Dies hat
+allerdings nur Auswirkungen auf die Untertitel; die Sprachausgabe bleibt
+dieselbe.
+
+Maniac Mansion und Zak McKracken
+    en  - Englisch (Standard)
+    de  - Deutsch
+    fr  - Französisch
+    it  - Italienisch
+    es  - Spanisch
+
+The Dig
+    jp  - Japanisch
+    zh  - Chinesisch
+    kr  - Koreanisch
+
+The Curse of Monkey Island
+    en  - Englisch (Standard)
+    de  - Deutsch
+    fr  - Französisch
+    it  - Italienisch
+    pt  - Portugiesisch
+    es  - Spanisch
+    jp  - Japanisch
+    zh  - Chinesisch
+    kr  - Koreanisch
+
+Beneath a Steel Sky
+    gb  - Englisch (Großbritannien) (Standard)
+    en  - Englisch (USA)
+    de  - Deutsch
+    fr  - Französisch
+    it  - Italienisch
+    pt  - Portugiesisch
+    es  - Spanisch
+    se  - Schwedisch
+
+Baphomets Fluch
+    en  - Englisch (Standard)
+    de  - Deutsch
+    fr  - Französisch
+    it  - Italienisch
+    es  - Spanisch
+    pt  - Portugiesisch
+    cz  - Tschechisch
+
+
+5.3) Grafikfilter:
+---- -------------
+ScummVM bietet mehrere Kantenglättungsfilter, um zu versuchen, die bildliche
+Qualität zu verbessern. Dies sind die gleichen Filter, die in vielen anderen
+Emulatoren verwendet werden, wie beispielsweise MAME. Diese Filter nehmen die
+Originalgrafik und skalieren sie um einen bestimmten festen Faktor
+(normalerweise zwei- oder dreifach), bevor sie Ihnen diese anzeigen. Wenn somit
+z. B. ein Spiel ursprünglich in der Auflösung 320x200 läuft (typisch für die
+meisten SCUMM-Spiele), wird ein Filter mit zweifacher Skalierung die Grafiken
+mit der Auflösung 640x400 ausgeben. Gleichermaßen werden Sie durch die
+Verwendung eines 3x-Filters die Auflösung 960x600 erhalten.
+
+Die einzelnen Grafikoptionen im Überblick:
+    1x         - Kein Filter, keine Skalierung. Am schnellsten.
+    2x         - Kein Filter, Faktor 2 (Standard für Spiele, die nicht in der
+                 Auflösung 640x480 laufen).
+    3x         - Kein Filter, Faktor 3.
+    2xsai      - 2xSAI-Filter, Faktor 2.
+    super2xsai - Verbesserter 2xSAI-Filter, Faktor 2.
+    supereagle - Weniger verschwommen als 2xSAI, aber langsamer. Faktor 2.
+    advmame2x  - Basiert nicht auf Verwischen wie 2xSAI, schnell. Faktor 2.
+    advmame3x  - Basiert nicht auf Verwischen wie 2xSAI, schnell. Faktor 3.
+    hq2x       - Sehr hochwertiger, qualitativer Filter, aber langsam. Faktor 2.
+    hq3x       - Sehr hochwertiger, qualitativer Filter, aber langsam. Faktor 3.
+    tv2x       - Zeilensprungfilter, emuliert Fernsehgerät. Faktor 2.
+    dotmatrix  - Punktraster-Effekt. Faktor 2.
+
+Um einen Grafikfilter auszuwählen, stellen Sie diesen im Startmenü ein oder
+übergeben Sie dessen Namen über die Option „-g“ an scummvm, z. B. mit der
+Eingabe:
+
+    scummvm -gadvmame2x monkey2
+
+Hinweis 1: Nicht alle Systeme unterstützen alle (oder überhaupt welche) der oben
+aufgeführten Filter; einige unterstützen womöglich zusätzliche. Die Filter, die
+oben aufgeführt sind, werden standardmäßig vom SDL-System unterstützt.
+
+Hinweis 2: Filter können sehr langsam sein, wenn ScummVM mit einer
+Debug-Konfiguration ohne Optimierungen kompiliert wurde. Auch hat es immer
+Geschwindigkeitsauswirkungen, wenn eine Form der Kantenglättungs- oder linearen
+Filterung verwendet wird.
+
+Hinweis 3: Die FM-TOWNS-Version von Zak McKracken verwendet ursprünglich die
+Auflösung 320x240, daher werden skalierende Grafikfilter das Bild auf 640x480
+oder 960x720 skalieren. Gleichermaßen werden Spiele, die ursprünglich die
+Auflösung 640x480 verwendet haben (wie beispielsweise The Curse of Monkey Island
+oder Baphomets Fluch), auf 1280x960 und 1920x1440 skaliert.
+
+
+5.4) Globales Menü:
+---- --------------
+Das globale Menü ist ein allgemeines Menü, das in allen Spiel-Engines verfügbar
+ist und mit Strg+F5 aufgerufen werden kann. In diesem Menü befinden sich
+folgende Schaltflächen: „Fortsetzen“, „Optionen“, „Über“, „Zur Spieleliste
+zurück“ und „Beenden“. Wenn Sie „Optionen“ auswählen, wird ein Dialog angezeigt,
+in welchem einfache Audio-Einstellungen, wie beispielsweise Lautstärkepegel,
+festgelegt werden können. Wenn Sie „Zurück zur Spieleliste“ wählen, wird das
+momentane Spiel beendet und das Programm kehrt zur Spieleliste zurück, von der
+aus ein anderes Spiel gestartet werden kann.
+
+Hinweis: Das Zurückkehren zur Spieleliste wird nicht von allen Engines
+unterstützt, weshalb die Schaltfläche im globalen Menü deaktiviert wird, wenn
+diese Funktion nicht verfügbar ist.
+
+Die Engines, die momentan das Zurückkehren zur Spieleliste unterstützen, sind:
+
+    AGI
+    AGOS
+    CINE
+    COMPOSER
+    CRUISE
+    DRACI
+    DRASCULA
+    GOB
+    GROOVIE
+    HUGO
+    KYRA
+    LURE
+    MADE
+    MOHAWK
+    PARALLACTION
+    QUEEN
+    SAGA
+    SCI
+    SCUMM
+    SKY
+    SWORD1
+    SWORD2
+    TEENAGENT
+    TOUCHE
+    TSAGE
+    TUCKER
+
+
+5.5) Tastenkürzel:
+---- -------------
+ScummVM unterstützt zahlreiche Tastenkürzel in Spielen. Sie unterscheiden sich
+zwischen SCUMM-Spielen und anderen Spielen.
+
+  Allgemein:
+    Strg+F5                - Zeigt globales Menü.
+    Cmd+q                  - Beenden (Mac OS X)
+    Strg+q                 - Beenden (andere UNIX-Systeme einschließlich Linux)
+    Strg+z ODER Alt+x      - Beenden (andere Plattformen)
+    Strg+u                 - Allen Ton abschalten - EIN/AUS
+    Strg+m                 - Mausbegrenzung in Fenster EIN/AUS
+    Strg+Alt 1-8           - Wechselt zwischen Grafikfiltern.
+    Strg+Alt + oder -      - Skalierungsfaktor höher/niedriger
+    Strg+Alt+a             - Seitenverhältniskorrektur EIN/AUS
+                             Die meisten Spiele verwenden die Auflösung
+                             320x200 Pixel, was auf modernen Monitoren
+                             zusammengequetscht aussehen kann. Die
+                             Seitenverhältniskorrektur streckt das Bild
+                             stattdessen auf 320x240 Pixel oder um ein
+                             Vielfaches davon.
+    Alt+Enter              - Wechselt zwischen Vollbild- und Fenstermodus.
+    Alt+s                  - Macht Bildschirmfoto (nur für SDL-System).
+
+  SCUMM:
+    Strg 0-9 und Alt 0-9   - Lädt und speichert entsprechenden Speicherstand.
+    Strg+d                 - Startet den Debugger.
+    Strg+f                 - Schneller Modus EIN/AUS
+    Strg+g                 - SEHR schneller Modus EIN/AUS
+    Strg+t                 - Wechselt zwischen „Nur Sprachausgabe“,
+                             „Sprachausgabe und Untertitel“ und
+                             „Nur Untertitel“.
+    Tilde (~)              - Zeigt/verbirgt Debugging-Konsole.
+    [ und ]                - Musiklautstärke, leiser/lauter
+    - und +                - Texttempo, langsamer/schneller
+    F5                     - Ruft Menü zum Speichern und Laden auf.
+    Alt+F5                 - Ruft das Original-Menü zum Speichern und Laden auf,
+                             sofern eines im Spiel enthalten ist. Sie können mit
+                             diesem Spiele speichern und laden, jedoch ist es
+                             für diesen Zweck nicht vorgesehen und kann in
+                             einigen Spielen ScummVM zum Absturz führen.
+    i                      - Zeigt IQ-Punkte an (Indiana Jones and the Last
+                             Crusade sowie Indiana Jones and the Fate of
+                             Atlantis).
+    Leertaste              - Spielpause
+    Punkt (.)              - Überspringt aktuelle Textzeile in machen Spielen.
+    Enter                  - Simuliert Klick mit linker Maustaste.
+    Tabulator              - Simuliert Klick mit rechter Maustaste.
+
+  Beneath a Steel Sky:
+    Strg+d                 - Startet den Debugger.
+    Strg+f                 - Schneller Modus EIN/AUS
+    Strg+g                 - SEHR schneller Modus EIN/AUS
+    F5                     - Ruft Menü zum Speichern und Laden auf.
+    Escape                 - Überspringt den Vorspann des Spiels.
+    Punkt (.)              - Überspringt aktuelle Textzeile.
+
+  Baphomets Fluch:
+    F5 oder Escape         - Ruft Menü zum Speichern und Laden auf.
+
+  Baphomets Fluch II:
+    Strg+d                 - Startet den Debugger.
+    Strg+f                 - Schneller Modus EIN/AUS
+    p                      - Spielpause
+
+  Drači Historie:
+    F5                     - Zeigt globales Menü.
+    Linksklick             - Laufen, untersuchen
+    Rechtsklick            - Verwenden, reden
+    Maus nach oben, i      - Inventar
+    Maus nach unten, m     - Karte
+    Escape                 - Vorspann überspringen, Karte/Inventar schließen
+    beliebiger Klick       - Überspringt aktuellen Satz.
+    q                      - Schnelles Laufen EIN/AUS
+
+  Flight of the Amazon Queen:
+    Strg+d                 - Startet den Debugger.
+    Strg+f                 - Schneller Modus EIN/AUS
+    F1                     - Tagebuch benutzen (speichern/laden)
+    F11                    - Schnelles Speichern
+    F12                    - Schnelles Laden
+    Escape                 - Überspringt Zwischensequenzen.
+    Leertaste              - Überspringt aktuelle Textzeile.
+
+  Future Wars
+    F1                     - Untersuchen
+    F2                     - Nehmen
+    F3                     - Inventar
+    F4                     - Verwenden
+    F5                     - Aktivieren
+    F6                     - Sprechen
+    F9                     - „Aktivieren“-Menü
+    F10                    - „Verwenden“-Menü
+    Escape                 - Befehlsmenü aufrufen
+
+  Nippon Safes
+    Strg+d                 - Startet den Debugger.
+    l                      - Spiel laden
+    s                      - Spiel speichern
+
+
+  Simon the Sorcerer 1 und 2:
+    Strg 0-9 und Alt 0-9   - Lädt und speichert entsprechenden Speicherstand.
+    Strg+d                 - Startet den Debugger.
+    Strg+f                 - Schneller Modus EIN/AUS
+    F1-F3                  - Texttempo, schneller - langsamer
+    F10                    - Zeigt alle Figuren und Objekte, die näher
+                             betrachtet werden können.
+    Escape                 - Überspringt Zwischensequenzen.
+    - und +                - Musiklautstärke, leiser/lauter
+    m                      - Musik EIN/AUS
+    s                      - Sound-Effekte EIN/AUS
+    b                      - Hintergrundgeräusche EIN/AUS
+                             [nur in Simon the Sorcerer 2 möglich]
+    Pause                  - Spielpause
+    t                      - Wechselt zwischen Sprachausgabe allein und
+                             Sprachausgabe und Untertiteln zusammen
+                             [Simon the Sorcerer 1 CD (außer Deutsch und
+                             Englisch) und Simon the Sorcerer 2 CD
+                             (alle Sprachen)].
+    v                      - Wechselt zwischen Untertiteln allein und
+                             Sprachausgabe und Untertiteln zusammen
+                             [nur Simon the Sorcerer 2 CD].
+
+  Simon the Sorcerer's Game Pack
+    Strg-d                 - Startet den Debugger.
+    Strg-f                 - Schneller Modus EIN/AUS
+    F12                    - Hohes Tempo in Swampy Adventures EIN/AUS
+    - und +                - Musiklautstärke, leiser/lauter
+    m                      - Musik EIN/AUS
+    s                      - Sound-Effekte EIN/AUS
+    Pause                  - Spielpause
+
+  Floyd - Es gibt noch Helden
+    Strg+d                 - Startet den Debugger.
+    Strg+f                 - Schneller Modus EIN/AUS
+    F7                     - Wechselt Figuren.
+    F9                     - Objektnamen-Anzeige EIN/AUS
+    s                      - Sound-Effekte EIN/AUS
+    Pause                  - Spielpause
+    t                      - Wechselt zwischen Sprachausgabe allein und
+                             Sprachausgabe und Untertiteln zusammen.
+    v                      - Wechselt zwischen Untertiteln allein und
+                             Sprachausgabe und Untertiteln zusammen.
+
+  The Legend of Kyrandia:
+    Strg 0-9 und Alt 0-9   - Lädt und speichert entsprechenden Speicherstand.
+    Strg-d                 - Startet den Debugger.
+
+  TeenAgent
+    F5                     - Zeigt globales Menü.
+
+  Touché: Die Abenteuer des fünften Musketiers:
+    Strg-f                 - Schneller Modus EIN/AUS
+    F5                     - Zeigt Optionen.
+    F9                     - Schnelles Gehen EIN
+    F10                    - Schnelles Gehen AUS
+    Escape                 - Beenden
+    Leertaste              - Überspringt aktuelle Textzeile.
+    t                      - Wechselt zwischen „Nur Sprachausgabe“,
+                             „Sprachausgabe und Text“ und „Nur Text“.
+
+Beachten Sie, dass von der Verwendung von Strg+f oder Strg+g abgeraten wird:
+Spiele können abstürzen, wenn sie schneller als mit ihrer normalen
+Geschwindigkeit laufen, da Skripte aus dem Takt kommen.
+
+Hinweis für WinCE-Anwender: Wegen der beschränkten Tastatureingabe-Möglichkeiten
+bei den meisten Geräten wird ein kleiner Teil dieser Tastenkürzel über die
+Neutastenzuweisung und/oder Konsolenaktionen unterstützt. Näheres ist in der
+Datei README-WinCE.txt nachzulesen.
+
+
+6.0) Spielstände:
+---- ------------
+Spielstände werden bei einigen Plattformen standardmäßig im aktuellen
+Verzeichnis gespeichert und bei anderen in voreingestellten Verzeichnissen.
+Sehen Sie sich das Beispiel weiter unten in dieser Liesmich-Datei an.
+
+Die folgenden Plattformen haben ein anderes Standard-Verzeichnis:
+    Mac OS X:
+    $HOME/Documents/ScummVM Savegames/
+
+    Andere UNIX-Systeme:
+    $HOME/.scummvm/
+
+    Windows Vista/7:
+    \Users\Benutzername\AppData\Roaming\ScummVM\Saved games\
+
+    Windows 2000/XP:
+    \Dokumente und Einstellungen\Benutzername\Anwendungsdaten\
+    ScummVM\Saved games\
+
+    Windows NT4:
+    <Windows-Verzeichnis>\Profiles\Benutzername\
+    Application Data\ScummVM\Saved games\
+
+Hinweis für Anwender von Windows NT4/2000/XP/Vista/7: Das Standard-Verzeichnis
+für Spielstände wurde bei ScummVM 1.5.0 geändert. Die Stapelverarbeitungsdatei
+migration.bat kann verwendet werden, um die Spielstände vom alten
+Standard-Verzeichnis in das neue zu kopieren.
+
+
+6.1) Automatische Spielstände:
+---- -------------------------
+Bei einigen Spielen (nämlich „Beneath a Steel Sky“, „Flight of the Amazon
+Queen“, allen AGI-Spielen und allen SCUMM-Spielen) wird ScummVM standardmäßig
+automatisch alle fünf Minuten den momentanen Spielstand speichern (über die
+Konfigurationseinstellung „autosave_period“ [Zeitspanne für automatisches
+Speichern] kann dies geändert werden). Bei AGI- und SCUMM-Spielen werden diese
+automatischen Spielstände auf Platz 0 abgelegt. Bei der SCUMM-Engine kann dieser
+Speicherstand über die Tastenkombination Strg+0 oder über das F5-Menü geladen
+werden.
+
+Spielstände werden unter Windows NT4/2000/XP/Vista/7 in einem versteckten
+Bereich gespeichert, auf den durch Aufruf von „%APPDATA%\ScummVM\Saved Games\“
+zugegriffen werden kann oder indem das Anzeigen versteckter Dateien im Windows
+Explorer aktiviert wird.
+
+
+6.2) Spielstände umwandeln:
+---- ----------------------
+Die Verwendung von Spielständen aus den Originalversionen wird nicht von allen
+Spiel-Engines unterstützt. Nur bei den folgenden Spielen können Spielstände aus
+den Originalversionen verwendet werden.
+
+  Elvira 1
+    - Fügen Sie 8 Bytes (Name für Spielstand) am Anfang der Spielstanddatei
+      hinzu.
+    - Benennen Sie die Spielstanddatei in „elvira1.xxx“ um.
+
+  Elvira 2
+    - Fügen Sie 8 Bytes (Name für Spielstand) am Anfang der Spielstanddatei
+      hinzu.
+    - Benennen Sie die Spielstanddatei in „elvira2-pc.xxx“ (DOS-Versionen) oder
+      „elvira2.xxx“ (andere Versionen) um.
+
+  Waxworks
+    - Fügen Sie 8 Bytes (Name für Spielstand) am Anfang der Spielstanddatei
+      hinzu.
+    - Benennen Sie die Spielstanddatei in „waxworks-pc.xxx“ (DOS-Versionen) oder
+      „waxworks.xxx“ (andere Versionen) um.
+
+  Simon the Sorcerer 1
+    - Benennen Sie die Spielstanddatei in „simon1.xxx“ um.
+
+  Simon the Sorcerer 2
+    - Benennen Sie die Spielstanddatei in „simon2.xxx“ um.
+
+  Floyd - Es gibt noch Helden
+    - Benennen Sie die Spielstanddatei in „feeble.xxx“ um.
+
+Hierbei steht „xxx“ für den genauen Speicherplatz (z. B. 001), auf welchem sich
+der Spielstand unter ScummVM befinden soll.
+
+
+6.3) Spielstände von Kommandozeile aus anzeigen/laden:
+---- -------------------------------------------------
+
+--list-saves:
+
+   Dieser Schalter kann verwendet werden, um eine Liste der momentanen
+   Spielstände des festgelegten Zielspiels und der entsprechenden Speicherplätze
+   anzuzeigen.
+
+   Verwendung: --list-saves=[ZIEL], wobei [ZIEL] das Zielspiel ist
+
+   Die Engines, die momentan --list-saves unterstützen, sind:
+
+       AGI
+       AGOS
+       CGE
+       CINE
+       CRUISE
+       DRACI
+       GROOVIE
+       HUGO
+       KYRA
+       LURE
+       MOHAWK
+       PARALLACTION
+       QUEEN
+       SAGA
+       SCI
+       SCUMM
+       SKY
+       SWORD1
+       SWORD2
+       TEENAGENT
+       TINSEL
+       TOON
+       TOUCHE
+       TSAGE
+       TUCKER
+
+--save-slot/-x:
+
+   Dieser Schalter kann verwendet werden, um einen Spielstand direkt von der
+   Kommandozeile aus zu laden.
+
+   Verwendung: --save-slot[SPEICHERPLATZ] oder -x[SPEICHERPLATZ], wobei
+   [SPEICHERPLATZ] die Nummer des Speicherplatzes ist
+
+   Die Engines, die momentan --save-slot/-x unterstützen, sind:
+
+       AGI
+       CGE
+       CINE
+       CRUISE
+       DRACI
+       GROOVIE
+       HUGO
+       KYRA
+       LURE
+       MOHAWK
+       QUEEN
+       SAGA
+       SCI
+       SCUMM
+       SKY
+       SWORD1
+       SWORD2
+       TEENAGENT
+       TINSEL
+       TOON
+       TOUCHE
+       TSAGE
+       TUCKER
+
+
+7.0) Musik und Sound:
+---- ----------------
+Bei den meisten Betriebssystemen und Spielen wird ScummVM standardmäßig MT-32-
+oder AdLib-Emulation für die Musikwiedergabe verwenden. MIDI ist nicht bei allen
+Betriebssystemen verfügbar oder muss womöglich manuell konfiguriert werden. Wenn
+Sie MIDI verwenden möchten, haben Sie mehrere unterschiedliche
+Ausgabemöglichkeiten, was von Ihrem Betriebssystem und dessen Konfiguration
+abhängt.
+
+    null       - Keine Ausgabe. Spielt keinerlei Musik ab.
+
+    adlib      - Interne AdLib-Emulation
+    fluidsynth - FluidSynth-MIDI-Emulation
+    mt32       - Interne MT-32-Emulation
+    pcjr       - Interne PCjr-Emulation (nur in SCUMM-Spielen verwendbar)
+    pcspk      - Interne PC-Lautsprecher-Emulation
+    towns      - Interne FM-TOWNS-YM2612-Emulation
+                 (nur in SCUMM-FM-TOWNS-Spielen verwendbar)
+
+    alsa       - Ausgabe mittels ALSA-Sequenzer-Gerät. Siehe unten.
+    core       - CoreAudio-Sound, für Mac-OS-X-Anwender.
+    coremidi   - CoreMIDI-Sound, für Mac-OS-X-Anwender. Verwenden Sie diese
+                 Option nur, wenn Sie einen Hardware-MIDI-Synthesizer haben.
+    seq        - Verwendet /dev/sequencer für MIDI-Ausgabe, *nix-Anwender.
+                 Siehe unten.
+    timidity   - Verbindet zu TiMidity++-MIDI-Server. Siehe unten.
+    windows    - Windows MIDI. Verwendet eingebauten Sequenzer, für
+                 Windows-Anwender.
+
+Um einen Sound-Treiber auszuwählen, stellen Sie diesen im Startmenü ein oder
+übergeben Sie dessen Namen über die Option „-e“ an scummvm, z. B. mit der
+Eingabe:
+
+    scummvm -eadlib monkey2
+
+
+7.1) Sound-Wiedergabe mittels AdLib-Emulation:
+---- -----------------------------------------
+Standardmäßig wird eine AdLib-Soundkarte emuliert und ScummVM wird die Musik als
+abgetastete Wellen ausgeben. Das ist die Standard-Methode für die einige Spiele
+und bietet die beste Kompatibilität zwischen Maschinen und Spielen.
+
+
+7.2) Sound-Wiedergabe mittels FluidSynth-MIDI-Emulation:
+---- ---------------------------------------------------
+Wenn ScummVM mit Unterstützung von libfluidsynth kompiliert wurde, wird das
+Programm in der Lage sein, MIDI-Musik durch den FluidSynth-Treiber
+wiederzugeben. Hierfür müssen Sie jedoch eine zu verwendende SoundFont-Datenbank
+festlegen.
+
+Da die standardmäßige Ausgabelautstärke von FluidSynth ziemlich leise sein kann,
+wird ScummVM standardmäßig das Signal verstärken. Dies kann mit der
+Kommandozeilenoption --midi-gain weiter geregelt werden oder mittels der
+Einstellung „midi_gain“ in der Konfigurationsdatei.
+
+Die Einstellung kann jeden Wert zwischen 0 und 1000 annehmen, wobei der
+Standard-Wert 100 ist (dies entspricht der FluidSynth-Verstärkung von 0,0 bis
+10,0, die vermutlich in Dezibel bemessen wird).
+
+HINWEIS: Die Prozessorvoraussetzungen für FluidSynth können in einigen Fällen
+ziemlich hoch sein. Ein schneller Hauptprozessor (CPU) wird empfohlen.
+
+
+7.3) Sound-Wiedergabe mittels MT-32-Emulation:
+---- -----------------------------------------
+Einige Spiele, die MIDI-Musikdaten beinhalten, haben auch verbesserte Versionen
+der Musikstücke für das MT-32-Soundmodul. ScummVM kann nun dieses Gerät
+emulieren, jedoch müssen Sie originale MT-32-ROM-Dateien verwenden, damit es
+funktioniert:
+
+MT32_PCM.ROM     - IC21 (512 KB)
+MT32_CONTROL.ROM - IC26 (32 KB) und IC27 (32 KB), Byte-weise verschachtelt
+
+Legen Sie diese ROM-Dateien entweder im Spielverzeichnis ab, im Extrapfad oder
+im Verzeichnis, in dem sich Ihre ausführbare ScummVM-Datei befindet.
+
+Bei diesem Treiber müssen Sie nicht --native-mt32 mittels Kommandozeile
+festlegen, da er automatisch aktiviert wird.
+
+HINWEIS: Die Prozessorvoraussetzungen für diesen Emulator sind ziemlich hoch;
+ein schneller Hauptprozessor (CPU) wird dringend empfohlen.
+
+
+7.4) Sound-Wiedergabe mittels MIDI-Emulation:
+---- ----------------------------------------
+Einige Spiele (wie beispielsweise Sam & Max) beinhalten nur MIDI-Musikdaten.
+Einst hat dies verhindert, Musik in diesen Spielen auf Plattformen
+wiederzugeben, auf welchen MIDI nicht unterstützt wird oder auf Soundkarten, die
+keine MIDI-Treiber bereitstellen (z. B. können viele Soundkarten MIDI unter
+Linux nicht abspielen). ScummVM kann nun den MIDI-Modus emulieren mittels
+abgetasteter Wellen und AdLib, FluidSynth-MIDI-Emulation oder MT-32-Emulation
+entsprechend über die Option -eadlib, -efluidsynth oder -emt32. Wenn Sie jedoch
+in der Lage sind, natives MIDI zu verwenden, empfehlen wir zur Erzielung von
+bestmöglichem Klang, eine der unten stehenden MIDI-Methoden zu verwenden.
+
+
+7.5) Sound-Wiedergabe mittels nativem MIDI:
+---- --------------------------------------
+Verwenden Sie die geeignete Kommandozeilenoption -e<Modus> aus der oberen
+Aufzählung, um Ihr bevorzugtes MIDI-Gerät auszuwählen. Wenn Sie beispielsweise
+den Windows-MIDI-Treiber benutzen möchten, verwenden Sie die Option -ewindows.
+
+
+7.5.1) Verwendung von MIDI-Optionen zur Anpassung der nativen MIDI-Ausgabe:
+------ --------------------------------------------------------------------
+ScummVM unterstützt eine Vielzahl von MIDI-Methoden, was von den Fähigkeiten des
+MIDI-Geräts abhängt.
+
+Wenn --native-mt32 festgelegt ist, wird ScummVM Ihr Gerät als echtes MT-32-Modul
+behandeln. Da die Instrumentenzuweisung und exklusiven Systembefehle von MT-32
+sich von denen der General-MIDI-Geräte unterscheiden, sollten Sie diese Option
+nur aktivieren, wenn Sie tatsächlich Roland MT-32, LAPC-I, CM-64, CM-32L, CM-500
+oder ein GS-Gerät mit MT-32-Zuweisung verwenden.
+
+Wenn --enable-gs festgelegt ist, wird ScummVM Ihr GS-kompatibles Gerät mit
+Voreinstellungen belegen, die den Hall von MT-32 nachahmen, (das Fehlen von)
+Chorus, die Empfindlichkeit der gleitenden Tonhöhenverschiebung usw. Wenn dies
+in Verbindung mit --native-mt32 festgelegt ist, wird ScummVM die
+MT-32-kompatible Zuweisung und das Schlagzeug auf Ihrem GS-Gerät auswählen.
+Diese Einstellung funktioniert besser als standardmäßige GM- oder GS-Emulation
+in Spielen, die keine spezifische Instrumentenzuweisung haben (Loom und
+Monkey1). Sie sollten nur beide Einstellungen festlegen, wenn Sie ein GS-Gerät
+verwenden, das eine MT-32-Zuweisung hat, wie beispielsweise SC-55, SC-88,
+SC-88 Pro, SC-8820, SC-8850, usw. Bitte beachten Sie, dass --enable-gs sowohl
+für DOTT als auch Sam & Max nicht verfügbar ist, da diese Spiele nativ General
+MIDI verwenden.
+
+Wenn keine der oberen Einstellungen aktiviert ist, wird ScummVM Ihr Gerät im
+General-MIDI-Modus initialisieren und GM-Emulation in Spielen mit
+MT-32-Soundtrack verwenden.
+
+Einige Spiele beinhalten Sound-Effekte, die exklusiv für den AdLib-Soundtrack
+vorgesehen sind. Für diese Spiele sollten Sie --multi-midi festlegen, um
+MIDI-Musik mit AdLib-Sound-Effekten zu kombinieren.
+
+
+7.6) Sound-Wiedergabe mittels MIDI-Sequenzer:                    [NUR IN UNIX]
+---- ----------------------------------------
+Wenn Ihr Soundkartentreiber einen Sequenzer unterstützt, können Sie mit der
+Umgebungsvariable „SCUMMVM_MIDI“ auf Ihr Sequenzergerät zeigen -- z. B auf
+/dev/sequencer
+
+Wenn Sie bei dieser Einstellung das Problem haben, dass Sie keinen Ton hören,
+müssen Sie womöglich die Umgebungsvariable „SCUMMVM_MIDIPORT“ mit dem Wert 1
+oder 2 belegen. Dies wählt den Port auf dem zu verwendenden ausgewählten
+Sequenzer aus. Starten Sie dann scummvm mit dem Parameter -eseq. Das sollte bei
+verschiedenen Soundkarten funktionieren und bietet womöglich bessere Leistung
+und Qualität als AdLib-Emulation. Bei Systemen, bei welchen die
+Sequenzer-Unterstützung jedoch nicht funktioniert, können Sie immer auf die
+AdLib-Emulation zurückgreifen.
+
+
+7.6.1) Sound-Wiedergabe mittels ALSA-Sequenzer:                  [NUR IN UNIX]
+------ ----------------------------------------
+Wenn Sie den ALSA-Treiber mit Sequenzer-Unterstützung installiert haben, können
+Sie bei der Umgebungsvariable „SCUMMVM_PORT“ oder der Variable „alsa_port“ in
+der Konfigurationsdatei den Sequenzer-Port festlegen. Wenn der Port in keiner
+der beiden Variablen festgelegt ist, werden standardmäßig die Ports „65:0“ und
+„17:0“ probiert.
+
+Hier ist eine kurze Anleitung, um den ALSA-Sequenzer mit Ihrer Soundkarte zu
+verwenden. In allen Fällen können Sie eine Liste aller Sequenzer-Ports, die Sie
+haben, mit dem Befehl „aconnect -o -l“ erhalten. Hierdurch sollte etwas
+Ähnliches wie folgt ausgegeben werden:
+
+client 14: 'Midi Through' [type=kernel]
+    0 'Midi Through Port-0'
+client 16: 'SBLive! Value [CT4832]' [type=kernel]
+    0 'EMU10K1 MPU-401 (UART)'
+client 17: 'Emu10k1 WaveTable' [type=kernel]
+    0 'Emu10k1 Port 0  '
+    1 'Emu10k1 Port 1  '
+    2 'Emu10k1 Port 2  '
+    3 'Emu10k1 Port 3  '
+client 128: 'TiMidity' [type=user]
+    0 'TiMidity port 0 '
+    1 'TiMidity port 1 '
+    2 'TiMidity port 2 '
+    3 'TiMidity port 3 '
+
+Das Wichtigste hieraus ist, dass es vier WaveTable-MIDI-Ausgänge gibt, die sich
+bei 17:0, 17:1, 17:2 und 17:3 befinden, sowie vier TiMidity-Ports, die sich bei
+128:0, 128:1, 128:2 und 128:3 befinden.
+
+Wenn Sie einen FM-Chip auf Ihrer Soundkarte haben, wie beispielsweise die
+Sound Blaster 16, dann müssen Sie die SoundsFonts über das Programm sbiload
+laden. Beispiel:
+
+  sbiload -p 17:0 /etc/std.o3 /etc/drums.o3
+
+Wenn Sie eine WaveTable-fähige Soundkarte haben, müssen Sie eine SBK- oder
+SF2-SoundFont-Datenbank  über das Programm asfxload laden. Beispiel:
+
+  sfxload /Pfad/zu/8mbgmsfx.sf2
+
+Wenn Sie keine MIDI-fähige Soundkarte haben, gibt es zwei Alternativen:
+FluidSynth und TiMidity. Wir empfehlen FluidSynth, da TiMidity auf vielen
+Systemen bei der Musik „nachhinkt“. Das ist in Spielen mit iMUSE sehr auffällig,
+die schnelle und dynamische Musikübergänge verwenden. Wenn Sie „TiMidity“ unter
+„root“ laufen lassen, ermöglicht dies die Einstellung von Echtzeitpriorität, was
+das Nachziehen der Musik reduzieren kann.
+
+Wie folgt weisen Sie TiMidity an, ein ALSA-Sequenzer zu werden:
+
+  timidity -iAqqq -B2,8 -Os1S -s 44100 &
+
+(Wenn Sie mit diesen Parametern eine unleserliche Ausgabemeldung erhalten,
+können Sie -B2,8 weglassen oder den Wert ändern.)
+
+Wie folgt weisen Sie FluidSynth an, ein ALSA-Sequenzer zu werden (mittels
+SoundFonts):
+
+  fluidsynth -m alsa_seq /Pfad/zu/8mbgmsfx.sf2
+
+Wenn einmal TiMidity oder FluidSynth laufen, verwenden Sie den Befehl
+„aconnect -o -l”, der bereits in diesem Abschnitt beschrieben wurde.
+
+
+7.6.2) Sound-Wiedergabe mittels IRIX-dmedia-Sequenzer:           [NUR IN UNIX]
+------ -----------------------------------------------
+Wenn Sie IRIX und den Treiber dmedia mit Sequenzer-Unterstützung verwenden,
+können Sie bei der Umgebungsvariable „SCUMMVM_MIDIPORT“ oder der Variable
+„dmedia_port“ in der Konfigurationsdatei den Sequenzer-Port festlegen.
+Standardmäßig wird der erste Port verwendet.
+
+Um eine Liste der konfigurierten MIDIs auf Ihrem System zu erhalten, rufen Sie
+„startmidi“ ohne Parameter auf. Beispiel-Ausgabemeldung:
+
+  2 MIDI interfaces configured:
+          Serial Port 2
+          Software Synth
+
+In diesem Beispiel können Sie in ScummVM konfigurieren, dass der
+„Software Synth“ anstatt des standardmäßigen „Serial Port 2“ verwendet wird,
+indem Sie die Zeile
+
+   dmedia_port=Software Synth
+
+in Ihrer Konfigurationsdatei im Abschnitt [scummvm] einfügen oder bei den
+Umgebungsvariablen „SCUMMVM_PORT=Software Synth“ festlegen.
+
+
+7.7) TiMidity++-MIDI-Server verwenden:
+---- ---------------------------------
+Wenn Ihrem Betriebssystem jeglicher MIDI-Sequenzer fehlt, aber Sie trotzdem eine
+bessere MIDI-Qualität haben wollen, als die standardmäßige AdLib-Emulation
+bieten kann, können Sie es mit dem TiMidity++-MIDI-Server versuchen. Schauen Sie
+auf der Website http://timidity.sourceforge.net/ bezüglich Download- und
+Installationsanweisungen nach.
+
+Zuerst benötigen Sie einen Dämonen (ein im Hintergrund laufendes
+Dienstprogramm):
+
+  timidity -ir 7777
+
+Nun können Sie ScummVM starten und TiMidity für Musikausgabe auswählen.
+Standardmäßig wird das Programm mit dem localhost:7777 verbunden, aber Sie
+können Host und Port über die Umgebungsvariable „TIMIDITY_HOST” ändern. Sie
+können auch eine „Gerätenummer“ über die Umgebungsvariable „SCUMMVM_MIDIPORT“
+festlegen.
+
+
+7.8) Komprimierte Audio-Dateien verwenden
+---- ------------------------------------
+
+7.8.0) MP3-Dateien für Audio von CD verwenden:
+------ ---------------------------------------
+Verwenden Sie LAME oder einen anderen MP3-Kodierer, um die CD-Audio-Titel in
+Dateien zu extrahieren. Benennen Sie die Dateien in track1.mp3, track2.mp3 usw.
+um. Sie müssen die Dateien zuerst von der CD als WAV-Datei extrahieren und dann
+in eine MP3-Datei mit konstanter Bitrate umwandeln. Das kann durch folgenden
+LAME-Befehl in der Kommandozeile geschehen:
+
+  lame -t -q 0 -b 96 track1.wav track1.mp3
+
+
+7.8.1) Ogg-Vorbis-Dateien für Audio von CD verwenden:
+------ ----------------------------------------------
+Verwenden Sie oggenc oder einen anderen Vorbis-Kodierer, um die CD-Audio-Titel
+in Dateien umzuwandeln. Benennen Sie die Dateien in track1.ogg, track2.ogg usw.
+um. ScummVM muss mit Unterstützung für Ogg Vorbis kompiliert sein, um diese
+Option nutzen zu können. Sie müssen die Dateien zuerst von der CD als WAV-Datei
+extrahieren und dann in eine Vorbis-Datei umwandeln. Das kann mit folgendem
+Befehl in oggenc in der Kommandozeile geschehen, wobei der Wert nach q die
+gewünschte Qualität zwischen 0 und 10 festlegt:
+
+  oggenc -q 5 track1.wav
+
+
+7.8.2) FLAC-Dateien für Audio von CD verwenden:
+------ ----------------------------------------
+Verwenden Sie flac oder einen anderen FLAC-Kodierer, um die CD-Audio-Titel in
+Dateien umzuwandeln. Benennen Sie die Dateien in track1.flac, track2.flac usw.
+um. Wenn Ihr Dateisystem nur drei Buchstaben für die Dateiendung erlaubt,
+benennen Sie die Dateien in track1.fla, track2.fla usw. um. ScummVM muss mit
+Unterstützung für FLAC kompiliert sein, um diese Option nutzen zu können. Sie
+müssen die Dateien zuerst von der CD als WAV-Datei extrahieren und dann in eine
+FLAC-Datei umwandeln. Das kann mit folgendem FLAC-Befehl in der Kommandozeile
+geschehen:
+
+  flac --best track1.wav
+
+Denken Sie daran, dass die Qualität immer dieselbe ist und die abweichenden
+Kodieroptionen nur Auswirkungen auf die Kodierzeit und letztendliche Dateigröße
+haben.
+
+
+7.8.3) MONSTER.SOU mittels MP3 komprimieren:
+------ -------------------------------------
+Sie benötigen LAME und unser Dienstprogramm „compress_scumm_sou“ aus dem
+ScummVM-Tools-Paket, um diese Aufgabe zu verrichten, und ScummVM muss mit
+MAD-Unterstützung kompiliert sein.
+
+  compress_scumm_sou monster.sou
+
+Am Ende werden Sie die viel kleinere Datei monster.so3 haben. Kopieren Sie diese
+Datei ins Verzeichnis des Spiels. Sie können unbesorgt die Datei monster.sou
+hieraus entfernen.
+
+
+7.8.4) MONSTER.SOU mittels Ogg Vorbis komprimieren:
+------ --------------------------------------------
+Ähnlich wie oben muss ScummVM mit Ogg-Unterstützung kompiliert sein. Rufen Sie
+auf:
+
+  compress_scumm_sou --vorbis monster.sou
+
+Dadurch sollte die kleinere Datei monster.sog erzeugt werden, welche Sie ins
+Verzeichnis des Spiels kopieren sollten. Die Umwandlung in Ogg kann beträchtlich
+länger dauern als bei MP3, also sollten Sie ein gutes Buch zur Hand haben.
+
+
+7.8.5) MONSTER.SOU mittels FLAC komprimieren:
+------ --------------------------------------
+Ähnlich wie oben muss ScummVM mit FLAC-Unterstützung kompiliert sein. Rufen Sie
+auf:
+
+  compress_scumm_sou --flac monster.sou
+
+Dadurch sollte die kleinere Datei monster.sof erzeugt werden, welche Sie ins
+Verzeichnis des Spiels kopieren sollten. Denken Sie daran, dass die Qualität
+immer dieselbe ist und die abweichenden Kodieroptionen nur Auswirkungen auf die
+Kodierzeit und letztendliche Dateigröße haben. Die Veränderung der Blockgröße
+(-b <Wert>) hat den größten Einfluss auf die letztendliche Dateigröße --
+1152 scheint ein guter Wert für diese Art von Sound-Dateien zu sein. Lesen Sie
+auf jeden Fall die Dokumentation des Kodierers, bevor Sie einen anderen Wert
+verwenden.
+
+
+7.8.6) Musik/Sound/Sprachausgabe in AGOS-Spielen komprimieren:
+------ -------------------------------------------------------
+Verwenden Sie unser Dienstprogramm „compress_agos“ aus dem ScummVM-Tools-Paket,
+um diese Aufgabe zu verrichten. Sie können zwischen mehreren Zielformaten
+auswählen, aber beachten Sie, dass Sie diese nur verwenden können, wenn ScummVM
+mit entsprechender Dekodierer-Unterstützung kompiliert wurde.
+
+  compress_agos effects     (Für Acorn-CD-Version von Simon 1)
+  compress_agos simon       (Für Acorn-CD-Version von Simon 1)
+  compress_agos effects.voc (Für DOS-CD-Version von Simon 1)
+  compress_agos simon.voc   (Für DOS-CD-Version von Simon 1)
+  compress_agos simon.wav   (Für Windows-CD-Version von Simon 1)
+  compress_agos simon2.voc  (Für DOS-CD-Version von Simon 2)
+  compress_agos simon2.wav  (Für Windows-CD-Version von Simon 2)
+  compress_agos mac         (Für Macintosh-Version von Simon 2)
+
+  compress_agos voices1.wav (Für Windows-2CD/4CD-Version von Floyd)
+  compress_agos voices2.wav (Für Windows-2CD/4CD-Version von Floyd)
+  compress_agos voices3.wav (Für Windows-4CD-Version von Floyd)
+  compress_agos voices4.wav (Für Windows-4CD-Version von Floyd)
+
+  compress_agos Music       (Für Windows-Version von Game Pack)
+
+Für Ogg Vorbis fügen Sie den Parameter --vorbis den Optionen hinzu. Beispiel:
+
+  compress_agos --vorbis
+
+Für FLAC fügen Sie den Parameter --flac und optionale Unterparameter hinzu.
+Beispiel:
+
+  compress_agos --flac
+
+Am Ende werden Sie die viel kleinere Datei *.mp3, *.ogg oder *.fla haben.
+Kopieren Sie diese Datei ins Verzeichnis des Spiels. Sie können unbesorgt die
+alte Datei hieraus entfernen.
+
+
+7.8.7) Sprachausgabe/Musik in Baphomets Fluch komprimieren:
+------ ----------------------------------------------------
+Das Tool „compress_sword1“ aus dem ScummVM-Tools-Paket kann Musik und
+Sprachausgabe des Spiels sowohl in MP3, Ogg Vorbis als auch FLAC kodieren. Die
+einfachste Möglichkeit, die Dateien umzuwandeln, ist, die ausführbare Datei des
+Tools in das Verzeichnis des Spiels zu kopieren (zusammen mit dem LAME-Kodierer)
+und sie von dort aus aufzurufen. Auf diese Weise wird automatisch alles in MP3
+umgewandelt. Hinterher können Sie manuell die Dateien SPEECH?.CLU und die
+WAVE-Musik-Dateien entfernen.
+
+Wenn Sie „compress_sword1 --vorbis“ aufrufen, werden die Dateien in Ogg Vorbis
+anstatt MP3 umgewandelt.
+
+Wenn Sie „compress_sword1 --flac“ aufrufen, werden die Dateien in FLAC anstatt
+MP3 umgewandelt.
+
+Rufen Sie „compress_sword1 --help“ auf, um eine komplette Liste der Optionen
+angezeigt zu bekommen.
+
+
+7.8.8) Sprachausgabe/Musik in Baphomets Fluch II komprimieren:
+------ -------------------------------------------------------
+Verwenden Sie unser Dienstprogramm „compress_sword2“ aus dem
+ScummVM-Tools-Paket, um diese Aufgabe zu verrichten. Sie können zwischen
+mehreren Zielformaten auswählen, aber beachten Sie, dass Sie diese nur verwenden
+können, wenn ScummVM mit entsprechender Dekodierer-Unterstützung kompiliert
+wurde.
+
+  compress_sword2 speech1.clu
+  compress_sword2 music1.clu
+
+Für Ogg Vorbis fügen Sie den Parameter --vorbis den Optionen hinzu. Beispiel:
+
+  compress_sword2 --vorbis
+
+Am Ende werden Sie die viel kleinere Datei *.cl3 oder *.clg haben. Kopieren Sie
+diese Datei ins Verzeichnis des Spiels. Sie können unbesorgt die alte Datei
+hieraus entfernen.
+
+Es ist möglich, die FLAC-Komprimierung zu verwenden, indem Sie den Parameter
+--flac den Optionen hinzufügen. Jedoch wird die letztendliche Datei sogar größer
+sein als die Originaldatei.
+
+Bitte beachten Sie, dass compress_sword2 nur mit den vier
+Sprachausgabe-/Musikdateien aus Baphomets Fluch II funktioniert. Das Programm
+funktioniert mit keiner der anderen *.clu-Dateien noch mit den
+Sprachausgabe-Dateien aus Baphomets Fluch I.
+
+
+7.9) Ausgabefrequenzen:
+---- ------------------
+Die Ausgabefrequenz teilt ScummVM mit, wie viele Sound-Abtastungen je Kanal pro
+Sekunde abgespielt werden sollen. Es gibt viel, was über dieses Thema gesagt
+werden könnte, aber das Meiste wäre hier unerheblich. Die Kurzfassung ist, dass
+für die meisten Spiele 22050 Hz genügen, aber in einigen Fällen 44100 Hz
+vorzuziehen sind. Auf äußerst alten, langsamen Systemen möchten Sie womöglich
+11025 Hz verwenden, aber es ist unwahrscheinlich, dass Sie sich darum Sorgen
+machen müssen.
+
+Zur Erklärung: Die meisten Sounds, die ScummVM wiedergeben muss, wurden entweder
+mit der Frequenz 22050 Hz oder 11025 Hz abgetastet. Durch die Verwendung einer
+höheren Abtastfrequenz wird die Qualität der Sounds nicht magisch verbessert.
+Deswegen genügen 22050 Hz.
+
+Einige Spiele verwenden Audio von CD. Wenn Sie komprimierte Dateien hierfür
+verwenden, haben diese wahrscheinlich die Abtastfrequenz 44100 Hz, womit dies
+für solche Spiele die bessere Wahl für die Abtastfrequenz ist.
+
+Bei Verwendung von AdLib, FM Towns, des PC-Lautsprecher oder des
+PCjr-Musiktreibers ist ScummVM für die Erzeugung der Abtastungen zuständig.
+Normalerweise sind 22050 Hz hierfür eine Menge, aber in Beneath a Steel Sky gibt
+es mindestens ein AdLib-Musikstück, das mit 44100 Hz viel besser klingt.
+
+Die Verwendung von Frequenzen dazwischen wird nicht empfohlen. Einerseits könnte
+Ihre Soundkarte diese nicht unterstützen. In der Theorie sollte ScummVM in
+diesem Fall auf eine sinnvollere Frequenz zurückgreifen, aber verlassen Sie sich
+nicht darauf. Ein noch wichtigerer Grund ist, dass ScummVM alle Sounds zu ihrer
+Ausgabefrequenz umwandeln muss. Das funktioniert viel einfacher, wenn die
+Ausgabefrequenz ein Vielfaches der Originalfrequenz ist.
+
+
+8.0) Konfigurationsdatei:
+---- --------------------
+Standardmäßig wird die Konfigurationsdatei hier gespeichert und geladen:
+
+    Windows Vista/7:
+    \Users\Benutzername\AppData\Roaming\ScummVM\scummvm.ini
+
+    Windows 2000/XP:
+    \Dokumente und Einstellungen\Benutzername\Anwendungsdaten\
+    ScummVM\scummvm.ini
+
+    Windows NT4:
+    <Windows-Verzeichnis>\Profiles\Benutzername\
+    Application Data\ScummVM\scummvm.ini
+
+    Windows 95/98/ME:
+    <Windows-Verzeichnis>\scummvm.ini
+
+    Wenn eine ältere Version von ScummVM unter Windows installiert wurde, wird
+    der frühere Standard-Ort „<Windows-Verzeichnis>\scummvm.ini“ beibehalten.
+
+    Unix:
+    ~/.scummvmrc
+
+    Mac OS X:
+    ~/Library/Preferences/ScummVM Preferences
+    (Hierbei bezieht sich ~ auf das Benutzerverzeichnis.)
+
+    Sonstige:
+    scummvm.ini im aktuellen Verzeichnis
+
+Eine beispielhafte Konfigurationsdatei sieht wie folgt aus:
+
+    [scummvm]
+    gfx_mode=supereagle
+    fullscreen=true
+    savepath=C:\Spielstaende\
+
+    [sky]
+    path=C:\Spiele\SteelSky\
+
+    [sky-Deutsch]
+    gameid=sky
+    language=de
+    path=C:\Spiele\SteelSky\
+    description=Beneath a Steel Sky mit deutschen Untertiteln
+
+    [dott-Deutsch]
+    gameid=tentacle
+    path=C:\Deutsch\tentacle\
+    description=Deutsche Version von DOTT
+
+    [tentacle]
+    path=C:\tentacle\
+    subtitles=true
+    music_volume=40
+    sfx_volume=255
+
+    [loomcd]
+    cdrom=1
+    path=C:\loom\
+    talkspeed=5
+    savepath=C:\loom\Spielstaende\
+
+    [monkey2]
+    path=C:\amiga_mi2\
+    music_driver=windows
+
+
+8.1) Verwendbare Konfigurationsschlüsselwörter
+---- -----------------------------------------
+In der nachfolgenden Liste mit Schlüsselwörtern für die Konfigurationsdatei
+werden rechts das Schlüsselwort, in der Mitte der Typ der erwarteten Zuweisung
+und rechts die Erklärung angezeigt. Der Typ „Bool“ bedeutet Wahrheitswert. Er
+kann entweder „true“ (wahr) oder „false“ (falsch) sein.
+
+Die folgenden Schlüsselwörter werden erkannt:
+
+    path               Text     Verzeichnis mit Spieldaten
+    autosave_period    Zahl     Sekunden zwischen automatischem Speichern
+                                (Standard: 300)
+    save_slot          Zahl     Nummer des Spielstands, der zu Spielbeginn
+                                geladen werden soll
+    savepath           Text     Verzeichnis für Spielstände des Spiels
+    versioninfo        Text     Die Version von ScummVM, welche diese
+                                Konfigurationsdatei erstellt hat
+
+    gameid             Text     Die echte Spielkennung. Hilfreich, wenn Sie
+                                mehrere Versionen des gleichen Spiels haben und
+                                verschiedene Einträge für diese wollen.
+                                Siehe Beispiel.
+    description        Text     Die Spielbeschreibung wie sie in der Spieleliste
+                                erscheinen wird
+
+    language           Text     Legt Sprache fest (de, en, us, fr, it, pt, es,
+                                jp, zh, kr, se, gb, hb, cz, ru).
+    speech_mute        Bool     Falls „true“, wird Sprachausgabe unterdrückt.
+    subtitles          Bool     Belegung mit „true“ aktiviert Untertitel.
+    talkspeed          Zahl     Textverzögerung in SCUMM-Spielen oder Texttempo
+                                in anderen Spielen
+
+    fullscreen         Bool     Vollbildmodus
+    aspect_ratio       Bool     Seitenverhältniskorrektur
+    gfx_mode           Text     Grafikmodus (normal, 2x, 3x, 2xsai,
+                                super2xsai, supereagle, advmame2x, advmame3x,
+                                hq2x, hq3x, tv2x, dotmatrix)
+
+    confirm_exit       Bool     Fragt Anwender vor Beenden nach Bestätigung
+                                (nur SDL-System).
+    console            Bool     Konsolenfenster (Standard: aktiv) (nur Windows)
+    cdrom              Zahl     Nummer von CD-ROM-Laufwerk für das Auslesen von
+                                Audio. Falls negaitv, wird erst gar nicht
+                                versucht, auf CD-ROM-Laufwerk zuzugreifen.
+    joystick_num       Zahl     Nummer von Joystick für Verwendung als
+                                Eingabegerät
+    music_driver       Text     Zu verwendender Musiktreiber
+    opl_driver         Text     Verwendung von AdLib-(OPL-)Emulator
+    output_rate        Zahl     Zu verwendende Ausgabefrequenz in Hz. Sinnvolle
+                                Werte sind 11025, 22050 und 44100.
+    alsa_port          Text     Zu verwendender Port für Ausgabe mittels
+                                ALSA-Musiktreiber
+    music_volume       Zahl     Musiklautstärke-Einstellung (0-255)
+    multi_midi         Bool     Falls „true“, werden AdLib und natives MIDI
+                                kombiniert.
+    soundfont          Text     Zu verwendende SoundFont-Datenbank für
+                                MIDI-Wiedergabe (wird nur von einigen
+                                MIDI-Treibern unterstützt)
+    native_mt32        Bool     Falls „true“, wird GM-Emulation deaktiviert und
+                                angenommen, dass ein echtes Roland-MT-32-Modul
+                                verfügbar ist.
+    enable_gs          Bool     Falls „true“, werden GS-spezifische Funktionen
+                                aktiviert, um GM-Emulation zu verbessern. Falls
+                                native_mt32 auch „true“ ist, wird das GS-Gerät
+                                eine MT-32-Zuweisung auswählen, um die korrekten
+                                Instrumente wiederzugeben.
+    sfx_volume         Zahl     Effektlautstärke-Einstellung (0-255)
+    tempo              Zahl     Musiktempo (50-200) (Standard: 100)
+    speech_volume      Zahl     Sprachlautstärke-Einstellung (0-255)
+    midi_gain          Zahl     MIDI-Lautstärke (0-1000) (Standard: 100)
+                                (wird nur von einigen MIDI-Treibern unterstützt)
+
+    copy_protection    Bool     Kopierschutz in bestimmten Spielen, für welche
+                                ScummVM ihn standardmäßig ausschaltet
+    demo_mode          Bool     Startet Demo in Maniac Mansion.
+    alt_intro          Bool     Verwendet alternativen Vorspann bei CD-Versionen
+                                von Beneath a Steel Sky und Flight of the Amazon
+                                Queen.
+
+    boot_param         Zahl     Ruft Boot-Skript mit dieser Nummer auf.
+
+Sierra-Spiele, welche die AGI-Engine verwenden, verfügen zusätzlich über
+folgendes nicht standardmäßiges Schlüsselwort:
+
+    originalsaveload   Bool     Falls „true“, werden die originalen Menüs zum
+                                Speichern und Laden statt der
+                                erweiterten von ScummVM verwendet.
+
+Sierra-Spiele, welche die SCI-Engine verwenden, verfügen zusätzlich über
+folgende nicht standardmäßige Schlüsselwörter:
+
+    disable_dithering  Bool     Entfernung von Fehlerdiffusionsartefakten in
+                                EGA-Spielen
+    prefer_digitalsfx  Bool     Falls „true“, werden digitale Sound-Effekte
+                                statt synthetisierter bevorzugt.
+    originalsaveload   Bool     Falls „true“, werden die originalen Menüs zum
+                                Speichern und Laden statt der
+                                erweiterten von ScummVM verwendet.
+    native_fb01        Bool     Falls „true“, wird für die MIDI-Ausgabe
+                                der Musiktreiber für eine Music-Feature-Karte
+                                von IBM oder für ein Yamaha-FB-01-FM-
+                                Synthetisierungsmodul verwendet.
+
+Baphomets Fluch II verfügt zusätzlich über folgende nicht standardmäßige
+Schlüsselwörter:
+
+    gfx_details        Zahl     Grafikqualitätseinstellung (0-3)
+    music_mute         Bool     Falls „true“, wird Musik unterdrückt.
+    object_labels      Bool     Falls „true“, werden Objektnamen angezeigt.
+    reverse_stereo     Bool     Falls „true“, werden Stereokanäle umgekehrt.
+    sfx_mute           Bool     Falls „true“, werden Geräusche unterdrückt.
+
+Flight of the Amazon Queen verfügt zusätzlich über folgende nicht standardmäßige
+Schlüsselwörter:
+
+    music_mute         Bool     Falls „true“, wird Musik unterdrückt.
+    sfx_mute           Bool     Falls „true“, werden Geräusche unterdrückt.
+
+Jones in the Fast Lane verfügt zusätzlich über folgendes nicht standardmäßiges
+Schlüsselwort:
+
+    music_mute         Bool     Falls „true“, wird - sofern verfügbar - CD-Ton
+                                anstatt des Tons im Spiel verwendet.
+
+Die Windows-Version von King's Quest VI verfügt zusätzlich über folgendes nicht
+standardmäßiges Schlüsselwort:
+
+    windows_cursors    Bool     Falls „true“, werden die originalen
+                                unskalierten, schwarz-weißen Windows-Zeiger
+                                anstatt der von DOS verwendet. Wenn „false“,
+                                werden die DOS-Zeiger in der Windows-Version
+                                verwendet - hochskaliert, um zum Rest der
+                                hochskalierten Grafiken zu passen.
+
+Lands of Lore: The Throne of Chaos verfügt zusätzlich über folgende nicht
+standardmäßige Schlüsselwörter:
+
+    smooth_scrolling   Bool     Falls „true“, ist das Scrollen gleichmäßiger,
+                                wenn man von einem Bildschirm zum anderen
+                                wechselt.
+    floating_cursors   Bool     Falls „true“, verwandelt sich der Mauszeiger in
+                                einen Richtungspfeil, wenn er über den
+                                Bildschirmrand bewegt wird. Durch einen
+                                Mausklick kann der Spieler dann in diese
+                                Richtung gehen.
+
+Die CD-Version von Space Quest IV verfügt zusätzlich über folgendes nicht
+standardmäßiges Schlüsselwort:
+
+     silver_cursors    Bool     Falls „true“, wird ein alternativer Satz
+                                silberner Mauszeiger verwendet anstatt der
+                                originalen goldenen.
+
+Simon the Sorcerer 1 und 2 verfügen zusätzlich über folgende nicht
+standardmäßige Schlüsselwörter:
+
+    music_mute         Bool     Falls „true“, wird Musik unterdrückt.
+    sfx_mute           Bool     Falls „true“, werden Geräusche unterdrückt.
+
+The Legend of Kyrandia verfügt zusätzlich über folgendes nicht standardmäßiges
+Schlüsselwort:
+
+    walkspeed          Zahl     Bewegungsgeschwindigkeit (0-4)
+
+The Legend of Kyrandia: Malcolm's Revenge verfügt zusätzlich über folgende nicht
+standardmäßige Schlüsselwörter:
+
+    studio_audience    Bool     Falls „true“, hört man stets Applaus- und
+                                Jubelgeräusche, wenn Malcolm einen Scherz macht.
+    skip_support       Bool     Falls „true“, kann der Spieler Textteile und
+                                Zwischensequenzen überspringen.
+    helium_mode        Bool     Falls „true“, klingen alle Spielfiguren so,
+                                als hätten sie Helium eingeatmet.
+
+The 7th Guest verfügt zusätzlich über folgendes nicht standardmäßiges
+Schlüsselwort:
+
+    t7g_speed          Text     Videowiedergabe-Geschwindigkeit
+                                (normal, tweaked [optimiert],
+                                im_an_ios [ich bin ein iOS])
+
+
+8.2) Spielspezifische Optionen bei der grafischen Benutzeroberfläche
+---- ---------------------------------------------------------------
+Viele spielspezifische Optionen, die im vorigen Abschnitt aufgeführt wurden,
+können über die grafische Benutzeroberfläche angesprochen werden. Falls eine
+spielspezifische Option für ein bestimmtes Spiel verfügbar ist, erscheint ein
+neuer Reiter mit der Bezeichnung „Engine“, wenn man dieses Spiel hinzufügt oder
+dessen Spieloptionen bearbeitet. Falls die spielspezifischen Optionen nicht
+angezeigt werden, muss das betreffende Spiel einmal gestartet oder neu zur
+Spieleliste hinzugefügt werden. Dadurch wird die Konfiguration von jedem Eintrag
+aktualisiert, was die spielspezifischen Optionen zum Vorschein bringt.
+
+
+9.0) Kompilierung:
+---- -------------
+Für eine aktuelle Übersicht dazu, wie man ScummVM für unterschiedliche
+Plattformen kompiliert, schauen Sie bitte in unserem Wiki nach, insbesondere auf
+dieser Seite:
+   http://wiki.scummvm.org/index.php/Compiling_ScummVM
+
+Wenn Sie für Windows, Linux oder Mac OS X kompilieren, benötigen Sie SDL-1.2.2
+oder höher (ältere Versionen funktionieren möglicherweise, haben aber keinen
+Support) und einen unterstützten Kompilierer. Mehrere Kompilierer,
+einschließlich GCC, mingw und neue Versionen von Microsoft Visual C++ werden
+unterstützt. Wenn Sie mit MP3 komprimierte CD-Titel oder .SOU-Dateien verwenden
+möchten, müssen Sie die MAD-Bibliothek installieren; ebenso benötigen Sie die
+geeigneten Bibliotheken für Sound-Dateien, die mit Ogg Vorbis und FLAC
+komprimiert wurden. Für komprimierte Speicherstände ist zlib erforderlich.
+
+Von einigen Teilen in ScummVM, insbesondere Grafikwandlern, gibt es stark
+optimierte Versionen, die in Assembler geschrieben sind. Wenn Sie diese
+verwenden möchten, müssen Sie den Assembler nasm installieren
+(siehe http://nasm.sf.net). Beachten Sie, dass wir momentan nur für x86 MMX
+optimierte Versionen haben und diese auf keinem anderen Prozessor kompiliert
+werden.
+
+Bei Win9x/NT/XP können Sie USE_WINDBG definieren und WinDbg anhängen, um
+Debug-Nachrichten zu durchsuchen
+(siehe http://www.sysinternals.com/ntw2k/freeware/debugview.shtml).
+
+  GCC und MinGW32:
+    * Geben Sie „./configure“ ein.
+    * Geben Sie „make“ ein (oder „gmake“ bzw. „gnumake“, abhängig davon, auf
+      welchem GNU der Befehl „make“ auf Ihrem System aufgerufen wird) und mit
+      etwas Glück wird ScummVM für Sie kompiliert.
+    * Weitere Information finden Sie hier:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/GCC
+      entsprechend
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/MinGW
+
+  Microsoft Visual C++ 8/9/10:
+    * Lesen Sie nach, wie man die Projektmappendatei in „dists\msvc8“ bzw.
+      entsprechend in „dists\msvc9“ oder „dists\msvc10“ erstellt.
+    * Öffnen Sie die erstellte Projektmappendatei.
+    * Geben Sie die Pfade zu den benötigten Bibliotheksdateien
+      und Includedateien unter
+      „Extras|Optionen|Projekte und Projektmappen|VC++-Verzeichnisse“ ein.
+    * Jetzt sollte das Programm erfolgreich kompiliert werden können.
+    * Weitere Information finden Sie hier:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/VS2005
+
+  Windows Mobile:
+    * Bitte lesen Sie:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/Windows_CE
+
+  Mac OS X:
+    * Stellen Sie sicher, dass Sie die „Developer“-Tools installiert haben.
+    * Das „Developer“-Paket von SDL für OS X, das auf der SDL-Website
+      zur Verfügung steht, ist _nicht_ geeignet. Sie benötigen stattdessen eine
+      SDL-Zusammenstellung im UNIX-Stil. Eine Möglichkeit, diese zu erhalten,
+      ist, SDL über Fink zu installieren (http://fink.sf.net). Alternativ können
+      Sie SDL mittels Quellcode manuell kompilieren, indem Sie dessen
+      UNIX-Zusammenstellungssystem verwenden (configure && make).
+    * Geben Sie „./configure“ im ScummVM-Verzeichnis ein.
+    * Sie können nun „make“ eingeben, um eine von der Kommandozeile aus
+      aufrufbare Binärdatei zu erstellen.
+    * Um eine Version zu erhalten, die Sie vom Finder aus aufrufen können, geben
+      Sie „make bundle“ ein, wodurch ScummVM.app erstellt wird (das funktioniert
+      nur dann auf Anhieb, wenn Sie SDL in das Verzeichnis /sw installiert haben
+      [wie es bei der Verwendung von Fink getan wird].
+      Wenn Sie SDL auf andere Weise installiert haben, müssen Sie
+      die Datei ports.mk von ScummVM bearbeiten.
+    * Weitere Information finden Sie hier:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/MacOS_X_Crosscompiling
+
+  AmigaOS 4 (Cross-Kompilation mit Cygwin):
+    * Stellen Sie sicher, dass Sie SDL installiert haben. Sie benötigen
+      womöglich auch libogg, libvorbis, libvorbisfile, zlib und libmad.
+    * Geben Sie „./configure --host=ppc-amigaos“ ein.
+    * Wenn Sie einen Fehler wegen sdl-config erhalten, verwenden Sie den
+      Parameter „--with-sdl-prefix“, um den Pfad zu bestimmen.
+    * Überprüfen Sie die Datei „config.mk“ und wenn alles in Ordnung
+      zu sein scheint:
+    * Rufen Sie „make“ auf.
+    * Cross-Kompilation mit Linux ist womöglich genauso einfach.
+
+  iPhone:
+    * Bitte lesen Sie:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/iPhone
+
+  Maemo:
+    * Installieren Sie Maemo SDK mit rootstrap 4.1.2.
+    * Installieren Sie libmad, Tremor und FLAC mittels Quellcode.
+    * Rufen Sie „ln -s backends/platform/maemo/debian“ auf.
+    * Aktualisieren Sie debian/changelog.
+    * Rufen Sie „sb2 dpkg-buildpackage -b“ auf.
+
+------------------------------------------------------------------------
+Viel Glück und viel Spaß beim Spielen wünscht
+das ScummVM-Team.
+http://www.scummvm.org/
+------------------------------------------------------------------------

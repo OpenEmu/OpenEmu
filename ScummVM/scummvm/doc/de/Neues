@@ -1,0 +1,1725 @@
+Umfangreichere Änderungsaufzeichnungen des neusten experimentellen Codes finden
+Sie auf Englisch unter:
+        https://github.com/scummvm/scummvm/commits/
+
+1.5.0 (27.07.2012)
+ Neue Spiele:
+   - Unterstützung für Backyard Baseball 2003 hinzugefügt.
+   - Unterstützung für Blue Force hinzugefügt.
+   - Unterstützung für Darby der Drache hinzugefügt.
+   - Unterstützung für Dreamweb hinzugefügt.
+   - Unterstützung für Geisha hinzugefügt.
+   - Unterstützung für Gregor und der Heißluftballon hinzugefügt.
+   - Unterstützung für Magic Tales: Liam Finds a Story hinzugefügt.
+   - Unterstützung für Once Upon A Time: Little Red Riding Hood hinzugefügt.
+   - Unterstützung für Sleeping Cub's Test of Courage hinzugefügt.
+   - Unterstützung für Soltys hinzugefügt.
+   - Unterstützung für The Princess and the Crab hinzugefügt.
+
+Allgemein:
+   - MT-32-Emulationscode auf den neusten Stand des Munt-Projekt-Schnappschusses
+     gebracht. Die Emulation hat sich drastisch verbessert.
+   - Unterstützung für TrueType-Schriftarten über FreeType2 in unserer
+     grafischen Benutzeroberfläche hinzugefügt. Damit einhergehend wurde auch
+     GNU FreeFont zu unserem modernen Thema hinzugefügt. Beachten Sie, dass
+     nicht alle Ports hiervon profitieren.
+   - Baskische Übersetzung hinzugefügt.
+   - Spiel- und engine-spezifische Optionen in den Engines AGI, DREAMWEB, KYRA,
+     QUEEN, SKY und SCI hinzugefügt. Es ist nun möglich, diese über den
+     Engine-Reiter anzusprechen, wenn man ein Spiel hinzufügt oder dessen
+     Spieloptionen bearbeitet. In den meisten Fällen müssen Sie jedes Spiel
+     einmal starten oder diese alle in ScummVMs Spieleliste neu hinzufügen, um
+     den Reiter für spielspezifische Optionen zu erhalten.
+   - Aussehen von vorhersagendem Eingabedialog verbessert.
+   - Verschiedene Verbesserungen der grafischen Benutzeroberfläche.
+
+ Baphomets Fluch 1:
+   - Falsche Soundeffekte in der DOS-/Windows-Demo korrigiert.
+   - Unterstützung für PlayStation-Videos hinzugefügt.
+   - Fehlende Untertitel zur Demo hinzugefügt.
+
+ Baphomets Fluch 2:
+   - Unterstützung für PlayStation-Videos hinzugefügt.
+
+ Cine:
+   - Roland-MT-32-Ausgabetreiber integriert.
+
+ Drascula:
+   - Spanische Untertitel zur Zwischensequenz mit Von Braun
+     hinzugefügt (3069981: Keine Untertitel in Szene mit „Von Braun“).
+
+ Gob:
+   - Absturz in Lost in Time beseitigt.
+   - AdLib-Abspieler umgeschrieben. Den nun funktionierenden MDY-Abspieler in
+     Fascination und Geisha aktiviert.
+
+ SCUMM:
+   - Unterstützung für die Macintosh-Version von SPY Fox in Hold the Mustard
+     hinzugefügt.
+   - Dialog zur Auswahl des Schwierigkeitsgrads für Loom FM-TOWNS hinzugefügt.
+   - Grafische Störungen in HE98-Version von Pajama Sam's Lost & Found
+     beseitigt.
+
+ iPhone-Portierung:
+   - Verhalten von Geste für F5 (Menü) geändert, um stattdessen das Hauptmenü zu
+     öffnen.
+   - Unterstützung für spezifische Mauszeigerpaletten hinzugefügt. Hierdurch
+     wird beispielsweise der rote Zeiger im modernen Thema verwendet.
+   - Unterstützung für Seitenverhältniskorrektur hinzugefügt.
+   - Unterstützung für 16 Bits pro Pixel bei Spielen integriert.
+
+ Maemo-Portierung:
+   - Unterstützung für Nokia 770 mit dem Betriebssystem OS2008 HE hinzugefügt.
+   - Konfigurierbare Tastenzuweisung hinzugefügt.
+
+ Windows-Portierung:
+   - Standard-Verzeichnis für Spielstände bei
+     Windows NT4/2000/XP/Vista/7 geändert.
+     (Die Stapelverarbeitungsdatei migration.bat kann verwendet werden, um die
+     Spielstände vom alten Standard-Verzeichnis in das neue zu kopieren.)
+
+1.4.1 (27.01.2012)
+ AGOS:
+   - Das Laden von Videos direkt aus InstallShield-Archiven in der
+     Windows-Version von Floyd - Es gibt noch Helden korrigiert.
+
+ Baphomets Fluch 2:
+   - Leichte Grafikverbesserung für PSX-Version.
+
+
+ BASS:
+   - Unterstützung für verbesserte Musik von James Woodcock hinzugefügt
+     (http://www.jameswoodcock.co.uk/?p=7695).
+
+ KYRA:
+   - Fehler in der originalen Benutzeroberfläche von Lands of Lore beseitigt,
+     der dazu führte, dass ScummVM abstürzte, wenn der Anwender keine
+     durchgehend fortlaufenden Speicherplätze verwendete.
+   - Unterstützung für originale DOS-Speicherstände von Lands of Lore
+     hinzugefügt (trifft auch auf Speicherstände zu, die mit der GOG-Version
+     gemacht wurden).
+
+ SCI:
+   - Abfolgebedingung bei SCI1.1-Palettenänderungen korrigiert. Dies behebt
+     einen Fehler in QFG1VGA, wenn man in Erana's Peace schläft.
+   - Die Option, um zwischen digitalisierten und synthetisierten
+     Soundeffekten auszuwählen, wurde bis auf Weiteres deaktiviert, bis eine
+     anwenderfreundlichere Benutzeroberflächen-Option möglich ist.
+     Digitale Soundeffekte werden vorerst immer bevorzugt.
+   - Fehler in einem Fall beseitigt, bei welchem bei Beginn eines neuen Liedes
+     nicht alle Kanäle zurückgesetzt wurden und somit einige Noten falsch
+     klangen.
+
+1.4.0 (11.11.2011)
+ Neue Spiele:
+   - Unterstützung für Lands of Lore: The Throne of Chaos hinzugefügt.
+   - Unterstützung für Blue's Birthday Adventure hinzugefügt.
+   - Unterstützung für Ringworld: Revenge Of The Patriarch hinzugefügt.
+   - Unterstützung für die Amiga-Version von Conquests of the Longbow
+     hinzugefügt.
+
+ Neue Portierungen:
+   - Portierung für PlayStation 3 hinzugefügt.
+
+ Allgemein:
+   - ARM-Assembler-Routinen für Stereo-Umkehr bei Audio repariert.
+   - Unterstützung für unkomplizierte Zusammenstellung mit MacPorts
+     hinzugefügt.
+
+ AGI:
+   - Sound-Unterstützung für die DOS-Version von Winnie the Pooh in the
+     Hundred Acre Wood integriert.
+
+ AGOS:
+   - Unterstützung integriert für direktes Laden von Dateien aus
+     InstallShield-Archiven für Floyd - Es gibt noch Helden und
+     Simon the Sorcerer's Game Pack.
+   - Laden und Speichern in der PC-Version von Waxworks repariert.
+   - Musik in den PC-Versionen von Elvira 1 und 2 sowie Waxworks korrigiert.
+
+ Baphomets Fluch 1:
+   - Aufhängen in Windows-Demo beseitigt.
+   - Absturz beseitigt, wenn Untertitelpaket für Zwischensequenzen in
+     Macintosh-Version verwendet wird.
+
+
+ Groovie:
+   - Unterstützung für die iOS-Version von The 7th Guest hinzugefügt.
+
+ Lure:
+   - Absturz beseitigt, wenn man versucht, gleichzeitig zu sprechen und etwas zu
+     fragen.
+
+ SCI:
+   - Bessere Handhabung der Auswahl zwischen digitalen und synthetisierten
+     Sound-Effekten hinzugefügt. Wenn das Kontrollkästchen „AdLib-/MIDI-Modus“
+     markiert ist, wird die Engine digitale Sound-Effekte bevorzugen, ansonsten
+     werden stattdessen deren synthetisierten Gegenstücke bevorzugt, wenn beide
+     Versionen des gleichen Effekts existieren.
+
+ SCUMM:
+   - PC-Lautsprecher-Unterstützung für V5-Spiele integriert.
+   - Prioritätsfehler in iMuse beseitigt. Dadurch sollte AdLib-Musik besser
+     klingen, da wichtige Noten nicht mehr unterbrochen werden.
+   - CMS-Unterstützung integriert für Loom, The Secret of Monkey Island und
+     Indiana Jones and the Last Crusade.
+   - Palettenhandhabung in der Amiga-Version von Indiana Jones and the
+     Fate of Atlantis verbessert.
+
+ Tinsel:
+   - Löschen von Spielständen aus der Liste der Speicherstände korrigiert (im
+     Startmenü und im ScummVM-Menü innerhalb des Spiels).
+   - Die US-Version von Discworld II zeigt nun den korrekten Titelbildschirm und
+     die richtige Sprachenflagge.
+
+ Android-Portierung:
+   - Plugins bei Android 3.x repariert.
+   - Standardmäßigen Speicherort für Spielstände auf SD-Karte verschoben.
+
+1.3.1 (12.07.2011)
+ Allgemein:
+   - Audiogeräte-Erkennung und Zurückgreifen auf Alternativen verbessert.
+     Es sollten keine stillen Fehler mehr aufgrund ungültiger Audiogeräte
+     auftreten. Stattdessen sollte ScummVM eine geeignete Alternative auswählen.
+
+ Mohawk:
+   - Erkennungseinträge für weitere Varianten einiger Spiele aus der Reihe
+     Living Books hinzugefügt.
+
+ Tinsel:
+   - Rückschrittsfehler beseitigt, der Discworld undurchspielbar machte.
+
+ SAGA:
+   - Rückschrittsfehler im Fortbewegungscode des Drachen in Erben der Erde
+     beseitigt, der dort zu Abstürzen führte.
+   - Rückschrittsfehler beseitigt, der zu unterschiedlichen Abstürzen in
+     I Have No Mouth, and I Must Scream führte.
+
+ SCI:
+   - Erkennungseinträge für einige Macintosh-Versionen von Spielen hinzugefügt.
+   - Audio-Einstellungen werden nun für die CD-Version von EcoQuest 1 korrekt
+     gespeichert.
+
+ SCUMM:
+   - Grafikfehler in FM-TOWNS-Versionen von Spielen auf ARM-Geräten beseitigt
+     (Android, iPhone, usw.).
+
+1.3.0 (28.05.2011)
+ Neue Spiele:
+   - Unterstützung für Backyard Baseball hinzugefügt.
+   - Unterstützung für Backyard Baseball 2001 hinzugefügt.
+   - Unterstützung für Urban Runner hinzugefügt.
+   - Unterstützung für Playtoons: Bambou le Sauveur de la Jungle hinzugefügt.
+   - Unterstützung für Toonstruck hinzugefügt.
+   - Unterstützung für V1- und V2-Spiele aus der Reihe Living Books hinzugefügt.
+   - Unterstützung für Hugo's House of Horrors, Hugo 2: Whodunit?
+     und Hugo 3: Jungle of Doom hinzugefügt.
+   - Unterstützung für Amiga-SCI-Spiele hinzugefügt (außer Conquests of the
+     Longbow).
+   - Unterstützung für Macintosh-SCI1-Spiele hinzugefügt.
+
+ Neue Portierungen:
+   - Portierung für WebOS hinzugefügt.
+
+ Allgemein:
+   - Unterstützung für ladbare Module auf Plattformen ohne dynamischen Lader
+     hinzugefügt. (GSoC-Aufgabe)
+   - Dänische Übersetzung hinzugefügt.
+   - Norwegische Bokmål-Übersetzung hinzugefügt.
+   - Norwegische Nynorsk-Übersetzung hinzugefügt.
+   - Schwedische Übersetzung hinzugefügt.
+   - Debug-Konsole zu Cine-, Draci-, Gob-, MADE-, Sword1-, Touche- und
+     Tucker-Engine hinzugefügt.
+   - Bedeutende Speicherlecks geschlossen. Rückkehr zur Spieleliste sollte nun
+     brauchbarer sein.
+
+ AGOS:
+   - Speicherlecks in Simon 2 und Floyd geschlossen.
+
+ Cine:
+   - Speicherlecks und ungültige Speicherzugriffe beseitigt.
+   - Future Wars sollte stabiler laufen.
+   - Operation Stealth ist nun komplett durchspielbar, auch wenn noch erhebliche
+     grafische Störungen vorhanden sind, weshalb das Spiel nicht offiziell
+     unterstützt wird.
+
+ Drascula:
+   - Deutsche und französische Untertitel zur Zwischensequenz mit Von Braun
+     hinzugefügt (3069981: Keine Untertitel in Szene mit „Von Braun“).
+   - Französische Übersetzung des Spiels verbessert.
+   - Unterstützung für Rückkehr zur Spieleliste hinzugefügt.
+
+ Gob:
+   - Einige Fehler beseitigt, bei denen ein Goblin bei erneutem Laden in
+     Gobliiins feststeckte.
+
+ Kyra:
+   - Speicherlecks geschlossen.
+
+ Parallaction:
+   - Problem behoben, das zu Abstürzen bei Verlassen der Engine führen konnte.
+   - Speicherlecks in Amiga-Version von Nippon Safes geschlossen.
+
+ SCI:
+   - Einen CMS-Musiktreiber für Spiele von SCI1 bis SCI1.1 hinzugefügt.
+   - Option zum Ein- und Ausschalten der Antifehlerdiffusion in
+     ScummVM-Oberfläche hinzugefügt.
+   - Mehrere vorher fehlende Teile des Spielzustands zu Speicherständen
+     hinzugefügt, wie beispielsweise die gespielte Zeit, skripterzeugte Fenster,
+     der Skript-Zeichenketten-Freispeicher und Informationen im Zusammenhang mit
+     dem Textparser in alten EGA-Spielen.
+   - Unterstützung für die Vergrößerungsmauszeiger in SCI1.1 hinzugefügt.
+   - Unterstützung für die Tasten + und - auf dem Ziffernblock hinzugefügt.
+   - Unterstützung für alternative General-MIDI-Titel in den
+     Windows-CD-Versionen von Eco Quest, Jones in the Fast Lane, King's Quest 5
+     und Space Quest 4 hinzugefügt.
+   - Unterstützung für alternative Windows-Mauszeiger in der Windows-Version von
+     King's Quest 6 hinzugefügt.
+   - Unterstützung für gleichzeitige Sprachausgabe und Untertitel in den
+     CD-Versionen von Space Quest 4 und Freddy Pharkas hinzugefügt.
+   - Lecks beim Laden von Ressourcen beseitigt.
+   - Einige Probleme in den Räumen von Skate-O-Rama in Space Quest 4 behoben.
+   - Einige Probleme in Hoyle Classic Card Games behoben.
+   - Einige Grafikstörungen beseitigt (wie z. B. dass einige Teile des
+     Bildschirms in manch seltenen Fällen nicht ordnungsgemäß gelöscht wurden).
+   - Mehrere Skriptfehler beseitigt.
+   - Mehrere Probleme im Zusammenhang mit dem Finden des Wegs und Aufhängen des
+     Spiels behoben (z. B. hing sich das Spiel in der Duschszene von
+     Laura Bow 1 auf und es gab Schwierigkeiten beim Finden des Wegs in einigen
+     Bildschirmen während der Verfolgungssequenz in Laura Bow 2).
+   - Mehrere Probleme im Zusammenhang mit Musik und möglichem Aufhängen
+     behoben (z. B. hatte sich in seltenen Fällen die Musik aufgehängt,
+     wenn man einen Spielstand außerhalb des Palastes in Quest for Glory 3
+     geladen hatte).
+   - Mögliche Probleme und mögliches Aufhängen bei Bildschirmen zur Importierung
+     von Figuren für Quest for Glory 2 und 3 behoben.
+   - Fehler beseitigt, der in der SCI1-CD-Version von Mixed Up Mother Goose das
+     Spiel dazu brachte, sich nach Tommy Tuckers Lied aufzuhängen.
+   - Skriptfehler in der CD-Version von King's Quest 5 beseitigt, der das Spiel
+     unter gewissen Umständen zum Aufhängen brachte, wenn man im dunklen Wald
+     aus dem Haus der Hexe ging.
+   - Funktionstasten funktionieren nun richtig, wenn der Ziffernblock
+     aktiviert ist.
+   - Unterstützung für Skripte in Fan-Spielen verbessert.
+   - Unterstützung für nicht-englische Versionen von Spielen verbessert.
+   - Viele Verbesserungen und Fehlerbeseitigungen im Zusammenhang mit
+     MT-32-Musik eingebracht (z. B. Hall).
+   - Musik ist nicht mehr verstimmt, wenn man einen Spielstand lädt.
+
+ SCUMM:
+   - Unterstützung für FM-TOWNS-Versionen von Spielen verbessert.
+
+ Sky:
+   - Abstürze während Zwischensequenzen bei mehreren Portierungen beseitigt
+     (Android, OpenGL, ...).
+
+ Teenagent:
+   - Speicherlecks geschlossen.
+
+ Tinsel:
+   - Speicherlecks in Nebenroutinen geschlossen.
+   - Unterstützung für verbesserte Musik für die deutsche
+     CD-Wiederveröffentlichung namens „Neon Edition“ von Discworld 1
+     hinzugefügt.
+
+ Touche:
+   - Speicherlecks beseitigt und kleinere Probleme behoben.
+
+ Tucker:
+   - Umgehungen für mehrere im Originalspiel vorhandene Probleme hinzugefügt.
+
+ SDL-Portierungen:
+   - Speicherlecks bei Mausoberflächen geschlossen.
+
+ Android-Portierung:
+   - Wechsel zu offizieller NDK-Tool-Kette für Zusammenstellung
+   - Grafikausgabe für verschiedene Geräte korrigiert.
+   - Mehrere Abstürze beseitigt.
+   - Wechsel zu nativer Bildschirmauflösung, um Textlesbarkeit zu verbessern
+   - Unterstützung für Pausieren/Fortsetzen hinzugefügt.
+   - Unterstützung für Spiele, die 16-Bit-Grafik verwenden, hinzugefügt.
+   - Leistung erheblich verbessert.
+   - Unterstützung für „Vollbildmodus“-Option hinzugefügt. Entfernt man dort das
+     Häkchen, bleibt das Seitenverhältnis beibehalten.
+   - Neuen Grafikmodus für lineare Filterung hinzugefügt.
+   - Eingabesystem wurde überholt (siehe README.Android).
+   - MIDI-Treiber basierend auf SONiVOX' Embedded Audio Synthesis (EAS)
+     hinzugefügt.
+
+ Nintendo-DS-Portierung:
+   - Unterstützung für ladbare Module hinzugefügt.
+
+ PSP-Portierung:
+   - Unterstützung für ladbare Module hinzugefügt.
+   - Bildbetrachter hinzugefügt.
+
+ PS2-Portierung:
+   - Unterstützung für ladbare Module hinzugefügt.
+
+ Portierung für Wii/GameCube:
+   - Unterstützung für ladbare Module hinzugefügt.
+   - 16-Bit-Mauszeiger in HE-Spielen korrigiert.
+
+1.2.1 (19.12.2010)
+ Allgemein:
+   - Ungarische Übersetzung hinzugefügt.
+   - Brasilianisch-portugiesische Übersetzung hinzugefügt.
+
+ Cruise:
+   - Problem behoben, dass Raoul beim Untersuchen des Buchs erschien.
+
+ Groovie:
+   - Rückschrittsfehler beseitigt, der die russische Version von T7G abstürzen
+     ließ.
+
+ Lure:
+   - Mehrere Bewegungsfehler bei Nicht-Spielern beseitigt.
+
+1.2.0 (15.10.2010)
+ Neue Spiele:
+   - Unterstützung für Fascination hinzugefügt.
+
+ Neue Spiele (Sierra SCI0 - SCI1.1):
+   - Unterstützung für Codename: ICEMAN hinzugefügt.
+   - Unterstützung für Conquests of Camelot hinzugefügt.
+   - Unterstützung für Conquests of the Longbow (EGA und VGA) hinzugefügt.
+   - Unterstützung für Das Schloß von Dr. Brain (EGA und VGA) hinzugefügt.
+   - Unterstützung für EcoQuest: Die Suche nach Cetus hinzugefügt.
+   - Unterstützung für EcoQuest 2: Lost Secret of the Rainforest hinzugefügt.
+   - Unterstützung für Freddy Pharkas: Cowboy-Apotheker hinzugefügt.
+   - Unterstützung für Hoyle's Book of Games 1 hinzugefügt.
+   - Unterstützung für Hoyle's Book of Games 2 hinzugefügt.
+   - Unterstützung für Hoyle's Book of Games 3 (EGA und VGA) hinzugefügt.
+   - Unterstützung für Hoyle Classic Card Games hinzugefügt.
+   - Unterstützung für Jones in the Fast Lane hinzugefügt.
+   - Unterstützung für King's Quest I (SCI-Remake) hinzugefügt.
+   - Unterstützung für King's Quest IV (SCI-Version) hinzugefügt.
+   - Unterstützung für King's Quest V (EGA und VGA) hinzugefügt.
+   - Unterstützung für King's Quest VI (hohe und niedrige Auflösung)
+     hinzugefügt.
+   - Unterstützung für Laura Bow: The Colonel's Bequest hinzugefügt.
+   - Unterstützung für Laura Bow 2: The Dagger of Amon Ra hinzugefügt.
+   - Unterstützung für Leisure Suit Larry 1 (SCI-Remake) (EGA und VGA)
+     hinzugefügt.
+   - Unterstützung für Leisure Suit Larry 2 hinzugefügt.
+   - Unterstützung für Leisure Suit Larry 3 hinzugefügt.
+   - Unterstützung für Leisure Suit Larry 5 (EGA und VGA) hinzugefügt.
+   - Unterstützung für Leisure Suit Larry 6 (niedrige Auflösung) hinzugefügt.
+   - Unterstützung für Mixed-up Fairy Tales hinzugefügt.
+   - Unterstützung für Mixed-up Mother Goose hinzugefügt.
+   - Unterstützung für Pepper's Adventures in Time hinzugefügt.
+   - Unterstützung für Police Quest I (SCI-Remake) hinzugefügt.
+   - Unterstützung für Police Quest II hinzugefügt.
+   - Unterstützung für Police Quest III (EGA und VGA) hinzugefügt.
+   - Unterstützung für Quest for Glory I/Hero's Quest hinzugefügt.
+   - Unterstützung für VGA-Remake von Quest for Glory I hinzugefügt.
+   - Unterstützung für Quest for Glory II hinzugefügt.
+   - Unterstützung für Quest for Glory III hinzugefügt.
+   - Unterstützung für Slater & Charlie Go Camping hinzugefügt.
+   - Unterstützung für Space Quest I (SCI-Remake) (EGA und VGA) hinzugefügt.
+   - Unterstützung für Space Quest III hinzugefügt.
+   - Unterstützung für Space Quest IV (EGA und VGA) hinzugefügt.
+   - Unterstützung für Space Quest V hinzugefügt.
+   - Unterstützung für The Island of Dr. Brain hinzugefügt.
+
+ Neue Portierungen:
+   - Portierung für Android hinzugefügt.
+   - Portierung für Dingux hinzugefügt.
+   - Portierung für Caanoo hinzugefügt (basierend auf Portierung von GP2XWiz).
+   - Portierung für OpenPandora hinzugefügt.
+
+ Allgemein:
+   - Veraltete PalmOS-Portierung entfernt.
+   - Wechsel zum „schnellen“ DOSBox-OPL-Emulator
+   - Absturz in Rjp1-Abspiel-Code beseitigt, der die Amiga-Version von FOTAQ
+     betraf.
+   - Unterstützung bei weiteren Spielen für Dateienanordnung des originalen
+     Datenträgermediums hinzugefügt.
+   - Unterstützung für Benutzeroberflächen-Lokalisationen hinzugefügt (darunter
+     auch Deutsch).
+   - Benutzeroberfläche verbessert, indem Tipps und Optionsschaltflächen
+     hinzugefügt wurden.
+   - Benutzerfreundlichkeit der Oberfläche verbessert, indem weitere belanglose
+     Optionen bei bestimmten Spielen verborgen wurden, von denen sie nicht
+     unterstützt werden.
+
+ AGI:
+   - Gewisse Anzahl an Grafikstörungen beseitigt.
+   - PIC zeichnet nun kodiertes Bild perfekt.
+   - Unterstützung für MIDI-Geräte hinzugefügt.
+   - Unterstützung für präzise Tandy-Sound-Emulation hinzugefügt. Diese ist nun
+     standardmäßig festgelegt.
+
+ Baphomets Fluch 2:
+   - Problem behoben, durch das in manchen Zwischensequenzen Sprachausgabe
+     fehlte.
+   - Speicherleck beseitigt, das irgendwann das Spiel zum Aufhängen brachte
+     (2976008 - BS2: Spiel friert in britischem Museum ein).
+
+ Drascula:
+   - Gewisse Anzahl an Grafikstörungen beseitigt.
+   - Viele Zwischensequenzen feiner gemacht.
+   - Verhalten des Befehlmenüs verändert. Jetzt wird es angezeigt, wenn man
+     die Maus nach oben bewegt.
+
+ Groovie:
+   - Unterstützung für Macintosh-Version von The 7th Guest hinzugefügt.
+   - Unterstützung für spielspezifische MT-32-Instrumentänderungen hinzugefügt.
+
+ KYRA:
+   - Einige kleinere Grafikstörungen beseitigt.
+   - Vorher fehlende Neuplatzierung einiger Gegenstände im Spiel integriert.
+   - Unterstützung für das Spielen von Kyrandia 3 mit originaler Anordnung der
+     CD-Dateien hinzugefügt.
+
+ LURE:
+   - Fehler beseitigt, bei dem Goewin im Wehrtor stecken bleiben konnte.
+   - Problem mit Ratpouch beseitigt, bei dem er wiederholt zwischen zwei Räumen
+     hin- und herlief.
+   - Fehler beseitigt, dass Goewin nach der Drachenhöhle aus dem Zeitplan kam.
+   - Fehler beseitigt, bei dem der Spieler im Ausgangsraum des Abflusses
+     stecken bleiben konnte.
+
+ Parallaction:
+   - Erster Teil von The Big Red Adventure ist nun komplett durchspielbar.
+
+ SAGA:
+   - Grafikstörungen in mehreren Szenen beseitigt.
+
+ SCUMM:
+   - Mehrere Verbesserungen in Maniac Mansion NES
+
+ PSP-Portierung:
+   - Neue Systemgestaltung: Kleinere Grafikprobleme behoben und
+     16-Bit-Unterstützung ermöglicht.
+   - Wiedergabe von MP3-Dateien mittels Media Engine ermöglicht. Das bedeutet,
+     dass die Portierung für MP3-Dateien (entgegengesetzt zu Ogg) optimiert ist.
+   - Viele Optimierungen vorgenommen. Alles sollte schneller laufen.
+
+ Wii-Portierung:
+   - Unterstützung für USB2-Massenspeichergeräte hinzugefügt (erfordert
+     The Homebrew Channel >= v1.0.8 mit IOS58).
+
+ GameCube-Portierung:
+   - Unterstützung für DVDs mit ISO9660-Dateisystem hinzugefügt.
+
+ GP2X-Portierung:
+   - Unterstützung für dynamische Engine-Plugins hinzugefügt (experimentell).
+   - Kontrollsystem überarbeitet und Touchscreen-Unterstützung verbessert.
+
+ GP2XWiz/Caanoo-Portierung:
+   - Code für Herunterskalierung verbessert, um „Verschiebungsfehler“ im Bild
+     (Tearing) zu minimieren.
+   - Kontrollsystem überarbeitet und Touchscreen-Unterstützung verbessert.
+   - System von GP2XWIZ in GPH umbenannt, um die Bandbreite der unterstützten
+     Geräte besser wiederzuspiegeln.
+
+1.1.1 (02.05.2010)
+ Neue Portierungen:
+   - Portierung für Nintendo 64 hinzugefügt. (Eigentlich schon in 1.1.0
+     hinzugefügt, aber es wurde vergessen, dies zu erwähnen.)
+
+ Allgemein:
+   - Hier und da einige kleinere Fehler beseitigt.
+
+ Drascula:
+   - Rückschrittsfehler beseitigt, der dazu führte, dass einige Texte immer in
+     Englisch waren, selbst wenn eine andere Sprache eingestellt war.
+     (2970211 - DRASCULA: Fehlende deutsche Übersetzung)
+
+ KYRA:
+   - Fehler beseitigt, der DOS-Versionen vor dem Anzeigen der Mitwirkendenliste
+     abstürzen ließ, wenn AdLib-Musik ausgewählt war.
+
+ LURE:
+   - Mehrere Speicherlecks beseitigt.
+   - Probleme bei Handhabung von mitlaufenden Figuren beseitigt, wenn sie
+     an der Ausführung von Aktionen durch geschlossene Türen zwischen Räumen
+     gehindert werden.
+   - Problem von Goewin behoben, dass sie dem Spieler nicht immer genau aus den
+     Höhlen gefolgt ist.
+
+ Tinsel:
+   - Rückschrittsfehler bei Video-Wiedergabe in Discworld 2 beseitigt.
+
+ Parallaction:
+   - Mehrere Abstürze und weitere Rückschrittsfehler in Nippon Safes beseitigt,
+     einschließlich der Fehler 2969211, 2969232, 2969234, 2969257, 2970141.
+
+ Portierung für Wii/GameCube (Erwähnung bei 1.1.0 ebenfalls vergessen):
+   - Unterstützung für Spiele, die 16-Bit-Grafik verwenden, hinzugefügt.
+   - Vollständige Grafiküberholung (neue Bildschirm-Modi, bessere Leistung,
+     Bildglättung, Einstellungen für feinkörnige Übertastung)
+   - Neuen Optionsdialog für spezifische Einstellungen für Wii/Gamecube
+     hinzugefügt.
+   - Grafikstörung bei kleinen Vorschaubildern von Spielständen beseitigt.
+   - Unterstützung für SMB-Einhängepunkte hinzugefügt (öffentliche Verzeichnisse
+     von Samba/Windows).
+   - Bildschirm-Konsole hinzugefügt, welche angezeigt wird, wenn ScummVM
+     ungewöhnlich beendet wurde.
+   - Einige Abstürze beseitigt, wenn mit Ogg Vorbis komprimierte Sound-Dateien
+     verwendet werden. Lesen Sie die beiliegende Datei READMII.txt für weitere
+     Informationen.
+
+ PSP-Portierung (Erwähnung bei 1.1.0 ebenfalls vergessen):
+   - Plugin-Unterstützung hinzugefügt, was es auf der PSP Phat ermöglicht, jedes
+     Spiel laufen zu lassen.
+   - Neue virtuelle Tastatur hinzugefügt, die für schnelle D-Pad-Eingabe
+     optimiert ist.
+
+1.1.0 (04.04.2010)
+ Neue Spiele:
+   - Unterstützung für Blue's Art Time Activities hinzugefügt.
+   - Unterstützung für Blue's Reading Time Activities hinzugefügt.
+   - Unterstützung für Freddi Fisch und das Rätsel der Korallenbucht
+     hinzugefügt.
+   - Unterstützung für Pajama Sam: Games to Play on Any Day hinzugefügt.
+   - Unterstützung für SPY Fox: Alarm im Weltall hinzugefügt.
+   - Unterstützung für Drači Historie hinzugefügt.
+   - Unterstützung für TeenAgent hinzugefügt.
+
+ Allgemein:
+   - Unterstützung für eine benutzerdefinierte SJIS-Schriftart für FM-TOWNS- und
+     PC98-Spiele hinzugefügt.
+   - Unterstützung für 16-Bit-Grafik hinzugefügt. (GSoC-Aufgabe)
+   - MIDI-System von QuickTime bei Mac OS X entfernt; es war fehlerhaft und ließ
+     sich auf modernen Systemen nicht kompilieren.
+
+ CinE:
+   - Unterstützung für Menüs im Amiga-Stil für Amiga-Versionen von Future Wars
+     hinzugefügt.
+
+ KYRA:
+   - Unterstützung für die Amiga-Version von The Legend of Kyrandia hinzugefügt.
+     (Sound-Unterstützung kam im Rahmen einer GSoC-Aufgabe dazu.)
+   - KYRA angepasst, um die benutzerdefinierte SJIS-Schriftart zu unterstützen.
+
+ SCUMM:
+   - Unterstützung für die PC-Engine-Version von Loom hinzugefügt.
+   - Unterstützung für Musik und Klang-Effekte in der Amiga-Version von
+     The Secret of Monkey Island hinzugefügt. (GSoC-Aufgabe)
+   - Einige weitere Fehler im Zusammenhang mit Amiga-Versionen von Spielen
+     beseitigt.
+   - Unterstützung für originalen Dialog zum Speichern und Laden in MM NES
+     hinzugefügt.
+   - Unterstützung hinzugefügt für Speicherpunkt-Codes für Sega CD MI1 über den
+     Debugger-Befehl „passcode“.
+   - Unterstützung für Kanji-Renderung in japanischer Version von
+     Monkey Island Sega CD hinzugefügt.
+
+1.0.0 (15.11.2009)
+ Neue Portierungen:
+   - Portierung für MotoEZX und MotoMAGX hinzugefügt.
+
+ Allgemein:
+   - Einige Fehler in grafischer Benutzeroberfläche beseitigt.
+   - Projektlogo und -symbole aktualisiert.
+   - Lizenz für mehrere PS2-Portierungsdateien verdeutlicht.
+
+ AGI:
+   - Absturz bei Spielbeendigung beseitigt.
+   - Absturz bei Erkennung einiger Spiele beseitigt.
+
+ AGOS:
+   - Code für das Speichern und Laden für PC-Version von Waxworks korrigiert.
+   - Undo-Funktion für Rückgängigmachen des letzten Spielzugs bei Spielen aus
+     Game Pack korrigiert.
+
+ Baphomets Fluch 1:
+   - Problem behoben, durch das in manchen Räumen Hintergrundgeräusche fehlten.
+
+ CinE:
+   - Abstürze in den Demos von Future Wars und Operation Stealth beseitigt.
+
+ Cruise:
+   - Aufhängen bei Spielpause beseitigt.
+
+ Gob:
+   - Grafikstörung bei Lost in Time beseitigt.
+   - Rückschrittsfehler im Zusammenhang mit Klickbereichen in Gob2 beseitigt.
+   - Mehrere Rückschrittsfehler in Gob3 beseitigt.
+   - Absturz im Vorspann von Bargon Attack beseitigt.
+   - Animationsabläufe in Win3.1-Version von Gob3 korrigiert.
+
+ Groovie:
+   - Video-Leistung bei PSP korrigiert.
+   - Fehler mit leerem Menü in einigen Instanzen beseitigt.
+
+ Kyra:
+   - Mögliche Zerstörung des Neustart-Spielstands in Kyrandia 1 beseitigt.
+   - Grafikstörung bei kaputter Brücke beseitigt.
+   - Beseitigung eines Fehlers, durch den Brandon in einigen Situationen in
+     Kyrandia 1 unsichtbar wurde
+
+ MADE:
+   - Leistung bei NDS korrigiert.
+   - Absturz in Demo von Return to Zork beseitigt.
+
+ Parallaction:
+   - Mehrere Rückschrittsfehler in Nippon Safes beseitigt.
+   - Musik in Sushi-Bar in Nippon Safes korrigiert.
+
+ SCUMM:
+   - Absturz in Macintosh-Versionen von Putt-Putt Joins the Parade und Fatty
+     Bear's Birthday Surprise beseitigt.
+   - Speichern des Spielstands in Macintosh-Versionen von HE-Spielen korrigiert.
+   - Standardmäßigen Spielstandpfad für spätere HE-Spiele korrigiert.
+   - Palette in NES-Version von Maniac Mansion korrigiert.
+   - Palette in Amiga-Version von The Secret of Monkey Island korrigiert.
+   - Fehler beseitigt, bei dem in The Dig die Musik nicht aufhörte, wenn man
+     während Zwischensequenzen Esc drückte.
+   - Lippensynchronisation in Fatty Bear korrigiert.
+   - Absturz in Vollgas beseitigt, wenn man ins Inventar geht.
+
+ Tinsel:
+   - Absturz in Palast beseitigt.
+   - Absturz beseitigt, wenn man mit älterer Dame spricht.
+   - Teilweise Fehler beseitigt, bei dem Text in DW1 außerhalb des Bildschirms
+     angezeigt wurde.
+
+ NDS-Portierung:
+   - Mauspad unterhalb von Bildschirmtastatur hinzugefügt.
+   - Möglichkeit zum Scrollen hinzugefügt, wenn Mauszeiger eine Kante des
+     Bildschirms erreicht (im Mauspad-Modus).
+   - Audio-Dateien beginnend von track01.wav werden nun genauso gelesen wie
+     track1.wav.
+   - Fehler beseitigt, wenn Modus bei aktiver Tastatur gewechselt wird.
+
+ PSP-Portierung:
+   - Video-Flimmern und -Streckung in einigen Situationen beseitigt.
+   - Unterstützung für Unterbrechen/Fortsetzen verbessert.
+
+ WinCE-Portierung:
+   - Kompatibilität mit VGA-Geräten verbessert.
+
+1.0.0rc1 (31.08.2009)
+ Neue Spiele:
+   - Unterstützung für Discworld hinzugefügt.
+   - Unterstützung für Discworld 2 - Vermutlich vermisst hinzugefügt.
+   - Unterstützung für Return to Zork hinzugefügt.
+   - Unterstützung für Leather Goddesses of Phobos 2 hinzugefügt.
+   - Unterstützung für The Manhole hinzugefügt.
+   - Unterstützung für Rodney's Funscreen hinzugefügt.
+   - Unterstützung für Cruise for a Corpse hinzugefügt.
+
+ Allgemein:
+   - Experimentellen AdLib-Emulator aus DOSBox hinzugefügt.
+   - Schnelle Eintragssuche zu Startmenü hinzugefügt.
+   - Aussehen von moderner Themenoberfläche verbessert.
+   - Verschiedene Oberflächenoptionen für jedes Spiel einstellbar
+   - „Durchsuchen“-Dialog verbessert.
+
+ Neue Portierungen:
+   - Portierung für GP2X Wiz hinzugefügt.
+
+ AGI:
+   - Kompatibilität für Sierra-Spiele erhöht.
+   - Alle „unbekannten“ Befehle integriert.
+
+ Beneath a Steel Sky:
+   - Spielgeschwindigkeit geändert, um der des Originalspiels zu entsprechen
+     (lief vorher zu schnell).
+
+ Baphomets Fluch 1:
+   - Unterstützung für Original-Zwischensequenzen hinzugefügt.
+   - Unterstützung für die nun hinfälligen MPEG2-Zwischensequenzen eingestellt.
+   - Unterstützung für die PlayStation-Version hinzugefügt.
+
+ Baphomets Fluch 2:
+   - Unterstützung für Original-Zwischensequenzen hinzugefügt.
+   - Unterstützung für die nun hinfälligen MPEG2-Zwischensequenzen eingestellt.
+   - Unterstützung für das Abspielen von Ton aus Zwischensequenzen ohne Video
+     eingestellt.
+   - Unterstützung für die PlayStation-Version hinzugefügt.
+
+ Gob:
+   - Neues Spielstandsformat eingeführt, um eine schwerwiegende Schwachstelle
+     des alten Formats zu beseitigen, wodurch die Kompatibilität mit alten
+     Spielständen, die auf Big-Endian-Systemen erstellt wurden, aufhört.
+
+ Groovie:
+   - Schwierigkeitsgrad von Mikroskop-Puzzle erhöht, um dem des Originalspiels
+     zu entsprechen.
+
+ KYRA:
+   - Unterstützung für auf PC-Lautsprecher basierende Musik und Klang-Effekte
+     hinzugefügt.
+   - Unterstützung für 16-Farben-Fehlerdiffusion in Kyrandia PC-9801
+     hinzugefügt.
+
+ PSP-Portierung:
+   - Unterstützung für Ruhe-Modus (unterbrechen/fortsetzen) hinzugefügt.
+
+ WinCE-Portierung:
+   - Geschwindigkeitsoptimierte Versionen von niedrig auflösendem Smartphone und
+     niedrig auflösenden 2x-Grafikwandlern
+   - Neuer Grafikwandler für Seitenverhältniskorrektur für VGA-Geräte (oder
+     Geräte mit höherer Farbentiefe)
+   - Unterstützung für MPEG-2 und FLAC eingestellt.
+
+0.13.1 (27.04.2009)
+ AGOS:
+   - Absturz nach Wiedergabe von OmniTV-Video in Floyd - Es gibt noch Helden
+     beseitigt.
+   - Absturz bei Erforschung der Jack-the-Ripper-Szene in der PC-Version von
+     Waxworks beseitigt.
+   - Palettenstörung in der AtariST-Version von Elvria 2 beseitigt.
+   - Geräusch beseitigt, dass vorkommen konnte, wenn man die Pyramiden-Szene in
+     Waxworks erforscht.
+
+ Gob:
+   - Absturz in der italienischen Version von Woodruff beseitigt.
+
+ Groovie:
+   - Einige Probleme mit der Musik in The 7th Guest behoben.
+
+ Parallaction:
+   - Fehler bei Sarkophag-Rätsel in Nippon Safes beseitigt.
+
+ SAGA:
+   - Absturz in Erben der Erde beseitigt.
+   - Störungen im Dialog für das Speichern und Laden beseitigt.
+
+ Sword2:
+   - Zufällige Sound-Missbildung beseitigt, wenn originale Sound-Dateien
+     verwendet werden.
+
+ Startmenü:
+   - Fall korrigiert, in dem Speicherinformationen unverwertbar werden
+     konnten.
+   - Kleinen Mauszeiger im modernen Thema korrigiert.
+   - Fehler in Themen-Engine beseitigt, welcher Abstürze verursachen konnte.
+   - Pfadauswahldialog in 1x-Modus vergrößert.
+
+ Portierung für iPhone:
+   - Handhabung der Rücktaste auf der iPhoneSoft-Tastatur korrigiert.
+
+ DS-Portierung:
+   - Unterstützung für die Funktion des globalen Hauptmenüs hinzugefügt.
+
+ PS2-Portierung:
+   - Zu neuer grafischer Benutzeroberfläche und neuem Themen-Code gewechselt.
+   - Bei allen möglichen Geräten wird nun das Ablegen, Spielen und Speichern von
+     Spielständen unterstützt (CD, Festplatte, USB, MC und Fernzugriffspunkt).
+   - Speicherverwaltung/Vorauslesen für jedes Medium verbessert.
+   - Unterstützung für den Wechsel „Zurück zur Spieleliste“ hinzugefügt.
+
+ Symbian-Portierung:
+   - Bluetooth-Mausunterstützung hinzugefügt.
+   - Unterstützung für den Wechsel „Zurück zur Spieleliste“ hinzugefügt.
+
+ WinCE-Portierung:
+   - Problem behoben, das bei VGA-Geräten zu zufälligen Abstürzen führen konnte.
+
+0.13.0 (28.02.2009)
+ Allgemein:
+   - MIDI-Treiber für Atari ST / FreeMint hinzugefügt.
+   - „Laden“-Schaltfläche zu Startmenü hinzugefügt (nicht von allen Engines
+     unterstützt). (GSoC-Aufgabe)
+   - Dialog für neues globales Hauptmenü hinzugefügt, das von allen Engines
+     verwendet werden kann. (GSoC-Aufgabe)
+   - Funktion hinzugefügt, um von laufenden Spielen aus zur Spieleliste
+     zurückzukehren (über globales Hauptmenü). (GSoC-Aufgabe)
+   - Oberflächen-Renderung umgeschrieben, um einen vektorbasierten Ansatz zu
+     verwenden. (GSoC-Aufgabe)
+   - Oberflächenkonfiguration umgeschrieben, um XML zu verwenden. (GSoC-Aufgabe)
+
+ Neue Spiele:
+   - Unterstützung für Blue's 123 Time Activities hinzugefügt.
+   - Unterstützung für Blue's ABC Time Activities hinzugefügt.
+   - Unterstützung für Bud Tucker in Double Trouble hinzugefügt.
+   - Unterstützung für The 7th Guest hinzugefügt.
+
+ AGOS:
+   - Unterstützung für Original-Zwischensequenzen von Floyd - Es gibt
+     noch Helden hinzugefügt.
+   - Unterstützung für Textkompression in der AtariST-Version von Elvira 1
+     hinzugefügt.
+   - Fehler beim Kombinieren von Gegenständen in Waxworks beseitigt.
+   - Fehler bei Anzeige von Zauberspruch-Beschreibungen in Elvira 2 beseitigt.
+
+ KYRA:
+   - Unterstützung für automatisches Speichern hinzugefügt.
+   - Unterstützung für MIDI-Musik hinzugefügt.
+
+ Parallaction:
+   - Mitwirkendenliste in der Amiga-Demo von Nippon Safes wird nun richtig
+     angezeigt.
+
+ SCUMM:
+   - Funkspruch-Effekt in The Dig integriert.
+
+0.12.0 (31.08.2008)
+ Neue Spiele:
+   - Unterstützung für The Legend of Kyrandia: Book Two: Hand of Fate
+     hinzugefügt.
+   - Unterstützung für The Legend of Kyrandia: Book Three: Malcolm's Revenge
+     hinzugefügt.
+   - Unterstützung für Lost in Time hinzugefügt.
+   - Unterstützung für Woodruff and the Schnibble of Azimuth hinzugefügt.
+   - Unterstützung für die PC-Version von Waxworks hinzugefügt.
+   - Unterstützung für die Macintosh-Version von I Have No Mouth, and I
+     Must Scream hinzugefügt.
+   - Unterstützung für Drascula: The Vampire Strikes Back hinzugefügt.
+
+ Allgemein:
+   - CAMD-MIDI-Treiber für AmigaOS4 hinzugefügt.
+   - PS2-Portierung wiederbelebt (war sie schon in 0.11.1, aber es wurde
+     in den Veröffentlichungshinweisen vergessen).
+   - Zahlreiche Speicherlecks in allen Engines gestopft (Teil der Aufgaben des
+     GSoC '08).
+   - Doppelte Audio-Pufferung zu SDL-System hinzugefügt, was die Probleme mit
+     dem MT-32-Emulator in Mac OS X behebt (vorerst nur bei Mac OS X
+     aktiviert).
+
+ AGOS:
+   - Abstürze während bestimmter Musikstücke in Amiga-Versionen von Elvira 1 und
+     Simon the Sorcerer 1 beseitigt.
+   - Palettenprobleme in Amiga-Versionen von Simon the Sorcerer 1 behoben.
+
+ Queen:
+   - Sprachausgabe wird nun mit richtiger Abtastfrequenz wiedergegeben. (Vorher
+     war die Wiedergabegeschwindigkeit etwas zu niedrig.)
+
+ SCUMM:
+   - Teile von Digital iMUSE umgeschrieben, was einige Fehler beseitigt.
+   - Code für interne Zeitplanung umgeschrieben, was einige
+     Geschwindigkeitsprobleme behebt, beispielsweise in COMI.
+   - Unterstützung für Klang-Effekte in Amiga-Versionen von Zak McKracken
+     verbessert.
+   - Unterstützung für AdLib-MIDI-Kombination in Monkey Island 1
+     (Diskettenversion) hinzugefügt.
+
+0.11.1 (29.02.2008)
+ SCUMM:
+   - Verbesserungen für Untersystem von Digital iMUSE. Dies behebt verschiedene
+     Störungen in The Curse of Monkey Island.
+   - Fehlerbeseitigungen für verschiedene Mauszeiger in HE-Spielen
+
+ AGI:
+   - Fehlerbeseitigung für Grabgestalten in King's Quest 4
+   - Fehlerbeseitigung für Palettenwechsel in von Fans erstellten Spielen
+     mittels AGIPAL
+
+ Lure:
+   - Einige Abstürze bei Gesprächen in der deutschen Version beseitigt.
+   - Funktionsweise des optionalen Kopierschutzdialogs in der deutschen Version
+     korrigiert.
+   - Speicherung von Gesprächsflaggen hinzugefügt, um festzustellen, ob eine
+     bestimmte Gesprächsoption zuvor ausgewählt wurde oder nicht.
+   - Störung beseitigt, die dazu führen konnte, dass Verwandlungsglitzern ein
+     zweites Mal vorkam.
+   - Verhalten von Goewin korrigiert, wenn man sich nach der Begegnung mit dem
+     Drachen ihr wieder anschließt.
+
+ SAGA:
+   - Fehler bei Rattenlabyrinth in Erben der Erde beseitigt, der das Spiel
+     undurchspielbar machte.
+   - Fehlerbeseitigungen für Spielstart von Erben der Erde und I Have No Mouth
+     bei einer gewissen Anzahl von Plattformen
+   - Anzahl gleichzeitig geöffneter Dateien in I Have No Mouth reduziert, um zu
+     ermöglichen, dass das Spiel auf Plattformen läuft, welche nur eine
+     begrenzte Anzahl Dateien geöffnet haben können (z. B. auf der PSP).
+   - Grafikstörung in Erben der Erde bei überlappender Sprachausgabe beseitigt.
+   - Palettenstörung in Erben der Erde beseitigt, wenn man die Karte anschaut,
+     während man sich am Dock befindet.
+
+0.11.0 (15.01.2008)
+ Neue Spiele:
+   - Unterstützung für Elvira: Mistress of the Dark hinzugefügt.
+   - Unterstützung für Elvira 2: The Jaws of Cerberus hinzugefügt.
+   - Unterstützung für I Have No Mouth, and I Must Scream (Demo und Vollversion)
+     hinzugefügt.
+   - Unterstützung für PreAGI-Spiel Mickey's Space Adventure hinzugefügt.
+   - Unterstützung für PreAGI-Spiel Troll's Tale hinzugefügt.
+   - Unterstützung für PreAGI-Spiel Winnie the Pooh in the Hundred Acre Wood
+     hinzugefügt.
+   - Unterstützung für Amiga-Version von Waxworks hinzugefügt.
+   - Unterstützung für Lure of the Temptress hinzugefügt.
+
+ Neue Portierungen:
+   - Portierung für iPhone hinzugefügt.
+   - Maemo-Portierung für Nokia-Internet-Tablets hinzugefügt.
+
+ Allgemein:
+   - ARM-Assembler-Routinen für Code im Soundmixer und bei Video-Wiedergabe in
+     SCUMM hinzugefügt, was zu manch guten Beschleunigungen bei einigen
+     Portierungen führt.
+   - Art und Weise der internen Handhabung von Tastatureingaben verbessert, was
+     ein paar seltsame Macken in einigen Spiel-/Port-Kombinationen beseitigt.
+   - Optionalen Dialog zum Bestätigen des Beendens zu SDL-System hinzugefügt.
+   - Dmedia-MIDI-Treiber für IRIX hinzugefügt.
+   - Erkennung neuer Spielvarianten und lokalisierter Versionen verbessert.
+   - Interner Zugriff auf Dateien vollständig überarbeitet. (GSoC-Aufgabe)
+   - Option hinzugefügt, um Spiele durch Drücken der Entf-Taste von der Liste zu
+     entfernen.
+   - Unterstützung für die Ersetzung des Präfixes „~/“ durch „$HOME“ in Pfaden
+     auf POSIX-Systemen (Linux, Mac OS X usw.) hinzugefügt.
+
+ AGI:
+   - Unterstützung für AGI256- und AGI256-2-Hacks hinzugefügt. (GSoC-Aufgabe)
+   - Unterstützung für Amiga-Menüs und -Paletten hinzugefügt. (GSoC-Aufgabe)
+   - Bessere Unterstützung für frühe AGI-Titel von Sierra
+
+ AGOS:
+   - Abstürze im Zusammenhang mit OmniTV-Wiedergabe in
+     Floyd - Es gibt noch Helden beseitigt.
+   - Verbesserte Funktionalität auf 64-Bit-Systemen
+
+ Baphomets Fluch 1:
+   - Unterstützung für mit FLAC komprimierte Musik hinzugefügt.
+
+ Kyrandia:
+   - Unterstützung für Macintosh-Version hinzugefügt.
+
+ Parallaction:
+   - Unterstützung für Amiga-Version von Nippon Safes, Inc. hinzugefügt.
+   - Viele Fehler beseitigt.
+
+ Queen:
+   - Unterstützung für AdLib-Musik hinzugefügt.
+   - Wiedergabe von fehlenden Musikschemas in Amiga-Version hinzugefügt.
+
+ SCUMM:
+   - Überspringen von Untertiteln (über „.“-Taste) für ältere Spiele
+     hinzugefügt, welche diese Funktion bisher nicht hatten (z. B. Zak, MM,
+     Indy3, Loom).
+   - Unterstützung für chinesische Version von COMI hinzugefügt.
+   - Bessere Unterstützung für östliche Versionen von Spielen
+   - Verschiedene Fehlerbeseitigungen für COMI und andere Spiele
+   - Unterstützung für originale Spielstandmenüs hinzugefügt (nur zum
+     Durchschauen). Verwenden Sie Alt+F5, um auf diese Funktion zuzugreifen.
+   - Unterstützung für spanische NES-Version von Maniac Mansion hinzugefügt.
+   - Bessere Unterstützung für deutsche C64-Version von Maniac Mansion
+   - Fehler mit Mauszeigern in Windows-Versionen von Spielen von Humongous
+     Entertainment beseitigt.
+
+ SAGA:
+   - Unterstützung für komprimierte Geräusch-Effekte, Sprachausgabe und Musik
+     hinzugefügt.
+
+ Touche:
+   - Umgehungen von einigen Störungen/Problemen im Originalspiel hinzugefügt.
+
+ WinCE-Portierung:
+   - Compiler erneut gewechselt. Nun wird cegcc verwendet
+     (http://cegcc.sourceforge.net/).
+   - Plugins werden nun für WinCE unterstützt (aber in dieser Veröffentlichung
+     nicht verwendet).
+   - Aktion „Freie Ansicht“ umgestaltet, hauptsächlich für die Anforderungen der
+     Lure-Engine.
+   - Kleinere Optimierungseinstellung, um dem Wachstum der ausführbaren Datei
+     entgegenzuwirken.
+   - Verschiedene Fehler beseitigt.
+
+ GP2X-Portierung:
+   - Unterstützung für F200-Touchscreen
+   - Verschiedene Fehler in Eingabe-Code beseitigt.
+
+0.10.0 (20.06.2007)
+ Neue Spiele:
+   - Engine Cinematique evo 1 hinzugefügt. Momentan wird nur Future Wars
+     unterstützt.
+   - Engine für Touché: Die Abenteuer des fünften Musketiers hinzugefügt.
+   - Unterstützung für Gobliins 2 hinzugefügt.
+   - Unterstützung für Simon the Sorcerer's Game Pack hinzugefügt.
+   - Unterstützung für Ween: The Prophecy hinzugefügt.
+   - Unterstützung für Bargon Attack hinzugefügt.
+   - Sierras AGI-Engine hinzugefügt.
+   - Unterstützung für Goblins 3 hinzugefügt.
+   - Parallaction-Engine hinzugefügt. Momentan wird nur Nippon Safes Inc.
+     unterstützt.
+
+ Allgemein:
+   - Dialog hinzugefügt, der es ermöglicht, das Oberflächenthema zur Laufzeit
+     auszuwählen.
+   - „Durchsuchen“-Funktion zum Startmenü hinzugefügt, die es ermöglicht, nach
+     allen bekannten Spielen in allen Unterverzeichnissen eines angegebenen
+     Verzeichnisses zu suchen (um dies zu verwenden, halten Sie die
+     Umschalttaste [Shift] gedrückt und klicken auf „Spiel hinzufügen“).
+   - Die Art und Weise verbessert, auf welche die automatische Erkennung die
+     Zielnamen generiert. Nun werden die Variante des Spiels, dessen Sprache und
+     Plattform miteinbezogen.
+   - Wiederholtes Tastendrücken wird nun auf zentralisierte Weise gehandhabt
+     anstatt auf einer Einzelfallbasis. (Einfach ausgedrückt: Alle Engines
+     handhaben nun wiederholtes Tastendrücken.)
+
+ Baphomets Fluch 1:
+   - Unterstützung für DXA-Zwischensequenzen hinzugefügt.
+   - Unterstützung für Macintosh-Version hinzugefügt.
+
+ Baphomets Fluch 2:
+   - Unterstützung für DXA-Zwischensequenzen hinzugefügt.
+   - „Schnellmodus“ hinzugefügt (verwenden Sie Strg+f, um diesen ein- und
+     auszuschalten).
+
+ Queen:
+   - Unterstützung für Amiga-Versionen hinzugefügt.
+   - Einige Soundstörungen beseitigt.
+
+ SCUMM:
+   - Unterstützung für nicht-interaktive Demos von HE-Spielen hinzugefügt (CUP).
+   - Synchronisierung von Bild und Ton in SMUSH-Videos verbessert (betrifft
+     The Dig, Vollgas, COMI).
+   - Geschwindigkeit von NES-Sound-Code verbessert.
+   - Viele (manchmal ernsthafte) Laufprobleme von Figuren behoben, insbesondere
+     in Zak McKracken und Maniac Mansion, indem für diese Spiele der Code für
+     das Laufen umgeschrieben wurde.
+   - Einige andere Probleme behoben.
+   - Unterstützung für die Wiedergabe von DXA-Filmen in HE-Spielen hinzugefügt.
+
+ Simon:
+   - Simon-Engine in AGOS umbenannt.
+
+ Kyrandia:
+   - Unterstützung für FM-TOWNS-Version hinzugefügt (sowohl für Englisch als
+     auch Japanisch).
+
+ BASS:
+   - Lange bestehenden Schriftarten-Fehler beseitigt. Wir haben die Schriftart
+     der Steuerungskonsole für den LINC-Bereich und Terminals verwendet, und die
+     LINC-Schriftart in der Steuerungskonsole. Dies verursachte viele
+     Buchstaben-Probleme (von denen wir einige umgangen haben) im
+     LINC-Bereich und bei Terminals, insbesondere bei nicht-englischen Sprachen.
+
+ Nintendo-DS-Portierung:
+   - Neue unterstützte Engines: AGI, CINE und SAGA
+   - Option, um den Mauszeiger anzuzeigen
+   - Wortvervollständigung bei Tastatur für AGI-Spiele
+   - Viele Optimierungen
+
+ Symbian-Portierung:
+   - Unterstützung für MP3 bei S60v3- und UIQ3-Versionen hinzugefügt.
+   - Umstieg auf SDL 1.2.11 für Fehlerbeseitigungen und Verbesserungen
+   - Verbesserte Leistung für S60v3 und UIQ3 mittels ARM Target.
+   - Eingeschränkte Unterstützung für Geräte von Symbian OS9 bedingt durch
+     Compiler-Probleme
+   - Handhabung der Tastenzuweisung aktualisiert.
+
+ WinCE-Portierung:
+   - Wechsel zur Verwendung einer GCC-Tool-Kette zur Zusammensetzung
+   - Größere Aktualisierung zur SDL-Bibliothek - besser, schneller,
+     kompatibler :-)
+     Die enthaltenen Fehlerbeseitigungen sind zu zahlreich, um sie hier
+     aufzuführen. Die meisten Aktualisierungen in dieser Version konzentrierten
+     sich auf die Infrastruktur. Diese führen zu schnellerer Ausführung,
+     bedeutend erhöhter Kompatibilität und Betriebssystemfreundlichkeit -
+     insbesondere für die Handhabung der Tastatur-/Maus-Eingabe und Anzeige
+     (z. B. keine plötzlich auftauchenden Aufklappelemente mehr während des
+     Spielens).
+
+ Windows-Portierung:
+   - Der standardmäßige Speicherort der Konfigurationsdatei wurde geändert, um
+     Systeme mit mehreren Benutzern zu unterstützen.
+
+ PalmOS-Portierung:
+   - PalmOS Porting SDK wird nun verwendet, was die Verwendung der
+     Standardbibliotheken der Programmiersprache C ermöglicht.
+
+0.9.1 (29.10.2006)
+ Neue Portierungen:
+   - Portierung für Nintendo DS hinzugefügt.
+   - Portierung für GP2X hinzugefügt.
+   - Portierung für GP32 hinzugefügt.
+
+ Allgemein:
+   - Potenzielle Ausschussdaten und/oder Absturz in Debug-Konsole beseitigt.
+   - Einschränkung bei 27 Spielen durch Spielkennung aufgehoben, wenn diese über
+     das Startmenü hinzugefügt werden.
+
+ SCUMM:
+   - Unterstützung für internationale Versionen von HE-Spielen verbessert.
+   - Seltene Figurzeichnungsstörung beseitigt.
+   - Fehler beim Finden des Wegs während Smart Star Challenge in
+     Big Thinkers 1st Grade beseitigt.
+   - Grafikstörungen in Magenumgebung von Pyjama Sam 3 beseitigt.
+   - Grafikstörungen in HE80-Version von Töff-Töff reist durch die Zeit
+     beseitigt.
+   - Fehler beseitigt, dass sich FM-TOWNS-Version von Indy3 bei Amiga-Portierung
+     nicht starten ließ.
+   - Es ist nun möglich, während SMUSH-Zwischensequenzen die Untertitel
+     ein- und auszuschalten.
+
+ Simon:
+   - Unterstützung für internationale Versionen von The Feeble Files
+     (Floyd - Es gibt noch Helden) verbessert.
+   - Undefiniertes Verhalten beim Laden von Musik korrigiert.
+   - Absturz bei der Anzeige mancher Untertitel in Floyd - Es gibt noch Helden
+     beseitigt.
+   - Knackender Sound in Mac-Versionen von Floyd - Es gibt noch Helden
+     beseitigt.
+
+ BASS:
+   - Leerzeichenabstand in LINC-Terminals bei Diskettenversion v0.0303
+     korrigiert.
+   - Rückschrittsfehler beseitigt, der zu falscher AdLib-Musik-Emulation führte.
+
+ Baphomets Fluch 1:
+   - Abstürze im Zusammenhang mit Sprachausgabe beseitigt.
+
+ Baphomets Fluch 2:
+   - Stabilere Handhabung der optionalen Datei startup.inf
+
+ Kyrandia:
+   - Scrollen im Vorspann von Kyrandia benötigt nun weniger Rechenleistung,
+     läuft dafür jedoch nicht mehr so glatt ab wie vorher.
+   - Winzige Grafikstörung im Vorspann von Kyrandia beseitigt.
+   - Handhabung der Bildschirmaktualisierung verbessert; beschleunigt die
+     Darstellung auf kleinen Geräten.
+   - Laden der Ressourcen verbessert; schnellerer Spielstart.
+
+ PSP-Portierung:
+   - Abstürze während scrollender Szenen in bestimmten SCUMM-Spielen beseitigt.
+   - Speicherung von kleinen Vorschaubildern in SCUMM-Spielständen hinzugefügt.
+
+ PS2-Portierung:
+   - Überlagerung verwendet nun höhere Auflösung.
+   - Es kann nun auch von USB, Festplatte usw. hochgefahren werden.
+
+ WinCE-Portierung:
+   - Mehrere Fehler beseitigt.
+   - Unterstützung für 2002-basierende Geräte wieder hinzugefügt.
+
+0.9.0 (25.06.2006)
+ Neue Spiele:
+   - Kyra-Engine hinzugefügt (für die Kyrandia-Reihe). Momentan wird nur der
+     erste Teil der Reihe unterstützt.
+   - Unterstützung für Floyd - Es gibt noch Helden hinzugefügt.
+
+ Allgemein:
+   - Von CVS zu Subversion gewechselt.
+   - Teilweise Restrukturierung unseres Quellcode-Baumes
+   - Fehler beseitigt, der verhinderte, dass die Einstellung des Grafikwandlers
+     für Spiele mit der Auflösung 640*480 durch die Kommandozeile übergangen
+     werden konnte.
+   - Untertitelsteuerungen zu Optionen-Dialog im Startmenü hinzugefügt.
+   - Grafische Benutzeroberfläche wurde vollständig neu gestaltet und es können
+     nun verschiedene Stil-Themen verwendet werden.
+
+ SCUMM:
+   - Spielerkennungscode umgeschrieben, für verbesserte Genauigkeit und bessere
+     Unterstützung von Fan-Übersetzungen. Die Erkennung sollte nun viel besser
+     mit Spielen funktionieren, deren MD5-Prüfsumme unbekannt ist.
+   - Untertitelsteuerungen zu Optionen-Dialog hinzugefügt.
+   - Grafische Störungen in einigen HE-Spielen beseitigt.
+   - Palettenstörungen in Big Thinkers 1st Grade beseitigt.
+   - Fehler bei Lied in der Küche von Pyjama Pit (1) beseitigt.
+
+ SAGA:
+   - Sound-Verzerrung in der Demo von Inherit the Earth beseitigt.
+
+ Simon:
+   - Verbesserte Unterstützung für Hebräisch
+   - Viele längst überfällige Säuberungen und Restrukturierungen wurden
+     vorgenommen, um mit Floyd - Es gibt noch Helden im Einklang zu sein.
+   - Seltenen MIDI-Fehler beseitigt, der dazu führte, dass ein Kanal die
+     Lautstärke änderte, ohne diese an die Hauptlautstärke anzugleichen.
+   - Verzögerung nach Vorspann in der Demo von Simon the Sorcerer 1
+     (englisch, mit Sprachausgabe) beseitigt.
+   - Musiktempo in DOS-Versionen von Simon the Sorcerer 1 korrigiert.
+
+ Baphomets Fluch 1:
+   - Unterstützung für die Option --save-slot hinzugefügt.
+
+ Baphomets Fluch 2:
+   - Handhabung des Zugriffs auf Spielressourcen im Speicher umgeschrieben. Dies
+     sollte Angleichungsprobleme beheben, die bezüglich einiger Plattformen
+     berichtet wurden.
+   - Fehlende Spieldaten werden großzügiger behandelt.
+
+ WinCE-Portierung:
+   - Hinzugefügt: PocketPC: Vertikale Überabtastungsskalierung 320x200=>320x240,
+     wenn Konsole nicht gezeigt wird
+   - Hinzugefügt: PocketPC: Rechtsklick bei doppeltem Antippen (n0p)
+   - Behoben: Überall: Probleme in einigen Fällen beim Abschneiden von
+     Grafiken
+   - Hinzugefügt: PocketPC: Mausemulation durch Tasten
+   - Hinzugefügt: Smartphones: Aufklappen virtueller Tastatur
+   - Beseitigt: Smartphones: Fehler bei Bildschirmspeicher-Transfer bei
+     SDL-Portierung
+   - Hinzugefügt: Überall: Mauszeiger auf Konsole sichtbar bei Verwendung
+     einer emulierten Maus
+   - Hinzugefügt: Überall: Modus für umgekehrtes Querformat
+   - Beseitigt: PocketPC: Dialoge abgeschnitten/nicht neu gezeichnet
+
+0.8.2 (08.02.2006)
+ Allgemein:
+   - Zusammensetzen von OS-X-Paket bei Verwendung von GCC 3.3 repariert.
+
+ SCUMM:
+   - Unterstützung für das Drehen und Skalieren von Grafikobjekten in HE-Spielen
+     hinzugefügt.
+
+ Sword2:
+   - Im letzten Moment Absturz beseitigt, der bei der Wiedergabe von
+     Geräusch-Effekten auftrat.
+
+ WinCE-Portierung:
+   - Seltsame Abstürze mit DOTT-Briefmarke und in FOA sollten beseitigt sein
+     (Fehlerberichte mit Kennung 1399830 und 1392815).
+   - Fehler beseitigt, bei dem Monkey Island auf Smartphones die Tastaturkonsole
+     blockierte (danke, Knakos).
+   - QVGA-Smartphone-Erkennung repariert (diesmal wirklich :p).
+   - Problem mit Doppelrechtsklick bei Smartphone behoben.
+
+0.8.1 (31.01.2006)
+ Allgemein:
+   - Kompilierung mit GCC 2.95 repariert.
+   - LaTex-Dokumentation repariert.
+   - Zu neuem, verbesserten Logo gewechselt, das zum neuen Seiten-Design passt.
+   - Aussagekräftigere Spieletitel in allen Engines
+   - Absturz beseitigt, wenn versucht wurde, Seitenverhältniskorrektur in
+     Spielen zu verwenden, in welchen dies nicht möglich ist.
+   - Potenzielle Sicherheitsschwachstelle mit übergroßen Pfadumgebungsvariablen
+     beseitigt.
+   - Standardmäßige Verstärkung für FluidSynth-Musiktreiber gemindert und sie
+     konfigurierbar gemacht.
+
+ SCUMM:
+   - Optimierungen für das Scrollen in COMI, sodass es weniger Rechenleistung
+     benötigt
+   - Unterstützung für deutsche Maniac-Mansion-NES-Version hinzugefügt.
+   - Fehler mit Maustastenzuständen in COMI beseitigt.
+   - Überlauf beseitigt, wenn man Bedienungskonsole für Roboter in The Dig
+     verwendet.
+   - Unterstützung für Sound-Code hinzugefügt, der von Liedern in HE-Spielen
+     verwendet wird.
+   - Schatten in späteren HE-Spielen verbessert.
+   - Untertitelstörungen in HE-Spielen beseitigt.
+   - Musik/Sound für HE-Spiele verbessert.
+   - Unterstützung für internationale Versionen von HE-Spielen verbessert.
+   - Unterstützung für Macintosh-Versionen von Spielen verbessert.
+   - Mehrere kleine Fehler beseitigt.
+
+ BASS:
+   - Absturz beseitigt, wenn Geschwindigkeits- bzw. Lautstärkeregler angeklickt
+     und dann aus dem ScummVM-Fenster gezogen wurden.
+
+ Gob:
+   - Verschwinden von Mauszeiger korrigiert, wenn Level-Passwort eingegeben
+     wird.
+   - Anwender wird gewarnt, falls er versucht, die CD-Version unter Windows
+     direkt von CD zu spielen.
+
+ Queen:
+   - Buchstabensatz für spanische Version korrigiert.
+
+ SAGA:
+   - Digitale Musikwiedergabe unter BE-Systemen repariert.
+
+ Simon:
+   - Präzisere MD5-basierte Spielerkennung integriert.
+   - Unterstützung für polnische Version von Simon the Sorcerer 2 hinzugefügt.
+   - Ausblenden während Ritt zu Goblinlager in Simon the Sorcerer 2 korrigiert.
+   - Palettenverzögerung am Ende von Simon the Sorcerer 1 korrigiert.
+   - Geräusch-Schleifen in Windows-Version von Simon the Sorcerer 2 korrigiert.
+
+ Sword1:
+   - Fehler beseitigt, bei dem Geräusch-Schleifen während Zwischensequenzen
+     oder angezeigten Steuerungsdialogen weiterhin abgespielt wurden.
+   - Speicherdialog behauptete irrtümlicherweise, ein Eingabe-/Ausgabe-Fehler
+     sei aufgetreten, wenn die Liste der Spielstände unbenutzte Plätze hatte und
+     Spielstände komprimiert waren.
+   - Fehler beim Scrollen beseitigt, der dazu führte, dass Endsequenz falsch
+     angezeigt wurde.
+
+ Sword2:
+   - Fehlerbeseitigungen und Säuberungen bei Abspann. Der deutsche Abspann
+     funktioniert nun.
+   - Fehler mit fehlender Sprachausgabe/Musik in zweiter Hälfte des Spiels
+     beseitigt, was, wie berichtet wurde, in einigen Versionen des Spiels
+     vorkam.
+
+ PS2-Portierung:
+   - Vollständig umgeschrieben und wird nun richtig offiziell.
+
+ PSP-Portierung:
+   - Fehler beseitigt, der Baphomets Fluch 1 zum Abstürzen brachte und dazu
+     führte, dass Spiele, die extrahierte CDDA-Titel verwenden (insbesondere die
+     CD-Version von Monkey Island 1), nach einer Weile nicht mehr einwandfrei
+     funktionierten.
+
+ WinCE-Portierung:
+   - Lesen Sie die Datei backends/wince/README-WinCE, um die neusten
+     Veränderungen zu erfahren.
+   - Fehler beseitigt, bei dem die Konsole verschwand, wenn ein Listen-Widget in
+     der grafischen Benutzeroberfläche geöffnet wurde.
+   - Patches von Knakos (Fehlerbeseitigung bei QVGA-Smartphones, einfachere
+     Tastenzuweisung und vereinfachter Konsolenwechsel)
+
+0.8.0 (30.10.2005)
+ Neue Spiele:
+   - SAGA-Engine hinzugefügt (für die Spiele „I Have No Mouth, and I Must
+     Scream“ und „Erben der Erde“).
+   - Gob-Engine hinzugefügt (für die Spielreihe Goblins). Momentan wird nur das
+     erste Goblins-Spiel unterstützt.
+
+ Neue Portierungen:
+   - Portierung für PlayStation 2 hinzugefügt.
+   - Portierung für PlayStation Portable (PSP) hinzugefügt.
+   - Portierung für AmigaOS 4 hinzugefügt.
+   - Portierung für EPOC/SymbianOS hinzugefügt.
+   - Fehler in OS/2-Portierung beseitigt.
+
+ Allgemein:
+   - Mauszeiger-Handhabung im SDL-System überarbeitet. Nun können Zeiger eine
+     eigene Palette und Skalierung haben. Dies wird jetzt für Spiele von
+     Humongous Entertainment verwendet.
+   - FluidSynth-MIDI-Treiber hinzugefügt.
+   - Grafische Benutzeroberfläche für SoundFont-Einstellungen hinzugefügt
+     (werden momentan nur von CoreAudio und FluidSynth-MIDI-Treibern
+     verwendet).
+   - Der MPEG-Abspieler konnte aussetzen, wenn der Ton vorzeitig endet.
+   - Automatische Skalierung der Benutzeroberfläche verbessert, um den vollen
+     Vorteil des Bildschirms auszunutzen.
+   - Fehlerbeseitigungen für GCC 4
+
+ SCUMM:
+   - Unterstützung für Titel von Humongous Entertainment für Mac hinzugefügt.
+   - Unterstützung hinzugefügt für mehrere Dateinamen/Versionen bei der
+     Verwendung eines einzelnen Ziels.
+   - Render-Modi CGA und Hercules für frühe LEC-Titel hinzugefügt.
+   - Dialoge hinzugefügt, die angezeigt werden, wenn man die Textgeschwindigkeit
+     oder Musiklautstärke über Tastenkürzel verändert.
+   - Unterstützung für die NES-Version von Maniac Mansion hinzugefügt.
+   - Unterstützung für kleine Vorschaubilder bei Speicherständen hinzugefügt.
+   - Kompatibilität mit HE-Spielständen aufgehört (nur HE v71 und höher).
+   - Möglichkeit hinzugefügt, die Einbeziehung der Engines HE und SCUMM v7 & v8
+     bei der Kompilierung zu deaktivieren.
+   - Die letzten wenigen bekannten Musikstörungen bei Sam & Max beseitigt.
+     (Es gibt - wahrscheinlich - jedoch immer noch geringfügig fehlende
+     Funktionen.)
+   - Unterstützung für Comodore64-Version von Zak McKracken hinzugefügt.
+   - Alle Demoziele und plattformspezifische Ziele entfernt. Konfigurationsdatei
+     wird automatisch aktualisiert.
+
+ Sword2:
+   - Ressourcen-Manager dazu gebracht, Ressourcen intelligenter auslaufen zu
+     lassen.
+   - Leistung verbessert, wenn Spiel von CD anstatt Festplatte gespielt wird.
+   - Handhabung von Geräusch-Effekten vereinfacht - wieder einmal.
+   - Code-Säuberungen und -Restrukturierungen.
+   - Lange bestehenden Fehler bei der Dekompression von Sound aus den
+     CLU-Dateien für Sprachausgabe und Musik beseitigt. Es wurde eine Abtastung
+     zuviel erzeugt, was als leichtes Knackgeräusch am Ende einiger Sounds
+     wahrgenommen werden konnte. Dateien, die mit älteren Versionen von
+     compress_sword2 komprimiert wurden, werden natürlich immer noch denselben
+     Fehler haben. Möglicherweise wollen Sie diese neu erzeugen.
+
+0.7.1 (27.03.2005)
+ Allgemein:
+   - MT-32-Emulator hinzugefügt [er wurde eigentlich schon in Version 0.7.0
+     hinzugefügt, aber wir haben vergessen, ihn in dieser Datei zu
+     erwähnen :-) ].
+   - MPEG-Filmwiedergabe für Baphomets Fluch 1 & 2 nun weniger speicherhungrig
+
+ SCUMM:
+   - Falsche Figurenanimation in INSANE von Vollgas beseitigt.
+
+ Windows-Mobile-Portierung (PocketPC / Smartphone):
+   - FOTAQ-Absturz auf allen Plattformen WIEDER beseitigt, wenn man Hotel
+     verlässt.
+   - Bessere Emulation niedriger Qualität von AdLib für FOTAQ
+   - Zufällig defekte Option zum Verstecken der Werkzeugleiste repariert
+     (danke, iKi).
+   - Erste Hardware-Tastenzuweisung repariert (wurde vorher nicht angezeigt).
+   - Kurze Aussetzer in BASS & Simon beim Smartphone beseitigt, wenn
+     Tastenkürzel zum Überspringen von Sätzen verwendet wird.
+   - Zonentastenaktion beim Smartphone repariert (nun der Taste 9 zugewiesen).
+   - Experimentelle Fehlerbeseitigung Dritter für VGA-Modus (SE-VGA)
+   - Tastenzuweisungsoption im Startmenü hinzugefügt
+     (ab Version 1.2.0 in deutscher Lokalisation zu finden unter:
+     Optionen / Sonstiges / Tasten).
+   - Abhängigkeit von AYGSHELL.DLL beseitigt, um auf Plattformen mit CE .Net zu
+     funktionieren.
+   - Probleme mit Tastenzuweisung behoben, die sich in 0.7.0 eingeschlichen
+     haben.
+   - Interaktive Action-Sequenz in Vollgas sollte spielbarer sein.
+   - Neue Tastenzuweisungsoption „FT Cheat“, um alle Action-Sequenzen in Vollgas
+     zu gewinnen
+   - Beenden von Simon-Spiel bei Smartphones mit Aktionstaste
+
+ Sword2:
+   - Absturz beseitigt, der aufgetreten ist, wenn versucht wurde, Musik von CD 1
+     und CD 2 gleichzeitig wiederzugeben.
+   - Absturz bei Zwischensequenz-Abspieler beseitigt, wenn Sprachdatei fehlt.
+
+ BASS:
+   - Absturz beseitigt, wenn man mit spanischem Text in Diskettenversion mit dem
+     Gärtner redet.
+
+0.7.0 (24.12.2004)
+ Neue Spiele:
+   - 26 Titel von Humongous Entertainment hinzugefügt; nur wenige sind
+     durchspielbar.
+
+ Allgemein:
+   - Unterstützung für mit FLAC (verlustfrei) komprimierte Audio-Dateien
+     hinzugefügt.
+   - Bildschirmanzeige zu SDL-System hinzugefügt.
+   - Teilweise API-System umgeschrieben.
+   - Kommentare und die Reihenfolge der Abschnitte in der Konfigurationsdatei
+     werden nun beibehalten.
+   - Grafikwandler AdvMame auf Grundlage von scale2x 2.0 aktualisiert -
+     AdvMame3x sieht nun schöner aus und AdvMame 2x wird durch MMX beschleunigt.
+   - MMX-i386-Assembler-Versionen von HQ2x- und HQ3x-Grafikwandlern hinzugefügt.
+   - Option für „Extrapfad“ hinzugefügt, der die Einbindung von Spieldateien in
+     einem zusätzlichen Verzeichnis erlaubt (z. B. für umgewandelte
+     Zwischensequenzen oder Ähnliches).
+   - Tastenkombinationen Alt+x und Strg+z für das Beenden auf Systemen der Marke
+     Unix (wie z. B. Linux) deaktiviert - zugunsten von Strg+q
+     (Ausnahme: Mac OS X verwendet nach wie vor Cmd+q).
+   - Gesonderte kleinere Schriftart für die Konsole, wodurch mehr Informationen
+     auf einen Blick sichtbar werden, z. B. im SCUMM-Debugger
+   - Unterstützung für das Einstellen der Ausgabefrequenz zur Laufzeit
+     hinzugefügt, auch wenn es hierfür noch keine Option in der
+     Benutzeroberfläche gibt.
+   - Anstatt des aktuellen Verzeichnisses wird nun folgendes Standardverzeichnis
+     auf folgenden Plattformen für Spielstände verwendet:
+         Mac OS X:            $HOME/Documents/ScummVM Savegames/
+         Andere UNIX-Systeme: $HOME/.scummvm/
+   - Neuen „Über“-Dialog mit rollender Liste aller Mitwirkenden hinzugefügt.
+
+ SCUMM:
+   - Das alte Ziel zak256 entfernt; zakTowns wird nun stattdessen verwendet.
+   - Native Unterstützung für Macintosh-Versionen durch Verwendung einer
+     speziellen Container-Datei hinzugefügt.
+   - Glatter horizontaler Bildlauf für The Dig, Vollgas und COMI hinzugefügt
+     (mit der originalen Engine übereinstimmend).
+   - Teilweise Text-Engine umgeschrieben, was verschiedene Fehler beseitigt,
+     besonders in neueren Spielen (The Dig, COMI).
+   - Zeichnungsstörungen bei Figuren in V1 von Maniac und Zak beseitigt.
+   - Schiff-zu-Schiff-Grafikstörungen in COMI beseitigt.
+   - Palettenstörungen in COMI beseitigt.
+
+ Queen:
+   - Einige Probleme bei Dreamcast-System behoben.
+
+ Sword1:
+   - Unterstützung für komprimierte Sprachausgabe und Musik hinzugefügt.
+   - Unterstützung für die Demo hinzugefügt.
+   - Bessere Unterstützung für tschechische Version
+   - Umgehungslösungen für in einigen Spielversionen vorhandene Skript- und
+     Untertitel-Fehler hinzugefügt.
+
+ Sword2:
+   - Speicher-/Ressourcen-Verwaltung vereinfacht.
+   - Handhabung von Geräusch-Effekten vereinfacht.
+   - Unterstützung für komprimierte Sprachausgabe und Musik hinzugefügt.
+   - Verschiedene kleinere Fehler beseitigt.
+
+ BASS:
+   - Umgehungslösungen für einige seltene Skriptfehler hinzugefügt, durch deren
+     Auftreten man das Spiel nicht mehr gewinnen konnte.
+
+0.6.1b (03.08.2004)
+ Allgemein:
+   - Fehler bei Kopieren und Einfügen im Startmenü beseitigt, der den
+     Speicherpfad beschädigen konnte.
+   - Abstürze bei 64-Bit-Architekturen beseitigt.
+
+ SCUMM:
+   - Durch VOC verursachten Absturz in der DOTT-Diskettenversion beseitigt.
+   - Palettenprobleme in Amiga-Version von MI2 behoben.
+
+ Simon:
+   - Durch VOC verursachten Absturz beseitigt.
+
+0.6.1 (25.07.2004)
+ Allgemein:
+   - Sound-Störung beseitigt, wenn zwei oder mehr Ogg-Vorbis-Sounds als
+     Datenstrom aus demselben Datei-Handle ausgegeben werden, z. B. im Vorspann
+     von Sam & Max bei Verwendung der Datei monster.sog.
+
+ SCUMM:
+   - Wie gewöhnlich: viele Fehlerbeseitigungen für Spiele der SCUMM-Engine
+   - Grafikdekodierer für 3DO-Spiele von Humongous Entertainment hinzugefügt.
+   - Zahlreiche Fehlerbeseitigungen für Spiele von Humongous Entertainment
+   - Fehler in Vollgas beseitigt, sodass Schwierigkeitsgrad im Kampf dem des
+     Originals entspricht.
+   - Digital iMuse verbessert.
+
+ Sword1:
+   - ScummVM warnt nun den Anwender, wenn Speichern fehlschlägt, anstatt
+     abzustürzen.
+   - Leicht anwenderfreundlicherer Dialog zum Speichern/Laden
+   - Bildmaskenfehler vor Nicos Wohnung beseitigt.
+
+ Simon:
+   - Abstürze in einigen internationalen Versionen beseitigt.
+
+0.6.0 (14.03.2004)
+ Neue Spiele:
+   - Engine für Baphomets Fluch 1 hinzugefügt.
+   - Engine für Baphomets Fluch 2 hinzugefügt.
+   - Engine für Flight of the Amazon Queen hinzugefügt.
+   - Unterstützung für die V1-SCUMM-Spiele Maniac Mansion und Zak McKracken
+     hinzugefügt.
+   - SCUMM-Spiel Vollgas wird nun unterstützt.
+
+ Allgemein:
+   - Untertitel sind nun standardmäßig ausgeschaltet. Kommandozeilen-Option „-n“
+     aktiviert die Untertitel von jetzt an.
+   - Grafikwandler HQ2x und HQ3x hinzugefügt.
+   - Sound-Code für mehr Flexibilität und Effizienz umgeschrieben.
+   - Native MT-32-Unterstützung verbessert.
+   - AdLib-GM-Emulationstabelle so umgestaltet, dass sie genaueres Software-MIDI
+     bietet.
+   - Standardmäßige Datei Makefile verwendet nun Konfigurationsskript.
+   - Startmenü und Optionsdialoge erheblich verbessert (in Bearbeitung).
+   - Viele weitere Verbesserungen „unter der Motorhaube“ wie z. B. die neue
+     Konfigurationshandhabung und Plugin-Fähigkeiten
+
+ Simon:
+   - Spieldateien-Dekodierer für Amiga-Diskettenversionen hinzugefügt.
+   - Unterstützung für Inventargrafiken in Amiga-Versionen hinzugefügt.
+   - Verschiedene Vorfälle kurzer Aussetzer im Spiel beseitigt.
+   - Kleinere Störungen im Dialog Laden/Speichern in nicht-englischen Versionen
+     beseitigt.
+   - Problem mit fehlenden Inventarpfeilen in einigen Versionen von
+     Simon the Sorcerer 1 wurde behoben.
+
+ SCUMM:
+   - Viele, viele, viele Fehlerbeseitigungen für die SCUMM-Engine. Wirklich
+     viele. Und das ist eine ganze Menge.
+   - INSANE-Unterstützung für die „Action-Sequenzen“ von Vollgas hinzugefügt.
+   - Option zur Auswahl zwischen AdLib, PCjr und PC-Lautsprecher für frühere
+     Spiele hinzugefügt.
+   - AdLib-Unterstützung für indy3ega und loom (EGA) hinzugefügt.
+   - MIDI-Unterstützung für loom (EGA), monkeyega und monkeyvga hinzugefügt.
+   - Unterstützung für Klang-Effekte für indy3/monkeyega/monkeyvga/pass
+     hinzugefügt.
+   - FM-TOWNS-Ziele für Loom und Indy3 hinzugefügt.
+   - Menü im Spiel (aufrufbar mit F5) umgeschrieben, um einfachere Verwendung zu
+     ermöglichen.
+   - Verbesserte Unterstützung für Sound in FM-TOWNS (YM2612-Emulation,
+     Geräusch-Schleifen).
+   - Klassische SCUMM-V1-Varianten von Maniac Mansion und Zak McKracken werden
+     nun unterstützt und sind durchspielbar.
+   - Musiksystem Digital iMUSE umgeschrieben.
+   - Mehrere Fehler im Musiksystem Analog iMUSE beseitigt.
+   - Musik und Sound für verschiedene Amiga-Versionen verbessert.
+   - Kompression für Audio-Dateien von Fate of Atlantis und Simon the Sorcerer 2
+     verbessert.
+   - Tastaturkampf funktioniert nun in Fate of Atlantis.
+   - Tastaturunterstützung für Kanonenkampf in Curse of Monkey Island
+   - Tastaturunterstützung für Rennfahr-Szene in Vollgas
+
+0.5.1 (06.08.2003)
+- Programm-Code für Spielstände von Beneath a Steel Sky umgeschrieben (siehe
+  Hinweis in README unter „Known Bugs“).
+- Beseitigung von Fehlern beim Überspringen von Dialogen sowie bei der
+  Musiklautstärke und von mehreren Abstürzen/Ursachen für das Aufhängen in
+  Beneath a Steel Sky
+- Fehler beim Überspringen von Dialogen in V7-SCUMM-Spielen beseitigt.
+- Störung beim Beenden von ScummVM im Vollbildmodus unter Mac OS X
+  beseitigt.
+- Mehrere COMI-Fehler beseitigt im Zusammenhang mit der Platzierung/Skalierung
+  von Figuren.
+- Vollständige Hebräisch-Unterstützung für Simon the Sorcerer 1 und 2
+  hinzugefügt.
+- Mehrere Fehlerbeseitigungen für MorphOS- und Dreamcast-Portierung
+- Auf Dreamcast laufen nun Simon the Sorcerer 1 & 2.
+- Vollbildschirmmodus-Problem unter Mac OS X behoben, bei welchem man die Maus
+  nicht im oberen Teil des Bildschirms verwenden konnte, indem zu einer
+  fehlerbereinigten Version von SDL verlinkt wurde.
+
+0.5.0 (02.08.2003)
+- Verbesserte Versionen von Maniac Mansion und Zak McKracken werden nun
+  unterstützt und sind komplett durchspielbar.
+- Unterstützung für Amiga-Version von Monkey Island 1 hinzugefügt.
+- Erste Unterstützung (nicht spielbar) für V1-Variante von Maniac Mansion/
+  Zak McKracken
+- Unterstützung zum Spielen von Curse of Monkey Island von CD unter Mac OS X
+  verbessert.
+- Um Spielstände für CD 2 zu laden, wird nicht mehr zuerst die CD 1 benötigt.
+- Engine von iMuse umgeschrieben und viele Musikfehler beseitigt (besonders bei
+  Monkey Island 2).
+- Unterstützung für Musik in DOS-Versionen von Spielen von Humongous
+  Entertainment und Simon the Sorcerer 2 (XMIDI-Format)
+- Vollständige Musikunterstützung für Simon the Sorcerer 2.
+- Musik- und Sound-Unterstützung in Zak256 verbessert.
+- Option für Seitenverhältniskorrektur hinzugefügt.
+- Viele weitere Fehlerbeseitigungen, Verbesserungen und Optimierungen
+
+0.4.1 (25.05.2003)
+- Filter AdvMame3x hinzugefügt.
+- Absturz in Curse of Monkey Island (und wahrscheinlich auch anderen Spielen)
+  beseitigt.
+- Flughafentüren in Zak256 korrigiert.
+- Absturz in SDL-System beseitigt.
+- Mehrere Fehler bei iMuse beseitigt.
+
+0.4.0 (11.05.2003)
+- Unterstützung für Curse of Monkey Island (experimentell)
+- Unterstützung für EGA-Versionen von Loom, Monkey Island und Indy3 hinzugefügt.
+- Verbesserte Musikunterstützung in Indy3 und Diskettenversionen von
+  Monkey Island
+- Viele Verbesserungen und Fehlerbeseitigungen für Simon the Sorcerer 1 & 2
+- Programm-Code im sehr frühen Entwicklungsstadium für Beneath a Steel Sky.
+  Bitte nicht erwarten, dass er irgendetwas tut.
+- Noch mehr Unterstützung im frühen Entwicklungsstadium für V2-SCUMM-Spiele
+  (Maniac Mansion und Zak)
+- Vorbereitende Unterstützung für frühe Titel von Humongous Entertainment (sehr
+  experimentell)
+- Neue Debug-Konsole und mehrere Verbesserungen bei Benutzeroberfläche und
+  Startmenü mit Spieleliste
+- Neuer Programm-Code für das Speichern und Laden (einfacher zu erweitern,
+  während Kompatibilität erhalten wird)
+- Dreamcast-Portierung funktioniert nun mit neuen Spielen, für welche die
+  Unterstützung in Version 0.3.0b hinzukam.
+- Neue offizieller PalmOS-Portierung
+- Verschiedene kleine und nicht so kleine Fehlerbeseitigungen für SCUMM-Spiele
+- Großes Speicherleck bei The Dig/ComI beseitigt.
+- SMUSH-Code optimiert, Auslassen von Bildern für langsamere Maschinen
+  hinzugefügt.
+- Programm-Code-Säuberungen
+
+0.3.0b (08.12.2002)
+- Massive Säuberungsarbeiten bei iMUSE. Die Musik in Sam & Max wird nun korrekt
+  abgespielt.
+- Viele Fehlerbeseitigungen für Zak256 + Unterstützung für Sound und Musik
+- Musikunterstützung für Simon the Sorcerer auf Plattformen mit echtem MIDI
+- Experimentelle Unterstützung für Indy3 (VGA) - Indiana Jones and the
+  Last Crusade
+- Vervollständigte Unterstützung für Monkey1-VGA-Diskette, The Dig
+- Implementierung von akos16 durchgeführt für Costumes (Grafikdateien von
+  Figuren) in The Dig und Vollgas.
+- Implementierung von Digital iMuse für Musik in The Dig und Vollgas
+- Synchronisation von Sprachausgabe und Musik bei Loom-CD erheblich verbessert.
+- MIDI-Emulation durch AdLib hinzugefügt, für Plattformen ohne Sequencer-
+  Unterstützung.
+- Programm-Code-Trennung verschiedener Engine-Teile in einzelne Bibliotheken
+- Mehrere Fehler beseitigt, um Abstürzen und Aufhängen in Simon the Sorcerer
+  zu verhindern.
+- Hunderte Fehlerbeseitigungen für viele andere Spiele
+- Neue SMUSH-Video-Engine, für Vollgas und The Dig
+- Neue Benutzeroberfläche im Spiel
+- Startmenü mit Spieleliste
+
+0.2.0 (14.04.2002)
+- Engine-Kern umgeschrieben.
+- Verbesserte Benutzeroberfläche im Spiel, einschließlich
+  Optionen-/Lautstärke-Einstellungen
+- Funktion für automatisches Speichern
+- Weitere Kommandozeilenoptionen und Konfigurationsdatei hinzugefügt.
+- Neue Portierungen und Plattformen (MorphOS, Macintosh, Dreamcast, Solaris,
+  IRIX, usw.)
+- Grafikfilter hinzugefügt (2xSAI, Super2xSAI, SuperEagle, AdvMame2x).
+- Unterstützung für mit MAD MP3 komprimierte Audio-Dateien
+- Unterstützung für erste Nicht-SCUMM-Spiele (Simon the Sorcerer)
+- Unterstützung für V4-SCUMM-Spiele (Loom-CD)
+- Verbesserte Unterstützung von V6-SCUMM-Spielen (Sam & Max ist nun komplett
+  durchspielbar)
+- Experimentelle Unterstützung für V7-SCUMM-Spiele (Vollgas/The Dig)
+- Experimentelle Unterstützung für V3-SCUMM-Spiele (Zak256/Indy3)
+
+0.1.0 (13.01.2002)
+- Eine Menge Änderungen
+
+0.0.2 (12.10.2001)
+- Fehlerbeseitigungen
+- Unterstützung für Laden & Speichern
+
+0.0.1 (08.10.2001)
+- Erste Version

@@ -1,0 +1,63 @@
+Introduction
+------------
+
+CxxTest is a JUnit/CppUnit/xUnit-like framework for C++.
+
+Its advantages over existing alternatives are that it:
+ - Doesn't require RTTI
+ - Doesn't require member template functions
+ - Doesn't require exception handling
+ - Doesn't require any external libraries (including memory management,
+   file/console I/O, graphics libraries)
+
+This makes it extremely portable and usable.
+
+CxxTest is available under the GNU Lesser General Public Licence (LGPL).
+See http://www.gnu.org/copyleft/lesser.html for the license.
+
+Simple user's guide
+-------------------
+
+1. Create a test suite header file:
+
+MyTest.h:
+  #include <cxxtest/TestSuite.h>
+
+  class MyTestSuite : public CxxTest::TestSuite
+  {
+  public:
+      void testAddition( void )
+      {
+          TS_ASSERT( 1 + 1 > 1 );
+          TS_ASSERT_EQUALS( 1 + 1, 2 );
+      }
+  };
+
+
+2. Generate the tests file:
+
+ # cxxtestgen.pl -o tests.cpp MyTestSuite.h
+
+
+3. Create a main function that runs the tests
+
+main.cpp:
+  #include <cxxtest/ErrorPrinter.h>
+
+  int main( void )
+  {
+      CxxText::ErrorPrinter::runAllTests();
+      return 0;
+  }
+
+
+4. Compile and run!
+
+  # g++ -o main main.cpp tests.cpp
+  # ./main
+  Running 1 test(s).OK!
+
+
+Advanced User's Guide
+---------------------
+See docs/guide.html.

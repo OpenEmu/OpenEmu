@@ -1,0 +1,9 @@
+#!/bin/sh
+# wrapper for proper WM_CLASS name in SDL apps (needed for icon in taskbar)
+#BASEDIR=`dirname $0`
+BASENAME=`basename $0`
+export SDL_VIDEO_X11_WMCLASS=${BASENAME}
+export SCUMMVM_MAEMO_DEVICE=$(awk '/^product/ { print $2;}' /proc/component_version)
+[ -x ${0}.bin ] && exec ${0}.bin "$@"
+# optified binary
+[ -x /opt/scummvm/bin/scummvm ] && exec /opt/scummvm/bin/scummvm "$@"

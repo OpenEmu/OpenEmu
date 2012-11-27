@@ -1,0 +1,12 @@
+PRJ_PLATFORMS
+WINS ARMI // ARM4 THUMB
+
+PRJ_MMPFILES
+//START_AUTO_PROJECTS//
+
+	// empty base file, will be updated by Perl build scripts
+
+//STOP_AUTO_PROJECTS//
+
+.\ScummVM_S80.mmp
+.\ScummVM_S80_App.mmp

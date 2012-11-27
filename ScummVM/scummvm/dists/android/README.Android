@@ -1,0 +1,55 @@
+README for the Android port of ScummVM
+--------------------------------------
+
+REQUIREMENTS
+
+  TODO
+
+INSTALL
+
+  TODO
+
+CONTROLS
+
+  5-Way navigation control / DPAD
+
+    DPAD up/down/left/right: Mouse movement
+    DPAD center: Left mouse button
+
+  Trackball
+
+    Movement: Mouse movement
+    Click: Left mouse button
+
+  Touchscreen
+
+    The touchscreen can be used in two modes
+
+    1) Direct mode
+    2) Touchpad mode
+
+    When in direct mode, the mouse cursor moves to the touched point on screen.
+    In touchpad mode, the mouse cursor is independent of the touched point, it
+    is moved relative to its current position - like on a touchpad.
+
+    The port currently misses its own configuration dialog, the mode can
+    be toggled with the "Mixed AdLib/MIDI mode" on the MIDI tab in ScummVM's
+    own option dialog.
+
+    Tap + movement: Mouse movement
+    Tap without movement: Left mouse button click
+    Tap held for >0.5s without movement: Right mouse button click
+    Tap held for >1s without movement: Middle mouse button click
+    Double Tap + movement: Drag and drop
+
+    On devices supporting multitouch:
+
+    Two finger tap: Right mouse button click
+    Three finger tap: Middle mouse button click
+
+  System keys
+
+    Back button: Escape
+    Menu button: ScummVM menu
+    Menu button held for 0.5s: Toggle virtual keyboard
+    Camera or Search button: Right mouse button click

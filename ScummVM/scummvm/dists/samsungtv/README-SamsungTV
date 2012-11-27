@@ -1,0 +1,17 @@
+Notes:
+
+- Should works on 2009 B series TVs (Full HD): LExxBE65x, LExxBE75x, PSxxB65x, UExxB7xxx, UExxB8xxx, PSxxB85x, LAxxB65x, LAxxB75x, UNxxB7xxx, UAxxB8xxx
+- To allow use mouse and keyboard you need load extension first: "SamyGO Mouse And Keyboard"
+  Download from SamyGO project and run from Content Library:
+  http://sourceforge.net/projects/samygo/files/SamyGO%20Kernel%20Modules/SamyGO%20Mouse%20and%20Keyboard%20Modules%20v0.01.zip/download
+- Buttons on remote controler: EXIT, SOURCE, P+, P-, TV, POWER, CONTENT - cause immediately exit from ScummVM
+- Config file is in /mtd_rwarea/.scummvmrc
+- Saves are stored in '/mtd_wiselink/scummvm savegames' directory
+- Audio is delayed a upto one second, it's TV software issue :/
+- Do not use 3x scalers, they are not fit in TV display frame buffer and you get gfx glitches
+
+Remote Controler buttons:
+
+GREEN - emulate key F5
+YELLOW - emulate key F7 - virtual keyboard
+BLUE and RETURN - emulate key ESC

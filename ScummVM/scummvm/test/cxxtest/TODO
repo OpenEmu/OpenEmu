@@ -1,0 +1,33 @@
+This is an -*- Outline -*- of ideas for future versions of CxxTest.
+It is not meant to be "human readable".
+
+* CxxTest To Do list
+
+** Mock framework
+
+Write some mocks
+
+*** Distribution
+Seperate packages (w/ binaries)?  How would that be used?
+For Windows: .lib for "Real" and "Mock" parts.
+For Linux: Maybe. Different compilers etc.
+So probably only source release with Makefiles and .ds[pw]?  Or just Win32 binary.
+
+**** Installation?
+extract cxxtest-x.y.z.tar.gz
+(extract cxxtest-mock-x.y.z.tar.gz) ?
+make -C cxxtest/Real
+make -C cxxtest/Mock
+
+or maybe make -C cxxtest -f Makefile.mock
+but then Makefile.mock.bcc32, Makefile.mock.msvc, Makefile.mock.gcc, and heaven knows what else.
+
+Could put the Makefile.mock.* in cxxtest/Real and cxxtest/Mock or in cxxtest/T
+
+Maybe this should be a different package altogether?
+Seems logical, since they evolve separately.  But then you'd want to download both.
+
+** Thoughts
+-fomit-frame-pointer
+
+** TS_HEX

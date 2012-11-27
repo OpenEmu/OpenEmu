@@ -1,0 +1,8 @@
+_PLUGIN_getVersion
+_PLUGIN_getType
+_PLUGIN_getTypeVersion
+_PLUGIN_getObject
+___plugin_ctors
+___plugin_ctors_end
+___plugin_dtors
+___plugin_dtors_end

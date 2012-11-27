@@ -1,0 +1,168 @@
+$Id$
+
+pluto_persist() produces a "hunk" of objects. Here's the file format adhered
+to by the function, and expected by pluto_unpersist(). 
+
+As a developer, I feel that where file format information is given it is of
+utmost importance that that information precisely and accurately reflects the
+actual operation of the application. Therefore, if you find any discrepancy
+between this and actual operation, please lambast me thoroughly over email.
+
+Pseudo-C is used to express the file format. Padding is assumed to be
+nonexistent. The keyword "one_of" is used to express a concept similar to
+"union", except that its size is the size of the actual datatype chosen. Thus,
+objects which contain, directly or indirectly, a one_of, may vary  in size.
+
+
+struct Object {
+	int firstTime;		/* Whether this is the first time the object
+				is being referenced */
+	one_of {
+		RealObject o;	/* if firstTime == 1 */
+		Reference r;	/* if firstTime == 0 */
+	};
+};
+
+struct Reference {
+	int ref;	/* The index the object was registered with */
+};
+
+struct RealObject {
+	int type;		/* The type of the object */
+	one_of {
+		Boolean b;	/* If type == LUA_TBOOLEAN */
+		LightUserData l;	/* If type == LUA_TLIGHTUSERDATA */
+		Number n;	/* If type == LUA_TNUMBER */
+		String s;	/* If type == LUA_TSTRING */
+		Table t;	/* If type == LUA_TTABLE */
+		Function f;	/* If type == LUA_TFUNCTION */
+		Userdata u;	/* If type == LUA_TUSERDATA */
+		Thread th;	/* If type == LUA_TTHREAD */
+		Proto p;	/* If type == LUA_TPROTO (from lobject.h) */
+		Upval uv;	/* If type == LUA_TUPVAL (from lobject.h) */
+	};			/* The actual object */
+};
+
+struct Boolean {
+	int32 bvalue;		/* 0 for false, 1 for true */
+};
+
+struct LightUserData {
+	void* luvalue;		/* The actual, literal pointer */
+};
+
+struct Number {
+	lua_Number nvalue;	/* The actual number */
+};
+
+struct String {
+	int length;		/* The length of the string */
+	char str[length];	/* The actual string (not null terminated) */
+};
+
+struct Table {
+	int isspecial;		/* 1 if SP is used; 0 otherwise */
+	one_of {
+		Closure c;	/* if isspecial == 1; closure to refill the table */
+		LiteralTable t;	/* if isspecial == 0; literal table info */
+	};
+};
+
+struct LiteralTable {
+	Object metatable;	/* nil for default metatable */
+	Pair p[];		/* key/value pairs */
+	Object nil = nil;	/* Nil reference to terminate */
+};
+
+struct Pair {
+	Object key;
+	Object value;
+};
+
+struct Function { 		/* Actually a closure */
+	lu_byte nups;		/* Number of upvalues the function uses */
+	Object proto;		/* The proto this function uses */
+	Object upvals[nups];	/* All upvalues */
+	Object fenv;		/* The FEnv (nil for the global table)
+};
+
+struct Upval {
+	Object obj;		/* The object this upval refers to */
+}
+
+struct Userdata {
+	int isSpecial; 		/* 1 for special persistence, 0 for literal
+	one_of {
+		LiteralUserdata lu;	/* if is_special is 0 */
+		SpecialUserdata su;	/* if is_special is 1 */
+	};
+};
+
+struct LiteralUserdata {
+	Object metatable;		/* The metatable (nil for default) */
+	int length;		/* Size of the data */
+	char data[length];	/* The actual data */
+};
+
+struct SpecialUserdata {
+	int length;		/* The size of the data */
+	Object func;		/* The closure used to fill the userdata */
+};
+
+struct Thread {
+	int stacksize;		/* The size of the stack filled with objects,
+				 * including the "nil" that is hidden below
+				 * the bottom of the stack visible to C */
+	Object stack[stacksize];/* Indices of all stack values, bottom up */
+	int callinfosize;	/* Number of elements in the CallInfo stack */
+	CallInfo callinfostack[callinfosize];	/* The CallInfo stack */
+	int base;		/* base = L->base - L->stack; */
+	int top;		/* top = L->top - L->stack; */
+	OpenUpval openupvals[]; /* Upvalues to open */
+	Object nil = nil;	/* To terminate the open upvalues list */
+};
+
+struct OpenUpval {
+	Object upval;		/* The upvalue */
+	int stackpos;		/* The stack position to "reopen" it to */
+
+};
+
+struct CallInfo {
+	int base;		/* base = ci->base - L->stack; */
+	int top;		/* top = ci->top - L->stack; */
+	int pc;			/* pc = ci->pc - proto->code; */
+	int state;		/* flags used by the CallInfo */
+};
+
+struct Proto {
+	int sizek;		/* Number of constants referenced */
+	Object k[sizek];	/* Constants referenced */
+	int sizep;		/* Number of inner Protos referenced */
+	Object p[sizep];	/* Inner Protos referenced */
+	int sizecode;		/* Number of instructions in code */
+	Instruction code[sizecode];	/* The proto's code */
+	ProtoDebug debuginfo;	/* Debug information for the proto */
+	lu_byte nups;		/* Number of upvalues used */
+	lu_byte numparams;	/* Number of parameters taken */
+	lu_byte is_vararg;	/* 1 if function accepts varargs, 0 otherwise */
+	lu_byte maxstacksize;	/* Size of stack reserved for the function */
+};
+
+struct ProtoDebug {
+	int sizeupvals;		/* Number of upvalue names */
+	Object upvals;		/* Upvalue names */
+	int sizelocvars;	/* Number of local variable names */
+	LocVar[sizelocvars];	/* Local variable names */
+	Object source;		/* The source code */
+	int sizelineinfo;	/* Number of opcode-line mappings */
+	int lineinfo[sizelineinfo];	/* opcode-line mappings */
+	int linedefined;	/* Start of line range */
+	int lastlinedefined;	/* End of line range */
+};
+
+struct LocVar {
+	Object name;		/* Name of the local variable */
+	int startpc;		/* Point where variable is active */
+	int endpc;		/* Point where variable is dead */
+};

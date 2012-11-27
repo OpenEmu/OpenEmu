@@ -1,0 +1,11 @@
+#define IDI_POCKETSCUMM                 101
+#define IMAGE_PANEL                     109
+#define PANEL_GENERIC                   109
+#define PANEL_KEYBOARD                  110
+#define ITEM_SKIP                       114
+#define ITEM_OPTIONS                    115
+#define ITEM_SOUND_ON                   118
+#define ITEM_SOUND_OFF                  119
+#define ITEM_VIEW_PORTRAIT              120
+#define ITEM_VIEW_LANDSCAPE             122
+#define ITEM_BINDKEYS                   125

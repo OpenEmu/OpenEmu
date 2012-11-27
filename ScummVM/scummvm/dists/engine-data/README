@@ -1,0 +1,36 @@
+engine-data README
+-------------------------------------------------------------------------------
+
+drascula.dat
+TODO
+
+hugo.dat:
+This file contains all the hardcoded logic, strings and fonts used by Hugo
+engine. Those information were stored in the original executables.
+
+kyra.dat:
+The 'kyra.dat' file is created by extracting hardcoded data, like the
+roomtable, inventory names, various strings, tables for shapes and sequence
+scripts, from.
+
+lure.dat
+TODO
+
+queen.tbl:
+'queen.tbl' contains a list of filenames, filesizes and offsets for the
+individual files saved in QUEEN.1. This data was originally included in the
+executable. The compress_queen tool adds the information contained in queen.tbl
+to QUEEN.1; for this reason neither the freeware FOTAQ floppy version nor the
+mp3/ogg/flac encoded need the datafile.
+
+sky.cpt:
+TODO
+
+teenagent.dat
+TODO
+
+tony.dat:
+This file contains the font table used by the different versions of the game.
+
+toon.dat:
+'toon.dat' contains all the strings hardcoded in the original executables.

@@ -1,0 +1,157 @@
+This document is a partial translation of the English README file. The
+original document has much more information, so if you cannot find what
+you need here and can understand a bit of English, try to look at the
+English README file.
+
+For more information, compatibility lists, details on donating, the
+latest release, progress reports and more, please visit the ScummVM home
+page at: http://www.scummvm.org/
+
+Table of Contents:
+------------------
+1.0) Introduction
+ * 1.1 About ScummVM
+ * 1.2 Quick start
+2.0) Contact
+ * 2.1 Reporting Bugs
+
+1.0) Introduction:
+---- -------------
+
+1.1) About ScummVM:
+---- --------------
+ScummVM is a program which allows you to run certain classic graphical
+point-and-click adventure games, provided you already have their data
+files. The clever part about this: ScummVM just replaces the executables
+shipped with the game, allowing you to play them on systems for which
+they were never designed!
+
+Originally it was designed to run LucasArts' SCUMM games, such as Maniac
+Mansion, Monkey Island, Day of the Tentacle or Sam and Max. SCUMM stands
+for 'Script Creation Utility for Maniac Mansion', which was the first
+game for which LucasArts designed this system. And much later it gave
+its name to ScummVM ('VM' meaning Virtual Machine).
+
+Over time support for a lot of non-SCUMM games has been added, and
+ScummVM now also supports many of Sierra's AGI and SCI games (such as
+King's Quest 1-6, Space Quest 1-5, ...), Discworld 1 and 2, Simon the
+Sorcerer 1 and 2, Beneath A Steel Sky, Lure of the Temptress, Broken
+Sword I and II, Flight of the Amazon Queen, Gobliiins 1-3, The Legend of
+Kyrandia series, many of Humongous Entertainment's children's SCUMM
+games (including Freddi Fish and Putt Putt games) and many more. You can
+find a full list with details on which adventures are supported and how
+well on the compatibility page. ScummVM is continually improving, so
+check back often.
+
+Among the systems on which you can play those games are regular desktop
+computers (running Windows, Linux, Mac OS X, ...), game consoles
+(Dreamcast, Nintendo DS & Wii, PS2, PSP, ...), smartphones (Android,
+iPhone, PocketPC, Symbian ...) and more.
+
+At this time ScummVM is still under heavy development. Be aware that
+whilst we attempt to make sure that many games can be completed with few
+major bugs, crashes can happen and we offer no warranty. That being
+said, some of the games have been supported for a long time and should
+work fine with any recent stable release. You can get a feeling of how
+well each game is working in ScummVM by looking at the compatibility
+page. Actually if you browse a bit around you might discover that
+ScummVM is even being used commercially to re-release some of the
+supported games on modern platforms. This shows that several companies
+are happy with the quality of the software and how well it can run some
+of the games.
+
+If you enjoy ScummVM feel free to donate using the PayPal button on the
+ScummVM homepage. This will help us buy utilities needed to develop
+ScummVM easier and quicker. If you cannot donate, help and contribute a
+patch!
+
+1.2) Quick start:
+---- ------------
+IMPORTANT: This short guide assumes you are using ScummVM in <translated
+language>. By default, ScummVM will use your operating system's
+language. If you prefer to use ScummVM in English, You may also prefer
+to follow the guide from the English REAMDE file.
+
+For the impatient among you, here is how to get ScummVM running in five
+simple steps.
+
+1. Download ScummVM from <http://www.scummvm.org/downloads.php> and
+install it.
+
+2. Create a directory on your hard drive and copy the game datafiles
+from the original media to this directory. Repeat this for every game
+you want to play (it is better to use a separate directory for each
+game).
+
+3. Start ScummVM.
+
+If at this stage ScummVM appears in English instead of <translated
+language>, do as follow to change the language:
+- Click on 'Options'.
+- Click on the right arrow in the tab bar and select the 'Misc' tab.
+- Select "<translated language>" in the 'GUI Language' box and click on
+  'OK'.
+- Confirm the message box that pops-up, click on 'Quit' to quit ScummVM
+  and then restart the program.
+
+Now choose 'Add game', select the directory with the game datafiles (do
+not try to select the datafiles themselves!) and press 'Choose'
+
+4. A dialog should popup allowing you to configure various settings if
+you wish to (it should be just fine to leave everything at its default,
+though). Confirm the dialog.
+
+5. Select the game you want to play in the list, and press 'Start'.
+
+ScummVM remembers the games that you add. So if you close ScummVM, the
+next time you start it again the list of game will contain all the games
+you previously added. You can therefore go directly to step 5, unless
+you want to add more games.
+
+Hint: If you want to add multiple games in one go, try pressing and
+holding the shift key before clicking 'Add game' -- its label will
+change to 'Mass Add' and if you press it, you are again asked to select
+a directory, only this time ScummVM will search through all
+subdirectoriess for supported games.
+
+
+2.0) Contact:
+---- --------
+The easiest way to contact the ScummVM team is by submitting bug reports
+(see section 2.1) or by using our forums at http://forums.scummvm.org .
+You can also join and e-mail the scummvm-devel mailing list, or chat
+with us on IRC (#scummvm on irc.freenode.net) Please do not ask us to
+support an unsupported game -- read the FAQ on our web site first. Note
+that the official language of the forum, mailing list and chat is
+English and no other languages should be used.
+
+
+2.1) Reporting Bugs:
+---- ---------------
+To report a bug, please create a SourceForge account and follow the "Bug
+Tracker" link from our homepage. Please make sure the bug is
+reproducible, and still occurs in the latest git/Daily build version.
+Also check the known problems list (below) and the compatibility list on
+our website for that game, to ensure the issue is not already known:
+
+  http://www.scummvm.org/compatibility_stable.php
+
+Please do not report bugs on games that are not listed as being
+completeable in the 'Supported Games' section, or compatibility list. We
+-know- those games have bugs.
+
+Please include the following information:
+    - ScummVM version (PLEASE test the latest git/Daily build)
+    - Bug details, including instructions on reproducing
+    - Language of game (English, German, ...)
+    - Version of game (talkie, floppy, ...)
+    - Platform and Compiler (Win32, Linux, FreeBSD, ...)
+    - Attach a savegame if possible
+    - If this bug only occurred recently, please note the last version
+      without the bug, and the first version including the bug. That way
+      we can fix it quicker by looking at the changes made.
+
+Finally, please report each issue separately; do not file multiple
+issues on the same ticket. (Otherwise, it gets difficult to track the
+status of each individual bug). Please keep also in mind that all the
+bug reports must be written in English.

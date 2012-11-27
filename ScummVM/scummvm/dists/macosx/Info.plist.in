@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>ca</string>
+		<string>cs</string>
+		<string>da</string>
+		<string>de</string>
+		<string>es</string>
+		<string>fr</string>
+		<string>hu</string>
+		<string>it</string>
+		<string>nb</string>
+		<string>nn</string>
+		<string>pl</string>
+		<string>pt</string>
+		<string>ru</string>
+		<string>se</string>
+		<string>uk</string>
+	</array>
+	<key>CFBundleDisplayName</key>
+	<string>ScummVM</string>
+	<key>CFBundleExecutable</key>
+	<string>scummvm</string>
+	<key>CFBundleGetInfoString</key>
+	<string>@VERSION@, Copyright 2001-2012 The ScummVM team</string>
+	<key>CFBundleIconFile</key>
+	<string>scummvm.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.scummvm.scummvm</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>ScummVM</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@VERSION@</string>
+	<key>CFBundleVersion</key>
+	<string>@VERSION@</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright 2001-2012 The ScummVM team</string>
+	<key>SUFeedURL</key>
+	<string>http://www.scummvm.org/appcasts/macosx/release.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
+</dict>
+</plist>

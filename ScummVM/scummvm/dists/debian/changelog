@@ -1,0 +1,544 @@
+scummvm (1.4.0-1) unstable; urgency=low
+
+  * New upstream release
+    - Fixes script bug in "Beneath a Steel Sky" (Closes: #462595)
+  * Remove Build-Conflicts on liboss-salsa-dev and disable ALSA on
+    kfreebsd (Closes: #647124)
+  * Bump debhelper level to 9, which enables default build flags
+    and thus hardened compiler flags	
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Sat, 05 Nov 2011 10:29:43 +0100
+
+scummvm (1.3.1-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Mon, 04 Jul 2011 19:07:04 +0200
+
+scummvm (1.3.0-1) unstable; urgency=low
+
+  * New upstream release
+    - Fixes FTBFS with ld --as-needed (Closes: #607182)
+  * Version debhelper build dep for debhelper override support
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Wed, 25 May 2011 19:02:23 +0200
+
+scummvm (1.2.1-2) unstable; urgency=low
+
+  * Pass "--enable-release" to the configure script. This prevents
+    the build of a few "work in progress" engines, which upstream
+    doesn't see fit for general use yet.
+  * Add a build conflict on liboss-salsa-dev to prevent the libsalsa
+    emulation library being present in the buildd chroots. ScummVM
+    itself builds fine with OSS support (Closes: #600655)
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Sun, 19 Dec 2010 19:51:42 +0100
+
+scummvm (1.2.1-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Sat, 11 Dec 2010 12:17:22 +0100
+
+scummvm (1.2.0-2) unstable; urgency=low
+
+  * Add python to the build dependencies, since it's needed for the
+    test suite (Closes: #600173)
+  * Change data dir to /usr/share/scummvm (Closes: #600157)
+  * 1.2.0 also introduced official support for SCI games (Closes: #576268)
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Sun, 17 Oct 2010 15:58:36 +0200
+
+scummvm (1.2.0-1) unstable; urgency=low
+
+  * New upstream release (Closes: #593945)
+  * Drop obsolete build deps on texlive-base, texlive-extra-utils,
+    ghostscript (Thanks, Max Horn)
+  * Update description to point out that ScummVM supports much
+    more than SCUMM these days (Thanks, Max Horn)
+  * Update to standards version 3.9.1:
+    - Modify asound build dep to linux-any
+  * Unversion several build deps even supported in oldstable
+	
+ -- Moritz Muehlenhoff <jmm@debian.org>  Tue, 12 Oct 2010 21:49:29 +0200
+
+scummvm (1.1.1-1) unstable; urgency=low
+
+  * New upstream release
+  * Switch to bz2 upstream tarball
+  * Disable SCI engine as requested by upstream, it's not yet ready to
+    replace FreeSCI	
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Fri, 07 May 2010 18:57:09 +0200
+
+scummvm (1.1.0-2) unstable; urgency=low
+
+  * Do not build-depend on libasound on KFreeBSD and the Hurd
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Sun, 25 Apr 2010 22:28:48 +0200
+
+scummvm (1.1.0-1) unstable; urgency=low
+
+  * New upstream release
+    - Fixes running ScummVM without a soundcard (Closes: #540166)
+  * Enable SCI engine (Closes: #576268)
+  * Lintian cleanups, bump standards version (no changes necessary)
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Wed, 07 Apr 2010 20:49:10 +0200
+
+scummvm (1.0.0-4) unstable; urgency=high
+
+  * Fix Replaces for scummvm.xpm (Closes: #573372)
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Mon, 22 Mar 2010 18:46:55 +0100
+
+scummvm (1.0.0-3) unstable; urgency=low
+
+  * Install the architecture-independant data files into a separate
+    binary package to save disk space on the mirrors.
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Tue, 26 Jan 2010 21:01:25 +0100
+
+scummvm (1.0.0-2) unstable; urgency=low
+
+  * Switch to a minimal dh Makefile
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Wed, 06 Jan 2010 22:03:22 +0100
+
+scummvm (1.0.0-1) unstable; urgency=low
+
+  * New upstream release
+  * Switch to source format 3 (quilt)
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Mon, 16 Nov 2009 19:48:57 +0100
+
+scummvm (1.0.0~rc1-1-1) unstable; urgency=low
+
+  * New upstream release (Closes: #544570)
+    - Adds support for Discworld (Closes: #513950)
+  * Remove dh_desktop
+  * Version the dependency on debhelper
+  * Bump Standards-Version to 3.8.1, no changes needed
+  * Update copyright file	
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Tue, 01 Sep 2009 22:11:17 +0200
+
+scummvm (0.13.1-1) unstable; urgency=low
+
+  * New upstream release (Closes: #530863)
+  * Bump Standards-Version to 3.8.1, add Homepage field	
+  * Bump debhelper level to 7
+  * Build-depend on ghostscript instead of gs-gpl
+  * Build-depend on texlive-base instead of tetex-bin
+  * Build-depend on texlive-extra-utils instead of tetex-extra
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Sun, 07 Jun 2009 12:28:30 +0200
+
+scummvm (0.13.0-1) unstable; urgency=low
+
+  * New upstream release (Closes: #499849)
+  * Move maintainer to Debian Games Team, add myself and David as
+    uploaders
+  * Fix link to compability matrix in package description
+    (Closes: #508894) 
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Sat, 07 Mar 2009 01:18:12 +0100
+
+scummvm (0.11.1-1) unstable; urgency=low
+
+  * New upstream release
+  * Install upstream NEWS file too
+
+ -- David Weinehall <tao@debian.org>  Sat, 01 Mar 2008 10:28:14 +0200
+
+scummvm (0.11.0-1) unstable; urgency=low
+
+  * New upstream release (Closes: #465745)
+  * debian/control:
+    - Build-Depend on libflac (>= 1.1.2), not (>= 1.1.2-1) to simplify
+      things for backports
+    - Standards-Version 3.7.3 - no changes required
+  * debian/copyright:
+    - Fixed to contain better copyright information
+
+ -- David Weinehall <tao@debian.org>  Thu, 14 Feb 2008 15:38:44 +0200
+
+scummvm (0.10.0-2) unstable; urgency=low
+
+  * Run configure before clean target (Closes: #445610)
+
+ -- David Weinehall <tao@debian.org>  Sun, 07 Oct 2007 15:56:49 +0300
+
+scummvm (0.10.0-1) unstable; urgency=low
+
+  * The ``Too late for words'' release
+  * New upstream release
+
+ -- David Weinehall <tao@debian.org>  Thu, 04 Oct 2007 00:54:56 +0300
+
+scummvm (0.9.1-1) unstable; urgency=low
+
+  * New upstream release
+  * debian/prepare: refer to me instead
+  * debian/copyright: add the date I adopted the package 
+
+ -- David Weinehall <tao@debian.org>  Mon, 30 Oct 2006 16:44:12 +0200
+
+scummvm (0.9.0-1) unstable; urgency=low
+
+  * New upstream release (Closes: #379184)
+    - Buffer overflow fixed (Closes: #292263)
+  * debian/control:
+    - Standards-Version 3.7.2.1 - no changes required
+
+ -- David Weinehall <tao@debian.org>  Sat, 23 Sep 2006 16:01:48 +0300
+
+scummvm (0.8.2-2) unstable; urgency=low
+
+  * Install (updated) .desktop-file + SVG-icon (Closes: #361534)
+    | Thanks to Sven Arvidsson
+
+ -- David Weinehall <tao@debian.org>  Sun,  9 Apr 2006 01:42:30 +0300
+
+scummvm (0.8.2-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- David Weinehall <tao@debian.org>  Sun,  5 Feb 2006 20:48:31 +0200
+
+scummvm (0.8.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * New maintainer.
+
+ -- David Weinehall <tao@debian.org>  Mon, 30 Jan 2006 10:29:59 +0200
+
+scummvm (0.8.0-1) unstable; urgency=low
+
+  * New upstream release:
+      - Uses British English as the default subtitle language for Beneath a
+        Steel Sky, closes: #329157.
+
+  * debian/control, debian/rules:
+      - Build using the default GCC, as GCC 4 is now supported.
+
+  * debian/control:
+      - Add a dependency on libfluidsynth-dev, as the new upstream release can
+        make use of the fluidsynth library directly.
+
+ -- Tore Anderson <tore@debian.org>  Sat, 29 Oct 2005 21:05:52 +0200
+
+scummvm (0.7.1-3) unstable; urgency=low
+
+  * debian/control:
+      - Narrow build-dependency on libflac-dev to version 1.1.2-1 or above,
+        closes: #325954.  Many thanks to Joshua Kwan for notifying me of FLAC's
+        recent SONAME increase, which necessitates this change.
+
+ -- Tore Anderson <tore@debian.org>  Fri,  2 Sep 2005 07:20:32 +0200
+
+scummvm (0.7.1-2) unstable; urgency=low
+
+  * debian/control, debian/rules:
+      - Compile the package with GCC 3.4.
+
+  * debian/prepare (new):
+      - Added a script that prepares the debian/ tree for building developement
+        snapshots of ScummVM.
+
+  * debian/control:
+      - Up standards-version to 3.6.2.1, no changes required.
+
+ -- Tore Anderson <tore@debian.org>  Sun, 31 Jul 2005 11:38:18 +0200
+
+scummvm (0.7.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+  * debian/control:
+      - Remove the nasm [!i386] build conflict, as the configure script now
+        correctly detects if nasm can be used.
+      - Up standards-version to 3.6.1.1 (no changes required).
+
+  * configure:
+      - Reverted to the upstream version, as the GCC 4.0 patch from 0.7.0-3 is
+        now included there.
+
+ -- Tore Anderson <tore@debian.org>  Tue, 29 Mar 2005 21:57:38 +0200
+
+scummvm (0.7.0-3) unstable; urgency=medium
+
+  * debian/control:
+      - Add a version requirement of >= 1.1.1-2 to the libflac-dev build
+        dependency, closes: #289214.
+      - Add fluidsynth as a preferred alternative to the timidity suggestion.
+      - Remove superfluous "the" from the description.
+
+  * configure:
+      - Partly apply patch from Andreas Jochens, closes: #289122.  Thanks!
+        Hopefully, this should make it possible to compile ScummVM on AMD64
+        using GCC 4.0.  GCC 4.0 is not yet supported from upstream, though.
+
+ -- Tore Anderson <tore@debian.org>  Sat,  8 Jan 2005 15:03:34 +0100
+
+scummvm (0.7.0-2) unstable; urgency=low
+
+  * debian/control:
+      - Build-depend on nasm only on i386.
+      - Add a build conflict on nasm for all other archs than i386.
+      - Add an explicit build dependency on libz-dev.
+
+  * debian/copyright:
+      - Change URLs from http://scummvm.sf.net/ to http://www.scummvm.org/.
+
+ -- Tore Anderson <tore@debian.org>  Wed,  5 Jan 2005 23:22:08 +0100
+
+scummvm (0.7.0-1) unstable; urgency=low
+
+  * New upstream release.
+      - Fixes scripting bug that in some cases may render the game unwinnable,
+        closes: #209418.
+
+  * debian/control:
+      - Improve description.  Closes: #266055.  Thanks, Frederic Briere!
+      - Add build dependencies on nasm, tetex-bin, tetex-extra, gs-gpl, and
+        libflac-dev.
+
+  * debian/rules, debian/scummvm.docs, debian/copyright:
+      - Build and include README.pdf (generated from doc/*.tex).
+      - Include AUTHORS, and reference it from debian/copyright instead of
+        maintaining a separate list of authors there.
+
+  * debian/scummvm.dirs, debian/rules, debian/scummvm.sh (removed):
+      - A more sane default save game path has been chosen upstream.  Remove
+        the Debian-specific wrapper script workaround introduced in 0.6.0-2
+        accordingly.
+
+ -- Tore Anderson <tore@debian.org>  Wed,  5 Jan 2005 14:43:08 +0100
+
+scummvm (0.6.1b-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Tore Anderson <tore@debian.org>  Fri,  6 Aug 2004 12:45:46 +0200
+
+scummvm (0.6.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Tore Anderson <tore@debian.org>  Mon, 26 Jul 2004 15:11:10 +0200
+
+scummvm (0.6.0-2) unstable; urgency=low
+
+  * debian/scummvm.dirs, debian/rules, debian/scummvm.sh (new):
+      - Make /usr/games/scummvm be a wrapper script which creates the
+        ~/.scummvmrc file if it doesn't already exist, setting the savegame
+        path to ~/.scummvm/.  Closes: #216178.  This is a workaround, though,
+        I really wish this would be fixed in the upstream sources.
+
+  * debian/control:
+      - Correct the compability chart link in the package description.
+      - Update package description so it is clear that Flight of The Amazon
+        Queen and Beneath a Steel Sky is available in Debian, closes: #245356.
+
+  * debian/README.Debian (removed):
+      - Removed from the package, as it only spoke of the ScummVM tools,
+        which was removed in the 0.6.0-1 upload.  Closes: #259259 (sort-of).
+
+  * base/main.cpp, scumm/actor.cpp, scumm/debugger.cpp:
+      - GCC 3.4 fixes from Andreas Jochens.  Thanks!  Closes: #259835.
+
+ -- Tore Anderson <tore@debian.org>  Sun, 18 Jul 2004 12:26:27 +0200
+
+scummvm (0.6.0-1) unstable; urgency=low
+
+  * New upstream release.
+
+  * debian/control:
+      - Build-Depend on libmpeg2-4-dev to support Broken Sword cutscenes.
+
+  * debian/rules:
+      - Start using upstream's new configure script.
+      - Remove unneeded call to dh_link.
+
+  * debian/scummvm.docs:
+      - Add upstream's TODO file.
+
+  * debian/scummvm.menu:
+      - Enclose the "needs" and "section" directives in double quotes.
+
+  * debian/patches/* (removed), debian/control, debian/rules:
+      - Stop using dpatch.  All of the previously required patches are now
+        integrated in the upstream sources.
+
+  * debian/tools/* (removed), debian/scummvm.examples, debian/rules:
+      - Remove the various tools as they really don't belong in the ScummVM
+        package.
+
+ -- Tore Anderson <tore@debian.org>  Sun, 14 Mar 2004 16:28:54 +0100
+
+scummvm (0.5.1-4) unstable; urgency=low
+
+  * debian/patches/03alsa_api_fix.dpatch (new), debian/patches/00list:
+      - FTBFS fix;  improve ALSA version detection macro so it works with
+        version 1.0 and above.  Thanks, Jordi Mallach!
+
+ -- Tore Anderson <tore@debian.org>  Sun,  1 Feb 2004 01:36:07 +0100
+
+scummvm (0.5.1-3) unstable; urgency=low
+
+  * debian/patches/02bass_soundreload (new):
+    - Forces BASS to reload music and sound even if the intro was
+      viewed in full, closes: #208901.
+  * debian/control:
+    - Change maintainer email address.
+    - Bump Standards-Version to current policy, no changes required.
+
+ -- Tore Anderson <tore@debian.org>  Mon, 29 Sep 2003 16:13:43 +0200
+
+scummvm (0.5.1-2) unstable; urgency=low
+
+  * Move to main.  (Note to the FTP masters:  This is because the
+    one of the supported games, Beneath A Steel Sky, has recently been
+    released as free software.  It should appear in NEW shortly, if
+    it's not there already.)
+  * Sponsored by David Weinehall.
+
+ -- David Weinehall <tao@debian.org>  Wed, 27 Aug 2003 21:00:42 +0200
+
+scummvm (0.5.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Sponsored by David Weinehall. (No beer needed...)
+
+ -- Tore Anderson <tore@linpro.no>  Sat,  9 Aug 2003 15:18:18 +0200
+
+scummvm (0.5.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Suggest beneath-a-steel-sky.
+  * Restructure 00buildopts somewhat, to ease future maintenance.
+  * Standards-Version 3.6.0, no changes required.
+  * Revised the description.
+  * Sponsored by Joey Hess. (Tore fed me all the beer I could take .. 
+    and then asked me to do this. ;-)
+
+ -- Tore Anderson <tore@linpro.no>  Fri,  1 Aug 2003 21:45:06 +0200
+
+scummvm (0.4.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Standards-Version 3.5.10.
+    - Use upstream's icon in the menu system.
+  * Removed debian/patches/01-enable-alsa-and-vorbis.dpatch, this
+    is now done from debian/rules instead.
+  * Added debian/patches/00buildopts, which makes it possible
+    for environment variables to override the compiler flags.
+  * Better handling of $DEB_BUILD_OPTIONS.
+  * Declare the debhelper compability level in debian/compat instead
+    of debian/rules.
+
+ -- Tore Anderson <tore@linpro.no>  Thu, 29 May 2003 15:15:55 +0200
+
+scummvm (0.4.0-1) unstable; urgency=low
+
+  * New upstream release, closes: #193522.
+    - Lots of VM fixes in The DIG, closes: #173550.
+    - Obsoletes debian/patches/02-fix-manpage-savekey.dpatch.
+    - Obsoletes debian/patches/03-fix-talking-to-parrot.dpatch.
+    - Obsoletes debian/patches/04-alsa-seq-tty-output.dpatch.
+  * Add extract.c and simon2mp3.c to the examples directory, closes: #154449.
+
+ -- Tore Anderson <tore@linpro.no>  Wed, 14 May 2003 19:04:53 +0200
+
+scummvm (0.3.0b-3) unstable; urgency=low
+
+  * It appears I reinvented the wheel.  Start using dpatch instead of
+    my own patchsystem.
+  * Update Standards-Version to match current policy.
+  * Tighten build-dependency on libvorbis-dev, to ensure that the binary
+    will be linked against the new libvorbis0a package.  Closes: #185447.
+
+ -- Tore Anderson <tore@linpro.no>  Tue, 18 Mar 2003 22:54:32 +0100
+
+scummvm (0.3.0b-2) unstable; urgency=low
+
+  * Re-upload to build the binary with GCC 3.2.
+  * Use a patch system instead of putting all changes in the .diff.gz.
+  * Correct save-game modifier key in the manpage. Closes: #173153.
+  * Two fixes from upstream:
+    - Fix 'talking to parrot' script deadlock in Fate of Atlantis.
+    - Print correct alsa client and port variables to console.
+
+ -- Tore Anderson <tore@linpro.no>  Fri, 10 Jan 2003 17:28:36 +0100
+
+scummvm (0.3.0b-1) unstable; urgency=low
+
+  * New upstream release.
+  * Update standards-version again.
+  * Convert icon to use only the colours mandated by the menu package.
+
+ -- Tore Anderson <tore@linpro.no>  Sun,  8 Dec 2002 14:56:26 +0100
+
+scummvm (0.2.81cvs20021110-1) unstable; urgency=low
+
+  * New CVS snapshot.
+  * Remove README.Debian - it was incorrect.
+  * Drop build-deps on curses and readline.
+  * Update standards-version to current policy.
+  * Don't install the empty dir /usr/lib/scummvm anymore.
+
+ -- Tore Anderson <tore@linpro.no>  Sun, 10 Nov 2002 17:13:36 +0100
+
+scummvm (0.2.0.1cvs20021028-1) unstable; urgency=low
+
+  * New CVS snapshot.
+  * Kill cruft that sneaked into the .diff.gz.
+  * Add menu entry.
+  * Rewrote description and copyright file.
+  * Suggest timidity (can be used with ALSA for gorgeous in-game music).
+  * Support .SOG (Ogg Vorbis-compressed .SOU-files).
+
+ -- Tore Anderson <tore@linpro.no>  Mon, 28 Oct 2002 14:30:21 +0100
+
+scummvm (0.2.0.1cvs20021012-1) unstable; urgency=low
+
+  * New upstream rele^WCVS snapshot.
+  * New maintainer. Closes: #163105.
+  * Compliant with Policy 3.5.7.0. Or so I hope.
+  * Support ALSA's sequencer. Closes: #154451.
+
+ -- Tore Anderson <tore@linpro.no>  Sat, 12 Oct 2002 15:17:11 +0200
+
+scummvm (0.2.0.1) unstable; urgency=low
+
+  * Fix by James Brown <ender@enderboi.com> for the trailing slash bug
+    (Closes: #150144)
+  * Add libmad-dev to the Buildreqs, compile with compressed audio support
+    (Closes: #150272)
+
+ -- Bastien Nocera <hadess@hadess.net>  Tue, 18 Jun 2002 02:35:50 +0100
+
+scummvm (0.2.0) unstable; urgency=low
+
+  * New upstream version (Closes: #143281)
+  * Killed the wrapper script, see upstream changelog
+
+ -- Bastien Nocera <hadess@hadess.net>  Wed, 15 May 2002 03:27:11 +0100
+
+scummvm (0.1.0b-2) unstable; urgency=low
+
+  * Moved the scummvm main bin under /usr/lib, the wrapper script under
+    /usr/games
+  * Fixed bug in the script that made it not work if the path was relative
+
+ -- Bastien Nocera <hadess@hadess.net>  Wed, 10 Apr 2002 19:27:05 +0100
+
+scummvm (0.1.0b-1) unstable; urgency=low
+
+  * Initial Release.
+  * Packaged made under the influence of beer at GUAD3C in Sevilla ! Arriba !
+    Ole !
+
+ -- Bastien Nocera <hadess@hadess.net>  Fri,  5 Apr 2002 16:37:09 +0100
+

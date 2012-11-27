@@ -1,0 +1,9 @@
+[Desktop Entry]
+BigIcon=scummvm.png
+Comment=ScummVM
+Exec=scummvm.lin
+Icon=scummvm-sm.png
+Name=ScummVM
+OsVersion=0.1
+Shared=0
+Type=Application

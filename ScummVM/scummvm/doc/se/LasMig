@@ -1,0 +1,1764 @@
+ScummVM LÄS MIG
+------------------------------------------------------------------------
+
+För ytterligare information, kompatibilitetslistor, donationsdetaljer, den senaste programversionen, utvecklingsrapporter med mera, var god besök ScummVM:s hemsida på http://www.scummvm.org/
+
+Innehåll:
+---------
+1.0) Introduktion
+ * 1.1 Om ScummVM
+ * 1.2 Snabbstart
+2.0) Kontaktinformation
+ * 2.1 Att rapportera buggar
+ * 2.3 Snabbstart
+3.0) Stödda spel
+ * 3.1 Kopieringsskydd
+ * 3.2 Notiser om Commodore64-spel
+ * 3.3 Notiser om Maniac Mansion för NES
+ * 3.4 Notiser om Macintosh-spel
+ * 3.5 Notiser om spel med flera CD-skivor:
+ * 3.6 Notiser om The Curse of Monkey Island
+ * 3.7 Notiser om Broken Sword-spelen
+ * 3.8 Notiser om Beneath a Steel Sky
+ * 3.9 Notiser om Flight of the Amazon Queen
+ * 3.10 Notiser om Gobliiins
+ * 3.11 Notiser om Inherit the Earth: Quest for the Orb
+ * 3.12 Notiser om Simon the Sorcerer
+ * 3.13 Notiser om The Feeble Files
+ * 3.14 Notiser om The Legend of Kyrandia
+ * 3.15 Sierra AGI games Predictive Input Dialog notes
+ * 3.16 Notiser om Mickey’s Space Adventure
+ * 3.17 Notiser om Winnie the Pooh
+ * 3.18 Notiser om Troll's Tale
+ * 3.19 Notiser om Dragon History
+ * 3.20 Kända problem
+4.0) Stödda plattformar
+5.0) Att köra ScummVM
+ * 5.1 Att använda kommandoraden
+ * 5.2 Språkinställningar
+ * 5.3 Grafikfilter
+ * 5.4 Den globala menyn
+ * 5.5 Kortkommandon
+6.0) Spardata
+ * 6.1 Autosparning
+ * 6.2 Att konvertera speldata
+ * 6.3 Visa/ladda spardata från kommandoraden
+7.0) Musik och ljud
+ * 7.1 AdLib-emulation
+ * 7.2 FluidSynth MIDI-emulation
+ * 7.3 MT-32-emulation
+ * 7.4 MIDI-emulation
+ * 7.5 Native MIDI-stöd
+ * 7.6 Support för UNIX, ALSA och dmedia sequencers
+ * 7.7 Att använda TiMidity++ MIDI-servern
+ * 7.8 Att använda komprimerade ljudfiler (MP3, Ogg Vorbis, Flac)
+ * 7.9 Uppspelningsfrekvens
+8.0) Konfigurationsfilen
+ * 8.1 Igenkända nyckelord
+ * 8.2 Spelinställningar som kan aktiveras via användargränssnittet
+9.0) Kompilering
+
+
+1.0) Introduktion:
+---- -------------
+
+1.1) Om ScummVM:
+---- -----------
+ScummVM är ett program som gör det möjligt att spela vissa klassiska ”peka-och-klicka”-äventyrsspel, förutsatt att du redan har de nödvändiga datafilerna. Det finurliga i det hela är att ScummVM ersätter de ursprungliga programfilerna som följde med spelet, vilket låter dig spela dem på operativsystem de aldrig var designade för!
+
+Från början var programmet designat för att köra LucasArts SCUMM-spel, till exempel Maniac Mansion, Monkey Island, Day of the Tentacle och Sam and Max. SCUMM står för ”Script Creation Utility for Maniac Mansion”, och just Maniac Mansion var det första spelet där LucasArts använde det här spelsystemet. Mycket senare gav det namn till ScummVM (”VM” står för ”Virtual Machine”).
+
+Med tiden har stöd lagts till för många spel som inte använder SCUMM-systemet och ScummVM stöder nu även många av Sierras AGI- och SCI-spel (till exempel King’s Quest 1-6, Space Quest 1-5, ...), Discworld 1 och 2, Simon the Sorcerer 1 och 2, Beneath A Steel Sky, Lure of the Temptress, Broken Sword I och II, Flight of the Amazon Queen, Gobliiins 1-3, Legend of Kyrandia-serien, många av Humongous Entertainments barnspel (inklusive Freddi Fish och Putt Putt-spelen) med flera. Du kan se en fullständig lista med delaljer om vilka äventyr som stöds och hur väl de fungerar på kompatibilitetssidan. ScummVM förbättras konstant, så håll ett öga på listan.
+
+Bland systemen du kan använda för att spela dessa spel räknas vanliga persondatorer (Windows, Linux, Mac OS X, ...) spelkonsoler (Dreamcast, Nintendo DS & Wii, PS2, PSP, ...), smartphones (Android, iPhone, PocketPC, Symbian ...) med flera.
+
+Just nu är ScummVM fortfarande under utveckling. Var medveten om att trots att vi försöker se till att många spel kan avklaras utan att stöta på allvarliga buggar finns det ändå risk för krasher, och vi erbjuder inga garantier. Dock har många spel varit stödda av programmet väldigt länge och borde fungera utmärkt i vilken som helst av de senaste stabila versionerna. Du kan få en uppfattning om hur väl varje spel fungerar i ScummVM genom att titta på kompatibilitetssidan. Faktum är att ScummVM används kommersiellt för nyutgåvor av vissa spel på moderna plattformar. Alltså är många företag nöjda med mjukvarans kvalitet och hur väl programmet stöder spelen.
+
+Om du gillar ScummVM får du gärna donera till teamet med hjälp av PayPal-knappen på ScummVM:s hemsida. Donationer hjälper oss att köpa nödvändig utrustning för att göra utvecklingen av ScummVM lättare och snabbare. Om du inte kan donera kan du hjälpa till genom att bidra med uppdateringar!
+
+
+1.2) Snabbstart:
+---- -----------
+VIKTIGT: Den här korta guiden förutsätter att du använder ScummVM på svenska. ScummVM använder automatiskt samma språk som ditt operativsystem. Om du föredrar att använda ScummVM på engelska kommer du troligtvis föredra att använda guiden i den engelska README-filen.
+
+För de otåliga följer här instruktioner för att köra igång ScummVM i fem enkla steg.
+
+1. Ladda hem ScummVM från http://www.scummvm.org/downloads.php och installera programmet.
+
+2. Skapa en filkatalog på din hårddisk och kopiera spelets datafiler från dess ursprungliga plats till den nya katalogen. Upprepa det här steget för varje spel du vill spela (det är bättre att använda separata kataloger för vaje spel).
+
+3. Starta ScummVM.
+
+Om programmet nu visas på engelska istället för svenska, gör såhär för att byta språk:
+- Klicka på ”Options”.
+- Klicka på högerpilen i tab-raden och navigera till “Misc”-tabben.
+- Välj “Svenska” i “GUI Language”-menyn och klicka på “OK”.
+- Konfirmera meddelandet som visas, klicka på “Quit” för att avsluta ScummVM och starta sedan om programmet.
+
+Klicka på “Lägg till spel”, välj katalogen som innehåller datafilerna (var noga att välja själva filkatalogen - inte datafilerna inuti filkatalogen!) och klicka på ”Välj”.
+
+4. Nu visas en dialogruta där du kan ändra diverse inställningar om du vill (det borde vara nog att lämna inställningarna som de är från början). Konfirmera dialogrutan.
+
+5. Välj spelet du vill spela från listan och klicka på ”Starta”.
+
+ScummVM kommer ihåg alla spelen du lägger till, så om du avslutar ScummVM kommer spellistan vid nästa omstart innehålla alla spelen du hittills lagt till. Du kan därför hoppa direkt till steg 5, såtillvida inte du vill läga till fler spel.
+
+Tips: Om du vill lägga till flera spel på en gång, pröva att trycka och hålla ned skift-tangenten när du klickar på “Lägg till spel” – knappens text ändras nu till “Masstillägg” och om du klickar på den kommer du åter igen ombedjas att välja en filkatalog, men den här gången söker ScummVM automatiskt igenom alla underkataloger efter stödda spel.
+
+
+2.0) Kontakt:
+---- --------
+Det enklaste sättet att kontakta ScummVM-teamet är att skicka in bugg-rapporter (se 2.1) eller genom att använda vårt forum på http://forums.scummv.org. Du kan även skriva upp dig för och skicka e-post via vår sändlista (scummvm-devel) eller chatta med oss på IRC (#scummvm på irc.freenode.net) Vi ber dig att inte skicka önskemål på spel som inte stöds av ScummVM – läs avdelningen för vanliga frågor (FAQ) på våran hemsida först. Märk även att det officiella språket för vårt forum, vår sändlista och chatten är engelska och att inga andra språk borde användas där.
+
+
+2.1) Att rapportera buggar:
+---- ----------------------
+För att rapportera en bugg måste du skapa ett konto hos SourceForge och följa “Bug Tracker”-länken från våran hemsida. Var god se till att buggen kan reproduceras med säkerhet och att den fortfarande är aktiv i den senaste git/Daily build-versionen. Se även till att kontrollera att felet inte redan rapporterats genom att läsa listan av kända fel för spelet på våran kompatibilitetssida:
+
+  http://www.scummvm.org/compatibility_stable.php
+
+Var god rapportera inte buggar för spel som inte är möjliga att avklara enligt “Supported Games”-avdelningen, eller i kompatibilitetslistan. Vi vet redan att dessa spel är buggiga.
+
+Se till att bifoga följande information:
+    - ScummVM version (Var god testa med den senaste git/Daily Build-versionen)
+    - Detaljer om buggen, inklusive instruktioner för reproduktion
+    - Spelets språk (engelska, tyska, ...)
+    - Version av spelet (talversionen, diskettversionen, ...)
+    - Plattform och kompilator (Win32, Linux, FreeBSD, ...)
+    - Bifoga spardata om möjligt
+    - Om den här buggen dök upp alldeles nyligen, var god notera den senaste versionen av ScummVM där buggen inte fanns och den första versionen där buggen dök upp. På det här viset kan vi fixa problemet snabbare genom att se vilka förändringar som skedde mellan versionerna.
+
+Slutligen, var god rapportera varje bugg i enskilda rapporter; skicka inte flera buggar i en och samma rapport (annars blir det svårt att hålla reda på varje buggs individuella status).
+
+
+3.0) Stödda spel:
+---- ------------
+För tillfället har de följande spelen anmälts som funktionella, och borde kunna spelas från början till slut:
+
+SCUMM-spel från LucasArts:
+     Maniac Mansion                              [maniac]
+     Zak McKracken and the Alien Mindbenders     [zak]
+     Indiana Jones and the Last Crusade          [indy3]
+     Loom                                        [loom]
+     The Secret of Monkey Island                 [monkey]
+     Monkey Island 2: LeChuck's Revenge          [monkey2]
+     Indiana Jones and the Fate of Atlantis      [atlantis]
+     Day of the Tentacle                         [tentacle]
+     Sam & Max Hit the Road                      [samnmax]
+     Full Throttle                               [ft]
+     The Dig                                     [dig]
+     The Curse of Monkey Island                  [comi]
+
+AGI-spel från Sierra:
+     The Black Cauldron                          [bc]
+     Gold Rush!                                  [goldrush]
+     King's Quest I                              [kq1]
+     King's Quest II                             [kq2]
+     King's Quest III                            [kq3]
+     King's Quest IV                             [kq4]
+     Leisure Suit Larry in the Land of the
+     Lounge Lizards                              [lsl1]
+     Mixed-Up Mother Goose                       [mixedup]
+     Manhunter 1: New York                       [mh1]
+     Manhunter 2: San Francisco                  [mh2]
+     Police Quest I: In Pursuit of the Death
+     Angel                                       [pq1]
+     Space Quest I: The Sarien Encounter         [sq1]
+     Space Quest II: Vohaul's Revenge            [sq2]
+     Fanmade Games                               [agi-fanmade]
+
+AGOS-spel från Adventuresoft/Horrorsoft:
+     Elvira - Mistress of the Dark               [elvira1]
+     Elvira II - The Jaws of Cerberus            [elvira2]
+     Personal Nightmare                          [pn]
+     Waxworks                                    [waxworks]
+     Simon the Sorcerer 1                        [simon1]
+     Simon the Sorcerer 2                        [simon2]
+     Simon the Sorcerer's Puzzle Pack
+         - Demon In My Pocket                    [dimp]
+     Simon the Sorcerer's Puzzle Pack
+         - Jumble                                [jumble]
+     Simon the Sorcerer's Puzzle Pack
+         - NoPatience                            [puzzle]
+     Simon the Sorcerer's Puzzle Pack
+         - Swampy Adventures                     [swampy]
+     The Feeble Files                            [feeble]
+
+GOB-spel från Coktel Vision:
+     Bambou le sauveur de la jungle              [bambou]
+     Bargon Attack                               [bargon]
+     Fascination                                 [fascination]
+     Geisha                                      [geisha]
+     Gobliiins                                   [gob1]
+     Gobliins 2                                  [gob2]
+     Goblins 3                                   [gob3]
+     Lost in Time                                [lostintime]
+     Once Upon A Time: Little Red Riding Hood    [littlered]
+     The Bizarre Adventures of Woodruff
+         and the Schnibble                       [woodruff]
+     Urban Runner                                [urban]
+     Ween: The Prophecy                          [ween]
+
+MADE-spel från Activision:
+     Leather Goddesses of Phobos 2               [lgop2]
+     Return to Zork                              [rtz]
+     Rodney's Funscreen                          [rodney]
+     The Manhole                                 [manhole]
+
+Övriga spel:
+     Beneath a Steel Sky                         [sky]
+     Broken Sword: The Shadow of the Templars    [sword1]
+     Broken Sword II: The Smoking Mirror         [sword2]
+     Cruise for a Corpse                         [cruise]
+     Discworld                                   [dw]
+     Discworld 2: Missing Presumed ...!?         [dw2]
+     Dragon History                              [draci]
+     Drascula: The Vampire Strikes Back          [drascula]
+     Flight of the Amazon Queen                  [queen]
+     Future Wars                                 [fw]
+     Inherit the Earth: Quest for the Orb        [ite]
+     Nippon Safes Inc.                           [nippon]
+     The Legend of Kyrandia                      [kyra1]
+     The Legend of Kyrandia: The Hand of Fate    [kyra2]
+     The Legend of Kyrandia: Malcolm's Revenge   [kyra3]
+     Touche: The Adventures of the Fifth
+         Musketeer                               [touche]
+
+SCUMM-spel från Humongous Entertainment:
+     Backyard Baseball                           [baseball]
+     Backyard Baseball 2001                      [baseball2001]
+     Backyard Baseball 2003                      [baseball2003]
+     Backyard Football                           [football]
+     Big Thinkers First Grade                    [thinker1]
+     Big Thinkers Kindergarten                   [thinkerk]
+     Blue's 123 Time Activities                  [Blues123Time]
+     Blue's ABC Time Activities                  [BluesABCTime]
+     Blue's Art Time Activities                  [arttime]
+     Blue's Birthday Adventure                   [BluesBirthday]
+     Blue's Reading Time Activities              [readtime]
+     Fatty Bear's Birthday Surprise              [fbear]
+     Fatty Bear's Fun Pack                       [fbpack]
+     Freddi Fish 1: The Case of the Missing
+         Kelp Seeds                              [freddi]
+     Freddi Fish 2: The Case of the Haunted
+         Schoolhouse                             [freddi2]
+     Freddi Fish 3: The Case of the Stolen
+         Conch Shell                             [freddi3]
+     Freddi Fish 4: The Case of the Hogfish
+         Rustlers of Briny Gulch                 [freddi4]
+     Freddi Fish 5: The Case of the Creature
+          of Coral Cove                          [freddicove]
+     Freddi Fish and Luther's Maze Madness       [maze]
+     Freddi Fish and Luther's Water Worries      [water]
+     Let's Explore the Airport with Buzzy        [airport]
+     Let's Explore the Farm with Buzzy           [farm]
+     Let's Explore the Jungle with Buzzy         [jungle]
+     Pajama Sam 1: No Need to Hide When It's
+         Dark Outside                            [pajama]
+     Pajama Sam 2: Thunder and Lightning
+         Aren't so Frightening                   [pajama2]
+     Pajama Sam 3: You Are What You Eat
+         From Your Head to Your Feet             [pajama3]
+     Pajama Sam's Lost & Found                   [lost]
+     Pajama Sam's Sock Works                     [socks]
+     Putt-Putt Joins the Parade                  [puttputt]
+     Putt-Putt Goes to the Moon                  [puttmoon]
+     Putt-Putt Saves the Zoo                     [puttzoo]
+     Putt-Putt Travels Through Time              [putttime]
+     Putt-Putt Enters the Race                   [puttrace]
+     Putt-Putt Joins the Circus                  [puttcircus]
+     Putt-Putt and Pep's Balloon-O-Rama          [balloon]
+     Putt-Putt and Pep's Dog on a Stick          [dog]
+     Putt-Putt & Fatty Bear's Activity Pack      [activity]
+     Putt-Putt's Fun Pack                        [funpack]
+     SPY Fox 1: Dry Cereal                       [spyfox]
+     SPY Fox 2: Some Assembly Required           [spyfox2]
+     SPY Fox 3: Operation Ozone                  [spyozon]
+     SPY Fox in Cheese Chase                     [chase]
+     SPY Fox in Hold the Mustard                 [mustard]
+
+Living Books-spel:
+     Aesop's Fables: The Tortoise and the Hare   [tortoise]
+     Arthur's Birthday                           [arthurbday]
+     Arthur's Teacher Trouble                    [arthur]
+     Dr. Seuss's ABC                             [seussabc]
+     Green Eggs and Ham                          [greeneggs]
+     Harry and the Haunted House                 [harryhh]
+     Just Grandma and Me                         [grandma]
+     Little Monster at School                    [lilmonster]
+     Ruff's Bone                                 [ruff]
+     Sheila Rae, the Brave                       [sheila]
+     Stellaluna                                  [stellaluna]
+     The Berenstain Bears Get in a Fight         [bearfight]
+     The Berenstain Bears in the Dark            [beardark]
+     The New Kid on the Block                    [newkid]
+
+De följande spelen borde starta, men är ännu ej helt spelbara. Spela dem på egen risk och var god skicka inga buggrapporter angående dem. För senaste nytt angående spelkompatibilitet kan du besöka vår hemsida och läsa kompatibilitetslistan.
+
+     Backyard Football 2002                      [football2002]
+     Backyard Soccer                             [soccer]
+     Backyard Soccer MLS                         [soccermls]
+     Backyard Soccer 2004                        [soccer2004]
+     Blue's Treasure Hunt                        [BluesTreasureHunt]
+     Pajama Sam: Games to Play on Any Day        [pjgames]
+
+De följande spelen är baserade på SCUMM-motorn men stöds INTE (ännu) av ScummVM:
+
+     Övriga Humongous Entertainment-spel
+
+Tänk på att spelmotorerna kan inehålla buggar och funktioner som inte implementerats vilket kan göra det omöjligt att klara spelet. Spara ofta och skicka en buggrapport om du stöter på en sådan bugg i ett ”stött” spel (se ovan för instruktioner om hur man skickar buggrapporter).
+
+
+3.1) Kopieringsskydd:
+---- ----------------
+ScummVM-teamet förespråkar inte piratkopiering. Dock finns det fall där spelföretag (t.ex. LucasArts) på egen hand har bifogat ”crackade” programfiler med sina spel. I dessa fall inehåller datafilerna fortfarande koden för kopieringsskydd, men programfilen överskrider den (på samma sätt som en illegalt ”crackad” version tar sig förbi skyddskoden, med skillnaden att speltillverkarna här själva stod för överskridningen). Då vi omöjligen kan se skillnad på legitima och piratkopierade datafiler måste vi låta ScummVM överskrida kopieringsskyddet för alla spel som någon gång sålts i original med ”crackade” programfiler.
+
+I vissa fall visar ScummVM fortfarande skärmen för kopieringsskydd. Försök att ge vilket svar som helst. Troligtvis fungerar det.
+
+ScummVM skippar kopieringsskyddet för följande spel:
+
+  * Maniac Mansion
+  * Zak McKracken and the Alien Mindbenders
+  * Loom (EGA)
+  * The Secret of Monkey Island (VGA)
+  * Monkey Island 2: LeChuck's Revenge
+  * Beneath a Steel Sky
+      -- överskridit med tillstånd från Revolution Software.
+  * Inherit the Earth: Quest for the Orb (Diskettversionen)
+      -- överskridit med tillstånd från Wyrmkeep Entertainment,
+         då det överskridits på alla CD-utgåvor av spelet.
+  * Simon the Sorcerer 1 (Diskettversionen)
+  * Simon the Sorcerer 2 (Diskettversionen)
+      -- överskridit med tillstånd från Adventure Soft,
+         då det överskridits på alla CD-utgåvor av spelet.
+  * Waxworks
+
+
+3.2) Notiser om Commodore64-spel:
+---- ----------------------------
+Både Maniac Mansion och Zak McKracken startar men Maniac Mansion är ännu inte spelbart. Namnge D64 disketterna ”maniac1.d64” och ”maniac2.d64” (för Maniac Mansion) och ”zak1.d64” och ”zak2.d64” (för Zak McKracken) så kommer ScummVM automatiskt hitta spelen om du hänvisar till rätt katalog.
+
+Annars kan du använda ”extract_mm_c64” från tools-paketet för att extrahera datafilerna. Tyvärr kan inte spelet identifieras korrekt av ScummVM med den här metoden så du måste se till att plattformen ställts in till Commodore64. Vi rekommenderar att använda den lättare metoden från paragrafen ovan.
+
+
+3.3) Notiser om Maniac Mansion för NES:
+---- ----------------------------------
+Versionerna av spelet som stöds av ScummVM är engelska (E), franska (F), tyska (G) italienska (I), svenska (SW) och amerikanska (U). ScummVM kräver endast PRG-delen av ROM-filen för att köra spelet.
+
+För att få igång spelet måste du radera de första 16 byten från ROM-filen du vill använda. Du kan använda vilken hex-redigerare du vill så länge du har möjlighet att kopiera/klistra in. När du öppnat ROM-filen med hex-redigeraren, markera allt från den andra raden (17:e byten) till och med slutet av filen. Kopiera och klistra in i en ny hex-fil. Namnge den nya filen “Maniac Mansion (XX).prg” där XX står för vilken version av spelet du jobbar med (E, F, G, I, SW eller U). Den slutliga filstorleken borde vara exakt 262144 bytes. 
+Om du lägger till spelet manuellt, se till att plattformen är inställd för NES.
+
+De vanligaste misstagen som förhindrar att spelet fungerar:
+
+  * Dålig fil
+  * ROM extraherades med 0.7.0-verktygen
+  * Försökte mata in hela ROM-filen istället för PRG-delen.
+
+Det är även möjligt att extrahera LFL-filerna från PRG-delen. För att göra detta kan du använda verktyget ”extract_mm_nes” från tools-paketet.
+
+
+3.4) Notiser om Macintosh-spel:
+---- --------------------------
+Alla SCUMM-baserade LucasArts spel (utom COMI) finns även i Macintosh-versioner. ScummVM kan använda de flesta (eller alla?) av dem, men i vissa fall krävs det lite extra fiffel. Till att börja med, om du inte använder en Macintosh kan det vara knepigt att använda spelets CD/diskett-data. Anledningen är att mac använder ett speciellt skivformat kallat HFS vilket övriga system i regel inte stöder. Dock finns det gratis verktyg som gör det möjligt att läsa dessa HFS-enheter, t.ex. ”HFVExplorer” för Windows och ”hfutils” för Linux och andra Unix-liknande operativsystem.
+
+De flesta av de nyare spelen för Macintosh gavs ut med endast en datafil (märk att i vissa fall gjordes den här filen osynlig, så det kan krävas speciella verktyg för att kopiera den). ScummVM kan använda sådana datafiler direkt; hänvisa ScummVM till katalogen som innehåller datafilen så borde det fungera (precis som med alla andra stödda spel).
+
+Vi har även ett verktyg som heter ”extract_scumm_mac” i tools-paketet för att extrahera datan från dessa filer, men det är varken nödvändigt eller rekommenderat.
+
+För ytterligare information om hur man kopierar spelfiler för Macintosh till hårddisken, besök:
+
+  http://wiki.scummvm.org/index.php/HOWTO-Mac_Games
+
+
+3.5) Notiser om spel med flera CD-skivor:
+---- ------------------------------------
+I regel hanterar ScummVM inte spel spridda över flera CD-skivor vidare bra. Anledningen är att ScummVM utgår ifrån att spelets fullständiga resurser är samlade i en enda katalog. Även då ScummVM ber användaren byta skiva vid tillfälle kan originalversionen av spelet fungerat genom att installera ett antal filer på hårddisken. Om dessa filer inte kan hittas på samtliga CD-skivor får ScummVM problem.
+
+Som tur är har ScummVM inga problem med att köra spelen helt från hårddisken så länge du skapar en filkatalog som innehåller rätt kombination av filer. När en fil existerar på fler än en CD kan du i regel välja vilken av dem du vill.
+
+
+3.6) Notiser om The Curse of Monkey Island:
+---- --------------------------------------
+För det här spelet behöver du filerna comi.la0, comi.la1 och comi.la2. En fil med namnet Comi.la0 existerar på båda CD-skivorna, men då filerna är identiska spelar det ingen roll vilken av dem du använder.
+
+Du behöver dessutom skapa en ”resource” katalog som innehåller alla filer från BÅDA ”resource”-katalogera på de två CD-skivorna. Vissa av filerna existerar på båda CD-skivorna, men även dessa är identiska.
+
+
+3.7) Notiser om Broken Sword-spelen:
+---- -------------------------------
+Instruktionerna för Broken Sword-spelen är för Sold-Out Software-versionerna där varje spel kom på två CD-skivor eftersom dessa versioner var mest tillgängliga när ScummVM lade till stöd för dem. Förhoppningsvis fungerar dessa konfigurationer även med andra versioner.
+
+
+3.7.1) Filmscener i Broken Sword-spelen:
+------ ---------------------------------
+Filmscenerna i Broken Sword-spelen har varit med om en hel del (se nästa avdelning om du är intresserad) men i regel behöver du bara kopiera .SMK-filerna från ”SMACKS” eller ”SMACKSHI”-katalogerna på CD-skivorna till samma katalog där de andra datafilerna ligger. (Broken Sword har även en ”SMACKSLO” katalog med samma filmscener, men dessa har lägre kvalitet.) Du kan även lägga dem i en underkatalog med namnet ”video”, om du vill.
+
+För PlayStation-versionerna kan du dumpa originalfilmerna från CD:n. Dumpa varje fil med ändelsen ”STR” som råa sektorer från CD:n (samtliga 2352 bitar per sektor). DU kan även använde de omkodade filmscenerna nedan istället, men detta fungerar inte för alla filmer i Broken Sword II. För ytterligare information, se:
+
+  http://wiki.scummvm.org/index.php/HOWTO-PlayStation_Videos
+
+
+Vissa nyutgåvor av spelen, tillika PlayStation-versionen, har inga Smacker videos. Revolution Software har varit goda nog att skapa nykodade filmscener som kan laddas hem från våran hemsida:
+
+  http://www.scummvm.org/downloads.php
+
+Dessa filmscener är tillgängliga i DXA-format med FLAC-ljud. Kvaliteten är densamma som i originalversionerna av spelet tack vare ickedestruktiv komprimering. För att se dessa filmscener krävs en version av ScummVM som kompilerats med stöd för både FLAC och zlib.
+
+För de system som är för långsamma för att hantera FLAC-ljud finns ljudet för dessa filmscener att ladda hem separat som OGG Vorbis-ljud. För att se dessa filmscener med OGG Vorbis-ljud krävs en version av ScummVM som kompilerats med stöd för både libVorbis och zlib.
+
+Vi erbjuder även ett tillägg för undertexter i Broken Sword. Packa upp tillägget och följ instruktionerna i readme.txt-filen. Undertextpaketet fungerar för tillfället inte med PlayStation-filmer (Broken Sword II har redan undertexter; inga modifikationer krävs för dem).
+
+
+3.7.2) Broken Sword-spelens filmscener – en återblick:
+------ -----------------------------------------------
+Originalutgåvorna av Broken Sword-spelen använde sig av RAD Game Tools Smacker(tm)-format. Då RAD inte ville låta oss använda källkoden för deras äldre versioner av det här formatet, och bad oss att inte dekonstruera formatet, var vi tvugna att hitta en alternativ lösning.
+
+I Broken Sword II var det möjligt att spela upp röstspåret utan att spela videospåret. Detta var en nödlösning fram till ScummVM 1.0.0 men var aldrig den enda lösningen för en stabil version.
+
+I ScummVM 0.6.0 använde vi MPEG vilket möjliggjorde en rimlig kompromiss mellan filstorlek och kvalitet. I ScummVM 0.10.0 ersattes formatet av DXA (från början tillagt för AdventureSofts ”The Feeble Files”). Detta gjorde det möjligt att återge filmscenerna i exakt samma kvalitet som originalen, med nackdelen att filstorleken var större.
+
+Slutligen i början av 2006 dekonstruerades Smacker-formatet av FFMpeg-teamet. Tack vare deras hårda arbete stöder nu ScummVM från och med version 1.0.0 originalfilmscenerna. Stöd för MPEG har indragits. Från en teknisk synvinkel var detta en god sak då kodning av MPEG-filmer var en komplex process. Dessutom såg de inte lika bra ut som Smacker- och DXA-versionerna.
+
+
+3.7.3) Broken Sword:
+------ -------------
+För det här spelet behöver du alla filer från clusters-katalogerna på båda CD-skivorna. För Windows- och Macintosh-versionerna behöver du även speech.clu filerna från speech-katalogerna, men då de inte är identiska måste du döpa om dem till speec1.clu (för CD 1) och speech2.clu (för CD 2). PlayStation-versionen kräver speech.tab, speech.dat, speech.lis och speech.inf.
+
+Windows- och Macintosh-versionerna kräver även en underkatalog för musik med alla filerna från musik-katalogerna på båda CD-skivorna. Vissa av de här filerna existerar på båda skivorna, men i det här fallet är de antingen identiska eller, i ett fall, identiska till den grad att det inte gör någon skillnad. PlayStation-versionen kräver tunes.dat och tunes.tab.
+
+
+3.7.4) Broken Sword II:
+------ ----------------
+För det här spelet behöver du alla filer från clusters-katalogerna på båda CD-skivorna. (Vissa av dem kanske inte är helt nödvändiga, men de vi är osäkra på är ganska små.) Du måste döpa om speech.clu och music.clu-filerna till speech1.clu, speech2.clu, music1.clu och music2.clu så ScummVM kan se vilka av dem som kommer från CD 1 och vilka som kommer från CD 2. Övriga filer som existerar i båda clusters-katalogerna är identiska. Använd vilka exemplar du vill.
+
+Du behöver även cd.inf och (om du vill) startup.inf filerna från sword2-katalogen på CD 1.
+
+
+3.8) Notiser om Beneath a Steel Sky:
+---- -------------------------------
+Från och med ScummVM 0.8.0 behöver du ”SKY.CPT”-filen för att spela Beneath a Steel Sky.
+
+Den här filen är tillgänglig från ”Downloads”-avdelningen på ScummVM:s hemsida. Du kan lägga den antingen i katalogen som innehåller de andra datafilerna (SKY.DNR, SKY.DSK), i din ”extra”-sökväg, eller i katalogen där programfilen för ScummVM befinner sig.
+
+
+3.9) Notiser om Flight of the Amazon Queen:
+---- --------------------------------------
+För att kunna använda en icke-freeware version av Flight of the Amazon Queen (från original-CD:n) måste du placera “queen.tbl” filen (tillgänglig från “Downloads”-avdelningen på våran hemsida) antingen i katalogen som innehåller “queen.1” datafilen, i din “extra”-sökväg eller i katalogen där programfilen för ScummVM befinner sig.
+
+Alternativt kan du använda verktyget “compress_queen” från tools-paketet för att “bygga om” din FOTAQ-datafil så den inkluderar tabellen för din version, och på så vis göra programmet oberoende av ”queen.tbl”-filen. Det här verktyget låter dig även komprimera tal- och ljudeffekterna till MP3, OGG eller FLAC.
+
+
+3.10) Notiser om Gobliiins:
+----- ---------------------
+CD-versionerna av Gobliiins-spelen innehåller ett stort ljudspår som du måste extrahera (se avdelningen för användning av komprimerade ljudfiler; 7.8) och kopiera till spelkatalogen om du vill ha musik när du spelar utan att ha CD:n inmatad. Taleffekterna ligger på samma ljudspår och sålunda ändras även deras volym när du justerar musikvolymen.
+
+
+3.11) Notiser om Inherit the Earth: Quest for the Orb:
+----- ------------------------------------------------
+För att spela nyutgåvan från Wyrmkeep för Mac OS X måste du kopiera datafilerna från CD:n till din hårddisk. Om du är PC-användare, hänvisa sedan till:
+
+  http://wiki.scummvm.org/index.php/HOWTO-Mac_Games
+
+Länken handlar i huvudsak om SCUMM-spel men nämner även verktyget “HFVExplorer” som du behöver för att extrahera filerna. Märk att du måste lägga tal-datafilerna ”Inherit the Earth Voices” i samma katalog som speldatan som förvaras i:
+
+  Inherit the Earth.app/Contents/Resources
+
+För den gamla Mac OS 9-utgåvan behöver du kopiera filerna i MacBinary format då de borde innehålla både spelets resource- och data fork. Kopiera alla ”ITE*”-filer.
+
+
+3.12) Notiser om Simon the Sorcerer 1 och 2:
+----- --------------------------------------
+Om du har dubbel-versionen av Simon the Sorcerer 1 eller 2 på CD kan du finna Windows-versionen i huvudkatalogen på CD:n och DOS-versionen i DOS-katalogen på CD:n.
+
+
+3.13) Notiser om The Feeble Files:
+----- ----------------------------
+Om du har Windows-versionen av The Feeble Files finns det ett flertal saker att tänka på.
+
+Många av de nödvändiga filerna är förvarade i en InstallShield-fil med namnet data1.cab, vilken ScummVM inte kan packa up. Du måste använda originalinstallationsprogrammet eller i5comp för att packa upp innehållet ur den här filen. Extraktionsprogrammet i5comp kan du hitta med en enkel internetsökning.
+
+För att använda talfilerna med ScummVM måste de döpas om enligt följande:
+Döp om voices.wav på CD1 till voices1.wav
+Döp om voices.wav på CD2 till voices2.wav
+Döp om voices.wav på CD3 till voices3.wav
+Döp om voices.wav på CD4 till voices4.wav
+
+
+3.14) Notiser om The Legend of Kyrandia:
+----- ----------------------------------
+För att spela The Legend of Kyrandia i ScummVM behöver du “kyra.dat”-filen. Filen borde alltid inkluderas med officiella ScummVM-paket. Om ScummVM klagar över att filen saknas kan du finna den på “Downloads”-avdelningen av ScummVM:s hemsida. Märk att den nuvarande Windows-versionen av ScummVM borde ha filen inbyggd i programfilen, och sålunda behöver du bara ladda hem den om ScummVM klagar över att filen saknas.
+
+
+3.15) Notiser om Sierra AGI-spel med textinmatningshjälp:
+----- ---------------------------------------------------
+Textinmatningshjälpen är ett hjälpmedel i ScummVM för att spela AGI-spel (som är ökända för kommandoradsinmatning) på enheter med begränsat stöd för tangentbord. I dessa situationer (då det lätt kan bli långtråkigt att skriva med emulerade tangentbord) kan kommandon matas in snabbt och enkelt via textinmatningshjälpen.
+
+För att använda textinmatningshjälp i AGI-spel måste du kopiera pred.dic-filen till ”ScummVM extras”-katalogen eller till katalogen för spelet du vill spela. Den här ordboken har skapats genom att söka igenom alla kända AGI-spel och innehåller det maximala antalet vanliga ord. 
+
+Om ScummVM känner igen ordboken visas textinmatningshjälpen antingen när du klickar på kommandoraden (när helst tangetbordsinmatning krävs, även i dialogrutor), eller i vissa konversioner genom att trycka på en angiven tangent.
+
+Textinmatningshjälpen fungerar i tre lägen som du kan växla mellan med (*)Pre/123/Abc-knappen. Det första inmatningsläget är förutsägelse-läget, och fungerar på samma sätt som snabbinmatning på telefoner. Alfabetet är indelat i 9 uppsättningar som på uppenbart vis fördelats mellan de nio nummerknapparna (0 är mellanslag). För att skriva ett ord trycker du en gång på numret för uppsättningen som innehåller bokstaven för det ord du vill skriva, sedan tar du dig vidare till nästa bokstav. Till exempel: för att skriva ordet ”look” trycker du 5665. Allteftersom du skriver in ordets numeriska kod tillfrågas ordboken efter ord som matchar vad du skrivit hittills. Ju fler knappar du trycker desto mer exakt blir det föreslagna ordet. Av den här anledningen kan det skrivna ordet ändras snabbt mellan tangenttryckningar. Dock finns det situationer där fler än ett ord delar samma numeriska representation. Till exempel har order ”quit” och ”suit” samma nummer – 7847. I sådana fall lyser (#)nästa-knappen upp. Genom att trycka på den kan du växla mellan orden som delar samma kod och till slut acceptera det korrekta ordet genom att trycka (0)mellanslag eller OK-knappen.
+
+Det andra inmatningsläget (123) är den numeriska inmatningsmetoden: Varje knapp du trycker på matas in som sitt angivna nummer.
+
+Det tredje inmatningsläget (Abc) är Multi-tap Alpha inmatningsläget. Det här läget är menat för inmatning av fri text utan assistans från ordboken eller förutsägelseläget (Pre). Texten matas in en bokstav i taget. För varje bokstav trycker du först på nummerknappen för uppsättningen du vill åt, sedan använder du (#)nästa-knappen för att växla mellan bokstäverna. Repetera sedan proceduren med nästa bokstav. Till exempel: för att skriva ordet ”look” måste du trycka följande: 5##6##6##5
+
+Dialogrutan kan användas med musen, men visa provisioner i ScummVM-konversioner har gjort det mer bekvämligt genom att kartlägga funktionerna till nummertangenterna. Dialogrutornas knappar kan även navigeras med hjälp av piltangenterna och enter-tangenten.
+
+
+3.16) Notiser om Mickey’s Space Adventure:
+----- ------------------------------------
+För att spela Mickey’s Space Adventure i ScummVM behöver du originalprogramfilen (mickey.exe) tillsammans med spelets datafiler.
+
+Användning av musen stöds för spelet i ScummVM även då det inte fanns stöd för mus i originalspelet. Menyer kan användas med musen och den går även att använda till att förflytta sig i spelet. När muspekaren hålls nära kanten av skärmen färgas den röd om det är möjligt att gå i den riktningen. Spelaren kan sedan klicka på spelets skärmkant för att byta plats på samma sätt som i andra äventyrsspel, vilket är lättare än att byta plats med hjälp av menyn.
+
+
+3.17) Notiser om Winnie the Pooh:
+----- ---------------------------
+Det är möjligt att importera spardata från originalprogrammet i ScummVM.
+
+Användning av musen stöds för spelet i ScummVM även då det inte fanns stöd för mus i originalspelet. Menyer kan användas med musen och den går även att använda till att förflytta sig i spelet. När muspekaren hålls nära kanten av skärmen färgas den röd om det är möjligt att gå i den riktningen. Spelaren kan sedan klicka på spelets skärmkant för att byta plats på samma sätt som i andra äventyrsspel, vilket är lättare än att byta plats med hjälp av menyn.
+
+
+3.18) Notiser om Troll’s Tale:
+----- ------------------------
+Originalspelet gavs ut på en PC booter-diskett. Därför måste du extrahera innehållet från disketten till en image-fil och döpa den till ”troll.img” för att kunna spela spelet i ScummVM.
+
+
+3.19) Notiser om Dragon History:
+----- --------------------------
+Det finns fyra olika språkversioner av spelet: tjeckiska, engelska, polska och tyska. Var och en av dem finns utgivna i separata arkiv. Den enda officiella versionen är den tjeckiska – de engelska, polska och tyska konversionerna har alltid varit under utveckling och släpptes aldrig officiellt. Emedan all text är översatt kan man i dessa versioner stöta på en del stavfel.
+
+Det finns en alternativ tjeckisk dubbning av spelet. Av utrymmesskäl kan du ladda hem denna separat och packa upp den till spelkatalogen. Du kan lyssna på den tjeckiska dubbningen med alla språkversioner medan du läser undertexterna.
+
+Alla spelfiler och spelguiden kan laddas hem från
+http://www.ucw.cz/draci-historie/index-en.html
+
+
+3.20) Kända problem:
+----- --------------
+Den här versionen har följande kända problem. Du behöver inte rapportera dem, men om du kan erbjuda uppdateringar för att fixa problemen vore det välkommet. Om du upptäcker en bugg som inte finns i listan nedan eller i kompatibilitetslistan på hemsidan, var god hänvisa till avdelningen för hur man rapporterar buggar; 2.1.
+
+  Spel med CD-ljud:
+    - När du spelar spel som använder CD-ljud (FM-TOWNS-spel, Loom CD, etc.)
+      kan Microsoft Windows 2000/XP-användare stöta på slumpmässiga krasher.
+      Anledningen är en långlivad Windows-bugg som gör att korrupta spelfiler
+      läses in från CD:n. Kopiera speldatan till din hårddisk för att undvika
+      detta.
+
+  FM-TOWNS-versioner av spel:
+    - Kanji-versioner kräver en FM-TOWNS Font ROM
+
+  Loom:
+    - Att stänga av undertexterna via konfigurationsfilen är inte pålitligt då
+      Loom-koden automatiskt aktiverar dem igen.
+    - MIDI stöd i EGA-versionen kräver Roland-uppdateringen från LucasArts
+    - PC-Engine kanji-versionen kräver en ROM för systemkortet
+
+  The Secret of Monkey Island:
+    - MIDI stöd i EGA-versionen kräver Roland-uppdateringen från LucasArts
+ 
+  Beneath a Steel Sky:
+    - Amiga-versionerna stöds ej
+    - Diskett-demon stöds ej
+    - Inte en bugg: CD-versionen saknar tal för viss dialog. Det här är
+      normalt.
+
+  Elvira - Mistress of the Dark
+    - Ingen musik i Atari ST-versionen
+
+  Elvira II - The Jaws of Cerberus
+    - Ingen musik i Atari ST-versionen
+    - Inga ljudeffekter i PC-versionen
+    - Problem med färgpaletten i Atari ST-versionen
+
+  Inherit the Earth: Quest for the Orb
+    - Amigaversionerna stöds ej
+
+  Simon the Sorcerer 1:
+    - Undertexter är inte tillgängliga i de engelska och tyska
+      CD-versionerna eftersom en majoritet av undertexterna fattas.
+
+  Simon the Sorcerer 2:
+    - Kombinerade tal och undertexter kan ofta orsaka att talljudet
+      klipps av för tidigt. Det här är en begränsning från originalspelet.
+    - Endast standardspråket (engelska) för datafilerna stöds i Amiga-
+	och Macintosh-versionerna.
+
+  Simon the Sorcerer's Puzzle Pack:
+    - Inget stöd för att visa, mata in, ladda eller spara topplistor.
+    - Inget stöd för att visa namnen på föremål när man pekar på dem
+      i Swampy Adventures.
+
+  The Feeble Files:
+    - Undertexterna är ofta ofullständiga – de var alltid avstängda
+      i originalspelet.
+
+  The Legend of Kyrandia:
+    - Varken musik eller ljudeffekter i Macintosh diskett-versioner.
+    - Macintosh-CD använder DOS-musik och ljudeffekter.
+
+  Humongous Entertainment-spel:
+    - Endast originalgränssnittet för att ladda och spara kan användas.
+    - Inget stöd för multiplayer eller utskrift av bilder.
+
+
+4.0) Stödda plattformar:
+---- -------------------
+ScummVM har konverterats för många olika plattformar och operativsystem. Länkar till dessa konversioner kan du hitta antingen på ScummVM:s hemsida eller via en Google-sökning. Tack till våra konversionsprogrammerare för deras arbete. Om du har en konversion av ScummVM och vill lägga till den i vår master git, kontakta oss gärna!
+
+Stödda plattformar inkluderar bl.a. följande:
+
+        UNIX            (Linux, Solaris, IRIX, *BSD, ...)
+        Windows
+        Windows CE och Windows Mobile  (inklusive Smartphones och PocketPCs)
+        Mac OS X
+        AmigaOS
+        Android
+        BeOS
+        Dreamcast
+        GP2x
+        iPhone          (även iPod Touch och iPad)
+        Maemo           (Nokia Internet tablet N810)
+        Nintendo 64
+        Nintendo DS
+        Nintendo GameCube
+        Nintendo Wii
+        OS/2
+        PlayStation 2
+        PlayStation Portable
+        Symbian
+        WebOS
+
+Dreamcast-konversionen stöder inte The Curse of Monkey Island eller The Dig. Nintendo DS-konversionen stöder inte Full Throttle, The Dig eller The Curse of Monkey Island.
+För fler plattform-specifika begränsningar, se vår Wiki:
+  http://wiki.scummvm.org/index.php/Platforms
+
+För Macintosh-konversionen emuleras höger musknapp med Cmd-klickning (klicka med vänster musknapp medan du håller ned Command/Apple/Propeller-knappen).
+
+Det finns inofficiella konversioner för ett antal plattformar inklusive PlayStation 3, Xbox och Xbox 360. Märk att dessa inte är skapade av oss, så vi varken förespråkar eller stöder användning av dem. Använd på egen risk!
+
+
+5.0) Att använda ScummVM:
+---- --------------------
+Märk att ScummVM som standard sparar data i samma katalog som programmet används ifrån, så undvik att köra programmet från fler än en katalog. För ytterligare information, inklusive instruktioner för hur du inrättar en egen katalog för spardata för att undvika det här problemet, se avdelning 6.0.
+
+ScummVM kan öppnas direkt genom att öppna programfilen. I sådana fall aktiveras den inbyggda launchern. Från launchern kan du lägga till spel (klicka på ”Lägg till spel”) eller spela spel som redan konfigurerats. Spel kan även läggas till i större antal. Genom att hålla ned skift-tangenten och trycka på ”Lägg till spel” (lägg märke till att knappen byter namn till ”Masstillägg”) kan du specificera en katalog att starta i, varvid ScummVM sedan försöker hitta spel i alla underkataloger.
+
+ScummVM kan även öppna spel via kommandoraden – se nästa avdelning.
+
+
+5.1) Att använda kommandoraden:
+---- --------------------------
+
+Ordning: scummvm [INSTÄLLNINGAR]... [SPEL]
+
+  [SPEL]                   Kortnamnet för spelet du vill ladda, t.ex. 'monkey'
+                           för Monkey Island. Det kan vara det inbyggda kortnamnet
+                           eller ett kortnamn bestämt av användaren.
+
+  -v, --version            Visar information om ScummVM-versionen
+  -h, --help               Visar kortfattad hjälptext
+  -z, --list-games         Visar lista med stödda spel
+  -t, --list-targets       Visar lista med konfigurerade targets
+  --list-saves=TARGET      Visar en lista med sparade data för det specificerade    
+                           spelet (TARGET)
+  --console                Öppnar konsolfönstret (standard: på) (endast Windows)
+  -c, --config=CONFIG      Använd alternativ konfigurationsfil (CONFIG)
+  -p, --path=PATH          Sökväg dit spelet är installerat (PATH)
+  -x, --save-slot[=NUM]    Spardata-nummer att ladda (standard: autosparning)
+  -f, --fullscreen         Fullskärmsläge
+  -F, --no-fullscreen      Fönsterläge
+  -g, --gfx-mode=MODE      Välj grafikskalning (se även avdelning 5.3)
+  --gui-theme=THEME        Välj GUI-tema (standard, modern, klassisk)
+  --themepath=PATH         Sökväg dit GUI-teman lagras
+  --list-themes            Visa full lista med alla användbara GUI-teman
+  -e, --music-driver=MODE  Välj musik-driver (se även avdelning 7.0)
+  --list-audio-devices     Visar tillgängliga ljudenheter 
+  -q, --language=LANG      Välj spelets språk (se även avdelning 5.2)
+  -m, --music-volume=NUM   Ställ in musikvolym, 0-255 (standard: 192)
+  -s, --sfx-volume=NUM     Ställ in ljudeffektsvolym, 0-255 (standard: 192)
+  -r, --speech-volume=NUM  Ställ in röstvolym, 0-255 (standard: 192)
+  --midi-gain=NUM          Ställ in gain för MIDI-uppspelning,
+                           0-1000 (standard: 100)
+                           (stöds endast av vissa MIDI-drivers)
+  -n, --subtitles          Aktivera undertexter (för spel med röster)
+  -b, --boot-param=NUM     Skicka nummer till boot script (boot param)
+  -d, --debuglevel=NUM     Ställ in debug-ordmängd
+  --debugflags=FLAGS       Aktivera motorspecifika debugflaggor
+                           (separera med kommatecken)
+  -u, --dump-scripts       Aktivera kod-dumpning om en katalog med namnet ”dumps”
+                           existerar i den aktiva katalogen
+
+  --cdrom=NUM              CD-enheten spelar automatiskt CD-ljud från (NUM)
+                           (standard: 0 = första enheten)
+  --joystick[=NUM]         Aktivera joystick (standard: 0 = första joystick)
+  --platform=WORD          Bestäm plattform för spel (tillåtna värden: 2gs, 3do,
+                           acorn, amiga, atari, c64, fmtowns, mac, nes, pc,
+                           pce, segacd, windows)
+  --savepath=PATH          Sökväg dit spardata lagras
+  --extrapath=PATH         ”Extra”-sökväg för ytterligare speldata
+  --soundfont=FILE         Välj SoundFont för MIDI-uppspelning (Stöds endast
+                           av vissa MIDI-drivers)
+  --multi-midi             Aktivera kombination av AdLib och Native MIDI
+  --native-mt32            True Roland MT-32 (deaktivera GM-emulation)
+  --enable-gs              Aktivera Roland GS-läge för MIDI-uppspelning
+  --output-rate=RATE       Välj ljudfrekvens i Hz (t.ex. 22050)
+  --opl-driver=DRIVER      Välj AdLib (OPL)-emulator (db, mame)
+  --aspect-ratio           Aktivera korrektion av bildförhållande
+  --render-mode=MODE       Aktivera ytterligare renderingslägen (cga, ega,                      
+                           hercGreen, hercAmber, amiga)
+
+  --alt-intro              Använd alternativt intro för CD-versionerna av Beneath a
+                           Steel Sky och Flight of the Amazon Queen
+  --copy-protection        Aktiverar kopieringsskyddet för vissa spel
+                           där ScummVM automatiskt överskrider det.
+  --talkspeed=NUM          Ställ in textfördröjning i SCUMM-spel, eller
+                           texthastighet i andra spel. (standard: 60)
+  --demo-mode              Öppna demon i Maniac Mansion (klassisk version)
+  --tempo=NUM              Ställ in musiktempo (i procent, 50-200) för SCUMM games
+                           (standard: 100)
+
+
+Betydelsen för de flesta långa funktionerna (det vill säga de funktioner som börjar med dubbla bindestreck) kan inverteras genom att sätta “no-“ framför dem. Till exmpel, --no-aspect-ratio stänger av korrektion av bildförhållande. Detta är användbart om du vill överskrida en inställning i konfigurationsfilen.
+
+Det korta spelnamnet (“game target”) vid slutet av kommandoraden bestämmer vilket spel som startas. Det matchar antingen en användardefinerad target (från konfigurationsfilen) eller ett inbyggd gameid. En kort lista med de senare finns i avdelning 3.0.
+
+Exempel:
+ * Win32:
+  För att spela Monkey Island i fullskärm från hårddisk:
+   C:\Games\LucasArts\scummvm.exe -f -pC:\Games\LucasArts\monkey\ monkey
+  För att spela Full Throttle från CD i fullskärm med undertexter:
+   C:\Games\LucasArts\scummvm.exe -f -n -pD:\resource\ ft
+
+ * Unix:
+  För att spela Monkey Island i fullskärm från hårddisk:
+   /path/to/scummvm -f -p/games/LucasArts/monkey/ monkey
+  För att spela Full Throttle från CD i fullskärm med undertexter:
+   /path/to/scummvm -f -n -p/cdrom/resource/ ft
+
+
+5.2) Språkinställningar:
+------------------------
+ScummVM stöder vissa språkinställningar för Maniac Mansion, Zak McKracken, The Dig, The Curse of Monkey Island, Beneath a Steel Sky och Broken Sword.
+
+Märk att med undantag för Beneath a Steel Sky, Broken Sword, flerspråksversioner av Goblins-spelen och Nippon Safes Inc. byter INTE den här funktionen språk på spelet (vilket ofta är bestämt i källkoden). Inställningarna låter dig endast byta till ett lämligare typsnitt (t.ex. typsnitt med diakritiska tecken för en tysk version av spelet).
+
+Undantagen här är The Dig och The Curse of Monkey Island – icke-engelskspråkiga versioner kan ställas in till “engelska”. Detta påverkar dock endast undertexterna; spelets röster förblir de samma.
+
+Maniac Mansion och Zak McKracken
+    en  - Engelska (standard)
+    de  - Tyska
+    fr  - Franska
+    it  - Italienska
+    es  - Spanska
+
+The Dig
+    jp  - Japanska
+    zh  - Kinesiska
+    kr  - Koreanska
+
+The Curse of Monkey Island
+    en  - Engelska (standard)
+    de  - Tyska
+    fr  - Franska
+    it  - Italienska
+    pt  - Portugisiska
+    es  - Spanska
+    jp  - Japanska
+    zh  - Kinesiska
+    kr  - Koreanska
+
+Beneath a Steel Sky
+    gb  - Engelska (Storbritannien) (standard)
+    en  - Engelska (USA)
+    de  - Tyska
+    fr  - Franska
+    it  - Italienska
+    pt  - Portugisiska
+    es  - Spanska
+    se  - Svenska
+
+Broken Sword
+    en  - Engelska (standard)
+    de  - Tyska
+    fr  - Franska
+    it  - Italienska
+    es  - Spanska
+    pt  - Portugisiska
+    cz  - Tjeckiska
+
+
+5.3.) Grafikfilter:
+----- -------------
+ScummVM erbjuder ett antal anti-aliasfilter för att förbättra bildkvaliteten. Dessa filter används i många andra emulatorer, t.ex. MAME. De kan ta ett spels originalgrafik och förstora den enligt förbestämda faktorer (vanligtvis 2x eller 3x). Till exempel: om spelet från början endast kunde spelas i 320x200 upplösning (typiskt för de flesta SCUMM-spelen) ger dig ett filter med skalningsfaktor 2x istället 640x400 upplösning. På samma sett ger dig ett 3x filter 960x600.
+
+Tillgängliga filter:
+    1x         - Inget filter, ingen skalning. Snabbast.
+    2x         - Inget filter, faktor 2x (standard för spel utan 640x480).
+    3x         - Inget filter, faktor 3x.
+    2xsai      - 2xSAI filter, faktor 2x.
+    super2xsai - Förbättrat 2xSAI filter, faktor 2x.
+    supereagle – Mindre suddigt än 2xSAI, men långsammare. Faktor 2x.
+    advmame2x  - Använder inte suddighet som 2xSAI, snabbt. Faktor 2x.
+    advmame3x  - Använder inte suddighet som 2xSAI, snabbt. Faktor 3x.
+    hq2x       - Fint filter av hög kvalitet, men långsamt. Faktor 2x.
+    hq3x       - Fint filter av hög kvalitet, men långsamt. Faktor 3x.
+    tv2x       - Interlace-filter, försöker emulera TV-skärmen. Faktor 2x.
+    dotmatrix  - Dot matrix-effekt. Faktor 2x.
+
+För att använda ett grafiskfilter, välj det i Launchern eller skicka dess namn via “-g” funktionen till scummvm, till exempel:
+
+    scummvm -gadvmame2x monkey2
+
+Notis #1: Vissa back-ends stöder inte alla (eller ens några) av filterna ovan; vissa kan stöda övriga filter. Filterna ovan är de som stöds av standard SDL-back-end.
+
+Notis #2: Filter kan bli väldigt långsamma när ScummVM kompileras i en debug-konfiguration utan optimering och hastigheten påverkas alltid när man använder en form av anti-alias/linjär filtrering.
+
+Notis #3: FM-TOWNS-versionen av Zak McKracken använder en upplösning på 320x240. Konsekvent sker skalning för det här spelet till 640x480 eller 960x720. På samma sätt skalas spel som från början använder 640x480 (t.ex. Curse of Monkey Island eller Broken Sword) upp till 1280x960 och 1920x1440.
+
+
+5.4) Den globala menyn:
+---- ------------------
+Den globala menyn är en generisk meny som kan användas i alla spelmotorer genom att trycka Ctrl-F5. I den här menyn finns följande knappar: Fortsätt, Inställningar, Om, Återvänd till launcher, och Avsluta. Väljer du ”Inställningar” öppnas en dialogruta där grundläggande ljudinställningar, t.ex. volymnivån, kan justeras. Väljer du ”Återvänd till launcher” stängs spelfönstret och du skickas tillbaka till ScummVM-launchern där du kan välja andra spel att spela.
+
+Notis: Att återvända till launchern stöds inte av alla spelmotorer och knappen kommer deaktiveras i den globala menyn för spel där funktionen inte stöds.
+
+Motorer som för närvarande stöder återvändo till launchern:
+
+    AGI
+    AGOS
+    CINE
+    COMPOSER
+    CRUISE
+    DRACI
+    DRASCULA
+    GOB
+    GROOVIE
+    HUGO
+    KYRA
+    LURE
+    MADE
+    MOHAWK
+    PARALLACTION
+    QUEEN
+    SAGA
+    SCI
+    SCUMM
+    SKY
+    SWORD1
+    SWORD2
+    TEENAGENT
+    TOUCHE
+    TSAGE
+    TUCKER
+
+
+5.5) Kortkommandon:
+---- --------------
+ScummVM stöder ett antal kortkommandon medan du spelar. De är olika för SCUMM-spel och andra spel.
+
+  Gemensamma:
+    Ctrl-F5                - Öppnar menyn
+    Cmd-q                  - Avsluta (Mac OS X)
+    Ctrl-q                 - Avsluta (andra system inklusive Linux)
+    Ctrl-z ELLER Alt-x     - Avsluta (andra plattformar)
+    Ctrl-u                 - Stäng av allt ljud
+    Ctrl-m                 - Aktivera musrestriktion
+    Ctrl-Alt 1-8           - Växla grafikfilter
+    Ctrl-Alt + och -       - Höj/sänk skalningsfaktor
+    Ctrl-Alt a             - Aktivera/deaktivera korrigering av bild-
+                             förhållanden. De flesta spelen använder en 
+                             upplösning på 320x200 pixlar, vilket kan
+                             se förvrängt ut på moderna skärmar. 
+                             Korrigering av bildförhållanden sträcker
+                             bilden proportionellt till 320x240.
+
+    Alt-Enter              - Växlar mellan fullskärm och fönster
+    Alt-s                  - Skärmdump (endast med SDL-back-end)
+
+  SCUMM:
+    Ctrl 0-9 och Alt 0-9   - Ladda och spara speldata
+    Ctrl-d                 - Öppnar debug-fönstret
+    Ctrl-f                 - Aktivera snabbläge
+    Ctrl-g                 - Aktivera EXTRA snabbt läge
+    Ctrl-t                 - Växla mellan “Endast tal”,
+                             “Tal och undertexter” och ”Endast undertexter”
+    Tilde (~)              - Visa/dölj debug-konsolen
+    [ och ]                - Musikvolym höj/sänk
+    - och +                - Texthastighet långsammare/snabbare
+    F5                     - Visar en ladda/spara-ruta
+    Alt-F5                 - Visar spelets originalruta för att ladda/spara,
+                             förutsatt att det finns en. Du kan ladda och spara
+                             på det här viset, men det rekommenderas ej då det
+                             kan orsaka krascher.
+    i                      - Visar IQ-poäng (Indiana Jones and the Last
+                             Crusade och Indiana Jones and the Fate of
+                             Atlantis)
+    Space                  - Paus
+    Punkt (.)              - Hoppar över en textrad i vissa spel
+    Enter                  - Simulerar vänster musklick
+    Tab                    - Simulerar höger musklick
+
+  Beneath a Steel Sky:
+    Ctrl-d                 - Öppnar debug-fönstret
+    Ctrl-f                 - Aktivera snabbläge
+    Ctrl-g                 - Aktivera EXTRA snabbt läge
+    F5                     - Visar en ladda/spara-ruta
+    Escape                 - Hoppar över spelets intro
+    Punkt (.)              - Hoppar över en textrad
+
+  Broken Sword:
+    F5 eller Escape        - Visar en ladda/spara-ruta
+
+  Broken Sword II:
+    Ctrl-d                 - Öppnar debug-fönstret
+    Ctrl-f                 - Aktivera snabbläge
+    p                      - Paus
+
+  Dragon History:
+    F5                     - Visar globala menyn
+    vänsterklick           - Gå, utforska
+    högerklick             - Use, talk
+    rör mus uppåt, i       - Inventarie
+    rör mus nedåt, m       - Karta
+    Escape                 - Hoppa över intro, lämna karta/inventarie
+    musklick               - Hoppar över pågående filmscen
+    q                      - Snabb gång på/av
+
+  Flight of the Amazon Queen:
+    Ctrl-d                 - Öppnar debug-fönstret
+    Ctrl-f                 - Aktivera snabbläge
+    F1                     - Använd dagbok (spara/ladda)
+    F11                    - Snabbspara
+    F12                    - Snabbladda
+    Escape                 - Hoppa över filmscen
+    Mellanslag             - Hoppa över textrad
+
+  Future Wars
+    F1                     - Undersök
+    F2                     - Ta
+    F3                     - Inventarie
+    F4                     - Använd
+    F5                     - Aktivera
+    F6                     - Tala
+    F9                     - "Aktivera"-meny
+    F10                    - "Använd"-meny
+    Escape                 - Öppna kommandomeny
+
+  Nippon Safes
+    Ctrl-d                 - Öppnar debug-fönstret
+    l                      - Ladda data
+    s                      - Spara data
+
+  Simon the Sorcerer 1 och 2:
+    Ctrl 0-9 och Alt 0-9   - Ladda och spara data
+    Ctrl-d                 - Öppnar debug-fönstret
+    Ctrl-f                 - Aktivera snabbläge
+    F1 - F3                - Texthastighet snabbare - långsammare
+    F10                    - Visar alla karaktärer och föremål du kan
+                             interagera med
+    Escape                 - Hoppa över filmscen
+    - och +                - Musikvolym sänk/höj
+    m                      - Musik av/på
+    s                      - Ljudeffekter av/på
+    b                      - Bakgrundsljud av/på
+                             [endast Simon the Sorcerer 2]
+    Pause                  - Paus
+    t                      - Växla mellan endast tal och kombinerade
+                             tal och undertexter
+                             [Simon the Sorcerer 1 CD (förutom
+                             engelska och tyska) och Simon the
+                             Sorcerer 2 CD (alla språk)]
+    v                      - Växla mellan endast undertexter och kombinerade
+                             tal och undertexter
+                             [endast Simon the Sorcerer 2 CD]
+
+  Simon the Sorcerer's Puzzle Pack
+    Ctrl-d                 - Öppnar debug-fönstret
+    Ctrl-f                 - Aktivera snabbläge
+    F12                    - Snabbläge av/på i Swampy Adventures
+    - och +                - Musikvolym sänk/höj
+    m                      - Musik av/på
+    s                      - Ljudeffekter av/på
+    Pause                  - Paus
+
+  The Feeble Files
+    Ctrl-d                 - Öppnar debug-fönstret
+    Ctrl-f                 - Aktivera snabbläge
+    F7                     - Byt karaktär
+    F9                     - Hitbox-namn av/på
+    s                      - Ljudeffekter av/på
+    Pause                  - Paus
+    t                      - Växla mellan endast tal och kombinerade
+                             tal och undertexter
+    v                      - Växla mellan endast undertexter och kombinerade
+                             tal och undertexter
+
+  The Legend of Kyrandia:
+    Ctrl 0-9 och Alt 0-9   - Ladda och spara speldata
+    Ctrl-d                 - Öppnar debug-fönstret
+
+  TeenAgent
+    F5                     - Visar den globala menyn
+
+  Touche: The Adventures of the Fifth Musketeer:
+    Ctrl-f                 - Aktivera snabbläge
+    F5                     - Visa inställningar
+    F9                     - Snabbt gångläge på
+    F10                    - Snabbt gångläge av
+    Escape                 - Avsluta
+    Space                  - Hoppa över textrad
+    t                      - Växla mellan “Endast tal”,
+                             “Tal och undertexter” och ”Endast undertexter”
+
+Märk att trycka Ctrl-f och Ctrl-g inte rekommenderas: spel kan krasha när de spelas snabbare än normalt, då koden kan desynkroniseras.
+
+Notis för WinCE-användare: På grund av de begränsade tangentborden på de flesta enheter stöds ett litet antal av de här tangenterna via tangentinställning och/eller kontrollpanelen. Var god se READ-WinCE.txt filen.
+
+
+6.0) Spardata:
+---- ---------
+Spardata lagras som standard i den aktiva katalogen på vissa plattformar och i förbestämda kataloger på andra plattformar. Du kan ställa in katalogen i konfigurationsfilen genom att ändra savepath-parametern. Se exempel för konfigurationsfilen senare i detta dokument.
+
+Plattformar som för närvarande har annorlunda standardkataloger:
+    Mac OS X:
+    $HOME/Documents/ScummVM Savegames/
+
+    Övriga unix-system:
+    $HOME/.scummvm/
+    
+    Windows Vista/7:
+    \Users\username\AppData\Roaming\ScummVM\Saved games\
+
+    Windows 2000/XP:
+    \Documents and Settings\username\Application Data\ScummVM\Saved games\
+
+    Windows NT4:
+    <windir>\Profiles\username\Application Data\ScummVM\Saved games\
+
+Spardata lagras i en gömd map I Windows NT4/2000/XP/Vista/7, som kan kommas åt genom att köra "%APPDATA%%\ScummVM\Saved Games\" eller genom att visa dolda filer i Windows Explorer.
+
+Notis för användare av NT4/2000/XP/Vista/7: Den förutbestämda platsen för spardata har ändrats i ScummVM 1.5.0. Migrationsfilen kan användas för att kopiera spardata från den förra platsen till den nya.
+
+
+6.1) Autosparning:
+---- -------------
+I vissa spel (nämligen “Beneath a Steel Sky”, “Flight of the Amazon Queen”, alla AGI-spel och alla SCUMM-spel) autosparar som standard ScummVM var femte minut (detta kan justeras via “autosave_period” inställningen i konfigurationsfilen). För AGI- och SCUMM-motorerna sparas data i position 0. För SCUMM-motorn kan den här positionen laddas igen via Ctrl-0 eller F5-menyn.
+
+
+6.2) Att konvertera speldata:
+---- ------------------------
+Att använda spardata från originalversioner av spel stöds inte av alla spelmotorer. Endast följande spel kan använda spardata från sina originalversioner.
+
+  Elvira 1
+    - Lägg till 8 byte (namn för spardata) i början av spardata-filen
+    - Döp om spardatan till ”elvira1.xxx”
+
+  Elvira 2
+    - Lägg till 8 byte (namn för spardata) i början av spardata-filen
+    - Döp om spardatan till ”elvira2-pc.xxx” (DOS-versionen) eller
+      ”elvira2.xxx” (övriga versioner)
+
+  Waxworks
+    - Lägg till 8 byte (namn för spardata) i början av spardata-filen
+    - Döp om spardatan till ”waxworks-pc.xxx” (DOS-versionen) eller
+      ”waxworks.xxx” (övriga versioner)
+
+  Simon the Sorcerer 1
+    - Döp om spardatan till ”simon1.xxx”
+
+  Simon the Sorcerer 2
+    - Döp om spardatan till ”simon2.xxx”
+
+  The Feeble Files
+    - Döp om spardatan till ”feeble.xxx”
+
+Där “xxx” står för positionsnumret (t.ex. 001) i ScummVM.
+
+
+6.3) Visa/ladda spardata från kommandoraden:
+---- ---------------------------------------
+
+--list-saves:
+
+   Den här funktionen kan användas för att visa en lista med befintliga speldata
+   från det specificerade spelet och dess respektive spar-positioner.
+
+   Användning: --list-saves=[TARGET], där [TARGET] är spelets kortnamn.
+
+   Motorer som för tillfället stöder --list-saves:
+
+       AGI
+       AGOS
+       CGE
+       CINE
+       CRUISE
+       DRACI
+       GROOVIE
+       HUGO
+       KYRA
+       LURE
+       MOHAWK
+       PARALLACTION
+       QUEEN
+       SAGA
+       SCI
+       SCUMM
+       SKY
+       SWORD1
+       SWORD2
+       TEENAGENT
+       TINSEL
+       TOON
+       TOUCHE
+       TSAGE
+       TUCKER
+
+--save-slot/-x:
+
+   Den här funktionen kan användas för att ladda spardata direkt från
+   kommandoraden.
+
+   Användning: --save-slot[SLOT] eller -x[SLOT], där [SLOT] är spardatans
+   positionsnummer.
+
+   Motorer som för tillfället stöder --save-slot/-x:
+
+       AGI
+       CGE
+       CINE
+       CRUISE
+       DRACI
+       GROOVIE
+       HUGO
+       KYRA
+       LURE
+       MOHAWK
+       QUEEN
+       SAGA
+       SCI
+       SCUMM
+       SKY
+       SWORD1
+       SWORD2
+       TEENAGENT
+       TINSEL
+       TOON
+       TOUCHE
+       TSAGE
+       TUCKER
+
+
+7.0) Musik och ljud:
+---- ---------------
+För de flesta operativsystemen och spelen använder ScummVM som standard MT-32 eller AdLib-emulation för musikuppspelning. MIDI kan vara otillgängligt på vissa operativsystem eller i behov av manuell inställning. Om du vill använda MIDI har du flera val för uppspelning beroende på ditt operativsystem och dina inställningar.
+
+    null       - Ingen musikuppspelning.
+
+    adlib      - Intern AdLib-emulation
+    fluidsynth - FluidSynth MIDI-emulation
+    mt32       - Intern MT-32-emulation
+    pcjr       - Intern PCjr-emulation (fungerar endast i SCUMM-spel)
+    pcspk      - Intern PC Speaker-emulation
+    towns      - Intern FM-TOWNS YM2612 emulation
+                 (fungerar endast i SCUMM FM-TOWNS-spel)
+
+    alsa       - Uppspelning med ALSA sequencer-enhet. Se nedan.
+    core       - CoreAudio ljud, för Mac OS X användare.
+    coremidi   - CoreMIDI ljud, för Mac OS X användare. Använd endast om du har
+                 en MIDI-synthesizer i hårdvaruform.
+    seq        - Använd /dev/sequencer för MIDI, *nix användare. Se nedan.
+    timidity   - Anslut till TiMidity++ MIDI-servern. Se nedan.
+    windows    - Windows MIDI. Använd inbyggd sequencer, för Windows användare
+
+För att använda en musik-driver, välj den i launchern eller skicka dess namn via ”-e” funktionen till scummvm, till exempel:
+
+    scummvm -eadlib monkey2
+
+
+7.1) Spela ljud med AdLib emulation:
+---- -------------------------------
+Som standard emuleras ett AdLib-kort och ScummVM spelar upp musiken efter samplade ljudvågor. Det här är standardläget för många spel och erbjuder bäst kompatibilitet mellan maskin och spel.
+
+
+7.2) Ljud med FluidSynth MIDI-emulation:
+---- -----------------------------------
+Om ScummVM byggts med stöd för libfluidsynth kommer programmet kunna spela MIDI-musik via FluidSynth-drivern. Dock måste du specificera vilket SoundFont som ska användas.
+
+Då standardvolymen från FluidSynth kan vara ganska låg ställer ScummVM in gain för att få en bättre signal som standard. Denna kan justeras ytterligare via –midi-gain funktinonen i kommandoraden, eller inställningen ”midi_gain” i konfigurationsfilen.
+
+Du kan justera med ett värde från 0 till 1000, där standardvärdet är 100. (Detta matchar FluidSynths gain-inställningar från 0.0 till 10.0, troligtvis räknade i decibel.)
+
+NOTERA: Processorkraven för FluidSynth kan vara höga – en snabb processor rekommenderas.
+
+
+7.3) Ljud med MT-32-emulation:
+---- -------------------------
+Somliga spel som innehåller MIDI-musikdata har även förbättrade ljudspår designade för MT-32 ljudmodulen. ScummVM kan nu emulera den här enheten, men du måste dock använda MT-32 original-ROM:s för att det ska fungera:
+
+MT32_PCM.ROM     - IC21 (512KB)
+MT32_CONTROL.ROM - IC26 (32KB) och IC27 (32KB), sammanflätade byte
+
+Placera dessa ROM-filer i spelkatalogen, i din ”Extra”-sökväg, eller i katalogen där ScummVM-programfilen befinner sig.
+
+Du behöver inte specificera –-native-mt32 med den här drivern, då den aktiveras automatiskt.
+
+NOTERA: Processorkraven för emulatorn är mycket höga – en snabb processor rekommenderas.
+
+
+7.4) Ljud med MIDI-emulation:
+---- ------------------------
+Vissa spel (t.ex. Sam & Max) innehåller endast musikdata i MIDI-form. En gång i tiden förhindrade detta musiken från att fungera i dessa spel på plattformar som inte stödde MIDI samt ljudkort som inte hade MIDI-drivers (t.ex. spelar många ljudkort inte MIDI under Linux). ScummVM kan nu emulera MIDI-läget med hjälp av samplade ljudvågor och AdLib, FluidSynth MIDI-emulation eller MT-32-emulation genom att använda –eadlib, -efluidsynth eller –emt32 funktionerna. Om du har möjlighet att använda Native MIDI rekommenderar vi ett av MIDI-lägena för bästa ljudkvalitet.
+
+
+7.5) Ljud med Native MIDI:
+---- ---------------------
+Använd den lämpliga –e<mode> funktionen i kommandoraden från listan ovan för att välja din föredragna MIDI-enhet. Till exempel, om du vill använda Windows MIDI-drivern, använd –ewindows funktionen.
+
+
+7.5.1) MIDI-inställningar för Native MIDI-uppspelning:
+------ -----------------------------------------------
+ScummVM stöder ett antal MIDI-lägen, beroende på din MIDI-enhets egenskaper.
+
+Om –-native-mt32 specificerats kommer ScummVM behandla din enhet som en verklig MT-32. Då instrumentkartan och systemkommandon hos MT-32:an är annorlunda från andra generiska MIDI-enheter borde du endast använda den här funktionen om du verkligen använder en riktig Roland MT-32, LAPC-I, CM-64, CM-32L, CM-500 eller GS-enhet med en MT-32 karta.
+
+Om –-enable-gs specificerats kommer ScummVM ställa in din GS-kompatibla enhet med inställningar som härmar MT-32:ans reverb, (brist på) chorus, pitch bend-känslighet, etc. Om det specificerats tillsammans med –-native-mt32 kommer ScummVM välja den MT-32-kompatibla kartan och trumsetet på din GS-enhet. Den här inställningen fungerar bättre än standard GM- eller GS-emulation i spel som saknar speciella instrumentkartor (Loom och Monkey1). Du borde endast specificera båda funktionerna om du använder en GS-enhet som har en MT-32 karta, till exempel en SC-55, SC-88, SC-88 Pro, SC-8820, SC-8850, etc. Märk att –-enable-gs är automatiskt deaktiverad i både DOTT och Samnmax, då de använder General MIDI.
+
+Om ingendera av de ovanstående inställningarna aktiverats kommer ScummVM ställa in din enhet i General MIDI-läge och använda GM-emulation i spel med MT-32 musik.
+
+Vissa spel innehåller ljudeffekter som är exklusiva för AdLib-musik. För dessa spel kan du specificera --multi-midi för att kombinera MIDI-musik med AdLib-ljudeffekter.
+
+
+7.6) Ljud med Sequencer MIDI:                                        [ENDAST UNIX]
+---- ------------------------
+Om ditt ljudkort stöder en sequencer kan du ställa in environment-variabeln “SCUMMVM_MIDI” till din sequencer-enhet – till exempel till /dev/sequencer.
+
+Om du inte kan höra ljudet med den här konfigurationen kan du behöva ställa in environment-variabeln ”SCUMMVM_MIDIPORT” till 1 eller 2. På det här viset väljer du vilken port som används på den valda sequencern. Starta sedan scummvm med –eseq parametern. Det här borde fungera på flera ljudkort och kan erbjuda bättre prestanda och kvalitet än AdLib-emulation. För de system som inte stöder sequencer MIDI kan du alltid använda AdLib-emulation istället.
+
+
+7.6.1) Ljud med ALSA sequencer:                                      [ENDAST UNIX]
+------ ------------------------
+Om du installerat ALSA-drivern med stöd för sequencer kan du ställa in environment-variabeln “SCUMMVM_PORT” eller konfigurationsfilsvariabeln “also_port” för att specificera sequencer-porten. Om ingendera är inställd är standardprocessen att försöka både ”65:0” och ”17:0”.
+
+Här är en kort guide för hur du använder ALSA sequencern med ditt ljudkort. För att få en lista på alla sequencer-portar du har, försök kommandot ”aconnect –o -l”. Det borde ge dig en output i stil med följande:
+
+client 14: 'Midi Through' [type=kernel]
+    0 'Midi Through Port-0'
+client 16: 'SBLive! Value [CT4832]' [type=kernel]
+    0 'EMU10K1 MPU-401 (UART)'
+client 17: 'Emu10k1 WaveTable' [type=kernel]
+    0 'Emu10k1 Port 0  '
+    1 'Emu10k1 Port 1  '
+    2 'Emu10k1 Port 2  '
+    3 'Emu10k1 Port 3  '
+client 128: 'TiMidity' [type=user]
+    0 'TiMidity port 0 '
+    1 'TiMidity port 1 '
+    2 'TiMidity port 2 '
+    3 'TiMidity port 3 '
+
+Viktigst här är att det finns fyra WaveTable MIDI-outputs på 17:0, 17:1, 17:2 och 17:3, samt fyra TiMidity-portar på 128:0, 128:1, 128:2 och 128:3.
+
+Om du har ett FM-chip på ditt kort, som på SB16, kan du ladda SoundFonts med hjälp av sbiload-mjukvaran. Exempel:
+
+  sbiload -p 17:0 /etc/std.o3 /etc/drums.o3
+
+Om du har ett WaveTable-kapabelt ljudkort måste du ladda ett sbk- eller sf2-SoundFont med hjälp av sfxload eller asfxload-mjukvaran. Exempel:
+
+  sfxload /path/to/8mbgmsfx.sf2
+
+Om du inte har ett MIDI-kapabelt ljudkort finns det två möjligheter:
+FluidSynth och TiMidity. Vi rekommenderar FluidSynth, då TiMidity kan orsaka musikfördröjning på många system. Detta är väldigt märkbart i iMUSE-spel, vilka använder snabba och dynamiska musikskiften. Att köra TiMidity som root låter det sätta upp aktiv tidsprioritering, vilket kan reducera musikfördröjningen.
+
+För att göra TiMidity till en ALSA sequencer:
+
+  timidity -iAqqq -B2,8 -Os1S -s 44100 &
+
+(Om du får förvrängd uppspelning med den här inställningen försök samma kommando utan –B2,8, eller ändra värdet.)
+
+För att göra FluidSynth till en ALSA sequencer (med SoundFonts):
+
+  fluidsynth -m alsa_seq /path/to/8mbgmsfx.sf2
+
+När antingen TiMidity eller FluidSynth väl är igång kan du använda “aconnect –o –l”-kommandot enligt ovan.
+
+
+7.6.2) Ljud med IRIX dmedia sequencer:                         [ENDAST UNIX]
+---- ---------------------------------
+Om du använder IRIX och dmedia-drivern med sequencer-stöd kan du ställa in environment-variabeln “SCUMMVM_MIDIPORT” eller konfigurationsfilsvariabeln “dmedia_port” för att specificera din sequencer-port. Standardprocessen är att använda den första porten.
+
+För att få en lista med konfigurerade midi-interface på ditt system, kör
+”startmidi” utan parametrar. Exempel på output:
+
+  2 konfigurerade MIDI interface:
+          Serial Port 2
+          Software Synth
+
+I exemplet ovan kan du konfigurera ScummVM att använda “Software Synth” istället för den standardförvalda “Serial Port 2” genom att lägga till följande rad
+
+   dmedia_port=Software Synth
+
+i din konfigurationsfil i avdelningen [scummvm] eller ställa in SCUMMVM_PORT=Software Synth i ditt environment.
+
+
+7.7) Att använda TiMidity++ MIDI-servern:
+---- ------------------------------------
+Om ditt system saknar en MIDI-sequencer men du fortfarande vill ha bättre MIDI-kvalitet än standard AdLib-emulation har att erbjuda kan du prova TiMidity++ MIDI-servern. Se http://timidity.sourceforge.net/ för instruktioner för nedladdning och installation.
+
+
+Först måste du starta en daemon:
+
+  timidity -ir 7777
+
+Nu kan du starta ScummVM och prova att välja TiMidity musikuppspelning. Som standard ansluter sig programmet till localhost:7777 men du kan ändra värd/port via ”TIMIDITY_HOST” environment-variabeln. Du kan även specificera ett enhetsnummer (device number) via environment-variabeln i ”SCUMMVM_MIDIPORT”.
+
+
+7.8) Att använda komprimerade ljudfiler
+---- ----------------------------------
+
+7.8.0) Att använda MP3 filer som CD-ljud:
+------ ----------------------------------
+Använd LAME eller en annan MP3-kodare för att extrahera ljudspåren från CD som filer. Namnge filerna track1.mp3, track2.mp3, etc. ScummVM måste ha kompilerats med MAD-stöd för att använda den här metoden. Om du behöver extrahera filerna från CD:n som WAV-filer, se till att koda MP3-filerna med konstant bit-ratio. Det kan du göra med följande kommandorad för LAME:
+
+  lame -t -q 0 -b 96 track1.wav track1.mp3
+
+
+7.8.1) Att använda Ogg Vorbis-filer som CD-ljud:
+------ -----------------------------------------
+Använd oggenc eller en annan vorbis-kompressor för att komprimera ljudspåren till filer. Namnge filerna track1.ogg, track2.ogg, etc. ScummVM måste kompileras med vorbis-stöd för att kunna använda den här funktionen. Du måste extrahera filerna från CD:n som WAV-filer, sedan komprimera vorbis-filerna. Detta kan göras via följande oggenc kommandorad. Värdet efter q specificerar önskad kvalitet från 0 till 10:
+
+  oggenc -q 5 track1.wav
+
+
+7.8.2) Att använda Flac-filer som CD-ljud:
+------ -----------------------------------
+Använd flac eller en annan flac-kompressor för att komprimera ljudspåren till filer. Namnge filerna track1.flac, track2.flac, etc. Om ditt filsystem endast tillåter tre bokstäver i filändelser, namnge filerna track1.fla, track2.fla, etc. ScummVM måste kompileras med flac-stöd för att använda den här funktionen. Du måste extrahera filerna från CD:n som WAV-filer, sedan komprimera flac-filerna. Detta kan göras med följande flac kommandorad:
+
+  flac --best track1.wav
+
+Kom ihåg att kvaliteten alltid är densamma; att ändra komprimeringsinställningarna påverkar endast komprimeringstiden och den slutgiltiga filstorleken.
+
+
+7.8.3) Att komprimera MONSTER.SOU med MP3:
+------ -----------------------------------
+Du behöver LAME och ”compress_scumm_sou”-verktyget från scummvm-tools paketet för att göra det här, och ScummVM  måste kompileras med MAD-stöd.
+
+  compress_scumm_sou monster.sou
+
+Till slut kommer du ha en mycket mindre monster.so3-fil. Kopiera den här filen till din spelkatalog. Du kan med säkerhet radera monster.sou-filen.
+
+
+7.8.4) Att komprimera MONSTER.SOU med Ogg Vorbis:
+------ ------------------------------------------
+Som ovan, men ScummVM måste kompileras med OGG-stöd. Kör
+
+  compress_scumm_sou --vorbis monster.sou
+
+Detta borde skapa en mindre monster.sog-fil som du bör kopiera till din spelkatalog. Ogg-kompression kan ta betydligt längre än MP3, så se till att ha en god bok tillhanda.
+
+
+7.8.5) Att komprimera MONSTER.SOU med Flac:
+------ ------------------------------------
+Som ovan, men ScummVM måste kompileras med Flac-stöd. Kör:
+
+  compress_scumm_sou --flac monster.sou
+
+Detta borde skapa en mindre monster.sof-fil som du bör kopiera till din spelkatalog. Kom ihåg att kvaliteten alltid är den samma; att ändra komprimeringsinställningarna påverkar endast komprimeringstiden och den slutgiltiga filstorleken. Att leka med blockstorleken (-b <value>) har störst inverkan på den slutliga filstorleken – 1152 verkar vara ett bra värde för dessa typer av ljudfiler. Se till att läsa instruktionerna för kompressorn innan du använder andra värden. 
+
+7.8.6) Att komprimera musik/ljudeffekter/tal i AGOS-spel:
+------ --------------------------------------------------
+Använd “compress_agos”-verktyget från scummvm-tools paketet för att göra det här. Du kan välja mellan ett flertal komprimeringsformat, men märk att du endast kan använda dem om ScummVM kompilerats med stöd för respektive dekoder.
+
+  compress_agos effects     (För Acorn CD-versionen av Simon 1)
+  compress_agos simon       (För Acorn CD-versionen av Simon 1)
+  compress_agos effects.voc (För DOS CD-versionen av Simon 1)
+  compress_agos simon.voc   (För DOS CD-versionen av Simon 1)
+  compress_agos simon.wav   (För Windows CD-versionen av Simon 1)
+  compress_agos simon2.voc  (För DOS CD-versionen av Simon 2)
+  compress_agos simon2.wav  (För Windows CD-versionen av Simon 2)
+  compress_agos mac         (För Macintosh-versionen av Simon 2)
+
+  compress_agos voices1.wav (För Windows 2CD/4CD-versionen av Feeble)
+  compress_agos voices2.wav (För Windows 2CD/4CD-versionen av Feeble)
+  compress_agos voices3.wav (För Windows 4CD-versionen av Feeble)
+  compress_agos voices4.wav (För Windows 4CD-versionen av Feeble)
+
+  compress_agos Music       (För Windows-versionen av Puzzle Pack)
+
+För Ogg Vorbis, lägg till --vorbis till inställningarna, t.ex.
+
+  compress_agos --vorbis
+
+För Flac, lägg till --flac och valfria parametrar, t.ex.
+
+  compress_agos –flac
+
+Till slut kommer du ha en mycket mindre *.mp3, *.ogg eller *.fla-fil. Kopiera den här filen till din spelkatalog. Du kan med säkerhet radera den gamla filen.
+
+
+7.8.7) Att komprimera tal/musik i Broken Sword:
+------ -----------------------------------------
+“Compress_sword1”-verktyget från scummvm-tools paketet kan komprimera musik och tal till MP3, Ogg Vorbis eller Flac. Det enklaste sättet att komprimera filerna är att kopiera programfilen till din BS1-katalog (tillsammans med lame-kompressorn) och köra den därifrån. På det här viset kommer den automatiskt komprimera allting till MP3. Efteråt kan du för hand radera SPEECH?.CLU-filerna och wave musik-filerna.
+
+Att köra "compress_sword1 --vorbis" komprimerar filerna med Ogg
+Vorbis istället för MP3.
+
+Att köra "compress_sword1 --flac" komprimerar filerna med Flac istället för MP3.
+
+Använd “compress_sword1 –-help” för att få en full lista med inställningar.
+
+
+7.8.8) Att komprimera tal/musik i Broken Sword II:
+------ -------------------------------------------
+Använd “compress_sword2”-verktyget från scummvm-tools paketet för att göra det här. Du kan välja mellan ett flertal komprimeringsformat, men märk att du endast kan använda dem om ScummVM kompilerats med stöd för respektive dekoder.
+
+  compress_sword2 speech1.clu
+  compress_sword2 music1.clu
+
+För Ogg Vorbis, lägg till --vorbis till inställningarna, t.ex.
+
+  compress_sword2 --vorbis
+
+Till slut kommer du ha en mycket mindre *.cl3 eller *.clg-fil. Kopiera den här filen till din spelkatalog. Du kan med säkerhet radera den gamla filen.
+
+Det är möjligt att använda Flac-komprimering genom att lägga till –-flac inställningen. Den resulterande *.clf-filen blir dock faktiskt större än originalfilen.
+
+Tänk på att compress_sword2 endast fungerar med de fyra tal/musikfilerna i Broken Sword II. Det fungerar inte för de andra *.clu-filerna, och inte heller med talfilerna från Broken Sword.
+
+
+7.9) Uppspelningsfrekvens:
+---- ---------------------
+Uppspelningsfrekvensen bestämmer hur många ljudsamplingar som spelas per kanal per sekund. Det finns mycket att säga om det här ämnet, men det mesta vore irrelevant här. Kortfattat är 22050 Hz gott nog för de flesta spelen, men i vissa fall är 44100 Hz att föredra. På extremt lågpresterande system kanske du vill använda 11025 Hz, men det är inte troligt att du behöver oroa dig för detta.
+
+De flesta ljuden ScummVM måste spela upp samplades med antingen 22050 Hz eller 11025 Hz. En högre uppspelningsfrekvens kommer alltså inte som av trolleri förbättra ljudkvaliten för dessa ljud. Sålunda räcker 22050 Hz gott och väl.
+
+Vissa spel använder CD-ljud. Om du vill använda komprimerade filer för CD-ljudspåren kan du utgå ifrån att de samplades med 44100 Hz, så för dessa spel är detta ett bättre val av uppspelningsfrekvens. 
+
+När du använder AdLib, FM Towns, PC Speaker eller IBM PCjr musikdrivers är ScummVM ansvarigt för att generera samplingarna. Vanligtvis är 22050 Hz mer än nog för dessa, men det finns minst ett stycke AdLib musik i Beneath a Steel Sky som låter mycket bättre i 44100 Hz.
+
+Att använda frekvenser mellan de ovansagda rekommenderas ej. Till att börja med finns risken att ditt ljudkort inte stöder dem. I teorin borde ScummVM växla till en mer resonlig frekvens i sådana fall, men räkna inte med det. Vad värre är måste ScummVM återsampla alla ljud till den nya uppspelningsfrekvensen. Detta är mycket lättare att göra ordentligt om ljudfrekvensen är en multipel av originalfrekvensen.
+
+
+8.0) Konfigurationsfilen:
+---- --------------------
+Som standard sparas och laddas konfigrationsfilen i:
+
+    Windows Vista/7:
+    \Users\username\AppData\Roaming\ScummVM\scummvm.ini,
+
+    Windows 2000/XP:
+    \Documents and Settings\username\Application Data\ScummVM\scummvm.ini,
+
+    Windows NT4:
+    <windir>\Profiles\username\Application Data\ScummVM\scummvm.ini,
+
+    Windows 95/98/ME:
+    <windir>\scummvm.ini,
+
+    Om en tidigare version av ScummVM installerats i Windows behålls
+    den tidigare standardsökvägen ”<windir>\scummvm.ini”.
+
+    Unix:
+    ~/.scummvmrc
+
+    Mac OS X:
+    ~/Library/Preferences/ScummVM Preferences
+    (här hänvisar ~ till din hemkatalog)
+
+    Övriga:
+    scummvm.ini i den nuvarande katalogen
+
+Ett exempel på en konfigurationsfil ser ut så här:
+
+    [scummvm]
+    gfx_mode=supereagle
+    fullscreen=true
+    savepath=C:\saves\
+
+    [sky]
+    path=C:\games\SteelSky\
+
+    [germansky]
+    gameid=sky
+    language=de
+    path=C:\games\SteelSky\
+    description=Beneath a Steel Sky w/ German subtitles
+
+    [germandott]
+    gameid=tentacle
+    path=C:\german\tentacle\
+    description=German version of DOTT
+
+    [tentacle]
+    path=C:\tentacle\
+    subtitles=true
+    music_volume=40
+    sfx_volume=255
+
+    [loomcd]
+    cdrom=1
+    path=C:\loom\
+    talkspeed=5
+    savepath=C:\loom\saves\
+
+    [monkey2]
+    path=C:\amiga_mi2\
+    music_driver=windows
+
+
+8.1) Igenkända nyckelord
+---- -------------------
+Följande nyckelord kan användas:
+
+    path               string   Sökvägen dit spelets datafiler ligger
+    autosave_period    number   Antal sekunder mellan autosparningar (standard: 300)
+    save_slot          number   Positionsnumret för spardata att ladda vid
+                                uppstart.
+    savepath           string   Sökvägen där spelet lagrar sina spardata.
+    versioninfo        string   Versionen av ScummVM som användes för att
+                                skapa konfigurationsfilen.
+
+    gameid             string   ID:n för ett spel. Användbart om du har
+                                flera olika versioner av samma spel och vill
+                                ha olika alias för dem. Se exempel.
+
+    description        string   Beskrivningen av spelet enligt launchern.
+
+    language           string   Bestäm språk (en, us, de, fr, it, pt, es,
+                                jp, zh, kr, se, gb, hb, cz, ru)
+    speech_mute        bool     Ställ in till “true” för att stänga av röster
+    subtitles          bool     Ställ in till “true” för att visa undertexter
+    talkspeed          number   Textfördröjning i SCUMM-spel, eller texthastighet
+                                i andra spel.
+
+    fullscreen         bool     Fullskärmsläge
+    aspect_ratio       bool     Aktivera korrektion av bildförhållande
+    gfx_mode           string   Grafikläge (normalt, 2x, 3x, 2xsai,
+                                super2xsai, supereagle, advmame2x, advmame3x,
+                                hq2x, hq3x, tv2x, dotmatrix)
+
+    confirm_exit       bool     Be om bekräftelse från användaren innan avslutnig
+                                (endast SDL-back-end).
+    console            bool     Öppna konsolfönstret (standard: på) (endast Windows)
+    cdrom              number   Nummer på CD-ROM enhet för använding av ljud.
+                                Försök inte använda CD-ROM enheten om detta numret
+                                är negativt.
+    joystick_num       number   Nummer på joystick-enhet att använda för input
+    music_driver       string   Musikenheten att använda.
+    opl_driver         string   AdLib (OPL)-emulatorn att använda.
+    output_rate        number   Uppspelningsvärdet i Hz. Lämpliga värden är
+                                11025, 22050 och 44100.
+    alsa_port          string   Port att använda för utmatning för ALSA-
+                                musikdrivern.
+    music_volume       number   Musikvolym (0-255)
+    multi_midi         bool     Ställ in till “true” för att kombinera AdLib
+                                och Native MIDI.
+    soundfont          string   SoundFont att använda för MIDI-uppspelning. (Stöds
+                                endast av vissa MIDI-drivers.)
+    native_mt32        bool     Ställ in till “true” för att deaktivera GM-
+                                emulation och utgå ifrån att en verklig Roland
+                                MT-32 finns tillhanda.
+    enable_gs          bool     Ställ in till “true” för att aktivera Roland GS-
+                                specifika funktioner för att förbättra GM-
+                                emulation. Om native_mt32 även ställts till ”true”
+                                kommer GS-enheten att välja en MT-32 karta för att
+                                spela rätt instrument.
+    sfx_volume         number   Ljudeffektsvolym (0-255)
+    tempo              number   Musiktempo (50-200) (standard: 100)
+    speech_volume      number   Röstvolym (0-255)
+    midi_gain          number   MIDI gain (0-1000) (standard: 100) (Stöds endast
+                                av vissa MIDI-drivers.)
+
+    copy_protection    bool     Aktiverar kopieringsskyddet för vissa spel i fall
+                                där ScummVM automatiskt deaktiverar det.
+    demo_mode          bool     Öppna demon i Maniac Mansion
+    alt_intro          bool     Använd alternativt intro för CD-versionerna av
+                                Beneath a Steel Sky och Flight of the Amazon
+                                Queen
+
+    boot_param         number   Skicka det här numret till boot script
+
+Sierra-spel som använder AGI-motorn använder även följande nyckelord:
+
+    originalsaveload   bool     Ställ in till “true” för att använda
+                                originalskärmarna för ladda/spara
+                                istället för ScummVM:s förbättrade
+                                skärmar
+
+Sierra-spel som använder SCI-motorn använder även följande nyckelord:
+
+    disable_dithering  bool     Tar bort gitter artefakter från EGA-spel
+    prefer_digitalsfx  bool     Ställ in till “true” för att föredra
+                                digitala ljudeffekter istället för
+                                syntetiserade ljudeffekter
+    originalsaveload   bool     Ställ in till “true” för att använda
+                                originalskärmarna för ladda/spara
+                                istället för ScummVM:s förbättrade
+                                skärmar
+    native_fb01        bool     Ställ in till “true” för att använda
+                                ett IBM Music Feature-kort eller en
+                                Yamaha FB-01 FM synthmodul för
+                                MIDI-uppspelning
+
+
+Broken Sword II lägger till följande nyckelord:
+
+    gfx_details        number   Grafisk detalj (0-3)
+    music_mute         bool     Ställ in till “true” för att deaktivera musik
+    object_labels      bool     Ställ in till “true” för att aktivera etiketter för                          
+                                föremål
+    reverse_stereo     bool     Ställ in till “true” för att ivertera  
+                                stereokanalerna
+    sfx_mute           bool     Ställ in till “true” för att deaktivera      
+                                ljudeffekter
+
+Flight of the Amazon Queen lägger till följande nyckelord:
+
+    music_mute         bool     Ställ in till “true” för att deaktivera musik
+    sfx_mute           bool     Ställ in till “true” för att deaktivera      
+                                ljudeffekter
+
+
+Jones in the Fast Lane använder även följande nyckelord:
+    music_mute         bool     Ställ in till “true” för att använda
+                                CD-ljud, om tillgängligt, istället
+                                spelets vanliga ljud.
+      
+
+King's Quest VI Windows lägger till följande nyckelord:
+
+    windows_cursors    bool     Ställ in till “true” för att använda de svartvita
+                                Windows-muspekarna istället för DOS-muspekarna.
+                                Ställ in till ”false” för att använda de uppskalade
+                                muspekarna som matchar resten av grafiken.
+    
+
+Lands of Lore: The Throne of Chaos använder även följande nyckelord:
+
+    smooth_scrolling   bool     Ställ in till “true” för mjukare
+                                skärmrullning när du går från en
+                                skärm till en annan.
+    floating_cursors   bool     Ställ in till “true” för att ändra
+                                pekaren till en riktningspil när den
+                                närmar sig kanten av skärmen. Spelaren
+                                kan sedan klicka för att gå mot
+                                den riktningen.
+
+
+Space Quest IV CD använder även följande nyckelord:
+
+     silver_cursors    bool     Ställ in till “true” för att använda
+                                silverpekare istället för gulpekarna
+
+
+Simon the Sorcerer 1 och 2 lägger till följande nyckelord:
+
+    music_mute         bool     Ställ in till “true” för att deaktivera musik
+    sfx_mute           bool     Ställ in till “true” för att deaktivera      
+                                ljudeffekter
+
+
+The Legend of Kyrandia lägger till följande nyckelord:
+
+    walkspeed          int      Gånghastighet (0-4)
+
+
+The Legend of Kyrandia: Malcolm's Revenge använder även följande nyckelord:
+
+    studio_audience    bool     Ställ in till “true” för att höra
+                                skratt och applåder när Malcolm
+                                berättar ett skämt
+    skip_support       bool     Ställ in till “true” för att kunna
+                                skippa text och filmscener
+    helium_mode        bool     Ställ in till “true” så låter folk
+                                som att dom inandats helium
+
+The 7th Guest använder även följande nyckelord:
+
+    t7g_speed          string   Hastighet på videouppspelning
+                                (normal, tweaked, im_an_ios)
+
+
+8.2) Spelinställningar som kan aktiveras via användargränssnittet
+---- ------------------------------------------------------------
+Många av inställningarna i den föregående avdelningen kan aktiveras via användargränssnittet. Om en inställning finns tillgänglig för ett specifikt spel visas en ny tabb med namnet ”Motor” när du lägger till eller ändrar inställningarna för spelet.
+Om specialinställningarna inte visas måste spelet köras en gång eller läggas till igen i spellistan i ScummVM:s launcher. Detta uppdaterar inställningarna för varje spel, vilket låter specialinställningarna visas.
+
+
+9.0) Kompilering:
+---- ------------
+För en uppdaterad överblick för hur man kompilerar ScummVM på diverse plattformar var god se vår Wiki, speciellt den här här sidan:
+   http://wiki.scummvm.org/index.php/Compiling_ScummVM
+
+Om du kompilerar för Windows, Linux eller Mac OS X behöver du SDL-1.2.2 eller senare (äldre versioner kan fungera, men stöds inte) och ett stött kompileringsprogram. Flera kompileringsprogram inklusive GCC, mingw och senare versioner av Microsoft Visual C++ stöds. Om du vill använda MP3-komprimerade CD-spår eller .SOU-filer måste du installera MAD-biblioteket; på samma sätt behöver du de nödvändiga biblioteken för Ogg Vorbis och FLAC-komprimerat ljud. För komprimerade spardata krävs zlib.
+
+Vissa delar av ScummVM, speciellt skalningsfilter, har optimerade versioner skrivna i assembler-kod. Om du vill använda dem måste du installera nasm-assemblern (se http://nasm.sf.net). Märk att vi för tillfället endast har optimerade versioner för x86 MMX och att de inte kan kompileras med andra processorer.
+
+På Win9x/NT/XP kan du definiera USE_WINDBG och lägga till WinDbg för att visa debug-meddelanden (se http://www.sysinternals.com/ntw2k/freeware/debugview.shtml).
+
+  GCC och MinGW32:
+    * Skriv "./configure"
+    * Skriv "make" (eller "gmake", eller "gnumake", beroende på vilken GNU 
+      används av ditt system) så kompilerar ScummVM förhoppningsvis allt åt dig.
+    * För ytterligare information se:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/GCC
+      eller
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/MinGW
+
+  Microsoft Visual C++ 8/9/10:
+    * Läs på hur man skapar projekt-filerna i "dists\msvc8",
+      "dists\msvc9" eller "dists\msvc10".
+    * Öppna den resulterade lösningsfilen.
+    * Ange sökvägen till de nödvändiga biblioteken och include-resurserna i
+      Tools|Options|Projects and Solutions|VC++ Directories.
+    * Programmet borde nu kompileras utan problem.
+    * För mer information se:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/VS2005
+
+  Windows Mobile:
+    * Var god se:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/Windows_CE
+
+  Mac OS X:
+    * Se till att du har utvecklingsverktygen istallerade.
+    * SDL-utvecklingspaketet för OS X som finns tillgängligt på SLD:s hemsida
+      är INTE lämpligt. Du behöver istället en unix-artad kompilation av SDL.
+      Ett sätt att få tag i en sådan är att installera SDL via Fink
+      (http://fink.sf.net). Annars kan du kompilera SDL manuellt från källkoden
+      med unix build-systemet (configure && make).
+    * Skriv "./configure" i ScummVM-katalogen.
+    * Du kan nu skriva ”make” för att skapa en kommandorad-binary.
+    * För att få en version du kan köra från Finder, skriv “make bundle” vilket
+      skapar ScummVM.app (det här fungerar endast om du installerade SDL i /sw
+      (vilket sker om du använder Fink). Om du installerade SDL på annat vis måste
+      du redigera ports.mk).
+    * För ytterligare information se:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/MacOS_X_Crosscompiling
+
+  AmigaOS 4 (Kors-kompilering med Cygwin):
+    * Se till att du har SDL installerad. Du kan även behöva
+      libogg, libvorbis, libvorbisfile, zlib, libmad.
+    * Skriv ./configure --host=ppc-amigaos
+    * Om du får ett felmeddelande om sdl-config, använd --with-sdl-prefix
+      parametern för att ställa in sökvägen.
+    * Kolla ”config.mk” filen och om allt ser ut att vara som det ska:
+    * Kör ”make”.
+    * Att kors-kompilera med Linux kan vara lika enkelt.
+
+  iPhone:
+    * Var god se:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/iPhone
+
+  Maemo:
+    * Installera Maemo SDK med 4.1.2 rootstrap
+    * Installera libmad, Tremor, FLAC från källkoden
+    * Kör ”ln -s backends/platform/maemo/debian”
+    * Uppdatera debian/changelog
+    * Kör ”sb2 dpkg-buildpackage –b”
+
+------------------------------------------------------------------------
+Lycka till och glada äventyr!
+ScummVM-teamet.
+http://www.scummvm.org/
+------------------------------------------------------------------------

@@ -1,0 +1,108 @@
+/* ScummVM - Graphic Adventure Engine
+ * Copyright (C) 2003-2005 Andreas 'Sprawl' Karlsson - Original EPOC port, ESDL
+ * Copyright (C) 2003-2005 Lars 'AnotherGuest' Persson - Original EPOC port, Audio System
+ * Copyright (C) 2005 Jurgen 'SumthinWicked' Braam - EPOC/CVS maintainer
+ * Copyright (C) 2005-2006 The ScummVM project
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *
+ */
+
+//
+// EPOC UIQ MMP makefile project for ScummVM
+//
+
+// *** Definitions
+
+TARGET          SCUMMVM.APP
+TARGETPATH      system\apps\ScummVM
+TARGETTYPE      app
+
+OPTION			MSVC /QIfist /Ob1 /Oy /GF // /QIfist disables use of __ftol2 to avoid linker probs with MS libc: http://msdn.microsoft.com/library/default.asp?url=/library/en-us/vccore/html/vcrefQIfistSuppress_ftol.asp
+OPTION			GCC -Wno-multichar -Wno-reorder // don't optimize for ARM, platform way too sensitive for that :( just turn off some common warnings
+
+RESOURCE		ScummVM.rss
+EPOCSTACKSIZE	0x80008000 // this enables ECompXL app compression
+AIF				ScummVm.Aif ..\res\ ScummVmAif.rss c16 ScummL.bmp ScummLM.bmp ScummS.bmp ScummSM.bmp
+UID             0x100039ce 0x101f9b57
+
+MACRO			UIQ
+
+//START_AUTO_MACROS_SLAVE//
+
+	// empty base file, will be updated by Perl build scripts
+
+//STOP_AUTO_MACROS_SLAVE//
+
+// *** Static Libraries
+
+STATICLIBRARY esdl.lib
+
+#if !defined(WINS)
+STATICLIBRARY egcc.lib // for __fixunsdfsi
+#endif
+
+// *** Include paths
+
+USERINCLUDE	    ..\..\..\.. ..\..\..\..\common ..\..\..\..\gui ..\..\..\..\engines
+USERINCLUDE		..\..\..\..\backends\fs ..\src ..\..\..\..\backends\platform\sdl ..\..\..\..\sound
+
+SYSTEMINCLUDE	\epoc32\include\ESDL
+SYSTEMINCLUDE	\epoc32\include\ZLIB // before \epoc32\include because symbian already has older version
+SYSTEMINCLUDE   \epoc32\include\libc
+SYSTEMINCLUDE   \epoc32\include
+SYSTEMINCLUDE   ..\src // for portdefs.h
+
+// *** SOURCE files
+
+SOURCEPATH ..\..\..\..\base
+
+//START_AUTO_OBJECTS_BASE_//
+
+	// empty base file, will be updated by Perl build scripts
+
+//STOP_AUTO_OBJECTS_BASE_//
+
+SOURCEPATH ..\..\..\..
+
+// backend EPOC/SDL/ESDL specific includes
+SOURCE backends\platform\sdl\events.cpp
+SOURCE backends\platform\sdl\graphics.cpp
+SOURCE backends\platform\sdl\sdl.cpp
+SOURCE backends\fs\symbian\symbian-fs.cpp
+SOURCE backends\platform\symbian\src\SymbianOS.cpp
+SOURCE backends\platform\symbian\src\SymbianActions.cpp
+SOURCE backends\platform\symbian\src\ScummApp.cpp
+
+SOURCE gui\Key.cpp
+SOURCE gui\KeysDialog.cpp
+SOURCE gui\Actions.cpp
+SOURCE gui\Dialog.cpp
+
+// Special for graphics
+source graphics\iff.cpp
+
+// *** Dynamic Libraries
+
+LIBRARY cone.lib  eikcore.lib
+LIBRARY euser.lib apparc.lib fbscli.lib
+LIBRARY estlib.lib apgrfx.lib
+LIBRARY gdi.lib hal.lib
+LIBRARY mediaclientaudiostream.lib efsrv.lib ws32.lib
+LIBRARY qikctl.lib bafl.lib
+
+START WINS
+WIN32_LIBRARY	lldiv.obj llmul.obj llshl.obj
+END

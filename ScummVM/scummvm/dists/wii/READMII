@@ -1,0 +1,108 @@
+README for the Wii/Gamecube port of ScummVM 
+-------------------------------------------
+
+REQUIREMENTS
+
+  Wii:
+    - Supported SD card or USB mass storage device
+    - Wiimote or Gamecube controller in port 1
+
+  Gamecube:
+    - Supported SD card
+    - SD Gecko adapter
+    - Gamecube controller in port 1
+
+INSTALL
+
+  - Copy the "scummvm" folder to the "/apps" folder of your chosen storage
+    media
+  - Copy your demos and/or games to the SD card, USB mass storage device or
+    burn them on a DVD-R using the ISO9660 standard. A DVDX install is
+    required for DVD support. DVDX can be installed through the HackMii
+    installer, available at http://bootmii.org/download/
+
+    Supported freeware games: http://scummvm.org/downloads.php#extras
+    Supported demo versions: http://scummvm.org/demos.php
+
+RUN
+
+  Wii:
+    Either use The Homebrew Channel, available at
+    http://hbc.hackmii.com/ and http://bootmii.org/download/
+    or load "/apps/scummvm/boot.dol" with your favorite loader.
+
+  Gamecube:
+    Load "/apps/scummvm/scummvm-gc.dol" with your favorite loader.
+
+CONTROLS
+
+  Wiimote
+
+    IR: Mouse movement
+    A: Left mouse button
+    B: Right mouse button
+    Minus: Escape
+    Plus: "." (Skip current line of text)
+    2: Enter
+    1: Port specific options dialog
+    Home: F5 (ScummVM menu)
+    DPad up: Shift (Mass-add for the launcher, combined with home: GMM)
+    DPad down: Virtual keyboard
+    DPad right: Predictive dialog (only in AGI games)
+
+  Gamecube pad
+
+    Analog stick: Mouse movement
+    A: Left mouse button
+    B: Right mouse button
+    X: Escape
+    Y: "." (Skip current line of text)
+    Z: Enter
+    R: Port specific options dialog
+    Start: F5 (ScummVM menu)
+    DPad up: Shift (Mass-add for the launcher, combined with start: GMM)
+    DPad down: Virtual keyboard
+    DPad right: Predictive dialog (only in AGI games)
+
+DISPLAY SETUP
+
+  "Graphics mode"
+    There are 4 modes to choose from:
+    1) Default
+    2) Default, bilinear filtering
+    3) Double-strike
+    4) Double-strike, bilinear filtering
+
+    Double-strike modes render at half the vertical resolution. On interlaced
+    modes this means that only one field is used for rendering, effectively
+    using progressive frames (240p) with no "combing" effect. These modes
+    improve the picture quality for low-res games, especially on CRTs.
+    Not all display devices support these modes. Only available for games with
+    a vertical resolution of 240 pixels or less.
+
+    Bilinear filtering softens the picture to some degree. This is a feature of
+    the GPU (no game performance loss).
+
+  "Aspect ratio correction"
+    Some games run at a native resolution of 320x200 pixels using non-square
+    pixels for a 4:3 display. This video mode is not available on the Wii or
+    Gamecube, and this feature stretches the picture to 320x240 pixels to the
+    original 4:3 aspect ratio.
+
+  "Fullscreen mode"
+    If your Wii is set to 16:9, this will stretch the picture to fullscreen.
+    Turning this option off results in pillarboxing (black borders on the left
+    and right sides), but the aspect ratio will be kept. This option has no
+    effect on 4:3 setups.
+
+  If the picture gets cropped or black bars are visible, use the Wii options
+  dialog to adjust the video output to your display device. Pressing 1 on the
+  Wiimote or R on the Gamecube pad opens this dialog. The presented video
+  options have to be set for the default and the double-strike modes
+  independently.
+
+THANKS
+
+  shagkur and WinterMute, for devkitppc/libogc and the coorperation
+  svpe, for fixing the libfat feof/thread bugs on the last minute
+  para, for making wiiuse available in libogc

@@ -1,0 +1,37 @@
+$Id$
+
+-- 2.4 --
+* Changed upval unboxing to allow upvals which contain func-housed cycles
+* Added stack checking to all stack-growing functions
+* Serialized debug information for functions
+
+-- 2.3 --
+* Added LUALIB_API declaration for luaopen_pluto
+
+-- 2.2 --
+* Rolled all internal Lua dependencies into the Pluto distribution
+* Made the unit tests depend on dynamically loading Pluto
+
+-- 2.1 --
+* Various fixes to make the GC happy
+* stack size always expanded where necessary
+* fixed some memory leaks
+* GC disabled during unpersist
+* callstack initialized for traversal
+
+This changelog is maintained as of version 2.0alpha1. 
+Earlier versions are changelogged on the LuaForge site.
+
+-- 2.0 --
+* Fixed a few format changes to 5.1.3
+* Fixed myriad warnings
+* GCC compliance: not incrementing cast results
+* Fix for self-referring upvals
+* Renamed loading function to work with Lua module system
+* Loading tables with __newindex works
+* unpersist makes buffer copy
+
+-- 2.0alpha1 --
+* Fixed all outstanding 5.0->5.1 conversion issues
+* Made heavier use of size_t in preference to int
+* Fixed GC/Upval issue (thanks to Eric Jacobs)

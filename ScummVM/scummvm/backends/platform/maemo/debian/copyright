@@ -1,0 +1,22 @@
+ScummVM was debianized by Bastien Nocera <hadess@hadess.net> the 5th Apr 2002.
+It was adopted by Tore Anderson <tore@linpro.no> the 4th Oct 2002.
+Packaged for the Maemo platform by Tomas Junnoen <tomas@fs-security.com> Oct 2005
+From 0.8.2 to 1.2.1, packaging for Maemo was done by Frantisek Dufka <dufkaf@seznam.cz>
+Since 1.4 packaging for Maemo is done by Tarek Soliman <tarek@bashasoliman.com>
+
+It was downloaded from <http://www.scummvm.org/>.
+
+Upstream Authors: see AUTHORS file of the ScummVM source distribution.
+
+Copyright:
+
+ This program is free software; you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 2, or (at your option) any
+ later version. In addition, some parts are also licensed under LGPL and 
+ BSD licenses. See COPYING.BSD and COPYING.LGPL.
+
+ On Debian GNU/Linux systems, the complete text of the GNU General
+ Public License can be found in `/usr/share/common-licenses/GPL'.
+
+This copyright also applies to the Debian-related build scripts.

@@ -1,0 +1,12 @@
+PRJ_PLATFORMS
+GCCE WINSCW
+
+PRJ_MMPFILES
+//START_AUTO_PROJECTS//
+
+	// empty base file, will be updated by Perl build scripts
+
+//STOP_AUTO_PROJECTS//
+gnumakefile icons.mk
+.\ScummVM_A0000658_S60v3.mmp
+.\ScummVM_S60v3.mmp

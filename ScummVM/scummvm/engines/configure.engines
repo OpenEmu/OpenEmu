@@ -1,0 +1,51 @@
+# This file is included from the main "configure" script
+# add_engine [name] [desc] [build-by-default] [subengines] [base games] [deps]
+add_engine scumm "SCUMM" yes "scumm_7_8 he" "v0-v6 games"
+add_engine scumm_7_8 "v7 & v8 games" yes
+add_engine he "HE71+ games" yes
+add_engine agi "AGI" yes
+add_engine agos "AGOS" yes "agos2" "AGOS 1 games"
+add_engine agos2 "AGOS 2 games" yes
+add_engine cge "CGE" yes
+add_engine cine "Cinematique evo 1" yes
+add_engine composer "Magic Composer" yes
+add_engine cruise "Cinematique evo 2" yes
+add_engine draci "Dragon History" yes
+add_engine drascula "Drascula: The Vampire Strikes Back" yes
+add_engine dreamweb "Dreamweb" yes
+add_engine gob "Gobli*ns" yes
+add_engine groovie "Groovie" yes "groovie2" "7th Guest"
+add_engine groovie2 "Groovie 2 games" no
+add_engine hugo "Hugo Trilogy" yes
+add_engine kyra "Kyra" yes "lol eob" "Legend of Kyrandia 1-3"
+add_engine lol "Lands of Lore" yes
+add_engine eob "Eye of the Beholder" no
+add_engine lastexpress "The Last Express" no "" "" "16bit"
+add_engine lure "Lure of the Temptress" yes
+add_engine made "MADE" yes
+add_engine mohawk "Mohawk" yes "cstime myst riven" "Living Books"
+add_engine cstime "Where in Time is Carmen Sandiego?" no
+add_engine riven "Riven: The Sequel to Myst" no "" "" "16bit"
+add_engine myst "Myst" no "" "" "16bit"
+add_engine parallaction "Parallaction" yes
+add_engine pegasus "The Journeyman Project: Pegasus Prime" no "" "" "16bit"
+add_engine queen "Flight of the Amazon Queen" yes
+add_engine saga "SAGA" yes "ihnm saga2" "ITE"
+add_engine ihnm "IHNM" yes
+add_engine saga2 "SAGA 2 games" no
+add_engine sci "SCI" yes "sci32" "SCI 0-1.1 games"
+add_engine sci32 "SCI32 games" no
+add_engine sky "Beneath a Steel Sky" yes
+add_engine sword1 "Broken Sword" yes
+add_engine sword2 "Broken Sword II" yes
+add_engine sword25 "Broken Sword 2.5" no "" "" "png zlib 16bit"
+add_engine teenagent "Teen Agent" yes
+add_engine testbed "TestBed: the Testing framework" no
+add_engine tinsel "Tinsel" yes
+add_engine toltecs "3 Skulls of the Toltecs" no
+add_engine toon "Toonstruck" yes
+add_engine touche "Touche: The Adventures of the Fifth Musketeer" yes
+add_engine tony "Tony Tough and the Night of Roasted Moths" yes "" "" "16bit"
+add_engine tsage "TsAGE" yes
+add_engine tucker "Bud Tucker in Double Trouble" yes
+add_engine wintermute "Wintermute" no "" "" "png zlib vorbis 16bit"

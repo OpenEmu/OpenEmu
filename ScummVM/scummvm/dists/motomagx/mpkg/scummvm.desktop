@@ -1,0 +1,6 @@
+[Desktop Entry]
+BigIcon = scummvm_usr.png
+Directory = scummvm
+Exec = scummvm.sh
+AniIcon = scummvm_usr.png
+Name = ScummVM

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+HOME=`pwd`
+$HOME/scummvm.elf

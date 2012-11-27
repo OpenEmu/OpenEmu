@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<sfo>
+	<value name="ATTRIBUTE" type="integer">
+		0
+	</value>
+	<value name="BOOTABLE" type="integer">
+		1
+	</value>
+	<value name="CATEGORY" type="string">
+		HG
+	</value>
+	<value name="PARENTAL_LEVEL" type="integer">
+		0
+	</value>
+	<value name="PS3_SYSTEM_VER" type="string">
+		01.8000
+	</value>
+	<value name="RESOLUTION" type="integer">
+		63
+	</value>
+	<value name="SOUND_FORMAT" type="integer">
+		279
+	</value>
+	<value name="TITLE" type="string">
+		ScummVM
+	</value>
+	<value name="TITLE_ID" type="string">
+		SCUM12000
+	</value>
+	<value name="VERSION" type="string">
+		01.00
+	</value>
+</sfo>

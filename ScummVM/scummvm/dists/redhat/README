@@ -1,0 +1,34 @@
+How to build an RPM:
+
+
+Note: the following assumes that the RPM topdir is /usr/src/redhat .
+If you have set a different topdir in /usr/lib/rpm/macros or ~/.rpmmacros,
+adapt the below instructions where necessary.
+
+
+1) Collect sources:
+
+Place scummvm-%{version}.tar.bz2 and libmad-0.15.1b.tar.bz2 
+in /usr/src/redhat/SOURCES .
+If you have a different version of libmad, put the correct version
+numbers in the .spec file.
+
+Place scummvm.spec in /usr/src/redhat/SPECS .
+
+2) Build the rpm:
+
+Change directory to /usr/src/redhat/SPECS .
+Run:
+
+rpmbuild -ba scummvm.spec
+
+The RPM should now be built and placed in /usr/src/redhat/RPMS/i386 and
+the source RPM in /usr/src/redhat/SRPMS
+
+
+
+
+Note: libmad is statically linked into the scummvm binary
+because Fedora does not carry a libmad package, so I did not
+want to make the scummvm package depend on them.
+You can get libmad from http://www.underbit.com/products/mad/ .

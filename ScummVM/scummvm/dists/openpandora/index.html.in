@@ -1,0 +1,26 @@
+<html>
+
+<h3>
+  <p>Welcome to the ScummVM!</p>
+</h3>
+
+<h4>
+  <p>ScummVM @VERSION@: OpenPandora Specific Documentation</p>
+</h4>
+
+<A href="docs/README-OPENPANDORA">ScummVM OpenPandora README</a><br/>
+<A href="http://scummvm.distant-earth.com/">ScummVM OpenPandora Website</a><br/>
+<A href="http://wiki.scummvm.org/index.php/OpenPandora">ScummVM OpenPandora WiKi</a><br/>
+
+<h4>
+  <p>ScummVM @VERSION@: General Documentation</p>
+</h4>
+
+<A href="http://www.scummvm.org/">ScummVM website</a><br/>
+<A href="docs/README">ScummVM README</a><br/>
+<A href="docs/NEWS">ScummVM NEWS</a><br/>
+<A href="docs/AUTHORS">ScummVM Authors</a><br/>
+<A href="docs/COPYRIGHT">ScummVM Copyright</a><br/>
+<A href="docs/COPYING">GPL Licence</a><br/>
+
+</html>

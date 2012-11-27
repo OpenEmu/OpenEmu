@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<keyboard initial_mode="lowercase" v_align="bottom" h_align="center">
+<!-- coords key = "start x, start y, end x, end y" -->
+  <!-- Lowercase -->
+  <mode name="lowercase" resolutions="320x240,640x480">
+    <layout resolution="320x240" bitmap="lowercase320x240.bmp" transparent_color="255,0,255">
+      <map>
+        <area shape="rect" coords="13,8,306,20" target="display_area" />
+        <area shape="rect" coords="9,26,25,42" target="esc" />
+        <area shape="rect" coords="50,25,67,43" target="f2" />
+        <area shape="rect" coords="29,24,46,43" target="f1" />
+        <area shape="rect" coords="71,26,88,44" target="f3" />
+        <area shape="rect" coords="90,25,107,43" target="f4" />
+        <area shape="rect" coords="111,26,128,44" target="f5" />
+        <area shape="rect" coords="132,26,149,44" target="f6" />
+        <area shape="rect" coords="153,25,170,44" target="f7" />
+        <area shape="rect" coords="173,26,190,44" target="f8" />
+        <area shape="rect" coords="194,24,211,43" target="f9" />
+        <area shape="rect" coords="215,26,231,44" target="f10" />
+        <area shape="rect" coords="235,26,253,43" target="f11" />
+        <area shape="rect" coords="255,26,272,45" target="f12" />
+        <area shape="rect" coords="276,27,310,43" target="del" />
+        <area shape="rect" coords="276,46,299,65" target="delete" />
+        <area shape="rect" coords="300,46,311,65" target="backspace" />
+        <area shape="rect" coords="8,68,32,85" target="tab" />
+        <area shape="rect" coords="36,68,53,85" target="q" />
+        <area shape="rect" coords="57,68,75,86" target="w" />
+        <area shape="rect" coords="78,67,94,85" target="e" />
+        <area shape="rect" coords="98,67,115,85" target="r" />
+        <area shape="rect" coords="119,67,136,85" target="t" />
+        <area shape="rect" coords="141,68,158,86" target="y" />
+        <area shape="rect" coords="161,67,179,86" target="u" />
+        <area shape="rect" coords="182,67,199,86" target="i" />
+        <area shape="rect" coords="202,67,220,85" target="o" />
+        <area shape="rect" coords="223,68,240,86" target="p" />
+        <area shape="rect" coords="44,88,63,107" target="a" />
+        <area shape="rect" coords="65,88,84,106" target="s" />
+        <area shape="rect" coords="86,89,104,107" target="d" />
+        <area shape="rect" coords="107,89,124,107" target="f" />
+        <area shape="rect" coords="128,89,145,107" target="g" />
+        <area shape="rect" coords="149,88,165,107" target="h" />
+        <area shape="rect" coords="169,89,186,107" target="j" />
+        <area shape="rect" coords="189,89,207,107" target="k" />
+        <area shape="rect" coords="210,89,228,107" target="l" />
+        <area shape="rect" coords="273,89,311,106" target="enter" />
+        <area shape="rect" coords="9,110,50,127" target="shift" />
+        <area shape="rect" coords="8,89,41,106" target="caps" />
+        <area shape="rect" coords="58,110,75,128" target="z" />
+        <area shape="rect" coords="79,110,96,128" target="x" />
+        <area shape="rect" coords="99,109,116,127" target="c" />
+        <area shape="rect" coords="120,110,138,128" target="v" />
+        <area shape="rect" coords="141,109,157,127" target="b" />
+        <area shape="rect" coords="162,110,179,128" target="n" />
+        <area shape="rect" coords="182,110,199,128" target="m" />
+        <area shape="rect" coords="271,109,311,128" target="symbols" />
+        <area shape="rect" coords="9,130,33,148" target="ctrl" />
+        <area shape="rect" coords="38,130,61,147" target="alt" />
+        <area shape="rect" coords="67,130,262,148" target="space" />
+        <area shape="rect" coords="8,47,26,64" target="|" />
+        <area shape="rect" coords="28,47,45,64" target="1" />
+        <area shape="rect" coords="50,47,67,65" target="2" />
+        <area shape="rect" coords="70,46,87,65" target="3" />
+        <area shape="rect" coords="91,46,108,64" target="4" />
+        <area shape="rect" coords="111,46,129,65" target="5" />
+        <area shape="rect" coords="132,47,149,65" target="6" />
+        <area shape="rect" coords="152,47,170,64" target="7" />
+        <area shape="rect" coords="174,46,191,63" target="8" />
+        <area shape="rect" coords="194,47,211,65" target="9" />
+        <area shape="rect" coords="215,46,232,64" target="0" />
+        <area shape="rect" coords="235,47,252,65" target="-" />
+        <area shape="rect" coords="255,46,272,65" target="=" />
+        <area shape="rect" coords="244,68,261,86" target="[" />
+        <area shape="rect" coords="264,67,282,86" target="]" />
+        <area shape="rect" coords="284,68,309,86" target="#" />
+        <area shape="rect" coords="231,88,249,106" target=";" />
+        <area shape="rect" coords="251,89,269,107" target="’" />
+        <area shape="rect" coords="202,110,219,128" target="," />
+        <area shape="rect" coords="223,110,241,128" target="." />
+        <area shape="rect" coords="243,110,261,128" target="/" />
+        <area shape="rect" coords="269,131,288,150" target="ok" />
+        <area shape="rect" coords="292,131,311,150" target="cancel" />
+      </map>
+    </layout>
+    <layout resolution="640x480" bitmap="lowercase640x480.bmp" transparent_color="255,0,255">
+      <map>
+        <area shape="rect" coords="26,23,613,37" target="display_area" />
+        <area shape="rect" coords="18,52,51,85" target="esc" />
+        <area shape="rect" coords="100,51,135,88" target="f2" />
+        <area shape="rect" coords="59,49,94,88" target="f1" />
+        <area shape="rect" coords="142,53,176,89" target="f3" />
+        <area shape="rect" coords="181,51,216,87" target="f4" />
+        <area shape="rect" coords="223,52,258,88" target="f5" />
+        <area shape="rect" coords="265,52,299,89" target="f6" />
+        <area shape="rect" coords="306,51,341,90" target="f7" />
+        <area shape="rect" coords="347,53,382,89" target="f8" />
+        <area shape="rect" coords="389,49,424,88" target="f9" />
+        <area shape="rect" coords="431,52,464,89" target="f10" />
+        <area shape="rect" coords="470,53,506,88" target="f11" />
+        <area shape="rect" coords="511,52,546,90" target="f12" />
+        <area shape="rect" coords="552,55,620,87" target="del" />
+        <area shape="rect" coords="552,93,598,131" target="delete" />
+        <area shape="rect" coords="601,93,623,131" target="backspace" />
+        <area shape="rect" coords="17,136,66,171" target="tab" />
+        <area shape="rect" coords="73,137,108,171" target="q" />
+        <area shape="rect" coords="114,136,150,172" target="w" />
+        <area shape="rect" coords="157,134,189,171" target="e" />
+        <area shape="rect" coords="197,135,232,171" target="r" />
+        <area shape="rect" coords="239,135,274,172" target="t" />
+        <area shape="rect" coords="282,136,317,173" target="y" />
+        <area shape="rect" coords="322,135,359,173" target="u" />
+        <area shape="rect" coords="364,134,399,172" target="i" />
+        <area shape="rect" coords="404,135,440,171" target="o" />
+        <area shape="rect" coords="446,136,480,172" target="p" />
+        <area shape="rect" coords="89,177,127,216" target="a"/>
+        <area shape="rect" coords="131,177,169,214" target="s" />
+        <area shape="rect" coords="173,178,209,215" target="d" />
+        <area shape="rect" coords="215,178,250,214" target="f" />
+        <area shape="rect" coords="256,178,291,214" target="g" />
+        <area shape="rect" coords="299,176,332,214" target="h" />
+        <area shape="rect" coords="339,178,374,215" target="j" />
+        <area shape="rect" coords="379,178,415,215" target="k" />
+        <area shape="rect" coords="421,178,457,215" target="l" />
+        <area shape="rect" coords="546,179,622,214" target="enter" />
+        <area shape="rect" coords="19,221,101,256" target="shift" />
+        <area shape="rect" coords="17,179,84,213" target="caps" />
+        <area shape="rect" coords="117,220,152,256" target="z" />
+        <area shape="rect" coords="158,220,192,256" target="x" />
+        <area shape="rect" coords="198,219,233,256" target="c" />
+        <area shape="rect" coords="240,220,276,257" target="v" />
+        <area shape="rect" coords="283,219,316,255" target="b" />
+        <area shape="rect" coords="324,220,359,256" target="n" />
+        <area shape="rect" coords="365,220,399,257" target="m" />
+        <area shape="rect" coords="542,219,623,257" target="symbols" />
+        <area shape="rect" coords="19,260,68,296" target="ctrl" />
+        <area shape="rect" coords="76,261,123,295" target="alt" />
+        <area shape="rect" coords="135,261,525,297" target="space" />
+        <area shape="rect" coords="16,95,53,129" target="|" />
+        <area shape="rect" coords="57,95,92,129" target="1" />
+        <area shape="rect" coords="100,94,134,130" target="2" />
+        <area shape="rect" coords="140,93,174,131" target="3" />
+        <area shape="rect" coords="182,93,217,130" target="4" />
+        <area shape="rect" coords="222,93,258,132" target="5" />
+        <area shape="rect" coords="265,94,299,131" target="6" />
+        <area shape="rect" coords="305,94,341,129" target="7" />
+        <area shape="rect" coords="348,93,382,128" target="8" />
+        <area shape="rect" coords="389,94,423,130" target="9" />
+        <area shape="rect" coords="431,93,465,130" target="0" />
+        <area shape="rect" coords="471,94,505,131" target="-" />
+        <area shape="rect" coords="511,93,546,131" target="=" />
+        <area shape="rect" coords="488,136,522,172" target="[" />
+        <area shape="rect" coords="529,135,565,173" target="]" />
+        <area shape="rect" coords="569,136,620,172" target="#" />
+        <area shape="rect" coords="462,177,498,214" target=";" />
+        <area shape="rect" coords="503,178,539,214" target="’" />
+        <area shape="rect" coords="405,220,440,256" target="," />
+        <area shape="rect" coords="447,220,483,256" target="." />
+        <area shape="rect" coords="487,220,524,256" target="/" />
+        <area shape="rect" coords="538,266,576,298" target="ok" />
+        <area shape="rect" coords="585,266,622,298" target="cancel" />
+      </map>
+    </layout>
+    <event name="esc" type="key" code="27" ascii="27" modifiers="" />
+    <event name="f1" type="key" code="282" ascii="315" modifiers="" />
+    <event name="f2" type="key" code="283" ascii="316" modifiers="" />
+    <event name="f3" type="key" code="284" ascii="317" modifiers="" />
+    <event name="f4" type="key" code="285" ascii="318" modifiers="" />
+    <event name="f5" type="key" code="286" ascii="319" modifiers="" />
+    <event name="f6" type="key" code="287" ascii="320" modifiers="" />
+    <event name="f7" type="key" code="288" ascii="321" modifiers="" />
+    <event name="f8" type="key" code="289" ascii="322" modifiers="" />
+    <event name="f9" type="key" code="290" ascii="323" modifiers="" />
+    <event name="f10" type="key" code="291" ascii="324" modifiers="" />
+    <event name="f11" type="key" code="292" ascii="325" modifiers="" />
+    <event name="f12" type="key" code="293" ascii="326" modifiers="" />
+    <event name="del" type="key" code="127" ascii="0" modifiers="" />
+    <event name="ctrl" type="modifier" modifiers="ctrl" />
+    <event name="alt" type="modifier" modifiers="alt" />
+    <event name="shift" type="modifier" modifiers="shift" />
+    <event name="caps" type="switch_mode" mode="uppercase" />
+    <event name="symbols" type="switch_mode" mode="lowercasesymbols" />
+    <event name="backspace" type="key" code="8" ascii="8" modifiers="" />
+    <event name="enter" type="key" code="13" ascii="13" modifiers="" />
+    <event name="|" type="key" code="124" ascii="124" modifiers="" />
+    <event name="-" type="key" code="45" ascii="45" modifiers="" />
+    <event name="=" type="key" code="61" ascii="61" modifiers="" />
+    <event name="[" type="key" code="91" ascii="91" modifiers="" />
+    <event name="]" type="key" code="93" ascii="93" modifiers="" />
+    <event name="#" type="key" code="35" ascii="35" modifiers="" />
+    <event name=";" type="key" code="59" ascii="59" modifiers="" />
+    <event name="'" type="key" code="39" ascii="39" modifiers="" />
+    <event name="," type="key" code="44" ascii="44" modifiers="" />
+    <event name="." type="key" code="46" ascii="46" modifiers="" />
+    <event name="/" type="key" code="47" ascii="47" modifiers="" />
+    <event name="space" type="key" code="32" ascii="32" modifiers="" />
+    <event name="tab" type="key" code="9" ascii="9" modifiers="" />
+    <event name="a" type="key" code="97" ascii="97" modifiers="" />
+    <event name="b" type="key" code="98" ascii="98" modifiers="" />
+    <event name="c" type="key" code="99" ascii="99" modifiers="" />
+    <event name="d" type="key" code="100" ascii="100" modifiers="" />
+    <event name="e" type="key" code="101" ascii="101" modifiers="" />
+    <event name="f" type="key" code="102" ascii="102" modifiers="" />
+    <event name="g" type="key" code="103" ascii="103" modifiers="" />
+    <event name="h" type="key" code="104" ascii="104" modifiers="" />
+    <event name="i" type="key" code="105" ascii="105" modifiers="" />
+    <event name="j" type="key" code="106" ascii="106" modifiers="" />
+    <event name="k" type="key" code="107" ascii="107" modifiers="" />
+    <event name="l" type="key" code="108" ascii="108" modifiers="" />
+    <event name="m" type="key" code="109" ascii="109" modifiers="" />
+    <event name="n" type="key" code="110" ascii="110" modifiers="" />
+    <event name="o" type="key" code="111" ascii="111" modifiers="" />
+    <event name="p" type="key" code="112" ascii="112" modifiers="" />
+    <event name="q" type="key" code="113" ascii="113" modifiers="" />
+    <event name="r" type="key" code="114" ascii="114" modifiers="" />
+    <event name="s" type="key" code="115" ascii="115" modifiers="" />
+    <event name="t" type="key" code="116" ascii="116" modifiers="" />
+    <event name="u" type="key" code="117" ascii="117" modifiers="" />
+    <event name="v" type="key" code="118" ascii="118" modifiers="" />
+    <event name="w" type="key" code="119" ascii="119" modifiers="" />
+    <event name="x" type="key" code="120" ascii="120" modifiers="" />
+    <event name="y" type="key" code="121" ascii="121" modifiers="" />
+    <event name="z" type="key" code="122" ascii="122" modifiers="" />
+    <event name="0" type="key" code="48" ascii="48" modifiers="" />
+    <event name="1" type="key" code="49" ascii="49" modifiers="" />
+    <event name="2" type="key" code="50" ascii="50" modifiers="" />
+    <event name="3" type="key" code="51" ascii="51" modifiers="" />
+    <event name="4" type="key" code="52" ascii="52" modifiers="" />
+    <event name="5" type="key" code="53" ascii="53" modifiers="" />
+    <event name="6" type="key" code="54" ascii="54" modifiers="" />
+    <event name="7" type="key" code="55" ascii="55" modifiers="" />
+    <event name="8" type="key" code="56" ascii="56" modifiers="" />
+    <event name="9" type="key" code="57" ascii="57" modifiers="" />
+    <event name="ok" type="submit" />
+    <event name="cancel" type="cancel" />
+    <event name="quit" type="submit" />
+    <event name="delete" type="delete" />
+  </mode>
+
+  <!-- Uppercase -->
+  <mode name="uppercase" resolutions="320x240,640x480">
+    <layout resolution="320x240" bitmap="uppercase320x240.bmp" transparent_color="255,0,255">
+      <map>
+        <area shape="rect" coords="13,8,306,20" target="display_area" />
+        <area shape="rect" coords="9,26,25,42" target="esc" />
+        <area shape="rect" coords="50,25,67,43" target="f2" />
+        <area shape="rect" coords="29,24,46,43" target="f1" />
+        <area shape="rect" coords="71,26,88,44" target="f3" />
+        <area shape="rect" coords="90,25,107,43" target="f4" />
+        <area shape="rect" coords="111,26,128,44" target="f5" />
+        <area shape="rect" coords="132,26,149,44" target="f6" />
+        <area shape="rect" coords="153,25,170,44" target="f7" />
+        <area shape="rect" coords="173,26,190,44" target="f8" />
+        <area shape="rect" coords="194,24,211,43" target="f9" />
+        <area shape="rect" coords="215,26,231,44" target="f10" />
+        <area shape="rect" coords="235,26,253,43" target="f11" />
+        <area shape="rect" coords="255,26,272,45" target="f12" />
+        <area shape="rect" coords="276,27,310,43" target="del" />
+        <area shape="rect" coords="276,46,299,65" target="delete" />
+        <area shape="rect" coords="300,46,311,65" target="backspace" />
+        <area shape="rect" coords="8,68,32,85" target="tab" />
+        <area shape="rect" coords="36,68,53,85" target="Q" />
+        <area shape="rect" coords="57,68,75,86" target="W" />
+        <area shape="rect" coords="78,67,94,85" target="E" />
+        <area shape="rect" coords="98,67,115,85" target="R" />
+        <area shape="rect" coords="119,67,136,85" target="T" />
+        <area shape="rect" coords="141,68,158,86" target="Y" />
+        <area shape="rect" coords="161,67,179,86" target="U" />
+        <area shape="rect" coords="182,67,199,86" target="I" />
+        <area shape="rect" coords="202,67,220,85" target="O" />
+        <area shape="rect" coords="223,68,240,86" target="P" />
+        <area shape="rect" coords="44,88,63,107" target="A" />
+        <area shape="rect" coords="65,88,84,106" target="S" />
+        <area shape="rect" coords="86,89,104,107" target="D" />
+        <area shape="rect" coords="107,89,124,107" target="F" />
+        <area shape="rect" coords="128,89,145,107" target="G" />
+        <area shape="rect" coords="149,88,165,107" target="H" />
+        <area shape="rect" coords="169,89,186,107" target="J" />
+        <area shape="rect" coords="189,89,207,107" target="K" />
+        <area shape="rect" coords="210,89,228,107" target="L" />
+        <area shape="rect" coords="273,89,311,106" target="enter" />
+        <area shape="rect" coords="9,110,50,127" target="shift" />
+        <area shape="rect" coords="8,89,41,106" target="caps" />
+        <area shape="rect" coords="58,110,75,128" target="Z" />
+        <area shape="rect" coords="79,110,96,128" target="X" />
+        <area shape="rect" coords="99,109,116,127" target="C" />
+        <area shape="rect" coords="120,110,138,128" target="V" />
+        <area shape="rect" coords="141,109,157,127" target="B" />
+        <area shape="rect" coords="162,110,179,128" target="N" />
+        <area shape="rect" coords="182,110,199,128" target="M" />
+        <area shape="rect" coords="271,109,311,128" target="symbols" />
+        <area shape="rect" coords="9,130,33,148" target="ctrl" />
+        <area shape="rect" coords="38,130,61,147" target="alt" />
+        <area shape="rect" coords="67,130,262,148" target="space" />
+        <area shape="rect" coords="8,47,26,64" target="|" />
+        <area shape="rect" coords="28,47,45,64" target="1" />
+        <area shape="rect" coords="50,47,67,65" target="2" />
+        <area shape="rect" coords="70,46,87,65" target="3" />
+        <area shape="rect" coords="91,46,108,64" target="4" />
+        <area shape="rect" coords="111,46,129,65" target="5" />
+        <area shape="rect" coords="132,47,149,65" target="6" />
+        <area shape="rect" coords="152,47,170,64" target="7" />
+        <area shape="rect" coords="174,46,191,63" target="8" />
+        <area shape="rect" coords="194,47,211,65" target="9" />
+        <area shape="rect" coords="215,46,232,64" target="0" />
+        <area shape="rect" coords="235,47,252,65" target="-" />
+        <area shape="rect" coords="255,46,272,65" target="=" />
+        <area shape="rect" coords="244,68,261,86" target="[" />
+        <area shape="rect" coords="264,67,282,86" target="]" />
+        <area shape="rect" coords="284,68,309,86" target="#" />
+        <area shape="rect" coords="231,88,249,106" target=";" />
+        <area shape="rect" coords="251,89,269,107" target="’" />
+        <area shape="rect" coords="202,110,219,128" target="," />
+        <area shape="rect" coords="223,110,241,128" target="." />
+        <area shape="rect" coords="243,110,261,128" target="/" />
+        <area shape="rect" coords="269,131,288,150" target="ok" />
+        <area shape="rect" coords="292,131,311,150" target="cancel" />
+      </map>
+    </layout>
+    <layout resolution="640x480" bitmap="uppercase640x480.bmp" transparent_color="255,0,255">
+      <map>
+        <area shape="rect" coords="26,23,613,37" target="display_area" />
+        <area shape="rect" coords="18,52,51,85" target="esc" />
+        <area shape="rect" coords="100,51,135,88" target="f2" />
+        <area shape="rect" coords="59,49,94,88" target="f1" />
+        <area shape="rect" coords="142,53,176,89" target="f3" />
+        <area shape="rect" coords="181,51,216,87" target="f4" />
+        <area shape="rect" coords="223,52,258,88" target="f5" />
+        <area shape="rect" coords="265,52,299,89" target="f6" />
+        <area shape="rect" coords="306,51,341,90" target="f7" />
+        <area shape="rect" coords="347,53,382,89" target="f8" />
+        <area shape="rect" coords="389,49,424,88" target="f9" />
+        <area shape="rect" coords="431,52,464,89" target="f10" />
+        <area shape="rect" coords="470,53,506,88" target="f11" />
+        <area shape="rect" coords="511,52,546,90" target="f12" />
+        <area shape="rect" coords="552,55,620,87" target="del" />
+        <area shape="rect" coords="552,93,598,131" target="delete" />
+        <area shape="rect" coords="601,93,623,131" target="backspace" />
+        <area shape="rect" coords="17,136,66,171" target="tab" />
+        <area shape="rect" coords="73,137,108,171" target="Q" />
+        <area shape="rect" coords="114,136,150,172" target="W" />
+        <area shape="rect" coords="157,134,189,171" target="E" />
+        <area shape="rect" coords="197,135,232,171" target="R" />
+        <area shape="rect" coords="239,135,274,172" target="T" />
+        <area shape="rect" coords="282,136,317,173" target="Y" />
+        <area shape="rect" coords="322,135,359,173" target="U" />
+        <area shape="rect" coords="364,134,399,172" target="I" />
+        <area shape="rect" coords="404,135,440,171" target="O" />
+        <area shape="rect" coords="446,136,480,172" target="P" />
+        <area shape="rect" coords="89,177,127,216" target="A" />
+        <area shape="rect" coords="131,177,169,214" target="S" />
+        <area shape="rect" coords="173,178,209,215" target="D" />
+        <area shape="rect" coords="215,178,250,214" target="F" />
+        <area shape="rect" coords="256,178,291,214" target="G" />
+        <area shape="rect" coords="299,176,332,214" target="H" />
+        <area shape="rect" coords="339,178,374,215" target="J" />
+        <area shape="rect" coords="379,178,415,215" target="K" />
+        <area shape="rect" coords="421,178,457,215" target="L" />
+        <area shape="rect" coords="546,179,622,214" target="enter" />
+        <area shape="rect" coords="19,221,101,256" target="shift" />
+        <area shape="rect" coords="17,179,84,213" target="caps" />
+        <area shape="rect" coords="117,220,152,256" target="Z" />
+        <area shape="rect" coords="158,220,192,256" target="X" />
+        <area shape="rect" coords="198,219,233,256" target="C" />
+        <area shape="rect" coords="240,220,276,257" target="V" />
+        <area shape="rect" coords="283,219,316,255" target="B" />
+        <area shape="rect" coords="324,220,359,256" target="N" />
+        <area shape="rect" coords="365,220,399,257" target="M" />
+        <area shape="rect" coords="542,219,623,257" target="symbols" />
+        <area shape="rect" coords="19,260,68,296" target="ctrl" />
+        <area shape="rect" coords="76,261,123,295" target="alt" />
+        <area shape="rect" coords="135,261,525,297" target="space" />
+        <area shape="rect" coords="16,95,53,129" target="|" />
+        <area shape="rect" coords="57,95,92,129" target="1" />
+        <area shape="rect" coords="100,94,134,130" target="2" />
+        <area shape="rect" coords="140,93,174,131" target="3" />
+        <area shape="rect" coords="182,93,217,130" target="4" />
+        <area shape="rect" coords="222,93,258,132" target="5" />
+        <area shape="rect" coords="265,94,299,131" target="6" />
+        <area shape="rect" coords="305,94,341,129" target="7" />
+        <area shape="rect" coords="348,93,382,128" target="8" />
+        <area shape="rect" coords="389,94,423,130" target="9" />
+        <area shape="rect" coords="431,93,465,130" target="0" />
+        <area shape="rect" coords="471,94,505,131" target="-" />
+        <area shape="rect" coords="511,93,546,131" target="=" />
+        <area shape="rect" coords="488,136,522,172" target="[" />
+        <area shape="rect" coords="529,135,565,173" target="]" />
+        <area shape="rect" coords="569,136,620,172" target="#" />
+        <area shape="rect" coords="462,177,498,214" target=";" />
+        <area shape="rect" coords="503,178,539,214" target="’" />
+        <area shape="rect" coords="405,220,440,256" target="," />
+        <area shape="rect" coords="447,220,483,256" target="." />
+        <area shape="rect" coords="487,220,524,256" target="/" />
+        <area shape="rect" coords="538,266,576,298" target="ok" />
+        <area shape="rect" coords="585,266,622,298" target="cancel" />
+      </map>
+    </layout>
+    <event name="esc" type="key" code="27" ascii="27" modifiers="" />
+    <event name="f1" type="key" code="282" ascii="315" modifiers="" />
+    <event name="f2" type="key" code="283" ascii="316" modifiers="" />
+    <event name="f3" type="key" code="284" ascii="317" modifiers="" />
+    <event name="f4" type="key" code="285" ascii="318" modifiers="" />
+    <event name="f5" type="key" code="286" ascii="319" modifiers="" />
+    <event name="f6" type="key" code="287" ascii="320" modifiers="" />
+    <event name="f7" type="key" code="288" ascii="321" modifiers="" />
+    <event name="f8" type="key" code="289" ascii="322" modifiers="" />
+    <event name="f9" type="key" code="290" ascii="323" modifiers="" />
+    <event name="f10" type="key" code="291" ascii="324" modifiers="" />
+    <event name="f11" type="key" code="292" ascii="325" modifiers="" />
+    <event name="f12" type="key" code="293" ascii="326" modifiers="" />
+    <event name="del" type="key" code="127" ascii="0" modifiers="" />
+    <event name="ctrl" type="modifier" modifiers="ctrl" />
+    <event name="alt" type="modifier" modifiers="alt" />
+    <event name="shift" type="modifier" modifiers="shift" />
+    <event name="caps" type="switch_mode" mode="lowercase" />
+    <event name="symbols" type="switch_mode" mode="uppercasesymbols" />
+    <event name="backspace" type="key" code="8" ascii="8" modifiers="" />
+    <event name="enter" type="key" code="13" ascii="13" modifiers="" />
+    <event name="|" type="key" code="124" ascii="124" modifiers="" />
+    <event name="-" type="key" code="45" ascii="45" modifiers="" />
+    <event name="=" type="key" code="61" ascii="61" modifiers="" />
+    <event name="[" type="key" code="91" ascii="91" modifiers="" />
+    <event name="]" type="key" code="93" ascii="93" modifiers="" />
+    <event name="#" type="key" code="35" ascii="35" modifiers="" />
+    <event name=";" type="key" code="59" ascii="59" modifiers="" />
+    <event name="'" type="key" code="39" ascii="39" modifiers="" />
+    <event name="," type="key" code="44" ascii="44" modifiers="" />
+    <event name="." type="key" code="46" ascii="46" modifiers="" />
+    <event name="/" type="key" code="47" ascii="47" modifiers="" />
+    <event name="space" type="key" code="32" ascii="32" modifiers="" />
+    <event name="tab" type="key" code="9" ascii="9" modifiers="" />
+    <event name="A" type="key" code="97" ascii="65" modifiers="shift" />
+    <event name="B" type="key" code="98" ascii="66" modifiers="shift" />
+    <event name="C" type="key" code="99" ascii="67" modifiers="shift" />
+    <event name="D" type="key" code="100" ascii="68" modifiers="shift" />
+    <event name="E" type="key" code="101" ascii="69" modifiers="shift" />
+    <event name="F" type="key" code="102" ascii="70" modifiers="shift" />
+    <event name="G" type="key" code="103" ascii="71" modifiers="shift" />
+    <event name="H" type="key" code="104" ascii="72" modifiers="shift" />
+    <event name="I" type="key" code="105" ascii="73" modifiers="shift" />
+    <event name="J" type="key" code="106" ascii="74" modifiers="shift" />
+    <event name="K" type="key" code="107" ascii="75" modifiers="shift" />
+    <event name="L" type="key" code="108" ascii="76" modifiers="shift" />
+    <event name="M" type="key" code="109" ascii="77" modifiers="shift" />
+    <event name="N" type="key" code="110" ascii="78" modifiers="shift" />
+    <event name="O" type="key" code="111" ascii="79" modifiers="shift" />
+    <event name="P" type="key" code="112" ascii="80" modifiers="shift" />
+    <event name="Q" type="key" code="113" ascii="81" modifiers="shift" />
+    <event name="R" type="key" code="114" ascii="82" modifiers="shift" />
+    <event name="S" type="key" code="115" ascii="83" modifiers="shift" />
+    <event name="T" type="key" code="116" ascii="84" modifiers="shift" />
+    <event name="U" type="key" code="117" ascii="85" modifiers="shift" />
+    <event name="V" type="key" code="118" ascii="86" modifiers="shift" />
+    <event name="W" type="key" code="119" ascii="87" modifiers="shift" />
+    <event name="X" type="key" code="120" ascii="88" modifiers="shift" />
+    <event name="Y" type="key" code="121" ascii="89" modifiers="shift" />
+    <event name="Z" type="key" code="122" ascii="90" modifiers="shift" />
+    <event name="0" type="key" code="48" ascii="48" modifiers="" />
+    <event name="1" type="key" code="49" ascii="49" modifiers="" />
+    <event name="2" type="key" code="50" ascii="50" modifiers="" />
+    <event name="3" type="key" code="51" ascii="51" modifiers="" />
+    <event name="4" type="key" code="52" ascii="52" modifiers="" />
+    <event name="5" type="key" code="53" ascii="53" modifiers="" />
+    <event name="6" type="key" code="54" ascii="54" modifiers="" />
+    <event name="7" type="key" code="55" ascii="55" modifiers="" />
+    <event name="8" type="key" code="56" ascii="56" modifiers="" />
+    <event name="9" type="key" code="57" ascii="57" modifiers="" />
+    <event name="ok" type="submit" />
+    <event name="cancel" type="cancel" />
+    <event name="quit" type="submit" />
+    <event name="delete" type="delete" />
+  </mode>
+
+  <!-- Lowercase Symbols -->
+  <mode name="lowercasesymbols" resolutions="320x240,640x480">
+    <layout resolution="320x240" bitmap="lowercase-symbols320x240.bmp" transparent_color="255,0,255">
+      <map>
+        <area shape="rect" coords="13,8,306,20" target="display_area" />
+        <area shape="rect" coords="9,26,25,42" target="esc" />
+        <area shape="rect" coords="50,25,67,43" target="f2" />
+        <area shape="rect" coords="29,24,46,43" target="f1" />
+        <area shape="rect" coords="71,26,88,44" target="f3" />
+        <area shape="rect" coords="90,25,107,43" target="f4" />
+        <area shape="rect" coords="111,26,128,44" target="f5" />
+        <area shape="rect" coords="132,26,149,44" target="f6" />
+        <area shape="rect" coords="153,25,170,44" target="f7" />
+        <area shape="rect" coords="173,26,190,44" target="f8" />
+        <area shape="rect" coords="194,24,211,43" target="f9" />
+        <area shape="rect" coords="215,26,231,44" target="f10" />
+        <area shape="rect" coords="235,26,253,43" target="f11" />
+        <area shape="rect" coords="255,26,272,45" target="f12" />
+        <area shape="rect" coords="276,27,310,43" target="del" />
+        <area shape="rect" coords="8,47,26,64" target="¬" />
+        <area shape="rect" coords="28,47,45,64" target="!" />
+        <area shape="rect" coords="50,47,67,65" target="quote" />
+        <area shape="rect" coords="70,46,87,65" target="£" />
+        <area shape="rect" coords="91,46,108,64" target="$" />
+        <area shape="rect" coords="111,46,129,65" target="%" />
+        <area shape="rect" coords="132,47,149,65" target="^" />
+        <area shape="rect" coords="152,47,170,64" target="&amp;" />
+        <area shape="rect" coords="174,46,191,63" target="*" />
+        <area shape="rect" coords="194,47,211,65" target="(" />
+        <area shape="rect" coords="215,46,232,64" target=")" />
+        <area shape="rect" coords="235,47,252,65" target="_" />
+        <area shape="rect" coords="255,46,272,65" target="+" />
+        <area shape="rect" coords="276,46,299,65" target="delete" />
+        <area shape="rect" coords="300,46,311,65" target="backspace" />
+        <area shape="rect" coords="8,68,32,85" target="tab" />
+        <area shape="rect" coords="36,68,53,85" target="q" />
+        <area shape="rect" coords="57,68,75,86" target="w" />
+        <area shape="rect" coords="78,67,94,85" target="e" />
+        <area shape="rect" coords="98,67,115,85" target="r" />
+        <area shape="rect" coords="119,67,136,85" target="t" />
+        <area shape="rect" coords="141,68,158,86" target="y" />
+        <area shape="rect" coords="161,67,179,86" target="u" />
+        <area shape="rect" coords="182,67,199,86" target="i" />
+        <area shape="rect" coords="202,67,220,85" target="o" />
+        <area shape="rect" coords="223,68,240,86" target="p" />
+        <area shape="rect" coords="244,68,261,86" target="{" />
+        <area shape="rect" coords="264,67,282,86" target="}" />
+        <area shape="rect" coords="284,68,309,86" target="~" />
+        <area shape="rect" coords="8,89,41,106" target="caps" />
+        <area shape="rect" coords="44,88,63,107" target="a" />
+        <area shape="rect" coords="65,88,84,106" target="s" />
+        <area shape="rect" coords="86,89,104,107" target="d" />
+        <area shape="rect" coords="107,89,124,107" target="f" />
+        <area shape="rect" coords="128,89,145,107" target="g" />
+        <area shape="rect" coords="149,88,165,107" target="h" />
+        <area shape="rect" coords="169,89,186,107" target="j" />
+        <area shape="rect" coords="189,89,207,107" target="k" />
+        <area shape="rect" coords="210,89,228,107" target="l" />
+        <area shape="rect" coords="231,88,249,106" target=":" />
+        <area shape="rect" coords="251,89,269,107" target="@" />
+        <area shape="rect" coords="273,89,311,106" target="enter" />
+        <area shape="rect" coords="9,110,50,127" target="shift" />
+        <area shape="rect" coords="58,110,75,128" target="z" />
+        <area shape="rect" coords="79,110,96,128" target="x" />
+        <area shape="rect" coords="99,109,116,127" target="c" />
+        <area shape="rect" coords="120,110,138,128" target="v" />
+        <area shape="rect" coords="141,109,157,127" target="b" />
+        <area shape="rect" coords="162,110,179,128" target="n" />
+        <area shape="rect" coords="182,110,199,128" target="m" />
+        <area shape="rect" coords="202,110,219,128" target="&lt;" />
+        <area shape="rect" coords="223,110,241,128" target="&gt;" />
+        <area shape="rect" coords="243,110,261,128" target="?" />
+        <area shape="rect" coords="271,109,311,128" target="symbols" />
+        <area shape="rect" coords="9,130,33,148" target="ctrl" />
+        <area shape="rect" coords="38,130,61,147" target="alt" />
+        <area shape="rect" coords="67,130,262,148" target="space" />
+        <area shape="rect" coords="269,131,288,150" target="ok" />
+        <area shape="rect" coords="292,131,311,150" target="cancel" />
+      </map>
+    </layout>
+    <layout resolution="640x480" bitmap="lowercase-symbols640x480.bmp" transparent_color="255,0,255">
+      <map>
+        <area shape="rect" coords="26,23,613,37" target="display_area" />
+        <area shape="rect" coords="18,52,51,85" target="esc" />
+        <area shape="rect" coords="100,51,135,88" target="f2" />
+        <area shape="rect" coords="59,49,94,88" target="f1" />
+        <area shape="rect" coords="142,53,176,89" target="f3" />
+        <area shape="rect" coords="181,51,216,87" target="f4" />
+        <area shape="rect" coords="223,52,258,88" target="f5" />
+        <area shape="rect" coords="265,52,299,89" target="f6" />
+        <area shape="rect" coords="306,51,341,90" target="f7" />
+        <area shape="rect" coords="347,53,382,89" target="f8" />
+        <area shape="rect" coords="389,49,424,88" target="f9" />
+        <area shape="rect" coords="431,52,464,89" target="f10" />
+        <area shape="rect" coords="470,53,506,88" target="f11" />
+        <area shape="rect" coords="511,52,546,90" target="f12" />
+        <area shape="rect" coords="552,55,620,87" target="del" />
+        <area shape="rect" coords="16,95,53,129" target="¬" />
+        <area shape="rect" coords="57,95,92,129" target="!" />
+        <area shape="rect" coords="100,94,134,130" target="quote" />
+        <area shape="rect" coords="140,93,174,131" target="£" />
+        <area shape="rect" coords="182,93,217,130" target="$" />
+        <area shape="rect" coords="222,93,258,132" target="%" />
+        <area shape="rect" coords="265,94,299,131" target="^" />
+        <area shape="rect" coords="305,94,341,129" target="&amp;" />
+        <area shape="rect" coords="348,93,382,128" target="*" />
+        <area shape="rect" coords="389,94,423,130" target="(" />
+        <area shape="rect" coords="431,93,465,130" target=")" />
+        <area shape="rect" coords="471,94,505,131" target="_" />
+        <area shape="rect" coords="511,93,546,131" target="+" />
+        <area shape="rect" coords="552,93,598,131" target="delete" />
+        <area shape="rect" coords="601,93,623,131" target="backspace" />
+        <area shape="rect" coords="17,136,66,171" target="tab" />
+        <area shape="rect" coords="73,137,108,171" target="q" />
+        <area shape="rect" coords="114,136,150,172" target="w" />
+        <area shape="rect" coords="157,134,189,171" target="e" />
+        <area shape="rect" coords="197,135,232,171" target="r" />
+        <area shape="rect" coords="239,135,274,172" target="t" />
+        <area shape="rect" coords="282,136,317,173" target="y" />
+        <area shape="rect" coords="322,135,359,173" target="u" />
+        <area shape="rect" coords="364,134,399,172" target="i" />
+        <area shape="rect" coords="404,135,440,171" target="o" />
+        <area shape="rect" coords="446,136,480,172" target="p" />
+        <area shape="rect" coords="488,136,522,172" target="{" />
+        <area shape="rect" coords="529,135,565,173" target="}" />
+        <area shape="rect" coords="569,136,620,172" target="~" />
+        <area shape="rect" coords="17,179,84,213" target="caps" />
+        <area shape="rect" coords="89,177,127,216" target="a" />
+        <area shape="rect" coords="131,177,169,214" target="s" />
+        <area shape="rect" coords="173,178,209,215" target="d" />
+        <area shape="rect" coords="215,178,250,214" target="f" />
+        <area shape="rect" coords="256,178,291,214" target="g" />
+        <area shape="rect" coords="299,176,332,214" target="h" />
+        <area shape="rect" coords="339,178,374,215" target="j" />
+        <area shape="rect" coords="379,178,415,215" target="k" />
+        <area shape="rect" coords="421,178,457,215" target="l" />
+        <area shape="rect" coords="462,177,498,214" target=":" />
+        <area shape="rect" coords="503,178,539,214" target="@" />
+        <area shape="rect" coords="546,179,622,214" target="enter" />
+        <area shape="rect" coords="19,221,101,256" target="shift" />
+        <area shape="rect" coords="117,220,152,256" target="z" />
+        <area shape="rect" coords="158,220,192,256" target="x" />
+        <area shape="rect" coords="198,219,233,256" target="c" />
+        <area shape="rect" coords="240,220,276,257" target="v" />
+        <area shape="rect" coords="283,219,316,255" target="b" />
+        <area shape="rect" coords="324,220,359,256" target="n" />
+        <area shape="rect" coords="365,220,399,257" target="m" />
+        <area shape="rect" coords="405,220,440,256" target="&lt;" />
+        <area shape="rect" coords="447,220,483,256" target="&gt;" />
+        <area shape="rect" coords="487,220,524,256" target="?" />
+        <area shape="rect" coords="542,219,623,257" target="symbols" />
+        <area shape="rect" coords="19,260,68,296" target="ctrl" />
+        <area shape="rect" coords="76,261,123,295" target="alt" />
+        <area shape="rect" coords="135,261,525,297" target="space" />
+        <area shape="rect" coords="538,266,576,298" target="ok" />
+        <area shape="rect" coords="585,266,622,298" target="cancel" />
+      </map>
+    </layout>
+    <event name="esc" type="key" code="27" ascii="27" modifiers="" />
+    <event name="f1" type="key" code="282" ascii="315" modifiers="" />
+    <event name="f2" type="key" code="283" ascii="316" modifiers="" />
+    <event name="f3" type="key" code="284" ascii="317" modifiers="" />
+    <event name="f4" type="key" code="285" ascii="318" modifiers="" />
+    <event name="f5" type="key" code="286" ascii="319" modifiers="" />
+    <event name="f6" type="key" code="287" ascii="320" modifiers="" />
+    <event name="f7" type="key" code="288" ascii="321" modifiers="" />
+    <event name="f8" type="key" code="289" ascii="322" modifiers="" />
+    <event name="f9" type="key" code="290" ascii="323" modifiers="" />
+    <event name="f10" type="key" code="291" ascii="324" modifiers="" />
+    <event name="f11" type="key" code="292" ascii="325" modifiers="" />
+    <event name="f12" type="key" code="293" ascii="326" modifiers="" />
+    <event name="del" type="key" code="127" ascii="0" modifiers="" />
+    <event name="ctrl" type="modifier" modifiers="ctrl" />
+    <event name="alt" type="modifier" modifiers="alt" />
+    <event name="shift" type="modifier" modifiers="shift" />
+    <event name="symbols" type="switch_mode" mode="lowercase" />
+    <event name="caps" type="switch_mode" mode="uppercasesymbols" />
+    <event name="backspace" type="key" code="8" ascii="8" modifiers="" />
+    <event name="enter" type="key" code="13" ascii="13" modifiers="" />
+    <event name="quote" type="key" code="34" ascii="34" modifiers="" />
+    <event name="£" type="key" code="163" ascii="163" modifiers="" />
+    <event name="$" type="key" code="36" ascii="36" modifiers="" />
+    <event name="%" type="key" code="37" ascii="37" modifiers="" />
+    <event name="^" type="key" code="94" ascii="94" modifiers="" />
+    <event name="&amp;" type="key" code="38" ascii="38" modifiers="" />
+    <event name="*" type="key" code="42" ascii="42" modifiers="" />
+    <event name="(" type="key" code="40" ascii="40" modifiers="" />
+    <event name=")" type="key" code="41" ascii="41" modifiers="" />
+    <event name="_" type="key" code="95" ascii="95" modifiers="" />
+    <event name="+" type="key" code="43" ascii="43" modifiers="" />
+    <event name="¬" type="key" code="172" ascii="172" modifiers="" />
+    <event name="!" type="key" code="33" ascii="33" modifiers="" />
+    <event name="{" type="key" code="123" ascii="123" modifiers="" />
+    <event name="}" type="key" code="125" ascii="125" modifiers="" />
+    <event name="~" type="key" code="126" ascii="126" modifiers="" />
+    <event name=":" type="key" code="58" ascii="58" modifiers="" />
+    <event name="@" type="key" code="64" ascii="64" modifiers="" />
+    <event name="&lt;" type="key" code="60" ascii="60" modifiers="" />
+    <event name="&gt;" type="key" code="62" ascii="62" modifiers="" />
+    <event name="?" type="key" code="63" ascii="63" modifiers="" />
+    <event name="space" type="key" code="32" ascii="32" modifiers="" />
+    <event name="tab" type="key" code="9" ascii="9" modifiers="" />
+    <event name="a" type="key" code="97" ascii="97" modifiers="" />
+    <event name="b" type="key" code="98" ascii="98" modifiers="" />
+    <event name="c" type="key" code="99" ascii="99" modifiers="" />
+    <event name="d" type="key" code="100" ascii="100" modifiers="" />
+    <event name="e" type="key" code="101" ascii="101" modifiers="" />
+    <event name="f" type="key" code="102" ascii="102" modifiers="" />
+    <event name="g" type="key" code="103" ascii="103" modifiers="" />
+    <event name="h" type="key" code="104" ascii="104" modifiers="" />
+    <event name="i" type="key" code="105" ascii="105" modifiers="" />
+    <event name="j" type="key" code="106" ascii="106" modifiers="" />
+    <event name="k" type="key" code="107" ascii="107" modifiers="" />
+    <event name="l" type="key" code="108" ascii="108" modifiers="" />
+    <event name="m" type="key" code="109" ascii="109" modifiers="" />
+    <event name="n" type="key" code="110" ascii="110" modifiers="" />
+    <event name="o" type="key" code="111" ascii="111" modifiers="" />
+    <event name="p" type="key" code="112" ascii="112" modifiers="" />
+    <event name="q" type="key" code="113" ascii="113" modifiers="" />
+    <event name="r" type="key" code="114" ascii="114" modifiers="" />
+    <event name="s" type="key" code="115" ascii="115" modifiers="" />
+    <event name="t" type="key" code="116" ascii="116" modifiers="" />
+    <event name="u" type="key" code="117" ascii="117" modifiers="" />
+    <event name="v" type="key" code="118" ascii="118" modifiers="" />
+    <event name="w" type="key" code="119" ascii="119" modifiers="" />
+    <event name="x" type="key" code="120" ascii="120" modifiers="" />
+    <event name="y" type="key" code="121" ascii="121" modifiers="" />
+    <event name="z" type="key" code="122" ascii="122" modifiers="" />
+    <event name="ok" type="submit" />
+    <event name="cancel" type="cancel" />
+    <event name="quit" type="submit" />
+    <event name="delete" type="delete" />
+  </mode>
+
+  <!-- Uppercase Symbols -->
+  <mode name="uppercasesymbols" resolutions="320x240,640x480">
+    <layout resolution="320x240" bitmap="uppercase-symbols320x240.bmp" transparent_color="255,0,255">
+      <map>
+        <area shape="rect" coords="13,8,306,20" target="display_area" />
+        <area shape="rect" coords="9,26,25,42" target="esc" />
+        <area shape="rect" coords="50,25,67,43" target="f2" />
+        <area shape="rect" coords="29,24,46,43" target="f1" />
+        <area shape="rect" coords="71,26,88,44" target="f3" />
+        <area shape="rect" coords="90,25,107,43" target="f4" />
+        <area shape="rect" coords="111,26,128,44" target="f5" />
+        <area shape="rect" coords="132,26,149,44" target="f6" />
+        <area shape="rect" coords="153,25,170,44" target="f7" />
+        <area shape="rect" coords="173,26,190,44" target="f8" />
+        <area shape="rect" coords="194,24,211,43" target="f9" />
+        <area shape="rect" coords="215,26,231,44" target="f10" />
+        <area shape="rect" coords="235,26,253,43" target="f11" />
+        <area shape="rect" coords="255,26,272,45" target="f12" />
+        <area shape="rect" coords="276,27,310,43" target="del" />
+        <area shape="rect" coords="8,47,26,64" target="¬" />
+        <area shape="rect" coords="28,47,45,64" target="!" />
+        <area shape="rect" coords="50,47,67,65" target="quote" />
+        <area shape="rect" coords="70,46,87,65" target="£" />
+        <area shape="rect" coords="91,46,108,64" target="$" />
+        <area shape="rect" coords="111,46,129,65" target="%" />
+        <area shape="rect" coords="132,47,149,65" target="^" />
+        <area shape="rect" coords="152,47,170,64" target="&amp;" />
+        <area shape="rect" coords="174,46,191,63" target="*" />
+        <area shape="rect" coords="194,47,211,65" target="(" />
+        <area shape="rect" coords="215,46,232,64" target=")" />
+        <area shape="rect" coords="235,47,252,65" target="_" />
+        <area shape="rect" coords="255,46,272,65" target="+" />
+        <area shape="rect" coords="276,46,299,65" target="delete" />
+        <area shape="rect" coords="300,46,311,65" target="backspace" />
+        <area shape="rect" coords="8,68,32,85" target="tab" />
+        <area shape="rect" coords="36,68,53,85" target="Q" />
+        <area shape="rect" coords="57,68,75,86" target="W" />
+        <area shape="rect" coords="78,67,94,85" target="E" />
+        <area shape="rect" coords="98,67,115,85" target="R" />
+        <area shape="rect" coords="119,67,136,85" target="T" />
+        <area shape="rect" coords="141,68,158,86" target="Y" />
+        <area shape="rect" coords="161,67,179,86" target="U" />
+        <area shape="rect" coords="182,67,199,86" target="I" />
+        <area shape="rect" coords="202,67,220,85" target="O" />
+        <area shape="rect" coords="223,68,240,86" target="P" />
+        <area shape="rect" coords="244,68,261,86" target="{" />
+        <area shape="rect" coords="264,67,282,86" target="}" />
+        <area shape="rect" coords="284,68,309,86" target="~" />
+        <area shape="rect" coords="8,89,41,106" target="caps" />
+        <area shape="rect" coords="44,88,63,107" target="A" />
+        <area shape="rect" coords="65,88,84,106" target="S" />
+        <area shape="rect" coords="86,89,104,107" target="D" />
+        <area shape="rect" coords="107,89,124,107" target="F" />
+        <area shape="rect" coords="128,89,145,107" target="G" />
+        <area shape="rect" coords="149,88,165,107" target="H" />
+        <area shape="rect" coords="169,89,186,107" target="J" />
+        <area shape="rect" coords="189,89,207,107" target="K" />
+        <area shape="rect" coords="210,89,228,107" target="L" />
+        <area shape="rect" coords="231,88,249,106" target=":" />
+        <area shape="rect" coords="251,89,269,107" target="@" />
+        <area shape="rect" coords="273,89,311,106" target="enter" />
+        <area shape="rect" coords="9,110,50,127" target="shift" />
+        <area shape="rect" coords="58,110,75,128" target="z" />
+        <area shape="rect" coords="79,110,96,128" target="x" />
+        <area shape="rect" coords="99,109,116,127" target="c" />
+        <area shape="rect" coords="120,110,138,128" target="v" />
+        <area shape="rect" coords="141,109,157,127" target="b" />
+        <area shape="rect" coords="162,110,179,128" target="n" />
+        <area shape="rect" coords="182,110,199,128" target="m" />
+        <area shape="rect" coords="202,110,219,128" target="&lt;" />
+        <area shape="rect" coords="223,110,241,128" target="&gt;" />
+        <area shape="rect" coords="243,110,261,128" target="?" />
+        <area shape="rect" coords="271,109,311,128" target="symbols" />
+        <area shape="rect" coords="9,130,33,148" target="ctrl" />
+        <area shape="rect" coords="38,130,61,147" target="alt" />
+        <area shape="rect" coords="67,130,262,148" target="space" />
+        <area shape="rect" coords="269,131,288,150" target="ok" />
+        <area shape="rect" coords="292,131,311,150" target="cancel" />
+      </map>
+    </layout>
+    <layout resolution="640x480" bitmap="uppercase-symbols640x480.bmp" transparent_color="255,0,255">
+      <map>
+        <area shape="rect" coords="26,23,613,37" target="display_area" />
+        <area shape="rect" coords="18,52,51,85" target="esc" />
+        <area shape="rect" coords="100,51,135,88" target="f2" />
+        <area shape="rect" coords="59,49,94,88" target="f1" />
+        <area shape="rect" coords="142,53,176,89" target="f3" />
+        <area shape="rect" coords="181,51,216,87" target="f4" />
+        <area shape="rect" coords="223,52,258,88" target="f5" />
+        <area shape="rect" coords="265,52,299,89" target="f6" />
+        <area shape="rect" coords="306,51,341,90" target="f7" />
+        <area shape="rect" coords="347,53,382,89" target="f8" />
+        <area shape="rect" coords="389,49,424,88" target="f9" />
+        <area shape="rect" coords="431,52,464,89" target="f10" />
+        <area shape="rect" coords="470,53,506,88" target="f11" />
+        <area shape="rect" coords="511,52,546,90" target="f12" />
+        <area shape="rect" coords="552,55,620,87" target="del" />
+        <area shape="rect" coords="16,95,53,129" target="¬" />
+        <area shape="rect" coords="57,95,92,129" target="!" />
+        <area shape="rect" coords="100,94,134,130" target="quote" />
+        <area shape="rect" coords="140,93,174,131" target="£" />
+        <area shape="rect" coords="182,93,217,130" target="$" />
+        <area shape="rect" coords="222,93,258,132" target="%" />
+        <area shape="rect" coords="265,94,299,131" target="^" />
+        <area shape="rect" coords="305,94,341,129" target="&amp;" />
+        <area shape="rect" coords="348,93,382,128" target="*" />
+        <area shape="rect" coords="389,94,423,130" target="(" />
+        <area shape="rect" coords="431,93,465,130" target=")" />
+        <area shape="rect" coords="471,94,505,131" target="_" />
+        <area shape="rect" coords="511,93,546,131" target="+" />
+        <area shape="rect" coords="552,93,598,131" target="delete" />
+        <area shape="rect" coords="601,93,623,131" target="backspace" />
+        <area shape="rect" coords="17,136,66,171" target="tab" />
+        <area shape="rect" coords="73,137,108,171" target="Q" />
+        <area shape="rect" coords="114,136,150,172" target="W" />
+        <area shape="rect" coords="157,134,189,171" target="E" />
+        <area shape="rect" coords="197,135,232,171" target="R" />
+        <area shape="rect" coords="239,135,274,172" target="T" />
+        <area shape="rect" coords="282,136,317,173" target="Y" />
+        <area shape="rect" coords="322,135,359,173" target="U" />
+        <area shape="rect" coords="364,134,399,172" target="I" />
+        <area shape="rect" coords="404,135,440,171" target="O" />
+        <area shape="rect" coords="446,136,480,172" target="P" />
+        <area shape="rect" coords="488,136,522,172" target="{" />
+        <area shape="rect" coords="529,135,565,173" target="}" />
+        <area shape="rect" coords="569,136,620,172" target="~" />
+        <area shape="rect" coords="17,179,84,213" target="caps" />
+        <area shape="rect" coords="89,177,127,216" target="A" />
+        <area shape="rect" coords="131,177,169,214" target="S" />
+        <area shape="rect" coords="173,178,209,215" target="D" />
+        <area shape="rect" coords="215,178,250,214" target="F" />
+        <area shape="rect" coords="256,178,291,214" target="G" />
+        <area shape="rect" coords="299,176,332,214" target="H" />
+        <area shape="rect" coords="339,178,374,215" target="J" />
+        <area shape="rect" coords="379,178,415,215" target="K" />
+        <area shape="rect" coords="421,178,457,215" target="L" />
+        <area shape="rect" coords="462,177,498,214" target=":" />
+        <area shape="rect" coords="503,178,539,214" target="@" />
+        <area shape="rect" coords="546,179,622,214" target="enter" />
+        <area shape="rect" coords="19,221,101,256" target="shift" />
+        <area shape="rect" coords="117,220,152,256" target="z" />
+        <area shape="rect" coords="158,220,192,256" target="x" />
+        <area shape="rect" coords="198,219,233,256" target="c" />
+        <area shape="rect" coords="240,220,276,257" target="v" />
+        <area shape="rect" coords="283,219,316,255" target="b" />
+        <area shape="rect" coords="324,220,359,256" target="n" />
+        <area shape="rect" coords="365,220,399,257" target="m" />
+        <area shape="rect" coords="405,220,440,256" target="&lt;" />
+        <area shape="rect" coords="447,220,483,256" target="&gt;" />
+        <area shape="rect" coords="487,220,524,256" target="?" />
+        <area shape="rect" coords="542,219,623,257" target="symbols" />
+        <area shape="rect" coords="19,260,68,296" target="ctrl" />
+        <area shape="rect" coords="76,261,123,295" target="alt" />
+        <area shape="rect" coords="135,261,525,297" target="space" />
+        <area shape="rect" coords="538,266,576,298" target="ok" />
+        <area shape="rect" coords="585,266,622,298" target="cancel" />
+      </map>
+    </layout>
+    <event name="esc" type="key" code="27" ascii="27" modifiers="" />
+    <event name="f1" type="key" code="282" ascii="315" modifiers="" />
+    <event name="f2" type="key" code="283" ascii="316" modifiers="" />
+    <event name="f3" type="key" code="284" ascii="317" modifiers="" />
+    <event name="f4" type="key" code="285" ascii="318" modifiers="" />
+    <event name="f5" type="key" code="286" ascii="319" modifiers="" />
+    <event name="f6" type="key" code="287" ascii="320" modifiers="" />
+    <event name="f7" type="key" code="288" ascii="321" modifiers="" />
+    <event name="f8" type="key" code="289" ascii="322" modifiers="" />
+    <event name="f9" type="key" code="290" ascii="323" modifiers="" />
+    <event name="f10" type="key" code="291" ascii="324" modifiers="" />
+    <event name="f11" type="key" code="292" ascii="325" modifiers="" />
+    <event name="f12" type="key" code="293" ascii="326" modifiers="" />
+    <event name="del" type="key" code="127" ascii="0" modifiers="" />
+    <event name="ctrl" type="modifier" modifiers="ctrl" />
+    <event name="alt" type="modifier" modifiers="alt" />
+    <event name="shift" type="switch_mode" mode="shiftlowercase" />
+    <event name="caps" type="switch_mode" mode="lowercasesymbols" />
+    <event name="symbols" type="switch_mode" mode="uppercase" />
+    <event name="backspace" type="key" code="8" ascii="8" modifiers="" />
+    <event name="enter" type="key" code="13" ascii="13" modifiers="" />
+    <event name="quote" type="key" code="34" ascii="34" modifiers="" />
+    <event name="£" type="key" code="163" ascii="163" modifiers="" />
+    <event name="$" type="key" code="36" ascii="36" modifiers="" />
+    <event name="%" type="key" code="37" ascii="37" modifiers="" />
+    <event name="^" type="key" code="94" ascii="94" modifiers="" />
+    <event name="&amp;" type="key" code="38" ascii="38" modifiers="" />
+    <event name="*" type="key" code="42" ascii="42" modifiers="" />
+    <event name="(" type="key" code="40" ascii="40" modifiers="" />
+    <event name=")" type="key" code="41" ascii="41" modifiers="" />
+    <event name="_" type="key" code="95" ascii="95" modifiers="" />
+    <event name="+" type="key" code="43" ascii="43" modifiers="" />
+    <event name="¬" type="key" code="172" ascii="172" modifiers="" />
+    <event name="!" type="key" code="33" ascii="33" modifiers="" />
+    <event name="{" type="key" code="123" ascii="123" modifiers="" />
+    <event name="}" type="key" code="125" ascii="125" modifiers="" />
+    <event name="~" type="key" code="126" ascii="126" modifiers="" />
+    <event name=":" type="key" code="58" ascii="58" modifiers="" />
+    <event name="@" type="key" code="64" ascii="64" modifiers="" />
+    <event name="&lt;" type="key" code="60" ascii="60" modifiers="" />
+    <event name="&gt;" type="key" code="62" ascii="62" modifiers="" />
+    <event name="?" type="key" code="63" ascii="63" modifiers="" />
+    <event name="space" type="key" code="32" ascii="32" modifiers="" />
+    <event name="tab" type="key" code="9" ascii="9" modifiers="" />
+    <event name="A" type="key" code="97" ascii="65" modifiers="shift" />
+    <event name="B" type="key" code="98" ascii="66" modifiers="shift" />
+    <event name="C" type="key" code="99" ascii="67" modifiers="shift" />
+    <event name="D" type="key" code="100" ascii="68" modifiers="shift" />
+    <event name="E" type="key" code="101" ascii="69" modifiers="shift" />
+    <event name="F" type="key" code="102" ascii="70" modifiers="shift" />
+    <event name="G" type="key" code="103" ascii="71" modifiers="shift" />
+    <event name="H" type="key" code="104" ascii="72" modifiers="shift" />
+    <event name="I" type="key" code="105" ascii="73" modifiers="shift" />
+    <event name="J" type="key" code="106" ascii="74" modifiers="shift" />
+    <event name="K" type="key" code="107" ascii="75" modifiers="shift" />
+    <event name="L" type="key" code="108" ascii="76" modifiers="shift" />
+    <event name="M" type="key" code="109" ascii="77" modifiers="shift" />
+    <event name="N" type="key" code="110" ascii="78" modifiers="shift" />
+    <event name="O" type="key" code="111" ascii="79" modifiers="shift" />
+    <event name="P" type="key" code="112" ascii="80" modifiers="shift" />
+    <event name="Q" type="key" code="113" ascii="81" modifiers="shift" />
+    <event name="R" type="key" code="114" ascii="82" modifiers="shift" />
+    <event name="S" type="key" code="115" ascii="83" modifiers="shift" />
+    <event name="T" type="key" code="116" ascii="84" modifiers="shift" />
+    <event name="U" type="key" code="117" ascii="85" modifiers="shift" />
+    <event name="V" type="key" code="118" ascii="86" modifiers="shift" />
+    <event name="W" type="key" code="119" ascii="87" modifiers="shift" />
+    <event name="X" type="key" code="120" ascii="88" modifiers="shift" />
+    <event name="Y" type="key" code="121" ascii="89" modifiers="shift" />
+    <event name="Z" type="key" code="122" ascii="90" modifiers="shift" />
+    <event name="0" type="key" code="48" ascii="48" modifiers="" />
+    <event name="1" type="key" code="49" ascii="49" modifiers="" />
+    <event name="2" type="key" code="50" ascii="50" modifiers="" />
+    <event name="3" type="key" code="51" ascii="51" modifiers="" />
+    <event name="4" type="key" code="52" ascii="52" modifiers="" />
+    <event name="5" type="key" code="53" ascii="53" modifiers="" />
+    <event name="6" type="key" code="54" ascii="54" modifiers="" />
+    <event name="7" type="key" code="55" ascii="55" modifiers="" />
+    <event name="8" type="key" code="56" ascii="56" modifiers="" />
+    <event name="9" type="key" code="57" ascii="57" modifiers="" />
+    <event name="ok" type="submit" />
+    <event name="cancel" type="cancel" />
+    <event name="quit" type="submit" />
+    <event name="delete" type="delete" />
+  </mode>
+</keyboard>

@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|' on
+# the right side marks the last column you can put a character in.  You must make
+# exactly 11 lines for the formatting to be correct.  It's also customary to
+# leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+scummvm: ScummVM
+scummvm:
+scummvm: ScummVM is a collection of interpreters, capable of emulating
+scummvm: several adventure game engines. ScummVM mainly supports engines
+scummvm: created using SCUMM (Script Creation Utility for Maniac Mansion),
+scummvm: used in various LucasArts games such as Monkey Island, Day of the
+scummvm: Tentacle, and others. ScummVM also contains interpreters for several
+scummvm: non-SCUMM games, currently these are Beneath a Steel Sky, Broken
+scummvm: Sword I & II and Simon the Sorcerer 1 & 2.
+scummvm:
+scummvm:

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="create_project" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\create_project" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="rpcrt4" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\create_project" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="rpcrt4" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="..\config.h" />
+		<Unit filename="..\codeblocks.cpp" />
+		<Unit filename="..\codeblocks.h" />
+		<Unit filename="..\create_project.cpp" />
+		<Unit filename="..\create_project.h" />
+		<Unit filename="..\msbuild.cpp" />
+		<Unit filename="..\msbuild.h" />
+		<Unit filename="..\msvc.cpp" />
+		<Unit filename="..\msvc.h" />
+		<Unit filename="..\visualstudio.cpp" />
+		<Unit filename="..\visualstudio.h" />
+		<Unit filename="..\xcode.cpp" />
+		<Unit filename="..\xcode.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

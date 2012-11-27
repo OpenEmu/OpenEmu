@@ -1,0 +1,60 @@
+/* ScummVM - Graphic Adventure Engine
+ * Copyright (C) 2003-2005 Andreas 'Sprawl' Karlsson - Original EPOC port, ESDL
+ * Copyright (C) 2003-2005 Lars 'AnotherGuest' Persson - Original EPOC port, Audio System
+ * Copyright (C) 2005 Jurgen 'SumthinWicked' Braam - EPOC/CVS maintainer
+ * Copyright (C) 2005-2012 The ScummVM project
+ *
+ * ScummVM is the legal property of its developers, whose names
+ * are too numerous to list here. Please refer to the COPYRIGHT
+ * file distributed with this source distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *
+ */
+
+//
+// EPOC MMP makefile project for ScummVM
+//
+
+// *** Definitions
+
+TARGET          scummvm_lure.lib
+TARGETTYPE      lib
+OPTION			MSVC /QIfist /Ob1 /Oy /GF // /QIfist disables use of __ftol2 to avoid linker probs with MS libc: http://msdn.microsoft.com/library/default.asp?url=/library/en-us/vccore/html/vcrefQIfistSuppress_ftol.asp
+OPTION			GCC -Wno-multichar -Wno-reorder // don't optimize for ARM, platform way too sensitive for that :( just turn off some common warnings
+OPTION			GCCE -Wno-multichar -Wno-reorder -Wno-unused -Wno-format -fsigned-char
+ALWAYS_BUILD_AS_ARM
+
+//START_AUTO_MACROS_SLAVE//
+
+	// empty base file, will be updated by Perl build scripts
+
+//STOP_AUTO_MACROS_SLAVE//
+
+// *** SOURCE files
+
+SOURCEPATH ..\..\..\..\engines\lure
+
+//START_AUTO_OBJECTS_LURE_//
+
+	// empty base file, will be updated by Perl build scripts
+
+//STOP_AUTO_OBJECTS_LURE_//
+
+// *** Include paths
+
+USERINCLUDE     ..\..\..\..\engines
+USERINCLUDE     ..\..\..\.. ..\..\..\..\gui ..\..\..\..\audio ..\src
+SYSTEMINCLUDE   \epoc32\include \epoc32\include\libc ..\src

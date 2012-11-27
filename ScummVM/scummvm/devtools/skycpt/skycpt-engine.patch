@@ -1,0 +1,66 @@
+Index: engines/sky/compact.cpp
+===================================================================
+--- engines/sky/compact.cpp	(revision 53162)
++++ engines/sky/compact.cpp	(working copy)
+@@ -138,11 +138,15 @@
+ 	if (fileVersion != 0)
+ 		error("unknown \"sky.cpt\" version");
+ 
++#if 0
++	// Disabled as sky.cpt / compact.dbg used during RESET.* generation is
++	// a different size from expected.
+ 	if (SKY_CPT_SIZE != _cptFile->size()) {
+ 		GUI::MessageDialog dialog("The \"sky.cpt\" file has an incorrect size.\nPlease (re)download it from www.scummvm.org", "OK", NULL);
+ 		dialog.runModal();
+ 		error("Incorrect sky.cpt size (%d, expected: %d)", _cptFile->size(), SKY_CPT_SIZE);
+ 	}
++#endif
+ 
+ 	// set the necessary data structs up...
+ 	_numDataLists = _cptFile->readUint16LE();
+Index: engines/sky/control.cpp
+===================================================================
+--- engines/sky/control.cpp	(revision 53162)
++++ engines/sky/control.cpp	(working copy)
+@@ -416,8 +416,8 @@
+ }
+ 
+ void Control::doLoadSavePanel() {
+-	if (SkyEngine::isDemo())
+-		return; // I don't think this can even happen
++	//if (SkyEngine::isDemo())
++	//	return; // I don't think this can even happen
+ 	initPanel();
+ 	_skyScreen->clearScreen();
+ 	if (SkyEngine::_systemVars.gameVersion < 331)
+@@ -427,12 +427,17 @@
+ 
+ 	_savedMouse = _skyMouse->giveCurrentMouseType();
+ 	_savedCharSet = _skyText->giveCurrentCharSet();
+-	_skyText->fnSetFont(2);
++	// Demo lacks any fonts apart from 0
++	if (SkyEngine::isDemo())
++		_skyText->fnSetFont(0);
++	else
++		_skyText->fnSetFont(2);
+ 	_skyMouse->spriteMouse(MOUSE_NORMAL, 0, 0);
+ 	_lastButton = -1;
+ 	_curButtonText = 0;
+ 
+-	saveRestorePanel(false);
++	// Parameter modified to true to ensure save dialog, not load is shown
++	saveRestorePanel(true);
+ 
+ 	memset(_screenBuf, 0, GAME_SCREEN_WIDTH * FULL_SCREEN_HEIGHT);
+ 	_system->copyRectToScreen(_screenBuf, GAME_SCREEN_WIDTH, 0, 0, GAME_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);
+Index: engines/sky/logic.cpp
+===================================================================
+--- engines/sky/logic.cpp	(revision 53162)
++++ engines/sky/logic.cpp	(working copy)
+@@ -2376,6 +2376,7 @@
+ 
+ bool Logic::fnSkipIntroCode(uint32 a, uint32 b, uint32 c) {
+ 	SkyEngine::_systemVars.pastIntro = true;
++	_skyControl->doLoadSavePanel();
+ 	return true;
+ }

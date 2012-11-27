@@ -1,0 +1,58 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "CxxTest_1_Run"=.\CxxTest_1_Run.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name CxxTest_2_Build
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "CxxTest_2_Build"=.\CxxTest_2_Build.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name CxxTest_3_Generate
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "CxxTest_3_Generate"=.\CxxTest_3_Generate.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################

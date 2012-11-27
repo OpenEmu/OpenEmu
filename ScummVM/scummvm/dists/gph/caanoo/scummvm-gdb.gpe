@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Export the location of any libs ScummVM depends on
+# (to avoid installing to the NAND and overwriting the broken ones there).
+export LD_LIBRARY_PATH=`pwd`/lib:$LD_LIBRARY_PATH
+
+# Run ScummVM via GDB (so make sure you have a terminal open or serial).
+# Oh, and GDB installed of course ;)
+gdb --args ./scummvm.gph --fullscreen --gfx-mode=1x --config=$(pwd)/.scummvmrc
+
+# Sync the SD card to check that everything is written.
+sync
+
+# Return to the GPH menu screen
+cd /usr/gp2x
+exec /usr/gp2x/gp2xmenu

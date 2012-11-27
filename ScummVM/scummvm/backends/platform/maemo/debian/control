@@ -1,0 +1,53 @@
+Source: scummvm
+Section: user/games
+Priority: optional
+Maintainer: Tarek Soliman <tsoliman@scummvm.org>
+Build-Depends: debhelper (>> 4.0.0), libsdl1.2-dev, libmad0-dev, libasound2-dev, libvorbisidec-dev, libmpeg2-4-dev, libflac-dev (>= 1.1.2), libfreetype6-dev, libz-dev, quilt
+
+Standards-Version: 3.6.1.1
+Package: scummvm
+Depends: ${shlibs:Depends}
+Architecture: armel
+Section: user/games
+Description: interpreter that will play graphic adventure games
+ written for LucasArts' SCUMM virtual machine, Sierra's AGI adventures,
+ Adventure Soft's Simon the Sorcerer 1, 2 and Feeble Files,
+ Revolution Software's Beneath a Steel Sky and Broken Sword 1 and 2,
+ Interactive Binary Illusions' Flight of the Amazon Queen,
+ Coktel Vision's Gobliiins, Wyrmkeep's Inherit the Earth,
+ Westwood's Legend of Kyrandia, and various others.
+ This package does not contain any actual games.
+XSBC-Bugtracker: https://sourceforge.net/tracker/?atid=418820&group_id=37116&func=browse
+XB-Maemo-Display-Name: ScummVM
+XBS-Maemo-Icon-26:
+  iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAAC/VBMVEUICwcH
+  CQUKDAgLDQoMDwsOEAwREAUPEQ0QEg8PFQoRExAUEwoVFAwPGAcTFBIRFg0W
+  FQ0XFg4RGgkTGA8XGQsTGwwUHA0aGRIWGxMXHQkVHQ8aGhMbGxQcHQocGxUZ
+  HwsYIgcfHxgeIRUbJQwhIBofJAweJwgfKQocKwwgKgshKw0gLggfLg8jLQ8n
+  LwwpLhEmMwcoMRQjNgotLCYmNwQlNwwqOBQtOQgsOQ8xNh4sPQswNyQqQAUw
+  PAsuOiAsQgcwOyIqRgIsSAQvRgs0PyY1Rg06RA0+PDAwSwg2RxUzTQE4TQsz
+  VAc/SSo6VAk4VwE6VRM2XAVAUC85XwlJVCNEXQo+YwJGXwxMWS1JXC5AagBI
+  awJUagRIcQBSbwpHeAJTaD9OdwNXcwJKewZNfABacRlOfQBPfgBQfwBMggBW
+  fgBNgwNSgQJOhAVecUJjdSZefwNUiABZhgBjeDZieDxhezFQjQBgghZkhQ5j
+  iQJUkAZcixJmgDZnhCtckQpblgBekw5clwBqgkthlQBdmAJriz90hz5omgBs
+  mAhxlgd0mAB5lgBpnA16khdzmAtxnABooQBtnwB4jUpzngBkpQR5nQF8j0Vr
+  pQduoRZ4nRR3k014oQBzpAt8oAh/ogBvqA5trACBmypwqRF1pw+GogCAow+D
+  pQB8phJ/nUNurxh0rRd4rwmHqQd6qDOArwCJqwyDsgCMrgB8ryiFtAB7uQN8
+  sDKBuAWOsBWJqFR8ti2IsiOSswaBuRt6vxCOtgqXsgePrjR9wQCFuw2KuQyB
+  uSeSuACEux6JuR2OvACAxACEvCuSuhOHujSMwQGTtiqfuACRvwGOvRWHuz2T
+  wASPwwmYvwaLvTebuxiWvhmSwBqZwAmNu0aevgiKvkCVviaMvE6bwQycuTid
+  vhylvQyZwB2cwg+QywCawR6fwB+bwyGI0gaewCudxCOjwyOT1ACmwjiX0g+j
+  xTqmxzOd1gCV0i6kyyuoyTah1Sif2h6tzjukzF+pz1uq1Eeg2Uml3U1kaLAB
+  AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAHrSURBVCjPY2BAAC5ubkFB
+  BkzAzggDfKgSUFEmKCmOIsPvktA0aVpbSYQ+FwsjkwpMBsi2m/X7z89v3759
+  +ngg1UqIlZEVponJYcW/rw9unH/04u2bc0vbo+WZWGCahEv/fj+6Yc2SZfv3
+  b5w6+eACHVYWmCazMz+unN44b3ZfV3dnx5yDiaKsUAOZGD2/fL58+PSGg3Gu
+  buEVWyZacLCzw6S8X324fOHqibMxWpKy5okBIjAZoNOt9r47e+HOnafbe/ND
+  DNWkOGAyDKwsCtXPTly4eufqm+fvHy4M1RRggsnJMLI6z9x99Oqtx7cuPP/2
+  ele5LjtCGyObbcHcDfuevHn+5s319RuSpOByrEwcwsqhlcvXHbp38+LxiXP6
+  DeBSTKzWvkrCun5Zq04dO7S6p67ZHibFziiRt6PYUk5YtfbUqSMTGnKyHaFS
+  rMDA3fHr7tqayKDWa0dWVmXHp5lCpRgZ2QI2HTl25NLt+1t3rppRFJ8SrwGX
+  4g9rmbJo0cpVqxZNaK5OS0nzF4NLMWkHZ1TVN9bXlxXmAo2L0uNgZITaxcjI
+  axAYH5+RATQrPtZHk5udA+Z2cIpQN3Hy8vOwMVLmYGTidoenDSawLAsnJz8L
+  kMUiY4ySpviYoKmKRVAcIyXKyIiLyygi+ADqVqrAkApevwAAAABJRU5ErkJg
+  gg==

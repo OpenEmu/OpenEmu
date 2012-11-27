@@ -1,0 +1,3 @@
+?package(scummvm):needs="x11" section="Games/Adventure" \
+  title="ScummVM" command="/usr/games/scummvm" \
+  icon="/usr/share/icons/scummvm.xpm"

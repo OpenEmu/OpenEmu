@@ -1,0 +1,5 @@
+These files are directly copied from the Lua distribution, with the
+exception of lzio.h, which is s/lua{ZM}/pdep/g and has an include removed.
+
+As such, unlike the rest of Pluto, they are released under the
+same terms as Lua. See "lua.h" for the copyright notice.

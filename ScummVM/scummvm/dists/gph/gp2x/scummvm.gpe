@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Remount SD with forced Sync, does this really work?
+mount -o sync,remount /dev/mmcsd/disc0/part1 /mnt/sd/
+
+# Export the location of any libs ScummVM depends on
+# (to avoid installing to the NAND and overwriting the broken ones there).
+export LD_LIBRARY_PATH=`pwd`/lib:$LD_LIBRARY_PATH
+
+# Run ScummVM, important this bit.
+./scummvm.gph --fullscreen --gfx-mode=1x --config=$(pwd)/.scummvmrc 
+
+# Sync the SD card to check that everything is written.
+sync
+
+# Return to the GPH menu screen
+cd /usr/gp2x
+exec /usr/gp2x/gp2xmenu

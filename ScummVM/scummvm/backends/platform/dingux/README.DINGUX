@@ -1,0 +1,84 @@
+ScummVM-DINGUX README
+==============================================================================
+
+Requirements
+============
+- Dingoo A320/A330
+- Dingux installed on SD card
+- Fixed Tremor libs in dingux rootfs (see below)
+
+Controls
+============
+- Dpad: move mouse cursor
+- Y: left mouse button click
+- A: '0' key
+- B: right mouse button click
+- X: '.' key (skips dialogue line in some engines)
+- Left Trigger: open global menu
+- Right Trigger: ESC button, scene skip in some engines
+- Select: opens virtual keyboard
+- Start: F5 key, game menu in some engines
+
+Installation from binaries
+==============================
+Mount your dingux SD card in your pc, then copy the directory "scummvm" found in
+the release package to a directory inside /pathtosdcard/local/dirofyourchoice
+(on windows it would be SDLETTER:\local\dirofyourchoice).
+At this point is sufficient to point your launcher (eg. gmenu2x) to scummvm.gpe
+file included into the scummvm directory you copied to the SD card, and then launch it.
+
+Building from binaries
+==============================
+It's pretty simple if you are running Linux on an x86/amd64 machine:
+1. Download and install the OpenDingux toolchain (http://www.treewalker.org/opendingux/)
+2. Download ScummVM sources and uncompress them
+3. Create a build directory and run configure specifying the correct library path. Eg.
+	mkdir build_dingux
+	LDFLAGS="-L/path-to-toolchain/usr/lib" ../path-to-scummvm-sources/configure --host=dingux --enable-plugins --default-dynamic
+	make
+4. Prepare the distribution directory
+	make dingux-dist
+5. Copy the distribution directory located in dingux-dist/scummvm to your SD card
+6. Enjoy
+
+Kernel and rootfs WARNINGS
+==============================
+
+*** A WARNING about the WARNING! ***
+The info below should no longer be valid relating to the new OpenDingux (http://www.treewalker.org/opendingux/)
+toolchain. When using OpenDingux you don't need custom kernels or libraries,
+after some checking I will remove the following warnings and keep OpenDingux
+as the only supported toolchain.
+
+All the dingux root images (rootfs) i found floating on the net have
+broken tremor libraries, which make scummvm crash in a bad way.
+One solution is to replace the libraries in your rootfs by injecting these fixed ones:
+http://hkzlab.ipv7.net/files/misc/dingux/dingux_fixed_tremor_libs.zip
+After having added these libs, scummvm should work on your standard dingux kernel,
+but this doesn't mean it will work perfectly:
+non-opendingux kernels doesn't have lcd double buffering leading to a lot of annoying
+tearing on screen.
+
+The best way to address all the problems in one shot, is to use an opendingux kernel for
+your dingoo, which has some interesting advantages:
+- The kernel gets updated and kept in sync with main linux tree
+- Double buffering and centering of screen image
+- Support for swap on compressed ram
+I have prepared a rootfs image with fixed libs and swap-on-zram to use together with opendingux kernels:
+http://hkzlab.ipv7.net/files/misc/dingux/opendingux/opendingux_kernel_rootfs.zip
+The kernel and rootfs images in the zip file is what i use for developing scummvm on dingux.
+
+BTW, i have built images for the A330 and A320 with ILI9325 controllers too,
+but these version aren't tested (i have an A320 with ILI9331, but if someone wants to
+donate an A330 to a poor scummvm developer so i can try the port there too... :P)
+
+If you need a launcher with opendingux cpu frequency scaler support, you can find gmenu2x here:
+http://www.treewalker.org/dingux/cpufreq.html
+
+I've also prepared a rootfs image for use on normal dingux kernels (non-opendingux ones).
+It's based on elta's rootfs image with just the fixed libs replaced.
+http://hkzlab.ipv7.net/files/misc/dingux/normal_dingux/rootfs_elta_fixtremor.zip
+I still raccomand the use of opendingux kernel + rootfs, but if you don't, this roofs
+image plus another kernel (eg. SiENcE's one) should be do the job.
+
+Enjoy

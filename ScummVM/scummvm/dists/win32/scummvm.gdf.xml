@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<GameDefinitionFile xmlns:baseTypes="urn:schemas-microsoft-com:GamesExplorerBaseTypes.v1" xmlns="urn:schemas-microsoft-com:GameDescription.v1">
+    <GameDefinition gameID="{F2475C5C-EA7C-41F0-A56D-1ABF7CFEA389}">
+        <Name>ScummVM</Name>
+        <Description>ScummVM is a program which allows you to run certain classic graphical point-and-click adventure games, provided you already have their data files. The clever part about this: ScummVM just replaces the executables shipped with the games, allowing you to play them on systems for which they were never designed!</Description>
+        <ReleaseDate>2011-09-30</ReleaseDate>
+        <Genres>
+            <Genre>Adventure</Genre>
+        </Genres>
+        <Version>
+            <VersionFile path="scummvm.exe" />
+        </Version>
+        <WindowsSystemPerformanceRating minimum="1.0" recommended="2.0" />
+        <Developers>
+            <Developer URI="http://www.scummvm.org">The ScummVM Team</Developer>
+        </Developers>
+        <Publishers>
+            <Publisher URI="http://www.scummvm.org">The ScummVM Team</Publisher>
+        </Publishers>
+        <GameExecutables>
+            <GameExecutable path="scummvm.exe" />
+        </GameExecutables>
+        <ExtendedProperties>
+            <GameTasks>
+                <Play>
+                    <Primary>
+                        <FileTask path="scummvm.exe" arguments="--no-console" />
+                    </Primary>
+                    <Task index="1" name="Play (console)">
+                        <FileTask path="scummvm.exe" arguments="" />
+                    </Task>
+                </Play>
+                <Support>
+                    <Task index="0" name="View README">
+                        <FileTask path="README.txt" arguments="" />
+                    </Task>
+                    <Task index="1" name="ScummVM Website">
+                        <URLTask Link="http://www.scummvm.org" />
+                    </Task>
+                </Support>
+            </GameTasks>
+        </ExtendedProperties>
+    </GameDefinition>
+</GameDefinitionFile>

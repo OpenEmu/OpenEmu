@@ -1,0 +1,133 @@
+$Id$
+
+PLUTO - Heavy duty persistence for Lua
+
+Pluto is a library which allows users to write arbitrarily large portions
+of the "Lua universe" into a flat file, and later read them back into the
+same or a different Lua universe. Object references are appropriately
+handled, such that the file contains everything needed to recreate the
+objects in question.
+
+Pluto has the following major features: 
+* Can persist any Lua function
+* Can persist threads 
+* Works with any Lua chunkreader/chunkwriter 
+* Support for "invariant" permanent objects, of all datatypes
+* Can invoke metafunctions for custom persistence of tables and userdata
+
+Pluto 2.2 requires Lua 5.1.3. If you need to use Pluto with Lua
+5.0, please use version 1.2 of Pluto.
+
+Starting with version 2.2, Pluto no longer depends on the Lua sources.
+Instead, it subsumes the required headers into its own codebase.
+As a result, it may not work properly with Lua version 5.1.4 or later.
+
+Pluto may have bugs. Users are advised to define lua_assert in 
+luaconf.h to something useful when compiling in debug mode, to catch
+assertions by Pluto and Lua.
+
+The Pluto library consists of two public functions.
+
+int pluto_persist(lua_State *L, lua_Chunkwriter writer, void *ud)
+
+This function recursively persists the Lua object in stack position 2
+and all other objects which are directly or indirectly referenced by
+it, except those referenced in the permanent object table. The data
+is written using the chunk-writer given, and that writer is passed
+the arbitrary pointer value ud.
+
+The Lua stack must contain exactly and only these two items, in order:
+
+1. A table of permanent objects, that should not be persisted. For each
+permanent object, the object itself should be the key, and a unique
+object of any type should be the value. Likely candidates for this table 
+include Lua functions (including those in the Lua libraries) that are 
+loaded at load-time. It must include all non-persistable objects that 
+are referenced by the object to be persisted. The table is not modified 
+by the function. Objects in this table are considered "opaque" and are 
+not examined or descended into. Objects should not appear in the table 
+multiple times; the result of doing this is undefined (though probably 
+harmless). NOTE: If you are planning to persist threads, keep in mind 
+that all yielded threads have coroutine.yield on the tops of their 
+stacks. Since it's a C function, it should be put here.  For complex 
+permanents, it may be a good idea to use the __index meta-function of 
+the permanents table to "search" for permanents.
+
+2. The single object to be persisted. In many cases, this will be the
+global table. For more flexibility, however, it may be something like a
+table built for the occasion, with various values to keep track of. The
+object may not be nil.
+
+
+int pluto_unpersist(lua_State *L, lua_Chunkreader reader, void *ud)
+
+This function loads in a Lua object and places it on top of the stack. All
+objects directly or indirectly referenced by it are also loaded.
+
+The Lua stack must contain, as its top value, a table of permanent
+objects. This table should be like the permanent object table used when
+persisting, but with the key and value of each pair reversed. These 
+objects are used as substitutes for those referenced in their positions 
+when persisting, and under most circumstances should be identical objects
+to those referenced in the permanents table used for persisting. It's 
+okay for multiple keys to refer to the same object.
+
+
+RUNNING PLUTO FROM LUA:
+It is also possible to invoke pluto from a Lua script. The C function
+pluto_open() will register pluto.persist and pluto.unpersist, lua functions
+which operate on strings. The first takes a permanents table and a root 
+object, and returns a string; the second takes a permanents table and a 
+string, and returns the root object.
+
+An error will be raised if pluto.persist is called from a thread which is
+itself referenced by the root object.
+
+SPECIAL PERSISTENCE:
+Tables and userdata have special persistence semantics. These semantics are
+keyed to the value of the object's metatable's __persist member, if any. This
+member may be any of the following four values:
+1. Boolean "true": The table or userdata is persisted literally; tables are
+persisted member-by-member, and userdata are written out as literal data.
+2. Boolean "false": An error is returned, indicating that the object cannot
+be persisted.
+3. A function: This function should take one argument, the object in question,
+and return one result, a closure. This "fixup closure", in turn, will be 
+persisted, and during unpersistence will be called. The closure will be 
+responsible for recreating the object with the appropriate data, based on 
+its upvalues.
+4. Nil, or no metatable. In the case of tables, the table is literally
+persisted. In the case of userdata, an error is returned.
+
+Here's an example of special persistence for a simple 3d vector object:
+
+vec = { x = 2, y = 1, z = 4 }
+setmetatable(vec, { __persist = function(oldtbl)
+	local x = oldtbl.x
+	local y = oldtbl.y
+	local z = oldtbl.z
+	local mt = getmetatable(oldtbl)
+	return function()
+		newtbl = {}
+		newtbl.x = x
+		newtbl.y = y
+		newtbl.z = z
+		setmetatable(newtbl, mt)
+		return newtbl
+	end
+end })
+
+Note how x, y, z, and the mt are explicitly pulled out of the table. It is 
+important that the fixup closure returned not reference the original table 
+directly, as that table would again be persisted as an upvalue, leading to an 
+infinite loop. Also note that the object's metatable is NOT automatically 
+persisted; it is necessary for the fixup closure to reset it, if it wants.
+
+LIMITATIONS/TODO: 
+* Light userdata are persisted literally, as their pointer values. This 
+may or may not be what you want.  
+* Closures of C functions may not be persisted. Once it becomes possible
+to specify a C function "proto" as a permanent object, this restriction
+will be relaxed.
+
+BUGS: None known. Emphasis on the 'known'.

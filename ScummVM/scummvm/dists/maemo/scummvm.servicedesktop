@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=ScummVM
+Exec=/usr/games/scummvm
+Icon=scummvm
+X-Icon-path=/usr/share/icons
+X-Window-Icon=scummvm
+X-HildonDesk-ShowInToolbar=true
+X-Osso-Type=application/x-executable
+X-Osso-Service=scummvm
+StartupWMClass=scummvm

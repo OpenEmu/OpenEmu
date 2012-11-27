@@ -1,0 +1,16 @@
+TYPE ScummVMExecutable
+    MATCH       tag == 0x5260dbec;
+    LEGEND      ScummVM
+    SUPERTYPE   Executable
+    CMD OPEN    $LEADER $REST
+    CMD ALTOPEN launch -c $LEADER $REST
+    CMD DROP    $TARGET $SELECTED
+    ICON {
+        if (opened) {
+	    include("../iconlib/generic.exec.open.fti");
+            include("iconlib/ScummVM.fti");
+        } else {
+	    include("../iconlib/generic.exec.closed.fti");
+            include("iconlib/ScummVM.fti");
+        }
+    }

@@ -1,0 +1,39 @@
+#!/bin/sh
+# ScummVM Slackware 9(.1) Package Creation Script
+# Initial version by Jay Lanagan <roni@parodius.com>
+# Updated by Robert Kelsen <rkelsen@optusnet.com.au>
+
+CWD=`pwd`
+if [ "$TMP" = "" ]; then
+  TMP=/tmp
+fi
+PKG=$TMP/package-scummvm
+
+VERSION=@VERSION@
+ARCH=i486
+BUILD=1
+
+if [ ! -d $TMP ]; then
+  mkdir -p $TMP
+fi
+if [ ! -d $PKG ]; then
+  mkdir -p $PKG
+fi
+
+#cd $TMP
+tar xvf scummvm-$VERSION.tar.bz2
+cd scummvm-$VERSION
+./configure --prefix=/usr --bindir=/usr/games
+make
+strip scummvm
+make install DESTDIR=$PKG
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+cd $PKG
+chown -R root.root .
+makepkg -l y -c n $TMP/scummvm-$VERSION-$ARCH-$BUILD.tgz
+
+if [ "$1" = "--cleanup" ]; then
+  rm -rf $TMP/scummvm-$VERSION
+  rm -rf $PKG
+fi

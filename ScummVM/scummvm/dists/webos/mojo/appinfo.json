@@ -1,0 +1,10 @@
+{
+	"id": "APP_ID",
+	"version": "APP_VERSION",
+	"vendor": "ScummVM Team",
+	"type": "pdk",
+	"main": "start",
+	"title": "APP_TITLE",
+	"icon": "icon.png",
+	"requiredMemory": 64
+}

@@ -1,0 +1,1959 @@
+<html lang="en">
+<head>
+<title>CxxTest User's Guide</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="CxxTest User's Guide">
+<meta name="generator" content="makeinfo 4.3">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home">
+</head>
+<body>
+<h1 class="settitle">CxxTest User's Guide</h1>
+<a href="#contents">Table of contents</a>
+
+<h2 class="chapter"><a name="TOC0"></a>1 Introduction</h2>
+
+   <p>CxxTest is a <a href="http://junit.org/">JUnit</a>/<a href="http://cppunit.sourceforge.net">CppUnit</a>/<a href="http://xprogramming.com/software.html">xUnit</a>-like framework for C++.
+
+   <p>Its advantages over existing alternatives are that it:
+     <ul>
+<li>Doesn't require RTTI
+<li>Doesn't require member template functions
+<li>Doesn't require exception handling
+<li>Doesn't require any external libraries (including memory management, file/console I/O, graphics libraries)
+</ul>
+   In other words, CxxTest is designed to be as portable as possible.  Its
+only requirements are a reasonably modern C++ compiler and either Perl
+or Python.  However, when advanced features are supported in your
+environment, CxxTest can use them, e.g. catch unhandled exceptions and
+even display a GUI.
+
+   <p>In addition, CxxTest is slightly easier to use than the C++
+alternatives, since you don't need to "register" your tests.  It also
+features some extras like a richer set of assertions and even support
+for a "to do" list (see <a href="#warn"><code>TS_WARN(</code><em></em><code>)</code></a>).
+
+   <p>CxxTest is available under the
+<a href="http://www.gnu.org/copyleft/lesser.html">GNU Lesser General Public License</a>.
+
+<h3 class="section"><a name="TOC1"></a>1.1 About this guide</h3>
+
+   <p>This guide is not intended as an introduction to Extreme Progamming
+and/or unit testing.  It describes the design and usage of CxxTest.
+
+<h2 class="chapter"><a name="TOC2"></a>2 Getting started</h2>
+
+<h3 class="section"><a name="TOC3"></a>2.1 Getting CxxTest</h3>
+
+   <p>The homepage for CxxTest is <a href="http://cxxtest.sourceforge.net">http://cxxtest.sourceforge.net</a>.  You
+can always get the latest release from the SourceForge download page,
+<a href="http://sourceforge.net/project/showfiles.php?group_id=52834">here</a>
+or <a href="http://dl.sourceforge.net/cxxtest">here</a>.  The latest version
+of this guide is available online at
+<a href="http://cxxtest.sourceforge.net/guide.html">http://cxxtest.sourceforge.net/guide.html</a>.  A PDF version is also
+available at <a href="http://cxxtest.sourceforge.net/guide.pdf">http://cxxtest.sourceforge.net/guide.pdf</a>.
+
+<h3 class="section"><a name="TOC4"></a>2.2 Your first test!</h3>
+
+   <p>Here's a simple step-by-step guide:
+
+     <ol type=1 start=1>
+
+     <li>Tests are organized into "Test Suites". 
+  Test suites are written in header files.
+
+     <p>A test suite is a class that inherits from <code>CxxTest::TestSuite</code>. 
+  A test is a public <code>void (void)</code> member function of that class whose name starts with <code>test</code>,
+  e.g. <code>testDirectoryScanner()</code>, <code>test_cool_feature()</code> and even <code>TestImportantBugFix()</code>.
+
+     <pre class="smallexample">
+          <pre class="verbatim">
+          // MyTestSuite.h
+          #include &lt;cxxtest/TestSuite.h>
+          
+          class MyTestSuite : public CxxTest::TestSuite 
+          {
+          public:
+             void testAddition( void )
+             {
+                TS_ASSERT( 1 + 1 > 1 );
+                TS_ASSERT_EQUALS( 1 + 1, 2 );
+             }
+          };
+          </pre>
+          </pre>
+
+     </p><li>After you have your test suites, you use CxxTest to generate a "test runner" source file:
+
+     <pre class="verbatim">
+     # cxxtestgen.pl --error-printer -o runner.cpp MyTestSuite.h
+     </pre>
+
+     <p>or, for those less fortunate:
+
+     <pre class="verbatim">
+     C:\tmp> perl -w cxxtestgen.pl --error-printer -o runner.cpp MyTestSuite.h
+     </pre>
+
+     </p><li>You would then simply compile the resulting file:
+
+     <pre class="verbatim">
+     # g++ -o runner runner.cpp
+     </pre>
+
+     <p>or perhaps
+
+     <pre class="verbatim">
+     C:\tmp> cl -GX -o runner.exe runner.cpp
+     </pre>
+
+     <p>or maybe even
+
+     <pre class="verbatim">
+     C:\tmp> bcc32 -erunner.exe runner.cpp
+     </pre>
+
+     </p><li>Finally, you run the tests and enjoy a well tested piece of software:
+
+     <pre class="verbatim">
+     # ./runner
+     Running 1 test.OK!
+     </pre>
+
+        </ol>
+
+<h3 class="section"><a name="TOC5"></a>2.3 Your second test</h3>
+
+   <p>Now let's see what failed tests look like. 
+We will add a failing test to the previous example:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     // MyTestSuite.h
+     #include &lt;cxxtest/TestSuite.h>
+     
+     class MyTestSuite : public CxxTest::TestSuite 
+     {
+     public:
+        void testAddition( void )
+        {
+           TS_ASSERT( 1 + 1 > 1 );
+           TS_ASSERT_EQUALS( 1 + 1, 2 );
+        }
+     
+        void testMultiplication( void )
+        {
+           TS_ASSERT_EQUALS( 2 * 2, 5 );
+        }
+     };
+     </pre>
+     </pre>
+
+   <p>Generate, compile and run the test runner, and you will get this:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     # ./runner
+     Running 2 tests.
+     MyTestSuite.h:15: Expected (2 * 2 == 5), found (4 != 5)
+     Failed 1 of 2 tests
+     Success rate: 50%
+     </pre>
+     </pre>
+
+   <p>Fixing the bug is left as an excercise to the reader.
+
+<h3 class="section"><a name="TOC6"></a>2.4 Graphical user interface</h3>
+
+   <font size=-2>(v3.0.1)</font>
+CxxTest can also display a simple GUI.  The way to do this is depends on
+your compiler, OS and environment, but try the following pointers:
+     <ul>
+
+     <li>Under Windows with Visual C++, run <code>perl cxxtestgen.pl -o&nbsp;runner.cpp
+</code><em>--gui=Win32Gui</em><code> MyTestSuite.h</code>.
+
+     <li>Under X-Windows, try <code>./cxxtestgen.pl -o&nbsp;runner.cpp
+</code><em>--gui=X11Gui</em><code> MyTestSuite</code>.  You may need to tell the compiler
+where to find X, usually something like <code>g++ -o&nbsp;runner
+-L/usr/X11R6/lib runner.cpp -lX11</code>.
+
+     <li>If you have <a href="http://www.trolltech.com">Qt</a> installed, try running
+<code>cxxtestgen.pl</code> with the option <code>--gui=QtGui</code>.  As
+always, compile and link the the Qt headers and libraries.
+
+   </ul>
+
+   <p>See <a href="#GUI">Graphical user interface</a> and <a href="#samples">Running the samples</a> for
+more information.
+
+<h2 class="chapter"><a name="TOC7"></a>3 <em>Really</em> using CxxTest</h2>
+
+   <p>There is much more to CxxTest than seeing if two times two is four. 
+You should probably take a look at the samples in the CxxTest distribution. 
+Other than that, here are some more in-depth explanations.
+
+<h3 class="section"><a name="TOC8"></a>3.1 What can you test</h3>
+
+   <p>Here are the different "assertions" you can use in your tests:
+
+   <p><table><tr align="left"><td valign="top"><strong>Macro</strong> </td><td valign="top"><strong>Description</strong> </td><td valign="top"><strong>Example</strong>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#fail"><code>TS_FAIL(</code><em>message</em><code>)</code></a>
+</td><td valign="top">Fail unconditionally
+</td><td valign="top"><code>TS_FAIL("Test not implemented");</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#assert"><code>TS_ASSERT(</code><em>expr</em><code>)</code></a>
+</td><td valign="top">Verify <code></code><em>(expr)</em><code></code> is true
+</td><td valign="top"><code>TS_ASSERT(messageReceived());</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#equals"><code>TS_ASSERT_EQUALS(</code><em>x, y</em><code>)</code></a>
+</td><td valign="top">Verify <code></code><em>(x==y)</em><code></code>
+</td><td valign="top"><code>TS_ASSERT_EQUALS(nodeCount(), 14);</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#sameData"><code>TS_ASSERT_SAME_DATA(</code><em>x, y, size</em><code>)</code></a>
+</td><td valign="top">Verify two buffers are equal
+</td><td valign="top"><code>TS_ASSERT_SAME_DATA(input, output,, size);</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#delta"><code>TS_ASSERT_DELTA(</code><em>x, y, d</em><code>)</code></a>
+</td><td valign="top">Verify <code></code><em>(x==y)</em><code></code> up to <code></code><em>d</em><code></code>
+</td><td valign="top"><code>TS_ASSERT_DELTA(sqrt(4.0), 2.0, 0.0001);</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#differs"><code>TS_ASSERT_DIFFERS(</code><em>x, y</em><code>)</code></a>
+</td><td valign="top">Verify <code></code><em>!(x==y)</em><code></code>
+</td><td valign="top"><code>TS_ASSERT_DIFFERS(exam.numTook(), exam.numPassed());</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#lessthan"><code>TS_ASSERT_LESS_THAN(</code><em>x, y</em><code>)</code></a>
+</td><td valign="top">Verify <code></code><em>(x&lt;y)</em><code></code>
+</td><td valign="top"><code>TS_ASSERT_LESS_THAN(ship.speed(), SPEED_OF_LIGHT);</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#lte"><code>TS_ASSERT_LESS_THAN_EQUALS(</code><em>x, y</em><code>)</code></a>
+</td><td valign="top">Verify <code></code><em>(x&lt;=y)</em><code></code>
+</td><td valign="top"><code>TS_ASSERT_LESS_THAN_EQUALS(requests, items);</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#predicate"><code>TS_ASSERT_PREDICATE(</code><em>R, x</em><code>)</code></a>
+</td><td valign="top">Verify <code></code><em>P(x)</em><code></code>
+</td><td valign="top"><code>TS_ASSERT_PREDICATE(SeemsReasonable, salary);</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#relation"><code>TS_ASSERT_RELATION(</code><em>R, x, y</em><code>)</code></a>
+</td><td valign="top">Verify <code></code><em>x R y</em><code></code>
+</td><td valign="top"><code>TS_ASSERT_RELATION(std::greater, salary, average);</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#throwsx"><code>TS_ASSERT_THROWS(</code><em>expr, type</em><code>)</code></a>
+</td><td valign="top">Verify that <code></code><em>(expr)</em><code></code> throws a specific type of exception
+</td><td valign="top"><code>TS_ASSERT_THROWS(parse(file), Parser::ReadError);</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#throwsx"><code>TS_ASSERT_THROWS_EQUALS(</code><em>expr, arg, x, y</em><code>)</code></a>
+</td><td valign="top">Verify type and value of what <code></code><em>(expr)</em><code></code> throws
+</td><td valign="top">(See text)
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#throwsx"><code>TS_ASSERT_THROWS_ASSERT(</code><em>expr, arg, assertion</em><code>)</code></a>
+</td><td valign="top">Verify type and value of what <code></code><em>(expr)</em><code></code> throws
+</td><td valign="top">(See text)
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#throwsx"><code>TS_ASSERT_THROWS_ANYTHING(</code><em>expr</em><code>)</code></a>
+</td><td valign="top">Verify that <code></code><em>(expr)</em><code></code> throws an exception
+</td><td valign="top"><code>TS_ASSERT_THROWS_ANYTHING(buggy());</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#throwsx"><code>TS_ASSERT_THROWS_NOTHING(</code><em>expr</em><code>)</code></a>
+</td><td valign="top">Verify that <code></code><em>(expr)</em><code></code> doesn't throw anything
+</td><td valign="top"><code>TS_ASSERT_THROWS_NOTHING(robust());</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#warn"><code>TS_WARN(</code><em>message</em><code>)</code></a>
+</td><td valign="top">Print <code></code><em>message</em><code></code> as a warning
+</td><td valign="top"><code>TS_WARN("TODO: Check invalid parameters");</code>
+
+<br></td></tr><tr align="left"><td valign="top"><a href="#trace"><code>TS_TRACE(</code><em>message</em><code>)</code></a>
+</td><td valign="top">Print <code></code><em>message</em><code></code> as an informational message
+</td><td valign="top"><code>TS_TRACE(errno);</code>
+
+   <br></td></tr></table>
+
+<h4 class="subsection"><a name="TOC9"></a>3.1.1 <code>TS_FAIL</code></h4>
+
+   <p><a name="fail"></a>
+
+   <p><code>TS_FAIL</code> just fails the test. 
+It is like an <code>assert(false)</code> with an error message. 
+For example:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testSomething( void )
+     {
+        TS_FAIL( "I don't know how to test this!" );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC10"></a>3.1.2 <code>TS_ASSERT</code></h4>
+
+   <p><a name="assert"></a>
+
+   <p><code>TS_ASSERT</code> is the basic all-around tester.  It works just like the
+well-respected <code>assert()</code> macro (which I sincerely hope you know and
+use!)  An example:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testSquare( void )
+     {
+        MyFileLibrary::createEmptyFile( "test.bin" );
+        TS_ASSERT( access( "test.bin", 0 ) == 0 );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC11"></a>3.1.3 <code>TS_ASSERT_EQUALS</code></h4>
+
+   <p><a name="equals"></a>
+
+   <p>This is the second most useful tester. 
+As the name hints, it is used to test if two values are equal.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testSquare( void )
+     {
+        TS_ASSERT_EQUALS( square(-5), 25 );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC12"></a>3.1.4 <code>TS_ASSERT_SAME_DATA</code></h4>
+
+   <p><a name="sameData"></a>
+
+   <font size=-2>(v3.5.1)</font>
+This assertion is similar to <a href="#equals"><code>TS_ASSERT_EQUALS(</code><em></em><code>)</code></a>, except that it
+compares the contents of two buffers in memory.  If the comparison
+fails, the standard runner dumps the contents of both buffers as hex
+values.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testCopyMemory( void )
+     {
+        char input[77], output[77];
+        myCopyMemory( output, input, 77 );
+        TS_ASSERT_SAME_DATA( input, output, 77 );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC13"></a>3.1.5 <code>TS_ASSERT_DELTA</code></h4>
+
+   <p><a name="delta"></a>
+
+   <p>Similar to <a href="#equals"><code>TS_ASSERT_EQUALS(</code><em></em><code>)</code></a>, this macro
+verifies two values are equal up to a delta. 
+This is basically used for floating-point values.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testSquareRoot( void )
+     {
+        TS_ASSERT_DELTA( squareRoot(4.0), 2.0, 0.00001 );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC14"></a>3.1.6 <code>TS_ASSERT_DIFFERS</code></h4>
+
+   <p><a name="differs"></a>
+
+   <p>The opposite of <a href="#equals"><code>TS_ASSERT_EQUALS(</code><em></em><code>)</code></a>, this macro is used to assert
+that two values are not equal.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testNumberGenerator( void )
+     {
+        int first = generateNumber();
+        int second = generateNumber();
+        TS_ASSERT_DIFFERS( first, second );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC15"></a>3.1.7 <code>TS_ASSERT_LESS_THAN</code></h4>
+
+   <p><a name="lessthan"></a>
+
+   <p>This macro asserts that the first operand is less than the second.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testFindLargerNumber( void )
+     {
+        TS_ASSERT_LESS_THAN( 23, findLargerNumber(23) );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC16"></a>3.1.8 <code>TS_ASSERT_LESS_THAN_EQUALS</code></h4>
+
+   <p><a name="lte"></a>
+
+   <font size=-2>(v3.7.0)</font>
+Not surprisingly, this macro asserts that the first operand is less than or equals the second.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testBufferSize( void )
+     {
+        TS_ASSERT_LESS_THAN_EQUALS( bufferSize(), MAX_BUFFER_SIZE );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC17"></a>3.1.9 <code>TS_ASSERT_PREDICATE</code></h4>
+
+   <p><a name="predicate"></a>
+
+   <font size=-2>(v3.8.2)</font>
+This macro can be seen as a generalization of
+<a href="#assert"><code>TS_ASSERT(</code><em></em><code>)</code></a>.  It takes as an argument the name of a class,
+similar to an STL <code>unary_function</code>, and evaluates
+<code>operator()</code>.  The advantage this has over
+<a href="#assert"><code>TS_ASSERT(</code><em></em><code>)</code></a> is that you can see the failed value.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     class IsPrime
+     {
+     public:
+        bool operator()( unsigned ) const;
+     };
+     
+     // ...
+     
+     void testPrimeGenerator( void )
+     {
+        TS_ASSERT_PREDICATE( IsPrime, generatePrime() );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC18"></a>3.1.10 <code>TS_ASSERT_RELATION</code></h4>
+
+   <p><a name="relation"></a>
+
+   <font size=-2>(v3.8.0)</font>
+Closely related to
+<a href="#predicate"><code>TS_ASSERT_PREDICATE(</code><em></em><code>)</code></a>, this macro can be seen as a
+generalization of <a href="#equals"><code>TS_ASSERT_EQUALS(</code><em></em><code>)</code></a>,
+<a href="#differs"><code>TS_ASSERT_DIFFERS(</code><em></em><code>)</code></a>,
+<a href="#lessthan"><code>TS_ASSERT_LESS_THAN(</code><em></em><code>)</code></a> and
+<a href="#lte"><code>TS_ASSERT_LESS_THAN_EQUALS(</code><em></em><code>)</code></a>.  It takes as an argument the
+name of a class, similar to an STL <code>binary_function</code>, and evaluates
+<code>operator()</code>.  This can be used to very simply assert comparisons
+which are not covered by the builtin macros.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testGreater( void )
+     {
+        TS_ASSERT_RELATION( std::greater&lt;int>, ticketsSold(), 1000 );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC19"></a>3.1.11 <code>TS_ASSERT_THROWS</code> and friends</h4>
+
+   <p><a name="throwsx"></a>
+
+   <p>These assertions are used to test whether an expression throws an exception. 
+<code>TS_ASSERT_THROWS</code> is used when you want to verify the type of exception
+thrown, and <code>TS_ASSERT_THROWS_ANYTHING</code> is used to just make sure something
+is thrown.  As you might have guessed, <code>TS_ASSERT_THROWS_NOTHING</code> asserts
+that nothing is thrown.
+
+   <font size=-2>(v3.10.0)</font>
+<code>TS_ASSERT_THROWS_EQUALS</code> checks the type of the
+exception as in <code>TS_ASSERT_THROWS</code> then allows you to compare two
+value (one of which will presumably be the caught object). 
+<code>TS_ASSERT_THROWS_ASSERT</code> is the general case, and allows you to
+make any assertion about the thrown value.  These macros may seem a
+little complicated, but they can be very useful; see below for an
+example.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testFunctionsWhichThrowExceptions( void )
+     {
+        TS_ASSERT_THROWS_NOTHING( checkInput(1) );
+        TS_ASSERT_THROWS( checkInput(-11), std::runtime_error );
+        TS_ASSERT_THROWS_ANYTHING( thirdPartyFunction() );
+     
+        TS_ASSERT_THROWS_EQUALS( validate(), const std::exception &amp;e, 
+                                 e.what(), "Invalid value" );
+        TS_ASSERT_THROWS_ASSERT( validate(), const Error &amp;e, 
+                                 TS_ASSERT_DIFFERS( e.code(), SUCCESS ) );
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC20"></a>3.1.12 <code>TS_TRACE</code> and <code>TS_WARN</code></h4>
+
+   <p><a name="warn"></a>
+<a name="trace"></a>
+
+   <font size=-2>(v3.0.1)</font>
+<code>TS_WARN</code> just prints out a message, like the
+<code>#warning</code> preprocessor directive.  I find it very useful for "to
+do" items.  For example:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testToDoList( void )
+     {
+        TS_WARN( "TODO: Write some tests!" );
+        TS_WARN( "TODO: Make $$$ fast!" );
+     }
+     </pre>
+     </pre>
+
+   <p>In the GUI, <code>TS_WARN</code> sets the bar color to yellow (unless it was
+already red).
+
+   <font size=-2>(v3.9.0)</font>
+<code>TS_TRACE</code> is the same, except that it
+doesn't change the color of the progress bar.
+
+<h4 class="subsection"><a name="TOC21"></a>3.1.13 The <code>ETS_</code> macros</h4>
+
+   <p>The <code>TS_</code> macros mentioned above will catch exceptions thrown from tested code
+and fail the test, as if you called <a href="#fail"><code>TS_FAIL(</code><em></em><code>)</code></a>. 
+Sometimes, however, you may want to catch the exception yourself; when you do, you can
+use the <code>ETS_</code> versions of the macros.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void testInterestingThrower()
+     {
+        // Normal way: if an exception is caught we can't examine it
+        TS_ASSERT_EQUALS( foo(2), 4 );
+     
+        // More elaborate way:
+        try { ETS_ASSERT_EQUALS( foo(2), 4 ); } 
+        catch( const BadFoo &amp;e ) { TS_FAIL( e.bar() ); }
+     }
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC22"></a>3.1.14 The <code>TSM_</code> macros</h4>
+
+   <p>Sometimes the default output generated by the <code>ErrorPrinter</code> doesn't give you enough
+information.  This often happens when you move common test functionality to helper functions
+inside the test suite; when an assertion fails, you do not know its origin.
+
+   <p>In the example below (which is the file <code>sample/MessageTest.h</code> from the CxxTest distribution),
+we need the message feature to know which invocation of <code>checkValue()</code> failed:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     class MessageTest : public CxxTest::TestSuite
+     {
+     public:
+        void testValues()
+        {
+           checkValue( 0, "My hovercraft" );
+           checkValue( 1, "is full" );
+           checkValue( 2, "of eels" );
+        }
+     
+        void checkValue( unsigned value, const char *message )
+        {
+           TSM_ASSERT( message, value );
+           TSM_ASSERT_EQUALS( message, value, value * value );
+        }
+     };
+     </pre>
+     </pre>
+
+<h5 class="subsubsection"><a name="TOC23"></a>3.1.14.1 The <code>ETSM_</code> macros</h5>
+
+   <p><strong>Note:</strong> As with normal asserts, all <code>TSM_</code> macros have their
+non-exception-safe counterparts, the <code>ETSM_</code> macros.
+
+<h3 class="section"><a name="TOC24"></a>3.2 Running the samples</h3>
+
+   <p><a name="samples"></a>
+
+   <p>CxxTest comes with some samples in the <code>sample/</code> subdirectory of
+the distribution.  If you look in that directory, you will see three
+Makefiles: <code>Makefile.unix</code>, <code>Makefile.msvc</code> and
+<code>Makefile.bcc32</code> which are for Linux/Unix, MS Visual C++ and
+Borland C++, repectively.  These files are provided as a starting point,
+and some options may need to be tweaked in them for your system.
+
+   <p>If you are running under Windows, a good guess would be to run
+<code>nmake -fMakefile.msvc run_win32</code> (you may need to run
+<code>VCVARS32.BAT</code> first).  Under Linux, <code>make
+-fMakefile.unix run_x11</code> should probably work.
+
+<h3 class="section"><a name="TOC25"></a>3.3 Test fixtures</h3>
+
+   <p>When you have several test cases for the same module,
+you often find that all of them start with more or less
+the same code--creating objects, files, inputs, etc. 
+They may all have a common ending, too--cleaning up
+the mess you left.
+
+   <p>You can (and should) put all this code in a common place by overriding
+the virtual functions <code>TestSuite::setUp()</code> and
+<code>TestSuite::tearDown()</code>.  <code>setUp()</code> will
+then be called before each test, and <code>tearDown()</code>
+after each test.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     class TestFileOps : public CxxTest::TestSuite 
+     {
+     public:
+        void setUp() { mkdir( "playground" ); }
+        void tearDown() { system( "rm -Rf playground"); }
+     
+        void testCreateFile()
+        {
+           FileCreator fc( "playground" );
+           fc.createFile( "test.bin" );
+           TS_ASSERT_EQUALS( access( "playground/test.bin", 0 ), 0 );
+        }
+     };
+     </pre>
+     </pre>
+
+   <p><strong>Note new users:</strong> This is probably the single most important
+feature to use when your tests become non-trivial.
+
+<h4 class="subsection"><a name="TOC26"></a>3.3.1 Test suite level fixtures</h4>
+
+   <p><code>setUp()</code>/<code>tearDown()</code> are executed around each test case.  If
+you need a fixture on the test suite level, i.e. something that gets
+constructed once before all the tests in the test suite are run, see
+<a href="#dynamic">Dynamically creating test suites</a> below.
+
+<h3 class="section"><a name="TOC27"></a>3.4 Integrating with your build environment</h3>
+
+   <p>It's very hard to maintain your tests if you have to generate, compile and run the test runner
+manually all the time. 
+Fortunately, that's why we have build tools!
+
+<h4 class="subsection"><a name="TOC28"></a>3.4.1 Overview</h4>
+
+   <p>Let's assume you're developing an application. 
+What I usually do is the following:
+     <ul>
+<li>Split the application into a library and a main module that just calls
+  the library classes. 
+  This way, the test runner will be able to access all your classes through
+  the library. 
+<li>Create another application (or target, or project, or whatever) for the test runner. 
+  Make the build tool generate it automatically. 
+<li>For extra points, make the build tool run the tests automatically. 
+</ul>
+
+<h4 class="subsection"><a name="TOC29"></a>3.4.2 Actually doing it</h4>
+
+   <p>Unfortunately, there are way too many different build tools and IDE's for me
+to give ways to use CxxTest with all of them.
+
+   <p>I will try to outline the usage for some cases.
+
+<h5 class="subsubsection"><a name="TOC30"></a>3.4.2.1 Using Makefiles</h5>
+
+   <p>Generating the tests with a makefile is pretty straightforward. 
+Simply add rules to generate, compile and run the test runner.
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     all: lib run_tests app
+     
+     # Rules to build your targets
+     lib: ...
+     
+     app: ...
+     
+     # A rule that runs the unit tests
+     run_tests: runner
+             ./runner
+     
+     # How to build the test runner
+     runner: runner.cpp lib
+             g++ -o $@ $^
+     
+     # How to generate the test runner
+     runner.cpp: SimpleTest.h ComplicatedTest.h
+              cxxtestgen.pl -o $@ --error-printer $^
+     </pre>
+     </pre>
+
+<h5 class="subsubsection"><a name="TOC31"></a>3.4.2.2 Using Cons</h5>
+
+   <a href="http://dsmit.com/cons/">Cons</a> is a powerful and
+versatile make replacement which uses Perl scripts instead of Makefiles.
+
+   <p>See <code>sample/Construct</code> in the CxxTest distribution for an example of building CxxTest test runners
+with Cons.
+
+<h5 class="subsubsection"><a name="TOC32"></a>3.4.2.3 Using Microsoft Visual Studio</h5>
+
+   <p>I have tried several ways to integrate CxxTest with visual studio, none of
+which is perfect.  Take a look at <code>sample/msvc</code> in the distribution
+to see the best solution I'm aware of.  Basically, the workspace has three
+projects:
+
+     <ul>
+<li>The project <code>CxxTest_3_Generate</code> runs <code>cxxtestgen</code>.
+
+     <li>The project <code>CxxTest_2_Build</code> compiles the generated file.
+
+     <li>The project <code>CxxTest_1_Run</code> runs the tests. 
+</ul>
+
+   <p>This method certainly works, and the test results are conveniently
+displayed as compilation errors and warnings (for
+<a href="#warn"><code>TS_WARN(</code><em></em><code>)</code></a>).  However, there are still a few things missing;
+to integrate this approach with your own project, you usually need to
+work a little bit and tweak some makefiles and project options.  I have
+provided a small script in <code>sample/msvc/FixFiles.bat</code> to automate
+some of the process.
+
+<h5 class="subsubsection"><a name="TOC33"></a>3.4.2.4 Using Microsoft Windows DDK</h5>
+
+   <p>Unit testing for device drivers?!  Why not? 
+And besides, the <code>build</code> utility can also be used to build
+user-mode application.
+
+   <p>To use CxxTest with the <code>build</code> utility,
+you add the generated tests file as an extra dependency
+using the <code>NTBUILDTARGET0</code> macro and the <code>Makefile.inc</code>
+file.
+
+   <p>You can see an example of how to do this in the CxxTest distribution
+under <code>sample/winddk</code>.
+
+<h3 class="section"><a name="TOC34"></a>3.5 Graphical user interface</h3>
+
+   <p><a name="GUI"></a>
+
+   <p>There are currently three GUIs implemented: native Win32, native X11 and
+Qt.  To use this feature, just specify <code>--gui=X11Gui</code>,
+<code>--gui=Win32Gui</code> or <code>--gui=QtGui</code> as a parameter for
+<code>cxxtestgen</code> (instead of e.g. <code>--error-printer</code>).  A
+progress bar is displayed, but the results are still written to standard
+output, where they can be processed by your IDE (e.g. Emacs or Visual
+Studio).  The default behavior of the GUI is to close the window after
+the last test.
+
+   <p>Note that whatevr GUI you use, you can combine it with the
+<code>--runner</code> option to control the formatting of the text output,
+e.g. Visual Studio likes it better if you use
+<code>--runner=ParenPrinter</code>.
+
+<h4 class="subsection"><a name="TOC35"></a>3.5.1 Starting the GUI minimized</h4>
+
+   <p>If you run the generated Win32 or Qt GUIs with the command line
+<code>-minimized</code>, the test window will start minimized (iconified)
+and only pop up if there is an error (the bar turns red). This is useful
+if you find the progress bar distracting and only want to check it if
+something happens.
+
+<h4 class="subsection"><a name="TOC36"></a>3.5.2 Leaving the GUI open</h4>
+
+   <p>The Win32 GUI accepts the <code>-keep</code> which instructs it to leave the
+window open after the tests are done.  This allows you to see how many
+tests failed and how much time it took.
+
+<h4 class="subsection"><a name="TOC37"></a>3.5.3 Screenshots!</h4>
+
+   <p>As with any self-respecting GUI application, here are some screenshots for
+you to enjoy:
+
+     <ul>
+
+     <li>Using the Qt GUI on Linux (with the WindowMaker window manager):
+<div align="center"><img src="qt.png" alt="qt.png"></div>
+<br><p>
+     <li>Using the Win32 GUI on Windows 98:
+<div align="center"><img src="win32.png" alt="win32.png"></div>
+<br><p>
+     <li>Using the X11 GUI (with the venerable TWM):
+<div align="center"><img src="x11.png" alt="x11.png"></div>
+<br><p>
+     <li>And of course, no GUI is complete without the ability to mess around with
+its appearance:
+<div align="center"><img src="qt2.png" alt="qt2.png"></div>
+<br><p>
+     <p><em>Ahhh.</em> Nothing like a beautiful user interface.
+
+   </ul>
+
+<h2 class="chapter"><a name="TOC38"></a>4 Advanced topics</h2>
+
+   <p>Topics in this section are more technical, and you probably won't find them
+interesting unless you need them.
+
+<h3 class="section"><a name="TOC39"></a>4.1 Aborting tests after failures</h3>
+
+   <p>Usually, when a <code>TS_ASSERT_*</code> macro fails, CxxTest moves on to the
+next line.  In many cases, however, this is not the desired behavior. 
+Consider the following code:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     void test_memset()
+     {
+        char *buffer = new char[1024];
+        TS_ASSERT( buffer );
+        memset( buffer, 0, 1024 ); // But what if buffer == 0?
+     }
+     </pre>
+     </pre>
+
+   <p>If you have exception handling enabled, you can make CxxTest exit each
+test as soon as a failure occurs.  To do this, you need to define
+<code>CXXTEST_ABORT_TEST_ON_FAIL</code> before including the CxxTest
+headers.  This can be done using the <code>--abort-on-fail</code>
+command-line option or in a template file; see
+<code>sample/aborter.tpl</code> in the distribution.  Note that if CxxTest
+doesn't find evidence of exception handling when scanning your files,
+this feature will not work.  To overcome this, use the
+<code>--have-eh</code> command-line option.
+
+<h4 class="subsection"><a name="TOC40"></a>4.1.1 Controlling this behavior at runtime</h4>
+
+   <font size=-2>(v3.8.5)</font>
+In some scenarios, you may want some tests to abort on
+failed assertions and others to continue.  To do this you use the
+<code>--abort-on-fail</code> option and call the function
+<code>CxxTest::setAbortTestOnFail( bool )</code> to change the runtime
+behavior.  This flag is reset (normally, to <code>true</code>) after each
+test, but you can set it in your test suite's <code>setUp()</code> function to
+modify the behavior for all tests in a suite.
+
+   <font size=-2>(v3.9.0)</font>
+Note that this behavior is available whenever you have
+exception handling (<code>--have-eh</code> or <code>CXXTEST_HAVE_EH</code>); all
+<code>--abort-on-fail</code> does is set the default to <code>true</code>.
+
+<h3 class="section"><a name="TOC41"></a>4.2 Commenting out tests</h3>
+
+   <p>CxxTest does a very simple analysis of the input files, which is sufficient in most cases. 
+This means, for example, that you can't indent you test code in "weird" ways.
+
+   <p>A slight inconvenience arises, however, when you want to comment out
+tests.  Commenting out the tests using C-style comments or the
+preprocessor will not work:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     class MyTest : public CxxTest::TestSuite
+     {
+     public:
+     /*
+        void testCommentedOutStillGetsCalled()
+        {
+        }
+     */
+     
+     #if 0
+        void testMarkedOutStillGetsCalled()
+        {
+        }
+     #endif
+     };
+     </pre>
+     </pre>
+
+   <font size=-2>(v3.10.0)</font>
+If you need to comment out tests, use C++-style
+comments.  Also, if you just don't want CxxTest to run a specific test
+function, you can temporarily change its name, e.g. by prefixing it with
+<code>x</code>:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     class MyTest : public CxxTest::TestSuite
+     {
+     public:
+     // void testFutureStuff()
+     // {
+     // }
+     
+        void xtestFutureStuff()
+        {
+        }
+     };
+     </pre>
+     </pre>
+
+<h3 class="section"><a name="TOC42"></a>4.3 Comparing equality for your own types</h3>
+
+   <p>You may have noticed that <a href="#equals"><code>TS_ASSERT_EQUALS(</code><em></em><code>)</code></a> only works for built-in
+types. 
+This is because CxxTest needs a way to compare object and to convert them to strings,
+in order to print them should the test fail.
+
+   <p>If you do want to use <a href="#equals"><code>TS_ASSERT_EQUALS(</code><em></em><code>)</code></a> on your own data types,
+this is how you do it.
+
+<h4 class="subsection"><a name="TOC43"></a>4.3.1 The equality operator</h4>
+
+   <p>First of all, don't forget to implement the equality operator (<code>operator==()</code>)
+on your data types!
+
+<h4 class="subsection"><a name="TOC44"></a>4.3.2 Value traits</h4>
+
+   <p>Since CxxTest tries not to rely on any external library (including the standard library,
+which is not always available), conversion from arbitrary data types to strings
+is done using value traits.
+
+   <p>For example, to convert an integer to a string, CxxTest does the following actions:
+     <ul>
+<li><code>int i = </code><em>value to convert</em><code>;</code>
+<li><code>CxxTest::ValueTraits&lt;int&gt; converter(i);</code>
+<li><code>string = converter.asString();</code>
+</ul>
+
+   <p>CxxTest comes with predefined <code>ValueTrait</code>s for <code>int</code>,
+<code>char</code>, <code>dobule</code> etc. in <code>cxxtest/ValueTraits.h</code> in the
+<code>cxxtest-selftest</code> archive.
+
+<h4 class="subsection"><a name="TOC45"></a>4.3.3 Unknown types</h4>
+
+   <p>Obviously, CxxTest doesn't "know" about all possible types. 
+The default ValueTraits class for unknown types dumps up to 8 bytes of the value in hex format.
+
+   <p>For example, the following code
+<pre class="smallexample">
+     <pre class="verbatim">
+     #include &lt;cxxtest/TestSuite.h>
+     
+     class TestMyData : public CxxTest::TestSuite 
+     {
+     public:
+        struct Data
+        {
+           char data[3];
+        };
+     
+        void testCompareData()
+        {
+           Data x, y;
+           memset( x.data, 0x12, sizeof(x.data) );
+           memset( y.data, 0xF6, sizeof(y.data) );
+           TS_ASSERT_EQUALS( x, y );
+        }
+     };
+     </pre>
+     </pre>
+   would output
+<pre class="smallexample">
+     <pre class="verbatim">
+     Running 1 test.
+     TestMyData.h:16: Expected (x == y), found ({ 12 12 12 } != { F6 F6 F6 })
+     Failed 1 of 1 test
+     Success rate: 0%
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC46"></a>4.3.4 Enumeration traits</h4>
+
+   <font size=-2>(v3.10.0)</font>
+CxxTest provides a simple way to define value traits for
+your enumeration types, which is very handy for things like status
+codes.  To do this, simply use <code>CXXTEST_VALUE_TRAITS</code> as in the
+following example:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     enum Status { STATUS_IDLE, STATUS_BUSY, STATUS_ERROR };
+     
+     CXXTEST_ENUM_TRAITS( Status,
+                          CXXTEST_ENUM_MEMBER( STATUS_IDLE )
+                          CXXTEST_ENUM_MEMBER( STATUS_BUSY )
+                          CXXTEST_ENUM_MEMBER( STATUS_ERROR ) );
+     </pre>
+     </pre>
+
+   <p>See <code>sample/EnumTraits.h</code> for a working sample.
+
+<h4 class="subsection"><a name="TOC47"></a>4.3.5 Defining new value traits</h4>
+
+   <p>Defining value traits for new (non-enumeration) types is easy.  All you
+need is to define a way to convert an object of your class to a
+string. You can use this example as a possible skeleton:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     class MyClass 
+     {
+        int _value;
+     
+     public:
+        MyClass( int value ) : _value( value ) {}
+        int value() const { return _value; }
+     
+        // CxxTest requires a copy constructor
+        MyClass( const MyClass &amp;other ) : _value( other._value ) {}
+     
+        // If you want to use TS_ASSERT_EQUALS
+        bool operator== ( const MyClass &amp;other ) const { return _value == other._value; }
+     
+        // If you want to use TS_ASSERT_LESS_THAN
+        bool operator== ( const MyClass &amp;other ) const { return _value &lt; other._value; }
+     };
+     
+     #ifdef CXXTEST_RUNNING
+     #include &lt;cxxtest/ValueTraits.h>
+     #include &lt;stdio.h>
+     
+     namespace CxxTest 
+     {
+        CXXTEST_TEMPLATE_INSTANTIATION
+        class ValueTraits&lt;MyClass> 
+        {
+           char _s[256];
+     
+        public:
+           ValueTraits( const MyClass &amp;m ) { sprintf( _s, "MyClass( %i )", m.value() ); }
+           const char *asString() const { return _s; }
+        };
+     };
+     #endif // CXXTEST_RUNNING
+     </pre>
+     </pre>
+
+<h5 class="subsubsection"><a name="TOC48"></a>4.3.5.1 Defining value traits for template classes</h5>
+
+   <p>A simple modification to the above scheme allows you to define value
+traits for your template classes.  Unfortunately, this syntax (partial
+template specialization) is not supported by some popular C++ compilers. 
+Here is an example:
+
+<pre class="smallexample">
+     <pre class="verbatim">
+     template&lt;class T>
+     class TMyClass
+     {
+        T _value;
+     
+     public:
+        TMyClass( const T &amp;value ) : _value( value );
+        const T &amp;value() const { return _value; }
+     
+        // CxxTest requires a copy constructor
+        TMyClass( const TMyClass&lt;T> &amp;other ) : _value( other._value ) {}
+        
+        // If you want to use TS_ASSERT_EQUALS
+        bool operator== ( const TMyClass&lt;T> &amp;other ) const { return _value == other._value; }
+     };
+     
+     #ifdef CXXTEST_RUNNING
+     #include &lt;cxxtest/ValueTraits.h>
+     #include &lt;typeinfo>
+     #include &lt;sstream>
+     
+     namespace CxxTest 
+     {
+        template&lt;class T>
+        class ValueTraits&lt; TMyClass&lt;T> > 
+        {
+           std::ostringstream _s;
+     
+        public:
+           ValueTraits( const TMyClass&lt;T> &amp;t ) 
+              { _s &lt;&lt; typeid(t).name() &lt;&lt; "( " &lt;&lt; t.value() &lt;&lt; " )"; }
+           const char *asString() const { return _s.str().c_str(); }
+        };
+     };
+     #endif // CXXTEST_RUNNING
+     </pre>
+     </pre>
+
+<h4 class="subsection"><a name="TOC49"></a>4.3.6 Overriding the default value traits</h4>
+
+   <font size=-2>(v2.8.2)</font>
+If you don't like the way CxxTest defines the default <code>ValueTrait</code>s,
+you can override them by <code>#define</code>-ing <code>CXXTEST_USER_VALUE_TRAITS</code>;
+this causes CxxTest to omit the default definitions, and from there on you are
+free to implement them as you like.
+
+   <p>You can see a sample of this technique in <code>test/UserTraits.tpl</code> in
+the <code>cxxtest-selftest</code> archive.
+
+<h3 class="section"><a name="TOC50"></a>4.4 Global Fixtures</h3>
+
+   <font size=-2>(v3.5.1)</font>
+The <code>setUp()</code> and <code>tearDown()</code> functions allow
+to to have code executed before and after each test.  What if you want
+some code to be executed before all tests in <em>all</em> test suites? 
+Rather than duplicate that code, you can use <dfn>global fixtures</dfn>. 
+These are basically classes that inherit from
+<code>CxxTest::GlobalFixture</code>.  All objects of such classes are
+automatically notified before and after each test case.  It is best to
+create them as static objects so they get called right from the start. 
+Look at <code>test/GlobalFixtures.h</code> in the <code>cxxtest-selftest</code>
+archive.
+
+   <p><em>Note:</em> Unlike <code>setUp()</code> and <code>tearDown()</code> in
+<code>TestSuite</code>, global fixtures should return a <code>bool</code> value to
+indicate success/failure.
+
+<h4 class="subsection"><a name="TOC51"></a>4.4.1 World fixtures</h4>
+
+   <font size=-2>(v3.8.1)</font>
+CxxTest also allows you to specify code which is executed
+once at the start of the testing process (and the corresponding cleanup
+code).  To do this, create (one or more) global fixture objects and
+implement <code>setUpWorld()</code>/<code>tearDownWorld()</code>.  For an example,
+see <code>test/WorldFixtures.h</code> in the <code>cxxtest-selftest</code> archive.
+
+<h3 class="section"><a name="TOC52"></a>4.5 Mock Objects</h3>
+
+   <font size=-2>(v3.10.0)</font>
+Mock Objects are a very useful testing tool, which
+consists (in a nutshell) of passing special objects to tested code.  For
+instance, to test a class that implements some protocol over TCP, you
+might have it use an abstract <code>ISocket</code> interface and in the tests
+pass it a <code>MockSocket</code> object.  This <code>MockSocket</code> object can
+then do anything your tests find useful, e.g. keep a log of all data
+"sent" to verify later.
+
+   <p>So far, so good.  But the problem when developing in C/C++ is that your
+code probably needs to call <em>global</em> functions which you cannot
+override.  Just consider any code which uses <code>fopen()</code>,
+<code>fwrite()</code> and <code>fclose()</code>.  It is not very elegant to have
+this code actually create files while being tested.  Even more
+importantly, you (should) want to test how the code behaves when "bad"
+things happen, say when <code>fopen()</code> fails.  Although for some cases
+you can cause the effects to happen in the test code, this quickly
+becomes "hairy" and unmaintainable.
+
+   <p>CxxTest solves this problem by allowing you to override any global
+function while testing.  Here is an outline of how it works, before we
+see an actual example:
+     <ul>
+
+     <li>For each function you want to override, you use the macro
+<code>CXXTEST_MOCK_GLOBAL</code> to "prepare" the function (all is explained
+below in excruciating detail).
+
+     <li>In the tested code you do not call the global functions directly;
+rather, you access them in the <code>T</code> (for <em>Test</em>) namespace. For
+instance, your code needs to call <code>T::fopen()</code> instead of
+<code>fopen()</code>. This is the equivalent of using abstract interfaces
+instead of concrete classes.
+
+     <li>You link the "real" binary with a source file that implements
+<code>T::fopen()</code> by simply calling the original <code>fopen()</code>.
+
+     <li>You link the test binary with a source file that implements
+<code>T::fopen()</code> by calling a mock object.
+
+     <li>To test, you should create a class that inherits <code>T::Base_fopen</code>
+and implement its <code>fopen()</code> function.  Simply by creating an object
+of this class, calls made to <code>T::fopen()</code> will be redirected to it.
+
+   </ul>
+
+   <p>This may seem daunting at first, so let us work our way through a simple
+example.  Say we want to override the well known standard library
+function <code>time()</code>.
+
+     <ul>
+
+     <li>Prepare a header file to be used by both the real and test code.
+     <pre class="smallexample">
+          <pre class="verbatim">
+          // T/time.h
+          #include &lt;time.h>
+          #include &lt;cxxtest/Mock.h>
+          
+          CXXTEST_MOCK_GLOBAL( time_t,        /* Return type          */
+                               time,          /* Name of the function */
+                               ( time_t *t ), /* Prototype            */
+                               ( t )          /* Argument list        */ );
+          </pre>
+          </pre>
+
+     <li>In our tested code, we now include the special header instead of the
+system-supplied one, and call <code>T::time()</code> instead of <code>time()</code>.
+     <pre class="smallexample">
+          <pre class="verbatim">
+          // code.cpp
+          #include &lt;T/time.h>
+          
+          int generateRandomNumber()
+          {
+              return T::time( NULL ) * 3;
+          }
+          </pre>
+          </pre>
+
+     <li>We also need to create a source file that implements <code>T::time()</code> by
+calling the real function.  This is extremely easy: just define
+<code>CXXTEST_MOCK_REAL_SOURCE_FILE</code> before you include the header file:
+     <pre class="smallexample">
+          <pre class="verbatim">
+          // real_time.cpp
+          #define CXXTEST_MOCK_REAL_SOURCE_FILE
+          #include &lt;T/time.h>
+          </pre>
+          </pre>
+
+     <li>Before we can start testing, we need a different implementation of
+<code>T::time()</code> for our tests.  This is just as easy as the previous
+one:
+     <pre class="smallexample">
+          <pre class="verbatim">
+          // mock_time.cpp
+          #define CXXTEST_MOCK_TEST_SOURCE_FILE
+          #include &lt;T/time.h>
+          </pre>
+          </pre>
+
+     <li>Now comes the fun part.  In our test code, all we need to do is create a
+mock, and the tested code will magically call it:
+     <pre class="smallexample">
+          <pre class="verbatim">
+          // TestRandom.h
+          #include &lt;cxxtest/TestSuite.h>
+          #include &lt;T/time.h>
+          
+          class TheTimeIsOne : public T::Base_time
+          {
+          public:
+              time_t time( time_t * ) { return 1; }
+          };
+          
+          class TestRandom : public CxxTest::TestSuite
+          {
+          public:
+              void test_Random()
+              {
+                  TheTimeIsOne t;
+                  TS_ASSERT_EQUALS( generateRandomNumber(), 3 );
+              }
+          };
+          </pre>
+          </pre>
+
+   </ul>
+
+<h4 class="subsection"><a name="TOC53"></a>4.5.1 Actually doing it</h4>
+
+   <p>I know that this might seem a bit heavy at first glance, but once you
+start using mock objects you will never go back.  The hardest part may
+be getting this to work with your build system, which is why I have
+written a simple example much like this one in <code>sample/mock</code>, which
+uses GNU Make and G++.
+
+<h4 class="subsection"><a name="TOC54"></a>4.5.2 Advanced topic with mock functions</h4>
+
+<h5 class="subsubsection"><a name="TOC55"></a>4.5.2.1 Void functions</h5>
+
+   <p>Void function are a little different, and you use
+<code>CXXTEST_MOCK_VOID_GLOBAL</code> to override them.  This is identical to
+<code>CXXTEST_MOCK_GLOBAL</code> except that it doesn't specify the return
+type.  Take a look in <code>sample/mock/T/stdlib.h</code> for a demonstation.
+
+<h5 class="subsubsection"><a name="TOC56"></a>4.5.2.2 Calling the real functions while testing</h5>
+
+   <p>From time to time, you might want to let the tested code call the real
+functions (while being tested).  To do this, you create a special mock
+object called e.g. <code>T::Real_time</code>.  While an object of this class
+is present, calls to <code>T::time()</code> will be redirected to the real
+function.
+
+<h5 class="subsubsection"><a name="TOC57"></a>4.5.2.3 When there is no real function</h5>
+
+   <p>Sometimes your code needs to call functions which are not available when
+testing. This happens for example when you test driver code using a
+user-mode test runner, and you need to call kernel functions.  You can
+use CxxTest's mock framework to provide testable implementations for the
+test code, while maintaing the original functions for the real code. 
+This you do with <code>CXXTEST_SUPPLY_GLOBAL</code> (and
+<code>CXXTEST_SUPPLY_VOID_GLOBAL</code>).  For example, say you want to supply
+your code with the Win32 kernel function <code>IoCallDriver</code>:
+<pre class="smallexample">
+     <pre class="verbatim">
+     CXXTEST_SUPPLY_GLOBAL( NTSTATUS,                /* Return type */
+                            IoCallDriver,            /* Name        */
+                            ( PDEVICE_OBJECT Device, /* Prototype   */
+                              PIRP Irp ),
+                            ( Device, Irp )          /* How to call */ );
+     </pre>
+     </pre>
+   The tested code (your driver) can now call <code>IoCallDriver()</code>
+normally (no need for <code>T::</code>), and the test code uses
+<code>T::Base_IoCallDriver</code> as with normal mock objects.
+
+   <p><strong>Note:</strong> Since these macros can also be used to actually declare
+the function prototypes (e.g. in the above example you might not be able
+to include the real <code>&lt;ntddk.h&gt;</code> from test code), they also have an
+<code>extern "C"</code> version which declares the functions with <code>C</code>
+linkage. These are <code>CXXTEST_SUPPLY_GLOBAL_C</code> and
+<code>CXXTEST_SUPPLY_GLOBAL_VOID_C</code>.
+
+<h5 class="subsubsection"><a name="TOC58"></a>4.5.2.4 Functions in namespaces</h5>
+
+   <p>Sometimes the functions you want to override are not in the global
+namespace like <code>time()</code>: they may be global functions in other
+namespaces or even static class member functions.  The default mock
+implementation isn't suitable for these.  For them, you can use the
+generic <code>CXXTEST_MOCK</code>, which is best explained by example. Say you
+have a namespace <code>Files</code>, and you want to override the function
+<code>bool Files::FileExists( const String &amp;name )</code>, so that the mock
+class will be called <code>T::Base_Files_FileExists</code> and the function to
+implement would be <code>fileExists</code>.  You would define it thus (of
+course, you would normally want the mock class name and member function
+to be the same as the real function):
+<pre class="smallexample">
+     <pre class="verbatim">
+     CXXTEST_MOCK( Files_FileExists,       /* Suffix of mock class  */
+                   bool,                   /* Return type           */
+                   fileExists,             /* Name of mock member   */
+                   ( const String &amp;name ), /* Prototype             */
+                   Files::FileExists,      /* Name of real function */
+                   ( name )                /* Parameter list        */ );
+     </pre>
+     </pre>
+   Needless to say, there is also <code>CXXTEST_MOCK_VOID</code> for void functions.
+
+   <p>There is also an equivalent version for <code>CXXTEST_SUPPLY_GLOBAL</code>, as
+demonstrated by another function from the Win32 DDK:
+<pre class="smallexample">
+     <pre class="verbatim">
+     CXXTEST_SUPPLY( AllocateIrp,         /* => T::Base_AllocateIrp */
+                     PIRP,                /* Return type            */
+                     allocateIrp,         /* Name of mock member    */
+                     ( CCHAR StackSize ), /* Prototype              */
+                     IoAllocateIrp,       /* Name of real function  */
+                     ( StackSize )        /* Parameter list         */ );
+     </pre>
+     </pre>
+   And, with this macro you have <code>CXXTEST_SUPPLY_VOID</code> and of course
+<code>CXXTEST_SUPPLY_C</code> and <code>CXXTEST_SUPPLY_VOID_C</code>.
+
+<h5 class="subsubsection"><a name="TOC59"></a>4.5.2.5 Overloaded functions</h5>
+
+   <p>If you have two or more global functions which have the same name, you
+cannot create two mock classes with the same name.  The solution is to
+use the general <code>CXXTEST_MOCK</code>/<code>CXXTEST_MOCK_VOID</code> as above:
+just give the two mock classes different names.
+
+<h5 class="subsubsection"><a name="TOC60"></a>4.5.2.6 Changing the mock namespace</h5>
+
+   <p>Finally, if you don't like or for some reason can't use the <code>T::</code>
+namespace for mock functions, you can change it by defining
+<code>CXXTEST_MOCK_NAMESPACE</code>.  Have fun.
+
+<h3 class="section"><a name="TOC61"></a>4.6 Test Listeners and Test Runners</h3>
+
+   <p>A <code>TestListener</code> is a class that receives notifications about
+the testing process, notably which assertions failed.  CxxTest defines
+a standard test listener class, <code>ErrorPrinter</code>, which is
+responsible for printing the dots and messages seen above.  When the
+test runners generated in the examples run, they create an
+<code>ErrorPrinter</code> and pass it to
+<code>TestRunner::runAllTests()</code>.  As you might have guessed, this
+functions runs all the test you've defined and reports to the
+<code>TestListener</code> it was passed.
+
+<h4 class="subsection"><a name="TOC62"></a>4.6.1 Other test listeners</h4>
+
+   <p>If you don't like or can't use the <code>ErrorPrinter</code>, you can use
+any other test listener. 
+To do this you have to omit the <code>--error-printer</code>, <code>--runner=</code>
+or <code>--gui=</code> switch when generating the tests file. 
+It is then up to you to write the <code>main()</code> function, using the
+test listener of your fancy.
+
+<h5 class="subsubsection"><a name="TOC63"></a>4.6.1.1 The <code>stdio</code> printer</h5>
+
+   <p>If the <code>ErrorPrinter</code>'s usage of <code>std::cout</code> clashes
+with your environment or is unsupported by your compiler, don't dispair! 
+You may still be able to use the <code>StdioPrinter</code>, which does the
+exact same thing but uses good old <code>printf()</code>.
+
+   <p>To use it, invoke <code>cxxtestgen.pl</code> with the <code>--runner=StdioPrinter</code> option.
+
+   <font size=-2>(v3.8.5)</font>
+<strong>Note:</strong> <code>cxxtest/StdioPrinter</code> makes
+reference to <code>stdout</code> as the default output stream.  In some
+environments you may have <code>&lt;stdio.h&gt;</code> but not <code>stdout</code>, which
+will cause compiler errors.  To overcome this problem, use
+<code>--runner=StdioFilePrinter</code>, which is exactly the same as
+<code>--runner=StdioPrinter</code>, but with no default output stream.
+
+<h5 class="subsubsection"><a name="TOC64"></a>4.6.1.2 The Yes/No runner</h5>
+
+   <p>As an example, CxxTest also provides the simplest possible test listener,
+one that just reports if there were any failures. 
+You can see an example of using this listener in <code>sample/yes_no_runner.cpp</code>.
+
+<h5 class="subsubsection"><a name="TOC65"></a>4.6.1.3 Template files</h5>
+
+   <p>To use you own test runner, or to use the supplied ones in different ways, you can use
+CxxTest <em>template files</em>.  These are ordinary source files with the embedded "command"
+<code>&lt;CxxTest world&gt;</code> which tells <code>cxxtestgen.pl</code> to insert the world definition
+at that point.  You then specify the template file using the <code>--template</code> option.
+
+   <p>See <code>samples/file_printer.tpl</code> for an example.
+
+   <p><strong>Note:</strong> CxxTest needs to insert certain definitions and
+<code>#include</code> directives in the runner file.  It normally does that
+before the first <code>#include &lt;cxxtest/*.h&gt;</code> found in the template
+file.  If this behvaior is not what you need, use the "command"
+<code>&lt;CxxTest preamble&gt;</code>. See <code>test/preamble.tpl</code> in the
+<code>cxxtest-selftest</code> archive for an example of this.
+
+<h3 class="section"><a name="TOC66"></a>4.7 Dynamically creating test suites</h3>
+
+   <p><a name="dynamic"></a>
+Usually, your test suites are instantiated statically in the tests file, i.e. say you
+defined <code>class MyTest : public CxxTest::TestSuite</code>, the generated file will
+contain something like <code>static MyTest g_MyTest;</code>.
+
+   <p>If, however, your test suite must be created dynamically (it may need a constructor,
+for instance), CxxTest doesn't know how to create it unless you tell it how. 
+You do this by writing two static functions, <code>createSuite()</code> and <code>destroySuite()</code>.
+
+   <p>See <code>sample/CreatedTest.h</code> for a demonstration.
+
+<h3 class="section"><a name="TOC67"></a>4.8 Static initialization</h3>
+
+   <font size=-2>(v3.9.0)</font>
+The generated runner source file depends quite
+heavily on static initialization of the various "description" object
+used to run your tests.  If your compiler/linker has a problem with this
+approach, use the <code>--no-static-init</code> option.
+
+<h2 class="appendix"><a name="TOC68"></a>Appendix A Command line options</h2>
+
+   <p>Here are the different command line options for <code>cxxtestgen</code>:
+
+<h3 class="section"><a name="TOC69"></a>A.1 <code>--version</code></h3>
+
+   <font size=-2>(v3.7.1)</font>
+Specify <code>--version</code> or <code>-v</code> to see the version of CxxTest you are using.
+
+<h3 class="section"><a name="TOC70"></a>A.2 <code>--output</code></h3>
+
+   <p>Specify <code>--output=FILE</code> or <code>-o FILE</code> to determine the output file name.
+
+<h3 class="section"><a name="TOC71"></a>A.3 <code>--error-printer</code></h3>
+
+   <p>This option creates a test runner which uses the standard  error printer class.
+
+<h3 class="section"><a name="TOC72"></a>A.4 <code>--runner</code></h3>
+
+   <p>Specify <code>--runner=CLASS</code> to generate a test
+runner that <code>#include</code>s <code>&lt;cxxtest/CLASS.h&gt;</code> and uses
+<code>CxxTest::CLASS</code> as the test runner.
+
+   <p>The currently available runners are:
+     <dl>
+<dt><code>--runner=ErrorPrinter</code>
+     <dd>This is the standard error printer, which formats its output to <code>std::cout</code>.
+
+     <br><dt><code>--runner=ParenPrinter</code>
+     <dd>Identical to <code>ErrorPrinter</code> except that it prints line numbers in parantheses. 
+This is the way Visual Studio expects it.
+
+     <br><dt><code>--runner=StdioPrinter</code>
+     <dd>The same as <code>ErrorPrinter</code> except that it uses <code>printf</code>
+instead of <code>cout</code>.
+
+     <br><dt><code>--runner=YesNoRunner</code>
+     <dd>This runner doesn't produce any output, merely returns a true/false result.
+
+   </dl>
+
+<h3 class="section"><a name="TOC73"></a>A.5 <code>--gui</code></h3>
+
+   <p>Specify <code>--gui=CLASS</code> to generate a test runner that
+<code>#include</code>s <code>&lt;cxxtest/CLASS.h&gt;</code> and uses <code>CxxTest::CLASS</code>
+to display a graphical user interface.  This option can be combined with
+the <code>--runner</code> option to determine the text-mode output format. 
+The default is the standard error printer.
+
+   <p>There are three different GUIs:
+     <dl>
+<dt><code>--gui=Win32Gui</code>
+     <dd>A native Win32 GUI.  It has been tested on Windows 98, 2000 and XP and
+should work unmodified on other 32-bit versions of Windows.
+
+     <br><dt><code>--gui=X11Gui</code>
+     <dd>A native XLib GUI.  This GUI is very spartan and should work on any X server.
+
+     <br><dt><code>--gui=QtGui</code>
+     <dd>A GUI that uses the Qt library from Troll.  It has been tested with Qt versiond 2.2.1 and 3.0.1. 
+</dl>
+
+<h3 class="section"><a name="TOC74"></a>A.6 <code>--include</code></h3>
+
+   <font size=-2>(v3.5.1)</font>
+If you specify <code>--include=FILE</code>, <code>cxxtestgen</code> will add
+<code>#include "FILE"</code> to the runner before including any other header. 
+This allows you to define things that modify the behavior of CxxTest,
+e.g. your own ValueTraits.
+
+   <p><strong>Note:</strong> If you want the runner to <code>#inculde &lt;FILE&gt;</code>, specify
+it on the command line, e.g. <code>--include=&lt;FILE&gt;</code>.  You will most
+likely need to use shell escapes, e.g. <code>"--include=&lt;FILE&gt;"</code> or
+<code>--include=\&lt;FILE\&gt;</code>.
+
+   <p>Examples: <code>--include=TestDefs.h</code> or <code>--include=\&lt;GlobalDefs.h\&gt;</code>.
+
+<h3 class="section"><a name="TOC75"></a>A.7 <code>--template</code></h3>
+
+   <p>Specify <code>--template=FILE</code> to use <code>FILE</code> as a template file. 
+This is for cases for which <code>--runner</code> and/or <code>--include</code>
+are not enough.  One example is the Windows DDK; see
+<code>sample/winddk</code> in the distribution.
+
+<h3 class="section"><a name="TOC76"></a>A.8 <code>--have-eh</code></h3>
+
+   <font size=-2>(v2.8.4)</font>
+<code>cxxtestgen</code> will scan its input files for uses of exception
+handling; if found, the <code>TS_</code> macros will catch exceptions,
+allowing the testing to continue.  Use <code>--have-eh</code> to tell
+<code>cxxtestgen</code> to enable that functionality even if exceptions
+are not used in the input files.
+
+<h3 class="section"><a name="TOC77"></a>A.9 <code>--no-eh</code></h3>
+
+   <font size=-2>(v3.8.5)</font>
+If you want <code>cxxtestgen</code> to ignore what may look as uses of
+exception handling in your test files, specify <code>--no-eh</code>.
+
+<h3 class="section"><a name="TOC78"></a>A.10 <code>--have-std</code></h3>
+
+   <font size=-2>(v3.10.0)</font>
+Same as <code>--have-eh</code> but for the standard library;
+basically, if you use this flag, CxxTest will print the values of
+<code>std::string</code>.
+
+   <p><strong>Note:</strong> If you reference the standard library anywhere in your
+test files, CxxTest will (usually) recognize it and automatically define
+this.
+
+<h3 class="section"><a name="TOC79"></a>A.11 <code>--no-std</code></h3>
+
+   <font size=-2>(v3.10.0)</font>
+The counterpart to <code>--have-std</code>, this tells
+CxxTest to ignore any evidence it finds for the <code>std::</code> namespace
+in your code.  Use it if your environment does not support <code>std::</code>
+but <code>cxxtestgen</code> thinks it does.
+
+<h3 class="section"><a name="TOC80"></a>A.12 <code>--longlong</code></h3>
+
+   <font size=-2>(v3.6.0)</font>
+Specify <code>--longlong=TYPE</code> to have CxxTest recognize <code>TYPE</code>
+as "long long" (e.g. <code>--longlong=__int64</code>).  If you specify
+just <code>--longlong=</code> (no type), CxxTest will use the default type
+name of <code>long long</code>.
+
+<h3 class="section"><a name="TOC81"></a>A.13 <code>--abort-on-fail</code></h3>
+
+   <font size=-2>(v2.8.2)</font>
+This useful option tells CxxTest to abort the current test when any
+<code>TS_ASSERT</code> macro has failed.
+
+<h3 class="section"><a name="TOC82"></a>A.14 <code>--part</code></h3>
+
+   <font size=-2>(v3.5.1)</font>
+This option tells CxxTest now to write the CxxTest globals in the output
+file.  Use this to link together more than one generated file.
+
+<h3 class="section"><a name="TOC83"></a>A.15 <code>--root</code></h3>
+
+   <font size=-2>(v3.5.1)</font>
+This is the counterpart of <code>--part</code>; it makes sure that the
+Cxxtest globals are written to the output file.  If you specify this
+option, you can use <code>cxxtestgen</code> without any input files to
+create a file that hold only the "root" runner.
+
+<h3 class="section"><a name="TOC84"></a>A.16 <code>--no-static-init</code></h3>
+
+   <font size=-2>(v3.9.0)</font>
+Use this option if you encounter problems with the static
+initializations in the test runner.
+
+<h2 class="appendix"><a name="TOC85"></a>Appendix B Controlling the behavior of CxxTest</h2>
+
+   <p>Here are various <code>#define</code>s you can use to modify how CxxTest
+works.  You will need to <code>#define</code> them <em>before</em> including any
+of the CxxTest headers, so use them in a template file or with the
+<code>--include</code> option.
+
+<h3 class="section"><a name="TOC86"></a>B.1 <code>CXXTEST_HAVE_STD</code></h3>
+
+   <p>This is equivalent to the <code>--have-std</code> option.
+
+<h3 class="section"><a name="TOC87"></a>B.2 <code>CXXTEST_HAVE_EH</code></h3>
+
+   <p>This is equivalent to the <code>--have-eh</code> option.
+
+<h3 class="section"><a name="TOC88"></a>B.3 <code>CXXTEST_ABORT_TEST_ON_FAIL</code></h3>
+
+   <font size=-2>(v2.8.0)</font>
+This is equivalent to the <code>--abort-on-fail</code> option.
+
+<h3 class="section"><a name="TOC89"></a>B.4 <code>CXXTEST_USER_VALUE_TRAITS</code></h3>
+
+   <p>This tells CxxTest you wish to define you own ValueTraits.  It will only
+declare the default traits, which dump up to 8 bytes of the data as hex
+values.
+
+<h3 class="section"><a name="TOC90"></a>B.5 <code>CXXTEST_OLD_TEMPLATE_SYNTAX</code></h3>
+
+   <p>Some compilers (e.g. Borland C++ 5) don't support the standard way of
+instantiating template classes.  Use this define to overcome the problem.
+
+<h3 class="section"><a name="TOC91"></a>B.6 <code>CXXTEST_OLD_STD</code></h3>
+
+   <p>Again, this is used to support pre-<code>std::</code> standard libraries.
+
+<h3 class="section"><a name="TOC92"></a>B.7 <code>CXXTEST_MAX_DUMP_SIZE</code></h3>
+
+   <p>This sets the standard maximum number of bytes to dump if
+<a href="#sameData"><code>TS_ASSERT_SAME_DATA(</code><em></em><code>)</code></a> fails.  The default is 0, meaning
+no limit.
+
+<h3 class="section"><a name="TOC93"></a>B.8 <code>CXXTEST_DEFAULT_ABORT</code></h3>
+
+   <p>This sets the default value of the dynamic "abort on fail" flag.  Of
+course, this flag is only used when "abort on fail" is enabled.
+
+<h3 class="section"><a name="TOC94"></a>B.9 <code>CXXTEST_LONGLONG</code></h3>
+
+   <p>This is equivalent to <code>--longlong</code>.
+
+<h2 class="appendix"><a name="TOC95"></a>Appendix C Runtime options</h2>
+
+   <p>The following functions can be called during runtime (i.e. from your
+tests) to control the behavior of CxxTest.  They are reset to their
+default values after each test is executed (more precisely, after
+<code>tearDown()</code> is called).  Consequently, if you set them in the
+<code>setUp()</code> function, they will be valid for the entire test suite.
+
+<h3 class="section"><a name="TOC96"></a>C.1 <code>setAbortTestOnFail( bool )</code></h3>
+
+   <p>This only works when you have exception handling.  It can be used to
+tell CxxTest to temporarily change its behavior.  The default value of
+the flag is <code>false</code>, <code>true</code> if you set <code>--abort-on-fail</code>,
+or <code>CXXTEST_DEFAULT_ABORT</code> if you <code>#define</code> it.
+
+<h3 class="section"><a name="TOC97"></a>C.2 <code>setMaxDumpSize( unsigned )</code></h3>
+
+   <p>This temporarily sets the maximum number of bytes to dump if
+<a href="#sameData"><code>TS_ASSERT_SAME_DATA(</code><em></em><code>)</code></a> fails.  The default is 0, meaning
+no limit, or <code>CXXTEST_MAX_DUMP_SIZE</code> if you <code>#define</code> it.
+
+<h2 class="appendix"><a name="TOC98"></a>Appendix D Version history</h2>
+
+     <ul>
+<li><strong>Version 3.10.0 (2004-11-20)</strong>
+          <ul>
+<li>Added mock framework for global functions
+<li>Added <code>TS_ASSERT_THROWS_ASSERT</code> and <code>TS_ASSERT_THROWS_EQUALS</code>
+<li>Added <code>CXXTEST_ENUM_TRAITS</code>
+<li>Improved support for STL classes (vector, map etc.) 
+<li>Added support for Digital Mars compiler
+<li>Reduced root/part compilation time and binary size
+<li>Support C++-style commenting of tests
+</ul>
+     <li><strong>Version 3.9.1 (2004-01-19)</strong>
+          <ul>
+<li>Fixed small bug with runner exit code
+<li>Embedded test suites are now deprecated
+</ul>
+     <li><strong>Version 3.9.0 (2004-01-17)</strong>
+          <ul>
+<li>Added <code>TS_TRACE</code>
+<li>Added <code>--no-static-init</code>
+<li>CxxTest::<code>setAbortTestOnFail()</code> works even without <code>--abort-on-fail</code>
+</ul>
+     <li><strong>Version 3.8.5 (2004-01-08)</strong>
+          <ul>
+<li>Added <code>--no-eh</code>
+<li>Added <code>CxxTest::setAbortTestOnFail()</code> and <code>CXXTEST_DEFAULT_ABORT</code>
+<li>Added <code>CxxTest::setMaxDumpSize()</code>
+<li>Added StdioFilePrinter
+</ul>
+     <li><strong>Version 3.8.4 (2003-12-31)</strong>
+          <ul>
+<li>Split distribution into cxxtest and cxxtest-selftest
+<li>Added <code>sample/msvc/FixFiles.bat</code>
+</ul>
+     <li><strong>Version 3.8.3 (2003-12-24)</strong>
+          <ul>
+<li>Added <code>TS_ASSERT_PREDICATE</code>
+<li>Template files can now specify where to insert the preamble
+<li>Added a sample Visual Studio workspace in <code>sample/msvc</code>
+<li>Can compile in MSVC with warning level 4
+<li>Changed output format slightly
+</ul>
+     <li><strong>Version 3.8.1 (2003-12-21)</strong>
+          <ul>
+<li>Fixed small bug when using multiple <code>--part</code> files. 
+<li>Fixed X11 GUI crash when there's no X server. 
+<li>Added <code>GlobalFixture::setUpWorld()</code>/<code>tearDownWorld()</code>
+<li>Added <code>leaveOnly()</code>, <code>activateAllTests()</code> and <code>sample/only.tpl</code>
+<li>Should now run without warnings on Sun compiler. 
+</ul>
+     <li><strong>Version 3.8.0 (2003-12-13)</strong>
+          <ul>
+<li>Fixed bug where <code>Root.cpp</code> needed exception handling
+<li>Added <code>TS_ASSERT_RELATION</code>
+<li><code>TSM_</code> macros now also tell you what went wrong
+<li>Renamed <code>Win32Gui::free()</code> to avoid clashes
+<li>Now compatible with more versions of Borland compiler
+<li>Improved the documentation
+</ul>
+     <li><strong>Version 3.7.1 (2003-09-29)</strong>
+          <ul>
+<li>Added <code>--version</code>
+<li>Compiles with even more exotic g++ warnings
+<li>Win32 Gui compiles with UNICODE
+<li>Should compile on some more platforms (Sun Forte, HP aCC)
+</ul>
+     <li><strong>Version 3.7.0 (2003-09-20)</strong>
+          <ul>
+<li>Added <code>TS_ASSERT_LESS_THAN_EQUALS</code>
+<li>Minor cleanups
+</ul>
+     <li><strong>Version 3.6.1 (2003-09-15)</strong>
+          <ul>
+<li>Improved QT GUI
+<li>Improved portability some more
+</ul>
+     <li><strong>Version 3.6.0 (2003-09-04)</strong>
+          <ul>
+<li>Added <code>--longlong</code>
+<li>Some portability improvements
+</ul>
+     <li><strong>Version 3.5.1 (2003-09-03)</strong>
+          <ul>
+<li>Major internal rewrite of macros
+<li>Added <code>TS_ASSERT_SAME_DATA</code>
+<li>Added <code>--include</code> option
+<li>Added <code>--part</code> and <code>--root</code> to enable splitting the test runner
+<li>Added global fixtures
+<li>Enhanced Win32 GUI with timers, <code>-keep</code> and <code>-title</code>
+<li>Now compiles with strict warnings
+</ul>
+     <li><strong>Version 3.1.1 (2003-08-27)</strong>
+          <ul>
+<li>Fixed small bug in <code>TS_ASSERT_THROWS_*()</code>
+</ul>
+     <li><strong>Version 3.1.0 (2003-08-23)</strong>
+          <ul>
+<li>Default ValueTraits now dumps value as hex bytes
+<li>Fixed double invocation bug (e.g. <code>TS_FAIL(</code><code>functionWithSideEffects()</code>))
+<li><code>TS_ASSERT_THROWS*()</code> are now "abort on fail"-friendly
+<li>Win32 GUI now supports Windows 98 and doesn't need comctl32.lib
+</ul>
+     <li><strong>Version 3.0.1 (2003-08-07)</strong>
+          <ul>
+<li>Added simple GUI for X11, Win32 and Qt
+<li>Added <code>TS_</code><code>WARN()</code> macro
+<li>Removed <code>--exit-code</code>
+<li>Improved samples
+<li>Improved support for older (pre-std::) compilers
+<li>Made a PDF version of the User's Guide
+</ul>
+     <li><strong>Version 2.8.4 (2003-07-21)</strong>
+          <ul>
+<li>Now supports g++-3.3
+<li>Added <code>--have-eh</code>
+<li>Fixed bug in <code>numberToString()</code>
+</ul>
+     <li><strong>Version 2.8.3 (2003-06-30)</strong>
+          <ul>
+<li>Fixed bugs in cxxtestgen.pl
+<li>Fixed warning for some compilers in ErrorPrinter/StdioPrinter
+<li>Thanks Martin Jost for pointing out these problems! 
+</ul>
+     <li><strong>Version 2.8.2 (2003-06-10)</strong>
+          <ul>
+<li>Fixed bug when using <code>CXXTEST_ABORT_TEST_ON_FAIL</code> without standard library
+<li>Added <code>CXXTEST_USER_TRAITS</code>
+<li>Added <code>--abort-on-fail</code>
+</ul>
+     <li><strong>Version 2.8.1 (2003-01-16)</strong>
+          <ul>
+<li>Fixed <code>charToString()</code> for negative chars
+</ul>
+     <li><strong>Version 2.8.0 (2003-01-13)</strong>
+          <ul>
+<li>Added <code>CXXTEST_ABORT_TEST_ON_FAIL</code> for xUnit-like behaviour
+<li>Added <code>sample/winddk</code>
+<li>Improved ValueTraits
+<li>Improved output formatter
+<li>Started version history
+</ul>
+     <li><strong>Version 2.7.0 (2002-09-29)</strong>
+          <ul>
+<li>Added embedded test suites
+<li>Major internal improvements
+</ul>
+
+   </ul>
+
+   <p><a name="contents"></a>
+
+<div class="contents">
+<h2>Table of Contents</h2>
+<ul>
+<li><a name="toc_TOC0" href="#TOC0">1 Introduction</a>
+<ul>
+<li><a href="#TOC1">1.1 About this guide</a>
+</li></ul>
+<li><a name="toc_TOC2" href="#TOC2">2 Getting started</a>
+<ul>
+<li><a href="#TOC3">2.1 Getting CxxTest</a>
+<li><a href="#TOC4">2.2 Your first test!</a>
+<li><a href="#TOC5">2.3 Your second test</a>
+<li><a href="#TOC6">2.4 Graphical user interface</a>
+</li></ul>
+<li><a name="toc_TOC7" href="#TOC7">3 <em>Really</em> using CxxTest</a>
+<ul>
+<li><a href="#TOC8">3.1 What can you test</a>
+<ul>
+<li><a href="#TOC9">3.1.1 <code>TS_FAIL</code></a>
+<li><a href="#TOC10">3.1.2 <code>TS_ASSERT</code></a>
+<li><a href="#TOC11">3.1.3 <code>TS_ASSERT_EQUALS</code></a>
+<li><a href="#TOC12">3.1.4 <code>TS_ASSERT_SAME_DATA</code></a>
+<li><a href="#TOC13">3.1.5 <code>TS_ASSERT_DELTA</code></a>
+<li><a href="#TOC14">3.1.6 <code>TS_ASSERT_DIFFERS</code></a>
+<li><a href="#TOC15">3.1.7 <code>TS_ASSERT_LESS_THAN</code></a>
+<li><a href="#TOC16">3.1.8 <code>TS_ASSERT_LESS_THAN_EQUALS</code></a>
+<li><a href="#TOC17">3.1.9 <code>TS_ASSERT_PREDICATE</code></a>
+<li><a href="#TOC18">3.1.10 <code>TS_ASSERT_RELATION</code></a>
+<li><a href="#TOC19">3.1.11 <code>TS_ASSERT_THROWS</code> and friends</a>
+<li><a href="#TOC20">3.1.12 <code>TS_TRACE</code> and <code>TS_WARN</code></a>
+<li><a href="#TOC21">3.1.13 The <code>ETS_</code> macros</a>
+<li><a href="#TOC22">3.1.14 The <code>TSM_</code> macros</a>
+<ul>
+<li><a href="#TOC23">3.1.14.1 The <code>ETSM_</code> macros</a>
+</li></ul>
+</li></ul>
+<li><a href="#TOC24">3.2 Running the samples</a>
+<li><a href="#TOC25">3.3 Test fixtures</a>
+<ul>
+<li><a href="#TOC26">3.3.1 Test suite level fixtures</a>
+</li></ul>
+<li><a href="#TOC27">3.4 Integrating with your build environment</a>
+<ul>
+<li><a href="#TOC28">3.4.1 Overview</a>
+<li><a href="#TOC29">3.4.2 Actually doing it</a>
+<ul>
+<li><a href="#TOC30">3.4.2.1 Using Makefiles</a>
+<li><a href="#TOC31">3.4.2.2 Using Cons</a>
+<li><a href="#TOC32">3.4.2.3 Using Microsoft Visual Studio</a>
+<li><a href="#TOC33">3.4.2.4 Using Microsoft Windows DDK</a>
+</li></ul>
+</li></ul>
+<li><a href="#TOC34">3.5 Graphical user interface</a>
+<ul>
+<li><a href="#TOC35">3.5.1 Starting the GUI minimized</a>
+<li><a href="#TOC36">3.5.2 Leaving the GUI open</a>
+<li><a href="#TOC37">3.5.3 Screenshots!</a>
+</li></ul>
+</li></ul>
+<li><a name="toc_TOC38" href="#TOC38">4 Advanced topics</a>
+<ul>
+<li><a href="#TOC39">4.1 Aborting tests after failures</a>
+<ul>
+<li><a href="#TOC40">4.1.1 Controlling this behavior at runtime</a>
+</li></ul>
+<li><a href="#TOC41">4.2 Commenting out tests</a>
+<li><a href="#TOC42">4.3 Comparing equality for your own types</a>
+<ul>
+<li><a href="#TOC43">4.3.1 The equality operator</a>
+<li><a href="#TOC44">4.3.2 Value traits</a>
+<li><a href="#TOC45">4.3.3 Unknown types</a>
+<li><a href="#TOC46">4.3.4 Enumeration traits</a>
+<li><a href="#TOC47">4.3.5 Defining new value traits</a>
+<ul>
+<li><a href="#TOC48">4.3.5.1 Defining value traits for template classes</a>
+</li></ul>
+<li><a href="#TOC49">4.3.6 Overriding the default value traits</a>
+</li></ul>
+<li><a href="#TOC50">4.4 Global Fixtures</a>
+<ul>
+<li><a href="#TOC51">4.4.1 World fixtures</a>
+</li></ul>
+<li><a href="#TOC52">4.5 Mock Objects</a>
+<ul>
+<li><a href="#TOC53">4.5.1 Actually doing it</a>
+<li><a href="#TOC54">4.5.2 Advanced topic with mock functions</a>
+<ul>
+<li><a href="#TOC55">4.5.2.1 Void functions</a>
+<li><a href="#TOC56">4.5.2.2 Calling the real functions while testing</a>
+<li><a href="#TOC57">4.5.2.3 When there is no real function</a>
+<li><a href="#TOC58">4.5.2.4 Functions in namespaces</a>
+<li><a href="#TOC59">4.5.2.5 Overloaded functions</a>
+<li><a href="#TOC60">4.5.2.6 Changing the mock namespace</a>
+</li></ul>
+</li></ul>
+<li><a href="#TOC61">4.6 Test Listeners and Test Runners</a>
+<ul>
+<li><a href="#TOC62">4.6.1 Other test listeners</a>
+<ul>
+<li><a href="#TOC63">4.6.1.1 The <code>stdio</code> printer</a>
+<li><a href="#TOC64">4.6.1.2 The Yes/No runner</a>
+<li><a href="#TOC65">4.6.1.3 Template files</a>
+</li></ul>
+</li></ul>
+<li><a href="#TOC66">4.7 Dynamically creating test suites</a>
+<li><a href="#TOC67">4.8 Static initialization</a>
+</li></ul>
+<li><a name="toc_TOC68" href="#TOC68">Appendix A Command line options</a>
+<ul>
+<li><a href="#TOC69">A.1 <code>--version</code></a>
+<li><a href="#TOC70">A.2 <code>--output</code></a>
+<li><a href="#TOC71">A.3 <code>--error-printer</code></a>
+<li><a href="#TOC72">A.4 <code>--runner</code></a>
+<li><a href="#TOC73">A.5 <code>--gui</code></a>
+<li><a href="#TOC74">A.6 <code>--include</code></a>
+<li><a href="#TOC75">A.7 <code>--template</code></a>
+<li><a href="#TOC76">A.8 <code>--have-eh</code></a>
+<li><a href="#TOC77">A.9 <code>--no-eh</code></a>
+<li><a href="#TOC78">A.10 <code>--have-std</code></a>
+<li><a href="#TOC79">A.11 <code>--no-std</code></a>
+<li><a href="#TOC80">A.12 <code>--longlong</code></a>
+<li><a href="#TOC81">A.13 <code>--abort-on-fail</code></a>
+<li><a href="#TOC82">A.14 <code>--part</code></a>
+<li><a href="#TOC83">A.15 <code>--root</code></a>
+<li><a href="#TOC84">A.16 <code>--no-static-init</code></a>
+</li></ul>
+<li><a name="toc_TOC85" href="#TOC85">Appendix B Controlling the behavior of CxxTest</a>
+<ul>
+<li><a href="#TOC86">B.1 <code>CXXTEST_HAVE_STD</code></a>
+<li><a href="#TOC87">B.2 <code>CXXTEST_HAVE_EH</code></a>
+<li><a href="#TOC88">B.3 <code>CXXTEST_ABORT_TEST_ON_FAIL</code></a>
+<li><a href="#TOC89">B.4 <code>CXXTEST_USER_VALUE_TRAITS</code></a>
+<li><a href="#TOC90">B.5 <code>CXXTEST_OLD_TEMPLATE_SYNTAX</code></a>
+<li><a href="#TOC91">B.6 <code>CXXTEST_OLD_STD</code></a>
+<li><a href="#TOC92">B.7 <code>CXXTEST_MAX_DUMP_SIZE</code></a>
+<li><a href="#TOC93">B.8 <code>CXXTEST_DEFAULT_ABORT</code></a>
+<li><a href="#TOC94">B.9 <code>CXXTEST_LONGLONG</code></a>
+</li></ul>
+<li><a name="toc_TOC95" href="#TOC95">Appendix C Runtime options</a>
+<ul>
+<li><a href="#TOC96">C.1 <code>setAbortTestOnFail( bool )</code></a>
+<li><a href="#TOC97">C.2 <code>setMaxDumpSize( unsigned )</code></a>
+</li></ul>
+<li><a name="toc_TOC98" href="#TOC98">Appendix D Version history</a>
+</li></ul>
+</div>
+
+
+   </body></html>

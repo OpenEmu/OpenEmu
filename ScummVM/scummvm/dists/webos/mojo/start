@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Setup directories
+APPDIR=$(readlink -f $(dirname $0))
+SCUMMVMDIR=/media/internal/ScummVM
+
+# Create the initial ScummVM directory structure
+mkdir -p $SCUMMVMDIR/Games
+mkdir -p $SCUMMVMDIR/Saves
+mkdir -p $SCUMMVMDIR/Screenshots
+
+# Install default configuration file if not already present
+if [ ! -f $SCUMMVMDIR/scummvmrc ]
+then
+    cp $APPDIR/scummvmrc-default $SCUMMVMDIR/scummvmrc
+fi
+
+# Change into the screenshots directory so screenshots are saved there
+cd $SCUMMVMDIR/Screenshots
+
+# Run the game
+exec $APPDIR/bin/scummvm -c $SCUMMVMDIR/scummvmrc

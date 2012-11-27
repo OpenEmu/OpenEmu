@@ -1,0 +1,45 @@
+# -*- Makefile -*-
+
+#
+# Build this sample with the Windows DDK (XP or later)
+#
+SUITESDIR=..
+CXXTESTDIR=../..
+
+#
+# Build a user-mode application
+#
+TARGETNAME=RunTests
+TARGETPATH=.
+TARGETTYPE=PROGRAM
+
+#
+# Make it a console-mode app
+#
+UMTYPE=console
+
+#
+# Add CxxTest and tests directory to include path
+#
+INCLUDES=$(SUITESDIR);$(CXXTESTDIR)
+
+#
+# Enable exception handling and standard library
+#
+USE_NATIVE_EH=1
+LINKER_FLAGS=$(LINKER_FLAGS) -IGNORE:4099
+386_WARNING_LEVEL=-W3 -WX -wd4290
+
+TARGETLIBS=\
+	$(CRT_LIB_PATH)\libcp.lib \
+	$(CRT_LIB_PATH)\libc.lib
+
+#
+# Only one source file -- the generated test runner
+#
+SOURCES=RunTests.cpp
+
+#
+# This line tells the build utility to process Makefile.inc
+#
+NTTARGETFILE0=RunTests.cpp

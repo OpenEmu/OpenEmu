@@ -1,0 +1,151 @@
+Dette dokument er en delvis oversættelse af den engelske README filen.
+Det originale dokument har meget mere information, så hvis du ikke kan
+finde det du har brug for her og kan forstå en smule engelsk, så prøv
+at se i den Engelske README-fil.
+
+For mere information, kompatibilitet lister, detaljer om donering, den
+seneste udgivelse, statusrapporter og mere, kan du besøge ScummVMs hjemme-
+side på: http://www.scummvm.org/
+
+Indholdsfortegnelse:
+--------------------
+1.0) Indledning
+ * 1.1 Om ScummVM
+ * 1.2 Hurtig start
+2.0) Kontakt
+ * 2.1 Rapportering af fejl
+
+1.0) Indledning:
+---- -----------
+
+1.1) Om ScummVM:
+---- -----------
+ScummVM er et program, som tillader dig at køre visse klassiske grafiske
+peg-og-klik eventyr spil, hvis du allerede har deres data filer. Den
+smarte del omkring dette: ScummVM erstatter bare de eksekverbare filer
+der fulgte med i spillet, så du kan afspille dem på systemer, hvor de
+aldrig var designet til!
+
+Oprindeligt var det designet til at køre LucasArts' SCUMM spil, såsom
+Maniac Mansion, Monkey Island, Day of the Tentacle eller Sam and Max.
+SCUMM står for 'Script Creation Utility for Maniac Mansion', som var det
+første spil som LucasArts designede dette system til. Og langt senere gav
+navn til ScummVM ('VM', betyder Virtuel Maskine).
+
+Efterhånden er understøttelse for en masse ikke-SCUMM spil blevet tilføjet,
+og ScummVM understøtter nu også mange af Sierras AGI og SCI-spil (såsom
+Kings Quest 1-6, Space Quest 1-5, ...), Discworld 1 og 2, Simon the Sorcerer 
+1 og 2, Beneath A Steel Sky, Lure of the Temptress, Broken Sword I og II, 
+Flight of the Amazon Queen, Gobliiins 1-3, The Legend of Kyrandia serien, 
+mange af Humongous Entertainments børne SCUMM spil (herunder Freddi Fish 
+and Putt Putt spil) og mange flere. Du kan finde en komplet liste med 
+oplysninger om, hvilke eventyr der understøttes og hvor godt, på 
+kompatibilitetssiden. ScummVM forbedres løbende, så vend ofte tilbage.
+
+Blandt de systemer, som du kan spille disse spil på er regulære desktop 
+computere (Windows, Linux, Mac OS X, ...), spillekonsoller (Dreamcast, 
+Nintendo DS og Wii, PS2, PSP, ...), smartphones (Android, iPhone, PocketPC, 
+Symbian ...) og flere.
+
+På dette tidspunkt er ScummVM stadig under kraftig udvikling. Vær opmærksom 
+på, at selvom vi forsøger at sørge for, at mange spil kan gennemføres med få 
+store fejl, kan nedbrud ske, og vi tilbyder ingen garanti. Når det er sagt, 
+er nogle af spillene blevet understøttet i lang tid og bør fungerer fint 
+med alle nyere stabile udgaver. Du kan få en fornemmelse af, hvor godt 
+hvert spil virker i ScummVM, ved at kigge på kompatibilitetssiden. Faktisk, 
+hvis du søger lidt rundt, vil du måske opdage, at ScummVM endog anvendes 
+kommercielt til genudgivelse af nogle af understøttede spil på moderne 
+platforme. Dette viser, at flere virksomheder er tilfredse med kvaliteten 
+af ​​programmet, og hvor godt det kan køre nogle af spillene.
+
+Hvis du har fornøjelse af ScummVM, er du velkommen til at donere ved hjælp 
+af PayPal-knappen på ScummVM's hjemmeside. Dette vil hjælpe os med at købe
+værktøjer nødvendige for at udvikle ScummVM nemmere og hurtigere. Hvis du 
+ikke kan donere, hjælp og bidrage med en programrettelse!
+
+1.2) Hurtig start:
+---- ------------
+VIGTIGT: Denne korte vejledning antager, at du bruger ScummVM på dansk. 
+Som standard vil ScummVM bruge dit operativsystem sprog. Hvis du 
+foretrækker at bruge ScummVM på engelsk, kan du også foretrække at 
+følge vejledning fra den engelske README fil.
+
+For de utålmodige blandt jer, er her hvordan du får ScummVM op at køre 
+i fem enkle trin.
+
+1. Hent ScummVM fra <http://www.scummvm.org/downloads.php> og 
+installere det.
+
+2. Opret en mappe på din harddisk og kopiere spillets datafiler fra de 
+oprindelige medier til denne mappe. Gentag dette for hvert spil du 
+ønsker at spille (det er bedre at bruge en separat mappe til hvert spil).
+
+3. Start ScummVM.
+
+Hvis ScummVM på dette tidspunkt vises på engelsk i stedet for dansk, gør 
+som følger for at ændre sprog:
+ - Klik på 'Options'.
+ - Klik på højre pil i fanebjælken og vælg 'Misc' fanen.
+ - Vælg "Dansk" i "GUI Language'og klik på 'OK'.
+ - Bekræft meddelelsen boksen, der popper op, klik på 'Quit' for at 
+   afslutte ScummVM og derefter genstarte programmet.
+
+Vælg nu 'Tilføj spil', vælge mappen med spillets datafiler (forsøg ikke 
+at vælge datafilerne selv!) Og tryk på 'Vælg'
+
+4. En dialog skulle komme op, hvor du kan konfigurere forskellige 
+indstillinger, hvis du ønsker det (det burde dog være fint at lade alt 
+forblive på sin standard). Bekræft dialogen.
+
+5. Vælg det spil, du ønsker at spille på listen, og tryk på 'Start'.
+
+ScummVM husker de spil, du tilføjer. Så hvis du lukker ScummVM, vil 
+listen over spil næste gang du starter den, indeholde alle de spil du 
+tidligere har tilføjet. Du kan derfor gå direkte til trin 5, medmindre 
+du ønsker at tilføje flere spil.
+
+Tip: Hvis du ønsker at tilføje flere spil på én gang, så prøv at trykke 
+og holde shift-tasten nede før du klikker på 'Tilføj spil' - teksten vil 
+skifte til 'Tilføj flere', og hvis du trykker på den, bliver du igen bedt 
+om at vælge en mappe, men denne gang vil ScummVM søge gennem alle 
+undermapper for understøttede spil.
+
+2.0) Kontakt:
+---- --------
+Den nemmeste måde at kontakte ScummVM holdet på er ved at sende fejlrapporter 
+(se afsnit 2.1) eller ved at bruge vores fora på http://forums.scummvm.org. 
+Du kan også deltage og e-maile til scummvm-devel postlisten, eller chatte 
+med os på IRC (#scummvm på irc.freenode.net). Bed os venligst ikke om at 
+understøtte et ikke-understøttet spil -- læs FAQ på vores hjemmeside først. 
+Bemærk, at det officielle sprog i dette forum, mailing liste og chat er 
+engelsk og ingen andre sprog bør anvendes.
+
+2.1) Rapportering af fejl:
+---- ---------------------
+For at rapportere en fejl, skal du oprette en SourceForge konto, og følge 
+"Bug Tracker" linket fra vores hjemmeside. Sørg for at fejlen er reproducerbare, 
+og stadig forekommer i den seneste git/Daglig byggede version.
+Kontroller også listen med kendte problemer (nedenfor) og kompatibilitetslisten 
+på vores hjemmeside for spillet, for at sikre, at problemet ikke allerede er kendt:
+
+  http://www.scummvm.org/compatibility_stable.php
+
+Vær venlig ikke at rapportere fejl på spil, der ikke er anført som værende 
+mulige at gennemføre i 'understøttede spil' sektionen, eller kompatibilitetslisten. 
+Vi -ved- disse spil har fejl.
+
+Inkluder venligst følgende oplysninger:
+    - ScummVM version (VENLIGST test på den nyeste git/Daglig byggede)
+    - Detaljer om fejlen, herunder oplysninger om genskabelsen af fejlen
+    - Sprog i spillet (engelsk, tysk, ...)
+    - Version af spillet (talkie, diskette, ...)
+    - Platform og Kompiler (Win32, Linux, FreeBSD, ...)
+    - Medsend et gemt spil hvis det er muligt
+    - Hvis fejlen kun skete for nylig, notér venligst den sidste version
+      uden fejl, og den første version med fejlen. På denne måde kan vi 
+      ordne det hurtigere ved at kigge på de foretagne ændringer.
+
+Endelig, bedes du rapportere hvert problem separat; indsend ikke flere 
+problemer på samme billet. (Ellers bliver det svært at spore status for 
+hver enkelt fejl). Husk også på, at alle fejlrapporter skal skrives på 
+engelsk.

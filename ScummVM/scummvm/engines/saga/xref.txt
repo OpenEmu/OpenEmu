@@ -1,0 +1,139 @@
+$Id$
+
+Cross-reference for functions and variables for the original source code and
+the ScummVM implementation.
+
+Watcom C++ arguments order:
+
+  eax, edx, ebx, ecx, stack
+
+Sceneres.h
+==========
+ LOADREQ_FIGURE
+ LOADREQ_OBJECT
+ LOADREQ_BACKGROUND        SAGA_BG_IMAGE
+ LOADREQ_ZBUF              SAGA_BG_MASK
+ LOADREQ_SCENE_SCRIPT
+ LOADREQ_STRINGS           SAGA_OBJECT_NAME_LIST
+ LOADREQ_HITZONES          SAGA_OBJECT_MAP
+ LOADREQ_STEPZONES         SAGA_ACTION_MAP
+ LOADREQ_TILE_IMAGES       SAGA_ISO_TILESET
+ LOADREQ_TILE_MAP          SAGA_ISO_METAMAP
+ LOADREQ_TILE_PLATFORMS    SAGA_ISO_METATILESET
+ LOADREQ_TILE_METATILES
+ LOADREQ_ENTRY             SAGA_ENTRY
+ LOADREQ_FRAMELIST
+
+ LOADREQ_ANIM_0            SAGA_ANIM_1
+ LOADREQ_ANIM_1            SAGA_ANIM_2
+ LOADREQ_ANIM_2            SAGA_ANIM_3
+ LOADREQ_ANIM_3            SAGA_ANIM_4
+ LOADREQ_ANIM_4            SAGA_ANIM_5
+ LOADREQ_ANIM_5            SAGA_ANIM_6
+ LOADREQ_ANIM_6            SAGA_ANIM_7
+ LOADREQ_ANIM_7
+
+ LOADREQ_TILE_MULTI
+ LOADREQ_CYCLES            SAGA_PAL_ANIM
+ LOADREQ_FACES             SAGA_FACES
+ LOADREQ_PALETTE
+
+ hitZone                   _objectMap
+ stepZone                  _actionMap
+
+ HZONEF_EXIT               OBJECT_EXIT (in Verb.c), ACTION_EXIT (in Actor.c)
+ HZONEF_ENABLED            OBJECT_ENABLED (in Verb.c), ACTION_ENABLED (in Actor.c)
+ HZONEF_NOWALK             OBJECT_NOWALK
+ HZONEF_PROJECT            OBJECT_PROJECT
+ HZONEF_AUTOWALK           ACTION_AUTOWALK
+ HZONEF_TERMINUS           ACTION_TERMINUS
+
+ FrameRange.startFrame     ACTORACTIONITEM.frame_index
+ FrameRange.frameCount     ACTORACTIONITEM.frame_count
+
+ FrameSequence.right       ACTORACTION.dir[0]
+ FrameSequence.left        ACTORACTION.dir[1]
+ FrameSequence.back        ACTORACTION.dir[2]
+ FrameSequence.forward     ACTORACTION.dir[3]
+
+Scene.c
+=======
+ ResToImage()              _vm->decodeBGImage()
+ resInfo->sceneFlags       _desc.flags
+ resInfo->loadList         _desc.resListRN
+ resInfo->horizon          _desc.endSlope
+ resInfo->nearFigureLimit  _desc.beginSlope
+ resInfo->scriptModule     _desc.scriptModuleNumber
+ resInfo->entryScript      _desc.sceneScriptEntrypointNumber
+ resInfo->preScript        _desc.startScriptEntrypointNumber
+ resInfo->backgroundMusic  _desc.musicRN
+ thisScene->ID             currentSceneNumber()
+
+Interp.c
+========
+ dispatchThreads()         executeThreads()
+ runThread()               SThreadCompleteThread()
+ moduleList                _scriptLUT
+ ModuleEntry->codeID       _scriptLUT->script_rn
+ ModuleEntry->strID        _scriptLUT->diag_list_rn
+ ModuleEntry->vtableID     _scriptLUT->voice_lut_rn
+ threadBase.theAction      threadVars[kVarAction]
+ threadBase.theObject      threadVars[kVarObject]
+ threadBase.withObject     threadVars[kVarWithObject]
+ threadBase.theActor       threadVars[kVarActor]
+
+Actor.h
+=======
+ GOF_PROTAGONIST           kProtagonist
+ GOF_FOLLOWER              kFollower
+ GOF_CYCLE                 kCycle
+ GOF_FASTER                kFaster
+ GOF_FASTEST               kFastest
+ GOF_EXTENDED              kExtended
+
+Actor.c
+=======
+ abortAllSpeeches()        abortAllSpeeches()
+
+Main.c
+======
+ sceneIndexTable           _scene->getSceneLUT()
+
+Main.h
+======
+BRIGHT_WHITE               kITEColorBrightWhite
+WHITE_02                   kITEColorWhite
+GREY_0A                    kITEColorGrey
+DK_GREY_0B                 kITEColorDarkGrey
+PITCH_BLACK                kITEColorBlack
+RED_65                     kITEColorRed
+BLUE_93                    kITEColorBlue
+GREEB_BA                   kITEColorGreen
+
+Note that ScummVM's kITEColorLightGrey does not have any corresponding
+constant in the original SAGA engine. We use it for the ITE mouse cursor. See
+PtrData[] in Main.c and setCursor() in gfx.cpp
+
+Tile.h
+======
+ isoTile.height            ISOTILE_ENTRY.tile_h
+ isoTile.attributes        ISOTILE_ENTRY.mask_rule
+ isoTile.offset            ISOTILE_ENTRY.tile_offset
+ isoTile.terrain_mask      ISOTILE_ENTRY.terrain_mask
+ isoTile.fgd_bgd_attr      ISOTILE_ENTRY.mask
+
+ tilePlatform.metaTile     ISO_METATILE_ENTRY.mtile_n
+ tilePlatform.height       ISO_METATILE_ENTRY.height
+ tilePlatform.highestPixel ISO_METATILE_ENTRY.highest_pixel
+ tilePlatform.vBits        ISO_METATILE_ENTRY.v_bits
+ tilePlatform.uBits        ISO_METATILE_ENTRY.u_bits
+
+Resource.h
+==========
+ PicHeader.width           IMAGE_HEADER.width
+ PicHeader.height          IMAGE_HEADER.height
+
+
+Process.c
+=========
+ mainPanelMode             Interface::_inMainMode

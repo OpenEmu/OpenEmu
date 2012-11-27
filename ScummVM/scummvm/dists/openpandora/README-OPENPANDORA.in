@@ -1,0 +1,19 @@
+ScummVM @VERSION@ - OPENPANDORA SPECIFIC README
+------------------------------------------------------------------------
+Please refer to the:
+
+ScummVM Forum: <http://forums.scummvm.org/>
+WiKi: <http://wiki.scummvm.org/index.php/OpenPandora>
+
+for the most current information on the port and any updates to this
+documentation.
+
+The wiki includes detailed instructions on how to use the port and 
+control information.
+
+------------------------------------------------------------------------
+Credits
+
+Core ScummVM code (c) The ScummVM Team
+OpenPandora backend (c) John Willis
+Detailed (c) information can be found within the source code

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NB: android:versionCode needs to be bumped for formal releases -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+		package="org.scummvm.scummvm"
+		android:versionCode="@ANDROID_VERSIONCODE@"
+		android:versionName="@VERSION@"
+		android:installLocation="preferExternal"
+		android:sharedUserId="org.scummvm.scummvm">
+
+	<!-- This version works on Android 1.5 (SDK 3) and newer, but we
+			want Android 2.2 (SDK 8) defaults and features. -->
+	<uses-sdk android:minSdkVersion="3"
+			android:targetSdkVersion="8"/>
+
+	<application android:name=".ScummVMApplication"
+			android:label="@string/app_name"
+			android:description="@string/app_desc"
+			android:icon="@drawable/scummvm">
+		<activity android:name=".ScummVMActivity"
+				android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+				android:screenOrientation="landscape"
+				android:configChanges="orientation|keyboardHidden"
+				android:windowSoftInputMode="adjustResize">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".Unpacker"
+				android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+				android:screenOrientation="landscape"
+				android:configChanges="orientation|keyboardHidden">
+			<meta-data android:name="org.scummvm.unpacker.nextActivity"
+				android:value="org.scummvm.scummvm/.ScummVMActivity"/>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+	</application>
+
+	<permission android:name="org.scummvm.scummvm.permission.SCUMMVM_PLUGIN"
+		android:label="@string/scummvm_perm_plugin_label"
+		android:description="@string/scummvm_perm_plugin_desc"
+		android:protectionLevel="signature"/>
+
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+	<!-- Always needs some sort of qwerty keyboard.
+			Can work with a D-pad / trackball -->
+	<uses-configuration android:reqFiveWayNav="true"
+			android:reqKeyboardType="qwerty"/>
+
+	<!-- .. or touchscreen -->
+	<uses-configuration android:reqTouchScreen="finger"
+			android:reqKeyboardType="qwerty"/>
+
+	<uses-configuration android:reqTouchScreen="stylus"
+			android:reqKeyboardType="qwerty"/>
+</manifest>

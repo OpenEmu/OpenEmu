@@ -1,0 +1,140 @@
+This directory contains various tools which aid the ScummVM developers
+in their work. They are not intended for the general audience, and are
+only sparsely, if at all, documented. Use at your own risk. You have
+been warned :-).
+
+
+agi-palex.py (buddha)
+------------
+    Tool for extracting palettes from Amiga AGI games' executables.
+
+
+construct-pred-dict.pl, extract-words-tok.pl (sev)
+--------------------------------------------
+    Tools related to predictive input for AGI engine.
+
+
+convbdf
+-------
+    Tool which converts BDF fonts (BDF = Bitmap Distribution Format) to
+    C++ source. That source, after being slightly tweaked, can be used to
+    replace or add fonts for the ScummVM GUI.
+
+    There is also a ttf2bdf tool which allows you to convert TrueType
+    fonts to BDF.
+
+    Hint from SumthinWicked: If you use ttf2bdf, it'll convert all glyphs
+    to bitmaps, but ScummVM only needs some of them. So you may want to
+    do your conversion like this:
+      ttf2bdf -p SIZE -l "32_160" -o FONT.bdf FONT.ttf
+    where SIZE is replaced by the desired font height.
+
+
+create_drascula (sev)
+---------------
+    Stores a lot of hardcoded data of Drascula in a data file, based on
+    the game's original source code. This includes the game's character
+    map, item locations, several hardcoded arrays used in animations,
+    room script logic, talk sequence logic and all of the game's texts
+    (mostly the dialog subtitles) in English, Spanish, German, French
+    and Italian. This tool is used to create the drascula.dat file.
+
+
+create_hugo (Strangerke)
+-----------
+    Creates hugo.dat file which contains all kinds of static data contained
+    in original game executable.
+
+
+create_kyradat (LordHoto, athrxx)
+--------------
+    Extracts various static data from the original game executables.
+    This includes room tables in kyra1, various hardcoded language
+    strings in both kyra1 and kyra2, script data for the sequence
+    players of kyra1 and kyra2 and other static data. This tool is used
+    to create the kyra.dat file.
+
+
+create_lure (dreammaster)
+-----------
+    Extracts various static data from each of the different language
+    versions of the game executables. This includes character
+    animations, game scripts, and other static data. This tool creates
+    the lure.dat file.
+
+
+create_project (LordHoto, Littleboy)
+--------------
+    Creates project files for Visual Studio 2005, 2008, 2010, 2012, Xcode and
+    Code::Blocks out of the configure / Makefile based build system.
+    It also offers a way to enable or disable certain engines and the use
+    of external libraries similar to configure. Run the tool without
+    any arguments for further help.
+
+
+create_toon (Strangerke)
+-----------
+    This tool creates toon.dat, which contains all the game's texts 
+    hardcoded in original game executable. This includes English, French,
+    German, Russian and Spanish texts. 
+
+
+create_translations (criezy)
+-------------------
+    Creates the translations.dat file from po files given as arguments.
+    The generated files is used by ScummVM to propose a translated GUI.
+
+
+credits.pl
+----------
+    This perl script contains credits to the many people who helped with
+    ScummVM, and it is used to create the credits lists that occur in
+    various places, including the AUTHORS file, the about dialog, and our
+    web site.
+
+
+dist-scummvm.sh
+---------------
+    This shell script is used to create source release archives for
+    ScummVM releases. After tagging a branch for release, you can invoke
+    it like this:
+
+      ./dist-scummvm.sh scummvm 0.7.1
+
+    Note #1: This creates .zip, .tar.bz2 and .tar.gz archives in /tmp by
+    default. To do that it performs a "cvs export" in /tmp first. If you
+    want to use another location, you can specify it as the thirds param
+    to the script.
+
+    Note #2: This assumes that our naming conventions for release tags
+    are being followed. I.e. the tag must be named "release-0-7-1" in
+    the above example. You can, however, specify an alternate tag as the
+    fourth param.
+
+    Note #3: Since SF.net anon CVS tends to lag behind developer CVS, if
+    you just tagged CVS, anon CVS may not yet have this. So if you are
+    in a hurry, modify the cvsroot in the script to use your dev CVS
+    account.
+
+
+make-scumm-fontdata (eriktorbjorn)
+-------------------
+    Tool that generates compressed font data used in SCUMM: To get rid of
+    a few kilobytes of hard-coded font data, we only store how the
+    French, German, Italian and Spanish fonts differ from the English one.
+
+
+md5table
+--------
+    Used to convert scumm-md5.txt into a SCUMM header file, or
+    alternatively PHP code for our website.
+
+
+qtable (cyx)
+-------
+    This tool generates the "queen.tbl" file.
+
+
+skycpt (lavosspawn)
+-------
+    This tool generates the "SKY.CPT" file.

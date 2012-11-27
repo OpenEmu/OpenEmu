@@ -1,0 +1,61 @@
+ScummVM @VERSION@ - GPH DEVICE SPECIFIC README
+
+------------------------------------------------------------------------
+
+Contents:
+
+    * About the backend/port <#About_the_backendport>
+    * Supported audio options <#Supported_audio_options>
+    * Credits <#Credits>
+
+------------------------------------------------------------------------
+
+Please refer to the:
+
+GPH ScummVM Forum: <http://forums.scummvm.org/viewforum.php?f=14>
+
+WiKi: (Select your device)
+
+<http://wiki.scummvm.org/index.php/GP2X>
+<http://wiki.scummvm.org/index.php/GP2XWiz>
+<http://wiki.scummvm.org/index.php/Caanoo>
+
+for the most current information on the port and any updates to this
+documentation.
+
+The wiki includes detailed instructions on how to use the port and 
+control information.
+
+------------------------------------------------------------------------
+About the backend/port
+
+This is the readme for the official GPH ScummVM backend (also known as
+the GP2X port/GP2XWiz port or Caanoo port).
+
+This is an SVN test release of ScummVM for GPH devices, it would be
+appreciated if this SVN test distribution was not mirrored and that
+people be directed to http://scummvm.distant-earth.com/ instead for
+updated SVN builds.
+
+Fully supported official releases of the GPH ScummVM backend are made in
+line with main official releases and are avalalble from the ScummVM
+downloads page <http://www.scummvm.org/downloads.php> for the GP2X, 
+GP2XWiz and Caanoo.
+
+------------------------------------------------------------------------
+Supported audio options
+
+Raw audio.
+MP3 audio.
+OGG Vorbis audio.
+
+FLAC audio is currently unsupported.
+
+For best results use uncompressed audio in games.
+
+------------------------------------------------------------------------
+Credits
+
+Core ScummVM code (c) The ScummVM Team
+Portions of the GPH backend (c) John Willis
+Detailed (c) information can be found within the source code

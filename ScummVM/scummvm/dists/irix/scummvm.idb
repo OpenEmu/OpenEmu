@@ -1,0 +1,18 @@
+f 0644 root sys usr/ScummVM/COPYING COPYING scummvm.man.readme
+f 0644 root sys usr/ScummVM/COPYING.LGPL COPYING.LGPL scummvm.man.readme
+f 0644 root sys usr/ScummVM/COPYRIGHT COPYRIGHT scummvm.man.readme
+f 0644 root sys usr/ScummVM/NEWS NEWS scummvm.man.readme
+f 0644 root sys usr/ScummVM/README README scummvm.man.readme
+f 0755 root sys usr/ScummVM/scummvm scummvm scummvm.sw.eoe tag('0x5260dbec')
+f 0644 root sys usr/ScummVM/share/pixmaps/scummvm.xpm scummvm.xpm scummvm.sw.eoe
+f 0644 root sys usr/ScummVM/share/scummvm/drascula.dat drascula.dat scummvm.sw.eoe
+f 0644 root sys usr/ScummVM/share/scummvm/kyra.dat kyra.dat scummvm.sw.eoe
+f 0644 root sys usr/ScummVM/share/scummvm/lure.dat lure.dat scummvm.sw.eoe
+f 0644 root sys usr/ScummVM/share/scummvm/pred.dic pred.dic scummvm.sw.eoe
+f 0644 root sys usr/ScummVM/share/scummvm/queen.tbl queen.tbl scummvm.sw.eoe
+f 0644 root sys usr/ScummVM/share/scummvm/scummmodern.zip scummmodern.zip scummvm.sw.eoe
+f 0644 root sys usr/ScummVM/share/scummvm/sky.cpt sky.cpt scummvm.sw.eoe
+f 0644 root sys usr/ScummVM/share/scummvm/teenagent.dat teenagent.dat scummvm.sw.eoe
+l 0000 root sys usr/bin/scummvm scummvm scummvm.sw.eoe symval(/usr/ScummVM/scummvm)
+f 0644 root sys usr/lib/filetype/local/ScummVM.ftr ScummVM.ftr scummvm.sw.eoe exitop('if test -r $rbase/usr/lib/filetype/Makefile ; then chroot $rbase /sbin/sh -c "cd /usr/lib/filetype ; make -u > /dev/null" ; fi')
+f 0644 root sys usr/lib/filetype/local/iconlib/ScummVM.fti ScummVM.fti scummvm.sw.eoe exitop('if [ -x $rbase/usr/sbin/iconcatalogedit ]; then chroot $rbase /usr/sbin/iconcatalogedit -add "Category:File Name:/usr/ScummVM/scummvm" -syspage Games; fi') removeop('if [ -x $rbase/usr/sbin/iconcatalogedit ]; then chroot $rbase /usr/sbin/iconcatalogedit -remove "Category:File Name:/usr/ScummVM/scummvm" -syspage Games; fi')

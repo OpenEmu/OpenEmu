@@ -1,0 +1,71 @@
+#!/usr/bin/make -f
+
+#include /usr/share/quilt/quilt.make
+
+build: scummvm
+
+scummvm:
+	dh_testdir
+	./configure --host=maemo
+	$(MAKE)
+
+clean:
+	dh_testdir
+	dh_testroot
+	-$(MAKE) distclean
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean
+	dh_installdirs
+# run as fake dbus-service to enable switching back to application from desktop via home key
+	install -m0755 dists/maemo/scummvm.servicewrapper debian/scummvm/usr/games/scummvm
+	install -m0644 dists/maemo/scummvm.servicedesktop debian/scummvm/usr/share/applications/hildon/scummvm.desktop
+	install -m0644 dists/maemo/scummvm.service debian/scummvm/usr/share/dbus-1/services
+# the following commented out lines are the alternative for not running scummvm as a fake service
+#	install -m0755 dists/maemo/scummvm.wrapper debian/scummvm/usr/games/scummvm
+#	install -m0644 dists/maemo/scummvm.desktop debian/scummvm/usr/share/applications/hildon
+	install -m0644 dists/maemo/scummvm26.png debian/scummvm/usr/share/icons/hicolor/26x26/hildon/scummvm.png
+	install -m0644 dists/maemo/scummvm40.png debian/scummvm/usr/share/icons/hicolor/40x40/hildon/scummvm.png
+	install -m0644 dists/maemo/scummvm48.png debian/scummvm/usr/share/icons/hicolor/48x48/hildon/scummvm.png
+	install -m0644 dists/maemo/scummvm64.png debian/scummvm/usr/share/icons/hicolor/64x64/hildon/scummvm.png
+	install -m0644 icons/scummvm.xpm debian/scummvm/usr/share/icons
+#	install -m0644 -d debian/scummvm/usr/lib/scummvm
+#	install -m0644 plugins/lib*.so debian/scummvm/usr/lib/scummvm
+##non-optified version
+#	install -m0755 scummvm debian/scummvm/usr/games/scummvm.bin
+#	install -m0644 -d debian/scummvm/usr/share/scummvm
+#	install -m0644 dists/pred.dic debian/scummvm/usr/share/scummvm
+#	install -m0644 gui/themes/scummclassic.zip  gui/themes/scummmodern.zip debian/scummvm/usr/share/scummvm
+# optified version (save rootfs space on N900), see also configure prefix and datadir paths above
+	install -m0644 -d debian/scummvm/opt/scummvm/bin
+	install -m0755 scummvm debian/scummvm/opt/scummvm/bin
+	install -m0644 -d debian/scummvm/opt/scummvm/share
+	install -m0644 dists/pred.dic debian/scummvm/opt/scummvm/share
+	install -m0644 gui/themes/scummclassic.zip  gui/themes/scummmodern.zip debian/scummvm/opt/scummvm/share
+	install -m0644 backends/vkeybd/packs/vkeybd_default.zip debian/scummvm/opt/scummvm/share
+# for optified version we can also add engine datafiles
+	install -m0644 dists/engine-data/drascula.dat dists/engine-data/hugo.dat dists/engine-data/kyra.dat dists/engine-data/lure.dat dists/engine-data/queen.tbl dists/engine-data/sky.cpt dists/engine-data/teenagent.dat dists/engine-data/tony.dat dists/engine-data/toon.dat debian/scummvm/opt/scummvm/share
+
+	install -m0644 -d debian/scummvm/usr/share/doc/scummvm
+	install -m0644 AUTHORS COPYING COPYING.BSD COPYING.FREEFONT COPYING.LGPL COPYRIGHT NEWS README debian/scummvm/usr/share/doc/scummvm
+binary: binary-arch
+
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs NEWS
+	dh_link
+	dh_strip
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary-indep:
+
+.PHONY: build clean binary install binary-arch binary-indep

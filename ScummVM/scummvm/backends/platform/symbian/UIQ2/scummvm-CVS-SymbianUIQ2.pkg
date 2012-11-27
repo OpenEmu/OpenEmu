@@ -1,0 +1,61 @@
+; ScummVM - Graphic Adventure Engine
+;
+; ScummVM is the legal property of its developers, whose names
+; are too numerous to list here. Please refer to the COPYRIGHT
+; file distributed with this source distribution.
+;
+; This program is free software; you can redistribute it and/or
+; modify it under the terms of the GNU General Public License
+; as published by the Free Software Foundation; either version 2
+; of the License, or (at your option) any later version.
+
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+
+; You should have received a copy of the GNU General Public License
+; along with this program; if not, write to the Free Software
+; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+;
+;
+
+;;;
+;;; ScummVM .PKG file for .SIS gegeration
+;;;
+
+; Languages
+;&EN
+
+; UID is the app's UID
+#{"ScummVM UIQ2"},(0x101f9b57),0,130,0
+
+; Platform type
+(0x101F617B), 2, 0, 0, {"UIQ20ProductID"}
+
+; Application, AIF & Resource file
+"\epoc32\release\armi\urel\ScummVM.app"-"!:\system\apps\ScummVM\ScummVM.app"
+"\epoc32\data\z\system\apps\ScummVM\ScummVM.aif"-"!:\system\apps\ScummVM\ScummVM.aif"
+"\epoc32\data\z\system\apps\ScummVM\ScummVM.rsc"-"!:\system\apps\ScummVM\ScummVM.rsc"
+"..\..\..\..\dists\pred.dic"-"c:\system\apps\scummvm\pred.dic"
+
+; Scummvm Documentation
+"..\..\..\..\COPYRIGHT"-"!:\system\apps\scummvm\COPYRIGHT", FT, TC
+"..\..\..\..\COPYING"-"!:\system\apps\scummvm\COPYING", FT, TC
+"..\README"-"!:\system\apps\scummvm\SYMBIAN_README", FT, TC
+"..\..\..\..\AUTHORS"-"!:\system\apps\scummvm\AUTHORS"
+"..\..\..\..\README"-"!:\system\apps\scummvm\README"
+"..\..\..\..\NEWS"-"!:\system\apps\scummvm\NEWS"
+
+; Common datafiles needed for some games
+"..\kyra.dat"-"!:\system\apps\scummvm\kyra.dat"
+"..\sky.cpt"-"!:\system\apps\scummvm\sky.cpt"
+
+; Config/log files: 'empty' will automagically be removed on uninstall
+""-"!:\system\apps\ScummVM\scummvm.ini",FILENULL
+""-"!:\system\apps\ScummVM\scummvm.stdout.txt",FILENULL
+""-"!:\system\apps\ScummVM\scummvm.stderr.txt",FILENULL
+""-"!:\system\apps\ScummVM\sdl.ini",FILENULL
+
+; This install layout will let you upgrade to newer versions wihout loss of scummvm.ini.
+; It will remove the config file, std***.txt files & dirs on uninstall.

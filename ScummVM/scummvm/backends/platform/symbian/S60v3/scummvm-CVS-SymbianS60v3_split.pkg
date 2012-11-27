@@ -1,0 +1,88 @@
+;
+; ScummVM is the legal property of its developers, whose names
+; are too numerous to list here. Please refer to the COPYRIGHT
+; file distributed with this source distribution.
+;
+; This program is free software; you can redistribute it and/or
+; modify it under the terms of the GNU General Public License
+; as published by the Free Software Foundation; either version 2
+; of the License, or (at your option) any later version.
+
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+
+; You should have received a copy of the GNU General Public License
+; along with this program; if not, write to the Free Software
+; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+;
+; $URL$
+; $Id$
+;
+;
+
+;;;
+;;; ScummVM .PKG file for .SIS gegeration
+;;;
+
+;Language - standard language definitions
+&EN
+
+; List of localised vendor names - one per language. At least one must be provided (English [EN]).
+; List must correspond to list of languages specified elsewhere in the .pkg
+%{"ScummVM"}
+; The non-localised, globally unique vendor name (mandatory)
+:"ScummVM"
+
+; UID is the app's UID
+#{"ScummVM S60v3"},(0xA0000657),1,40,0
+
+;Supports Series 60 v 3.0
+[0x101F7961], 0, 0, 0, {"Series60ProductID"}
+;Supports Series 60 v 5.0
+[0x1028315F], 0, 0, 0, {"Series60ProductID"}
+
+; Launcher, Application, AIF & Resource file
+"\epoc32\release\gcce\urel\ScummVM.exe"-		"!:\sys\bin\ScummVM.exe"
+"\epoc32\data\z\resource\apps\ScummVM.rsc"-	"!:\resource\apps\ScummVM.rsc"
+"\epoc32\Data\Z\resource\apps\scummvm_loc.rsc"-	"!:\resource\apps\scummvm_loc.rsc"
+"\epoc32\data\Z\resource\APPS\scummvm.MIF"-	"!:\resource\apps\scummvm.MIF"
+"\epoc32\data\z\private\10003a3f\apps\scummvm_reg.rsc"-"!:\private\10003a3f\import\apps\scummvm_reg.rsc"
+
+"\epoc32\release\gcce\urel\ScummVM_A0000658.exe"-		"!:\sys\bin\ScummVM_A0000658.exe"
+"\epoc32\data\z\resource\apps\ScummVM_A0000658.rsc"-	"!:\resource\apps\ScummVM_A0000658.rsc"
+"\epoc32\Data\Z\resource\apps\ScummVM_A0000658_loc.rsc"-	"!:\resource\apps\ScummVM_A0000658_loc.rsc"
+"\epoc32\data\z\private\10003a3f\apps\scummvm_A0000658_reg.rsc"-"!:\private\10003a3f\import\apps\scummvm_A0000658_reg.rsc"
+
+"..\..\..\..\dists\pred.dic"-"c:\data\scummvm\pred.dic"
+
+; Scummvm Documentation
+"..\..\..\..\COPYRIGHT"-"!:\resource\apps\scummvm\COPYRIGHT", FT, TC
+"..\..\..\..\COPYING"-"!:\resource\apps\scummvm\COPYING", FT, TC
+"..\README"-"!:\resource\apps\scummvm\SYMBIAN_README", FT, TC
+"..\..\..\..\AUTHORS"-"!:\resource\apps\scummvm\AUTHORS"
+"..\..\..\..\README"-"!:\resource\apps\scummvm\README"
+"..\..\..\..\NEWS"-"!:\resource\apps\scummvm\NEWS"
+
+; Common datafiles needed for some games
+"..\..\..\..\dists\engine-data\kyra.dat"-"c:\data\scummvm\kyra.dat"
+"..\..\..\..\dists\engine-data\sky.cpt"-"c:\data\scummvm\sky.cpt"
+"..\..\..\..\dists\engine-data\hugo.dat"-"c:\data\scummvm\hugo.dat"
+"..\..\..\..\dists\engine-data\lure.dat"-"c:\data\scummvm\lure.dat"
+"..\..\..\..\dists\engine-data\drascula.dat"-"c:\data\scummvm\drascula.dat"
+"..\..\..\..\dists\engine-data\m4.dat"-"c:\data\scummvm\m4.dat"
+"..\..\..\..\dists\engine-data\teenagent.dat"-"c:\data\scummvm\teenagent.dat"
+"..\..\..\..\dists\engine-data\toon.dat"-"c:\data\scummvm\toon.dat"
+"..\..\..\vkeybd\packs\vkeybd_default.zip"-"c:\data\scummvm\vkeybd_default.zip"
+"..\..\..\..\gui\themes\translations.dat"-"c:\data\scummvm\translations.dat"
+"..\..\..\..\gui\themes\scummmodern.zip"-"c:\data\scummvm\scummmodern.zip"
+
+; Config/log files: 'empty' will automagically be removed on uninstall
+""-"c:\data\scummvm\scummvm.ini",FILENULL
+""-"c:\data\scummvm\scummvm.stdout.txt",FILENULL
+""-"c:\data\scummvm\scummvm.stderr.txt",FILENULL
+""-"c:\data\scummvm\sdl.ini",FILENULL
+
+; This install layout will let you upgrade to newer versions wihout loss of scummvm.ini.
+; It will remove the config file, std***.txt files & dirs on uninstall.

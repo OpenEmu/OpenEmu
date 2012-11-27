@@ -1,0 +1,1667 @@
+PŘEČTIMĚ ScummVM
+------------------------------------------------------------------------
+
+Pro více informací, seznamy kompatibility, podrobnosti o dotacích, nejnovější verze, novinky o vývoji a další, prosím navštivte domovskou stránku ScummVM na: http://www.scummvm.org/
+
+
+Obsah:
+------
+1.0) Úvod
+ * 1.1 O ScummVM
+ * 1.2 Rychlý návod
+2.0) Kontakt
+ * 2.1 Hlášení chyb
+3.0) Podporované hry
+ * 3.1 Ochrana proti kopírování
+ * 3.2 Poznámky ke hrám Commodore64
+ * 3.3 Poznámky k Maniac Mansion NES
+ * 3.4 Poznámky ke hrám Macintosh
+ * 3.5 Poznámky ke hrám Multi-CD
+ * 3.6 Poznámky k The Curse of Monkey Island
+ * 3.7 Poznámky ke hrám Broken Sword
+ * 3.8 Poznámky k Beneath a Steel Sky
+ * 3.9 Poznámky k Flight of the Amazon Queen
+ * 3.10 Poznámky ke Gobliiins
+ * 3.11 Poznámky k Inherit the Earth: Quest for the Orb
+ * 3.12 Poznámky k Simon the Sorcerer
+ * 3.13 Poznámky k The Feeble Files
+ * 3.14 Poznámky k The Legend of Kyrandia
+ * 3.15 Poznámky k Předvídavému Vstupnímu Dialogu her Sierra AGI
+ * 3.16 Poznámky k Mickey's Space Adventure
+ * 3.17 Poznámky k Winnie the Pooh
+ * 3.18 Poznámky k Troll's Tale
+ * 3.19 Poznámky k Dračí Historie
+ * 3.20 Známé problémy
+4.0) Podporované platformy
+5.0) Spuštění ScummVM
+ * 5.1 Možnosti příkazového řádku
+ * 5.2 Volby jazyka
+ * 5.3 Grafické filtry
+ * 5.4 Globální menu
+ * 5.5 Klávesové zkratky
+6.0) Uložené hry
+ * 6.1 Automatické ukládání
+ * 6.2 Převod uložených her
+ * 6.3 Zobrazení/Načtení uložených her z příkazového řádku
+7.0) Hudba a zvuk
+ * 7.1 Emulace AdLib
+ * 7.2 Emulace FluidSynth MIDI
+ * 7.3 Emulace MT-32
+ * 7.4 Emulace MIDI
+ * 7.5 Přirozená podpora MIDI
+ * 7.6 Podpora nativního UNIX, ALSA a sekvencéru dmedia
+ * 7.7 Podpora MIDI serveru TiMidity++
+ * 7.8 Použití komprimovaných zvukových souborů (MP3, Ogg Vorbis, Flac)
+ * 7.9 Výstupní vzorkovací kmitočet
+8.0) Soubor s nastavením
+ * 8.1 Rozpoznávaná klíčová slova nastavení
+ * 8.2 Vlastní herní volby, které mohou být přepínány pomoci grafického rozhraní
+9.0) Sestavení
+
+
+1.0) Úvod:
+---- -----
+
+1.1) O ScummVM:
+---- ----------
+ScummVM je program, který Vám umožňuje spouštět určité klasické grafické point-and-click adventury, za předpokladu, že již máte jejich datové soubory. A teď ta chytrá část: ScummVM jenom nahrazuje spouštěče, které jsou dodávány se hrou, což Vám umožňuje hrát hry v systémech, pro které nikdy nebyly navrženy!
+
+Původně byl navržen pro spouštění her SCUMM od LucasArts SCUMM, jako např. Maniac Mansion, Monkey Island, Day of the Tentacle nebo Sam and Max. SCUMM znamená 'Nástroj pro Vytváření Skriptu pro Maniac Mansion', což byla první hra, pro kterou LucasArts tento systém navrhl. A mnohem později dal své jméno ScummVM ('VM' znamená Virtuální Stroj).
+
+Postupem času byla přidána podpora pro spoustu her mimo SCUMM a
+ScummVM nyní také podporuje mnoho AGI a SCI her od Sierra (např. King's
+Quest 1-6, Space Quest 1-5, ...), Discworld 1 a 2, Simon the Sorcerer 1 and 2, Beneath A Steel Sky, Lure of the Temptress, Broken Sword I a II, Flight of the Amazon Queen, Gobliiins 1-3, série The Legend of Kyrandia, mnoho ze SCUMM her pro děti od Humongous Entertainment (včetně her Freddi Fish a Putt Putt) a mnoho dalších. Na stránce kompatibility můžete najít úplný seznam s podrobnostmi, které adventury jsou podporovány a jak dobře. ScummVM je neustále zlepšován a proto navštěvujte naše stránky často.
+
+Mezi systémy, na kterých můžete tyto hrát, jsou běžné stolní počítače (mající Windows, Linux, Mac OS X, ...), herní konzole
+(Dreamcast, Nintendo DS a Wii, PS2, PSP, ...), chytré telefony (Android,
+iPhone, PocketPC, Symbian ...) a další.
+
+V současnosti je ScummVM stále velkou částí ve vývoji. Nezapomeňte, že i když se snažíme zajistit, aby mnoho her bylo možno dokončit pouze s pár vážnými chybami, pády programu mohou nastat a my neposkytujeme žádné záruky. Přes to všechno, některé hry byly podporovány po dlouhou dobu
+A měly by fungovat v pořádku se všemi novějšími stabilními verzemi. Jak dobře bude hra ve ScummVM fungovat můžete zjistit prohlédnutím stránky kompatibility.
+Vlastně, pokud trošičku zahledáte, můžete zjistit, že ScummVM je používán i komerčně pro znovu vydání některých podporovaných her na moderních platformách. To ukazuje, že i několik společností je spokojeno s kvalitou softwaru a jako moc dobře může některé hry spouštět.
+
+Pokud máte ScummVM rádi, můžete ho podpořit dotací pomocí tlačítka PayPal na stránce ScummVM. To nám pomůže zakoupit nástroje potřebné ke snadnějšímu a rychlejšímu vývoji ScummVM. Pokud nemůžete podpořit dotací, pomozte a přispějte záplatou!
+
+1.2) Rychlý návod:
+---- -------------
+Pro ty netrpělivé z Vás je tu návod, jak ScummVM spustit v několika krocích.
+
+1. Stáhněte si ScummVM z <http://www.scummvm.org/downloads.php> a nainstalujte ho.
+
+2. Na Vašem pevném disku vytvořte složku a zkopírujte datové soubory z původního média do této složky. Zopakujte pro všechny hry, které chcete hrát
+
+3. Spusťte ScummVM, zvolte 'Přidat hru', zvolte adresář s datovými soubory hry (nesnažte se volit datové soubory samotné!) a stiskněte
+'Zvolit'.
+
+4. Mělo by se objevit dialogové okno umožňující Vám pozměnit různá nastavení, pokud tak chcete (i když by mělo být v pořádku všechno nechat ve výchozím nastavení). Dialogové okno potvrďte.
+
+5. V seznamu vyberte hru, kterou chcete hrát a stiskněte 'Spustit'.
+
+V budoucnu byste měli být schopni přeskočit na krok 5, pokud nechcete přidat další hry.
+
+Rada: Pokud chcete přidat více her najednou, zkuste stisknout a držet klávesu shift předtím, než kliknete na 'Přidat hru' – tlačítko se změní na 'Hromadné Přidání' a pokud ho stiskněte, jste znovu požádáni o zvolení složky, ale tentokrát ScummVM prohledá všechny podsložky pro podporované hry.
+
+
+2.0) Kontakt:
+---- --------
+Nejjednodušším způsobem, jak kontaktovat tým ScummVM je předložením hlášení o chybě (viz oddíl 2.1) nebo použitím našich fór na http://forums.scummvm.org .
+Můžete se také připojit a odesílat a e-maily na korespondenční seznam scummvm-devel, nebo s námi chatovat na IRC (#scummvm na irc.freenode.net) Nežádejte nás, prosím, o podporu nefungující hry – nejdříve si přečtěte nejčastější otázky na naší stránce
+
+2.1) Hlášení chyb:
+---- -------------
+Abyste mohli nahlásit chybu, nejdříve si, prosíme, vytvořte si účet na SourceForge a klikněte na odkaz "Bug Tracker" na naší stránce. Ujistěte se, prosím, že se chyba dá znovu zjistit a stále se objevuje v nejnovější verzi git/denního sestavení. Také na naší stránce zkontrolujte seznam známých problémů (níže) a seznam kompatibility pro tuto hru, abyste se ujistili, že problém již není znám:
+
+  http://www.scummvm.org/compatibility
+
+Prosíme, nenahlašujte chyby ve hrách, které nejsou v seznamu v sekci 'Supported Games' nebo seznamu kompatibility uvedeny jako dokončitelné. My –víme-, že tyto hry mají chyby.
+
+Zahrňte, prosím, následující informace:
+    - Verzi ScummVM (PROSÍME, vyzkoušejte nejnovější sestavení git/Daily)
+    - Podrobnosti o chybě, včetně postupu na její znovu opakování
+    - Jazyk hry (angličtina, němčina, ...)
+    - Verze hry (s řečí, z diskety, ...)
+    - Platforma a kompilátor (Win32, Linux, FreeBSD, ...)
+    - Pokud možno, přiložte uloženou hru
+    - Pokud se tato chyba objevila pouze nedávno, poznamenejte si poslední verzi bez chyby a první verzi s touto chybou. Takto ji můžeme rychle spravit tím, že se podíváme na provedené změny.
+
+Nakonec prosíme, abyste každou chybu nahlašovali samostatně; neohlašujte několik chyb v jednom hlášení. (Jinak bude obtížné sledovat stav každé jednotlivé chyby).
+
+
+3.0) Podporované hry:
+---- ----------------
+V tuto chvíli je o následujících hrách známo, že fungují a měly by být hratelné až dokonce:
+
+Hry SCUMM od LucasArts:
+     Maniac Mansion                              [maniac]
+     Zak McKracken and the Alien Mindbenders     [zak]
+     Indiana Jones and the Last Crusade          [indy3]
+     Loom                                        [loom]
+     The Secret of Monkey Island                 [monkey]
+     Monkey Island 2: LeChuck's Revenge          [monkey2]
+     Indiana Jones and the Fate of Atlantis      [atlantis]
+     Day of the Tentacle                         [tentacle]
+     Sam & Max Hit the Road                      [samnmax]
+     Full Throttle                               [ft]
+     The Dig                                     [dig]
+     The Curse of Monkey Island                  [comi]
+
+Hry AGI od Sierra:
+     The Black Cauldron                          [bc]
+     Gold Rush!                                  [goldrush]
+     King's Quest I                              [kq1]
+     King's Quest II                             [kq2]
+     King's Quest III                            [kq3]
+     King's Quest IV                             [kq4]
+     Leisure Suit Larry in the Land of the
+     Lounge Lizards                              [lsl1]
+     Mixed-Up Mother Goose                       [mixedup]
+     Manhunter 1: New York                       [mh1]
+     Manhunter 2: San Francisco                  [mh2]
+     Police Quest I: In Pursuit of the Death
+     Angel                                       [pq1]
+     Space Quest I: The Sarien Encounter         [sq1]
+     Space Quest II: Vohaul's Revenge            [sq2]
+     Fanmade Games                               [agi-fanmade]
+
+Hry AGOS od Adventuresoft/Horrorsoft:
+     Elvira - Mistress of the Dark               [elvira1]
+     Elvira II - The Jaws of Cerberus            [elvira2]
+     Personal Nightmare                          [pn]
+     Waxworks                                    [waxworks]
+     Simon the Sorcerer 1                        [simon1]
+     Simon the Sorcerer 2                        [simon2]
+     Simon the Sorcerer's Puzzle Pack
+         - Demon In My Pocket                    [dimp]
+     Simon the Sorcerer's Puzzle Pack
+         - Jumble                                [jumble]
+     Simon the Sorcerer's Puzzle Pack
+         - NoPatience                            [puzzle]
+     Simon the Sorcerer's Puzzle Pack
+         - Swampy Adventures                     [swampy]
+     The Feeble Files                            [feeble]
+
+Hry GOB od Coktel Vision:
+     Bambou le sauveur de la jungle              [bambou]
+     Bargon Attack                               [bargon]
+     Fascination                                 [fascination]
+     Geisha                                      [geisha]
+     Gobliiins                                   [gob1]
+     Gobliins 2                                  [gob2]
+     Goblins 3                                   [gob3]
+     Lost in Time                                [lostintime]
+     Once Upon A Time: Little Red Riding Hood    [littlered]
+     The Bizarre Adventures of Woodruff
+         and the Schnibble                       [woodruff]
+     Urban Runner                                [urban]
+     Ween: The Prophecy                          [ween]
+
+Hry MADE od Activision:
+     Leather Goddesses of Phobos 2               [lgop2]
+     Return to Zork                              [rtz]
+     Rodney's Funscreen                          [rodney]
+     The Manhole                                 [manhole]
+
+Další hry:
+     Beneath a Steel Sky                         [sky]
+     Broken Sword: The Shadow of the Templars    [sword1]
+     Broken Sword II: The Smoking Mirror         [sword2]
+     Cruise for a Corpse                         [cruise]
+     Discworld                                   [dw]
+     Discworld 2: Missing Presumed ...!?         [dw2]
+     Dragon History                              [draci]
+     Drascula: The Vampire Strikes Back          [drascula]
+     Flight of the Amazon Queen                  [queen]
+     Future Wars                                 [fw]
+     Inherit the Earth: Quest for the Orb        [ite]
+     Nippon Safes Inc.                           [nippon]
+     The Legend of Kyrandia                      [kyra1]
+     The Legend of Kyrandia: The Hand of Fate    [kyra2]
+     The Legend of Kyrandia: Malcolm's Revenge   [kyra3]
+     Touche: The Adventures of the Fifth
+         Musketeer                               [touche]
+
+Hry SCUMM od Humongous Entertainment:
+     Backyard Baseball                           [baseball]
+     Backyard Baseball 2001                      [baseball2001]
+     Backyard Baseball 2003                      [baseball2003]
+     Backyard Football                           [football]
+     Big Thinkers First Grade                    [thinker1]
+     Big Thinkers Kindergarten                   [thinkerk]
+     Blue's 123 Time Activities                  [Blues123Time]
+     Blue's ABC Time Activities                  [BluesABCTime]
+     Blue's Art Time Activities                  [arttime]
+     Blue's Birthday Adventure                   [BluesBirthday]
+     Blue's Reading Time Activities              [readtime]
+     Fatty Bear's Birthday Surprise              [fbear]
+     Fatty Bear's Fun Pack                       [fbpack]
+     Freddi Fish 1: The Case of the Missing
+         Kelp Seeds                              [freddi]
+     Freddi Fish 2: The Case of the Haunted
+         Schoolhouse                             [freddi2]
+     Freddi Fish 3: The Case of the Stolen
+         Conch Shell                             [freddi3]
+     Freddi Fish 4: The Case of the Hogfish
+         Rustlers of Briny Gulch                 [freddi4]
+     Freddi Fish 5: The Case of the Creature
+          of Coral Cove                          [freddicove]
+     Freddi Fish and Luther's Maze Madness       [maze]
+     Freddi Fish and Luther's Water Worries      [water]
+     Let's Explore the Airport with Buzzy        [airport]
+     Let's Explore the Farm with Buzzy           [farm]
+     Let's Explore the Jungle with Buzzy         [jungle]
+     Pajama Sam 1: No Need to Hide When It's
+         Dark Outside                            [pajama]
+     Pajama Sam 2: Thunder and Lightning
+         Aren't so Frightening                   [pajama2]
+     Pajama Sam 3: You Are What You Eat
+         From Your Head to Your Feet             [pajama3]
+     Pajama Sam's Lost & Found                   [lost]
+     Pajama Sam's Sock Works                     [socks]
+     Putt-Putt Joins the Parade                  [puttputt]
+     Putt-Putt Goes to the Moon                  [puttmoon]
+     Putt-Putt Saves the Zoo                     [puttzoo]
+     Putt-Putt Travels Through Time              [putttime]
+     Putt-Putt Enters the Race                   [puttrace]
+     Putt-Putt Joins the Circus                  [puttcircus]
+     Putt-Putt and Pep's Balloon-O-Rama          [balloon]
+     Putt-Putt and Pep's Dog on a Stick          [dog]
+     Putt-Putt & Fatty Bear's Activity Pack      [activity]
+     Putt-Putt's Fun Pack                        [funpack]
+     SPY Fox 1: Dry Cereal                       [spyfox]
+     SPY Fox 2: Some Assembly Required           [spyfox2]
+     SPY Fox 3: Operation Ozone                  [spyozon]
+     SPY Fox in Cheese Chase                     [chase]
+     SPY Fox in Hold the Mustard                 [mustard]
+
+Hry Living Books:
+     Aesop's Fables: The Tortoise and the Hare   [tortoise]
+     Arthur's Birthday                           [arthurbday]
+     Arthur's Teacher Trouble                    [arthur]
+     Dr. Seuss's ABC                             [seussabc]
+     Green Eggs and Ham                          [greeneggs]
+     Harry and the Haunted House                 [harryhh]
+     Just Grandma and Me                         [grandma]
+     Little Monster at School                    [lilmonster]
+     Ruff's Bone                                 [ruff]
+     Sheila Rae, the Brave                       [sheila]
+     Stellaluna                                  [stellaluna]
+     The Berenstain Bears Get in a Fight         [bearfight]
+     The Berenstain Bears in the Dark            [beardark]
+     The New Kid on the Block                    [newkid]
+
+Následující hry by měly jít spustit, ale zatím nejsou úplně hratelné. Hrajte je pouze na vlastní riziko a prosíme, abyste pro tyto hry nenahlašovali chyby.
+Pokud chcete mít nejnovější zprávy o kompatibilitách her, navštivte naší stránku a prohlédněte si tabulku kompatibilit.
+
+     Backyard Football 2002                      [football2002]
+     Backyard Soccer                             [soccer]
+     Backyard Soccer MLS                         [soccermls]
+     Backyard Soccer 2004                        [soccer2004]
+     Blue's Treasure Hunt                        [BluesTreasureHunt]
+     Pajama Sam: Games to Play on Any Day        [pjgames]
+
+Následující hry jsou odvozeny od jádra SCUMM, ale ScummVM je nepodporuje (zatím):
+
+     Ostatní hry od Humongous Entertainment
+
+Nezapomeňte, prosím, že jádra mohou obsahovat chyby a nezavedené funkce, které někdy zabrání hru dokončit. Ukládejte často a nahlaste chyby, prosím (instrukce pro hlášení chyb jsou výše), pokud na takovou chybu narazíte v 'podporované' hře.
+
+
+3.1) Ochrana proti kopírování:
+---- -------------------------
+Tým ScummVM nepodporuje pirátství. Nicméně existují případy, kdy herní společnosti (jako LucasArts) sami ve svých hrách poskytují 'cracknuté'
+spouštěče – v těchto případech datové soubory obsahují skripty pro ochranu proti kopírování, ale převaděč je obejde (toto může podobně provádět nelegálně cracknutá verze, s tím rozdílem, že zde toto provedl výrobce hry. Neexistuje žádný způsob, jak můžeme rozlišit legitimní a pirátské datové soubory, takže v hrách, o kterých víme, že byla někdy prodávána cracknutá verze původního převaděče bude ScummVM muset vždy ochranu přeskočit.
+
+V některých případech ScummVM přesto zobrazí obrazovku ochrany proti kopírování. Zkuste zadat jakoukoli odpověď. Je tu možnost, že toto bude fungovat.
+
+ScummVM přeskakuje ochranu v následujících hrách:
+
+  * Maniac Mansion
+  * Zak McKracken and the Alien Mindbenders
+  * Loom (EGA)
+  * The Secret of Monkey Island (VGA)
+  * Monkey Island 2: LeChuck's Revenge
+  * Beneath a Steel Sky
+      -- potlačeno s laskavým svolením Revolution Software.
+  * Inherit the Earth: Quest for the Orb (Floppy version)
+      -- potlačeno s laskavým svolením Wyrmkeep Entertainment,
+         protože byla potlačena ve všech vydáních hry na CD.
+  * Simon the Sorcerer 1 (Floppy version)
+  * Simon the Sorcerer 2 (Floppy version)
+      -- potlačeno s laskavým svolením from Adventure Soft,
+         protože byla potlačena ve všech vydáních hry na CD.
+  * Waxworks
+
+
+3.2) Poznámky ke hrám Commodore64:
+---- -----------------------------
+Jak Maniac Mansion tak Zak McKracken mohou být spuštěny, ale Maniac Mansion není ještě hratelný. Jednoduše pojmenujte disky D64 jako 
+"maniac1.d64" a "maniac2.d64" nebo "zak1.d64" a "zak2.d64", pak by měl ScummVM automaticky hru zjistit, pokud ho odkážete na správnou složku.
+
+Nebo můžete použít 'extract_mm_c64' z balíčku nástrojů pro extrahování datových souborů. Pak ale ScummVM hru řádně automaticky nezjistí ScummVM, a musíte se ujistit, že platforma je nastavena na Commodore64. Doporučujeme použít mnohem jednodušší postup popsaný v předchozím odstavci.
+
+
+3.3) Poznámky ke Maniac Mansion NES:
+---- -------------------------
+Podporované verze jsou Britská angličtina (E), Francouzština (F), Němčina (G), Italština (I), Švédština (SW) a Americká angličtina (U). ScummVM pro spuštění vyžaduje pouze část PRG a ne celý ROM.
+
+Abyste mohli hru spustit, musíte vyjmout prvních 16 bajtů z ROM, s kterým pracujete. Jakýkoli hex editor bude fungovat, pokud můžete kopírovat/vkládat. Poté. Co ROM otevřete pomocí hex editoru, zkopírujte všechno z druhého řádku (17. bajt) na konec. Poté, co toto provedete, vložte ho do nového hex souboru. Pojmenujte ho "Maniac Mansion (XX).prg" kde XX znamená verzi, se kterou pracujete (E, F, G, I, SW, nebo U). Konečná velikost by měla být přesně 262144 bajtů.
+
+Pokud hru přidáváte ručně, ujistěte se, že platforma je nastavena na NES.
+
+Nejběžnější chyby, které zabraňují spuštění hry:
+
+  * Špatný soubor
+  * ROM byl extrahován pomocí nástrojů z verze 0.7.0
+  * Snažíte se do ScummVM vkládat CELÝ ROM a ne jenom PRG část.
+
+Je také možno extrahovat oddělené soubory LFL z PRG části. Pro toto použijte nástroj 'extract_mm_nes' z balíčku nástrojů.
+
+
+3.4) Poznámky ke hrám Macintosh:
+---- ---------------------------
+Všechny adventury LucasArts založené na SCUMM, kromě COMI, také existují ve verzích pro in Macintosh. ScummVM může většinu (všechny?) použít, nicméně, v některých případech je nutná dodatečná práce. Nejdříve, pokud pro toto nepoužíváte Macintosh, přístup k datům na CD/disketě může být obtížný. Důvodem je to, že Mac používá zvláštní formát disku nazvaný HFS, který ostatní systémy většinou nepodporují. Nicméně existuje, několik nástrojů, které jsou zadarmo a umožňují číst takovéto svazky HFS. Například "HFVExplorer" pro Windows a "hfsutils" pro Linux a ostatní Unixové operační systémy.
+
+Většina novějších her na Macintosh je dodávána pouze s jedním datovým souborem (v některých případech byl tento soubor učiněn neviditelným, takže možná budete potřebovat dodatečné nástroje, abyste ho mohli zkopírovat). ScummVM je schopen takovýto soubor použít přímo; jednoduše odkažte ScummVM na složku obsahující tento soubor a mělo by to fungovat (tak jako s každou podporovanou hrou).
+
+V balíčku nástrojů také poskytujeme nástroj nazvaný 'extract_scumm_mac', který extrahuje data z těchto datových souborů, ale toto není ani potřeba, ani doporučeno.
+
+Pro další informace o kopírování herních souborů Macintosh na Váš pevný disk si prohlédněte:
+
+  http://wiki.scummvm.org/index.php/HOWTO-Mac_Games
+
+
+3.5) Poznámky ke hrám Multi-CD:
+---- --------------------------
+Obecně ScummVM moc dobře nefunguje s hrami na Multi-CD. To je proto, že  ScummVM předpokládá, že všechno o hře může být nalezeno v jedné složce.  I když ScummVM má schopnost požádat uživatele, aby vyměnil CD, původní spouštěč souboru většinou nainstaluje malé množství souborů na pevný disk. Pokud tyto soubory nelze najít na všech CD, ScummVM bude mít potíže.
+
+Naštěstí může ScummVM hry bez problémů spouštět přímo z pevného disku, pokud vytvoříte složku se správnou kombinací souborů. Většinou, když se soubor objeví na více, než jednom CD můžete vybrat jeden z nich.
+
+
+3.6) Poznámky k The Curse of Monkey Island:
+---- --------------------------------------
+Pro tuto hru budete potřebovat soubory comi.la0, comi.la1 a comi.la2.
+Soubor comi.la0 můžete nalézt na všech CD hry, ale protože jsou stejné, můžete použít kterýkoli z nich.
+
+Dále potřebujete vytvořit podsložku "resource" obsahující všechny soubory z –obou- podsložek "resource" na dvou CD. Některé soubory se objevují na obou CD, ale znovu jsou stejné.
+
+
+3.7) Poznámky ke hrám Broken Sword:
+---- ------------------------------
+Pokyny pro hry Broken Sword jsou pro verze od Sold-Out Software, kde každá hra je na dvou CD, protože tyto verze byly nejdostupnější v době, kdy je ScummVM začal podporovat. Doufáme, že jsou dostatečně obecné pro použití i v jiných vydáních her.
+
+
+3.7.1) Videa z her Broken Sword:
+------ -------------------------
+Videa pro hry Broken Sword mají v sobě trochu historie (viz další oddíl, pokud jste zvědaví), ale obecně jediné, co potřebujete udělat, je zkopírovat soubory .SMK ze složek "SMACKS" nebo "SMACKSHI" na CD do stejné složky jako ostatní datové soubory hry. (Broken Sword má také složku "SMACKSLO" se stejnými videi, ale ty jsou nižší kvality.) Můžete je umístit do podsložky s názvem "video", pokud Vám to přijde hezčí.
+
+Ve verzích pro PlayStation, můžete původní videa vypsat z disku. Každý soubor, který má příponu "STR", byste měli vypsat jako *čist* sektory z disku (všech 2352 bajtů na sektor). Můžete také míst toho použít přeformátovaná videa, která jsou zmíněna níže, ale to nebude fungovat pro všechny videa v Broken Sword II. Pro více informací si prohlédněte:
+
+  http://wiki.scummvm.org/index.php/HOWTO-PlayStation_Videos
+
+Některá vydání hry, a také verze pro PlayStation, Smacker videa nemají. Revolution Software nám laskavě dovolilo poskytovat přeformátovaná videa ke stažení na naší stránce:
+
+  http://www.scummvm.org/downloads.php
+
+Tato videa jsou poskytována ve formátu DXA se zvukem ve formátu FLAC. Jejich kvalita se rovná originálu díky použití bezztrátové komprese. Zobrazení těchto videí vyžaduje, aby verze ScummVM byla sestavena s podporou FLAC i zlib.
+
+Pro systémy, které jsou příliš pomalé, aby zvládli dekódovat formát FLAC byl zvuk videí také poskytnut odděleně ve formátu OGG Vorbis audio. Toto vyžaduje, aby verze ScummVM byla sestavena s podporou libVorbis a zlib.
+
+Pro Broken Sword také poskytujeme přídavek pro titulky. Jednoduše ho rozbalte a následujte pokyny v souboru readme.txt. Balíček v současnosti nefunguje ve videích na PlayStation. (Broken Sword II již titulky má; není třeba další práce pro jejich přidání.)
+
+
+3.7.2) Videa her Broken Sword ve zpětném pohledu:
+------ ------------------------------------------
+Původní vydání her Broken Sword používalo formát Smacker™ od RAD Game Tools. Protože společnost RAD nebyla ochotna nám otevřít starší zastaralé verze tohoto formátu a požádala, abychom neprováděli jeho zpětnou analýzu, museli jsme nalézt jiné řešení.
+
+V Broken Sword II bylo možné přehrát řeč, aniž by se muselo přehrávat video. To zůstalo jako nouzové řešení až do ScummVM 1.0.0, ale pro všechny stabilní verze to nikdy nebylo jediné řešení.
+
+Ve ScummVM 0.6.0 jsme používali MPEG, což zajistilo rozumný kompromis mezi velikostí a kvalitou. Ve ScummVM 0.10.0 bylo toto nahrazeno DXA
+(původně přidáno pro "The Feeble Files" od AdventureSoft). To nám dalo možnost zajistit videa ve stejné kvalitě jako původní, za cenu větší velikosti.
+
+Nakonec na začátku roku 2006 byl formát Smacker zpětně analyzován pro projekt FFmpeg. Díky jejich tvrdé práci ScummVM 1.0.0 nyní podporuje původní videa. Zároveň byla ukončena podpora MPEG. Z technického hlediska je toto dobře, protože přehrávání videí MPEG bylo velmi složité a stejně nevypadaly tak dobře jako verze ve formátu DXA a Smacker.
+
+
+3.7.3) Broken Sword:
+------ -------------
+Pro tuto hru budete potřebovat všechny soubory ze seskupení složek na obou CD. Pro verze Windows a Macintosh budete také potřebovat soubory speech.clu ze složek speech, ale protože soubory nejsou stejné, budete je muset přejmenovat na speech1.clu a speech2.clu z CD 1 a 2 v tomto pořadí. Verze na PlayStation vyžaduje speech.tab, speech.dat, speech.lis, a speech.inf.
+
+Dále verze pro Windows a Macintosh vyžadují podsložku music se všemi soubory z podsložek music na obou CD. Některé z těchto souborů se objevují na obou CD, ale v těchto případech jsou buď stejné, nebo, v jednom případě, je téměř stejný, že to nemá žádný význam. Verze pro PlayStation vYžaduje tunes.dat a tunes.tab.
+
+
+3.7.4) Broken Sword II:
+------ ----------------
+Pro tuto hru budete potřebovat všechny soubory ze seskupení složek na obou CD. (Abych pravdu řekl, pár z nich nemusí být nezbytně nutné, ale ty, o kterých nemám jistotu, jsou velmi malé.)
+Je také třeba přejmenovat soubory speech.clu a music.clu na speech1.clu,
+speech2.clu, music1.clu a music2.clu, aby ScummVM mohl zjistit, které jsou z CD 1 a které z CD 2. Všechny ostatní soubory, které jsou umístěny v seskupení složek, jsou stejné. Použijte kterékoli soubory chcete.
+
+Kromě toho budete potřebovat soubory cd.inf a, případně, startup.inf ze složky sword2 na CD 1.
+
+
+3.8) Poznámky k Beneath a Steel Sky:
+---- -------------------------------
+Od ScummVM 0.8.0 potřebujete dodatečný soubor 'SKY.CPT', abyste mohli Beneath a Steel Sky spustit.
+
+Tento soubor je dostupný na stránce 'Downloads' domovské stránky ScummVM.
+Můžete ho umístit buď do složky obsahující ostatní datové soubory (SKY.DNR, SKY.DSK), na Vaši dodatečnou cestu, nebo do složky. Kde se nachází spouštěcí soubor ScummVM.
+
+
+3.9) Poznámky k Flight of the Amazon Queen:
+---- --------------------------------------
+Abyste mohli použít tu verzi, která není volně šiřitelná
+(z původního CD), musíte mít soubor 'queen.tbl'
+(dostupný ze stránky 'Downloads' naší domovské stránky) a umístit ho buď do složky obsahující soubor hry 'queen.1', na Vaši dodatečnou cestu, nebo do složky. Kde se nachází spouštěcí soubor ScummVM. 
+
+Také můžete použít nástroj 'compress_queen' z balíčku nástrojů pro 'znovu sestavení' Vašeho datového souboru FOTAQ pro zahrnutí tabulky pro tuto konkrétní verzi, čímž odstraníte závislost na soubor 'queen.tbl' při spuštění. Tento nástroj Vám také umožňuje komprimovat řeč a zvukové efekty do formátu MP3, OGG nebo FLAC.
+
+
+3.10) Poznámky ke Gobliiins:
+----- ----------------------
+CD verze série Gobliiins obsahuje jednu velkou zvukovou stopu, kterou potřebujete vyjmout (viz oddíl o použití komprimovaných zvukových souborů) a zkopírovat ji do herní složky, pokud chcete ve hře hudbu, aniž byste museli CD mít stále v jednotce. V této stopě jsou také řeč a její hlasitost se tedy také mění podle hlasitosti hudby.
+
+
+3.11) Poznámky k Inherit the Earth: Quest for the Orb:
+----- ------------------------------------------------
+Abyste mohli spustit verzi pro Mac OS X od Wyrmkeep musíte data zkopírovat z CD na Váš pevný disk. Pokud používáte PC, pak se podívejte na:
+
+  http://wiki.scummvm.org/index.php/HOWTO-Mac_Games
+
+I když se v tomto článku píše hlavně o hrách SCUMM, je zde také zmíněn nástroj "HFVExplorer", který potřebujete k extrakci souborů. Nezapomeňte, že data řeči "Inherit the Earth Voices" musíte umístit do stejného adresáře, kde jsou uložena data hry:
+
+  Inherit the Earth.app/Contents/Resources
+
+Ve staré verzi pro Mac OS 9 potřebujete soubory zkopírovat ve formátu MacBinary, protože by měli obsahovat jak zdrojové, tak datové vidlice. Zkopírujte všechny soubory 'ITE *'.
+
+
+3.12) Poznámky k Simon the Sorcerer 1 a 2:
+----- ------------------------------------
+Pokud máte dvojitou verzi Simon the Sorcerer 1 nebo 2 na CD, verzi pro Windows naleznete v hlavní složce na CD a verzi pro DOS ve složce DOS na CD.
+
+
+3.13) Poznámky k The Feeble Files:
+----- ----------------------------
+Pokud máte verzi pro Windows, je třeba si uvědomit pár věcí.
+
+Mnoho souborů, které hra vyžaduje, je uloženo v souboru InstallShield s názvem data1.cab, který ScummVM nemůže rozbalit. Budete muset použít původní instalátor, nebo i5comp pro rozbalení obsahu tohoto souboru. Nástroj pro dekomprimaci i5comp může být nalezen při hledání na internetu.
+
+Abyste mohli použít soubory s řečí ve ScummVM, musí být přejmenovány následovně:
+Přejmenovat voices.wav na CD1 na voices1.wav
+Přejmenovat voices.wav na CD2 na voices2.wav
+Přejmenovat voices.wav na CD3 na voices3.wav
+Přejmenovat voices.wav na CD4 na voices4.wav
+
+3.14) Poznámky k The Legend of Kyrandia:
+----- ----------------------------------
+Abyste mohli spustit The Legend of Kyrandia ve ScummVM potřebujete soubor 'kyra.dat'.
+Soubor by měl být vždykcy součástí oficiálních balíčků ScummVM. V případě, že ScummVM
+hlásí, že soubor chybá, můžete ho najít na stránce ScummVM v sekci 'Downloads'.
+Nezapomeňte, že současná verze ScummVM pro Windows by měla soubor obsahovat ve spouštěči a tudíž ho
+musíte mít pouze, když ScummVM soubor nemůže nalézt.
+
+3.15) Poznámky k Předvídavému Vstupnímu Dialogu her Sierra AGI:
+----- ---------------------------------------------------------
+Předvídavý Vstupní Dialog je pomůcka ScummVM pro spouštění her používající jádro AGI (který je znám, že vyžaduje vstup z příkazové řádky) na zařízeních s omezenou podporou klávesnice. V těchto situacích, kdy zadávání pomocí emulované klávesnice je dosti únavné, můžou být příkazy rychle a snadno zadány pomocí Předvídavého Vstupního Dialogu.
+
+Abyste zapnuli předvídavý vstup v hrách AGI, potřebujete zkopírovat soubor pred.dic do dodatečné složky ScummVM nebo do složky hry, kterou chcete hrát. Tento slovník byl vytvořen analýzou všech známých her AGI a obsahuje maximální sadu běžných slov.
+
+Pokud je slovník zjištěn, je Předvídavý Vstupní Dialog zobrazen buď při klinutí na oblast příkazového řádku (kdykoliv je požadován vstup klávesnice, i v rámečcích dialogových oken), nebo v některých verzích pro jiné systémy stisknutím určené klávesové zkratky.
+
+Předvídavý Vstupní Dialog pracuje ve třech režimech, které jsou přepínány tlačítkem (*)Pre/123/Abc. Hlavní vstupní metodou je předvídavý režim 
+(Pre), který připomíná "rychlé zadávání" v mobilních telefonech. 
+Abeceda je rozdělena do 9 sad, které přirozeně odpovídají 9 klávesám číselné klávesnice (0 je mezera). Pro psaní slova zmáčkněte jednou číslo sady, která obsahuje písmeno slova, které chcete napsat, pak pokračujete k dalšímu. Například, pokud chcete napsat příkaz 'look', měli byste zmáčknout 5665. Jak postupně píšete číselný kód zamýšleného slova, je slovník prohledáván pro známá slova, která se shodují s Vaším vstupem až do tohoto bodu. Jak mačkáte více kláves, slovník se přiblíží ke správnému slovu. To je důvod, proč vypsané slovo se může náhle změnit mezi stisky kláves. Někdy se ale vyskytnou případy, kdy více než jedno slovo má stejné číselné zastoupení. Například slova 'quit' a 'suit' odpovídají stejným číslům, a to 7848. V těchto případech se rozsvítí tlačítko další
+(#). Jeho stisknutím můžete procházet seznam slov, která sdílejí stejný kód a nakonec přijmout to správné stisknutím (0)mezera nebo tlačítka Ok.
+
+Druhou vstupní metodou (123) je číselný vstup: Každou klávesu, kterou stiskněte, je doslova zadána jako číslo.
+ 
+Třetí vstupní metodou (Abc) je vstupní režim Alfa/opakovaného stisknutí tlačítka. Tento režim je určen pro zadávání textu bez pomoci od slovníku předvídavého režimu (Pre). Text je zadáván po jednotlivých písmenech. Pro každé písmeno nejdříve stiskněte číslo sady, které obsahuje písmeno, které chcete, pak použijte tlačítko další (#) pro procházení písmeny a opakujte s dalším číslem. Například, pro zadání slova 'look' musíte stisknout následující: 5##6##6##5#
+
+Dialogové okno je plně použitelné pomocí myši, ale v některých verzích ScummVM pro jiné platformy, je použití dialogu pohodlnější pomocí číselné klávesnice. Některá tlačítka dialogu mohou být také používána pomocí šipkových kláves a enter.
+
+
+3.16) Poznámky k Mickey's Space Adventure:
+----- ------------------------------------
+Abyste mohli Mickey's Space Adventure hrát ve ScummVM, potřebujete spolu s datovými soubory hry také původní spouštěč (mickey.exe).
+
+Pro tuto hru ve ScummVM, existuje rozšířená podpora myši, i když v původní hře takováto podpora nebyla. Položky menu mohou být vybrány pomocí myši a je také možné se myší přesunout do jiných míst. Když se kurzor myši nachází na okraji obrazovky, zčervená, pokud je možné jít v tomto směru. Hráč pak může jednoduše kliknout na okraje herní obrazovky pro změnu místa, podobně jako mnoho adventur, což je jednodušší a přímočařejší než pohyb pomocí menu.
+
+
+3.17) Winnie the Pooh notes:
+----- ----------------------
+Je možné importovat uložené hry z původní hry do ScummVM.
+
+Pro tuto hru ve ScummVM, existuje rozšířená podpora myši, i když v původní hře takováto podpora nebyla. Položky menu mohou být vybrány pomocí myši a je také možné se myší přesunout do jiných míst. Když se kurzor myši nachází na okraji obrazovky, zčervená, pokud je možné jít v tomto směru. Hráč pak může jednoduše kliknout na okraje herní obrazovky pro změnu místa, podobně jako mnoho adventur, což je jednodušší a přímočařejší než pohyb pomocí menu.
+
+
+3.18) Poznámky k Troll's Tale:
+----- ------------------------
+Původní hra vycházela na zaváděcím disku PC, proto je nutné vypsat obsah tohoto disku jako obraz disku a přejmenovat ho na "troll.img", abyste tuho hru mohli hrát ve ScummVM.
+
+
+3.19) Poznámky k Dračí Historie:
+----- --------------------------
+Existují 4 jazykové varianty této hry: česká, anglická, polská a
+německá. Každá je umístěna v odděleném archivu. Jediná oficiální verze je česká, a anglická, polská a německá byly vždycky nedokončené práce a nikdy nebyly oficiálně vydány. I když texty byly zcela přeloženy, je známo, že některé z nich obsahují překlepy.
+
+Pro tuto hru existuje nepovinný český dabing. Z důvodu velikosti si ho můžete dodatečně stáhnout a pak ho rozbalit do adresáře hry. Můžete také český dabing poslouchat se všemi jazykovými varianty hry, zatímco čtete titulky.
+
+Všechny herní soubory a návody můžou být stáhnuty z
+http://www.ucw.cz/draci-historie/index-en.html
+
+
+3.20) Známé Problémy:
+----- ---------------
+Toto vydání má následující známé problémy. Není třeba je ohlašovat, i když záplaty pro jejich opravu jsou vítány. Pokud objevíte chybu, která není zde v seznamu, ani není v seznamu kompatibility na internetové stránce, prohlédněte si, prosím, část o hlášení chyb.
+
+  Hry CD Audio:
+- Při hraní her, které používají CD Audio (hry FM-TOWNS, Loom CD, atd) může u uživatelů Microsoft Windows 2000/XP docházet k náhodným pádům. To je díky dlouhotrvající chybě Windows, která má za následek poškozené soubory při čtení z CD. Abyste se tomuto vyhnuli, zkopírujte, prosím, soubory na pevný disk
+
+  Verze FM-TOWNS:
+- Verze Kandži vyžaduje ROM písma FM-TOWNS 
+
+  Loom:
+- Vypnutí titulků pomocí souboru nastavení je nevypne spolehlivě, protože skripty Loom je znovu automaticky zapnou
+- Podpora MIDI ve verzi EGA vyžaduje aktualizaci Roland LucasArts
+- Verze Kandži na PC-Engine vyžaduje rom systémové karty
+
+  The Secret of Monkey Island:
+- Podpora MIDI ve verzi EGA vyžaduje aktualizaci Roland LucasArts
+
+  Beneath a Steel Sky:
+- Verze pro Amiga nejsou podporovány
+- Demoverze z diskety nejsou podporovány
+- Není chyba: Ve verzi na CD chybí v jistých dialozích řeč, to je normální.
+
+  Elvira - Mistress of the Dark
+- Ve verzi pro Atari ST nefunguje hudba
+
+  Elvira II - The Jaws of Cerberus
+- Ve verzi pro Atari ST nefunguje hudba
+
+- Ve verzi pro PC nefungují zvukové efekty
+- Ve verzi pro Atari ST jsou problémy s paletou
+
+  Inherit the Earth: Quest for the Orb
+- Verze pro Amiga nejsou podporovány 
+
+  Simon the Sorcerer 1:
+- V anglických a německých verzích na CD nejsou titulky dostupné, protože jim většina titulků chybí.
+
+  Simon the Sorcerer 2:
+- Kombinace řeči a titulků často způsobí, že řeč je přerušena brzo, toto je omezení původní hry.
+- Ve verzích pro Amiga a Macintosh je podporován pouze výchozí jazyk datových souborů (angličtina).
+
+  Simon the Sorcerer's Puzzle Pack:
+- Žádná podpora pro zobrazování, zadávání, ukládání, či načítání nejvyšších skóre.
+- Žádná podpora pro zobrazování názvů položek, když na ně najedete myší ve Swampy Adventures.
+
+  The Feeble Files:
+- Titulky jsou často nedokončené. V původní hře byly vždy zakázány.
+
+  The Legend of Kyrandia:
+- Ve verzích na disketě pro Mac není žádná hudba ani zvukové efekty.
+- CD Macintosh používá zahrnutou hudbu a zvukové efekty z DOS.
+
+  Hry Humongous Entertainment:
+    - Pouze původní rozhraní pro uložení a načtení mohou být použity.
+    - Žádná podpora pro hru více hráčů nebo tisknutí obrázků
+
+4.0) Podporované Platformy:
+---- ----------------------
+ScummVM byl vytvořen tak, aby mohl fungovat na mnoha platformách a operačních systémech.
+Odkazy na tyto verze můžou být nalezeny buď na stránkách ScummVM nebo vyhledáváním na internetu. Mnoho díků našim programátorům za jejich úsilí. Pokud máte verzi ScummVM pro jinou platformu/systém a chcete ho odevzdat do hlavního úložiště, neváhejte nás kontaktovat!
+
+Podporované platformy zahrnují (mimo jiné):
+
+        UNIX            (Linux, Solaris, IRIX, *BSD, ...)
+        Windows
+        Windows CE a Windows Mobile (včetně Smartphonů a PocketPCs)
+        Mac OS X
+        AmigaOS
+        Android
+        BeOS
+        Dreamcast
+        GP2x
+        iPhone          (včetně iPod Touch a iPad)
+        Maemo           (Nokia Internet tablet N810)
+        Nintendo 64
+        Nintendo DS
+        Nintendo GameCube
+        Nintendo Wii
+        OS/2
+        PlayStation 2
+        PlayStation Portable
+        Symbian
+        WebOS
+
+Verze pro Dreamcast nepodporuje The Curse of Monkey Island, ani The Dig. Verze pro Nintendo DS nepodporuje Full Throttle, The Dig, nebo The Curse of Monkey Island.
+Pro další omezení v závislosti na platformě se, prosím, podívejte na naší  Wiki:
+  http://wiki.scummvm.org/index.php/Platforms
+
+Ve verzi pro Macintosh je stisknutí pravého tlačítka myši emulováno pomocí Cmd-kliknutí (to je, že stisknete tlačítko myši při držení klávesy
+Command/Apple/Vrtule).
+
+Také existují neoficiální verze pro různé platformy, včetně PlayStation 3, Xbox, a Xbox 360. Nezapomeňte, že my jsme tyto verze nevytvořili, takže je nemůžeme ani schválit ani podporovat. Používejte na vlastní riziko!
+
+
+5.0) Spuštění ScummVM:
+---- -----------------
+Všimněte si prosím, že ScummVM bude uložené hry standardně ukládat do složky z které je spuštěn, takže byste se měli vyhnout jeho spouštění z více umístění. Další informace, včetně jak určit složku pro uložené hry pro zamezení tohoto problému, najdete v oddílu 6.0.
+
+ScummVM může být také spuštěn přímo pomocí spouštěcího souboru. V tomto případě bude aktivován zabudovaný spouštěč. Odsuď můžete přidat hry
+(klikněte na 'Přidat hru'), nebo spustit ty, co už jsou nastaveny.
+Hry mohou být také přidány ve velkém množství. Stisknutím shift + 'Přidat
+Hru' (Všimněte si, že se tlačítko změní na 'Hromadné Přidání'), můžete zvolit složku, v které začít, a ScummVM se poté pokusí zjistit hry ve všech podsložkách této složky.
+
+ScummVM může také hru spustit přímo pomocí argumentů příkazové řádky -- viz další část.
+
+
+5.1) Možnosti příkazového řádku:
+---- ---------------------------
+
+  Použití: scummvm [MOŽNOSTI]... [HRA]
+
+  [HRA]                    Krátké jméno hry pro načtení. Například              'monkey'pro Monkey Island. To může být buď id hry, nebo uživatelem určený cíl.
+  -v, --version            Zobrazí informace o verzi ScummVM a ukončí se
+  -h, --help               Zobrazí stručnou nápovědu a ukončí se
+  -z, --list-games         Zobrazí seznam podporovaných her a ukončí se
+  -t, --list-targets       Zobrazí seznam nastavených cílů a ukončí se
+  --list-saves=CÍL         Zobrazí seznam ulož. her pro určenou hru (CÍL)
+  --console                Povolí okno konzole (výchozí: zapnuto) (Pouze pro Windows)
+  -c, --config=Nastavení   Použije jiný soubor s nastavením
+  -p, --path=CESTA         Cesta, kde je hra nainstalována
+  -x, --save-slot[=ČÍSLO]  Pozice uložené hry pro načtení (výchozí: automatická)
+  -f, --fullscreen         Vynutit režim celé obrazovky
+  -F, --no-fullscreen      Vynutit režim do okna
+  -g, --gfx-mode=REŽIM     Vybere režim obrazu (viz také část 5.3)
+  --gui-theme=VZHLED       Vybere vzhled rozhraní (výchozí, moderní, klasický)
+  --themepath=CESTA        Cesta kde jsou vzhledy rozhraní uloženy
+  --list-themes            Zobrazí seznam všech použitelných vzhledů  
+  -e, --music-driver=REŽIM Vybere ovladač hudby (viz také část 7.0)
+  --list-audio-devices     Zobrazí seznam všech dostupných zvukových zařízení
+  -q, --language=JAZYK     Vybere jazyk hry (viz také část 5.2)
+  -m, --music-volume=Č.    Nastaví hlasitost hudby, 0-255 (výchozí: 192)
+  -s, --sfx-volume=Č.      Nastaví hlasitost zvuků, 0-255 (výchozí: 192)
+  -r, --speech-volume=Č.   Nastaví hlasitost hlasů, 0-255 (výchozí: 192)
+  --midi-gain=Č.           Nastaví zvýšení pro přehrávání MIDI, 0-1000 (výchozí: 100) (podporováno pouze některými ovladači MIDI)
+  -n, --subtitles          Zapne titulky (použijte v hrách s řečí)
+  -b, --boot-param=Č.      Předá číslo zavádějícímu skriptu (parametr zavedení)
+  -d, --debuglevel=Č.      Nastaví úroveň podrobností ladění
+  --debugflags=PŘÍZNAKY    Povolí určité příznaky ladění jádra (oddělené čárkami)
+  -u, --dump-scripts       Povolí výpis skriptu, pokud složka s názvem 'dumps' existuje v současné složce
+  --cdrom=ČÍSLO            Jednotka CD z které přehrávat CD audio (výchozí: 0 = první jednotka)
+  --joystick[=ČÍSLO]       Povolí vstup z joysticku (výchozí: 0 = první joystick)
+  --platform=SLOVO         Určí platformu hry (povolené hodnoty: 2gs, 3do, acorn, amiga, atari, c64, fmtowns, mac, nes, pc, pce, segacd, windows)
+  --savepath=CESTA         Cesta, kde jsou umístěny uložené hry
+  --extrapath=CESTA        Dodatečná cesta pro další data hry
+  --soundfont=SOUBOR       Vybere SoundFont pro přehrávání MIDI (Podporováno pouze některými ovladači MIDI)
+  --multi-midi             Povolí kombinaci AdLib a přirozeného MIDI
+  --native-mt32            Pravý Roland MT-32 (zakáže emulaci GM)
+  --enable-gs              Povolí režim Roland GS pro přehrávání MIDI
+  --output-rate=FREKVENCE  Výstupní vzorkovací kmitočet v Hz (např. 22050)
+  --opl-driver=OVLADAČ     Vybere emulátor AdLib (OPL) (db, mame)
+  --aspect-ratio           Povolí korekci poměru stran
+  --render-mode=REŽIM      Povolí dodatečné režimy vykreslení (cga, ega, hercGreen, hercAmber, amiga)
+  --alt-intro              Použije alternativní intro pro CD verze Beneath a Steel Sky a Flight of the Amazon Queen
+  --copy-protection        Povolí ochranu proti kopírování v hrách, když ji ScummVM standardně zakazuje.
+  --talkspeed=ČÍSLO        Nastaví zdržení mluvení v hrách SCUMM, nebo rychlost mluvení v jiných hrách (výchozí: 60)
+  --demo-mode              Spustí režim dema v Maniac Mansion (Klasická verze)
+  --tempo=NUM              Nastaví rychlost hudby (v procentech, 50-200) pro hry SCUMM (výchozí: 100)
+
+
+Význam všech dlouhých možností (to jsou ty, které začínají dvojitou pomlčkou) může být převrácen, když před ně přidáte "no-". Například,
+--no-aspect-ratio vypne korekci poměru stran. To je užitečné, když chcete potlačit nastavení v souboru.
+
+Krátké jméno hry ('cíl hry'), který vidíte na konci příkazového řádku, určuje, která hra je spuštěna. Buď odpovídá libovolnému cíli určeného uživatelem (ze souboru s nastavením), nebo zabudovanému id hry. Krátký seznam zabudovaných id může být nalezen v části list 3.0.
+
+Příklady:
+ * Win32:
+  Spuštění Monkey Island, celá obrazovka, z pevného disku:
+   C:\Games\LucasArts\scummvm.exe -f -pC:\Games\LucasArts\monkey\ monkey
+  Spuštění Full Throttle z CD, celá obrazovka a se zapnutými titulky:
+   C:\Games\LucasArts\scummvm.exe -f -n -pD:\resource\ ft
+
+ * Unix:
+  Spuštění Monkey Island, celá obrazovka, z pevného disku:
+
+   /path/to/scummvm -f -p/games/LucasArts/monkey/ monkey
+  Spuštění Full Throttle z CD, celá obrazovka a se zapnutými titulky:
+   /path/to/scummvm -f -n -p/cdrom/resource/ ft
+
+
+5.2) Volby jazyka:
+---- -------------
+ScummVM obsahuje volby jazyka pro Maniac Mansion, Zak McKracken,
+The Dig, The Curse of Monkey Island, Beneath a Steel Sky a
+Broken Sword.
+
+Nezapomeňte, že kromě Beneath a Steel Sky, Broken Sword, mnohajazykové verze her Goblins a Nippon Safes Inc., použití této možnosti *nezmění* jazyk hry (který je většinou pevně zakódován), ale spíše je použita pro vybrání správného písma (např. pro německou verzi obsahující přehlásky).
+
+Výjimky jsou The Dig a The Curse of Monkey Island -- neanglické
+Verze mohou být nastaveny na 'English'. Nicméně toto ovlivňuje pouze titulky; řeč ve hře zůstane stejná.
+
+Maniac Mansion a Zak McKracken
+    en  - Angličtina (výchozí)
+    de  - Němčina
+    fr  - Francouzština
+    it  - Italština
+    es  - Španělština
+
+The Dig
+    jp  - Japonština
+    zh  - Čínština
+    kr  - Korejština
+
+The Curse of Monkey Island
+    en  - Angličtina (výchozí)
+    de  - Němčina
+    fr  - Francouzština
+    it  - Italština
+    pt  - Portugalština
+    es  - Španělština
+    jp  - Japonština
+    zh  - Čínština
+    kr  - Korejština
+
+Beneath a Steel Sky
+    gb  - Angličtina (Velká Británie) (výchozí)
+    en  - Angličtina (USA)
+    de  - Němčina
+    fr  - Francouzština
+    it  - Italština
+    pt  - Portugalština
+    es  - Španělština
+    se  - Švédština
+
+Broken Sword
+    en  - Angličtina (výchozí)
+    de  - Němčina
+    fr  - Francouzština
+    it  - Italština
+    pt  - Portugalština
+    es  - Španělština
+    cz  - Čeština
+
+
+5.3) Grafické filtry:
+---- ----------------
+ScummVM nabízí několik filtrů vyhlazujících hrany jako pokus o zlepšení obrazové kvality. Jsou to stejné filtry, které používá i mnoho jiných emulátorů, jako MAME. Tyto filtry vezmou původní grafiku hry a zvětší ji o určitou pevnou hodnotu (většinou 2x nebo 3x) než ji Vám zobrazí. Takže například, pokud hra původně pracovala v rozlišení 320x200 (typické pro většinu her SCUMM), pak použitím filtru s faktorem zvětšení 2x, ve skutečnosti dostanete rozlišení 640x400. Podobně s filtrem 3x dostanete 960x600.
+
+Jsou to:
+    1x         - Bez filtrování, bez zvětšení. Nejrychlejší.
+    2x         - Bez filtrování, zvětšení 2x (výchozí pro hry 640x480).
+    3x         - Bez filtrování, zvětšení 3x.
+    2xsai      - Filtr 2xSAI, zvětšení 2x.
+    super2xsai – Vylepšené filtrování 2xSAI, zvětšení 2x.
+    supereagle – Méně rozostřený než 2xSAI, ale pomalejší. Zvětšení 2x.
+    advmame2x  - Nespoléhá na rozostření jako 2xSAI, rychlé. Zvětšení 2x.
+    advmame3x  - Nespoléhá na rozostření jako 2xSAI, rychlé. Zvětšení 3x.
+    hq2x       - Velmi hezká vysoká kvalita, ale pomalý. Zvětšení 2x.
+    hq3x       - Velmi hezká vysoká kvalita, ale pomalý. Zvětšení 3x.
+    tv2x       - Filtr prokládání, snaží se emulovat TV. Zvětšení 2x.
+    dotmatrix  - Efekt bodové matice. Zvětšení 2x.
+
+Abyste filtr vybrali, zvolte ho ve spouštěči, nebo předejte scummvm jeho jméno pomocí možnosti '-g', například:
+
+    scummvm -gadvmame2x monkey2
+
+Poznámka #1: Ne všechny jádra podporují všechny (nebo dokonce žádné) z filtrů vypsaných výše; některé mohou podporovat i další. Filtry vypsané výše jsou ty podporované standardním jádrem SDL.
+
+Poznámka #2: Filtry mohou být velmi pomalé, když je ScummVM sestaven v nastavení pro ladění bez optimalizací. Použití jakékoliv formy vyhlazení hran/lineárního filtrování bude mít vždycky dopad na rychlost.
+
+Poznámka #3: Verze FM-TOWNS hry Zak McKracken má původní rozlišení 320x240, což znamená, že filtry v této hře budou zvětšovat na 640x480
+nebo 960x720. Obdobně hry, které mají původní rozlišení 640x480 (jako
+Curse of Monkey Island nebo Broken Sword) budou zvětšeny na 1280x960 a
+1920x1440.
+
+
+5.4) Globální menu:
+---- --------------
+Globální Menu je obecné menu, které je dostupné všem jádrům her stisknutím Ctrl-F5. Z tohoto menu jsou dostupné následující tlačítka: Pokračovat, Volby, O programu, Návrat do Spouštěče, a Ukončit. Výběrem
+'Volby' bude zobrazeno dialogové okno, kde můžou být upravena základní nastavení zvuku, jako hladiny hlasitosti. Výběrem 'Návrat do Spouštěče' současnou hru ukončí a uživatele navrátí do spouštěče ScummVM, kde může být vybrána další hra ke hraní.
+
+Poznámka: Návrat do Spouštěče není podporován všemi jádry a tlačítko nebude v Globálním Menu funkční, pokud není podporováno.
+
+Jádra, která v současnosti podporují návrat do spouštěče, jsou:
+
+    AGI
+    AGOS
+    CINE
+    COMPOSER
+    CRUISE
+    DRACI
+    DRASCULA
+    GOB
+    GROOVIE
+    HUGO
+    KYRA
+    LURE
+    MADE
+    MOHAWK
+    PARALLACTION
+    QUEEN
+    SAGA
+    SCI
+    SCUMM
+    SKY
+    SWORD1
+    SWORD2
+    TEENAGENT
+    TOUCHE
+    TSAGE
+    TUCKER
+
+
+5.5) Klávesové zkratky:
+---- ------------------
+ScummVM podporuje různé zkratky ve hře. Liší se mezi různými hrami SCUMM a jinými hrami.
+
+  Společné:
+    Ctrl-F5                - Zobrazí Globální Menu
+    Cmd-q                  - Ukončit (Mac OS X)
+    Ctrl-q                 - Ukončit (další unixy včetně Linux)
+    Ctrl-z OR Alt-x        - Quit (další platformy)
+    Ctrl-u                 - Zeslabí všechny zvuky
+    Ctrl-m                 - Přepínat zachycení myši
+    Ctrl-Alt 1-8           - Přepínat mezi grafickými filtry
+    Ctrl-Alt + and -       - Zvětšit/Zmenšit faktor zvětšení
+Ctrl-Alt a             - Přepínat korekci poměru stran. Většina her používá rozlišení 320x200 pixelů, což může na většině novějších monitorů vypadat splácle. Korekce poměru stran obraz roztáhne, aby místo toho použil 320x240, nebo jeho násobky
+    Alt-Enter              - Přepíná celou obrazovku/do okna
+    Alt-s                  - Vytvořit snímek obrazovky (pouze jádro SDL)
+
+  SCUMM:
+    Ctrl 0-9 and Alt 0-9   - Nahrát a uložit stav hry
+    Ctrl-d                 - Spustit ladění
+    Ctrl-f                 - Zapnout rychlý režim
+    Ctrl-g                 - Přepnout do velmi VELMI rychlého režimu
+    Ctrl-t                 - Přepínat mezi 'Pouze řeč',
+                             'Řeč a Titulky' a 'Pouze titulky'
+    Tilda (~)              - Zobrazit/skrýt konzoli ladění
+    [ and ]                - Hlasitost hudby, zvýšit/snížit
+    - and +                - Rychlost textu, pomalejší/rychlejší
+    F5                     - Zobrazí rámeček pro uložení/načtení
+    Alt-F5                 - Zobrazí původní rámeček pro uložení/načtení, pokud hra nějaký má. Zde můžete hru načíst i uložit, nicméně pro tento účel není určen a v některých hrách může způsobit pád ScummVM.
+    i                      - Zobrazí IQ body (Indiana Jones and the Last Crusade a Indiana Jones and the Fate of Atlantis)
+    Mezerník               - Pozastavení
+    Tečka (.)              - V některých hrách přeskočí současný řádek textu
+    Enter                  - Simulovat stisknutí levého tlačítka myši
+    Tab                    - Simulovat stisknutí pravého tlačítka myši
+
+  Beneath a Steel Sky:
+    Ctrl-d                 - Spustí ladění
+    Ctrl-f                 - Zapnout rychlý režim
+    Ctrl-g                 - Přepnout do velmi VELMI rychlého režimu
+    F5                     - Zobrazí rámeček pro uložení/načtení
+    Escape                 - Přeskočí úvod hry
+    Period (.)             - Přeskočí současný řádek textu
+
+  Broken Sword:
+    F5 nebo Escape         - Zobrazí rámeček pro uložení/načtení 
+
+  Broken Sword II:
+    Ctrl-d                 - Spustit ladění
+    Ctrl-f                 - Zapnout rychlý režim
+    p                      - Pozastavení 
+
+  Dračí Historie:
+    F5                     - Zobrazí Globální Menu
+    Levé klinutí           - Jít, zkoumat
+    Pravé klinutí          - Použít, mluvit
+    Posun myši nahoru, i   - Inventář
+    Posun myši dolů, m     - Mapa
+    Escape                 - Přeskočí úvod, odejde z mapy/inventáře
+    Jakékoliv kliknutí     - Přeskočí současně dabovanou větu
+    q                      - Zapnutí/vypnutí rychlého chození
+
+  Flight of the Amazon Queen:
+    Ctrl-d                 - Spustit ladění
+    Ctrl-f                 - Zapnout rychlý režim
+    F1                     - Použít Deník (ukládání/načítání)
+    F11                    - Rychlé načtení
+    F12                    - Rychlé ukládání
+    Escape                 - Přeskočí video
+    Mezerník               - Přeskočí současný řádek textu
+
+  Future Wars
+    F1                     - Prozkoumat
+    F2                     - Vzít
+    F3                     - Inventář
+    F4                     - Použít
+    F5                     - Aktivovat
+    F6                     - Mluvit
+    F9                     - Menu "Aktivovat"
+    F10                    - Menu "Použít"
+    Escape                 - Zobrazit menu příkazů
+
+  Nippon Safes
+    Ctrl-d                 - Spustit ladění
+    l                      - Načíst hru
+    s                      - Uložit hru
+
+  Simon the Sorcerer 1 a 2:
+    Ctrl 0-9 a Alt 0-9     - Načíst a uložit stav hry
+    Ctrl-d                 - Spustit ladění
+    Ctrl-f                 - Zapnout rychlý režim
+    F1 - F3                - Rychlost textu, rychlejší - pomalejší
+    F10                    - Zobrazí všechny postavy a objekty s kterými můžete něco dělat
+    Escape                 - Přeskočit videa
+    - a +                  - Hlasitost hudby, snížit/zvýšit
+    m                      - Hudba vypnout/zapnout
+    s                      - Zvukové efekty zapnout/vypnout
+    b                      - Zvuky pozadí zapnout/vypnout                                                              [Pouze Simon the Sorcerer 2]
+    Pause                  - Pozastavení
+    t                      - Přepínat mezi řečí a kombinací řeči a titulků [Simon the Sorcerer 1 CD (jiné než angličtina a němčina) a Simon the Sorcerer 2 CD (všechny jazyky)]
+    v                      - Přepínat mezi titulky a kombinací řeči a titulků [Pouze Simon the Sorcerer 2 CD]
+
+  Simon the Sorcerer's Puzzle Pack
+    Ctrl-d                 - Spustit ladění
+    Ctrl-f                 - Zapnout rychlý režim
+    F12                    - Zapnout/vypnout režim rychle rychlosti ve Swampy Adventures
+    - a +                  - Hlasitost hudby, snížit/zvýšit
+    m                      - Hudba vypnout/zapnout
+    s                      - Zvukové efekty zapnout/vypnout
+    Pause                  - Pozastavení 
+
+  The Feeble Files
+    Ctrl-d                 - Spustit ladění
+    Ctrl-f                 - Zapnout rychlý režim
+    F7                     - Vyměnit postavy
+    F9                     - Zapnout/vypnout jména hitboxů
+    s                      - Zvukové efekty zapnout/vypnout 
+    Pause                  - Pozastavení
+    t                      - Přepínat mezi řečí a kombinací řeči a titulků
+    v                      - Přepínat mezi titulky a kombinací řeči a titulků
+
+  The Legend of Kyrandia:
+    Ctrl 0-9 and Alt 0-9   - Načíst a uložit stav hry
+
+    Ctrl-d                 - Spustit ladění
+
+  TeenAgent
+    F5                     - Zobrazí Globální Menu
+
+  Touche: The Adventures of the Fifth Musketeer:
+    Ctrl-f                 - Zapnout rychlý režim 
+    F5                     - Zobrazit možnosti
+    F9                     - Zapnout režim rychlé chůze
+    F10                    - Vypnout režim rychlé chůze 
+    Escape                 - Ukončit
+    Mezerník               - Přeskočí současný řádek textu
+    t                      - Přepnout mezi 'Pouze Řeč',
+                             'Řeč a Text' a ' Pouze Text'
+
+Nezapomeňte, že používání Ctrl-f nebo Ctrl-g není doporučeno: hry mohou spadnout, když běží rychlostí vyšší než jejich normální, protože skripty ztratí synchronizaci.
+
+Poznámka pro uživatele WinCE: Kvůli omezenému vstupu z klávesnice ve většině zařízení je malé množství klávesových zkratek podporováno pomocí znovu mapování a/nebo činností panelů. Prosím přečtěte si soubor README-WinCE.txt.
+
+
+6.0) Uložené hry:
+---- ------------
+Uložené hry jsou na některých platformách standardně umístěny do současné složky a v jiných do přednastavené složky. To můžete určit v souboru s nastavením pomocí parametru savepath. Podívejte se na vzorový soubor s nastavením dále v tomto souboru.
+
+Platformy, které v současnosti mají jiné výchozí složky jsou:
+    Mac OS X:     
+    $HOME/Documents/ScummVM Savegames/
+    
+    Jiné unixy:
+    $HOME/.scummvm/
+    
+     Windows Vista/7:
+    \Users\užjméno\AppData\Roaming\ScummVM\Saved games\
+    
+    Windows 2000/XP:
+    \Documents and Settings\užjméno\Application Data\ScummVM\Saved games\
+    
+    Windows NT4:
+    <windir>\Profiles\užjméno\Application Data\ScummVM\Saved games\
+
+Uložené hry jsou ve Windows NT4/2000/XP/Vista/7 ukládány ve skryté složce,
+do které můžete vstoupit spuštěním "%APPDATA%\ScummVM\Saved Games\" nebo
+povolením zobrazení skrytých složek v Průzkumníku Windows.
+
+Poznámka pro uživatele Windows NT4/2000/XP/Vista/7: Výchozí umístění uložených her
+bylo ve ScummVM 1.5.0 změněno. Dávkový soubor přesunu může být použit pro zkopírování
+uložených her ze starého výchozího umístění do nového. 
+
+6.1) 6.1 Automatické ukládání:
+---- -------------------------
+V některých hrách, (a to "Beneath a Steel Sky", "Flight of the Amazon
+Queen", všechny hry AGI, a všechny hry SCUMM), bude ScummVM standardně automaticky ukládat současný stav každých pět minut (upravitelné pomocí nastavení "autoukládání"). Pro jádra AGI a SCUMM, je bude ukládat do pozice 0. V jádru SCUMM může být tento uložený stav znovu načten pomocí Ctrl-0 nebo menu F5.
+
+
+6.2) Převod uložených her:
+---- ---------------------
+Použití uložených her z původních verzí není podporováno všemi jádry. Pouze následující hry mohou použít původní verze.
+
+  Elvira 1
+    - Přidejte 8 bajtů (název uložené hry) na začátek souboru uložené hry
+    - Přejmenujte ho na 'elvira1.xxx'
+
+  Elvira 2
+    - Přidejte 8 bajtů (název uložené hry) na začátek souboru uložené hry
+    - Přejmenujte ho na 'elvira2-pc.xxx' (verze DOS) nebo 'elvira2.xxx' (Jiné verze)
+
+  Waxworks
+    - Přidejte 8 bajtů (název uložené hry) na začátek souboru uložené hry
+    - Přejmenujte ho na 'waxworks-pc.xxx' (verze DOS) nebo 'waxworks.xxx' (Jiné verze)
+
+  Simon the Sorcerer 1
+    - Přejmenuje soubor uložené hry na 'simon1.xxx'
+
+  Simon the Sorcerer 2
+    - Přejmenuje soubor uložené hry na 'simon2.xxx'
+
+  The Feeble Files
+    - Přejmenuje soubor uložené hry na 'feeble.xxx'
+
+Kde 'xxx' je číslo pozice uložené hry (tj. 001) ve ScummVM
+
+
+6.3) Zobrazení/Načtení uložených her z příkazového řádku:
+---- ----------------------------------------------------
+
+--list-saves:
+
+   Tento přepínač může být použit k zobrazení seznamu současných uložených her určené cílové hry a její odpovídající pozice.
+
+   Použití: --list-saves=[CÍL], kde [CÍL] je cílová hra.
+
+   Jádra, která v současnosti podporují --list-saves jsou:
+
+       AGI
+       AGOS
+       CGE
+       CINE
+       CRUISE
+       DRACI
+       GROOVIE
+       HUGO
+       KYRA
+       LURE
+       MOHAWK
+       PARALLACTION
+       QUEEN
+       SAGA
+       SCI
+       SCUMM
+       SKY
+       SWORD1
+       SWORD2
+       TEENAGENT
+       TINSEL
+       TOON
+       TOUCHE
+       TSAGE
+       TUCKER
+
+--save-slot/-x:
+
+   Tento přepínač může být použit k načtení uložené hry přímo z příkazového řádku.
+
+   Použití: --save-slot[POZICE] nebo -x[POZICE], kde [POZICE] je číslo uložené pozice.
+
+   Jádra, která v současnosti podporují--save-slot/-x jsou:
+
+       AGI
+       CGE
+       CINE
+       CRUISE
+       DRACI
+       GROOVIE
+       HUGO
+       KYRA
+       LURE
+       MOHAWK
+       QUEEN
+       SAGA
+       SCI
+       SCUMM
+       SKY
+       SWORD1
+       SWORD2
+       TEENAGENT
+       TINSEL
+       TOON
+       TOUCHE
+       TSAGE
+       TUCKER
+
+
+7.0) Hudba a Zvuk:
+---- -------------
+Ve většině operačních systémů a pro většinu her bude ScummVM standardně používat MT-32 nebo emulaci AdLib pro přehrávání hudby. MIDI nemusí být
+Dostupné ve všech operačních systémech, nebo potřebuje ruční nastavení. Pokud chcete MIDI použít, máte několik různých voleb pro výstup, v závislosti na Vašem operačním systému a nastavení.
+
+    null       - Prázdný výstup. Nepřehrávat žádnou hudbu.
+    adlib      - Vnitřní emulace AdLib
+    fluidsynth – Emulace FluidSynth MIDI
+    mt32       - Vnitřní emulace MT-32
+    pcjr       - Vnitřní emulace PCjr (použitelné pouze ve hrách SCUMM)
+    pcspk      - Vnitřní emulace reproduktoru PC
+    towns      - Vnitřní emulace FM-TOWNS YM2612
+                 (použitelné pouze v hrách SCUMM FM-TOWNS)
+    alsa       - Výstup pomocí zařízení sekvencéru ALSA. Viz níže.
+    core       - Zvuk CoreAudio, pro uživatele Mac OS X.
+    coremidi   - Zvuk CoreMIDI, pro uživatele Mac OS X. Používejte pouze, pokud máte hardwarový syntetizátor MIDI.
+    seq        - Použití /dev/sequencer pro MIDI v systému *nix. Viz níže
+    timidity   - Připojení k MIDI serveru TiMidity++. Viz níže.
+    windows    - Windows MIDI. Použije zabudovaný sekvencér, pro Windows
+
+Abyste vybrali ovladač zvuku, zvolte ho ve spouštěči, nebo předejte jeho jméno ScummVM pomocí možnosti '-e', například:
+
+    scummvm -eadlib monkey2
+
+
+7.1) Přehrávání zvuku pomocí emulace AdLib:
+---- --------------------------------------
+Standardně bude karta AdLib emulována a ScummVM hudbu přehrává jako vzorkované vlny. To je výchozí režim pro většinu her a nabízí nejlepší kompatibilitu mezi stroji a hrami.
+
+
+7.2) Přehrávání zvuku pomocí emulace FluidSynth MIDI:
+---- ------------------------------------------------
+Pokud byl ScummVM sestaven s podporou libfluidsynth bude schopen přehrávat hudbu MIDI pomocí ovladače FluidSynth. Budete muset ale určit, který SoundFont použít.
+
+Protože výchozí hlasitost výstupu od FluidSynth může být velmi nízká,
+ScummVM standardně nastaví zvýšení, aby dostal silnější signál. To může být dále upaveno použitím možnosti příkazového řádku --midi-gain, nebo nastavením "midi_gain" v konfiguračním souboru.
+
+Nastavení může nabývat hodnoty od 0 po 1000 a výchozí je 100. (Toto odpovídá nastavení zvýšení FluidSynth's 0.0 až 10.0, což je pravděpodobně měřeno v decibelech.)
+
+POZNÁMKA: Požadavky na procesor pro FluidSynth můžou být v některých případech dosti vysoké. Je doporučeno mít rychlé CPU.
+
+
+7.3) Přehrávání zvuku pomocí emulace MT-32:
+---- --------------------------------------
+Některé hry, které obsahují hudební data MIDI, také mají vylepšené stopuy určené pro zvukový modul MT-32. ScummVM může toto zařízení nyní emulovat, nicméně aby toto zařízení fungovalo, musíte mít původní ROMy MT-32:
+
+MT32_PCM.ROM     - IC21 (512KB)
+MT32_CONTROL.ROM - IC26 (32KB) a IC27 (32KB), prokládané podle bajtu
+
+Tyto ROMy umístěte do herního adresáře, ve Vaší dodatečné cestě, nebo v adresáři, kde je umístěn spouštěč ScummVM.
+
+S tímto ovladačem nemusíte zadávat --native-mt32, protože je automaticky zapnut.
+
+POZNÁMKA: Požadavky na procesor pro emulátor jsou velmi vysoké; rychlé
+CPU je velmi doporučeno.
+
+
+7.4) Přehrávání zvuku pomocí emulace MIDI:
+---- -------------------------------------
+Některé hry (jako Sam & Max) obsahují pouze hudební data MIDI. Toto bránilo, aby hudba v těchto hrách fungovala na platformách, které MIDI nepodporují, nebo na zvukových kartách, které neposkytují ovladače MIDI (např. mnoho zvukových karet nebude v Linuxu MIDI přehrávat). ScummVM nyní může MIDI emulovat pomocí vzorkovaných vln a AdLib, emulaci MIDI FluidSynth nebo emulace MT-32 pomocí možností -eadlib, -efluidsynth nebo -emt32 v tomto pořadí. Nicméně pokud máte možnost použít přirozené MIDI, doporučujeme použít jeden z režimů MIDI níže pro nejlepší zvuk.
+
+
+7.5) Přehrávání zvuku pomocí emulace Přirozeného MIDI:
+---- -------------------------------------------------
+Použijte vhodnou možnosti příkazového řádku -e<režim> ze seznamu výše pro vybrání Vašeho upřednostňovaného zařízení MIDI. Například pokud chcete použít ovladač Windows MIDI, použijte možnost -ewindows.
+
+
+7.5.1) Použití možností MIDI k přizpůsobení výstupu přirozené MIDI:
+------ ------------------------------------------------------------
+ScummVM podporuje různé režimy MIDI v závislosti na schopnostech Vašeho zařízení MIDI.
+
+Pokud je zadáno --native-mt32, ScummVM se k Vašemu zařízení bude chovat jako ke skutečné MT-32. Protože mapování instrumentů a výhradní systémové příkazy MT-32 se liší od zařízení General MIDI, tuto možnost byste měli povolit, pouze když používáte skutečné Roland MT-32, LAPC-I,CM-64, CM-32L, CM-500, nebo zařízení GS s mapou MT-32.
+
+Pokud je zadáno --enable-gs, ScummVM zavede Vaše zařízení kompatibilní s GS pomocí nastavení, která napodobují nastavení dozvuku MT-32, (nedostatek) chóru, citlivost ohýbaní tónu, atd. Pokud je toto společně použito s --native-mt32, ScummVM vybere mapu kompatibilní s MT-32 a bicí soupravu na Vašem zařízení GS. Toto nastavení funguje lépe než standardní emulace GM nebo GS ve hrách, které nemají vlastní mapování instrumentů (Loom a Monkey1). Obě nastavení byste měli použít pouze tehdy, pokud máte zařízení GS, které má mapu MT-32, jako SC-55, SC-88, SC-88 Pro, SC-8820, SC-8850, atd. Nezapomeňte, že --enable-gs je automaticky zakázáno v DOTT a Samnmax, protože samostatně používají General MIDI.
+
+Pokud není ani jedna z možností výše povolena, ScummVM Vaše zařízení zavede v režimu General MIDI a použije emulaci GM v hrách se zvukovým doprovodem MT-32.
+
+Některé hry obsahují zvukové efekty pouze v AdLib. Pro tyto hry, byste měli zadat --multi-midi, abyste zkombinovali hudbu MIDI se zvukovými efekty AdLib.
+
+
+7.6) Přehrávání zvuku pomocí Sekvencéru MIDI:                [POUZE UNIX]
+---- ----------------------------------------
+Pokud Váš ovladač podporuje sekvencér, můžete nastavit proměnnou prostředí "SCUMMVM_MIDI" na Vašem zařízení sekvencéru – například na /dev/sequencer
+
+Pokud máte problém se zvukem v tomto nastavení, možná budete muset nastavit proměnnou prostředí "SCUMMVM_MIDIPORT" na 1 nebo 2. Toto vybere port, který bude použit ve zvoleném sekvencéru. Pak spusťte scummvm s parametrem -eseq. To by mělo fungovat pro několik karet a může nabízet lepší výkon a kvalitu, než emulace AdLib. Nicméně pro systémy, kde podpora sekvencéru nefunguje, můžete vždycky přejít na emulaci AdLib.
+
+
+7.6.1) Přehrávání zvuku pomocí Sekvencéru ALSA:              [POUZE UNIX]
+------ ----------------------------------------
+Pokud Máte nainstalován ovladač ALSA s podporou sekvencéru, pak můžete nastavit proměnnou prostředí "SCUMMVM_PORT" nebo proměnnou souboru s nastavením "alsa_port" pro určení portu Vašeho sekvencéru. Pokud ani jedno není nastaveno, jsou standardně vyzkoušeny oba porty "65:0" a "17:0".
+
+Zde je krátký návod, jak sekvencér použít s Vaší zvukovou kartou. Ve všech případech, pro získání seznamu všech portů sekvencéru, zkuste příkaz "aconnect -o -l". To by mělo mít výstup podobný tomuto:
+
+client 14: 'Midi Through' [type=kernel]
+    0 'Midi Through Port-0'
+client 16: 'SBLive! Value [CT4832]' [type=kernel]
+    0 'EMU10K1 MPU-401 (UART)'
+client 17: 'Emu10k1 WaveTable' [type=kernel]
+    0 'Emu10k1 Port 0  '
+    1 'Emu10k1 Port 1  '
+    2 'Emu10k1 Port 2  '
+    3 'Emu10k1 Port 3  '
+client 128: 'TiMidity' [type=user]
+    0 'TiMidity port 0 '
+    1 'TiMidity port 1 '
+    2 'TiMidity port 2 '
+    3 'TiMidity port 3 '
+
+Nejdůležitější část zde je, že existují čtyři výstupy WaveTable MIDI umístěné na 17:0, 17:1, 17:2 a 17:3, a čtyři porty TiMidity umístěné na 128:0, 128:1, 128:2 a 128:3.
+
+Pokud na Vaší kartě máte čip FM FM, jako třeba SB16, pak musíte načíst SoundFonts pomocí softwaru sbiload. Například:
+
+  sbiload -p 17:0 /etc/std.o3 /etc/drums.o3
+
+Pokud je Vaše karta schopná používat WaveTable, musíte načíst SoundFont sbk nebo sf2 pomocí softwaru sfxload nebo asfxload. Například:
+
+  sfxload /cesta/k/8mbgmsfx.sf2
+
+Pokud Vaše karta neumí s MIDI pracovat, existují dvě možnosti: FluidSynth a TiMidity. Doporučujeme FluidSynth, protože v mnoha systémech bude TiMidity 'zaostávat' za hudbou. To je velmi znatelné v hrách používající
+iMUSE, který používá rychlé a dynamické přechody hudby.
+Spuštěním TiMidity jako root mu umožní nastavit prioritu v reálném čase, což může zaostávání snížit.
+
+Příkaz pro TiMidity, aby se stal sekvencérem ALSA:
+
+  timidity -iAqqq -B2,8 -Os1S -s 44100 &
+
+(Pokud s tímto nastavením dostáváte zkreslený výstup, můžete zkusit vynechat -B2,8 nebo změnit hodnotu.)
+
+Příkaz pro TiMidity, aby se stal sekvencérem ALSA (použitím SoundFonts):
+
+  fluidsynth -m alsa_seq /cesta/k/8mbgmsfx.sf2
+
+Jakmile je TiMidity nebo FluidSynth spuštěn, použijte příkaz 'aconnect -o -l' jak je pospáno výše v této části.
+
+
+7.6.2) Přehrávání zvuku pomocí Sekvencéru IRIX dmedia:       [POUZE UNIX]
+------ -----------------------------------------------
+Pokud používáte IRIX a ovladač dmedia s podporou sekvencéru, můžete nastavit proměnnou prostředí "SCUMMVM_MIDIPORT" nebo proměnnou souboru s nastavením "dmedia_port" pro určení portu Vašeho sekvencéru. Standardně je použit první port.
+
+Abyste získali seznam nastavených rozhraní midi ve Vašem systému, spusťte příkaz "startmidi" bez parametrů. Vzorový výstup:
+
+  2 MIDI interfaces configured:
+          Serial Port 2
+          Software Synth
+
+V tomto případě můžete ScummVM nastavit, aby použil "Software Synth" místo standardního "Serial Port 2" přidáním řádku
+
+   dmedia_port=Software Synth
+
+do Vašeho souboru s nastavením v části [scummvm], nebo nastavením SCUMMVM_PORT=Software Synth ve Vašem prostředí.
+
+
+7.7) Použití MIDI serveru TiMidity++:
+---- --------------------------------
+Pokud na Vašem systému chybí jakýkoliv sekvencér MIDI, ale přesto chcete lepší kvalitu MIDI, než kterou může nabídnout standardní emulace AdLib, můžete zkusit MIDI server TiMidity++. Prohlédněte si http://timidity.sourceforge.net/ pro stažení a pokyny k instalaci.
+
+Nejdříve musíte spustit daemona:
+
+  timidity -ir 7777
+
+Nyní můžete spustit ScummVM a zkusit vybrat TiMidity jako výstup pro hudbu. Standardně se připojí k localhost:7777, ale hostitele/port můžete změnit pomocí proměnné prostředí "TIMIDITY_HOST". Můžete také určit
+"číslo zařízení" použitím proměnné "SCUMMVM_MIDIPORT".
+
+
+7.8) Použití komprimovaných zvukových souborů 
+---- ----------------------------------------
+
+7.8.0) Použití souborů MP3 pro CD audio:
+------ ---------------------------------
+Použijte LAME nebo jiný kodér MP3 pro vyjmutí stop cd audio do souborů.
+Soubory pojmenujte track1.mp3 track2.mp3 atd. ScummVM musí být sestaven s podporou MAD pro použití této možnosti. Soubory budete muset z CD vyjmout ve formátu WAV, pak je převést do formátu MP3 v konstantní přenosové rychlosti. To může být provedeno pomocí následujícího příkazového řádku:
+
+  lame -t -q 0 -b 96 track1.wav track1.mp3
+
+
+7.8.1) Použití souborů Ogg Vorbis pro CD audio:
+------ ----------------------------------------
+Použijte oggenc nebo jiný kodér vorbis k převedení zvukových stop do souborů. Pojmenujte je track1.ogg track2.ogg atd. ScummVM musí být sestaven s podporou vorbis pro použití této možnosti. Soubory budete muset z CD vyjmout ve formátu WAV, pak je převést do formátu vorbis. To může být provedeno pomocí následujícího příkazového řádku pro oggenc, kde hodnota po q určuje požadovanou kvalitu od 0 do 10:
+
+  oggenc -q 5 track1.wav
+
+
+7.8.2) Použití souborů Flac pro CD audio:
+------ ----------------------------------
+Použijte flac nebo jiný kodér flac k převedení zvukových stop do souborů.
+Pojmenujte je track1.flac track2.flac atd. Pokud Váš souborový systém podporuje přípony pouze se třemi písmeny, pojmenujte je track1.fla track2.fla atd. ScummVM musí být sestaven s podporou flac pro použití této možnosti. Soubory budete muset z CD vyjmout ve formátu WAV, pak je převést do formátu flac. To může být provedeno pomocí následujícího příkazového řádku pro flac:
+
+  flac --best track1.wav
+
+Nezapomeňte, že kvalita bude vždy stejná, různé možnosti kodéru ovlivňují dobu kódování a výslednou velikost souboru.
+
+
+7.8.3) Komprimování MONSTER.SOU pomocí MP3:
+------ ------------------------------------
+Potřebujete LAME a náš nástroj 'compress_scumm_sou' z balíčku
+scummvm-tools, abyste toto mohli provést a ScummVM musí být sestaven s podporou MAD.
+
+  compress_scumm_sou monster.sou
+
+Nakonec dostanete mnohem menší soubor monster.so3, tento soubor zkopírujte do Vaší složky hry. Pak můžete soubor monster.sou odstranit.
+
+
+7.8.4) Komprimování MONSTER.SOU pomocí Ogg Vorbis:
+------ -------------------------------------------
+Tak jako výše, ale ScummVM musí být sestaven s podporou OGG. Spusťte:
+
+  compress_scumm_sou --vorbis monster.sou
+
+To by mělo vytvořit menší soubor monster.sog file, který byste měli zkopírovat do složky hry. Kódování Ogg může trvat mnohem déle než u MP3, takže mějte po ruce dobrou knížku.
+
+
+7.8.5) Komprimování MONSTER.SOU pomocí Flac:
+------ -------------------------------------
+Tak jako výše, ale ScummVM musí být sestaven s podporou Flac. Spusťte:
+
+  compress_scumm_sou --flac monster.sou
+
+To by mělo vytvořit menší soubor monster.sof, který byste měli zkopírovat do složky hry. Nezapomeňte, že kvalita bude vždy stejná, různé možnosti kodéru ovlivňují dobu kódování a výslednou velikost souboru. Změna velikosti bloku (-b <hodnota>), má největší vliv na výslednou velikost souboru -- 1152 se zdá být dobrá hodnota pro tento druh zvukových souborů. Přečtěte si dokumentaci kodéru předtím, než použijete další hodnoty.
+
+
+7.8.6) Komprimování hudby/zvuku/hlasu v hrách AGOS:
+------ --------------------------------------------
+Pro tento úkol použijte náš nástroj 'compress_agos' z balíčku scummvm-tools. Můžete volit mezi několika cílovými formáty, ale nezapomeňte, že je můžete použít pouze tehdy, když ScummVM byl sestaven se zapnutou podporou konkrétního dekodéru.
+
+  compress_agos effects     (Pro CD verzi Simon 1 od Acorn)
+  compress_agos simon       (Pro CD verzi Simon 1 od Acorn)
+  compress_agos effects.voc (Pro DOS CD verzi Simon 1)
+  compress_agos simon.voc   (Pro DOS CD verzi Simon 1)
+  compress_agos simon.wav   (Pro Windows CD verzi Simon 1)
+  compress_agos simon2.voc  (Pro DOS CD verzi Simon 2)
+  compress_agos simon2.wav  (Pro Windows CD verzi Simon 2)
+  compress_agos mac         (Pro Macintosh verzi Simon 2)
+
+  compress_agos voices1.wav (Pro Windows verzi Feeble na 2CD/4CD)
+  compress_agos voices2.wav (Pro Windows verzi Feeble na 2CD/4CD)
+  compress_agos voices3.wav (Pro Windows verzi Feeble na 4CD)
+  compress_agos voices4.wav (Pro Windows verzi Feeble na 4CD)
+
+  compress_agos Music       (Pro Windows verzi Puzzle Pack)
+
+Pro Ogg Vorbis přidejte k volbám --vorbis, tj.
+
+  compress_agos --vorbis
+
+Pro Flac přidejte k volbám --flac a dodatečné parametry, tj.
+
+  compress_agos --flac
+
+Nakonec dostanete mnohem menší soubor *.mp3, *.ogg nebo *.fla, zkopírujte ho do Vaší složky hry. Starý soubor můžete bezpečné odebrat.
+
+
+7.8.7) Komprimování řeči/hudby v Broken Sword:
+------ ---------------------------------------
+Nástroj 'compress_sword1' z balíčku scummvm-tools může převést hudbu a řeč do MP3, Ogg Vorbis a také Flac. Nejsnadnějším způsobem, jak soubory převést, je prosté zkopírování spouštěče do Vaší složky BS1 (spolu s kodérem lame) a pak ho odsud spustit. Tak bude všechno automaticky převedeno na MP3. Poté, můžete ručně odstranit soubory SPEECH?.CLU a hudební soubory wave.
+
+Spuštěním "compress_sword1 --vorbis" soubory zkomprimuje pomocí Ogg Vorbis místo MP3.
+
+Spuštěním "compress_sword1 --flac" soubory zkomprimuje pomocí Flac
+místo MP3.
+
+Použijte "compress_sword1 --help", abyste dostali úplný seznam možností.
+
+
+7.8.8) Komprimování řeči/hudby v Broken Sword II:
+------ ------------------------------------------
+Pro tento úkol použijte náš nástroj 'compress_sword2'. Můžete volit mezi několika cílovými formáty, ale nezapomeňte, že je můžete použít pouze tehdy, když ScummVM byl sestaven se zapnutou podporou konkrétního dekodéru.
+
+  compress_sword2 speech1.clu
+  compress_sword2 music1.clu
+
+Pro Ogg Vorbis přidejte --vorbis k možnostem, tj.
+
+  compress_sword2 --vorbis
+
+Nakonec budete mít mnohem menší soubor *.cl3 nebo *.clg, tento soubor zkopírujte do složky hry. Starý soubor můžete bezpečné odstranit.
+
+Je možné použít Flac pro komprimaci přidáním možnosti by --flac. Nicméně výsledný soubor *.clf je ve skutečnosti větší než původní.
+
+Nezapomeňte, prosím, že compress_sword2 bude fungovat pouze se čtyřmi soubory řeči/hudby v Broken Sword II. Nebude fungovat s dalšími soubory *.clu, ani nebude fungovat se soubory řeči z Broken Sword.
+
+
+7.9) Výstupní vzorkovací kmitočet:
+---- -----------------------------
+Výstupní vzorkovací kmitočet říká ScummVM, kolik vzorků zvuku má hrát v kanálu za sekundu. Je toho hodně, co by se dalo říct o tomto tématu, ale většina toho je zde nepodstatné. Krátká verze je, že většině her stačí 22050 Hz, ale v některých případech je lepší 44100 Hz. Na extrémně pomalých systémech byste raději měli použít 11025 Hz, ale je nepravděpodobně, že byste se s tímto museli zabývat.
+
+Abychom to rozvedli, většina zvuků, které ScummVM musí přehrát, byla vzorkována buď na 22050 Hz, nebo 11025 Hz. Použitím vyššího kmitočtu jako kouzlem nezvýší kvalitu těchto zvuků. Proto je 22050 Hz v pořádku.
+
+Některé hry používají CD audio. Pokud pro toto používáte komprimované soubory, jsou pravděpodobně vzorkovaný na kmitočtu 44100 Hz, takže pro tyto hry je toto pravděpodobně lepší volba kmitočtu.
+
+Při použití ovladačů hudby AdLib, FM Towns, PC Speaker nebo IBM PCjr je
+ScummVM zodpovědný za vytváření vzorků. Většinou bude 22050 Hz stačit, ale existuje alespoň jedna stopa hudby AdLib Beneath a Steel Sky, která zní lépe při 44100 Hz.
+
+Použití kmitočtů mezi není doporučeno. Za prvé Vaše zvuková karta ho nemusí podporovat. Teoreticky by se ScummVM měl vrátit k rozumnému kmitočtu, ale nespoléhejte na to. Důležitější je ale to, že ScummVM musí převzorkovat všechny zvuky na jejich výstupní kmitočet. To je mnohem snadnější k provedení, když výstupní kmitočet je násobkem původního.
+
+
+8.0) Soubor s nastavením:
+---- --------------------
+Standardně je soubor s nastavením uložen a načítán:
+
+    Windows Vista/7:
+    \Users\jméno uživatele\AppData\Roaming\ScummVM\scummvm.ini,
+
+    Windows 2000/XP:
+    \Documents and Settings\jméno už\Application Data\ScummVM\scummvm.ini
+
+    Windows NT4:
+    <složkawin>\Profiles\jméno už\Application Data\ScummVM\scummvm.ini,
+
+    Windows 95/98/ME:
+    <složkawin>\scummvm.ini,
+
+    Pokud ve Windows nainstalována dřívější verze ScummVM bude ponecháno dřívější umístění '<složkawin>\scummvm.ini'.
+
+    Unix:
+    ~/.scummvmrc
+
+    Mac OS X:
+    ~/Library/Preferences/ScummVM Preferences
+    (zde ~ označuje Vaši domovskou složku)
+
+    Další:
+    scummvm.ini v současné složce
+
+Vzorový soubor s nastavením vypadá takto:
+
+    [scummvm]
+    gfx_mode=supereagle
+    fullscreen=true
+    savepath=C:\saves\
+
+    [sky]
+    path=C:\games\SteelSky\
+
+    [germansky]
+    gameid=sky
+    language=de
+    path=C:\games\SteelSky\
+    description=Beneath a Steel Sky w/ German subtitles
+
+    [germandott]
+    gameid=tentacle
+    path=C:\german\tentacle\
+    description=German version of DOTT
+
+    [tentacle]
+    path=C:\tentacle\
+    subtitles=true
+    music_volume=40
+    sfx_volume=255
+
+    [loomcd]
+    cdrom=1
+    path=C:\loom\
+    talkspeed=5
+    savepath=C:\loom\saves\
+
+    [monkey2]
+    path=C:\amiga_mi2\
+    music_driver=windows
+
+8.1) Rozpoznávaná klíčová slova nastavení
+---- ------------------------------------ 
+Jsou rozpoznávána následující klíčová slova:
+
+    path              řetězec Cesta, kde jsou umístěny datové soubory hry
+    autosave_period    číslo    Vteřiny mezi autoukládáním (výchozí: 300)
+    save_slot          číslo    Číslo uložené, které při spuštění načíst.
+    savepath           řetězec  Cesta, kde hra bude ukládat uložené hry.
+    versioninfo        řetězec  Verze ScummVM, která vytvořila soubor.
+    gameid             řetězec  Skutečné id hry. Užitečné, pokud máte několik verzí stejné hry a chcete pro ně různé přezdívky. Viz příklad.
+    description        řetězec  Popis hry jak se zobrazí ve spouštěči.
+    language           řetězec  Určí jazyk (en, us, de, fr, it, pt, es,
+                                jp, zh, kr, se, gb, hb, cz, ru)
+    speech_mute        boolean  Pokud true, řeč je ztlumena
+    subtitles          boolean  Pokud true jsou titulky zapnuty.
+    talkspeed          číslo    Zpoždění textu v hrách SCUMM, nebo rychlost textu v jiných hrách.
+    fullscreen         boolean  Režim celé obrazovky
+    aspect_ratio       boolean  Povolit korekci poměru stran
+    gfx_mode           řetězec  Grafický režim (normální, 2x, 3x, 2xsai, super2xsai, supereagle, advmame2x, advmame3x,hq2x, hq3x, tv2x, dotmatrix)
+    confirm_exit       boolean  Zeptat se uživatele na potvrzení před ukončením (pouze jádro SDL).
+    console            boolean  Povolit okno konzole (výchozí: zapnuto) (pouze Windows).
+    cdrom              číslo    Číslo jednotky CD-ROM, kterou použít pro zvuk. Pokud je záporné, k pokusu o přístup k CD-ROM nedojde.
+    joystick_num       číslo    Číslo zařízení joysticku, které použít pro vstup
+    music_driver       řetězec  Které hudební jádro použít.
+    opl_driver         řetězec  Který emulátor AdLib (OPL) použít.
+    output_rate        číslo    Který výstupní vzorkovací kmitočet použít v Hz. Rozumné hodnoty jsou 11025, 22050 a 44100.
+    alsa_port          řetězec  Který port použít pro výstup při použití hudebního ovladače ALSA.
+    music_volume       číslo    Nastavení hlasitosti hudby (0-255)
+    multi_midi         boolean  Pokud true, je povoleno smíšený AdLib a přirozený MIDI.
+    soundfont          řetězec  Který SoundFont použít pro přehrávání MIDI. (Podporováno pouze některými ovladači MIDI.)
+    native_mt32        boolean  Pokud true, zakáže emulaci GM a předpokládá, že je dostupný pravý Roland MT-32.
+    enable_gs          boolean  Pokud true, povolí funkce určené pro Roland GS ke zlepšení emulace GM. Pokud je native_mt32 také nastaven na true, zařízení GS zvolí mapu MT-32 pro přehrávání správných instrumentů.
+    sfx_volume         číslo    Nastavení hlasitosti zvuku (0-255)
+    tempo              číslo    Rychlost hudby (50-200) (výchozí: 100)
+    speech_volume      číslo    Nastavení hlasitosti řeči (0-255)
+    midi_gain          číslo    Zvýšení MIDI (0-1000) (výchozí: 100) (Podporováno pouze některými ovladači MIDI.)
+    copy_protection    boolean  Povolí ochranu proti kopírování v určitých hrách, kde by ji ScummVM standardně zakázal.
+    demo_mode          boolean  Spustit demoverzi v Maniac Mansion
+    alt_intro          boolean  Použít alternativní úvod pro CD verze Beneath a Steel Sky a Flight of the Amazon Queen
+    boot_param         číslo    Předá toto číslo zaváděcímu skriptu
+
+Hry Sierra používající jádro AGI přidávají následující nestandardní klíčové slovo:
+
+originalsaveload       boolean  Pokud true, jsou použity původní obrazovky nahrávání/uložení místo vylepšených ze ScummVM
+
+Hry Sierra používající jádro SCI přidávají následující nestandardní klíčová slova:
+
+    disable_dithering  boolean  Odstranit artefakty chvění v některých hrách EGA
+    prefer_digitalsfx  boolean  Pokud true, jsou upřednostňovány digitální zvukové efekty před syntetizovanými
+    originalsaveload   boolean  Pokud true, jsou použity původní obrazovky nahrávání/uložení místo vylepšených ze ScummVM
+    native_fb01        bool     Pokud true, je ovladač hudby pro kartu IBM Music Feature nebo modul syntetizátoru Yahama FB-01 FM použit jako výstup MIDI
+Broken Sword II přidává následující nestandardní klíčová slova:
+
+    gfx_details        číslo    Nastavení grafických detailů (0-3)
+    music_mute         boolean  Pokud true, hudba je ztlumena
+    object_labels      boolean  Pokud true, popisky objektů jsou povoleny
+    reverse_stereo     boolean  Pokud true, kanály stereo jsou obráceny
+    sfx_mute           boolean  Pokud true, zvukové efekty jsou ztlumeny
+
+Flight of the Amazon Queen přidává následující nestandardní klíčová slova:
+
+    music_mute         boolean  Pokud true, hudba je ztlumena
+    sfx_mute           boolean  Pokud true, zvukové efekty jsou ztlumeny
+
+Jones in the Fast Lane přidává následující nestandardní klíčové slovo:
+
+    music_mute         boolean  Pokud true, je použito CD audio místo zvuků ve hře 
+
+King's Quest VI Windows přidává následující nestandardní klíčové slovo:
+
+    windows_cursors    boolean  Pokud true, jsou použity původní černobílé kurzory místo kurzorů z DOS. Pokud false, jsou ve verzi Windows použity kurzory DOS, zvětšené, aby se shodovaly se zbytkem zvětšené grafiky
+
+Lands of Lore: The Throne of Chaos přidává následující nestandardní klíčová slova:
+
+    smooth_scrolling   boolean  Pokud true, je posunování při změně z jedné obrazovky na druhou plynulejší
+    floating_cursors   boolean  Pokud true, je kurzor změněn na směrovou šipku při najetí na okraj obrazovky. Hráč pak může kliknout pro pohyb v tomto směru.
+
+Space Quest IV CD přidává následující nestandardní klíčové slovo:
+    
+    silver_cursors     boolean  Pokud true, je místo původních zlatých kurzorů použita alternativní sada stříbrných
+        
+Simon the Sorcerer 1 a 2 přidává následující nestandardní klíčová slova:
+
+    music_mute         boolean  Pokud true, hudba je ztlumena
+    sfx_mute           boolean  Pokud true, zvukové efekty jsou ztlumeny
+
+The Legend of Kyrandia přidává následující nestandardní klíčové slovo:
+
+    walkspeed          celé číslo      Rychlost chůze (0-4)
+    
+The Legend of Kyrandia: Malcolm's Revenge přidává následující nestandardní klíčová slova:
+
+    studio_audience    boolean  Pokud true, je slyšet potlesk a smích kdykoliv Malcolm provede něco vtipného
+    skip_support       boolean  Pokud true, hráč může přeskakovat text a scény hry
+    helium_mode        boolean  Pokud true, lidé znějí tak, jakoby se nadýchali hélia
+
+The 7th Guest přidává následující nestandardní klíčové slovo:
+
+    t7g_speed          řetězec   Rychlost přehrávání videa (normal - normální, tweaked - upravená, im_an_ios - jsem na ios)
+
+8.2) Vlastní herní volby, které mohou být přepínány pomoci grafického 
+---- ----------------------------------------------------------------
+rozhraní
+--------
+Mnoho vlastních herních voleb v předchozí části může být přepnuto přes grafické rozhraní. Pokud je takováto volba pro určitou hru dostupná, objeví se karta "Jádro" při přidávání nebo úpravě nastavení této hry.
+Pokud vlastní možnosti nejsou zobrazeny, musí být konkrétní hry spuštěny jednou nebo znovu přidány do seznamu her spouštěče ScummVM. Toto aktualizuje nastavení každé položky, čímž umožní zobrazení vlastních voleb.
+
+9.0) Sestavení:
+---- ----------
+Pro aktuální přehled o tom, jak ScummVM sestavit pro různé platformy, prohlédněte si, prosím, naší Wiki, zvláště tuto stránku:
+
+   http://wiki.scummvm.org/index.php/Compiling_ScummVM
+
+Pokud sestavujete ve Windows, Linux nebo Mac OS X, potřebujete SDL-1.2.2
+Nebo novější (starší verze mohou fungovat, ale nejsou podporovány) a podporovaný kompilátor. Většina kompilátorů, včetně GCC, mingw a novějších verzí Microsoft Visual C++ jsou podporovány. Pokud chcete použít stopy CD komprimované do MP3 nebo soubory .SOU, musíte nainstalovat knihovnu MAD; podobně potřebujete vhodné knihovny pro komprimovaný zvuk pomocí Ogg Vorbis a FLAC. Pro komprimované uložené stavy je potřeba mít zlib.
+
+Některé části ScummVM, zvláště zvětšovače, mají vysoce optimalizované verze napsané v assembleru. Pokud si přejete tuto možnost použít, potřebuje mít nainstalován assembler nasm (viz http://nasm.sf.net). Nezapomeňte, že v současnosti máme pouze verze optimalizované pro x86 MMX, a nebudou sestaveny pro jiné procesory.
+
+Na Win9x/NT/XP můžete určit USE_WINDBG a připojit WinDbg pro procházení ladících zpráv (viz http://www.sysinternals.com/ntw2k/freeware/debugview.shtml).
+
+  GCC a MinGW32:
+    * Zadejte "./configure"
+    * Zadejte "make" (nebo "gmake", či "gnumake", v závislosti na tom, jak je GNU make ve Vašem systému nazván) a ScummVM snad bude pro Vás sestaven.
+    * Pro další informace si prohlédněte:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/GCC
+      či
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/MinGW
+
+  Microsoft Visual C++ 8/9/10:
+    * Přečtěte si, jak vytvořit soubory projektu ve "dists\msvc8",
+      "dists\msvc9" příslušně "dists\msvc10".
+    * Otevřete výsledný soubor projektu.
+    * Zadejte cestu k potřebným knihovnám a hlsičkovým souborům v
+      Tools|Options|Projects and Solutions|VC++ Directories".
+    * Teď by program měl být úspěšně sestaven.
+    * Pro další informace si prohlédněte:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/VS2005
+
+  Windows Mobile:
+    * Přečtěte si prosím:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/Windows_CE
+
+  Mac OS X:
+    * Ujistěte se, že máte nainstalovány nástroje pro vývojáře.
+    * Balíček SDL pro vývojáře na OS X, který je dostupný na stránce SDL _není_ vhodný. Spíše potřebujete sestavení v unixovém stylu. Jeden takový způsob, jak ho nainstalovat je pomocí Fink
+ (http://fink.sf.net). Také můžete SDL sestavit ručně ze zdrojového kódu pomocí systému sestavení pro unix (configure a make).
+    * Ve složce ScummVM zadejte "./configure".
+    * Nyní můžete zadat 'make' pro vytvoření spouštěče příkazového řádku.
+    * Abyste získali verzi, kterou můžete spustit z Finder, zadejte 'make bundle' což vytvoří ScummVM.app (to funguje pouze, když máte SDL nainstalován do /sw, což se při instalaci Fink provede). Pokud jste SDL nainstalovali jiným způsobem, budete muset upravit ports.mk).
+    * Pro další informace si prohlédněte:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/MacOS_X_Crosscompiling
+
+  AmigaOS 4 (Křížová kompilace pomocí Cygwin):
+    * Ujistěte se, že máte nainstalován SDL, můžete také potřebovat
+      libogg, libvorbis, libvorbisfile, zlib, libmad.
+    * Zadejte ./configure --host=ppc-amigaos
+    * Pokud dostanete chybu o sdl-config, použijte parametr --with-sdl-prefix pro nastavení cesty.
+    * Zkontrolujte soubor 'config.mk' a pokud je vše v pořádku:
+    * Spusťte 'make'.
+    * Křížová kompilace pomocí Linux může být také tak lehká.
+
+  iPhone:
+    * Přečtěte si prosím:
+      http://wiki.scummvm.org/index.php/Compiling_ScummVM/iPhone
+
+  Maemo:
+    * Nainstalujte Maemo SDK s rootstrap 4.1.2
+    * Nainstalujte libmad, Tremor, FLAC ze zdroje
+    * Spusťte 'ln -s backends/platform/maemo/debian'
+    * Aktualizujte debian/changelog
+    * Spusťte 'sb2 dpkg-buildpackage -b'
+
+------------------------------------------------------------------------
+Hodně Štěstí a Šťastné Adventurování!
+Tým ScummVM.
+http://www.scummvm.org/
+------------------------------------------------------------------------
+
+
+

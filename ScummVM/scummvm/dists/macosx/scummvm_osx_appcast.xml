@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>ScummVM Changelog</title>
+		<link>http://scummvm.org/scummvm_appcast.xml</link>
+		<description>Most recent changes with links to updates.</description>
+		<language>en</language>
+		<item>
+			<title>Version 1.2.1 (3 bugs fixed; 2 new features)</title>
+			<sparkle:releaseNotesLink>
+				http://sourceforge.net/projects/scummvm/files/scummvm/1.2.1/ReleaseNotes/view
+			</sparkle:releaseNotesLink>
+			<pubDate>Sun, 19 Dec 2010 12:20:11 +0000</pubDate>
+			<enclosure url="http://scummvm.org/ScummVM 1.2.1-Test.zip" sparkle:version="1.2.1" length="1472893" type="application/octet-stream" sparkle:dsaSignature="234818feCa1JyW30nbkBwainOzrN6EQuAh" />
+		</item>
+		<item>
+			<title>Version 1.2.0</title>
+			<sparkle:releaseNotesLink>
+				http://sourceforge.net/projects/scummvm/files/scummvm/1.2.0/ReleaseNotes/view
+			</sparkle:releaseNotesLink>
+			<pubDate>Fri, 15 Oct 2010 12:20:11 +0000</pubDate>
+			<enclosure url="http://scummvm.org/ScummVM 1.2.0-Test.zip" sparkle:version="1.2.0" length="1472893" type="application/octet-stream" sparkle:dsaSignature="234818feCa1JyW30nbkBwainOzrN6EQuAh" />
+		</item>
+	</channel>
+</rss>

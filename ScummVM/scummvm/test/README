@@ -1,0 +1,5 @@
+This directory contains some unit tests for ScummVM. They are based on
+CxxTest <http://cxxtest.com/>, which you can find in the cxxtest
+subdirectory, including its manual.
+
+To run the unit tests, simply use "make test".

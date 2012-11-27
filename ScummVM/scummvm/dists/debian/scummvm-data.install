@@ -1,0 +1,5 @@
+icons/scummvm.xpm usr/share/icons
+icons/scummvm.svg usr/share/icons
+dists/scummvm.desktop usr/share/applications
+gui/themes/scummmodern.zip usr/share/scummvm
+dists/pred.dic usr/share/scummvm

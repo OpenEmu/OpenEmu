@@ -1,0 +1,255 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F9A66C691396D4DF00CEE494 /* codeblocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9A66C5F1396D4DF00CEE494 /* codeblocks.cpp */; };
+		F9A66C6A1396D4DF00CEE494 /* create_project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9A66C621396D4DF00CEE494 /* create_project.cpp */; };
+		F9A66C6B1396D4DF00CEE494 /* msbuild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9A66C651396D4DF00CEE494 /* msbuild.cpp */; };
+		F9A66C6C1396D4DF00CEE494 /* msvc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9A66C671396D4DF00CEE494 /* msvc.cpp */; };
+		F9A66C6F1396D4E800CEE494 /* visualstudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9A66C6D1396D4E800CEE494 /* visualstudio.cpp */; };
+		F9A66C871396E2F500CEE494 /* xcode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9A66C861396E2F500CEE494 /* xcode.cpp */; };
+		F9A66C91139704A400CEE494 /* create_project in CopyFiles */ = {isa = PBXBuildFile; fileRef = F9A66C271396D36100CEE494 /* create_project */; };
+		F9BA99141398064E00C276C2 /* create_project in CopyFiles */ = {isa = PBXBuildFile; fileRef = F9A66C271396D36100CEE494 /* create_project */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F9A66C251396D36100CEE494 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = ../../../../../dists/iphone;
+			dstSubfolderSpec = 16;
+			files = (
+				F9A66C91139704A400CEE494 /* create_project in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9BA99131398063A00C276C2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ../../../../../dists/macosx;
+			dstSubfolderSpec = 16;
+			files = (
+				F9BA99141398064E00C276C2 /* create_project in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F9A66C271396D36100CEE494 /* create_project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = create_project; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9A66C491396D47500CEE494 /* installer.vbs */ = {isa = PBXFileReference; lastKnownFileType = text; name = installer.vbs; path = ../scripts/installer.vbs; sourceTree = "<group>"; };
+		F9A66C4A1396D47500CEE494 /* postbuild.cmd */ = {isa = PBXFileReference; lastKnownFileType = text; name = postbuild.cmd; path = ../scripts/postbuild.cmd; sourceTree = "<group>"; };
+		F9A66C4B1396D47500CEE494 /* prebuild.cmd */ = {isa = PBXFileReference; lastKnownFileType = text; name = prebuild.cmd; path = ../scripts/prebuild.cmd; sourceTree = "<group>"; };
+		F9A66C4C1396D47500CEE494 /* revision.vbs */ = {isa = PBXFileReference; lastKnownFileType = text; name = revision.vbs; path = ../scripts/revision.vbs; sourceTree = "<group>"; };
+		F9A66C5F1396D4DF00CEE494 /* codeblocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = codeblocks.cpp; path = ../codeblocks.cpp; sourceTree = "<group>"; };
+		F9A66C601396D4DF00CEE494 /* codeblocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = codeblocks.h; path = ../codeblocks.h; sourceTree = "<group>"; };
+		F9A66C611396D4DF00CEE494 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../config.h; sourceTree = "<group>"; };
+		F9A66C621396D4DF00CEE494 /* create_project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = create_project.cpp; path = ../create_project.cpp; sourceTree = "<group>"; };
+		F9A66C631396D4DF00CEE494 /* create_project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = create_project.h; path = ../create_project.h; sourceTree = "<group>"; };
+		F9A66C641396D4DF00CEE494 /* module.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = module.mk; path = ../module.mk; sourceTree = "<group>"; };
+		F9A66C651396D4DF00CEE494 /* msbuild.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = msbuild.cpp; path = ../msbuild.cpp; sourceTree = "<group>"; };
+		F9A66C661396D4DF00CEE494 /* msbuild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = msbuild.h; path = ../msbuild.h; sourceTree = "<group>"; };
+		F9A66C671396D4DF00CEE494 /* msvc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = msvc.cpp; path = ../msvc.cpp; sourceTree = "<group>"; };
+		F9A66C681396D4DF00CEE494 /* msvc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = msvc.h; path = ../msvc.h; sourceTree = "<group>"; };
+		F9A66C6D1396D4E800CEE494 /* visualstudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = visualstudio.cpp; path = ../visualstudio.cpp; sourceTree = "<group>"; };
+		F9A66C6E1396D4E800CEE494 /* visualstudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = visualstudio.h; path = ../visualstudio.h; sourceTree = "<group>"; };
+		F9A66C841396E2D800CEE494 /* xcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xcode.h; path = ../xcode.h; sourceTree = "<group>"; };
+		F9A66C861396E2F500CEE494 /* xcode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = xcode.cpp; path = ../xcode.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F9A66C241396D36100CEE494 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F9A66C1C1396D36100CEE494 = {
+			isa = PBXGroup;
+			children = (
+				F9A66C861396E2F500CEE494 /* xcode.cpp */,
+				F9A66C841396E2D800CEE494 /* xcode.h */,
+				F9A66C6D1396D4E800CEE494 /* visualstudio.cpp */,
+				F9A66C6E1396D4E800CEE494 /* visualstudio.h */,
+				F9A66C5F1396D4DF00CEE494 /* codeblocks.cpp */,
+				F9A66C601396D4DF00CEE494 /* codeblocks.h */,
+				F9A66C611396D4DF00CEE494 /* config.h */,
+				F9A66C621396D4DF00CEE494 /* create_project.cpp */,
+				F9A66C631396D4DF00CEE494 /* create_project.h */,
+				F9A66C641396D4DF00CEE494 /* module.mk */,
+				F9A66C651396D4DF00CEE494 /* msbuild.cpp */,
+				F9A66C661396D4DF00CEE494 /* msbuild.h */,
+				F9A66C671396D4DF00CEE494 /* msvc.cpp */,
+				F9A66C681396D4DF00CEE494 /* msvc.h */,
+				F9A66C481396D45D00CEE494 /* Scripts */,
+				F9A66C281396D36100CEE494 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F9A66C281396D36100CEE494 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F9A66C271396D36100CEE494 /* create_project */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F9A66C481396D45D00CEE494 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				F9A66C491396D47500CEE494 /* installer.vbs */,
+				F9A66C4A1396D47500CEE494 /* postbuild.cmd */,
+				F9A66C4B1396D47500CEE494 /* prebuild.cmd */,
+				F9A66C4C1396D47500CEE494 /* revision.vbs */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F9A66C261396D36100CEE494 /* create_project */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F9A66C301396D36100CEE494 /* Build configuration list for PBXNativeTarget "create_project" */;
+			buildPhases = (
+				F9A66C231396D36100CEE494 /* Sources */,
+				F9A66C241396D36100CEE494 /* Frameworks */,
+				F9A66C251396D36100CEE494 /* CopyFiles */,
+				F9BA99131398063A00C276C2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = create_project;
+			productName = create_project;
+			productReference = F9A66C271396D36100CEE494 /* create_project */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F9A66C1E1396D36100CEE494 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = F9A66C211396D36100CEE494 /* Build configuration list for PBXProject "create_project" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F9A66C1C1396D36100CEE494;
+			productRefGroup = F9A66C281396D36100CEE494 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F9A66C261396D36100CEE494 /* create_project */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F9A66C231396D36100CEE494 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9A66C691396D4DF00CEE494 /* codeblocks.cpp in Sources */,
+				F9A66C6A1396D4DF00CEE494 /* create_project.cpp in Sources */,
+				F9A66C6B1396D4DF00CEE494 /* msbuild.cpp in Sources */,
+				F9A66C6C1396D4DF00CEE494 /* msvc.cpp in Sources */,
+				F9A66C6F1396D4E800CEE494 /* visualstudio.cpp in Sources */,
+				F9A66C871396E2F500CEE494 /* xcode.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F9A66C2E1396D36100CEE494 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F9A66C2F1396D36100CEE494 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F9A66C311396D36100CEE494 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F9A66C321396D36100CEE494 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F9A66C211396D36100CEE494 /* Build configuration list for PBXProject "create_project" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9A66C2E1396D36100CEE494 /* Debug */,
+				F9A66C2F1396D36100CEE494 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F9A66C301396D36100CEE494 /* Build configuration list for PBXNativeTarget "create_project" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9A66C311396D36100CEE494 /* Debug */,
+				F9A66C321396D36100CEE494 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F9A66C1E1396D36100CEE494 /* Project object */;
+}

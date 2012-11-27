@@ -1,0 +1,5 @@
+This package is a remake of Amiga built-in Topaz font for use with Lithuanian keyboards.
+You will find detailed information in topazLT.readme.
+
+The Parallaction engine in ScummVM uses this font's bitmap, namely file topazlt/8.
+Data has been extracted and placed in the array named _amigaTopazFont which can be found in engines/parallaction/staticres.cpp.

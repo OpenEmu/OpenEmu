@@ -1,0 +1,11 @@
+#!/bin/sh
+# wrapper for proper WM_CLASS name in SDL apps (needed for icon in taskbar)
+#BASEDIR=`dirname $0`
+BASENAME=`basename $0`
+export SDL_VIDEO_X11_WMCLASS=${BASENAME}
+export SCUMMVM_MAEMO_DEVICE=$(awk '/^product/ { print $2;}' /proc/component_version)
+# no exec, we are really not a d-bus service
+# we need to run scummvm with diferent pid so hildon-desktop will kill the wrapper, not scummvm
+[ -x ${0}.bin ] && ${0}.bin "$@"
+# optified binary
+[ -x /opt/scummvm/bin/scummvm ] && /opt/scummvm/bin/scummvm "$@"

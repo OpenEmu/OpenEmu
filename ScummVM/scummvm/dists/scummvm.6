@@ -1,0 +1,273 @@
+.\"	$Id$
+.Dd December 15, 2004
+.Dt SCUMMVM 6
+.Os
+.Sh NAME
+.Nm scummvm
+.Nd graphic adventure game interpreter
+.Sh SYNOPSIS
+.Nm scummvm
+.Op Ar options
+.Op Ar game
+.Sh DESCRIPTION
+.Nm
+is an interpreter that will play graphic adventure games
+based on a variety of game engines.
+.Bl -tag -width Ds
+.It Fl F
+Force windowed mode.
+.It Fl b Ar param
+Pass number to the boot script (boot param).
+.It Fl c Ar config
+Use
+.Ar config
+as alternate configuration file.
+.It Fl d Ar level
+Set debug verbosity to
+.Ar level .
+.It Fl e Ar driver
+Music
+.Ar driver
+to use:
+.Bl -tag -width Ds
+.It Em adlib
+AdLib emulation (default)
+.It Em alsa
+Output using ALSA sequencer device
+.It Em amidi
+Use the MorphOS MIDI system, for MorphOS users
+.It Em core
+CoreAudio sound, for Mac OS X users
+.It Em mt32
+MT-32 emulation
+.It Em null
+Null output.
+Don't play any music.
+.It Em pcjr
+PCjr emulation
+.It Em pcspk
+PC Speaker emulation
+.It Em seq
+Use /dev/sequencer for MIDI output
+.It Em towns
+FM-TOWNS YM2612 emulation
+.It Em windows
+Windows built in MIDI sequencer for Windows users
+.El
+.It Fl f
+Force full-screen mode.
+.It Fl g Ar scaler
+Select graphics
+.Ar scaler :
+.Bl -tag -width Ds
+.It Em 2x
+No filtering, factor 2x (default for non 640x480 games).
+.It Em 3x
+No filtering, factor 3x.
+.It Em 2xsai
+2xsai filter, factor 2x.
+.It Em advmame2x
+Doesn't rely on blurring like 2xSAI, fast.
+Factor 2x.
+.It Em advmame3x
+Doesn't rely on blurring like 2xSAI, fast.
+Factor 3x.
+.It Em dotmatrix
+Dot matrix effect.
+Factor 2x.
+.It Em hq2x
+Very nice high quality filter but slow.
+Factor 2x.
+.It Em hq3x
+Very nice high quality filter but slow.
+Factor 3x.
+.It Em normal
+No filtering, no scaling.
+Fastest.
+.It Em super2xsai
+Enhanced 2xsai filtering, factor 2x.
+.It Em supereagle
+Less blurry than 2xsai, but slower.
+Factor 2x.
+.It Em tv2x
+Interlace filter, tries to emulate a TV.
+Factor 2x.
+.El
+.It Fl h
+Display a brief help text and exit.
+.It Fl m Ar vol
+Set the music volume to
+.Ar vol
+range 0-255 (default: 192).
+.It Fl n
+Enable subtitles (use with games that have voice).
+.It Fl p Ar path
+Path to where the game is installed.
+.It Fl q Ar language
+Select game language:
+.Bl -tag -width Ds
+.It Em cz
+Czech
+.It Em en
+English (USA) (default)
+.It Em de
+German
+.It Em es
+Spanish
+.It Em fr
+French
+.It Em gb
+English (Great Britain) (default for BASS)
+.It Em hb
+Hebrew
+.It Em it
+Italian
+.It Em jp
+Japanese
+.It Em kr
+Korean
+.It Em pt
+Portuguese
+.It Em ru
+Russian
+.It Em se
+Swedish
+.It Em zh
+Chinese
+.El
+.It Fl r Ar vol
+Set the speech volume to
+.Ar vol
+range 0-255 (default: 192).
+.It Fl s Ar vol
+Set the sfx volume to
+.Ar vol
+range 0-255 (default: 192).
+.It Fl t
+Display list of configured targets and exit.
+.It Fl u
+Enable script dumping if a directory called
+.Ql dumps
+exists in the current directory.
+.It Fl v
+Display ScummVM version information and exit.
+.It Fl x Ar slot
+Save game
+.Ar slot
+number to load (default: autosave).
+.It Fl z
+Display list of supported games and exit.
+.\" FIXME better way to do long options?
+.It Fl -alt-intro
+Use alternative intro for CD versions of Beneath a Steel Sky and
+Flight of the Amazon Queen.
+.It Fl -aspect-ratio
+Enable aspect ratio correction.
+.It Fl -cdrom= Ns Ar num
+CD drive to play CD audio from (default: 0 = first drive).
+.It Fl -copy-protection
+Enable copy protection in SCUMM games, when ScummVM disables it
+by default.
+.It Fl -demo-mode
+Start demo mode of Maniac Mansion.
+.It Fl -enable-gs
+Enable Roland GS mode for MIDI playback.
+.It Fl -extrapath= Ns Ar path
+Look for additional game data in
+.Ar path .
+.It Fl -joystick= Ns Ar num
+Enable input with joystick (default: 0 = first joystick).
+.It Fl -multi-midi
+Enable combination AdLib and native MIDI.
+.It Fl -native-mt32
+True Roland MT-32 MIDI (disable GM emulation).
+.It Fl --render-mode= Ns Ar mode
+Enable additional render
+.Ar mode
+(cga, ega, hercGreen, hercAmber, amiga).
+.It Fl -platform= Ns Ar plat
+Specify original platform of game.
+.It Fl -output-rate= Ns Ar rate
+Set output sample rate in Hz to
+.Ar rate
+(e.g. 22050).
+.It Fl -savepath= Ns Ar path
+Look for savegames in
+.Ar path .
+.It Fl -soundfont= Ns Ar fILE
+Select the SoundFont for MIDI playback (only supported by some MIDI drivers).
+.It Fl -talkspeed= Ns Ar speed
+Set talk speed to
+.Ar speed
+for SCUMM games (default: 60).
+.It Fl -tempo= Ns Ar tempo
+Set music tempo to
+.Ar tempo
+(in percent, 50-200) for SCUMM games (default: 100).
+.El
+.Sh INGAME KEYS
+.Bl -tag -width Ds
+.It Cmd-q
+Quit (Mac OS X)
+.It Ctrl-q
+Quit (Most platforms)
+.It Ctrl-f
+Toggle fast mode
+.It Ctrl-m
+Toggle mouse capture
+.It Ctrl-Alt 1-8
+Switch between graphics filters
+.It Ctrl-Alt +
+Increase scale factor
+.It Ctrl-Alt -
+Decrease scale factor
+.It Ctrl-Alt a
+Toggle aspect-ratio correction
+.It Alt-Enter
+Toggle full screen/windowed
+.El
+.Sh ENVIRONMENT
+.Bl -tag -width SCUMMVM
+.It Ev SCUMMVM_MIDI
+The sequencer device to use with the
+.Ql seq
+MIDI driver.
+.It Ev SCUMMVM_MIDIPORT
+The number of the sequencer to use when using the
+.Ql seq
+MIDI driver.
+.It Ev SCUMMVM_PORT
+The ALSA port to open for output when using the
+.Ql alsa
+MIDI driver.
+.El
+.Sh FILES
+.Bl -tag -width Ds
+.It Pa $HOME/.scummvmrc
+Configuration file on UNIX.
+.It Pa "$HOME/Library/Preferences/ScummVM Preferences"
+Configuration file on Mac OS X.
+.El
+.Sh EXAMPLES
+Running the builtin game launcher:
+.Pp
+.Dl $ scummvm
+.Pp
+Running Day of the Tentacle specifying the path:
+.Pp
+.Dl $ scummvm -p /usr/local/share/games/tentacle tentacle
+.Pp
+Running The Dig with advmame2x filter with subtitles:
+.Pp
+.Dl $ scummvm -g advmame2x -n dig
+.Pp
+Running the Italian version of Maniac Mansion fullscreen:
+.Pp
+.Dl $ scummvm -q it -f maniac
+.Sh SEE ALSO
+More information can be found in the README and on the website
+.Pa http://www.scummvm.org .
+.Sh AUTHORS
+This manual page written by Jonathan Gray <khalek at scummvm.org>.
+ScummVM was written by the ScummVM team.
+See AUTHORS file for more information.

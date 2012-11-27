@@ -1,0 +1,245 @@
+scummvm (1.6.0~git) unstable; urgency=low
+
+  * Development snapshot
+
+ -- Tarek Soliman <tsoliman@scummvm.org>  Tue, 10 Jul 2012 23:02:00 -0500
+
+scummvm (1.5.0) unstable; urgency=low
+
+  * 1.5.0 release
+
+ -- Tarek Soliman <tsoliman@scummvm.org>  Fri, 20 Jul 2012 14:48:44 -0500
+
+scummvm (1.4.1) unstable; urgency=low
+
+  * 1.4.1 release
+
+ -- Tarek Soliman <tsoliman@scummvm.org>  Wed, 11 Jan 2012 17:17:26 -0600
+
+scummvm (1.4.0) unstable; urgency=low
+
+  * 1.4.0 release
+
+ -- Tarek Soliman <tsoliman@scummvm.org>  Thu, 03 Nov 2011 13:54:04 -0500
+
+scummvm (1.2.1~pre) unstable; urgency=low
+
+  * 1.2.1 testing release
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Wed,  8 Dec 2010 21:43:29 +0100
+scummvm (1.2.0~pre) unstable; urgency=low
+
+  * 1.2.0 testing release
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Fri,  8 Oct 2010 21:38:12 +0200
+scummvm (1.1.0~pre) unstable; urgency=low
+
+  * 1.1.0 testing release
+  * cleanup for N900 (new firmwares need less hacks)
+  * unified binary for all devices now have datafiles included (~2MB)
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Wed, 24 Mar 2010 01:48:05 +0100
+scummvm (1.0.0-4) unstable; urgency=low
+
+  * datadir optified (/usr/share/scummvm -> /opt/scummvm/share)
+  * added engine files to datadir
+  * Application Manager icon enlarged to 48x48
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Thu, 17 Dec 2009 13:54:51 +0100
+scummvm (1.0.0-3) unstable; urgency=low
+
+  * disable taskmanager topleft button in fullscreen mode (N900)
+  * map shift+click to right button click
+  * mam ctrl+click to mouse move (no click)
+  * set fullscreen window as _HILDON_NON_COMPOSITED_WINDOW (N900)
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Tue, 15 Dec 2009 23:12:51 +0100
+scummvm (1.0.0-2) unstable; urgency=low
+
+  * grab N900 volume keys
+  * map Shift+Backspace to Escape key, shift+enter to Menu key (N900)
+  * optified = main binary moved to /opt/scummvm/bin/scummvm
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Sat, 12 Dec 2009 23:39:04 +0100
+scummvm (1.0.0-1) unstable; urgency=low
+
+  * -mcpu=arm1136j-s -mfpu=vfp -mfloat-abi=softfp breaks Gobliins, reverted
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Wed,  2 Dec 2009 10:25:11 +0100
+scummvm (1.0.0) unstable; urgency=low
+
+  * upstream 1.0 release
+  * Initial support for N900
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Fri,  6 Nov 2009 22:02:25 +0100
+scummvm (1.0.0~rc1-3) unstable; urgency=low
+
+  * updated to 1.0 branch revision 43999 to fix bugs (Cruise pause, ..)
+  * Cruise for Corpse mapping added to zoom+ for N800/770
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Mon,  7 Sep 2009 09:03:13 +0200
+scummvm (1.0.0~rc1-2) unstable; urgency=low
+
+  * Cruise for Corpse key bindings added
+   - menu key for menu, zoom-=right click, zoom+=context menu
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Wed,  2 Sep 2009 23:03:59 +0200
+scummvm (1.0.0~rc1-1) unstable; urgency=low
+
+  * Discworld key bindings added - menu key for menu, zoom-=right click, zoom+=Enter/y key
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Wed,  2 Sep 2009 09:53:08 +0200
+scummvm (1.0.0~rc1) unstable; urgency=low
+
+  * upstream 1.0.0rc1 release
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Thu, 20 Aug 2009 23:33:59 +0200
+scummvm (0.13.1) unstable; urgency=low
+
+  * upstream 0.13.1 release
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Sat, 18 Apr 2009 22:40:42 +0200
+scummvm (0.13.0-2) unstable; urgency=low
+
+  * dbus_service.patch is incomplete - needs also install line in debian/rules
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Fri, 27 Feb 2009 20:37:29 +0100
+scummvm (0.13.0-1) unstable; urgency=low
+
+  * fix crash in task switcher caption code when .scummvmrc had fullscreen value set
+  * enabled also dbus_service.patch for home key switching back (not needed in OS < 2008)
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Fri, 27 Feb 2009 09:29:01 +0100
+scummvm (0.13.0) unstable; urgency=low
+
+  * upstream 0.13.0 release
+  * Feeble Files mapping
+  * task switcher item name patch from mikkov
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Wed, 18 Feb 2009 21:52:33 +0100
+scummvm (0.11.99-4) unstable; urgency=low
+
+  * Maemo extras-devel test version
+    - maemo-taskswitcher.patch: title shown right from the beginning
+      and title not fixed to "ScummVM" only
+    - dbus_service.patch: modify scummvm.desktop, scummvm.wrapper and
+      scummvm.service to make switching application automatically back
+      via second home key long press to work
+
+ -- Mikko Vartiainen <mvartiainen@gmail.com>  Thu, 03 Jan 2009 01:59:52 +0200
+scummvm (0.11.99-3) unstable; urgency=low
+
+  * Maemo extras-devel test version
+    - maemo-taskswitcher.patch
+
+ -- Mikko Vartiainen <mvartiainen@gmail.com>  Thu, 01 Jan 2009 13:13:13 +0200
+scummvm (0.11.99-2) unstable; urgency=low
+
+  * Maemo extras-devel test version
+    - keeping version below 0.12.0
+    - not in user/ category
+
+ -- Mikko Vartiainen <mvartiainen@gmail.com>  Thu, 01 Jan 2009 02:04:14 +0200
+scummvm (0.12.0) unstable; urgency=low
+
+  * upstream 0.12.0 release
+  * update description
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Mon, 25 Aug 2008 21:47:41 +0200
+scummvm (0.11.99) unstable; urgency=low
+
+  * upstream 0.12.0 testing pre-release
+  * big icons added for OS2008 menu
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Fri, 22 Aug 2008 08:20:48 +0200
+scummvm (0.11.1) unstable; urgency=low
+
+  * upstream 0.11.1 release
+  * mapping for N810: zoom+ = menu for all games (except FW)
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Sat, 23 Feb 2008 20:41:37 +0100
+scummvm (0.11.0-2) unstable; urgency=low
+
+  * mapping for N800/770: zoom+ = y, zoom- = 1 (all games except FW)
+    this fixes save dialog in BS1 and also allows to exit some games via 'y'
+  * mapping for N810: zoom- = rightclick for all games
+  * updated to revision 30849 from 0.11 branch (some bugfixes for 0.11.1)
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Mon, 11 Feb 2008 22:22:48 +0100
+scummvm (0.11.0-1) unstable; urgency=low
+
+  * theme files added back
+  * SWORD2,SAGA - added zoom keys =1/2 for saved games
+  * different mapping for N810 rightclick=zoom-,menu=zoom+ (currently only in LURE)
+  * added NEWS README COPYRIGHT do doc dir as per scummvm project guidelines
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Sun, 13 Jan 2008 22:58:41 +0100
+scummvm (0.11.0-0) unstable; urgency=low
+
+  * upstream 0.11 release
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Sat, 12 Jan 2008 22:26:34 +0100
+scummvm (0.10.0-5) unstable; urgency=low
+
+  * fixed for chinook, menu selection postinst script added
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Thu, 25 Oct 2007 09:56:32 +0200
+scummvm (0.10.0-4) unstable; urgency=low
+
+  * AGI - added pred.dic to DATA_PATH (=/usr/share/scummvm) to enable
+    predictive input
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Tue, 28 Aug 2007 09:58:29 +0200
+scummvm (0.10.0-3) unstable; urgency=low
+
+  * SCUMM - added mapping also for key up events (may fix right button in FT?)
+  * SWORD2 - added right button press mapping (not tested)
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Mon, 20 Aug 2007 22:39:07 +0200
+scummvm (0.10.0-2) unstable; urgency=low
+
+  * Future Wars - add mapping for left/up/down/right,zoom +/-
+  * fix SDL backend to set mouse position on button down event
+    as we may not have mousemove events with touchscreen
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Fri, 13 Jul 2007 09:56:37 +0200
+scummvm (0.10.0-1) unstable; urgency=low
+
+  * mapped F10 in Future Wars to menu key
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Wed, 11 Jul 2007 22:20:00 +0200
+scummvm (0.10.0) unstable; urgency=low
+
+  * upstream 0.10 release, enabled FLAC too
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Wed,  4 Jul 2007 12:48:48 +0200
+scummvm (0.9.1-1) unstable; urgency=low
+
+  * 0.9.1 mapped right mouse button in sword1
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Mon, 18 Jun 2007 21:15:31 +0200
+scummvm (0.9.1) unstable; urgency=low
+
+  * 0.9.1 upstream release
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Wed,  1 Nov 2006 20:40:51 +0100
+scummvm (0.9.0-3) unstable; urgency=low
+
+  * merged fixes in 0.9.0 upstream branch
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Mon,  9 Oct 2006 15:40:59 +0200
+scummvm (0.9.0-2) unstable; urgency=low
+
+  * merged fixes in 0.9.0 upstream branch
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Sat, 12 Aug 2006 20:10:47 +0200
+scummvm (0.9.0-1) unstable; urgency=low
+
+  * merged changes in 0.9.0 upstream release
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Sun, 23 Jul 2006 22:29:51 +0200
+scummvm (0.9.0) unstable; urgency=low
+
+  * 0.9.0 upstream release
+
+ -- Frantisek Dufka <dufkaf@seznam.cz>  Tue, 27 Jun 2006 20:30:54 +0200

@@ -1,0 +1,11 @@
+Hardware ID   : SEGA SEGAKATANA
+Maker ID      : SEGA ENTERPRISES
+Device Info   : 0000 CD-ROM1/1
+Area Symbols  : JUE
+Peripherals   : E000F10
+Product No    : T0000
+Version       : @VERSION@
+Release Date  : @DATE@
+Boot Filename : SCUMMVM.BIN
+SW Maker Name : The ScummVM team
+Game Title    : ScummVM

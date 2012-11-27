@@ -1,0 +1,58 @@
+#include <AppInfo.rh>
+#include <Qikon.hrh>
+
+// This file localise the applications icons and caption
+RESOURCE LOCALISABLE_APP_INFO
+	{
+	caption_and_icon =
+		{
+		CAPTION_AND_ICON_INFO
+			{
+			// The caption text is defined in the rls file
+			caption = "ScummVM";
+			// Icons are used to represent applications in the
+			// application launcher and application title bar.
+			// The number_of_icons value identifies how many icons
+			// that exist in the icon_file.
+			number_of_icons = 3;
+			// Using the application icons.
+			icon_file = "\\Resource\\Apps\\ScummVM.mbm";
+			}
+		};
+
+	view_list =
+		{
+		VIEW_DATA
+		{
+		uid = 0x10000001;
+		screen_mode = 0;
+		caption_and_icon = CAPTION_AND_ICON_INFO
+		{
+		};
+		},
+		VIEW_DATA
+		{
+		uid = 0x10000001;
+		screen_mode = EQikScreenModeLandscape;
+		caption_and_icon = CAPTION_AND_ICON_INFO
+		{
+		};
+		},
+		VIEW_DATA
+		{
+		uid = 0x10000001;
+		screen_mode = EQikScreenModeSmallPortrait;
+		caption_and_icon = CAPTION_AND_ICON_INFO
+		{
+		};
+		},
+		VIEW_DATA
+		{
+		uid = 0x10000001;
+		screen_mode = EQikScreenModeSmallPortrait;
+		caption_and_icon = CAPTION_AND_ICON_INFO
+		{
+		};
+		}
+	   };
+	}

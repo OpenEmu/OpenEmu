@@ -1,0 +1,84 @@
+#include "winresrc.h"
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#define FILE 256
+#define IDI_ICON  1001
+#define IDI_COUNT 1002
+#define ID_GDF_XML __GDF_XML
+
+IDI_ICON               ICON    DISCARDABLE     "icons/scummvm.ico"
+IDI_COUNT              ICON    DISCARDABLE     "icons/count.ico"
+
+ID_GDF_XML             DATA    "dists/win32/scummvm.gdf.xml"
+
+scummclassic.zip       FILE    "gui/themes/scummclassic.zip"
+scummmodern.zip        FILE    "gui/themes/scummmodern.zip"
+#ifdef USE_TRANSLATION
+translations.dat       FILE    "gui/themes/translations.dat"
+#endif
+
+#if ENABLE_DRASCULA  == STATIC_PLUGIN
+drascula.dat           FILE    "dists/engine-data/drascula.dat"
+#endif
+#if ENABLE_HUGO      == STATIC_PLUGIN
+hugo.dat               FILE    "dists/engine-data/hugo.dat"
+#endif
+#if ENABLE_KYRA      == STATIC_PLUGIN
+kyra.dat               FILE    "dists/engine-data/kyra.dat"
+#endif
+#if ENABLE_LURE      == STATIC_PLUGIN
+lure.dat               FILE    "dists/engine-data/lure.dat"
+#endif
+#if ENABLE_QUEEN     == STATIC_PLUGIN
+queen.tbl              FILE    "dists/engine-data/queen.tbl"
+#endif
+#if ENABLE_SKY       == STATIC_PLUGIN
+sky.cpt                FILE    "dists/engine-data/sky.cpt"
+#endif
+#if ENABLE_TEENAGENT == STATIC_PLUGIN
+teenagent.dat          FILE    "dists/engine-data/teenagent.dat"
+#endif
+#if ENABLE_TOON      == STATIC_PLUGIN
+toon.dat               FILE    "dists/engine-data/toon.dat"
+#endif
+#if ENABLE_AGI       == STATIC_PLUGIN
+pred.dic               FILE    "dists/pred.dic"
+#endif
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION     @VER_MAJOR@,@VER_MINOR@,@VER_PATCH@,0
+ PRODUCTVERSION  @VER_MAJOR@,@VER_MINOR@,@VER_PATCH@,0
+ FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+#ifdef _DEBUG
+ FILEFLAGS       VS_FF_DEBUG
+#else
+ FILEFLAGS       0
+#endif
+ FILEOS          VOS_NT_WINDOWS32
+ FILETYPE        VFT_APP
+ FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0" // US English, Unicode
+        BEGIN
+            VALUE "Comments", "Look! A three headed monkey (TM)! .. Nice use of the TM!\0"
+            VALUE "FileDescription", "http://www.scummvm.org/\0"
+            VALUE "FileVersion", "@VERSION@\0"
+            VALUE "InternalName", "scummvm\0"
+            VALUE "LegalCopyright", "Copyright © 2001-2012 The ScummVM Team\0"
+            VALUE "LegalTrademarks", "'SCUMM', and all SCUMM games are a TM of LucasArts. Simon The Sorcerer is a TM of AdventureSoft. Beneath a Steel Sky and Broken Sword are a TM of Revolution. Flight of the Amazon Queen is a TM of John Passfield and Steve Stamatiadis. \0"
+            VALUE "OriginalFilename", "scummvm.exe\0"
+            VALUE "ProductName", "ScummVM\0"
+            VALUE "ProductVersion", "@VERSION@\0"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200 // US English, Unicode
+    END
+END

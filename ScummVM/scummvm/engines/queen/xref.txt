@@ -1,0 +1,496 @@
+$Id$
+
+Cross-reference for functions and variables for the original source code and
+the ScummVM implementation.
+
+
+BANKS
+=====
+erase()						BankManager::close
+freeallframes()				BankManager::eraseFrames(true)
+freeframes()				BankManager::eraseFrames(false)
+loadbank()					BankManager::load
+overpack()					BankManager::overpack
+unpack()					BankManager::unpack
+
+
+COMMAND
+=======
+ALTER_DEFAULT()				*not needed* (use State::alterDefaultVerb)
+CLEAR_COMMAND()				Command::clear
+EXECUTE_ACTION()			Command::executeCurrentAction
+FIND_DEFAULT()				*not needed* (use State::findDefaultVerb)
+LOOK()						Command::lookAtSelectedObject
+LOOK_ICON(),LOOK_ITEM()		Command::lookForCurrentIcon
+LOOK_ROOM()					Command::lookForCurrentObject
+OPEN_CLOSE_OTHER()			Command::openOrCloseAssociatedObject
+P1_SET_CONDITIONS()			Command::setConditions
+P2_SET_AREAS()				Command::setAreas
+P3_SET_OBJECTS()			Command::setObjects
+P4_SET_ITEMS()				Command::setItems
+SELECT()					Command::grabCurrentSelection
+SELECT_ITEM()				Command::grabSelectedItem
+SELECT_NOUN()				Command::grabSelectedNoun
+SELECT_VERB()				Command::grabSelectedVerb
+WALK()						Command::makeJoeWalkTo
+-
+ACTION						Command::_state.action
+ACTION2						Command::_state.selAction
+CLEVEL						Command::_state.commandLevel
+COM_A						Command::_cmdArea
+COM_A_MAX					Command::_numCmdArea
+COM_O						Command::_cmdObject
+COM_O_MAX					Command::_numCmdObject
+COM_G						Command::_cmdGameState
+COM_G_MAX					Command::_numCmdGameState
+COM_I						Command::_cmdInventory
+COM_I_MAX					Command::_numCmdInventory
+COM_LIST					Command::_cmdList
+COM_LIST_MAX				Command::_numCmdList
+COMMANDstr					Command::_cmdText
+DEFCOMM						Command::_state.defaultVerb
+MKEY						Command::_mouseKey
+OLDVERB,VERB				Command::_state.*verb
+OLDNOUN,NOUN				Command::_state.*noun
+NOUN2						Command::_state.selNoun
+PARSE						Command::_parse
+SUBJ1,SUBJ2					Command::_state.subject*
+
+
+CREDIT SCRIPTING SYSTEM
+=======================
+Cinit()						Credits::Credits()
+Ctext()						*not needed* (included in Credits::update)
+Cupdate()					Credits::update
+-
+Ccol						Credits::_color
+Ccount						Credits::_count
+Cfp
+Cflag						Credits::_running
+Cfontsize					Credits::_fontSize
+Cjustify					Credits::_justify
+Cpausecount					Credits::_pause
+Czone						Credits::_zone
+
+
+CUTAWAY
+=======
+action_special_move()		Cutaway::actionSpecialMove
+CUTAWAY()					Cutaway::run
+MAKE_COMPLEX_ANIM()			Cutaway::makeComplexAnimation
+SCENE_START()				Logic::sceneStart
+SCENE_END()					Logic::sceneStop
+-
+CUTON						Input::_cutawayRunning
+CUTQUIT						Input::_cutawayQuit
+FINAL_ROOM					Cutaway::_finalRoom
+IROOM						Cutaway::_initialRoom
+OBJ_CUT
+OBJ_ANIM
+OLDBANK
+PERSON_DATA
+SCENE						Logic::_scene
+TROOM						Cutaway::_temporaryRoom
+
+
+DEBUG
+=====
+cd_sample_check()
+debuginfo()					Debugger::Cmd_Info
+select_new_room()			Debugger::Cmd_Room
+-
+AREAVAR						(boolean, if true display objects/areas boxes)
+
+
+GAME SETTINGS
+=============
+game_load()					Logic::gameLoad
+game_save()					Logic::gameSave
+-
+config_request
+MUSICTOGGLE					Sound::_musicToggle / ConfMan.("music_mute")
+SFXTOGGLE					Sound::_sfxToggle / ConfMan.("sfx_mute")
+TALKSPD						QueenEngine::_talkSpeed / ConfMan.("talkspeed")
+TEXTTOGGLE					QueenEngine::_subtitles / ConfMan.("subtitles")
+VersionStr					GameVersion::versionString
+VOICETOGGLE					Sound::_speechToggle / ConfMan.("speech_mute")
+VOLUME						? / ConfMan.("master_volume")
+
+
+GRAPHICS
+========
+bob()						Graphics::drawBob
+CHECK_PARALLAX()			Graphics::handleParallax
+clearallbobs()				Graphics::clearBobs
+clearbob()					BobSlot::clear
+DISP_OBJECTS()				Graphics::setupRoomObjects
+drawbobs()					Graphics::drawBobs
+invbob()					Graphics::drawInventoryItem
+loadbackdrop()				*not needed* (included in Display::setupNewRoom)
+loadpanel()					Display::setupPanel
+MAKE_SPEAK_BOB()			Graphics::setBobText
+makeanim()					BobSlot::animNormal
+movebob()					BobSlot::move
+pastebob()					Graphics::pasteBob
+REDISP_OBJECT()				Graphics::refreshObject
+requestor()
+shrinkbob()					Graphics::shrinkFrame
+sortbobs()					Graphics::sortBobs
+stringanim()				BobSlot::animString
+-
+bobs						Graphics::_bobs
+cambob						Graphics::_cameraBob
+sortedbobs					Graphics::_sortedBobs
+
+
+INPUT
+=====
+check_keys()				Input::checkKeys()
+get_key()					*not needed*
+-
+drawmouseflag				*not needed* (equivalent to _display->showMouseCursor(bool))
+key_commands				Input::_currentCommandKeys
+key_language				Input::_commandKeys
+KEYVERB						Input::_keyVerb
+MouseButton					Input::_mouseButton
+mouseflag					*not needed*
+no_check_keys				Input::_noCheckKeys
+
+
+INVENTORY
+=========
+DEL_ITEM_NUM()				Logic::inventoryDeleteItem
+INS_ITEM_NUM()				Logic::inventoryInsertItem
+INVDWN()					Logic::inventoryScroll
+INVENTORY()					Logic::inventoryRefresh
+INVUP()						Logic::inventoryScroll
+SETUP_ITEMS()				Logic::inventorySetup
+-
+INV1,INV2,INV3,INV4			Logic::_inventoryItem
+
+
+JOE
+===
+FACE_JOE()					Logic::joeFace
+GRAB_DIR(),GRAB_JOE()		Logic::joeGrab
+SETUP_HERO()				Logic::setupJoeInRoom
+SETUP_JOE()					Logic::setupJoe
+USE_UNDERWEAR()				Logic::joeUseUnderwear
+USE_CLOTHES()				Logic::joeUseClothes
+USE_DRESS()					Logic::joeUseDress
+-
+CUTJOEF						Logic::_joe.cutFacing
+JOE_RESPstr					Logic::_joeResponse
+JOEF,JX,JY,JDIR				Logic::_joe.*
+JOEWALK						Logic::_joe.walk
+
+
+JOURNAL
+=======
+clearlefttext()				Journal::clearPanelTexts
+drawnames()					Journal::drawSaveDescriptions
+findsaves()					Journal::findSaveDescriptions
+menutext()					Journal::drawPanelText
+predrawbobs()				Journal::drawConfigPanel / Journal::drawNormalPanel
+prompt_do()					*not needed*
+USE_JOURNAL()				Logic::useJournal
+waitmousezone()				*not needed*
+-
+choice						Journal::_currentSaveSlot
+decbase						Journal::_currentSavePage
+in_journal					*not needed* (the hack in puttext() seems useless and CHECK_PARALLAX() is never called)
+save_descriptions			Journal::_saveDescriptions
+walkgameload				*not needed ?*
+
+
+LOGIC
+=====
+CHECK_PLAYER()				QueenEngine::update
+CUTAWAY_SPECIAL()			Logic::removeHotelItemsFromInventory
+DISP_ROOM()					Logic::displayRoom
+FIND_BOB()					Logic::findBob
+FIND_FRAME()				Logic::findFrame
+FIND_GRAPHIC()				Logic::graphicData
+P3_COPY_FROM()				Logic::objectCopy
+R_MAP()						Logic::handlePinnacleRoom
+restart_game()
+SETUP_BOBS()				Graphics::unpackControlBank / Graphics::setupMouseCursor
+SETUP_FURNITURE()			Graphics::setupRoomFurniture
+SETUP_ROOM()				Logic::changeRoom
+SETUP_SCREENS()				*not needed* (only calls Display::setupPanel)
+SETUP_VARS()				*not needed* (equivalent to Command::clear(), SCENE=0, clear(gamestate))
+update()					QueenEngine::update
+-
+A_ANIMstr					Logic::_aAnim
+A_ANIM_MAX					Logic::_numAAnim
+A_NAMEstr					Logic::_aName
+A_NAME_MAX					Logic::_numAName
+A_FILEstr					Logic::_aFile
+A_FILE_MAX					Logic::_numAFile
+ACTOR_DATA_MAX				Logic::_numActors
+bamflag						BamScene::_flag
+bamindex					BamScene::_index
+DESCTOT						Logic::_numDescriptions
+ENTRY_OBJ					Logic::_entryObj
+FMAX						Logic::_numFurnitureStatic
+FMAXA						Logic::_numFurnitureAnimated
+FMAXLEN						Logic::_numFurnitureAnimatedLen
+FRAMES						Logic::_numFrames
+FURN_DATA_MAX				Logic::_numFurniture
+GAMESTATE					Logic::_gameState
+GRAPHIC_ANIM_MAX			Logic::_numGraphicAnim
+GRAPHIC_DATA				Logic::_graphicData
+GRAPHIC_MAX					Logic::_numGraphics
+ITEMTOT						Logic::_numItems
+ITEM_DATA					Logic::_itemData
+NAMETOT						Logic::_numNames
+OBJ_DESC_DATA				Logic::_objectDescription
+OBJ_DESC_MAX				Logic::_numObjDesc
+OBJECT_DATA					Logic::_objectData
+OBJECT_DESCRstr				Logic::_objDescription
+OBJECT_NAMEstr				Logic::_objName
+OBJTOT						Logic::_numObjects
+OLDROOM,ROOM,NEW_ROOM		Logic::_*oom
+ROOMTOT						Logic::_numRooms
+ROOM_DATA					Logic::_roomData
+ROOM_NAMEstr				Logic::_roomName
+SFACTOR						Logic::_joe.scale
+VERB_NAMEstr				Logic::_verbName
+WALK_OFF_DATA				Logic::_walkOffData
+WALK_OFF_MAX				Logic::_numWalkOffs
+
+
+PERSONS
+=======
+ALLOCATE_PERSON()			Logic::allocatePersonFrames
+CREATE_ANIM()				Graphics::setupPersonAnim
+SET_PERSON_DATA()			Logic::initPerson
+SETUP_PERSON()				Logic::setupPersonInRoom
+OBJ_PERSON()				Logic::objectForPerson
+-
+NEW_ANIM					Graphics::_newAnim
+PERSON_FACE
+PERSON_FACE_MAX
+PERSON_FRAMES				Logic::_personFrames
+P_ANIMstr					Person.anim
+P_NAMEstr					Person.name
+P_STAND,P_BNUM,P_ROOM		Person.actor->*
+P_BANK,P_X,P_Y,P_COLOR		Person.actor->*
+P_VALUE,P_GAMES				Person.actor->*
+SFRAME						Person.bobFrame
+
+
+RESOURCE
+========
+tflen()						Resource::fileSize
+topen()						Resource::loadFile
+tseek()						*not needed*
+
+
+SCREEN
+======
+Box()						Display::drawBox
+calc_screen_scroll()		Display::horizontalScrollUpdate
+changejoepal()				Display::palSetJoe*
+check_colors()				Display::palCustomColors
+check_pal_scroll			Display::palCustomScroll
+clearpanel()				Display::prepareUpdate
+drawbackdrop()				Display::prepareUpdate
+drawpanel()					Display::prepareUpdate
+drawscreen()				Display::update
+dynalum()					Display::dynalumUpdate
+fade_panel()				Display::palGreyPanel
+fadein()					Display::palFadeIn
+fadeout()					Display::palFadeOut
+flashspecial()				Display::palCustomFlash
+loadfont()					Display::initFont
+palscroll()					Display::palScroll
+putcharacter()				Display::drawChar
+setpal()					Display::palSet
+-
+BDxres						Display::_bdWidth
+BDyres						Display::_bdHeight
+clothespal					Display::_palJoeClothes
+COMPANEL					*not needed* (argument)
+dresspal					Display::_palJoeDress
+font						Display::_font
+font_sizes					Display::_charWidth
+FULLSCREEN					Display::_fullscreen
+nopalscroll					Display::_pal.scrollable
+palette						Display::_pal.room
+panelflag					*not needed* (redundant with fullscreen)
+scrollx						Display::_horizontalScroll
+tpal						Display::_pal.screen
+
+
+SOUND
+=====
+alter_current_volume()
+playsong()					Sound::playSong()
+sfxbusy()					Sound::waitSfxFinished()
+sfxplay()					Sound::playSfx()
+-
+song[]						Sound::_song[]
+tunelist[]					Sound::_tune[]
+CURRSONG					Music::_currentSong
+SFXNAME						Sound::_sfxName
+VOLUME
+
+
+STATE
+=====
+ALTER_STATE()				State::alterState*
+FIND_STATE()				State::findState*
+-
+
+
+TALK
+====
+FIND_SACTION()				Talk::findSpeechParameters
+MOVE_SPEAK()				*not needed* (included in Talk::getSpeakCommand)
+SPEAK()						Talk::speak
+SPEAK_SUB()					Talk::speakSegment
+talk()						Talk::talk
+TALK_PROC()					Talk::talk
+-
+A1,A12
+actiondata					Talk::_speechParameters
+HEAD
+JMAX
+JOEKEYstr
+LEVEL
+LEVELMAX
+OLDLEVEL
+OLDS
+OWALK
+PERstr
+PKEYstr
+TALKHEAD
+TALKQUIT					Input::_talkQuit
+TALKstr
+TALK_SELECTED				Logic::_talkSelected
+
+
+TEXTS
+=====
+blanktexts()				Display::clearTexts
+drawtext()					Display::drawTexts
+Ink()						Display::textCurrentColor
+MIDDLE()					Display::textCenterX / Display::textSetCentered
+text()						Display::setText
+textlen()					Display::textWidth
+-
+textcol						Display::_curTextColor
+texts						Display::_texts
+
+
+WALK
+====
+CALC_PATH()					Walk::calcPath
+CALC_WALK()					Walk::incWalkData
+CALC_X()					Walk::calcC
+CALC_Y()					Walk::calcC
+CALCSCALE()					Area::calcScale
+FIND_FREE_AREA				Walk::findFreeArea
+FIND_NEWP()					Walk::findAreaPosition
+FIND_OLDP()					Walk::findAreaPosition
+MOVE_JOE()					Walk::moveJoe
+MOVE_OTHER()				Walk::movePerson
+-
+AREALIST					Walk::_areaList
+AREASTRIKE					Walk::_areaStrike
+movdata						Walk::_moveData
+WALK_DATA					Walk::_walkData
+WALKI						Walk::_walkDataCount
+
+
+ZONES
+=====
+ClearZones()				Grid::clear
+FIND_SCALE()				Grid::findScale
+FIND_VERB()					Grid::findVerbUnderCursor
+SETUP_PANEL_ZONES()			Grid::setupPanel
+SETUP_ZONES()				Grid::setupNewRoom
+SetZone()					Grid::setZone
+zone()						Grid::findZoneForPos / Logic::findAreaForPos
+-
+AREA						Grid::_area
+AREAMAX						Grid::_areaMax
+OBJECT_BOX					Grid::_objectBox
+OBJMAX						Grid::_objMax
+zones						Grid::_zones
+
+
+(UNSORTED)
+==========
+in()						Cutaway::inRange
+find_cd_cut()				findCdCut
+find_cd_desc()				*not needed* (included in Logic::joeSpeak)
+-
+Kstr
+bank9
+NEWDEF,
+M,A,
+FRAME,
+AM,
+WX,WY,
+PX,PY,
+LD,FD
+DESC2,DESC
+PERSON_OBJ
+FS,FE,FACE,
+TY,
+DY,
+I2,
+N,V,
+ds,bs,
+bx,by,
+dx,dy,
+SFAC,FDIR,
+OBJ,E,T,
+CH,
+OLDG,S2,S1,ITEM,TYPE,C,
+NAME,TL,TI,TS,WC,IMAGE,
+D,P,LI,R
+CANTQUIT					!Input::_canQuit
+
+
+(NO NEED TO BE GLOBAL)
+======================
+Nstr,F1,F2,F3,F4,F5,F6,F7,F8,SF,BF,AS,MS // MOVE_OTHER (struct movdata *)
+Nstr,S,F,BODY,BF,RF,AF,SANIMstr,FF // FIND_SACTION (struct action *)
+CURRBOB // SETUP_FURNITURE, REDISP_OBJECT, DISP_OBJECTS
+PSY,PSX,CSX,DX1,DX2,DY1,DY2,PCF,CCF,CSY // FIND_NEWP, FIND_OLDP
+tx,ty,SFRAME,EFRAME,SPEED // FIND_GRAPHIC
+AREAMAXv
+CURRY
+OMAX,OMAXA
+TEMPA
+BANK,BNUM
+DIFF // LOOK local var
+RET // P1_SET_CONDITIONS local var
+BS,DS // CALC_SCALE
+SX,SY,
+NEWA // FIND_FREE_AREA local
+IX,IY // Cutaway locals
+COM	// EXECUTE_ACTION local
+COMMAX // EXECUTE_ACTION local
+COND // EXECUTE_ACTION local
+CURRCOM	// EXECUTE_ACTION local
+GSET // P1_SET_CONDITIONS local
+A2 // EXECUTE_ACTION local
+TEMPI // P1_SET_CONDITIONS local
+MAPC // findFreeArea local var
+NEWP,OLDP // locals in joeMove && personMove
+OLDX,X,OLDY,Y // passed as arguments
+X2,X1,XD,YD	// incWalkData && findFreeArea locals
+Gstr // not needed, grab state
+Pstr // not needed, FIND_STATE result
+OUTLINE	// not needed, textSet() Graphics::parameter
+FTOT //	queen.c/SETUP_FURNITURE local var
+OBJMAXv	// == Logic::_objMax[Logic::_currentRoom]
+TEMPstr
+WORDstr
+JOE2str,PERSON2str // locals in Talk::initialTalk
+SUBJECT
+tmpbamflag

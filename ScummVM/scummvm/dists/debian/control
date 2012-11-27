@@ -1,0 +1,59 @@
+Source: scummvm
+Section: games
+Priority: optional
+Maintainer: Debian Games Team <pkg-games-devel@lists.alioth.debian.org>
+Uploaders: David Weinehall <tao@debian.org>, Moritz Muehlenhoff <jmm@debian.org>
+Build-Depends: debhelper (>= 7.0.50~), nasm [i386], libsdl1.2-dev, libmad0-dev, libasound2-dev [linux-any], libvorbis-dev, libmpeg2-4-dev, libflac-dev, libz-dev, libfluidsynth-dev, python
+Standards-Version: 3.9.2
+Homepage: http://www.scummvm.org
+
+Package: scummvm
+Architecture: any
+Depends: ${shlibs:Depends}, scummvm-data, ${misc:Depends}
+Suggests: fluidsynth | timidity, beneath-a-steel-sky, flight-of-the-amazon-queen
+Description: engine for several graphical adventure games
+ ScummVM is a `virtual machine' for several classic graphical
+ point-and-click adventure games.  It is designed to run Adventure Soft's
+ Simon the Sorcerer 1 and 2, Revolution's Beneath A Steel Sky, and games
+ based on LucasArts' SCUMM (Script Creation Utility for Maniac Mansion)
+ system.  SCUMM is used for many games, including Monkey Island,
+ Day of the Tentacle, Sam and Max and more.  See the official compatibility
+ list at <http://www.scummvm.org/compatibility.php> for a full list
+ of supported games.
+ .
+ The game data of two games compatible with ScummVM is included in Debian.
+ These are:
+ .
+  - Beneath a Steel Sky        (package name: beneath-a-steel-sky)
+  - Flight of the Amazon Queen (package name: flight-of-the-amazon-queen)
+ .
+ To actually make use of ScummVM, you'll have to install one of these, or
+ obtain the proprietary game data for another supported game from somewhere
+ else.
+
+Package: scummvm-data
+Architecture: all
+Depends: ${shlibs:Depends},${misc:Depends}
+Replaces: scummvm (<< 1.0.0-3)
+Description: engine for several graphical adventure games (data files)
+ ScummVM is a `virtual machine' for several classic graphical
+ point-and-click adventure games.  It is designed to run Adventure Soft's
+ Simon the Sorcerer 1 and 2, Revolution's Beneath A Steel Sky, and games
+ based on LucasArts' SCUMM (Script Creation Utility for Maniac Mansion)
+ system.  SCUMM is used for many games, including Monkey Island,
+ Day of the Tentacle, Sam and Max and more.  See the official compatibility
+ list at <http://www.scummvm.org/compatibility.php> for a full list
+ of supported games.
+ .
+ The game data of two games compatible with ScummVM is included in Debian.
+ These are:
+ .
+  - Beneath a Steel Sky        (package name: beneath-a-steel-sky)
+  - Flight of the Amazon Queen (package name: flight-of-the-amazon-queen)
+ .
+ To actually make use of ScummVM, you'll have to install one of these, or
+ obtain the proprietary game data for another supported game from somewhere
+ else.
+ .
+ These packages provides data files needed to run some engines supported by
+ ScummVM.

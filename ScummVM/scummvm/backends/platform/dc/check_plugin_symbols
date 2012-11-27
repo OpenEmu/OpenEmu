@@ -1,0 +1,15 @@
+#! /bin/sh
+case "$0" in
+  */*) dir=`dirname "$0"`/;;
+  *) dir="";;
+esac
+exec < "$dir"plugin.syms
+while read sym; do
+  if sh-elf-nm "$1" | grep >/dev/null " $sym"'$'; then
+    :
+  else
+    echo >&2 "ERROR: Symbol $sym missing from $1"
+    exit 1
+  fi
+done
+exit 0

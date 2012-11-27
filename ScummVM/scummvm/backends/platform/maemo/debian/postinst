@@ -1,0 +1,25 @@
+#! /bin/sh
+
+# This is a workaround for older maemo versions related to the icon.
+# The /usr/share/icons/scummvm.xpm icon is needed for OS2006 (Nokia 770)
+# but if present it overrides nicer icons for newer systems in /usr/share/icons/hicolor.
+# This workaround removes it if the OS isn't old (2006/2007).
+
+if [ "$1" = "configure"  ] ; then
+OSVER=$OSSO_VERSION
+[ -z "$OSVER" -a -f /etc/osso_software_version ] && OSVER=`cat /etc/osso_software_version`
+OSVER=`echo $OSVER | cut -d _ -f 2`
+case $OSVER in
+	2006*|2007*)
+		#nothing to do
+		true
+		;;
+	*)
+		#ugly trick, until this icon is removed big icon in menu does not show
+		[ -f /usr/share/icons/scummvm.xpm ] && rm /usr/share/icons/scummvm.xpm
+		;;
+esac
+	[ -x /usr/bin/gtk-update-icon-cache ] && /usr/bin/gtk-update-icon-cache /usr/share/icons/hicolor
+	[ -x /usr/bin/maemo-select-menu-location -a -z "$2" ] && /usr/bin/maemo-select-menu-location scummvm.desktop  tana_fi_games
+fi
+exit 0

@@ -1,0 +1,93 @@
+#
+# Makefile for Microsoft Visual C++
+# Make sure cl.exe is in the PATH (run vcvars.bat) or change CXXC below
+#
+
+# For the Win32 GUI
+WIN32_FLAGS = user32.lib
+
+# For the Qt GUI
+# QTDIR = c:\qt
+QT_FLAGS = -I$(QTDIR)/include $(QTDIR)/lib/qt.lib
+
+TARGETS = error_printer.exe stdio_printer.exe yes_no_runner.exe file_printer.exe aborter.exe only.exe
+GUI_TARGETS = win32_runner.exe qt_runner.exe
+TESTS = *.h
+GUI_TESTS = gui/GreenYellowRed.h $(TESTS)
+TESTGEN = perl -w ../cxxtestgen.pl
+CXXC = cl.exe -GX -W3 -WX -I. -I..
+
+all: $(TARGETS)
+
+clean:
+	del *~ *.o *.obj 
+	del $(TARGETS) 
+	del $(GUI_TARGETS)
+	del tests.cpp error_printer.cpp stdio_printer.cpp file_printer.cpp aborter.cpp only.cpp
+	del win32_runner.cpp qt_runner.cpp
+
+distclean: clean
+	del Makefile
+
+run: error_printer.exe
+	error_printer.exe
+
+run_win32: win32_runner.exe
+	win32_runner.exe
+
+run_qt: qt_runner.exe
+	qt_runner.exe
+
+error_printer.cpp: $(TESTS)
+	$(TESTGEN) -o error_printer.cpp --error-printer $(TESTS)
+
+stdio_printer.cpp: $(TESTS)
+	$(TESTGEN) -o stdio_printer.cpp --runner=StdioPrinter $(TESTS)
+
+file_printer.cpp: file_printer.tpl $(TESTS)
+	$(TESTGEN) -o file_printer.cpp --template=file_printer.tpl $(TESTS)
+
+aborter.cpp: aborter.tpl $(TESTS)
+	$(TESTGEN) -o aborter.cpp --template=aborter.tpl $(TESTS)
+
+only.cpp: only.tpl $(TESTS)
+	$(TESTGEN) -o only.cpp --template=only.tpl $(TESTS)
+
+tests.cpp: $(TESTS)
+	$(TESTGEN) -o tests.cpp $(TESTS)
+
+win32_runner.cpp: $(GUI_TESTS)
+	$(TESTGEN) -o win32_runner.cpp --gui=Win32Gui $(GUI_TESTS)
+
+qt_runner.cpp: $(GUI_TESTS)
+	$(TESTGEN) -o qt_runner.cpp --gui=QtGui $(GUI_TESTS)
+
+error_printer.exe: error_printer.cpp
+	$(CXXC) -o error_printer.exe error_printer.cpp
+
+stdio_printer.exe: stdio_printer.cpp
+	$(CXXC) -o stdio_printer.exe stdio_printer.cpp
+
+file_printer.exe: file_printer.cpp
+	$(CXXC) -o file_printer.exe file_printer.cpp
+
+only.exe: only.cpp
+	$(CXXC) -o only.exe only.cpp
+
+aborter.exe: aborter.cpp
+	$(CXXC) -o aborter.exe aborter.cpp
+
+yes_no_runner.exe: yes_no_runner.cpp tests.cpp
+	$(CXXC) -o yes_no_runner.exe yes_no_runner.cpp tests.cpp
+
+win32_runner.exe: win32_runner.cpp
+	$(CXXC) -o win32_runner.exe win32_runner.cpp $(WIN32_FLAGS)
+
+qt_runner.exe: qt_runner.cpp
+	$(CXXC) -o qt_runner.exe qt_runner.cpp $(QT_FLAGS)
+
+#
+# Local Variables:
+# compile-command: "nmake -fMakefile.msvc"
+# End:
+#

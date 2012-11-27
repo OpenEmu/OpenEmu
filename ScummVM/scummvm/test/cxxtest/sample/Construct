@@ -1,0 +1,62 @@
+# -*- Perl -*-
+
+#
+# This file shows how to use CxxTest with Cons
+#
+
+$env = new cons( CXX => ("$^O" eq 'MSWin32') ? 'cl -nologo -GX' : 'c++',
+		 CPPPATH => '..',
+	         CXXTESTGEN => 'perl -w ../cxxtestgen.pl' );
+
+@tests = <*.h>;
+
+# The error printer is the most basic runner
+CxxTestErrorPrinter $env 'error_printer', @tests;
+
+# You can also specify which runner you want to use
+CxxTestRunner       $env 'stdio_printer', 'StdioPrinter', @tests;
+
+# For more control, use template files
+CxxTestTemplate     $env 'file_printer', 'file_printer.tpl', @tests;
+
+# Or, you can always separate the tests from the runner
+CxxTest             $env 'tests.cpp', '', @tests;
+Program             $env 'yes_no_runner', ('yes_no_runner.cpp', 'tests.cpp');
+
+
+#
+# Here is the code used to build these files
+# You can use this in your own Construct files
+#
+
+# cons::CxxTest $env $dst, $options, @srcs
+# Generates a CxxTest source file, passing the specified options to cxxtestgen
+sub cons::CxxTest($$$@) {
+  my ($env, $dst, $options, @srcs) = @_;
+  Command $env $dst, @srcs, "%CXXTESTGEN -o %> ${options} %<";
+}
+
+# cons::CxxTestTemplate $env $dst, $template, @srcs
+# Generates and builds a CxxTest runner using a template file
+sub cons::CxxTestTemplate($$$@) {
+  my ($env, $dst, $template, @srcs) = @_;
+  my $source = "${dst}.cpp";
+  CxxTest $env $source, "--template=${template}", ($template, @srcs);
+  Program $env $dst, $source;
+}
+
+# cons::CxxTestRunner $env $dst, $runner, @srcs
+# Generates and builds a CxxTest runner using the --runner option
+sub cons::CxxTestRunner($$$@) {
+  my ($env, $dst, $runner, @srcs) = @_;
+  my $source = "${dst}.cpp";
+  CxxTest $env $source, "--runner=${runner}", @srcs;
+  Program $env $dst, $source;
+}
+
+# cons::CxxTestErrorPrinter $env $dst, @srcs
+# Generates and builds a CxxTest ErrorPrinter
+sub cons::CxxTestErrorPrinter($$@) {
+  my ($env, $dst, @srcs) = @_;
+  CxxTestRunner $env $dst, 'ErrorPrinter', @srcs;
+}

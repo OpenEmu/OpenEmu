@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+ifeq ($(DEB_BUILD_ARCH_OS),kfreebsd)
+	./configure --prefix=/usr --datadir=/usr/share/scummvm --enable-release --disable-alsa
+else
+	./configure --prefix=/usr --datadir=/usr/share/scummvm --enable-release
+endif
+
+
+

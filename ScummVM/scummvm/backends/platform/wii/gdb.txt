@@ -1,0 +1,3 @@
+target remote /dev/ttyUSB0
+info threads
+bt

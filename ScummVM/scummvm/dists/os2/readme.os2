@@ -1,0 +1,13 @@
+This is an OS/2 & eComStation build of ScummVM 1.1.1
+
+To run, it requires:
+* The libc063 runtime dll, available from ftp://ftp.netlabs.org/pub/gcc/libc-0.6.3-csd3.zip
+* The gcc444 runtime dll, available from http://download.smedley.info/gcc444.zip
+* The SDL dll's available from ftp://ftp.netlabs.org/pub/sdl/sdl-1.2.10-bin-20080804.zip
+
+All feedback is appreciated!
+
+Thanks!
+
+Paul Smedley
+5th May, 2010

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+		package="org.scummvm.scummvm.plugin.@PLUGIN_NAME@"
+		android:versionCode="@PLUGIN_VERSION_CODE@"
+		android:versionName="@VERSION@"
+		android:installLocation="preferExternal"
+		android:sharedUserId="org.scummvm.scummvm">
+
+	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="8" />
+
+	<application android:label="@string/app_name"
+			android:description="@string/app_desc"
+			android:icon="@drawable/scummvm">
+		<receiver android:name="org.scummvm.scummvm.PluginProvider"
+				android:process="org.scummvm.scummvm">
+			<intent-filter>
+				<action android:name="org.scummvm.scummvm.action.PLUGIN_QUERY"/>
+				<category android:name="android.intent.category.INFO"/>
+			</intent-filter>
+			<meta-data android:name="org.scummvm.scummvm.meta.UNPACK_LIB"
+					android:value="mylib/armeabi/lib@PLUGIN_NAME@.so" />
+		</receiver>
+	</application>
+
+	<uses-permission android:name="org.scummvm.scummvm.permission.SCUMMVM_PLUGIN"/>
+	<uses-configuration android:reqFiveWayNav="true"
+			android:reqKeyboardType="qwerty"/>
+
+	<uses-configuration android:reqTouchScreen="finger"
+			android:reqKeyboardType="qwerty"/>
+
+	<uses-configuration android:reqTouchScreen="stylus"
+			android:reqKeyboardType="qwerty"/>
+</manifest>

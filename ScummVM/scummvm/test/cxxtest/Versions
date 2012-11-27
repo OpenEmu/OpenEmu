@@ -1,0 +1,152 @@
+CxxTest Releases
+================
+
+Version 3.10.1 (2004-12-01):
+----------------------------
+ - Improved support for VC7
+ - Fixed clash with some versions of STL
+
+Version 3.10.0 (2004-11-20):
+----------------------------
+ - Added mock framework for global functions
+ - Added TS_ASSERT_THROWS_ASSERT and TS_ASSERT_THROWS_EQUALS
+ - Added CXXTEST_ENUM_TRAITS
+ - Improved support for STL classes (vector, map etc.)
+ - Added support for Digital Mars compiler
+ - Reduced root/part compilation time and binary size
+ - Support C++-style commenting of tests
+
+Version 3.9.1 (2004-01-19):
+---------------------------
+ - Fixed small bug with runner exit code
+ - Embedded test suites are now deprecated
+
+Version 3.9.0 (2004-01-17):
+---------------------------
+ - Added TS_TRACE
+ - Added --no-static-init
+ - CxxTest::setAbortTestOnFail() works even without --abort-on-fail
+
+Version 3.8.5 (2004-01-08):
+---------------------------
+ - Added --no-eh
+ - Added CxxTest::setAbortTestOnFail() and CXXTEST_DEFAULT_ABORT
+ - Added CxxTest::setMaxDumpSize()
+ - Added StdioFilePrinter
+
+Version 3.8.4 (2003-12-31):
+---------------------------
+ - Split distribution into cxxtest and cxxtest-selftest
+ - Added `sample/msvc/FixFiles.bat'
+
+Version 3.8.3 (2003-12-24):
+---------------------------
+ - Added TS_ASSERT_PREDICATE
+ - Template files can now specify where to insert the preamble
+ - Added a sample Visual Studio workspace in `sample/msvc'
+ - Can compile in MSVC with warning level 4
+ - Changed output format slightly
+
+Version 3.8.1 (2003-12-21):
+---------------------------
+ - Fixed small bug when using multiple --part files.
+ - Fixed X11 GUI crash when there's no X server.
+ - Added GlobalFixture::setUpWorld()/tearDownWorld()
+ - Added leaveOnly(), activateAllTests() and `sample/only.tpl'
+ - Should now run without warnings on Sun compiler.
+
+Version 3.8.0 (2003-12-13):
+---------------------------
+ - Fixed bug where `Root.cpp' needed exception handling
+ - Added TS_ASSERT_RELATION
+ - TSM_ macros now also tell you what went wrong
+ - Renamed Win32Gui::free() to avoid clashes
+ - Now compatible with more versions of Borland compiler
+ - Improved the documentation
+
+Version 3.7.1 (2003-09-29):
+---------------------------
+ - Added --version
+ - Compiles with even more exotic g++ warnings
+ - Win32 Gui compiles with UNICODE
+ - Should compile on some more platforms (Sun Forte, HP aCC)
+
+Version 3.7.0 (2003-09-20):
+---------------------------
+ - Added TS_ASSERT_LESS_THAN_EQUALS
+ - Minor cleanups
+
+Version 3.6.1 (2003-09-15):
+---------------------------
+ - Improved QT GUI
+ - Improved portability some more
+
+Version 3.6.0 (2003-09-04):
+---------------------------
+ - Added --longlong
+ - Some portability improvements
+
+Version 3.5.1 (2003-09-03):
+---------------------------
+ - Major internal rewrite of macros
+ - Added TS_ASSERT_SAME_DATA
+ - Added --include option
+ - Added --part and --root to enable splitting the test runner
+ - Added global fixtures
+ - Enhanced Win32 GUI with timers, -keep and -title
+ - Now compiles with strict warnings
+
+Version 3.1.1 (2003-08-27):
+---------------------------
+ - Fixed small bug in TS_ASSERT_THROWS_*()
+
+Version 3.1.0 (2003-08-23):
+---------------------------
+ - Default ValueTraits now dumps value as hex bytes
+ - Fixed double invocation bug (e.g. TS_FAIL(functionWithSideEffects()))
+ - TS_ASSERT_THROWS*() are now "abort on fail"-friendly
+ - Win32 GUI now supports Windows 98 and doesn't need comctl32.lib
+
+Version 3.0.1 (2003-08-07):
+---------------------------
+ - Added simple GUI for X11, Win32 and Qt
+ - Added TS_WARN() macro
+ - Removed --exit-code
+ - Improved samples
+ - Improved support for older (pre-std::) compilers
+ - Made a PDF version of the User's Guide
+
+Version 2.8.4 (2003-07-21):
+---------------------------
+ - Now supports g++-3.3
+ - Added --have-eh
+ - Fixed bug in numberToString()
+
+Version 2.8.3 (2003-06-30):
+---------------------------
+ - Fixed bugs in cxxtestgen.pl
+ - Fixed warning for some compilers in ErrorPrinter/StdioPrinter
+ - Thanks Martin Jost for pointing out these problems!
+
+Version 2.8.2 (2003-06-10):
+---------------------------
+ - Fixed bug when using CXXTEST_ABORT_TEST_ON_FAIL without standard library
+ - Added CXXTEST_USER_TRAITS
+ - Added --abort-on-fail
+
+Version 2.8.1 (2003-01-16):
+---------------------------
+ - Fixed charToString() for negative chars
+
+Version 2.8.0 (2003-01-13):
+---------------------------
+ - Added CXXTEST_ABORT_TEST_ON_FAIL for xUnit-like behaviour
+ - Added `sample/winddk'
+ - Improved ValueTraits
+ - Improved output formatter
+ - Started version history
+
+Version 2.7.0 (2002-09-29):
+---------------------------
+ - Added embedded test suites
+ - Major internal improvements

@@ -1,0 +1,190 @@
+
+ ScummVM - ScummVM ported to EPOC/SymbianOS
+
+ Copyright (C) 2008-2012 ScummVM Team
+ Copyright (C) 2003-2008 Lars 'AnotherGuest' Persson
+ Copyright (C) 2002-2008 Jurgen 'SumthinWicked' Braam
+
+ Copyright (C) 2003-2005 Andreas 'Sprawl' Karlsson
+
+Using parts of snprintf.c by
+Mark Martinec <mark.martinec@ijs.si>, April 1999, June 2000
+Copyright © 1999,2000,2001,2002 Mark Martinec. All rights reserved.
+under these conditions:
+"Terms and conditions ...
+This program is free software; it is dual licensed, the terms of the "Frontier Artistic License" or
+the "GNU General Public License" can be chosen at your discretion.
+The chosen license then applies solely and in its entirety.
+Both licenses come with this Kit."
+
+About ScummVM
+--------------
+	The original ports (uptil 0.7.1) were made by Andreas Karlsson and Lars Persson.
+	The main transition to 0.8.0CVS and all relevant changes were done by Jurgen Braam.
+	Jurgen and Lars have successfully transfered all needed changes into CVS/SVN, with additional helpful tools for Symbian OS
+
+Release History:
+	Release version: 1.4.0
+		* Nothing significant in the Symbian port, except SDL improvements (new SDL version used)
+		* See main readme for general ScummVM improvements, major update
+
+	Release version: 1.3.1
+		* Nothing significant in the Symbian port, except SDL improvements (new SDL version used)
+		* See main readme for general ScummVM improvements, major update
+
+	Release version: 1.3.0
+		* Nothing significant in the Symbian port, except SDL improvements (new SDL version used)
+		* See main readme for general ScummVM improvements, major update
+	Release version: 1.2.1
+	* Symbian port now split in two parts, ScummVM 1 and ScummVM 2 to keep the exe size down.
+	  ScummVM 1 contains the following engines:
+	    scumm queen groovie saga drascula
+	    touche parallaction cine
+	    cruise made tucker
+
+	  ScummVM 2 contains the following engines:
+	    agos sky gob
+	    kyra lure agi tinsel
+	    sword1 sword2 draci sci teenagent
+
+	* See main readme for general ScummVM improvements, minor update
+	Release version: 1.2.0
+	* Nothing significant in the Symbian port, except SDL improvements (new SDL version used)
+	* See main readme for general ScummVM improvements, major update
+
+	Release version: 1.1.0
+	* Nothing significant in the Symbian port, except SDL improvements.
+	* See main readme for general ScummVM improvements, minor update
+
+	Release version: 1.0.0
+	* Nothing significant in the Symbian port, except SDL improvements.
+	* See main readme for general ScummVM improvements, minor update
+
+	Release version: 0.13.1
+	* Nothing significant in the Symbian port, except SDL improvements.
+	* See main readme for general ScummVM improvements, minor update
+
+	Release version: 0.13.1
+	* Nothing significant in the Symbian port, except SDL improvements
+	Release version: 0.13.0
+	* Nothing significant in the Symbian port, except SDL improvements
+
+	Release version: 0.12.0
+	* This version is only supported on Symbian OS 9 devices due to compiler constraints for older devices. (That means UIQ3 and S60V3 devices)
+	* Updated to SDL version 1.2.13 (previous version used was 1.2.2)
+	* Information about S60 devices can be found here http://wiki.scummvm.org/index.php/SymbianOS_S60
+	* Information about UIQ devices can be found here http://wiki.scummvm.org/index.php/SymbianOS_UIQ
+	* Best source of general information is the ScummVM forum, http://forums.scummvm.org
+	* SVN builds (not frequently updated) can be found at http://www.anotherguest.se
+
+
+Games supported
+---------------
+	The Symbian port of ScummVM supports all games. Some games might not run properly due to screenresolution or memory constraints.
+	Minimum free memory requirement is about 12MB to be able to start and run ScummVM, this is enough for most older games, but newer more resource hungry games, might require more.
+
+Building ScummVM
+---------------------
+
+	Nescessary components
+	---------------------
+	Building ScummVM yourself using the UIQ 2.1/Nokia S60 SDK/Nokia S80 SDK/Nokia S90 SDK framework is not an easy task!
+	Lets just say the framework needs quite some time to set up and takes a while
+	to get used to. If you choose to continue you will need the following items:
+
+	- UIQ 3.x SDK (To build for UIQ3 devices)(Build scripts in SDK need tweaking in order to build scummvm since Symbian OS GCCE never builds as large projects as ScummVM before)
+	- UIQ 2.1 SDK (To build for UIQ2 devices);
+	  http://www.symbian.com/developer/sdks_uiq.asp
+
+	- Nokia S60 1st, 2nd edition,3rd edition SDK (To build for S60 devices)
+
+	- Nokia S80 SDK (To build for S80 devices)
+
+	- Nokia 7710 SDK (To build for the 7710/S90 device)
+
+	- ECompXL, an EPOC application compression library
+	  http://www.yipton.demon.co.uk/ecompxl/latest/readme.html (To build for UIQ devices)
+
+	- libsdl, Simple Directmedia Layer, a cross-platform multimedia library
+	  http://www.libsdl.org/ (see note about ESDL below)
+
+	- libmad, a high-quality MPEG audio decoder
+	  http://www.underbit.com/products/mad/
+
+	- zlib, a massively spiffy yet delicately unobtrusive compression library
+	  http://www.zlib.net/
+	- latest version of active perl (included with Symbian SDK does not work with the build scripts)
+
+	- libogg, the free media file container format
+	  http://www.xiph.org/ogg/
+
+	- libvorbis, the free audio codec
+	  http://www.vorbis.com/
+	These are probably too heavy-duty for your phone:
+
+	- flac, the Free Lossless Audio Codec
+	  http://flac.sourceforge.net/
+
+	Compiling ScummVM
+	-----------------
+
+	ECompXL (Only needed for UIQ2):
+	this is a tool that will compress your executable with GZIP and glue
+	it to a predefined loader app. The app will uncompress your application at
+	runtime and run it without you even knowing it. A really interesting byproduct
+	of this method is that the general restriction of not having any writeable
+	static data (WSD) for Symbian APP executables no longer applies. This makes
+	the life of an EPOC porter a lot easier! To install this tool you need to add
+	its \bin path to your PATH above the sybmian epocs32\tools path, so that ECompXL's
+	PETRAN.EXE will be the executable that is started.
+
+
+	SDL: the latest version of SDL at this point in time is 1.2.13. This version
+	works great for compiling on other platforms.
+
+	zlib: the zlib-x.x.x.tar.gz does not come with UIQ .mpp build files, that's why
+	I added them for you in epoc-zlib.zip. Extract in <DevRoot>/zlib/ which will
+	create the epoc dir. In <DevRoot>/zlib/epoc/ go:
+	> bldmake bldfiles
+	> abld build
+
+	libmad: the libmad-x.x.x.tar.gz does not come with UIQ .mpp build files, that's
+	why I added them for you in epoc-libmad.zip. Extract in <DevRoot>/libmad/ which
+	will create the epoc dir. In <DevRoot>/libmad/epoc/ go:
+	> bldmake bldfiles
+	> abld build
+
+	ScummVM:
+	In <DevRoot>\scummvm\backends\platform\symbian\ go:
+	a) Edit and update the BuildPackageUpload_LocalSettings.pl for the kind of build (SDK installed etc) and variants
+	   you want to build.
+      b) Run BuildPackageUpload_AllVersions.pl to build all the targets/variants that you have configured.
+	   A detailed log will be placed in the symbian folder with Build.err.log and Build.out.log but it also depends on
+	   the configuration you select.
+
+	Now you should have yourself a nice ScummVM_xxx.sis installer package in the packages folder for use
+	on your phone. Please note that for development it will be a lot faster if you
+	transfer the SCUMMVM.APP/Scummvm.EXE file directly to your !:\system\apps\ScummVM\ dir!
+
+	Platforms can be one of: ARMi, ARM4, THUMB, WINS, WINSCW, GCCE. The SE P900 uses the ARMi platform,
+	which is a combined ARM4/THUMB programming mode. Configurations can be one of:
+	UREL or UDEB.
+
+
+Greetz & such
+-------------
+	Kudos fly out to:
+	- Sprawl for having the nerve to start & carry this puppy for so long
+	- AnotherGuest for having the nerve to start & carry this puppy for so long
+	- Fingolfin for taking the time to go through 1000 patch versions with me
+	- Myself (SumthinWicked), for writing this entire README and adopting all sources together with Fingolfin :)
+	- the entire ScummVM Dev team for making a kicka$$ program
+	- the folks in #scummvm @ irc.freenode.net for their help, confort and support
+	- everybody else who wants to give me 'the look' for not including them here :P
+
+
+	it's been swell,
+	gotta go now,
+
+	greetz,
+	SumthinWicked & Anotherguest

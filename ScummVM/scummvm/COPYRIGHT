@@ -1,0 +1,216 @@
+ScummVM
+Copyright (C) 2001-2012 by the following:
+
+If you have contributed to this project then you deserve to be on this
+list.  Contact us (see: AUTHORS) and we'll add you.
+
+Tore Anderson
+Torbjorn Andersson
+Chris Apers
+Ori Avtalion
+Nicolas Bacca
+Fabio Battaglia
+Bastien Bouclet
+Arnaud Boutonne
+Jurgen Braam
+Ralph Brorsen
+James Brown
+Stuart Caie
+Jamieson Christian
+Marcus Comstedt
+Paolo Costabel
+Thierry Crozat
+Ivan Dubrov
+Frantisek Dufka
+Oystein Eftevaag
+Kovacs Endre Janos
+David Eriksson
+Jerome Fisher
+Stuart George
+Paul Gilbert
+Robert Goeffringmann
+Jonathan Gray
+Benjamin Haisch
+Vincent Hamm
+Sven Hesse
+Jochen Hoenicke
+Matthew Hoops
+Max Horn
+Travis Howell
+Janne Huttunen
+Felix Jakschitsch
+Jeroen Janssen
+Florian Kagerer
+Filippos Karapetis
+Andreas Karlsson
+Ismail Khatib
+Oliver Kiehl
+Martin Kiewitz
+Pawel Kolodziejski
+Mutwin Kraus
+Andrew Kurushin
+Angus Lees
+Claudio Matsuoka
+Thomas Mayer
+Alyssa Milburn
+Neil Millstone
+Gregory Montoir
+Kostas Nakos
+Mikesch Nepomuk
+Nicolas Noble
+Willem Jan Palenstijn
+Lars Persson
+Joost Peters
+Tim Phillips
+Edward Rudd
+Eugene Sandulenko
+Johannes Schickel
+Won Star
+Ludvig Strigeus
+Keith Scroggins
+David Symonds
+Jordi Vilalta
+Robin Watts
+John Willis
+Jezar
+n0p
+peres
+Quietust
+
+
+Patches contributed by:
+
+Laura Abbott "sageofminerva"
+Vikram Aggarwal "youngelf"
+the rara avis "theraraavis"
+Dieter Baron "dillo"
+Alban Bedel "albeu"
+Bodo Bellut "bellut"
+Bramvandijk "bramvandijk"
+Andreas Bierfert "awjb"
+Elio Blanca "eblanca76"
+David Breakey "dbreakey"
+Robert Buchholz "prendi"
+Rainer Canavan "canavan"
+Mathieu Carot "yokna"
+Stefano Ceccherini "jackburton"
+Travis S Coady "theealien"
+Josh Coalson "jcoalson"
+Thomas Combeleran "hibernatus"
+Kees Cook "keescook"
+Carlos Corbacho "cathectic"
+Roberto Costa "fiix76"
+dc france "erwan2004"
+dewt "mncl"
+Martin Doucha "next_ghost"
+Michael Drueing "doc_wagon"
+Michael du Breuil "WickedShell"
+dubsdj
+Matthew Duggan "stauff1"
+Olivier Duverne "richiefs"
+Andrei Dziahel "develop7"
+John Eckerdal "johneck"
+Thomas Fach-Pedersen "madm00se"
+Florent "flobo"
+Florob "florob"
+Mike Frysinger "vapier"
+Chris Gelatt "kreeblah"
+Jens Georg "phako"
+Nicolas George "cigaes"
+Jonathan Gevaryahu "lord_nightmare"
+Tobias Gruetzmacher "tobig"
+Damien Guard "damienguard"
+Tobias Gunkel "tobigun"
+Matti Hamalainen "ccrtnsp"
+Matt Hargett "matt_hargett"
+Stefan Haubenthal "polluks"
+Alexander Holler "holler"
+Falk Hueffner "mellum"
+Casey Hutchinson "nnooiissee"
+j0tt
+Gregor Jasny "gjasny"
+Jellby "jellby"
+Joerg "macdrega"
+Matt Johnson "mattjon"
+Nicolas Joly "njoly"
+KeithS "keithscr"
+Sam Kenny "sam_k"
+Koen Kooi "koenkooi"
+Zygmunt Krynicki "zygoon"
+Janne Kujanpaa "jukuja"
+Jay Lanagan "r0ni"
+Norbert Lange "nolange"
+Manuel Lauss "mlau2"
+Rolf Leggewie "leggewie"
+Duncan Lock "dflock"
+Mark Lodato "itsr0y"
+Fridvin Logi "phillip_j_fry"
+Lostech "lostech"
+Georg Lukas "ge0rg"
+Michael Madsen "pidgeot"
+Dmitry Marakasov "amdmi3"
+Alejandro Marzini "vgvgf"
+Connor McLeod "mcleod2032"
+Mickey McMurray "metafox"
+Vladimir Menshakov "megath"
+Adam Metcalf "gamblore"
+Frank Meyering "frank_m24"
+Gael Le Migno "kilobug"
+Andy Molloy "maloi"
+Sean Murrau "lightcast"
+Armin Mueller "arm_in"
+Andrea Musuruane "musuruan"
+KO Myung-Hun "lvzuufx"
+Markus Napp "meist3r"
+Peter Naulls "pnaulls"
+Christian Neumair "mannythegnome"
+Nicos "anarxia"
+Juha Niemimaki "capehill"
+Markus Niemisto "niemisto"
+ole
+Chris Paras "paras_rasmatazz"
+Aubin Paul "outlyer"
+Vincent Pelletier "subdino"
+phi1
+Pix2 "pix2"
+Carsten Pohl "carstenpohl"
+Markus Pyykko "mankeli"
+Richard "trinity78"
+Felix Riemann "kirschsaft"
+Thomas Richter "thorfdbg"
+Timo Roehling "t1m0"
+Andreas Roever "roever"
+Jonathan Rogers "jonner"
+Marek Roth "logicdeluxe"
+Uwe Ryssel "uweryssel"
+Simon Sawatzki "simsaw"
+Scarlatti "escarlate"
+Daniel Schepler "dschepler"
+Florian Schmitt "fatpenguin"
+Mark Schreiber "mark7"
+Ben Shadwick "benshadwick"
+Jean-Yves Simon "lethalwp"
+Andrej Sinicyn "andrej4000"
+Andre Souza "luke_br"
+spookypeanut "spookypeanut"
+Steve Stavropoulos "isnothere"
+Daniel Steinberger "amorphousshape"
+Sven Strothoff "dataslayer"
+Andrea Suatoni "mrhandler"
+tbcarey
+Tim "tipabu"
+Luigi Toscano "ltosky"
+Xavier Trochu "xtrochu"
+Michal Tulacek "tutchek"
+Michael Udaltsov "cccp99"
+Kristof Vansant "lupusbe"
+Tim Walters "realmz"
+David Weinehall "weine"
+Eric A. Welsh "eweish42"
+Yudhi Widyatama "yudhi97"
+Robert Wohlrab "moshroum"
+Xanathar "xanathar"
+Grant Yeager "glo_kidd"
+Benjamin W. Zale "junior_aepi"
+Yotam Barnoy "bluddy"
+Tom Frost "TomFrost"

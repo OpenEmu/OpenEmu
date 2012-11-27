@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+  <name>ScummVM</name>
+  <coder>The ScummVM Team</coder>
+  <version>@VERSION@@REVISION@</version>
+  <release_date>@TIMESTAMP@</release_date>
+  <short_description>Point &amp; Click Adventures</short_description>
+  <long_description>ScummVM is a program which allows you to run certain classic graphical point-and-click adventure games, provided you already have their data files. The clever part about this: ScummVM just replaces the executables shipped with the games, allowing you to play them on systems for which they were never designed!
+
+Some of the adventures ScummVM supports include Adventure Soft's Simon the Sorcerer 1 and 2; Revolution's Beneath A Steel Sky and Broken Sword I &amp; II; Flight of the Amazon Queen; Wyrmkeep's Inherit the Earth; Coktel Vision's Gobliiins; Westwood Studios' The Legend of Kyrandia and games based on LucasArts' SCUMM (Script Creation Utility for Maniac Mansion) system such as Monkey Island, Day of the Tentacle, Sam and Max and more.</long_description>
+  <no_ios_reload/>
+</app>

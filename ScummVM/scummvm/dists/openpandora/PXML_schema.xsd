@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://openpandora.org/namespaces/PXML" xmlns="http://openpandora.org/namespaces/PXML" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+	
+	
+	<!-- declare some simpleTypes for later usage -->
+	
+	<!-- Specify params allows with the 'x11' entry in exec -->
+	<xs:simpleType name="x11Param">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="req" />
+			<xs:enumeration value="stop" />
+			<xs:enumeration value="ignore" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Specify the valid documentation formats in the <info> block -->
+	<xs:simpleType name="docType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="text/html" />
+			<xs:enumeration value="text/plain" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Make sure that version numbers only consist of letters, numbers and + as well as - -->
+	<xs:simpleType name="versionNumber">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:pattern value="[a-zA-Z0-9+-]*" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Specify what is valid as release type -->
+	<xs:simpleType name="releaseType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="alpha" />
+			<xs:enumeration value="beta" />
+			<xs:enumeration value="release" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Specify what makes an email address "valid" -->
+	<xs:simpleType name="emailAddress">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[^@]+@[^\.]+\..+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- some restrictions regarding file names that are eg not allowed/possible when using sd cards formated as fat32 -->
+	<xs:simpleType name="dumbPath">
+		<xs:restriction base="xs:normalizedString">
+			<xs:pattern value="[^?>:]+" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dumbFolderName">
+		<xs:restriction base="xs:normalizedString">
+			<xs:pattern value="[^?>:/]+" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Specify lang codes -->
+	<xs:simpleType name="isoLangcode">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="2"/>
+			<xs:pattern value="[a-zA-Z]{2,3}(_[a-zA-Z0-9]{2,3})*" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="isoLangcode_en_US">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="en_US" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Definition of all allowed categories following the FDO specs -->
+	<xs:simpleType name="fdoCategory">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="AudioVideo|Audio|Video|Development|Education|Game|Graphics|Network|Office|Settings|System|Utility"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- Definition of all allowed subcategories following the FDO specs (should be based upon the given main categories, but would significantly increase complexity of the schema) -->
+	<xs:simpleType name="fdoSubCategory">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="Building|Debugger|IDE|GUIDesigner|Profiling|RevisionControl|Translation|Calendar|ContactManagement|Database|Dictionary|Chart|Email|Finance|FlowChart|PDA|ProjectManagement|Presentation|Spreadsheet|WordProcessor|2DGraphics|VectorGraphics|RasterGraphics|3DGraphics|Scanning|OCR|Photography|Publishing|Viewer|TextTools|DesktopSettings|HardwareSettings|Printing|PackageManager|Dialup|InstantMessaging|Chat|IRCClient|FileTransfer|HamRadio|News|P2P|RemoteAccess|Telephony|TelephonyTools|VideoConference|WebBrowser|WebDevelopment|Midi|Mixer|Sequencer|Tuner|TV|AudioVideoEditing|Player|Recorder|DiscBurning|ActionGame|AdventureGame|ArcadeGame|BoardGame|BlocksGame|CardGame|KidsGame|LogicGame|RolePlaying|Simulation|SportsGame|StrategyGame|Art|Construction|Music|Languages|Science|ArtificialIntelligence|Astronomy|Biology|Chemistry|ComputerScience|DataVisualization|Economy|Electricity|Geography|Geology|Geoscience|History|ImageProcessing|Literature|Math|NumericalAnalysis|MedicalSoftware|Physics|Robotics|Sports|ParallelComputing|Amusement|Archiving|Compression|Electronics|Emulator|Engineering|FileTools|FileManager|TerminalEmulator|Filesystem|Monitor|Security|Accessibility|Calculator|Clock|TextEditor|Documentation|Core|KDE|GNOME|GTK|Qt|Motif|Java|ConsoleOnly"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Create some way to enforce entries to be nonempty -->
+	<xs:simpleType name="nonempty_token">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+		<xs:simpleType name="nonempty_string">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+		<xs:simpleType name="nonempty_normalizedString">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	
+	<!-- declare some complexTypes for later usage -->
+	
+	<!-- type used for file associations -->
+	<xs:complexType name="association_data">
+		<xs:attribute name="name" use="required" type="nonempty_normalizedString" />
+		<xs:attribute name="filetype" use="required" type="nonempty_token" />
+		<xs:attribute name="exec" use="required" type="nonempty_token" />
+	</xs:complexType>
+	
+	<!-- type used for author info -->
+	<xs:complexType name="author_data">
+		<xs:attribute name="name" use="required" type="nonempty_normalizedString" />
+		<xs:attribute name="website" use="optional" type="xs:anyURI" />
+		<xs:attribute name="email" use="optional" type="emailAddress" />
+	</xs:complexType>
+	
+	<!-- type used for version informations (full entry as well as os version) -->
+	<xs:complexType name="app_version_info">
+		<xs:attribute name="major" use="required" type="versionNumber" />
+		<xs:attribute name="minor" use="required" type="versionNumber" />
+		<xs:attribute name="release" use="required" type="versionNumber" />
+		<xs:attribute name="build" use="required" type="versionNumber" />
+		<xs:attribute name="type" use="optional" type="releaseType" />
+	</xs:complexType>
+	<xs:complexType name="os_version_info">
+		<xs:attribute name="major" use="required" type="versionNumber" />
+		<xs:attribute name="minor" use="required" type="versionNumber" />
+		<xs:attribute name="release" use="required" type="versionNumber" />
+		<xs:attribute name="build" use="required" type="versionNumber" />
+	</xs:complexType>
+	
+	<!-- type used for exec entries -->
+	<xs:complexType name="exec_params">
+		<xs:attribute name="command" use="required" type="nonempty_token" />
+		<xs:attribute name="arguments" use="optional" type="nonempty_token" />
+		<xs:attribute name="background" use="optional" type="xs:boolean" />
+		<xs:attribute name="startdir" use="optional" type="dumbPath" />
+		<xs:attribute name="standalone" use="optional" type="xs:boolean" />
+		<xs:attribute name="x11" use="optional" type="x11Param" />
+	</xs:complexType>
+	
+	<!-- type used for tiles or descriptions, once in 'normal' version, once enforcing usage of en_US -->
+	<xs:complexType name="title_or_description">
+		<xs:simpleContent>
+			<xs:extension base="nonempty_string">
+				<xs:attribute name="lang" use="required" type="isoLangcode" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="title_or_description_enUS">
+		<xs:simpleContent>
+			<xs:extension base="nonempty_string">
+				<xs:attribute name="lang" use="required" type="isoLangcode_en_US" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<!-- type used for referencing images -->
+	<xs:complexType name="image_entry">
+		<xs:attribute name="src" use="required" type="dumbPath" />
+	</xs:complexType>
+	
+	<!-- type for referencing manuals/readme docs -->
+	<xs:complexType name="information_entry">
+		<xs:attribute name="name" use="required" type="nonempty_normalizedString" />
+		<xs:attribute name="type" use="required" type="docType" />
+		<xs:attribute name="src" use="required" type="dumbPath" />
+	</xs:complexType>
+	
+	<!-- type used for the license information -->
+	<xs:complexType name="license_info">
+		<xs:attribute name="name" use="required" type="nonempty_normalizedString" />
+		<xs:attribute name="url" use="optional" type="xs:anyURI" />
+		<xs:attribute name="sourcecodeurl" use="optional" type="xs:anyURI" />
+	</xs:complexType>
+	
+	
+	
+	<!-- Combine the symple and complex types into the "real" PXML specification -->
+	
+	<xs:element name="PXML">
+		<xs:complexType>
+			<xs:sequence>
+				<!-- specify the <package> tag with info about the complete package, information providable:
+					author
+					version
+					title(s)
+					description(s)
+					icon
+					-->
+				<xs:element name="package" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:all>
+							<!--Author info-->
+							<xs:element name="author" type="author_data" minOccurs="1" />
+							<!--App version info-->
+							<xs:element name="version" type="app_version_info" minOccurs="1" />
+							<!--Title-->
+							<xs:element name="titles" minOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="title" type="title_or_description_enUS" minOccurs="1" maxOccurs="1" />
+										<xs:element name="title" type="title_or_description" minOccurs="0" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<!--Description-->
+							<xs:element name="descriptions" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="title" type="title_or_description_enUS" minOccurs="0" maxOccurs="1" />
+										<xs:element name="description" type="title_or_description" minOccurs="0" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<!--Icon-->
+							<xs:element name="icon" type="image_entry" minOccurs="0" />
+						</xs:all>
+						<!--Package ID-->
+						<xs:attribute name="id" use="required" type="dumbFolderName" />
+					</xs:complexType>
+				</xs:element>
+				<!-- specify the <application> tag with info about a single program
+					executable call
+					author
+					version (of the application)
+					osversion (min OS version supported)
+					title(s) (allowing compatibility to <HF6, too!)
+					description(s) (allowing compatibility to <HF6, too!)
+					icon
+					license
+					preview pictures
+					info/manual/readme entry
+					categories
+					associations to file types
+					clockspeed
+					-->
+				<xs:element name="application" minOccurs="1" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:all>
+							<!--Execution params -->
+							<xs:element name="exec" type="exec_params" minOccurs="1" />
+							<!--Author info-->
+							<xs:element name="author" type="author_data" minOccurs="1" />
+							<!--App version info-->
+							<xs:element name="version" type="app_version_info" minOccurs="1" />
+							<!--OS Version info-->
+							<xs:element name="osversion" type="os_version_info" minOccurs="0" />
+							<!--Title-->
+							<!-- via <titles> element, used for HF6+ -->
+							<xs:element name="titles" minOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="title" type="title_or_description_enUS" minOccurs="1" maxOccurs="1" />
+										<xs:element name="title" type="title_or_description" minOccurs="0" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<!--Title-->
+							<!-- via <title> element, only one for en_US allowed, meant for backwards compatibility with libpnd from <HF6 -->
+							<xs:element name="title" type="title_or_description_enUS" minOccurs="0" />
+							<!--Description-->
+							<!-- via <descriptions> element, used for HF6+ -->
+							<xs:element name="descriptions" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="description" type="title_or_description_enUS" minOccurs="1" maxOccurs="1" />
+										<xs:element name="description" type="title_or_description" minOccurs="0" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<!--Description-->
+							<!-- via <description> element, only one for en_US allowed, meant for backwards compatibility with libpnd from <HF6 -->
+							<xs:element name="description" type="title_or_description_enUS" minOccurs="0" />
+							<!--Icon-->
+							<xs:element name="icon" type="image_entry" minOccurs="0" />
+							<!--License-->
+							<xs:element name="licenses" minOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="license" type="license_info" minOccurs="1" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<!--Preview pics-->
+							<xs:element name="previewpics" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="pic" type="image_entry" minOccurs="0" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<!--Info (aka manual or readme entry)-->
+							<xs:element name="info" type="information_entry" minOccurs="0" />
+							<!--Categories-->
+							<xs:element name="categories" minOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="category" minOccurs="1" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="subcategory" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:attribute name="name" type="fdoSubCategory" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="name" use="required" type="fdoCategory" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<!--Associations-->
+							<xs:element name="associations" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="association" type="association_data" maxOccurs="unbounded" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<!--Clockspeed-->
+							<xs:element name="clockspeed" minOccurs="0">
+								<xs:complexType>
+									<xs:attribute name="frequency" use="required" type="xs:positiveInteger" />
+								</xs:complexType>
+							</xs:element>
+						</xs:all>
+						<!--AppID-->
+						<xs:attribute name="id" use="required" type="dumbFolderName" />
+						<xs:attribute name="appdata" use="optional" type="dumbFolderName" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

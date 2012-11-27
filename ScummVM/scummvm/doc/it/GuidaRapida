@@ -1,0 +1,161 @@
+Questo documento è una parziale traduzione del file README inglese. Il
+documento originale contiene molte più informazioni, quindi se qui non
+trovi ciò che ti serve e capisci un po' di inglese, prova a leggere il
+file README inglese.
+
+Per maggiori informazioni, liste di compatibilità, dettagli sulle
+donazioni, ultime versioni, resoconti sui progressi e altro, ti
+consigliamo di visitare il sito di ScummVM: http://www.scummvm.org/
+
+Indice dei contenuti:
+---------------------
+1.0) Introduzione
+ * 1.1 Informazioni su ScummVM
+ * 1.2 Guida rapida
+2.0) Contatti
+ * 2.1 Segnalazione bug
+
+1.0) Introduzione:
+---- -------------
+
+1.1) Informazioni su ScummVM:
+---- ------------------------
+ScummVM è un programma che ti permette di eseguire alcuni giochi grafici
+classici d'avventura punta-e-clicca, purché tu possieda già i loro file
+dati. La parte ingegnosa è questa: ScummVM sostituisce solo gli
+eseguibili forniti con i giochi, permettendoti di giocare su sistemi
+per i quali non erano stati concepiti!
+
+In origine è stato progettato per eseguire i giochi SCUMM della
+LucasArts, come Maniac Mansion, Monkey Island, Day of the Tentacle o Sam
+and Max. SCUMM sta per "Script Creation Utility for Maniac Mansion",
+cioè "Utilità di Creazione Script per Maniac Mansion", che è stato il
+primo gioco per il quale la LucasArts ha concepito questo sistema. E
+molto più tardi ha dato il nome a ScummVM (dove "VM" sta per Virtual
+Machine, macchina virtuale).
+
+Con il tempo è stato aggiunto il supporto a molti giochi non SCUMM, e
+ScummVM ora supporta molti giochi AGI e SCI della Sierra (come King's
+Quest 1-6, Space Quest 1-5, ...), Discworld 1 e 2, Simon the Sorcerer 1
+e 2, Beneath A Steel Sky, Lure of the Temptress, Broken Sword I and II,
+Flight of the Amazon Queen, Gobliiins 1-3, la serie di The Legend of
+Kyrandia, molti giochi SCUMM per bambini della Humongous Entertainment
+(inclusi i giochi di Freddi Fish e di Putt Putt) e molti altri. Puoi
+trovare una lista completa che elenca quali avventure sono supportate e
+in che misura nella pagina di compatibilità. ScummVM è in
+continuo miglioramento, quindi torna a dare un'occhiata ogni tanto.
+
+Tra i sistemi sui quali puoi giocare ci sono i normali computer desktop
+(con Windows, Linux, Mac OS X, ...), varie console (Dreamcast, Nintendo
+DS & Wii, PS2, PSP, ...), smartphone (Android, iPhone, PocketPC, Symbian,
+...) e altri.
+
+In questo momento è ancora in fase di sviluppo. Sappi che, anche se
+cerchiamo di assicurarci che i giochi possano essere completati senza
+bug gravi, possono avvenire dei crash e non offriamo garanzie. Detto
+questo, molti giochi sono supportati da molto tempo e dovrebbero
+funzionare in qualunque versione recente. Puoi avere una idea del
+funzionamento di ogni gioco in ScummVM guardando la pagina di
+compatibilità. A dire il vero curiosando un po' in giro potresti
+scoprire che ScummVM viene perfino usato a livello commerciale per le
+riedizioni di alcuni dei giochi supportati per le piattaforme moderne.
+Questo mostra come varie compagnie apprezzino la qualità del programma e
+la bontà di riproduzione di alcuni giochi.
+
+Se apprezzi ScummVM sentiti libero di fare una donazione usando il tasto
+PayPal sulla homepage di ScummVM. Questo ci permetterà di comprare
+strumenti necessari a sviluppare ScummVM in maniera più semplice e
+veloce. Se non puoi fare una donazione, contribuisci con una patch!
+
+1.2) Guida rapida:
+---- -------------
+IMPORTANTE: questa breve guida assume che tu stia usando ScummVM in
+italiano. Come impostazione predefinita, ScummVM userà la lingua del tuo
+sistema operativo. Se preferisci usare ScummVM in inglese, potresti
+preferire la guida in inglese nel file README.
+
+Per chi non può aspettare, di seguito è spiegato come far partire
+ScummVM in cinque semplici passi.
+
+1. Scarica ScummVM da <http://www.scummvm.org/downloads.php> e
+installalo.
+
+2. Crea una cartella sul disco rigido e copia i file di gioco dal
+supporto originale in questa cartella. Ripeti questa operazione per
+tutti i giochi (è consigliabile utilizzare una diversa cartella per ogni
+gioco).
+
+3. Avvia ScummVM.
+
+Se ScummVM appare in inglese invece che in italiano, procedi come segue
+per cambiare la lingua:
+- Clicca su "Options".
+- Clicca sulla freccia destra nella barra delle schede e seleziona la
+  scheda "Misc".
+- Seleziona "Italiano" nel menu a tendina "GUI Language" e clicca "OK".
+- Dai la conferma al messaggio che appare, clicca "Quit" per chiudere
+  ScummVM e riavvia il programma.
+
+Ora scegli "Aggiungi gioco", seleziona la cartella con i file dati (non
+selezionare i singoli file!) e premi "Scegli".
+
+4. Dovrebbe apparire una finestra per permetterti di configurare varie
+impostazioni (dovrebbe comunque funzionare bene lasciando tutto com'è).
+Dai l'OK di conferma.
+
+5. Seleziona il gioco che vuoi lanciare dalla lista, e premi "Gioca".
+
+ScummVM ricorda i giochi aggiunti. Quindi se chiudi ScummVM, al
+successivo avvio la lista conterrà tutti i giochi aggiunti in
+precedenza. Puoi quindi andare direttamente al punto 5, a meno che tu
+non voglia aggiungere altri giochi.
+
+Suggerimento: se vuoi aggiungere una serie di giochi in un solo colpo,
+prova a tenere premuto il tasto shift prima di cliccare su "Aggiungi
+gioco" -- l'etichetta del pulsante diventerà "Agg. in massa" e se lo
+premi ti verrà di nuovo chiesto di selezionare una cartella, ma questa
+volta ScummVM cercherà i giochi supportati in tutte le sotto-cartelle.
+
+
+2.0) Contatti:
+---- ---------
+Il modo più facile per contattare il team di ScummVM è attraverso la
+segnalazione di bug (vedi sezione 2.1) o tramite il forum su
+http://forums.scummvm.org. Puoi anche iscriverti alla mailing list
+scummvm-devel o contattarci in chat su IRC (#scummvm su
+irc.freenode.net). Per favore non chiederci di supportare un gioco non
+supportato -- prima leggi le FAQ sul nostro sito web. Ricorda che la
+lingua ufficiale di forum, mailing list e chat è l'inglese e non sarà
+usata nessuna altra lingua.
+
+
+2.1) Segnalazione bug:
+---- -----------------
+Per segnalare un bug, crea un account SourceForge e apri il link "Bug
+Tracker" sulla nostra homepage. Per favore assicurati che il bug sia
+riproducibile e che si verifichi nell'ultima versione giornaliera SVN.
+Controlla anche la lista dei problemi noti e la lista di compatibilità
+sul nostro sito, per assicurarti che il problema non sia già noto:
+
+  http://www.scummvm.org/compatibility_stable.php
+
+Per favore non segnalare bug di giochi che non sono segnati come
+completabili nella sezione "Supported Games" o nella lista di
+compatibilità.
+
+Per favore includi le seguenti informazioni:
+    - Versione di ScummVM (PER FAVORE testa l'ultima versione SVN)
+    - Dettagli del bug, incluse le istruzioni per riprodurlo
+    - Lingua del gioco (inglese, tedesco, ...)
+    - Versione del gioco (talkie, floppy, ...)
+    - Piattaforma e compilatore (Win32, Linux, FreeBSD, ...)
+    - Allega un salvataggio se possibile
+    - Se questo bug è apparso solo recentemente, per favore segnala
+	  l'ultima versione senza il bug e la prima versione con il bug. In
+	  questo modo possiamo correggerlo più velocemente controllando i
+	  cambiamenti fatti.
+
+Infine, per favore segnala ogni problema separatamente; non riportare
+più problemi nello stesso ticket. (Altrimenti diventa difficile
+assegnare uno stato al singolo bug). Per favore ricordati che tutte le
+segnalazioni devono essere scritte in inglese.

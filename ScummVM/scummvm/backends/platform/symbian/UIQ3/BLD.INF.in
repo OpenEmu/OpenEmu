@@ -1,0 +1,11 @@
+PRJ_PLATFORMS
+GCCE WINSCW
+
+PRJ_MMPFILES
+//START_AUTO_PROJECTS//
+
+	// empty base file, will be updated by Perl build scripts
+
+//STOP_AUTO_PROJECTS//
+.\ScummVM_A0000658_UIQ3.mmp
+.\ScummVM_UIQ3.mmp

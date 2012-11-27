@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.nokia.scummvm
+Exec=/usr/games/scummvm
