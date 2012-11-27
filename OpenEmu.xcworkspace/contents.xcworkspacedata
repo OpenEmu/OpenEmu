@@ -41,6 +41,9 @@
       location = "group:FCEU/FCEU.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:ScummVM/ScummVM.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Meteor/Meteor.xcodeproj">
    </FileRef>
    <FileRef
