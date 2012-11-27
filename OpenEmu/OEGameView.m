@@ -807,30 +807,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEGameViewDidMoveToWindow" object:self];
 }
 
-- (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
-{    
-    NSRect bounds = [self bounds];
-    OEIntSize maxScreenSize = self.rootProxy.screenSize;
-    NSRect frame  = NSMakeRect(0.0, 0.0, maxScreenSize.width, maxScreenSize.height);
-    
-    CGFloat factor     = NSWidth(frame) / NSHeight(frame);
-    CGFloat selfFactor = NSWidth(bounds) / NSHeight(bounds);
-    
-    if(selfFactor - CGFLOAT_EPSILON < factor && factor < selfFactor + CGFLOAT_EPSILON)
-        frame = bounds;
-    else
-    {
-        CGFloat scale = MIN(NSWidth(bounds) / NSWidth(frame), NSHeight(bounds) / NSHeight(frame));
-        if(scale==INFINITY) scale = 0.0;
-        
-        frame.size.width  *= scale;
-        frame.size.height *= scale;
-        frame.origin.x = NSMidX(bounds) - NSWidth(frame)  / 2.0;
-        frame.origin.y = NSMidY(bounds) - NSHeight(frame) / 2.0;
-    }
-    [self setFrame:frame];
-}
-
 #pragma mark -
 #pragma mark Events
 

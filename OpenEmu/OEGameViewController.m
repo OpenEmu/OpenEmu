@@ -395,7 +395,6 @@ typedef enum : NSUInteger
     [gameView setGameResponder:gameSystemResponder];
     [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [[self view] addSubview:gameView];
-    [gameView resizeSubviewsWithOldSize:[[self view] frame].size];
     
     [rootProxy setupEmulation];
     _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
