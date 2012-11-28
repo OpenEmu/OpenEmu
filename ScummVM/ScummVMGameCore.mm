@@ -25,14 +25,25 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#define FORBIDDEN_SYMBOL_ALLOW_ALL
+
 #import "ScummVMGameCore.h"
 #import <OpenEmuBase/OERingBuffer.h>
 #import "OEArcadeSystemResponderClient.h"
 #import <OpenGL/gl.h>
-
 #include "libretro.h"
+#include "common/system.h"
+
 
 @interface ScummVMGameCore () <OEArcadeSystemResponderClient>
+{
+    bool _keyboard[RETROK_LAST];
+    bool _mouseButtons[2];
+    bool mouseMoved;
+    int16_t lastX;
+    int16_t lastY;
+    OEIntPoint currentMouseLocation;
+}
 @end
 
 NSUInteger ScummVMEmulatorValues[] = { }; //fuuuuuuu
@@ -73,13 +84,15 @@ static void input_poll_callback(void)
 
 static int16_t input_state_callback(unsigned port, unsigned device, unsigned index, unsigned _id)
 {
-	if (port == 0 & device == RETRO_DEVICE_JOYPAD) {
-        return current->pad[0][_id];
+	if (port == 0 && device == RETRO_DEVICE_KEYBOARD) {
+        return current->_keyboard[_id];
     }
-    else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
-        return current->pad[1][_id];
+    if (port == 0 && device == RETRO_DEVICE_MOUSE) {
+        if (_id == RETRO_DEVICE_ID_MOUSE_LEFT)
+            return current->_mouseButtons[0];
+        else if (_id == RETRO_DEVICE_ID_MOUSE_RIGHT)
+            return current->_mouseButtons[1];
     }
-    
     return 0;
 }
 
@@ -157,16 +170,6 @@ static void writeSaveFile(const char* path, int type)
     }
 }
 
-- (oneway void)didPushArcadeButton:(OEArcadeButton)button forPlayer:(NSUInteger)player;
-{
-    pad[player-1][ScummVMEmulatorValues[button]] = 1;
-}
-
-- (oneway void)didReleaseArcadeButton:(OEArcadeButton)button forPlayer:(NSUInteger)player;
-{
-    pad[player-1][ScummVMEmulatorValues[button]] = 0;
-}
-
 - (id)init
 {
 	self = [super init];
@@ -196,7 +199,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (BOOL)loadFileAtPath: (NSString*) path
 {
-	memset(pad, 0, sizeof(int16_t) * 24);
+	memset(_keyboard, 0, sizeof(bool) * RETROK_LAST);
     
     const void *data;
     size_t size;
@@ -258,6 +261,40 @@ static void writeSaveFile(const char* path, int type)
     return YES;
 }
 
+- (void)mouseMoved:(OEIntPoint)location
+{
+    g_system->warpMouse(location.x, location.y);
+}
+
+- (void)leftMouseDown
+{
+    _mouseButtons[0] = true;
+}
+
+- (void)leftMouseUp
+{
+    _mouseButtons[0] = false;
+}
+
+- (void)rightMouseDown
+{
+    _mouseButtons[1] = true;
+}
+
+- (void)rightMouseUp
+{
+    _mouseButtons[1] = false;
+}
+
+- (void)keyUp:(unsigned short)keyCode
+{
+    _keyboard[RETROK_1] = false;
+}
+
+- (void)keyDown:(unsigned short)keyCode
+{
+    _keyboard[RETROK_1] = true;
+}
 #pragma mark Video
 - (const void *)videoBuffer
 {

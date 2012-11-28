@@ -28,7 +28,7 @@
 	<string>http://www.scummvm.org/</string>
 	<key>OESystemIdentifiers</key>
 	<array>
-		<string>openemu.system.arcade</string>
+		<string>openemu.system.computer</string>
 	</array>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>

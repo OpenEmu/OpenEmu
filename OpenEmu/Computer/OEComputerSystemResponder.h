@@ -26,23 +26,12 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
-#import <IOKit/hid/IOHIDLib.h>
-#import <IOKit/hid/IOHIDUsageTables.h>
-#import <ForceFeedback/ForceFeedback.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-#import <OpenEmuSystem/OEBindingMap.h>
-#import <OpenEmuSystem/OESystemController.h>
-#import <OpenEmuSystem/OESystemResponder.h>
-#import <OpenEmuSystem/OERawSystemResponder.h>
-#import <OpenEmuSystem/OEBasicSystemResponder.h>
-#import <OpenEmuSystem/OESystemResponderClient.h>
-#import <OpenEmuSystem/OEBindingsController.h>
-#import <OpenEmuSystem/OESystemBindings.h>
-#import <OpenEmuSystem/OEPlayerBindings.h>
-#import <OpenEmuSystem/OEKeyBindingDescription.h>
-#import <OpenEmuSystem/OEKeyBindingGroupDescription.h>
-#import <OpenEmuSystem/OEHIDEvent.h>
-#import <OpenEmuSystem/OEHIDManager.h>
-#import <OpenEmuSystem/OEHIDDeviceHandler.h>
-#import <OpenEmuSystem/NSApplication+OEHIDAdditions.h>
+@protocol OEComputerSystemResponderClient;
+
+@interface OEComputerSystemResponder : OERawSystemResponder
+
+@property(nonatomic, weak) id<OEComputerSystemResponderClient> client;
+
+@end

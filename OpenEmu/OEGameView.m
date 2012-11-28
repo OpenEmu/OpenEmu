@@ -77,7 +77,7 @@ static NSString *const _OEScale4xBRFilterName = @"Scale4xBR";
 static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 @interface OEGameView ()
-
+@property         NSTrackingRectTag trackingTag;
 // rendering
 @property         GLuint gameTexture;
 @property         IOSurfaceID gameSurfaceID;
@@ -803,8 +803,31 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void)viewDidMoveToWindow
 {
     [super viewDidMoveToWindow];
-    
+    _trackingTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEGameViewDidMoveToWindow" object:self];
+}
+
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow
+{
+    [super viewWillMoveToWindow:newWindow];
+    if ([self window] && _trackingTag)
+    {
+        [self removeTrackingRect:_trackingTag];
+    }
+}
+
+- (void)setFrame:(NSRect)frameRect
+{
+    [super setFrame:frameRect];
+    [self removeTrackingRect:_trackingTag];
+    _trackingTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
+}
+
+- (void)setBounds:(NSRect)aRect
+{
+    [super setBounds:aRect];
+    [self removeTrackingRect:_trackingTag];
+    _trackingTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
 }
 
 - (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
@@ -921,11 +944,13 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void)mouseEntered:(NSEvent *)theEvent;
 {
     [[self gameResponder] mouseEntered:[self OE_mouseEventWithEvent:theEvent]];
+    [[self window] setAcceptsMouseMovedEvents:YES];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent;
 {
     [[self gameResponder] mouseExited:[self OE_mouseEventWithEvent:theEvent]];
+    [[self window] setAcceptsMouseMovedEvents:NO];
 }
 
 @end

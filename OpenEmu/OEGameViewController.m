@@ -241,7 +241,6 @@ typedef enum : NSUInteger
     if([window parentWindow] != nil) window = [window parentWindow];
 
     [window addChildWindow:controlsWindow ordered:NSWindowAbove];
-    
     [self OE_repositionControlsWindow];
     
     [controlsWindow orderFront:self];

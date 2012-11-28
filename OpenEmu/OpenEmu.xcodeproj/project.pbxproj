@@ -38,6 +38,7 @@
 				C68625721572686E00EFC972 /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
+				82870D711665614F00CBFE5D /* PBXTargetDependency */,
 				94619CC715C50FB20019AC8E /* PBXTargetDependency */,
 				94619C9115C4CBEF0019AC8E /* PBXTargetDependency */,
 				941DFB3D15B7622700C6552F /* PBXTargetDependency */,
@@ -284,6 +285,29 @@
 		8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C9B3FD14F75CD900D7E795 /* TPCircularBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		826844C51022A0630019C7B0 /* smaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C31022A0630019C7B0 /* smaller.tif */; };
 		826844C61022A0630019C7B0 /* larger.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C41022A0630019C7B0 /* larger.tif */; };
+		82870D4516655F9900CBFE5D /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
+		82870D4716655F9900CBFE5D /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		82870D4816655F9900CBFE5D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		82870D4A16655F9900CBFE5D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
+		82870D4B16655F9900CBFE5D /* arcade_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E430F1517F5BC00057D08 /* arcade_library.png */; };
+		82870D4C16655F9900CBFE5D /* controller_arcade_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E43111517F5BC00057D08 /* controller_arcade_mask.png */; };
+		82870D4D16655F9900CBFE5D /* controller_arcade.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E43121517F5BC00057D08 /* controller_arcade.png */; };
+		82870D4E16655F9900CBFE5D /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 945E43131517F5BC00057D08 /* Controller-Preferences.plist */; };
+		82870D4F16655F9900CBFE5D /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6527BC0164E22AA0030FB25 /* Keyboard-Mappings.plist */; };
+		82870D5016655F9900CBFE5D /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943819C31658DAE800D55731 /* Controller-Mappings.plist */; };
+		82870D6416655FCF00CBFE5D /* computer_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 82870D5616655FCF00CBFE5D /* computer_library.png */; };
+		82870D6516655FCF00CBFE5D /* Computer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82870D5716655FCF00CBFE5D /* Computer-Info.plist */; };
+		82870D6616655FCF00CBFE5D /* controller_arcade_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 82870D5916655FCF00CBFE5D /* controller_arcade_mask.png */; };
+		82870D6716655FCF00CBFE5D /* controller_arcade.png in Resources */ = {isa = PBXBuildFile; fileRef = 82870D5A16655FCF00CBFE5D /* controller_arcade.png */; };
+		82870D6816655FCF00CBFE5D /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82870D5B16655FCF00CBFE5D /* Controller-Mappings.plist */; };
+		82870D6916655FCF00CBFE5D /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82870D5C16655FCF00CBFE5D /* Controller-Preferences.plist */; };
+		82870D6A16655FCF00CBFE5D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 82870D5E16655FCF00CBFE5D /* InfoPlist.strings */; };
+		82870D6B16655FCF00CBFE5D /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82870D6016655FCF00CBFE5D /* Keyboard-Mappings.plist */; };
+		82870D6C16655FCF00CBFE5D /* OEComputerSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82870D6216655FCF00CBFE5D /* OEComputerSystemResponder.m */; };
+		82870D6F1665614A00CBFE5D /* Computer.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 82870D5416655F9900CBFE5D /* Computer.oesystemplugin */; };
+		82870D781665668900CBFE5D /* OERawSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82870D741665668900CBFE5D /* OERawSystemResponder.m */; };
+		82870D791665669500CBFE5D /* OERawSystemResponder.h in Headers */ = {isa = PBXBuildFile; fileRef = 82870D731665668900CBFE5D /* OERawSystemResponder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82870D7A1665669B00CBFE5D /* OERawSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82870D741665668900CBFE5D /* OERawSystemResponder.m */; };
 		828ED4D70E7D98940059F397 /* OEGamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828ED4D60E7D98940059F397 /* OEGamePickerController.m */; };
 		828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 828ED4D80E7D98A10059F397 /* GameFilePicker.xib */; };
 		829022AA0F47F90D00BB7AB7 /* OEGameQTRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 829022A90F47F90D00BB7AB7 /* OEGameQTRecorder.m */; };
@@ -654,7 +678,6 @@
 		94EFD19315ACA814009BED8F /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD18F15ACA814009BED8F /* Controller-Preferences.plist */; };
 		94EFD19415ACA814009BED8F /* segacd_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD19015ACA814009BED8F /* segacd_library.png */; };
 		94EFD19715ACA8C0009BED8F /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		94EFD19A15ACA8E9009BED8F /* Sega CD.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6252DA814E71D0500350A13 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = C6252DA914E71D0500350A13 /* controller_fc.png */; };
 		C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAA14E752E300350A13 /* Controller-Preferences.plist */; };
@@ -719,7 +742,7 @@
 		C6862574157268A500EFC972 /* NDS.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */; };
 		C6862575157268A500EFC972 /* Arcade.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
 		C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */; };
-		C69259FC15045B03003E6FD3 /* OEEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = C69259FA15045B03003E6FD3 /* OEEvent.h */; settings = {ATTRIBUTES = (); }; };
+		C69259FC15045B03003E6FD3 /* OEEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = C69259FA15045B03003E6FD3 /* OEEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C69259FD15045B03003E6FD3 /* OEEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C69259FB15045B03003E6FD3 /* OEEvent.m */; };
 		C6953CA1117293760091276F /* OEGameView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6953CA0117293760091276F /* OEGameView.m */; };
 		C69DCCED0FE99415009AE5A6 /* OEFilterPluginIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */; };
@@ -885,6 +908,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8227753E148946DF00B19E27;
 			remoteInfo = GameGear;
+		};
+		82870D4316655F9900CBFE5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		82870D701665614F00CBFE5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82870D4116655F9900CBFE5D;
+			remoteInfo = Computer;
 		};
 		8291C4DF148958F500A72540 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1244,10 +1281,10 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				82870D6F1665614A00CBFE5D /* Computer.oesystemplugin in Copy Plugins To Application Support */,
 				94619CC815C50FC30019AC8E /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */,
 				94619C9215C4CBFC0019AC8E /* Atari 5200.oesystemplugin in Copy Plugins To Application Support */,
 				941DFB3E15B7623200C6552F /* Atari 2600.oesystemplugin in Copy Plugins To Application Support */,
-				94EFD19A15ACA8E9009BED8F /* Sega CD.oesystemplugin in Copy Plugins To Application Support */,
 				94A1E9DF1586FD7600986376 /* Virtual Boy.oesystemplugin in Copy Plugins To Application Support */,
 				94AB85FA158679730035D12C /* SG-1000.oesystemplugin in Copy Plugins To Application Support */,
 				94AB855C15853B930035D12C /* PC-FX.oesystemplugin in Copy Plugins To Application Support */,
@@ -1573,6 +1610,22 @@
 		826844C31022A0630019C7B0 /* smaller.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smaller.tif; sourceTree = "<group>"; };
 		826844C41022A0630019C7B0 /* larger.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = larger.tif; sourceTree = "<group>"; };
 		828389A80E6CF3A500A96E2C /* OEGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCore.h; sourceTree = "<group>"; };
+		82870D5416655F9900CBFE5D /* Computer.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Computer.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		82870D5516655F9A00CBFE5D /* Arcade copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Arcade copy-Info.plist"; path = "/Users/jweinberg/Development/clobber/OpenEmu/Arcade copy-Info.plist"; sourceTree = "<absolute>"; };
+		82870D5616655FCF00CBFE5D /* computer_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = computer_library.png; sourceTree = "<group>"; };
+		82870D5716655FCF00CBFE5D /* Computer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Computer-Info.plist"; sourceTree = "<group>"; };
+		82870D5816655FCF00CBFE5D /* Arcade-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Arcade-Prefix.pch"; sourceTree = "<group>"; };
+		82870D5916655FCF00CBFE5D /* controller_arcade_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade_mask.png; sourceTree = "<group>"; };
+		82870D5A16655FCF00CBFE5D /* controller_arcade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade.png; sourceTree = "<group>"; };
+		82870D5B16655FCF00CBFE5D /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		82870D5C16655FCF00CBFE5D /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		82870D5F16655FCF00CBFE5D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		82870D6016655FCF00CBFE5D /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		82870D6116655FCF00CBFE5D /* OEComputerSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEComputerSystemResponder.h; sourceTree = "<group>"; };
+		82870D6216655FCF00CBFE5D /* OEComputerSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEComputerSystemResponder.m; sourceTree = "<group>"; };
+		82870D6316655FCF00CBFE5D /* OEComputerSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEComputerSystemResponderClient.h; sourceTree = "<group>"; };
+		82870D731665668900CBFE5D /* OERawSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERawSystemResponder.h; sourceTree = "<group>"; };
+		82870D741665668900CBFE5D /* OERawSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERawSystemResponder.m; sourceTree = "<group>"; };
 		828ED4D50E7D98940059F397 /* OEGamePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGamePickerController.h; sourceTree = "<group>"; };
 		828ED4D60E7D98940059F397 /* OEGamePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGamePickerController.m; sourceTree = "<group>"; };
 		828ED4D90E7D98A10059F397 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameFilePicker.xib; sourceTree = "<group>"; };
@@ -2271,6 +2324,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		82870D4616655F9900CBFE5D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82870D4716655F9900CBFE5D /* OpenEmuSystem.framework in Frameworks */,
+				82870D4816655F9900CBFE5D /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC330486D014006FF6A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2575,6 +2637,7 @@
 				941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */,
 				94619C8015C4C3190019AC8E /* Atari 5200.oesystemplugin */,
 				94619CA815C507B60019AC8E /* Nintendo FDS.oesystemplugin */,
+				82870D5416655F9900CBFE5D /* Computer.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2808,6 +2871,7 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				143F298A164DE0B300544CCF /* MagicKit.xcodeproj */,
+				82870D5516655F9A00CBFE5D /* Arcade copy-Info.plist */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";
@@ -3413,6 +3477,33 @@
 				83E41F28158546E90069B8AF /* OESystemPicker.m */,
 			);
 			name = "Utility Windows";
+			sourceTree = "<group>";
+		};
+		82870D4016655EE200CBFE5D /* Computer */ = {
+			isa = PBXGroup;
+			children = (
+				82870D6D16655FD500CBFE5D /* Supporting Files */,
+				82870D6116655FCF00CBFE5D /* OEComputerSystemResponder.h */,
+				82870D6216655FCF00CBFE5D /* OEComputerSystemResponder.m */,
+				82870D6316655FCF00CBFE5D /* OEComputerSystemResponderClient.h */,
+			);
+			path = Computer;
+			sourceTree = "<group>";
+		};
+		82870D6D16655FD500CBFE5D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				82870D5616655FCF00CBFE5D /* computer_library.png */,
+				82870D5716655FCF00CBFE5D /* Computer-Info.plist */,
+				82870D5816655FCF00CBFE5D /* Arcade-Prefix.pch */,
+				82870D5916655FCF00CBFE5D /* controller_arcade_mask.png */,
+				82870D5A16655FCF00CBFE5D /* controller_arcade.png */,
+				82870D5B16655FCF00CBFE5D /* Controller-Mappings.plist */,
+				82870D5C16655FCF00CBFE5D /* Controller-Preferences.plist */,
+				82870D5E16655FCF00CBFE5D /* InfoPlist.strings */,
+				82870D6016655FCF00CBFE5D /* Keyboard-Mappings.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		828E64D00E84656900B1860B /* OpenEmuCore */ = {
@@ -4275,6 +4366,8 @@
 				C6D268D9135BD95A00154550 /* NSUserDefaultsController+OEEventAdditions.m */,
 				C69259FA15045B03003E6FD3 /* OEEvent.h */,
 				C69259FB15045B03003E6FD3 /* OEEvent.m */,
+				82870D731665668900CBFE5D /* OERawSystemResponder.h */,
+				82870D741665668900CBFE5D /* OERawSystemResponder.m */,
 				C6DC91CB15F3B5530082184C /* Bindings Controller */,
 				93B479F512BAB52F008618A7 /* HID */,
 				8353CE321561BF6D0045A3DD /* Wiimote HID */,
@@ -4443,6 +4536,7 @@
 		C67118201363687A0034379A /* System Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				82870D4016655EE200CBFE5D /* Computer */,
 				945E42FD1517F2B500057D08 /* Arcade */,
 				94D7E8CB15073BA000FBDD85 /* NDS */,
 				822775521489471A00B19E27 /* GameGear */,
@@ -4626,6 +4720,7 @@
 				8310126916494314000F8EC3 /* OEWiimoteManager.h in Headers */,
 				8310126A16494319000F8EC3 /* OEWiimoteDeviceHandler.h in Headers */,
 				839319241649572D000919BD /* WiimoteTypes.h in Headers */,
+				82870D791665669500CBFE5D /* OERawSystemResponder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4739,6 +4834,24 @@
 			productName = OpenEmuBase;
 			productReference = 82444BA10F51256C007C171B /* OpenEmuBase.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		82870D4116655F9900CBFE5D /* Computer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82870D5116655F9900CBFE5D /* Build configuration list for PBXNativeTarget "Computer" */;
+			buildPhases = (
+				82870D4416655F9900CBFE5D /* Sources */,
+				82870D4616655F9900CBFE5D /* Frameworks */,
+				82870D4916655F9900CBFE5D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82870D4216655F9900CBFE5D /* PBXTargetDependency */,
+			);
+			name = Computer;
+			productName = Arcade;
+			productReference = 82870D5416655F9900CBFE5D /* Computer.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
 		};
 		8D15AC270486D014006FF6A4 /* OpenEmu */ = {
 			isa = PBXNativeTarget;
@@ -5173,6 +5286,7 @@
 				820EB7391483F9A2008EC398 /* NeoGeoPocket */,
 				8227753E148946DF00B19E27 /* GameGear */,
 				94D7E8C815073BA000FBDD85 /* NDS */,
+				82870D4116655F9900CBFE5D /* Computer */,
 				945E42FA1517F2B500057D08 /* Arcade */,
 				94A9E162157C3B080083A7DC /* PlayStation */,
 				940236D01580323400083DCC /* PC Engine */,
@@ -5269,6 +5383,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82870D4916655F9900CBFE5D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82870D4A16655F9900CBFE5D /* InfoPlist.strings in Resources */,
+				82870D4B16655F9900CBFE5D /* arcade_library.png in Resources */,
+				82870D4C16655F9900CBFE5D /* controller_arcade_mask.png in Resources */,
+				82870D4D16655F9900CBFE5D /* controller_arcade.png in Resources */,
+				82870D4E16655F9900CBFE5D /* Controller-Preferences.plist in Resources */,
+				82870D4F16655F9900CBFE5D /* Keyboard-Mappings.plist in Resources */,
+				82870D5016655F9900CBFE5D /* Controller-Mappings.plist in Resources */,
+				82870D6416655FCF00CBFE5D /* computer_library.png in Resources */,
+				82870D6516655FCF00CBFE5D /* Computer-Info.plist in Resources */,
+				82870D6616655FCF00CBFE5D /* controller_arcade_mask.png in Resources */,
+				82870D6716655FCF00CBFE5D /* controller_arcade.png in Resources */,
+				82870D6816655FCF00CBFE5D /* Controller-Mappings.plist in Resources */,
+				82870D6916655FCF00CBFE5D /* Controller-Preferences.plist in Resources */,
+				82870D6A16655FCF00CBFE5D /* InfoPlist.strings in Resources */,
+				82870D6B16655FCF00CBFE5D /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5842,6 +5978,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		82870D4416655F9900CBFE5D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82870D4516655F9900CBFE5D /* OEArcadeSystemResponder.m in Sources */,
+				82870D6C16655FCF00CBFE5D /* OEComputerSystemResponder.m in Sources */,
+				82870D781665668900CBFE5D /* OERawSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC300486D014006FF6A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -6176,6 +6322,7 @@
 				831012681649430D000F8EC3 /* OEWiimoteDeviceHandler.m in Sources */,
 				8310126B1649432B000F8EC3 /* Wiimote.m in Sources */,
 				C627D9991658DEA7001A62C2 /* OEBindingMap.m in Sources */,
+				82870D7A1665669B00CBFE5D /* OERawSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6261,6 +6408,16 @@
 			isa = PBXTargetDependency;
 			target = 8227753E148946DF00B19E27 /* GameGear */;
 			targetProxy = 8227756E14894A2100B19E27 /* PBXContainerItemProxy */;
+		};
+		82870D4216655F9900CBFE5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 82870D4316655F9900CBFE5D /* PBXContainerItemProxy */;
+		};
+		82870D711665614F00CBFE5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82870D4116655F9900CBFE5D /* Computer */;
+			targetProxy = 82870D701665614F00CBFE5D /* PBXContainerItemProxy */;
 		};
 		8291C4E0148958F500A72540 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6513,6 +6670,15 @@
 				822775561489471A00B19E27 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		82870D5E16655FCF00CBFE5D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				82870D5F16655FCF00CBFE5D /* en */,
+			);
+			name = InfoPlist.strings;
+			path = en.lproj;
 			sourceTree = "<group>";
 		};
 		828ED4D80E7D98A10059F397 /* GameFilePicker.xib */ = {
@@ -6896,6 +7062,44 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
 				PRODUCT_NAME = OpenEmuBase;
 				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+		82870D5216655F9900CBFE5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "Computer/Computer-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Computer;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		82870D5316655F9900CBFE5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "Computer/Computer-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = Computer;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -7889,6 +8093,15 @@
 			buildConfigurations = (
 				82444BA30F51256D007C171B /* Debug */,
 				82444BA40F51256D007C171B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82870D5116655F9900CBFE5D /* Build configuration list for PBXNativeTarget "Computer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82870D5216655F9900CBFE5D /* Debug */,
+				82870D5316655F9900CBFE5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

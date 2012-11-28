@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>org.openemu.${PRODUCT_NAME:rfc1034identifier}</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
+	<key>NSPrincipalClass</key>
+	<string>OESystemController</string>
+	<key>OEArchiveIDs</key>
+	<array>
+		<integer>101</integer>
+	</array>
+	<key>OEControlListKey</key>
+	<array/>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>zip</string>
+	</array>
+	<key>OESystemIcon</key>
+	<string>computer_library</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.computer</string>
+	<key>OESystemName</key>
+	<string>Computer</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEComputerSystemResponder</string>
+	<key>OEGenericControlNamesKey</key>
+	<array/>
+	<key>OEControlTypesKey</key>
+	<dict/>
+</dict>
+</plist>
