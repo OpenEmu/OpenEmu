@@ -310,6 +310,8 @@
 			<string>Y</string>
 			<key>Direction</key>
 			<string>-1</string>
+			<key>Cookie</key>
+			<integer>74</integer>
 		</dict>
 		<key>OENGPButtonLeft</key>
 		<dict>
@@ -319,6 +321,8 @@
 			<string>X</string>
 			<key>Direction</key>
 			<string>-1</string>
+			<key>Cookie</key>
+			<integer>73</integer>
 		</dict>
 		<key>OENGPButtonA</key>
 		<dict>
@@ -326,6 +330,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>2</integer>
+			<key>Cookie</key>
+			<integer>10</integer>
 		</dict>
 		<key>OENGPButtonB</key>
 		<dict>
@@ -333,6 +339,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>1</integer>
+			<key>Cookie</key>
+			<integer>9</integer>
 		</dict>
 		<key>OENGPButtonOption</key>
 		<dict>
@@ -340,6 +348,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>4</integer>
+			<key>Cookie</key>
+			<integer>12</integer>
 		</dict>
 	</dict>
 </dict>

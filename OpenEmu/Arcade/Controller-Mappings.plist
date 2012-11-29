@@ -565,6 +565,8 @@
 			<string>Y</string>
 			<key>Direction</key>
 			<string>-1</string>
+			<key>Cookie</key>
+			<integer>74</integer>
 		</dict>
 		<key>OEArcadeButtonLeft</key>
 		<dict>
@@ -574,6 +576,8 @@
 			<string>X</string>
 			<key>Direction</key>
 			<string>-1</string>
+			<key>Cookie</key>
+			<integer>73</integer>
 		</dict>
 		<key>OEArcadeButton1</key>
 		<dict>
@@ -581,6 +585,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>6</integer>
+			<key>Cookie</key>
+			<integer>14</integer>
 		</dict>
 		<key>OEArcadeButton2</key>
 		<dict>
@@ -588,6 +594,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>7</integer>
+			<key>Cookie</key>
+			<integer>15</integer>
 		</dict>
 		<key>OEArcadeButton3</key>
 		<dict>
@@ -595,6 +603,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>8</integer>
+			<key>Cookie</key>
+			<integer>16</integer>
 		</dict>
 		<key>OEArcadeButton4</key>
 		<dict>
@@ -602,6 +612,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>2</integer>
+			<key>Cookie</key>
+			<integer>10</integer>
 		</dict>
 		<key>OEArcadeButton5</key>
 		<dict>
@@ -609,6 +621,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>1</integer>
+			<key>Cookie</key>
+			<integer>9</integer>
 		</dict>
 		<key>OEArcadeButton6</key>
 		<dict>
@@ -616,6 +630,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>5</integer>
+			<key>Cookie</key>
+			<integer>13</integer>
 		</dict>
 		<key>OEArcadeButtonP1Start</key>
 		<dict>
@@ -623,6 +639,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>4</integer>
+			<key>Cookie</key>
+			<integer>12</integer>
 		</dict>
 		<key>OEArcadeButtonInsertCoin</key>
 		<dict>
@@ -630,6 +648,8 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>3</integer>
+			<key>Cookie</key>
+			<integer>11</integer>
 		</dict>
 	</dict>
 </dict>
