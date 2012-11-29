@@ -42,6 +42,8 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <zlib.h>
 
+#import <FeedbackReporter/FRFeedbackReporter.h>
+
 #ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
@@ -76,6 +78,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+
     // just be sane for now.
     gameFBO = 0;
     gameTexture = 0;
@@ -89,6 +92,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         NSLog(@"Error opening NSConnection - exiting");
     
     [self setupProcessPollingTimer];
+    
+    // Check to see if we crashed.
+    [[FRFeedbackReporter sharedReporter] reportIfCrash];
 }
 
 - (BOOL)launchConnectionWithIdentifierSuffix:(NSString *)aSuffix error:(NSError **)anError

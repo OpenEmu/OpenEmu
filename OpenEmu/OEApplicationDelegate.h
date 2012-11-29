@@ -49,4 +49,8 @@
 
 #pragma mark - Debug
 - (IBAction)OEDebug_logResponderChain:(id)sender;
+
+#pragma mark - Feedback
+- (IBAction) reportFeedback:(id)sender;
+
 @end
