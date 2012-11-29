@@ -37,8 +37,8 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 
 @implementation OEBasicSystemResponder
 {
-    OEBindingMap          *keyMap;
-    CFMutableDictionaryRef joystickStates;
+    OEBindingMap           *keyMap;
+    CFMutableDictionaryRef  joystickStates;
 }
 
 - (id)initWithController:(OESystemController *)controller;
@@ -282,13 +282,13 @@ static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
         else                [self releaseEmulatorKey:key]; \
     } \
 } while(NO)
-        
-        DIFF_DIRECTION(OEHIDEventHatDirectionNorth);
-        DIFF_DIRECTION(OEHIDEventHatDirectionEast);
-        DIFF_DIRECTION(OEHIDEventHatDirectionSouth);
-        DIFF_DIRECTION(OEHIDEventHatDirectionWest);
-        
-        CFDictionarySetValue(joystickStates, joystickKey, (void *)direction);
+
+    DIFF_DIRECTION(OEHIDEventHatDirectionNorth);
+    DIFF_DIRECTION(OEHIDEventHatDirectionEast);
+    DIFF_DIRECTION(OEHIDEventHatDirectionSouth);
+    DIFF_DIRECTION(OEHIDEventHatDirectionWest);
+
+    CFDictionarySetValue(joystickStates, joystickKey, (void *)direction);
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
