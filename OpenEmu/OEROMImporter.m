@@ -39,6 +39,8 @@
 
 #import "ArchiveVGThrottling.h"
 
+#import "OECUESheet.h"
+
 #import <objc/runtime.h>
 
 const int MaxSimulatenousImports = 1; // imports can't really be simulatenous because access to queue is not ready for multithreadding right now
@@ -85,6 +87,7 @@ NSString *const OEImportInfoArchiveSync = @"archiveSync";
 - (void)performImportStepDetermineSystem:(OEImportItem *)item;
 - (void)performImportStepSyncArchive:(OEImportItem *)item;
 - (void)performImportStepOrganize:(OEImportItem *)item;
+- (void)performImportStepOrganizeAdditionalFiles:(OEImportItem *)item;
 - (void)performImportStepCreateRom:(OEImportItem *)item;
 - (void)performImportStepCreateGame:(OEImportItem *)item;
 
@@ -219,6 +222,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             case OEImportStepDetermineSystem : [importer performImportStepDetermineSystem:item]; break;
             case OEImportStepSyncArchive     : [importer performImportStepSyncArchive:item];     break;
             case OEImportStepOrganize        : [importer performImportStepOrganize:item];        break;
+            case OEImportStepOrganizeAdditionalFiles : [importer performImportStepOrganizeAdditionalFiles:item]; break;
             case OEImportStepCreateRom       : [importer performImportStepCreateRom:item];       break;
             case OEImportStepCreateGame      : [importer performImportStepCreateGame:item];      break;
             default : return;
@@ -565,6 +569,58 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Could not find a valid system" forKey:NSLocalizedDescriptionKey];
             NSError *error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:userInfo];
             [self stopImportForItem:item withError:error];
+        }
+    }
+}
+
+- (void)performImportStepOrganizeAdditionalFiles:(OEImportItem *)item
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL copyToLibrary   = [standardUserDefaults boolForKey:OECopyToLibraryKey];
+    BOOL organizeLibrary = [standardUserDefaults boolForKey:OEOrganizeLibraryKey];
+    if((copyToLibrary || organizeLibrary) && [[[[item URL] pathExtension] lastPathComponent] isEqualToString:@"cue"])
+    {
+        NSString *referencedFilesDirectory = [[[item sourceURL] path] stringByDeletingLastPathComponent];
+        OECUESheet *cue = [[OECUESheet alloc] initWithPath:[[item URL] path] andReferencedFilesDirectory:referencedFilesDirectory];
+        if(cue == nil)
+        {
+            // TODO: Create user info
+            NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeInvalidFile userInfo:nil];
+            [self stopImportForItem:item withError:error];
+            return;
+        }
+        
+        if(![cue allFilesAvailable])
+        {
+            // TODO: Create user info
+            NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeAdditionalFiles userInfo:nil];
+            [self stopImportForItem:item withError:error];
+            return;
+        }
+        
+        NSURL *sourceURL = [item sourceURL], *url = [item URL];
+        NSString *targetDirectory = [[url path] stringByDeletingLastPathComponent];
+        if(copyToLibrary && ![sourceURL isSubpathOfURL:[[self database] romsFolderURL]])
+        {
+            DLog(@"copy to '%@'", targetDirectory);
+            NSError *error = nil;
+            if(![cue copyReferencedFilesToPath:targetDirectory withError:&error])
+            {
+                DLog(@"%@", error);
+                [self stopImportForItem:item withError:error];
+                return;
+            }
+        }
+        else if(organizeLibrary && [sourceURL isSubpathOfURL:[[self database] romsFolderURL]])
+        {
+            DLog(@"move to '%@'", targetDirectory);
+            NSError *error = nil;
+            if(![cue moveReferencedFilesToPath:targetDirectory withError:&error])
+            {
+                DLog(@"%@", error);
+                [self stopImportForItem:item withError:error];
+                return;
+            }
         }
     }
 }

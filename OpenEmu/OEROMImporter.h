@@ -44,6 +44,8 @@ typedef enum : NSInteger {
     OEImportErrorCodeWaitingForArchiveSync = 1,
     OEImportErrorCodeMultipleSystems       = 2,
     OEImportErrorCodeNoSystem              = 3,
+    OEImportErrorCodeInvalidFile           = 4,
+    OEImportErrorCodeAdditionalFiles       = 5,
 } OEImportErrorCode;
 
 #pragma mark - Import Info Keys
