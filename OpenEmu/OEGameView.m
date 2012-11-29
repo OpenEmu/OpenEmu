@@ -202,7 +202,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
     // rendering
     [self setupDisplayLink];
-    //[self createTimer];
 }
 
 - (NSString*) gameTitle
@@ -240,23 +239,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     CGLUnlockContext(cgl_ctx);
     [super clearGLContext];
-}
-
-- (void)setupTimer
-{
-    self.gameTimer = [NSTimer timerWithTimeInterval:0.01   //a 10ms time interval
-                                                   target:self
-                                                 selector:@selector(timerFired:)
-                                                 userInfo:nil
-                                                  repeats:YES];
-    
-    [[NSRunLoop currentRunLoop] addTimer:gameTimer forMode:NSDefaultRunLoopMode];
-    [[NSRunLoop currentRunLoop] addTimer:gameTimer forMode:NSEventTrackingRunLoopMode]; 
-}
-
-- (void)timerFired:(id)sender
-{
-    [self setNeedsDisplay:YES];
 }
 
 - (void)setupDisplayLink

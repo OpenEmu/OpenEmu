@@ -63,17 +63,17 @@
     return @"OEDBAllGamesCollection";
 }
 
-- (BOOL)isSelectableInSdebar
+- (BOOL)isSelectableInSidebar
 {
     return YES;
 }
 
-- (BOOL)isEditableInSdebar
+- (BOOL)isEditableInSidebar
 {
     return NO;
 }
 
-- (BOOL)isGroupHeaderInSdebar
+- (BOOL)isGroupHeaderInSidebar
 {
     return NO;
 }
