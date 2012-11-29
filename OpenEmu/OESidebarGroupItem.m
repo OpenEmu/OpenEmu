@@ -45,15 +45,15 @@
 {
     return self.name;
 }
-- (BOOL)isSelectableInSdebar
+- (BOOL)isSelectableInSidebar
 {
     return NO;
 }
-- (BOOL)isEditableInSdebar
+- (BOOL)isEditableInSidebar
 {
     return NO;
 }
-- (BOOL)isGroupHeaderInSdebar
+- (BOOL)isGroupHeaderInSidebar
 {
     return YES;
 }

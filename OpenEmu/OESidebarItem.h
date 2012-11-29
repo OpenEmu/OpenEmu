@@ -35,9 +35,9 @@
 - (NSString*)viewControllerClassName;
 
 - (void)setSidebarName:(NSString*)newName;
-- (BOOL)isSelectableInSdebar;
-- (BOOL)isEditableInSdebar;
-- (BOOL)isGroupHeaderInSdebar;
+- (BOOL)isSelectableInSidebar;
+- (BOOL)isEditableInSidebar;
+- (BOOL)isGroupHeaderInSidebar;
 
 - (BOOL)hasSubCollections;
 @end

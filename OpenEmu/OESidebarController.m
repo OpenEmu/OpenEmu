@@ -215,7 +215,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     
-    if(![item isSelectableInSdebar]) return;
+    if(![item isSelectableInSidebar]) return;
 
     NSInteger index = [sidebarView rowForItem:item];
     if(index == -1) return;
@@ -230,7 +230,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 - (void)startEditingItem:(id)item
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-    if(![item isEditableInSdebar]) return;
+    if(![item isEditableInSidebar]) return;
     
     NSInteger index = [sidebarView rowForItem:item];
     if(index == -1) return;
@@ -378,7 +378,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-    return [self database]!=nil && ![item isGroupHeaderInSdebar] && [item isSelectableInSdebar];
+    return [self database]!=nil && ![item isGroupHeaderInSidebar] && [item isSelectableInSidebar];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item
@@ -407,7 +407,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return [(id<OESidebarItem>)item isGroupHeaderInSdebar];
+    return [(id<OESidebarItem>)item isGroupHeaderInSidebar];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
@@ -452,7 +452,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item 
 {
-    BOOL result = [item isEditableInSdebar];
+    BOOL result = [item isEditableInSidebar];
     if(result)
         self.editingItem = item;
     else
@@ -463,7 +463,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
 {
-    if([item isGroupHeaderInSdebar])
+    if([item isGroupHeaderInSidebar])
         return 26.0;
 
     return 20.0;
@@ -474,7 +474,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     if([cell isKindOfClass:[OESidebarCell class]])
     {
         [(OESidebarCell*)cell setImage:[item sidebarIcon]];
-        [(OESidebarCell*)cell setIsGroup:[item isGroupHeaderInSdebar]];
+        [(OESidebarCell*)cell setIsGroup:[item isGroupHeaderInSidebar]];
         
         if(self.editingItem == nil)
             [(OESidebarCell*)cell setIsEditing:NO];
@@ -494,7 +494,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     id item = [outlineView itemAtRow:index];
     BOOL removeItem = NO;
     
-    if([item isEditableInSdebar])
+    if([item isEditableInSidebar])
     {   
         NSString *msg = NSLocalizedString(@"Do you really want to remove this collection", @"");
         NSString *confirm = NSLocalizedString(@"Remove", @"");
