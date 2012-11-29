@@ -297,7 +297,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
            selectedViewTag = OEGridViewTag;
         
         // Make sure slider value is valid
-        if(sliderValue < [sizeSlider minValue] | sliderValue > [sizeSlider maxValue])
+        if(sliderValue < [sizeSlider minValue] || sliderValue > [sizeSlider maxValue])
            sliderValue = [sizeSlider doubleValue];
     }
     else
