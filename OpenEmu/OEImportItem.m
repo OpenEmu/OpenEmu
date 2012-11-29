@@ -45,9 +45,9 @@
         return nil;
     }
 
-    // Ignore text files
-    GEMagicResult *magicResult = [GEMagicKit magicForFileAtURL:url];
-    if([[magicResult uniformTypeHierarchy] containsObject:(id)kUTTypeText])
+    // Ignore text files that are not .cue
+    if(![[[url pathExtension] lowercaseString] isEqualToString:@"cue"] &&
+       [[[GEMagicKit magicForFileAtURL:url] uniformTypeHierarchy] containsObject:(id)kUTTypeText])
     {
         DLog(@"%@ is a text file, skipping", [url path]);
         return nil;
