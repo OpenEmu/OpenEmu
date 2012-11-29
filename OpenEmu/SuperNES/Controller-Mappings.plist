@@ -565,6 +565,8 @@
 			<string>Y</string>
 			<key>Direction</key>
 			<string>-1</string>
+			<key>Cookie</key>
+			<integer>74</integer>
 		</dict>
 		<key>OESNESButtonLeft</key>
 		<dict>
@@ -574,6 +576,8 @@
 			<string>X</string>
 			<key>Direction</key>
 			<string>-1</string>
+			<key>Cookie</key>
+			<integer>73</integer>
 		</dict>
 		<key>OESNESButtonA</key>
 		<dict>
