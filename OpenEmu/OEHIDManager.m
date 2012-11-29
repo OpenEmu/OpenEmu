@@ -115,7 +115,7 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
           */
          if(CGEventGetIntegerValueField([anEvent CGEvent], kCGEventSourceUnixProcessID) != 0)
          {
-             OEHIDEvent *event = [OEHIDEvent keyEventWithTimestamp:[anEvent timestamp] keyCode:[OEHIDEvent keyCodeForVK:[anEvent keyCode]] state:[anEvent type] == NSKeyDown cookie:0];
+             OEHIDEvent *event = [OEHIDEvent keyEventWithTimestamp:[anEvent timestamp] keyCode:[OEHIDEvent keyCodeForVirtualKey:[anEvent keyCode]] state:[anEvent type] == NSKeyDown cookie:0];
              
              [NSApp postHIDEvent:event];
          }
@@ -133,7 +133,7 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
           */
          if(CGEventGetIntegerValueField([anEvent CGEvent], kCGEventSourceUnixProcessID) != 0)
          {
-             NSUInteger keyCode = [OEHIDEvent keyCodeForVK:[anEvent keyCode]];
+             NSUInteger keyCode = [OEHIDEvent keyCodeForVirtualKey:[anEvent keyCode]];
              NSUInteger keyMask = 0;
              
              switch(keyCode)
