@@ -32,7 +32,7 @@
 @private
     NSString *name;
 }
-+ (instancetype)groupItemWithName:(NSString*)name andAutosaveName:(NSString*)name;
++ (instancetype)groupItemWithName:(NSString*)name autosaveName:(NSString*)name;
 @property (readwrite, copy) NSString *name;
 @property (readwrite, copy) NSString *autosaveName;
 @end

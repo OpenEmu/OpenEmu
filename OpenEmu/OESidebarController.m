@@ -86,8 +86,8 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 - (void)awakeFromNib
 {
     self.groups = [NSArray arrayWithObjects:
-                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"") andAutosaveName:OESidebarGroupConsolesAutosaveName],
-                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"") andAutosaveName:OESidebarGroupCollectionsAutosaveName],
+                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"") autosaveName:OESidebarGroupConsolesAutosaveName],
+                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"") autosaveName:OESidebarGroupCollectionsAutosaveName],
                    nil];
     
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
