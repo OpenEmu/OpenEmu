@@ -27,7 +27,7 @@
 #import <Foundation/Foundation.h>
 #import "OEDBItem.h"
 
-extern NSString * const OEDBSystemsChangedNotificationName;
+extern NSString * const OEDBSystemsDidChangeNotification;
 
 @class OESystemPlugin, OELibraryDatabase;
 @interface OEDBSystem : OEDBItem

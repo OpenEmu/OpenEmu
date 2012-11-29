@@ -29,7 +29,7 @@
 #import "OESystemController.h"
 #import "OELibraryDatabase.h"
 
-NSString * const OEDBSystemsChangedNotificationName = @"OEDBSystemsChanged";
+NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotification";
 @implementation OEDBSystem
 + (NSInteger)systemsCount
 {
