@@ -32,6 +32,7 @@
 
 #import "OESidebarOutlineView.h"
 #import "OEDBGame.h"
+#import "OEDBAllGamesCollection.h"
 #import "OECollectionViewItemProtocol.h"
 
 #import "OEHUDAlert.h"
@@ -257,8 +258,47 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 #pragma mark Notifications
 - (void)systemsChanged
 {
+    id        previousSelectedItem = [self selectedSidebarItem];
+    NSInteger previousSelectedRow  = [[self view] selectedRow];
+    DLog(@"previous row is %ld, item is %@", previousSelectedRow, previousSelectedItem);
+    
     [self reloadData];
-    [self outlineViewSelectionDidChange:nil];
+
+    if(!previousSelectedItem) return;
+
+    NSInteger rowToSelect = NSNotFound;
+    NSInteger reloadedRowForPreviousSelectedItem = [[self view] rowForItem:previousSelectedItem];
+
+    DLog(@"reloaded row is %ld", (long)reloadedRowForPreviousSelectedItem);
+
+    // The previously selected item may have been disabled/removed, so we should select another item...
+    if(reloadedRowForPreviousSelectedItem == -1)
+    {
+        // Try to select the previously selected row or a row before it...
+        rowToSelect = previousSelectedRow;
+        while(rowToSelect > 0 && ![self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]])
+            rowToSelect--;
+
+        // If we can't select the previously selected row or a row before it, try to select a row after it
+        if(![self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]])
+        {
+            rowToSelect = previousSelectedRow;
+            while(rowToSelect < [[self view] numberOfRows] && ![self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]])
+                rowToSelect++;
+        }
+
+        NSAssert(rowToSelect > 0 && rowToSelect < [[self view] numberOfRows] && [self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]],
+                 @"Tried to select a sidebar item but couldn't find any");
+    }
+    // ...or the previously selected item may have changed to another row, so we need to select that row
+    else if(reloadedRowForPreviousSelectedItem != previousSelectedRow)
+        rowToSelect = reloadedRowForPreviousSelectedItem;
+
+    if(rowToSelect != previousSelectedRow)
+    {
+        [[self view] selectRowIndexes:[NSIndexSet indexSetWithIndex:rowToSelect] byExtendingSelection:NO];
+        [self outlineViewSelectionDidChange:nil];
+    }
 }
 
 - (void)importingChanged

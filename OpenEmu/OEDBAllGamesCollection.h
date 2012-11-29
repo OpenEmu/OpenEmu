@@ -28,5 +28,5 @@
 #import "OESidebarItem.h"
 
 @interface OEDBAllGamesCollection : NSObject <OESidebarItem>
-
++ (instancetype)sharedDBAllGamesCollection;
 @end
