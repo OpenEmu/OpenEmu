@@ -354,7 +354,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             // Try to find a system for archvie name
             NSString *archiveSystemName = [archiveResult valueForKey:AVGGameSystemNameKey];
             OEDBSystem *system = [OEDBSystem systemForArchiveName:archiveSystemName inDatabase:[self database]];
-            DLog(@"%@", system);
+            
             if(system)
             {
                 systemIdentifier = [system systemIdentifier];

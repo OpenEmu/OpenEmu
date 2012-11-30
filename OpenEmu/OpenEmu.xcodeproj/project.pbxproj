@@ -324,6 +324,7 @@
 		8304D0AE155C28FC000E3B1B /* ArchiveVG.m in Sources */ = {isa = PBXBuildFile; fileRef = 8304D0AD155C28FC000E3B1B /* ArchiveVG.m */; };
 		8304D0B4155C3D63000E3B1B /* ArchiveVGXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8304D0B3155C3D63000E3B1B /* ArchiveVGXMLParser.m */; };
 		8305267513FBC999006179C6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8305267413FBC999006179C6 /* Security.framework */; };
+		830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 830639EA16691B51006E4254 /* OEGameScanner.xib */; };
 		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
 		830BC86914D5E35A000826E2 /* controller_snes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 830BC86714D5E1E6000826E2 /* controller_snes_mask.png */; };
 		830BC86C14D5F1DD000826E2 /* controller_gba_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */; };
@@ -1349,6 +1350,7 @@
 		8304D0B2155C3D63000E3B1B /* ArchiveVGXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveVGXMLParser.h; sourceTree = "<group>"; };
 		8304D0B3155C3D63000E3B1B /* ArchiveVGXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArchiveVGXMLParser.m; sourceTree = "<group>"; };
 		8305267413FBC999006179C6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		830639EA16691B51006E4254 /* OEGameScanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEGameScanner.xib; sourceTree = "<group>"; };
 		83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+OEHashingAdditions.h"; sourceTree = "<group>"; };
 		83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+OEHashingAdditions.m"; sourceTree = "<group>"; };
 		830BC86714D5E1E6000826E2 /* controller_snes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_mask.png; sourceTree = "<group>"; };
@@ -2175,10 +2177,11 @@
 				53439B8A13B936E1005C0CC8 /* Library.xib */,
 				53439B8C13B936EA005C0CC8 /* Preferences.xib */,
 				831C2AE8144F453C009533C0 /* MainMenu.xib */,
-				82965F841041DC3200F30B74 /* OECorePicker.xib */,
-				83E41F29158546E90069B8AF /* OESystemPicker.xib */,
 				828ED4D80E7D98A10059F397 /* GameFilePicker.xib */,
 				832D29421451ACF200BDF950 /* MainWindow.xib */,
+				830639EA16691B51006E4254 /* OEGameScanner.xib */,
+				83E41F29158546E90069B8AF /* OESystemPicker.xib */,
+				82965F841041DC3200F30B74 /* OECorePicker.xib */,
 				1B98144D142F02FA00114A30 /* OESetupAssistant.xib */,
 			);
 			name = XIBs;
@@ -4426,6 +4429,7 @@
 				83DEE49F162D62B2005D8AD7 /* game_scanner_progress_candy.png in Resources */,
 				83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
+				830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

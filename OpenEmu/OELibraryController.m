@@ -93,7 +93,7 @@ static const CGFloat _OEToolbarHeight = 44;
     
     // setup sidebar controller
     OESidebarController *sidebarCtrl = [self sidebarController];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:sidebarCtrl];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:nil];
     
     [sidebarCtrl setDatabase:[self database]];
     [self updateToggleSidebarButtonState];

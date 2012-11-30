@@ -6,6 +6,8 @@
 	<dict>
 		<key>game_scanner_background</key>
 		<string>#3f3f3f</string>
+		<key>game_scanner_issues_background</key>
+		<string>#1d1d1d</string>
 		<key>black_background</key>
 		<string>black</string>
 		<key>dark_menu_background</key>
@@ -45,6 +47,28 @@
 			<string>Lucida Grande</string>
 			<key>Size</key>
 			<integer>11</integer>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,1.0)</string>
+				<key>Offset</key>
+				<string>{0,1}</string>
+			</dict>
+		</dict>
+		<key>game_scanner_issues_headline</key>
+		<dict>
+			<key>Color</key>
+			<string>rgba(174,173,173,1.0)</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>3</integer>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>14</integer>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
