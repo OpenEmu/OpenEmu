@@ -169,7 +169,6 @@
 												<string key="NSFrame">{{151, 22}, {25, 25}}</string>
 												<reference key="NSSuperview" ref="987642494"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="534951079">
@@ -214,7 +213,7 @@
 														<string key="NSFrameSize">{186, 556}</string>
 														<reference key="NSSuperview" ref="411773151"/>
 														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="993169309"/>
+														<reference key="NSNextKeyView" ref="948426263"/>
 														<bool key="NSEnabled">YES</bool>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -334,7 +333,7 @@
 										<string key="NSFrameSize">{186, 556}</string>
 										<reference key="NSSuperview" ref="214891354"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="948426263"/>
+										<reference key="NSNextKeyView" ref="411773151"/>
 										<int key="NSsFlags">133648</int>
 										<reference key="NSVScroller" ref="993169309"/>
 										<reference key="NSHScroller" ref="948426263"/>
@@ -645,7 +644,6 @@
 								<string key="NSFrame">{{14, 10}, {28, 23}}</string>
 								<reference key="NSSuperview" ref="1013514702"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="468907838">
 									<int key="NSCellFlags">-2080374784</int>
@@ -1516,6 +1514,14 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">OEBlankSlateView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEBlankSlateView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">OEButton</string>
 					<string key="superclassName">NSButton</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -1564,9 +1570,8 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="blankSlateView">OEBlankSlateView</string>
 						<string key="coverFlowView">IKImageFlowView</string>
-						<string key="emptyCollectionView">NSView</string>
-						<string key="emptyConsoleView">NSView</string>
 						<string key="flowlistViewContainer">OEHorizontalSplitView</string>
 						<string key="gridView">OEGridView</string>
 						<string key="gridViewContainer">NSView</string>
@@ -1574,17 +1579,13 @@
 						<string key="listView">NSTableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="blankSlateView">
+							<string key="name">blankSlateView</string>
+							<string key="candidateClassName">OEBlankSlateView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="coverFlowView">
 							<string key="name">coverFlowView</string>
 							<string key="candidateClassName">IKImageFlowView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="emptyCollectionView">
-							<string key="name">emptyCollectionView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="emptyConsoleView">
-							<string key="name">emptyConsoleView</string>
-							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="flowlistViewContainer">
 							<string key="name">flowlistViewContainer</string>
@@ -1617,11 +1618,16 @@
 					<string key="superclassName">NSViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="cancel:">id</string>
+						<string key="resolveIssues:">id</string>
 						<string key="togglePause:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="cancel:">
 							<string key="name">cancel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="resolveIssues:">
+							<string key="name">resolveIssues:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="togglePause:">
@@ -1630,17 +1636,12 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="gameScannerView">NSView</string>
 						<string key="headlineLabel">NSTextField</string>
 						<string key="progressIndicator">NSProgressIndicator</string>
 						<string key="statusLabel">NSTextField</string>
 						<string key="togglePauseButton">NSButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="gameScannerView">
-							<string key="name">gameScannerView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="headlineLabel">
 							<string key="name">headlineLabel</string>
 							<string key="candidateClassName">NSTextField</string>

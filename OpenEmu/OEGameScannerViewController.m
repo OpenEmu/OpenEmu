@@ -32,21 +32,45 @@
 #import "OEImportItem.h"
 #import "OECoreTableButtonCell.h"
 
+#import "OEButton.h"
 #import "OEMenu.h"
 #import "OEDBSystem.h"
 @interface OEGameScannerViewController ()
+@property NSMutableArray *itemsRequiringAttention;
 @end
 @implementation OEGameScannerViewController
-
 - (void)setView:(NSView *)view
 {
     [super setView:view];
+
+    [self setItemsRequiringAttention:[NSMutableArray array]];
+
     [[self importer] setDelegate:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameChanged:) name:NSViewFrameDidChangeNotification object:view];
+    
+    [self OE_createFixButton];
     
     // Show game scanner if importer is running already
     if([[self importer] status] == OEImporterStatusRunning)
             [self OE_showView];
+}
+
+- (void)OE_createFixButton
+{
+    OEButton *fixIssuesButton = [[OEButton alloc] initWithFrame:(NSRect){{ 14, 4}, { [[self view] frame].size.width - 20, 20 }}];
+    [fixIssuesButton setAutoresizingMask:NSViewWidthSizable];
+    [fixIssuesButton setAlignment:NSLeftTextAlignment];
+    [fixIssuesButton setImagePosition:NSImageRight];
+    [fixIssuesButton setThemeKey:@"game_scanner_fix_issues"];
+    [fixIssuesButton setTarget:self];
+    [fixIssuesButton setAction:@selector(resolveIssues:)];
+    [fixIssuesButton setTitle:@"Resolve Issues"];
+    [fixIssuesButton sizeToFit];
+    
+    [fixIssuesButton setHidden:YES];
+
+    [[self view] addSubview:fixIssuesButton];
+    [self setFixButton:fixIssuesButton];
 }
 
 - (void)dealloc
@@ -69,6 +93,7 @@
     [[self progressIndicator] setMaxValue:maxItems];
     
     NSString *status;
+    
     if([importer status] == OEImporterStatusRunning)
     {
         [[self progressIndicator] setIndeterminate:NO];
@@ -86,6 +111,17 @@
         [[self progressIndicator] stopAnimation:self];
         [[self progressIndicator] setIndeterminate:YES];
         status = @"Scanner Paused";
+    }
+    
+    [[self fixButton] setHidden:YES];
+    
+    if([[self itemsRequiringAttention] count] != 0)
+    {
+        [[self fixButton] setTitle:[NSString stringWithFormat:@"Resolve %ld Issues", [[self itemsRequiringAttention] count]]];
+        [[self fixButton] sizeToFit];
+        [[self fixButton] setHidden:NO];
+        
+        status = @"";
     }
     
     [[self statusLabel] setStringValue:status];
@@ -110,6 +146,11 @@
     frame.origin.x = 17;
     frame.size.width = width-17-12;
     [[self statusLabel] setFrame:frame];
+    
+    frame = [[self fixButton] frame];
+    frame.origin.x = 14;
+    [[self fixButton] setFrame:frame];
+    [[self fixButton] sizeToFit];
 }
 #pragma mark - OELibrarySubviewController Protocol Implementation
 - (void)setRepresentedObject:(id)representedObject
@@ -128,6 +169,11 @@
 - (void)restoreState:(id)state
 {}
 
+#pragma mark -
+- (IBAction)resolveIssues:(id)sender
+{
+    DLog(@"%@", sender);
+}
 #pragma mark - OEROMImporter Delegate
 - (void)romImporterDidStart:(OEROMImporter *)importer
 {
@@ -140,7 +186,6 @@
             [self OE_showView];
         }
     });
-    
 }
 
 - (void)romImporterDidCancel:(OEROMImporter *)importer
@@ -173,7 +218,12 @@
 }
 
 - (void)romImporter:(OEROMImporter*)importer stoppedProcessingItem:(OEImportItem*)item
-{    
+{
+    if([[item error] domain] == OEImportErrorDomainResolvable && [[item error] code] == OEImportErrorCodeMultipleSystems)
+    {
+        DLog(@"%@ | %@", [[item sourceURL] lastPathComponent], [[item importInfo] objectForKey:OEImportInfoSystemID]);
+        [[self itemsRequiringAttention] addObject:item];
+    }
     [self OE_updateProgress];
 }
 
@@ -191,6 +241,7 @@
 
 - (void)resolveMultipleSystemsError:(NSMenuItem*)menuItem
 {
+    DLog(@"%@", menuItem);
     // TODO: TableView reload data for item at selected row
     [[self importer] startQueueIfNeeded];
 }

@@ -34,11 +34,10 @@
 #pragma mark - UI Methods
 - (IBAction)togglePause:(id)sender;
 - (IBAction)cancel:(id)sender;
-
-@property (strong) IBOutlet NSView              *gameScannerView;
-
+- (IBAction)resolveIssues:(id)sender;
 @property (strong) IBOutlet NSTextField         *headlineLabel;
 @property (strong) IBOutlet NSButton            *togglePauseButton;
 @property (strong) IBOutlet NSProgressIndicator *progressIndicator;
 @property (strong) IBOutlet NSTextField         *statusLabel;
+@property (strong) NSButton *fixButton;
 @end
