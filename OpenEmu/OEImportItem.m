@@ -41,7 +41,7 @@
     NSDictionary *resourceValues = [url resourceValuesForKeys:@[ NSURLIsPackageKey, NSURLIsHiddenKey ] error:nil];
     if([[resourceValues objectForKey:NSURLIsHiddenKey] boolValue] || [[resourceValues objectForKey:NSURLIsPackageKey] boolValue])
     {
-        DLog(@"%@ is a hidden file or a package directory, skipping", [url path]);
+        // DLog(@"%@ is a hidden file or a package directory, skipping", [url path]);
         return nil;
     }
 
@@ -49,7 +49,7 @@
     if(![[[url pathExtension] lowercaseString] isEqualToString:@"cue"] &&
        [[[GEMagicKit magicForFileAtURL:url] uniformTypeHierarchy] containsObject:(id)kUTTypeText])
     {
-        DLog(@"%@ is a text file, skipping", [url path]);
+        // DLog(@"%@ is a text file, skipping", [url path]);
         return nil;
     }
 
@@ -59,7 +59,7 @@
     
     if([extension length] > 0 && ![validExtensions containsObject:extension])
     {
-        DLog(@"%@ is not a supported file extension, skipping", extension);
+        // DLog(@"%@ is not a supported file extension, skipping", extension);
         return nil;
     }
 
