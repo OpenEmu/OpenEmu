@@ -42,7 +42,7 @@
 - (BOOL)canHandleFile:(NSString *)path
 {
     BOOL valid = [super canHandleFile:path];
-    if ([[path pathExtension] isEqualToString:@"bin"])
+    if (valid && [[path pathExtension] isEqualToString:@"bin"])
     {
         const char *cPath = [path UTF8String];
         FILE *rom = fopen(cPath, "r");
