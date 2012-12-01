@@ -25,12 +25,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEGenesisSystemController.h"
-#import "OEGenesisSystemResponder.h"
-#import "OEGenesisSystemResponderClient.h"
+#import "OESegaCDSystemController.h"
+#import "OESegaCDSystemResponder.h"
+#import "OESegaCDSystemResponderClient.h"
 #import "OELocalizationHelper.h"
 
-@implementation OEGenesisSystemController
+@implementation OESegaCDSystemController
 
 - (NSString *)systemName
 {

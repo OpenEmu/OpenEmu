@@ -28,6 +28,6 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
-@interface OEGenesisSystemController : OESystemController
+@interface OESegaCDSystemController : OESystemController
 
 @end
