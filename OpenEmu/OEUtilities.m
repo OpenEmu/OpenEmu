@@ -26,6 +26,18 @@
  */
 
 #import "OEUtilities.m"
+#import <CommonCrypto/CommonDigest.h>
+
+// output must be at least 2*len+1 bytes
+void tohex(const unsigned char *input, size_t len, char *output)
+{
+    static char table[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    for (int i = 0; i < len; ++i) {
+        output[2*i] = table[input[i]>>4];
+        output[2*i+1] = table[input[i]&0xF];
+    }
+    output[2*len+1] = '\0';
+}
 
 void OEPrintFirstResponderChain(void)
 {
@@ -49,4 +61,38 @@ NSArray *OENextRespondersFromResponder(NSResponder *responder)
     }
     
     return responders;
+}
+
+NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath)
+{
+    NSFileManager *fm = [NSFileManager new];
+    NSError *error;
+
+    // First, check that known location in case we've already dealt with this one
+    unsigned char hash[CC_SHA1_DIGEST_LENGTH];
+    CC_SHA1([aPath UTF8String], strlen([aPath UTF8String]), hash);
+
+    char hexhash[2*CC_SHA1_DIGEST_LENGTH+1];
+    tohex(hash, CC_SHA1_DIGEST_LENGTH, hexhash);
+    // get the bundle identifier of ourself, or our parent app if we have none
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *folder = [bundle bundleIdentifier];
+    if (!folder) {
+        NSString *path = [bundle bundlePath];
+        path = [[path stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+        bundle = [NSBundle bundleWithPath:path];
+        folder = [bundle bundleIdentifier];
+        if (!folder) {
+            DLog(@"Couldn't get bundle identifier of OpenEmu");
+            folder = @"OpenEmu";
+        }
+    }
+    folder = [NSTemporaryDirectory() stringByAppendingPathComponent:folder];
+    folder = [folder stringByAppendingPathComponent:[NSString stringWithUTF8String:hexhash]];
+    if (![fm createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:&error]) {
+        DLog(@"Couldn't create temp directory %@, %@", folder, error);
+        return nil;
+    }
+
+    return folder;
 }

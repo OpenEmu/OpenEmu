@@ -281,15 +281,6 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     }
 }
 
-static void tohex(const unsigned char *input, size_t len, char *output) {
-    static char table[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-    for (int i = 0; i < len; ++i) {
-        output[2*i] = table[input[i]>>4];
-        output[2*i+1] = table[input[i]&0xF];
-    }
-    output[2*len+1] = '\0';
-}
-
 - (void)performImportStepCheckArchiveFile:(OEImportItem *)item
 {
     //Short circuit this?
@@ -300,41 +291,24 @@ static void tohex(const unsigned char *input, size_t len, char *output) {
         if (![archive entryHasSize:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])
             return;
         
-        NSFileManager *fm = [NSFileManager new];
-        NSError *error;
-        
-        // First, check that known location in case we've already dealt with this one
-        unsigned char hash[CC_SHA1_DIGEST_LENGTH];
-        CC_SHA1([path UTF8String], strlen([path UTF8String]), hash);
-        
-        char hexhash[2*CC_SHA1_DIGEST_LENGTH+1];
-        tohex(hash, CC_SHA1_DIGEST_LENGTH, hexhash);
-
-        NSBundle *bundle = [NSBundle mainBundle];
-        NSString *folder = [bundle bundleIdentifier];
-        folder = [NSTemporaryDirectory() stringByAppendingPathComponent:folder];
-        folder = [folder stringByAppendingPathComponent:[NSString stringWithUTF8String:hexhash]];
-        
-        if (![fm createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:&error]) {
-            DLog(@"Couldn't create temp directory %@, %@", folder, error);
-            return;
-        }
-        
+        NSString *folder = temporaryDirectoryForDecompressionOfPath(path);
         NSString *name = [archive nameOfEntry:0];
         NSString *tmpPath = [folder stringByAppendingPathComponent:name];
 
         BOOL isdir;
         NSURL *tmpURL = [NSURL fileURLWithPath:tmpPath];
+        NSFileManager *fm = [NSFileManager new];
         if ([fm fileExistsAtPath:tmpPath isDirectory:&isdir] && !isdir) {
             DLog(@"Found existing decompressed ROM for path %@", path);
             [[item importInfo] setValue:tmpURL forKey:OEImportInfoArchivedFileURL];
             return;
         }
 
-        
         BOOL success = [archive extractEntry:0 to:folder];
         if (success)
             [[item importInfo] setValue:tmpURL forKey:OEImportInfoArchivedFileURL];
+        else
+            [fm removeItemAtPath:folder error:nil];
     }
 }
 
