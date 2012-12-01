@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
  * Neither the name of the OpenEmu Team nor the
  names of its contributors may be used to endorse or promote products
  derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -34,6 +34,14 @@
 #include "Sound.h"
 
 @interface GBAGameCore () <OEGBASystemResponderClient>
+{
+    uint16_t *videoBuffer;
+    int videoWidth, videoHeight;
+    int16_t pad[1][10];
+    NSString *romName;
+    double sampleRate;
+}
+
 @end
 
 NSUInteger GBAEmulatorValues[] = { SNES_DEVICE_ID_JOYPAD_UP, SNES_DEVICE_ID_JOYPAD_DOWN, SNES_DEVICE_ID_JOYPAD_LEFT, SNES_DEVICE_ID_JOYPAD_RIGHT, SNES_DEVICE_ID_JOYPAD_A, SNES_DEVICE_ID_JOYPAD_B, SNES_DEVICE_ID_JOYPAD_L, SNES_DEVICE_ID_JOYPAD_R, SNES_DEVICE_ID_JOYPAD_START, SNES_DEVICE_ID_JOYPAD_SELECT };
@@ -47,18 +55,18 @@ static void video_callback(const uint16_t *data, unsigned width, unsigned height
     // Normally our pitch is 2048 bytes.
     int stride = 256;
     // If we have an interlaced mode, pitch is 1024 bytes.
-    if ( height == 240 || height == 478 )
+    if(height == 240 || height == 478)
         stride = 240;
-    
+
     current->videoWidth  = width;
     current->videoHeight = height;
-    
+
     dispatch_queue_t the_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    
+
     dispatch_apply(height, the_queue, ^(size_t y){
         const uint16_t *src = data + y * stride;
         uint16_t *dst = current->videoBuffer + y * 240;
-        
+
         memcpy(dst, src, sizeof(uint16_t)*width);
     });
 }
@@ -78,70 +86,63 @@ static void input_poll_callback(void)
 static int16_t input_state_callback(bool port, unsigned device, unsigned index, unsigned devid)
 {
     //NSLog(@"polled input: port: %d device: %d id: %d", port, device, devid);
-    
-	if (port == SNES_PORT_1 & device == SNES_DEVICE_JOYPAD) {
+
+	if(port == SNES_PORT_1 & device == SNES_DEVICE_JOYPAD)
         return current->pad[0][devid];
-    }
-    else if(port == SNES_PORT_2 & device == SNES_DEVICE_JOYPAD) {
+    else if(port == SNES_PORT_2 & device == SNES_DEVICE_JOYPAD)
         return current->pad[1][devid];
-    }
-    
+
     return 0;
 }
 
 static bool environment_callback(unsigned cmd, void *data)
 {
-    switch (cmd)
+    switch(cmd)
     {
-        case SNES_ENVIRONMENT_SET_TIMING:
+        case SNES_ENVIRONMENT_SET_TIMING :
         {
             snes_system_timing *t = (snes_system_timing*)data;
             current->frameInterval = t->fps;
             current->sampleRate    = t->sample_rate;
             return true;
         }
-        case SNES_ENVIRONMENT_GET_FULLPATH:
+        case SNES_ENVIRONMENT_GET_FULLPATH :
         {
             //*(const char**)data = (const char*)current->romName;
             *(const char**)data = [current->romName cStringUsingEncoding:NSUTF8StringEncoding];
             NSLog(@"Environ FULLPATH: \"%@\"\n", current->romName);
             break;
-        }   
-        default:
+        }
+        default :
             NSLog(@"Environ UNSUPPORTED (#%u)!\n", cmd);
             return false;
     }
-    
+
     return true;
 }
 
-static void loadSaveFile(const char* path, int type)
+static void loadSaveFile(const char *path, int type)
 {
-    FILE *file;
-    
-    file = fopen(path, "rb");
-    if ( !file )
-    {
-        return;
-    }
-    
+    FILE *file = fopen(path, "rb");
+    if(file == NULL) return;
+
     size_t size = snes_get_memory_size(type);
     uint8_t *data = snes_get_memory_data(type);
-    
-    if (size == 0 || !data)
+
+    if(size == 0 || !data)
     {
         fclose(file);
         return;
     }
-    
+
     int rc = fread(data, sizeof(uint8_t), size, file);
-    if ( rc != size )
+    if(rc != size)
     {
         NSLog(@"Couldn't load save file.");
     }
-    
+
     NSLog(@"Loaded save file: %s", path);
-    
+
     fclose(file);
 }
 
@@ -149,14 +150,14 @@ static void writeSaveFile(const char* path, int type)
 {
     size_t size = snes_get_memory_size(type);
     uint8_t *data = snes_get_memory_data(type);
-    
-    if ( data && size > 0 )
+
+    if(data && size > 0)
     {
         FILE *file = fopen(path, "wb");
-        if ( file != NULL )
+        if(file != NULL)
         {
             NSLog(@"Saving state %s. Size: %d bytes.", path, (int)size);
-            if ( fwrite(data, sizeof(uint8_t), size, file) != size )
+            if(fwrite(data, sizeof(uint8_t), size, file) != size)
                 NSLog(@"Did not save state properly.");
             fclose(file);
         }
@@ -175,16 +176,13 @@ static void writeSaveFile(const char* path, int type)
 
 - (id)init
 {
-	self = [super init];
-    if(self != nil)
+    if((self = [super init]))
     {
-        if(videoBuffer) 
-            free(videoBuffer);
-        videoBuffer = (uint16_t*)malloc(240 * 160 * 2);
+        videoBuffer = (uint16_t *)malloc(240 * 160 * 2);
     }
 	
 	current = self;
-    
+
 	return self;
 }
 
@@ -195,28 +193,29 @@ static void writeSaveFile(const char* path, int type)
     [self executeFrameSkippingFrame:NO];
 }
 
-- (void)executeFrameSkippingFrame: (BOOL) skip
+- (void)executeFrameSkippingFrame:(BOOL)skip
 {
     snes_run();
 }
 
-- (BOOL)loadFileAtPath: (NSString*) path
+- (BOOL)loadFileAtPath:(NSString *)path
 {
 	memset(pad, 0, sizeof(int16_t) * 10);
-    
+
     uint8_t *data;
     unsigned size;
     romName = [path copy];
-    
+
     //load cart, read bytes, get length
-    NSData* dataObj = [NSData dataWithContentsOfFile:[romName stringByStandardizingPath]];
+    NSData *dataObj = [NSData dataWithContentsOfFile:[romName stringByStandardizingPath]];
     if(dataObj == nil) return false;
+
     size = [dataObj length];
-    data = (uint8_t*)[dataObj bytes];
-    
+    data = (uint8_t *)[dataObj bytes];
+
     //remove copier header, if it exists
     //ssif((size & 0x7fff) == 512) memmove(data, data + 512, size -= 512);
-    
+
     //memory.copy(data, size);
     snes_set_environment(environment_callback);
 	snes_init();
@@ -229,30 +228,32 @@ static void writeSaveFile(const char* path, int type)
     {
         NSString *path = romName;
         NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
-        
+
         NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
-        
+
         //        if((batterySavesDirectory != nil) && ![batterySavesDirectory isEqualToString:@""])
         if([batterySavesDirectory length] != 0)
         {
             [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-            
+
             NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-            
+
             loadSaveFile([filePath UTF8String], SNES_MEMORY_CARTRIDGE_RAM);
         }
-        
+
         snes_set_controller_port_device(SNES_PORT_1, SNES_DEVICE_JOYPAD);
         //snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_NONE);
-        
+
         //snes_get_region();
-        
+
         soundSetSampleRate(current->sampleRate);
-        
+
         snes_run();
+
+        return YES;
     }
-    
-    return YES;
+
+    return NO;
 }
 
 #pragma mark Video
@@ -290,21 +291,21 @@ static void writeSaveFile(const char* path, int type)
 {
     NSString *path = romName;
     NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
-    
+
     NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
-    
+
     if([batterySavesDirectory length] != 0)
     {
-        
+
         [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-        
+
         NSLog(@"Trying to save SRAM");
-        
+
         NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-        
+
         writeSaveFile([filePath UTF8String], SNES_MEMORY_CARTRIDGE_RAM);
     }
-    
+
     NSLog(@"snes term");
     //snes_unload_cartridge();
     snes_term();
@@ -347,53 +348,54 @@ static void writeSaveFile(const char* path, int type)
 }
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
-{   
+{
     int serial_size = snes_serialize_size();
     uint8_t *serial_data = (uint8_t *) malloc(serial_size);
-    
+
     snes_serialize(serial_data, serial_size);
-    
+
     FILE *state_file = fopen([fileName UTF8String], "wb");
     long bytes_written = fwrite(serial_data, sizeof(uint8_t), serial_size, state_file);
-    
+
     free(serial_data);
-    
-    if( bytes_written != serial_size )
+
+    if(bytes_written != serial_size)
     {
         NSLog(@"Couldn't write state");
         return NO;
     }
-    fclose( state_file );
+
+    fclose(state_file);
     return YES;
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
     FILE *state_file = fopen([fileName UTF8String], "rb");
-    if( !state_file )
+    if(state_file == NULL)
     {
         NSLog(@"Could not open state file");
         return NO;
     }
-    
+
     int serial_size = snes_serialize_size();
     uint8_t *serial_data = (uint8_t *) malloc(serial_size);
-    
+
     if(!fread(serial_data, sizeof(uint8_t), serial_size, state_file))
     {
         NSLog(@"Couldn't read file");
         return NO;
     }
     fclose(state_file);
-    
+
     if(!snes_unserialize(serial_data, serial_size))
     {
         NSLog(@"Couldn't unpack state");
         return NO;
     }
-    
+
     free(serial_data);
-    
+
     return YES;
 }
 

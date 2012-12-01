@@ -31,12 +31,5 @@
 extern pthread_mutex_t gEmuVIMutex;
 extern pthread_cond_t  gEmuVICond;
 
-@class OERingBuffer;
-
 @interface MupenGameCore : OEGameCore
-{
-    NSData        *romData;
-    uint8_t       *black;
-}
-
 @end

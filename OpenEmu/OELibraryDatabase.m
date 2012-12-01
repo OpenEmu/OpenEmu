@@ -482,7 +482,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSMutableArray *collectionsArray = [NSMutableArray array];
     
     // insert "all games" item here !
-    OEDBAllGamesCollection *allGamesCollections = [[OEDBAllGamesCollection alloc] init];
+    OEDBAllGamesCollection *allGamesCollections = [OEDBAllGamesCollection sharedDBAllGamesCollection];
     [collectionsArray addObject:allGamesCollections];
     
     NSEntityDescription *descr = [NSEntityDescription entityForName:@"SmartCollection" inManagedObjectContext:context];

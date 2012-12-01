@@ -565,6 +565,103 @@
 			<string>Y</string>
 			<key>Direction</key>
 			<string>-1</string>
+			<key>Cookie</key>
+			<integer>74</integer>
+		</dict>
+		<key>OEGenesisButtonLeft</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>X</string>
+			<key>Direction</key>
+			<string>-1</string>
+			<key>Cookie</key>
+			<integer>73</integer>
+		</dict>
+		<key>OEGenesisButtonA</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>2</integer>
+			<key>Cookie</key>
+			<integer>10</integer>
+		</dict>
+		<key>OEGenesisButtonB</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>6</integer>
+			<key>Cookie</key>
+			<integer>14</integer>
+		</dict>
+		<key>OEGenesisButtonC</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>5</integer>
+			<key>Cookie</key>
+			<integer>13</integer>
+		</dict>
+		<key>OEGenesisButtonX</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>1</integer>
+			<key>Cookie</key>
+			<integer>9</integer>
+		</dict>
+		<key>OEGenesisButtonY</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>7</integer>
+			<key>Cookie</key>
+			<integer>15</integer>
+		</dict>
+		<key>OEGenesisButtonZ</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>8</integer>
+			<key>Cookie</key>
+			<integer>16</integer>
+		</dict>
+		<key>OEGenesisButtonStart</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>4</integer>
+			<key>Cookie</key>
+			<integer>12</integer>
+		</dict>
+		<key>OEGenesisButtonMode</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>3</integer>
+			<key>Cookie</key>
+			<integer>11</integer>
+		</dict>
+	</dict>
+	<key>OEControllerRetrolinkSNES</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>Y</string>
+			<key>Direction</key>
+			<string>-1</string>
 		</dict>
 		<key>OEGenesisButtonLeft</key>
 		<dict>
@@ -580,56 +677,56 @@
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>2</integer>
+			<integer>4</integer>
 		</dict>
 		<key>OEGenesisButtonB</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>6</integer>
+			<integer>1</integer>
 		</dict>
 		<key>OEGenesisButtonC</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>5</integer>
+			<integer>2</integer>
 		</dict>
 		<key>OEGenesisButtonX</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>1</integer>
+			<integer>3</integer>
 		</dict>
 		<key>OEGenesisButtonY</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>7</integer>
+			<integer>5</integer>
 		</dict>
 		<key>OEGenesisButtonZ</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>8</integer>
+			<integer>6</integer>
 		</dict>
 		<key>OEGenesisButtonStart</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>4</integer>
+			<integer>10</integer>
 		</dict>
 		<key>OEGenesisButtonMode</key>
 		<dict>
 			<key>Type</key>
 			<string>Button</string>
 			<key>Number</key>
-			<integer>3</integer>
+			<integer>9</integer>
 		</dict>
 	</dict>
 </dict>

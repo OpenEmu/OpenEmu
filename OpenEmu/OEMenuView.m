@@ -654,6 +654,8 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
 {
     [super setMenu:menu];
     [_documentView setItemArray:[menu itemArray]];
+    // update the lastKeyModifierMask as the documentView may have updated
+    _lastKeyModifierMask = [[NSApp currentEvent] modifierFlags] & [_documentView keyModifierMask];
 }
 
 - (void)setStyle:(OEMenuStyle)style

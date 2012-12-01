@@ -307,17 +307,17 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 {
 }
 
-- (BOOL)isSelectableInSdebar
+- (BOOL)isSelectableInSidebar
 {
     return YES;
 }
 
-- (BOOL)isEditableInSdebar
+- (BOOL)isEditableInSidebar
 {
     return NO;
 }
 
-- (BOOL)isGroupHeaderInSdebar
+- (BOOL)isGroupHeaderInSidebar
 {
     return NO;
 }
@@ -357,17 +357,17 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     [self setValue:newName forKey:@"name"];
 }
 
-- (BOOL)isSelectableInSdebar
+- (BOOL)isSelectableInSidebar
 {
     return YES;
 }
 
-- (BOOL)isEditableInSdebar
+- (BOOL)isEditableInSidebar
 {
     return YES;
 }
 
-- (BOOL)isGroupHeaderInSdebar
+- (BOOL)isGroupHeaderInSidebar
 {
     return NO;
 }

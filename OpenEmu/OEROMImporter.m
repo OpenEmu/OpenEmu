@@ -39,6 +39,10 @@
 
 #import "ArchiveVGThrottling.h"
 
+#import "OECUESheet.h"
+
+#import <CommonCrypto/CommonDigest.h>
+#import <XADMaster/XADArchive.h>
 #import <objc/runtime.h>
 
 const int MaxSimulatenousImports = 1; // imports can't really be simulatenous because access to queue is not ready for multithreadding right now
@@ -59,6 +63,7 @@ NSString *const OEImportInfoCRC         = @"crc";
 NSString *const OEImportInfoROMObjectID = @"RomObjectID";
 NSString *const OEImportInfoSystemID    = @"systemID";
 NSString *const OEImportInfoArchiveSync = @"archiveSync";
+NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
 
 @interface OEROMImporter ()
 {
@@ -80,11 +85,13 @@ NSString *const OEImportInfoArchiveSync = @"archiveSync";
 
 #pragma mark - Import Steps
 - (void)performImportStepCheckDirectory:(OEImportItem *)item;
+- (void)performImportStepCheckArchiveFile:(OEImportItem *)item;
 - (void)performImportStepHash:(OEImportItem *)item;
 - (void)performImportStepCheckHash:(OEImportItem *)item;
 - (void)performImportStepDetermineSystem:(OEImportItem *)item;
 - (void)performImportStepSyncArchive:(OEImportItem *)item;
 - (void)performImportStepOrganize:(OEImportItem *)item;
+- (void)performImportStepOrganizeAdditionalFiles:(OEImportItem *)item;
 - (void)performImportStepCreateRom:(OEImportItem *)item;
 - (void)performImportStepCreateGame:(OEImportItem *)item;
 
@@ -214,11 +221,13 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         switch([item importStep])
         {
             case OEImportStepCheckDirectory  : [importer performImportStepCheckDirectory:item];  break;
+            case OEImportStepCheckArchiveFile : [importer performImportStepCheckArchiveFile:item]; break;
             case OEImportStepHash            : [importer performImportStepHash:item];            break;
             case OEImportStepCheckHash       : [importer performImportStepCheckHash:item];       break;
             case OEImportStepDetermineSystem : [importer performImportStepDetermineSystem:item]; break;
             case OEImportStepSyncArchive     : [importer performImportStepSyncArchive:item];     break;
             case OEImportStepOrganize        : [importer performImportStepOrganize:item];        break;
+            case OEImportStepOrganizeAdditionalFiles : [importer performImportStepOrganizeAdditionalFiles:item]; break;
             case OEImportStepCreateRom       : [importer performImportStepCreateRom:item];       break;
             case OEImportStepCreateGame      : [importer performImportStepCreateGame:item];      break;
             default : return;
@@ -272,13 +281,45 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     }
 }
 
+- (void)performImportStepCheckArchiveFile:(OEImportItem *)item
+{
+    //Short circuit this?
+    NSString *path = [[item URL] path];
+    XADArchive *archive = [XADArchive archiveForFile:path];
+    if (archive && [archive numberOfEntries] == 1)
+    {
+        if (![archive entryHasSize:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])
+            return;
+        
+        NSString *folder = temporaryDirectoryForDecompressionOfPath(path);
+        NSString *name = [archive nameOfEntry:0];
+        NSString *tmpPath = [folder stringByAppendingPathComponent:name];
+
+        BOOL isdir;
+        NSURL *tmpURL = [NSURL fileURLWithPath:tmpPath];
+        NSFileManager *fm = [NSFileManager new];
+        if ([fm fileExistsAtPath:tmpPath isDirectory:&isdir] && !isdir) {
+            DLog(@"Found existing decompressed ROM for path %@", path);
+            [[item importInfo] setValue:tmpURL forKey:OEImportInfoArchivedFileURL];
+            return;
+        }
+
+        BOOL success = [archive extractEntry:0 to:folder];
+        if (success)
+            [[item importInfo] setValue:tmpURL forKey:OEImportInfoArchivedFileURL];
+        else
+            [fm removeItemAtPath:folder error:nil];
+    }
+}
+
 // Calculates md5 and crc32 hash strings
 - (void)performImportStepHash:(OEImportItem *)item
 {
-    NSURL         *url = [item URL];
+    NSURL         *url = [[item importInfo] valueForKey:OEImportInfoArchivedFileURL] ?: [item URL];
     NSString      *md5, *crc;
     NSError       *error = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    
     
     if(![fileManager hashFileAtURL:url md5:&md5 crc32:&crc error:&error])
     {
@@ -350,7 +391,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             // Try to find a system for archvie name
             NSString *archiveSystemName = [archiveResult valueForKey:AVGGameSystemNameKey];
             OEDBSystem *system = [OEDBSystem systemForArchiveName:archiveSystemName inDatabase:[self database]];
-            DLog(@"%@", system);
+            
             if(system)
             {
                 systemIdentifier = [system systemIdentifier];
@@ -362,7 +403,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     else
     {
         NSError *error        = nil;
-        NSURL   *url          = [item URL];
+        NSURL   *url          = [[item importInfo] valueForKey:OEImportInfoArchivedFileURL] ?: [item URL];
         NSArray *validSystems = [OEDBSystem systemsForFileWithURL:url inDatabase:[self database] error:&error];
         
         if(validSystems == nil)
@@ -374,7 +415,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         }
         else if([validSystems count] == 0)
         {
-            DLog(@"No valid system found for item at url %@", [item URL]);
+            DLog(@"No valid system found for item at url %@", url);
             // TODO: create unresolvable error
             error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
             [self stopImportForItem:item withError:error];
@@ -565,6 +606,58 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Could not find a valid system" forKey:NSLocalizedDescriptionKey];
             NSError *error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:userInfo];
             [self stopImportForItem:item withError:error];
+        }
+    }
+}
+
+- (void)performImportStepOrganizeAdditionalFiles:(OEImportItem *)item
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL copyToLibrary   = [standardUserDefaults boolForKey:OECopyToLibraryKey];
+    BOOL organizeLibrary = [standardUserDefaults boolForKey:OEOrganizeLibraryKey];
+    if((copyToLibrary || organizeLibrary) && [[[[item URL] pathExtension] lastPathComponent] isEqualToString:@"cue"])
+    {
+        NSString *referencedFilesDirectory = [[[item sourceURL] path] stringByDeletingLastPathComponent];
+        OECUESheet *cue = [[OECUESheet alloc] initWithPath:[[item URL] path] andReferencedFilesDirectory:referencedFilesDirectory];
+        if(cue == nil)
+        {
+            // TODO: Create user info
+            NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeInvalidFile userInfo:nil];
+            [self stopImportForItem:item withError:error];
+            return;
+        }
+        
+        if(![cue allFilesAvailable])
+        {
+            // TODO: Create user info
+            NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeAdditionalFiles userInfo:nil];
+            [self stopImportForItem:item withError:error];
+            return;
+        }
+        
+        NSURL *sourceURL = [item sourceURL], *url = [item URL];
+        NSString *targetDirectory = [[url path] stringByDeletingLastPathComponent];
+        if(copyToLibrary && ![sourceURL isSubpathOfURL:[[self database] romsFolderURL]])
+        {
+            DLog(@"copy to '%@'", targetDirectory);
+            NSError *error = nil;
+            if(![cue copyReferencedFilesToPath:targetDirectory withError:&error])
+            {
+                DLog(@"%@", error);
+                [self stopImportForItem:item withError:error];
+                return;
+            }
+        }
+        else if(organizeLibrary && [sourceURL isSubpathOfURL:[[self database] romsFolderURL]])
+        {
+            DLog(@"move to '%@'", targetDirectory);
+            NSError *error = nil;
+            if(![cue moveReferencedFilesToPath:targetDirectory withError:&error])
+            {
+                DLog(@"%@", error);
+                [self stopImportForItem:item withError:error];
+                return;
+            }
         }
     }
 }

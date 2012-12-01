@@ -87,6 +87,9 @@
 @property (strong) IBOutlet NSSlider      *toolbarSlider;
 
 @property (strong) NSBitmapImageRep *cachedSnapshot;
+
+
+- (void)showViewController:(NSViewController <OELibrarySubviewController>*)nextViewController;
 @end
 
 @class OEDBGame, OEDBRom, OEDBSaveState;

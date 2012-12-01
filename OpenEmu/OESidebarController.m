@@ -32,6 +32,7 @@
 
 #import "OESidebarOutlineView.h"
 #import "OEDBGame.h"
+#import "OEDBAllGamesCollection.h"
 #import "OECollectionViewItemProtocol.h"
 
 #import "OEHUDAlert.h"
@@ -41,7 +42,7 @@
 
 extern NSString *const OELastCollectionSelectedKey;
 NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
-extern NSString * const OEDBSystemsChangedNotificationName;
+extern NSString * const OEDBSystemsDidChangeNotification;
 
 NSString * const OESidebarSelectionDidChangeNotificationName = @"OESidebarSelectionDidChange";
 
@@ -85,8 +86,8 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 - (void)awakeFromNib
 {
     self.groups = [NSArray arrayWithObjects:
-                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"") andAutosaveName:OESidebarGroupConsolesAutosaveName],
-                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"") andAutosaveName:OESidebarGroupCollectionsAutosaveName],
+                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"") autosaveName:OESidebarGroupConsolesAutosaveName],
+                   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"") autosaveName:OESidebarGroupCollectionsAutosaveName],
                    nil];
     
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
@@ -126,7 +127,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     
     [self OE_setupDrop];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsDidChangeNotification object:nil];
 }
  
 
@@ -214,7 +215,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     
-    if(![item isSelectableInSdebar]) return;
+    if(![item isSelectableInSidebar]) return;
 
     NSInteger index = [sidebarView rowForItem:item];
     if(index == -1) return;
@@ -229,7 +230,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 - (void)startEditingItem:(id)item
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-    if(![item isEditableInSdebar]) return;
+    if(![item isEditableInSidebar]) return;
     
     NSInteger index = [sidebarView rowForItem:item];
     if(index == -1) return;
@@ -257,8 +258,47 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 #pragma mark Notifications
 - (void)systemsChanged
 {
+    id        previousSelectedItem = [self selectedSidebarItem];
+    NSInteger previousSelectedRow  = [[self view] selectedRow];
+    DLog(@"previous row is %ld, item is %@", previousSelectedRow, previousSelectedItem);
+    
     [self reloadData];
-    [self outlineViewSelectionDidChange:nil];
+
+    if(!previousSelectedItem) return;
+
+    NSInteger rowToSelect = NSNotFound;
+    NSInteger reloadedRowForPreviousSelectedItem = [[self view] rowForItem:previousSelectedItem];
+
+    DLog(@"reloaded row is %ld", (long)reloadedRowForPreviousSelectedItem);
+
+    // The previously selected item may have been disabled/removed, so we should select another item...
+    if(reloadedRowForPreviousSelectedItem == -1)
+    {
+        // Try to select the previously selected row or a row before it...
+        rowToSelect = previousSelectedRow;
+        while(rowToSelect > 0 && ![self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]])
+            rowToSelect--;
+
+        // If we can't select the previously selected row or a row before it, try to select a row after it
+        if(![self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]])
+        {
+            rowToSelect = previousSelectedRow;
+            while(rowToSelect < [[self view] numberOfRows] && ![self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]])
+                rowToSelect++;
+        }
+
+        NSAssert(rowToSelect > 0 && rowToSelect < [[self view] numberOfRows] && [self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]],
+                 @"Tried to select a sidebar item but couldn't find any");
+    }
+    // ...or the previously selected item may have changed to another row, so we need to select that row
+    else if(reloadedRowForPreviousSelectedItem != previousSelectedRow)
+        rowToSelect = reloadedRowForPreviousSelectedItem;
+
+    if(rowToSelect != previousSelectedRow)
+    {
+        [[self view] selectRowIndexes:[NSIndexSet indexSetWithIndex:rowToSelect] byExtendingSelection:NO];
+        [self outlineViewSelectionDidChange:nil];
+    }
 }
 
 - (void)importingChanged
@@ -338,7 +378,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-    return [self database]!=nil && ![item isGroupHeaderInSdebar] && [item isSelectableInSdebar];
+    return [self database]!=nil && ![item isGroupHeaderInSidebar] && [item isSelectableInSidebar];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item
@@ -367,7 +407,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return [(id<OESidebarItem>)item isGroupHeaderInSdebar];
+    return [(id<OESidebarItem>)item isGroupHeaderInSidebar];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
@@ -412,7 +452,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item 
 {
-    BOOL result = [item isEditableInSdebar];
+    BOOL result = [item isEditableInSidebar];
     if(result)
         self.editingItem = item;
     else
@@ -423,7 +463,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
 {
-    if([item isGroupHeaderInSdebar])
+    if([item isGroupHeaderInSidebar])
         return 26.0;
 
     return 20.0;
@@ -434,7 +474,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     if([cell isKindOfClass:[OESidebarCell class]])
     {
         [(OESidebarCell*)cell setImage:[item sidebarIcon]];
-        [(OESidebarCell*)cell setIsGroup:[item isGroupHeaderInSdebar]];
+        [(OESidebarCell*)cell setIsGroup:[item isGroupHeaderInSidebar]];
         
         if(self.editingItem == nil)
             [(OESidebarCell*)cell setIsEditing:NO];
@@ -454,7 +494,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     id item = [outlineView itemAtRow:index];
     BOOL removeItem = NO;
     
-    if([item isEditableInSdebar])
+    if([item isEditableInSidebar])
     {   
         NSString *msg = NSLocalizedString(@"Do you really want to remove this collection", @"");
         NSString *confirm = NSLocalizedString(@"Remove", @"");

@@ -29,7 +29,7 @@
 
 @implementation OESidebarGroupItem
 
-+ (id)groupItemWithName:(NSString*)name andAutosaveName:(NSString*)autosaveName
++ (instancetype)groupItemWithName:(NSString*)name autosaveName:(NSString*)autosaveName
 {
     OESidebarGroupItem *newItem = [[self alloc] init];
     newItem.name = name;
@@ -45,15 +45,15 @@
 {
     return self.name;
 }
-- (BOOL)isSelectableInSdebar
+- (BOOL)isSelectableInSidebar
 {
     return NO;
 }
-- (BOOL)isEditableInSdebar
+- (BOOL)isEditableInSidebar
 {
     return NO;
 }
-- (BOOL)isGroupHeaderInSdebar
+- (BOOL)isGroupHeaderInSidebar
 {
     return YES;
 }

@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -52,15 +52,22 @@ _u8 system_frameskip_key;
 BOOL system_rom_load(const char *filename);
 
 @interface NGPGameCore () <OENGPSystemResponderClient>
+{
+    NSLock   *soundLock;
+    NSLock   *bufLock;
+    NSString *pathToFile;
+    int       blit;
+}
+
 @end
 
 @implementation NGPGameCore
 
 static NSString *gPathToFile = NULL;
-int *gBlit = NULL;
-uint16_t *chipBuf;
-uint8_t *dacBuf;
-uint8_t inputState;
+static int *gBlit = NULL;
+static uint16_t *chipBuf;
+static uint8_t *dacBuf;
+static uint8_t inputState;
 static OERingBuffer *chipBuffer;
 static OERingBuffer *dacBuffer;
 
@@ -132,7 +139,7 @@ static OERingBuffer *dacBuffer;
         emulate();
     }
     blit = 0;
-    
+
     [bufLock unlock];
 }
 
@@ -149,8 +156,7 @@ static OERingBuffer *dacBuffer;
 
 - (id)init
 {
-    self = [super init];
-    if(self != nil)
+    if((self = [super init]))
     {
         chipBuf = calloc(SAMPLEFRAME * 2, sizeof(uint16_t));
         dacBuf = calloc(DAC_FREQUENCY / 60, sizeof(uint8_t));
@@ -161,6 +167,7 @@ static OERingBuffer *dacBuffer;
         chipBuffer = [self ringBufferAtIndex:0];
         dacBuffer = [self ringBufferAtIndex:1];
     }
+
     return self;
 }
 
@@ -178,11 +185,11 @@ static OERingBuffer *dacBuffer;
     NSLog(@"Setup done for neopop");
 }
 
-- (BOOL)loadFileAtPath:(NSString*)path
+- (BOOL)loadFileAtPath:(NSString *)path
 {
     pathToFile = [[path stringByDeletingLastPathComponent] copy];
     gPathToFile = pathToFile;
-    
+
     /* auto-select colour mode */
     system_colour = COLOURMODE_AUTO;
     /* default to English as language for now */
@@ -191,17 +198,17 @@ static OERingBuffer *dacBuffer;
     mute = NO;
     /* show every frame */
     system_frameskip_key = 1;
-    
+
     /* Fill BIOS buffer */
-    if (!bios_install())
+    if(!bios_install())
     {
         NSLog(@"Cannot install NGP bios");
         return NO;
     }
-    
+
     /* Remove me later */
     mute = YES;
-    
+
     return system_rom_load([path UTF8String]);
 }
 
@@ -268,45 +275,47 @@ static OERingBuffer *dacBuffer;
 static BOOL rom_load(const char *filename)
 {
     struct stat st;
-    
-    if (stat(filename, &st) == -1) {
+
+    if(stat(filename, &st) == -1)
+    {
         NSLog(@"Error finding NGP rom");
         return NO;
     }
-    
+
     rom.length = st.st_size;
     rom.data = (unsigned char *)calloc(rom.length, 1);
-    
-    if (system_io_rom_read(filename, rom.data, rom.length))
+
+    if(system_io_rom_read(filename, rom.data, rom.length))
     {
         NSLog(@"Rom loaded, rom data %x", rom.data[128]);
         return YES;
     }
-    
+
     NSLog(@"Error reading NGP rom");
     free(rom.data);
     rom.data = NULL;
+
     return NO;
 }
 
 BOOL system_rom_load(const char *filename)
 {
     const char *fn = "";
-    
+
     /* Remove old ROM from memory */
     rom_unload();
-    
+
     if(!rom_load(filename)) return NO;
-    
+
     memset(rom.filename, 0, sizeof(rom.filename));
-    if ((fn=strrchr(filename, '/')) == NULL)
+    if((fn = strrchr(filename, '/')) == NULL)
         fn = filename;
-    
+
     /* don't copy extension */
-    strncpy(rom.filename, fn, min(sizeof(rom.filename), strlen(fn)-4));
+    strncpy((char *)rom.filename, fn, min(sizeof(rom.filename), strlen(fn) - 4));
     NSLog(@"Rom name: %s %s\n", rom.filename, rom.name);
     rom_loaded();
-    
+
     return YES;
 }
 
@@ -315,16 +324,17 @@ void system_VBL(void)
 {
     *gBlit = 1;
     sound_update(chipBuf, SAMPLEFRAME * 4);
-    [chipBuffer write:(uint8_t*)chipBuf maxLength:SAMPLEFRAME * 4];
+    [chipBuffer write:(uint8_t *)chipBuf maxLength:SAMPLEFRAME * 4];
 
-    dac_update(dacBuf, DAC_FREQUENCY/60);
-    for (int i = 0; i < DAC_FREQUENCY/60; ++i)
+    dac_update(dacBuf, DAC_FREQUENCY / 60);
+    for(int i = 0; i < DAC_FREQUENCY / 60; ++i)
     {
         float floatSample = ((float)dacBuf[i]) / UINT8_MAX;
         chipBuf[i] = (int16_t)(floatSample * UINT16_MAX - INT16_MAX);
     }
-    [dacBuffer write:(uint8_t*)chipBuf maxLength:(DAC_FREQUENCY/60) * 2];
-    
+
+    [dacBuffer write:(uint8_t *)chipBuf maxLength:(DAC_FREQUENCY/60) * 2];
+
     ram[JOYPORT_ADDR] = inputState;
 }
 
@@ -339,7 +349,7 @@ void system_sound_silence(void)
     memset(dacBuf, 0, sizeof(uint8_t) * (DAC_FREQUENCY / 60));
 }
 
-BOOL system_comms_read(_u8* buffer)
+BOOL system_comms_read(_u8 *buffer)
 {
     return NO;
 }
@@ -348,7 +358,7 @@ void system_comms_write(_u8 data)
 {
 }
 
-BOOL system_comms_poll(_u8* buffer)
+BOOL system_comms_poll(_u8 *buffer)
 {
     return NO;
 }
@@ -363,36 +373,37 @@ char *system_make_file_name(const char *dir, const char *ext, int writing)
     NSLog(@"make file: %s", dir);
     char *fname, *name, *home, *p;
     int len;
-    
+
     name = rom.filename;
-    len = strlen(dir)+strlen(name)+strlen(ext)+2;
-    
+    len = strlen(dir) + strlen(name) + strlen(ext) + 2;
+
     home = NULL;
-    if (strncmp(dir, "~/", 2) == 0) {
+    if(strncmp(dir, "~/", 2) == 0)
+    {
         home = getenv("HOME");
-        if (home == NULL)
-            return NULL;
-        len += strlen(home)-1;
+        if(home == NULL) return NULL;
+
+        len += strlen(home) - 1;
     }
-    
-    if ((fname = malloc(len)) == NULL)
+
+    if((fname = malloc(len)) == NULL)
         return NULL;
-    
-    if (strncmp(dir, "~/", 2) == 0)
+
+    if(strncmp(dir, "~/", 2) == 0)
         sprintf(fname, "%s%s", home, dir+1);
     else
         strcpy(fname, dir);
-    
-    //if (writing && !validate_dir(fname))
+
+    //if(writing && !validate_dir(fname))
     //return NULL;
-    
+
     /* XXX: maybe replace all but [-_A-Za-z0-9] */
-    p = fname+strlen(fname);
+    p = fname + strlen(fname);
     sprintf(p, "/%s%s", name, ext);
     while(*(++p))
         if(*p == '/')
             *p = '_';
-    
+
     return fname;
 }
 
@@ -400,25 +411,25 @@ static BOOL read_file_to_buffer(const char *filename, _u8 *buffer, _u32 len)
 {
     FILE *fp;
     _u32 got;
-    
-    if ((fp = fopen(filename, "rb")) == NULL)
+
+    if((fp = fopen(filename, "rb")) == NULL)
         return NO;
-    
-    while ((got=fread(buffer, 1, len, fp)) < len)
+
+    while((got = fread(buffer, 1, len, fp)) < len)
     {
         if( feof(fp) || (ferror(fp) && (errno != EINTR)))
         {
             fclose(fp);
             return NO;
         }
-        
+
         len -= got;
         buffer += got;
     }
-    
-    if (fclose(fp) != 0)
+
+    if(fclose(fp) != 0)
         return NO;
-    
+
     return YES;
 }
 
@@ -426,48 +437,50 @@ static BOOL write_file_from_buffer(const char *filename, _u8 *buffer, _u32 len)
 {
     FILE *fp;
     _u32 written;
-    
-    if ((fp = fopen(filename, "wb")) == NULL)
+
+    if((fp = fopen(filename, "wb")) == NULL)
         return NO;
-    
-    while ((written = fwrite(buffer, 1, len, fp)) < len)
+
+    while((written = fwrite(buffer, 1, len, fp)) < len)
     {
-        if( feof(fp) || (ferror(fp) && (errno != EINTR)))
+        if(feof(fp) || (ferror(fp) && (errno != EINTR)))
         {
             fclose(fp);
             return NO;
         }
-        
+
         len -= written;
         buffer += written;
     }
-    
-    if (fclose(fp) != 0)
+
+    if(fclose(fp) != 0)
         return NO;
-    
+
     return YES;
 }
 
-BOOL system_io_flash_read(_u8* buffer, _u32 len)
+BOOL system_io_flash_read(_u8 *buffer, _u32 len)
 {
     NSLog(@"Flash read");
     char *fn;
     int ret;
-    
-    if ((fn = system_make_file_name([gPathToFile UTF8String], ".ngf", NO)) == NULL)
+
+    if((fn = system_make_file_name([gPathToFile UTF8String], ".ngf", NO)) == NULL)
         return NO;
+
     ret = read_file_to_buffer(fn, buffer, len);
     free(fn);
+
     return ret;
 }
 
-BOOL system_io_flash_write(_u8* buffer, _u32 len)
+BOOL system_io_flash_write(_u8 *buffer, _u32 len)
 {
     NSLog(@"Flash write");
     char *fn;
     int ret;
-    
-    if ((fn = system_make_file_name([gPathToFile UTF8String], ".ngf", YES)) == NULL)
+
+    if((fn = system_make_file_name([gPathToFile UTF8String], ".ngf", YES)) == NULL)
         return NO;
     ret = write_file_from_buffer(fn, buffer, len);
     free(fn);
@@ -490,14 +503,15 @@ BOOL system_io_state_write(const char *filename, _u8 *buffer, _u32 len)
 }
 
 /* copied from Win32/system_language.c */
-typedef struct {
+typedef struct
+{
     char label[9];
     char string[256];
 } STRING_TAG;
 
-static STRING_TAG string_tags[]={
-    { "SDEFAULT",     "Are you sure you want to revert to the default control setup?" }, 
-    { "ROMFILT",      "Rom Files (*.ngp,*.ngc,*.npc,*.zip)\0*.ngp;*.ngc;*.npc;*.zip\0\0" }, 
+static STRING_TAG string_tags[] = {
+    { "SDEFAULT",     "Are you sure you want to revert to the default control setup?" },
+    { "ROMFILT",      "Rom Files (*.ngp,*.ngc,*.npc,*.zip)\0*.ngp;*.ngc;*.npc;*.zip\0\0" },
     { "STAFILT",      "State Files (*.ngs)\0*.ngs\0\0" },
     { "FLAFILT",      "Flash Memory Files (*.ngf)\0*.ngf\0\0" },
     { "BADFLASH",     "The flash data for this rom is from a different version of NeoPop, it will be destroyed soon." },
@@ -513,7 +527,7 @@ static STRING_TAG string_tags[]={
     { "EZIPNONE",     "No roms found" } ,
     { "EZIPBAD",      "Corrupted ZIP file" },
     { "EZIPFIND",     "Cannot find ZIP file" },
-    
+
     { "ABORT",        "Abort" },
     { "DISCON",       "Disconnect" },
     { "CONNEC",       "Connected" }
@@ -521,9 +535,9 @@ static STRING_TAG string_tags[]={
 
 char *system_get_string(STRINGS string_id)
 {
-    if (string_id >= STRINGS_MAX)
+    if(string_id >= STRINGS_MAX)
         return "Unknown String";
-    
+
     return string_tags[string_id].string;
 }
 

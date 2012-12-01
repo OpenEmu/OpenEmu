@@ -88,7 +88,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     NSDate *_listViewSelectionChangeDate;
 }
 
-- (void)OE_managedObjectContextDidSave:(NSNotification *)notification;
+- (void)OE_managedObjectContextDidUpdate:(NSNotification *)notification;
 - (void)OE_reloadData;
 
 - (NSMenu *)OE_menuForItemsAtIndexes:(NSIndexSet *)indexes;
@@ -139,6 +139,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [listView unbind:@"selectionIndexes"];
     gamesController = nil;
 }
 
@@ -192,6 +193,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [listView setDelegate:self];
     [listView setDataSource:self];
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
+    [listView bind:@"selectionIndexes" toObject:gamesController withKeyPath:@"selectionIndexes" options:@{}];
 
     // There's no natural order for status indicators, so we don't allow that column to be sorted
     OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"listViewStatus"] headerCell];
@@ -213,9 +215,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [blankSlateView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
     
     // Watch the main thread's managed object context for changes
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_emulationDidFinish:) name:OEGameViewControllerEmulationDidFinishNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextObjectsDidChangeNotification object:context];
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
@@ -296,7 +297,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
            selectedViewTag = OEGridViewTag;
         
         // Make sure slider value is valid
-        if(sliderValue < [sizeSlider minValue] | sliderValue > [sizeSlider maxValue])
+        if(sliderValue < [sizeSlider minValue] || sliderValue > [sizeSlider maxValue])
            sliderValue = [sizeSlider doubleValue];
     }
     else
@@ -320,7 +321,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     if(selectedViewTag == OEFlowViewTag || selectedViewTag == OEListViewTag)
     {
         [[self gamesController] setSortDescriptors:listViewSortDescriptors];
-        [[self gamesController] rearrangeObjects];
         [listView reloadData];
     }
 
@@ -373,8 +373,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     }
 	
     [[self gamesController] setSortDescriptors:sortDescriptors];
-    [[self gamesController] rearrangeObjects];
-	
+
     if(reloadListView)
         [listView reloadData];
     else
@@ -1048,19 +1047,44 @@ static const float OE_coverFlowHeightPercentage = 0.75;
             
             [obj setListViewTitle:anObject];
         }
-        [self reloadDataIndexes:[NSIndexSet indexSetWithIndex:rowIndex]];
     }
 }
 
 - (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
-    if(tableView == listView)
+    if(tableView != listView) return;
+
+    if([[listView sortDescriptors] count] > 0)
     {
-        [[self gamesController] setSortDescriptors:[listView sortDescriptors]];
-        [[self gamesController] rearrangeObjects];
-        [listView reloadData];
-        _stateRewriteRequired = YES;
+        // Make sure we do not accumulate sort descriptors and `listViewTitle` is the secondary
+        // sort descriptor provided it's not the main sort descriptor
+        NSSortDescriptor *mainSortDescriptor = [[listView sortDescriptors] objectAtIndex:0];
+
+        if(![[mainSortDescriptor key] isEqualToString:@"listViewTitle"])
+        {
+            [listView setSortDescriptors:(@[
+                                          mainSortDescriptor,
+                                          [NSSortDescriptor sortDescriptorWithKey:@"listViewTitle" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)],
+                                          ])];
+        }
     }
+
+    [gamesController setSortDescriptors:[listView sortDescriptors]];
+    [listView reloadData];
+
+    // If we send -reloadData to `coverFlowView`, it changes the selected index to an index that doesn't match
+    // either the previous selected index or the new selected index as defined by `gamesController`. We need to
+    // remember the actual new selected index, wait for `coverFlowView` to reload its data and then restore the
+    // correct selection.
+    if([[gamesController selectionIndexes] count] == 1)
+    {
+        const NSInteger selectedRow = [[gamesController selectionIndexes] firstIndex];
+        [coverFlowView reloadData];
+        [coverFlowView setSelectedIndex:selectedRow];
+    }
+    else [coverFlowView reloadData];
+    
+    _stateRewriteRequired = YES;
 }
 
 #pragma mark -
@@ -1079,7 +1103,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     
     if( aTableView == listView && operation==NSTableViewDropAbove)
         return NSDragOperationGeneric;
-    
+
     return NSDragOperationNone;
     
 }
@@ -1140,16 +1164,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     return 0.0;
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
-{
-    if( aTableView == listView )
-    {
-        return YES;
-    }
-    
-    return YES;
-}
-
 - (void)tableViewSelectionIsChanging:(NSNotification *)notification
 {
     NSTableView *tableView = [notification object];
@@ -1164,29 +1178,16 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
-    NSTableView *aTableView = [aNotification object];
+    if([aNotification object] != listView) return;
     
-    if( aTableView == listView )
-    {
-        _listViewSelectionChangeDate = [NSDate date];
+    _listViewSelectionChangeDate = [NSDate date];
 
-        [gamesController setSelectionIndexes:[aTableView selectedRowIndexes]];
-        
-        NSIndexSet *selectedIndexes = [listView selectedRowIndexes];
-        if([selectedIndexes count] > 0)
-        {
-            if([selectedIndexes count] == 1) [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
-
-            [selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-                [listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
-            }];
-        }
-    }
+    if([[listView selectedRowIndexes] count] == 1) [coverFlowView setSelectedIndex:[[listView selectedRowIndexes] firstIndex]];
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    if( tableView == listView && [[tableColumn identifier] isEqualToString:@"listViewRating"] )
+    if(tableView == listView && [[tableColumn identifier] isEqualToString:@"listViewRating"])
     {
         // We only track the rating cell in selected rows...
         if(![[listView selectedRowIndexes] containsIndex:row]) return NO;
@@ -1252,33 +1253,31 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [listView scrollRowToVisible:index];
 }
 
-#pragma mark - Notifications
-- (void)OE_emulationDidFinish:(NSNotification *)notification
-{
-    OEDBRom *rom = [[notification userInfo] objectForKey:OEGameViewControllerROMKey];
-    if(!rom) return;
-
-    NSUInteger rowIndex = [[gamesController arrangedObjects] indexOfObject:[rom game]];
-    if(rowIndex == NSNotFound) return;
-
-    [self reloadDataIndexes:[NSIndexSet indexSetWithIndex:rowIndex]];
-}
-
 #pragma mark -
 #pragma mark Private
 #define reloadDelay 0.1
-- (void)OE_managedObjectContextDidSave:(NSNotification *)notification
+- (void)OE_managedObjectContextDidUpdate:(NSNotification *)notification
 {
     NSPredicate *predicateForGame = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"Game" inManagedObjectContext:[notification object]]];
-    NSSet *insertedObjects        = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForGame];
-    NSSet *deletedObjects         = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForGame];
-    NSSet *updatedObjects         = [[[notification userInfo] objectForKey:NSUpdatedObjectsKey] filteredSetUsingPredicate:predicateForGame];
-    
-    if((insertedObjects && [insertedObjects count]) || (deletedObjects && [deletedObjects count]))
+    NSSet *insertedGames          = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForGame];
+    NSSet *deletedGames           = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForGame];
+    NSSet *updatedGames           = [[[notification userInfo] objectForKey:NSUpdatedObjectsKey] filteredSetUsingPredicate:predicateForGame];
+
+    NSPredicate *predicateForROM  = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:[notification object]]];
+    NSSet *insertedROMs           = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForROM];
+    NSSet *deletedROMs            = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForROM];
+    NSSet *updatedROMs            = [[[notification userInfo] objectForKey:NSUpdatedObjectsKey] filteredSetUsingPredicate:predicateForROM];
+
+    const BOOL hasGameInsertions = [insertedGames count];
+    const BOOL hasGameDeletions  = [deletedGames count];
+    // Since some game properties are derived from ROM properties, we consider ROM insertions/deletions/updates as game updates
+    const BOOL hasGameUpdates    = [updatedGames count] || [insertedROMs count] || [deletedROMs count] || [updatedROMs count];;
+
+    if(hasGameInsertions || hasGameDeletions)
     {
         [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
     }
-    else if(updatedObjects && [updatedObjects count])
+    else if(hasGameUpdates)
     {
         // Nothing was removed or added, just updated so just update the visible items
         [self performSelector:@selector(setNeedsReloadVisible) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];

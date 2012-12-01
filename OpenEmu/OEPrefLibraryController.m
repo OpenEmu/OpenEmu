@@ -51,7 +51,7 @@
     if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
         [self OE_calculateHeight];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildAvailableLibraries) name:OEDBSystemsChangedNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildAvailableLibraries) name:OEDBSystemsDidChangeNotification object:nil];
     }
     
     return self;
@@ -168,7 +168,7 @@
     
     [system setEnabled:[NSNumber numberWithBool:!disabled]];
     [[system libraryDatabase] save:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsChangedNotificationName object:system userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsDidChangeNotification object:system userInfo:nil];
 }
 
 #pragma mark -

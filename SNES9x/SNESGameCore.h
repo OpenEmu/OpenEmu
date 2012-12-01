@@ -32,9 +32,4 @@
 
 OE_EXPORTED_CLASS
 @interface SNESGameCore : OEGameCore
-{
-    UInt16        *soundBuffer;
-    unsigned char *videoBuffer;
-}
-
 @end

@@ -36,22 +36,5 @@
 extern NSString *MednafenControlNames[];
 
 @interface MednafenGameCore : OEGameCore
-{
-    unsigned char *videoBuffer;
-    unsigned char *tempBuffer;
-    NSLock        *soundLock;
-    NSLock        *bufLock;
-    uint16        *sndBuf;
-    int            oldrun;
-    int            position;
-    
-    BOOL           paused;
-    MDFNGI        *gameInfo;
-    MDFN_Rect     *lineWidths;
-    // FIXME: this C++ thing would be better hidden.
-    std::vector<MDFNSetting> *driverSettings;
-    int16         *sound;
-    int32          ssize;
-}
 
 @end

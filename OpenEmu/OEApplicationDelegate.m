@@ -61,6 +61,8 @@
 
 #import "OEFiniteStateMachine.h"
 
+#import <FeedbackReporter/FRFeedbackReporter.h>
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -130,7 +132,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{    
+{
+    // Check to see if we crashed.
+    [[FRFeedbackReporter sharedReporter] reportIfCrash];
+    
     // Run Migration Manager
     [[OEVersionMigrationController defaultMigrationController] runMigrationIfNeeded];
     
@@ -587,5 +592,14 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     DLog(@"NSApp.KeyWindow: %@", [NSApp keyWindow]);
     LogResponderChain([[NSApp keyWindow] firstResponder]);
 }
+
+#pragma mark - Feedback Reporting & Delegate
+
+- (IBAction) reportFeedback:(id)sender
+{
+    [[FRFeedbackReporter sharedReporter] reportFeedback];
+}
+
+
 
 @end

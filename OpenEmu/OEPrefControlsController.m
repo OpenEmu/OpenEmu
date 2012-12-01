@@ -152,7 +152,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     
     [[self controllerView] setWantsLayer:YES];
         
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_openPaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
 }
 
@@ -183,7 +183,6 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 - (void)systemsChanged
 {
-    NSLog(@"OEDBSystemsChangedNotificationName");
     NSMenuItem *menuItem = [[self consolesPopupButton] selectedItem];
     NSString *selectedSystemIdentifier = [menuItem representedObject];
 

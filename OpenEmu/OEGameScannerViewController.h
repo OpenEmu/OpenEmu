@@ -27,18 +27,31 @@
 #import <Cocoa/Cocoa.h>
 
 #import "OEROMImporter.h"
+#import "OELibraryController.h"
 #import "OELibrarySubviewController.h"
-@class OELibraryController;
-@interface OEGameScannerViewController : NSViewController <OEROMImporterDelegate, OELibrarySubviewController>
+#import "OESidebarItem.h"
 
-#pragma mark - UI Methods
+#pragma mark - Imported variables
+extern NSString * const OESidebarSelectionDidChangeNotificationName;
+
+@class OELibraryController;
+@interface OEGameScannerViewController : NSViewController <OEROMImporterDelegate, OELibrarySubviewController, OESidebarItem, NSTableViewDataSource, NSTableViewDelegate>
+
+#pragma mark - GameScanner UI
 - (IBAction)togglePause:(id)sender;
 - (IBAction)cancel:(id)sender;
+- (IBAction)resolveIssues:(id)sender;
 
-@property (strong) IBOutlet NSView              *gameScannerView;
+@property (nonatomic) IBOutlet OELibraryController *libraryController;
 
+@property (strong, nonatomic) IBOutlet NSView   *gameScannerView;
 @property (strong) IBOutlet NSTextField         *headlineLabel;
 @property (strong) IBOutlet NSButton            *togglePauseButton;
 @property (strong) IBOutlet NSProgressIndicator *progressIndicator;
 @property (strong) IBOutlet NSTextField         *statusLabel;
+@property (strong) NSButton *fixButton;
+
+#pragma mark - Issue Resolving UI
+@property (strong) IBOutlet NSTableView   *issuesView;
+@property (strong) IBOutlet NSPopUpButton *actionPopUpButton;
 @end

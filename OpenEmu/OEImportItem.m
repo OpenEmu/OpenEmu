@@ -41,15 +41,15 @@
     NSDictionary *resourceValues = [url resourceValuesForKeys:@[ NSURLIsPackageKey, NSURLIsHiddenKey ] error:nil];
     if([[resourceValues objectForKey:NSURLIsHiddenKey] boolValue] || [[resourceValues objectForKey:NSURLIsPackageKey] boolValue])
     {
-        DLog(@"%@ is a hidden file or a package directory, skipping", [url path]);
+        // DLog(@"%@ is a hidden file or a package directory, skipping", [url path]);
         return nil;
     }
 
-    // Ignore text files
-    GEMagicResult *magicResult = [GEMagicKit magicForFileAtURL:url];
-    if([[magicResult uniformTypeHierarchy] containsObject:(id)kUTTypeText])
+    // Ignore text files that are not .cue
+    if(![[[url pathExtension] lowercaseString] isEqualToString:@"cue"] &&
+       [[[GEMagicKit magicForFileAtURL:url] uniformTypeHierarchy] containsObject:(id)kUTTypeText])
     {
-        DLog(@"%@ is a text file, skipping", [url path]);
+        // DLog(@"%@ is a text file, skipping", [url path]);
         return nil;
     }
 
@@ -59,72 +59,18 @@
     
     if([extension length] > 0 && ![validExtensions containsObject:extension])
     {
-        DLog(@"%@ is not a supported file extension, skipping", extension);
+        // DLog(@"%@ is not a supported file extension, skipping", extension);
         return nil;
     }
 
     item = [[OEImportItem alloc] init];
 
     [item setURL:url];
+    [item setSourceURL:url];
     [item setCompletionHandler:handler];
     [item setImportState:OEImportItemStatusIdle];
     [item setImportInfo:[NSMutableDictionary dictionaryWithCapacity:5]];
 
     return item;
 }
-
-- (NSString *)localizedStatusMessage
-{
-    NSString *message = @"";
-    
-    switch([self importState])
-    {
-        case OEImportItemStatusActive :
-            message = [self localizedStepMessage];
-            break;
-            
-        case OEImportItemStatusIdle :
-            message = @"Waiting";
-            break;
-            
-        case OEImportItemStatusFatalError :
-        case OEImportItemStatusResolvableError :
-            message = [[self error] localizedDescription];
-            break;
-            
-        case OEImportItemStatusFinished :
-            if([[[self error] domain] isEqualToString:OEImportErrorDomainSuccess] && [[self error] code] == OEImportErrorCodeAlreadyInDatabase)
-                message = @"Skipped (already in database)";
-            else
-                message = @"Finished";
-            break;
-            
-        case OEImportItemStatusCancelled :
-            message = @"Cancelled";
-            break;
-    }
-    
-    return message;
-}
-
-- (NSString *)localizedStepMessage
-{
-    NSString *message = @"Unkown";
-
-    switch([self importStep])
-    {
-        case OEImportStepCheckDirectory  : message = @"Check Directory";         break;
-        case OEImportStepCheckHash       : message = @"Check Hash";              break;
-        case OEImportStepCreateGame      : message = @"Create Game";             break;
-        case OEImportStepCreateRom       : message = @"Create ROM";              break;
-        case OEImportStepDetermineSystem : message = @"Determine System";        break;
-        case OEImportStepHash            : message = @"Calculating Hash";        break;
-        case OEImportStepOrganize        : message = @"Copying File";            break;
-        case OEImportStepSyncArchive     : message = @"Syncing with Archive.vg"; break;
-        default : break;
-    }
-    
-    return message;
-}
-
 @end

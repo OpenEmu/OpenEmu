@@ -38,11 +38,13 @@ typedef enum  {
 
 typedef enum  {
     OEImportStepCheckDirectory,
+    OEImportStepCheckArchiveFile,
     OEImportStepHash,
     OEImportStepCheckHash,
     OEImportStepDetermineSystem,
     OEImportStepSyncArchive,
     OEImportStepOrganize,
+    OEImportStepOrganizeAdditionalFiles,
     OEImportStepCreateRom,
     OEImportStepCreateGame,
 } OEImportStep;
@@ -52,6 +54,7 @@ typedef void (^OEImportItemCompletionBlock)(void);
 @interface OEImportItem : NSObject <NSObject>
 
 @property(copy) NSURL               *URL;
+@property(copy) NSURL               *sourceURL;
 @property       OEImportItemState    importState;
 @property       OEImportStep         importStep;
 @property       NSMutableDictionary *importInfo;
@@ -60,5 +63,4 @@ typedef void (^OEImportItemCompletionBlock)(void);
 @property(copy) OEImportItemCompletionBlock completionHandler;
 
 + (id)itemWithURL:(NSURL*)url andCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (NSString *)localizedStatusMessage;
 @end

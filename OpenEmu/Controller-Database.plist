@@ -604,5 +604,39 @@
 			</dict>
 		</array>
 	</dict>
+	<dict>
+		<key>OEControllerName</key>
+		<string>Retrolink SNES</string>
+		<key>OEGenericControllerName</key>
+		<string>OEControllerRetrolinkSNES</string>
+		<key>OEControllerDevices</key>
+		<array>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Retrolink SNES</string>
+				<key>OEControllerVendorID</key>
+				<integer>121</integer>
+				<key>OEControllerProductID</key>
+				<integer>17</integer>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>OEControllerName</key>
+		<string>Retrolink N64</string>
+		<key>OEGenericControllerName</key>
+		<string>OEControllerRetrolinkN64</string>
+		<key>OEControllerDevices</key>
+		<array>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Retrolink N64</string>
+				<key>OEControllerVendorID</key>
+				<integer>121</integer>
+				<key>OEControllerProductID</key>
+				<integer>6</integer>
+			</dict>
+		</array>
+	</dict>
 </array>
 </plist>

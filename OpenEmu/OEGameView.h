@@ -54,8 +54,6 @@
 - (void)setupDisplayLink;
 - (void)tearDownDisplayLink;
 - (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
-- (void)setupTimer;
-- (void)timerFired:(id)sender;
 - (void)render;
 
 @end

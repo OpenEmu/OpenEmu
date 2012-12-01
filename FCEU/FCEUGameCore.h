@@ -32,13 +32,4 @@
 
 OE_EXPORTED_CLASS
 @interface FCEUGameCore : OEGameCore
-{
-    @public
-    uint16_t *videoBuffer;
-    int videoWidth, videoHeight;
-    int16_t pad[2][16];
-    NSString *romName;
-    double sampleRate;
-}
-
 @end

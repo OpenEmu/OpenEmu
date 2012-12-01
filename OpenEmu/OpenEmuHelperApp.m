@@ -38,6 +38,11 @@
 #import "OECorePlugin.h"
 #import "NSApplication+OEHIDAdditions.h"
 
+// Compression support
+#import <XADMaster/XADArchive.h>
+
+#import <FeedbackReporter/FRFeedbackReporter.h>
+
 #ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
@@ -72,6 +77,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+
     // just be sane for now.
     gameFBO = 0;
     gameTexture = 0;
@@ -85,6 +91,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         NSLog(@"Error opening NSConnection - exiting");
     
     [self setupProcessPollingTimer];
+    
+    // Check to see if we crashed.
+    [[FRFeedbackReporter sharedReporter] reportIfCrash];
 }
 
 - (BOOL)launchConnectionWithIdentifierSuffix:(NSString *)aSuffix error:(NSError **)anError
@@ -607,6 +616,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         
         DLog(@"Loaded bundle. About to load rom...");
         
+        aPath = [self decompressedPathForRomAtPath:aPath];
+        
         if([gameCore loadFileAtPath:aPath])
         {
             DLog(@"Loaded new Rom: %@", aPath);
@@ -622,6 +633,35 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     else NSLog(@"bad ROM path or filename");
     
     return NO;
+}
+
+- (NSString *)decompressedPathForRomAtPath:(NSString *)aPath {
+    // we check for known compression types for the ROM at the path
+    // If we detect one, we decompress it and store it in /tmp at a known location
+
+    XADArchive *archive = [XADArchive archiveForFile:aPath];
+    if (!archive || [archive numberOfEntries] > 1)
+        return aPath;
+    
+    if (![archive entryHasSize:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])
+        return aPath;
+    
+    NSFileManager *fm = [NSFileManager new];
+    NSString *folder = temporaryDirectoryForDecompressionOfPath(aPath);
+    NSString *tmpPath = [folder stringByAppendingPathComponent:[archive nameOfEntry:0]];
+    
+    BOOL isdir;
+    if ([fm fileExistsAtPath:tmpPath isDirectory:&isdir] && !isdir) {
+        DLog(@"Found existing decompressed ROM for path %@", aPath);
+        return tmpPath;
+    }
+    
+    BOOL success = [archive extractEntry:0 to:folder];
+    
+    if (!success)
+        [fm removeItemAtPath:folder error:nil];
+    
+    return tmpPath;
 }
 
 - (void)OE_gameCoreThread:(id)anObject;

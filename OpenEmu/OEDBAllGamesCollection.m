@@ -28,6 +28,16 @@
 
 @implementation OEDBAllGamesCollection
 
++ (instancetype)sharedDBAllGamesCollection
+{
+    static OEDBAllGamesCollection *sharedInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [OEDBAllGamesCollection new];
+    });
+    return sharedInstance;
+}
+
 - (NSImage *)sidebarIcon
 {
     return [NSImage imageNamed:@"collections_smart"];
@@ -53,17 +63,17 @@
     return @"OEDBAllGamesCollection";
 }
 
-- (BOOL)isSelectableInSdebar
+- (BOOL)isSelectableInSidebar
 {
     return YES;
 }
 
-- (BOOL)isEditableInSdebar
+- (BOOL)isEditableInSidebar
 {
     return NO;
 }
 
-- (BOOL)isGroupHeaderInSdebar
+- (BOOL)isGroupHeaderInSidebar
 {
     return NO;
 }

@@ -27,32 +27,65 @@
 #import "OEGameScannerViewController.h"
 
 #import "OELibraryDatabase.h"
+
 #import "OEBackgroundColorView.h"
 
 #import "OEImportItem.h"
 #import "OECoreTableButtonCell.h"
 
+#import "OEButton.h"
 #import "OEMenu.h"
 #import "OEDBSystem.h"
+
 @interface OEGameScannerViewController ()
+@property NSMutableArray *itemsRequiringAttention;
 @end
 @implementation OEGameScannerViewController
-
-- (void)setView:(NSView *)view
+- (NSString*)nibName
 {
-    [super setView:view];
-    [[self importer] setDelegate:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameChanged:) name:NSViewFrameDidChangeNotification object:view];
-    
-    // Show game scanner if importer is running already
-    if([[self importer] status] == OEImporterStatusRunning)
-            [self OE_showView];
+    return @"OEGameScanner";
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:[self view]];
 }
+
+- (void)setView:(NSView *)view
+{
+    [super setView:view];
+    
+    [self OE_setupActionsMenu];
+    
+    NSMenuItem *item = nil;
+    NSMenu     *menu = [[NSMenu alloc] init];
+    
+    item = [[NSMenuItem alloc] initWithTitle:@"Select All" action:@selector(selectAll:) keyEquivalent:@""];
+    [item setTarget:self];
+    [menu addItem:item];
+    item = [[NSMenuItem alloc] initWithTitle:@"Deselect All" action:@selector(deselectAll:) keyEquivalent:@""];
+    [item setTarget:self];
+    [menu addItem:item];
+    
+    [[self issuesView] setMenu:menu];
+    
+}
+- (void)setGameScannerView:(NSView *)gameScannerView
+{
+    _gameScannerView = gameScannerView;
+    
+    [self setItemsRequiringAttention:[NSMutableArray array]];
+    
+    [[self importer] setDelegate:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameScannerViewFrameChanged:) name:NSViewFrameDidChangeNotification object:gameScannerView];
+    
+    [self OE_createFixButton];
+    
+    // Show game scanner if importer is running already
+    if([[self importer] status] == OEImporterStatusRunning)
+        [self OE_showGameScannerView];
+}
+
 #pragma mark -
 - (OEROMImporter*)importer
 {
@@ -69,6 +102,7 @@
     [[self progressIndicator] setMaxValue:maxItems];
     
     NSString *status;
+    
     if([importer status] == OEImporterStatusRunning)
     {
         [[self progressIndicator] setIndeterminate:NO];
@@ -88,10 +122,66 @@
         status = @"Scanner Paused";
     }
     
+    BOOL hideButton = YES;
+    if([[self itemsRequiringAttention] count] != 0)
+    {
+        [[self fixButton] setTitle:[NSString stringWithFormat:@"Resolve %ld Issues", [[self itemsRequiringAttention] count]]];
+        [[self fixButton] sizeToFit];
+        hideButton = NO;
+        
+        status = @"";
+    }
+    
+    [[self fixButton] setHidden:hideButton];
     [[self statusLabel] setStringValue:status];
 }
 
-- (void)viewFrameChanged:(NSNotification*)notification
+- (void)OE_setupActionsMenu
+{
+    NSMutableSet *systemIDSet = [NSMutableSet set];
+    for(OEImportItem *item in [self itemsRequiringAttention])
+    {
+        id systemIDs = [[item importInfo] objectForKey:OEImportInfoSystemID];
+        if([systemIDs isKindOfClass:[NSArray class]])
+            [systemIDSet addObjectsFromArray:systemIDs];
+    }
+    
+    NSMenu       *menu = [[NSMenu alloc] init];
+    [menu addItemWithTitle:@"Don't Import Selected" action:NULL keyEquivalent:@""];
+    
+    NSArray *systemIDs = [systemIDSet allObjects];
+    for(NSString *systemID in systemIDs)
+    {
+        OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemID inDatabase:[[self importer] database]];
+        NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[system name] action:NULL keyEquivalent:@""];
+        [menuItem setImage:[system icon]];
+        [menuItem setRepresentedObject:systemID];
+        
+        [menu addItem:menuItem];
+    }
+    
+    [[self actionPopUpButton] setMenu:menu];
+}
+
+- (void)OE_createFixButton
+{
+    OEButton *fixIssuesButton = [[OEButton alloc] initWithFrame:(NSRect){{ 14, 4}, { [[self view] frame].size.width - 20, 20 }}];
+    [fixIssuesButton setAutoresizingMask:NSViewWidthSizable];
+    [fixIssuesButton setAlignment:NSLeftTextAlignment];
+    [fixIssuesButton setImagePosition:NSImageRight];
+    [fixIssuesButton setThemeKey:@"game_scanner_fix_issues"];
+    [fixIssuesButton setTarget:self];
+    [fixIssuesButton setAction:@selector(showIssuesView:)];
+    [fixIssuesButton setTitle:@"Resolve Issues"];
+    [fixIssuesButton sizeToFit];
+    
+    [fixIssuesButton setHidden:YES];
+    
+    [[self gameScannerView] addSubview:fixIssuesButton];
+    [self setFixButton:fixIssuesButton];
+}
+
+- (void)gameScannerViewFrameChanged:(NSNotification*)notification
 {
     NSRect bounds = [[notification object] bounds];
     CGFloat width = NSWidth(bounds);
@@ -110,6 +200,11 @@
     frame.origin.x = 17;
     frame.size.width = width-17-12;
     [[self statusLabel] setFrame:frame];
+    
+    frame = [[self fixButton] frame];
+    frame.origin.x = 14;
+    [[self fixButton] setFrame:frame];
+    [[self fixButton] sizeToFit];
 }
 #pragma mark - OELibrarySubviewController Protocol Implementation
 - (void)setRepresentedObject:(id)representedObject
@@ -117,7 +212,7 @@
 
 - (id)representedObject
 {
-    return [self importer];
+    return self;
 }
 
 - (id)encodeCurrentState
@@ -128,6 +223,52 @@
 - (void)restoreState:(id)state
 {}
 
+- (void)setLibraryController:(OELibraryController *)libraryController
+{
+    if(libraryController == nil) return;
+    _libraryController = libraryController;
+}
+
+#pragma mark - OESidebarItem Implementation
+- (NSImage *)sidebarIcon
+{
+    return nil;
+}
+- (NSString*)sidebarName
+{
+    return @"Game Scaner";
+}
+- (NSString*)sidebarID
+{
+    return @"Game Scaner";
+}
+
+- (NSString*)viewControllerClassName
+{
+    return [self className];
+}
+
+- (void)setSidebarName:(NSString*)newName
+{}
+
+- (BOOL)isSelectableInSidebar
+{
+    return YES;
+}
+- (BOOL)isEditableInSidebar
+{
+    return NO;
+}
+- (BOOL)isGroupHeaderInSidebar
+{
+    return NO;
+}
+
+- (BOOL)hasSubCollections
+{
+    return NO;
+}
+
 #pragma mark - OEROMImporter Delegate
 - (void)romImporterDidStart:(OEROMImporter *)importer
 {
@@ -137,10 +278,9 @@
         if([[self importer] totalNumberOfItems] != [[self importer] numberOfProcessedItems])
         {
             [self OE_updateProgress];
-            [self OE_showView];
+            [self OE_showGameScannerView];
         }
     });
-    
 }
 
 - (void)romImporterDidCancel:(OEROMImporter *)importer
@@ -159,7 +299,7 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         if([[self importer] totalNumberOfItems] == [[self importer] numberOfProcessedItems])
-            [self OE_hideView];
+            [self OE_hideGameScannerView];
     });
 }
 
@@ -173,11 +313,121 @@
 }
 
 - (void)romImporter:(OEROMImporter*)importer stoppedProcessingItem:(OEImportItem*)item
-{    
+{
+    if([[item error] domain] == OEImportErrorDomainResolvable && [[item error] code] == OEImportErrorCodeMultipleSystems)
+    {
+        [[self itemsRequiringAttention] addObject:item];
+        [[self issuesView] reloadData];
+        [self OE_setupActionsMenu];
+    }
     [self OE_updateProgress];
 }
 
-#pragma mark - UI Methods
+#pragma mark - NSTableViewDataSource Implementation
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+    return [[self itemsRequiringAttention] count];
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    NSString *columnIdentifier = [tableColumn identifier];
+    OEImportItem *item = [[self itemsRequiringAttention] objectAtIndex:row];
+    if([columnIdentifier isEqualToString:@"path"])
+    {
+        return [[item URL] lastPathComponent];
+    }
+
+    return [[item importInfo] objectForKey:columnIdentifier];
+}
+
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    NSString *columnIdentifier = [tableColumn identifier];
+    if([columnIdentifier isEqualToString:@"path"]) return;
+    
+    OEImportItem *item = [[self itemsRequiringAttention] objectAtIndex:row];
+    [[item importInfo] setObject:object forKey:columnIdentifier];
+}
+
+#pragma mark - NSTableViewDelegate Implementation
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
+{
+    return NO;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    return YES;
+}
+
+- (NSString*)tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation
+{
+    if(row >= [[self itemsRequiringAttention] count])
+        return nil;
+    
+    NSString *columnIdentifier = [tableColumn identifier];
+    if([columnIdentifier isEqualToString:@"path"])
+    {
+        OEImportItem *item = [[self itemsRequiringAttention] objectAtIndex:row];
+        return [[item sourceURL] path];
+    }
+    
+    return nil;
+}
+
+#pragma mark - UI Actions Issues
+- (void)selectAll:(id)sender
+{
+    [[self itemsRequiringAttention] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [[obj importInfo] setObject:@(YES) forKey:@"checked"];
+    }];
+    [[self issuesView] reloadData];
+}
+
+- (void)deselectAll:(id)sender
+{
+    [[self itemsRequiringAttention] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [[obj importInfo] setObject:@(NO) forKey:@"checked"];
+    }];
+    [[self issuesView] reloadData];
+}
+
+- (IBAction)resolveIssues:(id)sender
+{
+    NSIndexSet *allIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [[self itemsRequiringAttention] count])];
+    NSIndexSet *selectedItemIndexes = [[self itemsRequiringAttention] indexesOfObjectsAtIndexes:allIndexes options:NSEnumerationConcurrent passingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        return [[[obj importInfo] objectForKey:@"checked"] boolValue];
+    }];
+    
+    [[self issuesView] beginUpdates];
+    [[self issuesView] removeRowsAtIndexes:selectedItemIndexes withAnimation:NSTableViewAnimationEffectGap];
+    [[self issuesView] endUpdates];
+    
+    NSString *selectedSystem = [[[self actionPopUpButton] selectedItem] representedObject];
+    if(selectedSystem != nil)
+    {
+        [[self itemsRequiringAttention] enumerateObjectsAtIndexes:selectedItemIndexes options:NSEnumerationConcurrent usingBlock:^(OEImportItem *item, NSUInteger idx, BOOL *stop) {
+            [[item importInfo] setObject:[NSArray arrayWithObject:selectedSystem] forKey:OEImportInfoSystemID];
+            [item setError:nil];
+            [item setImportState:OEImportItemStatusIdle];
+            item.importStep ++;
+        }];
+    }
+    
+    [[self itemsRequiringAttention] removeObjectsAtIndexes:selectedItemIndexes];
+    
+    [self OE_setupActionsMenu];
+    [self OE_updateProgress];
+
+    [[self issuesView] reloadData];
+    [[self importer] startQueueIfNeeded];
+    
+    if([[self itemsRequiringAttention] count] == 0)
+        [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self];
+}
+
+#pragma mark - UI Actions Scanner
 - (IBAction)togglePause:(id)sender
 {
     [[self importer] togglePause];
@@ -189,15 +439,16 @@
     [[self importer] cancel];
 }
 
-- (void)resolveMultipleSystemsError:(NSMenuItem*)menuItem
+- (IBAction)showIssuesView:(id)sender
 {
-    // TODO: TableView reload data for item at selected row
-    [[self importer] startQueueIfNeeded];
+    [[self issuesView] reloadData];
+    [[self libraryController] showViewController:self];
+    [[self issuesView] sizeToFit];
 }
 #pragma mark - Private
-- (void)OE_showView
+- (void)OE_showGameScannerView
 {
-    NSView *scannerView = [self view];
+    NSView *scannerView = [self gameScannerView];
     NSView *sidebarView = [[[scannerView superview] subviews] objectAtIndex:0];
     NSView *superView   = [sidebarView superview];
     
@@ -207,9 +458,9 @@
     [NSAnimationContext endGrouping];
 }
 
-- (void)OE_hideView
+- (void)OE_hideGameScannerView
 {
-    NSView *scannerView = [self view];
+    NSView *scannerView = [self gameScannerView];
     NSView *sidebarView = [[[scannerView superview] subviews] objectAtIndex:0];
     NSView *superView   = [sidebarView superview];
     

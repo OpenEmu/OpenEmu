@@ -169,7 +169,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
                   NSString *axis = [eventDesc objectForKey:@"Axis"];
                   OEHIDEventAxisDirection direction = [[eventDesc objectForKey:@"Direction"] integerValue];
                   
-                  OEHIDEvent *event = [OEHIDEvent axisEventWithPadNumber:0 timestamp:0 axis:OEHIDEventAxisFromNSString(axis) direction:direction];
+                  OEHIDEvent *event = [OEHIDEvent axisEventWithPadNumber:0 timestamp:0 axis:OEHIDEventAxisFromNSString(axis) direction:direction cookie:cookie];
                   
                   id insertedKey = keyDesc;
                   OEKeyBindingGroupDescription *group = [keyDesc OE_axisGroup];
@@ -181,7 +181,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
               else if([type isEqualToString:@"Trigger"])
               {
                   NSString *axis = [eventDesc objectForKey:@"Axis"];
-                  OEHIDEvent *event = [OEHIDEvent triggerEventWithPadNumber:0 timestamp:0 axis:OEHIDEventAxisFromNSString(axis) direction:OEHIDEventAxisDirectionPositive];
+                  OEHIDEvent *event = [OEHIDEvent triggerEventWithPadNumber:0 timestamp:0 axis:OEHIDEventAxisFromNSString(axis) direction:OEHIDEventAxisDirectionPositive cookie:cookie];
                   
                   [rawBindings setObject:event forKey:keyDesc];
               }

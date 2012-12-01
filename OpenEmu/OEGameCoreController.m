@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -53,7 +53,7 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
     NSMutableArray      *gameDocuments;
     NSMutableArray      *settingObservers;
     NSMutableDictionary *preferenceViewControllers;
-    
+
     Class                gameCoreClass;
     NSInteger            playerCount;
 }
@@ -79,17 +79,17 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses
 {
     if([viewControllerClasses count] == 0) return;
-    
+
     NSDictionary *existing = [_preferenceViewControllerClasses objectForKey:self];
     if(existing != nil)
     {
         NSMutableDictionary *future = [existing mutableCopy];
-        
+
         [future addEntriesFromDictionary:viewControllerClasses];
-        
+
         viewControllerClasses = future;
     }
-    
+
     [_preferenceViewControllerClasses setObject:[viewControllerClasses copy] forKey:(id<NSCopying>)self];
 }
 
@@ -107,16 +107,16 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
                          [[bundle infoDictionary] objectForKey:@"CFBundleName"]);
         gameCoreClass = NSClassFromString([[bundle infoDictionary] objectForKey:OEGameCoreClassKey]);
         playerCount   = [[[bundle infoDictionary] objectForKey:OEGameCorePlayerCountKey] integerValue];
-        
+
         NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
         NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
-        
+
         NSString *supportFolder = [basePath stringByAppendingPathComponent:@"OpenEmu"];
         supportDirectoryPath    = [supportFolder stringByAppendingPathComponent:pluginName];
-        
+
         gameDocuments    = [[NSMutableArray alloc] init];
         settingObservers = [[NSMutableArray alloc] init];
-        
+
         preferenceViewControllers = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -139,12 +139,12 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 
 - (NSArray *)usedSettingNames
 {
-    return [NSArray array];
+    return @[];
 }
 
 - (NSArray *)usedControlNames
 {
-    return [NSArray array];
+    return @[];
 }
 
 - (NSArray *)genericControlNames
@@ -180,12 +180,13 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 - (id)preferenceViewControllerForKey:(NSString *)aKey;
 {
     id ctrl = [preferenceViewControllers objectForKey:aKey];
-    
+
     if(ctrl == nil)
     {
         ctrl = [self newPreferenceViewControllerForKey:aKey];
         [preferenceViewControllers setObject:ctrl forKey:aKey];
     }
+
     return ctrl;
 }
 
@@ -193,17 +194,17 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 {
     id ret = nil;
     Class controllerClass = [[self preferenceViewControllerClasses] objectForKey:aKey];
-    
+
     if(controllerClass != nil)
     {
         NSString *nibName = [controllerClass preferenceNibName];
         // A key is always like that: OEMyPreferenceNibNameKey, so the default nibName is MyPreferenceNibName
-        if(nibName == nil) nibName = [aKey substringWithRange:NSMakeRange(2, [aKey length] - 5)]; 
+        if(nibName == nil) nibName = [aKey substringWithRange:NSMakeRange(2, [aKey length] - 5)];
         ret = [[controllerClass alloc] initWithNibName:nibName bundle:bundle];
     }
     else
         ret = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference" bundle:[NSBundle mainBundle]];
-    
+
     return ret;
 }
 
@@ -215,7 +216,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 - (void)OE_enumerateSettingKeysUsingBlock:(void(^)(NSString *keyPath, NSString *keyName))block
 {
     NSString *baseName = [NSString stringWithFormat:@"values.%@.", [self pluginName]];
-    
+
     // register gamecore custom settings
     NSArray *settingNames = [self usedSettingNames];
     for(NSString *name in settingNames) block([baseName stringByAppendingString:name], name);
@@ -230,15 +231,15 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 - (void)addSettingObserver:(id<OESettingObserver>)anObject
 {
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
-    
+
     [self OE_enumerateSettingKeysUsingBlock:
      ^(NSString *keyPath, NSString *keyName)
      {
          id value = [udc eventValueForKeyPath:keyPath];
-         
+
          if(value != nil) [anObject settingWasSet:value forKey:keyName];
      }];
-    
+
     [settingObservers addObject:anObject];
 }
 

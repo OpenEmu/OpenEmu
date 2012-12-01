@@ -322,6 +322,9 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
 
         _keyModifierMask = keyModifierMask;
         _containImages   = containsImages;
+        
+        // update the lastKeyModifierMask in case keyModifierMask changed
+        _lastKeyModifierMask = [[NSApp currentEvent] modifierFlags] & _keyModifierMask;
 
         [self OE_setNeedsLayout];
         [self setFrameSize:[self intrinsicSize]];

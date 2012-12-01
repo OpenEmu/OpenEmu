@@ -168,5 +168,89 @@
 			</array>
 		</array>
 	</dict>
+	<key>OERequiredFiles</key>
+	<dict>
+		<key>cx4.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>Cx4 coprocessor</string>
+			<key>Size</key>
+			<integer>3072</integer>
+			<key>MD5</key>
+			<string>037AC4296B6B6A5C47C440188D3C72E3</string>
+		</dict>
+		<key>dsp1.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>DSP1/1A coprocessor</string>
+			<key>Size</key>
+			<integer>8192</integer>
+			<key>MD5</key>
+			<string>428FDB968D54353D9C9ECED1B0586671</string>
+		</dict>
+		<key>dsp1b.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>DSP1B coprocessor</string>
+			<key>Size</key>
+			<integer>8192</integer>
+			<key>MD5</key>
+			<string>332273CC0DF5775D3803F2FD88E95D18</string>
+		</dict>
+		<key>dsp2.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>DSP2 coprocessor</string>
+			<key>Size</key>
+			<integer>8192</integer>
+			<key>MD5</key>
+			<string>9EBBDCEC67C0C01D5A0593D3CF167C9E</string>
+		</dict>
+		<key>dsp3.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>DSP3 coprocessor</string>
+			<key>Size</key>
+			<integer>8192</integer>
+			<key>MD5</key>
+			<string>484908D68405D44E2BE757B4E1E75D15</string>
+		</dict>
+		<key>dsp4.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>DSP4 coprocessor</string>
+			<key>Size</key>
+			<integer>8192</integer>
+			<key>MD5</key>
+			<string>F229FDA2D7B33C5A218CBA28147AB9B8</string>
+		</dict>
+		<key>st010.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>ST-0010 coprocessor</string>
+			<key>Size</key>
+			<integer>53248</integer>
+			<key>MD5</key>
+			<string>636093910FBAFF60C8B327BE00AEFBD9</string>
+		</dict>
+		<key>st011.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>ST-0011 coprocessor</string>
+			<key>Size</key>
+			<integer>53248</integer>
+			<key>MD5</key>
+			<string>5C209CE0283632B6574AD835BF862BEE</string>
+		</dict>
+		<key>st018.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>ST-0018 coprocessor</string>
+			<key>Size</key>
+			<integer>163840</integer>
+			<key>MD5</key>
+			<string>DAFAE0E0C71C924075811C595C61A30E</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

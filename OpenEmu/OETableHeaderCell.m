@@ -29,6 +29,11 @@
 #import "OEUIDrawingUtils.h"
 #import "NSImage+OEDrawingAdditions.h"
 
+#pragma mark - Private variables
+
+static const NSSize  _OESortIndicatorSize   = {15, 14};
+static const CGFloat _OESortIndicatorMargin = 5;
+
 #pragma mark -
 
 @implementation OETableHeaderCell
@@ -44,9 +49,9 @@
     [sourceImage setName:@"table_header_background_pressed" forSubimageInRect:NSMakeRect(0,  0, 16, 17)];
     
     sourceImage = [NSImage imageNamed:@"sort_arrow"];
-    [sourceImage setName:@"sort_arrow_inactive" forSubimageInRect:NSMakeRect( 0, 0, 15, 14)];
-    [sourceImage setName:@"sort_arrow_pressed"  forSubimageInRect:NSMakeRect(15, 0, 15, 14)];
-    [sourceImage setName:@"sort_arrow_rollover" forSubimageInRect:NSMakeRect(30, 0, 15, 14)];
+    [sourceImage setName:@"sort_arrow_inactive" forSubimageInRect:(NSRect){{_OESortIndicatorSize.width * 0, 0}, _OESortIndicatorSize}];
+    [sourceImage setName:@"sort_arrow_pressed"  forSubimageInRect:(NSRect){{_OESortIndicatorSize.width * 1, 0}, _OESortIndicatorSize}];
+    [sourceImage setName:@"sort_arrow_rollover" forSubimageInRect:(NSRect){{_OESortIndicatorSize.width * 2, 0}, _OESortIndicatorSize}];
 }
 
 #pragma mark -
@@ -132,14 +137,15 @@
 
 	NSColor *textColor = [NSColor colorWithDeviceWhite:.85 alpha:1];
 	
+    headerRect = NSInsetRect(cellFrame, 8, 0);
+    headerRect.origin.y   += 1;
+    headerRect.size.width -= _OESortIndicatorSize.width;
+
 	// Draw glow if header is pressed
 	if(isPressed)
     {
 		textColor = [NSColor whiteColor];
-		
-		headerRect = NSInsetRect(cellFrame, 8, 0);
-		headerRect.origin.y += 1;
-		
+
 		NSShadow *glow = [[NSShadow alloc] init];
 		
 		[glow setShadowColor:[NSColor whiteColor]];
@@ -164,8 +170,6 @@
 				  paraStyle, NSParagraphStyleAttributeName,
 				  nil];
 	
-	headerRect = NSInsetRect(cellFrame, 8, 0);
-	headerRect.origin.y += 1;
 	
 	header = [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 	[header drawInRect:headerRect];
@@ -182,7 +186,12 @@
     NSInteger priority = [[sortDesc key] isEqualToString:[[column sortDescriptorPrototype] key]];
 	BOOL ascending = [sortDesc ascending];
 	
-	NSRect sortIndicatorRect = NSMakeRect(cellFrame.origin.x + cellFrame.size.width - 5 - 15, roundf(cellFrame.origin.y + (cellFrame.size.height-14)/2)-1, 15, 14);
+    const NSRect sortIndicatorRect =
+    {
+        .origin.x = cellFrame.origin.x + cellFrame.size.width - _OESortIndicatorMargin - _OESortIndicatorSize.width,
+        .origin.y = roundf(cellFrame.origin.y + (cellFrame.size.height - _OESortIndicatorSize.height) / 2) - 1,
+        _OESortIndicatorSize
+    };
 	[self drawSortIndicatorWithFrame:sortIndicatorRect inView:controlView ascending:ascending priority:priority];
 }
 
