@@ -41,6 +41,8 @@
 
 #import "OECUESheet.h"
 
+#import <CommonCrypto/CommonDigest.h>
+#import <XADMaster/XADArchive.h>
 #import <objc/runtime.h>
 
 const int MaxSimulatenousImports = 1; // imports can't really be simulatenous because access to queue is not ready for multithreadding right now
@@ -61,6 +63,7 @@ NSString *const OEImportInfoCRC         = @"crc";
 NSString *const OEImportInfoROMObjectID = @"RomObjectID";
 NSString *const OEImportInfoSystemID    = @"systemID";
 NSString *const OEImportInfoArchiveSync = @"archiveSync";
+NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
 
 @interface OEROMImporter ()
 {
@@ -82,6 +85,7 @@ NSString *const OEImportInfoArchiveSync = @"archiveSync";
 
 #pragma mark - Import Steps
 - (void)performImportStepCheckDirectory:(OEImportItem *)item;
+- (void)performImportStepCheckArchiveFile:(OEImportItem *)item;
 - (void)performImportStepHash:(OEImportItem *)item;
 - (void)performImportStepCheckHash:(OEImportItem *)item;
 - (void)performImportStepDetermineSystem:(OEImportItem *)item;
@@ -217,6 +221,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         switch([item importStep])
         {
             case OEImportStepCheckDirectory  : [importer performImportStepCheckDirectory:item];  break;
+            case OEImportStepCheckArchiveFile : [importer performImportStepCheckArchiveFile:item]; break;
             case OEImportStepHash            : [importer performImportStepHash:item];            break;
             case OEImportStepCheckHash       : [importer performImportStepCheckHash:item];       break;
             case OEImportStepDetermineSystem : [importer performImportStepDetermineSystem:item]; break;
@@ -276,13 +281,71 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     }
 }
 
+static void tohex(const unsigned char *input, size_t len, char *output) {
+    static char table[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    for (int i = 0; i < len; ++i) {
+        output[2*i] = table[input[i]>>4];
+        output[2*i+1] = table[input[i]&0xF];
+    }
+    output[2*len+1] = '\0';
+}
+
+- (void)performImportStepCheckArchiveFile:(OEImportItem *)item
+{
+    //Short circuit this?
+    NSString *path = [[item URL] path];
+    XADArchive *archive = [XADArchive archiveForFile:path];
+    if (archive && [archive numberOfEntries] == 1)
+    {
+        if (![archive entryHasSize:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])
+            return;
+        
+        NSFileManager *fm = [NSFileManager new];
+        NSError *error;
+        
+        // First, check that known location in case we've already dealt with this one
+        unsigned char hash[CC_SHA1_DIGEST_LENGTH];
+        CC_SHA1([path UTF8String], strlen([path UTF8String]), hash);
+        
+        char hexhash[2*CC_SHA1_DIGEST_LENGTH+1];
+        tohex(hash, CC_SHA1_DIGEST_LENGTH, hexhash);
+
+        NSBundle *bundle = [NSBundle mainBundle];
+        NSString *folder = [bundle bundleIdentifier];
+        folder = [NSTemporaryDirectory() stringByAppendingPathComponent:folder];
+        folder = [folder stringByAppendingPathComponent:[NSString stringWithUTF8String:hexhash]];
+        
+        if (![fm createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:&error]) {
+            DLog(@"Couldn't create temp directory %@, %@", folder, error);
+            return;
+        }
+        
+        NSString *name = [archive nameOfEntry:0];
+        NSString *tmpPath = [folder stringByAppendingPathComponent:name];
+
+        BOOL isdir;
+        NSURL *tmpURL = [NSURL fileURLWithPath:tmpPath];
+        if ([fm fileExistsAtPath:tmpPath isDirectory:&isdir] && !isdir) {
+            DLog(@"Found existing decompressed ROM for path %@", path);
+            [[item importInfo] setValue:tmpURL forKey:OEImportInfoArchivedFileURL];
+            return;
+        }
+
+        
+        BOOL success = [archive extractEntry:0 to:folder];
+        if (success)
+            [[item importInfo] setValue:tmpURL forKey:OEImportInfoArchivedFileURL];
+    }
+}
+
 // Calculates md5 and crc32 hash strings
 - (void)performImportStepHash:(OEImportItem *)item
 {
-    NSURL         *url = [item URL];
+    NSURL         *url = [[item importInfo] valueForKey:OEImportInfoArchivedFileURL] ?: [item URL];
     NSString      *md5, *crc;
     NSError       *error = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    
     
     if(![fileManager hashFileAtURL:url md5:&md5 crc32:&crc error:&error])
     {
@@ -366,7 +429,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     else
     {
         NSError *error        = nil;
-        NSURL   *url          = [item URL];
+        NSURL   *url          = [[item importInfo] valueForKey:OEImportInfoArchivedFileURL] ?: [item URL];
         NSArray *validSystems = [OEDBSystem systemsForFileWithURL:url inDatabase:[self database] error:&error];
         
         if(validSystems == nil)
@@ -378,7 +441,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         }
         else if([validSystems count] == 0)
         {
-            DLog(@"No valid system found for item at url %@", [item URL]);
+            DLog(@"No valid system found for item at url %@", url);
             // TODO: create unresolvable error
             error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
             [self stopImportForItem:item withError:error];

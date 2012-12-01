@@ -299,14 +299,6 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
         return NO;
     }
     
-    BOOL isArchive = [typeName isEqualToString:@"Archived Game"];
-    if(isArchive)
-    {
-        // TODO: Handle archived games
-        DLog(@"Archived Games are not supported right now!");
-        return NO;
-    }
-    
     // get rom by path
     NSString *filePath = nil;
     if(![absoluteURL isFileURL])

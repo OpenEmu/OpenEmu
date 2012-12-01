@@ -38,6 +38,7 @@ typedef enum  {
 
 typedef enum  {
     OEImportStepCheckDirectory,
+    OEImportStepCheckArchiveFile,
     OEImportStepHash,
     OEImportStepCheckHash,
     OEImportStepDetermineSystem,
