@@ -412,5 +412,54 @@
 			<integer>11</integer>
 		</dict>
 	</dict>
+	<key>OEControllerRetrolinkSNES</key>
+	<dict>
+		<key>OEGBButtonUp</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>Y</string>
+			<key>Direction</key>
+			<string>-1</string>
+		</dict>
+		<key>OEGBButtonLeft</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>X</string>
+			<key>Direction</key>
+			<string>-1</string>
+		</dict>
+		<key>OEGBButtonA</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>3</integer>
+		</dict>
+		<key>OEGBButtonB</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>4</integer>
+		</dict>
+		<key>OEGBButtonStart</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>10</integer>
+		</dict>
+		<key>OEGBButtonSelect</key>
+		<dict>
+			<key>Type</key>
+			<string>Button</string>
+			<key>Number</key>
+			<integer>9</integer>
+		</dict>
+	</dict>
 </dict>
 </plist>
