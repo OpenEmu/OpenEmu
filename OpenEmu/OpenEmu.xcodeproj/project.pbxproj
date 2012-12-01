@@ -543,6 +543,7 @@
 		940236F015803AC300083DCC /* pcengine_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EB15803AC300083DCC /* pcengine_library.png */; };
 		940236F115803AC300083DCC /* tg16_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EC15803AC300083DCC /* tg16_library.png */; };
 		940237CA1580456E00083DCC /* PC Engine.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 940236D11580323400083DCC /* PC Engine.oesystemplugin */; };
+		941B6464166AB3DF0099FC27 /* Sega CD.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */; };
 		941DFB2D15B761B400C6552F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		941DFB3315B761B400C6552F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB3115B761B400C6552F /* InfoPlist.strings */; };
 		941DFB3B15B761FE00C6552F /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -1304,6 +1305,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				941B6464166AB3DF0099FC27 /* Sega CD.oesystemplugin in Copy Plugins To Application Support */,
 				82870D6F1665614A00CBFE5D /* Computer.oesystemplugin in Copy Plugins To Application Support */,
 				94619CC815C50FC30019AC8E /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */,
 				94619C9215C4CBFC0019AC8E /* Atari 5200.oesystemplugin in Copy Plugins To Application Support */,
