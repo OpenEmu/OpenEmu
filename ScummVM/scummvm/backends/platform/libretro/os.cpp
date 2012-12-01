@@ -592,7 +592,7 @@ public:
                 ev.type = down ? Common::EVENT_KEYDOWN : Common::EVENT_KEYUP;
                 ev.kbd.keycode = (Common::KeyCode)i;
                 ev.kbd.flags = 0;
-                ev.kbd.ascii = 0;
+                ev.kbd.ascii = '1';
                 _events.push_back(ev);
             }
         }

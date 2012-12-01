@@ -36,7 +36,6 @@ OE_EXPORTED_CLASS
 @public
     uint16_t *videoBuffer;
     int videoWidth, videoHeight;
-    int16_t pad[2][12];
     NSString *romName;
     double sampleRate;
 }

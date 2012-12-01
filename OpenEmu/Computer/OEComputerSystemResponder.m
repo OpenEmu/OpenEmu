@@ -8,7 +8,7 @@
        notice, this list of conditions and the following disclaimer.
      * Redistributions in binary form must reproduce the above copyright
        notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
+       documentation and/or other Arcadematerials provided with the distribution.
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
@@ -25,24 +25,51 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
-#import <IOKit/hid/IOHIDLib.h>
-#import <IOKit/hid/IOHIDUsageTables.h>
-#import <ForceFeedback/ForceFeedback.h>
+#import "OEComputerSystemResponder.h"
+#import "OEComputerSystemResponderClient.h"
+#import "OEEvent.h"
 
-#import <OpenEmuSystem/OEBindingMap.h>
-#import <OpenEmuSystem/OESystemController.h>
-#import <OpenEmuSystem/OESystemResponder.h>
-#import <OpenEmuSystem/OERawSystemResponder.h>
-#import <OpenEmuSystem/OEBasicSystemResponder.h>
-#import <OpenEmuSystem/OESystemResponderClient.h>
-#import <OpenEmuSystem/OEBindingsController.h>
-#import <OpenEmuSystem/OESystemBindings.h>
-#import <OpenEmuSystem/OEPlayerBindings.h>
-#import <OpenEmuSystem/OEKeyBindingDescription.h>
-#import <OpenEmuSystem/OEKeyBindingGroupDescription.h>
-#import <OpenEmuSystem/OEHIDEvent.h>
-#import <OpenEmuSystem/OEHIDManager.h>
-#import <OpenEmuSystem/OEHIDDeviceHandler.h>
-#import <OpenEmuSystem/NSApplication+OEHIDAdditions.h>
+@implementation OEComputerSystemResponder
+@dynamic client;
+
++ (Protocol *)gameSystemResponderClientProtocol;
+{
+    return @protocol(OEComputerSystemResponderClient);
+}
+
+- (void)mouseMoved:(NSEvent *)theEvent
+{
+    [[self client] mouseMoved:[theEvent locationInGameView]];
+}
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    [[self client] leftMouseDown];
+}
+
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    [[self client] leftMouseUp];
+}
+
+- (void)rightMouseDown:(NSEvent *)theEvent
+{
+    [[self client] rightMouseDown];
+}
+
+- (void)rightMouseUp:(NSEvent *)theEvent
+{
+    [[self client] rightMouseUp];
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+    [[self client] keyDown:[theEvent keyCode]];
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+    [[self client] keyUp:[theEvent keyCode]];
+}
+
+@end

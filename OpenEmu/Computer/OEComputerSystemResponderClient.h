@@ -25,24 +25,16 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
-#import <IOKit/hid/IOHIDLib.h>
-#import <IOKit/hid/IOHIDUsageTables.h>
-#import <ForceFeedback/ForceFeedback.h>
+#import <Foundation/Foundation.h>
 
-#import <OpenEmuSystem/OEBindingMap.h>
-#import <OpenEmuSystem/OESystemController.h>
-#import <OpenEmuSystem/OESystemResponder.h>
-#import <OpenEmuSystem/OERawSystemResponder.h>
-#import <OpenEmuSystem/OEBasicSystemResponder.h>
-#import <OpenEmuSystem/OESystemResponderClient.h>
-#import <OpenEmuSystem/OEBindingsController.h>
-#import <OpenEmuSystem/OESystemBindings.h>
-#import <OpenEmuSystem/OEPlayerBindings.h>
-#import <OpenEmuSystem/OEKeyBindingDescription.h>
-#import <OpenEmuSystem/OEKeyBindingGroupDescription.h>
-#import <OpenEmuSystem/OEHIDEvent.h>
-#import <OpenEmuSystem/OEHIDManager.h>
-#import <OpenEmuSystem/OEHIDDeviceHandler.h>
-#import <OpenEmuSystem/NSApplication+OEHIDAdditions.h>
+@protocol OESystemResponderClient;
+
+@protocol OEComputerSystemResponderClient <OESystemResponderClient, NSObject>
+- (void)mouseMoved:(OEIntPoint)location;
+- (void)leftMouseDown;
+- (void)leftMouseUp;
+- (void)rightMouseDown;
+- (void)rightMouseUp;
+- (void)keyUp:(unsigned short)keyCode;
+- (void)keyDown:(unsigned short)keyCode;
+@end
