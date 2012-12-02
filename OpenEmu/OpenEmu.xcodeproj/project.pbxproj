@@ -544,6 +544,7 @@
 		940236F115803AC300083DCC /* tg16_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EC15803AC300083DCC /* tg16_library.png */; };
 		940237CA1580456E00083DCC /* PC Engine.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 940236D11580323400083DCC /* PC Engine.oesystemplugin */; };
 		941B6464166AB3DF0099FC27 /* Sega CD.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */; };
+		941B6467166AE2540099FC27 /* OEPSXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941B6466166AE2540099FC27 /* OEPSXSystemController.m */; };
 		941DFB2D15B761B400C6552F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		941DFB3315B761B400C6552F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB3115B761B400C6552F /* InfoPlist.strings */; };
 		941DFB3B15B761FE00C6552F /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -1979,6 +1980,8 @@
 		940236EA15803AC300083DCC /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		940236EB15803AC300083DCC /* pcengine_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcengine_library.png; sourceTree = "<group>"; };
 		940236EC15803AC300083DCC /* tg16_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tg16_library.png; sourceTree = "<group>"; };
+		941B6465166AE2540099FC27 /* OEPSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemController.h; sourceTree = "<group>"; };
+		941B6466166AE2540099FC27 /* OEPSXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPSXSystemController.m; sourceTree = "<group>"; };
 		941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 2600.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		941DFB3015B761B400C6552F /* Atari 2600-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 2600-Info.plist"; sourceTree = "<group>"; };
 		941DFB3215B761B400C6552F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4239,6 +4242,8 @@
 		94A9E165157C3B080083A7DC /* PlayStation */ = {
 			isa = PBXGroup;
 			children = (
+				941B6465166AE2540099FC27 /* OEPSXSystemController.h */,
+				941B6466166AE2540099FC27 /* OEPSXSystemController.m */,
 				94A9E171157C3C2A0083A7DC /* OEPSXSystemResponder.h */,
 				94A9E172157C3C2A0083A7DC /* OEPSXSystemResponder.m */,
 				94A9E173157C3C2A0083A7DC /* OEPSXSystemResponderClient.h */,
@@ -6299,6 +6304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94A9E175157C3C2A0083A7DC /* OEPSXSystemResponder.m in Sources */,
+				941B6467166AE2540099FC27 /* OEPSXSystemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

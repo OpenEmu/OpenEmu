@@ -25,20 +25,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OESegaCDSystemController.h"
-#import "OESegaCDSystemResponder.h"
-#import "OESegaCDSystemResponderClient.h"
-#import "OELocalizationHelper.h"
+#import "OEPSXSystemController.h"
+#import "OEPSXSystemResponder.h"
+#import "OEPSXSystemResponderClient.h"
 #import "OECUESheet.h"
 
-@implementation OESegaCDSystemController
-
-- (NSString *)systemName
-{
-    return ( [[OELocalizationHelper sharedHelper] isRegionNA]
-            ? @"Sega CD"
-            : @"Sega Mega-CD");
-}
+@implementation OEPSXSystemController
 
 - (BOOL)canHandleFile:(NSString *)path
 {
@@ -53,19 +45,14 @@
         NSData *dataTrackBuffer;
         
         dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-        [dataTrackFile seekToFileOffset: 0x010];
+        [dataTrackFile seekToFileOffset: 0x24E0];
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
         
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-
-        NSArray *dataTrackList = @[ @"SEGADISCSYSTEM  ", @"SEGABOOTDISC    ", @"SEGADISC        ", @"SEGADATADISC    " ];
-
-        for (NSString *d in dataTrackList) {
-            if (![dataTrackString isEqualToString:d])
-                valid = NO;
-                break;
-        }
         
+        if (![dataTrackString isEqualToString:@"  Licensed  by  "])
+            valid = NO;
+
         [dataTrackFile closeFile];
     }
     return valid;

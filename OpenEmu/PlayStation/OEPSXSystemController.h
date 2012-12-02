@@ -25,50 +25,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OESegaCDSystemController.h"
-#import "OESegaCDSystemResponder.h"
-#import "OESegaCDSystemResponderClient.h"
-#import "OELocalizationHelper.h"
-#import "OECUESheet.h"
+#import <Cocoa/Cocoa.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-@implementation OESegaCDSystemController
-
-- (NSString *)systemName
-{
-    return ( [[OELocalizationHelper sharedHelper] isRegionNA]
-            ? @"Sega CD"
-            : @"Sega Mega-CD");
-}
-
-- (BOOL)canHandleFile:(NSString *)path
-{
-    // Replace with method in OECueSheet that returns data track in cuesheet
-    NSString *dataTrackPath = [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"];
-    
-    // Replace with check for returned data track from OECueSheet method
-    BOOL valid = [super canHandleFile:path];
-    if (valid)
-    {
-        NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer;
-        
-        dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-        [dataTrackFile seekToFileOffset: 0x010];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-        
-        NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-
-        NSArray *dataTrackList = @[ @"SEGADISCSYSTEM  ", @"SEGABOOTDISC    ", @"SEGADISC        ", @"SEGADATADISC    " ];
-
-        for (NSString *d in dataTrackList) {
-            if (![dataTrackString isEqualToString:d])
-                valid = NO;
-                break;
-        }
-        
-        [dataTrackFile closeFile];
-    }
-    return valid;
-}
+@interface OEPSXSystemController : OESystemController
 
 @end
