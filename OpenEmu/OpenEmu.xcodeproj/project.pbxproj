@@ -115,6 +115,7 @@
 		1B4D77F7117A60ED0001F629 /* Scale2xPlus.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2xPlus.vert */; };
 		1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */; };
 		1B7505140FEEB72700B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
+		1B96BA56166BDD52005064C8 /* FRFeedbackReporter.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1B96BA55166BDD52005064C8 /* FRFeedbackReporter.sh */; };
 		1B98144E142F02FA00114A30 /* OESetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B98144D142F02FA00114A30 /* OESetupAssistant.xib */; };
 		1BEF2A67116826BC0090F72B /* NSString+UUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF2A65116826BC0090F72B /* NSString+UUID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BEF2A68116826BC0090F72B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
@@ -1389,6 +1390,7 @@
 		1B885E920F089F8A00770B6D /* Scale4xHQ.frag */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = Scale4xHQ.frag; sourceTree = "<group>"; };
 		1B885EC00F08A13500770B6D /* Scale4x.frag */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = Scale4x.frag; sourceTree = "<group>"; };
 		1B885EC10F08A13500770B6D /* Scale4x.vert */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = Scale4x.vert; sourceTree = "<group>"; };
+		1B96BA55166BDD52005064C8 /* FRFeedbackReporter.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = FRFeedbackReporter.sh; sourceTree = "<group>"; };
 		1B98144D142F02FA00114A30 /* OESetupAssistant.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESetupAssistant.xib; sourceTree = "<group>"; };
 		1BA788FD0FF9C95A007CE5DB /* OEGameShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameShader.h; sourceTree = "<group>"; };
 		1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameShader.m; sourceTree = "<group>"; };
@@ -2969,6 +2971,7 @@
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
 				82C9C96C0F080BD30071460B /* dsa_pub.pem */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
+				1B96BA55166BDD52005064C8 /* FRFeedbackReporter.sh */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -5634,6 +5637,7 @@
 				83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
 				830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */,
+				1B96BA56166BDD52005064C8 /* FRFeedbackReporter.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

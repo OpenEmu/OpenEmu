@@ -32,6 +32,7 @@
 #import "OEDBGame.h"
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
+#import "OESystemController.h"
 
 #import "NSURL+OELibraryAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
@@ -288,6 +289,10 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     XADArchive *archive = [XADArchive archiveForFile:path];
     if (archive && [archive numberOfEntries] == 1)
     {
+        NSString *formatName = [archive formatName];
+        if ([formatName isEqualToString:@"MacBinary"])
+            return;
+        
         if (![archive entryHasSize:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])
             return;
         
@@ -427,13 +432,27 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         }
         else
         {
+            OECUESheet* cueSheet = [[OECUESheet alloc] initWithPath:[[item sourceURL] path]];
+            NSString *dataTrackPath = [cueSheet dataTrackPath];
+            
+            NSMutableArray *verifiedSystemIDs = [NSMutableArray arrayWithCapacity:[validSystems count]];
             NSMutableArray *systemIDs = [NSMutableArray arrayWithCapacity:[validSystems count]];
-            [validSystems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
-                [systemIDs addObject:[obj systemIdentifier]];
+            [validSystems enumerateObjectsUsingBlock:^(OEDBSystem *system, NSUInteger idx, BOOL *stop){
+                NSString *systemIdentifier = [system systemIdentifier];
+                if([[[system plugin] controller] canHandleFile:dataTrackPath])
+                    [verifiedSystemIDs addObject:systemIdentifier];
+                [systemIDs addObject:systemIdentifier];
             }];
             
-            [[item importInfo] setValue:systemIDs forKey:OEImportInfoSystemID];
-            return;
+            if([verifiedSystemIDs count]==1)
+            {
+                systemIdentifier = [verifiedSystemIDs lastObject];
+            }
+            else
+            {
+                [[item importInfo] setValue:systemIDs forKey:OEImportInfoSystemID];
+                return;
+            }
         }
     }
     

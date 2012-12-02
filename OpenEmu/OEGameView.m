@@ -34,6 +34,7 @@
 
 #import "OEGameCoreHelper.h"
 #import "OESystemResponder.h"
+#import "OESystemController.h"
 #import "OEEvent.h"
 
 #import <OpenGL/CGLMacro.h>
@@ -708,6 +709,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         }
         else
             self.filterHasOutputMousePositionKeys = NO;
+        
+        if ([[filterRenderer inputKeys] containsObject:@"OESystemIDInput"])
+            [filterRenderer setValue:[[gameResponder controller] systemIdentifier] forInputKey:@"OESystemIDInput"];
         
         CGLUnlockContext(cgl_ctx);
     }
