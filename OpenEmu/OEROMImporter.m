@@ -288,6 +288,10 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     XADArchive *archive = [XADArchive archiveForFile:path];
     if (archive && [archive numberOfEntries] == 1)
     {
+        NSString *formatName = [archive formatName];
+        if ([formatName isEqualToString:@"MacBinary"])
+            return;
+        
         if (![archive entryHasSize:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])
             return;
         
