@@ -111,6 +111,11 @@
     return success;
 
 }
+
+- (NSString*)dataTrackPath
+{
+    return [[self referencedFiles] count] ? [[self referencedFiles] objectAtIndex:0] : nil;
+}
 #pragma mark - Private Helpers
 - (void)OE_enumerateAllFilesUsingBlock:(void(^)(NSString *path, BOOL * stop))blck
 {

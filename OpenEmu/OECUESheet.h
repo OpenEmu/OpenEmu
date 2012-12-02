@@ -14,4 +14,5 @@
 
 - (BOOL)allFilesAvailable;
 - (NSArray*)referencedFiles;
+- (NSString*)dataTrackPath;
 @end
