@@ -685,6 +685,8 @@
 		94D7E8DD15073DB000FBDD85 /* nds_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D915073DB000FBDD85 /* nds_library.png */; };
 		94D7E8E415073E3900FBDD85 /* OENDSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */; };
 		94D7E8E71507413D00FBDD85 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C09353166787B900E52265 /* OECUESheet.m */; };
+		94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 83C09352166787B900E52265 /* OECUESheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		94EFD17B15ACA625009BED8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94EFD18115ACA625009BED8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD17F15ACA625009BED8F /* InfoPlist.strings */; };
 		94EFD18C15ACA7FA009BED8F /* OESegaCDSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFD18915ACA7FA009BED8F /* OESegaCDSystemResponder.m */; };
@@ -4781,6 +4783,7 @@
 				C6DC91DB15F3B8E60082184C /* OEKeyBindingGroupDescription.h in Headers */,
 				C69259FC15045B03003E6FD3 /* OEEvent.h in Headers */,
 				C6DC91DD15F3B9090082184C /* OEBindingsController_Internal.h in Headers */,
+				94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */,
 				8310126916494314000F8EC3 /* OEWiimoteManager.h in Headers */,
 				8310126A16494319000F8EC3 /* OEWiimoteDeviceHandler.h in Headers */,
 				839319241649572D000919BD /* WiimoteTypes.h in Headers */,
@@ -6394,6 +6397,7 @@
 				831012681649430D000F8EC3 /* OEWiimoteDeviceHandler.m in Sources */,
 				8310126B1649432B000F8EC3 /* Wiimote.m in Sources */,
 				C627D9991658DEA7001A62C2 /* OEBindingMap.m in Sources */,
+				94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */,
 				82870D7A1665669B00CBFE5D /* OERawSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
