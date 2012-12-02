@@ -533,6 +533,8 @@
 		94D7E8DD15073DB000FBDD85 /* nds_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D915073DB000FBDD85 /* nds_library.png */; };
 		94D7E8E415073E3900FBDD85 /* OENDSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */; };
 		94D7E8E71507413D00FBDD85 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C09353166787B900E52265 /* OECUESheet.m */; };
+		94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 83C09352166787B900E52265 /* OECUESheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6252DA814E71D0500350A13 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = C6252DA914E71D0500350A13 /* controller_fc.png */; };
 		C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAA14E752E300350A13 /* Controller-Preferences.plist */; };
@@ -3831,6 +3833,7 @@
 				C6DC91DB15F3B8E60082184C /* OEKeyBindingGroupDescription.h in Headers */,
 				C69259FC15045B03003E6FD3 /* OEEvent.h in Headers */,
 				C6DC91DD15F3B9090082184C /* OEBindingsController_Internal.h in Headers */,
+				94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */,
 				8310126916494314000F8EC3 /* OEWiimoteManager.h in Headers */,
 				8310126A16494319000F8EC3 /* OEWiimoteDeviceHandler.h in Headers */,
 				839319241649572D000919BD /* WiimoteTypes.h in Headers */,
@@ -4937,6 +4940,7 @@
 				831012681649430D000F8EC3 /* OEWiimoteDeviceHandler.m in Sources */,
 				8310126B1649432B000F8EC3 /* Wiimote.m in Sources */,
 				C627D9991658DEA7001A62C2 /* OEBindingMap.m in Sources */,
+				94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

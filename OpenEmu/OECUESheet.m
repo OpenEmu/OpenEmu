@@ -103,7 +103,7 @@
         NSString *fullPath = [directory stringByAppendingPathComponent:obj];
         if(![fileManger fileExistsAtPath:fullPath])
         {
-            DLog(@"Missing File: %@", fullPath);
+            //DLog(@"Missing File: %@", fullPath);
             *stop   = YES;
             success = NO;
         }

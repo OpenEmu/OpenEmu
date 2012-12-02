@@ -45,3 +45,4 @@
 #import <OpenEmuSystem/OEHIDManager.h>
 #import <OpenEmuSystem/OEHIDDeviceHandler.h>
 #import <OpenEmuSystem/NSApplication+OEHIDAdditions.h>
+#import <OpenEmuSystem/OECUESheet.h>
