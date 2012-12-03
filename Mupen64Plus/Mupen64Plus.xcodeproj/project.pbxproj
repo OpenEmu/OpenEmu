@@ -407,6 +407,7 @@
 		3D208F811182B00300BEAA42 /* MupenGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MupenGameCore.m; sourceTree = "<group>"; };
 		3D8B35D712260F9D00C4C844 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3DCABDB3166C4ACB002F2066 /* mupen64plus-rsp-hle.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "mupen64plus-rsp-hle.so"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DCABDC7166C524C002F2066 /* SDL_opengl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_opengl.h; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Mupen64Plus.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Mupen64Plus.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		942597D0151470840074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
@@ -698,6 +699,7 @@
 		3D00F07E1183E52F002995A1 /* SDL */ = {
 			isa = PBXGroup;
 			children = (
+				3DCABDC7166C524C002F2066 /* SDL_opengl.h */,
 				3D00F0AB1183E67F002995A1 /* SDL_thread.h */,
 				3D00F07F1183E52F002995A1 /* SDL.h */,
 				3D00F0801183E52F002995A1 /* SDLStubs.m */,

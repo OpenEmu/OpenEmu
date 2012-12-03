@@ -133,6 +133,20 @@
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3D2091111183B8E900BEAA42"
+               BuildableName = "Build &amp; Install Mupen64Plus"
+               BlueprintName = "Build &amp; Install Mupen64Plus"
+               ReferencedContainer = "container:Mupen64Plus/Mupen64Plus.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
             buildForProfiling = "YES"

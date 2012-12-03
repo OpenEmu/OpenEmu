@@ -127,7 +127,7 @@
 		3D15428114E20E22009C3DEE /* OENonARCHacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D15428014E20E22009C3DEE /* OENonARCHacks.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1D8D811650C22900DBC37D /* Accelerate.framework */; };
 		3D71183E1500650D0056E3BF /* PSYBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D711839150064F50056E3BF /* PSYBlockTimer.m */; };
-		3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */; };
+		3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3DD90BA81500A6BF00FE5DFD /* OETimingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD90BA61500A6BF00FE5DFD /* OETimingUtils.m */; };
 		3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
 		53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */; };
@@ -3815,9 +3815,9 @@
 				C6D268D6135BCE4900154550 /* NSString+OEAdditions.h in Headers */,
 				82EE73E11443C1F700080CCB /* OEGameCore.h in Headers */,
 				EF2FDBEE14D0025D002A64F2 /* OEPreferenceViewController.h in Headers */,
+				3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */,
 				8220233214F1C20E00902FB1 /* OESystemResponderClient.h in Headers */,
 				8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */,
-				3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
