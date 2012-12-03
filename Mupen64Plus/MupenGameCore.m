@@ -29,6 +29,7 @@
 
 #import "MupenGameCore.h"
 #import "api/config.h"
+#import "api/m64p_common.h"
 #import "api/m64p_config.h"
 #import "api/m64p_frontend.h"
 #import "osal/dynamiclib.h"
@@ -37,6 +38,8 @@
 #import <OpenEmuBase/OERingBuffer.h>
 #import <OpenGL/gl.h>
 #import "OEN64SystemResponderClient.h"
+
+#import <dlfcn.h>
 
 NSString *MupenControlNames[] = {
     @"N64_DPadU", @"N64_DPadD", @"N64_DPadL", @"N64_DPadR",
@@ -52,21 +55,26 @@ NSString *MupenControlNames[] = {
 
 @end
 
-dispatch_semaphore_t gVISemaphore;
+dispatch_semaphore_t gMupenWaitForVISemaphore;
+dispatch_semaphore_t gCoreWaitForFinishSemaphore;
+
+struct MupenVideoSettings gMupenVideoSettings = {640, 480, 32};
 
 @implementation MupenGameCore
 
 - (instancetype)init
 {
     if (self = [super init]) {
-        gVISemaphore = dispatch_semaphore_create(0);
+        gMupenWaitForVISemaphore = dispatch_semaphore_create(0);
+        gCoreWaitForFinishSemaphore = dispatch_semaphore_create(0);
     }
     return self;
 }
 
 - (void)dealloc
 {
-    dispatch_release(gVISemaphore);
+    dispatch_release(gMupenWaitForVISemaphore);
+    dispatch_release(gCoreWaitForFinishSemaphore);
 }
 
 static void MupenDebugCallback(void *context, int level, const char *message)
@@ -77,6 +85,15 @@ static void MupenDebugCallback(void *context, int level, const char *message)
 static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int NewValue)
 {
     NSLog(@"Mupen: param %d -> %d", ParamChanged, NewValue);
+}
+
+static void *dlopen_myself()
+{
+    Dl_info info;
+    
+    dladdr(dlopen_myself, &info);
+    
+    return dlopen(info.dli_fname, 0);
 }
 
 - (BOOL)loadFileAtPath:(NSString *)path
@@ -96,32 +113,33 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
     ConfigOpenSection("Core", &section);
     ConfigSetParameter(section, "R4300Emulator", M64TYPE_INT, &ival);
 
+    // Load ROM
+    romData = [NSData dataWithContentsOfMappedFile:path];
+    
+    if (CoreDoCommand(M64CMD_ROM_OPEN, [romData length], (void *)[romData bytes]) != M64ERR_SUCCESS)
+        return NO;
+    
+    m64p_dynlib_handle core_handle = dlopen_myself();
+    
+    void (^LoadPlugin)(m64p_plugin_type, NSString *) = ^(m64p_plugin_type pluginType, NSString *pluginName){
+        m64p_dynlib_handle rsp_handle;
+        NSString *rspPath = [[coreBundle builtInPlugInsPath] stringByAppendingPathComponent:pluginName];
+        
+        osal_dynlib_open(&rsp_handle, [rspPath fileSystemRepresentation]);
+        ptr_PluginStartup rsp_start = osal_dynlib_getproc(rsp_handle, "PluginStartup");
+        rsp_start(core_handle, (__bridge void *)self, MupenDebugCallback);
+        CoreAttachPlugin(pluginType, rsp_handle);
+    };
+    
     // Load Video
+    LoadPlugin(M64PLUGIN_GFX, @"mupen64plus-video-rice.so");
     // Load Audio
     // Load Input
     // Load RSP
-    m64p_dynlib_handle rsp_handle;
-    NSString *rspPath = [[coreBundle builtInPlugInsPath] stringByAppendingPathComponent:@"mupen64plus-rsp-hle.so"];
+    LoadPlugin(M64PLUGIN_RSP, @"mupen64plus-rsp-hle.so");
     
-    osal_dynlib_open(&rsp_handle, [rspPath fileSystemRepresentation]);
-    NSParameterAssert(rsp_handle);
-    CoreAttachPlugin(M64PLUGIN_RSP, rsp_handle);
-    
-    // load rom here
-    romData = [NSData dataWithContentsOfMappedFile:path];
-
-    if(CoreDoCommand(M64CMD_ROM_OPEN, [romData length], (void *)[romData bytes]) == M64ERR_SUCCESS)
-        return YES;
-
-    return NO;
+    return YES;
 }
-
-#if 0
-- (void)setupEmulation
-{
-    // ?
-}
-#endif
 
 - (void)startEmulation
 {
@@ -136,14 +154,16 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
 {
     @autoreleasepool
     {
+        [self.renderDelegate willRenderOnAlternateThread];
         CoreDoCommand(M64CMD_EXECUTE, 0, NULL);
     }
 }
 
 - (void)executeFrameSkippingFrame:(BOOL)skip
 {
-    // FIXME: skip
-    dispatch_semaphore_signal(gVISemaphore);
+    dispatch_semaphore_signal(gMupenWaitForVISemaphore);
+    
+    dispatch_semaphore_wait(gCoreWaitForFinishSemaphore, DISPATCH_TIME_FOREVER);
 }
 
 - (void)executeFrame
@@ -177,7 +197,12 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(640, 480);
+    return OESizeMake(gMupenVideoSettings.width, gMupenVideoSettings.height);
+}
+
+- (BOOL)rendersToOpenGL
+{
+    return YES;
 }
 
 - (const void *)videoBuffer
@@ -189,17 +214,17 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
 
 - (GLenum)pixelFormat
 {
-    return GL_RGB;
+    return GL_BGRA;
 }
 
 - (GLenum)pixelType
 {
-    return GL_UNSIGNED_SHORT_5_6_5;
+    return GL_UNSIGNED_INT_8_8_8_8_REV;
 }
 
 - (GLenum)internalPixelFormat
 {
-    return GL_RGB5;
+    return GL_RGB8;
 }
 
 - (const void *)soundBuffer

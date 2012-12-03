@@ -24,6 +24,80 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "api/m64p_vidext.h"
+#include "api/vidext.h"
+#import "MupenGameCore.h"
+
+#include <dlfcn.h>
+
+static int sActive;
+
+EXPORT m64p_error CALL VidExt_Init(void)
+{
+    return M64ERR_SUCCESS;
+}
+
+EXPORT m64p_error CALL VidExt_Quit(void)
+{
+    sActive = 0;
+    
+    return M64ERR_SUCCESS;
+}
+
+EXPORT m64p_error CALL VidExt_ListFullscreenModes(m64p_2d_size *SizeArray, int *NumSizes)
+{
+    *NumSizes = 0;
+    return M64ERR_SUCCESS;
+}
+
+EXPORT m64p_error CALL VidExt_SetVideoMode(int Width, int Height, int BitsPerPixel, m64p_video_mode ScreenMode)
+{
+    gMupenVideoSettings.width = Width;
+    gMupenVideoSettings.height = Height;
+    gMupenVideoSettings.bitsPerPixel = BitsPerPixel;
+    
+    sActive = 1;
+    
+    return M64ERR_SUCCESS;
+}
+
+EXPORT m64p_error CALL VidExt_SetCaption(const char *Title)
+{
+    DLog(@"Mupen caption: %s", Title);
+    return M64ERR_SUCCESS;
+}
+
+EXPORT m64p_error CALL VidExt_ToggleFullScreen(void)
+{
+    return M64ERR_UNSUPPORTED;
+}
+
+EXPORT void * CALL VidExt_GL_GetProcAddress(const char* Proc)
+{
+    return dlsym(RTLD_NEXT, Proc);
+}
+
+EXPORT m64p_error CALL VidExt_GL_SetAttribute(m64p_GLattr Attr, int Value)
+{
+    // TODO configure MSAA here, whatever else is possible
+    return M64ERR_UNSUPPORTED;
+}
+
+EXPORT m64p_error CALL VidExt_GL_GetAttribute(m64p_GLattr Attr, int *pValue)
+{
+    return M64ERR_UNSUPPORTED;
+}
+
+EXPORT m64p_error CALL VidExt_GL_SwapBuffers(void)
+{
+    return M64ERR_SUCCESS;
+}
+
+m64p_error OverrideVideoFunctions(m64p_video_extension_functions *VideoFunctionStruct)
+{
+    return M64ERR_SUCCESS;
+}
+
 int VidExt_InFullscreenMode(void)
 {
     return 0;
@@ -31,16 +105,5 @@ int VidExt_InFullscreenMode(void)
 
 int VidExt_VideoRunning(void)
 {
-    //FIXME: move this to the video code
-    return 0;
-}
-
-int VidExt_GL_SwapBuffers(void)
-{
-    return 0;
-}
-
-int OverrideVideoFunctions(void)
-{
-    return 0;
+    return sActive;
 }

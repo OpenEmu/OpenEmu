@@ -109,7 +109,12 @@
 		3D208E9E1182551500BEAA42 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208E9D1182551500BEAA42 /* libz.dylib */; };
 		3D208F821182B00300BEAA42 /* MupenGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D208F811182B00300BEAA42 /* MupenGameCore.m */; };
 		3D8B35D812260F9D00C4C844 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8B35D712260F9D00C4C844 /* main.m */; };
-		3DCABDB9166C4B89002F2066 /* hle.h in Headers */ = {isa = PBXBuildFile; fileRef = 94E6B873166C2A0A00082F27 /* hle.h */; };
+		3DC21456166C6BA70014251E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208E971182550400BEAA42 /* OpenGL.framework */; };
+		3DC21457166C6BB90014251E /* mupen64plus-video-rice.so in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3DCABE0E166C6A20002F2066 /* mupen64plus-video-rice.so */; };
+		3DC2145A166C6C6E0014251E /* SDLStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D00F0801183E52F002995A1 /* SDLStubs.m */; };
+		3DC2145F166C6D7F0014251E /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2145C166C6D7F0014251E /* libpng.a */; };
+		3DC21460166C6F170014251E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208E9D1182551500BEAA42 /* libz.dylib */; };
+		3DC21462166C6F920014251E /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC21461166C6F920014251E /* OpenEmuBase.framework */; };
 		3DCABDBA166C4B89002F2066 /* idct.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B874166C2A0A00082F27 /* idct.c */; };
 		3DCABDBB166C4B89002F2066 /* jpeg.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B875166C2A0A00082F27 /* jpeg.c */; };
 		3DCABDBC166C4B89002F2066 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B876166C2A0A00082F27 /* main.c */; };
@@ -118,6 +123,51 @@
 		3DCABDBF166C4B89002F2066 /* ucode3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B87A166C2A0A00082F27 /* ucode3.cpp */; };
 		3DCABDC0166C4B89002F2066 /* ucode3mp3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B87B166C2A0A00082F27 /* ucode3mp3.cpp */; };
 		3DCABDC2166C4CB2002F2066 /* mupen64plus-rsp-hle.so in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3DCABDB3166C4ACB002F2066 /* mupen64plus-rsp-hle.so */; };
+		3DCABDC8166C5BE2002F2066 /* RiceVideoLinux.ini in Resources */ = {isa = PBXBuildFile; fileRef = 94E6B87E166C2A0A00082F27 /* RiceVideoLinux.ini */; };
+		3DCABE12166C6AB6002F2066 /* Blender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B889166C2A0A00082F27 /* Blender.cpp */; };
+		3DCABE14166C6AB6002F2066 /* CNvTNTCombiner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B88B166C2A0A00082F27 /* CNvTNTCombiner.cpp */; };
+		3DCABE17166C6AB6002F2066 /* Combiner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B88E166C2A0A00082F27 /* Combiner.cpp */; };
+		3DCABE1A166C6AB6002F2066 /* CombinerTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B891166C2A0A00082F27 /* CombinerTable.cpp */; };
+		3DCABE1B166C6AB6002F2066 /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B892166C2A0A00082F27 /* Config.cpp */; };
+		3DCABE1D166C6AB6002F2066 /* ConvertImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B894166C2A0A00082F27 /* ConvertImage.cpp */; };
+		3DCABE1F166C6AB6002F2066 /* ConvertImage16.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B896166C2A0A00082F27 /* ConvertImage16.cpp */; };
+		3DCABE22166C6AB6002F2066 /* Debugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B899166C2A0A00082F27 /* Debugger.cpp */; };
+		3DCABE24166C6AB6002F2066 /* DecodedMux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B89B166C2A0A00082F27 /* DecodedMux.cpp */; };
+		3DCABE26166C6AB6002F2066 /* DeviceBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B89D166C2A0A00082F27 /* DeviceBuilder.cpp */; };
+		3DCABE28166C6AB6002F2066 /* DirectXDecodedMux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B89F166C2A0A00082F27 /* DirectXDecodedMux.cpp */; };
+		3DCABE2B166C6AB6002F2066 /* FrameBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8A2166C2A0A00082F27 /* FrameBuffer.cpp */; };
+		3DCABE2D166C6AB6002F2066 /* GeneralCombiner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8A4166C2A0A00082F27 /* GeneralCombiner.cpp */; };
+		3DCABE2F166C6AB6002F2066 /* GraphicsContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8A6166C2A0A00082F27 /* GraphicsContext.cpp */; };
+		3DCABE33166C6AB6002F2066 /* BMGImage.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8AB166C2A0A00082F27 /* BMGImage.c */; };
+		3DCABE36166C6AB6002F2066 /* BMGUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8AE166C2A0A00082F27 /* BMGUtils.c */; };
+		3DCABE38166C6AB6002F2066 /* bmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8B0166C2A0A00082F27 /* bmp.c */; };
+		3DCABE3A166C6AB6002F2066 /* pngrw.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8B2166C2A0A00082F27 /* pngrw.c */; };
+		3DCABE3D166C6AB6002F2066 /* OGLCombiner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8B5166C2A0A00082F27 /* OGLCombiner.cpp */; };
+		3DCABE44166C6AB6002F2066 /* OGLDecodedMux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8BC166C2A0A00082F27 /* OGLDecodedMux.cpp */; };
+		3DCABE46166C6AB6002F2066 /* OGLExtCombiner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8BE166C2A0A00082F27 /* OGLExtCombiner.cpp */; };
+		3DCABE48166C6AB6002F2066 /* OGLExtensions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8C0166C2A0A00082F27 /* OGLExtensions.cpp */; };
+		3DCABE4A166C6AB6002F2066 /* OGLExtRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8C2166C2A0A00082F27 /* OGLExtRender.cpp */; };
+		3DCABE4C166C6AB6002F2066 /* OGLFragmentShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8C4166C2A0A00082F27 /* OGLFragmentShaders.cpp */; };
+		3DCABE4E166C6AB6002F2066 /* OGLGraphicsContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8C6166C2A0A00082F27 /* OGLGraphicsContext.cpp */; };
+		3DCABE50166C6AB6002F2066 /* OGLRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8C8166C2A0A00082F27 /* OGLRender.cpp */; };
+		3DCABE52166C6AB6002F2066 /* OGLRenderExt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8CA166C2A0A00082F27 /* OGLRenderExt.cpp */; };
+		3DCABE53166C6AB6002F2066 /* OGLTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8CB166C2A0A00082F27 /* OGLTexture.cpp */; };
+		3DCABE56166C6AB6002F2066 /* osal_dynamiclib_unix.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8CE166C2A0A00082F27 /* osal_dynamiclib_unix.c */; };
+		3DCABE58166C6AB6002F2066 /* osal_files_unix.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8D1166C2A0A00082F27 /* osal_files_unix.c */; };
+		3DCABE5B166C6AB6002F2066 /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8D5166C2A0A00082F27 /* Render.cpp */; };
+		3DCABE5D166C6AB6002F2066 /* RenderBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8D7166C2A0A00082F27 /* RenderBase.cpp */; };
+		3DCABE5F166C6AB6002F2066 /* RenderExt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8D9166C2A0A00082F27 /* RenderExt.cpp */; };
+		3DCABE60166C6AB6002F2066 /* RenderTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8DA166C2A0A00082F27 /* RenderTexture.cpp */; };
+		3DCABE68166C6AB6002F2066 /* RSP_Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8E2166C2A0A00082F27 /* RSP_Parser.cpp */; };
+		3DCABE6A166C6AB6002F2066 /* RSP_S2DEX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8E4166C2A0A00082F27 /* RSP_S2DEX.cpp */; };
+		3DCABE6C166C6AB6002F2066 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8E6166C2A0A00082F27 /* Texture.cpp */; };
+		3DCABE6E166C6AB6002F2066 /* TextureFilters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8E8166C2A0A00082F27 /* TextureFilters.cpp */; };
+		3DCABE70166C6AB6002F2066 /* TextureFilters_2xsai.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8EA166C2A0A00082F27 /* TextureFilters_2xsai.cpp */; };
+		3DCABE71166C6AB6002F2066 /* TextureFilters_hq2x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8EB166C2A0A00082F27 /* TextureFilters_hq2x.cpp */; };
+		3DCABE73166C6AB6002F2066 /* TextureFilters_hq4x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8ED166C2A0A00082F27 /* TextureFilters_hq4x.cpp */; };
+		3DCABE76166C6AB6002F2066 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8F0166C2A0A00082F27 /* TextureManager.cpp */; };
+		3DCABE7C166C6AB6002F2066 /* VectorMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8F6166C2A0A00082F27 /* VectorMath.cpp */; };
+		3DCABE80166C6AB6002F2066 /* Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8FA166C2A0A00082F27 /* Video.cpp */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		942597D1151470840074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597D0151470840074E3A3 /* OpenEmuBase.framework */; };
@@ -132,6 +182,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = Mupen64Plus;
+		};
+		3DC21458166C6BE10014251E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3DCABE0D166C6A20002F2066;
+			remoteInfo = "mupen64plus-video-rice";
 		};
 		3DCABDC3166C4D86002F2066 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -156,6 +213,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				3DC21457166C6BB90014251E /* mupen64plus-video-rice.so in CopyFiles */,
 				3DCABDC2166C4CB2002F2066 /* mupen64plus-rsp-hle.so in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -406,8 +464,13 @@
 		3D208F801182B00300BEAA42 /* MupenGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MupenGameCore.h; sourceTree = "<group>"; };
 		3D208F811182B00300BEAA42 /* MupenGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MupenGameCore.m; sourceTree = "<group>"; };
 		3D8B35D712260F9D00C4C844 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3DC2145C166C6D7F0014251E /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng.a; sourceTree = "<group>"; };
+		3DC2145D166C6D7F0014251E /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
+		3DC2145E166C6D7F0014251E /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngconf.h; sourceTree = "<group>"; };
+		3DC21461166C6F920014251E /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../DerivedData/OpenEmu/Build/Products/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		3DCABDB3166C4ACB002F2066 /* mupen64plus-rsp-hle.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "mupen64plus-rsp-hle.so"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DCABDC7166C524C002F2066 /* SDL_opengl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_opengl.h; sourceTree = "<group>"; };
+		3DCABE0E166C6A20002F2066 /* mupen64plus-video-rice.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "mupen64plus-video-rice.so"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B6048680CD000E48DA /* Mupen64Plus.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Mupen64Plus.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		942597D0151470840074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
@@ -596,6 +659,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3DCABE0B166C6A20002F2066 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DC21462166C6F920014251E /* OpenEmuBase.framework in Frameworks */,
+				3DC21460166C6F170014251E /* libz.dylib in Frameworks */,
+				3DC21456166C6BA70014251E /* OpenGL.framework in Frameworks */,
+				3DC2145F166C6D7F0014251E /* libpng.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49B3048680CD000E48DA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -613,6 +687,7 @@
 		089C166AFE841209C02AAC07 /* Mupen64Plus */ = {
 			isa = PBXGroup;
 			children = (
+				3DC21461166C6F920014251E /* OpenEmuBase.framework */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -654,6 +729,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3DC2145B166C6D7F0014251E /* png */,
 				942597D0151470840074E3A3 /* OpenEmuBase.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 				3D208E971182550400BEAA42 /* OpenGL.framework */,
@@ -677,6 +753,7 @@
 			children = (
 				8D5B49B6048680CD000E48DA /* Mupen64Plus.oecoreplugin */,
 				3DCABDB3166C4ACB002F2066 /* mupen64plus-rsp-hle.so */,
+				3DCABE0E166C6A20002F2066 /* mupen64plus-video-rice.so */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1145,6 +1222,16 @@
 			path = Compatibility;
 			sourceTree = "<group>";
 		};
+		3DC2145B166C6D7F0014251E /* png */ = {
+			isa = PBXGroup;
+			children = (
+				3DC2145C166C6D7F0014251E /* libpng.a */,
+				3DC2145D166C6D7F0014251E /* png.h */,
+				3DC2145E166C6D7F0014251E /* pngconf.h */,
+			);
+			path = png;
+			sourceTree = "<group>";
+		};
 		94E6B83D166C2A0A00082F27 /* mupen64plus-audio-sdl */ = {
 			isa = PBXGroup;
 			children = (
@@ -1496,17 +1583,6 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		3DCABDB1166C4ACB002F2066 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3DCABDB9166C4B89002F2066 /* hle.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		3DCABDB2166C4ACB002F2066 /* mupen64plus-rsp-hle */ = {
 			isa = PBXNativeTarget;
@@ -1514,7 +1590,6 @@
 			buildPhases = (
 				3DCABDAF166C4ACB002F2066 /* Sources */,
 				3DCABDB0166C4ACB002F2066 /* Frameworks */,
-				3DCABDB1166C4ACB002F2066 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -1523,6 +1598,22 @@
 			name = "mupen64plus-rsp-hle";
 			productName = "mupen64plus-rsp-hle";
 			productReference = 3DCABDB3166C4ACB002F2066 /* mupen64plus-rsp-hle.so */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		3DCABE0D166C6A20002F2066 /* mupen64plus-video-rice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3DCABE0F166C6A20002F2066 /* Build configuration list for PBXNativeTarget "mupen64plus-video-rice" */;
+			buildPhases = (
+				3DCABE0A166C6A20002F2066 /* Sources */,
+				3DCABE0B166C6A20002F2066 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "mupen64plus-video-rice";
+			productName = "mupen64plus-video-rice";
+			productReference = 3DCABE0E166C6A20002F2066 /* mupen64plus-video-rice.so */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		8D5B49AC048680CD000E48DA /* Mupen64Plus */ = {
@@ -1537,6 +1628,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3DC21459166C6BE10014251E /* PBXTargetDependency */,
 				3DCABDC4166C4D86002F2066 /* PBXTargetDependency */,
 			);
 			name = Mupen64Plus;
@@ -1569,6 +1661,7 @@
 				3D2091111183B8E900BEAA42 /* Build & Install Mupen64Plus */,
 				9449518214D8F95F00FC80E7 /* Distribution */,
 				3DCABDB2166C4ACB002F2066 /* mupen64plus-rsp-hle */,
+				3DCABE0D166C6A20002F2066 /* mupen64plus-video-rice */,
 			);
 		};
 /* End PBXProject section */
@@ -1579,11 +1672,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				3D208DCA11824C2200BEAA42 /* LICENSES in Resources */,
 				3D208DB911824C2200BEAA42 /* mupen64plus.cht in Resources */,
 				3D208DBA11824C2200BEAA42 /* mupen64plus.ini in Resources */,
-				3D208DCA11824C2200BEAA42 /* LICENSES in Resources */,
 				3D208DCD11824C2200BEAA42 /* README in Resources */,
 				3D208DCE11824C2200BEAA42 /* RELEASE in Resources */,
+				3DCABDC8166C5BE2002F2066 /* RiceVideoLinux.ini in Resources */,
 				3D208E4B11824D7A00BEAA42 /* lgpl-license in Resources */,
 				3D208E4C11824D7B00BEAA42 /* gpl-license in Resources */,
 			);
@@ -1632,6 +1726,58 @@
 				3DCABDBE166C4B89002F2066 /* ucode2.cpp in Sources */,
 				3DCABDBF166C4B89002F2066 /* ucode3.cpp in Sources */,
 				3DCABDC0166C4B89002F2066 /* ucode3mp3.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3DCABE0A166C6A20002F2066 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DCABE12166C6AB6002F2066 /* Blender.cpp in Sources */,
+				3DCABE14166C6AB6002F2066 /* CNvTNTCombiner.cpp in Sources */,
+				3DCABE17166C6AB6002F2066 /* Combiner.cpp in Sources */,
+				3DCABE1A166C6AB6002F2066 /* CombinerTable.cpp in Sources */,
+				3DCABE1B166C6AB6002F2066 /* Config.cpp in Sources */,
+				3DCABE1D166C6AB6002F2066 /* ConvertImage.cpp in Sources */,
+				3DCABE1F166C6AB6002F2066 /* ConvertImage16.cpp in Sources */,
+				3DCABE22166C6AB6002F2066 /* Debugger.cpp in Sources */,
+				3DCABE24166C6AB6002F2066 /* DecodedMux.cpp in Sources */,
+				3DCABE26166C6AB6002F2066 /* DeviceBuilder.cpp in Sources */,
+				3DCABE28166C6AB6002F2066 /* DirectXDecodedMux.cpp in Sources */,
+				3DCABE2B166C6AB6002F2066 /* FrameBuffer.cpp in Sources */,
+				3DCABE2D166C6AB6002F2066 /* GeneralCombiner.cpp in Sources */,
+				3DCABE2F166C6AB6002F2066 /* GraphicsContext.cpp in Sources */,
+				3DCABE33166C6AB6002F2066 /* BMGImage.c in Sources */,
+				3DCABE36166C6AB6002F2066 /* BMGUtils.c in Sources */,
+				3DCABE38166C6AB6002F2066 /* bmp.c in Sources */,
+				3DCABE3A166C6AB6002F2066 /* pngrw.c in Sources */,
+				3DCABE3D166C6AB6002F2066 /* OGLCombiner.cpp in Sources */,
+				3DCABE44166C6AB6002F2066 /* OGLDecodedMux.cpp in Sources */,
+				3DCABE46166C6AB6002F2066 /* OGLExtCombiner.cpp in Sources */,
+				3DCABE48166C6AB6002F2066 /* OGLExtensions.cpp in Sources */,
+				3DCABE4A166C6AB6002F2066 /* OGLExtRender.cpp in Sources */,
+				3DCABE4C166C6AB6002F2066 /* OGLFragmentShaders.cpp in Sources */,
+				3DCABE4E166C6AB6002F2066 /* OGLGraphicsContext.cpp in Sources */,
+				3DCABE50166C6AB6002F2066 /* OGLRender.cpp in Sources */,
+				3DCABE52166C6AB6002F2066 /* OGLRenderExt.cpp in Sources */,
+				3DCABE53166C6AB6002F2066 /* OGLTexture.cpp in Sources */,
+				3DCABE56166C6AB6002F2066 /* osal_dynamiclib_unix.c in Sources */,
+				3DCABE58166C6AB6002F2066 /* osal_files_unix.c in Sources */,
+				3DCABE5B166C6AB6002F2066 /* Render.cpp in Sources */,
+				3DCABE5D166C6AB6002F2066 /* RenderBase.cpp in Sources */,
+				3DCABE5F166C6AB6002F2066 /* RenderExt.cpp in Sources */,
+				3DCABE60166C6AB6002F2066 /* RenderTexture.cpp in Sources */,
+				3DCABE68166C6AB6002F2066 /* RSP_Parser.cpp in Sources */,
+				3DCABE6A166C6AB6002F2066 /* RSP_S2DEX.cpp in Sources */,
+				3DCABE6C166C6AB6002F2066 /* Texture.cpp in Sources */,
+				3DCABE6E166C6AB6002F2066 /* TextureFilters.cpp in Sources */,
+				3DCABE70166C6AB6002F2066 /* TextureFilters_2xsai.cpp in Sources */,
+				3DCABE71166C6AB6002F2066 /* TextureFilters_hq2x.cpp in Sources */,
+				3DCABE73166C6AB6002F2066 /* TextureFilters_hq4x.cpp in Sources */,
+				3DCABE76166C6AB6002F2066 /* TextureManager.cpp in Sources */,
+				3DCABE7C166C6AB6002F2066 /* VectorMath.cpp in Sources */,
+				3DCABE80166C6AB6002F2066 /* Video.cpp in Sources */,
+				3DC2145A166C6C6E0014251E /* SDLStubs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1715,6 +1861,11 @@
 			isa = PBXTargetDependency;
 			target = 8D5B49AC048680CD000E48DA /* Mupen64Plus */;
 			targetProxy = 3D2091141183B8F000BEAA42 /* PBXContainerItemProxy */;
+		};
+		3DC21459166C6BE10014251E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3DCABE0D166C6A20002F2066 /* mupen64plus-video-rice */;
+			targetProxy = 3DC21458166C6BE10014251E /* PBXContainerItemProxy */;
 		};
 		3DCABDC4166C4D86002F2066 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1903,6 +2054,52 @@
 			};
 			name = Release;
 		};
+		3DCABE10166C6A20002F2066 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				EXECUTABLE_EXTENSION = so;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../DerivedData/OpenEmu/Build/Products/Release\"",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/png\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3DCABE11166C6A20002F2066 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				EXECUTABLE_EXTENSION = so;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../DerivedData/OpenEmu/Build/Products/Release\"",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/png\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		9449518714D8F95F00FC80E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1962,6 +2159,16 @@
 				3DCABDB6166C4ACB002F2066 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3DCABE0F166C6A20002F2066 /* Build configuration list for PBXNativeTarget "mupen64plus-video-rice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DCABE10166C6A20002F2066 /* Debug */,
+				3DCABE11166C6A20002F2066 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9449518614D8F95F00FC80E7 /* Build configuration list for PBXAggregateTarget "Distribution" */ = {
 			isa = XCConfigurationList;

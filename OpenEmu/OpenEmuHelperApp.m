@@ -198,6 +198,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     const GLubyte *vendor = glGetString(GL_VENDOR);
     isIntel = strstr((const char*)vendor, "Intel") != NULL;
+    
+    CGLCreateContext(pf, glContext, &sharedContext);
 }
 
 - (void)setupIOSurface
@@ -789,6 +791,14 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         [gameAudio startAudio];
         hasStartedAudio = YES;
     }
+}
+
+- (void)willRenderOnAlternateThread
+{
+    CGLContextObj cgl_ctx = glContext;
+    CGLSetCurrentContext(sharedContext);
+    
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
 }
 
 @end

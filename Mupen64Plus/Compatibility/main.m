@@ -28,5 +28,8 @@
 
 void new_vi()
 {
-    dispatch_semaphore_wait(gVISemaphore, DISPATCH_TIME_FOREVER);
+    // FIXME this might be the wrong spot. It should be called when the frame is done rendering.
+    dispatch_semaphore_signal(gCoreWaitForFinishSemaphore);
+
+    dispatch_semaphore_wait(gMupenWaitForVISemaphore, DISPATCH_TIME_FOREVER);
 }

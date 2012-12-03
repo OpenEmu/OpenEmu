@@ -253,7 +253,8 @@ CColorCombiner * OGLDeviceBuilder::CreateColorCombiner(CRender *pRender)
                     m_pColorCombiner = new COGL_FragmentProgramCombiner(pRender);
                     DebugMessage(M64MSG_INFO, "OpenGL Combiner: Fragment Program");
                 }
-                else if( pcontext->IsExtensionSupported("GL_NV_texture_env_combine4") || 
+#ifndef __APPLE__
+                else if( pcontext->IsExtensionSupported("GL_NV_texture_env_combine4") ||
                     pcontext->IsExtensionSupported("GL_NV_register_combiners") )
                 {
                     m_pColorCombiner = new COGLColorCombinerNvidia(pRender);
@@ -264,6 +265,7 @@ CColorCombiner * OGLDeviceBuilder::CreateColorCombiner(CRender *pRender)
                     m_pColorCombiner = new COGLColorCombinerTNT2(pRender);
                     DebugMessage(M64MSG_INFO, "OpenGL Combiner: TNT2");
                 }
+#endif
                 else if( pcontext->IsExtensionSupported("GL_EXT_texture_env_combine") ||
                          pcontext->IsExtensionSupported("GL_ARB_texture_env_combine") )
                 {
@@ -321,6 +323,7 @@ CColorCombiner * OGLDeviceBuilder::CreateColorCombiner(CRender *pRender)
                     m_pColorCombiner = new COGLColorCombiner4v2(pRender);
                     DebugMessage(M64MSG_INFO, "OpenGL Combiner: OGL 1.4 Version 2");
                     break;
+#ifndef __APPLE__
                 case OGL_TNT2_DEVICE:
                     m_pColorCombiner = new COGLColorCombinerTNT2(pRender);
                     DebugMessage(M64MSG_INFO, "OpenGL Combiner: TNT2");
@@ -329,6 +332,7 @@ CColorCombiner * OGLDeviceBuilder::CreateColorCombiner(CRender *pRender)
                     m_pColorCombiner = new COGLColorCombinerNvidia(pRender);
                     DebugMessage(M64MSG_INFO, "OpenGL Combiner: Nvidia");
                     break;
+#endif
                 case OGL_FRAGMENT_PROGRAM:
                     m_pColorCombiner = new COGL_FragmentProgramCombiner(pRender);
                     DebugMessage(M64MSG_INFO, "OpenGL Combiner: Fragment Program");

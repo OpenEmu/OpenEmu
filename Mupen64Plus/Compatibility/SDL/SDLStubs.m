@@ -74,5 +74,5 @@ void SDL_PumpEvents(void)
 
 void SDL_GL_SwapBuffers(void)
 {
-    //FIXME: we might need this to do something
+    NSLog(@"Mupen warning: Should not reach here");
 }

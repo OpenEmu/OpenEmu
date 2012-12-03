@@ -24,4 +24,19 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <OpenGL/OpenGL.h>
+#include <unistd.h>
+#import <OpenGL/gl.h>
+
+#ifndef APIENTRY
+#define APIENTRY
+#endif
+#ifndef APIENTRYP
+#define APIENTRYP APIENTRY *
+#endif
+#ifndef GLAPI
+#define GLAPI extern
+#endif
+
+// Stuff that doesn't exist
+
+#define GL_MIRRORED_REPEAT_IBM 0

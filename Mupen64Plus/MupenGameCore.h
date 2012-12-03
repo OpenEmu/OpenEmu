@@ -28,7 +28,17 @@
 #import <OpenEmuBase/OEGameCore.h>
 #import <dispatch/dispatch.h>
 
-extern dispatch_semaphore_t gVISemaphore;
+extern dispatch_semaphore_t gMupenWaitForVISemaphore;
+extern dispatch_semaphore_t gCoreWaitForFinishSemaphore;
+
+struct MupenVideoSettings {
+    int width;
+    int height;
+    int bitsPerPixel;
+    // FPS goes here
+};
+
+extern struct MupenVideoSettings gMupenVideoSettings;
 
 OE_EXPORTED_CLASS
 @interface MupenGameCore : OEGameCore

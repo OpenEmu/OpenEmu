@@ -859,8 +859,10 @@ void DLParser_Process(OSTask * pTask)
     CRender::g_pRender->RenderReset();
     CRender::g_pRender->BeginRendering();
     CRender::g_pRender->SetViewport(0, 0, windowSetting.uViWidth, windowSetting.uViHeight, 0x3FF);
+#ifndef __clang_analyzer__
     CRender::g_pRender->SetFillMode(options.bWinFrameMode? RICE_FILLMODE_WINFRAME : RICE_FILLMODE_SOLID);
-
+#endif
+    
     try
     {
         // The main loop
