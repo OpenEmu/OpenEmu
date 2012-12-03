@@ -28,7 +28,5 @@
 
 void new_vi()
 {
-    pthread_mutex_lock(&gEmuVIMutex);
-    pthread_cond_wait(&gEmuVICond, &gEmuVIMutex);
-    pthread_mutex_unlock(&gEmuVIMutex);
+    dispatch_semaphore_wait(gVISemaphore, DISPATCH_TIME_FOREVER);
 }
