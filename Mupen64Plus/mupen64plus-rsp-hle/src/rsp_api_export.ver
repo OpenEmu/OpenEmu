@@ -1,0 +1,8 @@
+{ global:
+PluginStartup;
+PluginShutdown;
+PluginGetVersion;
+DoRspCycles;
+InitiateRSP;
+RomClosed;
+local: *; };

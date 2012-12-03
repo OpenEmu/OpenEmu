@@ -1,0 +1,34 @@
+RSP High-Level Emulation plugin for Mupen64Plus
+-----------------------------------------------
+
+Mupen64Plus-rsp-hle v1.99.5 - March 10, 2012
+-------------------------------------------------
+ - Handle JPEG decompression, used in Ogre Battle 64 and Pokemon Stadium
+ - updated RSP plugin for new Mupen64plus 2.0 API versioning scheme
+ - bugfix: #102 - Missing backgrounds in Ogre Battle 64
+ - many makefile fixes and improvements
+
+Mupen64Plus-rsp-hle v1.99.4 - November 22, 2010
+-------------------------------------------------
+ - merged all big-endian fixes from mupen64gc project
+ - makefile fixes and improvements
+
+Mupen64Plus-rsp-hle v1.99.3 - February 13, 2010
+-------------------------------------------------
+ - Makefile improvement: added OS type GNU/kFreeBSD
+
+Mupen64Plus-rsp-hle v1.99.2 - January 6, 2010
+-------------------------------------------------
+ - new feature: added MSVC8 project file for RSP-HLE plugin, fixed a few minor incompatibilities
+ - Makefile improvements:
+   - throw error if OS/CPU not supported
+   - use DESTDIR in install/uninstall paths
+   - Allow user-specified CC/CXX/LD paths
+   - use C++ compiler to link instead of LD, because the compiler knows where the standard C++ libs are
+
+Mupen64Plus-rsp-hle v1.99.1 - December 14, 2009
+-------------------------------------------------
+ - Converted to new Mupen64Plus 2.0 API
+ - Refactored build system to separate source and object files
+ - Refactored all code to remove win32-specific things, unnecessary functions, and clean up
+

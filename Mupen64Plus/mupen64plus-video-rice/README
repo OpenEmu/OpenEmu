@@ -1,0 +1,114 @@
+How to use high resolution textures in Rice Video 6.1.0 and after
+
+1. There are two new options added in Rice Video version 6.1.0 under the "Texture Filters" tab
+   LOAD option: "Loading hi-res textures if available"
+   DUMP option: "Dump textures to files"
+
+
+2. Dumping textures
+   a. If DUMP option is enabled, all textures used during the game play will be dumpped 
+      into a folder "[your_emulator_main_folder]\plugin\texture_dump\[current game name]\". 
+
+      [current game name] refers to N64 game internal name.
+      For example, name for Zelda OoT is "THE LEGEND OF ZELDA". 
+      
+      You can use your N64 emulator to check it. For 1964, the internal name is shown
+      as one of the "Rom Information".
+
+   b. Textures from different games will be dumpped into different folders. 
+      The plugin will create the folder if the folder does not exist.
+
+   c. Textures are dumpped in either PNG or BMP format
+      - RGBA, IA (intensity and alpha) textures are dumpped in 3 (or 2) files
+    [filename part 1 - 4]_all.png
+        [filename part 1 - 4]_rgb.png
+    [filename part 1 - 4]_a.png if the alpha channel is not all 0xFF
+
+        Please read the later section regarding filenameing.
+        *_all.png files are 32bit per pixel PNG files with RGBA channels
+        *_rgb.png files are 24bit per pixel PNG files with RGB channels.
+        *_a.png files are 24bit per pixel PNG files with alpha channel only as intensity.
+
+      - I (intensity only) textures are dumpped in 2 files, the alpha channel is not needed
+        [filename part 1 - 4]_rgb.png
+    [filename part 1 - 4]_all.png
+
+      - Color indexed textures are dumpped in 1 file
+        [filename part 1 - 4]_ci.bmp
+        ATTENTION here: the color indexed bmp image is palletted image. If you want to modify
+                        this image, you MUST NOT change the pallettes.
+        These palletted BMP files could have either 16 pallettes or 256 pallettes, depending
+        on the original texture format in the N64 game.
+
+   d. texture dump option can be enabled/disabled during the game play.
+
+   e. The plugin keeps tracking all dumpped textures of the current game. Textures
+      will not be redumpped if the texture has been dumpped.
+
+
+3. Loading high resolution textures
+   a. If LOAD option is enabled, the plugin will try to load it when corresponding texture is used
+      in the game.
+
+   b. LOAD option can be enabled/disabled during the game play
+
+   c. All high resolution textures must be placed under folder:
+      "[your_emulator_main_folder]\plugin\hires_texture\[current game name]\"
+
+   d. [current game name] must match the N64 game internal name
+
+   e. Under the [current game name] folder, subfolders can be created and textures can be placed
+      into the subfolders. The plugin will search all the subfolders recursively. Subfolders can help
+      to manage all the textures.
+
+   f. File files and format:
+      In general, high resolution files to be loaded must follow the same filenames as dumpped.
+
+      - Color indexed textures must be still in palletted BMP format
+      - For RGBA, IA and I textures, you can provide
+            *_rgb.png, *_a.png   or
+            *_rgb.bmp, *_a.bmp   or
+            *_all.png
+      - Don't provide duplicate files for the same textures. If you provide the *_rgb, *_a files
+        and also *_all.png file, the actually loaded files are not determined.
+
+4. File naming
+
+   Example: THE LEGEND OF ZELDA#0A74F78C#4#1_rgb.png
+
+    [part 1]#[part 2]#[part 3]#[part 4]_[part 5].[extension]
+
+    part 1: The N64 game internal name
+    part 2: CRC32
+    part 3: Texture format in N64 game
+        0 = RGBA
+        1 = YUV
+        2 = CI
+        3 = IA
+        4 = I
+    part 4: Texture size in N64 game
+        0 = 4 bit
+        1 = 8 bit
+        2 = 16 bit
+        3 = 32 bit
+    part 5: dumpped texture format
+        rgb = 24 bit RGB format
+        a   = 24 bit alpha channel only in 24 bit RGB intensity
+        all = 32 bit RGB format
+        ci  = color indexed (BMP) format
+    extension:
+        PNG
+        BMP
+
+5. How to make your own hi-rez textures
+   a. The hi-rez texture size could be 2, 3 or 4 times as the orginal N64 texture size
+   b. Don't use other customerized texture sizes
+   c. If the original texture has alpha channel, you MUST also provide the alpha channel by
+      - Use *_all.png 32bit format
+      - use both *_rgb and *_a files to provide RGB and alpha separately
+   d. Color indexed textures must be prepared in color indexed format, not in RGB/A format
+   e. Instead of *_rgb.png and *_a.png, you can provide your textures in *_rgb.bmp and *_a.bmp.
+      BMP files are uncompressed, can be loaded faster
+   f. *_rgb.png, *_a.png, *_rgb.bmp, *_a.bmp must be provided in 24 bit RGB format, not in other
+      formats. Alpha *_a.* files must be 24 bit, only in 2 bit or 8 bit
+   g. Filename must be kept the same as the original dumped texture filenames

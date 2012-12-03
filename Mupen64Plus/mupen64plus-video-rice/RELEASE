@@ -1,0 +1,70 @@
+Mupen64Plus-Video-Rice RELEASE
+------------------------------
+
+Mupen64Plus-Video-Rice v1.99.5 - March 10, 2012
+-----------------------------------------------
+ - Hires texture loading: support for 8-bit PNG images
+ - New config option for forcing vertical sync
+ - Check OpenGL attributes after creating video window and report any that failed to set
+ - Updated video plugin for new Mupen64plus 2.0 API versioning scheme
+ - Update to Video API version 2.1.0.
+ - Bugfix: hi-res textures: Scale highres textures by precalculated scaleShift exponent
+ - Bugfix: dont call CoreVideo_Init() inside of the InitializeGFX() function. This will fix some front-end use cases
+ - Bugfix: Fix z coordinate in 3d line rendering
+ - Bugfix: double infinite loop in GetValidTmemInfoIndex
+ - Bugfix: Perfect Dark randomly crashes due to divide-by-zero error
+ - Bugfix: crash in loading Celda 2009 hi-res texture pack for Zelda Ocarina of Time
+ - makefile fixes, improvements, and code cleanups
+
+Mupen64Plus-Video-Rice v1.99.4 - November 22, 2010
+--------------------------------------------------
+ - new feature: anisotropic filtering
+ - new feature: trilinear filtering
+ - new feature: mipmaps
+ - cleaned up FindScaleFactor function based upon r45 of the 1964 repo
+ - bugfix: buffer overrun (and crash) when reading vendor string info on some opengl implementations
+ - API change for reading the video buffer: new interface is more flexible and avoids some potential problems
+ - support for anti-aliasing (GL_MULTISAMPLE)
+ - makefile fixes, improvements, and code cleanups
+
+Mupen64Plus-Video-Rice v1.99.3 - February 13, 2010
+--------------------------------------------------
+ - sync with core<-->plugin API change for RomOpen()
+ - Changed default ScreenUpdateSetting to 1 for Linux, and 4 for Windows
+ - use custom opengl extension function pointer typedefs, to avoid compilation errors with some drivers including hosed gl.h headers
+ - merged some changes from Tillin9 commits in r1142-rice-video-gtk-refactor branch, to be more lenient in hi-res texture loading
+ - bugfix: hi-res textures did not work in Windows
+ - bugfix: #329: remove some deprecated types and a function call to prevent build errors with libpng 1.4
+ - bugfix: fixed mirroring bugs in Rice Video hi-resolution texture loading, based on Tillin9 rev 1337 in r1142-rice-video-gtk-refactor branch
+ - bugfix: in ConvertImage.cpp none of the 4-bit conversion functions could handle 1-pixel wide textures
+ - Makefile improvements:
+   - added OS type GNU/kFreeBSD
+
+Mupen64Plus-Video-Rice v1.99.2 - January 6, 2010
+--------------------------------------------------
+ - bugfix: fix fragment program combiner for Intel drivers in Win32, by ensuring that program does not allocate unused temp vars or call TEX commands for texture units that are not enabled
+ - new feature: compile-time option for opengl debugging by calling glGetError after each opengl command (except inside of glBegin/glEnd)
+ - portability: use ALIGN() for aligned data member declarations in header files as well as the definitions in CPP files
+ - portability: refactor opengl code to use VidExt_GL_GetProc() for all opengl functions newer than v1.1, so that this will work in Windows
+ - portability: Abstracted directory-handling code with new osal_files* source code
+ - portability: replaced unix gettimeofday() function calls with SDL_GetTicks()
+ - new feature: added MSVC8 project file, fixed minor incompatibilities with VC compiler
+ - Makefile improvements:
+   - throw error if OS/CPU not supported
+   - use DESTDIR in install/uninstall paths
+   - Allow user-specified CC/CXX/LD paths
+   - use C++ compiler to link instead of LD, because the compiler knows where the standard C++ libs are
+   - OSX hack for inline assembly code: mismatch between function names with-w/o preceding underscores
+
+Mupen64Plus-Video-Rice v1.99.1 - December 14, 2009
+--------------------------------------------------
+ - Converted to new Mupen64Plus 2.0 API
+ - Major code cleanup, removed all non-standard data types
+ - Refactored build system to separate source and object files
+ - added NO_ASM build option
+ - removed some unused configuration parameters
+ - bugfix: handle fullscreen video mode properly: start up in this mode instead
+   of always starting in windowed and needing the core to switch to fullscreen
+ - bugfix #209: setjmp/longjmp fixes in the BMP writer and PNG reader
+ - bugfix: eliminated duplicate 'Found ROM ...' messages
+
