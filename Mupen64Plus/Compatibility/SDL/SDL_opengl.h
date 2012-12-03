@@ -24,12 +24,19 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "MupenGameCore.h"
+#include <unistd.h>
+#import <OpenGL/gl.h>
 
-void new_vi()
-{
-    // FIXME this might be the wrong spot. It should be called when the frame is done rendering.
-    dispatch_semaphore_signal(gCoreWaitForFinishSemaphore);
+#ifndef APIENTRY
+#define APIENTRY
+#endif
+#ifndef APIENTRYP
+#define APIENTRYP APIENTRY *
+#endif
+#ifndef GLAPI
+#define GLAPI extern
+#endif
 
-    dispatch_semaphore_wait(gMupenWaitForVISemaphore, DISPATCH_TIME_FOREVER);
-}
+// Stuff that doesn't exist
+
+#define GL_MIRRORED_REPEAT_IBM 0

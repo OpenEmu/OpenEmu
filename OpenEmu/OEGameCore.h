@@ -47,6 +47,7 @@
 @required
 - (void) willExecute;
 - (void) didExecute;
+- (void) willRenderOnAlternateThread;
 @end
 
 #pragma mark -

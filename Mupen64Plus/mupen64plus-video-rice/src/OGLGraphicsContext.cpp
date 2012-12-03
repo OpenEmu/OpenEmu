@@ -89,13 +89,13 @@ bool COGLGraphicsContext::Initialize(uint32 dwWidth, uint32 dwHeight, BOOL bWind
 
     /* hard-coded attribute values */
     const int iDOUBLEBUFFER = 1;
-
+#if 0
     /* set opengl attributes */
     CoreVideo_GL_SetAttribute(M64P_GL_DOUBLEBUFFER, iDOUBLEBUFFER);
     CoreVideo_GL_SetAttribute(M64P_GL_SWAP_CONTROL, bVerticalSync);
     CoreVideo_GL_SetAttribute(M64P_GL_BUFFER_SIZE, colorBufferDepth);
     CoreVideo_GL_SetAttribute(M64P_GL_DEPTH_SIZE, depthBufferDepth);
-
+#endif
     /* set multisampling */
     if (options.multiSampling > 0)
     {
@@ -118,7 +118,7 @@ bool COGLGraphicsContext::Initialize(uint32 dwWidth, uint32 dwHeight, BOOL bWind
         CoreVideo_Quit();
         return false;
     }
-
+#if 0
     /* check that our opengl attributes were properly set */
     int iActual;
     if (CoreVideo_GL_GetAttribute(M64P_GL_DOUBLEBUFFER, &iActual) == M64ERR_SUCCESS)
@@ -133,7 +133,7 @@ bool COGLGraphicsContext::Initialize(uint32 dwWidth, uint32 dwHeight, BOOL bWind
     if (CoreVideo_GL_GetAttribute(M64P_GL_DEPTH_SIZE, &iActual) == M64ERR_SUCCESS)
         if (iActual != depthBufferDepth)
             DebugMessage(M64MSG_WARNING, "Failed to set GL_DEPTH_SIZE to %i. (it's %i)", depthBufferDepth, iActual);
-
+#endif
     /* Get function pointers to OpenGL extensions (blame Microsoft Windows for this) */
     OGLExtensions_Init();
 

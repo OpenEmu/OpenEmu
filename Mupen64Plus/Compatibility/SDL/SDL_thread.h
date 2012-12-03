@@ -29,9 +29,13 @@
 
 typedef void *SDL_mutex;
 
+__BEGIN_DECLS
+
 SDL_mutex *SDL_CreateMutex(void);
 int SDL_LockMutex(SDL_mutex *m);
 int SDL_UnlockMutex(SDL_mutex *m);
 void SDL_DestroyMutex(SDL_mutex *m);
+
+__END_DECLS
 
 #endif

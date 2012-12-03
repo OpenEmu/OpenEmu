@@ -26,6 +26,7 @@
 
 #include "SDL.h"
 #include "SDL_thread.h"
+#import <OpenEmuBase/OETimingUtils.h>
 #include <pthread.h>
 #include <sys/time.h>
 
@@ -54,16 +55,8 @@ void SDL_DestroyMutex(SDL_mutex *m)
 }
 
 Uint32 SDL_GetTicks(void)
-{   // FIXME use mach_absolute_time
-    static struct timeval start = {};
-    struct timeval now;
-    
-    gettimeofday(&now, NULL);
-    
-    if (!start.tv_sec)
-        start = now;
-    
-    return (now.tv_sec - start.tv_sec)*1000 + (now.tv_usec - start.tv_usec)/1000;
+{
+    return OEMonotonicTime();
 }
 
 void SDL_Quit(void)
@@ -81,5 +74,5 @@ void SDL_PumpEvents(void)
 
 void SDL_GL_SwapBuffers(void)
 {
-    //FIXME: we might need this to do something
+    NSLog(@"Mupen warning: Should not reach here");
 }
