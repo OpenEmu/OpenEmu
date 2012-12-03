@@ -1,0 +1,21 @@
+{ global:
+PluginStartup;
+PluginShutdown;
+PluginGetVersion;
+ChangeWindow;
+InitiateGFX;
+MoveScreen;
+ProcessDList;
+ProcessRDPList;
+RomClosed;
+RomOpen;
+ShowCFB;
+UpdateScreen;
+ViStatusChanged;
+ViWidthChanged;
+ReadScreen2;
+SetRenderingCallback;
+FBRead;
+FBWrite;
+FBGetFrameBufferInfo;
+local: *; };

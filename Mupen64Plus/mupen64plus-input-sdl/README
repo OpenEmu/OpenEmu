@@ -1,0 +1,98 @@
+********Notes about usage of SDL input plugin:
+ - If one of the enabled controllers has the "mouse" general-purpose config parameters set
+   to True, the plugin will hide the mouse cursor and 'grab' the mouse pointer.  The user
+   may press the Left Control and Alt keys together to toggle the mouse cursor on and off.
+ - If X/Y analog axes are mapped to keys, a plain keypress will simulate the joystick
+   being pressed all the way to the edge.  To decrease the amount of simulated joystick
+   deflection, the user may press Right Control, Right Shift, or Right Ctrl+Right Shift.
+
+********Notes for supported joysticks for auto-configuration:
+
+1. Jess Tech Rumble Pad (Saitek Rumble)
+The left D-pad is mapped to the D-pad; The joystick is mapped to the left joystick of the gamepad; the C buttons are mapped to the gampad's right joystick. Start button is mapped to start; the A-button is mapped to the lowest button on the gamepad's right front; the B-button to the left button (buttons marked 3 and 1 on my gamepad). The L and R buttons are mapped to the lower left and right rear triggers; the Z button is mapped to the left upper rear trigger. All other buttons are unused. 
+
+2. Logitech Dual Action gamepad, Logitech Cordless Rumblepad 2:
+The digital pad maps to the N64 d-pad.  The left analog stick maps to the N64 analog stick.
+The right analog stick maps to the C-buttons,  and the buttons 2 and 1 map to A and B.
+Button 4 is the Z trigger, and the top shoulder buttons map to the left and right N64 triggers.
+Button 10 is the start button.
+The bottom shoulder buttons select the memory pack or rumble pak.
+
+3. Microsoft X-Box 360 pad:
+C button U (up) and C button R (right) are assigned to the Y and B buttons.
+All 4 C buttons are assigned to the U and V axis (including the already configured up and right C buttons).
+The Z button has been assigned to the left trigger and switching the rumble on and off can be done with the right trigger.
+Because there are no other buttons left I decided to use the button click behavior of the left joystick to switch Mempak on and off.
+
+4. N64 controller:
+All controls are mapped to their proper place on the N64 controller with an Adaptoid or custom hardware with Gamecon driver.
+Rumble and Memory packs can be selected with the 'r' and 'm' keys, respectively.
+
+5. Playstation 3 Controller:
+Left analog stick - analog stick
+Right analog stick - C-pad
+D-Pad - D-Pad
+Cross - A
+Square - B
+L1 / R1 - L / R
+L2 - Z
+Start - Start
+
+6. SAITEK P880:
+The gamepad doesnt have enough keys to real assign all buttons. The second 
+analog stick can be used as button by pushing him insight.
+
+General Configuration:
+Digital Pad was used as N64 digital pad, First analog stick was used as N64 
+Analog stick. The red button was used as N64 Start button. L and R was used 
+for N64 L and R. Second analog stick axes was used for N64 C buttons and 
+second "analog stick button" was used for C-down. The first column of keys was 
+used for A and B and the second and third row was used for C-Buttons - except 
+for the Button next to the A button which would be C-Down but got the Z 
+button.
+
+7. Xbox Gamepad (userspace driver)
+I created an Input Config for a Xbox 360 controller running with
+xboxdrv on a Linux system (http://pingus.seul.org/~grumbel/xboxdrv/).
+
+Z = Left shoulder button
+L = Left shoulder trigger
+A = A Button
+B = X Button
+
+everything else should be obvious.
+
+Unfortunately, you will also have to make some configuration to
+xboxdrv to make this work properly. xboxdrv has to be started with the
+following config file. The "-as-button" options make sure that the D-
+Pad and Trigger are emulated as buttons and the deadzone options make
+the C buttons work much better.
+The guide=KEY_ESC allows you to quit the emulator by pressing the
+guide key on the controller. This is obviously just nice-to-have and
+not actually neccessary for the config to work.
+
+[xboxdrv]
+silent=true
+trigger-as-button=true
+dpad-as-button=true
+
+[ui-buttonmap]
+guide=KEY_ESC
+
+[axismap]
+x2^deadzone:27000
+y2^deadzone:27000
+
+8. Default Keyboard interface:
+Analog Pad is "Arrow Keys"
+C Up/Left/Down/Right are "I", "J", "K", "L"
+DPad Up/Left/Down/Right are "W", "A", "S", "D"
+Z trig is "z" key
+L and R trigs are "x" and "c"
+Start is "Enter" ("Return")
+A is "left shift"
+B is "left control"
+Select Mempack = ","
+Select Rumblepack = "."
+
+

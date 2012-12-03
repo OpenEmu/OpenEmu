@@ -1,0 +1,96 @@
+SDL Audio plugin for Mupen64Plus
+---------------------------------
+
+Mupen64Plus-audio-sdl v1.99.5 - March 10, 2012
+--------------------------------------------------
+ - added version number to SDL-audio plugin config parameters, to support future changes
+ - updated audio plugin for new Mupen64plus 2.0 API versioning scheme
+ - makefile fixes and improvements
+
+Mupen64Plus-audio-sdl v1.99.4 - November 22, 2010
+--------------------------------------------------
+ - Bugfix: Plugin should write default config values at startup time
+ - Bugfix: fixed fast-forward for banjo-kazooie and other games which was broken due to limitation in basic resampling algorithm
+ - many makefile fixes and improvements
+
+Mupen64Plus-audio-sdl v1.99.3 - February 13, 2010
+--------------------------------------------------
+ - sync with core<-->plugin API change for RomOpen()
+ - bugfix: logical error in previous audio refactoring causing slowdown/lockup on loading savestate or re-initializing audio
+ - Makefile improvements:
+   - 'sdl-config --libs' can give "-Wl,-rpath", so plugin must be linked with CC instead of LD
+   - issue #257: added to makefile OS type GNU/kFreeBSD
+
+Mupen64Plus-audio-sdl v1.99.2 - January 6, 2010
+-------------------------------------------------
+ - new feature: Completely re-wrote buffering/synchronization code:
+   - Buffer parameters now work as advertised and all use the same units
+   - Bugfix: previous defaults and algorithm behavior caused audio choppiness on slower PCs
+   - Bugfix: maximum speed was previously limited to low value by constraints from primary buffer size
+ - bugfix: SDL volume control will always be used on systems without OSS support
+ - new feature: added MSVC8 project file, minor code refactoring to build in Windows
+ - Makefile improvements:
+   - throw error if OS/CPU not supported
+   - use DESTDIR in install/uninstall paths
+   - Allow user-specified CC/CXX/LD paths
+
+Mupen64Plus-audio-sdl v1.99.1 - December 14, 2009
+-------------------------------------------------
+ - Converted to new Mupen64Plus 2.0 API
+ - Code cleanup to remove non-standard data types
+ - Refactored build system to separate source and object files
+ - bugfix #269: jttl_audio segfaults on exit due to incorrectly ordered shutdown code
+
+ Mupen64plus 1.5:
+ +Additional SDL modulation option for volume control.
+ +New Gtk GUI for plugin configuration.
+ +Improved no GUI support.
+
+ Mupen64plus 1.4:
+ +Extended plugin API to allow all for runtime volume changes via OSS.
+
+  1.4:
+ +Use only standard frequency for higher compatibility
+ +Fast resample algorithm (use only integers)
+ +Slight improvements in buffer management : pausing audio when buffer underrun occur
+ 
+ 1.2:
+ +Added possibility to swap channels
+ +Some more optimizations
+ +Calling RomOpen() is not required anymore. Plugin should now follow Zilmar's specs.
+ +Added test functions.
+ +Added support for config file
+
+ 1.1.1:
+ +Fixed the bug that was causing terrible noise (thanks Law)
+ +Much more debugging data appears now if DEBUG is defined
+ +Few more error checks
+
+ 1.1:
+ +Audio device is opened now with native byte ordering of the machine. Just
+  for compatibility (thanks Flea).
+ +Fixed possible double freeing bug (thanks Flea)
+ +Optimizations in AiLenChanged
+ +Fixed segmentation fault when changing rom.
+ +Syncronization redone
+
+ 1.0.1.3:
+ +Smarter versioning. No more betas.
+ +More cleaning up done.
+ +Buffer underrun and overflow messages appear now at stderr (if DEBUG is
+  defined)
+ +Many things are now precalculated (this should bring a small performance
+  boost)
+ +Buffer underrun bug fixed.
+ +Segmentation fault when closing rom fixed (at least I think so)
+
+ 1.0 beta 2:
+ +Makefile fixed to get rid of annoying warning messages
+ +Cleaned up some old code
+ +Default frequency set to 33600Hz (for Master Quest compatibility)
+ +Better syncronization (needs some work still though)
+
+ 1.0 beta 1:
+ +First public release
+
+

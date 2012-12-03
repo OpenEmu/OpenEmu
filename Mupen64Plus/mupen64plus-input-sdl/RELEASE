@@ -1,0 +1,146 @@
+SDL Input plugin for Mupen64Plus
+--------------------------------
+
+Mupen64Plus-input-sdl v1.99.5 - March 10, 2012
+-------------------------------------------------
+ - Improved input setup behavior (auto-config) to make some use cases more friendly
+ - Updated input plugin for new Mupen64plus 2.0 API versioning scheme
+ - Added version number to SDL Input plugin parameters
+ - Add new parameter for mouse sensitivity, handle mouse movement differently so mouse is easier to use as controller
+ - New auto-configuration for controllers:
+   - raphnet technologies GC/N64 usb converter
+   - Logitech Chillstream Controller
+   - Jess Tech Colour Rumble
+   - Xbox 360 linux userspace driver
+   - Generic X-Box pad
+   - Saitek P2900 Wireless Pad
+   - Jess Tech USB 4-Axis 12-Button Gamepad
+ - bugfix: #392 - when switching between rumble pak and memory pak, simulate removing the pack, waiting 1 second, then inserting the new one
+ - bugfix: #424 - problem with USB devices supporting multiple controllers per device
+ - bugfix: #409 - PS3 controller not auto-detected in Gentoo when connected via bluetooth
+ - bugfix: correctly handle USB devices with multiple game pads, from Peter Helbing
+ - makefile fixes and improvements
+
+Mupen64Plus-input-sdl v1.99.4 - November 22, 2010
+-------------------------------------------------
+ - Bugfix: Do configuration during PluginStart(), so GUI will see defaults (auto-configured) the first time it is run
+ - Move axis value reducers to right shift and right ctrl, to avoid conflict with A/B buttons
+ - New feature: extra deadzone parameter in axis() config parameter clause when mapping an analog joystick axis to an N64 button
+ - many new joystick auto-configurations
+ - makefile fixes and improvements
+
+Mupen64Plus-input-sdl v1.99.3 - February 13, 2010
+-------------------------------------------------
+ - New feature: auto-configuration uses an .ini file instead of hard-coding the controllers in the source code
+ - New controller auto-configurations:
+   - Original X-Box (and compatible clones)
+   - HuiJia USB GamePad
+   - USB Human(2p) Interface Device
+ - sync with core<-->plugin API change for RomOpen()
+ - Bugfix: controller pak was fixed at startup, switching b/w mempak and rumblepak did not work
+ - Bugfix: Xbox 360 and PS3 controllers need slightly different names under OSX
+ - Makefile improvements:
+   - plugin must be linked with CC instead of LD because 'sdl-config --libs' can give "-Wl,-rpath"
+   - added OS type GNU/kFreeBSD
+
+Mupen64Plus-input-sdl v1.99.2 - January 6, 2010
+-------------------------------------------------
+ - new feature: added MSVC8 project file, minor code refactoring for VC compatibility
+ - added auto-configuration for:
+   - Xbox 360 Wireless Receiver
+   - PS3 controller
+   - Jess Tech Dual Analog Pad
+ - Makefile improvements:
+   - throw error if OS/CPU not supported
+   - use DESTDIR in install/uninstall paths
+   - Allow user-specified CC/CXX/LD paths
+
+Mupen64Plus-input-sdl v1.99.1 - December 14, 2009
+-------------------------------------------------
+ - New feature: Joystick/Keyboard auto-configuration
+ - New feature: deadzone and peak analog joystick values are now configurable
+ - Converted to new Mupen64Plus 2.0 API
+ - Refactored build system to separate source and object files
+ - Major code cleanup: mouse movement and analog axis code was terrible, removed non-standard data types
+ - Improved debug messages
+ - bugfix: mapping the X/Y analog sticks to keypresses didnt work
+ - bugfix: LeftCtrl-LeftAlt key command when mouse is enabled to now toggles between grabbing and releasing the mouse pointer
+
+Mupen64Plus Pre-2.0
+-------------------
+ - numerous fixes and enhancements were made to this code during the mupen64plus project before v2.0
+
+Original Blight Changelog
+-------------------------
+
+0.0.10:
+ - when the keyboard is used to control an axis left shift and left control can be 
+   pressed to change the axis movement. shift reduces the movement by 25%, control 
+   reduces it by 50%, control and shift together reduce the movement by 75%
+ - when the mouse is used left ctrl + left alt can be used to release the mouse, 
+   clicking into the window will grab the mouse again.
+
+0.0.9:
+ - import new version of SDL_tff (2.0.7)
+ - when the keyboard is used to control an axis left shift can be pressed to change 
+   the axis movement to 25% of the original value
+
+0.0.8-b:
+ - fixed bug which didn't put analog axis back into default position when a key
+   which was assigned to it was pressed and released again
+
+0.0.8:
+ - fixed a stupid bug which disabled analog axis
+
+0.0.7-b:
+ - sdl config dialog: input event queue is flushed before a 
+   button/whatever is assigned
+
+0.0.7: mouse support!
+ - mouse support (x and y axis automatically mapped to analog stick,
+   mouse buttons mapable onto n64 buttons)
+
+0.0.6:
+ - keyboard and gamepad can be used at the same time (the keyboard will work always,
+   even if you choose another device. if you want to use only the keyboard select
+   keyboard as device
+
+0.0.5:
+ - sdl about dialog
+ - fixed config routine (incorrectly read X- axis)
+ - fixed small sdl config dialog drawing bug
+ - corrected config dialog c button labels
+
+0.0.4: joystick hat support
+ - fixed a segfault when the rom was closed
+ - less axis sensibility when assigning a new mapping (changed from 10 to 50 percent)
+ - less sensibility for axis mapped to buttons (changed from 10 to 20 percent)
+ - it's possible to clear assignments and cancel an assignment
+ - joystick hat support (mapable to axis and buttons)
+ - fixed some bugs in the input reading function
+ - fixed all compiler warnings
+
+0.0.3:
+ - no more need for the SDL_image library
+ - no longer link against gtk library
+
+0.0.2-2:
+ - fixed a bug which didn't allow to assign anything to a pad button
+
+0.0.2-1:			*BROKEN*
+ - help for the SDL gui
+
+0.0.2: new SDL config dialog!	*BROKEN*
+ - fixed a bug where it wouldn't open the joystick device if you change the controller
+ - sdl config dialog
+ - some other lil' fixes
+
+0.0.1: made some small fixes
+ - now it's possible to map an axis (i.e. X Axis +) to a button (i.e.  DPAD_UP)
+ - configuration is saved and displayed for all devices
+ - changed the config dialog a bit (bigger text entries, bigger device combo)
+ - new config file format
+
+0.0.1b: initial version
+ - should work :-)
+

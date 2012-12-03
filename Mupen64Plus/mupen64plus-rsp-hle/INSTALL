@@ -1,0 +1,26 @@
+Mupen64Plus-RSP-HLE INSTALL
+---------------------------
+
+This text file was written to explain the installation process of the
+Mupen64Plus-RSP-HLE plugin.
+
+If this module is part of a Mupen64Plus source code bundle, the user should run
+the "m64p_install.sh" script in the root of the unzipped bundle to install all
+of the included modules in the bundle.
+
+If this module is a standalone source code release, you should build the library
+from source code and install it via the makefile, like this:
+
+$ cd projects/unix
+$ make all
+$ sudo make install
+
+If you want to build the Mupen64Plus-RSP-HLE module for installation in a home
+folder for a single user, you may build it like this (replacing <my-folder>
+with your desired local installation path):
+
+$ cd projects/unix
+$ make all
+$ make install LIBDIR=<my-folder>
+
+
