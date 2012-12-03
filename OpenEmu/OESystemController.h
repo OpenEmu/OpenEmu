@@ -152,16 +152,14 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 
 #pragma mark -
 #pragma mark ROM Handling
-
 @property(readonly, copy) NSArray *fileTypes;
 @property(readonly, copy) NSArray *archiveIDs;
 
 /* Whether the system plugin can verifiably handle a file. This should be a more thorough check than just
    testing file extensions, which is what -canHandleFileExtension: does. When importing a file, systems that
-   can handle that file are preferred over systems that can only (potentially) handle its extension.
-   Defaults to NO.
- */
-- (BOOL)canHandleFile:(NSString *)path;
+   can handle that file are preferred over systems that can only (potentially) handle its extension. Only implement -canHandleFile: if you can verify that it's valid for the system.
+*/
+// - (BOOL)canHandleFile:(NSString *)path;
 - (BOOL)canHandleFileExtension:(NSString *)fileExtension;
 
 @end
