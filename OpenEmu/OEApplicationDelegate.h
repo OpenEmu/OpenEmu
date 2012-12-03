@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@class OEHIDManager;
+@class OEDeviceManager;
 @class OEMainWindowController;
 @interface OEApplicationDelegate : NSDocumentController <NSApplicationDelegate, NSMenuDelegate>
 - (IBAction)showAboutWindow:(id)sender;
@@ -41,7 +41,6 @@
 @property(unsafe_unretained) IBOutlet NSWindow               *aboutWindow;
 @property(unsafe_unretained) IBOutlet OEMainWindowController *mainWindowController;
 
-@property(strong)           OEHIDManager       *HIDManager;
 @property(strong, readonly) NSString           *aboutCreditsPath;
 @property(strong, readonly) NSString           *appVersion;
 @property(strong, readonly) NSString           *buildVersion;

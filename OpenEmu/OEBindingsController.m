@@ -28,8 +28,8 @@
 #import "OEBindingsController.h"
 #import "OESystemController.h"
 #import "OEBindingsController_Internal.h"
-#import "OEHIDManager.h"
-#import "OEHIDDeviceHandler.h"
+#import "OEDeviceManager.h"
+#import "OEDeviceHandler.h"
 
 @interface OEBindingsController ()
 {
@@ -170,7 +170,7 @@ static NSString            *configurationsFolderPath = nil;
 
 - (void)OE_HIDManagerDidAddDeviceNotification:(NSNotification *)notif;
 {
-    OEHIDDeviceHandler *handler = [[notif userInfo] objectForKey:OEHIDManagerDeviceHandlerUserInfoKey];
+    OEDeviceHandler *handler = [[notif userInfo] objectForKey:OEHIDManagerDeviceHandlerUserInfoKey];
     if([handler isKeyboardDevice]) return;
     
     [systems enumerateKeysAndObjectsUsingBlock:
@@ -182,7 +182,7 @@ static NSString            *configurationsFolderPath = nil;
 
 - (void)OE_HIDManagerDidRemoveDeviceNotification:(NSNotification *)notif;
 {
-    OEHIDDeviceHandler *handler = [[notif userInfo] objectForKey:OEHIDManagerDeviceHandlerUserInfoKey];
+    OEDeviceHandler *handler = [[notif userInfo] objectForKey:OEHIDManagerDeviceHandlerUserInfoKey];
     if([handler isKeyboardDevice]) return;
     
     [systems enumerateKeysAndObjectsUsingBlock:
@@ -244,7 +244,7 @@ static NSString            *configurationsFolderPath = nil;
         
         [systemRepresentations removeObjectForKey:identifier];
         
-        for(OEHIDDeviceHandler *handler in [[OEHIDManager sharedHIDManager] deviceHandlers])
+        for(OEDeviceHandler *handler in [[OEDeviceManager sharedDeviceManager] deviceHandlers])
             if(![handler isKeyboardDevice])
                 [bindingsController OE_didAddDeviceHandler:handler];
         

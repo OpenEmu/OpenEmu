@@ -1,7 +1,7 @@
 /*
- Copyright (c) 2009, OpenEmu Team
- 
- 
+ Copyright (c) 2012, OpenEmu Team
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -26,42 +26,21 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <IOKit/hid/IOHIDLib.h>
-#import <IOKit/hid/IOHIDUsageTables.h>
-#import <ForceFeedback/ForceFeedback.h>
+#import "OEDeviceHandler.h"
 
-@class OEHIDEvent;
-
-#define kOEHIDElementIsTriggerKey "OEHIDElementIsTrigger"
-
-@interface OEHIDDeviceHandler : NSObject <NSCopying>
-
-// Returns aString if aString is a parsable identifier or a known identifier, returns nil otherwise.
-+ (NSString *)standardDeviceIdentifierForDeviceIdentifier:(NSString *)aString;
+@interface OEHIDDeviceHandler : OEDeviceHandler
 
 @property(readonly) IOHIDDeviceRef device;
-@property(readonly) NSUInteger     deviceNumber;
 @property           CGFloat        deadZone;
 
-@property(readonly) NSString *deviceIdentifier;
++ (instancetype)deviceHandlerWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
+- (id)initWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
 
-@property(readonly) NSString *serialNumber;
-@property(readonly) NSString *manufacturer;
-@property(readonly) NSString *product;
-@property(readonly) NSNumber *vendorID;
-@property(readonly) NSNumber *productID;
-@property(readonly) NSNumber *locationID;
-
-+ (id)deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice;
-
-- (id)initWithDevice:(IOHIDDeviceRef)aDevice;
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue;
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue;
 - (io_service_t)serviceRef;
 
 - (IOHIDElementRef)elementForEvent:(OEHIDEvent *)anEvent;
-
-- (BOOL)isKeyboardDevice;
 
 - (BOOL)supportsForceFeedback;
 - (void)enableForceFeedback;

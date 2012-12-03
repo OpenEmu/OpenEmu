@@ -6,6 +6,9 @@
 //
 //
 
+TODO("Remove this code where we are sure that we don't need it anymore.");
+#if 0
+
 # pragma mark Type definitions
 typedef unsigned char WiiIRModeType;
 enum {
@@ -99,3 +102,5 @@ typedef enum {
     WiiExpansionNotConnected,
     WiiExpansionNotInitialized,
 } WiiExpansionType;
+
+#endif

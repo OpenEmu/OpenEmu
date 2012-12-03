@@ -27,7 +27,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class OESystemController, OEHIDDeviceHandler, OESystemBindings, OEPlayerBindings;
+@class OESystemController, OEDeviceHandler, OESystemBindings, OEPlayerBindings;
 
 /// Manages all bindings for all systems available
 @interface OEBindingsController : NSObject

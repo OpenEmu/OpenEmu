@@ -27,15 +27,17 @@
 //  Based on WiiRemoteFramework by KIMURA Hiroaki on 06/12/04.
 //  Copyright 2006 KIMURA Hiroaki. All rights reserved.
 
+TODO("Remove this code where we are sure that we don't need it anymore.");
+#if 0
 #import <Cocoa/Cocoa.h>
-#import "OEWiimoteDeviceHandler.h"
+#import "OEWiimoteDeviceHandler_old.h"
 #import "WiimoteTypes.h"
 
 extern NSString *const OEWiimoteDidConnectNotificationName;
 extern NSString *const OEWiimoteDidDisconnectNotificationName;
 
 # pragma mark -
-@class IOBluetoothDevice, OEWiimoteDeviceHandler;
+@class IOBluetoothDevice, OEWiimoteDeviceHandler_old;
 @interface Wiimote : NSObject
 # pragma mark - 
 - (Wiimote*)init;
@@ -75,5 +77,6 @@ extern NSString *const OEWiimoteDidDisconnectNotificationName;
 
 # pragma mark -
 # pragma mark Delegate
-@property (weak) OEWiimoteDeviceHandler *handler;
+@property (weak) OEWiimoteDeviceHandler_old *handler;
 @end
+#endif

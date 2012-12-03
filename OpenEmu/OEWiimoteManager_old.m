@@ -24,10 +24,12 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEWiimoteManager.h"
-#import "OEHIDManager.h"
+TODO("Remove this code where we are sure that we don't need it anymore.");
+#if 0
+#import "OEWiimoteManager_old.h"
+#import "OEDeviceManager.h"
 #import "OEHIDEvent.h"
-#import "OEWiimoteDeviceHandler.h"
+#import "OEWiimoteDeviceHandler_old.h"
 
 #import "NSApplication+OEHIDAdditions.h"
 
@@ -39,14 +41,14 @@
 
 NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 
-@interface OEWiimoteManager ()
+@interface OEWiimoteManager_old ()
 
 @property (strong) IOBluetoothDeviceInquiry *inquiry;
 @property (strong) NSMutableDictionary      *wiiRemotes;
 @property NSLock *searching;
 @end
 
-@implementation OEWiimoteManager
+@implementation OEWiimoteManager_old
 @synthesize wiiRemotes, searching, inquiry;
 
 + (void)startSearch
@@ -56,11 +58,11 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 
 + (id)sharedHandler
 {
-    static OEWiimoteManager *sharedHandler = nil;
+    static OEWiimoteManager_old *sharedHandler = nil;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedHandler = [[OEWiimoteManager alloc] init];
+        sharedHandler = [[OEWiimoteManager_old alloc] init];
         [sharedHandler setWiiRemotes:[NSMutableDictionary dictionary]];
         [sharedHandler setSearching:[NSLock new]];
         
@@ -109,8 +111,8 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
         [theWiimote syncLEDAndRumble];
     });
     
-    OEWiimoteDeviceHandler *handler = [OEWiimoteDeviceHandler deviceHandlerWithWiimote:theWiimote];
-    OEHIDManager *hidManager = [OEHIDManager sharedHIDManager];
+    OEWiimoteDeviceHandler_old *handler = [OEWiimoteDeviceHandler_old deviceHandlerWithWiimote:theWiimote];
+    OEDeviceManager *hidManager = [OEDeviceManager sharedDeviceManager];
     [theWiimote setHandler:handler];
     [hidManager addDeviceHandler:handler];
 }
@@ -154,7 +156,7 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 	}
 }
 
-- (void)addWiimoteWithDevice:(IOBluetoothDevice*)device
+- (void)addWiimoteWithDevice:(IOBluetoothDevice *)device
 {
     if([[self wiiRemotes] objectForKey:[device addressString]])
         return;
@@ -166,7 +168,7 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
     [wiimote setExpansionPortEnabled:YES];
     
     NSInteger count = [[[self wiiRemotes] allKeys] count];
-    [wiimote setLED1:count>0&&count<4 LED2:count>1&&count<5 LED3:count>2&&count<6 LED4:count>3];
+    [wiimote setLED1:0 < count && count < 4 LED2:count>1&&count<5 LED3:count>2&&count<6 LED4:count>3];
     [wiimote connect];
     
 }
@@ -198,3 +200,4 @@ NSString *const OEWiimoteSupportDisabled = @"wiimoteSupporDisabled";
 }
 
 @end
+#endif

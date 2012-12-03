@@ -30,7 +30,7 @@
 
 #define OEGlobalEventsKey @"OEGlobalEventsKey"
 
-@class OEHIDDeviceHandler;
+@class OEDeviceHandler, OEHIDDeviceHandler, OEWiimoteDeviceHandler;
 
 typedef enum _OEHIDEventType : NSUInteger {
     OEHIDEventTypeAxis      = 1,

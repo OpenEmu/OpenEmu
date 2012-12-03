@@ -24,13 +24,15 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+TODO("Remove this code where we are sure that we don't need it anymore.");
+#if 0
 #import <Foundation/Foundation.h>
 #import "Wiimote.h"
 
 extern NSString *const OEWiimoteSupportDisabled;
 
 @class IOBluetoothDevice;
-@interface OEWiimoteManager : NSObject
+@interface OEWiimoteManager_old : NSObject
 
 + (id)sharedHandler;
 + (void)startSearch;
@@ -42,3 +44,4 @@ extern NSString *const OEWiimoteSupportDisabled;
 
 @property (readonly) NSArray *connectedWiimotes;
 @end
+#endif

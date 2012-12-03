@@ -27,7 +27,7 @@
 
 #import "OESystemBindings.h"
 #import "OEBindingsController_Internal.h"
-#import "OEHIDDeviceHandler.h"
+#import "OEDeviceHandler.h"
 #import "OESystemController.h"
 #import "OEHIDEvent.h"
 
@@ -76,8 +76,8 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 - (OEPlayerBindings *)OE_bindingsWithDictionaryRepresentation:(NSDictionary *)bindingsToConvert deviceBindings:(BOOL)isDevice playerNumber:(NSUInteger)playerNumber;
 - (NSDictionary *)OE_rawBindingsForDictionaryRepresentation:(NSDictionary *)rawBindings withKeyDescriptions:(NSDictionary *)descriptions;
 
-- (NSString *)OE_manufacturerKeyForDeviceHandler:(OEHIDDeviceHandler *)handler;
-- (OEDevicePlayerBindings *)OE_deviceBindingsForDeviceHandler:(OEHIDDeviceHandler *)aHandler;
+- (NSString *)OE_manufacturerKeyForDeviceHandler:(OEDeviceHandler *)handler;
+- (OEDevicePlayerBindings *)OE_deviceBindingsForDeviceHandler:(OEDeviceHandler *)aHandler;
 - (NSUInteger)OE_addDeviceBindings:(OEDevicePlayerBindings *)bindingsController;
 - (void)OE_notifyObserversForAddedDeviceBindings:(OEDevicePlayerBindings *)aHandler;
 - (void)OE_notifyObserversForRemovedDeviceBindings:(OEDevicePlayerBindings *)aHandler;
@@ -263,7 +263,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     [manufacturers enumerateKeysAndObjectsUsingBlock:
      ^(NSString *key, NSArray *obj, BOOL *stop)
      {
-         NSString *ident = [OEHIDDeviceHandler standardDeviceIdentifierForDeviceIdentifier:key];
+         NSString *ident = [OEDeviceHandler standardDeviceIdentifierForDeviceIdentifier:key];
          if(ident == nil) return;
          
          key = ident;
@@ -838,12 +838,12 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
 #pragma mark -
 #pragma mark Device Handlers Management
 
-- (NSString *)OE_manufacturerKeyForDeviceHandler:(OEHIDDeviceHandler *)handler;
+- (NSString *)OE_manufacturerKeyForDeviceHandler:(OEDeviceHandler *)handler;
 {
     return [handler deviceIdentifier];
 }
 
-- (void)OE_didAddDeviceHandler:(OEHIDDeviceHandler *)aHandler;
+- (void)OE_didAddDeviceHandler:(OEDeviceHandler *)aHandler;
 {
     // Ignore extra keyboards for now
     if([aHandler isKeyboardDevice]) return;
@@ -851,7 +851,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
     [self OE_notifyObserversForAddedDeviceBindings:[self OE_deviceBindingsForDeviceHandler:aHandler]];
 }
 
-- (void)OE_didRemoveDeviceHandler:(OEHIDDeviceHandler *)aHandler;
+- (void)OE_didRemoveDeviceHandler:(OEDeviceHandler *)aHandler;
 {
     // Ignore extra keyboards for now
     if([aHandler isKeyboardDevice]) return;
@@ -915,7 +915,7 @@ static NSString *const _OEBindingsPrefixHatSwitch = @"HatSwitch.";
      }];
 }
 
-- (OEDevicePlayerBindings *)OE_deviceBindingsForDeviceHandler:(OEHIDDeviceHandler *)aHandler;
+- (OEDevicePlayerBindings *)OE_deviceBindingsForDeviceHandler:(OEDeviceHandler *)aHandler;
 {
     OEDevicePlayerBindings *controller = [deviceHandlersToBindings objectForKey:aHandler];
     
