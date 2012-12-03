@@ -1,0 +1,87 @@
+require 'olua'
+
+module("olua.lib", package.seeall)
+
+--- I represent a method called on an object.
+---
+--- Instances of me are automatically created and passed into
+--- `olua.lib.Object>>forwardInvocation:` by the runtime when an unrecognised
+--- selector is encountered. Instances of me can also be created manually and
+--- used to dynamically construct method calls, although it's usually just as
+--- easy to use traditional Lua syntax.
+  
+@implementation Invocation : Object
+	@statics
+		local target
+		local selector
+		local args
+	@end
+	
+	--- Returns the object I'm currently targeted to.
+	---
+	--- @return              the target
+	
+	- target
+	do
+		return target
+	end
+	
+	--- Changes my target to the specified object.
+	---
+	--- @param newtarget     the new target
+	
+	- setTarget: newtarget do
+		target = newtarget
+	end
+	
+	--- Returns the selector of my method.
+	---
+	--- @return              the mangled selector
+	
+	- selector do
+		return selector
+	end
+	
+	--- Changes my selector.
+	---
+	--- @param newselector   the new mangled selector
+	
+	- setSelector: newselector do
+		selector = newselector
+	end
+	
+	--- Returns the list of arguments of my method.
+	---
+	--- @return              the mutable list of arguments
+	
+	- arguments do
+		return arguments
+	end
+	
+	--- Changes the list of arguments of my method.
+	---
+	--- @param newarguments  the new list of arguments
+	
+	- setArguments: newargs do
+		args = newargs
+	end
+
+	--- Calls my method and returns the result.
+	---
+	--- @return              the result of the method
+		
+	- invoke do
+		return [self invokeWithTarget: target]
+	end
+	
+	--- Calls my method on the specified object.
+	---
+	--- Note that my current target is ignored in favour of the specified one.
+	---
+	--- @param target        the object to call the method on
+	--- @return              the result of the method
+	
+	- invokeWithTarget: target do
+		return target[selector](target, unpack(args))
+	end
+@end

@@ -1,0 +1,104 @@
+require 'olua'
+
+module("olua.lib", package.seeall)
+
+--- I forward on all unhandled messages to a different object
+--- and return the result. The proxy target may be changed dynamically at
+--- run time.
+---
+--- I'm useful for particular constructions where you want one object to
+--- act like another object based on runtime considerations. For example,
+--- consider a button in a web application: a text-only button may be
+--- implemented as a simple HTML button, while a button with an image may have
+--- to be implemented as a complex DHTML object. My subclassing me, you can
+--- create a generic FlexibleButton class that can examine its parameters at
+--- run time and then *become* either an HTMLButton or a ImageButton by
+--- instantiating the appropriate object and setting it as the proxy target.
+
+@implementation Proxy : Object
+	@statics
+		local target
+	@end
+
+	--- Initialises me to point at the given target.
+	---
+	--- @param newtarget     the new target
+	--- @return              the receiver
+		
+	- initWithTarget: newtarget
+	do
+		target = newtarget
+		return [super init]
+	end
+
+	--- Returns my current target.
+	---
+	--- @return              the current target
+	
+	- proxyTarget
+	do
+		return target
+	end
+	
+	--- Changes my current target.
+	---
+	--- @param newtarget     the new target
+	--- @return              the old target
+	
+	- setProxyTarget: newtarget
+	do
+		local t = target
+		target = newtarget
+		return t
+	end
+	
+	--- Returns an identifier string describing me.
+	---
+	--- @return              a string
+	
+	- toString do
+		return "[Proxy@"..[self hash]..[target toString]"..]"
+	end
+	
+	--- Tests whether I respond to a given selector.
+	---
+	--- The default implementation passes the request on to the target.
+	---
+	--- @param selector      the (mangled) selector
+	--- @return              `true` or `false`
+	
+	- respondsToSelector: selector do
+		return [target respondsToSelector: selector]
+	end
+	
+	--- Test whether I am a proxy.
+	---
+	--- I *am* a proxy.
+	---
+	--- @return              `true`
+	
+	- isProxy do
+		return true
+	end
+	
+	--- Calls a method on the target.
+	---
+	--- @param selector      the (mangled) selector
+	--- @param args          an array of arguments
+	--- @return              whatever the method returns
+	
+	- performSelector: selector withArgs: args do
+		return [target performSelector: selector withArgs: args]
+	end
+	
+	--- Handles a message on me.
+	---
+	--- Don't call this; it is used by the runtime.
+	---
+	--- @param message       the message
+	--- @return              whatever the message returns
+	
+	- forwardInvocation: message do
+		return [message invokeWithTarget: target]
+	end
+@end

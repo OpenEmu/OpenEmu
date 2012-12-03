@@ -1,0 +1,134 @@
+require 'olua' 
+
+local olua_newobjectid = olua.newobjectid
+
+module("olua.lib", package.seeall)
+
+function ShimForCreateClass(parent_class, new_class)
+	return LuaCocoa.CreateClass(new_class, parent_class)
+end
+
+createSubclass = ShimForCreateClass
+
+--[[
+local function createSubclass(superclass, name)
+	local templates = {}
+	local metadata = {}
+	
+	local id = olua_newobjectid()
+	local newclass =
+		{
+			superclass = function(class)
+				return superclass
+			end,
+			
+			name = function(class)
+				return name
+			end,
+			
+			methodTemplates = function(class)
+				return templates
+			end,
+	
+			methodMetadata = function(class)
+				return metadata
+			end,
+					
+			hash = function(class)
+				return id
+			end
+		}
+
+	local mt =
+		{
+			__newindex = function(self, key, value) return [self operatorIndex: key withValue: value] end,
+			__tostring = function(self) return [self toString] end
+		}
+		
+	if superclass then
+		mt.__index = superclass
+	else
+		mt.__index = function(self, key) return [self operatorIndex: key] end	
+	end		
+	setmetatable(newclass, mt)
+	
+	return newclass
+end
+--]]
+
+-- Create the base object with enough functionality that we can start adding
+-- methods to it. (We need to use rawset for this to avoid the last-ditch
+-- handler kicking in.)
+--[[
+Object = createSubclass(nil, "Object")
+rawset(Object, "createSubclassNamed_", createSubclass)
+
+-- Merge some method metadata into a class.
+
+local function mergemetadata(class, m, c)
+	if m then
+		local metadata = class:methodMetadata()
+		for k, v in pairs(m) do
+			metadata[k] = v
+			v.category = c
+		end
+	end
+end
+
+-- Add a new class method category.
+
+rawset(Object, "addClassMethodCategory_withTemplate_andMetadata_",
+	 function(class, category, template, metadata)
+		if not category then
+			category = 1
+		end
+		
+	 	-- Merge in the metadata (if any).
+	 	
+		mergemetadata(class, metadata, category)
+
+		-- We instantiate the template immediately; the methods are then added
+		-- to the current class. We just ignore the category name for now.
+		-- (We can't get the template to directly add the methods to the class
+		-- because the newIndex handler will kick in.)
+		
+		local m = {}
+		template(m, class:superclass(), class)
+		for k, v in pairs(m) do
+			rawset(class, k, v)
+		end
+	end
+)
+
+-- Add a new object method category.
+
+rawset(Object, "addObjectMethodCategory_withTemplate_andMetadata_",
+	function(class, category, template, metadata)
+		-- The template gets added to the set. We'll instantiate them when the
+		-- object gets instantiated.
+		
+		if not category then
+			category = 1
+		end
+		
+	 	-- Merge in the metadata (if any).
+	 	
+		mergemetadata(class, metadata, category)
+
+		local templates = class:methodTemplates()
+		if templates[category] then
+			error("Category already defined")
+		end
+		
+		templates[category] = template
+		templates[#templates+1] = template
+	end
+)
+
+-- Load the rest of the class library.
+
+require 'olua.lib.object'
+require 'olua.lib.invocation'
+require 'olua.lib.exception'
+require 'olua.lib.proxy'
+--]]

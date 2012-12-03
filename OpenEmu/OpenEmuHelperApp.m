@@ -43,6 +43,8 @@
 
 #import <FeedbackReporter/FRFeedbackReporter.h>
 
+#import <LuaCocoa/LuaCocoa.h>
+
 #ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
@@ -59,6 +61,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 @interface OpenEmuHelperApp ()
 @property(readwrite, assign, getter=isRunning) BOOL running;
+- (void)setupLuaBridge;
 @end
 
 
@@ -66,6 +69,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 {
     OEIntSize previousAspectSize;
     BOOL isIntel;
+    LuaCocoa *lua;
 }
 
 @synthesize doUUID;
@@ -132,6 +136,36 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     
     [self updateAspectSize];
     [self signalUpdatedScreenSize];
+    [self setupLuaBridge];
+}
+
+- (void)setupLuaBridge
+{
+    @try
+    {
+        lua = [[LuaCocoa alloc] init];
+        lua_State* luaState = [lua luaState];
+        
+        NSString *tempLuaPath = [[NSBundle mainBundle] pathForResource:@"Foo" ofType:@"lua"];
+        int err = luaL_loadfile(luaState, [tempLuaPath fileSystemRepresentation]);
+        if (err)
+        {
+            NSLog(@"luaL_loadfile failed: %s", lua_tostring(luaState, -1));
+            lua_pop(luaState, 1); /* pop error message from stack */
+            lua = nil;
+        }
+        err = lua_pcall(luaState, 0, 0, 0);
+        if (err)
+        {
+            NSLog(@"luaL_loadfile failed: %s", lua_tostring(luaState, -1));
+            lua_pop(luaState, 1); /* pop error message from stack */
+            lua = nil;
+        }
+        [lua pcallLuaFunction:"OnGameLoaded" withSignature:"@", gameCore];
+    }
+    @catch (NSException *exception) {
+        lua = nil;
+    }
 }
 
 - (void)setupProcessPollingTimer
@@ -768,7 +802,9 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)willExecute
 {
-    if(![gameCore rendersToOpenGL]) 
+    [lua pcallLuaFunction:"OnFrameTick" withSignature:"@", gameCore];
+    
+    if(![gameCore rendersToOpenGL])
     {
         [self updateGameTexture];
         

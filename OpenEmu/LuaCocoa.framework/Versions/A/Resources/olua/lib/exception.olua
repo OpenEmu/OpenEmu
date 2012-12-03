@@ -1,0 +1,113 @@
+require 'olua'
+
+module("olua.lib", package.seeall)
+
+--- I am the base class for all exceptions. I am an abstract class; instances
+--- of @ref(Exception) should never be thrown.
+---
+--- Subclasses should override @ref(Object>>toString) and return a sensible
+--- message. 
+
+@implementation Exception : Object
+	@statics
+		local traceback
+	@end
+	
+	--- Initialises a new instance of the exception.
+	---
+	--- The exception will attempt to capture the stack here, if possible;
+	--- see @ref(traceback).
+	---
+	--- @return              the receiver
+	
+	- init do
+		[super init]
+		if debug and debug.traceback then
+			traceback = debug.traceback()
+		end
+		return self
+	end
+	
+	--- Throws this exception.
+	---
+	--- Equivalent to `@throw self`.
+	
+	- throw do
+		@throw self
+	end
+	
+	--- Returns the exception's traceback.
+	---
+	--- The traceback is as returned by the standard Lua function
+	--- `debug.traceback()`. It is normally captured when the exception is
+	--- initialised.
+	---
+	--- @return              the traceback, or `nil`
+	
+	- traceback do
+		return traceback
+	end
+@end
+
+--- I represent a non-Objective Lua exception (such as is thrown by the Lua
+--- runtime. The Objective Lua runtime will attempt to catch these and
+--- automatically generate instances of me.
+
+@implementation LegacyException : Exception
+	@statics
+		local message = "nil"
+	@end
+	
+	- initWith: newmessage do
+		message = newmessage
+		return [super init]
+	end
+	
+	- toString do
+		return "Legacy exception: "..message
+	end
+@end
+
+@implementation LegacyException (StaticConstructors)
+	+ createFrom: e do
+		local newe = [LegacyException alloc]
+		return [newe initWith: e]
+	end
+@end
+
+--- I am thrown by the Objective Lua runtime if
+--- @ref(olua.lib.Object>>forwardInvocation:) is called. This typically
+--- happens if someone calles a method on an object that is not expecting it.
+ 
+@implementation UnhandledMessageException : Exception
+	@statics
+		local message
+	@end
+	
+	- initWith: newmessage do
+		message = newmessage
+		return [super init]
+	end
+	
+	- toString do
+		return "Unhandled selector '"..[message selector].."'"
+	end
+@end
+
+--- I am thrown by methods to indicate that they have been called with invalid
+--- arguments.
+
+@implementation InvalidArgumentException : Exception
+	@statics
+		local text
+	@end
+	
+	- initWith: newtext do
+		text = newtext
+		return [super init]
+	end
+		
+	- toString do
+		return text
+	end
+@end

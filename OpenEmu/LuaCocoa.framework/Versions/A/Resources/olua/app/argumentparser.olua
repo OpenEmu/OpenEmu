@@ -1,0 +1,147 @@
+require 'olua'
+
+module("olua.app", package.seeall)
+
+--- I am a utility class for parsing command line options.
+---
+--- I understand both short and long options, with any number of arguments
+--- (although your users may get confused if you use more than one). With a
+--- short option, I will automatically detect whether the argument is
+--- separated with a space or not.
+---
+--- I don't handle combined short options (`ls -lR`), or using `=` to separate
+--- the option from the argument.
+---
+--- To use me, instantiate me and then call one of the `addOption:` methods
+--- to add option handlers. When ready, call `parse:` with a preparsed command
+--- line. I will then call the handlers from left to right. Each handler
+--- should return the number of arguments consumed; typically 0 or 1.
+--- `parse:` will return a list of leftover command line arguments.
+---
+--- Unrecognised options are handled by throwing
+--- @ref(UnrecognisedOptionException).
+---
+--- You usually don't need to instantiate me directly; @ref(Application)
+--- will do it for you.
+ 
+@implementation ArgumentParser : olua.lib.Object
+	@statics
+		local handlertable = {}
+	@end
+	
+	--- Adds a handler to the parser.
+	---
+	--- @param option        the option (e.g. `"x"` or `"extra"`)
+	--- @param handler       the handler
+	
+	- addOption: option withHandler: handler
+	do
+		handlertable[option] = handler
+	end
+	
+	--- Adds several options with the same handler.
+	--- 
+	--- @param option        an array of options (e.g. `{"x", "extra"}`)
+	--- @param handler       the handler
+	
+	- addOptions: options withHandler: handler
+	do
+		for _, option in ipairs(options) do
+			[self addOption: option withHandler: handler]
+		end
+	end
+	 
+	--- Adds a table of handlers to the parser.
+	--- 
+	--- @param options       the option table (e.g. `{x = function()...end}`)
+	
+	- addOptions: options
+	do
+		for option, handler in pairs(options) do
+			[self addOption: option withHandler: handler]
+		end
+	end
+	
+	--- Parses a set of command line options.
+	---
+	--- The options are processed left to right. All option handlers are
+	--- executed. The unprocessed arguments are returned. Unrecognised options
+	--- are handled by throwing `olua.lib.UnrecognisedOptionError`.
+	---
+	--- @return              any unprocessed arguments
+	
+	- parse: args
+	do
+		local files = {}
+		
+		local i = 1
+		while (i <= #args) do
+			local o = args[i]
+			local op
+			
+			if (o:byte(1) == 45) then
+				-- This is an option.
+				if (o:byte(2) == 45) then
+					-- ...with a -- prefix.
+					o = o:sub(3)
+					local fn = handlertable[o]
+					if not fn then
+						@throw [[UnrecognisedOptionException alloc]
+							initWithOption: ("--"..o)]
+					end
+					local op = args[i+1]
+					i = i + (fn(op) or 0)
+				else
+					-- ...without a -- prefix.
+					local od = o:sub(2, 2)
+					local fn = handlertable[od]
+					if not fn then
+						@throw [[UnrecognisedOptionException alloc]
+							initWithOption: ("-"..od)]
+					end
+					op = o:sub(3)
+					if (op == "") then
+						op = args[i+1]
+						i = i + (fn(op) or 0)
+					else
+						fn(op)
+					end
+				end
+			else
+				files[#files + 1] = o
+			end
+			
+			i = i + 1
+		end
+		
+		return files
+	end
+@end
+
+--- Thrown by the argument parser on an unrecognised command line option.
+
+@implementation UnrecognisedOptionException : ApplicationException
+	@statics
+		local option
+	@end
+	
+	--- Initialise instance with a given unrecognised option.
+	---
+	--- @param o             unrecognised option
+	--- @return              the receiver
+	
+	- initWithOption: o
+	do
+		option = o
+		return [super initWith: ("unrecognised option '"..o.."'")]
+	end
+	
+	--- Return the option causing the error.
+	---
+	--- @return              the option
+	
+	- option
+	do
+		return option
+	end 
+@end

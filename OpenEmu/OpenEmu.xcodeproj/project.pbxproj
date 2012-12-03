@@ -279,6 +279,10 @@
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
 		8245FD0814F763E600C64574 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 82C9B3FA14F75CB700D7E795 /* TPCircularBuffer.c */; };
 		8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C9B3FD14F75CD900D7E795 /* TPCircularBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8250676E166C0CBB00A9AF9B /* LuaCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250676D166C0CBB00A9AF9B /* LuaCocoa.framework */; };
+		8250676F166C0CBB00A9AF9B /* LuaCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250676D166C0CBB00A9AF9B /* LuaCocoa.framework */; };
+		82506770166C106200A9AF9B /* LuaCocoa.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 8250676D166C0CBB00A9AF9B /* LuaCocoa.framework */; };
+		82506772166C130F00A9AF9B /* Foo.lua in Resources */ = {isa = PBXBuildFile; fileRef = 82506771166C130C00A9AF9B /* Foo.lua */; };
 		826844C51022A0630019C7B0 /* smaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C31022A0630019C7B0 /* smaller.tif */; };
 		826844C61022A0630019C7B0 /* larger.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C41022A0630019C7B0 /* larger.tif */; };
 		828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
@@ -937,6 +941,7 @@
 				82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */,
 				82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */,
 				1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */,
+				82506770166C106200A9AF9B /* LuaCocoa.framework in Copy Frameworks to App Frameworks */,
 				C67D54BD138AC014004FCA0B /* OpenEmuSystem.framework in Copy Frameworks to App Frameworks */,
 				1B42C66F14295130004691D7 /* Syphon.framework in Copy Frameworks to App Frameworks */,
 				143F299A164DE0CC00544CCF /* MagicKit.framework in Copy Frameworks to App Frameworks */,
@@ -1298,6 +1303,8 @@
 		8227755E1489471A00B19E27 /* GameGear-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GameGear-Info.plist"; sourceTree = "<group>"; };
 		82444BA10F51256C007C171B /* OpenEmuBase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuBase-Info.plist"; sourceTree = "<group>"; };
+		8250676D166C0CBB00A9AF9B /* LuaCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LuaCocoa.framework; sourceTree = "<group>"; };
+		82506771166C130C00A9AF9B /* Foo.lua */ = {isa = PBXFileReference; lastKnownFileType = text; path = Foo.lua; sourceTree = "<group>"; };
 		825CC280148C13750063A9B5 /* OpenEmu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmu-Info.plist"; sourceTree = "<group>"; };
 		826844C31022A0630019C7B0 /* smaller.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smaller.tif; sourceTree = "<group>"; };
 		826844C41022A0630019C7B0 /* larger.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = larger.tif; sourceTree = "<group>"; };
@@ -1829,6 +1836,7 @@
 				53D32E3713B95E5600A6ACE0 /* OpenGL.framework in Frameworks */,
 				1B48F24C16671B2A004E8ABA /* FeedbackReporter.framework in Frameworks */,
 				828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */,
+				8250676F166C0CBB00A9AF9B /* LuaCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1895,6 +1903,7 @@
 				83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */,
 				1B42C66D1429510A004691D7 /* Syphon.framework in Frameworks */,
 				143F299D164DE18100544CCF /* MagicKit.framework in Frameworks */,
+				8250676E166C0CBB00A9AF9B /* LuaCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2353,6 +2362,7 @@
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
 				82C9C96C0F080BD30071460B /* dsa_pub.pem */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
+				82506771166C130C00A9AF9B /* Foo.lua */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3363,6 +3373,7 @@
 		83FA054F13B9DFC20055A520 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8250676D166C0CBB00A9AF9B /* LuaCocoa.framework */,
 				1B48F21716671473004E8ABA /* FeedbackReporter.framework */,
 				83FA054D13B9DF940055A520 /* Sparkle.framework */,
 			);
@@ -4433,6 +4444,7 @@
 				83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
 				830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */,
+				82506772166C130F00A9AF9B /* Foo.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

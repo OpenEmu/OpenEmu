@@ -1,0 +1,153 @@
+require 'olua'
+
+module("olua.app", package.seeall)
+
+--- I am the base class for all Objective Lua standalone applications. I parse
+--- command line arguments and acts as the basis for a more complex application
+--- lifecycle system (as needed by a GUI, for example).
+---
+--- To run an application, the top-level code needed is:
+---
+---     return [[[YourApplicationSubclassHere alloc] init] runWithArgs: {...}]
+
+@implementation Application : olua.lib.Object
+	--- Initialises a new application instance.
+	---
+	--- Subclasses should override this and call @ref(addOption:withHandler:) or
+	--- @ref(addOptions:) to add command-line option handlers.
+	
+	- init
+	do
+		return [super init]
+	end
+	
+	--- Returns the name of the application.
+	---
+	--- This should be overridden to contain the name of the application; it
+	--- is used in error handling.
+	
+	- name
+	do
+		return "Application"
+	end
+	
+	--- Runs the application.
+	---
+	--- The command line arguments are passed (see
+	--- @ref(ArgumentParser>>parse:)), and then
+	--- @ref(run) is called. If an @ref(ApplicationException) is thrown, it is
+	--- reported nicely to the user with @ref(reportError:). 
+	
+	- runWithArgs: args
+	do
+		@try
+			[self parseArguments: args]
+			return [self run]
+		@catch (e)
+			if (type(e) == "table") then
+				if [e isKindOfClass: ApplicationException] then
+					return [self reportError: e]
+				end
+			end
+			@throw e
+		@end 
+	end
+	
+	--- Abstract method containing the application logic.
+	---
+	--- This method is called by @ref(runWithArgs:). The default implementation
+	--- does nothing; this should be overridden to contain the application
+	--- logic. On error, this method should throw @ref(ApplicationException).
+	
+	- run
+	do
+	end
+@end
+
+@implementation Application (ErrorHandling)
+	--- Throws a new instance of @ref(ApplicationException) with the specified
+	--- message.
+	---
+	--- Arguments are formatted with string.format.
+	
+	- error: e, ...
+	do
+		local s = string.format(e, ...)
+		@throw [[ApplicationException alloc] initWith: s]
+	end
+	 
+	--- Reports an error to the user and halts.
+	
+	- reportError: e
+	do
+		local stderr = io.stderr
+		stderr:write([self name], ": error: ", [e toString], "\n")
+		os.exit(1)
+	end	
+@end
+
+@implementation Application (ArgumentParsing)
+	@statics
+		local argumentParser = [[ArgumentParser alloc] init]
+		local remainingArguments
+	@end
+	
+	--- Adds a single argument handler.
+	
+	- addOption: option withHandler: handler
+	do
+		[argumentParser addOption: option withHandler: handler]
+	end
+	
+	--- Adds several arguments with the same handler.
+	
+	- addOptions: options withHandler: handler
+	do
+		[argumentParser addOptions: options withHandler: handler]
+	end
+	
+	--- Adds a table of argument handlers.
+	
+	- addOptions: options
+	do
+		[argumentParser addOptions: options]
+	end
+	
+	--- Parses an argument list.
+	
+	- parseArguments: arguments
+	do
+		remainingArguments = [argumentParser parse: arguments]
+	end
+	
+	--- Returns the unprocessed command line arguments.
+	
+	- remainingArguments
+	do
+		return remainingArguments
+	end
+@end
+
+--- This exception is used to handle fatal errors from within an exception.
+--- It is thrown from @ref(Application>>run) (or
+--- @ref(ArgumentParser>>parse:)) and will be caught automatically and
+--- presented nicely to the user.
+
+@implementation ApplicationException : olua.lib.Exception
+	@statics
+		local message
+	@end
+	
+	--- Initialise instance with a given message.
+	
+	- initWith: newmessage
+	do
+		message = newmessage
+		return [super init]
+	end
+	
+	- toString
+	do
+		return message
+	end
+@end

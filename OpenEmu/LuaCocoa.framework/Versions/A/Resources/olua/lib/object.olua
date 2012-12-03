@@ -1,0 +1,436 @@
+require 'olua'
+--[[
+local olua_isobject = olua.isobject
+local olua_newobjectid = olua.newobjectid
+
+module("olua.lib", package.seeall)
+
+local metatable =
+	{
+		__add = function(self, other) return [self operatorAdd: other] end,
+		__sub = function(self, other) return [self operatorSubtract: other] end,
+		__mul = function(self, other) return [self operatorMultiply: other] end,
+		__div = function(self, other) return [self operatorDivide: other] end,
+		__mod = function(self, other) return [self operatorModulus: other] end,
+		__pow = function(self, other) return [self operatorPower: other] end,
+		__unm = function(self) return [self operatorNegate: other] end,
+		__concat = function(self, other) return [self operatorConcatenate: other] end,
+		__len = function(self) return [self operatorLength] end,
+		__lt = function(self, other) return [self operatorLessThan: other] end,
+		__le = function(self, other) return [self operatorLessThanOrEqualTo: other] end,
+		__index = function(self, key) return [self operatorIndex: key] end,
+		__newindex = function(self, key, value) return [self operatorIndex: key withValue: value] end,
+		__call = function(self, ...) return [self operatorCall: ...] end,
+		__tostring = function(self) return [self toString] end
+	}
+		
+@implementation Object (BaseMethods)
+	--- Create a new object.
+	---
+	--- This method creates an instance of the class. Any code in the class'
+	--- statics blocks will be run, but no constructor methods will be.
+	--- Normally an `init` method will then be called on the new returned
+	--- object.
+	---
+	--- @return              the new object
+
+	+ alloc
+	do
+		local class = self
+		local superclass = [class superclass]
+		
+		-- Collect the template chain.
+		
+		local templates = {[class methodTemplates]}
+		do
+			local c = superclass
+			while c do
+				templates[#templates+1] = [c methodTemplates]
+				c = [c superclass]
+			end
+		end
+	
+		-- Create the object.
+			
+		local object = {}
+		object.class = function(self)
+			return class
+		end
+		object.superclass = function(self)
+			return superclass
+		end
+		
+		local thisobjectid = olua_newobjectid()
+		object.hash = function(self)
+			return thisobjectid
+		end
+		
+		-- Instantiate all the templates (in superclass-to-subclass order).
+		
+		local super = nil
+		for i = #templates, 1, -1 do
+			local current = {}
+			setmetatable(current, {__index=super})
+			
+			for _, template in ipairs(templates[i]) do
+				template(current, super, object)
+			end
+			
+			for k, v in pairs(current) do
+				object[k] = v
+			end
+			
+			super = current
+		end
+		
+		-- Done.
+		
+		setmetatable(object, metatable)
+		return object
+	end
+	
+	--- Returns a string representing this class.
+	---
+	--- By default, this is `[classname class@hashcode]` where `classname` is
+	--- the name of the class and `hashcode` is a unique id. 
+	---
+	--- @return              the string identifier
+	
+	+ toString
+	do
+		return "["..[self name].." class@"..[self hash].."]"
+	end
+@end
+
+@implementation Object (BaseMethods)
+	--- Initialises a new instance of the object.
+	---
+	--- All constructors must, eventually, call this.
+	---
+	--- @return              the receiver
+	
+	- init
+	do
+		return self
+	end
+
+	--- Returns a string representing this class.
+	---
+	--- By default, this is `[classname@hashcode]` where `classname` is
+	--- the name of the object's class and `hashcode` is a unique id. 
+	---
+	--- @return              the string identifier
+	
+	- toString
+	do
+		return "["..[[self class] name].."@"..[self hash].."]"
+	end
+	
+	--- Called on .. operator.
+	---
+	--- By default, this method performs:
+	---
+	---     return tostring(self) .. tostring(other)
+	---
+	--- @param other         the second operator argument
+	--- @return              the result
+	
+	- operatorConcatenate: other
+	do
+		return tostring(self) .. tostring(other)
+	end 
+
+	--- Tests whether this object inherits from a particular class.
+	---
+	--- This method returns true if the object is an instance of `class`, or
+	--- of any subclass inheriting from `class`.
+	---
+	--- @param class         the class to test against
+	--- @return              `true` or `false`
+	
+	- isKindOfClass: class
+	do
+		if not class then
+			@throw [[InvalidArgumentException alloc] initWith:
+				"class argument cannot be nil"]
+		end
+		
+		local cf = self.class
+		local o = self
+		while cf do
+			local c = cf(o)
+			if (c == class) then
+				return true
+			end
+			if not c then
+				return false
+			end
+			
+			o = c
+			cf = o.superclass
+		end
+		
+		return false 
+	end
+	
+	--- Tests whether this object responds to a particular selector.
+	---
+	--- Any class which overrides @ref(forwardInvocation:) to do special
+	--- behaviour should override this.
+	---
+	--- @param selector      the (mangled) selector
+	--- @return              `true` or `false`
+	
+	- respondsToSelector: selector
+	do
+		if self[selector] then
+			return true
+		end
+		return false
+	end
+	
+	--- Indicates whether this object is a proxy.
+	---
+	--- Proxies forward their methods on elsewhere; this method can be used
+	--- to test for this (so that we know not to trust the class hierarchy,
+	--- for example).
+	---
+	--- @return              `true` or `false`
+	
+	- isProxy
+	do
+		return false
+	end
+	
+	--- Call a method on the object.
+	---
+	--- The given no-argument selector is called on the object.
+	---
+	--- @param selector      the (mangled) selector
+	--- @return              whatever the method returns
+	 
+	- performSelector: selector do
+		return [self performSelector: selector withArgs: {}]
+	end
+	
+	--- Call a method on the object.
+	---
+	--- The given selector is called on the object using the supplied
+	--- arguments.
+	---
+	--- @param selector      the (mangled) selector
+	--- @param args          an array of arguments
+	--- @return              whatever the method returns
+	 
+	- performSelector: selector withArgs: args do
+		return self[selector](self, unpack(args))
+	end
+@end
+
+@implementation Object (UnrecognisedSelectors)
+	--- Called when an recognised table key is accessed on the object.
+	---
+	--- Don't override this unless you really know what you're doing; the
+	--- default implementation in @ref(Object) is required to make
+	--- @ref(forwardInvocation:) and @ref(UnhandledMessageException) work.
+	--- For most purposes, overriding @ref(forwardInvocation:) is the right
+	--- thing to do.
+	---
+	--- @param key           table key accessed
+	--- @return              the value of the key (normally a method)
+	
+	- operatorIndex: key do
+		return function(self, ...)
+			local message = [[Invocation alloc] init]
+			[message setTarget: self]
+			[message setSelector: key]
+			[message setArguments: {...}]
+			return [self forwardInvocation: message]
+		end
+	end
+	
+	--- Called when an unrecognised message is sent to this object.
+	---
+	--- If a message is sent to the object, and there are no methods that
+	--- implement it, the runtime will pass the message to this method.
+	--- The object may then do whatever it wishes with it. The default
+	--- behaviour is to throw a @ref(UnhandledMessageException); if the method
+	--- instead returns, the return value will be returned from the original
+	--- method.
+	---
+	--- @param message       the unrecognised message
+	--- @return              whatever the message should return
+	 
+	- forwardInvocation: message do
+		@throw [[UnhandledMessageException alloc] initWith: message]
+	end
+@end
+
+-- ----------------------------------------------------------------------- --
+--                              END OF FILE                                --
+-- ----------------------------------------------------------------------- --
+
+do return end
+
+-- The above line causes execution to stop here! The rest of the file exists
+-- solely for the purpose of generating documentation.
+
+--- I am the base class for all Objective Lua classes.
+
+@implementation Object : ignored
+@end
+
+@implementation Object (SpecialObjectMethods)
+	--- Returns a hash code for the object.
+	---
+	--- The hash code is a unique integer identifying the object. It is
+	--- guaranteed never to be reused. Note that the hash code is not the same
+	--- as the Lua internal hash.
+	---
+	--- @return              the hash code
+	
+	- hash
+	do end
+	
+	--- Returns the object's class.
+	---
+	--- @return              the class object
+	
+	- class
+	do end
+	
+	--- Returns the object's superclass.
+	---
+	--- @return              the superclass class object
+	
+	- superclass
+	do end
+@end
+
+@implementation Object (SpecialClassMethods)
+	--- Returns the name of this class.
+	---
+	--- @return              a string
+	
+	+ name
+	do end
+	
+	--- Returns the class' superclass.
+	---
+	--- @return              the superclass class object
+	
+	+ superclass
+	do end
+	
+@end
+
+@implementation Object (ClassDefinitionMethods)
+	--- Creates a new subclass of this class.
+	---
+	--- Do not use this method --- it is intended for use by the runtime only.
+	---
+	--- A new class is created as a subclass of this one, with its internal
+	--- `name` field set to the specified value. The class has @ref(+superclass),
+	--- @ref(+name), @ref(+methodTemplates) and @ref(+hash) methods predefined,
+	--- but no others.
+	---
+	--- @param name          the name of the new class
+	--- @return              the new class object
+	
+	+ createSubclassNamed: name
+	do end
+	
+	--- Adds class methods to a class.
+	---
+	--- Do not use this method --- it is intended for use by the runtime only.
+	---
+	--- The specified template containing class methods is added to the class.
+	--- (In the current implementation, the template is executed immediately
+	--- and the category name discarded.)
+	---
+	--- See @ref(methodTemplates) for information on templates. See
+	--- @ref(methodMetadata) for information on metadata.
+	---
+	--- @param categoryname  the name of the category
+	--- @param template      the method template
+	--- @param metadata      the metadata table for these methods
+	
+	+ addClassMethodCategory: categoryname withTemplate: template
+		andMetadata: metadata
+	do end
+	
+	--- Adds object methods to a class.
+	---
+	--- Do not use this method --- it is intended for use by the runtime only.
+	---
+	--- The specified template containing object methods is added to the class.
+	--- (In the current implementation, the template is added to the class'
+	--- template table and executed on object instantiation.)
+	---
+	--- See @ref(methodTemplates) for information on templates.
+	---
+	--- @param categoryname  the name of the category
+	--- @param template      the method template
+	--- @param metadata      the metadata table for these methods
+	
+	+ addObjectMethodCategory: categoryname withTemplate: template
+		andMetadata: metadata
+	do end
+	
+	--- Returns the table of method templates for this class.
+	---
+	--- Do not use this method --- it is intended for use by the runtime only.
+	---
+	--- This method returns the table of method templates for the class. The
+	--- table is keyed by category name, with the default category having
+	--- value `1`.
+	---
+	--- Each template is a function with prototype:
+	---
+	---     function template(self, superclass, class)
+	---
+	--- When executed, the function adds methods to the table `self`;
+	--- `superclass` and `class` are the superclass and class objects
+	--- respectively.
+	---
+	--- @return              the method table
+	
+	+ methodTemplates
+	do end
+	
+	--- Returns the table of method metadata for this class.
+	---
+	--- Do not use this method --- it is intended for use by the runtime only.
+	---
+	--- This method returns the table of method metadata objects for the class.
+	--- The table is keyed by selector (including the initial `+` or `-`).
+	--- Each item is a table describing an individual method:
+	---
+	--- - `category`: a string naming the category this method was defined in
+	--- - `argtypes`: an array of type annotations for the arguments
+	--- - `rettype`: the type annotation for the return values
+	---
+	--- The absence of a method in the metadata table should not be considered
+	--- indicative of the absence of the method! In Objective Lua, *any*
+	--- method call may perform work, even if the runtime has defined no method
+	--- of that name.
+	---
+	--- @return              the metadata table              
+	
+	+ methodMetadata
+	do end
+@end
+
+@implementation Object (SpecialStaticMethods)
+	--- Returns a hash code for the class.
+	---
+	--- The hash code is a unique integer identifying the class. It is
+	--- guaranteed never to be reused. Note that the hash code is not the same
+	--- as the Lua internal hash.
+	---
+	--- @return              the hash code
+	
+	+ hash
+	do end
+@end
+--]]
