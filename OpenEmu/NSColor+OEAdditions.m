@@ -25,6 +25,7 @@
  */
 
 #import "NSColor+OEAdditions.h"
+#import <objc/runtime.h>
 
 // Note: this file is compiled under MRR. It cannot be ARC because there is no supported way
 // to return an autoreleased CF object under ARC.
@@ -37,9 +38,18 @@ static NSColor *_OENSColorFromRGBA(NSArray *parameters);
 static NSColor *_OENSColorFromHSLA(NSArray *parameters);
 static NSColor *_OENSColorFromString(NSString *colorString);
 
-@implementation NSColor (OEAdditions)
+@implementation NSColor (OEAdditions_internal)
 
-+ (NSColor *)colorWithCGColor:(CGColorRef)color
++ (void)load
+{
+    if(class_getClassMethod(self, @selector(colorWithCGColor:)))
+    {
+        class_addMethod(object_getClass(self), @selector(colorWithCGColor:), (IMP)_NSColor_colorWithCGColor_, "@@:^v");
+        class_addMethod(self, @selector(CGColor), (IMP)_NSColor_CGColor, "^v@:");
+    }
+}
+
+static NSColor * _NSColor_colorWithCGColor_(Class self, SEL _cmd, CGColorRef color)
 {
     const CGFloat *components = CGColorGetComponents(color);
     NSColorSpace  *colorSpace = [[NSColorSpace alloc] initWithCGColorSpace:CGColorGetColorSpace(color)];
@@ -49,7 +59,7 @@ static NSColor *_OENSColorFromString(NSString *colorString);
     return result;
 }
 
-- (CGColorRef)CGColor
+static CGColorRef _NSColor_CGColor(NSColor *self, SEL _cmd)
 {
     if([self isEqualTo:[NSColor blackColor]]) return CGColorGetConstantColor(kCGColorBlack);
     if([self isEqualTo:[NSColor whiteColor]]) return CGColorGetConstantColor(kCGColorWhite);
