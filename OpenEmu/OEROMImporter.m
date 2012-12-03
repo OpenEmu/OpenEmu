@@ -388,80 +388,60 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     if([[item importInfo] valueForKey:OEImportInfoROMObjectID]) return;
     
     NSString *systemIdentifier = nil;
-    id archiveResult = [[item importInfo] valueForKey:OEImportInfoArchiveSync];
-    if(archiveResult != nil) // If archive sync has finished and returned to determine system
+    NSError  *error            = nil;
+    NSURL    *url              = [[item importInfo] valueForKey:OEImportInfoArchivedFileURL] ?: [item URL];
+    id       archiveResult     = [[item importInfo] valueForKey:OEImportInfoArchiveSync];
+    
+    if(archiveResult == nil)
     {
-        if([archiveResult isKindOfClass:[NSDictionary class]] && [archiveResult valueForKey:AVGGameSystemNameKey])
-        {
-            // Try to find a system for archvie name
-            NSString *archiveSystemName = [archiveResult valueForKey:AVGGameSystemNameKey];
-            OEDBSystem *system = [OEDBSystem systemForArchiveName:archiveSystemName inDatabase:[self database]];
-            
-            if(system)
-            {
-                systemIdentifier = [system systemIdentifier];
-                [[item importInfo] setValue:[NSArray arrayWithObject:systemIdentifier] forKey:OEImportInfoSystemID];
-                return;
-            }
-        }
-    }
-    else
-    {
-        NSError *error        = nil;
-        NSURL   *url          = [[item importInfo] valueForKey:OEImportInfoArchivedFileURL] ?: [item URL];
         NSArray *validSystems = [OEDBSystem systemsForFileWithURL:url inDatabase:[self database] error:&error];
-        
         if(validSystems == nil)
         {
             DLog(@"Could not get valid systems");
             DLog(@"%@", error);
-            [self stopImportForItem:item withError:error];
-            return;
         }
         else if([validSystems count] == 0)
         {
             DLog(@"No valid system found for item at url %@", url);
-            // TODO: create unresolvable error
             error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
-            [self stopImportForItem:item withError:error];
-            return;
         }
         else if([validSystems count] == 1)
         {
             systemIdentifier = [[validSystems lastObject] systemIdentifier];
         }
-        else
+        else // Found multiple valid systems after checking extension and system specific canHandleFile:
         {
-            NSString *itemPath = [[item sourceURL] path];
-            NSMutableArray *verifiedSystemIDs = [NSMutableArray arrayWithCapacity:[validSystems count]];
+            error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:nil];
+
             NSMutableArray *systemIDs = [NSMutableArray arrayWithCapacity:[validSystems count]];
             [validSystems enumerateObjectsUsingBlock:^(OEDBSystem *system, NSUInteger idx, BOOL *stop){
                 NSString *systemIdentifier = [system systemIdentifier];
-                if([[[system plugin] controller] canHandleFile:itemPath])
-                    [verifiedSystemIDs addObject:systemIdentifier];
                 [systemIDs addObject:systemIdentifier];
             }];
-            
-            if([verifiedSystemIDs count] == 1)
+            [[item importInfo] setValue:systemIDs forKey:OEImportInfoSystemID];
+        }
+    }
+    else // archive sync has finished (meaning we already try to find a system by conventional means but didn't succeed)
+    {
+        if([archiveResult isKindOfClass:[NSDictionary class]] && [archiveResult valueForKey:AVGGameSystemNameKey])
+        {
+            // Successfull archive sync: try to find a system based on archive result
+            NSString *archiveSystemName = [archiveResult valueForKey:AVGGameSystemNameKey];
+            OEDBSystem *system = [OEDBSystem systemForArchiveName:archiveSystemName inDatabase:[self database]];
+            if(system != nil)
             {
-                systemIdentifier = [verifiedSystemIDs lastObject];
-            }
-            else
-            {
-                [[item importInfo] setValue:systemIDs forKey:OEImportInfoSystemID];
-                return;
+                systemIdentifier = [system systemIdentifier];
             }
         }
     }
     
-    if(systemIdentifier == nil)
-    {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Aaargh, too many systems. You need to choose one!" forKey:NSLocalizedDescriptionKey];
-        NSError *error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:userInfo];
-        [self stopImportForItem:item withError:error];
-    }
-    else
+    if(error == nil && systemIdentifier == nil)
+        error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
+    else if(systemIdentifier != nil)
         [[item importInfo] setValue:[NSArray arrayWithObject:systemIdentifier] forKey:OEImportInfoSystemID];
+    
+    if(error != nil)
+        [self stopImportForItem:item withError:error];
 }
 
 - (void)performImportStepSyncArchive:(OEImportItem *)item
@@ -847,8 +827,10 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     
     NSString *md5 = [[item importInfo] valueForKey:OEImportInfoMD5];
     NSString *crc = [[item importInfo] valueForKey:OEImportInfoCRC];
-    [[self unsavedMD5Hashes] removeObject:md5];
-    [[self unsavedCRCHashes] removeObject:crc];
+    if([[self unsavedCRCHashes] containsObject:md5])
+        [[self unsavedMD5Hashes] removeObject:md5];
+    if([[self unsavedCRCHashes] containsObject:crc])
+        [[self unsavedCRCHashes] removeObject:crc];
 
     [[self queue] removeObjectIdenticalTo:item];
 }

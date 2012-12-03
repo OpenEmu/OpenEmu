@@ -41,20 +41,17 @@
 
 - (BOOL)canHandleFile:(NSString *)path
 {
-    BOOL valid = [super canHandleFileExtension:[path pathExtension]];
-    if (valid && [[path pathExtension] isEqualToString:@"bin"])
-    {
-        const char *cPath = [path UTF8String];
-        FILE *rom = fopen(cPath, "r");
-        char systemName[16];
-        fseek(rom, 0x100, SEEK_SET);
-        size_t readBytes = fread(systemName, sizeof(char), 16, rom);
-        fclose(rom);
-        if (readBytes != 16)
-            valid = NO;
-        else if (memcmp(systemName, "SEGA GENESIS    ", 16) != 0 && memcmp(systemName, "SEGA MEGA DRIVE ", 16) != 0)
-            valid = NO;
-    }
+    BOOL valid = NO;
+
+    const char *cPath = [path UTF8String];
+    FILE *rom = fopen(cPath, "r");
+    char systemName[16];
+    fseek(rom, 0x100, SEEK_SET);
+    size_t readBytes = fread(systemName, sizeof(char), 16, rom);
+    fclose(rom);
+    if (readBytes == 16 && (memcmp(systemName, "SEGA GENESIS    ", 16) == 0 || memcmp(systemName, "SEGA MEGA DRIVE ", 16) == 0))
+        valid = YES;
+    
     return valid;
 }
 

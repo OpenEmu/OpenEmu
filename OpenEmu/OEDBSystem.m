@@ -116,9 +116,9 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 {
     NSString *fileExtension = [url pathExtension];
     NSArray *validPlugins = [[OESystemPlugin allPlugins] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OESystemPlugin * evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject controller] canHandleFileExtension:fileExtension];
+        return [[evaluatedObject controller] canHandleFileExtension:fileExtension] && (![[evaluatedObject controller] respondsToSelector:@selector(canHandleFile:)] || [[evaluatedObject controller] canHandleFile:[url path]]);
     }]];
-        
+
     NSMutableArray *validSystems = [NSMutableArray arrayWithCapacity:[validPlugins count]];
     [validPlugins enumerateObjectsUsingBlock:^(OESystemPlugin *obj, NSUInteger idx, BOOL *stop) {
         NSString *systemIdentifier = [obj systemIdentifier];
