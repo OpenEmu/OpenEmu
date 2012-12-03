@@ -26,10 +26,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuBase/OEGameCore.h>
-#import <pthread.h>
+#import <dispatch/dispatch.h>
 
-extern pthread_mutex_t gEmuVIMutex;
-extern pthread_cond_t  gEmuVICond;
+extern dispatch_semaphore_t gVISemaphore;
 
 @interface MupenGameCore : OEGameCore
 @end

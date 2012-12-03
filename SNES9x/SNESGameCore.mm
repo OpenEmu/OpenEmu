@@ -61,19 +61,19 @@
 
 NSString *SNESEmulatorKeys[] = { @"Up", @"Down", @"Left", @"Right", @"A", @"B", @"X", @"Y", @"L", @"R", @"Start", @"Select", nil };
 
-- (void)didPushSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {
     S9xReportButton((player << 16) | button, true);
 }
 
-- (void)didReleaseSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {
     S9xReportButton((player << 16) | button, false);
 }
 
 - (void)mapButtons
 {
-    for(NSUInteger player = 1; player <= 8; player++)
+    for(int player = 1; player <= 8; player++)
     {
         NSUInteger playerMask = player << 16;
 

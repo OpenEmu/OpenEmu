@@ -24,6 +24,9 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// We need to mess with core internals
+#define M64P_CORE_PROTOTYPES 1
+
 #import "MupenGameCore.h"
 #import "OEMupenSupport.h"
 #import "api/config.h"
@@ -48,10 +51,22 @@ NSString *MupenControlNames[] = {
 
 @end
 
+dispatch_semaphore_t gVISemaphore;
+
 @implementation MupenGameCore
 
-pthread_mutex_t gEmuVIMutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t  gEmuVICond  = PTHREAD_COND_INITIALIZER;
+- (instancetype)init
+{
+    if (self = [super init]) {
+        gVISemaphore = dispatch_semaphore_create(0);
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    dispatch_release(gVISemaphore);
+}
 
 static void MupenDebugCallback(void *context, int level, const char *message)
 {
@@ -121,9 +136,7 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
 - (void)executeFrameSkippingFrame:(BOOL)skip
 {
     // FIXME: skip
-    pthread_mutex_lock(&gEmuVIMutex);
-    pthread_cond_broadcast(&gEmuVICond);
-    pthread_mutex_unlock(&gEmuVIMutex);
+    dispatch_semaphore_signal(gVISemaphore);
 }
 
 - (void)executeFrame
@@ -155,8 +168,6 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
     return YES;
 }
 
-#pragma mark stub methods
-
 - (OEIntSize)bufferSize
 {
     return OESizeMake(640, 480);
@@ -187,6 +198,11 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
 - (const void *)soundBuffer
 {
     return NULL;
+}
+
+- (NSUInteger)audioBufferCount
+{
+    return 0;
 }
 
 - (NSUInteger)channelCount
