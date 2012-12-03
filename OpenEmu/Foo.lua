@@ -25,9 +25,7 @@ prevState = states[1]
 curState = states[1]
 
 function HandleKey(game_core, prev, cur, key)
-    print("Handling",prev, cur, key)
     if not (prev == cur) then
-        print("New state for", key)
         if cur == 1 then
             game_core:didPushNESButton_forPlayer_(key, 1)
         else
