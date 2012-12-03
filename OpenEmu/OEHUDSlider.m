@@ -28,41 +28,12 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 @implementation OEHUDSlider
-
-- (id)initWithCoder:(NSCoder *)coder
-{
-    if((self = [super initWithCoder:coder]))
-    {
-        [self setContinuous:YES];
-        [self setCanDrawConcurrently:YES];
-    }
-    return self;
+- (void)setNeedsDisplayInRect:(NSRect)invalidRect{
+    [super setNeedsDisplayInRect:[self bounds]];
 }
-
 @end
 
 @implementation OEHUDSliderCell
-
-- (id)initWithCoder:(NSCoder *)coder
-{
-    if((self = [super initWithCoder:coder]))
-    {
-        [self setContinuous:YES];
-    }
-    
-    return self;
-}
-
-- (id)init
-{
-    if((self = [super init]))
-    {
-        [self setContinuous:YES];
-    }
-    
-    return self;
-}
-
 // Apple private method that we override
 - (BOOL)_usesCustomTrackImage
 {
@@ -70,7 +41,6 @@
 }
 
 #pragma mark -
-
 - (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped
 {
     NSImage *track = [NSImage imageNamed:@"hud_slider_track"];

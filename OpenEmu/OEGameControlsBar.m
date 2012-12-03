@@ -499,6 +499,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     OEHUDSliderCell *sliderCell = [[OEHUDSliderCell alloc] init];
     [slider setCell:sliderCell];
     [slider setContinuous:YES];
+    [sliderCell setContinuous:YES];
     [slider setMaxValue:1.0];
     [slider setMinValue:0.0];
     [slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey]];
