@@ -152,10 +152,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [OECompositionPlugin allPluginNames];
     
     [mainWindowController showWindow:self];
-	
-	// Start WiiRemote support
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
-        [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
@@ -371,6 +367,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Setup OEBindingsController
     [OEBindingsController class];
     [OEDeviceManager sharedDeviceManager];
+
+	// Start WiiRemote support
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
+        [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
 }
 
 #pragma mark -
