@@ -364,6 +364,7 @@
 		8305267513FBC999006179C6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8305267413FBC999006179C6 /* Security.framework */; };
 		830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 830639EA16691B51006E4254 /* OEGameScanner.xib */; };
 		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
+		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy Files (1 item) */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; };
 		830BC86914D5E35A000826E2 /* controller_snes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 830BC86714D5E1E6000826E2 /* controller_snes_mask.png */; };
 		830BC86C14D5F1DD000826E2 /* controller_gba_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */; };
 		830EF6CC146C590D00B0C8B0 /* blank_slate_core_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 830EF6CB146C590D00B0C8B0 /* blank_slate_core_icon.png */; };
@@ -408,6 +409,7 @@
 		8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E41F28158546E90069B8AF /* OESystemPicker.m */; };
 		8337393815BFD87900D83D2F /* OELibraryToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337393715BFD87700D83D2F /* OELibraryToolbarView.m */; };
 		8343CD011553E2C30080A6BE /* OEDBImageThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */; };
+		834C07DC166CD36A0000C146 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
 		8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */; };
 		8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */; };
@@ -958,6 +960,13 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = OpenEmu;
 		};
+		8309A780166CE6360013AD4A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3887A7F51024D1F9000FC4CF;
+			remoteInfo = OESaveStateQLPlugin;
+		};
 		83F37148140BB177005A7353 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1287,6 +1296,17 @@
 			files = (
 				82CAFBBE0FEDAA4200CCDC7E /* config.yaml in CopyFiles */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8309A77E166CE51E0013AD4A /* Copy Files (1 item) */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/QuickLook;
+			dstSubfolderSpec = 1;
+			files = (
+				8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy Files (1 item) */,
+			);
+			name = "Copy Files (1 item)";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		948E540C1571D739002D26E0 /* Copy System Plugins to App Plugins */ = {
@@ -2343,6 +2363,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				834C07DC166CD36A0000C146 /* Cocoa.framework in Frameworks */,
 				3887A8971024D796000FC4CF /* QuickLook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4851,8 +4872,6 @@
 				3887A7F21024D1F9000FC4CF /* Resources */,
 				3887A7F31024D1F9000FC4CF /* Sources */,
 				3887A7F41024D1F9000FC4CF /* Frameworks */,
-				3887AAE21024DD91000FC4CF /* Rez */,
-				82DE41ED1024E7B7007184EB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -4945,10 +4964,12 @@
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				828ED4F00E7D98F60059F397 /* Copy Frameworks to App Frameworks */,
 				948E540C1571D739002D26E0 /* Copy System Plugins to App Plugins */,
+				8309A77E166CE51E0013AD4A /* Copy Files (1 item) */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8309A781166CE6360013AD4A /* PBXTargetDependency */,
 				143F299C164DE0EC00544CCF /* PBXTargetDependency */,
 				9479665515EDE6B3004316AB /* PBXTargetDependency */,
 				3DAA589A14464890001C09A8 /* PBXTargetDependency */,
@@ -5943,16 +5964,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXRezBuildPhase section */
-		3887AAE21024DD91000FC4CF /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
 		37C80308101564B000356EF3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5966,19 +5977,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "rm -rf \"$USER_LIBRARY_DIR/Frameworks/OpenEmuBase.framework\"\ncp -R \"$BUILT_PRODUCTS_DIR/OpenEmuBase.framework\" \"$USER_LIBRARY_DIR/Frameworks/OpenEmuBase.framework\"";
-		};
-		82DE41ED1024E7B7007184EB /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"/Library/QuickLook\"\nrm -rf \"/Library/QuickLook/$PRODUCT_NAME.qlgenerator\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.qlgenerator\" \"/Library/QuickLook\"";
 		};
 		9479665315EDE64C004316AB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -6520,6 +6518,11 @@
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
 			targetProxy = 82C9C97D0F080C920071460B /* PBXContainerItemProxy */;
+		};
+		8309A781166CE6360013AD4A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */;
+			targetProxy = 8309A780166CE6360013AD4A /* PBXContainerItemProxy */;
 		};
 		83F37149140BB177005A7353 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

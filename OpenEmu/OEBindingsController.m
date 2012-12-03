@@ -62,7 +62,7 @@ static NSString            *configurationsFolderPath = nil;
 {
     if(self == [OEBindingsController class])
     {
-        bindingsControllerQueue = dispatch_queue_create("com.openemu.system.OEBindingsController", DISPATCH_QUEUE_SERIAL);
+        bindingsControllerQueue = dispatch_queue_create("org.openemu.system.OEBindingsController", DISPATCH_QUEUE_SERIAL);
         
         systemControllers       = [[NSMutableSet alloc] init];
         bindingsControllers     = [[NSMutableDictionary alloc] initWithCapacity:1];
