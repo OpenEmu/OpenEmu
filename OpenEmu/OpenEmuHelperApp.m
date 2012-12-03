@@ -1,4 +1,4 @@
-/*
+ /*
  Copyright (c) 2010, OpenEmu Team
  
  
@@ -802,7 +802,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)willExecute
 {
-    [lua pcallLuaFunction:"OnFrameTick" withSignature:"@", gameCore];
+    NSString *foo = [lua pcallLuaFunction:"OnFrameTick" withSignature:"@", gameCore];
     
     if(![gameCore rendersToOpenGL])
     {

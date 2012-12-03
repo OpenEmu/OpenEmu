@@ -748,4 +748,11 @@ static int Heights[2] =
                                 : OESizeMake(Widths[0], Heights[0]);
 }
 
+
+- (void)poke:(uint32_t)address value:(uint32_t)value
+{
+    Nes::Api::Ram ram(*emu);
+    ram.SetRAM(address, value);
+}
+
 @end

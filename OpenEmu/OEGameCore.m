@@ -391,4 +391,5 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 {
     return NO;
 }
+
 @end

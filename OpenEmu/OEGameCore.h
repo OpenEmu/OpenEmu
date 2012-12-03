@@ -225,4 +225,6 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 - (NSSize) outputSize;
 - (void) setRandomByte;
+
+- (void)poke:(uint32_t)address value:(uint32_t)value;
 @end
