@@ -1,7 +1,7 @@
 /*
- Copyright (c) 2012, OpenEmu Team
- 
- 
+ Copyright (c) 2009, OpenEmu Team
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,39 +25,39 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
-@class OESystemBindings, OEDeviceHandler, OEHIDEvent;
+#import <IOKit/hid/IOHIDLib.h>
+#import <IOKit/hid/IOHIDUsageTables.h>
+#import <ForceFeedback/ForceFeedback.h>
 
-/// Manages the bindings for a specific player in a system, useful for preferences
-/// Instances of this class are allocated by OESystemBindings
-@interface OEPlayerBindings : NSObject
+@class OEHIDEvent;
 
-@property(readonly, weak) OESystemBindings *systemBindingsController;
+#define kOEHIDElementIsTriggerKey "OEHIDElementIsTrigger"
 
-@property(readonly) NSUInteger playerNumber;
+@class IOBluetoothDevice;
+@interface OEDeviceHandler : NSObject <NSCopying>
 
-// Keys:   NSString - All key-name for each existing bindings excluding key groups
-// Values: NSString - String representation of the associated event
-// There are no key-groups in this case, all keys have their own strings
-@property(readonly, copy) NSDictionary *bindingDescriptions;
+// Returns aString if aString is a parsable identifier or a known identifier, returns nil otherwise.
++ (NSString *)standardDeviceIdentifierForDeviceIdentifier:(NSString *)aString;
 
-// Keys:   OEKeyBindingsDescription or OEOrientedKeyGroupBindingDescription - All keys for saved bindings
-// Values: OEHIDEvent - Associated event
-@property(readonly, copy) NSDictionary *bindingEvents;
+@property(readonly) NSUInteger deviceNumber;
 
-/// @param key one of the control keys
-/// @result the event value for the specific type
-- (id)valueForKey:(NSString *)key;
+@property(readonly) NSString *deviceIdentifier;
 
-/// @result the key or key group that got assigned
-- (id)assignEvent:(OEHIDEvent *)anEvent toKeyWithName:(NSString *)aKeyName;
+@property(readonly) NSString *serialNumber;
+@property(readonly) NSString *manufacturer;
+@property(readonly) NSString *product;
+@property(readonly) NSNumber *vendorID;
+@property(readonly) NSNumber *productID;
+@property(readonly) NSNumber *locationID;
 
-@end
+- (BOOL)connect;
+- (void)disconnect;
 
-@interface OEDevicePlayerBindings : OEPlayerBindings
-@property(readonly) OEDeviceHandler *deviceHandler;
-@end
++ (instancetype)deviceHandlerWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
++ (instancetype)deviceHandlerWithIOBluetoothDevice:(IOBluetoothDevice *)aDevice;
 
-@interface OEKeyboardPlayerBindings : OEPlayerBindings
+- (BOOL)isKeyboardDevice;
+
 @end

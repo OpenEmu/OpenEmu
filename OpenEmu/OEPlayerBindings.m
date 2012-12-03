@@ -27,11 +27,11 @@
 
 #import "OEPlayerBindings.h"
 #import "OEBindingsController_Internal.h"
-#import "OEHIDDeviceHandler.h"
+#import "OEDeviceHandler.h"
 #import "OEHIDEvent.h"
 
 @interface OEHIDEvent ()
-- (OEHIDEvent *)OE_eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
+- (OEHIDEvent *)OE_eventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler;
 @end
 
 @implementation OEPlayerBindings
@@ -163,7 +163,7 @@ static void *const OEDevicePlayerBindingOriginalBindingsObserver = (void *)&OEDe
     return [self OE_initWithSystemBindings:aController playerNumber:playerNumber deviceHandler:nil];
 }
 
-- (id)OE_initWithSystemBindings:(OESystemBindings *)aController playerNumber:(NSUInteger)playerNumber deviceHandler:(OEHIDDeviceHandler *)handler;
+- (id)OE_initWithSystemBindings:(OESystemBindings *)aController playerNumber:(NSUInteger)playerNumber deviceHandler:(OEDeviceHandler *)handler;
 {
     if((self = [super OE_initWithSystemBindings:aController playerNumber:playerNumber]))
     {
@@ -173,7 +173,7 @@ static void *const OEDevicePlayerBindingOriginalBindingsObserver = (void *)&OEDe
     return self;
 }
 
-- (id)OE_playerBindingsWithDeviceHandler:(OEHIDDeviceHandler *)aHandler playerNumber:(NSUInteger)aPlayerNumber;
+- (id)OE_playerBindingsWithDeviceHandler:(OEDeviceHandler *)aHandler playerNumber:(NSUInteger)aPlayerNumber;
 {
     if(_originalBindingsController != nil)
         return [_originalBindingsController OE_playerBindingsWithDeviceHandler:aHandler playerNumber:aPlayerNumber];
@@ -248,12 +248,12 @@ static void *const OEDevicePlayerBindingOriginalBindingsObserver = (void *)&OEDe
             : [super bindingEvents]);
 }
 
-- (OEHIDDeviceHandler *)deviceHandler
+- (OEDeviceHandler *)deviceHandler
 {
     return deviceHandler;
 }
 
-- (void)OE_setDeviceHandler:(OEHIDDeviceHandler *)value
+- (void)OE_setDeviceHandler:(OEDeviceHandler *)value
 {
     if(deviceHandler != value)
     {
@@ -267,7 +267,7 @@ static void *const OEDevicePlayerBindingOriginalBindingsObserver = (void *)&OEDe
     }
 }
 
-- (NSDictionary *)OE_convertBindings:(NSDictionary *)bindings forDeviceHandler:(OEHIDDeviceHandler *)aHandler
+- (NSDictionary *)OE_convertBindings:(NSDictionary *)bindings forDeviceHandler:(OEDeviceHandler *)aHandler
 {
     NSMutableDictionary *converted = [NSMutableDictionary dictionaryWithCapacity:[bindings count]];
     

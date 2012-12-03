@@ -43,7 +43,7 @@
 #import <OpenEmuSystem/OEKeyBindingDescription.h>
 #import <OpenEmuSystem/OEKeyBindingGroupDescription.h>
 #import <OpenEmuSystem/OEHIDEvent.h>
-#import <OpenEmuSystem/OEHIDManager.h>
-#import <OpenEmuSystem/OEHIDDeviceHandler.h>
+#import <OpenEmuSystem/OEDeviceManager.h>
+#import <OpenEmuSystem/OEDeviceHandler.h>
 #import <OpenEmuSystem/NSApplication+OEHIDAdditions.h>
 #import <OpenEmuSystem/OECUESheet.h>

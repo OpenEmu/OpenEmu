@@ -43,7 +43,7 @@
 #import "OEPrefCoresController.h"
 #import "OEPrefDebugController.h"
 
-#import "OEWiimoteManager.h"
+#import "OEWiimoteManager_old.h"
 
 NSString *const OEDebugModeKey = @"debug";
 NSString *const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
@@ -155,7 +155,7 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
     [super showWindow:sender];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
-        [OEWiimoteManager startSearch];
+        [OEWiimoteManager_old startSearch];
 }
 
 - (void)windowWillClose:(NSNotification *)notification

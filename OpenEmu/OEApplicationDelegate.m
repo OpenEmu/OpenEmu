@@ -36,7 +36,7 @@
 #import "OESystemPlugin.h"
 #import "OECompositionPlugin.h"
 
-#import "OEHIDManager.h"
+#import "OEDeviceManager.h"
 #import "NSAttributedString+Hyperlink.h"
 #import "NSImage+OEDrawingAdditions.h"
 
@@ -50,7 +50,7 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 
-#import "OEWiimoteManager.h"
+#import "OEWiimoteManager_old.h"
 #import "OEBindingsController.h"
 
 #import "OEBuildVersion.h"
@@ -79,7 +79,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 @implementation OEApplicationDelegate
 @synthesize mainWindowController;
 @synthesize aboutWindow, aboutCreditsPath, cachedLastPlayedInfo;
-@synthesize HIDManager;
 
 + (void)initialize
 {
@@ -155,7 +154,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 	
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
 	// Start WiiRemote support
-        [OEWiimoteManager startSearch];
+        [OEWiimoteManager_old startSearch];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
@@ -370,21 +369,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     // Setup OEBindingsController
     [OEBindingsController class];
-    
-    NSArray *matchingTypes = [NSArray arrayWithObjects:
-                              [NSDictionary dictionaryWithObjectsAndKeys:
-                               [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
-                               [NSNumber numberWithInteger:kHIDUsage_GD_Joystick], @ kIOHIDDeviceUsageKey, nil],
-                              [NSDictionary dictionaryWithObjectsAndKeys:
-                               [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
-                               [NSNumber numberWithInteger:kHIDUsage_GD_GamePad], @ kIOHIDDeviceUsageKey, nil],
-                              [NSDictionary dictionaryWithObjectsAndKeys:
-                               [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
-                               [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
-                              nil];
-    
-    [self setHIDManager:[OEHIDManager sharedHIDManager]];
-    [[self HIDManager] registerDeviceTypes:matchingTypes];
+    [OEDeviceManager sharedDeviceManager];
 }
 
 #pragma mark -

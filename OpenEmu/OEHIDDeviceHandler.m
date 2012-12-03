@@ -1,7 +1,7 @@
 /*
- Copyright (c) 2009, OpenEmu Team
- 
- 
+ Copyright (c) 2012, OpenEmu Team
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,222 +28,128 @@
 #import "OEHIDDeviceHandler.h"
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDEvent.h"
-
-#if __has_feature(objc_bool)
-#undef YES
-#undef NO
-#define YES __objc_yes
-#define NO __objc_no
-#endif
-
-@interface _OEHIDDeviceIdentifier : NSObject <NSCopying>
-
-- (id)initWithVendorID:(NSUInteger)vendorID deviceID:(NSUInteger)deviceID;
-- (id)initWithDescription:(NSString *)description;
-
-@property(readonly) NSUInteger vendorID;
-@property(readonly) NSUInteger deviceID;
-
-@end
+#import "OEDeviceManager.h"
 
 @interface OEHIDEvent ()
-
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
+@end
+
+@interface OEDeviceHandler ()
+- (void)OE_setupDeviceIdentifier;
+@end
+
+@interface OEDeviceManager ()
+- (void)OE_removeDeviceHandler:(OEDeviceHandler *)handler;
 @end
 
 @interface OEHIDDeviceHandler ()
 {
-    NSMapTable *mapTable;
-	
+    NSMutableDictionary *_reusableEventMap;
+
 	//force feedback support
-	FFDeviceObjectReference  ffDevice;
+	FFDeviceObjectReference _ffDevice;
 }
+
+- (void)OE_setupCallbacks;
+- (void)OE_removeDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice;
 
 @end
 
 @implementation OEHIDDeviceHandler
+
++ (instancetype)deviceHandlerWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
 {
-    NSMapTable *mapTable;
-	
-	//force feedback support
-	FFDeviceObjectReference  ffDevice;
-}
-
-static NSDictionary *deviceToTypes = nil;
-
-+ (void)initialize
-{
-    if(self == [OEHIDDeviceHandler class])
-    {
-        NSString *identifierPath = [[NSBundle mainBundle] pathForResource:@"Controller-Database" ofType:@"plist"];
-        NSArray *controllers = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:identifierPath options:NSDataReadingMappedIfSafe error:NULL] options:0 format:NULL error:NULL];
-        
-        NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[controllers count]];
-        
-        [controllers enumerateObjectsUsingBlock:
-         ^(NSDictionary *obj, NSUInteger idx, BOOL *stop)
-         {
-             NSString *genericName = [obj objectForKey:@"OEGenericControllerName"];
-             
-             for(NSDictionary *device in [obj objectForKey:@"OEControllerDevices"])
-             {
-                 NSUInteger vendorID  = [[device objectForKey:@"OEControllerVendorID"] unsignedIntegerValue];
-                 NSUInteger productID = [[device objectForKey:@"OEControllerProductID"] unsignedIntegerValue];
-                 _OEHIDDeviceIdentifier *ident = [[_OEHIDDeviceIdentifier alloc] initWithVendorID:vendorID deviceID:productID];
-                 
-                 [result setObject:genericName forKey:ident];
-             }
-         }];
-        
-        deviceToTypes = [result copy];
-    }
-}
-
-+ (NSString *)standardDeviceIdentifierForDeviceIdentifier:(NSString *)aString
-{
-    if([aString hasPrefix:@"#"])
-    {
-        _OEHIDDeviceIdentifier *ident = [[_OEHIDDeviceIdentifier alloc] initWithDescription:aString];
-        
-        return [deviceToTypes objectForKey:ident] ? : ident != nil ? aString : nil;
-    }
-    
-    return [[deviceToTypes allKeysForObject:aString] count] > 0 ? aString : nil;
-}
-
-- (NSString *)OE_deviceIdentifier;
-{
-    _OEHIDDeviceIdentifier *ident = [[_OEHIDDeviceIdentifier alloc] initWithVendorID:[[self vendorID] unsignedIntegerValue] deviceID:[[self productID] unsignedIntegerValue]];
-    
-    return [deviceToTypes objectForKey:ident] ? : [ident description];
-}
-
-@synthesize device, deviceNumber, deadZone;
-
-+ (id)deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice
-{
-    return [[self alloc] initWithDevice:aDevice];
+    return [[self alloc] initWithIOHIDDevice:aDevice];
 }
 
 - (id)init
 {
-    return [self initWithDevice:NULL];
+    return nil;
 }
 
-static NSUInteger lastDeviceNumber = 0;
- 
-- (id)initWithDevice:(IOHIDDeviceRef)aDevice
+- (id)initWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
 {
+    if(aDevice == NULL) return nil;
+
     if((self = [super init]))
     {
-        mapTable = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsOpaqueMemory | NSPointerFunctionsIntegerPersonality valueOptions:NSPointerFunctionsObjectPersonality capacity:10];
-        
-        deviceNumber = ++lastDeviceNumber;
-        if(aDevice == NULL)
-        {
-            deadZone     = 0.0;
-            device       = NULL;
-        }
-        else
-        {
-            CFRetain(aDevice);
+        _reusableEventMap = [[NSMutableDictionary alloc] initWithCapacity:10];
+        _device = (void *)CFRetain(aDevice);
+        _deadZone = 0.2;
 
-            device = aDevice;
-            deadZone = 0.2;
-            
-            if(![self isKeyboardDevice])
+        if(![self isKeyboardDevice])
+        {
+            [self OE_setupDeviceIdentifier];
+
+            NSArray *elements = (__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(_device, (__bridge CFDictionaryRef)@{ @kIOHIDElementUsagePageKey : @(kHIDPage_GenericDesktop) }, 0);
+
+            NSLog(@"Device: %@", self);
+
+            NSMutableArray *posNegElements = [NSMutableArray array];
+            NSMutableArray *posElements    = [NSMutableArray array];
+
+            for(id element in elements)
             {
-                _deviceIdentifier = [self OE_deviceIdentifier];
-                
-                NSArray *elements = (__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(device, (__bridge CFDictionaryRef)@{ @kIOHIDElementUsagePageKey : @(kHIDPage_GenericDesktop) }, 0);
-                
-                NSLog(@"Device: %@", self);
-                
-                NSMutableArray *posNegElements = [NSMutableArray array];
-                NSMutableArray *posElements    = [NSMutableArray array];
-                
-                for(id element in elements)
+                IOHIDElementRef elem  = (__bridge IOHIDElementRef)element;
+                uint32_t        usage = IOHIDElementGetUsage(elem);
+
+                if(usage < kHIDUsage_GD_X || usage > kHIDUsage_GD_Rz) continue;
+
+                CFIndex minimum = IOHIDElementGetLogicalMin(elem);
+                CFIndex maximum = IOHIDElementGetLogicalMax(elem);
+
+                if(minimum == 0) [posElements addObject:element];
+                else if(minimum < 0 && maximum > 0) [posNegElements addObject:element];
+            }
+
+            if([posNegElements count] != 0 && [posElements count] != 0)
+                for(id element in posElements)
                 {
                     IOHIDElementRef elem  = (__bridge IOHIDElementRef)element;
-                    uint32_t        usage = IOHIDElementGetUsage(elem);
-                    
-                    if(usage < kHIDUsage_GD_X || usage > kHIDUsage_GD_Rz) continue;
-                    
-                    CFIndex minimum = IOHIDElementGetLogicalMin(elem);
-                    CFIndex maximum = IOHIDElementGetLogicalMax(elem);
-                    
-                    if(minimum == 0) [posElements addObject:element];
-                    else if(minimum < 0 && maximum > 0) [posNegElements addObject:element];
-                }
-                
-                if([posNegElements count] != 0 && [posElements count] != 0)
-                {
-                    for(id element in posElements)
-                    {
-                        IOHIDElementRef elem  = (__bridge IOHIDElementRef)element;
-                        IOHIDElementSetProperty(elem, CFSTR(kOEHIDElementIsTriggerKey), (__bridge CFTypeRef)@YES);
-                    }
-                }
+                    IOHIDElementSetProperty(elem, CFSTR(kOEHIDElementIsTriggerKey), (__bridge CFTypeRef)@YES);
             }
         }
     }
-    
+
     return self;
 }
 
 - (void)dealloc
 {
-	if(ffDevice != NULL) FFReleaseDevice(ffDevice);
-    if(device   != NULL) CFRelease(device);
-}
+    [self OE_removeDeviceHandlerForDevice:_device];
 
-- (id)copyWithZone:(NSZone *)zone
-{
-    return self;
-}
-
-- (BOOL)isEqual:(id)anObject
-{
-    if(self == anObject)
-        return YES;
-    if([anObject isKindOfClass:[self class]])
-        return [(__bridge id)device isEqual:(id)[anObject device]];
-    return [super isEqual:anObject];
-}
-
-- (NSUInteger)hash
-{
-    return [(__bridge id)device hash];
+    if(_device != NULL) CFRelease(_device);
+    if(_ffDevice != NULL) FFReleaseDevice(_ffDevice);
 }
 
 - (NSString *)serialNumber
 {
-    return (__bridge NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDSerialNumberKey));
+    return (__bridge NSString *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDSerialNumberKey));
 }
 
 - (NSString *)manufacturer
 {
-    return (__bridge NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey));
+    return (__bridge NSString *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDManufacturerKey));
 }
 
 - (NSString *)product
 {
-    return (__bridge NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
+    return (__bridge NSString *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDProductKey));
 }
 
 - (NSNumber *)vendorID
 {
-    return (__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey));
+    return (__bridge NSNumber *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDVendorIDKey));
 }
 
 - (NSNumber *)productID
 {
-    return (__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey));
+    return (__bridge NSNumber *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDProductIDKey));
 }
 
 - (NSNumber *)locationID
 {
-    return (__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey));
+    return (__bridge NSNumber *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDLocationIDKey));
 }
 
 - (IOHIDElementRef)elementForEvent:(OEHIDEvent *)anEvent;
@@ -254,47 +160,47 @@ static NSUInteger lastDeviceNumber = 0;
     {
         case OEHIDEventTypeAxis :
         case OEHIDEventTypeTrigger :
-            [dict setObject:@(kHIDPage_GenericDesktop) forKey:@kIOHIDElementUsagePageKey];
-            [dict setObject:@([anEvent axis])          forKey:@kIOHIDElementUsageKey];
+            dict[@kIOHIDElementUsagePageKey] = @(kHIDPage_GenericDesktop);
+            dict[@kIOHIDElementUsageKey]     = @([anEvent axis]);
             break;
         case OEHIDEventTypeButton :
-            [dict setObject:@(kHIDPage_Button)         forKey:@kIOHIDElementUsagePageKey];
-            [dict setObject:@([anEvent buttonNumber])  forKey:@kIOHIDElementUsageKey];
+            dict[@kIOHIDElementUsagePageKey] = @(kHIDPage_Button);
+            dict[@kIOHIDElementUsageKey]     = @([anEvent buttonNumber]);
             break;
         case OEHIDEventTypeHatSwitch :
-            [dict setObject:@(kHIDPage_GenericDesktop) forKey:@kIOHIDElementUsagePageKey];
-            [dict setObject:@(kHIDUsage_GD_Hatswitch)  forKey:@kIOHIDElementUsageKey];
+            dict[@kIOHIDElementUsagePageKey] = @(kHIDPage_GenericDesktop);
+            dict[@kIOHIDElementUsageKey]     = @(kHIDUsage_GD_Hatswitch);
             break;
         default : return nil;
     }
 
     NSUInteger cookie = [anEvent cookie];
-    if(cookie != NSNotFound) [dict setObject:@(cookie) forKey:@kIOHIDElementCookieKey];
+    if(cookie != NSNotFound) dict[@kIOHIDElementCookieKey] = @(cookie);
 
-    NSArray *elements = (__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(device, (__bridge CFDictionaryRef)dict, 0);
+    NSArray *elements = (__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(_device, (__bridge CFDictionaryRef)dict, 0);
 
     return (__bridge IOHIDElementRef)[elements lastObject];
 }
 
 - (BOOL)isKeyboardDevice;
 {
-    return IOHIDDeviceConformsTo(device, kHIDPage_GenericDesktop, kHIDUsage_GD_Keyboard);
+    return IOHIDDeviceConformsTo(_device, kHIDPage_GenericDesktop, kHIDUsage_GD_Keyboard);
 }
 
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue
 {
     IOHIDElementRef  elem     = IOHIDValueGetElement(aValue);
     uint32_t         cookie   = (uint32_t)IOHIDElementGetCookie(elem);
-    
-    OEHIDEvent *event = [mapTable objectForKey:@(cookie)];
-    
+
+    OEHIDEvent *event = [_reusableEventMap objectForKey:@(cookie)];
+
     if(event == nil)
     {
         event = [OEHIDEvent eventWithDeviceHandler:self value:aValue];
-        [mapTable setObject:event forKey:@(cookie)];
+        [_reusableEventMap setObject:event forKey:@(cookie)];
     }
-    else NSAssert1([event OE_setupEventWithDeviceHandler:self value:aValue], @"The event setup went wrong for event: %@", event);
-    
+    else NSAssert([event OE_setupEventWithDeviceHandler:self value:aValue], @"The event setup went wrong for event: %@", event);
+
     return event;
 }
 
@@ -307,9 +213,9 @@ static NSUInteger lastDeviceNumber = 0;
 - (io_service_t)serviceRef
 {
 	io_service_t service = MACH_PORT_NULL;
-	
+
 #if MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_5
-	service = IOHIDDeviceGetService(device);
+	service = IOHIDDeviceGetService(_device);
 #else
 	NSMutableDictionary *matchingDict = (NSMutableDictionary *)IOServiceMatching(kIOHIDDeviceKey);
 	if(matchingDict != nil)
@@ -324,7 +230,7 @@ static NSUInteger lastDeviceNumber = 0;
 - (BOOL)supportsForceFeedback
 {
 	BOOL result = NO;
-	
+
 	io_service_t service = [self serviceRef];
 	if(service != MACH_PORT_NULL)
 	{
@@ -340,90 +246,50 @@ static NSUInteger lastDeviceNumber = 0;
 	{
 		io_service_t service = [self serviceRef];
 		if(service != MACH_PORT_NULL)
-			FFCreateDevice(service, &ffDevice);
+			FFCreateDevice(service, &_ffDevice);
 	}
 }
 
 - (void)disableForceFeedback
 {
-	if(ffDevice != NULL)
+	if(_ffDevice != NULL)
     {
-        FFReleaseDevice(ffDevice);
-        ffDevice = NULL;
+        FFReleaseDevice(_ffDevice);
+        _ffDevice = NULL;
     }
 }
 
-- (NSString *)description
+- (void)OE_setupCallbacks;
 {
-    return [NSString stringWithFormat:@"<%@ %p deviceIdentifier: '%@' manufacturer: %@ product: %@ serialNumber: %@ deviceNumber: %lu isKeyboard: %@>", [self class], self, [self deviceIdentifier], [self manufacturer], [self product], [self serialNumber], [self deviceNumber], [self isKeyboardDevice] ? @"YES" : @"NO"];
+    // Register for removal
+    IOHIDDeviceRegisterRemovalCallback(_device, OEHandle_DeviceRemovalCallback, (__bridge void *)self);
+
+    // Register for input
+    IOHIDDeviceRegisterInputValueCallback(_device, OEHandle_InputValueCallback, (__bridge void *)self);
+
+    // Attach to the runloop
+    IOHIDDeviceScheduleWithRunLoop(_device, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 }
 
-@end
-
-@implementation _OEHIDDeviceIdentifier
-
-static NSMutableSet *allDeviceIdentifiers = nil;
-
-+ (void)initialize
+- (void)OE_removeDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
 {
-    if(self == [_OEHIDDeviceIdentifier class]) return;
-    
-    allDeviceIdentifiers = [[NSMutableSet alloc] init];
+    NSAssert(aDevice == _device, @"Device remove callback called on the wrong object.");
+
+	IOHIDDeviceUnscheduleFromRunLoop(_device, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
+
+    [[OEDeviceManager sharedDeviceManager] OE_removeDeviceHandler:self];
 }
 
-- (id)init { return [self initWithVendorID:0 deviceID:0]; }
-
-- (id)initWithVendorID:(NSUInteger)vendorID deviceID:(NSUInteger)deviceID
+static void OEHandle_InputValueCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDValueRef inIOHIDValueRef)
 {
-    if((self = [super init]))
-    {
-        _vendorID = vendorID;
-        _deviceID = deviceID;
-        
-        _OEHIDDeviceIdentifier *ret = [allDeviceIdentifiers member:self];
-        
-        if(ret == nil) [allDeviceIdentifiers addObject:self];
-        else self = ret;
-    }
-    
-    return self;
+    [(__bridge OEHIDDeviceHandler *)inContext dispatchEventWithHIDValue:inIOHIDValueRef];
 }
 
-- (id)initWithDescription:(NSString *)description;
+static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, void *inSender)
 {
-    NSScanner *scanner = [NSScanner scannerWithString:description];
-    
-    NSUInteger vendorID = 0, deviceID = 0;
-    
-    return (([scanner scanString:@"#OEHIDDeviceIdentifier:" intoString:NULL] &&
-             [scanner scanHexLongLong:(unsigned long long *)&vendorID]       &&
-             [scanner scanHexLongLong:(unsigned long long *)&deviceID])
-            ? [self initWithVendorID:vendorID deviceID:deviceID] : nil);
-}
+	IOHIDDeviceRef hidDevice = (IOHIDDeviceRef)inSender;
 
-- (id)copyWithZone:(NSZone *)zone
-{
-    return self;
-}
-
-- (NSUInteger)hash
-{
-    return _vendorID ^ _deviceID;
-}
-
-- (BOOL)isEqual:(_OEHIDDeviceIdentifier *)object
-{
-    if(self == object)
-        return YES;
-    else if([object isKindOfClass:[_OEHIDDeviceIdentifier class]])
-        return _vendorID == [object vendorID] && _deviceID == [object deviceID];
-    
-    return NO;
-}
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"#OEHIDDeviceIdentifier: %#lX %#lX", _vendorID, _deviceID];
+	[(__bridge OEHIDDeviceHandler *)inContext OE_removeDeviceHandlerForDevice:hidDevice];
 }
 
 @end

@@ -23,6 +23,9 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+TODO("Remove this code where we are sure that we don't need it anymore.");
+#if 0
 #import "Wiimote.h"
 
 #import <IOBluetooth/objc/IOBluetoothL2CAPChannel.h>
@@ -399,13 +402,7 @@ typedef enum {
 }
 @synthesize statusReportRequested;
 # pragma mark -
-NSString *byteString(short x);
-NSString *byteString(short x)
-{
-    if(x >= 0x10)
-        return [NSString stringWithFormat:@"%x", x];
-    return [NSString stringWithFormat:@"0%x", x];
-}
+
 - (void)handleDataReport:(unsigned char *) dp length:(size_t) dataLength
 {
     // wiimote buttons
@@ -795,3 +792,4 @@ NSString *byteString(short x)
 }
 
 @end
+#endif

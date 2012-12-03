@@ -54,8 +54,8 @@
 
 - (NSDictionary *)OE_dictionaryRepresentation;
 
-- (void)OE_didAddDeviceHandler:(OEHIDDeviceHandler *)aHandler;
-- (void)OE_didRemoveDeviceHandler:(OEHIDDeviceHandler *)aHandler;
+- (void)OE_didAddDeviceHandler:(OEDeviceHandler *)aHandler;
+- (void)OE_didRemoveDeviceHandler:(OEDeviceHandler *)aHandler;
 
 - (id)OE_playerBindings:(OEPlayerBindings *)sender didAssignEvent:(id)value toKeyWithName:(NSString *)aKey;
 
@@ -85,12 +85,12 @@
 
 @interface OEDevicePlayerBindings ()
 
-- (id)OE_initWithSystemBindings:(OESystemBindings *)aController playerNumber:(NSUInteger)playerNumber deviceHandler:(OEHIDDeviceHandler *)handler __attribute__((objc_method_family(init)));
+- (id)OE_initWithSystemBindings:(OESystemBindings *)aController playerNumber:(NSUInteger)playerNumber deviceHandler:(OEDeviceHandler *)handler __attribute__((objc_method_family(init)));
 
-- (id)OE_playerBindingsWithDeviceHandler:(OEHIDDeviceHandler *)aHandler playerNumber:(NSUInteger)aPlayerNumber;
+- (id)OE_playerBindingsWithDeviceHandler:(OEDeviceHandler *)aHandler playerNumber:(NSUInteger)aPlayerNumber;
 
 - (void)OE_makeIndependent;
-@property(readwrite, setter=OE_setDeviceHandler:) OEHIDDeviceHandler *deviceHandler;
+@property(readwrite, setter=OE_setDeviceHandler:) OEDeviceHandler *deviceHandler;
 @property(readonly, getter=OE_isDependent) BOOL _isDependent;
 
 @end

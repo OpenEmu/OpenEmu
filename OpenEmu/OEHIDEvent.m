@@ -25,10 +25,12 @@
  */
 
 #import "OEHIDEvent.h"
-#import "OEHIDDeviceHandler.h"
+#import "OEDeviceHandler.h"
 #import <IOKit/hid/IOHIDUsageTables.h>
 #import <Carbon/Carbon.h>
 #import "OEHIDUsageToVK.h"
+#import "OEHIDDeviceHandler.h"
+#import "OEWiimoteDeviceHandler.h"
 
 static BOOL _OEHIDElementIsTrigger(IOHIDElementRef elem)
 {
@@ -244,9 +246,9 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             NSInteger               maximum;
         } trigger;
         struct {
-            NSUInteger         buttonNumber;
-            OEHIDEventState    previousState;
-            OEHIDEventState    state;
+            NSUInteger              buttonNumber;
+            OEHIDEventState         previousState;
+            OEHIDEventState         state;
         } button;
         struct {
             OEHIDEventHatSwitchType hatSwitchType;
@@ -254,19 +256,26 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             OEHIDEventHatDirection  hatDirection;
         } hatSwitch;
         struct {
-            NSUInteger         keycode;
-            OEHIDEventState    previousState;
-            OEHIDEventState    state;
+            NSUInteger              keycode;
+            OEHIDEventState         previousState;
+            OEHIDEventState         state;
         } key;
     }                          _data;
     BOOL                       _hasPreviousState;
 }
 
-- (id)initWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
+- (id)initWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 - (id)initWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
-- (OEHIDEvent *)OE_eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
+- (OEHIDEvent *)OE_eventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler;
+- (OEHIDEvent *)OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
+- (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteDeviceHandler *)aDeviceHandler;
+
+- (BOOL)OE_updateButtonEventWithState:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp;
+- (BOOL)OE_updateAxisEventWithValue:(NSInteger)value maximum:(NSInteger)maximum minimum:(NSInteger)minimum timestamp:(NSTimeInterval)timestamp;
+- (BOOL)OE_updateTriggerEventWithValue:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp;
+- (BOOL)OE_updateHatSwitchEventWithDirection:(OEHIDEventHatDirection)direction timestamp:(NSTimeInterval)timestamp;
 
 @end
 
@@ -517,6 +526,8 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 {
+    NSAssert(_padNumber == [aDeviceHandler deviceNumber], @"Trying to setup an event with a different device handler, expected: %ld, got: %ld", _padNumber, [aDeviceHandler deviceNumber]);
+
     IOHIDElementRef elem   = IOHIDValueGetElement(aValue);
     const uint32_t  page   = IOHIDElementGetUsagePage(elem);
     const uint32_t  usage  = IOHIDElementGetUsage(elem);
@@ -683,7 +694,17 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     return YES;
 }
 
-- (OEHIDEvent *)OE_eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
+- (OEHIDEvent *)OE_eventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler;
+{
+    if([aDeviceHandler isKindOfClass:[OEHIDDeviceHandler class]])
+        return [self OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler];
+    else if([aDeviceHandler isKindOfClass:[OEWiimoteDeviceHandler class]])
+        return [self OE_eventWithWiimoteDeviceHandler:(OEWiimoteDeviceHandler *)aDeviceHandler];
+
+    return nil;
+}
+
+- (OEHIDEvent *)OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
 {
     OEHIDEvent *ret = [self copy];
 
@@ -694,6 +715,100 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     ret->_hasPreviousState = NO;
 
     return ret;
+}
+
+- (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteDeviceHandler *)aDeviceHandler;
+{
+    OEHIDEvent *ret = [self copy];
+
+    ret->_padNumber        = [aDeviceHandler deviceNumber];
+    ret->_hasPreviousState = NO;
+
+    return ret;
+}
+
+- (BOOL)OE_updateButtonEventWithState:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp;
+{
+    NSAssert(_type == OEHIDEventTypeButton, @"Attempting to button state of a non-button event");
+
+    state = state == OEHIDEventStateOff ? OEHIDEventStateOn : OEHIDEventStateOff;
+
+    if(_data.button.state == state) return NO;
+
+    _hasPreviousState  = YES;
+    _previousTimestamp = _timestamp;
+    _timestamp         = timestamp;
+
+    _data.button.previousState = _data.button.state;
+    _data.button.state = state == OEHIDEventStateOff ? OEHIDEventStateOn : OEHIDEventStateOff;
+
+    return YES;
+}
+
+- (BOOL)OE_updateAxisEventWithValue:(NSInteger)value maximum:(NSInteger)maximum minimum:(NSInteger)minimum timestamp:(NSTimeInterval)timestamp;
+{
+    NSAssert(_type == OEHIDEventTypeAxis, @"Attempting to axis state of a non-axis event");
+
+    NSInteger zero = (maximum + minimum) / 2 + 1;
+    maximum -= zero;
+    value   -= zero;
+    minimum -= zero;
+
+    NSAssert(_data.axis.minimum == minimum, @"Minimum value changed, expected: %ld, got: %ld", _data.axis.minimum, minimum);
+    NSAssert(_data.axis.maximum == maximum, @"Maximum value changed, expected: %ld, got: %ld", _data.axis.maximum, maximum);
+
+    if(value == _data.axis.value) return NO;
+
+    _hasPreviousState  = YES;
+    _previousTimestamp = _timestamp;
+    _timestamp         = timestamp;
+
+    _data.axis.previousValue     = _data.axis.value;
+    _data.axis.previousDirection = _data.axis.direction;
+
+    _data.axis.value = value;
+
+    if(_data.axis.value > 0)      _data.axis.direction = OEHIDEventAxisDirectionPositive;
+    else if(_data.axis.value < 0) _data.axis.direction = OEHIDEventAxisDirectionNegative;
+    else                          _data.axis.direction = OEHIDEventAxisDirectionNull;
+
+    return YES;
+}
+
+- (BOOL)OE_updateTriggerEventWithValue:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp;
+{
+    NSAssert(_type == OEHIDEventTypeTrigger, @"Attempting to trigger state of a non-trigger event");
+
+    NSAssert(_data.trigger.maximum == maximum, @"Maximum value changed, expected: %ld, got: %ld", _data.trigger.maximum, maximum);
+
+    if(_data.trigger.value == value) return NO;
+
+    _hasPreviousState  = YES;
+    _previousTimestamp = _timestamp;
+    _timestamp         = timestamp;
+
+    _data.trigger.previousValue     = _data.trigger.value;
+    _data.trigger.previousDirection = _data.trigger.direction;
+
+    _data.trigger.value             = value;
+
+    return YES;
+}
+
+- (BOOL)OE_updateHatSwitchEventWithDirection:(OEHIDEventHatDirection)direction timestamp:(NSTimeInterval)timestamp;
+{
+    NSAssert(_type == OEHIDEventTypeHatSwitch, @"Attempting to hat switch state of a non-hat switch event");
+
+    if(_data.hatSwitch.hatDirection == direction) return NO;
+
+    _hasPreviousState  = YES;
+    _previousTimestamp = _timestamp;
+    _timestamp         = timestamp;
+
+    _data.hatSwitch.previousHatDirection = _data.hatSwitch.hatDirection;
+    _data.hatSwitch.hatDirection         = direction;
+
+    return YES;
 }
 
 - (NSTimeInterval)elapsedTime;
