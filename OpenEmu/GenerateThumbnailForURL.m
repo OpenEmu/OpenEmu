@@ -29,8 +29,7 @@
 #import <CoreServices/CoreServices.h>
 #import <QuickLook/QuickLook.h>
 #import <CoreData/CoreData.h>
-#import "OESaveState.h"
-
+#import <Cocoa/Cocoa.h>
 
 /* -----------------------------------------------------------------------------
  Generate a thumbnail for file
@@ -38,60 +37,36 @@
  This function's job is to create thumbnail for designated file as fast as possible
  -----------------------------------------------------------------------------
  */
+void CancelThumbnailGeneration(void *thisInterface, QLThumbnailRequestRef thumbnail);
+OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thumbnail, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize);
 
 OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thumbnail, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:[NSArray arrayWithObject:[NSBundle bundleWithIdentifier:@"org.openemu.savestategenerator"]]];
-    NSPersistentStoreCoordinator *persistentStoreCoordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel] autorelease];
-    
-    NSError *error = nil;
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:(NSURL*)url options:nil error:&error])
-    {
-        NSLog(@"Couldn't create store, error = %@", error);
-        [pool release];
-        return noErr;
-    }
-    
-    NSManagedObjectContext *managedObjectContext = [[[NSManagedObjectContext alloc] init] autorelease];
-    [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
-    
-    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:managedObjectContext];
-    [request setEntity:entity];
-    
-    NSArray     *array = [managedObjectContext executeFetchRequest:request error:&error];
-    
-    OESaveState *state = [array objectAtIndex:0];
-    
-    NSImage     *image = [state screenshot] ;    
-    
-    NSSize  canvasSize = [image size];
-    
-    // Preview will be drawn in a vectorized context
-    CGContextRef cgContext = QLThumbnailRequestCreateContext(thumbnail, *(CGSize *)&canvasSize, true, NULL);
-    if(cgContext)
-    {
-        DLog(@"Got CGContext");
-        NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithGraphicsPort:(void *)cgContext flipped:YES];
-        if(context)
+    @autoreleasepool {
+        
+        NSURL *imageUrl = [(NSURL*)url URLByAppendingPathComponent:@"ScreenShot"];
+        NSImage     *image = [[NSImage alloc] initWithContentsOfURL:imageUrl];
+        
+        NSSize  canvasSize = [image size];
+        
+        CGContextRef cgContext = QLThumbnailRequestCreateContext(thumbnail, *(CGSize *)&canvasSize, true, NULL);
+        if(cgContext)
         {
-            DLog(@"Got NSContext");
-            NSGraphicsContext *gc = [NSGraphicsContext graphicsContextWithGraphicsPort:cgContext flipped:NO]; 
-            [NSGraphicsContext saveGraphicsState]; 
-            [NSGraphicsContext setCurrentContext:gc]; 
-            [image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0f];
-            [NSGraphicsContext restoreGraphicsState];
+            NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithGraphicsPort:(void *)cgContext flipped:YES];
+            if(context)
+            {
+                NSGraphicsContext *gc = [NSGraphicsContext graphicsContextWithGraphicsPort:cgContext flipped:NO];
+                [NSGraphicsContext saveGraphicsState];
+                [NSGraphicsContext setCurrentContext:gc];
+                [image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0f];
+                [NSGraphicsContext restoreGraphicsState];
+            }
+            QLThumbnailRequestFlushContext(thumbnail, cgContext);
+            CFRelease(cgContext);
         }
-        QLThumbnailRequestFlushContext(thumbnail, cgContext);
-        CFRelease(cgContext);
     }
-    [pool release];
     return noErr;
 }
 
 void CancelThumbnailGeneration(void *thisInterface, QLThumbnailRequestRef thumbnail)
-{
-    // implement only if supported
-}
+{}
