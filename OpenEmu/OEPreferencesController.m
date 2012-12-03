@@ -150,14 +150,6 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
     return rect;
 }
 
-- (IBAction)showWindow:(id)sender
-{
-    [super showWindow:sender];
-    
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
-        [OEWiimoteManager_old startSearch];
-}
-
 - (void)windowWillClose:(NSNotification *)notification
 {
     [[self selectedPreferencePane] viewWillDisappear];

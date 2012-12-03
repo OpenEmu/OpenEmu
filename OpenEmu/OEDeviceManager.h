@@ -43,6 +43,8 @@
 
 @end
 
+extern NSString *const OEWiimoteSupportEnabled;
+
 extern NSString *const OEHIDManagerDidAddDeviceHandlerNotification;
 extern NSString *const OEHIDManagerDidRemoveDeviceHandlerNotification;
 

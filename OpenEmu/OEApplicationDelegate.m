@@ -88,6 +88,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:
          @{
+                                       OEWiimoteSupportEnabled : @YES,
                                       OEDefaultDatabasePathKey : path,
                                              OEDatabasePathKey : path,
                                      OEAutomaticallyGetInfoKey : @YES,
@@ -152,9 +153,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     [mainWindowController showWindow:self];
 	
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportDisabled])
 	// Start WiiRemote support
-        [OEWiimoteManager_old startSearch];
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
+        [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
