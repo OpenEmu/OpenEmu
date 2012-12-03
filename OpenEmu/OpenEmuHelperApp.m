@@ -795,7 +795,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)willRenderOnAlternateThread
 {
-    CGLContextObj cgl_ctx = glContext;
+    CGLContextObj cgl_ctx = sharedContext;
     CGLSetCurrentContext(sharedContext);
     
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
