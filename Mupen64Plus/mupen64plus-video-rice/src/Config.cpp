@@ -311,8 +311,8 @@ BOOL InitConfiguration(void)
     }
 
     ConfigSetDefaultBool(l_ConfigVideoGeneral, "Fullscreen", 0, "Use fullscreen mode if True, or windowed mode if False ");
-    ConfigSetDefaultInt(l_ConfigVideoGeneral, "ScreenWidth", 640*4, "Width of output window or fullscreen width");
-    ConfigSetDefaultInt(l_ConfigVideoGeneral, "ScreenHeight", 480*4, "Height of output window or fullscreen height");
+    ConfigSetDefaultInt(l_ConfigVideoGeneral, "ScreenWidth", 640, "Width of output window or fullscreen width");
+    ConfigSetDefaultInt(l_ConfigVideoGeneral, "ScreenHeight", 480, "Height of output window or fullscreen height");
     ConfigSetDefaultBool(l_ConfigVideoGeneral, "VerticalSync", 0, "If true, activate the SDL_GL_SWAP_CONTROL attribute");
 
     ConfigSetDefaultInt(l_ConfigVideoRice, "FrameBufferSetting", FRM_BUF_NONE, "Frame Buffer Emulation (0=ROM default, 1=disable)");
@@ -347,7 +347,7 @@ BOOL InitConfiguration(void)
     ConfigSetDefaultInt(l_ConfigVideoRice, "Mipmapping", 3, "Use Mipmapping? 0=no, 1=nearest, 2=bilinear, 3=trilinear");
     ConfigSetDefaultInt(l_ConfigVideoRice, "FogMethod", 1, "Enable, Disable or Force fog generation (0=Disable, 1=Enable n64 choose, 2=Force Fog)");
     ConfigSetDefaultInt(l_ConfigVideoRice, "ForceTextureFilter", 0, "Force to use texture filtering or not (0=auto: n64 choose, 1=force no filtering, 2=force filtering)");
-    ConfigSetDefaultInt(l_ConfigVideoRice, "TextureEnhancement", 5, "Primary texture enhancement filter (0=None, 1=2X, 2=2XSAI, 3=HQ2X, 4=LQ2X, 5=HQ4X, 6=Sharpen, 7=Sharpen More, 8=External, 9=Mirrored)");
+    ConfigSetDefaultInt(l_ConfigVideoRice, "TextureEnhancement", 0, "Primary texture enhancement filter (0=None, 1=2X, 2=2XSAI, 3=HQ2X, 4=LQ2X, 5=HQ4X, 6=Sharpen, 7=Sharpen More, 8=External, 9=Mirrored)");
     ConfigSetDefaultInt(l_ConfigVideoRice, "TextureEnhancementControl", 0, "Secondary texture enhancement filter (0 = none, 1-4 = filtered)");
     ConfigSetDefaultInt(l_ConfigVideoRice, "TextureQuality", TXT_QUALITY_32BIT, "Color bit depth to use for textures (0=default, 1=32 bits, 2=16 bits)");
     ConfigSetDefaultInt(l_ConfigVideoRice, "OpenGLDepthBufferSetting", 32, "Z-buffer depth (only 16 or 32)");

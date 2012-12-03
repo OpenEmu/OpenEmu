@@ -62,7 +62,7 @@ NSString *MupenControlNames[] = {
 dispatch_semaphore_t gMupenWaitForVISemaphore;
 dispatch_semaphore_t gCoreWaitForFinishSemaphore;
 
-struct MupenVideoSettings gMupenVideoSettings = {640*4, 480*4, 32};
+struct MupenVideoSettings gMupenVideoSettings = {640, 480, 32};
 MupenGameCore *g_core;
 
 @implementation MupenGameCore
