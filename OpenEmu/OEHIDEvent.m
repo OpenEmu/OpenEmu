@@ -701,7 +701,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     else if([aDeviceHandler isKindOfClass:[OEWiimoteDeviceHandler class]])
         return [self OE_eventWithWiimoteDeviceHandler:(OEWiimoteDeviceHandler *)aDeviceHandler];
 
-    return nil;
+    return self;
 }
 
 - (OEHIDEvent *)OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
