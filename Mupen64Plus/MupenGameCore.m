@@ -130,13 +130,15 @@ void InitiateControllers (CONTROL_INFO ControlInfo)
 - (BOOL)loadFileAtPath:(NSString *)path
 {
     NSBundle *coreBundle = [NSBundle bundleForClass:[self class]];
-    const char *configPath, *dataPath;
+    const char *dataPath;
 
-    configPath = [[[self supportDirectoryPath] stringByAppendingString:@"/"] fileSystemRepresentation];
-    dataPath   = [[coreBundle resourcePath] fileSystemRepresentation];
+    NSString *configPath = [[self supportDirectoryPath] stringByAppendingString:@"/"];
+    dataPath = [[coreBundle resourcePath] fileSystemRepresentation];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:configPath withIntermediateDirectories:YES attributes:nil error:nil];
     
     // open core here
-    CoreStartup(FRONTEND_API_VERSION, configPath, dataPath, (__bridge void *)self, MupenDebugCallback, (__bridge void *)self, MupenStateCallback);
+    CoreStartup(FRONTEND_API_VERSION, [configPath fileSystemRepresentation], dataPath, (__bridge void *)self, MupenDebugCallback, (__bridge void *)self, MupenStateCallback);
 
 #ifdef DEBUG
     // Disable dynarec (for debugging)
