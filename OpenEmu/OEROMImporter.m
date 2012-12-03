@@ -395,7 +395,6 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     if(archiveResult == nil)
     {
         NSArray *validSystems = [OEDBSystem systemsForFileWithURL:url inDatabase:[self database] error:&error];
-        DLog(@"[validSystems count]: %ld", [validSystems count]);
         if(validSystems == nil)
         {
             DLog(@"Could not get valid systems");
@@ -440,9 +439,6 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
     else if(systemIdentifier != nil)
         [[item importInfo] setValue:[NSArray arrayWithObject:systemIdentifier] forKey:OEImportInfoSystemID];
-    
-    DLog(@"systemIdentifier: %@", systemIdentifier);
-    DLog(@"error: %@", error);
     
     if(error != nil)
         [self stopImportForItem:item withError:error];

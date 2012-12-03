@@ -159,7 +159,7 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
    testing file extensions, which is what -canHandleFileExtension: does. When importing a file, systems that
    can handle that file are preferred over systems that can only (potentially) handle its extension. Only implement -canHandleFile: if you can verify that it's valid for the system.
 */
-// - (BOOL)canHandleFile:(NSString *)path;
+- (BOOL)canHandleFile:(NSString *)path;
 - (BOOL)canHandleFileExtension:(NSString *)fileExtension;
 
 @end
