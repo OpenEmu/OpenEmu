@@ -28,15 +28,16 @@
 #import "OEPSXSystemController.h"
 #import "OEPSXSystemResponder.h"
 #import "OEPSXSystemResponderClient.h"
-#import "OECUESheet.h"
 
 @implementation OEPSXSystemController
 
 - (BOOL)canHandleFile:(NSString *)path
 {
-    // Replace with method in OECueSheet that returns data track in cuesheet
-    NSString *dataTrackPath = [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"];
+    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
+    NSString *dataTrack = [cueSheet dataTrackPath];
     
+    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
+    NSLog(@"PSX data track path: %@", dataTrackPath);
     // Replace with check for returned data track from OECueSheet method
     BOOL valid = [super canHandleFile:path];
     if (valid)
@@ -49,7 +50,7 @@
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
         
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-        
+        NSLog(@"%@", dataTrackString);
         if (![dataTrackString isEqualToString:@"  Licensed  by  "])
             valid = NO;
 

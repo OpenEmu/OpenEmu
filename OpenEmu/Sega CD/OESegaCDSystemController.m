@@ -29,7 +29,6 @@
 #import "OESegaCDSystemResponder.h"
 #import "OESegaCDSystemResponderClient.h"
 #import "OELocalizationHelper.h"
-#import "OECUESheet.h"
 
 @implementation OESegaCDSystemController
 
@@ -42,9 +41,11 @@
 
 - (BOOL)canHandleFile:(NSString *)path
 {
-    // Replace with method in OECueSheet that returns data track in cuesheet
-    NSString *dataTrackPath = [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"];
+    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
+    NSString *dataTrack = [cueSheet dataTrackPath];
     
+    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
+    NSLog(@"SCD data track path: %@", dataTrackPath);
     // Replace with check for returned data track from OECueSheet method
     BOOL valid = [super canHandleFile:path];
     if (valid)
@@ -57,7 +58,7 @@
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
         
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-
+        NSLog(@"%@", dataTrackString);
         NSArray *dataTrackList = @[ @"SEGADISCSYSTEM  ", @"SEGABOOTDISC    ", @"SEGADISC        ", @"SEGADATADISC    " ];
 
         for (NSString *d in dataTrackList) {
