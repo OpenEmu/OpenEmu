@@ -39,6 +39,8 @@
 #import <OpenGL/gl.h>
 #import "OEN64SystemResponderClient.h"
 
+#import "plugin.h"
+
 #import <dlfcn.h>
 
 NSString *MupenControlNames[] = {
@@ -47,10 +49,12 @@ NSString *MupenControlNames[] = {
     @"N64_B", @"N64_A", @"N64_R", @"N64_L", @"N64_Z", @"N64_Start"
 }; // FIXME: missing: joypad X, joypad Y, mempak switch, rumble switch
 
-@interface MupenGameCore ()
+@interface MupenGameCore () <OEN64SystemResponderClient>
 {
     NSData  *romData;
     uint8_t *black;
+@public
+    uint8_t padData[OEN64ButtonCount];
 }
 
 @end
@@ -59,6 +63,7 @@ dispatch_semaphore_t gMupenWaitForVISemaphore;
 dispatch_semaphore_t gCoreWaitForFinishSemaphore;
 
 struct MupenVideoSettings gMupenVideoSettings = {640, 480, 32};
+static MupenGameCore *g_core;
 
 @implementation MupenGameCore
 
@@ -68,6 +73,7 @@ struct MupenVideoSettings gMupenVideoSettings = {640, 480, 32};
         gMupenWaitForVISemaphore = dispatch_semaphore_create(0);
         gCoreWaitForFinishSemaphore = dispatch_semaphore_create(0);
     }
+    g_core = self;
     return self;
 }
 
@@ -94,6 +100,31 @@ static void *dlopen_myself()
     dladdr(dlopen_myself, &info);
     
     return dlopen(info.dli_fname, 0);
+}
+
+void GetKeys(int Control, BUTTONS *Keys)
+{
+    Keys->R_DPAD = g_core->padData[OEN64ButtonDPadRight];
+    Keys->L_DPAD = g_core->padData[OEN64ButtonDPadLeft];
+    Keys->D_DPAD = g_core->padData[OEN64ButtonDPadDown];
+    Keys->U_DPAD = g_core->padData[OEN64ButtonDPadUp];
+    Keys->START_BUTTON = g_core->padData[OEN64ButtonStart];
+    Keys->Z_TRIG = g_core->padData[OEN64ButtonZ];
+    Keys->B_BUTTON = g_core->padData[OEN64ButtonB];
+    Keys->A_BUTTON = g_core->padData[OEN64ButtonA];
+    Keys->R_CBUTTON = g_core->padData[OEN64ButtonCRight];
+    Keys->L_CBUTTON = g_core->padData[OEN64ButtonCLeft];
+    Keys->D_CBUTTON = g_core->padData[OEN64ButtonCDown];
+    Keys->U_CBUTTON = g_core->padData[OEN64ButtonCUp];
+    Keys->R_TRIG = g_core->padData[OEN64ButtonR];
+    Keys->L_TRIG = g_core->padData[OEN64ButtonL];
+    Keys->X_AXIS = (Keys->R_DPAD ? INT8_MAX : (Keys->L_DPAD ? INT8_MIN : 0));
+    Keys->Y_AXIS = (Keys->D_DPAD ? INT8_MIN : (Keys->U_DPAD ? INT8_MAX : 0));
+}
+
+void InitiateControllers (CONTROL_INFO ControlInfo)
+{
+    ControlInfo.Controls[0].Present = 1;
 }
 
 - (BOOL)loadFileAtPath:(NSString *)path
@@ -133,8 +164,11 @@ static void *dlopen_myself()
         CoreAttachPlugin(pluginType, rsp_handle);
     };
     
+    getKeys = GetKeys;
+    initiateControllers = InitiateControllers;
     // Load Video
     LoadPlugin(M64PLUGIN_GFX, @"mupen64plus-video-rice.so");
+    plugin_start(M64PLUGIN_INPUT);
     // Load Audio
     // Load Input
     // Load RSP
@@ -248,5 +282,16 @@ static void *dlopen_myself()
 {
     return 0;
 }
+
+- (oneway void)didPushN64Button:(OEN64Button)button forPlayer:(NSUInteger)player
+{
+    padData[button] = 1;
+}
+
+- (oneway void)didReleaseN64Button:(OEN64Button)button forPlayer:(NSUInteger)player
+{
+    padData[button] = 0;
+}
+
 
 @end
