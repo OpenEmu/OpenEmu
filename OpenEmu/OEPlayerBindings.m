@@ -283,8 +283,11 @@ static void *const OEDevicePlayerBindingOriginalBindingsObserver = (void *)&OEDe
 - (void)OE_setBindingEvents:(NSDictionary *)value
 {
     NSAssert(_originalBindingsController == nil, @"Cannot set raw bindings when %@ is dependent on %@", self, _originalBindingsController);
-    
-    [super OE_setBindingEvents:[self OE_convertBindings:value forDeviceHandler:[self deviceHandler]]];
+
+    // No need to convert the events if we don't have a device handler yet.
+    if([self deviceHandler] != nil) value = [self OE_convertBindings:value forDeviceHandler:[self deviceHandler]];
+
+    [super OE_setBindingEvents:value];
 }
 
 - (void)willChangeValueForKey:(NSString *)key
