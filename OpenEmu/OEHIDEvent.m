@@ -504,9 +504,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     if(self != nil)
     {
         if(![self OE_setupEventWithDeviceHandler:aDeviceHandler value:aValue])
-        {
             return nil;
-        }
     }
 
     return self;
@@ -529,8 +527,8 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     NSAssert(_padNumber == [aDeviceHandler deviceNumber], @"Trying to setup an event with a different device handler, expected: %ld, got: %ld", _padNumber, [aDeviceHandler deviceNumber]);
 
     IOHIDElementRef elem   = IOHIDValueGetElement(aValue);
-    const uint32_t  page   = IOHIDElementGetUsagePage(elem);
-    const uint32_t  usage  = IOHIDElementGetUsage(elem);
+    const uint64_t  page   = IOHIDElementGetUsagePage(elem);
+    const uint64_t  usage  = IOHIDElementGetUsage(elem);
 
     NSUInteger      cookie = (uint32_t)IOHIDElementGetCookie(elem);
 

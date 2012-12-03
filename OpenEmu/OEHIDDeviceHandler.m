@@ -109,6 +109,8 @@
                     IOHIDElementSetProperty(elem, CFSTR(kOEHIDElementIsTriggerKey), (__bridge CFTypeRef)@YES);
             }
         }
+
+        [self OE_setupCallbacks];
     }
 
     return self;
@@ -189,14 +191,15 @@
 
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue
 {
-    IOHIDElementRef  elem     = IOHIDValueGetElement(aValue);
-    uint32_t         cookie   = (uint32_t)IOHIDElementGetCookie(elem);
-
-    OEHIDEvent *event = [_reusableEventMap objectForKey:@(cookie)];
+    IOHIDElementRef  elem   = IOHIDValueGetElement(aValue);
+    uint32_t         cookie = (uint32_t)IOHIDElementGetCookie(elem);
+    OEHIDEvent      *event  = [_reusableEventMap objectForKey:@(cookie)];
 
     if(event == nil)
     {
         event = [OEHIDEvent eventWithDeviceHandler:self value:aValue];
+        if(event == nil) return nil;
+
         [_reusableEventMap setObject:event forKey:@(cookie)];
     }
     else NSAssert([event OE_setupEventWithDeviceHandler:self value:aValue], @"The event setup went wrong for event: %@", event);
