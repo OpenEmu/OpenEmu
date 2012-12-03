@@ -46,8 +46,8 @@
     
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"SCD data track path: %@", dataTrackPath);
-    // Replace with check for returned data track from OECueSheet method
-    BOOL valid = [super canHandleFile:path];
+
+    BOOL valid = [super canHandleFileExtension:[path pathExtension]];
     if (valid)
     {
         NSFileHandle *dataTrackFile;
