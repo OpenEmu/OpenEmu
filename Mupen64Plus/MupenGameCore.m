@@ -28,9 +28,10 @@
 #define M64P_CORE_PROTOTYPES 1
 
 #import "MupenGameCore.h"
-#import "OEMupenSupport.h"
 #import "api/config.h"
 #import "api/m64p_config.h"
+#import "api/m64p_frontend.h"
+#import "osal/dynamiclib.h"
 #import "version.h"
 
 #import <OpenEmuBase/OERingBuffer.h>
@@ -83,19 +84,29 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
     NSBundle *coreBundle = [NSBundle bundleForClass:[self class]];
     const char *configPath, *dataPath;
 
-    configPath = [[self supportDirectoryPath] UTF8String];
-    dataPath   = [[coreBundle resourcePath] UTF8String]; // FIXME: should be path to bundle
-
+    configPath = [[[self supportDirectoryPath] stringByAppendingString:@"/"] fileSystemRepresentation];
+    dataPath   = [[coreBundle resourcePath] fileSystemRepresentation];
+    
     // open core here
-    //CoreStartup(MUPEN_API_VERSION, configPath, dataPath, self, MupenDebugCallback, self, MupenStateCallback);
-    CoreStartup(CONFIG_API_VERSION, configPath, dataPath, (__bridge void *)self, MupenDebugCallback, (__bridge void *)self, MupenStateCallback);
+    CoreStartup(FRONTEND_API_VERSION, configPath, dataPath, (__bridge void *)self, MupenDebugCallback, (__bridge void *)self, MupenStateCallback);
 
-    // plugins + config
+    // Disable dynarec (for debugging)
     m64p_handle section;
     int ival = 0;
     ConfigOpenSection("Core", &section);
     ConfigSetParameter(section, "R4300Emulator", M64TYPE_INT, &ival);
 
+    // Load Video
+    // Load Audio
+    // Load Input
+    // Load RSP
+    m64p_dynlib_handle rsp_handle;
+    NSString *rspPath = [[coreBundle builtInPlugInsPath] stringByAppendingPathComponent:@"mupen64plus-rsp-hle.so"];
+    
+    osal_dynlib_open(&rsp_handle, [rspPath fileSystemRepresentation]);
+    NSParameterAssert(rsp_handle);
+    CoreAttachPlugin(M64PLUGIN_RSP, rsp_handle);
+    
     // load rom here
     romData = [NSData dataWithContentsOfMappedFile:path];
 

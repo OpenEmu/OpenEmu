@@ -30,5 +30,6 @@
 
 extern dispatch_semaphore_t gVISemaphore;
 
+OE_EXPORTED_CLASS
 @interface MupenGameCore : OEGameCore
 @end
