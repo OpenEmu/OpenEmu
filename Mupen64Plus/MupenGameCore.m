@@ -107,12 +107,14 @@ static void *dlopen_myself()
     // open core here
     CoreStartup(FRONTEND_API_VERSION, configPath, dataPath, (__bridge void *)self, MupenDebugCallback, (__bridge void *)self, MupenStateCallback);
 
+#ifdef DEBUG
     // Disable dynarec (for debugging)
     m64p_handle section;
     int ival = 0;
     ConfigOpenSection("Core", &section);
     ConfigSetParameter(section, "R4300Emulator", M64TYPE_INT, &ival);
-
+#endif
+    
     // Load ROM
     romData = [NSData dataWithContentsOfMappedFile:path];
     
