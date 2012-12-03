@@ -381,10 +381,7 @@ typedef enum : NSUInteger
     }
 
     rootProxy = [gameCoreManager rootProxy];
-
-    // set initial volume
-    [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
-
+    
     OEGameCore *gameCore = [rootProxy gameCore];
     gameSystemController = [[[[[self rom] game] system] plugin] controller];
     gameSystemResponder  = [gameSystemController newGameSystemResponder];
@@ -418,6 +415,9 @@ typedef enum : NSUInteger
         [self loadState:_saveStateForGameStart];
         _saveStateForGameStart = nil;
     }
+    
+    // set initial volume
+    [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
 }
 
 - (IBAction)pauseGame:(id)sender

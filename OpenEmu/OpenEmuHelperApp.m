@@ -756,6 +756,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 // methods
 - (void)setVolume:(float)volume
 {
+    DLog(@"%@", gameAudio);
     [gameAudio setVolume:volume];
 }
 
