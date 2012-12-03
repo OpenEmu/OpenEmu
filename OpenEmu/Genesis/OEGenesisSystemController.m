@@ -41,7 +41,7 @@
 
 - (BOOL)canHandleFile:(NSString *)path
 {
-    BOOL valid = [super canHandleFile:path];
+    BOOL valid = [super canHandleFileExtension:[path pathExtension]];
     if (valid && [[path pathExtension] isEqualToString:@"bin"])
     {
         const char *cPath = [path UTF8String];

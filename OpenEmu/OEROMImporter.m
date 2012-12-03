@@ -432,19 +432,17 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         }
         else
         {
-            OECUESheet* cueSheet = [[OECUESheet alloc] initWithPath:[[item sourceURL] path]];
-            NSString *dataTrackPath = [cueSheet dataTrackPath];
-            
+            NSString *itemPath = [[item sourceURL] path];
             NSMutableArray *verifiedSystemIDs = [NSMutableArray arrayWithCapacity:[validSystems count]];
             NSMutableArray *systemIDs = [NSMutableArray arrayWithCapacity:[validSystems count]];
             [validSystems enumerateObjectsUsingBlock:^(OEDBSystem *system, NSUInteger idx, BOOL *stop){
                 NSString *systemIdentifier = [system systemIdentifier];
-                if([[[system plugin] controller] canHandleFile:dataTrackPath])
+                if([[[system plugin] controller] canHandleFile:itemPath])
                     [verifiedSystemIDs addObject:systemIdentifier];
                 [systemIDs addObject:systemIdentifier];
             }];
             
-            if([verifiedSystemIDs count]==1)
+            if([verifiedSystemIDs count] == 1)
             {
                 systemIdentifier = [verifiedSystemIDs lastObject];
             }

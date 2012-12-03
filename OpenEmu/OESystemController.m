@@ -172,7 +172,12 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 
 - (BOOL)canHandleFile:(NSString *)path
 {
-    return [fileTypes containsObject:[[path pathExtension] lowercaseString]];
+    return NO;
+}
+
+- (BOOL)canHandleFileExtension:(NSString *)fileExtension
+{
+    return [fileTypes containsObject:[fileExtension lowercaseString]];
 }
 
 - (void)OE_setupControlTypes;
