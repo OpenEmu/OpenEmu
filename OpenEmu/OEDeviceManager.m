@@ -135,7 +135,7 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	//we do this before release to ensure that we've properly cleaned up our HIDManager references and removed our devices from the runloop
-	for(OEDeviceHandler *handler in deviceHandlers)
+	for(OEDeviceHandler *handler in [deviceHandlers copy])
         [self OE_removeDeviceHandler:handler];
 
     if(hidManager != NULL)
