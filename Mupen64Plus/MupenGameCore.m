@@ -62,8 +62,8 @@ NSString *MupenControlNames[] = {
 dispatch_semaphore_t gMupenWaitForVISemaphore;
 dispatch_semaphore_t gCoreWaitForFinishSemaphore;
 
-struct MupenVideoSettings gMupenVideoSettings = {640, 480, 32};
-static MupenGameCore *g_core;
+struct MupenVideoSettings gMupenVideoSettings = {640*4, 480*4, 32};
+MupenGameCore *g_core;
 
 @implementation MupenGameCore
 
@@ -142,10 +142,11 @@ void InitiateControllers (CONTROL_INFO ControlInfo)
     // Disable dynarec (for debugging)
     m64p_handle section;
     int ival = 0;
+
     ConfigOpenSection("Core", &section);
     ConfigSetParameter(section, "R4300Emulator", M64TYPE_INT, &ival);
 #endif
-    
+        
     // Load ROM
     romData = [NSData dataWithContentsOfMappedFile:path];
     
