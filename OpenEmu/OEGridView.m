@@ -853,7 +853,19 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         if(!invertSelection && ![cell isSelected]) [self deselectAll:self];
 
         NSUInteger idx = [cell OE_index];
-        if(![_selectionIndexes containsIndex:idx])
+        
+        if(shiftKeyDown)
+        {
+            if(_indexOfKeyboardSelection == NSNotFound) _indexOfKeyboardSelection = idx;
+            NSInteger minIdx = _indexOfKeyboardSelection < idx ? _indexOfKeyboardSelection : idx;
+            NSInteger maxIdx = _indexOfKeyboardSelection > idx ? _indexOfKeyboardSelection : idx;
+            
+            NSIndexSet *newIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(minIdx, maxIdx-minIdx+1)];
+            [newIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                [self selectCellAtIndex:idx];
+            }];
+        }
+        else if(![_selectionIndexes containsIndex:idx])
         {
             [self selectCellAtIndex:idx];
             _indexOfKeyboardSelection = idx;
@@ -1199,7 +1211,9 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 - (void)OE_moveKeyboardSelectionToIndex:(NSUInteger)index
 {
     NSUInteger modifierFlags = [[NSApp currentEvent] modifierFlags];
-    BOOL       multiSelect   = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask) || ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
+    BOOL       shiftDown     = ((modifierFlags & NSShiftKeyMask) == NSShiftKeyMask);
+    BOOL       commandDown   = ((modifierFlags & NSCommandKeyMask) == NSCommandKeyMask);
+    BOOL       multiSelect   = (commandDown || shiftDown);
 
     if(!multiSelect) [self deselectAll:self];
 
