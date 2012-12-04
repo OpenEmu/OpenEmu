@@ -50,9 +50,14 @@
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
         
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", dataTrackString);
-        if (![dataTrackString isEqualToString:@"  Licensed  by  "])
-            valid = NO;
+        NSLog(@"'%@'", dataTrackString);
+        NSArray *dataTrackList = @[ @"  Licensed  by  ", @"  Cracked   by  " ];
+        
+        for (NSString *d in dataTrackList) {
+            if (![dataTrackString isEqualToString:d])
+                valid = NO;
+                break;
+        }
 
         [dataTrackFile closeFile];
     }

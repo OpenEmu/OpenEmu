@@ -58,7 +58,7 @@
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
         
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", dataTrackString);
+        NSLog(@"'%@'", dataTrackString);
         NSArray *dataTrackList = @[ @"SEGADISCSYSTEM  ", @"SEGABOOTDISC    ", @"SEGADISC        ", @"SEGADATADISC    " ];
 
         for (NSString *d in dataTrackList) {
