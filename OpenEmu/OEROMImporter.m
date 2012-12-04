@@ -309,7 +309,13 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             return;
         }
 
-        BOOL success = [archive extractEntry:0 to:folder];
+        BOOL success = YES;
+        @try {
+            success = [archive extractEntry:0 to:folder];
+        }
+        @catch (NSException *exception) {
+            success = NO;
+        }
         if (success)
             [[item importInfo] setValue:tmpURL forKey:OEImportInfoArchivedFileURL];
         else
