@@ -653,13 +653,13 @@ typedef enum : NSUInteger
             state = [[self rom] saveStateWithName:stateName];
         }
 
-        if(!state)
+        if(state == nil)
             state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:[gameCoreManager plugin] withFile:temporaryStateFileURL];
         else
         {
             [state replaceStateFileWithFile:temporaryStateFileURL];
             [state setTimestamp:[NSDate date]];
-            [state rewriteInfoPlist];
+            [state writeInfoPlist];
         }
 
         [self OE_captureScreenshotUsingBlock:^(NSImage *img) {
