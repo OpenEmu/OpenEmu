@@ -114,20 +114,49 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 }
 + (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError**)error
 {
+    __block OESystemPlugin *theOneAndOnlySystemThatGetsAChanceToHandleTheFile = nil;
+    NSMutableArray         *otherSystemsThatMightBeAbleToHandleTheFile = [NSMutableArray array];
+    
     NSString *fileExtension = [url pathExtension];
-    NSArray *validPlugins = [[OESystemPlugin allPlugins] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OESystemPlugin * evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject controller] canHandleFileExtension:fileExtension] && (![[evaluatedObject controller] respondsToSelector:@selector(canHandleFile:)] || [[evaluatedObject controller] canHandleFile:[url path]]);
-    }]];
-
-    NSMutableArray *validSystems = [NSMutableArray arrayWithCapacity:[validPlugins count]];
-    [validPlugins enumerateObjectsUsingBlock:^(OESystemPlugin *obj, NSUInteger idx, BOOL *stop) {
-        NSString *systemIdentifier = [obj systemIdentifier];
-        OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inDatabase:database];
-        if([[system enabled] boolValue])
-            [validSystems addObject:system];
+    
+    [[OESystemPlugin allPlugins] enumerateObjectsUsingBlock:^(OESystemPlugin *systemPlugin, NSUInteger idx, BOOL *stop) {
+        if([[systemPlugin controller] canHandleFileExtension:fileExtension])
+        {
+            if([[systemPlugin controller] respondsToSelector:@selector(canHandleFile:)])
+            {
+                if([[systemPlugin controller] canHandleFile:[url path]])
+                {
+                    theOneAndOnlySystemThatGetsAChanceToHandleTheFile = systemPlugin;
+                    *stop = YES;
+                }
+            }
+            else
+                [otherSystemsThatMightBeAbleToHandleTheFile addObject:systemPlugin];
+        }
     }];
     
-    return validSystems;
+    
+    if(theOneAndOnlySystemThatGetsAChanceToHandleTheFile != nil)
+    {
+        NSString *systemIdentifier = [theOneAndOnlySystemThatGetsAChanceToHandleTheFile systemIdentifier];
+        OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inDatabase:database];
+        if([[system enabled] boolValue])
+            return [NSArray arrayWithObject:system];
+    }
+    else
+    {
+        NSMutableArray *validSystems = [NSMutableArray arrayWithCapacity:[otherSystemsThatMightBeAbleToHandleTheFile count]];
+        [otherSystemsThatMightBeAbleToHandleTheFile enumerateObjectsUsingBlock:
+         ^(OESystemPlugin *obj, NSUInteger idx, BOOL *stop) {
+             NSString *systemIdentifier = [obj systemIdentifier];
+             OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inDatabase:database];
+             if([[system enabled] boolValue])
+                 [validSystems addObject:system];
+        }];
+        return validSystems;
+    }
+    
+    return [NSArray array];
 }
 
 + (id)systemForPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database
