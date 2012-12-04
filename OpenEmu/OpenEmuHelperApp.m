@@ -658,10 +658,21 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         return tmpPath;
     }
     
-    BOOL success = [archive extractEntry:0 to:folder];
+    BOOL success = YES;
+    @try
+    {
+        success = [archive extractEntry:0 to:folder];
+    }
+    @catch (NSException *exception)
+    {
+        success = NO;
+    }
     
     if (!success)
+    {
         [fm removeItemAtPath:folder error:nil];
+        return aPath;
+    }
     
     return tmpPath;
 }

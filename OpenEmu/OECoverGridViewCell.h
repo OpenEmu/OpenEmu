@@ -39,6 +39,9 @@
 
     CGSize _cachedSize;
 
+    NSURL   *_proposedImageURL; // optional; nil when the user is dropping an NSImage instead of a file
+    NSImage *_proposedImage;
+
     OEGridLayer                    *_proposedImageLayer;
     OEGridLayer                    *_imageLayer;
     CATextLayer                    *_titleLayer;

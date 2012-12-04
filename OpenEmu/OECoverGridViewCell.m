@@ -498,7 +498,9 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     NSImage *proposedCoverImage = nil;
     if([proposedImage isKindOfClass:[NSURL class]])
     {
-        QLThumbnailRef thumbnailRef = QLThumbnailCreate(NULL, (__bridge CFURLRef)proposedImage, _imageFrame.size, NULL);
+        _proposedImageURL = proposedImage;
+        
+        QLThumbnailRef thumbnailRef = QLThumbnailCreate(NULL, (__bridge CFURLRef)_proposedImageURL, _imageFrame.size, NULL);
         if(thumbnailRef)
         {
             CGImageRef thumbnailImageRef = QLThumbnailCopyImage(thumbnailRef);
@@ -514,7 +516,8 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     }
     else if([proposedImage isKindOfClass:[NSImage class]])
     {
-        proposedCoverImage = proposedImage;
+        _proposedImage    = proposedCoverImage = proposedImage;
+        _proposedImageURL = nil;
     }
 
     // display drop acceptance
@@ -717,9 +720,11 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     _dropDelayedTimer = nil;
 
     [self setEditing:YES];
-    [self setImage:[_proposedImageLayer contents]];
+    [self setImage:(_proposedImageURL ? [[NSImage alloc] initWithContentsOfURL:_proposedImageURL] : _proposedImage)];
     [[_proposedImageLayer superlayer] removeFromSuperlayer];
     _proposedImageLayer = nil;
+    _proposedImage      = nil;
+    _proposedImageURL   = nil;
     [self setEditing:NO];
 
     [_statusIndicatorLayer setType:_indicationType];
