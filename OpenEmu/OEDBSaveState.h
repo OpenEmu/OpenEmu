@@ -55,7 +55,7 @@ extern NSString *const OESaveStateQuicksaveName;
 + (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL inDatabase:(OELibraryDatabase *)database;
 
 + (void)updateStateWithPath:(NSString*)path;
-#pragma mark -
+#pragma mark - Management
 - (BOOL)reloadFromInfoPlist;
 - (BOOL)rewriteInfoPlist;
 - (void)remove;
@@ -63,6 +63,9 @@ extern NSString *const OESaveStateQuicksaveName;
 
 - (void)replaceStateFileWithFile:(NSURL*)stateFile;
 - (void)moveFileToDefaultLocation;
+#pragma mark - Data Accessors
+- (NSString*)displayName; // Should be used instead of -name if the string is to be displayed to the user
+- (BOOL)isSpecialState;
 #pragma mark -
 #pragma mark Data Model Properties
 @property (nonatomic, retain)           NSString *name;

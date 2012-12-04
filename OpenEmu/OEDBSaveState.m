@@ -62,6 +62,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 @end
 
 @implementation OEDBSaveState
+
 + (NSArray*)allStates
 {
     return [self allStatesInDatabase:[OELibraryDatabase defaultDatabase]];
@@ -227,7 +228,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
     [saveState moveFileToDefaultLocation];
 }
-#pragma mark -
+#pragma mark - Management
 - (BOOL)reloadFromInfoPlist
 {
     NSDictionary    *infoPlist  = [self infoPlist];
@@ -334,6 +335,28 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         return;
     }
     [self setURL:newStateURL];
+}
+#pragma mark - Data Accessors
+- (NSString*)displayName
+{
+    if(![self isSpecialState])
+        return [self name];
+    
+    NSString *name = [self name];
+    if([name isEqualToString:OESaveStateAutosaveName])
+    {
+        return NSLocalizedString(@"Auto Save State", @"Autosave state display name");
+    }
+    else if([name isEqualToString:OESaveStateQuicksaveName])
+    {
+        return NSLocalizedString(@"Quick Save State", @"Quicksave state display name");
+    }
+    return name;
+}
+- (BOOL)isSpecialState
+{
+    DLog(@"%@", NSStringFromRange([[self name] rangeOfString:OESaveStateSpecialNamePrefix]));
+    return [[self name] rangeOfString:OESaveStateSpecialNamePrefix].location == 0;
 }
 #pragma mark -
 #pragma mark Data Model Properties

@@ -28,6 +28,7 @@
 #import "OEMenu.h"
 
 extern NSString *const OEGameControlsBarCanDeleteSaveStatesKey;
+extern NSString *const OEGameControlsBarShowsAutoSaveStateKey;
 extern NSString *const OEGameControlsBarHidesOptionButtonKey;
 extern NSString *const OEGameControlsBarFadeOutDelayKey;
 
