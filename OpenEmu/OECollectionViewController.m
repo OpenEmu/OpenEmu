@@ -682,7 +682,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 //        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
 
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
-        [menu addItem:[NSMenuItem separatorItem]];
+//        [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:@"Add Cover Art From File..." action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
 //        [menu addItemWithTitle:@"Add Save File To Game..." action:@selector(addSaveStateFromFile:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
@@ -714,7 +714,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 //        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
 
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
-        
+        [menu addItemWithTitle:@"Add Cover Art From File..." action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
+
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
         NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
