@@ -32,6 +32,7 @@
 #import "api/m64p_common.h"
 #import "api/m64p_config.h"
 #import "api/m64p_frontend.h"
+#import "rom.h"
 #import "osal/dynamiclib.h"
 #import "version.h"
 
@@ -136,6 +137,7 @@ static void MupenAudioSampleRateChanged(int SystemType)
 {    
     switch (SystemType)
     {
+        default:
         case SYSTEM_NTSC:
             g_core->sampleRate = 48681812 / (*AudioInfo.AI_DACRATE_REG + 1);
             break;
@@ -143,6 +145,7 @@ static void MupenAudioSampleRateChanged(int SystemType)
             g_core->sampleRate = 49656530 / (*AudioInfo.AI_DACRATE_REG + 1);
             break;
     }
+    
 }
 
 static void MupenAudioLenChanged()
@@ -153,9 +156,35 @@ static void MupenAudioLenChanged()
     [[g_core ringBufferAtIndex:0] write:ptr maxLength:LenReg];
 }
 
+static void SetIsNTSC()
+{
+    extern rom_header *ROM_HEADER;
+    switch (ROM_HEADER->Country_code&0xFF)
+    {
+        case 0x44:
+        case 0x46:
+        case 0x49:
+        case 0x50:
+        case 0x53:
+        case 0x55:
+        case 0x58:
+        case 0x59:
+            g_core->isNTSC = NO;
+            break;
+        case 0x37:
+        case 0x41:
+        case 0x45:
+        case 0x4a:
+            g_core->isNTSC = YES;
+            break;
+    }
+}
+
 static int MupenOpenAudio(AUDIO_INFO info)
 {
     AudioInfo = info;
+    
+    SetIsNTSC();
     
     return M64ERR_SUCCESS;
 }
