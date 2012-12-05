@@ -134,7 +134,9 @@ static void MupenInitiateControllers (CONTROL_INFO ControlInfo)
 static AUDIO_INFO AudioInfo;
 
 static void MupenAudioSampleRateChanged(int SystemType)
-{    
+{
+    float currentRate = g_core->sampleRate;
+    
     switch (SystemType)
     {
         default:
@@ -146,6 +148,7 @@ static void MupenAudioSampleRateChanged(int SystemType)
             break;
     }
     
+    NSLog(@"Mupen rate changed %f -> %f\n", currentRate, g_core->sampleRate);
 }
 
 static void MupenAudioLenChanged()
