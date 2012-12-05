@@ -1423,6 +1423,14 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     _draggingSession = nil;
 }
 
+#pragma mark - High Resolution
+
+- (void)viewDidChangeBackingProperties
+{
+    [super viewDidChangeBackingProperties];
+    [_rootLayer setContentsScale:[[self window] backingScaleFactor]];
+}
+
 #pragma mark - Context menu
 
 - (void)renameSelectedGame:(id)sender

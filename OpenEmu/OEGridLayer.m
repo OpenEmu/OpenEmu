@@ -142,6 +142,13 @@
     [self didMoveToSuperlayer];
 }
 
+#pragma mark - NSLayerDelegateContentsScaleUpdating
+
+- (BOOL)layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
+{
+    return YES;
+}
+
 #pragma mark -
 #pragma mark Properties
 
