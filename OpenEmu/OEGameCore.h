@@ -52,6 +52,14 @@
 
 #pragma mark -
 
+@protocol OEAudioDelegate
+
+@required
+- (void)audioSampleRateDidChange;
+@end
+
+#pragma mark -
+
 typedef struct OEIntPoint {
     int x;
     int y;
@@ -123,6 +131,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 }
 
 @property(weak)     id<OERenderDelegate>  renderDelegate;
+@property(weak)     id<OEAudioDelegate>   audioDelegate;
 
 @property(weak)     OEGameCoreController *owner;
 @property(readonly) NSString             *pluginName;
