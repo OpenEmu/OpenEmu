@@ -42,6 +42,53 @@ static int l_PluginInit = 0;
 
 /* local functions */
 
+
+static void dump_binary(char *filename, unsigned char *bytes, unsigned size)
+{
+    FILE *f;
+
+    // if file already exists, do nothing
+    f = fopen(filename, "r");
+    if (f == NULL)
+    {
+        // else we write bytes to the file
+        f= fopen(filename, "wb");
+        if (f != NULL) {
+            if (fwrite(bytes, 1, size, f) != size)
+            {
+                DebugMessage(M64MSG_ERROR, "Writing error on %s", filename);
+            }
+            fclose(f);
+        }
+        else
+        {
+            DebugMessage(M64MSG_ERROR, "Couldn't open %s for writing !", filename);
+        }
+    }
+    else
+    {
+        fclose(f);
+    }
+}
+
+
+/**
+ * Try to figure if the RSP was launched using osSpTask* functions
+ * and not run directly (in which case DMEM[0xfc0-0xfff] is meaningless).
+ *
+ * Previously, the ucode_size field was used to determine this,
+ * but it is not robust enough (hi Pokemon Stadium !) because games could write anything
+ * in this field : most ucode_boot discard the value and just use 0xf7f anyway.
+ *
+ * Using ucode_boot_size should be more robust in this regard.
+ **/
+static int is_run_through_task(OSTask_t* task)
+{
+    return (task->ucode_boot_size <= 0x1000
+        && task->ucode_boot_size >= 0);
+}
+
+
 /**
  * Simulate the effect of setting the TASKDONE bit (aliased to SIG2)
  * and executing a break instruction (setting HALT and BROKE bits).
@@ -57,6 +104,13 @@ static void taskdone()
     //
     // 0x203 = TASKDONE | BROKE | HALT
     *rsp.SP_STATUS_REG |= 0x203;
+
+    // if INTERRUPT_ON_BREAK we generate the interrupt
+    if ((*rsp.SP_STATUS_REG & 0x40) != 0 )
+    {
+        *rsp.MI_INTR_REG |= 0x1;
+        rsp.CheckInterrupts();
+    }
 }
 
 
@@ -90,6 +144,7 @@ static int audio_ucode(OSTask_t *task)
 {
     unsigned int *p_alist = (unsigned int*)(rsp.RDRAM + task->data_ptr);
     unsigned int i;
+    u32 inst1_idx;
 
     switch(audio_ucode_detect(task))
     {
@@ -109,17 +164,83 @@ static int audio_ucode(OSTask_t *task)
         }
     }
 
-//  data = (short*)(rsp.RDRAM + task->ucode_data);
-
     for (i = 0; i < (task->data_size/4); i += 2)
     {
         inst1 = p_alist[i];
         inst2 = p_alist[i+1];
-        ABI[inst1 >> 24]();
+        inst1_idx = inst1 >> 24;
+        if (inst1_idx < 0x20)
+            ABI[inst1_idx]();
+        else
+            DebugMessage(M64MSG_WARNING, "Invalid audio ABI index %u", inst1_idx);
     }
 
     return 0;
 }
+
+static int DoGFXTask(OSTask_t *task, int sum)
+{
+    if (GraphicsHle && rsp.ProcessDlistList != NULL)
+    {
+        rsp.ProcessDlistList();
+        taskdone();
+        *rsp.DPC_STATUS_REG &= ~0x0002;
+        return 1;
+    }
+    else
+    {
+        DebugMessage(M64MSG_WARNING, "GFX ucode through rsp plugin is not implemented");
+        return 0;
+    }
+}
+
+static int DoAudioTask(OSTask_t *task, int sum)
+{
+    if (AudioHle && rsp.ProcessAlistList != NULL)
+    {
+        rsp.ProcessAlistList();
+        taskdone();
+        return 1;
+    }
+    else
+    {
+        if (audio_ucode(task) == 0)
+        {
+            taskdone();
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+static int DoJPEGTask(OSTask_t *task, int sum)
+{
+    switch(sum)
+    {
+    case 0x278: // Zelda OOT during boot
+      taskdone();
+      return 1;
+    case 0x2caa6: // Zelda OOT, Pokemon Stadium {1,2} jpg decompression
+        ps_jpg_uncompress(task);
+        taskdone();
+        return 1;
+    case 0x130de: // Ogre Battle background decompression
+        ob_jpg_uncompress(task);
+        taskdone();
+        return 1;
+    }
+
+    return 0;
+}
+
+static int DoCFBTask(OSTask_t *task, int sum)
+{
+    rsp.ShowCFB();
+    taskdone();
+    return 1;
+}
+
 
 /* Global functions */
 void DebugMessage(int level, const char *message, ...)
@@ -193,140 +314,154 @@ EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *Plugi
 
 EXPORT unsigned int CALL DoRspCycles(unsigned int Cycles)
 {
-    OSTask_t *task = (OSTask_t*)(rsp.DMEM + 0xFC0);
+    OSTask_t *task = (OSTask_t*)(rsp.DMEM + 0xfc0);
+    int run_through_task = is_run_through_task(task);
     unsigned int i, sum=0;
+    char filename[256];
+    FILE *f = NULL;
 
-    if( task->type == 1 && task->data_ptr != 0 && GraphicsHle)
+    if (run_through_task)
     {
-        if (rsp.ProcessDlistList != NULL)
-        {
-            rsp.ProcessDlistList();
-        }
-        taskdone();
-        if ((*rsp.SP_STATUS_REG & 0x40) != 0 )
-        {
-            *rsp.MI_INTR_REG |= 0x1;
-            rsp.CheckInterrupts();
-        }
+        // most ucode_boot procedure copy 0xf80 bytes of ucode whatever the ucode_size is.
+        // For practical purpose we use a ucode_size = min(0xf80, task->ucode_size)
+        unsigned int ucode_size = (task->ucode_size > 0xf80) ? 0xf80 : task->ucode_size;
 
-        *rsp.DPC_STATUS_REG &= ~0x0002;
-        return Cycles;
-    }
-    else if (task->type == 2 && AudioHle)
-    {
-        if (rsp.ProcessAlistList != NULL)
-        {
-            rsp.ProcessAlistList();
-        }
-        taskdone();
-        if ((*rsp.SP_STATUS_REG & 0x40) != 0 )
-        {
-            *rsp.MI_INTR_REG |= 0x1;
-            rsp.CheckInterrupts();
-        }
-        return Cycles;
-    }
-    else if (task->type == 7)
-    {
-        rsp.ShowCFB();
-    }
-
-    taskdone();
-    if ((*rsp.SP_STATUS_REG & 0x40) != 0 )
-    {
-        *rsp.MI_INTR_REG |= 0x1;
-        rsp.CheckInterrupts();
-    }
-
-    if (task->ucode_size <= 0x1000)
-        for (i=0; i<(task->ucode_size/2); i++)
+        for (i=0; i<ucode_size/2; i++)
             sum += *(rsp.RDRAM + task->ucode + i);
+
+        switch(task->type)
+        {
+        case 0: // Not specified
+            {
+                switch(sum)
+                {
+                case 0x212ee: // Twintris (task type is in fact GFX)
+                    {
+                        if (DoGFXTask(task, sum)) return Cycles;
+                        break;
+                    }
+                }
+                break;
+            }
+        case 1: // GFX
+            {
+                if (DoGFXTask(task, sum)) return Cycles;
+                break;
+            }
+
+        case 2: // AUDIO
+            {
+                if (DoAudioTask(task, sum)) return Cycles;
+                break;
+            }
+
+        case 4: // JPEG
+            {
+                if (DoJPEGTask(task, sum)) return Cycles;
+                break;
+            }
+
+        case 7: // CFB
+            {
+                if (DoCFBTask(task, sum)) return Cycles;
+                break;
+            }
+        }
+
+        DebugMessage(M64MSG_WARNING, "unknown OSTask: sum %x PC:%x", sum, *rsp.SP_PC_REG);
+
+        sprintf(&filename[0], "task_%x.log", sum);
+
+        // dump task
+        f = fopen(filename, "r");
+        if (f == NULL)
+        {
+            f = fopen(filename, "w");
+            fprintf(f,
+                "type = %d\n"
+                "flags = %d\n"
+                "ucode_boot  = %#08x size  = %#x\n"
+                "ucode       = %#08x size  = %#x\n"
+                "ucode_data  = %#08x size  = %#x\n"
+                "dram_stack  = %#08x size  = %#x\n"
+                "output_buff = %#08x *size = %#x\n"
+                "data        = %#08x size  = %#x\n"
+                "yield_data  = %#08x size  = %#x\n",
+                task->type, task->flags,
+                task->ucode_boot, task->ucode_boot_size,
+                task->ucode, task->ucode_size,
+                task->ucode_data, task->ucode_data_size,
+                task->dram_stack, task->dram_stack_size,
+                task->output_buff, task->output_buff_size,
+                task->data_ptr, task->data_size,
+                task->yield_data_ptr, task->yield_data_size);
+            fclose(f);
+        }
+        else
+        {
+            fclose(f);
+        }
+
+
+        // dump ucode_boot
+        sprintf(&filename[0], "ucode_boot_%x.bin", sum);
+        dump_binary(filename, rsp.RDRAM + (task->ucode_boot & 0x7fffff), task->ucode_boot_size);
+
+        // dump ucode
+        if (task->ucode != 0)
+        {
+            sprintf(&filename[0], "ucode_%x.bin", sum);
+            dump_binary(filename, rsp.RDRAM + (task->ucode & 0x7fffff), ucode_size);
+        }
+
+        // dump ucode_data
+        if (task->ucode_data != 0)
+        {
+            sprintf(&filename[0], "ucode_data_%x.bin", sum);
+            dump_binary(filename, rsp.RDRAM + (task->ucode_data & 0x7fffff), task->ucode_data_size);
+        }
+
+        // dump data
+        if (task->data_ptr != 0)
+        {
+            sprintf(&filename[0], "data_%x.bin", sum);
+            dump_binary(filename, rsp.RDRAM + (task->data_ptr & 0x7fffff), task->data_size);
+        }
+    }
     else
+    {
+        // For ucodes that are not run using the osSpTask* functions
+
+        // Try to identify the RSP code we should run
         for (i=0; i<(0x1000/2); i++)
             sum += *(rsp.IMEM + i);
 
-
-    if (task->ucode_size > 0x1000)
-    {
         switch(sum)
         {
-        case 0x9E2: // banjo tooie (U) boot code
+        // CIC 6105 IPL3 run some code on the RSP
+        // We only emulate the part that modify RDRAM
+        //
+        // It is used for instance in Banjo Tooie, Zelda, Perfect Dark...
+        case 0x9e2: // banjo tooie (U)
+        case 0x9f2: // banjo tooie (E)
             {
             int i,j;
-            memcpy(rsp.IMEM + 0x120, rsp.RDRAM + 0x1e8, 0x1e8);
+            memcpy(rsp.IMEM + 0x120, rsp.RDRAM + 0x1e8, 0x1f0);
             for (j=0; j<0xfc; j++)
                 for (i=0; i<8; i++)
                     *(rsp.RDRAM+((0x2fb1f0+j*0xff0+i)^S8))=*(rsp.IMEM+((0x120+j*8+i)^S8));
-            }
             return Cycles;
-       case 0x9F2: // banjo tooie (E) + zelda oot (E) boot code
-            {
-            int i,j;
-            memcpy(rsp.IMEM + 0x120, rsp.RDRAM + 0x1e8, 0x1e8);
-            for (j=0; j<0xfc; j++)
-                for (i=0; i<8; i++)
-                    *(rsp.RDRAM+((0x2fb1f0+j*0xff0+i)^S8))=*(rsp.IMEM+((0x120+j*8+i)^S8));
             }
-            return Cycles;
         }
-    }
-    else
-    {
-        switch(task->type)
-        {
-        case 2: // audio
-            if (audio_ucode(task) == 0)
-                return Cycles;
-            break;
-        case 4: // jpeg
-            switch(sum)
-            {
-            case 0x278: // used by zelda during boot
-                taskdone();
-                return Cycles;
-            case 0x2e4fc: // used by pokemon stadium {1,2} for jpg decompression
-                ps_jpg_uncompress(task);
-                taskdone();
-                return Cycles;
-            case 0x130de: // used by ogre battle for background decompression
-                ob_jpg_uncompress(task);
-                taskdone();
-                return Cycles;
-            default:
-                DebugMessage(M64MSG_WARNING, "unknown jpeg task:  sum:%x", sum);
-            }
-            break;
-        }
-    }
 
-    {
-    FILE *f;
-    DebugMessage(M64MSG_WARNING, "unknown task:  type:%d  sum:%x  PC:%lx", (int)task->type, sum, (unsigned long) rsp.SP_PC_REG);
+        DebugMessage(M64MSG_WARNING, "unknown RSP code: sum: %x PC:%x", sum, *rsp.SP_PC_REG);
 
-    if (task->ucode_size <= 0x1000)
-    {
-        f = fopen("imem.dat", "wb");
-        if (f == NULL || fwrite(rsp.RDRAM + task->ucode, 1, task->ucode_size, f) != task->ucode_size)
-            DebugMessage(M64MSG_WARNING, "couldn't write to RSP debugging file imem.dat");
-        fclose(f);
+        // dump IMEM & DMEM for further analysis
+        sprintf(&filename[0], "imem_%x.bin", sum);
+        dump_binary(filename, rsp.IMEM, 0x1000);
 
-        f = fopen("dmem.dat", "wb");
-        if (f == NULL || fwrite(rsp.RDRAM + task->ucode_data, 1, task->ucode_data_size, f) != task->ucode_data_size)
-            DebugMessage(M64MSG_WARNING, "couldn't write to RSP debugging file dmem.dat");
-        fclose(f);
-    }
-    else
-    {
-        f = fopen("imem.dat", "wb");
-        if (f == NULL || fwrite(rsp.IMEM, 1, 0x1000, f) != 0x1000)
-            DebugMessage(M64MSG_WARNING, "couldn't write to RSP debugging file imem.dat");
-        fclose(f);
-
-        f = fopen("dmem.dat", "wb");
-        if (f == NULL || fwrite(rsp.DMEM, 1, 0x1000, f) != 0x1000)
-            DebugMessage(M64MSG_WARNING, "couldn't write to RSP debugging file dmem.dat");
-        fclose(f);
-    }
+        sprintf(&filename[0], "dmem_%x.bin", sum);
+        dump_binary(filename, rsp.DMEM, 0x1000);
     }
 
     return Cycles;

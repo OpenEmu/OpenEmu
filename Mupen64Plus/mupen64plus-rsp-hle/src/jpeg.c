@@ -364,7 +364,7 @@ void ps_jpg_uncompress(OSTask_t *task)
         }
 
         // Texel Formatting (RGBA16)
-        offset = ps_jpg_data.pMacroBlocks + oMBsize*mb;
+        offset = ps_jpg_data.pMacroBlocks + iMBsize*mb;
         y_offset = 0;
         u_offset = oMBsize/2;
 
