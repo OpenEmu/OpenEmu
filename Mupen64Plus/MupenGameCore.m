@@ -147,7 +147,8 @@ static void MupenAudioSampleRateChanged(int SystemType)
             g_core->sampleRate = 49656530 / (*AudioInfo.AI_DACRATE_REG + 1);
             break;
     }
-    
+
+    [[g_core audioDelegate] audioSampleRateDidChange];
     NSLog(@"Mupen rate changed %f -> %f\n", currentRate, g_core->sampleRate);
 }
 

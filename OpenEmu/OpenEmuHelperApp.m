@@ -615,6 +615,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         
         [gameCore setOwner:owner];
         [gameCore setRenderDelegate:self];
+        [gameCore setAudioDelegate:self];
         
         DLog(@"Loaded bundle. About to load rom...");
         
@@ -731,6 +732,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     [gameCoreProxy stopEmulation];
     [gameAudio stopAudio];
     [gameCore setRenderDelegate:nil];
+    [gameCore setAudioDelegate:nil];
     [gameCoreProxy setGameThread:nil];
     gameCoreProxy = nil;
     gameCore      = nil;
@@ -813,7 +815,18 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
 }
 
+#pragma mark - OEAudioDelegate
+
+- (void)audioSampleRateDidChange
+{
+    DLog(@"");
+    [gameAudio stopAudio];
+    [gameAudio startAudio];
+}
+
 @end
+
+#pragma mark -
 
 
 @implementation OEGameCoreProxy

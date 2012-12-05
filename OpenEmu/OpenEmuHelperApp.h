@@ -53,7 +53,7 @@ enum _OEHelperAppErrorCodes
     OEHelperIncorrectFileError           = -2,
 };
 
-@interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper, OERenderDelegate>
+@interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper, OERenderDelegate, OEAudioDelegate>
 {
     NSRunningApplication *parentApplication; // the process id of the parent app (Open Emu or our debug helper)
     NSThread             *gameCoreThread;
