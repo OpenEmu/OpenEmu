@@ -266,7 +266,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             // Wait a little while to make sure the fs operation has completed
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
             dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                [OEDBSaveState updateStateWithPath:path];
+                [OEDBSaveState updateOrCreateStateWithPath:path];
             });
         }
     };

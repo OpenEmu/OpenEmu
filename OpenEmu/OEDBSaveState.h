@@ -32,8 +32,6 @@ extern NSString *const OESaveStateInfoDescriptionKey;
 extern NSString *const OESaveStateInfoROMMD5Key;
 extern NSString *const OESaveStateInfoCoreIdentifierKey;
 extern NSString *const OESaveStateInfoCoreVersionKey;
-// extern NSString *const OESaveStateInfoCreationDateKey;
-// extern NSString *const OESaveStateInfoBookmarkDataKey;
 
 extern NSString *const OESaveStateSpecialNamePrefix;
 extern NSString *const OESaveStateAutosaveName;
@@ -54,15 +52,19 @@ extern NSString *const OESaveStateQuicksaveName;
 + (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL;
 + (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL inDatabase:(OELibraryDatabase *)database;
 
-+ (void)updateStateWithPath:(NSString*)path;
-#pragma mark -
-- (BOOL)reloadFromInfoPlist;
-- (BOOL)rewriteInfoPlist;
++ (void)updateOrCreateStateWithPath:(NSString*)path;
+#pragma mark - Management
+- (BOOL)readInfoPlist;
+- (BOOL)writeInfoPlist;
+
 - (void)remove;
 - (void)removeIfMissing;
 
 - (void)replaceStateFileWithFile:(NSURL*)stateFile;
-- (void)moveFileToDefaultLocation;
+- (void)moveToDefaultLocation;
+#pragma mark - Data Accessors
+- (NSString*)displayName; // Should be used instead of -name if the string is to be displayed to the user
+- (BOOL)isSpecialState;
 #pragma mark -
 #pragma mark Data Model Properties
 @property (nonatomic, retain)           NSString *name;

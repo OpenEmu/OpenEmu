@@ -98,8 +98,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     return [[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:row];
 }
 
-#pragma mark - 
-#pragma mark NSTableViewDatasource Implementaion
+#pragma mark - NSTableViewDatasource Implementaion
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
@@ -126,7 +125,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
             return [NSNumber numberWithFloat:[plugin progress]];
         }
         
-        return [plugin version];
+        return [plugin canBeInstalled] ? @0 : [plugin version];
     }
     return plugin;
 }

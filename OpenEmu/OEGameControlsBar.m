@@ -42,6 +42,7 @@
 #import "OEDBSaveState.h"
 
 NSString *const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState";
+NSString *const OEGameControlsBarShowsAutoSaveStateKey  = @"HUDBarShowAutosaveState";
 NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
@@ -74,7 +75,10 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 + (void)initialize
 {
     // Time until hud controls bar fades out
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OEGameControlsBarFadeOutDelayKey : @1.5 } ];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+                          OEGameControlsBarFadeOutDelayKey : @1.5,
+                    OEGameControlsBarShowsAutoSaveStateKey : @YES
+     }];
 }
 
 - (id)initWithGameViewController:(OEGameViewController *)controller
@@ -281,39 +285,46 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 {
     NSMenu *menu = [[NSMenu alloc] init];
     
-    NSMenuItem *item;
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:@selector(saveState:) keyEquivalent:@""];
-    [menu addItem:item];
+    NSMenuItem *newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:@selector(saveState:) keyEquivalent:@""];
+    [menu setDelegate:self];
+    [menu addItem:newSaveItem];
     
-    NSArray *saveStates = nil;
+    OEDBRom *rom = [[self gameViewController] rom];
+    [rom removeMissingStates];
     
-    [[[self gameViewController] rom] removeMissingStates];
-    if([[self gameViewController] rom] != nil && (saveStates = [[[self gameViewController] rom] normalSaveStatesByTimestampAscending:YES]) && [saveStates count] != 0)
+    if(rom != nil)
     {
-        [menu addItem:[NSMenuItem separatorItem]];
-        for(OEDBSaveState *saveState in saveStates)
+        BOOL includeAutoSaveState = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsAutoSaveStateKey];
+        NSArray *saveStates = [rom normalSaveStatesByTimestampAscending:YES];
+        if([saveStates count]!=0 || (includeAutoSaveState && [rom autosaveState] != nil))
         {
-            NSString *itemTitle = [saveState name];
-            if(!itemTitle || [itemTitle isEqualToString:@""])
-                itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
+            [menu addItem:[NSMenuItem separatorItem]];
             
-            item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
-            [item setRepresentedObject:saveState];
-
-            [menu addItem:item];
-
-            if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
+            if(includeAutoSaveState && [rom autosaveState] != nil)
+                saveStates = [@[[rom autosaveState]] arrayByAddingObjectsFromArray:saveStates];
+            
+            for(OEDBSaveState *saveState in saveStates)
             {
-                NSMenuItem *deleteStateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
-                [deleteStateItem setAlternate:YES];
-                [deleteStateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
-                [deleteStateItem setRepresentedObject:saveState];
-                [menu addItem:deleteStateItem];
+                NSString *itemTitle = [saveState displayName];
+                
+                if(!itemTitle || [itemTitle isEqualToString:@""])
+                    itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
+                
+                NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
+                [item setRepresentedObject:saveState];
+                [menu addItem:item];
+                
+                if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
+                {
+                    NSMenuItem *deleteStateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
+                    [deleteStateItem setAlternate:YES];
+                    [deleteStateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+                    [deleteStateItem setRepresentedObject:saveState];
+                    [menu addItem:deleteStateItem];
+                }
             }
         }
     }
-
-    [menu setDelegate:self];
 
     NSRect targetRect = [sender bounds];
     targetRect.size.width -= 7.0;
@@ -331,7 +342,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 #pragma mark -
 #pragma mark OEMenuDelegate Implementation
-
 - (void)menuWillOpen:(NSMenu *)menu
 {
     openMenus++;

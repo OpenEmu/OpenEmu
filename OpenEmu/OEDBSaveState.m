@@ -62,6 +62,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 @end
 
 @implementation OEDBSaveState
+
 + (NSArray*)allStates
 {
     return [self allStatesInDatabase:[OELibraryDatabase defaultDatabase]];
@@ -116,7 +117,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 {
     OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database managedObjectContext]];
     [newSaveState setLocation:[url absoluteString]];
-    if(![newSaveState reloadFromInfoPlist])
+    if(![newSaveState readInfoPlist])
     {
         // setting path to nil so file won't be deleted in -remove
         [newSaveState setLocation:nil];
@@ -152,11 +153,6 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [newSaveState setCoreVersion:[core version]];
     [newSaveState setTimestamp:[NSDate date]];
     
-    if([name hasPrefix:OESaveStateSpecialNamePrefix])
-    {
-        name = NSLocalizedString(name, @"Localized special save state name");
-    }
-    
     NSError  *error              = nil;
     NSString *fileName           = [NSURL validFilenameFromString:name];
     NSURL    *saveStateFolderURL = [database stateFolderURLForROM:rom];
@@ -180,27 +176,34 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 - (BOOL)OE_createBundleAtURL:(NSURL*)bundleURL withStateFile:(NSURL*)stateFile error:(NSError*__autoreleasing*)error
 {
-    NSDictionary *directoryAttributes = nil;
-    if(![[NSFileManager defaultManager] createDirectoryAtURL:bundleURL withIntermediateDirectories:YES attributes:directoryAttributes error:error])
+    NSFileManager *fileManager         = [NSFileManager defaultManager];
+    NSDictionary  *directoryAttributes = @{};
+    if(![fileManager createDirectoryAtURL:bundleURL withIntermediateDirectories:YES attributes:directoryAttributes error:error])
     {
         return NO;
     }
 
     NSURL *stateURLInBundle = [bundleURL URLByAppendingPathComponent:OESaveStateDataFile];
-    if(![[NSFileManager defaultManager] moveItemAtURL:stateFile toURL:stateURLInBundle error:error])
+    if(![fileManager moveItemAtURL:stateFile toURL:stateURLInBundle error:error])
     {
+        [fileManager removeItemAtURL:bundleURL error:nil];
         return NO;
     }
+    
     [self setURL:bundleURL];
-    if(![self rewriteInfoPlist])
+    
+    if(![self writeInfoPlist])
     {
+        [fileManager removeItemAtURL:stateFile error:nil];
+        [fileManager removeItemAtURL:bundleURL error:nil];
+
         return NO;
     }
     
     return YES;
 }
 
-+ (void)updateStateWithPath:(NSString*)path
++ (void)updateOrCreateStateWithPath:(NSString*)path
 {
     NSRange range     = [path rangeOfString:@".oesavestate" options:NSCaseInsensitiveSearch];
     if(range.location == NSNotFound) return;
@@ -210,25 +213,24 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     NSURL           *url            = [NSURL fileURLWithPath:saveStatePath];
     OEDBSaveState   *saveState      = [OEDBSaveState saveStateWithURL:url]; 
 
-    if(saveState)
-        if([defaultManager fileExistsAtPath:saveStatePath])
-        {
-           [saveState reloadFromInfoPlist]; 
-        }
-        else
-        {
-            [saveState remove];
-            return;
-        }
-    else if([defaultManager fileExistsAtPath:saveStatePath])
+    BOOL fileExists = [defaultManager fileExistsAtPath:saveStatePath];
+    if(saveState && fileExists)
+    {
+           [saveState readInfoPlist];
+    }
+    else if(saveState && !fileExists)
+    {
+        [saveState remove];
+    }
+    else if(!saveState && [defaultManager fileExistsAtPath:saveStatePath])
     {
         saveState = [OEDBSaveState createSaveStateWithURL:url];
     }
 
-    [saveState moveFileToDefaultLocation];
+    [saveState moveToDefaultLocation];
 }
-#pragma mark -
-- (BOOL)reloadFromInfoPlist
+#pragma mark - Management
+- (BOOL)readInfoPlist
 {
     NSDictionary    *infoPlist  = [self infoPlist];
     NSString        *version    = [infoPlist valueForKey:OESaveStateInfoVersionKey];
@@ -268,7 +270,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     return YES;
 }
 
-- (BOOL)rewriteInfoPlist
+- (BOOL)writeInfoPlist
 {
     NSMutableDictionary *infoPlist = [[self infoPlist] mutableCopy];
     
@@ -315,7 +317,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [[NSFileManager defaultManager] copyItemAtURL:stateFile toURL:[self stateFileURL] error:nil];
 }
 
-- (void)moveFileToDefaultLocation
+- (void)moveToDefaultLocation
 {
     NSURL    *saveStateFolderURL = [[self libraryDatabase] stateFolderURLForROM:[self rom]];
     if([[self URL] isSubpathOfURL:saveStateFolderURL]) return;
@@ -334,6 +336,28 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         return;
     }
     [self setURL:newStateURL];
+}
+#pragma mark - Data Accessors
+- (NSString*)displayName
+{
+    if(![self isSpecialState])
+        return [self name];
+    
+    NSString *name = [self name];
+    if([name isEqualToString:OESaveStateAutosaveName])
+    {
+        return NSLocalizedString(@"Auto Save State", @"Autosave state display name");
+    }
+    else if([name isEqualToString:OESaveStateQuicksaveName])
+    {
+        return NSLocalizedString(@"Quick Save State", @"Quicksave state display name");
+    }
+    return name;
+}
+
+- (BOOL)isSpecialState
+{
+    return [[self name] rangeOfString:OESaveStateSpecialNamePrefix].location == 0;
 }
 #pragma mark -
 #pragma mark Data Model Properties
