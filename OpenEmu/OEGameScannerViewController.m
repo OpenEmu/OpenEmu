@@ -452,9 +452,11 @@
     NSView *sidebarView = [[[scannerView superview] subviews] objectAtIndex:0];
     NSView *superView   = [sidebarView superview];
     
-    [NSAnimationContext beginGrouping];
+    [NSAnimationContext beginGrouping];    
+    [[NSAnimationContext currentContext] setCompletionHandler:^{
+         [sidebarView setFrame:(NSRect){{0,NSHeight([scannerView bounds])}, {NSWidth([superView bounds]), NSHeight([superView bounds])-NSHeight([scannerView bounds])}}];
+    }];
     [[scannerView animator] setFrameOrigin:NSMakePoint(0, 0)];
-    [[sidebarView animator] setFrame:(NSRect){{0,NSHeight([scannerView frame])}, {NSWidth([superView bounds]), NSHeight([superView bounds])-NSHeight([scannerView frame])}}];
     [NSAnimationContext endGrouping];
 }
 
@@ -465,8 +467,10 @@
     NSView *superView   = [sidebarView superview];
     
     [NSAnimationContext beginGrouping];
+    [[NSAnimationContext currentContext] setCompletionHandler:^{
+        [sidebarView setFrame:[superView bounds]];
+    }];
     [[scannerView animator] setFrameOrigin:NSMakePoint(0, -NSHeight([scannerView frame]))];
-    [[sidebarView animator] setFrame:[superView bounds]];
     [NSAnimationContext endGrouping];
 }
 @end
