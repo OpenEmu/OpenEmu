@@ -894,7 +894,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (void)deleteSelectedGames:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    
+    BOOL multipleGames = ([selectedGames count]>1);
     if([[self representedObject] isKindOfClass:[OEDBCollection class]])
     {
         if([[OEHUDAlert removeGamesFromCollectionAlert] runModal])
@@ -905,7 +905,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         }
         [self setNeedsReload];
     }
-    else if([[OEHUDAlert removeGamesFromLibraryAlert:[selectedGames count]>1] runModal])
+    else if([[OEHUDAlert removeGamesFromLibraryAlert:multipleGames] runModal])
     {
         NSURL* romsFolderURL             = [[[self libraryController] database] romsFolderURL];
         __block BOOL romsAreInRomsFolder = NO; 
@@ -922,17 +922,21 @@ static const float OE_coverFlowHeightPercentage = 0.75;
             }];
         }];
         
-        NSUInteger alertReturn = NSAlertAlternateReturn;
-        if(!romsAreInRomsFolder || (alertReturn=[[OEHUDAlert removeGameFilesFromLibraryAlert:[selectedGames count]>1] runModal]))
+        BOOL deleteFiles = NO;
+        if(romsAreInRomsFolder)
         {
-            NSManagedObjectContext *moc = [[selectedGames lastObject] managedObjectContext];
-            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
-                [game deleteByMovingFile:alertReturn==NSAlertDefaultReturn keepSaveStates:YES];
-            }];
-            [moc save:nil];
-            
-            [self setNeedsReload];
+            NSUInteger alertReturn = [[OEHUDAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
+            deleteFiles = (alertReturn == NSAlertDefaultReturn);
         }
+        
+        DLog(@"deleteFiles: %d", deleteFiles);
+        NSManagedObjectContext *moc = [[selectedGames lastObject] managedObjectContext];
+        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
+            [game deleteByMovingFile:deleteFiles keepSaveStates:YES];
+        }];
+        [moc save:nil];
+        
+        [self setNeedsReload];
     }
 }
 
