@@ -57,7 +57,6 @@
         [self setFont:fieldEditorFont];
         
         CALayer *layer = [self layer];
-        [layer setShouldRasterize:YES];
         [layer setShadowOpacity:0.45];
         [layer setShadowColor:[[NSColor blackColor] CGColor]];
         [layer setShadowOffset:CGSizeMake(0.0, -6.0)];

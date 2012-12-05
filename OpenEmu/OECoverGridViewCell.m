@@ -409,7 +409,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [_imageLayer setOpacity:1.0];
     [_imageLayer setOpaque:YES];
 
-    [_imageLayer setShouldRasterize:YES];
     [_imageLayer setShadowColor:[[NSColor blackColor] CGColor]];
     [_imageLayer setShadowOffset:CGSizeMake(0.0, 3.0)];
     [_imageLayer setShadowOpacity:1.0];
@@ -424,7 +423,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [_titleLayer setTruncationMode:kCATruncationEnd];
     [_titleLayer setAlignmentMode:kCAAlignmentCenter];
 
-    [_titleLayer setShouldRasterize:YES];
     [_titleLayer setShadowColor:[[NSColor blackColor] CGColor]];
     [_titleLayer setShadowOffset:CGSizeMake(0.0, 1.0)];
     [_titleLayer setShadowRadius:1.0];
