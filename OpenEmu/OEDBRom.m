@@ -374,13 +374,13 @@
 {
     NSURL *url = [self URL];
     
-    if([url isSubpathOfURL:[[self libraryDatabase] romsFolderURL]])
+    if(moveToTrash && [url isSubpathOfURL:[[self libraryDatabase] romsFolderURL]])
     {
         NSString *path = [url path];
         [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:[path stringByDeletingLastPathComponent] destination:nil files:[NSArray arrayWithObject:[path lastPathComponent]] tag:NULL];
     }
     
-    if(statesFlag)
+    if(!statesFlag)
     {
         // TODO: remove states
     }

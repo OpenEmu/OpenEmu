@@ -682,7 +682,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 //        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
 
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
-        [menu addItem:[NSMenuItem separatorItem]];
+//        [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:@"Add Cover Art From File..." action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
 //        [menu addItemWithTitle:@"Add Save File To Game..." action:@selector(addSaveStateFromFile:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
@@ -714,7 +714,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 //        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
 
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
-        
+        [menu addItemWithTitle:@"Add Cover Art From File..." action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
+
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
         NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
@@ -894,7 +895,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (void)deleteSelectedGames:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    
+    BOOL multipleGames = ([selectedGames count]>1);
     if([[self representedObject] isKindOfClass:[OEDBCollection class]])
     {
         if([[OEHUDAlert removeGamesFromCollectionAlert] runModal])
@@ -905,7 +906,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         }
         [self setNeedsReload];
     }
-    else if([[OEHUDAlert removeGamesFromLibraryAlert:[selectedGames count]>1] runModal])
+    else if([[OEHUDAlert removeGamesFromLibraryAlert:multipleGames] runModal])
     {
         NSURL* romsFolderURL             = [[[self libraryController] database] romsFolderURL];
         __block BOOL romsAreInRomsFolder = NO; 
@@ -922,17 +923,21 @@ static const float OE_coverFlowHeightPercentage = 0.75;
             }];
         }];
         
-        NSUInteger alertReturn = NSAlertAlternateReturn;
-        if(!romsAreInRomsFolder || (alertReturn=[[OEHUDAlert removeGameFilesFromLibraryAlert:[selectedGames count]>1] runModal]))
+        BOOL deleteFiles = NO;
+        if(romsAreInRomsFolder)
         {
-            NSManagedObjectContext *moc = [[selectedGames lastObject] managedObjectContext];
-            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
-                [game deleteByMovingFile:alertReturn==NSAlertDefaultReturn keepSaveStates:YES];
-            }];
-            [moc save:nil];
-            
-            [self setNeedsReload];
+            NSUInteger alertReturn = [[OEHUDAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
+            deleteFiles = (alertReturn == NSAlertDefaultReturn);
         }
+        
+        DLog(@"deleteFiles: %d", deleteFiles);
+        NSManagedObjectContext *moc = [[selectedGames lastObject] managedObjectContext];
+        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
+            [game deleteByMovingFile:deleteFiles keepSaveStates:YES];
+        }];
+        [moc save:nil];
+        
+        [self setNeedsReload];
     }
 }
 
