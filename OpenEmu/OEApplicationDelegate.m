@@ -152,6 +152,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [OECompositionPlugin allPluginNames];
     
     [mainWindowController showWindow:self];
+    
+    [[OECoreUpdater sharedUpdater] checkForNewCores:@( NO )];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
