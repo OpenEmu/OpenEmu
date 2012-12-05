@@ -923,7 +923,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
     
     // We skip common types by default.
-    NSArray *commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
+    NSArray *commonTypes = @[@"zip", @"elf"];
     
     [supportedFileExtensions removeObjectsInArray:commonTypes];
     
@@ -991,7 +991,6 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
                                @"Developer",
                                @"Volumes",
                                @"Applications",
-                               @"bin",
                                @"cores",
                                @"dev",
                                @"etc",

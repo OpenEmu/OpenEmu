@@ -90,9 +90,11 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     {
         // Setup image
         _imageLayer = [[OEGridLayer alloc] init];
+        [_imageLayer setDelegate:self];
         [self addSublayer:_imageLayer];
 
         _titleLayer = [[CATextLayer alloc] init];
+        [_titleLayer setDelegate:self];
         [self addSublayer:_titleLayer];
 
         // For some reason CATextLayer doesn't respect [CATransaction disableActions], so lets explicitly set the implicit animation to nil
@@ -103,18 +105,23 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
         [_titleLayer setActions:titleLayerActions];
 
         _ratingLayer = [[OECoverGridViewCellRatingLayer alloc] init];
+        [_ratingLayer setDelegate:self];
         [self addSublayer:_ratingLayer];
 
         CALayer *foregroundLayer = [[CALayer alloc] init];
+        [foregroundLayer setDelegate:self];
         [self setForegroundLayer:foregroundLayer];
 
         _statusIndicatorLayer = [[OECoverGridViewCellIndicationLayer alloc] init];
+        [_statusIndicatorLayer setDelegate:self];
         [foregroundLayer addSublayer:_statusIndicatorLayer];
 
         _glossyOverlayLayer = [[OEGridLayer alloc] init];
+        [_glossyOverlayLayer setDelegate:self];
         [foregroundLayer addSublayer:_glossyOverlayLayer];
 
         _selectionIndicatorLayer = [[OEGridLayer alloc] init];
+        [_selectionIndicatorLayer setDelegate:self];
         [_selectionIndicatorLayer setHidden:YES];
         [foregroundLayer addSublayer:_selectionIndicatorLayer];
 
@@ -402,7 +409,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [_imageLayer setOpacity:1.0];
     [_imageLayer setOpaque:YES];
 
-    [_imageLayer setShouldRasterize:YES];
     [_imageLayer setShadowColor:[[NSColor blackColor] CGColor]];
     [_imageLayer setShadowOffset:CGSizeMake(0.0, 3.0)];
     [_imageLayer setShadowOpacity:1.0];
@@ -417,7 +423,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [_titleLayer setTruncationMode:kCATruncationEnd];
     [_titleLayer setAlignmentMode:kCAAlignmentCenter];
 
-    [_titleLayer setShouldRasterize:YES];
     [_titleLayer setShadowColor:[[NSColor blackColor] CGColor]];
     [_titleLayer setShadowOffset:CGSizeMake(0.0, 1.0)];
     [_titleLayer setShadowRadius:1.0];
@@ -526,12 +531,14 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     const CGRect imageRect = [_imageLayer bounds];
 
     OEGridLayer *imageInnerLayer = [[OEGridLayer alloc] init];
+    [imageInnerLayer setDelegate:self];
     [imageInnerLayer setMasksToBounds:YES];
     [imageInnerLayer setFrame:imageRect];
     [imageInnerLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
     [_imageLayer addSublayer:imageInnerLayer];
 
     _proposedImageLayer = [[OEGridLayer alloc] initWithLayer:_imageLayer];
+    [_proposedImageLayer setDelegate:self];
     [_proposedImageLayer setMasksToBounds:YES];
     [_proposedImageLayer setContentsGravity:kCAGravityResizeAspectFill];
     [_proposedImageLayer setContents:proposedCoverImage];
