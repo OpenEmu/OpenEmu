@@ -36,6 +36,7 @@ NSString *const OEDeleteGameAlertSuppressionKey = @"removeStatesWithoutConfirmat
 NSString *const OESaveGameAlertSuppressionKey = @"saveGameWithoutConfirmation";
 NSString *const OEChangeCoreAlertSuppressionKey = @"changeCoreWithoutConfirmation";
 NSString *const OEResetSystemAlertSuppressionKey = @"resetSystemWithoutConfirmation";
+NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDialogChoice";
 
 @implementation OEHUDAlert (DefaultAlertsAdditions)
 
@@ -159,7 +160,9 @@ NSString *const OEResetSystemAlertSuppressionKey = @"resetSystemWithoutConfirmat
     NSString *messageText = NSLocalizedString(@"Only files in the OpenEmu Library folder will be moved to the Trash.", @"");
     [alert setMessageText:messageText];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Move to Trash", @"")];
-    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Keep Files", @"")];
+    [alert showSuppressionButtonForUDKey:OERemoveGameFilesFromLibraryAlertSuppressionKey];
+    [alert setSuppressOnDefaultReturnOnly:NO];
     
     return alert;
 }
