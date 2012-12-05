@@ -52,9 +52,9 @@ EXPORT m64p_error CALL VidExt_ListFullscreenModes(m64p_2d_size *SizeArray, int *
 
 EXPORT m64p_error CALL VidExt_SetVideoMode(int Width, int Height, int BitsPerPixel, m64p_video_mode ScreenMode)
 {
-    gMupenVideoSettings.width = Width;
-    gMupenVideoSettings.height = Height;
-    gMupenVideoSettings.bitsPerPixel = BitsPerPixel;
+    g_core->videoWidth = Width;
+    g_core->videoHeight = Height;
+    g_core->videoBitDepth = BitsPerPixel;
     
     sActive = 1;
     

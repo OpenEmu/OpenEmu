@@ -37,7 +37,6 @@
 
 #import <OpenEmuBase/OERingBuffer.h>
 #import <OpenGL/gl.h>
-#import "OEN64SystemResponderClient.h"
 
 #import "plugin.h"
 
@@ -50,28 +49,32 @@ NSString *MupenControlNames[] = {
 }; // FIXME: missing: joypad X, joypad Y, mempak switch, rumble switch
 
 @interface MupenGameCore () <OEN64SystemResponderClient>
-{
-    NSData  *romData;
-    uint8_t *black;
-@public
-    uint8_t padData[OEN64ButtonCount];
-}
-
 @end
 
 dispatch_semaphore_t gMupenWaitForVISemaphore;
 dispatch_semaphore_t gCoreWaitForFinishSemaphore;
 
-struct MupenVideoSettings gMupenVideoSettings = {640, 480, 32};
 MupenGameCore *g_core;
 
 @implementation MupenGameCore
+{
+    NSData *romData;
+}
 
 - (instancetype)init
 {
     if (self = [super init]) {
         gMupenWaitForVISemaphore = dispatch_semaphore_create(0);
         gCoreWaitForFinishSemaphore = dispatch_semaphore_create(0);
+        
+        videoWidth  = 640;
+        videoHeight = 480;
+        videoBitDepth = 32; // ignored
+        videoDepthBitDepth = 0; // TODO
+        
+        sampleRate = 33600;
+        
+        isNTSC = YES;
     }
     g_core = self;
     return self;
@@ -102,7 +105,7 @@ static void *dlopen_myself()
     return dlopen(info.dli_fname, 0);
 }
 
-void GetKeys(int Control, BUTTONS *Keys)
+static void MupenGetKeys(int Control, BUTTONS *Keys)
 {
     Keys->R_DPAD = g_core->padData[OEN64ButtonDPadRight];
     Keys->L_DPAD = g_core->padData[OEN64ButtonDPadLeft];
@@ -122,9 +125,44 @@ void GetKeys(int Control, BUTTONS *Keys)
     Keys->Y_AXIS = (Keys->D_DPAD ? INT8_MIN : (Keys->U_DPAD ? INT8_MAX : 0));
 }
 
-void InitiateControllers (CONTROL_INFO ControlInfo)
+static void MupenInitiateControllers (CONTROL_INFO ControlInfo)
 {
     ControlInfo.Controls[0].Present = 1;
+}
+
+static AUDIO_INFO AudioInfo;
+
+static void MupenAudioSampleRateChanged(int SystemType)
+{    
+    switch (SystemType)
+    {
+        case SYSTEM_NTSC:
+            g_core->sampleRate = 48681812 / (*AudioInfo.AI_DACRATE_REG + 1);
+            break;
+        case SYSTEM_PAL:
+            g_core->sampleRate = 49656530 / (*AudioInfo.AI_DACRATE_REG + 1);
+            break;
+    }
+}
+
+static void MupenAudioLenChanged()
+{
+    int LenReg = *AudioInfo.AI_LEN_REG;
+    uint8_t *ptr = (uint8_t*)(AudioInfo.RDRAM + (*AudioInfo.AI_DRAM_ADDR_REG & 0xFFFFFF));
+    
+    [[g_core ringBufferAtIndex:0] write:ptr maxLength:LenReg];
+}
+
+static int MupenOpenAudio(AUDIO_INFO info)
+{
+    AudioInfo = info;
+    
+    return M64ERR_SUCCESS;
+}
+
+static void MupenSetAudioSpeed(int percent)
+{
+    // do we need this?
 }
 
 - (BOOL)loadFileAtPath:(NSString *)path
@@ -167,13 +205,19 @@ void InitiateControllers (CONTROL_INFO ControlInfo)
         CoreAttachPlugin(pluginType, rsp_handle);
     };
     
-    getKeys = GetKeys;
-    initiateControllers = InitiateControllers;
     // Load Video
     LoadPlugin(M64PLUGIN_GFX, @"mupen64plus-video-rice.so");
-    plugin_start(M64PLUGIN_INPUT);
     // Load Audio
+    aiDacrateChanged = MupenAudioSampleRateChanged;
+    aiLenChanged = MupenAudioLenChanged;
+    initiateAudio = MupenOpenAudio;
+    setSpeedFactor = MupenSetAudioSpeed;
+    plugin_start(M64PLUGIN_AUDIO);
+    
     // Load Input
+    getKeys = MupenGetKeys;
+    initiateControllers = MupenInitiateControllers;
+    plugin_start(M64PLUGIN_INPUT);
     // Load RSP
     LoadPlugin(M64PLUGIN_RSP, @"mupen64plus-rsp-hle.so");
     
@@ -236,7 +280,7 @@ void InitiateControllers (CONTROL_INFO ControlInfo)
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(gMupenVideoSettings.width, gMupenVideoSettings.height);
+    return OESizeMake(videoWidth, videoHeight);
 }
 
 - (BOOL)rendersToOpenGL
@@ -246,9 +290,7 @@ void InitiateControllers (CONTROL_INFO ControlInfo)
 
 - (const void *)videoBuffer
 {
-    if(black == NULL) black = calloc(1, 640 * 480 * 2);
-
-    return black;
+    return NULL;
 }
 
 - (GLenum)pixelFormat
@@ -266,24 +308,22 @@ void InitiateControllers (CONTROL_INFO ControlInfo)
     return GL_RGB8;
 }
 
-- (const void *)soundBuffer
-{
-    return NULL;
-}
+#pragma mark Mupen Audio
 
-- (NSUInteger)audioBufferCount
+- (NSTimeInterval)frameInterval
 {
-    return 0;
+    // Mupen uses 60 but it's probably wrong
+    return isNTSC ? 60 : 50;
 }
 
 - (NSUInteger)channelCount
 {
-    return 0;
+    return 2;
 }
 
 - (double)audioSampleRate
 {
-    return 0;
+    return sampleRate;
 }
 
 - (oneway void)didPushN64Button:(OEN64Button)button forPlayer:(NSUInteger)player

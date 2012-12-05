@@ -27,19 +27,26 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuBase/OEGameCore.h>
 #import <dispatch/dispatch.h>
+#import "OEN64SystemResponderClient.h"
 
 extern dispatch_semaphore_t gMupenWaitForVISemaphore;
 extern dispatch_semaphore_t gCoreWaitForFinishSemaphore;
 
-struct MupenVideoSettings {
-    int width;
-    int height;
-    int bitsPerPixel;
-    // FPS goes here
-};
-
-extern struct MupenVideoSettings gMupenVideoSettings;
-
 OE_EXPORTED_CLASS
 @interface MupenGameCore : OEGameCore
+{
+@public
+    uint8_t padData[OEN64ButtonCount];
+    
+    int videoWidth;
+    int videoHeight;
+    int videoBitDepth;
+    int videoDepthBitDepth; // eh
+    
+    float sampleRate;
+    
+    BOOL isNTSC;
+}
 @end
+
+extern MupenGameCore *g_core;
