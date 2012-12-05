@@ -150,19 +150,27 @@
     appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
     
     fullPluginPath = [appsupportFolder stringByAppendingPathComponent:[archive nameOfEntry:0]];
-    DLog(@"%@", fullPluginPath);
     [archive extractTo:appsupportFolder];
     
     // Delete the temp file
     [[NSFileManager defaultManager] removeItemAtPath:downloadPath error:nil];
-    
-    if(self.canBeInstalled)
+        
+    OECorePlugin *plugin = [OECorePlugin pluginWithBundleAtPath:fullPluginPath type:[OECorePlugin class]];
+    if(self.hasUpdate)
     {
-        OECorePlugin *plugin = [OECorePlugin pluginWithBundleAtPath:fullPluginPath type:[OECorePlugin class]];
+        NSString *infoPlistPath = [[[plugin bundle] bundlePath] stringByAppendingPathComponent:@"Contents/Info.plist"];
+        NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath];
+
+        self.version = [infoPlist objectForKey:@"CFBundleVersion"];
+        self.canBeInstalled = NO;
+        self.hasUpdate = NO;
+    }
+    else if(self.canBeInstalled)
+    {
         [self OE_setValuesUsingPlugin:plugin];
     }
-    downloading = NO;
     
+    downloading = NO;
     [delegate OEDownloadDidFinish:self];
 }
 
