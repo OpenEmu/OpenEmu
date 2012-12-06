@@ -77,14 +77,14 @@
 @property (strong) IBOutlet OELibrarySplitView           *mainSplitView;
 @property (strong) IBOutlet NSView                       *mainContentPlaceholderView;
 
-@property (strong) IBOutlet NSButton      *toolbarSidebarButton;
-@property (strong) IBOutlet NSButton      *toolbarGridViewButton;
-@property (strong) IBOutlet NSButton      *toolbarFlowViewButton;
-@property (strong) IBOutlet NSButton      *toolbarListViewButton;
+@property (nonatomic, readonly) NSButton      *toolbarSidebarButton;
+@property (nonatomic, readonly) NSButton      *toolbarGridViewButton;
+@property (nonatomic, readonly) NSButton      *toolbarFlowViewButton;
+@property (nonatomic, readonly) NSButton      *toolbarListViewButton;
 
-@property (strong) IBOutlet NSButton      *toolbarAddToSidebarButton;
-@property (strong) IBOutlet NSSearchField *toolbarSearchField;
-@property (strong) IBOutlet NSSlider      *toolbarSlider;
+@property (nonatomic, readonly) NSButton      *toolbarAddToSidebarButton;
+@property (nonatomic, readonly) NSSearchField *toolbarSearchField;
+@property (nonatomic, readonly) NSSlider      *toolbarSlider;
 
 @property (strong) NSBitmapImageRep *cachedSnapshot;
 

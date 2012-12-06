@@ -371,7 +371,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [OEDeviceManager sharedDeviceManager];
 
 	// Start WiiRemote support
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
         [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
 }
 

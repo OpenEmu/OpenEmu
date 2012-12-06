@@ -160,7 +160,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     
     [gamesController setManagedObjectContext:context];
     [gamesController setEntityName:@"Game"];
-    [gamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
     [gamesController setAvoidsEmptySelection:NO];
     
@@ -280,7 +279,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     
     NSSlider    *sizeSlider     = [[self libraryController] toolbarSlider];
     NSTextField *searchField    = [[self libraryController] toolbarSearchField];
-
+    
     NSKeyedUnarchiver *coder = state ? [[NSKeyedUnarchiver alloc] initForReadingWithData:state] : nil;
     if(coder)
     {
@@ -320,7 +319,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
     if(selectedViewTag == OEFlowViewTag || selectedViewTag == OEListViewTag)
     {
-        [[self gamesController] setSortDescriptors:listViewSortDescriptors];
+        [[self filteredGamesController] setSortDescriptors:listViewSortDescriptors];
         [listView reloadData];
     }
 
@@ -372,7 +371,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
             break;
     }
 	
-    [[self gamesController] setSortDescriptors:sortDescriptors];
+    [[self filteredGamesController] setSortDescriptors:sortDescriptors];
 
     if(reloadListView)
         [listView reloadData];
@@ -464,8 +463,12 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 }
 
 - (void)OE_updateBlankSlate
-{    
-    NSUInteger count = [[gamesController arrangedObjects] count];
+{
+    // We cannot use [[gamesController arrangedObjects] count] since that takes into account the filter predicate
+    NSFetchRequest *fetchRequest = [gamesController defaultFetchRequest];
+    [fetchRequest setFetchLimit:1];
+    NSUInteger count = [[gamesController managedObjectContext] countForFetchRequest:fetchRequest error:NULL];
+
     if(count)
     {
         [self OE_switchToView:[self OE_currentViewTagByToolbarState]];
@@ -1374,6 +1377,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         NSLog(@"Error while fetching: %@", error);
         return;
     }
+    [gamesController rearrangeObjects];
     
     [gridView reloadData];
     [listView reloadData];
