@@ -42,6 +42,8 @@
 #import "NSArray+OEAdditions.h"
 #import "NSWindow+OEFullScreenAdditions.h"
 
+#import "OEMainWindowController.h"
+
 
 #pragma mark - Exported variables
 NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
@@ -63,8 +65,6 @@ static const CGFloat _OEToolbarHeight = 44;
 @synthesize database;
 @synthesize currentViewController;
 @synthesize sidebarController, mainSplitView, mainContentPlaceholderView;
-@synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
-@synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
 @synthesize cachedSnapshot;
 @synthesize delegate;
 @synthesize subviewControllers;
@@ -173,7 +173,42 @@ static const CGFloat _OEToolbarHeight = 44;
 {
     [[self sidebarController] addCollectionAction:sender];
 }
+#pragma mark Temporary Toolbar Item Access
+- (NSButton*)toolbarSidebarButton
+{
+    return [[[[[self view] window] windowController] toolbarController] toolbarSidebarButton];
+}
 
+- (NSButton*)toolbarGridViewButton
+{
+    return [[[[[self view] window] windowController] toolbarController] toolbarGridViewButton];
+}
+
+- (NSButton*)toolbarFlowViewButton
+{
+    return [[[[[self view] window] windowController] toolbarController] toolbarFlowViewButton];
+}
+
+- (NSButton*)toolbarListViewButton
+{
+    return [[[[[self view] window] windowController] toolbarController] toolbarListViewButton];
+}
+
+- (NSButton*)toolbarAddToSidebarButton
+{
+    return [[[[[self view] window] windowController] toolbarController] toolbarAddToSidebarButton];
+}
+
+- (NSSearchField*)toolbarSearchField
+{
+    return [[[[[self view] window] windowController] toolbarController] toolbarSearchField];
+}
+
+
+- (NSSlider*)toolbarSlider
+{
+    return [[[[[self view] window] windowController] toolbarController] toolbarSlider];
+}
 #pragma mark FileMenu Actions
 - (IBAction)newCollection:(id)sender
 {
@@ -203,7 +238,7 @@ static const CGFloat _OEToolbarHeight = 44;
 #pragma mark Edit Menu
 - (IBAction)find:(id)sender
 {
-	[[[self view] window] makeFirstResponder:toolbarSearchField];
+	[[[self view] window] makeFirstResponder:[self toolbarSearchField]];
 }
 #pragma mark -
 #pragma mark Menu Items
