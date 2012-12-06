@@ -56,6 +56,8 @@
 
 #import "OEPreferencesController.h"
 
+#import "OEMainWindowController.h"
+
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameVideoFilterKey = @"videoFilter";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
@@ -240,6 +242,9 @@ typedef enum : NSUInteger
     
     if([window parentWindow] != nil) window = [window parentWindow];
 
+    if([[window windowController] isKindOfClass:[OEMainWindowController class]])
+        [[[window windowController] toolbarController] disableAllItems];    
+    
     [window addChildWindow:controlsWindow ordered:NSWindowAbove];
     
     [self OE_repositionControlsWindow];
