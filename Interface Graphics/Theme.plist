@@ -924,11 +924,15 @@
 				<string>{{28,0},{28,23}}</string>
 				<key>Toggle On, Window Inactive</key>
 				<string>{{0,0},{28,23}}</string>
+				<key>Toggle On, Disabled</key>
+				<string>{{0,0},{28,23}}</string>
 				<key>Toggle On, Pressed</key>
 				<string>{{56,0},{28,23}}</string>
 				<key>Toggle Off</key>
 				<string>{{28,23},{28,23}}</string>
 				<key>Toggle Off, Window Inactive</key>
+				<string>{{0,23},{28,23}}</string>
+				<key>Toggle Off, Disabled</key>
 				<string>{{0,23},{28,23}}</string>
 				<key>Toggle Off, Pressed</key>
 				<string>{{56,23},{28,23}}</string>
