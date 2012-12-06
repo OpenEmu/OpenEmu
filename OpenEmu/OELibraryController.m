@@ -111,6 +111,11 @@ static const CGFloat _OEToolbarHeight = 44;
     [self layoutToolbar];
     
     [[self sidebarController] reloadData];
+        
+    // Set new item
+    id<OESidebarItem> selectedItem = [[self sidebarController] selectedSidebarItem];
+    id itemID = [selectedItem sidebarID];
+    [[self currentViewController] restoreState:[self OE_storedStateForSidebarItemWithID:itemID]];
     
     [[self currentViewController] viewDidAppear];
 }
