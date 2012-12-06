@@ -295,8 +295,10 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
         NSLog(@"Searching for Wiimotes");
 
         inquiry = [IOBluetoothDeviceInquiry inquiryWithDelegate:self];
-        [inquiry setSearchCriteria:kBluetoothServiceClassMajorAny majorDeviceClass:0x05 minorDeviceClass:0x01];
-        [inquiry setInquiryLength:60];
+        [inquiry setSearchCriteria:kBluetoothServiceClassMajorLimitedDiscoverableMode
+                  majorDeviceClass:kBluetoothDeviceClassMajorPeripheral
+                  minorDeviceClass:kBluetoothDeviceClassMinorPeripheral2Joystick];
+        [inquiry setInquiryLength:120];
         [inquiry setUpdateNewDeviceNames:NO];
 
         IOReturn status = [inquiry start];
@@ -323,22 +325,27 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 
 - (void)deviceInquiryDeviceFound:(IOBluetoothDeviceInquiry *)sender device:(IOBluetoothDevice *)device
 {
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), device);
 	// Never try to connect to the wiimote while the inquiry is still running! (cf apple docs)
     [inquiry stop];
 }
 
 - (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender error:(IOReturn)error aborted:(BOOL)aborted
 {
+    NSLog(@"Devices: %@ Error: %d, Aborted: %s", [sender foundDevices], error, BOOL_STR(aborted));
+
     [[sender foundDevices] enumerateObjectsUsingBlock:
      ^(id obj, NSUInteger idx, BOOL *stop)
      {
          [self OE_addWiimoteWithDevice:obj];
      }];
 
-    if(aborted && [[sender foundDevices] count] > 0)
+    if([[sender foundDevices] count] == 0)
         [inquiry start];
+    /*
     else if(!aborted)
         [self stopWiimoteSearch];
+     */
 }
 
 @end
