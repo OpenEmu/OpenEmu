@@ -2465,6 +2465,8 @@
 				832D29441451B0CA00BDF950 /* MainWindow: Library */,
 				832D29451451B0E700BDF950 /* MainWindow: GameView */,
 				832D29461451B0F200BDF950 /* MainWindow: Setup Assistant */,
+				83AD4B6C1670CD7000D86B5D /* OEMainWindowToolbarViewController.h */,
+				83AD4B6D1670CD7000D86B5D /* OEMainWindowToolbarViewController.m */,
 				53439AE813B92E72005C0CC8 /* Controls */,
 			);
 			name = "Main Window";
@@ -3185,8 +3187,6 @@
 				83F4700815750471001931BD /* Game Scanner */,
 				53439B0413B92EDC005C0CC8 /* Utilities */,
 				53439B0B13B92F69005C0CC8 /* Sidebar */,
-				83AD4B6C1670CD7000D86B5D /* OEMainWindowToolbarViewController.h */,
-				83AD4B6D1670CD7000D86B5D /* OEMainWindowToolbarViewController.m */,
 			);
 			name = "MainWindow: Library";
 			sourceTree = "<group>";

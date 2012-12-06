@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface OEMainWindowToolbarViewController : NSViewController
+
+- (void)disableAllItems;
+
 @property (strong) IBOutlet NSButton      *toolbarSidebarButton;
 @property (strong) IBOutlet NSButton      *toolbarGridViewButton;
 @property (strong) IBOutlet NSButton      *toolbarFlowViewButton;
