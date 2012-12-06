@@ -160,9 +160,16 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     
     [gamesController setManagedObjectContext:context];
     [gamesController setEntityName:@"Game"];
-    [gamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
     [gamesController setAvoidsEmptySelection:NO];
+    
+    _filteredGamesController = [[NSArrayController alloc] init];
+    [_filteredGamesController bind:@"contentArray" toObject:gamesController withKeyPath:@"arrangedObjects" options:nil];
+    [_filteredGamesController setAutomaticallyRearrangesObjects:YES];
+    [_filteredGamesController setAutomaticallyPreparesContent:NO];
+    [_filteredGamesController setUsesLazyFetching:NO];
+    [_filteredGamesController setAvoidsEmptySelection:NO];
+    [_filteredGamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
@@ -193,7 +200,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [listView setDelegate:self];
     [listView setDataSource:self];
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
-    [listView bind:@"selectionIndexes" toObject:gamesController withKeyPath:@"selectionIndexes" options:@{}];
+    [listView bind:@"selectionIndexes" toObject:_filteredGamesController withKeyPath:@"selectionIndexes" options:@{}];
 
     // There's no natural order for status indicators, so we don't allow that column to be sorted
     OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"listViewStatus"] headerCell];
@@ -320,7 +327,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
     if(selectedViewTag == OEFlowViewTag || selectedViewTag == OEListViewTag)
     {
-        [[self gamesController] setSortDescriptors:listViewSortDescriptors];
+        [[self filteredGamesController] setSortDescriptors:listViewSortDescriptors];
         [listView reloadData];
     }
 
@@ -332,12 +339,12 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 #pragma mark -
 - (NSArray *)selectedGames
 {
-    return [gamesController selectedObjects];
+    return [_filteredGamesController selectedObjects];
 }
 
 - (NSIndexSet *)selectedIndexes
 {
-    return [gamesController selectionIndexes];
+    return [_filteredGamesController selectionIndexes];
 }
 
 #pragma mark -
@@ -372,7 +379,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
             break;
     }
 	
-    [[self gamesController] setSortDescriptors:sortDescriptors];
+    [[self filteredGamesController] setSortDescriptors:sortDescriptors];
 
     if(reloadListView)
         [listView reloadData];
@@ -515,7 +522,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (IBAction)search:(id)sender
 {
     NSPredicate *pred = [[sender stringValue] isEqualToString:@""]?nil:[NSPredicate predicateWithFormat:@"name contains[cd] %@", [sender stringValue]];
-    [gamesController setFilterPredicate:pred];
+    [_filteredGamesController setFilterPredicate:pred];
     
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
@@ -537,7 +544,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 #pragma mark GridView Delegate
 - (void)selectionChangedInGridView:(OEGridView *)view
 {
-    [gamesController setSelectionIndexes:[view selectionIndexes]];
+    [_filteredGamesController setSelectionIndexes:[view selectionIndexes]];
     _stateRewriteRequired = YES;
 }
 
@@ -566,19 +573,19 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 #pragma mark Grid View DataSource
 - (NSUInteger)numberOfItemsInGridView:(OEGridView *)view
 {
-    return [[gamesController arrangedObjects] count];
+    return [[_filteredGamesController arrangedObjects] count];
 }
 
 - (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
-    if (index >= [[gamesController arrangedObjects] count]) return nil;
+    if (index >= [[_filteredGamesController arrangedObjects] count]) return nil;
     
     OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
     
     if(item == nil) item = (OECoverGridViewCell *)[view dequeueReusableCell];
     if(item == nil) item = [[OECoverGridViewCell alloc] init];
     
-    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
+    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[_filteredGamesController arrangedObjects] objectAtIndex:index];
     [item setTitle:[object gridTitle]];
     [item setRating:[object gridRating]];
     
@@ -598,7 +605,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
 - (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index
 {
-    return [[gamesController arrangedObjects] objectAtIndex:index];
+    return [[_filteredGamesController arrangedObjects] objectAtIndex:index];
 }
 
 - (NSMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
@@ -640,7 +647,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     if(!item)
         return;
     
-    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
+    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[_filteredGamesController arrangedObjects] objectAtIndex:index];
     if(!object)
         return;
     
@@ -655,13 +662,13 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 {
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
-    NSArray *games = [[gamesController arrangedObjects] objectsAtIndexes:indexes];
+    NSArray *games = [[_filteredGamesController arrangedObjects] objectsAtIndexes:indexes];
     
     if([indexes count] == 1)
     {
         NSInteger index = [indexes lastIndex];
         [menu addItemWithTitle:@"Play Game" action:@selector(startGame:) keyEquivalent:@""];
-        OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
+        OEDBGame  *game = [[_filteredGamesController arrangedObjects] objectAtIndex:index];
         
         // Create Save Game Menu
         menuItem = [[NSMenuItem alloc] initWithTitle:@"Play Save Games" action:NULL keyEquivalent:@""];
@@ -1014,7 +1021,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 {
     if( aTableView == listView )
     {
-        return [[gamesController arrangedObjects] count];
+        return [[_filteredGamesController arrangedObjects] count];
     }
     
     return 0;
@@ -1024,7 +1031,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 {
     if(tableView != listView) return nil;
 
-    NSObject<OEListViewDataSourceItem> *item = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
+    NSObject<OEListViewDataSourceItem> *item = [[_filteredGamesController arrangedObjects] objectAtIndex:rowIndex];
     NSString *columnId                       = [tableColumn identifier];
     id result                                = nil;
 
@@ -1040,7 +1047,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     
     if( aTableView == listView)
     {
-        id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
+        id <OEListViewDataSourceItem> obj = [[_filteredGamesController arrangedObjects] objectAtIndex:rowIndex];
         NSString *columnIdentifier = [aTableColumn identifier];
         if([columnIdentifier isEqualToString:@"listViewRating"])
         {
@@ -1074,16 +1081,16 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         }
     }
 
-    [gamesController setSortDescriptors:[listView sortDescriptors]];
+    [_filteredGamesController setSortDescriptors:[listView sortDescriptors]];
     [listView reloadData];
 
     // If we send -reloadData to `coverFlowView`, it changes the selected index to an index that doesn't match
     // either the previous selected index or the new selected index as defined by `gamesController`. We need to
     // remember the actual new selected index, wait for `coverFlowView` to reload its data and then restore the
     // correct selection.
-    if([[gamesController selectionIndexes] count] == 1)
+    if([[_filteredGamesController selectionIndexes] count] == 1)
     {
-        const NSInteger selectedRow = [[gamesController selectionIndexes] firstIndex];
+        const NSInteger selectedRow = [[_filteredGamesController selectionIndexes] firstIndex];
         [coverFlowView reloadData];
         [coverFlowView setSelectedIndex:selectedRow];
     }
@@ -1121,7 +1128,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     {
         [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) 
          {
-             id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:idx];
+             id <OEListViewDataSourceItem> obj = [[_filteredGamesController arrangedObjects] objectAtIndex:idx];
              [pboard writeObjects:[NSArray arrayWithObject:obj]];
          }];
         
@@ -1233,12 +1240,12 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 #pragma mark ImageFlow Data Source
 - (NSUInteger)numberOfItemsInImageFlow:(IKImageFlowView *)aBrowser
 {
-    return [[gamesController arrangedObjects] count];
+    return [[_filteredGamesController arrangedObjects] count];
 }
 
 - (id)imageFlow:(id)aFlowLayer itemAtIndex:(int)index
 {
-    return [[gamesController arrangedObjects] objectAtIndex:index];
+    return [[_filteredGamesController arrangedObjects] objectAtIndex:index];
 }
 
 
@@ -1338,8 +1345,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (void)reloadDataIndexes:(NSIndexSet *)indexSet
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadDataIndexes:) object:nil];
-    if(!gamesController) return;
-    [gamesController rearrangeObjects];
+    if(!_filteredGamesController) return;
+    [_filteredGamesController rearrangeObjects];
     [gridView reloadCellsAtIndexes:indexSet];
     [listView reloadDataForRowIndexes:indexSet
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
@@ -1351,8 +1358,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (void)_reloadVisibleData
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:nil];
-    if(!gamesController) return;
-    [gamesController rearrangeObjects];
+    if(!_filteredGamesController) return;
+    [_filteredGamesController rearrangeObjects];
     [gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
     [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndexesInRange:[listView rowsInRect:[listView visibleRect]]]
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
@@ -1374,6 +1381,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         NSLog(@"Error while fetching: %@", error);
         return;
     }
+    [_filteredGamesController rearrangeObjects];
     
     [gridView reloadData];
     [listView reloadData];
