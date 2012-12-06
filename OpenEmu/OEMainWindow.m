@@ -59,13 +59,5 @@
     [NSColor blackColor];
     NSRectFill(dirtyRect);
 }
-#pragma mark -
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
- 
-    [self setOpaque:NO];
-    [self setBackgroundColor:[NSColor blackColor]];
-}
 
 @end
