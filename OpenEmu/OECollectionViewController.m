@@ -464,8 +464,12 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 }
 
 - (void)OE_updateBlankSlate
-{    
-    NSUInteger count = [[gamesController arrangedObjects] count];
+{
+    // We cannot use [[gamesController arrangedObjects] count] since that takes into account the filter predicate
+    NSFetchRequest *fetchRequest = [gamesController defaultFetchRequest];
+    [fetchRequest setFetchLimit:1];
+    NSUInteger count = [[gamesController managedObjectContext] countForFetchRequest:fetchRequest error:NULL];
+
     if(count)
     {
         [self OE_switchToView:[self OE_currentViewTagByToolbarState]];
