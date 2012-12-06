@@ -107,9 +107,12 @@ static const CGFloat _OEToolbarHeight = 44;
 {
     [super viewDidAppear];
     
+    [self setupToolbar];
     [self layoutToolbar];
     
     [[self sidebarController] reloadData];
+    
+    [[self currentViewController] viewDidAppear];
 }
 
 - (void)viewWillDisappear
@@ -458,6 +461,28 @@ static const CGFloat _OEToolbarHeight = 44;
     };
 
     [toolbarItemContainer setFrame:toolbarItemContainerFrame];
+}
+- (void)setupToolbar
+{
+    OEMainWindowToolbarViewController *toolbarController = [[[[self view] window] windowController] toolbarController];
+    
+    [[toolbarController toolbarAddToSidebarButton] setTarget:self];
+    [[toolbarController toolbarAddToSidebarButton] setEnabled:YES];
+    [[toolbarController toolbarSidebarButton] setTarget:self];
+    [[toolbarController toolbarSidebarButton] setEnabled:YES];
+    
+    [[toolbarController toolbarGridViewButton] setTarget:self];
+    [[toolbarController toolbarGridViewButton] setEnabled:YES];
+    [[toolbarController toolbarFlowViewButton] setTarget:self];
+    [[toolbarController toolbarFlowViewButton] setEnabled:YES];
+    [[toolbarController toolbarListViewButton] setTarget:self];
+    [[toolbarController toolbarListViewButton] setEnabled:YES];
+    
+    [[toolbarController toolbarSearchField] setTarget:self];
+    [[toolbarController toolbarSearchField] setEnabled:YES];
+
+    [[toolbarController toolbarSlider] setTarget:self];
+    [[toolbarController toolbarSlider] setEnabled:YES];
 }
 @end
 
