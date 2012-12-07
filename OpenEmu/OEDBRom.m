@@ -191,12 +191,25 @@
 
 - (NSURL *)URL
 {
-    return [NSURL URLWithString:[self location]];
+    NSString *location = [self location];
+    if([location isAbsolutePath])
+        return [NSURL URLWithString:location];
+    else
+        return [NSURL URLWithString:location relativeToURL:[[self libraryDatabase] romsFolderURL]];
 }
 
 - (void)setURL:(NSURL *)url
 {
-    [self setLocation:[url absoluteString]];
+    if([url isSubpathOfURL:[[self libraryDatabase] romsFolderURL]])
+    {
+        NSString *romsFolderURLString = [[[self libraryDatabase] romsFolderURL] absoluteString];
+        NSString *relativeURLString   = [[url absoluteString] substringFromIndex:[romsFolderURLString length]];
+        
+        url = [NSURL URLWithString:relativeURLString relativeToURL:[[self libraryDatabase] romsFolderURL]];
+        [self setLocation:[url relativeString]];
+    }
+    else
+        [self setLocation:[url absoluteString]];
 }
 
 - (NSString *)md5Hash
@@ -367,7 +380,6 @@
 }
 #pragma mark -
 #pragma mark Mainpulating a rom
-
 - (void)markAsPlayedNow
 {
     [self setLastPlayed:[NSDate date]];
@@ -375,7 +387,6 @@
 
 #pragma mark -
 #pragma mark Core Data utilities
-
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
     NSURL *url = [self URL];
