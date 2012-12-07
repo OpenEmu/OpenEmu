@@ -86,7 +86,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @property         OEIntSize gameScreenSize;
 @property         OEIntSize gameAspectSize;
 @property         CVDisplayLinkRef gameDisplayLinkRef;
-@property(strong) NSTimer *gameTimer;
 @property(strong) SyphonServer *gameServer;
 
 // QC based filters
@@ -109,7 +108,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 @synthesize gameTexture;
 @synthesize gameSurfaceID;
 @synthesize gameDisplayLinkRef;
-@synthesize gameTimer;
 @synthesize gameScreenSize, gameAspectSize;
 @synthesize gameServer;
 @synthesize gameTitle;
@@ -320,9 +318,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     DLog(@"OEGameView dealloc");
     [self tearDownDisplayLink];
     
-    [gameTimer invalidate];
-    self.gameTimer = nil;
-
     [self.gameServer setName:@""];
     [self.gameServer stop];
     self.gameServer = nil;
