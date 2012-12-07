@@ -597,6 +597,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         [item setImage:nil];
     }
     
+    [item setIndicationType:[object gridIndicationType]];
+    
     return item;
 }
 

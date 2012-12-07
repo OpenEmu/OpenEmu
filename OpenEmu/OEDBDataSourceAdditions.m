@@ -90,6 +90,12 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
     [self setBoxImageByImage:gridImage];
 }
 
+- (OECoverGridViewCellIndicationType)gridIndicationType
+{
+    return ([[self status] intValue] == OEDBGameStatusAlert ? OECoverGridViewCellIndicationTypeFileMissing  :
+           ([[self status] intValue] == OEDBGameStatusAlert ? OECoverGridViewCellIndicationTypeProcessing :
+            OECoverGridViewCellIndicationTypeNone));
+}
 #pragma mark -
 #pragma mark CoverFlowDataSourceItem
 - (NSString *)imageUID
