@@ -190,7 +190,6 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         FSEventStreamEventId lastID = FSEventsGetCurrentEventId();
         [defaults setObject:@(lastID) forKey:[self persistentKey]];
-        [defaults synchronize];
     }    
 }
 @synthesize persistentKey;
