@@ -82,6 +82,8 @@
 - (void)addTimeIntervalToPlayTime:(NSTimeInterval)timeInterval;
 
 - (void)removeMissingStates;
+
+- (BOOL)filesAvailable;
 #pragma mark -
 #pragma mark Mainpulating a rom
 // sets roms "lastPlayed" to now

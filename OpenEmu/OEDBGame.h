@@ -99,6 +99,8 @@ extern NSString *const OEBoxSizesKey;
 @property(readonly) NSNumber        *saveStateCount;
 @property(readonly) NSNumber        *playCount;
 @property(readonly) NSNumber        *playTime;
+
+- (BOOL)filesAvailable;
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage *)img;
 - (void)setBoxImageByURL:(NSURL *)url;

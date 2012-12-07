@@ -416,6 +416,25 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
     for(OEDBRom *rom in [self roms]) time += [[rom playTime] doubleValue];
     return @(time);
 }
+
+- (BOOL)filesAvailable
+{
+    __block BOOL result = YES;
+    [[self roms] enumerateObjectsUsingBlock:^(OEDBRom *rom, BOOL *stop) {
+        if(![rom filesAvailable])
+        {
+            result = NO;
+            *stop = YES;
+        }
+    }];
+    
+    if(!result)
+       [self setStatus:[NSNumber numberWithInt:OEDBGameStatusAlert]];
+    else if([[self status] intValue] == OEDBGameStatusAlert)
+        [self setStatus:[NSNumber numberWithInt:OEDBGameStatusOK]];
+    
+    return result;
+}
 #pragma mark -
 #pragma mark Core Data utilities
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag

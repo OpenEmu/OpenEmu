@@ -359,6 +359,12 @@
     return value;
 }
 
+- (BOOL)filesAvailable
+{
+    NSError *error = nil;
+    BOOL    result = [[self URL] checkResourceIsReachableAndReturnError:&error];
+    return result;
+}
 #pragma mark -
 #pragma mark Mainpulating a rom
 

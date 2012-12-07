@@ -131,7 +131,7 @@ typedef enum : NSUInteger
         [self setRom:aRom];
         NSURL *url = [[self rom] URL];
 
-        if(url == nil)
+        if(url == nil || ![[aRom game] filesAvailable])
         {
             // TODO: Implement proper error
             if(outError != NULL)
@@ -191,6 +191,14 @@ typedef enum : NSUInteger
     OEDBRom      *rom            = [state rom];
     NSString     *coreIdentifier = [state coreIdentifier];
     OECorePlugin *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
+    
+    if(rom==nil || ![[rom game] filesAvailable])
+    {
+        // TODO: Implement proper error
+        if(outError != NULL)
+            *outError = [NSError errorWithDomain:@"OESomeErrorDomain" code:0 userInfo:@{ }];
+        return nil;
+    }
     
     if(core == nil)
     {

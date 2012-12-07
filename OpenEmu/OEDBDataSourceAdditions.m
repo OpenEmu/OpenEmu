@@ -162,7 +162,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 - (NSString *)OE_listViewStatusImageName
 {
     return ([self OE_hasOpenDocument] ? @"list_indicators_playing"  :
-            ![self boxImage]          ? @"list_indicators_missing"  :
+            ([[self status] intValue] == OEDBGameStatusAlert) ? @"list_indicators_missing"  :
             ![self lastPlayed]        ? @"list_indicators_unplayed" : nil);
 }
 
