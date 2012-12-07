@@ -59,6 +59,5 @@
 #pragma mark -
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
 @property(readonly) NSArrayController *gamesController;
-@property(readonly) NSArrayController *filteredGamesController;
 
 @end

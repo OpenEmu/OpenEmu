@@ -429,7 +429,6 @@
 		83AAC3301458172C005ADD16 /* gloss_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AAC32C1458172C005ADD16 /* gloss_checkbox.png */; };
 		83AAC3311458172C005ADD16 /* installer_dark_inset_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AAC32D1458172C005ADD16 /* installer_dark_inset_box.png */; };
 		83AAC3321458172C005ADD16 /* installer_gamepad_graphics.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AAC32E1458172C005ADD16 /* installer_gamepad_graphics.png */; };
-		83AD4B6E1670CD7000D86B5D /* OEMainWindowToolbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AD4B6D1670CD7000D86B5D /* OEMainWindowToolbarViewController.m */; };
 		83AE9F0D14B2725300E91BD8 /* controller_genesis.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AE9F0A14B271E200E91BD8 /* controller_genesis.png */; };
 		83AEF939140B78B6007803D7 /* filter_effect_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AEF937140B78B6007803D7 /* filter_effect_frame.png */; };
 		83AF88C2155C616400428BD5 /* ArchiveVGJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AF88C1155C616400428BD5 /* ArchiveVGJSONParser.m */; };
@@ -1536,8 +1535,6 @@
 		83AAC32C1458172C005ADD16 /* gloss_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gloss_checkbox.png; sourceTree = "<group>"; };
 		83AAC32D1458172C005ADD16 /* installer_dark_inset_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_dark_inset_box.png; sourceTree = "<group>"; };
 		83AAC32E1458172C005ADD16 /* installer_gamepad_graphics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_gamepad_graphics.png; sourceTree = "<group>"; };
-		83AD4B6C1670CD7000D86B5D /* OEMainWindowToolbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindowToolbarViewController.h; sourceTree = "<group>"; };
-		83AD4B6D1670CD7000D86B5D /* OEMainWindowToolbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMainWindowToolbarViewController.m; sourceTree = "<group>"; };
 		83AE9F0A14B271E200E91BD8 /* controller_genesis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis.png; sourceTree = "<group>"; };
 		83AEF937140B78B6007803D7 /* filter_effect_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_effect_frame.png; sourceTree = "<group>"; };
 		83AF88C0155C616400428BD5 /* ArchiveVGJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveVGJSONParser.h; sourceTree = "<group>"; };
@@ -2465,8 +2462,6 @@
 				832D29441451B0CA00BDF950 /* MainWindow: Library */,
 				832D29451451B0E700BDF950 /* MainWindow: GameView */,
 				832D29461451B0F200BDF950 /* MainWindow: Setup Assistant */,
-				83AD4B6C1670CD7000D86B5D /* OEMainWindowToolbarViewController.h */,
-				83AD4B6D1670CD7000D86B5D /* OEMainWindowToolbarViewController.m */,
 				53439AE813B92E72005C0CC8 /* Controls */,
 			);
 			name = "Main Window";
@@ -4893,7 +4888,6 @@
 				14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */,
 				14335518166452680033D402 /* OEDistantWindow.m in Sources */,
 				83C09354166787B900E52265 /* OECUESheet.m in Sources */,
-				83AD4B6E1670CD7000D86B5D /* OEMainWindowToolbarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

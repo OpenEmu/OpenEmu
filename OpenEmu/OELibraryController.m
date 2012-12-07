@@ -42,8 +42,6 @@
 #import "NSArray+OEAdditions.h"
 #import "NSWindow+OEFullScreenAdditions.h"
 
-#import "OEMainWindowController.h"
-
 
 #pragma mark - Exported variables
 NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
@@ -65,6 +63,8 @@ static const CGFloat _OEToolbarHeight = 44;
 @synthesize database;
 @synthesize currentViewController;
 @synthesize sidebarController, mainSplitView, mainContentPlaceholderView;
+@synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
+@synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
 @synthesize cachedSnapshot;
 @synthesize delegate;
 @synthesize subviewControllers;
@@ -107,17 +107,9 @@ static const CGFloat _OEToolbarHeight = 44;
 {
     [super viewDidAppear];
     
-    [self setupToolbar];
     [self layoutToolbar];
     
     [[self sidebarController] reloadData];
-        
-    // Set new item
-    id<OESidebarItem> selectedItem = [[self sidebarController] selectedSidebarItem];
-    id itemID = [selectedItem sidebarID];
-    [[self currentViewController] restoreState:[self OE_storedStateForSidebarItemWithID:itemID]];
-    
-    [[self currentViewController] viewDidAppear];
 }
 
 - (void)viewWillDisappear
@@ -181,42 +173,7 @@ static const CGFloat _OEToolbarHeight = 44;
 {
     [[self sidebarController] addCollectionAction:sender];
 }
-#pragma mark Temporary Toolbar Item Access
-- (NSButton*)toolbarSidebarButton
-{
-    return [[[[[self view] window] windowController] toolbarController] toolbarSidebarButton];
-}
 
-- (NSButton*)toolbarGridViewButton
-{
-    return [[[[[self view] window] windowController] toolbarController] toolbarGridViewButton];
-}
-
-- (NSButton*)toolbarFlowViewButton
-{
-    return [[[[[self view] window] windowController] toolbarController] toolbarFlowViewButton];
-}
-
-- (NSButton*)toolbarListViewButton
-{
-    return [[[[[self view] window] windowController] toolbarController] toolbarListViewButton];
-}
-
-- (NSButton*)toolbarAddToSidebarButton
-{
-    return [[[[[self view] window] windowController] toolbarController] toolbarAddToSidebarButton];
-}
-
-- (NSSearchField*)toolbarSearchField
-{
-    return [[[[[self view] window] windowController] toolbarController] toolbarSearchField];
-}
-
-
-- (NSSlider*)toolbarSlider
-{
-    return [[[[[self view] window] windowController] toolbarController] toolbarSlider];
-}
 #pragma mark FileMenu Actions
 - (IBAction)newCollection:(id)sender
 {
@@ -246,7 +203,7 @@ static const CGFloat _OEToolbarHeight = 44;
 #pragma mark Edit Menu
 - (IBAction)find:(id)sender
 {
-	[[[self view] window] makeFirstResponder:[self toolbarSearchField]];
+	[[[self view] window] makeFirstResponder:toolbarSearchField];
 }
 #pragma mark -
 #pragma mark Menu Items
@@ -466,28 +423,6 @@ static const CGFloat _OEToolbarHeight = 44;
     };
 
     [toolbarItemContainer setFrame:toolbarItemContainerFrame];
-}
-- (void)setupToolbar
-{
-    OEMainWindowToolbarViewController *toolbarController = [[[[self view] window] windowController] toolbarController];
-    
-    [[toolbarController toolbarAddToSidebarButton] setTarget:self];
-    [[toolbarController toolbarAddToSidebarButton] setEnabled:YES];
-    [[toolbarController toolbarSidebarButton] setTarget:self];
-    [[toolbarController toolbarSidebarButton] setEnabled:YES];
-    
-    [[toolbarController toolbarGridViewButton] setTarget:self];
-    [[toolbarController toolbarGridViewButton] setEnabled:YES];
-    [[toolbarController toolbarFlowViewButton] setTarget:self];
-    [[toolbarController toolbarFlowViewButton] setEnabled:YES];
-    [[toolbarController toolbarListViewButton] setTarget:self];
-    [[toolbarController toolbarListViewButton] setEnabled:YES];
-    
-    [[toolbarController toolbarSearchField] setTarget:self];
-    [[toolbarController toolbarSearchField] setEnabled:YES];
-
-    [[toolbarController toolbarSlider] setTarget:self];
-    [[toolbarController toolbarSlider] setEnabled:YES];
 }
 @end
 

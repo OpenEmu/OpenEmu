@@ -57,7 +57,6 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 @end
 
 @implementation OEMainWindowController
-@synthesize toolbarController;
 @synthesize currentContentController;
 @synthesize defaultContentController;
 @synthesize allowWindowResizing;
@@ -163,7 +162,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     
     // final target
     [[newController view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    [[newController view] setFrame:[contentView bounds]];
+    [[newController view] setFrame:[contentView frame]];
     
     [oldController viewWillDisappear];
     [newController viewWillAppear];
@@ -215,7 +214,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     void (^replaceController)(NSView *) =
     ^(NSView *viewToReplace){
         [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [[controller view] setFrame:[placeHolderView bounds]];
+        [[controller view] setFrame:[placeHolderView frame]];
 
         [placeHolderView replaceSubview:viewToReplace with:[controller view]];
 
