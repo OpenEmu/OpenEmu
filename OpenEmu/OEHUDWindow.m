@@ -28,6 +28,9 @@
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSColor+OEAdditions.h"
 
+#import "OEButton.h"
+#import "OEButtonCell.h"
+
 @interface OEHUDWindow ()
 {
 	NSWindow *_borderWindow;
@@ -102,19 +105,19 @@
     
     // Register for notifications
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(_layout) name:NSWindowDidResizeNotification object:self];
+    [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidResizeNotification object:self];
     
-    [nc addObserver:self selector:@selector(_layout) name:NSWindowDidResignKeyNotification object:self];
-    [nc addObserver:self selector:@selector(_layout) name:NSWindowDidBecomeKeyNotification object:self];
+    [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidResignKeyNotification object:self];
+    [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidBecomeKeyNotification object:self];
     
-    _borderWindow = [[OEHUDBorderWindow alloc] init];
+    _borderWindow = [[OEHUDBorderWindow alloc] initWithContentRect:[self frame] styleMask:0 backing:0 defer:0];
     [self addChildWindow:_borderWindow ordered:NSWindowAbove];
     [_borderWindow orderFront:self];
 }
 
-- (void)_layout
+- (void)OE_layout
 {
-    [_borderWindow setFrame:[self frame] display:YES];
+    [_borderWindow setFrame:[self frame] display:NO];
     [_borderWindow display];
 }
 
@@ -166,18 +169,17 @@
 
 @implementation OEHUDBorderWindow
 
-- (id)init
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
-    if((self = [self initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO]))
+    if((self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO]))
     {
-        DLog(@"OEHUDBorderWindow");
         [self setHasShadow:NO];
         [self setMovableByWindowBackground:NO];
         
         [self setOpaque:NO];
         [self setBackgroundColor:[NSColor clearColor]];
         
-        NSView *borderView = [[OEHUDWindowThemeView alloc] initWithFrame:NSZeroRect];
+        NSView *borderView = [[OEHUDWindowThemeView alloc] initWithFrame:contentRect];
         [super setContentView:borderView];
     }
     
@@ -200,7 +202,6 @@
 
 - (void)dealloc
 {
-    DLog(@"OEHUDBorderWindow");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -230,19 +231,19 @@
     return NO;
 }
 
-- (id)init
+- (id)initWithFrame:(NSRect)frame
 {
-    self = [super init];
-    if (self)
-    {
-        DLog(@"OEHUDWindowThemeView");
+    self = [super initWithFrame:frame];
+    if (self) {
+        OEButton *closeButton = [[OEButton alloc] initWithFrame:NSMakeRect(1, frame.size.height-22, 21, 21)];
+        [closeButton setCell:[[OEButtonCell alloc] initTextCell:@""]];
+        [closeButton setThemeKey:@"hud_close_button"];
+        
+        [closeButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
+        [closeButton setAction:@selector(terminateEmulation)];
+        [self addSubview:closeButton];
     }
     return self;
-}
-
-- (void)dealloc
-{
-    DLog(@"OEHUDWindowThemeView");
 }
 
 - (NSRect)titleBarRect

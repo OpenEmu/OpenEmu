@@ -811,6 +811,24 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>hud_close_button</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_close_button</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0},{21,21}}</string>
+				<key>Window Inactive</key>
+				<string>{{0,0},{21,21}}</string>
+				<key>Mouse Over</key>
+				<string>{{21,0},{21,21}}</string>
+				<key>Mouse Over, Pressed</key>
+				<string>{{42,0},{21,21}}</string>
+				<key>Pressed</key>
+				<string>{{42,0},{21,21}}</string>
+			</dict>
+		</dict>
 		<key>game_scanner_toggle_pause</key>
 		<dict>
 			<key>Resource</key>
