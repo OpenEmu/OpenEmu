@@ -48,6 +48,7 @@
 /** Set whether the fullscreen or traffic light buttons are horizontally centered */
 @property (nonatomic) BOOL centerFullScreenButton;
 @property (nonatomic) BOOL centerTrafficLightButtons;
+@property (nonatomic) BOOL verticalTrafficLightButtons;
 
 /** If you want to hide the title bar in fullscreen mode, set this boolean to YES */
 @property (nonatomic) BOOL hideTitleBarInFullScreen;
@@ -59,6 +60,15 @@
 @property (nonatomic) CGFloat trafficLightButtonsLeftMargin;
 @property (nonatomic) CGFloat fullScreenButtonRightMargin;
 
+/** The colors of the title bar background gradient and baseline separator, in main and non-main variants. */
+@property (INAppStoreWindowRetain) NSColor *titleBarStartColor;
+@property (INAppStoreWindowRetain) NSColor *titleBarEndColor;
+@property (INAppStoreWindowRetain) NSColor *baselineSeparatorColor;
+
+@property (INAppStoreWindowRetain) NSColor *inactiveTitleBarStartColor;
+@property (INAppStoreWindowRetain) NSColor *inactiveTitleBarEndColor;
+@property (INAppStoreWindowRetain) NSColor *inactiveBaselineSeparatorColor;
+
 
 /** So much logic and work has gone into this window subclass to achieve a custom title bar,
  it would be a shame to have to re-invent that just to change the look. So this block can be used
@@ -68,6 +78,6 @@ typedef void (^INAppStoreWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow,
                                                      CGRect drawingRect, CGPathRef clippingPath);
 @property (INAppStoreWindowCopy) INAppStoreWindowTitleBarDrawingBlock titleBarDrawingBlock;
 
-// OpenEmu Addition: Support for custom baseline separator color as used in the preferences window
-@property (nonatomic) NSColor *baselineSeparatorColor;
+- (void)setTitleBarDrawingBlock:(INAppStoreWindowTitleBarDrawingBlock)titleBarDrawingBlock;
+
 @end

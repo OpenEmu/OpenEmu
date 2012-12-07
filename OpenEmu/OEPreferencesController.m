@@ -103,7 +103,7 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
 {
     [super windowDidLoad];
 
-    INAppStoreWindow *win = (INAppStoreWindow *)[self window];
+    OEAppStoreWindow *win = (OEAppStoreWindow *)[self window];
     [win close]; // Make sure window doesn't show up in window menu until it's actual visible
 
     NSColor *windowBackgroundColor = [NSColor colorWithDeviceRed:0.149 green:0.149 blue:0.149 alpha:1.0];
@@ -144,8 +144,8 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
 
 - (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
 {
-    if([window isKindOfClass:[INAppStoreWindow class]])
-        rect.origin.y -= [(INAppStoreWindow*)window titleBarHeight]-22.0;
+    if([window isKindOfClass:[OEAppStoreWindow class]])
+        rect.origin.y -= [(OEAppStoreWindow*)window titleBarHeight]-22.0;
     
     return rect;
 }
@@ -199,7 +199,7 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
         toolbar = nil;
     }
     
-    INAppStoreWindow *win = (INAppStoreWindow*)[self window];
+    OEAppStoreWindow *win = (OEAppStoreWindow*)[self window];
     toolbar = [[OEToolbarView alloc] initWithFrame:NSMakeRect(0, 0, win.frame.size.width-10.0, 58.0)];
     
     for(id <OEPreferencePane> aPreferencePane in self.preferencePanes)
