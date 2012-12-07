@@ -46,7 +46,7 @@
 #import <XADMaster/XADArchive.h>
 #import <objc/runtime.h>
 
-const int MaxSimulatenousImports = 1; // imports can't really be simulatenous because access to queue is not ready for multithreadding right now
+static const int MaxSimultaneousImports = 1; // imports can't really be simultaneous because access to queue is not ready for multithreadding right now
 
 #pragma mark User Default Keys -
 NSString *const OEOrganizeLibraryKey       = @"organizeLibrary";
@@ -143,7 +143,7 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
 
 - (void)startQueueIfNeeded
 {
-    if([self status] == OEImporterStatusRunning && [self activeImports] < MaxSimulatenousImports)
+    if([self status] == OEImporterStatusRunning && [self activeImports] < MaxSimultaneousImports)
     {
         [self processNextItem];
     }
@@ -166,7 +166,7 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
             [self OE_performSelectorOnDelegate:@selector(romImporter:startedProcessingItem:) withObject:nextItem];
         });
         
-        if(MaxSimulatenousImports > 1) dispatch_async(dispatchQueue, ^{
+        if(MaxSimultaneousImports > 1) dispatch_async(dispatchQueue, ^{
             [self startQueueIfNeeded];
         });
     }

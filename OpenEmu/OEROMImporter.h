@@ -27,8 +27,6 @@
 #import <Foundation/Foundation.h>
 #import "OEImportItem.h"
 
-const int MaxSimulatenousImports;
-
 #pragma mark User Default Keys -
 extern NSString *const OEOrganizeLibraryKey;
 extern NSString *const OECopyToLibraryKey;
