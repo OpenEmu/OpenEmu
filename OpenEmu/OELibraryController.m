@@ -92,10 +92,12 @@ static const CGFloat _OEToolbarHeight = 44;
     [[self sidebarController] view];
     
     // setup sidebar controller
-    OESidebarController *sidebarCtrl = [self sidebarController];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:nil];
-    
+    OESidebarController *sidebarCtrl = [self sidebarController];    
     [sidebarCtrl setDatabase:[self database]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:sidebarCtrl];
+    
     [self updateToggleSidebarButtonState];
 
     // setup splitview
