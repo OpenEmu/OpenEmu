@@ -185,7 +185,7 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
 - (IBAction)addCollectionAction:(id)sender
 {
-    [self addCollection:([NSEvent modifierFlags] & NSAlternateKeyMask) != 0];
+    [self addCollection:NO];
 }
 
 - (id)addCollection:(BOOL)isSmart
