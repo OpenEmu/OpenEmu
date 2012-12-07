@@ -142,6 +142,8 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 
         if(fullScreen && ![[self window] OE_isFullScreen])
         {
+            [NSApp activateIgnoringOtherApps:YES];
+            
             _documentForFullScreenWindow = aDocument;
             [self OE_replaceCurrentContentController:[self currentContentController] withViewController:nil];
             [[self window] toggleFullScreen:self];
