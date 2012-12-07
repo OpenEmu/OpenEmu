@@ -240,6 +240,39 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>hud_checkbox</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Traits</key>
+			<string>Normal</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Weight</key>
+			<integer>0</integer>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Color</key>
+					<string>rgb(227,227,227)</string>
+				</dict>
+				<key>Disabled</key>
+				<dict>
+					<key>Color</key>
+					<string>gray</string>
+				</dict>
+			</dict>
+		</dict>
 		<key>dark_checkbox</key>
 		<dict>
 			<key>Family</key>
@@ -1039,6 +1072,22 @@
 			</dict>
 		</dict>
 		<key>dark_checkbox</key>
+		<dict>
+			<key>Resource</key>
+			<string>dark_checkbox</string>
+			<key>States</key>
+			<dict>
+				<key>Toggle Off</key>
+				<string>{{0,0},{16,16}}</string>
+				<key>Toggle Off, Pressed</key>
+				<string>{{16,0},{16,16}}</string>
+				<key>Toggle On</key>
+				<string>{{0,16},{16,16}}</string>
+				<key>Toggle On, Pressed</key>
+				<string>{{16,16},{16,16}}</string>
+			</dict>
+		</dict>
+		<key>hud_checkbox</key>
 		<dict>
 			<key>Resource</key>
 			<string>dark_checkbox</string>
