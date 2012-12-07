@@ -131,11 +131,11 @@ typedef enum : NSUInteger
         [self setRom:aRom];
         NSURL *url = [[self rom] URL];
 
-        if(url == nil || ![[aRom game] filesAvailable])
+        if(![[aRom game] filesAvailable])
         {
-            // TODO: Implement proper error
+            // TODO: Implement user info
             if(outError != NULL)
-                *outError = [NSError errorWithDomain:@"OESomeErrorDomain" code:0 userInfo:@{ }];
+                *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain code:OEFileDoesNotExistError userInfo:@{ }];
             return nil;
         }
 
@@ -192,11 +192,11 @@ typedef enum : NSUInteger
     NSString     *coreIdentifier = [state coreIdentifier];
     OECorePlugin *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
     
-    if(rom==nil || ![[rom game] filesAvailable])
+    if(![[rom game] filesAvailable])
     {
-        // TODO: Implement proper error
+        // TODO: Implement user info
         if(outError != NULL)
-            *outError = [NSError errorWithDomain:@"OESomeErrorDomain" code:0 userInfo:@{ }];
+            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain code:OEFileDoesNotExistError userInfo:@{ }];
         return nil;
     }
     

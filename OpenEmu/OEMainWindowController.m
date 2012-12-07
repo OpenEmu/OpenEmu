@@ -287,7 +287,29 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
                         [NSApp presentError:error];
                 }];
             }
-            else
+            else if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code]==OEFileDoesNotExistError)
+            {
+                NSString *messageText = [NSString stringWithFormat:@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", [aGame name]];
+                if([[OEHUDAlert alertWithMessageText:messageText defaultButton:@"Locate" alternateButton:@"Cancel"] runModal] == NSAlertDefaultReturn)
+                {
+                    OEDBRom  *missingRom = [[aGame roms] anyObject];
+                    NSURL   *originalURL = [missingRom URL];
+                    NSString  *extension = [originalURL pathExtension];
+                    
+                    NSOpenPanel  *panel = [NSOpenPanel openPanel];
+                    [panel setCanChooseDirectories:NO];
+                    [panel setCanChooseFiles:YES];
+                    [panel setDirectoryURL:[originalURL URLByDeletingLastPathComponent]];
+                    [panel setAllowsOtherFileTypes:NO];
+                    [panel setAllowedFileTypes:@[extension]];
+                    
+                    if([panel runModal])
+                    {
+                        [missingRom setURL:[panel URL]];
+                        [self libraryController:sender didSelectGame:aGame];
+                    }
+                }
+            } else
                 [NSApp presentError:error];
         }
         return;
