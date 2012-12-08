@@ -63,8 +63,12 @@
 #import "OESidebarController.h"
 #import "OETableView.h"
 
-NSString * const OELastGridSizeKey = @"lastGridSize";
+#pragma mark - Public variables
+
+NSString * const OELastGridSizeKey       = @"lastGridSize";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
+
+#pragma mark - Private variables
 
 typedef enum {
     OEBlankSlateTag = -1,
@@ -74,6 +78,9 @@ typedef enum {
 } OECollectionViewControllerViewTag;
 
 static const float OE_coverFlowHeightPercentage = 0.75;
+static NSArray *OE_defaultSortDescriptors;
+
+#pragma mark -
 
 @interface OECollectionViewController ()
 {    
@@ -157,10 +164,12 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
+
+    OE_defaultSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
     
     [gamesController setManagedObjectContext:context];
     [gamesController setEntityName:@"Game"];
-    [gamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    [gamesController setSortDescriptors:OE_defaultSortDescriptors];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
     [gamesController setAvoidsEmptySelection:NO];
     
@@ -320,7 +329,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
     if(selectedViewTag == OEFlowViewTag || selectedViewTag == OEListViewTag)
     {
-        [[self gamesController] setSortDescriptors:listViewSortDescriptors];
+        [[self gamesController] setSortDescriptors:(listViewSortDescriptors ? : OE_defaultSortDescriptors)];
         [listView reloadData];
     }
 
@@ -364,7 +373,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     BOOL reloadListView = NO;
     switch (tag) {
         case OEGridViewTag:
-            sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+            sortDescriptors = OE_defaultSortDescriptors;
             break;
         default:
             sortDescriptors = [listView sortDescriptors];
