@@ -160,6 +160,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     
     [gamesController setManagedObjectContext:context];
     [gamesController setEntityName:@"Game"];
+    [gamesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
     [gamesController setAvoidsEmptySelection:NO];
     
@@ -279,7 +280,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     
     NSSlider    *sizeSlider     = [[self libraryController] toolbarSlider];
     NSTextField *searchField    = [[self libraryController] toolbarSearchField];
-    
+
     NSKeyedUnarchiver *coder = state ? [[NSKeyedUnarchiver alloc] initForReadingWithData:state] : nil;
     if(coder)
     {
@@ -319,7 +320,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
     if(selectedViewTag == OEFlowViewTag || selectedViewTag == OEListViewTag)
     {
-        [[self filteredGamesController] setSortDescriptors:listViewSortDescriptors];
+        [[self gamesController] setSortDescriptors:listViewSortDescriptors];
         [listView reloadData];
     }
 
@@ -371,7 +372,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
             break;
     }
 	
-    [[self filteredGamesController] setSortDescriptors:sortDescriptors];
+    [[self gamesController] setSortDescriptors:sortDescriptors];
 
     if(reloadListView)
         [listView reloadData];
@@ -595,6 +596,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         [item setImageSize:[gridView itemSize]];
         [item setImage:nil];
     }
+    
+    [item setIndicationType:[object gridIndicationType]];
     
     return item;
 }
@@ -1377,7 +1380,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         NSLog(@"Error while fetching: %@", error);
         return;
     }
-    [gamesController rearrangeObjects];
     
     [gridView reloadData];
     [listView reloadData];

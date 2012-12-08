@@ -25,7 +25,6 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "OEMainWindowToolbarViewController.h"
 
 extern NSString *const OEForcePopoutGameWindowKey;
 extern NSString *const OEFullScreenGameWindowKey;
@@ -34,14 +33,13 @@ extern NSString *const OEFullScreenGameWindowKey;
 @class OELibraryController;
 
 @interface OEMainWindowController : NSWindowController <NSWindowDelegate>
-@property (strong) IBOutlet OELibraryController *libraryController;
+@property(strong) IBOutlet OELibraryController *libraryController;
 
-@property (nonatomic, strong) NSViewController  *currentContentController;
-@property (nonatomic, strong) NSViewController  *defaultContentController;
+@property(nonatomic, strong) NSViewController  *currentContentController;
+@property(nonatomic, strong) NSViewController  *defaultContentController;
 @property                    BOOL               allowWindowResizing;
 
-@property (nonatomic, strong) IBOutlet OEMainWindowToolbarViewController *toolbarController;
-
 - (void)openGameDocument:(OEGameDocument *)aDocument;
-@property (weak) IBOutlet NSView *placeholderView;
+@property(weak) IBOutlet NSView *placeholderView;
+
 @end

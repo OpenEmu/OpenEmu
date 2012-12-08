@@ -292,7 +292,7 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 {
     @synchronized(self)
     {
-        NSLog(@"Searching for Wiimotes");
+//        NSLog(@"Searching for Wiimotes");
 
         inquiry = [IOBluetoothDeviceInquiry inquiryWithDelegate:self];
         [inquiry setSearchCriteria:kBluetoothServiceClassMajorLimitedDiscoverableMode
@@ -325,14 +325,14 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 
 - (void)deviceInquiryDeviceFound:(IOBluetoothDeviceInquiry *)sender device:(IOBluetoothDevice *)device
 {
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), device);
+//    NSLog(@"%@ %@", NSStringFromSelector(_cmd), device);
 	// Never try to connect to the wiimote while the inquiry is still running! (cf apple docs)
     [inquiry stop];
 }
 
 - (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender error:(IOReturn)error aborted:(BOOL)aborted
 {
-    NSLog(@"Devices: %@ Error: %d, Aborted: %s", [sender foundDevices], error, BOOL_STR(aborted));
+//    NSLog(@"Devices: %@ Error: %d, Aborted: %s", [sender foundDevices], error, BOOL_STR(aborted));
 
     [[sender foundDevices] enumerateObjectsUsingBlock:
      ^(id obj, NSUInteger idx, BOOL *stop)
@@ -354,7 +354,7 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 
 static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDDeviceRef inIOHIDDeviceRef)
 {
-    NSLog(@"Found device: %s( context: %p, result: %#x, sender: %p, device: %p ).\n", __PRETTY_FUNCTION__, inContext, inResult, inSender, inIOHIDDeviceRef);
+//    NSLog(@"Found device: %s( context: %p, result: %#x, sender: %p, device: %p ).\n", __PRETTY_FUNCTION__, inContext, inResult, inSender, inIOHIDDeviceRef);
 
     if(IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
     {
@@ -362,7 +362,7 @@ static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, 
         return;
     }
 
-    NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
+//    NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
 
 	//add a OEHIDDeviceHandler for our HID device
 	[(__bridge OEDeviceManager*)inContext OE_addDeviceHandlerForDevice:inIOHIDDeviceRef];

@@ -56,8 +56,6 @@
 
 #import "OEPreferencesController.h"
 
-#import "OEMainWindowController.h"
-
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameVideoFilterKey = @"videoFilter";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
@@ -133,11 +131,11 @@ typedef enum : NSUInteger
         [self setRom:aRom];
         NSURL *url = [[self rom] URL];
 
-        if(url == nil)
+        if(![[aRom game] filesAvailable])
         {
-            // TODO: Implement proper error
+            // TODO: Implement user info
             if(outError != NULL)
-                *outError = [NSError errorWithDomain:@"OESomeErrorDomain" code:0 userInfo:@{ }];
+                *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain code:OEFileDoesNotExistError userInfo:@{ }];
             return nil;
         }
 
@@ -194,6 +192,14 @@ typedef enum : NSUInteger
     NSString     *coreIdentifier = [state coreIdentifier];
     OECorePlugin *core           = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
     
+    if(![[rom game] filesAvailable])
+    {
+        // TODO: Implement user info
+        if(outError != NULL)
+            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain code:OEFileDoesNotExistError userInfo:@{ }];
+        return nil;
+    }
+    
     if(core == nil)
     {
         NSError *error = [NSError errorWithDomain:OEGameDocumentErrorDomain
@@ -242,9 +248,6 @@ typedef enum : NSUInteger
     
     if([window parentWindow] != nil) window = [window parentWindow];
 
-    if([[window windowController] isKindOfClass:[OEMainWindowController class]])
-        [[[window windowController] toolbarController] disableAllItems];    
-    
     [window addChildWindow:controlsWindow ordered:NSWindowAbove];
     [self OE_repositionControlsWindow];
     

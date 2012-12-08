@@ -113,7 +113,7 @@
         
         _suppressionButton = [[OEButton alloc] init];
         [_suppressionButton setButtonType:NSSwitchButton];
-        [(OEButton *)_suppressionButton setThemeKey:@"dark_checkbox"];
+        [(OEButton *)_suppressionButton setThemeKey:@"hud_checkbox"];
         
         _defaultButton = [[OEButton alloc] init];
         _alternateButton = [[OEButton alloc] init];

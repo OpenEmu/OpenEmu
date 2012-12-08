@@ -57,7 +57,6 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 @end
 
 @implementation OEMainWindowController
-@synthesize toolbarController;
 @synthesize currentContentController;
 @synthesize defaultContentController;
 @synthesize allowWindowResizing;
@@ -163,7 +162,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     
     // final target
     [[newController view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    [[newController view] setFrame:[contentView bounds]];
+    [[newController view] setFrame:[contentView frame]];
     
     [oldController viewWillDisappear];
     [newController viewWillAppear];
@@ -215,7 +214,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     void (^replaceController)(NSView *) =
     ^(NSView *viewToReplace){
         [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [[controller view] setFrame:[placeHolderView bounds]];
+        [[controller view] setFrame:[placeHolderView frame]];
 
         [placeHolderView replaceSubview:viewToReplace with:[controller view]];
 
@@ -288,7 +287,29 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
                         [NSApp presentError:error];
                 }];
             }
-            else
+            else if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code]==OEFileDoesNotExistError)
+            {
+                NSString *messageText = [NSString stringWithFormat:@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", [aGame name]];
+                if([[OEHUDAlert alertWithMessageText:messageText defaultButton:@"Locate" alternateButton:@"Cancel"] runModal] == NSAlertDefaultReturn)
+                {
+                    OEDBRom  *missingRom = [[aGame roms] anyObject];
+                    NSURL   *originalURL = [missingRom URL];
+                    NSString  *extension = [originalURL pathExtension];
+                    
+                    NSOpenPanel  *panel = [NSOpenPanel openPanel];
+                    [panel setCanChooseDirectories:NO];
+                    [panel setCanChooseFiles:YES];
+                    [panel setDirectoryURL:[originalURL URLByDeletingLastPathComponent]];
+                    [panel setAllowsOtherFileTypes:NO];
+                    [panel setAllowedFileTypes:@[extension]];
+                    
+                    if([panel runModal])
+                    {
+                        [missingRom setURL:[panel URL]];
+                        [self libraryController:sender didSelectGame:aGame];
+                    }
+                }
+            } else
                 [NSApp presentError:error];
         }
         return;

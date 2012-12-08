@@ -60,12 +60,22 @@ static const CGFloat _OESortIndicatorMargin = 5;
 {
 	NSTableView *tableView = [(NSTableHeaderView *)controlView tableView];
 
-	BOOL isPressed = [self state] && [self isClickable];
-	BOOL isFirst = [(NSTableHeaderView *)controlView columnAtPoint:cellFrame.origin] == 0;
+	const NSInteger columnIndex = [(NSTableHeaderView *)controlView columnAtPoint:cellFrame.origin];
+    if(columnIndex < 0) return;
 
-	BOOL hideDarkBorderOnRight = !isFirst && ([(NSTableHeaderView *)controlView columnAtPoint:cellFrame.origin] >= [[tableView tableColumns] count]-1);
-	BOOL hideHighlight = hideDarkBorderOnRight && ([(NSTableHeaderView *)controlView columnAtPoint:cellFrame.origin] >= [[tableView tableColumns] count]);
-	
+	const BOOL isPressed = [self state] && [self isClickable];
+	const BOOL isFirst = columnIndex == 0;
+
+	const BOOL hideDarkBorderOnRight = !isFirst && ([(NSTableHeaderView *)controlView columnAtPoint:cellFrame.origin] >= [[tableView tableColumns] count]-1);
+	const BOOL hideHighlight = hideDarkBorderOnRight && ([(NSTableHeaderView *)controlView columnAtPoint:cellFrame.origin] >= [[tableView tableColumns] count]);
+
+	NSTableColumn *column = [[tableView tableColumns] objectAtIndex:columnIndex];
+    NSSortDescriptor *sortDescriptor = ([[tableView sortDescriptors] count] > 0 ?
+                                        [[tableView sortDescriptors] objectAtIndex:0] :
+                                        nil);
+
+    const NSInteger priority = [[sortDescriptor key] isEqualToString:[[column sortDescriptorPrototype] key]];
+
 	NSRect sourceRect = NSZeroRect;
 	NSImage *backgroundImage = [NSImage imageNamed:@"table_header_background_active"];
 	if(hideDarkBorderOnRight) sourceRect = NSMakeRect(0, 0, backgroundImage.size.width-1, backgroundImage.size.height);
@@ -139,7 +149,7 @@ static const CGFloat _OESortIndicatorMargin = 5;
 	
     headerRect = NSInsetRect(cellFrame, 8, 0);
     headerRect.origin.y   += 1;
-    headerRect.size.width -= _OESortIndicatorSize.width;
+    headerRect.size.width -= (priority * _OESortIndicatorSize.width);
 
 	// Draw glow if header is pressed
 	if(isPressed)
@@ -173,26 +183,17 @@ static const CGFloat _OESortIndicatorMargin = 5;
 	
 	header = [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 	[header drawInRect:headerRect];
-		
-	int columnIndex = [(NSTableHeaderView *)controlView columnAtPoint:cellFrame.origin];
-	if(columnIndex < 0) return;
-	
-	NSTableColumn *column = [[tableView tableColumns] objectAtIndex:columnIndex];
-	
-	if([[tableView sortDescriptors] count] == 0) return;
-    
-	NSSortDescriptor *sortDesc = [[tableView sortDescriptors] objectAtIndex:0];
-	
-    NSInteger priority = [[sortDesc key] isEqualToString:[[column sortDescriptorPrototype] key]];
-	BOOL ascending = [sortDesc ascending];
-	
-    const NSRect sortIndicatorRect =
+
+    if(priority != 0)
     {
-        .origin.x = cellFrame.origin.x + cellFrame.size.width - _OESortIndicatorMargin - _OESortIndicatorSize.width,
-        .origin.y = roundf(cellFrame.origin.y + (cellFrame.size.height - _OESortIndicatorSize.height) / 2) - 1,
-        _OESortIndicatorSize
-    };
-	[self drawSortIndicatorWithFrame:sortIndicatorRect inView:controlView ascending:ascending priority:priority];
+        const NSRect sortIndicatorRect =
+        {
+            .origin.x = cellFrame.origin.x + cellFrame.size.width - _OESortIndicatorMargin - _OESortIndicatorSize.width,
+            .origin.y = roundf(cellFrame.origin.y + (cellFrame.size.height - _OESortIndicatorSize.height) / 2) - 1,
+            _OESortIndicatorSize
+        };
+        [self drawSortIndicatorWithFrame:sortIndicatorRect inView:controlView ascending:[sortDescriptor ascending] priority:priority];
+    }
 }
 
 - (void)drawSortIndicatorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView ascending:(BOOL)ascending priority:(NSInteger)priority

@@ -31,8 +31,6 @@
 #import "OEButton.h"
 #import <objc/runtime.h>
 
-#import "OEMainWindowController.h"
-
 #import "OECoreUpdater.h"
 #import "OECoreDownload.h"
 
@@ -186,9 +184,6 @@ enum : OEFSMEventLabel
 
     NSWindow *window = [[self view] window];
     [window setStyleMask:[window styleMask] ^ NSClosableWindowMask];
-    
-    OEMainWindowToolbarViewController *toolbarController = [[window windowController] toolbarController];
-    [toolbarController disableAllItems];
 }
 
 - (void)viewWillDisappear

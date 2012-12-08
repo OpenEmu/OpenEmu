@@ -25,6 +25,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "OECoverGridViewCell.h"
 
 // used for cover grid and cover flow
 @protocol OECoverGridDataSourceItem <NSObject>
@@ -43,4 +44,5 @@
 - (NSSize)actualGridImageSizeforSize:(NSSize)aSize;
 - (void)setGridImage:(NSImage *)gridImage;
 
+- (OECoverGridViewCellIndicationType)gridIndicationType;
 @end
