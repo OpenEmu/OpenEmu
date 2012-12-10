@@ -208,8 +208,17 @@ static void MupenSetAudioSpeed(int percent)
     
     [[NSFileManager defaultManager] createDirectoryAtPath:configPath withIntermediateDirectories:YES attributes:nil error:nil];
     
+    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+    [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+    
     // open core here
     CoreStartup(FRONTEND_API_VERSION, [configPath fileSystemRepresentation], dataPath, (__bridge void *)self, MupenDebugCallback, (__bridge void *)self, MupenStateCallback);
+    
+    // set SRAM path
+    m64p_handle config;
+    ConfigOpenSection("Core", &config);
+    ConfigSetParameter(config, "SaveSRAMPath", M64TYPE_STRING, [batterySavesDirectory UTF8String]);
+    ConfigSaveSection("Core");
 
 #ifdef DEBUG
     // Disable dynarec (for debugging)
