@@ -28,11 +28,14 @@
 #import "OEDistantView.h"
 #import "NSView+FadeImage.h"
 #import "OEDistantViewController.h"
+
 @interface OEDistantView ()
 @property (strong) NSBitmapImageRep *distantViewImage;
 @end
+
 @implementation OEDistantView
 @synthesize distantViewImage, controller;
+
 - (void)willMakeFadeImage
 {
     NSBitmapImageRep *rep = [[[[self controller] distantWindow] contentView] fadeImage];

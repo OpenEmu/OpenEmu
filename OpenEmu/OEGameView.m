@@ -746,6 +746,23 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 #pragma mark -
 #pragma mark Responder
 
+- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
+{
+    // By default, AppKit tries to set the child window containing this view as its main & key window
+    // upon first mouse. Since our child window shouldn’t behave like a window, we make its parent
+    // window (the visible window from the user point of view) main and key.
+    // See https://github.com/OpenEmu/OpenEmu/issues/365
+    NSWindow *mainWindow = [[self window] parentWindow];
+    if(mainWindow)
+    {
+        [mainWindow makeMainWindow];
+        [mainWindow makeKeyWindow];
+        return NO;
+    }
+
+    return [super acceptsFirstMouse:theEvent];
+}
+
 - (BOOL)acceptsFirstResponder
 {
     return YES;
@@ -793,7 +810,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 {
-    CGRect  frame    = [self frame]; 
+    CGRect  frame    = [self frame];
     CGPoint location = [anEvent locationInWindow];
     location = [self convertPoint:location fromView:nil];
     location.y = frame.size.height - location.y;
@@ -816,6 +833,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         .x = MAX(0, MIN(round(location.x * rect.size.width  / CGRectGetWidth(screenRect)), rect.size.width)),
         .y = MAX(0, MIN(round(location.y * rect.size.height / CGRectGetHeight(screenRect)), rect.size.height))
     };
+    DLog(@"returning point (%lu,%lu)", (unsigned long)point.x, (unsigned long)point.y);
     
     return (id)[OEEvent eventWithMouseEvent:anEvent withLocationInGameView:point];
 }
