@@ -70,7 +70,7 @@ NSString * const AVGGameDeveloperKey;
 NSString * const AVGGameSystemNameKey;
 NSString * const AVGGameDescriptionKey;
 NSString * const AVGGameGenreKey;
-NSString * const AVGGameBoxURLKey;
+NSString * const AVGGameBoxURLStringKey;
 NSString * const AVGGameESRBRatingKey;
 NSString * const AVGGameCreditsKey;
 NSString * const AVGGameReleasesKey;
