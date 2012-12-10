@@ -833,7 +833,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         .x = MAX(0, MIN(round(location.x * rect.size.width  / CGRectGetWidth(screenRect)), rect.size.width)),
         .y = MAX(0, MIN(round(location.y * rect.size.height / CGRectGetHeight(screenRect)), rect.size.height))
     };
-    DLog(@"returning point (%lu,%lu)", (unsigned long)point.x, (unsigned long)point.y);
     
     return (id)[OEEvent eventWithMouseEvent:anEvent withLocationInGameView:point];
 }
