@@ -678,6 +678,7 @@
 		94AB85F7158676BA0035D12C /* sg1000_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB85F3158676BA0035D12C /* sg1000_library.png */; };
 		94AB85FA158679730035D12C /* SG-1000.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94AB85DC158656080035D12C /* SG-1000.oesystemplugin */; };
 		94AB85FF15867BFC0035D12C /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94D6129A16771BBF00770ECE /* OEPCFXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D6129916771BBF00770ECE /* OEPCFXSystemController.m */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
 		94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */; };
@@ -2146,6 +2147,8 @@
 		94AB85F1158676BA0035D12C /* controller_sg1000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sg1000.png; sourceTree = "<group>"; };
 		94AB85F2158676BA0035D12C /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94AB85F3158676BA0035D12C /* sg1000_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sg1000_library.png; sourceTree = "<group>"; };
+		94D6129816771B9700770ECE /* OEPCFXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCFXSystemController.h; sourceTree = "<group>"; };
+		94D6129916771BBF00770ECE /* OEPCFXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCFXSystemController.m; sourceTree = "<group>"; };
 		94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NDS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NDS-Info.plist"; sourceTree = "<group>"; };
 		94D7E8CF15073BA000FBDD85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4310,6 +4313,8 @@
 		94AB8544158532C20035D12C /* PC-FX */ = {
 			isa = PBXGroup;
 			children = (
+				94D6129816771B9700770ECE /* OEPCFXSystemController.h */,
+				94D6129916771BBF00770ECE /* OEPCFXSystemController.m */,
 				94AB855015853AE30035D12C /* OEPCFXSystemResponder.h */,
 				94AB855115853AE30035D12C /* OEPCFXSystemResponder.m */,
 				94AB855215853AE30035D12C /* OEPCFXSystemResponderClient.h */,
@@ -6334,6 +6339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94AB855415853AE30035D12C /* OEPCFXSystemResponder.m in Sources */,
+				94D6129A16771BBF00770ECE /* OEPCFXSystemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

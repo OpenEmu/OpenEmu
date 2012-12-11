@@ -25,7 +25,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESystemController</string>
+	<string>OEPCFXSystemController</string>
 	<key>OESystemName</key>
 	<string>PC-FX</string>
 	<key>OESystemIdentifier</key>
