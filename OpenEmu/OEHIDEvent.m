@@ -729,7 +729,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 {
     NSAssert(_type == OEHIDEventTypeButton, @"Attempting to button state of a non-button event");
 
-    state = state == OEHIDEventStateOff ? OEHIDEventStateOn : OEHIDEventStateOff;
+    state = state != OEHIDEventStateOff ? OEHIDEventStateOn : OEHIDEventStateOff;
 
     if(_data.button.state == state) return NO;
 
@@ -738,7 +738,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     _timestamp         = timestamp;
 
     _data.button.previousState = _data.button.state;
-    _data.button.state = state == OEHIDEventStateOff ? OEHIDEventStateOn : OEHIDEventStateOff;
+    _data.button.state = state;
 
     return YES;
 }

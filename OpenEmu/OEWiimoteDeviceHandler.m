@@ -291,6 +291,11 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
 #pragma mark - Device Info
 
+- (NSString *)deviceIdentifier
+{
+    return @"OEControllerWiimote";
+}
+
 - (NSString *)nameOrAddress
 {
     return [_device nameOrAddress];
@@ -634,7 +639,7 @@ enum {
 
     _OEWiimoteIdentifierEnumerateUsingBlock(_OEWiimoteButtonRange, ^(OEWiimoteButtonIdentifier identifier, NSUInteger usage, BOOL *stop) {
         if(changes & identifier)
-            [self OE_dispatchButtonEventWithUsage:usage state:data & identifier timestamp:timestamp cookie:usage];
+            [self OE_dispatchButtonEventWithUsage:usage state:(data & identifier ? OEHIDEventStateOn : OEHIDEventStateOff) timestamp:timestamp cookie:usage];
     });
 }
 
@@ -688,11 +693,11 @@ enum {
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
 
     uint8_t changes = data ^ _latestButtonReports.nunchuck;
-    _latestButtonReports.nunchuck = data;
+    _latestButtonReports.classicController = data;
 
     _OEWiimoteIdentifierEnumerateUsingBlock(_OEClassicButtonRange, ^(OEWiimoteButtonIdentifier identifier, NSUInteger usage, BOOL *stop) {
         if(changes & identifier)
-            [self OE_dispatchButtonEventWithUsage:usage state:data & identifier timestamp:timestamp cookie:usage];
+            [self OE_dispatchButtonEventWithUsage:usage state:(data & identifier ? OEHIDEventStateOn : OEHIDEventStateOff) timestamp:timestamp cookie:usage];
     });
 }
 
@@ -756,7 +761,7 @@ enum {
 {
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
-    if(existingEvent != nil)
+    if(existingEvent == nil)
     {
         existingEvent = [OEHIDEvent buttonEventWithPadNumber:[self deviceNumber] timestamp:timestamp buttonNumber:usage state:state cookie:cookie];
         [_reusableEvents setObject:existingEvent forKey:@(cookie)];
