@@ -564,24 +564,18 @@ enum {
     uint16_t address = (response[5] << 8) | response[6];
 
     // Response to expansion type request
-    if(address == 0x00FE)
+    if(address == 0x00F0)
     {
         OEWiimoteExpansionType expansion = OEWiimoteExpansionTypeNotConnected;
 
-        if((response[4] & 0xF) == 0)
+        switch (response[21])
         {
-            switch((response[7] << 8) | response[8])
-            {
-                case OEWiimoteExpansionIdentifierNunchuck :
-                    expansion = OEWiimoteExpansionTypeNunchuck;
-                    break;
-                case OEWiimoteExpansionTypeClassicController :
-                    expansion = OEWiimoteExpansionTypeClassicController;
-                    break;
-                default:
-                    expansion = OEWiimoteExpansionTypeUnknown;
-                    break;
-            }
+            case 0x0:
+                expansion = OEWiimoteExpansionTypeNunchuck;
+                break;
+            case 0x1:
+                expansion = OEWiimoteExpansionTypeClassicController;
+                break;
         }
 
         if(expansion != _expansionType)
@@ -625,7 +619,7 @@ enum {
     [self OE_writeData:&(uint8_t){ 0x00 } length:1 atAddress:0x04A400FB];
     usleep(1000);
 
-    [self OE_readDataOfLength:2 atAddress:0x04A400FE];
+    [self OE_readDataOfLength:16 atAddress:0x04A400F0];
 }
 
 #pragma mark - Parse methods
