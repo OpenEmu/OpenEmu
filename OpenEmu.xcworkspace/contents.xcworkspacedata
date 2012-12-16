@@ -40,4 +40,7 @@
    <FileRef
       location = "group:FCEU/FCEU.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:FreeDO/FreeDO.xcodeproj">
+   </FileRef>
 </Workspace>

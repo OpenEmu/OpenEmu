@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/libcue-1.4
+
+Name: libcue
+Description: Cuesheet parser library
+Version: 1.4.0
+Libs: -L${libdir} -lcue
+Cflags: -I${includedir}

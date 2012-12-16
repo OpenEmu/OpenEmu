@@ -1,0 +1,12 @@
+Current Developers
+------------------
+Jochen Keil	<jrkay@users.sourceforge.net>
+
+Avuton Olrich
+He helped a lot to make compilation on win32 work (it still would break
+without him). Finding the parallel build bug is also accredited to him.
+Thanks!
+
+Former Developers
+-----------------
+Svend Sorensen	<sorensen@users.berlios.de>

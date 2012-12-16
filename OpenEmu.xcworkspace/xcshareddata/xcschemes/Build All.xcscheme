@@ -160,6 +160,20 @@
                ReferencedContainer = "container:Mupen64Plus/Mupen64Plus.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82B9195310150EA2007BD6DB"
+               BuildableName = "Build &amp; Install FreeDO"
+               BlueprintName = "Build &amp; Install FreeDO"
+               ReferencedContainer = "container:FreeDO/FreeDO.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
