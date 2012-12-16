@@ -296,7 +296,9 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
                     NSURL   *originalURL = [missingRom URL];
                     NSString  *extension = [originalURL pathExtension];
                     
+					NSString *panelTitle = [NSString stringWithFormat:NSLocalizedString(@"Locate '%@'", @"Locate panel title"), [[originalURL pathComponents] lastObject]];
                     NSOpenPanel  *panel = [NSOpenPanel openPanel];
+					[panel setTitle:panelTitle];
                     [panel setCanChooseDirectories:NO];
                     [panel setCanChooseFiles:YES];
                     [panel setDirectoryURL:[originalURL URLByDeletingLastPathComponent]];
