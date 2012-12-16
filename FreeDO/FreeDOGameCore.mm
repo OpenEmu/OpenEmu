@@ -228,8 +228,13 @@ unsigned int _setBitTo(unsigned int storage, BOOL set, unsigned int bitmask) {
 	self = [super init];
     if(self != nil)
     {
-
-        [self initOnce];
+       
+        for(int j = 0; j < 32; j++)
+        {
+            FIXED_CLUTR[j] = (unsigned char)(((j & 0x1f) << 3) | ((j >> 2) & 7));
+            FIXED_CLUTG[j] = FIXED_CLUTR[j];
+            FIXED_CLUTB[j] = FIXED_CLUTR[j];
+        }
     }
 	
 	current = self;
@@ -238,14 +243,6 @@ unsigned int _setBitTo(unsigned int storage, BOOL set, unsigned int bitmask) {
 }
 
 
-- (void) initOnce {
-    for(int j = 0; j < 32; j++)
-    {
-        FIXED_CLUTR[j] = (unsigned char)(((j & 0x1f) << 3) | ((j >> 2) & 7));
-        FIXED_CLUTG[j] = FIXED_CLUTR[j];
-        FIXED_CLUTB[j] = FIXED_CLUTR[j];
-    }  
-}
 
 - (void) initVideo {
 
@@ -381,7 +378,9 @@ unsigned int _setBitTo(unsigned int storage, BOOL set, unsigned int bitmask) {
 - (OEIntRect)screenRect
 {
     // hope this handles hires :/
-    return OERectMake(0, 0, frame->srcw*2, frame->srch*2);
+    OEIntRect rect = OERectMake(0,0,320,240);
+    return rect;
+//    return OERectMake(0, 0, frame->srcw*2, frame->srch*2);
 }
 
 - (OEIntSize)bufferSize
