@@ -389,7 +389,7 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
 enum {
     OEWiimoteRumbleMask = 0x1,
-    OEWiimoteRumbleAndLEDMask = OEWiimoteDeviceHandlerLEDAll & OEWiimoteRumbleMask,
+    OEWiimoteRumbleAndLEDMask = OEWiimoteDeviceHandlerLEDAll | OEWiimoteRumbleMask,
 };
 
 - (OEWiimoteDeviceHandlerLED)illuminatedLEDs
