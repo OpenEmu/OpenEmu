@@ -27,44 +27,41 @@
 #import "OECenteredTextFieldCell.h"
 
 @implementation OECenteredTextFieldCell
-@synthesize widthInset;
+
+- (void)OE_centeredTextFieldCellInit
+{
+    [self setWidthInset:3.0];
+}
 
 - (id)init
 {
     if((self = [super init]))
-    {
-        [self setWidthInset:3];
-    }
-    
+        [self OE_centeredTextFieldCellInit];
+
     return self;
 }
 
 - (id)initImageCell:(NSImage *)image
 {
     if(self = [super initImageCell:image])
-    {
-        [self setWidthInset:3];
-    }
-    
+        [self OE_centeredTextFieldCellInit];
+
     return self;
 }
 
 - (id)initTextCell:(NSString *)aString
 {
     if((self = [super initTextCell:aString]))
-    {
-        [self setWidthInset:3];
-    }
-    
+        [self OE_centeredTextFieldCellInit];
+
     return self;
 }
+
 - (id)initWithCoder:(NSCoder *)coder
 {
     if((self = [super initWithCoder:coder]))
-    {
-        [self setWidthInset:3];
-    }
-    
+        [self OE_centeredTextFieldCellInit];
+
     return self;
 }
 
@@ -76,10 +73,13 @@
     return copy;
 }
 
-- (NSSize)insetForFrame:(NSRect)cellFrame
+- (NSRect)titleRectForBounds:(NSRect)bounds
 {
-    CGFloat heightInset = (cellFrame.size.height - [self cellSize].height) / 2;
-    return (NSSize){[self widthInset], heightInset};
+    NSRect titleRect = [super titleRectForBounds:bounds];
+    NSSize contentSize  = [self cellSize];
+    const CGFloat heightInset = (titleRect.size.height - contentSize.height) / 2.0;
+    titleRect = NSInsetRect(titleRect, [self widthInset], heightInset);
+    return titleRect;
 }
 
 #pragma mark -
@@ -87,14 +87,7 @@
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    NSSize contentSize = [self cellSize];
-    
-    cellFrame.origin.y += (cellFrame.size.height - contentSize.height) / 2.0;
-    cellFrame.size.height = contentSize.height;
-    
-    cellFrame = NSInsetRect(cellFrame, self.widthInset, 0);
-    
-    [[self attributedStringValue] drawInRect:cellFrame];
+    [[self attributedStringValue] drawInRect:[self titleRectForBounds:cellFrame]];
 }
 
 @end

@@ -27,8 +27,9 @@
 #import <Foundation/Foundation.h>
 
 #import "OEAttributedTextFieldCell.h"
-@interface OECenteredTextFieldCell : OEAttributedTextFieldCell
-@property float widthInset;
 
-- (NSSize)insetForFrame:(NSRect)frame;
+@interface OECenteredTextFieldCell : OEAttributedTextFieldCell
+
+@property CGFloat widthInset;
+
 @end
