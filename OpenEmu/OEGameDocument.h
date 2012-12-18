@@ -27,8 +27,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString *const OEPopoutHasScreenSizeKey;
-
 extern NSString *const OEGameDocumentErrorDomain;
 
 enum _OEGameDocumentErrorCodes

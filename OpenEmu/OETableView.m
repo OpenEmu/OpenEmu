@@ -28,7 +28,7 @@
 
 #import "OETableCornerView.h"
 #import "OETableHeaderCell.h"
-#import "OECenteredTextFieldCell.h"
+#import "OETableTextFieldCell.h"
 
 #import "OEMenu.h"
 #import "OEGridView.h"
@@ -39,10 +39,8 @@ static NSGradient *highlightGradient, *normalGradient;
 
 
 @interface OETableView ()
-{
-    NSColor *_fieldEditorOriginalInsertionPointColor;
-}
-@property (strong, readwrite) NSColor *selectionColor;
+@property(strong, readwrite) NSColor *selectionColor;
+- (BOOL)OE_isActive;
 @end
 
 
@@ -122,13 +120,16 @@ static NSGradient *highlightGradient, *normalGradient;
 	}
 }
 
+- (BOOL)OE_isActive
+{
+    return [[self window] isMainWindow] && ([[self window] firstResponder] == self || [[self window] firstResponder] == [self currentEditor]);
+}
+
 - (void)highlightSelectionInClipRect:(NSRect)theClipRect
 {
-	BOOL isActive = [[self window] isMainWindow] && [[self window] firstResponder] == self;
-	
 	NSColor *fillColor;
 	NSColor *lineColor;
-	if(isActive)
+	if([self OE_isActive])
 	{
 		fillColor = self.selectionColor;
 		lineColor = [NSColor colorWithDeviceRed:0.114 green:0.188 blue:0.635 alpha:1.0];
@@ -184,8 +185,7 @@ static NSGradient *highlightGradient, *normalGradient;
 	}
 	
 	NSColor *fillColor;
-	BOOL isActive = [[self window] isMainWindow] && [[self window] firstResponder] == self;
-	if(isActive)
+	if([self OE_isActive])
 	{
 		fillColor = [NSColor colorWithDeviceRed:0.235 green:0.455 blue:0.769 alpha:1.0];
 	}
@@ -275,51 +275,8 @@ static NSGradient *highlightGradient, *normalGradient;
     if(fieldEditor)
     {
         [self abortEditing];
-
-        if([fieldEditor isKindOfClass:[NSTextView class]] && _fieldEditorOriginalInsertionPointColor)
-        {
-            [fieldEditor setInsertionPointColor:_fieldEditorOriginalInsertionPointColor];
-        }
-
         [[self window] makeFirstResponder:self];
     }
-}
-
-- (void)editColumn:(NSInteger)column row:(NSInteger)row withEvent:(NSEvent *)theEvent select:(BOOL)select
-{
-    [super editColumn:column row:row withEvent:theEvent select:select];
-
-    NSTextFieldCell *cell = (NSTextFieldCell *)[self preparedCellAtColumn:column row:row];
-    if(![cell isKindOfClass:[NSTextFieldCell class]]) return;
-
-    NSTextView *fieldEditor = (NSTextView *)[[self window] fieldEditor:YES forObject:cell];
-    if(![fieldEditor isKindOfClass:[NSTextView class]]) return;
-
-    _fieldEditorOriginalInsertionPointColor = [fieldEditor insertionPointColor];
-    [fieldEditor setInsertionPointColor:[fieldEditor textColor]];
-
-    // OECenteredTextFieldCell has two insets: its `widthInset` property and the computed height inset used
-    // to centre text inside the cell. We need to apply both insets to the field editor so that it matches
-    // the text frame.
-    // Note that NSTextView’s text container already uses a inset; namely, -lineFragmentPadding
-    if([cell isKindOfClass:[OECenteredTextFieldCell class]])
-    {
-        NSRect cellFrame = [self frameOfCellAtColumn:column row:row];
-        NSSize inset = [(OECenteredTextFieldCell *)cell insetForFrame:cellFrame];
-        inset.width -= [[fieldEditor textContainer] lineFragmentPadding];
-        [fieldEditor setTextContainerInset:inset];
-    }
-}
-
-- (void)textDidEndEditing:(NSNotification *)notification
-{
-    NSTextView *fieldEditor = [notification object];
-    if([fieldEditor isKindOfClass:[NSTextView class]] && _fieldEditorOriginalInsertionPointColor)
-    {
-        [fieldEditor setInsertionPointColor:_fieldEditorOriginalInsertionPointColor];
-    }
-
-    [super textDidEndEditing:notification];
 }
 
 #pragma mark - Context menu

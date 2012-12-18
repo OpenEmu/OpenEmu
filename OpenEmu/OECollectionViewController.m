@@ -202,6 +202,8 @@ static NSArray *OE_defaultSortDescriptors;
     [listView setDelegate:self];
     [listView setDataSource:self];
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
+    [listView setRowSizeStyle:NSTableViewRowSizeStyleCustom];
+    [listView setRowHeight:20.0];
     [listView bind:@"selectionIndexes" toObject:gamesController withKeyPath:@"selectionIndexes" options:@{}];
 
     // There's no natural order for status indicators, so we don't allow that column to be sorted
@@ -1172,16 +1174,6 @@ static NSArray *OE_defaultSortDescriptors;
     
     
     return YES;
-}
-
- - (CGFloat)tableView:(NSTableView *)aTableView heightOfRow:(NSInteger)row
-{
-    if( aTableView == listView )
-    {
-        return 17.0;
-    }
-    
-    return 0.0;
 }
 
 - (void)tableViewSelectionIsChanging:(NSNotification *)notification
