@@ -44,9 +44,6 @@
 #import "OEHUDWindow.h"
 #import "NSWindow+OEFullScreenAdditions.h"
 
-NSString *const OEPopoutHasScreenSizeKey = @"forceDefaultScreenSize";
-NSString *const UDLastPopoutFrameKey     = @"lastPopoutFrame";
-
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 @interface OEGameDocument ()
@@ -177,23 +174,14 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 - (void)showInSeparateWindow:(id)sender fullScreen:(BOOL)fullScreen;
 {
     // Create a window, set gameviewcontroller.view as view, open it
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    
-    BOOL useScreenSize = [standardDefaults boolForKey:OEPopoutHasScreenSizeKey] || ![standardDefaults valueForKey:UDLastPopoutFrameKey];
-    NSRect windowRect;
-    if(useScreenSize)
-    {
-        windowRect.size = [[self gameViewController] defaultScreenSize];
-        windowRect.origin = NSZeroPoint;
-        windowRect.size.height *= 3;
-        windowRect.size.height += 21;
-        windowRect.size.width *= 3;
-    }
-    else
-    {
-        windowRect = NSRectFromString([standardDefaults stringForKey:UDLastPopoutFrameKey]);
-    }
-    
+    const CGFloat windowTitleBarHeight = 21.0;
+    const NSSize mainScreenSize        = [[NSScreen mainScreen] visibleFrame].size;
+    const NSSize maxWindowSize         = {mainScreenSize.width, mainScreenSize.height - windowTitleBarHeight};
+    const NSSize defaultSize           = [[self gameViewController] defaultScreenSize];
+    const NSUInteger sizeScale         = MAX(MIN(floor(maxWindowSize.height / defaultSize.height), floor(maxWindowSize.width / defaultSize.width)), 1);
+    const NSSize windowSize            = {defaultSize.width * sizeScale, (defaultSize.height * sizeScale) + windowTitleBarHeight};
+    const NSRect windowRect            = {NSZeroPoint, windowSize};
+
     [[self gameViewController] viewWillAppear];
     
     OEHUDWindow *window = [[OEHUDWindow alloc] initWithContentRect:windowRect];
