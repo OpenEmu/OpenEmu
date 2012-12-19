@@ -456,7 +456,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     ret->_data.trigger.axis = axis;
 
     ret->_data.trigger.value   = value;
-    ret->_data.trigger.maximum = value;
+    ret->_data.trigger.maximum = maximum;
 
     ret->_data.trigger.direction = ret->_data.trigger.value == 0 ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
 
