@@ -473,7 +473,7 @@ enum {
 
     NSAssert(data[0] != OEWiimoteCommandWrite || length == 22, @"Writing command should have a length of 22, got %ld", length);
 
-    uint8_t buffer[40] = { 0x52 };
+    uint8_t buffer[40] = { 0xa2 };
 
     memcpy(buffer + 1, data, length);
     length++;
@@ -481,7 +481,7 @@ enum {
     IOReturn ret = kIOReturnSuccess;
     for(NSUInteger i = 0; i < 10; i++)
     {
-        ret = [_controlChannel writeSync:buffer length:length];
+        ret = [_interruptChannel writeSync:buffer length:length];
 
         if(ret != kIOReturnSuccess) usleep(10000);
         else break;
@@ -564,24 +564,18 @@ enum {
     uint16_t address = (response[5] << 8) | response[6];
 
     // Response to expansion type request
-    if(address == 0x00FE)
+    if(address == 0x00F0)
     {
         OEWiimoteExpansionType expansion = OEWiimoteExpansionTypeNotConnected;
 
-        if((response[4] & 0xF) == 0)
+        switch (response[21])
         {
-            switch((response[7] << 8) | response[8])
-            {
-                case OEWiimoteExpansionIdentifierNunchuck :
-                    expansion = OEWiimoteExpansionTypeNunchuck;
-                    break;
-                case OEWiimoteExpansionTypeClassicController :
-                    expansion = OEWiimoteExpansionTypeClassicController;
-                    break;
-                default:
-                    expansion = OEWiimoteExpansionTypeUnknown;
-                    break;
-            }
+            case 0x0:
+                expansion = OEWiimoteExpansionTypeNunchuck;
+                break;
+            case 0x1:
+                expansion = OEWiimoteExpansionTypeClassicController;
+                break;
         }
 
         if(expansion != _expansionType)
@@ -625,7 +619,7 @@ enum {
     [self OE_writeData:&(uint8_t){ 0x00 } length:1 atAddress:0x04A400FB];
     usleep(1000);
 
-    [self OE_readDataOfLength:2 atAddress:0x04A400FE];
+    [self OE_readDataOfLength:16 atAddress:0x04A400F0];
 }
 
 #pragma mark - Parse methods
@@ -692,12 +686,13 @@ enum {
 {
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
 
-    uint8_t changes = data ^ _latestButtonReports.nunchuck;
+    uint16_t changes = data ^ _latestButtonReports.classicController;
     _latestButtonReports.classicController = data;
 
     _OEWiimoteIdentifierEnumerateUsingBlock(_OEClassicButtonRange, ^(OEWiimoteButtonIdentifier identifier, NSUInteger usage, BOOL *stop) {
+        // Classic controller uses 0 for pressed, not 1 like standard wii buttons
         if(changes & identifier)
-            [self OE_dispatchButtonEventWithUsage:usage state:(data & identifier ? OEHIDEventStateOn : OEHIDEventStateOff) timestamp:timestamp cookie:usage];
+            [self OE_dispatchButtonEventWithUsage:usage state:((data & identifier) == 0 ? OEHIDEventStateOn : OEHIDEventStateOff) timestamp:timestamp cookie:usage];
     });
 }
 
