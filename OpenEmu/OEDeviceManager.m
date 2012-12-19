@@ -212,18 +212,22 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 
     NSAssert(aDevice != NULL, @"Passing NULL device.");
     OEWiimoteDeviceHandler *handler = [OEWiimoteDeviceHandler deviceHandlerWithIOBluetoothDevice:aDevice];
+    NSUInteger existingWiimotes = 0;
+    for (id obj in deviceToHandlers)
+        existingWiimotes += [[deviceToHandlers objectForKey:obj] isKindOfClass:[OEWiimoteDeviceHandler class]];
+
     deviceToHandlers[@((NSUInteger)aDevice)] = handler;
 
     [handler setRumbleActivated:YES];
     [handler setExpansionPortEnabled:YES];
 
-#define IS_BETWEEN(min, value, max) (min < value && value < max)
-    NSInteger count = [deviceToHandlers count];
+    NSUInteger useLED = (existingWiimotes % 4) + 1;
+
     [handler setIlluminatedLEDs:
-     IS_BETWEEN(0, count, 4) ? OEWiimoteDeviceHandlerLED1 : 0 |
-     IS_BETWEEN(1, count, 5) ? OEWiimoteDeviceHandlerLED2 : 0 |
-     IS_BETWEEN(2, count, 6) ? OEWiimoteDeviceHandlerLED3 : 0 |
-     IS_BETWEEN(3, count, 7) ? OEWiimoteDeviceHandlerLED4 : 0];
+     (useLED == 1) ? OEWiimoteDeviceHandlerLED1 : 0 |
+     (useLED == 2) ? OEWiimoteDeviceHandlerLED2 : 0 |
+     (useLED == 3) ? OEWiimoteDeviceHandlerLED3 : 0 |
+     (useLED == 4) ? OEWiimoteDeviceHandlerLED4 : 0];
 
     if([handler connect])
     {
