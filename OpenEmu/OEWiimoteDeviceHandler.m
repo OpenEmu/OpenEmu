@@ -686,12 +686,13 @@ enum {
 {
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
 
-    uint8_t changes = data ^ _latestButtonReports.nunchuck;
+    uint16_t changes = data ^ _latestButtonReports.classicController;
     _latestButtonReports.classicController = data;
 
     _OEWiimoteIdentifierEnumerateUsingBlock(_OEClassicButtonRange, ^(OEWiimoteButtonIdentifier identifier, NSUInteger usage, BOOL *stop) {
+        // Classic controller uses 0 for pressed, not 1 like standard wii buttons
         if(changes & identifier)
-            [self OE_dispatchButtonEventWithUsage:usage state:(data & identifier ? OEHIDEventStateOn : OEHIDEventStateOff) timestamp:timestamp cookie:usage];
+            [self OE_dispatchButtonEventWithUsage:usage state:((data & identifier) == 0 ? OEHIDEventStateOn : OEHIDEventStateOff) timestamp:timestamp cookie:usage];
     });
 }
 
