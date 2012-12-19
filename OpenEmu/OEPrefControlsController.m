@@ -460,7 +460,12 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
         
         return NO;
     }
-    
+
+    // Ignore keyboard events if the user hasn’t explicitly chosen to configure
+    // keyboard bindings. See https://github.com/OpenEmu/OpenEmu/issues/403
+    if([anEvent type] == OEHIDEventTypeKeyboard && ![self isKeyboardEventSelected])
+        return NO;
+
     // No event currently read, if it's not off state, store it and read it
     if(readingEvent == nil)
     {
