@@ -814,7 +814,10 @@ typedef enum : NSUInteger
     float ratio = MAX(hr, wr);
     NSSize scaled = NSMakeSize((wr / ratio), (hr / ratio));
     
-    return NSMakeSize(screenRect.size.width * scaled.width, screenRect.size.height * scaled.height);
+    float halfw = scaled.width;
+    float halfh = scaled.height;
+    
+    return NSMakeSize(screenRect.size.width / halfh, screenRect.size.height / halfw);
 }
 
 - (NSString *)systemIdentifier
