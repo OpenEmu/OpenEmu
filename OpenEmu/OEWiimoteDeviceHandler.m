@@ -473,7 +473,7 @@ enum {
 
     NSAssert(data[0] != OEWiimoteCommandWrite || length == 22, @"Writing command should have a length of 22, got %ld", length);
 
-    uint8_t buffer[40] = { 0x52 };
+    uint8_t buffer[40] = { 0xa2 };
 
     memcpy(buffer + 1, data, length);
     length++;
@@ -481,7 +481,7 @@ enum {
     IOReturn ret = kIOReturnSuccess;
     for(NSUInteger i = 0; i < 10; i++)
     {
-        ret = [_controlChannel writeSync:buffer length:length];
+        ret = [_interruptChannel writeSync:buffer length:length];
 
         if(ret != kIOReturnSuccess) usleep(10000);
         else break;
