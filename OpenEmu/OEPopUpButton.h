@@ -28,8 +28,9 @@
 #import "OEPopUpButtonCell.h"
 #import "OEMenu.h"
 #import "OEControl.h"
+#import "OEToolTip.h"
 
-@interface OEPopUpButton : NSPopUpButton <OEControl>
+@interface OEPopUpButton : NSPopUpButton <OEControl, OEToolTip>
 {
 @private
     NSTrackingArea *_trackingArea;   // Mouse tracking area used only if the control reacts to the mouse's location

@@ -14,6 +14,8 @@
 		<string>rgba(0,0,0,0.8)</string>
 		<key>light_menu_background</key>
 		<string>clear</string>
+		<key>hud_tooltip_background</key>
+		<string>white</string>
 	</dict>
 	<key>Fonts</key>
 	<dict>
@@ -725,6 +727,28 @@
 						<string>{0, -1}</string>
 					</dict>
 				</dict>
+			</dict>
+		</dict>
+		<key>hud_tooltip</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<real>3</real>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Alignment</key>
+			<string>Center</string>
+			<key>Color</key>
+			<string>black</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Color</key>
+				<string>black</string>
+				<key>Offset</key>
+				<string>{0, 1}</string>
 			</dict>
 		</dict>
 		<key>dark_popup_button</key>

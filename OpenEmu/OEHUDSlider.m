@@ -28,6 +28,7 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 @implementation OEHUDSlider
+@synthesize toolTipStyle = _toolTipStyle;
 - (void)setNeedsDisplayInRect:(NSRect)invalidRect{
     [super setNeedsDisplayInRect:[self bounds]];
 }

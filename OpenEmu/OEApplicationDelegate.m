@@ -62,7 +62,7 @@
 #import "OEFiniteStateMachine.h"
 
 #import <FeedbackReporter/FRFeedbackReporter.h>
-
+#import "OEToolTipManager.h"
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -75,7 +75,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 @property (strong) NSArray *cachedLastPlayedInfo;
 @end
-
 @implementation OEApplicationDelegate
 @synthesize mainWindowController;
 @synthesize aboutWindow, aboutCreditsPath, cachedLastPlayedInfo;
@@ -97,6 +96,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                        OEGameControlsBarCanDeleteSaveStatesKey : @YES,
                             @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x"
          }];
+        
+        [OEToolTipManager load];
     }
 }
 

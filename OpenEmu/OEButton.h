@@ -27,13 +27,13 @@
 #import <Cocoa/Cocoa.h>
 #import "OEButtonCell.h"
 #import "OEControl.h"
+#import "OEToolTip.h"
 
-@interface OEButton : NSButton <OEControl>
+@interface OEButton : NSButton <OEControl, OEToolTip>
 {
 @private
     NSTrackingArea *_trackingArea;   // Mouse tracking area used only if the control reacts to the mouse's location
 }
 
 @property(nonatomic, readonly) NSPoint badgePosition;
-
 @end
