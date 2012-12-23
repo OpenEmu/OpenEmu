@@ -84,7 +84,26 @@ typedef enum : NSUInteger {
     OEWiimoteButtonIdentifierClassicMinus = 0x1000,
     OEWiimoteButtonIdentifierClassicL     = 0x2000,
     OEWiimoteButtonIdentifierClassicDown  = 0x4000,
-    OEWiimoteButtonIdentifierClassicRight = 0x8000
+    OEWiimoteButtonIdentifierClassicRight = 0x8000,
+    
+    OEWiimoteButtonIdentifierProR3        = 0x00000001,
+    OEWiimoteButtonIdentifierProL3        = 0x00000002,
+    OEWiimoteButtonIdentifierProUp        = 0x00000100,
+    OEWiimoteButtonIdentifierProLeft      = 0x00000200,
+    OEWiimoteButtonIdentifierProZR        = 0x00000400,
+    OEWiimoteButtonIdentifierProX         = 0x00000800,
+    OEWiimoteButtonIdentifierProA         = 0x00001000,
+    OEWiimoteButtonIdentifierProY         = 0x00002000,
+    OEWiimoteButtonIdentifierProB         = 0x00004000,
+    OEWiimoteButtonIdentifierProZL        = 0x00008000,
+    OEWiimoteButtonIdentifierProR         = 0x00020000,
+    OEWiimoteButtonIdentifierProPlus      = 0x00040000,
+    OEWiimoteButtonIdentifierProHome      = 0x00080000,
+    OEWiimoteButtonIdentifierProMinus     = 0x00100000,
+    OEWiimoteButtonIdentifierProL         = 0x00200000,
+    OEWiimoteButtonIdentifierProDown      = 0x00400000,
+    OEWiimoteButtonIdentifierProRight     = 0x00800000,
+    
 } OEWiimoteButtonIdentifier;
 
 typedef enum {
@@ -132,17 +151,29 @@ typedef enum {
 } OEWiimoteClassicControllerParameters;
 
 typedef enum {
+    OEWiimoteProControllerJoystickScaledMinimumValue = 900 - 2048,
+    OEWiimoteProControllerJoystickScaledMaximumValue = 3200 - 2048,
+        
+    OEWiimoteProControllerLeftJoystickAxisXUsage    = OEHIDEventAxisX,
+    OEWiimoteProControllerLeftJoystickAxisYUsage    = OEHIDEventAxisY,
+    
+    OEWiimoteProControllerRightJoystickAxisXUsage   = OEHIDEventAxisRx,
+    OEWiimoteProControllerRightJoystickAxisYUsage   = OEHIDEventAxisRy,
+        
+    OEWiimoteProControllerLeftJoystickAxisXCookie   = 0x1000,
+    OEWiimoteProControllerLeftJoystickAxisYCookie   = 0x2000,
+    
+    OEWiimoteProControllerRightJoystickAxisXCookie  = 0x4000,
+    OEWiimoteProControllerRightJoystickAxisYCookie  = 0x8000,
+} OEWiimoteProControllerParameters;
+
+typedef enum {
     OEWiimoteExpansionIdentifierNunchuck          = 0x0000,
     OEWiimoteExpansionIdentifierClassicController = 0x0101,
 } OEWiimoteExpansionIdentifier;
 
-static const NSRange _OEWiimoteButtonRange  = {  1, 11 };
-static const NSRange _OENunchuckButtonRange = { 12,  2 };
-static const NSRange _OEClassicButtonRange  = { 14, 15 };
-static const NSRange _OEAllButtonRange      = {  1, 28 };
-
 // IMPORTANT: The index in the table represents both the usage and the cookie of the buttons
-static NSUInteger _OEWiimoteIdentifierToHIDUsage[30] = {
+static NSUInteger _OEWiimoteIdentifierToHIDUsage[] = {
     [1]  = OEWiimoteButtonIdentifierUp,
     [2]  = OEWiimoteButtonIdentifierDown,
     [3]  = OEWiimoteButtonIdentifierLeft,
@@ -173,11 +204,39 @@ static NSUInteger _OEWiimoteIdentifierToHIDUsage[30] = {
     [26] = OEWiimoteButtonIdentifierClassicPlus,
     [27] = OEWiimoteButtonIdentifierClassicHome,
     [28] = OEWiimoteButtonIdentifierClassicMinus,
+    
+    [29] = OEWiimoteButtonIdentifierProUp,
+    [30] = OEWiimoteButtonIdentifierProLeft,
+    [31] = OEWiimoteButtonIdentifierProRight,
+    [32] = OEWiimoteButtonIdentifierProDown,
+    [33] = OEWiimoteButtonIdentifierProA,
+    [34] = OEWiimoteButtonIdentifierProB,
+    [35] = OEWiimoteButtonIdentifierProY,
+    [36] = OEWiimoteButtonIdentifierProX,
+    [37] = OEWiimoteButtonIdentifierProPlus,
+    [38] = OEWiimoteButtonIdentifierProMinus,
+    [39] = OEWiimoteButtonIdentifierProHome,
+    [40] = OEWiimoteButtonIdentifierProR,
+    [41] = OEWiimoteButtonIdentifierProL,
+    [42] = OEWiimoteButtonIdentifierProZR,
+    [43] = OEWiimoteButtonIdentifierProZL,
+    [44] = OEWiimoteButtonIdentifierProR3,
+    [45] = OEWiimoteButtonIdentifierProL3,
+    
 };
+
+static const NSUInteger _OEWiimoteButtonCount = (sizeof(_OEWiimoteIdentifierToHIDUsage)/(sizeof(_OEWiimoteIdentifierToHIDUsage[0]))) - 1;
+
+static const NSRange _OEWiimoteButtonRange  = {  1, 11 };
+static const NSRange _OENunchuckButtonRange = { 12,  2 };
+static const NSRange _OEClassicButtonRange  = { 14, 15 };
+static const NSRange _OEProButtonRange      = { 29, 17 };
+static const NSRange _OEAllButtonRange      = {  1, _OEWiimoteButtonCount };
 
 static OEWiimoteButtonIdentifier _OEWiimoteIdentifierFromHIDUsage(NSUInteger usage)
 {
-    if(usage <= 0 || usage >= 29) return OEWiimoteButtonIdentifierUnknown;
+    if(usage <= 0 || usage >= _OEWiimoteButtonCount)
+       return OEWiimoteButtonIdentifierUnknown;
 
     return _OEWiimoteIdentifierToHIDUsage[usage];
 }
@@ -211,6 +270,7 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
         uint8_t  nunchuck;
         uint8_t  nunchuckVirtualJoystick;
         uint16_t classicController;
+        uint32_t proController;
     } _latestButtonReports;
 
     NSUInteger _rumbleAndLEDStatus;
@@ -246,6 +306,9 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
 - (void)OE_parseClassicControllerButtonData:(uint16_t)data;
 - (void)OE_parseClassicControllerJoystickAndTriggerData:(const uint8_t *)data;
+
+- (void)OE_parseProControllerButtonData:(uint32_t)data;
+- (void)OE_parseProControllerJoystickData:(const uint8_t *)data;
 
 - (void)OE_dispatchButtonEventWithUsage:(NSUInteger)usage state:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 - (void)OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
@@ -542,6 +605,13 @@ enum {
         case OEWiimoteExpansionTypeClassicController :
             [self OE_parseClassicControllerButtonData:(data[4] << 8 | data[5])];
             [self OE_parseClassicControllerJoystickAndTriggerData:data];
+            break;
+        case OEWiimoteExpansionTypeWiiUProController :
+            [self OE_parseProControllerButtonData:(data[8] << 16) | (data[9] << 8) | data[10]];
+            
+            //Need to figure out this data better, the ranges are a bit odd
+            //[self OE_parseProControllerJoystickData:data];
+            break;
         default:
             break;
     }
@@ -568,18 +638,22 @@ enum {
     {
         OEWiimoteExpansionType expansion = OEWiimoteExpansionTypeNotConnected;
 
-        switch (response[21])
+        uint16_t expansionType = (response[21] << 8) | response[22];
+        switch (expansionType)
         {
-            case 0x0:
+            case 0x0000:
                 expansion = OEWiimoteExpansionTypeNunchuck;
                 break;
-            case 0x1:
+            case 0x0101:
                 expansion = OEWiimoteExpansionTypeClassicController;
                 break;
+            case 0x0120:
+                expansion = OEWiimoteExpansionTypeWiiUProController;
         }
 
         if(expansion != _expansionType)
         {
+            _latestButtonReports.proController     = 0xFFFF;
             _latestButtonReports.classicController = 0xFFFF;
             _latestButtonReports.nunchuck          = 0xFF;
 
@@ -596,8 +670,8 @@ enum {
 - (void)OE_configureReportType;
 {
 	// Set the report type the Wiimote should send.
-    // Buttons + 8 Extension bytes
-    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x02, 0x32 } length:3];
+    // Buttons + 19 Extension bytes
+    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x02, 0x34 } length:3];
 }
 
 - (void)OE_requestStatus
@@ -750,6 +824,94 @@ enum {
                                    cookie:OEWiimoteClassicControllerRightTriggerAxisCookie];
 }
 
+- (void)OE_parseProControllerButtonData:(uint32_t)data
+{
+    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
+    
+    uint32_t changes = data ^ _latestButtonReports.proController;
+    _latestButtonReports.proController = data;
+    
+    _OEWiimoteIdentifierEnumerateUsingBlock(_OEProButtonRange, ^(OEWiimoteButtonIdentifier identifier, NSUInteger usage, BOOL *stop) {
+        // Pro controller uses 0 for pressed, not 1 like standard wii buttons
+        if(changes & identifier)
+            [self OE_dispatchButtonEventWithUsage:usage state:((data & identifier) == 0 ? OEHIDEventStateOn : OEHIDEventStateOff) timestamp:timestamp cookie:usage];
+    });
+}
+
+static char *binrep (unsigned int val, char *buff, int sz) {
+    char *pbuff = buff;
+    
+    /* Must be able to store one character at least. */
+    if (sz < 1) return NULL;
+    
+    /* Special case for zero to ensure some output. */
+    if (val == 0) {
+        *pbuff++ = '0';
+        *pbuff = '\0';
+        return buff;
+    }
+    
+    /* Work from the end of the buffer back. */
+    pbuff += sz;
+    *pbuff-- = '\0';
+    
+    /* For each bit (going backwards) store character. */
+    while (val != 0) {
+        if (sz-- == 0) return NULL;
+        *pbuff-- = ((val & 1) == 1) ? '1' : '0';
+        
+        /* Get next bit. */
+        val >>= 1;
+    }
+    return pbuff+1;
+}
+
+- (void)OE_parseProControllerJoystickData:(const uint8_t *)data
+{
+    NSInteger (^decodeJoystickData)(const uint8_t*) = ^(const uint8_t *data){
+        uint8_t high = data[1] & 0xf;
+        uint8_t mid = (data[0] & 0xf0) >> 4;
+        uint8_t low = (data[0] & 0x0f);
+        return (NSInteger)((high << 8) | (mid << 4) | (low));
+    };
+    
+    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
+    
+    NSInteger leftX  = decodeJoystickData(data);
+    NSInteger leftY  = decodeJoystickData(data+4);
+    
+    NSInteger rightX = decodeJoystickData(data+2);
+    NSInteger rightY = decodeJoystickData(data+6);
+        
+    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerLeftJoystickAxisXUsage
+                               minimum:OEWiimoteProControllerJoystickScaledMinimumValue
+                                 value:leftX
+                               maximum:OEWiimoteProControllerJoystickScaledMaximumValue
+                             timestamp:timestamp
+                                cookie:OEWiimoteProControllerLeftJoystickAxisXCookie];
+    
+    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerLeftJoystickAxisYUsage
+                               minimum:OEWiimoteProControllerJoystickScaledMinimumValue
+                                 value:leftY
+                               maximum:OEWiimoteProControllerJoystickScaledMaximumValue
+                             timestamp:timestamp
+                                cookie:OEWiimoteProControllerLeftJoystickAxisYCookie];
+    
+    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerRightJoystickAxisXUsage
+                               minimum:OEWiimoteProControllerJoystickScaledMinimumValue
+                                 value:rightX
+                               maximum:OEWiimoteProControllerJoystickScaledMaximumValue
+                             timestamp:timestamp
+                                cookie:OEWiimoteProControllerRightJoystickAxisXCookie];
+    
+    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerRightJoystickAxisYUsage
+                               minimum:OEWiimoteProControllerJoystickScaledMinimumValue
+                                 value:rightY
+                               maximum:OEWiimoteProControllerJoystickScaledMaximumValue
+                             timestamp:timestamp
+                                cookie:OEWiimoteProControllerRightJoystickAxisYCookie];
+}
+
 #pragma mark - Event dispatch methods
 
 - (void)OE_dispatchButtonEventWithUsage:(NSUInteger)usage state:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
@@ -771,7 +933,7 @@ enum {
 {
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
-    if(existingEvent != nil)
+    if(existingEvent == nil)
     {
         existingEvent = [OEHIDEvent axisEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie];
         [_reusableEvents setObject:existingEvent forKey:@(cookie)];
