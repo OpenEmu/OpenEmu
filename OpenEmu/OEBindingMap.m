@@ -28,6 +28,7 @@ static void _OEBindingMapKeyReleaseCallBack(CFAllocatorRef allocator, const void
     (void)(__bridge_transfer OEHIDEvent *)value;
 }
 
+CF_RETURNS_RETAINED
 static CFStringRef _OEBindingMapKeyDescriptionCallBack(OEHIDEvent *value)
 {
     return (__bridge_retained CFStringRef)[value description];

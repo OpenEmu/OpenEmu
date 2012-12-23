@@ -10,7 +10,8 @@
 
 @implementation OESidebarOutlineView (OEPrivate)
 
-- (void)setupOutlineCell{
+- (void)setupOutlineCell
+{
     OESidebarOutlineButtonCell *sidebarOutlineCell = [[OESidebarOutlineButtonCell alloc] init];
     [sidebarOutlineCell retain];
     
