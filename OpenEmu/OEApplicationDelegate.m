@@ -50,7 +50,6 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 
-#import "OEWiimoteManager_old.h"
 #import "OEBindingsController.h"
 
 #import "OEBuildVersion.h"

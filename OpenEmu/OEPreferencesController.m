@@ -43,7 +43,6 @@
 #import "OEPrefCoresController.h"
 #import "OEPrefDebugController.h"
 
-#import "OEWiimoteManager_old.h"
 
 NSString *const OEDebugModeKey = @"debug";
 NSString *const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
