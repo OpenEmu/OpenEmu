@@ -375,6 +375,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
 
     [[view fullScreenButton] setState:NSOnState];
+    
+    [self hide];
+    [NSCursor hide];
 }
 
 - (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
@@ -382,6 +385,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
 
     [[view fullScreenButton] setState:NSOffState];
+    [self show];
+    [NSCursor unhide];
 }
 
 - (void)setParentWindow:(NSWindow *)window
