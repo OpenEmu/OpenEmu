@@ -839,34 +839,6 @@ enum {
     });
 }
 
-static char *binrep (unsigned int val, char *buff, int sz) {
-    char *pbuff = buff;
-    
-    /* Must be able to store one character at least. */
-    if (sz < 1) return NULL;
-    
-    /* Special case for zero to ensure some output. */
-    if (val == 0) {
-        *pbuff++ = '0';
-        *pbuff = '\0';
-        return buff;
-    }
-    
-    /* Work from the end of the buffer back. */
-    pbuff += sz;
-    *pbuff-- = '\0';
-    
-    /* For each bit (going backwards) store character. */
-    while (val != 0) {
-        if (sz-- == 0) return NULL;
-        *pbuff-- = ((val & 1) == 1) ? '1' : '0';
-        
-        /* Get next bit. */
-        val >>= 1;
-    }
-    return pbuff+1;
-}
-
 - (void)OE_parseProControllerJoystickData:(const uint8_t *)data
 {
     NSInteger (^decodeJoystickData)(const uint8_t*) = ^(const uint8_t *data){
