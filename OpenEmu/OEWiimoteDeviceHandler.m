@@ -934,7 +934,8 @@ static char *binrep (unsigned int val, char *buff, int sz) {
 {
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
-    if(existingEvent == nil)
+    //Something is going very wrong here
+    if(existingEvent != nil)
     {
         existingEvent = [OEHIDEvent axisEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie];
         [_reusableEvents setObject:existingEvent forKey:@(cookie)];
