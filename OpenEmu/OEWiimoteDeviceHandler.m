@@ -719,8 +719,9 @@ enum {
     _latestButtonReports.nunchuck = data;
 
     _OEWiimoteIdentifierEnumerateUsingBlock(_OENunchuckButtonRange, ^(OEWiimoteButtonIdentifier identifier, NSUInteger usage, BOOL *stop) {
+        // Nunchuk uses 0 bit to mean pressed
         if(changes & identifier)
-            [self OE_dispatchButtonEventWithUsage:usage state:data & identifier timestamp:timestamp cookie:usage];
+            [self OE_dispatchButtonEventWithUsage:usage state:(data & identifier ? OEHIDEventStateOff : OEHIDEventStateOn) timestamp:timestamp cookie:usage];
     });
 }
 
