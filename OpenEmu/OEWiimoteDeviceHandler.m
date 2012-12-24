@@ -409,6 +409,11 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
     return @(0);
 }
 
+- (NSString *)product
+{
+    return [self nameOrAddress];
+}
+
 #pragma mark - Channel connection methods
 
 - (void)performConnectionOperation:(OEWiimoteConnectionSequence)sequence finalCompletion:(void(^)(BOOL))completion

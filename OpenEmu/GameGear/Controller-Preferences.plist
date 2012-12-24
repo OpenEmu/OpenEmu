@@ -9,19 +9,19 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEGGButtonUp</key>
-		<string>{195, 176}</string>
+		<string>{123, 180}</string>
 		<key>OEGGButtonDown</key>
-		<string>{195, 93}</string>
+		<string>{123, 140}</string>
 		<key>OEGGButtonLeft</key>
-		<string>{157, 138}</string>
+		<string>{105, 160}</string>
 		<key>OEGGButtonRight</key>
-		<string>{234, 138}</string>
+		<string>{145, 160}</string>
 		<key>OEGGButtonA</key>
-		<string>{383, 114}</string>
+		<string>{454, 132}</string>
 		<key>OEGGButtonB</key>
-		<string>{453, 114}</string>
+		<string>{487, 160}</string>
 		<key>OEGGButtonStart</key>
-		<string>{0, 0}</string>
+		<string>{450, 200}</string>
 	</dict>
 </dict>
 </plist>
