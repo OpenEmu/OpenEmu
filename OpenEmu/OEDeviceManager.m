@@ -44,6 +44,7 @@ NSString *const OEHIDManagerDidRemoveDeviceHandlerNotification = @"OEHIDManagerD
 NSString *const OEHIDManagerDeviceHandlerUserInfoKey           = @"OEHIDManagerDeviceHandlerUserInfoKey";
 
 static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef inIOHIDDeviceRef);
+static BOOL OE_nameIsFromWiimote(NSString *name);
 
 @interface OEDeviceManager () <IOBluetoothDeviceInquiryDelegate>
 {
@@ -345,7 +346,7 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
          // Check to make sure BT device name has Wiimote prefix. Note that there are multiple
          // possible device names ("Nintendo RVL-CNT-01" and "Nintendo RVL-CNT-01-TR" at the
          // time of writing), so we don't do an exact string match.
-         if ([[obj name] rangeOfString:@"Nintendo RVL-CNT-01"].location == 0)
+         if (OE_nameIsFromWiimote([obj name]))
              [self OE_addWiimoteWithDevice:obj];
      }];
 
@@ -359,11 +360,21 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 
 @end
 
+static BOOL OE_nameIsFromWiimote(NSString *name)
+{
+    return ([name rangeOfString:@"Nintendo RVL-CNT-01"].location == 0);
+}
+
 #pragma mark - HIDManager Callbacks
 
 static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDDeviceRef inIOHIDDeviceRef)
 {
     //NSLog(@"Found device: %s( context: %p, result: %#x, sender: %p, device: %p ).\n", __PRETTY_FUNCTION__, inContext, inResult, inSender, inIOHIDDeviceRef);
+    
+    
+    NSString *deviceName = (__bridge id)IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey));
+    if (OE_nameIsFromWiimote(deviceName))
+        return;
 
     if(IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
     {
