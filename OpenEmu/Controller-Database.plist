@@ -435,8 +435,10 @@
 				<string>D-Pad Up</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>12</integer>
+				<key>Usage</key>
+				<string>12</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360DPadDown</key>
 			<dict>
@@ -444,8 +446,10 @@
 				<string>D-Pad Down</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>13</integer>
+				<key>Usage</key>
+				<string>13</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360DPadLeft</key>
 			<dict>
@@ -453,8 +457,10 @@
 				<string>D-Pad Left</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>14</integer>
+				<key>Usage</key>
+				<string>14</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360DPadRight</key>
 			<dict>
@@ -462,8 +468,10 @@
 				<string>D-Pad Right</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>15</integer>
+				<key>Usage</key>
+				<string>15</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360LeftAnalogX</key>
 			<dict>
@@ -471,8 +479,12 @@
 				<string>Left Joystick X</string>
 				<key>Type</key>
 				<string>Axis</string>
-				<key>Axis</key>
+				<key>Usage</key>
 				<string>X</string>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360LeftAnalogY</key>
 			<dict>
@@ -480,8 +492,12 @@
 				<string>Left Joystick Y</string>
 				<key>Type</key>
 				<string>Axis</string>
-				<key>Axis</key>
+				<key>Usage</key>
 				<string>Y</string>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360RightAnalogX</key>
 			<dict>
@@ -489,8 +505,12 @@
 				<string>Right Joystick X</string>
 				<key>Type</key>
 				<string>Axis</string>
-				<key>Axis</key>
+				<key>Usage</key>
 				<string>Rx</string>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360RightAnalogY</key>
 			<dict>
@@ -498,8 +518,12 @@
 				<string>Right Joystick Y</string>
 				<key>Type</key>
 				<string>Axis</string>
-				<key>Axis</key>
+				<key>Usage</key>
 				<string>Ry</string>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonA</key>
 			<dict>
@@ -507,8 +531,10 @@
 				<string>A</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>1</integer>
+				<key>Usage</key>
+				<string>1</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonB</key>
 			<dict>
@@ -516,8 +542,10 @@
 				<string>B</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>2</integer>
+				<key>Usage</key>
+				<string>2</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonX</key>
 			<dict>
@@ -525,8 +553,10 @@
 				<string>X</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>3</integer>
+				<key>Usage</key>
+				<string>3</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonY</key>
 			<dict>
@@ -534,8 +564,10 @@
 				<string>Y</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>4</integer>
+				<key>Usage</key>
+				<string>4</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonLeftShoulder</key>
 			<dict>
@@ -543,8 +575,10 @@
 				<string>Left Shoulder</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>5</integer>
+				<key>Usage</key>
+				<string>5</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonLeftTrigger</key>
 			<dict>
@@ -552,8 +586,10 @@
 				<string>Left Trigger</string>
 				<key>Type</key>
 				<string>Trigger</string>
-				<key>Axis</key>
+				<key>Usage</key>
 				<string>Z</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonLeftAnalog</key>
 			<dict>
@@ -561,8 +597,10 @@
 				<string>Left Stick</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>7</integer>
+				<key>Usage</key>
+				<string>7</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonRightShoulder</key>
 			<dict>
@@ -570,8 +608,10 @@
 				<string>Right Shoulder</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>6</integer>
+				<key>Usage</key>
+				<string>6</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonRightTrigger</key>
 			<dict>
@@ -579,8 +619,10 @@
 				<string>Right Trigger</string>
 				<key>Type</key>
 				<string>Trigger</string>
-				<key>Axis</key>
+				<key>Usage</key>
 				<string>Rz</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonRightAnalog</key>
 			<dict>
@@ -588,8 +630,10 @@
 				<string>Right Stick</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>8</integer>
+				<key>Usage</key>
+				<string>8</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonStart</key>
 			<dict>
@@ -597,8 +641,10 @@
 				<string>Start</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>9</integer>
+				<key>Usage</key>
+				<string>9</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonBack</key>
 			<dict>
@@ -606,8 +652,10 @@
 				<string>Back</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>10</integer>
+				<key>Usage</key>
+				<string>10</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonHome</key>
 			<dict>
@@ -615,8 +663,10 @@
 				<string>Home</string>
 				<key>Type</key>
 				<string>Button</string>
-				<key>Number</key>
-				<integer>11</integer>
+				<key>Usage</key>
+				<string>11</string>
+				<key>Cookie</key>
+				<integer>0</integer>
 			</dict>
 		</dict>
 	</dict>
