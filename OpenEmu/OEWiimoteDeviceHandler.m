@@ -51,6 +51,16 @@ enum {
     OEWiimoteCommandRead  = 0x17,
 };
 
+typedef enum : NSUInteger {
+    OEWiimoteOpenL2CAPControl,
+    OEWiimoteOpenL2CAPInterrupt,
+    OEWiimotePerformSDP,
+    OEWiimoteGetStatus,
+    OEWiimoteConfigure,
+    OEWiimoteSynchronize,
+    OEWiimoteConnectionComplete,
+} OEWiimoteConnectionSequence;
+
 typedef unsigned char darr[];
 typedef enum : NSUInteger {
     OEWiimoteButtonIdentifierUnknown      = 0x0000,
@@ -277,11 +287,15 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
     BOOL _statusReportRequested;
     BOOL _isConnected;
+    
+    dispatch_queue_t _connectionQueue;
+    OEWiimoteConnectionSequence _connectionState;
+    dispatch_semaphore_t _connectionSemaphore;
 }
 
 @property(readwrite) CGFloat batteryLevel;
 
-- (IOBluetoothL2CAPChannel *)OE_openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm;
+- (IOBluetoothL2CAPChannel*)OE_openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm;
 
 - (void)OE_writeData:(const uint8_t *)data length:(NSUInteger)length atAddress:(uint32_t)address;
 - (void)OE_readDataOfLength:(NSUInteger)length atAddress:(uint32_t)address;
@@ -342,6 +356,10 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
         _expansionType = OEWiimoteExpansionTypeNotConnected;
 
         _reusableEvents = [[NSMutableDictionary alloc] init];
+        
+        _connectionQueue = dispatch_queue_create("org.openemu.wiimoteconnect", DISPATCH_QUEUE_SERIAL);
+        _connectionSemaphore = dispatch_semaphore_create(0);
+        
     }
 
     return self;
@@ -349,6 +367,8 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
 - (void)dealloc
 {
+    dispatch_release(_connectionQueue);
+    dispatch_release(_connectionSemaphore);
     [self disconnect];
 }
 
@@ -386,37 +406,87 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
 #pragma mark - Channel connection methods
 
-- (BOOL)connect;
+- (void)performConnectionOperation:(OEWiimoteConnectionSequence)sequence finalCompletion:(void(^)(BOOL))completion
 {
-    if(_isConnected) return YES;
+    if (_isConnected == NO)
+    {
+        completion(NO);
+        return;
+    }
+
+    dispatch_semaphore_wait(_connectionSemaphore, DISPATCH_TIME_FOREVER);
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        switch (sequence)
+        {
+            case OEWiimoteOpenL2CAPControl:
+                if (_controlChannel == nil)
+                    _controlChannel = [self OE_openL2CAPChannelWithPSM:kBluetoothL2CAPPSMHIDControl];
+                else
+                    dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimoteOpenL2CAPInterrupt:
+                if (_interruptChannel == nil)
+                    _interruptChannel = [self OE_openL2CAPChannelWithPSM:kBluetoothL2CAPPSMHIDInterrupt];
+                else
+                    dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimotePerformSDP:
+                if(_controlChannel == nil || _interruptChannel == nil)
+                {
+                    NSLog(@"Failed to open channels");
+                    [_controlChannel closeChannel];
+                    [_interruptChannel closeChannel];
+                    
+                    _isConnected = NO;
+                    completion(NO);
+                    return;
+                }
+                if([_device getLastServicesUpdate] != NULL)
+                    [_device performSDPQuery:self];
+                else
+                    dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimoteGetStatus:
+                [self OE_requestStatus];
+                dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimoteConfigure:
+                [self OE_configureReportType];
+                dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimoteSynchronize:
+                [self OE_synchronizeRumbleAndLEDStatus];
+                dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimoteConnectionComplete:
+                completion(YES);
+                break;
+        }
+    });
+    
+}
+ 
+- (void)connectWithCompletion:(void(^)(BOOL))completion
+{
+    if(_isConnected)
+    {
+        completion(YES);
+        return;
+    }
 
     _isConnected = YES;
 
-    _controlChannel = [self OE_openL2CAPChannelWithPSM:kBluetoothL2CAPPSMHIDControl];
-    usleep(20000);
-    _interruptChannel = [self OE_openL2CAPChannelWithPSM:kBluetoothL2CAPPSMHIDInterrupt];
-    usleep(20000);
-
-    if(_controlChannel == nil || _interruptChannel == nil)
-    {
-        [_controlChannel closeChannel];
-        [_interruptChannel closeChannel];
-
-        _isConnected = NO;
-
-        return NO;
-    }
-
-    if([_device getLastServicesUpdate] != NULL)
-        [_device performSDPQuery:nil];
-
-    [self OE_requestStatus];
-    usleep(10000);
-
-    [self OE_configureReportType];
-    [self OE_synchronizeRumbleAndLEDStatus];
-
-    return YES;
+    dispatch_suspend(_connectionQueue);
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteOpenL2CAPControl finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteOpenL2CAPInterrupt finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimotePerformSDP finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteGetStatus finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteConfigure finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteSynchronize finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteConnectionComplete finalCompletion:completion];});
+    dispatch_resume(_connectionQueue);
+    
+    dispatch_semaphore_signal(_connectionSemaphore);
 }
 
 - (void)disconnect;
@@ -433,18 +503,13 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
     [[NSNotificationCenter defaultCenter] postNotificationName:OEWiimoteDeviceHandlerDidDisconnectNotification object:self];
 }
 
-- (IOBluetoothL2CAPChannel *)OE_openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm;
+- (IOBluetoothL2CAPChannel*)OE_openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm
 {
-	IOBluetoothL2CAPChannel *channel = nil;
 	NSLog(@"Open channel (PSM:%i) ...", psm);
-
-	if([_device openL2CAPChannelSync:&channel withPSM:psm delegate:self] != kIOReturnSuccess)
-    {
-		NSLog (@"Could not open L2CAP channel (psm:%i)", psm);
-		channel = nil;
-		[self disconnect];
-	}
-
+    IOBluetoothL2CAPChannel *channel;
+    IOReturn status = [_device openL2CAPChannelSync:&channel withPSM:psm delegate:self];
+    if (status != kIOReturnSuccess)
+        return nil;
     return channel;
 }
 
@@ -546,14 +611,18 @@ enum {
     {
         ret = [_interruptChannel writeSync:buffer length:length];
 
-        if(ret != kIOReturnSuccess) usleep(10000);
+        if(ret != kIOReturnSuccess)
+        {
+             NSLog(@"Could not send command, error: %x", ret);
+             usleep(10000);   
+        }
         else break;
     }
 
     if(ret != kIOReturnSuccess)
     {
         // Something terrible has happened DO SOMETHING
-        NSLog(@"Could not send command, error: %d", ret);
+        NSLog(@"Could not send command, error: %x", ret);
     }
 }
 
@@ -570,7 +639,7 @@ enum {
         _expansionType = OEWiimoteExpansionTypeUnknown;
         [self OE_readExpansionPortType];
     }
-    else if(_expansionPortAttached)
+    else if(((response[4] & 0x2) == 0) && _expansionPortAttached)
         _expansionPortAttached = NO;
 }
 
@@ -963,4 +1032,16 @@ enum {
         [self OE_handleDataReportData:data length:dataLength];
 }
 
+- (void)l2capChannelOpenComplete:(IOBluetoothL2CAPChannel *)l2capChannel status:(IOReturn)error
+{
+    if (l2capChannel == _controlChannel || l2capChannel == _interruptChannel)
+        dispatch_semaphore_signal(_connectionSemaphore);
+}
+
+#pragma mark - Channel Callback
+
+- (void)sdpQueryComplete:(id)query status:(IOReturn)statue
+{
+    dispatch_semaphore_signal(_connectionSemaphore);
+}
 @end

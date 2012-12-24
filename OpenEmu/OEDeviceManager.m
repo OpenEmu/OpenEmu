@@ -228,15 +228,19 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
      (useLED == 2) ? OEWiimoteDeviceHandlerLED2 : 0 |
      (useLED == 3) ? OEWiimoteDeviceHandlerLED3 : 0 |
      (useLED == 4) ? OEWiimoteDeviceHandlerLED4 : 0];
+    
+    [handler connectWithCompletion:^(BOOL connected) {
+        if (connected)
+        {
+            [handler setRumbleActivated:YES];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+                [handler setRumbleActivated:NO];
+            });
+            
+            [self OE_addDeviceHandler:handler];
+        }
 
-    if([handler connect])
-    {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-            [handler setRumbleActivated:NO];
-        });
-
-        [self OE_addDeviceHandler:handler];
-    }
+    }];
 }
 
 - (void)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
