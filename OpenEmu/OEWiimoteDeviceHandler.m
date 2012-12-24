@@ -416,6 +416,7 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
     dispatch_semaphore_wait(_connectionSemaphore, DISPATCH_TIME_FOREVER);
     dispatch_async(dispatch_get_main_queue(), ^(void){
+        _connectionState = sequence;
         switch (sequence)
         {
             case OEWiimoteOpenL2CAPControl:
@@ -443,8 +444,7 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
                 }
                 if([_device getLastServicesUpdate] != NULL)
                     [_device performSDPQuery:self];
-                else
-                    dispatch_semaphore_signal(_connectionSemaphore);
+                dispatch_semaphore_signal(_connectionSemaphore);
                 break;
             case OEWiimoteGetStatus:
                 [self OE_requestStatus];
@@ -958,6 +958,9 @@ enum {
 
 - (void)OE_dispatchButtonEventWithUsage:(NSUInteger)usage state:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
+    if (_connectionState != OEWiimoteConnectionComplete)
+        return;
+    
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
     if(existingEvent == nil)
@@ -973,6 +976,9 @@ enum {
 
 - (void)OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
+    if (_connectionState != OEWiimoteConnectionComplete)
+        return;
+    
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
     //Something is going very wrong here
@@ -989,6 +995,9 @@ enum {
 
 - (void)OE_dispatchTriggerEventWithAxis:(OEHIDEventAxis)axis value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
+    if (_connectionState != OEWiimoteConnectionComplete)
+        return;
+    
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
     if(existingEvent == nil)
@@ -1042,6 +1051,6 @@ enum {
 
 - (void)sdpQueryComplete:(id)query status:(IOReturn)statue
 {
-    dispatch_semaphore_signal(_connectionSemaphore);
+
 }
 @end
