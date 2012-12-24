@@ -474,8 +474,15 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
         return;
     }
 
+    IOReturn error = [_device openConnection];
+    if (error != kIOReturnSuccess)
+    {
+        completion(NO);
+        return;
+    }
+    
     _isConnected = YES;
-
+    
     dispatch_suspend(_connectionQueue);
     dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteOpenL2CAPControl finalCompletion:completion];});
     dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteOpenL2CAPInterrupt finalCompletion:completion];});
@@ -488,9 +495,10 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
     
     dispatch_semaphore_signal(_connectionSemaphore);
 }
-
+    
 - (void)disconnect;
 {
+    NSLog(@"Disconnecting wiimote: %@", self);
     if(!_isConnected) return;
 
     [_controlChannel closeChannel];
@@ -507,7 +515,7 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 {
 	NSLog(@"Open channel (PSM:%i) ...", psm);
     IOBluetoothL2CAPChannel *channel;
-    IOReturn status = [_device openL2CAPChannelSync:&channel withPSM:psm delegate:self];
+    IOReturn status = [_device openL2CAPChannelAsync:&channel withPSM:psm delegate:self];
     if (status != kIOReturnSuccess)
         return nil;
     return channel;
@@ -1013,8 +1021,24 @@ enum {
 
 #pragma mark - IOBluetoothL2CAPChannelDelegate protocol methods
 
+- (void)l2capChannelReconfigured:(IOBluetoothL2CAPChannel*)l2capChannel
+{
+    NSLog(@"Reconfigured %d", [l2capChannel PSM]);
+}
+
+- (void)l2capChannelWriteComplete:(IOBluetoothL2CAPChannel*)l2capChannel refcon:(void*)refcon status:(IOReturn)error
+{
+    NSLog(@"Write complete: %d", [l2capChannel PSM]);
+}
+
+- (void)l2capChannelQueueSpaceAvailable:(IOBluetoothL2CAPChannel*)l2capChannel
+{
+    NSLog(@"Queue %d", [l2capChannel PSM]);
+}
+
 - (void)l2capChannelClosed:(IOBluetoothL2CAPChannel *)l2capChannel
 {
+    NSLog(@"Closed channel %d", [l2capChannel PSM]);
     if(l2capChannel ==   _controlChannel) _controlChannel   = nil;
     if(l2capChannel == _interruptChannel) _interruptChannel = nil;
 
@@ -1043,6 +1067,7 @@ enum {
 
 - (void)l2capChannelOpenComplete:(IOBluetoothL2CAPChannel *)l2capChannel status:(IOReturn)error
 {
+    NSLog(@"Opened channel %d", [l2capChannel PSM]);
     if (l2capChannel == _controlChannel || l2capChannel == _interruptChannel)
         dispatch_semaphore_signal(_connectionSemaphore);
 }
