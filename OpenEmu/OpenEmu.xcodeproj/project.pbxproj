@@ -683,8 +683,6 @@
 		94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C09353166787B900E52265 /* OECUESheet.m */; };
 		94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 83C09352166787B900E52265 /* OECUESheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94E6C303166DB15900082F27 /* Controller-Mappings.plist */; };
-		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
-		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
 		94EFD17B15ACA625009BED8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94EFD18115ACA625009BED8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD17F15ACA625009BED8F /* InfoPlist.strings */; };
 		94EFD18C15ACA7FA009BED8F /* OESegaCDSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFD18915ACA7FA009BED8F /* OESegaCDSystemResponder.m */; };
@@ -693,6 +691,8 @@
 		94EFD19315ACA814009BED8F /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD18F15ACA814009BED8F /* Controller-Preferences.plist */; };
 		94EFD19415ACA814009BED8F /* segacd_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD19015ACA814009BED8F /* segacd_library.png */; };
 		94EFD19715ACA8C0009BED8F /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
+		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6252DA814E71D0500350A13 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = C6252DA914E71D0500350A13 /* controller_fc.png */; };
 		C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAA14E752E300350A13 /* Controller-Preferences.plist */; };
@@ -2151,8 +2151,6 @@
 		94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemResponder.m; sourceTree = "<group>"; };
 		94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponderClient.h; sourceTree = "<group>"; };
 		94E6C303166DB15900082F27 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
-		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
-		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
 		94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sega CD.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94EFD17E15ACA625009BED8F /* Sega CD-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sega CD-Info.plist"; sourceTree = "<group>"; };
 		94EFD18015ACA625009BED8F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2163,6 +2161,8 @@
 		94EFD18E15ACA814009BED8F /* controller_genesis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis.png; sourceTree = "<group>"; };
 		94EFD18F15ACA814009BED8F /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94EFD19015ACA814009BED8F /* segacd_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = segacd_library.png; sourceTree = "<group>"; };
+		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
+		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
 		C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreController.h; sourceTree = "<group>"; };
 		C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCoreController.m; sourceTree = "<group>"; };
 		C60CDDD611780DF100EB472F /* OpenGL Format Table.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenGL Format Table.txt"; sourceTree = "<group>"; };
