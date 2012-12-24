@@ -995,8 +995,6 @@ static NSArray *OE_defaultSortDescriptors;
     [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
         [obj setNeedsCoverSyncWithArchiveVG];
     }];
-    
-    [self reloadDataIndexes:[self selectedIndexes]];
 }
 
 - (void)addCoverArtFromFile:(id)sender
@@ -1270,6 +1268,7 @@ static NSArray *OE_defaultSortDescriptors;
 #define reloadDelay 0.1
 - (void)OE_managedObjectContextDidUpdate:(NSNotification *)notification
 {
+    DLog();
     NSPredicate *predicateForGame = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"Game" inManagedObjectContext:[notification object]]];
     NSSet *insertedGames          = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForGame];
     NSSet *deletedGames           = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForGame];
@@ -1283,7 +1282,7 @@ static NSArray *OE_defaultSortDescriptors;
     const BOOL hasGameInsertions = [insertedGames count];
     const BOOL hasGameDeletions  = [deletedGames count];
     // Since some game properties are derived from ROM properties, we consider ROM insertions/deletions/updates as game updates
-    const BOOL hasGameUpdates    = [updatedGames count] || [insertedROMs count] || [deletedROMs count] || [updatedROMs count];;
+    const BOOL hasGameUpdates    = [updatedGames count] || [insertedROMs count] || [deletedROMs count] || [updatedROMs count];
 
     if(hasGameInsertions || hasGameDeletions)
     {

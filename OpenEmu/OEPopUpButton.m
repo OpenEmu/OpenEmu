@@ -37,6 +37,7 @@
 @synthesize trackWindowActivity = _trackWindowActivity;
 @synthesize trackMouseActivity = _trackMouseActivity;
 @synthesize menuStyle = _menuStyle;
+@synthesize toolTipStyle = _toolTipStyle;
 
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow
 {

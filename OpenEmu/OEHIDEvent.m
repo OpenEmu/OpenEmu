@@ -456,7 +456,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     ret->_data.trigger.axis = axis;
 
     ret->_data.trigger.value   = value;
-    ret->_data.trigger.maximum = value;
+    ret->_data.trigger.maximum = maximum;
 
     ret->_data.trigger.direction = ret->_data.trigger.value == 0 ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
 
@@ -746,11 +746,6 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 - (BOOL)OE_updateAxisEventWithValue:(NSInteger)value maximum:(NSInteger)maximum minimum:(NSInteger)minimum timestamp:(NSTimeInterval)timestamp;
 {
     NSAssert(_type == OEHIDEventTypeAxis, @"Attempting to axis state of a non-axis event");
-
-    NSInteger zero = (maximum + minimum) / 2 + 1;
-    maximum -= zero;
-    value   -= zero;
-    minimum -= zero;
 
     NSAssert(_data.axis.minimum == minimum, @"Minimum value changed, expected: %ld, got: %ld", _data.axis.minimum, minimum);
     NSAssert(_data.axis.maximum == maximum, @"Maximum value changed, expected: %ld, got: %ld", _data.axis.maximum, maximum);

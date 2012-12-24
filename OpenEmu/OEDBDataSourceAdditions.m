@@ -93,7 +93,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 - (OECoverGridViewCellIndicationType)gridIndicationType
 {
     return ([[self status] intValue] == OEDBGameStatusAlert ? OECoverGridViewCellIndicationTypeFileMissing  :
-           ([[self status] intValue] == OEDBGameStatusAlert ? OECoverGridViewCellIndicationTypeProcessing :
+           ([[self status] intValue] == OEDBGameStatusProcessing ? OECoverGridViewCellIndicationTypeProcessing :
             OECoverGridViewCellIndicationTypeNone));
 }
 #pragma mark -

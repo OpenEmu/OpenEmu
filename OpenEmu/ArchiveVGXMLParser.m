@@ -384,7 +384,7 @@
     }
     if(gameBoxFrontVal && [gameBoxFrontVal isNotEqualTo:@""])
     {
-        [result setObject:[self removeHTMLEncodingsFromString:gameBoxFrontVal] forKey:AVGGameBoxURLKey];
+        [result setObject:[self removeHTMLEncodingsFromString:gameBoxFrontVal] forKey:AVGGameBoxURLStringKey];
     }
 
     if(gameSystemNameVal)

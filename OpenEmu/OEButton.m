@@ -36,6 +36,7 @@
 @implementation OEButton
 @synthesize trackWindowActivity = _trackWindowActivity;
 @synthesize trackMouseActivity = _trackMouseActivity;
+@synthesize toolTipStyle = _toolTipStyle;
 
 + (Class)cellClass
 {

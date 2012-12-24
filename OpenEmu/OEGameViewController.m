@@ -861,15 +861,12 @@ typedef enum : NSUInteger
     if(!core) core = [self OE_coreForSystem:[[[[self rom] game] system] plugin] error:outError];
     if(!core)
     {
-        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                        code:OENoCoreForSystemError
-                                    userInfo:
-                     [NSDictionary dictionaryWithObjectsAndKeys:
-                      NSLocalizedString(@"No suitable core found.", @"Core not installed error reason."),
-                      NSLocalizedFailureReasonErrorKey,
-                      NSLocalizedString(@"Install a core for this system.", @"Core not installed error recovery suggestion."),
-                      NSLocalizedRecoverySuggestionErrorKey,
-                      nil]];
+        if(outError != NULL)
+            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                            code:OENoCoreForSystemError
+                                        userInfo:
+                         @{ NSLocalizedFailureReasonErrorKey : NSLocalizedString(@"No suitable core found.", @"Core not installed error reason."),
+                            NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Install a core for this system.", @"Core not installed error recovery suggestion.") }];
         return NO;
     }
     

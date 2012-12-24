@@ -42,6 +42,7 @@ typedef enum {
     OEWiimoteExpansionTypeUnknown,
     OEWiimoteExpansionTypeNunchuck,
     OEWiimoteExpansionTypeClassicController,
+    OEWiimoteExpansionTypeWiiUProController,
 
     OEWiimoteExpansionTypeNotConnected,
 } OEWiimoteExpansionType;
@@ -57,7 +58,7 @@ typedef enum {
 + (instancetype)deviceHandlerWithIOBluetoothDevice:(IOBluetoothDevice *)aDevice;
 - (id)initWithIOBluetoothDevice:(IOBluetoothDevice *)aDevice;
 
-- (BOOL)connect;
+- (void)connectWithCompletion:(void(^)(BOOL))completion;
 - (void)disconnect;
 
 @property(readonly) IOBluetoothDevice *device;

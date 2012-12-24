@@ -51,6 +51,16 @@ enum {
     OEWiimoteCommandRead  = 0x17,
 };
 
+typedef enum : NSUInteger {
+    OEWiimoteOpenL2CAPControl,
+    OEWiimoteOpenL2CAPInterrupt,
+    OEWiimotePerformSDP,
+    OEWiimoteGetStatus,
+    OEWiimoteConfigure,
+    OEWiimoteSynchronize,
+    OEWiimoteConnectionComplete,
+} OEWiimoteConnectionSequence;
+
 typedef unsigned char darr[];
 typedef enum : NSUInteger {
     OEWiimoteButtonIdentifierUnknown      = 0x0000,
@@ -84,7 +94,26 @@ typedef enum : NSUInteger {
     OEWiimoteButtonIdentifierClassicMinus = 0x1000,
     OEWiimoteButtonIdentifierClassicL     = 0x2000,
     OEWiimoteButtonIdentifierClassicDown  = 0x4000,
-    OEWiimoteButtonIdentifierClassicRight = 0x8000
+    OEWiimoteButtonIdentifierClassicRight = 0x8000,
+    
+    OEWiimoteButtonIdentifierProR3        = 0x00000001,
+    OEWiimoteButtonIdentifierProL3        = 0x00000002,
+    OEWiimoteButtonIdentifierProUp        = 0x00000100,
+    OEWiimoteButtonIdentifierProLeft      = 0x00000200,
+    OEWiimoteButtonIdentifierProZR        = 0x00000400,
+    OEWiimoteButtonIdentifierProX         = 0x00000800,
+    OEWiimoteButtonIdentifierProA         = 0x00001000,
+    OEWiimoteButtonIdentifierProY         = 0x00002000,
+    OEWiimoteButtonIdentifierProB         = 0x00004000,
+    OEWiimoteButtonIdentifierProZL        = 0x00008000,
+    OEWiimoteButtonIdentifierProR         = 0x00020000,
+    OEWiimoteButtonIdentifierProPlus      = 0x00040000,
+    OEWiimoteButtonIdentifierProHome      = 0x00080000,
+    OEWiimoteButtonIdentifierProMinus     = 0x00100000,
+    OEWiimoteButtonIdentifierProL         = 0x00200000,
+    OEWiimoteButtonIdentifierProDown      = 0x00400000,
+    OEWiimoteButtonIdentifierProRight     = 0x00800000,
+    
 } OEWiimoteButtonIdentifier;
 
 typedef enum {
@@ -112,6 +141,8 @@ typedef enum {
     OEWiimoteClassicControllerRightJoystickScaledMinimumValue = -16,
     OEWiimoteClassicControllerRightJoystickScaledMaximumValue =  15,
 
+    OEWiimoteClassicControllerDeadZone                  = 4,
+    
     OEWiimoteClassicControllerLeftJoystickAxisXUsage    = OEHIDEventAxisX,
     OEWiimoteClassicControllerLeftJoystickAxisYUsage    = OEHIDEventAxisY,
 
@@ -132,17 +163,32 @@ typedef enum {
 } OEWiimoteClassicControllerParameters;
 
 typedef enum {
+    OEWiimoteProControllerJoystickMinimumValue = 900,
+    OEWiimoteProControllerJoystickMaximumValue = 3400,
+    OEWiimoteProControllerDeadZone = 256,
+    OEWiimoteProControllerJoystickScaledMinimumValue = -1250,
+    OEWiimoteProControllerJoystickScaledMaximumValue = 1250,
+        
+    OEWiimoteProControllerLeftJoystickAxisXUsage    = OEHIDEventAxisX,
+    OEWiimoteProControllerLeftJoystickAxisYUsage    = OEHIDEventAxisY,
+    
+    OEWiimoteProControllerRightJoystickAxisXUsage   = OEHIDEventAxisRx,
+    OEWiimoteProControllerRightJoystickAxisYUsage   = OEHIDEventAxisRy,
+        
+    OEWiimoteProControllerLeftJoystickAxisXCookie   = 0x1000,
+    OEWiimoteProControllerLeftJoystickAxisYCookie   = 0x2000,
+    
+    OEWiimoteProControllerRightJoystickAxisXCookie  = 0x4000,
+    OEWiimoteProControllerRightJoystickAxisYCookie  = 0x8000,
+} OEWiimoteProControllerParameters;
+
+typedef enum {
     OEWiimoteExpansionIdentifierNunchuck          = 0x0000,
     OEWiimoteExpansionIdentifierClassicController = 0x0101,
 } OEWiimoteExpansionIdentifier;
 
-static const NSRange _OEWiimoteButtonRange  = {  1, 11 };
-static const NSRange _OENunchuckButtonRange = { 12,  2 };
-static const NSRange _OEClassicButtonRange  = { 14, 15 };
-static const NSRange _OEAllButtonRange      = {  1, 28 };
-
 // IMPORTANT: The index in the table represents both the usage and the cookie of the buttons
-static NSUInteger _OEWiimoteIdentifierToHIDUsage[30] = {
+static NSUInteger _OEWiimoteIdentifierToHIDUsage[] = {
     [1]  = OEWiimoteButtonIdentifierUp,
     [2]  = OEWiimoteButtonIdentifierDown,
     [3]  = OEWiimoteButtonIdentifierLeft,
@@ -173,11 +219,39 @@ static NSUInteger _OEWiimoteIdentifierToHIDUsage[30] = {
     [26] = OEWiimoteButtonIdentifierClassicPlus,
     [27] = OEWiimoteButtonIdentifierClassicHome,
     [28] = OEWiimoteButtonIdentifierClassicMinus,
+    
+    [29] = OEWiimoteButtonIdentifierProUp,
+    [30] = OEWiimoteButtonIdentifierProLeft,
+    [31] = OEWiimoteButtonIdentifierProRight,
+    [32] = OEWiimoteButtonIdentifierProDown,
+    [33] = OEWiimoteButtonIdentifierProA,
+    [34] = OEWiimoteButtonIdentifierProB,
+    [35] = OEWiimoteButtonIdentifierProY,
+    [36] = OEWiimoteButtonIdentifierProX,
+    [37] = OEWiimoteButtonIdentifierProPlus,
+    [38] = OEWiimoteButtonIdentifierProMinus,
+    [39] = OEWiimoteButtonIdentifierProHome,
+    [40] = OEWiimoteButtonIdentifierProR,
+    [41] = OEWiimoteButtonIdentifierProL,
+    [42] = OEWiimoteButtonIdentifierProZR,
+    [43] = OEWiimoteButtonIdentifierProZL,
+    [44] = OEWiimoteButtonIdentifierProR3,
+    [45] = OEWiimoteButtonIdentifierProL3,
+    
 };
+
+static const NSUInteger _OEWiimoteButtonCount = (sizeof(_OEWiimoteIdentifierToHIDUsage)/(sizeof(_OEWiimoteIdentifierToHIDUsage[0]))) - 1;
+
+static const NSRange _OEWiimoteButtonRange  = {  1, 11 };
+static const NSRange _OENunchuckButtonRange = { 12,  2 };
+static const NSRange _OEClassicButtonRange  = { 14, 15 };
+static const NSRange _OEProButtonRange      = { 29, 17 };
+static const NSRange _OEAllButtonRange      = {  1, _OEWiimoteButtonCount };
 
 static OEWiimoteButtonIdentifier _OEWiimoteIdentifierFromHIDUsage(NSUInteger usage)
 {
-    if(usage <= 0 || usage >= 29) return OEWiimoteButtonIdentifierUnknown;
+    if(usage <= 0 || usage >= _OEWiimoteButtonCount)
+       return OEWiimoteButtonIdentifierUnknown;
 
     return _OEWiimoteIdentifierToHIDUsage[usage];
 }
@@ -211,17 +285,22 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
         uint8_t  nunchuck;
         uint8_t  nunchuckVirtualJoystick;
         uint16_t classicController;
+        uint32_t proController;
     } _latestButtonReports;
 
     NSUInteger _rumbleAndLEDStatus;
 
     BOOL _statusReportRequested;
     BOOL _isConnected;
+    
+    dispatch_queue_t _connectionQueue;
+    OEWiimoteConnectionSequence _connectionState;
+    dispatch_semaphore_t _connectionSemaphore;
 }
 
 @property(readwrite) CGFloat batteryLevel;
 
-- (IOBluetoothL2CAPChannel *)OE_openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm;
+- (IOBluetoothL2CAPChannel*)OE_openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm;
 
 - (void)OE_writeData:(const uint8_t *)data length:(NSUInteger)length atAddress:(uint32_t)address;
 - (void)OE_readDataOfLength:(NSUInteger)length atAddress:(uint32_t)address;
@@ -246,6 +325,9 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
 - (void)OE_parseClassicControllerButtonData:(uint16_t)data;
 - (void)OE_parseClassicControllerJoystickAndTriggerData:(const uint8_t *)data;
+
+- (void)OE_parseProControllerButtonData:(uint32_t)data;
+- (void)OE_parseProControllerJoystickData:(const uint8_t *)data;
 
 - (void)OE_dispatchButtonEventWithUsage:(NSUInteger)usage state:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 - (void)OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
@@ -279,6 +361,10 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
         _expansionType = OEWiimoteExpansionTypeNotConnected;
 
         _reusableEvents = [[NSMutableDictionary alloc] init];
+        
+        _connectionQueue = dispatch_queue_create("org.openemu.wiimoteconnect", DISPATCH_QUEUE_SERIAL);
+        _connectionSemaphore = dispatch_semaphore_create(0);
+        
     }
 
     return self;
@@ -286,6 +372,8 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
 - (void)dealloc
 {
+    dispatch_release(_connectionQueue);
+    dispatch_release(_connectionSemaphore);
     [self disconnect];
 }
 
@@ -323,41 +411,99 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
 #pragma mark - Channel connection methods
 
-- (BOOL)connect;
+- (void)performConnectionOperation:(OEWiimoteConnectionSequence)sequence finalCompletion:(void(^)(BOOL))completion
 {
-    if(_isConnected) return YES;
-
-    _isConnected = YES;
-
-    _controlChannel = [self OE_openL2CAPChannelWithPSM:kBluetoothL2CAPPSMHIDControl];
-    usleep(20000);
-    _interruptChannel = [self OE_openL2CAPChannelWithPSM:kBluetoothL2CAPPSMHIDInterrupt];
-    usleep(20000);
-
-    if(_controlChannel == nil || _interruptChannel == nil)
+    if (_isConnected == NO)
     {
-        [_controlChannel closeChannel];
-        [_interruptChannel closeChannel];
-
-        _isConnected = NO;
-
-        return NO;
+        completion(NO);
+        return;
     }
 
-    if([_device getLastServicesUpdate] != NULL)
-        [_device performSDPQuery:nil];
-
-    [self OE_requestStatus];
-    usleep(10000);
-
-    [self OE_configureReportType];
-    [self OE_synchronizeRumbleAndLEDStatus];
-
-    return YES;
+    dispatch_semaphore_wait(_connectionSemaphore, DISPATCH_TIME_FOREVER);
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        _connectionState = sequence;
+        switch (sequence)
+        {
+            case OEWiimoteOpenL2CAPControl:
+                if (_controlChannel == nil)
+                    _controlChannel = [self OE_openL2CAPChannelWithPSM:kBluetoothL2CAPPSMHIDControl];
+                else
+                    dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimoteOpenL2CAPInterrupt:
+                if (_interruptChannel == nil)
+                    _interruptChannel = [self OE_openL2CAPChannelWithPSM:kBluetoothL2CAPPSMHIDInterrupt];
+                else
+                    dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimotePerformSDP:
+                if(_controlChannel == nil || _interruptChannel == nil)
+                {
+                    NSLog(@"Failed to open channels");
+                    [_controlChannel closeChannel];
+                    [_interruptChannel closeChannel];
+                    
+                    _isConnected = NO;
+                    completion(NO);
+                    return;
+                }
+                if([_device getLastServicesUpdate] != NULL)
+                    [_device performSDPQuery:self];
+                dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimoteGetStatus:
+                [self OE_requestStatus];
+                dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimoteConfigure:
+                [self OE_configureReportType];
+                dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimoteSynchronize:
+                [self OE_synchronizeRumbleAndLEDStatus];
+                dispatch_semaphore_signal(_connectionSemaphore);
+                break;
+            case OEWiimoteConnectionComplete:
+                completion(YES);
+                break;
+        }
+    });
+    
 }
+ 
+- (void)connectWithCompletion:(void(^)(BOOL))completion
+{
+    if(_isConnected)
+    {
+        completion(YES);
+        return;
+    }
 
+    IOReturn error = [_device openConnection];
+    if (error != kIOReturnSuccess)
+    {
+        completion(NO);
+        return;
+    }
+    
+    _isConnected = YES;
+    
+    dispatch_suspend(_connectionQueue);
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteOpenL2CAPControl finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteOpenL2CAPInterrupt finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimotePerformSDP finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteGetStatus finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteConfigure finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteSynchronize finalCompletion:completion];});
+    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteConnectionComplete finalCompletion:completion];});
+    dispatch_resume(_connectionQueue);
+    
+    dispatch_semaphore_signal(_connectionSemaphore);
+}
+    
 - (void)disconnect;
 {
+    NSLog(@"Disconnecting wiimote: %@", self);
     if(!_isConnected) return;
 
     [_controlChannel closeChannel];
@@ -370,18 +516,13 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
     [[NSNotificationCenter defaultCenter] postNotificationName:OEWiimoteDeviceHandlerDidDisconnectNotification object:self];
 }
 
-- (IOBluetoothL2CAPChannel *)OE_openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm;
+- (IOBluetoothL2CAPChannel*)OE_openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm
 {
-	IOBluetoothL2CAPChannel *channel = nil;
 	NSLog(@"Open channel (PSM:%i) ...", psm);
-
-	if([_device openL2CAPChannelSync:&channel withPSM:psm delegate:self] != kIOReturnSuccess)
-    {
-		NSLog (@"Could not open L2CAP channel (psm:%i)", psm);
-		channel = nil;
-		[self disconnect];
-	}
-
+    IOBluetoothL2CAPChannel *channel;
+    IOReturn status = [_device openL2CAPChannelAsync:&channel withPSM:psm delegate:self];
+    if (status != kIOReturnSuccess)
+        return nil;
     return channel;
 }
 
@@ -473,7 +614,7 @@ enum {
 
     NSAssert(data[0] != OEWiimoteCommandWrite || length == 22, @"Writing command should have a length of 22, got %ld", length);
 
-    uint8_t buffer[40] = { 0x52 };
+    uint8_t buffer[40] = { 0xa2 };
 
     memcpy(buffer + 1, data, length);
     length++;
@@ -481,16 +622,20 @@ enum {
     IOReturn ret = kIOReturnSuccess;
     for(NSUInteger i = 0; i < 10; i++)
     {
-        ret = [_controlChannel writeSync:buffer length:length];
+        ret = [_interruptChannel writeSync:buffer length:length];
 
-        if(ret != kIOReturnSuccess) usleep(10000);
+        if(ret != kIOReturnSuccess)
+        {
+             NSLog(@"Could not send command, error: %x", ret);
+             usleep(10000);   
+        }
         else break;
     }
 
     if(ret != kIOReturnSuccess)
     {
         // Something terrible has happened DO SOMETHING
-        NSLog(@"Could not send command, error: %d", ret);
+        NSLog(@"Could not send command, error: %x", ret);
     }
 }
 
@@ -507,7 +652,7 @@ enum {
         _expansionType = OEWiimoteExpansionTypeUnknown;
         [self OE_readExpansionPortType];
     }
-    else if(_expansionPortAttached)
+    else if(((response[4] & 0x2) == 0) && _expansionPortAttached)
         _expansionPortAttached = NO;
 }
 
@@ -542,6 +687,11 @@ enum {
         case OEWiimoteExpansionTypeClassicController :
             [self OE_parseClassicControllerButtonData:(data[4] << 8 | data[5])];
             [self OE_parseClassicControllerJoystickAndTriggerData:data];
+            break;
+        case OEWiimoteExpansionTypeWiiUProController :
+            [self OE_parseProControllerButtonData:(data[8] << 16) | (data[9] << 8) | data[10]];
+            [self OE_parseProControllerJoystickData:data];
+            break;
         default:
             break;
     }
@@ -564,28 +714,26 @@ enum {
     uint16_t address = (response[5] << 8) | response[6];
 
     // Response to expansion type request
-    if(address == 0x00FE)
+    if(address == 0x00F0)
     {
         OEWiimoteExpansionType expansion = OEWiimoteExpansionTypeNotConnected;
 
-        if((response[4] & 0xF) == 0)
+        uint16_t expansionType = (response[21] << 8) | response[22];
+        switch (expansionType)
         {
-            switch((response[7] << 8) | response[8])
-            {
-                case OEWiimoteExpansionIdentifierNunchuck :
-                    expansion = OEWiimoteExpansionTypeNunchuck;
-                    break;
-                case OEWiimoteExpansionTypeClassicController :
-                    expansion = OEWiimoteExpansionTypeClassicController;
-                    break;
-                default:
-                    expansion = OEWiimoteExpansionTypeUnknown;
-                    break;
-            }
+            case 0x0000:
+                expansion = OEWiimoteExpansionTypeNunchuck;
+                break;
+            case 0x0101:
+                expansion = OEWiimoteExpansionTypeClassicController;
+                break;
+            case 0x0120:
+                expansion = OEWiimoteExpansionTypeWiiUProController;
         }
 
         if(expansion != _expansionType)
         {
+            _latestButtonReports.proController     = 0xFFFF;
             _latestButtonReports.classicController = 0xFFFF;
             _latestButtonReports.nunchuck          = 0xFF;
 
@@ -602,8 +750,8 @@ enum {
 - (void)OE_configureReportType;
 {
 	// Set the report type the Wiimote should send.
-    // Buttons + 8 Extension bytes
-    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x02, 0x32 } length:3];
+    // Buttons + 19 Extension bytes
+    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x06, 0x34 } length:3];
 }
 
 - (void)OE_requestStatus
@@ -625,7 +773,7 @@ enum {
     [self OE_writeData:&(uint8_t){ 0x00 } length:1 atAddress:0x04A400FB];
     usleep(1000);
 
-    [self OE_readDataOfLength:2 atAddress:0x04A400FE];
+    [self OE_readDataOfLength:16 atAddress:0x04A400F0];
 }
 
 #pragma mark - Parse methods
@@ -651,8 +799,9 @@ enum {
     _latestButtonReports.nunchuck = data;
 
     _OEWiimoteIdentifierEnumerateUsingBlock(_OENunchuckButtonRange, ^(OEWiimoteButtonIdentifier identifier, NSUInteger usage, BOOL *stop) {
+        // Nunchuk uses 0 bit to mean pressed
         if(changes & identifier)
-            [self OE_dispatchButtonEventWithUsage:usage state:data & identifier timestamp:timestamp cookie:usage];
+            [self OE_dispatchButtonEventWithUsage:usage state:(data & identifier ? OEHIDEventStateOff : OEHIDEventStateOn) timestamp:timestamp cookie:usage];
     });
 }
 
@@ -692,28 +841,47 @@ enum {
 {
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
 
-    uint8_t changes = data ^ _latestButtonReports.nunchuck;
+    uint16_t changes = data ^ _latestButtonReports.classicController;
     _latestButtonReports.classicController = data;
 
     _OEWiimoteIdentifierEnumerateUsingBlock(_OEClassicButtonRange, ^(OEWiimoteButtonIdentifier identifier, NSUInteger usage, BOOL *stop) {
+        // Classic controller uses 0 for pressed, not 1 like standard wii buttons
         if(changes & identifier)
-            [self OE_dispatchButtonEventWithUsage:usage state:(data & identifier ? OEHIDEventStateOn : OEHIDEventStateOff) timestamp:timestamp cookie:usage];
+            [self OE_dispatchButtonEventWithUsage:usage state:((data & identifier) == 0 ? OEHIDEventStateOn : OEHIDEventStateOff) timestamp:timestamp cookie:usage];
     });
 }
 
 - (void)OE_parseClassicControllerJoystickAndTriggerData:(const uint8_t *)data;
 {
+
+    NSInteger(^scaleValue)(int8_t value) =
+    ^ NSInteger (int8_t value)
+    {
+        NSInteger ret = value;
+        ret = value;
+        
+        if(-OEWiimoteClassicControllerDeadZone < ret && ret <= OEWiimoteClassicControllerDeadZone) ret = 0;
+        
+        return ret;
+    };
+    
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
 
     NSInteger leftX  = (data[0] & 0x3F);
     NSInteger leftY  = (data[1] & 0x3F);
 
+    leftX = scaleValue(leftX + OEWiimoteClassicControllerLeftJoystickScaledMinimumValue);
+    leftY = scaleValue(leftY + OEWiimoteClassicControllerLeftJoystickScaledMinimumValue);
+    
     NSInteger rightX = (data[0] & 0xC0) >> 3 | (data[1] & 0xC0) >> 5 | (data[2] & 0x80) >> 7;
     NSInteger rightY = (data[2] & 0x1F);
 
+    rightX = scaleValue(rightX + OEWiimoteClassicControllerRightJoystickScaledMinimumValue);
+    rightY = scaleValue(rightY + OEWiimoteClassicControllerRightJoystickScaledMinimumValue);
+    
     NSInteger leftTrigger  = (data[2] & 0x60) >> 2 | (data[3] & 0xE0) >> 5;
     NSInteger rightTrigger = (data[3] & 0x1F);
-
+    
     [self OE_dispatchAxisEventWithAxis:OEWiimoteClassicControllerLeftJoystickAxisXUsage
                                minimum:OEWiimoteClassicControllerLeftJoystickScaledMinimumValue
                                  value:leftX
@@ -755,10 +923,82 @@ enum {
                                    cookie:OEWiimoteClassicControllerRightTriggerAxisCookie];
 }
 
+- (void)OE_parseProControllerButtonData:(uint32_t)data
+{
+    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
+    
+    uint32_t changes = data ^ _latestButtonReports.proController;
+    _latestButtonReports.proController = data;
+    
+    _OEWiimoteIdentifierEnumerateUsingBlock(_OEProButtonRange, ^(OEWiimoteButtonIdentifier identifier, NSUInteger usage, BOOL *stop) {
+        // Pro controller uses 0 for pressed, not 1 like standard wii buttons
+        if(changes & identifier)
+            [self OE_dispatchButtonEventWithUsage:usage state:((data & identifier) == 0 ? OEHIDEventStateOn : OEHIDEventStateOff) timestamp:timestamp cookie:usage];
+    });
+}
+
+- (void)OE_parseProControllerJoystickData:(const uint8_t *)data
+{
+    NSInteger (^decodeJoystickData)(const uint8_t*) = ^(const uint8_t *data){
+        uint8_t high = data[1] & 0xf;
+        uint8_t mid = (data[0] & 0xf0) >> 4;
+        uint8_t low = (data[0] & 0x0f);
+        NSInteger value = (high << 8) | (mid << 4) | (low);
+        
+        NSInteger ret = value;
+        ret = value;
+        ret -= OEWiimoteProControllerJoystickMinimumValue;
+        ret += OEWiimoteProControllerJoystickScaledMinimumValue;
+        
+        if(-OEWiimoteProControllerDeadZone < ret && ret <= OEWiimoteProControllerDeadZone) ret = 0;
+        
+        return ret;
+    };
+    
+    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
+    
+    NSInteger leftX  = decodeJoystickData(data);
+    NSInteger leftY  = decodeJoystickData(data+4);
+    
+    NSInteger rightX = decodeJoystickData(data+2);
+    NSInteger rightY = decodeJoystickData(data+6);
+        
+    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerLeftJoystickAxisXUsage
+                               minimum:OEWiimoteProControllerJoystickScaledMinimumValue
+                                 value:leftX
+                               maximum:OEWiimoteProControllerJoystickScaledMaximumValue
+                             timestamp:timestamp
+                                cookie:OEWiimoteProControllerLeftJoystickAxisXCookie];
+    
+    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerLeftJoystickAxisYUsage
+                               minimum:OEWiimoteProControllerJoystickScaledMinimumValue
+                                 value:leftY
+                               maximum:OEWiimoteProControllerJoystickScaledMaximumValue
+                             timestamp:timestamp
+                                cookie:OEWiimoteProControllerLeftJoystickAxisYCookie];
+    
+    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerRightJoystickAxisXUsage
+                               minimum:OEWiimoteProControllerJoystickScaledMinimumValue
+                                 value:rightX
+                               maximum:OEWiimoteProControllerJoystickScaledMaximumValue
+                             timestamp:timestamp
+                                cookie:OEWiimoteProControllerRightJoystickAxisXCookie];
+    
+    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerRightJoystickAxisYUsage
+                               minimum:OEWiimoteProControllerJoystickScaledMinimumValue
+                                 value:rightY
+                               maximum:OEWiimoteProControllerJoystickScaledMaximumValue
+                             timestamp:timestamp
+                                cookie:OEWiimoteProControllerRightJoystickAxisYCookie];
+}
+
 #pragma mark - Event dispatch methods
 
 - (void)OE_dispatchButtonEventWithUsage:(NSUInteger)usage state:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
+    if (_connectionState != OEWiimoteConnectionComplete)
+        return;
+    
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
     if(existingEvent == nil)
@@ -774,9 +1014,13 @@ enum {
 
 - (void)OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
+    if (_connectionState != OEWiimoteConnectionComplete)
+        return;
+    
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
-    if(existingEvent != nil)
+    //Something is going very wrong here
+    if(existingEvent == nil)
     {
         existingEvent = [OEHIDEvent axisEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie];
         [_reusableEvents setObject:existingEvent forKey:@(cookie)];
@@ -789,6 +1033,9 @@ enum {
 
 - (void)OE_dispatchTriggerEventWithAxis:(OEHIDEventAxis)axis value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
+    if (_connectionState != OEWiimoteConnectionComplete)
+        return;
+    
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
     if(existingEvent == nil)
@@ -804,8 +1051,24 @@ enum {
 
 #pragma mark - IOBluetoothL2CAPChannelDelegate protocol methods
 
+- (void)l2capChannelReconfigured:(IOBluetoothL2CAPChannel*)l2capChannel
+{
+    NSLog(@"Reconfigured %d", [l2capChannel PSM]);
+}
+
+- (void)l2capChannelWriteComplete:(IOBluetoothL2CAPChannel*)l2capChannel refcon:(void*)refcon status:(IOReturn)error
+{
+    NSLog(@"Write complete: %d", [l2capChannel PSM]);
+}
+
+- (void)l2capChannelQueueSpaceAvailable:(IOBluetoothL2CAPChannel*)l2capChannel
+{
+    NSLog(@"Queue %d", [l2capChannel PSM]);
+}
+
 - (void)l2capChannelClosed:(IOBluetoothL2CAPChannel *)l2capChannel
 {
+    NSLog(@"Closed channel %d", [l2capChannel PSM]);
     if(l2capChannel ==   _controlChannel) _controlChannel   = nil;
     if(l2capChannel == _interruptChannel) _interruptChannel = nil;
 
@@ -832,4 +1095,17 @@ enum {
         [self OE_handleDataReportData:data length:dataLength];
 }
 
+- (void)l2capChannelOpenComplete:(IOBluetoothL2CAPChannel *)l2capChannel status:(IOReturn)error
+{
+    NSLog(@"Opened channel %d", [l2capChannel PSM]);
+    if (l2capChannel == _controlChannel || l2capChannel == _interruptChannel)
+        dispatch_semaphore_signal(_connectionSemaphore);
+}
+
+#pragma mark - Channel Callback
+
+- (void)sdpQueryComplete:(id)query status:(IOReturn)statue
+{
+
+}
 @end

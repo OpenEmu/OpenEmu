@@ -44,6 +44,7 @@ NSString *const OEHIDManagerDidRemoveDeviceHandlerNotification = @"OEHIDManagerD
 NSString *const OEHIDManagerDeviceHandlerUserInfoKey           = @"OEHIDManagerDeviceHandlerUserInfoKey";
 
 static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef inIOHIDDeviceRef);
+static BOOL OE_nameIsFromWiimote(NSString *name);
 
 @interface OEDeviceManager () <IOBluetoothDeviceInquiryDelegate>
 {
@@ -212,27 +213,35 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 
     NSAssert(aDevice != NULL, @"Passing NULL device.");
     OEWiimoteDeviceHandler *handler = [OEWiimoteDeviceHandler deviceHandlerWithIOBluetoothDevice:aDevice];
+    NSUInteger existingWiimotes = 0;
+    for (id obj in deviceToHandlers)
+        existingWiimotes += [[deviceToHandlers objectForKey:obj] isKindOfClass:[OEWiimoteDeviceHandler class]];
+
     deviceToHandlers[@((NSUInteger)aDevice)] = handler;
 
     [handler setRumbleActivated:YES];
     [handler setExpansionPortEnabled:YES];
 
-#define IS_BETWEEN(min, value, max) (min < value && value < max)
-    NSInteger count = [deviceToHandlers count];
+    NSUInteger useLED = (existingWiimotes % 4) + 1;
+
     [handler setIlluminatedLEDs:
-     IS_BETWEEN(0, count, 4) ? OEWiimoteDeviceHandlerLED1 : 0 |
-     IS_BETWEEN(1, count, 5) ? OEWiimoteDeviceHandlerLED2 : 0 |
-     IS_BETWEEN(2, count, 6) ? OEWiimoteDeviceHandlerLED3 : 0 |
-     IS_BETWEEN(3, count, 7) ? OEWiimoteDeviceHandlerLED4 : 0];
+     (useLED == 1) ? OEWiimoteDeviceHandlerLED1 : 0 |
+     (useLED == 2) ? OEWiimoteDeviceHandlerLED2 : 0 |
+     (useLED == 3) ? OEWiimoteDeviceHandlerLED3 : 0 |
+     (useLED == 4) ? OEWiimoteDeviceHandlerLED4 : 0];
+    
+    [handler connectWithCompletion:^(BOOL connected) {
+        if (connected)
+        {
+            [handler setRumbleActivated:YES];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+                [handler setRumbleActivated:NO];
+            });
+            
+            [self OE_addDeviceHandler:handler];
+        }
 
-    if([handler connect])
-    {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-            [handler setRumbleActivated:NO];
-        });
-
-        [self OE_addDeviceHandler:handler];
-    }
+    }];
 }
 
 - (void)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
@@ -292,14 +301,11 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 {
     @synchronized(self)
     {
-//        NSLog(@"Searching for Wiimotes");
+        //NSLog(@"Searching for Wiimotes");
 
         inquiry = [IOBluetoothDeviceInquiry inquiryWithDelegate:self];
-        [inquiry setSearchCriteria:kBluetoothServiceClassMajorLimitedDiscoverableMode
-                  majorDeviceClass:kBluetoothDeviceClassMajorPeripheral
-                  minorDeviceClass:kBluetoothDeviceClassMinorPeripheral2Joystick];
-        [inquiry setInquiryLength:120];
-        [inquiry setUpdateNewDeviceNames:NO];
+        [inquiry setInquiryLength:3];
+        [inquiry setUpdateNewDeviceNames:YES];
 
         IOReturn status = [inquiry start];
         if(status != kIOReturnSuccess)
@@ -325,19 +331,23 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 
 - (void)deviceInquiryDeviceFound:(IOBluetoothDeviceInquiry *)sender device:(IOBluetoothDevice *)device
 {
-//    NSLog(@"%@ %@", NSStringFromSelector(_cmd), device);
-	// Never try to connect to the wiimote while the inquiry is still running! (cf apple docs)
-    [inquiry stop];
+    //NSLog(@"%@ %@", NSStringFromSelector(_cmd), device);
+    // We do not stop the inquiry here because we want to find multiple Wii Remotes, and also because
+    // our search criteria is wide, and we may find non-Wiimotes.
 }
 
 - (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender error:(IOReturn)error aborted:(BOOL)aborted
 {
-//    NSLog(@"Devices: %@ Error: %d, Aborted: %s", [sender foundDevices], error, BOOL_STR(aborted));
+    //NSLog(@"Devices: %@ Error: %d, Aborted: %s", [sender foundDevices], error, BOOL_STR(aborted));
 
     [[sender foundDevices] enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
+     ^(IOBluetoothDevice *obj, NSUInteger idx, BOOL *stop)
      {
-         [self OE_addWiimoteWithDevice:obj];
+         // Check to make sure BT device name has Wiimote prefix. Note that there are multiple
+         // possible device names ("Nintendo RVL-CNT-01" and "Nintendo RVL-CNT-01-TR" at the
+         // time of writing), so we don't do an exact string match.
+         if (OE_nameIsFromWiimote([obj name]))
+             [self OE_addWiimoteWithDevice:obj];
      }];
 
     if([[sender foundDevices] count] == 0)
@@ -350,11 +360,21 @@ static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, 
 
 @end
 
+static BOOL OE_nameIsFromWiimote(NSString *name)
+{
+    return ([name rangeOfString:@"Nintendo RVL-CNT-01"].location == 0);
+}
+
 #pragma mark - HIDManager Callbacks
 
 static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDDeviceRef inIOHIDDeviceRef)
 {
-//    NSLog(@"Found device: %s( context: %p, result: %#x, sender: %p, device: %p ).\n", __PRETTY_FUNCTION__, inContext, inResult, inSender, inIOHIDDeviceRef);
+    //NSLog(@"Found device: %s( context: %p, result: %#x, sender: %p, device: %p ).\n", __PRETTY_FUNCTION__, inContext, inResult, inSender, inIOHIDDeviceRef);
+    
+    
+    NSString *deviceName = (__bridge id)IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey));
+    if (OE_nameIsFromWiimote(deviceName))
+        return;
 
     if(IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
     {
@@ -362,7 +382,7 @@ static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, 
         return;
     }
 
-//    NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
+    //NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
 
 	//add a OEHIDDeviceHandler for our HID device
 	[(__bridge OEDeviceManager*)inContext OE_addDeviceHandlerForDevice:inIOHIDDeviceRef];

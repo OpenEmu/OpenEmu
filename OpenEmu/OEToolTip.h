@@ -24,24 +24,14 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-TODO("Remove this code where we are sure that we don't need it anymore.");
-#if 0
 #import <Foundation/Foundation.h>
-#import "Wiimote.h"
 
-extern NSString *const OEWiimoteSupportDisabled;
+typedef enum _OEToolTipStyle
+{
+    OEToolTipStyleDefault,
+    OEToolTipStyleHUD,
+} OEToolTipStyle;
 
-@class IOBluetoothDevice;
-@interface OEWiimoteManager_old : NSObject
-
-+ (id)sharedHandler;
-+ (void)startSearch;
-
-- (void)addWiimoteWithDevice:(IOBluetoothDevice*)device;
-
-- (void)startSearch;
-- (void)stopSearch;
-
-@property (readonly) NSArray *connectedWiimotes;
+@protocol OEToolTip <NSObject>
+@property OEToolTipStyle toolTipStyle;
 @end
-#endif

@@ -26,8 +26,8 @@
 
 #import <Foundation/Foundation.h>
 #import "OEUIDrawingUtils.h"
-
-@interface OEHUDSlider : NSSlider
+#import "OEToolTip.h"
+@interface OEHUDSlider : NSSlider <OEToolTip>
 @end
 
 @interface OEHUDSliderCell : NSSliderCell

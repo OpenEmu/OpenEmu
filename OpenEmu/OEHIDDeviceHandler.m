@@ -80,7 +80,7 @@
         if(![self isKeyboardDevice])
         {
             [self OE_setupDeviceIdentifier];
-
+            
             NSArray *elements = (__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(_device, (__bridge CFDictionaryRef)@{ @kIOHIDElementUsagePageKey : @(kHIDPage_GenericDesktop) }, 0);
 
             NSLog(@"Device: %@", self);

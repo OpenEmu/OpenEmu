@@ -136,17 +136,6 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)OE_finishAwakingUp
-{
-    
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    
-    // Restore last selected collection item
-    id itemID = [standardUserDefaults valueForKey:OELastCollectionSelectedKey];
-    DLog(@"%@", itemID);
-    
-}
-
 - (void)setDatabase:(OELibraryDatabase *)database
 {
     // get last selected collection item

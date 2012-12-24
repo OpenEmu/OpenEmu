@@ -287,7 +287,6 @@
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82277546148946DF00B19E27 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		82277547148946DF00B19E27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
-		822775611489471A00B19E27 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 822775531489471A00B19E27 /* controller_sms.png */; };
 		822775651489471A00B19E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 822775551489471A00B19E27 /* InfoPlist.strings */; };
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
 		8245FD0814F763E600C64574 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 82C9B3FA14F75CB700D7E795 /* TPCircularBuffer.c */; };
@@ -369,11 +368,6 @@
 		830BC86C14D5F1DD000826E2 /* controller_gba_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */; };
 		830EF6CC146C590D00B0C8B0 /* blank_slate_core_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 830EF6CB146C590D00B0C8B0 /* blank_slate_core_icon.png */; };
 		830EF6CF146C5D5D00B0C8B0 /* open_weblink_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 830EF6CE146C5D5D00B0C8B0 /* open_weblink_arrow.png */; };
-		83101267164942FE000F8EC3 /* OEWiimoteManager_old.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353CE771561C0DE0045A3DD /* OEWiimoteManager_old.m */; };
-		831012681649430D000F8EC3 /* OEWiimoteDeviceHandler_old.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310126516492FA7000F8EC3 /* OEWiimoteDeviceHandler_old.m */; };
-		8310126916494314000F8EC3 /* OEWiimoteManager_old.h in Headers */ = {isa = PBXBuildFile; fileRef = 8353CE761561C0DE0045A3DD /* OEWiimoteManager_old.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8310126A16494319000F8EC3 /* OEWiimoteDeviceHandler_old.h in Headers */ = {isa = PBXBuildFile; fileRef = 8310126416492FA7000F8EC3 /* OEWiimoteDeviceHandler_old.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8310126B1649432B000F8EC3 /* Wiimote.m in Sources */ = {isa = PBXBuildFile; fileRef = 8322D749156A99CA00FC0E81 /* Wiimote.m */; };
 		8310126F16494493000F8EC3 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8322D746156A973400FC0E81 /* IOBluetooth.framework */; };
 		8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310447013BE419000B283B0 /* OEHorizontalSplitView.m */; };
 		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
@@ -415,6 +409,7 @@
 		8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */; };
 		8353EB7D15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */; };
 		8356AEF215DA703100AA6B44 /* OEImportItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8356AEF115DA703100AA6B44 /* OEImportItem.m */; };
+		835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 835F3F3F1683534700C74B97 /* OEToolTipManager.m */; };
 		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836CFD6614709D3C00397683 /* wood_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6114709D3C00397683 /* wood_arrow_down.png */; };
@@ -447,7 +442,6 @@
 		83920CDD147E675C00D219EA /* hud_alert_window.png in Resources */ = {isa = PBXBuildFile; fileRef = 83920CDC147E675C00D219EA /* hud_alert_window.png */; };
 		839213F4164338D60006CEE0 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5380E82313B9596500E76DEF /* IOKit.framework */; };
 		839310BC147802380020058E /* OECoreDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 839310BB147802380020058E /* OECoreDownload.m */; };
-		839319241649572D000919BD /* WiimoteTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 839319231649572D000919BD /* WiimoteTypes.h */; };
 		83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB4165D939100572B34 /* OEBlankSlateView.m */; };
 		83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */; };
 		8396CC52140687EE0096F791 /* wood_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 8396CC51140687EE0096F791 /* wood_textfield.png */; };
@@ -475,7 +469,6 @@
 		83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */; };
 		83BF5292146C2F0A00B5F742 /* blank_slate_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */; };
 		83BF5295146C2F4000B5F742 /* blank_slate_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5294146C2F4000B5F742 /* blank_slate_box.png */; };
-		83C09354166787B900E52265 /* OECUESheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C09353166787B900E52265 /* OECUESheet.m */; };
 		83C0B37114D6EF02007CAC00 /* OESidebarOutlineButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C0B37014D6EF01007CAC00 /* OESidebarOutlineButtonCell.m */; };
 		83C0B37414D6FC58007CAC00 /* sidebar_triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C0B37314D6FC58007CAC00 /* sidebar_triangle.png */; };
 		83C68ED114483579000F720A /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
@@ -510,7 +503,6 @@
 		83F4DE1714E005DB00A82E36 /* controller_fc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */; };
 		83F4DE1A14E0096F00A82E36 /* controller_nes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1814E0096500A82E36 /* controller_nes_mask.png */; };
 		83F4DE1D14E00C9800A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */; };
-		83F4DE2014E00EE600A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */; };
 		83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */; };
 		83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */; };
 		83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */; };
@@ -691,6 +683,8 @@
 		94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C09353166787B900E52265 /* OECUESheet.m */; };
 		94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 83C09352166787B900E52265 /* OECUESheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94E6C303166DB15900082F27 /* Controller-Mappings.plist */; };
+		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
+		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
 		94EFD17B15ACA625009BED8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94EFD18115ACA625009BED8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD17F15ACA625009BED8F /* InfoPlist.strings */; };
 		94EFD18C15ACA7FA009BED8F /* OESegaCDSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFD18915ACA7FA009BED8F /* OESegaCDSystemResponder.m */; };
@@ -1662,7 +1656,6 @@
 		82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Hyperlink.m"; sourceTree = "<group>"; };
 		82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Hyperlink.h"; sourceTree = "<group>"; };
 		8227754F148946DF00B19E27 /* GameGear.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameGear.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		822775531489471A00B19E27 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
 		822775561489471A00B19E27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8227755B1489471A00B19E27 /* OEGGSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGGSystemResponder.h; sourceTree = "<group>"; };
 		8227755C1489471A00B19E27 /* OEGGSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGGSystemResponder.m; sourceTree = "<group>"; };
@@ -1747,8 +1740,6 @@
 		830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gba_mask.png; sourceTree = "<group>"; };
 		830EF6CB146C590D00B0C8B0 /* blank_slate_core_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_core_icon.png; sourceTree = "<group>"; };
 		830EF6CE146C5D5D00B0C8B0 /* open_weblink_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = open_weblink_arrow.png; sourceTree = "<group>"; };
-		8310126416492FA7000F8EC3 /* OEWiimoteDeviceHandler_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWiimoteDeviceHandler_old.h; sourceTree = "<group>"; };
-		8310126516492FA7000F8EC3 /* OEWiimoteDeviceHandler_old.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEWiimoteDeviceHandler_old.m; sourceTree = "<group>"; };
 		8310446F13BE419000B283B0 /* OEHorizontalSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHorizontalSplitView.h; sourceTree = "<group>"; };
 		8310447013BE419000B283B0 /* OEHorizontalSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHorizontalSplitView.m; sourceTree = "<group>"; };
 		8314A98A155410EF00DF13B5 /* OEDBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBItem.h; sourceTree = "<group>"; };
@@ -1803,8 +1794,6 @@
 		83200BF7162F5C1C00BCFA9D /* OESidebarBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarBackgroundView.h; sourceTree = "<group>"; };
 		83200BF8162F5C1C00BCFA9D /* OESidebarBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarBackgroundView.m; sourceTree = "<group>"; };
 		8322D746156A973400FC0E81 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
-		8322D748156A99CA00FC0E81 /* Wiimote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wiimote.h; sourceTree = "<group>"; };
-		8322D749156A99CA00FC0E81 /* Wiimote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wiimote.m; sourceTree = "<group>"; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OEDBImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		832D293E1451A68700BDF950 /* OEMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindowController.h; sourceTree = "<group>"; };
@@ -1819,8 +1808,6 @@
 		8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImageThumbnail.m; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
-		8353CE761561C0DE0045A3DD /* OEWiimoteManager_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWiimoteManager_old.h; sourceTree = "<group>"; };
-		8353CE771561C0DE0045A3DD /* OEWiimoteManager_old.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEWiimoteManager_old.m; sourceTree = "<group>"; };
 		8353EB1A15FF41930026E326 /* OEDatabase 0.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.2.xcdatamodel"; sourceTree = "<group>"; };
 		8353EB1E15FF5CB10026E326 /* OEDBRomMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBRomMigrationPolicy.h; sourceTree = "<group>"; };
 		8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBRomMigrationPolicy.m; sourceTree = "<group>"; };
@@ -1829,6 +1816,9 @@
 		8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.0 Beta to 0.2.xcmappingmodel"; sourceTree = "<group>"; };
 		8356AEF015DA703100AA6B44 /* OEImportItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEImportItem.h; sourceTree = "<group>"; };
 		8356AEF115DA703100AA6B44 /* OEImportItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEImportItem.m; sourceTree = "<group>"; };
+		835F3F3E1683534700C74B97 /* OEToolTipManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEToolTipManager.h; sourceTree = "<group>"; };
+		835F3F3F1683534700C74B97 /* OEToolTipManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEToolTipManager.m; sourceTree = "<group>"; };
+		835F3F4116835F1A00C74B97 /* OEToolTip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEToolTip.h; sourceTree = "<group>"; };
 		836291FC1515F30700192116 /* OEFSWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFSWatcher.h; sourceTree = "<group>"; };
 		836291FD1515F30700192116 /* OEFSWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFSWatcher.m; sourceTree = "<group>"; };
 		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
@@ -1869,7 +1859,6 @@
 		83920CDC147E675C00D219EA /* hud_alert_window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_alert_window.png; sourceTree = "<group>"; };
 		839310BA147802380020058E /* OECoreDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreDownload.h; sourceTree = "<group>"; };
 		839310BB147802380020058E /* OECoreDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreDownload.m; sourceTree = "<group>"; };
-		839319231649572D000919BD /* WiimoteTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiimoteTypes.h; sourceTree = "<group>"; };
 		83955CB3165D939100572B34 /* OEBlankSlateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateView.h; sourceTree = "<group>"; };
 		83955CB4165D939100572B34 /* OEBlankSlateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateView.m; sourceTree = "<group>"; };
 		83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEBackgroundNoisePattern.h; sourceTree = "<group>"; };
@@ -1974,7 +1963,6 @@
 		83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc_mask.png; sourceTree = "<group>"; };
 		83F4DE1814E0096500A82E36 /* controller_nes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes_mask.png; sourceTree = "<group>"; };
 		83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
-		83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
 		83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
 		83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gb_mask.png; sourceTree = "<group>"; };
 		83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
@@ -2163,6 +2151,8 @@
 		94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemResponder.m; sourceTree = "<group>"; };
 		94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponderClient.h; sourceTree = "<group>"; };
 		94E6C303166DB15900082F27 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
+		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
 		94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sega CD.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94EFD17E15ACA625009BED8F /* Sega CD-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sega CD-Info.plist"; sourceTree = "<group>"; };
 		94EFD18015ACA625009BED8F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3686,16 +3676,6 @@
 			path = Menu;
 			sourceTree = "<group>";
 		};
-		8310126216492F22000F8EC3 /* Wiimote */ = {
-			isa = PBXGroup;
-			children = (
-				839319231649572D000919BD /* WiimoteTypes.h */,
-				8322D748156A99CA00FC0E81 /* Wiimote.h */,
-				8322D749156A99CA00FC0E81 /* Wiimote.m */,
-			);
-			name = Wiimote;
-			sourceTree = "<group>";
-		};
 		8314A9B8155422E800DF13B5 /* Archive.VG */ = {
 			isa = PBXGroup;
 			children = (
@@ -3737,6 +3717,7 @@
 				831C9ACD160096D400038D0D /* Containers */,
 				831C9AD1160096EF00038D0D /* Buttons */,
 				83DEE489162D52C5005D8AD7 /* Text */,
+				835F3F3D1683533300C74B97 /* ToolTip */,
 				83DEE4A1162D62C2005D8AD7 /* Other Controls */,
 			);
 			name = "Theme Controls";
@@ -3868,18 +3849,6 @@
 			name = Items;
 			sourceTree = "<group>";
 		};
-		8353CE321561BF6D0045A3DD /* Wiimote HID */ = {
-			isa = PBXGroup;
-			children = (
-				8310126216492F22000F8EC3 /* Wiimote */,
-				8353CE761561C0DE0045A3DD /* OEWiimoteManager_old.h */,
-				8353CE771561C0DE0045A3DD /* OEWiimoteManager_old.m */,
-				8310126416492FA7000F8EC3 /* OEWiimoteDeviceHandler_old.h */,
-				8310126516492FA7000F8EC3 /* OEWiimoteDeviceHandler_old.m */,
-			);
-			name = "Wiimote HID";
-			sourceTree = "<group>";
-		};
 		8353EB1D15FF5C9B0026E326 /* Migration */ = {
 			isa = PBXGroup;
 			children = (
@@ -3898,6 +3867,16 @@
 				8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */,
 			);
 			name = "Mapping Models";
+			sourceTree = "<group>";
+		};
+		835F3F3D1683533300C74B97 /* ToolTip */ = {
+			isa = PBXGroup;
+			children = (
+				835F3F4116835F1A00C74B97 /* OEToolTip.h */,
+				835F3F3E1683534700C74B97 /* OEToolTipManager.h */,
+				835F3F3F1683534700C74B97 /* OEToolTipManager.m */,
+			);
+			name = ToolTip;
 			sourceTree = "<group>";
 		};
 		83703B3A140E4F2800EC27A7 /* Filter */ = {
@@ -4450,8 +4429,8 @@
 			isa = PBXGroup;
 			children = (
 				83FBA36E14F2C62F001F1299 /* gamegear_library.png */,
-				83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */,
-				822775531489471A00B19E27 /* controller_sms.png */,
+				94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */,
+				94FC53871688FF60003C6AFE /* controller_gamegear.png */,
 				822775551489471A00B19E27 /* InfoPlist.strings */,
 				8227755E1489471A00B19E27 /* GameGear-Info.plist */,
 				C6AF284B164E45D400681A06 /* Keyboard-Mappings.plist */,
@@ -4481,7 +4460,6 @@
 				82870D741665668900CBFE5D /* OERawSystemResponder.m */,
 				C6DC91CB15F3B5530082184C /* Bindings Controller */,
 				93B479F512BAB52F008618A7 /* HID */,
-				8353CE321561BF6D0045A3DD /* Wiimote HID */,
 			);
 			name = "System Input Core";
 			sourceTree = "<group>";
@@ -4829,9 +4807,6 @@
 				C69259FC15045B03003E6FD3 /* OEEvent.h in Headers */,
 				C6DC91DD15F3B9090082184C /* OEBindingsController_Internal.h in Headers */,
 				94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */,
-				8310126916494314000F8EC3 /* OEWiimoteManager_old.h in Headers */,
-				8310126A16494319000F8EC3 /* OEWiimoteDeviceHandler_old.h in Headers */,
-				839319241649572D000919BD /* WiimoteTypes.h in Headers */,
 				C625BD781669EAE300921F56 /* OEHIDDeviceHandler.h in Headers */,
 				C625BD7C1669EB4F00921F56 /* OEWiimoteDeviceHandler.h in Headers */,
 				82870D791665669500CBFE5D /* OERawSystemResponder.h in Headers */,
@@ -5486,12 +5461,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				822775651489471A00B19E27 /* InfoPlist.strings in Resources */,
-				822775611489471A00B19E27 /* controller_sms.png in Resources */,
-				83F4DE2014E00EE600A82E36 /* controller_sms_mask.png in Resources */,
 				C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA36F14F2C62F001F1299 /* gamegear_library.png in Resources */,
 				949628D4164F77C400952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF284C164E45D400681A06 /* Keyboard-Mappings.plist in Resources */,
+				94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */,
+				94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6261,8 +6236,8 @@
 				83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */,
 				83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */,
 				14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */,
-				83C09354166787B900E52265 /* OECUESheet.m in Sources */,
 				144D61491672D6BF0000268B /* OETableTextFieldCell.m in Sources */,
+				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6419,9 +6394,6 @@
 				C6DC91D315F3B7DE0082184C /* OESystemBindings.m in Sources */,
 				C6DC91D715F3B80C0082184C /* OEPlayerBindings.m in Sources */,
 				C6DC91DC15F3B8E60082184C /* OEKeyBindingGroupDescription.m in Sources */,
-				83101267164942FE000F8EC3 /* OEWiimoteManager_old.m in Sources */,
-				831012681649430D000F8EC3 /* OEWiimoteDeviceHandler_old.m in Sources */,
-				8310126B1649432B000F8EC3 /* Wiimote.m in Sources */,
 				C627D9991658DEA7001A62C2 /* OEBindingMap.m in Sources */,
 				94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */,
 				C625BD791669EAE300921F56 /* OEHIDDeviceHandler.m in Sources */,
