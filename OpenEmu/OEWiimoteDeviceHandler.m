@@ -141,6 +141,8 @@ typedef enum {
     OEWiimoteClassicControllerRightJoystickScaledMinimumValue = -16,
     OEWiimoteClassicControllerRightJoystickScaledMaximumValue =  15,
 
+    OEWiimoteClassicControllerDeadZone                  = 4,
+    
     OEWiimoteClassicControllerLeftJoystickAxisXUsage    = OEHIDEventAxisX,
     OEWiimoteClassicControllerLeftJoystickAxisYUsage    = OEHIDEventAxisY,
 
@@ -161,8 +163,11 @@ typedef enum {
 } OEWiimoteClassicControllerParameters;
 
 typedef enum {
-    OEWiimoteProControllerJoystickScaledMinimumValue = 900 - 2048,
-    OEWiimoteProControllerJoystickScaledMaximumValue = 3200 - 2048,
+    OEWiimoteProControllerJoystickMinimumValue = 900,
+    OEWiimoteProControllerJoystickMaximumValue = 3400,
+    OEWiimoteProControllerDeadZone = 256,
+    OEWiimoteProControllerJoystickScaledMinimumValue = -1250,
+    OEWiimoteProControllerJoystickScaledMaximumValue = 1250,
         
     OEWiimoteProControllerLeftJoystickAxisXUsage    = OEHIDEventAxisX,
     OEWiimoteProControllerLeftJoystickAxisYUsage    = OEHIDEventAxisY,
@@ -685,9 +690,7 @@ enum {
             break;
         case OEWiimoteExpansionTypeWiiUProController :
             [self OE_parseProControllerButtonData:(data[8] << 16) | (data[9] << 8) | data[10]];
-            
-            //Need to figure out this data better, the ranges are a bit odd
-            //[self OE_parseProControllerJoystickData:data];
+            [self OE_parseProControllerJoystickData:data];
             break;
         default:
             break;
@@ -748,7 +751,7 @@ enum {
 {
 	// Set the report type the Wiimote should send.
     // Buttons + 19 Extension bytes
-    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x02, 0x34 } length:3];
+    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x06, 0x34 } length:3];
 }
 
 - (void)OE_requestStatus
@@ -850,17 +853,35 @@ enum {
 
 - (void)OE_parseClassicControllerJoystickAndTriggerData:(const uint8_t *)data;
 {
+
+    NSInteger(^scaleValue)(int8_t value) =
+    ^ NSInteger (int8_t value)
+    {
+        NSInteger ret = value;
+        ret = value;
+        
+        if(-OEWiimoteClassicControllerDeadZone < ret && ret <= OEWiimoteClassicControllerDeadZone) ret = 0;
+        
+        return ret;
+    };
+    
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
 
     NSInteger leftX  = (data[0] & 0x3F);
     NSInteger leftY  = (data[1] & 0x3F);
 
+    leftX = scaleValue(leftX + OEWiimoteClassicControllerLeftJoystickScaledMinimumValue);
+    leftY = scaleValue(leftY + OEWiimoteClassicControllerLeftJoystickScaledMinimumValue);
+    
     NSInteger rightX = (data[0] & 0xC0) >> 3 | (data[1] & 0xC0) >> 5 | (data[2] & 0x80) >> 7;
     NSInteger rightY = (data[2] & 0x1F);
 
+    rightX = scaleValue(rightX + OEWiimoteClassicControllerRightJoystickScaledMinimumValue);
+    rightY = scaleValue(rightY + OEWiimoteClassicControllerRightJoystickScaledMinimumValue);
+    
     NSInteger leftTrigger  = (data[2] & 0x60) >> 2 | (data[3] & 0xE0) >> 5;
     NSInteger rightTrigger = (data[3] & 0x1F);
-
+    
     [self OE_dispatchAxisEventWithAxis:OEWiimoteClassicControllerLeftJoystickAxisXUsage
                                minimum:OEWiimoteClassicControllerLeftJoystickScaledMinimumValue
                                  value:leftX
@@ -922,7 +943,16 @@ enum {
         uint8_t high = data[1] & 0xf;
         uint8_t mid = (data[0] & 0xf0) >> 4;
         uint8_t low = (data[0] & 0x0f);
-        return (NSInteger)((high << 8) | (mid << 4) | (low));
+        NSInteger value = (high << 8) | (mid << 4) | (low);
+        
+        NSInteger ret = value;
+        ret = value;
+        ret -= OEWiimoteProControllerJoystickMinimumValue;
+        ret += OEWiimoteProControllerJoystickScaledMinimumValue;
+        
+        if(-OEWiimoteProControllerDeadZone < ret && ret <= OEWiimoteProControllerDeadZone) ret = 0;
+        
+        return ret;
     };
     
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
@@ -990,7 +1020,7 @@ enum {
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
     //Something is going very wrong here
-    if(existingEvent != nil)
+    if(existingEvent == nil)
     {
         existingEvent = [OEHIDEvent axisEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie];
         [_reusableEvents setObject:existingEvent forKey:@(cookie)];

@@ -747,11 +747,6 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 {
     NSAssert(_type == OEHIDEventTypeAxis, @"Attempting to axis state of a non-axis event");
 
-    NSInteger zero = (maximum + minimum) / 2 + 1;
-    maximum -= zero;
-    value   -= zero;
-    minimum -= zero;
-
     NSAssert(_data.axis.minimum == minimum, @"Minimum value changed, expected: %ld, got: %ld", _data.axis.minimum, minimum);
     NSAssert(_data.axis.maximum == maximum, @"Maximum value changed, expected: %ld, got: %ld", _data.axis.maximum, maximum);
 
