@@ -275,7 +275,6 @@
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82277546148946DF00B19E27 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		82277547148946DF00B19E27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
-		822775611489471A00B19E27 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 822775531489471A00B19E27 /* controller_sms.png */; };
 		822775651489471A00B19E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 822775551489471A00B19E27 /* InfoPlist.strings */; };
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
 		8245FD0814F763E600C64574 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 82C9B3FA14F75CB700D7E795 /* TPCircularBuffer.c */; };
@@ -469,7 +468,6 @@
 		83F4DE1714E005DB00A82E36 /* controller_fc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */; };
 		83F4DE1A14E0096F00A82E36 /* controller_nes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1814E0096500A82E36 /* controller_nes_mask.png */; };
 		83F4DE1D14E00C9800A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */; };
-		83F4DE2014E00EE600A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */; };
 		83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */; };
 		83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */; };
 		83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */; };
@@ -532,6 +530,8 @@
 		94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C09353166787B900E52265 /* OECUESheet.m */; };
 		94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 83C09352166787B900E52265 /* OECUESheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94E6C303166DB15900082F27 /* Controller-Mappings.plist */; };
+		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
+		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6252DA814E71D0500350A13 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = C6252DA914E71D0500350A13 /* controller_fc.png */; };
 		C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAA14E752E300350A13 /* Controller-Preferences.plist */; };
@@ -1315,7 +1315,6 @@
 		82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Hyperlink.m"; sourceTree = "<group>"; };
 		82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Hyperlink.h"; sourceTree = "<group>"; };
 		8227754F148946DF00B19E27 /* GameGear.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameGear.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		822775531489471A00B19E27 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
 		822775561489471A00B19E27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8227755B1489471A00B19E27 /* OEGGSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGGSystemResponder.h; sourceTree = "<group>"; };
 		8227755C1489471A00B19E27 /* OEGGSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGGSystemResponder.m; sourceTree = "<group>"; };
@@ -1607,7 +1606,6 @@
 		83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc_mask.png; sourceTree = "<group>"; };
 		83F4DE1814E0096500A82E36 /* controller_nes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes_mask.png; sourceTree = "<group>"; };
 		83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
-		83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
 		83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
 		83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gb_mask.png; sourceTree = "<group>"; };
 		83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
@@ -1665,6 +1663,8 @@
 		94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemResponder.m; sourceTree = "<group>"; };
 		94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponderClient.h; sourceTree = "<group>"; };
 		94E6C303166DB15900082F27 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
+		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
 		C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreController.h; sourceTree = "<group>"; };
 		C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCoreController.m; sourceTree = "<group>"; };
 		C60CDDD611780DF100EB472F /* OpenGL Format Table.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenGL Format Table.txt"; sourceTree = "<group>"; };
@@ -3488,8 +3488,8 @@
 			isa = PBXGroup;
 			children = (
 				83FBA36E14F2C62F001F1299 /* gamegear_library.png */,
-				83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */,
-				822775531489471A00B19E27 /* controller_sms.png */,
+				94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */,
+				94FC53871688FF60003C6AFE /* controller_gamegear.png */,
 				822775551489471A00B19E27 /* InfoPlist.strings */,
 				8227755E1489471A00B19E27 /* GameGear-Info.plist */,
 				C6AF284B164E45D400681A06 /* Keyboard-Mappings.plist */,
@@ -4277,12 +4277,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				822775651489471A00B19E27 /* InfoPlist.strings in Resources */,
-				822775611489471A00B19E27 /* controller_sms.png in Resources */,
-				83F4DE2014E00EE600A82E36 /* controller_sms_mask.png in Resources */,
 				C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA36F14F2C62F001F1299 /* gamegear_library.png in Resources */,
 				949628D4164F77C400952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF284C164E45D400681A06 /* Keyboard-Mappings.plist in Resources */,
+				94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */,
+				94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
