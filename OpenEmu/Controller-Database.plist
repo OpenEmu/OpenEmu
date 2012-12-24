@@ -427,6 +427,198 @@
 				<integer>4</integer>
 			</dict>
 		</array>
+		<key>OEControllerMappings</key>
+		<dict>
+			<key>OEControllerMicrosoftXbox360DPadUp</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Up</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>12</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360DPadDown</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Down</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>13</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360DPadLeft</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Left</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>14</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360DPadRight</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Right</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>15</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360LeftAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Axis</key>
+				<string>X</string>
+			</dict>
+			<key>OEControllerMicrosoftXbox360LeftAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Axis</key>
+				<string>Y</string>
+			</dict>
+			<key>OEControllerMicrosoftXbox360RightAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Axis</key>
+				<string>Rx</string>
+			</dict>
+			<key>OEControllerMicrosoftXbox360RightAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Axis</key>
+				<string>Ry</string>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>1</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>2</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonX</key>
+			<dict>
+				<key>Name</key>
+				<string>X</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>3</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonY</key>
+			<dict>
+				<key>Name</key>
+				<string>Y</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>4</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonLeftShoulder</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Shoulder</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>5</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonLeftTrigger</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Trigger</string>
+				<key>Type</key>
+				<string>Trigger</string>
+				<key>Axis</key>
+				<string>Z</string>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonLeftAnalog</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Stick</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>7</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonRightShoulder</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Shoulder</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>6</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonRightTrigger</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Trigger</string>
+				<key>Type</key>
+				<string>Trigger</string>
+				<key>Axis</key>
+				<string>Rz</string>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonRightAnalog</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Stick</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>8</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonStart</key>
+			<dict>
+				<key>Name</key>
+				<string>Start</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>9</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonBack</key>
+			<dict>
+				<key>Name</key>
+				<string>Back</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>10</integer>
+			</dict>
+			<key>OEControllerMicrosoftXbox360ButtonHome</key>
+			<dict>
+				<key>Name</key>
+				<string>Home</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Number</key>
+				<integer>11</integer>
+			</dict>
+		</dict>
 	</dict>
 	<dict>
 		<key>OEControllerName</key>
