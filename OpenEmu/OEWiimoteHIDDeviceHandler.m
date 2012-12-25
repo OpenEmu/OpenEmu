@@ -869,7 +869,6 @@ enum {
 {
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
-    //Something is going very wrong here
     if(existingEvent == nil)
     {
         existingEvent = [OEHIDEvent axisEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie];
