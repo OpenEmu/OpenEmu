@@ -30,7 +30,7 @@
 #import <Carbon/Carbon.h>
 #import "OEHIDUsageToVK.h"
 #import "OEHIDDeviceHandler.h"
-#import "OEWiimoteDeviceHandler.h"
+#import "OEWiimoteHIDDeviceHandler.h"
 
 static BOOL _OEHIDElementIsTrigger(IOHIDElementRef elem)
 {
@@ -270,7 +270,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 - (OEHIDEvent *)OE_eventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler;
 - (OEHIDEvent *)OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
-- (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteDeviceHandler *)aDeviceHandler;
+- (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteHIDDeviceHandler *)aDeviceHandler;
 
 - (BOOL)OE_updateButtonEventWithState:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp;
 - (BOOL)OE_updateAxisEventWithValue:(NSInteger)value maximum:(NSInteger)maximum minimum:(NSInteger)minimum timestamp:(NSTimeInterval)timestamp;
@@ -696,8 +696,8 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 {
     if([aDeviceHandler isKindOfClass:[OEHIDDeviceHandler class]])
         return [self OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler];
-    else if([aDeviceHandler isKindOfClass:[OEWiimoteDeviceHandler class]])
-        return [self OE_eventWithWiimoteDeviceHandler:(OEWiimoteDeviceHandler *)aDeviceHandler];
+    else if([aDeviceHandler isKindOfClass:[OEWiimoteHIDDeviceHandler class]])
+        return [self OE_eventWithWiimoteDeviceHandler:(OEWiimoteHIDDeviceHandler *)aDeviceHandler];
 
     return self;
 }
@@ -715,7 +715,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     return ret;
 }
 
-- (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteDeviceHandler *)aDeviceHandler;
+- (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteHIDDeviceHandler *)aDeviceHandler;
 {
     OEHIDEvent *ret = [self copy];
 

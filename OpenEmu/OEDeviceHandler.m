@@ -29,7 +29,6 @@
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDEvent.h"
 #import "OEHIDDeviceHandler.h"
-#import "OEWiimoteDeviceHandler.h"
 
 #if __has_feature(objc_bool)
 #undef YES
@@ -104,11 +103,6 @@ static NSDictionary *deviceToTypes = nil;
 + (instancetype)deviceHandlerWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
 {
     return [OEHIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
-}
-
-+ (instancetype)deviceHandlerWithIOBluetoothDevice:(IOBluetoothDevice *)aDevice;
-{
-    return [OEWiimoteDeviceHandler deviceHandlerWithIOBluetoothDevice:aDevice];
 }
 
 - (NSString *)OE_deviceIdentifier;

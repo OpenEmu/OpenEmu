@@ -26,9 +26,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "OEDeviceHandler.h"
+#import "OEHIDDeviceHandler.h"
 
-@class IOBluetoothDevice;
 
 typedef enum : unsigned char {
     OEWiimoteDeviceHandlerLED1   = 0x10,
@@ -53,15 +52,7 @@ typedef enum {
     OEWiimoteIRModeFull     = 0x05,
 } OEWiimoteIRMode;
 
-@interface OEWiimoteDeviceHandler : OEDeviceHandler
-
-+ (instancetype)deviceHandlerWithIOBluetoothDevice:(IOBluetoothDevice *)aDevice;
-- (id)initWithIOBluetoothDevice:(IOBluetoothDevice *)aDevice;
-
-- (void)connectWithCompletion:(void(^)(BOOL))completion;
-- (void)disconnect;
-
-@property(readonly) IOBluetoothDevice *device;
+@interface OEWiimoteHIDDeviceHandler : OEHIDDeviceHandler
 
 @property(nonatomic) OEWiimoteDeviceHandlerLED illuminatedLEDs;
 
