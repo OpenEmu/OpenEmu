@@ -797,9 +797,8 @@ enum {
 {
     NSInteger (^decodeJoystickData)(const uint8_t*) = ^(const uint8_t *data){
         uint8_t high = data[1] & 0xf;
-        uint8_t mid = (data[0] & 0xf0) >> 4;
-        uint8_t low = (data[0] & 0x0f);
-        NSInteger value = (high << 8) | (mid << 4) | (low);
+        uint8_t low = (data[0]);
+        NSInteger value = (high << 8) | (low);
         
         NSInteger ret = value;
         ret = value;
@@ -869,6 +868,7 @@ enum {
 {
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
+    //Something is going very wrong here
     if(existingEvent == nil)
     {
         existingEvent = [OEHIDEvent axisEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie];
