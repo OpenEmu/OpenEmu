@@ -387,7 +387,7 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     NSString *remoteAddress = [[[sender device] addressString] uppercaseString];
     
     BluetoothPINCode code;
-    NSScanner *scanner = [NSScanner scannerWithString:[sender attemptedHostToDevice]?remoteAddress:localAddress];
+    NSScanner *scanner = [NSScanner scannerWithString:[sender attemptedHostToDevice]?localAddress:remoteAddress];
     int byte = 5;
     while (![scanner isAtEnd])
     {
@@ -400,7 +400,7 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     [sender replyPINCode:6 PINCode:&code];
 }
 
-- (void) devicePairingFinished:(id)sender error:(IOReturn)error
+- (void) devicePairingFinished:(IOBluetoothDevicePair*)sender error:(IOReturn)error
 {
     if (error != kIOReturnSuccess)
     {
@@ -408,6 +408,7 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
         {
             NSLog(@"Pairing failed, attempting inverse");
             IOBluetoothDevicePair *pair = [IOBluetoothDevicePair pairWithDevice:[sender device]];
+            [[sender device] openConnection];
             [pair setAttemptedHostToDevice:YES];
             [pair setDelegate:self];
             [pair start];
