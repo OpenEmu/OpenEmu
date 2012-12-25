@@ -182,6 +182,7 @@ typedef enum {
 typedef enum {
     OEWiimoteExpansionIdentifierNunchuck          = 0x0000,
     OEWiimoteExpansionIdentifierClassicController = 0x0101,
+    OEWiimoteExpansionIdentifierProController     = 0x0120,
 } OEWiimoteExpansionIdentifier;
 
 // IMPORTANT: The index in the table represents both the usage and the cookie of the buttons
@@ -571,13 +572,13 @@ enum {
         uint16_t expansionType = (response[21] << 8) | response[22];
         switch (expansionType)
         {
-            case 0x0000:
+            case OEWiimoteExpansionIdentifierNunchuck:
                 expansion = OEWiimoteExpansionTypeNunchuck;
                 break;
-            case 0x0101:
+            case OEWiimoteExpansionIdentifierClassicController:
                 expansion = OEWiimoteExpansionTypeClassicController;
                 break;
-            case 0x0120:
+            case OEWiimoteExpansionIdentifierProController:
                 expansion = OEWiimoteExpansionTypeWiiUProController;
         }
 

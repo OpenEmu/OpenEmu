@@ -56,7 +56,6 @@
 - (void)disconnect;
 
 + (instancetype)deviceHandlerWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
-+ (instancetype)deviceHandlerWithIOBluetoothDevice:(IOBluetoothDevice *)aDevice;
 
 - (BOOL)isKeyboardDevice;
 
