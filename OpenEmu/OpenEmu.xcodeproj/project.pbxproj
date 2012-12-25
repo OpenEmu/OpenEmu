@@ -551,7 +551,6 @@
 		C6252DC814E7A38000350A13 /* OEControlsButtonSetupView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AFE0D50FED6FDF00AC0CCF /* OEControlsButtonSetupView.m */; };
 		C625BD781669EAE300921F56 /* OEHIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = C625BD761669EAE300921F56 /* OEHIDDeviceHandler.h */; };
 		C625BD791669EAE300921F56 /* OEHIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C625BD771669EAE300921F56 /* OEHIDDeviceHandler.m */; };
-		C625BD7C1669EB4F00921F56 /* OEWiimoteDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = C625BD7A1669EB4F00921F56 /* OEWiimoteDeviceHandler.h */; };
 		C627D9981658DEA7001A62C2 /* OEBindingMap.h in Headers */ = {isa = PBXBuildFile; fileRef = C627D9961658DEA7001A62C2 /* OEBindingMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C627D9991658DEA7001A62C2 /* OEBindingMap.m in Sources */ = {isa = PBXBuildFile; fileRef = C627D9971658DEA7001A62C2 /* OEBindingMap.m */; };
 		C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C6289C31135B215B00EEE97C /* OESystemPlugin.m */; };
@@ -1686,8 +1685,6 @@
 		C6252DC314E7A00000350A13 /* Controller-Preferences-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-JAP.plist"; sourceTree = "<group>"; };
 		C625BD761669EAE300921F56 /* OEHIDDeviceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDDeviceHandler.h; sourceTree = "<group>"; };
 		C625BD771669EAE300921F56 /* OEHIDDeviceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDDeviceHandler.m; sourceTree = "<group>"; };
-		C625BD7A1669EB4F00921F56 /* OEWiimoteDeviceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWiimoteDeviceHandler.h; sourceTree = "<group>"; };
-		C625BD7B1669EB4F00921F56 /* OEWiimoteDeviceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEWiimoteDeviceHandler.m; sourceTree = "<group>"; };
 		C627D9961658DEA7001A62C2 /* OEBindingMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBindingMap.h; sourceTree = "<group>"; };
 		C627D9971658DEA7001A62C2 /* OEBindingMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBindingMap.m; sourceTree = "<group>"; };
 		C6289C30135B215B00EEE97C /* OESystemPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemPlugin.h; sourceTree = "<group>"; };
@@ -3403,8 +3400,6 @@
 				C6C989C60F557D9200116EA2 /* OEDeviceHandler.m */,
 				C625BD761669EAE300921F56 /* OEHIDDeviceHandler.h */,
 				C625BD771669EAE300921F56 /* OEHIDDeviceHandler.m */,
-				C625BD7A1669EB4F00921F56 /* OEWiimoteDeviceHandler.h */,
-				C625BD7B1669EB4F00921F56 /* OEWiimoteDeviceHandler.m */,
 				C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */,
 				C6C98B840F55B7A800116EA2 /* OEHIDEvent.m */,
 				C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */,
@@ -3859,7 +3854,6 @@
 				C6DC91DD15F3B9090082184C /* OEBindingsController_Internal.h in Headers */,
 				94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */,
 				C625BD781669EAE300921F56 /* OEHIDDeviceHandler.h in Headers */,
-				C625BD7C1669EB4F00921F56 /* OEWiimoteDeviceHandler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
