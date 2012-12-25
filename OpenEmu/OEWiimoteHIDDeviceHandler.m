@@ -365,6 +365,12 @@ static void OE_wiimoteIOHIDReportCallback(void *                  context,
     return YES;
 }
 
+- (void)disconnect
+{
+    [self OE_disableReports];
+    [super disconnect];
+}
+
 #pragma mark - Channel connection methods
 #pragma mark - Accessor methods
 
@@ -596,6 +602,11 @@ enum {
 	// Set the report type the Wiimote should send.
     // Buttons + 19 Extension bytes
     [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x02, 0x34 } length:3];
+}
+
+- (void)OE_disableReports
+{
+    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x00, 0x30 } length:3];
 }
 
 - (void)OE_requestStatus
