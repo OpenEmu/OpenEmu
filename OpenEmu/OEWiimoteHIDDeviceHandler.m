@@ -595,7 +595,7 @@ enum {
 {
 	// Set the report type the Wiimote should send.
     // Buttons + 19 Extension bytes
-    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x06, 0x34 } length:3];
+    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x02, 0x34 } length:3];
 }
 
 - (void)OE_requestStatus
