@@ -57,6 +57,7 @@ static BOOL OE_nameIsFromWiimote(NSString *name);
     id                        modifierMaskMonitor;
 
     IOBluetoothDeviceInquiry *inquiry;
+    NSMutableArray           *pairingRequests;
 }
 
 - (void)OE_addKeyboardEventMonitor;
@@ -342,15 +343,41 @@ static BOOL OE_nameIsFromWiimote(NSString *name);
          // possible device names ("Nintendo RVL-CNT-01" and "Nintendo RVL-CNT-01-TR" at the
          // time of writing), so we don't do an exact string match.
          if (OE_nameIsFromWiimote([obj name]))
+         {
              [obj openConnection];
+             if (![obj isPaired])
+             {
+                 IOBluetoothDevicePair *pair = [IOBluetoothDevicePair pairWithDevice:obj];
+                 [pair setDelegate:self];
+                 [pair start];
+             }
+         }
      }];
 
-    if([[sender foundDevices] count] == 0)
-        [inquiry start];
-    /*
-    else if(!aborted)
-        [self stopWiimoteSearch];
-     */
+}
+
+#pragma mark - IOBluetoothPairDelegate
+
+- (void)devicePairingPINCodeRequest:(id)sender
+{
+    NSString *localAddress = [[[IOBluetoothHostController defaultController] addressAsString] uppercaseString];
+    BluetoothPINCode code;
+    NSScanner *scanner = [NSScanner scannerWithString:localAddress];
+    int byte = 5;
+    while (![scanner isAtEnd])
+    {
+        unsigned int data;
+        [scanner scanHexInt:&data];
+        code.data[byte] = data;
+        [scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789ABCDEF"] intoString:nil];
+        byte--;
+    }
+    [sender replyPINCode:6 PINCode:&code];
+}
+
+- (void) devicePairingFinished:(id)sender error:(IOReturn)error
+{
+    NSLog(@"Pairing finished %@: %x", sender, error);
 }
 
 @end
