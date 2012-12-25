@@ -29,7 +29,7 @@
 
 #import "OEDeviceHandler.h"
 #import "OEHIDDeviceHandler.h"
-#import "OEWiimoteDeviceHandler.h"
+#import "OEWiimoteHIDDeviceHandler.h"
 #import "OEHIDEvent.h"
 #import "NSApplication+OEHIDAdditions.h"
 
@@ -66,7 +66,7 @@ static BOOL OE_nameIsFromWiimote(NSString *name);
 - (void)OE_addDeviceHandler:(OEDeviceHandler *)handler;
 - (void)OE_removeDeviceHandler:(OEDeviceHandler *)handler;
 
-- (void)OE_addWiimoteWithDevice:(IOBluetoothDevice *)device;
+- (void)OE_addWiimoteWithDevice:(IOHIDDeviceRef)device;
 
 - (void)OE_wiimoteDeviceDidDisconnect:(NSNotification *)notification;
 - (void)OE_applicationWillTerminate:(NSNotification *)notification;
@@ -127,10 +127,10 @@ static BOOL OE_nameIsFromWiimote(NSString *name);
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_wiimoteDeviceDidDisconnect:) name:OEWiimoteDeviceHandlerDidDisconnectNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
 
-        TODO("Watch for Bluetooth Power On and Power Off notifications.");
-	}
+    }
 	return self;
 }
+
 
 - (void)OE_applicationWillTerminate:(NSNotification *)notification;
 {
@@ -207,15 +207,15 @@ static BOOL OE_nameIsFromWiimote(NSString *name);
 
 #pragma mark - IOHIDDevice management
 
-- (void)OE_addWiimoteWithDevice:(IOBluetoothDevice *)aDevice;
+- (void)OE_addWiimoteWithDevice:(IOHIDDeviceRef)aDevice;
 {
     if(deviceToHandlers[@((NSUInteger)aDevice)] != nil) return;
 
     NSAssert(aDevice != NULL, @"Passing NULL device.");
-    OEWiimoteDeviceHandler *handler = [OEWiimoteDeviceHandler deviceHandlerWithIOBluetoothDevice:aDevice];
+    OEWiimoteHIDDeviceHandler *handler = [OEWiimoteHIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
     NSUInteger existingWiimotes = 0;
     for (id obj in deviceToHandlers)
-        existingWiimotes += [[deviceToHandlers objectForKey:obj] isKindOfClass:[OEWiimoteDeviceHandler class]];
+        existingWiimotes += [[deviceToHandlers objectForKey:obj] isKindOfClass:[OEWiimoteHIDDeviceHandler class]];
 
     deviceToHandlers[@((NSUInteger)aDevice)] = handler;
 
@@ -230,18 +230,13 @@ static BOOL OE_nameIsFromWiimote(NSString *name);
      (useLED == 3) ? OEWiimoteDeviceHandlerLED3 : 0 |
      (useLED == 4) ? OEWiimoteDeviceHandlerLED4 : 0];
     
-    [handler connectWithCompletion:^(BOOL connected) {
-        if (connected)
-        {
-            [handler setRumbleActivated:YES];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-                [handler setRumbleActivated:NO];
-            });
-            
-            [self OE_addDeviceHandler:handler];
-        }
-
-    }];
+    if([handler connect])
+    {
+        [self OE_addDeviceHandler:handler];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+            [handler setRumbleActivated:NO];
+        });
+    }
 }
 
 - (void)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
@@ -347,7 +342,7 @@ static BOOL OE_nameIsFromWiimote(NSString *name);
          // possible device names ("Nintendo RVL-CNT-01" and "Nintendo RVL-CNT-01-TR" at the
          // time of writing), so we don't do an exact string match.
          if (OE_nameIsFromWiimote([obj name]))
-             [self OE_addWiimoteWithDevice:obj];
+             [obj openConnection];
      }];
 
     if([[sender foundDevices] count] == 0)
@@ -373,9 +368,7 @@ static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, 
     
     
     NSString *deviceName = (__bridge id)IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey));
-    if (OE_nameIsFromWiimote(deviceName))
-        return;
-
+    
     if(IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
     {
         NSLog(@"%s: failed to open device at %p", __PRETTY_FUNCTION__, inIOHIDDeviceRef);
@@ -385,5 +378,10 @@ static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, 
     //NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
 
 	//add a OEHIDDeviceHandler for our HID device
-	[(__bridge OEDeviceManager*)inContext OE_addDeviceHandlerForDevice:inIOHIDDeviceRef];
+    
+    if (OE_nameIsFromWiimote(deviceName))
+        [(__bridge OEDeviceManager*)inContext OE_addWiimoteWithDevice:inIOHIDDeviceRef];
+    else
+        [(__bridge OEDeviceManager*)inContext OE_addDeviceHandlerForDevice:inIOHIDDeviceRef];
+    
 }

@@ -25,20 +25,16 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEWiimoteDeviceHandler.h"
+#import "OEWiimoteHIDDeviceHandler.h"
 
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDEvent.h"
 
-#import <IOBluetooth/objc/IOBluetoothL2CAPChannel.h>
-#import <IOBluetooth/objc/IOBluetoothDevice.h>
-#import <IOBluetooth/objc/IOBluetoothSDPServiceRecord.h>
-#import <IOBluetooth/objc/IOBluetoothSDPDataElement.h>
 
 NSString *const OEWiimoteDeviceHandlerDidDisconnectNotification = @"OEWiimoteDeviceHandlerDidDisconnectNotification";
 
 @interface OEHIDEvent ()
-- (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteDeviceHandler *)aDeviceHandler;
+- (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteHIDDeviceHandler *)aDeviceHandler;
 
 - (BOOL)OE_updateButtonEventWithState:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp;
 - (BOOL)OE_updateAxisEventWithValue:(NSInteger)value maximum:(NSInteger)maximum minimum:(NSInteger)minimum timestamp:(NSTimeInterval)timestamp;
@@ -273,11 +269,9 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 @property(readwrite) NSUInteger deviceNumber;
 @end
 
-@interface OEWiimoteDeviceHandler () <IOBluetoothL2CAPChannelDelegate>
+@interface OEWiimoteHIDDeviceHandler ()
 {
     NSMutableDictionary     *_reusableEvents;
-    IOBluetoothL2CAPChannel *_interruptChannel;
-    IOBluetoothL2CAPChannel *_controlChannel;
 
     OEWiimoteExpansionType _expansionType;
 
@@ -293,15 +287,10 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
     BOOL _statusReportRequested;
     BOOL _isConnected;
-    
-    dispatch_queue_t _connectionQueue;
-    OEWiimoteConnectionSequence _connectionState;
-    dispatch_semaphore_t _connectionSemaphore;
+    uint8_t _reportBuffer[128];
 }
 
 @property(readwrite) CGFloat batteryLevel;
-
-- (IOBluetoothL2CAPChannel*)OE_openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm;
 
 - (void)OE_writeData:(const uint8_t *)data length:(NSUInteger)length atAddress:(uint32_t)address;
 - (void)OE_readDataOfLength:(NSUInteger)length atAddress:(uint32_t)address;
@@ -333,28 +322,26 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 - (void)OE_dispatchButtonEventWithUsage:(NSUInteger)usage state:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 - (void)OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 - (void)OE_dispatchTriggerEventWithAxis:(OEHIDEventAxis)axis value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
-
+- (void)readReportData:(void*)dataPointer length:(size_t)dataLength;
 @end
 
-@implementation OEWiimoteDeviceHandler
-
-+ (instancetype)deviceHandlerWithIOBluetoothDevice:(IOBluetoothDevice *)aDevice;
+static void OE_wiimoteIOHIDReportCallback(void *                  context,
+                                         IOReturn                result,
+                                         void *                  sender,
+                                         IOHIDReportType         type,
+                                         uint32_t                reportID,
+                                         uint8_t *               report,
+                                         CFIndex                 reportLength)
 {
-    return [[self alloc] initWithIOBluetoothDevice:aDevice];
+    [(__bridge OEWiimoteHIDDeviceHandler*)context readReportData:report length:reportLength];
 }
 
-- (id)init
-{
-    return nil;
-}
+@implementation OEWiimoteHIDDeviceHandler
 
-- (id)initWithIOBluetoothDevice:(IOBluetoothDevice *)aDevice;
+- (id)initWithIOHIDDevice:(IOHIDDeviceRef)aDevice
 {
-    if(aDevice == nil) return nil;
-
-    if((self = [super init]))
+    if((self = [super initWithIOHIDDevice:aDevice]))
     {
-        _device = aDevice;
         _rumbleAndLEDStatus = OEWiimoteDeviceHandlerLEDAll;
 
         _expansionPortEnabled = YES;
@@ -362,173 +349,23 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
         _expansionType = OEWiimoteExpansionTypeNotConnected;
 
         _reusableEvents = [[NSMutableDictionary alloc] init];
-        
-        _connectionQueue = dispatch_queue_create("org.openemu.wiimoteconnect", DISPATCH_QUEUE_SERIAL);
-        _connectionSemaphore = dispatch_semaphore_create(0);
-        
     }
 
     return self;
 }
 
-- (void)dealloc
+- (BOOL)connect
 {
-    dispatch_release(_connectionQueue);
-    dispatch_release(_connectionSemaphore);
-    [self disconnect];
-}
-
-#pragma mark - Device Info
-
-- (NSString *)deviceIdentifier
-{
-    return @"OEControllerWiimote";
-}
-
-- (NSString *)nameOrAddress
-{
-    return [_device nameOrAddress];
-}
-
-- (NSString *)address
-{
-    return [_device addressString];
-}
-
-- (NSNumber *)productID
-{
-    return @(0x0306);
-}
-
-- (NSNumber *)vendorID
-{
-    return @(0x057E);
-}
-
-- (NSNumber *)locationID
-{
-    return @(0);
-}
-
-- (NSString *)product
-{
-    return [self nameOrAddress];
+    _isConnected = YES;
+    
+    IOHIDDeviceRegisterInputReportCallback([self device], _reportBuffer, 128, OE_wiimoteIOHIDReportCallback, (__bridge void*)self);
+    [self OE_requestStatus];
+    [self OE_configureReportType];
+    [self OE_synchronizeRumbleAndLEDStatus];
+    return YES;
 }
 
 #pragma mark - Channel connection methods
-
-- (void)performConnectionOperation:(OEWiimoteConnectionSequence)sequence finalCompletion:(void(^)(BOOL))completion
-{
-    if (_isConnected == NO)
-    {
-        completion(NO);
-        return;
-    }
-
-    dispatch_semaphore_wait(_connectionSemaphore, DISPATCH_TIME_FOREVER);
-    dispatch_async(dispatch_get_main_queue(), ^(void){
-        _connectionState = sequence;
-        switch (sequence)
-        {
-            case OEWiimoteOpenConnection:
-                [_device openConnection:self];
-                break;
-            case OEWiimoteOpenL2CAPControl:
-                if (_controlChannel == nil)
-                    _controlChannel = [self OE_openL2CAPChannelWithPSM:kBluetoothL2CAPPSMHIDControl];
-                else
-                    dispatch_semaphore_signal(_connectionSemaphore);
-                break;
-            case OEWiimoteOpenL2CAPInterrupt:
-                if (_interruptChannel == nil)
-                    _interruptChannel = [self OE_openL2CAPChannelWithPSM:kBluetoothL2CAPPSMHIDInterrupt];
-                else
-                    dispatch_semaphore_signal(_connectionSemaphore);
-                break;
-            case OEWiimotePerformSDP:
-                if(_controlChannel == nil || _interruptChannel == nil)
-                {
-                    NSLog(@"Failed to open channels");
-                    [_controlChannel closeChannel];
-                    [_interruptChannel closeChannel];
-                    
-                    _isConnected = NO;
-                    completion(NO);
-                    return;
-                }
-                if([_device getLastServicesUpdate] != NULL)
-                    [_device performSDPQuery:self];
-                dispatch_semaphore_signal(_connectionSemaphore);
-                break;
-            case OEWiimoteGetStatus:
-                [self OE_requestStatus];
-                dispatch_semaphore_signal(_connectionSemaphore);
-                break;
-            case OEWiimoteConfigure:
-                [self OE_configureReportType];
-                dispatch_semaphore_signal(_connectionSemaphore);
-                break;
-            case OEWiimoteSynchronize:
-                [self OE_synchronizeRumbleAndLEDStatus];
-                dispatch_semaphore_signal(_connectionSemaphore);
-                break;
-            case OEWiimoteConnectionComplete:
-                completion(YES);
-                break;
-        }
-    });
-    
-}
- 
-- (void)connectWithCompletion:(void(^)(BOOL))completion
-{
-    if(_isConnected)
-    {
-        completion(YES);
-        return;
-    }
-    
-    _isConnected = YES;
-    
-    dispatch_suspend(_connectionQueue);
-    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteOpenL2CAPInterrupt finalCompletion:completion];});
-    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteOpenL2CAPInterrupt finalCompletion:completion];});
-    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteOpenL2CAPControl finalCompletion:completion];});
-    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimotePerformSDP finalCompletion:completion];});
-    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteGetStatus finalCompletion:completion];});
-    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteConfigure finalCompletion:completion];});
-    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteSynchronize finalCompletion:completion];});
-    dispatch_async(_connectionQueue, ^{[self performConnectionOperation:OEWiimoteConnectionComplete finalCompletion:completion];});
-    dispatch_resume(_connectionQueue);
-    
-    dispatch_semaphore_signal(_connectionSemaphore);
-}
-    
-- (void)disconnect;
-{
-    NSLog(@"Disconnecting wiimote: %@", self);
-    if(!_isConnected) return;
-
-    [_controlChannel closeChannel];
-    [_interruptChannel closeChannel];
-
-    [_device closeConnection];
-
-    _isConnected = NO;
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEWiimoteDeviceHandlerDidDisconnectNotification object:self];
-}
-
-- (IOBluetoothL2CAPChannel*)OE_openL2CAPChannelWithPSM:(BluetoothL2CAPPSM)psm
-{
-	NSLog(@"Open channel (PSM:%i) ...", psm);
-    IOBluetoothL2CAPChannel *channel;
-    IOReturn status = [_device openL2CAPChannelAsync:&channel withPSM:psm delegate:self];
-    if (status != kIOReturnSuccess)
-        return nil;
-    return channel;
-}
-
 #pragma mark - Accessor methods
 
 enum {
@@ -617,15 +454,19 @@ enum {
 
     NSAssert(data[0] != OEWiimoteCommandWrite || length == 22, @"Writing command should have a length of 22, got %ld", length);
 
-    uint8_t buffer[40] = { 0xa2 };
+    uint8_t buffer[40] = { 0 };
 
-    memcpy(buffer + 1, data, length);
-    length++;
+    memcpy(buffer, data, length);
 
     IOReturn ret = kIOReturnSuccess;
     for(NSUInteger i = 0; i < 10; i++)
     {
-        ret = [_interruptChannel writeSync:buffer length:length];
+#pragma warning do report set
+        ret = IOHIDDeviceSetReport([self device],
+                             kIOHIDReportTypeOutput,
+                             0,
+                             buffer,
+                             length);
 
         if(ret != kIOReturnSuccess)
         {
@@ -999,9 +840,6 @@ enum {
 
 - (void)OE_dispatchButtonEventWithUsage:(NSUInteger)usage state:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    if (_connectionState != OEWiimoteConnectionComplete)
-        return;
-    
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
     if(existingEvent == nil)
@@ -1017,9 +855,6 @@ enum {
 
 - (void)OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    if (_connectionState != OEWiimoteConnectionComplete)
-        return;
-    
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
     //Something is going very wrong here
@@ -1036,9 +871,6 @@ enum {
 
 - (void)OE_dispatchTriggerEventWithAxis:(OEHIDEventAxis)axis value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    if (_connectionState != OEWiimoteConnectionComplete)
-        return;
-    
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
     if(existingEvent == nil)
@@ -1052,38 +884,17 @@ enum {
     [NSApp postHIDEvent:existingEvent];
 }
 
-#pragma mark - IOBluetoothL2CAPChannelDelegate protocol methods
-
-- (void)l2capChannelReconfigured:(IOBluetoothL2CAPChannel*)l2capChannel
+//- (void)l2capChannelData:(IOBluetoothL2CAPChannel *)l2capChannel data:(void *)dataPointer length:(size_t)dataLength
+#pragma warning report read
+- (void)readReportData:(void*)dataPointer length:(size_t)dataLength
 {
-    NSLog(@"Reconfigured %d", [l2capChannel PSM]);
-}
-
-- (void)l2capChannelWriteComplete:(IOBluetoothL2CAPChannel*)l2capChannel refcon:(void*)refcon status:(IOReturn)error
-{
-    NSLog(@"Write complete: %d", [l2capChannel PSM]);
-}
-
-- (void)l2capChannelQueueSpaceAvailable:(IOBluetoothL2CAPChannel*)l2capChannel
-{
-    NSLog(@"Queue %d", [l2capChannel PSM]);
-}
-
-- (void)l2capChannelClosed:(IOBluetoothL2CAPChannel *)l2capChannel
-{
-    NSLog(@"Closed channel %d", [l2capChannel PSM]);
-    if(l2capChannel ==   _controlChannel) _controlChannel   = nil;
-    if(l2capChannel == _interruptChannel) _interruptChannel = nil;
-
-    [self disconnect];
-}
-
-- (void)l2capChannelData:(IOBluetoothL2CAPChannel *)l2capChannel data:(void *)dataPointer length:(size_t)dataLength
-{
-    uint8_t *data = dataPointer;
+    uint8_t data[dataLength+1];
+    data[0] = 0xa1;
+    memcpy(data+1, dataPointer, dataLength);
+    dataLength += 1;
 
     if(data[1] == 0x20 && dataLength >= 8)
-        [self OE_handleStatusReportData:dataPointer length:dataLength];
+        [self OE_handleStatusReportData:data length:dataLength];
     else if(data[1] == 0x21) // read data response
     {
         [self OE_handleReadResponseData:data length:dataLength];
@@ -1098,22 +909,4 @@ enum {
         [self OE_handleDataReportData:data length:dataLength];
 }
 
-- (void)l2capChannelOpenComplete:(IOBluetoothL2CAPChannel *)l2capChannel status:(IOReturn)error
-{
-    NSLog(@"Opened channel %d %x", [l2capChannel PSM], error);
-    if (l2capChannel == _controlChannel || l2capChannel == _interruptChannel)
-        dispatch_semaphore_signal(_connectionSemaphore);
-}
-
-#pragma mark - Channel Callback
-
-- (void)connectionComplete:(id)connection status:(IOReturn)status
-{
-    dispatch_semaphore_signal(_connectionSemaphore);
-}
-
-- (void)sdpQueryComplete:(id)query status:(IOReturn)statue
-{
-
-}
 @end
