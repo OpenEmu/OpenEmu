@@ -801,7 +801,6 @@ enum {
         NSInteger value = (high << 8) | (low);
         
         NSInteger ret = value;
-        ret = value;
         ret -= OEWiimoteProControllerJoystickMinimumValue;
         ret += OEWiimoteProControllerJoystickScaledMinimumValue;
         
