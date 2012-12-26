@@ -1612,11 +1612,11 @@
 			<key>OEControllerWiimoteButton2</key>
 			<dict>
 				<key>Name</key>
-				<string>8</string>
+				<string>2</string>
 				<key>Type</key>
 				<string>Button</string>
 				<key>Usage</key>
-				<string>1</string>
+				<string>8</string>
 			</dict>
 			<key>OEControllerWiimoteButtonPlus</key>
 			<dict>
@@ -2157,6 +2157,206 @@
 				<integer>816</integer>
 			</dict>
 		</array>
+		<key>OEControllerMappings</key>
+		<dict>
+			<key>OEControllerNintendoWiiUProControllerDPadUp</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Up</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>29</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerDPadDown</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Down</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>32</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerDPadLeft</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Left</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>30</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerDPadRight</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Right</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>31</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerLeftAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>X</string>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerLeftAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Y</string>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerRightAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Rx</string>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerRightAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Ry</string>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonLeftAnalog</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Stick</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>45</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonRightAnalog</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Stick</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>44</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>33</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>34</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonX</key>
+			<dict>
+				<key>Name</key>
+				<string>X</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>36</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonY</key>
+			<dict>
+				<key>Name</key>
+				<string>Y</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>35</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonPlus</key>
+			<dict>
+				<key>Name</key>
+				<string>Start</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>37</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonMinus</key>
+			<dict>
+				<key>Name</key>
+				<string>Select</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>38</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonL</key>
+			<dict>
+				<key>Name</key>
+				<string>L</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>41</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonZL</key>
+			<dict>
+				<key>Name</key>
+				<string>ZL</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>43</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonR</key>
+			<dict>
+				<key>Name</key>
+				<string>R</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>40</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonZR</key>
+			<dict>
+				<key>Name</key>
+				<string>ZR</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>42</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonHome</key>
+			<dict>
+				<key>Name</key>
+				<string>Home</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>39</string>
+			</dict>
+		</dict>
 	</dict>
 </array>
 </plist>
