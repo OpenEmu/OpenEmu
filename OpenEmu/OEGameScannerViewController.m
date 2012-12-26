@@ -107,7 +107,7 @@
     {
         [[self progressIndicator] setIndeterminate:NO];
         [[self progressIndicator] startAnimation:self];
-        status = [NSString stringWithFormat:@"Game %ld of %ld.", [[self importer] numberOfProcessedItems], maxItems];
+        status = [NSString stringWithFormat:@"Game %ld of %ld", [[self importer] numberOfProcessedItems], maxItems];
     }
     else if([importer status] == OEImporterStatusStopped || [importer status] == OEImporterStatusStopping)
     {
