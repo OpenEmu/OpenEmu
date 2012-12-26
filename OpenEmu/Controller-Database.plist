@@ -2393,5 +2393,24 @@
 			</dict>
 		</array>
 	</dict>
+	<dict>
+		<key>OEControllerName</key>
+		<string>Wii U Pro Controller</string>
+		<key>OEGenericControllerName</key>
+		<string>OEControllerNintendoWiiUProController</string>
+		<key>OEControllerDevices</key>
+		<array>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Wii U Pro Controller (Nintendo RVL-CNT-01-UC)</string>
+				<key>OEControllerHIDDeviceName</key>
+				<string>Nintendo RVL-CNT-01-UC</string>
+				<key>OEControllerVendorID</key>
+				<integer>1406</integer>
+				<key>OEControllerProductID</key>
+				<integer>816</integer>
+			</dict>
+		</array>
+	</dict>
 </array>
 </plist>
