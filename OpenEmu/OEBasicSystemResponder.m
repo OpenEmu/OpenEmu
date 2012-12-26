@@ -41,6 +41,8 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
     CFMutableDictionaryRef  joystickStates;
 }
 
+@synthesize keyMap = keyMap;
+
 - (id)initWithController:(OESystemController *)controller;
 {
     if((self = [super initWithController:controller]))

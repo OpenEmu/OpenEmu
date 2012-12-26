@@ -33,6 +33,8 @@
 #import "OEHIDEvent.h"
 #import "NSApplication+OEHIDAdditions.h"
 
+#import <objc/runtime.h>
+
 #import <IOBluetooth/IOBluetooth.h>
 #import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
 #import <IOBluetooth/objc/IOBluetoothDevice.h>
@@ -45,6 +47,26 @@ NSString *const OEHIDManagerDeviceHandlerUserInfoKey           = @"OEHIDManagerD
 
 static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef inIOHIDDeviceRef);
 static BOOL OE_nameIsFromWiimote(NSString *name);
+
+static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePairSyncStyleKey;
+
+@interface IOBluetoothDevicePair (SyncStyle)
+@property (nonatomic, assign) BOOL attemptedHostToDevice;
+@end
+
+@implementation IOBluetoothDevicePair (SyncStyle)
+
+- (BOOL)attemptedHostToDevice
+{
+    return [objc_getAssociatedObject(self, kOEBluetoothDevicePairSyncStyleKey) boolValue];
+}
+
+- (void)setAttemptedHostToDevice:(BOOL)attemptedHostToDevice
+{
+    objc_setAssociatedObject(self, kOEBluetoothDevicePairSyncStyleKey, @(attemptedHostToDevice), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+@end
 
 @interface OEDeviceManager () <IOBluetoothDeviceInquiryDelegate>
 {
@@ -358,11 +380,14 @@ static BOOL OE_nameIsFromWiimote(NSString *name);
 
 #pragma mark - IOBluetoothPairDelegate
 
-- (void)devicePairingPINCodeRequest:(id)sender
+- (void)devicePairingPINCodeRequest:(IOBluetoothDevicePair*)sender
 {
+    NSLog(@"Attempting pair");
     NSString *localAddress = [[[IOBluetoothHostController defaultController] addressAsString] uppercaseString];
+    NSString *remoteAddress = [[[sender device] addressString] uppercaseString];
+    
     BluetoothPINCode code;
-    NSScanner *scanner = [NSScanner scannerWithString:localAddress];
+    NSScanner *scanner = [NSScanner scannerWithString:[sender attemptedHostToDevice]?localAddress:remoteAddress];
     int byte = 5;
     while (![scanner isAtEnd])
     {
@@ -375,8 +400,25 @@ static BOOL OE_nameIsFromWiimote(NSString *name);
     [sender replyPINCode:6 PINCode:&code];
 }
 
-- (void) devicePairingFinished:(id)sender error:(IOReturn)error
+- (void) devicePairingFinished:(IOBluetoothDevicePair*)sender error:(IOReturn)error
 {
+    if (error != kIOReturnSuccess)
+    {
+        if (![sender attemptedHostToDevice])
+        {
+            NSLog(@"Pairing failed, attempting inverse");
+            IOBluetoothDevicePair *pair = [IOBluetoothDevicePair pairWithDevice:[sender device]];
+            [[sender device] openConnection];
+            [pair setAttemptedHostToDevice:YES];
+            [pair setDelegate:self];
+            [pair start];
+        }
+        else
+        {
+            NSLog(@"Couldn't pair, what gives?");
+        }
+    }
+    
     NSLog(@"Pairing finished %@: %x", sender, error);
 }
 

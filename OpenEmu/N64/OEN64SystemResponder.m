@@ -36,16 +36,38 @@
     return @protocol(OEN64SystemResponderClient);
 }
 
+- (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value
+{
+    OEN64Button button = (OEN64Button)aKey.key;
+    if (button == OEN64AnalogDown || button == OEN64AnalogLeft || button == OEN64AnalogRight || button == OEN64AnalogUp)
+        [[self client] didMoveN64JoystickDirection:button withValue:value forPlayer:aKey.player];
+    else if (fabsf(value) > 0.001f)
+    {
+        [[self client] didPushN64Button:button forPlayer:aKey.player];
+    }
+    else
+    {
+        [[self client] didReleaseN64Button:button forPlayer:aKey.player];
+    }
+        
+}
+
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
     OEN64Button button = (OEN64Button)aKey.key;
-    [[self client] didPushN64Button:button forPlayer:[aKey player]];
+    if (button == OEN64AnalogDown || button == OEN64AnalogLeft || button == OEN64AnalogRight || button == OEN64AnalogUp)
+        [self changeAnalogEmulatorKey:aKey value:1.0f];
+    else
+        [[self client] didPushN64Button:button forPlayer:[aKey player]];
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
     OEN64Button button = (OEN64Button)aKey.key;
-    [[self client] didReleaseN64Button:button forPlayer:[aKey player]];
+    if (button == OEN64AnalogDown || button == OEN64AnalogLeft || button == OEN64AnalogRight || button == OEN64AnalogUp)
+        [self changeAnalogEmulatorKey:aKey value:0.0f];
+    else
+        [[self client] didReleaseN64Button:button forPlayer:[aKey player]];
 }
 
 @end

@@ -293,6 +293,8 @@
 		8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C9B3FD14F75CD900D7E795 /* TPCircularBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		826844C51022A0630019C7B0 /* smaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C31022A0630019C7B0 /* smaller.tif */; };
 		826844C61022A0630019C7B0 /* larger.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C41022A0630019C7B0 /* larger.tif */; };
+		827B3229168A69D4000CD127 /* OEAnalogSystemResponder.h in Headers */ = {isa = PBXBuildFile; fileRef = 827B3226168A69C0000CD127 /* OEAnalogSystemResponder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		827B322A168A69D8000CD127 /* OEAnalogSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 827B3227168A69C1000CD127 /* OEAnalogSystemResponder.m */; };
 		82870D4516655F9900CBFE5D /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
 		82870D4716655F9900CBFE5D /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		82870D4816655F9900CBFE5D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -1666,6 +1668,8 @@
 		825CC280148C13750063A9B5 /* OpenEmu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmu-Info.plist"; sourceTree = "<group>"; };
 		826844C31022A0630019C7B0 /* smaller.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smaller.tif; sourceTree = "<group>"; };
 		826844C41022A0630019C7B0 /* larger.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = larger.tif; sourceTree = "<group>"; };
+		827B3226168A69C0000CD127 /* OEAnalogSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAnalogSystemResponder.h; sourceTree = "<group>"; };
+		827B3227168A69C1000CD127 /* OEAnalogSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAnalogSystemResponder.m; sourceTree = "<group>"; };
 		828389A80E6CF3A500A96E2C /* OEGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCore.h; sourceTree = "<group>"; };
 		82870D5416655F9900CBFE5D /* Computer.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Computer.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		82870D5516655F9A00CBFE5D /* Arcade copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Arcade copy-Info.plist"; path = "/Users/jweinberg/Development/clobber/OpenEmu/Arcade copy-Info.plist"; sourceTree = "<absolute>"; };
@@ -4460,6 +4464,8 @@
 				82870D741665668900CBFE5D /* OERawSystemResponder.m */,
 				C6DC91CB15F3B5530082184C /* Bindings Controller */,
 				93B479F512BAB52F008618A7 /* HID */,
+				827B3226168A69C0000CD127 /* OEAnalogSystemResponder.h */,
+				827B3227168A69C1000CD127 /* OEAnalogSystemResponder.m */,
 			);
 			name = "System Input Core";
 			sourceTree = "<group>";
@@ -4809,6 +4815,7 @@
 				C6DC91DD15F3B9090082184C /* OEBindingsController_Internal.h in Headers */,
 				94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */,
 				C625BD781669EAE300921F56 /* OEHIDDeviceHandler.h in Headers */,
+				827B3229168A69D4000CD127 /* OEAnalogSystemResponder.h in Headers */,
 				82870D791665669500CBFE5D /* OERawSystemResponder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6398,6 +6405,7 @@
 				94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */,
 				C625BD791669EAE300921F56 /* OEHIDDeviceHandler.m in Sources */,
 				82FAE73716892E1400455D02 /* OEWiimoteHIDDeviceHandler.m in Sources */,
+				827B322A168A69D8000CD127 /* OEAnalogSystemResponder.m in Sources */,
 				82870D7A1665669B00CBFE5D /* OERawSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

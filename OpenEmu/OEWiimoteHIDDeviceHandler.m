@@ -182,6 +182,7 @@ typedef enum {
 typedef enum {
     OEWiimoteExpansionIdentifierNunchuck          = 0x0000,
     OEWiimoteExpansionIdentifierClassicController = 0x0101,
+    OEWiimoteExpansionIdentifierProController     = 0x0120,
 } OEWiimoteExpansionIdentifier;
 
 // IMPORTANT: The index in the table represents both the usage and the cookie of the buttons
@@ -363,6 +364,12 @@ static void OE_wiimoteIOHIDReportCallback(void *                  context,
     [self OE_configureReportType];
     [self OE_synchronizeRumbleAndLEDStatus];
     return YES;
+}
+
+- (void)disconnect
+{
+    [self OE_disableReports];
+    [super disconnect];
 }
 
 #pragma mark - Channel connection methods
@@ -565,13 +572,13 @@ enum {
         uint16_t expansionType = (response[21] << 8) | response[22];
         switch (expansionType)
         {
-            case 0x0000:
+            case OEWiimoteExpansionIdentifierNunchuck:
                 expansion = OEWiimoteExpansionTypeNunchuck;
                 break;
-            case 0x0101:
+            case OEWiimoteExpansionIdentifierClassicController:
                 expansion = OEWiimoteExpansionTypeClassicController;
                 break;
-            case 0x0120:
+            case OEWiimoteExpansionIdentifierProController:
                 expansion = OEWiimoteExpansionTypeWiiUProController;
         }
 
@@ -595,7 +602,12 @@ enum {
 {
 	// Set the report type the Wiimote should send.
     // Buttons + 19 Extension bytes
-    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x06, 0x34 } length:3];
+    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x02, 0x34 } length:3];
+}
+
+- (void)OE_disableReports
+{
+    [self OE_sendCommandWithData:(const uint8_t[]){ 0x12, 0x00, 0x30 } length:3];
 }
 
 - (void)OE_requestStatus
@@ -785,9 +797,8 @@ enum {
 {
     NSInteger (^decodeJoystickData)(const uint8_t*) = ^(const uint8_t *data){
         uint8_t high = data[1] & 0xf;
-        uint8_t mid = (data[0] & 0xf0) >> 4;
-        uint8_t low = (data[0] & 0x0f);
-        NSInteger value = (high << 8) | (mid << 4) | (low);
+        uint8_t low = (data[0]);
+        NSInteger value = (high << 8) | (low);
         
         NSInteger ret = value;
         ret = value;
@@ -857,7 +868,6 @@ enum {
 {
     OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
 
-    //Something is going very wrong here
     if(existingEvent == nil)
     {
         existingEvent = [OEHIDEvent axisEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie];

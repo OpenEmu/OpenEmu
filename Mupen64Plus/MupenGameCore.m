@@ -122,8 +122,8 @@ static void MupenGetKeys(int Control, BUTTONS *Keys)
     Keys->U_CBUTTON = g_core->padData[OEN64ButtonCUp];
     Keys->R_TRIG = g_core->padData[OEN64ButtonR];
     Keys->L_TRIG = g_core->padData[OEN64ButtonL];
-    Keys->X_AXIS = (Keys->R_DPAD ? INT8_MAX : (Keys->L_DPAD ? INT8_MIN : 0));
-    Keys->Y_AXIS = (Keys->D_DPAD ? INT8_MIN : (Keys->U_DPAD ? INT8_MAX : 0));
+    Keys->X_AXIS = (g_core->xAxis[0] ?: (g_core->xAxis[1] ?: 0));
+    Keys->Y_AXIS = (g_core->yAxis[0] ?: (g_core->yAxis[1] ?: 0));
 }
 
 static void MupenInitiateControllers (CONTROL_INFO ControlInfo)
@@ -366,6 +366,27 @@ static void MupenSetAudioSpeed(int percent)
 - (double)audioSampleRate
 {
     return sampleRate;
+}
+
+- (oneway void)didMoveN64JoystickDirection:(OEN64Button)button withValue:(CGFloat)value forPlayer:(NSUInteger)player
+{
+    switch (button)
+    {
+        case OEN64AnalogUp:
+            yAxis[0] = value * INT8_MAX;
+            break;
+        case OEN64AnalogDown:
+            yAxis[1] = value * INT8_MIN;
+            break;
+        case OEN64AnalogLeft:
+            xAxis[0] = value * INT8_MIN;
+            break;
+        case OEN64AnalogRight:
+            xAxis[1] = value * INT8_MAX;
+            break;
+        default:
+            break;
+    }
 }
 
 - (oneway void)didPushN64Button:(OEN64Button)button forPlayer:(NSUInteger)player
