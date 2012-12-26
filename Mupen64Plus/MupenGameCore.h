@@ -37,7 +37,8 @@ OE_EXPORTED_CLASS
 {
 @public
     uint8_t padData[OEN64ButtonCount];
-    
+    uint8_t xAxis[2];
+    uint8_t yAxis[2];
     int videoWidth;
     int videoHeight;
     int videoBitDepth;

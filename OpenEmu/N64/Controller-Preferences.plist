@@ -36,6 +36,14 @@
 		<string>{0, 0}</string>
 		<key>OEN64ButtonZ</key>
 		<string>{0, 0}</string>
+		<key>OEN64ButtonAnalogLeft</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonAnalogRight</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonAnalogUp</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonAnalogDown</key>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

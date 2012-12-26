@@ -31,6 +31,7 @@
 #import <OpenEmuBase/OEGameCore.h>
 
 @interface OEBasicSystemResponder : OESystemResponder
+@property (nonatomic, strong) OEBindingMap *keyMap;
 - (OESystemKey *)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (OESystemKey *)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (void)pressEmulatorKey:(OESystemKey *)aKey;

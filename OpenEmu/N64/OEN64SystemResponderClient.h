@@ -52,12 +52,17 @@ typedef enum _OEN64Button
     
     OEN64ButtonStart,
     
+    OEN64AnalogUp,
+    OEN64AnalogDown,
+    OEN64AnalogLeft,
+    OEN64AnalogRight,
     OEN64ButtonCount
 } OEN64Button;
 // FIXME: analog stick (x,y), memory pack, rumble pack
 
 @protocol OEN64SystemResponderClient <OESystemResponderClient, NSObject>
 
+- (oneway void)didMoveN64JoystickDirection:(OEN64Button)button withValue:(CGFloat)value forPlayer:(NSUInteger)player;
 - (oneway void)didPushN64Button:(OEN64Button)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseN64Button:(OEN64Button)button forPlayer:(NSUInteger)player;
 

@@ -32,8 +32,8 @@
 	<string>openemu.system.n64</string>
 	<key>OENumberOfPlayersKey</key>
 	<integer>4</integer>
-    <key>OEResponderClassKey</key>
-    <string>OEN64SystemResponder</string>
+	<key>OEResponderClassKey</key>
+	<string>OEN64SystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>66</integer>
@@ -142,6 +142,32 @@
 					<string>OEN64ButtonZ</string>
 				</dict>
 			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Analog Left</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEN64AnalogLeft</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Analog Right</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEN64AnalogRight</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Analog Up</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEN64AnalogUp</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Analog Down</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEN64AnalogDown</string>
+				</dict>
+			</array>
 		</array>
 	</array>
 	<key>OESystemIcon</key>
@@ -162,6 +188,10 @@
 		<string>OEN64ButtonR</string>
 		<string>OEN64ButtonZ</string>
 		<string>OEN64ButtonStart</string>
+		<string>OEN64AnalogUp</string>
+		<string>OEN64AnalogDown</string>
+		<string>OEN64AnalogLeft</string>
+		<string>OEN64AnalogRight</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
@@ -197,6 +227,14 @@
 			<array>
 				<string>OEN64ButtonCLeft</string>
 				<string>OEN64ButtonCRight</string>
+			</array>
+			<array>
+				<string>OEN64AnalogLeft</string>
+				<string>OEN64AnalogRight</string>
+			</array>
+			<array>
+				<string>OEN64AnalogUp</string>
+				<string>OEN64AnalogDown</string>
 			</array>
 		</array>
 	</dict>

@@ -30,7 +30,7 @@
 
 @protocol OEN64SystemResponderClient;
 
-@interface OEN64SystemResponder : OEBasicSystemResponder
+@interface OEN64SystemResponder : OEAnalogSystemResponder
 
 @property(nonatomic, weak) id<OEN64SystemResponderClient> client;
 

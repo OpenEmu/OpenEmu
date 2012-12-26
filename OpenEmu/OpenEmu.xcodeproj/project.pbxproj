@@ -281,6 +281,8 @@
 		8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C9B3FD14F75CD900D7E795 /* TPCircularBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		826844C51022A0630019C7B0 /* smaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C31022A0630019C7B0 /* smaller.tif */; };
 		826844C61022A0630019C7B0 /* larger.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C41022A0630019C7B0 /* larger.tif */; };
+		827B3229168A69D4000CD127 /* OEAnalogSystemResponder.h in Headers */ = {isa = PBXBuildFile; fileRef = 827B3226168A69C0000CD127 /* OEAnalogSystemResponder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		827B322A168A69D8000CD127 /* OEAnalogSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 827B3227168A69C1000CD127 /* OEAnalogSystemResponder.m */; };
 		828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		828BF57F1669F99600759F10 /* OEUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F738FB1617FF2B00BB2519 /* OEUtilities.m */; };
 		828ED4D70E7D98940059F397 /* OEGamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828ED4D60E7D98940059F397 /* OEGamePickerController.m */; };
@@ -1325,6 +1327,8 @@
 		825CC280148C13750063A9B5 /* OpenEmu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmu-Info.plist"; sourceTree = "<group>"; };
 		826844C31022A0630019C7B0 /* smaller.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smaller.tif; sourceTree = "<group>"; };
 		826844C41022A0630019C7B0 /* larger.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = larger.tif; sourceTree = "<group>"; };
+		827B3226168A69C0000CD127 /* OEAnalogSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAnalogSystemResponder.h; sourceTree = "<group>"; };
+		827B3227168A69C1000CD127 /* OEAnalogSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAnalogSystemResponder.m; sourceTree = "<group>"; };
 		828389A80E6CF3A500A96E2C /* OEGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCore.h; sourceTree = "<group>"; };
 		828ED4D50E7D98940059F397 /* OEGamePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGamePickerController.h; sourceTree = "<group>"; };
 		828ED4D60E7D98940059F397 /* OEGamePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGamePickerController.m; sourceTree = "<group>"; };
@@ -3517,6 +3521,8 @@
 				C69259FB15045B03003E6FD3 /* OEEvent.m */,
 				C6DC91CB15F3B5530082184C /* Bindings Controller */,
 				93B479F512BAB52F008618A7 /* HID */,
+				827B3226168A69C0000CD127 /* OEAnalogSystemResponder.h */,
+				827B3227168A69C1000CD127 /* OEAnalogSystemResponder.m */,
 			);
 			name = "System Input Core";
 			sourceTree = "<group>";
@@ -3854,6 +3860,7 @@
 				C6DC91DD15F3B9090082184C /* OEBindingsController_Internal.h in Headers */,
 				94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */,
 				C625BD781669EAE300921F56 /* OEHIDDeviceHandler.h in Headers */,
+				827B3229168A69D4000CD127 /* OEAnalogSystemResponder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4935,6 +4942,7 @@
 				94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */,
 				C625BD791669EAE300921F56 /* OEHIDDeviceHandler.m in Sources */,
 				82FAE73716892E1400455D02 /* OEWiimoteHIDDeviceHandler.m in Sources */,
+				827B322A168A69D8000CD127 /* OEAnalogSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
