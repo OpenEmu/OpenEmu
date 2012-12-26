@@ -39,7 +39,17 @@
 - (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value
 {
     OEN64Button button = (OEN64Button)aKey.key;
-    [[self client] didMoveN64JoystickDirection:button withValue:value forPlayer:aKey.player];
+    if (button == OEN64AnalogDown || button == OEN64AnalogLeft || button == OEN64AnalogRight || button == OEN64AnalogUp)
+        [[self client] didMoveN64JoystickDirection:button withValue:value forPlayer:aKey.player];
+    else if (fabsf(value) > 0.001f)
+    {
+        [[self client] didPushN64Button:button forPlayer:aKey.player];
+    }
+    else
+    {
+        [[self client] didReleaseN64Button:button forPlayer:aKey.player];
+    }
+        
 }
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
