@@ -128,6 +128,10 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
     
     BOOL                    isRunning;
     BOOL                    shouldStop;
+    
+    NSMutableArray         *rewindBuffer;
+    NSMutableArray         *rewindReuseBuffer;
+    NSUInteger              rewindFrameCounter;
 }
 
 @property(weak)     id<OERenderDelegate>  renderDelegate;
@@ -141,7 +145,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 @property(readonly) NSTimeInterval        frameInterval;
 @property           BOOL                  frameFinished;
-
+@property(getter = isRewinding) BOOL rewinding;
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index;
 - (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index;
 
@@ -155,6 +159,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 - (void)setupEmulation;
 - (void)stopEmulation;
 - (void)startEmulation;
+- (void)startRewinding;
 
 #pragma mark -
 #pragma mark Tracking preference changes
@@ -217,7 +222,9 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 #pragma mark -
 #pragma mark Save state - Optional
+- (BOOL)saveStateToMemory:(NSMutableData**)data;
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;
+- (BOOL)loadStateFromMemory:(NSData*)data;
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
 
 // ============================================================================

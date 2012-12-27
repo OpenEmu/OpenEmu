@@ -63,6 +63,8 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         tenFrameCounter = 10;
         NSUInteger count = [self audioBufferCount];
         ringBuffers = (__strong OERingBuffer **)calloc(count, sizeof(OERingBuffer*));
+        rewindBuffer = [NSMutableArray new];
+        rewindReuseBuffer = [NSMutableArray new];
     }
     return self;
 }
@@ -199,9 +201,49 @@ static NSTimeInterval defaultTimeInterval = 60.0;
                     //OEPerfMonitorObserve(@"executeFrame", gameInterval, ^{
                     [renderDelegate willExecute];
                     
-                    [self executeFrameSkippingFrame:willSkipFrame];
+                    if ([rewindBuffer count] == 0)
+                        _rewinding = NO;
                     
+                    if (!_rewinding)
+                    {
+                        [self executeFrameSkippingFrame:willSkipFrame];
+                     
+                        if (rewindFrameCounter == 0)
+                        {
+                            NSMutableData *data = [rewindReuseBuffer lastObject];
+                            if (data)
+                                [rewindReuseBuffer removeLastObject];
+                            
+                            if ([self saveStateToMemory:&data])
+                            {
+                                [rewindBuffer addObject:data];
+                                if ([rewindBuffer count] > 100)
+                                {
+                                    NSData *data = [rewindBuffer objectAtIndex:0];
+                                    [rewindReuseBuffer addObject:data];
+                                    [rewindBuffer removeObjectAtIndex:0];
+                                }
+                            }
+                            rewindFrameCounter = 2;
+                        }
+                        else
+                        {
+                            rewindFrameCounter--;
+                        }
+                    }
+                    else
+                    {
+                        NSMutableData *data = [rewindBuffer lastObject];
+                        [self loadStateFromMemory:data];
+                        [rewindReuseBuffer addObject:data];
+                        [rewindBuffer removeLastObject];
+                        [self executeFrameSkippingFrame:NO];
+                        if ([rewindBuffer count] == 0)
+                            [self setRewinding:NO];
+                    }
                     [renderDelegate didExecute];
+                    
+
                     //});
                 }
                 if(frameCounter >= frameSkip) frameCounter = 0;
@@ -381,6 +423,16 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 #pragma mark -
 #pragma Save state
+
+- (BOOL)saveStateToMemory:(NSMutableData**)data
+{
+    return NO;
+}
+
+- (BOOL)loadStateFromMemory:(NSData *)data
+{
+    return NO;
+}
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {

@@ -210,6 +210,9 @@ NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RI
 
 - (oneway void)didPushGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
 {
+    if (button == OEGenesisButtonMode)
+        [self setRewinding:![self isRewinding]];
+    
     input.pad[player - 1] |=  GenesisControlValues[button];
 }
 
@@ -227,11 +230,26 @@ NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RI
     return bytesCount > 0 && [[[NSData alloc] initWithBytesNoCopy:[data mutableBytes] length:bytesCount freeWhenDone:NO] writeToFile:fileName atomically:NO];
 }
 
+- (BOOL)saveStateToMemory:(NSMutableData**)data
+{
+    if (!*data)
+    {
+        *data = [[NSMutableData alloc] initWithLength:STATE_SIZE];
+    }
+    state_save([*data mutableBytes]);
+    return YES;
+}
+
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
     NSData *loaded = [[NSData alloc] initWithContentsOfFile:fileName];
 
     return loaded != nil && state_load([loaded bytes], [loaded length]) == 1;
+}
+
+- (BOOL)loadStateFromMemory:(NSData *)data
+{
+    return data != nil && state_load([data bytes], [data length]) == 1;
 }
 
 - (void)saveSram

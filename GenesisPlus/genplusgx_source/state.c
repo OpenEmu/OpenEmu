@@ -22,35 +22,23 @@
 
 #include "shared.h"
 
-int state_load(const unsigned char *buffer, unsigned long size)
+int state_load(const unsigned char *state, unsigned long size)
 {
   /* buffer size */
   int bufferptr = 0;
-
-  /* first allocate state buffer */
-  unsigned char *state = (unsigned char *)malloc(STATE_SIZE);
-  if (!state) return 0;
-
-  /* uncompress savestate */
-  unsigned long inbytes = size, outbytes;
-  //memcpy(&inbytes, buffer, 4);
-  outbytes = STATE_SIZE;
-  uncompress ((Bytef *)state, &outbytes, (Bytef *)(buffer + 4), inbytes);
-
+    
   /* signature check (GENPLUS-GX x.x.x) */
   char version[17];
   load_param(version,16);
   version[16] = 0;
   if (strncmp(version,STATE_VERSION,11))
   {
-    free(state);
     return -1;
   }
 
   /* version check (1.4.0 and above) */
   if ((version[11] < 0x31) || ((version[11] == 0x31) && (version[13] < 0x34)))
   {
-    free(state);
     return -1;
   }
 
@@ -149,7 +137,6 @@ int state_load(const unsigned char *buffer, unsigned long size)
     bufferptr += md_cart_context_load(&state[bufferptr], version);
   }
 
-  free(state);
   return 1;
 }
 
@@ -159,8 +146,7 @@ int state_save(unsigned char *buffer)
   int bufferptr = 0;
 
   /* first allocate state buffer */
-  unsigned char *state = (unsigned char *)malloc(STATE_SIZE);
-  if (!state) return 0;
+  unsigned char *state = buffer;
 
   /* version string */
   char version[16];
@@ -237,13 +223,11 @@ int state_save(unsigned char *buffer)
     bufferptr += md_cart_context_save(&state[bufferptr]);
   }
 
-  /* compress state file */
-  unsigned long inbytes   = bufferptr;
-  unsigned long outbytes  = STATE_SIZE;
-  compress2 ((Bytef *)(buffer + 4), &outbytes, (Bytef *)state, inbytes, 9);
-  memcpy(buffer, &outbytes, 4);
-  free(state);
+//  /* compress state file */
+//  unsigned long inbytes   = bufferptr;
+//  unsigned long outbytes  = STATE_SIZE;
+//  compress2 ((Bytef *)(buffer + 4), &outbytes, (Bytef *)state, inbytes, 9);
 
   /* return total size */
-  return (outbytes + 4);
+    return STATE_SIZE;
 }
