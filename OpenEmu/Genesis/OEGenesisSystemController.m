@@ -41,7 +41,7 @@
 
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
-    if (![[path pathExtension] isEqualToString:@".bin"])
+    if (![[path pathExtension] isEqualToString:@"bin"])
     {
         return OECanHandleUncertain;
     }
