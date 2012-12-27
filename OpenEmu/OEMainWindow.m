@@ -49,7 +49,9 @@
 {
     float maxY = NSMaxY(dirtyRect);
     
-    if(maxY > NSMaxY([self frame]) - titleBarHeight)
+    BOOL isInFullScreen = ( ([self styleMask] & NSFullScreenWindowMask) == NSFullScreenWindowMask);
+    
+    if( (maxY > NSMaxY([self frame]) - titleBarHeight) && (!isInFullScreen) )
     {
         float newHeight = [self frame].origin.y + [self frame].size.height - dirtyRect.origin.y - titleBarHeight;
         if(newHeight <= 0.0) return;
