@@ -26,7 +26,7 @@
  */
 
 #import "OEWiimoteHIDDeviceHandler.h"
-
+#import <IOBluetooth/IOBluetooth.h>
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDEvent.h"
 
@@ -369,6 +369,9 @@ static void OE_wiimoteIOHIDReportCallback(void *                  context,
 - (void)disconnect
 {
     [self OE_disableReports];
+    NSString *btAddress = (__bridge id)IOHIDDeviceGetProperty([self device], CFSTR(kIOHIDSerialNumberKey));
+    IOBluetoothDevice *btDevice = [IOBluetoothDevice deviceWithAddressString:btAddress];
+    [btDevice closeConnection];
     [super disconnect];
 }
 
@@ -801,7 +804,6 @@ enum {
         NSInteger value = (high << 8) | (low);
         
         NSInteger ret = value;
-        ret = value;
         ret -= OEWiimoteProControllerJoystickMinimumValue;
         ret += OEWiimoteProControllerJoystickScaledMinimumValue;
         

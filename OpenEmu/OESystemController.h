@@ -97,6 +97,13 @@ extern NSString *const OEControllerImageKey;       // NSString - file name of th
 extern NSString *const OEControllerImageMaskKey;   // NSString - file name of the controller image mask
 extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> NSPoint as NSString
 
+typedef enum
+{
+    OECanHandleYes,
+    OECanHandleNo,
+    OECanHandleUncertain,
+} OECanHandleState;
+
 @interface OESystemController : NSObject <OEPluginController>
 
 - (id)initWithBundle:(NSBundle *)aBundle;
@@ -159,7 +166,7 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
    testing file extensions, which is what -canHandleFileExtension: does. When importing a file, systems that
    can handle that file are preferred over systems that can only (potentially) handle its extension. Only implement -canHandleFile: if you can verify that it's valid for the system.
 */
-- (BOOL)canHandleFile:(NSString *)path;
+- (OECanHandleState)canHandleFile:(NSString *)path;
 - (BOOL)canHandleFileExtension:(NSString *)fileExtension;
 
 @end

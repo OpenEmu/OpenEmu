@@ -39,8 +39,13 @@
             : @"Sega Mega Drive");
 }
 
-- (BOOL)canHandleFile:(NSString *)path
+- (OECanHandleState)canHandleFile:(NSString *)path
 {
+    if (![[path pathExtension] isEqualToString:@".bin"])
+    {
+        return OECanHandleUncertain;
+    }
+    
     BOOL valid = NO;
 
     const char *cPath = [path UTF8String];
@@ -52,7 +57,7 @@
     if (readBytes == 16 && (memcmp(systemName, "SEGA GENESIS    ", 16) == 0 || memcmp(systemName, "SEGA MEGA DRIVE ", 16) == 0))
         valid = YES;
     
-    return valid;
+    return valid?OECanHandleYes:OECanHandleNo;
 }
 
 @end

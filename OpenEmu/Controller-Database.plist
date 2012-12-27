@@ -28,8 +28,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>5</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisDPadDown</key>
 			<dict>
@@ -39,8 +37,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>7</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisDPadLeft</key>
 			<dict>
@@ -50,8 +46,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>8</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisDPadRight</key>
 			<dict>
@@ -61,8 +55,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>6</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisLeftAnalogX</key>
 			<dict>
@@ -72,8 +64,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -85,8 +75,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -98,8 +86,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Z</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -111,8 +97,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rz</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -124,8 +108,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>13</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonCircle</key>
 			<dict>
@@ -135,8 +117,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>14</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonCross</key>
 			<dict>
@@ -146,8 +126,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>15</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonSquare</key>
 			<dict>
@@ -157,8 +135,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>16</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonL1</key>
 			<dict>
@@ -168,8 +144,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>11</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonL2</key>
 			<dict>
@@ -179,8 +153,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>9</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonL3</key>
 			<dict>
@@ -190,8 +162,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>2</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonR1</key>
 			<dict>
@@ -201,8 +171,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>12</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonR2</key>
 			<dict>
@@ -212,8 +180,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>10</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonR3</key>
 			<dict>
@@ -223,8 +189,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>3</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonStart</key>
 			<dict>
@@ -234,8 +198,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>4</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonSelect</key>
 			<dict>
@@ -245,8 +207,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>1</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonHome</key>
 			<dict>
@@ -256,8 +216,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>17</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -679,8 +637,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>12</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360DPadDown</key>
 			<dict>
@@ -690,8 +646,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>13</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360DPadLeft</key>
 			<dict>
@@ -701,8 +655,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>14</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360DPadRight</key>
 			<dict>
@@ -712,8 +664,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>15</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360LeftAnalogX</key>
 			<dict>
@@ -723,8 +673,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -736,8 +684,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -749,8 +695,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rx</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -762,8 +706,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Ry</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -775,8 +717,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>1</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonB</key>
 			<dict>
@@ -786,8 +726,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>2</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonX</key>
 			<dict>
@@ -797,8 +735,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>3</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonY</key>
 			<dict>
@@ -808,8 +744,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>4</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonLeftShoulder</key>
 			<dict>
@@ -819,8 +753,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>5</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonLeftTrigger</key>
 			<dict>
@@ -830,8 +762,6 @@
 				<string>Trigger</string>
 				<key>Usage</key>
 				<string>Z</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonLeftAnalog</key>
 			<dict>
@@ -841,8 +771,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>7</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonRightShoulder</key>
 			<dict>
@@ -852,8 +780,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>6</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonRightTrigger</key>
 			<dict>
@@ -863,8 +789,6 @@
 				<string>Trigger</string>
 				<key>Usage</key>
 				<string>Rz</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonRightAnalog</key>
 			<dict>
@@ -874,8 +798,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>8</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonStart</key>
 			<dict>
@@ -885,8 +807,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>9</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonBack</key>
 			<dict>
@@ -896,8 +816,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>10</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonHome</key>
 			<dict>
@@ -907,8 +825,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>11</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -954,8 +870,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionDPadDown</key>
 			<dict>
@@ -965,8 +879,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionDPadLeft</key>
 			<dict>
@@ -976,8 +888,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionDPadRight</key>
 			<dict>
@@ -987,8 +897,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionLeftAnalogX</key>
 			<dict>
@@ -998,8 +906,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1011,8 +917,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1024,8 +928,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Z</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1037,8 +939,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rz</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1050,8 +950,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>1</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButton2</key>
 			<dict>
@@ -1061,8 +959,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>2</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButton3</key>
 			<dict>
@@ -1072,8 +968,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>3</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButton4</key>
 			<dict>
@@ -1083,8 +977,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>4</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButtonLeftShoulder</key>
 			<dict>
@@ -1094,8 +986,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>5</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButtonLeftTrigger</key>
 			<dict>
@@ -1105,8 +995,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>7</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButtonLeftAnalog</key>
 			<dict>
@@ -1116,8 +1004,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>11</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButtonRightShoulder</key>
 			<dict>
@@ -1127,8 +1013,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>6</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButtonRightTrigger</key>
 			<dict>
@@ -1138,8 +1022,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>9</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButtonRightAnalog</key>
 			<dict>
@@ -1149,8 +1031,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>12</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButtonStart</key>
 			<dict>
@@ -1160,8 +1040,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>10</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerLogitechDualActionButtonSelect</key>
 			<dict>
@@ -1171,8 +1049,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>9</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -1202,8 +1078,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadDPadDown</key>
 			<dict>
@@ -1213,8 +1087,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadDPadLeft</key>
 			<dict>
@@ -1224,8 +1096,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadDPadRight</key>
 			<dict>
@@ -1235,8 +1105,6 @@
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonTriangle</key>
 			<dict>
@@ -1246,8 +1114,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>4</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonCircle</key>
 			<dict>
@@ -1257,8 +1123,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>3</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonCross</key>
 			<dict>
@@ -1268,8 +1132,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>2</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonSquare</key>
 			<dict>
@@ -1279,8 +1141,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>1</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonL1</key>
 			<dict>
@@ -1290,8 +1150,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>5</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonL2</key>
 			<dict>
@@ -1301,8 +1159,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>7</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonR1</key>
 			<dict>
@@ -1312,8 +1168,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>6</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonR2</key>
 			<dict>
@@ -1323,8 +1177,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>8</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonStart</key>
 			<dict>
@@ -1334,8 +1186,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>10</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonSelect</key>
 			<dict>
@@ -1345,8 +1195,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>9</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonHome</key>
 			<dict>
@@ -1356,8 +1204,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>13</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -1387,8 +1233,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1400,8 +1244,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1413,8 +1255,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1426,8 +1266,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1439,8 +1277,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>1</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSegaSaturnButtonB</key>
 			<dict>
@@ -1450,8 +1286,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>2</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSegaSaturnButtonC</key>
 			<dict>
@@ -1461,8 +1295,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>3</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSegaSaturnButtonX</key>
 			<dict>
@@ -1472,8 +1304,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>4</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSegaSaturnButtonY</key>
 			<dict>
@@ -1483,8 +1313,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>5</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSegaSaturnButtonZ</key>
 			<dict>
@@ -1494,8 +1322,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>6</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSegaSaturnButtonLeftShoulder</key>
 			<dict>
@@ -1505,8 +1331,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>7</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSegaSaturnButtonRightShoulder</key>
 			<dict>
@@ -1516,8 +1340,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>8</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerSegaSaturnButtonStart</key>
 			<dict>
@@ -1527,8 +1349,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>9</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -1734,8 +1554,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>1</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerWiimoteDPadDown</key>
 			<dict>
@@ -1745,8 +1563,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>2</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerWiimoteDPadLeft</key>
 			<dict>
@@ -1756,8 +1572,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>3</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerWiimoteDPadRight</key>
 			<dict>
@@ -1767,8 +1581,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>4</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerWiimoteButtonA</key>
 			<dict>
@@ -1778,8 +1590,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>5</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerWiimoteButtonB</key>
 			<dict>
@@ -1789,8 +1599,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>6</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerWiimoteButton1</key>
 			<dict>
@@ -1800,19 +1608,15 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>7</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerWiimoteButton2</key>
 			<dict>
 				<key>Name</key>
-				<string>8</string>
+				<string>2</string>
 				<key>Type</key>
 				<string>Button</string>
 				<key>Usage</key>
-				<string>1</string>
-				<key>Cookie</key>
-				<integer>0</integer>
+				<string>8</string>
 			</dict>
 			<key>OEControllerWiimoteButtonPlus</key>
 			<dict>
@@ -1822,8 +1626,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>11</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerWiimoteButtonMinus</key>
 			<dict>
@@ -1833,8 +1635,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>9</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerWiimoteButtonHome</key>
 			<dict>
@@ -1844,8 +1644,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>10</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -1892,8 +1690,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1905,8 +1701,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1918,8 +1712,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1931,8 +1723,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -1944,8 +1734,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>1</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerGravisGamePadProButton2</key>
 			<dict>
@@ -1955,8 +1743,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>2</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerGravisGamePadProButton3</key>
 			<dict>
@@ -1966,8 +1752,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>3</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerGravisGamePadProButton4</key>
 			<dict>
@@ -1977,8 +1761,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>4</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerGravisGamePadProButtonLeftShoulder</key>
 			<dict>
@@ -1988,8 +1770,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>5</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerGravisGamePadProButtonLeftTrigger</key>
 			<dict>
@@ -1999,8 +1779,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>7</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerGravisGamePadProButtonRightShoulder</key>
 			<dict>
@@ -2010,8 +1788,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>6</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerGravisGamePadProButtonRightTrigger</key>
 			<dict>
@@ -2021,8 +1797,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>8</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerGravisGamePadProButtonStart</key>
 			<dict>
@@ -2032,8 +1806,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>10</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerGravisGamePadProButtonSelect</key>
 			<dict>
@@ -2043,8 +1815,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>9</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -2242,8 +2012,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -2255,8 +2023,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -2268,8 +2034,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -2281,8 +2045,6 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 				<key>UpLeftValue</key>
 				<integer>-1</integer>
 			</dict>
@@ -2294,8 +2056,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>2</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerRetrolinkSNESButtonB</key>
 			<dict>
@@ -2305,8 +2065,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>3</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerRetrolinkSNESButtonX</key>
 			<dict>
@@ -2316,8 +2074,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>1</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerRetrolinkSNESButtonY</key>
 			<dict>
@@ -2327,8 +2083,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>4</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerRetrolinkSNESButtonLeftShoulder</key>
 			<dict>
@@ -2338,8 +2092,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>5</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerRetrolinkSNESButtonRightShoulder</key>
 			<dict>
@@ -2349,8 +2101,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>6</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerRetrolinkSNESButtonStart</key>
 			<dict>
@@ -2360,8 +2110,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>10</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 			<key>OEControllerRetrolinkSNESButtonSelect</key>
 			<dict>
@@ -2371,8 +2119,6 @@
 				<string>Button</string>
 				<key>Usage</key>
 				<string>9</string>
-				<key>Cookie</key>
-				<integer>0</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -2411,6 +2157,206 @@
 				<integer>816</integer>
 			</dict>
 		</array>
+		<key>OEControllerMappings</key>
+		<dict>
+			<key>OEControllerNintendoWiiUProControllerDPadUp</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Up</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>29</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerDPadDown</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Down</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>32</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerDPadLeft</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Left</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>30</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerDPadRight</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Right</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>31</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerLeftAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>X</string>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerLeftAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Y</string>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerRightAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Rx</string>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerRightAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Ry</string>
+				<key>UpLeftValue</key>
+				<integer>-1</integer>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonLeftAnalog</key>
+			<dict>
+				<key>Name</key>
+				<string>Left Stick</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>45</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonRightAnalog</key>
+			<dict>
+				<key>Name</key>
+				<string>Right Stick</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>44</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>33</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>34</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonX</key>
+			<dict>
+				<key>Name</key>
+				<string>X</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>36</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonY</key>
+			<dict>
+				<key>Name</key>
+				<string>Y</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>35</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonPlus</key>
+			<dict>
+				<key>Name</key>
+				<string>Start</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>37</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonMinus</key>
+			<dict>
+				<key>Name</key>
+				<string>Select</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>38</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonL</key>
+			<dict>
+				<key>Name</key>
+				<string>L</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>41</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonZL</key>
+			<dict>
+				<key>Name</key>
+				<string>ZL</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>43</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonR</key>
+			<dict>
+				<key>Name</key>
+				<string>R</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>40</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonZR</key>
+			<dict>
+				<key>Name</key>
+				<string>ZR</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>42</string>
+			</dict>
+			<key>OEControllerNintendoWiiUProControllerButtonHome</key>
+			<dict>
+				<key>Name</key>
+				<string>Home</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>39</string>
+			</dict>
+		</dict>
 	</dict>
 </array>
 </plist>

@@ -103,7 +103,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
      ^(NSString *key, OEControlsKeyButton *obj, BOOL *stop)
      {
          [obj bind:@"title" toObject:self withKeyPath:[NSString stringWithFormat:@"bindingsProvider.%@", key] options:
-          @{ NSNullPlaceholderBindingOption : NSLocalizedString(@"<empty>", @"Displayed in controller preferences for missing keys.") }];
+          @{ NSNullPlaceholderBindingOption : @"" }];
      }];
     
     [self OE_layoutSubviews];
