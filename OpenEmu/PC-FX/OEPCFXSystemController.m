@@ -31,8 +31,14 @@
 
 @implementation OEPCFXSystemController
 
-- (BOOL)canHandleFile:(NSString *)path
+- (OECanHandleState)canHandleFile:(NSString *)path
 {
+    //if (![[path pathExtension] isEqualToString:@".cue"])
+    //{
+    //    return OECanHandleUncertain;
+    //}
+    
+    //BOOL valid = NO;
     OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
     NSString *dataTrack = [cueSheet dataTrackPath];
     
@@ -67,7 +73,8 @@
 
         [dataTrackFile closeFile];
     }
-    return valid;
+    //return valid;
+    return valid?OECanHandleYes:OECanHandleNo;
 }
 
 @end
