@@ -122,16 +122,17 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     [[OESystemPlugin allPlugins] enumerateObjectsUsingBlock:^(OESystemPlugin *systemPlugin, NSUInteger idx, BOOL *stop) {
         if([[systemPlugin controller] canHandleFileExtension:fileExtension])
         {
-            if([[systemPlugin controller] respondsToSelector:@selector(canHandleFile:)])
+            OECanHandleState handleState = [[systemPlugin controller] canHandleFile:[url path]];
+
+            if (handleState == OECanHandleYes)
             {
-                if([[systemPlugin controller] canHandleFile:[url path]])
-                {
-                    theOneAndOnlySystemThatGetsAChanceToHandleTheFile = systemPlugin;
-                    *stop = YES;
-                }
+                theOneAndOnlySystemThatGetsAChanceToHandleTheFile = systemPlugin;
+                *stop = YES;
             }
-            else
+            else if (handleState != OECanHandleNo)
+            {
                 [otherSystemsThatMightBeAbleToHandleTheFile addObject:systemPlugin];
+            }
         }
     }];
     

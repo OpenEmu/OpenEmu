@@ -170,6 +170,11 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
     fileTypes  = [[_bundle infoDictionary] objectForKey:OEFileTypes];
 }
 
+- (OECanHandleState)canHandleFile:(NSString *)path
+{
+    return OECanHandleUncertain;
+}
+
 - (BOOL)canHandleFileExtension:(NSString *)fileExtension
 {
     return [fileTypes containsObject:[fileExtension lowercaseString]];
