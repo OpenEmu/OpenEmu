@@ -125,8 +125,10 @@ void update_input()
 
         /* default system */
         input.system[0] = SYSTEM_MD_GAMEPAD;
-        input.system[1] = SYSTEM_MD_GAMEPAD;
+        input.system[4] = SYSTEM_MD_GAMEPAD;
 
+        input.dev[0] = DEVICE_PAD6B;
+        input.dev[4] = DEVICE_PAD6B;
         frameInterval = vdp_pal ? 53203424./896040. : 53693175./896040.; // from sound_init()
 		audio_init(SAMPLERATE, frameInterval);
         system_init();
@@ -210,12 +212,12 @@ NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RI
 
 - (oneway void)didPushGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
 {
-    input.pad[player - 1] |=  GenesisControlValues[button];
+    input.pad[player == 1?0:4] |=  GenesisControlValues[button];
 }
 
 - (oneway void)didReleaseGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
 {
-    input.pad[player - 1] &= ~GenesisControlValues[button];
+    input.pad[player == 1?0:4] &= ~GenesisControlValues[button];
 }
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
