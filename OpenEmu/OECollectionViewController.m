@@ -871,10 +871,12 @@ static NSArray *OE_defaultSortDescriptors;
     [selectedGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSSet *roms = [obj roms];
         [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-            [urls addObject:[obj URL]];
-        }];    
+            // -[NSWorkspace activateFileViewerSelectingURLs:] does not like relative URLs, i.e., those with non-nil baseURL.
+            // We need to make sure only absolute URLs are passed to that method.
+            [urls addObject:[[obj URL] absoluteURL]];
+        }];
     }];
-    
+
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
 }
 
