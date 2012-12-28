@@ -165,6 +165,9 @@ static void writeSaveFile(const char *path, int type)
 
 - (oneway void)didPushNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 {
+    if (button == OENESButtonSelect)
+        [self setRewinding:![self isRewinding]];
+    
     pad[player - 1][FCEUEmulatorValues[button]] = 0xFFFF;
     //pad[player - 1][FCEUEmulatorValues[button]] = 1;
 }
@@ -347,6 +350,30 @@ static void writeSaveFile(const char *path, int type)
 {
     return 2;
 }
+
+- (NSUInteger)rewindStateSize
+{
+    return snes_serialize_size();
+}
+
+- (BOOL)saveStateToMemory:(NSMutableData *__autoreleasing *)data
+{
+    int serial_size = snes_serialize_size();
+    
+    if (!*data)
+        *data = [[NSMutableData alloc] initWithLength:serial_size];
+    
+    snes_serialize((uint8_t*)[*data mutableBytes], serial_size);
+    
+    return YES;
+}
+
+- (BOOL)loadStateFromMemory:(NSData *)data
+{
+    int serial_size = snes_serialize_size();
+    return snes_unserialize((const uint8_t*)[data bytes], serial_size);
+}
+
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
