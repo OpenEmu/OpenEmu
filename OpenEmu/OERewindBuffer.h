@@ -28,6 +28,7 @@
 #import <Foundation/Foundation.h>
 
 @interface OERewindBuffer : NSObject
+- (id)initWithStateSize:(NSUInteger)byteSize;
 - (void)pushState:(NSData*)stateData;
 - (NSData*)popState;
 - (BOOL)isEmpty;

@@ -63,7 +63,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         tenFrameCounter = 10;
         NSUInteger count = [self audioBufferCount];
         ringBuffers = (__strong OERingBuffer **)calloc(count, sizeof(OERingBuffer*));
-        rewindBuffer = [OERewindBuffer new];
+        rewindBuffer = [[OERewindBuffer alloc] initWithStateSize:[self rewindStateSize]];
     }
     return self;
 }
@@ -288,6 +288,11 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 {
     [self doesNotImplementSelector:_cmd];
     return NO;
+}
+
+- (NSUInteger)rewindStateSize
+{
+    return 0;
 }
 
 #pragma mark Video

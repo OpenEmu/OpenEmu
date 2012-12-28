@@ -145,6 +145,8 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 @property(readonly) NSTimeInterval        frameInterval;
 @property           BOOL                  frameFinished;
 @property(getter = isRewinding) BOOL rewinding;
+@property(readonly) NSUInteger             rewindStateSize;
+
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index;
 - (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index;
 

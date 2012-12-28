@@ -221,6 +221,11 @@ NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RI
     input.pad[player - 1] &= ~GenesisControlValues[button];
 }
 
+- (NSUInteger)rewindStateSize
+{
+    return STATE_SIZE;
+}
+
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
     NSMutableData *data = [[NSMutableData alloc] initWithLength:STATE_SIZE];

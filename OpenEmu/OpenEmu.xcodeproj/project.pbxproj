@@ -291,7 +291,7 @@
 		82965F851041DC3200F30B74 /* OECorePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82965F841041DC3200F30B74 /* OECorePicker.xib */; };
 		82965F881041DC4600F30B74 /* OECorePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82965F871041DC4600F30B74 /* OECorePickerController.m */; };
 		829779340E743F2A00631240 /* OEGameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* OEGameAudio.m */; };
-		829A2DED168D650C00A51AF8 /* OERewindBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 829A2DEA168D610F00A51AF8 /* OERewindBuffer.m */; };
+		829A2DED168D650C00A51AF8 /* OERewindBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829A2DEA168D610F00A51AF8 /* OERewindBuffer.mm */; };
 		829A2DEE168D651000A51AF8 /* OERewindBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 829A2DE9168D610F00A51AF8 /* OERewindBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82AFA6690FDDC03500531EE3 /* OERingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AFA6670FDDC03500531EE3 /* OERingBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82AFA66A0FDDC03500531EE3 /* OERingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA6680FDDC03500531EE3 /* OERingBuffer.m */; };
@@ -1343,7 +1343,7 @@
 		829779320E743F2A00631240 /* OEGameAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameAudio.h; sourceTree = "<group>"; };
 		829779330E743F2A00631240 /* OEGameAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameAudio.m; sourceTree = "<group>"; };
 		829A2DE9168D610F00A51AF8 /* OERewindBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERewindBuffer.h; sourceTree = "<group>"; };
-		829A2DEA168D610F00A51AF8 /* OERewindBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERewindBuffer.m; sourceTree = "<group>"; };
+		829A2DEA168D610F00A51AF8 /* OERewindBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OERewindBuffer.mm; sourceTree = "<group>"; };
 		82AFA6670FDDC03500531EE3 /* OERingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERingBuffer.h; sourceTree = "<group>"; };
 		82AFA6680FDDC03500531EE3 /* OERingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERingBuffer.m; sourceTree = "<group>"; };
 		82C42C8410CAFB480046D1A3 /* download_arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download_arrow_down.png; sourceTree = "<group>"; };
@@ -3661,7 +3661,7 @@
 				3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */,
 				3DD90BA61500A6BF00FE5DFD /* OETimingUtils.m */,
 				829A2DE9168D610F00A51AF8 /* OERewindBuffer.h */,
-				829A2DEA168D610F00A51AF8 /* OERewindBuffer.m */,
+				829A2DEA168D610F00A51AF8 /* OERewindBuffer.mm */,
 			);
 			name = "GameCore framework";
 			sourceTree = "<group>";
@@ -4699,7 +4699,7 @@
 				8245FD0814F763E600C64574 /* TPCircularBuffer.c in Sources */,
 				3D71183E1500650D0056E3BF /* PSYBlockTimer.m in Sources */,
 				3DD90BA81500A6BF00FE5DFD /* OETimingUtils.m in Sources */,
-				829A2DED168D650C00A51AF8 /* OERewindBuffer.m in Sources */,
+				829A2DED168D650C00A51AF8 /* OERewindBuffer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5458,6 +5458,8 @@
 		82444BA30F51256D007C171B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CLANG_ENABLE_OBJC_EXPERIMENTAL[arch=i386]" = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -5475,6 +5477,8 @@
 		82444BA40F51256D007C171B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CLANG_ENABLE_OBJC_EXPERIMENTAL[arch=i386]" = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -5622,6 +5626,8 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				COPY_PHASE_STRIP = NO;
@@ -5646,6 +5652,8 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				FRAMEWORK_SEARCH_PATHS = (
