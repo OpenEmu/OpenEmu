@@ -28,6 +28,7 @@
 #import <Cocoa/Cocoa.h>
 #import "OEGameCoreController.h"
 #import "OESystemResponderClient.h"
+#import "OERewindBuffer.h"
 
 #ifndef DLog
 
@@ -129,9 +130,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
     BOOL                    isRunning;
     BOOL                    shouldStop;
     
-    NSMutableArray         *rewindBuffer;
-    NSMutableArray         *rewindReuseBuffer;
-    NSUInteger              rewindFrameCounter;
+    OERewindBuffer         *rewindBuffer;
 }
 
 @property(weak)     id<OERenderDelegate>  renderDelegate;
@@ -159,7 +158,6 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 - (void)setupEmulation;
 - (void)stopEmulation;
 - (void)startEmulation;
-- (void)startRewinding;
 
 #pragma mark -
 #pragma mark Tracking preference changes
