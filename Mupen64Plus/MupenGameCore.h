@@ -36,9 +36,9 @@ OE_EXPORTED_CLASS
 @interface MupenGameCore : OEGameCore
 {
 @public
-    uint8_t padData[OEN64ButtonCount];
-    uint8_t xAxis[2];
-    uint8_t yAxis[2];
+    uint8_t padData[4][OEN64ButtonCount];
+    uint8_t xAxis[4][2];
+    uint8_t yAxis[4][2];
     int videoWidth;
     int videoHeight;
     int videoBitDepth;

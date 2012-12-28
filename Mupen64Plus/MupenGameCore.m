@@ -108,27 +108,30 @@ static void *dlopen_myself()
 
 static void MupenGetKeys(int Control, BUTTONS *Keys)
 {
-    Keys->R_DPAD = g_core->padData[OEN64ButtonDPadRight];
-    Keys->L_DPAD = g_core->padData[OEN64ButtonDPadLeft];
-    Keys->D_DPAD = g_core->padData[OEN64ButtonDPadDown];
-    Keys->U_DPAD = g_core->padData[OEN64ButtonDPadUp];
-    Keys->START_BUTTON = g_core->padData[OEN64ButtonStart];
-    Keys->Z_TRIG = g_core->padData[OEN64ButtonZ];
-    Keys->B_BUTTON = g_core->padData[OEN64ButtonB];
-    Keys->A_BUTTON = g_core->padData[OEN64ButtonA];
-    Keys->R_CBUTTON = g_core->padData[OEN64ButtonCRight];
-    Keys->L_CBUTTON = g_core->padData[OEN64ButtonCLeft];
-    Keys->D_CBUTTON = g_core->padData[OEN64ButtonCDown];
-    Keys->U_CBUTTON = g_core->padData[OEN64ButtonCUp];
-    Keys->R_TRIG = g_core->padData[OEN64ButtonR];
-    Keys->L_TRIG = g_core->padData[OEN64ButtonL];
-    Keys->X_AXIS = (g_core->xAxis[0] ?: (g_core->xAxis[1] ?: 0));
-    Keys->Y_AXIS = (g_core->yAxis[0] ?: (g_core->yAxis[1] ?: 0));
+    Keys->R_DPAD = g_core->padData[Control][OEN64ButtonDPadRight];
+    Keys->L_DPAD = g_core->padData[Control][OEN64ButtonDPadLeft];
+    Keys->D_DPAD = g_core->padData[Control][OEN64ButtonDPadDown];
+    Keys->U_DPAD = g_core->padData[Control][OEN64ButtonDPadUp];
+    Keys->START_BUTTON = g_core->padData[Control][OEN64ButtonStart];
+    Keys->Z_TRIG = g_core->padData[Control][OEN64ButtonZ];
+    Keys->B_BUTTON = g_core->padData[Control][OEN64ButtonB];
+    Keys->A_BUTTON = g_core->padData[Control][OEN64ButtonA];
+    Keys->R_CBUTTON = g_core->padData[Control][OEN64ButtonCRight];
+    Keys->L_CBUTTON = g_core->padData[Control][OEN64ButtonCLeft];
+    Keys->D_CBUTTON = g_core->padData[Control][OEN64ButtonCDown];
+    Keys->U_CBUTTON = g_core->padData[Control][OEN64ButtonCUp];
+    Keys->R_TRIG = g_core->padData[Control][OEN64ButtonR];
+    Keys->L_TRIG = g_core->padData[Control][OEN64ButtonL];
+    Keys->X_AXIS = (g_core->xAxis[Control][0] ?: (g_core->xAxis[Control][1] ?: 0));
+    Keys->Y_AXIS = (g_core->yAxis[Control][0] ?: (g_core->yAxis[Control][1] ?: 0));
 }
 
 static void MupenInitiateControllers (CONTROL_INFO ControlInfo)
 {
     ControlInfo.Controls[0].Present = 1;
+    ControlInfo.Controls[1].Present = 1;
+    ControlInfo.Controls[2].Present = 1;
+    ControlInfo.Controls[3].Present = 1;
 }
 
 static AUDIO_INFO AudioInfo;
@@ -370,19 +373,20 @@ static void MupenSetAudioSpeed(int percent)
 
 - (oneway void)didMoveN64JoystickDirection:(OEN64Button)button withValue:(CGFloat)value forPlayer:(NSUInteger)player
 {
+    player -= 1;
     switch (button)
     {
         case OEN64AnalogUp:
-            yAxis[0] = value * INT8_MAX;
+            yAxis[player][0] = value * INT8_MAX;
             break;
         case OEN64AnalogDown:
-            yAxis[1] = value * INT8_MIN;
+            yAxis[player][1] = value * INT8_MIN;
             break;
         case OEN64AnalogLeft:
-            xAxis[0] = value * INT8_MIN;
+            xAxis[player][0] = value * INT8_MIN;
             break;
         case OEN64AnalogRight:
-            xAxis[1] = value * INT8_MAX;
+            xAxis[player][1] = value * INT8_MAX;
             break;
         default:
             break;
@@ -391,12 +395,14 @@ static void MupenSetAudioSpeed(int percent)
 
 - (oneway void)didPushN64Button:(OEN64Button)button forPlayer:(NSUInteger)player
 {
-    padData[button] = 1;
+    player -= 1;
+    padData[player][button] = 1;
 }
 
 - (oneway void)didReleaseN64Button:(OEN64Button)button forPlayer:(NSUInteger)player
 {
-    padData[button] = 0;
+    player -= 1;
+    padData[player][button] = 0;
 }
 
 
