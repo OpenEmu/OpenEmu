@@ -38,7 +38,6 @@
 				C68625721572686E00EFC972 /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
-				82870D711665614F00CBFE5D /* PBXTargetDependency */,
 				94619CC715C50FB20019AC8E /* PBXTargetDependency */,
 				94619C9115C4CBEF0019AC8E /* PBXTargetDependency */,
 				941DFB3D15B7622700C6552F /* PBXTargetDependency */,
@@ -314,7 +313,6 @@
 		82870D6A16655FCF00CBFE5D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 82870D5E16655FCF00CBFE5D /* InfoPlist.strings */; };
 		82870D6B16655FCF00CBFE5D /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82870D6016655FCF00CBFE5D /* Keyboard-Mappings.plist */; };
 		82870D6C16655FCF00CBFE5D /* OEComputerSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82870D6216655FCF00CBFE5D /* OEComputerSystemResponder.m */; };
-		82870D6F1665614A00CBFE5D /* Computer.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 82870D5416655F9900CBFE5D /* Computer.oesystemplugin */; };
 		82870D781665668900CBFE5D /* OERawSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82870D741665668900CBFE5D /* OERawSystemResponder.m */; };
 		82870D791665669500CBFE5D /* OERawSystemResponder.h in Headers */ = {isa = PBXBuildFile; fileRef = 82870D731665668900CBFE5D /* OERawSystemResponder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82870D7A1665669B00CBFE5D /* OERawSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82870D741665668900CBFE5D /* OERawSystemResponder.m */; };
@@ -937,13 +935,6 @@
 			remoteGlobalIDString = C67117ED136367240034379A;
 			remoteInfo = OpenEmuSystem;
 		};
-		82870D701665614F00CBFE5D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 82870D4116655F9900CBFE5D;
-			remoteInfo = Computer;
-		};
 		8291C4DF148958F500A72540 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1332,7 +1323,6 @@
 			dstSubfolderSpec = 0;
 			files = (
 				941B6464166AB3DF0099FC27 /* Sega CD.oesystemplugin in Copy Plugins To Application Support */,
-				82870D6F1665614A00CBFE5D /* Computer.oesystemplugin in Copy Plugins To Application Support */,
 				94619CC815C50FC30019AC8E /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */,
 				94619C9215C4CBFC0019AC8E /* Atari 5200.oesystemplugin in Copy Plugins To Application Support */,
 				941DFB3E15B7623200C6552F /* Atari 2600.oesystemplugin in Copy Plugins To Application Support */,
@@ -6497,11 +6487,6 @@
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
 			targetProxy = 82870D4316655F9900CBFE5D /* PBXContainerItemProxy */;
-		};
-		82870D711665614F00CBFE5D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 82870D4116655F9900CBFE5D /* Computer */;
-			targetProxy = 82870D701665614F00CBFE5D /* PBXContainerItemProxy */;
 		};
 		8291C4E0148958F500A72540 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
