@@ -29,9 +29,6 @@
 #import <dispatch/dispatch.h>
 #import "OEN64SystemResponderClient.h"
 
-extern dispatch_semaphore_t gMupenWaitForVISemaphore;
-extern dispatch_semaphore_t gCoreWaitForFinishSemaphore;
-
 OE_EXPORTED_CLASS
 @interface MupenGameCore : OEGameCore
 {
@@ -48,6 +45,8 @@ OE_EXPORTED_CLASS
     
     BOOL isNTSC;
 }
+
+- (void) videoInterrupt;
 @end
 
 extern MupenGameCore *g_core;

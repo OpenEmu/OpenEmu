@@ -52,21 +52,21 @@ NSString *MupenControlNames[] = {
 @interface MupenGameCore () <OEN64SystemResponderClient>
 @end
 
-dispatch_semaphore_t gMupenWaitForVISemaphore;
-dispatch_semaphore_t gCoreWaitForFinishSemaphore;
-
 MupenGameCore *g_core;
 
 @implementation MupenGameCore
 {
     NSData *romData;
+    
+    dispatch_semaphore_t mupenWaitToBeginFrameSemaphore;
+    dispatch_semaphore_t coreWaitToEndFrameSemaphore;
 }
 
 - (instancetype)init
 {
     if (self = [super init]) {
-        gMupenWaitForVISemaphore = dispatch_semaphore_create(0);
-        gCoreWaitForFinishSemaphore = dispatch_semaphore_create(0);
+        mupenWaitToBeginFrameSemaphore = dispatch_semaphore_create(0);
+        coreWaitToEndFrameSemaphore    = dispatch_semaphore_create(0);
         
         videoWidth  = 640;
         videoHeight = 480;
@@ -83,8 +83,8 @@ MupenGameCore *g_core;
 
 - (void)dealloc
 {
-    dispatch_release(gMupenWaitForVISemaphore);
-    dispatch_release(gCoreWaitForFinishSemaphore);
+    dispatch_release(mupenWaitToBeginFrameSemaphore);
+    dispatch_release(coreWaitToEndFrameSemaphore);
 }
 
 static void MupenDebugCallback(void *context, int level, const char *message)
@@ -287,11 +287,19 @@ static void MupenSetAudioSpeed(int percent)
     }
 }
 
+- (void)videoInterrupt
+{
+    // FIXME this might be the wrong spot. It should be called when the frame is done rendering.
+    dispatch_semaphore_signal(coreWaitToEndFrameSemaphore);
+    
+    dispatch_semaphore_wait(mupenWaitToBeginFrameSemaphore, DISPATCH_TIME_FOREVER);
+}
+
 - (void)executeFrameSkippingFrame:(BOOL)skip
 {
-    dispatch_semaphore_signal(gMupenWaitForVISemaphore);
+    dispatch_semaphore_signal(mupenWaitToBeginFrameSemaphore);
     
-    dispatch_semaphore_wait(gCoreWaitForFinishSemaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(coreWaitToEndFrameSemaphore, DISPATCH_TIME_FOREVER);
 }
 
 - (void)executeFrame
