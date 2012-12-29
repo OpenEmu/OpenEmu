@@ -250,7 +250,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     // setup depthStencilRenderBuffer
     glGenRenderbuffersEXT(1, &depthStencilRB);
     glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthStencilRB);
-    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH24_STENCIL8, (GLsizei)surfaceSize.width, (GLsizei)surfaceSize.height);
+    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH32F_STENCIL8, (GLsizei)surfaceSize.width, (GLsizei)surfaceSize.height);
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER_EXT, depthStencilRB);
 
     status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
