@@ -261,7 +261,7 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)startInstall
 {
     [[self alert] setProgress:0.0];
-    [[self alert] setHeadlineLabelText:NSLocalizedString(@"Downloading and Installing Core...", @"")];
+    [[self alert] setHeadlineLabelText:NSLocalizedString(@"Downloading and Installing Core…", @"")];
     [[self alert] setTitle:NSLocalizedString(@"Installing Core", @"")];
     [[self alert] setShowsProgressbar:YES];
     [[self alert] setDefaultButtonTitle:nil];

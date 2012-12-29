@@ -61,6 +61,7 @@ NSString *const OEGameVideoFilterKey = @"videoFilter";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
 NSString *const OEDontShowGameTitleInWindowKey = @"dontShowGameTitleInWindow";
 NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
+NSString *const OEBackgroundPauseKey = @"backgroundPause";
 NSString *const OEForceCorePicker = @"forceCorePicker";
 NSString *const OEGameViewControllerEmulationWillFinishNotification = @"OEGameViewControllerEmulationWillFinishNotification";
 NSString *const OEGameViewControllerEmulationDidFinishNotification = @"OEGameViewControllerEmulationDidFinishNotification";
@@ -86,6 +87,7 @@ typedef enum : NSUInteger
     OEGameViewControllerEmulationStatus  _emulationStatus;
     OEDBSaveState                       *_saveStateForGameStart;
     NSDate                              *_lastPlayStartDate;
+    BOOL                                 _pausedByGoingToBackground;
 }
 
 + (OEDBRom *)OE_chooseRomFromGame:(OEDBGame *)game;
@@ -107,6 +109,18 @@ typedef enum : NSUInteger
 @synthesize rom = _rom, document;
 @synthesize controlsWindow;
 @synthesize gameView;
+
+// We cannot use +initialize since it is only sent when the class is first used
+// by the runtime. If the user opens the Preferences window before running any games,
+// i.e., before OEGameViewController is used and +initialize is sent, defaults aren’t
+// registered, NSUserDefaultsController doesn’t know about them and the Preferences
+// window doesn’t show them.
++ (void)load
+{
+    [[NSUserDefaults standardUserDefaults] registerDefaults:(@{
+                                                             OEBackgroundPauseKey : @YES,
+                                                             })];
+}
 
 - (id)initWithRom:(OEDBRom *)rom
 {
@@ -243,15 +257,17 @@ typedef enum : NSUInteger
     
     if([controlsWindow parentWindow] != nil) [[controlsWindow parentWindow] removeChildWindow:controlsWindow];
     
-    NSWindow *window = [gameView window];
+    NSWindow *window = [self OE_rootWindow];
     if(window == nil) return;
-    
-    if([window parentWindow] != nil) window = [window parentWindow];
+
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:window];
+    [nc addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignKeyNotification object:window];
 
     [window addChildWindow:controlsWindow ordered:NSWindowAbove];
     [self OE_repositionControlsWindow];
-    
     [controlsWindow orderFront:self];
+
     [window makeFirstResponder:gameView];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
@@ -265,14 +281,37 @@ typedef enum : NSUInteger
 {
     [super viewWillDisappear];
     
-    NSWindow *window = [gameView window];
-    
-    if([window parentWindow]) window = [window parentWindow];
+    NSWindow *window = [self OE_rootWindow];
+
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:window];
+    [nc removeObserver:self name:NSWindowDidResignKeyNotification object:window];
+
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
         [window setTitle:OEDefaultWindowTitle];
     
     [[self controlsWindow] hide];
     [self terminateEmulation];
+}
+
+- (void)windowDidResignKey:(NSNotification *)notification
+{
+    BOOL backgroundPause = [[NSUserDefaults standardUserDefaults] boolForKey:OEBackgroundPauseKey];
+
+    if(_emulationStatus == OEGameViewControllerEmulationStatusPlaying && backgroundPause)
+    {
+        [self pauseGame:self];
+        _pausedByGoingToBackground = YES;
+    }
+}
+
+- (void)windowDidBecomeKey:(NSNotification *)notification
+{
+    if(_pausedByGoingToBackground)
+    {
+        [self playGame:self];
+        _pausedByGoingToBackground = NO;
+    }
 }
 
 #pragma mark - OS Sleep Handling
@@ -406,8 +445,7 @@ typedef enum : NSUInteger
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
 
-    NSWindow *window = [gameView window];
-    if([window parentWindow]) window = [window parentWindow];
+    NSWindow *window = [self OE_rootWindow];
     [window makeFirstResponder:gameView];
 
     [self disableOSSleep];
@@ -885,6 +923,14 @@ typedef enum : NSUInteger
     origin.y += 19;
 
     [controlsWindow setFrameOrigin:origin];
+}
+
+- (NSWindow *)OE_rootWindow
+{
+    NSWindow *window = [[self gameView] window];
+    while([window parentWindow])
+        window = [window parentWindow];
+    return window;
 }
 
 #pragma mark - Notifications

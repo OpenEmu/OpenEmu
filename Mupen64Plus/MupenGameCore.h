@@ -29,16 +29,13 @@
 #import <dispatch/dispatch.h>
 #import "OEN64SystemResponderClient.h"
 
-extern dispatch_semaphore_t gMupenWaitForVISemaphore;
-extern dispatch_semaphore_t gCoreWaitForFinishSemaphore;
-
 OE_EXPORTED_CLASS
 @interface MupenGameCore : OEGameCore
 {
 @public
-    uint8_t padData[OEN64ButtonCount];
-    uint8_t xAxis[2];
-    uint8_t yAxis[2];
+    uint8_t padData[4][OEN64ButtonCount];
+    uint8_t xAxis[4][2];
+    uint8_t yAxis[4][2];
     int videoWidth;
     int videoHeight;
     int videoBitDepth;
@@ -48,6 +45,9 @@ OE_EXPORTED_CLASS
     
     BOOL isNTSC;
 }
+
+- (void) videoInterrupt;
+- (void) swapBuffers;
 @end
 
 extern MupenGameCore *g_core;

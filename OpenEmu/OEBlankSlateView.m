@@ -221,7 +221,7 @@
     [coreSuppliedByLabel setSelectable:NO];
     [coreSuppliedByLabel setDrawsBackground:NO];
     [coreSuppliedByLabel setBezeled:NO];
-    [coreSuppliedByLabel setStringValue:NSLocalizedString(@"Core Provided By...", @"")];
+    [coreSuppliedByLabel setStringValue:NSLocalizedString(@"Core Provided By…", @"")];
     [view addSubview:coreSuppliedByLabel];
     
     // Get core plugins that can handle the system
