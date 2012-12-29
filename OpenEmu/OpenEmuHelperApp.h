@@ -63,7 +63,7 @@ enum _OEHelperAppErrorCodes
     IOSurfaceID    surfaceID;
     
     // GL Requirements
-    CGLContextObj     glContext, sharedContext;
+    CGLContextObj     glContext;
     GLuint            gameTexture;      // this is the texture that is defined by the gameCores pixelFormat and type
     GLuint            gameFBO;          // this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
     GLuint            ioSurfaceTexture; // square pixel, bufferSize texture sent off to our Parent App for display. Yay.
@@ -71,6 +71,10 @@ enum _OEHelperAppErrorCodes
     
     // poll parent ID, KVO does not seem to be working with NSRunningApplication
     NSTimer          *pollingTimer;
+    
+    // Alternate-thread rendering
+    CGLPixelFormatObj glPixelFormat;
+    CGLContextObj     alternateContext;
     
     // we will need a way to do IPC, for now its DO.
     NSString         *doUUID;

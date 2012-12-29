@@ -165,25 +165,24 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 - (void)setupOpenGLOnScreen:(NSScreen *)screen
 {
     // init our context.
-    CGLPixelFormatAttribute attributes[] = {kCGLPFAAccelerated, kCGLPFAAllowOfflineRenderers, kCGLPFADoubleBuffer, 0};
+    static const CGLPixelFormatAttribute attributes[] = {kCGLPFAAccelerated, kCGLPFAAllowOfflineRenderers, kCGLPFADoubleBuffer, 0};
     
     CGLError err = kCGLNoError;
-    CGLPixelFormatObj pf;
     GLint numPixelFormats = 0;
     
     DLog(@"choosing pixel format");
-    err = CGLChoosePixelFormat(attributes, &pf, &numPixelFormats);
+    err = CGLChoosePixelFormat(attributes, &glPixelFormat, &numPixelFormats);
     
     if(err != kCGLNoError)
     {
         NSLog(@"Error choosing pixel format %s", CGLErrorString(err));
         [[NSApplication sharedApplication] terminate:nil];
     }
-    CGLRetainPixelFormat(pf);
+    CGLRetainPixelFormat(glPixelFormat);
     
     DLog(@"creating context");
     
-    err = CGLCreateContext(pf, NULL, &glContext);
+    err = CGLCreateContext(glPixelFormat, NULL, &glContext);
     if(err != kCGLNoError)
     {
         NSLog(@"Error creating context %s", CGLErrorString(err));
@@ -195,8 +194,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     const GLubyte *vendor = glGetString(GL_VENDOR);
     isIntel = 0 && strstr((const char*)vendor, "Intel") != NULL;
-    
-    CGLCreateContext(pf, glContext, &sharedContext);
 }
 
 - (void)setupIOSurface
@@ -429,8 +426,10 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 - (void)endDrawToIOSurface
 {    
     CGLContextObj cgl_ctx = glContext;
+    
+    BOOL rendersToOpenGL = [gameCore rendersToOpenGL];
 
-    if(![gameCore rendersToOpenGL])
+    if(!rendersToOpenGL)
     {
         // Restore OpenGL states
         glMatrixMode(GL_MODELVIEW);
@@ -444,7 +443,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     glPopClientAttrib();
     
     // flush to make sure IOSurface updates are seen in parent app.
-    glFlush();
+    if (!rendersToOpenGL)
+        glFlushRenderAPPLE();
 }
 
 - (void)drawGameTexture
@@ -784,25 +784,28 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (void)willRenderOnAlternateThread
 {
-    // TODO: can setup the alternate context here, so other cores won't need it
+    CGLCreateContext(glPixelFormat, glContext, &alternateContext);
 }
 
 - (void)startRenderingOnAlternateThread
 {
-    CGLContextObj cgl_ctx = sharedContext;
-    CGLSetCurrentContext(sharedContext);
+    CGLContextObj cgl_ctx = alternateContext;
+    CGLSetCurrentContext(alternateContext);
     
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
 }
 
 - (void)willRenderFrameOnAlternateThread
 {
-    // just in case
+    // Just in case we think of something to do here
 }
 
 - (void)didRenderFrameOnAlternateThread
 {
-    // TODO: can issue glFenceSync here
+    CGLContextObj cgl_ctx = alternateContext;
+    
+    // If we need to do GL commands in endDrawToIOSurface, use glFenceSync here and glWaitSync there?
+    CGLFlushDrawable(cgl_ctx);
 }
 
 #pragma mark - OEAudioDelegate

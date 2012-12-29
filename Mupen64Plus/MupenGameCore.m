@@ -274,6 +274,7 @@ static void MupenSetAudioSpeed(int percent)
     if(!isRunning)
     {
         [super startEmulation];
+        [self.renderDelegate willRenderOnAlternateThread];
         [NSThread detachNewThreadSelector:@selector(mupenEmuThread) toTarget:self withObject:nil];
     }
 }
@@ -289,15 +290,15 @@ static void MupenSetAudioSpeed(int percent)
 
 - (void)videoInterrupt
 {
-    glFinishRenderAPPLE();
     dispatch_semaphore_signal(coreWaitToEndFrameSemaphore);
     
+    [self.renderDelegate willRenderFrameOnAlternateThread];
     dispatch_semaphore_wait(mupenWaitToBeginFrameSemaphore, DISPATCH_TIME_FOREVER);
 }
 
 - (void)swapBuffers
 {
-    CGLFlushDrawable(CGLGetCurrentContext());
+    [self.renderDelegate didRenderFrameOnAlternateThread];
 }
 
 - (void)executeFrameSkippingFrame:(BOOL)skip

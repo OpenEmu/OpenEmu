@@ -327,8 +327,8 @@ void COGLGraphicsContext::UpdateFrame(bool swaponly)
 {
     status.gFrameCount++;
 
-    glFlush();
-    OPENGL_CHECK_ERRORS;
+    //glFlush();
+    //OPENGL_CHECK_ERRORS;
     //glFinish();
     //wglSwapIntervalEXT(0);
 
