@@ -75,6 +75,8 @@ enum _OEHelperAppErrorCodes
     // Alternate-thread rendering
     CGLPixelFormatObj glPixelFormat;
     CGLContextObj     alternateContext;
+    GLuint            tempFBO;
+    GLuint            tempRB[2];
     
     // we will need a way to do IPC, for now its DO.
     NSString         *doUUID;

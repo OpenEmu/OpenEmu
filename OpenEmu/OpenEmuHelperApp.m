@@ -165,7 +165,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 - (void)setupOpenGLOnScreen:(NSScreen *)screen
 {
     // init our context.
-    static const CGLPixelFormatAttribute attributes[] = {kCGLPFAAccelerated, kCGLPFAAllowOfflineRenderers, kCGLPFADoubleBuffer, 0};
+    static const CGLPixelFormatAttribute attributes[] = {kCGLPFAAccelerated, kCGLPFAAllowOfflineRenderers, 0};
     
     CGLError err = kCGLNoError;
     GLint numPixelFormats = 0;
@@ -244,7 +244,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     // setup depthStencilRenderBuffer
     glGenRenderbuffersEXT(1, &depthStencilRB);
     glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthStencilRB);
-    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH32F_STENCIL8, (GLsizei)surfaceSize.width, (GLsizei)surfaceSize.height);
+    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH24_STENCIL8, (GLsizei)surfaceSize.width, (GLsizei)surfaceSize.height);
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER_EXT, depthStencilRB);
 
     status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
@@ -792,27 +792,60 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     CGLContextObj cgl_ctx = alternateContext;
     CGLSetCurrentContext(alternateContext);
     
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
+    // Create an FBO for 3D games to draw into, so they don't accidentally update the IOSurface
+    glGenFramebuffersEXT(1, &tempFBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, tempFBO);
+
+    OEIntSize surfaceSize = correctedSize;
+
+    glGenRenderbuffersEXT(2, tempRB);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, tempRB[0]);
+    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_RGB8, (GLsizei)surfaceSize.width, (GLsizei)surfaceSize.height);
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, tempRB[0]);
+    
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, tempRB[1]);
+    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH32F_STENCIL8, (GLsizei)surfaceSize.width, (GLsizei)surfaceSize.height);
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER_EXT, tempRB[1]);
+
+    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+    if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
+    {
+        NSLog(@"Cannot create temp FBO");
+        NSLog(@"OpenGL error %04X", status);
+        
+        glDeleteFramebuffersEXT(1, &tempFBO);
+    }
+    
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, tempFBO);
 }
 
 - (void)willRenderFrameOnAlternateThread
 {
-    // Just in case we think of something to do here
+
 }
 
 - (void)didRenderFrameOnAlternateThread
 {
     CGLContextObj cgl_ctx = alternateContext;
     
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, tempFBO);
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, gameFBO);
+    
+    OEIntSize surfaceSize = correctedSize;
+    
+    glBlitFramebufferEXT(0, 0, surfaceSize.width, surfaceSize.height,
+                         0, 0, surfaceSize.width, surfaceSize.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+    
+    glFlushRenderAPPLE();
+    
     // If we need to do GL commands in endDrawToIOSurface, use glFenceSync here and glWaitSync there?
-    CGLFlushDrawable(cgl_ctx);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, tempFBO);
 }
 
 #pragma mark - OEAudioDelegate
 
 - (void)audioSampleRateDidChange
 {
-    DLog(@"");
     [gameAudio stopAudio];
     [gameAudio startAudio];
 }
