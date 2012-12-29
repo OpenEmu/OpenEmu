@@ -46,7 +46,6 @@
 				<string key="NSFrameSize">{480, 272}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSSplitView" id="6079965">
@@ -76,7 +75,7 @@
 										<string key="NSFrameSize">{922, 319}</string>
 										<reference key="NSSuperview" ref="311889962"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="1040507511"/>
+										<reference key="NSNextKeyView" ref="247794307"/>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -433,7 +432,6 @@
 								<string key="NSFrame">{{0, 320}, {735, 16}}</string>
 								<reference key="NSSuperview" ref="664306359"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">1</int>
@@ -459,7 +457,7 @@
 						<string key="NSFrame">{{0, 333}, {735, 336}}</string>
 						<reference key="NSSuperview" ref="6079965"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="247794307"/>
+						<reference key="NSNextKeyView" ref="311889962"/>
 						<int key="NSsFlags">133808</int>
 						<reference key="NSVScroller" ref="1040507511"/>
 						<reference key="NSHScroller" ref="364856155"/>
@@ -478,7 +476,7 @@
 				<int key="NSDividerStyle">2</int>
 			</object>
 			<object class="NSScrollView" id="700958242">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSClipView" id="384876260">
@@ -490,12 +488,14 @@
 								<int key="NSvFlags">18</int>
 								<string key="NSFrameSize">{643, 510}</string>
 								<reference key="NSSuperview" ref="384876260"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="102222795"/>
 								<string key="NSClassName">OEGridView</string>
 							</object>
 						</array>
 						<string key="NSFrameSize">{643, 510}</string>
 						<reference key="NSSuperview" ref="700958242"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="705979620"/>
 						<reference key="NSDocView" ref="705979620"/>
 						<object class="NSColor" key="NSBGColor">
@@ -509,6 +509,7 @@
 						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{628, 0}, {15, 495}}</string>
 						<reference key="NSSuperview" ref="700958242"/>
+						<reference key="NSWindow"/>
 						<bool key="NSViewCanDrawConcurrently">YES</bool>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						<reference key="NSTarget" ref="700958242"/>
@@ -522,6 +523,7 @@
 						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{-100, -100}, {628, 15}}</string>
 						<reference key="NSSuperview" ref="700958242"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="384876260"/>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						<int key="NSsFlags">1</int>
@@ -532,7 +534,10 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{643, 510}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="384876260"/>
+				<bool key="NSViewIsLayerTreeHost">YES</bool>
 				<int key="NSsFlags">133680</int>
 				<reference key="NSVScroller" ref="941444314"/>
 				<reference key="NSHScroller" ref="102222795"/>
@@ -543,9 +548,11 @@
 				<double key="NSMagnification">1</double>
 			</object>
 			<object class="NSCustomView" id="101446984">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<string key="NSFrameSize">{480, 272}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSClassName">OEBlankSlateView</string>
 			</object>
 		</array>
