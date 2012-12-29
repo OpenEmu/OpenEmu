@@ -1318,10 +1318,6 @@ void gx_input_SetDefault(void)
       }
     }
   }
-
-  /* default emulated inputs */
-  input.system[0] = SYSTEM_MD_GAMEPAD;
-  input.system[1] = (config.input[1].device != -1) ? SYSTEM_MD_GAMEPAD : NO_SYSTEM;
 }
 
 void gx_input_Config(u8 chan, u8 device, u8 type)

@@ -221,9 +221,6 @@ void config_default(void)
   /* try to restore user config */
   int loaded = config_load();
 
-  /* restore inputs */
-  input_init();
-
 #ifndef HW_RVL
   /* detect progressive mode enable/disable requests */
   PAD_ScanPads();
@@ -255,4 +252,9 @@ void config_default(void)
     GUI_WaitPrompt("Warning","Default Settings restored");
     gx_input_SetDefault();
   }
+
+  /* default emulated inputs */
+  input.system[0] = SYSTEM_MD_GAMEPAD;
+  input.system[1] = (config.input[1].device != -1) ? SYSTEM_MD_GAMEPAD : NO_SYSTEM;
+  input_init();
 }

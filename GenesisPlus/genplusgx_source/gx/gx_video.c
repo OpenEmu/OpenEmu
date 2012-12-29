@@ -725,8 +725,8 @@ static void gxDrawCdLeds(gx_texture *texture_l, gx_texture *texture_r)
   int ywidth = square[4] - square[10];
 
   /* adjust texture coordinates to EFB */
-  int xl = (((bitmap.viewport.x + 4) * xwidth) / vwidth) + square[9];
-  int xr = (((bitmap.viewport.x + bitmap.viewport.w - 4) * xwidth) / vwidth) + square[9] - w;
+  int xl = (((bitmap.viewport.x + 4) * xwidth) / (bitmap.viewport.w + 2*bitmap.viewport.x)) + square[9];
+  int xr = xwidth - xl + 2*square[9] - w;
   int y = (((bitmap.viewport.y + bitmap.viewport.h - 4) * ywidth) / vheight) + square[10] - h;
 
   /* reset GX rendering */

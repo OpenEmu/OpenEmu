@@ -223,7 +223,7 @@ void z80_write_word(unsigned int address, unsigned int data)
 /* I/O Control                                                              */
 /*--------------------------------------------------------------------------*/
 
-INLINE void m68k_poll_detect(reg)
+static void m68k_poll_detect(reg)
 {
   /* detect MAIN-CPU register polling */
   if (m68k.poll.detected == (1 << reg))
@@ -253,7 +253,7 @@ INLINE void m68k_poll_detect(reg)
   m68k.poll.pc = m68k.pc;
 }
 
-INLINE void m68k_poll_sync(reg)
+static void m68k_poll_sync(reg)
 {
   /* relative SUB-CPU cycle counter */
   unsigned int cycles = (m68k.cycles * SCYCLES_PER_LINE) / MCYCLES_PER_LINE;
@@ -711,14 +711,10 @@ void ctrl_io_write_byte(unsigned int address, unsigned int data)
 
           default:
           {
-            /* default registers */
-            if (address < 0xa12020)
+            /* MAIN-CPU communication words */
+            if ((address & 0x30) == 0x10)
             {
-              /* MAIN-CPU communication words */
-              if (address >= 0xa12010)
-              {
-                m68k_poll_sync(address & 0x1e);
-              }
+              m68k_poll_sync(address & 0x1e);
 
               /* register LSB */
               if (address & 1)
@@ -731,7 +727,7 @@ void ctrl_io_write_byte(unsigned int address, unsigned int data)
               scd.regs[(address >> 1) & 0xff].byte.h = data;
               return;
             }
-            
+
             /* invalid address */
             m68k_unused_8_w(address, data);
             return;
@@ -930,15 +926,10 @@ void ctrl_io_write_word(unsigned int address, unsigned int data)
 
           default:
           {
-            if (address < 0xa12020)
+            /* MAIN-CPU communication words */
+            if ((address & 0x30) == 0x10)
             {
-              /* MAIN-CPU communication words */
-              if (address >= 0xa12010)
-              {
-                m68k_poll_sync(address & 0x1e);
-              }
-
-              /* default registers */
+              m68k_poll_sync(address & 0x1e);
               scd.regs[(address >> 1) & 0xff].w = data;
               return;
             }

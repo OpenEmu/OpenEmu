@@ -180,7 +180,7 @@ static void bram_write_word(unsigned int address, unsigned int data)
 /* PCM chip & Gate-Array area                                               */
 /*--------------------------------------------------------------------------*/
 
-INLINE void s68k_poll_detect(reg)
+static void s68k_poll_detect(reg)
 {
   /* detect SUB-CPU register polling */
   if (s68k.poll.detected == (1 << reg))
@@ -210,7 +210,7 @@ INLINE void s68k_poll_detect(reg)
   s68k.poll.pc = s68k.pc;
 }
 
-INLINE void s68k_poll_sync(reg)
+static void s68k_poll_sync(reg)
 {
   /* relative MAIN-CPU cycle counter */
   unsigned int cycles = (s68k.cycles * MCYCLES_PER_LINE) / SCYCLES_PER_LINE;
@@ -663,7 +663,7 @@ static void scd_write_byte(unsigned int address, unsigned int data)
       }
 
       /* update PM0-1 & MODE bits */
-      scd.regs[0x02 >> 1].byte.l = (scd.regs[0x01].byte.l & ~0x1c) | (data & 0x1c);
+      scd.regs[0x02 >> 1].byte.l = (scd.regs[0x02 >> 1].byte.l & ~0x1c) | (data & 0x1c);
       return;
     }
 
