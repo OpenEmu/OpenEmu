@@ -90,6 +90,7 @@ EXPORT m64p_error CALL VidExt_GL_GetAttribute(m64p_GLattr Attr, int *pValue)
 
 EXPORT m64p_error CALL VidExt_GL_SwapBuffers(void)
 {
+    [g_core swapBuffers];
     return M64ERR_SUCCESS;
 }
 

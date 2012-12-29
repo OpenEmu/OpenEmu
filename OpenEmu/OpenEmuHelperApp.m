@@ -28,7 +28,6 @@
 // for speedz
 #import <OpenGL/CGLMacro.h>
 
-
 #import "OpenEmuHelperApp.h"
 #import "NSString+UUID.h"
 
@@ -77,7 +76,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-
     // just be sane for now.
     gameFBO = 0;
     gameTexture = 0;
@@ -112,7 +110,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     
     return ret;
 }
-
 
 - (void)setupGameCore
 {
@@ -168,7 +165,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 - (void)setupOpenGLOnScreen:(NSScreen *)screen
 {
     // init our context.
-    CGLPixelFormatAttribute attributes[] = {kCGLPFAAccelerated, kCGLPFAAllowOfflineRenderers, 0};
+    CGLPixelFormatAttribute attributes[] = {kCGLPFAAccelerated, kCGLPFAAllowOfflineRenderers, kCGLPFADoubleBuffer, 0};
     
     CGLError err = kCGLNoError;
     CGLPixelFormatObj pf;
@@ -197,7 +194,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     CGLContextObj cgl_ctx = glContext;
 
     const GLubyte *vendor = glGetString(GL_VENDOR);
-    isIntel = strstr((const char*)vendor, "Intel") != NULL;
+    isIntel = 0 && strstr((const char*)vendor, "Intel") != NULL;
     
     CGLCreateContext(pf, glContext, &sharedContext);
 }
@@ -263,18 +260,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     }
 }
 
-static int PixelFormatToBPP(GLenum pixelFormat)
-{
-    switch (pixelFormat)
-    {
-        case GL_RGB4:
-        case GL_RGB5:
-            return 2; // short
-        case GL_RGB8: default:
-            return 4; // int
-    }
-}
-
 - (void)setupGameTexture
 {
     DLog(@"starting to setup gameTexture");
@@ -292,9 +277,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     status = glGetError();
     if(status != 0) NSLog(@"createNewTexture, after bindTex: OpenGL error %04X", status);
-    
-    // This seems to cause issues with SNES9X - we may want to look into the "Fence" extensions. Otherwise
-    // we ignore texture range, etc
+
     OEIntSize  bufferSize;
     const void *videoBuffer;
     
@@ -306,14 +289,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     internalPixelFormat = [gameCore internalPixelFormat];
     pixelFormat         = [gameCore pixelFormat];
     pixelType           = [gameCore pixelType];
-    
-    // Texture range seems to break SNES9X on some GPUs
-    // Tested GT 330M (MacBookPro6,2) / 10.6.4
-#if 0
-    int pixelBPP        = (pixelFormat == GL_RGB8) ? 4 : 2;
-    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, bufferWidth * bufferHeight * pixelBPP, videoBuffer);
-#endif
-    
+
     if(!isIntel)
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
@@ -331,7 +307,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, internalPixelFormat, bufferSize.width, bufferSize.height, 0, pixelFormat, pixelType, videoBuffer);
     
-    DLog(@"upladed gameTexture");
+    DLog(@"uploaded gameTexture");
     
     status = glGetError();
     if(status)
@@ -346,9 +322,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
     }
 
-    DLog(@"Finished Setting up gameTexture");
+    DLog(@"Finished setting up gameTexture");
 }
-
 
 - (void)updateGameTexture
 {
@@ -398,7 +373,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     }
     
     [self updateAspectSize];
-    
+        
     // Incase of a GameCore that renders direct to GL, do some state 'protection'
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
@@ -469,7 +444,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     glPopClientAttrib();
     
     // flush to make sure IOSurface updates are seen in parent app.
-    glFlushRenderAPPLE();
+    glFlush();
 }
 
 - (void)drawGameTexture
@@ -809,10 +784,25 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)willRenderOnAlternateThread
 {
+    // TODO: can setup the alternate context here, so other cores won't need it
+}
+
+- (void)startRenderingOnAlternateThread
+{
     CGLContextObj cgl_ctx = sharedContext;
     CGLSetCurrentContext(sharedContext);
     
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
+}
+
+- (void)willRenderFrameOnAlternateThread
+{
+    // just in case
+}
+
+- (void)didRenderFrameOnAlternateThread
+{
+    // TODO: can issue glFenceSync here
 }
 
 #pragma mark - OEAudioDelegate
@@ -827,7 +817,6 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 @end
 
 #pragma mark -
-
 
 @implementation OEGameCoreProxy
 {

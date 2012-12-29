@@ -47,7 +47,12 @@
 @required
 - (void) willExecute;
 - (void) didExecute;
+
 - (void) willRenderOnAlternateThread;
+- (void) startRenderingOnAlternateThread;
+
+- (void) willRenderFrameOnAlternateThread;
+- (void) didRenderFrameOnAlternateThread;
 @end
 
 #pragma mark -

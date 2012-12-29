@@ -82,6 +82,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 // rendering
 @property         GLuint gameTexture;
 @property         IOSurfaceID gameSurfaceID;
+@property         IOSurfaceRef gameSurfaceRef;
 
 @property         OEIntSize gameScreenSize;
 @property         OEIntSize gameAspectSize;
@@ -107,6 +108,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 // rendering
 @synthesize gameTexture;
 @synthesize gameSurfaceID;
+@synthesize gameSurfaceRef;
 @synthesize gameDisplayLinkRef;
 @synthesize gameScreenSize, gameAspectSize;
 @synthesize gameServer;
@@ -201,6 +203,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
     // rendering
     [self setupDisplayLink];
+    [self rebindIOSurface];
 }
 
 - (NSString*) gameTitle
@@ -288,8 +291,24 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 	}
 }
 
+- (void)rebindIOSurface
+{
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+
+    if (gameSurfaceRef)
+        CFRelease(gameSurfaceRef);
+    
+    gameSurfaceRef = IOSurfaceLookup(gameSurfaceID);
+    
+    if (!gameSurfaceRef) return;
+    
+    glEnable(GL_TEXTURE_RECTANGLE_EXT);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(gameSurfaceRef), IOSurfaceGetHeight(gameSurfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, gameSurfaceRef, 0);
+}
+
 - (void)tearDownDisplayLink
-{    
+{
     DLog(@"deleteDisplayLink");
     
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
@@ -335,7 +354,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     CGColorSpaceRelease(rgbColorSpace);
     rgbColorSpace = NULL;
     
-       
+    CFRelease(gameSurfaceRef);
+    
     [self unbind:@"filterName"];
 }
 
@@ -391,15 +411,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     else
         filterTime -= filterStartTime;
     
-    // IOSurfaceLookup performs a lock *AND A RETAIN* - 
-    // look up every frame, since our games surfaceRef may have changed in response to a resize
-
-    IOSurfaceRef surfaceRef = NULL;
-
-    surfaceRef = IOSurfaceLookup(gameSurfaceID);
+    if (!gameSurfaceRef)
+        [self rebindIOSurface];
 
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
-    if(surfaceRef != NULL)
+    if(gameSurfaceRef != NULL)
     {
         NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
         CGRect textureRect = CGRectMake(0, 0, gameScreenSize.width, gameScreenSize.height);
@@ -411,30 +427,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         CGLLockContext(cgl_ctx);
 
         // always set the CIImage, so save states save
-        [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
+        [self setGameCIImage:[[CIImage imageWithIOSurface:gameSurfaceRef options:options] imageByCroppingToRect:textureRect]];
 
         OEGameShader *shader = [filters objectForKey:filterName];
-        
-        
-        // Attempted fix for Issue #142
-        // update our game texture
-//        glEnable(GL_TEXTURE_RECTANGLE_EXT);
-//        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-//        CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_RGBA, GL_UNSIGNED_BYTE, surfaceRef, 0);
-//        
-//        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-//        
-//        // already disabled
-//        //    glDisable(GL_BLEND);
-//        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-//        
-//        // make a CIImage based off of our texture
-//        //NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
-//        CGRect textureRect = CGRectMake(0, 0, gameScreenSize.width, gameScreenSize.height);
-//        
-//        // always set the CIImage, so save states save
-//        [self setGameCIImage:[[[CIImage alloc] initWithTexture:gameTexture size:textureRect.size flipped:NO colorSpace:rgbColorSpace] imageByCroppingToRect:textureRect]];
         
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
@@ -443,7 +438,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         glLoadIdentity();
 
         if(shader != nil)
-            [self OE_drawSurface:surfaceRef inCGLContext:cgl_ctx usingShader:shader];
+            [self OE_drawSurface:gameSurfaceRef inCGLContext:cgl_ctx usingShader:shader];
         else
         {
             // Since our filters no longer rely on QC, it may not be around.
@@ -496,12 +491,12 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             
 //            glReadPixels(0, 0, textureRect.size.width, textureRect.size.height, GL_RGBA, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
 
-            IOSurfaceLock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
+            IOSurfaceLock(gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
             
-            vImage_Buffer src = {.data = IOSurfaceGetBaseAddress(surfaceRef),
+            vImage_Buffer src = {.data = IOSurfaceGetBaseAddress(gameSurfaceRef),
                                 .width = textureRect.size.width,
                                .height = textureRect.size.height,
-                             .rowBytes = IOSurfaceGetBytesPerRow(surfaceRef)};
+                             .rowBytes = IOSurfaceGetBytesPerRow(gameSurfaceRef)};
             vImage_Buffer dest= {.data = [imageRep bitmapData],
                                 .width = textureRect.size.width,
                                .height = textureRect.size.height,
@@ -511,7 +506,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             const uint8_t permuteMap[] = {2,1,0,3};
             vImagePermuteChannels_ARGB8888(&src, &dest, permuteMap, 0);
             
-            IOSurfaceUnlock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
+            IOSurfaceUnlock(gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
             
             NSImage *img = nil;
             
@@ -537,8 +532,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         [[self openGLContext] flushBuffer];
 
         CGLUnlockContext(cgl_ctx);
-
-        CFRelease(surfaceRef);
     }
     else
     {
@@ -551,17 +544,14 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 // GL render method
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)cgl_ctx usingShader:(OEGameShader *)shader
 {
-
     glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     
     // need to add a clear here since we now draw direct to our context
     glClear(GL_COLOR_BUFFER_BIT);
     
-    glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
-    
+
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
@@ -729,6 +719,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
     gameSurfaceID = rootProxy.surfaceID;
+    
+    [self rebindIOSurface];
 
     self.gameScreenSize = size;
 }

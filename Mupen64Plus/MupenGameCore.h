@@ -47,6 +47,7 @@ OE_EXPORTED_CLASS
 }
 
 - (void) videoInterrupt;
+- (void) swapBuffers;
 @end
 
 extern MupenGameCore *g_core;

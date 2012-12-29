@@ -282,17 +282,22 @@ static void MupenSetAudioSpeed(int percent)
 {
     @autoreleasepool
     {
-        [self.renderDelegate willRenderOnAlternateThread];
+        [self.renderDelegate startRenderingOnAlternateThread];
         CoreDoCommand(M64CMD_EXECUTE, 0, NULL);
     }
 }
 
 - (void)videoInterrupt
 {
-    // FIXME this might be the wrong spot. It should be called when the frame is done rendering.
+    glFinishRenderAPPLE();
     dispatch_semaphore_signal(coreWaitToEndFrameSemaphore);
     
     dispatch_semaphore_wait(mupenWaitToBeginFrameSemaphore, DISPATCH_TIME_FOREVER);
+}
+
+- (void)swapBuffers
+{
+    CGLFlushDrawable(CGLGetCurrentContext());
 }
 
 - (void)executeFrameSkippingFrame:(BOOL)skip
