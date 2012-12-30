@@ -609,7 +609,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
                      [_visibleCellByIndex setObject:newCell forKey:[NSNumber numberWithUnsignedInteger:idx]];
                      [_rootLayer addSublayer:newCell];
                  }
-                 
+                 oldCell = newCell;
                  [self OE_setNeedsLayoutGridView];
              }
          }

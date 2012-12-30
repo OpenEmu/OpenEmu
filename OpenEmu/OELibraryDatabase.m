@@ -345,6 +345,13 @@ static OELibraryDatabase *defaultDatabase = nil;
     // This error checking is a bit redundant, but we want to make sure that we only merge in other thread's managed object contexts
     if([notification object] != __managedObjectContext)
     {
+        //Transient properties don't merge
+        [[notification userInfo][NSUpdatedObjectsKey] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            OEDBGame *incomingGame = obj;
+            OEDBGame *mainGame = (OEDBGame*)[__managedObjectContext objectWithID:[incomingGame objectID]];
+            [mainGame setStatus:[incomingGame status]];
+        }];
+
         [__managedObjectContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:) withObject:notification waitUntilDone:YES];
     }
 }
