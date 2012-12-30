@@ -220,7 +220,7 @@
 #pragma mark TaskWrapper delegate methods
 - (void)appendOutput:(NSString *)output fromProcess:(OETaskWrapper *)aTask
 {
-    // printf("%s", [output UTF8String]);
+    printf("%s", [output UTF8String]);
 }    
 
 - (void)processStarted:(OETaskWrapper *)aTask
