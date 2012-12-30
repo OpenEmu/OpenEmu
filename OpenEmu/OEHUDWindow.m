@@ -31,19 +31,41 @@
 #import "OEButton.h"
 #import "OEButtonCell.h"
 
-@interface OEHUDWindow ()
-{
-	NSWindow *_borderWindow;
-}
+@interface OEHUDWindow () <NSWindowDelegate>
 
 - (void)OE_commonHUDWindowInit;
+- (void)windowDraggingDidBegin;
+- (void)windowDraggingDidEnd;
 
 @end
 
 @interface OEHUDBorderWindow : NSWindow
+- (BOOL)isDragging;
+- (void)windowDraggingDidBegin;
+- (void)windowDraggingDidEnd;
+@end
+
+// We need to use a different NSWindowDelegate implementation because of our custom implementation of window moving
+// in OEHUDWindowThemeView: -mouseDown:, -mouseDragged: and -mouseUp:. Whenever the user drags the mouse to move
+// the window, we set its frame origin to the new location, which means that the delegate receives -windowDidMove:
+// every time the mouse is dragged instead of only when dragging ends.
+// This is our solution:
+// - Keep two separate delegates in OEHUDWindowDelegateProxy:
+//   - superDelegate is the delegate used by NSWindow. We set it to be OEHUDWindow
+//   - localDelegate is the delegate set by clients of OEHUDWindow
+// - Trap -windowDidMove: messages in  superDelegate, i.e., OEHUDWindow. If the window is being dragged, do nothing
+// - All other delegate methods are forwarded from superDelegate to localDelegate
+// - Upon -mouseUp:, if the window is being dragged then dragging has ended, so send -windowDidMove: to localDelegate
+@interface OEHUDWindowDelegateProxy : NSObject <NSWindowDelegate>
+@property(nonatomic, weak) id<NSWindowDelegate> superDelegate;
+@property(nonatomic, weak) id<NSWindowDelegate> localDelegate;
 @end
 
 @implementation OEHUDWindow
+{
+    OEHUDBorderWindow        *_borderWindow;
+    OEHUDWindowDelegateProxy *_delegateProxy;
+}
 
 + (void)initialize
 {
@@ -70,10 +92,7 @@
 
 - (id)initWithContentRect:(NSRect)frame
 {
-    self = [self initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
-    if (self) 
-    {}
-    return self;
+    return [self initWithContentRect:frame styleMask:NSBorderlessWindowMask | NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];
 }
 
 - (void)awakeFromNib
@@ -87,6 +106,42 @@
     DLog(@"OEHUDWindow");
     _borderWindow = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)setDelegate:(id<NSWindowDelegate>)delegate
+{
+    if(!_delegateProxy)
+    {
+        _delegateProxy = [OEHUDWindowDelegateProxy new];
+        [_delegateProxy setSuperDelegate:self];
+    }
+
+    [_delegateProxy setLocalDelegate:delegate];
+    [super setDelegate:_delegateProxy];
+}
+
+- (void)windowDidMove:(NSNotification *)notification
+{
+    if(![_borderWindow isDragging] && [[_delegateProxy localDelegate] respondsToSelector:@selector(windowDidMove:)])
+        [[_delegateProxy localDelegate] windowDidMove:notification];
+}
+
+- (void)windowDraggingDidEnd
+{
+    if([[_delegateProxy localDelegate] respondsToSelector:@selector(windowDidMove:)])
+    {
+        NSNotification *notification = [NSNotification notificationWithName:NSWindowDidMoveNotification object:self];
+        [[_delegateProxy localDelegate] windowDidMove:notification];
+    }
+}
+
+- (void)windowDraggingDidBegin
+{
+    if([[_delegateProxy localDelegate] respondsToSelector:@selector(windowWillMove:)])
+    {
+        NSNotification *notification = [NSNotification notificationWithName:NSWindowWillMoveNotification object:self];
+        [[_delegateProxy localDelegate] windowWillMove:notification];
+    }
 }
 
 #pragma mark -
@@ -106,19 +161,27 @@
     // Register for notifications
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidResizeNotification object:self];
-    
     [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidResignKeyNotification object:self];
     [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidBecomeKeyNotification object:self];
     
     _borderWindow = [[OEHUDBorderWindow alloc] initWithContentRect:[self frame] styleMask:0 backing:0 defer:0];
     [self addChildWindow:_borderWindow ordered:NSWindowAbove];
-    [_borderWindow orderFront:self];
 }
 
 - (void)OE_layout
 {
     [_borderWindow setFrame:[self frame] display:NO];
     [_borderWindow display];
+}
+
+// If we don’t override -orderWindow:relativeTo:, the border window may be ordered below the HUD window even
+// if it was added as a child window ordered above its parent window, thus preventing OEHUDWindowThemeView
+// from receiving mouse events.
+- (void)orderWindow:(NSWindowOrderingMode)place relativeTo:(NSInteger)otherWin
+{
+    [super orderWindow:place relativeTo:otherWin];
+    if(place != NSWindowOut)
+        [_borderWindow orderWindow:NSWindowAbove relativeTo:[self windowNumber]];
 }
 
 - (id)contentView
@@ -141,7 +204,7 @@
     contentRect.size = [self frame].size;
     
     contentRect.size.height -= 21;
-    
+
     [aView setFrame:contentRect];
     [aView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 }
@@ -166,6 +229,7 @@
 }
 
 @end
+
 
 @implementation OEHUDBorderWindow
 
@@ -215,13 +279,27 @@
     return NO;
 }
 
+- (BOOL)isDragging
+{
+    return [[self contentView] isDragging];
+}
+
+- (void)windowDraggingDidEnd
+{
+    [(OEHUDWindow *)[self parentWindow] windowDraggingDidEnd];
+}
+
+- (void)windowDraggingDidBegin
+{
+    [(OEHUDWindow *)[self parentWindow] windowDraggingDidBegin];
+}
+
 @end
 
 @implementation OEHUDWindowThemeView
 {
     NSPoint baseMouseLocation;
     NSPoint baseOrigin;
-    BOOL isDragging;
 }
 
 #pragma mark -
@@ -295,9 +373,9 @@
 - (void)mouseDown:(NSEvent *)theEvent
 {
     NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    
-    isDragging = NO;
-    
+
+    [self setDragging:NO];
+
     if(!NSPointInRect(pointInView, [self titleBarRect]))
     {
         [[self nextResponder] mouseDown:theEvent];
@@ -307,12 +385,13 @@
     NSWindow *window = [self window];
     baseMouseLocation = [window convertRectToScreen:(NSRect){[theEvent locationInWindow], NSZeroSize}].origin;
     baseOrigin = [window frame].origin;
-    isDragging = YES;
+    [self setDragging:YES];
+    [(OEHUDBorderWindow *)[self window] windowDraggingDidBegin];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    if (!isDragging)
+    if (![self isDragging])
     {
         [[self nextResponder] mouseDragged:theEvent];
         return;
@@ -359,12 +438,35 @@
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    if (!isDragging)
+    if (![self isDragging])
     {
         [[self nextResponder] mouseUp:theEvent];
         return;
     }
-    isDragging = NO;
+    [self setDragging:NO];
+    [(OEHUDBorderWindow *)[self window] windowDraggingDidEnd];
+}
+
+@end
+
+@implementation OEHUDWindowDelegateProxy
+
+- (BOOL)respondsToSelector:(SEL)selector
+{
+    return [_superDelegate respondsToSelector:selector] || [_localDelegate respondsToSelector:selector];
+}
+
+- (id)forwardingTargetForSelector:(SEL)selector
+{
+    // OEHUDWindow takes precedence over its (local) delegate
+    if([_superDelegate respondsToSelector:selector]) return _superDelegate;
+    if([_localDelegate respondsToSelector:selector]) return _localDelegate;
+    return nil;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"super delegate is %@, local delegate is %@", _superDelegate, _localDelegate];
 }
 
 @end
