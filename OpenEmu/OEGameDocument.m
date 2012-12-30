@@ -41,8 +41,9 @@
 #import "OEDistantViewController.h"
 #import "NSViewController+OEAdditions.h"
 #import "NSView+FadeImage.h"
+
 #import "OEHUDWindow.h"
-#import "NSWindow+OEFullScreenAdditions.h"
+#import "OEPopoutGameWindowController.h"
 
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
@@ -53,13 +54,11 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 @property (strong) OEGameViewController *gameViewController;
 @property (strong) NSViewController *viewController;
 - (OEDistantViewController*)distantViewController;
-
-@property (strong) NSWindow *popoutWindow;
 @end
 #pragma mark -
 
 @implementation OEGameDocument
-@synthesize gameViewController, viewController, popoutWindow;
+@synthesize gameViewController, viewController;
 
 - (id)init
 {
@@ -173,34 +172,20 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 - (void)showInSeparateWindow:(id)sender fullScreen:(BOOL)fullScreen;
 {
-    // Create a window, set gameviewcontroller.view as view, open it
-    const CGFloat windowTitleBarHeight = 21.0;
-    const NSSize mainScreenSize        = [[NSScreen mainScreen] visibleFrame].size;
-    const NSSize maxWindowSize         = {mainScreenSize.width, mainScreenSize.height - windowTitleBarHeight};
-    const NSSize defaultSize           = [[self gameViewController] defaultScreenSize];
-    const NSUInteger sizeScale         = MAX(MIN(floor(maxWindowSize.height / defaultSize.height), floor(maxWindowSize.width / defaultSize.width)), 1);
-    const NSSize windowSize            = {defaultSize.width * sizeScale, (defaultSize.height * sizeScale) + windowTitleBarHeight};
-    const NSRect windowRect            = {NSZeroPoint, windowSize};
+    OEHUDWindow *window                            = [[OEHUDWindow alloc] initWithContentRect:NSZeroRect];
+    OEPopoutGameWindowController *windowController = [[OEPopoutGameWindowController alloc] initWithWindow:window];
 
-    [[self gameViewController] viewWillAppear];
-    
-    OEHUDWindow *window = [[OEHUDWindow alloc] initWithContentRect:windowRect];
-    [window setCollectionBehavior:([window collectionBehavior] | NSWindowCollectionBehaviorFullScreenPrimary)];
-    [window center];
-    [window setContentView:[[self gameViewController] view]];
-    [window makeKeyAndOrderFront:self];
-    [self setPopoutWindow:window];
-    [[self gameViewController] viewDidAppear];
-    [window display];
-    
-    if(fullScreen) [window toggleFullScreen:self];
-    
-    [self addWindowController:[[NSWindowController alloc] initWithWindow:window]];
+    [windowController setWindowFullScreen:fullScreen];
+    [self addWindowController:windowController];
+    [self showWindows];
 }
 
 - (NSString *)displayName
 {
-    return ([[[self gameViewController] gameView] gameTitle] ? : [super displayName]);
+    // If we do not have a title yet, return an empty string instead of [super displayName].
+    // The latter uses Cocoa document architecture and relies on documents having URLs,
+    // including untitled (new) documents.
+    return ([[[self gameViewController] gameView] gameTitle] ? : @"");
 }
 
 #pragma mark -

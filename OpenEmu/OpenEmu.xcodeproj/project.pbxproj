@@ -79,6 +79,7 @@
 		144D61491672D6BF0000268B /* OETableTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 144D61481672D6BF0000268B /* OETableTextFieldCell.m */; };
 		14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */; };
 		14E4A7FA1616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */; };
+		14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */; };
 		14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F8750C1649377E002AE3B8 /* OEFiniteStateMachine.m */; };
 		1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1B2B6D7714DB659F000D0BF7 /* Scale4xBR.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7314DB6363000D0BF7 /* Scale4xBR.frag */; };
@@ -1029,8 +1030,11 @@
 		144D61481672D6BF0000268B /* OETableTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableTextFieldCell.m; sourceTree = "<group>"; };
 		1486195E166076A400BDB800 /* NSDate+OESortAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OESortAdditions.h"; sourceTree = "<group>"; };
 		1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OESortAdditions.m"; sourceTree = "<group>"; };
+		14CA66E0168E910C003E28A7 /* OEGameIntegralScalingDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameIntegralScalingDelegate.h; sourceTree = "<group>"; };
 		14E4A7F81616EF8B00082311 /* NSWindow+OEFullScreenAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OEFullScreenAdditions.h"; sourceTree = "<group>"; };
 		14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OEFullScreenAdditions.m"; sourceTree = "<group>"; };
+		14F6A924168180CF0071386D /* OEPopoutGameWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPopoutGameWindowController.h; sourceTree = "<group>"; };
+		14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPopoutGameWindowController.m; sourceTree = "<group>"; };
 		14F8750B1649377E002AE3B8 /* OEFiniteStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFiniteStateMachine.h; sourceTree = "<group>"; };
 		14F8750C1649377E002AE3B8 /* OEFiniteStateMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFiniteStateMachine.m; sourceTree = "<group>"; };
 		1B223EFA100B89BE00F42067 /* CRTDisplace.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.vert; sourceTree = "<group>"; };
@@ -2079,6 +2083,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		14F6A92A168184550071386D /* Game Document */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4AEFDCFA73011CA2CEA /* OEGameDocument.h */,
+				2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */,
+				14F6A924168180CF0071386D /* OEPopoutGameWindowController.h */,
+				14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */,
+				14CA66E0168E910C003E28A7 /* OEGameIntegralScalingDelegate.h */,
+			);
+			name = "Game Document";
+			sourceTree = "<group>";
+		};
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2968,10 +2984,9 @@
 				1EA44138119762EA001D71CA /* QuickLook */,
 				8249C8E60E899CFF0027EFDF /* Utility Windows */,
 				83B6E444143E1BBD00BCDB7A /* Utilities */,
+				14F6A92A168184550071386D /* Game Document */,
 				C6AC9D4B1190C9AE0083DDFD /* OEGameCoreManager.h */,
 				C6AC9D4C1190C9AE0083DDFD /* OEGameCoreManager.m */,
-				2A37F4AEFDCFA73011CA2CEA /* OEGameDocument.h */,
-				2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */,
 				C69DCCFF0FE994A5009AE5A6 /* OEPluginDocument.h */,
 				C69DCD000FE994A5009AE5A6 /* OEPluginDocument.m */,
 			);
@@ -4874,6 +4889,7 @@
 				14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */,
 				144D61491672D6BF0000268B /* OETableTextFieldCell.m in Sources */,
 				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
+				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

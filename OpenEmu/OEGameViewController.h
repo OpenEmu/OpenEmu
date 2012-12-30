@@ -54,6 +54,7 @@ extern NSString *const OEGameViewControllerROMKey;
 
 @class OECorePlugin;
 @protocol OEGameViewControllerDelegate;
+@protocol OEGameIntegralScalingDelegate;
 
 @interface OEGameViewController : NSViewController
 {
@@ -91,6 +92,7 @@ extern NSString *const OEGameViewControllerROMKey;
 @property(readonly) OEGameView *gameView;
 
 @property(unsafe_unretained) id<OEGameViewControllerDelegate> delegate;
+@property(unsafe_unretained) id<OEGameIntegralScalingDelegate> integralScalingDelegate;
 
 @property(strong) OEDBRom        *rom;
 @property(weak)   OEGameDocument *document;

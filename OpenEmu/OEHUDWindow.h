@@ -31,4 +31,5 @@
 @end
 
 @interface OEHUDWindowThemeView : NSView
+@property(getter = isDragging) BOOL dragging;
 @end

@@ -41,6 +41,8 @@
 
 #import "OEDBSaveState.h"
 
+#import "OEGameIntegralScalingDelegate.h"
+
 NSString *const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState";
 NSString *const OEGameControlsBarShowsAutoSaveStateKey  = @"HUDBarShowAutosaveState";
 NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
@@ -264,6 +266,35 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     item.title = NSLocalizedString(@"Select Filter", @"");
     [menu addItem:item];
     [item setSubmenu:filterMenu];
+
+    // Setup integral scaling
+    id<OEGameIntegralScalingDelegate> integralScalingDelegate = [[self gameViewController] integralScalingDelegate];
+    if([integralScalingDelegate allowsIntegralScaling])
+    {
+        unsigned int maxScale     = [integralScalingDelegate maximumIntegralScale];
+        unsigned int currentScale = [integralScalingDelegate currentIntegralScale];
+        if(maxScale > 1)
+        {
+            NSMenu *scaleMenu = [NSMenu new];
+            [scaleMenu setTitle:NSLocalizedString(@"Select Scale", @"")];
+
+            for(unsigned int scale = 0; scale <= maxScale; scale++)
+            {
+                NSString *scaleTitle  = (scale == 0 ?
+                                         NSLocalizedString(@"Fit to Window", @"Fit to window (free form) integral scale") :
+                                         [NSString stringWithFormat:NSLocalizedString(@"%ux", @"Integral scale menu item title"), scale]);
+                NSMenuItem *scaleItem = [[NSMenuItem alloc] initWithTitle:scaleTitle action:@selector(changeIntegralScale:) keyEquivalent:@""];
+                [scaleItem setRepresentedObject:@(scale)];
+                [scaleItem setState:(scale == currentScale ? NSOnState : NSOffState)];
+                [scaleMenu addItem:scaleItem];
+            }
+
+            item = [NSMenuItem new];
+            [item setTitle:[scaleMenu title]];
+            [menu addItem:item];
+            [item setSubmenu:scaleMenu];
+        }
+    }
 
     // Create OEMenu and display it
     [menu setDelegate:self];
