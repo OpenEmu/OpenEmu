@@ -698,6 +698,7 @@ static NSArray *OE_defaultSortDescriptors;
         // See the corresponding menu item a few lines below.
 //        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
 
+        [menu addItemWithTitle:@"Match To Archive.vg URL…" action:@selector(matchToArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
 //        [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:@"Add Cover Art From File…" action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
@@ -979,6 +980,35 @@ static NSArray *OE_defaultSortDescriptors;
     
     NSArray *selectedGames = [self selectedGames];
     [[collection mutableGames] addObjectsFromArray:selectedGames];
+}
+
+- (void)matchToArchive:(id)sender
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    [alert setInputLabelText:@"URL:"];
+    [alert setShowsInputField:YES];
+    [alert setStringValue:@""];
+    [alert setDefaultButtonTitle:@"OK"];
+    [alert setAlternateButtonTitle:@"Cancel"];
+    [alert setHeight:112.0];
+    
+    if ([alert runModal] == NSOKButton)
+    {
+        NSString *stringURL = [alert stringValue];
+        if (![stringURL length])
+            return;
+        
+        FIXME(@"Need better error checking");
+        NSURL *url = [NSURL URLWithString:stringURL];
+        NSNumber *archiveID = @([[url lastPathComponent] integerValue]);
+        
+        NSArray *selectedGames = [self selectedGames];
+        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
+            [obj setArchiveID:archiveID];
+            [obj setNeedsCoverSyncWithArchiveVG];
+        }];
+    }
+    
 }
 
 - (void)getGameInfoFromArchive:(id)sender

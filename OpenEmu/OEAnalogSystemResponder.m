@@ -19,8 +19,14 @@
     negativeKey = [[self keyMap] systemKeyForEvent:[anEvent axisEventWithDirection:OEHIDEventAxisDirectionNegative]];
     positiveKey = [[self keyMap] systemKeyForEvent:[anEvent axisEventWithDirection:OEHIDEventAxisDirectionPositive]];
 
-    [self changeAnalogEmulatorKey:positiveKey value:(direction == OEHIDEventAxisDirectionPositive)?((CGFloat)[anEvent value])/[anEvent maximum]:0.0f];
-    [self changeAnalogEmulatorKey:negativeKey value:(direction == OEHIDEventAxisDirectionNegative)?((CGFloat)[anEvent value])/[anEvent minimum]:0.0f];
+    NSInteger posValue = MIN([anEvent value], [anEvent maximum]);
+    NSInteger negValue = MAX([anEvent value], [anEvent minimum]);
+    
+    CGFloat posScaler = ((CGFloat)posValue)/[anEvent maximum];
+    CGFloat negScaler = ((CGFloat)negValue)/[anEvent minimum];
+    
+    [self changeAnalogEmulatorKey:positiveKey value:(direction == OEHIDEventAxisDirectionPositive)?posScaler:0.0f];
+    [self changeAnalogEmulatorKey:negativeKey value:(direction == OEHIDEventAxisDirectionNegative)?negScaler:0.0f];
 }
 
 - (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value

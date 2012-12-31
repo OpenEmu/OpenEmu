@@ -66,7 +66,7 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
     [window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
     [window setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_updateMaximumIntegralScale) name:NSApplicationDidChangeScreenParametersNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_constrainIntegralScaleIfNeeded) name:NSApplicationDidChangeScreenParametersNotification object:nil];
 
     return self;
 }
