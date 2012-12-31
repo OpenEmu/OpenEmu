@@ -275,6 +275,8 @@
 		821722B116912E2600D62428 /* OEWiimoteHIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FAE73316892CA900455D02 /* OEWiimoteHIDDeviceHandler.h */; };
 		821722B216912E2A00D62428 /* OEPS3HIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 821722AD16912E1200D62428 /* OEPS3HIDDeviceHandler.h */; };
 		821722B316912E2E00D62428 /* OEPS3HIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 821722AE16912E1200D62428 /* OEPS3HIDDeviceHandler.m */; };
+		821722B61691419700D62428 /* OEXBox360HIDDeviceHander.h in Headers */ = {isa = PBXBuildFile; fileRef = 821722B41691419600D62428 /* OEXBox360HIDDeviceHander.h */; };
+		821722B71691419700D62428 /* OEXBox360HIDDeviceHander.m in Sources */ = {isa = PBXBuildFile; fileRef = 821722B51691419600D62428 /* OEXBox360HIDDeviceHander.m */; };
 		8220233214F1C20E00902FB1 /* OESystemResponderClient.h in Headers */ = {isa = PBXBuildFile; fileRef = C63E7C11136298F4001CC78B /* OESystemResponderClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82277546148946DF00B19E27 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -1322,6 +1324,8 @@
 		820EB7591483F9D3008EC398 /* NeoGeoPocket-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "NeoGeoPocket-Info.plist"; sourceTree = "<group>"; };
 		821722AD16912E1200D62428 /* OEPS3HIDDeviceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPS3HIDDeviceHandler.h; sourceTree = "<group>"; };
 		821722AE16912E1200D62428 /* OEPS3HIDDeviceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPS3HIDDeviceHandler.m; sourceTree = "<group>"; };
+		821722B41691419600D62428 /* OEXBox360HIDDeviceHander.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXBox360HIDDeviceHander.h; sourceTree = "<group>"; };
+		821722B51691419600D62428 /* OEXBox360HIDDeviceHander.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXBox360HIDDeviceHander.m; sourceTree = "<group>"; };
 		82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Hyperlink.m"; sourceTree = "<group>"; };
 		82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Hyperlink.h"; sourceTree = "<group>"; };
 		8227754F148946DF00B19E27 /* GameGear.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameGear.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3430,6 +3434,8 @@
 				82DD2B8C1236D0C400B58A8F /* OEHIDUsageToVK.h */,
 				821722AD16912E1200D62428 /* OEPS3HIDDeviceHandler.h */,
 				821722AE16912E1200D62428 /* OEPS3HIDDeviceHandler.m */,
+				821722B41691419600D62428 /* OEXBox360HIDDeviceHander.h */,
+				821722B51691419600D62428 /* OEXBox360HIDDeviceHander.m */,
 			);
 			name = HID;
 			sourceTree = "<group>";
@@ -3883,6 +3889,7 @@
 				827B3229168A69D4000CD127 /* OEAnalogSystemResponder.h in Headers */,
 				821722B116912E2600D62428 /* OEWiimoteHIDDeviceHandler.h in Headers */,
 				821722B216912E2A00D62428 /* OEPS3HIDDeviceHandler.h in Headers */,
+				821722B61691419700D62428 /* OEXBox360HIDDeviceHander.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4967,6 +4974,7 @@
 				82FAE73716892E1400455D02 /* OEWiimoteHIDDeviceHandler.m in Sources */,
 				827B322A168A69D8000CD127 /* OEAnalogSystemResponder.m in Sources */,
 				821722B316912E2E00D62428 /* OEPS3HIDDeviceHandler.m in Sources */,
+				821722B71691419700D62428 /* OEXBox360HIDDeviceHander.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
