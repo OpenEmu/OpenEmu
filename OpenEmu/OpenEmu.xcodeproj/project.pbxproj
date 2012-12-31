@@ -272,6 +272,9 @@
 		53D32E4F13B95F9A00A6ACE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */; };
 		820EB7411483F9A2008EC398 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		821722B116912E2600D62428 /* OEWiimoteHIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FAE73316892CA900455D02 /* OEWiimoteHIDDeviceHandler.h */; };
+		821722B216912E2A00D62428 /* OEPS3HIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 821722AD16912E1200D62428 /* OEPS3HIDDeviceHandler.h */; };
+		821722B316912E2E00D62428 /* OEPS3HIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 821722AE16912E1200D62428 /* OEPS3HIDDeviceHandler.m */; };
 		8220233214F1C20E00902FB1 /* OESystemResponderClient.h in Headers */ = {isa = PBXBuildFile; fileRef = C63E7C11136298F4001CC78B /* OESystemResponderClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82277546148946DF00B19E27 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -314,7 +317,6 @@
 		82EE73E11443C1F700080CCB /* OEGameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* OEGameCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
 		82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82FAE73516892CAA00455D02 /* OEWiimoteHIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FAE73316892CA900455D02 /* OEWiimoteHIDDeviceHandler.h */; };
 		82FAE73716892E1400455D02 /* OEWiimoteHIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FAE73416892CA900455D02 /* OEWiimoteHIDDeviceHandler.m */; };
 		82FC495D102123D100408B4F /* OEFrameEncodeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */; };
 		8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8301557A1456BF7A0093D681 /* OEGameViewController.m */; };
@@ -1318,6 +1320,8 @@
 		820EB7571483F9D3008EC398 /* OENGPSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENGPSystemResponder.m; sourceTree = "<group>"; };
 		820EB7581483F9D3008EC398 /* OENGPSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENGPSystemResponderClient.h; sourceTree = "<group>"; };
 		820EB7591483F9D3008EC398 /* NeoGeoPocket-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "NeoGeoPocket-Info.plist"; sourceTree = "<group>"; };
+		821722AD16912E1200D62428 /* OEPS3HIDDeviceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPS3HIDDeviceHandler.h; sourceTree = "<group>"; };
+		821722AE16912E1200D62428 /* OEPS3HIDDeviceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPS3HIDDeviceHandler.m; sourceTree = "<group>"; };
 		82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Hyperlink.m"; sourceTree = "<group>"; };
 		82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Hyperlink.h"; sourceTree = "<group>"; };
 		8227754F148946DF00B19E27 /* GameGear.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameGear.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3424,6 +3428,8 @@
 				C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */,
 				C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */,
 				82DD2B8C1236D0C400B58A8F /* OEHIDUsageToVK.h */,
+				821722AD16912E1200D62428 /* OEPS3HIDDeviceHandler.h */,
+				821722AE16912E1200D62428 /* OEPS3HIDDeviceHandler.m */,
 			);
 			name = HID;
 			sourceTree = "<group>";
@@ -3845,7 +3851,6 @@
 				3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */,
 				8220233214F1C20E00902FB1 /* OESystemResponderClient.h in Headers */,
 				8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */,
-				82FAE73516892CAA00455D02 /* OEWiimoteHIDDeviceHandler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3876,6 +3881,8 @@
 				94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */,
 				C625BD781669EAE300921F56 /* OEHIDDeviceHandler.h in Headers */,
 				827B3229168A69D4000CD127 /* OEAnalogSystemResponder.h in Headers */,
+				821722B116912E2600D62428 /* OEWiimoteHIDDeviceHandler.h in Headers */,
+				821722B216912E2A00D62428 /* OEPS3HIDDeviceHandler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4959,6 +4966,7 @@
 				C625BD791669EAE300921F56 /* OEHIDDeviceHandler.m in Sources */,
 				82FAE73716892E1400455D02 /* OEWiimoteHIDDeviceHandler.m in Sources */,
 				827B322A168A69D8000CD127 /* OEAnalogSystemResponder.m in Sources */,
+				821722B316912E2E00D62428 /* OEPS3HIDDeviceHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

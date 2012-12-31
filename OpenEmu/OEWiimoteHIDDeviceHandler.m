@@ -266,10 +266,6 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
     }
 }
 
-@interface OEDeviceHandler ()
-@property(readwrite) NSUInteger deviceNumber;
-@end
-
 @interface OEWiimoteHIDDeviceHandler ()
 {
     NSMutableDictionary     *_reusableEvents;
