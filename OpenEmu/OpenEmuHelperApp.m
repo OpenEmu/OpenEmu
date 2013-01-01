@@ -193,7 +193,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     CGLContextObj cgl_ctx = glContext;
 
     const GLubyte *vendor = glGetString(GL_VENDOR);
-    isIntel = 0 && strstr((const char*)vendor, "Intel") != NULL;
+    isIntel = strstr((const char*)vendor, "Intel") != NULL;
 }
 
 - (void)setupIOSurface
