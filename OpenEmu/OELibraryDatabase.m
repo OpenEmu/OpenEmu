@@ -347,6 +347,9 @@ static OELibraryDatabase *defaultDatabase = nil;
     {
         //Transient properties don't merge
         [[notification userInfo][NSUpdatedObjectsKey] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if (![obj isKindOfClass:[OEDBGame class]])
+                return;
+            
             OEDBGame *incomingGame = obj;
             OEDBGame *mainGame = (OEDBGame*)[__managedObjectContext objectWithID:[incomingGame objectID]];
             [mainGame setStatus:[incomingGame status]];
