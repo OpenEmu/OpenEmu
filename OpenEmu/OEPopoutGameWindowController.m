@@ -211,21 +211,17 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
 
     if(newScale != _OEFitToWindowScale)
     {
-        const NSRect currentFrame = [[self window] frame];
-        const NSRect screenFrame  = [[[self window] screen] visibleFrame];
+        const NSRect screenFrame = [[[self window] screen] visibleFrame];
+        NSRect newWindowFrame    = [[self window] frame];
+        newWindowFrame.size      = [self OE_windowSizeForGameViewIntegralScale:newScale];
 
-        NSRect newWindowFrame     = currentFrame;
-        newWindowFrame.size       = [self OE_windowSizeForGameViewIntegralScale:newScale];
+        // Make sure the entire window is visible, centering it in case it isn’t
+        if(NSMinY(newWindowFrame) < NSMinY(screenFrame) || NSMaxY(newWindowFrame) > NSMaxY(screenFrame))
+            newWindowFrame.origin.y = NSMinY(screenFrame) + ((screenFrame.size.height - newWindowFrame.size.height) / 2);
 
-        const CGFloat heightDelta = newWindowFrame.size.height - currentFrame.size.height;
+        if(NSMinX(newWindowFrame) < NSMinX(screenFrame) || NSMaxX(newWindowFrame) > NSMaxX(screenFrame))
+            newWindowFrame.origin.x = NSMinX(screenFrame) + ((screenFrame.size.width - newWindowFrame.size.width) / 2);
 
-        // Keep the same distance from the top of the screen...
-        newWindowFrame.origin.y -= heightDelta;
-
-        // ...and make sure the title bar is always entirely visible
-        if(NSMaxY(newWindowFrame) > NSMaxY(screenFrame))
-            newWindowFrame.origin.y = NSMaxY(screenFrame) - newWindowFrame.size.height;
-        
         [[self window] setFrame:newWindowFrame display:YES];
     }
 
