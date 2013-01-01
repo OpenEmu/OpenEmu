@@ -105,7 +105,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
          {
              if(discoverRoms)
                  [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
-             [self setCurrentContentController:[self libraryController]];
+             [self setCurrentContentController:[self libraryController] animate:NO];
          }];
         
         [[self window] center];
@@ -114,7 +114,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     }
     else
     {
-        [self setCurrentContentController:[self libraryController]];
+        [self setCurrentContentController:[self libraryController] animate:NO];
     }
 }
 
@@ -218,8 +218,11 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
         [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [[controller view] setFrame:[placeHolderView frame]];
 
-        [placeHolderView replaceSubview:viewToReplace with:[controller view]];
-
+        if (viewToReplace)
+            [placeHolderView replaceSubview:viewToReplace with:[controller view]];
+        else
+            [placeHolderView addSubview:[controller view]];
+        
         [[self window] makeFirstResponder:[controller view]];
 
         [currentContentController viewDidDisappear];

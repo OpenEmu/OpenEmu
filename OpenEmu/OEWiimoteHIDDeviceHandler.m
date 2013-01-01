@@ -48,18 +48,6 @@ enum {
 };
 
 typedef enum : NSUInteger {
-    OEWiimoteOpenConnection,
-    OEWiimoteOpenL2CAPControl,
-    OEWiimoteOpenL2CAPInterrupt,
-    OEWiimotePerformSDP,
-    OEWiimoteGetStatus,
-    OEWiimoteConfigure,
-    OEWiimoteSynchronize,
-    OEWiimoteConnectionComplete,
-} OEWiimoteConnectionSequence;
-
-typedef unsigned char darr[];
-typedef enum : NSUInteger {
     OEWiimoteButtonIdentifierUnknown      = 0x0000,
     OEWiimoteButtonIdentifierTwo          = 0x0001,
     OEWiimoteButtonIdentifierOne          = 0x0002,
@@ -185,6 +173,13 @@ typedef enum {
     OEWiimoteExpansionIdentifierProController     = 0x0120,
 } OEWiimoteExpansionIdentifier;
 
+typedef enum {
+    OEExpansionInitializationStepNone,
+    OEExpansionInitializationStepWriteOne,
+    OEExpansionInitializationStepWriteTwo,
+    OEExpansionInitializationStepRead,
+} OEExpansionInitializationStep;
+
 // IMPORTANT: The index in the table represents both the usage and the cookie of the buttons
 static NSUInteger _OEWiimoteIdentifierToHIDUsage[] = {
     [1]  = OEWiimoteButtonIdentifierUp,
@@ -266,16 +261,12 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
     }
 }
 
-@interface OEDeviceHandler ()
-@property(readwrite) NSUInteger deviceNumber;
-@end
-
 @interface OEWiimoteHIDDeviceHandler ()
 {
     NSMutableDictionary     *_reusableEvents;
 
     OEWiimoteExpansionType _expansionType;
-
+    OEExpansionInitializationStep _expansionInitilization;
     struct {
         uint16_t wiimote;
         uint8_t  nunchuck;
@@ -458,7 +449,7 @@ enum {
     [self OE_sendCommandWithData:command length:7];
 }
 
-- (void)OE_sendCommandWithData:(const uint8_t *)data length:(NSUInteger)length;
+- (void)OE_sendCommandWithData:(const uint8_t *)data length:(NSUInteger)length
 {
     if(!_isConnected) return;
 
@@ -471,7 +462,6 @@ enum {
     IOReturn ret = kIOReturnSuccess;
     for(NSUInteger i = 0; i < 10; i++)
     {
-#pragma warning do report set
         ret = IOHIDDeviceSetReport([self device],
                              kIOHIDReportTypeOutput,
                              0,
@@ -504,6 +494,7 @@ enum {
     if(response[4] & 0x2 && !_expansionPortAttached)
     {
         _expansionType = OEWiimoteExpansionTypeUnknown;
+        _expansionInitilization = OEExpansionInitializationStepWriteOne;
         [self OE_readExpansionPortType];
     }
     else if(((response[4] & 0x2) == 0) && _expansionPortAttached)
@@ -561,6 +552,13 @@ enum {
         case 0x03 : NSLog(@"Write %0x - Error",   response[4]); break;
         default   : NSLog(@"Write %0x - Unknown", response[4]); break;
     }
+    
+    //If we wrote to a register, assume its from expansion init
+    if (response[4] == 0x16)
+    {
+        _expansionInitilization += 1;
+        [self OE_readExpansionPortType];
+    }
 }
 
 - (void)OE_handleReadResponseData:(const uint8_t *)response length:(NSUInteger)length;
@@ -570,6 +568,7 @@ enum {
     // Response to expansion type request
     if(address == 0x00F0)
     {
+        _expansionInitilization = OEExpansionInitializationStepNone;
         OEWiimoteExpansionType expansion = OEWiimoteExpansionTypeNotConnected;
 
         uint16_t expansionType = (response[21] << 8) | response[22];
@@ -593,8 +592,6 @@ enum {
 
             _expansionType = expansion;
             _expansionPortAttached = (expansion != OEWiimoteExpansionTypeNotConnected);
-            // TODO: implement expansion port changes
-            [self OE_configureReportType];
         }
     }
 }
@@ -624,15 +621,23 @@ enum {
     [self OE_sendCommandWithData:(uint8_t[]){ 0x11, _rumbleAndLEDStatus & OEWiimoteRumbleAndLEDMask } length:2];
 }
 
-- (void)OE_readExpansionPortType;
+- (void)OE_readExpansionPortType
 {
     // Initializing expansion port based on http://wiibrew.org/wiki/Wiimote/Extension_Controllers#The_New_Way
-    [self OE_writeData:&(uint8_t){ 0x55 } length:1 atAddress:0x04A400F0];
-    usleep(1000);
-    [self OE_writeData:&(uint8_t){ 0x00 } length:1 atAddress:0x04A400FB];
-    usleep(1000);
-
-    [self OE_readDataOfLength:16 atAddress:0x04A400F0];
+    switch (_expansionInitilization)
+    {
+        case OEExpansionInitializationStepWriteOne:
+            [self OE_writeData:&(uint8_t){ 0x55 } length:1 atAddress:0x04A400F0];
+            break;
+        case OEExpansionInitializationStepWriteTwo:
+            [self OE_writeData:&(uint8_t){ 0x00 } length:1 atAddress:0x04A400FB];
+            break;
+        case OEExpansionInitializationStepRead:
+            [self OE_readDataOfLength:16 atAddress:0x04A400F0];
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark - Parse methods
@@ -896,8 +901,6 @@ enum {
     [NSApp postHIDEvent:existingEvent];
 }
 
-//- (void)l2capChannelData:(IOBluetoothL2CAPChannel *)l2capChannel data:(void *)dataPointer length:(size_t)dataLength
-#pragma warning report read
 - (void)readReportData:(void*)dataPointer length:(size_t)dataLength
 {
     uint8_t data[dataLength+1];

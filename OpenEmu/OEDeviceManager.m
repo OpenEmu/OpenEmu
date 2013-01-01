@@ -30,6 +30,8 @@
 #import "OEDeviceHandler.h"
 #import "OEHIDDeviceHandler.h"
 #import "OEWiimoteHIDDeviceHandler.h"
+#import "OEPS3HIDDeviceHandler.h"
+#import "OEXBox360HIDDeviceHander.h"
 #import "OEHIDEvent.h"
 #import "NSApplication+OEHIDAdditions.h"
 
@@ -262,6 +264,29 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     }
 }
 
+- (void)OE_addPS3DeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
+{
+    if(deviceToHandlers[@((NSUInteger)aDevice)] != nil) return;
+    
+    NSAssert(aDevice != NULL, @"Passing NULL device.");
+    OEHIDDeviceHandler *handler = [OEPS3HIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
+    deviceToHandlers[@((NSUInteger)aDevice)] = handler;
+    
+    if([handler connect]) [self OE_addDeviceHandler:handler];
+}
+
+- (void)OE_addXboxDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
+{
+    if(deviceToHandlers[@((NSUInteger)aDevice)] != nil) return;
+    
+    NSAssert(aDevice != NULL, @"Passing NULL device.");
+    OEHIDDeviceHandler *handler = [OEXBox360HIDDeviceHander deviceHandlerWithIOHIDDevice:aDevice];
+    deviceToHandlers[@((NSUInteger)aDevice)] = handler;
+    
+    if([handler connect]) [self OE_addDeviceHandler:handler];
+}
+
+
 - (void)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
 {
     if(deviceToHandlers[@((NSUInteger)aDevice)] != nil) return;
@@ -429,6 +454,16 @@ static BOOL OE_nameIsFromWiimote(NSString *name)
     return ([name rangeOfString:@"Nintendo RVL-CNT-01"].location == 0);
 }
 
+static BOOL OE_nameIsFromPS3(NSString *name)
+{
+    return ([name rangeOfString:@"PLAYSTATION(R)3 Controller"].location == 0);
+}
+
+static BOOL OE_nameIsFromXbox(NSString *name)
+{
+    return [name isEqualToString:@"Controller"];
+}
+
 #pragma mark - HIDManager Callbacks
 
 static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDDeviceRef inIOHIDDeviceRef)
@@ -450,6 +485,10 @@ static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, 
     
     if (OE_nameIsFromWiimote(deviceName))
         [(__bridge OEDeviceManager*)inContext OE_addWiimoteWithDevice:inIOHIDDeviceRef];
+    else if (OE_nameIsFromPS3(deviceName))
+        [(__bridge OEDeviceManager*)inContext OE_addPS3DeviceHandlerForDevice:inIOHIDDeviceRef];
+    else if (OE_nameIsFromXbox(deviceName))
+        [(__bridge OEDeviceManager*)inContext OE_addXboxDeviceHandlerForDevice:inIOHIDDeviceRef];
     else
         [(__bridge OEDeviceManager*)inContext OE_addDeviceHandlerForDevice:inIOHIDDeviceRef];
     

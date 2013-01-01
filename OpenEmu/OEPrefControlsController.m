@@ -447,7 +447,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 - (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
 {
-    if([readingEvent hasOffState]) readingEvent = nil;
+    if([readingEvent hasOffState] || ([readingEvent cookie] != [anEvent cookie])) readingEvent = nil;
     
     if([self selectedKey] == nil && [self view] == [[[self view] window] firstResponder])
         [[[self view] window] makeFirstResponder:nil];

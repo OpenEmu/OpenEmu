@@ -42,15 +42,16 @@ static NSColor *_OENSColorFromString(NSString *colorString);
 
 + (void)load
 {
-    if(class_getClassMethod(self, @selector(colorWithCGColor:)))
-    {
+    if(!class_getClassMethod(self, @selector(colorWithCGColor:)))
         class_addMethod(object_getClass(self), @selector(colorWithCGColor:), (IMP)_NSColor_colorWithCGColor_, "@@:^v");
+
+    if(!class_getInstanceMethod(self, @selector(CGColor)))
         class_addMethod(self, @selector(CGColor), (IMP)_NSColor_CGColor, "^v@:");
-    }
 }
 
 static NSColor * _NSColor_colorWithCGColor_(Class self, SEL _cmd, CGColorRef color)
 {
+    DLog(@"");
     const CGFloat *components = CGColorGetComponents(color);
     NSColorSpace  *colorSpace = [[NSColorSpace alloc] initWithCGColorSpace:CGColorGetColorSpace(color)];
     NSColor       *result     = [NSColor colorWithColorSpace:colorSpace components:components count:CGColorGetNumberOfComponents(color)];
@@ -61,6 +62,7 @@ static NSColor * _NSColor_colorWithCGColor_(Class self, SEL _cmd, CGColorRef col
 
 static CGColorRef _NSColor_CGColor(NSColor *self, SEL _cmd)
 {
+    DLog(@"");
     if([self isEqualTo:[NSColor blackColor]]) return CGColorGetConstantColor(kCGColorBlack);
     if([self isEqualTo:[NSColor whiteColor]]) return CGColorGetConstantColor(kCGColorWhite);
     if([self isEqualTo:[NSColor clearColor]]) return CGColorGetConstantColor(kCGColorClear);
