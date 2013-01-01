@@ -54,7 +54,7 @@
     NSMutableArray *validCores = [NSMutableArray array];
     for (OECorePlugin *plugin in cores)
     {
-        if ([[[plugin controller] systemIdentifiers] containsObject:systemIdentifier])
+        if ([[plugin systemIdentifiers] containsObject:systemIdentifier])
             [validCores addObject:plugin];
     }
     return validCores;
@@ -64,7 +64,7 @@
 {
     if((self = [super initWithBundle:aBundle]))
     {
-        gameCoreClass = [[self controller] gameCoreClass];
+        gameCoreClass = NSClassFromString([[self infoDictionary] objectForKey:OEGameCoreClassKey]);
         
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
@@ -87,7 +87,7 @@
 
 - (NSArray *)systemIdentifiers;
 {
-    return [[self controller] systemIdentifiers];
+    return [[self infoDictionary] objectForKey:@"OESystemIdentifiers"];
 }
 
 @end

@@ -152,10 +152,6 @@ static NSMutableSet        *allPluginClasses = nil;
         
         if(principalClass != Nil && ![principalClass conformsToProtocol:@protocol(OEPluginController)])
             return nil;
-        
-        controller = [self newPluginControllerWithClass:principalClass];
-        
-        if(controller == nil && principalClass != Nil) return nil;
     }
     return self;
 }
@@ -163,6 +159,16 @@ static NSMutableSet        *allPluginClasses = nil;
 - (void)dealloc
 {
     [bundle unload];
+}
+
+- (id<OEPluginController>)controller
+{
+    if (controller == nil)
+    {
+        Class principalClass = [[self bundle] principalClass];
+        controller = [self newPluginControllerWithClass:principalClass];
+    }
+    return controller;
 }
 
 - (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
@@ -330,6 +336,6 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
 
 - (NSArray *)availablePreferenceViewControllerKeys
 {
-    return [controller availablePreferenceViewControllerKeys];
+    return [[self controller] availablePreferenceViewControllerKeys];
 }
 @end
