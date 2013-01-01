@@ -147,11 +147,6 @@ static NSMutableSet        *allPluginClasses = nil;
         infoDictionary = [bundle infoDictionary];
         version        = [infoDictionary objectForKey:@"CFBundleVersion"];
         displayName    = ([infoDictionary objectForKey:@"CFBundleName"] ? : [infoDictionary objectForKey:@"CFBundleExecutable"]);
-        
-        Class principalClass = [[self bundle] principalClass];
-        
-        if(principalClass != Nil && ![principalClass conformsToProtocol:@protocol(OEPluginController)])
-            return nil;
     }
     return self;
 }

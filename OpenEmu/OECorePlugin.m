@@ -64,8 +64,6 @@
 {
     if((self = [super initWithBundle:aBundle]))
     {
-        gameCoreClass = NSClassFromString([[self infoDictionary] objectForKey:OEGameCoreClassKey]);
-        
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
     }
@@ -90,4 +88,13 @@
     return [[self infoDictionary] objectForKey:@"OESystemIdentifiers"];
 }
 
+- (Class)gameCoreClass
+{
+    if (gameCoreClass == Nil)
+    {
+        [[self bundle] load];
+        gameCoreClass = NSClassFromString([[self infoDictionary] objectForKey:OEGameCoreClassKey]);
+    }
+    return gameCoreClass;
+}
 @end
