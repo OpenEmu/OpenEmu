@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@/@LIBCUE_LIBRARY_NAME@-@LIBCUE_API_VERSION@
+
+Name: libcue
+Description: Cuesheet parser library
+Version: @VERSION@
+Libs: -L${libdir} -lcue
+Cflags: -I${includedir}

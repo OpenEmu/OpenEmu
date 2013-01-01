@@ -38,6 +38,7 @@
 				C68625721572686E00EFC972 /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
+				57EBE53B167DAADA0031297F /* PBXTargetDependency */,
 				945E431F1517F75B00057D08 /* PBXTargetDependency */,
 				94D7E8E9150741B500FBDD85 /* PBXTargetDependency */,
 				8291C4E0148958F500A72540 /* PBXTargetDependency */,
@@ -270,6 +271,13 @@
 		53D32E4D13B95F6200A6ACE0 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E4B13B95F5400A6ACE0 /* QTKit.framework */; };
 		53D32E4E13B95F9A00A6ACE0 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */; };
 		53D32E4F13B95F9A00A6ACE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */; };
+		57EBE4FB167DAA360031297F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		57EBE501167DAA360031297F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 57EBE4FF167DAA360031297F /* InfoPlist.strings */; };
+		57EBE541167DAB590031297F /* OEThreeDOSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE53D167DAB590031297F /* OEThreeDOSystemController.m */; };
+		57EBE542167DAB590031297F /* OEThreeDOSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE53F167DAB590031297F /* OEThreeDOSystemResponder.m */; };
+		57EBE543167DABAC0031297F /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		57EBE576167DAC650031297F /* ThreeDO.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 57EBE4FA167DAA360031297F /* ThreeDO.oesystemplugin */; };
+		57EBE57A167DB3500031297F /* ThreeDO.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 57EBE4FA167DAA360031297F /* ThreeDO.oesystemplugin */; };
 		820EB7411483F9A2008EC398 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		821722B116912E2600D62428 /* OEWiimoteHIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 82FAE73316892CA900455D02 /* OEWiimoteHIDDeviceHandler.h */; };
@@ -746,6 +754,20 @@
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
 		};
+		57EBE538167DAA9D0031297F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		57EBE53A167DAADA0031297F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57EBE4F9167DAA350031297F;
+			remoteInfo = ThreeDO;
+		};
 		820EB73B1483F9A2008EC398 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -989,6 +1011,7 @@
 			dstPath = Systems;
 			dstSubfolderSpec = 13;
 			files = (
+				57EBE57A167DB3500031297F /* ThreeDO.oesystemplugin in Copy System Plugins to App Plugins */,
 				948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */,
 				948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */,
 				948E54101571D78D002D26E0 /* SuperNES.oesystemplugin in Copy System Plugins to App Plugins */,
@@ -1007,6 +1030,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				57EBE576167DAC650031297F /* ThreeDO.oesystemplugin in Copy Plugins To Application Support */,
 				C6862573157268A500EFC972 /* N64.oesystemplugin in Copy Plugins To Application Support */,
 				C6862574157268A500EFC972 /* NDS.oesystemplugin in Copy Plugins To Application Support */,
 				C6862575157268A500EFC972 /* Arcade.oesystemplugin in Copy Plugins To Application Support */,
@@ -1313,6 +1337,15 @@
 		53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		53D32E4513B95F0800A6ACE0 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		53D32E4B13B95F5400A6ACE0 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
+		57EBE4FA167DAA360031297F /* ThreeDO.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThreeDO.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		57EBE4FE167DAA360031297F /* ThreeDO-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThreeDO-Info.plist"; sourceTree = "<group>"; };
+		57EBE500167DAA360031297F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		57EBE502167DAA360031297F /* ThreeDO-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThreeDO-Prefix.pch"; sourceTree = "<group>"; };
+		57EBE53C167DAB590031297F /* OEThreeDOSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThreeDOSystemController.h; sourceTree = "<group>"; };
+		57EBE53D167DAB590031297F /* OEThreeDOSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThreeDOSystemController.m; sourceTree = "<group>"; };
+		57EBE53E167DAB590031297F /* OEThreeDOSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThreeDOSystemResponder.h; sourceTree = "<group>"; };
+		57EBE53F167DAB590031297F /* OEThreeDOSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThreeDOSystemResponder.m; sourceTree = "<group>"; };
+		57EBE540167DAB590031297F /* OEThreeDOSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThreeDOSystemResponderClient.h; sourceTree = "<group>"; };
 		820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeoGeo Pocket.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		820EB74E1483F9D3008EC398 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
 		820EB7511483F9D3008EC398 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1883,6 +1916,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		57EBE4F7167DAA350031297F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57EBE543167DABAC0031297F /* OpenEmuSystem.framework in Frameworks */,
+				57EBE4FB167DAA360031297F /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		820EB7401483F9A2008EC398 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2122,6 +2164,7 @@
 				8227754F148946DF00B19E27 /* GameGear.oesystemplugin */,
 				94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */,
 				945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */,
+				57EBE4FA167DAA360031297F /* ThreeDO.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2925,6 +2968,29 @@
 			path = Preferences;
 			sourceTree = "<group>";
 		};
+		57EBE4FC167DAA360031297F /* ThreeDO */ = {
+			isa = PBXGroup;
+			children = (
+				57EBE53C167DAB590031297F /* OEThreeDOSystemController.h */,
+				57EBE53D167DAB590031297F /* OEThreeDOSystemController.m */,
+				57EBE53E167DAB590031297F /* OEThreeDOSystemResponder.h */,
+				57EBE53F167DAB590031297F /* OEThreeDOSystemResponder.m */,
+				57EBE540167DAB590031297F /* OEThreeDOSystemResponderClient.h */,
+				57EBE4FD167DAA360031297F /* Supporting Files */,
+			);
+			path = ThreeDO;
+			sourceTree = "<group>";
+		};
+		57EBE4FD167DAA360031297F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				57EBE4FE167DAA360031297F /* ThreeDO-Info.plist */,
+				57EBE4FF167DAA360031297F /* InfoPlist.strings */,
+				57EBE502167DAA360031297F /* ThreeDO-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		820EB74D1483F9D3008EC398 /* NeoGeoPocket */ = {
 			isa = PBXGroup;
 			children = (
@@ -3715,6 +3781,7 @@
 		C67118201363687A0034379A /* System Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				57EBE4FC167DAA360031297F /* ThreeDO */,
 				945E42FD1517F2B500057D08 /* Arcade */,
 				94D7E8CB15073BA000FBDD85 /* NDS */,
 				822775521489471A00B19E27 /* GameGear */,
@@ -3947,6 +4014,24 @@
 			name = OESaveStateQLPlugin;
 			productName = OESaveStateQLPlugin;
 			productReference = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */;
+			productType = "com.apple.product-type.bundle";
+		};
+		57EBE4F9167DAA350031297F /* ThreeDO */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57EBE503167DAA360031297F /* Build configuration list for PBXNativeTarget "ThreeDO" */;
+			buildPhases = (
+				57EBE4F6167DAA350031297F /* Sources */,
+				57EBE4F7167DAA350031297F /* Frameworks */,
+				57EBE4F8167DAA350031297F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57EBE539167DAA9D0031297F /* PBXTargetDependency */,
+			);
+			name = ThreeDO;
+			productName = ThreeDO;
+			productReference = 57EBE4FA167DAA360031297F /* ThreeDO.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		820EB7391483F9A2008EC398 /* NeoGeoPocket */ = {
@@ -4241,6 +4326,7 @@
 				8227753E148946DF00B19E27 /* GameGear */,
 				94D7E8C815073BA000FBDD85 /* NDS */,
 				945E42FA1517F2B500057D08 /* Arcade */,
+				57EBE4F9167DAA350031297F /* ThreeDO */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -4291,6 +4377,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57EBE4F8167DAA350031297F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57EBE501167DAA360031297F /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4690,6 +4784,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		57EBE4F6167DAA350031297F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57EBE541167DAB590031297F /* OEThreeDOSystemController.m in Sources */,
+				57EBE542167DAB590031297F /* OEThreeDOSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		820EB73C1483F9A2008EC398 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5041,6 +5144,16 @@
 			target = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
 			targetProxy = 3DAA589914464890001C09A8 /* PBXContainerItemProxy */;
 		};
+		57EBE539167DAA9D0031297F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 57EBE538167DAA9D0031297F /* PBXContainerItemProxy */;
+		};
+		57EBE53B167DAADA0031297F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 57EBE4F9167DAA350031297F /* ThreeDO */;
+			targetProxy = 57EBE53A167DAADA0031297F /* PBXContainerItemProxy */;
+		};
 		820EB73A1483F9A2008EC398 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -5191,6 +5304,14 @@
 				2A37F4BAFDCFA73011CA2CEA /* English */,
 			);
 			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		57EBE4FF167DAA360031297F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				57EBE500167DAA360031297F /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		820EB7501483F9D3008EC398 /* InfoPlist.strings */ = {
@@ -5398,6 +5519,58 @@
 				INSTALL_PATH = /Library/QuickLook;
 				PRODUCT_NAME = OESaveStateQLPlugin;
 				WRAPPER_EXTENSION = qlgenerator;
+			};
+			name = Release;
+		};
+		57EBE504167DAA360031297F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThreeDO/ThreeDO-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "ThreeDO/ThreeDO-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		57EBE505167DAA360031297F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThreeDO/ThreeDO-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "ThreeDO/ThreeDO-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -6054,6 +6227,15 @@
 			buildConfigurations = (
 				3887A7F81024D1FA000FC4CF /* Debug */,
 				3887A7F91024D1FA000FC4CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57EBE503167DAA360031297F /* Build configuration list for PBXNativeTarget "ThreeDO" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57EBE504167DAA360031297F /* Debug */,
+				57EBE505167DAA360031297F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

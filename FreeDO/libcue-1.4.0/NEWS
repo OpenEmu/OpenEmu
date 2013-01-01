@@ -1,0 +1,112 @@
+Changes since 1.3.0
+
+* force make to *not* build things in parallel since this tends to mess things up
+
+* update changelog
+
+* set version number to 1.4.0 (libtool)
+
+* update copyright
+
+* fix compiler warning: input() defined but not used
+
+* new flex behaviour: explicitly enable yylineno usage
+
+* new automake macro name
+
+* possible fix for compilation problems on win32
+
+* update COPYING and corrected copyright notices in several source code files
+
+* Update general COPYRIGHT notice as well as several file specific notifications
+
+* update ChangeLog and NEWS
+
+Changes since 1.2.0
+
+* fix for invalid pointer
+
+Changes from cuetools svn (>1.3.1) to libcue 1.2.0
+
+* Update copyright notifications
+
+* Switch copyright licence to 2-clause BSD
+
+* Update AUTHORS to reflect recent changes
+
+* Update autotool build system
+
+* Update main interface/api file
+
+* API for parsing non standard values in REM comments
+
+* Fix the lexer and parser memory leak
+
+* Methods for freeing allocated Cd and Track objects
+
+* Support for cdtext filename
+
+* Major code clean up
+
+* Initial clean up for libcue
+
+Changes since 1.3
+
+* Applied most of Branden Robinson's Debian patch
+  (cuetools_1.3-2.diff.gz). This included many fixes and enhancements
+  to tools and manual pages. cuebreakpoints and cueconvert will exit if
+  they fail on any of the input files. cuebreakpoints, cueconvert, and
+  cuetools will exit with a nonzero return value if there was a failure
+  on an input file.
+
+* Added version option to all tools.
+
+* Single quoted string support has been removed.  This was broken, and I am not
+  sure of any software that supports single quoted strings in cue or toc files.
+
+Changes since 1.2
+
+* Build system has been rewritten using automake/autoconf.
+
+* Added append, prepend, and split pregap modes to cuebreakpoints.
+
+* Fixed possible compilation error with Bison.
+
+* All tools accept long options.
+
+* Programs exit if --input-format or --output-format is an illegal value.
+
+Changes since 1.1
+
+* cuebreakpoints was not printing the last track breakpoint.  This has been
+  fixed.
+
+* cueprint now prints a zero-length string for undefined values.  Flags, width,
+  and precision are applied to conversion characters which have no conversion.
+
+* Added a tagging script, cuetag.sh, which uses cueprint, vorbiscomment, and
+  mp3info to tag Ogg Vorbis and MP3 files.  This needs more testing and
+  documentation.
+
+* Added a track selection flag to cueprint.
+
+Changes since 1.0
+
+* File formats documentation has been readded and updated (docs/formats.txt).
+
+* ``CDTEXTFILE`` is now a recognized (but ignored) keyword.
+
+* If only a disc or track template is specified on the command line, then only
+  the disc or track information is printed, respectively.
+
+* cueprint now supports flags and width and precision values for template
+  expansion (like the printf command).
+
+Changes since 0.6
+
+* cuetools-1.x is a significant code rewrite of 0.x.  The cue/toc parsing code
+  has been reimplemented in lex/yacc.
+
+* cuerename has been replaced by the more general utility cueprint.
+
+* Usage syntax of the utilities has changed.  See the respective man pages.
