@@ -29,5 +29,4 @@
 @protocol OEGameIntegralScalingDelegate <NSObject>
 - (BOOL)allowsIntegralScaling;
 - (unsigned int)maximumIntegralScale;
-- (unsigned int)currentIntegralScale;
 @end

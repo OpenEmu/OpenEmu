@@ -170,11 +170,6 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
     return maxScale;
 }
 
-- (unsigned int)currentIntegralScale
-{
-    return [[self window] OE_isFullScreen] ? _OEFitToWindowScale : _integralScale;
-}
-
 - (BOOL)allowsIntegralScaling
 {
     return ![[self window] OE_isFullScreen];
