@@ -150,8 +150,7 @@
 - (void)OE_commonHUDWindowInit
 {
     DLog(@"OEHUDWindow");
-    
-    [self setHasShadow:NO];
+
     [self setOpaque:NO];
     [self setBackgroundColor:[NSColor clearColor]];
     
@@ -224,6 +223,16 @@
 }
 
 - (BOOL)canBecomeMainWindow
+{
+    return YES;
+}
+
+// Notes:
+// 1. [self setHasShadow:YES] is not enough for the shadow to appear;
+// 2. [self setHasShadow:NO]; [self setHasShadow:YES] in -OE_layout makes the shadow appear only when the user resizes the window.
+//    This same -setHasShadow: dance does *not* make the shadow appear upon the window being ordered front;
+// 3. -display may prevent the shadow from appearing.
+- (BOOL)hasShadow
 {
     return YES;
 }

@@ -111,7 +111,7 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
 
         [gameViewController setIntegralScalingDelegate:self];
 
-        [window setFrame:windowRect display:YES animate:NO];
+        [window setFrame:windowRect display:NO animate:NO];
         [window center];
         [window setContentView:[gameViewController view]];
         [self OE_updateWindowMinMaxSizes];
