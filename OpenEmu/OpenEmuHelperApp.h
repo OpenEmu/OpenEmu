@@ -85,6 +85,7 @@ enum _OEHelperAppErrorCodes
     // OE stuff
     NSArray          *plugins;
     OEGameCoreProxy  *gameCoreProxy;
+    OEGameCoreController *gameController;
     OEGameCore       *gameCore;
     OEGameAudio      *gameAudio;
     

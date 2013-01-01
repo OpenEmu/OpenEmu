@@ -70,7 +70,6 @@ extern NSString *const OEGameViewControllerROMKey;
     OESystemController   *gameSystemController;
     
     OESystemResponder    *gameSystemResponder;
-    OEGameCoreController *gameController;
     BOOL                  keyedOnce;
     
     NSTimer* gameViewTransitionTimer;

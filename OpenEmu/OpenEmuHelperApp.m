@@ -564,7 +564,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 #pragma mark -
 #pragma mark Game Core methods
 
-- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath owner:(byref OEGameCoreController *)owner
+- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath
 {
     aPath = [aPath stringByStandardizingPath];
     BOOL isDir;
@@ -584,11 +584,12 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         }
         self.loadedRom = NO;
         
-        gameCore = [[[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller] newGameCore];
+        gameController = [[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller];
+        gameCore = [gameController newGameCore];
         
         gameCoreProxy = [[OEGameCoreProxy alloc] initWithGameCore:gameCore];
         
-        [gameCore setOwner:owner];
+        [gameCore setOwner:gameController];
         [gameCore setRenderDelegate:self];
         [gameCore setAudioDelegate:self];
         

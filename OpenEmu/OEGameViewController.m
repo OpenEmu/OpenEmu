@@ -387,8 +387,6 @@ typedef enum : NSUInteger
 
     gameView = nil;
     
-    [gameController removeSettingObserver:[rootProxy gameCore]];
-    
     gameSystemController = nil;
     gameSystemResponder  = nil;
     
@@ -397,7 +395,6 @@ typedef enum : NSUInteger
     
     gameCoreManager = nil;
     rootProxy = nil;
-    gameController = nil;
 
     [[self rom] addTimeIntervalToPlayTime:ABS([_lastPlayStartDate timeIntervalSinceNow])];
     _lastPlayStartDate = nil;
@@ -408,13 +405,12 @@ typedef enum : NSUInteger
 {
     if(_emulationStatus != OEGameViewControllerEmulationStatusNotStarted) return;
 
-    gameController = [_corePlugin controller];
 
     NSError *error;
     Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:OEGameCoresInBackgroundKey]
                           ? [OEGameCoreThreadManager  class]
                           : [OEGameCoreProcessManager class]);
-    gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin owner:gameController error:&error];
+    gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin error:&error];
 
     if(!gameCoreManager)
     {
