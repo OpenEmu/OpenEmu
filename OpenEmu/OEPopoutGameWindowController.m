@@ -221,7 +221,7 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
         if(NSMinX(newWindowFrame) < NSMinX(screenFrame) || NSMaxX(newWindowFrame) > NSMaxX(screenFrame))
             newWindowFrame.origin.x = NSMinX(screenFrame) + ((screenFrame.size.width - newWindowFrame.size.width) / 2);
 
-        [[self window] setFrame:newWindowFrame display:YES];
+        [[[self window] animator] setFrame:newWindowFrame display:YES];
     }
 }
 
