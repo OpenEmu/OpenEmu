@@ -52,6 +52,8 @@
     {
         [self OE_calculateHeight];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildAvailableLibraries) name:OEDBSystemsDidChangeNotification object:nil];
+        
+        [[OEPlugin class] addObserver:self forKeyPath:@"allPlugins" options:0 context:nil];
     }
     
     return self;
@@ -66,6 +68,18 @@
 	[[self pathField] setStringValue:[path stringByAbbreviatingWithTildeInPath]];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"allPlugins"])
+    {
+        [self OE_rebuildAvailableLibraries];
+    }
+}
+
+- (void)dealloc
+{
+    [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins" context:nil];
+}
 #pragma mark ViewController Overrides
 
 - (NSString *)nibName
