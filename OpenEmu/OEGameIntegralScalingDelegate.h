@@ -27,6 +27,9 @@
 #import <Foundation/Foundation.h>
 
 @protocol OEGameIntegralScalingDelegate <NSObject>
-- (BOOL)allowsIntegralScaling;
+@required
+- (BOOL)shouldAllowIntegralScaling;
+
+@optional
 - (unsigned int)maximumIntegralScale;
 @end

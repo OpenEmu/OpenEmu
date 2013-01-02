@@ -269,28 +269,28 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
     // Setup integral scaling
     id<OEGameIntegralScalingDelegate> integralScalingDelegate = [[self gameViewController] integralScalingDelegate];
-    if([integralScalingDelegate allowsIntegralScaling])
+    const BOOL hasSubmenu                                     = [integralScalingDelegate shouldAllowIntegralScaling] && [integralScalingDelegate respondsToSelector:@selector(maximumIntegralScale)];
+
+    NSMenu *scaleMenu = [NSMenu new];
+    [scaleMenu setTitle:NSLocalizedString(@"Select Scale", @"")];
+    item = [NSMenuItem new];
+    [item setTitle:[scaleMenu title]];
+    [menu addItem:item];
+    [item setSubmenu:scaleMenu];
+
+    if(hasSubmenu)
     {
-        unsigned int maxScale     = [integralScalingDelegate maximumIntegralScale];
-        if(maxScale > 1)
+        unsigned int maxScale = [integralScalingDelegate maximumIntegralScale];
+        for(unsigned int scale = 1; scale <= maxScale; scale++)
         {
-            NSMenu *scaleMenu = [NSMenu new];
-            [scaleMenu setTitle:NSLocalizedString(@"Select Scale", @"")];
-
-            for(unsigned int scale = 1; scale <= maxScale; scale++)
-            {
-                NSString *scaleTitle = [NSString stringWithFormat:NSLocalizedString(@"%ux", @"Integral scale menu item title"), scale];
-                NSMenuItem *scaleItem = [[NSMenuItem alloc] initWithTitle:scaleTitle action:@selector(changeIntegralScale:) keyEquivalent:@""];
-                [scaleItem setRepresentedObject:@(scale)];
-                [scaleMenu addItem:scaleItem];
-            }
-
-            item = [NSMenuItem new];
-            [item setTitle:[scaleMenu title]];
-            [menu addItem:item];
-            [item setSubmenu:scaleMenu];
+            NSString *scaleTitle  = [NSString stringWithFormat:NSLocalizedString(@"%ux", @"Integral scale menu item title"), scale];
+            NSMenuItem *scaleItem = [[NSMenuItem alloc] initWithTitle:scaleTitle action:@selector(changeIntegralScale:) keyEquivalent:@""];
+            [scaleItem setRepresentedObject:@(scale)];
+            [scaleMenu addItem:scaleItem];
         }
     }
+    else
+        [item setEnabled:NO];
 
     // Create OEMenu and display it
     [menu setDelegate:self];
