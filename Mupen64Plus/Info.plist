@@ -35,7 +35,7 @@
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.org/update/mupen64plus_appcast.xml</string>
+	<string>http://openemu.org/updater/mupen64plus_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 </dict>
