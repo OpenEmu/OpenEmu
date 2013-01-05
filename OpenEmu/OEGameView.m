@@ -130,16 +130,16 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
 {
-    OEGameShader *scale4XShader         = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xFilterName     forContext:context];
-    OEGameShader *scale4XHQShader       = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xHQFilterName   forContext:context];
-    OEGameShader *scale2XPlusShader     = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xPlusFilterName forContext:context];
-    OEGameShader *scale2XHQShader       = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName   forContext:context];
-    OEGameShader *scale4xBRShader       = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xBRFilterName   forContext:context];
-    OEGameShader *scale2xBRShader       = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xBRFilterName   forContext:context];
-    
+    OEGlslShader *scale4XShader         = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale4xFilterName     forContext:context];
+    OEGlslShader *scale4XHQShader       = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale4xHQFilterName   forContext:context];
+    OEGlslShader *scale2XPlusShader     = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale2xPlusFilterName forContext:context];
+    OEGlslShader *scale2XHQShader       = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName   forContext:context];
+    OEGlslShader *scale4xBRShader       = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale4xBRFilterName   forContext:context];
+    OEGlslShader *scale2xBRShader       = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale2xBRFilterName   forContext:context];
+
     // TODO: fix this shader
     OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
-    
+
     return [NSDictionary dictionaryWithObjectsAndKeys:
             _OELinearFilterName         , _OELinearFilterName         ,
             _OENearestNeighborFilterName, _OENearestNeighborFilterName,
@@ -156,14 +156,14 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 + (NSOpenGLPixelFormat *)defaultPixelFormat
 {
     // choose our pixel formats
-    NSOpenGLPixelFormatAttribute attr[] = 
+    NSOpenGLPixelFormatAttribute attr[] =
     {
-        NSOpenGLPFAAccelerated, 
+        NSOpenGLPFAAccelerated,
         NSOpenGLPFADoubleBuffer,
         NSOpenGLPFAAllowOfflineRenderers,
         0
     };
-    
+
     return [[NSOpenGLPixelFormat alloc] initWithAttributes:attr];
 }
 
@@ -172,32 +172,32 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void)prepareOpenGL
 {
     [super prepareOpenGL];
-    
+
     DLog(@"prepareOpenGL");
     // Synchronize buffer swaps with vertical refresh rate
     GLint swapInt = 1;
-    
+
     [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
-    
+
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);
 
     // GL resources
     glGenTextures(1, &gameTexture);
-       
-    filters = [self OE_shadersForContext:cgl_ctx];    
+
+    filters = [self OE_shadersForContext:cgl_ctx];
     self.gameServer = [[SyphonServer alloc] initWithName:self.gameTitle context:cgl_ctx options:nil];
-    
+
     CGLUnlockContext(cgl_ctx);
-    
+
     // filters
     NSUserDefaultsController *ctrl = [NSUserDefaultsController sharedUserDefaultsController];
     [self bind:@"filterName" toObject:ctrl withKeyPath:@"values.videoFilter" options:nil];
     [self setFilterName:filterName];
-    
+
     // our texture is in NTSC colorspace from the cores
     rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
-    
+
     gameScreenSize = rootProxy.screenSize;
     gameSurfaceID = rootProxy.surfaceID;
 
@@ -215,7 +215,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     if(gameTitle)
         gameTitle = nil;
-    
+
     gameTitle = title;
     [self.gameServer setName:title];
 }
@@ -225,7 +225,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     DLog(@"removeFromSuperview");
 
     CVDisplayLinkStop(gameDisplayLinkRef);
-    
+
     [super removeFromSuperview];
 }
 
@@ -238,26 +238,26 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
     glDeleteTextures(1, &gameTexture);
     gameTexture = 0;
-    
+
     CGLUnlockContext(cgl_ctx);
     [super clearGLContext];
 }
 
 - (void)setupDisplayLink
-{    
+{
     if(gameDisplayLinkRef)
         [self tearDownDisplayLink];
-    
+
     CVReturn error = kCVReturnSuccess;
-    
+
     error = CVDisplayLinkCreateWithActiveCGDisplays(&gameDisplayLinkRef);
     if(error)
     {
         NSLog(@"DisplayLink could notbe created for active displays, error:%d", error);
         gameDisplayLinkRef = NULL;
-        return;  
+        return;
     }
-    
+
     error = CVDisplayLinkSetOutputCallback(gameDisplayLinkRef, &MyDisplayLinkCallback, (__bridge void *)self);
 	if(error)
     {
@@ -266,11 +266,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         gameDisplayLinkRef = NULL;
         return;
     }
-    
+
     // Set the display link for the current renderer
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLPixelFormatObj cglPixelFormat = CGLGetPixelFormat(cgl_ctx);
-    
+
     error = CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(gameDisplayLinkRef, cgl_ctx, cglPixelFormat);
 	if(error)
     {
@@ -279,14 +279,14 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         gameDisplayLinkRef = NULL;
         return;
     }
-    
-    CVDisplayLinkStart(gameDisplayLinkRef);	
-	
+
+    CVDisplayLinkStart(gameDisplayLinkRef);
+
 	if(!CVDisplayLinkIsRunning(gameDisplayLinkRef))
 	{
         CVDisplayLinkRelease(gameDisplayLinkRef);
         gameDisplayLinkRef = NULL;
-        
+
 		NSLog(@"DisplayLink is not running - it should be. ");
 	}
 }
@@ -297,11 +297,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
     if (gameSurfaceRef)
         CFRelease(gameSurfaceRef);
-    
+
     gameSurfaceRef = IOSurfaceLookup(gameSurfaceID);
-    
+
     if (!gameSurfaceRef) return;
-    
+
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
     CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(gameSurfaceRef), IOSurfaceGetHeight(gameSurfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, gameSurfaceRef, 0);
@@ -310,14 +310,14 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void)tearDownDisplayLink
 {
     DLog(@"deleteDisplayLink");
-    
+
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);
-    
+
     CVDisplayLinkStop(gameDisplayLinkRef);
-    
+
     CVDisplayLinkSetOutputCallback(gameDisplayLinkRef, NULL, NULL);
-    
+
     // we really ought to wait.
     while(1)
     {
@@ -325,37 +325,37 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         if(!CVDisplayLinkIsRunning(gameDisplayLinkRef))
             break;
     }
-    
+
     CVDisplayLinkRelease(gameDisplayLinkRef);
     gameDisplayLinkRef = NULL;
-    
+
     CGLUnlockContext(cgl_ctx);
 }
 
 - (void)dealloc
-{    
+{
     DLog(@"OEGameView dealloc");
     [self tearDownDisplayLink];
-    
+
     [self.gameServer setName:@""];
     [self.gameServer stop];
     self.gameServer = nil;
 
     self.gameResponder = nil;
     self.rootProxy = nil;
-    
+
     self.gameCIImage = nil;
-    
+
     // filters
     self.filters = nil;
     self.filterRenderer = nil;
     self.filterName = nil;
-    
+
     CGColorSpaceRelease(rgbColorSpace);
     rgbColorSpace = NULL;
-    
+
     CFRelease(gameSurfaceRef);
-    
+
     [self unbind:@"filterName"];
 }
 
@@ -365,17 +365,17 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void)reshape
 {
     DLog(@"reshape");
-    
+
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLSetCurrentContext(cgl_ctx);
 	CGLLockContext(cgl_ctx);
 	[self update];
-	
+
 	NSRect mainRenderViewFrame = [self frame];
-	
+
 	glViewport(0, 0, mainRenderViewFrame.size.width, mainRenderViewFrame.size.height);
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+
 	[[self openGLContext] flushBuffer];
 	CGLUnlockContext(cgl_ctx);
 }
@@ -383,12 +383,12 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void)update
 {
     DLog(@"update");
-    
+
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 	CGLLockContext(cgl_ctx);
 
     [super update];
-    
+
     CGLUnlockContext(cgl_ctx);
 }
 
@@ -398,11 +398,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 }
 
 - (void)render
-{    
+{
     // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
     filterTime = [NSDate timeIntervalSinceReferenceDate];
-    
+
     if(filterStartTime == 0)
     {
         filterStartTime = filterTime;
@@ -410,7 +410,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     }
     else
         filterTime -= filterStartTime;
-    
+
     if (!gameSurfaceRef)
         [self rebindIOSurface];
 
@@ -421,19 +421,19 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         CGRect textureRect = CGRectMake(0, 0, gameScreenSize.width, gameScreenSize.height);
 
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-        
+
         [[self openGLContext] makeCurrentContext];
-        
+
         CGLLockContext(cgl_ctx);
 
         // always set the CIImage, so save states save
         [self setGameCIImage:[[CIImage imageWithIOSurface:gameSurfaceRef options:options] imageByCroppingToRect:textureRect]];
 
         OEGameShader *shader = [filters objectForKey:filterName];
-        
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        
+
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
@@ -444,40 +444,40 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             // Since our filters no longer rely on QC, it may not be around.
             if(filterRenderer == nil)
                 [self OE_refreshFilterRenderer];
-            
+
             if(filterRenderer != nil)
             {
                 NSDictionary *arguments = nil;
-                
+
                 NSWindow *gameWindow = [self window];
                 NSRect  frame = [self frame];
                 NSPoint mouseLocation = [gameWindow mouseLocationOutsideOfEventStream];
-                
+
                 mouseLocation.x /= frame.size.width;
                 mouseLocation.y /= frame.size.height;
-                
+
                 arguments = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSValue valueWithPoint:mouseLocation], QCRendererMouseLocationKey,
                              [gameWindow currentEvent], QCRendererEventKey,
                              nil];
-                                
+
                 [filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
                 [filterRenderer renderAtTime:filterTime arguments:arguments];
-                
-//                if( )
-//                {
-//                    NSPoint mousePoint;
-//                    mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
-//                    mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
-//                    
-//                    [rootProxy setMousePosition:mousePoint]; 
-//                }
+
+                //                if( )
+                //                {
+                //                    NSPoint mousePoint;
+                //                    mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
+                //                    mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
+                //
+                //                    [rootProxy setMousePosition:mousePoint];
+                //                }
             }
         }
 
         if(screenshotHandler != nil)
         {
-            
+
             NSBitmapImageRep *imageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
                                                                                  pixelsWide:textureRect.size.width
                                                                                  pixelsHigh:textureRect.size.height
@@ -488,47 +488,47 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
                                                                              colorSpaceName:NSDeviceRGBColorSpace
                                                                                 bytesPerRow:textureRect.size.width * 4
                                                                                bitsPerPixel:32];
-            
-//            glReadPixels(0, 0, textureRect.size.width, textureRect.size.height, GL_RGBA, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
+
+            //            glReadPixels(0, 0, textureRect.size.width, textureRect.size.height, GL_RGBA, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
 
             IOSurfaceLock(gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
-            
+
             vImage_Buffer src = {.data = IOSurfaceGetBaseAddress(gameSurfaceRef),
-                                .width = textureRect.size.width,
-                               .height = textureRect.size.height,
-                             .rowBytes = IOSurfaceGetBytesPerRow(gameSurfaceRef)};
+                .width = textureRect.size.width,
+                .height = textureRect.size.height,
+                .rowBytes = IOSurfaceGetBytesPerRow(gameSurfaceRef)};
             vImage_Buffer dest= {.data = [imageRep bitmapData],
-                                .width = textureRect.size.width,
-                               .height = textureRect.size.height,
-                             .rowBytes = 4*textureRect.size.width};
-            
+                .width = textureRect.size.width,
+                .height = textureRect.size.height,
+                .rowBytes = 4*textureRect.size.width};
+
             // Convert IOSurface pixel format to NSBitmapImageRep
             const uint8_t permuteMap[] = {2,1,0,3};
             vImagePermuteChannels_ARGB8888(&src, &dest, permuteMap, 0);
-            
+
             IOSurfaceUnlock(gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
-            
+
             NSImage *img = nil;
-            
+
             NSRect extent = NSRectFromCGRect([[self gameCIImage] extent]);
-            int width = extent.size.width; 
-            int height = extent.size.height;  
-                        
+            int width = extent.size.width;
+            int height = extent.size.height;
+
             img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
             [img addRepresentation:imageRep];
-            
+
             // this will flip the rep
             [img lockFocusFlipped:YES];
             [imageRep drawInRect:NSMakeRect(0,0,[img size].width, [img size].height)];
             [img unlockFocus];
-            
+
             screenshotHandler(img);
             [self setScreenshotHandler:nil];
         }
-        
+
         if([self.gameServer hasClients])
             [self.gameServer publishFrameTexture:gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
-        
+
         [[self openGLContext] flushBuffer];
 
         CGLUnlockContext(cgl_ctx);
@@ -546,23 +546,23 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-    
+
     // need to add a clear here since we now draw direct to our context
     glClear(GL_COLOR_BUFFER_BIT);
-    
+
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
 
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
+
     // already disabled
     //    glDisable(GL_BLEND);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-    
+
     glActiveTexture(GL_TEXTURE0);
     glClientActiveTexture(GL_TEXTURE0);
     glColor4f(1.0, 1.0, 1.0, 1.0);
-    
+
     // calculate aspect ratio
     NSSize scaled;
     OEIntSize aspectSize = self.gameAspectSize;
@@ -574,8 +574,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
     float halfw = scaled.width;
     float halfh = scaled.height;
-    
-    const GLfloat verts[] = 
+
+    const GLfloat verts[] =
     {
         -halfw, -halfh,
         halfw, -halfh,
@@ -583,14 +583,14 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         -halfw, halfh
     };
 
-    const GLint tex_coords[] = 
+    const GLint tex_coords[] =
     {
         0, 0,
         gameScreenSize.width, 0,
         gameScreenSize.width, gameScreenSize.height,
         0, gameScreenSize.height
     };
-    
+
     if(shader == (id)_OELinearFilterName)
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -600,16 +600,19 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        
+
         if(shader != (id)_OENearestNeighborFilterName)
         {
-            glUseProgramObjectARB([shader programObject]);
-            
-            // set up shader uniforms
-            glUniform1iARB([shader uniformLocationWithName:"OETexture"], 0);
+            if([[shader shaderData] isKindOfClass:[OEGlslShader class]])
+            {
+                glUseProgramObjectARB([[shader shaderData] programObject]);
+
+                // set up shader uniforms
+                glUniform1iARB([[shader shaderData] uniformLocationWithName:"OETexture"], 0);
+            }
         }
     }
-    
+
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
     glTexCoordPointer(2, GL_INT, 0, tex_coords );
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -617,18 +620,18 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     glDisableClientState(GL_VERTEX_ARRAY);
-    
+
     // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
     glUseProgramObjectARB(0);
-    
+
     glPopAttrib();
     glPopClientAttrib();
 }
 
 - (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp
-{    
-    @autoreleasepool 
-    {     
+{
+    @autoreleasepool
+    {
         [self render];
     }
     return kCVReturnSuccess;
@@ -648,7 +651,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     {
         DLog(@"setting filter name");
         filterName = [value copy];
-        
+
         [self OE_refreshFilterRenderer];
         if(rootProxy != nil) rootProxy.drawSquarePixels = [self composition] != nil;
     }
@@ -658,35 +661,35 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     // If we have a context (ie we are active) lets make a new QCRenderer...
     // but only if its appropriate
-    
+
     DLog(@"releasing old filterRenderer");
-    
+
     filterRenderer = nil;
-    
+
     if(!filterName) return;
-        
+
     if([filters objectForKey:filterName] == nil && [self openGLContext] != nil)
     {
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
         CGLLockContext(cgl_ctx);
-        
+
         DLog(@"making new filter renderer");
-        
+
         // this will be responsible for our rendering... weee...
         QCComposition *compo = [self composition];
-        
+
         if(compo != nil)
             filterRenderer = [[QCRenderer alloc] initWithCGLContext:cgl_ctx
                                                         pixelFormat:CGLGetPixelFormat(cgl_ctx)
                                                          colorSpace:rgbColorSpace
                                                         composition:compo];
-        
+
         if (filterRenderer == nil)
             NSLog(@"Warning: failed to create our filter QCRenderer");
-        
+
         if (![[filterRenderer inputKeys] containsObject:@"OEImageInput"])
             NSLog(@"Warning: invalid Filter composition. Does not contain valid image input key");
-        
+
         if([[filterRenderer outputKeys] containsObject:@"OEMousePositionX"] && [[filterRenderer outputKeys] containsObject:@"OEMousePositionY"])
         {
             DLog(@"filter has mouse output position keys");
@@ -694,10 +697,10 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         }
         else
             self.filterHasOutputMousePositionKeys = NO;
-        
+
         if ([[filterRenderer inputKeys] containsObject:@"OESystemIDInput"])
             [filterRenderer setValue:[[gameResponder controller] systemIdentifier] forInputKey:@"OESystemIDInput"];
-        
+
         CGLUnlockContext(cgl_ctx);
     }
 }
@@ -719,7 +722,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
     gameSurfaceID = rootProxy.surfaceID;
-    
+
     [self rebindIOSurface];
 
     self.gameScreenSize = size;
@@ -773,9 +776,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         id next = (gameResponder == nil
                    ? [super nextResponder]
                    : [gameResponder nextResponder]);
-        
+
         gameResponder = value;
-        
+
         [value setNextResponder:next];
         if(value == nil) value = next;
         [super setNextResponder:value];
@@ -793,7 +796,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void)viewDidMoveToWindow
 {
     [super viewDidMoveToWindow];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEGameViewDidMoveToWindow" object:self];
 }
 
@@ -807,25 +810,25 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     location = [self convertPoint:location fromView:nil];
     location.y = frame.size.height - location.y;
     OEIntRect rect = [[[self rootProxy] gameCore] screenRect];
-    
+
     CGRect screenRect = { .size = { rect.size.width, rect.size.height } };
-    
+
     CGFloat scale = MIN(CGRectGetWidth(frame)  / CGRectGetWidth(screenRect),
                         CGRectGetHeight(frame) / CGRectGetHeight(screenRect));
-    
+
     screenRect.size.width  *= scale;
     screenRect.size.height *= scale;
     screenRect.origin.x     = CGRectGetMidX(frame) - CGRectGetWidth(screenRect)  / 2;
     screenRect.origin.y     = CGRectGetMidY(frame) - CGRectGetHeight(screenRect) / 2;
-    
+
     location.x -= screenRect.origin.x;
     location.y -= screenRect.origin.y;
-    
+
     OEIntPoint point = {
         .x = MAX(0, MIN(round(location.x * rect.size.width  / CGRectGetWidth(screenRect)), rect.size.width)),
         .y = MAX(0, MIN(round(location.y * rect.size.height / CGRectGetHeight(screenRect)), rect.size.height))
     };
-    
+
     return (id)[OEEvent eventWithMouseEvent:anEvent withLocationInGameView:point];
 }
 

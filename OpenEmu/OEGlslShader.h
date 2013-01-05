@@ -1,7 +1,7 @@
 /*
- Copyright (c) 2009, OpenEmu Team
- 
- 
+ Copyright (c) 2013, OpenEmu Team
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,31 +12,31 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <OpenGL/OpenGL.h>
+#import "OEGameShader.h"
 
-@interface OEGameShader : NSObject
-{
-    NSBundle        *bundleToLoadFrom;     // location of resource folder;
-    CGLContextObj    shaderContext;        // context to bind shaders to.
-    id               shaderData;           // either OEGlslShader or OECgShader
+@interface OEGlslShader : OEGameShader {
+    const GLcharARB *fragmentShaderSource; // the GLSL source for the fragment Shader
+    const GLcharARB *vertexShaderSource;   // the GLSL source for the vertex Shader
+    GLhandleARB      programObject;        // the program object
 }
 
-- (id)initInBundle:(NSBundle *)bundle forContext:(CGLContextObj)context;
+- (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
+- (id)initWithShadersInMainBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
 
-- (id)shaderData;
+- (GLhandleARB)programObject;
+- (GLint)uniformLocationWithName:(const GLcharARB *)theUniformName;
 
 @end

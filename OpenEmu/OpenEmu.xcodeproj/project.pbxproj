@@ -497,6 +497,8 @@
 		83FBA38514F2C8A8001F1299 /* famicom_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37614F2C752001F1299 /* famicom_library.png */; };
 		83FFC069145819070077EC27 /* installer_backgroundSample.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FFC068145819070077EC27 /* installer_backgroundSample.png */; };
 		83FFC06D1458194E0077EC27 /* OESetupAssistantBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FFC06C1458194E0077EC27 /* OESetupAssistantBox.m */; };
+		8C4C808916986697009B8A28 /* OEGlslShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808816986697009B8A28 /* OEGlslShader.m */; };
+		8C4C808B1698671E009B8A28 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C4C808A1698671E009B8A28 /* Cg.framework */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */; settings = {ATTRIBUTES = (); }; };
@@ -1630,6 +1632,9 @@
 		83FFC068145819070077EC27 /* installer_backgroundSample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_backgroundSample.png; sourceTree = "<group>"; };
 		83FFC06B1458194E0077EC27 /* OESetupAssistantBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantBox.h; sourceTree = "<group>"; };
 		83FFC06C1458194E0077EC27 /* OESetupAssistantBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantBox.m; sourceTree = "<group>"; };
+		8C4C808716986697009B8A28 /* OEGlslShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGlslShader.h; sourceTree = "<group>"; };
+		8C4C808816986697009B8A28 /* OEGlslShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGlslShader.m; sourceTree = "<group>"; };
+		8C4C808A1698671E009B8A28 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cg.framework; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93B479F612BAB576008618A7 /* OEDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDeviceManager.h; sourceTree = "<group>"; };
 		93B479F712BAB576008618A7 /* OEDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDeviceManager.m; sourceTree = "<group>"; };
@@ -1923,6 +1928,7 @@
 				83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */,
 				1B42C66D1429510A004691D7 /* Syphon.framework in Frameworks */,
 				143F299D164DE18100544CCF /* MagicKit.framework in Frameworks */,
+				8C4C808B1698671E009B8A28 /* Cg.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2016,6 +2022,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8C4C808A1698671E009B8A28 /* Cg.framework */,
 				3D1D8D811650C22900DBC37D /* Accelerate.framework */,
 				8322D746156A973400FC0E81 /* IOBluetooth.framework */,
 				1B42C66C1429510A004691D7 /* Syphon.framework */,
@@ -3004,6 +3011,8 @@
 				1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */,
 				C6953C9F117293760091276F /* OEGameView.h */,
 				C6953CA0117293760091276F /* OEGameView.m */,
+				8C4C808716986697009B8A28 /* OEGlslShader.h */,
+				8C4C808816986697009B8A28 /* OEGlslShader.m */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -4889,6 +4898,7 @@
 				144D61491672D6BF0000268B /* OETableTextFieldCell.m in Sources */,
 				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,
+				8C4C808916986697009B8A28 /* OEGlslShader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
