@@ -4,14 +4,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,10 +19,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OEGameView.h"
@@ -76,6 +76,7 @@ static NSString *const _OEScale2xHQFilterName       = @"Scale2xHQ";
 static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
 static NSString *const _OEScale4xBRFilterName = @"Scale4xBR";
 static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
+static NSString *const _OECgTestFilterName          = @"test";
 
 @interface OEGameView ()
 
@@ -140,6 +141,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // TODO: fix this shader
     OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
 
+
+    OECgShader *cgTestShader            = [[OECgShader alloc] initWithShadersInMainBundle:_OECgTestFilterName forContext:context];
+
     return [NSDictionary dictionaryWithObjectsAndKeys:
             _OELinearFilterName         , _OELinearFilterName         ,
             _OENearestNeighborFilterName, _OENearestNeighborFilterName,
@@ -149,6 +153,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             scale4XHQShader             , _OEScale4xHQFilterName      ,
             scale2XPlusShader           , _OEScale2xPlusFilterName    ,
             scale2XHQShader             , _OEScale2xHQFilterName      ,
+            cgTestShader                , _OECgTestFilterName         ,
             scale2XSALSmartShader       , _OEScale2XSALSmartFilterName,
             nil];
 }
@@ -609,6 +614,16 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
                 // set up shader uniforms
                 glUniform1iARB([[shader shaderData] uniformLocationWithName:"OETexture"], 0);
+            }
+
+            if([[shader shaderData] isKindOfClass:[OECgShader class]])
+            {
+                OECgShader *cgShader = [shader shaderData];
+                cgGLEnableProfile([cgShader vertexProfile]);
+                cgGLBindProgram([cgShader vertexProgram]);
+
+                cgGLEnableProfile([cgShader fragmentProfile]);
+                cgGLBindProgram([cgShader fragmentProgram]);
             }
         }
     }

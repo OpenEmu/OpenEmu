@@ -499,6 +499,8 @@
 		83FFC06D1458194E0077EC27 /* OESetupAssistantBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FFC06C1458194E0077EC27 /* OESetupAssistantBox.m */; };
 		8C4C808916986697009B8A28 /* OEGlslShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808816986697009B8A28 /* OEGlslShader.m */; };
 		8C4C808B1698671E009B8A28 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C4C808A1698671E009B8A28 /* Cg.framework */; };
+		8C4C808E16986C87009B8A28 /* OECgShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808D16986C87009B8A28 /* OECgShader.m */; };
+		8C4C809116987B44009B8A28 /* test.cg in Resources */ = {isa = PBXBuildFile; fileRef = 8C4C809016987B44009B8A28 /* test.cg */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */; settings = {ATTRIBUTES = (); }; };
@@ -1635,6 +1637,9 @@
 		8C4C808716986697009B8A28 /* OEGlslShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGlslShader.h; sourceTree = "<group>"; };
 		8C4C808816986697009B8A28 /* OEGlslShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGlslShader.m; sourceTree = "<group>"; };
 		8C4C808A1698671E009B8A28 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cg.framework; sourceTree = "<group>"; };
+		8C4C808C16986C87009B8A28 /* OECgShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECgShader.h; sourceTree = "<group>"; };
+		8C4C808D16986C87009B8A28 /* OECgShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECgShader.m; sourceTree = "<group>"; };
+		8C4C809016987B44009B8A28 /* test.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.cg; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93B479F612BAB576008618A7 /* OEDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDeviceManager.h; sourceTree = "<group>"; };
 		93B479F712BAB576008618A7 /* OEDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDeviceManager.m; sourceTree = "<group>"; };
@@ -2397,6 +2402,7 @@
 				1BEF34721168F8210090F72B /* XIBs */,
 				1B22426B100D171700F42067 /* CRT Masks */,
 				1B885E070F085EA500770B6D /* GLSL Shaders */,
+				8C4C808F16987B2A009B8A28 /* Cg Shaders */,
 				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
 				82C9C96C0F080BD30071460B /* dsa_pub.pem */,
@@ -3013,6 +3019,8 @@
 				C6953CA0117293760091276F /* OEGameView.m */,
 				8C4C808716986697009B8A28 /* OEGlslShader.h */,
 				8C4C808816986697009B8A28 /* OEGlslShader.m */,
+				8C4C808C16986C87009B8A28 /* OECgShader.h */,
+				8C4C808D16986C87009B8A28 /* OECgShader.m */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -3408,6 +3416,14 @@
 				83FA054D13B9DF940055A520 /* Sparkle.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8C4C808F16987B2A009B8A28 /* Cg Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				8C4C809016987B44009B8A28 /* test.cg */,
+			);
+			name = "Cg Shaders";
 			sourceTree = "<group>";
 		};
 		93B479F512BAB52F008618A7 /* HID */ = {
@@ -4488,6 +4504,7 @@
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
 				830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */,
 				1B96BA56166BDD52005064C8 /* FRFeedbackReporter.sh in Resources */,
+				8C4C809116987B44009B8A28 /* test.cg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4899,6 +4916,7 @@
 				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,
 				8C4C808916986697009B8A28 /* OEGlslShader.m in Sources */,
+				8C4C808E16986C87009B8A28 /* OECgShader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

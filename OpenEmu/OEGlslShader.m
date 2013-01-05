@@ -19,10 +19,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OEGlslShader.h"
@@ -299,12 +299,12 @@ static void OE_linkProgram(GLhandleARB programObject,
 {
     CGLContextObj cgl_ctx = shaderContext;
     
-    GLint uniformLoacation = glGetUniformLocationARB(programObject, theUniformName);
+    GLint uniformLocation = glGetUniformLocationARB(programObject, theUniformName);
     
-    if(uniformLoacation == -1)
+    if(uniformLocation == -1)
         NSLog(@">> WARNING: No such uniform named \"%s\"\n", theUniformName);
     
-    return uniformLoacation;
+    return uniformLocation;
 } // getUniformLocation
 
 @end
