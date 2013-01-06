@@ -1,18 +1,48 @@
-void main_vertex
+struct input
+{
+    float2 video_size;
+    float2 texture_size;
+    float2 output_size;
+    float frame_count;
+    float frame_direction;
+    float frame_rotation;
+};
+
+struct output_vertex
+{
+    float4 position : POSITION;
+    float3 color : COLOR;
+    float2 texCoord : TEXCOORD0;
+};
+
+output_vertex main_vertex
 (
-   float4 position : POSITION,
-   out float4 oPosition : POSITION,
-   uniform float4x4 modelViewProj,
-   float2 tex : TEXCOORD,
-   out float2 oTex : TEXCOORD
+    float4 position : POSITION,
+    float3 color : COLOR,
+    float2 texCoord : TEXCOORD0,
+    uniform input IN,
+    uniform float4x4 modelViewProj
 )
 {
-   oPosition = mul(modelViewProj, position);
-   oTex = tex;
+    output_vertex OUT;
+    OUT.position = mul(modelViewProj, position);
+    OUT.color = color;
+    OUT.texCoord = texCoord;
+    return OUT;
 }
 
-float4 main_fragment (float2 tex : TEXCOORD, uniform sampler2D s0 : TEXUNIT0) : COLOR
+struct output_fragment
 {
-   //return tex2D(s0, tex);
-   return float4(1.0,0.5,1.0,0.5);
+    float4 color : COLOR;
+};
+
+output_fragment main_fragment
+(
+    float2 texCoord : TEXCOORD0,
+    uniform samplerRECT s_p : TEXUNIT0
+)
+{
+    output_fragment OUT;
+    OUT.color = texRECT(s_p, texCoord);//+float4(0.5,0.0,0.0,0.0);
+    return OUT;
 }

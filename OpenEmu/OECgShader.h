@@ -34,7 +34,6 @@
     CGcontext cgContext;
     CGprofile vertexProfile, fragmentProfile;
     CGprogram vertexProgram, fragmentProgram;
-    
 }
 
 - (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
@@ -45,6 +44,8 @@
 - (CGprogram)vertexProgram;
 - (CGprogram)fragmentProgram;
 
-- (CGparameter)parameterWithName:(const char *)theParameterName;
+- (CGparameter)vertexParameterWithName:(const char *)theParameterName;
+- (CGparameter)fragmentParameterWithName:(const char *)theParameterName;
+
 
 @end

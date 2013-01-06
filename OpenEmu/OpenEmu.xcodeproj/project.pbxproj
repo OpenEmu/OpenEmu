@@ -501,6 +501,8 @@
 		8C4C808B1698671E009B8A28 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C4C808A1698671E009B8A28 /* Cg.framework */; };
 		8C4C808E16986C87009B8A28 /* OECgShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808D16986C87009B8A28 /* OECgShader.m */; };
 		8C4C809116987B44009B8A28 /* test.cg in Resources */ = {isa = PBXBuildFile; fileRef = 8C4C809016987B44009B8A28 /* test.cg */; };
+		8C7501C71699D53D0063B9A2 /* CRT-cgwg.cg in Resources */ = {isa = PBXBuildFile; fileRef = 8C7501C61699D53D0063B9A2 /* CRT-cgwg.cg */; };
+		8C7501C81699D7E50063B9A2 /* CRT-cgwg.cg in Resources */ = {isa = PBXBuildFile; fileRef = 8C7501C61699D53D0063B9A2 /* CRT-cgwg.cg */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */; settings = {ATTRIBUTES = (); }; };
@@ -1640,6 +1642,7 @@
 		8C4C808C16986C87009B8A28 /* OECgShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECgShader.h; sourceTree = "<group>"; };
 		8C4C808D16986C87009B8A28 /* OECgShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECgShader.m; sourceTree = "<group>"; };
 		8C4C809016987B44009B8A28 /* test.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.cg; sourceTree = "<group>"; };
+		8C7501C61699D53D0063B9A2 /* CRT-cgwg.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "CRT-cgwg.cg"; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93B479F612BAB576008618A7 /* OEDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDeviceManager.h; sourceTree = "<group>"; };
 		93B479F712BAB576008618A7 /* OEDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDeviceManager.m; sourceTree = "<group>"; };
@@ -2401,8 +2404,8 @@
 				53439B9D13B93920005C0CC8 /* Interface Graphics */,
 				1BEF34721168F8210090F72B /* XIBs */,
 				1B22426B100D171700F42067 /* CRT Masks */,
-				1B885E070F085EA500770B6D /* GLSL Shaders */,
 				8C4C808F16987B2A009B8A28 /* Cg Shaders */,
+				1B885E070F085EA500770B6D /* GLSL Shaders */,
 				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
 				82C9C96C0F080BD30071460B /* dsa_pub.pem */,
@@ -3421,6 +3424,7 @@
 		8C4C808F16987B2A009B8A28 /* Cg Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				8C7501C61699D53D0063B9A2 /* CRT-cgwg.cg */,
 				8C4C809016987B44009B8A28 /* test.cg */,
 			);
 			name = "Cg Shaders";
@@ -4336,6 +4340,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C7501C71699D53D0063B9A2 /* CRT-cgwg.cg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4343,6 +4348,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C7501C81699D7E50063B9A2 /* CRT-cgwg.cg in Resources */,
 				1B32151414DDD49E00C5B50A /* OE Startup.qtz in Resources */,
 				1B32151514DDD49E00C5B50A /* OpenEmu.dae in Resources */,
 				1B32151614DDD49E00C5B50A /* OpenEmuText.dae in Resources */,

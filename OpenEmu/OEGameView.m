@@ -77,6 +77,7 @@ static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
 static NSString *const _OEScale4xBRFilterName = @"Scale4xBR";
 static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 static NSString *const _OECgTestFilterName          = @"test";
+static NSString *const _OECRTFilterName             = @"CRT-cgwg";
 
 @interface OEGameView ()
 
@@ -143,6 +144,7 @@ static NSString *const _OECgTestFilterName          = @"test";
 
 
     OECgShader *cgTestShader            = [[OECgShader alloc] initWithShadersInMainBundle:_OECgTestFilterName forContext:context];
+    OECgShader *crtShader               = [[OECgShader alloc] initWithShadersInMainBundle:_OECRTFilterName forContext:context];
 
     return [NSDictionary dictionaryWithObjectsAndKeys:
             _OELinearFilterName         , _OELinearFilterName         ,
@@ -154,6 +156,7 @@ static NSString *const _OECgTestFilterName          = @"test";
             scale2XPlusShader           , _OEScale2xPlusFilterName    ,
             scale2XHQShader             , _OEScale2xHQFilterName      ,
             cgTestShader                , _OECgTestFilterName         ,
+            crtShader                   , _OECRTFilterName            ,
             scale2XSALSmartShader       , _OEScale2XSALSmartFilterName,
             nil];
 }
@@ -596,6 +599,8 @@ static NSString *const _OECgTestFilterName          = @"test";
         0, gameScreenSize.height
     };
 
+    BOOL usesCg = NO;
+
     if(shader == (id)_OELinearFilterName)
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -618,12 +623,39 @@ static NSString *const _OECgTestFilterName          = @"test";
 
             if([[shader shaderData] isKindOfClass:[OECgShader class]])
             {
+                FIXME(@"Still needs work, possibly break this up");
+                usesCg = YES;
                 OECgShader *cgShader = [shader shaderData];
-                cgGLEnableProfile([cgShader vertexProfile]);
-                cgGLBindProgram([cgShader vertexProgram]);
 
-                cgGLEnableProfile([cgShader fragmentProfile]);
+                // We don't actually need to set this?
+                //cgGLSetTextureParameter([cgShader fragmentParameterWithName:"decal"], gameTexture);
+                //cgSetSamplerState([cgShader fragmentParameterWithName:"decal"]);
+
+                // Do we need this then?
+                cgGLEnableClientState([cgShader vertexParameterWithName:"position"]);
+                cgGLSetParameterPointer([cgShader vertexParameterWithName:"position"], 2, GL_FLOAT, 0, verts);
+
+                cgGLEnableClientState([cgShader vertexParameterWithName:"texCoord"]);
+                cgGLSetParameterPointer([cgShader vertexParameterWithName:"texCoord"], 2, GL_INT, 0, tex_coords);
+
+
+                // Enable vertex program, bind parameters
+                cgGLBindProgram([cgShader vertexProgram]);
+                cgGLSetParameter2f([cgShader vertexParameterWithName:"IN.video_size"], gameScreenSize.width, gameScreenSize.height);
+                cgGLSetParameter2f([cgShader vertexParameterWithName:"IN.output_size"], self.frame.size.width, self.frame.size.height);
+                cgGLSetParameter2f([cgShader vertexParameterWithName:"IN.texture_size"], gameScreenSize.width, gameScreenSize.height);
+                cgGLSetStateMatrixParameter([cgShader vertexParameterWithName:"modelViewProj"], CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
+                // Need to get frame count from OEGameCore?
+                // cgGLSetParameter1f([cgShader vertexParameterWithName:"IN.frame_count"], );
+                cgGLEnableProfile([cgShader vertexProfile]);
+
+                // Enable fragment program, bind parameters
                 cgGLBindProgram([cgShader fragmentProgram]);
+                cgGLSetParameter2f([cgShader fragmentParameterWithName:"IN.video_size"], gameScreenSize.width, gameScreenSize.height);
+                cgGLSetParameter2f([cgShader fragmentParameterWithName:"IN.output_size"], self.frame.size.width, self.frame.size.height);
+                cgGLSetParameter2f([cgShader fragmentParameterWithName:"IN.texture_size"], gameScreenSize.width, gameScreenSize.height);
+                cgGLEnableProfile([cgShader fragmentProfile]);
+                //cgGLEnableTextureParameter([cgShader fragmentParameterWithName:"decal"]);
             }
         }
     }
@@ -635,6 +667,18 @@ static NSString *const _OECgTestFilterName          = @"test";
     glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     glDisableClientState(GL_VERTEX_ARRAY);
+
+
+    // if a cg shader is used, clean up
+    if(usesCg)
+    {
+        cgGLDisableClientState([[shader shaderData] vertexParameterWithName:"position"]);
+        cgGLDisableClientState([[shader shaderData] vertexParameterWithName:"texCoord"]);
+        
+        cgGLDisableProfile([[shader shaderData] vertexProfile]);
+        cgGLDisableProfile([[shader shaderData] fragmentProfile]);
+        //cgGLDisableTextureParameter([[shader shaderData] fragmentParameterWithName:"s_p"]);
+    }
 
     // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
     glUseProgramObjectARB(0);

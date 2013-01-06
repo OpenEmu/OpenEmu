@@ -19,19 +19,17 @@
         cgContext = cgCreateContext();
 
         if(cgContext == NULL)
-            NSLog(@"Context: Error");
-        else
-            NSLog(@"Context: Success");
+            NSLog(@"%@: Context creation failed", theShadersName);
 
         NSString *shaderSource = [bundleToLoadFrom pathForResource:theShadersName ofType:@"cg"];
 
+        
         //Load vertex shader
         vertexProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
+        //vertexProfile = CG_PROFILE_ARBVP1;
 
         if(vertexProfile == CG_PROFILE_UNKNOWN)
-            NSLog(@"Vertex Profile: Error");
-        else
-            NSLog(@"Vertex Profile: Success");
+            NSLog(@"%@: Couldn't get valid profile", theShadersName);
 
         cgGLSetOptimalOptions(vertexProfile);
 
@@ -40,35 +38,31 @@
         if(vertexProgram == NULL)
         {
             CGError cgError = cgGetError();
-            NSLog(@"%s", cgGetErrorString(cgError));
+            NSLog(@"%@, vertex program: %s", theShadersName, cgGetErrorString(cgError));
         }
-        else
-            NSLog(@"Vertex Program: Success");
 
         cgGLLoadProgram(vertexProgram);
 
-        //Load fragment shader
+        
+        // load fragment shader
+        // set fragment profile
         fragmentProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
-
+        //fragmentProfile = CG_PROFILE_ARBFP1;
         if(fragmentProfile == CG_PROFILE_UNKNOWN)
-            NSLog(@"Fragment Profile: Error");
-        else
-            NSLog(@"Fragment Profile: Success");
-
+            NSLog(@"%@: Couldn't get valid profile", theShadersName);
         cgGLSetOptimalOptions(fragmentProfile);
 
         fragmentProgram = cgCreateProgramFromFile(cgContext, CG_SOURCE, [shaderSource UTF8String], fragmentProfile, "main_fragment", 0);
-
         if(fragmentProgram == NULL)
         {
             CGError cgError = cgGetError();
-            NSLog(@"%s", cgGetErrorString(cgError));
+            NSLog(@"%@, fragment program: %s", theShadersName, cgGetErrorString(cgError));
         }
-        else
-            NSLog(@"Fragment Program: Success");
         
         cgGLLoadProgram(fragmentProgram);
     }
+
+    shaderData = self;
 
     return self;
 }
@@ -82,9 +76,9 @@
 
 - (void)dealloc
 {
-    NSLog(@"Dealloc cg shader");
-    //Deleting context also destroys programs
     if (cgContext) {
+        cgDestroyProgram(vertexProgram);
+        cgDestroyProgram(fragmentProgram);
         cgDestroyContext(cgContext);
 
         cgContext = NULL;
@@ -115,11 +109,15 @@
 
 #pragma mark -- Utilities --
 
-/*
-- (CGparameter)parameterWithName:(const char *)theParameterName
+
+- (CGparameter)vertexParameterWithName:(const char *)theParameterName
+{    
+    return cgGetNamedParameter(vertexProgram, theParameterName);
+}
+
+- (CGparameter)fragmentParameterWithName:(const char *)theParameterName
 {
-    
-    cgGetNamedParameter(, <#const char *name#>);
-}*/
+    return cgGetNamedParameter(fragmentProgram, theParameterName);
+}
 
 @end
