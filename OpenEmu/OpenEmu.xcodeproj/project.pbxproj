@@ -35,6 +35,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 83F37144140BB166005A7353 /* Build configuration list for PBXAggregateTarget "Build SystemPlugins" */;
 			buildPhases = (
+				94AB946916991A060047B58F /* Copy Plugins To Application Support */,
 			);
 			dependencies = (
 				94619CC715C50FB20019AC8E /* PBXTargetDependency */,
@@ -544,13 +545,10 @@
 		940236EF15803AC300083DCC /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940236EA15803AC300083DCC /* Controller-Preferences.plist */; };
 		940236F015803AC300083DCC /* pcengine_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EB15803AC300083DCC /* pcengine_library.png */; };
 		940236F115803AC300083DCC /* tg16_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940236EC15803AC300083DCC /* tg16_library.png */; };
-		940237CA1580456E00083DCC /* PC Engine.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 940236D11580323400083DCC /* PC Engine.oesystemplugin */; };
-		941B6464166AB3DF0099FC27 /* Sega CD.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */; };
 		941B6467166AE2540099FC27 /* OEPSXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941B6466166AE2540099FC27 /* OEPSXSystemController.m */; };
 		941DFB2D15B761B400C6552F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		941DFB3315B761B400C6552F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB3115B761B400C6552F /* InfoPlist.strings */; };
 		941DFB3B15B761FE00C6552F /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		941DFB3E15B7623200C6552F /* Atari 2600.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */; };
 		941DFB4515B765BC00C6552F /* OE2600SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 941DFB4215B765BB00C6552F /* OE2600SystemResponder.m */; };
 		941DFB4A15B765DB00C6552F /* atari2600_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4615B765DB00C6552F /* atari2600_library.png */; };
 		941DFB4B15B765DB00C6552F /* controller_2600_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 941DFB4715B765DB00C6552F /* controller_2600_mask.png */; };
@@ -564,7 +562,6 @@
 		9425B0E3158118110086FFB6 /* wonderswan_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B0DF158118110086FFB6 /* wonderswan_library.png */; };
 		9425B0E6158118350086FFB6 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		9425B0ED158119110086FFB6 /* OEWSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9425B0EA158119110086FFB6 /* OEWSSystemResponder.m */; };
-		9425B0F01581200E0086FFB6 /* WonderSwan.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */; };
 		9425B1781581822A0086FFB6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		9425B17E1581822A0086FFB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9425B17C1581822A0086FFB6 /* InfoPlist.strings */; };
 		9425B186158184C80086FFB6 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -573,7 +570,6 @@
 		9425B18D15818B170086FFB6 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9425B18915818B170086FFB6 /* Controller-Preferences.plist */; };
 		9425B18E15818B170086FFB6 /* lynx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 9425B18A15818B170086FFB6 /* lynx_library.png */; };
 		9425B19515818B960086FFB6 /* OELynxSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9425B19215818B960086FFB6 /* OELynxSystemResponder.m */; };
-		9425B198158190220086FFB6 /* Lynx.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 9425B1771581822A0086FFB6 /* Lynx.oesystemplugin */; };
 		943813A9165619EC00D55731 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943813A7165619EC00D55731 /* Keyboard-Mappings.plist */; };
 		943813AB16561F0500D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943813AA16561F0500D55731 /* Controller-Mappings.plist */; };
 		943814B2165756F600D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943814B0165756F600D55731 /* Controller-Mappings.plist */; };
@@ -604,7 +600,6 @@
 		94619C8115C4C3190019AC8E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94619C8715C4C31A0019AC8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94619C8515C4C3190019AC8E /* InfoPlist.strings */; };
 		94619C8F15C4CBDD0019AC8E /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		94619C9215C4CBFC0019AC8E /* Atari 5200.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94619C8015C4C3190019AC8E /* Atari 5200.oesystemplugin */; };
 		94619C9715C4D14B0019AC8E /* atari5200_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619C9315C4D14B0019AC8E /* atari5200_library.png */; };
 		94619C9815C4D14B0019AC8E /* controller_5200_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619C9415C4D14B0019AC8E /* controller_5200_mask.png */; };
 		94619C9915C4D14B0019AC8E /* controller_5200.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619C9515C4D14B0019AC8E /* controller_5200.png */; };
@@ -618,7 +613,6 @@
 		94619CC315C50F8F0019AC8E /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CBF15C50F8E0019AC8E /* controller_fc.png */; };
 		94619CC415C50F8F0019AC8E /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC015C50F8E0019AC8E /* Controller-Preferences.plist */; };
 		94619CC515C50F8F0019AC8E /* famicom_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC115C50F8E0019AC8E /* famicom_library.png */; };
-		94619CC815C50FC30019AC8E /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94619CA815C507B60019AC8E /* Nintendo FDS.oesystemplugin */; };
 		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
 		948E54101571D78D002D26E0 /* SuperNES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
@@ -644,7 +638,6 @@
 		94A1E9D81586F68800986376 /* controller_vb.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9D41586F68800986376 /* controller_vb.png */; };
 		94A1E9D91586F68800986376 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9D51586F68800986376 /* Controller-Preferences.plist */; };
 		94A1E9DA1586F68800986376 /* vb_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A1E9D61586F68800986376 /* vb_library.png */; };
-		94A1E9DF1586FD7600986376 /* Virtual Boy.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */; };
 		94A31B6716605ED700D123FC /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B6516605ED700D123FC /* Controller-Mappings.plist */; };
 		94A31B6816605ED700D123FC /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B6616605ED700D123FC /* Keyboard-Mappings.plist */; };
 		94A31B6B166074F400D123FC /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A31B69166074F400D123FC /* Controller-Mappings.plist */; };
@@ -659,12 +652,10 @@
 		94A9E17C157C3C420083A7DC /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E178157C3C420083A7DC /* Controller-Preferences.plist */; };
 		94A9E17D157C3C420083A7DC /* psx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A9E179157C3C420083A7DC /* psx_library.png */; };
 		94A9E183157C44970083A7DC /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		94A9E184157C44F60083A7DC /* PlayStation.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */; };
 		94AB8543158532C20035D12C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94AB8549158532C20035D12C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94AB8547158532C20035D12C /* InfoPlist.strings */; };
 		94AB855415853AE30035D12C /* OEPCFXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AB855115853AE30035D12C /* OEPCFXSystemResponder.m */; };
 		94AB855715853B000035D12C /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		94AB855C15853B930035D12C /* PC-FX.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94AB8542158532C20035D12C /* PC-FX.oesystemplugin */; };
 		94AB856115853BB20035D12C /* controller_pcfx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855D15853BB20035D12C /* controller_pcfx_mask.png */; };
 		94AB856215853BB20035D12C /* controller_pcfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855E15853BB20035D12C /* controller_pcfx.png */; };
 		94AB856315853BB20035D12C /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94AB855F15853BB20035D12C /* Controller-Preferences.plist */; };
@@ -676,8 +667,20 @@
 		94AB85F5158676BA0035D12C /* controller_sg1000.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB85F1158676BA0035D12C /* controller_sg1000.png */; };
 		94AB85F6158676BA0035D12C /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94AB85F2158676BA0035D12C /* Controller-Preferences.plist */; };
 		94AB85F7158676BA0035D12C /* sg1000_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AB85F3158676BA0035D12C /* sg1000_library.png */; };
-		94AB85FA158679730035D12C /* SG-1000.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94AB85DC158656080035D12C /* SG-1000.oesystemplugin */; };
 		94AB85FF15867BFC0035D12C /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94AB946A16991A780047B58F /* Arcade.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
+		94AB946B16991A860047B58F /* NDS.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */; };
+		94AB946C16991AA90047B58F /* PlayStation.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A9E163157C3B080083A7DC /* PlayStation.oesystemplugin */; };
+		94AB946D16991AB50047B58F /* PC Engine.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 940236D11580323400083DCC /* PC Engine.oesystemplugin */; };
+		94AB946E16991AC20047B58F /* WonderSwan.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 9425B0CF158115850086FFB6 /* WonderSwan.oesystemplugin */; };
+		94AB946F16991ACC0047B58F /* Lynx.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 9425B1771581822A0086FFB6 /* Lynx.oesystemplugin */; };
+		94AB947016991AF40047B58F /* PC-FX.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94AB8542158532C20035D12C /* PC-FX.oesystemplugin */; };
+		94AB947116991AFF0047B58F /* SG-1000.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94AB85DC158656080035D12C /* SG-1000.oesystemplugin */; };
+		94AB947216991B0F0047B58F /* Virtual Boy.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94A1E9BC1586F3B600986376 /* Virtual Boy.oesystemplugin */; };
+		94AB947316991B1B0047B58F /* Atari 2600.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 941DFB2C15B761B400C6552F /* Atari 2600.oesystemplugin */; };
+		94AB947416991B2A0047B58F /* Atari 5200.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94619C8015C4C3190019AC8E /* Atari 5200.oesystemplugin */; };
+		94AB947516991B350047B58F /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94619CA815C507B60019AC8E /* Nintendo FDS.oesystemplugin */; };
+		94AB947616991B400047B58F /* Sega CD.oesystemplugin in Copy Plugins To Application Support */ = {isa = PBXBuildFile; fileRef = 94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */; };
 		94D6129A16771BBF00770ECE /* OEPCFXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D6129916771BBF00770ECE /* OEPCFXSystemController.m */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
@@ -1319,26 +1322,25 @@
 			name = "Copy System Plugins to App Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C68625721572686E00EFC972 /* Copy Plugins To Application Support */ = {
+		94AB946916991A060047B58F /* Copy Plugins To Application Support */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
-				941B6464166AB3DF0099FC27 /* Sega CD.oesystemplugin in Copy Plugins To Application Support */,
-				94619CC815C50FC30019AC8E /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */,
-				94619C9215C4CBFC0019AC8E /* Atari 5200.oesystemplugin in Copy Plugins To Application Support */,
-				941DFB3E15B7623200C6552F /* Atari 2600.oesystemplugin in Copy Plugins To Application Support */,
-				94A1E9DF1586FD7600986376 /* Virtual Boy.oesystemplugin in Copy Plugins To Application Support */,
-				94AB85FA158679730035D12C /* SG-1000.oesystemplugin in Copy Plugins To Application Support */,
-				94AB855C15853B930035D12C /* PC-FX.oesystemplugin in Copy Plugins To Application Support */,
-				9425B198158190220086FFB6 /* Lynx.oesystemplugin in Copy Plugins To Application Support */,
-				9425B0F01581200E0086FFB6 /* WonderSwan.oesystemplugin in Copy Plugins To Application Support */,
-				940237CA1580456E00083DCC /* PC Engine.oesystemplugin in Copy Plugins To Application Support */,
-				94A9E184157C44F60083A7DC /* PlayStation.oesystemplugin in Copy Plugins To Application Support */,
-				C6862573157268A500EFC972 /* N64.oesystemplugin in Copy Plugins To Application Support */,
-				C6862574157268A500EFC972 /* NDS.oesystemplugin in Copy Plugins To Application Support */,
-				C6862575157268A500EFC972 /* Arcade.oesystemplugin in Copy Plugins To Application Support */,
+				94AB947616991B400047B58F /* Sega CD.oesystemplugin in Copy Plugins To Application Support */,
+				94AB947516991B350047B58F /* Nintendo FDS.oesystemplugin in Copy Plugins To Application Support */,
+				94AB947416991B2A0047B58F /* Atari 5200.oesystemplugin in Copy Plugins To Application Support */,
+				94AB947316991B1B0047B58F /* Atari 2600.oesystemplugin in Copy Plugins To Application Support */,
+				94AB947216991B0F0047B58F /* Virtual Boy.oesystemplugin in Copy Plugins To Application Support */,
+				94AB947116991AFF0047B58F /* SG-1000.oesystemplugin in Copy Plugins To Application Support */,
+				94AB947016991AF40047B58F /* PC-FX.oesystemplugin in Copy Plugins To Application Support */,
+				94AB946F16991ACC0047B58F /* Lynx.oesystemplugin in Copy Plugins To Application Support */,
+				94AB946E16991AC20047B58F /* WonderSwan.oesystemplugin in Copy Plugins To Application Support */,
+				94AB946D16991AB50047B58F /* PC Engine.oesystemplugin in Copy Plugins To Application Support */,
+				94AB946C16991AA90047B58F /* PlayStation.oesystemplugin in Copy Plugins To Application Support */,
+				94AB946B16991A860047B58F /* NDS.oesystemplugin in Copy Plugins To Application Support */,
+				94AB946A16991A780047B58F /* Arcade.oesystemplugin in Copy Plugins To Application Support */,
 			);
 			name = "Copy Plugins To Application Support";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1672,7 +1674,6 @@
 		827B3227168A69C1000CD127 /* OEAnalogSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAnalogSystemResponder.m; sourceTree = "<group>"; };
 		828389A80E6CF3A500A96E2C /* OEGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCore.h; sourceTree = "<group>"; };
 		82870D5416655F9900CBFE5D /* Computer.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Computer.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		82870D5516655F9A00CBFE5D /* Arcade copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Arcade copy-Info.plist"; path = "/Users/jweinberg/Development/clobber/OpenEmu/Arcade copy-Info.plist"; sourceTree = "<absolute>"; };
 		82870D5616655FCF00CBFE5D /* computer_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = computer_library.png; sourceTree = "<group>"; };
 		82870D5716655FCF00CBFE5D /* Computer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Computer-Info.plist"; sourceTree = "<group>"; };
 		82870D5816655FCF00CBFE5D /* Arcade-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Arcade-Prefix.pch"; sourceTree = "<group>"; };
@@ -2964,7 +2965,6 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				143F298A164DE0B300544CCF /* MagicKit.xcodeproj */,
-				82870D5516655F9A00CBFE5D /* Arcade copy-Info.plist */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";
