@@ -179,6 +179,9 @@ static NSGradient *highlightGradient, *normalGradient;
 		
 	for(NSUInteger i=0; i < [[self tableColumns] count]-1; i++)
 	{
+        if([[[self tableColumns] objectAtIndex:i] isHidden])
+            continue;
+        
 		NSRect colRect = [self rectOfColumn:i];
 		fillRect.origin.x = colRect.origin.x + colRect.size.width-1;
 		NSRectFill(fillRect);

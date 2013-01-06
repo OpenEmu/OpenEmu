@@ -36,14 +36,13 @@
 @implementation OEGameCoreManager
 @synthesize romPath, plugin, owner;
 
-- (id)initWithROMAtPath:(NSString *)theRomPath corePlugin:(OECorePlugin *)thePlugin owner:(OEGameCoreController *)theOwner error:(NSError **)outError
+- (id)initWithROMAtPath:(NSString *)theRomPath corePlugin:(OECorePlugin *)thePlugin error:(NSError **)outError
 {
     self = [super init];
     
     if(self != nil)
     {
         plugin  = thePlugin;
-        owner   = theOwner;
         romPath = [theRomPath copy];
         
         if(![self startHelperProcessError:outError])
@@ -92,7 +91,7 @@
     @try
     {
         DLog(@"[self rootProxy]: %@", [self rootProxy]);
-        ret = [[self rootProxy] loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:owner];
+        ret = [[self rootProxy] loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath]];
     }
     @catch(NSException *exception)
     {
@@ -184,6 +183,7 @@
     }
     
     // now that we have a valid connection...
+    
     rootProxy = (id<OEGameCoreHelper>)[taskConnection rootProxy];
     if(rootProxy == nil)
     {

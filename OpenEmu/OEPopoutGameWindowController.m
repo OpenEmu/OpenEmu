@@ -40,7 +40,6 @@
 #pragma mark - Private variables
 
 static const NSSize _OEPopoutGameWindowMinSize = {100, 100};
-static const NSSize _OEPopoutGameWindowMaxSize = {10000, 10000};
 static const unsigned int _OEFitToWindowScale  = 0;
 
 // user defaults
@@ -65,6 +64,7 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
     [window setDelegate:self];
     [window setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
     [window setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
+    [window setMinSize:_OEPopoutGameWindowMinSize];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_constrainIntegralScaleIfNeeded) name:NSApplicationDidChangeScreenParametersNotification object:nil];
 
@@ -111,10 +111,9 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
 
         [gameViewController setIntegralScalingDelegate:self];
 
-        [window setFrame:windowRect display:YES animate:NO];
+        [window setFrame:windowRect display:NO animate:NO];
         [window center];
         [window setContentView:[gameViewController view]];
-        [self OE_updateWindowMinMaxSizes];
     }
 }
 
@@ -171,12 +170,7 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
     return maxScale;
 }
 
-- (unsigned int)currentIntegralScale
-{
-    return [[self window] OE_isFullScreen] ? _OEFitToWindowScale : _integralScale;
-}
-
-- (BOOL)allowsIntegralScaling
+- (BOOL)shouldAllowIntegralScaling
 {
     return ![[self window] OE_isFullScreen];
 }
@@ -211,25 +205,19 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
 
     if(newScale != _OEFitToWindowScale)
     {
-        const NSRect currentFrame = [[self window] frame];
-        const NSRect screenFrame  = [[[self window] screen] visibleFrame];
+        const NSRect screenFrame = [[[self window] screen] visibleFrame];
+        NSRect newWindowFrame    = [[self window] frame];
+        newWindowFrame.size      = [self OE_windowSizeForGameViewIntegralScale:newScale];
 
-        NSRect newWindowFrame     = currentFrame;
-        newWindowFrame.size       = [self OE_windowSizeForGameViewIntegralScale:newScale];
+        // Make sure the entire window is visible, centering it in case it isn’t
+        if(NSMinY(newWindowFrame) < NSMinY(screenFrame) || NSMaxY(newWindowFrame) > NSMaxY(screenFrame))
+            newWindowFrame.origin.y = NSMinY(screenFrame) + ((screenFrame.size.height - newWindowFrame.size.height) / 2);
 
-        const CGFloat heightDelta = newWindowFrame.size.height - currentFrame.size.height;
+        if(NSMinX(newWindowFrame) < NSMinX(screenFrame) || NSMaxX(newWindowFrame) > NSMaxX(screenFrame))
+            newWindowFrame.origin.x = NSMinX(screenFrame) + ((screenFrame.size.width - newWindowFrame.size.width) / 2);
 
-        // Keep the same distance from the top of the screen...
-        newWindowFrame.origin.y -= heightDelta;
-
-        // ...and make sure the title bar is always entirely visible
-        if(NSMaxY(newWindowFrame) > NSMaxY(screenFrame))
-            newWindowFrame.origin.y = NSMaxY(screenFrame) - newWindowFrame.size.height;
-        
-        [[self window] setFrame:newWindowFrame display:YES];
+        [[[self window] animator] setFrame:newWindowFrame display:YES];
     }
-
-    [self OE_updateWindowMinMaxSizes];
 }
 
 - (void)OE_constrainIntegralScaleIfNeeded
@@ -242,24 +230,6 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
 
     if(newScreenFrame.size.width < currentFrame.size.width || newScreenFrame.size.height < currentFrame.size.height)
         [self OE_changeGameViewIntegralScale:newMaxScale];
-}
-
-// Assumes both _integralScale and [[self window] frame] have been set
-- (void)OE_updateWindowMinMaxSizes
-{
-    NSWindow *window = [self window];
-
-    if(_integralScale == _OEFitToWindowScale)
-    {
-        [window setMinSize:_OEPopoutGameWindowMinSize];
-        [window setMaxSize:_OEPopoutGameWindowMaxSize];
-    }
-    else
-    {
-        NSSize size = [window frame].size;
-        [window setMinSize:size];
-        [window setMaxSize:size];
-    }
 }
 
 - (OEGameDocument *)OE_gameDocument
@@ -305,15 +275,14 @@ static NSString *const _OELastWindowSizeKey            = @"lastPopoutWindowSize"
     [gameViewController viewDidDisappear];
 }
 
-- (void)windowWillEnterFullScreen:(NSNotification *)notification
-{
-    [[self window] setMaxSize:_OEPopoutGameWindowMaxSize];
-}
-
 - (void)windowDidExitFullScreen:(NSNotification *)notification
 {
-    [self OE_updateWindowMinMaxSizes];
     [[self window] setAnimationBehavior:NSWindowAnimationBehaviorDocumentWindow];
+}
+
+- (void)windowWillStartLiveResize:(NSNotification *)notification
+{
+    [self OE_changeGameViewIntegralScale:_OEFitToWindowScale];
 }
 
 @end

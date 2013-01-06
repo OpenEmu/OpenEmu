@@ -116,7 +116,7 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the save game called '%@' from your OpenEmu library?", @""), stateName];
     [alert setMessageText:messageText];
-    [alert setDefaultButtonTitle:NSLocalizedString(@"Delete Game", @"")];
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Delete Save", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setHeadlineLabelText:nil];
     [alert showSuppressionButtonForUDKey:OEDeleteGameAlertSuppressionKey];

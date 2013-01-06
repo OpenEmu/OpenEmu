@@ -528,7 +528,8 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
 - (void)OE_immediatelyExpandHighlightedItemSubmenu
 {
     OEMenu *menu = [self OE_menu];
-    [menu OE_setSubmenu:[[menu highlightedItem] submenu]];
+    if([[menu highlightedItem] isEnabled])
+        [menu OE_setSubmenu:[[menu highlightedItem] submenu]];
 }
 
 - (void)OE_expandHighlightedItemSubmenu
@@ -542,7 +543,8 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
     OEMenu *menu = [self OE_menu];
     [menu OE_setSubmenu:nil];
     [menu setHighlightedItem:highlightedItem];
-    if([highlightedItem hasSubmenu]) [self OE_expandHighlightedItemSubmenu];
+    if([highlightedItem hasSubmenu] && [highlightedItem isEnabled])
+        [self OE_expandHighlightedItemSubmenu];
 }
 
 - (void)OE_delayedSetHighlightedItem:(NSTimer *)timer
