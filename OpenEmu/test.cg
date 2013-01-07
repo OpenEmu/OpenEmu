@@ -43,6 +43,6 @@ output_fragment main_fragment
 )
 {
     output_fragment OUT;
-    OUT.color = texRECT(s_p, texCoord);//+float4(0.5,0.0,0.0,0.0);
+    OUT.color = texRECT(s_p, texCoord)+float4(0.5,0.0,0.0,0.0);
     return OUT;
 }

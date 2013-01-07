@@ -15,7 +15,7 @@
 {
     if((self = [super initInBundle:bundle forContext:context]))
     {
-        //Create context for Cg
+        // create context for Cg
         cgContext = cgCreateContext();
 
         if(cgContext == NULL)
@@ -24,17 +24,14 @@
         NSString *shaderSource = [bundleToLoadFrom pathForResource:theShadersName ofType:@"cg"];
 
         
-        //Load vertex shader
+        // load vertex shader
+        // set vertex profile
         vertexProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
-        //vertexProfile = CG_PROFILE_ARBVP1;
-
         if(vertexProfile == CG_PROFILE_UNKNOWN)
             NSLog(@"%@: Couldn't get valid profile", theShadersName);
-
         cgGLSetOptimalOptions(vertexProfile);
 
         vertexProgram = cgCreateProgramFromFile(cgContext, CG_SOURCE, [shaderSource UTF8String], vertexProfile, "main_vertex", 0);
-
         if(vertexProgram == NULL)
         {
             CGError cgError = cgGetError();
@@ -43,11 +40,21 @@
 
         cgGLLoadProgram(vertexProgram);
 
-        
+        // grab vertex parameters
+        position                = [self vertexParameterWithName:"position"];
+        texCoord                = [self vertexParameterWithName:"texCoord"];
+        modelViewProj           = [self vertexParameterWithName:"modelViewProj"];
+        vertexVideoSize         = [self vertexParameterWithName:"IN.video_size"];
+        vertexTextureSize       = [self vertexParameterWithName:"IN.texture_size"];
+        vertexOutputSize        = [self vertexParameterWithName:"IN.output_size"];
+        vertexFrameCount        = [self vertexParameterWithName:"IN.frame_count"];
+        vertexFrameDirection    = [self vertexParameterWithName:"IN.frame_direction"];
+        vertexFrameRotation     = [self vertexParameterWithName:"IN.frame_rotation"];
+
+
         // load fragment shader
         // set fragment profile
         fragmentProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
-        //fragmentProfile = CG_PROFILE_ARBFP1;
         if(fragmentProfile == CG_PROFILE_UNKNOWN)
             NSLog(@"%@: Couldn't get valid profile", theShadersName);
         cgGLSetOptimalOptions(fragmentProfile);
@@ -60,6 +67,14 @@
         }
         
         cgGLLoadProgram(fragmentProgram);
+
+        // grab fragment parameters
+        fragmentVideoSize       = [self fragmentParameterWithName:"IN.video_size"];
+        fragmentTextureSize     = [self fragmentParameterWithName:"IN.texture_size"];
+        fragmentOutputSize      = [self fragmentParameterWithName:"IN.output_size"];
+        fragmentFrameCount      = [self fragmentParameterWithName:"IN.frame_count"];
+        fragmentFrameDirection  = [self fragmentParameterWithName:"IN.frame_direction"];
+        fragmentFrameRotation   = [self fragmentParameterWithName:"IN.frame_rotation"];
     }
 
     shaderData = self;
@@ -105,6 +120,81 @@
 - (CGprogram)fragmentProgram
 {
     return fragmentProgram;
+}
+
+- (CGparameter)position
+{
+    return position;
+}
+
+- (CGparameter)texCoord
+{
+    return texCoord;
+}
+
+- (CGparameter)modelViewProj
+{
+    return modelViewProj;
+}
+
+- (CGparameter)vertexVideoSize
+{
+    return vertexVideoSize;
+}
+
+- (CGparameter)vertexTextureSize
+{
+    return vertexTextureSize;
+}
+
+- (CGparameter)vertexOutputSize
+{
+    return vertexOutputSize;
+}
+
+- (CGparameter)vertexFrameCount
+{
+    return vertexFrameCount;
+}
+
+- (CGparameter)vertexFrameDirection
+{
+    return vertexFrameDirection;
+}
+
+- (CGparameter)vertexFrameRotation
+{
+    return vertexFrameRotation;
+}
+
+- (CGparameter)fragmentVideoSize
+{
+    return fragmentVideoSize;
+}
+
+- (CGparameter)fragmentTextureSize
+{
+    return fragmentTextureSize;
+}
+
+- (CGparameter)fragmentOutputSize
+{
+    return fragmentOutputSize;
+}
+
+- (CGparameter)fragmentFrameCount
+{
+    return fragmentFrameCount;
+}
+
+- (CGparameter)fragmentFrameDirection
+{
+    return fragmentFrameDirection;
+}
+
+- (CGparameter)fragmentFrameRotation
+{
+    return fragmentFrameRotation;
 }
 
 #pragma mark -- Utilities --

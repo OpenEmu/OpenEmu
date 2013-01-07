@@ -34,6 +34,13 @@
     CGcontext cgContext;
     CGprofile vertexProfile, fragmentProfile;
     CGprogram vertexProgram, fragmentProgram;
+    CGparameter vertexVideoSize,        fragmentVideoSize,
+                vertexTextureSize,      fragmentTextureSize,
+                vertexOutputSize,       fragmentOutputSize,
+                vertexFrameCount,       fragmentFrameCount,
+                vertexFrameDirection,   fragmentFrameDirection,
+                vertexFrameRotation,    fragmentFrameRotation,
+                position, texCoord, modelViewProj;
 }
 
 - (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
@@ -43,6 +50,22 @@
 - (CGprofile)fragmentProfile;
 - (CGprogram)vertexProgram;
 - (CGprogram)fragmentProgram;
+
+- (CGparameter)position;
+- (CGparameter)texCoord;
+- (CGparameter)modelViewProj;
+- (CGparameter)vertexVideoSize;
+- (CGparameter)vertexTextureSize;
+- (CGparameter)vertexOutputSize;
+- (CGparameter)vertexFrameCount;
+- (CGparameter)vertexFrameDirection;
+- (CGparameter)vertexFrameRotation;
+- (CGparameter)fragmentVideoSize;
+- (CGparameter)fragmentTextureSize;
+- (CGparameter)fragmentOutputSize;
+- (CGparameter)fragmentFrameCount;
+- (CGparameter)fragmentFrameDirection;
+- (CGparameter)fragmentFrameRotation;
 
 - (CGparameter)vertexParameterWithName:(const char *)theParameterName;
 - (CGparameter)fragmentParameterWithName:(const char *)theParameterName;
