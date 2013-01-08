@@ -86,6 +86,9 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
 @property         IOSurfaceID gameSurfaceID;
 @property         IOSurfaceRef gameSurfaceRef;
 
+@property         GLuint  rttFBO;
+@property         GLuint  rttGameTexture;
+
 @property         OEIntSize gameScreenSize;
 @property         OEIntSize gameAspectSize;
 @property         CVDisplayLinkRef gameDisplayLinkRef;
@@ -112,6 +115,8 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
 @synthesize gameTexture;
 @synthesize gameSurfaceID;
 @synthesize gameSurfaceRef;
+@synthesize rttFBO;
+@synthesize rttGameTexture;
 @synthesize gameDisplayLinkRef;
 @synthesize gameScreenSize, gameAspectSize;
 @synthesize gameServer;
@@ -193,10 +198,14 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
 
     // GL resources
     glGenTextures(1, &gameTexture);
-    
-    glGenTextures(1, &rttGameTexture);
+
     glGenFramebuffersEXT(1, &rttFBO);
-    
+    glGenTextures(1, &rttGameTexture);
+
+    glBindTexture(GL_TEXTURE_2D, rttGameTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  self.frame.size.width, self.frame.size.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
     filters = [self OE_shadersForContext:cgl_ctx];
     self.gameServer = [[SyphonServer alloc] initWithName:self.gameTitle context:cgl_ctx options:nil];
 
@@ -250,6 +259,12 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
 
     glDeleteTextures(1, &gameTexture);
     gameTexture = 0;
+
+    glDeleteTextures(1, &rttGameTexture);
+    rttGameTexture = 0;
+
+    glDeleteFramebuffersEXT(1, &rttFBO);
+    rttFBO = 0;
 
     CGLUnlockContext(cgl_ctx);
     [super clearGLContext];
@@ -561,7 +576,6 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, FBO);
 
     glBindTexture(GL_TEXTURE_2D, renderTarget);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  self.frame.size.width, self.frame.size.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
