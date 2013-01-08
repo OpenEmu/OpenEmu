@@ -76,7 +76,7 @@ static NSString *const _OEScale2xHQFilterName       = @"Scale2xHQ";
 static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
 static NSString *const _OEScale4xBRFilterName       = @"Scale4xBR";
 static NSString *const _OEScale2xBRFilterName       = @"Scale2xBR";
-static NSString *const _OEScanlineFilterName        = @"scanline";
+static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 @interface OEGameView ()
 
