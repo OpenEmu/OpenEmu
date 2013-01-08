@@ -88,6 +88,7 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
 
 @property         GLuint  rttFBO;
 @property         GLuint  rttGameTexture;
+@property         NSUInteger frameCount;
 
 @property         OEIntSize gameScreenSize;
 @property         OEIntSize gameAspectSize;
@@ -117,6 +118,7 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
 @synthesize gameSurfaceRef;
 @synthesize rttFBO;
 @synthesize rttGameTexture;
+@synthesize frameCount;
 @synthesize gameDisplayLinkRef;
 @synthesize gameScreenSize, gameAspectSize;
 @synthesize gameServer;
@@ -203,8 +205,10 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
     glGenTextures(1, &rttGameTexture);
 
     glBindTexture(GL_TEXTURE_2D, rttGameTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  self.frame.size.width, self.frame.size.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  gameScreenSize.width, gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    frameCount = 0;
 
     filters = [self OE_shadersForContext:cgl_ctx];
     self.gameServer = [[SyphonServer alloc] initWithName:self.gameTitle context:cgl_ctx options:nil];
@@ -570,6 +574,7 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
 
 - (void)OE_renderToTexture:(GLuint)renderTarget withFramebuffer:(GLuint)FBO usingVertices:(const GLfloat *)vertices usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx
 {
+    glViewport(0, 0, gameScreenSize.width, gameScreenSize.height);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -595,6 +600,7 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
     glDisableClientState(GL_VERTEX_ARRAY);
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 }
 
 // GL render method
@@ -661,26 +667,23 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
         // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
         [self OE_renderToTexture:rttGameTexture withFramebuffer:rttFBO usingVertices:verts usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
-        FIXME(@"Still needs work, possibly break this up");
         OECgShader *cgShader = [shader shaderData];
 
         // enable vertex program, bind parameters
         cgGLBindProgram([cgShader vertexProgram]);
         cgGLSetParameter2f([cgShader vertexVideoSize], gameScreenSize.width, gameScreenSize.height);
-        // this includes window decorations? may need to adjust
-        cgGLSetParameter2f([cgShader vertexOutputSize], self.frame.size.width, self.frame.size.height);
         cgGLSetParameter2f([cgShader vertexTextureSize], gameScreenSize.width, gameScreenSize.height);
+        cgGLSetParameter2f([cgShader vertexOutputSize], self.frame.size.width, self.frame.size.height);
+        cgGLSetParameter1f([cgShader vertexFrameCount], frameCount++);
         cgGLSetStateMatrixParameter([cgShader modelViewProj], CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
-        // Need to get frame count from OEGameCore?
-        // cgGLSetParameter1f([cgShader vertexFrameCount], ???);
         cgGLEnableProfile([cgShader vertexProfile]);
 
         // enable fragment program, bind parameters
         cgGLBindProgram([cgShader fragmentProgram]);
         cgGLSetParameter2f([cgShader fragmentVideoSize], gameScreenSize.width, gameScreenSize.height);
-        // this includes window decorations? may need to adjust
-        cgGLSetParameter2f([cgShader fragmentOutputSize], self.frame.size.width, self.frame.size.height);
         cgGLSetParameter2f([cgShader fragmentTextureSize], gameScreenSize.width, gameScreenSize.height);
+        cgGLSetParameter2f([cgShader fragmentOutputSize], self.frame.size.width, self.frame.size.height);
+        cgGLSetParameter1f([cgShader fragmentFrameCount], frameCount++);
         cgGLEnableProfile([cgShader fragmentProfile]);
 
         
