@@ -99,6 +99,7 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
 @property         NSTimeInterval filterStartTime;
 @property         BOOL filterHasOutputMousePositionKeys;
 
+- (void)OE_renderToTexture:(GLuint)renderTarget withFramebuffer:(GLuint)FBO usingVertices:(const GLfloat *)vertices usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx;
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader;
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context;
@@ -144,7 +145,7 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
 
 
     OECgShader *cgTestShader            = [[OECgShader alloc] initWithShadersInMainBundle:_OECgTestFilterName forContext:context];
-    OECgShader *scanlineShader               = [[OECgShader alloc] initWithShadersInMainBundle:_OEScanlineFilterName forContext:context];
+    OECgShader *scanlineShader          = [[OECgShader alloc] initWithShadersInMainBundle:_OEScanlineFilterName forContext:context];
 
     return [NSDictionary dictionaryWithObjectsAndKeys:
             _OELinearFilterName         , _OELinearFilterName         ,
@@ -192,7 +193,10 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
 
     // GL resources
     glGenTextures(1, &gameTexture);
-
+    
+    glGenTextures(1, &rttGameTexture);
+    glGenFramebuffersEXT(1, &rttFBO);
+    
     filters = [self OE_shadersForContext:cgl_ctx];
     self.gameServer = [[SyphonServer alloc] initWithName:self.gameTitle context:cgl_ctx options:nil];
 
@@ -549,6 +553,36 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
     }
 }
 
+- (void)OE_renderToTexture:(GLuint)renderTarget withFramebuffer:(GLuint)FBO usingVertices:(const GLfloat *)vertices usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx
+{
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, FBO);
+
+    glBindTexture(GL_TEXTURE_2D, renderTarget);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  self.frame.size.width, self.frame.size.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTarget, 0);
+
+    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) ;
+    if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
+        NSLog(@"failed to make complete framebuffer object %x", status);
+    }
+
+    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+    glTexCoordPointer(2, GL_INT, 0, texCoords );
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, vertices );
+    glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+    glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+}
+
 // GL render method
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)cgl_ctx usingShader:(OEGameShader *)shader
 {
@@ -600,11 +634,19 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
     };
 
 
+    const GLfloat cg_coords[] =
+    {
+        0, 0,
+        1, 0,
+        1, 1,
+        0, 1
+    };
+
     if([shader isKindOfClass:[OEGameShader class]] && [[shader shaderData] isKindOfClass:[OECgShader class]])
     {
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        
+        // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
+        [self OE_renderToTexture:rttGameTexture withFramebuffer:rttFBO usingVertices:verts usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
+
         FIXME(@"Still needs work, possibly break this up");
         OECgShader *cgShader = [shader shaderData];
 
@@ -627,8 +669,9 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
         cgGLSetParameter2f([cgShader fragmentTextureSize], gameScreenSize.width, gameScreenSize.height);
         cgGLEnableProfile([cgShader fragmentProfile]);
 
+        
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-        glTexCoordPointer(2, GL_INT, 0, tex_coords );
+        glTexCoordPointer(2, GL_FLOAT, 0, cg_coords );
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(2, GL_FLOAT, 0, verts );
         glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );

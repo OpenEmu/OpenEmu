@@ -39,10 +39,11 @@ struct output_fragment
 output_fragment main_fragment
 (
     float2 texCoord : TEXCOORD0,
-    uniform samplerRECT s_p : TEXUNIT0
+    uniform sampler2D s_p : TEXUNIT0
 )
 {
     output_fragment OUT;
-    OUT.color = texRECT(s_p, texCoord)+float4(0.5,0.0,0.0,0.0);
+    OUT.color = tex2D(s_p, texCoord)+float4(0.5,0.0,0.0,0.0);
+    //OUT.color = float4(0.5,0,0.5,1);
     return OUT;
 }

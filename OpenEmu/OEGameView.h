@@ -40,6 +40,10 @@
 @class OESystemResponder;
 
 @interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
+{
+    GLuint  rttFBO;
+    GLuint  rttGameTexture;
+}
 
 @property(nonatomic, strong) id<OEGameCoreHelper> rootProxy;
 @property(strong) OESystemResponder *gameResponder;
