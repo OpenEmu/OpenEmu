@@ -76,7 +76,6 @@ static NSString *const _OEScale2xHQFilterName       = @"Scale2xHQ";
 static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
 static NSString *const _OEScale4xBRFilterName       = @"Scale4xBR";
 static NSString *const _OEScale2xBRFilterName       = @"Scale2xBR";
-static NSString *const _OECgTestFilterName          = @"test";
 static NSString *const _OEScanlineFilterName        = @"scanline";
 
 @interface OEGameView ()
@@ -151,7 +150,6 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
     OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
 
 
-    OECgShader *cgTestShader            = [[OECgShader alloc] initWithShadersInMainBundle:_OECgTestFilterName forContext:context];
     OECgShader *scanlineShader          = [[OECgShader alloc] initWithShadersInMainBundle:_OEScanlineFilterName forContext:context];
 
     return [NSDictionary dictionaryWithObjectsAndKeys:
@@ -163,7 +161,6 @@ static NSString *const _OEScanlineFilterName        = @"scanline";
             scale4XHQShader             , _OEScale4xHQFilterName      ,
             scale2XPlusShader           , _OEScale2xPlusFilterName    ,
             scale2XHQShader             , _OEScale2xHQFilterName      ,
-            cgTestShader                , _OECgTestFilterName         ,
             scanlineShader              , _OEScanlineFilterName       ,
             scale2XSALSmartShader       , _OEScale2XSALSmartFilterName,
             nil];

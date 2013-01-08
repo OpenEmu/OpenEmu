@@ -499,7 +499,6 @@
 		83FFC06D1458194E0077EC27 /* OESetupAssistantBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FFC06C1458194E0077EC27 /* OESetupAssistantBox.m */; };
 		8C4C808916986697009B8A28 /* OEGlslShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808816986697009B8A28 /* OEGlslShader.m */; };
 		8C4C808E16986C87009B8A28 /* OECgShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808D16986C87009B8A28 /* OECgShader.m */; };
-		8C4C809116987B44009B8A28 /* test.cg in Resources */ = {isa = PBXBuildFile; fileRef = 8C4C809016987B44009B8A28 /* test.cg */; };
 		8CCBC0C9169B323100141631 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCBC0C8169B323100141631 /* Cg.framework */; };
 		8CF0EB56169B1DF900E3670D /* scanline.cg in Resources */ = {isa = PBXBuildFile; fileRef = 8CF0EB55169B1DF900E3670D /* scanline.cg */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
@@ -1639,7 +1638,6 @@
 		8C4C808816986697009B8A28 /* OEGlslShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGlslShader.m; sourceTree = "<group>"; };
 		8C4C808C16986C87009B8A28 /* OECgShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECgShader.h; sourceTree = "<group>"; };
 		8C4C808D16986C87009B8A28 /* OECgShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECgShader.m; sourceTree = "<group>"; };
-		8C4C809016987B44009B8A28 /* test.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.cg; sourceTree = "<group>"; };
 		8CCBC0C8169B323100141631 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cg.framework; sourceTree = "<group>"; };
 		8CF0EB55169B1DF900E3670D /* scanline.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scanline.cg; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3424,7 +3422,6 @@
 			isa = PBXGroup;
 			children = (
 				8CF0EB55169B1DF900E3670D /* scanline.cg */,
-				8C4C809016987B44009B8A28 /* test.cg */,
 			);
 			name = "Cg Shaders";
 			sourceTree = "<group>";
@@ -4507,7 +4504,6 @@
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
 				830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */,
 				1B96BA56166BDD52005064C8 /* FRFeedbackReporter.sh in Resources */,
-				8C4C809116987B44009B8A28 /* test.cg in Resources */,
 				8CF0EB56169B1DF900E3670D /* scanline.cg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
