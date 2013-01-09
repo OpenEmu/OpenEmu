@@ -659,10 +659,18 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         0, 1
     };
 
+    const GLfloat rtt_verts[] =
+    {
+        -1, -1,
+         1, -1,
+         1,  1,
+        -1,  1
+    };
+
     if([shader isKindOfClass:[OEGameShader class]] && [[shader shaderData] isKindOfClass:[OECgShader class]])
     {
         // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
-        [self OE_renderToTexture:rttGameTexture withFramebuffer:rttFBO usingVertices:verts usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
+        [self OE_renderToTexture:rttGameTexture withFramebuffer:rttFBO usingVertices:rtt_verts usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
         OECgShader *cgShader = [shader shaderData];
 
