@@ -591,12 +591,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         0, gameScreenSize.height
     };
     
-    if(shader == (id)_OELinearFilterName)
-    {
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    }
-    else
+    if(shader != (id)_OELinearFilterName)
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -620,7 +615,10 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     
     // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
     glUseProgramObjectARB(0);
-    
+
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
     glPopAttrib();
     glPopClientAttrib();
 }
