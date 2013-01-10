@@ -641,8 +641,6 @@ typedef enum : NSUInteger
      {
          if(result == NSAlertDefaultReturn)
              [self saveStateWithName:[alert stringValue]];
-         
-         [self playGame:nil];
      }];
     
     [alert runModal];
