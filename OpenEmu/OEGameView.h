@@ -33,6 +33,8 @@
 
 #import "OEGameCoreHelper.h"
 #import "OEGameShader.h"
+#import "OEGlslShader.h"
+#import "OECgShader.h"
 
 @protocol OEGameCoreHelper;
 @class OESystemResponder;

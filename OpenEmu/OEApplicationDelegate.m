@@ -135,6 +135,15 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     // Check to see if we crashed.
     [[FRFeedbackReporter sharedReporter] reportIfCrash];
+
+    // Remove the Open Recent menu item
+    NSInteger openDocumentMenuItemIndex = [self.fileMenu indexOfItemWithTarget:nil andAction:@selector(openDocument:)];
+
+    if (openDocumentMenuItemIndex>=0 &&
+        [[self.fileMenu itemAtIndex:openDocumentMenuItemIndex+1] hasSubmenu])
+    {
+        [self.fileMenu removeItemAtIndex:openDocumentMenuItemIndex+1];
+    }
     
     // Run Migration Manager
     [[OEVersionMigrationController defaultMigrationController] runMigrationIfNeeded];

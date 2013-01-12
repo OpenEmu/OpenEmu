@@ -454,6 +454,11 @@
     [(OEHUDBorderWindow *)[self window] windowDraggingDidEnd];
 }
 
+- (id)validRequestorForSendType:(NSString *)sendType returnType:(NSString *)returnType
+{
+    return nil;
+}
+
 @end
 
 @implementation OEHUDWindowDelegateProxy
