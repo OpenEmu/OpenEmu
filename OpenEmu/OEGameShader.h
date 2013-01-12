@@ -30,18 +30,13 @@
 
 @interface OEGameShader : NSObject
 {
-    const GLcharARB *fragmentShaderSource; // the GLSL source for the fragment Shader
-    const GLcharARB *vertexShaderSource;   // the GLSL source for the vertex Shader
-    GLhandleARB      programObject;        // the program object
-    
     NSBundle        *bundleToLoadFrom;     // location of resource folder;
     CGLContextObj    shaderContext;        // context to bind shaders to.
+    id               shaderData;           // either OEGlslShader or OECgShader
 }
 
-- (id)initWithShadersInMainBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
-- (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
+- (id)initInBundle:(NSBundle *)bundle forContext:(CGLContextObj)context;
 
-- (GLhandleARB)programObject;
-- (GLint)uniformLocationWithName:(const GLcharARB *)theUniformName;
+- (id)shaderData;
 
 @end
