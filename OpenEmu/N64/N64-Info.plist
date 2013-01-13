@@ -76,30 +76,30 @@
 				</dict>
 			</array>
 			<array>
-				<string>C-Pad</string>
+				<string>Analog</string>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonCUp</string>
+					<string>OEN64AnalogUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonCDown</string>
+					<string>OEN64AnalogDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonCLeft</string>
+					<string>OEN64AnalogLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64ButtonCRight</string>
+					<string>OEN64AnalogRight</string>
 				</dict>
 			</array>
 			<array>
@@ -143,29 +143,30 @@
 				</dict>
 			</array>
 			<array>
+				<string>C-Pad</string>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Analog Left</string>
+					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64AnalogLeft</string>
+					<string>OEN64ButtonCUp</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Analog Right</string>
+					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64AnalogRight</string>
+					<string>OEN64ButtonCDown</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Analog Up</string>
+					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64AnalogUp</string>
+					<string>OEN64ButtonCLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Analog Down</string>
+					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEN64AnalogDown</string>
+					<string>OEN64ButtonCRight</string>
 				</dict>
 			</array>
 		</array>
