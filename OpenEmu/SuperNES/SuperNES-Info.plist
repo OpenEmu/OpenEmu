@@ -117,13 +117,13 @@
 			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Trigger Left</string>
+					<string>L</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonTriggerLeft</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Trigger Right</string>
+					<string>R</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonTriggerRight</string>
 				</dict>

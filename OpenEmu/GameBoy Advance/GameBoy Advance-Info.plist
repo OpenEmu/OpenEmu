@@ -100,13 +100,13 @@
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Left Trigger</string>
+					<string>L</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGBAButtonL</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Right Trigger</string>
+					<string>R</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGBAButtonR</string>
 				</dict>
