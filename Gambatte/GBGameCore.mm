@@ -237,7 +237,10 @@ static void writeSaveFile(const char* path, int type)
 
             NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
 
+            NSString *filePathRTC = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"rtc"]];
+            
             loadSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
+            loadSaveFile([filePathRTC UTF8String], RETRO_MEMORY_RTC);
         }
 
         struct retro_system_av_info avInfo;
@@ -304,7 +307,10 @@ static void writeSaveFile(const char* path, int type)
 
         NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
 
+        NSString *filePathRTC = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"rtc"]];
+        
         writeSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
+        writeSaveFile([filePathRTC UTF8String], RETRO_MEMORY_RTC);
     }
 
     NSLog(@"gb term");
