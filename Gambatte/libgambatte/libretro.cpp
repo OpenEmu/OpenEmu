@@ -302,7 +302,8 @@ size_t retro_get_memory_size(unsigned id)
     if (id == RETRO_MEMORY_SAVE_RAM)
         return gb.savedata_size();
     if (id == RETRO_MEMORY_RTC)
-        return gb.rtcdata_size();
+        //return gb.rtcdata_size();
+        return 4;
     
     return 0;
 }
