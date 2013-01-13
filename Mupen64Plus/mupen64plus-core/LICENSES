@@ -27,9 +27,6 @@ Mupen64Plus is based on GPL-licensed source code from Mupen64 v0.5, originally w
   * Juha Luotio (JttL)
   * and others.
 
-Mupen64Plus-Core includes a GPL-license demo rom (in m64p_test_rom.v64.gz) written by:
-  *  Marshallh
-
 The OGLFT library used for the On-Screen Display is based on GPL/LGPL-licensed code Copyright 2002 lignum Computing. Please see the included doc/lgpl-license file for the terms and conditions of the GNU Lesser General Public License. More information about this library is available at the following websites:
   - http://oglft.sourceforge.net/index.html
   - http://directory.fsf.org/project/OGLFT/

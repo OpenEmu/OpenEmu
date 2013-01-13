@@ -35,8 +35,10 @@
 #include "main.h"
 #include "rom.h"
 #include "eventloop.h"
-#include "util.h" // list utilities
-#include "ini_reader.h"
+#include "list.h"
+
+#include <stdio.h>
+#include <string.h>
 
 // local definitions
 #define CHEAT_CODE_MAGIC_VALUE 0xDEAD0000
@@ -45,17 +47,19 @@ typedef struct cheat_code {
     unsigned int address;
     int value;
     int old_value;
+    struct list_head list;
 } cheat_code_t;
 
 typedef struct cheat {
     char *name;
     int enabled;
     int was_enabled;
-    list_t cheat_codes;
+    struct list_head cheat_codes;
+    struct list_head list;
 } cheat_t;
 
 // local variables
-static list_t     active_cheats = NULL;
+static LIST_HEAD(active_cheats);
 static SDL_mutex *cheat_mutex = NULL;
 
 // private functions
@@ -143,12 +147,10 @@ static int execute_cheat(unsigned int address, unsigned short value, int *old_va
 
 static cheat_t *find_or_create_cheat(const char *name)
 {
-    list_t node = NULL;
-    cheat_t *cheat = NULL;
+    cheat_t *cheat;
     int found = 0;
 
-    list_foreach(active_cheats, node) {
-        cheat = (cheat_t *) node->data;
+    list_for_each_entry(cheat, &active_cheats, cheat_t, list) {
         if (strcmp(cheat->name, name) == 0) {
             found = 1;
             break;
@@ -158,23 +160,24 @@ static cheat_t *find_or_create_cheat(const char *name)
     if (found)
     {
         /* delete any pre-existing cheat codes */
-        list_t node2;
-        list_foreach(cheat->cheat_codes, node2)
-        {
-            free(node2->data);
+        cheat_code_t *code, *safe;
+
+        list_for_each_entry_safe(code, safe, &cheat->cheat_codes, cheat_code_t, list) {
+             list_del(&code->list);
+             free(code);
         }
-        list_delete(&cheat->cheat_codes);
+
         cheat->enabled = 0;
         cheat->was_enabled = 0;
     }
     else
     {
-        cheat = (cheat_t *) malloc(sizeof(cheat_t));
+        cheat = malloc(sizeof(*cheat));
         cheat->name = strdup(name);
-        cheat->cheat_codes = NULL;
         cheat->enabled = 0;
         cheat->was_enabled = 0;
-        list_append(&active_cheats, cheat);
+        INIT_LIST_HEAD(&cheat->cheat_codes);
+        list_add_tail(&cheat->list, &active_cheats);
     }
 
     return cheat;
@@ -196,11 +199,35 @@ void cheat_uninit(void)
 
 void cheat_apply_cheats(int entry)
 {
-    list_t node1 = NULL;
-    list_t node2 = NULL;
+    cheat_t *cheat;
     cheat_code_t *code;
+    int skip;
+    int execute_next;
+
+    // If game is Zelda OOT, apply subscreen delay fix
+    if (strncmp((char *)ROM_HEADER.Name, "THE LEGEND OF ZELDA", 19) == 0 && entry == ENTRY_VI) {
+        if (sl(ROM_HEADER.CRC1) == 0xEC7011B7 && sl(ROM_HEADER.CRC2) == 0x7616D72B) {
+            // Legend of Zelda, The - Ocarina of Time (U) + (J) (V1.0)
+            execute_cheat(0x801DA5CB, 0x0002, NULL);
+        } else if (sl(ROM_HEADER.CRC1) == 0xD43DA81F && sl(ROM_HEADER.CRC2) == 0x021E1E19) {
+            // Legend of Zelda, The - Ocarina of Time (U) + (J) (V1.1)
+            execute_cheat(0x801DA78B, 0x0002, NULL);
+        } else if (sl(ROM_HEADER.CRC1) == 0x693BA2AE && sl(ROM_HEADER.CRC2) == 0xB7F14E9F) {
+            // Legend of Zelda, The - Ocarina of Time (U) + (J) (V1.2)
+            execute_cheat(0x801DAE8B, 0x0002, NULL);
+        } else if (sl(ROM_HEADER.CRC1) == 0xB044B569 && sl(ROM_HEADER.CRC2) == 0x373C1985) {
+            // Legend of Zelda, The - Ocarina of Time (E) (V1.0)
+            execute_cheat(0x801D860B, 0x0002, NULL);
+        } else if (sl(ROM_HEADER.CRC1) == 0xB2055FBD && sl(ROM_HEADER.CRC2) == 0x0BAB4E0C) {
+            // Legend of Zelda, The - Ocarina of Time (E) (V1.1)
+            execute_cheat(0x801D864B, 0x0002, NULL);
+        } else {
+            // Legend of Zelda, The - Ocarina of Time Master Quest
+            execute_cheat(0x801D8F4B, 0x0002, NULL);
+        }
+    }
     
-    if (active_cheats == NULL)
+    if (list_empty(&active_cheats))
         return;
 
     if (cheat_mutex == NULL || SDL_LockMutex(cheat_mutex) != 0)
@@ -209,28 +236,41 @@ void cheat_apply_cheats(int entry)
         return;
     }
 
-    list_foreach(active_cheats, node1) {
-        cheat_t* cheat = (cheat_t*) node1->data;
+    list_for_each_entry(cheat, &active_cheats, cheat_t, list) {
         if (cheat->enabled)
         {
             cheat->was_enabled = 1;
             switch(entry)
             {
                 case ENTRY_BOOT:
-                    list_foreach(cheat->cheat_codes, node2)
-                    {
-                        code = (cheat_code_t *)node2->data;
-
+                    list_for_each_entry(code, &cheat->cheat_codes, cheat_code_t, list) {
                         // code should only be written once at boot time
                         if((code->address & 0xF0000000) == 0xF0000000)
                             execute_cheat(code->address, code->value, &code->old_value);
                     }
                     break;
                 case ENTRY_VI:
-                    list_foreach(cheat->cheat_codes, node2)
-                    {
-                        code = (cheat_code_t *)node2->data;
+                    skip = 0;
+                    execute_next = 0;
+                    list_for_each_entry(code, &cheat->cheat_codes, cheat_code_t, list) {
+                        if (skip) {
+                            skip = 0;
+                            continue;
+                        }
+                        if (execute_next) {
+                            execute_next = 0;
 
+                            // if code needs GS button pressed, don't save old value
+                            if(((code->address & 0xFF000000) == 0xD8000000 ||
+                                (code->address & 0xFF000000) == 0xD9000000 ||
+                                (code->address & 0xFF000000) == 0xDA000000 ||
+                                (code->address & 0xFF000000) == 0xDB000000))
+                               execute_cheat(code->address, code->value, NULL);
+                            else
+                               execute_cheat(code->address, code->value, &code->old_value);
+
+                            continue;
+                        }
                         // conditional cheat codes
                         if((code->address & 0xF0000000) == 0xD0000000)
                         {
@@ -242,31 +282,16 @@ void cheat_apply_cheats(int entry)
                                !event_gameshark_active())
                             {
                                 // skip next code
-                                if(node2->next != NULL)
-                                    node2 = node2->next;
+                                skip = 1;
                                 continue;
                             }
 
-                            // if condition true, execute next cheat code
-                            if(execute_cheat(code->address, code->value, NULL))
-                            {
-                                node2 = node2->next;
-                                code = (cheat_code_t *)node2->data;
-
-                                // if code needs GS button pressed, don't save old value
-                                if(((code->address & 0xFF000000) == 0xD8000000 ||
-                                    (code->address & 0xFF000000) == 0xD9000000 ||
-                                    (code->address & 0xFF000000) == 0xDA000000 ||
-                                    (code->address & 0xFF000000) == 0xDB000000))
-                                   execute_cheat(code->address, code->value, NULL);
-                                else
-                                   execute_cheat(code->address, code->value, &code->old_value);
-                            }
-                            // if condition false, skip next code
-                            else
-                            {
-                                if(node2->next != NULL)
-                                    node2 = node2->next;
+                            if (execute_cheat(code->address, code->value, NULL)) {
+                                // if condition true, execute next cheat code
+                                execute_next = 1;
+                            } else {
+                                // if condition false, skip next code
+                                skip = 1;
                                 continue;
                             }
                         }
@@ -299,10 +324,7 @@ void cheat_apply_cheats(int entry)
             switch(entry)
             {
                 case ENTRY_VI:
-                    list_foreach(cheat->cheat_codes, node2)
-                    {
-                        code = (cheat_code_t *)node2->data;
-              
+                    list_for_each_entry(code, &cheat->cheat_codes, cheat_code_t, list) {
                         // set memory back to old value and clear saved copy of old value
                         if(code->old_value != CHEAT_CODE_MAGIC_VALUE)
                         {
@@ -323,11 +345,10 @@ void cheat_apply_cheats(int entry)
 
 void cheat_delete_all(void)
 {
-    cheat_t *cheat = NULL;
-    list_t node1, node2;
-    node1 = node2 = NULL;
+    cheat_t *cheat, *safe_cheat;
+    cheat_code_t *code, *safe_code;
 
-    if (active_cheats == NULL)
+    if (list_empty(&active_cheats))
         return;
 
     if (cheat_mutex == NULL || SDL_LockMutex(cheat_mutex) != 0)
@@ -336,29 +357,25 @@ void cheat_delete_all(void)
         return;
     }
 
-    list_foreach(active_cheats, node1)
-    {
-        cheat = (cheat_t *) node1->data;
-        
+    list_for_each_entry_safe(cheat, safe_cheat, &active_cheats, cheat_t, list) {
         free(cheat->name);
 
-        list_foreach(cheat->cheat_codes, node2)
-        {
-            free(node2->data);
+        list_for_each_entry_safe(code, safe_code, &cheat->cheat_codes, cheat_code_t, list) {
+            list_del(&code->list);
+            free(code);
         }
-        list_delete(&cheat->cheat_codes);
+        list_del(&cheat->list);
+        free(cheat);
     }
 
-    list_delete(&active_cheats);
     SDL_UnlockMutex(cheat_mutex);
 }
 
 int cheat_set_enabled(const char *name, int enabled)
 {
     cheat_t *cheat = NULL;
-    list_t node = NULL;
 
-    if (active_cheats == NULL)
+    if (list_empty(&active_cheats))
         return 0;
 
     if (cheat_mutex == NULL || SDL_LockMutex(cheat_mutex) != 0)
@@ -367,10 +384,7 @@ int cheat_set_enabled(const char *name, int enabled)
         return 0;
     }
 
-    list_foreach(active_cheats, node)
-    {
-        cheat = (cheat_t *) node->data;
-
+    list_for_each_entry(cheat, &active_cheats, cheat_t, list) {
         if (strcmp(name, cheat->name) == 0)
         {
             cheat->enabled = enabled;
@@ -417,22 +431,22 @@ int cheat_add_new(const char *name, m64p_cheat_code *code_list, int num_codes)
             i += 1;
             for (j = 0; j < code_count; j++)
             {
-                cheat_code_t *code = (cheat_code_t *) malloc(sizeof(cheat_code_t));
+                cheat_code_t *code = malloc(sizeof(*code));
                 code->address = cur_addr;
                 code->value = cur_value;
                 code->old_value = CHEAT_CODE_MAGIC_VALUE;
-                list_append(&cheat->cheat_codes, code);
+                list_add_tail(&code->list, &cheat->cheat_codes);
                 cur_addr += incr_addr;
                 cur_value += incr_value;
             }
         }
         else
         { /* just a normal code */
-            cheat_code_t *code = (cheat_code_t *) malloc(sizeof(cheat_code_t));
+            cheat_code_t *code = malloc(sizeof(*code));
             code->address = code_list[i].address;
             code->value = code_list[i].value;
             code->old_value = CHEAT_CODE_MAGIC_VALUE;
-            list_append(&cheat->cheat_codes, code);
+            list_add_tail(&code->list, &cheat->cheat_codes);
         }
     }
 

@@ -2,10 +2,10 @@
 
 = Mupen64Plus v2.0 Configuration API =
 
-Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#core.h|core.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
+Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
 
 == Selector Functions ==
-These functions are used by the front-end to discover the sections in the configuration file, open a section, discover parameters within a section, and write the config file to disk.
+These functions are used by the front-end to discover the sections in the configuration file, open a section, discover parameters within a section, and find out if a section has been changed.
 
 {| border="1"
 |Prototype
@@ -28,7 +28,7 @@ These functions are used by the front-end to discover the sections in the config
 |-
 |Input Parameters
 |'''<tt>SectionName</tt>''' Name of the Mupen64Plus configuration section to open.  This name is case-insensitive.  If no section exists with the given name, a new one will be created with no parameters.  This name may consist of any ASCII characters between 32 and 127 except brackets "[]".<br />
-'''<tt>ConfigSectionHandle</tt>''' This is a handle (defined in [[Mupen64Plus v2.0 headers#core.h|core.h]]) which is required to be used for subsequent calls to core configuration functions to list, retrieve, or set configuration parameters.
+'''<tt>ConfigSectionHandle</tt>''' This is a handle (defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]]) which is required to be used for subsequent calls to core configuration functions to list, retrieve, or set configuration parameters.
 |-
 |Requirements
 |The Mupen64Plus library must already be initialized before calling this function.  The '''<tt>SectionName</tt>''' and '''<tt>ConfigSectionHandle</tt>''' pointers cannot be NULL.
@@ -51,6 +51,38 @@ These functions are used by the front-end to discover the sections in the config
 |-
 |Usage
 |This function is called to enumerate the list of Parameters in a given Section of the Mupen64Plus Core configuration file.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>int ConfigHasUnsavedChanges(const char *SectionName)</tt>'''
+|-
+|Input Parameters
+|'''<tt>SectionName</tt>''' Name of the Mupen64Plus configuration section to check for unsaved changes.  This name is case-insensitive.  If this pointer is NULL or points to an empty string, then all sections are checked.
+|-
+|Requirements
+|The Mupen64Plus library must already be initialized before calling this function.<br />
+This function was added in the Config API version 2.2.0.
+|-
+|Usage
+|This function is called to determine if a given Section (or all sections) of the Mupen64Plus Core configuration file has been modified since it was last saved.  A return value of 0 means there are no unsaved changes, while a 1 will be returned if there are unsaved changes.
+|}
+
+== Modifier Functions ==
+These functions are used for deleting parts of the configuration list or saving the configuration data to disk.
+
+{| border="1"
+|Prototype
+|'''<tt>m64p_error ConfigDeleteSection(const char *SectionName)</tt>'''
+|-
+|Input Parameters
+|'''<tt>SectionName</tt>''' Name of the Mupen64Plus configuration section to delete.  This name is case-insensitive.  This name may consist of any ASCII characters between 32 and 127 except brackets "[]".<br />
+|-
+|Requirements
+|The Mupen64Plus library must already be initialized before calling this function.
+|-
+|Usage
+|This function deletes a section from the Mupen64Plus configuration data.
 |}
 <br />
 {| border="1"
@@ -81,22 +113,20 @@ This function was added in the Config API version 2.1.0.
 |Usage
 |This function saves one section of the current Mupen64Plus configuration to disk, while leaving the other sections unmodified.
 |}
-
-== Modifier Functions ==
-These functions are used for deleting parts of the configuration list.
-
+<br />
 {| border="1"
 |Prototype
-|'''<tt>m64p_error ConfigDeleteSection(const char *SectionName)</tt>'''
+|'''<tt>m64p_error ConfigRevertChanges(const char *SectionName)</tt>'''
 |-
 |Input Parameters
-|'''<tt>SectionName</tt>''' Name of the Mupen64Plus configuration section to delete.  This name is case-insensitive.  This name may consist of any ASCII characters between 32 and 127 except brackets "[]".<br />
+|'''<tt>SectionName</tt>''' Name of the Mupen64Plus configuration section to modify.  This name is case-insensitive.  This pointer cannot be NULL.
 |-
 |Requirements
-|The Mupen64Plus library must already be initialized before calling this function.
+|The Mupen64Plus library must already be initialized before calling this function.  The named section must exist in the current configuration.<br />
+This function was added in the Config API version 2.2.0.
 |-
 |Usage
-|This function deletes a section from the Mupen64Plus configuration data.
+|This function reverts changes previously made to one section of the current Mupen64Plus configuration file, so that it will match with the configuration at the last time that it was loaded from or saved to disk.
 |}
 
 == Generic Get/Set Functions ==

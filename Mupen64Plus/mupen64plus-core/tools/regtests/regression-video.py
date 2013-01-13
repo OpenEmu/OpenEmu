@@ -3,7 +3,7 @@
 #/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 # *   Mupen64plus - regression-video.py                                     *
 # *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
-# *   Copyright (C) 2008-2009 Richard Goedeken                              *
+# *   Copyright (C) 2008-2012 Richard Goedeken                              *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU General Public License as published by  *
@@ -38,7 +38,7 @@ report = "Mupen64Plus Regression Test report\n----------------------------------
 # main functions
 #
 
-def main(rootdir, cfgfile, nobuild):
+def main(rootdir, cfgfile, nobuild, noemail):
     global report
     # set up child directory paths
     srcdir = os.path.join(rootdir, "source")
@@ -98,8 +98,9 @@ def main(rootdir, cfgfile, nobuild):
         # test procedure is finished
         break
     # Step 6: send email report and archive the results
-    if not tester.SendReport():
-        rval = 6
+    if not noemail:
+    	if not tester.SendReport():
+        	rval = 6
     if not tester.ArchiveResults(archivedir):
         rval = 7
     # all done with test process
@@ -115,9 +116,9 @@ def BuildSource(srcdir, moddir, modname, buildname, buildmake, outputfiles, iste
     # print build report message and clear counters
     testbuildcommand = "make -C %s %s" % (makepath, buildmake)
     if istest:
-        report += "Running %s test build \"%s\" with command \"%s\"\n" % (modname, buildname, testbuildcommand)
+        report += "Running %s test build \"%s\"\n" % (modname, buildname)
     else:
-        report += "Building %s \"%s\" for video test with command \"%s\"\n" % (modname, buildname, testbuildcommand)
+        report += "Building %s \"%s\" for video test\n" % (modname, buildname)
     warnings = 0
     errors = 0
     # run make and capture the output
@@ -305,15 +306,15 @@ class RegTester:
                         continue
                 # construct the command line
                 exepath = os.path.join(self.bindir, "mupen64plus")
-                exeparms = [ "--corelib", os.path.join(self.bindir, "libmupen64plus.so") ]
+                exeparms = [ "--corelib", os.path.join(self.bindir, "libmupen64plus.so.2") ]
                 exeparms += [ "--testshots",  ",".join(shotlist) ]
                 exeparms += [ "--sshotdir", os.path.join(self.screenshotdir, videoname) ]
                 exeparms += [ "--plugindir", self.bindir ]
                 exeparms += [ "--datadir", os.path.join(self.bindir, "data") ]
                 myconfig = os.path.join(self.rootdir, "config")
-                if os.path.exists(myconfig):
-                    exeparms += [ "--configdir", myconfig ]
+                exeparms += [ "--configdir", myconfig ]
                 exeparms += [ "--gfx", plugin ]
+                exeparms += [ "--emumode", "2" ]
                 exeparms += [ os.path.join(rompath, GameFilename) ]
                 # run it, but if it takes too long print an error and kill it
                 testrun = RegTestRunner(exepath, exeparms)
@@ -504,6 +505,8 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("-n", "--nobuild", dest="nobuild", default=False, action="store_true",
                       help="Assume source code is present; don't check out and build")
+    parser.add_option("-e", "--noemail", dest="noemail", default=False, action="store_true",
+                      help="don't send email or archive results")
     parser.add_option("-t", "--testpath", dest="testpath",
                       help="Set root of testing directory to PATH", metavar="PATH")
     parser.add_option("-c", "--cfgfile", dest="cfgfile", default="daily-tests.cfg",
@@ -518,7 +521,7 @@ if __name__ == "__main__":
     else:
         rootdir = opts.testpath
     # call the main function
-    rval = main(rootdir, opts.cfgfile, opts.nobuild)
+    rval = main(rootdir, opts.cfgfile, opts.nobuild, opts.noemail)
     sys.exit(rval)
 
 

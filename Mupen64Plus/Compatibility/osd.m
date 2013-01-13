@@ -31,40 +31,7 @@
 
 void osd_message_set_corner(osd_message_t *, enum osd_corner);
 
-void osd_update_message(osd_message_t *m, const char *f, ...)
-{
-}
-
-void osd_message_set_static(osd_message_t *m)
-{
-}
-
 osd_message_t * osd_message_valid(osd_message_t *m)
 {
     return NULL;
-}
-
-void osd_exit(void)
-{
-}
-
-void osd_init(int width, int height)
-{
-}
-
-void osd_render(void)
-{
-}
-
-osd_message_t * osd_new_message(enum osd_corner c, const char *f, ...)
-{
-    return NULL;
-}
-
-void osd_delete_message(osd_message_t *m)
-{
-}
-
-void osd_message_set_user_managed(osd_message_t *msg)
-{
 }

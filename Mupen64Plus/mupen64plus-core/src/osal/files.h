@@ -27,14 +27,17 @@
 #define OSAL_FILES_H
 
 /* some file-related preprocessor definitions */
-#if defined(WIN32)
-  #define OSAL_DIR_SEPARATOR           '\\'
+#if defined(WIN32) && !defined(__MINGW32__)
+  #include <io.h> // For _unlink()
   #define unlink _unlink
+
+  #define OSAL_DIR_SEPARATORS           "\\/"
   #define PATH_MAX _MAX_PATH
 #else  /* Not WIN32 */
-  #define OSAL_DIR_SEPARATOR           '/'
   #include <limits.h>  // for PATH_MAX
   #include <unistd.h>  // for unlink()
+
+  #define OSAL_DIR_SEPARATORS           "/"
 
   /* PATH_MAX only may be defined by limits.h */
   #ifndef PATH_MAX
@@ -42,6 +45,10 @@
   #endif
 #endif
 
+/* Create a directory path recursively.
+ * Returns zero on success, nonzero on failure.
+ * Note that, unlike mkdir(), this function succeeds if the path already exists.
+ */
 extern int osal_mkdirp(const char *dirpath, int mode);
 
 extern const char * osal_get_shared_filepath(const char *filename, const char *firstsearch, const char *secondsearch);

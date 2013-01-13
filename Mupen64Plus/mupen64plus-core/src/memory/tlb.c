@@ -32,7 +32,63 @@
 
 unsigned int tlb_LUT_r[0x100000];
 unsigned int tlb_LUT_w[0x100000];
-extern unsigned int interp_addr;
+
+void tlb_unmap(tlb *entry)
+{
+    unsigned int i;
+
+    if (entry->v_even)
+    {
+        for (i=entry->start_even; i<entry->end_even; i += 0x1000)
+            tlb_LUT_r[i>>12] = 0;
+        if (entry->d_even)
+            for (i=entry->start_even; i<entry->end_even; i += 0x1000)
+                tlb_LUT_w[i>>12] = 0;
+    }
+
+    if (entry->v_odd)
+    {
+        for (i=entry->start_odd; i<entry->end_odd; i += 0x1000)
+            tlb_LUT_r[i>>12] = 0;
+        if (entry->d_odd)
+            for (i=entry->start_odd; i<entry->end_odd; i += 0x1000)
+                tlb_LUT_w[i>>12] = 0;
+    }
+}
+
+void tlb_map(tlb *entry)
+{
+    unsigned int i;
+
+    if (entry->v_even)
+    {
+        if (entry->start_even < entry->end_even &&
+            !(entry->start_even >= 0x80000000 && entry->end_even < 0xC0000000) &&
+            entry->phys_even < 0x20000000)
+        {
+            for (i=entry->start_even;i<entry->end_even;i+=0x1000)
+                tlb_LUT_r[i>>12] = 0x80000000 | (entry->phys_even + (i - entry->start_even) + 0xFFF);
+            if (entry->d_even)
+                for (i=entry->start_even;i<entry->end_even;i+=0x1000)
+                    tlb_LUT_w[i>>12] = 0x80000000 | (entry->phys_even + (i - entry->start_even) + 0xFFF);
+        }
+    }
+
+    if (entry->v_odd)
+    {
+        if (entry->start_odd < entry->end_odd &&
+            !(entry->start_odd >= 0x80000000 && entry->end_odd < 0xC0000000) &&
+            entry->phys_odd < 0x20000000)
+        {
+            for (i=entry->start_odd;i<entry->end_odd;i+=0x1000)
+                tlb_LUT_r[i>>12] = 0x80000000 | (entry->phys_odd + (i - entry->start_odd) + 0xFFF);
+            if (entry->d_odd)
+                for (i=entry->start_odd;i<entry->end_odd;i+=0x1000)
+                    tlb_LUT_w[i>>12] = 0x80000000 | (entry->phys_odd + (i - entry->start_odd) + 0xFFF);
+        }
+    }
+}
+
 unsigned int virtual_to_physical_address(unsigned int addresse, int w)
 {
     if (addresse >= 0x7f000000 && addresse < 0x80000000 && isGoldeneyeRom)
@@ -41,7 +97,7 @@ unsigned int virtual_to_physical_address(unsigned int addresse, int w)
          GoldenEye 007 hack allows for use of TLB.
          Recoded by okaygo to support all US, J, and E ROMS.
         **************************************************/
-        switch (ROM_HEADER->Country_code&0xFF)
+        switch (ROM_HEADER.Country_code & 0xFF)
         {
         case 0x45:
             // U
@@ -71,95 +127,9 @@ unsigned int virtual_to_physical_address(unsigned int addresse, int w)
         if (tlb_LUT_r[addresse>>12])
             return (tlb_LUT_r[addresse>>12]&0xFFFFF000)|(addresse&0xFFF);
     }
-    //printf("tlb exception !!! @ %x, %x, add:%x\n", addresse, w, interp_addr);
+    //printf("tlb exception !!! @ %x, %x, add:%x\n", addresse, w, PC->addr);
     //getchar();
     TLB_refill_exception(addresse,w);
     //return 0x80000000;
     return 0x00000000;
-    /*int i;
-    for (i=0; i<32; i++)
-      {
-     if ((tlb_e[i].vpn2 & ~(tlb_e[i].mask))
-         == ((addresse >> 13) & ~(tlb_e[i].mask)))
-       {
-          if (tlb_e[i].g || (tlb_e[i].asid == (EntryHi & 0xFF)))
-            {
-           if (addresse & tlb_e[i].check_parity_mask)
-             {
-                if (tlb_e[i].v_odd)
-              {
-                 if (tlb_e[i].d_odd && w)
-                   {
-                  TLB_mod_exception();
-                  return 0;
-                   }
-                 return ((addresse & ((tlb_e[i].mask << 12)|0xFFF))
-                     | ((tlb_e[i].pfn_odd << 12) &
-                        ~((tlb_e[i].mask << 12)|0xFFF))
-                     | 0x80000000);
-              }
-                else
-              {
-                 TLB_invalid_exception();
-                 return 0;
-              }
-             }
-           else
-             {
-                if (tlb_e[i].v_even)
-              {
-                 if (tlb_e[i].d_even && w)
-                   {
-                  TLB_mod_exception();
-                  return 0;
-                   }
-                 return ((addresse & ((tlb_e[i].mask << 12)|0xFFF))
-                     | ((tlb_e[i].pfn_even << 12) &
-                        ~((tlb_e[i].mask << 12)|0xFFF))
-                     | 0x80000000);
-              }
-                else
-              {
-                 TLB_invalid_exception();
-                 return 0;
-              }
-             }
-            }
-          else
-            {
-           TLB_refill_exception(addresse,w);
-            }
-       }
-      }
-    BadVAddr = addresse;
-    TLB_refill_exception(addresse,w);
-    //printf("TLB refill exception\n");
-    return 0x80000000;*/
 }
-
-int probe_nop(unsigned int address)
-{
-    unsigned int a;
-    if (address < 0x80000000 || address > 0xc0000000)
-    {
-        if (tlb_LUT_r[address>>12])
-            a = (tlb_LUT_r[address>>12]&0xFFFFF000)|(address&0xFFF);
-        else
-            return 0;
-    }
-    else
-        a = address;
-
-    if (a >= 0xa4000000 && a < 0xa4001000)
-    {
-        if (!SP_DMEM[(a&0xFFF)/4]) return 1;
-        else return 0;
-    }
-    else if (a >= 0x80000000 && a < 0x80800000)
-    {
-        if (!rdram[(a&0x7FFFFF)/4]) return 1;
-        else return 0;
-    }
-    else return 0;
-}
-

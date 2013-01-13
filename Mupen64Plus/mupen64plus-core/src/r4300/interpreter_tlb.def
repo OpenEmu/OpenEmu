@@ -1,0 +1,249 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *   Mupen64plus - interpreter_tlb.def                                     *
+ *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
+ *   Copyright (C) 2002 Hacktarux                                          *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#include <zlib.h> // For adler32()
+
+DECLARE_INSTRUCTION(TLBR)
+{
+   int index;
+   index = Index & 0x1F;
+   PageMask = tlb_e[index].mask << 13;
+   EntryHi = ((tlb_e[index].vpn2 << 13) | tlb_e[index].asid);
+   EntryLo0 = (tlb_e[index].pfn_even << 6) | (tlb_e[index].c_even << 3)
+     | (tlb_e[index].d_even << 2) | (tlb_e[index].v_even << 1)
+       | tlb_e[index].g;
+   EntryLo1 = (tlb_e[index].pfn_odd << 6) | (tlb_e[index].c_odd << 3)
+     | (tlb_e[index].d_odd << 2) | (tlb_e[index].v_odd << 1)
+       | tlb_e[index].g;
+   ADD_TO_PC(1);
+}
+
+static void TLBWrite(unsigned int idx)
+{
+   if (r4300emu != CORE_PURE_INTERPRETER)
+   {
+      unsigned int i;
+      if (tlb_e[idx].v_even)
+      {
+         for (i=tlb_e[idx].start_even>>12; i<=tlb_e[idx].end_even>>12; i++)
+         {
+            if(!invalid_code[i] &&(invalid_code[tlb_LUT_r[i]>>12] ||
+               invalid_code[(tlb_LUT_r[i]>>12)+0x20000]))
+               invalid_code[i] = 1;
+            if (!invalid_code[i])
+            {
+                /*int j;
+                md5_state_t state;
+                md5_byte_t digest[16];
+                md5_init(&state);
+                md5_append(&state, 
+                       (const md5_byte_t*)&rdram[(tlb_LUT_r[i]&0x7FF000)/4],
+                       0x1000);
+                md5_finish(&state, digest);
+                for (j=0; j<16; j++) blocks[i]->md5[j] = digest[j];*/
+                
+                blocks[i]->adler32 = adler32(0, (const unsigned char *)&rdram[(tlb_LUT_r[i]&0x7FF000)/4], 0x1000);
+                
+                invalid_code[i] = 1;
+            }
+            else if (blocks[i])
+            {
+               /*int j;
+                for (j=0; j<16; j++) blocks[i]->md5[j] = 0;*/
+               blocks[i]->adler32 = 0;
+            }
+         }
+      }
+      if (tlb_e[idx].v_odd)
+      {
+         for (i=tlb_e[idx].start_odd>>12; i<=tlb_e[idx].end_odd>>12; i++)
+         {
+            if(!invalid_code[i] &&(invalid_code[tlb_LUT_r[i]>>12] ||
+               invalid_code[(tlb_LUT_r[i]>>12)+0x20000]))
+               invalid_code[i] = 1;
+            if (!invalid_code[i])
+            {
+               /*int j;
+               md5_state_t state;
+               md5_byte_t digest[16];
+               md5_init(&state);
+               md5_append(&state, 
+                      (const md5_byte_t*)&rdram[(tlb_LUT_r[i]&0x7FF000)/4],
+                      0x1000);
+               md5_finish(&state, digest);
+               for (j=0; j<16; j++) blocks[i]->md5[j] = digest[j];*/
+                
+               blocks[i]->adler32 = adler32(0, (const unsigned char *)&rdram[(tlb_LUT_r[i]&0x7FF000)/4], 0x1000);
+                
+               invalid_code[i] = 1;
+            }
+            else if (blocks[i])
+            {
+               /*int j;
+               for (j=0; j<16; j++) blocks[i]->md5[j] = 0;*/
+               blocks[i]->adler32 = 0;
+            }
+         }
+      }
+   }
+
+   tlb_unmap(&tlb_e[idx]);
+
+   tlb_e[idx].g = (EntryLo0 & EntryLo1 & 1);
+   tlb_e[idx].pfn_even = (EntryLo0 & 0x3FFFFFC0) >> 6;
+   tlb_e[idx].pfn_odd = (EntryLo1 & 0x3FFFFFC0) >> 6;
+   tlb_e[idx].c_even = (EntryLo0 & 0x38) >> 3;
+   tlb_e[idx].c_odd = (EntryLo1 & 0x38) >> 3;
+   tlb_e[idx].d_even = (EntryLo0 & 0x4) >> 2;
+   tlb_e[idx].d_odd = (EntryLo1 & 0x4) >> 2;
+   tlb_e[idx].v_even = (EntryLo0 & 0x2) >> 1;
+   tlb_e[idx].v_odd = (EntryLo1 & 0x2) >> 1;
+   tlb_e[idx].asid = (EntryHi & 0xFF);
+   tlb_e[idx].vpn2 = (EntryHi & 0xFFFFE000) >> 13;
+   //tlb_e[idx].r = (EntryHi & 0xC000000000000000LL) >> 62;
+   tlb_e[idx].mask = (PageMask & 0x1FFE000) >> 13;
+   
+   tlb_e[idx].start_even = tlb_e[idx].vpn2 << 13;
+   tlb_e[idx].end_even = tlb_e[idx].start_even+
+     (tlb_e[idx].mask << 12) + 0xFFF;
+   tlb_e[idx].phys_even = tlb_e[idx].pfn_even << 12;
+   
+
+   tlb_e[idx].start_odd = tlb_e[idx].end_even+1;
+   tlb_e[idx].end_odd = tlb_e[idx].start_odd+
+     (tlb_e[idx].mask << 12) + 0xFFF;
+   tlb_e[idx].phys_odd = tlb_e[idx].pfn_odd << 12;
+   
+   tlb_map(&tlb_e[idx]);
+
+   if (r4300emu != CORE_PURE_INTERPRETER)
+   {
+      unsigned int i;
+      if (tlb_e[idx].v_even)
+      {    
+         for (i=tlb_e[idx].start_even>>12; i<=tlb_e[idx].end_even>>12; i++)
+         {
+            /*if (blocks[i] && (blocks[i]->md5[0] || blocks[i]->md5[1] ||
+                  blocks[i]->md5[2] || blocks[i]->md5[3]))
+            {
+               int j;
+               int equal = 1;
+               md5_state_t state;
+               md5_byte_t digest[16];
+               md5_init(&state);
+               md5_append(&state, 
+                  (const md5_byte_t*)&rdram[(tlb_LUT_r[i]&0x7FF000)/4],
+                  0x1000);
+               md5_finish(&state, digest);
+               for (j=0; j<16; j++)
+                 if (digest[j] != blocks[i]->md5[j])
+                   equal = 0;
+               if (equal) invalid_code[i] = 0;
+               }*/
+               if(blocks[i] && blocks[i]->adler32)
+               {
+                  if(blocks[i]->adler32 == adler32(0,(const unsigned char *)&rdram[(tlb_LUT_r[i]&0x7FF000)/4],0x1000))
+                     invalid_code[i] = 0;
+               }
+         }
+      }
+
+      if (tlb_e[idx].v_odd)
+      {    
+         for (i=tlb_e[idx].start_odd>>12; i<=tlb_e[idx].end_odd>>12; i++)
+         {
+            /*if (blocks[i] && (blocks[i]->md5[0] || blocks[i]->md5[1] ||
+                  blocks[i]->md5[2] || blocks[i]->md5[3]))
+              {
+            int j;
+            int equal = 1;
+            md5_state_t state;
+            md5_byte_t digest[16];
+            md5_init(&state);
+            md5_append(&state, 
+                   (const md5_byte_t*)&rdram[(tlb_LUT_r[i]&0x7FF000)/4],
+                   0x1000);
+            md5_finish(&state, digest);
+            for (j=0; j<16; j++)
+              if (digest[j] != blocks[i]->md5[j])
+                equal = 0;
+            if (equal) invalid_code[i] = 0;
+            }*/
+            if(blocks[i] && blocks[i]->adler32)
+            {
+               if(blocks[i]->adler32 == adler32(0,(const unsigned char *)&rdram[(tlb_LUT_r[i]&0x7FF000)/4],0x1000))
+                  invalid_code[i] = 0;
+            }
+         }
+      }
+   }
+}
+
+DECLARE_INSTRUCTION(TLBWI)
+{
+   TLBWrite(Index&0x3F);
+   ADD_TO_PC(1);
+}
+
+DECLARE_INSTRUCTION(TLBWR)
+{
+   update_count();
+   Random = (Count/2 % (32 - Wired)) + Wired;
+   TLBWrite(Random);
+   ADD_TO_PC(1);
+}
+
+DECLARE_INSTRUCTION(TLBP)
+{
+   int i;
+   Index |= 0x80000000;
+   for (i=0; i<32; i++)
+   {
+      if (((tlb_e[i].vpn2 & (~tlb_e[i].mask)) ==
+         (((EntryHi & 0xFFFFE000) >> 13) & (~tlb_e[i].mask))) &&
+        ((tlb_e[i].g) ||
+         (tlb_e[i].asid == (EntryHi & 0xFF))))
+      {
+         Index = i;
+         break;
+      }
+   }
+   ADD_TO_PC(1);
+}
+
+DECLARE_INSTRUCTION(ERET)
+{
+   update_count();
+   if (Status & 0x4)
+   {
+     DebugMessage(M64MSG_ERROR, "error in ERET");
+     stop=1;
+   }
+   else
+   {
+     Status &= ~0x2;
+     generic_jump_to(EPC);
+   }
+   llbit = 0;
+   check_interupt();
+   last_addr = PCADDR;
+   if (next_interupt <= Count) gen_interupt();
+}

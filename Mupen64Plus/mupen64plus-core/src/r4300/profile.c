@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *   Mupen64plus - profile.c                                               *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
+ *   Copyright (C) 2012 CasualJames                                        *
  *   Copyright (C) 2002 Hacktarux                                          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,57 +20,79 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#ifdef PROFILE
 #include "r4300.h"
 
 #include "api/m64p_types.h"
 #include "api/callbacks.h"
 
-#ifdef PROFILE
-#include <sys/time.h>
+static long long int time_in_section[5];
+static long long int last_start[5];
 
-static unsigned int time_in_section[5];
-static unsigned int last_start[5];
-static unsigned int last_refresh;
+#ifdef WIN32
+#include <windows.h>
+static long long int get_time(void)
+{
+	LARGE_INTEGER counter;
+	QueryPerformanceCounter(&counter);
+	return counter.QuadPart;
+}
+
+static long long int time_to_nsec(long long int time)
+{
+	static LARGE_INTEGER freq = { 0 };
+	if (freq.QuadPart == 0)
+		QueryPerformanceFrequency(&freq);
+	return time * 1000000000 / freq.QuadPart;
+}
+#else
+#include <time.h>
+static long long int get_time(void)
+{
+   struct timespec ts;
+   clock_gettime(CLOCK_MONOTONIC, &ts);
+   return (long long int)ts.tv_sec * 1000000000 + ts.tv_nsec;
+}
+
+static long long int time_to_nsec(long long int time)
+{
+	return time;
+}
+#endif
 
 void start_section(int section_type)
 {
-   struct timeval tv;
-   gettimeofday(&tv, NULL);
-   last_start[section_type] = 
-     ((tv.tv_sec % 1000000) * 1000) + (tv.tv_usec / 1000);
+   last_start[section_type] = get_time();
 }
 
 void end_section(int section_type)
 {
-   struct timeval tv;
-   gettimeofday(&tv, NULL);
-   unsigned int end =
-     ((tv.tv_sec % 1000000) * 1000) + (tv.tv_usec / 1000);
+   long long int end = get_time();
    time_in_section[section_type] += end - last_start[section_type];
 }
 
 void refresh_stat()
 {
-   struct timeval tv;
-   gettimeofday(&tv, NULL);
-   if(tv.tv_sec - last_refresh >= 2)
-     {
-    unsigned int end =
-      ((tv.tv_sec % 1000000) * 1000) + (tv.tv_usec / 1000);
-    time_in_section[0] = end - last_start[0];
-    DebugMessage(M64MSG_INFO, "gfx=%f%% - audio=%f%% - compiler=%f%%, idle=%f%%",
-           100.0f * (float)time_in_section[1] / (float)time_in_section[0],
-           100.0f * (float)time_in_section[2] / (float)time_in_section[0],
-           100.0f * (float)time_in_section[3] / (float)time_in_section[0],
-           100.0f * (float)time_in_section[4] / (float)time_in_section[0]);
-    fflush(stdout);
-    time_in_section[1] = 0;
-    time_in_section[2] = 0;
-    time_in_section[3] = 0;
-    time_in_section[4] = 0;
-    last_start[0] = end;
-    last_refresh = tv.tv_sec;
-     }
+   long long int curr_time = get_time();
+   if(time_to_nsec(curr_time - last_start[ALL_SECTION]) >= 2000000000)
+   {
+      time_in_section[ALL_SECTION] = curr_time - last_start[ALL_SECTION];
+      DebugMessage(M64MSG_INFO, "gfx=%f%% - audio=%f%% - compiler=%f%%, idle=%f%%",
+         100.0 * (double)time_in_section[GFX_SECTION] / time_in_section[ALL_SECTION],
+         100.0 * (double)time_in_section[AUDIO_SECTION] / time_in_section[ALL_SECTION],
+         100.0 * (double)time_in_section[COMPILER_SECTION] / time_in_section[ALL_SECTION],
+         100.0 * (double)time_in_section[IDLE_SECTION] / time_in_section[ALL_SECTION]);
+      DebugMessage(M64MSG_INFO, "gfx=%llins - audio=%llins - compiler %llins - idle=%llins",
+         time_to_nsec(time_in_section[GFX_SECTION]),
+         time_to_nsec(time_in_section[AUDIO_SECTION]),
+         time_to_nsec(time_in_section[COMPILER_SECTION]),
+         time_to_nsec(time_in_section[IDLE_SECTION]));
+      time_in_section[GFX_SECTION] = 0;
+      time_in_section[AUDIO_SECTION] = 0;
+      time_in_section[COMPILER_SECTION] = 0;
+      time_in_section[IDLE_SECTION] = 0;
+      last_start[ALL_SECTION] = curr_time;
+   }
 }
 
 #endif

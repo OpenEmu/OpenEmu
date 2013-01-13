@@ -24,7 +24,7 @@
 #if !defined (OSAL_PREPROC_H)
 #define OSAL_PREPROC_H
 
-#if defined(WIN32)
+#if defined(WIN32) && !defined(__MINGW32__)
   #define osal_insensitive_strcmp(x, y) _stricmp(x, y)
   #define snprintf _snprintf
   #define strdup _strdup

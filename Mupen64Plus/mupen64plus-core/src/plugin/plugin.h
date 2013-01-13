@@ -23,7 +23,7 @@
 #ifndef PLUGIN_H
 #define PLUGIN_H
 
-#include "api/m64p_types.h"
+#include "api/m64p_common.h"
 #include "api/m64p_plugin.h"
 
 extern m64p_error plugin_connect(m64p_plugin_type, m64p_dynlib_handle plugin_handle);
@@ -39,54 +39,78 @@ extern CONTROL Controls[4];
 #define INPUT_API_VERSION 0x20000
 
 /* video plugin function pointers */
-extern ptr_ChangeWindow    changeWindow;
-extern ptr_InitiateGFX     initiateGFX;
-extern ptr_MoveScreen      moveScreen;
-extern ptr_ProcessDList    processDList;
-extern ptr_ProcessRDPList  processRDPList;
-extern ptr_RomClosed       romClosed_gfx;
-extern ptr_RomOpen         romOpen_gfx;
-extern ptr_ShowCFB         showCFB;
-extern ptr_UpdateScreen    updateScreen;
-extern ptr_ViStatusChanged viStatusChanged;
-extern ptr_ViWidthChanged  viWidthChanged;
-extern ptr_ReadScreen2     readScreen;
-extern ptr_SetRenderingCallback setRenderingCallback;
+typedef struct _gfx_plugin_functions
+{
+	ptr_PluginGetVersion getVersion;
+	ptr_ChangeWindow     changeWindow;
+	ptr_InitiateGFX      initiateGFX;
+	ptr_MoveScreen       moveScreen;
+	ptr_ProcessDList     processDList;
+	ptr_ProcessRDPList   processRDPList;
+	ptr_RomClosed        romClosed;
+	ptr_RomOpen          romOpen;
+	ptr_ShowCFB          showCFB;
+	ptr_UpdateScreen     updateScreen;
+	ptr_ViStatusChanged  viStatusChanged;
+	ptr_ViWidthChanged   viWidthChanged;
+	ptr_ReadScreen2      readScreen;
+	ptr_SetRenderingCallback setRenderingCallback;
 
-/* frame buffer plugin spec extension */
-extern ptr_FBRead          fBRead;
-extern ptr_FBWrite         fBWrite;
-extern ptr_FBGetFrameBufferInfo fBGetFrameBufferInfo;
+	/* frame buffer plugin spec extension */
+	ptr_FBRead          fBRead;
+	ptr_FBWrite         fBWrite;
+	ptr_FBGetFrameBufferInfo fBGetFrameBufferInfo;
+} gfx_plugin_functions;
+
+extern gfx_plugin_functions gfx;
 
 /* audio plugin function pointers */
-extern ptr_AiDacrateChanged  aiDacrateChanged;
-extern ptr_AiLenChanged      aiLenChanged;
-extern ptr_InitiateAudio     initiateAudio;
-extern ptr_ProcessAList      processAList;
-extern ptr_RomClosed         romClosed_audio;
-extern ptr_RomOpen           romOpen_audio;
-extern ptr_SetSpeedFactor    setSpeedFactor;
-extern ptr_VolumeUp          volumeUp;
-extern ptr_VolumeDown        volumeDown;
-extern ptr_VolumeGetLevel    volumeGetLevel;
-extern ptr_VolumeSetLevel    volumeSetLevel;
-extern ptr_VolumeMute        volumeMute;
-extern ptr_VolumeGetString   volumeGetString;
+typedef struct _audio_plugin_functions
+{
+	ptr_PluginGetVersion  getVersion;
+	ptr_AiDacrateChanged  aiDacrateChanged;
+	ptr_AiLenChanged      aiLenChanged;
+	ptr_InitiateAudio     initiateAudio;
+	ptr_ProcessAList      processAList;
+	ptr_RomClosed         romClosed;
+	ptr_RomOpen           romOpen;
+	ptr_SetSpeedFactor    setSpeedFactor;
+	ptr_VolumeUp          volumeUp;
+	ptr_VolumeDown        volumeDown;
+	ptr_VolumeGetLevel    volumeGetLevel;
+	ptr_VolumeSetLevel    volumeSetLevel;
+	ptr_VolumeMute        volumeMute;
+	ptr_VolumeGetString   volumeGetString;
+} audio_plugin_functions;
+
+extern audio_plugin_functions audio;
 
 /* input plugin function pointers */
-extern ptr_ControllerCommand   controllerCommand;
-extern ptr_GetKeys             getKeys;
-extern ptr_InitiateControllers initiateControllers;
-extern ptr_ReadController      readController;
-extern ptr_RomClosed           romClosed_input;
-extern ptr_RomOpen             romOpen_input;
-extern ptr_SDL_KeyDown         keyDown;
-extern ptr_SDL_KeyUp           keyUp;
+typedef struct _input_plugin_functions
+{
+	ptr_PluginGetVersion    getVersion;
+	ptr_ControllerCommand   controllerCommand;
+	ptr_GetKeys             getKeys;
+	ptr_InitiateControllers initiateControllers;
+	ptr_ReadController      readController;
+	ptr_RomClosed           romClosed;
+	ptr_RomOpen             romOpen;
+	ptr_SDL_KeyDown         keyDown;
+	ptr_SDL_KeyUp           keyUp;
+} input_plugin_functions;
+
+extern input_plugin_functions input;
 
 /* RSP plugin function pointers */
-extern ptr_DoRspCycles         doRspCycles;
-extern ptr_InitiateRSP         initiateRSP;
-extern ptr_RomClosed           romClosed_RSP;
+typedef struct _rsp_plugin_functions
+{
+	ptr_PluginGetVersion    getVersion;
+	ptr_DoRspCycles         doRspCycles;
+	ptr_InitiateRSP         initiateRSP;
+	ptr_RomClosed           romClosed;
+} rsp_plugin_functions;
+
+extern rsp_plugin_functions rsp;
 
 #endif
 

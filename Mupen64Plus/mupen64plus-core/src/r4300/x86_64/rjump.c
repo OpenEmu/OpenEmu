@@ -30,7 +30,8 @@
 #include "r4300/ops.h"
 #include "r4300/recomph.h"
 
-extern int dynarec_stack_initialized;  /* in gr4300.c */
+// that's where the dynarec will restart when going back from a C function
+static unsigned long long *return_address;
 
 void dyna_jump(void)
 {
@@ -41,13 +42,13 @@ void dyna_jump(void)
     }
 
     if (PC->reg_cache_infos.need_map)
-        *return_address = (unsigned long) (PC->reg_cache_infos.jump_wrapper);
+        *return_address = (unsigned long long) (PC->reg_cache_infos.jump_wrapper);
     else
-        *return_address = (unsigned long) (actual->code + PC->local_addr);
+        *return_address = (unsigned long long) (actual->code + PC->local_addr);
 }
 
-static long save_rsp = 0;
-static long save_rip = 0;
+static long long save_rsp = 0;
+static long long save_rip = 0;
 
 void dyna_start(void (*code)(void))
 {
@@ -56,7 +57,7 @@ void dyna_start(void (*code)(void))
   /* then call the code(), which should theoretically never return.  */
   /* When dyna_stop() sets the *return_address to the saved RIP, the emulator thread will come back here. */
   /* It will jump to label 2, restore the base and stack pointers, and exit this function */
-  DebugMessage(M64MSG_INFO, "R4300: starting 64-bit dynamic recompiler at: 0x%lx", (unsigned long) code);
+  DebugMessage(M64MSG_INFO, "R4300: starting 64-bit dynamic recompiler at: %p", code);
 #if defined(__GNUC__) && defined(__x86_64__)
   asm volatile
     (" push %%rbx              \n"  /* we must push an even # of registers to keep stack 16-byte aligned */
@@ -72,6 +73,13 @@ void dyna_start(void (*code)(void))
      "1:                       \n"
      " pop  %%rax              \n"
      " mov  %%rax, %[save_rip] \n"
+
+     " sub $0x10, %%rsp        \n"
+     " and $-16, %%rsp         \n" /* ensure that stack is 16-byte aligned */
+     " mov %%rsp, %%rax        \n"
+     " sub $8, %%rax           \n"
+     " mov %%rax, %[return_address]\n"
+
      " call *%%rbx             \n"
      "2:                       \n"
      " mov  %[save_rsp], %%rsp \n"
@@ -81,14 +89,11 @@ void dyna_start(void (*code)(void))
      " pop  %%r13              \n"
      " pop  %%r12              \n"
      " pop  %%rbx              \n"
-     : [save_rsp]"=m"(save_rsp), [save_rip]"=m"(save_rip)
+     : [save_rsp]"=m"(save_rsp), [save_rip]"=m"(save_rip), [return_address]"=m"(return_address)
      : "b" (code), [reg]"m"(*reg)
      : "%rax", "memory"
      );
 #endif
-
-    /* clear flag; stack is back to normal */
-    dynarec_stack_initialized = 0;
 
     /* clear the registers so we don't return here a second time; that would be a bug */
     save_rsp=0;
@@ -101,7 +106,7 @@ void dyna_stop(void)
     DebugMessage(M64MSG_WARNING, "Instruction pointer is 0 at dyna_stop()");
   else
   {
-    *return_address = (unsigned long) save_rip;
+    *return_address = (unsigned long long) save_rip;
   }
 }
 
