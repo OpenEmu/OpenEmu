@@ -117,6 +117,8 @@ SDL_Thread *SDL_CreateThread(int (*fn)(void *), const char *name, void *context)
 {
     pthread_t thread = malloc(sizeof(pthread_t));
     
+    sContext.thread_name = name;
+    sContext.thread_context = context;
     pthread_create(&thread, NULL, Fake_SDL_New_Thread, fn);
     return (SDL_Thread*)thread;
 }

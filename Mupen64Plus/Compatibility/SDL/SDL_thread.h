@@ -29,9 +29,9 @@
 
 #define SDL_VERSION_ATLEAST(x,y,z) 1
 
-typedef void *SDL_mutex;
-typedef void *SDL_cond;
-typedef void *SDL_Thread;
+typedef void SDL_mutex;
+typedef void SDL_cond;
+typedef void SDL_Thread;
 
 __BEGIN_DECLS
 
