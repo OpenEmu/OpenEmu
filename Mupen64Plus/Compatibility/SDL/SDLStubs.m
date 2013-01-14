@@ -76,3 +76,56 @@ void SDL_GL_SwapBuffers(void)
 {
     NSLog(@"Mupen warning: Should not reach here");
 }
+
+SDL_cond *SDL_CreateCond(void)
+{
+    pthread_cond_t *cond = malloc(sizeof(pthread_cond_t));
+    pthread_cond_init(cond, NULL);
+    
+    return (SDL_cond*)cond;
+}
+
+int SDL_CondWait(SDL_cond *cond, SDL_mutex *mut)
+{
+    return pthread_cond_wait((pthread_cond_t*)cond, (pthread_mutex_t*)mut);
+}
+
+int SDL_CondSignal(SDL_cond *cond)
+{
+    return pthread_cond_signal((pthread_cond_t*)cond);
+}
+
+void SDL_DestroyCond(SDL_cond *cond)
+{
+    pthread_cond_destroy((pthread_cond_t*)cond);
+    free(cond);
+}
+
+static struct {
+    const char *thread_name;
+    void *thread_context;
+} sContext;
+
+void *Fake_SDL_New_Thread(void *p)
+{
+    pthread_setname_np(sContext.thread_name);
+    int (*fn)(void *) = p;
+    return (void*)fn(sContext.thread_context);
+}
+
+SDL_Thread *SDL_CreateThread(int (*fn)(void *), const char *name, void *context)
+{
+    pthread_t thread = malloc(sizeof(pthread_t));
+    
+    pthread_create(&thread, NULL, Fake_SDL_New_Thread, fn);
+    return (SDL_Thread*)thread;
+}
+
+void SDL_WaitThread(SDL_Thread *thread, int *status)
+{
+    void *_status;
+    
+    pthread_join(*((pthread_t*)thread), &_status);
+    *status = (int)_status;
+    free(thread);
+}
