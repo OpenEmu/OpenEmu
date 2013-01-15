@@ -95,7 +95,6 @@ typedef enum : NSUInteger
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin *)core error:(NSError **)outError;
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError;
 - (BOOL)OE_loadStateFromFile:(NSString *)fileName;
-- (void)OE_captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
 - (void)OE_restartUsingCore:(OECorePlugin *)core;
 
@@ -667,10 +666,10 @@ typedef enum : NSUInteger
             return;
         }
 
-        __block BOOL  success                = NO;
-        NSString     *temporaryDirectoryPath = NSTemporaryDirectory();
-        NSURL        *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
-        NSURL        *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+        BOOL      success                = NO;
+        NSString *temporaryDirectoryPath = NSTemporaryDirectory();
+        NSURL    *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
+        NSURL    *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
 
         temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:
                                  ^ NSURL *(NSInteger triesCount)
@@ -701,13 +700,12 @@ typedef enum : NSUInteger
             [state writeInfoPlist];
         }
 
-        [self OE_captureScreenshotUsingBlock:^(NSImage *img) {
-            NSData *TIFFData = [img TIFFRepresentation];
-            NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
-            NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
-            success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
-        }];
-        
+        NSImage *screenshotImage = [gameView nativeScreenshot];
+        NSData *TIFFData = [screenshotImage TIFFRepresentation];
+        NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
+        NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+        success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
+
         if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
     }
     @finally
@@ -806,13 +804,6 @@ typedef enum : NSUInteger
     OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
     
     if([alert runModal]) [state remove];
-}
-
-#pragma mark -
-
-- (void)OE_captureScreenshotUsingBlock:(void(^)(NSImage *img))block
-{
-    [gameView captureScreenshotUsingBlock:block];
 }
 
 #pragma mark - Menu Items

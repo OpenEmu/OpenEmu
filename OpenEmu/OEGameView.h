@@ -49,8 +49,12 @@
 @property(nonatomic, copy) NSString *filterName;
 @property(strong) NSString* gameTitle;
 
-@property (copy) void (^screenshotHandler)(NSImage *img);
-- (void) captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
+// Screenshots
+/* Returns a screenshot containing the game viewport with its current size in the window and filters */
+- (NSImage *)screenshot;
+
+/* Returns a screenshot as rendered by the emulator core: native size and no filters */
+- (NSImage *)nativeScreenshot;
 
 // Rendering methods
 - (void)setupDisplayLink;
