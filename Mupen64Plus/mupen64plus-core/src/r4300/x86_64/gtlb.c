@@ -33,7 +33,7 @@ void gentlbwi(void)
 #if defined(COUNT_INSTR)
    inc_m32rel(&instr_count[104]);
 #endif
-   gencallinterp((unsigned long long)TLBWI, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.TLBWI, 0);
    /*dst->local_addr = code_length;
    mov_m32_imm32((void *)(&PC), (unsigned int)(dst));
    mov_reg32_imm32(EAX, (unsigned int)(TLBWI));
@@ -46,7 +46,7 @@ void gentlbp(void)
 #if defined(COUNT_INSTR)
    inc_m32rel(&instr_count[105]);
 #endif
-   gencallinterp((unsigned long long)TLBP, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.TLBP, 0);
    /*dst->local_addr = code_length;
    mov_m32_imm32((void *)(&PC), (unsigned int)(dst));
    mov_reg32_imm32(EAX, (unsigned int)(TLBP));
@@ -59,7 +59,7 @@ void gentlbr(void)
 #if defined(COUNT_INSTR)
    inc_m32rel(&instr_count[106]);
 #endif
-   gencallinterp((unsigned long long)TLBR, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.TLBR, 0);
    /*dst->local_addr = code_length;
    mov_m32_imm32((void *)(&PC), (unsigned int)(dst));
    mov_reg32_imm32(EAX, (unsigned int)(TLBR));
@@ -72,7 +72,7 @@ void generet(void)
 #if defined(COUNT_INSTR)
    inc_m32rel(&instr_count[108]);
 #endif
-   gencallinterp((unsigned long long)ERET, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.ERET, 1);
    /*dst->local_addr = code_length;
    mov_m32_imm32((void *)(&PC), (unsigned int)(dst));
    genupdate_system(0);
@@ -87,6 +87,6 @@ void gentlbwr(void)
 #if defined(COUNT_INSTR)
    inc_m32rel(&instr_count[107]);
 #endif
-   gencallinterp((unsigned long long)TLBWR, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.TLBWR, 0);
 }
 

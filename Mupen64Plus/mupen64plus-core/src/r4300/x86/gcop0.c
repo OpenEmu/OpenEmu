@@ -31,20 +31,12 @@
 //static unsigned int pMFC0 = (unsigned int)(MFC0);
 void genmfc0(void)
 {
-    gencallinterp((unsigned int)MFC0, 0);
-   /*dst->local_addr = code_length;
-   mov_m32_imm32((void *)(&PC), (unsigned int)(dst));
-    call_m32((unsigned int *)(&pMFC0));
-   genupdate_system(0);*/
+    gencallinterp((unsigned int)cached_interpreter_table.MFC0, 0);
 }
 
 //static unsigned int pMTC0 = (unsigned int)(MTC0);
 void genmtc0(void)
 {
-    gencallinterp((unsigned int)MTC0, 0);
-   /*dst->local_addr = code_length;
-    mov_m32_imm32((void *)(&PC), (unsigned int)(dst));
-    call_m32((unsigned int *)(&pMTC0));
-   genupdate_system(0);*/
+    gencallinterp((unsigned int)cached_interpreter_table.MTC0, 0);
 }
 

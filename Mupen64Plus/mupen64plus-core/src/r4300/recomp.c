@@ -24,7 +24,9 @@
 
 #if defined(__GNUC__)
 #include <unistd.h>
+#ifndef __MINGW32__
 #include <sys/mman.h>
+#endif
 #endif
 
 #include "api/m64p_types.h"
@@ -37,6 +39,9 @@
 #include "r4300.h"
 #include "ops.h"
 
+static void *malloc_exec(size_t size);
+static void free_exec(void *ptr, size_t length);
+
 // global variables :
 precomp_instr *dst; // destination structure for the recompiled instruction
 int code_length; // current real recompiled code length
@@ -46,8 +51,8 @@ precomp_block *dst_block; // the current block that we are recompiling
 int src; // the current recompiled instruction
 int fast_memory;
 
-unsigned long *return_address; // that's where the dynarec will restart when
-                               // going back from a C function
+static void (*recomp_func)(void); // pointer to the dynarec's generator
+                                  // function for the latest decoded opcode
 
 #if defined(PROFILE_R4300)
 FILE *pfProfile;
@@ -61,20 +66,20 @@ static int delay_slot_compiled = 0;
 
 static void RSV(void)
 {
-   dst->ops = RESERVED;
-   if (r4300emu == CORE_DYNAREC) genreserved();
+   dst->ops = current_instruction_table.RESERVED;
+   recomp_func = genreserved;
 }
 
 static void RFIN_BLOCK(void)
 {
-   dst->ops = FIN_BLOCK;
-   if (r4300emu == CORE_DYNAREC) genfin_block();
+   dst->ops = current_instruction_table.FIN_BLOCK;
+   recomp_func = genfin_block;
 }
 
 static void RNOTCOMPILED(void)
 {
-   dst->ops = NOTCOMPILED;
-   if (r4300emu == CORE_DYNAREC) gennotcompiled();
+   dst->ops = current_instruction_table.NOTCOMPILED;
+   recomp_func = gennotcompiled;
 }
 
 static void recompile_standard_i_type(void)
@@ -117,395 +122,395 @@ static void recompile_standard_cf_type(void)
 
 static void RNOP(void)
 {
-   dst->ops = NOP;
-   if (r4300emu == CORE_DYNAREC) gennop();
+   dst->ops = current_instruction_table.NOP;
+   recomp_func = gennop;
 }
 
 static void RSLL(void)
 {
-   dst->ops = SLL;
+   dst->ops = current_instruction_table.SLL;
+   recomp_func = gensll;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gensll();
 }
 
 static void RSRL(void)
 {
-   dst->ops = SRL;
+   dst->ops = current_instruction_table.SRL;
+   recomp_func = gensrl;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gensrl();
 }
 
 static void RSRA(void)
 {
-   dst->ops = SRA;
+   dst->ops = current_instruction_table.SRA;
+   recomp_func = gensra;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gensra();
 }
 
 static void RSLLV(void)
 {
-   dst->ops = SLLV;
+   dst->ops = current_instruction_table.SLLV;
+   recomp_func = gensllv;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gensllv();
 }
 
 static void RSRLV(void)
 {
-   dst->ops = SRLV;
+   dst->ops = current_instruction_table.SRLV;
+   recomp_func = gensrlv;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gensrlv();
 }
 
 static void RSRAV(void)
 {
-   dst->ops = SRAV;
+   dst->ops = current_instruction_table.SRAV;
+   recomp_func = gensrav;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gensrav();
 }
 
 static void RJR(void)
 {
-   dst->ops = JR;
+   dst->ops = current_instruction_table.JR;
+   recomp_func = genjr;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) genjr();
 }
 
 static void RJALR(void)
 {
-   dst->ops = JALR;
+   dst->ops = current_instruction_table.JALR;
+   recomp_func = genjalr;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) genjalr();
 }
 
 static void RSYSCALL(void)
 {
-   dst->ops = SYSCALL;
-   if (r4300emu == CORE_DYNAREC) gensyscall();
+   dst->ops = current_instruction_table.SYSCALL;
+   recomp_func = gensyscall;
 }
 
 static void RBREAK(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RSYNC(void)
 {
-   dst->ops = SYNC;
-   if (r4300emu == CORE_DYNAREC) gensync();
+   dst->ops = current_instruction_table.SYNC;
+   recomp_func = gensync;
 }
 
 static void RMFHI(void)
 {
-   dst->ops = MFHI;
+   dst->ops = current_instruction_table.MFHI;
+   recomp_func = genmfhi;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genmfhi();
 }
 
 static void RMTHI(void)
 {
-   dst->ops = MTHI;
+   dst->ops = current_instruction_table.MTHI;
+   recomp_func = genmthi;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) genmthi();
 }
 
 static void RMFLO(void)
 {
-   dst->ops = MFLO;
+   dst->ops = current_instruction_table.MFLO;
+   recomp_func = genmflo;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genmflo();
 }
 
 static void RMTLO(void)
 {
-   dst->ops = MTLO;
+   dst->ops = current_instruction_table.MTLO;
+   recomp_func = genmtlo;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) genmtlo();
 }
 
 static void RDSLLV(void)
 {
-   dst->ops = DSLLV;
+   dst->ops = current_instruction_table.DSLLV;
+   recomp_func = gendsllv;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsllv();
 }
 
 static void RDSRLV(void)
 {
-   dst->ops = DSRLV;
+   dst->ops = current_instruction_table.DSRLV;
+   recomp_func = gendsrlv;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsrlv();
 }
 
 static void RDSRAV(void)
 {
-   dst->ops = DSRAV;
+   dst->ops = current_instruction_table.DSRAV;
+   recomp_func = gendsrav;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsrav();
 }
 
 static void RMULT(void)
 {
-   dst->ops = MULT;
+   dst->ops = current_instruction_table.MULT;
+   recomp_func = genmult;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) genmult();
 }
 
 static void RMULTU(void)
 {
-   dst->ops = MULTU;
+   dst->ops = current_instruction_table.MULTU;
+   recomp_func = genmultu;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) genmultu();
 }
 
 static void RDIV(void)
 {
-   dst->ops = DIV;
+   dst->ops = current_instruction_table.DIV;
+   recomp_func = gendiv;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) gendiv();
 }
 
 static void RDIVU(void)
 {
-   dst->ops = DIVU;
+   dst->ops = current_instruction_table.DIVU;
+   recomp_func = gendivu;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) gendivu();
 }
 
 static void RDMULT(void)
 {
-   dst->ops = DMULT;
+   dst->ops = current_instruction_table.DMULT;
+   recomp_func = gendmult;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) gendmult();
 }
 
 static void RDMULTU(void)
 {
-   dst->ops = DMULTU;
+   dst->ops = current_instruction_table.DMULTU;
+   recomp_func = gendmultu;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) gendmultu();
 }
 
 static void RDDIV(void)
 {
-   dst->ops = DDIV;
+   dst->ops = current_instruction_table.DDIV;
+   recomp_func = genddiv;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) genddiv();
 }
 
 static void RDDIVU(void)
 {
-   dst->ops = DDIVU;
+   dst->ops = current_instruction_table.DDIVU;
+   recomp_func = genddivu;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) genddivu();
 }
 
 static void RADD(void)
 {
-   dst->ops = ADD;
+   dst->ops = current_instruction_table.ADD;
+   recomp_func = genadd;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genadd();
 }
 
 static void RADDU(void)
 {
-   dst->ops = ADDU;
+   dst->ops = current_instruction_table.ADDU;
+   recomp_func = genaddu;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genaddu();
 }
 
 static void RSUB(void)
 {
-   dst->ops = SUB;
+   dst->ops = current_instruction_table.SUB;
+   recomp_func = gensub;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   if (r4300emu == CORE_DYNAREC) gensub();
 }
 
 static void RSUBU(void)
 {
-   dst->ops = SUBU;
+   dst->ops = current_instruction_table.SUBU;
+   recomp_func = gensubu;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gensubu();
 }
 
 static void RAND(void)
 {
-   dst->ops = AND;
+   dst->ops = current_instruction_table.AND;
+   recomp_func = genand;
    recompile_standard_r_type();
    if(dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genand();
 }
 
 static void ROR(void)
 {
-   dst->ops = OR;
+   dst->ops = current_instruction_table.OR;
+   recomp_func = genor;
    recompile_standard_r_type();
    if(dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genor();
 }
 
 static void RXOR(void)
 {
-   dst->ops = XOR;
+   dst->ops = current_instruction_table.XOR;
+   recomp_func = genxor;
    recompile_standard_r_type();
    if(dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genxor();
 }
 
 static void RNOR(void)
 {
-   dst->ops = NOR;
+   dst->ops = current_instruction_table.NOR;
+   recomp_func = gennor;
    recompile_standard_r_type();
    if(dst->f.r.rd == reg) RNOP();
-   if (r4300emu == CORE_DYNAREC) gennor();
 }
 
 static void RSLT(void)
 {
-   dst->ops = SLT;
+   dst->ops = current_instruction_table.SLT;
+   recomp_func = genslt;
    recompile_standard_r_type();
    if(dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genslt();
 }
 
 static void RSLTU(void)
 {
-   dst->ops = SLTU;
+   dst->ops = current_instruction_table.SLTU;
+   recomp_func = gensltu;
    recompile_standard_r_type();
    if(dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gensltu();
 }
 
 static void RDADD(void)
 {
-   dst->ops = DADD;
+   dst->ops = current_instruction_table.DADD;
+   recomp_func = gendadd;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendadd();
 }
 
 static void RDADDU(void)
 {
-   dst->ops = DADDU;
+   dst->ops = current_instruction_table.DADDU;
+   recomp_func = gendaddu;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendaddu();
 }
 
 static void RDSUB(void)
 {
-   dst->ops = DSUB;
+   dst->ops = current_instruction_table.DSUB;
+   recomp_func = gendsub;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsub();
 }
 
 static void RDSUBU(void)
 {
-   dst->ops = DSUBU;
+   dst->ops = current_instruction_table.DSUBU;
+   recomp_func = gendsubu;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsubu();
 }
 
 static void RTGE(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RTGEU(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RTLT(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RTLTU(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RTEQ(void)
 {
-   dst->ops = TEQ;
+   dst->ops = current_instruction_table.TEQ;
+   recomp_func = genteq;
    recompile_standard_r_type();
-   if (r4300emu == CORE_DYNAREC) genteq();
 }
 
 static void RTNE(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RDSLL(void)
 {
-   dst->ops = DSLL;
+   dst->ops = current_instruction_table.DSLL;
+   recomp_func = gendsll;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsll();
 }
 
 static void RDSRL(void)
 {
-   dst->ops = DSRL;
+   dst->ops = current_instruction_table.DSRL;
+   recomp_func = gendsrl;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsrl();
 }
 
 static void RDSRA(void)
 {
-   dst->ops = DSRA;
+   dst->ops = current_instruction_table.DSRA;
+   recomp_func = gendsra;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsra();
 }
 
 static void RDSLL32(void)
 {
-   dst->ops = DSLL32;
+   dst->ops = current_instruction_table.DSLL32;
+   recomp_func = gendsll32;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsll32();
 }
 
 static void RDSRL32(void)
 {
-   dst->ops = DSRL32;
+   dst->ops = current_instruction_table.DSRL32;
+   recomp_func = gendsrl32;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsrl32();
 }
 
 static void RDSRA32(void)
 {
-   dst->ops = DSRA32;
+   dst->ops = current_instruction_table.DSRA32;
+   recomp_func = gendsra32;
    recompile_standard_r_type();
    if (dst->f.r.rd == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendsra32();
 }
 
 static void (*recomp_special[64])(void) =
@@ -526,222 +531,214 @@ static void (*recomp_special[64])(void) =
 
 static void RBLTZ(void)
 {
-    unsigned int target;
-   dst->ops = BLTZ;
+   unsigned int target;
+   dst->ops = current_instruction_table.BLTZ;
+   recomp_func = genbltz;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BLTZ_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbltz_idle();
+         dst->ops = current_instruction_table.BLTZ_IDLE;
+         recomp_func = genbltz_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbltz();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BLTZ_OUT;
-    if (r4300emu == CORE_DYNAREC) genbltz_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbltz();
+   {
+      dst->ops = current_instruction_table.BLTZ_OUT;
+      recomp_func = genbltz_out;
+   }
 }
 
 static void RBGEZ(void)
 {
-    unsigned int target;
-   dst->ops = BGEZ;
+   unsigned int target;
+   dst->ops = current_instruction_table.BGEZ;
+   recomp_func = genbgez;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BGEZ_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbgez_idle();
+         dst->ops = current_instruction_table.BGEZ_IDLE;
+         recomp_func = genbgez_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbgez();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BGEZ_OUT;
-    if (r4300emu == CORE_DYNAREC) genbgez_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbgez();
+   {
+      dst->ops = current_instruction_table.BGEZ_OUT;
+      recomp_func = genbgez_out;
+   }
 }
 
 static void RBLTZL(void)
 {
-    unsigned int target;
-   dst->ops = BLTZL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BLTZL;
+   recomp_func = genbltzl;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BLTZL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbltzl_idle();
+         dst->ops = current_instruction_table.BLTZL_IDLE;
+         recomp_func = genbltzl_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbltzl();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BLTZL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbltzl_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbltzl();
+   {
+      dst->ops = current_instruction_table.BLTZL_OUT;
+      recomp_func = genbltzl_out;
+   }
 }
 
 static void RBGEZL(void)
 {
-    unsigned int target;
-   dst->ops = BGEZL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BGEZL;
+   recomp_func = genbgezl;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BGEZL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbgezl_idle();
+         dst->ops = current_instruction_table.BGEZL_IDLE;
+         recomp_func = genbgezl_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbgezl();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BGEZL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbgezl_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbgezl();
+   {
+      dst->ops = current_instruction_table.BGEZL_OUT;
+      recomp_func = genbgezl_out;
+   }
 }
 
 static void RTGEI(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RTGEIU(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RTLTI(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RTLTIU(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RTEQI(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RTNEI(void)
 {
-   dst->ops = NI;
-   if (r4300emu == CORE_DYNAREC) genni();
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
 }
 
 static void RBLTZAL(void)
 {
-    unsigned int target;
-   dst->ops = BLTZAL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BLTZAL;
+   recomp_func = genbltzal;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BLTZAL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbltzal_idle();
+         dst->ops = current_instruction_table.BLTZAL_IDLE;
+         recomp_func = genbltzal_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbltzal();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BLTZAL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbltzal_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbltzal();
+   {
+      dst->ops = current_instruction_table.BLTZAL_OUT;
+      recomp_func = genbltzal_out;
+   }
 }
 
 static void RBGEZAL(void)
 {
-    unsigned int target;
-   dst->ops = BGEZAL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BGEZAL;
+   recomp_func = genbgezal;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BGEZAL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbgezal_idle();
+         dst->ops = current_instruction_table.BGEZAL_IDLE;
+         recomp_func = genbgezal_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbgezal();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BGEZAL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbgezal_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbgezal();
+   {
+      dst->ops = current_instruction_table.BGEZAL_OUT;
+      recomp_func = genbgezal_out;
+   }
 }
 
 static void RBLTZALL(void)
 {
-    unsigned int target;
-   dst->ops = BLTZALL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BLTZALL;
+   recomp_func = genbltzall;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BLTZALL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbltzall_idle();
+         dst->ops = current_instruction_table.BLTZALL_IDLE;
+         recomp_func = genbltzall_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbltzall();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BLTZALL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbltzall_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbltzall();
+   {
+      dst->ops = current_instruction_table.BLTZALL_OUT;
+      recomp_func = genbltzall_out;
+   }
 }
 
 static void RBGEZALL(void)
 {
-    unsigned int target;
-   dst->ops = BGEZALL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BGEZALL;
+   recomp_func = genbgezall;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BGEZALL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbgezall_idle();
+         dst->ops = current_instruction_table.BGEZALL_IDLE;
+         recomp_func = genbgezall_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbgezall();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BGEZALL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbgezall_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbgezall();
+   {
+      dst->ops = current_instruction_table.BGEZALL_OUT;
+      recomp_func = genbgezall_out;
+   }
 }
 
 static void (*recomp_regimm[32])(void) =
@@ -758,32 +755,32 @@ static void (*recomp_regimm[32])(void) =
 
 static void RTLBR(void)
 {
-   dst->ops = TLBR;
-   if (r4300emu == CORE_DYNAREC) gentlbr();
+   dst->ops = current_instruction_table.TLBR;
+   recomp_func = gentlbr;
 }
 
 static void RTLBWI(void)
 {
-   dst->ops = TLBWI;
-   if (r4300emu == CORE_DYNAREC) gentlbwi();
+   dst->ops = current_instruction_table.TLBWI;
+   recomp_func = gentlbwi;
 }
 
 static void RTLBWR(void)
 {
-   dst->ops = TLBWR;
-   if (r4300emu == CORE_DYNAREC) gentlbwr();
+   dst->ops = current_instruction_table.TLBWR;
+   recomp_func = gentlbwr;
 }
 
 static void RTLBP(void)
 {
-   dst->ops = TLBP;
-   if (r4300emu == CORE_DYNAREC) gentlbp();
+   dst->ops = current_instruction_table.TLBP;
+   recomp_func = gentlbp;
 }
 
 static void RERET(void)
 {
-   dst->ops = ERET;
-   if (r4300emu == CORE_DYNAREC) generet();
+   dst->ops = current_instruction_table.ERET;
+   recomp_func = generet;
 }
 
 static void (*recomp_tlb[64])(void) =
@@ -804,20 +801,20 @@ static void (*recomp_tlb[64])(void) =
 
 static void RMFC0(void)
 {
-   dst->ops = MFC0;
+   dst->ops = current_instruction_table.MFC0;
+   recomp_func = genmfc0;
    recompile_standard_r_type();
    dst->f.r.rd = (long long*)(reg_cop0 + ((src >> 11) & 0x1F));
    dst->f.r.nrd = (src >> 11) & 0x1F;
    if (dst->f.r.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genmfc0();
 }
 
 static void RMTC0(void)
 {
-   dst->ops = MTC0;
+   dst->ops = current_instruction_table.MTC0;
+   recomp_func = genmtc0;
    recompile_standard_r_type();
    dst->f.r.nrd = (src >> 11) & 0x1F;
-   if (r4300emu == CORE_DYNAREC) genmtc0();
 }
 
 static void RTLB(void)
@@ -839,94 +836,90 @@ static void (*recomp_cop0[32])(void) =
 
 static void RBC1F(void)
 {
-    unsigned int target;
-   dst->ops = BC1F;
+   unsigned int target;
+   dst->ops = current_instruction_table.BC1F;
+   recomp_func = genbc1f;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BC1F_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbc1f_idle();
+         dst->ops = current_instruction_table.BC1F_IDLE;
+         recomp_func = genbc1f_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbc1f();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BC1F_OUT;
-    if (r4300emu == CORE_DYNAREC) genbc1f_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbc1f();
+   {
+      dst->ops = current_instruction_table.BC1F_OUT;
+      recomp_func = genbc1f_out;
+   }
 }
 
 static void RBC1T(void)
 {
-    unsigned int target;
-   dst->ops = BC1T;
+   unsigned int target;
+   dst->ops = current_instruction_table.BC1T;
+   recomp_func = genbc1t;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BC1T_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbc1t_idle();
+         dst->ops = current_instruction_table.BC1T_IDLE;
+         recomp_func = genbc1t_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbc1t();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BC1T_OUT;
-    if (r4300emu == CORE_DYNAREC) genbc1t_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbc1t();
+   {
+      dst->ops = current_instruction_table.BC1T_OUT;
+      recomp_func = genbc1t_out;
+   }
 }
 
 static void RBC1FL(void)
 {
-    unsigned int target;
-   dst->ops = BC1FL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BC1FL;
+   recomp_func = genbc1fl;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BC1FL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbc1fl_idle();
+         dst->ops = current_instruction_table.BC1FL_IDLE;
+         recomp_func = genbc1fl_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbc1fl();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BC1FL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbc1fl_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbc1fl();
+   {
+      dst->ops = current_instruction_table.BC1FL_OUT;
+      recomp_func = genbc1fl_out;
+   }
 }
 
 static void RBC1TL(void)
 {
-    unsigned int target;
-   dst->ops = BC1TL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BC1TL;
+   recomp_func = genbc1tl;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BC1TL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbc1tl_idle();
+         dst->ops = current_instruction_table.BC1TL_IDLE;
+         recomp_func = genbc1tl_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbc1tl();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BC1TL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbc1tl_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbc1tl();
+   {
+      dst->ops = current_instruction_table.BC1TL_OUT;
+      recomp_func = genbc1tl_out;
+   }
 }
 
 static void (*recomp_bc[4])(void) =
@@ -941,247 +934,247 @@ static void (*recomp_bc[4])(void) =
 
 static void RADD_S(void)
 {
-   dst->ops = ADD_S;
+   dst->ops = current_instruction_table.ADD_S;
+   recomp_func = genadd_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genadd_s();
 }
 
 static void RSUB_S(void)
 {
-   dst->ops = SUB_S;
+   dst->ops = current_instruction_table.SUB_S;
+   recomp_func = gensub_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gensub_s();
 }
 
 static void RMUL_S(void)
 {
-   dst->ops = MUL_S;
+   dst->ops = current_instruction_table.MUL_S;
+   recomp_func = genmul_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genmul_s();
 }
 
 static void RDIV_S(void)
 {
-   dst->ops = DIV_S;
+   dst->ops = current_instruction_table.DIV_S;
+   recomp_func = gendiv_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gendiv_s();
 }
 
 static void RSQRT_S(void)
 {
-   dst->ops = SQRT_S;
+   dst->ops = current_instruction_table.SQRT_S;
+   recomp_func = gensqrt_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gensqrt_s();
 }
 
 static void RABS_S(void)
 {
-   dst->ops = ABS_S;
+   dst->ops = current_instruction_table.ABS_S;
+   recomp_func = genabs_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genabs_s();
 }
 
 static void RMOV_S(void)
 {
-   dst->ops = MOV_S;
+   dst->ops = current_instruction_table.MOV_S;
+   recomp_func = genmov_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genmov_s();
 }
 
 static void RNEG_S(void)
 {
-   dst->ops = NEG_S;
+   dst->ops = current_instruction_table.NEG_S;
+   recomp_func = genneg_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genneg_s();
 }
 
 static void RROUND_L_S(void)
 {
-   dst->ops = ROUND_L_S;
+   dst->ops = current_instruction_table.ROUND_L_S;
+   recomp_func = genround_l_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genround_l_s();
 }
 
 static void RTRUNC_L_S(void)
 {
-   dst->ops = TRUNC_L_S;
+   dst->ops = current_instruction_table.TRUNC_L_S;
+   recomp_func = gentrunc_l_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gentrunc_l_s();
 }
 
 static void RCEIL_L_S(void)
 {
-   dst->ops = CEIL_L_S;
+   dst->ops = current_instruction_table.CEIL_L_S;
+   recomp_func = genceil_l_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genceil_l_s();
 }
 
 static void RFLOOR_L_S(void)
 {
-   dst->ops = FLOOR_L_S;
+   dst->ops = current_instruction_table.FLOOR_L_S;
+   recomp_func = genfloor_l_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genfloor_l_s();
 }
 
 static void RROUND_W_S(void)
 {
-   dst->ops = ROUND_W_S;
+   dst->ops = current_instruction_table.ROUND_W_S;
+   recomp_func = genround_w_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genround_w_s();
 }
 
 static void RTRUNC_W_S(void)
 {
-   dst->ops = TRUNC_W_S;
+   dst->ops = current_instruction_table.TRUNC_W_S;
+   recomp_func = gentrunc_w_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gentrunc_w_s();
 }
 
 static void RCEIL_W_S(void)
 {
-   dst->ops = CEIL_W_S;
+   dst->ops = current_instruction_table.CEIL_W_S;
+   recomp_func = genceil_w_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genceil_w_s();
 }
 
 static void RFLOOR_W_S(void)
 {
-   dst->ops = FLOOR_W_S;
+   dst->ops = current_instruction_table.FLOOR_W_S;
+   recomp_func = genfloor_w_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genfloor_w_s();
 }
 
 static void RCVT_D_S(void)
 {
-   dst->ops = CVT_D_S;
+   dst->ops = current_instruction_table.CVT_D_S;
+   recomp_func = gencvt_d_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gencvt_d_s();
 }
 
 static void RCVT_W_S(void)
 {
-   dst->ops = CVT_W_S;
+   dst->ops = current_instruction_table.CVT_W_S;
+   recomp_func = gencvt_w_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gencvt_w_s();
 }
 
 static void RCVT_L_S(void)
 {
-   dst->ops = CVT_L_S;
+   dst->ops = current_instruction_table.CVT_L_S;
+   recomp_func = gencvt_l_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gencvt_l_s();
 }
 
 static void RC_F_S(void)
 {
-   dst->ops = C_F_S;
+   dst->ops = current_instruction_table.C_F_S;
+   recomp_func = genc_f_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_f_s();
 }
 
 static void RC_UN_S(void)
 {
-   dst->ops = C_UN_S;
+   dst->ops = current_instruction_table.C_UN_S;
+   recomp_func = genc_un_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_un_s();
 }
 
 static void RC_EQ_S(void)
 {
-   dst->ops = C_EQ_S;
+   dst->ops = current_instruction_table.C_EQ_S;
+   recomp_func = genc_eq_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_eq_s();
 }
 
 static void RC_UEQ_S(void)
 {
-   dst->ops = C_UEQ_S;
+   dst->ops = current_instruction_table.C_UEQ_S;
+   recomp_func = genc_ueq_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ueq_s();
 }
 
 static void RC_OLT_S(void)
 {
-   dst->ops = C_OLT_S;
+   dst->ops = current_instruction_table.C_OLT_S;
+   recomp_func = genc_olt_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_olt_s();
 }
 
 static void RC_ULT_S(void)
 {
-   dst->ops = C_ULT_S;
+   dst->ops = current_instruction_table.C_ULT_S;
+   recomp_func = genc_ult_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ult_s();
 }
 
 static void RC_OLE_S(void)
 {
-   dst->ops = C_OLE_S;
+   dst->ops = current_instruction_table.C_OLE_S;
+   recomp_func = genc_ole_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ole_s();
 }
 
 static void RC_ULE_S(void)
 {
-   dst->ops = C_ULE_S;
+   dst->ops = current_instruction_table.C_ULE_S;
+   recomp_func = genc_ule_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ule_s();
 }
 
 static void RC_SF_S(void)
 {
-   dst->ops = C_SF_S;
+   dst->ops = current_instruction_table.C_SF_S;
+   recomp_func = genc_sf_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_sf_s();
 }
 
 static void RC_NGLE_S(void)
 {
-   dst->ops = C_NGLE_S;
+   dst->ops = current_instruction_table.C_NGLE_S;
+   recomp_func = genc_ngle_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ngle_s();
 }
 
 static void RC_SEQ_S(void)
 {
-   dst->ops = C_SEQ_S;
+   dst->ops = current_instruction_table.C_SEQ_S;
+   recomp_func = genc_seq_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_seq_s();
 }
 
 static void RC_NGL_S(void)
 {
-   dst->ops = C_NGL_S;
+   dst->ops = current_instruction_table.C_NGL_S;
+   recomp_func = genc_ngl_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ngl_s();
 }
 
 static void RC_LT_S(void)
 {
-   dst->ops = C_LT_S;
+   dst->ops = current_instruction_table.C_LT_S;
+   recomp_func = genc_lt_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_lt_s();
 }
 
 static void RC_NGE_S(void)
 {
-   dst->ops = C_NGE_S;
+   dst->ops = current_instruction_table.C_NGE_S;
+   recomp_func = genc_nge_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_nge_s();
 }
 
 static void RC_LE_S(void)
 {
-   dst->ops = C_LE_S;
+   dst->ops = current_instruction_table.C_LE_S;
+   recomp_func = genc_le_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_le_s();
 }
 
 static void RC_NGT_S(void)
 {
-   dst->ops = C_NGT_S;
+   dst->ops = current_instruction_table.C_NGT_S;
+   recomp_func = genc_ngt_s;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ngt_s();
 }
 
 static void (*recomp_s[64])(void) =
@@ -1202,247 +1195,247 @@ static void (*recomp_s[64])(void) =
 
 static void RADD_D(void)
 {
-   dst->ops = ADD_D;
+   dst->ops = current_instruction_table.ADD_D;
+   recomp_func = genadd_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genadd_d();
 }
 
 static void RSUB_D(void)
 {
-   dst->ops = SUB_D;
+   dst->ops = current_instruction_table.SUB_D;
+   recomp_func = gensub_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gensub_d();
 }
 
 static void RMUL_D(void)
 {
-   dst->ops = MUL_D;
+   dst->ops = current_instruction_table.MUL_D;
+   recomp_func = genmul_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genmul_d();
 }
 
 static void RDIV_D(void)
 {
-   dst->ops = DIV_D;
+   dst->ops = current_instruction_table.DIV_D;
+   recomp_func = gendiv_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gendiv_d();
 }
 
 static void RSQRT_D(void)
 {
-   dst->ops = SQRT_D;
+   dst->ops = current_instruction_table.SQRT_D;
+   recomp_func = gensqrt_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gensqrt_d();
 }
 
 static void RABS_D(void)
 {
-   dst->ops = ABS_D;
+   dst->ops = current_instruction_table.ABS_D;
+   recomp_func = genabs_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genabs_d();
 }
 
 static void RMOV_D(void)
 {
-   dst->ops = MOV_D;
+   dst->ops = current_instruction_table.MOV_D;
+   recomp_func = genmov_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genmov_d();
 }
 
 static void RNEG_D(void)
 {
-   dst->ops = NEG_D;
+   dst->ops = current_instruction_table.NEG_D;
+   recomp_func = genneg_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genneg_d();
 }
 
 static void RROUND_L_D(void)
 {
-   dst->ops = ROUND_L_D;
+   dst->ops = current_instruction_table.ROUND_L_D;
+   recomp_func = genround_l_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genround_l_d();
 }
 
 static void RTRUNC_L_D(void)
 {
-   dst->ops = TRUNC_L_D;
+   dst->ops = current_instruction_table.TRUNC_L_D;
+   recomp_func = gentrunc_l_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gentrunc_l_d();
 }
 
 static void RCEIL_L_D(void)
 {
-   dst->ops = CEIL_L_D;
+   dst->ops = current_instruction_table.CEIL_L_D;
+   recomp_func = genceil_l_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genceil_l_d();
 }
 
 static void RFLOOR_L_D(void)
 {
-   dst->ops = FLOOR_L_D;
+   dst->ops = current_instruction_table.FLOOR_L_D;
+   recomp_func = genfloor_l_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genfloor_l_d();
 }
 
 static void RROUND_W_D(void)
 {
-   dst->ops = ROUND_W_D;
+   dst->ops = current_instruction_table.ROUND_W_D;
+   recomp_func = genround_w_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genround_w_d();
 }
 
 static void RTRUNC_W_D(void)
 {
-   dst->ops = TRUNC_W_D;
+   dst->ops = current_instruction_table.TRUNC_W_D;
+   recomp_func = gentrunc_w_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gentrunc_w_d();
 }
 
 static void RCEIL_W_D(void)
 {
-   dst->ops = CEIL_W_D;
+   dst->ops = current_instruction_table.CEIL_W_D;
+   recomp_func = genceil_w_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genceil_w_d();
 }
 
 static void RFLOOR_W_D(void)
 {
-   dst->ops = FLOOR_W_D;
+   dst->ops = current_instruction_table.FLOOR_W_D;
+   recomp_func = genfloor_w_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genfloor_w_d();
 }
 
 static void RCVT_S_D(void)
 {
-   dst->ops = CVT_S_D;
+   dst->ops = current_instruction_table.CVT_S_D;
+   recomp_func = gencvt_s_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gencvt_s_d();
 }
 
 static void RCVT_W_D(void)
 {
-   dst->ops = CVT_W_D;
+   dst->ops = current_instruction_table.CVT_W_D;
+   recomp_func = gencvt_w_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gencvt_w_d();
 }
 
 static void RCVT_L_D(void)
 {
-   dst->ops = CVT_L_D;
+   dst->ops = current_instruction_table.CVT_L_D;
+   recomp_func = gencvt_l_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gencvt_l_d();
 }
 
 static void RC_F_D(void)
 {
-   dst->ops = C_F_D;
+   dst->ops = current_instruction_table.C_F_D;
+   recomp_func = genc_f_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_f_d();
 }
 
 static void RC_UN_D(void)
 {
-   dst->ops = C_UN_D;
+   dst->ops = current_instruction_table.C_UN_D;
+   recomp_func = genc_un_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_un_d();
 }
 
 static void RC_EQ_D(void)
 {
-   dst->ops = C_EQ_D;
+   dst->ops = current_instruction_table.C_EQ_D;
+   recomp_func = genc_eq_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_eq_d();
 }
 
 static void RC_UEQ_D(void)
 {
-   dst->ops = C_UEQ_D;
+   dst->ops = current_instruction_table.C_UEQ_D;
+   recomp_func = genc_ueq_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ueq_d();
 }
 
 static void RC_OLT_D(void)
 {
-   dst->ops = C_OLT_D;
+   dst->ops = current_instruction_table.C_OLT_D;
+   recomp_func = genc_olt_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_olt_d();
 }
 
 static void RC_ULT_D(void)
 {
-   dst->ops = C_ULT_D;
+   dst->ops = current_instruction_table.C_ULT_D;
+   recomp_func = genc_ult_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ult_d();
 }
 
 static void RC_OLE_D(void)
 {
-   dst->ops = C_OLE_D;
+   dst->ops = current_instruction_table.C_OLE_D;
+   recomp_func = genc_ole_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ole_d();
 }
 
 static void RC_ULE_D(void)
 {
-   dst->ops = C_ULE_D;
+   dst->ops = current_instruction_table.C_ULE_D;
+   recomp_func = genc_ule_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ule_d();
 }
 
 static void RC_SF_D(void)
 {
-   dst->ops = C_SF_D;
+   dst->ops = current_instruction_table.C_SF_D;
+   recomp_func = genc_sf_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_sf_d();
 }
 
 static void RC_NGLE_D(void)
 {
-   dst->ops = C_NGLE_D;
+   dst->ops = current_instruction_table.C_NGLE_D;
+   recomp_func = genc_ngle_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ngle_d();
 }
 
 static void RC_SEQ_D(void)
 {
-   dst->ops = C_SEQ_D;
+   dst->ops = current_instruction_table.C_SEQ_D;
+   recomp_func = genc_seq_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_seq_d();
 }
 
 static void RC_NGL_D(void)
 {
-   dst->ops = C_NGL_D;
+   dst->ops = current_instruction_table.C_NGL_D;
+   recomp_func = genc_ngl_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ngl_d();
 }
 
 static void RC_LT_D(void)
 {
-   dst->ops = C_LT_D;
+   dst->ops = current_instruction_table.C_LT_D;
+   recomp_func = genc_lt_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_lt_d();
 }
 
 static void RC_NGE_D(void)
 {
-   dst->ops = C_NGE_D;
+   dst->ops = current_instruction_table.C_NGE_D;
+   recomp_func = genc_nge_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_nge_d();
 }
 
 static void RC_LE_D(void)
 {
-   dst->ops = C_LE_D;
+   dst->ops = current_instruction_table.C_LE_D;
+   recomp_func = genc_le_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_le_d();
 }
 
 static void RC_NGT_D(void)
 {
-   dst->ops = C_NGT_D;
+   dst->ops = current_instruction_table.C_NGT_D;
+   recomp_func = genc_ngt_d;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) genc_ngt_d();
 }
 
 static void (*recomp_d[64])(void) =
@@ -1463,16 +1456,16 @@ static void (*recomp_d[64])(void) =
 
 static void RCVT_S_W(void)
 {
-   dst->ops = CVT_S_W;
+   dst->ops = current_instruction_table.CVT_S_W;
+   recomp_func = gencvt_s_w;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gencvt_s_w();
 }
 
 static void RCVT_D_W(void)
 {
-   dst->ops = CVT_D_W;
+   dst->ops = current_instruction_table.CVT_D_W;
+   recomp_func = gencvt_d_w;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gencvt_d_w();
 }
 
 static void (*recomp_w[64])(void) =
@@ -1493,16 +1486,16 @@ static void (*recomp_w[64])(void) =
 
 static void RCVT_S_L(void)
 {
-   dst->ops = CVT_S_L;
+   dst->ops = current_instruction_table.CVT_S_L;
+   recomp_func = gencvt_s_l;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gencvt_s_l();
 }
 
 static void RCVT_D_L(void)
 {
-   dst->ops = CVT_D_L;
+   dst->ops = current_instruction_table.CVT_D_L;
+   recomp_func = gencvt_d_l;
    recompile_standard_cf_type();
-   if (r4300emu == CORE_DYNAREC) gencvt_d_l();
 }
 
 static void (*recomp_l[64])(void) =
@@ -1523,53 +1516,53 @@ static void (*recomp_l[64])(void) =
 
 static void RMFC1(void)
 {
-   dst->ops = MFC1;
+   dst->ops = current_instruction_table.MFC1;
+   recomp_func = genmfc1;
    recompile_standard_r_type();
    dst->f.r.nrd = (src >> 11) & 0x1F;
    if (dst->f.r.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genmfc1();
 }
 
 static void RDMFC1(void)
 {
-   dst->ops = DMFC1;
+   dst->ops = current_instruction_table.DMFC1;
+   recomp_func = gendmfc1;
    recompile_standard_r_type();
    dst->f.r.nrd = (src >> 11) & 0x1F;
    if (dst->f.r.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendmfc1();
 }
 
 static void RCFC1(void)
 {
-   dst->ops = CFC1;
+   dst->ops = current_instruction_table.CFC1;
+   recomp_func = gencfc1;
    recompile_standard_r_type();
    dst->f.r.nrd = (src >> 11) & 0x1F;
    if (dst->f.r.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gencfc1();
 }
 
 static void RMTC1(void)
 {
-   dst->ops = MTC1;
+   dst->ops = current_instruction_table.MTC1;
    recompile_standard_r_type();
+   recomp_func = genmtc1;
    dst->f.r.nrd = (src >> 11) & 0x1F;
-   if (r4300emu == CORE_DYNAREC) genmtc1();
 }
 
 static void RDMTC1(void)
 {
-   dst->ops = DMTC1;
+   dst->ops = current_instruction_table.DMTC1;
    recompile_standard_r_type();
+   recomp_func = gendmtc1;
    dst->f.r.nrd = (src >> 11) & 0x1F;
-   if (r4300emu == CORE_DYNAREC) gendmtc1();
 }
 
 static void RCTC1(void)
 {
-   dst->ops = CTC1;
+   dst->ops = current_instruction_table.CTC1;
    recompile_standard_r_type();
+   recomp_func = genctc1;
    dst->f.r.nrd = (src >> 11) & 0x1F;
-   if (r4300emu == CORE_DYNAREC) genctc1();
 }
 
 static void RBC(void)
@@ -1621,204 +1614,198 @@ static void RREGIMM(void)
 
 static void RJ(void)
 {
-    unsigned int target;
-   dst->ops = J_OUT;
+   unsigned int target;
+   dst->ops = current_instruction_table.J;
+   recomp_func = genj;
    recompile_standard_j_type();
    target = (dst->f.j.inst_index<<2) | (dst->addr & 0xF0000000);
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = J_IDLE;
-         if (r4300emu == CORE_DYNAREC) genj_idle();
+         dst->ops = current_instruction_table.J_IDLE;
+         recomp_func = genj_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genj();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = J_OUT;
-    if (r4300emu == CORE_DYNAREC) genj_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genj();
+   {
+      dst->ops = current_instruction_table.J_OUT;
+      recomp_func = genj_out;
+   }
 }
 
 static void RJAL(void)
 {
-    unsigned int target;
-   dst->ops = JAL_OUT;
+   unsigned int target;
+   dst->ops = current_instruction_table.JAL;
+   recomp_func = genjal;
    recompile_standard_j_type();
    target = (dst->f.j.inst_index<<2) | (dst->addr & 0xF0000000);
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = JAL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genjal_idle();
+         dst->ops = current_instruction_table.JAL_IDLE;
+         recomp_func = genjal_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genjal();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = JAL_OUT;
-    if (r4300emu == CORE_DYNAREC) genjal_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genjal();
+   {
+      dst->ops = current_instruction_table.JAL_OUT;
+      recomp_func = genjal_out;
+   }
 }
 
 static void RBEQ(void)
 {
-    unsigned int target;
-   dst->ops = BEQ;
+   unsigned int target;
+   dst->ops = current_instruction_table.BEQ;
+   recomp_func = genbeq;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BEQ_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbeq_idle();
+         dst->ops = current_instruction_table.BEQ_IDLE;
+         recomp_func = genbeq_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbeq();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BEQ_OUT;
-    if (r4300emu == CORE_DYNAREC) genbeq_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbeq();
+   {
+      dst->ops = current_instruction_table.BEQ_OUT;
+      recomp_func = genbeq_out;
+   }
 }
 
 static void RBNE(void)
 {
-    unsigned int target;
-   dst->ops = BNE;
+   unsigned int target;
+   dst->ops = current_instruction_table.BNE;
+   recomp_func = genbne;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BNE_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbne_idle();
+         dst->ops = current_instruction_table.BNE_IDLE;
+         recomp_func = genbne_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbne();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BNE_OUT;
-    if (r4300emu == CORE_DYNAREC) genbne_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbne();
+   {
+      dst->ops = current_instruction_table.BNE_OUT;
+      recomp_func = genbne_out;
+   }
 }
 
 static void RBLEZ(void)
 {
-    unsigned int target;
-   dst->ops = BLEZ;
+   unsigned int target;
+   dst->ops = current_instruction_table.BLEZ;
+   recomp_func = genblez;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BLEZ_IDLE;
-         if (r4300emu == CORE_DYNAREC) genblez_idle();
+         dst->ops = current_instruction_table.BLEZ_IDLE;
+         recomp_func = genblez_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genblez();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BLEZ_OUT;
-    if (r4300emu == CORE_DYNAREC) genblez_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genblez();
+   {
+      dst->ops = current_instruction_table.BLEZ_OUT;
+      recomp_func = genblez_out;
+   }
 }
 
 static void RBGTZ(void)
 {
-    unsigned int target;
-   dst->ops = BGTZ;
+   unsigned int target;
+   dst->ops = current_instruction_table.BGTZ;
+   recomp_func = genbgtz;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BGTZ_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbgtz_idle();
+         dst->ops = current_instruction_table.BGTZ_IDLE;
+         recomp_func = genbgtz_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbgtz();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BGTZ_OUT;
-    if (r4300emu == CORE_DYNAREC) genbgtz_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbgtz();
+   {
+      dst->ops = current_instruction_table.BGTZ_OUT;
+      recomp_func = genbgtz_out;
+   }
 }
 
 static void RADDI(void)
 {
-   dst->ops = ADDI;
+   dst->ops = current_instruction_table.ADDI;
+   recomp_func = genaddi;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genaddi();
 }
 
 static void RADDIU(void)
 {
-   dst->ops = ADDIU;
+   dst->ops = current_instruction_table.ADDIU;
+   recomp_func = genaddiu;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genaddiu();
 }
 
 static void RSLTI(void)
 {
-   dst->ops = SLTI;
+   dst->ops = current_instruction_table.SLTI;
+   recomp_func = genslti;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genslti();
 }
 
 static void RSLTIU(void)
 {
-   dst->ops = SLTIU;
+   dst->ops = current_instruction_table.SLTIU;
+   recomp_func = gensltiu;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gensltiu();
 }
 
 static void RANDI(void)
 {
-   dst->ops = ANDI;
+   dst->ops = current_instruction_table.ANDI;
+   recomp_func = genandi;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genandi();
 }
 
 static void RORI(void)
 {
-   dst->ops = ORI;
+   dst->ops = current_instruction_table.ORI;
+   recomp_func = genori;
    recompile_standard_i_type();
    if (dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genori();
 }
 
 static void RXORI(void)
 {
-   dst->ops = XORI;
+   dst->ops = current_instruction_table.XORI;
+   recomp_func = genxori;
    recompile_standard_i_type();
    if (dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genxori();
 }
 
 static void RLUI(void)
 {
-   dst->ops = LUI;
+   dst->ops = current_instruction_table.LUI;
+   recomp_func = genlui;
    recompile_standard_i_type();
    if (dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genlui();
 }
 
 static void RCOP0(void)
@@ -1833,318 +1820,314 @@ static void RCOP1(void)
 
 static void RBEQL(void)
 {
-    unsigned int target;
-   dst->ops = BEQL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BEQL;
+   recomp_func = genbeql;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BEQL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbeql_idle();
+         dst->ops = current_instruction_table.BEQL_IDLE;
+         recomp_func = genbeql_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbeql();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BEQL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbeql_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbeql();
+   {
+      dst->ops = current_instruction_table.BEQL_OUT;
+      recomp_func = genbeql_out;
+   }
 }
 
 static void RBNEL(void)
 {
-    unsigned int target;
-   dst->ops = BNEL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BNEL;
+   recomp_func = genbnel;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BNEL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbnel_idle();
+         dst->ops = current_instruction_table.BNEL_IDLE;
+         recomp_func = genbnel_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbnel();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BNEL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbnel_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbnel();
+   {
+      dst->ops = current_instruction_table.BNEL_OUT;
+      recomp_func = genbnel_out;
+   }
 }
 
 static void RBLEZL(void)
 {
-    unsigned int target;
-   dst->ops = BLEZL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BLEZL;
+   recomp_func = genblezl;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BLEZL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genblezl_idle();
+         dst->ops = current_instruction_table.BLEZL_IDLE;
+         recomp_func = genblezl_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genblezl();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BLEZL_OUT;
-    if (r4300emu == CORE_DYNAREC) genblezl_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genblezl();
+   {
+      dst->ops = current_instruction_table.BLEZL_OUT;
+      recomp_func = genblezl_out;
+   }
 }
 
 static void RBGTZL(void)
 {
-    unsigned int target;
-   dst->ops = BGTZL;
+   unsigned int target;
+   dst->ops = current_instruction_table.BGTZL;
+   recomp_func = genbgtzl;
    recompile_standard_i_type();
    target = dst->addr + dst->f.i.immediate*4 + 4;
    if (target == dst->addr)
-     {
-    if (check_nop)
+   {
+      if (check_nop)
       {
-         dst->ops = BGTZL_IDLE;
-         if (r4300emu == CORE_DYNAREC) genbgtzl_idle();
+         dst->ops = current_instruction_table.BGTZL_IDLE;
+         recomp_func = genbgtzl_idle;
       }
-    else if (r4300emu == CORE_DYNAREC) genbgtzl();
-     }
+   }
    else if (r4300emu != CORE_PURE_INTERPRETER && (target < dst_block->start || target >= dst_block->end || dst->addr == (dst_block->end-4)))
-     {
-    dst->ops = BGTZL_OUT;
-    if (r4300emu == CORE_DYNAREC) genbgtzl_out();
-     }
-   else if (r4300emu == CORE_DYNAREC) genbgtzl();
+   {
+      dst->ops = current_instruction_table.BGTZL_OUT;
+      recomp_func = genbgtzl_out;
+   }
 }
 
 static void RDADDI(void)
 {
-   dst->ops = DADDI;
+   dst->ops = current_instruction_table.DADDI;
+   recomp_func = gendaddi;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendaddi();
 }
 
 static void RDADDIU(void)
 {
-   dst->ops = DADDIU;
+   dst->ops = current_instruction_table.DADDIU;
+   recomp_func = gendaddiu;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gendaddiu();
 }
 
 static void RLDL(void)
 {
-   dst->ops = LDL;
+   dst->ops = current_instruction_table.LDL;
+   recomp_func = genldl;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genldl();
 }
 
 static void RLDR(void)
 {
-   dst->ops = LDR;
+   dst->ops = current_instruction_table.LDR;
+   recomp_func = genldr;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genldr();
 }
 
 static void RLB(void)
 {
-   dst->ops = LB;
+   dst->ops = current_instruction_table.LB;
+   recomp_func = genlb;
    recompile_standard_i_type();
    if (dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genlb();
 }
 
 static void RLH(void)
 {
-   dst->ops = LH;
+   dst->ops = current_instruction_table.LH;
+   recomp_func = genlh;
    recompile_standard_i_type();
    if (dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genlh();
 }
 
 static void RLWL(void)
 {
-   dst->ops = LWL;
+   dst->ops = current_instruction_table.LWL;
+   recomp_func = genlwl;
    recompile_standard_i_type();
    if (dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genlwl();
 }
 
 static void RLW(void)
 {
-   dst->ops = LW;
+   dst->ops = current_instruction_table.LW;
+   recomp_func = genlw;
    recompile_standard_i_type();
    if (dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genlw();
 }
 
 static void RLBU(void)
 {
-   dst->ops = LBU;
+   dst->ops = current_instruction_table.LBU;
+   recomp_func = genlbu;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genlbu();
 }
 
 static void RLHU(void)
 {
-   dst->ops = LHU;
+   dst->ops = current_instruction_table.LHU;
+   recomp_func = genlhu;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genlhu();
 }
 
 static void RLWR(void)
 {
-   dst->ops = LWR;
+   dst->ops = current_instruction_table.LWR;
+   recomp_func = genlwr;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genlwr();
 }
 
 static void RLWU(void)
 {
-   dst->ops = LWU;
+   dst->ops = current_instruction_table.LWU;
+   recomp_func = genlwu;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genlwu();
 }
 
 static void RSB(void)
 {
-   dst->ops = SB;
+   dst->ops = current_instruction_table.SB;
+   recomp_func = gensb;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) gensb();
 }
 
 static void RSH(void)
 {
-   dst->ops = SH;
+   dst->ops = current_instruction_table.SH;
+   recomp_func = gensh;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) gensh();
 }
 
 static void RSWL(void)
 {
-   dst->ops = SWL;
+   dst->ops = current_instruction_table.SWL;
+   recomp_func = genswl;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) genswl();
 }
 
 static void RSW(void)
 {
-   dst->ops = SW;
+   dst->ops = current_instruction_table.SW;
+   recomp_func = gensw;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) gensw();
 }
 
 static void RSDL(void)
 {
-   dst->ops = SDL;
+   dst->ops = current_instruction_table.SDL;
+   recomp_func = gensdl;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) gensdl();
 }
 
 static void RSDR(void)
 {
-   dst->ops = SDR;
+   dst->ops = current_instruction_table.SDR;
+   recomp_func = gensdr;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) gensdr();
 }
 
 static void RSWR(void)
 {
-   dst->ops = SWR;
+   dst->ops = current_instruction_table.SWR;
+   recomp_func = genswr;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) genswr();
 }
 
 static void RCACHE(void)
 {
-   dst->ops = CACHE;
-   if (r4300emu == CORE_DYNAREC) gencache();
+   recomp_func = gencache;
+   dst->ops = current_instruction_table.CACHE;
 }
 
 static void RLL(void)
 {
-   dst->ops = LL;
+   recomp_func = genll;
+   dst->ops = current_instruction_table.LL;
    recompile_standard_i_type();
    if(dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genll();
 }
 
 static void RLWC1(void)
 {
-   dst->ops = LWC1;
+   dst->ops = current_instruction_table.LWC1;
+   recomp_func = genlwc1;
    recompile_standard_lf_type();
-   if (r4300emu == CORE_DYNAREC) genlwc1();
 }
 
 static void RLLD(void)
 {
-   dst->ops = NI;
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) genni();
 }
 
 static void RLDC1(void)
 {
-   dst->ops = LDC1;
+   dst->ops = current_instruction_table.LDC1;
+   recomp_func = genldc1;
    recompile_standard_lf_type();
-   if (r4300emu == CORE_DYNAREC) genldc1();
 }
 
 static void RLD(void)
 {
-   dst->ops = LD;
+   dst->ops = current_instruction_table.LD;
+   recomp_func = genld;
    recompile_standard_i_type();
    if (dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) genld();
 }
 
 static void RSC(void)
 {
-   dst->ops = SC;
+   dst->ops = current_instruction_table.SC;
+   recomp_func = gensc;
    recompile_standard_i_type();
    if (dst->f.i.rt == reg) RNOP();
-   else if (r4300emu == CORE_DYNAREC) gensc();
 }
 
 static void RSWC1(void)
 {
-   dst->ops = SWC1;
+   dst->ops = current_instruction_table.SWC1;
+   recomp_func = genswc1;
    recompile_standard_lf_type();
-   if (r4300emu == CORE_DYNAREC) genswc1();
 }
 
 static void RSCD(void)
 {
-   dst->ops = NI;
+   dst->ops = current_instruction_table.NI;
+   recomp_func = genni;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) genni();
 }
 
 static void RSDC1(void)
 {
-   dst->ops = SDC1;
+   dst->ops = current_instruction_table.SDC1;
+   recomp_func = gensdc1;
    recompile_standard_lf_type();
-   if (r4300emu == CORE_DYNAREC) gensdc1();
 }
 
 static void RSD(void)
 {
-   dst->ops = SD;
+   dst->ops = current_instruction_table.SD;
+   recomp_func = gensd;
    recompile_standard_i_type();
-   if (r4300emu == CORE_DYNAREC) gensd();
 }
 
 static void (*recomp_ops[64])(void) =
@@ -2173,7 +2156,7 @@ static size_t get_block_memsize(const precomp_block *block)
 /**********************************************************************
  ******************** initialize an empty block ***********************
  **********************************************************************/
-void init_block(int *source, precomp_block *block)
+void init_block(precomp_block *block)
 {
   int i, length, already_exist = 1;
   static int init_length;
@@ -2260,6 +2243,7 @@ void init_block(int *source, precomp_block *block)
       if (r4300emu == CORE_DYNAREC) gendebug();
 #endif
       RNOTCOMPILED();
+      if (r4300emu == CORE_DYNAREC) recomp_func();
     }
 #if defined(PROFILE_R4300)
   fclose(pfProfile);
@@ -2279,7 +2263,7 @@ void init_block(int *source, precomp_block *block)
       dst = block->block + i;
       dst->reg_cache_infos.need_map = 0;
       dst->local_addr = i * (init_length / length);
-      dst->ops = NOTCOMPILED;
+      dst->ops = current_instruction_table.NOTCOMPILED;
     }
   }
    
@@ -2313,7 +2297,7 @@ void init_block(int *source, precomp_block *block)
       blocks[paddr>>12]->start = paddr & ~0xFFF;
       blocks[paddr>>12]->end = (paddr & ~0xFFF) + 0x1000;
     }
-    init_block(NULL, blocks[paddr>>12]);
+    init_block(blocks[paddr>>12]);
     
     paddr += block->end - block->start - 4;
     invalid_code[paddr>>12] = 0;
@@ -2327,7 +2311,7 @@ void init_block(int *source, precomp_block *block)
       blocks[paddr>>12]->start = paddr & ~0xFFF;
       blocks[paddr>>12]->end = (paddr & ~0xFFF) + 0x1000;
     }
-    init_block(NULL, blocks[paddr>>12]);
+    init_block(blocks[paddr>>12]);
   }
   else
   {
@@ -2343,7 +2327,7 @@ void init_block(int *source, precomp_block *block)
         blocks[(block->start+0x20000000)>>12]->start = (block->start+0x20000000) & ~0xFFF;
         blocks[(block->start+0x20000000)>>12]->end = ((block->start+0x20000000) & ~0xFFF) + 0x1000;
       }
-      init_block(NULL, blocks[(block->start+0x20000000)>>12]);
+      init_block(blocks[(block->start+0x20000000)>>12]);
     }
     if (block->start >= 0xa0000000 && block->end < 0xc0000000 && invalid_code[(block->start-0x20000000)>>12])
     {
@@ -2357,7 +2341,7 @@ void init_block(int *source, precomp_block *block)
         blocks[(block->start-0x20000000)>>12]->start = (block->start-0x20000000) & ~0xFFF;
         blocks[(block->start-0x20000000)>>12]->end = ((block->start-0x20000000) & ~0xFFF) + 0x1000;
       }
-      init_block(NULL, blocks[(block->start-0x20000000)>>12]);
+      init_block(blocks[(block->start-0x20000000)>>12]);
     }
   }
   end_section(COMPILER_SECTION);
@@ -2411,13 +2395,13 @@ void recompile_block(int *source, precomp_block *block, unsigned int func)
       {
           unsigned int address2 =
            virtual_to_physical_address(block->start + i*4, 0);
-         if(blocks[address2>>12]->block[(address2&0xFFF)/4].ops == NOTCOMPILED)
-           blocks[address2>>12]->block[(address2&0xFFF)/4].ops = NOTCOMPILED2;
+         if(blocks[address2>>12]->block[(address2&0xFFF)/4].ops == current_instruction_table.NOTCOMPILED)
+           blocks[address2>>12]->block[(address2&0xFFF)/4].ops = current_instruction_table.NOTCOMPILED2;
       }
     
     SRC = source + i;
     src = source[i];
-    if (!source[i+1]) check_nop = 1; else check_nop = 0;
+    check_nop = source[i+1] == 0;
     dst = block->block + i;
     dst->addr = block->start + i*4;
     dst->reg_cache_infos.need_map = 0;
@@ -2431,7 +2415,9 @@ void recompile_block(int *source, precomp_block *block, unsigned int func)
         fwrite(&x86addr, 1, sizeof(char *), pfProfile) != sizeof(char *)) // write pointer to dynamically generated x86 code for this MIPS instruction
         DebugMessage(M64MSG_ERROR, "Error writing R4300 instruction address profiling data");
 #endif
+    recomp_func = NULL;
     recomp_ops[((src >> 26) & 0x3F)]();
+    if (r4300emu == CORE_DYNAREC) recomp_func();
     dst = block->block + i;
 
     /*if ((dst+1)->ops != NOTCOMPILED && !delay_slot_compiled &&
@@ -2450,9 +2436,11 @@ void recompile_block(int *source, precomp_block *block, unsigned int func)
     if (i >= (length-1) && (block->start == 0xa4000000 ||
                 block->start >= 0xc0000000 ||
                 block->end   <  0x80000000)) finished = 2;
-    if (dst->ops == ERET || finished == 1) finished = 2;
+    if (dst->ops == current_instruction_table.ERET || finished == 1) finished = 2;
     if (/*i >= length &&*/ 
-        (dst->ops == J || dst->ops == J_OUT || dst->ops == JR) &&
+        (dst->ops == current_instruction_table.J ||
+         dst->ops == current_instruction_table.J_OUT ||
+         dst->ops == current_instruction_table.JR) &&
         !(i >= (length-1) && (block->start >= 0xc0000000 ||
                   block->end   <  0x80000000)))
       finished = 1;
@@ -2476,6 +2464,7 @@ void recompile_block(int *source, precomp_block *block, unsigned int func)
     if (r4300emu == CORE_DYNAREC) gendebug();
 #endif
     RFIN_BLOCK();
+    if (r4300emu == CORE_DYNAREC) recomp_func();
     i++;
     if (i < length-1+(length>>2)) // useful when last opcode is a jump
       {
@@ -2487,6 +2476,7 @@ void recompile_block(int *source, precomp_block *block, unsigned int func)
          if (r4300emu == CORE_DYNAREC) gendebug();
 #endif
          RFIN_BLOCK();
+         if (r4300emu == CORE_DYNAREC) recomp_func();
          i++;
       }
      }
@@ -2512,82 +2502,76 @@ void recompile_block(int *source, precomp_block *block, unsigned int func)
 
 static int is_jump(void)
 {
-   int dyn=0;
-   int jump=0;
-   if(r4300emu == CORE_DYNAREC) dyn=1;
-   if(dyn) r4300emu = CORE_INTERPRETER;
    recomp_ops[((src >> 26) & 0x3F)]();
-   if(dst->ops == J ||
-      dst->ops == J_OUT ||
-      dst->ops == J_IDLE ||
-      dst->ops == JAL ||
-      dst->ops == JAL_OUT ||
-      dst->ops == JAL_IDLE ||
-      dst->ops == BEQ ||
-      dst->ops == BEQ_OUT ||
-      dst->ops == BEQ_IDLE ||
-      dst->ops == BNE ||
-      dst->ops == BNE_OUT ||
-      dst->ops == BNE_IDLE ||
-      dst->ops == BLEZ ||
-      dst->ops == BLEZ_OUT ||
-      dst->ops == BLEZ_IDLE ||
-      dst->ops == BGTZ ||
-      dst->ops == BGTZ_OUT ||
-      dst->ops == BGTZ_IDLE ||
-      dst->ops == BEQL ||
-      dst->ops == BEQL_OUT ||
-      dst->ops == BEQL_IDLE ||
-      dst->ops == BNEL ||
-      dst->ops == BNEL_OUT ||
-      dst->ops == BNEL_IDLE ||
-      dst->ops == BLEZL ||
-      dst->ops == BLEZL_OUT ||
-      dst->ops == BLEZL_IDLE ||
-      dst->ops == BGTZL ||
-      dst->ops == BGTZL_OUT ||
-      dst->ops == BGTZL_IDLE ||
-      dst->ops == JR ||
-      dst->ops == JALR ||
-      dst->ops == BLTZ ||
-      dst->ops == BLTZ_OUT ||
-      dst->ops == BLTZ_IDLE ||
-      dst->ops == BGEZ ||
-      dst->ops == BGEZ_OUT ||
-      dst->ops == BGEZ_IDLE ||
-      dst->ops == BLTZL ||
-      dst->ops == BLTZL_OUT ||
-      dst->ops == BLTZL_IDLE ||
-      dst->ops == BGEZL ||
-      dst->ops == BGEZL_OUT ||
-      dst->ops == BGEZL_IDLE ||
-      dst->ops == BLTZAL ||
-      dst->ops == BLTZAL_OUT ||
-      dst->ops == BLTZAL_IDLE ||
-      dst->ops == BGEZAL ||
-      dst->ops == BGEZAL_OUT ||
-      dst->ops == BGEZAL_IDLE ||
-      dst->ops == BLTZALL ||
-      dst->ops == BLTZALL_OUT ||
-      dst->ops == BLTZALL_IDLE ||
-      dst->ops == BGEZALL ||
-      dst->ops == BGEZALL_OUT ||
-      dst->ops == BGEZALL_IDLE ||
-      dst->ops == BC1F ||
-      dst->ops == BC1F_OUT ||
-      dst->ops == BC1F_IDLE ||
-      dst->ops == BC1T ||
-      dst->ops == BC1T_OUT ||
-      dst->ops == BC1T_IDLE ||
-      dst->ops == BC1FL ||
-      dst->ops == BC1FL_OUT ||
-      dst->ops == BC1FL_IDLE ||
-      dst->ops == BC1TL ||
-      dst->ops == BC1TL_OUT ||
-      dst->ops == BC1TL_IDLE)
-     jump = 1;
-   if(dyn) r4300emu = CORE_DYNAREC;
-   return jump;
+   return
+      (dst->ops == current_instruction_table.J ||
+       dst->ops == current_instruction_table.J_OUT ||
+       dst->ops == current_instruction_table.J_IDLE ||
+       dst->ops == current_instruction_table.JAL ||
+       dst->ops == current_instruction_table.JAL_OUT ||
+       dst->ops == current_instruction_table.JAL_IDLE ||
+       dst->ops == current_instruction_table.BEQ ||
+       dst->ops == current_instruction_table.BEQ_OUT ||
+       dst->ops == current_instruction_table.BEQ_IDLE ||
+       dst->ops == current_instruction_table.BNE ||
+       dst->ops == current_instruction_table.BNE_OUT ||
+       dst->ops == current_instruction_table.BNE_IDLE ||
+       dst->ops == current_instruction_table.BLEZ ||
+       dst->ops == current_instruction_table.BLEZ_OUT ||
+       dst->ops == current_instruction_table.BLEZ_IDLE ||
+       dst->ops == current_instruction_table.BGTZ ||
+       dst->ops == current_instruction_table.BGTZ_OUT ||
+       dst->ops == current_instruction_table.BGTZ_IDLE ||
+       dst->ops == current_instruction_table.BEQL ||
+       dst->ops == current_instruction_table.BEQL_OUT ||
+       dst->ops == current_instruction_table.BEQL_IDLE ||
+       dst->ops == current_instruction_table.BNEL ||
+       dst->ops == current_instruction_table.BNEL_OUT ||
+       dst->ops == current_instruction_table.BNEL_IDLE ||
+       dst->ops == current_instruction_table.BLEZL ||
+       dst->ops == current_instruction_table.BLEZL_OUT ||
+       dst->ops == current_instruction_table.BLEZL_IDLE ||
+       dst->ops == current_instruction_table.BGTZL ||
+       dst->ops == current_instruction_table.BGTZL_OUT ||
+       dst->ops == current_instruction_table.BGTZL_IDLE ||
+       dst->ops == current_instruction_table.JR ||
+       dst->ops == current_instruction_table.JALR ||
+       dst->ops == current_instruction_table.BLTZ ||
+       dst->ops == current_instruction_table.BLTZ_OUT ||
+       dst->ops == current_instruction_table.BLTZ_IDLE ||
+       dst->ops == current_instruction_table.BGEZ ||
+       dst->ops == current_instruction_table.BGEZ_OUT ||
+       dst->ops == current_instruction_table.BGEZ_IDLE ||
+       dst->ops == current_instruction_table.BLTZL ||
+       dst->ops == current_instruction_table.BLTZL_OUT ||
+       dst->ops == current_instruction_table.BLTZL_IDLE ||
+       dst->ops == current_instruction_table.BGEZL ||
+       dst->ops == current_instruction_table.BGEZL_OUT ||
+       dst->ops == current_instruction_table.BGEZL_IDLE ||
+       dst->ops == current_instruction_table.BLTZAL ||
+       dst->ops == current_instruction_table.BLTZAL_OUT ||
+       dst->ops == current_instruction_table.BLTZAL_IDLE ||
+       dst->ops == current_instruction_table.BGEZAL ||
+       dst->ops == current_instruction_table.BGEZAL_OUT ||
+       dst->ops == current_instruction_table.BGEZAL_IDLE ||
+       dst->ops == current_instruction_table.BLTZALL ||
+       dst->ops == current_instruction_table.BLTZALL_OUT ||
+       dst->ops == current_instruction_table.BLTZALL_IDLE ||
+       dst->ops == current_instruction_table.BGEZALL ||
+       dst->ops == current_instruction_table.BGEZALL_OUT ||
+       dst->ops == current_instruction_table.BGEZALL_IDLE ||
+       dst->ops == current_instruction_table.BC1F ||
+       dst->ops == current_instruction_table.BC1F_OUT ||
+       dst->ops == current_instruction_table.BC1F_IDLE ||
+       dst->ops == current_instruction_table.BC1T ||
+       dst->ops == current_instruction_table.BC1T_OUT ||
+       dst->ops == current_instruction_table.BC1T_IDLE ||
+       dst->ops == current_instruction_table.BC1FL ||
+       dst->ops == current_instruction_table.BC1FL_OUT ||
+       dst->ops == current_instruction_table.BC1FL_IDLE ||
+       dst->ops == current_instruction_table.BC1TL ||
+       dst->ops == current_instruction_table.BC1TL_OUT ||
+       dst->ops == current_instruction_table.BC1TL_IDLE);
 }
 
 /**********************************************************************
@@ -2608,11 +2592,14 @@ void recompile_opcode(void)
          fwrite(&x86addr, 1, sizeof(char *), pfProfile) != sizeof(char *)) // write pointer to dynamically generated x86 code for this MIPS instruction
         DebugMessage(M64MSG_ERROR, "Error writing R4300 instruction address profiling data");
 #endif
+     recomp_func = NULL;
      recomp_ops[((src >> 26) & 0x3F)]();
+     if (r4300emu == CORE_DYNAREC) recomp_func();
    }
    else
    {
      RNOP();
+     if (r4300emu == CORE_DYNAREC) recomp_func();
    }
    delay_slot_compiled = 2;
 }
@@ -2620,20 +2607,21 @@ void recompile_opcode(void)
 /**********************************************************************
  ************** decode one opcode (for the interpreter) ***************
  **********************************************************************/
-void prefetch_opcode(unsigned int op)
+void prefetch_opcode(unsigned int op, unsigned int nextop)
 {
    dst = PC;
    src = op;
+   check_nop = nextop == 0;
    recomp_ops[((src >> 26) & 0x3F)]();
 }
 
 /**********************************************************************
  ************** allocate memory with executable bit set ***************
  **********************************************************************/
-void *malloc_exec(size_t size)
+static void *malloc_exec(size_t size)
 {
 #if defined(WIN32)
-	return VirtualAlloc(NULL, size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+   return VirtualAlloc(NULL, size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 #elif defined(__GNUC__)
 
    #ifndef  MAP_ANONYMOUS
@@ -2674,11 +2662,13 @@ void *realloc_exec(void *ptr, size_t oldsize, size_t newsize)
 /**********************************************************************
  **************** frees memory with executable bit set ****************
  **********************************************************************/
-void free_exec(void *ptr, size_t length)
+static void free_exec(void *ptr, size_t length)
 {
 #if defined(WIN32)
-	VirtualFree(ptr, 0, MEM_RELEASE);
+   VirtualFree(ptr, 0, MEM_RELEASE);
+#elif defined(__GNUC__)
+   munmap(ptr, length);
 #else
-	munmap(ptr, length);
+   free(ptr);
 #endif
 }

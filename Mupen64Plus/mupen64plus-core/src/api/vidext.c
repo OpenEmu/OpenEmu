@@ -33,6 +33,10 @@
 #include "vidext.h"
 #include "callbacks.h"
 
+#if SDL_VERSION_ATLEAST(2,0,0)
+#include "vidext_sdl2_compat.h"
+#endif
+
 /* local variables */
 static m64p_video_extension_functions l_ExternalVideoFuncTable = {10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 static int l_VideoExtensionActive = 0;
@@ -264,6 +268,14 @@ EXPORT m64p_error CALL VidExt_ToggleFullScreen(void)
     if (!SDL_WasInit(SDL_INIT_VIDEO))
         return M64ERR_NOT_INIT;
 
+    /* TODO:
+     * SDL_WM_ToggleFullScreen doesn't work under Windows and others
+     * (see http://wiki.libsdl.org/moin.cgi/FAQWindows for explanation).
+     * Instead, we should call SDL_SetVideoMode with the SDL_FULLSCREEN flag.
+     * (see http://sdl.beuc.net/sdl.wiki/SDL_SetVideoMode), but on Windows
+     * this resets the OpenGL context and video plugins don't support it yet.
+     * Uncomment the next line to test it: */
+    //return VidExt_SetVideoMode(l_pScreen->w, l_pScreen->h, l_pScreen->format->BitsPerPixel, l_Fullscreen ? M64VIDEO_WINDOWED : M64VIDEO_FULLSCREEN);
     if (SDL_WM_ToggleFullScreen(l_pScreen) == 1)
     {
         l_Fullscreen = !l_Fullscreen;
@@ -299,7 +311,11 @@ static const GLAttrMapNode GLAttrMap[] = {
         { M64P_GL_GREEN_SIZE,   SDL_GL_GREEN_SIZE },
         { M64P_GL_BLUE_SIZE,    SDL_GL_BLUE_SIZE },
         { M64P_GL_ALPHA_SIZE,   SDL_GL_ALPHA_SIZE },
+#if SDL_VERSION_ATLEAST(1,3,0)
+        { M64P_GL_SWAP_CONTROL, SDL_RENDERER_PRESENTVSYNC },
+#else
         { M64P_GL_SWAP_CONTROL, SDL_GL_SWAP_CONTROL },
+#endif
         { M64P_GL_MULTISAMPLEBUFFERS, SDL_GL_MULTISAMPLEBUFFERS },
         { M64P_GL_MULTISAMPLESAMPLES, SDL_GL_MULTISAMPLESAMPLES }};
 static const int mapSize = sizeof(GLAttrMap) / sizeof(GLAttrMapNode);

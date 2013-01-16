@@ -26,22 +26,6 @@
 #include "api/callbacks.h"
 #include "dynamiclib.h"
 
-m64p_error osal_dynlib_open(m64p_dynlib_handle *pLibHandle, const char *pccLibraryPath)
-{
-    if (pLibHandle == NULL || pccLibraryPath == NULL)
-        return M64ERR_INPUT_ASSERT;
-
-    *pLibHandle = dlopen(pccLibraryPath, RTLD_NOW);
-
-    if (*pLibHandle == NULL)
-    {
-        DebugMessage(M64MSG_ERROR, "dlopen('%s') error: %s", pccLibraryPath, dlerror());
-        return M64ERR_INPUT_NOT_FOUND;
-    }
-
-    return M64ERR_SUCCESS;
-}
-
 void * osal_dynlib_getproc(m64p_dynlib_handle LibHandle, const char *pccProcedureName)
 {
     if (pccProcedureName == NULL)
@@ -49,18 +33,3 @@ void * osal_dynlib_getproc(m64p_dynlib_handle LibHandle, const char *pccProcedur
 
     return dlsym(LibHandle, pccProcedureName);
 }
-
-m64p_error osal_dynlib_close(m64p_dynlib_handle LibHandle)
-{
-    int rval = dlclose(LibHandle);
-
-    if (rval != 0)
-    {
-        DebugMessage(M64MSG_ERROR, "dlclose() error: %s", dlerror());
-        return M64ERR_INTERNAL;
-    }
-
-    return M64ERR_SUCCESS;
-}
-
-

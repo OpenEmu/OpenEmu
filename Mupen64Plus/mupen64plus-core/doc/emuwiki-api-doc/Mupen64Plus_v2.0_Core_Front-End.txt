@@ -2,7 +2,7 @@
 
 = Mupen64Plus v2.0 Core<-->Front-End API =
 
-Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#core.h|core.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
+Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
 
 == Startup/Shutdown Functions ==
 {| border="1"
@@ -42,7 +42,7 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |-
 |Input Parameters
 |'''<tt>PluginType</tt>''' Enumerated type specifying the plugin type to attach to the core.  If this type of plugin is currently attached to the core, an error will be returned.<br />
-'''<tt>PluginLibHandle</tt>''' Dynamic library handle (defined in [[Mupen64Plus v2.0 headers#core.h|core.h]]) corresponding with the plugin object to attach.
+'''<tt>PluginLibHandle</tt>''' Dynamic library handle (defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]]) corresponding with the plugin object to attach.
 |-
 |Requirements
 |Both the core library and the plugin library must already be initialized with the <tt>CoreStartup()/PluginStartup()</tt> functions, and a ROM must be open.  This function cannot be called while the emulator is running.  The plugins must be attached in the following order: Video, Audio, Input, RSP.
@@ -143,7 +143,7 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |-
 |M64CMD_STATE_SAVE
 |This command will save a state file.  If '''<tt>ParamPtr</tt>''' is not NULL, this function will save a state file to a full pathname specified by this pointer.  Otherwise ('''<tt>ParamPtr</tt>''' is NULL), it will save to the current slot.
-|'''<tt>ParamInt</tt>''' If 1, a Mupen64Plus state file will be saved.  If 2, a Project64 state file will be saved.'''<br /><tt>ParamPtr</tt>''' Pointer to string containing state file path and name, or NULL<br />
+|'''<tt>ParamInt</tt>''' This parameter will only be used if '''<tt>ParamPtr</tt>''' is not NULL. If 1, a Mupen64Plus state file will be saved.  If 2, a Project64 compressed state file will be saved. If 3, a Project64 uncompressed state file will be saved. '''<br /><tt>ParamPtr</tt>''' Pointer to string containing state file path and name, or NULL<br />
 |The emulator must be currently running or paused.  This command will execute asynchronously.
 |-
 |M64CMD_STATE_SET_SLOT
@@ -170,6 +170,56 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |This will cause the core to save a screenshot at the next possible opportunity.
 |N/A
 |The emulator must be currently running or paused.  This command will execute asynchronously.
+|-
+|M64CMD_GET_SCREEN_WIDTH
+|This command will get the current width of the video display to the variable pointed by '''<tt>ParamPtr</tt>'''.
+|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>'''Pointer to a variable of type <tt>int</tt> that will receive the width.
+|The emulator must be currently running or paused.
+|-
+|M64CMD_GET_SCREEN_HEIGHT
+|This command will get the current height of the video display to the variable pointed by '''<tt>ParamPtr</tt>'''.
+|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>'''Pointer to a variable of type <tt>int</tt> that will receive the height.
+|The emulator must be currently running or paused.
+|-
+|M64CMD_READ_SCREEN
+|This command will copy the current contents of the video display to the buffer pointer by '''<tt>ParamPtr</tt>'''.
+|'''<tt>ParamInt</tt>''' 1 to copy the buffer that is currently displayed (front buffer), 0 to copy the buffer that is being drawn (back buffer).'''<br /><tt>ParamPtr</tt>'''A pointer to a buffer of at least width*height*3 bytes. The buffer will be filled with the current display. The format is RGB888 with the origin in the lower left corner.
+|The emulator must be currently running or paused.
+|-
+|M64CMD_VOLUME_UP
+|Increase the volume level.
+|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>''' Ignored
+|The emulator must be currently running or paused.
+|-
+|M64CMD_VOLUME_DOWN
+|Decrease the volume level.
+|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>''' Ignored
+|The emulator must be currently running or paused.
+|-
+|M64CMD_VOLUME_GET_LEVEL
+|Get the volume level.
+|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>'''A pointer to a variable of type <tt>int</tt> that will receive the volume (0-100).
+|The emulator must be currently running or paused.
+|-
+|M64CMD_VOLUME_SET_LEVEL
+|Set the volume level.
+|'''<tt>ParamInt</tt>''' The new volume (0-100).'''<br /><tt>ParamPtr</tt>''' Ignored
+|The emulator must be currently running or paused.
+|-
+|M64CMD_VOLUME_MUTE
+|Mute or un-mute the audio.
+|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>''' Ignored
+|The emulator must be currently running or paused.
+|-
+|M64CMD_RESET
+|Reset the emulated machine.
+|'''<tt>ParamInt</tt>''' 0 to do a soft reset, 1 to do a hard reset.'''<br /><tt>ParamPtr</tt>''' Ignored
+|The emulator must be currently running or paused.
+|-
+|M64CMD_ADVANCE_FRAME
+|Advance one frame (the emulator will run until the next frame, then pause).
+|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>''' Ignored
+|The emulator must be currently running or paused.
 |}
 <br />
 
@@ -197,7 +247,7 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |'''<tt>m64p_error CoreOverrideVidExt(m64p_video_extension_functions *VideoFunctionStruct);</tt>'''
 |-
 |Input Parameters
-|'''<tt>VideoFunctionStruct</tt>''' Pointer to a structure (defined in [[Mupen64Plus v2.0 headers#vidext.h|vidext.h]]) containing pointers to the Front-end's custom Video Extension functions to override the default SDL functions
+|'''<tt>VideoFunctionStruct</tt>''' Pointer to a structure (defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]]) containing pointers to the Front-end's custom Video Extension functions to override the default SDL functions
 |-
 |Requirements
 |The Mupen64Plus library must already be initialized before calling this function.  This function cannot be called while the emulator is running.

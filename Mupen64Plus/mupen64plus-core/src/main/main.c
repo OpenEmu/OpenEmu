@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *   Mupen64plus - main.c                                                  *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
+ *   Copyright (C) 2012 CasualJames                                        *
  *   Copyright (C) 2008-2009 Richard Goedeken                              *
  *   Copyright (C) 2008 Ebenblues Nmn Okaygo Tillin9                       *
  *   Copyright (C) 2002 Hacktarux                                          *
@@ -44,6 +45,7 @@
 #include "eventloop.h"
 #include "rom.h"
 #include "savestates.h"
+#include "util.h"
 
 #include "memory/memory.h"
 #include "osal/files.h"
@@ -52,6 +54,8 @@
 #include "osd/screenshot.h"
 #include "plugin/plugin.h"
 #include "r4300/r4300.h"
+#include "r4300/interupt.h"
+#include "r4300/reset.h"
 
 #ifdef DBG
 #include "debugger/dbg_types.h"
@@ -93,10 +97,10 @@ static const char *get_savepathdefault(const char *configpath)
     static char path[1024];
 
     if (!configpath || (strlen(configpath) == 0)) {
-        snprintf(path, 1024, "%ssave%c", ConfigGetUserDataPath(), OSAL_DIR_SEPARATOR);
+        snprintf(path, 1024, "%ssave%c", ConfigGetUserDataPath(), OSAL_DIR_SEPARATORS[0]);
         path[1023] = 0;
     } else {
-        snprintf(path, 1024, "%s%c", configpath, OSAL_DIR_SEPARATOR);
+        snprintf(path, 1024, "%s%c", configpath, OSAL_DIR_SEPARATORS[0]);
         path[1023] = 0;
     }
 
@@ -142,42 +146,6 @@ void main_message(m64p_msg_level level, unsigned int corner, const char *format,
 
 
 /*********************************************************************************************************
-* timer functions
-*/
-static float VILimit = 60.0;
-static double VILimitMilliseconds = 1000.0/60.0;
-
-static int GetVILimit(void)
-{
-    switch (ROM_HEADER->Country_code&0xFF)
-    {
-        // PAL codes
-        case 0x44:
-        case 0x46:
-        case 0x49:
-        case 0x50:
-        case 0x53:
-        case 0x55:
-        case 0x58:
-        case 0x59:
-            return 50;
-            break;
-
-        // NTSC codes
-        case 0x37:
-        case 0x41:
-        case 0x45:
-        case 0x4a:
-            return 60;
-            break;
-
-        // Fallback for unknown codes
-        default:
-            return 60;
-    }
-}
-
-/*********************************************************************************************************
 * global functions, for adjusting the core emulator behavior
 */
 
@@ -210,7 +178,7 @@ int main_set_core_defaults(void)
     }
 
     /* parameters controlling the operation of the core */
-    ConfigSetDefaultFloat(g_CoreConfig, "Version", (float) CONFIG_PARAM_VERSION,  "Mupen64Plus Core config parameter set version number.  Please don't change");
+    ConfigSetDefaultFloat(g_CoreConfig, "Version", (float) CONFIG_PARAM_VERSION,  "Mupen64Plus Core config parameter set version number.  Please don't change this version number.");
     ConfigSetDefaultBool(g_CoreConfig, "OnScreenDisplay", 1, "Draw on-screen display if True, otherwise don't draw OSD");
 #if defined(DYNAREC)
     ConfigSetDefaultInt(g_CoreConfig, "R4300Emulator", 2, "Use Pure Interpreter if 0, Cached Interpreter if 1, or Dynamic Recompiler if 2 or more");
@@ -251,7 +219,7 @@ void main_speeddown(int percent)
     {
         l_SpeedFactor -= percent;
         main_message(M64MSG_STATUS, OSD_BOTTOM_LEFT, "%s %d%%", "Playback speed:", l_SpeedFactor);
-        setSpeedFactor(l_SpeedFactor);  // call to audio plugin
+        audio.setSpeedFactor(l_SpeedFactor);
         StateChanged(M64CORE_SPEED_FACTOR, l_SpeedFactor);
     }
 }
@@ -262,12 +230,12 @@ void main_speedup(int percent)
     {
         l_SpeedFactor += percent;
         main_message(M64MSG_STATUS, OSD_BOTTOM_LEFT, "%s %d%%", "Playback speed:", l_SpeedFactor);
-        setSpeedFactor(l_SpeedFactor);  // call to audio plugin
+        audio.setSpeedFactor(l_SpeedFactor);
         StateChanged(M64CORE_SPEED_FACTOR, l_SpeedFactor);
     }
 }
 
-void main_speedset(int percent)
+static void main_speedset(int percent)
 {
     if (percent < 1 || percent > 1000)
     {
@@ -279,7 +247,7 @@ void main_speedset(int percent)
     // set speed
     l_SpeedFactor = percent;
     main_message(M64MSG_STATUS, OSD_BOTTOM_LEFT, "%s %d%%", "Playback speed:", l_SpeedFactor);
-    setSpeedFactor(l_SpeedFactor);  // call to audio plugin
+    audio.setSpeedFactor(l_SpeedFactor);
     StateChanged(M64CORE_SPEED_FACTOR, l_SpeedFactor);
 }
 
@@ -293,7 +261,7 @@ void main_set_fastforward(int enable)
         ff_state = 1; /* activate fast-forward */
         SavedSpeedFactor = l_SpeedFactor;
         l_SpeedFactor = 250;
-        setSpeedFactor(l_SpeedFactor);  /* call to audio plugin */
+        audio.setSpeedFactor(l_SpeedFactor);
         StateChanged(M64CORE_SPEED_FACTOR, l_SpeedFactor);
         // set fast-forward indicator
         l_msgFF = osd_new_message(OSD_TOP_RIGHT, "Fast Forward");
@@ -304,7 +272,7 @@ void main_set_fastforward(int enable)
     {
         ff_state = 0; /* de-activate fast-forward */
         l_SpeedFactor = SavedSpeedFactor;
-        setSpeedFactor(l_SpeedFactor);  // call to audio plugin
+        audio.setSpeedFactor(l_SpeedFactor);
         StateChanged(M64CORE_SPEED_FACTOR, l_SpeedFactor);
         // remove message
         osd_delete_message(l_msgFF);
@@ -313,20 +281,12 @@ void main_set_fastforward(int enable)
 
 }
 
-void main_set_speedlimiter(int enable)
+static void main_set_speedlimiter(int enable)
 {
-    if (enable)
-        l_MainSpeedLimit = 1;
-    else
-        l_MainSpeedLimit = 0;
+    l_MainSpeedLimit = enable ? 1 : 0;
 }
 
-int main_get_speedlimiter(void)
-{
-    return l_MainSpeedLimit ? 1 : 0;
-}
-
-int main_is_paused(void)
+static int main_is_paused(void)
 {
     return (g_EmulatorRunning && rompause);
 }
@@ -354,7 +314,7 @@ void main_toggle_pause(void)
         DebugMessage(M64MSG_STATUS, "Emulation paused.");
         l_msgPause = osd_new_message(OSD_MIDDLE_CENTER, "Paused");
         osd_message_set_static(l_msgPause);
-	osd_message_set_user_managed(l_msgPause);
+        osd_message_set_user_managed(l_msgPause);
         StateChanged(M64CORE_EMU_STATE, M64EMU_PAUSED);
     }
 
@@ -369,13 +329,13 @@ void main_advance_one(void)
     StateChanged(M64CORE_EMU_STATE, M64EMU_RUNNING);
 }
 
-void main_draw_volume_osd(void)
+static void main_draw_volume_osd(void)
 {
     char msgString[64];
     const char *volString;
 
     // this calls into the audio plugin
-    volString = volumeGetString();
+    volString = audio.volumeGetString();
     if (volString == NULL)
     {
         strcpy(msgString, "Volume Not Supported.");
@@ -390,7 +350,7 @@ void main_draw_volume_osd(void)
         osd_update_message(l_msgVol, "%s", msgString);
     else {
         l_msgVol = osd_new_message(OSD_MIDDLE_CENTER, "%s", msgString);
-	osd_message_set_user_managed(l_msgVol);
+        osd_message_set_user_managed(l_msgVol);
     }
 }
 
@@ -426,33 +386,27 @@ static unsigned char StopRumble[64] = {0x23, 0x01, 0x03, 0xc0, 0x1b, 0x00, 0x00,
 
 void main_state_load(const char *filename)
 {
+    input.controllerCommand(0, StopRumble);
+    input.controllerCommand(1, StopRumble);
+    input.controllerCommand(2, StopRumble);
+    input.controllerCommand(3, StopRumble);
 
-    if (filename != NULL)
-        savestates_select_filename(filename);
-
-    controllerCommand(0, StopRumble);
-    controllerCommand(1, StopRumble);
-    controllerCommand(2, StopRumble);
-    controllerCommand(3, StopRumble);
-
-    savestates_job |= LOADSTATE;
+    if (filename == NULL) // Save to slot
+        savestates_set_job(savestates_job_load, savestates_type_m64p, NULL);
+    else
+        savestates_set_job(savestates_job_load, savestates_type_unknown, filename);
 }
 
-void main_state_save(int format_pj64, const char *filename)
+void main_state_save(int format, const char *filename)
 {
-    if (filename != NULL)
-        savestates_select_filename(filename);
-
-    savestates_job |= SAVESTATE;
-    if (format_pj64)
-        savestates_job |= SAVEPJ64STATE;
+    if (filename == NULL) // Save to slot
+        savestates_set_job(savestates_job_save, savestates_type_m64p, NULL);
+    else // Save to file
+        savestates_set_job(savestates_job_save, (savestates_type)format, filename);
 }
 
 m64p_error main_core_state_query(m64p_core_param param, int *rval)
 {
-    if (rval == NULL)
-        return M64ERR_INPUT_ASSERT;
-
     switch (param)
     {
         case M64CORE_EMU_STATE:
@@ -484,6 +438,130 @@ m64p_error main_core_state_query(m64p_core_param param, int *rval)
             return M64ERR_INPUT_INVALID;
     }
 
+    return M64ERR_SUCCESS;
+}
+
+m64p_error main_core_state_set(m64p_core_param param, int val)
+{
+    switch (param)
+    {
+        case M64CORE_EMU_STATE:
+            if (!g_EmulatorRunning)
+                return M64ERR_INVALID_STATE;
+            if (val == M64EMU_STOPPED)
+            {        
+                /* this stop function is asynchronous.  The emulator may not terminate until later */
+                main_stop();
+                return M64ERR_SUCCESS;
+            }
+            else if (val == M64EMU_RUNNING)
+            {
+                if (main_is_paused())
+                    main_toggle_pause();
+                return M64ERR_SUCCESS;
+            }
+            else if (val == M64EMU_PAUSED)
+            {    
+                if (!main_is_paused())
+                    main_toggle_pause();
+                return M64ERR_SUCCESS;
+            }
+            return M64ERR_INPUT_INVALID;
+        case M64CORE_VIDEO_MODE:
+            if (!g_EmulatorRunning)
+                return M64ERR_INVALID_STATE;
+            if (val == M64VIDEO_WINDOWED)
+            {
+                if (VidExt_InFullscreenMode())
+                    gfx.changeWindow();
+                return M64ERR_SUCCESS;
+            }
+            else if (val == M64VIDEO_FULLSCREEN)
+            {
+                if (!VidExt_InFullscreenMode())
+                    gfx.changeWindow();
+                return M64ERR_SUCCESS;
+            }
+            return M64ERR_INPUT_INVALID;
+        case M64CORE_SAVESTATE_SLOT:
+            if (val < 0 || val > 9)
+                return M64ERR_INPUT_INVALID;
+            savestates_select_slot(val);
+            return M64ERR_SUCCESS;
+        case M64CORE_SPEED_FACTOR:
+            if (!g_EmulatorRunning)
+                return M64ERR_INVALID_STATE;
+            main_speedset(val);
+            return M64ERR_SUCCESS;
+        case M64CORE_SPEED_LIMITER:
+            main_set_speedlimiter(val);
+            return M64ERR_SUCCESS;
+        default:
+            return M64ERR_INPUT_INVALID;
+    }
+}
+
+m64p_error main_get_screen_width(int *width)
+{
+    int height_trash;
+    gfx.readScreen(NULL, width, &height_trash, 0);
+    return M64ERR_SUCCESS;
+}
+
+m64p_error main_get_screen_height(int *height)
+{
+    int width_trash;
+    gfx.readScreen(NULL, &width_trash, height, 0);
+    return M64ERR_SUCCESS;
+}
+
+m64p_error main_read_screen(void *pixels, int bFront)
+{
+    int width_trash, height_trash;
+    gfx.readScreen(pixels, &width_trash, &height_trash, bFront);
+    return M64ERR_SUCCESS;
+}
+
+m64p_error main_volume_up(void)
+{
+    audio.volumeUp();
+    main_draw_volume_osd();
+    return M64ERR_SUCCESS;
+}
+
+m64p_error main_volume_down(void)
+{
+    audio.volumeDown();
+    main_draw_volume_osd();
+    return M64ERR_SUCCESS;
+}
+
+m64p_error main_volume_get_level(int *level)
+{
+    *level = audio.volumeGetLevel();
+    return M64ERR_SUCCESS;
+}
+
+m64p_error main_volume_set_level(int level)
+{
+    audio.volumeSetLevel(level);
+    main_draw_volume_osd();
+    return M64ERR_SUCCESS;
+}
+
+m64p_error main_volume_mute(void)
+{
+    audio.volumeMute();
+    main_draw_volume_osd();
+    return M64ERR_SUCCESS;
+}
+
+m64p_error main_reset(int do_hard_reset)
+{
+    if (do_hard_reset)
+        reset_hard_job |= 1;
+    else
+        reset_soft();
     return M64ERR_SUCCESS;
 }
 
@@ -539,6 +617,7 @@ void new_vi(void)
     static unsigned int CalculatedTime ;
     static int VI_Counter = 0;
 
+    double VILimitMilliseconds = 1000.0 / ROM_PARAMS.vilimit;
     double AdjustedLimit = VILimitMilliseconds * 100.0 / l_SpeedFactor;  // adjust for selected emulator speed
     int time;
 
@@ -580,14 +659,12 @@ void new_vi(void)
     end_section(IDLE_SECTION);
 }
 #endif
+
 /*********************************************************************************************************
 * emulation thread - runs the core
 */
 m64p_error main_run(void)
 {
-    VILimit = (float) GetVILimit();
-    VILimitMilliseconds = (double) 1000.0/VILimit; 
-
     /* take the r4300 emulator mode from the config file at this point and cache it in a global variable */
     r4300emu = ConfigGetParamInt(g_CoreConfig, "R4300Emulator");
 
@@ -608,17 +685,17 @@ m64p_error main_run(void)
     }
 
     // Attach rom to plugins
-    if (!romOpen_gfx())
+    if (!gfx.romOpen())
     {
         free_memory(); return M64ERR_PLUGIN_FAIL;
     }
-    if (!romOpen_audio())
+    if (!audio.romOpen())
     {
-        romClosed_gfx(); free_memory(); return M64ERR_PLUGIN_FAIL;
+        gfx.romClosed(); free_memory(); return M64ERR_PLUGIN_FAIL;
     }
-    if (!romOpen_input())
+    if (!input.romOpen())
     {
-        romClosed_audio(); romClosed_gfx(); free_memory(); return M64ERR_PLUGIN_FAIL;
+        audio.romClosed(); gfx.romClosed(); free_memory(); return M64ERR_PLUGIN_FAIL;
     }
 
     /* set up the SDL key repeat and event filter to catch keyboard/joystick commands for the core */
@@ -629,12 +706,12 @@ m64p_error main_run(void)
     {
         // init on-screen display
         int width = 640, height = 480;
-        readScreen(NULL, &width, &height, 0); // read screen to get width and height
+        gfx.readScreen(NULL, &width, &height, 0); // read screen to get width and height
         osd_init(width, height);
     }
 
     // setup rendering callback from video plugin to the core, for screenshots and On-Screen-Display
-    setRenderingCallback(video_plugin_render_callback);
+    gfx.setRenderingCallback(video_plugin_render_callback);
 
 #ifdef WITH_LIRC
     lircStart();
@@ -671,10 +748,10 @@ m64p_error main_run(void)
         osd_exit();
     }
 
-    romClosed_RSP();
-    romClosed_input();
-    romClosed_audio();
-    romClosed_gfx();
+    rsp.romClosed();
+    input.romClosed();
+    audio.romClosed();
+    gfx.romClosed();
     free_memory();
 
     // clean up

@@ -55,6 +55,16 @@
     MEMBREAKWRITE( write_##name##h , 2); \
     MEMBREAKWRITE( write_##name##d , 8);
 
+#define MEMBREAKALL_local(name) \
+    static MEMBREAKREAD( read_##name , 4); \
+    static MEMBREAKREAD( read_##name##b , 1); \
+    static MEMBREAKREAD( read_##name##h , 2); \
+    static MEMBREAKREAD( read_##name##d , 8); \
+    static MEMBREAKWRITE( write_##name , 4); \
+    static MEMBREAKWRITE( write_##name##b , 1); \
+    static MEMBREAKWRITE( write_##name##h , 2); \
+    static MEMBREAKWRITE( write_##name##d , 8);
+
 enum {
   MEM_NOMEM = 0,
   MEM_NOTHING,
@@ -106,14 +116,6 @@ void activate_memory_break_write(uint32 addr);
 void deactivate_memory_break_write(uint32 addr);
 
 /* Following are the prototypes for the memory breakpoint functions */
-void read_nothing_break(void);
-void read_nothingh_break(void);
-void read_nothingb_break(void);
-void read_nothingd_break(void);
-void read_nomem_break(void);
-void read_nomemb_break(void);
-void read_nomemh_break(void);
-void read_nomemd_break(void);
 void read_rdram_break(void);
 void read_rdramb_break(void);
 void read_rdramh_break(void);
@@ -122,75 +124,7 @@ void read_rdramFB_break(void);
 void read_rdramFBb_break(void);
 void read_rdramFBh_break(void);
 void read_rdramFBd_break(void);
-void read_rdramreg_break(void);
-void read_rdramregb_break(void);
-void read_rdramregh_break(void);
-void read_rdramregd_break(void);
-void read_rsp_mem_break(void);
-void read_rsp_memb_break(void);
-void read_rsp_memh_break(void);
-void read_rsp_memd_break(void);
-void read_rsp_reg_break(void);
-void read_rsp_regb_break(void);
-void read_rsp_regh_break(void);
-void read_rsp_regd_break(void);
-void read_rsp_break(void);
-void read_rspb_break(void);
-void read_rsph_break(void);
-void read_rspd_break(void);
-void read_dp_break(void);
-void read_dpb_break(void);
-void read_dph_break(void);
-void read_dpd_break(void);
-void read_dps_break(void);
-void read_dpsb_break(void);
-void read_dpsh_break(void);
-void read_dpsd_break(void);
-void read_mi_break(void);
-void read_mib_break(void);
-void read_mih_break(void);
-void read_mid_break(void);
-void read_vi_break(void);
-void read_vib_break(void);
-void read_vih_break(void);
-void read_vid_break(void);
-void read_ai_break(void);
-void read_aib_break(void);
-void read_aih_break(void);
-void read_aid_break(void);
-void read_pi_break(void);
-void read_pib_break(void);
-void read_pih_break(void);
-void read_pid_break(void);
-void read_ri_break(void);
-void read_rib_break(void);
-void read_rih_break(void);
-void read_rid_break(void);
-void read_si_break(void);
-void read_sib_break(void);
-void read_sih_break(void);
-void read_sid_break(void);
-void read_flashram_status_break(void);
-void read_flashram_statusb_break(void);
-void read_flashram_statush_break(void);
-void read_flashram_statusd_break(void);
-void read_rom_break(void);
-void read_romb_break(void);
-void read_romh_break(void);
-void read_romd_break(void);
-void read_pif_break(void);
-void read_pifb_break(void);
-void read_pifh_break(void);
-void read_pifd_break(void);
 
-void write_nothing_break(void);
-void write_nothingb_break(void);
-void write_nothingh_break(void);
-void write_nothingd_break(void);
-void write_nomem_break(void);
-void write_nomemb_break(void);
-void write_nomemd_break(void);
-void write_nomemh_break(void);
 void write_rdram_break(void);
 void write_rdramb_break(void);
 void write_rdramh_break(void);
@@ -199,68 +133,6 @@ void write_rdramFB_break(void);
 void write_rdramFBb_break(void);
 void write_rdramFBh_break(void);
 void write_rdramFBd_break(void);
-void write_rdramreg_break(void);
-void write_rdramregb_break(void);
-void write_rdramregh_break(void);
-void write_rdramregd_break(void);
-void write_rsp_mem_break(void);
-void write_rsp_memb_break(void);
-void write_rsp_memh_break(void);
-void write_rsp_memd_break(void);
-void write_rsp_reg_break(void);
-void write_rsp_regb_break(void);
-void write_rsp_regh_break(void);
-void write_rsp_regd_break(void);
-void write_rsp_break(void);
-void write_rspb_break(void);
-void write_rsph_break(void);
-void write_rspd_break(void);
-void write_dp_break(void);
-void write_dpb_break(void);
-void write_dph_break(void);
-void write_dpd_break(void);
-void write_dps_break(void);
-void write_dpsb_break(void);
-void write_dpsh_break(void);
-void write_dpsd_break(void);
-void write_mi_break(void);
-void write_mib_break(void);
-void write_mih_break(void);
-void write_mid_break(void);
-void write_vi_break(void);
-void write_vib_break(void);
-void write_vih_break(void);
-void write_vid_break(void);
-void write_ai_break(void);
-void write_aib_break(void);
-void write_aih_break(void);
-void write_aid_break(void);
-void write_pi_break(void);
-void write_pib_break(void);
-void write_pih_break(void);
-void write_pid_break(void);
-void write_ri_break(void);
-void write_rib_break(void);
-void write_rih_break(void);
-void write_rid_break(void);
-void write_si_break(void);
-void write_sib_break(void);
-void write_sih_break(void);
-void write_sid_break(void);
-void write_flashram_dummy_break(void);
-void write_flashram_dummyb_break(void);
-void write_flashram_dummyh_break(void);
-void write_flashram_dummyd_break(void);
-void write_flashram_command_break(void);
-void write_flashram_commandb_break(void);
-void write_flashram_commandh_break(void);
-void write_flashram_commandd_break(void);
-void write_rom_break(void);
-void write_pif_break(void);
-void write_pifb_break(void);
-void write_pifh_break(void);
-void write_pifd_break(void);
-
 
 #endif /* __DEBUGGER_MEMORY_H__ */
 

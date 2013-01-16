@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *   Mupen64plus - cop1_w.c                                                *
+ *   Mupen64plus - assemble_struct.h                                       *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
+ *   Copyright (C) 2007 Richard Goedeken (Richard42)                       *
  *   Copyright (C) 2002 Hacktarux                                          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,21 +20,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "r4300.h"
-#include "ops.h"
-#include "macros.h"
-#include "fpu.h"
+#ifndef __ASSEMBLE_STRUCT_H__
+#define __ASSEMBLE_STRUCT_H__
 
-void CVT_S_W(void)
-{  
-   if (check_cop1_unusable()) return;
-   cvt_s_w((int*)reg_cop1_simple[cffs], reg_cop1_simple[cffd]);
-   PC++;
-}
-
-void CVT_D_W(void)
+typedef struct _reg_cache_struct
 {
-   if (check_cop1_unusable()) return;
-   cvt_d_w((int*)reg_cop1_simple[cffs], reg_cop1_double[cffd]);
-   PC++;
-}
+   int need_map;
+   void *needed_registers[8];
+   unsigned char jump_wrapper[84];
+   int need_cop1_check;
+} reg_cache_struct;
+
+#endif /* __ASSEMBLE_STRUCT_H__ */

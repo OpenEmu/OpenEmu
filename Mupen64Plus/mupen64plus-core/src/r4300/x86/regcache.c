@@ -553,18 +553,6 @@ void set_64_register_state(int reg1, int reg2, unsigned int *addr, int d)
    dirty[reg2] = d;
 }
 
-void lock_register(int reg)
-{
-   free_register(reg);
-   last_access[reg] = (precomp_instr *)0xFFFFFFFF;
-   reg_content[reg] = NULL;
-}
-
-void unlock_register(int reg)
-{
-   last_access[reg] = NULL;
-}
-
 void force_32(int reg)
 {
    if (r64[reg] != -1)
@@ -796,7 +784,7 @@ void allocate_register_manually_w(int reg, unsigned int *addr, int load)
 // 0x8B (reg<<3)|5 0xXXXXXXXX mov edi, [XXXXXXXX]
 // 0xC3 ret
 // total : 62 bytes
-void build_wrapper(precomp_instr *instr, unsigned char* code, precomp_block* block)
+static void build_wrapper(precomp_instr *instr, unsigned char* code, precomp_block* block)
 {
    int i;
    int j=0;
