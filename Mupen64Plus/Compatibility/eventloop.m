@@ -27,8 +27,9 @@
 #include "osd.h"
 #include "screenshot.h"
 
-void event_set_core_defaults(void)
+int event_set_core_defaults(void)
 {
+    return 1;
 }
 
 void event_initialize(void)

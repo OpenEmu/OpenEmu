@@ -38,10 +38,6 @@ void passe2(precomp_instr *dest, int start, int end, precomp_block *block)
 
 /* From gbc.c */
 
-void genbc1f_test()
-{
-}
-
 void genbc1f()
 {
 }
@@ -51,10 +47,6 @@ void genbc1f_out()
 }
 
 void genbc1f_idle()
-{
-}
-
-void genbc1t_test()
 {
 }
 
@@ -444,21 +436,11 @@ void genlink_subblock()
 {
 }
 
+#ifdef COMPARE_CORE
 void gendebug()
 {
 }
-
-void gencallinterp(unsigned long addr, int jump)
-{
-}
-
-void genupdate_count(unsigned int addr)
-{
-}
-
-void gendelayslot()
-{
-}
+#endif
 
 void genni()
 {
@@ -469,18 +451,6 @@ void genreserved()
 }
 
 void genfin_block()
-{
-}
-
-void gencheck_interupt(unsigned int instr_structure)
-{
-}
-
-void gencheck_interupt_out(unsigned int addr)
-{
-}
-
-void gencheck_interupt_reg()
 {
 }
 
@@ -512,22 +482,6 @@ void genjal_idle()
 {
 }
 
-void genbeq_test()
-{
-}
-
-void gentest()
-{
-}
-
-void gentest_idle()
-{
-}
-
-void genbne_test()
-{
-}
-
 void genbne()
 {
 }
@@ -540,19 +494,11 @@ void genbne_idle()
 {
 }
 
-void genblez_test()
-{
-}
-
 void genblez()
 {
 }
 
 void genblez_idle()
-{
-}
-
-void genbgtz_test()
 {
 }
 
@@ -600,15 +546,7 @@ void genlui()
 {
 }
 
-void gentestl()
-{
-}
-
 void genbeql()
-{
-}
-
-void gentestl_out()
 {
 }
 
@@ -621,10 +559,6 @@ void genbeql_idle()
 }
 
 void genbeq()
-{
-}
-
-void gentest_out()
 {
 }
 
@@ -748,10 +682,6 @@ void genswr()
 {
 }
 
-void gencheck_cop1_unusable()
-{
-}
-
 void genlwc1()
 {
 }
@@ -794,10 +724,6 @@ void genblez_out()
 
 /* From gregimm.c */
 
-void genbltz_test()
-{
-}
-
 void genbltz()
 {
 }
@@ -807,10 +733,6 @@ void genbltz_out()
 }
 
 void genbltz_idle()
-{
-}
-
-void genbgez_test()
 {
 }
 
@@ -847,10 +769,6 @@ void genbgezl_out()
 }
 
 void genbgezl_idle()
-{
-}
-
-void genbranchlink()
 {
 }
 
@@ -1123,10 +1041,6 @@ void free_all_registers()
 /* From rjump.c */
 
 void dyna_jump()
-{
-}
-
-void dyna_start(void (*code)())
 {
 }
 

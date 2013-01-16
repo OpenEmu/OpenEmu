@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *   Mupen64plus - main.h                                                  *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
+ *   Copyright (C) 2012 CasualJames                                        *
  *   Copyright (C) 2002 Blight                                             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,26 +44,34 @@ void main_message(m64p_msg_level level, unsigned int osd_corner, const char *for
 
 m64p_error main_run(void);
 void main_stop(void);
-int  main_is_paused(void);
 void main_toggle_pause(void);
 void main_advance_one(void);
 
 void main_speedup(int percent);
 void main_speeddown(int percent);
-void main_speedset(int percent);
 void main_set_fastforward(int enable);
-void main_set_speedlimiter(int enable);
-int main_get_speedlimiter(void);
 
-void main_draw_volume_osd(void);
 void main_take_next_screenshot(void);
 
 void main_state_set_slot(int slot);
 void main_state_inc_slot(void);
 void main_state_load(const char *filename);
-void main_state_save(int format_pj64, const char *filename);
+void main_state_save(int format, const char *filename);
 
 m64p_error main_core_state_query(m64p_core_param param, int *rval);
+m64p_error main_core_state_set(m64p_core_param param, int val);
+
+m64p_error main_get_screen_width(int *width);
+m64p_error main_get_screen_height(int *height);
+m64p_error main_read_screen(void *pixels, int bFront);
+
+m64p_error main_volume_up(void);
+m64p_error main_volume_down(void);
+m64p_error main_volume_get_level(int *level);
+m64p_error main_volume_set_level(int level);
+m64p_error main_volume_mute(void);
+
+m64p_error main_reset(int do_hard_reset);
 
 #endif /* __MAIN_H__ */
 

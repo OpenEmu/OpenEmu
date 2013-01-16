@@ -23,18 +23,6 @@
 
 #include <stdio.h>
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Global functions
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-/* Reentrant disassembler */
-extern void r4k_dis_init ( struct r4k_dis_t *, void *, void *, void *, void *, void *, void * );
-extern int r4k_disassemble ( struct r4k_dis_t *, uint32_t, uint32_t, char * );
-extern int r4k_disassemble_quick ( uint32_t, uint32_t, char * );
-extern int r4k_disassemble_split ( struct r4k_dis_t *, uint32_t, uint32_t, char **, char ** );
-extern int r4k_disassemble_split_quick ( uint32_t, uint32_t, char **, char ** );
-
-
 /*	$NetBSD: cpuregs.h,v 1.77 2009/12/14 00:46:04 matt Exp $	*/
 
 /*

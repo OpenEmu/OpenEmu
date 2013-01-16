@@ -126,6 +126,32 @@ Changelog:
    - added "m64p_command" type "M64CMD_CORE_STATE_SET", handled by CoreDoCommand()
    - added "m64p_core_param" type "M64CORE_SPEED_LIMITER", handled by "M64CMD_CORE_STATE_QUERY" and "M64CMD_CORE_STATE_SET" commands
 
+ - FRONTEND_API_VERSION version 2.0.2:
+   - added "m64p_command" types:
+     - M64CMD_GET_SCREEN_WIDTH
+     - M64CMD_GET_SCREEN_HEIGHT
+     - M64CMD_READ_SCREEN
+     - M64CMD_VOLUME_UP
+     - M64CMD_VOLUME_DOWN
+     - M64CMD_VOLUME_GET_LEVEL
+     - M64CMD_VOLUME_SET_LEVEL
+     - M64CMD_VOLUME_MUTE
+     - M64CMD_RESET
+     - M64CMD_ADVANCE_FRAME
+   - extend command M64CMD_STATE_SAVE to support saving uncompressed PJ64 savestate files as well as zip compressed
 
+ - CONFIG_API_VERSION version 2.1.0:
+   - add new function "ConfigSaveSection()" to save only a single config section to disk
 
+ - CONFIG_API_VERSION version 2.2.0:
+   - add new function "ConfigHasUnsavedChanges()" to determine if a given Section (or all sections)
+     of the Mupen64Plus Core configuration file has been modified since it was last saved or loaded.
+   - add new function "ConfigRevertChanges()" to revert changes previously made to one section of
+     the configuration file, so that it will match with the configuration at the last time that it
+     was loaded from or saved to disk.
+
+ - VIDEO_API_VERSION version 2.1.0:
+   - video render callback function now takes a boolean (int) parameter, which specifies whether the
+     video frame has been re-drawn since the last time the render callback was called. This allows
+     us to take screenshots without the On-Screen-Display text
 

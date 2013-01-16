@@ -12,7 +12,7 @@ These functions are present in all of the plugins.
 |'''<tt>m64p_error PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Context, void (*DebugCallback)(void *Context, int level, const char *Message))</tt>'''
 |-
 |Input Parameters
-|'''<tt>CoreLibHandle</tt>''' Dynamic library handle (defined in [[Mupen64Plus v2.0 headers#core.h|core.h]]) corresponding with the core mupen64plus library.<br />
+|'''<tt>CoreLibHandle</tt>''' Dynamic library handle (defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]]) corresponding with the core mupen64plus library.<br />
 '''<tt>Context</tt>''' Pointer which will be passed back to the '''<tt>DebugCallback</tt>''' function.  Can be NULL.<br />
 '''<tt>DebugCallback</tt>''' Pointer to function in front-end for receiving debug information and warnings from the plugin.  This function must be thread-safe.  Can be NULL.
 |-
@@ -89,8 +89,8 @@ These functions are present in all of the plugins.
 |<tt>void ReadScreen2(void *dest, int *width, int *height, int front);</tt>
 |This function reads the pixels of the frame buffer that is either currently displayed (front != 0) or being drawn (front == 0)
 |-
-|<tt>void SetRenderingCallback(void (*callback)());</tt>
-|Allows the core to register a callback function that will be called by the graphics plugin just before the the frame buffers are swapped.
+|<tt>void SetRenderingCallback(void (*callback)(int bScreenRedrawn));</tt>
+|Allows the core to register a callback function that will be called by the graphics plugin just before the the frame buffers are swapped. '''***changed*** - as of video api v2.1.0, the callback function must take a single int (boolean) parameter, which tells the core whether or not the screen has been redrawn since the last time the callback was called.  This is used to prevent screenshots from containing OSD text.'''
 |-
 |<tt>void FBRead(unsigned int addr)</tt>
 |Read data from frame buffer into emulated RAM space

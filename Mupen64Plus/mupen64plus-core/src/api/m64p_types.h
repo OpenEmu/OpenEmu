@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *   Mupen64plus-core - m64p_types.h                                       *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
+ *   Copyright (C) 2012 CasualJames                                        *
  *   Copyright (C) 2009 Richard Goedeken                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,6 +52,9 @@
 typedef void * m64p_handle;
 
 typedef void (*m64p_frame_callback)(unsigned int FrameIndex);
+typedef void (*m64p_input_callback)(void);
+typedef void (*m64p_audio_callback)(void);
+typedef void (*m64p_vi_callback)(void);
 
 typedef enum {
   M64TYPE_INT = 1,
@@ -138,7 +142,17 @@ typedef enum {
   M64CMD_SEND_SDL_KEYUP,
   M64CMD_SET_FRAME_CALLBACK,
   M64CMD_TAKE_NEXT_SCREENSHOT,
-  M64CMD_CORE_STATE_SET
+  M64CMD_CORE_STATE_SET,
+  M64CMD_GET_SCREEN_WIDTH,
+  M64CMD_GET_SCREEN_HEIGHT,
+  M64CMD_READ_SCREEN,
+  M64CMD_VOLUME_UP,
+  M64CMD_VOLUME_DOWN,
+  M64CMD_VOLUME_GET_LEVEL,
+  M64CMD_VOLUME_SET_LEVEL,
+  M64CMD_VOLUME_MUTE,
+  M64CMD_RESET,
+  M64CMD_ADVANCE_FRAME
 } m64p_command;
 
 typedef struct {
@@ -149,6 +163,13 @@ typedef struct {
 /* ----------------------------------------- */
 /* Structures to hold ROM image information  */
 /* ----------------------------------------- */
+
+typedef enum
+{
+    SYSTEM_NTSC = 0,
+    SYSTEM_PAL,
+    SYSTEM_MPAL
+} m64p_system_type;
 
 typedef struct
 {
@@ -232,6 +253,28 @@ typedef enum {
   M64P_BKP_CMD_DISABLE,
   M64P_BKP_CMD_CHECK
 } m64p_dbg_bkp_command;
+
+#define BREAKPOINTS_MAX_NUMBER  128
+
+#define BPT_FLAG_ENABLED        0x01
+#define BPT_FLAG_CONDITIONAL    0x02
+#define BPT_FLAG_COUNTER        0x04
+#define BPT_FLAG_READ           0x08
+#define BPT_FLAG_WRITE          0x10
+#define BPT_FLAG_EXEC           0x20
+#define BPT_FLAG_LOG            0x40 //Log to the console when this breakpoint hits.
+
+#define BPT_CHECK_FLAG(a, b)  ((a.flags & b) == b)
+#define BPT_SET_FLAG(a, b)    a.flags = (a.flags | b);
+#define BPT_CLEAR_FLAG(a, b)  a.flags = (a.flags & (~b));
+#define BPT_TOGGLE_FLAG(a, b) a.flags = (a.flags ^ b);
+
+typedef struct _breakpoint {
+    unsigned int address; 
+    unsigned int endaddr;
+    unsigned int flags;
+    //unsigned int condition;  //Placeholder for breakpoint condition
+    } breakpoint;
 
 /* ------------------------------------------------- */
 /* Structures and Types for Core Video Extension API */

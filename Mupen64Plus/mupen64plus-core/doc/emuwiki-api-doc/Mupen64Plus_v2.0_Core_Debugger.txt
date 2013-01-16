@@ -2,7 +2,7 @@
 
 = Mupen64Plus v2.0 Core Debugger API =
 
-Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#core.h|core.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
+Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
 
 == General Debugger Functions ==
 {| border="1"
@@ -61,7 +61,7 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
 |-
 |Usage
-|This function reads and returns a debugger state variable, which are enumerated in [[Mupen64Plus v2.0 headers#debugger.h|debugger.h]].
+|This function reads and returns a debugger state variable, which are enumerated in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]].
 |}
 <br />
 {| border="1"
@@ -121,7 +121,7 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
 |-
 |Usage
-|This function returns an integer value regarding the memory location '''<tt>address</tt>''', corresponding to the information requested by '''<tt>mem_info_type</tt>''', which is a type enumerated in [[Mupen64Plus v2.0 headers#debugger.h|debugger.h]].  For example, if '''<tt>address</tt>''' contains R4300 program code, the front-end may request the number of x86 instructions emitted by the dynamic recompiler by requesting <tt>M64P_DBG_MEM_NUM_RECOMPILED</tt>.
+|This function returns an integer value regarding the memory location '''<tt>address</tt>''', corresponding to the information requested by '''<tt>mem_info_type</tt>''', which is a type enumerated in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]].  For example, if '''<tt>address</tt>''' contains R4300 program code, the front-end may request the number of x86 instructions emitted by the dynamic recompiler by requesting <tt>M64P_DBG_MEM_NUM_RECOMPILED</tt>.
 |}
 <br />
 {| border="1"
@@ -135,7 +135,7 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |The Mupen64Plus library must be initialized before calling this function.
 |-
 |Usage
-|This function returns a memory pointer (in x86 memory space) to a block of emulated N64 memory.  This may be used to retrieve a pointer to a special N64 block (such as the serial, video, or audio registers) or the RDRAM.  The '''<tt>m64p_dbg_memptr_type</tt>''' type is enumerated in [[Mupen64Plus v2.0 headers#debugger.h|debugger.h]]
+|This function returns a memory pointer (in x86 memory space) to a block of emulated N64 memory.  This may be used to retrieve a pointer to a special N64 block (such as the serial, video, or audio registers) or the RDRAM.  The '''<tt>m64p_dbg_memptr_type</tt>''' type is enumerated in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]]
 |}
 <br />
 {| border="1"
@@ -192,7 +192,7 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |The Mupen64Plus library must be initialized before calling this function.
 |-
 |Usage
-|This function returns a memory pointer (in x86 memory space) to a specific register in the emulated R4300 CPU.  The '''<tt>m64p_dbg_cpu_data</tt>''' type is enumerated in [[Mupen64Plus v2.0 headers#debugger.h|debugger.h]].  It is important to note that when the R4300 CPU core is in the Cached Interpreter or Dynamic Recompiler modes, the address of the PC register is not constant; it will change after each instruction is executed.  The pointers to all other registers will never change, as the other registers are global variables.
+|This function returns a memory pointer (in x86 memory space) to a specific register in the emulated R4300 CPU.  The '''<tt>m64p_dbg_cpu_data</tt>''' type is enumerated in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]].  It is important to note that when the R4300 CPU core is in the Cached Interpreter or Dynamic Recompiler modes, the address of the PC register is not constant; it will change after each instruction is executed.  The pointers to all other registers will never change, as the other registers are global variables.
 |}
 
 == Breakpoint Functions ==
@@ -225,7 +225,7 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
 |-
 |Usage
-|This function is used to process common breakpoint commands, such as adding, removing, or searching the breakpoints.  The meanings of the '''<tt>index</tt>''' and '''<tt>ptr</tt>''' input parameters vary by command, and are given in the table below.  The '''<tt>m64p_dbg_bkp_command</tt>''' type is enumerated in [[Mupen64Plus v2.0 headers#debugger.h|debugger.h]].
+|This function is used to process common breakpoint commands, such as adding, removing, or searching the breakpoints.  The meanings of the '''<tt>index</tt>''' and '''<tt>ptr</tt>''' input parameters vary by command, and are given in the table below.  The '''<tt>m64p_dbg_bkp_command</tt>''' type is enumerated in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]].
 |}
 <br />
 {| border="1"

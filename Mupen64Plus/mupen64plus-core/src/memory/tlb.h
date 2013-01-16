@@ -49,8 +49,9 @@ typedef struct _tlb
 
 extern unsigned int tlb_LUT_r[0x100000];
 extern unsigned int tlb_LUT_w[0x100000];
+void tlb_unmap(tlb *entry);
+void tlb_map(tlb *entry);
 unsigned int virtual_to_physical_address(unsigned int addresse, int w);
-int probe_nop(unsigned int address);
 
 #endif
 

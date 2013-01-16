@@ -31,6 +31,13 @@
 
 #define GL_GLEXT_PROTOTYPES
 #include <SDL_opengl.h>
+#if defined(__MACOSX__)
+#include <OpenGL/glu.h>
+#elif defined(__MACOS__)
+#include <glu.h>
+#else
+#include <GL/glu.h>
+#endif
 
 #include <ft2build.h>
 #include FT_FREETYPE_H

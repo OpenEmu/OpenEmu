@@ -24,9 +24,9 @@
 
 #include <stddef.h>
 #if defined(__x86_64__)
-  #include "x86_64/assemble.h"
+  #include "x86_64/assemble_struct.h"
 #else
-  #include "x86/assemble.h"
+  #include "x86/assemble_struct.h"
 #endif
 
 typedef struct _precomp_instr
@@ -87,22 +87,22 @@ typedef struct _precomp_block
 } precomp_block;
 
 void recompile_block(int *source, precomp_block *block, unsigned int func);
-void init_block(int *source, precomp_block *block);
+void init_block(precomp_block *block);
 void free_block(precomp_block *block);
 void recompile_opcode(void);
-void prefetch_opcode(unsigned int op);
+void prefetch_opcode(unsigned int op, unsigned int nextop);
 void dyna_jump(void);
 void dyna_start(void (*code)(void));
 void dyna_stop(void);
-void *malloc_exec(size_t size);
 void *realloc_exec(void *ptr, size_t oldsize, size_t newsize);
-void free_exec(void *ptr, size_t length);
 
 extern precomp_instr *dst; /* precomp_instr structure for instruction being recompiled */
 
 #if defined(__x86_64__)
+  #include "x86_64/assemble.h"
   #include "x86_64/regcache.h"
 #else
+  #include "x86/assemble.h"
   #include "x86/regcache.h"
 #endif
 

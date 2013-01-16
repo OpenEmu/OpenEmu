@@ -29,7 +29,21 @@
 #include "r4300/ops.h"
 #include "r4300/recomph.h"
 
-extern int dynarec_stack_initialized;  /* in gr4300.c */
+ #ifdef __GNUC__
+# define ASM_NAME(name) asm(name)
+#else
+# define ASM_NAME(name)
+#endif
+
+static long save_ebp ASM_NAME("save_ebp") = 0;
+static long save_ebx ASM_NAME("save_ebx") = 0;
+static long save_esi ASM_NAME("save_esi") = 0;
+static long save_edi ASM_NAME("save_edi") = 0;
+static long save_esp ASM_NAME("save_esp") = 0;
+static long save_eip ASM_NAME("save_eip") = 0;
+
+// that's where the dynarec will restart when going back from a C function
+static unsigned long *return_address ASM_NAME("return_address");
 
 void dyna_jump()
 {
@@ -44,19 +58,6 @@ void dyna_jump()
     else
         *return_address = (unsigned long) (actual->code + PC->local_addr);
 }
-
-#ifdef __GNUC__
-# define ASM_NAME(name) asm(name)
-#else
-# define ASM_NAME(name)
-#endif
-
-static long save_ebp ASM_NAME("save_ebp") = 0;
-static long save_ebx ASM_NAME("save_ebx") = 0;
-static long save_esi ASM_NAME("save_esi") = 0;
-static long save_edi ASM_NAME("save_edi") = 0;
-static long save_esp ASM_NAME("save_esp") = 0;
-static long save_eip ASM_NAME("save_eip") = 0;
 
 #if defined(WIN32) && !defined(__GNUC__) /* this warning disable only works if placed outside of the scope of a function */
 #pragma warning(disable:4731) /* frame pointer register 'ebp' modified by inline assembly code */
@@ -82,6 +83,12 @@ void dyna_start(void (*code)(void))
    point1:
      pop eax
      mov save_eip, eax
+
+     sub esp, 0x10
+     and esp, 0xfffffff0
+     mov return_address, esp
+     sub return_address, 4
+
      mov eax, code
      call eax
    point2:
@@ -94,8 +101,13 @@ void dyna_start(void (*code)(void))
 #elif defined(__GNUC__) && defined(__i386__)
   #if defined(__PIC__)
     /* for -fPIC (shared libraries) */
+    #if __GNUC_PREREQ (4, 7)
+    #  define GET_PC_THUNK_STR(reg) "__x86.get_pc_thunk." #reg
+    #else
+    #  define GET_PC_THUNK_STR(reg) "__i686.get_pc_thunk." #reg
+    #endif
     #define STORE_EBX
-    #define LOAD_EBX "call  __i686.get_pc_thunk.bx       \n" \
+    #define LOAD_EBX "call  " GET_PC_THUNK_STR(bx) "     \n" \
                      "addl $_GLOBAL_OFFSET_TABLE_, %%ebx \n"
   #else
     /* for non-PIC binaries */
@@ -114,6 +126,12 @@ void dyna_start(void (*code)(void))
      "1:                       \n"
      " popl %%eax              \n"
      " movl %%eax, %[save_eip] \n"
+
+     " subl $16, %%esp         \n" /* save 16 bytes of padding just in case */
+     " andl $-16, %%esp        \n" /* align stack on 16-byte boundary for OSX */
+     " movl %%esp, %[return_address] \n"
+     " subl $4, %[return_address] \n"
+
      " call *%[codeptr]        \n"
      "2:                       \n"
      LOAD_EBX
@@ -121,14 +139,11 @@ void dyna_start(void (*code)(void))
      " movl %[save_esp], %%esp \n"
      " movl %[save_esi], %%esi \n"
      " movl %[save_edi], %%edi \n"
-     : [save_ebp]"=m"(save_ebp), [save_esp]"=m"(save_esp), [save_ebx]"=m"(save_ebx), [save_esi]"=m"(save_esi), [save_edi]"=m"(save_edi), [save_eip]"=m"(save_eip)
+     : [save_ebp]"=m"(save_ebp), [save_esp]"=m"(save_esp), [save_ebx]"=m"(save_ebx), [save_esi]"=m"(save_esi), [save_edi]"=m"(save_edi), [save_eip]"=m"(save_eip), [return_address]"=m"(return_address)
      : [codeptr]"r"(code)
      : "eax", "ecx", "edx", "memory"
      );
 #endif
-
-    /* clear flag; stack is back to normal */
-    dynarec_stack_initialized = 0;
 
     /* clear the registers so we don't return here a second time; that would be a bug */
     /* this is also necessary to prevent compiler from optimizing out the static variables */

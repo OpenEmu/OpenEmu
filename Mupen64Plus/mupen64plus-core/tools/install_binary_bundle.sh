@@ -74,14 +74,15 @@ $INSTALL -d -v "${SHAREDIR}"
 $INSTALL -m 0644 font.ttf "${SHAREDIR}"
 $INSTALL -m 0644 mupen64plus.cht "${SHAREDIR}"
 $INSTALL -m 0644 mupen64plus.ini "${SHAREDIR}"
-$INSTALL -m 0644 m64p_test_rom.v64 "${SHAREDIR}"
 $INSTALL -d -v "${SHAREDIR}/doc"
 $INSTALL -m 0644 doc/* "${SHAREDIR}/doc"
+# Mupen64Plus-ROM
+$INSTALL -m 0644 m64p_test_rom.v64 "${SHAREDIR}"
 # Mupen64Plus-UI-Console
 $INSTALL -d -v "${BINDIR}"
 $INSTALL $GINSTALLFLAG -m 0755 mupen64plus "${BINDIR}"
 $INSTALL -d -v "${MANDIR}/man6"
-$INSTALL -m 0644 mupen64plus.6.gz "${MANDIR}/man6"
+$INSTALL -m 0644 man6/mupen64plus.6 "${MANDIR}/man6"
 # Plugins
 $INSTALL -d -v "${PLUGINDIR}"
 $INSTALL -m 0644 "${INSTALL_STRIP_FLAG}" mupen64plus-audio-sdl.so "${PLUGINDIR}"

@@ -165,8 +165,8 @@ static void MupenAudioLenChanged()
 
 static void SetIsNTSC()
 {
-    extern rom_header *ROM_HEADER;
-    switch (ROM_HEADER->Country_code&0xFF)
+    extern m64p_rom_header ROM_HEADER;
+    switch (ROM_HEADER.Country_code&0xFF)
     {
         case 0x44:
         case 0x46:
@@ -244,7 +244,7 @@ static void MupenSetAudioSpeed(int percent)
         m64p_dynlib_handle rsp_handle;
         NSString *rspPath = [[coreBundle builtInPlugInsPath] stringByAppendingPathComponent:pluginName];
         
-        osal_dynlib_open(&rsp_handle, [rspPath fileSystemRepresentation]);
+        rsp_handle = dlopen([rspPath fileSystemRepresentation], RTLD_NOW);
         ptr_PluginStartup rsp_start = osal_dynlib_getproc(rsp_handle, "PluginStartup");
         rsp_start(core_handle, (__bridge void *)self, MupenDebugCallback);
         CoreAttachPlugin(pluginType, rsp_handle);
@@ -253,15 +253,15 @@ static void MupenSetAudioSpeed(int percent)
     // Load Video
     LoadPlugin(M64PLUGIN_GFX, @"mupen64plus-video-rice.so");
     // Load Audio
-    aiDacrateChanged = MupenAudioSampleRateChanged;
-    aiLenChanged = MupenAudioLenChanged;
-    initiateAudio = MupenOpenAudio;
-    setSpeedFactor = MupenSetAudioSpeed;
+    audio.aiDacrateChanged = MupenAudioSampleRateChanged;
+    audio.aiLenChanged = MupenAudioLenChanged;
+    audio.initiateAudio = MupenOpenAudio;
+    audio.setSpeedFactor = MupenSetAudioSpeed;
     plugin_start(M64PLUGIN_AUDIO);
     
     // Load Input
-    getKeys = MupenGetKeys;
-    initiateControllers = MupenInitiateControllers;
+    input.getKeys = MupenGetKeys;
+    input.initiateControllers = MupenInitiateControllers;
     plugin_start(M64PLUGIN_INPUT);
     // Load RSP
     LoadPlugin(M64PLUGIN_RSP, @"mupen64plus-rsp-hle.so");

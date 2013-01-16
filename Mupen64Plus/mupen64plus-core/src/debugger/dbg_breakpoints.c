@@ -74,13 +74,13 @@ void enable_breakpoint( int bpt)
     
     if(BPT_CHECK_FLAG((*curBpt), BPT_FLAG_READ)) {
         for(bptAddr = curBpt->address; bptAddr <= (curBpt->endaddr | 0xFFFF); bptAddr+=0x10000)
-            if(lookup_breakpoint((uint32) bptAddr & 0xFFFF0000, 0xFFFF, BPT_FLAG_ENABLED | BPT_FLAG_READ) == -1)
+            if(lookup_breakpoint((uint32) bptAddr & 0xFFFF0000, 0x10000, BPT_FLAG_ENABLED | BPT_FLAG_READ) == -1)
                 activate_memory_break_read((uint32) bptAddr);
     }
 
     if(BPT_CHECK_FLAG((*curBpt), BPT_FLAG_WRITE)) {
         for(bptAddr = curBpt->address; bptAddr <= (curBpt->endaddr | 0xFFFF); bptAddr+=0x10000)
-            if(lookup_breakpoint((uint32) bptAddr & 0xFFFF0000, 0xFFFF, BPT_FLAG_ENABLED | BPT_FLAG_WRITE) == -1)
+            if(lookup_breakpoint((uint32) bptAddr & 0xFFFF0000, 0x10000, BPT_FLAG_ENABLED | BPT_FLAG_WRITE) == -1)
                 activate_memory_break_write((uint32) bptAddr);
     }
     
@@ -96,13 +96,13 @@ void disable_breakpoint( int bpt )
 
     if(BPT_CHECK_FLAG((*curBpt), BPT_FLAG_READ)) {
         for(bptAddr = curBpt->address; bptAddr <= ((unsigned long)(curBpt->endaddr | 0xFFFF)); bptAddr+=0x10000)
-            if(lookup_breakpoint((uint32) bptAddr & 0xFFFF0000, 0xFFFF, BPT_FLAG_ENABLED | BPT_FLAG_READ) == -1)
+            if(lookup_breakpoint((uint32) bptAddr & 0xFFFF0000, 0x10000, BPT_FLAG_ENABLED | BPT_FLAG_READ) == -1)
                 deactivate_memory_break_read((uint32) bptAddr);
     }
 
     if(BPT_CHECK_FLAG((*curBpt), BPT_FLAG_WRITE)) {
         for(bptAddr = curBpt->address; bptAddr <= ((unsigned long)(curBpt->endaddr | 0xFFFF)); bptAddr+=0x10000)
-            if(lookup_breakpoint((uint32) bptAddr & 0xFFFF0000, 0xFFFF, BPT_FLAG_ENABLED | BPT_FLAG_WRITE) == -1)
+            if(lookup_breakpoint((uint32) bptAddr & 0xFFFF0000, 0x10000, BPT_FLAG_ENABLED | BPT_FLAG_WRITE) == -1)
                 deactivate_memory_break_write((uint32) bptAddr);
     }
 
@@ -124,7 +124,7 @@ void remove_breakpoint_by_num( int bpt )
 
 void remove_breakpoint_by_address( uint32 address )
 {
-    int bpt = lookup_breakpoint( address, 0, 0 );
+    int bpt = lookup_breakpoint( address, 1, 0 );
     if(bpt==-1)
     {
         DebugMessage(M64MSG_ERROR, "Tried to remove Nonexistant breakpoint %x!", address);
@@ -151,7 +151,7 @@ void replace_breakpoint_num( int bpt, breakpoint* copyofnew )
 int lookup_breakpoint( uint32 address, uint32 size, uint32 flags)
 {
     int i;
-    uint64 endaddr = ((uint64)address) + ((uint64)size);
+    uint64 endaddr = ((uint64)address) + ((uint64)size) - 1;
     
     for( i=0; i < g_NumBreakpoints; i++)
     {
@@ -176,7 +176,7 @@ int lookup_breakpoint( uint32 address, uint32 size, uint32 flags)
 
 int check_breakpoints( uint32 address )
 {
-    return lookup_breakpoint( address, 0, BPT_FLAG_ENABLED | BPT_FLAG_EXEC );
+    return lookup_breakpoint( address, 1, BPT_FLAG_ENABLED | BPT_FLAG_EXEC );
 }
 
 
