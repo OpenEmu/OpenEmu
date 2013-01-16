@@ -26,8 +26,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class OEHUDBorderWindow;
+
 @interface OEHUDWindow : NSWindow
 - (id)initWithContentRect:(NSRect)frame;
+- (NSView *)mainContentView;
+- (void)setMainContentView:(NSView *)mainContentView;
+- (OEHUDBorderWindow *)borderWindow;
+@end
+
+@interface OEHUDBorderWindow : NSWindow
 @end
 
 @interface OEHUDWindowThemeView : NSView

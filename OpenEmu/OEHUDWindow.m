@@ -39,7 +39,7 @@
 
 @end
 
-@interface OEHUDBorderWindow : NSWindow
+@interface OEHUDBorderWindow ()
 - (BOOL)isDragging;
 - (void)windowDraggingDidBegin;
 - (void)windowDraggingDidEnd;
@@ -67,19 +67,19 @@
     OEHUDWindowDelegateProxy *_delegateProxy;
 }
 
+#pragma mark - Lifecycle
+
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
     if(self != [OEHUDWindow class]) return;
-    
+
     if([NSImage imageNamed:@"hud_window_active"]) return;
     NSImage *img = [NSImage imageNamed:@"hud_window"];
     
     [img setName:@"hud_window_active"   forSubimageInRect:NSMakeRect(0, 0, img.size.width / 2, img.size.height)];
     [img setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(img.size.width / 2, 0, img.size.width / 2, img.size.height)];
 }
-
-#pragma mark -
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)windowStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
 {
@@ -107,6 +107,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - NSWindow overrides
+
 - (void)setDelegate:(id<NSWindowDelegate>)delegate
 {
     if(!_delegateProxy)
@@ -119,10 +121,98 @@
     [super setDelegate:_delegateProxy];
 }
 
+- (BOOL)canBecomeKeyWindow
+{
+    return YES;
+}
+
+- (BOOL)canBecomeMainWindow
+{
+    return YES;
+}
+
+// Notes:
+// 1. [self setHasShadow:YES] is not enough for the shadow to appear;
+// 2. [self setHasShadow:NO]; [self setHasShadow:YES] in -OE_layout makes the shadow appear only when the user resizes the window.
+//    This same -setHasShadow: dance does *not* make the shadow appear upon the window being ordered front;
+// 3. -display may prevent the shadow from appearing.
+- (BOOL)hasShadow
+{
+    return YES;
+}
+
+// If we don’t override -orderWindow:relativeTo:, the border window may be ordered below the HUD window even
+// if it was added as a child window ordered above its parent window, thus preventing OEHUDWindowThemeView
+// from receiving mouse events.
+- (void)orderWindow:(NSWindowOrderingMode)place relativeTo:(NSInteger)otherWin
+{
+    [super orderWindow:place relativeTo:otherWin];
+    if(place != NSWindowOut)
+        [_borderWindow orderWindow:NSWindowAbove relativeTo:[self windowNumber]];
+}
+
+- (NSView *)mainContentView
+{
+    return [[[self contentView] subviews] lastObject];
+}
+
+- (void)setMainContentView:(NSView *)mainContentView
+{
+    if(mainContentView == [self mainContentView])
+        return;
+
+    [[self mainContentView] removeFromSuperview];
+
+    [[super contentView] addSubview:mainContentView];
+
+    NSRect contentRect;
+    contentRect.origin = NSZeroPoint;
+    contentRect.size   = [self frame].size;
+    contentRect.size.height -= 21;
+
+    [mainContentView setFrame:contentRect];
+    [mainContentView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+}
+
+- (void)setTitle:(NSString *)newTitle
+{
+    [super setTitle:newTitle];
+    [_borderWindow display];
+}
+
+#pragma mark - NSWindowDelegate
+
 - (void)windowDidMove:(NSNotification *)notification
 {
     if(![_borderWindow isDragging] && [[_delegateProxy localDelegate] respondsToSelector:@selector(windowDidMove:)])
         [[_delegateProxy localDelegate] windowDidMove:notification];
+}
+
+#pragma mark - Private
+
+- (void)OE_commonHUDWindowInit
+{
+    [self setHasShadow:YES];
+    [self setOpaque:NO];
+    [self setBackgroundColor:[NSColor clearColor]];
+    
+    [self setContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
+    [self setMainContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
+    
+    // Register for notifications
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidResizeNotification object:self];
+    [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidResignKeyNotification object:self];
+    [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidBecomeKeyNotification object:self];
+    
+    _borderWindow = [[OEHUDBorderWindow alloc] initWithContentRect:[self frame] styleMask:0 backing:0 defer:0];
+    [self addChildWindow:_borderWindow ordered:NSWindowAbove];
+}
+
+- (void)OE_layout
+{
+    [_borderWindow setFrame:[self frame] display:NO];
+    [_borderWindow display];
 }
 
 - (void)windowDraggingDidEnd
@@ -144,95 +234,10 @@
 }
 
 #pragma mark -
-#pragma mark Private
 
-- (void)OE_commonHUDWindowInit
+- (OEHUDBorderWindow *)borderWindow
 {
-    [self setHasShadow:YES];
-    [self setOpaque:NO];
-    [self setBackgroundColor:[NSColor clearColor]];
-    
-    [super setContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
-    [self setContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
-    
-    // Register for notifications
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidResizeNotification object:self];
-    [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidResignKeyNotification object:self];
-    [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidBecomeKeyNotification object:self];
-    
-    _borderWindow = [[OEHUDBorderWindow alloc] initWithContentRect:[self frame] styleMask:0 backing:0 defer:0];
-    [self addChildWindow:_borderWindow ordered:NSWindowAbove];
-}
-
-- (void)OE_layout
-{
-    [_borderWindow setFrame:[self frame] display:NO];
-    [_borderWindow display];
-}
-
-// If we don’t override -orderWindow:relativeTo:, the border window may be ordered below the HUD window even
-// if it was added as a child window ordered above its parent window, thus preventing OEHUDWindowThemeView
-// from receiving mouse events.
-- (void)orderWindow:(NSWindowOrderingMode)place relativeTo:(NSInteger)otherWin
-{
-    [super orderWindow:place relativeTo:otherWin];
-    if(place != NSWindowOut)
-        [_borderWindow orderWindow:NSWindowAbove relativeTo:[self windowNumber]];
-}
-
-- (id)contentView
-{
-    return [[[super contentView] subviews] lastObject];
-}
-
-- (void)setContentView:(NSView *)aView
-{
-    NSView *contentView = [[[super contentView] subviews] lastObject];
-    
-    if(contentView)[contentView removeFromSuperview];
-    
-    NSView *actualContentView = [super contentView];
-    [actualContentView addSubview:aView];
-    
-    
-    NSRect contentRect;
-    contentRect.origin = NSMakePoint(0, 0);
-    contentRect.size = [self frame].size;
-    
-    contentRect.size.height -= 21;
-
-    [aView setFrame:contentRect];
-    [aView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-}
-
-- (void)setTitle:(NSString *)newTitle
-{
-    [super setTitle:newTitle];
-    [_borderWindow display];
-}
-
-#pragma mark -
-#pragma mark NSWindow Overrides
-
-- (BOOL)canBecomeKeyWindow
-{
-    return YES;
-}
-
-- (BOOL)canBecomeMainWindow
-{
-    return YES;
-}
-
-// Notes:
-// 1. [self setHasShadow:YES] is not enough for the shadow to appear;
-// 2. [self setHasShadow:NO]; [self setHasShadow:YES] in -OE_layout makes the shadow appear only when the user resizes the window.
-//    This same -setHasShadow: dance does *not* make the shadow appear upon the window being ordered front;
-// 3. -display may prevent the shadow from appearing.
-- (BOOL)hasShadow
-{
-    return YES;
+    return _borderWindow;
 }
 
 @end
@@ -350,31 +355,36 @@
     
     NSImage *borderImage = isFocused ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
     [borderImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver/*NSCompositeSourceOver*/ fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
-    
-    NSMutableDictionary *titleAttribtues = [NSMutableDictionary dictionary];
-    
-    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
-    [ps setLineBreakMode:NSLineBreakByTruncatingMiddle];
-    [ps setAlignment:NSCenterTextAlignment];
-    [titleAttribtues setObject:ps forKey:NSParagraphStyleAttributeName];
-    
-    NSColor *textColor = isFocused ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];
-    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:2.0 size:13.0];
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor colorWithDeviceRed:0.129 green:0.129 blue:0.129 alpha:1.0]];
-    [shadow setShadowBlurRadius:1.0];
-    [shadow setShadowOffset:NSMakeSize(0, 1)];
-    
-    [titleAttribtues setObject:textColor forKey:NSForegroundColorAttributeName];
-    [titleAttribtues setObject:font forKey:NSFontAttributeName];
-    [titleAttribtues setObject:shadow forKey:NSShadowAttributeName];
-    
-    NSRect titleBarRect = NSInsetRect([self titleBarRect], 10, 0);
-    titleBarRect.origin.y -= 2;
-    
-    NSString *windowTitle = [[self window].parentWindow title];
-    NSAttributedString *attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttribtues];
-    [attributedWindowTitle drawInRect:titleBarRect];
+
+    // If the border window has been ordered out (e.g., when going full screen), [[self window] parentWindow] returns nil.
+    // In this case, don’t bother drawing the window title
+    NSString *windowTitle = [[[self window] parentWindow] title];
+    if(windowTitle)
+    {
+        NSMutableDictionary *titleAttribtues = [NSMutableDictionary dictionary];
+
+        NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
+        [ps setLineBreakMode:NSLineBreakByTruncatingMiddle];
+        [ps setAlignment:NSCenterTextAlignment];
+        [titleAttribtues setObject:ps forKey:NSParagraphStyleAttributeName];
+
+        NSColor *textColor = isFocused ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];
+        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:2.0 size:13.0];
+        NSShadow *shadow = [[NSShadow alloc] init];
+        [shadow setShadowColor:[NSColor colorWithDeviceRed:0.129 green:0.129 blue:0.129 alpha:1.0]];
+        [shadow setShadowBlurRadius:1.0];
+        [shadow setShadowOffset:NSMakeSize(0, 1)];
+
+        [titleAttribtues setObject:textColor forKey:NSForegroundColorAttributeName];
+        [titleAttribtues setObject:font forKey:NSFontAttributeName];
+        [titleAttribtues setObject:shadow forKey:NSShadowAttributeName];
+
+        NSRect titleBarRect = NSInsetRect([self titleBarRect], 10, 0);
+        titleBarRect.origin.y -= 2;
+
+        NSAttributedString *attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttribtues];
+        [attributedWindowTitle drawInRect:titleBarRect];
+    }
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
@@ -471,8 +481,12 @@
 - (id)forwardingTargetForSelector:(SEL)selector
 {
     // OEHUDWindow takes precedence over its (local) delegate
-    if([_superDelegate respondsToSelector:selector]) return _superDelegate;
-    if([_localDelegate respondsToSelector:selector]) return _localDelegate;
+    if([_superDelegate respondsToSelector:selector])
+        return _superDelegate;
+
+    if([_localDelegate respondsToSelector:selector])
+        return _localDelegate;
+
     return nil;
 }
 

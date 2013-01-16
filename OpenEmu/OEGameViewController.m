@@ -497,6 +497,11 @@ typedef enum : NSUInteger
     [[self controlsWindow] reflectEmulationRunning:!pauseEmulation];
 }
 
+- (BOOL)isEmulationRunning
+{
+    return _emulationStatus == OEGameViewControllerEmulationStatusPlaying;
+}
+
 #pragma mark - HUD Bar Actions
 
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation

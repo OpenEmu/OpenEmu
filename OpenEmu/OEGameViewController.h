@@ -119,6 +119,7 @@ extern NSString *const OEGameViewControllerROMKey;
 - (IBAction)playGame:(id)sender;
 - (void)toggleEmulationPaused;
 - (void)setPauseEmulation:(BOOL)pauseEmulation;
+- (BOOL)isEmulationRunning;
 
 #pragma mark - Saving States
 - (IBAction)saveState:(id)sender;
