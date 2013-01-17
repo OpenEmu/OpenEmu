@@ -83,6 +83,9 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 + (void)initialize
 {
+    if(self != [OEGridView class])
+        return;
+    
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OEUseSpacebarToLaunchGames : @YES }];
 }
 
