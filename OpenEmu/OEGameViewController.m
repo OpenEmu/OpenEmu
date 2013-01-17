@@ -260,8 +260,10 @@ typedef enum : NSUInteger
     if(window == nil) return;
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:window];
-    [nc addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignKeyNotification object:window];
+    [nc addObserver:self selector:@selector(windowDidBecomeKey:)    name:NSWindowDidBecomeKeyNotification    object:window];
+    [nc addObserver:self selector:@selector(windowDidResignKey:)    name:NSWindowDidResignKeyNotification    object:window];
+    [nc addObserver:self selector:@selector(windowDidMove:)         name:NSWindowDidMoveNotification         object:window];
+    [nc addObserver:self selector:@selector(windowDidChangeScreen:) name:NSWindowDidChangeScreenNotification object:window];
 
     [window addChildWindow:controlsWindow ordered:NSWindowAbove];
     [self OE_repositionControlsWindow];
@@ -283,8 +285,10 @@ typedef enum : NSUInteger
     NSWindow *window = [self OE_rootWindow];
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:window];
-    [nc removeObserver:self name:NSWindowDidResignKeyNotification object:window];
+    [nc removeObserver:self name:NSWindowDidBecomeKeyNotification    object:window];
+    [nc removeObserver:self name:NSWindowDidResignKeyNotification    object:window];
+    [nc removeObserver:self name:NSWindowDidMoveNotification         object:window];
+    [nc removeObserver:self name:NSWindowDidChangeScreenNotification object:window];
 
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
         [window setTitle:OEDefaultWindowTitle];
@@ -905,12 +909,29 @@ typedef enum : NSUInteger
 
 - (void)OE_repositionControlsWindow
 {
-    NSWindow *gameWindow = [[self view] window];
+    NSWindow *gameWindow = [self OE_rootWindow];
     if(gameWindow == nil) return;
-    
-    NSPoint origin = [gameWindow convertBaseToScreen:[gameView frame].origin];
+
+    const NSRect         gameViewFrameInWindow = [gameView convertRect:[gameView frame] toView:nil];
+    NSPoint              origin                = [gameWindow convertRectToScreen:gameViewFrameInWindow].origin;
+    static const CGFloat _OEControlsMargin     = 19;
+
     origin.x += ([gameView frame].size.width - [controlsWindow frame].size.width) / 2;
-    origin.y += 19;
+
+    // If the controls bar fits, it sits over the window
+    if([gameView frame].size.width >= [controlsWindow frame].size.width)
+    {
+        origin.y += _OEControlsMargin;
+    }
+    // Otherwise, it sits below the window
+    else
+    {
+        origin.y -= ([controlsWindow frame].size.height + _OEControlsMargin);
+
+        // Unless below the window means it being off-screen, in which case it sits above the window
+        if(origin.y < NSMinY([[gameWindow screen] visibleFrame]))
+            origin.y = NSMaxY([gameWindow frame]) + _OEControlsMargin;
+    }
 
     [controlsWindow setFrameOrigin:origin];
 }
@@ -926,6 +947,16 @@ typedef enum : NSUInteger
 #pragma mark - Notifications
 
 - (void)viewDidChangeFrame:(NSNotification*)notification
+{
+    [self OE_repositionControlsWindow];
+}
+
+- (void)windowDidMove:(NSNotification *)notification
+{
+    [self OE_repositionControlsWindow];
+}
+
+- (void)windowDidChangeScreen:(NSNotification *)notification
 {
     [self OE_repositionControlsWindow];
 }
