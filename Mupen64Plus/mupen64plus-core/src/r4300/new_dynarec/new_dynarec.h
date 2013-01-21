@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *   Mupen64plus - cop1.c                                                  *
+ *   Mupen64plus - r4300.h                                                 *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
  *   Copyright (C) 2002 Hacktarux                                          *
  *                                                                         *
@@ -19,78 +19,20 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "ops.h"
-#include "r4300.h"
-#include "macros.h"
-#include "exception.h"
+#ifndef NEW_DYNAREC_H
+#define NEW_DYNAREC_H
 
-#include "memory/memory.h"
+#define NEW_DYNAREC_X86 1
+#define NEW_DYNAREC_AMD64 2
+#define NEW_DYNAREC_ARM 3
 
-void MFC1(void)
-{
-   if (check_cop1_unusable()) return;
-   rrt32 = *((int*)reg_cop1_simple[rfs]);
-   sign_extended(rrt);
-   PC++;
-}
+extern int pcaddr;
+extern int pending_exception;
+typedef unsigned int            u_int;
+void invalidate_all_pages(void);
+void invalidate_block(u_int block);
+void new_dynarec_init(void);
+void new_dyna_start(void);
+void new_dynarec_cleanup(void);
 
-void DMFC1(void)
-{
-   if (check_cop1_unusable()) return;
-   rrt = *((long long*)reg_cop1_double[rfs]);
-   PC++;
-}
-
-void CFC1(void)
-{  
-   if (check_cop1_unusable()) return;
-   if (rfs==31)
-     {
-    rrt32 = FCR31;
-    sign_extended(rrt);
-     }
-   if (rfs==0)
-     {
-    rrt32 = FCR0;
-    sign_extended(rrt);
-     }
-   PC++;
-}
-
-void MTC1(void)
-{
-   if (check_cop1_unusable()) return;
-   *((int*)reg_cop1_simple[rfs]) = rrt32;
-   PC++;
-}
-
-void DMTC1(void)
-{
-   if (check_cop1_unusable()) return;
-   *((long long*)reg_cop1_double[rfs]) = rrt;
-   PC++;
-}
-
-void CTC1(void)
-{
-   if (check_cop1_unusable()) return;
-   if (rfs==31)
-     FCR31 = rrt32;
-   switch((FCR31 & 3))
-     {
-      case 0:
-    rounding_mode = 0x33F; // Round to nearest, or to even if equidistant
-    break;
-      case 1:
-    rounding_mode = 0xF3F; // Truncate (toward 0)
-    break;
-      case 2:
-    rounding_mode = 0xB3F; // Round up (toward +infinity) 
-    break;
-      case 3:
-    rounding_mode = 0x73F; // Round down (toward -infinity) 
-    break;
-     }
-   PC++;
-}
-
+#endif /* NEW_DYNAREC_H */

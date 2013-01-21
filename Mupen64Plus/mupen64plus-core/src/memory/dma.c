@@ -34,6 +34,7 @@
 #include "r4300/interupt.h"
 #include "r4300/macros.h"
 #include "r4300/ops.h"
+#include "../r4300/new_dynarec/new_dynarec.h"
 
 #define M64P_CORE_PROTOTYPES 1
 #include "api/m64p_config.h"
@@ -41,8 +42,58 @@
 #include "api/callbacks.h"
 #include "main/main.h"
 #include "main/rom.h"
+#include "main/util.h"
 
 static unsigned char sram[0x8000];
+
+static char *get_sram_path(void)
+{
+    return formatstr("%s%s.sra", get_savesrampath(), ROM_SETTINGS.goodname);
+}
+
+static void sram_format(void)
+{
+    memset(sram, 0, sizeof(sram));
+}
+
+static void sram_read_file(void)
+{
+    char *filename = get_sram_path();
+
+    sram_format();
+    switch (read_from_file(filename, sram, sizeof(sram)))
+    {
+        case file_open_error:
+            DebugMessage(M64MSG_VERBOSE, "couldn't open sram file '%s' for reading", filename);
+            sram_format();
+            break;
+        case file_read_error:
+            DebugMessage(M64MSG_WARNING, "fread() failed on 32kb read from sram file '%s'", filename);
+            sram_format();
+            break;
+        default: break;
+    }
+
+    free(filename);
+}
+
+static void sram_write_file(void)
+{
+    char *filename = get_sram_path();
+
+    switch (write_to_file(filename, sram, sizeof(sram)))
+    {
+        case file_open_error:
+            DebugMessage(M64MSG_WARNING, "couldn't open sram file '%s' for writing.", filename);
+            break;
+        case file_write_error:
+            DebugMessage(M64MSG_WARNING, "fwrite() failed on 32kb write to sram file '%s'", filename);
+            break;
+        default: break;
+    }
+
+    free(filename);
+}
 
 void dma_pi_read(void)
 {
@@ -51,47 +102,19 @@ void dma_pi_read(void)
     if (pi_register.pi_cart_addr_reg >= 0x08000000
             && pi_register.pi_cart_addr_reg < 0x08010000)
     {
-        if (use_flashram != 1)
+        if (flashram_info.use_flashram != 1)
         {
-            char *filename;
-            FILE *f;
-            filename = (char *) malloc(strlen(get_savesrampath()) + strlen(ROM_SETTINGS.goodname) + 4 + 1);
-            strcpy(filename, get_savesrampath());
-            strcat(filename, ROM_SETTINGS.goodname);
-            strcat(filename, ".sra");
-            f = fopen(filename, "rb");
-            if (f == NULL)
-            {
-                DebugMessage(M64MSG_VERBOSE, "couldn't open sram file '%s' for reading", filename);
-                memset(sram, 0, 0x8000);
-            }
-            else
-            {
-                if (fread(sram, 1, 0x8000, f) != 0x8000)
-                {
-                    DebugMessage(M64MSG_WARNING, "fread() failed on 32kb read from sram file '%s'", filename);
-                    memset(sram, 0, 0x8000);
-                }
-                fclose(f);
-            }
+            sram_read_file();
+
             for (i=0; i < (pi_register.pi_rd_len_reg & 0xFFFFFF)+1; i++)
             {
                 sram[((pi_register.pi_cart_addr_reg-0x08000000)+i)^S8] =
                     ((unsigned char*)rdram)[(pi_register.pi_dram_addr_reg+i)^S8];
             }
-            f = fopen(filename, "wb");
-            if (f == NULL)
-            {
-                DebugMessage(M64MSG_WARNING, "couldn't open sram file '%s' for writing.", filename);
-            }
-            else
-            {
-                if (fwrite(sram, 1, 0x8000, f) != 0x8000)
-                    DebugMessage(M64MSG_WARNING, "frwite() failed on 32kb write to sram file '%s'", filename);
-                fclose(f);
-            }
-            free(filename);
-            use_flashram = -1;
+
+            sram_write_file();
+
+            flashram_info.use_flashram = -1;
         }
         else
         {
@@ -118,30 +141,11 @@ void dma_pi_write(void)
         if (pi_register.pi_cart_addr_reg >= 0x08000000
                 && pi_register.pi_cart_addr_reg < 0x08010000)
         {
-            if (use_flashram != 1)
+            if (flashram_info.use_flashram != 1)
             {
-                char *filename;
-                FILE *f;
                 int i;
 
-                filename = (char *) malloc(strlen(get_savesrampath()) + strlen(ROM_SETTINGS.goodname) + 4 + 1);
-                strcpy(filename, get_savesrampath());
-                strcat(filename, ROM_SETTINGS.goodname);
-                strcat(filename, ".sra");
-                f = fopen(filename, "rb");
-                if (f == NULL)
-                {
-                    DebugMessage(M64MSG_VERBOSE, "couldn't open sram file '%s' for reading", filename);
-                    memset(sram, 0, 0x8000);
-                }
-                else
-                {
-                    if (fread(sram, 1, 0x8000, f) != 0x8000)
-                        DebugMessage(M64MSG_WARNING, "fread() failed on 32kb read to sram file '%s'", filename);
-                    fclose(f);
-                }
-
-                free(filename);
+                sram_read_file();
 
                 for (i=0; i<(int)(pi_register.pi_wr_len_reg & 0xFFFFFF)+1; i++)
                 {
@@ -149,7 +153,7 @@ void dma_pi_write(void)
                         sram[(((pi_register.pi_cart_addr_reg-0x08000000)&0xFFFF)+i)^S8];
                 }
 
-                use_flashram = -1;
+                flashram_info.use_flashram = -1;
             }
             else
             {
@@ -208,14 +212,21 @@ void dma_pi_write(void)
 
             if (!invalid_code[rdram_address1>>12])
             {
-                if (blocks[rdram_address1>>12]->block[(rdram_address1&0xFFF)/4].ops != NOTCOMPILED)
+                if (!blocks[rdram_address1>>12] ||
+                    blocks[rdram_address1>>12]->block[(rdram_address1&0xFFF)/4].ops !=
+                    current_instruction_table.NOTCOMPILED)
                 {
                     invalid_code[rdram_address1>>12] = 1;
                 }
+#ifdef NEW_DYNAREC
+                invalidate_block(rdram_address1>>12);
+#endif
             }
             if (!invalid_code[rdram_address2>>12])
             {
-                if (blocks[rdram_address2>>12]->block[(rdram_address2&0xFFF)/4].ops != NOTCOMPILED)
+                if (!blocks[rdram_address1>>12] ||
+                    blocks[rdram_address2>>12]->block[(rdram_address2&0xFFF)/4].ops !=
+                    current_instruction_table.NOTCOMPILED)
                 {
                     invalid_code[rdram_address2>>12] = 1;
                 }
@@ -231,9 +242,10 @@ void dma_pi_write(void)
         }
     }
 
-    if ((debug_count+Count) < 0x100000)
+    // Set the RDRAM memory size when copying main ROM code
+    // (This is just a convenient way to run this code once at the beginning)
+    if (pi_register.pi_cart_addr_reg == 0x10001000)
     {
-
         switch (CIC_Chip)
         {
         case 1:
@@ -341,6 +353,10 @@ void dma_si_write(void)
     }
 
     update_pif_write();
+
+    // TODO: under what circumstances should bits 1 or 3 be set?
+    si_register.si_stat |= 1;
+
     update_count();
     add_interupt_event(SI_INT, /*0x100*/0x900);
 }
@@ -361,6 +377,9 @@ void dma_si_read(void)
     {
         rdram[si_register.si_dram_addr/4+i] = sl(PIF_RAM[i]);
     }
+
+    // TODO: under what circumstances should bits 1 or 3 be set?
+    si_register.si_stat |= 1;
 
     update_count();
     add_interupt_event(SI_INT, /*0x100*/0x900);

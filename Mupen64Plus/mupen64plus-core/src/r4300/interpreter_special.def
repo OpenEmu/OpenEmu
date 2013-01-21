@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *   Mupen64plus - special.c                                               *
+ *   Mupen64plus - interpreter_special.def                                 *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
  *   Copyright (C) 2002 Hacktarux                                          *
  *                                                                         *
@@ -19,181 +19,130 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "api/m64p_types.h"
-#include "api/callbacks.h"
-#include "memory/memory.h"
-
-#include "r4300.h"
-#include "interupt.h"
-#include "ops.h"
-#include "exception.h"
-#include "macros.h"
-
-#ifdef DBG
-  #include "debugger/dbg_types.h"
-  #include "debugger/debugger.h"
-#endif
-
-void NOP(void)
+DECLARE_INSTRUCTION(NOP)
 {
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void SLL(void)
+DECLARE_INSTRUCTION(SLL)
 {
    rrd32 = (unsigned int)(rrt32) << rsa;
    sign_extended(rrd);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void SRL(void)
+DECLARE_INSTRUCTION(SRL)
 {
    rrd32 = (unsigned int)rrt32 >> rsa;
    sign_extended(rrd);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void SRA(void)
+DECLARE_INSTRUCTION(SRA)
 {
    rrd32 = (signed int)rrt32 >> rsa;
    sign_extended(rrd);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void SLLV(void)
+DECLARE_INSTRUCTION(SLLV)
 {
    rrd32 = (unsigned int)(rrt32) << (rrs32&0x1F);
    sign_extended(rrd);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void SRLV(void)
+DECLARE_INSTRUCTION(SRLV)
 {
    rrd32 = (unsigned int)rrt32 >> (rrs32 & 0x1F);
    sign_extended(rrd);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void SRAV(void)
+DECLARE_INSTRUCTION(SRAV)
 {
    rrd32 = (signed int)rrt32 >> (rrs32 & 0x1F);
    sign_extended(rrd);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void JR(void)
-{
-   local_rs32 = irs32;
-   PC++;
-   delay_slot=1;
-#ifdef DBG
-            if (g_DebuggerActive) update_debugger(PC->addr);
-#endif
-   PC->ops();
-   update_count();
-   delay_slot=0;
-   jump_to(local_rs32);
-   last_addr = PC->addr;
-   if (next_interupt <= Count) gen_interupt();
-}
+DECLARE_JUMP(JR,   irs32, 1, &reg[0],    0, 0)
+DECLARE_JUMP(JALR, irs32, 1, PC->f.r.rd, 0, 0)
 
-void JALR(void)
-{
-   unsigned long long *dest = (unsigned long long *) PC->f.r.rd;
-   local_rs32 = rrs32;
-   PC++;
-   delay_slot=1;
-#ifdef DBG
-            if (g_DebuggerActive) update_debugger(PC->addr);
-#endif
-   PC->ops();
-   update_count();
-   delay_slot=0;
-   if (!skip_jump)
-     {
-    *dest = PC->addr;
-    sign_extended(*dest);
-    
-    jump_to(local_rs32);
-     }
-   last_addr = PC->addr;
-   if (next_interupt <= Count) gen_interupt();
-}
-
-void SYSCALL(void)
+DECLARE_INSTRUCTION(SYSCALL)
 {
    Cause = 8 << 2;
    exception_general();
 }
 
-void SYNC(void)
+DECLARE_INSTRUCTION(SYNC)
 {
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void MFHI(void)
+DECLARE_INSTRUCTION(MFHI)
 {
    rrd = hi;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void MTHI(void)
+DECLARE_INSTRUCTION(MTHI)
 {
    hi = rrs;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void MFLO(void)
+DECLARE_INSTRUCTION(MFLO)
 {
    rrd = lo;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void MTLO(void)
+DECLARE_INSTRUCTION(MTLO)
 {
    lo = rrs;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSLLV(void)
+DECLARE_INSTRUCTION(DSLLV)
 {
    rrd = rrt << (rrs32&0x3F);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSRLV(void)
+DECLARE_INSTRUCTION(DSRLV)
 {
    rrd = (unsigned long long)rrt >> (rrs32 & 0x3F);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSRAV(void)
+DECLARE_INSTRUCTION(DSRAV)
 {
    rrd = (long long)rrt >> (rrs32 & 0x3F);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void MULT(void)
+DECLARE_INSTRUCTION(MULT)
 {
    long long int temp;
    temp = rrs * rrt;
    hi = temp >> 32;
    lo = temp;
    sign_extended(lo);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void MULTU(void)
+DECLARE_INSTRUCTION(MULTU)
 {
    unsigned long long int temp;
    temp = (unsigned int)rrs * (unsigned long long)((unsigned int)rrt);
    hi = (long long)temp >> 32;
    lo = temp;
    sign_extended(lo);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DIV(void)
+DECLARE_INSTRUCTION(DIV)
 {
    if (rrt32)
    {
@@ -203,10 +152,10 @@ void DIV(void)
      sign_extended(hi);
    }
    else DebugMessage(M64MSG_ERROR, "DIV: divide by 0");
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DIVU(void)
+DECLARE_INSTRUCTION(DIVU)
 {
    if (rrt32)
    {
@@ -216,10 +165,10 @@ void DIVU(void)
      sign_extended(hi);
    }
    else DebugMessage(M64MSG_ERROR, "DIVU: divide by 0");
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DMULT(void)
+DECLARE_INSTRUCTION(DMULT)
 {
    unsigned long long int op1, op2, op3, op4;
    unsigned long long int result1, result2, result3, result4;
@@ -262,10 +211,10 @@ void DMULT(void)
     if (!lo) hi++;
     else lo = ~lo + 1;
      }
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DMULTU(void)
+DECLARE_INSTRUCTION(DMULTU)
 {
    unsigned long long int op1, op2, op3, op4;
    unsigned long long int result1, result2, result3, result4;
@@ -289,10 +238,10 @@ void DMULTU(void)
    lo = result1 | (result2 << 32);
    hi = (result3 & 0xFFFFFFFF) | (result4 << 32);
    
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DDIV(void)
+DECLARE_INSTRUCTION(DDIV)
 {
    if (rrt)
    {
@@ -300,10 +249,10 @@ void DDIV(void)
      hi = (long long int)rrs % (long long int)rrt;
    }
    else DebugMessage(M64MSG_ERROR, "DDIV: divide by 0");
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DDIVU(void)
+DECLARE_INSTRUCTION(DDIVU)
 {
    if (rrt)
    {
@@ -311,143 +260,142 @@ void DDIVU(void)
      hi = (unsigned long long int)rrs % (unsigned long long int)rrt;
    }
    else DebugMessage(M64MSG_ERROR, "DDIVU: divide by 0");
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void ADD(void)
+DECLARE_INSTRUCTION(ADD)
 {
    rrd32 = rrs32 + rrt32;
    sign_extended(rrd);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void ADDU(void)
+DECLARE_INSTRUCTION(ADDU)
 {
    rrd32 = rrs32 + rrt32;
    sign_extended(rrd);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void SUB(void)
+DECLARE_INSTRUCTION(SUB)
 {
    rrd32 = rrs32 - rrt32;
    sign_extended(rrd);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void SUBU(void)
+DECLARE_INSTRUCTION(SUBU)
 {
    rrd32 = rrs32 - rrt32;
    sign_extended(rrd);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void AND(void)
+DECLARE_INSTRUCTION(AND)
 {
    rrd = rrs & rrt;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void OR(void)
+DECLARE_INSTRUCTION(OR)
 {
    rrd = rrs | rrt;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void XOR(void)
+DECLARE_INSTRUCTION(XOR)
 {
    rrd = rrs ^ rrt;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void NOR(void)
+DECLARE_INSTRUCTION(NOR)
 {
    rrd = ~(rrs | rrt);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void SLT(void)
+DECLARE_INSTRUCTION(SLT)
 {
    if (rrs < rrt) rrd = 1;
    else rrd = 0;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void SLTU(void)
+DECLARE_INSTRUCTION(SLTU)
 {
    if ((unsigned long long)rrs < (unsigned long long)rrt) 
      rrd = 1;
    else rrd = 0;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DADD(void)
+DECLARE_INSTRUCTION(DADD)
 {
    rrd = rrs + rrt;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DADDU(void)
+DECLARE_INSTRUCTION(DADDU)
 {
    rrd = rrs + rrt;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSUB(void)
+DECLARE_INSTRUCTION(DSUB)
 {
    rrd = rrs - rrt;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSUBU(void)
+DECLARE_INSTRUCTION(DSUBU)
 {
    rrd = rrs - rrt;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void TEQ(void)
+DECLARE_INSTRUCTION(TEQ)
 {
    if (rrs == rrt)
    {
      DebugMessage(M64MSG_ERROR, "trap exception in TEQ");
      stop=1;
    }
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSLL(void)
+DECLARE_INSTRUCTION(DSLL)
 {
    rrd = rrt << rsa;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSRL(void)
+DECLARE_INSTRUCTION(DSRL)
 {
    rrd = (unsigned long long)rrt >> rsa;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSRA(void)
+DECLARE_INSTRUCTION(DSRA)
 {
    rrd = rrt >> rsa;
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSLL32(void)
+DECLARE_INSTRUCTION(DSLL32)
 {
    rrd = rrt << (32+rsa);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSRL32(void)
+DECLARE_INSTRUCTION(DSRL32)
 {
    rrd = (unsigned long long int)rrt >> (32+rsa);
-   PC++;
+   ADD_TO_PC(1);
 }
 
-void DSRA32(void)
+DECLARE_INSTRUCTION(DSRA32)
 {
    rrd = (signed long long int)rrt >> (32+rsa);
-   PC++;
+   ADD_TO_PC(1);
 }
-

@@ -21,6 +21,14 @@
 
 #include <stdlib.h>
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <errno.h>
+
+#if !defined(WIN32)
+#include <sys/mman.h>
+#endif
+
 #include "api/m64p_types.h"
 
 #include "memory.h"
@@ -39,6 +47,7 @@
 #include "main/rom.h"
 #include "osal/preproc.h"
 #include "plugin/plugin.h"
+#include "r4300/new_dynarec/new_dynarec.h"
 
 #ifdef DBG
 #include "debugger/dbg_types.h"
@@ -69,8 +78,10 @@ unsigned char *SP_IMEMb = (unsigned char*)(SP_DMEM+0x1000/4);
 unsigned int PIF_RAM[0x40/4];
 unsigned char *PIF_RAMb = (unsigned char *)(PIF_RAM);
 
+#if NEW_DYNAREC != NEW_DYNAREC_ARM
 // address : address of the read/write operation being done
 unsigned int address = 0;
+#endif
 // *address_low = the lower 16 bit of the address :
 #ifdef M64P_BIG_ENDIAN
 static unsigned short *address_low = (unsigned short *)(&address)+1;
@@ -79,10 +90,12 @@ static unsigned short *address_low = (unsigned short *)(&address);
 #endif
 
 // values that are being written are stored in these variables
+#if NEW_DYNAREC != NEW_DYNAREC_ARM
 unsigned int word;
 unsigned char cpu_byte;
 unsigned short hword;
 unsigned long long int dword;
+#endif
 
 // addresse where the read value will be stored
 unsigned long long int* rdword;
@@ -120,6 +133,13 @@ static FrameBufferInfo frameBufferInfos[6];
 static char framebufferRead[0x800];
 static int firstFrameBufferSetting;
 
+// uncomment to output count of calls to write_rdram():
+//#define COUNT_WRITE_RDRAM_CALLS 1
+
+#if defined( COUNT_WRITE_RDRAM_CALLS )
+	int writerdram_count = 1;
+#endif
+
 int init_memory(int DoByteSwap)
 {
     int i;
@@ -146,6 +166,7 @@ int init_memory(int DoByteSwap)
 
     //init RDRAM
     for (i=0; i<(0x800000/4); i++) rdram[i]=0;
+
     for (i=0; i</*0x40*/0x80; i++)
     {
         readmem[(0x8000+i)] = read_rdram;
@@ -308,21 +329,6 @@ int init_memory(int DoByteSwap)
     sp_register.sp_wr_len_reg=0;
     sp_register.sp_status_reg=1;
     sp_register.w_sp_status_reg=0;
-    sp_register.halt=1;
-    sp_register.broke=0;
-    sp_register.dma_busy=0;
-    sp_register.dma_full=0;
-    sp_register.io_full=0;
-    sp_register.single_step=0;
-    sp_register.intr_break=0;
-    sp_register.signal0=0;
-    sp_register.signal1=0;
-    sp_register.signal2=0;
-    sp_register.signal3=0;
-    sp_register.signal4=0;
-    sp_register.signal5=0;
-    sp_register.signal6=0;
-    sp_register.signal7=0;
     sp_register.sp_dma_full_reg=0;
     sp_register.sp_dma_busy_reg=0;
     sp_register.sp_semaphore_reg=0;
@@ -420,17 +426,6 @@ int init_memory(int DoByteSwap)
     dpc_register.dpc_current=0;
     dpc_register.w_dpc_status=0;
     dpc_register.dpc_status=0;
-    dpc_register.xbus_dmem_dma=0;
-    dpc_register.freeze=0;
-    dpc_register.flush=0;
-    dpc_register.start_glck=0;
-    dpc_register.tmem_busy=0;
-    dpc_register.pipe_busy=0;
-    dpc_register.cmd_busy=0;
-    dpc_register.cbuf_busy=0;
-    dpc_register.dma_busy=0;
-    dpc_register.end_valid=0;
-    dpc_register.start_valid=0;
     dpc_register.dpc_clock=0;
     dpc_register.dpc_bufbusy=0;
     dpc_register.dpc_pipebusy=0;
@@ -531,20 +526,10 @@ int init_memory(int DoByteSwap)
     writememd[0xa430] = write_mid;
     MI_register.w_mi_init_mode_reg = 0;
     MI_register.mi_init_mode_reg = 0;
-    MI_register.init_length = 0;
-    MI_register.init_mode = 0;
-    MI_register.ebus_test_mode = 0;
-    MI_register.RDRAM_reg_mode = 0;
     MI_register.mi_version_reg = 0x02020102;
     MI_register.mi_intr_reg = 0;
     MI_register.w_mi_intr_mask_reg = 0;
     MI_register.mi_intr_mask_reg = 0;
-    MI_register.SP_intr_mask = 0;
-    MI_register.SI_intr_mask = 0;
-    MI_register.AI_intr_mask = 0;
-    MI_register.VI_intr_mask = 0;
-    MI_register.PI_intr_mask = 0;
-    MI_register.DP_intr_mask = 0;
     readmi[0x0] = &MI_register.mi_init_mode_reg;
     readmi[0x4] = &MI_register.mi_version_reg;
     readmi[0x8] = &MI_register.mi_intr_reg;
@@ -995,7 +980,7 @@ int init_memory(int DoByteSwap)
         writememd[0xb000+i] = write_nothingd;
     }
 
-    use_flashram = 0;
+    flashram_info.use_flashram = 0;
     init_flashram();
 
     frameBufferInfos[0].addr = 0;
@@ -1010,416 +995,551 @@ void free_memory(void)
 {
 }
 
-void update_MI_init_mode_reg(void)
+void make_w_mi_init_mode_reg(void)
 {
-    MI_register.init_length = MI_register.w_mi_init_mode_reg & 0x7F;
-    if (MI_register.w_mi_init_mode_reg & 0x80)
-        MI_register.init_mode = 0;
-    if (MI_register.w_mi_init_mode_reg & 0x100)
-        MI_register.init_mode = 1;
-    if (MI_register.w_mi_init_mode_reg & 0x200)
-        MI_register.ebus_test_mode = 0;
-    if (MI_register.w_mi_init_mode_reg & 0x400)
-        MI_register.ebus_test_mode = 1;
-    if (MI_register.w_mi_init_mode_reg & 0x800)
-    {
-        MI_register.mi_intr_reg &= 0xFFFFFFDF;
-        check_interupt();
-    }
-    if (MI_register.w_mi_init_mode_reg & 0x1000)
-        MI_register.RDRAM_reg_mode=0;
-    if (MI_register.w_mi_init_mode_reg & 0x2000)
-        MI_register.RDRAM_reg_mode=1;
-    MI_register.mi_init_mode_reg = ((MI_register.init_length) |
-                                    (MI_register.init_mode << 7) |
-                                    (MI_register.ebus_test_mode << 8) |
-                                    (MI_register.RDRAM_reg_mode << 9)
-                                   );
+    MI_register.w_mi_init_mode_reg = MI_register.mi_init_mode_reg & 0x7F;
+    if ((MI_register.mi_init_mode_reg & 0x080) == 0)
+        MI_register.w_mi_init_mode_reg |= 0x0000080;
+    else
+        MI_register.w_mi_init_mode_reg |= 0x0000100;
+
+    if ((MI_register.mi_init_mode_reg & 0x100) == 0)
+        MI_register.w_mi_init_mode_reg |= 0x0000200;
+    else
+        MI_register.w_mi_init_mode_reg |= 0x0000400;
+
+    if ((MI_register.mi_init_mode_reg & 0x200) == 0)
+        MI_register.w_mi_init_mode_reg |= 0x0001000;
+    else
+        MI_register.w_mi_init_mode_reg |= 0x0002000;
 }
 
-void update_MI_intr_mask_reg(void)
+static void update_MI_init_mode_reg(void)
 {
-    if (MI_register.w_mi_intr_mask_reg & 0x1)   MI_register.SP_intr_mask = 0;
-    if (MI_register.w_mi_intr_mask_reg & 0x2)   MI_register.SP_intr_mask = 1;
-    if (MI_register.w_mi_intr_mask_reg & 0x4)   MI_register.SI_intr_mask = 0;
-    if (MI_register.w_mi_intr_mask_reg & 0x8)   MI_register.SI_intr_mask = 1;
-    if (MI_register.w_mi_intr_mask_reg & 0x10)  MI_register.AI_intr_mask = 0;
-    if (MI_register.w_mi_intr_mask_reg & 0x20)  MI_register.AI_intr_mask = 1;
-    if (MI_register.w_mi_intr_mask_reg & 0x40)  MI_register.VI_intr_mask = 0;
-    if (MI_register.w_mi_intr_mask_reg & 0x80)  MI_register.VI_intr_mask = 1;
-    if (MI_register.w_mi_intr_mask_reg & 0x100) MI_register.PI_intr_mask = 0;
-    if (MI_register.w_mi_intr_mask_reg & 0x200) MI_register.PI_intr_mask = 1;
-    if (MI_register.w_mi_intr_mask_reg & 0x400) MI_register.DP_intr_mask = 0;
-    if (MI_register.w_mi_intr_mask_reg & 0x800) MI_register.DP_intr_mask = 1;
-    MI_register.mi_intr_mask_reg = ((MI_register.SP_intr_mask) |
-                                    (MI_register.SI_intr_mask << 1) |
-                                    (MI_register.AI_intr_mask << 2) |
-                                    (MI_register.VI_intr_mask << 3) |
-                                    (MI_register.PI_intr_mask << 4) |
-                                    (MI_register.DP_intr_mask << 5)
-                                   );
-}
+    MI_register.mi_init_mode_reg &= ~0x7F; // init_length
+    MI_register.mi_init_mode_reg |= MI_register.w_mi_init_mode_reg & 0x7F;
 
+    if (MI_register.w_mi_init_mode_reg & 0x80) // clear init_mode
+        MI_register.mi_init_mode_reg &= ~0x80;
+    if (MI_register.w_mi_init_mode_reg & 0x100) // set init_mode
+        MI_register.mi_init_mode_reg |= 0x80;
 
-void update_SP(void)
-{
-    if (sp_register.w_sp_status_reg & 0x1)
-        sp_register.halt = 0;
-    if (sp_register.w_sp_status_reg & 0x2)
-        sp_register.halt = 1;
-    if (sp_register.w_sp_status_reg & 0x4)
-        sp_register.broke = 0;
-    if (sp_register.w_sp_status_reg & 0x8)
+    if (MI_register.w_mi_init_mode_reg & 0x200) // clear ebus_test_mode
+        MI_register.mi_init_mode_reg &= ~0x100;
+    if (MI_register.w_mi_init_mode_reg & 0x400) // set ebus_test_mode
+        MI_register.mi_init_mode_reg |= 0x100;
+
+    if (MI_register.w_mi_init_mode_reg & 0x800) // clear DP interupt
     {
-        MI_register.mi_intr_reg &= 0xFFFFFFFE;
+        MI_register.mi_intr_reg &= ~0x20;
         check_interupt();
     }
 
-    if (sp_register.w_sp_status_reg & 0x10)
+    if (MI_register.w_mi_init_mode_reg & 0x1000) // clear RDRAM_reg_mode
+        MI_register.mi_init_mode_reg &= ~0x200;
+    if (MI_register.w_mi_init_mode_reg & 0x2000) // set RDRAM_reg_mode
+        MI_register.mi_init_mode_reg |= 0x200;
+}
+
+void make_w_mi_intr_mask_reg(void)
+{
+    MI_register.w_mi_intr_mask_reg = 0;
+    if ((MI_register.mi_intr_mask_reg & 0x01) == 0)
+        MI_register.w_mi_intr_mask_reg |= 0x0000001;
+    else
+        MI_register.w_mi_intr_mask_reg |= 0x0000002;
+    
+    if ((MI_register.mi_intr_mask_reg & 0x02) == 0)
+        MI_register.w_mi_intr_mask_reg |= 0x0000004;
+    else
+        MI_register.w_mi_intr_mask_reg |= 0x0000008;
+    
+    if ((MI_register.mi_intr_mask_reg & 0x04) == 0)
+        MI_register.w_mi_intr_mask_reg |= 0x0000010;
+    else
+        MI_register.w_mi_intr_mask_reg |= 0x0000020;
+    
+    if ((MI_register.mi_intr_mask_reg & 0x08) == 0)
+        MI_register.w_mi_intr_mask_reg |= 0x0000040;
+    else
+        MI_register.w_mi_intr_mask_reg |= 0x0000080;
+    
+    if ((MI_register.mi_intr_mask_reg & 0x10) == 0)
+        MI_register.w_mi_intr_mask_reg |= 0x0000100;
+    else
+        MI_register.w_mi_intr_mask_reg |= 0x0000200;
+    
+    if ((MI_register.mi_intr_mask_reg & 0x20) == 0)
+        MI_register.w_mi_intr_mask_reg |= 0x0000400;
+    else
+        MI_register.w_mi_intr_mask_reg |= 0x0000800;
+}
+
+static void update_MI_intr_mask_reg(void)
+{
+    if (MI_register.w_mi_intr_mask_reg & 0x1)   MI_register.mi_intr_mask_reg &= ~0x1; // clear SP mask
+    if (MI_register.w_mi_intr_mask_reg & 0x2)   MI_register.mi_intr_mask_reg |= 0x1; // set SP mask
+    if (MI_register.w_mi_intr_mask_reg & 0x4)   MI_register.mi_intr_mask_reg &= ~0x2; // clear SI mask
+    if (MI_register.w_mi_intr_mask_reg & 0x8)   MI_register.mi_intr_mask_reg |= 0x2; // set SI mask
+    if (MI_register.w_mi_intr_mask_reg & 0x10)  MI_register.mi_intr_mask_reg &= ~0x4; // clear AI mask
+    if (MI_register.w_mi_intr_mask_reg & 0x20)  MI_register.mi_intr_mask_reg |= 0x4; // set AI mask
+    if (MI_register.w_mi_intr_mask_reg & 0x40)  MI_register.mi_intr_mask_reg &= ~0x8; // clear VI mask
+    if (MI_register.w_mi_intr_mask_reg & 0x80)  MI_register.mi_intr_mask_reg |= 0x8; // set VI mask
+    if (MI_register.w_mi_intr_mask_reg & 0x100) MI_register.mi_intr_mask_reg &= ~0x10; // clear PI mask
+    if (MI_register.w_mi_intr_mask_reg & 0x200) MI_register.mi_intr_mask_reg |= 0x10; // set PI mask
+    if (MI_register.w_mi_intr_mask_reg & 0x400) MI_register.mi_intr_mask_reg &= ~0x20; // clear DP mask
+    if (MI_register.w_mi_intr_mask_reg & 0x800) MI_register.mi_intr_mask_reg |= 0x20; // set DP mask
+}
+
+void make_w_sp_status_reg(void)
+{
+    sp_register.w_sp_status_reg = 0;
+
+    if ((sp_register.sp_status_reg & 0x0001) == 0)
+        sp_register.w_sp_status_reg |= 0x0000001;
+    else
+        sp_register.w_sp_status_reg |= 0x0000002;
+
+    if ((sp_register.sp_status_reg & 0x0002) == 0)
+        sp_register.w_sp_status_reg |= 0x0000004;
+
+    // TODO: should the interupt bits be set under any circumstance?
+
+    if ((sp_register.sp_status_reg & 0x0020) == 0)
+        sp_register.w_sp_status_reg |= 0x0000020;
+    else
+        sp_register.w_sp_status_reg |= 0x0000040;
+
+    if ((sp_register.sp_status_reg & 0x0040) == 0)
+        sp_register.w_sp_status_reg |= 0x0000080;
+    else
+        sp_register.w_sp_status_reg |= 0x0000100;
+    if ((sp_register.sp_status_reg & 0x0080) == 0)
+        sp_register.w_sp_status_reg |= 0x0000200;
+    else
+        sp_register.w_sp_status_reg |= 0x0000400;
+
+    if ((sp_register.sp_status_reg & 0x0100) == 0)
+        sp_register.w_sp_status_reg |= 0x0000800;
+    else
+        sp_register.w_sp_status_reg |= 0x0001000;
+
+    if ((sp_register.sp_status_reg & 0x0200) == 0)
+        sp_register.w_sp_status_reg |= 0x0002000;
+    else
+        sp_register.w_sp_status_reg |= 0x0004000;
+
+    if ((sp_register.sp_status_reg & 0x0400) == 0)
+        sp_register.w_sp_status_reg |= 0x0008000;
+    else
+        sp_register.w_sp_status_reg |= 0x0010000;
+
+    if ((sp_register.sp_status_reg & 0x0800) == 0)
+        sp_register.w_sp_status_reg |= 0x0020000;
+    else
+        sp_register.w_sp_status_reg |= 0x0040000;
+
+    if ((sp_register.sp_status_reg & 0x1000) == 0)
+        sp_register.w_sp_status_reg |= 0x0080000;
+    else
+        sp_register.w_sp_status_reg |= 0x0100000;
+
+    if ((sp_register.sp_status_reg & 0x2000) == 0)
+        sp_register.w_sp_status_reg |= 0x0200000;
+    else
+        sp_register.w_sp_status_reg |= 0x0400000;
+
+    if ((sp_register.sp_status_reg & 0x4000) == 0)
+        sp_register.w_sp_status_reg |= 0x0800000;
+    else
+        sp_register.w_sp_status_reg |= 0x1000000;
+}
+
+static void do_SP_Task(void)
+{
+    int save_pc = rsp_register.rsp_pc & ~0xFFF;
+    if (SP_DMEM[0xFC0/4] == 1)
+    {
+        if (dpc_register.dpc_status & 0x2) // DP frozen (DK64, BC)
+        {
+            // don't do the task now
+            // the task will be done when DP is unfreezed (see update_DPC)
+            return;
+        }
+        
+        // unprotecting old frame buffers
+        if (gfx.fBGetFrameBufferInfo && gfx.fBRead && gfx.fBWrite &&
+                frameBufferInfos[0].addr)
+        {
+            int i;
+            for (i=0; i<6; i++)
+            {
+                if (frameBufferInfos[i].addr)
+                {
+                    int j;
+                    int start = frameBufferInfos[i].addr & 0x7FFFFF;
+                    int end = start + frameBufferInfos[i].width*
+                              frameBufferInfos[i].height*
+                              frameBufferInfos[i].size - 1;
+                    start = start >> 16;
+                    end = end >> 16;
+
+                    for (j=start; j<=end; j++)
+                    {
+#ifdef DBG
+                        if (lookup_breakpoint(0x80000000 + j * 0x10000, 0x10000,
+                                              BPT_FLAG_ENABLED |  BPT_FLAG_READ ) != -1)
+                        {
+                            readmem[0x8000+j] = read_rdram_break;
+                            readmemb[0x8000+j] = read_rdramb_break;
+                            readmemh[0x8000+j] = read_rdramh_break;
+                            readmemd[0xa000+j] = read_rdramd_break;
+                        }
+                        else
+                        {
+#endif
+                            readmem[0x8000+j] = read_rdram;
+                            readmemb[0x8000+j] = read_rdramb;
+                            readmemh[0x8000+j] = read_rdramh;
+                            readmemd[0xa000+j] = read_rdramd;
+#ifdef DBG
+                        }
+                        if (lookup_breakpoint(0xa0000000 + j * 0x10000, 0x10000,
+                                              BPT_FLAG_ENABLED |  BPT_FLAG_READ ) != -1)
+                        {
+                            readmem[0xa000+j] = read_rdram_break;
+                            readmemb[0xa000+j] = read_rdramb_break;
+                            readmemh[0xa000+j] = read_rdramh_break;
+                            readmemd[0x8000+j] = read_rdramd_break;
+                        }
+                        else
+                        {
+#endif
+                            readmem[0xa000+j] = read_rdram;
+                            readmemb[0xa000+j] = read_rdramb;
+                            readmemh[0xa000+j] = read_rdramh;
+                            readmemd[0x8000+j] = read_rdramd;
+#ifdef DBG
+                        }
+                        if (lookup_breakpoint(0x80000000 + j * 0x10000, 0x10000,
+                                              BPT_FLAG_ENABLED |  BPT_FLAG_WRITE ) != -1)
+                        {
+                            writemem[0x8000+j] = write_rdram_break;
+                            writememb[0x8000+j] = write_rdramb_break;
+                            writememh[0x8000+j] = write_rdramh_break;
+                            writememd[0x8000+j] = write_rdramd_break;
+                        }
+                        else
+                        {
+#endif
+                            writemem[0x8000+j] = write_rdram;
+                            writememb[0x8000+j] = write_rdramb;
+                            writememh[0x8000+j] = write_rdramh;
+                            writememd[0x8000+j] = write_rdramd;
+#ifdef DBG
+                        }
+                        if (lookup_breakpoint(0xa0000000 + j * 0x10000, 0x10000,
+                                              BPT_FLAG_ENABLED |  BPT_FLAG_WRITE ) != -1)
+                        {
+                            writemem[0xa000+j] = write_rdram_break;
+                            writememb[0xa000+j] = write_rdramb_break;
+                            writememh[0xa000+j] = write_rdramh_break;
+                            writememd[0xa000+j] = write_rdramd_break;
+                        }
+                        else
+                        {
+#endif
+                            writemem[0xa000+j] = write_rdram;
+                            writememb[0xa000+j] = write_rdramb;
+                            writememh[0xa000+j] = write_rdramh;
+                            writememd[0xa000+j] = write_rdramd;
+#ifdef DBG
+                        }
+#endif
+                    }
+                }
+            }
+        }
+
+        //gfx.processDList();
+        rsp_register.rsp_pc &= 0xFFF;
+        start_section(GFX_SECTION);
+        rsp.doRspCycles(0xFFFFFFFF);
+        end_section(GFX_SECTION);
+        rsp_register.rsp_pc |= save_pc;
+        new_frame();
+
+        update_count();
+        if (MI_register.mi_intr_reg & 0x1)
+            add_interupt_event(SP_INT, 1000);
+        if (MI_register.mi_intr_reg & 0x20)
+            add_interupt_event(DP_INT, 1000);
+        MI_register.mi_intr_reg &= ~0x21;
+        sp_register.sp_status_reg &= ~0x303;
+
+        // protecting new frame buffers
+        if (gfx.fBGetFrameBufferInfo && gfx.fBRead && gfx.fBWrite)
+            gfx.fBGetFrameBufferInfo(frameBufferInfos);
+        if (gfx.fBGetFrameBufferInfo && gfx.fBRead && gfx.fBWrite
+                && frameBufferInfos[0].addr)
+        {
+            int i;
+            for (i=0; i<6; i++)
+            {
+                if (frameBufferInfos[i].addr)
+                {
+                    int j;
+                    int start = frameBufferInfos[i].addr & 0x7FFFFF;
+                    int end = start + frameBufferInfos[i].width*
+                              frameBufferInfos[i].height*
+                              frameBufferInfos[i].size - 1;
+                    int start1 = start;
+                    int end1 = end;
+                    start >>= 16;
+                    end >>= 16;
+                    for (j=start; j<=end; j++)
+                    {
+#ifdef DBG
+                        if (lookup_breakpoint(0x80000000 + j * 0x10000, 0x10000,
+                                              BPT_FLAG_ENABLED |  BPT_FLAG_READ ) != -1)
+                        {
+                            readmem[0x8000+j] = read_rdramFB_break;
+                            readmemb[0x8000+j] = read_rdramFBb_break;
+                            readmemh[0x8000+j] = read_rdramFBh_break;
+                            readmemd[0xa000+j] = read_rdramFBd_break;
+                        }
+                        else
+                        {
+#endif
+                            readmem[0x8000+j] = read_rdramFB;
+                            readmemb[0x8000+j] = read_rdramFBb;
+                            readmemh[0x8000+j] = read_rdramFBh;
+                            readmemd[0xa000+j] = read_rdramFBd;
+#ifdef DBG
+                        }
+                        if (lookup_breakpoint(0xa0000000 + j * 0x10000, 0x10000,
+                                              BPT_FLAG_ENABLED |  BPT_FLAG_READ ) != -1)
+                        {
+                            readmem[0xa000+j] = read_rdramFB_break;
+                            readmemb[0xa000+j] = read_rdramFBb_break;
+                            readmemh[0xa000+j] = read_rdramFBh_break;
+                            readmemd[0x8000+j] = read_rdramFBd_break;
+                        }
+                        else
+                        {
+#endif
+                            readmem[0xa000+j] = read_rdramFB;
+                            readmemb[0xa000+j] = read_rdramFBb;
+                            readmemh[0xa000+j] = read_rdramFBh;
+                            readmemd[0x8000+j] = read_rdramFBd;
+#ifdef DBG
+                        }
+                        if (lookup_breakpoint(0x80000000 + j * 0x10000, 0x10000,
+                                              BPT_FLAG_ENABLED |  BPT_FLAG_WRITE ) != -1)
+                        {
+                            writemem[0x8000+j] = write_rdramFB_break;
+                            writememb[0x8000+j] = write_rdramFBb_break;
+                            writememh[0x8000+j] = write_rdramFBh_break;
+                            writememd[0x8000+j] = write_rdramFBd_break;
+                        }
+                        else
+                        {
+#endif
+                            writemem[0x8000+j] = write_rdramFB;
+                            writememb[0x8000+j] = write_rdramFBb;
+                            writememh[0x8000+j] = write_rdramFBh;
+                            writememd[0x8000+j] = write_rdramFBd;
+#ifdef DBG
+                        }
+                        if (lookup_breakpoint(0xa0000000 + j * 0x10000, 0x10000,
+                                              BPT_FLAG_ENABLED |  BPT_FLAG_WRITE ) != -1)
+                        {
+                            writemem[0xa000+j] = write_rdramFB_break;
+                            writememb[0xa000+j] = write_rdramFBb_break;
+                            writememh[0xa000+j] = write_rdramFBh_break;
+                            writememd[0xa000+j] = write_rdramFBd_break;
+                        }
+                        else
+                        {
+#endif
+                            writemem[0xa000+j] = write_rdramFB;
+                            writememb[0xa000+j] = write_rdramFBb;
+                            writememh[0xa000+j] = write_rdramFBh;
+                            writememd[0xa000+j] = write_rdramFBd;
+#ifdef DBG
+                        }
+#endif
+                    }
+                    start <<= 4;
+                    end <<= 4;
+                    for (j=start; j<=end; j++)
+                    {
+                        if (j>=start1 && j<=end1) framebufferRead[j]=1;
+                        else framebufferRead[j] = 0;
+                    }
+
+                    if (firstFrameBufferSetting)
+                    {
+                        firstFrameBufferSetting = 0;
+                        fast_memory = 0;
+                        for (j=0; j<0x100000; j++)
+                            invalid_code[j] = 1;
+                    }
+                }
+            }
+        }
+    }
+    else if (SP_DMEM[0xFC0/4] == 2)
+    {
+        //audio.processAList();
+        rsp_register.rsp_pc &= 0xFFF;
+        start_section(AUDIO_SECTION);
+        rsp.doRspCycles(0xFFFFFFFF);
+        end_section(AUDIO_SECTION);
+        rsp_register.rsp_pc |= save_pc;
+
+        update_count();
+        if (MI_register.mi_intr_reg & 0x1)
+            add_interupt_event(SP_INT, 4000/*500*/);
+        MI_register.mi_intr_reg &= ~0x1;
+        sp_register.sp_status_reg &= ~0x303;
+        
+    }
+    else
+    {
+        rsp_register.rsp_pc &= 0xFFF;
+        rsp.doRspCycles(0xFFFFFFFF);
+        rsp_register.rsp_pc |= save_pc;
+
+        update_count();
+        if (MI_register.mi_intr_reg & 0x1)
+            add_interupt_event(SP_INT, 0/*100*/);
+        MI_register.mi_intr_reg &= ~0x1;
+        sp_register.sp_status_reg &= ~0x203;
+    }
+}
+
+static void update_SP(void)
+{
+    if (sp_register.w_sp_status_reg & 0x1) // clear halt
+        sp_register.sp_status_reg &= ~0x1;
+    if (sp_register.w_sp_status_reg & 0x2) // set halt
+        sp_register.sp_status_reg |= 0x1;
+
+    if (sp_register.w_sp_status_reg & 0x4) // clear broke
+        sp_register.sp_status_reg &= ~0x2;
+
+    if (sp_register.w_sp_status_reg & 0x8) // clear SP interupt
+    {
+        MI_register.mi_intr_reg &= ~1;
+        check_interupt();
+    }
+
+    if (sp_register.w_sp_status_reg & 0x10) // set SP interupt
     {
         MI_register.mi_intr_reg |= 1;
         check_interupt();
     }
 
-    if (sp_register.w_sp_status_reg & 0x20)
-        sp_register.single_step = 0;
-    if (sp_register.w_sp_status_reg & 0x40)
-        sp_register.single_step = 1;
-    if (sp_register.w_sp_status_reg & 0x80)
-        sp_register.intr_break = 0;
-    if (sp_register.w_sp_status_reg & 0x100)
-        sp_register.intr_break = 1;
-    if (sp_register.w_sp_status_reg & 0x200)
-        sp_register.signal0 = 0;
-    if (sp_register.w_sp_status_reg & 0x400)
-        sp_register.signal0 = 1;
-    if (sp_register.w_sp_status_reg & 0x800)
-        sp_register.signal1 = 0;
-    if (sp_register.w_sp_status_reg & 0x1000)
-        sp_register.signal1 = 1;
-    if (sp_register.w_sp_status_reg & 0x2000)
-        sp_register.signal2 = 0;
-    if (sp_register.w_sp_status_reg & 0x4000)
-        sp_register.signal2 = 1;
-    if (sp_register.w_sp_status_reg & 0x8000)
-        sp_register.signal3 = 0;
-    if (sp_register.w_sp_status_reg & 0x10000)
-        sp_register.signal3 = 1;
-    if (sp_register.w_sp_status_reg & 0x20000)
-        sp_register.signal4 = 0;
-    if (sp_register.w_sp_status_reg & 0x40000)
-        sp_register.signal4 = 1;
-    if (sp_register.w_sp_status_reg & 0x80000)
-        sp_register.signal5 = 0;
-    if (sp_register.w_sp_status_reg & 0x100000)
-        sp_register.signal5 = 1;
-    if (sp_register.w_sp_status_reg & 0x200000)
-        sp_register.signal6 = 0;
-    if (sp_register.w_sp_status_reg & 0x400000)
-        sp_register.signal6 = 1;
-    if (sp_register.w_sp_status_reg & 0x800000)
-        sp_register.signal7 = 0;
-    if (sp_register.w_sp_status_reg & 0x1000000)
-        sp_register.signal7 = 1;
-    sp_register.sp_status_reg = ((sp_register.halt) |
-                                 (sp_register.broke << 1) |
-                                 (sp_register.dma_busy << 2) |
-                                 (sp_register.dma_full << 3) |
-                                 (sp_register.io_full << 4) |
-                                 (sp_register.single_step << 5) |
-                                 (sp_register.intr_break << 6) |
-                                 (sp_register.signal0 << 7) |
-                                 (sp_register.signal1 << 8) |
-                                 (sp_register.signal2 << 9) |
-                                 (sp_register.signal3 << 10) |
-                                 (sp_register.signal4 << 11) |
-                                 (sp_register.signal5 << 12) |
-                                 (sp_register.signal6 << 13) |
-                                 (sp_register.signal7 << 14));
+    if (sp_register.w_sp_status_reg & 0x20) // clear single step
+        sp_register.sp_status_reg &= ~0x20;
+    if (sp_register.w_sp_status_reg & 0x40) // set single step
+        sp_register.sp_status_reg |= 0x20;
+
+    if (sp_register.w_sp_status_reg & 0x80) // clear interrupt on break
+        sp_register.sp_status_reg &= ~0x40;
+    if (sp_register.w_sp_status_reg & 0x100) // set interrupt on break
+        sp_register.sp_status_reg |= 0x40;
+
+    if (sp_register.w_sp_status_reg & 0x200) // clear signal 0
+        sp_register.sp_status_reg &= ~0x80;
+    if (sp_register.w_sp_status_reg & 0x400) // set signal 0
+        sp_register.sp_status_reg |= 0x80;
+
+    if (sp_register.w_sp_status_reg & 0x800) // clear signal 1
+        sp_register.sp_status_reg &= ~0x100;
+    if (sp_register.w_sp_status_reg & 0x1000) // set signal 1
+        sp_register.sp_status_reg |= 0x100;
+
+    if (sp_register.w_sp_status_reg & 0x2000) // clear signal 2
+        sp_register.sp_status_reg &= ~0x200;
+    if (sp_register.w_sp_status_reg & 0x4000) // set signal 2
+        sp_register.sp_status_reg |= 0x200;
+
+    if (sp_register.w_sp_status_reg & 0x8000) // clear signal 3
+        sp_register.sp_status_reg &= ~0x400;
+    if (sp_register.w_sp_status_reg & 0x10000) // set signal 3
+        sp_register.sp_status_reg |= 0x400;
+
+    if (sp_register.w_sp_status_reg & 0x20000) // clear signal 4
+        sp_register.sp_status_reg &= ~0x800;
+    if (sp_register.w_sp_status_reg & 0x40000) // set signal 4
+        sp_register.sp_status_reg |= 0x800;
+
+    if (sp_register.w_sp_status_reg & 0x80000) // clear signal 5
+        sp_register.sp_status_reg &= ~0x1000;
+    if (sp_register.w_sp_status_reg & 0x100000) // set signal 5
+        sp_register.sp_status_reg |= 0x1000;
+
+    if (sp_register.w_sp_status_reg & 0x200000) // clear signal 6
+        sp_register.sp_status_reg &= ~0x2000;
+    if (sp_register.w_sp_status_reg & 0x400000) // set signal 6
+        sp_register.sp_status_reg |= 0x2000;
+
+    if (sp_register.w_sp_status_reg & 0x800000) // clear signal 7
+        sp_register.sp_status_reg &= ~0x4000;
+    if (sp_register.w_sp_status_reg & 0x1000000) // set signal 7
+        sp_register.sp_status_reg |= 0x4000;
 
     //if (get_event(SP_INT)) return;
     if (!(sp_register.w_sp_status_reg & 0x1) &&
             !(sp_register.w_sp_status_reg & 0x4)) return;
-    if (!sp_register.halt && !sp_register.broke)
-    {
-        int save_pc = rsp_register.rsp_pc & ~0xFFF;
-        if (SP_DMEM[0xFC0/4] == 1)
-        {
-            // unprotecting old frame buffers
-            if (fBGetFrameBufferInfo && fBRead && fBWrite &&
-                    frameBufferInfos[0].addr)
-            {
-                int i;
-                for (i=0; i<6; i++)
-                {
-                    if (frameBufferInfos[i].addr)
-                    {
-                        int j;
-                        int start = frameBufferInfos[i].addr & 0x7FFFFF;
-                        int end = start + frameBufferInfos[i].width*
-                                  frameBufferInfos[i].height*
-                                  frameBufferInfos[i].size - 1;
-                        start = start >> 16;
-                        end = end >> 16;
-
-                        for (j=start; j<=end; j++)
-                        {
-#ifdef DBG
-                            if (lookup_breakpoint(0x80000000 + j * 0x10000, 0xFFFF,
-                                                  BPT_FLAG_ENABLED |  BPT_FLAG_READ ) != -1)
-                            {
-                                readmem[0x8000+j] = read_rdram_break;
-                                readmemb[0x8000+j] = read_rdramb_break;
-                                readmemh[0x8000+j] = read_rdramh_break;
-                                readmemd[0xa000+j] = read_rdramd_break;
-                            }
-                            else
-                            {
-#endif
-                                readmem[0x8000+j] = read_rdram;
-                                readmemb[0x8000+j] = read_rdramb;
-                                readmemh[0x8000+j] = read_rdramh;
-                                readmemd[0xa000+j] = read_rdramd;
-#ifdef DBG
-                            }
-                            if (lookup_breakpoint(0xa0000000 + j * 0x10000, 0xFFFF,
-                                                  BPT_FLAG_ENABLED |  BPT_FLAG_READ ) != -1)
-                            {
-                                readmem[0xa000+j] = read_rdram_break;
-                                readmemb[0xa000+j] = read_rdramb_break;
-                                readmemh[0xa000+j] = read_rdramh_break;
-                                readmemd[0x8000+j] = read_rdramd_break;
-                            }
-                            else
-                            {
-#endif
-                                readmem[0xa000+j] = read_rdram;
-                                readmemb[0xa000+j] = read_rdramb;
-                                readmemh[0xa000+j] = read_rdramh;
-                                readmemd[0x8000+j] = read_rdramd;
-#ifdef DBG
-                            }
-                            if (lookup_breakpoint(0x80000000 + j * 0x10000, 0xFFFF,
-                                                  BPT_FLAG_ENABLED |  BPT_FLAG_WRITE ) != -1)
-                            {
-                                writemem[0x8000+j] = write_rdram_break;
-                                writememb[0x8000+j] = write_rdramb_break;
-                                writememh[0x8000+j] = write_rdramh_break;
-                                writememd[0x8000+j] = write_rdramd_break;
-                            }
-                            else
-                            {
-#endif
-                                writemem[0x8000+j] = write_rdram;
-                                writememb[0x8000+j] = write_rdramb;
-                                writememh[0x8000+j] = write_rdramh;
-                                writememd[0x8000+j] = write_rdramd;
-#ifdef DBG
-                            }
-                            if (lookup_breakpoint(0xa0000000 + j * 0x10000, 0xFFFF,
-                                                  BPT_FLAG_ENABLED |  BPT_FLAG_WRITE ) != -1)
-                            {
-                                writemem[0xa000+j] = write_rdram_break;
-                                writememb[0xa000+j] = write_rdramb_break;
-                                writememh[0xa000+j] = write_rdramh_break;
-                                writememd[0xa000+j] = write_rdramd_break;
-                            }
-                            else
-                            {
-#endif
-                                writemem[0xa000+j] = write_rdram;
-                                writememb[0xa000+j] = write_rdramb;
-                                writememh[0xa000+j] = write_rdramh;
-                                writememd[0xa000+j] = write_rdramd;
-#ifdef DBG
-                            }
-#endif
-                        }
-                    }
-                }
-            }
-
-            //processDList();
-            rsp_register.rsp_pc &= 0xFFF;
-            start_section(GFX_SECTION);
-            doRspCycles(100);
-            end_section(GFX_SECTION);
-            rsp_register.rsp_pc |= save_pc;
-            new_frame();
-
-            MI_register.mi_intr_reg &= ~0x21;
-            sp_register.sp_status_reg &= ~0x303;
-            update_count();
-            add_interupt_event(SP_INT, 1000);
-            add_interupt_event(DP_INT, 1000);
-
-            // protecting new frame buffers
-            if (fBGetFrameBufferInfo && fBRead && fBWrite)
-                fBGetFrameBufferInfo(frameBufferInfos);
-            if (fBGetFrameBufferInfo && fBRead && fBWrite
-                    && frameBufferInfos[0].addr)
-            {
-                int i;
-                for (i=0; i<6; i++)
-                {
-                    if (frameBufferInfos[i].addr)
-                    {
-                        int j;
-                        int start = frameBufferInfos[i].addr & 0x7FFFFF;
-                        int end = start + frameBufferInfos[i].width*
-                                  frameBufferInfos[i].height*
-                                  frameBufferInfos[i].size - 1;
-                        int start1 = start;
-                        int end1 = end;
-                        start >>= 16;
-                        end >>= 16;
-                        for (j=start; j<=end; j++)
-                        {
-#ifdef DBG
-                            if (lookup_breakpoint(0x80000000 + j * 0x10000, 0xFFFF,
-                                                  BPT_FLAG_ENABLED |  BPT_FLAG_READ ) != -1)
-                            {
-                                readmem[0x8000+j] = read_rdramFB_break;
-                                readmemb[0x8000+j] = read_rdramFBb_break;
-                                readmemh[0x8000+j] = read_rdramFBh_break;
-                                readmemd[0xa000+j] = read_rdramFBd_break;
-                            }
-                            else
-                            {
-#endif
-                                readmem[0x8000+j] = read_rdramFB;
-                                readmemb[0x8000+j] = read_rdramFBb;
-                                readmemh[0x8000+j] = read_rdramFBh;
-                                readmemd[0xa000+j] = read_rdramFBd;
-#ifdef DBG
-                            }
-                            if (lookup_breakpoint(0xa0000000 + j * 0x10000, 0xFFFF,
-                                                  BPT_FLAG_ENABLED |  BPT_FLAG_READ ) != -1)
-                            {
-                                readmem[0xa000+j] = read_rdramFB_break;
-                                readmemb[0xa000+j] = read_rdramFBb_break;
-                                readmemh[0xa000+j] = read_rdramFBh_break;
-                                readmemd[0x8000+j] = read_rdramFBd_break;
-                            }
-                            else
-                            {
-#endif
-                                readmem[0xa000+j] = read_rdramFB;
-                                readmemb[0xa000+j] = read_rdramFBb;
-                                readmemh[0xa000+j] = read_rdramFBh;
-                                readmemd[0x8000+j] = read_rdramFBd;
-#ifdef DBG
-                            }
-                            if (lookup_breakpoint(0x80000000 + j * 0x10000, 0xFFFF,
-                                                  BPT_FLAG_ENABLED |  BPT_FLAG_WRITE ) != -1)
-                            {
-                                writemem[0x8000+j] = write_rdramFB_break;
-                                writememb[0x8000+j] = write_rdramFBb_break;
-                                writememh[0x8000+j] = write_rdramFBh_break;
-                                writememd[0x8000+j] = write_rdramFBd_break;
-                            }
-                            else
-                            {
-#endif
-                                writemem[0x8000+j] = write_rdramFB;
-                                writememb[0x8000+j] = write_rdramFBb;
-                                writememh[0x8000+j] = write_rdramFBh;
-                                writememd[0x8000+j] = write_rdramFBd;
-#ifdef DBG
-                            }
-                            if (lookup_breakpoint(0xa0000000 + j * 0x10000, 0xFFFF,
-                                                  BPT_FLAG_ENABLED |  BPT_FLAG_WRITE ) != -1)
-                            {
-                                writemem[0xa000+j] = write_rdramFB_break;
-                                writememb[0xa000+j] = write_rdramFBb_break;
-                                writememh[0xa000+j] = write_rdramFBh_break;
-                                writememd[0xa000+j] = write_rdramFBd_break;
-                            }
-                            else
-                            {
-#endif
-                                writemem[0xa000+j] = write_rdramFB;
-                                writememb[0xa000+j] = write_rdramFBb;
-                                writememh[0xa000+j] = write_rdramFBh;
-                                writememd[0xa000+j] = write_rdramFBd;
-#ifdef DBG
-                            }
-#endif
-                        }
-                        start <<= 4;
-                        end <<= 4;
-                        for (j=start; j<=end; j++)
-                        {
-                            if (j>=start1 && j<=end1) framebufferRead[j]=1;
-                            else framebufferRead[j] = 0;
-                        }
-
-                        if (firstFrameBufferSetting)
-                        {
-                            firstFrameBufferSetting = 0;
-                            fast_memory = 0;
-                            for (j=0; j<0x100000; j++)
-                                invalid_code[j] = 1;
-                        }
-                    }
-                }
-            }
-        }
-        else if (SP_DMEM[0xFC0/4] == 2)
-        {
-            //processAList();
-            rsp_register.rsp_pc &= 0xFFF;
-            start_section(AUDIO_SECTION);
-            doRspCycles(100);
-            end_section(AUDIO_SECTION);
-            rsp_register.rsp_pc |= save_pc;
-
-            MI_register.mi_intr_reg &= ~0x1;
-            sp_register.sp_status_reg &= ~0x303;
-            update_count();
-            //add_interupt_event(SP_INT, 500);
-            add_interupt_event(SP_INT, 4000);
-        }
-        else
-        {
-            rsp_register.rsp_pc &= 0xFFF;
-            doRspCycles(100);
-            rsp_register.rsp_pc |= save_pc;
-
-            MI_register.mi_intr_reg &= ~0x1;
-            sp_register.sp_status_reg &= ~0x203;
-            update_count();
-            add_interupt_event(SP_INT, 0/*100*/);
-        }
-    }
+    if (!(sp_register.sp_status_reg & 0x3)) // !halt && !broke
+        do_SP_Task();
 }
 
-void update_DPC(void)
+void make_w_dpc_status(void)
 {
-    if (dpc_register.w_dpc_status & 0x1)
-        dpc_register.xbus_dmem_dma = 0;
-    if (dpc_register.w_dpc_status & 0x2)
-        dpc_register.xbus_dmem_dma = 1;
-    if (dpc_register.w_dpc_status & 0x4)
-        dpc_register.freeze = 0;
-    if (dpc_register.w_dpc_status & 0x8)
-        dpc_register.freeze = 1;
-    if (dpc_register.w_dpc_status & 0x10)
-        dpc_register.flush = 0;
-    if (dpc_register.w_dpc_status & 0x20)
-        dpc_register.flush = 1;
-    dpc_register.dpc_status = ((dpc_register.xbus_dmem_dma) |
-                               (dpc_register.freeze << 1) |
-                               (dpc_register.flush << 2) |
-                               (dpc_register.start_glck << 3) |
-                               (dpc_register.tmem_busy << 4) |
-                               (dpc_register.pipe_busy << 5) |
-                               (dpc_register.cmd_busy << 6) |
-                               (dpc_register.cbuf_busy << 7) |
-                               (dpc_register.dma_busy << 8) |
-                               (dpc_register.end_valid << 9) |
-                               (dpc_register.start_valid << 10)
-                              );
+    dpc_register.w_dpc_status = 0;
+
+    if ((dpc_register.dpc_status & 0x0001) == 0)
+        dpc_register.w_dpc_status |= 0x0000001;
+    else
+        dpc_register.w_dpc_status |= 0x0000002;
+
+    if ((dpc_register.dpc_status & 0x0002) == 0)
+        dpc_register.w_dpc_status |= 0x0000004;
+    else
+        dpc_register.w_dpc_status |= 0x0000008;
+
+    if ((dpc_register.dpc_status & 0x0004) == 0)
+        dpc_register.w_dpc_status |= 0x0000010;
+    else
+        dpc_register.w_dpc_status |= 0x0000020;
+}
+
+static void update_DPC(void)
+{
+    if (dpc_register.w_dpc_status & 0x1) // clear xbus_dmem_dma
+        dpc_register.dpc_status &= ~0x1;
+    if (dpc_register.w_dpc_status & 0x2) // set xbus_dmem_dma
+        dpc_register.dpc_status |= 0x1;
+
+    if (dpc_register.w_dpc_status & 0x4) // clear freeze
+    {
+        dpc_register.dpc_status &= ~0x2;
+
+        // see do_SP_task for more info
+        if (!(sp_register.sp_status_reg & 0x3)) // !halt && !broke
+            do_SP_Task();
+    }
+    if (dpc_register.w_dpc_status & 0x8) // set freeze
+        dpc_register.dpc_status |= 0x2;
+
+    if (dpc_register.w_dpc_status & 0x10) // clear flush
+        dpc_register.dpc_status &= ~0x4;
+    if (dpc_register.w_dpc_status & 0x20) // set flush
+        dpc_register.dpc_status |= 0x4;
 }
 
 void read_nothing(void)
@@ -1490,7 +1610,8 @@ void read_nomemd(void)
 void write_nomem(void)
 {
     if (r4300emu != CORE_PURE_INTERPRETER && !invalid_code[address>>12])
-        if (blocks[address>>12]->block[(address&0xFFF)/4].ops != NOTCOMPILED)
+        if (blocks[address>>12]->block[(address&0xFFF)/4].ops !=
+            current_instruction_table.NOTCOMPILED)
             invalid_code[address>>12] = 1;
     address = virtual_to_physical_address(address,1);
     if (address == 0x00000000) return;
@@ -1500,7 +1621,8 @@ void write_nomem(void)
 void write_nomemb(void)
 {
     if (r4300emu != CORE_PURE_INTERPRETER && !invalid_code[address>>12])
-        if (blocks[address>>12]->block[(address&0xFFF)/4].ops != NOTCOMPILED)
+        if (blocks[address>>12]->block[(address&0xFFF)/4].ops != 
+            current_instruction_table.NOTCOMPILED)
             invalid_code[address>>12] = 1;
     address = virtual_to_physical_address(address,1);
     if (address == 0x00000000) return;
@@ -1510,7 +1632,8 @@ void write_nomemb(void)
 void write_nomemh(void)
 {
     if (r4300emu != CORE_PURE_INTERPRETER && !invalid_code[address>>12])
-        if (blocks[address>>12]->block[(address&0xFFF)/4].ops != NOTCOMPILED)
+        if (blocks[address>>12]->block[(address&0xFFF)/4].ops != 
+            current_instruction_table.NOTCOMPILED)
             invalid_code[address>>12] = 1;
     address = virtual_to_physical_address(address,1);
     if (address == 0x00000000) return;
@@ -1520,7 +1643,8 @@ void write_nomemh(void)
 void write_nomemd(void)
 {
     if (r4300emu != CORE_PURE_INTERPRETER && !invalid_code[address>>12])
-        if (blocks[address>>12]->block[(address&0xFFF)/4].ops != NOTCOMPILED)
+        if (blocks[address>>12]->block[(address&0xFFF)/4].ops != 
+            current_instruction_table.NOTCOMPILED)
             invalid_code[address>>12] = 1;
     address = virtual_to_physical_address(address,1);
     if (address == 0x00000000) return;
@@ -1562,7 +1686,7 @@ void read_rdramFB(void)
             if ((address & 0x7FFFFF) >= start && (address & 0x7FFFFF) <= end &&
                     framebufferRead[(address & 0x7FFFFF)>>12])
             {
-                fBRead(address);
+                gfx.fBRead(address);
                 framebufferRead[(address & 0x7FFFFF)>>12] = 0;
             }
         }
@@ -1584,7 +1708,7 @@ void read_rdramFBb(void)
             if ((address & 0x7FFFFF) >= start && (address & 0x7FFFFF) <= end &&
                     framebufferRead[(address & 0x7FFFFF)>>12])
             {
-                fBRead(address);
+                gfx.fBRead(address);
                 framebufferRead[(address & 0x7FFFFF)>>12] = 0;
             }
         }
@@ -1606,7 +1730,7 @@ void read_rdramFBh(void)
             if ((address & 0x7FFFFF) >= start && (address & 0x7FFFFF) <= end &&
                     framebufferRead[(address & 0x7FFFFF)>>12])
             {
-                fBRead(address);
+                gfx.fBRead(address);
                 framebufferRead[(address & 0x7FFFFF)>>12] = 0;
             }
         }
@@ -1628,7 +1752,7 @@ void read_rdramFBd(void)
             if ((address & 0x7FFFFF) >= start && (address & 0x7FFFFF) <= end &&
                     framebufferRead[(address & 0x7FFFFF)>>12])
             {
-                fBRead(address);
+                gfx.fBRead(address);
                 framebufferRead[(address & 0x7FFFFF)>>12] = 0;
             }
         }
@@ -1638,6 +1762,10 @@ void read_rdramFBd(void)
 
 void write_rdram(void)
 {
+#if defined( COUNT_WRITE_RDRAM_CALLS )
+	printf( "write_rdram, word=%i, count: %i", word, writerdram_count );
+	writerdram_count++;
+#endif
     *((unsigned int *)(rdramb + (address & 0xFFFFFF))) = word;
 }
 
@@ -1669,7 +1797,7 @@ void write_rdramFB(void)
                                frameBufferInfos[i].height*
                                frameBufferInfos[i].size - 1;
             if ((address & 0x7FFFFF) >= start && (address & 0x7FFFFF) <= end)
-                fBWrite(address, 4);
+                gfx.fBWrite(address, 4);
         }
     }
     write_rdram();
@@ -1687,7 +1815,7 @@ void write_rdramFBb(void)
                                frameBufferInfos[i].height*
                                frameBufferInfos[i].size - 1;
             if ((address & 0x7FFFFF) >= start && (address & 0x7FFFFF) <= end)
-                fBWrite(address^S8, 1);
+                gfx.fBWrite(address^S8, 1);
         }
     }
     write_rdramb();
@@ -1705,7 +1833,7 @@ void write_rdramFBh(void)
                                frameBufferInfos[i].height*
                                frameBufferInfos[i].size - 1;
             if ((address & 0x7FFFFF) >= start && (address & 0x7FFFFF) <= end)
-                fBWrite(address^S16, 2);
+                gfx.fBWrite(address^S16, 2);
         }
     }
     write_rdramh();
@@ -1723,7 +1851,7 @@ void write_rdramFBd(void)
                                frameBufferInfos[i].height*
                                frameBufferInfos[i].size - 1;
             if ((address & 0x7FFFFF) >= start && (address & 0x7FFFFF) <= end)
-                fBWrite(address, 8);
+                gfx.fBWrite(address, 8);
         }
     }
     write_rdramd();
@@ -2141,7 +2269,7 @@ void write_dp(void)
         dpc_register.dpc_current = dpc_register.dpc_start;
         break;
     case 0x4:
-        processRDPList();
+        gfx.processRDPList();
         MI_register.mi_intr_reg |= 0x20;
         check_interupt();
         break;
@@ -2196,7 +2324,7 @@ void write_dpb(void)
     case 0x5:
     case 0x6:
     case 0x7:
-        processRDPList();
+        gfx.processRDPList();
         MI_register.mi_intr_reg |= 0x20;
         check_interupt();
         break;
@@ -2235,7 +2363,7 @@ void write_dph(void)
         break;
     case 0x4:
     case 0x6:
-        processRDPList();
+        gfx.processRDPList();
         MI_register.mi_intr_reg |= 0x20;
         check_interupt();
         break;
@@ -2262,7 +2390,7 @@ void write_dpd(void)
     {
     case 0x0:
         dpc_register.dpc_current = dpc_register.dpc_start;
-        processRDPList();
+        gfx.processRDPList();
         MI_register.mi_intr_reg |= 0x20;
         check_interupt();
         break;
@@ -2504,7 +2632,7 @@ void write_vi(void)
         return;
         break;
     case 0x10:
-        MI_register.mi_intr_reg &= 0xFFFFFFF7;
+        MI_register.mi_intr_reg &= ~0x8;
         check_interupt();
         return;
         break;
@@ -2515,13 +2643,13 @@ void write_vi(void)
 void update_vi_status(unsigned int word)
 {
     vi_register.vi_status = word;
-    viStatusChanged();
+    gfx.viStatusChanged();
 }
 
 void update_vi_width(unsigned int word)
 {
     vi_register.vi_width = word;
-    viWidthChanged();
+    gfx.viWidthChanged();
 }
 
 void write_vib(void)
@@ -2559,7 +2687,7 @@ void write_vib(void)
     case 0x11:
     case 0x12:
     case 0x13:
-        MI_register.mi_intr_reg &= 0xFFFFFFF7;
+        MI_register.mi_intr_reg &= ~0x8;
         check_interupt();
         return;
         break;
@@ -2597,7 +2725,7 @@ void write_vih(void)
         break;
     case 0x10:
     case 0x12:
-        MI_register.mi_intr_reg &= 0xFFFFFFF7;
+        MI_register.mi_intr_reg &= ~0x8;
         check_interupt();
         return;
         break;
@@ -2627,7 +2755,7 @@ void write_vid(void)
         return;
         break;
     case 0x10:
-        MI_register.mi_intr_reg &= 0xFFFFFFF7;
+        MI_register.mi_intr_reg &= ~0x8;
         check_interupt();
         vi_register.vi_burst = (unsigned int) (dword & 0xFFFFFFFF);
         return;
@@ -2718,39 +2846,17 @@ void read_aid(void)
 
 void write_ai(void)
 {
-    unsigned int delay=0;
+    unsigned int freq,delay=0;
     switch (*address_low)
     {
     case 0x4:
         ai_register.ai_len = word;
-        aiLenChanged();
-        switch (ROM_HEADER->Country_code&0xFF)
-        {
-        case 0x44:
-        case 0x46:
-        case 0x49:
-        case 0x50:
-        case 0x53:
-        case 0x55:
-        case 0x58:
-        case 0x59:
-        {
-            unsigned int f = 49656530/(ai_register.ai_dacrate+1);
-            if (f)
-                delay = (unsigned int) (((unsigned long long)ai_register.ai_len * vi_register.vi_delay*50)/(f*4));
-        }
-        break;
-        case 0x37:
-        case 0x41:
-        case 0x45:
-        case 0x4a:
-        {
-            unsigned int f = 48681812/(ai_register.ai_dacrate+1);
-            if (f)
-                delay = (unsigned int) (((unsigned long long)ai_register.ai_len*vi_register.vi_delay*60)/(f*4));
-        }
-        break;
-        }
+        audio.aiLenChanged();
+
+        freq = ROM_PARAMS.aidacrate / (ai_register.ai_dacrate+1);
+        if (freq)
+            delay = (unsigned int) (((unsigned long long)ai_register.ai_len*vi_register.vi_delay*ROM_PARAMS.vilimit)/(freq*4));
+
         if (ai_register.ai_status & 0x40000000) // busy
         {
             ai_register.next_delay = delay;
@@ -2768,7 +2874,7 @@ void write_ai(void)
         return;
         break;
     case 0xc:
-        MI_register.mi_intr_reg &= 0xFFFFFFFB;
+        MI_register.mi_intr_reg &= ~0x4;
         check_interupt();
         return;
         break;
@@ -2786,25 +2892,7 @@ void write_ai(void)
 void update_ai_dacrate(unsigned int word)
 {
     ai_register.ai_dacrate = word;
-    switch (ROM_HEADER->Country_code&0xFF)
-    {
-    case 0x44:
-    case 0x46:
-    case 0x49:
-    case 0x50:
-    case 0x53:
-    case 0x55:
-    case 0x58:
-    case 0x59:
-        aiDacrateChanged(SYSTEM_PAL);
-        break;
-    case 0x37:
-    case 0x41:
-    case 0x45:
-    case 0x4a:
-        aiDacrateChanged(SYSTEM_NTSC);
-        break;
-    }
+    audio.aiDacrateChanged(ROM_PARAMS.systemtype);
 }
 
 void write_aib(void)
@@ -2821,28 +2909,12 @@ void write_aib(void)
         *((unsigned char*)&temp
           + ((*address_low&3)^S8) ) = cpu_byte;
         ai_register.ai_len = temp;
-        aiLenChanged();
-        switch (ROM_HEADER->Country_code&0xFF)
-        {
-        case 0x44:
-        case 0x46:
-        case 0x49:
-        case 0x50:
-        case 0x53:
-        case 0x55:
-        case 0x58:
-        case 0x59:
-            delay = (unsigned int) (((unsigned long long)ai_register.ai_len*(ai_register.ai_dacrate+1)*vi_register.vi_delay*50)/49656530);
-            break;
-        case 0x37:
-        case 0x41:
-        case 0x45:
-        case 0x4a:
-            delay = (unsigned int) (((unsigned long long)ai_register.ai_len*(ai_register.ai_dacrate+1)*
-                                     vi_register.vi_delay*60)/48681812);
-            break;
-        }
+        audio.aiLenChanged();
+
+        delay = (unsigned int) (((unsigned long long)ai_register.ai_len*(ai_register.ai_dacrate+1)*
+                                    vi_register.vi_delay*ROM_PARAMS.vilimit)/ROM_PARAMS.aidacrate);
         //delay = 0;
+
         if (ai_register.ai_status & 0x40000000) // busy
         {
             ai_register.next_delay = delay;
@@ -2863,7 +2935,7 @@ void write_aib(void)
     case 0xd:
     case 0xe:
     case 0xf:
-        MI_register.mi_intr_reg &= 0xFFFFFFFB;
+        MI_register.mi_intr_reg &= ~0x4;
         check_interupt();
         return;
         break;
@@ -2897,28 +2969,11 @@ void write_aih(void)
         *((unsigned short*)((unsigned char*)&temp
                             + ((*address_low&3)^S16) )) = hword;
         ai_register.ai_len = temp;
-        aiLenChanged();
-        switch (ROM_HEADER->Country_code&0xFF)
-        {
-        case 0x44:
-        case 0x46:
-        case 0x49:
-        case 0x50:
-        case 0x53:
-        case 0x55:
-        case 0x58:
-        case 0x59:
-            delay = (unsigned int) (((unsigned long long)ai_register.ai_len*(ai_register.ai_dacrate+1)*
-                                     vi_register.vi_delay*50)/49656530);
-            break;
-        case 0x37:
-        case 0x41:
-        case 0x45:
-        case 0x4a:
-            delay = (unsigned int) (((unsigned long long)ai_register.ai_len*(ai_register.ai_dacrate+1)*
-                                     vi_register.vi_delay*60)/48681812);
-            break;
-        }
+        audio.aiLenChanged();
+
+        delay = (unsigned int) (((unsigned long long)ai_register.ai_len*(ai_register.ai_dacrate+1)*
+                                    vi_register.vi_delay*ROM_PARAMS.vilimit)/ROM_PARAMS.aidacrate);
+
         if (ai_register.ai_status & 0x40000000) // busy
         {
             ai_register.next_delay = delay;
@@ -2937,7 +2992,7 @@ void write_aih(void)
         break;
     case 0xc:
     case 0xe:
-        MI_register.mi_intr_reg &= 0xFFFFFFFB;
+        MI_register.mi_intr_reg &= ~0x4;
         check_interupt();
         return;
         break;
@@ -2965,28 +3020,11 @@ void write_aid(void)
     case 0x0:
         ai_register.ai_dram_addr = (unsigned int) (dword >> 32);
         ai_register.ai_len = (unsigned int) (dword & 0xFFFFFFFF);
-        aiLenChanged();
-        switch (ROM_HEADER->Country_code&0xFF)
-        {
-        case 0x44:
-        case 0x46:
-        case 0x49:
-        case 0x50:
-        case 0x53:
-        case 0x55:
-        case 0x58:
-        case 0x59:
-            delay = (unsigned int) (((unsigned long long)ai_register.ai_len*(ai_register.ai_dacrate+1)*
-                                     vi_register.vi_delay*50)/49656530);
-            break;
-        case 0x37:
-        case 0x41:
-        case 0x45:
-        case 0x4a:
-            delay = (unsigned int) (((unsigned long long)ai_register.ai_len*(ai_register.ai_dacrate+1)*
-                                     vi_register.vi_delay*60)/48681812);
-            break;
-        }
+        audio.aiLenChanged();
+
+        delay = (unsigned int) (((unsigned long long)ai_register.ai_len*(ai_register.ai_dacrate+1)*
+                                    vi_register.vi_delay*ROM_PARAMS.vilimit)/ROM_PARAMS.aidacrate);
+
         if (ai_register.ai_status & 0x40000000) // busy
         {
             ai_register.next_delay = delay;
@@ -3005,7 +3043,7 @@ void write_aid(void)
         break;
     case 0x8:
         ai_register.ai_control = (unsigned int) (dword >> 32);
-        MI_register.mi_intr_reg &= 0xFFFFFFFB;
+        MI_register.mi_intr_reg &= ~0x4;
         check_interupt();
         return;
         break;
@@ -3060,7 +3098,7 @@ void write_pi(void)
         return;
         break;
     case 0x10:
-        if (word & 2) MI_register.mi_intr_reg &= 0xFFFFFFEF;
+        if (word & 2) MI_register.mi_intr_reg &= ~0x10;
         check_interupt();
         return;
         break;
@@ -3105,7 +3143,7 @@ void write_pib(void)
     case 0x11:
     case 0x12:
     case 0x13:
-        if (word) MI_register.mi_intr_reg &= 0xFFFFFFEF;
+        if (word) MI_register.mi_intr_reg &= ~0x10;
         check_interupt();
         return;
         break;
@@ -3160,7 +3198,7 @@ void write_pih(void)
         break;
     case 0x10:
     case 0x12:
-        if (word) MI_register.mi_intr_reg &= 0xFFFFFFEF;
+        if (word) MI_register.mi_intr_reg &= ~0x10;
         check_interupt();
         return;
         break;
@@ -3203,7 +3241,7 @@ void write_pid(void)
         return;
         break;
     case 0x10:
-        if (word) MI_register.mi_intr_reg &= 0xFFFFFFEF;
+        if (word) MI_register.mi_intr_reg &= ~0x10;
         check_interupt();
         *readpi[*address_low+4] = (unsigned int) (dword & 0xFF);
         return;
@@ -3309,7 +3347,7 @@ void write_si(void)
         return;
         break;
     case 0x18:
-        MI_register.mi_intr_reg &= 0xFFFFFFFD;
+        MI_register.mi_intr_reg &= ~0x2;
         si_register.si_stat &= ~0x1000;
         check_interupt();
         return;
@@ -3351,7 +3389,7 @@ void write_sib(void)
     case 0x19:
     case 0x1a:
     case 0x1b:
-        MI_register.mi_intr_reg &= 0xFFFFFFFD;
+        MI_register.mi_intr_reg &= ~0x2;
         si_register.si_stat &= ~0x1000;
         check_interupt();
         return;
@@ -3385,7 +3423,7 @@ void write_sih(void)
         break;
     case 0x18:
     case 0x1a:
-        MI_register.mi_intr_reg &= 0xFFFFFFFD;
+        MI_register.mi_intr_reg &= ~0x2;
         si_register.si_stat &= ~0x1000;
         check_interupt();
         return;
@@ -3409,7 +3447,7 @@ void write_sid(void)
         return;
         break;
     case 0x18:
-        MI_register.mi_intr_reg &= 0xFFFFFFFD;
+        MI_register.mi_intr_reg &= ~0x2;
         si_register.si_stat &= ~0x1000;
         check_interupt();
         return;
@@ -3419,10 +3457,10 @@ void write_sid(void)
 
 void read_flashram_status(void)
 {
-    if (use_flashram != -1 && *address_low == 0)
+    if (flashram_info.use_flashram != -1 && *address_low == 0)
     {
         *rdword = flashram_status();
-        use_flashram = 1;
+        flashram_info.use_flashram = 1;
     }
     else
         DebugMessage(M64MSG_ERROR, "unknown read in read_flashram_status()");
@@ -3461,10 +3499,10 @@ void write_flashram_dummyd(void)
 
 void write_flashram_command(void)
 {
-    if (use_flashram != -1 && *address_low == 0)
+    if (flashram_info.use_flashram != -1 && *address_low == 0)
     {
         flashram_command(word);
-        use_flashram = 1;
+        flashram_info.use_flashram = 1;
     }
     else
         DebugMessage(M64MSG_ERROR, "unknown write in write_flashram_command()");
@@ -3661,3 +3699,21 @@ void write_pifd(void)
     }
 }
 
+unsigned int *fast_mem_access(unsigned int address)
+{
+    /* This code is performance critical, specially on pure interpreter mode.
+     * Removing error checking saves some time, but the emulator may crash. */
+    if (address < 0x80000000 || address >= 0xc0000000)
+        address = virtual_to_physical_address(address, 2);
+
+    if ((address & 0x1FFFFFFF) >= 0x10000000)
+        return (unsigned int *)rom + ((address & 0x1FFFFFFF) - 0x10000000)/4;
+    else if ((address & 0x1FFFFFFF) < 0x800000)
+        return (unsigned int *)rdram + (address & 0x1FFFFFFF)/4;
+    else if (address >= 0xa4000000 && address <= 0xa4001000)
+        return (unsigned int *)SP_DMEM + (address & 0xFFF)/4;
+    else if ((address >= 0xa4001000 && address <= 0xa4002000))
+        return (unsigned int *)SP_IMEM + (address & 0xFFF)/4;
+    else
+        return NULL;
+}

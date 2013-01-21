@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\src;..\..\..\mupen64plus-win32-deps\SDL-1.2.14\include;..\..\..\mupen64plus-win32-deps\zlib-1.2.3\include;..\..\..\mupen64plus-win32-deps\libpng-1.2.37\include;..\..\..\mupen64plus-win32-deps\freetype-2.3.5-1\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;DYNAREC"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;DYNAREC;inline=__inline;M64P_OSD;M64P_PARALLEL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib ..\..\..\mupen64plus-win32-deps\SDL-1.2.14\lib\SDL.lib ..\..\..\mupen64plus-win32-deps\zlib-1.2.3\lib\zlib.lib ..\..\..\mupen64plus-win32-deps\libpng-1.2.37\lib\libpng.lib ..\..\..\mupen64plus-win32-deps\freetype-2.3.5-1\lib\freetype.lib"
+				AdditionalDependencies="shell32.lib opengl32.lib glu32.lib ..\..\..\mupen64plus-win32-deps\SDL-1.2.14\lib\SDL.lib ..\..\..\mupen64plus-win32-deps\zlib-1.2.3\lib\zlib.lib ..\..\..\mupen64plus-win32-deps\libpng-1.2.37\lib\libpng.lib ..\..\..\mupen64plus-win32-deps\freetype-2.3.5-1\lib\freetype.lib"
 				OutputFile="$(OutDir)\mupen64plus.dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
@@ -120,7 +120,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\src;..\..\..\mupen64plus-win32-deps\SDL-1.2.14\include;..\..\..\mupen64plus-win32-deps\zlib-1.2.3\include;..\..\..\mupen64plus-win32-deps\libpng-1.2.37\include;..\..\..\mupen64plus-win32-deps\freetype-2.3.5-1\include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;DYNAREC"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;DYNAREC;inline=__inline;M64P_OSD;M64P_PARALLEL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -139,7 +139,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib ..\..\..\mupen64plus-win32-deps\SDL-1.2.14\lib\SDL.lib ..\..\..\mupen64plus-win32-deps\zlib-1.2.3\lib\zlib.lib ..\..\..\mupen64plus-win32-deps\libpng-1.2.37\lib\libpng.lib ..\..\..\mupen64plus-win32-deps\freetype-2.3.5-1\lib\freetype.lib"
+				AdditionalDependencies="shell32.lib opengl32.lib glu32.lib ..\..\..\mupen64plus-win32-deps\SDL-1.2.14\lib\SDL.lib ..\..\..\mupen64plus-win32-deps\zlib-1.2.3\lib\zlib.lib ..\..\..\mupen64plus-win32-deps\libpng-1.2.37\lib\libpng.lib ..\..\..\mupen64plus-win32-deps\freetype-2.3.5-1\lib\freetype.lib"
 				OutputFile="$(OutDir)\mupen64plus.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -183,15 +183,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\src\main\adler32.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\r4300\x86\assemble.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\r4300\bc.c"
 				>
 			</File>
 			<File
@@ -208,30 +200,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\api\config.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\r4300\cop0.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\r4300\cop1.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\r4300\cop1_d.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\r4300\cop1_l.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\r4300\cop1_s.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\r4300\cop1_w.c"
 				>
 			</File>
 			<File
@@ -361,10 +329,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\main\ini_reader.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\r4300\interupt.c"
 				>
 			</File>
@@ -429,7 +393,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\r4300\regimm.c"
+				RelativePath="..\..\src\r4300\reset.c"
 				>
 			</File>
 			<File
@@ -449,32 +413,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\r4300\special.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\r4300\tlb.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\src\memory\tlb.c"
 				>
 			</File>
@@ -491,6 +429,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\main\workqueue.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\main\zip\zip.c"
 				>
 			</File>
@@ -500,10 +442,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="..\..\src\main\adler32.h"
-				>
-			</File>
 			<File
 				RelativePath="..\..\src\r4300\x86\assemble.h"
 				>
@@ -590,10 +528,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\memory\flashram.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\main\ini_reader.h"
 				>
 			</File>
 			<File
@@ -701,6 +635,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\r4300\reset.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\main\rom.h"
 				>
 			</File>
@@ -730,6 +668,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\api\vidext.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\main\workqueue.h"
 				>
 			</File>
 			<File

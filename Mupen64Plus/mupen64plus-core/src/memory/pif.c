@@ -23,6 +23,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#if defined(__MINGW32__)
+#include <pthread.h> /* localtime_r on mingw */
+#endif
 
 #include "memory.h"
 #include "pif.h"
@@ -36,10 +39,134 @@
 #include "api/debugger.h"
 #include "main/main.h"
 #include "main/rom.h"
+#include "main/util.h"
 #include "plugin/plugin.h"
 
 static unsigned char eeprom[0x800];
 static unsigned char mempack[4][0x8000];
+
+static char *get_eeprom_path(void)
+{
+    return formatstr("%s%s.eep", get_savesrampath(), ROM_SETTINGS.goodname);
+}
+
+static void eeprom_format(void)
+{
+    memset(eeprom, 0, sizeof(eeprom));
+}
+
+static void eeprom_read_file(void)
+{
+    char *filename = get_eeprom_path();
+
+    switch (read_from_file(filename, eeprom, sizeof(eeprom)))
+    {
+        case file_open_error:
+            DebugMessage(M64MSG_VERBOSE, "couldn't open eeprom file '%s' for reading", filename);
+            eeprom_format();
+            break;
+        case file_read_error:
+            DebugMessage(M64MSG_WARNING, "fread() failed for 2kb eeprom file '%s'", filename);
+            break;
+        default: break;
+    }
+
+    free(filename);
+}
+
+static void eeprom_write_file(void)
+{
+    char *filename = get_eeprom_path();
+
+    switch (write_to_file(filename, eeprom, sizeof(eeprom)))
+    {
+        case file_open_error:
+            DebugMessage(M64MSG_WARNING, "couldn't open eeprom file '%s' for writing", filename);
+            break;
+        case file_write_error:
+            DebugMessage(M64MSG_WARNING, "fwrite() failed for 2kb eeprom file '%s'", filename);
+            break;
+        default: break;
+    }
+
+    free(filename);
+}
+
+static char *get_mempack_path(void)
+{
+    return formatstr("%s%s.mpk", get_savesrampath(), ROM_SETTINGS.goodname);
+}
+
+static void mempack_format(void)
+{
+    unsigned char init[] =
+    {
+        0x81,0x01,0x02,0x03, 0x04,0x05,0x06,0x07, 0x08,0x09,0x0a,0x0b, 0x0c,0x0d,0x0e,0x0f,
+        0x10,0x11,0x12,0x13, 0x14,0x15,0x16,0x17, 0x18,0x19,0x1a,0x1b, 0x1c,0x1d,0x1e,0x1f,
+        0xff,0xff,0xff,0xff, 0x05,0x1a,0x5f,0x13, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
+        0xff,0xff,0xff,0xff, 0xff,0xff,0xff,0xff, 0xff,0xff,0x01,0xff, 0x66,0x25,0x99,0xcd,
+        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
+        0xff,0xff,0xff,0xff, 0x05,0x1a,0x5f,0x13, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
+        0xff,0xff,0xff,0xff, 0xff,0xff,0xff,0xff, 0xff,0xff,0x01,0xff, 0x66,0x25,0x99,0xcd,
+        0xff,0xff,0xff,0xff, 0x05,0x1a,0x5f,0x13, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
+        0xff,0xff,0xff,0xff, 0xff,0xff,0xff,0xff, 0xff,0xff,0x01,0xff, 0x66,0x25,0x99,0xcd,
+        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
+        0xff,0xff,0xff,0xff, 0x05,0x1a,0x5f,0x13, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
+        0xff,0xff,0xff,0xff, 0xff,0xff,0xff,0xff, 0xff,0xff,0x01,0xff, 0x66,0x25,0x99,0xcd,
+        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
+        0x00,0x71,0x00,0x03, 0x00,0x03,0x00,0x03, 0x00,0x03,0x00,0x03, 0x00,0x03,0x00,0x03
+    };
+    int i,j;
+    for (i=0; i<4; i++)
+    {
+        for (j=0; j<0x8000; j+=2)
+        {
+            mempack[i][j] = 0;
+            mempack[i][j+1] = 0x03;
+        }
+        memcpy(mempack[i], init, 272);
+    }
+}
+
+static void mempack_read_file(void)
+{
+    char *filename = get_mempack_path();
+
+    switch (read_from_file(filename, mempack, sizeof(mempack)))
+    {
+        case file_open_error:
+            DebugMessage(M64MSG_VERBOSE, "couldn't open memory pack file '%s' for reading", filename);
+            mempack_format();
+            break;
+        case file_read_error:
+            DebugMessage(M64MSG_WARNING, "fread() failed for 128kb mempack file '%s'", filename);
+            break;
+        default: break;
+    }
+
+    free(filename);
+}
+
+static void mempack_write_file(void)
+{
+    char *filename = get_mempack_path();
+
+    switch (write_to_file(filename, mempack, sizeof(mempack)))
+    {
+        case file_open_error:
+            DebugMessage(M64MSG_WARNING, "couldn't open memory pack file '%s' for writing", filename);
+            break;
+        case file_write_error:
+            DebugMessage(M64MSG_WARNING, "fwrite() failed for 128kb mempack file '%s'", filename);
+            break;
+        default: break;
+    }
+
+    free(filename);
+}
 
 //#define DEBUG_PIF
 #ifdef DEBUG_PIF
@@ -89,67 +216,21 @@ static void EepromCommand(unsigned char *Command)
         break;
     case 4: // read
     {
-        char *filename;
-        FILE *f;
 #ifdef DEBUG_PIF
         DebugMessage(M64MSG_INFO, "EepromCommand() read 8-byte block %i", Command[3]);
 #endif
-        filename = (char *) malloc(strlen(get_savesrampath()) + strlen(ROM_SETTINGS.goodname)+4+1);
-        strcpy(filename, get_savesrampath());
-        strcat(filename, ROM_SETTINGS.goodname);
-        strcat(filename, ".eep");
-        f = fopen(filename, "rb");
-        if (f == NULL)
-        {
-            DebugMessage(M64MSG_VERBOSE, "couldn't open eeprom file '%s' for reading", filename);
-            memset(eeprom, 0, 0x800);
-        }
-        else
-        {
-            if (fread(eeprom, 1, 0x800, f) != 0x800)
-                DebugMessage(M64MSG_WARNING, "fread() failed for 2kb eeprom file '%s'", filename);
-            fclose(f);
-        }
-        free(filename);
+        eeprom_read_file();
         memcpy(&Command[4], eeprom + Command[3]*8, 8);
     }
     break;
     case 5: // write
     {
-        char *filename;
-        FILE *f;
 #ifdef DEBUG_PIF
         DebugMessage(M64MSG_INFO, "EepromCommand() write 8-byte block %i", Command[3]);
 #endif
-        filename = (char *) malloc(strlen(get_savesrampath()) + strlen(ROM_SETTINGS.goodname)+4+1);
-        strcpy(filename, get_savesrampath());
-        strcat(filename, ROM_SETTINGS.goodname);
-        strcat(filename, ".eep");
-        f = fopen(filename, "rb");
-        if (f == NULL)
-        {
-            DebugMessage(M64MSG_VERBOSE, "couldn't open eeprom file '%s' for reading", filename);
-            memset(eeprom, 0, 0x800);
-        }
-        else
-        {
-            if (fread(eeprom, 1, 0x800, f) != 0x800)
-                DebugMessage(M64MSG_WARNING, "fread() failed for 2kb eeprom file '%s'", filename);
-            fclose(f);
-        }
+        eeprom_read_file();
         memcpy(eeprom + Command[3]*8, &Command[4], 8);
-        f = fopen(filename, "wb");
-        if (f == NULL)
-        {
-            DebugMessage(M64MSG_WARNING, "couldn't open eeprom file '%s' for writing", filename);
-        }
-        else
-        {
-            if (fwrite(eeprom, 1, 0x800, f) != 0x800)
-                DebugMessage(M64MSG_WARNING, "fread() failed for 2kb eeprom file '%s'", filename);
-            fclose(f);
-        }
-        free(filename);
+        eeprom_write_file();
     }
     break;
     case 6:
@@ -177,7 +258,7 @@ static void EepromCommand(unsigned char *Command)
             break;
         case 2:
             time(&curtime_time);
-#if defined(WIN32)
+#if defined(WIN32) && !defined(__MINGW32__)
             localtime_s(&curtime, &curtime_time);
 #else
             localtime_r(&curtime_time, &curtime);
@@ -200,40 +281,6 @@ static void EepromCommand(unsigned char *Command)
         break;
     default:
         DebugMessage(M64MSG_ERROR, "unknown command in EepromCommand(): %x", Command[2]);
-    }
-}
-
-static void format_mempacks(void)
-{
-    unsigned char init[] =
-    {
-        0x81,0x01,0x02,0x03, 0x04,0x05,0x06,0x07, 0x08,0x09,0x0a,0x0b, 0x0c,0x0d,0x0e,0x0f,
-        0x10,0x11,0x12,0x13, 0x14,0x15,0x16,0x17, 0x18,0x19,0x1a,0x1b, 0x1c,0x1d,0x1e,0x1f,
-        0xff,0xff,0xff,0xff, 0x05,0x1a,0x5f,0x13, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
-        0xff,0xff,0xff,0xff, 0xff,0xff,0xff,0xff, 0xff,0xff,0x01,0xff, 0x66,0x25,0x99,0xcd,
-        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
-        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
-        0xff,0xff,0xff,0xff, 0x05,0x1a,0x5f,0x13, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
-        0xff,0xff,0xff,0xff, 0xff,0xff,0xff,0xff, 0xff,0xff,0x01,0xff, 0x66,0x25,0x99,0xcd,
-        0xff,0xff,0xff,0xff, 0x05,0x1a,0x5f,0x13, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
-        0xff,0xff,0xff,0xff, 0xff,0xff,0xff,0xff, 0xff,0xff,0x01,0xff, 0x66,0x25,0x99,0xcd,
-        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
-        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
-        0xff,0xff,0xff,0xff, 0x05,0x1a,0x5f,0x13, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
-        0xff,0xff,0xff,0xff, 0xff,0xff,0xff,0xff, 0xff,0xff,0x01,0xff, 0x66,0x25,0x99,0xcd,
-        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
-        0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00, 0x00,0x00,0x00,0x00,
-        0x00,0x71,0x00,0x03, 0x00,0x03,0x00,0x03, 0x00,0x03,0x00,0x03, 0x00,0x03,0x00,0x03
-    };
-    int i,j;
-    for (i=0; i<4; i++)
-    {
-        for (j=0; j<0x8000; j+=2)
-        {
-            mempack[i][j] = 0;
-            mempack[i][j+1] = 0x03;
-        }
-        memcpy(mempack[i], init, 272);
     }
 }
 
@@ -266,7 +313,7 @@ static void internal_ReadController(int Control, unsigned char *Command)
         if (Controls[Control].Present)
         {
             BUTTONS Keys;
-            getKeys(Control, &Keys);
+            input.getKeys(Control, &Keys);
             *((unsigned int *)(Command + 3)) = Keys.Value;
 #ifdef COMPARE_CORE
             CoreCompareDataSync(4, Command+3);
@@ -280,7 +327,8 @@ static void internal_ReadController(int Control, unsigned char *Command)
         if (Controls[Control].Present)
         {
             if (Controls[Control].Plugin == PLUGIN_RAW)
-                if (controllerCommand) readController(Control, Command);
+                if (input.controllerCommand)
+                    input.readController(Control, Command);
         }
         break;
     case 3: // write controller pack
@@ -290,7 +338,8 @@ static void internal_ReadController(int Control, unsigned char *Command)
         if (Controls[Control].Present)
         {
             if (Controls[Control].Plugin == PLUGIN_RAW)
-                if (controllerCommand) readController(Control, Command);
+                if (input.controllerCommand)
+                    input.readController(Control, Command);
         }
         break;
     }
@@ -298,7 +347,6 @@ static void internal_ReadController(int Control, unsigned char *Command)
 
 static void internal_ControllerCommand(int Control, unsigned char *Command)
 {
-
     switch (Command[2])
     {
     case 0x00: // read status
@@ -356,31 +404,7 @@ static void internal_ControllerCommand(int Control, unsigned char *Command)
                     address &= 0xFFE0;
                     if (address <= 0x7FE0)
                     {
-                        char *filename;
-                        FILE *f;
-                        filename = (char *) malloc(strlen(get_savesrampath()) + strlen(ROM_SETTINGS.goodname)+4+1);
-                        strcpy(filename, get_savesrampath());
-                        strcat(filename, ROM_SETTINGS.goodname);
-                        strcat(filename, ".mpk");
-                        f = fopen(filename, "rb");
-                        if (f == NULL)
-                        {
-                            DebugMessage(M64MSG_VERBOSE, "couldn't open memory pack file '%s' for reading", filename);
-                            format_mempacks();
-                        }
-                        else
-                        {
-                            if (fread(mempack[0], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fread() failed for 1st 32kb mempack in file '%s'", filename);
-                            else if (fread(mempack[1], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fread() failed for 2nd 32kb mempack in file '%s'", filename);
-                            else if (fread(mempack[2], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fread() failed for 3rd 32kb mempack in file '%s'", filename);
-                            else if (fread(mempack[3], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fread() failed for 4th 32kb mempack in file '%s'", filename);
-                            fclose(f);
-                        }
-                        free(filename);
+                        mempack_read_file();
                         memcpy(&Command[5], &mempack[Control][address], 0x20);
                     }
                     else
@@ -395,7 +419,8 @@ static void internal_ControllerCommand(int Control, unsigned char *Command)
 #ifdef DEBUG_PIF
                 DebugMessage(M64MSG_INFO, "internal_ControllerCommand() Channel %i Command 2 controllerCommand (in Input plugin)", Control);
 #endif
-                if (controllerCommand) controllerCommand(Control, Command);
+                if (input.controllerCommand)
+                    input.controllerCommand(Control, Command);
                 break;
             default:
 #ifdef DEBUG_PIF
@@ -426,49 +451,9 @@ static void internal_ControllerCommand(int Control, unsigned char *Command)
                     address &= 0xFFE0;
                     if (address <= 0x7FE0)
                     {
-                        char *filename;
-                        FILE *f;
-                        filename = (char *) malloc(strlen(get_savesrampath()) + strlen(ROM_SETTINGS.goodname)+4+1);
-                        strcpy(filename, get_savesrampath());
-                        strcat(filename, ROM_SETTINGS.goodname);
-                        strcat(filename, ".mpk");
-                        f = fopen(filename, "rb");
-                        if (f == NULL)
-                        {
-                            DebugMessage(M64MSG_VERBOSE, "couldn't open memory pack file '%s' for reading", filename);
-                            format_mempacks();
-                        }
-                        else
-                        {
-                            if (fread(mempack[0], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fread() failed for 1st 32kb mempack in file '%s'", filename);
-                            else if (fread(mempack[1], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fread() failed for 2nd 32kb mempack in file '%s'", filename);
-                            else if (fread(mempack[2], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fread() failed for 3rd 32kb mempack in file '%s'", filename);
-                            else if (fread(mempack[3], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fread() failed for 4th 32kb mempack in file '%s'", filename);
-                            fclose(f);
-                        }
+                        mempack_read_file();
                         memcpy(&mempack[Control][address], &Command[5], 0x20);
-                        f = fopen(filename, "wb");
-                        if (f == NULL)
-                        {
-                            DebugMessage(M64MSG_WARNING, "couldn't open memory pack file '%s' for writing", filename);
-                        }
-                        else
-                        {
-                            if (fwrite(mempack[0], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fwrite() failed for 1st 32kb memory pack in file '%s'", filename);
-                            else if (fwrite(mempack[1], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fwrite() failed for 2nd 32kb memory pack in file '%s'", filename);
-                            else if (fwrite(mempack[2], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fwrite() failed for 3rd 32kb memory pack in file '%s'", filename);
-                            else if (fwrite(mempack[3], 1, 0x8000, f) != 0x8000)
-                                DebugMessage(M64MSG_WARNING, "fwrite() failed for 4th 32kb memory pack in file '%s'", filename);
-                            fclose(f);
-                        }
-                        free(filename);
+                        mempack_write_file();
                     }
                     Command[0x25] = mempack_crc(&Command[5]);
                 }
@@ -478,7 +463,8 @@ static void internal_ControllerCommand(int Control, unsigned char *Command)
 #ifdef DEBUG_PIF
                 DebugMessage(M64MSG_INFO, "internal_ControllerCommand() Channel %i Command 3 controllerCommand (in Input plugin)", Control);
 #endif
-                if (controllerCommand) controllerCommand(Control, Command);
+                if (input.controllerCommand)
+                    input.controllerCommand(Control, Command);
                 break;
             default:
 #ifdef DEBUG_PIF
@@ -549,7 +535,7 @@ void update_pif_write(void)
                 {
                     if (Controls[channel].Present &&
                             Controls[channel].RawData)
-                        controllerCommand(channel, &PIF_RAMb[i]);
+                        input.controllerCommand(channel, &PIF_RAMb[i]);
                     else
                         internal_ControllerCommand(channel, &PIF_RAMb[i]);
                 }
@@ -566,7 +552,7 @@ void update_pif_write(void)
         i++;
     }
     //PIF_RAMb[0x3F] = 0;
-    controllerCommand(-1, NULL);
+    input.controllerCommand(-1, NULL);
 }
 
 void update_pif_read(void)
@@ -596,7 +582,7 @@ void update_pif_read(void)
                 {
                     if (Controls[channel].Present &&
                             Controls[channel].RawData)
-                        readController(channel, &PIF_RAMb[i]);
+                        input.readController(channel, &PIF_RAMb[i]);
                     else
                         internal_ReadController(channel, &PIF_RAMb[i]);
                 }
@@ -608,6 +594,6 @@ void update_pif_read(void)
         }
         i++;
     }
-    readController(-1, NULL);
+    input.readController(-1, NULL);
 }
 

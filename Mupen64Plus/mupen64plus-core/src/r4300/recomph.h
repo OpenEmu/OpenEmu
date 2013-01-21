@@ -35,8 +35,6 @@ extern int code_length;
 extern int max_code_length;
 extern unsigned char **inst_pointer;
 extern precomp_block* dst_block;
-extern int jump_marker;
-extern unsigned long *return_address;
 extern int fast_memory;
 extern int src;   /* opcode of r4300 instruction being recompiled */
 
@@ -188,7 +186,6 @@ void gensc(void);
 void gennotcompiled(void);
 void genjal_idle(void);
 void genjal_out(void);
-void gendebug(void);
 void genbeq_out(void);
 void gensyscall(void);
 void gensync(void);
@@ -200,10 +197,8 @@ void genteq(void);
 void gendsrl(void);
 void gendsrl32(void);
 void genbltz_idle(void);
-void genbltz_test(void);
 void genbltz_out(void);
 void genbgez_idle(void);
-void genbgez_test(void);
 void genbgez_out(void);
 void genbltzl_idle(void);
 void genbltzl_out(void);
@@ -304,6 +299,10 @@ void gentestl(void);
 void gentestl_out(void);
 void gencheck_cop1_unusable(void);
 void genll(void);
+
+#ifdef COMPARE_CORE
+void gendebug(void);
+#endif
 
 #endif
 

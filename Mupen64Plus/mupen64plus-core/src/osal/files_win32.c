@@ -77,41 +77,41 @@ static int search_dir_file(char *destpath, const char *path, const char *filenam
 
 int osal_mkdirp(const char *dirpath, int mode)
 {
+    char *mypath, *currpath;
     struct _stat fileinfo;
-    size_t dirpathlen = strlen(dirpath);
-    char *currpath = _strdup(dirpath);
 
-    /* first, remove sub-dirs on the end (by replacing slashes with NULL chars) until we find an existing directory */
-    while (strlen(currpath) > 1 && _stat(currpath, &fileinfo) != 0)
-    {
-        char *lastslash = strrchr(currpath, '\\');
-        if (lastslash == NULL)
-        {
-            free(currpath);
-            return 1; /* error: we never found an existing directory, this path is bad */
-        }
-        *lastslash = 0;
-    }
+    // Terminate quickly if the path already exists
+    if (_stat(dirpath, &fileinfo) == 0 && (fileinfo.st_mode & _S_IFDIR))
+        return 0;
 
-    /* then walk up the path chain, creating directories along the way */
-    do
+    // Create partial paths
+    mypath = currpath = strdup(dirpath);
+    if (mypath == NULL)
+        return 1;
+
+    while ((currpath = strpbrk(currpath + 1, OSAL_DIR_SEPARATORS)) != NULL)
     {
-        if (currpath[strlen(currpath)-1] != '\\' && _stat(currpath, &fileinfo) != 0)
+        *currpath = '\0';
+        if (_stat(mypath, &fileinfo) != 0)
         {
-            if (_mkdir(currpath) != 0)
-            {
-                DebugMessage(M64MSG_ERROR, "MKDIR failed for '%s'.", currpath);
-                free(currpath);
-                return 2;        /* mkdir failed */
-            }
+            if (_mkdir(mypath) != 0)
+                break;
         }
-        if (strlen(currpath) == dirpathlen)
-            break;
         else
-            currpath[strlen(currpath)] = '\\';
-    } while (1);
-    
-    free(currpath);        
+        {
+            if (!(fileinfo.st_mode & _S_IFDIR))
+                break;
+        }
+        *currpath = OSAL_DIR_SEPARATORS[0];
+    }
+    free(mypath);
+    if (currpath != NULL)
+        return 1;
+
+    // Create full path
+    if (_stat(dirpath, &fileinfo) != 0 && _mkdir(dirpath) != 0)
+        return 1;
+
     return 0;
 }
 

@@ -294,10 +294,10 @@ static NSGradient *highlightGradient, *normalGradient;
 
     NSInteger selectedRow = [[self selectedRowIndexes] firstIndex];
 
-    NSInteger romNameColumnIndex = [self columnWithIdentifier:@"romName"];
-    NSAssert(romNameColumnIndex != -1, @"The list view must have a column identified by romName");
+    NSInteger titleColumnIndex = [self columnWithIdentifier:@"listViewTitle"];
+    NSAssert(titleColumnIndex != -1, @"The list view must have a column identified by listViewTitle");
 
-    [self editColumn:romNameColumnIndex row:selectedRow withEvent:nil select:NO];
+    [self editColumn:titleColumnIndex row:selectedRow withEvent:nil select:NO];
 }
 
 @synthesize selectionColor;

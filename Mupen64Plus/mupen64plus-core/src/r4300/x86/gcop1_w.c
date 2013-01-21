@@ -31,7 +31,7 @@
 void gencvt_s_w(void)
 {
 #ifdef INTERPRET_CVT_S_W
-   gencallinterp((unsigned int)CVT_S_W, 0);
+   gencallinterp((unsigned int)cached_interpreter_table.CVT_S_W, 0);
 #else
    gencheck_cop1_unusable();
    mov_eax_memoffs32((unsigned int*)(&reg_cop1_simple[dst->f.cf.fs]));
@@ -44,7 +44,7 @@ void gencvt_s_w(void)
 void gencvt_d_w(void)
 {
 #ifdef INTERPRET_CVT_D_W
-   gencallinterp((unsigned int)CVT_D_W, 0);
+   gencallinterp((unsigned int)cached_interpreter_table.CVT_D_W, 0);
 #else
    gencheck_cop1_unusable();
    mov_eax_memoffs32((unsigned int*)(&reg_cop1_simple[dst->f.cf.fs]));

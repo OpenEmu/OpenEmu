@@ -34,6 +34,16 @@
 {
     if(anEvent == nil) return;
     
+    static dispatch_once_t onceToken;
+    static BOOL logHID = NO;
+    dispatch_once(&onceToken, ^{
+        logHID = [[NSUserDefaults standardUserDefaults] boolForKey:@"logsHIDEvents"];
+    });
+    
+    if(logHID)
+    {
+        NSLog(@"%@", anEvent);
+    }
     [[[self keyWindow] firstResponder] handleHIDEvent:anEvent];
 }
 

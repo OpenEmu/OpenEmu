@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *   Mupen64plus - savestates.h                                            *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
+ *   Copyright (C) 2012 CasualJames                                        *
  *   Copyright (C) 2009 Olejl Tillin9                                      *
  *   Copyright (C) 2008 Richard42 Tillin9                                  *
  *   Copyright (C) 2002 Hacktarux                                          *
@@ -24,65 +25,33 @@
 #ifndef __SAVESTAVES_H__
 #define __SAVESTAVES_H__
 
-#define SAVESTATE 1
-#define LOADSTATE 2
-#define SAVEPJ64STATE 4
+typedef enum _savestates_job
+{
+    savestates_job_nothing,
+    savestates_job_load,
+    savestates_job_save
+} savestates_job;
 
-extern int savestates_job;
+typedef enum _savestates_type
+{
+    savestates_type_unknown,
+    savestates_type_m64p,
+    savestates_type_pj64_zip,
+    savestates_type_pj64_unc
+} savestates_type;
 
-void savestates_save(void);
-void savestates_load(void);
-int savestates_save_pj64(void);
-void savestates_load_pj64(void);
-char* savestates_get_pj64_filename(void);
+savestates_job savestates_get_job(void);
+void savestates_set_job(savestates_job j, savestates_type t, const char *fn);
+void savestates_init(void);
+void savestates_deinit(void);
+
+int savestates_load(void);
+int savestates_save(void);
 
 void savestates_select_slot(unsigned int s);
 unsigned int savestates_get_slot(void);
 void savestates_set_autoinc_slot(int b);
-int savestates_get_autoinc_slot(void);
 void savestates_inc_slot(void);
-void savestates_select_filename(const char* fn);
-char* savestates_get_filename(void);
-
-typedef struct _TLB_pj64
-    {
-    unsigned int _EntryDefined;
-
-    struct _BreakDownPageMask
-        {
-        unsigned int zero : 13;
-        unsigned int Mask : 12;
-        unsigned int zero2 : 7;
-        } BreakDownPageMask;
-
-    struct _BreakDownEntryHi
-        {
-        unsigned int ASID : 8;
-        unsigned int Zero : 4;
-        unsigned int G : 1;
-        unsigned int VPN2 : 19;
-        } BreakDownEntryHi;
-
-    struct _BreakDownEntryLo0 
-        {
-        unsigned int GLOBAL: 1;
-        unsigned int V : 1;
-        unsigned int D : 1;
-        unsigned int C : 3;
-        unsigned int PFN : 20;
-        unsigned int ZERO: 6;
-        } BreakDownEntryLo0;
-
-    struct _BreakDownEntryLo1 
-        {
-        unsigned int GLOBAL: 1;
-        unsigned int V : 1;
-        unsigned int D : 1;
-        unsigned int C : 3;
-        unsigned int PFN : 20;
-        unsigned int ZERO: 6;
-        } BreakDownEntryLo1;
-    } TLB_pj64;
 
 #endif /* __SAVESTAVES_H__ */
 

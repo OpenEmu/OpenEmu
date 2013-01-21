@@ -75,7 +75,7 @@ static void user_flush_data(png_structp png_write)
 * Other Local (static) functions
 */
 
-static int SaveRGBBufferToFile(char *filename, unsigned char *buf, int width, int height, int pitch)
+static int SaveRGBBufferToFile(const char *filename, const unsigned char *buf, int width, int height, int pitch)
 {
     int i;
 
@@ -132,120 +132,99 @@ static int SaveRGBBufferToFile(char *filename, unsigned char *buf, int width, in
     return 0;
 }
 
-static void GetBaseFilepath(char *filepath, int maxlen)
+static int CurrentShotIndex;
+
+static char *GetNextScreenshotPath(void)
 {
+    char *ScreenshotPath;
+    char ScreenshotFileName[20 + 8 + 1];
+
+    // generate the base name of the screenshot
+    // add the ROM name, convert to lowercase, convert spaces to underscores
+    strcpy(ScreenshotFileName, ROM_PARAMS.headername);
+    for (char *pch = ScreenshotFileName; *pch != '\0'; pch++)
+        *pch = (*pch == ' ') ? '_' : tolower(*pch);
+    strcat(ScreenshotFileName, "-###.png");
+    
+    // add the base path to the screenshot file name
     const char *SshotDir = ConfigGetParamString(g_CoreConfig, "ScreenshotPath");
-
-    // sanity check input
-    if (filepath == NULL)
-        return;
-    if (maxlen < 32)
+    if (SshotDir == NULL || *SshotDir == '\0')
     {
-        filepath[0] = 0;
-        return;
+        // note the trick to avoid an allocation. we add a NUL character
+        // instead of the separator, call mkdir, then add the separator
+        ScreenshotPath = formatstr("%sscreenshot%c%s", ConfigGetUserDataPath(), '\0', ScreenshotFileName);
+        if (ScreenshotPath == NULL)
+            return NULL;
+        osal_mkdirp(ScreenshotPath, 0700);
+        ScreenshotPath[strlen(ScreenshotPath)] = OSAL_DIR_SEPARATORS[0];
+    }
+    else
+    {
+        ScreenshotPath = combinepath(SshotDir, ScreenshotFileName);
+        if (ScreenshotPath == NULL)
+            return NULL;
     }
 
-    /* get the path to store screenshots */
-    strncpy(filepath, SshotDir, maxlen - 24);
-    filepath[maxlen-24] = 0;
-    if (strlen(filepath) == 0)
+    // patch the number part of the name (the '###' part) until we find a free spot
+    char *NumberPtr = ScreenshotPath + strlen(ScreenshotPath) - 7;
+    for (; CurrentShotIndex < 1000; CurrentShotIndex++)
     {
-        snprintf(filepath, maxlen - 24, "%sscreenshot%c", ConfigGetUserDataPath(), OSAL_DIR_SEPARATOR);
-        osal_mkdirp(filepath, 0700);
+        sprintf(NumberPtr, "%03i.png", CurrentShotIndex);
+        FILE *pFile = fopen(ScreenshotPath, "r");
+        if (pFile == NULL)
+            break;
+        fclose(pFile);
     }
 
-    /* make sure there is a slash on the end of the pathname */
-    int pathlen = strlen(filepath);
-    if (pathlen > 0 && filepath[pathlen-1] != OSAL_DIR_SEPARATOR)
+    if (CurrentShotIndex >= 1000)
     {
-        filepath[pathlen] = OSAL_DIR_SEPARATOR;
-        filepath[pathlen+1] = 0;
+        DebugMessage(M64MSG_ERROR, "Can't save screenshot; folder already contains 1000 screenshots for this ROM");
+        return NULL;
     }
+    CurrentShotIndex++;
 
-    // add the game's name to the end, convert to lowercase, convert spaces to underscores
-    char *pch = filepath + strlen(filepath);
-    char ch;
-    strncpy(pch, (char*) ROM_HEADER->nom, 20);
-    pch[20] = '\0';
-    do
-    {
-        ch = *pch;
-        if (ch == ' ')
-            *pch++ = '_';
-        else
-            *pch++ = tolower(ch);
-    } while (ch != 0);
-
-    return;
+    return ScreenshotPath;
 }
 
 /*********************************************************************************************************
 * Global screenshot functions
 */
 
-static int CurrentShotIndex = 0;
-
 extern "C" void ScreenshotRomOpen(void)
 {
-    char filepath[PATH_MAX], filename[PATH_MAX];
-
-    // get screenshot directory and base filename (based on ROM header)
-    GetBaseFilepath(filepath, PATH_MAX - 10);
-
-    // look for the first unused screenshot filename
-    int i;
-    for (i = 0; i < 1000; i++)
-    {
-        sprintf(filename, "%s-%03i.png", filepath, i);
-        FILE *pFile = fopen(filename, "r");
-        if (pFile == NULL)
-            break;
-        fclose(pFile);
-    }
-
-    CurrentShotIndex = i;
+    CurrentShotIndex = 0;
 }
 
 extern "C" void TakeScreenshot(int iFrameNumber)
 {
-    char filepath[PATH_MAX], filename[PATH_MAX];
-
-    // get screenshot directory and base filename (based on ROM header)
-    GetBaseFilepath(filepath, PATH_MAX - 10);
+    char *filename;
 
     // look for an unused screenshot filename
-    for (; CurrentShotIndex < 1000; CurrentShotIndex++)
-    {
-        sprintf(filename, "%s-%03i.png", filepath, CurrentShotIndex);
-        FILE *pFile = fopen(filename, "r");
-        if (pFile == NULL)
-            break;
-        fclose(pFile);
-    }
-    if (CurrentShotIndex >= 1000)
-    {
-        DebugMessage(M64MSG_ERROR, "Can't save screenshot; folder already contains 1000 screenshots for this ROM");
+    filename = GetNextScreenshotPath();
+    if (filename == NULL)
         return;
-    }
-    CurrentShotIndex++;
 
     // get the width and height
     int width = 640;
     int height = 480;
-    readScreen(NULL, &width, &height, 0);
+    gfx.readScreen(NULL, &width, &height, 0);
 
     // allocate memory for the image
     unsigned char *pucFrame = (unsigned char *) malloc(width * height * 3);
-    if (pucFrame == 0)
+    if (pucFrame == NULL)
+    {
+        free(filename);
         return;
+    }
 
     // grab the back image from OpenGL by calling the video plugin
-    readScreen(pucFrame, &width, &height, 0);
+    gfx.readScreen(pucFrame, &width, &height, 0);
 
     // write the image to a PNG
     SaveRGBBufferToFile(filename, pucFrame, width, height, width * 3);
     // free the memory
     free(pucFrame);
+    free(filename);
     // print message -- this allows developers to capture frames and use them in the regression test
     main_message(M64MSG_INFO, OSD_BOTTOM_LEFT, "Captured screenshot for frame %i.", iFrameNumber);
 }

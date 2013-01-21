@@ -135,7 +135,6 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 @synthesize gameResponder;
 @synthesize rootProxy;
-@synthesize screenshotHandler;
 
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
 {
@@ -455,6 +454,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         CGLLockContext(cgl_ctx);
 
         // always set the CIImage, so save states save
+        // TODO: Since screenshots do not use gameCIImage anymore, should we remove it as a property?
         [self setGameCIImage:[[CIImage imageWithIOSurface:gameSurfaceRef options:options] imageByCroppingToRect:textureRect]];
 
         OEGameShader *shader = [filters objectForKey:filterName];
@@ -501,57 +501,6 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
                 //                    [rootProxy setMousePosition:mousePoint];
                 //                }
             }
-        }
-
-        if(screenshotHandler != nil)
-        {
-
-            NSBitmapImageRep *imageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-                                                                                 pixelsWide:textureRect.size.width
-                                                                                 pixelsHigh:textureRect.size.height
-                                                                              bitsPerSample:8
-                                                                            samplesPerPixel:4
-                                                                                   hasAlpha:YES
-                                                                                   isPlanar:NO
-                                                                             colorSpaceName:NSDeviceRGBColorSpace
-                                                                                bytesPerRow:textureRect.size.width * 4
-                                                                               bitsPerPixel:32];
-
-            //            glReadPixels(0, 0, textureRect.size.width, textureRect.size.height, GL_RGBA, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
-
-            IOSurfaceLock(gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
-
-            vImage_Buffer src = {.data = IOSurfaceGetBaseAddress(gameSurfaceRef),
-                .width = textureRect.size.width,
-                .height = textureRect.size.height,
-                .rowBytes = IOSurfaceGetBytesPerRow(gameSurfaceRef)};
-            vImage_Buffer dest= {.data = [imageRep bitmapData],
-                .width = textureRect.size.width,
-                .height = textureRect.size.height,
-                .rowBytes = 4*textureRect.size.width};
-
-            // Convert IOSurface pixel format to NSBitmapImageRep
-            const uint8_t permuteMap[] = {2,1,0,3};
-            vImagePermuteChannels_ARGB8888(&src, &dest, permuteMap, 0);
-
-            IOSurfaceUnlock(gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
-
-            NSImage *img = nil;
-
-            NSRect extent = NSRectFromCGRect([[self gameCIImage] extent]);
-            int width = extent.size.width;
-            int height = extent.size.height;
-
-            img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
-            [img addRepresentation:imageRep];
-
-            // this will flip the rep
-            [img lockFocusFlipped:YES];
-            [imageRep drawInRect:NSMakeRect(0,0,[img size].width, [img size].height)];
-            [img unlockFocus];
-
-            screenshotHandler(img);
-            [self setScreenshotHandler:nil];
         }
 
         if([self.gameServer hasClients])
@@ -819,6 +768,104 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     }
 }
 
+#pragma mark - Screenshots
+
+- (NSImage *)screenshot
+{
+    const OEIntSize   aspectSize     = [self gameAspectSize];
+    const NSSize      frameSize      = [self frame].size;
+    const float       wr             = frameSize.width / aspectSize.width;
+    const float       hr             = frameSize.height / aspectSize.height;
+    const OEIntSize   textureIntSize = (wr > hr ?
+                                        (OEIntSize){hr * aspectSize.width, frameSize.height      } :
+                                        (OEIntSize){frameSize.width      , wr * aspectSize.height});
+    const NSSize      textureNSSize  = NSSizeFromOEIntSize(textureIntSize);
+
+    NSBitmapImageRep *imageRep       = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+                                                                               pixelsWide:textureIntSize.width
+                                                                               pixelsHigh:textureIntSize.height
+                                                                            bitsPerSample:8
+                                                                          samplesPerPixel:4
+                                                                                 hasAlpha:YES
+                                                                                 isPlanar:NO
+                                                                           colorSpaceName:NSDeviceRGBColorSpace
+                                                                              bytesPerRow:textureIntSize.width * 4
+                                                                             bitsPerPixel:32];
+
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    [[self openGLContext] makeCurrentContext];
+    CGLLockContext(cgl_ctx);
+    {
+        glReadPixels((frameSize.width - textureNSSize.width) / 2, (frameSize.height - textureNSSize.height) / 2,
+                     textureIntSize.width, textureIntSize.height,
+                     GL_RGBA, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
+    }
+    CGLUnlockContext(cgl_ctx);
+
+    NSImage *screenshotImage = [[NSImage alloc] initWithSize:textureNSSize];
+    [screenshotImage addRepresentation:imageRep];
+
+    // Flip the image
+    [screenshotImage lockFocusFlipped:YES];
+    [imageRep drawInRect:(NSRect){.size = textureNSSize}];
+    [screenshotImage unlockFocus];
+    
+    return screenshotImage;
+}
+
+- (NSImage *)nativeScreenshot
+{
+    if(!gameSurfaceRef)
+        return nil;
+
+    NSBitmapImageRep *imageRep;
+
+    IOSurfaceLock(gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
+    {
+        imageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+                                                           pixelsWide:gameScreenSize.width
+                                                           pixelsHigh:gameScreenSize.height
+                                                        bitsPerSample:8
+                                                      samplesPerPixel:4
+                                                             hasAlpha:YES
+                                                             isPlanar:NO
+                                                       colorSpaceName:NSDeviceRGBColorSpace
+                                                          bytesPerRow:gameScreenSize.width * 4
+                                                         bitsPerPixel:32];
+
+        vImage_Buffer src =
+        {
+            .data     = IOSurfaceGetBaseAddress(gameSurfaceRef),
+            .width    = gameScreenSize.width,
+            .height   = gameScreenSize.height,
+            .rowBytes = IOSurfaceGetBytesPerRow(gameSurfaceRef)
+        };
+        vImage_Buffer dest =
+        {
+            .data     = [imageRep bitmapData],
+            .width    = gameScreenSize.width,
+            .height   = gameScreenSize.height,
+            .rowBytes = gameScreenSize.width * 4
+        };
+
+        // Convert IOSurface pixel format to NSBitmapImageRep
+        const uint8_t permuteMap[] = {2,1,0,3};
+        vImagePermuteChannels_ARGB8888(&src, &dest, permuteMap, 0);
+    }
+    IOSurfaceUnlock(gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
+
+    const NSSize imageSize   = NSSizeFromOEIntSize(gameScreenSize);
+    NSImage *screenshotImage = [[NSImage alloc] initWithSize:imageSize];
+    [screenshotImage addRepresentation:imageRep];
+
+    // Flip the image
+    [screenshotImage lockFocusFlipped:YES];
+    [imageRep drawInRect:(NSRect){.size = imageSize}];
+    [screenshotImage unlockFocus];
+
+    return screenshotImage;
+}
+
 #pragma mark -
 #pragma mark Game Core
 
@@ -845,11 +892,6 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 - (void)gameCoreDidChangeAspectSizeTo:(OEIntSize)size
 {
     self.gameAspectSize = size;
-}
-
-- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block
-{
-    [self setScreenshotHandler:block];
 }
 
 #pragma mark -

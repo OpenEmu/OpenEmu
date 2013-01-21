@@ -24,6 +24,8 @@
 
 #include "api/m64p_plugin.h"
 
+extern m64p_error dummyvideo_PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion,
+                                              int *APIVersion, const char **PluginNamePtr, int *Capabilities);
 extern void dummyvideo_ChangeWindow(void);
 extern int dummyvideo_InitiateGFX(GFX_INFO Gfx_Info);
 extern void dummyvideo_MoveScreen(int xpos, int ypos);

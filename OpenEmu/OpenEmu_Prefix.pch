@@ -31,8 +31,6 @@
 
 #ifdef __OBJC__
 #import <Cocoa/Cocoa.h>
-#endif
-
 #import "OEUtilities.h"
 
 #if __has_feature(objc_bool)
@@ -77,3 +75,5 @@ NSLog(@"View Hierarchy: %@", viewHierachy);                                     
 //  (see OEHudControlsBar.m, OEPrefGameplayController.m and OEGameLayer.m)
 //  Please note that the stated string must match a shader defined and created in OEGameLayer.m 
 #define OEOpenGLFilterNameArray [NSArray arrayWithObjects:@"Linear", @"Nearest Neighbor", @"Scale2xHQ", @"Scale2xPlus", @"Scale4x", @"Scale4xHQ", @"Scale4xBR", @"Scanline", nil]
+
+#endif

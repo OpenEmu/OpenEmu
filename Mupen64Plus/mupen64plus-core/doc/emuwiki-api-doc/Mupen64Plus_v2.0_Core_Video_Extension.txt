@@ -2,7 +2,7 @@
 
 = Mupen64Plus v2.0 Video Extension API =
 
-Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#core.h|core.h]].  Plugin code should check the return value of each call to a libmupen64plus function.
+Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]].  Plugin code should check the return value of each call to a libmupen64plus function.
 
 All of these functions should only be called from within the video plugin; they should not be called from the front-end.
 
@@ -39,7 +39,7 @@ All of these functions should only be called from within the video plugin; they 
 |'''<tt>m64p_error VidExt_ListFullscreenModes(m64p_2d_size *SizeArray, int *NumSizes)</tt>'''
 |-
 |Input Parameters
-|'''<tt>SizeArray</tt>''' Pointer to an array of <tt>m64p_2d_size</tt> objects, defined in [[Mupen64Plus v2.0 headers#vidext.h|vidext.h]]<br />
+|'''<tt>SizeArray</tt>''' Pointer to an array of <tt>m64p_2d_size</tt> objects, defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]]<br />
 '''<tt>NumSizes</tt>''' Pointer to an integer which contains the size of '''<tt>SizeArray</tt>''' for input, and the number of size objects stored for output.
 |-
 |Requirements
@@ -115,7 +115,7 @@ All of these functions should only be called from within the video plugin; they 
 |'''<tt>m64p_error VidExt_GL_SetAttribute(m64p_GLattr Attr, int Value)</tt>'''
 |-
 |Input Parameters
-|'''<tt>Attr</tt>''' Enumerated type (defined in [[Mupen64Plus v2.0 headers#vidext.h|vidext.h]]) specifying which OpenGL attribute to set<br />
+|'''<tt>Attr</tt>''' Enumerated type (defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]]) specifying which OpenGL attribute to set<br />
 '''<tt>Value</tt>''' Value to set for the attribute
 |-
 |Requirements
@@ -130,7 +130,7 @@ All of these functions should only be called from within the video plugin; they 
 |'''<tt>m64p_error VidExt_GL_GetAttribute(m64p_GLattr Attr, int *pValue)</tt>'''
 |-
 |Input Parameters
-|'''<tt>Attr</tt>''' Enumerated type (defined in [[Mupen64Plus v2.0 headers#vidext.h|vidext.h]]) specifying OpenGL attribute of which to get value<br />
+|'''<tt>Attr</tt>''' Enumerated type (defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]]) specifying OpenGL attribute of which to get value<br />
 '''<tt>pValue</tt>''' Pointer to integer Value which will be set to attribute's value
 |-
 |Requirements

@@ -86,7 +86,7 @@ typedef uint32_t db_addr_t;
    Local variables
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-const char * const r4k_str_op_name[64] = 
+static const char * const r4k_str_op_name[64] = 
 {
 /* 0 */ "spec", "bcond","j",	"jal",	"beq",	"bne",	"blez", "bgtz",
 /* 8 */ "addi", "addiu","slti", "sltiu","andi", "ori",	"xori", "lui",
@@ -98,7 +98,7 @@ const char * const r4k_str_op_name[64] =
 /*56 */ "sc",	"swc1", "swc2", "swc3", "scd",	"sdc1", "sdc2", "sd"
 };
 
-const char * const r4k_str_spec_name[64] = 
+static const char * const r4k_str_spec_name[64] = 
 {
 /* 0 */ "sll",	"spec01","srl", "sra",	"sllv", "spec05","srlv","srav",
 /* 8 */ "jr",	"jalr", "spec12","spec13","syscall","break","spec16","sync",
@@ -110,12 +110,12 @@ const char * const r4k_str_spec_name[64] =
 /*56 */ "dsll","spec71","dsrl","dsra","dsll32","spec75","dsrl32","dsra32"
 };
 
-const char * const r4k_str_spec2_name[4] = /* QED RM4650, R5000, etc. */
+static const char * const r4k_str_spec2_name[4] = /* QED RM4650, R5000, etc. */
 {		
 /* 0 */ "mad", "madu", "mul", "spec3"
 };
 
-const char * const r4k_str_bcond_name[32] = 
+static const char * const r4k_str_bcond_name[32] = 
 {
 /* 0 */ "bltz", "bgez", "bltzl", "bgezl", "?", "?", "?", "?",
 /* 8 */ "tgei", "tgeiu", "tlti", "tltiu", "teqi", "?", "tnei", "?",
@@ -123,7 +123,7 @@ const char * const r4k_str_bcond_name[32] =
 /*24 */ "?", "?", "?", "?", "?", "?", "?", "?",
 };
 
-const char * const r4k_str_cop1_name[64] = 
+static const char * const r4k_str_cop1_name[64] = 
 {
 /* 0 */ "add",   "sub", "mul", "div", "sqrt","abs", "mov", "neg",
 /* 8 */ "fop08", "trunc.l","fop0a","fop0b","fop0c","trunc.w","fop0e","fop0f",
@@ -137,7 +137,7 @@ const char * const r4k_str_cop1_name[64] =
 	"c.le",  "c.ngt"
 };
 
-const char * const r4k_str_fmt_name[16] = 
+static const char * const r4k_str_fmt_name[16] = 
 {
     
 	"s",	"d",	"e",	"fmt3",
@@ -147,7 +147,7 @@ const char * const r4k_str_fmt_name[16] =
 };
 
 
-const char * const r4k_str_reg_name[32] = 
+static const char * const r4k_str_reg_name[32] = 
 {
 	"$zero", "$at",	"v0",	"v1",	"a0",	"a1",	"a2",	"a3",
 	"t0",	"t1",	"t2",	"t3",	"t4",	"t5",	"t6",	"t7",
@@ -155,7 +155,7 @@ const char * const r4k_str_reg_name[32] =
 	"t8",	"t9",	"k0",	"k1",	"$gp",	"$sp",	"s8",	"$ra"
 };
 
-const char * const r4k_str_c0_opname[64] = 
+static const char * const r4k_str_c0_opname[64] = 
 {
 	"c0op00","tlbr",  "tlbwi", "c0op03","c0op04","c0op05","tlbwr", "c0op07",
 	"tlbp",	 "c0op11","c0op12","c0op13","c0op14","c0op15","c0op16","c0op17",
@@ -167,7 +167,7 @@ const char * const r4k_str_c0_opname[64] =
 	"c0op70","c0op71","c0op72","c0op73","c0op74","c0op75","c0op77","c0op77",
 };
 
-const char * const r4k_str_c0_reg[32] = 
+static const char * const r4k_str_c0_reg[32] = 
 {
 	"C0_INX",      "C0_RAND",     "C0_ENTRYLO0",  "C0_ENTRYLO1",
 	"C0_CONTEXT",  "C0_PAGEMASK", "C0_WIRED",     "cp0r7",
@@ -283,7 +283,6 @@ db_disasm_insn ( struct r4k_dis_t * state,
                  bool altfmt               )
 {
     char * rel;
-    bool bdslot = false;
     InstFmt i;
 
     i.word = insn;
@@ -343,7 +342,6 @@ db_disasm_insn ( struct r4k_dis_t * state,
             case OP_JR:
             case OP_JALR:
                     db_printf(state, "%s", r4k_str_reg_name[i.RType.rs]);
-                    bdslot = true;
                     break;
             case OP_MTLO:
             case OP_MTHI:
@@ -427,7 +425,6 @@ db_disasm_insn ( struct r4k_dis_t * state,
                 r4k_str_reg_name[i.IType.rt]);
     pr_displ:
             print_addr( state, loc + 4 + ((short)i.IType.imm << 2) );
-            bdslot = true;
             break;
 
     case OP_COP0:
@@ -561,7 +558,6 @@ db_disasm_insn ( struct r4k_dis_t * state,
     case OP_JAL:
             db_printf(state, "%-16s", r4k_str_op_name[i.JType.op]);
             print_addr(state, (loc & 0xF0000000) | (i.JType.target << 2));
-            bdslot = true;
             break;
     
     case OP_LDC1:
@@ -730,29 +726,8 @@ db_disasm_insn ( struct r4k_dis_t * state,
    Global functions
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-/* Initialize a state */
-void
-r4k_dis_init ( struct r4k_dis_t * state,
-               void * syml,
-               void * symld,
-               void * rel_hi16l,
-               void * rel_hi16ld,
-               void * rel_lo16l,
-               void * rel_lo16ld        )
-{
-    state->dest = 0;
-    state->length = 0;
-    state->lookup_sym        = syml;
-    state->lookup_sym_d      = symld;
-    state->lookup_rel_hi16   = rel_hi16l;
-    state->lookup_rel_hi16_d = rel_hi16ld;
-    state->lookup_rel_lo16   = rel_lo16l;
-    state->lookup_rel_lo16_d = rel_lo16ld;
-}
-
-
 /* Disassemble an instruction with state */
-int
+static int
 r4k_disassemble ( struct r4k_dis_t * state,
                   uint32_t instruction,
                   uint32_t location,
@@ -767,7 +742,7 @@ r4k_disassemble ( struct r4k_dis_t * state,
 
 
 /* Disassemble an instruction but split the opcode/operands into two char *'s */
-int
+static int
 r4k_disassemble_split ( struct r4k_dis_t * state,
                         uint32_t instruction,
                         uint32_t location,
@@ -797,31 +772,11 @@ r4k_disassemble_split ( struct r4k_dis_t * state,
     
     return v;
 }
-    
-
-
-/* Disassemble an instruction with a blank state */
-int
-r4k_disassemble_quick ( uint32_t instruction,
-                        uint32_t location,
-                        char * dest           )
-{
-    struct r4k_dis_t state;
-    
-    /* Init state */
-    memset( &state, 0, sizeof(state) );
-    state.dest = dest;
-    
-    /* Perform */
-    db_disasm_insn( &state, instruction, location, 0 );
-    
-    return state.length;
-}
 
 
 
 /* Disassemble an instruction with a blank state but split op/operands */
-int
+static int
 r4k_disassemble_split_quick ( uint32_t instruction,
                               uint32_t location,
                               char ** opcode,

@@ -25,6 +25,27 @@
 #include "plugin.h"
 #include "dummy_rsp.h"
 
+m64p_error dummyrsp_PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion,
+                                     int *APIVersion, const char **PluginNamePtr, int *Capabilities)
+{
+    if (PluginType != NULL)
+        *PluginType = M64PLUGIN_RSP;
+
+    if (PluginVersion != NULL)
+        *PluginVersion = 0x00010000;
+
+    if (APIVersion != NULL)
+        *APIVersion = RSP_API_VERSION;
+
+    if (PluginNamePtr != NULL)
+        *PluginNamePtr = "Mupen64Plus-NoRSP";
+
+    if (Capabilities != NULL)
+        *Capabilities = 0;
+
+    return M64ERR_SUCCESS;
+}
+
 unsigned int dummyrsp_DoRspCycles(unsigned int Cycles)
 {
     return Cycles;

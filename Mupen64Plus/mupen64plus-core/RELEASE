@@ -1,6 +1,23 @@
 Mupen64Plus-Core Emulator Library RELEASE
 -----------------------------------------
 
+Mupen64Plus v1.99.5 - March 10, 2012
+------------------------------------
+ - New feature: support for N64 internal real-time clock
+ - use X-Scale's PIF-CIC algorithm instead of the hard-coded challenge-response pairs
+ - New config parameter for path to save SRAM/EEPROM/MPK files, so they can be separated from emulator snapshots
+ - updated core for new Mupen64plus 2.0 API versioning scheme
+ - split core configuration data into 2 sections: Core and CoreEvents. Added version numbers and upgrade handling to both
+ - Accurately emulate the RSP DMA operation (from Bobby Smiles)
+ - bugfix: #290 - OnScreenDisplay text is sometimes captured in screenshots
+ - bugfix: when the front-end specifies an override for the configuration directory, always use this path, so that we don't load the config from there and then save it back to the default user path
+ - bugfix: #468 - On-screen-display problem under OSX
+ - bugfix: Use option SaveStatePath from config file
+ - bugfix: don't call SDL_Quit() until the core library is being unloaded.  fixes some front-end use cases
+ - bugfix: #410 - segfault in dma_pi_write()-->strlen() if /home/username/.local/share/mupen64plus/ owned by root
+ - bugfix: for Interpreter cores, use proper math functions for ceil/floor/round/trunc instead of x87 rounding modes
+ - many makefile fixes and improvements
+
 Mupen64Plus v1.99.4 - February 22, 2010
 ---------------------------------------
  - Added some type checking to ConfigGetParameter() function, and a new error type

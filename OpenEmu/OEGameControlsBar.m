@@ -76,6 +76,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 + (void)initialize
 {
+    if(self != [OEGameControlsBar class])
+        return;
+    
     // Time until hud controls bar fades out
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
                           OEGameControlsBarFadeOutDelayKey : @1.5,

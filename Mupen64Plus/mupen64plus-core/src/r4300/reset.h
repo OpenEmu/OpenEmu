@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *   Mupen64plus - cop1_l.c                                                *
+ *   Mupen64plus - reset.h                                                 *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
- *   Copyright (C) 2002 Hacktarux                                          *
+ *   Copyright (C) 2011 CasualJames                                        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,21 +19,13 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "r4300.h"
-#include "r4300/ops.h"
-#include "macros.h"
-#include "fpu.h"
+#ifndef __RESET_H__
+#define __RESET_H__
 
-void CVT_S_L(void)
-{
-   if (check_cop1_unusable()) return;
-   cvt_s_l((long long*)(reg_cop1_double[cffs]), reg_cop1_simple[cffd]);
-   PC++;
-}
+/* For hard reset, set reset_hard_job and next interrupt will cause hard reset.
+ * For soft reset, call reset_soft() at any time. */
+extern int reset_hard_job;
+void reset_hard();
+void reset_soft();
 
-void CVT_D_L(void)
-{
-   if (check_cop1_unusable()) return;
-   cvt_d_l((long long*)(reg_cop1_double[cffs]), reg_cop1_double[cffd]);
-   PC++;
-}
+#endif /* __RESET_H__ */

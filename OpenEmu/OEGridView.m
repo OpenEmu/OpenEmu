@@ -83,6 +83,9 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 + (void)initialize
 {
+    if(self != [OEGridView class])
+        return;
+    
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OEUseSpacebarToLaunchGames : @YES }];
 }
 
@@ -422,7 +425,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     }
     else if(_cachedViewSize.height != viewSize.height || itemSize.height != _cachedItemSize.height)
     {
-        numberOfVisibleRows = (NSUInteger)ceil(viewSize.height / itemSize.height);
+        numberOfVisibleRows = (NSUInteger)ceil(viewSize.height / itemSize.height) + 1;
     }
 
     // Check to see if the number of items, number of visible columns, or cached cell size has changed

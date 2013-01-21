@@ -32,6 +32,24 @@
 			<key>Number</key>
 			<integer>15</integer>
 		</dict>
+		<key>OEN64ButtonAnalogUp</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>Y</string>
+			<key>Direction</key>
+			<string>-1</string>
+		</dict>
+		<key>OEN64ButtonAnalogLeft</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>X</string>
+			<key>Direction</key>
+			<string>-1</string>
+		</dict>
 		<key>OEN64ButtonCUp</key>
 		<dict>
 			<key>Type</key>
@@ -122,6 +140,24 @@
 			<string>Button</string>
 			<key>Number</key>
 			<integer>6</integer>
+		</dict>
+		<key>OEN64ButtonAnalogUp</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>Y</string>
+			<key>Direction</key>
+			<string>-1</string>
+		</dict>
+		<key>OEN64ButtonAnalogLeft</key>
+		<dict>
+			<key>Type</key>
+			<string>Axis</string>
+			<key>Axis</key>
+			<string>X</string>
+			<key>Direction</key>
+			<string>-1</string>
 		</dict>
 		<key>OEN64ButtonCUp</key>
 		<dict>
