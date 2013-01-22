@@ -36,6 +36,7 @@
 }
 
 - (id)initInBundle:(NSBundle *)bundle forContext:(CGLContextObj)context;
+- (id)initForContext:(CGLContextObj)context;
 
 - (id)shaderData;
 

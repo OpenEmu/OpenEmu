@@ -31,6 +31,7 @@
 #import "OEGameCore.h"
 #import "OEGameDocument.h"
 #import "OECompositionPlugin.h"
+#import "OEShaderPlugin.h"
 
 #import "OEGameCoreHelper.h"
 #import "OESystemResponder.h"
@@ -147,22 +148,35 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
     // TODO: fix this shader
     OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
-
-
     OECgShader *scanlineShader          = [[OECgShader alloc] initWithShadersInMainBundle:_OEScanlineFilterName forContext:context];
 
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            _OELinearFilterName         , _OELinearFilterName         ,
-            _OENearestNeighborFilterName, _OENearestNeighborFilterName,
-            scale4xBRShader             , _OEScale4xBRFilterName      ,
-            scale2xBRShader             , _OEScale2xBRFilterName      ,
-            scale4XShader               , _OEScale4xFilterName        ,
-            scale4XHQShader             , _OEScale4xHQFilterName      ,
-            scale2XPlusShader           , _OEScale2xPlusFilterName    ,
-            scale2XHQShader             , _OEScale2xHQFilterName      ,
-            scanlineShader              , _OEScanlineFilterName       ,
-            scale2XSALSmartShader       , _OEScale2XSALSmartFilterName,
-            nil];
+
+
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                 _OELinearFilterName         , _OELinearFilterName         ,
+                                 _OENearestNeighborFilterName, _OENearestNeighborFilterName,
+                                 scale4xBRShader             , _OEScale4xBRFilterName      ,
+                                 scale2xBRShader             , _OEScale2xBRFilterName      ,
+                                 scale4XShader               , _OEScale4xFilterName        ,
+                                 scale4XHQShader             , _OEScale4xHQFilterName      ,
+                                 scale2XPlusShader           , _OEScale2xPlusFilterName    ,
+                                 scale2XHQShader             , _OEScale2xHQFilterName      ,
+                                 scanlineShader              , _OEScanlineFilterName       ,
+                                 scale2XSALSmartShader       , _OEScale2XSALSmartFilterName,
+                                 nil];
+
+    // Shaders in Filters directory
+    NSArray *cgShaderNames = [OEShaderPlugin allPluginNames];
+    NSMutableArray *cgShaders = [[NSMutableArray alloc] initWithCapacity:[cgShaderNames count]];
+
+    for(int i=0; i<[cgShaderNames count]; ++i)
+    {
+        [cgShaders addObject:[[OECgShader alloc] initWithShadersInFilterDirectory:cgShaderNames[i] forContext:context]];
+        [dict setObject:cgShaders[i] forKey:cgShaderNames[i]];
+    }
+    
+    return dict;
 }
 
 + (NSOpenGLPixelFormat *)defaultPixelFormat
