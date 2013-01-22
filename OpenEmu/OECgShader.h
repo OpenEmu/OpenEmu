@@ -43,8 +43,10 @@
                 position, texCoord, modelViewProj;
 }
 
+- (id)initWithShaders:(NSString *)shaderSource withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
 - (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
 - (id)initWithShadersInMainBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
+- (id)initWithShadersInFilterDirectory:(NSString *)theShadersName forContext:(CGLContextObj)context;
 
 - (CGprofile)vertexProfile;
 - (CGprofile)fragmentProfile;

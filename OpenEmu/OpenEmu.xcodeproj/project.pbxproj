@@ -618,6 +618,7 @@
 		94619CC315C50F8F0019AC8E /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CBF15C50F8E0019AC8E /* controller_fc.png */; };
 		94619CC415C50F8F0019AC8E /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC015C50F8E0019AC8E /* Controller-Preferences.plist */; };
 		94619CC515C50F8F0019AC8E /* famicom_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94619CC115C50F8E0019AC8E /* famicom_library.png */; };
+		94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 94791E9416AE8A18007DB8BE /* OEShaderPlugin.m */; };
 		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
 		948E54101571D78D002D26E0 /* SuperNES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
@@ -2102,6 +2103,8 @@
 		94619CBF15C50F8E0019AC8E /* controller_fc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc.png; sourceTree = "<group>"; };
 		94619CC015C50F8E0019AC8E /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94619CC115C50F8E0019AC8E /* famicom_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = famicom_library.png; sourceTree = "<group>"; };
+		94791E9316AE8A18007DB8BE /* OEShaderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEShaderPlugin.h; sourceTree = "<group>"; };
+		94791E9416AE8A18007DB8BE /* OEShaderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEShaderPlugin.m; sourceTree = "<group>"; };
 		949623E6164E0CD600952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628CB164F677400952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628CD164F6A3C00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -4523,6 +4526,8 @@
 				C6289C31135B215B00EEE97C /* OESystemPlugin.m */,
 				C62D53030FFB51D6007C2649 /* OECompositionPlugin.h */,
 				C62D53040FFB51D6007C2649 /* OECompositionPlugin.m */,
+				94791E9316AE8A18007DB8BE /* OEShaderPlugin.h */,
+				94791E9416AE8A18007DB8BE /* OEShaderPlugin.m */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -6293,6 +6298,7 @@
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,
 				8C4C808916986697009B8A28 /* OEGlslShader.m in Sources */,
 				8C4C808E16986C87009B8A28 /* OECgShader.m in Sources */,
+				94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

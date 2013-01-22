@@ -26,7 +26,6 @@
  */
 
 #import "OEGameShader.h"
-#import <OpenGL/CGLMacro.h>
 
 @implementation OEGameShader
 
@@ -35,6 +34,16 @@
     if((self = [super init]))
     {
         bundleToLoadFrom = bundle;
+        shaderContext = CGLRetainContext(context);
+    }
+    return self;
+}
+
+- (id)initForContext:(CGLContextObj)context
+{
+    if((self = [super init]))
+    {
+        bundleToLoadFrom = nil;
         shaderContext = CGLRetainContext(context);
     }
     return self;

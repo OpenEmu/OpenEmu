@@ -257,9 +257,10 @@ static void OE_linkProgram(GLhandleARB programObject,
                           theShadersName);
             } // if
         } // if
+
+        shaderData = self;
     }
 
-    shaderData = self;
     return self;
 } //
 

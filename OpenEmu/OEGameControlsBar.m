@@ -34,6 +34,7 @@
 #import "OEDBRom.h"
 
 #import "OECompositionPlugin.h"
+#import "OEShaderPlugin.h"
 #import "OECorePlugin.h"
 #import "OEGameViewController.h"
 
@@ -251,7 +252,11 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
     // Setup plugins menu
-    NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSMutableArray *filterPlugins = [NSMutableArray array];
+    [filterPlugins addObjectsFromArray:[OECompositionPlugin allPluginNames]];
+    [filterPlugins addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+    [filterPlugins sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    
     // These filters are loaded and run by GL, and do not rely on QTZs
     NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:OEOpenGLFilterNameArray];
     

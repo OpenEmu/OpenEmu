@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -26,18 +26,24 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OpenGL/OpenGL.h>
+#import "OEPlugin.h"
+#import "OECgShader.h"
 
-@interface OEGameShader : NSObject
+@interface OEShaderPlugin : OEPlugin
 {
-    NSBundle        *bundleToLoadFrom;     // location of resource folder;
-    CGLContextObj    shaderContext;        // context to bind shaders to.
-    id               shaderData;           // either OEGlslShader or OECgShader
+    OECgShader    *shader;
+    NSString      *name;
+    NSString      *path;
 }
 
-- (id)initInBundle:(NSBundle *)bundle forContext:(CGLContextObj)context;
-- (id)initForContext:(CGLContextObj)context;
++ (NSArray *)allPluginNames;
++ (NSString *)pluginFolder;
++ (NSString *)pluginExtension;
 
-- (id)shaderData;
++ (id)shaderPluginWithName:(NSString *)aName;
+
+@property(readonly) OECgShader    *shader;
+@property(readonly) NSString      *name;
+@property(readonly) NSString      *path;
 
 @end
