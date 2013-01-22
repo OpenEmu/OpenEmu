@@ -31,6 +31,30 @@
 #import "OEButton.h"
 #import "OEButtonCell.h"
 
+#pragma mark - Private variables
+
+static const CGFloat _OEHUDWindowLeftBorder            =  1.0;
+static const CGFloat _OEHUDWindowRightBorder           =  1.0;
+static const CGFloat _OEHUDWindowBottomBorder          =  1.0;
+static const CGFloat _OEHUDWindowTopBorder             = 22.0;
+static const CGFloat _OEHUDWindowCloseButtonLeftBorder =  1.0;
+static const NSSize  _OEHUDWindowCloseButtonSize       = {21.0, 21.0};
+static const CGFloat _OEHUDWindowTitleTextLeftMargin   = 1.0 /*_OEHUDWindowCloseButtonLeftBorder*/ + 21.0 /*_OEHUDWindowCloseButtonSize*/ + 2.0;
+static const CGFloat _OEHUDWindowTitleTextRightMargin  = 10.0;
+static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
+
+// Layout of OEHUDWindow:
+//
+// +------------------------+  black line,     height =  1.0
+// | x       title          |  title content,  height = 20.0
+// +------------------------+  black line,     height =  1.0
+// |------------------------|  highlight line, height =  1.0 (applied over the main content view)
+// |                        |
+// |                        |  main content
+// |                        |
+// +------------------------+  black line,     height =  1.0
+//
+
 @interface OEHUDWindow () <NSWindowDelegate>
 
 - (void)OE_commonHUDWindowInit;
@@ -151,29 +175,6 @@
         [_borderWindow orderWindow:NSWindowAbove relativeTo:[self windowNumber]];
 }
 
-- (NSView *)mainContentView
-{
-    return [[[self contentView] subviews] lastObject];
-}
-
-- (void)setMainContentView:(NSView *)mainContentView
-{
-    if(mainContentView == [self mainContentView])
-        return;
-
-    [[self mainContentView] removeFromSuperview];
-
-    [[super contentView] addSubview:mainContentView];
-
-    NSRect contentRect;
-    contentRect.origin = NSZeroPoint;
-    contentRect.size   = [self frame].size;
-    contentRect.size.height -= 21;
-
-    [mainContentView setFrame:contentRect];
-    [mainContentView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-}
-
 - (void)setTitle:(NSString *)newTitle
 {
     [super setTitle:newTitle];
@@ -233,11 +234,54 @@
     }
 }
 
-#pragma mark -
+#pragma mark - Public
 
 - (OEHUDBorderWindow *)borderWindow
 {
     return _borderWindow;
+}
+
+- (NSView *)mainContentView
+{
+    return [[[self contentView] subviews] lastObject];
+}
+
+- (void)setMainContentView:(NSView *)mainContentView
+{
+    if(mainContentView == [self mainContentView])
+        return;
+
+    [[self mainContentView] removeFromSuperview];
+
+    [[super contentView] addSubview:mainContentView];
+
+    const NSRect contentRect = [self convertRectFromScreen:[OEHUDWindow mainContentRectForFrameRect:[self frame]]];
+    [mainContentView setFrame:contentRect];
+    [mainContentView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+}
+
++ (NSRect)mainContentRectForFrameRect:(NSRect)windowFrame
+{
+    NSRect contentRect = windowFrame;
+
+    contentRect.origin.x    += _OEHUDWindowLeftBorder;
+    contentRect.origin.y    += _OEHUDWindowBottomBorder;
+    contentRect.size.width  -= (_OEHUDWindowLeftBorder + _OEHUDWindowRightBorder);
+    contentRect.size.height -= (_OEHUDWindowTopBorder  + _OEHUDWindowBottomBorder);
+
+    return contentRect;
+}
+
++ (NSRect)frameRectForMainContentRect:(NSRect)contentFrame
+{
+    NSRect windowFrame = contentFrame;
+
+    windowFrame.origin.x    -= _OEHUDWindowLeftBorder;
+    windowFrame.origin.y    -= _OEHUDWindowBottomBorder;
+    windowFrame.size.width  += (_OEHUDWindowLeftBorder + _OEHUDWindowRightBorder);
+    windowFrame.size.height += (_OEHUDWindowTopBorder  + _OEHUDWindowBottomBorder);
+
+    return windowFrame;
 }
 
 @end
@@ -325,7 +369,11 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        OEButton *closeButton = [[OEButton alloc] initWithFrame:NSMakeRect(1, frame.size.height-22, 21, 21)];
+        NSRect closeButtonRect    = [self titleBarRect];
+        closeButtonRect.origin.x += _OEHUDWindowCloseButtonLeftBorder;
+        closeButtonRect.size      = _OEHUDWindowCloseButtonSize;
+
+        OEButton *closeButton = [[OEButton alloc] initWithFrame:closeButtonRect];
         [closeButton setCell:[[OEButtonCell alloc] initTextCell:@""]];
         [closeButton setThemeKey:@"hud_close_button"];
         
@@ -338,10 +386,10 @@
 
 - (NSRect)titleBarRect
 {
-    NSRect titleBarRect = [self bounds];
-    
-    titleBarRect.size.height = 22;
-    titleBarRect.origin.y = [self bounds].size.height-titleBarRect.size.height;
+    NSRect titleBarRect      = [self bounds];
+
+    titleBarRect.size.height = _OEHUDWindowTopBorder;
+    titleBarRect.origin.y    = [self bounds].size.height - titleBarRect.size.height;
     
     return titleBarRect;
 }
@@ -350,7 +398,7 @@
 {
     [[NSColor clearColor] setFill];
     NSRectFill([self bounds]);
-    
+
     BOOL isFocused = [[self window].parentWindow isMainWindow] && [NSApp isActive];
     
     NSImage *borderImage = isFocused ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
@@ -361,12 +409,12 @@
     NSString *windowTitle = [[[self window] parentWindow] title];
     if(windowTitle)
     {
-        NSMutableDictionary *titleAttribtues = [NSMutableDictionary dictionary];
+        NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionary];
 
         NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
         [ps setLineBreakMode:NSLineBreakByTruncatingMiddle];
         [ps setAlignment:NSCenterTextAlignment];
-        [titleAttribtues setObject:ps forKey:NSParagraphStyleAttributeName];
+        [titleAttributes setObject:ps forKey:NSParagraphStyleAttributeName];
 
         NSColor *textColor = isFocused ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];
         NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:2.0 size:13.0];
@@ -375,15 +423,17 @@
         [shadow setShadowBlurRadius:1.0];
         [shadow setShadowOffset:NSMakeSize(0, 1)];
 
-        [titleAttribtues setObject:textColor forKey:NSForegroundColorAttributeName];
-        [titleAttribtues setObject:font forKey:NSFontAttributeName];
-        [titleAttribtues setObject:shadow forKey:NSShadowAttributeName];
+        [titleAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
+        [titleAttributes setObject:font forKey:NSFontAttributeName];
+        [titleAttributes setObject:shadow forKey:NSShadowAttributeName];
 
-        NSRect titleBarRect = NSInsetRect([self titleBarRect], 10, 0);
-        titleBarRect.origin.y -= 2;
+        NSRect titleTextRect = [self titleBarRect];
+        titleTextRect.origin.x   += _OEHUDWindowTitleTextLeftMargin;
+        titleTextRect.size.width -= (_OEHUDWindowTitleTextLeftMargin + _OEHUDWindowTitleTextRightMargin);
+        titleTextRect.origin.y   -= _OEHUDWindowTitleTextTopMargin;
 
-        NSAttributedString *attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttribtues];
-        [attributedWindowTitle drawInRect:titleBarRect];
+        NSAttributedString *attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttributes];
+        [attributedWindowTitle drawInRect:titleTextRect];
     }
 }
 
