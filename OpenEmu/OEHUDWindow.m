@@ -33,15 +33,15 @@
 
 #pragma mark - Private variables
 
-static const CGFloat _OEHUDWindowLeftBorder          =  1.0;
-static const CGFloat _OEHUDWindowRightBorder         =  1.0;
-static const CGFloat _OEHUDWindowBottomBorder        =  1.0;
-static const CGFloat _OEHUDWindowTopBorder           = 22.0;
-static const CGFloat _OEHUDWindowCloseButtonBorder   =  1.0;
-static const NSSize  _OEHUDWindowCloseButtonSize     = {21.0, 21.0};
-static const CGFloat _OEHUDWindowTitleTextLeftMargin  = 1.0 /*_OEHUDWindowCloseButtonBorder*/ + 21.0 /*_OEHUDWindowCloseButtonSize*/ + 2.0;
-static const CGFloat _OEHUDWindowTitleTextRightMargin = 10.0;
-static const CGFloat _OEHUDWindowTitleTextTopMargin   =  2.0;
+static const CGFloat _OEHUDWindowLeftBorder            =  1.0;
+static const CGFloat _OEHUDWindowRightBorder           =  1.0;
+static const CGFloat _OEHUDWindowBottomBorder          =  1.0;
+static const CGFloat _OEHUDWindowTopBorder             = 22.0;
+static const CGFloat _OEHUDWindowCloseButtonLeftBorder =  1.0;
+static const NSSize  _OEHUDWindowCloseButtonSize       = {21.0, 21.0};
+static const CGFloat _OEHUDWindowTitleTextLeftMargin   = 1.0 /*_OEHUDWindowCloseButtonLeftBorder*/ + 21.0 /*_OEHUDWindowCloseButtonSize*/ + 2.0;
+static const CGFloat _OEHUDWindowTitleTextRightMargin  = 10.0;
+static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 // Layout of OEHUDWindow:
 //
@@ -370,7 +370,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin   =  2.0;
     self = [super initWithFrame:frame];
     if (self) {
         NSRect closeButtonRect    = [self titleBarRect];
-        closeButtonRect.origin.x += _OEHUDWindowCloseButtonBorder;
+        closeButtonRect.origin.x += _OEHUDWindowCloseButtonLeftBorder;
         closeButtonRect.size      = _OEHUDWindowCloseButtonSize;
 
         OEButton *closeButton = [[OEButton alloc] initWithFrame:closeButtonRect];
