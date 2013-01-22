@@ -191,7 +191,7 @@ typedef enum
 - (unsigned int)maximumIntegralScale
 {
     NSScreen *screen             = ([[self window] screen] ? : [NSScreen mainScreen]);
-    const NSSize maxContentSize  = [[self window] contentRectForFrameRect:[screen visibleFrame]].size;
+    const NSSize maxContentSize   = [OEHUDWindow mainContentRectForFrameRect:[screen visibleFrame]].size;
     const NSSize defaultSize     = [[[self OE_gameDocument] gameViewController] defaultScreenSize];
     const unsigned int maxScale  = MAX(MIN(floor(maxContentSize.height / defaultSize.height), floor(maxContentSize.width / defaultSize.width)), 1);
 
@@ -215,9 +215,8 @@ typedef enum
 
 - (NSSize)OE_windowSizeForGameViewIntegralScale:(unsigned int)gameViewIntegralScale
 {
-    const CGFloat windowTitleBarHeight = 21.0;
-    const NSSize contentSize           = [self OE_windowContentSizeForGameViewIntegralScale:gameViewIntegralScale];
-    const NSSize windowSize            = {contentSize.width, contentSize.height + windowTitleBarHeight};
+    const NSSize contentSize = [self OE_windowContentSizeForGameViewIntegralScale:gameViewIntegralScale];
+    const NSSize windowSize  = [OEHUDWindow frameRectForMainContentRect:(NSRect){.size = contentSize}].size;
 
     return windowSize;
 }
@@ -266,10 +265,8 @@ typedef enum
 
 - (OEScreenshotWindow *)OE_buildScreenshotWindow
 {
-    NSRect windowFrame       = [[self window] frame];
-    windowFrame.size.height -= 21;
-    
-    OEScreenshotWindow *screenshotWindow = [[OEScreenshotWindow alloc] initWithContentRect:(NSRect){.size = windowFrame.size}
+    NSRect              windowFrame      = [OEHUDWindow mainContentRectForFrameRect:[[self window] frame]];
+    OEScreenshotWindow *screenshotWindow = [[OEScreenshotWindow alloc] initWithContentRect:windowFrame
                                                                                  styleMask:NSBorderlessWindowMask
                                                                                    backing:NSBackingStoreBuffered
                                                                                      defer:NO];
@@ -392,10 +389,8 @@ typedef enum
     const NSRect screenFrame                 = [mainScreen frame];
     const NSTimeInterval hideBorderDuration  = duration / 4;
     const NSTimeInterval resizeDuration      = duration - hideBorderDuration;
-
-    NSRect titleBarFrame, contentFrame;
-    NSDivideRect(_frameForNonFullScreenMode, &titleBarFrame, &contentFrame, 21.0, NSMaxYEdge);
-    const NSRect screenshotWindowFrame = [self OE_screenshotWindowFrameForOriginalFrame:contentFrame];
+    const NSRect contentFrame                = [OEHUDWindow mainContentRectForFrameRect:[window frame]];
+    const NSRect screenshotWindowFrame       = [self OE_screenshotWindowFrameForOriginalFrame:contentFrame];
 
     [_screenshotWindow setFrame:screenshotWindowFrame display:YES];
     [_screenshotWindow setScreenshot:[gameView screenshot]];
@@ -464,20 +459,17 @@ typedef enum
     [_screenshotWindow setScreenshot:[gameView screenshot]];
     [_screenshotWindow orderFront:self];
 
-    NSRect titleBarFrame, contentFrame;
-    NSDivideRect(_frameForNonFullScreenMode, &titleBarFrame, &contentFrame, 21.0, NSMaxYEdge);
+    const NSRect contentFrame          = [OEHUDWindow mainContentRectForFrameRect:_frameForNonFullScreenMode];
     const NSRect screenshotWindowFrame = [self OE_screenshotWindowFrameForOriginalFrame:contentFrame];
 
     // Restore the window to its original frame
     {
         [window setAlphaValue:0.0];
-
-        // Restore space for the title bar
-        NSRect contentFrame = [contentView frame];
-        contentFrame.size.height -= 21;
-        [contentView setFrame:contentFrame];
-
         [window setFrame:_frameForNonFullScreenMode display:YES];
+
+        // Resize the content view so that it takes window decoration into account
+        NSRect contentRect = [window convertRectFromScreen:[OEHUDWindow mainContentRectForFrameRect:_frameForNonFullScreenMode]];
+        [contentView setFrame:contentRect];
     }
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
