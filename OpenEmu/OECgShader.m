@@ -94,9 +94,9 @@
         fragmentFrameCount      = [self fragmentParameterWithName:"IN.frame_count"];
         fragmentFrameDirection  = [self fragmentParameterWithName:"IN.frame_direction"];
         fragmentFrameRotation   = [self fragmentParameterWithName:"IN.frame_rotation"];
-    }
 
-    shaderData = self;
+        shaderData = self;
+    }
 
     return self;
 }
