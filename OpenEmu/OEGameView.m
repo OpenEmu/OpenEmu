@@ -168,12 +168,10 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
     // Shaders in Filters directory
     NSArray *cgShaderNames = [OEShaderPlugin allPluginNames];
-    NSMutableArray *cgShaders = [[NSMutableArray alloc] initWithCapacity:[cgShaderNames count]];
 
     for(int i=0; i<[cgShaderNames count]; ++i)
     {
-        [cgShaders addObject:[[OECgShader alloc] initWithShadersInFilterDirectory:cgShaderNames[i] forContext:context]];
-        [dict setObject:cgShaders[i] forKey:cgShaderNames[i]];
+        [dict setObject:[[OECgShader alloc] initWithShadersInFilterDirectory:cgShaderNames[i] forContext:context] forKey:cgShaderNames[i]];
     }
     
     return dict;
