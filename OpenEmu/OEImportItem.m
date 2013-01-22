@@ -54,7 +54,20 @@
     }
 
     // Ignore unsupported file extensions
-    NSArray *validExtensions = [OESystemPlugin supportedTypeExtensions];
+    NSMutableSet *validExtensions = [NSMutableSet setWithArray:[OESystemPlugin supportedTypeExtensions]];
+
+    // The Archived Game document type lists all supported archive extensions, e.g. zip
+    NSDictionary *bundleInfo      = [[NSBundle mainBundle] infoDictionary];
+    NSArray      *docTypes        = [bundleInfo objectForKey:@"CFBundleDocumentTypes"];
+    for(NSDictionary *docType in docTypes)
+    {
+        if([[docType objectForKey:@"CFBundleTypeName"] isEqualToString:@"Archived Game"])
+        {
+            [validExtensions addObjectsFromArray:[docType objectForKey:@"CFBundleTypeExtensions"]];
+            break;
+        }
+    }
+
     NSString *extension = [[url pathExtension] lowercaseString];
     
     if([extension length] > 0 && ![validExtensions containsObject:extension])
