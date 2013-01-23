@@ -630,72 +630,79 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         -1,  1
     };
 
-    if([shader isKindOfClass:[OEGameShader class]] && [[shader shaderData] isKindOfClass:[OECgShader class]])
+    if(shader == (id)_OELinearFilterName || shader == (id)_OENearestNeighborFilterName)
     {
-        // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
-        [self OE_renderToTexture:rttGameTexture withFramebuffer:rttFBO usingVertices:rtt_verts usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
-
-        OECgShader *cgShader = [shader shaderData];
-
-        // enable vertex program, bind parameters
-        cgGLBindProgram([cgShader vertexProgram]);
-        cgGLSetParameter2f([cgShader vertexVideoSize], gameScreenSize.width, gameScreenSize.height);
-        cgGLSetParameter2f([cgShader vertexTextureSize], gameScreenSize.width, gameScreenSize.height);
-        cgGLSetParameter2f([cgShader vertexOutputSize], self.frame.size.width, self.frame.size.height);
-        cgGLSetParameter1f([cgShader vertexFrameCount], frameCount++);
-        cgGLSetStateMatrixParameter([cgShader modelViewProj], CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
-        cgGLEnableProfile([cgShader vertexProfile]);
-
-        // enable fragment program, bind parameters
-        cgGLBindProgram([cgShader fragmentProgram]);
-        cgGLSetParameter2f([cgShader fragmentVideoSize], gameScreenSize.width, gameScreenSize.height);
-        cgGLSetParameter2f([cgShader fragmentTextureSize], gameScreenSize.width, gameScreenSize.height);
-        cgGLSetParameter2f([cgShader fragmentOutputSize], self.frame.size.width, self.frame.size.height);
-        cgGLSetParameter1f([cgShader fragmentFrameCount], frameCount++);
-        cgGLEnableProfile([cgShader fragmentProfile]);
-
-        
-        glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-        glTexCoordPointer(2, GL_FLOAT, 0, cg_coords );
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(2, GL_FLOAT, 0, verts );
-        glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
-        glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-        glDisableClientState(GL_VERTEX_ARRAY);
-
-        // turn off profiles
-        cgGLDisableProfile([[shader shaderData] vertexProfile]);
-        cgGLDisableProfile([[shader shaderData] fragmentProfile]);
-    }
-    else
-    {
-        if(shader != (id)_OELinearFilterName)
+        if(shader == (id)_OENearestNeighborFilterName)
         {
             glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            
-            if(shader != (id)_OENearestNeighborFilterName)
-            {
-                if([[shader shaderData] isKindOfClass:[OEGlslShader class]])
-                {
-                    glUseProgramObjectARB([[shader shaderData] programObject]);
-
-                    // set up shader uniforms
-                    glUniform1iARB([[shader shaderData] uniformLocationWithName:"OETexture"], 0);
-                }
-            }
         }
 
-        glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-        glTexCoordPointer(2, GL_INT, 0, tex_coords );
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(2, GL_FLOAT, 0, verts );
         glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
-        glDisableClientState( GL_TEXTURE_COORD_ARRAY );
         glDisableClientState(GL_VERTEX_ARRAY);
+    }
+    else if([shader isCompiled])
+    {
+        if([[shader shaderData] isKindOfClass:[OECgShader class]])
+        {
+            // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
+            [self OE_renderToTexture:rttGameTexture withFramebuffer:rttFBO usingVertices:rtt_verts usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
-        // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
-        glUseProgramObjectARB(0);
+            OECgShader *cgShader = [shader shaderData];
+
+            // enable vertex program, bind parameters
+            cgGLBindProgram([cgShader vertexProgram]);
+            cgGLSetParameter2f([cgShader vertexVideoSize], gameScreenSize.width, gameScreenSize.height);
+            cgGLSetParameter2f([cgShader vertexTextureSize], gameScreenSize.width, gameScreenSize.height);
+            cgGLSetParameter2f([cgShader vertexOutputSize], self.frame.size.width, self.frame.size.height);
+            cgGLSetParameter1f([cgShader vertexFrameCount], frameCount++);
+            cgGLSetStateMatrixParameter([cgShader modelViewProj], CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
+            cgGLEnableProfile([cgShader vertexProfile]);
+
+            // enable fragment program, bind parameters
+            cgGLBindProgram([cgShader fragmentProgram]);
+            cgGLSetParameter2f([cgShader fragmentVideoSize], gameScreenSize.width, gameScreenSize.height);
+            cgGLSetParameter2f([cgShader fragmentTextureSize], gameScreenSize.width, gameScreenSize.height);
+            cgGLSetParameter2f([cgShader fragmentOutputSize], self.frame.size.width, self.frame.size.height);
+            cgGLSetParameter1f([cgShader fragmentFrameCount], frameCount++);
+            cgGLEnableProfile([cgShader fragmentProfile]);
+
+
+            glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+            glTexCoordPointer(2, GL_FLOAT, 0, cg_coords );
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glVertexPointer(2, GL_FLOAT, 0, verts );
+            glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+            glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+            glDisableClientState(GL_VERTEX_ARRAY);
+
+            // turn off profiles
+            cgGLDisableProfile([[shader shaderData] vertexProfile]);
+            cgGLDisableProfile([[shader shaderData] fragmentProfile]);
+        }
+        else
+        {
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+            glUseProgramObjectARB([[shader shaderData] programObject]);
+
+            // set up shader uniforms
+            glUniform1iARB([[shader shaderData] uniformLocationWithName:"OETexture"], 0);
+
+            glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+            glTexCoordPointer(2, GL_INT, 0, tex_coords );
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glVertexPointer(2, GL_FLOAT, 0, verts );
+            glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+            glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+            glDisableClientState(GL_VERTEX_ARRAY);
+            
+            // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
+            glUseProgramObjectARB(0);
+        }
     }
 
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -744,6 +751,13 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     filterRenderer = nil;
 
     if(!filterName) return;
+
+    OEGameShader *filter = [filters objectForKey:filterName];
+
+    if(filter != nil && [filter isKindOfClass:[OEGameShader class]])
+    {
+        [[filter shaderData] compileShaders];
+    }
 
     if([filters objectForKey:filterName] == nil && [self openGLContext] != nil)
     {

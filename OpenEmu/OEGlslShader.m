@@ -233,31 +233,39 @@ static void OE_linkProgram(GLhandleARB programObject,
     return programObjectSet;
 } // setProgramObject
 
-#pragma mark -- Designated Initializer --
-- (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context
+- (void)compileShaders
 {
-    if((self = [super initInBundle:bundle forContext:context]))
+    if(!compiled)
     {
         BOOL  loadedShaders = NO;
 
         // Load vertex and fragment shader
 
-        [self OE_readVertexShaderSourceWithName:theShadersName];
+        [self OE_readVertexShaderSourceWithName:shaderName];
 
         if(vertexShaderSource != NULL)
         {
-            [self OE_readFragmentShaderSourceWithName:theShadersName];
+            [self OE_readFragmentShaderSourceWithName:shaderName];
 
             if(fragmentShaderSource != NULL)
             {
                 loadedShaders = [self setProgramObject];
 
-                if(!loadedShaders)
+                if(loadedShaders)
+                    compiled = YES;
+                else
                     NSLog(@">> WARNING: Failed to load GLSL \"%@\" fragment & vertex shaders!\n",
-                          theShadersName);
-            } // if
-        } // if
+                          shaderName);
+            }
+        }
+    }
+}
 
+#pragma mark -- Designated Initializer --
+- (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context
+{
+    if((self = [super initInBundle:bundle withName:theShadersName forContext:context]))
+    {
         shaderData = self;
     }
 

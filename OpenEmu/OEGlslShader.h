@@ -37,6 +37,8 @@
 - (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
 - (id)initWithShadersInMainBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
 
+- (void)compileShaders;
+
 - (GLhandleARB)programObject;
 - (GLint)uniformLocationWithName:(const GLcharARB *)theUniformName;
 
