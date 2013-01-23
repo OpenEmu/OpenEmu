@@ -31,6 +31,7 @@
 
 @interface OECgShader : OEGameShader
 {
+    NSString  *shaderSource;
     CGcontext cgContext;
     CGprofile vertexProfile, fragmentProfile;
     CGprogram vertexProgram, fragmentProgram;
@@ -43,10 +44,10 @@
                 position, texCoord, modelViewProj;
 }
 
-- (id)initWithShaders:(NSString *)shaderSource withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
 - (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
 - (id)initWithShadersInMainBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
 - (id)initWithShadersInFilterDirectory:(NSString *)theShadersName forContext:(CGLContextObj)context;
+- (void)compileShaders;
 
 - (CGprofile)vertexProfile;
 - (CGprofile)fragmentProfile;

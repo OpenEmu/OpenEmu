@@ -32,12 +32,15 @@
 {
     NSBundle        *bundleToLoadFrom;     // location of resource folder;
     CGLContextObj    shaderContext;        // context to bind shaders to.
+    NSString        *shaderName;
+    bool             compiled;             // is a Shader compiled yet?
     id               shaderData;           // either OEGlslShader or OECgShader
 }
 
-- (id)initInBundle:(NSBundle *)bundle forContext:(CGLContextObj)context;
-- (id)initForContext:(CGLContextObj)context;
+- (id)initInBundle:(NSBundle *)bundle withName:(NSString *)name forContext:(CGLContextObj)context;
+- (id)initWithName:(NSString *)name forContext:(CGLContextObj)context;
 
 - (id)shaderData;
+- (bool)isCompiled;
 
 @end

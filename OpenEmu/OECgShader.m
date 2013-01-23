@@ -31,78 +31,14 @@
 @implementation OECgShader
 
 #pragma mark -- Designated Initializer --
-- (id)initWithShaders:(NSString *)shaderSource withName:(NSString *)theShadersName forContext:(CGLContextObj)context
-{
-    // create context for Cg
-    cgContext = cgCreateContext();
-
-    if(cgContext == NULL)
-        NSLog(@"%@: Context creation failed", theShadersName);
-    
-
-    // load vertex shader
-    // set vertex profile
-    vertexProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
-    if(vertexProfile == CG_PROFILE_UNKNOWN)
-        NSLog(@"%@: Couldn't get valid profile", theShadersName);
-    cgGLSetOptimalOptions(vertexProfile);
-
-    vertexProgram = cgCreateProgramFromFile(cgContext, CG_SOURCE, [shaderSource UTF8String], vertexProfile, "main_vertex", 0);
-    if(vertexProgram == NULL)
-    {
-        CGError cgError = cgGetError();
-        NSLog(@"%@, vertex program: %s", theShadersName, cgGetErrorString(cgError));
-    }
-
-    cgGLLoadProgram(vertexProgram);
-
-    // grab vertex parameters
-    position                = [self vertexParameterWithName:"position"];
-    texCoord                = [self vertexParameterWithName:"texCoord"];
-    modelViewProj           = [self vertexParameterWithName:"modelViewProj"];
-    vertexVideoSize         = [self vertexParameterWithName:"IN.video_size"];
-    vertexTextureSize       = [self vertexParameterWithName:"IN.texture_size"];
-    vertexOutputSize        = [self vertexParameterWithName:"IN.output_size"];
-    vertexFrameCount        = [self vertexParameterWithName:"IN.frame_count"];
-    vertexFrameDirection    = [self vertexParameterWithName:"IN.frame_direction"];
-    vertexFrameRotation     = [self vertexParameterWithName:"IN.frame_rotation"];
-
-
-    // load fragment shader
-    // set fragment profile
-    fragmentProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
-    if(fragmentProfile == CG_PROFILE_UNKNOWN)
-        NSLog(@"%@: Couldn't get valid profile", theShadersName);
-    cgGLSetOptimalOptions(fragmentProfile);
-
-    fragmentProgram = cgCreateProgramFromFile(cgContext, CG_SOURCE, [shaderSource UTF8String], fragmentProfile, "main_fragment", 0);
-    if(fragmentProgram == NULL)
-    {
-        CGError cgError = cgGetError();
-        NSLog(@"%@, fragment program: %s", theShadersName, cgGetErrorString(cgError));
-    }
-
-    cgGLLoadProgram(fragmentProgram);
-
-    // grab fragment parameters
-    fragmentVideoSize       = [self fragmentParameterWithName:"IN.video_size"];
-    fragmentTextureSize     = [self fragmentParameterWithName:"IN.texture_size"];
-    fragmentOutputSize      = [self fragmentParameterWithName:"IN.output_size"];
-    fragmentFrameCount      = [self fragmentParameterWithName:"IN.frame_count"];
-    fragmentFrameDirection  = [self fragmentParameterWithName:"IN.frame_direction"];
-    fragmentFrameRotation   = [self fragmentParameterWithName:"IN.frame_rotation"];
-
-    shaderData = self;
-
-    return self;
-}
 
 - (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context
 {
-    if((self = [super initInBundle:bundle forContext:context]))
+    if((self = [super initInBundle:bundle withName:theShadersName forContext:context]))
     {
-        NSString *shaderSource = [bundleToLoadFrom pathForResource:theShadersName ofType:@"cg"];
-        return [self initWithShaders:shaderSource withName:theShadersName forContext:context];
+        shaderSource = [bundleToLoadFrom pathForResource:theShadersName ofType:@"cg"];
+        shaderName = theShadersName;
+        shaderData = self;
     }
 
     return self;
@@ -115,7 +51,7 @@
 
 - (id)initWithShadersInFilterDirectory:(NSString *)theShadersName forContext:(CGLContextObj)context
 {
-    if((self = [super initForContext:context]))
+    if((self = [super initWithName:theShadersName forContext:context]))
     {
         NSString *openEmuSearchPath = [@"OpenEmu" stringByAppendingPathComponent:[OEShaderPlugin pluginFolder]];
 
@@ -124,11 +60,79 @@
         for(NSString *path in paths)
         {
             NSString *shaderPath = [path stringByAppendingPathComponent:[openEmuSearchPath stringByAppendingPathComponent:theShadersName]];
-
-            return [self initWithShaders:[shaderPath stringByAppendingPathExtension:[OEShaderPlugin pluginExtension]] withName:theShadersName forContext:context];
+            shaderSource = [shaderPath stringByAppendingPathExtension:[OEShaderPlugin pluginExtension]];
+            shaderData = self;
+            return self;
         }
     }
     return self;
+}
+
+- (void)compileShaders
+{
+    if(compiled == NO)
+    {
+        // create context for Cg
+        cgContext = cgCreateContext();
+
+        if(cgContext == NULL)
+            NSLog(@"%@: Context creation failed", shaderName);
+
+
+        // load vertex shader
+        // set vertex profile
+        vertexProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
+        if(vertexProfile == CG_PROFILE_UNKNOWN)
+            NSLog(@"%@: Couldn't get valid profile", shaderName);
+        cgGLSetOptimalOptions(vertexProfile);
+
+        vertexProgram = cgCreateProgramFromFile(cgContext, CG_SOURCE, [shaderSource UTF8String], vertexProfile, "main_vertex", 0);
+        if(vertexProgram == NULL)
+        {
+            CGError cgError = cgGetError();
+            NSLog(@"%@, vertex program: %s", shaderName, cgGetErrorString(cgError));
+        }
+
+        cgGLLoadProgram(vertexProgram);
+
+        // grab vertex parameters
+        position                = [self vertexParameterWithName:"position"];
+        texCoord                = [self vertexParameterWithName:"texCoord"];
+        modelViewProj           = [self vertexParameterWithName:"modelViewProj"];
+        vertexVideoSize         = [self vertexParameterWithName:"IN.video_size"];
+        vertexTextureSize       = [self vertexParameterWithName:"IN.texture_size"];
+        vertexOutputSize        = [self vertexParameterWithName:"IN.output_size"];
+        vertexFrameCount        = [self vertexParameterWithName:"IN.frame_count"];
+        vertexFrameDirection    = [self vertexParameterWithName:"IN.frame_direction"];
+        vertexFrameRotation     = [self vertexParameterWithName:"IN.frame_rotation"];
+
+
+        // load fragment shader
+        // set fragment profile
+        fragmentProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
+        if(fragmentProfile == CG_PROFILE_UNKNOWN)
+            NSLog(@"%@: Couldn't get valid profile", shaderName);
+        cgGLSetOptimalOptions(fragmentProfile);
+
+        fragmentProgram = cgCreateProgramFromFile(cgContext, CG_SOURCE, [shaderSource UTF8String], fragmentProfile, "main_fragment", 0);
+        if(fragmentProgram == NULL)
+        {
+            CGError cgError = cgGetError();
+            NSLog(@"%@, fragment program: %s", shaderName, cgGetErrorString(cgError));
+        }
+
+        cgGLLoadProgram(fragmentProgram);
+
+        // grab fragment parameters
+        fragmentVideoSize       = [self fragmentParameterWithName:"IN.video_size"];
+        fragmentTextureSize     = [self fragmentParameterWithName:"IN.texture_size"];
+        fragmentOutputSize      = [self fragmentParameterWithName:"IN.output_size"];
+        fragmentFrameCount      = [self fragmentParameterWithName:"IN.frame_count"];
+        fragmentFrameDirection  = [self fragmentParameterWithName:"IN.frame_direction"];
+        fragmentFrameRotation   = [self fragmentParameterWithName:"IN.frame_rotation"];
+        
+        compiled = YES;
+    }
 }
 
 #pragma mark -- Deallocating Resources --

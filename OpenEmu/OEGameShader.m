@@ -29,22 +29,23 @@
 
 @implementation OEGameShader
 
-- (id)initInBundle:(NSBundle *)bundle forContext:(CGLContextObj)context
+- (id)initInBundle:(NSBundle *)bundle withName:(NSString *)name forContext:(CGLContextObj)context
 {
     if((self = [super init]))
     {
         bundleToLoadFrom = bundle;
-        shaderContext = CGLRetainContext(context);
+        return [self initWithName:name forContext:context];
     }
     return self;
 }
 
-- (id)initForContext:(CGLContextObj)context
+- (id)initWithName:(NSString *)name forContext:(CGLContextObj)context
 {
     if((self = [super init]))
     {
-        bundleToLoadFrom = nil;
+        shaderName = name;
         shaderContext = CGLRetainContext(context);
+        compiled = NO;
     }
     return self;
 }
@@ -52,6 +53,11 @@
 - (id)shaderData
 {
     return shaderData;
+}
+
+- (bool)isCompiled
+{
+    return compiled;
 }
 
 - (void)dealloc
