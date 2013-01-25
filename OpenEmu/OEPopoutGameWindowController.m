@@ -43,6 +43,7 @@
 #pragma mark - Private variables
 
 static const NSSize       _OEPopoutGameWindowMinSize = {100, 100};
+static const NSSize       _OEScreenshotWindowMinSize = {100, 100};
 static const unsigned int _OEFitToWindowScale        = 0;
 
 // User defaults
@@ -141,7 +142,7 @@ typedef enum
         [window center];
         [window setMainContentView:[gameViewController view]];
 
-        _screenshotWindow = [self OE_buildScreenshotWindow];
+        [self OE_buildScreenshotWindow];
     }
 }
 
@@ -263,14 +264,14 @@ typedef enum
     return (OEGameDocument *)[self document];
 }
 
-- (OEScreenshotWindow *)OE_buildScreenshotWindow
+- (void)OE_buildScreenshotWindow
 {
-    NSRect              windowFrame      = [OEHUDWindow mainContentRectForFrameRect:[[self window] frame]];
-    OEScreenshotWindow *screenshotWindow = [[OEScreenshotWindow alloc] initWithContentRect:windowFrame
-                                                                                 styleMask:NSBorderlessWindowMask
-                                                                                   backing:NSBackingStoreBuffered
-                                                                                     defer:NO];
-    [screenshotWindow setBackgroundColor:[NSColor blackColor]];
+    NSRect windowFrame = {.size = _OEScreenshotWindowMinSize};
+    _screenshotWindow  = [[OEScreenshotWindow alloc] initWithContentRect:windowFrame
+                                                               styleMask:NSBorderlessWindowMask
+                                                                 backing:NSBackingStoreBuffered
+                                                                   defer:NO];
+    [_screenshotWindow setBackgroundColor:[NSColor blackColor]];
 
     const NSRect  contentFrame = {NSZeroPoint, windowFrame.size};
     NSImageView  *imageView    = [[NSImageView alloc] initWithFrame:contentFrame];
@@ -279,9 +280,7 @@ typedef enum
     [imageView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
     [imageView setWantsLayer:YES];
 
-    [screenshotWindow setContentView:imageView];
-
-    return screenshotWindow;
+    [_screenshotWindow setContentView:imageView];
 }
 
 - (NSRect)OE_screenshotWindowFrameForOriginalFrame:(NSRect)frame
@@ -300,6 +299,15 @@ typedef enum
     const NSRect          screenshotWindowFrame = {gameViewportOrigin, gameViewportSize};
     
     return screenshotWindowFrame;
+}
+
+- (void)OE_hideScreenshotWindow
+{
+    [_screenshotWindow orderOut:self];
+
+    // Reduce the memory footprint of the screenshot window when it’s not visible
+    [_screenshotWindow setScreenshot:nil];
+    [_screenshotWindow setFrame:(NSRect){.size = _OEScreenshotWindowMinSize} display:YES];
 }
 
 #pragma mark - NSWindowDelegate
@@ -413,7 +421,8 @@ typedef enum
             [[_screenshotWindow animator] setFrame:screenshotWindowFrame display:YES];
         } completionHandler:^{
             [window setAlphaValue:1.0];
-            [_screenshotWindow orderOut:self];
+            [self OE_hideScreenshotWindow];
+
         }];
     }];
 }
@@ -484,7 +493,7 @@ typedef enum
             [[window animator] setAlphaValue:1.0];
             [[[(OEHUDWindow *)[self window] borderWindow] animator] setAlphaValue:1.0];
         } completionHandler:^{
-            [_screenshotWindow orderOut:self];
+            [self OE_hideScreenshotWindow];
         }];
     }];
 }
