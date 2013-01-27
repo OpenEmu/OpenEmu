@@ -1,7 +1,7 @@
 /*
- Copyright (c) 2010, OpenEmu Team
- 
- 
+ Copyright (c) 2013, OpenEmu Team
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,42 +25,21 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <Quartz/Quartz.h>
-#import <OpenGL/OpenGL.h>
-
-#import <Syphon/Syphon.h>
-
-#import "OEGameCoreHelper.h"
 #import "OEGameShader.h"
-#import "OEGlslShader.h"
-#import "OECgShader.h"
-#import "OEMultipassShader.h"
 
-@protocol OEGameCoreHelper;
-@class OESystemResponder;
+@interface OEMultipassShader : OEGameShader
+{
+    NSUInteger numberOfPasses;
+    NSString *shaderSource;
+    NSMutableArray *shaders;
+    NSMutableArray *shaderOptions;
+}
 
-@interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
+- (id)initWithShadersInFilterDirectory:(NSString *)theShadersName forContext:(CGLContextObj)context;
+- (void)compileShaders;
 
-@property(nonatomic, strong) id<OEGameCoreHelper> rootProxy;
-@property(strong) OESystemResponder *gameResponder;
-
-// QC based filters
-@property(copy) NSDictionary *filters;
-@property(nonatomic, copy) NSString *filterName;
-@property(strong) NSString* gameTitle;
-
-// Screenshots
-/* Returns a screenshot containing the game viewport with its current size in the window and filters */
-- (NSImage *)screenshot;
-
-/* Returns a screenshot as rendered by the emulator core: native size and no filters */
-- (NSImage *)nativeScreenshot;
-
-// Rendering methods
-- (void)setupDisplayLink;
-- (void)tearDownDisplayLink;
-- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
-- (void)render;
+- (NSUInteger)numberOfPasses;
+- (NSMutableArray *)shaders;
+- (NSMutableArray *)shaderOptions;
 
 @end
