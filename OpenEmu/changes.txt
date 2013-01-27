@@ -1,0 +1,71 @@
+snes_ntsc Change Log
+--------------------
+
+snes_ntsc 0.2.2
+---------------
+- Moved configuration options to snes_ntsc_config.h, making it easier to
+manage
+
+- Greatly clarified and improved demo to read any uncompressed BMP image
+and write filtered image when done
+
+- Improved gamma to be properly applied to each RGB channel, and changed
+default to compensate for difference between PC monitor and TV gamma
+
+- Improved contrast to be properly applied to each RGB channel rather
+than just luma
+
+- Removed hue_warping for now, due to its obscurity
+
+- Improved floating point calculations in library to be more stable and
+not need double precision, which was causing problems with the sharpness
+control on Windows when the DirectX libraries changed the FPU to single
+precision mode
+
+- Added extern "C" to header, allowing use in C++ without having to
+rename the source file
+
+- Made internal changes to factor out code common from all my NTSC
+filter libraries, greatly simplifying things for me
+
+
+snes_ntsc 0.2.1
+---------------
+- Significantly improved NTSC signal processing to give clearer image
+and better sharpness control
+
+- Added parameters for resolution, color bleed, and artifacts
+
+- Added presets for composite video, S-video, RGB, and monochrome
+
+- Halved initialization time
+
+- Added ability to write custom blitters
+
+- Changed interface to blitters significantly, requiring changes to your
+code. They have a simpler interface and don't do any line doubling (use
+a custom blitter for this).
+
+- Added ability to change input and output pixel formats of blitters
+
+- Improved demo with more controls and interpolation and darkening of
+scanlines rather than duplicating them
+
+- Improved documentation
+
+
+snes_ntsc 0.1.1
+---------------
+- Changed snes_ntsc_blit() to rescale image horizontally and do line
+doubling
+
+- Added hue warping
+
+- Changed input pixel format from 15-bit BGR to 16-bit RGB
+
+- Fixed color speckling in solid areas
+
+
+snes_ntsc 0.1.0
+---------------
+- First release

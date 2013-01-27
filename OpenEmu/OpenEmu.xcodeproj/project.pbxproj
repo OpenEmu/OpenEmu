@@ -500,6 +500,14 @@
 		8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C415ECC16B0682B00980DB9 /* OEMultipassShader.m */; };
 		8C4C808916986697009B8A28 /* OEGlslShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808816986697009B8A28 /* OEGlslShader.m */; };
 		8C4C808E16986C87009B8A28 /* OECgShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808D16986C87009B8A28 /* OECgShader.m */; };
+		8C8AD73816B5DBE20004D97C /* changes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8C8AD73016B5DBE20004D97C /* changes.txt */; };
+		8C8AD73916B5DBE20004D97C /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8C8AD73116B5DBE20004D97C /* license.txt */; };
+		8C8AD73A16B5DBE20004D97C /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8C8AD73216B5DBE20004D97C /* readme.txt */; };
+		8C8AD73B16B5DBE20004D97C /* snes_ntsc_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C8AD73316B5DBE20004D97C /* snes_ntsc_config.h */; };
+		8C8AD73C16B5DBE20004D97C /* snes_ntsc_impl.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C8AD73416B5DBE20004D97C /* snes_ntsc_impl.h */; };
+		8C8AD73D16B5DBE20004D97C /* snes_ntsc.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C8AD73516B5DBE20004D97C /* snes_ntsc.c */; };
+		8C8AD73E16B5DBE20004D97C /* snes_ntsc.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C8AD73616B5DBE20004D97C /* snes_ntsc.h */; };
+		8C8AD73F16B5DBE20004D97C /* snes_ntsc.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8C8AD73716B5DBE20004D97C /* snes_ntsc.txt */; };
 		8CAD37CF16A18C3000AE25F5 /* Cg.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCBC0C8169B323100141631 /* Cg.framework */; };
 		8CCBC0C9169B323100141631 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCBC0C8169B323100141631 /* Cg.framework */; };
 		8CF0EB56169B1DF900E3670D /* Scanline.cg in Resources */ = {isa = PBXBuildFile; fileRef = 8CF0EB55169B1DF900E3670D /* Scanline.cg */; };
@@ -1644,6 +1652,14 @@
 		8C4C808816986697009B8A28 /* OEGlslShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGlslShader.m; sourceTree = "<group>"; };
 		8C4C808C16986C87009B8A28 /* OECgShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECgShader.h; sourceTree = "<group>"; };
 		8C4C808D16986C87009B8A28 /* OECgShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECgShader.m; sourceTree = "<group>"; };
+		8C8AD73016B5DBE20004D97C /* changes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = changes.txt; sourceTree = "<group>"; };
+		8C8AD73116B5DBE20004D97C /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
+		8C8AD73216B5DBE20004D97C /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		8C8AD73316B5DBE20004D97C /* snes_ntsc_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = snes_ntsc_config.h; sourceTree = "<group>"; };
+		8C8AD73416B5DBE20004D97C /* snes_ntsc_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = snes_ntsc_impl.h; sourceTree = "<group>"; };
+		8C8AD73516B5DBE20004D97C /* snes_ntsc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snes_ntsc.c; sourceTree = "<group>"; };
+		8C8AD73616B5DBE20004D97C /* snes_ntsc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = snes_ntsc.h; sourceTree = "<group>"; };
+		8C8AD73716B5DBE20004D97C /* snes_ntsc.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = snes_ntsc.txt; sourceTree = "<group>"; };
 		8CCBC0C8169B323100141631 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cg.framework; sourceTree = "<group>"; };
 		8CF0EB55169B1DF900E3670D /* Scanline.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scanline.cg; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3021,6 +3037,7 @@
 		829165DA0E85F9A400493FD8 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				8C8AD72F16B5DBA70004D97C /* Blargg's NTSC filter */,
 				1BA788FD0FF9C95A007CE5DB /* OEGameShader.h */,
 				1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */,
 				C6953C9F117293760091276F /* OEGameView.h */,
@@ -3434,6 +3451,21 @@
 				8CF0EB55169B1DF900E3670D /* Scanline.cg */,
 			);
 			name = "Cg Shaders";
+			sourceTree = "<group>";
+		};
+		8C8AD72F16B5DBA70004D97C /* Blargg's NTSC filter */ = {
+			isa = PBXGroup;
+			children = (
+				8C8AD73016B5DBE20004D97C /* changes.txt */,
+				8C8AD73116B5DBE20004D97C /* license.txt */,
+				8C8AD73216B5DBE20004D97C /* readme.txt */,
+				8C8AD73316B5DBE20004D97C /* snes_ntsc_config.h */,
+				8C8AD73416B5DBE20004D97C /* snes_ntsc_impl.h */,
+				8C8AD73516B5DBE20004D97C /* snes_ntsc.c */,
+				8C8AD73616B5DBE20004D97C /* snes_ntsc.h */,
+				8C8AD73716B5DBE20004D97C /* snes_ntsc.txt */,
+			);
+			name = "Blargg's NTSC filter";
 			sourceTree = "<group>";
 		};
 		93B479F512BAB52F008618A7 /* HID */ = {
@@ -3879,6 +3911,9 @@
 				3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */,
 				8220233214F1C20E00902FB1 /* OESystemResponderClient.h in Headers */,
 				8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */,
+				8C8AD73B16B5DBE20004D97C /* snes_ntsc_config.h in Headers */,
+				8C8AD73C16B5DBE20004D97C /* snes_ntsc_impl.h in Headers */,
+				8C8AD73E16B5DBE20004D97C /* snes_ntsc.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4348,6 +4383,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C8AD73816B5DBE20004D97C /* changes.txt in Resources */,
+				8C8AD73916B5DBE20004D97C /* license.txt in Resources */,
+				8C8AD73A16B5DBE20004D97C /* readme.txt in Resources */,
+				8C8AD73F16B5DBE20004D97C /* snes_ntsc.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4744,6 +4783,7 @@
 				8245FD0814F763E600C64574 /* TPCircularBuffer.c in Sources */,
 				3D71183E1500650D0056E3BF /* PSYBlockTimer.m in Sources */,
 				3DD90BA81500A6BF00FE5DFD /* OETimingUtils.m in Sources */,
+				8C8AD73D16B5DBE20004D97C /* snes_ntsc.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
