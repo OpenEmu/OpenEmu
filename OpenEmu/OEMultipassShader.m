@@ -119,18 +119,27 @@
         // Check how the shader should scale
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_type%d=).*", i] inString:strippedInput withError:error];
         otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-        [shader setScaleType:otherArguments];
+        if(result.range.location != NSNotFound)
+        {
+            [shader setScaleType:otherArguments];
+        }
 
         // Check for the scaling factor
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale%d=).*", i] inString:strippedInput withError:error];
-        otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         if(result.range.location != NSNotFound)
         {
+            otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             [shader setScaler:CGSizeMake([otherArguments floatValue], [otherArguments floatValue])];
         }
 
         // Add the shader to the shaders array
         [shaders addObject:shader];
+    }
+
+    result = [self checkRegularExpression:@"(?<=ntsc_filter=).*" inString:strippedInput withError:error];
+    if(result.range.location != NSNotFound)
+    {
+        ntscFilter = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     }
 
     return YES;
@@ -146,9 +155,9 @@
     return shaders;
 }
 
-- (NSMutableArray *)shaderOptions
+- (NSString *)ntscFilter
 {
-    return shaderOptions;
+    return ntscFilter;
 }
 
 @end

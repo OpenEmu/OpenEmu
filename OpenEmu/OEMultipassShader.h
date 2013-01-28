@@ -29,10 +29,10 @@
 
 @interface OEMultipassShader : OEGameShader
 {
-    NSUInteger numberOfPasses;
-    NSString *shaderSource;
+    NSUInteger      numberOfPasses;
+    NSString       *shaderSource;
     NSMutableArray *shaders;
-    NSMutableArray *shaderOptions;
+    NSString       *ntscFilter;
 }
 
 - (id)initWithShadersInFilterDirectory:(NSString *)theShadersName forContext:(CGLContextObj)context;
@@ -40,6 +40,6 @@
 
 - (NSUInteger)numberOfPasses;
 - (NSMutableArray *)shaders;
-- (NSMutableArray *)shaderOptions;
+- (NSString *)ntscFilter;
 
 @end

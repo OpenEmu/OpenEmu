@@ -11,7 +11,7 @@
 handle things however it wants. */
 
 /* Bits per pixel of output. Can be 15, 16, 32, or 24 (same as 32). */
-#define SNES_NTSC_OUT_DEPTH 32
+#define SNES_NTSC_OUT_DEPTH 24
 
 /* Type of input pixel values */
 #define SNES_NTSC_IN_T unsigned int
