@@ -34,6 +34,7 @@
 @protocol OEGameCoreHelperDelegate <NSObject>
 - (void) gameCoreDidChangeScreenSizeTo:(OEIntSize)screenSize;
 - (void) gameCoreDidChangeAspectSizeTo:(OEIntSize)aspectSize;
+- (void) toggleVSync:(GLint)swapInt;
 @end
 
 // our helper app needs to handle these functions

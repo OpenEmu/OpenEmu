@@ -306,6 +306,11 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     [self rebindIOSurface];
 }
 
+- (void)toggleVSync:(GLint)swapInt
+{
+    [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+}
+
 - (NSString*) gameTitle
 {
     return gameTitle;

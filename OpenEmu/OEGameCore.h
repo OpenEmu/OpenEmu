@@ -53,6 +53,8 @@
 
 - (void) willRenderFrameOnAlternateThread;
 - (void) didRenderFrameOnAlternateThread;
+
+- (void) willDisableVSync:(BOOL)flag;
 @end
 
 #pragma mark -
@@ -133,6 +135,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
     
     BOOL                    isRunning;
     BOOL                    shouldStop;
+    BOOL                    isFastForwarding;
 }
 
 @property(weak)     id<OERenderDelegate>  renderDelegate;
@@ -151,6 +154,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 - (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index;
 
 - (void)calculateFrameSkip:(NSUInteger)rate;
+- (void)fastForward:(BOOL)flag;
 
 #pragma mark -
 #pragma mark Execution

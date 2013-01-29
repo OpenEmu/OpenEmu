@@ -136,4 +136,5 @@ enum _OEHelperAppErrorCodes
 #pragma mark OE Render Delegate protocol methods
 - (void)willExecute;
 - (void)didExecute;
+- (void)willDisableVSync:(BOOL)disabled;
 @end
