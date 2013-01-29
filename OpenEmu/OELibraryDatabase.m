@@ -396,7 +396,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         return YES;
     }
     
-    if(![[self managedObjectContext] save:error ? error : &backupError]) 
+    if(![[self managedObjectContext] save:error]) 
     {
         [[NSApplication sharedApplication] presentError:error ? *error : backupError];
         return NO;
