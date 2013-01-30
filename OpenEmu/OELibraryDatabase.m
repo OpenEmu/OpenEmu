@@ -382,8 +382,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (BOOL)save:(NSError **)error
 {
-    NSError *backupError;
-    
     if(![[self managedObjectContext] commitEditing]) 
     {
         NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
@@ -398,7 +396,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     if(![[self managedObjectContext] save:error]) 
     {
-        [[NSApplication sharedApplication] presentError:error ? *error : backupError];
+        [[NSApplication sharedApplication] presentError:*error];
         return NO;
     }
     
