@@ -31,10 +31,10 @@
 
 @interface OECgShader : OEGameShader
 {
-    NSString  *shaderSource;
-    CGcontext cgContext;
-    CGprofile vertexProfile, fragmentProfile;
-    CGprogram vertexProgram, fragmentProgram;
+    NSString   *shaderSource;
+    CGcontext   cgContext;
+    CGprofile   vertexProfile,          fragmentProfile;
+    CGprogram   vertexProgram,          fragmentProgram;
     CGparameter vertexVideoSize,        fragmentVideoSize,
                 vertexTextureSize,      fragmentTextureSize,
                 vertexOutputSize,       fragmentOutputSize,
@@ -42,6 +42,9 @@
                 vertexFrameDirection,   fragmentFrameDirection,
                 vertexFrameRotation,    fragmentFrameRotation,
                 position, texCoord, modelViewProj;
+    BOOL        linearFiltering;
+    NSString   *scaleType;
+    CGSize      scaler;
 }
 
 - (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
@@ -69,6 +72,14 @@
 - (CGparameter)fragmentFrameCount;
 - (CGparameter)fragmentFrameDirection;
 - (CGparameter)fragmentFrameRotation;
+
+- (BOOL)linearFiltering;
+- (NSString *)scaleType;
+- (CGSize)scaler;
+
+- (void)setLinearFiltering:(BOOL)usesLinearFiltering;
+- (void)setScaleType:(NSString *)theScaleType;
+- (void)setScaler:(CGSize)theScaler;
 
 - (CGparameter)vertexParameterWithName:(const char *)theParameterName;
 - (CGparameter)fragmentParameterWithName:(const char *)theParameterName;

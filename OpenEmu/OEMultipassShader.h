@@ -1,7 +1,7 @@
 /*
- Copyright (c) 2010, OpenEmu Team
- 
- 
+ Copyright (c) 2013, OpenEmu Team
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,42 +25,21 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "OEGameShader.h"
 
-#import <Cocoa/Cocoa.h>
-#import "OEGameCore.h"
+@interface OEMultipassShader : OEGameShader
+{
+    NSUInteger      numberOfPasses;
+    NSString       *shaderSource;
+    NSMutableArray *shaders;
+    NSString       *ntscFilter;
+}
 
-@class OEGameCoreController;
+- (id)initWithShadersInFilterDirectory:(NSString *)theShadersName forContext:(CGLContextObj)context;
+- (void)compileShaders;
 
-@protocol OEGameCoreHelperDelegate <NSObject>
-- (void) gameCoreDidChangeScreenSizeTo:(OEIntSize)screenSize;
-- (void) gameCoreDidChangeAspectSizeTo:(OEIntSize)aspectSize;
-- (void) toggleVSync:(GLint)swapInt;
-@end
-
-// our helper app needs to handle these functions
-@protocol OEGameCoreHelper <NSObject>
-
-// control gamecore
-- (oneway void)setVolume:(float)value;
-- (oneway void)setPauseEmulation:(BOOL)flag;
-
-// gamecore attributes
-@property(readonly) OEIntSize   screenSize; 
-                                            
-@property(readonly) OEIntSize   aspectSize;
-@property(readonly) BOOL isEmulationPaused;
-
-@property(readwrite) BOOL drawSquarePixels;
-@property(readonly) IOSurfaceID surfaceID;
-@property(weak) id <OEGameCoreHelperDelegate> delegate;
-
-- (byref OEGameCore *)gameCore;
-
-- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath;
-- (void)setupEmulation;
-- (void)stopEmulation;
-
-- (BOOL)saveStateToFileAtPath:(NSString *)fileName;
-- (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
+- (NSUInteger)numberOfPasses;
+- (NSMutableArray *)shaders;
+- (NSString *)ntscFilter;
 
 @end

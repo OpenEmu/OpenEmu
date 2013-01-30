@@ -758,6 +758,14 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 #pragma mark -
 #pragma mark OERenderDelegate protocol methods
 
+- (void)willDisableVSync:(BOOL)disabled
+{
+    if (disabled)
+        [delegate toggleVSync:0];
+    else
+        [delegate toggleVSync:1];
+}
+
 - (void)willExecute
 {
     if(![gameCore rendersToOpenGL]) 

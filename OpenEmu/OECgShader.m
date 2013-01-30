@@ -245,6 +245,38 @@
     return fragmentFrameRotation;
 }
 
+- (BOOL)linearFiltering
+{
+    return linearFiltering;
+}
+
+- (NSString *)scaleType
+{
+    return scaleType;
+}
+
+- (CGSize)scaler
+{
+    return scaler;
+}
+
+#pragma mark -- Setters --
+
+- (void)setLinearFiltering:(BOOL)usesLinearFiltering
+{
+    linearFiltering = usesLinearFiltering;
+}
+
+- (void)setScaleType:(NSString *)theScaleType
+{
+    scaleType = theScaleType;
+}
+
+- (void)setScaler:(CGSize)theScaler
+{
+    scaler = theScaler;
+}
+
 #pragma mark -- Utilities --
 
 

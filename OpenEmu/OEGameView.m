@@ -43,6 +43,8 @@
 #import <OpenGL/CGLIOSurface.h>
 #import <Accelerate/Accelerate.h>
 
+#import "snes_ntsc.h"
+
 // TODO: bind vsync. Is it even necessary, why do we want it off at all?
 
 #pragma mark -
@@ -82,28 +84,38 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 @interface OEGameView ()
 
 // rendering
-@property         GLuint gameTexture;
-@property         IOSurfaceID gameSurfaceID;
-@property         IOSurfaceRef gameSurfaceRef;
+@property         GLuint            gameTexture;
+@property         IOSurfaceID       gameSurfaceID;
+@property         IOSurfaceRef      gameSurfaceRef;
+@property         GLuint            rttFBO;
+@property         GLuint            rttGameTexture;
+@property         NSUInteger        frameCount;
+@property         GLuint           *multipassTextures;
+@property         GLuint           *multipassFBOs;
+@property         snes_ntsc_t      *ntscTable;
+@property         uint32_t         *ntscSource;
+@property         uint32_t         *ntscDestination;
+@property         snes_ntsc_setup_t ntscSetup;
+@property         GLuint            ntscTexture;
+@property         int               ntscBurstPhase;
+@property         int               ntscMergeFields;
 
-@property         GLuint  rttFBO;
-@property         GLuint  rttGameTexture;
-@property         NSUInteger frameCount;
-
-@property         OEIntSize gameScreenSize;
-@property         OEIntSize gameAspectSize;
-@property         CVDisplayLinkRef gameDisplayLinkRef;
-@property(strong) SyphonServer *gameServer;
+@property         OEIntSize         gameScreenSize;
+@property         OEIntSize         gameAspectSize;
+@property         CVDisplayLinkRef  gameDisplayLinkRef;
+@property(strong) SyphonServer     *gameServer;
 
 // QC based filters
-@property(strong) CIImage *gameCIImage;
-@property(strong) QCRenderer *filterRenderer;
-@property         CGColorSpaceRef rgbColorSpace;
-@property         NSTimeInterval filterTime;
-@property         NSTimeInterval filterStartTime;
-@property         BOOL filterHasOutputMousePositionKeys;
+@property(strong) CIImage          *gameCIImage;
+@property(strong) QCRenderer       *filterRenderer;
+@property         CGColorSpaceRef   rgbColorSpace;
+@property         NSTimeInterval    filterTime;
+@property         NSTimeInterval    filterStartTime;
+@property         BOOL              filterHasOutputMousePositionKeys;
 
-- (void)OE_renderToTexture:(GLuint)renderTarget withFramebuffer:(GLuint)FBO usingVertices:(const GLfloat *)vertices usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx;
+- (void)OE_renderToTexture:(GLuint)renderTarget usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx;
+- (void)OE_applyCgShader:(OECgShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const CGSize)outputSize inCGLContext:(CGLContextObj)cgl_ctx;
+- (void)OE_multipassRender:(OEMultipassShader *)multipassShader usingVertices:(const GLfloat *)vertices inCGLContext:(CGLContextObj)cgl_ctx;
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader;
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context;
@@ -119,6 +131,16 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 @synthesize rttFBO;
 @synthesize rttGameTexture;
 @synthesize frameCount;
+@synthesize multipassTextures;
+@synthesize multipassFBOs;
+@synthesize ntscTable;
+@synthesize ntscSource;
+@synthesize ntscDestination;
+@synthesize ntscSetup;
+@synthesize ntscTexture;
+@synthesize ntscBurstPhase;
+@synthesize ntscMergeFields;
+
 @synthesize gameDisplayLinkRef;
 @synthesize gameScreenSize, gameAspectSize;
 @synthesize gameServer;
@@ -209,13 +231,58 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     // GL resources
     glGenTextures(1, &gameTexture);
 
-    glGenFramebuffersEXT(1, &rttFBO);
+    // Resources for render-to-texture pass
     glGenTextures(1, &rttGameTexture);
-
     glBindTexture(GL_TEXTURE_2D, rttGameTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  gameScreenSize.width, gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glBindTexture(GL_TEXTURE_2D, 0);
 
+    glGenFramebuffersEXT(1, &rttFBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, rttFBO);
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, rttGameTexture, 0);
+
+    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) ;
+    if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
+        NSLog(@"failed to make complete framebuffer object %x", status);
+    }
+
+    // Resources for multipass-rendering
+    multipassTextures = (GLuint *) malloc(10 * sizeof(GLuint));
+    multipassFBOs     = (GLuint *) malloc(10 * sizeof(GLuint));
+
+    glGenTextures(10, multipassTextures);
+    glGenFramebuffersEXT(10, multipassFBOs);
+
+    for(int i=0; i<10; ++i)
+    {
+        glBindTexture(GL_TEXTURE_2D, multipassTextures[i]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, multipassFBOs[i]);
+        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, multipassTextures[i], 0);
+    }
+
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    
+    // Setup resources needed for Blargg's NTSC filter
+    ntscMergeFields = 0;
+    ntscBurstPhase  = 0;
+    ntscTable       = (snes_ntsc_t *) malloc(sizeof(snes_ntsc_t));
+    ntscSetup       = snes_ntsc_composite;
+    ntscSetup.merge_fields = ntscMergeFields;
+    ntscSource      = (uint32_t *) malloc(sizeof(uint32_t) * gameScreenSize.width * gameScreenSize.height);
+    ntscDestination = (uint32_t *) malloc(sizeof(uint32_t) * SNES_NTSC_OUT_WIDTH(gameScreenSize.width) * gameScreenSize.height);
+    snes_ntsc_init(ntscTable, &ntscSetup);
+
+    glGenTextures(1, &ntscTexture);
+    glBindTexture(GL_TEXTURE_2D, ntscTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  SNES_NTSC_OUT_WIDTH(gameScreenSize.width), gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
     frameCount = 0;
 
     filters = [self OE_shadersForContext:cgl_ctx];
@@ -237,6 +304,11 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     // rendering
     [self setupDisplayLink];
     [self rebindIOSurface];
+}
+
+- (void)toggleVSync:(GLint)swapInt
+{
+    [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 }
 
 - (NSString*) gameTitle
@@ -274,9 +346,25 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
     glDeleteTextures(1, &rttGameTexture);
     rttGameTexture = 0;
-
     glDeleteFramebuffersEXT(1, &rttFBO);
     rttFBO = 0;
+
+    glDeleteTextures(10, multipassTextures);
+    free(multipassTextures);
+    multipassTextures = 0;
+
+    glDeleteFramebuffersEXT(10, multipassFBOs);
+    free(multipassFBOs);
+    multipassFBOs = 0;
+
+    free(ntscTable);
+    ntscTable = 0;
+    free(ntscSource);
+    ntscSource = 0;
+    free(ntscDestination);
+    ntscDestination = 0;
+    glDeleteTextures(1, &ntscTexture);
+    ntscTexture = 0;
 
     CGLUnlockContext(cgl_ctx);
     [super clearGLContext];
@@ -530,26 +618,23 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     }
 }
 
-- (void)OE_renderToTexture:(GLuint)renderTarget withFramebuffer:(GLuint)FBO usingVertices:(const GLfloat *)vertices usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx
+- (void)OE_renderToTexture:(GLuint)renderTarget usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx
 {
+    const GLfloat vertices[] =
+    {
+        -1, -1,
+        1, -1,
+        1,  1,
+        -1,  1
+    };
+    
     glViewport(0, 0, gameScreenSize.width, gameScreenSize.height);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, FBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, rttFBO);
 
     glBindTexture(GL_TEXTURE_2D, renderTarget);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTarget, 0);
-
-    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) ;
-    if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
-        NSLog(@"failed to make complete framebuffer object %x", status);
-    }
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
     glTexCoordPointer(2, GL_INT, 0, texCoords );
@@ -563,6 +648,162 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 }
 
+- (void)OE_applyCgShader:(OECgShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const CGSize)outputSize inCGLContext:(CGLContextObj)cgl_ctx
+{
+    const GLfloat cg_coords[] =
+    {
+        0, 0,
+        1, 0,
+        1, 1,
+        0, 1
+    };
+    
+    // enable vertex program, bind parameters
+    cgGLBindProgram([shader vertexProgram]);
+    cgGLSetParameter2f([shader vertexVideoSize], gameScreenSize.width, gameScreenSize.height);
+    cgGLSetParameter2f([shader vertexTextureSize], textureSize.width, textureSize.height);
+    cgGLSetParameter2f([shader vertexOutputSize], outputSize.width, outputSize.height);
+    cgGLSetParameter1f([shader vertexFrameCount], frameCount);
+    cgGLSetStateMatrixParameter([shader modelViewProj], CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
+    cgGLEnableProfile([shader vertexProfile]);
+    
+    // enable fragment program, bind parameters
+    cgGLBindProgram([shader fragmentProgram]);
+    cgGLSetParameter2f([shader fragmentVideoSize], gameScreenSize.width, gameScreenSize.height);
+    cgGLSetParameter2f([shader fragmentTextureSize], textureSize.width, textureSize.height);
+    cgGLSetParameter2f([shader fragmentOutputSize], outputSize.width, outputSize.height);
+    cgGLSetParameter1f([shader fragmentFrameCount], frameCount);
+    cgGLEnableProfile([shader fragmentProfile]);
+    
+    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+    glTexCoordPointer(2, GL_FLOAT, 0, cg_coords );
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, vertices );
+    glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+    glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+    glDisableClientState(GL_VERTEX_ARRAY);
+    
+    // turn off profiles
+    cgGLDisableProfile([shader vertexProfile]);
+    cgGLDisableProfile([shader fragmentProfile]);
+}
+
+- (void)OE_multipassRender:(OEMultipassShader *)multipassShader usingVertices:(const GLfloat *)vertices inCGLContext:(CGLContextObj)cgl_ctx
+{
+    const GLfloat rtt_verts[] =
+    {
+        -1, -1,
+        1, -1,
+        1,  1,
+        -1,  1
+    };
+    NSMutableArray *shaders   = [multipassShader shaders];
+    NSUInteger numberOfPasses = [multipassShader numberOfPasses];
+    int outputWidth  = gameScreenSize.width;
+    int outputHeight = gameScreenSize.height;
+    int textureWidth;
+    int textureHeight;
+
+    if(![[multipassShader ntscFilter] isEqualToString:@""])
+    {
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, ntscSource);
+
+        ntscBurstPhase ^= 1;
+
+        if(ntscMergeFields)
+            ntscBurstPhase = 0;
+
+        if(gameScreenSize.width <= 256)
+            snes_ntsc_blit(ntscTable, ntscSource, gameScreenSize.width, ntscBurstPhase, gameScreenSize.width, gameScreenSize.height, ntscDestination, SNES_NTSC_OUT_WIDTH(gameScreenSize.width)*4);
+        else
+            snes_ntsc_blit_hires(ntscTable, ntscSource, gameScreenSize.width, ntscBurstPhase, gameScreenSize.width, gameScreenSize.height, ntscDestination, SNES_NTSC_OUT_WIDTH(gameScreenSize.width)*4);
+
+        glBindTexture(GL_TEXTURE_2D, ntscTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SNES_NTSC_OUT_WIDTH(gameScreenSize.width), gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, ntscDestination);
+
+        outputWidth = SNES_NTSC_OUT_WIDTH(gameScreenSize.width);
+    }
+
+    for(int i=0; i<numberOfPasses; ++i)
+    {
+        BOOL linearFiltering = [shaders[i] linearFiltering];
+        NSString *scaleType  = [shaders[i] scaleType];
+        CGSize scaler        = [shaders[i] scaler];
+
+        textureWidth  = outputWidth;
+        textureHeight = outputHeight;
+
+        if(scaleType != nil)
+        {
+            if([scaleType isEqualToString:@"viewport"])
+            {
+                if(scaler.width != 0)
+                    outputWidth = self.frame.size.width * scaler.width;
+                else
+                    outputWidth = self.frame.size.width;
+                if(scaler.height != 0)
+                    outputHeight = self.frame.size.height * scaler.height;
+                else
+                    outputHeight = self.frame.size.height;
+            }
+            else if([scaleType isEqualToString:@"absolute"])
+            {
+                if(scaler.width != 0)
+                    outputWidth = scaler.width;
+                if(scaler.height != 0)
+                    outputHeight = scaler.height;
+            }
+        }
+        else
+        {
+            if(scaler.width != 0)
+                outputWidth = outputWidth * scaler.width;
+            if(scaler.height != 0)
+                outputHeight = outputHeight * scaler.height;
+        }
+
+        if(i == numberOfPasses-1)
+        {
+            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+            glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+        }
+        else
+        {
+            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, multipassFBOs[i]);
+            glBindTexture(GL_TEXTURE_2D, multipassTextures[i]);
+
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  outputWidth, outputHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+            glViewport(0, 0, outputWidth, outputHeight);
+        }
+
+        if(i == 0)
+        {
+            if(![[multipassShader ntscFilter] isEqualToString:@""])
+                glBindTexture(GL_TEXTURE_2D, ntscTexture);
+            else
+                glBindTexture(GL_TEXTURE_2D, rttGameTexture);
+        }
+        else
+            glBindTexture(GL_TEXTURE_2D, multipassTextures[i-1]);
+
+        if(linearFiltering)
+        {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        }
+        else
+        {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        }
+
+        if(i == numberOfPasses-1)
+            [self OE_applyCgShader:shaders[i] usingVertices:vertices withTextureSize:OESizeMake(textureWidth, textureHeight) withOutputSize:self.frame.size inCGLContext:cgl_ctx];
+        else
+            [self OE_applyCgShader:shaders[i] usingVertices:rtt_verts withTextureSize:OESizeMake(textureWidth, textureHeight) withOutputSize:CGSizeMake(outputWidth, outputHeight) inCGLContext:cgl_ctx];
+    }
+}
+
 // GL render method
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)cgl_ctx usingShader:(OEGameShader *)shader
 {
@@ -574,6 +815,11 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
 
+    if(shader != (id)_OELinearFilterName)
+    {
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    }
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
@@ -613,31 +859,8 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         0, gameScreenSize.height
     };
 
-
-    const GLfloat cg_coords[] =
-    {
-        0, 0,
-        1, 0,
-        1, 1,
-        0, 1
-    };
-
-    const GLfloat rtt_verts[] =
-    {
-        -1, -1,
-         1, -1,
-         1,  1,
-        -1,  1
-    };
-
     if(shader == (id)_OELinearFilterName || shader == (id)_OENearestNeighborFilterName)
     {
-        if(shader == (id)_OENearestNeighborFilterName)
-        {
-            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        }
-
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );
         glTexCoordPointer(2, GL_INT, 0, tex_coords );
         glEnableClientState(GL_VERTEX_ARRAY);
@@ -648,48 +871,25 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     }
     else if([shader isCompiled])
     {
-        if([[shader shaderData] isKindOfClass:[OECgShader class]])
+        if([[shader shaderData] isKindOfClass:[OEMultipassShader class]])
         {
+            ++frameCount;
+            [self OE_renderToTexture:rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
+
+            [self OE_multipassRender:[shader shaderData] usingVertices:verts inCGLContext:cgl_ctx];
+
+        }
+        else if([[shader shaderData] isKindOfClass:[OECgShader class]])
+        {
+            ++frameCount;
+            
             // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
-            [self OE_renderToTexture:rttGameTexture withFramebuffer:rttFBO usingVertices:rtt_verts usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
+            [self OE_renderToTexture:rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
-            OECgShader *cgShader = [shader shaderData];
-
-            // enable vertex program, bind parameters
-            cgGLBindProgram([cgShader vertexProgram]);
-            cgGLSetParameter2f([cgShader vertexVideoSize], gameScreenSize.width, gameScreenSize.height);
-            cgGLSetParameter2f([cgShader vertexTextureSize], gameScreenSize.width, gameScreenSize.height);
-            cgGLSetParameter2f([cgShader vertexOutputSize], self.frame.size.width, self.frame.size.height);
-            cgGLSetParameter1f([cgShader vertexFrameCount], frameCount++);
-            cgGLSetStateMatrixParameter([cgShader modelViewProj], CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
-            cgGLEnableProfile([cgShader vertexProfile]);
-
-            // enable fragment program, bind parameters
-            cgGLBindProgram([cgShader fragmentProgram]);
-            cgGLSetParameter2f([cgShader fragmentVideoSize], gameScreenSize.width, gameScreenSize.height);
-            cgGLSetParameter2f([cgShader fragmentTextureSize], gameScreenSize.width, gameScreenSize.height);
-            cgGLSetParameter2f([cgShader fragmentOutputSize], self.frame.size.width, self.frame.size.height);
-            cgGLSetParameter1f([cgShader fragmentFrameCount], frameCount++);
-            cgGLEnableProfile([cgShader fragmentProfile]);
-
-
-            glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-            glTexCoordPointer(2, GL_FLOAT, 0, cg_coords );
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glVertexPointer(2, GL_FLOAT, 0, verts );
-            glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
-            glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-            glDisableClientState(GL_VERTEX_ARRAY);
-
-            // turn off profiles
-            cgGLDisableProfile([[shader shaderData] vertexProfile]);
-            cgGLDisableProfile([[shader shaderData] fragmentProfile]);
+            [self OE_applyCgShader:[shader shaderData] usingVertices:verts withTextureSize:gameScreenSize withOutputSize:self.frame.size inCGLContext:cgl_ctx];
         }
         else
         {
-            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
             glUseProgramObjectARB([[shader shaderData] programObject]);
 
             // set up shader uniforms
@@ -760,6 +960,17 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     if(filter != nil && [filter isKindOfClass:[OEGameShader class]])
     {
         [[filter shaderData] compileShaders];
+
+        if([filter isKindOfClass:[OEMultipassShader class]] && [[filter shaderData] ntscFilter])
+        {
+            if([[[filter shaderData] ntscFilter] isEqualToString:@"composite"])
+                ntscSetup = snes_ntsc_composite;
+            else if([[[filter shaderData] ntscFilter] isEqualToString:@"svideo"])
+                ntscSetup = snes_ntsc_svideo;
+            else if([[[filter shaderData] ntscFilter] isEqualToString:@"rgb"])
+                ntscSetup = snes_ntsc_rgb;
+            snes_ntsc_init(ntscTable, &ntscSetup);
+        }
     }
 
     if([filters objectForKey:filterName] == nil && [self openGLContext] != nil)

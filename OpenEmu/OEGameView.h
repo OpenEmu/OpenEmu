@@ -35,6 +35,7 @@
 #import "OEGameShader.h"
 #import "OEGlslShader.h"
 #import "OECgShader.h"
+#import "OEMultipassShader.h"
 
 @protocol OEGameCoreHelper;
 @class OESystemResponder;
