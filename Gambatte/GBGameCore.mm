@@ -31,7 +31,6 @@
 #import <OpenGL/gl.h>
 
 #include "libretro.h"
-NSTimeInterval framerate = 2097152./35112.;
 
 @interface GBGameCore () <OEGBSystemResponderClient>
 {
@@ -322,15 +321,12 @@ static void writeSaveFile(const char* path, int type)
 
 - (oneway void)didPushTurboButton;
 {
-    framerate = 2097152./35112. * 5;
-    NSLog(@"%f", framerate);
-    [self performSelector:@selector(frameRefreshThread:) withObject:nil afterDelay:0.0];
+    [self fastForward:YES];
 }
 
 - (oneway void)didReleaseTurboButton;
 {
-    framerate = 2097152./35112.;
-    [self performSelector:@selector(frameRefreshThread:) withObject:nil afterDelay:0.0];
+    [self fastForward:NO];
 }
 
 - (void)dealloc
@@ -360,8 +356,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (NSTimeInterval)frameInterval
 {
-    return framerate;
-    //return 2097152./35112.; // 59.7
+    return 2097152./35112.; // 59.7
 }
 
 - (NSUInteger)channelCount

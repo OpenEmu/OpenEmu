@@ -50,4 +50,7 @@ typedef enum _OEGBAButton
 - (oneway void)didPushGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
 
+- (oneway void)didPushTurboButton;
+- (oneway void)didReleaseTurboButton;
+
 @end

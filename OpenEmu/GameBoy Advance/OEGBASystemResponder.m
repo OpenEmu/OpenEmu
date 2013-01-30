@@ -37,12 +37,28 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushGBAButton:(OEGBAButton)[aKey key] forPlayer:[aKey player]];
+    OEGBAButton button = (OEGBAButton)[aKey key];
+    
+    switch(button)
+    {
+        case OEGBAButtonSpeed : [[self client] didPushTurboButton]; break;
+        default :
+			[[self client] didPushGBAButton:(OEGBAButton)[aKey key] forPlayer:[aKey player]];
+            break;
+    }
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didReleaseGBAButton:(OEGBAButton)[aKey key] forPlayer:[aKey player]];
+    OEGBAButton button = (OEGBAButton)[aKey key];
+    
+    switch(button)
+    {
+        case OEGBAButtonSpeed : [[self client] didReleaseTurboButton]; break;
+        default :
+			[[self client] didReleaseGBAButton:(OEGBAButton)[aKey key] forPlayer:[aKey player]];
+            break;
+    }
 }
 
 @end

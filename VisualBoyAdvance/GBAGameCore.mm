@@ -312,6 +312,16 @@ static void writeSaveFile(const char* path, int type)
     [super stopEmulation];
 }
 
+- (oneway void)didPushTurboButton;
+{
+    [self fastForward:YES];
+}
+
+- (oneway void)didReleaseTurboButton;
+{
+    [self fastForward:NO];
+}
+
 - (void)dealloc
 {
     free(videoBuffer);

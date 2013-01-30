@@ -84,6 +84,12 @@
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGBAButtonSelect</string>
 				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Turbo</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonSpeed</string>
+				</dict>
 			</array>
 			<array>
 				<dict>

@@ -28,6 +28,8 @@
 		<string>{131, 237}</string>
 		<key>OEGBAButtonR</key>
 		<string>{469, 237}</string>
+		<key>OEGBAButtonSpeed</key>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

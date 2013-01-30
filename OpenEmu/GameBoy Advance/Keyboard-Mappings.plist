@@ -22,5 +22,7 @@
 	<integer>44</integer>
 	<key>OEGBAButtonSelect</key>
 	<integer>41</integer>
+	<key>OEGBAButtonSpeed</key>
+	<integer>43</integer>
 </dict>
 </plist>
