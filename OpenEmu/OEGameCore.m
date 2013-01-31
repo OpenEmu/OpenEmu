@@ -46,7 +46,6 @@
 
 static Class GameCoreClass = Nil;
 static NSTimeInterval defaultTimeInterval = 60.0;
-static NSTimeInterval gameInterval;
 
 + (void)initialize
 {
