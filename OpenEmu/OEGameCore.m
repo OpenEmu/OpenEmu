@@ -46,6 +46,7 @@
 
 static Class GameCoreClass = Nil;
 static NSTimeInterval defaultTimeInterval = 60.0;
+static NSTimeInterval gameInterval;
 
 + (void)initialize
 {
@@ -159,8 +160,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (void)frameRefreshThread:(id)anArgument
 {
-    // if fast forwarding, frameInterval is 5x speed
-    NSTimeInterval gameInterval = isFastForwarding ? 1./([self frameInterval] * 5) : 1./[self frameInterval];
+    gameInterval = 1./[self frameInterval];
     NSTimeInterval gameTime = OEMonotonicTime();
     
         frameFinished = YES;
@@ -324,13 +324,17 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         
     if (flag) {
         isFastForwarding = YES;
+        gameInterval = 1./([self frameInterval] * 5); // if fast forwarding, frameInterval is 5x speed
+        
         [renderDelegate willDisableVSync:YES];
-        [self performSelector:@selector(frameRefreshThread:) withObject:self afterDelay:0.0];
+        OESetThreadRealtime(gameInterval, .007, .03);
     }
     else {
         isFastForwarding = NO;
+        gameInterval = 1./[self frameInterval];
+        
         [renderDelegate willDisableVSync:NO];
-        [self performSelector:@selector(frameRefreshThread:) withObject:self afterDelay:0.0];
+        OESetThreadRealtime(gameInterval, .007, .03);
     }
 }
 
