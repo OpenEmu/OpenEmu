@@ -120,6 +120,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 {    
     NSThread               *emulationThread;
     NSTimeInterval          frameInterval;
+    NSTimeInterval          gameInterval;
     OERingBuffer __strong **ringBuffers;
     NSUInteger              frameSkip;
     NSUInteger              frameCounter;
