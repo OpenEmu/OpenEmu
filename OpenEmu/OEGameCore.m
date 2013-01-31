@@ -319,6 +319,9 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (void)fastForward:(BOOL)flag;
 {
+    if (flag == isFastForwarding)
+        return;
+        
     if (flag) {
         isFastForwarding = YES;
         [renderDelegate willDisableVSync:YES];
