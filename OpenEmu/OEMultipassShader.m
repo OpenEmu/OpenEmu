@@ -92,6 +92,13 @@
         return NO;
     }
     numberOfPasses = [[strippedInput substringWithRange:result.range] integerValue];
+
+    if(numberOfPasses>10)
+    {
+        NSLog(@"Too many shader passes in %@: %@", shaderName, error);
+        return NO;
+    }
+
     shaders = [NSMutableArray arrayWithCapacity:numberOfPasses];
 
     // We need to find that many shader sources
@@ -118,10 +125,15 @@
 
         // Check how the shader should scale
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_type%d=).*", i] inString:strippedInput withError:error];
-        otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         if(result.range.location != NSNotFound)
         {
-            [shader setScaleType:otherArguments];
+            otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            if([otherArguments isEqualToString:@"viewport"])
+                [shader setScaleType:VIEWPORT];
+            else if([otherArguments isEqualToString:@"absolute"])
+                [shader setScaleType:ABSOLUTE];
+            else
+                [shader setScaleType:SOURCE];
         }
 
         // Check for the scaling factor
@@ -139,8 +151,19 @@
     result = [self checkRegularExpression:@"(?<=ntsc_filter=).*" inString:strippedInput withError:error];
     if(result.range.location != NSNotFound)
     {
-        ntscFilter = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+         NSString *ntscString = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+
+        if([ntscString isEqualToString:@"composite"])
+            ntscFilter = COMPOSITE;
+        else if([ntscString isEqualToString:@"svideo"])
+            ntscFilter = SVIDEO;
+        else if([ntscString isEqualToString:@"rgb"])
+            ntscFilter = RGB;
+        else
+            ntscFilter = NONE;
     }
+    else
+        ntscFilter = NONE;
 
     return YES;
 }
@@ -155,7 +178,7 @@
     return shaders;
 }
 
-- (NSString *)ntscFilter
+- (OENTSCFilterType)ntscFilter
 {
     return ntscFilter;
 }

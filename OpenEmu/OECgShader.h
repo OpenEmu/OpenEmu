@@ -29,6 +29,13 @@
 #import <Cg/Cg.h>
 #import <Cg/cgGL.h>
 
+typedef enum
+{
+    SOURCE,
+    VIEWPORT,
+    ABSOLUTE
+} OEScaleType;
+
 @interface OECgShader : OEGameShader
 {
     NSString   *shaderSource;
@@ -43,7 +50,7 @@
                 vertexFrameRotation,    fragmentFrameRotation,
                 position, texCoord, modelViewProj;
     BOOL        linearFiltering;
-    NSString   *scaleType;
+    OEScaleType scaleType;
     CGSize      scaler;
 }
 
@@ -74,11 +81,11 @@
 - (CGparameter)fragmentFrameRotation;
 
 - (BOOL)linearFiltering;
-- (NSString *)scaleType;
+- (OEScaleType)scaleType;
 - (CGSize)scaler;
 
 - (void)setLinearFiltering:(BOOL)usesLinearFiltering;
-- (void)setScaleType:(NSString *)theScaleType;
+- (void)setScaleType:(OEScaleType)theScaleType;
 - (void)setScaler:(CGSize)theScaler;
 
 - (CGparameter)vertexParameterWithName:(const char *)theParameterName;

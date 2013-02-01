@@ -250,7 +250,7 @@
     return linearFiltering;
 }
 
-- (NSString *)scaleType
+- (OEScaleType)scaleType
 {
     return scaleType;
 }
@@ -267,7 +267,7 @@
     linearFiltering = usesLinearFiltering;
 }
 
-- (void)setScaleType:(NSString *)theScaleType
+- (void)setScaleType:(OEScaleType)theScaleType
 {
     scaleType = theScaleType;
 }
