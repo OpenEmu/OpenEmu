@@ -49,10 +49,9 @@
 NSString *const OEHelperServerNamePrefix   = @"org.openemu.OpenEmuHelper-";
 NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
-@interface OEGameCoreProxy : NSObject
+@interface OEGameCoreProxy : NSProxy
 - (id)initWithGameCore:(OEGameCore *)aGameCore;
 @property(weak) NSThread *gameThread;
-- (void)stopEmulation;
 @end
 
 
@@ -675,12 +674,12 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;
 {
-    return [gameCore saveStateToFileAtPath:fileName];
+    return [(OEGameCore*)gameCoreProxy saveStateToFileAtPath:fileName];
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
 {
-    return [gameCore loadStateFromFileAtPath:fileName];
+    return [(OEGameCore*)gameCoreProxy loadStateFromFileAtPath:fileName];
 }
 
 - (void)setupEmulation
@@ -705,7 +704,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 {
     [pollingTimer invalidate], pollingTimer = nil;
     
-    [gameCoreProxy stopEmulation];
+    [(OEGameCore*)gameCoreProxy stopEmulation];
     [gameAudio stopAudio];
     [gameCore setRenderDelegate:nil];
     [gameCore setAudioDelegate:nil];
@@ -878,40 +877,16 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 - (id)initWithGameCore:(OEGameCore *)aGameCore;
 {
     if(aGameCore == nil) return nil;
-    
-    if((self = [super init]))
-    {
-        gameCore = aGameCore;
-    }
+    gameCore = aGameCore;
     return self;
-}
-
-- (void)stopEmulation;
-{
-    NSThread   *thread = gameThread;
-    OEGameCore *core   = gameCore;
-    
-    gameCore   = nil;
-    gameThread = nil;
-    
-    [core performSelector:@selector(stopEmulation) onThread:thread withObject:nil waitUntilDone:YES];
-}
-
-- (void)forwardInvocationToGameCore:(NSInvocation *)anInvocation;
-{
-    if(gameCore == nil) return;
-    
-    [anInvocation invokeWithTarget:gameCore];
 }
 
 - (id)forwardingTargetForSelector:(SEL)aSelector
 {
-    return ([self gameThread] == nil || [NSThread currentThread] == [self gameThread]) ? gameCore : nil;
-}
-
-- (BOOL)respondsToSelector:(SEL)aSelector
-{
-    return [gameCore respondsToSelector:aSelector];
+    if (!gameThread)
+        return gameCore;
+    
+    return ([NSThread currentThread] == gameThread) ? gameCore : nil;
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
@@ -924,11 +899,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     if(gameCore == nil) return;
     
     NSThread *thread = [self gameThread];
-    
-    if(thread != nil)
-        [self performSelector:@selector(forwardInvocationToGameCore:) onThread:thread withObject:invocation waitUntilDone:@selector(screenRect) == [invocation selector]];
-    else
-        [invocation invokeWithTarget:gameCore];
+    [invocation performSelector:@selector(invokeWithTarget:) onThread:thread withObject:gameCore waitUntilDone:YES];
 }
 
 @end

@@ -27,12 +27,20 @@
 
 #import "OEGameShader.h"
 
+typedef enum
+{
+    NONE,
+    RGB,
+    SVIDEO,
+    COMPOSITE
+} OENTSCFilterType;
+
 @interface OEMultipassShader : OEGameShader
 {
-    NSUInteger      numberOfPasses;
-    NSString       *shaderSource;
-    NSMutableArray *shaders;
-    NSString       *ntscFilter;
+    NSUInteger          numberOfPasses;
+    NSString           *shaderSource;
+    NSMutableArray     *shaders;
+    OENTSCFilterType   *ntscFilter;
 }
 
 - (id)initWithShadersInFilterDirectory:(NSString *)theShadersName forContext:(CGLContextObj)context;
@@ -40,6 +48,6 @@
 
 - (NSUInteger)numberOfPasses;
 - (NSMutableArray *)shaders;
-- (NSString *)ntscFilter;
+- (OENTSCFilterType)ntscFilter;
 
 @end

@@ -267,7 +267,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
     // Setup resources needed for Blargg's NTSC filter
-    ntscMergeFields = 0;
+    ntscMergeFields = 1;
     ntscBurstPhase  = 0;
     ntscTable       = (snes_ntsc_t *) malloc(sizeof(snes_ntsc_t));
     ntscSetup       = snes_ntsc_composite;
@@ -623,8 +623,8 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     const GLfloat vertices[] =
     {
         -1, -1,
-        1, -1,
-        1,  1,
+         1, -1,
+         1,  1,
         -1,  1
     };
     
@@ -660,7 +660,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     
     // enable vertex program, bind parameters
     cgGLBindProgram([shader vertexProgram]);
-    cgGLSetParameter2f([shader vertexVideoSize], gameScreenSize.width, gameScreenSize.height);
+    cgGLSetParameter2f([shader vertexVideoSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader vertexTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader vertexOutputSize], outputSize.width, outputSize.height);
     cgGLSetParameter1f([shader vertexFrameCount], frameCount);
@@ -669,7 +669,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     
     // enable fragment program, bind parameters
     cgGLBindProgram([shader fragmentProgram]);
-    cgGLSetParameter2f([shader fragmentVideoSize], gameScreenSize.width, gameScreenSize.height);
+    cgGLSetParameter2f([shader fragmentVideoSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader fragmentTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader fragmentOutputSize], outputSize.width, outputSize.height);
     cgGLSetParameter1f([shader fragmentFrameCount], frameCount);
@@ -690,13 +690,6 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 - (void)OE_multipassRender:(OEMultipassShader *)multipassShader usingVertices:(const GLfloat *)vertices inCGLContext:(CGLContextObj)cgl_ctx
 {
-    const GLfloat rtt_verts[] =
-    {
-        -1, -1,
-        1, -1,
-        1,  1,
-        -1,  1
-    };
     NSMutableArray *shaders   = [multipassShader shaders];
     NSUInteger numberOfPasses = [multipassShader numberOfPasses];
     int outputWidth  = gameScreenSize.width;
@@ -704,14 +697,12 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     int textureWidth;
     int textureHeight;
 
-    if(![[multipassShader ntscFilter] isEqualToString:@""])
+    if([multipassShader ntscFilter] != NONE)
     {
         glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, ntscSource);
 
-        ntscBurstPhase ^= 1;
-
-        if(ntscMergeFields)
-            ntscBurstPhase = 0;
+        if(!ntscMergeFields)
+            ntscBurstPhase ^= 1;
 
         if(gameScreenSize.width <= 256)
             snes_ntsc_blit(ntscTable, ntscSource, gameScreenSize.width, ntscBurstPhase, gameScreenSize.width, gameScreenSize.height, ntscDestination, SNES_NTSC_OUT_WIDTH(gameScreenSize.width)*4);
@@ -727,32 +718,29 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     for(int i=0; i<numberOfPasses; ++i)
     {
         BOOL linearFiltering = [shaders[i] linearFiltering];
-        NSString *scaleType  = [shaders[i] scaleType];
+        OEScaleType scaleType  = [shaders[i] scaleType];
         CGSize scaler        = [shaders[i] scaler];
 
         textureWidth  = outputWidth;
         textureHeight = outputHeight;
 
-        if(scaleType != nil)
+        if(scaleType == VIEWPORT)
         {
-            if([scaleType isEqualToString:@"viewport"])
-            {
-                if(scaler.width != 0)
-                    outputWidth = self.frame.size.width * scaler.width;
-                else
-                    outputWidth = self.frame.size.width;
-                if(scaler.height != 0)
-                    outputHeight = self.frame.size.height * scaler.height;
-                else
-                    outputHeight = self.frame.size.height;
-            }
-            else if([scaleType isEqualToString:@"absolute"])
-            {
-                if(scaler.width != 0)
-                    outputWidth = scaler.width;
-                if(scaler.height != 0)
-                    outputHeight = scaler.height;
-            }
+            if(scaler.width != 0)
+                outputWidth = self.frame.size.width * scaler.width;
+            else
+                outputWidth = self.frame.size.width;
+            if(scaler.height != 0)
+                outputHeight = self.frame.size.height * scaler.height;
+            else
+                outputHeight = self.frame.size.height;
+        }
+        else if(scaleType == ABSOLUTE)
+        {
+            if(scaler.width != 0)
+                outputWidth = scaler.width;
+            if(scaler.height != 0)
+                outputHeight = scaler.height;
         }
         else
         {
@@ -778,7 +766,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
         if(i == 0)
         {
-            if(![[multipassShader ntscFilter] isEqualToString:@""])
+            if([multipassShader ntscFilter] != NONE)
                 glBindTexture(GL_TEXTURE_2D, ntscTexture);
             else
                 glBindTexture(GL_TEXTURE_2D, rttGameTexture);
@@ -797,10 +785,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         }
 
-        if(i == numberOfPasses-1)
-            [self OE_applyCgShader:shaders[i] usingVertices:vertices withTextureSize:OESizeMake(textureWidth, textureHeight) withOutputSize:self.frame.size inCGLContext:cgl_ctx];
-        else
-            [self OE_applyCgShader:shaders[i] usingVertices:rtt_verts withTextureSize:OESizeMake(textureWidth, textureHeight) withOutputSize:CGSizeMake(outputWidth, outputHeight) inCGLContext:cgl_ctx];
+        [self OE_applyCgShader:shaders[i] usingVertices:vertices withTextureSize:OESizeMake(textureWidth, textureHeight) withOutputSize:self.frame.size inCGLContext:cgl_ctx];
     }
 }
 
@@ -963,11 +948,11 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
         if([filter isKindOfClass:[OEMultipassShader class]] && [[filter shaderData] ntscFilter])
         {
-            if([[[filter shaderData] ntscFilter] isEqualToString:@"composite"])
+            if([[filter shaderData] ntscFilter] == COMPOSITE)
                 ntscSetup = snes_ntsc_composite;
-            else if([[[filter shaderData] ntscFilter] isEqualToString:@"svideo"])
+            else if([[filter shaderData] ntscFilter] == SVIDEO)
                 ntscSetup = snes_ntsc_svideo;
-            else if([[[filter shaderData] ntscFilter] isEqualToString:@"rgb"])
+            else if([[filter shaderData] ntscFilter] == RGB)
                 ntscSetup = snes_ntsc_rgb;
             snes_ntsc_init(ntscTable, &ntscSetup);
         }
