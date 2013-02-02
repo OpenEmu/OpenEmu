@@ -54,6 +54,12 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 @property(weak) NSThread *gameThread;
 @end
 
+@interface OEGameCoreProxy (ProxyMethods)
+- (BOOL)saveStateToFileAtPath:(NSString *)fileName;
+- (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
+- (void)stopEmulation;
+@end
+
 
 @interface OpenEmuHelperApp ()
 @property(readwrite, assign, getter=isRunning) BOOL running;
@@ -674,12 +680,12 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;
 {
-    return [(OEGameCore*)gameCoreProxy saveStateToFileAtPath:fileName];
+    return [gameCoreProxy saveStateToFileAtPath:fileName];
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
 {
-    return [(OEGameCore*)gameCoreProxy loadStateFromFileAtPath:fileName];
+    return [gameCoreProxy loadStateFromFileAtPath:fileName];
 }
 
 - (void)setupEmulation
@@ -704,7 +710,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 {
     [pollingTimer invalidate], pollingTimer = nil;
     
-    [(OEGameCore*)gameCoreProxy stopEmulation];
+    [gameCoreProxy stopEmulation];
     [gameAudio stopAudio];
     [gameCore setRenderDelegate:nil];
     [gameCore setAudioDelegate:nil];
