@@ -674,7 +674,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;
 {
-    return [(OEGameCore*)gameCore saveStateToFileAtPath:fileName];
+    return [(OEGameCore*)gameCoreProxy saveStateToFileAtPath:fileName];
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
