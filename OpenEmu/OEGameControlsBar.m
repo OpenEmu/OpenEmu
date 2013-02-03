@@ -257,11 +257,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [filterPlugins addObjectsFromArray:[OEShaderPlugin allPluginNames]];
     [filterPlugins sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     
-    // These filters are loaded and run by GL, and do not rely on QTZs
-    NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:OEOpenGLFilterNameArray];
-    
     NSString *selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameVideoFilterKey];
-    for(NSString *aName in filterNames)
+    for(NSString *aName in filterPlugins)
     {
         NSMenuItem *filterItem = [[NSMenuItem alloc] initWithTitle:aName action:@selector(selectFilter:) keyEquivalent:@""];
         
