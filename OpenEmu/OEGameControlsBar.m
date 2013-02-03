@@ -252,11 +252,13 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
     // Setup plugins menu
+    NSMutableSet   *filterSet     = [NSMutableSet set];
     NSMutableArray *filterPlugins = [NSMutableArray array];
-    [filterPlugins addObjectsFromArray:[OECompositionPlugin allPluginNames]];
-    [filterPlugins addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+    [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
+    [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+    [filterPlugins addObjectsFromArray:[filterSet allObjects]];
     [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
-    
+
     NSString *selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameVideoFilterKey];
     for(NSString *aName in filterPlugins)
     {

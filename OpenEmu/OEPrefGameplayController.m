@@ -36,10 +36,12 @@
 - (void)awakeFromNib
 {
     // Setup plugins menu
-	NSMutableArray *filterPlugins = [NSMutableArray array];
-    [filterPlugins addObjectsFromArray:[OECompositionPlugin allPluginNames]];
-    [filterPlugins addObjectsFromArray:[OEShaderPlugin allPluginNames]];
-    [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
+     NSMutableSet   *filterSet     = [NSMutableSet set];
+     NSMutableArray *filterPlugins = [NSMutableArray array];
+     [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
+     [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+     [filterPlugins addObjectsFromArray:[filterSet allObjects]];
+     [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
 	NSMenu *filterMenu = [[NSMenu alloc] init];
 
