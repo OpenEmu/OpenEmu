@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2013, OpenEmu Team
 
-
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -27,56 +26,47 @@
 
 #import "OEMultipassShader.h"
 #import "OEShaderPlugin.h"
+#import "OECGShader.h"
+#import "OEGameShader_ForSubclassEyesOnly.h"
 
 @implementation OEMultipassShader
-
-- (id)initWithShadersInFilterDirectory:(NSString *)theShadersName forContext:(CGLContextObj)context
 {
-    if((self = [super initWithName:theShadersName forContext:context]))
-    {
-        NSString *openEmuSearchPath = [@"OpenEmu" stringByAppendingPathComponent:[OEShaderPlugin pluginFolder]];
+    NSMutableArray *_shaders;
+}
 
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-
-        for(NSString *path in paths)
-        {
-            NSString *shaderPath = [path stringByAppendingPathComponent:[openEmuSearchPath stringByAppendingPathComponent:theShadersName]];
-            shaderSource = [shaderPath stringByAppendingPathExtension:@"cgp"];
-            shaderData = self;
-            return self;
-        }
-    }
+- (id)shaderData
+{
     return self;
 }
 
 - (void)compileShaders
 {
-    if(compiled == NO)
+    if(![self isCompiled])
     {
-        if(([self parseCgpFile] == NO))
-            return;
-        for (OECgShader *x in shaders) {
-            [x compileShaders];
-        }
+        if(![self parseCGPFile]) return;
 
-        compiled = YES;
+        for(OECGShader *x in _shaders)
+            [x compileShaders];
+
+        [self setCompiled:YES];
     }
 }
 
 - (NSTextCheckingResult *)checkRegularExpression:(NSString *)regexTerm inString:(NSString *)input withError:(NSError *)error
 {
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexTerm options:NSRegularExpressionAnchorsMatchLines error:&error];
-    NSRange   inputRange = NSMakeRange(0, [input length]);
+    NSRange inputRange = NSMakeRange(0, [input length]);
     return [regex firstMatchInString:input options:0 range:inputRange];
 }
 
-- (BOOL)parseCgpFile
+- (BOOL)parseCGPFile
 {
     NSError  *error = nil;
-    NSString *input = [NSString stringWithContentsOfFile:shaderSource encoding:NSUTF8StringEncoding error:&error];
-    if(input==nil)
+    NSString *input = [NSString stringWithContentsOfFile:[self filePath] encoding:NSUTF8StringEncoding error:&error];
+
+    if(input == nil)
     {
-        NSLog(@"Couldn't read shader source file of %@: %@", shaderName, error);
+        NSLog(@"Couldn't read shader source file of %@: %@", [self shaderName], error);
         return NO;
     }
 
@@ -88,35 +78,37 @@
     NSTextCheckingResult *result = [self checkRegularExpression:@"(?<=shaders=).*$" inString:strippedInput withError:error];
     if(result.range.location == NSNotFound)
     {
-        NSLog(@"Couldn't find \"shaders\" argument of %@: %@", shaderName, error);
+        NSLog(@"Couldn't find \"shaders\" argument of %@: %@", [self shaderName], error);
         return NO;
     }
-    numberOfPasses = [[strippedInput substringWithRange:result.range] integerValue];
 
-    if(numberOfPasses>10)
+    _numberOfPasses = [[strippedInput substringWithRange:result.range] integerValue];
+
+    if(_numberOfPasses > 10)
     {
-        NSLog(@"Too many shader passes in %@: %@", shaderName, error);
+        NSLog(@"Too many shader passes in %@: %@", [self shaderName], error);
         return NO;
     }
 
-    shaders = [NSMutableArray arrayWithCapacity:numberOfPasses];
+    _shaders = [NSMutableArray arrayWithCapacity:_numberOfPasses];
 
     // We need to find that many shader sources
-    for(int i=0; i<numberOfPasses; ++i)
+    for(NSUInteger i = 0; i < _numberOfPasses; ++i)
     {
-        result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=shader%d=).*(?=.cg)", i] inString:strippedInput withError:error];
+        result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=shader%ld=).*(?=.cg)", i] inString:strippedInput withError:error];
         if(result.range.location == NSNotFound)
         {
-            NSLog(@"Couldn't find \"shader%d\" argument of %@: %@", i, shaderName, error);
+            NSLog(@"Couldn't find \"shader%ld\" argument of %@: %@", i, [self shaderName], error);
             return NO;
         }
+
         NSString *name = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
 
         // Create shader
-        OECgShader *shader = [[OECgShader alloc] initWithShadersInFilterDirectory:name forContext:shaderContext];
+        OECGShader *shader = [[OECGShaderPlugin pluginWithName:name] shaderWithContext:[self shaderContext]];
 
         // Check if linear filtering is to be used
-        result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=filter_linear%d=).*", i] inString:strippedInput withError:error];
+        result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=filter_linear%ld=).*", i] inString:strippedInput withError:error];
         NSString *otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         if([otherArguments isEqualToString:@"true"] || [otherArguments isEqualToString:@"1"])
         {
@@ -124,20 +116,20 @@
         }
 
         // Check how the shader should scale
-        result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_type%d=).*", i] inString:strippedInput withError:error];
+        result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_type%ld=).*", i] inString:strippedInput withError:error];
         if(result.range.location != NSNotFound)
         {
             otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             if([otherArguments isEqualToString:@"viewport"])
-                [shader setScaleType:VIEWPORT];
+                [shader setScaleType:OEScaleTypeViewPort];
             else if([otherArguments isEqualToString:@"absolute"])
-                [shader setScaleType:ABSOLUTE];
+                [shader setScaleType:OEScaleTypeAbsolute];
             else
-                [shader setScaleType:SOURCE];
+                [shader setScaleType:OEScaleTypeSource];
         }
 
         // Check for the scaling factor
-        result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale%d=).*", i] inString:strippedInput withError:error];
+        result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale%ld=).*", i] inString:strippedInput withError:error];
         if(result.range.location != NSNotFound)
         {
             otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
@@ -145,8 +137,10 @@
         }
 
         // Add the shader to the shaders array
-        [shaders addObject:shader];
+        [_shaders addObject:shader];
     }
+
+    _NTSCFilter = OENTSCFilterTypeNone;
 
     result = [self checkRegularExpression:@"(?<=ntsc_filter=).*" inString:strippedInput withError:error];
     if(result.range.location != NSNotFound)
@@ -154,33 +148,19 @@
          NSString *ntscString = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
 
         if([ntscString isEqualToString:@"composite"])
-            ntscFilter = COMPOSITE;
+            _NTSCFilter = OENTSCFilterTypeComposite;
         else if([ntscString isEqualToString:@"svideo"])
-            ntscFilter = SVIDEO;
+            _NTSCFilter = OENTSCFilterTypeSVideo;
         else if([ntscString isEqualToString:@"rgb"])
-            ntscFilter = RGB;
-        else
-            ntscFilter = NONE;
+            _NTSCFilter = OENTSCFilterTypeRGB;
     }
-    else
-        ntscFilter = NONE;
 
     return YES;
 }
 
-- (NSUInteger)numberOfPasses
+- (NSArray *)shaders
 {
-    return numberOfPasses;
-}
-
-- (NSMutableArray *)shaders
-{
-    return shaders;
-}
-
-- (OENTSCFilterType)ntscFilter
-{
-    return ntscFilter;
+    return _shaders;
 }
 
 @end

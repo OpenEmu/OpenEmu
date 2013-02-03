@@ -28,6 +28,7 @@
 #include "SDL_thread.h"
 #import <OpenEmuBase/OETimingUtils.h>
 #include <pthread.h>
+#include <semaphore.h>
 #include <sys/time.h>
 
 SDL_mutex *SDL_CreateMutex(void)
@@ -130,4 +131,43 @@ void SDL_WaitThread(SDL_Thread *thread, int *status)
     pthread_join(*((pthread_t*)thread), &_status);
     *status = (int)_status;
     free(thread);
+}
+
+SDL_sem *SDL_CreateSemaphore(int initial_value)
+{
+    sem_t *semaphore = (sem_t *)malloc(sizeof(sem_t));
+    sem_init(semaphore, 0, initial_value);
+    
+    return (SDL_sem*)semaphore;
+}
+
+int SDL_SemPost(SDL_sem *sem)
+{
+    int retval;
+    
+    if ( ! sem ) {
+        // Passed a NULL semaphore
+        return -1;
+    }
+    
+    retval = sem_post((sem_t *)sem);
+    
+    return retval;
+}
+
+int SDL_SemTryWait(SDL_sem *sem)
+{
+	int retval;
+    
+	if ( ! sem ) {
+		// Passed a NULL semaphore
+		return -1;
+	}
+    
+	retval = 1;
+    
+    if ( sem_trywait((sem_t *)sem) == 0 ) {
+		retval = 0;
+	}
+	return retval;
 }

@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,41 +25,35 @@
  */
 
 #import <Foundation/Foundation.h>
-@class SUAppcast, SUAppcastItem;
 
+@class SUAppcast, SUAppcastItem;
 @class OECorePlugin;
 @class OECoreDownload;
-@protocol OECoreDownloadDelegate
-- (void)OEDownloadDidStart:(OECoreDownload *)download;
-- (void)OEDownloadDidFinish:(OECoreDownload *)download;
+
+@protocol OECoreDownloadDelegate <NSObject>
+- (void)coreDownloadDidStart:(OECoreDownload *)download;
+- (void)coreDownloadDidFinish:(OECoreDownload *)download;
 @end
+
 @interface OECoreDownload : NSObject
-{    
-    NSString               *downloadPath;
-    NSString               *fullPluginPath;
-    
-    unsigned long long      expectedLength;
-    unsigned long long      downloadedSize;
-    
-    BOOL                    downloading;
-}
-- (id)initWithPlugin:(OECorePlugin*)plugin;
+
+- (id)initWithPlugin:(OECorePlugin *)plugin;
 - (void)startDownload:(id)sender;
 
-@property (weak) id <OECoreDownloadDelegate> delegate;
+@property(weak) id<OECoreDownloadDelegate> delegate;
 
-@property (copy) NSString *name;
-@property (copy) NSArray  *systemIdentifiers;
-@property (copy) NSArray  *systemNames;
-@property (copy) NSString *version;
+@property(copy) NSString *name;
+@property(copy) NSArray  *systemIdentifiers;
+@property(copy) NSArray  *systemNames;
+@property(copy) NSString *version;
 
 @property BOOL hasUpdate;
 @property BOOL canBeInstalled;
 
-@property (readonly, getter = isDownloading) BOOL downloading;
+@property(readonly, getter=isDownloading) BOOL downloading;
 
-@property (readonly) float progress;
-@property (strong)   SUAppcast*appcast;
-@property (strong)   SUAppcastItem          *appcastItem;
+@property(readonly) double progress;
+@property SUAppcast     *appcast;
+@property SUAppcastItem *appcastItem;
 
 @end

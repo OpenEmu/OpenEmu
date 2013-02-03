@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,18 +28,23 @@
 #import <OpenGL/OpenGL.h>
 
 @interface OEGameShader : NSObject
-{
-    NSBundle        *bundleToLoadFrom;     // location of resource folder;
-    CGLContextObj    shaderContext;        // context to bind shaders to.
-    NSString        *shaderName;
-    bool             compiled;             // is a Shader compiled yet?
-    id               shaderData;           // either OEGlslShader or OECgShader
-}
 
-- (id)initInBundle:(NSBundle *)bundle withName:(NSString *)name forContext:(CGLContextObj)context;
-- (id)initWithName:(NSString *)name forContext:(CGLContextObj)context;
+- (id)initWithFileAtPath:(NSString *)filePath context:(CGLContextObj)context;
 
-- (id)shaderData;
-- (bool)isCompiled;
+- (id)initWithName:(NSString *)name bundle:(NSBundle *)bundle forContext:(CGLContextObj)context DEPRECATED_ATTRIBUTE;
+- (id)initWithName:(NSString *)name forContext:(CGLContextObj)context DEPRECATED_ATTRIBUTE;
+
+@property(readonly) NSString *filePath;
+@property(readonly) NSString *shaderName;
+// Location of resource folder.
+@property(readonly) NSBundle *bundle DEPRECATED_ATTRIBUTE;
+
+// Context to bind shaders to.
+@property(readonly) CGLContextObj shaderContext;
+
+// Either OEGLSLShader or OECQShader
+@property(readonly) id shaderData;
+// Is a Shader compiled yet?
+@property(readonly, getter=isCompiled) BOOL compiled;
 
 @end

@@ -32,6 +32,7 @@
 typedef void SDL_mutex;
 typedef void SDL_cond;
 typedef void SDL_Thread;
+typedef void SDL_sem;
 
 __BEGIN_DECLS
 
@@ -47,6 +48,10 @@ void SDL_DestroyCond(SDL_cond *cond);
 
 SDL_Thread *SDL_CreateThread(int (*fn)(void *), const char *name, void *context);
 void SDL_WaitThread(SDL_Thread *thread, int *status);
+
+SDL_sem *SDL_CreateSemaphore(int initial_value);
+int SDL_SemPost(SDL_sem *sem);
+int SDL_SemTryWait(SDL_sem *sem);
 
 __END_DECLS
 

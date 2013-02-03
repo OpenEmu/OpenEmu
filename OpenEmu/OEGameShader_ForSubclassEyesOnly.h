@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2013, OpenEmu Team
 
-
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -27,19 +26,6 @@
 
 #import "OEGameShader.h"
 
-@interface OEGlslShader : OEGameShader
-{
-    const GLcharARB *fragmentShaderSource; // the GLSL source for the fragment Shader
-    const GLcharARB *vertexShaderSource;   // the GLSL source for the vertex Shader
-    GLhandleARB      programObject;        // the program object
-}
-
-- (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
-- (id)initWithShadersInMainBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
-
-- (void)compileShaders;
-
-- (GLhandleARB)programObject;
-- (GLint)uniformLocationWithName:(const GLcharARB *)theUniformName;
-
+@interface OEGameShader ()
+@property(readwrite, getter=isCompiled) BOOL compiled;
 @end

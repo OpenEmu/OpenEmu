@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2013, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -27,23 +26,17 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OEPlugin.h"
-#import "OECgShader.h"
 
 @interface OEShaderPlugin : OEPlugin
-{
-    OECgShader    *shader;
-    NSString      *name;
-    NSString      *path;
-}
++ (Class)shaderClass;
+- (id)shaderWithContext:(CGLContextObj)context;
+@end
 
-+ (NSArray *)allPluginNames;
-+ (NSString *)pluginFolder;
-+ (NSString *)pluginExtension;
+@interface OEGLSLShaderPlugin : OEShaderPlugin
+@end
 
-+ (id)shaderPluginWithName:(NSString *)aName;
+@interface OECGShaderPlugin : OEShaderPlugin
+@end
 
-@property(readonly) OECgShader    *shader;
-@property(readonly) NSString      *name;
-@property(readonly) NSString      *path;
-
+@interface OEMultipassShaderPlugin : OEShaderPlugin
 @end

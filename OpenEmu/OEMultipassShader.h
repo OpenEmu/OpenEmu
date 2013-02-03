@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2013, OpenEmu Team
 
-
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -29,25 +28,18 @@
 
 typedef enum
 {
-    NONE,
-    RGB,
-    SVIDEO,
-    COMPOSITE
+    OENTSCFilterTypeNone,
+    OENTSCFilterTypeRGB,
+    OENTSCFilterTypeSVideo,
+    OENTSCFilterTypeComposite
 } OENTSCFilterType;
 
 @interface OEMultipassShader : OEGameShader
-{
-    NSUInteger          numberOfPasses;
-    NSString           *shaderSource;
-    NSMutableArray     *shaders;
-    OENTSCFilterType   *ntscFilter;
-}
 
-- (id)initWithShadersInFilterDirectory:(NSString *)theShadersName forContext:(CGLContextObj)context;
 - (void)compileShaders;
 
-- (NSUInteger)numberOfPasses;
-- (NSMutableArray *)shaders;
-- (OENTSCFilterType)ntscFilter;
+@property(readonly) NSUInteger numberOfPasses;
+@property(readonly) NSArray *shaders;
+@property(readonly) OENTSCFilterType NTSCFilter;
 
 @end

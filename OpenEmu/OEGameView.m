@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2010, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -84,37 +83,37 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 @interface OEGameView ()
 
 // rendering
-@property         GLuint            gameTexture;
-@property         IOSurfaceID       gameSurfaceID;
-@property         IOSurfaceRef      gameSurfaceRef;
-@property         GLuint            rttFBO;
-@property         GLuint            rttGameTexture;
-@property         NSUInteger        frameCount;
-@property         GLuint           *multipassTextures;
-@property         GLuint           *multipassFBOs;
-@property         snes_ntsc_t      *ntscTable;
-@property         uint32_t         *ntscSource;
-@property         uint32_t         *ntscDestination;
-@property         snes_ntsc_setup_t ntscSetup;
-@property         GLuint            ntscTexture;
-@property         int               ntscBurstPhase;
-@property         int               ntscMergeFields;
+@property GLuint             gameTexture;
+@property IOSurfaceID        gameSurfaceID;
+@property IOSurfaceRef       gameSurfaceRef;
+@property GLuint             rttFBO;
+@property GLuint             rttGameTexture;
+@property NSUInteger         frameCount;
+@property GLuint            *multipassTextures;
+@property GLuint            *multipassFBOs;
+@property snes_ntsc_t       *ntscTable;
+@property uint32_t          *ntscSource;
+@property uint32_t          *ntscDestination;
+@property snes_ntsc_setup_t  ntscSetup;
+@property GLuint             ntscTexture;
+@property int                ntscBurstPhase;
+@property int                ntscMergeFields;
 
-@property         OEIntSize         gameScreenSize;
-@property         OEIntSize         gameAspectSize;
-@property         CVDisplayLinkRef  gameDisplayLinkRef;
-@property(strong) SyphonServer     *gameServer;
+@property OEIntSize          gameScreenSize;
+@property OEIntSize          gameAspectSize;
+@property CVDisplayLinkRef   gameDisplayLinkRef;
+@property SyphonServer      *gameServer;
 
 // QC based filters
-@property(strong) CIImage          *gameCIImage;
-@property(strong) QCRenderer       *filterRenderer;
-@property         CGColorSpaceRef   rgbColorSpace;
-@property         NSTimeInterval    filterTime;
-@property         NSTimeInterval    filterStartTime;
-@property         BOOL              filterHasOutputMousePositionKeys;
+@property CIImage           *gameCIImage;
+@property QCRenderer        *filterRenderer;
+@property CGColorSpaceRef    rgbColorSpace;
+@property NSTimeInterval     filterTime;
+@property NSTimeInterval     filterStartTime;
+@property BOOL               filterHasOutputMousePositionKeys;
 
 - (void)OE_renderToTexture:(GLuint)renderTarget usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx;
-- (void)OE_applyCgShader:(OECgShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const CGSize)outputSize inCGLContext:(CGLContextObj)cgl_ctx;
+- (void)OE_applyCgShader:(OECGShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const CGSize)outputSize inCGLContext:(CGLContextObj)cgl_ctx;
 - (void)OE_multipassRender:(OEMultipassShader *)multipassShader usingVertices:(const GLfloat *)vertices inCGLContext:(CGLContextObj)cgl_ctx;
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader;
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
@@ -124,79 +123,14 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 @implementation OEGameView
 
-// rendering
-@synthesize gameTexture;
-@synthesize gameSurfaceID;
-@synthesize gameSurfaceRef;
-@synthesize rttFBO;
-@synthesize rttGameTexture;
-@synthesize frameCount;
-@synthesize multipassTextures;
-@synthesize multipassFBOs;
-@synthesize ntscTable;
-@synthesize ntscSource;
-@synthesize ntscDestination;
-@synthesize ntscSetup;
-@synthesize ntscTexture;
-@synthesize ntscBurstPhase;
-@synthesize ntscMergeFields;
-
-@synthesize gameDisplayLinkRef;
-@synthesize gameScreenSize, gameAspectSize;
-@synthesize gameServer;
-@synthesize gameTitle;
-
-// Filters
-@synthesize rgbColorSpace;
-@synthesize gameCIImage;
-@synthesize filters;
-@synthesize filterRenderer;
-@synthesize filterStartTime;
-@synthesize filterTime;
-@synthesize filterName;
-@synthesize filterHasOutputMousePositionKeys;
-
-@synthesize gameResponder;
-@synthesize rootProxy;
-
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
 {
-    OEGlslShader *scale4XShader         = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale4xFilterName     forContext:context];
-    OEGlslShader *scale4XHQShader       = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale4xHQFilterName   forContext:context];
-    OEGlslShader *scale2XPlusShader     = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale2xPlusFilterName forContext:context];
-    OEGlslShader *scale2XHQShader       = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName   forContext:context];
-    OEGlslShader *scale4xBRShader       = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale4xBRFilterName   forContext:context];
-    OEGlslShader *scale2xBRShader       = [[OEGlslShader alloc] initWithShadersInMainBundle:_OEScale2xBRFilterName   forContext:context];
+    NSMutableDictionary *shaders = [NSMutableDictionary dictionary];
 
-    // TODO: fix this shader
-    OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
-    OECgShader *scanlineShader          = [[OECgShader alloc] initWithShadersInMainBundle:_OEScanlineFilterName forContext:context];
+    for(OEShaderPlugin *plugin in [OEShaderPlugin allPlugins])
+        shaders[[plugin name]] = [plugin shaderWithContext:context];
 
-
-
-
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                 _OELinearFilterName         , _OELinearFilterName         ,
-                                 _OENearestNeighborFilterName, _OENearestNeighborFilterName,
-                                 scale4xBRShader             , _OEScale4xBRFilterName      ,
-                                 scale2xBRShader             , _OEScale2xBRFilterName      ,
-                                 scale4XShader               , _OEScale4xFilterName        ,
-                                 scale4XHQShader             , _OEScale4xHQFilterName      ,
-                                 scale2XPlusShader           , _OEScale2xPlusFilterName    ,
-                                 scale2XHQShader             , _OEScale2xHQFilterName      ,
-                                 scanlineShader              , _OEScanlineFilterName       ,
-                                 scale2XSALSmartShader       , _OEScale2XSALSmartFilterName,
-                                 nil];
-
-    // Shaders in Filters directory
-    NSArray *cgShaderNames = [OEShaderPlugin allPluginNames];
-
-    for(int i=0; i<[cgShaderNames count]; ++i)
-    {
-        [dict setObject:[[OECgShader alloc] initWithShadersInFilterDirectory:cgShaderNames[i] forContext:context] forKey:cgShaderNames[i]];
-    }
-    
-    return dict;
+    return shaders;
 }
 
 + (NSOpenGLPixelFormat *)defaultPixelFormat
@@ -229,63 +163,62 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     CGLLockContext(cgl_ctx);
 
     // GL resources
-    glGenTextures(1, &gameTexture);
+    glGenTextures(1, &_gameTexture);
 
     // Resources for render-to-texture pass
-    glGenTextures(1, &rttGameTexture);
-    glBindTexture(GL_TEXTURE_2D, rttGameTexture);
+    glGenTextures(1, &_rttGameTexture);
+    glBindTexture(GL_TEXTURE_2D, _rttGameTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  gameScreenSize.width, gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  _gameScreenSize.width, _gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
-    glGenFramebuffersEXT(1, &rttFBO);
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, rttFBO);
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, rttGameTexture, 0);
+    glGenFramebuffersEXT(1, &_rttFBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _rttFBO);
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _rttGameTexture, 0);
 
-    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) ;
-    if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
+    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+    if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
         NSLog(@"failed to make complete framebuffer object %x", status);
-    }
 
     // Resources for multipass-rendering
-    multipassTextures = (GLuint *) malloc(10 * sizeof(GLuint));
-    multipassFBOs     = (GLuint *) malloc(10 * sizeof(GLuint));
+    _multipassTextures = (GLuint *) malloc(10 * sizeof(GLuint));
+    _multipassFBOs     = (GLuint *) malloc(10 * sizeof(GLuint));
 
-    glGenTextures(10, multipassTextures);
-    glGenFramebuffersEXT(10, multipassFBOs);
+    glGenTextures(10, _multipassTextures);
+    glGenFramebuffersEXT(10, _multipassFBOs);
 
-    for(int i=0; i<10; ++i)
+    for(NSUInteger i = 0; i < 10; ++i)
     {
-        glBindTexture(GL_TEXTURE_2D, multipassTextures[i]);
+        glBindTexture(GL_TEXTURE_2D, _multipassTextures[i]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-        
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, multipassFBOs[i]);
-        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, multipassTextures[i], 0);
+
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _multipassFBOs[i]);
+        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _multipassTextures[i], 0);
     }
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-    
-    // Setup resources needed for Blargg's NTSC filter
-    ntscMergeFields = 1;
-    ntscBurstPhase  = 0;
-    ntscTable       = (snes_ntsc_t *) malloc(sizeof(snes_ntsc_t));
-    ntscSetup       = snes_ntsc_composite;
-    ntscSetup.merge_fields = ntscMergeFields;
-    ntscSource      = (uint32_t *) malloc(sizeof(uint32_t) * gameScreenSize.width * gameScreenSize.height);
-    ntscDestination = (uint32_t *) malloc(sizeof(uint32_t) * SNES_NTSC_OUT_WIDTH(gameScreenSize.width) * gameScreenSize.height);
-    snes_ntsc_init(ntscTable, &ntscSetup);
 
-    glGenTextures(1, &ntscTexture);
-    glBindTexture(GL_TEXTURE_2D, ntscTexture);
+    // Setup resources needed for Blargg's NTSC filter
+    _ntscMergeFields = 1;
+    _ntscBurstPhase  = 0;
+    _ntscTable       = (snes_ntsc_t *) malloc(sizeof(snes_ntsc_t));
+    _ntscSetup       = snes_ntsc_composite;
+    _ntscSetup.merge_fields = _ntscMergeFields;
+    _ntscSource      = (uint32_t *) malloc(sizeof(uint32_t) * _gameScreenSize.width * _gameScreenSize.height);
+    _ntscDestination = (uint32_t *) malloc(sizeof(uint32_t) * SNES_NTSC_OUT_WIDTH(_gameScreenSize.width) * _gameScreenSize.height);
+    snes_ntsc_init(_ntscTable, &_ntscSetup);
+
+    glGenTextures(1, &_ntscTexture);
+    glBindTexture(GL_TEXTURE_2D, _ntscTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  SNES_NTSC_OUT_WIDTH(gameScreenSize.width), gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  SNES_NTSC_OUT_WIDTH(_gameScreenSize.width), _gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glBindTexture(GL_TEXTURE_2D, 0);
-    
-    frameCount = 0;
 
-    filters = [self OE_shadersForContext:cgl_ctx];
+    _frameCount = 0;
+
+    _filters = [self OE_shadersForContext:cgl_ctx];
     self.gameServer = [[SyphonServer alloc] initWithName:self.gameTitle context:cgl_ctx options:nil];
 
     CGLUnlockContext(cgl_ctx);
@@ -293,13 +226,13 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     // filters
     NSUserDefaultsController *ctrl = [NSUserDefaultsController sharedUserDefaultsController];
     [self bind:@"filterName" toObject:ctrl withKeyPath:@"values.videoFilter" options:nil];
-    [self setFilterName:filterName];
+    [self setFilterName:_filterName];
 
     // our texture is in NTSC colorspace from the cores
-    rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+    _rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
 
-    gameScreenSize = rootProxy.screenSize;
-    gameSurfaceID = rootProxy.surfaceID;
+    _gameScreenSize = _rootProxy.screenSize;
+    _gameSurfaceID = _rootProxy.surfaceID;
 
     // rendering
     [self setupDisplayLink];
@@ -311,25 +244,20 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 }
 
-- (NSString*) gameTitle
+- (void)setGameTitle:(NSString *)title
 {
-    return gameTitle;
-}
-
-- (void) setGameTitle:(NSString *)title
-{
-    if(gameTitle)
-        gameTitle = nil;
-
-    gameTitle = title;
-    [self.gameServer setName:title];
+    if(_gameTitle != title)
+    {
+        _gameTitle = [title copy];
+        [self.gameServer setName:title];
+    }
 }
 
 - (void)removeFromSuperview
 {
     DLog(@"removeFromSuperview");
 
-    CVDisplayLinkStop(gameDisplayLinkRef);
+    CVDisplayLinkStop(_gameDisplayLinkRef);
 
     [super removeFromSuperview];
 }
@@ -341,30 +269,30 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);
 
-    glDeleteTextures(1, &gameTexture);
-    gameTexture = 0;
+    glDeleteTextures(1, &_gameTexture);
+    _gameTexture = 0;
 
-    glDeleteTextures(1, &rttGameTexture);
-    rttGameTexture = 0;
-    glDeleteFramebuffersEXT(1, &rttFBO);
-    rttFBO = 0;
+    glDeleteTextures(1, &_rttGameTexture);
+    _rttGameTexture = 0;
+    glDeleteFramebuffersEXT(1, &_rttFBO);
+    _rttFBO = 0;
 
-    glDeleteTextures(10, multipassTextures);
-    free(multipassTextures);
-    multipassTextures = 0;
+    glDeleteTextures(10, _multipassTextures);
+    free(_multipassTextures);
+    _multipassTextures = 0;
 
-    glDeleteFramebuffersEXT(10, multipassFBOs);
-    free(multipassFBOs);
-    multipassFBOs = 0;
+    glDeleteFramebuffersEXT(10, _multipassFBOs);
+    free(_multipassFBOs);
+    _multipassFBOs = 0;
 
-    free(ntscTable);
-    ntscTable = 0;
-    free(ntscSource);
-    ntscSource = 0;
-    free(ntscDestination);
-    ntscDestination = 0;
-    glDeleteTextures(1, &ntscTexture);
-    ntscTexture = 0;
+    free(_ntscTable);
+    _ntscTable = 0;
+    free(_ntscSource);
+    _ntscSource = 0;
+    free(_ntscDestination);
+    _ntscDestination = 0;
+    glDeleteTextures(1, &_ntscTexture);
+    _ntscTexture = 0;
 
     CGLUnlockContext(cgl_ctx);
     [super clearGLContext];
@@ -372,25 +300,22 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 - (void)setupDisplayLink
 {
-    if(gameDisplayLinkRef)
-        [self tearDownDisplayLink];
+    if(_gameDisplayLinkRef) [self tearDownDisplayLink];
 
-    CVReturn error = kCVReturnSuccess;
-
-    error = CVDisplayLinkCreateWithActiveCGDisplays(&gameDisplayLinkRef);
-    if(error)
+    CVReturn error = CVDisplayLinkCreateWithActiveCGDisplays(&_gameDisplayLinkRef);
+    if(error != kCVReturnSuccess)
     {
         NSLog(@"DisplayLink could notbe created for active displays, error:%d", error);
-        gameDisplayLinkRef = NULL;
+        _gameDisplayLinkRef = NULL;
         return;
     }
 
-    error = CVDisplayLinkSetOutputCallback(gameDisplayLinkRef, &MyDisplayLinkCallback, (__bridge void *)self);
-	if(error)
+    error = CVDisplayLinkSetOutputCallback(_gameDisplayLinkRef, &MyDisplayLinkCallback, (__bridge void *)self);
+	if(error != kCVReturnSuccess)
     {
         NSLog(@"DisplayLink could not link to callback, error:%d", error);
-        CVDisplayLinkRelease(gameDisplayLinkRef);
-        gameDisplayLinkRef = NULL;
+        CVDisplayLinkRelease(_gameDisplayLinkRef);
+        _gameDisplayLinkRef = NULL;
         return;
     }
 
@@ -398,21 +323,21 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLPixelFormatObj cglPixelFormat = CGLGetPixelFormat(cgl_ctx);
 
-    error = CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(gameDisplayLinkRef, cgl_ctx, cglPixelFormat);
-	if(error)
+    error = CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(_gameDisplayLinkRef, cgl_ctx, cglPixelFormat);
+	if(error != kCVReturnSuccess)
     {
         NSLog(@"DisplayLink could not link to GL Context, error:%d", error);
-        CVDisplayLinkRelease(gameDisplayLinkRef);
-        gameDisplayLinkRef = NULL;
+        CVDisplayLinkRelease(_gameDisplayLinkRef);
+        _gameDisplayLinkRef = NULL;
         return;
     }
 
-    CVDisplayLinkStart(gameDisplayLinkRef);
+    CVDisplayLinkStart(_gameDisplayLinkRef);
 
-	if(!CVDisplayLinkIsRunning(gameDisplayLinkRef))
+	if(!CVDisplayLinkIsRunning(_gameDisplayLinkRef))
 	{
-        CVDisplayLinkRelease(gameDisplayLinkRef);
-        gameDisplayLinkRef = NULL;
+        CVDisplayLinkRelease(_gameDisplayLinkRef);
+        _gameDisplayLinkRef = NULL;
 
 		NSLog(@"DisplayLink is not running - it should be. ");
 	}
@@ -422,16 +347,15 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 {
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
-    if (gameSurfaceRef)
-        CFRelease(gameSurfaceRef);
+    if(_gameSurfaceRef != NULL) CFRelease(_gameSurfaceRef);
 
-    gameSurfaceRef = IOSurfaceLookup(gameSurfaceID);
+    _gameSurfaceRef = IOSurfaceLookup(_gameSurfaceID);
 
-    if (!gameSurfaceRef) return;
+    if(_gameSurfaceRef == NULL) return;
 
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
-    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(gameSurfaceRef), IOSurfaceGetHeight(gameSurfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, gameSurfaceRef, 0);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _gameTexture);
+    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(_gameSurfaceRef), IOSurfaceGetHeight(_gameSurfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, _gameSurfaceRef, 0);
 }
 
 - (void)tearDownDisplayLink
@@ -441,26 +365,24 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);
 
-    CVDisplayLinkStop(gameDisplayLinkRef);
+    CVDisplayLinkStop(_gameDisplayLinkRef);
 
-    CVDisplayLinkSetOutputCallback(gameDisplayLinkRef, NULL, NULL);
+    CVDisplayLinkSetOutputCallback(_gameDisplayLinkRef, NULL, NULL);
 
     // we really ought to wait.
-    while(1)
-    {
+    while(CVDisplayLinkIsRunning(_gameDisplayLinkRef))
         DLog(@"waiting for displaylink to stop");
-        if(!CVDisplayLinkIsRunning(gameDisplayLinkRef))
-            break;
-    }
 
-    CVDisplayLinkRelease(gameDisplayLinkRef);
-    gameDisplayLinkRef = NULL;
+    CVDisplayLinkRelease(_gameDisplayLinkRef);
+    _gameDisplayLinkRef = NULL;
 
     CGLUnlockContext(cgl_ctx);
 }
 
 - (void)dealloc
 {
+    [self unbind:@"filterName"];
+
     DLog(@"OEGameView dealloc");
     [self tearDownDisplayLink];
 
@@ -478,12 +400,10 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     self.filterRenderer = nil;
     self.filterName = nil;
 
-    CGColorSpaceRelease(rgbColorSpace);
-    rgbColorSpace = NULL;
+    CGColorSpaceRelease(_rgbColorSpace);
+    _rgbColorSpace = NULL;
 
-    CFRelease(gameSurfaceRef);
-
-    [self unbind:@"filterName"];
+    CFRelease(_gameSurfaceRef);
 }
 
 #pragma mark -
@@ -528,24 +448,22 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 {
     // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
-    filterTime = [NSDate timeIntervalSinceReferenceDate];
+    _filterTime = [NSDate timeIntervalSinceReferenceDate];
 
-    if(filterStartTime == 0)
+    if(_filterStartTime == 0)
     {
-        filterStartTime = filterTime;
-        filterTime = 0;
+        _filterStartTime = _filterTime;
+        _filterTime = 0;
     }
-    else
-        filterTime -= filterStartTime;
+    else _filterTime -= _filterStartTime;
 
-    if (!gameSurfaceRef)
-        [self rebindIOSurface];
+    if(_gameSurfaceRef == NULL) [self rebindIOSurface];
 
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
-    if(gameSurfaceRef != NULL)
+    if(_gameSurfaceRef != NULL)
     {
-        NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
-        CGRect textureRect = CGRectMake(0, 0, gameScreenSize.width, gameScreenSize.height);
+        NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)_rgbColorSpace forKey:kCIImageColorSpace];
+        CGRect textureRect = CGRectMake(0, 0, _gameScreenSize.width, _gameScreenSize.height);
 
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
@@ -555,9 +473,9 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
         // always set the CIImage, so save states save
         // TODO: Since screenshots do not use gameCIImage anymore, should we remove it as a property?
-        [self setGameCIImage:[[CIImage imageWithIOSurface:gameSurfaceRef options:options] imageByCroppingToRect:textureRect]];
+        [self setGameCIImage:[[CIImage imageWithIOSurface:_gameSurfaceRef options:options] imageByCroppingToRect:textureRect]];
 
-        OEGameShader *shader = [filters objectForKey:filterName];
+        OEGameShader *shader = [_filters objectForKey:_filterName];
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
@@ -566,14 +484,13 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         glLoadIdentity();
 
         if(shader != nil)
-            [self OE_drawSurface:gameSurfaceRef inCGLContext:cgl_ctx usingShader:shader];
+            [self OE_drawSurface:_gameSurfaceRef inCGLContext:cgl_ctx usingShader:shader];
         else
         {
             // Since our filters no longer rely on QC, it may not be around.
-            if(filterRenderer == nil)
-                [self OE_refreshFilterRenderer];
+            if(_filterRenderer == nil) [self OE_refreshFilterRenderer];
 
-            if(filterRenderer != nil)
+            if(_filterRenderer != nil)
             {
                 NSDictionary *arguments = nil;
 
@@ -589,22 +506,22 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
                              [gameWindow currentEvent], QCRendererEventKey,
                              nil];
 
-                [filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
-                [filterRenderer renderAtTime:filterTime arguments:arguments];
+                [_filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
+                [_filterRenderer renderAtTime:_filterTime arguments:arguments];
 
-                //                if( )
-                //                {
-                //                    NSPoint mousePoint;
-                //                    mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
-                //                    mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
+                //if( )
+                //{
+                //    NSPoint mousePoint;
+                //    mousePoint.x = [[_filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
+                //    mousePoint.y = [[_filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
                 //
-                //                    [rootProxy setMousePosition:mousePoint];
-                //                }
+                //    [_rootProxy setMousePosition:mousePoint];
+                //}
             }
         }
 
         if([self.gameServer hasClients])
-            [self.gameServer publishFrameTexture:gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
+            [self.gameServer publishFrameTexture:_gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
 
         [[self openGLContext] flushBuffer];
 
@@ -627,10 +544,10 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
          1,  1,
         -1,  1
     };
-    
-    glViewport(0, 0, gameScreenSize.width, gameScreenSize.height);
 
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, rttFBO);
+    glViewport(0, 0, _gameScreenSize.width, _gameScreenSize.height);
+
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _rttFBO);
 
     glBindTexture(GL_TEXTURE_2D, renderTarget);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -648,7 +565,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 }
 
-- (void)OE_applyCgShader:(OECgShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const CGSize)outputSize inCGLContext:(CGLContextObj)cgl_ctx
+- (void)OE_applyCgShader:(OECGShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const CGSize)outputSize inCGLContext:(CGLContextObj)cgl_ctx
 {
     const GLfloat cg_coords[] =
     {
@@ -657,24 +574,24 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         1, 1,
         0, 1
     };
-    
+
     // enable vertex program, bind parameters
     cgGLBindProgram([shader vertexProgram]);
     cgGLSetParameter2f([shader vertexVideoSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader vertexTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader vertexOutputSize], outputSize.width, outputSize.height);
-    cgGLSetParameter1f([shader vertexFrameCount], frameCount);
+    cgGLSetParameter1f([shader vertexFrameCount], _frameCount);
     cgGLSetStateMatrixParameter([shader modelViewProj], CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
     cgGLEnableProfile([shader vertexProfile]);
-    
+
     // enable fragment program, bind parameters
     cgGLBindProgram([shader fragmentProgram]);
     cgGLSetParameter2f([shader fragmentVideoSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader fragmentTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader fragmentOutputSize], outputSize.width, outputSize.height);
-    cgGLSetParameter1f([shader fragmentFrameCount], frameCount);
+    cgGLSetParameter1f([shader fragmentFrameCount], _frameCount);
     cgGLEnableProfile([shader fragmentProfile]);
-    
+
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
     glTexCoordPointer(2, GL_FLOAT, 0, cg_coords );
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -682,7 +599,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     glDisableClientState(GL_VERTEX_ARRAY);
-    
+
     // turn off profiles
     cgGLDisableProfile([shader vertexProfile]);
     cgGLDisableProfile([shader fragmentProfile]);
@@ -690,32 +607,31 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 - (void)OE_multipassRender:(OEMultipassShader *)multipassShader usingVertices:(const GLfloat *)vertices inCGLContext:(CGLContextObj)cgl_ctx
 {
-    NSMutableArray *shaders   = [multipassShader shaders];
-    NSUInteger numberOfPasses = [multipassShader numberOfPasses];
-    int outputWidth  = gameScreenSize.width;
-    int outputHeight = gameScreenSize.height;
-    int textureWidth;
-    int textureHeight;
+    NSArray    *shaders        = [multipassShader shaders];
+    NSUInteger  numberOfPasses = [multipassShader numberOfPasses];
+    int         outputWidth    = _gameScreenSize.width;
+    int         outputHeight   = _gameScreenSize.height;
+    int         textureWidth;
+    int         textureHeight;
 
-    if([multipassShader ntscFilter] != NONE)
+    if([multipassShader NTSCFilter] != OENTSCFilterTypeNone)
     {
-        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, ntscSource);
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, _ntscSource);
 
-        if(!ntscMergeFields)
-            ntscBurstPhase ^= 1;
+        if(!_ntscMergeFields) _ntscBurstPhase ^= 1;
 
-        if(gameScreenSize.width <= 256)
-            snes_ntsc_blit(ntscTable, ntscSource, gameScreenSize.width, ntscBurstPhase, gameScreenSize.width, gameScreenSize.height, ntscDestination, SNES_NTSC_OUT_WIDTH(gameScreenSize.width)*4);
+        if(_gameScreenSize.width <= 256)
+            snes_ntsc_blit(_ntscTable, _ntscSource, _gameScreenSize.width, _ntscBurstPhase, _gameScreenSize.width, _gameScreenSize.height, _ntscDestination, SNES_NTSC_OUT_WIDTH(_gameScreenSize.width)*4);
         else
-            snes_ntsc_blit_hires(ntscTable, ntscSource, gameScreenSize.width, ntscBurstPhase, gameScreenSize.width, gameScreenSize.height, ntscDestination, SNES_NTSC_OUT_WIDTH(gameScreenSize.width)*4);
+            snes_ntsc_blit_hires(_ntscTable, _ntscSource, _gameScreenSize.width, _ntscBurstPhase, _gameScreenSize.width, _gameScreenSize.height, _ntscDestination, SNES_NTSC_OUT_WIDTH(_gameScreenSize.width)*4);
 
-        glBindTexture(GL_TEXTURE_2D, ntscTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SNES_NTSC_OUT_WIDTH(gameScreenSize.width), gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, ntscDestination);
+        glBindTexture(GL_TEXTURE_2D, _ntscTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SNES_NTSC_OUT_WIDTH(_gameScreenSize.width), _gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _ntscDestination);
 
-        outputWidth = SNES_NTSC_OUT_WIDTH(gameScreenSize.width);
+        outputWidth = SNES_NTSC_OUT_WIDTH(_gameScreenSize.width);
     }
 
-    for(int i=0; i<numberOfPasses; ++i)
+    for(NSUInteger i = 0; i < numberOfPasses; ++i)
     {
         BOOL linearFiltering = [shaders[i] linearFiltering];
         OEScaleType scaleType  = [shaders[i] scaleType];
@@ -724,7 +640,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         textureWidth  = outputWidth;
         textureHeight = outputHeight;
 
-        if(scaleType == VIEWPORT)
+        if(scaleType == OEScaleTypeViewPort)
         {
             if(scaler.width != 0)
                 outputWidth = self.frame.size.width * scaler.width;
@@ -735,7 +651,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
             else
                 outputHeight = self.frame.size.height;
         }
-        else if(scaleType == ABSOLUTE)
+        else if(scaleType == OEScaleTypeAbsolute)
         {
             if(scaler.width != 0)
                 outputWidth = scaler.width;
@@ -757,8 +673,8 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         }
         else
         {
-            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, multipassFBOs[i]);
-            glBindTexture(GL_TEXTURE_2D, multipassTextures[i]);
+            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _multipassFBOs[i]);
+            glBindTexture(GL_TEXTURE_2D, _multipassTextures[i]);
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  outputWidth, outputHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
             glViewport(0, 0, outputWidth, outputHeight);
@@ -766,13 +682,13 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
         if(i == 0)
         {
-            if([multipassShader ntscFilter] != NONE)
-                glBindTexture(GL_TEXTURE_2D, ntscTexture);
+            if([multipassShader NTSCFilter] != OENTSCFilterTypeNone)
+                glBindTexture(GL_TEXTURE_2D, _ntscTexture);
             else
-                glBindTexture(GL_TEXTURE_2D, rttGameTexture);
+                glBindTexture(GL_TEXTURE_2D, _rttGameTexture);
         }
         else
-            glBindTexture(GL_TEXTURE_2D, multipassTextures[i-1]);
+            glBindTexture(GL_TEXTURE_2D, _multipassTextures[i-1]);
 
         if(linearFiltering)
         {
@@ -798,7 +714,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     // need to add a clear here since we now draw direct to our context
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _gameTexture);
 
     if(shader != (id)_OELinearFilterName)
     {
@@ -839,9 +755,9 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     const GLint tex_coords[] =
     {
         0, 0,
-        gameScreenSize.width, 0,
-        gameScreenSize.width, gameScreenSize.height,
-        0, gameScreenSize.height
+        _gameScreenSize.width, 0,
+        _gameScreenSize.width, _gameScreenSize.height,
+        0, _gameScreenSize.height
     };
 
     if(shader == (id)_OELinearFilterName || shader == (id)_OENearestNeighborFilterName)
@@ -858,20 +774,20 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     {
         if([[shader shaderData] isKindOfClass:[OEMultipassShader class]])
         {
-            ++frameCount;
-            [self OE_renderToTexture:rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
+            ++_frameCount;
+            [self OE_renderToTexture:_rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
             [self OE_multipassRender:[shader shaderData] usingVertices:verts inCGLContext:cgl_ctx];
 
         }
-        else if([[shader shaderData] isKindOfClass:[OECgShader class]])
+        else if([[shader shaderData] isKindOfClass:[OECGShader class]])
         {
-            ++frameCount;
-            
-            // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
-            [self OE_renderToTexture:rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
+            ++_frameCount;
 
-            [self OE_applyCgShader:[shader shaderData] usingVertices:verts withTextureSize:gameScreenSize withOutputSize:self.frame.size inCGLContext:cgl_ctx];
+            // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
+            [self OE_renderToTexture:_rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
+
+            [self OE_applyCgShader:[shader shaderData] usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:self.frame.size inCGLContext:cgl_ctx];
         }
         else
         {
@@ -887,7 +803,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
             glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
             glDisableClientState( GL_TEXTURE_COORD_ARRAY );
             glDisableClientState(GL_VERTEX_ARRAY);
-            
+
             // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
             glUseProgramObjectARB(0);
         }
@@ -914,18 +830,18 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 - (QCComposition *)composition
 {
-    return [[OECompositionPlugin compositionPluginWithName:filterName] composition];
+    return [[OECompositionPlugin pluginWithName:_filterName] composition];
 }
 
 - (void)setFilterName:(NSString *)value
 {
-    if(filterName != value)
+    if(_filterName != value)
     {
         DLog(@"setting filter name");
-        filterName = [value copy];
+        _filterName = [value copy];
 
         [self OE_refreshFilterRenderer];
-        if(rootProxy != nil) rootProxy.drawSquarePixels = [self composition] != nil;
+        if(_rootProxy != nil) _rootProxy.drawSquarePixels = [self composition] != nil;
     }
 }
 
@@ -936,51 +852,51 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
     DLog(@"releasing old filterRenderer");
 
-    filterRenderer = nil;
+    _filterRenderer = nil;
 
-    if(!filterName) return;
+    if(_filterName == nil) return;
 
-    OEGameShader *filter = [filters objectForKey:filterName];
+    OEGameShader *filter = [_filters objectForKey:_filterName];
 
     if(filter != nil && [filter isKindOfClass:[OEGameShader class]])
     {
         [[filter shaderData] compileShaders];
 
-        if([filter isKindOfClass:[OEMultipassShader class]] && [[filter shaderData] ntscFilter])
+        if([filter isKindOfClass:[OEMultipassShader class]] && [[filter shaderData] NTSCFilter])
         {
-            if([[filter shaderData] ntscFilter] == COMPOSITE)
-                ntscSetup = snes_ntsc_composite;
-            else if([[filter shaderData] ntscFilter] == SVIDEO)
-                ntscSetup = snes_ntsc_svideo;
-            else if([[filter shaderData] ntscFilter] == RGB)
-                ntscSetup = snes_ntsc_rgb;
-            snes_ntsc_init(ntscTable, &ntscSetup);
+            if([[filter shaderData] NTSCFilter] == OENTSCFilterTypeComposite)
+                _ntscSetup = snes_ntsc_composite;
+            else if([[filter shaderData] NTSCFilter] == OENTSCFilterTypeSVideo)
+                _ntscSetup = snes_ntsc_svideo;
+            else if([[filter shaderData] NTSCFilter] == OENTSCFilterTypeRGB)
+                _ntscSetup = snes_ntsc_rgb;
+            snes_ntsc_init(_ntscTable, &_ntscSetup);
         }
     }
 
-    if([filters objectForKey:filterName] == nil && [self openGLContext] != nil)
+    if([_filters objectForKey:_filterName] == nil && [self openGLContext] != nil)
     {
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
         CGLLockContext(cgl_ctx);
 
         DLog(@"making new filter renderer");
 
-        // this will be responsible for our rendering... weee...
+        // This will be responsible for our rendering... weee...
         QCComposition *compo = [self composition];
 
         if(compo != nil)
-            filterRenderer = [[QCRenderer alloc] initWithCGLContext:cgl_ctx
+            _filterRenderer = [[QCRenderer alloc] initWithCGLContext:cgl_ctx
                                                         pixelFormat:CGLGetPixelFormat(cgl_ctx)
-                                                         colorSpace:rgbColorSpace
+                                                         colorSpace:_rgbColorSpace
                                                         composition:compo];
 
-        if (filterRenderer == nil)
+        if(_filterRenderer == nil)
             NSLog(@"Warning: failed to create our filter QCRenderer");
 
-        if (![[filterRenderer inputKeys] containsObject:@"OEImageInput"])
+        if(![[_filterRenderer inputKeys] containsObject:@"OEImageInput"])
             NSLog(@"Warning: invalid Filter composition. Does not contain valid image input key");
 
-        if([[filterRenderer outputKeys] containsObject:@"OEMousePositionX"] && [[filterRenderer outputKeys] containsObject:@"OEMousePositionY"])
+        if([[_filterRenderer outputKeys] containsObject:@"OEMousePositionX"] && [[_filterRenderer outputKeys] containsObject:@"OEMousePositionY"])
         {
             DLog(@"filter has mouse output position keys");
             self.filterHasOutputMousePositionKeys = YES;
@@ -988,8 +904,8 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         else
             self.filterHasOutputMousePositionKeys = NO;
 
-        if ([[filterRenderer inputKeys] containsObject:@"OESystemIDInput"])
-            [filterRenderer setValue:[[gameResponder controller] systemIdentifier] forInputKey:@"OESystemIDInput"];
+        if([[_filterRenderer inputKeys] containsObject:@"OESystemIDInput"])
+            [_filterRenderer setValue:[[_gameResponder controller] systemIdentifier] forInputKey:@"OESystemIDInput"];
 
         CGLUnlockContext(cgl_ctx);
     }
@@ -1036,52 +952,52 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     [screenshotImage lockFocusFlipped:YES];
     [imageRep drawInRect:(NSRect){.size = textureNSSize}];
     [screenshotImage unlockFocus];
-    
+
     return screenshotImage;
 }
 
 - (NSImage *)nativeScreenshot
 {
-    if(!gameSurfaceRef)
+    if(_gameSurfaceRef == NULL)
         return nil;
 
     NSBitmapImageRep *imageRep;
 
-    IOSurfaceLock(gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
+    IOSurfaceLock(_gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
     {
         imageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-                                                           pixelsWide:gameScreenSize.width
-                                                           pixelsHigh:gameScreenSize.height
+                                                           pixelsWide:_gameScreenSize.width
+                                                           pixelsHigh:_gameScreenSize.height
                                                         bitsPerSample:8
                                                       samplesPerPixel:4
                                                              hasAlpha:YES
                                                              isPlanar:NO
                                                        colorSpaceName:NSDeviceRGBColorSpace
-                                                          bytesPerRow:gameScreenSize.width * 4
+                                                          bytesPerRow:_gameScreenSize.width * 4
                                                          bitsPerPixel:32];
 
         vImage_Buffer src =
         {
-            .data     = IOSurfaceGetBaseAddress(gameSurfaceRef),
-            .width    = gameScreenSize.width,
-            .height   = gameScreenSize.height,
-            .rowBytes = IOSurfaceGetBytesPerRow(gameSurfaceRef)
+            .data     = IOSurfaceGetBaseAddress(_gameSurfaceRef),
+            .width    = _gameScreenSize.width,
+            .height   = _gameScreenSize.height,
+            .rowBytes = IOSurfaceGetBytesPerRow(_gameSurfaceRef)
         };
         vImage_Buffer dest =
         {
             .data     = [imageRep bitmapData],
-            .width    = gameScreenSize.width,
-            .height   = gameScreenSize.height,
-            .rowBytes = gameScreenSize.width * 4
+            .width    = _gameScreenSize.width,
+            .height   = _gameScreenSize.height,
+            .rowBytes = _gameScreenSize.width * 4
         };
 
         // Convert IOSurface pixel format to NSBitmapImageRep
         const uint8_t permuteMap[] = {2,1,0,3};
         vImagePermuteChannels_ARGB8888(&src, &dest, permuteMap, 0);
     }
-    IOSurfaceUnlock(gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
+    IOSurfaceUnlock(_gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
 
-    const NSSize imageSize   = NSSizeFromOEIntSize(gameScreenSize);
+    const NSSize imageSize   = NSSizeFromOEIntSize(_gameScreenSize);
     NSImage *screenshotImage = [[NSImage alloc] initWithSize:imageSize];
     [screenshotImage addRepresentation:imageRep];
 
@@ -1098,18 +1014,18 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 - (void)setRootProxy:(id<OEGameCoreHelper>)value
 {
-    if(value != rootProxy)
+    if(value != _rootProxy)
     {
-        rootProxy = value;
-        [rootProxy setDelegate:self];
-        rootProxy.drawSquarePixels = [self composition] != nil;
+        _rootProxy = value;
+        [_rootProxy setDelegate:self];
+        _rootProxy.drawSquarePixels = [self composition] != nil;
     }
 }
 
 - (void)gameCoreDidChangeScreenSizeTo:(OEIntSize)size
 {
     // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
-    gameSurfaceID = rootProxy.surfaceID;
+    _gameSurfaceID = _rootProxy.surfaceID;
 
     [self rebindIOSurface];
 
@@ -1151,16 +1067,15 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     return YES;
 }
 
-- (OESystemResponder *)gameResponder { return gameResponder; }
 - (void)setGameResponder:(OESystemResponder *)value
 {
-    if(gameResponder != value)
+    if(_gameResponder != value)
     {
-        id next = (gameResponder == nil
+        id next = (_gameResponder == nil
                    ? [super nextResponder]
-                   : [gameResponder nextResponder]);
+                   : [_gameResponder nextResponder]);
 
-        gameResponder = value;
+        _gameResponder = value;
 
         [value setNextResponder:next];
         if(value == nil) value = next;
@@ -1170,8 +1085,8 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 - (void)setNextResponder:(NSResponder *)aResponder
 {
-    if(gameResponder != nil)
-        [gameResponder setNextResponder:aResponder];
+    if(_gameResponder != nil)
+        [_gameResponder setNextResponder:aResponder];
     else
         [super setNextResponder:aResponder];
 }
