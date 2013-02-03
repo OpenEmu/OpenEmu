@@ -44,8 +44,6 @@ typedef enum
 @property(readonly) CGprogram vertexProgram;
 @property(readonly) CGprogram fragmentProgram;
 
-@property(readonly) CGparameter position;
-@property(readonly) CGparameter texCoord;
 @property(readonly) CGparameter modelViewProj;
 @property(readonly) CGparameter vertexVideoSize;
 @property(readonly) CGparameter vertexTextureSize;

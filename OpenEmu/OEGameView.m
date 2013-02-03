@@ -32,6 +32,13 @@
 #import "OECompositionPlugin.h"
 #import "OEShaderPlugin.h"
 
+#import "OEGameShader.h"
+#import "OEGLSLShader.h"
+#import "OECGShader.h"
+#import "OEMultipassShader.h"
+
+#import "OEBuiltInShader.h"
+
 #import "OEGameCoreHelper.h"
 #import "OESystemResponder.h"
 #import "OESystemController.h"
@@ -59,26 +66,10 @@
 #pragma mark -
 #pragma mark Display Link
 
-CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext);
-
-CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
+static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
 {
-    CVReturn error = [(__bridge OEGameView *)displayLinkContext displayLinkRenderCallback:inOutputTime];
-    return error;
+    return [(__bridge OEGameView *)displayLinkContext displayLinkRenderCallback:inOutputTime];
 }
-
-#pragma mark -
-
-static NSString *const _OELinearFilterName          = @"Linear";
-static NSString *const _OENearestNeighborFilterName = @"Nearest Neighbor";
-static NSString *const _OEScale4xFilterName         = @"Scale4x";
-static NSString *const _OEScale4xHQFilterName       = @"Scale4xHQ";
-static NSString *const _OEScale2xPlusFilterName     = @"Scale2xPlus";
-static NSString *const _OEScale2xHQFilterName       = @"Scale2xHQ";
-static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
-static NSString *const _OEScale4xBRFilterName       = @"Scale4xBR";
-static NSString *const _OEScale2xBRFilterName       = @"Scale2xBR";
-static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 @interface OEGameView ()
 
@@ -633,9 +624,9 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
     for(NSUInteger i = 0; i < numberOfPasses; ++i)
     {
-        BOOL linearFiltering = [shaders[i] linearFiltering];
-        OEScaleType scaleType  = [shaders[i] scaleType];
-        CGSize scaler        = [shaders[i] scaler];
+        BOOL linearFiltering  = [shaders[i] linearFiltering];
+        OEScaleType scaleType = [shaders[i] scaleType];
+        CGSize scaler         = [shaders[i] scaler];
 
         textureWidth  = outputWidth;
         textureHeight = outputHeight;
@@ -666,7 +657,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
                 outputHeight = outputHeight * scaler.height;
         }
 
-        if(i == numberOfPasses-1)
+        if(i == numberOfPasses - 1)
         {
             glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
             glViewport(0, 0, self.frame.size.width, self.frame.size.height);
@@ -688,7 +679,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
                 glBindTexture(GL_TEXTURE_2D, _rttGameTexture);
         }
         else
-            glBindTexture(GL_TEXTURE_2D, _multipassTextures[i-1]);
+            glBindTexture(GL_TEXTURE_2D, _multipassTextures[i - 1]);
 
         if(linearFiltering)
         {
@@ -716,7 +707,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _gameTexture);
 
-    if(shader != (id)_OELinearFilterName)
+    if(![shader isBuiltIn] || [(OEBuiltInShader *)shader type] != OEBuiltInShaderTypeLinear)
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -760,7 +751,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         0, _gameScreenSize.height
     };
 
-    if(shader == (id)_OELinearFilterName || shader == (id)_OENearestNeighborFilterName)
+    if([shader isBuiltIn])
     {
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );
         glTexCoordPointer(2, GL_INT, 0, tex_coords );
@@ -772,29 +763,29 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
     }
     else if([shader isCompiled])
     {
-        if([[shader shaderData] isKindOfClass:[OEMultipassShader class]])
+        if([shader isKindOfClass:[OEMultipassShader class]])
         {
             ++_frameCount;
             [self OE_renderToTexture:_rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
-            [self OE_multipassRender:[shader shaderData] usingVertices:verts inCGLContext:cgl_ctx];
+            [self OE_multipassRender:(OEMultipassShader *)shader usingVertices:verts inCGLContext:cgl_ctx];
 
         }
-        else if([[shader shaderData] isKindOfClass:[OECGShader class]])
+        else if([shader isKindOfClass:[OECGShader class]])
         {
             ++_frameCount;
 
             // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
             [self OE_renderToTexture:_rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
-            [self OE_applyCgShader:[shader shaderData] usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:self.frame.size inCGLContext:cgl_ctx];
+            [self OE_applyCgShader:(OECGShader *)shader usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:self.frame.size inCGLContext:cgl_ctx];
         }
         else
         {
-            glUseProgramObjectARB([[shader shaderData] programObject]);
+            glUseProgramObjectARB([(OEGLSLShader *)shader programObject]);
 
             // set up shader uniforms
-            glUniform1iARB([[shader shaderData] uniformLocationWithName:"OETexture"], 0);
+            glUniform1iARB([(OEGLSLShader *)shader uniformLocationWithName:"OETexture"], 0);
 
             glEnableClientState( GL_TEXTURE_COORD_ARRAY );
             glTexCoordPointer(2, GL_INT, 0, tex_coords );
@@ -858,20 +849,17 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
     OEGameShader *filter = [_filters objectForKey:_filterName];
 
-    if(filter != nil && [filter isKindOfClass:[OEGameShader class]])
-    {
-        [[filter shaderData] compileShaders];
+    [filter compileShaders];
 
-        if([filter isKindOfClass:[OEMultipassShader class]] && [[filter shaderData] NTSCFilter])
-        {
-            if([[filter shaderData] NTSCFilter] == OENTSCFilterTypeComposite)
-                _ntscSetup = snes_ntsc_composite;
-            else if([[filter shaderData] NTSCFilter] == OENTSCFilterTypeSVideo)
-                _ntscSetup = snes_ntsc_svideo;
-            else if([[filter shaderData] NTSCFilter] == OENTSCFilterTypeRGB)
-                _ntscSetup = snes_ntsc_rgb;
-            snes_ntsc_init(_ntscTable, &_ntscSetup);
-        }
+    if([filter isKindOfClass:[OEMultipassShader class]] && [(OEMultipassShader *)filter NTSCFilter])
+    {
+        if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeComposite)
+            _ntscSetup = snes_ntsc_composite;
+        else if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeSVideo)
+            _ntscSetup = snes_ntsc_svideo;
+        else if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeRGB)
+            _ntscSetup = snes_ntsc_rgb;
+        snes_ntsc_init(_ntscTable, &_ntscSetup);
     }
 
     if([_filters objectForKey:_filterName] == nil && [self openGLContext] != nil)

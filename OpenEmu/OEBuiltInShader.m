@@ -24,22 +24,59 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OEPlugin.h"
+#import "OEBuiltInShader.h"
 
-@interface OEShaderPlugin : OEPlugin
-+ (Class)shaderClass;
-- (id)shaderWithContext:(CGLContextObj)context;
-@end
+static NSString *const _OELinearFilterName          = @"Linear";
+static NSString *const _OENearestNeighborFilterName = @"Nearest Neighbor";
 
-@interface OEGLSLShaderPlugin : OEShaderPlugin
-@end
+@implementation OEBuiltInShader
 
-@interface OECGShaderPlugin : OEShaderPlugin
-@end
+static OEBuiltInShader *_builtInShaders[OEBuiltInShaderTypeCount] = { nil };
 
-@interface OEMultipassShaderPlugin : OEShaderPlugin
-@end
++ (NSString *)shaderNameForBuiltInShaderType:(OEBuiltInShaderType)type;
+{
+    switch(type) {
+        case OEBuiltInShaderTypeLinear          : return _OELinearFilterName;
+        case OEBuiltInShaderTypeNearestNeighbor : return _OENearestNeighborFilterName;
+        default : break;
+    }
 
-@interface OEBuiltInShaderPlugin : OEShaderPlugin
+    return nil;
+}
+
++ (OEBuiltInShaderType)builtInShaderTypeShaderName:(NSString *)type;
+{
+    static NSArray *types = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        types = @[ _OELinearFilterName, _OENearestNeighborFilterName ];
+    });
+
+    return [types indexOfObject:type];
+}
+
+- (id)initWithFileAtPath:(NSString *)filePath context:(CGLContextObj)context
+{
+    return [self initWithBuiltInShaderType:[[self class] builtInShaderTypeShaderName:filePath]];
+}
+
+- (id)initWithBuiltInShaderType:(OEBuiltInShaderType)type
+{
+    if(type >= OEBuiltInShaderTypeCount) return nil;
+
+    if(_builtInShaders[type] == nil &&
+       (self = [super initWithFileAtPath:[[self class] shaderNameForBuiltInShaderType:type] context:nil]))
+    {
+        _type = type;
+        _builtInShaders[type] = self;
+    }
+
+    return _builtInShaders[type];
+}
+
+- (BOOL)isBuiltIn;
+{
+    return YES;
+}
+
 @end

@@ -31,20 +31,16 @@
 
 - (id)initWithFileAtPath:(NSString *)filePath context:(CGLContextObj)context;
 
-- (id)initWithName:(NSString *)name bundle:(NSBundle *)bundle forContext:(CGLContextObj)context DEPRECATED_ATTRIBUTE;
-- (id)initWithName:(NSString *)name forContext:(CGLContextObj)context DEPRECATED_ATTRIBUTE;
-
 @property(readonly) NSString *filePath;
 @property(readonly) NSString *shaderName;
-// Location of resource folder.
-@property(readonly) NSBundle *bundle DEPRECATED_ATTRIBUTE;
 
 // Context to bind shaders to.
 @property(readonly) CGLContextObj shaderContext;
 
-// Either OEGLSLShader or OECQShader
-@property(readonly) id shaderData;
 // Is a Shader compiled yet?
 @property(readonly, getter=isCompiled) BOOL compiled;
+
+- (BOOL)isBuiltIn;
+- (void)compileShaders;
 
 @end

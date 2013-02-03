@@ -34,11 +34,6 @@
     NSMutableArray *_shaders;
 }
 
-- (id)shaderData
-{
-    return self;
-}
-
 - (void)compileShaders
 {
     if(![self isCompiled])

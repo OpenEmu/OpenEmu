@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -25,35 +25,18 @@
  */
 
 #import "OEGameShader.h"
-#import "OEGameShader_ForSubclassEyesOnly.h"
 
-@implementation OEGameShader
+typedef enum OEBuiltInShaderType : NSUInteger {
+    OEBuiltInShaderTypeLinear,
+    OEBuiltInShaderTypeNearestNeighbor,
 
-- (id)initWithFileAtPath:(NSString *)filePath context:(CGLContextObj)context;
-{
-    if((self = [super init]))
-    {
-        _filePath = [filePath copy];
-        _shaderName = [[filePath lastPathComponent] stringByDeletingPathExtension];
-        _shaderContext = CGLRetainContext(context);
-    }
+    OEBuiltInShaderTypeCount,
+    OEBuiltInShaderTypeUnknown = NSNotFound,
+} OEBuiltInShaderType;
 
-    return self;
-}
-
-- (void)dealloc
-{
-    CGLReleaseContext(_shaderContext);
-}
-
-- (BOOL)isBuiltIn;
-{
-    return NO;
-}
-
-- (void)compileShaders
-{
-    return;
-}
-
+@interface OEBuiltInShader : OEGameShader
++ (NSString *)shaderNameForBuiltInShaderType:(OEBuiltInShaderType)type;
++ (OEBuiltInShaderType)builtInShaderTypeShaderName:(NSString *)type;
+- (id)initWithBuiltInShaderType:(OEBuiltInShaderType)type;
+@property(readonly) OEBuiltInShaderType type;
 @end

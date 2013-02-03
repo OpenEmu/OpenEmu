@@ -65,13 +65,18 @@ static NSMutableDictionary *_pluginsForNamesByTypes  = nil;
     return [_allPluginClasses copy];
 }
 
++ (void)registerPluginClass;
+{
+    [_allPluginClasses addObject:self];
+
+    [self pluginsForType:self];
+}
+
 + (void)registerPluginClass:(Class)pluginClass;
 {
     NSAssert1([pluginClass isPluginClass], @"Class %@ is not a subclass of OEPlugin.", pluginClass);
 
-    [_allPluginClasses addObject:pluginClass];
-
-    [self pluginsForType:pluginClass];
+    [pluginClass registerPluginClass];
 }
 
 + (NSString *)pluginType
@@ -170,7 +175,7 @@ static NSMutableDictionary *_pluginsForNamesByTypes  = nil;
 
 - (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName;
 {
-    if(aPath == nil) return nil;
+    if(aPath == nil && aName == nil) return nil;
 
     id existing = (   [[self class] OE_pluginsForNamesOfType:[self class] createIfNeeded:NO][aName]
                   ? : [[self class] OE_pluginsForPathsOfType:[self class] createIfNeeded:NO][aPath]);
@@ -178,16 +183,19 @@ static NSMutableDictionary *_pluginsForNamesByTypes  = nil;
 
     if((self = [super init]))
     {
-        if(![[aPath pathExtension] isEqualToString:[[self class] pluginExtension]])
+        if(aPath != nil && ![[aPath pathExtension] isEqualToString:[[self class] pluginExtension]])
             return nil;
 
         _path = [aPath copy];
         _name = [aName copy] ? : [[_path lastPathComponent] stringByDeletingPathExtension];
 
-        [self OE_setupWithBundleAtPath:aPath];
+        if(_path != nil)
+        {
+            [self OE_setupWithBundleAtPath:aPath];
+            [[self class] OE_pluginsForPathsOfType:[self class] createIfNeeded:YES][_path] = self;
+        }
 
         [[self class] OE_pluginsForNamesOfType:[self class] createIfNeeded:YES][_name] = self;
-        [[self class] OE_pluginsForPathsOfType:[self class] createIfNeeded:YES][_path] = self;
     }
     return self;
 }
@@ -264,7 +272,7 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
 + (NSArray *)pluginsForType:(Class)aType
 {
     NSArray *ret = nil;
-    if([aType isPluginClass])
+    if([aType isPluginClass] && [_allPluginClasses containsObject:aType])
     {
         NSMutableDictionary *plugins = [_allPlugins objectForKey:aType];
         if(plugins == nil)

@@ -31,10 +31,6 @@
 #import <Syphon/Syphon.h>
 
 #import "OEGameCoreHelper.h"
-#import "OEGameShader.h"
-#import "OEGLSLShader.h"
-#import "OECGShader.h"
-#import "OEMultipassShader.h"
 
 @protocol OEGameCoreHelper;
 @class OESystemResponder;

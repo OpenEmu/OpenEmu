@@ -39,14 +39,11 @@
 	NSMutableArray *filterPlugins = [NSMutableArray array];
     [filterPlugins addObjectsFromArray:[OECompositionPlugin allPluginNames]];
     [filterPlugins addObjectsFromArray:[OEShaderPlugin allPluginNames]];
-    [filterPlugins sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-
-    // These filters are loaded and run by GL, and do not rely on QTZs
-    NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:OEOpenGLFilterNameArray];
+    [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
 	NSMenu *filterMenu = [[NSMenu alloc] init];
 
-    for(NSString *aName in filterNames)
+    for(NSString *aName in filterPlugins)
 		[filterMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
 
 	[[self filterSelection] setMenu:filterMenu];

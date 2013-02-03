@@ -28,8 +28,20 @@
 #import "OECGShader.h"
 #import "OEGLSLShader.h"
 #import "OEMultipassShader.h"
+#import "OEBuiltInShader.h"
 
 @implementation OEShaderPlugin
+
++ (void)initialize
+{
+    if(self == [OEShaderPlugin class])
+    {
+        [OEGLSLShaderPlugin      registerPluginClass];
+        [OECGShaderPlugin        registerPluginClass];
+        [OEMultipassShaderPlugin registerPluginClass];
+        [OEBuiltInShaderPlugin   registerPluginClass];
+    }
+}
 
 + (NSArray *)allPlugins
 {
@@ -39,6 +51,7 @@
         [allPlugins addObjectsFromArray:[self pluginsForType:[OEGLSLShaderPlugin class]]];
         [allPlugins addObjectsFromArray:[self pluginsForType:[OECGShaderPlugin class]]];
         [allPlugins addObjectsFromArray:[self pluginsForType:[OEMultipassShaderPlugin class]]];
+        [allPlugins addObjectsFromArray:[self pluginsForType:[OEBuiltInShaderPlugin class]]];
 
         return allPlugins;
     }
@@ -115,6 +128,50 @@
 + (NSString *)pluginExtension
 {
     return @"cgp";
+}
+
+@end
+
+@implementation OEBuiltInShaderPlugin
+{
+    OEBuiltInShader *_shader;
+}
+
++ (Class)shaderClass
+{
+    return [OEBuiltInShaderPlugin class];
+}
+
++ (NSString *)pluginExtension
+{
+    return @"";
+}
+
++ (void)registerPluginClass
+{
+    [super registerPluginClass];
+
+    for(OEBuiltInShaderType type = 0; type < OEBuiltInShaderTypeCount; type++)
+        [self pluginWithFileAtPath:[OEBuiltInShader shaderNameForBuiltInShaderType:type] type:self];
+}
+
+- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName
+{
+    return [self initWithBuiltInShaderType:[OEBuiltInShader builtInShaderTypeShaderName:aName ? : aPath]];
+}
+
+- (id)initWithBuiltInShaderType:(OEBuiltInShaderType)type
+{
+    if((self = [super initWithFileAtPath:nil name:[OEBuiltInShader shaderNameForBuiltInShaderType:type]]))
+    {
+        _shader = [[OEBuiltInShader alloc] initWithBuiltInShaderType:type];
+    }
+    return self;
+}
+
+- (id)shaderWithContext:(CGLContextObj)context
+{
+    return _shader;
 }
 
 @end
