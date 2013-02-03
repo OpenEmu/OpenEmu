@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,36 +24,59 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEGameShader.h"
-#import "OEGameShader_ForSubclassEyesOnly.h"
+#import "OEBuiltInShader.h"
 
-@implementation OEGameShader
+static NSString *const _OELinearFilterName          = @"Linear";
+static NSString *const _OENearestNeighborFilterName = @"Nearest Neighbor";
 
-- (id)initWithFileAtPath:(NSString *)filePath context:(CGLContextObj)context;
+@implementation OEBuiltInShader
+
+static OEBuiltInShader *_builtInShaders[OEBuiltInShaderTypeCount] = { nil };
+
++ (NSString *)shaderNameForBuiltInShaderType:(OEBuiltInShaderType)type;
 {
-    if((self = [super init]))
-    {
-        _filePath = [filePath copy];
-        _shaderName = [[filePath lastPathComponent] stringByDeletingPathExtension];
-        _shaderContext = CGLRetainContext(context);
+    switch(type) {
+        case OEBuiltInShaderTypeLinear          : return _OELinearFilterName;
+        case OEBuiltInShaderTypeNearestNeighbor : return _OENearestNeighborFilterName;
+        default : break;
     }
 
-    return self;
-}
-
-- (id)shaderData
-{
     return nil;
 }
 
-- (void)dealloc
++ (OEBuiltInShaderType)builtInShaderTypeShaderName:(NSString *)type;
 {
-    CGLReleaseContext(_shaderContext);
+    static NSArray *types = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        types = @[ _OELinearFilterName, _OENearestNeighborFilterName ];
+    });
+
+    return [types indexOfObject:type];
+}
+
+- (id)initWithFileAtPath:(NSString *)filePath context:(CGLContextObj)context
+{
+    return [self initWithBuiltInShaderType:[[self class] builtInShaderTypeShaderName:filePath]];
+}
+
+- (id)initWithBuiltInShaderType:(OEBuiltInShaderType)type
+{
+    if(type >= OEBuiltInShaderTypeCount) return nil;
+
+    if(_builtInShaders[type] == nil &&
+       (self = [super initWithFileAtPath:[[self class] shaderNameForBuiltInShaderType:type] context:nil]))
+    {
+        _type = type;
+        _builtInShaders[type] = self;
+    }
+
+    return _builtInShaders[type];
 }
 
 - (BOOL)isBuiltIn;
 {
-    return NO;
+    return YES;
 }
 
 @end

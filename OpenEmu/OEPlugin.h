@@ -35,6 +35,7 @@
 @interface OEPlugin : NSObject <NSCopying>
 
 + (NSSet *)pluginClasses;
++ (void)registerPluginClass;
 + (void)registerPluginClass:(Class)pluginClass;
 
 // Subclass hook to perform checks or setups of the controller.

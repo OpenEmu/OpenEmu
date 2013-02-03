@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2010, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,38 +24,19 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <Quartz/Quartz.h>
-#import <OpenGL/OpenGL.h>
+#import "OEGameShader.h"
 
-#import <Syphon/Syphon.h>
+typedef enum OEBuiltInShaderType : NSUInteger {
+    OEBuiltInShaderTypeLinear,
+    OEBuiltInShaderTypeNearestNeighbor,
 
-#import "OEGameCoreHelper.h"
+    OEBuiltInShaderTypeCount,
+    OEBuiltInShaderTypeUnknown = NSNotFound,
+} OEBuiltInShaderType;
 
-@protocol OEGameCoreHelper;
-@class OESystemResponder;
-
-@interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
-
-@property(nonatomic) id<OEGameCoreHelper> rootProxy;
-@property(nonatomic) OESystemResponder *gameResponder;
-
-// QC based filters
-@property(copy) NSDictionary *filters;
-@property(nonatomic, copy) NSString *filterName;
-@property(nonatomic, copy) NSString *gameTitle;
-
-// Screenshots
-/* Returns a screenshot containing the game viewport with its current size in the window and filters */
-- (NSImage *)screenshot;
-
-/* Returns a screenshot as rendered by the emulator core: native size and no filters */
-- (NSImage *)nativeScreenshot;
-
-// Rendering methods
-- (void)setupDisplayLink;
-- (void)tearDownDisplayLink;
-- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
-- (void)render;
-
+@interface OEBuiltInShader : OEGameShader
++ (NSString *)shaderNameForBuiltInShaderType:(OEBuiltInShaderType)type;
++ (OEBuiltInShaderType)builtInShaderTypeShaderName:(NSString *)type;
+- (id)initWithBuiltInShaderType:(OEBuiltInShaderType)type;
+@property(readonly) OEBuiltInShaderType type;
 @end

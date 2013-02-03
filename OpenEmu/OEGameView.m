@@ -32,6 +32,13 @@
 #import "OECompositionPlugin.h"
 #import "OEShaderPlugin.h"
 
+#import "OEGameShader.h"
+#import "OEGLSLShader.h"
+#import "OECGShader.h"
+#import "OEMultipassShader.h"
+
+#import "OEBuiltInShader.h"
+
 #import "OEGameCoreHelper.h"
 #import "OESystemResponder.h"
 #import "OESystemController.h"
@@ -59,26 +66,10 @@
 #pragma mark -
 #pragma mark Display Link
 
-CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext);
-
-CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
+static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
 {
-    CVReturn error = [(__bridge OEGameView *)displayLinkContext displayLinkRenderCallback:inOutputTime];
-    return error;
+    return [(__bridge OEGameView *)displayLinkContext displayLinkRenderCallback:inOutputTime];
 }
-
-#pragma mark -
-
-static NSString *const _OELinearFilterName          = @"Linear";
-static NSString *const _OENearestNeighborFilterName = @"Nearest Neighbor";
-static NSString *const _OEScale4xFilterName         = @"Scale4x";
-static NSString *const _OEScale4xHQFilterName       = @"Scale4xHQ";
-static NSString *const _OEScale2xPlusFilterName     = @"Scale2xPlus";
-static NSString *const _OEScale2xHQFilterName       = @"Scale2xHQ";
-static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
-static NSString *const _OEScale4xBRFilterName       = @"Scale4xBR";
-static NSString *const _OEScale2xBRFilterName       = @"Scale2xBR";
-static NSString *const _OEScanlineFilterName        = @"Scanline";
 
 @interface OEGameView ()
 
@@ -633,9 +624,9 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
     for(NSUInteger i = 0; i < numberOfPasses; ++i)
     {
-        BOOL linearFiltering = [shaders[i] linearFiltering];
-        OEScaleType scaleType  = [shaders[i] scaleType];
-        CGSize scaler        = [shaders[i] scaler];
+        BOOL linearFiltering  = [shaders[i] linearFiltering];
+        OEScaleType scaleType = [shaders[i] scaleType];
+        CGSize scaler         = [shaders[i] scaler];
 
         textureWidth  = outputWidth;
         textureHeight = outputHeight;
@@ -666,7 +657,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
                 outputHeight = outputHeight * scaler.height;
         }
 
-        if(i == numberOfPasses-1)
+        if(i == numberOfPasses - 1)
         {
             glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
             glViewport(0, 0, self.frame.size.width, self.frame.size.height);
@@ -688,7 +679,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
                 glBindTexture(GL_TEXTURE_2D, _rttGameTexture);
         }
         else
-            glBindTexture(GL_TEXTURE_2D, _multipassTextures[i-1]);
+            glBindTexture(GL_TEXTURE_2D, _multipassTextures[i - 1]);
 
         if(linearFiltering)
         {
@@ -716,7 +707,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
 
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _gameTexture);
 
-    if(shader != (id)_OELinearFilterName)
+    if(![shader isBuiltIn] || [(OEBuiltInShader *)shader type] != OEBuiltInShaderTypeLinear)
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -760,7 +751,7 @@ static NSString *const _OEScanlineFilterName        = @"Scanline";
         0, _gameScreenSize.height
     };
 
-    if(shader == (id)_OELinearFilterName || shader == (id)_OENearestNeighborFilterName)
+    if([shader isBuiltIn])
     {
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );
         glTexCoordPointer(2, GL_INT, 0, tex_coords );

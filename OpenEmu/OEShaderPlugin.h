@@ -40,3 +40,6 @@
 
 @interface OEMultipassShaderPlugin : OEShaderPlugin
 @end
+
+@interface OEBuiltInShaderPlugin : OEShaderPlugin
+@end
