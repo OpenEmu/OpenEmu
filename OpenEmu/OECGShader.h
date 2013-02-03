@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2010, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,42 +24,48 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <Quartz/Quartz.h>
-#import <OpenGL/OpenGL.h>
-
-#import <Syphon/Syphon.h>
-
-#import "OEGameCoreHelper.h"
 #import "OEGameShader.h"
-#import "OEGLSLShader.h"
-#import "OECGShader.h"
-#import "OEMultipassShader.h"
+#import <Cg/Cg.h>
+#import <Cg/cgGL.h>
 
-@protocol OEGameCoreHelper;
-@class OESystemResponder;
+typedef enum
+{
+    OEScaleTypeSource,
+    OEScaleTypeViewPort,
+    OEScaleTypeAbsolute
+} OEScaleType;
 
-@interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
+@interface OECGShader : OEGameShader
 
-@property(nonatomic) id<OEGameCoreHelper> rootProxy;
-@property(nonatomic) OESystemResponder *gameResponder;
+- (void)compileShaders;
 
-// QC based filters
-@property(copy) NSDictionary *filters;
-@property(nonatomic, copy) NSString *filterName;
-@property(nonatomic, copy) NSString *gameTitle;
+@property(readonly) CGprofile vertexProfile;
+@property(readonly) CGprofile fragmentProfile;
+@property(readonly) CGprogram vertexProgram;
+@property(readonly) CGprogram fragmentProgram;
 
-// Screenshots
-/* Returns a screenshot containing the game viewport with its current size in the window and filters */
-- (NSImage *)screenshot;
+@property(readonly) CGparameter position;
+@property(readonly) CGparameter texCoord;
+@property(readonly) CGparameter modelViewProj;
+@property(readonly) CGparameter vertexVideoSize;
+@property(readonly) CGparameter vertexTextureSize;
+@property(readonly) CGparameter vertexOutputSize;
+@property(readonly) CGparameter vertexFrameCount;
+@property(readonly) CGparameter vertexFrameDirection;
+@property(readonly) CGparameter vertexFrameRotation;
+@property(readonly) CGparameter fragmentVideoSize;
+@property(readonly) CGparameter fragmentTextureSize;
+@property(readonly) CGparameter fragmentOutputSize;
+@property(readonly) CGparameter fragmentFrameCount;
+@property(readonly) CGparameter fragmentFrameDirection;
+@property(readonly) CGparameter fragmentFrameRotation;
 
-/* Returns a screenshot as rendered by the emulator core: native size and no filters */
-- (NSImage *)nativeScreenshot;
+@property BOOL linearFiltering;
+@property OEScaleType scaleType;
+@property CGSize scaler;
 
-// Rendering methods
-- (void)setupDisplayLink;
-- (void)tearDownDisplayLink;
-- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
-- (void)render;
+- (CGparameter)vertexParameterWithName:(const char *)theParameterName;
+- (CGparameter)fragmentParameterWithName:(const char *)theParameterName;
+
 
 @end
