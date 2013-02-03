@@ -634,28 +634,16 @@
 		C6B948101365096800A425F0 /* OEGenesisSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B9480B1365096800A425F0 /* OEGenesisSystemResponder.m */; };
 		C6B94814136511E100A425F0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
-		C6C372E216BE42C6003E57AE /* CRTScanlines.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B2242ED100D9C7900F42067 /* CRTScanlines.vert */; };
-		C6C372E316BE42C6003E57AE /* CRTDirtyScanlines.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B2242A0100D7B3900F42067 /* CRTDirtyScanlines.vert */; };
-		C6C372E416BE42C6003E57AE /* CRTDisplace.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFA100B89BE00F42067 /* CRTDisplace.vert */; };
-		C6C372E516BE42C6003E57AE /* CRTMask.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324D1009BC7500F36BB1 /* CRTMask.vert */; };
-		C6C372E616BE42C6003E57AE /* CRTPhosphorBlur.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B4B338F100A792500F36BB1 /* CRTPhosphorBlur.vert */; };
 		C6C372E716BE42C6003E57AE /* Scale4x.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
 		C6C372E816BE42C6003E57AE /* Scale4xHQ.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E910F089F8A00770B6D /* Scale4xHQ.vert */; };
 		C6C372EA16BE42C6003E57AE /* Scale2xHQ.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */; };
 		C6C372EB16BE42C6003E57AE /* Scale2xPlus.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2xPlus.vert */; };
 		C6C372EC16BE42C6003E57AE /* Scale4xBR.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7514DB6375000D0BF7 /* Scale4xBR.vert */; };
-		C6C372ED16BE42C6003E57AE /* Scale2xBR.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1BE3AB9A14DBAA4000D2F508 /* Scale2xBR.vert */; };
-		C6C372EE16BE42CE003E57AE /* CRTScanlines.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B2242EC100D9C7900F42067 /* CRTScanlines.frag */; };
-		C6C372EF16BE42CE003E57AE /* CRTDirtyScanlines.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B22429F100D7B3900F42067 /* CRTDirtyScanlines.frag */; };
-		C6C372F016BE42CE003E57AE /* CRTDisplace.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFB100B89BE00F42067 /* CRTDisplace.frag */; };
-		C6C372F116BE42CE003E57AE /* CRTMask.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324C1009BC7500F36BB1 /* CRTMask.frag */; };
-		C6C372F216BE42CE003E57AE /* CRTPhosphorBlur.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B4B338E100A792500F36BB1 /* CRTPhosphorBlur.frag */; };
 		C6C372F316BE42CE003E57AE /* Scale4x.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC00F08A13500770B6D /* Scale4x.frag */; };
 		C6C372F416BE42CE003E57AE /* Scale4xHQ.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E920F089F8A00770B6D /* Scale4xHQ.frag */; };
 		C6C372F616BE42CE003E57AE /* Scale2xHQ.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3A0F089A4400770B6D /* Scale2xHQ.frag */; };
 		C6C372F716BE42CE003E57AE /* Scale2xPlus.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2xPlus.frag */; };
 		C6C372F816BE42CE003E57AE /* Scale4xBR.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7314DB6363000D0BF7 /* Scale4xBR.frag */; };
-		C6C372F916BE42CE003E57AE /* Scale2xBR.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1BE3AB9D14DBAA5600D2F508 /* Scale2xBR.frag */; };
 		C6C372FA16BE42FA003E57AE /* Scanline.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8CF0EB55169B1DF900E3670D /* Scanline.cg */; };
 		C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C3734116BE7065003E57AE /* OEBuiltInShader.m */; };
 		C6C3734316BE7BAF003E57AE /* OE Startup.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 1B32151114DDD06500C5B50A /* OE Startup.qtz */; };
@@ -957,28 +945,16 @@
 			dstSubfolderSpec = 13;
 			files = (
 				C6C372FA16BE42FA003E57AE /* Scanline.cg in Copy Filters Folder To App Resources */,
-				C6C372EE16BE42CE003E57AE /* CRTScanlines.frag in Copy Filters Folder To App Resources */,
-				C6C372EF16BE42CE003E57AE /* CRTDirtyScanlines.frag in Copy Filters Folder To App Resources */,
-				C6C372F016BE42CE003E57AE /* CRTDisplace.frag in Copy Filters Folder To App Resources */,
-				C6C372F116BE42CE003E57AE /* CRTMask.frag in Copy Filters Folder To App Resources */,
-				C6C372F216BE42CE003E57AE /* CRTPhosphorBlur.frag in Copy Filters Folder To App Resources */,
 				C6C372F316BE42CE003E57AE /* Scale4x.frag in Copy Filters Folder To App Resources */,
 				C6C372F416BE42CE003E57AE /* Scale4xHQ.frag in Copy Filters Folder To App Resources */,
 				C6C372F616BE42CE003E57AE /* Scale2xHQ.frag in Copy Filters Folder To App Resources */,
 				C6C372F716BE42CE003E57AE /* Scale2xPlus.frag in Copy Filters Folder To App Resources */,
 				C6C372F816BE42CE003E57AE /* Scale4xBR.frag in Copy Filters Folder To App Resources */,
-				C6C372F916BE42CE003E57AE /* Scale2xBR.frag in Copy Filters Folder To App Resources */,
-				C6C372E216BE42C6003E57AE /* CRTScanlines.vert in Copy Filters Folder To App Resources */,
-				C6C372E316BE42C6003E57AE /* CRTDirtyScanlines.vert in Copy Filters Folder To App Resources */,
-				C6C372E416BE42C6003E57AE /* CRTDisplace.vert in Copy Filters Folder To App Resources */,
-				C6C372E516BE42C6003E57AE /* CRTMask.vert in Copy Filters Folder To App Resources */,
-				C6C372E616BE42C6003E57AE /* CRTPhosphorBlur.vert in Copy Filters Folder To App Resources */,
 				C6C372E716BE42C6003E57AE /* Scale4x.vert in Copy Filters Folder To App Resources */,
 				C6C372E816BE42C6003E57AE /* Scale4xHQ.vert in Copy Filters Folder To App Resources */,
 				C6C372EA16BE42C6003E57AE /* Scale2xHQ.vert in Copy Filters Folder To App Resources */,
 				C6C372EB16BE42C6003E57AE /* Scale2xPlus.vert in Copy Filters Folder To App Resources */,
 				C6C372EC16BE42C6003E57AE /* Scale4xBR.vert in Copy Filters Folder To App Resources */,
-				C6C372ED16BE42C6003E57AE /* Scale2xBR.vert in Copy Filters Folder To App Resources */,
 			);
 			name = "Copy Filters Folder To App Resources";
 			runOnlyForDeploymentPostprocessing = 0;
