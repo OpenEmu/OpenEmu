@@ -183,17 +183,16 @@ static void OE_linkProgram(GLhandleARB programObject,
 {
     if(!self.compiled)
     {
-
-        NSData *vertexData = [NSData dataWithContentsOfFile:[self vertexPath]];
+        NSString *vertexData = [NSString stringWithContentsOfFile:[self vertexPath] encoding:NSUTF8StringEncoding error:nil];
         if(vertexData == nil) return;
 
-        NSData *fragmentData = [NSData dataWithContentsOfFile:[self fragmentPath]];
+        NSString *fragmentData = [NSString stringWithContentsOfFile:[self fragmentPath] encoding:NSUTF8StringEncoding error:nil];
         if(fragmentData == nil) return;
 
-        GLhandleARB vertexShader = [self OE_loadShaderWithType:GL_VERTEX_SHADER_ARB source:[vertexData bytes]];
+        GLhandleARB vertexShader = [self OE_loadShaderWithType:GL_VERTEX_SHADER_ARB source:[vertexData UTF8String]];
         if(vertexShader == NULL) return;
 
-        GLhandleARB fragmentShader = [self OE_loadShaderWithType:GL_FRAGMENT_SHADER_ARB source:[fragmentData bytes]];
+        GLhandleARB fragmentShader = [self OE_loadShaderWithType:GL_FRAGMENT_SHADER_ARB source:[fragmentData UTF8String]];
         if(fragmentShader == NULL)
         {
             CGLContextObj cgl_ctx = [self shaderContext];
