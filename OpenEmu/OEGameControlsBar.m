@@ -64,6 +64,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     NSTimer *fadeTimer;
     id       eventMonitor;
     NSDate  *lastMouseMovement;
+    NSArray *filterPlugins;
     
     int openMenus;
 }
@@ -115,6 +116,12 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         controlsView = barView;
         
         [NSCursor setHiddenUntilMouseMoves:YES];
+
+        // Setup plugins menu
+        NSMutableSet   *filterSet     = [NSMutableSet set];
+        [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
+        [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+        filterPlugins = [[filterSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }
     return self;
 }
@@ -251,13 +258,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     // Setup Video Filter Menu
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
-    // Setup plugins menu
-    NSMutableSet   *filterSet     = [NSMutableSet set];
-    NSMutableArray *filterPlugins = [NSMutableArray array];
-    [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
-    [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
-    [filterPlugins addObjectsFromArray:[filterSet allObjects]];
-    [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
     NSString *selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameVideoFilterKey];
     for(NSString *aName in filterPlugins)
