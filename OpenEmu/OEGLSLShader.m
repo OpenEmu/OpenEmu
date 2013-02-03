@@ -225,11 +225,6 @@ static void OE_linkProgram(GLhandleARB programObject,
     return self;
 }
 
-- (id)shaderData
-{
-    return self;
-}
-
 - (void)dealloc
 {
     if(_programObject)

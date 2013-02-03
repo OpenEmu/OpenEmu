@@ -763,29 +763,29 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     }
     else if([shader isCompiled])
     {
-        if([[shader shaderData] isKindOfClass:[OEMultipassShader class]])
+        if([shader isKindOfClass:[OEMultipassShader class]])
         {
             ++_frameCount;
             [self OE_renderToTexture:_rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
-            [self OE_multipassRender:[shader shaderData] usingVertices:verts inCGLContext:cgl_ctx];
+            [self OE_multipassRender:(OEMultipassShader *)shader usingVertices:verts inCGLContext:cgl_ctx];
 
         }
-        else if([[shader shaderData] isKindOfClass:[OECGShader class]])
+        else if([shader isKindOfClass:[OECGShader class]])
         {
             ++_frameCount;
 
             // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
             [self OE_renderToTexture:_rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
-            [self OE_applyCgShader:[shader shaderData] usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:self.frame.size inCGLContext:cgl_ctx];
+            [self OE_applyCgShader:(OECGShader *)shader usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:self.frame.size inCGLContext:cgl_ctx];
         }
         else
         {
-            glUseProgramObjectARB([[shader shaderData] programObject]);
+            glUseProgramObjectARB([(OEGLSLShader *)shader programObject]);
 
             // set up shader uniforms
-            glUniform1iARB([[shader shaderData] uniformLocationWithName:"OETexture"], 0);
+            glUniform1iARB([(OEGLSLShader *)shader uniformLocationWithName:"OETexture"], 0);
 
             glEnableClientState( GL_TEXTURE_COORD_ARRAY );
             glTexCoordPointer(2, GL_INT, 0, tex_coords );
@@ -849,20 +849,17 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
 
     OEGameShader *filter = [_filters objectForKey:_filterName];
 
-    if(filter != nil && [filter isKindOfClass:[OEGameShader class]])
-    {
-        [[filter shaderData] compileShaders];
+    [filter compileShaders];
 
-        if([filter isKindOfClass:[OEMultipassShader class]] && [[filter shaderData] NTSCFilter])
-        {
-            if([[filter shaderData] NTSCFilter] == OENTSCFilterTypeComposite)
-                _ntscSetup = snes_ntsc_composite;
-            else if([[filter shaderData] NTSCFilter] == OENTSCFilterTypeSVideo)
-                _ntscSetup = snes_ntsc_svideo;
-            else if([[filter shaderData] NTSCFilter] == OENTSCFilterTypeRGB)
-                _ntscSetup = snes_ntsc_rgb;
-            snes_ntsc_init(_ntscTable, &_ntscSetup);
-        }
+    if([filter isKindOfClass:[OEMultipassShader class]] && [(OEMultipassShader *)filter NTSCFilter])
+    {
+        if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeComposite)
+            _ntscSetup = snes_ntsc_composite;
+        else if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeSVideo)
+            _ntscSetup = snes_ntsc_svideo;
+        else if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeRGB)
+            _ntscSetup = snes_ntsc_rgb;
+        snes_ntsc_init(_ntscTable, &_ntscSetup);
     }
 
     if([_filters objectForKey:_filterName] == nil && [self openGLContext] != nil)

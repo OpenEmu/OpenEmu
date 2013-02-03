@@ -33,11 +33,6 @@
     CGcontext _cgContext;
 }
 
-- (id)shaderData
-{
-    return self;
-}
-
 - (void)compileShaders
 {
     if(![self isCompiled])
@@ -66,8 +61,6 @@
         cgGLLoadProgram(_vertexProgram);
 
         // grab vertex parameters
-        _position             = [self vertexParameterWithName:"position"];
-        _texCoord             = [self vertexParameterWithName:"texCoord"];
         _modelViewProj        = [self vertexParameterWithName:"modelViewProj"];
         _vertexVideoSize      = [self vertexParameterWithName:"IN.video_size"];
         _vertexTextureSize    = [self vertexParameterWithName:"IN.texture_size"];
@@ -96,7 +89,7 @@
         // grab fragment parameters
         _fragmentVideoSize      = [self fragmentParameterWithName:"IN.video_size"];
         _fragmentTextureSize    = [self fragmentParameterWithName:"IN.texture_size"];
-        _fragmentOutputSize     = [self fragmentParameterWithName:"IfragmentFrameCount"];
+        _fragmentOutputSize     = [self fragmentParameterWithName:"IN.output_size"];
         _fragmentFrameCount     = [self fragmentParameterWithName:"IN.frame_count"];
         _fragmentFrameDirection = [self fragmentParameterWithName:"IN.frame_direction"];
         _fragmentFrameRotation  = [self fragmentParameterWithName:"IN.frame_rotation"];

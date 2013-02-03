@@ -255,7 +255,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     NSMutableArray *filterPlugins = [NSMutableArray array];
     [filterPlugins addObjectsFromArray:[OECompositionPlugin allPluginNames]];
     [filterPlugins addObjectsFromArray:[OEShaderPlugin allPluginNames]];
-    [filterPlugins sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
     
     NSString *selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameVideoFilterKey];
     for(NSString *aName in filterPlugins)

@@ -39,7 +39,7 @@
 	NSMutableArray *filterPlugins = [NSMutableArray array];
     [filterPlugins addObjectsFromArray:[OECompositionPlugin allPluginNames]];
     [filterPlugins addObjectsFromArray:[OEShaderPlugin allPluginNames]];
-    [filterPlugins sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
 	NSMenu *filterMenu = [[NSMenu alloc] init];
 

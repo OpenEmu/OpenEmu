@@ -37,11 +37,10 @@
 // Context to bind shaders to.
 @property(readonly) CGLContextObj shaderContext;
 
-// Either OEGLSLShader or OECQShader
-@property(readonly) id shaderData;
 // Is a Shader compiled yet?
 @property(readonly, getter=isCompiled) BOOL compiled;
 
 - (BOOL)isBuiltIn;
+- (void)compileShaders;
 
 @end

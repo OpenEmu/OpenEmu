@@ -41,11 +41,6 @@
     return self;
 }
 
-- (id)shaderData
-{
-    return nil;
-}
-
 - (void)dealloc
 {
     CGLReleaseContext(_shaderContext);
@@ -54,6 +49,11 @@
 - (BOOL)isBuiltIn;
 {
     return NO;
+}
+
+- (void)compileShaders
+{
+    return;
 }
 
 @end
