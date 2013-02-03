@@ -1,0 +1,1419 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Glide64 Chinese Translation v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-19 17:29+0700\n"
+"PO-Revision-Date: 2011-12-19 18:00+0700\n"
+"Last-Translator: Navitel <support@navitel.su>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Language: Chinese\n"
+
+#: Config.cpp:64
+msgid "Rendering"
+msgstr "渲染"
+
+#: Config.cpp:65
+msgid "Other"
+msgstr "其它"
+
+#: Config.cpp:66
+msgid "Speed"
+msgstr "速度"
+
+#: Config.cpp:67
+msgid "Time"
+msgstr "時間"
+
+#: Config.cpp:68
+msgid "On screen display"
+msgstr "在螢幕上顯示"
+
+#: Config.cpp:69
+msgid "OpenGL settings"
+msgstr "OpenGL設置"
+
+#: Config.cpp:70
+#: Config.cpp:137
+msgid "Frame buffer emulation"
+msgstr "幀緩衝區模擬"
+
+#: Config.cpp:71
+msgid ""
+"Windowed or\n"
+"3dfx card resolution:"
+msgstr ""
+"視窗或\n"
+"3dfx解析度:"
+
+#: Config.cpp:99
+msgid "Vertical sync"
+msgstr "垂直同步"
+
+#: Config.cpp:100
+msgid "Show advanced emulation options"
+msgstr "顯示高級模擬選項"
+
+#: Config.cpp:101
+msgid "Show texture enhancement options"
+msgstr "顯示材質增強選項"
+
+#: Config.cpp:102
+msgid "Screenshot format:"
+msgstr "截圖格式:"
+
+#: Config.cpp:105
+msgid "Language: "
+msgstr "語言： "
+
+#: Config.cpp:106
+msgid "LANGUAGE_NAME"
+msgstr "中文（繁體）"
+
+#: Config.cpp:112
+msgid "FPS counter"
+msgstr "FPS 計數器"
+
+#: Config.cpp:113
+msgid "VI/s counter"
+msgstr "VI/s 計數器"
+
+#: Config.cpp:114
+#, c-format
+msgid "% speed"
+msgstr "% 速度 "
+
+#: Config.cpp:115
+msgid "Clock enabled"
+msgstr "時鐘啟用"
+
+#: Config.cpp:116
+msgid "Clock is 24-hour"
+msgstr "時鐘為24小時"
+
+#: Config.cpp:117
+msgid "Transparent text background"
+msgstr "透明文字背景"
+
+#: Config.cpp:118
+msgid ""
+"Full screen\n"
+"resolution:"
+msgstr ""
+"全螢幕\n"
+"解析度:"
+
+#: Config.cpp:121
+msgid "Anisotropic filtering"
+msgstr "各向異性過濾"
+
+#: Config.cpp:122
+msgid "Autodetect "
+msgstr "自動檢測 "
+
+#: Config.cpp:123
+msgid "VRAM size"
+msgstr "顯卡記憶體大小"
+
+#: Config.cpp:125
+msgid "Mb"
+msgstr "Mb"
+
+#: Config.cpp:126
+msgid "Use frame buffer objects"
+msgstr "使用幀緩衝對象"
+
+#: Config.cpp:133
+msgid "Current game emulation settings. Change with care!"
+msgstr "目前的遊戲模擬設置。更改時要小心！"
+
+#: Config.cpp:135
+msgid "Default emulation settings. Not recommended to change!"
+msgstr "默認模擬設置。不推薦更改！"
+
+#: Config.cpp:136
+msgid "General options"
+msgstr "一般選項"
+
+#: Config.cpp:138
+msgid "Depth buffer emulation"
+msgstr "深度緩衝模擬"
+
+#: Config.cpp:139
+msgid "Filtering mode:"
+msgstr "過濾模式："
+
+#: Config.cpp:141
+msgid "Automatic"
+msgstr "自動"
+
+#: Config.cpp:142
+msgid "Force Bilinear"
+msgstr "強制啟用雙線性"
+
+#: Config.cpp:143
+msgid "Force Point-sampled"
+msgstr "強制啟用點取樣"
+
+#: Config.cpp:146
+msgid "Buffer swapping method:"
+msgstr "緩衝交換方法："
+
+#: Config.cpp:148
+msgid "Old"
+msgstr "舊"
+
+#: Config.cpp:149
+msgid "New"
+msgstr "新"
+
+#: Config.cpp:150
+msgid "Hybrid"
+msgstr "混合"
+
+#: Config.cpp:153
+msgid "LOD calculation:"
+msgstr "LOD計算："
+
+#: Config.cpp:155
+msgid "off"
+msgstr "關閉"
+
+#: Config.cpp:156
+msgid "fast"
+msgstr "快速"
+
+#: Config.cpp:157
+msgid "precise"
+msgstr "精確"
+
+#: Config.cpp:160
+msgid "Aspect ratio:"
+msgstr "長寬比："
+
+#: Config.cpp:162
+msgid "4:3 (default)"
+msgstr "4:3 （默認）"
+
+#: Config.cpp:163
+msgid "Force 16:9"
+msgstr "強制啟用 16:9"
+
+#: Config.cpp:164
+msgid "Stretch"
+msgstr "拉伸"
+
+#: Config.cpp:165
+msgid "Original"
+msgstr ""
+
+#: Config.cpp:168
+msgid "Fog"
+msgstr "霧化"
+
+#: Config.cpp:169
+msgid "Buffer clear on every frame"
+msgstr "清除每一幀緩衝"
+
+#: Config.cpp:170
+msgid "Enable frame buffer emulation"
+msgstr "啟用幀緩衝模擬"
+
+#: Config.cpp:171
+msgid "Hardware frame buffer emulation"
+msgstr "硬體模擬幀緩衝"
+
+#: Config.cpp:172
+msgid "Get frame buffer info"
+msgstr "取得幀緩衝訊息"
+
+#: Config.cpp:173
+msgid "Read every frame (slow!)"
+msgstr "讀取每一幀（緩慢！）"
+
+#: Config.cpp:174
+msgid "Render N64 frame buffer as texture"
+msgstr "呈現N64幀緩衝材質"
+
+#: Config.cpp:175
+msgid "Detect CPU write to the N64 frame buffer"
+msgstr "檢測CPU寫入到N64幀緩衝"
+
+#: Config.cpp:176
+msgid "Software depth buffer rendering"
+msgstr "呈現軟體深度緩衝"
+
+#: Config.cpp:200
+#: Config.cpp:619
+msgid "Texture enhancement"
+msgstr "材質增強"
+
+#: Config.cpp:201
+msgid "Hi-resolution textures"
+msgstr "高解析材質"
+
+#: Config.cpp:202
+msgid "Common"
+msgstr "一般"
+
+#: Config.cpp:203
+msgid "Presets"
+msgstr "預置"
+
+#: Config.cpp:204
+#: Config.cpp:205
+msgid "Performance tweaks"
+msgstr "效能調整"
+
+#: Config.cpp:206
+msgid "Filter"
+msgstr "濾鏡"
+
+#: Config.cpp:208
+#: Config.cpp:219
+#: Config.cpp:238
+msgid "None"
+msgstr "無"
+
+#: Config.cpp:209
+msgid "Smooth filtering 1"
+msgstr "平滑過濾 1"
+
+#: Config.cpp:210
+msgid "Smooth filtering 2"
+msgstr "平滑過濾 2"
+
+#: Config.cpp:211
+msgid "Smooth filtering 3"
+msgstr "平滑過濾 3"
+
+#: Config.cpp:212
+msgid "Smooth filtering 4"
+msgstr "平滑過濾 4"
+
+#: Config.cpp:213
+msgid "Sharp filtering 1"
+msgstr "尖銳過濾 1"
+
+#: Config.cpp:214
+msgid "Sharp filtering 2"
+msgstr "尖銳過濾 2"
+
+#: Config.cpp:217
+msgid "Enhancement"
+msgstr "增強"
+
+#: Config.cpp:220
+msgid "Store"
+msgstr "儲存"
+
+#: Config.cpp:230
+msgid "Texture cache"
+msgstr "材質快取"
+
+#: Config.cpp:232
+msgid "Mbytes"
+msgstr "MBytes"
+
+#: Config.cpp:233
+msgid "Ignore Backgrounds"
+msgstr "忽略背景"
+
+#: Config.cpp:234
+#: Config.cpp:245
+msgid "Apply texture compression"
+msgstr "應用材質壓縮"
+
+#: Config.cpp:235
+#: Config.cpp:246
+msgid "Compress texture cache"
+msgstr "壓縮材質快取"
+
+#: Config.cpp:236
+msgid "Format"
+msgstr "格式"
+
+#: Config.cpp:239
+msgid "Rice format"
+msgstr "Rice 格式"
+
+#: Config.cpp:242
+msgid "Tile textures"
+msgstr "圖磚材質"
+
+#: Config.cpp:243
+msgid "Force 16bpp textures"
+msgstr "強制啟用16位元材質"
+
+#: Config.cpp:244
+msgid "Alternative CRC calculation"
+msgstr "另一種CRC計算"
+
+#: Config.cpp:247
+msgid "Use alpha channel fully"
+msgstr "充分利用透明通道"
+
+#: Config.cpp:248
+msgid "Texture dumping/editing mode"
+msgstr "材質轉儲與編輯模式"
+
+#: Config.cpp:249
+msgid "Texture compression method"
+msgstr "材質壓縮方式"
+
+#: Config.cpp:255
+msgid "Save texture cache to hard disk"
+msgstr "保存材質快取到硬碟"
+
+#: Config.cpp:256
+msgid "Best performance"
+msgstr "最佳效能"
+
+#: Config.cpp:257
+msgid "Best texture quality"
+msgstr "最佳材質質量"
+
+#: Config.cpp:263
+msgid "Developers settings"
+msgstr "開發人員設置"
+
+#: Config.cpp:264
+msgid "Debug/Misc"
+msgstr "偵錯與雜項"
+
+#: Config.cpp:265
+msgid "Autodetect Microcode"
+msgstr "自動檢測微碼"
+
+#: Config.cpp:266
+msgid "Force Microcode:"
+msgstr "強制啟用微碼："
+
+#: Config.cpp:279
+msgid "Wireframe using:"
+msgstr "線框使用："
+
+#: Config.cpp:281
+msgid "Original colors"
+msgstr "原始顏色"
+
+#: Config.cpp:282
+msgid "Vertex colors"
+msgstr "頂點顏色"
+
+#: Config.cpp:283
+msgid "Red only"
+msgstr "僅紅色"
+
+#: Config.cpp:286
+msgid "Log to rdp.txt (SLOW)"
+msgstr "登錄到 rdp.txt（緩慢）"
+
+#: Config.cpp:287
+msgid "Unknown combiners as red"
+msgstr "未知的合成器為紅色"
+
+#: Config.cpp:288
+msgid "Log clear every frame"
+msgstr "在每一幀清除記錄"
+
+#: Config.cpp:289
+msgid "Combiner logging"
+msgstr "合成器記錄"
+
+#: Config.cpp:290
+msgid "Run (+log) in window"
+msgstr "視窗執行（+記錄）"
+
+#: Config.cpp:291
+msgid "Cmb. clear every frame"
+msgstr "在每一幀清除合成器"
+
+#: Config.cpp:292
+msgid "Error log (rdp_e.txt)"
+msgstr "錯誤記錄（rdp_e.txt）"
+
+#: Config.cpp:293
+msgid "Bilinear filter texture cache"
+msgstr "雙線性過濾材質快取"
+
+#: Config.cpp:325
+#: Config.cpp:546
+msgid " auto"
+msgstr "自動"
+
+#: Config.cpp:382
+msgid "Please choose language:"
+msgstr "請選擇語言："
+
+#: Config.cpp:383
+msgid "Language"
+msgstr "語言"
+
+#: Config.cpp:390
+msgid "Press OK to change to "
+msgstr "按確定更改為 "
+
+#: Config.cpp:486
+msgid "Basic settings"
+msgstr "基本設置"
+
+#: Config.cpp:487
+msgid ""
+"Resolution\n"
+"This option selects the fullscreen resolution for 3dfx cards and windowed resolution for other cards\n"
+"(note again that for 3dfx cards the plugin must be in fullscreen mode to see anything).\n"
+"[Recommended: 640x480, 800x600, 1024x768]"
+msgstr ""
+"解析度\n"
+"--------\n"
+"此選項選擇3dfx卡為全螢幕解析度和其他視窗解析度。\n"
+"注意：\t對於3dfx卡上的插件必須\n"
+"\t在全螢幕模式才能看到東西\n"
+"[推薦：640x480，800x600，1024X768]"
+
+#: Config.cpp:491
+msgid ""
+"Vertical sync\n"
+"This option will enable the vertical sync, which will prevent tearing.\n"
+"Note: this option will ONLY have effect if vsync is set to \"Software Controlled\".\n"
+msgstr ""
+"垂直同步\n"
+"-------\n"
+"此選項將啟用垂直同步，它將防止撕裂。\n"
+"注意：\t如果垂直同步設置為\"軟體控制\"，\n"
+"\t此選項才會生效。\n"
+
+#: Config.cpp:493
+msgid "Select a format, in which screen shots will be saved"
+msgstr "選擇螢幕截圖所要儲存的一種格式"
+
+#: Config.cpp:500
+msgid ""
+"Language select:\n"
+"Press the button to invoke language selection dialog.\n"
+"Selected language will be activated after restart of the configuration dialog."
+msgstr ""
+"語言選擇:\n"
+"----------\n"
+"按下按鈕調用語言選擇視窗。\n"
+"選擇的語言會在重新啟動設置視窗後生效。"
+
+#: Config.cpp:501
+msgid ""
+"FPS counter\n"
+"When this option is checked, a FPS (frames per second) counter will be shown\n"
+"in the lower left corner of the screen.\n"
+"[Recommended: your preference]"
+msgstr ""
+"FPS 計數器\n"
+"------------\n"
+"當選擇後，FPS（幀每秒）計數器\n"
+"會顯示在螢幕左下角的角落。\n"
+"[推薦：您的偏好]"
+
+#: Config.cpp:503
+msgid ""
+"VI/s counter\n"
+"When this option is checked, a VI/s (vertical interrupts per second) counter\n"
+"will be shown in the lower left corner of the screen.  This is like the FPS\n"
+"counter but will be consistent at 60 VI/s for full speed on NTSC (U) games and\n"
+"50 VI/s for full speed on PAL (E) ones.\n"
+"[Recommended: your preference]"
+msgstr ""
+"VI/s 計數器\n"
+"------------\n"
+"當選擇後，VI/s（每秒垂直中斷）計數器\n"
+"將顯示在螢幕左下角的角落。\n"
+"它將在全速的 NTSC(U)遊戲裡維持 60VI/s\n"
+"或在全速的 PAL(E)遊戲裡維持 50VI/s。\n"
+"[推薦：您的偏好]"
+
+#: Config.cpp:505
+#, c-format
+msgid ""
+"% speed\n"
+"This displays a percentage of the actual N64 speed in the lower\n"
+"left corner of the screen.\n"
+"[Recommended: your preference]"
+msgstr ""
+"% 速度\n"
+"--------\n"
+"在螢幕左下角的角落，\n"
+"將顯示N64實際速度的百分比。\n"
+"[推薦：您的偏好]"
+
+#: Config.cpp:507
+msgid ""
+"Clock enabled\n"
+"This option will put a clock in the lower right corner of the screen, showing the current time.\n"
+"[Recommended: your preference]"
+msgstr ""
+"時鐘啟用\n"
+"----------\n"
+"此選項將在螢幕的右下角\n"
+"擺放時鐘，顯示目前時間。\n"
+"[推薦：您的偏好]"
+
+#: Config.cpp:510
+msgid ""
+"Display hours as 24-hour clock.\n"
+"[Recommended: your preference]"
+msgstr ""
+"顯示時間為24 小時制。\n"
+"[推薦：您的偏好]"
+
+#: Config.cpp:511
+msgid ""
+"Transparent text background\n"
+"If this is checked, all on-screen messages will have a transparent background.  Otherwise, it will have a solid black background.\n"
+"[Recommended: your preference]"
+msgstr ""
+"透明文字背景\n"
+"-----------------\n"
+"當選擇後，所有在螢幕上的訊息\n"
+"將有一個透明的背景。\n"
+"否則，將有黑色背景。\n"
+"[推薦：您的偏好]"
+
+#: Config.cpp:514
+msgid ""
+"Enable \"Emulation settings\" panel. For experienced users only!\n"
+"It shows default emulation settings when game is not loaded, or current game settings otherwise."
+msgstr ""
+"啟用\"模擬設置\"面板。給有經驗的用戶！\n"
+"它顯示了尚未加載遊戲的默認模擬設置，\n"
+"或目前的遊戲設置。"
+
+#: Config.cpp:516
+msgid ""
+"Enable \"Texture enhancement\" panel.\n"
+"It shows various enhancement options for original textures as well as options for hi-resolution textures."
+msgstr ""
+"啟用\"材質增強\"面板。\n"
+"它顯示原來的材質增強選項\n"
+"以及高解析材質選項。"
+
+#: Config.cpp:517
+msgid ""
+"Full screen resolution:\n"
+"This sets the full screen resolution for non-3dfx video cards.\n"
+"All the resolutions that your video card/monitor support should be displayed.\n"
+"[Recommended: native (max) resolution of your monitor - unless performance becomes an issue]"
+msgstr ""
+"全螢幕解析度：\n"
+"---------------\n"
+"這將設置非 3dfx卡的全螢幕解析度。\n"
+"您的顯示卡與顯示器所支援的解析度將會顯示。\n"
+"[推薦：顯示器的原始（最大）解析- 除非性能成為問題]"
+
+#: Config.cpp:520
+msgid ""
+"Anisotropic filtering:\n"
+"This filter sharpens and brings out the details of textures that recede into the distance.\n"
+"When activated, it will use the max anisotropy your video card supports.\n"
+"However, this will override native way of texture filtering and may cause visual artifacts in some games.\n"
+"[Recommended: your preference, game dependant]"
+msgstr ""
+"各向異性過濾：\n"
+"---------------\n"
+"該過濾器會銳化和帶出在遠方退去的材質細節。\n"
+"啟用時，它將使用顯示卡所支援的最大各向異性。\n"
+"不過，這將覆蓋原始的材質過濾方式，\n"
+"並可能導致某些遊戲展示視覺干擾。\n"
+"[推薦：您的偏好，取決於遊戲]"
+
+#: Config.cpp:521
+msgid ""
+"Autodetect VRAM Size:\n"
+"Since OpenGL cannot do this reliably at the moment, the option to set this manually is available.\n"
+"If checked, plugin will try to autodetect VRAM size.\n"
+"But if this appears wrong, please uncheck and set it to correct value.\n"
+"[Recommended: on]"
+msgstr ""
+"自動檢測顯卡記憶體大小：\n"
+"-------------------\n"
+"由於 OpenGL目前無法可靠地做到確實檢測，因此可以選擇手動設置。\n"
+"當選擇後，插件將嘗試自動檢測顯卡記憶體的大小。\n"
+"如果出現錯誤，請取消選擇並將其設置為正確數值。\n"
+"[推薦：選用]"
+
+#: Config.cpp:523
+msgid ""
+"Use frame buffer objects:\n"
+"Changes the way FB effects are rendered - with or without usage of the OpenGL Frame Buffer Objects (FBO) extension.\n"
+"The choice depends on game and your video card. FBO off is good for NVIDIA cards, while for ATI cards, it's usually best that FBOs are turned on.\n"
+"Also, some FB effects works only with one of the methods, no matter, which card you have.\n"
+"On the whole, with FBO off, compatibility/ accuracy is a bit better (which is the case for Resident Evil 2).\n"
+"However, with FBO on with some systems, it can actually be a bit faster in cases.\n"
+"[Recommended: video card and game dependant]"
+msgstr ""
+"使用幀緩衝對象：\n"
+"-----------------\n"
+"當選擇後，即使沒有使用OpenGL幀緩衝對象 (FBO)擴展，\n"
+"它仍然會改變幀緩衝效果的呈現方式。\n"
+"您的選擇取決於你的遊戲和顯示卡。對於Nvidia顯示卡，\n"
+"不要選擇FBO而對於ATI視頻卡，FBO通常是一個很好的選擇。\n"
+"\n"
+"另外，一些幀緩衝效果只適用其中之一的方法，而不管顯示卡。\n"
+"整體而言，不選FBO將會增加遊戲相容性與準確性，例如，\n"
+"Resident Evil 2。\n"
+"\n"
+"然而，在某些系統上，FBO的選擇會加速一些遊戲。\n"
+"[推薦：取決於顯示卡和遊戲]"
+
+#: Config.cpp:578
+msgid "Emulation settings"
+msgstr "模擬設置"
+
+#: Config.cpp:579
+msgid ""
+"Filtering mode\n"
+"There are three filtering modes possible:\n"
+"* Automatic filtering - filter exactly how the N64 specifies.\n"
+"* Point-sampled filtering - causes texels to appear square and sharp.\n"
+"* Bilinear filtering - interpolates the texture to make it appear more smooth.\n"
+"[Recommended: Automatic]"
+msgstr ""
+"過濾模式\n"
+"----------\n"
+"過濾方式有三種：\n"
+"*自動過濾\t: 與N64的過濾是相同的。\n"
+"*點取樣過濾\t: 使材質元素出現正方形和尖銳。\n"
+"*雙線性過濾\t: 插補材質，使其看起來更光滑。\n"
+"[推薦：自動]"
+
+#: Config.cpp:583
+msgid ""
+"Buffer swapping method\n"
+"There are 3 buffer swapping methods:\n"
+"* old - swap buffers when vertical interrupt has occurred.\n"
+"* new - swap buffers when set of conditions is satisfied. Prevents flicker on some games.\n"
+"* hybrid - mix of first two methods.\n"
+"Can prevent even more flickering then previous method, but also can cause artefacts.\n"
+"If you have flickering problems in a game (or graphics that don't show),\n"
+"try to change swapping method.\n"
+"[Recommended: new (hybrid for Paper Mario)]"
+msgstr ""
+"緩衝交換方法\n"
+"---------------\n"
+"緩衝交換方法有3種：\n"
+"*舊\t: 在垂直中斷發生時，交換緩衝區。\n"
+"*新\t: 當條件符合時，交換緩衝區。\n"
+"\t  防止一些遊戲的閃爍。\n"
+"*混合\t: 混合前兩種方法。\n"
+"\t  可防止更多閃爍，但也可能會有視覺干擾。\n"
+"\n"
+"如果您在遊戲中有閃爍的問題（或圖形不顯示），\n"
+"嘗試改變交換方法。\n"
+"[推薦：新（Paper Mario - 選擇混合）]"
+
+#: Config.cpp:587
+msgid ""
+"Per-pixel level-of-detail calculation\n"
+"N64 uses special mechanism for mip-mapping, which nearly impossible to reproduce\n"
+"correctly on PC hardware. This option enables approximate emulation of this feature.\n"
+"For example, it is required for the Peach/Bowser portrait's transition in Super Mario 64.\n"
+"There are 3 modes:\n"
+"* off - LOD is not calculated\n"
+"* fast - fast imprecise LOD calculation.\n"
+"* precise - most precise LOD calculation possible, but more slow.\n"
+"[Recommended: your preference]"
+msgstr ""
+"每個像素詳細程度計算\n"
+"------------------------\n"
+"N64使用特殊的材質映射,幾乎是不可能在電腦硬體\n"
+"上很正確地複製。此選項將啟用此功能近似模擬。\n"
+"例如，應用在\"Super Mario 64\"遊戲內的\n"
+"Peach與Bowser肖像的過渡。\n"
+"\n"
+"有3種模式：\n"
+"*關閉\t: 不進行LOD計算。\n"
+"*快速\t: 快而不準確的LOD計算。\n"
+"*準確\t: 最精確的LOD計算，但更慢。\n"
+"[推薦：您的偏好]"
+
+#: Config.cpp:592
+msgid ""
+"Aspect ratio of the output.\n"
+"Most N64 games use 4:3 aspect ratio, but some support widescreen too.\n"
+"You may select appropriate aspect here and set widescreen mode in game settings.\n"
+"In \"Stretch\" mode the output will be stretched to the entire screen,\n"
+"other modes may add black borders if necessary"
+msgstr ""
+"長寬比的輸出\n"
+"---------------\n"
+"大多數N64 的遊戲使用4:3的比例，但有些支援寬螢幕了。\n"
+"你可以在這裡選擇合適的比例，並在遊戲上設置寬螢幕模式。\n"
+"在\"拉伸 \"模式下，輸出將被拉伸到整個螢幕，\n"
+"其它模式可能在必要時加黑色邊框。"
+
+#: Config.cpp:595
+msgid ""
+"Fog enabled\n"
+"Sets fog emulation on//off.\n"
+"[Recommended: on]"
+msgstr ""
+"啟用霧化\n"
+"-------\n"
+"設置霧化模擬的開與關\n"
+"[推薦：選用]"
+
+#: Config.cpp:597
+msgid ""
+"Buffer clear on every frame\n"
+"Forces the frame buffer to be cleared every frame drawn.\n"
+"Usually frame buffer clear is controlled by the game.\n"
+"However, in some cases it is not well emulated,\n"
+"and some garbage may be left on the screen.\n"
+"In such cases, this option must be set on.\n"
+"[Recommended: on]"
+msgstr ""
+"清除每一幀緩衝\n"
+"-----------------\n"
+"強制在每一幀中的繪製，清除幀緩衝。\n"
+"通常幀緩衝是由遊戲控制的。\n"
+"但是，在某些情況下可能並沒有很好地模擬，\n"
+"有些圖形垃圾或許會殘留在螢幕上。\n"
+"在這種情況下，此選項必須設置。\n"
+"[推薦：選用]"
+
+#: Config.cpp:599
+msgid ""
+"Enable frame buffer emulation\n"
+"If on, plugin will try to detect frame buffer usage and apply appropriate frame buffer emulation.\n"
+"[Recommended: on for games which use frame buffer effects]"
+msgstr ""
+"啟用幀緩衝模擬\n"
+"-----------------\n"
+"當選擇時，插件將嘗試檢測幀緩衝區的\n"
+"使用情況而採用適當的幀緩衝模擬。\n"
+"[推薦：遊戲使用幀緩衝效果- 選用]"
+
+#: Config.cpp:601
+msgid ""
+"Enable hardware frame buffer emulation\n"
+"If this option is on, plugin will create auxiliary frame buffers in video memory instead of copying\n"
+"frame buffer content into main memory. This allows plugin to run frame buffer effects without slowdown\n"
+"and without scaling image down to N64's native resolution. This feature is fully supported by\n"
+"Voodoo 4/5 cards and partially by Voodoo3 and Banshee. Modern cards also fully support it.\n"
+"[Recommended: on, if supported by your hardware]"
+msgstr ""
+"啟用硬體幀緩衝模擬\n"
+"----------------------\n"
+"當選擇後，插件將在顯卡記憶體中創建輔助的幀緩衝器，\n"
+"而不是複製到主記憶體。這允許插件運行幀緩衝效果\n"
+"而不緩衝，並不縮放圖像到N64的原始解析率。\n"
+"\n"
+"此功能會完全支援Voodoo 4與5卡和部分Voodoo3\n"
+"和 Banshee。近期顯卡也完全支援。\n"
+"[推薦：硬體支援 - 選用]"
+
+#: Config.cpp:604
+msgid ""
+"Get information about frame buffers\n"
+"This is compatibility option. It must be set on for Mupen64 and off for 1964"
+msgstr ""
+"取得幀緩衝器的有關訊息\n"
+"這是相容性選項。在Mupen64上，必須設置為開\n"
+"而在1964必須設置為關"
+
+#: Config.cpp:606
+msgid ""
+"Read every frame\n"
+"In some games plugin can't detect frame buffer usage.\n"
+"In such cases you need to enable this option to see frame buffer effects.\n"
+"Every drawn frame will be read from video card -> it works very slow.\n"
+"[Recommended: mostly off (needed only for a few games)]"
+msgstr ""
+"讀取每一幀\n"
+"------------\n"
+"在一些遊戲上，插件無法檢測到幀緩衝區的使用。\n"
+"在這種情況下，您需要啟用該選項才能看到幀緩衝效果。\n"
+"每一個幀的繪製將從顯示卡讀取->這將是非常的緩慢。\n"
+"[推薦：大多不選（運用在少數遊戲上）]"
+
+#: Config.cpp:608
+msgid ""
+"Render N64 frame buffer as texture\n"
+"When this option is enabled, content of each N64 frame buffer is rendered\n"
+"as texture over the frame, rendered by the plugin. This prevents graphics lost,\n"
+"but may cause slowdowns and various glitches in some games.\n"
+"[Recommended: mostly off]"
+msgstr ""
+"呈現N64的幀緩衝到材質\n"
+"--------------------------\n"
+"當選擇後，每個 N64的幀緩衝的內容將由插件\n"
+"在幀上呈現材質。這可以防止圖形的流失，\n"
+"但可能會導致速度下降，和一些遊戲的各種錯誤。\n"
+"[推薦：大多不選]"
+
+#: Config.cpp:610
+msgid ""
+"Detect CPU write to the N64 frame buffer\n"
+"This option works as the previous options, but the plugin is trying to detect,\n"
+"when game uses CPU writes to N64 frame buffer. The N64 frame buffer is rendered\n"
+"only when CPU writes is detected. Use this option for those games, in which you\n"
+"see still image or no image at all for some time with no reason.\n"
+"[Recommended: mostly off]"
+msgstr ""
+"檢測CPU寫入到N64幀緩衝\n"
+"----------------------------\n"
+"此選項與上一個選項有一樣的功能，但插件會試圖\n"
+"檢測遊戲在何時使用CPU寫入到N64的幀緩衝區。\n"
+"當檢測到 CPU寫入時，才會呈現N64的幀緩衝。\n"
+"\n"
+"如果過了一段時間後，你只能看到靜態圖像或\n"
+"無圖像時，請使用此選項。\n"
+"[推薦：大多不選]"
+
+#: Config.cpp:612
+msgid ""
+"Enable depth buffer rendering\n"
+"This option is used to fully emulate N64 depth buffer.\n"
+"It is required for correct emulation of depth buffer based effects.\n"
+"However, it requires fast (>1GHz) CPU to work full speed.\n"
+"[Recommended: on for fast PC]"
+msgstr ""
+"啟用深度緩衝渲染\n"
+"-------------------\n"
+"此選項用於完全模擬N64的深度緩衝區。\n"
+"這是需要正確的模擬深度緩衝的效果。\n"
+"但是，它需要快速（>1GHz）的CPU才能達到全速。\n"
+"[推薦：快速電腦 - 選用]"
+
+#: Config.cpp:620
+msgid ""
+"Filters:\n"
+"Apply a filter to either smooth or sharpen textures.\n"
+"There are 4 different smoothing filters and 2 different sharpening filters.\n"
+"The higher the number, the stronger the effect,\n"
+"i.e. \"Smoothing filter 4\" will have a much more noticeable effect than \"Smoothing filter 1\".\n"
+"Be aware that performance may have an impact depending on the game and/or the PC.\n"
+"[Recommended: your preference]"
+msgstr ""
+"濾鏡：\n"
+"--------\n"
+"應用一個濾鏡來平滑或銳化材質。\n"
+"有4種不同的平滑濾鏡和2個不同的銳化濾鏡。\n"
+"- 數字越高，效果越強。\n"
+"- 例如，平滑濾鏡4將比1有更明顯的效果。\n"
+"\n"
+"注意:\t遊戲性能可能會受到影響，\n"
+"\t取決於遊戲與或電腦。\n"
+"[推薦：您的偏好]"
+
+#: Config.cpp:624
+msgid ""
+"Texture enhancement:\n"
+"7 different filters are selectable here, each one with a distinctive look.\n"
+"Be aware of possible performance impacts.\n"
+"\n"
+"IMPORTANT: 'Store' mode - saves textures in cache 'as is'. It can improve performance in games, which load many textures.\n"
+"Disable 'Ignore backgrounds' option for better result.\n"
+"\n"
+"[Recommended: your preference]"
+msgstr ""
+"材質增強：\n"
+"----------\n"
+"在這裡可選擇 7種不同的濾鏡，每一個具有獨特的外觀。\n"
+"注意:\t可能會有性能影響。\n"
+"\n"
+"要點:\t \"存儲\"模式- 儲存在快取的材質為\"原狀\"。\n"
+"\t它可以提高遊戲的性能，但載有很多材質。\n"
+"\t禁用\"忽略背景\"選項，讓效果更佳。\n"
+"[推薦：您的偏好]"
+
+#: Config.cpp:628
+msgid ""
+"Texture cache size:\n"
+"Enhanced and filtered textures can be cached to aid performance.\n"
+"This setting will adjust how much PC memory will be dedicated for texture cache.\n"
+"This helps boost performance if there are subsequent requests for the same texture (usually the case).\n"
+"Normally, 128MB should be more than enough but there is a sweet spot for each game.\n"
+"Super Mario may not need more than 32megs, but Conker streams a lot of textures,\n"
+"so setting 256+ megs can boost performance. Adjust accordingly if you are encountering speed issues.\n"
+"'0' disables cache.\n"
+"[Recommended: PC and game dependant]"
+msgstr ""
+"材質快取大小：\n"
+"---------------\n"
+"加強和過濾後的材質可被快取以輔助效能。\n"
+"此設置將調整多少電腦主記憶體為材質快取專用。\n"
+"如果是相同的材質（通常如此）有後續請求，\n"
+"這將有助於提高效能。一般情況下，\n"
+"128MB應該是綽綽有餘，但每個遊戲有其不同特點。\n"
+"\n"
+"\"Super Mario\"可能不需要比32 MB還多，\n"
+"但\"Conker \"使用很多材質，因而用256MB+\n"
+"可提高效能。如果你遇到速度問題，\n"
+"可依據實際情況調整。\n"
+"\n"
+"'0'禁用快取。\n"
+"[推薦：取決於電腦和遊戲]"
+
+#: Config.cpp:634
+msgid ""
+"Ignore Backgrounds:\n"
+"It is used to skip enhancement for long narrow textures, usually used for backgrounds.\n"
+"This may save texture memory greatly and increase performance.\n"
+"[Recommended: on (off for 'Store' mode)]"
+msgstr ""
+"忽略背景：\n"
+"----------\n"
+"它是用來跳過增強狹長材質（通常為背景用）。\n"
+"這可能會大大節省材質儲存記憶體和提高性能。\n"
+"[推薦：選（\" 存儲\"模式- 不選）]"
+
+#: Config.cpp:636
+msgid ""
+"Texture compression:\n"
+"Textures will be compressed using selected texture compression method.\n"
+"The overall compression ratio is about 1/6 for FXT1 and 1/4 for S3TC.\n"
+"In addition to saving space on the texture cache,\n"
+"the space occupied on the GFX hardware's texture RAM,\n"
+"by the enhanced textures, will be greatly reduced.\n"
+"This minimizes texture RAM usage,\n"
+"decreasing the number of texture swaps to the GFX hardware leading to performance gains.\n"
+"However, due to the nature of lossy compression of FXT1 and S3TC, using this option can sometimes lead to quality degradation of small size textures and color banding of gradient colored textures.\n"
+"[Recommended: off]"
+msgstr ""
+"材質壓縮：\n"
+"----------\n"
+"材質的壓縮是依照所選的材質壓縮方法。\n"
+"整體壓縮比大約是 1/6於FXT1或1/4於S3TC.\n"
+"除了節省材質快取的空間，在顯卡硬體的材質記憶體\n"
+"所佔領的增強材質空間，將大大減少。\n"
+"這將最大限度地減少材質記憶體的使用，\n"
+"降低材質在顯卡硬體的交換數次，導致提高效能。\n"
+"\n"
+"然而，由於 FXT1和S3TC有損壓縮的性質，\n"
+"使用此選項有時會導致小體積的材質出現質量退化\n"
+"和漸變色的材質出現色帶。\n"
+"[推薦：不選]"
+
+#: Config.cpp:640
+msgid ""
+"Compress texture cache:\n"
+"Memory will be compressed so that more textures can be held in the texture cache.\n"
+"The compression ratio varies with each texture,\n"
+"but 1/5 of the original size would be a modest approximation.\n"
+"They will be decompressed on-the-fly, before being downloaded to the gfx hardware.\n"
+"This option will still help save memory space even when using texture compression.\n"
+"[Recommended: on]"
+msgstr ""
+"壓縮材質快取：\n"
+"---------------\n"
+"主記憶體將被壓縮，使更多的材質可以存儲在材質快取。\n"
+"壓縮比率會因材質而各有不同，大約1/5的原始大小\n"
+"是個較普遍的壓縮效率。\n"
+"他們將立即被解壓縮，然後被下載到顯卡硬體。\n"
+"即使使用材質壓縮，此選項仍會節省主記憶體空間。\n"
+"[推薦：選用]"
+
+#: Config.cpp:642
+msgid ""
+"Hi-res pack format:\n"
+"Choose which method is to be used for loading Hi-res texture packs.\n"
+"Only Rice's format is available currently.\n"
+"Leave on \"None\" if you will not be needing to load hi-res packs.\n"
+"[Recommended: Rice's format. Default: \"None\"]"
+msgstr ""
+"高解析材質包格式：\n"
+"------------------\n"
+"選擇哪種方法來加載高解析材質包。\n"
+"目前只能用 Rice's 格式。\n"
+"如果你不需要加載高解析材質包，請選擇\"無\"。\n"
+"[推薦：Rice's 格式。默認：無]"
+
+#: Config.cpp:646
+msgid ""
+"Tile textures:\n"
+"When on, wide texture will be split on several tiles to fit in one 256-width texture.\n"
+"This tiled texture takes much less video memory space and thus overall performance will increase.\n"
+"However, corresponding polygons must be split too, and this is not polished yet\n"
+"- various issues are possible, including black lines and polygons distortions.\n"
+"[Recommended: off]"
+msgstr ""
+"圖磚材質：\n"
+"----------\n"
+"當選擇後，寬材質將被分割在幾個瓦片，以適應一個256寬的材質。\n"
+"這平鋪材質花費更少的顯卡記憶體空間，因此整體性能會有所增加。\n"
+"但是，必須相應的多邊形也需要分割，卻尚未完全開發出來。\n"
+"- 各種問題都有可能的，包括黑線和多邊形的扭曲。\n"
+"[推薦：不選]"
+
+#: Config.cpp:648
+msgid ""
+"Force 16bpp textures:\n"
+"The color of the textures will be reduced to 16bpp.\n"
+"This is another space saver and performance enhancer.\n"
+"This halves the space used on the texture cache and the GFX hardware's texture RAM.\n"
+"Color reduction is done so that the original quality is preserved as much as possible.\n"
+"Depending on the texture, this usually is hardly noticeable.\n"
+"Sometimes though, it can be: skies are a good example.\n"
+"[Recommended: off]"
+msgstr ""
+"強制啟用16位元材質：\n"
+"--------------------\n"
+"該材質色彩將減少為16位元。\n"
+"這是另一種節省空間和性能增強的方式。\n"
+"將節省一半的材質快取和\n"
+"顯卡硬體存放材質的記憶體使用空間。\n"
+"\n"
+"色彩還原將盡可能的保留其原來顏色。\n"
+"根據不同的材質，這通常是難以察覺的。\n"
+"但，並非不可能：天空是一個很好的例子。\n"
+"[推薦：不選]"
+
+#: Config.cpp:650
+msgid ""
+"Texture dumping mode:\n"
+"In this mode, you have that ability to dump textures on screen to the appropriate folder.\n"
+"You can also reload textures while the game is running to see how they look instantly - big time saver!\n"
+"\n"
+"Hotkeys: \"R\" reloads hires textures from the texture pack - \"D\" toggles texture dumps on/off."
+msgstr ""
+"材質轉儲方式：\n"
+"---------------\n"
+"在這模式下，你可將螢幕上的材質轉儲到適當的資料夾。\n"
+"您也可以在遊戲運行時重新載入材質，而馬上看到結果\n"
+"- 大大節省時間！\n"
+"熱鍵：\tR - 重新載入高解析材質包\n"
+"\tD - 將切換材質轉儲開與關"
+
+#: Config.cpp:652
+msgid ""
+"Alternative CRC calculation:\n"
+"This option enables emulation of a palette CRC calculation bug in RiceVideo.\n"
+"If some textures are not loaded, try to set this option on/off.\n"
+"[Recommended: texture pack dependant, mostly on]"
+msgstr ""
+"另一種CRC 計算：\n"
+"-----------------\n"
+"此選項可以模擬RiceVideo在調色板上的CRC計算錯誤。\n"
+"如果某些材質不能加載，請嘗試設置此選項開與關。\n"
+"[推薦：取決於材質包，大多選用]"
+
+#: Config.cpp:657
+msgid ""
+"Compress texture cache:\n"
+"When game started, plugin loads all its hi-resolution textures into PC memory.\n"
+"Since hi-resolution textures are usually large, the whole pack can take hundreds megabytes of memory.\n"
+"Cache compression allows save memory space greatly.\n"
+"Textures will be decompressed on-the-fly, before being downloaded to the gfx hardware.\n"
+"This option will still help save memory space even when using texture compression.\n"
+"[Recommended: on]"
+msgstr ""
+"壓縮材質快取：\n"
+"---------------\n"
+"當遊戲開始後，插件將加載所有\n"
+"的高解析材質在電腦主記憶體。\n"
+"由於高解析材質通常很大，\n"
+"整個材質包可以利用幾百MB的主記憶體。\n"
+"快取壓縮可以大大節省存儲空間。\n"
+"材質將立即被解壓縮，然後下載到顯卡硬體。\n"
+"即使使用材質壓縮，此選項仍會節省主記憶體空間。\n"
+"[推薦：選用]"
+
+#: Config.cpp:659
+msgid ""
+"Use Alpha channel fully:\n"
+"When this option is off, 16bit rgba textures will be loaded using RiceVideo style\n"
+"- with 1bit for alpha channel.\n"
+"When it is on, GlideHQ will check, how alpha channel is used by the hires texture,\n"
+"and select most appropriate format for it.\n"
+"This gives texture designers freedom to play with alpha, as they need,\n"
+"regardless of format of original N64 texture.\n"
+"For older and badly designed texture packs it can cause unwanted black borders.\n"
+"[Recommended: texture pack dependant]"
+msgstr ""
+"充分利用透明通道：\n"
+"--------------------\n"
+"如不選此選項，使用RiceVideo風格會加載\n"
+"16位元RGBA材質與1位元透明通道。\n"
+"當選擇後，GlideHQ將檢查高解析材質如何\n"
+"使用透明通道，並選擇最適當的格式。\n"
+"它讓設計者自由發揮材質透明的使用，\n"
+"不論其原來的 N64的材質格式。\n"
+"對於老舊或設計不良的材質包，可能會出現不必要的黑邊。\n"
+"[推薦：取決於材質包]"
+
+#: Config.cpp:662
+msgid ""
+"Save texture cache to HD:\n"
+"\n"
+"For enhanced textures cache:\n"
+"This will save all previously loaded and enhanced textures to HD.\n"
+"So upon next game launch, all the textures will be instantly loaded, resulting in smoother performance.\n"
+"\n"
+"For high-resolution textures cache:\n"
+"After creation, loading hi-res texture will take only a few seconds upon game launch,\n"
+"as opposed to the 5 -60 seconds a pack can take to load without this cache file.\n"
+"The only downside here is upon any changes to the pack, the cache file will need to be manually deleted.\n"
+"\n"
+"Saved cache files go into a folder called \"Cache\" within the Plugins folder.\n"
+"\n"
+"[Highly Recommended: on]"
+msgstr ""
+"保存材質快取到硬碟：\n"
+"--------------------\n"
+"增強材質快取：\n"
+"---------------\n"
+"這將保存所有之前加載和增強材質到硬碟。\n"
+"下一次遊戲開始後，所有的材質將即刻加載，\n"
+"導致更順暢的性能。\n"
+"\n"
+"高解析材質快取：\n"
+"----------------------\n"
+"在創建後，當遊戲啟動時，加載高解析材質只需幾秒鐘。\n"
+"如果沒有這個快取檔案，載入材質包可能需要5-60秒。\n"
+"唯一的缺點是在更改材質包時，快取檔案將需要手動刪除。\n"
+"\n"
+"儲存的快取檔案將被儲存到Plugins資料夾內的Cache資料夾。\n"
+"[強烈推薦：選用]"
+
+#: Config.cpp:685
+msgid "Debug"
+msgstr "偵錯"
+
+#: Config.cpp:686
+msgid ""
+"Autodetect Microcode\n"
+"If this option is checked, the microcode of the game\n"
+"will be detected automatically from the INI, and\n"
+"therefore it will not need to be set in this\n"
+"configuration dialog.\n"
+"[Recommended: on]"
+msgstr ""
+"自動檢測微碼\n"
+"當選擇後，遊戲的微碼會自動從INI檢測到。\n"
+"因此它不需要在此設置視窗中設置。\n"
+"[推薦：選用]"
+
+#: Config.cpp:688
+msgid ""
+"Force Microcode\n"
+"This option ONLY has an effect if Autodetect Microcode\n"
+"is unchecked, the crc from the game could not be\n"
+"found in the INI, OR after the game has already started\n"
+"running. In any of those three cases, this will\n"
+"select the microcode to use\n"
+"[Recommended: any, turn on Autodetect Microcode]"
+msgstr ""
+"強制啟用微碼\n"
+"此選項是在以下情況才有效:\n"
+"1. 如果沒選定自動檢測微碼，\n"
+"2. 遊戲的CRC在INI找不到，或\n"
+"3. 遊戲已經開始運行。\n"
+"在這三種情形之下，它將使用微碼。\n"
+"[推薦：任何，選自\"動檢測微碼\"]"
+
+#: Config.cpp:692
+msgid ""
+"Wireframe\n"
+"This option, when checked, makes it so that the plugin will draw only the\n"
+"outlines of objects.  The colors specified in the combo box to the right\n"
+"determines the color that the wireframes show up as.\n"
+"[Recommended: off]"
+msgstr ""
+"線框\n"
+"當選擇後，插件會畫出對象的輪廓。\n"
+"在組合框中指定的顏色，將決定線框顏色的顯示。\n"
+"[推薦：不選]"
+
+#: Config.cpp:694
+msgid ""
+"Wireframe Colors\n"
+"This selects the colors to use for the wireframes (if wireframe mode is enabled).\n"
+"There are 3 modes:\n"
+"* Original colors - draw exactly as it would normally, textures and all, only in wireframes.\n"
+"* Vertex colors - use the colors specified in the vertices to draw the wireframes with.\n"
+"* Red only - use a constant red color to draw the wireframes.\n"
+"[Recommended: Vertex colors]"
+msgstr ""
+"線框顏色\n"
+"這將選擇用於線框的顏色（如線框模式已啟用）。\n"
+"有3種模式：\n"
+"*原始顏色\t: 材質和所有，是與原來相同的顏色來繪製線框。\n"
+"*頂點顏色\t: 使用指定的頂點來繪製線框的顏色。\n"
+"*僅紅色\t: 利用固定的紅色來繪製線框。\n"
+"[推薦：頂點顏色]"
+
+#: Config.cpp:696
+msgid ""
+"Log to RDP.txt\n"
+"RECOMMENDED FOR DEBUGGING ONLY - this option, when checked, will log EVERY SINGLE\n"
+"COMMAND the plugin processes to a file called RDP.txt in the current directory.\n"
+"This is incredibly slow, so I recommend keeping it disabled.\n"
+"[Recommended: off]"
+msgstr ""
+"登錄到RDP.txt\n"
+"推薦僅用於偵錯- 當選擇後，將記錄該插件程序的\n"
+"每一個命令到目前目錄的RDP.txt。\n"
+"這是令人難以置信的慢，所以我建議保持禁用。\n"
+"[推薦：不選]"
+
+#: Config.cpp:698
+msgid ""
+"Unknown combiners as red\n"
+"Objects that use an unimplemented combine mode will show up as red instead of\n"
+"assuming texture with full alpha. Disable this option to remove the red stuff\n"
+"and at least have a guess at the correct combine mode.\n"
+"[Recommended: off]"
+msgstr ""
+"未知的合成器為紅色\n"
+"如果對象使用一個未知的合成模式，它會顯示為紅色而不是\n"
+"假設材質具有完全透明的功能。禁用此選項，刪除紅色的東西，\n"
+"並至少能對正確的合成模式作出猜測。\n"
+"[推薦：不選]"
+
+#: Config.cpp:700
+msgid ""
+"Log clear every frame\n"
+"RECOMMENDED FOR DEBUGGING ONLY - this option has no effect unless 'Log to RDP.txt'\n"
+"is checked. This will make it so that the log, RDP.txt, will be cleared at the\n"
+"beginning of every frame.\n"
+"[Recommended: off]"
+msgstr ""
+"在每一幀清除記錄\n"
+"推薦僅用於偵錯- 這個選項沒有任何作用，除非選擇\"記錄到RDP.txt\"。\n"
+"這將讓這個記錄RDP.txt，在每一幀的開始清除。\n"
+"[推薦：不選]"
+
+#: Config.cpp:702
+msgid ""
+"Log unknown combiners\n"
+"RECOMMENDED FOR DEBUGGING ONLY - when checked, this option will cause every\n"
+"unimplemented combiner drawn to be logged to a file called Unimp.txt in the\n"
+"current directory. This becomes slow when there are unimplemented combiners\n"
+"on the screen, so I recommend keeping it disabled.\n"
+"[Recommended: off]"
+msgstr ""
+"登錄不明合成器\n"
+"推薦僅用於偵錯- 當選擇後，這個選項將導致所有未執行\n"
+"的繪製合成器被記錄到Unimp.txt的文件。\n"
+"如果有未執行的合成器在螢幕上，它會變得緩慢，\n"
+"所以我建議保持禁用。\n"
+"[推薦：不選]"
+
+#: Config.cpp:704
+msgid ""
+"Run and log in window\n"
+"RECOMMENDED FOR DEBUGGING ONLY - this option will make it so that the plugin will\n"
+"still process dlists in windowed mode. This allows for logging to occur while not\n"
+"in fullscreen, possibly allowing you to debug a crash.\n"
+"[Recommended: off]"
+msgstr ""
+"運行並紀錄於視窗\n"
+"推薦僅用於偵錯- 這個選項將讓插件仍然會在視窗模式處理dlists。\n"
+"雖然不是在全螢幕，但仍允許記錄，可以讓你測試崩潰的原因。\n"
+"[推薦：不選]"
+
+#: Config.cpp:706
+msgid ""
+"Clear unknown combiner log every frame\n"
+"RECOMMENDED FOR DEBUGGING ONLY - this option works much like 'Log clear every frame'\n"
+"except it clears the combiner log (Unimp.txt) instead of RDP.txt at the\n"
+"beginning of each frame. Again, this option has no effect if 'combiner logging' is disabled.\n"
+"[Recommended: off]"
+msgstr ""
+"在每一幀清除未知合成器記錄\n"
+"推薦僅用於偵錯- 這個選項很像\"在每一幀清除記錄\"，\n"
+"除了它在每一幀的開始清除合成器記錄（Unimp.txt），\n"
+"而不是RDP.txt。\n"
+"如果\"合成器記錄\"被禁用，這個選項不會起作用。\n"
+"[推薦：不選]"
+
+#: Config.cpp:709
+msgid ""
+"Bilinear filter texture cache\n"
+"RECOMMENDED FOR DEBUGGING ONLY - when checked, this option will make the graphical\n"
+"debugger texture cache use bilinear filtering as opposed to point-sampled filtering,\n"
+"which it will use otherwise. See 'Filtering mode' for descriptions of bilinear and\n"
+"point-sampled filtering.\n"
+"[Recommended: off]"
+msgstr ""
+"雙線性過濾材質快取\n"
+"---------------------\n"
+"推薦僅用於偵錯- 當選擇後，此選項將使圖形偵錯器的材質快取\n"
+"使用雙線性過濾材質快取，而不是點取樣過濾。\n"
+"閱讀\"過濾模式\"對雙線性和點取樣樣過濾的描述。\n"
+"[推薦：不選]"
+
+#: Config.cpp:1104
+msgid "Glide64 settings"
+msgstr "Glide64 設置"
+
+#: Config.cpp:1293
+msgid "About Glide64"
+msgstr "關於 Glide64"
+
+#: Config.cpp:1326
+msgid "authors:"
+msgstr "作者："
+
+#: Config.cpp:1330
+msgid ""
+"Dave2001. Original author and former main developer.\n"
+"He founded Glide64 project on Dec. 29th, 2001.\n"
+"Left the project at fall of 2002.\n"
+msgstr ""
+"Dave2001。 原作者和原主要開發者。\n"
+"他在2001年 12月29日創立Glide64項目。\n"
+"在2002年的秋天離開Glide64項目。\n"
+
+#: Config.cpp:1336
+msgid ""
+"Gugaman. Developer. Joined the project at winter 2002\n"
+" and left it at fall 2002."
+msgstr ""
+"開發人員Gugaman。在2002年冬季加入了這個項目，\n"
+"在2002年秋天離開Glide64項目。"
+
+#: Config.cpp:1342
+msgid ""
+"Sergey 'Gonetz' Lipski. Joined the project at winter 2002.\n"
+"Main developer since fall of 2002."
+msgstr ""
+"Sergey 'Gonetz' Lipski。在2002年冬季加入了這個項目。\n"
+"主要開發自2002年秋季。"
+
+#: Config.cpp:1347
+msgid "Hiroshi 'KoolSmoky' Morii, Joined the project in 2007. "
+msgstr "Hiroshi 'KoolSmoky' Morii，加入該項目於 2007年。"
+
+#: Config.cpp:1350
+msgid "Glitch64 (the wrapper) authors:"
+msgstr "Glitch64（包裝）作者："
+
+#: Config.cpp:1374
+msgid "GlideHQ author:"
+msgstr "GlideHQ 作者："
+
+#: Config.cpp:1381
+msgid "beta tester:"
+msgstr "測試版測試者： "
+
+#: Config.cpp:1388
+msgid ""
+"special thanks to:\n"
+" Orkin, Rice, Daniel Borca, Legend.\n"
+"Thanks to EmuXHaven for hosting my site:\n"
+"http://glide64.emuxhaven.net\n"
+msgstr ""
+"特別感謝：\n"
+"-------------\n"
+"Orkin, Rice, Daniel Borca, Legend.\n"
+"感謝 EmuXHaven 提供網站:\n"
+"http://glide64.emuxhaven.net\n"
+

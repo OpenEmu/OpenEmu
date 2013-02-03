@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Glitch64">
+      <UniqueIdentifier>{44b9ea4e-bb1f-45ef-9b11-c93aace0416c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GlideHQ">
+      <UniqueIdentifier>{daabfc00-53db-4996-9c67-80f7092cb54f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GlideHQ\tc-1.1+">
+      <UniqueIdentifier>{8e81e299-f474-448c-a104-5149bffd92f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Glide64">
+      <UniqueIdentifier>{d0e07863-9ec2-4409-a91e-bddc436aa16b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Glide64\Windows">
+      <UniqueIdentifier>{c6ba9864-aee3-4434-954b-8c5679c2959c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asm">
+      <UniqueIdentifier>{b8d8c948-32b5-4ac7-b558-cd807470175c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Glitch64\geometry.cpp">
+      <Filter>Glitch64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glitch64\textures.cpp">
+      <Filter>Glitch64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glitch64\combiner.cpp">
+      <Filter>Glitch64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TextureFilters_hq4x.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TxCache.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TxDbg.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TxFilter.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TxFilterExport.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TxHiResCache.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TxImage.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TxQuantize.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TxReSample.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TxTexCache.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TxUtil.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\Ext_TxFilter.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TextureFilters.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TextureFilters_2xsai.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\TextureFilters_hq2x.cpp">
+      <Filter>GlideHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\tc-1.1+\texstore.c">
+      <Filter>GlideHQ\tc-1.1+</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\tc-1.1+\wrapper.c">
+      <Filter>GlideHQ\tc-1.1+</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\tc-1.1+\dxtn.c">
+      <Filter>GlideHQ\tc-1.1+</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GlideHQ\tc-1.1+\fxt1.c">
+      <Filter>GlideHQ\tc-1.1+</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\Util.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\3dmath.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\Combine.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\Config.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\CRC.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\Debugger.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\DepthBufferRender.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\FBtoScreen.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\Ini.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\Keys.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\Main.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\rdp.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\TexBuffer.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\TexCache.cpp">
+      <Filter>Glide64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glide64\osal_dynamiclib_win32.c">
+      <Filter>Glide64\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Glitch64\main.cpp">
+      <Filter>Glitch64</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\Glide64\3dmathSIMD.asm">
+      <Filter>asm</Filter>
+    </None>
+    <None Include="..\..\src\Glide64\FixedPoint.asm">
+      <Filter>asm</Filter>
+    </None>
+    <None Include="..\..\src\Glide64\Texture.asm">
+      <Filter>asm</Filter>
+    </None>
+  </ItemGroup>
+</Project>

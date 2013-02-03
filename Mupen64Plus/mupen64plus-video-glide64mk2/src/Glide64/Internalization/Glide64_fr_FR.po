@@ -1,0 +1,1336 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-19 17:29+0700\n"
+"PO-Revision-Date: 2011-12-29 12:30+0700\n"
+"Last-Translator: Navitel <support@navitel.su>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: Config.cpp:64
+msgid "Rendering"
+msgstr "Rendu"
+
+#: Config.cpp:65
+msgid "Other"
+msgstr "Autres"
+
+#: Config.cpp:66
+msgid "Speed"
+msgstr "Vitesse"
+
+#: Config.cpp:67
+msgid "Time"
+msgstr "Heure"
+
+#: Config.cpp:68
+msgid "On screen display"
+msgstr "Affichage"
+
+#: Config.cpp:69
+msgid "OpenGL settings"
+msgstr "Configuration OpenGL"
+
+#: Config.cpp:70
+#: Config.cpp:137
+msgid "Frame buffer emulation"
+msgstr "Emulation du frame buffer"
+
+#: Config.cpp:71
+msgid ""
+"Windowed or\n"
+"3dfx card resolution:"
+msgstr ""
+"Fenétré ou\n"
+"resolution de la carte 3DFX"
+
+#: Config.cpp:99
+msgid "Vertical sync"
+msgstr "Synchronisation verticale"
+
+#: Config.cpp:100
+msgid "Show advanced emulation options"
+msgstr "Afficher les options d'emulation avancée"
+
+#: Config.cpp:101
+msgid "Show texture enhancement options"
+msgstr "Afficher les options des textures améliorés"
+
+#: Config.cpp:102
+msgid "Screenshot format:"
+msgstr "Format des captures d'écran"
+
+#: Config.cpp:105
+msgid "Language: "
+msgstr "Langues:"
+
+#: Config.cpp:106
+msgid "LANGUAGE_NAME"
+msgstr "Francais"
+
+#: Config.cpp:112
+msgid "FPS counter"
+msgstr "Compteur FPS"
+
+#: Config.cpp:113
+msgid "VI/s counter"
+msgstr "Compteur VI/s"
+
+#: Config.cpp:114
+#, c-format
+msgid "% speed"
+msgstr "% speed"
+
+#: Config.cpp:115
+msgid "Clock enabled"
+msgstr "Horloge activé"
+
+#: Config.cpp:116
+msgid "Clock is 24-hour"
+msgstr "Horloge est 24-heure"
+
+#: Config.cpp:117
+msgid "Transparent text background"
+msgstr "Texte transparent"
+
+#: Config.cpp:118
+msgid ""
+"Full screen\n"
+"resolution:"
+msgstr ""
+"Plein écran\n"
+"résolution"
+
+#: Config.cpp:121
+msgid "Anisotropic filtering"
+msgstr "Filterage Anisotropic"
+
+#: Config.cpp:122
+msgid "Autodetect "
+msgstr "Autodetection"
+
+#: Config.cpp:123
+msgid "VRAM size"
+msgstr "Taille VRAM"
+
+#: Config.cpp:125
+msgid "Mb"
+msgstr "Mb"
+
+#: Config.cpp:126
+msgid "Use frame buffer objects"
+msgstr "Utiliser frame buffer objects"
+
+#: Config.cpp:133
+msgid "Current game emulation settings. Change with care!"
+msgstr "paramétres d'émulation actuelle. A changer avec précaution!"
+
+#: Config.cpp:135
+msgid "Default emulation settings. Not recommended to change!"
+msgstr "Paramétres d'émulation par défaut. Changement non recommandé.!"
+
+#: Config.cpp:136
+msgid "General options"
+msgstr "Options générales"
+
+#: Config.cpp:138
+msgid "Depth buffer emulation"
+msgstr "Emulation Depth buffer"
+
+#: Config.cpp:139
+msgid "Filtering mode:"
+msgstr "Mode de filtrage"
+
+#: Config.cpp:141
+msgid "Automatic"
+msgstr "Automatique"
+
+#: Config.cpp:142
+msgid "Force Bilinear"
+msgstr "Forcer Bilinéaire"
+
+#: Config.cpp:143
+msgid "Force Point-sampled"
+msgstr "Forcer Point sampled"
+
+#: Config.cpp:146
+msgid "Buffer swapping method:"
+msgstr "Méthode de changement de buffer"
+
+#: Config.cpp:148
+msgid "Old"
+msgstr "Vieux"
+
+#: Config.cpp:149
+msgid "New"
+msgstr "Nouveau"
+
+#: Config.cpp:150
+msgid "Hybrid"
+msgstr "Hybride"
+
+#: Config.cpp:153
+msgid "LOD calculation:"
+msgstr "Calculation LOD:"
+
+#: Config.cpp:155
+msgid "off"
+msgstr "désactivé"
+
+#: Config.cpp:156
+msgid "fast"
+msgstr "rapide"
+
+#: Config.cpp:157
+msgid "precise"
+msgstr "précis"
+
+#: Config.cpp:160
+msgid "Aspect ratio:"
+msgstr "Ratio d'aspect"
+
+#: Config.cpp:162
+msgid "4:3 (default)"
+msgstr "4:3 (défaut)"
+
+#: Config.cpp:163
+msgid "Force 16:9"
+msgstr "Forcer 16:9"
+
+#: Config.cpp:164
+msgid "Stretch"
+msgstr "Etirer"
+
+#: Config.cpp:165
+msgid "Original"
+msgstr "Originale"
+
+#: Config.cpp:168
+msgid "Fog"
+msgstr "Brouillard"
+
+#: Config.cpp:169
+msgid "Buffer clear on every frame"
+msgstr "Vider Buffer à chaque image"
+
+#: Config.cpp:170
+msgid "Enable frame buffer emulation"
+msgstr "Activer émulation du frame buffer"
+
+#: Config.cpp:171
+msgid "Hardware frame buffer emulation"
+msgstr "Emulation matériel du frame buffer "
+
+#: Config.cpp:172
+msgid "Get frame buffer info"
+msgstr "Obtenir les infos frame buffer"
+
+#: Config.cpp:173
+msgid "Read every frame (slow!)"
+msgstr "Lire chaque image (lent)"
+
+#: Config.cpp:174
+msgid "Render N64 frame buffer as texture"
+msgstr "Rendre le frame buffer de la N64 comme une texture"
+
+#: Config.cpp:175
+msgid "Detect CPU write to the N64 frame buffer"
+msgstr "Detecter écritures du CPU dans le frame buffer de la N64"
+
+#: Config.cpp:176
+msgid "Software depth buffer rendering"
+msgstr "Rendu du buffer de profondeur da manière logicielle"
+
+#: Config.cpp:200
+#: Config.cpp:619
+msgid "Texture enhancement"
+msgstr "Amélioration des textures"
+
+#: Config.cpp:201
+msgid "Hi-resolution textures"
+msgstr "Textures hautes resolutions"
+
+#: Config.cpp:202
+msgid "Common"
+msgstr "Commun"
+
+#: Config.cpp:203
+msgid "Presets"
+msgstr "Prédéfinis"
+
+#: Config.cpp:204
+#: Config.cpp:205
+msgid "Performance tweaks"
+msgstr "Performance "
+
+#: Config.cpp:206
+msgid "Filter"
+msgstr "Filtre"
+
+#: Config.cpp:208
+#: Config.cpp:219
+#: Config.cpp:238
+msgid "None"
+msgstr "Aucun"
+
+#: Config.cpp:209
+msgid "Smooth filtering 1"
+msgstr "Filtre doux 1"
+
+#: Config.cpp:210
+msgid "Smooth filtering 2"
+msgstr "Filtre doux 2"
+
+#: Config.cpp:211
+msgid "Smooth filtering 3"
+msgstr "Filtre doux 3"
+
+#: Config.cpp:212
+msgid "Smooth filtering 4"
+msgstr "Filtre doux 1"
+
+#: Config.cpp:213
+msgid "Sharp filtering 1"
+msgstr "Filtre dur 1"
+
+#: Config.cpp:214
+msgid "Sharp filtering 2"
+msgstr "Filtre dur 1"
+
+#: Config.cpp:217
+msgid "Enhancement"
+msgstr "Amélioration"
+
+#: Config.cpp:220
+msgid "Store"
+msgstr "Stocker"
+
+#: Config.cpp:230
+msgid "Texture cache"
+msgstr "Mise en cache des textures"
+
+#: Config.cpp:232
+msgid "Mbytes"
+msgstr "Mbytes"
+
+#: Config.cpp:233
+msgid "Ignore Backgrounds"
+msgstr "Ignorer les arriéres plans"
+
+#: Config.cpp:234
+#: Config.cpp:245
+msgid "Apply texture compression"
+msgstr "Appliquer la compression des textures"
+
+#: Config.cpp:235
+#: Config.cpp:246
+msgid "Compress texture cache"
+msgstr "Compresser la mise en cache des textures"
+
+#: Config.cpp:236
+msgid "Format"
+msgstr "Format"
+
+#: Config.cpp:239
+msgid "Rice format"
+msgstr "Format Rice"
+
+#: Config.cpp:242
+msgid "Tile textures"
+msgstr "Texures de tuiles"
+
+#: Config.cpp:243
+msgid "Force 16bpp textures"
+msgstr "Forcer les textures en 16bits"
+
+#: Config.cpp:244
+msgid "Alternative CRC calculation"
+msgstr "Calculation CRC alternative"
+
+#: Config.cpp:247
+msgid "Use alpha channel fully"
+msgstr "Utilisation totale du canal alpha "
+
+#: Config.cpp:248
+msgid "Texture dumping/editing mode"
+msgstr "Dump des texutres/mode d'édition"
+
+#: Config.cpp:249
+msgid "Texture compression method"
+msgstr "méthode de compression des textures"
+
+#: Config.cpp:255
+msgid "Save texture cache to hard disk"
+msgstr "Sauver le cache texture sur le disque dur"
+
+#: Config.cpp:256
+msgid "Best performance"
+msgstr "Meilleure performance"
+
+#: Config.cpp:257
+msgid "Best texture quality"
+msgstr "Meilleure qualité de textures"
+
+#: Config.cpp:263
+msgid "Developers settings"
+msgstr "Paramétres développeurs"
+
+#: Config.cpp:264
+msgid "Debug/Misc"
+msgstr "Debug/Divers"
+
+#: Config.cpp:265
+msgid "Autodetect Microcode"
+msgstr "Détection automatique du microcode"
+
+#: Config.cpp:266
+msgid "Force Microcode:"
+msgstr "Forcage du Microcode:"
+
+#: Config.cpp:279
+msgid "Wireframe using:"
+msgstr "Rendu fil de fer"
+
+#: Config.cpp:281
+msgid "Original colors"
+msgstr "Couleurs d'origine"
+
+#: Config.cpp:282
+msgid "Vertex colors"
+msgstr "Couleurs des vertex"
+
+#: Config.cpp:283
+msgid "Red only"
+msgstr "Rouge seulement"
+
+#: Config.cpp:286
+msgid "Log to rdp.txt (SLOW)"
+msgstr "Logger vers rdp.txt(lent)"
+
+#: Config.cpp:287
+msgid "Unknown combiners as red"
+msgstr "Combiners inconnus en rouge"
+
+#: Config.cpp:288
+msgid "Log clear every frame"
+msgstr "Vidage du log à chaque frame"
+
+#: Config.cpp:289
+msgid "Combiner logging"
+msgstr "Loggage des combiners"
+
+#: Config.cpp:290
+msgid "Run (+log) in window"
+msgstr "Démarrer (+log) en mode fenétré"
+
+#: Config.cpp:291
+msgid "Cmb. clear every frame"
+msgstr "effacer Cmb. a chaque frame "
+
+#: Config.cpp:292
+msgid "Error log (rdp_e.txt)"
+msgstr "Log d'erreurs (rdp_e.txt)"
+
+#: Config.cpp:293
+msgid "Bilinear filter texture cache"
+msgstr "Cache des textures filtrées bilinéaires"
+
+#: Config.cpp:325
+#: Config.cpp:546
+msgid " auto"
+msgstr "auto"
+
+#: Config.cpp:382
+msgid "Please choose language:"
+msgstr "SVP choissisez la langue"
+
+#: Config.cpp:383
+msgid "Language"
+msgstr "Langue"
+
+#: Config.cpp:390
+msgid "Press OK to change to "
+msgstr "Pressez OK pour changer à"
+
+#: Config.cpp:486
+msgid "Basic settings"
+msgstr "Paramétres basiques"
+
+#: Config.cpp:487
+msgid ""
+"Resolution\n"
+"This option selects the fullscreen resolution for 3dfx cards and windowed resolution for other cards\n"
+"(note again that for 3dfx cards the plugin must be in fullscreen mode to see anything).\n"
+"[Recommended: 640x480, 800x600, 1024x768]"
+msgstr ""
+"Résolution\n"
+"Cette option choisit la resolution plein écran des cartes 3dfx ou la résolution fenétré pour les autres cartes\n"
+"(attention avec les cartes 3dfx les plugin doit être en mode plein écran pour voir quelque chose).\n"
+"[Recommandé: 640x480, 800x600, 1024x768]"
+
+#: Config.cpp:491
+msgid ""
+"Vertical sync\n"
+"This option will enable the vertical sync, which will prevent tearing.\n"
+"Note: this option will ONLY have effect if vsync is set to \"Software Controlled\".\n"
+msgstr ""
+"Vertical sync\n"
+"Cette option va activer la synchronisation verticale, ce qui va empécher les balayages.\n"
+
+#: Config.cpp:493
+msgid "Select a format, in which screen shots will be saved"
+msgstr "Choissisez un format dans lequel les captures d'écran seront sauvés"
+
+#: Config.cpp:500
+msgid ""
+"Language select:\n"
+"Press the button to invoke language selection dialog.\n"
+"Selected language will be activated after restart of the configuration dialog."
+msgstr ""
+"Selection de la language:\n"
+"Pressez le bouton pour demander la menu de séléection du language.\n"
+"Le language sélectionné sera activé aprés le rédémmarage de la boite de dialogue."
+
+#: Config.cpp:501
+msgid ""
+"FPS counter\n"
+"When this option is checked, a FPS (frames per second) counter will be shown\n"
+"in the lower left corner of the screen.\n"
+"[Recommended: your preference]"
+msgstr ""
+"Compteur FPS\n"
+"Lorsque cette option est activé, un compteur FPS (Frame Per Second) sera affiché\n"
+"dans le coin gauche en bas de l'écran.\n"
+"[Recommandé: votre préférence]"
+
+#: Config.cpp:503
+msgid ""
+"VI/s counter\n"
+"When this option is checked, a VI/s (vertical interrupts per second) counter\n"
+"will be shown in the lower left corner of the screen.  This is like the FPS\n"
+"counter but will be consistent at 60 VI/s for full speed on NTSC (U) games and\n"
+"50 VI/s for full speed on PAL (E) ones.\n"
+"[Recommended: your preference]"
+msgstr ""
+"VI/s counter\n"
+"Lorsque cette option est activée, un compteur VI/s (vertical interrupts per second)\n"
+"sera affiché dans le coin gauche en bas de l'écran. Ce sera comme le compteur FPS\n"
+"mais il sera toujouts a 60/VI/s à plein vitesse pour les jeux NTSC (U) games et\n"
+"50 VI/s à pleine vitesse pour un jeu PAL (E).\n"
+"[Recommandé: votre préférence]"
+
+#: Config.cpp:505
+#, c-format
+msgid ""
+"% speed\n"
+"This displays a percentage of the actual N64 speed in the lower\n"
+"left corner of the screen.\n"
+"[Recommended: your preference]"
+msgstr ""
+"% speed\n"
+"Ceci affiche le pourcentage de la vitesse de la N64 dans le coin gauche\n"
+"en bas de l'écran.\n"
+"[Recommandé: votre préférence]"
+
+#: Config.cpp:507
+msgid ""
+"Clock enabled\n"
+"This option will put a clock in the lower right corner of the screen, showing the current time.\n"
+"[Recommended: your preference]"
+msgstr ""
+"Horloge activée\n"
+"Cette option affichera l'heure dans le coin droit de l'écran.\n"
+"[Recommandé: votre préférence]"
+
+#: Config.cpp:510
+msgid ""
+"Display hours as 24-hour clock.\n"
+"[Recommended: your preference]"
+msgstr ""
+"Afficher l'heure comme une horloge de 24 heures.\n"
+"[Recommandé: votre préférence]"
+
+#: Config.cpp:511
+msgid ""
+"Transparent text background\n"
+"If this is checked, all on-screen messages will have a transparent background.  Otherwise, it will have a solid black background.\n"
+"[Recommended: your preference]"
+msgstr ""
+"Texte en arrière plan transparent\n"
+"Si activé, tout les messages à l'écran affichés aurant un arrière plan transparent. Autrement ils auront une arrière plan opaque.\n"
+"[Recommandé: votre préférence]"
+
+#: Config.cpp:514
+msgid ""
+"Enable \"Emulation settings\" panel. For experienced users only!\n"
+"It shows default emulation settings when game is not loaded, or current game settings otherwise."
+msgstr ""
+"Activer le panneau \"paramètres d'émulation\". Pour utilisateurs expérimentés seulement!\n"
+"Il montre les options d'émulation par défault si aucun jeu n'est chargé. Si un jeu est chargé les options d'émulation de ce jeu particulier autrement."
+
+#: Config.cpp:516
+msgid ""
+"Enable \"Texture enhancement\" panel.\n"
+"It shows various enhancement options for original textures as well as options for hi-resolution textures."
+msgstr ""
+"Activer un panneau \"Amélioration des textures\".\n"
+"Il montre les divers options d'amélioration des textures originales ainsi ques les options pour les textures hautes résolutions."
+
+#: Config.cpp:517
+msgid ""
+"Full screen resolution:\n"
+"This sets the full screen resolution for non-3dfx video cards.\n"
+"All the resolutions that your video card/monitor support should be displayed.\n"
+"[Recommended: native (max) resolution of your monitor - unless performance becomes an issue]"
+msgstr ""
+"Résolution plein écran:\n"
+"Cela paramétre la résolution plein écran pour les cartes graphiques non-3dfx.\n"
+"Toutes les résolutions supportées par votre carte vidéo/écran devrait être affichées.\n"
+"[Recommandé: résolution native de votre écran - sauf en cas de soucis de performance]"
+
+#: Config.cpp:520
+msgid ""
+"Anisotropic filtering:\n"
+"This filter sharpens and brings out the details of textures that recede into the distance.\n"
+"When activated, it will use the max anisotropy your video card supports.\n"
+"However, this will override native way of texture filtering and may cause visual artifacts in some games.\n"
+"[Recommended: your preference, game dependant]"
+msgstr ""
+"Filtrage anisotropic:\n"
+"Ce filtre améliore les détails des textures qui s'estompe vers l'horizon.\n"
+"Activé ce paramétre utilisera le niveau maximum d'anisotropie supporté par votre carte vidéo.\n"
+"Par contre ce filtrage supplantera la manière native de filtrage des textures et peut causer des parasites visuels dans certains jeux.\n"
+"[Recommandé: votre préférence, selon le jeu]"
+
+#: Config.cpp:521
+msgid ""
+"Autodetect VRAM Size:\n"
+"Since OpenGL cannot do this reliably at the moment, the option to set this manually is available.\n"
+"If checked, plugin will try to autodetect VRAM size.\n"
+"But if this appears wrong, please uncheck and set it to correct value.\n"
+"[Recommended: on]"
+msgstr ""
+"Autodetection de la taille de mémoire vidéo::\n"
+"Comme OpenGL ne peut effectuer la detection de la mémoire vidéo de manière fiable, une option manuelle est disponible.\n"
+"Si activée, le plugin tentera de détecter la taille de la mémoire vidéoMais si celle-ci est incorrecte, svp desactivez l'option et saisissez la valeur correct.\n"
+"[Recommandé: activé]"
+
+#: Config.cpp:523
+msgid ""
+"Use frame buffer objects:\n"
+"Changes the way FB effects are rendered - with or without usage of the OpenGL Frame Buffer Objects (FBO) extension.\n"
+"The choice depends on game and your video card. FBO off is good for NVIDIA cards, while for ATI cards, it's usually best that FBOs are turned on.\n"
+"Also, some FB effects works only with one of the methods, no matter, which card you have.\n"
+"On the whole, with FBO off, compatibility/ accuracy is a bit better (which is the case for Resident Evil 2).\n"
+"However, with FBO on with some systems, it can actually be a bit faster in cases.\n"
+"[Recommended: video card and game dependant]"
+msgstr ""
+"Utiliser \"frame buffer objects\":\n"
+"Change la facon dans les effets frame buffer sont rendu - avec ou sans utilisation de l'extension OpenGL  Frame Buffer Objects (FBO)Ce choix depend du jeu et de votre carte vidéo. Pour les cartes vidéos NVIDIA, FBO est meilleur desactivé alors que pour les cartes vidéos ATI il est habituellement meilleur de l'activer.Aussi certain effets frame buffer ne marche qu'avec l'une des deux méthodes, qu'importe la carte video.\n"
+"De manière générale sans FBO, la compatibilité et la précision est meilleure (par exemple pour Resident Evil 2).\n"
+"Par contre FBO sur certain systèmes est plus rapide dans certains cas.\n"
+"[Recommandé: selon la carte vidéo et le jeu]"
+
+#: Config.cpp:578
+msgid "Emulation settings"
+msgstr "Paramètres d'émulation"
+
+#: Config.cpp:579
+msgid ""
+"Filtering mode\n"
+"There are three filtering modes possible:\n"
+"* Automatic filtering - filter exactly how the N64 specifies.\n"
+"* Point-sampled filtering - causes texels to appear square and sharp.\n"
+"* Bilinear filtering - interpolates the texture to make it appear more smooth.\n"
+"[Recommended: Automatic]"
+msgstr ""
+"Méthode de filtrage\n"
+"Il y a trois méthodes de filtrage possible:\n"
+"* Filtrage automatique - filtre exactement comme la N64 le specifie.\n"
+"* Filtrage Point-sampled - les pixels s'affichent comme des carrés grossiers.\n"
+"* Filtrage Bilinéaire - ce filtre extrapole les textures pour les rendres plus douces.\n"
+"[Recommended: Automatique]"
+
+#: Config.cpp:583
+msgid ""
+"Buffer swapping method\n"
+"There are 3 buffer swapping methods:\n"
+"* old - swap buffers when vertical interrupt has occurred.\n"
+"* new - swap buffers when set of conditions is satisfied. Prevents flicker on some games.\n"
+"* hybrid - mix of first two methods.\n"
+"Can prevent even more flickering then previous method, but also can cause artefacts.\n"
+"If you have flickering problems in a game (or graphics that don't show),\n"
+"try to change swapping method.\n"
+"[Recommended: new (hybrid for Paper Mario)]"
+msgstr ""
+"Méthode de changement de buffer\n"
+"Il y a 3 méthodes de changement de buffer:\n"
+"* ancienne - change de buffer lorque l'interruption verticale s'est faite.\n"
+"* nouvelle -change de buffer lorsque les conditions sont satisfaites. Previent des flashs dans certains jeux.\n"
+"* hybride - mélange des 2 premières méthodes.\n"
+"Peut prévenir encore plus de flashs que la méthode précédente, mais peut aussi en causer.\n"
+"Si vous avez des problémes des flashs dans un jeu (ou les graphiques ne s'affichent pas,\n"
+"essayez de changer de méthode de changement de buffer.\n"
+"[Recommandé: nouvelle (hybride pour Paper Mario)]"
+
+#: Config.cpp:587
+msgid ""
+"Per-pixel level-of-detail calculation\n"
+"N64 uses special mechanism for mip-mapping, which nearly impossible to reproduce\n"
+"correctly on PC hardware. This option enables approximate emulation of this feature.\n"
+"For example, it is required for the Peach/Bowser portrait's transition in Super Mario 64.\n"
+"There are 3 modes:\n"
+"* off - LOD is not calculated\n"
+"* fast - fast imprecise LOD calculation.\n"
+"* precise - most precise LOD calculation possible, but more slow.\n"
+"[Recommended: your preference]"
+msgstr ""
+"Level de détail par pixel\n"
+"La N64 utilise un mechanisme spécial pour le mip-mapping qui est presque impossible à reproduire\n"
+"correctement sur PC. Cette option en active une émulation approximative\n"
+"Par exemple, il est requis pour le portrait de Peach/Browser dans Super Mario 64.\n"
+"Il existe 3 modes:\n"
+"* off - LOD n'est pas calculé\n"
+"* rapide - caculation rapide mais imprécise du LOD.\n"
+"* précise - calculation la plus précise possible du LOD mais plus lente.\n"
+"[Recommandé: votre préférence]"
+
+#: Config.cpp:592
+msgid ""
+"Aspect ratio of the output.\n"
+"Most N64 games use 4:3 aspect ratio, but some support widescreen too.\n"
+"You may select appropriate aspect here and set widescreen mode in game settings.\n"
+"In \"Stretch\" mode the output will be stretched to the entire screen,\n"
+"other modes may add black borders if necessary"
+msgstr ""
+"Ratio d'affichage.\n"
+"La plupart des jeux N64 utilise un ratio d'affichage 4:3, mais certains supportent aussi les écrans 16:9.\n"
+"Vous pouvez choisir le ratio approprié ici et selectionner le mode grand écran dans les paramètres du jeu.\n"
+"En mode \"Etiré\" l'affichage sera étiré sur la totalité de l'écran,\n"
+"les autres modes peuvent ajouter des bords noirs si nécéssaire"
+
+#: Config.cpp:595
+msgid ""
+"Fog enabled\n"
+"Sets fog emulation on//off.\n"
+"[Recommended: on]"
+msgstr ""
+"Brouillard activé\n"
+"Active ou désactive l'émulation du brouillard.\n"
+"[Recommandé: activé]"
+
+#: Config.cpp:597
+msgid ""
+"Buffer clear on every frame\n"
+"Forces the frame buffer to be cleared every frame drawn.\n"
+"Usually frame buffer clear is controlled by the game.\n"
+"However, in some cases it is not well emulated,\n"
+"and some garbage may be left on the screen.\n"
+"In such cases, this option must be set on.\n"
+"[Recommended: on]"
+msgstr ""
+"Vide le Buffer à chaque frame\n"
+"Force le frame buffer à se vider à chaque drawn.\n"
+"Habituellement ce vidage est controlé par le jeu.\n"
+"Par contre dans certain cas cela n'est pas bien émulé,\n"
+"et des rebuts peut rester à l'écran.\n"
+"Dans ces case, cette option doit être utilisée.\n"
+"[Recommandé: activé]"
+
+#: Config.cpp:599
+msgid ""
+"Enable frame buffer emulation\n"
+"If on, plugin will try to detect frame buffer usage and apply appropriate frame buffer emulation.\n"
+"[Recommended: on for games which use frame buffer effects]"
+msgstr ""
+"Active l'émulation du frame buffer\n"
+"Si actif, le plugin essayera de détecter l'usage du frame buffer et appliquera l'émulation du frame buffer appropriée.\n"
+"[Recommandé: actif pour les jeux utilisant des effets de \"frames buffer\"]"
+
+#: Config.cpp:601
+msgid ""
+"Enable hardware frame buffer emulation\n"
+"If this option is on, plugin will create auxiliary frame buffers in video memory instead of copying\n"
+"frame buffer content into main memory. This allows plugin to run frame buffer effects without slowdown\n"
+"and without scaling image down to N64's native resolution. This feature is fully supported by\n"
+"Voodoo 4/5 cards and partially by Voodoo3 and Banshee. Modern cards also fully support it.\n"
+"[Recommended: on, if supported by your hardware]"
+msgstr ""
+"Active l'émulation matérielle du frame buffer \n"
+"Si cette option est active, le plugin crééra des frame buffer auxilliaire dans la mémoire vidéo au lieu de copier\n"
+"le contenu du frame buffer dans la mémoire principale. Ceci permet au plugin d'utiliser les effets frame buffer sans ralenti\n"
+"et sans réduire l'image à la résolution native de la N64. Cette option est supporté pleinement par\n"
+"les cartes Voodoo 4/5 cards and partiellment par les Voodoo3 and les Banshee. Les cartes modernes la supportent pleinement aussi.\n"
+"[Recommandé: activée, si supporté par votre matériel]"
+
+#: Config.cpp:604
+msgid ""
+"Get information about frame buffers\n"
+"This is compatibility option. It must be set on for Mupen64 and off for 1964"
+msgstr ""
+"Obtenir les informations concernant le frame buffer\n"
+"Ceci est un option de compatibilité. Elle doit être activée pour Mupen64 and désactivé pour 1964"
+
+#: Config.cpp:606
+msgid ""
+"Read every frame\n"
+"In some games plugin can't detect frame buffer usage.\n"
+"In such cases you need to enable this option to see frame buffer effects.\n"
+"Every drawn frame will be read from video card -> it works very slow.\n"
+"[Recommended: mostly off (needed only for a few games)]"
+msgstr ""
+"Lire chaque frame\n"
+"Dans certain jeux le plugin ne peut détecter l'usage du frame buffer.\n"
+"Dans de tel case vous devez activer cette option pour voir les effets de frame buffer.\n"
+"Chaque frame sera lu par votre carte vidéo -> ceci marche trés lentement.\n"
+"[Recommandé: normalement desactivée (requis que pour certains jeux)]"
+
+#: Config.cpp:608
+msgid ""
+"Render N64 frame buffer as texture\n"
+"When this option is enabled, content of each N64 frame buffer is rendered\n"
+"as texture over the frame, rendered by the plugin. This prevents graphics lost,\n"
+"but may cause slowdowns and various glitches in some games.\n"
+"[Recommended: mostly off]"
+msgstr ""
+"Rendre le frame buffer de la N64 comme une texture\n"
+"Quand cette option est activée, le contenu de chaque frame buffer de la N64 est rendu\n"
+"comme texture par le plugin. Ceci empéche de perdre certains graphismes,\n"
+"mais peut causer des ralentissements et divers erreurs d'affichage dans certain jeux.\n"
+"[Recommandé: principalement désactivé]"
+
+#: Config.cpp:610
+msgid ""
+"Detect CPU write to the N64 frame buffer\n"
+"This option works as the previous options, but the plugin is trying to detect,\n"
+"when game uses CPU writes to N64 frame buffer. The N64 frame buffer is rendered\n"
+"only when CPU writes is detected. Use this option for those games, in which you\n"
+"see still image or no image at all for some time with no reason.\n"
+"[Recommended: mostly off]"
+msgstr ""
+"Détecte l'écriture du CPU dans le frame buffer de la N64\n"
+"Cette option marche comme les options précédentes mais le plugin va essayer de détecter,\n"
+"lorsque le jeu utilise des écritures du CPU dans le frame buffer de la N64. Le frame buffer de la N64 est rendu\n"
+"seulement lorsque ces écriture sont détectées. Utilisez cette option pour certains jeux dans lequels vous\n"
+"voyez une image fixe ou pas d'image du tout pour un certain temps sont raison.\n"
+"[Recommandé: principalement désactivé]"
+
+#: Config.cpp:612
+msgid ""
+"Enable depth buffer rendering\n"
+"This option is used to fully emulate N64 depth buffer.\n"
+"It is required for correct emulation of depth buffer based effects.\n"
+"However, it requires fast (>1GHz) CPU to work full speed.\n"
+"[Recommended: on for fast PC]"
+msgstr ""
+"Activer le rendu du depth buffer\n"
+"Cette option est utilisé pour émuler pleinement le depth buffer de la N64.\n"
+"Elle est requise pour émuler correctement des effets graphiques basés sur le depth buffer.\n"
+"Par contre cela demande une CPU rapide (>1GHz) pour éviter tout ralentissement.\n"
+"[Recommandé: activée sur les PC rapides]"
+
+#: Config.cpp:620
+msgid ""
+"Filters:\n"
+"Apply a filter to either smooth or sharpen textures.\n"
+"There are 4 different smoothing filters and 2 different sharpening filters.\n"
+"The higher the number, the stronger the effect,\n"
+"i.e. \"Smoothing filter 4\" will have a much more noticeable effect than \"Smoothing filter 1\".\n"
+"Be aware that performance may have an impact depending on the game and/or the PC.\n"
+"[Recommended: your preference]"
+msgstr ""
+"Filtres:\n"
+"Applique un filtre pour adoucir ou affiner les textures.\n"
+"Il y a 4 différentes filtres adoucissants et deux filtres affinants.\n"
+"Plus le nombre est élevé, plus l'effet est fort,\n"
+"par exemple \"Filtre adoucissant 4\" aura un effet plus notable que \"Filtre adoucissant 1\".\n"
+"Prenez note que les performances peuvent être impacter selon le jeu et/ou le PC.\n"
+"[Recommandé: votre préférence]"
+
+#: Config.cpp:624
+msgid ""
+"Texture enhancement:\n"
+"7 different filters are selectable here, each one with a distinctive look.\n"
+"Be aware of possible performance impacts.\n"
+"\n"
+"IMPORTANT: 'Store' mode - saves textures in cache 'as is'. It can improve performance in games, which load many textures.\n"
+"Disable 'Ignore backgrounds' option for better result.\n"
+"\n"
+"[Recommended: your preference]"
+msgstr ""
+"Amélioration des textures:\n"
+"Sept différent filtres sont sélectionnables ici, chacun avec un aspect différent.\n"
+"Attention à l'impact possible sur les performances.\n"
+"\n"
+"IMPORTANT: Mode 'Mise en mémoire cache' - Sauve les textures en cache en tant que tel. Cela peut améliorer les performances dans les jeux où beaucoup de textures sont chargées.\n"
+"Désactivez 'Ignorer l'arrière plan' pour de meilleurs résultats.\n"
+"\n"
+"[Recommandé: votre préférence]"
+
+#: Config.cpp:628
+msgid ""
+"Texture cache size:\n"
+"Enhanced and filtered textures can be cached to aid performance.\n"
+"This setting will adjust how much PC memory will be dedicated for texture cache.\n"
+"This helps boost performance if there are subsequent requests for the same texture (usually the case).\n"
+"Normally, 128MB should be more than enough but there is a sweet spot for each game.\n"
+"Super Mario may not need more than 32megs, but Conker streams a lot of textures,\n"
+"so setting 256+ megs can boost performance. Adjust accordingly if you are encountering speed issues.\n"
+"'0' disables cache.\n"
+"[Recommended: PC and game dependant]"
+msgstr ""
+"Taille du cache des textures:\n"
+"Les textures améliorées et filtrées peuvent être mise en cache pour de meilleures performances.\n"
+"Ce paramètre s'ajustera la mémoire qui sera dédiée au cache des textures.\n"
+"Cela aide à booster les performances si il y a des requêtes ultérieures pour la même texture (souvent).\n"
+"Normalement, 128MB devvrait être plus que suffisant mais cela dépend aussi du jeu.\n"
+"Super Mario 64 peut n'avoir besoin que de 32MB, mais Conker utilise beaucoup de textures,\n"
+"donc 256MB pour ce jeu peut améliorer les performances. Ajustez ce paramètre en case de soucis de performance.\n"
+"'0' désactive le cache.\n"
+"[Recommandé: selon le PC et le jeu]"
+
+#: Config.cpp:634
+msgid ""
+"Ignore Backgrounds:\n"
+"It is used to skip enhancement for long narrow textures, usually used for backgrounds.\n"
+"This may save texture memory greatly and increase performance.\n"
+"[Recommended: on (off for 'Store' mode)]"
+msgstr ""
+"Ignorer les arrière plans:\n"
+"Cette option est utilisée pour passer l'amélioration des longues textures, généralement utilisées pour les arrière plans.\n"
+"Cela peut sauver beaucoup de mémoire et augementer les performances.\n"
+"[Recommandé: activé (desactivé pour mode 'Store')]"
+
+#: Config.cpp:636
+msgid ""
+"Texture compression:\n"
+"Textures will be compressed using selected texture compression method.\n"
+"The overall compression ratio is about 1/6 for FXT1 and 1/4 for S3TC.\n"
+"In addition to saving space on the texture cache,\n"
+"the space occupied on the GFX hardware's texture RAM,\n"
+"by the enhanced textures, will be greatly reduced.\n"
+"This minimizes texture RAM usage,\n"
+"decreasing the number of texture swaps to the GFX hardware leading to performance gains.\n"
+"However, due to the nature of lossy compression of FXT1 and S3TC, using this option can sometimes lead to quality degradation of small size textures and color banding of gradient colored textures.\n"
+"[Recommended: off]"
+msgstr ""
+"Compression des textures:\n"
+"Les textures vont être compréssé en utilisant la méthode de compression sélectionné.\n"
+"La ratio de compression est d'environ 1/6 pour FXT1 and 1/4 pour S3TC.\n"
+"Cela va sauver de l'espace disque du cache de texture,\n"
+"ainsi que de la mémoire graphique, ce qui peut améliorer les performances.\n"
+"Par contre,de part la nature de la compression du FXT1 et S3TC, utiliser cette option peut mener à une dégradation des petites textures et de la couleur des textures dégradées.\n"
+"[Recommandé: desactivée]"
+
+#: Config.cpp:640
+msgid ""
+"Compress texture cache:\n"
+"Memory will be compressed so that more textures can be held in the texture cache.\n"
+"The compression ratio varies with each texture,\n"
+"but 1/5 of the original size would be a modest approximation.\n"
+"They will be decompressed on-the-fly, before being downloaded to the gfx hardware.\n"
+"This option will still help save memory space even when using texture compression.\n"
+"[Recommended: on]"
+msgstr ""
+"Compresser le cache des textures:\n"
+"Les textures seront compressées donc plus de textures pourra être mise dans le cache des textures.\n"
+"Le ratio de compression varie selon chaque texture,\n"
+"mais 1/5 de la taille originale devrait être un approximation modeste.\n"
+"Elles seront décompressées à la volée, avant d'être envoyées à la carte graphique.\n"
+"Cette option sauvera de l'espace disque, même en utilisant la compression des textures.\n"
+"[Recommandé: on]"
+
+#: Config.cpp:642
+msgid ""
+"Hi-res pack format:\n"
+"Choose which method is to be used for loading Hi-res texture packs.\n"
+"Only Rice's format is available currently.\n"
+"Leave on \"None\" if you will not be needing to load hi-res packs.\n"
+"[Recommended: Rice's format. Default: \"None\"]"
+msgstr ""
+"Format du paquet de textures haute résolution:\n"
+"Choissisez quelle méthode doit être utilisée pour charger le paquet de textures haute résolution.\n"
+"Seul le format 'Rice' est actuellement disponible.\n"
+"Laisser sur \"Aucun\" si vous n'avez pas besoin de charger des paquet de textures haute résolution.\n"
+"[Recommandé: Rice's format. Par défaut: \"Aucun\"]"
+
+#: Config.cpp:646
+msgid ""
+"Tile textures:\n"
+"When on, wide texture will be split on several tiles to fit in one 256-width texture.\n"
+"This tiled texture takes much less video memory space and thus overall performance will increase.\n"
+"However, corresponding polygons must be split too, and this is not polished yet\n"
+"- various issues are possible, including black lines and polygons distortions.\n"
+"[Recommended: off]"
+msgstr ""
+"Textures découpées:\n"
+"Lorsque activée, les larges textures seront découpées en plus petites textures de 256 pixels de large.\n"
+"Ces textures prennent moins de mémoire vidéo et les performances augementeront.\n"
+"Par contre les polygones correspondant peuvent être découpés aussi et ceci n'est pas encore totalement pris en charge\n"
+"- différent problémes peuvent survenir, comme des lignes noires et des distortions de polygones.\n"
+"[Recommandé: desactivée]"
+
+#: Config.cpp:648
+msgid ""
+"Force 16bpp textures:\n"
+"The color of the textures will be reduced to 16bpp.\n"
+"This is another space saver and performance enhancer.\n"
+"This halves the space used on the texture cache and the GFX hardware's texture RAM.\n"
+"Color reduction is done so that the original quality is preserved as much as possible.\n"
+"Depending on the texture, this usually is hardly noticeable.\n"
+"Sometimes though, it can be: skies are a good example.\n"
+"[Recommended: off]"
+msgstr ""
+"Forcer les textures en 16 bits:\n"
+"La couleur des textures sera réduit à 16 bits.\n"
+"C'est une autre source d'économie de mémoire et d'augementation des performances.\n"
+"Ceci réduit de moitié l'espace utilisé dans le cache des textures et dans la mémoire de la carte vidéo.\n"
+"La réduction des couleurs essaye de préserver la qualité originelle autant que possible.\n"
+"Selon la texture, cette réduction sera à pein remarquable.\n"
+"Parfois elle peut l'être: les ciels sont un bon exemple.\n"
+"[Recommandé: desactivée]"
+
+#: Config.cpp:650
+msgid ""
+"Texture dumping mode:\n"
+"In this mode, you have that ability to dump textures on screen to the appropriate folder.\n"
+"You can also reload textures while the game is running to see how they look instantly - big time saver!\n"
+"\n"
+"Hotkeys: \"R\" reloads hires textures from the texture pack - \"D\" toggles texture dumps on/off."
+msgstr ""
+"Mode dumping des textures:\n"
+"Dans ce mode, vous avez la possibilité de dumper les textures affichées à l'écran dans le répertoire approprié.\n"
+"Vous pouvez aussi recharger les textures pendant que le jeu tourne pour voir à quoi elles ressemblent directement - gain de temps considérable!\n"
+"\n"
+"Raccourcis clavier: \"R\" recharge les textures haute résolution à partir du paquet de textures - \"D\" active/désactive le dump des textures."
+
+#: Config.cpp:652
+msgid ""
+"Alternative CRC calculation:\n"
+"This option enables emulation of a palette CRC calculation bug in RiceVideo.\n"
+"If some textures are not loaded, try to set this option on/off.\n"
+"[Recommended: texture pack dependant, mostly on]"
+msgstr ""
+"Calcul alternatif du CRC:\n"
+"Cette option active l'émulation d'un bug de calcul de la palette CRC par RiceVideo.\n"
+"Si certaines textures ne se chargent pas , activez our désactivez cette option .\n"
+"[Recommandé: selon le paquet de textures, principalement activé]"
+
+#: Config.cpp:657
+msgid ""
+"Compress texture cache:\n"
+"When game started, plugin loads all its hi-resolution textures into PC memory.\n"
+"Since hi-resolution textures are usually large, the whole pack can take hundreds megabytes of memory.\n"
+"Cache compression allows save memory space greatly.\n"
+"Textures will be decompressed on-the-fly, before being downloaded to the gfx hardware.\n"
+"This option will still help save memory space even when using texture compression.\n"
+"[Recommended: on]"
+msgstr ""
+"Compression du cache des textures:\n"
+"Lorsqu'un jeu est lancé, le plugin charge toutes les textures haute résolution dans mémoire du PC.\n"
+"Puisque les textures haute résolution sont habituellement assez larges, tout le paquet peut prendre des centaines de megabytes de mémoire.\n"
+"La compression du cache permet de sauver de beaucoup d'espace mémoire.\n"
+"Les textures seront décompréssées à la volée, avant d'être envoyé à la carte graphique.\n"
+"Cette option sauvera de l'espace mémoire même en utilisant la compression des textures.\n"
+"[Recommandé: activé]"
+
+#: Config.cpp:659
+msgid ""
+"Use Alpha channel fully:\n"
+"When this option is off, 16bit rgba textures will be loaded using RiceVideo style\n"
+"- with 1bit for alpha channel.\n"
+"When it is on, GlideHQ will check, how alpha channel is used by the hires texture,\n"
+"and select most appropriate format for it.\n"
+"This gives texture designers freedom to play with alpha, as they need,\n"
+"regardless of format of original N64 texture.\n"
+"For older and badly designed texture packs it can cause unwanted black borders.\n"
+"[Recommended: texture pack dependant]"
+msgstr ""
+"Utilisation du canal alpha pleinement:\n"
+"Lorsque cette option est desactivée, les textures rgba 16 bits seront chargées en utilisant le style RiceVideo\n"
+"- avec un 1bit for canal alpha.\n"
+"Lorsqu'elle est active, GlideHQ vérifiera comment le canal alpha est utilisé par les textures haute résolution,\n"
+"et sélectionnera le format les plus approprié pour celles-ci.\n"
+"Cela donne aux designers la liberté de jouer avec le canal alpha selon leurs besoins,\n"
+"sans faire attention au format original de la texture.\n"
+"For les plus vieux et mal conçu des paquets de textures cela peut causer des bords noirs non desirés.\n"
+"[Recommandé: selon le paquet de textures]"
+
+#: Config.cpp:662
+msgid ""
+"Save texture cache to HD:\n"
+"\n"
+"For enhanced textures cache:\n"
+"This will save all previously loaded and enhanced textures to HD.\n"
+"So upon next game launch, all the textures will be instantly loaded, resulting in smoother performance.\n"
+"\n"
+"For high-resolution textures cache:\n"
+"After creation, loading hi-res texture will take only a few seconds upon game launch,\n"
+"as opposed to the 5 -60 seconds a pack can take to load without this cache file.\n"
+"The only downside here is upon any changes to the pack, the cache file will need to be manually deleted.\n"
+"\n"
+"Saved cache files go into a folder called \"Cache\" within the Plugins folder.\n"
+"\n"
+"[Highly Recommended: on]"
+msgstr ""
+"Sauver le cache des textures sur le disque dur:\n"
+"\n"
+"Pour une cache de textures améliorées:\n"
+"Cela sauvera toutes les textures préalablement chargées sur le disque dur.\n"
+"Au prochain lancement du jeu, toutes les textures seront instantement chargées, ce qui améliore les performances.\n"
+"\n"
+"Pour un cache de textures haute resolution:\n"
+"Après création, le chargement des textures haute résolution ne prendra que quelque secondes au lancement du jeu,\n"
+", loin des 5 à 60 secondes qu'un paquet de textures peut prendre pour charger sans le cache.\n"
+"Seulement si le paquet de textures change, le cache doit être manuellement effacé.\n"
+"\n"
+"Sauver les fichiers du cache dans un répertoire nommé \"Cache\" dans le répertoire Plugins.\n"
+"\n"
+"[Hautement Recommandé: activé]"
+
+#: Config.cpp:685
+msgid "Debug"
+msgstr "Debug"
+
+#: Config.cpp:686
+msgid ""
+"Autodetect Microcode\n"
+"If this option is checked, the microcode of the game\n"
+"will be detected automatically from the INI, and\n"
+"therefore it will not need to be set in this\n"
+"configuration dialog.\n"
+"[Recommended: on]"
+msgstr ""
+"Détection automatique du microcode\n"
+"Si cette option est activée, le microcode du jeu\n"
+"sera automatiquement détecté à partir de l'INI, et\n"
+"donc il n'est pas besoin de le choisir\n"
+"dans la boite de dialogue.\n"
+"[Recommandé: activé]"
+
+#: Config.cpp:688
+msgid ""
+"Force Microcode\n"
+"This option ONLY has an effect if Autodetect Microcode\n"
+"is unchecked, the crc from the game could not be\n"
+"found in the INI, OR after the game has already started\n"
+"running. In any of those three cases, this will\n"
+"select the microcode to use\n"
+"[Recommended: any, turn on Autodetect Microcode]"
+msgstr ""
+"Forcer le microcode\n"
+"Cette option n'a SEULEMENT d'effet si l'autodétection du microcode\n"
+"est désactivée, the crc du jeu ne peut pas\n"
+"trouvé dans l'INI, OU après que le jeu ne soit lancé.\n"
+"Si ces trois conditions sont remplis cas, le microcode selectionné\n"
+"sera utilisé\n"
+"[Recommandé: desactivée]"
+
+#: Config.cpp:692
+msgid ""
+"Wireframe\n"
+"This option, when checked, makes it so that the plugin will draw only the\n"
+"outlines of objects.  The colors specified in the combo box to the right\n"
+"determines the color that the wireframes show up as.\n"
+"[Recommended: off]"
+msgstr ""
+"Wireframe\n"
+"Cette option fait en sorte que le plugin n'affiche que les arrêtes des objets.\n"
+"Les couleurs spécifiées dans la boite de dialogue à droite\n"
+"determine la couleur que ces arrêtes prennent.\n"
+"[Recommandé: desactivée]"
+
+#: Config.cpp:694
+msgid ""
+"Wireframe Colors\n"
+"This selects the colors to use for the wireframes (if wireframe mode is enabled).\n"
+"There are 3 modes:\n"
+"* Original colors - draw exactly as it would normally, textures and all, only in wireframes.\n"
+"* Vertex colors - use the colors specified in the vertices to draw the wireframes with.\n"
+"* Red only - use a constant red color to draw the wireframes.\n"
+"[Recommended: Vertex colors]"
+msgstr ""
+"Couleurs des arrêtes\n"
+"Cela selectionne les couleurs lors de l'utilisation des arrêtes (si le mode \"Wireframe\" est activé).\n"
+"Il existe 3 modes:\n"
+"* Couleurs originales - utilise exactement les couleurs définies par le jeu lui même mais en affichant seulement les arrêtes.\n"
+"* Couleurs des vertices - utilise les couleurs spécifiées des vertices pour afficher les arrêtes.\n"
+"* Rouge seulement - utilise une seule couleur rouge pour afficher les arrêtes.\n"
+"[Recommandé: les couleurs des vertices]"
+
+#: Config.cpp:696
+msgid ""
+"Log to RDP.txt\n"
+"RECOMMENDED FOR DEBUGGING ONLY - this option, when checked, will log EVERY SINGLE\n"
+"COMMAND the plugin processes to a file called RDP.txt in the current directory.\n"
+"This is incredibly slow, so I recommend keeping it disabled.\n"
+"[Recommended: off]"
+msgstr ""
+"Log vers RDP.txt\n"
+"RECOMMANDE POU DEBOGAGE SEULEMENT - Cette option si activée logera chaque\n"
+"COMMANDE que le plugin exécute vers un fichier nommé RDP.txt dans le répertoire du plugin.\n"
+"Ceci est incroyablement lent, donc il est recommandé de garder cette option désactivée.\n"
+"[Recommandé: désactivée]"
+
+#: Config.cpp:698
+msgid ""
+"Unknown combiners as red\n"
+"Objects that use an unimplemented combine mode will show up as red instead of\n"
+"assuming texture with full alpha. Disable this option to remove the red stuff\n"
+"and at least have a guess at the correct combine mode.\n"
+"[Recommended: off]"
+msgstr ""
+"Combiners inconnus en rouge\n"
+"Les objets qui utilise des modes de combiners inconnus seront affichés en rouge\n"
+"au lieu de sa texture. Désactiver cette option pour ne plus voir ce rouge\n"
+"et au moins deviner le mode de combiners correct.\n"
+"[Recommandé: désactivée]"
+
+#: Config.cpp:700
+msgid ""
+"Log clear every frame\n"
+"RECOMMENDED FOR DEBUGGING ONLY - this option has no effect unless 'Log to RDP.txt'\n"
+"is checked. This will make it so that the log, RDP.txt, will be cleared at the\n"
+"beginning of every frame.\n"
+"[Recommended: off]"
+msgstr ""
+"Logger à chaque frame\n"
+"RECOMMANDE SEULEMENT POUR DEBOGAGE - cette option n'a pas d' effet sauf si 'Log to RDP.txt'\n"
+"est activé. Cela fera que le log sera effacé à chaque frame\n"
+"[Recommandé: désactivée]"
+
+#: Config.cpp:702
+msgid ""
+"Log unknown combiners\n"
+"RECOMMENDED FOR DEBUGGING ONLY - when checked, this option will cause every\n"
+"unimplemented combiner drawn to be logged to a file called Unimp.txt in the\n"
+"current directory. This becomes slow when there are unimplemented combiners\n"
+"on the screen, so I recommend keeping it disabled.\n"
+"[Recommended: off]"
+msgstr ""
+"Logger les combiners inconnus\n"
+"RECOMMANDE SEULEMENT POUR DEBOGAGE - lorsqu'elle est active cette option aura pour effets\n"
+"de logger tous les combiners non implémentés vers un fichier nommé Unimp.txt dans\n"
+"répertoire courant. Lorsque beaucoup de combiners non implémentés sont affichés à l'écran, des ralentissements peuvent survenir\n"
+", de ce fait il est recommandé de garder cette option désactivée.\n"
+"[Recommandé: desactivée]"
+
+#: Config.cpp:704
+msgid ""
+"Run and log in window\n"
+"RECOMMENDED FOR DEBUGGING ONLY - this option will make it so that the plugin will\n"
+"still process dlists in windowed mode. This allows for logging to occur while not\n"
+"in fullscreen, possibly allowing you to debug a crash.\n"
+"[Recommended: off]"
+msgstr ""
+"Logger en mode fenêtré\n"
+"RECOMMANDE SEULEMENT POUR DEBOGAGE - cette option fera que le pluginl\n"
+"continuera à traiter les dlists en mode fenêtré. Ceci permet de logger même\n"
+"sans affichage, permettant de deboger un crash.\n"
+"[Recommandé: desactivée]"
+
+#: Config.cpp:706
+msgid ""
+"Clear unknown combiner log every frame\n"
+"RECOMMENDED FOR DEBUGGING ONLY - this option works much like 'Log clear every frame'\n"
+"except it clears the combiner log (Unimp.txt) instead of RDP.txt at the\n"
+"beginning of each frame. Again, this option has no effect if 'combiner logging' is disabled.\n"
+"[Recommended: off]"
+msgstr ""
+"Effacer le log des combiner inconnus à chaque frame\n"
+"RECOMMANDE SEULEMENT POUR DEBOGAGE - cette option ressemble à 'Logger à chaque frame'\n"
+"sauf que c'est le log des combiners qui s'efface (Unimp.txt) au lieu de RDP.txt à chaque frame.\n"
+"De même cette option n'a aucun effet si 'logger les combiners' est désactivé.\n"
+"[Recommandé: desactivée]"
+
+#: Config.cpp:709
+msgid ""
+"Bilinear filter texture cache\n"
+"RECOMMENDED FOR DEBUGGING ONLY - when checked, this option will make the graphical\n"
+"debugger texture cache use bilinear filtering as opposed to point-sampled filtering,\n"
+"which it will use otherwise. See 'Filtering mode' for descriptions of bilinear and\n"
+"point-sampled filtering.\n"
+"[Recommended: off]"
+msgstr ""
+"Cache de textures en filtre bilinéaire\n"
+"RECOMMANDE SEULEMENT POUR DEBOGAGE - lorsque activée cette ption fera en sorte que\n"
+"le cache pour le déboggage des textures utilise le filtre bilinéaire et non le filtre 'point-sampled',\n"
+"qu'il utiliserait autrement. Voir 'Mode de filtrage' pour la description de filtre\n"
+"bilinéaire et 'point-sampled'.\n"
+"[Recommandé: désactivée]"
+
+#: Config.cpp:1104
+msgid "Glide64 settings"
+msgstr "Paramètres Glide64"
+
+#: Config.cpp:1293
+msgid "About Glide64"
+msgstr "A propos Glide64"
+
+#: Config.cpp:1326
+msgid "authors:"
+msgstr "auteurs:"
+
+#: Config.cpp:1330
+msgid ""
+"Dave2001. Original author and former main developer.\n"
+"He founded Glide64 project on Dec. 29th, 2001.\n"
+"Left the project at fall of 2002.\n"
+msgstr ""
+"Dave2001. Auteur originel et ancien principal développeur.\n"
+"Il fonda le projet Glide64 le 29 Décembre 2001.\n"
+"Parti du projet à l'automne 2002.\n"
+
+#: Config.cpp:1336
+msgid ""
+"Gugaman. Developer. Joined the project at winter 2002\n"
+" and left it at fall 2002."
+msgstr ""
+"Gugaman. Développeur. A rejoint le projet en hiver 2002\n"
+" and l'a quitté à l'automne 2002."
+
+#: Config.cpp:1342
+msgid ""
+"Sergey 'Gonetz' Lipski. Joined the project at winter 2002.\n"
+"Main developer since fall of 2002."
+msgstr ""
+"Sergey 'Gonetz' Lipski. A rejoint le projet fin 2002.\n"
+"Principal développeur depuis l'automne 2002."
+
+#: Config.cpp:1347
+msgid "Hiroshi 'KoolSmoky' Morii, Joined the project in 2007. "
+msgstr "Hiroshi 'KoolSmoky' Morii, A rejoint le project en 2007. "
+
+#: Config.cpp:1350
+msgid "Glitch64 (the wrapper) authors:"
+msgstr "Auteurs de Glitch64 (le wrapper):"
+
+#: Config.cpp:1374
+msgid "GlideHQ author:"
+msgstr "Auteur de GlideHQ:"
+
+#: Config.cpp:1381
+msgid "beta tester:"
+msgstr "beta tester:"
+
+#: Config.cpp:1388
+msgid ""
+"special thanks to:\n"
+" Orkin, Rice, Daniel Borca, Legend.\n"
+"Thanks to EmuXHaven for hosting my site:\n"
+"http://glide64.emuxhaven.net\n"
+msgstr ""
+"Grand merci à:\n"
+"Orkin, Rice, Daniel Borca, Legend.\n"
+"Merci à EmuXHaven d'héberger mon site:\n"
+"http://glide64.emuxhaven.net\n"
+
