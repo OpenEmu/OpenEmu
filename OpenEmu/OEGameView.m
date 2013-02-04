@@ -598,6 +598,14 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
 
 - (void)OE_multipassRender:(OEMultipassShader *)multipassShader usingVertices:(const GLfloat *)vertices inCGLContext:(CGLContextObj)cgl_ctx
 {
+    const GLfloat rtt_verts[] =
+    {
+        -1, -1,
+        1, -1,
+        1,  1,
+        -1,  1
+    };
+    
     NSArray    *shaders        = [multipassShader shaders];
     NSUInteger  numberOfPasses = [multipassShader numberOfPasses];
     int         outputWidth    = _gameScreenSize.width;
@@ -692,7 +700,11 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         }
 
-        [self OE_applyCgShader:shaders[i] usingVertices:vertices withTextureSize:OESizeMake(textureWidth, textureHeight) withOutputSize:self.frame.size inCGLContext:cgl_ctx];
+        if(i == numberOfPasses - 1)
+            [self OE_applyCgShader:shaders[i] usingVertices:vertices withTextureSize:OESizeMake(textureWidth, textureHeight) withOutputSize:self.frame.size inCGLContext:cgl_ctx];
+        else
+            [self OE_applyCgShader:shaders[i] usingVertices:rtt_verts withTextureSize:OESizeMake(textureWidth, textureHeight) withOutputSize:self.frame.size inCGLContext:cgl_ctx];
+
     }
 }
 
