@@ -402,7 +402,7 @@ void NST_CALLBACK doEvent(void *userData, Nes::Api::Machine::Event event, Nes::R
     sound.SetSampleBits( 16 );
     sound.SetSampleRate( SAMPLERATE );
     sound.SetVolume(Nes::Api::Sound::ALL_CHANNELS, 100);
-    sound.SetSpeaker( Nes::Api::Sound::SPEAKER_STEREO );
+    sound.SetSpeaker( Nes::Api::Sound::SPEAKER_MONO );
     sound.SetSpeed( [self frameInterval] );
 
     bufFrameSize = (SAMPLERATE / [self frameInterval]);
@@ -662,7 +662,7 @@ static int Heights[2] =
 
 - (NSUInteger)channelCount
 {
-    return 2;
+    return 1;
 }
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
