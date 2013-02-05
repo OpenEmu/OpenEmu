@@ -1070,28 +1070,36 @@ INLINE uint OPER_PCIX_32(void)  {uint ea = EA_PCIX_32();  return m68ki_read_pcre
 /* ---------------------------- Stack Functions --------------------------- */
 
 /* Push/pull data from the stack */
+/* Optimized access assuming stack is always located in ROM/RAM [EkeEke] */  
 INLINE void m68ki_push_16(uint value)
 {
   REG_SP = MASK_OUT_ABOVE_32(REG_SP - 2);
-  m68ki_write_16(REG_SP, value);
+  /*m68ki_write_16(REG_SP, value);*/
+  *(uint16 *)(m68ki_cpu.memory_map[(REG_SP>>16)&0xff].base + (REG_SP & 0xffff)) = value;
 }
 
 INLINE void m68ki_push_32(uint value)
 {
   REG_SP = MASK_OUT_ABOVE_32(REG_SP - 4);
-  m68ki_write_32(REG_SP, value);
+  /*m68ki_write_32(REG_SP, value);*/
+  *(uint16 *)(m68ki_cpu.memory_map[(REG_SP>>16)&0xff].base + (REG_SP & 0xffff)) = value >> 16;
+  *(uint16 *)(m68ki_cpu.memory_map[((REG_SP + 2)>>16)&0xff].base + ((REG_SP + 2) & 0xffff)) = value & 0xffff;
 }
 
 INLINE uint m68ki_pull_16(void)
 {
+  uint sp = REG_SP;
   REG_SP = MASK_OUT_ABOVE_32(REG_SP + 2);
-  return m68ki_read_16(REG_SP-2);
+  return m68k_read_immediate_16(sp);
+  /*return m68ki_read_16(sp);*/
 }
 
 INLINE uint m68ki_pull_32(void)
 {
+  uint sp = REG_SP;
   REG_SP = MASK_OUT_ABOVE_32(REG_SP + 4);
-  return m68ki_read_32(REG_SP-4);
+  return m68k_read_immediate_32(sp);
+  /*return m68ki_read_32(sp);*/
 }
 
 

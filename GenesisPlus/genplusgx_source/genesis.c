@@ -327,8 +327,33 @@ void gen_reset(int hard_reset)
 
   /* reset Z80 */
   z80_reset();
-}
 
+  /* some Z80 registers need to be initialized on Power ON */
+  if (hard_reset)
+  {
+    /* Power Base Converter specific */
+    if (system_hw == SYSTEM_PBC)
+    {
+      /* startup code logic (verified on real hardware): */
+      /* 21 01 E1 : LD HL, $E101
+         25 -- -- : DEC H
+         F9 -- -- : LD SP,HL
+         C7 -- -- : RST $00
+         01 01 -- : LD BC, $xx01
+      */
+      Z80.hl.w.l = 0xE001;
+      Z80.sp.w.l = 0xDFFF;
+      Z80.r = 4;
+    }
+
+    /* Master System specific (when BIOS is disabled) */
+    else if ((system_hw & SYSTEM_SMS) && (!(config.bios & 1) || !(system_bios & SYSTEM_SMS)))
+    {
+      /* usually done by BIOS & required by some SMS games that don't initialize SP */
+      Z80.sp.w.l = 0xDFFF;
+    }
+  }
+}
 
 /*-----------------------------------------------------------------------*/
 /*  OS ROM / TMSS register control functions (Genesis mode)              */

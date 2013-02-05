@@ -62,7 +62,6 @@ extern unsigned char (*z80_readport)(unsigned int port);
 extern void z80_init(const void *config, int (*irqcallback)(int));
 extern void z80_reset (void);
 extern void z80_run(unsigned int cycles);
-extern void z80_burn(unsigned int cycles);
 extern void z80_get_context (void *dst);
 extern void z80_set_context (void *src);
 extern void z80_set_irq_line(unsigned int state);

@@ -31,6 +31,7 @@
  *      This Z80 emulator assumes a ZiLOG NMOS model.
  *
  *   Additional changes [Eke-Eke]:
+ *    - Removed z80_burn function (unused)
  *    - Discarded multi-chip support (unused)
  *    - Fixed cycle counting for FD and DD prefixed instructions
  *    - Fixed behavior of chained FD and DD prefixes (R register should be only incremented by one
@@ -3358,11 +3359,9 @@ void z80_init(const void *config, int (*irqcallback)(int))
   Z80.daisy = config;
   Z80.irq_callback = irqcallback;
 
-  /* Reset registers to their initial values (NB: should be random on real hardware) */
-  AF = BC = DE = HL = 0;
+  /* Clear registers values (NB: should be random on real hardware ?) */
+  AF = BC = DE = HL = SP = IX = IY =0;
   F = ZF; /* Zero flag is set */
-  IX = IY = 0xffff; /* IX and IY are FFFF after a reset! (from MAME) */
-  SP = 0xdfff;  /* required by some SMS games that don't initialize SP */
 
   /* setup cycle tables */
   cc[Z80_TABLE_op] = cc_op;
@@ -3410,20 +3409,6 @@ void z80_run(unsigned int cycles)
     EXEC_INLINE(op,ROP());
   }
 } 
-
-/****************************************************************************
- * Burn 'cycles' T-states. Adjust R register for the lost time
- ****************************************************************************/
-void z80_burn(unsigned int cycles)
-{
-  if( cycles > 0 )
-  {
-    /* NOP takes 4 cycles per instruction */
-    int n = (cycles + 3) / 4;
-    R += n;
-    Z80.cycles += 4 * n * 15;
-  }
-}
 
 /****************************************************************************
  * Get all registers in given buffer

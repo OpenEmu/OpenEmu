@@ -650,6 +650,12 @@ void ctrl_io_write_byte(unsigned int address, unsigned int data)
             return;
           }
 
+          case 0x02:  /* PRG-RAM Write Protection */
+          {
+            scd.regs[0x02>>1].byte.h = data;
+            return;
+          }
+
           case 0x03:  /* Memory mode */
           {
             m68k_poll_sync(0x02);
