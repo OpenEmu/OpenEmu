@@ -153,6 +153,11 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [newSaveState setCoreVersion:[core version]];
     [newSaveState setTimestamp:[NSDate date]];
     
+    if([name hasPrefix:OESaveStateSpecialNamePrefix])
+    {
+        name = NSLocalizedString(name, @"Localized special save state name");
+    }
+    
     NSError  *error              = nil;
     NSString *fileName           = [NSURL validFilenameFromString:name];
     NSURL    *saveStateFolderURL = [database stateFolderURLForROM:rom];
