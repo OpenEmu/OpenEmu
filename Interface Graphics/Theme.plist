@@ -1616,6 +1616,8 @@
 			<dict>
 				<key>Default</key>
 				<string>{{0,8},{7,8}}</string>
+				<key>Disabled</key>
+				<string>{{0,16},{7,8}}</string>
 				<key>Pressed</key>
 				<string>{{0,0},{7,8}}</string>
 			</dict>
@@ -1731,6 +1733,8 @@
 			<dict>
 				<key>Default</key>
 				<string>{{0,0},{7,8}}</string>
+				<key>Disabled</key>
+				<string>{{0,16},{7,8}}</string>
 				<key>Pressed</key>
 				<string>{{0,8},{7,8}}</string>
 			</dict>

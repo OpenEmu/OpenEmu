@@ -62,6 +62,8 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
             QLPreviewRequestFlushContext(preview, cgContext);
             CFRelease(cgContext);
         }
+        
+        [image release];
     }
     return noErr;
 }

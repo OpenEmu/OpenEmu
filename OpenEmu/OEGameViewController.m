@@ -679,6 +679,7 @@ typedef enum : NSUInteger
         NSString *temporaryDirectoryPath = NSTemporaryDirectory();
         NSURL    *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
         NSURL    *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+        OECorePlugin *core = [gameCoreManager plugin];
 
         temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:
                                  ^ NSURL *(NSInteger triesCount)
@@ -698,10 +699,12 @@ typedef enum : NSUInteger
         if(isSpecialSaveState)
         {
             state = [[self rom] saveStateWithName:stateName];
+            [state setCoreIdentifier:[core bundleIdentifier]];
+            [state setCoreVersion:[core version]];
         }
 
         if(state == nil)
-            state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:[gameCoreManager plugin] withFile:temporaryStateFileURL];
+            state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL];
         else
         {
             [state replaceStateFileWithFile:temporaryStateFileURL];
