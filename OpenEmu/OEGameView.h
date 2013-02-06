@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2010, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -32,23 +31,26 @@
 #import <Syphon/Syphon.h>
 
 #import "OEGameCoreHelper.h"
-#import "OEGameShader.h"
 
 @protocol OEGameCoreHelper;
 @class OESystemResponder;
 
 @interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
 
-@property(nonatomic, strong) id<OEGameCoreHelper> rootProxy;
-@property(strong) OESystemResponder *gameResponder;
+@property(nonatomic) id<OEGameCoreHelper> rootProxy;
+@property(nonatomic) OESystemResponder *gameResponder;
 
 // QC based filters
 @property(copy) NSDictionary *filters;
 @property(nonatomic, copy) NSString *filterName;
-@property(strong) NSString* gameTitle;
+@property(nonatomic, copy) NSString *gameTitle;
 
-@property (copy) void (^screenshotHandler)(NSImage *img);
-- (void) captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
+// Screenshots
+/* Returns a screenshot containing the game viewport with its current size in the window and filters */
+- (NSImage *)screenshot;
+
+/* Returns a screenshot as rendered by the emulator core: native size and no filters */
+- (NSImage *)nativeScreenshot;
 
 // Rendering methods
 - (void)setupDisplayLink;

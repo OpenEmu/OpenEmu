@@ -61,6 +61,8 @@ Type 'make' by itself to view all available build options:
      LIRC=1        == enable LIRC support
      NO_ASM=1      == build without assembly (no dynamic recompiler or MMX/SSE code)
      SHAREDIR=path == extra path to search for shared data files
+     OPTFLAGS=flag == compiler optimization (default: -O3)
+     PIC=(1|0)     == Force enable/disable of position independent code
    Install Options:
      PREFIX=path   == install/uninstall prefix (default: /usr/local/)
      SHAREDIR=path == path to install shared data (default: PREFIX/share/mupen64plus/)
@@ -75,6 +77,7 @@ Type 'make' by itself to view all available build options:
      DBG_COUNT=1   == print R4300 instruction count totals (64-bit dynarec only)
      DBG_COMPARE=1 == enable core-synchronized r4300 debugging
      DBG_PROFILE=1 == dump profiling data for r4300 dynarec to data file
+     V=1           == show verbose compiler output
 
 3. Installation
 ---------------

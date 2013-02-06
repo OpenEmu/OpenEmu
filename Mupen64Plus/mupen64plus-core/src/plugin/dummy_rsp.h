@@ -24,6 +24,8 @@
 
 #include "api/m64p_plugin.h"
 
+extern m64p_error dummyrsp_PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion,
+                                            int *APIVersion, const char **PluginNamePtr, int *Capabilities);
 extern unsigned int dummyrsp_DoRspCycles(unsigned int Cycles);
 extern void dummyrsp_InitiateRSP(RSP_INFO Rsp_Info, unsigned int *CycleCount);
 extern void dummyrsp_RomClosed(void);

@@ -24,11 +24,15 @@
 
 #include "dbg_types.h"
 
-/* this debugger code used stdint.h and stdbool.h which are not available under Win32 */
+#if defined(WIN32)
 typedef unsigned int uint32_t;
 typedef unsigned char bool;
 #define false 0
 #define true 1
+#else
+#include <stdint.h>
+#include <stdbool.h>
+#endif
 
 /* Disassembler lookup handler */
 typedef char * (*r4k_lookup_func)(uint32_t, void *);
@@ -49,12 +53,6 @@ struct r4k_dis_t
     int length;
 }
 R4kDis;
-
-extern void r4k_dis_init ( R4kDis *, void *, void *, void *, void *, void *, void * );
-extern int r4k_disassemble ( R4kDis *, uint32_t, uint32_t, char * );
-extern int r4k_disassemble_quick ( uint32_t, uint32_t, char * );
-extern int r4k_disassemble_split ( R4kDis *, uint32_t, uint32_t, char **, char ** );
-extern int r4k_disassemble_split_quick ( uint32_t, uint32_t, char **, char ** );
 
 extern void r4300_decode_op ( uint32, char *, char *, int );
 

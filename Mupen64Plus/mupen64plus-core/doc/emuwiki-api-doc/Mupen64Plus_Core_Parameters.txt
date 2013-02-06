@@ -7,6 +7,10 @@ These are standard parameters which are used by the Mupen64Plus Core library.  T
 {| border="1"
 !Parameter Name!!Type!!Usage
 |-
+|Version
+|M64TYPE_FLOAT
+|Mupen64Plus Core config parameter set version number.  Please don't change.
+|-
 |OnScreenDisplay
 |M64TYPE_BOOL
 |Draw on-screen display if True, otherwise don't draw OSD
@@ -41,19 +45,19 @@ These are standard parameters which are used by the Mupen64Plus Core library.  T
 |-
 |SaveStatePath
 |M64TYPE_STRING
-|Path to directory where save states are saved.  If this is blank, the default value of "<tt>GetConfigUserDataPath()</tt>"/save will be used.
+|Path to directory where emulator save states (snapshots) are saved.  If this is blank, the default value of "<tt>GetConfigUserDataPath()</tt>"/save will be used.
+|-
+|SaveSRAMPath
+|M64TYPE_STRING
+|Path to directory where SRAM/EEPROM data (in-game saves) are stored.  If this is blank, the default value of "<tt>GetConfigUserDataPath()</tt>"/save will be used.
 |-
 |SharedDataPath
 |M64TYPE_STRING
 |Path to a directory to search when looking for shared data files in the <tt>ConfigGetSharedDataFilepath()</tt> function.
 |-
-|Language
-|M64TYPE_STRING
-|Language to use for messages from the core library
-|-
 |}
 
-These configuration parameters are used in the Core's event loop to detect keyboard commands.  The Keysym value stored is actually <tt>(SDLMod << 16) || SDLKey</tt>, so that keypresses with modifiers like shift, control, or alt may be used.
+These configuration parameters are used in the Core's event loop to detect keyboard and joystick commands.  They are stored in a configuration section called "CoreEvents" and may be altered by the front-end in order to adjust the behaviour of the emulator.  These may be adjusted at any time and the effect of the change should occur immediately.  The Keysym value stored is actually <tt>(SDLMod << 16) || SDLKey</tt>, so that keypresses with modifiers like shift, control, or alt may be used.
 
 {| border="1"
 !Parameter Name!!Type!!Usage
@@ -131,6 +135,10 @@ The command strings use a simple format described here.  For commands activated 
 {| border="1"
 !Parameter Name!!Type!!Usage
 |-
+|Version
+|M64TYPE_FLOAT
+|Mupen64Plus CoreEvents config parameter set version number.  Please don't change.
+|-
 |Joy Mapping Stop
 |M64TYPE_STRING
 |Joystick event string for stopping the emulator
@@ -157,7 +165,7 @@ The command strings use a simple format described here.  For commands activated 
 |-
 |Joy Mapping Pause
 |M64TYPE_STRING
-|Joystick event string for taking a screenshot
+|Joystick event string for pausing or resuming the emulator
 |-
 |Joy Mapping Mute
 |M64TYPE_STRING
@@ -170,6 +178,14 @@ The command strings use a simple format described here.  For commands activated 
 |Joy Mapping Decrease Volume
 |M64TYPE_STRING
 |Joystick event string for decreasing the volume
+|-
+|Joy Mapping Fast Forward
+|M64TYPE_STRING
+|Joystick event string for temporarily going really fast
+|-
+|Joy Mapping Gameshark
+|M64TYPE_STRING
+|Joystick event string for pressing the game shark button
 |-
 |}
 

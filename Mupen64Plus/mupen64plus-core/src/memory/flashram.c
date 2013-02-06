@@ -32,8 +32,9 @@
 #include "api/callbacks.h"
 #include "main/main.h"
 #include "main/rom.h"
+#include "main/util.h"
 
-int use_flashram;
+Flashram_info flashram_info;
 
 typedef enum flashram_mode
 {
@@ -44,38 +45,65 @@ typedef enum flashram_mode
     STATUS_MODE
 } Flashram_mode;
 
-static int mode;
-static unsigned long long status;
 static unsigned char flashram[0x20000];
-static unsigned int erase_offset, write_pointer;
 
-void save_flashram_infos(char *buf)
+static char *get_flashram_path(void)
 {
-    memcpy(buf+0 , &use_flashram , 4);
-    memcpy(buf+4 , &mode            , 4);
-    memcpy(buf+8 , &status         , 8);
-    memcpy(buf+16, &erase_offset , 4);
-    memcpy(buf+20, &write_pointer, 4);
+    return formatstr("%s%s.fla", get_savesrampath(), ROM_SETTINGS.goodname);
 }
 
-void load_flashram_infos(char *buf)
+static void flashram_format(void)
 {
-    memcpy(&use_flashram , buf+0 , 4);
-    memcpy(&mode            , buf+4 , 4);
-    memcpy(&status         , buf+8 , 8);
-    memcpy(&erase_offset , buf+16, 4);
-    memcpy(&write_pointer, buf+20, 4);
+    memset(flashram, 0xff, sizeof(flashram));
+}
+
+static void flashram_read_file(void)
+{
+    char *filename = get_flashram_path();
+
+    flashram_format();
+    switch (read_from_file(filename, flashram, sizeof(flashram)))
+    {
+        case file_open_error:
+            DebugMessage(M64MSG_WARNING, "couldn't open flash ram file '%s' for reading", filename);
+            flashram_format();
+            break;
+        case file_read_error:
+            DebugMessage(M64MSG_WARNING, "couldn't read 128kb flash ram file '%s'", filename);
+            break;
+        default: break;
+    }
+
+    free(filename);
+}
+
+static void flashram_write_file(void)
+{
+    char *filename = get_flashram_path();
+
+    switch (write_to_file(filename, flashram, sizeof(flashram)))
+    {
+        case file_open_error:
+            DebugMessage(M64MSG_WARNING, "couldn't open flash ram file '%s' for writing", filename);
+            break;
+        case file_write_error:
+            DebugMessage(M64MSG_WARNING, "couldn't write 128kb flash ram file '%s'", filename);
+            break;
+        default: break;
+    }
+
+    free(filename);
 }
 
 void init_flashram(void)
 {
-    mode = NOPES_MODE;
-    status = 0;
+    flashram_info.mode = NOPES_MODE;
+    flashram_info.status = 0;
 }
 
 unsigned int flashram_status(void)
 {
-    return (unsigned int) (status >> 32);
+    return (unsigned int) (flashram_info.status >> 32);
 }
 
 void flashram_command(unsigned int command)
@@ -83,121 +111,63 @@ void flashram_command(unsigned int command)
     switch (command & 0xff000000)
     {
     case 0x4b000000:
-        erase_offset = (command & 0xffff) * 128;
+        flashram_info.erase_offset = (command & 0xffff) * 128;
         break;
     case 0x78000000:
-        mode = ERASE_MODE;
-        status = 0x1111800800c20000LL;
+        flashram_info.mode = ERASE_MODE;
+        flashram_info.status = 0x1111800800c20000LL;
         break;
     case 0xa5000000:
-        erase_offset = (command & 0xffff) * 128;
-        status = 0x1111800400c20000LL;
+        flashram_info.erase_offset = (command & 0xffff) * 128;
+        flashram_info.status = 0x1111800400c20000LL;
         break;
     case 0xb4000000:
-        mode = WRITE_MODE;
+        flashram_info.mode = WRITE_MODE;
         break;
     case 0xd2000000:  // execute
-        switch (mode)
+        switch (flashram_info.mode)
         {
         case NOPES_MODE:
             break;
         case ERASE_MODE:
         {
-            char *filename;
-            FILE *f;
             unsigned int i;
-            filename = (char *) malloc(strlen(get_savesrampath())+
-                                       strlen(ROM_SETTINGS.goodname)+4+1);
-            strcpy(filename, get_savesrampath());
-            strcat(filename, ROM_SETTINGS.goodname);
-            strcat(filename, ".fla");
-            f = fopen(filename, "rb");
-            if (f == NULL)
-            {
-                DebugMessage(M64MSG_WARNING, "couldn't open flash ram file '%s' for reading", filename);
-                memset(flashram, 0xff, 0x20000);
-            }
-            else
-            {
-                if (fread(flashram, 1, 0x20000, f) != 0x20000)
-                    DebugMessage(M64MSG_WARNING, "couldn't read 128kb flash ram file '%s'", filename);
-                fclose(f);
-            }
-            for (i=erase_offset; i<(erase_offset+128); i++)
+            flashram_read_file();
+            for (i=flashram_info.erase_offset; i<(flashram_info.erase_offset+128); i++)
             {
                 flashram[i^S8] = 0xff;
             }
-            f = fopen(filename, "wb");
-            if (f == NULL)
-            {
-                DebugMessage(M64MSG_WARNING, "couldn't open flash ram file '%s' for writing", filename);
-            }
-            else
-            {
-                if (fwrite(flashram, 1, 0x20000, f) != 0x20000)
-                    DebugMessage(M64MSG_WARNING, "couldn't write 128kb flash ram file '%s'", filename);
-                fclose(f);
-            }
-            free(filename);
+            flashram_write_file();
         }
         break;
         case WRITE_MODE:
         {
-            char *filename;
-            FILE *f;
             int i;
-            filename = (char *) malloc(strlen(get_savesrampath())+
-                                       strlen(ROM_SETTINGS.goodname)+4+1);
-            strcpy(filename, get_savesrampath());
-            strcat(filename, ROM_SETTINGS.goodname);
-            strcat(filename, ".fla");
-            f = fopen(filename, "rb");
-            if (f == NULL)
-            {
-                DebugMessage(M64MSG_WARNING, "couldn't open flash ram file '%s' for reading", filename);
-                memset(flashram, 0xff, 0x20000);
-            }
-            else
-            {
-                if (fread(flashram, 1, 0x20000, f) != 0x20000)
-                    DebugMessage(M64MSG_WARNING, "couldn't read 128kb flash ram file '%s'", filename);
-                fclose(f);
-            }
+            flashram_read_file();
             for (i=0; i<128; i++)
             {
-                flashram[(erase_offset+i)^S8]=
-                    ((unsigned char*)rdram)[(write_pointer+i)^S8];
+                flashram[(flashram_info.erase_offset+i)^S8]=
+                    ((unsigned char*)rdram)[(flashram_info.write_pointer+i)^S8];
             }
-            f = fopen(filename, "wb");
-            if (f == NULL)
-            {
-                DebugMessage(M64MSG_WARNING, "couldn't open flashram file '%s' for writing", filename);
-            }
-            else
-            {
-                if (fwrite(flashram, 1, 0x20000, f) != 0x20000)
-                    DebugMessage(M64MSG_WARNING, "couldn't write 128kb flash ram file '%s'", filename);
-                fclose(f);
-            }
-            free(filename);
+            flashram_write_file();
         }
         break;
         case STATUS_MODE:
             break;
         default:
-            DebugMessage(M64MSG_WARNING, "unknown flashram command with mode:%x", (int)mode);
+            DebugMessage(M64MSG_WARNING, "unknown flashram command with mode:%x", (int)flashram_info.mode);
             stop=1;
             break;
         }
-        mode = NOPES_MODE;
+        flashram_info.mode = NOPES_MODE;
         break;
     case 0xe1000000:
-        mode = STATUS_MODE;
-        status = 0x1111800100c20000LL;
+        flashram_info.mode = STATUS_MODE;
+        flashram_info.status = 0x1111800100c20000LL;
         break;
     case 0xf0000000:
-        mode = READ_MODE;
-        status = 0x11118004f0000000LL;
+        flashram_info.mode = READ_MODE;
+        flashram_info.status = 0x11118004f0000000LL;
         break;
     default:
         DebugMessage(M64MSG_WARNING, "unknown flashram command: %x", (int)command);
@@ -208,34 +178,15 @@ void flashram_command(unsigned int command)
 void dma_read_flashram(void)
 {
     unsigned int i;
-    char *filename;
-    FILE *f;
 
-    switch (mode)
+    switch (flashram_info.mode)
     {
     case STATUS_MODE:
-        rdram[pi_register.pi_dram_addr_reg/4] = (unsigned int)(status >> 32);
-        rdram[pi_register.pi_dram_addr_reg/4+1] = (unsigned int)(status);
+        rdram[pi_register.pi_dram_addr_reg/4] = (unsigned int)(flashram_info.status >> 32);
+        rdram[pi_register.pi_dram_addr_reg/4+1] = (unsigned int)(flashram_info.status);
         break;
     case READ_MODE:
-        filename = (char *) malloc(strlen(get_savesrampath())+
-                                   strlen(ROM_SETTINGS.goodname)+4+1);
-        strcpy(filename, get_savesrampath());
-        strcat(filename, ROM_SETTINGS.goodname);
-        strcat(filename, ".fla");
-        f = fopen(filename, "rb");
-        if (f == NULL)
-        {
-            DebugMessage(M64MSG_WARNING, "couldn't open flash ram file '%s' for reading", filename);
-            memset(flashram, 0xff, 0x20000);
-        }
-        else
-        {
-            if (fread(flashram, 1, 0x20000, f) != 0x20000)
-                DebugMessage(M64MSG_WARNING, "couldn't read 128kb flash ram file '%s'", filename);
-            fclose(f);
-        }
-        free(filename);
+        flashram_read_file();
         for (i=0; i<(pi_register.pi_wr_len_reg & 0x0FFFFFF)+1; i++)
         {
             ((unsigned char*)rdram)[(pi_register.pi_dram_addr_reg+i)^S8]=
@@ -243,7 +194,7 @@ void dma_read_flashram(void)
         }
         break;
     default:
-        DebugMessage(M64MSG_WARNING, "unknown dma_read_flashram: %x", mode);
+        DebugMessage(M64MSG_WARNING, "unknown dma_read_flashram: %x", flashram_info.mode);
         stop=1;
         break;
     }
@@ -251,13 +202,13 @@ void dma_read_flashram(void)
 
 void dma_write_flashram(void)
 {
-    switch (mode)
+    switch (flashram_info.mode)
     {
     case WRITE_MODE:
-        write_pointer = pi_register.pi_dram_addr_reg;
+        flashram_info.write_pointer = pi_register.pi_dram_addr_reg;
         break;
     default:
-        DebugMessage(M64MSG_ERROR, "unknown dma_write_flashram: %x", mode);
+        DebugMessage(M64MSG_ERROR, "unknown dma_write_flashram: %x", flashram_info.mode);
         stop=1;
         break;
     }

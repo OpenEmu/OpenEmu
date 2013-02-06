@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -35,6 +35,7 @@
 
 #import "OESystemPlugin.h"
 #import "OECompositionPlugin.h"
+#import "OEShaderPlugin.h"
 
 #import "OEDeviceManager.h"
 #import "NSAttributedString+Hyperlink.h"
@@ -83,7 +84,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     if(self == [OEApplicationDelegate class])
     {
         NSString *path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
-        
+
         [[NSUserDefaults standardUserDefaults] registerDefaults:
          @{
                                        OEWiimoteSupportEnabled : @YES,
@@ -95,7 +96,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                        OEGameControlsBarCanDeleteSaveStatesKey : @YES,
                             @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x"
          }];
-        
+
         [OEToolTipManager load];
     }
 }
@@ -106,21 +107,21 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     {
         // Load Database
         [self loadDatabase];
-        
+
         // if no database was loaded open emu quits
         if(![OELibraryDatabase defaultDatabase])
         {
             [NSApp terminate:self];
             return self = nil;
         }
-        
-		[self OE_loadPlugins];		
+
+		[self OE_loadPlugins];
     }
-    
+
     return self;
 }
 
-- (void)dealloc 
+- (void)dealloc
 {
     [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins" context:_OEApplicationDelegateAllPluginsContext];
 }
@@ -135,24 +136,33 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     // Check to see if we crashed.
     [[FRFeedbackReporter sharedReporter] reportIfCrash];
-    
+
+    // Remove the Open Recent menu item
+    NSInteger openDocumentMenuItemIndex = [self.fileMenu indexOfItemWithTarget:nil andAction:@selector(openDocument:)];
+
+    if (openDocumentMenuItemIndex>=0 &&
+        [[self.fileMenu itemAtIndex:openDocumentMenuItemIndex+1] hasSubmenu])
+    {
+        [self.fileMenu removeItemAtIndex:openDocumentMenuItemIndex+1];
+    }
+
     // Run Migration Manager
     [[OEVersionMigrationController defaultMigrationController] runMigrationIfNeeded];
-    
+
     // TODO: Tell database to rebuild its "processing" queue
     // TODO: and lauch the queue in a while (5.0 seconds?)
-    
+
     // update extensions
     [self updateInfoPlist];
-    
+
     // Setup HID Support
     [self OE_setupHIDSupport];
-    
+
     // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
     [OECompositionPlugin allPluginNames];
-    
+
     [mainWindowController showWindow:self];
-    
+
     [[OECoreUpdater sharedUpdater] checkForNewCores:@( NO )];
 }
 
@@ -168,7 +178,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [NSApp replyToOpenOrPrint:NSApplicationDelegateReplyCancel];
         return;
     }
-    
+
     if([filenames count] == 1)
     {
         NSURL *url = [NSURL fileURLWithPath:[filenames lastObject]];
@@ -196,13 +206,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
      {
          if([document isKindOfClass:[OEGameDocument class]])
              [mainWindowController openGameDocument:(OEGameDocument *)document];
-         
+
          if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code]==OEImportRequiredError)
          {
              completionHandler(nil, NO, nil);
              return;
          }
-         
+
          if(completionHandler != nil)
              completionHandler(document, documentWasAlreadyOpen, error);
      }];
@@ -214,19 +224,19 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 - (void)loadDatabase
 {
     NSError *error = nil;
-    
+
     NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDatabasePathKey];
     if(databasePath == nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDefaultDatabasePathKey];
-    
+
     if(![[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:NULL] &&
        [databasePath isEqual:[[NSUserDefaults standardUserDefaults] objectForKey:OEDefaultDatabasePathKey]])
         [[NSFileManager defaultManager] createDirectoryAtPath:databasePath withIntermediateDirectories:YES attributes:nil error:nil];
-    
+
     BOOL userDBSelectionRequest = ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0;
     NSURL *databaseURL = [NSURL fileURLWithPath:databasePath];
     // if user holds down alt-key
     if(userDBSelectionRequest)
-    {        
+    {
         // we ask the user to either select/create one, or quit open emu
         [self OE_performDatabaseSelection];
     }
@@ -235,7 +245,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         DLog(@"%@", error);
         DLog(@"%@", [error domain]);
         DLog(@"%ld", [error code]);
-        
+
         if([error domain]==NSCocoaErrorDomain && [error code]==NSPersistentStoreIncompatibleVersionHashError)
         {
             // we try to migrate the databse to the new version
@@ -248,7 +258,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         {
             [NSApp presentError:error];
         }
-        
+
         // user must select a library
         [self OE_performDatabaseSelection];
     }
@@ -261,18 +271,18 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // because openemu will quit after calling loadDatabase if no database is available
     // that is because oe can't run without a database
     // please do not change this method, i'm tired of fixing stuff over and over again!!!!!
-    
+
     // setup alert, with options "Quit", "Select", "Create"
     NSString *title = @"Choose OpenEmu Library";
     NSString *const msg = @"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
-    
+
     NSString *chooseButton = @"Choose Library…";
     NSString *createButton = @"Create Library…";
     NSString *quitButton   = @"Quit";
-    
+
     NSAlert *alert = [NSAlert alertWithMessageText:title defaultButton:chooseButton alternateButton:quitButton otherButton:createButton informativeTextWithFormat:msg];
     [alert setIcon:[NSApp applicationIconImage]];
-    
+
     NSInteger result;
     switch([alert runModal])
     {
@@ -284,7 +294,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             [openPanel setCanChooseDirectories:YES];
             [openPanel setAllowsMultipleSelection:NO];
             result = [openPanel runModal];
-            
+
             if(result == NSOKButton)
             {
                 NSURL *databaseURL = [openPanel URL];
@@ -304,7 +314,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             NSSavePanel *savePanel = [NSSavePanel savePanel];
             [savePanel setNameFieldStringValue:@"OpenEmu Library"];
             result = [savePanel runModal];
-            
+
             if(result == NSOKButton)
             {
                 NSURL *databaseURL = [savePanel URL];
@@ -314,7 +324,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                 [self OE_createDatabaseAtURL:databaseURL];
             }
             else [self OE_performDatabaseSelection];
-            
+
             break;
         }
     }
@@ -334,10 +344,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             // if the library was loaded after migration, we exit
             if([OELibraryDatabase loadFromURL:databaseURL error:&error])
                 return;
-            
+
             [NSApp presentError:error];
         }
-        
+
         // otherwise performDatabaseSelection starts over
         [self OE_performDatabaseSelection];
     }
@@ -350,17 +360,20 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [OEPlugin registerPluginClass:[OECorePlugin class]];
     [OEPlugin registerPluginClass:[OESystemPlugin class]];
     [OEPlugin registerPluginClass:[OECompositionPlugin class]];
-    
+    [OEPlugin registerPluginClass:[OECGShaderPlugin class]];
+    [OEPlugin registerPluginClass:[OEGLSLShaderPlugin class]];
+    [OEPlugin registerPluginClass:[OEMultipassShaderPlugin class]];
+
     // Register all system controllers with the bindings controller
     for(OESystemPlugin *plugin in [OESystemPlugin allPlugins])
         [OEBindingsController registerSystemController:[plugin controller]];
-    
+
     // Preload composition plugins
     [OECompositionPlugin allPlugins];
-    
+
     [[OELibraryDatabase defaultDatabase] save:nil];
     [[OELibraryDatabase defaultDatabase] disableSystemsWithoutPlugin];
-    
+
     [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:_OEApplicationDelegateAllPluginsContext];
 }
 
@@ -386,10 +399,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 #pragma mark About Window
 
 - (void)showAboutWindow:(id)sender
-{    
+{
     [[self aboutWindow] center];
     [[self aboutWindow] makeKeyAndOrderFront:self];
-    
+
 }
 
 - (NSString *)aboutCreditsPath
@@ -409,7 +422,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     OECoreUpdater *updater = [OECoreUpdater sharedUpdater];
     [updater checkForUpdates];
-    
+
     BOOL hasUpdate = NO;
     for(OECoreDownload *dl in [updater coreList])
     {
@@ -419,7 +432,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             [dl startDownload:self];
         }
     }
-    
+
     if(hasUpdate)
     {
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Cores" forKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
@@ -437,7 +450,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // as it's generally bad to modify the bundle's contents and we may not have write access
     NSArray             *systemPlugins = [OESystemPlugin allPlugins];
     NSMutableDictionary *allTypes      = [NSMutableDictionary dictionaryWithCapacity:[systemPlugins count]];
-    
+
     for(OESystemPlugin *plugin in systemPlugins)
     {
         NSMutableDictionary *systemDocument = [NSMutableDictionary dictionary];
@@ -448,16 +461,16 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             [systemDocument setObject:@"Owner"                          forKey:@"LSHandlerRank"];
             [systemDocument setObject:[NSArray arrayWithObject:@"????"] forKey:@"CFBundleTypeOSTypes"];
         }
-        
+
         [systemDocument setObject:[plugin supportedTypeExtensions] forKey:@"CFBundleTypeExtensions"];
         NSString *typeName = [NSString stringWithFormat:@"%@ Game", [plugin systemName]];
         [systemDocument setObject:typeName forKey:@"CFBundleTypeName"];
         [allTypes setObject:systemDocument forKey:typeName];
     }
-    
+
     NSString *error = nil;
     NSPropertyListFormat format;
-    
+
     NSString *infoPlistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Info.plist"];
     NSData   *infoPlistXml  = [[NSFileManager defaultManager] contentsAtPath:infoPlistPath];
     NSMutableDictionary *infoPlist = [NSPropertyListSerialization propertyListFromData:infoPlistXml
@@ -470,17 +483,17 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     for(NSDictionary *type in existingTypes)
         [allTypes setObject:type forKey:[type objectForKey:@"CFBundleTypeName"]];
     [infoPlist setObject:[allTypes allValues] forKey:@"CFBundleDocumentTypes"];
-    
+
     NSData *updated = [NSPropertyListSerialization dataFromPropertyList:infoPlist
                                                                  format:NSPropertyListXMLFormat_v1_0
                                                        errorDescription:&error];
-    
+
     BOOL isUpdated = NO;
     if(updated != nil)
         isUpdated = [updated writeToFile:infoPlistPath atomically:YES];
     else
         NSLog(@"Error: %@", error);
-    
+
     NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
 
@@ -504,7 +517,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (NSInteger)numberOfItemsInMenu:(NSMenu *)menu
 {
-    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];    
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSDictionary *lastPlayedInfo = [database lastPlayedRomsBySystem];
     __block NSUInteger count = [[lastPlayedInfo allKeys] count];
 
@@ -513,13 +526,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [self setCachedLastPlayedInfo:nil];
         return 1;
     }
-    
+
     [[lastPlayedInfo allValues] enumerateObjectsUsingBlock:
      ^(id romArray, NSUInteger idx, BOOL *stop)
      {
          count += [romArray count];
      }];
-    
+
     NSMutableArray *lastPlayed = [NSMutableArray arrayWithCapacity:count];
     NSArray *sortedSystems = [[lastPlayedInfo allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     [sortedSystems enumerateObjectsUsingBlock:
@@ -528,7 +541,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
          [lastPlayed addObject:obj];
          [lastPlayed addObjectsFromArray:[lastPlayedInfo valueForKey:obj]];
      }];
-    
+
     [self setCachedLastPlayedInfo:lastPlayed];
     return count;
 }
@@ -543,7 +556,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [item setIndentationLevel:0];
         return YES;
     }
-    
+
     id value = [[self cachedLastPlayedInfo] objectAtIndex:index];
     if([value isKindOfClass:[NSString class]])
     {
@@ -560,7 +573,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [item setAction:@selector(launchLastPlayedROM:)];
         [item setTarget:[self mainWindowController]];
     }
-    
+
     return YES;
 }
 

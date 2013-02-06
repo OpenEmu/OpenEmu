@@ -9,6 +9,10 @@ These are standard parameters which are used by the Mupen64Plus plugins.  The be
 {| border="1"
 !Parameter Name!!Type!!Usage
 |-
+|Version
+|M64TYPE_FLOAT
+|Mupen64Plus Audio SDL config parameter set version number.  Please don't change.
+|-
 |DEFAULT_FREQUENCY
 |M64TYPE_INT
 |Frequency which is used if rom doesn't want to change it
@@ -30,8 +34,8 @@ These are standard parameters which are used by the Mupen64Plus plugins.  The be
 |Size of secondary buffer in samples. This is SDL's hardware buffer.
 |-
 |RESAMPLE
-|M64TYPE_INT
-|Audio resampling algorithm.  1 = unfiltered, 2 = SINC resampling (Best Quality, requires libsamplerate)
+|M64TYPE_STRING
+|Audio resampling algorithm.  "trivial" for fastest, lowest-quality algorithm.  If compiled with SPEEX support, this can be "speex-fixed-0" to "speex-fixed-10".  If compiled with libsrc support, this can be "src-sinc-best-quality", "src-sinc-medium-quality", "src-sinc-fastest", "src-zero-order-hold", or "src-linear".
 |-
 |VOLUME_CONTROL_TYPE
 |M64TYPE_INT
@@ -221,6 +225,10 @@ The Mupen64Plus-Input-SDL plugin uses a separate config section for each simulat
 {| border="1"
 !Parameter Name!!Type!!Usage
 |-
+|Version
+|M64TYPE_FLOAT
+|Mupen64Plus Input-SDL config parameter set version number.  Please don't change.
+|-
 |plugged
 |M64TYPE_BOOL
 |Specifies whether this controller is 'plugged in' to the simulated N64
@@ -236,6 +244,10 @@ The Mupen64Plus-Input-SDL plugin uses a separate config section for each simulat
 |device
 |M64TYPE_INT
 |Specifies which joystick is bound to this controller: -2=Keyboard/mouse, -1=Auto config, 0 or more= SDL Joystick number
+|-
+|MouseSensitivity
+|M64TYPE_STRING
+|The sensitivity coefficients for the mouse to move the N64 controller axis value from 0.  For X, Y axes.  Values must be positive.
 |-
 |AnalogDeadzone
 |M64TYPE_STRING

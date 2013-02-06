@@ -28,26 +28,6 @@
 #include "macros.h"
 #include "recomph.h"
 
-extern unsigned int interp_addr;
-
-void address_error_exception(void)
-{
-   DebugMessage(M64MSG_ERROR, "address_error_exception");
-   stop=1;
-}
-
-void TLB_invalid_exception(void)
-{
-   if (delay_slot)
-   {
-     skip_jump = 1;
-     DebugMessage(M64MSG_ERROR, "delay slot - TLB refill exception");
-     stop=1;
-   }
-   DebugMessage(M64MSG_ERROR, "TLB invalid exception");
-   stop=1;
-}
-
 void TLB_refill_exception(unsigned int address, int w)
 {
    int usual_handler = 0, i;
@@ -60,8 +40,7 @@ void TLB_refill_exception(unsigned int address, int w)
    EntryHi = address & 0xFFFFE000;
    if (Status & 0x2) // Test de EXL
      {
-    if (r4300emu == CORE_PURE_INTERPRETER) interp_addr = 0x80000180;
-    else jump_to(0x80000180);
+    generic_jump_to(0x80000180);
     if(delay_slot==1 || delay_slot==3) Cause |= 0x80000000;
     else Cause &= 0x7FFFFFFF;
      }
@@ -74,7 +53,7 @@ void TLB_refill_exception(unsigned int address, int w)
          else
            EPC = address;
       }
-    else EPC = interp_addr;
+    else EPC = PC->addr;
          
     Cause &= ~0x80000000;
     Status |= 0x2; //EXL=1
@@ -92,13 +71,11 @@ void TLB_refill_exception(unsigned int address, int w)
       }
     if (usual_handler)
       {
-         if (r4300emu == CORE_PURE_INTERPRETER) interp_addr = 0x80000180;
-         else jump_to(0x80000180);
+         generic_jump_to(0x80000180);
       }
     else
       {
-         if (r4300emu == CORE_PURE_INTERPRETER) interp_addr = 0x80000000;
-         else jump_to(0x80000000);
+         generic_jump_to(0x80000000);
       }
      }
    if(delay_slot==1 || delay_slot==3)
@@ -112,8 +89,7 @@ void TLB_refill_exception(unsigned int address, int w)
      }
    if(w != 2) EPC-=4;
    
-   if (r4300emu == CORE_PURE_INTERPRETER) last_addr = interp_addr;
-   else last_addr = PC->addr;
+   last_addr = PC->addr;
    
    if (r4300emu == CORE_DYNAREC) 
      {
@@ -126,29 +102,10 @@ void TLB_refill_exception(unsigned int address, int w)
     dyna_interp = 0;
     if (delay_slot)
       {
-         if (interp_addr) skip_jump = interp_addr;
-         else skip_jump = PC->addr;
+         skip_jump = PC->addr;
          next_interupt = 0;
       }
      }
-}
-
-void TLB_mod_exception(void)
-{
-   DebugMessage(M64MSG_ERROR, "TLB mod exception");
-   stop=1;
-}
-
-void integer_overflow_exception(void)
-{
-   DebugMessage(M64MSG_ERROR, "integer overflow exception");
-   stop=1;
-}
-
-void coprocessor_unusable_exception(void)
-{
-   DebugMessage(M64MSG_ERROR, "coprocessor_unusable_exception");
-   stop=1;
 }
 
 void exception_general(void)
@@ -156,8 +113,7 @@ void exception_general(void)
    update_count();
    Status |= 2;
    
-   if (r4300emu != CORE_PURE_INTERPRETER) EPC = PC->addr;
-   else EPC = interp_addr;
+   EPC = PC->addr;
    
    if(delay_slot==1 || delay_slot==3)
      {
@@ -168,16 +124,8 @@ void exception_general(void)
      {
     Cause &= 0x7FFFFFFF;
      }
-   if (r4300emu == CORE_PURE_INTERPRETER)
-     {
-    interp_addr = 0x80000180;
-    last_addr = interp_addr;
-     }
-   else
-     {
-    jump_to(0x80000180);
-    last_addr = PC->addr;
-     }
+   generic_jump_to(0x80000180);
+   last_addr = PC->addr;
    if (r4300emu == CORE_DYNAREC)
      {
     dyna_jump();
@@ -188,8 +136,7 @@ void exception_general(void)
     dyna_interp = 0;
     if (delay_slot)
       {
-         if (r4300emu == CORE_PURE_INTERPRETER) skip_jump = interp_addr;
-         else skip_jump = PC->addr;
+         skip_jump = PC->addr;
          next_interupt = 0;
       }
      }

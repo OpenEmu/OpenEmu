@@ -26,6 +26,27 @@
 #include "plugin.h"
 #include "dummy_input.h"
 
+m64p_error dummyinput_PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion,
+                                       int *APIVersion, const char **PluginNamePtr, int *Capabilities)
+{
+    if (PluginType != NULL)
+        *PluginType = M64PLUGIN_INPUT;
+
+    if (PluginVersion != NULL)
+        *PluginVersion = 0x00010000;
+
+    if (APIVersion != NULL)
+        *APIVersion = INPUT_API_VERSION;
+
+    if (PluginNamePtr != NULL)
+        *PluginNamePtr = "Mupen64Plus-NoInput";
+
+    if (Capabilities != NULL)
+        *Capabilities = 0;
+
+    return M64ERR_SUCCESS;
+}
+
 void dummyinput_InitiateControllers (CONTROL_INFO ControlInfo)
 {
     ControlInfo.Controls[0].Present = 1;

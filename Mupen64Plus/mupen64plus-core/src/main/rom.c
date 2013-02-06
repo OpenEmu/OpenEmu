@@ -20,6 +20,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -43,8 +44,9 @@
 
 #define CHUNKSIZE 1024*128 /* Read files 128KB at a time. */
 
+static romdatabase_entry* ini_search_by_md5(md5_byte_t* md5);
+
 static _romdatabase g_romdatabase;
-romdatabase_entry empty_entry;
 
 /* Global loaded rom memory space. */
 unsigned char* rom = NULL;
@@ -53,8 +55,13 @@ int rom_size = 0;
 
 unsigned char isGoldeneyeRom = 0;
 
-rom_header*       ROM_HEADER;
+m64p_rom_header   ROM_HEADER;
+rom_params        ROM_PARAMS;
 m64p_rom_settings ROM_SETTINGS;
+
+static m64p_system_type rom_country_code_to_system_type(char country_code);
+static int rom_system_type_to_ai_dac_rate(m64p_system_type system_type);
+static int rom_system_type_to_vi_limit(m64p_system_type system_type);
 
 /* Tests if a file is a valid N64 rom by checking the first 4 bytes. */
 static int is_valid_rom(const unsigned char *buffer)
@@ -141,6 +148,8 @@ m64p_error open_rom(const unsigned char* romimage, unsigned int size)
     memcpy(rom, romimage, size);
     swap_rom(rom, &imagetype, rom_size);
 
+    memcpy(&ROM_HEADER, rom, sizeof(m64p_rom_header));
+
     /* Calculate MD5 hash  */
     md5_init(&state);
     md5_append(&state, (const md5_byte_t*)rom, rom_size);
@@ -150,20 +159,18 @@ m64p_error open_rom(const unsigned char* romimage, unsigned int size)
     buffer[32] = '\0';
     strcpy(ROM_SETTINGS.MD5, buffer);
 
-    /* allocate space for ROM_HEADER object, and copy the first N bytes into new buffer */
-    if(ROM_HEADER)
-        free(ROM_HEADER);
-    ROM_HEADER = (rom_header *) malloc(sizeof(rom_header));
-    if(ROM_HEADER==NULL)
-        return M64ERR_NO_MEMORY;
-    memcpy(ROM_HEADER, rom, sizeof(rom_header));
+    /* add some useful properties to ROM_PARAMS */
+    ROM_PARAMS.systemtype = rom_country_code_to_system_type(ROM_HEADER.Country_code);
+    ROM_PARAMS.vilimit = rom_system_type_to_vi_limit(ROM_PARAMS.systemtype);
+    ROM_PARAMS.aidacrate = rom_system_type_to_ai_dac_rate(ROM_PARAMS.systemtype);
 
-    /* Remove trailing whitespace from ROM name. */
-    trim((char*)ROM_HEADER->nom);
+    memcpy(ROM_PARAMS.headername, ROM_HEADER.Name, 20);
+    ROM_PARAMS.headername[20] = '\0';
+    trim(ROM_PARAMS.headername); /* Remove trailing whitespace from ROM name. */
 
     /* Look up this ROM in the .ini file and fill in goodname, etc */
-    if ((entry=ini_search_by_md5(digest)) != &empty_entry ||
-        (entry=ini_search_by_crc(sl(ROM_HEADER->CRC1),sl(ROM_HEADER->CRC2))) != &empty_entry)
+    if ((entry=ini_search_by_md5(digest)) != NULL ||
+        (entry=ini_search_by_crc(sl(ROM_HEADER.CRC1),sl(ROM_HEADER.CRC2))) != NULL)
     {
         strncpy(ROM_SETTINGS.goodname, entry->goodname, 255);
         ROM_SETTINGS.goodname[255] = '\0';
@@ -174,7 +181,7 @@ m64p_error open_rom(const unsigned char* romimage, unsigned int size)
     }
     else
     {
-        strcpy(ROM_SETTINGS.goodname, (char*)ROM_HEADER->nom);
+        strcpy(ROM_SETTINGS.goodname, ROM_PARAMS.headername);
         strcat(ROM_SETTINGS.goodname, " (unknown rom)");
         ROM_SETTINGS.savetype = NONE;
         ROM_SETTINGS.status = 0;
@@ -184,27 +191,27 @@ m64p_error open_rom(const unsigned char* romimage, unsigned int size)
 
     /* print out a bunch of info about the ROM */
     DebugMessage(M64MSG_INFO, "Goodname: %s", ROM_SETTINGS.goodname);
-    DebugMessage(M64MSG_INFO, "Name: %s", ROM_HEADER->nom);
+    DebugMessage(M64MSG_INFO, "Name: %s", ROM_HEADER.Name);
     imagestring(imagetype, buffer);
     DebugMessage(M64MSG_INFO, "MD5: %s", ROM_SETTINGS.MD5);
-    DebugMessage(M64MSG_INFO, "CRC: %x %x", sl((unsigned int)ROM_HEADER->CRC1), sl((unsigned int)ROM_HEADER->CRC2));
+    DebugMessage(M64MSG_INFO, "CRC: %x %x", sl(ROM_HEADER.CRC1), sl(ROM_HEADER.CRC2));
     DebugMessage(M64MSG_INFO, "Imagetype: %s", buffer);
     DebugMessage(M64MSG_INFO, "Rom size: %d bytes (or %d Mb or %d Megabits)", rom_size, rom_size/1024/1024, rom_size/1024/1024*8);
-    DebugMessage(M64MSG_VERBOSE, "ClockRate = %x", sl((unsigned int)ROM_HEADER->ClockRate));
-    DebugMessage(M64MSG_INFO, "Version: %x", sl((unsigned int)ROM_HEADER->Release));
-    if(sl(ROM_HEADER->Manufacturer_ID) == 'N')
+    DebugMessage(M64MSG_VERBOSE, "ClockRate = %x", sl(ROM_HEADER.ClockRate));
+    DebugMessage(M64MSG_INFO, "Version: %x", sl(ROM_HEADER.Release));
+    if(sl(ROM_HEADER.Manufacturer_ID) == 'N')
         DebugMessage(M64MSG_INFO, "Manufacturer: Nintendo");
     else
-        DebugMessage(M64MSG_INFO, "Manufacturer: %x", (unsigned int)(ROM_HEADER->Manufacturer_ID));
-    DebugMessage(M64MSG_VERBOSE, "Cartridge_ID: %x", ROM_HEADER->Cartridge_ID);
-    countrycodestring(ROM_HEADER->Country_code, buffer);
+        DebugMessage(M64MSG_INFO, "Manufacturer: %x", sl(ROM_HEADER.Manufacturer_ID));
+    DebugMessage(M64MSG_VERBOSE, "Cartridge_ID: %x", ROM_HEADER.Cartridge_ID);
+    countrycodestring(ROM_HEADER.Country_code, buffer);
     DebugMessage(M64MSG_INFO, "Country: %s", buffer);
-    DebugMessage(M64MSG_VERBOSE, "PC = %x", sl((unsigned int)ROM_HEADER->PC));
+    DebugMessage(M64MSG_VERBOSE, "PC = %x", sl((unsigned int)ROM_HEADER.PC));
     DebugMessage(M64MSG_VERBOSE, "Save type: %d", ROM_SETTINGS.savetype);
 
     //Prepare Hack for GOLDENEYE
     isGoldeneyeRom = 0;
-    if(strncmp((char *) ROM_HEADER->nom, "GOLDENEYE",9) == 0)
+    if(strcmp(ROM_PARAMS.headername, "GOLDENEYE") == 0)
        isGoldeneyeRom = 1;
 
     return M64ERR_SUCCESS;
@@ -218,12 +225,6 @@ m64p_error close_rom(void)
     free(rom);
     rom = NULL;
 
-    if (ROM_HEADER)
-    {
-        free(ROM_HEADER);
-        ROM_HEADER = NULL;
-    }
-
     /* Clear Byte-swapped flag, since ROM is now deleted. */
     g_MemHasBeenBSwapped = 0;
     DebugMessage(M64MSG_STATUS, "Rom closed.");
@@ -232,65 +233,79 @@ m64p_error close_rom(void)
 }
 
 /********************************************************************************************/
+/* ROM utility functions */
+
+// Get the system type associated to a ROM country code.
+static m64p_system_type rom_country_code_to_system_type(char country_code)
+{
+    switch (country_code)
+    {
+        // PAL codes
+        case 0x44:
+        case 0x46:
+        case 0x49:
+        case 0x50:
+        case 0x53:
+        case 0x55:
+        case 0x58:
+        case 0x59:
+            return SYSTEM_PAL;
+
+        // NTSC codes
+        case 0x37:
+        case 0x41:
+        case 0x45:
+        case 0x4a:
+        default: // Fallback for unknown codes
+            return SYSTEM_NTSC;
+    }
+}
+
+// Get the VI (vertical interrupt) limit associated to a ROM system type.
+static int rom_system_type_to_vi_limit(m64p_system_type system_type)
+{
+    switch (system_type)
+    {
+        case SYSTEM_PAL:
+        case SYSTEM_MPAL:
+            return 50;
+
+        case SYSTEM_NTSC:
+        default:
+            return 60;
+    }
+}
+
+static int rom_system_type_to_ai_dac_rate(m64p_system_type system_type)
+{
+    switch (system_type)
+    {
+        case SYSTEM_PAL:
+            return 49656530;
+        case SYSTEM_MPAL:
+            return 48628316;
+        case SYSTEM_NTSC:
+        default:
+            return 48681812;
+    }
+}
+
+/********************************************************************************************/
 /* INI Rom database functions */
-
-/* Convert two letters representing hexidecimal to the appropriate value: 00->0 - FF->255. */
-static unsigned char hexconvert(const char* bigraph)
-{
-    unsigned char returnvalue = 0;
-    char character;
-    int digits;
-
-    for(digits = 2; digits > 0; --digits)
-        {
-        returnvalue = returnvalue << 4;
-        character = *bigraph++ | 0x20;
-        if(character>='0'&&character<='9')
-            returnvalue += character - '0';
-        else if(character>='a'&&character<='f')
-            returnvalue += character - 'a' + 10;
-        }
-
-    return returnvalue;
-}
-
-/* Helper function, identify the space of a line before an = sign. */
-static int split_property(char* string)
-{
-    int counter = 0;
-    while (string[counter] != '=' && string[counter] != '\0')
-        ++counter;
-    if(string[counter]=='\0')
-        return -1;
-    string[counter] = '\0';
-    return counter;
-}
 
 void romdatabase_open(void)
 {
     FILE *fPtr;
     char buffer[256];
     romdatabase_search* search = NULL;
-    romdatabase_entry* entry = NULL;
+    romdatabase_search** next_search;
 
-    int stringlength, totallength, namelength, index, counter, value;
-    char hashtemp[3] = {0,0,0};
+    int counter, value, lineno;
+    unsigned char index;
     const char *pathname = ConfigGetSharedDataFilepath("mupen64plus.ini");
 
-    if(g_romdatabase.comment!=NULL)
+    if(g_romdatabase.have_database)
         return;
-
-    /* Setup empty_entry. */
-    empty_entry.goodname = "";
-    for(counter=0; counter<16; ++counter)
-       empty_entry.md5[counter]=0;
-    empty_entry.refmd5 = NULL;
-    empty_entry.crc1 = 0;
-    empty_entry.crc2 = 0;
-    empty_entry.status = 0;
-    empty_entry.savetype = DEFAULT;
-    empty_entry.players = DEFAULT;
-    empty_entry.rumble = DEFAULT;
 
     /* Open romdatabase. */
     if (pathname == NULL || (fPtr = fopen(pathname, "rb")) == NULL)
@@ -299,33 +314,7 @@ void romdatabase_open(void)
         return;
     }
 
-    /* Move through opening comments, set romdatabase.comment to non-NULL
-    to signal we have a database. */
-    totallength = 0;
-    do
-    {
-        if (fgets(buffer, 255, fPtr) == NULL)
-        {
-            DebugMessage(M64MSG_ERROR, "Error reading rom database file '%s'.", pathname);
-            return;
-        }
-        if(buffer[0]!='[')
-        {
-            stringlength=strlen(buffer);
-            totallength+=stringlength;
-            if(g_romdatabase.comment==NULL) 
-            {
-                g_romdatabase.comment = (char*)malloc(stringlength+2);
-                snprintf(g_romdatabase.comment, stringlength, "%s", buffer);
-            }
-            else
-            {
-                g_romdatabase.comment = (char*)realloc(g_romdatabase.comment, totallength+2);
-                snprintf(g_romdatabase.comment, totallength+1, "%s%s", g_romdatabase.comment, buffer);
-            }
-        }
-    }
-    while (buffer[0] != '[' && !feof(fPtr));
+    g_romdatabase.have_database = 1;
 
     /* Clear premade indices. */
     for(counter = 0; counter < 255; ++counter)
@@ -334,156 +323,167 @@ void romdatabase_open(void)
         g_romdatabase.md5_lists[counter] = NULL;
     g_romdatabase.list = NULL;
 
-    do
+    next_search = &g_romdatabase.list;
+
+    /* Parse ROM database file */
+    for (lineno = 1; fgets(buffer, 255, fPtr) != NULL; lineno++)
     {
-        if(buffer[0]=='[')
+        char *line = buffer;
+        ini_line l = ini_parse_line(&line);
+        switch (l.type)
+        {
+        case INI_SECTION:
+        {
+            md5_byte_t md5[16];
+            if (!parse_hex(l.name, md5, 16))
             {
-            if(g_romdatabase.list==NULL)
-                {
-                g_romdatabase.list = (romdatabase_search*)malloc(sizeof(romdatabase_search));
-                g_romdatabase.list->next_entry = NULL;
-                g_romdatabase.list->next_crc = NULL;
-                g_romdatabase.list->next_md5 = NULL;
-                search = g_romdatabase.list;
-                }
-            else
-                {
-                search->next_entry = (romdatabase_search*)malloc(sizeof(romdatabase_search));
-                search = search->next_entry;
-                search->next_entry = NULL;
-                search->next_crc = NULL;
-                search->next_md5 = NULL;
-                }
-            for (counter=0; counter < 16; ++counter)
-              {
-              hashtemp[0] = buffer[counter*2+1];
-              hashtemp[1] = buffer[counter*2+2];
-              search->entry.md5[counter] = hexconvert(hashtemp);
-              }
-            /* Index MD5s by first 8 bits. */
-            index = search->entry.md5[0];
-            if(g_romdatabase.md5_lists[index]==NULL)
-                g_romdatabase.md5_lists[index] = search;
-            else
-                {
-                romdatabase_search* aux = g_romdatabase.md5_lists[index];
-                search->next_md5 = aux;
-                g_romdatabase.md5_lists[index] = search;
-                }
+                DebugMessage(M64MSG_WARNING, "ROM Database: Invalid MD5 on line %i", lineno);
+                search = NULL;
+                continue;
+            }
+
+            *next_search = (romdatabase_search*)malloc(sizeof(romdatabase_search));
+            search = *next_search;
+            next_search = &search->next_entry;
+
             search->entry.goodname = NULL;
+            memcpy(search->entry.md5, md5, 16);
             search->entry.refmd5 = NULL;
             search->entry.crc1 = 0;
             search->entry.crc2 = 0;
             search->entry.status = 0; /* Set default to 0 stars. */
             search->entry.savetype = DEFAULT;
+            search->entry.players = DEFAULT;
             search->entry.rumble = DEFAULT; 
-            search->entry.players = DEFAULT; 
-            }
-        else
+
+            search->next_entry = NULL;
+            search->next_crc = NULL;
+            /* Index MD5s by first 8 bits. */
+            index = search->entry.md5[0];
+            search->next_md5 = g_romdatabase.md5_lists[index];
+            g_romdatabase.md5_lists[index] = search;
+
+            break;
+        }
+        case INI_PROPERTY:
+            // This happens if there's stray properties before any section,
+            // or if some error happened on INI_SECTION (e.g. parsing).
+            if (search == NULL)
             {
-            stringlength = split_property(buffer);
-            if(stringlength!=-1)
+                DebugMessage(M64MSG_WARNING, "ROM Database: Ignoring property on line %i", lineno);
+                continue;
+            }
+            if(!strcmp(l.name, "GoodName"))
+            {
+                search->entry.goodname = strdup(l.value);
+            }
+            else if(!strcmp(l.name, "CRC"))
+            {
+                char garbage_sweeper;
+                if (sscanf(l.value, "%X %X%c", &search->entry.crc1,
+                    &search->entry.crc2, &garbage_sweeper) == 2)
                 {
-                if(!strcmp(buffer, "GoodName"))
-                    {
-                    /* Get length of GoodName since we dynamically allocate. */
-                    namelength = strlen(buffer+stringlength+1);
-                    search->entry.goodname = (char*)malloc(namelength*sizeof(char));
-                    /* Make sure we're null terminated. */
-                    if(buffer[stringlength+namelength]=='\n'||buffer[stringlength+namelength]=='\r')
-                        buffer[stringlength+namelength] = '\0';
-                    snprintf(search->entry.goodname, namelength, "%s", buffer+stringlength+1);
-                    }
-                else if(!strcmp(buffer, "CRC"))
-                    {
-                    buffer[stringlength+19] = '\0';
-                    sscanf(buffer+stringlength+10, "%X", &search->entry.crc2);
-                    buffer[stringlength+9] = '\0';
-                    sscanf(buffer+stringlength+1, "%X", &search->entry.crc1);
-                    buffer[stringlength+3] = '\0';
-                    index = hexconvert(buffer+stringlength+1);
                     /* Index CRCs by first 8 bits. */
-                    if(g_romdatabase.crc_lists[index]==NULL)
-                        g_romdatabase.crc_lists[index] = search;
-                    else
-                        {
-                        romdatabase_search* aux = g_romdatabase.crc_lists[index];
-                        search->next_crc = aux;
-                        g_romdatabase.crc_lists[index] = search;
-                        }
-                    }
-                else if(!strcmp(buffer, "RefMD5"))
-                    {
-                    /* If we have a refernce MD5, dynamically allocate. */
-                    search->entry.refmd5 = (md5_byte_t*)malloc(16*sizeof(md5_byte_t));
-                    for (counter=0; counter < 16; ++counter)
-                        {
-                        hashtemp[0] = buffer[stringlength+1+counter*2];
-                        hashtemp[1] = buffer[stringlength+2+counter*2];
-                        search->entry.refmd5[counter] = hexconvert(hashtemp);
-                        }
-                    /* Lookup reference MD5 and replace non-default entries. */
-                    if((entry = ini_search_by_md5(search->entry.refmd5))!=&empty_entry)
-                        {
-                        if(entry->savetype!=DEFAULT)
-                            search->entry.savetype = entry->savetype;
-                        if(entry->status!=0)
-                            search->entry.status = entry->status;
-                        if(entry->players!=DEFAULT)
-                            search->entry.players = entry->players;
-                        if(entry->rumble!=DEFAULT)
-                            search->entry.rumble = entry->rumble;
-                        }
-                    }
-                else if(!strcmp(buffer, "SaveType"))
-                    {
-                    if(!strncmp(buffer+stringlength+1, "Eeprom 4KB", 10))
-                        search->entry.savetype = EEPROM_4KB;
-                    else if(!strncmp(buffer+stringlength+1, "Eeprom 16KB", 10))
-                        search->entry.savetype = EEPROM_16KB;
-                    else if(!strncmp(buffer+stringlength+1, "SRAM", 4))
-                        search->entry.savetype = SRAM;
-                    else if(!strncmp(buffer+stringlength+1, "Flash RAM", 9))
-                        search->entry.savetype = FLASH_RAM;
-                    else if(!strncmp(buffer+stringlength+1, "Controller Pack", 15))
-                        search->entry.savetype = CONTROLLER_PACK;
-                    else if(!strncmp(buffer+stringlength+1, "None", 4))
-                        search->entry.savetype = NONE;
-                    }
-                else if(!strcmp(buffer, "Status"))
-                    {
-                    value = (unsigned char)atoi(buffer+stringlength+1);
-                    if(value>-1&&value<6)
-                        search->entry.status = value;
-                    }
-                else if(!strcmp(buffer, "Players"))
-                    {
-                    value = (unsigned char)atoi(buffer+stringlength+1);
-                    if(value>-1&&value<8)
-                        search->entry.players = value;
-                    }
-                else if(!strcmp(buffer, "Rumble"))
-                    {
-                    if(!strncmp(buffer+stringlength+1, "Yes", 3))
-                        search->entry.rumble = 1;
-                    if(!strncmp(buffer+stringlength+1, "No", 2))
-                        search->entry.rumble = 0;
-                    }
+                    index = search->entry.crc1 >> 24;
+                    search->next_crc = g_romdatabase.crc_lists[index];
+                    g_romdatabase.crc_lists[index] = search;
+                }
+                else
+                {
+                    search->entry.crc1 = search->entry.crc2 = 0;
+                    DebugMessage(M64MSG_WARNING, "ROM Database: Invalid CRC on line %i", lineno);
                 }
             }
-        if (fgets(buffer, 255, fPtr) == NULL)
+            else if(!strcmp(l.name, "RefMD5"))
+            {
+                md5_byte_t md5[16];
+                if (parse_hex(l.value, md5, 16))
+                {
+                    search->entry.refmd5 = (md5_byte_t*)malloc(16*sizeof(md5_byte_t));
+                    memcpy(search->entry.refmd5, md5, 16);
+                }
+                else
+                    DebugMessage(M64MSG_WARNING, "ROM Database: Invalid RefMD5 on line %i", lineno);
+            }
+            else if(!strcmp(l.name, "SaveType"))
+            {
+                if(!strcmp(l.value, "Eeprom 4KB"))
+                    search->entry.savetype = EEPROM_4KB;
+                else if(!strcmp(l.value, "Eeprom 16KB"))
+                    search->entry.savetype = EEPROM_16KB;
+                else if(!strcmp(l.value, "SRAM"))
+                    search->entry.savetype = SRAM;
+                else if(!strcmp(l.value, "Flash RAM"))
+                    search->entry.savetype = FLASH_RAM;
+                else if(!strcmp(l.value, "Controller Pack"))
+                    search->entry.savetype = CONTROLLER_PACK;
+                else if(!strcmp(l.value, "None"))
+                    search->entry.savetype = NONE;
+                else
+                    DebugMessage(M64MSG_WARNING, "ROM Database: Invalid save type on line %i", lineno);
+            }
+            else if(!strcmp(l.name, "Status"))
+            {
+                if (string_to_int(l.value, &value) && value >= 0 && value < 6)
+                    search->entry.status = value;
+                else
+                    DebugMessage(M64MSG_WARNING, "ROM Database: Invalid status on line %i", lineno);
+            }
+            else if(!strcmp(l.name, "Players"))
+            {
+                if (string_to_int(l.value, &value) && value >= 0 && value < 8)
+                    search->entry.players = value;
+                else
+                    DebugMessage(M64MSG_WARNING, "ROM Database: Invalid player count on line %i", lineno);
+            }
+            else if(!strcmp(l.name, "Rumble"))
+            {
+                if(!strcmp(l.value, "Yes"))
+                    search->entry.rumble = 1;
+                else if(!strcmp(l.value, "No"))
+                    search->entry.rumble = 0;
+                else
+                    DebugMessage(M64MSG_WARNING, "ROM Database: Invalid rumble string on line %i", lineno);
+            }
+            else
+            {
+                DebugMessage(M64MSG_WARNING, "ROM Database: Unknown property on line %i", lineno);
+            }
             break;
-    } while (!feof(fPtr));
+        default:
+            break;
+        }
+    }
 
     fclose(fPtr);
+
+    /* Resolve RefMD5 references */
+    for (search = g_romdatabase.list; search != NULL; search = search->next_entry)
+    {
+        if (search->entry.refmd5 != NULL)
+        {
+            romdatabase_entry *ref = ini_search_by_md5(search->entry.refmd5);
+            if (ref != NULL)
+            {
+                if(ref->savetype!=DEFAULT)
+                    search->entry.savetype = ref->savetype;
+                if(ref->status!=0)
+                    search->entry.status = ref->status;
+                if(ref->players!=DEFAULT)
+                    search->entry.players = ref->players;
+                if(ref->rumble!=DEFAULT)
+                    search->entry.rumble = ref->rumble;
+            }
+            else
+                DebugMessage(M64MSG_WARNING, "ROM Database: Error solving RefMD5s");
+        }
+    }
 }
 
 void romdatabase_close(void)
 {
-    if (g_romdatabase.comment == NULL)
+    if (!g_romdatabase.have_database)
         return;
-
-    free(g_romdatabase.comment);
 
     while (g_romdatabase.list != NULL)
         {
@@ -497,12 +497,12 @@ void romdatabase_close(void)
         }
 }
 
-romdatabase_entry* ini_search_by_md5(md5_byte_t* md5)
+static romdatabase_entry* ini_search_by_md5(md5_byte_t* md5)
 {
     romdatabase_search* search;
 
-    if(g_romdatabase.comment==NULL)
-        return &empty_entry;
+    if(!g_romdatabase.have_database)
+        return NULL;
 
     search = g_romdatabase.md5_lists[md5[0]];
 
@@ -510,17 +510,17 @@ romdatabase_entry* ini_search_by_md5(md5_byte_t* md5)
         search = search->next_md5;
 
     if(search==NULL)
-        return &empty_entry;
-    else
-        return &(search->entry);
+        return NULL;
+
+    return &(search->entry);
 }
 
 romdatabase_entry* ini_search_by_crc(unsigned int crc1, unsigned int crc2)
 {
     romdatabase_search* search;
 
-    if(g_romdatabase.comment==NULL) 
-        return &empty_entry;
+    if(!g_romdatabase.have_database) 
+        return NULL;
 
     search = g_romdatabase.crc_lists[((crc1 >> 24) & 0xff)];
 
@@ -528,9 +528,9 @@ romdatabase_entry* ini_search_by_crc(unsigned int crc1, unsigned int crc2)
         search = search->next_crc;
 
     if(search == NULL) 
-        return &empty_entry;
-    else
-        return &(search->entry);
+        return NULL;
+
+    return &(search->entry);
 }
 
 

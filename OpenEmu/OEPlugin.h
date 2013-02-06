@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,46 +28,43 @@
 
 #import "OEPluginController.h"
 
-
-
 @interface NSObject (OEPlugin)
 + (BOOL)isPluginClass;
 @end
 
-
-
 @interface OEPlugin : NSObject <NSCopying>
-{
-@private
-    NSDictionary           *infoDictionary;
-    NSBundle               *bundle;
-    NSString               *displayName;
-    NSString               *version;
-    id<OEPluginController>  controller;
-}
 
 + (NSSet *)pluginClasses;
++ (void)registerPluginClass;
 + (void)registerPluginClass:(Class)pluginClass;
 
 // Subclass hook to perform checks or setups of the controller.
 - (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass;
 
-@property(readonly) id<OEPluginController>  controller; // Main Class of the bundle, can be nil
-@property(readonly) NSDictionary           *infoDictionary;
-@property(readonly) NSBundle               *bundle;
-@property(readonly) NSString               *details;
+@property(readonly) NSString               *path;
+@property(readonly) NSString               *name;
+
+// Properties only available when dealing with bundle-based plugins.
+@property(readonly) id<OEPluginController>  controller; // Main Class of the bundle, can be nil.
 @property(readonly) NSString               *displayName;
+@property(readonly) NSBundle               *bundle;
+@property(readonly) NSDictionary           *infoDictionary;
+@property(readonly) NSString               *details;
 @property(readonly) NSString               *version;
 
 // All plugins should be retrieved with this method
 // Ensuring a plugin is loaded only once
-+ (id)pluginWithBundleName:(NSString *)aName type:(Class)pluginType;
-+ (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType;
-+ (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType forceReload:(BOOL)reload;
-+ (id)pluginWithBundle:(NSBundle *)aBundle type:(Class)aType forceReload:(BOOL)reload;
++ (instancetype)pluginWithName:(NSString *)aName; // Do not call on OEPlugin, only call on subclasses.
++ (instancetype)pluginWithName:(NSString *)aName type:(Class)pluginType;
++ (instancetype)pluginWithFileAtPath:(NSString *)aPath type:(Class)aType;
++ (instancetype)pluginWithFileAtPath:(NSString *)aPath type:(Class)aType forceReload:(BOOL)reload;
++ (instancetype)pluginWithBundle:(NSBundle *)aBundle type:(Class)aType forceReload:(BOOL)reload;
 + (NSArray *)pluginsForType:(Class)aType;
 + (NSArray *)allPlugins;
++ (NSArray *)allPluginNames;
 
+// Designated initializer for plugin files that do not use bundles.
+- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName;
 - (id)initWithBundle:(NSBundle *)aBundle;
 
 + (NSString *)pluginType;

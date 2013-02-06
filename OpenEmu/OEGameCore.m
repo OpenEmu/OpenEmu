@@ -159,9 +159,9 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (void)frameRefreshThread:(id)anArgument
 {
-    NSTimeInterval gameInterval = 1./[self frameInterval];
+    gameInterval = 1./[self frameInterval];
     NSTimeInterval gameTime = OEMonotonicTime();
-        
+    
         frameFinished = YES;
         willSkipFrame = NO;
         frameSkip = 0;
@@ -314,6 +314,27 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 - (NSTimeInterval)frameInterval
 {
     return defaultTimeInterval;
+}
+
+- (void)fastForward:(BOOL)flag;
+{
+    if (flag == isFastForwarding)
+        return;
+        
+    if (flag) {
+        isFastForwarding = YES;
+        gameInterval = 1./([self frameInterval] * 5); // if fast forwarding, frameInterval is 5x speed
+        
+        [renderDelegate willDisableVSync:YES];
+        OESetThreadRealtime(gameInterval, .007, .03);
+    }
+    else {
+        isFastForwarding = NO;
+        gameInterval = 1./[self frameInterval];
+        
+        [renderDelegate willDisableVSync:NO];
+        OESetThreadRealtime(gameInterval, .007, .03);
+    }
 }
 
 #pragma mark Audio

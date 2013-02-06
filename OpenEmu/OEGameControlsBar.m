@@ -34,6 +34,7 @@
 #import "OEDBRom.h"
 
 #import "OECompositionPlugin.h"
+#import "OEShaderPlugin.h"
 #import "OECorePlugin.h"
 #import "OEGameViewController.h"
 
@@ -63,6 +64,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     NSTimer *fadeTimer;
     id       eventMonitor;
     NSDate  *lastMouseMovement;
+    NSArray *filterPlugins;
     
     int openMenus;
 }
@@ -76,6 +78,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 + (void)initialize
 {
+    if(self != [OEGameControlsBar class])
+        return;
+    
     // Time until hud controls bar fades out
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
                           OEGameControlsBarFadeOutDelayKey : @1.5,
@@ -111,6 +116,12 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         controlsView = barView;
         
         [NSCursor setHiddenUntilMouseMoves:YES];
+
+        // Setup plugins menu
+        NSMutableSet   *filterSet     = [NSMutableSet set];
+        [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
+        [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+        filterPlugins = [[filterSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }
     return self;
 }
@@ -247,13 +258,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     // Setup Video Filter Menu
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
-    // Setup plugins menu
-    NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-    // These filters are loaded and run by GL, and do not rely on QTZs
-    NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:OEOpenGLFilterNameArray];
-    
+
     NSString *selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameVideoFilterKey];
-    for(NSString *aName in filterNames)
+    for(NSString *aName in filterPlugins)
     {
         NSMenuItem *filterItem = [[NSMenuItem alloc] initWithTitle:aName action:@selector(selectFilter:) keyEquivalent:@""];
         

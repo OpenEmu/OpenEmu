@@ -27,7 +27,12 @@
 #ifndef SDL_THREAD_H
 #define SDL_THREAD_H
 
-typedef void *SDL_mutex;
+#define SDL_VERSION_ATLEAST(x,y,z) 1
+
+typedef void SDL_mutex;
+typedef void SDL_cond;
+typedef void SDL_Thread;
+typedef void SDL_sem;
 
 __BEGIN_DECLS
 
@@ -35,6 +40,18 @@ SDL_mutex *SDL_CreateMutex(void);
 int SDL_LockMutex(SDL_mutex *m);
 int SDL_UnlockMutex(SDL_mutex *m);
 void SDL_DestroyMutex(SDL_mutex *m);
+
+SDL_cond *SDL_CreateCond(void);
+int SDL_CondWait(SDL_cond *cond, SDL_mutex *mut);
+int SDL_CondSignal(SDL_cond *cond);
+void SDL_DestroyCond(SDL_cond *cond);
+
+SDL_Thread *SDL_CreateThread(int (*fn)(void *), const char *name, void *context);
+void SDL_WaitThread(SDL_Thread *thread, int *status);
+
+SDL_sem *SDL_CreateSemaphore(int initial_value);
+int SDL_SemPost(SDL_sem *sem);
+int SDL_SemTryWait(SDL_sem *sem);
 
 __END_DECLS
 

@@ -35,7 +35,7 @@ void genadd_d(void)
    inc_m32rel(&instr_count[119]);
 #endif
 #ifdef INTERPRET_ADD_D
-    gencallinterp((unsigned long long)ADD_D, 0);
+    gencallinterp((unsigned long long)cached_interpreter_table.ADD_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -53,7 +53,7 @@ void gensub_d(void)
    inc_m32rel(&instr_count[120]);
 #endif
 #ifdef INTERPRET_SUB_D
-   gencallinterp((unsigned long long)SUB_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.SUB_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -71,7 +71,7 @@ void genmul_d(void)
    inc_m32rel(&instr_count[121]);
 #endif
 #ifdef INTERPRET_MUL_D
-   gencallinterp((unsigned long long)MUL_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.MUL_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -89,7 +89,7 @@ void gendiv_d(void)
    inc_m32rel(&instr_count[122]);
 #endif
 #ifdef INTERPRET_DIV_D
-   gencallinterp((unsigned long long)DIV_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.DIV_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -107,7 +107,7 @@ void gensqrt_d(void)
    inc_m32rel(&instr_count[123]);
 #endif
 #ifdef INTERPRET_SQRT_D
-   gencallinterp((unsigned long long)SQRT_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.SQRT_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -124,7 +124,7 @@ void genabs_d(void)
    inc_m32rel(&instr_count[124]);
 #endif
 #ifdef INTERPRET_ABS_D
-   gencallinterp((unsigned long long)ABS_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.ABS_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -141,7 +141,7 @@ void genmov_d(void)
    inc_m32rel(&instr_count[125]);
 #endif
 #ifdef INTERPRET_MOV_D
-   gencallinterp((unsigned long long)MOV_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.MOV_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -159,7 +159,7 @@ void genneg_d(void)
    inc_m32rel(&instr_count[126]);
 #endif
 #ifdef INTERPRET_NEG_D
-   gencallinterp((unsigned long long)NEG_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.NEG_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -176,7 +176,7 @@ void genround_l_d(void)
    inc_m32rel(&instr_count[127]);
 #endif
 #ifdef INTERPRET_ROUND_L_D
-   gencallinterp((unsigned long long)ROUND_L_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.ROUND_L_D, 0);
 #else
    gencheck_cop1_unusable();
    fldcw_m16rel((unsigned short*)&round_mode);
@@ -194,7 +194,7 @@ void gentrunc_l_d(void)
    inc_m32rel(&instr_count[128]);
 #endif
 #ifdef INTERPRET_TRUNC_L_D
-   gencallinterp((unsigned long long)TRUNC_L_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.TRUNC_L_D, 0);
 #else
    gencheck_cop1_unusable();
    fldcw_m16rel((unsigned short*)&trunc_mode);
@@ -212,7 +212,7 @@ void genceil_l_d(void)
    inc_m32rel(&instr_count[129]);
 #endif
 #ifdef INTERPRET_CEIL_L_D
-   gencallinterp((unsigned long long)CEIL_L_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.CEIL_L_D, 0);
 #else
    gencheck_cop1_unusable();
    fldcw_m16rel((unsigned short*)&ceil_mode);
@@ -230,7 +230,7 @@ void genfloor_l_d(void)
    inc_m32rel(&instr_count[130]);
 #endif
 #ifdef INTERPRET_FLOOR_L_D
-   gencallinterp((unsigned long long)FLOOR_L_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.FLOOR_L_D, 0);
 #else
    gencheck_cop1_unusable();
    fldcw_m16rel((unsigned short*)&floor_mode);
@@ -248,7 +248,7 @@ void genround_w_d(void)
    inc_m32rel(&instr_count[127]);
 #endif
 #ifdef INTERPRET_ROUND_W_D
-   gencallinterp((unsigned long long)ROUND_W_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.ROUND_W_D, 0);
 #else
    gencheck_cop1_unusable();
    fldcw_m16rel((unsigned short*)&round_mode);
@@ -266,7 +266,7 @@ void gentrunc_w_d(void)
    inc_m32rel(&instr_count[128]);
 #endif
 #ifdef INTERPRET_TRUNC_W_D
-   gencallinterp((unsigned long long)TRUNC_W_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.TRUNC_W_D, 0);
 #else
    gencheck_cop1_unusable();
    fldcw_m16rel((unsigned short*)&trunc_mode);
@@ -284,7 +284,7 @@ void genceil_w_d(void)
    inc_m32rel(&instr_count[129]);
 #endif
 #ifdef INTERPRET_CEIL_W_D
-   gencallinterp((unsigned long long)CEIL_W_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.CEIL_W_D, 0);
 #else
    gencheck_cop1_unusable();
    fldcw_m16rel((unsigned short*)&ceil_mode);
@@ -302,7 +302,7 @@ void genfloor_w_d(void)
    inc_m32rel(&instr_count[130]);
 #endif
 #ifdef INTERPRET_FLOOR_W_D
-   gencallinterp((unsigned long long)FLOOR_W_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.FLOOR_W_D, 0);
 #else
    gencheck_cop1_unusable();
    fldcw_m16rel((unsigned short*)&floor_mode);
@@ -320,7 +320,7 @@ void gencvt_s_d(void)
    inc_m32rel(&instr_count[117]);
 #endif
 #ifdef INTERPRET_CVT_S_D
-   gencallinterp((unsigned long long)CVT_S_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.CVT_S_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -336,7 +336,7 @@ void gencvt_w_d(void)
    inc_m32rel(&instr_count[117]);
 #endif
 #ifdef INTERPRET_CVT_W_D
-   gencallinterp((unsigned long long)CVT_W_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.CVT_W_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -352,7 +352,7 @@ void gencvt_l_d(void)
    inc_m32rel(&instr_count[117]);
 #endif
 #ifdef INTERPRET_CVT_L_D
-   gencallinterp((unsigned long long)CVT_L_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.CVT_L_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.fs]));
@@ -368,7 +368,7 @@ void genc_f_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_F_D
-   gencallinterp((unsigned long long)C_F_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_F_D, 0);
 #else
    gencheck_cop1_unusable();
    and_m32rel_imm32((unsigned int*)&FCR31, ~0x800000);
@@ -381,7 +381,7 @@ void genc_un_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_UN_D
-   gencallinterp((unsigned long long)C_UN_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_UN_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -403,7 +403,7 @@ void genc_eq_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_EQ_D
-   gencallinterp((unsigned long long)C_EQ_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_EQ_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -425,7 +425,7 @@ void genc_ueq_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_UEQ_D
-   gencallinterp((unsigned long long)C_UEQ_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_UEQ_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -448,7 +448,7 @@ void genc_olt_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_OLT_D
-   gencallinterp((unsigned long long)C_OLT_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_OLT_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -470,7 +470,7 @@ void genc_ult_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_ULT_D
-   gencallinterp((unsigned long long)C_ULT_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_ULT_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -493,7 +493,7 @@ void genc_ole_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_OLE_D
-   gencallinterp((unsigned long long)C_OLE_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_OLE_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -515,7 +515,7 @@ void genc_ule_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_ULE_D
-   gencallinterp((unsigned long long)C_ULE_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_ULE_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -538,7 +538,7 @@ void genc_sf_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_SF_D
-   gencallinterp((unsigned long long)C_SF_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_SF_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -557,7 +557,7 @@ void genc_ngle_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_NGLE_D
-   gencallinterp((unsigned long long)C_NGLE_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_NGLE_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -579,7 +579,7 @@ void genc_seq_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_SEQ_D
-   gencallinterp((unsigned long long)C_SEQ_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_SEQ_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -601,7 +601,7 @@ void genc_ngl_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_NGL_D
-   gencallinterp((unsigned long long)C_NGL_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_NGL_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -624,7 +624,7 @@ void genc_lt_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_LT_D
-   gencallinterp((unsigned long long)C_LT_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_LT_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -646,7 +646,7 @@ void genc_nge_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_NGE_D
-   gencallinterp((unsigned long long)C_NGE_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_NGE_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -669,7 +669,7 @@ void genc_le_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_LE_D
-   gencallinterp((unsigned long long)C_LE_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_LE_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));
@@ -691,7 +691,7 @@ void genc_ngt_d(void)
    inc_m32rel(&instr_count[118]);
 #endif
 #ifdef INTERPRET_C_NGT_D
-   gencallinterp((unsigned long long)C_NGT_D, 0);
+   gencallinterp((unsigned long long)cached_interpreter_table.C_NGT_D, 0);
 #else
    gencheck_cop1_unusable();
    mov_xreg64_m64rel(RAX, (unsigned long long *)(&reg_cop1_double[dst->f.cf.ft]));

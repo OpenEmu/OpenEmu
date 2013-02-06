@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -27,42 +27,46 @@
 #import "OEPrefGameplayController.h"
 #import "OEPlugin.h"
 #import "OECompositionPlugin.h"
+#import "OEShaderPlugin.h"
 #import "OEGameViewController.h"
 
 @implementation OEPrefGameplayController
 @synthesize filterPreviewContainer, filterSelection;
 
 - (void)awakeFromNib
-{   
+{
     // Setup plugins menu
-	NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-    // These filters are loaded and run by GL, and do not rely on QTZs
-    NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:OEOpenGLFilterNameArray];
-    
+     NSMutableSet   *filterSet     = [NSMutableSet set];
+     NSMutableArray *filterPlugins = [NSMutableArray array];
+     [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
+     [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+     [filterPlugins addObjectsFromArray:[filterSet allObjects]];
+     [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
+
 	NSMenu *filterMenu = [[NSMenu alloc] init];
-    
-    for(NSString *aName in filterNames)
+
+    for(NSString *aName in filterPlugins)
 		[filterMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
-    
+
 	[[self filterSelection] setMenu:filterMenu];
-	
+
 	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
 	NSString *selectedFilterName = [sud objectForKey:OEGameVideoFilterKey];
-    
+
 	if(selectedFilterName != nil && [[self filterSelection] itemWithTitle:selectedFilterName])
 		[[self filterSelection] selectItemWithTitle:selectedFilterName];
-    else 
+    else
 		[[self filterSelection] selectItemAtIndex:0];
-    
+
 	[self changeFilter:[self filterSelection]];
-    
-    
-    [[self filterPreviewContainer] setWantsLayer:YES];  
+
+
+    [[self filterPreviewContainer] setWantsLayer:YES];
     CATransition *awesomeCrossFade = [CATransition animation];
     awesomeCrossFade.type = kCATransitionFade;
     awesomeCrossFade.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     awesomeCrossFade.duration = 1.0;
-    
+
     [[self filterPreviewContainer] setAnimations:[NSDictionary dictionaryWithObject:awesomeCrossFade forKey:@"subviews"]];
 
 }
@@ -102,8 +106,8 @@
 - (IBAction)changeFilter:(id)sender
 {
 	NSString *filterName = [[[self filterSelection] selectedItem] title];
-    
-    OECompositionPlugin *plugin = [OECompositionPlugin compositionPluginWithName:filterName];
+
+    OECompositionPlugin *plugin = [OECompositionPlugin pluginWithName:filterName];
     NSImage *filterPreviewImage = (plugin != nil && ![plugin isBuiltIn]
                                    ? [plugin previewImage]
                                    : [[NSBundle mainBundle] imageForResource:[filterName stringByAppendingPathExtension:@"png"]]);
@@ -113,14 +117,14 @@
     [newPreviewView setImageAlignment:NSImageAlignCenter];
     [newPreviewView setImageFrameStyle:NSImageFrameNone];
     [newPreviewView setImageScaling:NSImageScaleNone];
-    
+
     NSView *currentImageView = [[[self filterPreviewContainer] subviews] lastObject];
-    
+
     if(currentImageView != nil)
         [[[self filterPreviewContainer] animator] replaceSubview:currentImageView with:newPreviewView];
     else
         [[self filterPreviewContainer] addSubview:newPreviewView];
-    
+
 	[[NSUserDefaults standardUserDefaults] setObject:filterName forKey:OEGameVideoFilterKey];
 }
 

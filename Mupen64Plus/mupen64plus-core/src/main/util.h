@@ -1,6 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *   Mupen64plus - util.h                                                  *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
+ *   Copyright (C) 2012 CasualJames                                        *
  *   Copyright (C) 2002 Hacktarux                                          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,60 +23,186 @@
 #ifndef __UTIL_H__
 #define __UTIL_H__
 
-#include <SDL.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/** file utilities **/
-int isfile(char *path);
-int isdir(char *path);
-int copyfile(char *src, char *dest);
+#include <string.h>
 
-/** linked list utilities **/
-typedef struct _list_node {
-    void *data;
-    struct _list_node *prev;
-    struct _list_node *next;
-} list_node_t;
+/**********************
+     File utilities
+ **********************/
 
-typedef list_node_t * list_t;
+typedef enum _file_status
+{
+    file_ok,
+    file_open_error,
+    file_read_error,
+    file_write_error
+} file_status_t;
 
-list_node_t *list_prepend(list_t *list, void *data);
-list_node_t *list_append(list_t *list, void *data);
-void countrycodestring(unsigned short int countrycode, char *string);
-void list_node_delete(list_t *list, list_node_t *node);
-void list_delete(list_t *list);
-void list_node_move_front(list_t *list, list_node_t *node);
-void list_node_move_back(list_t *list, list_node_t *node);
-void *list_nth_node_data(list_t list, int n);
-list_node_t *list_first_node(list_t list);
-void *list_first_data(list_t list);
-list_node_t *list_last_node(list_t list);
-void *list_last_data(list_t list);
-int list_empty(list_t list);
-int list_length(list_t list);
-list_node_t *list_find_node(list_t list, void *data);
-char* dirfrompath(const char* string);
+/** read_from_file
+ *    opens a file and reads the specified number of bytes.
+ *    returns zero on success, nonzero on failure
+ */
+file_status_t read_from_file(const char *filename, void *data, size_t size);
 
-/* GUI utilities */
-void countrycodestring(unsigned short countrycode, char *string);
-void compressionstring(unsigned char compressiontype, char *string);
+/** write_to_file
+ *    opens a file and writes the specified number of bytes.
+ *    returns zero on sucess, nonzero on failure
+ */ 
+file_status_t write_to_file(const char *filename, const void *data, size_t size);
+
+/**********************
+   Byte swap utilities
+ **********************/
+#ifdef _MSC_VER
+#include <stdlib.h>
+#endif
+
+/* GCC has also byte swap intrinsics (__builtin_bswap32, etc.), but they were
+ * added in relatively recent versions. In addition, GCC can detect the byte
+ * swap code and optimize it with a high enough optimization level. */
+
+static inline unsigned short m64p_swap16(unsigned short x)
+{
+    #ifdef _MSC_VER
+    return _byteswap_ushort(x);
+    #else
+    return ((x & 0x00FF) << 8) |
+           ((x & 0xFF00) >> 8);
+    #endif
+}
+
+static inline unsigned int m64p_swap32(unsigned int x)
+{
+    #ifdef _MSC_VER
+    return _byteswap_ulong(x); // long is always 32-bit in Windows
+    #else
+    return ((x & 0x000000FF) << 24) |
+           ((x & 0x0000FF00) << 8) |
+           ((x & 0x00FF0000) >> 8) |
+           ((x & 0xFF000000) >> 24);
+    #endif
+}
+
+static inline unsigned long long int m64p_swap64(unsigned long long int x)
+{
+    #ifdef _MSC_VER
+    return _byteswap_uint64(x);
+    #else
+    return ((x & 0x00000000000000FFULL) << 56) |
+           ((x & 0x000000000000FF00ULL) << 40) |
+           ((x & 0x0000000000FF0000ULL) << 24) |
+           ((x & 0x00000000FF000000ULL) << 8) |
+           ((x & 0x000000FF00000000ULL) >> 8) |
+           ((x & 0x0000FF0000000000ULL) >> 24) |
+           ((x & 0x00FF000000000000ULL) >> 40) |
+           ((x & 0xFF00000000000000ULL) >> 56);
+    #endif
+}
+
+#ifdef M64P_BIG_ENDIAN
+#define big16(x) (x)
+#define big32(x) (x)
+#define big64(x) (x)
+#define little16(x) m64p_swap16(x)
+#define little32(x) m64p_swap32(x)
+#define little64(x) m64p_swap64(x)
+#else
+#define big16(x) m64p_swap16(x)
+#define big32(x) m64p_swap32(x)
+#define big64(x) m64p_swap64(x)
+#define little16(x) (x)
+#define little32(x) (x)
+#define little64(x) (x)
+#endif
+
+/* Byte swaps, converts to little endian or converts to big endian a buffer,
+ * containing 'count' elements, each of size 'length'. */
+void swap_buffer(void *buffer, size_t length, size_t count);
+void to_little_endian_buffer(void *buffer, size_t length, size_t count);
+void to_big_endian_buffer(void *buffer, size_t length, size_t count);
+
+/**********************
+     GUI utilities
+ **********************/
+void countrycodestring(char countrycode, char *string);
 void imagestring(unsigned char imagetype, char *string);
-void cicstring(unsigned char cic, char *string);
-void rumblestring(unsigned char rumble, char *string);
-void savestring(unsigned char savetype, char *string);
-void playersstring(unsigned char players, char *string);
 
-// cycles through each listnode in list setting curr_node to current node.
-#define list_foreach(list, curr_node) \
-    for((curr_node) = (list); (curr_node) != NULL; (curr_node) = (curr_node)->next)
+/**********************
+     Path utilities
+ **********************/
 
-/** string utilities **/
+/* Extracts the full file name (with extension) from a path string.
+ * Returns the same string, advanced until the file name. */
+const char* namefrompath(const char* path);
+
+/* Creates a path string by joining two path strings.
+ * The given path strings may or may not start or end with a path separator.
+ * Returns a malloc'd string with the resulting path. */
+char* combinepath(const char* first, const char *second);
+
+/**********************
+    String utilities
+ **********************/
+
+/** trim
+ *    Removes leading and trailing whitespace from str. Function modifies str
+ *    and also returns modified string.
+ */
 char *trim(char *str);
-char *strnstrip(char* string, int size);
-list_t tokenize_string(const char *string, const char* delim);
+
+/* Converts an string to an integer.
+ * Returns 1 on success, 0 on failure. 'result' is undefined on failure.
+ *
+ * The following conditions cause this function to fail:
+ * - Empty string
+ * - Leading characters (including whitespace)
+ * - Trailing characters (including whitespace)
+ * - Overflow or underflow.
+ */
+int string_to_int(const char *str, int *result);
+
+/* Converts an string of hexadecimal characters to a byte array.
+ * 'output_size' is the number of bytes (hex digraphs) to convert.
+ * Returns 1 on success, 0 on failure. 'output' is undefined on failure. */
+int parse_hex(const char *str, unsigned char *output, size_t output_size);
+
+/* Formats an string, using the same syntax as printf.
+ * Returns the result in a malloc'd string. */
+char* formatstr(const char* fmt, ...);
+
+typedef enum _ini_line_type
+{
+    INI_BLANK,
+    INI_COMMENT,
+    INI_SECTION,
+    INI_PROPERTY,
+    INI_TRASH
+} ini_line_type;
+
+typedef struct _ini_line
+{
+    ini_line_type type;
+    char *name;
+    char *value;
+} ini_line;
+
+/* Parses the INI file line pointer by 'lineptr'.
+ * The first line pointed by 'lineptr' may be modifed.
+ * 'lineptr' will point to the next line after this function runs.
+ *
+ * Returns a ini_line structure with information about the line.
+ * For INI_COMMENT, the value field contains the comment.
+ * For INI_SECTION, the name field contains the section name.
+ * For INI_PROPERTY, the name and value fields contain the property parameters.
+ * The line type is INI_BLANK if the line is blank or invalid.
+ *
+ * The name and value fields (if any) of ini_line point to 'lineptr'
+ * (so their lifetime is associated to that of 'lineptr').
+ */
+ini_line ini_parse_line(char **lineptr);
 
 #ifdef __cplusplus
 }

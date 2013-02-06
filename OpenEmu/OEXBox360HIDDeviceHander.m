@@ -20,12 +20,11 @@
 
     NSUInteger pattern = deviceNumber + 0x6;
     
-    IOReturn status = IOHIDDeviceSetReport([self device],
-                                           kIOHIDReportTypeOutput,
-                                           0x0,
-                                           (uint8_t[]){0x1, 0x3, pattern},
-                                           3);
-            
+    IOHIDDeviceSetReport([self device],
+                         kIOHIDReportTypeOutput,
+                         0x0,
+                         (uint8_t[]){ 0x1, 0x3, pattern },
+                         3);
 }
 
 @end

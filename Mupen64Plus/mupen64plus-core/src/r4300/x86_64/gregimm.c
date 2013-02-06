@@ -33,7 +33,7 @@
 
 #include "memory/memory.h"
 
-void genbltz_test(void)
+static void genbltz_test(void)
 {
   int rs_64bit = is64((unsigned int *)dst->f.i.rs);
    
@@ -64,12 +64,12 @@ void genbltz(void)
    inc_m32rel(&instr_count[47]);
 #endif
 #ifdef INTERPRET_BLTZ
-   gencallinterp((unsigned long long)BLTZ, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZ, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZ, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZ, 1);
     return;
      }
    
@@ -85,12 +85,12 @@ void genbltz_out(void)
    inc_m32rel(&instr_count[47]);
 #endif
 #ifdef INTERPRET_BLTZ_OUT
-   gencallinterp((unsigned long long)BLTZ_OUT, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZ_OUT, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZ_OUT, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZ_OUT, 1);
     return;
      }
    
@@ -103,12 +103,12 @@ void genbltz_out(void)
 void genbltz_idle(void)
 {
 #ifdef INTERPRET_BLTZ_IDLE
-   gencallinterp((unsigned long long)BLTZ_IDLE, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZ_IDLE, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZ_IDLE, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZ_IDLE, 1);
     return;
      }
    
@@ -118,7 +118,7 @@ void genbltz_idle(void)
 #endif
 }
 
-void genbgez_test(void)
+static void genbgez_test(void)
 {
   int rs_64bit = is64((unsigned int *)dst->f.i.rs);
    
@@ -147,12 +147,12 @@ void genbgez(void)
    inc_m32rel(&instr_count[48]);
 #endif
 #ifdef INTERPRET_BGEZ
-   gencallinterp((unsigned long long)BGEZ, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZ, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZ, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZ, 1);
     return;
      }
    
@@ -168,12 +168,12 @@ void genbgez_out(void)
    inc_m32rel(&instr_count[48]);
 #endif
 #ifdef INTERPRET_BGEZ_OUT
-   gencallinterp((unsigned long long)BGEZ_OUT, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZ_OUT, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZ_OUT, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZ_OUT, 1);
     return;
      }
    
@@ -186,12 +186,12 @@ void genbgez_out(void)
 void genbgez_idle(void)
 {
 #ifdef INTERPRET_BGEZ_IDLE
-   gencallinterp((unsigned long long)BGEZ_IDLE, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZ_IDLE, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZ_IDLE, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZ_IDLE, 1);
     return;
      }
    
@@ -207,12 +207,12 @@ void genbltzl(void)
    inc_m32rel(&instr_count[49]);
 #endif
 #ifdef INTERPRET_BLTZL
-   gencallinterp((unsigned long long)BLTZL, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZL, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZL, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZL, 1);
     return;
      }
    
@@ -228,12 +228,12 @@ void genbltzl_out(void)
    inc_m32rel(&instr_count[49]);
 #endif
 #ifdef INTERPRET_BLTZL_OUT
-   gencallinterp((unsigned long long)BLTZL_OUT, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZL_OUT, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZL_OUT, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZL_OUT, 1);
     return;
      }
    
@@ -246,12 +246,12 @@ void genbltzl_out(void)
 void genbltzl_idle(void)
 {
 #ifdef INTERPRET_BLTZL_IDLE
-   gencallinterp((unsigned long long)BLTZL_IDLE, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZL_IDLE, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZL_IDLE, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZL_IDLE, 1);
     return;
      }
    
@@ -267,12 +267,12 @@ void genbgezl(void)
    inc_m32rel(&instr_count[50]);
 #endif
 #ifdef INTERPRET_BGEZL
-   gencallinterp((unsigned long long)BGEZL, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZL, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZL, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZL, 1);
     return;
      }
    
@@ -288,12 +288,12 @@ void genbgezl_out(void)
    inc_m32rel(&instr_count[50]);
 #endif
 #ifdef INTERPRET_BGEZL_OUT
-   gencallinterp((unsigned long long)BGEZL_OUT, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZL_OUT, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZL_OUT, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZL_OUT, 1);
     return;
      }
    
@@ -306,12 +306,12 @@ void genbgezl_out(void)
 void genbgezl_idle(void)
 {
 #ifdef INTERPRET_BGEZL_IDLE
-   gencallinterp((unsigned long long)BGEZL_IDLE, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZL_IDLE, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZL_IDLE, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZL_IDLE, 1);
     return;
      }
    
@@ -354,12 +354,12 @@ void genbltzal(void)
    inc_m32rel(&instr_count[51]);
 #endif
 #ifdef INTERPRET_BLTZAL
-   gencallinterp((unsigned long long)BLTZAL, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZAL, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZAL, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZAL, 1);
     return;
      }
    
@@ -376,12 +376,12 @@ void genbltzal_out(void)
    inc_m32rel(&instr_count[51]);
 #endif
 #ifdef INTERPRET_BLTZAL_OUT
-   gencallinterp((unsigned long long)BLTZAL_OUT, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZAL_OUT, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZAL_OUT, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZAL_OUT, 1);
     return;
      }
    
@@ -395,12 +395,12 @@ void genbltzal_out(void)
 void genbltzal_idle(void)
 {
 #ifdef INTERPRET_BLTZAL_IDLE
-   gencallinterp((unsigned long long)BLTZAL_IDLE, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZAL_IDLE, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZAL_IDLE, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZAL_IDLE, 1);
     return;
      }
    
@@ -417,12 +417,12 @@ void genbgezal(void)
    inc_m32rel(&instr_count[52]);
 #endif
 #ifdef INTERPRET_BGEZAL
-   gencallinterp((unsigned long long)BGEZAL, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZAL, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZAL, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZAL, 1);
     return;
      }
    
@@ -439,12 +439,12 @@ void genbgezal_out(void)
    inc_m32rel(&instr_count[52]);
 #endif
 #ifdef INTERPRET_BGEZAL_OUT
-   gencallinterp((unsigned long long)BGEZAL_OUT, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZAL_OUT, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZAL_OUT, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZAL_OUT, 1);
     return;
      }
    
@@ -458,12 +458,12 @@ void genbgezal_out(void)
 void genbgezal_idle(void)
 {
 #ifdef INTERPRET_BGEZAL_IDLE
-   gencallinterp((unsigned long long)BGEZAL_IDLE, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZAL_IDLE, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZAL_IDLE, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZAL_IDLE, 1);
     return;
      }
    
@@ -480,12 +480,12 @@ void genbltzall(void)
    inc_m32rel(&instr_count[53]);
 #endif
 #ifdef INTERPRET_BLTZALL
-   gencallinterp((unsigned long long)BLTZALL, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZALL, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZALL, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZALL, 1);
     return;
      }
    
@@ -502,12 +502,12 @@ void genbltzall_out(void)
    inc_m32rel(&instr_count[53]);
 #endif
 #ifdef INTERPRET_BLTZALL_OUT
-   gencallinterp((unsigned long long)BLTZALL_OUT, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZALL_OUT, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZALL_OUT, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZALL_OUT, 1);
     return;
      }
    
@@ -521,12 +521,12 @@ void genbltzall_out(void)
 void genbltzall_idle(void)
 {
 #ifdef INTERPRET_BLTZALL_IDLE
-   gencallinterp((unsigned long long)BLTZALL_IDLE, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BLTZALL_IDLE, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BLTZALL_IDLE, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BLTZALL_IDLE, 1);
     return;
      }
    
@@ -543,12 +543,12 @@ void genbgezall(void)
    inc_m32rel(&instr_count[54]);
 #endif
 #ifdef INTERPRET_BGEZALL
-   gencallinterp((unsigned long long)BGEZALL, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZALL, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZALL, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZALL, 1);
     return;
      }
    
@@ -565,12 +565,12 @@ void genbgezall_out(void)
    inc_m32rel(&instr_count[54]);
 #endif
 #ifdef INTERPRET_BGEZALL_OUT
-   gencallinterp((unsigned long long)BGEZALL_OUT, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZALL_OUT, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZALL_OUT, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZALL_OUT, 1);
     return;
      }
    
@@ -584,12 +584,12 @@ void genbgezall_out(void)
 void genbgezall_idle(void)
 {
 #ifdef INTERPRET_BGEZALL_IDLE
-   gencallinterp((unsigned long long)BGEZALL_IDLE, 1);
+   gencallinterp((unsigned long long)cached_interpreter_table.BGEZALL_IDLE, 1);
 #else
    if (((dst->addr & 0xFFF) == 0xFFC && 
        (dst->addr < 0x80000000 || dst->addr >= 0xC0000000))||no_compiled_jump)
      {
-    gencallinterp((unsigned long long)BGEZALL_IDLE, 1);
+    gencallinterp((unsigned long long)cached_interpreter_table.BGEZALL_IDLE, 1);
     return;
      }
    

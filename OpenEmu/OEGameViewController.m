@@ -95,7 +95,6 @@ typedef enum : NSUInteger
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin *)core error:(NSError **)outError;
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError;
 - (BOOL)OE_loadStateFromFile:(NSString *)fileName;
-- (void)OE_captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
 - (void)OE_restartUsingCore:(OECorePlugin *)core;
 
@@ -261,8 +260,10 @@ typedef enum : NSUInteger
     if(window == nil) return;
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:window];
-    [nc addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignKeyNotification object:window];
+    [nc addObserver:self selector:@selector(windowDidBecomeKey:)    name:NSWindowDidBecomeKeyNotification    object:window];
+    [nc addObserver:self selector:@selector(windowDidResignKey:)    name:NSWindowDidResignKeyNotification    object:window];
+    [nc addObserver:self selector:@selector(windowDidMove:)         name:NSWindowDidMoveNotification         object:window];
+    [nc addObserver:self selector:@selector(windowDidChangeScreen:) name:NSWindowDidChangeScreenNotification object:window];
 
     [window addChildWindow:controlsWindow ordered:NSWindowAbove];
     [self OE_repositionControlsWindow];
@@ -284,8 +285,10 @@ typedef enum : NSUInteger
     NSWindow *window = [self OE_rootWindow];
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:window];
-    [nc removeObserver:self name:NSWindowDidResignKeyNotification object:window];
+    [nc removeObserver:self name:NSWindowDidBecomeKeyNotification    object:window];
+    [nc removeObserver:self name:NSWindowDidResignKeyNotification    object:window];
+    [nc removeObserver:self name:NSWindowDidMoveNotification         object:window];
+    [nc removeObserver:self name:NSWindowDidChangeScreenNotification object:window];
 
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
         [window setTitle:OEDefaultWindowTitle];
@@ -498,6 +501,11 @@ typedef enum : NSUInteger
     [[self controlsWindow] reflectEmulationRunning:!pauseEmulation];
 }
 
+- (BOOL)isEmulationRunning
+{
+    return _emulationStatus == OEGameViewControllerEmulationStatusPlaying;
+}
+
 #pragma mark - HUD Bar Actions
 
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
@@ -641,8 +649,6 @@ typedef enum : NSUInteger
      {
          if(result == NSAlertDefaultReturn)
              [self saveStateWithName:[alert stringValue]];
-         
-         [self playGame:nil];
      }];
     
     [alert runModal];
@@ -669,10 +675,10 @@ typedef enum : NSUInteger
             return;
         }
 
-        __block BOOL  success                = NO;
-        NSString     *temporaryDirectoryPath = NSTemporaryDirectory();
-        NSURL        *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
-        NSURL        *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+        BOOL      success                = NO;
+        NSString *temporaryDirectoryPath = NSTemporaryDirectory();
+        NSURL    *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
+        NSURL    *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
 
         temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:
                                  ^ NSURL *(NSInteger triesCount)
@@ -703,13 +709,12 @@ typedef enum : NSUInteger
             [state writeInfoPlist];
         }
 
-        [self OE_captureScreenshotUsingBlock:^(NSImage *img) {
-            NSData *TIFFData = [img TIFFRepresentation];
-            NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
-            NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
-            success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
-        }];
-        
+        NSImage *screenshotImage = [gameView nativeScreenshot];
+        NSData *TIFFData = [screenshotImage TIFFRepresentation];
+        NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
+        NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+        success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
+
         if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
     }
     @finally
@@ -810,13 +815,6 @@ typedef enum : NSUInteger
     if([alert runModal]) [state remove];
 }
 
-#pragma mark -
-
-- (void)OE_captureScreenshotUsingBlock:(void(^)(NSImage *img))block
-{
-    [gameView captureScreenshotUsingBlock:block];
-}
-
 #pragma mark - Menu Items
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -911,12 +909,29 @@ typedef enum : NSUInteger
 
 - (void)OE_repositionControlsWindow
 {
-    NSWindow *gameWindow = [[self view] window];
+    NSWindow *gameWindow = [self OE_rootWindow];
     if(gameWindow == nil) return;
-    
-    NSPoint origin = [gameWindow convertBaseToScreen:[gameView frame].origin];
+
+    const NSRect         gameViewFrameInWindow = [gameView convertRect:[gameView frame] toView:nil];
+    NSPoint              origin                = [gameWindow convertRectToScreen:gameViewFrameInWindow].origin;
+    static const CGFloat _OEControlsMargin     = 19;
+
     origin.x += ([gameView frame].size.width - [controlsWindow frame].size.width) / 2;
-    origin.y += 19;
+
+    // If the controls bar fits, it sits over the window
+    if([gameView frame].size.width >= [controlsWindow frame].size.width)
+    {
+        origin.y += _OEControlsMargin;
+    }
+    // Otherwise, it sits below the window
+    else
+    {
+        origin.y -= ([controlsWindow frame].size.height + _OEControlsMargin);
+
+        // Unless below the window means it being off-screen, in which case it sits above the window
+        if(origin.y < NSMinY([[gameWindow screen] visibleFrame]))
+            origin.y = NSMaxY([gameWindow frame]) + _OEControlsMargin;
+    }
 
     [controlsWindow setFrameOrigin:origin];
 }
@@ -932,6 +947,16 @@ typedef enum : NSUInteger
 #pragma mark - Notifications
 
 - (void)viewDidChangeFrame:(NSNotification*)notification
+{
+    [self OE_repositionControlsWindow];
+}
+
+- (void)windowDidMove:(NSNotification *)notification
+{
+    [self OE_repositionControlsWindow];
+}
+
+- (void)windowDidChangeScreen:(NSNotification *)notification
 {
     [self OE_repositionControlsWindow];
 }

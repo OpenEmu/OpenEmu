@@ -604,8 +604,11 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 
                         NSInteger deadZone = (NSInteger)ceil(_data.axis.maximum * [aDeviceHandler deadZone]);
 
-                        if(-deadZone <= _data.axis.value && _data.axis.value <= deadZone)
-                            _data.axis.value = 0;
+                        if(deadZone != _data.axis.maximum)
+                        {
+                            if(-deadZone <= _data.axis.value && _data.axis.value <= deadZone)
+                                _data.axis.value = 0;
+                        }
 
                         if(_data.axis.value > 0)      _data.axis.direction = OEHIDEventAxisDirectionPositive;
                         else if(_data.axis.value < 0) _data.axis.direction = OEHIDEventAxisDirectionNegative;

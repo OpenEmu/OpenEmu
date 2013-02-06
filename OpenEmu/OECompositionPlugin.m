@@ -1,48 +1,34 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
- 
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OECompositionPlugin.h"
 
 #define OEPreviewImageOutputKey @"OEPreviewImage"
 
-@interface OECompositionPlugin ()
-+ (void)OE_addPluginWithPath:(NSString *)aPath;
-- (NSComparisonResult)OE_compare:(OECompositionPlugin *)value;
-- (id)initWithCompositionAtPath:(NSString *)aPath;
-@end
-
-
 @implementation OECompositionPlugin
-
-@synthesize composition, name, path;
-
-
-+ (void)initialize{
-}
 
 + (NSString *)pluginFolder
 {
@@ -54,160 +40,86 @@
     return @"qtz";
 }
 
-- (NSComparisonResult)OE_compare:(OECompositionPlugin *)value
+- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName
 {
-    return [[self name] caseInsensitiveCompare:[value name]];
-} 
+    QCComposition *composition = [QCComposition compositionWithFile:aPath];
+    if(composition == nil) return nil;
 
-static NSMutableDictionary *plugins = nil;
+    if(![[composition inputKeys] containsObject:@"OEImageInput"]) return nil;
 
-+ (void)OE_addPluginWithPath:(NSString *)aPath
-{
-    OECompositionPlugin *plugin = [[self alloc] initWithCompositionAtPath:aPath];
-    if(plugin != nil) [plugins setObject:plugin forKey:[plugin name]];
-}
+    aName = (    [[_composition attributes] objectForKey:QCCompositionAttributeNameKey]
+             ? : [[_composition attributes] objectForKey:@"name"]);
 
-+ (NSArray *)allPluginNames
-{
-    if(plugins == nil)
-    {
-        plugins = [[NSMutableDictionary alloc] init];
-        
-        NSString *folder = [self pluginFolder];
-        NSString *extension = [self pluginExtension];
-        
-        NSString *openEmuSearchPath = [@"OpenEmu" stringByAppendingPathComponent:folder];
-        
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-        
-        NSFileManager *manager = [NSFileManager defaultManager];
-        
-        for(NSString *path in paths)
-        {
-            NSString *subpath = [path stringByAppendingPathComponent:openEmuSearchPath];
-            NSArray  *subpaths = [manager contentsOfDirectoryAtPath:subpath error:nil];
-            for(NSString *bundlePath in subpaths)
-            {
-                if([extension isEqualToString:[bundlePath pathExtension]])
-                {
-                    [self OE_addPluginWithPath:[subpath stringByAppendingPathComponent:bundlePath]];
-                }
-            }
-        }
-        
-        paths = [[NSBundle mainBundle] pathsForResourcesOfType:extension inDirectory:folder];
-        for(NSString *path in paths) [self OE_addPluginWithPath:path];
-    }
-    
-    return [plugins allKeys];
-}
+    if((self = [super initWithFileAtPath:aPath name:aName]))
+        _composition = composition;
 
-+ (id)compositionPluginWithName:(NSString *)aName
-{
-    return [plugins objectForKey:aName];
-}
-
-- (id)init
-{
-    return [self initWithCompositionAtPath:nil];
-}
-
-- (id)initWithCompositionAtPath:(NSString *)aPath
-{
-    if((self = [super init]))
-    {
-        if(![[aPath pathExtension] isEqualToString:@"qtz"])
-        {
-            return nil;
-        }
-        path = [aPath copy];
-        composition = [QCComposition compositionWithFile:path];
-        name = [[composition attributes] objectForKey:QCCompositionAttributeNameKey];
-        if(name == nil)
-            name = [[composition attributes] objectForKey:@"name"];
-        if(name == nil)
-            name = [[path lastPathComponent] stringByDeletingPathExtension];
-    }
     return self;
-}
-
-
-- (BOOL)isEqual:(id)object
-{
-    if([object isKindOfClass:[OECompositionPlugin class]])
-        return [[self name] isEqualToString:[(OECompositionPlugin *)object name]];
-    else if([object isKindOfClass:[NSString class]])
-        return [[self name] isEqualToString:object];
-    return [super isEqual:object];
-}
-
-- (NSUInteger)hash
-{
-    return [[self name] hash];
 }
 
 - (NSString *)description
 {
-    return [[composition attributes] objectForKey:QCCompositionAttributeDescriptionKey];
+    return [[_composition attributes] objectForKey:QCCompositionAttributeDescriptionKey];
 }
 
 - (NSString *)copyright
 {
-    return [[composition attributes] objectForKey:QCCompositionAttributeCopyrightKey];
+    return [[_composition attributes] objectForKey:QCCompositionAttributeCopyrightKey];
 }
+
 - (BOOL)isBuiltIn
 {
-    return [[[composition attributes] objectForKey:QCCompositionAttributeBuiltInKey] boolValue];
+    return [[[_composition attributes] objectForKey:QCCompositionAttributeBuiltInKey] boolValue];
 }
 - (BOOL)isTimeDependent
 {
-    return [[[composition attributes] objectForKey:@"QCCompositionAttributeTimeDependentKey"] boolValue];
-}
-- (BOOL)hasConsumers
-{
-    return [[[composition attributes] objectForKey:QCCompositionAttributeHasConsumersKey] boolValue];
-}
-- (NSString *)category
-{
-    return [[composition attributes] objectForKey:QCCompositionAttributeCategoryKey];
+    return [[[_composition attributes] objectForKey:@"QCCompositionAttributeTimeDependentKey"] boolValue];
 }
 
-- (NSImage*)previewImage
+- (BOOL)hasConsumers
+{
+    return [[[_composition attributes] objectForKey:QCCompositionAttributeHasConsumersKey] boolValue];
+}
+
+- (NSString *)category
+{
+    return [[_composition attributes] objectForKey:QCCompositionAttributeCategoryKey];
+}
+
+- (NSImage *)previewImage
 {
     if(![[[self composition] outputKeys] containsObject:OEPreviewImageOutputKey])
         return nil;
-    
-    NSOpenGLContext*			openGLContext;
-    QCRenderer*					renderer;
-    
-    NSOpenGLPixelFormatAttribute	attributes[] = {
+
+    NSOpenGLPixelFormatAttribute attributes[] = {
         (NSOpenGLPixelFormatAttribute) 0
     };
-    NSOpenGLPixelFormat *format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
-    
+
+    NSOpenGLContext     *openGLContext = nil;
+    QCRenderer          *renderer      = nil;
+    NSOpenGLPixelFormat *format        = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
+
     openGLContext = [[NSOpenGLContext alloc] initWithFormat:format shareContext:nil];
-    if(openGLContext == nil) {
+    if(openGLContext == nil)
+    {
         DLog(@"Cannot create OpenGL context");
         return nil;
     }
-    
+
     //Create the QuartzComposer Renderer with that OpenGL context and the specified composition file
     renderer = [[QCRenderer alloc] initWithOpenGLContext:openGLContext pixelFormat:format file:[self path]];
-    if(renderer == nil) {
+    if(renderer == nil)
+    {
         DLog(@"Cannot create QCRenderer");
-
         return nil;
     }
-    
+
     NSImage *previewImage = [renderer valueForOutputKey:@"OEPreviewImage" ofType:@"NSImage"];
-    if(!previewImage)
+    if(previewImage == nil)
     {
-        
         DLog(@"Did not get a preview image");
         return nil;
     }
-    
-    
+
     return previewImage;
 }
 

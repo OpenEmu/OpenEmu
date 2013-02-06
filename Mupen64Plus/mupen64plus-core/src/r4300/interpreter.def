@@ -1,0 +1,79 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *   Mupen64plus - interpreter.def                                         *
+ *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
+ *   Copyright (C) 2002 Hacktarux                                          *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* Before #including this file, the following macros should be defined:
+ *
+ * PCADDR: Program counter (memory address of the current instruction).
+ *
+ * ADD_TO_PC(x): Increment the program counter in 'x' instructions.
+ * This is only used for small changes to PC, so the new program counter
+ * is guaranteed to fall in the current cached interpreter or dynarec block.
+ *
+ * DECLARE_INSTRUCTION(name)
+ * Declares an instruction function which is not a jump.
+ * Followed by a block of code.
+ *
+ * DECLARE_JUMP(name, destination, condition, link, likely, cop1)
+ * name is the name of the jump or branch instruction.
+ * destination is the destination memory address of the jump.
+ * If condition is nonzero, the jump is taken.
+ * link is a pointer to a variable where (PC+8) is written unconditionally.
+ *     To avoid linking, pass &reg[0]
+ * If likely is nonzero, the delay slot is only executed if the jump is taken.
+ * If cop1 is nonzero, a COP1 unusable check will be done.
+ *
+ * CHECK_MEMORY(): A snippet to be run after a store instruction,
+ *                 to check if the store affected executable blocks.
+ *                 The memory address of the store is in the 'address' global.
+ */
+
+DECLARE_INSTRUCTION(NI)
+{
+   DebugMessage(M64MSG_ERROR, "NI() @ 0x%x", PCADDR);
+   DebugMessage(M64MSG_ERROR, "opcode not implemented: %x:%x", PCADDR, *fast_mem_access(PCADDR));
+   stop=1;
+}
+
+DECLARE_INSTRUCTION(RESERVED)
+{
+   DebugMessage(M64MSG_ERROR, "reserved opcode: %x:%x", PCADDR, *fast_mem_access(PCADDR));
+   stop=1;
+}
+
+// R4300
+#include "interpreter_r4300.def"
+
+// COP0
+#include "interpreter_cop0.def"
+
+// COP1
+#include "interpreter_cop1.def"
+
+// regimm
+#include "interpreter_regimm.def"
+
+// special
+#include "interpreter_special.def"
+
+// TLB
+#include "interpreter_tlb.def"
+
+

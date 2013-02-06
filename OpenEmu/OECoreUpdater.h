@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -27,7 +27,7 @@
 #import <Foundation/Foundation.h>
 #import "OECoreDownload.h"
 
-extern NSString * const OECoreUpdaterErrorDomain;
+extern NSString *const OECoreUpdaterErrorDomain;
 enum _OECoreUpdaterErrorCode
 {
     OENoDownloadableCoreForIdentifier = -1,
@@ -35,6 +35,7 @@ enum _OECoreUpdaterErrorCode
 
 @class OEHUDAlert;
 @class OEDBGame, OEDBSaveState;
+
 @interface OECoreUpdater : NSObject <OECoreDownloadDelegate>
 
 + (id)sharedUpdater;
@@ -46,10 +47,10 @@ enum _OECoreUpdaterErrorCode
 - (void)installCoreForSaveState:(OEDBSaveState*)state withCompletionHandler:(void(^)(NSError *error))handler;
 - (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message andCompletionHandler:(void(^)(NSError *error))handler;
 
-@property(strong, readonly) NSArray *coreList;
+@property(readonly) NSArray *coreList;
 
-@property(copy)    void(^completionHandler)(NSError*);
-@property(strong)  NSString *coreIdentifier;
-@property(strong)  OEHUDAlert *alert;
-@property(strong)  OECoreDownload *coreDownload;
+@property(copy) void(^completionHandler)(NSError*);
+@property       NSString *coreIdentifier;
+@property       OEHUDAlert *alert;
+@property       OECoreDownload *coreDownload;
 @end

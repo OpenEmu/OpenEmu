@@ -95,6 +95,17 @@ static bool environment_callback(unsigned cmd, void *data)
 {
     switch(cmd)
     {
+        case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY :
+        {
+            // FIXME: Build a path in a more appropriate place
+            NSString *appSupportPath = [NSString pathWithComponents:@[
+                                        [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
+                                        @"OpenEmu", @"BIOS"]];
+            
+            *(const char **)data = [appSupportPath UTF8String];
+            NSLog(@"Environ SYSTEM_DIRECTORY: \"%@\".\n", appSupportPath);
+            break;
+        }
         default :
             NSLog(@"Environ UNSUPPORTED (#%u).\n", cmd);
             return false;
@@ -226,7 +237,10 @@ static void writeSaveFile(const char* path, int type)
 
             NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
 
+            NSString *filePathRTC = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"rtc"]];
+            
             loadSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
+            loadSaveFile([filePathRTC UTF8String], RETRO_MEMORY_RTC);
         }
 
         struct retro_system_av_info avInfo;
@@ -293,7 +307,10 @@ static void writeSaveFile(const char* path, int type)
 
         NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
 
+        NSString *filePathRTC = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"rtc"]];
+        
         writeSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
+        writeSaveFile([filePathRTC UTF8String], RETRO_MEMORY_RTC);
     }
 
     NSLog(@"gb term");

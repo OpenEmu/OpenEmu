@@ -2,7 +2,7 @@
 
 = Mupen64Plus v2.0 Basic Core API =
 
-Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#core.h|core.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
+Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
 
 {| border="1"
 |Prototype
@@ -13,7 +13,7 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 '''<tt>PluginVersion</tt>''' Pointer to an integer to store the version number of the Mupen64Plus core.  Version number 2.1.3 would be stored as 0x00020103.<br />
 '''<tt>APIVersion</tt>''' Pointer to an integer to store the version number of the Core--Front-end API used by the Mupen64plus core library.<br />
 '''<tt>PluginNamePtr</tt>''' Pointer to a const character pointer to receive the name of the core library.  The const char * which is returned must point to a persistent string (ie, not stored on the stack).<br />
-'''<tt>Capabilities</tt>''' Pointer to an integer to store a logically-or'd set of flags which specify the capabilities of the core which were built into the library during compilation.  These are defined in the <tt>m64p_core_caps</tt> enumerated type, defined in [[Mupen64Plus v2.0 headers#core.h|core.h]].
+'''<tt>Capabilities</tt>''' Pointer to an integer to store a logically-or'd set of flags which specify the capabilities of the core which were built into the library during compilation.  These are defined in the <tt>m64p_core_caps</tt> enumerated type, defined in [[Mupen64Plus v2.0 headers#m64p_types.h|m64p_types.h]].
 |-
 |Usage
 |This function retrieves version information from the core library.  This function is the same for the core library and the plugins, so that a front-end may examine all shared libraries in a directory and determine their types.  Any of the input parameters may be set to NULL and this function will succeed but won't return the corresponding information.

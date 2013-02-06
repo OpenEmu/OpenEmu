@@ -35,8 +35,8 @@
 int g_DebuggerActive = 0;    // whether the debugger is enabled or not
 int run;
 
-SDL_cond  *debugger_done_cond;
-SDL_mutex *mutex;
+static SDL_cond  *debugger_done_cond;
+static SDL_mutex *mutex;
 
 uint32 previousPC;
 

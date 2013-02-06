@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,19 +28,19 @@
 #import <OpenGL/OpenGL.h>
 
 @interface OEGameShader : NSObject
-{
-    const GLcharARB *fragmentShaderSource; // the GLSL source for the fragment Shader
-    const GLcharARB *vertexShaderSource;   // the GLSL source for the vertex Shader
-    GLhandleARB      programObject;        // the program object
-    
-    NSBundle        *bundleToLoadFrom;     // location of resource folder;
-    CGLContextObj    shaderContext;        // context to bind shaders to.
-}
 
-- (id)initWithShadersInMainBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
-- (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
+- (id)initWithFileAtPath:(NSString *)filePath context:(CGLContextObj)context;
 
-- (GLhandleARB)programObject;
-- (GLint)uniformLocationWithName:(const GLcharARB *)theUniformName;
+@property(readonly) NSString *filePath;
+@property(readonly) NSString *shaderName;
+
+// Context to bind shaders to.
+@property(readonly) CGLContextObj shaderContext;
+
+// Is a Shader compiled yet?
+@property(readonly, getter=isCompiled) BOOL compiled;
+
+- (BOOL)isBuiltIn;
+- (void)compileShaders;
 
 @end

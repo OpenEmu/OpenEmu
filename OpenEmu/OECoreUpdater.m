@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -38,12 +38,11 @@
 #import "OEDBSystem.h"
 #import "OEDBSaveState.h"
 
-NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
+NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 @interface OECoreUpdater ()
 {
-    NSMutableDictionary *coresDict;
-    BOOL isCheckingForAlertDownload;
+    NSMutableDictionary *_coresDict;
 }
 
 - (void)OE_updateCoreList;
@@ -51,7 +50,6 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 @end
 
 @implementation OECoreUpdater
-@synthesize coreList;
 
 // TODO: remove when feed holds correct ids
 - (NSString *)lowerCaseID:(NSString*)mixedCaseID
@@ -64,12 +62,12 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 + (id)sharedUpdater
 {
     static OECoreUpdater *sharedController = nil;
-    
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedController = [[self alloc] init];
     });
-    
+
     return sharedController;
 }
 
@@ -77,18 +75,16 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 {
     if((self = [super init]))
     {
-        isCheckingForAlertDownload = NO;
-        
-        coresDict = [[NSMutableDictionary alloc] init];
-        
+        _coresDict = [[NSMutableDictionary alloc] init];
+
         [[OECorePlugin allPlugins] enumerateObjectsUsingBlock:
          ^(id obj, NSUInteger idx, BOOL *stop)
          {
              OECoreDownload *aDownload = [[OECoreDownload alloc] initWithPlugin:obj];
              NSString *bundleID = [self lowerCaseID:[obj bundleIdentifier]];
-             [coresDict setObject:aDownload forKey:bundleID];
+             [_coresDict setObject:aDownload forKey:bundleID];
          }];
-        
+
         [self OE_updateCoreList];
     }
     return self;
@@ -97,14 +93,14 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)OE_updateCoreList
 {
     [self willChangeValueForKey:@"coreList"];
-    
-    coreList =
-    [[coresDict allValues] sortedArrayUsingComparator:
+
+    _coreList =
+    [[_coresDict allValues] sortedArrayUsingComparator:
      ^ NSComparisonResult (id obj1, id obj2)
      {
          return [[obj1 name] compare:[obj2 name]];
      }];
-    
+
     [self didChangeValueForKey:@"coreList"];
 }
 
@@ -116,12 +112,12 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         [self performSelectorOnMainThread:@selector(checkForUpdates) withObject:nil waitUntilDone:NO];
         return;
     }
-    
+
     for(OECorePlugin *plugin in [OECorePlugin allPlugins])
     {
         NSString  *appcastURLString = [plugin.infoDictionary objectForKey:@"SUFeedURL"];
         SUUpdater *updater          = [SUUpdater updaterForBundle:plugin.bundle];
-        
+
         if(updater != nil)
         {
             [updater setDelegate:self];
@@ -136,58 +132,64 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     NSURL         *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
     NSXMLDocument *coreListDoc = [[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL];
     NSArray       *coreNodes   = nil;
-    
+
     if(coreListDoc != nil) coreNodes = [coreListDoc nodesForXPath:@"/cores/core" error:NULL];
-    
+
     if(coreNodes != nil)
     {
         for(NSXMLElement *coreNode in coreNodes)
         {
             NSString *coreId = [self lowerCaseID:[[coreNode attributeForName:@"id"] stringValue]];
-            if([coresDict objectForKey:coreId] != nil) continue;
-            
+            if([_coresDict objectForKey:coreId] != nil) continue;
+
             OECoreDownload *download = [[OECoreDownload alloc] init];
             [download setName:[[coreNode attributeForName:@"name"] stringValue]];
-            
+
             NSArray *nodes = [coreNode nodesForXPath:@"./systems/system" error:NULL];
             NSMutableArray *systemNames = [NSMutableArray arrayWithCapacity:[nodes count]];
             NSMutableArray *systemIdentifiers = [NSMutableArray arrayWithCapacity:[nodes count]];
-            [nodes enumerateObjectsUsingBlock:^(NSXMLElement *systemNode, NSUInteger idx, BOOL *stop) {
-                NSString *systemName = [systemNode objectValue];
-                NSString *systemIdentifier = [[systemNode attributeForName:@"id"] objectValue];
-                
-                [systemNames addObject:systemName];
-                [systemIdentifiers addObject:systemIdentifier];
-            }];
-            
+            [nodes enumerateObjectsUsingBlock:
+             ^(NSXMLElement *systemNode, NSUInteger idx, BOOL *stop)
+             {
+                 NSString *systemName = [systemNode objectValue];
+                 NSString *systemIdentifier = [[systemNode attributeForName:@"id"] objectValue];
+
+                 [systemNames addObject:systemName];
+                 [systemIdentifiers addObject:systemIdentifier];
+             }];
+
             [download setSystemNames:systemNames];
             [download setSystemIdentifiers:systemIdentifiers];
             [download setCanBeInstalled:YES];
-            
+
             NSURL *appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
             download.appcast = [[SUAppcast alloc] init];
             [download.appcast setDelegate:self];
-            
+
             if([fromModal boolValue])
                 [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO modes:[NSArray arrayWithObject:NSModalPanelRunLoopMode]];
             else
                 [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO];
-                
-            [coresDict setObject:download forKey:coreId];
+
+            [_coresDict setObject:download forKey:coreId];
         }
     }
-    
+
     [self OE_updateCoreList];
 }
+
 #pragma mark -
 #pragma mark Installing with OEHUDAlert
-@synthesize completionHandler, coreIdentifier, alert, coreDownload;
+
 - (void)installCoreForGame:(OEDBGame*)game withCompletionHandler:(void(^)(NSError *error))handler
 {
     NSString *systemIdentifier = [[game system] systemIdentifier];
-    NSArray *validPlugins = [[self coreList] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject systemIdentifiers] containsObject:systemIdentifier];
-    }]];
+    NSArray *validPlugins = [[self coreList] filteredArrayUsingPredicate:
+                             [NSPredicate predicateWithBlock:
+                              ^ BOOL (id evaluatedObject, NSDictionary *bindings)
+                              {
+                                  return [[evaluatedObject systemIdentifiers] containsObject:systemIdentifier];
+                              }]];
 
     if([validPlugins count])
     {
@@ -206,8 +208,8 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)installCoreForSaveState:(OEDBSaveState*)state withCompletionHandler:(void(^)(NSError *error))handler
 {
     NSString *aCoreIdentifier = [state coreIdentifier];
-    OECoreDownload *download = [coresDict objectForKey:[aCoreIdentifier lowercaseString]];
-    if(download)
+    OECoreDownload *download = [_coresDict objectForKey:[aCoreIdentifier lowercaseString]];
+    if(download != nil)
     {
         NSString *coreName = [download name];
         NSString *message = [NSString stringWithFormat:NSLocalizedString(@"To launch the save state %@ you will need to install the '%@' Core", @""), [state name], coreName];
@@ -226,24 +228,24 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     OEHUDAlert *aAlert = [[OEHUDAlert alloc] init];
     [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
     [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-    
+
     [aAlert setTitle:NSLocalizedString(@"Missing Core", @"")];
     [aAlert setMessageText:message];
-    
+
     [aAlert setDefaultButtonAction:@selector(startInstall) andTarget:self];
-    
-    NSString *aCoreIdentifier = [[coresDict allKeysForObject:download] lastObject];
+
+    NSString *aCoreIdentifier = [[_coresDict allKeysForObject:download] lastObject];
     [self setCoreIdentifier:aCoreIdentifier];
     [self setCompletionHandler:handler];
-    
+
     [self setAlert:aAlert];
-    
+
     [[self alert] runModal];
-    
+
     [self setCompletionHandler:nil];
     [self setCoreDownload:nil];
     [self setCoreIdentifier:nil];
-    
+
     [self setAlert:nil];
 }
 
@@ -266,32 +268,32 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     [[self alert] setShowsProgressbar:YES];
     [[self alert] setDefaultButtonTitle:nil];
     [[self alert] setMessageText:nil];
-    
+
     [[self alert] setAlternateButtonAction:@selector(cancelInstall) andTarget:self];
-    
-    OECoreDownload *pluginDL = [coresDict objectForKey:[self coreIdentifier]];
-    
+
+    OECoreDownload *pluginDL = [_coresDict objectForKey:[self coreIdentifier]];
+
     if(pluginDL == nil)
     {
         [self checkForNewCores:[NSNumber numberWithBool:YES]];
-        pluginDL = [coresDict objectForKey:[self coreIdentifier]];
+        pluginDL = [_coresDict objectForKey:[self coreIdentifier]];
     }
-    
+
     if(pluginDL == nil)
     {
         [[self alert] setShowsProgressbar:NO];
         [[self alert] setHeadlineLabelText:nil];
         [[self alert] setTitle:NSLocalizedString(@"Error!", @"")];
-        
+
         [[self alert] setMessageText:NSLocalizedString(@"The core could not be downloaded. Try installing it from the Cores preferences.", @"")];
         [[self alert] setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
         [[self alert] setAlternateButtonTitle:nil];
-        
+
         [[[self alert] defaultButton] setThemeKey:@"hud_button_red"];
         [[self alert] setDefaultButtonAction:@selector(buttonAction:) andTarget:[self alert]];
         return;
     }
-    
+
     [self setCoreDownload:pluginDL];
     if([[self coreDownload] appcastItem] != nil)
     {
@@ -302,9 +304,9 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)finishInstall
 {
     [[self alert] closeWithResult:NSAlertDefaultReturn];
-    
+
     if([self completionHandler] != nil) [self completionHandler](nil);
-    
+
     [self setAlert:nil];
     [self setCoreIdentifier:nil];
     [self setCompletionHandler:nil];
@@ -314,12 +316,12 @@ NSString * const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProgressContext;
 
-- (void)OEDownloadDidStart:(OECoreDownload *)download
+- (void)coreDownloadDidStart:(OECoreDownload *)download
 {
     [download addObserver:self forKeyPath:@"progress" options:0xF context:_OECoreDownloadProgressContext];
 }
 
-- (void)OEDownloadDidFinish:(OECoreDownload *)download
+- (void)coreDownloadDidFinish:(OECoreDownload *)download
 {
     [download removeObserver:self forKeyPath:@"progress" context:_OECoreDownloadProgressContext];
     if(download == [self coreDownload]) [self finishInstall];
@@ -329,7 +331,7 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 {
     if(context != _OECoreDownloadProgressContext)
         return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    
+
     if(object == [self coreDownload])
         [[self alert] setProgress:[[self coreDownload] progress]];
     else
@@ -338,6 +340,7 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 
 #pragma mark -
 #pragma mark SUUpdater Delegate
+
 - (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update
 {
     for(OECorePlugin *plugin in [OECorePlugin allPlugins])
@@ -345,15 +348,15 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
         if(updater == [SUUpdater updaterForBundle:plugin.bundle])
         {
             NSString *coreID = [self lowerCaseID:[plugin bundleIdentifier]];
-            OECoreDownload *download = [coresDict objectForKey:coreID];
+            OECoreDownload *download = [_coresDict objectForKey:coreID];
             [download setHasUpdate:YES];
             [download setAppcastItem:update];
             [download setDelegate:self];
-            
+
             break;
         }
     }
-    
+
     [self OE_updateCoreList];
 }
 
@@ -362,7 +365,7 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 
 - (void)appcastDidFinishLoading:(SUAppcast *)appcast
 {
-    [coresDict enumerateKeysAndObjectsUsingBlock:
+    [_coresDict enumerateKeysAndObjectsUsingBlock:
      ^(id key, id obj, BOOL *stop)
      {
          if([obj appcast] == appcast)
@@ -370,22 +373,22 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
              //Assuming 0 is the best download, may or may not be the best
              NSArray *appcastItems = [appcast items];
              if([appcastItems count] > 0) [obj setAppcastItem:[appcastItems objectAtIndex:0]];
-             
+
              [obj setDelegate:self];
              *stop = YES;
-             
+
              if(obj == [self coreDownload])
                  [[self coreDownload] startDownload:self];
          }
      }];
-    
+
     [self OE_updateCoreList];
 }
 
 - (void)appcast:(SUAppcast *)appcast failedToLoadWithError:(NSError *)error
 {
     // Appcast couldn't load, remove it
-    [coresDict enumerateKeysAndObjectsUsingBlock:
+    [_coresDict enumerateKeysAndObjectsUsingBlock:
      ^(id key, id obj, BOOL *stop)
      {
          if([obj appcast] == appcast)
@@ -394,7 +397,8 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
              *stop = YES;
          }
      }];
-    
+
     [self OE_updateCoreList];
 }
+
 @end

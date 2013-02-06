@@ -1,0 +1,140 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *   Mupen64plus - interpreter_cop0.def                                    *
+ *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
+ *   Copyright (C) 2002 Hacktarux                                          *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+DECLARE_INSTRUCTION(MFC0)
+{
+   switch(PC->f.r.nrd)
+   {
+      case 1:
+        DebugMessage(M64MSG_ERROR, "MFC0 instruction reading un-implemented Random register");
+        stop=1;
+      case 9:    // Count
+        update_count();
+      default:
+        rrt32 = reg_cop0[PC->f.r.nrd];
+        sign_extended(rrt);
+   }
+   ADD_TO_PC(1);
+}
+
+DECLARE_INSTRUCTION(MTC0)
+{
+  switch(PC->f.r.nrd)
+  {
+    case 0:    // Index
+      Index = (unsigned int) rrt & 0x8000003F;
+      if ((Index & 0x3F) > 31) 
+      {
+        DebugMessage(M64MSG_ERROR, "MTC0 instruction writing Index register with TLB index > 31");
+        stop=1;
+      }
+      break;
+    case 1:    // Random
+      break;
+    case 2:    // EntryLo0
+      EntryLo0 = (unsigned int) rrt & 0x3FFFFFFF;
+      break;
+    case 3:    // EntryLo1
+      EntryLo1 = (unsigned int) rrt & 0x3FFFFFFF;
+      break;
+    case 4:    // Context
+      Context = ((unsigned int) rrt & 0xFF800000) | (Context & 0x007FFFF0);
+      break;
+    case 5:    // PageMask
+      PageMask = (unsigned int) rrt & 0x01FFE000;
+      break;
+    case 6:    // Wired
+      Wired = (unsigned int) rrt;
+      Random = 31;
+      break;
+    case 8:    // BadVAddr
+      break;
+    case 9:    // Count
+      update_count();
+      interupt_unsafe_state = 1;
+      if (next_interupt <= Count) gen_interupt();
+      interupt_unsafe_state = 0;
+      debug_count += Count;
+      translate_event_queue((unsigned int) rrt & 0xFFFFFFFF);
+      Count = (unsigned int) rrt & 0xFFFFFFFF;
+      debug_count -= Count;
+      break;
+    case 10:   // EntryHi
+      EntryHi = (unsigned int) rrt & 0xFFFFE0FF;
+      break;
+    case 11:   // Compare
+      update_count();
+      remove_event(COMPARE_INT);
+      add_interupt_event_count(COMPARE_INT, (unsigned int)rrt);
+      Compare = (unsigned int) rrt;
+      Cause = Cause & 0xFFFF7FFF; //Timer interupt is clear
+      break;
+    case 12:   // Status
+      if((rrt & 0x04000000) != (Status & 0x04000000))
+      {
+          shuffle_fpr_data(Status, (unsigned int) rrt);
+          set_fpr_pointers((unsigned int) rrt);
+      }
+      Status = (unsigned int) rrt;
+      update_count();
+      ADD_TO_PC(1);
+      check_interupt();
+      interupt_unsafe_state = 1;
+      if (next_interupt <= Count) gen_interupt();
+      interupt_unsafe_state = 0;
+      ADD_TO_PC(-1);
+      break;
+    case 13:   // Cause
+      if (rrt!=0)
+      {
+         DebugMessage(M64MSG_ERROR, "MTC0 instruction trying to write Cause register with non-0 value");
+         stop = 1;
+      }
+      else Cause = (unsigned int) rrt;
+      break;
+    case 14:   // EPC
+      EPC = (unsigned int) rrt;
+      break;
+    case 15:  // PRevID
+      break;
+    case 16:  // Config
+      Config = (unsigned int) rrt;
+      break;
+    case 18:  // WatchLo
+      WatchLo = (unsigned int) rrt & 0xFFFFFFFF;
+      break;
+    case 19:  // WatchHi
+      WatchHi = (unsigned int) rrt & 0xFFFFFFFF;
+      break;
+    case 27:  // CacheErr
+      break;
+    case 28:  // TagLo
+      TagLo = (unsigned int) rrt & 0x0FFFFFC0;
+      break;
+    case 29: // TagHi
+      TagHi =0;
+      break;
+    default:
+      DebugMessage(M64MSG_ERROR, "Unknown MTC0 write: %d", PC->f.r.nrd);
+      stop=1;
+  }
+  ADD_TO_PC(1);
+}

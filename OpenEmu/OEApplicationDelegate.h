@@ -39,6 +39,7 @@
 - (void)loadDatabase;
 
 @property(unsafe_unretained) IBOutlet NSWindow               *aboutWindow;
+@property(unsafe_unretained) IBOutlet NSMenu                 *fileMenu;
 @property(unsafe_unretained) IBOutlet OEMainWindowController *mainWindowController;
 
 @property(strong, readonly) NSString           *aboutCreditsPath;

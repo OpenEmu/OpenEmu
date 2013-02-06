@@ -22,27 +22,7 @@
 #ifndef __BREAKPOINTS_H__
 #define __BREAKPOINTS_H__
 
-#define BREAKPOINTS_MAX_NUMBER  128
-
-#define BPT_FLAG_ENABLED        0x01
-#define BPT_FLAG_CONDITIONAL    0x02
-#define BPT_FLAG_COUNTER        0x04
-#define BPT_FLAG_READ           0x08
-#define BPT_FLAG_WRITE          0x10
-#define BPT_FLAG_EXEC           0x20
-#define BPT_FLAG_LOG            0x40 //Log to the console when this breakpoint hits.
-
-#define BPT_CHECK_FLAG(a, b)  ((a.flags & b) == b)
-#define BPT_SET_FLAG(a, b)    a.flags = (a.flags | b);
-#define BPT_CLEAR_FLAG(a, b)  a.flags = (a.flags & (~b));
-#define BPT_TOGGLE_FLAG(a, b) a.flags = (a.flags ^ b);
-
-typedef struct _breakpoint {
-    uint32 address; 
-    uint32 endaddr;
-    uint32 flags;
-    //uint32 condition;  //Placeholder for breakpoint condition
-    } breakpoint;
+#include "../api/m64p_types.h"
 
 extern int g_NumBreakpoints;
 extern breakpoint g_Breakpoints[];
