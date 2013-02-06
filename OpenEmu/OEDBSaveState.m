@@ -219,19 +219,19 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     OEDBSaveState   *saveState      = [OEDBSaveState saveStateWithURL:url]; 
 
     BOOL fileExists = [defaultManager fileExistsAtPath:saveStatePath];
-    if(saveState && fileExists)
-    {
-           [saveState readInfoPlist];
-    }
-    else if(saveState && !fileExists)
+    if(saveState && !fileExists)
     {
         [saveState remove];
+        return;
+    } else if(saveState && fileExists)
+    {
+           [saveState readInfoPlist];
     }
     else if(!saveState && [defaultManager fileExistsAtPath:saveStatePath])
     {
         saveState = [OEDBSaveState createSaveStateWithURL:url];
     }
-
+    
     [saveState moveToDefaultLocation];
 }
 #pragma mark - Management
