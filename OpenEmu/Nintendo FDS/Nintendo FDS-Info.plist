@@ -144,5 +144,17 @@
 			</array>
 		</array>
 	</dict>
+	<key>OERequiredFiles</key>
+	<dict>
+		<key>disksys.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>Disk System BIOS</string>
+			<key>Size</key>
+			<integer>8192</integer>
+			<key>MD5</key>
+			<string>CA30B50F880EB660A320674ED365EF7A</string>
+		</dict>
+	</dict>
 </dict>
 </plist>
