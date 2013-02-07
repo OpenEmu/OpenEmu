@@ -125,7 +125,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
             return [NSNumber numberWithFloat:[plugin progress]];
         }
         
-        return [plugin canBeInstalled] ? @0 : [plugin version];
+        return [plugin canBeInstalled] || [plugin hasUpdate] ? @0 : [plugin version];
     }
     return plugin;
 }
@@ -189,21 +189,25 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
 
 - (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+    DLog();
     return [cell isKindOfClass:[NSButtonCell class]];
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
+    DLog();
     return NO;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+    DLog();
     return [[self tableView:tableView dataCellForTableColumn:tableColumn row:row] isKindOfClass:[NSButtonCell class]];
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
+    DLog();
     NSString *columnIdentifier = [aTableColumn identifier];
     if([columnIdentifier isEqualToString:@"versionColumn"] && [anObject boolValue])
         [self OE_updateOrInstallItemAtRow:rowIndex];
