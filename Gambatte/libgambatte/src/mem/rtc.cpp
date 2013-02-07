@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -38,7 +38,7 @@ Rtc::Rtc()
 }
 
 void Rtc::doLatch() {
-   uint64_t tmp = ((dataDh & 0x40) ? haltTime : std::time(0)) - baseTime;
+	std::time_t tmp = ((dataDh & 0x40) ? haltTime : std::time(0)) - baseTime;
 	
 	while (tmp > 0x1FF * 86400) {
 		baseTime += 0x1FF * 86400;
@@ -91,7 +91,6 @@ void Rtc::doSwapActive() {
 void Rtc::saveState(SaveState &state) const {
 	state.rtc.baseTime = baseTime;
 	state.rtc.haltTime = haltTime;
-	state.rtc.index = index;
 	state.rtc.dataDh = dataDh;
 	state.rtc.dataDl = dataDl;
 	state.rtc.dataH = dataH;
@@ -100,12 +99,9 @@ void Rtc::saveState(SaveState &state) const {
 	state.rtc.lastLatchData = lastLatchData;
 }
 
-void Rtc::loadState(const SaveState &state, const bool enabled) {
-	this->enabled = enabled;
-	
+void Rtc::loadState(const SaveState &state) {
 	baseTime = state.rtc.baseTime;
 	haltTime = state.rtc.haltTime;
-	index = state.rtc.index;
 	dataDh = state.rtc.dataDh;
 	dataDl = state.rtc.dataDl;
 	dataH = state.rtc.dataH;
@@ -117,8 +113,8 @@ void Rtc::loadState(const SaveState &state, const bool enabled) {
 }
 
 void Rtc::setDh(const unsigned new_dh) {
-	const uint64_t unixtime = (dataDh & 0x40) ? haltTime : std::time(0);
-	const uint64_t old_highdays = ((unixtime - baseTime) / 86400) & 0x100;
+	const std::time_t unixtime = (dataDh & 0x40) ? haltTime : std::time(0);
+	const std::time_t old_highdays = ((unixtime - baseTime) / 86400) & 0x100;
 	baseTime += old_highdays * 86400;
 	baseTime -= ((new_dh & 0x1) << 8) * 86400;
 	
@@ -131,28 +127,28 @@ void Rtc::setDh(const unsigned new_dh) {
 }
 
 void Rtc::setDl(const unsigned new_lowdays) {
-	const uint64_t unixtime = (dataDh & 0x40) ? haltTime : std::time(0);
-	const uint64_t old_lowdays = ((unixtime - baseTime) / 86400) & 0xFF;
+	const std::time_t unixtime = (dataDh & 0x40) ? haltTime : std::time(0);
+	const std::time_t old_lowdays = ((unixtime - baseTime) / 86400) & 0xFF;
 	baseTime += old_lowdays * 86400;
 	baseTime -= new_lowdays * 86400;
 }
 
 void Rtc::setH(const unsigned new_hours) {
-	const uint64_t unixtime = (dataDh & 0x40) ? haltTime : std::time(0);
-	const uint64_t old_hours = ((unixtime - baseTime) / 3600) % 24;
+	const std::time_t unixtime = (dataDh & 0x40) ? haltTime : std::time(0);
+	const std::time_t old_hours = ((unixtime - baseTime) / 3600) % 24;
 	baseTime += old_hours * 3600;
 	baseTime -= new_hours * 3600;
 }
 
 void Rtc::setM(const unsigned new_minutes) {
-	const uint64_t unixtime = (dataDh & 0x40) ? haltTime : std::time(0);
-	const uint64_t old_minutes = ((unixtime - baseTime) / 60) % 60;
+	const std::time_t unixtime = (dataDh & 0x40) ? haltTime : std::time(0);
+	const std::time_t old_minutes = ((unixtime - baseTime) / 60) % 60;
 	baseTime += old_minutes * 60;
 	baseTime -= new_minutes * 60;
 }
 
 void Rtc::setS(const unsigned new_seconds) {
-	const uint64_t unixtime = (dataDh & 0x40) ? haltTime : std::time(0);
+	const std::time_t unixtime = (dataDh & 0x40) ? haltTime : std::time(0);
 	baseTime += (unixtime - baseTime) % 60;
 	baseTime -= new_seconds;
 }

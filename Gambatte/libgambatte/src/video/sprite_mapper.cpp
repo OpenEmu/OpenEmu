@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -139,37 +139,30 @@ void SpriteMapper::reset(const unsigned char *const oamram, const bool cgb) {
 }
 
 void SpriteMapper::clearMap() {
-	std::memset(num, NEED_SORTING_MASK, sizeof(num));
+	std::memset(num, NEED_SORTING_MASK, sizeof num);
 }
 
 void SpriteMapper::mapSprites() {
 	clearMap();
 
 	for (unsigned i = 0x00; i < 0x50; i += 2) {
-		const unsigned spriteHeight = 8u << largeSprites(i >> 1);
+		const int spriteHeight = 8 << largeSprites(i >> 1);
 		const unsigned bottom_pos = posbuf()[i] - (17u - spriteHeight);
 
-		if (bottom_pos >= 143 + spriteHeight)
-			continue;
+		if (bottom_pos < 143u + spriteHeight) {
+			const unsigned startly = static_cast<int>(bottom_pos) + 1 - spriteHeight >= 0
+			                       ? static_cast<int>(bottom_pos) + 1 - spriteHeight :  0;
+			unsigned char *map = spritemap + startly * 10;
+			unsigned char *n   = num       + startly;
+			unsigned char *const nend = num + (bottom_pos < 143 ? bottom_pos : 143) + 1;
 
-		unsigned char *map = spritemap;
-		unsigned char *n = num;
+			do {
+				if (*n < NEED_SORTING_MASK + 10)
+					map[(*n)++ - NEED_SORTING_MASK] = i;
 
-		if (bottom_pos >= spriteHeight) {
-			const unsigned startly = bottom_pos + 1 - spriteHeight;
-			n += startly;
-			map += startly * 10;
+				map += 10;
+			} while (++n != nend);
 		}
-
-		unsigned char *const end = num + (bottom_pos >= 143 ? 143 : bottom_pos);
-
-		do {
-			if ((*n & ~NEED_SORTING_MASK) < 10)
-				map[(*n)++ & ~NEED_SORTING_MASK] = i;
-
-			map += 10;
-			++n;
-		} while (n <= end);
 	}
 
 	nextM0Time_.invalidatePredictedNextM0Time();

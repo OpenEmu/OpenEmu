@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -51,10 +51,6 @@ long CPU::runFor(const unsigned long cycles) {
 		cycleCounter_ = memory.resetCounters(cycleCounter_);
 	
 	return csb;
-}
-
-bool CPU::load(const void *romfile, unsigned romsize, const bool forceDmg) {
-	return memory.loadROM(romfile, romsize, forceDmg);
 }
 
 // (HF2 & 0x200) == true means HF is set.
@@ -115,16 +111,16 @@ void CPU::loadState(const SaveState &state) {
 	memory.loadState(state/*, cycleCounter_*/);
 	
 	cycleCounter_ = state.cpu.cycleCounter;
-	PC_ = state.cpu.PC;
-	SP = state.cpu.SP;
-	A_ = state.cpu.A;
-	B = state.cpu.B;
-	C = state.cpu.C;
-	D = state.cpu.D;
-	E = state.cpu.E;
+	PC_ = state.cpu.PC & 0xFFFF;
+	SP = state.cpu.SP & 0xFFFF;
+	A_ = state.cpu.A & 0xFF;
+	B = state.cpu.B & 0xFF;
+	C = state.cpu.C & 0xFF;
+	D = state.cpu.D & 0xFF;
+	E = state.cpu.E & 0xFF;
 	FROM_F(state.cpu.F);
-	H = state.cpu.H;
-	L = state.cpu.L;
+	H = state.cpu.H & 0xFF;
+	L = state.cpu.L & 0xFF;
 	skip = state.cpu.skip;
 }
 

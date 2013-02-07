@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -32,7 +32,7 @@ class RingBuffer {
 	std::size_t wpos;
 	
 public:
-	RingBuffer(const std::size_t sz_in = 0) : sz(0), rpos(0), wpos(0) { reset(sz_in); }
+	explicit RingBuffer(const std::size_t sz_in = 0) : sz(0), rpos(0), wpos(0) { reset(sz_in); }
 	
 	std::size_t avail() const {
 		return (wpos < rpos ? 0 : sz) + rpos - wpos - 1;

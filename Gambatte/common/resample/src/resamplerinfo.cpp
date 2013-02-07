@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -47,4 +47,4 @@ const ResamplerInfo ResamplerInfo::resamplers[] = {
 	{ "Highest quality (CIC + sinc chain)", ChainSincInfo<Kaiser70Sinc>::create }
 };
 
-const unsigned ResamplerInfo::num_ = sizeof(ResamplerInfo::resamplers) / sizeof(ResamplerInfo);
+const std::size_t ResamplerInfo::num_ = sizeof ResamplerInfo::resamplers / sizeof *ResamplerInfo::resamplers;

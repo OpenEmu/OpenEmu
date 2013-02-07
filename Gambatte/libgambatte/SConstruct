@@ -17,6 +17,7 @@ sourceFiles = Split('''
 			src/initstate.cpp
 			src/interrupter.cpp
 			src/interruptrequester.cpp
+			src/loadres.cpp
 			src/memory.cpp
 			src/sound.cpp
 			src/state_osd_elements.cpp
@@ -25,6 +26,7 @@ sourceFiles = Split('''
 			src/video.cpp
 			src/mem/cartridge.cpp
 			src/mem/memptrs.cpp
+			src/mem/pakinfo.cpp
 			src/mem/rtc.cpp
 			src/sound/channel1.cpp
 			src/sound/channel2.cpp

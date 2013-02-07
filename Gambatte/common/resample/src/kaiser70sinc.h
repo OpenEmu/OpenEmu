@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Sindre Aamås                               *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -22,44 +22,32 @@
 #include "convoluter.h"
 #include "subresampler.h"
 #include "makesinckernel.h"
-#include "i0.h"
 #include "cic4.h"
 #include "array.h"
+#include <algorithm>
 #include <cmath>
-#include <cstdlib>
+#include <cstddef>
+
+double kaiser70SincWin(long n, long M);
 
 template<unsigned channels, unsigned phases>
 class Kaiser70Sinc : public SubResampler {
-	PolyPhaseConvoluter<channels, phases> convoluters[channels];
-	Array<short> kernel;
-	
-	static double kaiserWin(const long n, const long M) {
-		static const double beta = 6.9;
-		static const double i0beta_rec = 1.0 / i0(beta);
-		
-		double x = static_cast<double>(n * 2) / M - 1.0;
-		x = x * x;
-		x = beta * std::sqrt(1.0 - x);
-		
-		return i0(x) * i0beta_rec;
-	}
-	
-	void init(unsigned div, unsigned phaseLen, double fc);
-	
+	Array<short> const kernel;
+	PolyPhaseConvoluter<channels, phases> convoluter_;
+
 public:
 	enum { MUL = phases };
-	
 	typedef Cic4<channels> Cic;
 	static float cicLimit() { return 4.7f; }
 
 	class RollOff {
 		static unsigned toTaps(const float rollOffWidth) {
-			static const float widthTimesTaps = 3.75f;
-			return static_cast<unsigned>(std::ceil(widthTimesTaps / rollOffWidth));
+			const float widthTimesTaps = 3.75f;
+			return std::max(static_cast<unsigned>(std::ceil(widthTimesTaps / rollOffWidth)), 4u);
 		}
 		
 		static float toFc(const float rollOffStart, const int taps) {
-			static const float startToFcDeltaTimesTaps = 1.5f;
+			const float startToFcDeltaTimesTaps = 1.5f;
 			return startToFcDeltaTimesTaps / taps + rollOffStart;
 		}
 		
@@ -70,38 +58,18 @@ public:
 		RollOff(float rollOffStart, float rollOffWidth) : taps(toTaps(rollOffWidth)), fc(toFc(rollOffStart, taps)) {}
 	};
 
-	Kaiser70Sinc(unsigned div, unsigned phaseLen, double fc) { init(div, phaseLen, fc); }
-	Kaiser70Sinc(unsigned div, RollOff ro) { init(div, ro.taps, ro.fc); }
-	std::size_t resample(short *out, const short *in, std::size_t inlen);
-	void adjustDiv(unsigned div);
+	Kaiser70Sinc(unsigned div, unsigned phaseLen, double fc)
+	: kernel(phaseLen * phases), convoluter_(kernel, phaseLen, div)
+	{ makeSincKernel(kernel, phases, phaseLen, fc, kaiser70SincWin, 1.0); }
+	
+	Kaiser70Sinc(unsigned div, RollOff ro, double gain)
+	: kernel(ro.taps * phases), convoluter_(kernel, ro.taps, div)
+	{ makeSincKernel(kernel, phases, ro.taps, ro.fc, kaiser70SincWin, gain);}
+
+	std::size_t resample(short *out, const short *in, std::size_t inlen) { return convoluter_.filter(out, in, inlen); }
+	void adjustDiv(unsigned div) { convoluter_.adjustDiv(div); }
 	unsigned mul() const { return MUL; }
-	unsigned div() const { return convoluters[0].div(); }
+	unsigned div() const { return convoluter_.div(); }
 };
-
-template<unsigned channels, unsigned phases>
-void Kaiser70Sinc<channels, phases>::init(const unsigned div, const unsigned phaseLen, const double fc) {
-	kernel.reset(phaseLen * phases);
-	
-	makeSincKernel(kernel, phases, phaseLen, fc, kaiserWin);
-	
-	for (unsigned i = 0; i < channels; ++i)
-		convoluters[i].reset(kernel, phaseLen, div);
-}
-
-template<unsigned channels, unsigned phases>
-std::size_t Kaiser70Sinc<channels, phases>::resample(short *const out, const short *const in, const std::size_t inlen) {
-	std::size_t samplesOut;
-	
-	for (unsigned i = 0; i < channels; ++i)
-		samplesOut = convoluters[i].filter(out + i, in + i, inlen);
-	
-	return samplesOut;
-}
-
-template<unsigned channels, unsigned phases>
-void Kaiser70Sinc<channels, phases>::adjustDiv(const unsigned div) {
-	for (unsigned i = 0; i < channels; ++i)
-		convoluters[i].adjustDiv(div);
-}
 
 #endif

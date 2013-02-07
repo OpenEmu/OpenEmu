@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2009 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -22,14 +22,14 @@
 #include <algorithm>
 
 namespace MinKeeperUtil {
-template<int n> struct CeiledLog2 { enum { RESULT = 1 + CeiledLog2<(n + 1) / 2>::RESULT }; };
-template<> struct CeiledLog2<1> { enum { RESULT = 0 }; };
+template<int n> struct CeiledLog2 { enum { R = 1 + CeiledLog2<(n + 1) / 2>::R }; };
+template<> struct CeiledLog2<1> { enum { R = 0 }; };
 
-template<int v, int n> struct RoundedDiv2n { enum { RESULT = RoundedDiv2n<(v + 1) / 2, n - 1>::RESULT }; };
-template<int v> struct RoundedDiv2n<v,1> { enum { RESULT = v }; };
+template<int v, int n> struct RoundedDiv2n { enum { R = RoundedDiv2n<(v + 1) / 2, n - 1>::R }; };
+template<int v> struct RoundedDiv2n<v,1> { enum { R = v }; };
 
-template<template<int> class T, int n> struct Sum { enum { RESULT = T<n-1>::RESULT + Sum<T, n-1>::RESULT }; };
-template<template<int> class T> struct Sum<T,0> { enum { RESULT = 0 }; };
+template<template<int> class T, int n> struct Sum { enum { R = T<n-1>::R + Sum<T, n-1>::R }; };
+template<template<int> class T> struct Sum<T,0> { enum { R = 0 }; };
 }
 
 // Keeps track of minimum value identified by id as values change.
@@ -38,51 +38,57 @@ template<template<int> class T> struct Sum<T,0> { enum { RESULT = 0 }; };
 // Thus the ones that change more frequently should have higher ids if priority allows it.
 template<int ids>
 class MinKeeper {
-	enum { LEVELS = MinKeeperUtil::CeiledLog2<ids>::RESULT };
-	template<int l> struct Num { enum { RESULT = MinKeeperUtil::RoundedDiv2n<ids, LEVELS + 1 - l>::RESULT }; };
-	template<int l> struct Sum { enum { RESULT = MinKeeperUtil::Sum<Num, l>::RESULT }; };
+	enum { LEVELS = MinKeeperUtil::CeiledLog2<ids>::R };
+	template<int l> struct Num { enum { R = MinKeeperUtil::RoundedDiv2n<ids, LEVELS + 1 - l>::R }; };
+	template<int l> struct Sum { enum { R = MinKeeperUtil::Sum<Num, l>::R }; };
 	
 	template<int id, int level>
 	struct UpdateValue {
-		enum { P = Sum<level-1>::RESULT + id };
-		enum { C0 = Sum<level>::RESULT + id * 2 };
+		enum { P = Sum<level-1>::R + id };
+		enum { C0 = Sum<level>::R + id * 2 };
 		
-		static void updateValue(MinKeeper<ids> *const s) {
+		static void updateValue(MinKeeper<ids> &m) {
 			// GCC 4.3 generates better code with the ternary operator on i386.
-			s->a[P] = (id * 2 + 1 == Num<level>::RESULT || s->values[s->a[C0]] < s->values[s->a[C0 + 1]]) ? s->a[C0] : s->a[C0 + 1];
-	
-			UpdateValue<id / 2, level - 1>::updateValue(s);
+			m.a[P] = (id * 2 + 1 == Num<level>::R || m.values[m.a[C0]] < m.values[m.a[C0 + 1]]) ? m.a[C0] : m.a[C0 + 1];
+			UpdateValue<id / 2, level - 1>::updateValue(m);
 		}
 	};
 	
 	template<int id>
 	struct UpdateValue<id,0> {
-		static void updateValue(MinKeeper<ids> *const s) {
-			s->minValue_ = s->values[s->a[0]];
+		static void updateValue(MinKeeper<ids> &m) {
+			m.minValue_ = m.values[m.a[0]];
 		}
 	};
 	
-	template<int id, int dummy> struct FillLut {
-		static void fillLut(MinKeeper<ids> *const s) {
-			s->updateValueLut[id] = updateValue<id>;
-			FillLut<id-1,dummy>::fillLut(s);
-		}
+	class UpdateValueLut {
+		template<int id, int dummy> struct FillLut {
+			static void fillLut(UpdateValueLut & l) {
+				l.lut_[id] = updateValue<id>;
+				FillLut<id-1,dummy>::fillLut(l);
+			}
+		};
+		
+		template<int dummy> struct FillLut<-1,dummy> {
+			static void fillLut(UpdateValueLut &) {}
+		};
+		
+		void (*lut_[Num<LEVELS-1>::R])(MinKeeper<ids>&);
+		
+	public:
+		UpdateValueLut() { FillLut<Num<LEVELS-1>::R-1,0>::fillLut(*this); }
+		void call(int id, MinKeeper<ids> &mk) const { lut_[id](mk); }
 	};
 	
-	template<int dummy> struct FillLut<-1,dummy> {
-		static void fillLut(MinKeeper<ids> *) {}
-	};
-	
-	
+	static UpdateValueLut updateValueLut;
 	unsigned long values[ids];
 	unsigned long minValue_;
-	void (*updateValueLut[Num<LEVELS-1>::RESULT])(MinKeeper<ids>*);
-	int a[Sum<LEVELS>::RESULT];
+	int a[Sum<LEVELS>::R];
 	
-	template<int id> static void updateValue(MinKeeper<ids> *s);
+	template<int id> static void updateValue(MinKeeper<ids> &m);
 	
 public:
-	MinKeeper(unsigned long initValue = 0xFFFFFFFF);
+	explicit MinKeeper(unsigned long initValue = 0xFFFFFFFF);
 	
 	int min() const { return a[0]; }
 	unsigned long minValue() const { return minValue_; }
@@ -90,27 +96,29 @@ public:
 	template<int id>
 	void setValue(const unsigned long cnt) {
 		values[id] = cnt;
-		updateValue<id / 2>(this);
+		updateValue<id / 2>(*this);
 	}
 	
 	void setValue(const int id, const unsigned long cnt) {
 		values[id] = cnt;
-		updateValueLut[id >> 1](this);
+		updateValueLut.call(id >> 1, *this);
 	}
 	
 	unsigned long value(const int id) const { return values[id]; }
 };
 
+template<int ids> typename MinKeeper<ids>::UpdateValueLut MinKeeper<ids>::updateValueLut;
+
 template<int ids>
 MinKeeper<ids>::MinKeeper(const unsigned long initValue) {
 	std::fill(values, values + ids, initValue);
 	
-	for (int i = 0; i < Num<LEVELS-1>::RESULT; ++i) {
-		a[Sum<LEVELS-1>::RESULT + i] = (i * 2 + 1 == ids || values[i * 2] < values[i * 2 + 1]) ? i * 2 : i * 2 + 1;
+	for (int i = 0; i < Num<LEVELS-1>::R; ++i) {
+		a[Sum<LEVELS-1>::R + i] = (i * 2 + 1 == ids || values[i * 2] < values[i * 2 + 1]) ? i * 2 : i * 2 + 1;
 	}
 	
-	int n   = Num<LEVELS-1>::RESULT;
-	int off = Sum<LEVELS-1>::RESULT;
+	int n   = Num<LEVELS-1>::R;
+	int off = Sum<LEVELS-1>::R;
 	
 	while (off) {
 		const int pn = (n + 1) >> 1;
@@ -127,16 +135,13 @@ MinKeeper<ids>::MinKeeper(const unsigned long initValue) {
 	}
 	
 	minValue_ = values[a[0]];
-
-	FillLut<Num<LEVELS-1>::RESULT-1,0>::fillLut(this);
 }
 
 template<int ids>
 template<int id>
-void MinKeeper<ids>::updateValue(MinKeeper<ids> *const s) {
-	s->a[Sum<LEVELS-1>::RESULT + id] = (id * 2 + 1 == ids || s->values[id * 2] < s->values[id * 2 + 1]) ? id * 2 : id * 2 + 1;
-
-	UpdateValue<id / 2, LEVELS-1>::updateValue(s);
+void MinKeeper<ids>::updateValue(MinKeeper<ids> &m) {
+	m.a[Sum<LEVELS-1>::R + id] = (id * 2 + 1 == ids || m.values[id * 2] < m.values[id * 2 + 1]) ? id * 2 : id * 2 + 1;
+	UpdateValue<id / 2, LEVELS-1>::updateValue(m);
 }
 
 #endif

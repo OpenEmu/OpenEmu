@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -152,7 +152,7 @@ class LCD {
 
 public:
 	LCD(const unsigned char *oamram, const unsigned char *vram_in, VideoInterruptRequester memEventRequester);
-	void reset(const unsigned char *oamram, bool cgb);
+	void reset(const unsigned char *oamram, const unsigned char *vram, bool cgb);
 	void setStatePtrs(SaveState &state);
 	void saveState(SaveState &state) const;
 	void loadState(const SaveState &state, const unsigned char *oamram);
@@ -224,7 +224,11 @@ public:
 			lyReg = ppu.lyCounter().ly();
 			
 			if (lyReg == 153) {
-				lyReg = 0;
+				if (isDoubleSpeed()) {
+					if (ppu.lyCounter().time() - cycleCounter <= 456 * 2 - 8)
+						lyReg = 0;
+				} else
+					lyReg = 0;
 			} else if (ppu.lyCounter().time() - cycleCounter <= 4)
 				++lyReg;
 		}

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -24,33 +24,29 @@
 #include "array.h"
 #include "rshift16_round.h"
 
-template<unsigned channels, unsigned phases>
+template<int channels, unsigned phases>
 class PolyPhaseConvoluter {
-	const short *kernel;
-	Array<short> prevbuf;
-	
+	const short *const kernel;
+	Array<short> const prevbuf;
 	unsigned div_;
 	unsigned x_;
 	
 public:
-	PolyPhaseConvoluter() : kernel(0), div_(0), x_(0) {}
-	PolyPhaseConvoluter(const short *kernel, unsigned phaseLen, unsigned div) { reset(kernel, phaseLen, div); }
-	void reset(const short *kernel, unsigned phaseLen, unsigned div);
+	PolyPhaseConvoluter(const short *kernel, unsigned phaseLen, unsigned div);
 	std::size_t filter(short *out, const short *in, std::size_t inlen);
-	void adjustDiv(const unsigned div) { this->div_ = div; }
+	void adjustDiv(const unsigned div) { div_ = div; }
 	unsigned div() const { return div_; }
 };
 
-template<unsigned channels, unsigned phases>
-void PolyPhaseConvoluter<channels, phases>::reset(const short *const kernel, const unsigned phaseLen, const unsigned div) {
-	this->kernel = kernel;
-	this->div_ = div;
-	x_ = 0;
-	prevbuf.reset(phaseLen);
-	std::fill(prevbuf.get(), prevbuf.get() + phaseLen, 0);
+template<int channels, unsigned phases>
+PolyPhaseConvoluter<channels, phases>::PolyPhaseConvoluter(
+		const short *const kernel, const unsigned phaseLen, const unsigned div)
+: kernel(kernel), prevbuf(phaseLen * channels), div_(div), x_(0)
+{
+	std::fill(prevbuf.get(), prevbuf.get() + prevbuf.size(), 0);
 }
 
-template<unsigned channels, unsigned phases>
+template<int channels, unsigned phases>
 std::size_t PolyPhaseConvoluter<channels, phases>::filter(short *out, const short *const in, std::size_t inlen) {
 	if (!kernel || !inlen)
 		return 0;
@@ -83,31 +79,30 @@ std::size_t PolyPhaseConvoluter<channels, phases>::filter(short *out, const shor
 		} while (--n);
 	}*/
 	
-	const std::size_t phaseLen = prevbuf.size();
+	const std::size_t phaseLen = prevbuf.size() / channels;
 	const std::size_t M = phaseLen * phases - 1;
 	inlen *= phases;
 	std::size_t x = x_;
 	
 	for (; x < (M < inlen ? M : inlen); x += div_) {
-		const short *k = kernel + ((x + 1) % phases) * phaseLen; // adjust phase so we don't start on a virtual 0 sample
-		const short *s = prevbuf + x / phases + 1;
-		long acc = 0;
-		unsigned n = prevbuf + phaseLen - s;
+		for (int c = 0; c < channels; ++c) {
+			const short *k = kernel + ((x + 1) % phases) * phaseLen; // adjust phase so we don't start on a virtual 0 sample
+			const short *s = prevbuf + phaseLen * channels + c;
+			long acc = 0;
+			unsigned n = phaseLen * channels - (x / phases + 1) * channels;
 
-		while (n--) {
-			acc += *k++ * *s++;
+			for (; n; n -= channels)
+				acc += *k++ * *(s-n);
+			
+			n = (x / phases + 1) * channels;
+			s = in + n + c;
+			
+			do {
+				acc += *k++ * *(s-n);
+			} while (n -= channels);
+			
+			*out++ = rshift16_round(acc);
 		}
-		
-		s = in;
-		n = x / phases + 1;
-		
-		do {
-			acc += *k++ * *s;
-			s += channels;
-		} while (--n);
-		
-		*out = rshift16_round(acc);
-		out += channels;
 	}
 	
 	// We could easily get rid of the division and modulus here by updating the
@@ -115,24 +110,39 @@ std::size_t PolyPhaseConvoluter<channels, phases>::filter(short *out, const shor
 	// and we would end up referencing more variables which often compiles to bad
 	// code on x86, which is why I'm also hesistant to get rid of the template arguments.
 	for (; x < inlen; x += div_) {
-		const short *k = kernel + ((x + 1) % phases) * phaseLen; // adjust phase so we don't start on a virtual 0 sample
-		const short *s = in + (x / phases + 1 - phaseLen) * channels;
-		long acc = 0;
-// 		unsigned n = (M + 1/* - phase + phases - 1*/) / phases;
-		unsigned n = phaseLen;
+		for (int c = 0; c < channels-1; c += 2) {
+			const short *k = kernel + ((x + 1) % phases) * phaseLen; // adjust phase so we don't start on a virtual 0 sample
+			const short *const s = in + (x / phases + 1) * channels + c;
+			long accl = 0, accr = 0;
+			int i = -static_cast<int>(phaseLen * channels);
+			
+			do {
+				accl += *k * s[i  ];
+				accr += *k * s[i+1];
+				++k;
+			} while (i += channels);
+			
+			out[0] = rshift16_round(accl);
+			out[1] = rshift16_round(accr);
+			out += 2;
+		}
 		
-		do {
-			acc += *k++ * *s;
-			s += channels;
-		} while (--n);
-		
-		*out = rshift16_round(acc);
-		out += channels;
+		if (channels & 1) {
+			const short *k = kernel + ((x + 1) % phases) * phaseLen; // adjust phase so we don't start on a virtual 0 sample
+			const short *const s = in + (x / phases + 1) * channels + channels-1;
+			long acc = 0;
+			int i = -static_cast<int>(phaseLen * channels);
+			
+			do {
+				acc += *k++ * s[i];
+			} while (i += channels);
+			
+			*out++ = rshift16_round(acc);
+		}
 	}
 	
 	const std::size_t produced = (x - x_) / div_;
 	x_ = x - inlen;
-	
 	inlen /= phases;
 	
 	{
@@ -142,18 +152,13 @@ std::size_t PolyPhaseConvoluter<channels, phases>::filter(short *out, const shor
 		
 		if (inlen < phaseLen) {
 			const unsigned i = phaseLen - inlen;
-			
-			std::memmove(p, p + inlen, i * sizeof(short));
-			
-			p += i;
+			std::memmove(p, p + inlen * channels, i * channels * sizeof *p);
+			p += i * channels;
 			n -= i;
 			s = in;
 		}
 		
-		do {
-			*p++ = *s;
-			s += channels;
-		} while (--n);
+		std::memcpy(p, s, n * channels * sizeof *p);
 	}
 	
 	return produced;

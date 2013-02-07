@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -180,13 +180,9 @@ void Channel3::update(uint_least32_t *buf, const unsigned long soBaseVol, unsign
 				break;
 		}
 	} else {
-		if (outBase) {
-			const unsigned long out = outBase * (0 - 15ul);
-			
-			*buf += out - prevOut;
-			prevOut = out;
-		}
-		
+		unsigned long const out = outBase * (0 - 15ul);
+		*buf += out - prevOut;
+		prevOut = out;
 		cycleCounter += cycles;
 		
 		while (lengthCounter.getCounter() <= cycleCounter) {
