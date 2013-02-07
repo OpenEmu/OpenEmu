@@ -83,8 +83,8 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
 @property GLuint            *multipassTextures;
 @property GLuint            *multipassFBOs;
 @property snes_ntsc_t       *ntscTable;
-@property uint32_t          *ntscSource;
-@property uint32_t          *ntscDestination;
+@property uint16_t          *ntscSource;
+@property uint16_t          *ntscDestination;
 @property snes_ntsc_setup_t  ntscSetup;
 @property GLuint             ntscTexture;
 @property int                ntscBurstPhase;
@@ -196,15 +196,18 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     _ntscTable       = (snes_ntsc_t *) malloc(sizeof(snes_ntsc_t));
     _ntscSetup       = snes_ntsc_composite;
     _ntscSetup.merge_fields = _ntscMergeFields;
-    _ntscSource      = (uint32_t *) malloc(sizeof(uint32_t) * _gameScreenSize.width * _gameScreenSize.height);
-    _ntscDestination = (uint32_t *) malloc(sizeof(uint32_t) * SNES_NTSC_OUT_WIDTH(_gameScreenSize.width) * _gameScreenSize.height);
     snes_ntsc_init(_ntscTable, &_ntscSetup);
+
+    _ntscSource      = (uint16_t *) malloc(sizeof(uint16_t) * _gameScreenSize.width * _gameScreenSize.height);
+    if(_gameScreenSize.width <= 256)
+        _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH(_gameScreenSize.width) * _gameScreenSize.height);
+    else
+        _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH_HIRES(_gameScreenSize.width) * _gameScreenSize.height);
 
     glGenTextures(1, &_ntscTexture);
     glBindTexture(GL_TEXTURE_2D, _ntscTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  SNES_NTSC_OUT_WIDTH(_gameScreenSize.width), _gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     _frameCount = 0;
@@ -615,19 +618,23 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
 
     if([multipassShader NTSCFilter] != OENTSCFilterTypeNone)
     {
-        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, _ntscSource);
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5_REV, _ntscSource);
 
         if(!_ntscMergeFields) _ntscBurstPhase ^= 1;
 
-        if(_gameScreenSize.width <= 256)
-            snes_ntsc_blit(_ntscTable, _ntscSource, _gameScreenSize.width, _ntscBurstPhase, _gameScreenSize.width, _gameScreenSize.height, _ntscDestination, SNES_NTSC_OUT_WIDTH(_gameScreenSize.width)*4);
-        else
-            snes_ntsc_blit_hires(_ntscTable, _ntscSource, _gameScreenSize.width, _ntscBurstPhase, _gameScreenSize.width, _gameScreenSize.height, _ntscDestination, SNES_NTSC_OUT_WIDTH(_gameScreenSize.width)*4);
-
         glBindTexture(GL_TEXTURE_2D, _ntscTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SNES_NTSC_OUT_WIDTH(_gameScreenSize.width), _gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _ntscDestination);
+        if(_gameScreenSize.width <= 256)
+        {
+            snes_ntsc_blit(_ntscTable, _ntscSource, _gameScreenSize.width, _ntscBurstPhase, _gameScreenSize.width, _gameScreenSize.height, _ntscDestination, SNES_NTSC_OUT_WIDTH(_gameScreenSize.width)*2);
+            outputWidth = SNES_NTSC_OUT_WIDTH(_gameScreenSize.width);
+        }
+        else
+        {
+            snes_ntsc_blit_hires(_ntscTable, _ntscSource, _gameScreenSize.width, _ntscBurstPhase, _gameScreenSize.width, _gameScreenSize.height, _ntscDestination, SNES_NTSC_OUT_WIDTH_HIRES(_gameScreenSize.width)*2);
+            outputWidth = SNES_NTSC_OUT_WIDTH_HIRES(_gameScreenSize.width);
+        }
 
-        outputWidth = SNES_NTSC_OUT_WIDTH(_gameScreenSize.width);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, outputWidth, _gameScreenSize.height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5_REV, _ntscDestination);
     }
 
     for(NSUInteger i = 0; i < numberOfPasses; ++i)
@@ -1028,6 +1035,24 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     _gameSurfaceID = _rootProxy.surfaceID;
 
     [self rebindIOSurface];
+
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    [[self openGLContext] makeCurrentContext];
+    CGLLockContext(cgl_ctx);
+    {
+        glBindTexture(GL_TEXTURE_2D, _rttGameTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  size.width, size.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        free(_ntscSource);
+        free(_ntscDestination);
+        _ntscSource      = (uint16_t *) malloc(sizeof(uint16_t) * size.width * size.height);
+        if(size.width <= 256)
+            _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH(size.width) * size.height);
+        else
+            _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH_HIRES(size.width) * size.height);
+    }
+    CGLUnlockContext(cgl_ctx);
 
     self.gameScreenSize = size;
 }
