@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -20,26 +20,25 @@
 #define MEMORY_H
 
 #include "mem/cartridge.h"
-#include "video.h"
-#include "sound.h"
 #include "interrupter.h"
+#include "pakinfo.h"
+#include "sound.h"
 #include "tima.h"
+#include "video.h"
 
 namespace gambatte {
 class InputGetter;
 class FilterInfo;
 
 class Memory {
+	Cartridge cart;
 	unsigned char ioamhram[0x200];
-	unsigned char vram[0x2000 * 2];
-	unsigned char *vrambank;
 	
 	InputGetter *getInput;
 	unsigned long divLastUpdate;
 	unsigned long lastOamDmaUpdate;
 	
 	InterruptRequester intreq;
-	Cartridge cart;
 	Tima tima;
 	LCD display;
 	PSG sound;
@@ -48,6 +47,7 @@ class Memory {
 	unsigned short dmaSource;
 	unsigned short dmaDestination;
 	unsigned char oamDmaPos;
+	unsigned char serialCnt;
 	bool blanklcd;
 
 	void updateInput();
@@ -64,7 +64,7 @@ class Memory {
 	void nontrivial_ff_write(unsigned P, unsigned data, unsigned long cycleCounter);
 	void nontrivial_write(unsigned P, unsigned data, unsigned long cycleCounter);
 	
-	void updateSerialIrq(unsigned long cc);
+	void updateSerial(unsigned long cc);
 	void updateTimaIrq(unsigned long cc);
 	void updateIrqs(unsigned long cc);
 	
@@ -73,13 +73,20 @@ class Memory {
 public:
 	explicit Memory(const Interrupter &interrupter);
 	
+	//bool loaded() const { return cart.loaded(); }
+	char const * romTitle() const { return cart.romTitle(); }
+	PakInfo const pakInfo(bool multicartCompat) const { return cart.pakInfo(multicartCompat); }
+
 	void setStatePtrs(SaveState &state);
 	unsigned long saveState(SaveState &state, unsigned long cc);
 	void loadState(const SaveState &state/*, unsigned long oldCc*/);
-   void *savedata_ptr() { return cart.savedata_ptr(); }
-   unsigned savedata_size() { return cart.savedata_size(); }
-   void *rtcdata_ptr() { return cart.rtcdata_ptr(); }
-   unsigned rtcdata_size() { return cart.rtcdata_size(); }
+	//void loadSavedata() { cart.loadSavedata(); }
+	//void saveSavedata() { cart.saveSavedata(); }
+	//const std::string saveBasePath() const { return cart.saveBasePath(); }
+    void *savedata_ptr() { return cart.savedata_ptr(); }
+    unsigned savedata_size() { return cart.savedata_size(); }
+    void *rtcdata_ptr() { return cart.rtcdata_ptr(); }
+    unsigned rtcdata_size() { return cart.rtcdata_size(); }
 	
 	void setOsdElement(std::auto_ptr<OsdElement> osdElement) {
 		display.setOsdElement(osdElement);
@@ -127,8 +134,7 @@ public:
 	unsigned long event(unsigned long cycleCounter);
 	unsigned long resetCounters(unsigned long cycleCounter);
 
-	bool loadROM(const std::string &romfile, bool forceDmg);
-	bool loadROM(const void *romdata, unsigned romsize, bool forceDmg);
+	LoadRes loadROM(const std::string &romfile, bool forceDmg, bool multicartCompat);
 	void setSaveDir(const std::string &dir) { cart.setSaveDir(dir); }
 
 	void setInputGetter(InputGetter *getInput) {
@@ -145,6 +151,8 @@ public:
 	}
 	
 	void setDmgPaletteColor(unsigned palNum, unsigned colorNum, unsigned long rgb32);
+	void setGameGenie(const std::string &codes) { cart.setGameGenie(codes); }
+	void setGameShark(const std::string &codes) { interrupter.setGameShark(codes); }
 };
 
 }

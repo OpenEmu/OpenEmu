@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -24,76 +24,78 @@
 #include "u48div.h"
 #include "rshift16_round.h"
 
-template<unsigned channels>
+template<int channels>
 class LinintCore {
-	unsigned long ratio;
+	unsigned long ratio_;
 	std::size_t pos_;
 	unsigned fracPos_;
 	int prevSample_;
 	
 public:
-	LinintCore(long inRate = 1, long outRate = 1) { init(inRate, outRate); }
+	explicit LinintCore(long inRate = 1, long outRate = 1) { init(inRate, outRate); }
 
 	void adjustRate(long inRate, long outRate) {
-		ratio = static_cast<unsigned long>((static_cast<double>(inRate) / outRate) * 0x10000 + 0.5);
+		ratio_ = static_cast<unsigned long>((static_cast<double>(inRate) / outRate) * 0x10000 + 0.5);
 	}
 
-	void exactRatio(unsigned long &mul, unsigned long &div) const { mul = 0x10000; div = ratio; }
+	void exactRatio(unsigned long &mul, unsigned long &div) const { mul = 0x10000; div = ratio_; }
 	void init(long inRate, long outRate);
-	std::size_t maxOut(std::size_t inlen) const { return inlen ? u48div(inlen - 1, 0xFFFF, ratio) + 1 : 0; }
+	std::size_t maxOut(std::size_t inlen) const { return inlen ? u48div(inlen - 1, 0xFFFF, ratio_) + 1 : 0; }
 	std::size_t resample(short *out, const short *in, std::size_t inlen);
 };
 
-template<unsigned channels>
+template<int channels>
 void LinintCore<channels>::init(const long inRate, const long outRate) {
 	adjustRate(inRate, outRate);
-	pos_ = (ratio >> 16) + 1;
-	fracPos_ = ratio & 0xFFFF;
+	pos_ = (ratio_ >> 16) + 1;
+	fracPos_ = ratio_ & 0xFFFF;
 	prevSample_ = 0;
 }
 
-template<unsigned channels>
+template<int channels>
 std::size_t LinintCore<channels>::resample(short *const out, const short *const in, const std::size_t inlen) {
-	std::size_t opos = 0;
-	std::size_t pos = pos_;
-	unsigned fracPos = fracPos_;
-	int prevSample = prevSample_;
+	if (pos_ < inlen) {
+		std::ptrdiff_t pos = pos_;
+		const unsigned long ratio = ratio_;
+		unsigned fracPos = fracPos_;
+		short *o = out;
 
-	if (pos < inlen) {
-		if (pos != 0)
-			prevSample = in[(pos-1) * channels];
-	
-		for (;;) {
-			out[opos] = prevSample + rshift16_round((in[pos * channels] - prevSample) * static_cast<long>(fracPos));
-			opos += channels;
-			
-			{
-				const unsigned long next = ratio + fracPos;
-				
-				pos += next >> 16;
-				fracPos = next & 0xFFFF;
-			}
-			
-			if (pos < inlen) {
-				prevSample = in[(pos-1) * channels];
-			} else
-				break;
+		while (pos == 0) {
+			long const lhs = prevSample_;
+			long const rhs = in[0];
+			*o = lhs + rshift16_round((rhs - lhs) * static_cast<long>(fracPos));
+			o += channels;
+
+			unsigned long const nfrac = fracPos + ratio;
+			fracPos = nfrac & 0xFFFF;
+			pos    += nfrac >> 16;
 		}
-		
-		if (pos == inlen)
-			prevSample = in[(pos-1) * channels];
+
+		const short *const inend = in + inlen * channels;
+		pos -= static_cast<std::ptrdiff_t>(inlen);
+
+		while (pos < 0) {
+			long const lhs = inend[(pos-1) * channels];
+			long const rhs = inend[ pos    * channels];
+			*o = lhs + rshift16_round((rhs - lhs) * static_cast<long>(fracPos));
+			o += channels;
+
+			unsigned long const nfrac = fracPos + ratio;
+			fracPos = nfrac & 0xFFFF;
+			pos    += nfrac >> 16;
+		}
+
+		prevSample_ = inend[-channels];
+		pos_ = pos;
+		fracPos_ = fracPos;
+
+		return (o - out) / channels;
 	}
-	
-// 	const std::size_t produced = ((pos - pos_) * 0x10000 + fracPos - fracPos_) / ratio;
-	
-	pos_ = pos - inlen;
-	fracPos_ = fracPos;
-	prevSample_ = prevSample;
-	
-	return opos / channels;
+
+	return 0;
 }
 
-template<unsigned channels>
+template<int channels>
 class Linint : public Resampler {
 	LinintCore<channels> cores[channels];
 	
@@ -105,27 +107,27 @@ public:
 	std::size_t resample(short *out, const short *in, std::size_t inlen);
 };
 
-template<unsigned channels>
+template<int channels>
 Linint<channels>::Linint(const long inRate, const long outRate) {
 	setRate(inRate, outRate);
 	
-	for (unsigned i = 0; i < channels; ++i)
+	for (int i = 0; i < channels; ++i)
 		cores[i].init(inRate, outRate);
 }
 
-template<unsigned channels>
+template<int channels>
 void Linint<channels>::adjustRate(const long inRate, const long outRate) {
 	setRate(inRate, outRate);
 	
-	for (unsigned i = 0; i < channels; ++i)
+	for (int i = 0; i < channels; ++i)
 		cores[i].adjustRate(inRate, outRate);
 }
 
-template<unsigned channels>
+template<int channels>
 std::size_t Linint<channels>::resample(short *const out, const short *const in, const std::size_t inlen) {
 	std::size_t outlen = 0;
 	
-	for (unsigned i = 0; i < channels; ++i)
+	for (int i = 0; i < channels; ++i)
 		outlen = cores[i].resample(out + i, in + i, inlen);
 	
 	return outlen;

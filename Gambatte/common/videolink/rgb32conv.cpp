@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2009 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -92,12 +92,13 @@ static void rgb32ToRgb16(const gambatte::uint_least32_t *s, gambatte::uint_least
 			const unsigned w, unsigned h, const int srcPitch, const int dstPitch)
 {
 	do {
-		unsigned n = w;
+		int i = -static_cast<int>(w);
+		s += w;
+		d += w;
 
 		do {
-			*d++ = (*s >> 8 & 0xF800) | (*s >> 5 & 0x07E0) | (*s >> 3 & 0x001F);
-			++s;
-		} while (--n);
+			d[i] = (s[i] >> 8 & 0xF800) | (s[i] & 0xFC00) >> 5 | (s[i] & 0xFF) >> 3;
+		} while (++i);
 
 		s += srcPitch - static_cast<int>(w);
 		d += dstPitch - static_cast<int>(w);

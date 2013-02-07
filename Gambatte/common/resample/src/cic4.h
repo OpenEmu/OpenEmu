@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -38,14 +38,15 @@ class Cic4Core {
 // 	unsigned nextdivn;
 	unsigned bufpos;
 	
-public:
-	explicit Cic4Core(const unsigned div = 1) {
-		reset(div);
-	}
+	// trouble if div is too large, may be better to only support power of 2 div
+	static long mulForDiv(unsigned div) { return 0x10000 / (div * div * div * div); }
 	
+public:
+	explicit Cic4Core(const unsigned div = 1) { reset(div); }
 	unsigned div() const { return div_; }
 	std::size_t filter(short *out, const short *in, std::size_t inlen);
 	void reset(unsigned div);
+	static double gain(unsigned div) { return rshift16_round(-32768l * (div * div * div * div) * mulForDiv(div)) / -32768.0; }
 };
 
 template<unsigned channels> 
@@ -61,54 +62,56 @@ template<unsigned channels>
 std::size_t Cic4Core<channels>::filter(short *out, const short *const in, std::size_t inlen) {
 	const std::size_t produced = (inlen + div_ - (bufpos + 1)) / div_;
 // 	const std::size_t produced = (inlen + div_ - nextdivn) / div_;
-	const long mul = 0x10000 / (div_ * div_ * div_ * div_); // trouble if div is too large, may be better to only support power of 2 div
+	const long mul = mulForDiv(div_);
 	const short *s = in;
 	
 	unsigned long sm1 = sum1;
 	unsigned long sm2 = sum2;
 	unsigned long sm3 = sum3;
 	unsigned long sm4 = sum4;
+	unsigned long prv1 = prev1;
+	unsigned long prv2 = prev2;
+	unsigned long prv3 = prev3;
+	unsigned long prv4 = prev4;
 	
 	while (inlen >> 2) {
-		unsigned n = (inlen < BUFLEN ? inlen >> 2 : BUFLEN >> 2);
-		const unsigned end = n * 4;
-		unsigned i = 0;
+		const unsigned end = inlen < BUFLEN ? inlen & ~3 : BUFLEN & ~3;
+		unsigned long *b = buf;
+		unsigned n = end;
 		
 		do {
-			unsigned long s1 = sm1 += static_cast<long>(*s);
-			s += channels;
-			sm1 += static_cast<long>(*s);
-			s += channels;
+			unsigned long s1 = sm1 += static_cast<long>(s[0 * channels]);
+			sm1 += static_cast<long>(s[1 * channels]);
 			unsigned long s2 = sm2 += s1;
 			sm2 += sm1;
 			unsigned long s3 = sm3 += s2;
 			sm3 += sm2;
-			buf[i++] = sm4 += s3;
-			buf[i++] = sm4 += sm3;
-			s1 = sm1 += static_cast<long>(*s);
-			s += channels;
-			sm1 += static_cast<long>(*s);
-			s += channels;
+			b[0] = sm4 += s3;
+			b[1] = sm4 += sm3;
+			s1 = sm1 += static_cast<long>(s[2 * channels]);
+			sm1 += static_cast<long>(s[3 * channels]);
 			s2 = sm2 += s1;
 			sm2 += sm1;
 			s3 = sm3 += s2;
 			sm3 += sm2;
-			buf[i++] = sm4 += s3;
-			buf[i++] = sm4 += sm3;
-		} while (--n);
+			b[2] = sm4 += s3;
+			b[3] = sm4 += sm3;
+			s += 4 * channels;
+			b += 4;
+		} while (n -= 4);
 		
 		while (bufpos < end) {
-			const unsigned long out4 = buf[bufpos] - prev4;
-			prev4 = buf[bufpos];
+			const unsigned long out4 = buf[bufpos] - prv4;
+			prv4 = buf[bufpos];
 			bufpos += div_;
 			
-			const unsigned long out3 = out4 - prev3;
-			prev3 = out4;
-			const unsigned long out2 = out3 - prev2;
-			prev2 = out3;
+			const unsigned long out3 = out4 - prv3;
+			prv3 = out4;
+			const unsigned long out2 = out3 - prv2;
+			prv2 = out3;
 			
-			*out = rshift16_round(static_cast<long>(out2 - prev1) * mul);
-			prev1 = out2;
+			*out = rshift16_round(static_cast<long>(out2 - prv1) * mul);
+			prv1 = out2;
 			out += channels;
 		}
 		
@@ -129,17 +132,17 @@ std::size_t Cic4Core<channels>::filter(short *out, const short *const in, std::s
 		} while (--n);
 		
 		while (bufpos < inlen) {
-			const unsigned long out4 = buf[bufpos] - prev4;
-			prev4 = buf[bufpos];
+			const unsigned long out4 = buf[bufpos] - prv4;
+			prv4 = buf[bufpos];
 			bufpos += div_;
 			
-			const unsigned long out3 = out4 - prev3;
-			prev3 = out4;
-			const unsigned long out2 = out3 - prev2;
-			prev2 = out3;
+			const unsigned long out3 = out4 - prv3;
+			prv3 = out4;
+			const unsigned long out2 = out3 - prv2;
+			prv2 = out3;
 			
-			*out = rshift16_round(static_cast<long>(out2 - prev1) * mul);
-			prev1 = out2;
+			*out = rshift16_round(static_cast<long>(out2 - prv1) * mul);
+			prv1 = out2;
 			out += channels;
 		}
 		
@@ -150,6 +153,10 @@ std::size_t Cic4Core<channels>::filter(short *out, const short *const in, std::s
 	sum2 = sm2;
 	sum3 = sm3;
 	sum4 = sm4;
+	prev1 = prv1;
+	prev2 = prv2;
+	prev3 = prv3;
+	prev4 = prv4;
 	
 	/*unsigned long sm1 = sum1;
 	unsigned long sm2 = sum2;
@@ -216,6 +223,7 @@ public:
 	std::size_t resample(short *out, const short *in, std::size_t inlen);
 	unsigned mul() const { return 1; }
 	unsigned div() const { return cics[0].div(); }
+	static double gain(unsigned div) { return Cic4Core<channels>::gain(div); }
 };
 
 template<unsigned channels>

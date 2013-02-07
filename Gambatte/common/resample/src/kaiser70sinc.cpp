@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Sindre Aamås                                    *
+ *   Copyright (C) 2008-2009 by Sindre Aamås                               *
  *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,41 +16,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "adaptivesleep.h"
+#include "kaiser70sinc.h"
+#include "i0.h"
+#include <cmath>
 
-usec_t AdaptiveSleep::sleepUntil(usec_t base, usec_t inc) {
-	usec_t now = getusecs();
-	usec_t diff = now - base;
+double kaiser70SincWin(const long n, const long M) {
+	const double beta = 6.9;
+	static const double i0beta_rec = 1.0 / i0(beta);
 	
-	if (diff >= inc)
-		return diff - inc;
+	double x = static_cast<double>(n * 2) / M - 1.0;
+	x = x * x;
+	x = beta * std::sqrt(1.0 - x);
 	
-	diff = inc - diff;
-	
-	if (diff > oversleep + oversleepVar) {
-		diff -= oversleep + oversleepVar;
-		usecsleep(diff);
-		const usec_t ideal = now + diff;
-		now = getusecs();
-		
-		{
-			usec_t curOversleep = now - ideal;
-				
-			if (negate(curOversleep) < curOversleep)
-				curOversleep = 0;
-			
-			oversleepVar = (oversleepVar * 15 + (curOversleep < oversleep ? oversleep - curOversleep : curOversleep - oversleep) + 8) >> 4;
-			oversleep = (oversleep * 15 + curOversleep + 8) >> 4;
-		}
-		
-		noSleep = 60;
-	} else if (--noSleep == 0) {
-		noSleep = 60;
-		oversleep = oversleepVar = 0;
-	}
-	
-	while (now - base < inc)
-		now = getusecs();
-	
-	return 0;
+	return i0(x) * i0beta_rec;
 }

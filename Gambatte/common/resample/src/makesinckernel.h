@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -22,7 +22,7 @@
 #include <cmath>
 #include <cstdlib>
 
-void makeSincKernel(short *kernel, unsigned phases,
-		unsigned phaseLen, double fc, double (*win)(long m, long M));
+void makeSincKernel(short *kernel, unsigned phases, unsigned phaseLen,
+		double fc, double (*win)(long m, long M), double gain);
 
 #endif

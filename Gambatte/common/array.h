@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -34,6 +34,19 @@ public:
 	std::size_t size() const { return sz; }
 	T * get() const { return a; }
 	operator T*() const { return a; }
+};
+
+template<typename T>
+class ScopedArray : Uncopyable {
+	T *a_;
+	
+public:
+	explicit ScopedArray(T *a = 0) : a_(a) {}
+	~ScopedArray() { delete []a_; }
+	void reset(T *a = 0) { delete []a_; a_ = a; }
+	T * release() { T *a = a_; a_ = 0; return a; }
+	T * get() const { return a_; }
+	operator T*() const { return a_; }
 };
 
 #endif

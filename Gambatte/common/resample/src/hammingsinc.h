@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -24,35 +24,33 @@
 #include "makesinckernel.h"
 #include "cic3.h"
 #include "array.h"
+#include <algorithm>
 #include <cmath>
-#include <cstdlib>
+#include <cstddef>
 
 template<unsigned channels, unsigned phases>
 class HammingSinc : public SubResampler {
-	PolyPhaseConvoluter<channels, phases> convoluters[channels];
-	Array<short> kernel;
-	
+	Array<short> const kernel;
+	PolyPhaseConvoluter<channels, phases> convoluter_;
+
 	static double hammingWin(const long i, const long M) {
-		static const double PI = 3.14159265358979323846;
+		const double PI = 3.14159265358979323846;
 		return 0.53836 - 0.46164 * std::cos(2 * PI * i / M);
 	}
-	
-	void init(unsigned div, unsigned phaseLen, double fc);
-	
+
 public:
 	enum { MUL = phases };
-	
 	typedef Cic3<channels> Cic;
 	static float cicLimit() { return 4.2f; }
 
 	class RollOff {
 		static unsigned toTaps(const float rollOffWidth) {
-			static const float widthTimesTaps = 3.0f;
-			return static_cast<unsigned>(std::ceil(widthTimesTaps / rollOffWidth));
+			const float widthTimesTaps = 3.0f;
+			return std::max(static_cast<unsigned>(std::ceil(widthTimesTaps / rollOffWidth)), 4u);
 		}
 		
 		static float toFc(const float rollOffStart, const int taps) {
-			static const float startToFcDeltaTimesTaps = 1.27f;
+			const float startToFcDeltaTimesTaps = 1.27f;
 			return startToFcDeltaTimesTaps / taps + rollOffStart;
 		}
 		
@@ -63,38 +61,18 @@ public:
 		RollOff(float rollOffStart, float rollOffWidth) : taps(toTaps(rollOffWidth)), fc(toFc(rollOffStart, taps)) {}
 	};
 
-	HammingSinc(unsigned div, unsigned phaseLen, double fc) { init(div, phaseLen, fc); }
-	HammingSinc(unsigned div, RollOff ro) { init(div, ro.taps, ro.fc); }
-	std::size_t resample(short *out, const short *in, std::size_t inlen);
-	void adjustDiv(unsigned div);
+	HammingSinc(unsigned div, unsigned phaseLen, double fc)
+	: kernel(phaseLen * phases), convoluter_(kernel, phaseLen, div)
+	{ makeSincKernel(kernel, phases, phaseLen, fc, hammingWin, 1.0); }
+	
+	HammingSinc(unsigned div, RollOff ro, double gain)
+	: kernel(ro.taps * phases), convoluter_(kernel, ro.taps, div)
+	{ makeSincKernel(kernel, phases, ro.taps, ro.fc, hammingWin, gain);}
+	
+	std::size_t resample(short *out, const short *in, std::size_t inlen) { return convoluter_.filter(out, in, inlen); }
+	void adjustDiv(unsigned div) { convoluter_.adjustDiv(div); }
 	unsigned mul() const { return MUL; }
-	unsigned div() const { return convoluters[0].div(); }
+	unsigned div() const { return convoluter_.div(); }
 };
-
-template<unsigned channels, unsigned phases>
-void HammingSinc<channels, phases>::init(const unsigned div, const unsigned phaseLen, const double fc) {
-	kernel.reset(phaseLen * phases);
-	
-	makeSincKernel(kernel, phases, phaseLen, fc, hammingWin);
-	
-	for (unsigned i = 0; i < channels; ++i)
-		convoluters[i].reset(kernel, phaseLen, div);
-}
-
-template<unsigned channels, unsigned phases>
-std::size_t HammingSinc<channels, phases>::resample(short *const out, const short *const in, const std::size_t inlen) {
-	std::size_t samplesOut;
-	
-	for (unsigned i = 0; i < channels; ++i)
-		samplesOut = convoluters[i].filter(out + i, in + i, inlen);
-	
-	return samplesOut;
-}
-
-template<unsigned channels, unsigned phases>
-void HammingSinc<channels, phases>::adjustDiv(const unsigned div) {
-	for (unsigned i = 0; i < channels; ++i)
-		convoluters[i].adjustDiv(div);
-}
 
 #endif

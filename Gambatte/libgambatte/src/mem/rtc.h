@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -20,7 +20,6 @@
 #define RTC_H
 
 #include <ctime>
-#include <stdint.h>
 
 namespace gambatte {
 
@@ -30,8 +29,8 @@ class Rtc {
 private:
 	unsigned char *activeData;
 	void (Rtc::*activeSet)(unsigned);
-   uint64_t baseTime;
-   uint64_t haltTime;
+	std::time_t baseTime;
+	std::time_t haltTime;
 	unsigned char index;
 	unsigned char dataDh;
 	unsigned char dataDl;
@@ -52,15 +51,10 @@ private:
 public:
 	Rtc();
 	
-	const unsigned char* getActive() const {
-		return activeData;
-	}
+	const unsigned char* getActive() const { return activeData; }
+	std::time_t& getBaseTime() { return baseTime; }
 	
-	uint64_t& getBaseTime() {
-		return baseTime;
-	}
-
-	void setBaseTime(const uint64_t baseTime) {
+	void setBaseTime(const std::time_t baseTime) {
 		this->baseTime = baseTime;
 // 		doLatch();
 	}
@@ -73,19 +67,14 @@ public:
 	}
 	
 	void saveState(SaveState &state) const;
-	void loadState(const SaveState &state, bool enabled);
+	void loadState(const SaveState &state);
 	
-	void setEnabled(const bool enabled) {
+	void set(const bool enabled, unsigned bank) {
+		bank &= 0xF;
+		bank -= 8;
+		
 		this->enabled = enabled;
-		
-		doSwapActive();
-	}
-	
-	void swapActive(unsigned index) {
-		index &= 0xF;
-		index -= 8;
-		
-		this->index = index;
+		this->index = bank;
 		
 		doSwapActive();
 	}

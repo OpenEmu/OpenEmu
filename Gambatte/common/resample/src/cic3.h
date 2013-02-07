@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -31,25 +31,25 @@ class Cic3Core {
 	unsigned long sum3;
 	unsigned long prev1;
 	unsigned long prev2;
-	unsigned long prev3;
 	unsigned div_;
 	unsigned nextdivn;
 // 	unsigned bufpos;
 	
-public:
-	explicit Cic3Core(const unsigned div = 1) {
-		reset(div);
-	}
+	// trouble if div is too large, may be better to only support power of 2 div
+	static long mulForDiv(unsigned div) { return 0x10000 / (div * div * div); }
 	
+public:
+	explicit Cic3Core(const unsigned div = 1) { reset(div); }
 	unsigned div() const { return div_; }
 	std::size_t filter(short *out, const short *in, std::size_t inlen);
 	void reset(unsigned div);
+	static double gain(unsigned div) { return rshift16_round(-32768l * (div * div * div) * mulForDiv(div)) / -32768.0; }
 };
 
 template<unsigned channels> 
 void Cic3Core<channels>::reset(const unsigned div) {
 	sum3 = sum2 = sum1 = 0;
-	prev3 = prev2 = prev1 = 0;
+	prev2 = prev1 = 0;
 	this->div_ = div;
 	nextdivn = div;
 // 	bufpos = div - 1;
@@ -59,7 +59,6 @@ template<unsigned channels>
 std::size_t Cic3Core<channels>::filter(short *out, const short *const in, std::size_t inlen) {
 // 	const std::size_t produced = (inlen + div_ - (bufpos + 1)) / div_;
 	const std::size_t produced = (inlen + div_ - nextdivn) / div_;
-	const long mul = 0x10000 / (div_ * div_ * div_); // trouble if div is too large, may be better to only support power of 2 div
 	const short *s = in;
 	
 	/*unsigned long sm1 = sum1;
@@ -136,6 +135,7 @@ std::size_t Cic3Core<channels>::filter(short *out, const short *const in, std::s
 	unsigned long sm3 = sum3;
 	
 	if (inlen >= nextdivn) {
+		const long mul = mulForDiv(div_);
 		unsigned divn = nextdivn;
 		std::size_t n = produced;
 		
@@ -147,17 +147,13 @@ std::size_t Cic3Core<channels>::filter(short *out, const short *const in, std::s
 				s += channels;
 			} while (--divn);
 			
-			const unsigned long out3 = sm3 - prev3;
-			prev3 = sm3;
-				
-			const unsigned long out2 = out3 - prev2;
-			prev2 = out3;
-				
+			const unsigned long out2 = sm3 - prev2;
+			prev2 = sm3;
 			*out = rshift16_round(static_cast<long>(out2 - prev1) * mul);
 			prev1 = out2;
 			out += channels;
-			
 			divn = div_;
+			sm3 = 0;
 		} while (--n);
 		
 		nextdivn = div_;
@@ -361,6 +357,7 @@ public:
 	std::size_t resample(short *out, const short *in, std::size_t inlen);
 	unsigned mul() const { return 1; }
 	unsigned div() const { return cics[0].div(); }
+	static double gain(unsigned div) { return Cic3Core<channels>::gain(div); }
 };
 
 template<unsigned channels>

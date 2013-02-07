@@ -53,6 +53,10 @@ extern "C" {
 #include <zlib.h>
 #endif
 
+#ifndef OF
+#define OF(args) args
+#endif
+
 #ifndef _ZLIBIOAPI_H
 #include "ioapi.h"
 #endif

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2010 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -51,8 +51,12 @@ struct PPUState {
 struct PPUPriv {
 	unsigned long bgPalette[8 * 4];
 	unsigned long spPalette[8 * 4];
+	struct Sprite { unsigned char spx, oampos, line, attrib; } spriteList[11];
+	unsigned short spwordList[11];
+	unsigned char nextSprite;
+	unsigned char currentSprite;
 
-	const unsigned char *const vram;
+	const unsigned char *vram;
 	const PPUState *nextCallPtr;
 
 	unsigned long now;
@@ -62,12 +66,9 @@ struct PPUPriv {
 	unsigned tileword;
 	unsigned ntileword;
 
-	LyCounter lyCounter;
 	SpriteMapper spriteMapper;
+	LyCounter lyCounter;
 	PPUFrameBuf framebuf;
-	
-	struct Sprite { unsigned char spx, oampos, line, attrib; } spriteList[11];
-	unsigned short spwordList[11];
 
 	unsigned char lcdc;
 	unsigned char scy;
@@ -82,8 +83,6 @@ struct PPUPriv {
 	unsigned char reg1;
 	unsigned char attrib;
 	unsigned char nattrib;
-	unsigned char nextSprite;
-	unsigned char currentSprite;
 	unsigned char xpos;
 	unsigned char endx;
 
@@ -115,7 +114,7 @@ public:
 	void oamChange(unsigned long cc) { p_.spriteMapper.oamChange(cc); }
 	void oamChange(const unsigned char *oamram, unsigned long cc) { p_.spriteMapper.oamChange(oamram, cc); }
 	unsigned long predictedNextXposTime(unsigned xpos) const;
-	void reset(const unsigned char *oamram, bool cgb);
+	void reset(const unsigned char *oamram, const unsigned char *vram, bool cgb);
 	void resetCc(unsigned long oldCc, unsigned long newCc);
 	void saveState(SaveState &ss) const;
 	void setFrameBuf(uint_least32_t *buf, unsigned pitch) { p_.framebuf.setBuf(buf, pitch); }

@@ -78,6 +78,10 @@
 		94ABD7D91653428B00035061 /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94ABD7B81653428B00035061 /* video.cpp */; };
 		94ABD7DA16534BE800035061 /* GBGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5EC4D420E6312DF0046BD93 /* GBGameCore.mm */; };
 		94ABD7DD16534C8300035061 /* libretro.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94ABD7DB16534C8300035061 /* libretro.cpp */; };
+		94F2867816C3832E0075A73E /* kaiser50sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94F2867616C3832E0075A73E /* kaiser50sinc.cpp */; };
+		94F2867916C3832E0075A73E /* kaiser70sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94F2867716C3832E0075A73E /* kaiser70sinc.cpp */; };
+		94F2867D16C383E20075A73E /* loadres.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94F2867C16C383E20075A73E /* loadres.cpp */; };
+		94F2868016C3840F0075A73E /* pakinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94F2867F16C3840F0075A73E /* pakinfo.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,6 +249,13 @@
 		94ABD7B91653428B00035061 /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = video.h; sourceTree = "<group>"; };
 		94ABD7DB16534C8300035061 /* libretro.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libretro.cpp; sourceTree = "<group>"; };
 		94ABD7DC16534C8300035061 /* libretro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libretro.h; sourceTree = "<group>"; };
+		94F2867616C3832E0075A73E /* kaiser50sinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kaiser50sinc.cpp; sourceTree = "<group>"; };
+		94F2867716C3832E0075A73E /* kaiser70sinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kaiser70sinc.cpp; sourceTree = "<group>"; };
+		94F2867A16C3836B0075A73E /* loadres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loadres.h; sourceTree = "<group>"; };
+		94F2867B16C3836B0075A73E /* pakinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pakinfo.h; sourceTree = "<group>"; };
+		94F2867C16C383E20075A73E /* loadres.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = loadres.cpp; sourceTree = "<group>"; };
+		94F2867E16C3840F0075A73E /* pakinfo_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pakinfo_internal.h; sourceTree = "<group>"; };
+		94F2867F16C3840F0075A73E /* pakinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pakinfo.cpp; sourceTree = "<group>"; };
 		B50BBE0F0E64825D001814C0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		B5350B7C0E62EC0800A0903A /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		B5EC4D410E6312DF0046BD93 /* GBGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBGameCore.h; sourceTree = "<group>"; };
@@ -391,6 +402,8 @@
 				94ABD6C4165340E500035061 /* i0.h */,
 				94ABD6C5165340E500035061 /* kaiser50sinc.h */,
 				94ABD6C6165340E500035061 /* kaiser70sinc.h */,
+				94F2867616C3832E0075A73E /* kaiser50sinc.cpp */,
+				94F2867716C3832E0075A73E /* kaiser70sinc.cpp */,
 				94ABD6C7165340E500035061 /* linint.h */,
 				94ABD6C8165340E500035061 /* makesinckernel.cpp */,
 				94ABD6C9165340E500035061 /* makesinckernel.h */,
@@ -453,6 +466,8 @@
 				94ABD76A1653428B00035061 /* gambatte.h */,
 				94ABD76B1653428B00035061 /* gbint.h */,
 				94ABD76C1653428B00035061 /* inputgetter.h */,
+				94F2867A16C3836B0075A73E /* loadres.h */,
+				94F2867B16C3836B0075A73E /* pakinfo.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -474,6 +489,7 @@
 				94ABD7841653428B00035061 /* interrupter.h */,
 				94ABD7851653428B00035061 /* interruptrequester.cpp */,
 				94ABD7861653428B00035061 /* interruptrequester.h */,
+				94F2867C16C383E20075A73E /* loadres.cpp */,
 				94ABD7871653428B00035061 /* mem */,
 				94ABD78E1653428B00035061 /* memory.cpp */,
 				94ABD78F1653428B00035061 /* memory.h */,
@@ -527,6 +543,8 @@
 				94ABD7891653428B00035061 /* cartridge.h */,
 				94ABD78A1653428B00035061 /* memptrs.cpp */,
 				94ABD78B1653428B00035061 /* memptrs.h */,
+				94F2867E16C3840F0075A73E /* pakinfo_internal.h */,
+				94F2867F16C3840F0075A73E /* pakinfo.cpp */,
 				94ABD78C1653428B00035061 /* rtc.cpp */,
 				94ABD78D1653428B00035061 /* rtc.h */,
 			);
@@ -683,6 +701,8 @@
 				94ABD7DD16534C8300035061 /* libretro.cpp in Sources */,
 				94ABD6E9165340E500035061 /* chainresampler.cpp in Sources */,
 				94ABD6EA165340E500035061 /* i0.cpp in Sources */,
+				94F2867816C3832E0075A73E /* kaiser50sinc.cpp in Sources */,
+				94F2867916C3832E0075A73E /* kaiser70sinc.cpp in Sources */,
 				94ABD6EB165340E500035061 /* makesinckernel.cpp in Sources */,
 				94ABD6EC165340E500035061 /* resamplerinfo.cpp in Sources */,
 				94ABD6ED165340E500035061 /* u48div.cpp in Sources */,
@@ -714,6 +734,8 @@
 				94ABD7D71653428B00035061 /* ppu.cpp in Sources */,
 				94ABD7D81653428B00035061 /* sprite_mapper.cpp in Sources */,
 				94ABD7D91653428B00035061 /* video.cpp in Sources */,
+				94F2867D16C383E20075A73E /* loadres.cpp in Sources */,
+				94F2868016C3840F0075A73E /* pakinfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

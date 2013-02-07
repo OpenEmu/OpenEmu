@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -19,7 +19,8 @@
 #include "makesinckernel.h"
 #include "array.h"
 
-void makeSincKernel(short *const kernel, const unsigned phases, const unsigned phaseLen, double fc, double (*win)(long m, long M)) {
+void makeSincKernel(short *const kernel, const unsigned phases,
+		const unsigned phaseLen, double fc, double (*win)(long m, long M), double const maxAllowedGain) {
 	static const double PI = 3.14159265358979323846;
 	fc /= phases;
 	
@@ -58,7 +59,7 @@ void makeSincKernel(short *const kernel, const unsigned phases, const unsigned p
 				maxabsgain = absgain;
 		}
 		
-		const double gain = (0x10000 - 0.5 * phaseLen) / maxabsgain;
+		const double gain = (0x10000 - 0.5 * phaseLen) * maxAllowedGain / maxabsgain;
 		
 		for (long i = 0; i < M + 1; ++i)
 			kernel[i] = std::floor(dkernel[i] * gain + 0.5);
@@ -67,7 +68,6 @@ void makeSincKernel(short *const kernel, const unsigned phases, const unsigned p
 	// The following is equivalent to the more readable version above
 	
 	const long M = static_cast<long>(phaseLen) * phases - 1;
-	
 	const Array<double> dkernel(M / 2 + 1);
 	
 	{
@@ -129,7 +129,7 @@ void makeSincKernel(short *const kernel, const unsigned phases, const unsigned p
 		}
 	}
 	
-	const double gain = (0x10000 - 0.5 * phaseLen) / maxabsgain;
+	const double gain = (0x10000 - 0.5 * phaseLen) * maxAllowedGain / maxabsgain;
 	const double *dk = dkernel;
 	
 	for (unsigned ph = 0; ph < phases; ++ph) {

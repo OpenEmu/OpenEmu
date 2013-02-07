@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -411,7 +411,7 @@ SaverList::SaverList() {
 	{ static const char label[] = { c,NO4,m,a,s,t,r, NUL }; ADD(spu.ch4.master); }
 	{ static const char label[] = { r,t,c,b,a,s,e, NUL }; ADD(rtc.baseTime); }
 	{ static const char label[] = { r,t,c,h,a,l,t, NUL }; ADD(rtc.haltTime); }
-	{ static const char label[] = { r,t,c,i,n,d,x, NUL }; ADD(rtc.index); }
+	//{ static const char label[] = { r,t,c,i,n,d,x, NUL }; ADD(rtc.index); }
 	{ static const char label[] = { r,t,c,d,h,     NUL }; ADD(rtc.dataDh); }
 	{ static const char label[] = { r,t,c,d,l,     NUL }; ADD(rtc.dataDl); }
 	{ static const char label[] = { r,t,c,h,       NUL }; ADD(rtc.dataH); }

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -39,14 +39,14 @@ struct ResamplerInfo {
 	Resampler* (*create)(long inRate, long outRate, std::size_t periodSz);
 	
 	/** Returns the number of ResamplerInfos that can be gotten with get(). */
-	static unsigned num() { return num_; }
+	static std::size_t num() { return num_; }
 	
 	/** Returns ResamplerInfo number n. Where n is less than num(). */
-	static const ResamplerInfo& get(unsigned n) { return resamplers[n]; }
+	static const ResamplerInfo& get(std::size_t n) { return resamplers[n]; }
 	
 private:
 	static const ResamplerInfo resamplers[];
-	static const unsigned num_;
+	static const std::size_t num_;
 };
 
 #endif

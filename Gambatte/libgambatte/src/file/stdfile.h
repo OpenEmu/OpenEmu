@@ -19,24 +19,34 @@ version 2 along with this program; if not, write to the
 Free Software Foundation, Inc.,
 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ***************************************************************************/
-#ifndef GAMBATTE_FILE_H
-#define GAMBATTE_FILE_H
+#ifndef GAMBATTE_STD_FILE_H
+#define GAMBATTE_STD_FILE_H
 
-#include <memory>
-#include <string>
+#include "file.h"
+#include <fstream>
 
 namespace gambatte {
 
-class File {
-public:
-	virtual ~File() {}
-	virtual void rewind() = 0;
-	virtual std::size_t size() const = 0;
-	virtual void read(char *buffer, std::size_t amount) = 0;
-	virtual bool fail() const = 0;
-};
+class StdFile : public File {
+	std::ifstream stream;
+	std::size_t fsize;
 
-std::auto_ptr<File> newFileInstance(const std::string &filepath);
+public:
+	explicit StdFile(const char *filename)
+	: stream(filename, std::ios::in | std::ios::binary), fsize(0)
+	{
+		if (stream) {
+			stream.seekg(0, std::ios::end);
+			fsize = stream.tellg();
+			stream.seekg(0, std::ios::beg);
+		}
+	}
+	
+	virtual void rewind() { stream.seekg(0, std::ios::beg); }
+	virtual std::size_t size() const { return fsize; };
+	virtual void read(char *buffer, std::size_t amount) { stream.read(buffer, amount); }
+	virtual bool fail() const { return stream.fail(); }
+};
 
 }
 

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -19,15 +19,27 @@
 #ifndef INTERRUPTER_H
 #define INTERRUPTER_H
 
+#include <string>
+#include <vector>
+
 namespace gambatte {
+
+struct GsCode {
+	unsigned short address;
+	unsigned char value;
+	unsigned char type;
+};
 
 class Interrupter {
 	unsigned short &SP;
 	unsigned short &PC;
+	std::vector<GsCode> gsCodes;
 	
+	void applyVblankCheats(unsigned long cc, class Memory &mem);
 public:
 	Interrupter(unsigned short &SP, unsigned short &PC);
 	unsigned long interrupt(const unsigned address, unsigned long cycleCounter, class Memory &memory);
+	void setGameShark(const std::string &codes);
 };
 
 }

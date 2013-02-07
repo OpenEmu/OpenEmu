@@ -173,7 +173,9 @@ bool retro_load_game(const struct retro_game_info *info)
         g_has_rgb32 = false;
     }
     
-    bool load_fail = gb.load(info->data, info->size);
+    //const std::string romFile = reinterpret_cast<const char *>(info->path);
+    
+    bool load_fail = gb.load(reinterpret_cast<const char *>(info->path));
     if (load_fail)
         return false;
     

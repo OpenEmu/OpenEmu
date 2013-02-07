@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -79,12 +79,12 @@ LCD::LCD(const unsigned char *const oamram, const unsigned char *const vram, con
 	for (std::size_t i = 0; i < sizeof(dmgColorsRgb32) / sizeof(dmgColorsRgb32[0]); ++i)
 		setDmgPaletteColor(i, (3 - (i & 3)) * 85 * 0x010101);
 
-	reset(oamram, false);
+	reset(oamram, vram, false);
 	setVideoBuffer(0, 160);
 }
 
-void LCD::reset(const unsigned char *const oamram, const bool cgb) {
-	ppu.reset(oamram, cgb);
+void LCD::reset(const unsigned char *const oamram, const unsigned char *vram, const bool cgb) {
+	ppu.reset(oamram, vram, cgb);
 	lycIrq.setCgb(cgb);
 	refreshPalettes();
 }
@@ -522,47 +522,77 @@ void LCD::lcdcChange(const unsigned data, const unsigned long cycleCounter) {
 		ppu.setLcdc(data, cycleCounter);
 }
 
-void LCD::lcdstatChange(const unsigned data, const unsigned long cycleCounter) {
+namespace {
+struct LyCnt {
+	unsigned ly; int timeToNextLy;
+	LyCnt(unsigned ly, int timeToNextLy) : ly(ly), timeToNextLy(timeToNextLy) {}
+};
+
+static LyCnt const getLycCmpLy(LyCounter const &lyCounter, unsigned long cc) {
+	unsigned ly = lyCounter.ly();
+	int timeToNextLy = lyCounter.time() - cc;
+
+	if (ly == 153) {
+		if (timeToNextLy -  (448 << lyCounter.isDoubleSpeed()) > 0) {
+			timeToNextLy -= (448 << lyCounter.isDoubleSpeed());
+		} else {
+			ly = 0;
+			timeToNextLy += lyCounter.lineTime();
+		}
+	}
+
+	return LyCnt(ly, timeToNextLy);
+}
+}
+
+void LCD::lcdstatChange(unsigned const data, unsigned long const cycleCounter) {
 	if (cycleCounter >= eventTimes_.nextEventTime())
 		update(cycleCounter);
 
-	const unsigned old = statReg;
+	unsigned const old = statReg;
 	statReg = data;
 	lycIrq.statRegChange(data, ppu.lyCounter(), cycleCounter);
 	
 	if (ppu.lcdc() & 0x80) {
-		if (!ppu.cgb()) {
-			const unsigned timeToNextLy = ppu.lyCounter().time() - cycleCounter;
-			const unsigned lycCmpLy = ppu.lyCounter().ly() == 153 && timeToNextLy <= 444U + 8 ? 0 : ppu.lyCounter().ly();
+		int const timeToNextLy = ppu.lyCounter().time() - cycleCounter;
+		LyCnt const lycCmp = getLycCmpLy(ppu.lyCounter(), cycleCounter);
 
-			if (lycCmpLy == lycIrq.lycReg()) {
-				if (!(old & 0x40) && (ppu.lyCounter().ly() < 144 || !(old & 0x10)))
-					eventTimes_.flagIrq(2);
-			} else if (ppu.lyCounter().ly() >= 144) {
-				if (!(old & 0x10))
-					eventTimes_.flagIrq(2);
-			} else if (cycleCounter + 1 >= m0TimeOfCurrentLine(cycleCounter)) {
-				if (!(old & 0x08))
+		if (!ppu.cgb()) {
+			if (ppu.lyCounter().ly() < 144) {
+				if (cycleCounter + 1 < m0TimeOfCurrentLine(cycleCounter)) {
+					if (lycCmp.ly == lycIrq.lycReg() && !(old & 0x40))
+						eventTimes_.flagIrq(2);
+				} else {
+					if (!(old & 0x08) && !(lycCmp.ly == lycIrq.lycReg() && (old & 0x40)))
+						eventTimes_.flagIrq(2);
+				}
+			} else {
+				if (!(old & 0x10) && !(lycCmp.ly == lycIrq.lycReg() && (old & 0x40)))
 					eventTimes_.flagIrq(2);
 			}
-		} else {
-			const unsigned timeToNextLy = ppu.lyCounter().time() - cycleCounter;
-			const unsigned lycCmpLy = ppu.lyCounter().ly() == 153 && timeToNextLy <= (444U << isDoubleSpeed()) + 8
-													? 0 : ppu.lyCounter().ly();
-			const bool lycperiod = lycCmpLy == lycIrq.lycReg() && timeToNextLy > 4U - isDoubleSpeed() * 4U;
-			const bool lycperiodActive = lycperiod && (old & 0x40);
-			
-			if (lycperiod && (data & 0x40) - (old & 0x40) == 0x40 && (ppu.lyCounter().ly() < 144 || !(old & 0x10))) {
-				eventTimes_.flagIrq(2);
-			} else if (ppu.lyCounter().ly() >= 144 && (data & 0x10) - (old & 0x10) == 0x10 &&
-					(ppu.lyCounter().ly() < 153 || timeToNextLy > 4U - isDoubleSpeed() * 4U) && !lycperiodActive) {
-				eventTimes_.flagIrq(2);
-			} else if ((data & 0x08) - (old & 0x08) == 0x08 && ppu.lyCounter().ly() < 144 && !lycperiodActive &&
-					timeToNextLy > 4 && cycleCounter + isDoubleSpeed() * 2 >= m0TimeOfCurrentLine(cycleCounter)) {
-				eventTimes_.flagIrq(2);
-			} else if ((data & 0x28) == 0x20 && !(old & 0x20)
+		} else if (data & ~old & 0x78) {
+			bool const lycperiod = lycCmp.ly == lycIrq.lycReg() && lycCmp.timeToNextLy > 4 - isDoubleSpeed() * 4;
+
+			if (!(lycperiod && (old & 0x40))) {
+				if (ppu.lyCounter().ly() < 144) {
+					if (cycleCounter + isDoubleSpeed() * 2 < m0TimeOfCurrentLine(cycleCounter) || timeToNextLy <= 4) {
+						if (lycperiod && (data & 0x40))
+							eventTimes_.flagIrq(2);
+					} else if (!(old & 0x08)) {
+						if ((data & 0x08) || (lycperiod && (data & 0x40)))
+							eventTimes_.flagIrq(2);
+					}
+				} else if (!(old & 0x10)) {
+					if ((data & 0x10) && (ppu.lyCounter().ly() < 153 || timeToNextLy > 4 - isDoubleSpeed() * 4)) {
+						eventTimes_.flagIrq(2);
+					} else if (lycperiod && (data & 0x40))
+						eventTimes_.flagIrq(2);
+				}
+			}
+
+			if ((data & 0x28) == 0x20 && !(old & 0x20)
 					&& ((timeToNextLy <= 4 && ppu.lyCounter().ly() < 143)
-						|| (timeToNextLy == 456*2 && ppu.lyCounter().ly() < 144))) {
+					    || (timeToNextLy == 456*2 && ppu.lyCounter().ly() < 144))) {
 				eventTimes_.flagIrq(2);
 			}
 		}
@@ -577,15 +607,17 @@ void LCD::lcdstatChange(const unsigned data, const unsigned long cycleCounter) {
 	}
 	
 	m2IrqStatReg_ = eventTimes_(MODE2_IRQ) - cycleCounter > (ppu.cgb() - isDoubleSpeed()) * 4U
-							? data : (m2IrqStatReg_ & 0x10) | (statReg & ~0x10);
+			? data : (m2IrqStatReg_ & 0x10) | (statReg & ~0x10);
 	m1IrqStatReg_ = eventTimes_(MODE1_IRQ) - cycleCounter > (ppu.cgb() - isDoubleSpeed()) * 4U
-							? data : (m1IrqStatReg_ & 0x08) | (statReg & ~0x08);
+			? data : (m1IrqStatReg_ & 0x08) | (statReg & ~0x08);
 	
 	m0Irq_.statRegChange(data, eventTimes_(MODE0_IRQ), cycleCounter, ppu.cgb());
 }
 
-void LCD::lycRegChange(const unsigned data, const unsigned long cycleCounter) {
-	if (data == lycIrq.lycReg())
+void LCD::lycRegChange(unsigned const data, unsigned long const cycleCounter) {
+	unsigned const old = lycIrq.lycReg();
+
+	if (data == old)
 		return;
 
 	if (cycleCounter >= eventTimes_.nextEventTime())
@@ -599,27 +631,21 @@ void LCD::lycRegChange(const unsigned data, const unsigned long cycleCounter) {
 	
 	eventTimes_.setm<LYC_IRQ>(lycIrq.time());
 
-	const unsigned timeToNextLy = ppu.lyCounter().time() - cycleCounter;
+	int const timeToNextLy = ppu.lyCounter().time() - cycleCounter;
 	
-	if ((statReg & 0x40) && data < 154 &&
-			(ppu.lyCounter().ly() < 144 || !(statReg & 0x10) || (ppu.lyCounter().ly() == 153 && timeToNextLy <= 4U))) {
-		unsigned lycCmpLy = ppu.lyCounter().ly();
-		
-		if (ppu.cgb()) {
-			if (timeToNextLy <= 4U >> isDoubleSpeed()) {
-				lycCmpLy = lycCmpLy < 153 ? lycCmpLy + 1 : 0;
-			} else if (timeToNextLy <= 8) {
-				lycCmpLy = 0xFF;
-			} else if (lycCmpLy == 153 && timeToNextLy <= (448U << isDoubleSpeed()) + 8)
-				lycCmpLy = 0;
-		} else {
-			if (timeToNextLy <= 4) {
-				lycCmpLy = 0xFF;
-			} else if (lycCmpLy == 153 && timeToNextLy <= 444U + 8)
-				lycCmpLy = 0;
+	if ((statReg & 0x40) && data < 154
+			&& (ppu.lyCounter().ly() < 144
+			    ? !(statReg & 0x08) || cycleCounter < m0TimeOfCurrentLine(cycleCounter) || timeToNextLy <= 4 << ppu.cgb()
+			    : !(statReg & 0x10) || (ppu.lyCounter().ly() == 153 && timeToNextLy <= 4 && ppu.cgb() && !isDoubleSpeed()))) {
+		LyCnt lycCmp = getLycCmpLy(ppu.lyCounter(), cycleCounter);
+
+		if (lycCmp.timeToNextLy <= 4 << ppu.cgb()) {
+			lycCmp.ly = old != lycCmp.ly || (lycCmp.timeToNextLy <= 4 && ppu.cgb() && !isDoubleSpeed())
+			          ? (lycCmp.ly == 153 ? 0 : lycCmp.ly + 1)
+			          : 0xFF; // simultaneous ly/lyc inc. lyc flag never goes low -> no trigger.
 		}
-		
-		if (data == lycCmpLy) {
+
+		if (data == lycCmp.ly) {
 			if (ppu.cgb() && !isDoubleSpeed()) {
 				eventTimes_.setm<ONESHOT_LCDSTATIRQ>(cycleCounter + 5);
 			} else
@@ -628,20 +654,20 @@ void LCD::lycRegChange(const unsigned data, const unsigned long cycleCounter) {
 	}
 }
 
-unsigned LCD::getStat(const unsigned lycReg, const unsigned long cycleCounter) {
+unsigned LCD::getStat(unsigned const lycReg, unsigned long const cycleCounter) {
 	unsigned stat = 0;
 
 	if (ppu.lcdc() & 0x80) {
 		if (cycleCounter >= eventTimes_.nextEventTime())
 			update(cycleCounter);
 
-		const unsigned timeToNextLy = ppu.lyCounter().time() - cycleCounter;
+		int const timeToNextLy = ppu.lyCounter().time() - cycleCounter;
 
 		if (ppu.lyCounter().ly() > 143) {
-			if (ppu.lyCounter().ly() < 153 || timeToNextLy > 4 - isDoubleSpeed() * 4U)
+			if (ppu.lyCounter().ly() < 153 || timeToNextLy > 4 - isDoubleSpeed() * 4)
 				stat = 1;
 		} else {
-			const unsigned lineCycles = 456 - (timeToNextLy >> isDoubleSpeed());
+			unsigned const lineCycles = 456 - (timeToNextLy >> isDoubleSpeed());
 
 			if (lineCycles < 80) {
 				if (!ppu.inactivePeriodAfterDisplayEnable(cycleCounter))
@@ -650,10 +676,10 @@ unsigned LCD::getStat(const unsigned lycReg, const unsigned long cycleCounter) {
 				stat = 3;
 		}
 
-		if ((ppu.lyCounter().ly() == lycReg && timeToNextLy > 4 - isDoubleSpeed() * 4U) ||
-				(lycReg == 0 && ppu.lyCounter().ly() == 153 && timeToNextLy >> isDoubleSpeed() <= 456 - 8)) {
+		LyCnt const lycCmp = getLycCmpLy(ppu.lyCounter(), cycleCounter);
+
+		if (lycReg == lycCmp.ly && lycCmp.timeToNextLy > 4 - isDoubleSpeed() * 4)
 			stat |= 4;
-		}
 	}
 
 	return stat;

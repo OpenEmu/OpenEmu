@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   Copyright (C) 2003 MaxSt                                              *
  *   maxst@hiend3d.com                                                     *

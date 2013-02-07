@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Sindre Aamås                                    *
- *   aamas@stud.ntnu.no                                                    *
+ *   sinamas@users.sourceforge.net                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License version 2 as     *
@@ -53,7 +53,7 @@ class RateEst {
 	long samples;
 
 public:
-	RateEst(long srate = 0) { init(srate); }
+	explicit RateEst(long srate = 0) { init(srate); }
 	RateEst(long srate, long reference) { init(srate, reference); }
 	void init(long srate) { init(srate, srate); }
 	void init(long srate, long reference) { init(srate, reference, reference); }
