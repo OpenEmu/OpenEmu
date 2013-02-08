@@ -886,12 +886,18 @@
 				<string>{{42,0},{21,21}}</string>
 			</dict>
 		</dict>
-		<key>game_scanner_toggle_pause</key>
+		<key>game_scanner_toggle_pause_cancel</key>
 		<dict>
 			<key>Resource</key>
 			<string>game_scanner_buttons</string>
 			<key>States</key>
 			<dict>
+				<key>Alternate</key>
+				<string>{{0,50},{25,25}}</string>
+				<key>Alternate, Mouse Over,</key>
+				<string>{{25,50},{25,25}}</string>
+				<key>Alternate, Mouse Over, Pressed</key>
+				<string>{{50,50},{25,25}}</string>
 				<key>Toggle Off</key>
 				<string>{{0,0},{25,25}}</string>
 				<key>Toggle Off, Mouse Over</key>
