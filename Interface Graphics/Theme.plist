@@ -359,6 +359,73 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>dark_button_2</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>States</key>
+			<dict>
+				<key>No Modifier</key>
+				<dict>
+					<key>Color</key>
+					<string>green</string>
+				</dict>
+				<key>Alternate</key>
+				<dict>
+					<key>Color</key>
+					<string>red</string>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>rgb(188,188,188,1.0)</string>
+				</dict>
+			</dict>
+		</dict>
+		<key>alternate Test</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Color</key>
+					<string>rgb(227,227,227,1.0)</string>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>rgb(188,188,188,1.0)</string>
+				</dict>
+			</dict>
+		</dict>
 		<key>dark_button_small</key>
 		<dict>
 			<key>Family</key>
@@ -1264,6 +1331,41 @@
 			<key>States</key>
 			<dict>
 				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0},{10,23}}</string>
+						<string>{{10,0},{1,23}}</string>
+						<string>{{11,0},{10,23}}</string>
+					</array>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,23},{10,23}}</string>
+						<string>{{10,23},{1,23}}</string>
+						<string>{{11,23},{10,23}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>dark_button_2_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>dark_button</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0},{10,23}}</string>
+						<string>{{10,0},{1,23}}</string>
+						<string>{{11,0},{10,23}}</string>
+					</array>
+				</dict>
+				<key>Alt Down</key>
 				<dict>
 					<key>Parts</key>
 					<array>

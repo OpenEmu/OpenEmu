@@ -36,6 +36,7 @@
 @implementation OEPopUpButton
 @synthesize trackWindowActivity = _trackWindowActivity;
 @synthesize trackMouseActivity = _trackMouseActivity;
+@synthesize trackModifierActivity = _trackModifierActivity;
 @synthesize menuStyle = _menuStyle;
 @synthesize toolTipStyle = _toolTipStyle;
 
@@ -142,6 +143,15 @@
     {
         _trackMouseActivity = shouldTrackMouseActivity;
         [self updateTrackingAreas];
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)OE_setShouldTrackModifierActivity:(BOOL)shouldTrackModifierActivity
+{
+    if(_trackModifierActivity != shouldTrackModifierActivity)
+    {
+        _trackModifierActivity = shouldTrackModifierActivity;
         [self setNeedsDisplay];
     }
 }

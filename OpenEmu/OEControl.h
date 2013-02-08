@@ -43,7 +43,9 @@
 @property(nonatomic, retain) OEThemeImage          *themeImage;
 @property(nonatomic, retain) OEThemeTextAttributes *themeTextAttributes;
 
-@property(nonatomic, readonly, getter = isTrackingWindowActivity) BOOL trackWindowActivity;
-@property(nonatomic, readonly, getter = isTrackingMouseActivity)  BOOL trackMouseActivity;
+@property(nonatomic, readonly, getter = isTrackingWindowActivity)    BOOL trackWindowActivity;
+@property(nonatomic, readonly, getter = isTrackingMouseActivity)     BOOL trackMouseActivity;
+@property(nonatomic, readonly, getter = isTrackingModifierActivity)  BOOL trackModifierActivity;
+@property(nonatomic, readonly) id modifierEventMonitor;
 
 @end
