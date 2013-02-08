@@ -180,9 +180,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 - (id)init
-{
-    NSLog(@"creating new LibraryDatabase");
-    
+{    
     if((self = [super init]))
     {
         romsController = [[NSArrayController alloc] init];

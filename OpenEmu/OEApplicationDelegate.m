@@ -438,12 +438,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Cores" forKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
         [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
     }
-
 }
 
 #pragma mark -
 #pragma mark App Info
-
 - (void)updateInfoPlist
 {
     // TODO: Think of a way to register for document types without manipulating the plist
@@ -488,13 +486,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                                                  format:NSPropertyListXMLFormat_v1_0
                                                        errorDescription:&error];
 
-    BOOL isUpdated = NO;
     if(updated != nil)
-        isUpdated = [updated writeToFile:infoPlistPath atomically:YES];
+        [updated writeToFile:infoPlistPath atomically:YES];
     else
         NSLog(@"Error: %@", error);
-
-    NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
 
 - (NSString *)appVersion

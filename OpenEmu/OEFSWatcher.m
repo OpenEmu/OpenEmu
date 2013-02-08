@@ -126,7 +126,6 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
     [paths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if((eventFlags[idx] & kFSEventStreamEventFlagHistoryDone) || (eventFlags[idx] & kFSEventStreamEventFlagEventIdsWrapped))
         {
-            DLog(@"history done or (less likely) ids wrapped");
             [watcher OE_storeLastEventID];
         }
         else
