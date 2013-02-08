@@ -209,7 +209,7 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
 // Returns an OEThemeState with the window and mouse activity excluded (see OEMenuItemStateMask)
 - (OEThemeState)OE_currentStateFromMenuItem:(NSMenuItem *)item
 {
-    return [OEThemeObject themeStateWithWindowActive:NO buttonState:[item state] selected:([(OEMenu *)[self window] highlightedItem] == item) enabled:[item isEnabled] focused:[item isAlternate] houseHover:NO modifierMask:[NSEvent modifierFlags]] & OEMenuItemStateMask;
+    return [OEThemeObject themeStateWithWindowActive:NO buttonState:[item state] selected:([(OEMenu *)[self window] highlightedItem] == item) enabled:[item isEnabled] focused:YES houseHover:NO modifierMask:[item isAlternate]?[NSEvent modifierFlags]:0] & OEMenuItemStateMask;
 }
 
 // Returns an attributes dictionary (for NSAttributedString or -[NSString drawInRect:withAttributes:]) based on the specified state
