@@ -1041,8 +1041,6 @@
 		141554221442B85000A01683 /* OEN64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponderClient.h; sourceTree = "<group>"; };
 		141554281442C12200A01683 /* controller_n64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_n64.png; sourceTree = "<group>"; };
 		142689BD16585F0E00AD0B63 /* OEDatabase 0.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.4.xcdatamodel"; sourceTree = "<group>"; };
-		14335516166452680033D402 /* OEDistantWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDistantWindow.h; sourceTree = "<group>"; };
-		14335517166452680033D402 /* OEDistantWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDistantWindow.m; sourceTree = "<group>"; };
 		143F298A164DE0B300544CCF /* MagicKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MagicKit.xcodeproj; path = ../MagicKit/MagicKit.xcodeproj; sourceTree = "<group>"; };
 		144D61471672D6BF0000268B /* OETableTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableTextFieldCell.h; sourceTree = "<group>"; };
 		144D61481672D6BF0000268B /* OETableTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableTextFieldCell.m; sourceTree = "<group>"; };
@@ -2707,8 +2705,6 @@
 				83DDEE89156CFFE1009EB43D /* OEDistantViewController.m */,
 				83DDEE8B156CFFF2009EB43D /* OEDistantView.h */,
 				83DDEE8C156CFFF2009EB43D /* OEDistantView.m */,
-				14335516166452680033D402 /* OEDistantWindow.h */,
-				14335517166452680033D402 /* OEDistantWindow.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";

@@ -79,7 +79,7 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
 @property(readwrite, strong)    NSMutableArray    *spotlightSearchResults;
 @property(weak)                 OELibraryDatabase *database;
 
-- (void)startQueueIfNeeded;
+- (void)processNextItemIfNeeded;
 
 @property(readwrite, retain) NSMutableSet *unsavedMD5Hashes;
 @property(readwrite, retain) NSMutableSet *unsavedCRCHashes;
@@ -110,7 +110,7 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
 + (void)initialize
 {
     if(self != [OEROMImporter class]) return;
-
+    
     [[NSUserDefaults standardUserDefaults] registerDefaults:(@{
                                                              OEOrganizeLibraryKey      : @(YES),
                                                              OECopyToLibraryKey        : @(YES),
@@ -130,9 +130,9 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
         [self setUnsavedCRCHashes:[NSMutableSet set]];
         [self setUnsavedMD5Hashes:[NSMutableSet set]];
         /*
-        dispatchQueue = dispatch_get_main_queue();
+         dispatchQueue = dispatch_get_main_queue();
          */
-
+        
         dispatchQueue = dispatch_queue_create("org.openemu.importqueue", DISPATCH_QUEUE_SERIAL);
         dispatch_queue_t priority = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
         dispatch_set_target_queue(dispatchQueue, priority);
@@ -141,8 +141,9 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
     return self;
 }
 
-- (void)startQueueIfNeeded
+- (void)processNextItemIfNeeded
 {
+    IMPORTDLog(@"%s && %s -> -processNextItem", BOOL_STR([self status] == OEImporterStatusRunning), BOOL_STR([self activeImports] < MaxSimultaneousImports));
     if([self status] == OEImporterStatusRunning && [self activeImports] < MaxSimultaneousImports)
     {
         [self processNextItem];
@@ -152,6 +153,7 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
 - (void)processNextItem
 {
     self.activeImports++;
+    IMPORTDLog(@"activeImports: %ld", self.activeImports);
     // TODO: we need a lock here if simultaneous imports are allowed
     
     OEImportItem *nextItem = [[self queue] firstObjectMatchingBlock:^BOOL (id evaluatedObject)
@@ -167,7 +169,7 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
         });
         
         if(MaxSimultaneousImports > 1) dispatch_async(dispatchQueue, ^{
-            [self startQueueIfNeeded];
+            [self processNextItemIfNeeded];
         });
     }
     else
@@ -186,7 +188,7 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
                     [self setStatus:OEImporterStatusStopped];
                 }
                 else
-                    [self startQueueIfNeeded];
+                    [self processNextItemIfNeeded];
             });
         }
     }
@@ -197,10 +199,56 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
     dispatch_release(dispatchQueue);
 }
 
-#pragma mark - Import Block
 
+- (BOOL)saveQueue
+{
+    NSURL *url = [[self database] importQueueURL];
+    
+    IMPORTDLog(@"URL: %@", url);
+    // remove last saved queue if any
+    [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+    
+    IMPORTDLog(@"Saving %ld items", [[self queue] count]);
+    
+    // only save queue if it's not empty
+    if([[self queue] count] != 0)
+    {
+        // write new queue data
+        NSData *queueData = [NSKeyedArchiver archivedDataWithRootObject:[self queue]];
+        return [queueData writeToURL:url atomically:YES];
+    }
+    return NO;
+}
+
+- (BOOL)loadQueue
+{
+    NSURL *url = [[self database] importQueueURL];
+    IMPORTDLog(@"URL: %@", url);
+    
+    // read previously stored data
+    NSData *queueData = [NSData dataWithContentsOfURL:url];
+    if(queueData == nil) return NO;
+    
+    // remove file if reading was successfull
+    [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+    
+    // Restore queue
+    NSMutableArray *queue = [NSKeyedUnarchiver unarchiveObjectWithData:queueData];
+    IMPORTDLog(@"Restored %ld items", [queue count]);
+    if ([queue count])
+    {
+        [self setNumberOfProcessedItems:0];
+        [self setTotalNumberOfItems:[queue count]];
+        [self setQueue:queue];
+        return YES;
+    }
+    return NO;
+}
+
+#pragma mark - Import Block
 static void importBlock(OEROMImporter *importer, OEImportItem *item)
 {
+    IMPORTDLog(@"Status: %ld | Step: %d | URL: %@", [importer status], [item importStep], [item sourceURL]);
     if([importer status] == OEImporterStatusPausing || [importer status] == OEImporterStatusPaused)
     {
         DLog(@"skipping item!");
@@ -243,6 +291,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 // Checks if item.url points to a directory and adds its contents to the queue (by replacing item)
 - (void)performImportStepCheckDirectory:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSURL *url = [item URL];
     if([url isDirectory])
     {
@@ -284,6 +333,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)performImportStepCheckArchiveFile:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     //Short circuit this?
     NSString *path = [[item URL] path];
     XADArchive *archive = [XADArchive archiveForFile:path];
@@ -299,7 +349,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         NSString *folder = temporaryDirectoryForDecompressionOfPath(path);
         NSString *name = [archive nameOfEntry:0];
         NSString *tmpPath = [folder stringByAppendingPathComponent:name];
-
+        
         BOOL isdir;
         NSURL *tmpURL = [NSURL fileURLWithPath:tmpPath];
         NSFileManager *fm = [NSFileManager new];
@@ -308,7 +358,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             [[item importInfo] setValue:tmpURL forKey:OEImportInfoArchivedFileURL];
             return;
         }
-
+        
         BOOL success = YES;
         @try {
             success = [archive extractEntry:0 to:folder];
@@ -326,6 +376,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 // Calculates md5 and crc32 hash strings
 - (void)performImportStepHash:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSURL         *url = [[item importInfo] valueForKey:OEImportInfoArchivedFileURL] ?: [item URL];
     NSString      *md5, *crc;
     NSError       *error = nil;
@@ -349,6 +400,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 // Checks if hash is already known, if so skips the file
 - (void)performImportStepCheckHash:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSError  *error = nil;
     NSString *md5 = [[item importInfo] valueForKey:OEImportInfoMD5];
     NSString *crc = [[item importInfo] valueForKey:OEImportInfoCRC];
@@ -391,6 +443,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 // Tries to find out which system the file belongs to
 - (void)performImportStepDetermineSystem:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     if([[item importInfo] valueForKey:OEImportInfoROMObjectID]) return;
     
     NSString *systemIdentifier = nil;
@@ -418,7 +471,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         else // Found multiple valid systems after checking extension and system specific canHandleFile:
         {
             error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:nil];
-
+            
             NSMutableArray *systemIDs = [NSMutableArray arrayWithCapacity:[validSystems count]];
             [validSystems enumerateObjectsUsingBlock:^(OEDBSystem *system, NSUInteger idx, BOOL *stop){
                 NSString *systemIdentifier = [system systemIdentifier];
@@ -452,6 +505,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)performImportStepSyncArchive:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     if([[item importInfo] valueForKey:OEImportInfoROMObjectID] != nil)
     {
         OEDBRom *rom = [OEDBRom romWithURIURL:[[item importInfo] valueForKey:OEImportInfoROMObjectID] inDatabase:[self database]];
@@ -494,13 +548,14 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
                  item.importStep++;
              
              [item setImportState:OEImportItemStatusIdle];
-             [self startQueueIfNeeded];
+             [self processNextItemIfNeeded];
          }
      }];
 }
 
 - (void)performImportStepOrganize:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     BOOL copyToLibrary   = [standardUserDefaults boolForKey:OECopyToLibraryKey];
     BOOL organizeLibrary = [standardUserDefaults boolForKey:OEOrganizeLibraryKey];
@@ -515,7 +570,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         romFileLocked = YES;
         [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
     }
-
+    
     if(copyToLibrary && ![url isSubpathOfURL:[[self database] romsFolderURL]])
     {
         NSString *fullName  = [url lastPathComponent];
@@ -528,11 +583,11 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
             return [unsortedFolder URLByAppendingPathComponent:newName];
         }];
-    
+        
         [[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error];
         if(romFileLocked)
             [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:&error];
-
+        
         if(error != nil)
         {
             [self stopImportForItem:item withError:error];
@@ -615,6 +670,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)performImportStepOrganizeAdditionalFiles:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     BOOL copyToLibrary   = [standardUserDefaults boolForKey:OECopyToLibraryKey];
     BOOL organizeLibrary = [standardUserDefaults boolForKey:OEOrganizeLibraryKey];
@@ -667,6 +723,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)performImportStepCreateRom:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSMutableDictionary *importInfo = [item importInfo];
     if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
     {
@@ -692,6 +749,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)performImportStepCreateGame:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSMutableDictionary *importInfo = [item importInfo];
     
     NSError *error = nil;
@@ -701,7 +759,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     
     id archiveResult = [importInfo valueForKey:OEImportInfoArchiveSync];
     NSDictionary *archiveDict = nil;
-
+    
     if([archiveResult isKindOfClass:[NSError class]])
         DLog(@"archiveError: %@", archiveResult);
     else if(archiveResult != nil)
@@ -779,6 +837,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)scheduleItemForNextStep:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     item.importStep++;
     if([self status] == OEImporterStatusRunning)
     {
@@ -792,6 +851,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)stopImportForItem:(OEImportItem *)item withError:(NSError *)error
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     if([[error domain] isEqualTo:OEImportErrorDomainResolvable])
         [item setImportState:OEImportItemStatusResolvableError];
     else if(error == nil || [[error domain] isEqualTo:OEImportErrorDomainSuccess])
@@ -817,13 +877,14 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         [self cleanupImportForItem:item];
     }
     
-    [self startQueueIfNeeded];
+    [self processNextItemIfNeeded];
     
     [self OE_performSelectorOnDelegate:@selector(romImporter:stoppedProcessingItem:) withObject:item];
 }
 
 - (void)cleanupImportForItem:(OEImportItem *)item
 {
+    IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSError *error = [item error];
     if(error && [[error domain] isEqualTo:OEImportErrorDomainResolvable])
         return;
@@ -837,12 +898,11 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         [[self unsavedMD5Hashes] removeObject:md5];
     if([[self unsavedCRCHashes] containsObject:crc])
         [[self unsavedCRCHashes] removeObject:crc];
-
+    
     [[self queue] removeObjectIdenticalTo:item];
 }
 
 #pragma mark - Importing Items with completion handler
-
 - (BOOL)importItemAtPath:(NSString *)path withCompletionHandler:(OEImportItemCompletionBlock)handler
 {
     NSURL *url = [NSURL fileURLWithPath:path];
@@ -1005,7 +1065,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
                                @"readme", // markdown
                                @"README", // markdown
                                @"Readme", // markdown
-                              ];
+                               ];
     
     // assume the latest result is the last index?
     for(CFIndex index = 0, limit = MDQueryGetResultCount(searchQuery); index < limit; index++)
@@ -1055,16 +1115,18 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 #pragma mark - Controlling Import -
 - (void)start
 {
+    IMPORTDLog();
     if([self status] == OEImporterStatusPaused || [self status] == OEImporterStatusStopped)
     {
         [self setStatus:OEImporterStatusRunning];
-        [self startQueueIfNeeded];
+        [self processNextItemIfNeeded];
         [self OE_performSelectorOnDelegate:@selector(romImporterDidStart:) withObject:self];
     }
 }
 
 - (void)pause
 {
+    IMPORTDLog();
     if([self status] == OEImporterStatusRunning)
     {
         [self setStatus:OEImporterStatusPausing];
@@ -1077,6 +1139,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)togglePause
 {
+    IMPORTDLog();
     if([self status] == OEImporterStatusPaused)
         [self start];
     else if([self status] == OEImporterStatusRunning)
@@ -1085,6 +1148,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)cancel
 {
+    IMPORTDLog();
     if([self status] == OEImporterStatusRunning)
     {
         [self setStatus:OEImporterStatusStopping];
@@ -1102,6 +1166,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)removeFinished
 {
+    IMPORTDLog();
     DLog(@"removeFinished");
     dispatch_async(dispatchQueue, ^{
         [[self queue] filterUsingPredicate:

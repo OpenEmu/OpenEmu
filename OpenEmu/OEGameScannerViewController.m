@@ -421,7 +421,7 @@
     [self OE_updateProgress];
 
     [[self issuesView] reloadData];
-    [[self importer] startQueueIfNeeded];
+    [[self importer] processNextItemIfNeeded];
     
     if([[self itemsRequiringAttention] count] == 0)
         [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self];
