@@ -40,7 +40,8 @@ private:
 protected:
   int _options;
   std::wstring _ident;
-  std::wstring _path;
+  std::wstring _datapath;
+  std::wstring _cachepath;
   dispInfoFuncExt _callback;
   TxUtil *_txUtil;
   struct TXCACHE {
@@ -58,7 +59,8 @@ protected:
   void clear();
 public:
   ~TxCache();
-  TxCache(int options, int cachesize, const wchar_t *path, const wchar_t *ident,
+  TxCache(int options, int cachesize, const wchar_t *datapath,
+              const wchar_t *cachepath, const wchar_t *ident,
               dispInfoFuncExt callback);
   boolean add(uint64 checksum, /* checksum hi:palette low:texture */
               GHQTexInfo *info, int dataSize = 0);

@@ -51,8 +51,8 @@ private:
 public:
   ~TxHiResCache();
   TxHiResCache(int maxwidth, int maxheight, int maxbpp, int options,
-               const wchar_t *path, const wchar_t *ident,
-               dispInfoFuncExt callback);
+               const wchar_t *datapath, const wchar_t *cachepath,
+               const wchar_t *ident, dispInfoFuncExt callback);
   boolean empty();
   boolean load(boolean replace);
 };

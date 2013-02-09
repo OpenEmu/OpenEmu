@@ -37,7 +37,7 @@
 //
 //****************************************************************
 
-#include "Gfx #1.3.h"
+#include "Gfx_1.3.h"
 #include "Util.h"
 #include "Debugger.h"
 

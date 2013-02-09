@@ -37,7 +37,7 @@
 //
 //****************************************************************
 
-#include "Gfx #1.3.h"
+#include "Gfx_1.3.h"
 #include "TexCache.h"
 #include "Combine.h"
 #include "Util.h"
@@ -148,13 +148,8 @@ void ClearCache ()
 }
 
 //****************************************************************
-extern "C" int asmTextureCRC(uint8_t *addr, int width, int height, int line);
-
 uint32_t textureCRC(uint8_t *addr, int width, int height, int line)
 {
-#ifdef OLDASM_asmTextureCRC
-  return asmTextureCRC(addr, width, height, line);
-#else
   uint32_t crc = 0;
   uint32_t *pixelpos;
   unsigned int i;
@@ -172,7 +167,6 @@ uint32_t textureCRC(uint8_t *addr, int width, int height, int line)
   }
 
   return crc;
-#endif
 }
 // GetTexInfo - gets information for either t0 or t1, checks if in cache & fills tex_found
 

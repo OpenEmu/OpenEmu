@@ -60,12 +60,12 @@ TxFilter::~TxFilter()
 }
 
 TxFilter::TxFilter(int maxwidth, int maxheight, int maxbpp, int options,
-                   int cachesize, wchar_t *path, wchar_t *ident,
-                   dispInfoFuncExt callback) :
+                   int cachesize, wchar_t *datapath, wchar_t *cachepath,
+                   wchar_t *ident, dispInfoFuncExt callback) :
   _numcore(1), _tex1(NULL), _tex2(NULL), _maxwidth(0), _maxheight(0),
-  _maxbpp(0), _options(0), _cacheSize(0), _ident(), _path(), _txQuantize(NULL),
-  _txTexCache(NULL), _txHiResCache(NULL), _txUtil(NULL), _txImage(NULL),
-  _initialized(false)
+  _maxbpp(0), _options(0), _cacheSize(0), _ident(), _datapath(), _cachepath(),
+  _txQuantize(NULL), _txTexCache(NULL), _txHiResCache(NULL), _txUtil(NULL),
+  _txImage(NULL), _initialized(false)
 {
   clear(); /* gcc does not allow the destructor to be called */
 
@@ -108,8 +108,10 @@ TxFilter::TxFilter(int maxwidth, int maxheight, int maxbpp, int options,
   /* TODO: validate options and do overrides here*/
 
   /* save path name */
-  if (path)
-    _path.assign(path);
+  if (datapath)
+    _datapath.assign(datapath);
+  if (cachepath)
+    _cachepath.assign(cachepath);
 
   /* save ROM name */
   if (ident && wcscmp(ident, L"DEFAULT") != 0)
@@ -145,11 +147,11 @@ TxFilter::TxFilter(int maxwidth, int maxheight, int maxbpp, int options,
 #endif
 
   /* initialize texture cache in bytes. 128Mb will do nicely in most cases */
-  _txTexCache = new TxTexCache(_options, _cacheSize, _path.c_str(), _ident.c_str(), callback);
+  _txTexCache = new TxTexCache(_options, _cacheSize, _datapath.c_str(), _cachepath.c_str(), _ident.c_str(), callback);
 
   /* hires texture */
 #if HIRES_TEXTURE
-  _txHiResCache = new TxHiResCache(_maxwidth, _maxheight, _maxbpp, _options, _path.c_str(), _ident.c_str(), callback);
+  _txHiResCache = new TxHiResCache(_maxwidth, _maxheight, _maxbpp, _options, _datapath.c_str(), _cachepath.c_str(), _ident.c_str(), callback);
 
   if (_txHiResCache->empty())
     _options &= ~HIRESTEXTURES_MASK;
@@ -623,13 +625,13 @@ TxFilter::dmptx(uint8 *src, int width, int height, int rowStridePixel, uint16 gf
 
   src = _tex1;
 
-  if (!_path.empty() && !_ident.empty()) {
+  if (!_datapath.empty() && !_ident.empty()) {
     /* dump it to disk */
     FILE *fp = NULL;
     std::wstring tmpbuf;
 
     /* create directories */
-    tmpbuf.assign(_path + L"/texture_dump");
+    tmpbuf.assign(_datapath + L"/texture_dump");
     if (!boost::filesystem::exists(tmpbuf) &&
         !boost::filesystem::create_directory(tmpbuf))
       return 0;

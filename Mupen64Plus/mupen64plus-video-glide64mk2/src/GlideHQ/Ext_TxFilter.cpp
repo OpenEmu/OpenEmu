@@ -29,7 +29,7 @@ extern "C"{
 
 boolean txfilter_init(int maxwidth, int maxheight, int maxbpp,
                       int options, int cachesize,
-                      wchar_t *path, wchar_t *ident,
+                      wchar_t *datapath, wchar_t *cachepath, wchar_t *ident,
                       dispInfoFuncExt callback);
 
 void txfilter_shutdown(void);
@@ -53,12 +53,12 @@ void ext_ghq_shutdown(void)
 }
 
 boolean ext_ghq_init(int maxwidth, int maxheight, int maxbpp, int options, int cachesize,
-                     wchar_t *path, wchar_t *ident,
+                     wchar_t *datapath, wchar_t *cachepath, wchar_t *ident,
                      dispInfoFuncExt callback)
 {
   boolean bRet = 0;
 
-  bRet = txfilter_init(maxwidth, maxheight, maxbpp, options, cachesize, path, ident, callback);
+  bRet = txfilter_init(maxwidth, maxheight, maxbpp, options, cachesize, datapath, cachepath, ident, callback);
 
   return bRet;
 }

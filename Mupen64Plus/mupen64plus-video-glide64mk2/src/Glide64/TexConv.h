@@ -37,12 +37,6 @@
 //
 //****************************************************************
 
-extern "C" void asmTexConv_ARGB1555_ARGB4444(uint8_t *src, uint8_t *dst, int size);
-extern "C" void asmTexConv_AI88_ARGB4444(uint8_t *src, uint8_t *dst, int size);
-extern "C" void asmTexConv_AI44_ARGB4444(uint8_t *src, uint8_t *dst, int size);
-extern "C" void asmTexConv_A8_ARGB4444(uint8_t *src, uint8_t *dst, int size);
-
-
 static inline void texConv_ARGB1555_ARGB4444(uint8_t *src, uint8_t *dst, int size)
 {
   uint32_t *v3;
@@ -144,11 +138,7 @@ void TexConv_ARGB1555_ARGB4444 (unsigned char * src, unsigned char * dst, int wi
   int size = (width * height) >> 1;	// Hiroshi Morii <koolsmoky@users.sourceforge.net>
   // 2 pixels are converted in one loop
   // NOTE: width * height must be a multiple of 2
-#ifdef OLDASM_asmTexConv_ARGB1555_ARGB4444
-  asmTexConv_ARGB1555_ARGB4444(src, dst, size);
-#else
   texConv_ARGB1555_ARGB4444(src, dst, size);
-#endif
 }
 
 void TexConv_AI88_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height)
@@ -156,11 +146,7 @@ void TexConv_AI88_ARGB4444 (unsigned char * src, unsigned char * dst, int width,
   int size = (width * height) >> 1;	// Hiroshi Morii <koolsmoky@users.sourceforge.net>
   // 2 pixels are converted in one loop
   // NOTE: width * height must be a multiple of 2
-#ifdef OLDASM_asmTexConv_AI88_ARGB4444
-  asmTexConv_AI88_ARGB4444(src, dst, size);
-#else
   texConv_AI88_ARGB4444(src, dst, size);
-#endif
 }
 
 void TexConv_AI44_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height)
@@ -168,11 +154,7 @@ void TexConv_AI44_ARGB4444 (unsigned char * src, unsigned char * dst, int width,
   int size = (width * height) >> 2;	// Hiroshi Morii <koolsmoky@users.sourceforge.net>
   // 4 pixels are converted in one loop
   // NOTE: width * height must be a multiple of 4
-#ifdef OLDASM_asmTexConv_AI44_ARGB4444
-  asmTexConv_AI44_ARGB4444(src, dst, size);
-#else
   texConv_AI44_ARGB4444(src, dst, size);
-#endif
 }
 
 void TexConv_A8_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height)
@@ -180,10 +162,6 @@ void TexConv_A8_ARGB4444 (unsigned char * src, unsigned char * dst, int width, i
   int size = (width * height) >> 2;	// Hiroshi Morii <koolsmoky@users.sourceforge.net>
   // 4 pixels are converted in one loop
   // NOTE: width * height must be a multiple of 4
-#ifdef OLDASM_asmTexConv_A8_ARGB4444
-  asmTexConv_A8_ARGB4444(src, dst, size);
-#else
   texConv_A8_ARGB4444(src, dst, size);
-#endif
 }
 

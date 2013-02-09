@@ -37,10 +37,6 @@
 //
 //****************************************************************
 
-extern "C" void asmMirror16bS(uint8_t *tex, uint8_t *start, int width, int height, int mask, int line, int full, int count);
-extern "C" void asmWrap16bS(uint8_t *tex, uint8_t *start, int height, int mask, int line, int full, int count);
-extern "C" void asmClamp16bS(uint8_t *tex, uint8_t *constant, int height, int line, int full, int count);
-
 static inline void mirror16bS(uint8_t *tex, uint8_t *start, int width, int height, int mask, int line, int full, int count)
 {
   uint16_t *v8;
@@ -147,11 +143,7 @@ void Mirror16bS (unsigned char * tex, wxUint32 mask, wxUint32 max_width, wxUint3
   int line = line_full - (count << 1);
   if (line < 0) return;
   unsigned char *start = tex + (mask_width << 1);
-#ifdef OLDASM_asmMirror16bS
-  asmMirror16bS (tex, start, mask_width, height, mask_mask, line, line_full, count);
-#else
   mirror16bS (tex, start, mask_width, height, mask_mask, line, line_full, count);
-#endif
 }
 
 //****************************************************************
@@ -170,11 +162,7 @@ void Wrap16bS (unsigned char * tex, wxUint32 mask, wxUint32 max_width, wxUint32 
   int line = line_full - (count << 2);
   if (line < 0) return;
   unsigned char * start = tex + (mask_width << 1);
-#ifdef OLDASM_asmWrap16bS
-  asmWrap16bS (tex, start, height, mask_mask, line, line_full, count);
-#else
   wrap16bS (tex, start, height, mask_mask, line, line_full, count);
-#endif
 }
 
 //****************************************************************
@@ -191,11 +179,7 @@ void Clamp16bS (unsigned char * tex, wxUint32 width, wxUint32 clamp_to, wxUint32
   int line_full = real_width << 1;
   int line = width << 1;
 
-#ifdef OLDASM_asmClamp16bS
-  asmClamp16bS (dest, constant, real_height, line, line_full, count);
-#else
   clamp16bS (dest, constant, real_height, line, line_full, count);
-#endif
 }
 
 //****************************************************************

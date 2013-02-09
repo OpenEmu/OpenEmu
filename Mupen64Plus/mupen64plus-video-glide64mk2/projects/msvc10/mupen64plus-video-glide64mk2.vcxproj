@@ -196,13 +196,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Glitch64\textures.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\Glide64\3dmathSIMD.asm" />
-    <None Include="..\..\src\Glide64\FixedPoint.asm" />
-    <None Include="..\..\src\Glide64\Texture.asm">
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>
