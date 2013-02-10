@@ -779,7 +779,15 @@ static const GLfloat cg_coords[] =
     glDisable(GL_TEXTURE_RECTANGLE_EXT);
     glEnable(GL_TEXTURE_2D);
 
-    glBindTexture(GL_TEXTURE_2D, _multipassTextures[numberOfPasses - 1]);
+    if(numberOfPasses == 0)
+    {
+        if([multipassShader NTSCFilter] != OENTSCFilterTypeNone && _gameScreenSize.width <= 512)
+            glBindTexture(GL_TEXTURE_2D, _ntscTexture);
+        else
+            glBindTexture(GL_TEXTURE_2D, _rttGameTextures[_frameCount % OEFramesSaved]);
+    }
+    else
+        glBindTexture(GL_TEXTURE_2D, _multipassTextures[numberOfPasses - 1]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
