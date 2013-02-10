@@ -682,38 +682,28 @@ static const GLfloat cg_coords[] =
     // multipassSize[0] contains the initial texture size
     _multipassSizes[0] = OESizeMake(width, height);
 
-    for(NSUInteger i = 1; i < (numberOfPasses + 1); ++i)
+    for(NSUInteger i = 0; i < numberOfPasses; ++i)
     {
-        OEScaleType scaleType = [shaders[i - 1] scaleType];
-        CGSize scaler         = [shaders[i - 1] scaler];
+        OEScaleType scaleType = [shaders[i] scaleType];
+        CGSize scaler         = [shaders[i] scaler];
 
         if(scaleType == OEScaleTypeViewPort)
         {
-            if(scaler.width != 0)
-                width = self.frame.size.width * scaler.width;
-            else
-                width = self.frame.size.width;
-            if(scaler.height != 0)
-                height = self.frame.size.height * scaler.height;
-            else
-                height = self.frame.size.height;
+            width = self.frame.size.width * scaler.width;
+            height = self.frame.size.height * scaler.height;
         }
         else if(scaleType == OEScaleTypeAbsolute)
         {
-            if(scaler.width != 0)
-                width = scaler.width;
-            if(scaler.height != 0)
-                height = scaler.height;
+            width = scaler.width;
+            height = scaler.height;
         }
         else
         {
-            if(scaler.width != 0)
-                width = width * scaler.width;
-            if(scaler.height != 0)
-                height = height * scaler.height;
+            width = width * scaler.width;
+            height = height * scaler.height;
         }
-
-        _multipassSizes[i] = OESizeMake(width, height);
+        
+        _multipassSizes[i + 1] = OESizeMake(width, height);
     }
 }
 
