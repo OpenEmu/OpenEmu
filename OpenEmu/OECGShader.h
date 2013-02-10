@@ -35,6 +35,9 @@ typedef enum
     OEScaleTypeAbsolute
 } OEScaleType;
 
+static const NSUInteger OEFramesSaved = 8;
+static const NSUInteger OEMultipasses = 10;
+
 @interface OECGShader : OEGameShader
 
 - (void)compileShaders;
@@ -44,19 +47,41 @@ typedef enum
 @property(readonly) CGprogram vertexProgram;
 @property(readonly) CGprogram fragmentProgram;
 
-@property(readonly) CGparameter modelViewProj;
-@property(readonly) CGparameter vertexVideoSize;
-@property(readonly) CGparameter vertexTextureSize;
-@property(readonly) CGparameter vertexOutputSize;
-@property(readonly) CGparameter vertexFrameCount;
-@property(readonly) CGparameter vertexFrameDirection;
-@property(readonly) CGparameter vertexFrameRotation;
-@property(readonly) CGparameter fragmentVideoSize;
-@property(readonly) CGparameter fragmentTextureSize;
-@property(readonly) CGparameter fragmentOutputSize;
-@property(readonly) CGparameter fragmentFrameCount;
-@property(readonly) CGparameter fragmentFrameDirection;
-@property(readonly) CGparameter fragmentFrameRotation;
+@property(readonly) CGparameter  modelViewProj;
+@property(readonly) CGparameter  vertexVideoSize;
+@property(readonly) CGparameter  vertexTextureSize;
+@property(readonly) CGparameter  vertexOutputSize;
+@property(readonly) CGparameter  vertexFrameCount;
+@property(readonly) CGparameter  vertexFrameDirection;
+@property(readonly) CGparameter  vertexFrameRotation;
+
+@property(readonly) CGparameter  fragmentVideoSize;
+@property(readonly) CGparameter  fragmentTextureSize;
+@property(readonly) CGparameter  fragmentOutputSize;
+@property(readonly) CGparameter  fragmentFrameCount;
+@property(readonly) CGparameter  fragmentFrameDirection;
+@property(readonly) CGparameter  fragmentFrameRotation;
+
+@property(readonly) CGparameter  vertexOriginalTextureCoords;
+@property(readonly) CGparameter  vertexOriginalTextureSize;
+@property(readonly) CGparameter  vertexOriginalTextureVideoSize;
+@property(readonly) CGparameter  fragmentOriginalTexture;
+@property(readonly) CGparameter  fragmentOriginalTextureSize;
+@property(readonly) CGparameter  fragmentOriginalTextureVideoSize;
+
+@property(readonly) CGparameter *vertexPassTextureCoords;
+@property(readonly) CGparameter *vertexPassTextureSizes;
+@property(readonly) CGparameter *vertexPassTextureVideoSizes;
+@property(readonly) CGparameter *fragmentPassTextures;
+@property(readonly) CGparameter *fragmentPassTextureSizes;
+@property(readonly) CGparameter *fragmentPassTextureVideoSizes;
+
+@property(readonly) CGparameter *vertexPreviousTextureCoords;
+@property(readonly) CGparameter *vertexPreviousTextureSizes;
+@property(readonly) CGparameter *vertexPreviousTextureVideoSizes;
+@property(readonly) CGparameter *fragmentPreviousTextures;
+@property(readonly) CGparameter *fragmentPreviousTextureSizes;
+@property(readonly) CGparameter *fragmentPreviousTextureVideoSizes;
 
 @property BOOL linearFiltering;
 @property OEScaleType scaleType;
@@ -64,6 +89,5 @@ typedef enum
 
 - (CGparameter)vertexParameterWithName:(const char *)theParameterName;
 - (CGparameter)fragmentParameterWithName:(const char *)theParameterName;
-
 
 @end

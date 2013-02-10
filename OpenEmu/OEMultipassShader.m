@@ -79,7 +79,7 @@
 
     _numberOfPasses = [[strippedInput substringWithRange:result.range] integerValue];
 
-    if(_numberOfPasses > 10)
+    if(_numberOfPasses > OEMultipasses)
     {
         NSLog(@"Too many shader passes in %@: %@", [self shaderName], error);
         return NO;

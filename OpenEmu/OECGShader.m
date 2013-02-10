@@ -61,14 +61,42 @@
         cgGLLoadProgram(_vertexProgram);
 
         // grab vertex parameters
-        _modelViewProj        = [self vertexParameterWithName:"modelViewProj"];
-        _vertexVideoSize      = [self vertexParameterWithName:"IN.video_size"];
-        _vertexTextureSize    = [self vertexParameterWithName:"IN.texture_size"];
-        _vertexOutputSize     = [self vertexParameterWithName:"IN.output_size"];
-        _vertexFrameCount     = [self vertexParameterWithName:"IN.frame_count"];
-        _vertexFrameDirection = [self vertexParameterWithName:"IN.frame_direction"];
-        _vertexFrameRotation  = [self vertexParameterWithName:"IN.frame_rotation"];
+        _modelViewProj                          = [self vertexParameterWithName:"modelViewProj"];
+        _vertexVideoSize                        = [self vertexParameterWithName:"IN.video_size"];
+        _vertexTextureSize                      = [self vertexParameterWithName:"IN.texture_size"];
+        _vertexOutputSize                       = [self vertexParameterWithName:"IN.output_size"];
+        _vertexFrameCount                       = [self vertexParameterWithName:"IN.frame_count"];
+        _vertexFrameDirection                   = [self vertexParameterWithName:"IN.frame_direction"];
+        _vertexFrameRotation                    = [self vertexParameterWithName:"IN.frame_rotation"];
+        
+        _vertexOriginalTextureCoords            = [self vertexParameterWithName:"ORIG.tex_coord"];
+        _vertexOriginalTextureSize              = [self vertexParameterWithName:"ORIG.texture_size"];
+        _vertexOriginalTextureVideoSize         = [self vertexParameterWithName:"ORIG.video_size"];
+        
+        _vertexPassTextureCoords                = (CGparameter *) malloc(sizeof(CGparameter) * (OEMultipasses - 1));
+        _vertexPassTextureSizes                 = (CGparameter *) malloc(sizeof(CGparameter) * (OEMultipasses - 1));
+        _vertexPassTextureVideoSizes            = (CGparameter *) malloc(sizeof(CGparameter) * (OEMultipasses - 1));
 
+        for(NSUInteger i = 0; i < (OEMultipasses - 1); ++i)
+        {
+            _vertexPassTextureCoords[i]         = [self vertexParameterWithName:[[NSString stringWithFormat:@"PASS%lu.tex_coord", i+1] UTF8String]];
+            _vertexPassTextureSizes[i]          = [self vertexParameterWithName:[[NSString stringWithFormat:@"PASS%lu.texture_size", i+1] UTF8String]];
+            _vertexPassTextureVideoSizes[i]     = [self vertexParameterWithName:[[NSString stringWithFormat:@"PASS%lu.video_size", i+1] UTF8String]];
+        }
+        
+        _vertexPreviousTextureCoords            = (CGparameter *) malloc(sizeof(CGparameter) * (OEFramesSaved - 1));
+        _vertexPreviousTextureSizes             = (CGparameter *) malloc(sizeof(CGparameter) * (OEFramesSaved - 1));
+        _vertexPreviousTextureVideoSizes        = (CGparameter *) malloc(sizeof(CGparameter) * (OEFramesSaved - 1));
+        
+        _vertexPreviousTextureCoords[0]         = [self vertexParameterWithName:"PREV.tex_coord"];
+        _vertexPreviousTextureSizes[0]          = [self vertexParameterWithName:"PREV.texture_size"];
+        _vertexPreviousTextureVideoSizes[0]     = [self vertexParameterWithName:"PREV.video_size"];
+        for(NSUInteger i = 1; i < (OEFramesSaved - 1); ++i)
+        {
+            _vertexPreviousTextureCoords[i]     = [self vertexParameterWithName:[[NSString stringWithFormat:@"PREV%lu.tex_coord", i] UTF8String]];
+            _vertexPreviousTextureSizes[i]      = [self vertexParameterWithName:[[NSString stringWithFormat:@"PREV%lu.texture_size", i] UTF8String]];
+            _vertexPreviousTextureVideoSizes[i] = [self vertexParameterWithName:[[NSString stringWithFormat:@"PREV%lu.video_size", i] UTF8String]];
+        }
 
         // load fragment shader
         // set fragment profile
@@ -87,12 +115,40 @@
         cgGLLoadProgram(_fragmentProgram);
 
         // grab fragment parameters
-        _fragmentVideoSize      = [self fragmentParameterWithName:"IN.video_size"];
-        _fragmentTextureSize    = [self fragmentParameterWithName:"IN.texture_size"];
-        _fragmentOutputSize     = [self fragmentParameterWithName:"IN.output_size"];
-        _fragmentFrameCount     = [self fragmentParameterWithName:"IN.frame_count"];
-        _fragmentFrameDirection = [self fragmentParameterWithName:"IN.frame_direction"];
-        _fragmentFrameRotation  = [self fragmentParameterWithName:"IN.frame_rotation"];
+        _fragmentVideoSize                          = [self fragmentParameterWithName:"IN.video_size"];
+        _fragmentTextureSize                        = [self fragmentParameterWithName:"IN.texture_size"];
+        _fragmentOutputSize                         = [self fragmentParameterWithName:"IN.output_size"];
+        _fragmentFrameCount                         = [self fragmentParameterWithName:"IN.frame_count"];
+        _fragmentFrameDirection                     = [self fragmentParameterWithName:"IN.frame_direction"];
+        _fragmentFrameRotation                      = [self fragmentParameterWithName:"IN.frame_rotation"];
+        
+        _fragmentOriginalTexture                    = [self fragmentParameterWithName:"ORIG.tex_coord"];
+        _fragmentOriginalTextureSize                = [self fragmentParameterWithName:"ORIG.texture_size"];
+        _fragmentOriginalTextureVideoSize           = [self fragmentParameterWithName:"ORIG.video_size"];
+        
+        _fragmentPassTextures                       = (CGparameter *) malloc(sizeof(CGparameter) * (OEMultipasses - 1));
+        _fragmentPassTextureSizes                   = (CGparameter *) malloc(sizeof(CGparameter) * (OEMultipasses - 1));
+        _fragmentPassTextureVideoSizes              = (CGparameter *) malloc(sizeof(CGparameter) * (OEMultipasses - 1));
+        for(NSUInteger i = 0; i < (OEMultipasses - 1); ++i)
+        {
+            _fragmentPassTextures[i]                = [self fragmentParameterWithName:[[NSString stringWithFormat:@"PASS%lu.texture", i+1] UTF8String]];
+            _fragmentPassTextureSizes[i]            = [self fragmentParameterWithName:[[NSString stringWithFormat:@"PASS%lu.texture_size", i+1] UTF8String]];
+            _fragmentPassTextureVideoSizes[i]       = [self fragmentParameterWithName:[[NSString stringWithFormat:@"PASS%lu.video_size", i+1] UTF8String]];
+        }
+        
+        _fragmentPreviousTextures                   = (CGparameter *) malloc(sizeof(CGparameter) * (OEFramesSaved - 1));
+        _fragmentPreviousTextureSizes               = (CGparameter *) malloc(sizeof(CGparameter) * (OEFramesSaved - 1));
+        _fragmentPreviousTextureVideoSizes          = (CGparameter *) malloc(sizeof(CGparameter) * (OEFramesSaved - 1));
+        
+        _fragmentPreviousTextures[0]                = [self fragmentParameterWithName:"PREV.texture"];
+        _fragmentPreviousTextureSizes[0]            = [self fragmentParameterWithName:"PREV.texture_size"];
+        _fragmentPreviousTextureVideoSizes[0]       = [self fragmentParameterWithName:"PREV.video_size"];
+        for(NSUInteger i = 1; i < (OEFramesSaved - 1); ++i)
+        {
+            _fragmentPreviousTextures[i]            = [self fragmentParameterWithName:[[NSString stringWithFormat:@"PREV%lu.texture", i] UTF8String]];
+            _fragmentPreviousTextureSizes[i]        = [self fragmentParameterWithName:[[NSString stringWithFormat:@"PREV%lu.texture_size", i] UTF8String]];
+            _fragmentPreviousTextureVideoSizes[i]   = [self fragmentParameterWithName:[[NSString stringWithFormat:@"PREV%lu.video_size", i] UTF8String]];
+        }
 
         [self setCompiled:YES];
     }
