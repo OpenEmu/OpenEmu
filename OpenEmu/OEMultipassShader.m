@@ -101,6 +101,11 @@
 
         // Create shader
         OECGShader *shader = [[OECGShaderPlugin pluginWithName:name] shaderWithContext:[self shaderContext]];
+        if(!shader)
+        {
+            NSLog(@"Couldn't find shader named %@", name);
+            return NO;
+        }
 
         // Check if linear filtering is to be used
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=filter_linear%ld=).*", i] inString:strippedInput withError:error];
