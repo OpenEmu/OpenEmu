@@ -1149,19 +1149,13 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 - (void)cancel
 {
     IMPORTDLog();
-    if([self status] == OEImporterStatusRunning)
-    {
-        [self setStatus:OEImporterStatusStopping];
-        dispatch_async(dispatchQueue, ^{
-            [self setStatus:OEImporterStatusStopped];
-            
-            [self setQueue:[NSMutableArray array]];
-            [self setNumberOfProcessedItems:0];
-            [self setTotalNumberOfItems:0];
-            
-            [self OE_performSelectorOnDelegate:@selector(romImporterDidCancel:) withObject:self];
-        });
-    }
+    [self setStatus:OEImporterStatusStopped];
+    
+    [self setQueue:[NSMutableArray array]];
+    [self setNumberOfProcessedItems:0];
+    [self setTotalNumberOfItems:0];
+    
+    [self OE_performSelectorOnDelegate:@selector(romImporterDidCancel:) withObject:self];
 }
 
 - (void)removeFinished
