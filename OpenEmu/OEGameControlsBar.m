@@ -121,6 +121,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         NSMutableSet   *filterSet     = [NSMutableSet set];
         [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
         [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+        [filterSet filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT SELF beginswith '_'"]];
         filterPlugins = [[filterSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }
     return self;
