@@ -38,8 +38,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 @interface OEGameScannerViewController : NSViewController <OEROMImporterDelegate, OELibrarySubviewController, OESidebarItem, NSTableViewDataSource, NSTableViewDelegate>
 
 #pragma mark - GameScanner UI
-- (IBAction)togglePause:(id)sender;
-- (IBAction)cancel:(id)sender;
+- (IBAction)buttonAction:(id)sender;
 - (IBAction)resolveIssues:(id)sender;
 
 @property (nonatomic) IBOutlet OELibraryController *libraryController;

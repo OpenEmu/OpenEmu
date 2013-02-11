@@ -272,6 +272,7 @@
 #pragma mark - OEROMImporter Delegate
 - (void)romImporterDidStart:(OEROMImporter *)importer
 {
+    DLog();
     int64_t delayInSeconds = 1.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -285,19 +286,23 @@
 
 - (void)romImporterDidCancel:(OEROMImporter *)importer
 {
+    DLog();
     [self OE_updateProgress];
 }
 
 - (void)romImporterDidPause:(OEROMImporter *)importer
 {
+    DLog();
     [self OE_updateProgress];
 }
 
 - (void)romImporterDidFinish:(OEROMImporter *)importer
 {
+    DLog();
     int64_t delayInSeconds = 0.5;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        DLog(@"romImporterDidFinish block");
         if([[self importer] totalNumberOfItems] == [[self importer] numberOfProcessedItems])
             [self OE_hideGameScannerView];
     });
@@ -305,15 +310,18 @@
 
 - (void)romImporterChangedItemCount:(OEROMImporter*)importer
 {
+    DLog();
     [self OE_updateProgress];
 }
 
 - (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem*)item
 {
+    DLog();
 }
 
 - (void)romImporter:(OEROMImporter*)importer stoppedProcessingItem:(OEImportItem*)item
 {
+    DLog();
     if([[item error] domain] == OEImportErrorDomainResolvable && [[item error] code] == OEImportErrorCodeMultipleSystems)
     {
         [[self itemsRequiringAttention] addObject:item];
@@ -428,9 +436,25 @@
 }
 
 #pragma mark - UI Actions Scanner
-- (IBAction)togglePause:(id)sender
+- (IBAction)buttonAction:(id)sender
 {
-    [[self importer] togglePause];
+    if([NSEvent modifierFlags] & NSAlternateKeyMask)
+    {
+        //TODO: Show a proper (dark, rephrased) dialog here
+        NSAlert *cancelAlert = [NSAlert alertWithMessageText:@"Do you really want to cancel the import process?" defaultButton:@"Yes" alternateButton:@"No" otherButton:@"" informativeTextWithFormat:@"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library."];
+        [sender setState:[sender state]==NSOnState?NSOffState:NSOnState];
+        if([cancelAlert runModal] == NSAlertDefaultReturn)
+        {
+            [[self importer] cancel];
+            [self OE_hideGameScannerView];
+        
+            [sender setState:NSOffState];
+        }
+    }
+    else
+    {
+        [[self importer] togglePause];
+    }    
     [self OE_updateProgress];
 }
 

@@ -165,12 +165,11 @@
         {
             __block id blockself = self;
             _modifierEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFromType(NSFlagsChanged) handler:^NSEvent*(NSEvent* e) {
-                DLog();
-                [blockself setNeedsDisplay];
+                [blockself setNeedsDisplayInRect:[self bounds]];
                 return e;
             }];
         }
-        [self setNeedsDisplay];
+        [self setNeedsDisplayInRect:[self bounds]];
     }
 }
 
