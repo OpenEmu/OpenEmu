@@ -894,7 +894,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     
     NSString *md5 = [[item importInfo] valueForKey:OEImportInfoMD5];
     NSString *crc = [[item importInfo] valueForKey:OEImportInfoCRC];
-    if([[self unsavedCRCHashes] containsObject:md5])
+    if([[self unsavedMD5Hashes] containsObject:md5])
         [[self unsavedMD5Hashes] removeObject:md5];
     if([[self unsavedCRCHashes] containsObject:crc])
         [[self unsavedCRCHashes] removeObject:crc];
