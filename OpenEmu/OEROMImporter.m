@@ -248,42 +248,44 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
 #pragma mark - Import Block
 static void importBlock(OEROMImporter *importer, OEImportItem *item)
 {
-    IMPORTDLog(@"Status: %ld | Step: %d | URL: %@", [importer status], [item importStep], [item sourceURL]);
-    if([importer status] == OEImporterStatusPausing || [importer status] == OEImporterStatusPaused)
-    {
-        DLog(@"skipping item!");
-        importer.activeImports--;
-        if([item importState] == OEImportItemStatusActive)
-            [item setImportState:OEImportItemStatusIdle];
-    }
-    else if([importer status] == OEImporterStatusStopping || [importer status] == OEImporterStatusStopped)
-    {
-        importer.activeImports--;
-        [item setError:nil];
-        [item setImportState:OEImportItemStatusCancelled];
-        [importer cleanupImportForItem:item];
-        DLog(@"deleting item!");
-    }
-    else
-    {
-        [importer OE_performSelectorOnDelegate:@selector(romImporter:changedProcessingPhaseOfItem:) withObject:item];
-        switch([item importStep])
+    @autoreleasepool {
+        IMPORTDLog(@"Status: %ld | Step: %d | URL: %@", [importer status], [item importStep], [item sourceURL]);
+        if([importer status] == OEImporterStatusPausing || [importer status] == OEImporterStatusPaused)
         {
-            case OEImportStepCheckDirectory  : [importer performImportStepCheckDirectory:item];  break;
-            case OEImportStepCheckArchiveFile : [importer performImportStepCheckArchiveFile:item]; break;
-            case OEImportStepHash            : [importer performImportStepHash:item];            break;
-            case OEImportStepCheckHash       : [importer performImportStepCheckHash:item];       break;
-            case OEImportStepDetermineSystem : [importer performImportStepDetermineSystem:item]; break;
-            case OEImportStepSyncArchive     : [importer performImportStepSyncArchive:item];     break;
-            case OEImportStepOrganize        : [importer performImportStepOrganize:item];        break;
-            case OEImportStepOrganizeAdditionalFiles : [importer performImportStepOrganizeAdditionalFiles:item]; break;
-            case OEImportStepCreateRom       : [importer performImportStepCreateRom:item];       break;
-            case OEImportStepCreateGame      : [importer performImportStepCreateGame:item];      break;
-            default : return;
+            DLog(@"skipping item!");
+            importer.activeImports--;
+            if([item importState] == OEImportItemStatusActive)
+                [item setImportState:OEImportItemStatusIdle];
         }
-        
-        if([item importState] == OEImportItemStatusActive)
-            [importer scheduleItemForNextStep:item];
+        else if([importer status] == OEImporterStatusStopping || [importer status] == OEImporterStatusStopped)
+        {
+            importer.activeImports--;
+            [item setError:nil];
+            [item setImportState:OEImportItemStatusCancelled];
+            [importer cleanupImportForItem:item];
+            DLog(@"deleting item!");
+        }
+        else
+        {
+            [importer OE_performSelectorOnDelegate:@selector(romImporter:changedProcessingPhaseOfItem:) withObject:item];
+            switch([item importStep])
+            {
+                case OEImportStepCheckDirectory  : [importer performImportStepCheckDirectory:item];  break;
+                case OEImportStepCheckArchiveFile : [importer performImportStepCheckArchiveFile:item]; break;
+                case OEImportStepHash            : [importer performImportStepHash:item];            break;
+                case OEImportStepCheckHash       : [importer performImportStepCheckHash:item];       break;
+                case OEImportStepDetermineSystem : [importer performImportStepDetermineSystem:item]; break;
+                case OEImportStepSyncArchive     : [importer performImportStepSyncArchive:item];     break;
+                case OEImportStepOrganize        : [importer performImportStepOrganize:item];        break;
+                case OEImportStepOrganizeAdditionalFiles : [importer performImportStepOrganizeAdditionalFiles:item]; break;
+                case OEImportStepCreateRom       : [importer performImportStepCreateRom:item];       break;
+                case OEImportStepCreateGame      : [importer performImportStepCreateGame:item];      break;
+                default : return;
+            }
+            
+            if([item importState] == OEImportItemStatusActive)
+                [importer scheduleItemForNextStep:item];
+        }
     }
 }
 
