@@ -380,7 +380,10 @@ typedef enum
 
     _resumePlayingAfterFullScreenTransition = [gameViewController isEmulationRunning];
     [gameViewController pauseGame:self];
+
+    [NSCursor hide];
     [[gameViewController controlsWindow] setCanShow:NO];
+    [[gameViewController controlsWindow] hide];
 }
 
 - (NSArray *)customWindowsToEnterFullScreenForWindow:(NSWindow *)window
@@ -435,7 +438,9 @@ typedef enum
     if(_resumePlayingAfterFullScreenTransition)
         [gameViewController playGame:self];
 
+    [[gameViewController controlsWindow] hide];
     [[gameViewController controlsWindow] setCanShow:YES];
+    [NSCursor unhide];
 }
 
 - (void)windowWillExitFullScreen:(NSNotification *)notification
@@ -446,7 +451,10 @@ typedef enum
     _resumePlayingAfterFullScreenTransition  = [gameViewController isEmulationRunning];
     
     [gameViewController pauseGame:self];
+    
+    [NSCursor hide];
     [[gameViewController controlsWindow] setCanShow:NO];
+    [[gameViewController controlsWindow] hide];
 }
 
 - (NSArray *)customWindowsToExitFullScreenForWindow:(NSWindow *)window
@@ -509,8 +517,10 @@ typedef enum
 
     if(_resumePlayingAfterFullScreenTransition)
         [gameViewController playGame:self];
-    
+
+    [[gameViewController controlsWindow] hide];
     [[gameViewController controlsWindow] setCanShow:YES];
+    [NSCursor unhide];
 }
 
 - (void)windowDidFailToEnterFullScreen:(NSWindow *)window
@@ -523,6 +533,7 @@ typedef enum
         [gameViewController playGame:self];
 
     [[gameViewController controlsWindow] setCanShow:YES];
+    [NSCursor unhide];
 }
 
 - (void)windowDidFailToExitFullScreen:(NSWindow *)window
@@ -535,6 +546,7 @@ typedef enum
         [gameViewController playGame:self];
 
     [[gameViewController controlsWindow] setCanShow:YES];
+    [NSCursor unhide];
 }
 
 - (void)windowWillStartLiveResize:(NSNotification *)notification
