@@ -408,14 +408,12 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (void)parentWindowDidEnterFullScreen:(NSNotification *)notification;
 {
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
-
     [[view fullScreenButton] setState:NSOnState];
 }
 
 - (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
 {
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
-
     [[view fullScreenButton] setState:NSOffState];
 }
 
@@ -435,14 +433,10 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     {
         [nc addObserver:self selector:@selector(parentWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:window];
         [nc addObserver:self selector:@selector(parentWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:window];
-    
-        if(([window styleMask] & NSFullScreenWindowMask) == NSFullScreenWindowMask)
-        {
-            OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
-
-            [[view fullScreenButton] setImage:[NSImage imageNamed:@"hud_exit_fullscreen_glyph_normal"]];
-            [[view fullScreenButton] setAlternateImage:[NSImage imageNamed:@"hud_exit_fullscreen_glyph_pressed"]];
-        }
+        
+        OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
+        BOOL windowInFullscreen = ([window styleMask]&NSFullScreenWindowMask) != 0;
+        [[view fullScreenButton] setState:windowInFullscreen ? NSOnState : NSOffState];
     }
 }
 
