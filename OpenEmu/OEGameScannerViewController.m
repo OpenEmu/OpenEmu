@@ -39,6 +39,7 @@
 
 @interface OEGameScannerViewController ()
 @property NSMutableArray *itemsRequiringAttention;
+@property BOOL isScanningDirectory;
 @end
 @implementation OEGameScannerViewController
 - (NSString*)nibName
@@ -108,6 +109,9 @@
         [[self progressIndicator] setIndeterminate:NO];
         [[self progressIndicator] startAnimation:self];
         status = [NSString stringWithFormat:@"Game %ld of %ld", [[self importer] numberOfProcessedItems], maxItems];
+        
+        if([self isScanningDirectory])
+            status = NSLocalizedString(@"Scanning Directory", "");
     }
     else if([importer status] == OEImporterStatusStopped || [importer status] == OEImporterStatusStopping)
     {
@@ -272,6 +276,8 @@
 #pragma mark - OEROMImporter Delegate
 - (void)romImporterDidStart:(OEROMImporter *)importer
 {
+    self.isScanningDirectory = NO;
+    
     int64_t delayInSeconds = 1.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -310,6 +316,8 @@
 
 - (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem*)item
 {
+    
+    [self setIsScanningDirectory:[item importStep] == OEImportStepCheckDirectory];
 }
 
 - (void)romImporter:(OEROMImporter*)importer stoppedProcessingItem:(OEImportItem*)item
