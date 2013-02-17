@@ -1,23 +1,41 @@
 /***************************************************************************************
  *  Genesis Plus
- *  I/O controller (MD & MS compatibility modes)
+ *  I/O controller (Genesis & Master System modes)
+ *
+ *  Support for Master System (315-5216, 315-5237 & 315-5297), Game Gear & Mega Drive I/O chips
  *
  *  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003  Charles Mac Donald (original code)
- *  Eke-Eke (2007-2011), additional code & fixes for the GCN/Wii port
+ *  Copyright (C) 2007-2012  Eke-Eke (Genesis Plus GX)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
+ *
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
  *
  ****************************************************************************************/
 
@@ -51,7 +69,7 @@ static unsigned char dummy_read(void)
 }
 
 /*****************************************************************************
- * I/O chip functions                                                        *
+ * I/O chip initialization                                                   *
  *                                                                           *
  *****************************************************************************/
 void io_init(void)
@@ -236,15 +254,9 @@ void io_init(void)
 void io_reset(void)
 {
   /* Reset I/O registers */
-  if (system_hw == SYSTEM_PBC)
+  if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
   {
-    /* SMS compatibility mode control register */
-    io_reg[0x00] = 0xFF;
-  }
-  else
-  {
-    /* Genesis mode registers */
-    io_reg[0x00] = region_code | 0x20 | (config.tmss & 1);
+    io_reg[0x00] = region_code | (config.bios & 1);
     io_reg[0x01] = 0x00;
     io_reg[0x02] = 0x00;
     io_reg[0x03] = 0x00;
@@ -260,11 +272,47 @@ void io_reset(void)
     io_reg[0x0D] = 0xFB;
     io_reg[0x0E] = 0x00;
     io_reg[0x0F] = 0x00;
+
+    /* CD unit detection */
+    if (system_hw != SYSTEM_MCD)
+    {
+      io_reg[0x00] |= 0x20;
+    }
+  }
+  else
+  {
+    /* Game Gear specific registers */
+    io_reg[0x00] = 0x80 | (region_code >> 1);
+    io_reg[0x01] = 0x00;
+    io_reg[0x02] = 0xFF;
+    io_reg[0x03] = 0x00;
+    io_reg[0x04] = 0xFF;
+    io_reg[0x05] = 0x00;
+    io_reg[0x06] = 0xFF;
+
+    /* initial !RESET input */
+    io_reg[0x0D] = IO_RESET_HI;
+
+    /* default !CONT input */
+    if (system_hw != SYSTEM_PBC)
+    {
+      io_reg[0x0D] |= IO_CONT1_HI;
+    }
+
+    /* Control registers */
+    io_reg[0x0E] = 0x00;
+    io_reg[0x0F] = 0xFF;
   }
 
   /* Reset connected peripherals */
   input_reset();
 }
+
+
+/*****************************************************************************
+ * I/O ports access from 68k (Genesis mode)                                  *
+ *                                                                           *
+ *****************************************************************************/
 
 void io_68k_write(unsigned int offset, unsigned int data)
 {
@@ -334,45 +382,65 @@ unsigned int io_68k_read(unsigned int offset)
   }
 }
 
-void io_z80_write(unsigned int data)
+
+/*****************************************************************************
+ *  I/O ports access from Z80                                                *
+ *                                                                           *
+ *****************************************************************************/
+
+void io_z80_write(unsigned int offset, unsigned int data, unsigned int cycles)
 {
-/* pins can't be configured as output on japanese models */
-  if (region_code & REGION_USA)
+  if (offset)
   {
-    /* 
-      Bit  Function
-      --------------
-      D7 : Port B TH pin output level (1=high, 0=low)
-      D6 : Port B TR pin output level (1=high, 0=low)
-      D5 : Port A TH pin output level (1=high, 0=low)
-      D4 : Port A TR pin output level (1=high, 0=low)
-      D3 : Port B TH pin direction (1=input, 0=output)
-      D2 : Port B TR pin direction (1=input, 0=output)
-      D1 : Port A TH pin direction (1=input, 0=output)
-      D0 : Port A TR pin direction (1=input, 0=output)
-    */
-
-    /* Send TR/TH state to connected peripherals */
-    port[0].data_w((data << 1) & 0x60, (~io_reg[0] << 5) & 0x60);
-    port[1].data_w((data >> 1) & 0x60, (~io_reg[0] << 3) & 0x60);
-
-
-    /* Check for TH low-to-high transitions on both ports */
-    if ((!(io_reg[0] & 0x80) && (data & 0x80)) ||
-        (!(io_reg[0] & 0x20) && (data & 0x20)))
+    /* I/O Control register */
+    if (region_code & REGION_USA)
     {
-      /* Latch new HVC */
-      hvc_latch = hctab[(mcycles_z80 + Z80_CYCLE_OFFSET) % MCYCLES_PER_LINE] | 0x10000;
+      /* 
+        Bit  Function
+        --------------
+        D7 : Port B TH pin output level (1=high, 0=low)
+        D6 : Port B TR pin output level (1=high, 0=low)
+        D5 : Port A TH pin output level (1=high, 0=low)
+        D4 : Port A TR pin output level (1=high, 0=low)
+        D3 : Port B TH pin direction (1=input, 0=output)
+        D2 : Port B TR pin direction (1=input, 0=output)
+        D1 : Port A TH pin direction (1=input, 0=output)
+        D0 : Port A TR pin direction (1=input, 0=output)
+      */
+
+      /* Send TR/TH state to connected peripherals */
+      port[0].data_w((data << 1) & 0x60, (~io_reg[0x0F] << 5) & 0x60);
+      port[1].data_w((data >> 1) & 0x60, (~io_reg[0x0F] << 3) & 0x60);
+
+
+      /* Check for TH low-to-high transitions on both ports */
+      if ((!(io_reg[0x0F] & 0x80) && (data & 0x80)) ||
+          (!(io_reg[0x0F] & 0x20) && (data & 0x20)))
+      {
+        /* Latch new HVC */
+        hvc_latch = hctab[cycles % MCYCLES_PER_LINE] | 0x10000;
+     }
+
+      /* Update I/O Control register */
+      io_reg[0x0F] = data;
+    }
+    else
+    {
+      /* TH output is fixed to 0 & TR is always an input on japanese hardware */
+      io_reg[0x0F] = (data | 0x05) & 0x5F;
+
+      /* Port $DD bits D4-D5 return D0-D2 (cf. http://www2.odn.ne.jp/~haf09260/Sms/EnrSms.htm) */
+      io_reg[0x0D] = ((data & 0x01) << 4) | ((data & 0x04) << 3);
     }
   }
   else
   {
-    /* outputs return fixed value */
-    data &= 0x0F;
-  }
+    /* Update Memory Control register */
+    io_reg[0x0E] = data;
 
-  /* Update control register */
-  io_reg[0] = data;
+    /* Switch cartridge & BIOS ROM */
+    sms_cart_switch(~data);
+  }
 }
 
 unsigned int io_z80_read(unsigned int offset)
@@ -380,8 +448,8 @@ unsigned int io_z80_read(unsigned int offset)
   /* Read port A & port B input data */
   unsigned int data = (port[0].data_r()) | (port[1].data_r() << 8);
 
-  /* Read control register value */
-  unsigned int ctrl = io_reg[0];
+  /* I/O control register value */
+  unsigned int ctrl = io_reg[0x0F];
 
   /* I/O ports */
   if (offset)
@@ -391,14 +459,17 @@ unsigned int io_z80_read(unsigned int offset)
      --------------
      D7 : Port B TH pin input
      D6 : Port A TH pin input
-     D5 : Unused (0 on Mega Drive, 1 otherwise)
-     D4 : RESET button (always 1 on Mega Drive)
+     D5 : CONT input (0 on Mega Drive hardware, 1 otherwise)
+     D4 : RESET button (1: default, 0: pressed, only on Master System hardware)
      D3 : Port B TR pin input
      D2 : Port B TL pin input
      D1 : Port B Right pin input
      D0 : Port B Left pin input
     */
-    data = ((data >> 10) & 0x0F) | (data & 0x40) | ((data >> 7) & 0x80) | 0x10;
+    data = ((data >> 10) & 0x0F) | (data & 0x40) | ((data >> 7) & 0x80) | io_reg[0x0D];
+
+    /* clear !RESET input */
+    io_reg[0x0D] |= IO_RESET_HI;
 
     /* Adjust port B TH state if configured as output */
     if (!(ctrl & 0x08))
@@ -446,5 +517,68 @@ unsigned int io_z80_read(unsigned int offset)
   }
 
   return data;
+}
+
+
+/*****************************************************************************
+ * Game Gear communication ports access                                       *
+ *                                                                           *
+ *****************************************************************************/
+
+void io_gg_write(unsigned int offset, unsigned int data)
+{
+  switch (offset)
+  {
+    case 1: /* Parallel data register */
+      io_reg[1] = data;
+      return;
+
+    case 2: /* Data direction register and NMI enable */
+      io_reg[2] = data;
+      return;
+
+    case 3: /* Transmit data buffer */
+      io_reg[3] = data;
+      return;
+
+    case 5: /* Serial control (bits 0-2 are read-only) */
+      io_reg[5] = data & 0xF8;
+      return;
+
+    case 6: /* PSG Stereo output control */
+      io_reg[6] = data;
+      SN76489_Config(Z80.cycles, config.psg_preamp, config.psgBoostNoise, data);
+      return;
+
+    default: /* Read-only */
+      return;
+  }
+}
+
+unsigned int io_gg_read(unsigned int offset)
+{
+  switch (offset)
+  {
+    case 0: /* Mode Register */
+      return (io_reg[0] & ~(input.pad[0] & INPUT_START));
+
+    case 1: /* Parallel data register (not connected) */
+      return ((io_reg[1] & ~(io_reg[2] & 0x7F)) | (io_reg[2] & 0x7F));
+
+    case 2: /* Data direction register and NMI enable */
+      return io_reg[2];
+
+    case 3: /* Transmit data buffer */
+      return io_reg[3];
+
+    case 4: /* Receive data buffer */
+      return io_reg[4];
+
+    case 5: /* Serial control */
+      return io_reg[5];
+
+    default: /* Write-Only */
+      return 0xFF;
+  }
 }
 

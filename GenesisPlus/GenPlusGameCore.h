@@ -32,11 +32,4 @@
 
 OE_EXPORTED_CLASS
 @interface GenPlusGameCore : OEGameCore
-
-@property(copy) NSString *romPath;
-
-- (BOOL)shouldPauseForButton:(NSInteger)button;
-- (void)saveSram;
-- (void)loadSram;
-
 @end

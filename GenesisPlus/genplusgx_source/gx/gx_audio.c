@@ -3,45 +3,63 @@
  *
  *  Genesis Plus GX audio support
  *
- *  Softdev (2006)
- *  Eke-Eke (2007,2008,2009)
+ *  Copyright Eke-Eke (2007-2012), based on original work from Softdev (2006)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
  *
- ***************************************************************************/
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *
+ ****************************************************************************************/
 
 #include "shared.h"
 
-/* DMA soundbuffers (required to be 32-bytes aligned)
-   Length is dimensionned for one frame of emulation (800/808 samples @60hz, 960 samples@50Hz)
-   To prevent audio clashes, we use double buffering technique:
-    one buffer is the active DMA buffer
-    the other one is the current work buffer (updated during frame emulation)
-   We do not need more since frame emulation and DMA operation are synchronized
-*/
-u8 soundbuffer[2][3840] ATTRIBUTE_ALIGN(32);
+/* Length is dimensionned for at least one frame of emulation */
+#define SOUND_BUFFER_LEN 4096
 
-/* Current work soundbuffer */
-u32 mixbuffer;
+/* Number of sound buffers */
+#define SOUND_BUFFER_NUM 3
 
 /* audio DMA status */
 u32 audioStarted;
 
+/* DMA soundbuffers (required to be 32-bytes aligned) */
+static u8 soundbuffer[SOUND_BUFFER_NUM][SOUND_BUFFER_LEN] ATTRIBUTE_ALIGN(32);
+
+/* Current work soundbuffer */
+static u8 mixbuffer;
+
 /* Background music */
 static u8 *Bg_music_ogg = NULL;
 static u32 Bg_music_ogg_size = 0;
+
+/* Frame Sync */
+static u8 audio_sync;
 
 /***************************************************************************************/
 /*   Audio engine                                                                      */
@@ -50,7 +68,17 @@ static u32 Bg_music_ogg_size = 0;
 /* Audio DMA callback */
 static void ai_callback(void)
 {
-  frameticker++;
+#ifdef LOG_TIMING
+  u64 current = gettime();
+  if (prevtime)
+  {
+    delta_time[frame_cnt] = diff_nsec(prevtime, current);
+    frame_cnt = (frame_cnt + 1) % LOGSIZE;
+  }
+  prevtime = current;
+#endif
+
+  audio_sync = 1;
 }
 
 /* AUDIO engine initialization */
@@ -98,38 +126,52 @@ void gx_audio_Shutdown(void)
      This function retrieves samples for the frame then set the next DMA parameters 
      Parameters will be taken in account only when current DMA operation is over
  ***/
-void gx_audio_Update(void)
+int gx_audio_Update(void)
 {
-  /* retrieve audio samples */
-  int size = audio_update() * 4;
-
-  /* set next DMA soundbuffer */
-  s16 *sb = (s16 *)(soundbuffer[mixbuffer]);
-  DCFlushRange((void *)sb, size);
-  AUDIO_InitDMA((u32) sb, size);
-  mixbuffer ^= 1;
-
-  /* Start Audio DMA */
-  /* this is called once to kick-off DMA from external memory to audio interface        */
-  /* DMA operation is automatically restarted when all samples have been sent.          */
-  /* If DMA settings are not updated at that time, previous sound buffer will be used.  */
-  /* Therefore we need to make sure frame emulation is completed before current DMA is  */
-  /* completed, either by synchronizing frame emulation with DMA start or by syncing it */
-  /* with Vertical Interrupt and outputing a suitable number of samples per frame.      */
-  /*                                                                                    */
-  /* In both cases, audio DMA need to be synchronized with VSYNC and therefore need to  */
-  /* be resynchronized (restarted) every time video settings are changed (hopefully,    */
-  /* this generally happens while no music is played.                                   */                    
-  if (!audioStarted)
+  if (audio_sync)
   {
-    /* restart audio DMA */
-    AUDIO_StopDMA();
-    AUDIO_StartDMA();
-    audioStarted = 1;
+    /* Current available soundbuffer */
+    s16 *sb = (s16 *)(soundbuffer[mixbuffer]);
 
-    /* resynchronize emulation */
-    frameticker = 1;
+    /* Retrieve audio samples (size must be multiple of 32 bytes) */
+    int size = audio_update(sb) * 4;
+
+  #ifdef LOG_TIMING
+    if (prevtime && (frame_cnt < LOGSIZE - 1))
+    {
+      delta_samp[frame_cnt + 1] = size;
+    }
+    else
+    {
+      delta_samp[0] = size;
+    }
+  #endif
+
+    /* Update DMA settings */
+    DCFlushRange((void *)sb, size);
+    AUDIO_InitDMA((u32) sb, size);
+    mixbuffer = (mixbuffer + 1) % SOUND_BUFFER_NUM;
+    audio_sync = 0;
+
+    /* Start Audio DMA */
+    /* this is called once to kick-off DMA from external memory to audio interface        */
+    /* DMA operation is automatically restarted when all samples have been sent.          */
+    /* If DMA settings are not updated at that time, previous sound buffer will be used.  */
+    /* Therefore we need to make sure frame emulation is completed before current DMA is  */
+    /* completed, by synchronizing frame emulation with DMA start and also by syncing it  */
+    /* with Video Interrupt and outputing a suitable number of samples per frame.         */
+    if (!audioStarted)
+    {
+      /* restart audio DMA */
+      AUDIO_StopDMA();
+      AUDIO_StartDMA();
+      audioStarted = 1;
+    }
+
+    return SYNC_AUDIO;
   }
+
+  return NO_SYNC;
 }
 
 /*** 
@@ -146,20 +188,19 @@ void gx_audio_Start(void)
   
   /* shutdown menu audio processing */
   ASND_Pause(1);
+  ASND_End();
   AUDIO_StopDMA();
   AUDIO_RegisterDMACallback(NULL);
   DSP_Halt();
 
-  /* when not using 60hz mode, frame emulation is synchronized with Audio Interface DMA */
-  if (gc_pal | vdp_pal)
-  {
-    AUDIO_RegisterDMACallback(ai_callback);
-  }
+  /* DMA Interrupt callback */
+  AUDIO_RegisterDMACallback(ai_callback);
 
   /* reset emulation audio processing */
-  memset(soundbuffer, 0, 2 * 3840);
+  memset(soundbuffer, 0, 3 * SOUND_BUFFER_LEN);
   audioStarted = 0;
   mixbuffer = 0;
+  audio_sync = 1;
 }
 
 /***

@@ -2,6 +2,9 @@
  Copyright (c) 2008 Francisco Muñoz 'Hermes' <www.elotrolado.net>
  All rights reserved.
 
+ Proper (standard) vorbis usage by Tantric, 2009
+ Threading modifications/corrections by Tantric, 2009
+
  Redistribution and use in source and binary forms, with or without modification, are
  permitted provided that the following conditions are met:
 

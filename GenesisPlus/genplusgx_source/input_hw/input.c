@@ -3,21 +3,37 @@
  *  Input peripherals support
  *
  *  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003  Charles Mac Donald (original code)
- *  Eke-Eke (2007-2011), additional code & fixes for the GCN/Wii port
+ *  Copyright (C) 2007-2012  Eke-Eke (Genesis Plus GX)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
+ *
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
  *
  ****************************************************************************************/
 
@@ -30,6 +46,7 @@
 #include "teamplayer.h"
 #include "paddle.h"
 #include "sportspad.h"
+#include "terebi_oekaki.h"
 
 t_input input;
 int old_system[2] = {-1,-1};
@@ -46,10 +63,17 @@ void input_init(void)
     input.pad[i] = 0;
   }
 
-  /* PICO tablet & pen */
+  /* PICO tablet */
   if (system_hw == SYSTEM_PICO)
   {
-    input.dev[0] = DEVICE_TABLET;
+    input.dev[0] = DEVICE_PICO;
+    return;
+  }
+
+  /* Terebi Oekaki tablet */
+  if (cart.special & HW_TEREBI_OEKAKI)
+  {
+    input.dev[0] = DEVICE_TEREBI;
     return;
   }
 
@@ -57,7 +81,6 @@ void input_init(void)
   {
     case SYSTEM_MS_GAMEPAD:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[0] = DEVICE_PAD2B;
       player++;
       break;
@@ -65,7 +88,6 @@ void input_init(void)
 
     case SYSTEM_MD_GAMEPAD:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[0] = config.input[player].padtype;
       player++;
       break;
@@ -73,7 +95,6 @@ void input_init(void)
 
     case SYSTEM_MOUSE:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[0] = DEVICE_MOUSE;
       player++;
       break;
@@ -81,7 +102,6 @@ void input_init(void)
 
     case SYSTEM_ACTIVATOR:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[0] = DEVICE_ACTIVATOR;
       player++;
       break;
@@ -89,7 +109,6 @@ void input_init(void)
 
     case SYSTEM_XE_A1P:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[0] = DEVICE_XE_A1P;
       player++;
       break;
@@ -99,9 +118,11 @@ void input_init(void)
     {
       for (i=0; i< 4; i++)
       {
-        if (player == MAX_INPUTS) return;
-        input.dev[i] = config.input[player].padtype;
-        player++;
+        if (player < MAX_INPUTS)
+        {
+          input.dev[i] = config.input[player].padtype;
+          player++;
+        }
       }
       break;
     }
@@ -110,9 +131,11 @@ void input_init(void)
     {
       for (i=0; i<4; i++)
       {
-        if (player == MAX_INPUTS) return;
-        input.dev[i] = config.input[player].padtype;
-        player++;
+        if (player < MAX_INPUTS)
+        {
+          input.dev[i] = config.input[player].padtype;
+          player++;
+        }
       }
       teamplayer_init(0);
       break;
@@ -120,7 +143,6 @@ void input_init(void)
 
     case SYSTEM_LIGHTPHASER:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[0] = DEVICE_LIGHTGUN;
       player++;
       break;
@@ -128,7 +150,6 @@ void input_init(void)
 
     case SYSTEM_PADDLE:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[0] = DEVICE_PADDLE;
       player++;
       break;
@@ -136,18 +157,21 @@ void input_init(void)
 
     case SYSTEM_SPORTSPAD:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[0] = DEVICE_SPORTSPAD;
       player++;
       break;
     }
   }
 
+  if (player == MAX_INPUTS)
+  {
+    return;
+  }
+
   switch (input.system[1])
   {
     case SYSTEM_MS_GAMEPAD:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[4] = DEVICE_PAD2B;
       player++;
       break;
@@ -155,7 +179,6 @@ void input_init(void)
 
     case SYSTEM_MD_GAMEPAD:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[4] = config.input[player].padtype;
       player++;
       break;
@@ -163,7 +186,6 @@ void input_init(void)
 
     case SYSTEM_MOUSE:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[4] = DEVICE_MOUSE;
       player++;
       break;
@@ -171,7 +193,6 @@ void input_init(void)
 
     case SYSTEM_ACTIVATOR:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[4] = DEVICE_ACTIVATOR;
       player++;
       break;
@@ -179,7 +200,6 @@ void input_init(void)
 
     case SYSTEM_MENACER:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[4] = DEVICE_LIGHTGUN;
       player++;
       break;
@@ -189,9 +209,11 @@ void input_init(void)
     {
       for (i=4; i<6; i++)
       {
-        if (player == MAX_INPUTS) return;
-        input.dev[i] = DEVICE_LIGHTGUN;
-        player++;
+        if (player < MAX_INPUTS)
+        {
+          input.dev[i] = DEVICE_LIGHTGUN;
+          player++;
+        }
       }
       break;
     }
@@ -200,9 +222,11 @@ void input_init(void)
     {
       for (i=4; i<8; i++)
       {
-        if (player == MAX_INPUTS) return;
-        input.dev[i] = config.input[player].padtype;
-        player++;
+        if (player < MAX_INPUTS)
+        {
+          input.dev[i] = config.input[player].padtype;
+          player++;
+        }
       }
       teamplayer_init(1);
       break;
@@ -210,7 +234,6 @@ void input_init(void)
 
     case SYSTEM_LIGHTPHASER:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[4] = DEVICE_LIGHTGUN;
       player++;
       break;
@@ -218,7 +241,6 @@ void input_init(void)
 
     case SYSTEM_PADDLE:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[4] = DEVICE_PADDLE;
       player++;
       break;
@@ -226,7 +248,6 @@ void input_init(void)
 
     case SYSTEM_SPORTSPAD:
     {
-      if (player == MAX_INPUTS) return;
       input.dev[4] = DEVICE_SPORTSPAD;
       player++;
       break;
@@ -239,9 +260,11 @@ void input_init(void)
     /* two additional gamepads */
     for (i=5; i<7; i++)
     {
-      if (player == MAX_INPUTS) return;
-      input.dev[i] = config.input[player].padtype;
-      player ++;
+      if (player < MAX_INPUTS)
+      {
+        input.dev[i] = config.input[player].padtype;
+        player ++;
+      }
     }
   }
 }
@@ -295,6 +318,12 @@ void input_reset(void)
       case DEVICE_SPORTSPAD:
       {
         sportspad_reset(i >> 2);
+        break;
+      }
+
+      case DEVICE_TEREBI:
+      {
+        terebi_oekaki_reset();
         break;
       }
 

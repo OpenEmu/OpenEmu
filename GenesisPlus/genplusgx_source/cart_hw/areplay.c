@@ -2,22 +2,39 @@
  *  Genesis Plus
  *  Action Replay / Pro Action Replay emulation
  *
- *  Copyright (C) 2009  Eke-Eke (GCN/Wii port)
+ *  Copyright (C) 2009-2011  Eke-Eke (Genesis Plus GX)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- ***************************************************************************/
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
+ *
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *
+ ****************************************************************************************/
 
 #include "shared.h"
 
@@ -42,20 +59,23 @@ static void ar_write_ram_8(uint32 address, uint32 data);
 
 void areplay_init(void)
 {
+  int size;
+  FILE *f;
+  
   memset(&action_replay,0,sizeof(action_replay));
-  if (cart.romsize > 0x800000) return;
+
+  /* store Action replay ROM (max. 128k) & RAM (64k) above cartridge ROM + SRAM area */
+  if (cart.romsize > 0x810000) return;
+  action_replay.rom = cart.rom + 0x810000;
+  action_replay.ram = cart.rom + 0x830000;
 
   /* Open Action Replay ROM */
-  FILE *f = fopen(AR_ROM,"rb");
-  if (!f) return;
-
-  /* store Action replay ROM + RAM above cartridge ROM + SRAM */
-  action_replay.rom = cart.rom + 0x800000;
-  action_replay.ram = cart.rom + 0x810000;
+  f = fopen(AR_ROM,"rb");
+  if (f == NULL) return;
 
   /* ROM size */
   fseek(f, 0, SEEK_END);
-  int size = ftell(f);
+  size = ftell(f);
   fseek(f, 0, SEEK_SET);
 
   /* detect Action Replay board type */
@@ -67,8 +87,7 @@ void areplay_init(void)
       action_replay.enabled = TYPE_AR;
   
       /* internal registers mapped at $010000-$01ffff */
-      m68k_memory_map[0x01].write16 = ar_write_regs;
-
+      m68k.memory_map[0x01].write16 = ar_write_regs;
       break;
     }
 
@@ -87,7 +106,7 @@ void areplay_init(void)
         action_replay.enabled = TYPE_PRO1;
 
         /* internal registers mapped at $010000-$01ffff */
-        m68k_memory_map[0x01].write16 = ar_write_regs;
+        m68k.memory_map[0x01].write16 = ar_write_regs;
       }
       else if (sp[1] == 0x60)
       {
@@ -95,19 +114,18 @@ void areplay_init(void)
         action_replay.enabled = TYPE_PRO2;
 
         /* internal registers mapped at $100000-$10ffff */
-        m68k_memory_map[0x10].write16 = ar_write_regs_2;
+        m68k.memory_map[0x10].write16 = ar_write_regs_2;
       }
 
       /* internal RAM (64k), mapped at $420000-$42ffff or $600000-$60ffff */
       if (action_replay.enabled)
       {
-        m68k_memory_map[sp[1]].base      = action_replay.ram;
-        m68k_memory_map[sp[1]].read8     = NULL;
-        m68k_memory_map[sp[1]].read16    = NULL;
-        m68k_memory_map[sp[1]].write8    = ar_write_ram_8;
-        m68k_memory_map[sp[1]].write16   = NULL;
+        m68k.memory_map[sp[1]].base      = action_replay.ram;
+        m68k.memory_map[sp[1]].read8     = NULL;
+        m68k.memory_map[sp[1]].read16    = NULL;
+        m68k.memory_map[sp[1]].write8    = ar_write_ram_8;
+        m68k.memory_map[sp[1]].write16   = NULL;
       }
-
       break;
     }
 
@@ -121,24 +139,23 @@ void areplay_init(void)
   {
     /* Load ROM */
     int i = 0;
-    while (i < size)
+    for (i=0; i<size; i+=0x1000)
     {
-      fread(action_replay.rom+i,0x1000,1,f);
-      i += 0x1000;
+      fread(action_replay.rom + i, 0x1000, 1, f);
     }
 
 #ifdef LSB_FIRST
-    /* Byteswap ROM */
-    uint8 temp;
-    for(i = 0; i < size; i += 2)
+    for (i= 0; i<size; i+=2)
     {
-      temp = action_replay.rom[i];
+      /* Byteswap ROM */
+      uint8 temp = action_replay.rom[i];
       action_replay.rom[i] = action_replay.rom[i+1];
       action_replay.rom[i+1] = temp;
     }
 #endif
   }
 
+  /* Close ROM file */
   fclose(f);
 }
 
@@ -164,7 +181,7 @@ void areplay_reset(int hard)
       memset(action_replay.addr, 0, sizeof(action_replay.addr));
 
       /* by default, internal ROM is mapped at $000000-$00FFFF */
-      m68k_memory_map[0].base = action_replay.rom;
+      m68k.memory_map[0].base = action_replay.rom;
 
       /* reset internal RAM on power-on */
       if (hard)
@@ -281,7 +298,7 @@ static void ar_write_regs(uint32 address, uint32 data)
     }
 
     /* enable Cartridge ROM */
-    m68k_memory_map[0].base = cart.rom;
+    m68k.memory_map[0].base = cart.rom;
   }
 }
 
@@ -290,7 +307,7 @@ static void ar_write_regs_2(uint32 address, uint32 data)
   /* enable Cartridge ROM */
   if (((address & 0xff) == 0x78) && (data == 0xffff))
   {
-    m68k_memory_map[0].base = cart.rom;
+    m68k.memory_map[0].base = cart.rom;
   }
 }
 

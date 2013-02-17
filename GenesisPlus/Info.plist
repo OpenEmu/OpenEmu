@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.5.0</string>
+	<string>1.7.3</string>
 	<key>NSPrincipalClass</key>
 	<string>OEGameCoreController</string>
 	<key>OEGameCoreClass</key>
@@ -27,7 +27,7 @@
 	<key>OEGameCorePlayerCount</key>
 	<string>2</string>
 	<key>OEProjectURL</key>
-	<string>http://cgfm2.emuviews.com/genplus.php</string>
+	<string>http://code.google.com/p/genplus-gx</string>
 	<key>OESystemIdentifiers</key>
 	<array>
 		<string>openemu.system.sg</string>

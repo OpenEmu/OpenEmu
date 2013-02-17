@@ -1,56 +1,124 @@
-/*
- Copyright (c) 2009, OpenEmu Team
- 
- 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
- 
- THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
- EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+#ifndef _OSD_H
+#define _OSD_H
 
-#ifndef _OSD_H_
-#define _OSD_H_
+#ifdef _MSC_VER
+#include <stdio.h>
+typedef unsigned char bool;
+#define strncasecmp _strnicmp
+#endif
+
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MAX_INPUTS 8
 #define MAX_KEYS 8
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdint.h>
-#include "types.h"
-#include "config.h"
-#include "shared.h"
-#include "fileio.h"
+#define MAXPATHLEN 1024
 
-#define strnicmp strncasecmp
+#ifndef TRUE
+#define TRUE 1
+#endif
 
-//TO DO: define these later
-#define DEFAULT_PATH  "/genplus"
-#define GG_ROM        "/genplus/ggenie.bin"
-#define AR_ROM        "/genplus/areplay.bin"
-#define OS_ROM        "/genplus/bios.bin"
-#define SK_ROM        "/genplus/sk.bin"
-#define SK_UPMEM      "/genplus/sk2chip.bin"
+#ifndef FALSE
+#define FALSE 0
+#endif
 
-void openemu_input_UpdateEmu();
+#ifndef M_PI
+#define M_PI 3.1415926535897932385
+#endif
 
-#define osd_input_Update() openemu_input_UpdateEmu()
+//#define ALIGN_SND 0xfffffff8  /* 32 bytes aligned sound buffers (8 samples alignment) */
 
-#endif /* _VDP_H_ */
+typedef struct 
+{
+    int8 device;
+    uint8 port;
+    uint8 padtype;
+} t_input_config;
+
+typedef struct 
+{
+    char version[16];
+    uint8 hq_fm;
+    uint8 filter;
+    uint8 psgBoostNoise;
+    uint8 dac_bits;
+    uint8 ym2413;
+    int16 psg_preamp;
+    int16 fm_preamp;
+    int16 lp_range;
+    int16 low_freq;
+    int16 high_freq;
+    int16 lg;
+    int16 mg;
+    int16 hg;
+    uint8 system;
+    uint8 region_detect;
+    uint8 master_clock;
+    uint8 vdp_mode;
+    uint8 force_dtack;
+    uint8 addr_error;
+    uint8 tmss;
+    uint8 bios;
+    uint8 lock_on;
+    uint8 hot_swap;
+    uint8 invert_mouse;
+    uint8 gun_cursor[2];
+    uint8 overscan;
+    uint8 gg_extra;
+    uint8 ntsc;
+    uint8 vsync;
+    uint8 render;
+    uint8 tv_mode;
+    uint8 bilinear;
+    uint8 aspect;
+    int16 xshift;
+    int16 yshift;
+    int16 xscale;
+    int16 yscale;
+    t_input_config input[MAX_INPUTS];
+    uint16 pad_keymap[4][MAX_KEYS];
+    uint8 autoload;
+    uint8 autocheat;
+    uint8 s_auto;
+    uint8 s_default;
+    uint8 s_device;
+    uint8 l_device;
+    uint8 bg_overlay;
+    int16 screen_w;
+    float bgm_volume;
+    float sfx_volume;
+    char lastdir[4][2][MAXPATHLEN];
+} t_config;
+
+/* Global data */
+t_config config;
+
+extern char GG_ROM[256];
+extern char AR_ROM[256];
+extern char SK_ROM[256];
+extern char SK_UPMEM[256];
+extern char GG_BIOS[256];
+extern char CD_BIOS_EU[256];
+extern char CD_BIOS_US[256];
+extern char CD_BIOS_JP[256];
+extern char MS_BIOS_US[256];
+extern char MS_BIOS_EU[256];
+extern char MS_BIOS_JP[256];
+
+//extern int16 soundbuffer[3068];
+extern int16 soundbuffer[2048 * 2]; //3068 1920 ?
+
+//#define SOUND_SAMPLES_SIZE  2048
+//n = SOUND_SAMPLES_SIZE * 2 * sizeof(short) * 11;
+//sdl_sound.buffer = (char*)malloc(n);
+
+//static short soundframe[SOUND_SAMPLES_SIZE];
+//int size = audio_update(soundframe) * 2;
+
+#define VERSION "Genesis Plus GX 1.7.3 (libretro)"
+
+void osd_input_update(void);
+int load_archive(char *filename, unsigned char *buffer, int maxsize, char *extension);
+
+#endif /* _OSD_H */

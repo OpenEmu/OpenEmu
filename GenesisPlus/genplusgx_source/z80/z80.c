@@ -31,11 +31,13 @@
  *      This Z80 emulator assumes a ZiLOG NMOS model.
  *
  *   Additional changes [Eke-Eke]:
+ *    - Removed z80_burn function (unused)
  *    - Discarded multi-chip support (unused)
  *    - Fixed cycle counting for FD and DD prefixed instructions
  *    - Fixed behavior of chained FD and DD prefixes (R register should be only incremented by one
  *    - Implemented cycle-accurate INI/IND (needed by SMS emulation)
  *    - Fixed Z80 reset
+ *    - Made SZHVC_add & SZHVC_sub tables statically allocated
  *   Changes in 3.9:
  *    - Fixed cycle counts for LD IYL/IXL/IYH/IXH,n [Marshmellow]
  *    - Fixed X/Y flags in CCF/SCF/BIT, ZEXALL is happy now [hap]
@@ -135,7 +137,6 @@
 #define LOG(x)
 #endif
 
-
 #define cpu_readop(a)     z80_readmap[(a) >> 10][(a) & 0x03FF]
 #define cpu_readop_arg(a) z80_readmap[(a) >> 10][(a) & 0x03FF]
 
@@ -200,15 +201,13 @@
 #define IFF2 Z80.iff2
 #define HALT Z80.halt
 
-extern unsigned int mcycles_z80;
-
 Z80_Regs Z80;
 
 unsigned char *z80_readmap[64];
 unsigned char *z80_writemap[64];
 
 void (*z80_writemem)(unsigned int address, unsigned char data);
-unsigned char (*z80_readmem)(unsigned int port);
+unsigned char (*z80_readmem)(unsigned int address);
 void (*z80_writeport)(unsigned int port, unsigned char data);
 unsigned char (*z80_readport)(unsigned int port);
 
@@ -220,8 +219,8 @@ static UINT8 SZP[256];      /* zero, sign and parity flags */
 static UINT8 SZHV_inc[256]; /* zero, sign, half carry and overflow flags INC r8 */
 static UINT8 SZHV_dec[256]; /* zero, sign, half carry and overflow flags DEC r8 */
 
-static UINT8 *SZHVC_add = 0;
-static UINT8 *SZHVC_sub = 0;
+static UINT8 SZHVC_add[2*256*256]; /* flags for ADD opcode */
+static UINT8 SZHVC_sub[2*256*256]; /* flags for SUB opcode */
 
 static const UINT16 cc_op[0x100] = {
    4*15,10*15, 7*15, 6*15, 4*15, 4*15, 7*15, 4*15, 4*15,11*15, 7*15, 6*15, 4*15, 4*15, 7*15, 4*15,
@@ -474,7 +473,7 @@ INLINE void BURNODD(int cycles, int opcodes, int cyclesum)
   if( cycles > 0 )
   {
     R += (cycles / cyclesum) * opcodes;
-    mcycles_z80 += (cycles / cyclesum) * cyclesum * 15;
+    Z80.cycles += (cycles / cyclesum) * cyclesum * 15;
   }
 }
 
@@ -486,7 +485,7 @@ INLINE void BURNODD(int cycles, int opcodes, int cyclesum)
 /***************************************************************
  * adjust cycle count by n T-states
  ***************************************************************/
-#define CC(prefix,opcode) mcycles_z80 += cc[Z80_TABLE_##prefix][opcode]
+#define CC(prefix,opcode) Z80.cycles += cc[Z80_TABLE_##prefix][opcode]
 
 /***************************************************************
  * execute an opcode
@@ -3229,7 +3228,7 @@ static void take_interrupt(void)
     PUSH( pc );
     PCD = 0x0038;
     /* RST $38 + 'interrupt latency' cycles */
-    mcycles_z80 += cc[Z80_TABLE_op][0xff] + cc[Z80_TABLE_ex][0xff];
+    Z80.cycles += cc[Z80_TABLE_op][0xff] + cc[Z80_TABLE_ex][0xff];
   }
   else
   {
@@ -3244,7 +3243,7 @@ static void take_interrupt(void)
       RM16( irq_vector, &Z80.pc );
       LOG(("Z80 #%d IM2 [$%04x] = $%04x\n",cpu_getactivecpu() , irq_vector, PCD));
         /* CALL $xxxx + 'interrupt latency' cycles */
-      mcycles_z80 += cc[Z80_TABLE_op][0xcd] + cc[Z80_TABLE_ex][0xff];
+      Z80.cycles += cc[Z80_TABLE_op][0xcd] + cc[Z80_TABLE_ex][0xff];
     }
     else
     {
@@ -3258,18 +3257,18 @@ static void take_interrupt(void)
         PUSH( pc );
         PCD = irq_vector & 0xffff;
            /* CALL $xxxx + 'interrupt latency' cycles */
-        mcycles_z80 += cc[Z80_TABLE_op][0xcd] + cc[Z80_TABLE_ex][0xff];
+        Z80.cycles += cc[Z80_TABLE_op][0xcd] + cc[Z80_TABLE_ex][0xff];
           break;
         case 0xc30000:  /* jump */
         PCD = irq_vector & 0xffff;
           /* JP $xxxx + 2 cycles */
-        mcycles_z80 += cc[Z80_TABLE_op][0xc3] + cc[Z80_TABLE_ex][0xff];
+        Z80.cycles += cc[Z80_TABLE_op][0xc3] + cc[Z80_TABLE_ex][0xff];
           break;
         default:    /* rst (or other opcodes?) */
         PUSH( pc );
         PCD = irq_vector & 0x0038;
           /* RST $xx + 2 cycles */
-        mcycles_z80 += cc[Z80_TABLE_op][0xff] + cc[Z80_TABLE_ex][0xff];
+        Z80.cycles += cc[Z80_TABLE_op][0xff] + cc[Z80_TABLE_ex][0xff];
           break;
       }
     }
@@ -3284,61 +3283,50 @@ void z80_init(const void *config, int (*irqcallback)(int))
 {
   int i, p;
 
-  if( !SZHVC_add || !SZHVC_sub )
+  int oldval, newval, val;
+  UINT8 *padd = &SZHVC_add[  0*256];
+  UINT8 *padc = &SZHVC_add[256*256];
+  UINT8 *psub = &SZHVC_sub[  0*256];
+  UINT8 *psbc = &SZHVC_sub[256*256];
+  for (oldval = 0; oldval < 256; oldval++)
   {
-    int oldval, newval, val;
-    UINT8 *padd, *padc, *psub, *psbc;
-    /* allocate big flag arrays once */
-    SZHVC_add = (UINT8 *)malloc(2*256*256);
-    SZHVC_sub = (UINT8 *)malloc(2*256*256);
-    if( !SZHVC_add || !SZHVC_sub )
+    for (newval = 0; newval < 256; newval++)
     {
-      return;
-    }
-    padd = &SZHVC_add[  0*256];
-    padc = &SZHVC_add[256*256];
-    psub = &SZHVC_sub[  0*256];
-    psbc = &SZHVC_sub[256*256];
-    for (oldval = 0; oldval < 256; oldval++)
-    {
-      for (newval = 0; newval < 256; newval++)
-      {
-        /* add or adc w/o carry set */
-        val = newval - oldval;
-        *padd = (newval) ? ((newval & 0x80) ? SF : 0) : ZF;
-        *padd |= (newval & (YF | XF));  /* undocumented flag bits 5+3 */
-        if( (newval & 0x0f) < (oldval & 0x0f) ) *padd |= HF;
-        if( newval < oldval ) *padd |= CF;
-        if( (val^oldval^0x80) & (val^newval) & 0x80 ) *padd |= VF;
-        padd++;
+      /* add or adc w/o carry set */
+      val = newval - oldval;
+      *padd = (newval) ? ((newval & 0x80) ? SF : 0) : ZF;
+      *padd |= (newval & (YF | XF));  /* undocumented flag bits 5+3 */
+      if( (newval & 0x0f) < (oldval & 0x0f) ) *padd |= HF;
+      if( newval < oldval ) *padd |= CF;
+      if( (val^oldval^0x80) & (val^newval) & 0x80 ) *padd |= VF;
+      padd++;
 
-        /* adc with carry set */
-        val = newval - oldval - 1;
-        *padc = (newval) ? ((newval & 0x80) ? SF : 0) : ZF;
-        *padc |= (newval & (YF | XF));  /* undocumented flag bits 5+3 */
-        if( (newval & 0x0f) <= (oldval & 0x0f) ) *padc |= HF;
-        if( newval <= oldval ) *padc |= CF;
-        if( (val^oldval^0x80) & (val^newval) & 0x80 ) *padc |= VF;
-        padc++;
+      /* adc with carry set */
+      val = newval - oldval - 1;
+      *padc = (newval) ? ((newval & 0x80) ? SF : 0) : ZF;
+      *padc |= (newval & (YF | XF));  /* undocumented flag bits 5+3 */
+      if( (newval & 0x0f) <= (oldval & 0x0f) ) *padc |= HF;
+      if( newval <= oldval ) *padc |= CF;
+      if( (val^oldval^0x80) & (val^newval) & 0x80 ) *padc |= VF;
+      padc++;
 
-        /* cp, sub or sbc w/o carry set */
-        val = oldval - newval;
-        *psub = NF | ((newval) ? ((newval & 0x80) ? SF : 0) : ZF);
-        *psub |= (newval & (YF | XF));  /* undocumented flag bits 5+3 */
-        if( (newval & 0x0f) > (oldval & 0x0f) ) *psub |= HF;
-        if( newval > oldval ) *psub |= CF;
-        if( (val^oldval) & (oldval^newval) & 0x80 ) *psub |= VF;
-        psub++;
+      /* cp, sub or sbc w/o carry set */
+      val = oldval - newval;
+      *psub = NF | ((newval) ? ((newval & 0x80) ? SF : 0) : ZF);
+      *psub |= (newval & (YF | XF));  /* undocumented flag bits 5+3 */
+      if( (newval & 0x0f) > (oldval & 0x0f) ) *psub |= HF;
+      if( newval > oldval ) *psub |= CF;
+      if( (val^oldval) & (oldval^newval) & 0x80 ) *psub |= VF;
+      psub++;
 
-        /* sbc with carry set */
-        val = oldval - newval - 1;
-        *psbc = NF | ((newval) ? ((newval & 0x80) ? SF : 0) : ZF);
-        *psbc |= (newval & (YF | XF));  /* undocumented flag bits 5+3 */
-        if( (newval & 0x0f) >= (oldval & 0x0f) ) *psbc |= HF;
-        if( newval >= oldval ) *psbc |= CF;
-        if( (val^oldval) & (oldval^newval) & 0x80 ) *psbc |= VF;
-        psbc++;
-      }
+      /* sbc with carry set */
+      val = oldval - newval - 1;
+      *psbc = NF | ((newval) ? ((newval & 0x80) ? SF : 0) : ZF);
+      *psbc |= (newval & (YF | XF));  /* undocumented flag bits 5+3 */
+      if( (newval & 0x0f) >= (oldval & 0x0f) ) *psbc |= HF;
+      if( newval >= oldval ) *psbc |= CF;
+      if( (val^oldval) & (oldval^newval) & 0x80 ) *psbc |= VF;
+      psbc++;
     }
   }
 
@@ -3371,11 +3359,9 @@ void z80_init(const void *config, int (*irqcallback)(int))
   Z80.daisy = config;
   Z80.irq_callback = irqcallback;
 
-  /* Reset registers to their initial values (NB: should be random on real hardware) */
-  AF = BC = DE = HL = 0;
+  /* Clear registers values (NB: should be random on real hardware ?) */
+  AF = BC = DE = HL = SP = IX = IY =0;
   F = ZF; /* Zero flag is set */
-  IX = IY = 0xffff; /* IX and IY are FFFF after a reset! (from MAME) */
-  SP = 0xdfff;  /* required by some SMS games that don't initialize SP */
 
   /* setup cycle tables */
   cc[Z80_TABLE_op] = cc_op;
@@ -3404,26 +3390,18 @@ void z80_reset(void)
   WZ=PCD;
 }
 
-void z80_exit(void)
-{
-  if (SZHVC_add) free(SZHVC_add);
-  SZHVC_add = NULL;
-  if (SZHVC_sub) free(SZHVC_sub);
-  SZHVC_sub = NULL;
-}
-
 /****************************************************************************
  * Run until given cycle count 
  ****************************************************************************/
 void z80_run(unsigned int cycles)
 {
-  while( mcycles_z80 < cycles )
+  while( Z80.cycles < cycles )
   {
     /* check for IRQs before each instruction */
-    if ((Z80.irq_state & 7) && IFF1 && !Z80.after_ei)
+    if (Z80.irq_state && IFF1 && !Z80.after_ei)
     {
       take_interrupt();
-      if (mcycles_z80 >= cycles) return;
+      if (Z80.cycles >= cycles) return;
     }
 
     Z80.after_ei = FALSE;
@@ -3431,20 +3409,6 @@ void z80_run(unsigned int cycles)
     EXEC_INLINE(op,ROP());
   }
 } 
-
-/****************************************************************************
- * Burn 'cycles' T-states. Adjust R register for the lost time
- ****************************************************************************/
-void z80_burn(unsigned int cycles)
-{
-  if( cycles > 0 )
-  {
-    /* NOP takes 4 cycles per instruction */
-    int n = (cycles + 3) / 4;
-    R += n;
-    mcycles_z80 += 4 * n * 15;
-  }
-}
 
 /****************************************************************************
  * Get all registers in given buffer
@@ -3465,9 +3429,14 @@ void z80_set_context (void *src)
 }
 
 /****************************************************************************
- * Set IRQ line state
+ * Set IRQ lines
  ****************************************************************************/
-void z80_set_nmi_line(int state)
+void z80_set_irq_line(unsigned int state)
+{
+  Z80.irq_state = state;
+}
+
+void z80_set_nmi_line(unsigned int state)
 {
   /* mark an NMI pending on the rising edge */
   if (Z80.nmi_state == CLEAR_LINE && state != CLEAR_LINE)
@@ -3480,7 +3449,7 @@ void z80_set_nmi_line(int state)
     PCD = 0x0066;
     WZ=PCD;
 
-    mcycles_z80 += 11*15;
+    Z80.cycles += 11*15;
   }
 
   Z80.nmi_state = state;

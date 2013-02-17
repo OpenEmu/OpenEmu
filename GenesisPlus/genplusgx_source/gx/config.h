@@ -3,28 +3,44 @@
  *
  *  Genesis Plus GX configuration file support
  *
- *  Eke-Eke (2008)
+ *  Copyright Eke-Eke (2007-2012)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
  *
- ***************************************************************************/
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *
+ ****************************************************************************************/
 
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#define CONFIG_VERSION "GENPLUS-GX 1.4.1"
+#define CONFIG_VERSION "GENPLUS-GX 1.7.2"
 
 /****************************************************************************
  * Config Option 
@@ -37,6 +53,7 @@ typedef struct
   uint8 filter;
   uint8 psgBoostNoise;
   uint8 dac_bits;
+  uint8 ym2413;
   int16 psg_preamp;
   int16 fm_preamp;
   int16 lp_range;
@@ -45,18 +62,22 @@ typedef struct
   int16 lg;
   int16 mg;
   int16 hg;
-  float rolloff;
+  uint8 system;
   uint8 region_detect;
+  uint8 master_clock;
+  uint8 vdp_mode;
   uint8 force_dtack;
   uint8 addr_error;
   uint8 tmss;
+  uint8 bios;
   uint8 lock_on;
   uint8 hot_swap;
-  uint8 romtype;
   uint8 invert_mouse;
   uint8 gun_cursor[2];
   uint8 overscan;
+  uint8 gg_extra;
   uint8 ntsc;
+  uint8 vsync;
   uint8 render;
   uint8 tv_mode;
   uint8 bilinear;
@@ -68,9 +89,11 @@ typedef struct
 #ifdef HW_RVL
   uint32 trap;
   float gamma;
+#else
+  uint8 v_prog;
 #endif
   t_input_config input[MAX_INPUTS];
-  uint16 pad_keymap[4][MAX_KEYS];
+  uint16 pad_keymap[4][MAX_KEYS+1];
 #ifdef HW_RVL
   uint32 wpad_keymap[4*3][MAX_KEYS];
 #endif
@@ -79,17 +102,13 @@ typedef struct
   uint8 s_auto;
   uint8 s_default;
   uint8 s_device;
-  uint8 autocheats;
-  int8 bg_type;
-  int8 bg_overlay;
+  uint8 l_device;
+  uint8 bg_overlay;
+  uint8 cd_leds;
   int16 screen_w;
   float bgm_volume;
   float sfx_volume;
-#ifdef HW_RVL
-  char lastdir[3][MAXPATHLEN];
-#else
-  char lastdir[2][MAXPATHLEN];
-#endif
+  char lastdir[FILETYPE_MAX][TYPE_RECENT][MAXPATHLEN];
 } t_config;
 
 /* Global data */

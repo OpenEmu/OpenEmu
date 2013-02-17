@@ -32,5 +32,18 @@
 #define WRITE_WORD_LONG(BASE, ADDR, VAL) *(uint32 *)((BASE) + (ADDR)) = VAL & 0xffffffff
 #endif
 
+/* C89 compatibility */
+#ifndef M_PI
+#define M_PI 3.14159265358979323846264338327f
+#endif /* M_PI */
+
+/* Set to your compiler's static inline keyword to enable it, or
+ * set it to blank to disable it.
+ * If you define INLINE in the makefile, it will override this value.
+ * NOTE: not enabling inline functions will SEVERELY slow down emulation.
+ */
+#ifndef INLINE
+#define INLINE static __inline__
+#endif /* INLINE */
 
 #endif /* _MACROS_H_ */

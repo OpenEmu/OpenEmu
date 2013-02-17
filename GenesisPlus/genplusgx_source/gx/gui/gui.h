@@ -3,30 +3,42 @@
  *
  *  generic GUI Engine (using GX rendering)
  *
- *  Eke-Eke (2009,2010)
+ *  Copyright Eke-Eke (2009-2010)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Redistribution and use of this code or any derivative works are permitted
+ *  provided that the following conditions are met:
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   - Redistributions may not be sold, nor may they be used in a commercial
+ *     product or activity.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   - Redistributions that are modified from the original source must include the
+ *     complete source code, including the source code for all components used by a
+ *     binary built from the modified sources. However, as a special exception, the
+ *     source code distributed need not include anything that is normally distributed
+ *     (in either source or binary form) with the major components (compiler, kernel,
+ *     and so on) of the operating system on which the executable runs, unless that
+ *     component itself accompanies the executable.
  *
- ***************************************************************************/
+ *   - Redistributions must reproduce the above copyright notice, this list of
+ *     conditions and the following disclaimer in the documentation and/or other
+ *     materials provided with the distribution.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY OF SUCH DAMAGE.
+ *
+ ****************************************************************************************/
 
 #ifndef _GUI_H
 #define _GUI_H
-
-#ifdef HW_RVL
-#include <wiiuse/wpad.h>
-#endif
 
 #define BG_COLOR_MAX 15
 
@@ -154,15 +166,10 @@ extern gx_texture *w_pointer;
 
 /* Generic backgrounds */
 extern const u8 Bg_layer_png[];
-extern const u8 Bg_main_png[];
-extern const u8 Bg_main_2_png[];
 extern const u8 Bg_overlay_png[];
 extern const u8 Banner_main_png[];
 extern const u8 Banner_bottom_png[];
 extern const u8 Banner_top_png[];
-extern const u8 Banner_main_2_png[];
-extern const u8 Banner_bottom_2_png[];
-extern const u8 Banner_top_2_png[];
 extern const u8 Main_logo_png[];
 
 /* Generic frames */
@@ -234,6 +241,5 @@ extern void GUI_WaitPrompt(char *title, char *msg);
 extern void GUI_FadeOut();
 extern GXColor *GUI_GetBgColor(void);
 extern void GUI_SetBgColor(u8 color);
-extern void GUI_Initialize(void);
 
 #endif
