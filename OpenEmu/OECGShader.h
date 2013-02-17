@@ -25,7 +25,7 @@
  */
 
 #import "OEGameShader.h"
-#import <Cg/Cg.h>
+#import <Cg/cg.h>
 #import <Cg/cgGL.h>
 
 typedef enum
