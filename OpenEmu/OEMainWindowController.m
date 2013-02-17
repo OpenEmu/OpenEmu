@@ -87,16 +87,18 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
 - (void)windowDidLoad
 {
+    NSWindow *window = [self window];
+    
     [super windowDidLoad];
     
     [[self libraryController] setDelegate:self];
     
-    [[self window] setWindowController:self];
-    [[self window] setDelegate:self];
+    [window setWindowController:self];
+    [window setDelegate:self];
     
     // Setup Window behavior
-    [[self window] setRestorable:NO];
-    [[self window] setExcludedFromWindowsMenu:YES];
+    [window setRestorable:NO];
+    [window setExcludedFromWindowsMenu:YES];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey])
     {
@@ -109,7 +111,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
              [self setCurrentContentController:[self libraryController] animate:NO];
          }];
         
-        [[self window] center];
+        [window center];
         
         [self setCurrentContentController:setupAssistant];
     }
@@ -117,6 +119,10 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     {
         [self setCurrentContentController:[self libraryController] animate:NO];
     }
+    
+#if DEBUG_PRINT
+    [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
+#endif
 }
 
 - (NSString *)windowNibName
