@@ -149,7 +149,7 @@ typedef enum
 - (void)showWindow:(id)sender
 {
     NSWindow *window = [self window];
-    const BOOL needsToggleFullScreen = (!![self isWindowFullScreen] != !![window OE_isFullScreen]);
+    const BOOL needsToggleFullScreen = (!![self isWindowFullScreen] != !![window isFullScreen]);
 
     if(![window isVisible])
     {
@@ -201,7 +201,7 @@ typedef enum
 
 - (BOOL)shouldAllowIntegralScaling
 {
-    return ![[self window] OE_isFullScreen];
+    return ![[self window] isFullScreen];
 }
 
 #pragma mark - Private methods
@@ -343,7 +343,7 @@ typedef enum
 {
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
 
-    const NSSize windowSize         = ([[self window] OE_isFullScreen] ? _frameForNonFullScreenMode.size : [[self window] frame].size);
+    const NSSize windowSize         = ([[self window] isFullScreen] ? _frameForNonFullScreenMode.size : [[self window] frame].size);
     NSString *systemIdentifier      = [[[[gameViewController rom] game] system] systemIdentifier];
     NSUserDefaults *userDefaults    = [NSUserDefaults standardUserDefaults];
     NSString *systemKey             = [NSString stringWithFormat:_OESystemIntegralScaleKeyFormat, systemIdentifier];

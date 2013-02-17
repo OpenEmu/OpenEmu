@@ -40,6 +40,7 @@
 #import "OEDeviceManager.h"
 #import "NSAttributedString+Hyperlink.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "NSWindow+OEFullScreenAdditions.h"
 
 #import "OEMainWindowController.h"
 #import "OESetupAssistant.h"
@@ -164,6 +165,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [mainWindowController showWindow:self];
 
     [[OECoreUpdater sharedUpdater] checkForNewCores:@( NO )];
+    
+    BOOL startInFullscreen = [[NSUserDefaults standardUserDefaults] boolForKey:OEMainWindowFullscreenKey];
+    if(startInFullscreen != [[mainWindowController window] isFullScreen])
+    {
+        [[mainWindowController window] toggleFullScreen:self];
+    }
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender

@@ -115,7 +115,7 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
     const BOOL hidingSidebar = [self isSidebarVisible];
     [[NSUserDefaults standardUserDefaults] setBool:!hidingSidebar forKey:_OESidebarVisibleKey];
 
-    const BOOL shouldChangeWindowSize = ![[self window] OE_isFullScreen];
+    const BOOL shouldChangeWindowSize = ![[self window] isFullScreen];
 
     void (^animationCompletionHandler)(void) = ^{
         _animating = NO;

@@ -28,5 +28,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface NSWindow (OEFullScreenAdditions)
-- (BOOL)OE_isFullScreen;
+- (BOOL)isFullScreen;
 @end

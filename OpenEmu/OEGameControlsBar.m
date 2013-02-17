@@ -26,6 +26,7 @@
 
 #import "OEGameControlsBar.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "NSWindow+OEFullScreenAdditions.h"
 
 #import "OEButton.h"
 #import "OEHUDSlider.h"
@@ -435,8 +436,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [nc addObserver:self selector:@selector(parentWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:window];
         
         OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
-        BOOL windowInFullscreen = ([window styleMask]&NSFullScreenWindowMask) != 0;
-        [[view fullScreenButton] setState:windowInFullscreen ? NSOnState : NSOffState];
+        [[view fullScreenButton] setState:[window isFullScreen] ? NSOnState : NSOffState];
     }
 }
 
