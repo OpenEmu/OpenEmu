@@ -165,7 +165,7 @@ static NSArray *OE_defaultSortDescriptors;
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
 
-    OE_defaultSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+    OE_defaultSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
     
     [gamesController setManagedObjectContext:context];
     [gamesController setEntityName:@"Game"];
@@ -1201,8 +1201,6 @@ static NSArray *OE_defaultSortDescriptors;
     {
         return YES;
     }
-    
-    
     return YES;
 }
 
