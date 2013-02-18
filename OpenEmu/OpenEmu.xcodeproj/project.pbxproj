@@ -394,6 +394,8 @@
 		837777B9147A8E730091A896 /* OEHUDProgressbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 837777B8147A8E730091A896 /* OEHUDProgressbar.m */; };
 		837777BC147A8F6A0091A896 /* hud_progress_bar_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 837777BA147A8F6A0091A896 /* hud_progress_bar_track.png */; };
 		837777BD147A8F6A0091A896 /* hud_progress_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 837777BB147A8F6A0091A896 /* hud_progress_bar.png */; };
+		837DF19A16D2B0F400024BE1 /* OECollectionDebugWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 837DF19816D2B0F400024BE1 /* OECollectionDebugWindowController.m */; };
+		837DF19B16D2B0F400024BE1 /* OECollectionDebugWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 837DF19916D2B0F400024BE1 /* OECollectionDebugWindowController.xib */; };
 		83802E6A142F6FF900130517 /* controls_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 83802E69142F6FF900130517 /* controls_highlight.png */; };
 		8382D23113C5C5BB00906221 /* OEPrefCoresController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D22E13C5C5BB00906221 /* OEPrefCoresController.xib */; };
 		8382D23213C5C5BB00906221 /* OEPrefGameplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */; };
@@ -1518,6 +1520,9 @@
 		837777B8147A8E730091A896 /* OEHUDProgressbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDProgressbar.m; sourceTree = "<group>"; };
 		837777BA147A8F6A0091A896 /* hud_progress_bar_track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_progress_bar_track.png; sourceTree = "<group>"; };
 		837777BB147A8F6A0091A896 /* hud_progress_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_progress_bar.png; sourceTree = "<group>"; };
+		837DF19716D2B0F400024BE1 /* OECollectionDebugWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECollectionDebugWindowController.h; sourceTree = "<group>"; };
+		837DF19816D2B0F400024BE1 /* OECollectionDebugWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECollectionDebugWindowController.m; sourceTree = "<group>"; };
+		837DF19916D2B0F400024BE1 /* OECollectionDebugWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OECollectionDebugWindowController.xib; sourceTree = "<group>"; };
 		83802E69142F6FF900130517 /* controls_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controls_highlight.png; sourceTree = "<group>"; };
 		8382D22E13C5C5BB00906221 /* OEPrefCoresController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefCoresController.xib; sourceTree = "<group>"; };
 		8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefGameplayController.xib; sourceTree = "<group>"; };
@@ -2586,6 +2591,7 @@
 				53439AAA13B92CE5005C0CC8 /* OECollectionViewItemProtocol.h */,
 				53439AAC13B92CF1005C0CC8 /* Cover Flow View */,
 				53439AAE13B92CFE005C0CC8 /* Grid View */,
+				837DF19416D2B0BA00024BE1 /* OECollectionDebugView */,
 				53439AAD13B92CFC005C0CC8 /* List View */,
 				83955CB9165DAE7900572B34 /* Blank Slate View */,
 			);
@@ -3315,6 +3321,16 @@
 				83703B42140E4F9100EC27A7 /* Scale4xHQ.png */,
 			);
 			path = Filter;
+			sourceTree = "<group>";
+		};
+		837DF19416D2B0BA00024BE1 /* OECollectionDebugView */ = {
+			isa = PBXGroup;
+			children = (
+				837DF19716D2B0F400024BE1 /* OECollectionDebugWindowController.h */,
+				837DF19816D2B0F400024BE1 /* OECollectionDebugWindowController.m */,
+				837DF19916D2B0F400024BE1 /* OECollectionDebugWindowController.xib */,
+			);
+			name = OECollectionDebugView;
 			sourceTree = "<group>";
 		};
 		8382D22C13C5C55200906221 /* Preferences */ = {
@@ -4561,6 +4577,7 @@
 				830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */,
 				1B96BA56166BDD52005064C8 /* FRFeedbackReporter.sh in Resources */,
 				8CF0EB56169B1DF900E3670D /* Scanline.cg in Resources */,
+				837DF19B16D2B0F400024BE1 /* OECollectionDebugWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4977,6 +4994,7 @@
 				94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */,
 				8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */,
 				C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */,
+				837DF19A16D2B0F400024BE1 /* OECollectionDebugWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

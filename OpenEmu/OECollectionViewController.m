@@ -63,6 +63,7 @@
 #import "OESidebarController.h"
 #import "OETableView.h"
 
+#import "OECollectionDebugWindowController.h"
 #pragma mark - Public variables
 
 NSString * const OELastGridSizeKey       = @"lastGridSize";
@@ -554,6 +555,12 @@ static NSArray *OE_defaultSortDescriptors;
 {
     [gamesController setSelectionIndexes:[view selectionIndexes]];
     _stateRewriteRequired = YES;
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugCollectionView] && [[[self gamesController] selectedObjects] count])
+    {
+        [[OECollectionDebugWindowController sharedController] setRepresentedObject:[[[self gamesController] selectedObjects] objectAtIndex:0]];
+        [[[OECollectionDebugWindowController sharedController] window] makeKeyAndOrderFront:self];
+    }
 }
 
 - (NSDragOperation)gridView:(OEGridView *)gridView validateDrop:(id<NSDraggingInfo>)draggingInfo
@@ -1223,6 +1230,12 @@ static NSArray *OE_defaultSortDescriptors;
     _listViewSelectionChangeDate = [NSDate date];
 
     if([[listView selectedRowIndexes] count] == 1) [coverFlowView setSelectedIndex:[[listView selectedRowIndexes] firstIndex]];
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugCollectionView] && [[[self gamesController] selectedObjects] count])
+    {
+        [[OECollectionDebugWindowController sharedController] setRepresentedObject:[[[self gamesController] selectedObjects] objectAtIndex:0]];
+        [[[OECollectionDebugWindowController sharedController] window] makeKeyAndOrderFront:self];
+    }
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
