@@ -297,38 +297,30 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     NSURL *url = [item URL];
     if([url isDirectory])
     {
-        NSError *error = nil;
-        NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:url includingPropertiesForKeys:nil options:0 error:&error];
-        if(contents == nil)
-        {
-            [self stopImportForItem:item withError:error];
-        }
-        else
-        {
-            NSMutableArray *importItems = [NSMutableArray arrayWithCapacity:[contents count]];
-            [contents enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                OEImportItem *subItem = [OEImportItem itemWithURL:obj andCompletionHandler:[item completionHandler]];
-                if(subItem)
-                    [importItems addObject:subItem];
-            }];
-            
-            NSUInteger index = [[self queue] indexOfObjectIdenticalTo:item];
-            if(index == NSNotFound) // Should never happen
-            {
-                // TODO: set proper error code
-                NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:0 userInfo:nil];
+        NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:@[NSURLIsPackageKey, NSURLIsHiddenKey] options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsPackageDescendants|NSDirectoryEnumerationSkipsHiddenFiles errorHandler:^BOOL(NSURL *url, NSError *error) {
                 [self stopImportForItem:item withError:error];
-            }
-            else
+                return NO;
+            }];
+        
+        NSURL *subURL;
+        while([self status]==OEImporterStatusRunning && (subURL = [directoryEnumerator nextObject]))
+        {
+            OEImportItem *subItem = [OEImportItem itemWithURL:subURL andCompletionHandler:[item completionHandler]];
+            if(subItem)
             {
-                // TODO: add items after index, not at the end
-                [item setImportState:OEImportItemStatusFinished];
-                [[self queue] addObjectsFromArray:importItems];
-                [[self queue] removeObjectIdenticalTo:item];
-                self.totalNumberOfItems += ([importItems count]-1);
-                [self processNextItem];
-                self.activeImports--;
+                [[self queue] addObject:subItem];
+                self.totalNumberOfItems++;
+                [self OE_performSelectorOnDelegate:@selector(romImporterChangedItemCount:) withObject:self];
             }
+        };
+        
+        if([self status]==OEImporterStatusRunning)
+        {
+            self.totalNumberOfItems--;
+            [item setImportState:OEImportItemStatusFinished];
+            [[self queue] removeObjectIdenticalTo:item];
+            [self processNextItem];
+            self.activeImports--;
         }
     }
 }
