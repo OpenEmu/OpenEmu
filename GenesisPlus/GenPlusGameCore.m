@@ -28,11 +28,12 @@
 #import "GenPlusGameCore.h"
 #import <OERingBuffer.h>
 #import "OEGenesisSystemResponderClient.h"
+#import "OESegaCDSystemResponderClient.h"
 #import <OpenGL/gl.h>
 
 #include "libretro.h"
 
-@interface GenPlusGameCore () <OEGenesisSystemResponderClient>
+@interface GenPlusGameCore () <OEGenesisSystemResponderClient, OESegaCDSystemResponderClient>
 {
     uint16_t *videoBuffer;
     int videoWidth, videoHeight;
@@ -176,6 +177,16 @@ static void writeSaveFile(const char* path, int type)
 }
 
 - (oneway void)didReleaseGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
+{
+    pad[player-1][GenesisEmulatorValues[button]] = 0;
+}
+
+- (oneway void)didPushSegaCDButton:(OESegaCDButton)button forPlayer:(NSUInteger)player;
+{
+    pad[player-1][GenesisEmulatorValues[button]] = 1;
+}
+
+- (oneway void)didReleaseSegaCDButton:(OESegaCDButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][GenesisEmulatorValues[button]] = 0;
 }
