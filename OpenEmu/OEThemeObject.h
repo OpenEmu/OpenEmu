@@ -37,6 +37,7 @@
  - Pressed State
  - Interaction State
  - Mouse State
+ - Modifier State
 
  When all 5 state inputs are either zero's (0x0000) or ones (0xFFFF), it is considered a default state mask. When a
  looking for the most appropriate object, based a system's state, the default state mask is used if no other state mask
@@ -57,6 +58,9 @@ enum
     OEThemeInputStateFocused        = 1 << 10,
     OEThemeInputStateMouseOff       = 1 << 11,
     OEThemeInputStateMouseOver      = 1 << 12,
+    
+    OEThemeInputStateModifierNone        = 1 << 13,
+    OEThemeInputStateModifierAlternate   = 1 << 14,
 };
 
 #pragma mark -
@@ -75,7 +79,8 @@ enum
     OEThemeStateAnyInteraction    = OEThemeInputStateDisabled       | OEThemeInputStateEnabled,
     OEThemeStateAnyFocus          = OEThemeInputStateUnfocused      | OEThemeInputStateFocused,
     OEThemeStateAnyMouse          = OEThemeInputStateMouseOff       | OEThemeInputStateMouseOver,
-    OEThemeStateDefault           = 0xFFFF,
+    OEThemeStateAnyModifier       = OEThemeInputStateModifierNone   | OEThemeInputStateModifierAlternate,
+    OEThemeStateDefault           = 0xFFFFF,
 };
 typedef NSUInteger OEThemeState;
 
@@ -107,7 +112,7 @@ extern OEThemeState  OEThemeStateFromString(NSString *state);
 + (id)parseWithDefinition:(NSDictionary *)definition;
 
 // Convenience function for retrieving an OEThemeState based on the supplied inputs
-+ (OEThemeState)themeStateWithWindowActive:(BOOL)windowActive buttonState:(NSCellStateValue)state selected:(BOOL)selected enabled:(BOOL)enabled focused:(BOOL)focused houseHover:(BOOL)hover;
++ (OEThemeState)themeStateWithWindowActive:(BOOL)windowActive buttonState:(NSCellStateValue)state selected:(BOOL)selected enabled:(BOOL)enabled focused:(BOOL)focused houseHover:(BOOL)hover modifierMask:(NSUInteger)modifierMask;
 
 // Retrieves UI object for state specified
 - (id)objectForState:(OEThemeState)state;

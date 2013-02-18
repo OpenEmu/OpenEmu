@@ -84,6 +84,8 @@
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1/30.0 * NSEC_PER_SEC);
             dispatch_after(popTime, dispatch_get_main_queue(), animationBlock);
         }
+        else
+            animationBlock = nil;
     };
     dispatch_async(dispatch_get_main_queue(), animationBlock);
 }

@@ -32,15 +32,4 @@
 
 OE_EXPORTED_CLASS
 @interface GenPlusGameCore : OEGameCore
-{
-@public
-    uint16_t *videoBuffer;
-    int videoWidth, videoHeight;
-    int16_t pad[2][8];
-    NSString *romName;
-    double sampleRate;
-    const char *systemEnvironment;
-    const char *systemEnvironmentSplit[0];
-}
-
 @end

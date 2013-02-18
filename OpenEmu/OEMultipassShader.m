@@ -71,7 +71,7 @@
 
     // Parse the number of shaders
     NSTextCheckingResult *result = [self checkRegularExpression:@"(?<=shaders=).*$" inString:strippedInput withError:error];
-    if(result.range.location == NSNotFound)
+    if(result.range.length == 0)
     {
         NSLog(@"Couldn't find \"shaders\" argument of %@: %@", [self shaderName], error);
         return NO;
@@ -79,7 +79,7 @@
 
     _numberOfPasses = [[strippedInput substringWithRange:result.range] integerValue];
 
-    if(_numberOfPasses > 10)
+    if(_numberOfPasses > OEMultipasses)
     {
         NSLog(@"Too many shader passes in %@: %@", [self shaderName], error);
         return NO;
@@ -91,7 +91,7 @@
     for(NSUInteger i = 0; i < _numberOfPasses; ++i)
     {
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=shader%ld=).*(?=.cg)", i] inString:strippedInput withError:error];
-        if(result.range.location == NSNotFound)
+        if(result.range.length == 0)
         {
             NSLog(@"Couldn't find \"shader%ld\" argument of %@: %@", i, [self shaderName], error);
             return NO;
@@ -101,6 +101,11 @@
 
         // Create shader
         OECGShader *shader = [[OECGShaderPlugin pluginWithName:name] shaderWithContext:[self shaderContext]];
+        if(!shader)
+        {
+            NSLog(@"Couldn't find shader named %@", name);
+            return NO;
+        }
 
         // Check if linear filtering is to be used
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=filter_linear%ld=).*", i] inString:strippedInput withError:error];
@@ -112,7 +117,7 @@
 
         // Check how the shader should scale
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_type%ld=).*", i] inString:strippedInput withError:error];
-        if(result.range.location != NSNotFound)
+        if(result.range.length != 0)
         {
             otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             if([otherArguments isEqualToString:@"viewport"])
@@ -122,14 +127,23 @@
             else
                 [shader setScaleType:OEScaleTypeSource];
         }
+        else
+        {
+            if(i != (_numberOfPasses - 1))
+                [shader setScaleType:OEScaleTypeSource];
+            else
+                [shader setScaleType:OEScaleTypeViewPort];
+        }
 
         // Check for the scaling factor
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale%ld=).*", i] inString:strippedInput withError:error];
-        if(result.range.location != NSNotFound)
+        if(result.range.length != 0)
         {
             otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             [shader setScaler:CGSizeMake([otherArguments floatValue], [otherArguments floatValue])];
         }
+        else
+            [shader setScaler:CGSizeMake(1,1)];
 
         // Add the shader to the shaders array
         [_shaders addObject:shader];

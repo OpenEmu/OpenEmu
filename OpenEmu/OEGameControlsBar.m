@@ -26,6 +26,7 @@
 
 #import "OEGameControlsBar.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "NSWindow+OEFullScreenAdditions.h"
 
 #import "OEButton.h"
 #import "OEHUDSlider.h"
@@ -121,6 +122,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         NSMutableSet   *filterSet     = [NSMutableSet set];
         [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
         [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+        [filterSet filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT SELF beginswith '_'"]];
         filterPlugins = [[filterSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }
     return self;
@@ -407,14 +409,12 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (void)parentWindowDidEnterFullScreen:(NSNotification *)notification;
 {
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
-
     [[view fullScreenButton] setState:NSOnState];
 }
 
 - (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
 {
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
-
     [[view fullScreenButton] setState:NSOffState];
 }
 
@@ -434,14 +434,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     {
         [nc addObserver:self selector:@selector(parentWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:window];
         [nc addObserver:self selector:@selector(parentWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:window];
-    
-        if(([window styleMask] & NSFullScreenWindowMask) == NSFullScreenWindowMask)
-        {
-            OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
-
-            [[view fullScreenButton] setImage:[NSImage imageNamed:@"hud_exit_fullscreen_glyph_normal"]];
-            [[view fullScreenButton] setAlternateImage:[NSImage imageNamed:@"hud_exit_fullscreen_glyph_pressed"]];
-        }
+        
+        OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
+        [[view fullScreenButton] setState:[window isFullScreen] ? NSOnState : NSOffState];
     }
 }
 

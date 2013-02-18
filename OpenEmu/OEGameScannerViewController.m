@@ -39,6 +39,7 @@
 
 @interface OEGameScannerViewController ()
 @property NSMutableArray *itemsRequiringAttention;
+@property BOOL isScanningDirectory;
 @end
 @implementation OEGameScannerViewController
 - (NSString*)nibName
@@ -108,6 +109,9 @@
         [[self progressIndicator] setIndeterminate:NO];
         [[self progressIndicator] startAnimation:self];
         status = [NSString stringWithFormat:@"Game %ld of %ld", [[self importer] numberOfProcessedItems], maxItems];
+        
+        if([self isScanningDirectory])
+            status = NSLocalizedString(@"Scanning Directory", "");
     }
     else if([importer status] == OEImporterStatusStopped || [importer status] == OEImporterStatusStopping)
     {
@@ -272,6 +276,8 @@
 #pragma mark - OEROMImporter Delegate
 - (void)romImporterDidStart:(OEROMImporter *)importer
 {
+    self.isScanningDirectory = NO;
+    
     int64_t delayInSeconds = 1.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -310,6 +316,8 @@
 
 - (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem*)item
 {
+    
+    [self setIsScanningDirectory:[item importStep] == OEImportStepCheckDirectory];
 }
 
 - (void)romImporter:(OEROMImporter*)importer stoppedProcessingItem:(OEImportItem*)item
@@ -421,22 +429,33 @@
     [self OE_updateProgress];
 
     [[self issuesView] reloadData];
-    [[self importer] startQueueIfNeeded];
+    [[self importer] processNextItemIfNeeded];
     
     if([[self itemsRequiringAttention] count] == 0)
         [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self];
 }
 
 #pragma mark - UI Actions Scanner
-- (IBAction)togglePause:(id)sender
+- (IBAction)buttonAction:(id)sender
 {
-    [[self importer] togglePause];
+    if([NSEvent modifierFlags] & NSAlternateKeyMask)
+    {
+        //TODO: Show a proper (dark, rephrased) dialog here
+        NSAlert *cancelAlert = [NSAlert alertWithMessageText:@"Do you really want to cancel the import process?" defaultButton:@"Yes" alternateButton:@"No" otherButton:@"" informativeTextWithFormat:@"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library."];
+        [sender setState:[sender state]==NSOnState?NSOffState:NSOnState];
+        if([cancelAlert runModal] == NSAlertDefaultReturn)
+        {
+            [[self importer] cancel];
+            [self OE_hideGameScannerView];
+        
+            [sender setState:NSOffState];
+        }
+    }
+    else
+    {
+        [[self importer] togglePause];
+    }    
     [self OE_updateProgress];
-}
-
-- (IBAction)cancel:(id)sender
-{
-    [[self importer] cancel];
 }
 
 - (IBAction)showIssuesView:(id)sender

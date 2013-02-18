@@ -71,17 +71,27 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     return [(__bridge OEGameView *)displayLinkContext displayLinkRenderCallback:inOutputTime];
 }
 
+static const GLfloat cg_coords[] =
+{
+    0, 0,
+    1, 0,
+    1, 1,
+    0, 1
+};
+
 @interface OEGameView ()
 
 // rendering
 @property GLuint             gameTexture;
 @property IOSurfaceID        gameSurfaceID;
 @property IOSurfaceRef       gameSurfaceRef;
-@property GLuint             rttFBO;
-@property GLuint             rttGameTexture;
+@property GLuint            *rttFBOs;
+@property GLuint            *rttGameTextures;
 @property NSUInteger         frameCount;
 @property GLuint            *multipassTextures;
 @property GLuint            *multipassFBOs;
+@property OEIntSize         *multipassSizes;
+
 @property snes_ntsc_t       *ntscTable;
 @property uint16_t          *ntscSource;
 @property uint16_t          *ntscDestination;
@@ -104,7 +114,8 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
 @property BOOL               filterHasOutputMousePositionKeys;
 
 - (void)OE_renderToTexture:(GLuint)renderTarget usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx;
-- (void)OE_applyCgShader:(OECGShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const CGSize)outputSize inCGLContext:(CGLContextObj)cgl_ctx;
+- (void)OE_applyCgShader:(OECGShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const OEIntSize)outputSize inPassNumber:(const NSUInteger)passNumber inCGLContext:(CGLContextObj)cgl_ctx;
+- (void)OE_calculateMultipassSizes:(OEMultipassShader *)multipassShader;
 - (void)OE_multipassRender:(OEMultipassShader *)multipassShader usingVertices:(const GLfloat *)vertices inCGLContext:(CGLContextObj)cgl_ctx;
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader;
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
@@ -157,28 +168,33 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     glGenTextures(1, &_gameTexture);
 
     // Resources for render-to-texture pass
-    glGenTextures(1, &_rttGameTexture);
-    glBindTexture(GL_TEXTURE_2D, _rttGameTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  _gameScreenSize.width, _gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    _rttGameTextures = (GLuint *) malloc(OEFramesSaved * sizeof(GLuint));
+    _rttFBOs         = (GLuint *) malloc(OEFramesSaved * sizeof(GLuint));
 
-    glGenFramebuffersEXT(1, &_rttFBO);
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _rttFBO);
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _rttGameTexture, 0);
+    glGenTextures(OEFramesSaved, _rttGameTextures);
+    glGenFramebuffersEXT(OEFramesSaved, _rttFBOs);
+    for(NSUInteger i = 0; i < OEFramesSaved; ++i)
+    {
+        glBindTexture(GL_TEXTURE_2D, _rttGameTextures[i]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  _gameScreenSize.width, _gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _rttFBOs[i]);
+        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _rttGameTextures[i], 0);
+    }
 
     GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
         NSLog(@"failed to make complete framebuffer object %x", status);
 
     // Resources for multipass-rendering
-    _multipassTextures = (GLuint *) malloc(10 * sizeof(GLuint));
-    _multipassFBOs     = (GLuint *) malloc(10 * sizeof(GLuint));
+    _multipassTextures = (GLuint *) malloc(OEMultipasses * sizeof(GLuint));
+    _multipassFBOs     = (GLuint *) malloc(OEMultipasses * sizeof(GLuint));
 
-    glGenTextures(10, _multipassTextures);
-    glGenFramebuffersEXT(10, _multipassFBOs);
+    glGenTextures(OEMultipasses, _multipassTextures);
+    glGenFramebuffersEXT(OEMultipasses, _multipassFBOs);
 
-    for(NSUInteger i = 0; i < 10; ++i)
+    for(NSUInteger i = 0; i < OEMultipasses; ++i)
     {
         glBindTexture(GL_TEXTURE_2D, _multipassTextures[i]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -201,7 +217,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     _ntscSource      = (uint16_t *) malloc(sizeof(uint16_t) * _gameScreenSize.width * _gameScreenSize.height);
     if(_gameScreenSize.width <= 256)
         _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH(_gameScreenSize.width) * _gameScreenSize.height);
-    else
+    else if(_gameScreenSize.width <= 512)
         _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH_HIRES(_gameScreenSize.width) * _gameScreenSize.height);
 
     glGenTextures(1, &_ntscTexture);
@@ -266,16 +282,18 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     glDeleteTextures(1, &_gameTexture);
     _gameTexture = 0;
 
-    glDeleteTextures(1, &_rttGameTexture);
-    _rttGameTexture = 0;
-    glDeleteFramebuffersEXT(1, &_rttFBO);
-    _rttFBO = 0;
+    glDeleteTextures(OEFramesSaved, _rttGameTextures);
+    free(_rttGameTextures);
+    _rttGameTextures = 0;
+    glDeleteFramebuffersEXT(OEFramesSaved, _rttFBOs);
+    free(_rttFBOs);
+    _rttFBOs = 0;
 
-    glDeleteTextures(10, _multipassTextures);
+    glDeleteTextures(OEMultipasses, _multipassTextures);
     free(_multipassTextures);
     _multipassTextures = 0;
 
-    glDeleteFramebuffersEXT(10, _multipassFBOs);
+    glDeleteFramebuffersEXT(OEMultipasses, _multipassFBOs);
     free(_multipassFBOs);
     _multipassFBOs = 0;
 
@@ -287,6 +305,10 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     _ntscDestination = 0;
     glDeleteTextures(1, &_ntscTexture);
     _ntscTexture = 0;
+
+    if(_multipassSizes)
+        free(_multipassSizes);
+    _multipassSizes = 0;
 
     CGLUnlockContext(cgl_ctx);
     [super clearGLContext];
@@ -541,7 +563,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
 
     glViewport(0, 0, _gameScreenSize.width, _gameScreenSize.height);
 
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _rttFBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _rttFBOs[_frameCount % OEFramesSaved]);
 
     glBindTexture(GL_TEXTURE_2D, renderTarget);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -559,16 +581,8 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 }
 
-- (void)OE_applyCgShader:(OECGShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const CGSize)outputSize inCGLContext:(CGLContextObj)cgl_ctx
+- (void)OE_applyCgShader:(OECGShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const OEIntSize)outputSize inPassNumber:(const NSUInteger)passNumber inCGLContext:(CGLContextObj)cgl_ctx
 {
-    const GLfloat cg_coords[] =
-    {
-        0, 0,
-        1, 0,
-        1, 1,
-        0, 1
-    };
-
     // enable vertex program, bind parameters
     cgGLBindProgram([shader vertexProgram]);
     cgGLSetParameter2f([shader vertexVideoSize], textureSize.width, textureSize.height);
@@ -576,6 +590,31 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     cgGLSetParameter2f([shader vertexOutputSize], outputSize.width, outputSize.height);
     cgGLSetParameter1f([shader vertexFrameCount], _frameCount);
     cgGLSetStateMatrixParameter([shader modelViewProj], CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
+
+    // bind ORIG parameters
+    cgGLSetParameterPointer([shader vertexOriginalTextureCoords], 2, GL_FLOAT, 0, cg_coords);
+    cgGLEnableClientState([shader vertexOriginalTextureCoords]);
+    cgGLSetParameter2f([shader vertexOriginalTextureVideoSize], _gameScreenSize.width, _gameScreenSize.height);
+    cgGLSetParameter2f([shader vertexOriginalTextureSize], _gameScreenSize.width, _gameScreenSize.height);
+
+    // bind PREV parameters
+    for(NSUInteger i = 0; i < (OEFramesSaved - 1); ++i)
+    {
+        cgGLSetParameterPointer([shader vertexPreviousTextureCoords][i], 2, GL_FLOAT, 0, cg_coords);
+        cgGLEnableClientState([shader vertexPreviousTextureCoords][i]);
+        cgGLSetParameter2f([shader vertexPreviousTextureVideoSizes][i], textureSize.width, textureSize.height);
+        cgGLSetParameter2f([shader vertexPreviousTextureSizes][i], textureSize.width, textureSize.height);
+    }
+
+    // bind PASS parameters
+    for(NSUInteger i = 0; i < passNumber; ++i)
+    {
+        cgGLSetParameterPointer([shader vertexPassTextureCoords][i], 2, GL_FLOAT, 0, cg_coords);
+        cgGLEnableClientState([shader vertexPassTextureCoords][i]);
+        cgGLSetParameter2f([shader vertexPassTextureVideoSizes][i], _multipassSizes[i+1].width, _multipassSizes[i+1].height);
+        cgGLSetParameter2f([shader vertexPassTextureSizes][i], _multipassSizes[i+1].width, _multipassSizes[i+1].height);
+    }
+
     cgGLEnableProfile([shader vertexProfile]);
 
     // enable fragment program, bind parameters
@@ -584,6 +623,31 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     cgGLSetParameter2f([shader fragmentTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader fragmentOutputSize], outputSize.width, outputSize.height);
     cgGLSetParameter1f([shader fragmentFrameCount], _frameCount);
+
+    // bind ORIG parameters
+    cgGLSetTextureParameter([shader fragmentOriginalTexture], _rttGameTextures[_frameCount % OEFramesSaved]);
+    cgGLEnableTextureParameter([shader fragmentOriginalTexture]);
+    cgGLSetParameter2f([shader fragmentOriginalTextureVideoSize], _gameScreenSize.width, _gameScreenSize.height);
+    cgGLSetParameter2f([shader fragmentOriginalTextureSize], _gameScreenSize.width, _gameScreenSize.height);
+
+    // bind PREV parameters
+    for(NSUInteger i = 0; i < (OEFramesSaved - 1); ++i)
+    {
+        cgGLSetTextureParameter([shader fragmentPreviousTextures][i], _rttGameTextures[(_frameCount + OEFramesSaved - 1 - i) % OEFramesSaved]);
+        cgGLEnableTextureParameter([shader fragmentPreviousTextures][i]);
+        cgGLSetParameter2f([shader fragmentPreviousTextureVideoSizes][i], textureSize.width, textureSize.height);
+        cgGLSetParameter2f([shader fragmentPreviousTextureSizes][i], textureSize.width, textureSize.height);
+    }
+
+    // bind PASS parameters
+    for(NSUInteger i = 0; i < passNumber; ++i)
+    {
+        cgGLSetTextureParameter([shader fragmentPassTextures][i], _multipassTextures[i]);
+        cgGLEnableTextureParameter([shader fragmentPassTextures][i]);
+        cgGLSetParameter2f([shader fragmentPassTextureVideoSizes][i], _multipassSizes[i+1].width, _multipassSizes[i+1].height);
+        cgGLSetParameter2f([shader fragmentPassTextureSizes][i], _multipassSizes[i+1].width, _multipassSizes[i+1].height);
+    }
+
     cgGLEnableProfile([shader fragmentProfile]);
 
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
@@ -599,24 +663,66 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     cgGLDisableProfile([shader fragmentProfile]);
 }
 
+// calculates the texture size for each pass
+- (void)OE_calculateMultipassSizes:(OEMultipassShader *)multipassShader
+{
+    NSUInteger numberOfPasses = [multipassShader numberOfPasses];
+    NSArray *shaders = [multipassShader shaders];
+    int width = _gameScreenSize.width;
+    int height = _gameScreenSize.height;
+
+    if([multipassShader NTSCFilter] != OENTSCFilterTypeNone && _gameScreenSize.width <= 512)
+    {
+        if(_gameScreenSize.width <= 256)
+            width = SNES_NTSC_OUT_WIDTH(width);
+        else
+            width = SNES_NTSC_OUT_WIDTH_HIRES(width);
+    }
+
+    // multipassSize[0] contains the initial texture size
+    _multipassSizes[0] = OESizeMake(width, height);
+
+    for(NSUInteger i = 0; i < numberOfPasses; ++i)
+    {
+        OEScaleType scaleType = [shaders[i] scaleType];
+        CGSize scaler         = [shaders[i] scaler];
+
+        if(scaleType == OEScaleTypeViewPort)
+        {
+            width = self.frame.size.width * scaler.width;
+            height = self.frame.size.height * scaler.height;
+        }
+        else if(scaleType == OEScaleTypeAbsolute)
+        {
+            width = scaler.width;
+            height = scaler.height;
+        }
+        else
+        {
+            width = width * scaler.width;
+            height = height * scaler.height;
+        }
+        
+        _multipassSizes[i + 1] = OESizeMake(width, height);
+    }
+}
+
 - (void)OE_multipassRender:(OEMultipassShader *)multipassShader usingVertices:(const GLfloat *)vertices inCGLContext:(CGLContextObj)cgl_ctx
 {
     const GLfloat rtt_verts[] =
     {
         -1, -1,
-        1, -1,
-        1,  1,
+         1, -1,
+         1,  1,
         -1,  1
     };
     
     NSArray    *shaders        = [multipassShader shaders];
     NSUInteger  numberOfPasses = [multipassShader numberOfPasses];
-    int         outputWidth    = _gameScreenSize.width;
-    int         outputHeight   = _gameScreenSize.height;
-    int         textureWidth;
-    int         textureHeight;
+    [self OE_calculateMultipassSizes:multipassShader];
 
-    if([multipassShader NTSCFilter] != OENTSCFilterTypeNone)
+    // apply NTSC filter if needed
+    if([multipassShader NTSCFilter] != OENTSCFilterTypeNone && _gameScreenSize.width <= 512)
     {
         glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5_REV, _ntscSource);
 
@@ -624,74 +730,30 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
 
         glBindTexture(GL_TEXTURE_2D, _ntscTexture);
         if(_gameScreenSize.width <= 256)
-        {
             snes_ntsc_blit(_ntscTable, _ntscSource, _gameScreenSize.width, _ntscBurstPhase, _gameScreenSize.width, _gameScreenSize.height, _ntscDestination, SNES_NTSC_OUT_WIDTH(_gameScreenSize.width)*2);
-            outputWidth = SNES_NTSC_OUT_WIDTH(_gameScreenSize.width);
-        }
         else
-        {
             snes_ntsc_blit_hires(_ntscTable, _ntscSource, _gameScreenSize.width, _ntscBurstPhase, _gameScreenSize.width, _gameScreenSize.height, _ntscDestination, SNES_NTSC_OUT_WIDTH_HIRES(_gameScreenSize.width)*2);
-            outputWidth = SNES_NTSC_OUT_WIDTH_HIRES(_gameScreenSize.width);
-        }
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, outputWidth, _gameScreenSize.height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5_REV, _ntscDestination);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _multipassSizes[0].width, _multipassSizes[0].height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5_REV, _ntscDestination);
     }
 
+    // render all passes to FBOs
     for(NSUInteger i = 0; i < numberOfPasses; ++i)
-    {
+    {        
         BOOL linearFiltering  = [shaders[i] linearFiltering];
-        OEScaleType scaleType = [shaders[i] scaleType];
-        CGSize scaler         = [shaders[i] scaler];
 
-        textureWidth  = outputWidth;
-        textureHeight = outputHeight;
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _multipassFBOs[i]);
+        glBindTexture(GL_TEXTURE_2D, _multipassTextures[i]);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  _multipassSizes[i + 1].width, _multipassSizes[i + 1].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
-        if(scaleType == OEScaleTypeViewPort)
-        {
-            if(scaler.width != 0)
-                outputWidth = self.frame.size.width * scaler.width;
-            else
-                outputWidth = self.frame.size.width;
-            if(scaler.height != 0)
-                outputHeight = self.frame.size.height * scaler.height;
-            else
-                outputHeight = self.frame.size.height;
-        }
-        else if(scaleType == OEScaleTypeAbsolute)
-        {
-            if(scaler.width != 0)
-                outputWidth = scaler.width;
-            if(scaler.height != 0)
-                outputHeight = scaler.height;
-        }
-        else
-        {
-            if(scaler.width != 0)
-                outputWidth = outputWidth * scaler.width;
-            if(scaler.height != 0)
-                outputHeight = outputHeight * scaler.height;
-        }
-
-        if(i == numberOfPasses - 1)
-        {
-            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-            glViewport(0, 0, self.frame.size.width, self.frame.size.height);
-        }
-        else
-        {
-            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _multipassFBOs[i]);
-            glBindTexture(GL_TEXTURE_2D, _multipassTextures[i]);
-
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  outputWidth, outputHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-            glViewport(0, 0, outputWidth, outputHeight);
-        }
+        glViewport(0, 0, _multipassSizes[i + 1].width, _multipassSizes[i + 1].height);
 
         if(i == 0)
         {
-            if([multipassShader NTSCFilter] != OENTSCFilterTypeNone)
+            if([multipassShader NTSCFilter] != OENTSCFilterTypeNone && _gameScreenSize.width <= 512)
                 glBindTexture(GL_TEXTURE_2D, _ntscTexture);
             else
-                glBindTexture(GL_TEXTURE_2D, _rttGameTexture);
+                glBindTexture(GL_TEXTURE_2D, _rttGameTextures[_frameCount % OEFramesSaved]);
         }
         else
             glBindTexture(GL_TEXTURE_2D, _multipassTextures[i - 1]);
@@ -707,12 +769,35 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         }
 
-        if(i == numberOfPasses - 1)
-            [self OE_applyCgShader:shaders[i] usingVertices:vertices withTextureSize:OESizeMake(textureWidth, textureHeight) withOutputSize:self.frame.size inCGLContext:cgl_ctx];
-        else
-            [self OE_applyCgShader:shaders[i] usingVertices:rtt_verts withTextureSize:OESizeMake(textureWidth, textureHeight) withOutputSize:self.frame.size inCGLContext:cgl_ctx];
-
+        [self OE_applyCgShader:shaders[i] usingVertices:rtt_verts withTextureSize:_multipassSizes[i] withOutputSize:_multipassSizes[i + 1] inPassNumber:i inCGLContext:cgl_ctx];
     }
+
+    // render to screen
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, 0);
+    glDisable(GL_TEXTURE_RECTANGLE_EXT);
+    glEnable(GL_TEXTURE_2D);
+
+    if(numberOfPasses == 0)
+    {
+        if([multipassShader NTSCFilter] != OENTSCFilterTypeNone && _gameScreenSize.width <= 512)
+            glBindTexture(GL_TEXTURE_2D, _ntscTexture);
+        else
+            glBindTexture(GL_TEXTURE_2D, _rttGameTextures[_frameCount % OEFramesSaved]);
+    }
+    else
+        glBindTexture(GL_TEXTURE_2D, _multipassTextures[numberOfPasses - 1]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+    glTexCoordPointer(2, GL_FLOAT, 0, cg_coords );
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, vertices );
+    glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+    glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 // GL render method
@@ -757,9 +842,9 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     const GLfloat verts[] =
     {
         -halfw, -halfh,
-        halfw, -halfh,
-        halfw, halfh,
-        -halfw, halfh
+         halfw, -halfh,
+         halfw,  halfh,
+        -halfw,  halfh
     };
 
     const GLint tex_coords[] =
@@ -784,20 +869,19 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     {
         if([shader isKindOfClass:[OEMultipassShader class]])
         {
-            ++_frameCount;
-            [self OE_renderToTexture:_rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
+            [self OE_renderToTexture:_rttGameTextures[_frameCount % OEFramesSaved] usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
             [self OE_multipassRender:(OEMultipassShader *)shader usingVertices:verts inCGLContext:cgl_ctx];
-
+            ++_frameCount;
         }
         else if([shader isKindOfClass:[OECGShader class]])
         {
-            ++_frameCount;
-
             // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
-            [self OE_renderToTexture:_rttGameTexture usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
+            [self OE_renderToTexture:_rttGameTextures[_frameCount % OEFramesSaved] usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
-            [self OE_applyCgShader:(OECGShader *)shader usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:self.frame.size inCGLContext:cgl_ctx];
+            [self OE_applyCgShader:(OECGShader *)shader usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:OESizeMake(self.frame.size.width, self.frame.size.height) inPassNumber:0 inCGLContext:cgl_ctx];
+            
+            ++_frameCount;
         }
         else
         {
@@ -869,16 +953,22 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
     OEGameShader *filter = [_filters objectForKey:_filterName];
 
     [filter compileShaders];
-
-    if([filter isKindOfClass:[OEMultipassShader class]] && [(OEMultipassShader *)filter NTSCFilter])
+    if([filter isKindOfClass:[OEMultipassShader class]])
     {
-        if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeComposite)
-            _ntscSetup = snes_ntsc_composite;
-        else if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeSVideo)
-            _ntscSetup = snes_ntsc_svideo;
-        else if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeRGB)
-            _ntscSetup = snes_ntsc_rgb;
-        snes_ntsc_init(_ntscTable, &_ntscSetup);
+        if(_multipassSizes)
+            free(_multipassSizes);
+        _multipassSizes = (OEIntSize *) malloc(sizeof(OEIntSize) * ([(OEMultipassShader *)filter numberOfPasses] + 1));
+
+        if([(OEMultipassShader *)filter NTSCFilter])
+        {
+            if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeComposite)
+                _ntscSetup = snes_ntsc_composite;
+            else if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeSVideo)
+                _ntscSetup = snes_ntsc_svideo;
+            else if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeRGB)
+                _ntscSetup = snes_ntsc_rgb;
+            snes_ntsc_init(_ntscTable, &_ntscSetup);
+        }
     }
 
     if([_filters objectForKey:_filterName] == nil && [self openGLContext] != nil)
@@ -1036,25 +1126,35 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeS
 
     [self rebindIOSurface];
 
+    self.gameScreenSize = size;
+
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     [[self openGLContext] makeCurrentContext];
     CGLLockContext(cgl_ctx);
     {
-        glBindTexture(GL_TEXTURE_2D, _rttGameTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  size.width, size.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        glBindTexture(GL_TEXTURE_2D, 0);
-
+        if(_rttGameTextures)
+        {
+            for(NSUInteger i = 0; i < OEFramesSaved; ++i)
+            {
+                glBindTexture(GL_TEXTURE_2D, _rttGameTextures[i]);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  size.width, size.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
+        }
         free(_ntscSource);
-        free(_ntscDestination);
         _ntscSource      = (uint16_t *) malloc(sizeof(uint16_t) * size.width * size.height);
         if(size.width <= 256)
+        {
+            free(_ntscDestination);
             _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH(size.width) * size.height);
-        else
+        }
+        else if(size.width <= 512)
+        {
+            free(_ntscDestination);
             _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH_HIRES(size.width) * size.height);
+        }
     }
     CGLUnlockContext(cgl_ctx);
-
-    self.gameScreenSize = size;
 }
 
 - (void)gameCoreDidChangeAspectSizeTo:(OEIntSize)size

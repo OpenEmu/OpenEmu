@@ -1,5 +1,5 @@
 #/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-# *   Mupen64plus-video-glide64 - Makefile                                  *
+# *   Mupen64plus-video-glide64mk2 - Makefile                               *
 # *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
 # *   Copyright (C) 2010 Jon Ring                                           *
 # *   Copyright (C) 2007-2009 Richard Goedeken                              *
@@ -386,47 +386,6 @@ OBJECTS := $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(filter %.c, $(SOURCE)))
 OBJECTS += $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter %.cpp, $(SOURCE)))
 OBJDIRS = $(dir $(OBJECTS))
 $(shell $(MKDIR) $(OBJDIRS))
-
-# development only support for using asm on i386 linux
-ifeq ($(OLD_ASM),1)
-
-SOURCE = $(SRCDIR)/Glide64/Texture.asm
-#CFLAGS += -DOLDASM_asmTextureCRC
-#CFLAGS += -DOLDASM_asmLoad4bCI
-#CFLAGS += -DOLDASM_asmLoad4bIAPal
-#CFLAGS += -DOLDASM_asmLoad4bIA
-#CFLAGS += -DOLDASM_asmLoad4bI
-#CFLAGS += -DOLDASM_asmLoad16bRGBA
-#CFLAGS += -DOLDASM_asmLoad16bIA
-#CFLAGS += -DOLDASM_asmLoad8bCI
-#CFLAGS += -DOLDASM_asmLoad8bIA8
-#CFLAGS += -DOLDASM_asmLoad8bIA4
-#CFLAGS += -DOLDASM_asmLoad8bI
-#CFLAGS += -DOLDASM_asmMirror8bS
-#CFLAGS += -DOLDASM_asmWrap8bS
-#CFLAGS += -DOLDASM_asmClamp8bS
-#CFLAGS += -DOLDASM_asmMirror16bS
-#CFLAGS += -DOLDASM_asmWrap16bS
-#CFLAGS += -DOLDASM_asmClamp16bS
-#CFLAGS += -DOLDASM_asmMirror32bS
-#CFLAGS += -DOLDASM_asmWrap32bS
-#CFLAGS += -DOLDASM_asmClamp32bS
-#CFLAGS += -DOLDASM_asmTexConv_ARGB1555_ARGB4444
-#CFLAGS += -DOLDASM_asmTexConv_AI88_ARGB4444
-#CFLAGS += -DOLDASM_asmTexConv_AI44_ARGB4444
-#CFLAGS += -DOLDASM_asmTexConv_A8_ARGB4444
-#CFLAGS += -DOLDASM_asmLoadBlock
-#CFLAGS += -DOLDASM_asmLoadTile
-
-OBJECTS += $(patsubst $(SRCDIR)/%.asm, $(OBJDIR)/%.o, $(filter %.asm, $(SOURCE)))
-
-AS          = nasm
-COMPILE.asm = $(AS) -O6 -felf -I$(SRCDIR)/Glide64/
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.asm
-	$(COMPILE.asm) -o $@ $<
-
-endif
 
 # build targets
 TARGET = mupen64plus-video-glide64mk2$(POSTFIX).$(SO_EXTENSION)

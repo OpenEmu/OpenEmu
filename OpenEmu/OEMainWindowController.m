@@ -47,6 +47,7 @@
 
 NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
 NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
+NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
 #define MainMenu_Window_OpenEmuTag 501
 @interface OEMainWindowController () <OELibraryControllerDelegate> {
@@ -86,16 +87,18 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 
 - (void)windowDidLoad
 {
+    NSWindow *window = [self window];
+    
     [super windowDidLoad];
     
     [[self libraryController] setDelegate:self];
     
-    [[self window] setWindowController:self];
-    [[self window] setDelegate:self];
+    [window setWindowController:self];
+    [window setDelegate:self];
     
     // Setup Window behavior
-    [[self window] setRestorable:NO];
-    [[self window] setExcludedFromWindowsMenu:YES];
+    [window setRestorable:NO];
+    [window setExcludedFromWindowsMenu:YES];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey])
     {
@@ -108,7 +111,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
              [self setCurrentContentController:[self libraryController] animate:NO];
          }];
         
-        [[self window] center];
+        [window center];
         
         [self setCurrentContentController:setupAssistant];
     }
@@ -116,6 +119,10 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     {
         [self setCurrentContentController:[self libraryController] animate:NO];
     }
+    
+#if DEBUG_PRINT
+    [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
+#endif
 }
 
 - (NSString *)windowNibName
@@ -138,9 +145,9 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     }
     else
     {
-        _shouldExitFullScreenWhenGameFinishes = ![[self window] OE_isFullScreen];
+        _shouldExitFullScreenWhenGameFinishes = ![[self window] isFullScreen];
 
-        if(fullScreen && ![[self window] OE_isFullScreen])
+        if(fullScreen && ![[self window] isFullScreen])
         {
             [NSApp activateIgnoringOtherApps:YES];
             
@@ -356,7 +363,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 #pragma mark - OEGameViewControllerDelegate protocol conformance
 - (void)emulationDidFinishForGameViewController:(id)sender
 {
-    if(_shouldExitFullScreenWhenGameFinishes && [[self window] OE_isFullScreen])
+    if(_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen])
     {
         [[self window] toggleFullScreen:self];
         _shouldExitFullScreenWhenGameFinishes = NO;
@@ -369,7 +376,7 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
     // the controller switching animation interferes with the exiting full screen animation.
     // We therefore only animate controller switching in case there won't be a concurrent
     // exit full screen animation. See issue #245.
-    BOOL animate = !(_shouldExitFullScreenWhenGameFinishes && [[self window] OE_isFullScreen]);
+    BOOL animate = !(_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
     [self setCurrentContentController:nil animate:animate];
 }
 #pragma mark -
@@ -414,12 +421,18 @@ NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 
 - (void)windowDidEnterFullScreen:(NSNotification *)notification
 {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEMainWindowFullscreenKey];
     if(_documentForFullScreenWindow)
     {
         [self setCurrentContentController:[_documentForFullScreenWindow viewController]];
         [[_documentForFullScreenWindow gameViewController] playGame:self];
         _documentForFullScreenWindow = nil;
     }
+}
+
+- (void)windowDidExitFullScreen:(NSNotification *)notification
+{
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:OEMainWindowFullscreenKey];
 }
 
 #pragma mark -

@@ -27,6 +27,12 @@
 #import <Foundation/Foundation.h>
 #import "OEImportItem.h"
 
+#ifdef DEBUG_IMPORT
+#define IMPORTDLog DLog
+#else
+#define IMPORTDLog(format, ...) do {} while (0)
+#endif
+
 #pragma mark User Default Keys -
 extern NSString *const OEOrganizeLibraryKey;
 extern NSString *const OECopyToLibraryKey;
@@ -99,8 +105,11 @@ typedef enum : NSInteger {
 - (void)pause;
 - (void)cancel;
 
-- (void)startQueueIfNeeded;
+- (void)processNextItemIfNeeded;
 - (void)removeFinished;
+
+- (BOOL)saveQueue;
+- (BOOL)loadQueue;
 
 @property(readonly) NSInteger totalNumberOfItems;
 @property(readonly) NSInteger numberOfProcessedItems;

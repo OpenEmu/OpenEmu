@@ -36,7 +36,7 @@
 // * Do NOT send me the whole project or file that you modified.  Take out your modified code sections, and tell me where to put them.  If people sent the whole thing, I would have many different versions, but no idea how to combine them all.
 //
 //****************************************************************
-#include "Gfx #1.3.h"
+#include "Gfx_1.3.h"
 
 //****************************************************************
 // Size: 2, Format: 0

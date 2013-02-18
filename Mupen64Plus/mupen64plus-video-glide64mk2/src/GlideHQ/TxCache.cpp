@@ -39,7 +39,8 @@ TxCache::~TxCache()
   delete _txUtil;
 }
 
-TxCache::TxCache(int options, int cachesize, const wchar_t *path, const wchar_t *ident,
+TxCache::TxCache(int options, int cachesize, const wchar_t *datapath,
+                 const wchar_t *cachepath, const wchar_t *ident,
                  dispInfoFuncExt callback)
 {
   _txUtil = new TxUtil();
@@ -50,8 +51,10 @@ TxCache::TxCache(int options, int cachesize, const wchar_t *path, const wchar_t 
   _totalSize = 0;
 
   /* save path name */
-  if (path)
-    _path.assign(path);
+  if (datapath)
+    _datapath.assign(datapath);
+  if (cachepath)
+    _cachepath.assign(cachepath);
 
   /* save ROM name */
   if (ident)

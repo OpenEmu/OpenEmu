@@ -319,36 +319,6 @@ template<class T> static T __ROL__(T value, unsigned int count)
   return value;
 }
 
-
-// sign flag
-template<class T> static int8_t __SETS__(T x)
-{
-  if ( sizeof(T) == 1 )
-    return int8_t(x) < 0;
-  if ( sizeof(T) == 2 )
-    return int16_t(x) < 0;
-  if ( sizeof(T) == 4 )
-    return int32_t(x) < 0;
-  return int64_t(x) < 0;
-}
-
-// overflow flag of subtraction (x-y)
-template<class T, class U> int8_t __OFSUB__(T x, U y)
-{
-  if ( sizeof(T) < sizeof(U) )
-  {
-    U x2 = x;
-    int8_t sx = __SETS__(x2);
-    return (sx ^ __SETS__(y)) & (sx ^ __SETS__(x2-y));
-  }
-  else
-  {
-    T y2 = y;
-    int8_t sx = __SETS__(x);
-    return (sx ^ __SETS__(y2)) & (sx ^ __SETS__(x-y2));
-  }
-}
-
 /* Rice CRC32 for hires texture packs */
 /* NOTE: The following is used in Glide64 to calculate the CRC32
  * for Rice hires texture packs.
@@ -369,31 +339,25 @@ TxUtil::RiceCRC32(const uint8* src, int width, int height, int size, int rowStri
   const uint8_t *row;
   uint32_t crc32Ret;
   int cur_height;
-  uint32_t reverse_word_pos;
+  uint32_t pos;
+  uint32_t word;
   uint32_t word_hash;
   uint32_t tmp;
-  uint8_t suboverflow;
+  const uint32_t bytes_per_width = ((width << size) + 1) >> 1;
 
   row = src;
   crc32Ret = 0;
-  cur_height = height - 1;
-  do
-  {
-    reverse_word_pos = (((width << size) + 1) >> 1) - 4;
-    do
-    {
-      word_hash = reverse_word_pos ^ *(uint32_t *)&row[reverse_word_pos];
+
+  for (cur_height = height - 1; cur_height >= 0; cur_height--) {
+    for (pos = bytes_per_width - 4; pos < 0x80000000u; pos -= 4) {
+      word = *(uint32_t *)&row[pos];
+      word_hash = pos ^ word;
       tmp = __ROL__(crc32Ret, 4);
       crc32Ret = word_hash + tmp;
-      suboverflow = __OFSUB__(reverse_word_pos, 4);
-      reverse_word_pos -= 4;
     }
-    while ( !((reverse_word_pos & 0x80000000u) != 0 ^ suboverflow) );
     crc32Ret += cur_height ^ word_hash;
     row += rowStride;
-    suboverflow = __OFSUB__(cur_height--, 1);
   }
-  while ( !(cur_height < 0 ^ suboverflow) );
   return crc32Ret;
 }
 
@@ -405,53 +369,44 @@ TxUtil::RiceCRC32_CI4(const uint8* src, int width, int height, int size, int row
   uint32_t crc32Ret;
   uint32_t cimaxRet;
   int cur_height;
-  uint32_t reverse_word_pos;
+  uint32_t pos;
   uint32_t word;
   uint32_t word_hash;
   uint32_t tmp;
-  uint8_t suboverflow;
+  const uint32_t bytes_per_width = ((width << size) + 1) >> 1;
 
   row = src;
   crc32Ret = 0;
   cimaxRet = 0;
-  cur_height = height - 1;
-  do
-  {
-    reverse_word_pos = (((width << size) + 1) >> 1) - 4;
-    do
-    {
-      word = *(uint32_t *)&row[reverse_word_pos];
-      if ( cimaxRet != 15 )
-      {
-        if ( (word & 0xF) >= cimaxRet )
+
+  for (cur_height = height - 1; cur_height >= 0; cur_height--) {
+    for (pos = bytes_per_width - 4; pos < 0x80000000u; pos -= 4) {
+      word = *(uint32_t *)&row[pos];
+      if (cimaxRet != 15) {
+        if ((word & 0xF) >= cimaxRet)
           cimaxRet = word & 0xF;
-        if ( (uint8_t)word >> 4 >= cimaxRet )
+        if ((uint32_t)((uint8_t)word >> 4) >= cimaxRet)
           cimaxRet = (uint8_t)word >> 4;
-        if ( ((word >> 8) & 0xF) >= cimaxRet )
+        if (((word >> 8) & 0xF) >= cimaxRet)
           cimaxRet = (word >> 8) & 0xF;
-        if ( (uint16_t)word >> 12 >= cimaxRet )
+        if ((uint32_t)((uint16_t)word >> 12) >= cimaxRet)
           cimaxRet = (uint16_t)word >> 12;
-        if ( ((word >> 16) & 0xF) >= cimaxRet )
+        if (((word >> 16) & 0xF) >= cimaxRet)
           cimaxRet = (word >> 16) & 0xF;
-        if ( ((word >> 20) & 0xF) >= cimaxRet )
+        if (((word >> 20) & 0xF) >= cimaxRet)
           cimaxRet = (word >> 20) & 0xF;
-        if ( ((word >> 24) & 0xF) >= cimaxRet )
+        if (((word >> 24) & 0xF) >= cimaxRet)
           cimaxRet = (word >> 24) & 0xF;
-        if ( word >> 28 >= cimaxRet )
+        if (word >> 28 >= cimaxRet )
           cimaxRet = word >> 28;
       }
-      word_hash = reverse_word_pos ^ word;
+      word_hash = pos ^ word;
       tmp = __ROL__(crc32Ret, 4);
       crc32Ret = word_hash + tmp;
-      suboverflow = __OFSUB__(reverse_word_pos, 4);
-      reverse_word_pos -= 4;
     }
-    while ( !((reverse_word_pos & 0x80000000u) != 0 ^ suboverflow) );
     crc32Ret += cur_height ^ word_hash;
     row += rowStride;
-    suboverflow = __OFSUB__(cur_height--, 1);
   }
-  while ( !(cur_height < 0 ^ suboverflow) );
   *crc32 = crc32Ret;
   *cimax = cimaxRet;
   return 1;
@@ -465,45 +420,36 @@ TxUtil::RiceCRC32_CI8(const uint8* src, int width, int height, int size, int row
   uint32_t crc32Ret;
   uint32_t cimaxRet;
   int cur_height;
-  uint32_t reverse_word_pos;
+  uint32_t pos;
   uint32_t word;
   uint32_t word_hash;
   uint32_t tmp;
-  uint8_t suboverflow;
+  const uint32_t bytes_per_width = ((width << size) + 1) >> 1;
 
   row = src;
   crc32Ret = 0;
   cimaxRet = 0;
-  cur_height = height - 1;
-  do
-  {
-    reverse_word_pos = (((width << size) + 1) >> 1) - 4;
-    do
-    {
-      word = *(uint32_t *)&row[reverse_word_pos];
-      if ( cimaxRet != 255 )
-      {
-        if ( (uint8_t)word >= cimaxRet )
+
+  for (cur_height = height - 1; cur_height >= 0; cur_height--) {
+    for (pos = bytes_per_width - 4; pos < 0x80000000u; pos -= 4) {
+      word = *(uint32_t *)&row[pos];
+      if (cimaxRet != 255) {
+        if ((uint8_t)word >= cimaxRet)
           cimaxRet = (uint8_t)word;
-        if ( (uint16_t)word >> 8 >= cimaxRet )
+        if ((uint32_t)((uint16_t)word >> 8) >= cimaxRet)
           cimaxRet = (uint16_t)word >> 8;
-        if ( ((word >> 16) & 0xFF) >= cimaxRet )
+        if (((word >> 16) & 0xFF) >= cimaxRet)
           cimaxRet = (word >> 16) & 0xFF;
-        if ( word >> 24 >= cimaxRet )
+        if (word >> 24 >= cimaxRet)
           cimaxRet = word >> 24;
       }
-      word_hash = reverse_word_pos ^ word;
+      word_hash = pos ^ word;
       tmp = __ROL__(crc32Ret, 4);
       crc32Ret = word_hash + tmp;
-      suboverflow = __OFSUB__(reverse_word_pos, 4);
-      reverse_word_pos -= 4;
     }
-    while ( !((reverse_word_pos & 0x80000000u) != 0 ^ suboverflow) );
     crc32Ret += cur_height ^ word_hash;
     row += rowStride;
-    suboverflow = __OFSUB__(cur_height--, 1);
   }
-  while ( !(cur_height < 0 ^ suboverflow) );
   *crc32 = crc32Ret;
   *cimax = cimaxRet;
   return 1;

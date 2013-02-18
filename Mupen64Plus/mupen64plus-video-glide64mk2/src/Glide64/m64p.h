@@ -1,6 +1,6 @@
 /******************************************************************************
  * Glide64 - Glide video plugin for Nintendo 64 emulators.
- * http://bitbucket.org/wahrhaft/mupen64plus-video-glide64/
+ * http://bitbucket.org/richard42/mupen64plus-video-glide64mk2/
  *
  * Copyright (C) 2010 Jon Ring
  *

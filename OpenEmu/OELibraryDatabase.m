@@ -119,6 +119,10 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:OEDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
     
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [[defaultDatabase importer] start];
+    });
     
     return YES;
 }
@@ -176,15 +180,15 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 - (id)init
-{
-    NSLog(@"creating new LibraryDatabase");
-    
+{    
     if((self = [super init]))
     {
         romsController = [[NSArrayController alloc] init];
         managedObjectContexts = [[NSMutableDictionary alloc] init];
         
-        [self setImporter:[[OEROMImporter alloc] initWithDatabase:self]];
+        OEROMImporter *romImporter = [[OEROMImporter alloc] initWithDatabase:self];
+        [romImporter loadQueue];
+        [self setImporter:romImporter];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
     }
@@ -206,6 +210,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (void)applicationWillTerminate:(id)sender
 {
     [self OE_removeStateWatcher];
+    [[self importer] saveQueue];
     
     NSError *error = nil;
     if(![self save:&error])
@@ -826,6 +831,11 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSURL *url = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
     return url;
+}
+- (NSURL *)importQueueURL
+{
+    NSURL *baseURL = [self databaseFolderURL];
+    return [baseURL URLByAppendingPathComponent:@"Import Queue.db"];
 }
 
 #pragma mark - Debug

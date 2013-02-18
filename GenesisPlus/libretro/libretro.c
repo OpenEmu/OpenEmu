@@ -2,14 +2,15 @@
 #include <stdbool.h>
 #endif
 #include <stddef.h>
+#include <stdarg.h>
 #include <stdio.h>
-#ifndef __CELLOS_LV2__
-//#include <malloc.h>
-#endif
 
 #ifdef _MSC_VER
 #define snprintf _snprintf
-#pragma pack(1)
+#endif
+
+#ifdef _XBOX1
+#include <xtl.h>
 #endif
 
 #include "shared.h"
@@ -24,7 +25,7 @@ md_ntsc_t  *md_ntsc;
 
 static int vwidth;
 static int vheight;
-static bool failed_init;
+
 char rom_filename[256];
 
 unsigned retro_api_version(void) { return RETRO_API_VERSION; }
@@ -100,6 +101,16 @@ static uint8_t brm_format[0x40] =
  ************************************/
 #define CHUNKSIZE   (0x10000)
 
+void error(char * msg, ...)
+{
+#ifndef _XBOX1
+   va_list ap;
+   va_start(ap, msg);
+   vfprintf(stderr, msg, ap);
+   va_end(ap);
+#endif
+}
+
 int load_archive(char *filename, unsigned char *buffer, int maxsize, char *extension)
 {
   int size = 0;
@@ -112,18 +123,18 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize, char *exten
   /* Master System & Game Gear BIOS are optional files */
   if (!strcmp(filename,MS_BIOS_US) || !strcmp(filename,MS_BIOS_EU) || !strcmp(filename,MS_BIOS_JP) || !strcmp(filename,GG_BIOS))
   {
-      /* disable all messages */
+    /* disable all messages */
   }
-
+  
   /* Mega CD BIOS are required files */
-  //if (!strcmp(filename,CD_BIOS_US) || !strcmp(filename,CD_BIOS_EU) || !strcmp(filename,CD_BIOS_JP))
-  //{
-  //  sprintf(msg,"Unable to open %s", filename);
-  //}
+  if (!strcmp(filename,CD_BIOS_US) || !strcmp(filename,CD_BIOS_EU) || !strcmp(filename,CD_BIOS_JP)) 
+  {
+    snprintf(msg, sizeof(msg), "Unable to open CD BIOS: %s", filename);
+  }
 
   if (!fd)
   {
-    fprintf(stderr, "ERROR - %s.\n");
+    fprintf(stderr, "ERROR - %s.\n", msg);
     return 0;
   }
 
@@ -131,7 +142,7 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize, char *exten
   fread(in, CHUNKSIZE, 1, fd);
 
   {
-      
+    int left;
     /* Get file size */
     fseek(fd, 0, SEEK_END);
     size = ftell(fd);
@@ -147,7 +158,7 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize, char *exten
 
     sprintf((char *)msg,"Loading %d bytes ...", size);
     fprintf(stderr, "INFORMATION - %s\n", msg);
-      
+
     /* filename extension */
     if (extension)
     {
@@ -156,7 +167,7 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize, char *exten
     }
 
     /* Read into buffer */
-    int left = size;
+    left = size;
     while (left > CHUNKSIZE)
     {
       fread(buffer, CHUNKSIZE, 1, fd);
@@ -175,12 +186,14 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize, char *exten
   return size;
 }
 
-
+//static uint16_t bitmap_data_[1024 * 512];
 static uint16_t bitmap_data_[720 * 576];
 
 static void init_bitmap(void)
 {
    memset(&bitmap, 0, sizeof(bitmap));
+   //bitmap.width      = 1024;
+   //bitmap.height     = 512;
    bitmap.width      = 720;
    bitmap.height     = 576;
    bitmap.pitch      = bitmap.width * sizeof(uint16_t);
@@ -191,7 +204,7 @@ static void init_bitmap(void)
    bitmap.viewport.y = 0;
 }
 
-#define CONFIG_VERSION "GENPLUS-GX 1.7.0"
+#define CONFIG_VERSION "GENPLUS-GX 1.6.1"
 
 static void config_default(void)
 {
@@ -210,7 +223,7 @@ static void config_default(void)
    config.lg             = 1.0;
    config.mg             = 1.0;
    config.hg             = 1.0;
-   config.dac_bits 		 = 14;
+   config.dac_bits 	 = 14;
    config.ym2413         = 2; /* AUTO */
 
    /* system options */
@@ -261,8 +274,9 @@ static void config_default(void)
    config.hot_swap &= 1;
 }
 
-static const double pal_fps = 53203424.0 / (3420.0 * 313.0); //49.70
-static const double ntsc_fps = 59.92;
+/* these values are used for libretro reporting too */
+static const double pal_fps = 53203424.0 / (3420.0 * 313.0);
+static const double ntsc_fps = 53693175.0 / (3420.0 * 262.0);
 
 static void init_audio(void)
 {
@@ -281,8 +295,9 @@ static void configure_controls(void)
          for(i = 0; i < MAX_INPUTS; i++)
          {
             config.input[i].padtype = DEVICE_PAD6B;
-            input.system[i] = SYSTEM_MD_GAMEPAD;
          }	
+         input.system[0] = SYSTEM_MD_GAMEPAD;
+         input.system[1] = SYSTEM_MD_GAMEPAD;
          break;
       case SYSTEM_GG:
       case SYSTEM_SMS:
@@ -318,6 +333,7 @@ static int slot_load(int slot)
 
   /* Device Type */
   {
+    FILE *fp;
     /* FAT file */
     if (slot > 0)
     {
@@ -327,9 +343,9 @@ static int slot_load(int slot)
     {
       sprintf (filename,"%s/saves/%s.srm", DEFAULT_PATH, rom_filename);
     }
-      
+
     /* Open file */
-    FILE *fp = fopen(filename, "rb");
+    fp = fopen(filename, "rb");
     if (!fp)
     {
       fprintf(stderr, "ERROR - Unable to open file.\n");
@@ -365,7 +381,7 @@ static int slot_load(int slot)
     /* Close file */
     fclose(fp);
   }
-    
+
   if (slot > 0)
   {
     /* Load state */
@@ -538,7 +554,7 @@ static void slot_autoload(int slot)
 
       /* format internal backup RAM */
       memcpy(scd.bram + 0x2000 - 0x40, brm_format, 0x40);
-        
+
       /* clear CRC to force file saving (in case previous region backup RAM was also formatted) */
       brm_crc[0] = 0;
     }
@@ -549,7 +565,24 @@ static void slot_autoload(int slot)
       fp = fopen(CART_BRAM, "rb");
       if (fp != NULL)
       {
-        fread(scd.cartridge.area, scd.cartridge.mask + 1, 1, fp);
+        int filesize = scd.cartridge.mask + 1;
+        int done = 0;
+        
+        /* Read into buffer (2k blocks) */
+        while (filesize > CHUNKSIZE)
+        {
+          fread(scd.cartridge.area + done, CHUNKSIZE, 1, fp);
+          done += CHUNKSIZE;
+          filesize -= CHUNKSIZE;
+        }
+
+        /* Read remaining bytes */
+        if (filesize)
+        {
+          fread(scd.cartridge.area + done, filesize, 1, fp);
+        }
+
+        /* close file */
         fclose(fp);
 
         /* update CRC */
@@ -630,7 +663,24 @@ static void slot_autosave(int slot)
         FILE *fp = fopen(CART_BRAM, "wb");
         if (fp != NULL)
         {
-          fwrite(scd.cartridge.area, scd.cartridge.mask + 1, 1, fp);
+          int filesize = scd.cartridge.mask + 1;
+          int done = 0;
+        
+          /* Write to file (2k blocks) */
+          while (filesize > CHUNKSIZE)
+          {
+            fwrite(scd.cartridge.area + done, CHUNKSIZE, 1, fp);
+            done += CHUNKSIZE;
+            filesize -= CHUNKSIZE;
+          }
+
+          /* Write remaining bytes */
+          if (filesize)
+          {
+            fwrite(scd.cartridge.area + done, filesize, 1, fp);
+          }
+
+          /* Close file */
           fclose(fp);
 
           /* update CRC */
@@ -655,8 +705,8 @@ static struct retro_system_av_info g_av_info;
 void retro_get_system_info(struct retro_system_info *info)
 {
    info->library_name = "Genesis Plus GX";
-   info->library_version = "v1.7.1";
-   info->valid_extensions = "md|smd|bin|cue|gen|zip|MD|SMD|bin|CUE|GEN|ZIP|sms|SMS|gg|GG|sg|SG";
+   info->library_version = "v1.7.3";
+   info->valid_extensions = "md|smd|bin|cue|gen|zip|MD|SMD|bin|iso|ISO|CUE|GEN|ZIP|sms|SMS|gg|GG|sg|SG";
    info->block_extract = false;
    info->need_fullpath = true;
 }
@@ -734,8 +784,8 @@ static void retro_set_viewport_dimensions(void)
 
    retro_reset();
 
-   vwidth  = bitmap.viewport.w;
-   vheight = bitmap.viewport.h;
+   vwidth  = bitmap.viewport.w + (bitmap.viewport.x * 2);
+   vheight = bitmap.viewport.h + (bitmap.viewport.y * 2);
 
 #if defined(USE_NTSC)
    if (config.ntsc)
@@ -747,11 +797,15 @@ static void retro_set_viewport_dimensions(void)
    }
 #endif
 
+   geom.aspect_ratio = 4.0 / 3.0;
    geom.base_width = vwidth;
    geom.base_height = vheight;
+   //geom.max_width = 1024;
+   //geom.max_height = 512;
    geom.max_width = 720;
    geom.max_height = 576;
 
+   //timing.sample_rate = 44100;
    timing.sample_rate = 48000;
 
    if (vdp_pal)
@@ -763,20 +817,84 @@ static void retro_set_viewport_dimensions(void)
    g_av_info.timing   = timing;
 }
 
+static bool LoadFile(char * filename)
+{
+   int size = 0;
+
+   /* check if virtual CD tray was open */
+   if ((system_hw == SYSTEM_MCD) && (cdd.status == CD_OPEN))
+   {
+      /* swap CD image file */
+      size = cdd_load(filename, (char *)(cdc.ram));
+
+      /* update CD header information */
+      if (!scd.cartridge.boot)
+         getrominfo((char *)(cdc.ram));
+   }
+
+   /* no CD image file loaded */
+   if (!size)
+   {
+      /* close CD tray to force system reset */
+      cdd.status = NO_DISC;
+      
+      /* load game file */
+      size = load_rom(filename);
+   }
+
+   return size > 0;
+}
+
 bool retro_load_game(const struct retro_game_info *info)
 {
    const char *full_path;
+   const char *dir;
+   char slash;
+
    extract_directory(g_rom_dir, info->path, sizeof(g_rom_dir));
 
-   if(failed_init)
-      return false;
+   if (!environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) || !dir)
+   {
+      fprintf(stderr, "[genplus]: Defaulting system directory to %s.\n", g_rom_dir);
+      dir = g_rom_dir;
+   }
+#if defined(_WIN32)
+   slash = '\\';
+#else
+   slash = '/';
+#endif
+
+   snprintf(CD_BRAM_EU, sizeof(CD_BRAM_EU), "%s%cscd_E.brm", dir, slash);
+   snprintf(CD_BRAM_US, sizeof(CD_BRAM_US), "%s%cscd_U.brm", dir, slash);
+   snprintf(CD_BRAM_JP, sizeof(CD_BRAM_JP), "%s%cscd_J.brm", dir, slash);
+   snprintf(CD_BIOS_EU, sizeof(CD_BIOS_EU), "%s%cbios_CD_E.bin", dir, slash);
+   snprintf(CD_BIOS_US, sizeof(CD_BIOS_US), "%s%cbios_CD_U.bin", dir, slash);
+   snprintf(CD_BIOS_JP, sizeof(CD_BIOS_JP), "%s%cbios_CD_J.bin", dir, slash);
+   snprintf(MS_BIOS_EU, sizeof(MS_BIOS_EU), "%s%cbios_E.sms", dir, slash);
+   snprintf(MS_BIOS_US, sizeof(MS_BIOS_US), "%s%cbios_U.sms", dir, slash);
+   snprintf(MS_BIOS_JP, sizeof(MS_BIOS_JP), "%s%cbios_J.sms", dir, slash);
+   snprintf(GG_BIOS, sizeof(GG_BIOS), "%s%cbios.gg", dir, slash);
+   snprintf(SK_ROM, sizeof(SK_ROM), "%s%csk.bin", dir, slash);
+   snprintf(SK_UPMEM, sizeof(SK_UPMEM), "%s%csk2chip.bin", dir, slash);
+   snprintf(GG_ROM, sizeof(GG_ROM), "%s%cggenie.bin", dir, slash);
+   snprintf(AR_ROM, sizeof(AR_ROM), "%s%careplay.bin", dir, slash);
+   fprintf(stderr, "Sega CD EU BRAM should be located at: %s\n", CD_BRAM_EU);
+   fprintf(stderr, "Sega CD US BRAM should be located at: %s\n", CD_BRAM_US);
+   fprintf(stderr, "Sega CD JP BRAM should be located at: %s\n", CD_BRAM_JP);
+   fprintf(stderr, "Sega CD EU BIOS should be located at: %s\n", CD_BIOS_EU);
+   fprintf(stderr, "Sega CD US BIOS should be located at: %s\n", CD_BIOS_US);
+   fprintf(stderr, "Sega CD JP BIOS should be located at: %s\n", CD_BIOS_JP);
+   fprintf(stderr, "Master System EU BIOS should be located at: %s\n", MS_BIOS_EU);
+   fprintf(stderr, "Master System US BIOS should be located at: %s\n", MS_BIOS_US);
+   fprintf(stderr, "Master System JP BIOS should be located at: %s\n", MS_BIOS_JP);
+   fprintf(stderr, "Game Gear BIOS should be located at: %s\n", GG_BIOS);
+   fprintf(stderr, "S&K upmem ROM should be located at: %s\n", SK_UPMEM);
+   fprintf(stderr, "S&K ROM should be located at: %s\n", SK_ROM);
+   fprintf(stderr, "Game Genie ROM should be located at: %s\n", GG_ROM);
+   fprintf(stderr, "Action Replay ROM should be located at: %s\n", AR_ROM);
 
    snprintf(DEFAULT_PATH, sizeof(DEFAULT_PATH), g_rom_dir);
-#ifdef _XBOX
-   snprintf(CART_BRAM, sizeof(CART_BRAM), "%s\\cart.brm", g_rom_dir);
-#else
-   snprintf(CART_BRAM, sizeof(CART_BRAM), "%s/cart.brm", g_rom_dir);
-#endif
+   snprintf(CART_BRAM, sizeof(CART_BRAM), "%s%ccart.brm", g_rom_dir, slash);
 
    fprintf(stderr, "BRAM file is located at: %s\n", CART_BRAM);
 
@@ -785,12 +903,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    full_path = info->path;
 
-   failed_init = true;
-
-   if (full_path)
-      failed_init = !(load_rom((char*)full_path));
-
-   if(failed_init)
+   if (!LoadFile((char *)full_path))
       return false;
 
    configure_controls();
@@ -847,7 +960,7 @@ size_t retro_get_memory_size(unsigned id)
    switch (id)
    {
       case RETRO_MEMORY_SAVE_RAM:
-         return sram.end - sram.start;
+         return 0x10000;
 
       default:
          return 0;
@@ -856,9 +969,7 @@ size_t retro_get_memory_size(unsigned id)
 
 void retro_init(void)
 {
-   const char *dir = NULL;
-   char slash[6];
-   unsigned level;
+   unsigned level, rgb565;
 #if defined(USE_NTSC)
    sms_ntsc = calloc(1, sizeof(sms_ntsc_t));
    md_ntsc  = calloc(1, sizeof(md_ntsc_t));
@@ -866,50 +977,14 @@ void retro_init(void)
    md_ntsc_init(md_ntsc,   &md_ntsc_composite);
 #endif
 
-    if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)
-    {
-#ifdef _XBOX
-        snprintf(slash, sizeof(slash), "\\");
-#else
-        snprintf(slash, sizeof(slash), "/");
-#endif
-        snprintf(CD_BRAM_EU, sizeof(CD_BRAM_EU), "%s%sscd_E.brm", dir, slash);
-        snprintf(CD_BRAM_US, sizeof(CD_BRAM_US), "%s%sscd_U.brm", dir, slash);
-        snprintf(CD_BRAM_JP, sizeof(CD_BRAM_JP), "%s%sscd_J.brm", dir, slash);
-        snprintf(CD_BIOS_EU, sizeof(CD_BIOS_EU), "%s%sbios_CD_E.bin", dir, slash);
-        snprintf(CD_BIOS_US, sizeof(CD_BIOS_US), "%s%sbios_CD_U.bin", dir, slash);
-        snprintf(CD_BIOS_JP, sizeof(CD_BIOS_JP), "%s%sbios_CD_J.bin", dir, slash);
-        snprintf(MS_BIOS_EU, sizeof(MS_BIOS_EU), "%s%sbios_E.sms", dir, slash);
-        snprintf(MS_BIOS_US, sizeof(MS_BIOS_US), "%s%sbios_U.sms", dir, slash);
-        snprintf(MS_BIOS_JP, sizeof(MS_BIOS_JP), "%s%sbios_J.sms", dir, slash);
-        snprintf(GG_BIOS, sizeof(GG_BIOS), "%s%sbios.gg", dir, slash);
-        snprintf(SK_ROM, sizeof(SK_ROM), "%s%ssk.bin", dir, slash);
-        snprintf(SK_UPMEM, sizeof(SK_UPMEM), "%s%ssk2chip.bin", dir, slash);
-        snprintf(GG_ROM, sizeof(GG_ROM), "%s%sggenie.bin", dir, slash);
-        snprintf(AR_ROM, sizeof(AR_ROM), "%s%sareplay.bin", dir, slash);
-        fprintf(stderr, "Sega CD EU BRAM should be located at: %s\n", CD_BRAM_EU);
-        fprintf(stderr, "Sega CD US BRAM should be located at: %s\n", CD_BRAM_US);
-        fprintf(stderr, "Sega CD JP BRAM should be located at: %s\n", CD_BRAM_JP);
-        fprintf(stderr, "Sega CD EU BIOS should be located at: %s\n", CD_BIOS_EU);
-        fprintf(stderr, "Sega CD US BIOS should be located at: %s\n", CD_BIOS_US);
-        fprintf(stderr, "Sega CD JP BIOS should be located at: %s\n", CD_BIOS_JP);
-        fprintf(stderr, "Master System EU BIOS should be located at: %s\n", MS_BIOS_EU);
-        fprintf(stderr, "Master System US BIOS should be located at: %s\n", MS_BIOS_US);
-        fprintf(stderr, "Master System JP BIOS should be located at: %s\n", MS_BIOS_JP);
-        fprintf(stderr, "Game Gear BIOS should be located at: %s\n", GG_BIOS);
-        fprintf(stderr, "S&K upmem ROM should be located at: %s\n", SK_UPMEM);
-        fprintf(stderr, "S&K ROM should be located at: %s\n", SK_ROM);
-        fprintf(stderr, "Game Genie ROM should be located at: %s\n", GG_ROM);
-        fprintf(stderr, "Action Replay ROM should be located at: %s\n", AR_ROM);
-    }
-    else
-    {
-        fprintf(stderr, "System directory is not defined. Cannot continue ...\n");
-        failed_init = true;
-    }
-
    level = 1;
    environ_cb(RETRO_ENVIRONMENT_SET_PERFORMANCE_LEVEL, &level);
+
+#ifdef FRONTEND_SUPPORTS_RGB565
+   rgb565 = RETRO_PIXEL_FORMAT_RGB565;
+   if(environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565))
+      fprintf(stderr, "Frontend supports RGB565 - will use that instead of XRGB1555.\n");
+#endif
 }
 
 void retro_deinit(void)
@@ -923,6 +998,7 @@ void retro_deinit(void)
 
 void retro_reset(void) { gen_reset(0); }
 
+//int16 soundbuffer[3068];
 int16 soundbuffer[2048 * 2];
 
 void osd_input_update(void)
@@ -1024,32 +1100,17 @@ void retro_run(void)
 {
    int aud;
 
-//   switch(system_hw)
-//   {
-//      case SYSTEM_MCD:
-//         system_frame_scd(0);
-//         break;
-//      case SYSTEM_MD:
-//      case SYSTEM_PBC:
-//         system_frame_gen(0);
-//         break;
-//      case SYSTEM_SMS:
-//         system_frame_sms(0);
-//         break;
-//      default:
-//         break;
-//   }
-    if (system_hw == SYSTEM_MCD)
-        system_frame_scd(0);
-    else if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
-        system_frame_gen(0);
-    else
-        system_frame_sms(0);
+   if (system_hw == SYSTEM_MCD)
+      system_frame_scd(0);
+   else if ((system_hw & SYSTEM_PBC) == SYSTEM_MD)
+      system_frame_gen(0);
+   else
+      system_frame_sms(0);
 
 #if defined(USE_NTSC)
-   video_cb(bitmap_data_ + bitmap.viewport.y * 720, config.ntsc ? vwidth : bitmap.viewport.w, bitmap.viewport.h, 1440);
+   video_cb(bitmap.data, config.ntsc ? vwidth : (bitmap.viewport.w + (bitmap.viewport.x * 2)), bitmap.viewport.h + (bitmap.viewport.y * 2), bitmap.pitch);
 #else
-   video_cb(bitmap_data_ + bitmap.viewport.x + bitmap.viewport.y * 720, bitmap.viewport.w, bitmap.viewport.h, 1440);
+   video_cb(bitmap.data, bitmap.viewport.w + (bitmap.viewport.x * 2), bitmap.viewport.h + (bitmap.viewport.y * 2), bitmap.pitch);
 #endif
 
    aud = audio_update(soundbuffer) << 1;

@@ -51,7 +51,7 @@ typedef enum  {
 
 typedef void (^OEImportItemCompletionBlock)(void);
 
-@interface OEImportItem : NSObject <NSObject>
+@interface OEImportItem : NSObject <NSObject, NSCoding>
 
 @property(copy) NSURL               *URL;
 @property(copy) NSURL               *sourceURL;

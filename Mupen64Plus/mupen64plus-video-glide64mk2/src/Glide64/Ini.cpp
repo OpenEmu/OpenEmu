@@ -39,7 +39,7 @@
 #include "m64p.h"
 
 #include "Ini.h"
-#include "Gfx #1.3.h"
+#include "Gfx_1.3.h"
 #include <limits.h>
 #ifndef _WIN32
 #include <unistd.h>

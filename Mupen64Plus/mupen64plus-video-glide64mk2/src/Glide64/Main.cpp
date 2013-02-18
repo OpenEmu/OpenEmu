@@ -37,7 +37,7 @@
 //
 //****************************************************************
 
-#include "Gfx #1.3.h"
+#include "Gfx_1.3.h"
 #include "Ini.h"
 #include "Config.h"
 #include "Util.h"
@@ -916,6 +916,7 @@ int InitGfx ()
 {
   wchar_t romname[256];
   wchar_t foldername[PATH_MAX + 64];
+  wchar_t cachename[PATH_MAX + 64];
   if (fullscreen)
     ReleaseGfx ();
 
@@ -1233,6 +1234,7 @@ int InitGfx ()
 
       swprintf(romname, 256, L"%hs", rdp.RomName);
       swprintf(foldername, sizeof(foldername), L"%hs", ConfigGetUserDataPath());
+      swprintf(cachename, sizeof(cachename), L"%hs", ConfigGetUserCachePath());
 
       settings.ghq_use = (int)ext_ghq_init(voodoo.max_tex_size, // max texture width supported by hardware
         voodoo.max_tex_size, // max texture height supported by hardware
@@ -1240,6 +1242,7 @@ int InitGfx ()
         options,
         settings.ghq_cache_size * 1024*1024, // cache texture to system memory
         foldername,
+        cachename,
         romname, // name of ROM. must be no longer than 256 characters
         DisplayLoadProgress);
     }
@@ -1422,7 +1425,7 @@ EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *Plugi
         *APIVersion = VIDEO_PLUGIN_API_VERSION;
 
     if (PluginNamePtr != NULL)
-        *PluginNamePtr = "Glide64 Video Plugin";
+        *PluginNamePtr = "Glide64mk2 Video Plugin";
 
     if (Capabilities != NULL)
     {
@@ -1594,7 +1597,7 @@ void CALL GetDllInfo ( PLUGIN_INFO * PluginInfo )
   VLOG ("GetDllInfo ()\n");
   PluginInfo->Version = 0x0103;     // Set to 0x0103
   PluginInfo->Type  = PLUGIN_TYPE_GFX;  // Set to PLUGIN_TYPE_GFX
-  sprintf (PluginInfo->Name, "Glide64 "G64_VERSION RELTIME);  // Name of the DLL
+  sprintf (PluginInfo->Name, "Glide64mk2 "G64_VERSION RELTIME);  // Name of the DLL
 
   // If DLL supports memory these memory options then set them to TRUE or FALSE
   //  if it does not support it
@@ -2184,7 +2187,7 @@ void newSwapBuffers()
     for (int i=1; ; i++)
     {
       path = capture_path;
-      path += wxT("Glide64_");
+      path += wxT("Glide64mk2_");
       path += romName;
       path += wxT("_");
       if (i < 10)

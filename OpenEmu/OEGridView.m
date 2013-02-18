@@ -29,6 +29,7 @@
 #import "OECoverGridViewCell.h"
 #import "NSColor+OEAdditions.h"
 #import "OEMenu.h"
+#import "OEUtilities.h"
 #import <Carbon/Carbon.h>
 
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
@@ -134,11 +135,10 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     {
         _rootLayer = [[OEGridLayer alloc] init];
         [_rootLayer setInteractive:YES];
-#ifdef MAC_OS_X_VERSION_10_8
-        [_rootLayer setGeometryFlipped:NO];
-#else
-        [_rootLayer setGeometryFlipped:YES];
-#endif
+        
+        int major, minor;
+        GetSystemVersion(&major, &minor, NULL);
+        [_rootLayer setGeometryFlipped:major == 10 && minor < 8];
         [_rootLayer setLayoutManager:[OEGridViewLayoutManager layoutManager]];
         [_rootLayer setDelegate:self];
         [_rootLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];

@@ -517,9 +517,9 @@ grSstWinOpen(
 
   char caption[500];
 # ifdef _DEBUG
-  sprintf(caption, "Glide64 debug");
+  sprintf(caption, "Glide64mk2 debug");
 # else // _DEBUG
-  sprintf(caption, "Glide64");
+  sprintf(caption, "Glide64mk2");
 # endif // _DEBUG
   CoreVideo_SetCaption(caption);
 

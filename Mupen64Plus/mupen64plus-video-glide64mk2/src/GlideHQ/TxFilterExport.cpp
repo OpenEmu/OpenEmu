@@ -35,13 +35,13 @@ extern "C"{
 
 TAPI boolean TAPIENTRY
 txfilter_init(int maxwidth, int maxheight, int maxbpp, int options, int cachesize,
-              wchar_t *path, wchar_t*ident,
+              wchar_t *datapath, wchar_t *cachepath, wchar_t*ident,
               dispInfoFuncExt callback)
 {
   if (txFilter) return 0;
 
   txFilter = new TxFilter(maxwidth, maxheight, maxbpp, options, cachesize,
-                           path, ident, callback);
+                           datapath, cachepath, ident, callback);
 
   return (txFilter ? 1 : 0);
 }

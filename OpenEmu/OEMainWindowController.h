@@ -28,6 +28,7 @@
 
 extern NSString *const OEForcePopoutGameWindowKey;
 extern NSString *const OEFullScreenGameWindowKey;
+extern NSString *const OEMainWindowFullscreenKey;
 
 @class OEGameDocument;
 @class OELibraryController;

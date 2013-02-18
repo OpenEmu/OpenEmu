@@ -106,7 +106,9 @@ extern char MS_BIOS_US[256];
 extern char MS_BIOS_EU[256];
 extern char MS_BIOS_JP[256];
 
+//extern int16 soundbuffer[3068];
 extern int16 soundbuffer[2048 * 2]; //3068 1920 ?
+
 //#define SOUND_SAMPLES_SIZE  2048
 //n = SOUND_SAMPLES_SIZE * 2 * sizeof(short) * 11;
 //sdl_sound.buffer = (char*)malloc(n);
@@ -114,7 +116,7 @@ extern int16 soundbuffer[2048 * 2]; //3068 1920 ?
 //static short soundframe[SOUND_SAMPLES_SIZE];
 //int size = audio_update(soundframe) * 2;
 
-#define VERSION "Genesis Plus GX 1.7.1 (libretro)"
+#define VERSION "Genesis Plus GX 1.7.3 (libretro)"
 
 void osd_input_update(void);
 int load_archive(char *filename, unsigned char *buffer, int maxsize, char *extension);

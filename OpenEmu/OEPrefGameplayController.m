@@ -36,12 +36,13 @@
 - (void)awakeFromNib
 {
     // Setup plugins menu
-     NSMutableSet   *filterSet     = [NSMutableSet set];
-     NSMutableArray *filterPlugins = [NSMutableArray array];
-     [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
-     [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
-     [filterPlugins addObjectsFromArray:[filterSet allObjects]];
-     [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSMutableSet   *filterSet     = [NSMutableSet set];
+    NSMutableArray *filterPlugins = [NSMutableArray array];
+    [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
+    [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
+    [filterSet filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT SELF beginswith '_'"]];
+    [filterPlugins addObjectsFromArray:[filterSet allObjects]];
+    [filterPlugins sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
 	NSMenu *filterMenu = [[NSMenu alloc] init];
 

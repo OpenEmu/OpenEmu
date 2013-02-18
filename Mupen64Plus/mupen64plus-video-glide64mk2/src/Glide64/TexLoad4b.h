@@ -39,11 +39,6 @@
 
 #include <stdint.h>
 
-extern "C" void asmLoad4bCI(uint8_t *src, uint8_t *dst, int wid_64, int height, uint16_t line, int ext, uint16_t *pal);
-extern "C" void asmLoad4bIAPal(uint8_t *src, uint8_t *dst, int wid_64, int height, int line, int ext, uint16_t *pal);
-extern "C" void asmLoad4bIA(uint8_t *src, uint8_t *dst, int wid_64, int height, int line, int ext);
-extern "C" void asmLoad4bI(uint8_t *src, uint8_t *dst, int wid_64, int height, int line, int ext);
-
 static inline void load4bCI(uint8_t *src, uint8_t *dst, int wid_64, int height, uint16_t line, int ext, uint16_t *pal)
 {
   uint8_t *v7;
@@ -607,31 +602,19 @@ wxUint32 Load4bCI (wxUIntPtr dst, wxUIntPtr src, int wid_64, int height, int lin
   {
     //in tlut DISABLE mode load CI texture as plain intensity texture instead of palette dereference.
     //Thanks to angrylion for the advice
-#ifdef OLDASM_asmLoad4bI
-    asmLoad4bI ((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext);
-#else
     load4bI ((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext);
-#endif
     return /*(0 << 16) | */GR_TEXFMT_ALPHA_INTENSITY_44;
   }
 
   wxUIntPtr pal = wxPtrToUInt(rdp.pal_8 + (rdp.tiles[tile].palette << 4));
   if (rdp.tlut_mode == 2)
   {
-#ifdef OLDASM_asmLoad4bCI
-    asmLoad4bCI ((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext, (uint16_t *)pal);
-#else
     load4bCI ((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext, (uint16_t *)pal);
-#endif
     
     return (1 << 16) | GR_TEXFMT_ARGB_1555;
   }
 
-#ifdef OLDASM_asmLoad4bIAPal
-    asmLoad4bIAPal ((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext, (uint16_t *)pal);
-#else
     load4bIAPal ((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext, (uint16_t *)pal);
-#endif
   return (1 << 16) | GR_TEXFMT_ALPHA_INTENSITY_88;
 }
 
@@ -648,11 +631,7 @@ wxUint32 Load4bIA (wxUIntPtr dst, wxUIntPtr src, int wid_64, int height, int lin
   if (wid_64 < 1) wid_64 = 1;
   if (height < 1) height = 1;
   int ext = (real_width - (wid_64 << 4));
-#ifdef OLDASM_asmLoad4bIA
-  asmLoad4bIA ((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext);
-#else
   load4bIA ((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext);
-#endif
   return /*(0 << 16) | */GR_TEXFMT_ALPHA_INTENSITY_44;
 }
 
@@ -667,11 +646,7 @@ wxUint32 Load4bI (wxUIntPtr dst, wxUIntPtr src, int wid_64, int height, int line
   if (wid_64 < 1) wid_64 = 1;
   if (height < 1) height = 1;
   int ext = (real_width - (wid_64 << 4));
-#ifdef OLDASM_asmLoad4bI
-  asmLoad4bI ((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext);
-#else
   load4bI ((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext);
-#endif
   
   return /*(0 << 16) | */GR_TEXFMT_ALPHA_INTENSITY_44;
 }

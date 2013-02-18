@@ -43,7 +43,7 @@
 //****************************************************************
 
 
-#include "Gfx #1.3.h"
+#include "Gfx_1.3.h"
 #include "FBtoScreen.h"
 #include "TexCache.h"
 

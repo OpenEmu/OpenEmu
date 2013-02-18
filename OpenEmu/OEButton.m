@@ -36,6 +36,8 @@
 @implementation OEButton
 @synthesize trackWindowActivity = _trackWindowActivity;
 @synthesize trackMouseActivity = _trackMouseActivity;
+@synthesize trackModifierActivity = _trackModifierActivity;
+@synthesize modifierEventMonitor = _modifierEventMonitor;
 @synthesize toolTipStyle = _toolTipStyle;
 
 + (Class)cellClass
@@ -114,6 +116,15 @@
     [self OE_updateHoverFlag:theEvent];
 }
 
+- (void)flagsChanged:(NSEvent *)theEvent
+{
+    if ([self isTrackingModifierActivity])
+    {
+        const NSRect bounds = [self bounds];
+        [self setNeedsDisplayInRect:bounds];
+    }
+}
+
 - (void)OE_windowKeyChanged:(NSNotification *)notification
 {
     // The keyedness of the window has changed, we want to redisplay the button with the new state, this is only fired when NSWindowDidBecomeMainNotification and NSWindowDidResignMainNotification is registered.
@@ -137,6 +148,28 @@
         _trackMouseActivity = shouldTrackMouseActivity;
         [self updateTrackingAreas];
         [self setNeedsDisplay];
+        
+    }
+}
+
+- (void)OE_setShouldTrackModifierActivity:(BOOL)shouldTrackModifierActivity
+{
+    if(_trackModifierActivity != shouldTrackModifierActivity)
+    {
+        _trackModifierActivity = shouldTrackModifierActivity;
+        if(shouldTrackModifierActivity == FALSE)
+        {
+            [NSEvent removeMonitor:_modifierEventMonitor];
+        }
+        else
+        {
+            __block id blockself = self;
+            _modifierEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFromType(NSFlagsChanged) handler:^NSEvent*(NSEvent* e) {
+                [blockself setNeedsDisplayInRect:[self bounds]];
+                return e;
+            }];
+        }
+        [self setNeedsDisplayInRect:[self bounds]];
     }
 }
 
@@ -148,6 +181,7 @@
     {
         [self OE_setShouldTrackWindowActivity:([cell stateMask] & OEThemeStateAnyWindowActivity) != 0];
         [self OE_setShouldTrackMouseActivity:([cell stateMask] & OEThemeStateAnyMouse) != 0];
+        [self OE_setShouldTrackModifierActivity:([cell stateMask] & OEThemeStateAnyModifier) != 0];
     }
 }
 

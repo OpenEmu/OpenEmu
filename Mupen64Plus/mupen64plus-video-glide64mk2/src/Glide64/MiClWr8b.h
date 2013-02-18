@@ -40,10 +40,6 @@
 //****************************************************************
 // 8-bit Horizontal Mirror
 
-extern "C" void asmMirror8bS(uint8_t *tex, uint8_t *start, int width, int height, int mask, int line, int full, int count);
-extern "C" void asmWrap8bS(uint8_t *tex, uint8_t *start, int height, int mask, int line, int full, int count);
-extern "C" void asmClamp8bS(uint8_t *tex, uint8_t *constant, int height, int line, int full, int count);
-
 static inline void mirror8bS(uint8_t *tex, uint8_t *start, int width, int height, int mask, int line, int full, int count)
 {
   uint8_t *v8;
@@ -137,11 +133,7 @@ void Mirror8bS (unsigned char * tex, wxUint32 mask, wxUint32 max_width, wxUint32
   int line = line_full - (count);
   if (line < 0) return;
   unsigned char * start = tex + (mask_width);
-#ifdef OLDASM_asmMirror8bS
-  asmMirror8bS (tex, start, mask_width, height, mask_mask, line, line_full, count);
-#else
   mirror8bS (tex, start, mask_width, height, mask_mask, line, line_full, count);
-#endif
 }
 
 //****************************************************************
@@ -161,11 +153,7 @@ void Wrap8bS (unsigned char * tex, wxUint32 mask, wxUint32 max_width, wxUint32 r
   int line = line_full - (count << 2);
   if (line < 0) return;
   unsigned char * start = tex + (mask_width);
-#ifdef OLDASM_asmWrap8bS
-  asmWrap8bS (tex, start, height, mask_mask, line, line_full, count);
-#else
   wrap8bS (tex, start, height, mask_mask, line, line_full, count);
-#endif
 }
 
 //****************************************************************
@@ -182,11 +170,7 @@ void Clamp8bS (unsigned char * tex, wxUint32 width, wxUint32 clamp_to, wxUint32 
 
   int line_full = real_width;
   int line = width;
-#ifdef OLDASM_asmClamp8bS
-  asmClamp8bS (dest, constant, real_height, line, line_full, count);
-#else
   clamp8bS (dest, constant, real_height, line, line_full, count);
-#endif
 }
 
 //****************************************************************

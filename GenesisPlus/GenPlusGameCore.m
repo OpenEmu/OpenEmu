@@ -28,16 +28,22 @@
 #import "GenPlusGameCore.h"
 #import <OERingBuffer.h>
 #import "OEGenesisSystemResponderClient.h"
-#import "OESegaCDSystemResponderClient.h"
 #import <OpenGL/gl.h>
 
 #include "libretro.h"
 
-@interface GenPlusGameCore () <OEGenesisSystemResponderClient, OESegaCDSystemResponderClient>
+@interface GenPlusGameCore () <OEGenesisSystemResponderClient>
+{
+    uint16_t *videoBuffer;
+    int videoWidth, videoHeight;
+    int16_t pad[2][8];
+    NSString *romName;
+    double sampleRate;
+}
+
 @end
-//NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, INPUT_A, INPUT_B, INPUT_C, INPUT_X, INPUT_Y, INPUT_Z, INPUT_START, INPUT_MODE };
+
 NSUInteger GenesisEmulatorValues[] = { RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT, RETRO_DEVICE_ID_JOYPAD_Y, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_X, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_START, RETRO_DEVICE_ID_JOYPAD_SELECT };
-NSString *GenesisEmulatorKeys[] = { @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left", @"Joypad@ Right", @"Joypad@ Triangle", @"Joypad@ Circle", @"Joypad@ Cross", @"Joypad@ Square", @"Joypad@ L1", @"Joypad@ L2", @"Joypad@ L3", @"Joypad@ R1", @"Joypad@ R2", @"Joypad@ R3", @"Joypad@ Start", @"Joypad@ Select"};
 
 GenPlusGameCore *current;
 @implementation GenPlusGameCore
@@ -57,19 +63,14 @@ static void video_callback(const void *data, unsigned width, unsigned height, si
 {
     current->videoWidth  = width;
     current->videoHeight = height;
-    //NSLog(@"width: %u height: %u pitch: %zu", width, height, pitch);
     
     dispatch_queue_t the_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
-    // TODO opencl CPU device?
     dispatch_apply(height, the_queue, ^(size_t y){
         const uint16_t *src = (uint16_t*)data + y * (pitch >> 1); //pitch is in bytes not pixels
-        //uint16_t *dst = current->videoBuffer + y * current->videoWidth;
         uint16_t *dst = current->videoBuffer + y * 720;
         
-        for (int x = 0; x < current->videoWidth; x++) {
-            dst[x] = src[x];
-        }
+        memcpy(dst, src, sizeof(uint16_t)*width);
     });
 }
 
@@ -94,127 +95,26 @@ static int16_t input_state_callback(unsigned port, unsigned device, unsigned ind
 
 static bool environment_callback(unsigned cmd, void *data)
 {
-    switch (cmd)
+    switch(cmd)
     {
-            /*case RETRO_ENVIRONMENT_GET_OVERSCAN:
-             *(bool*)data = !g_settings.video.crop_overscan;
-             NSLog(@"Environ GET_OVERSCAN: %u\n", (unsigned)!g_settings.video.crop_overscan);
-             break;
-             
-             case RETRO_ENVIRONMENT_GET_CAN_DUPE:
-             #ifdef HAVE_FFMPEG
-             *(bool*)data = true;
-             NSLog(@"Environ GET_CAN_DUPE: true\n");
-             #else
-             *(bool*)data = false;
-             NSLog(@"Environ GET_CAN_DUPE: false\n");
-             #endif
-             break;*/
-            
-        case RETRO_ENVIRONMENT_GET_VARIABLE:
+        case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY :
         {
-            struct retro_variable *var = (struct retro_variable*)data;
-            if (var->key)
-            {
-                // Split string has '\0' delimiters so we have to find the position in original string,
-                // then pass the corresponding offset into the split string.
-                const char *key = strstr(current->systemEnvironment, var->key);
-                size_t key_len = strlen(var->key);
-                if (key && key[key_len] == '=')
-                {
-                    ptrdiff_t offset = key - current->systemEnvironment;
-                    var->value = current->systemEnvironmentSplit[offset + key_len + 1];
-                }
-                else
-                    var->value = NULL;
-            }
-            else
-                var->value = current->systemEnvironment;
+            // FIXME: Build a path in a more appropriate place
+            NSString *appSupportPath = [NSString pathWithComponents:@[
+                                        [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
+                                        @"OpenEmu", @"BIOS"]];
             
-            NSLog(@"Environ GET_VARIABLE: %s=%s\n",
-                  var->key ? var->key : "null",
-                  var->value ? var->value : "null");
-            
-            break;
-        }
-            
-        case RETRO_ENVIRONMENT_SET_VARIABLES:
-        {
-            NSLog(@"Environ SET_VARIABLES:\n");
-            NSLog(@"=======================\n");
-            const struct retro_variable *vars = (const struct retro_variable*)data;
-            while (vars->key)
-            {
-                NSLog(@"\t%s :: %s\n",
-                      vars->key,
-                      vars->value ? vars->value : "N/A");
-                
-                vars++;
-            }
-            NSLog(@"=======================\n");
-            break;
-        }
-            
-            /*case RETRO_ENVIRONMENT_SET_MESSAGE:
-             {
-             const struct retro_message *msg = (const struct retro_message*)data;
-             NSLog(@"Environ SET_MESSAGE: %s\n", msg->msg);
-             if (g_extern.msg_queue)
-             msg_queue_push(g_extern.msg_queue, msg->msg, 1, msg->frames);
-             break;
-             }
-             
-             case RETRO_ENVIRONMENT_SET_ROTATION:
-             {
-             unsigned rotation = *(const unsigned*)data;
-             NSLog(@"Environ SET_ROTATION: %u\n", rotation);
-             if (!g_settings.video.allow_rotate)
-             break;
-             
-             g_extern.system.rotation = rotation;
-             
-             if (driver.video && driver.video->set_rotation)
-             {
-             if (driver.video_data)
-             video_set_rotation_func(rotation);
-             }
-             else
-             return false;
-             break;
-             }*/
-            
-        case RETRO_ENVIRONMENT_SHUTDOWN:
-            //g_extern.system.shutdown = true;
-            break;
-            
-        case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
-        {
-            NSString *appSupportPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
-                                          stringByAppendingPathComponent:@"Application Support"]
-                                         stringByAppendingPathComponent:@"OpenEmu"]
-                                        stringByAppendingPathComponent:@"BIOS"];
-            
-            *(const char **)data = [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] ? [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] : NULL;
+            *(const char **)data = [appSupportPath UTF8String];
             NSLog(@"Environ SYSTEM_DIRECTORY: \"%@\".\n", appSupportPath);
             break;
         }
-            
-        case RETRO_ENVIRONMENT_GET_SAVES_DIRECTORY:
-        {
-            NSString *batterySavesDirectory = current.batterySavesDirectoryPath;
-            
-            *(const char **)data = [batterySavesDirectory cStringUsingEncoding:NSUTF8StringEncoding];
-            NSLog(@"Environ SAVES_DIRECTORY: \"%@\".\n", batterySavesDirectory);
-            break;
-        }
-        default:
+        default :
             NSLog(@"Environ UNSUPPORTED (#%u).\n", cmd);
             return false;
     }
     
     return true;
 }
-
 
 static void loadSaveFile(const char* path, int type)
 {
@@ -280,26 +180,13 @@ static void writeSaveFile(const char* path, int type)
     pad[player-1][GenesisEmulatorValues[button]] = 0;
 }
 
-- (oneway void)didPushSegaCDButton:(OESegaCDButton)button forPlayer:(NSUInteger)player;
-{
-    pad[player-1][GenesisEmulatorValues[button]] = 1;
-}
-
-- (oneway void)didReleaseSegaCDButton:(OESegaCDButton)button forPlayer:(NSUInteger)player;
-{
-    pad[player-1][GenesisEmulatorValues[button]] = 0;
-}
-
 - (id)init
 {
-	self = [super init];
-    if(self != nil)
+    if((self = [super init]))
     {
-        if(videoBuffer) 
-            free(videoBuffer);
         videoBuffer = (uint16_t*)malloc(720 * 576 * 2);
     }
-	
+    
 	current = self;
     
 	return self;
@@ -332,7 +219,6 @@ static void writeSaveFile(const char* path, int type)
     data = (uint8_t*)[dataObj bytes];
     const char *meta = NULL;
     
-    //memory.copy(data, size);
     retro_set_environment(environment_callback);
 	retro_init();
 	
@@ -344,9 +230,8 @@ static void writeSaveFile(const char* path, int type)
     
     
     const char *fullPath = [path UTF8String];
-    //*(const char**)data = [current->romName cStringUsingEncoding:NSUTF8StringEncoding];
+    
     struct retro_game_info info = {NULL};
-    //info.path = *(const char**)path;
     info.path = fullPath;
     info.data = data;
     info.size = size;
@@ -379,9 +264,11 @@ static void writeSaveFile(const char* path, int type)
         retro_get_region();
         
         retro_run();
+        
+        return YES;
     }
     
-    return YES;
+    return NO;
 }
 
 #pragma mark Video
@@ -400,15 +287,7 @@ static void writeSaveFile(const char* path, int type)
     return OESizeMake(720, 576);
     //return OESizeMake(current->videoWidth, current->videoHeight);
 }
-/*
- - (void)setupEmulation
- {
- if(soundBuffer)
- free(soundBuffer);
- soundBuffer = (UInt16*)malloc(SIZESOUNDBUFFER* sizeof(UInt16));
- memset(soundBuffer, 0, SIZESOUNDBUFFER*sizeof(UInt16));
- }
- */
+
 - (void)setupEmulation
 {
 }
@@ -437,7 +316,7 @@ static void writeSaveFile(const char* path, int type)
         writeSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
     }
     
-    NSLog(@"snes term");
+    NSLog(@"retro term");
     retro_unload_game();
     retro_deinit();
     [super stopEmulation];
@@ -446,7 +325,6 @@ static void writeSaveFile(const char* path, int type)
 - (void)dealloc
 {
     free(videoBuffer);
-    //[super dealloc];
 }
 
 - (GLenum)pixelFormat
@@ -474,7 +352,6 @@ static void writeSaveFile(const char* path, int type)
 - (NSTimeInterval)frameInterval
 {
     return frameInterval ? frameInterval : 59.92;
-    //frameInterval = vdp_pal ? 53203424./896040. : 53693175./896040.;
 }
 
 - (NSUInteger)channelCount
@@ -534,240 +411,3 @@ static void writeSaveFile(const char* path, int type)
 }
 
 @end
-
-
-
-
-/*
-#import "GenPlusGameCore.h"
-#import <IOKit/hid/IOHIDLib.h>
-#import <OpenEmuBase/OERingBuffer.h>
-#import <OpenGL/gl.h>
-#import "OEGenesisSystemResponderClient.h"
-
-#include "shared.h"
-
-#define SAMPLERATE 48000
-
-extern void set_config_defaults(void);
-
-void openemu_input_UpdateEmu(void)
-{
-}
-
-@implementation GenPlusGameCore
-
-@synthesize romPath;
-
-- (id)init
-{
-    self = [super init];
-    if(self != nil)
-    {
-        bufLock = [[NSLock alloc] init];
-        videoBuffer = malloc(720 * 576 * 2);
-        
-        position = 0;
-    }
-    return self;
-}
-
-- (void) dealloc
-{
-    DLog(@"releasing/deallocating memory");
-    free(videoBuffer);    
-}
-
-- (void)executeFrame
-{
-    //system_frame(0);
-    system_frame_gen(0);
-    int size = audio_update(soundbuffer);
-    for(int i = 0 ; i < size; i++)
-    {
-        //[[self ringBufferAtIndex:0] write:&snd.buffer[0][i] maxLength:2];
-        //[[self ringBufferAtIndex:0] write:&snd.pcm.buffer[1][i] maxLength:2];
-    }
-}
-
-void update_input()
-{
-    
-}
-
-- (void)setupEmulation
-{
-}
-
-- (BOOL)loadFileAtPath:(NSString*)path
-{
-    DLog(@"Loaded File");
-    
-    set_config_defaults();
-    
-    // allocate cart.rom here (10 MBytes)
-    //cart.rom = malloc(MAXROMSIZE);
-    
-    if (!cart.rom)
-        DLog(@"error allocating");
-    
-    if( load_rom((char*)[path UTF8String]) )
-    {
-        // allocate global work bitmap
-        memset (&bitmap, 0, sizeof (bitmap));
-        bitmap.width  = 720;
-        bitmap.height = 576;
-        //bitmap.depth  = 16;
-        //bitmap.granularity = 2;
-        //bitmap.pitch = bitmap.width * bitmap.granularity;
-        bitmap.pitch = bitmap.width * sizeof(uint16_t);
-        //bitmap.viewport.w = 256;
-        //bitmap.viewport.h = 224;
-        //bitmap.viewport.x = 0;
-        //bitmap.viewport.y = 0;
-        bitmap.data = videoBuffer;
-        
-        // default system
-        input.system[0] = SYSTEM_MD_GAMEPAD;
-        input.system[1] = SYSTEM_MD_GAMEPAD;
-        
-        frameInterval = vdp_pal ? 53203424./896040. : 53693175./896040.; // from sound_init()
-		audio_init(SAMPLERATE, frameInterval);
-        system_init();
-        system_reset();
-        
-        [self setRomPath:path];
-		[self loadSram];
-    }
-    
-    return YES;
-}
-
-- (NSTimeInterval)frameInterval
-{
-	return frameInterval ? frameInterval : 60;
-}
-
-- (void)resetEmulation
-{
-    system_reset();
-}
-
-- (void)stopEmulation
-{
-    [self saveSram];
-    [super stopEmulation];
-}
-
-- (IBAction)pauseEmulation:(id)sender
-{
-}
-
-- (OEIntRect)screenRect
-{
-    return OERectMake(bitmap.viewport.x, bitmap.viewport.y, bitmap.viewport.w, bitmap.viewport.h);
-}
-
-- (OEIntSize)bufferSize
-{
-    return OESizeMake(bitmap.width, bitmap.height);
-}
-
-- (const void *)videoBuffer
-{
-    return videoBuffer;
-}
-
-- (GLenum)pixelFormat
-{
-    return GL_RGB;
-}
-
-- (GLenum)pixelType
-{
-    return GL_UNSIGNED_SHORT_5_6_5;
-}
-
-- (GLenum)internalPixelFormat
-{
-    return GL_RGB5;
-}
-
-- (double)audioSampleRate
-{
-    return SAMPLERATE;
-}
-
-- (NSUInteger)channelCount
-{
-    return 2;
-}
-
-NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, INPUT_A, INPUT_B, INPUT_C, INPUT_X, INPUT_Y, INPUT_Z, INPUT_START, INPUT_MODE };
-
-- (BOOL)shouldPauseForButton:(NSInteger)button
-{
-    return NO;
-}
-
-- (oneway void)didPushGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
-{
-    input.pad[player - 1] |=  GenesisControlValues[button];
-}
-
-- (oneway void)didReleaseGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
-{
-    input.pad[player - 1] &= ~GenesisControlValues[button];
-}
-
-- (BOOL)saveStateToFileAtPath:(NSString *)fileName
-{
-    NSMutableData *data = [[NSMutableData alloc] initWithLength:STATE_SIZE];
-    
-    NSInteger bytesCount = state_save([data mutableBytes]);
-    
-    return bytesCount > 0 && [[[NSData alloc] initWithBytesNoCopy:[data mutableBytes] length:bytesCount freeWhenDone:NO] writeToFile:fileName atomically:NO];
-}
-
-- (BOOL)loadStateFromFileAtPath:(NSString *)fileName
-{
-    NSData *loaded = [[NSData alloc] initWithContentsOfFile:fileName];
-    
-    //return loaded != nil && state_load([loaded bytes], [loaded length]) == 1;
-    return;
-}
-
-- (void)saveSram
-{
-	if(sram.on)
-	{
-		NSString *extensionlessFilename = [[romPath lastPathComponent] stringByDeletingPathExtension];
-		NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
-		[[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-		
-		NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-		NSData   *theData  = [NSData dataWithBytes:sram.sram length:0x10000];
-		[theData writeToFile:filePath atomically:YES];
-	}
-}
-
-- (void)loadSram
-{
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    NSString *extensionlessFilename = [[romPath lastPathComponent] stringByDeletingPathExtension];
-    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
-    [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-    
-	NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-	if([fileManager fileExistsAtPath:filePath])
-	{
-		NSLog(@"SRAM found");
-		NSData *data = [NSData dataWithContentsOfFile:filePath];
-		memcpy(sram.sram, [data bytes], 0x10000);
-		sram.crc = crc32(0, sram.sram, 0x10000);
-	}
-}
-
-@end
-*/

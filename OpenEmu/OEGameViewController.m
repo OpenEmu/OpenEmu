@@ -276,6 +276,9 @@ typedef enum : NSUInteger
         [window setTitle:[[[self rom] game] name]];
         gameView.gameTitle = [[[self rom] game] name];
     }
+#if DEBUG_PRINT
+    [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
+#endif
 }
 
 - (void)viewWillDisappear
@@ -293,6 +296,9 @@ typedef enum : NSUInteger
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
         [window setTitle:OEDefaultWindowTitle];
     
+#if DEBUG_PRINT
+    [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
+#endif
     [[self controlsWindow] hide];
     [self terminateEmulation];
 }

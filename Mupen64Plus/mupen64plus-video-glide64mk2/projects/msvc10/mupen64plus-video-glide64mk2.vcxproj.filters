@@ -16,9 +16,6 @@
     <Filter Include="Glide64\Windows">
       <UniqueIdentifier>{c6ba9864-aee3-4434-954b-8c5679c2959c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="asm">
-      <UniqueIdentifier>{b8d8c948-32b5-4ac7-b558-cd807470175c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Glitch64\geometry.cpp">
@@ -135,16 +132,5 @@
     <ClCompile Include="..\..\src\Glitch64\main.cpp">
       <Filter>Glitch64</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\Glide64\3dmathSIMD.asm">
-      <Filter>asm</Filter>
-    </None>
-    <None Include="..\..\src\Glide64\FixedPoint.asm">
-      <Filter>asm</Filter>
-    </None>
-    <None Include="..\..\src\Glide64\Texture.asm">
-      <Filter>asm</Filter>
-    </None>
   </ItemGroup>
 </Project>

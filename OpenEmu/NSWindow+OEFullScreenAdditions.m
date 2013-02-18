@@ -29,7 +29,7 @@
 
 @implementation NSWindow (OEFullScreenAdditions)
 
-- (BOOL)OE_isFullScreen;
+- (BOOL)isFullScreen;
 {
     return ([self styleMask] & NSFullScreenWindowMask) == NSFullScreenWindowMask;
 }

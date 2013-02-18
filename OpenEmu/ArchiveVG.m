@@ -152,7 +152,7 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 - (NSDictionary*)configUsingFormat:(AVGOutputFormat)format error:(NSError**)outError;
 {
 	ArchiveVGOperation operation = AVGConfig;
-	return [self performStandardCallWithOperation:operation format:operation andOptions:nil error:outError];
+	return [self performStandardCallWithOperation:operation format:format andOptions:nil error:outError];
 }
 
 - (void)configWithCallback:(void(^)(id result, NSError *error))block
@@ -208,7 +208,7 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 - (NSDictionary*)systemsUsingFormat:(AVGOutputFormat)format error:(NSError**)outError
 {
 	ArchiveVGOperation operation = AVGGetSystems;
-	return [self performStandardCallWithOperation:operation format:operation andOptions:nil error:outError];
+	return [self performStandardCallWithOperation:operation format:format andOptions:nil error:outError];
 }
 
 - (void)systemsWithCallback:(void(^)(id result, NSError *error))block
@@ -234,7 +234,7 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 - (NSDictionary*)dailyFactUsingFormat:(AVGOutputFormat)format error:(NSError**)outError
 {
 	ArchiveVGOperation operation = AVGGetDailyFact;
-	return [self performStandardCallWithOperation:operation format:operation andOptions:nil error:outError];
+	return [self performStandardCallWithOperation:operation format:format andOptions:nil error:outError];
 }
 
 - (void)dailyFactWithCallback:(void(^)(id result, NSError *error))block

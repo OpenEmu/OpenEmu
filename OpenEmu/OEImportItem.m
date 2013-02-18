@@ -86,4 +86,24 @@
 
     return item;
 }
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    self = [self init];
+    if (self)
+    {        
+        [self setURL:[decoder decodeObjectForKey:@"URL"]];
+        [self setSourceURL:[decoder decodeObjectForKey:@"sourceURL"]];
+        [self setImportState:OEImportItemStatusIdle];
+        [self setImportInfo:[decoder decodeObjectForKey:@"importInfo"]];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeObject:[self URL] forKey:@"URL"];
+    [encoder encodeObject:[self sourceURL] forKey:@"sourceURL"];
+    [encoder encodeObject:[self importInfo] forKey:@"importInfo"];
+}
 @end

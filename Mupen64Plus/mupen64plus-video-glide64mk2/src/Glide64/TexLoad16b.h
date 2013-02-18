@@ -37,9 +37,6 @@
 //
 //****************************************************************
 
-extern "C" void asmLoad16bRGBA(uint8_t *src, uint8_t *dst, int wid_64, int height, int line, int ext);
-extern "C" void asmLoad16bIA(uint8_t *src, uint8_t *dst, int wid_64, int height, int line, int ext);
-
 static inline void load16bRGBA(uint8_t *src, uint8_t *dst, int wid_64, int height, int line, int ext)
 {
   uint32_t *v6;
@@ -175,11 +172,7 @@ wxUint32 Load16bRGBA (wxUIntPtr dst, wxUIntPtr src, int wid_64, int height, int 
   if (height < 1) height = 1;
   int ext = (real_width - (wid_64 << 2)) << 1;
 
-#ifdef OLDASM_asmLoad16bRGBA
-  asmLoad16bRGBA((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext);
-#else
   load16bRGBA((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext);
-#endif
 
   return (1 << 16) | GR_TEXFMT_ARGB_1555;
 }
@@ -195,11 +188,7 @@ wxUint32 Load16bIA (wxUIntPtr dst, wxUIntPtr src, int wid_64, int height, int li
   if (height < 1) height = 1;
   int ext = (real_width - (wid_64 << 2)) << 1;
 
-#ifdef OLDASM_asmLoad16bIA
-  asmLoad16bIA((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext);
-#else
   load16bIA((uint8_t *)src, (uint8_t *)dst, wid_64, height, line, ext);
-#endif
 
   return (1 << 16) | GR_TEXFMT_ALPHA_INTENSITY_88;
 }
