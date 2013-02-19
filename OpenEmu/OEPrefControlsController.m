@@ -455,7 +455,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 - (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
 {
-    if([readingEvent hasOffState] || ([readingEvent cookie] != [anEvent cookie])) readingEvent = nil;
+    if([readingEvent hasOffState] || ![readingEvent isEqual:anEvent]) readingEvent = nil;
     
     if([self selectedKey] == nil && [self view] == [[[self view] window] firstResponder])
         [[[self view] window] makeFirstResponder:nil];
@@ -487,7 +487,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     // The event is the currently read event,
     // if it's off state, nil the reading event,
     // in either case, this event shouldn't be registered
-    if(readingEvent == anEvent)
+    if([readingEvent isEqual:anEvent])
     {
         if([anEvent hasOffState])
             readingEvent = nil;
