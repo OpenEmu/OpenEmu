@@ -389,7 +389,7 @@ static NSArray *OE_defaultSortDescriptors;
     if(reloadListView)
         [listView reloadData];
     else
-        [gridView reloadData];
+        [gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
     
     if(_selectedViewTag == tag && tag != OEBlankSlateTag) return;
 
@@ -1308,7 +1308,7 @@ static NSArray *OE_defaultSortDescriptors;
 
 #pragma mark -
 #pragma mark Private
-#define reloadDelay 0.1
+#define reloadDelay 0.5
 - (void)OE_managedObjectContextDidUpdate:(NSNotification *)notification
 {
     DLog();
