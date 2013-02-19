@@ -579,8 +579,8 @@ typedef enum : NSUInteger
 {
     NSString *systemIdentifier = [self systemIdentifier];
     NSDictionary *userInfo = @{
-        OEPreferencesOpenPanelUserInfoPanelNameKey : @"Controls",
-        OEPreferencesOpenPanelUserInfoSystemIdentifierKey : systemIdentifier,
+        OEPreferencesUserInfoPanelNameKey : @"Controls",
+        OEPreferencesUserInfoSystemIdentifierKey : systemIdentifier,
     };
     
     [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];

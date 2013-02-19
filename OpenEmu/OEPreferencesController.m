@@ -47,9 +47,10 @@
 NSString *const OEDebugModeKey = @"debug";
 NSString *const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
 
-NSString *const OEPreferencesOpenPaneNotificationName = @"OEPrefOpenPane";
-NSString *const OEPreferencesOpenPanelUserInfoPanelNameKey = @"panelName";
-NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIdentifier";
+NSString *const OEPreferencesOpenPaneNotificationName  = @"OEPrefOpenPane";
+NSString *const OEPreferencesSetupPaneNotificationName = @"OEPrefSetupPane";
+NSString *const OEPreferencesUserInfoPanelNameKey        = @"panelName";
+NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
 
 #define AnimationDuration 0.3
 
@@ -215,7 +216,7 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
 - (void)OE_openPreferencePane:(NSNotification*)notification
 {
     NSDictionary *userInfo = [notification userInfo];
-    NSString     *paneName = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
+    NSString     *paneName = [userInfo valueForKey:OEPreferencesUserInfoPanelNameKey];
     
     NSInteger index = 0;
     for(id<OEPreferencePane> aPreferencePane in [self preferencePanes])
@@ -228,9 +229,7 @@ NSString *const OEPreferencesOpenPanelUserInfoSystemIdentifierKey = @"systemIden
     [self switchView:[NSNumber numberWithInteger:index] animate:[[self window] isVisible]];
     [[self window] makeKeyAndOrderFront:self];
 }
-
 #pragma mark -
-
 - (void)switchView:(id)sender
 {
     [self switchView:sender animate:YES];
