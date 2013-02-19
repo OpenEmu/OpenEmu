@@ -60,13 +60,13 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 @property(readonly, strong) NSTextView *messageTextView;
 @property(readonly, strong) NSTextField *headlineLabelField;
 
-@property(strong) NSString *stringValue, *inputLabelText;
+@property(strong) NSString *stringValue, *otherStringValue, *inputLabelText, *otherInputLabelText;
 @property(strong) NSString *defaultButtonTitle, *alternateButtonTitle, *otherButtonTitle, *title, *messageText, *headlineLabelText;
 
 #pragma mark -
 #pragma mark Input Field
-@property(readonly, strong) NSTextField *inputField, *inputLabelField;
-@property BOOL showsInputField;
+@property(readonly, strong) NSTextField *inputField, *inputLabelField, *otherInputField, *otherInputLabelField;
+@property BOOL showsInputField, showsOtherInputField;
 @property NSInteger inputLimit;
 
 #pragma mark -
