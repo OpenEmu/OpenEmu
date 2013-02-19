@@ -640,6 +640,29 @@ typedef enum : NSUInteger
     [self setVolume:1.0 asDefault:YES];
 }
 
+#pragma mark - Cheats
+
+- (IBAction)addCheat:(id)sender
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    
+    [alert setOtherInputLabelText:@"Title:"];
+    [alert setShowsOtherInputField:YES];
+    [alert setOtherStringValue:@"Cheat Description"];
+    
+    [alert setInputLabelText:@"Code:"];
+    [alert setShowsInputField:YES];
+    [alert setStringValue:@"000-000+000-000;01HHHHHH"];
+    
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Add Cheat", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    
+    [alert setHeight:150.0];
+    [alert setInputLimit:1000];
+    
+    [alert runModal];
+}
+
 #pragma mark - Saving States
 
 - (IBAction)saveState:(id)sender
