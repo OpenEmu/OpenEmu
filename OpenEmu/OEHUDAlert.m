@@ -68,7 +68,7 @@
 @synthesize progressbar = _progressbar;
 @synthesize messageTextView = _messageTextView, headlineLabelField = _headlineLabelField;
 @synthesize suppressionButton = _suppressionButton;
-@synthesize inputField = _inputField, inputLabelField = _inputLabelField;
+@synthesize inputField = _inputField, inputLabelField = _inputLabelField, otherInputField = _otherInputField, otherInputLabelField = _otherInputLabelField;
 @synthesize boxView = _boxView;
 @synthesize window;
 
@@ -126,6 +126,8 @@
         
         _inputField = [[NSTextField alloc] init];
         _inputLabelField = [[NSTextField alloc] init];
+        _otherInputField = [[NSTextField alloc] init];
+        _otherInputLabelField = [[NSTextField alloc] init];
         
         _boxView = [[OEPreferencesPlainBox alloc] init];
         
@@ -473,6 +475,18 @@
     return ![[self inputField] isHidden];
 }
 
+- (void)setShowsOtherInputField:(BOOL)showsOtherInputField
+{
+    [[self otherInputField] setHidden:!showsOtherInputField];
+    [[self otherInputLabelField] setHidden:!showsOtherInputField];
+    [[self boxView] setHidden:showsOtherInputField];
+}
+
+- (BOOL)showsOtherInputField
+{
+    return ![[self otherInputField] isHidden];
+}
+
 - (void)setStringValue:(NSString *)stringValue
 {
     [[self inputField] setStringValue:stringValue];
@@ -483,6 +497,16 @@
     return [[self inputField] stringValue];
 }
 
+- (void)setOtherStringValue:(NSString *)otherStringValue
+{
+    [[self otherInputField] setStringValue:otherStringValue];
+}
+
+- (NSString *)otherStringValue
+{
+    return [[self otherInputField] stringValue];
+}
+
 - (void)setInputLabelText:(NSString *)inputLabelText
 {
     [[self inputLabelField] setStringValue:inputLabelText];
@@ -491,6 +515,16 @@
 - (NSString *)inputLabelText
 {
     return [[self inputLabelField] stringValue];
+}
+
+- (void)setOtherInputLabelText:(NSString *)otherInputLabelText
+{
+    [[self otherInputLabelField] setStringValue:otherInputLabelText];
+}
+
+- (NSString *)otherInputLabelText
+{
+    return [[self otherInputLabelField] stringValue];
 }
 
 - (NSInteger)inputLimit
@@ -615,6 +649,41 @@
     [[self inputLabelField] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
     [[self inputLabelField] setCell:labelCell];
     [[_window contentView] addSubview:[self inputLabelField]];
+    
+    // Setup Other Input Field
+    shadow = [[NSShadow alloc] init];
+    [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
+    [shadow setShadowBlurRadius:0];
+    [shadow setShadowOffset:(NSSize){ 0, -1 }];
+    
+    OEHUDTextFieldCell *otherInputCell = [[OEHUDTextFieldCell alloc] init];
+    [[self otherInputField] setCell:otherInputCell];
+    [[self otherInputField] setFrame:NSMakeRect(68, 90, 337, 23)];
+    [[self otherInputField] setHidden:YES];
+    [[self otherInputField] setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
+    [[self otherInputField] setFocusRingType:NSFocusRingTypeNone];
+    [[self otherInputField] setTarget:self andAction:@selector(buttonAction:)];
+    [[self otherInputField] setEditable:YES];
+    [[self otherInputField] setWantsLayer:YES];
+    [[_window contentView] addSubview:[self otherInputField]];
+    
+    
+    [[self otherInputLabelField] setFrame:NSMakeRect(1, 90, 61, 23)];
+    [[self otherInputLabelField] setHidden:YES];
+    OECenteredTextFieldCell *otherLabelCell = [[OECenteredTextFieldCell alloc] init];
+    
+    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
+    
+    NSMutableParagraphStyle *otherParaStyle = [[NSMutableParagraphStyle alloc] init];
+    [otherParaStyle setAlignment:NSRightTextAlignment];
+    [otherLabelCell setTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                  [NSColor whiteColor]  , NSForegroundColorAttributeName,
+                                  otherParaStyle             , NSParagraphStyleAttributeName,
+                                  font                  , NSFontAttributeName,
+                                  nil]];
+    [[self otherInputLabelField] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
+    [[self otherInputLabelField] setCell:otherLabelCell];
+    [[_window contentView] addSubview:[self otherInputLabelField]];
     
     // setup progressbar
     NSRect progressBarRect = NSMakeRect(64, 47, 258, 16);

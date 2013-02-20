@@ -37,6 +37,7 @@
 #import "OEMenu.h"
 #import "OEDBSystem.h"
 
+#define OEGameScannerUpdateDelay 0.2
 @interface OEGameScannerViewController ()
 @property NSMutableArray *itemsRequiringAttention;
 @property BOOL isScanningDirectory;
@@ -95,6 +96,7 @@
 #pragma mark -
 - (void)OE_updateProgress
 {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_updateProgress) object:nil];
     OEROMImporter *importer = [self importer];
     
     NSUInteger maxItems = [[self importer] totalNumberOfItems];
@@ -311,13 +313,12 @@
 
 - (void)romImporterChangedItemCount:(OEROMImporter*)importer
 {
-    [self OE_updateProgress];
+    [self performSelector:@selector(OE_updateProgress) withObject:nil afterDelay:OEGameScannerUpdateDelay];
 }
 
 - (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem*)item
 {
-    
-    [self setIsScanningDirectory:[item importStep] == OEImportStepCheckDirectory];
+   // [self setIsScanningDirectory:[item importStep] == OEImportStepCheckDirectory];
 }
 
 - (void)romImporter:(OEROMImporter*)importer stoppedProcessingItem:(OEImportItem*)item

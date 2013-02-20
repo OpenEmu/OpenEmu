@@ -42,7 +42,7 @@
 #import "NSArray+OEAdditions.h"
 #import "NSWindow+OEFullScreenAdditions.h"
 
-
+#import "OEPreferencesController.h"
 #pragma mark - Exported variables
 NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
 
@@ -352,6 +352,14 @@ static const CGFloat _OEToolbarHeight = 44;
 
     itemID = [selectedItem sidebarID];
     [viewController restoreState:[self OE_storedStateForSidebarItemWithID:itemID]];
+    
+    // Try to select the current system in the controls pref pane
+    // if sidebarID is not a system identifier the preference pane will handle it
+    NSDictionary *userInfo = @{
+                               OEPreferencesUserInfoPanelNameKey : @"Controls",
+                               OEPreferencesUserInfoSystemIdentifierKey : itemID,
+                               };
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesSetupPaneNotificationName object:nil userInfo:userInfo];
 }
 
 - (void)OE_storeState:(id)state forSidebarItemWithID:(NSString*)itemID

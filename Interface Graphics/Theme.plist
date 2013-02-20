@@ -894,7 +894,7 @@
 			<dict>
 				<key>Alternate</key>
 				<string>{{0,50},{25,25}}</string>
-				<key>Alternate, Mouse Over,</key>
+				<key>Alternate, Mouse Over</key>
 				<string>{{25,50},{25,25}}</string>
 				<key>Alternate, Mouse Over, Pressed</key>
 				<string>{{50,50},{25,25}}</string>
