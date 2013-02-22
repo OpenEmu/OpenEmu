@@ -147,6 +147,11 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     return NO;
 }
 
+- (BOOL)canCheat
+{
+    return NO;
+}
+
 - (void)setPauseEmulation:(BOOL)flag
 {
     if(flag) isRunning = NO;

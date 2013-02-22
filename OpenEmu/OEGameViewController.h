@@ -123,6 +123,7 @@ extern NSString *const OEGameViewControllerROMKey;
 
 #pragma mark - Cheats
 - (IBAction)addCheat:(id)sender;
+- (BOOL)cheatSupport;
 
 #pragma mark - Saving States
 - (IBAction)saveState:(id)sender;
