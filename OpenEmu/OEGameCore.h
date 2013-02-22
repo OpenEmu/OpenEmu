@@ -161,6 +161,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 #pragma mark Execution
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 - (BOOL)rendersToOpenGL;
+- (BOOL)canCheat;
 - (void)frameRefreshThread:(id)anArgument;
 - (void)setupEmulation;
 - (void)stopEmulation;

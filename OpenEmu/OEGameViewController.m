@@ -663,6 +663,12 @@ typedef enum : NSUInteger
     [alert runModal];
 }
 
+- (BOOL)cheatSupport
+{
+    OEGameCore *gameCore = [rootProxy gameCore];
+    return [gameCore canCheat];
+}
+
 #pragma mark - Saving States
 
 - (IBAction)saveState:(id)sender

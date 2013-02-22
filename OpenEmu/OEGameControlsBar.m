@@ -228,6 +228,21 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls", @"") action:@selector(editControls:) keyEquivalent:@""];
     [menu addItem:item];
     
+    // Setup Cheats Menu
+    if ([[self gameViewController] cheatSupport])
+    {
+        NSMenu *cheatsMenu = [[NSMenu alloc] init];
+        [cheatsMenu setTitle:NSLocalizedString(@"Select Cheat", @"")];
+        item = [[NSMenuItem alloc] init];
+        item.title = NSLocalizedString(@"Select Cheat", @"");
+        [menu addItem:item];
+        [item setSubmenu:cheatsMenu];
+        
+        [cheatsMenu addItemWithTitle:@"Add Cheat..." action:@selector(addCheat:) keyEquivalent:@""];
+        [cheatsMenu addItem:[NSMenuItem separatorItem]];
+        // TODO: implement addCheat, read cheats from XML database and add to menu items
+    }
+    
     // Setup Core selection menu
     NSMenu* coresMenu = [[NSMenu alloc] init];
     [coresMenu setTitle:NSLocalizedString(@"Select Core", @"")];
