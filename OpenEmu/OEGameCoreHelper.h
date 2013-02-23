@@ -63,4 +63,6 @@
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
 
+- (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled;
+
 @end

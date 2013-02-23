@@ -671,6 +671,11 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     NSLog(@"Finishing separate thread");
 }
 
+- (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled
+{
+    return [[self gameCore] setCheat:code setType:type setEnabled:enabled];
+}
+
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;
 {
     return [[self gameCore] saveStateToFileAtPath:fileName];
