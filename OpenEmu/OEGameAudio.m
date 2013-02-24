@@ -34,6 +34,7 @@ typedef struct
 {
     TPCircularBuffer *buffer;
     int channelCount;
+    int bytesPerSample;
 } OEGameAudioContext;
 
 ExtAudioFileRef recordingFile;
@@ -82,21 +83,22 @@ OSStatus RenderCallback(void                       *in,
     OEGameAudioContext *context = (OEGameAudioContext*)in;
     int availableBytes = 0;
     void *head = TPCircularBufferTail(context->buffer, &availableBytes);
-    int bytesRequested = inNumberFrames * sizeof(SInt16) * context->channelCount;
+    int bytesRequested = inNumberFrames * context->bytesPerSample * context->channelCount;
     availableBytes = MIN(availableBytes, bytesRequested);
     int leftover = bytesRequested - availableBytes;
     char *outBuffer = ioData->mBuffers[0].mData;
 
-    if (leftover > 0) {
+    if (leftover > 0 && context->bytesPerSample==2) {
         // time stretch
         // FIXME this works a lot better with a larger buffer
         int framesRequested = inNumberFrames;
-        int framesAvailable = availableBytes / (sizeof(SInt16) * context->channelCount);
+        int framesAvailable = availableBytes / (context->bytesPerSample * context->channelCount);
         StretchSamples((int16_t*)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
-    } else {
+    } else if (availableBytes) {
         memcpy(outBuffer, head, availableBytes);
+    } else {
+        memset(outBuffer, 0, bytesRequested);
     }
-    
     
     TPCircularBufferConsume(context->buffer, availableBytes);
     return noErr;
@@ -210,7 +212,7 @@ OSStatus RenderCallback(void                       *in,
     _contexts = malloc(sizeof(OEGameAudioContext) * bufferCount);
     for (int i = 0; i < bufferCount; ++i)
     {
-        _contexts[i] = (OEGameAudioContext){&([gameCore ringBufferAtIndex:i]->buffer), [gameCore channelCountForBuffer:i]};
+        _contexts[i] = (OEGameAudioContext){&([gameCore ringBufferAtIndex:i]->buffer), [gameCore channelCountForBuffer:i], [gameCore audioBitDepth]/8};
         
         //Create the converter node
         err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mConverterNode);
@@ -231,14 +233,16 @@ OSStatus RenderCallback(void                       *in,
         
         AudioStreamBasicDescription mDataFormat;
         NSUInteger channelCount = _contexts[i].channelCount;
+        NSUInteger bytesPerSample = _contexts[i].bytesPerSample;
+        int formatFlag = (bytesPerSample == 4) ? kLinearPCMFormatFlagIsFloat : kLinearPCMFormatFlagIsSignedInteger;
         mDataFormat.mSampleRate       = [gameCore audioSampleRateForBuffer:i];
         mDataFormat.mFormatID         = kAudioFormatLinearPCM;
-        mDataFormat.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
-        mDataFormat.mBytesPerPacket   = 2 * channelCount;
+        mDataFormat.mFormatFlags      = formatFlag | kAudioFormatFlagsNativeEndian;
+        mDataFormat.mBytesPerPacket   = bytesPerSample * channelCount;
         mDataFormat.mFramesPerPacket  = 1; // this means each packet in the AQ has two samples, one for each channel -> 4 bytes/frame/packet
-        mDataFormat.mBytesPerFrame    = 2 * channelCount;
+        mDataFormat.mBytesPerFrame    = bytesPerSample * channelCount;
         mDataFormat.mChannelsPerFrame = channelCount;
-        mDataFormat.mBitsPerChannel   = 16;
+        mDataFormat.mBitsPerChannel   = 8 * bytesPerSample;
         
         err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));
         if(err) NSLog(@"couldn't set player's input stream format");

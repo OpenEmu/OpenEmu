@@ -675,6 +675,11 @@ static NSArray *OE_defaultSortDescriptors;
 
 #pragma mark -
 #pragma mark Context Menu
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+    return [[self libraryController] validateMenuItem:menuItem];
+}
+
 - (NSMenu*)OE_menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     NSMenu *menu = [[NSMenu alloc] init];

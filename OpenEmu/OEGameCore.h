@@ -161,7 +161,6 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 #pragma mark Execution
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 - (BOOL)rendersToOpenGL;
-- (BOOL)canCheat;
 - (void)frameRefreshThread:(id)anArgument;
 - (void)setupEmulation;
 - (void)stopEmulation;
@@ -204,6 +203,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 // used when audioBufferCount == 1
 @property(readonly) NSUInteger  channelCount;
+@property(readonly) NSUInteger  audioBitDepth;
 @property(readonly) double      audioSampleRate;
 
 // used when more than 1 buffer
@@ -230,6 +230,11 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 #pragma mark Save state - Optional
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
+
+#pragma mark -
+#pragma mark Cheats - Optional
+- (BOOL)canCheat;
+- (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled;
 
 // ============================================================================
 // End Abstract methods.

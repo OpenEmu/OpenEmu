@@ -669,6 +669,11 @@ typedef enum : NSUInteger
     return [gameCore canCheat];
 }
 
+- (void)setCheatWithCodeAndType:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled
+{
+    [rootProxy setCheat:code setType:type setEnabled:enabled];
+}
+
 #pragma mark - Saving States
 
 - (IBAction)saveState:(id)sender
