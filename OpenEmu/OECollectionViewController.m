@@ -878,7 +878,7 @@ static NSArray *OE_defaultSortDescriptors;
     [self reloadDataIndexes:[self selectedIndexes]];
 }
 
-- (void)showSelectedGamesInFinder:(id)sender
+- (IBAction)showSelectedGamesInFinder:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
     NSMutableArray *urls = [NSMutableArray array];
