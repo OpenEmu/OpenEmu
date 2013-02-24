@@ -94,10 +94,11 @@ OSStatus RenderCallback(void                       *in,
         int framesRequested = inNumberFrames;
         int framesAvailable = availableBytes / (context->bytesPerSample * context->channelCount);
         StretchSamples((int16_t*)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
-    } else {
+    } else if (availableBytes) {
         memcpy(outBuffer, head, availableBytes);
+    } else {
+        memset(outBuffer, 0, bytesRequested);
     }
-    
     
     TPCircularBufferConsume(context->buffer, availableBytes);
     return noErr;
