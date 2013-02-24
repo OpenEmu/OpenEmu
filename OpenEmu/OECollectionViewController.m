@@ -544,6 +544,8 @@ static NSArray *OE_defaultSortDescriptors;
 {
     float zoomValue = [sender floatValue];
     [gridView setItemSize:NSMakeSize(roundf(26+142*zoomValue), roundf(44+7+142*zoomValue))];
+
+    [self setNeedsReloadVisible];
     
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
     _stateRewriteRequired = YES;
