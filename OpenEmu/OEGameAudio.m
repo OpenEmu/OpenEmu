@@ -241,7 +241,7 @@ OSStatus RenderCallback(void                       *in,
         mDataFormat.mFramesPerPacket  = 1; // this means each packet in the AQ has two samples, one for each channel -> 4 bytes/frame/packet
         mDataFormat.mBytesPerFrame    = bytesPerSample * channelCount;
         mDataFormat.mChannelsPerFrame = channelCount;
-        mDataFormat.mBitsPerChannel   = 16;
+        mDataFormat.mBitsPerChannel   = 8 * bytesPerSample;
         
         err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));
         if(err) NSLog(@"couldn't set player's input stream format");
