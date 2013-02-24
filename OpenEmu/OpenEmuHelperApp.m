@@ -221,6 +221,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
     }
 
+    // Unbind
+    glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
+
     // Cache our new surfaceID as soon as possible, and we only need to set it on size changes and re-creation.
     surfaceID = IOSurfaceGetID(surfaceRef);
 }
