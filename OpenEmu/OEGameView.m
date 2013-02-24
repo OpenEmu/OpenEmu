@@ -419,7 +419,7 @@ static const GLfloat cg_coords[] =
     CGColorSpaceRelease(_rgbColorSpace);
     _rgbColorSpace = NULL;
 
-    CFRelease(_gameSurfaceRef);
+    if(_gameSurfaceRef != NULL) CFRelease(_gameSurfaceRef);
 }
 
 #pragma mark -

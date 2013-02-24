@@ -53,6 +53,10 @@
 - (IBAction)changeGridSize:(id)sender;
 
 #pragma mark -
+#pragma mark Context Menu Actions
+- (IBAction)showSelectedGamesInFinder:(id)sender;
+
+#pragma mark -
 - (void)setNeedsReload;
 
 - (id <OECollectionViewItemProtocol>)representedObject;
