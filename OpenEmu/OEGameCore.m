@@ -171,7 +171,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         __block int wasZero=1;
 #endif
     
-        NSLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
+        DLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
         
         OESetThreadRealtime(gameInterval, .007, .03); // guessed from bsnes
     
@@ -360,6 +360,11 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     return 0;
 }
 
+- (NSUInteger)audioBitDepth
+{
+    return 16;
+}
+
 - (NSUInteger)channelCountForBuffer:(NSUInteger)buffer
 {
     if (buffer == 0)
@@ -373,8 +378,10 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 {
     // 4 frames is a complete guess
     double frameSampleCount = [self audioSampleRateForBuffer:buffer] / [self frameInterval];
+    NSUInteger channelCount = [self channelCountForBuffer:buffer];
+    NSUInteger bytesPerSample = [self audioBitDepth]/8;
     NSAssert(frameSampleCount, @"frameSampleCount is 0");
-    return 4*frameSampleCount;
+    return channelCount*bytesPerSample*frameSampleCount;
 }
 
 - (double)audioSampleRateForBuffer:(NSUInteger)buffer

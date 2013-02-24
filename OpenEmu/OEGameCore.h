@@ -203,6 +203,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 // used when audioBufferCount == 1
 @property(readonly) NSUInteger  channelCount;
+@property(readonly) NSUInteger  audioBitDepth;
 @property(readonly) double      audioSampleRate;
 
 // used when more than 1 buffer
