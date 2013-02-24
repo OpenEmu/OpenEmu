@@ -1155,21 +1155,23 @@ static NSArray *OE_defaultSortDescriptors;
 #pragma mark TableView Drag and Drop 
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
 {
-    
-    if( aTableView == listView && operation==NSTableViewDropAbove)
-        return YES;
-    
-    return NO;
+    NSPasteboard *pboard = [info draggingPasteboard];
+    if (![[pboard types] containsObject:NSFilenamesPboardType])
+        return NO;
+
+    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    OEROMImporter *romImporter = [[[self libraryController] database] importer];
+    [romImporter importItemsAtPaths:files];
+
+    return YES;
 }
 
 - (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
-    
-    if( aTableView == listView && operation==NSTableViewDropAbove)
-        return NSDragOperationGeneric;
+    if (![[[info draggingPasteboard] types] containsObject:NSFilenamesPboardType])
+        return NSDragOperationNone;
 
-    return NSDragOperationNone;
-    
+    return NSDragOperationCopy;
 }
 
 
