@@ -236,7 +236,7 @@ OSStatus RenderCallback(void                       *in,
         int formatFlag = (bytesPerSample == 4) ? kLinearPCMFormatFlagIsFloat : kLinearPCMFormatFlagIsSignedInteger;
         mDataFormat.mSampleRate       = [gameCore audioSampleRateForBuffer:i];
         mDataFormat.mFormatID         = kAudioFormatLinearPCM;
-        mDataFormat.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
+        mDataFormat.mFormatFlags      = formatFlag | kAudioFormatFlagsNativeEndian;
         mDataFormat.mBytesPerPacket   = bytesPerSample * channelCount;
         mDataFormat.mFramesPerPacket  = 1; // this means each packet in the AQ has two samples, one for each channel -> 4 bytes/frame/packet
         mDataFormat.mBytesPerFrame    = bytesPerSample * channelCount;
