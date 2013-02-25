@@ -223,6 +223,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     // Unbind
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, 0);
+    glDisable(GL_TEXTURE_RECTANGLE_ARB);
 
     // Cache our new surfaceID as soon as possible, and we only need to set it on size changes and re-creation.
     surfaceID = IOSurfaceGetID(surfaceRef);
