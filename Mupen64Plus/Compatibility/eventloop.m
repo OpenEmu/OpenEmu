@@ -49,3 +49,7 @@ int event_gameshark_active(void)
     // FIXME: this means we need our own cheat support
     return 0;
 }
+
+void event_set_gameshark(int active)
+{
+}

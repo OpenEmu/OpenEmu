@@ -437,9 +437,18 @@ static int savestates_load_m64p(char *filepath)
     }
 
 #ifdef NEW_DYNAREC
-    pcaddr = GETDATA(curr, unsigned int);
-    pending_exception = 1;
-    invalidate_all_pages();
+    if (r4300emu == CORE_DYNAREC) {
+        pcaddr = GETDATA(curr, unsigned int);
+        pending_exception = 1;
+        invalidate_all_pages();
+    } else {
+        if(r4300emu != CORE_PURE_INTERPRETER)
+        {
+            for (i = 0; i < 0x100000; i++)
+                invalid_code[i] = 1;
+        }
+        generic_jump_to(GETDATA(curr, unsigned int)); // PC
+    }
 #else
     if(r4300emu != CORE_PURE_INTERPRETER)
     {
@@ -459,7 +468,10 @@ static int savestates_load_m64p(char *filepath)
     load_eventqueue_infos(queue);
 
 #ifdef NEW_DYNAREC
-    last_addr = pcaddr;
+    if (r4300emu == CORE_DYNAREC)
+        last_addr = pcaddr;
+    else
+        last_addr = PC->addr;
 #else
     last_addr = PC->addr;
 #endif
@@ -739,9 +751,18 @@ static int savestates_load_pj64(char *filepath, void *handle,
     init_flashram();
 
 #ifdef NEW_DYNAREC
-    pcaddr = GETDATA(curr, unsigned int);
-    pending_exception = 1;
-    invalidate_all_pages();
+    if (r4300emu == CORE_DYNAREC) {
+        pcaddr = GETDATA(curr, unsigned int);
+        pending_exception = 1;
+        invalidate_all_pages();
+    } else {
+        if(r4300emu != CORE_PURE_INTERPRETER)
+        {
+            for (i = 0; i < 0x100000; i++)
+                invalid_code[i] = 1;
+        }
+        generic_jump_to(last_addr);
+    }
 #else
     if(r4300emu != CORE_PURE_INTERPRETER)
     {
@@ -874,6 +895,9 @@ int savestates_load(void)
         }
         free(filepath);
     }
+
+    // deliver callback to indicate completion of state loading operation
+    StateChanged(M64CORE_STATE_LOADCOMPLETE, ret);
 
     savestates_clear_job();
 
@@ -1155,7 +1179,10 @@ static int savestates_save_m64p(char *filepath)
         PUTDATA(curr, unsigned int, tlb_e[i].phys_odd);
     }
 #ifdef NEW_DYNAREC
-    PUTDATA(curr, unsigned int, pcaddr);
+    if (r4300emu == CORE_DYNAREC)
+        PUTDATA(curr, unsigned int, pcaddr);
+    else
+        PUTDATA(curr, unsigned int, PC->addr);
 #else
     PUTDATA(curr, unsigned int, PC->addr);
 #endif
@@ -1199,7 +1226,10 @@ static int savestates_save_pj64(char *filepath, void *handle,
     PUTARRAY(rom, curr, unsigned int, 0x40/4);
     PUTDATA(curr, unsigned int, get_event(VI_INT) - reg_cop0[9]); // vi_timer
 #ifdef NEW_DYNAREC
-    PUTDATA(curr, unsigned int, pcaddr);
+    if (r4300emu == CORE_DYNAREC)
+        PUTDATA(curr, unsigned int, pcaddr);
+    else
+        PUTDATA(curr, unsigned int, PC->addr);
 #else
     PUTDATA(curr, unsigned int, PC->addr);
 #endif
@@ -1440,6 +1470,9 @@ int savestates_save(void)
         }
         free(filepath);
     }
+
+    // deliver callback to indicate completion of state saving operation
+    StateChanged(M64CORE_STATE_SAVECOMPLETE, ret);
 
     savestates_clear_job();
     return ret;

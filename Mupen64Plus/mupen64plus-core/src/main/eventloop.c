@@ -116,7 +116,7 @@ static const int NumJoyCommands = sizeof(JoyCmdName) / sizeof(const char *);
 
 static int JoyCmdActive[16];  /* if extra joystick commands are added above, make sure there is enough room in this array */
 
-static int KbdGamesharkPressed = 0;
+static int GamesharkActive = 0;
 
 /*********************************************************************************************************
 * static functions for eventloop.c
@@ -291,11 +291,15 @@ static int SDLCALL event_sdl_filter(void *userdata, SDL_Event *event)
                         main_volume_up();
                     else if (cmd == joyForward)
                         main_set_fastforward(1);
+                    else if (cmd == joyGameshark)
+                        event_set_gameshark(1);
                 }
                 else if (action == -1) /* command was just de-activated (button up, etc) */
                 {
                     if (cmd == joyForward)
                         main_set_fastforward(0);
+                    else if (cmd == joyGameshark)
+                        event_set_gameshark(0);
                 }
             }
 
@@ -461,7 +465,7 @@ void event_sdl_keydown(int keysym, int keymod)
     else if (keysym == ConfigGetParamInt(l_CoreEventsConfig, kbdAdvance))
         main_advance_one();
     else if (keysym == ConfigGetParamInt(l_CoreEventsConfig, kbdGameshark))
-        KbdGamesharkPressed = 1;
+        event_set_gameshark(1);
     else
     {
         /* pass all other keypresses to the input plugin */
@@ -482,7 +486,7 @@ void event_sdl_keyup(int keysym, int keymod)
     }
     else if (keysym == ConfigGetParamInt(l_CoreEventsConfig, kbdGameshark))
     {
-        KbdGamesharkPressed = 0;
+        event_set_gameshark(0);
     }
     else input.keyUp(keymod, keysym);
 
@@ -490,7 +494,19 @@ void event_sdl_keyup(int keysym, int keymod)
 
 int event_gameshark_active(void)
 {
-    return KbdGamesharkPressed || JoyCmdActive[joyGameshark];
+    return GamesharkActive;
 }
 
+void event_set_gameshark(int active)
+{
+    // if boolean value doesn't change then just return
+    if (!active == !GamesharkActive)
+        return;
+
+    // set the button state
+    GamesharkActive = (active ? 1 : 0);
+
+    // notify front-end application that gameshark button state has changed
+    StateChanged(M64CORE_INPUT_GAMESHARK, GamesharkActive);
+}
 

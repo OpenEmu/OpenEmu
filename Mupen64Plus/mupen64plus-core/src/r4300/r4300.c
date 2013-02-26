@@ -592,12 +592,16 @@ void generic_jump_to(unsigned int address)
 {
    if (r4300emu == CORE_PURE_INTERPRETER)
       PC->addr = address;
-   else
+   else {
 #ifdef NEW_DYNAREC
-      last_addr = pcaddr;
+      if (r4300emu == CORE_DYNAREC)
+         last_addr = pcaddr;
+      else
+         jump_to(address);
 #else
       jump_to(address);
 #endif
+   }
 }
 
 /* Refer to Figure 6-2 on page 155 and explanation on page B-11

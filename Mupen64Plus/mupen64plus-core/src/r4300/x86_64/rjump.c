@@ -50,7 +50,7 @@ void dyna_jump(void)
 static long long save_rsp = 0;
 static long long save_rip = 0;
 
-void dyna_start(void (*code)(void))
+void dyna_start(void *code)
 {
   /* save the base and stack pointers */
   /* make a call and a pop to retrieve the instruction pointer and save it too */

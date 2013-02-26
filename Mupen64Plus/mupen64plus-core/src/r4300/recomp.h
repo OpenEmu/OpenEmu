@@ -92,7 +92,7 @@ void free_block(precomp_block *block);
 void recompile_opcode(void);
 void prefetch_opcode(unsigned int op, unsigned int nextop);
 void dyna_jump(void);
-void dyna_start(void (*code)(void));
+void dyna_start(void *code);
 void dyna_stop(void);
 void *realloc_exec(void *ptr, size_t oldsize, size_t newsize);
 
