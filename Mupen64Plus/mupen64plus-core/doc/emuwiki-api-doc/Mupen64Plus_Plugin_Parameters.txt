@@ -163,6 +163,10 @@ These are standard parameters which are used by the Mupen64Plus plugins.  The be
 |M64TYPE_BOOL
 |Enable hi-resolution texture file loading
 |-
+|LoadHiResCRCOnly
+|M64TYPE_BOOL
+|Filter hi-resolution texture filenames based only on the CRC and ignore format+size tags (Glide64 compatibility)
+|-
 |DumpTexturesToFiles
 |M64TYPE_BOOL
 |Enable texture dumping

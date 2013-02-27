@@ -698,6 +698,7 @@
 		94E6B6D6166C1B1C00082F27 /* OECUESheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C09353166787B900E52265 /* OECUESheet.m */; };
 		94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 83C09352166787B900E52265 /* OECUESheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94E6C303166DB15900082F27 /* Controller-Mappings.plist */; };
+		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94EFD17B15ACA625009BED8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94EFD18115ACA625009BED8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94EFD17F15ACA625009BED8F /* InfoPlist.strings */; };
 		94EFD18C15ACA7FA009BED8F /* OESegaCDSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFD18915ACA7FA009BED8F /* OESegaCDSystemResponder.m */; };
@@ -2207,6 +2208,8 @@
 		94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemResponder.m; sourceTree = "<group>"; };
 		94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponderClient.h; sourceTree = "<group>"; };
 		94E6C303166DB15900082F27 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94F6CB7A16DD727600CD48A4 /* OECheats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECheats.h; sourceTree = "<group>"; };
+		94F6CB7B16DD727600CD48A4 /* OECheats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheats.m; sourceTree = "<group>"; };
 		94EFD17A15ACA625009BED8F /* Sega CD.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sega CD.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94EFD17E15ACA625009BED8F /* Sega CD-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sega CD-Info.plist"; sourceTree = "<group>"; };
 		94EFD18015ACA625009BED8F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4059,6 +4062,8 @@
 		83C09355166787BC00E52265 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				94F6CB7A16DD727600CD48A4 /* OECheats.h */,
+				94F6CB7B16DD727600CD48A4 /* OECheats.m */,
 				83C09352166787B900E52265 /* OECUESheet.h */,
 				83C09353166787B900E52265 /* OECUESheet.m */,
 			);
@@ -6367,6 +6372,7 @@
 				8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */,
 				C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */,
 				837DF19A16D2B0F400024BE1 /* OECollectionDebugWindowController.m in Sources */,
+				94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

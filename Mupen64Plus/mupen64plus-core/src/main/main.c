@@ -434,6 +434,31 @@ m64p_error main_core_state_query(m64p_core_param param, int *rval)
         case M64CORE_SPEED_LIMITER:
             *rval = l_MainSpeedLimit;
             break;
+        case M64CORE_VIDEO_SIZE:
+        {
+            int width, height;
+            if (!g_EmulatorRunning)
+                return M64ERR_INVALID_STATE;
+            main_get_screen_size(&width, &height);
+            *rval = (width << 16) + height;
+            break;
+        }
+        case M64CORE_AUDIO_VOLUME:
+        {
+            if (!g_EmulatorRunning)
+                return M64ERR_INVALID_STATE;    
+            return main_volume_get_level(rval);
+        }
+        case M64CORE_AUDIO_MUTE:
+            *rval = main_volume_get_muted();
+            break;
+        case M64CORE_INPUT_GAMESHARK:
+            *rval = event_gameshark_active();
+            break;
+        // these are only used for callbacks; they cannot be queried or set
+        case M64CORE_STATE_LOADCOMPLETE:
+        case M64CORE_STATE_SAVECOMPLETE:
+            return M64ERR_INPUT_INVALID;
         default:
             return M64ERR_INPUT_INVALID;
     }
@@ -496,22 +521,36 @@ m64p_error main_core_state_set(m64p_core_param param, int val)
         case M64CORE_SPEED_LIMITER:
             main_set_speedlimiter(val);
             return M64ERR_SUCCESS;
+        case M64CORE_VIDEO_SIZE:
+            // you cannot force the screen size using this function
+            return M64ERR_INPUT_INVALID;
+        case M64CORE_AUDIO_VOLUME:
+            if (!g_EmulatorRunning)
+                return M64ERR_INVALID_STATE;
+            if (val < 0 || val > 100)
+                return M64ERR_INPUT_INVALID;
+            return main_volume_set_level(val);
+        case M64CORE_AUDIO_MUTE:
+            if ((main_volume_get_muted() && !val) || (!main_volume_get_muted() && val))
+                return main_volume_mute();
+            return M64ERR_SUCCESS;
+        case M64CORE_INPUT_GAMESHARK:
+            if (!g_EmulatorRunning)
+                return M64ERR_INVALID_STATE;
+            event_set_gameshark(val);
+            return M64ERR_SUCCESS;
+        // these are only used for callbacks; they cannot be queried or set
+        case M64CORE_STATE_LOADCOMPLETE:
+        case M64CORE_STATE_SAVECOMPLETE:
+            return M64ERR_INPUT_INVALID;
         default:
             return M64ERR_INPUT_INVALID;
     }
 }
 
-m64p_error main_get_screen_width(int *width)
+m64p_error main_get_screen_size(int *width, int *height)
 {
-    int height_trash;
-    gfx.readScreen(NULL, width, &height_trash, 0);
-    return M64ERR_SUCCESS;
-}
-
-m64p_error main_get_screen_height(int *height)
-{
-    int width_trash;
-    gfx.readScreen(NULL, &width_trash, height, 0);
+    gfx.readScreen(NULL, width, height, 0);
     return M64ERR_SUCCESS;
 }
 
@@ -524,15 +563,21 @@ m64p_error main_read_screen(void *pixels, int bFront)
 
 m64p_error main_volume_up(void)
 {
+    int level = 0;
     audio.volumeUp();
     main_draw_volume_osd();
+    main_volume_get_level(&level);
+    StateChanged(M64CORE_AUDIO_VOLUME, level);
     return M64ERR_SUCCESS;
 }
 
 m64p_error main_volume_down(void)
 {
+    int level = 0;
     audio.volumeDown();
     main_draw_volume_osd();
+    main_volume_get_level(&level);
+    StateChanged(M64CORE_AUDIO_VOLUME, level);
     return M64ERR_SUCCESS;
 }
 
@@ -546,6 +591,8 @@ m64p_error main_volume_set_level(int level)
 {
     audio.volumeSetLevel(level);
     main_draw_volume_osd();
+    level = audio.volumeGetLevel();
+    StateChanged(M64CORE_AUDIO_VOLUME, level);
     return M64ERR_SUCCESS;
 }
 
@@ -553,7 +600,13 @@ m64p_error main_volume_mute(void)
 {
     audio.volumeMute();
     main_draw_volume_osd();
+    StateChanged(M64CORE_AUDIO_MUTE, main_volume_get_muted());
     return M64ERR_SUCCESS;
+}
+
+int main_volume_get_muted(void)
+{
+    return (audio.volumeGetLevel() == 0);
 }
 
 m64p_error main_reset(int do_hard_reset)

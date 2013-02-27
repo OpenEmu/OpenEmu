@@ -140,6 +140,23 @@ Changelog:
      - M64CMD_ADVANCE_FRAME
    - extend command M64CMD_STATE_SAVE to support saving uncompressed PJ64 savestate files as well as zip compressed
 
+ - FRONTEND_API_VERSION version 2.1.0:
+   - removed "m64p_command" types:
+     - M64CMD_GET_SCREEN_WIDTH
+     - M64CMD_GET_SCREEN_HEIGHT
+     - M64CMD_VOLUME_UP
+     - M64CMD_VOLUME_DOWN
+     - M64CMD_VOLUME_GET_LEVEL
+     - M64CMD_VOLUME_SET_LEVEL
+     - M64CMD_VOLUME_MUTE
+   - added new "m64p_core_param" types:
+     - M64CORE_VIDEO_SIZE
+     - M64CORE_AUDIO_VOLUME
+     - M64CORE_AUDIO_MUTE
+     - M64CORE_INPUT_GAMESHARK
+     - M64CORE_STATE_LOADCOMPLETE
+     - M64CORE_STATE_SAVECOMPLETE
+
  - CONFIG_API_VERSION version 2.1.0:
    - add new function "ConfigSaveSection()" to save only a single config section to disk
 

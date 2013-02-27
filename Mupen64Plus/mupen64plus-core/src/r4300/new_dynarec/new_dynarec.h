@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *   Mupen64plus - r4300.h                                                 *
+ *   Mupen64plus - new_dynarec.h                                           *
  *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
  *   Copyright (C) 2002 Hacktarux                                          *
  *                                                                         *
@@ -28,9 +28,9 @@
 
 extern int pcaddr;
 extern int pending_exception;
-typedef unsigned int            u_int;
+
 void invalidate_all_pages(void);
-void invalidate_block(u_int block);
+void invalidate_block(unsigned int block);
 void new_dynarec_init(void);
 void new_dyna_start(void);
 void new_dynarec_cleanup(void);

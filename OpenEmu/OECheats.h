@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2010 OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
+ 
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,32 +25,11 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "osd.h"
-#include "screenshot.h"
+#import <Foundation/Foundation.h>
 
-int event_set_core_defaults(void)
-{
-    return 1;
-}
+@interface OECheats : NSObject
+- (id)initWithMd5Hash:(NSString*)md5;
 
-void event_initialize(void)
-{
-}
+- (void)findCheats;
 
-void event_sdl_keydown(int keysym, int keymod)
-{
-}
-
-void event_sdl_keyup(int keysym, int keymod)
-{
-}
-
-int event_gameshark_active(void)
-{
-    // FIXME: this means we need our own cheat support
-    return 0;
-}
-
-void event_set_gameshark(int active)
-{
-}
+@end

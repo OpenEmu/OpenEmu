@@ -171,44 +171,9 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |N/A
 |The emulator must be currently running or paused.  This command will execute asynchronously.
 |-
-|M64CMD_GET_SCREEN_WIDTH
-|This command will get the current width of the video display to the variable pointed by '''<tt>ParamPtr</tt>'''.
-|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>'''Pointer to a variable of type <tt>int</tt> that will receive the width.
-|The emulator must be currently running or paused.
-|-
-|M64CMD_GET_SCREEN_HEIGHT
-|This command will get the current height of the video display to the variable pointed by '''<tt>ParamPtr</tt>'''.
-|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>'''Pointer to a variable of type <tt>int</tt> that will receive the height.
-|The emulator must be currently running or paused.
-|-
 |M64CMD_READ_SCREEN
 |This command will copy the current contents of the video display to the buffer pointer by '''<tt>ParamPtr</tt>'''.
 |'''<tt>ParamInt</tt>''' 1 to copy the buffer that is currently displayed (front buffer), 0 to copy the buffer that is being drawn (back buffer).'''<br /><tt>ParamPtr</tt>'''A pointer to a buffer of at least width*height*3 bytes. The buffer will be filled with the current display. The format is RGB888 with the origin in the lower left corner.
-|The emulator must be currently running or paused.
-|-
-|M64CMD_VOLUME_UP
-|Increase the volume level.
-|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>''' Ignored
-|The emulator must be currently running or paused.
-|-
-|M64CMD_VOLUME_DOWN
-|Decrease the volume level.
-|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>''' Ignored
-|The emulator must be currently running or paused.
-|-
-|M64CMD_VOLUME_GET_LEVEL
-|Get the volume level.
-|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>'''A pointer to a variable of type <tt>int</tt> that will receive the volume (0-100).
-|The emulator must be currently running or paused.
-|-
-|M64CMD_VOLUME_SET_LEVEL
-|Set the volume level.
-|'''<tt>ParamInt</tt>''' The new volume (0-100).'''<br /><tt>ParamPtr</tt>''' Ignored
-|The emulator must be currently running or paused.
-|-
-|M64CMD_VOLUME_MUTE
-|Mute or un-mute the audio.
-|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>''' Ignored
 |The emulator must be currently running or paused.
 |-
 |M64CMD_RESET
@@ -223,6 +188,82 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |}
 <br />
 
+
+== Core State Parameters ==
+These core parameters may be read and/or written using the M64CMD_CORE_STATE_QUERY and M64CMD_CORE_STATE_SET commands.  The front-end application will receive a callback (via the <tt>StateCallback</tt> function pointer given to the '''<tt>CoreStartup</tt>''' function) when these parameters change value.  This callback will be sent even if the function which caused the state change was called by the front-end application itself.  Not all of these parameters are readable or writable.  Each parameter's value is held in a single 32-bit integer.  The meaning of this integer is given in the Parameter Encoding column. See the table below for details on these core parameters.
+<br />
+{| border="1"
+!Name!!Readable!!Writable!!<tt>int</tt> Parameter Encoding!!Notes
+|-
+|M64CORE_EMU_STATE
+|Yes
+|Yes
+|<tt>enum m64p_emu_state</tt>
+|<tt>1</tt>=Stopped, <tt>2</tt>=Running, <tt>3</tt>=Paused
+|-
+|M64CORE_VIDEO_MODE
+|Yes
+|Yes
+|<tt>enum m64p_video_mode</tt>
+|<tt>1</tt>=None (video not running), <tt>2</tt>=Windowed, <tt>3</tt>=Fullscreen
+|-
+|M64CORE_SAVESTATE_SLOT
+|Yes
+|Yes
+|
+|Valid values are 0 through 9.
+|-
+|M64CORE_SPEED_FACTOR
+|Yes
+|Yes
+|Emulator playback speed in percent
+|Valid values are 1 to 1000.
+|-
+|M64CORE_SPEED_LIMITER
+|Yes
+|Yes
+|<tt>1</tt> to enable speed limiter, or <tt>0</tt> to disable speed limiter.
+|When speed limiter is disabled, emulator will run as fast as possible (useful for benchmarking).
+|-
+|M64CORE_VIDEO_SIZE
+|Yes
+|No
+|<tt>(ScreenWidth << 16) + ScreenHeight</tt>
+|This parameter is read-only.
+|-
+|M64CORE_AUDIO_VOLUME
+|Yes
+|Yes
+|Volume level in percent, 0 - 100
+|
+|-
+|M64CORE_AUDIO_MUTE
+|Yes
+|Yes
+|<tt>1</tt> if muted, otherwise <tt>0</tt>
+|
+|-
+|M64CORE_INPUT_GAMESHARK
+|Yes
+|Yes
+|<tt>1</tt> when Gameshark button pressed, <tt>0</tt> when button released.
+|Callback function will be invoked on both button press and release.
+|-
+|M64CORE_STATE_LOADCOMPLETE
+|No
+|No
+|<tt>1</tt> if state loading was successful, <tt>0</tt> if state loading failed.
+|This parameter cannot be read or written.  It is only used for callbacks, because the state load/save operations are asynchronous.
+|-
+|M64CORE_STATE_SAVECOMPLETE
+|No
+|No
+|<tt>1</tt> if state saving was successful, <tt>0</tt> if state saving failed.
+|This parameter cannot be read or written.  It is only used for callbacks, because the state load/save operations are asynchronous.
+|}
+<br />
+
+== ROM Handling Functions ==
 {| border="1"
 |Prototype
 |'''<tt>m64p_error CoreGetRomSettings(m64p_rom_settings *RomSettings, int RomSettingsLength, int Crc1, int Crc2)</tt>'''

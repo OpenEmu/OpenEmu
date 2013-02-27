@@ -580,11 +580,15 @@ void gen_interupt(void)
     }
 
 #ifdef NEW_DYNAREC
-    EPC = pcaddr;
-    pcaddr = 0x80000180;
-    Status |= 2;
-    Cause &= 0x7FFFFFFF;
-    pending_exception=1;
+    if (r4300emu == CORE_DYNAREC) {
+        EPC = pcaddr;
+        pcaddr = 0x80000180;
+        Status |= 2;
+        Cause &= 0x7FFFFFFF;
+        pending_exception=1;
+    } else {
+        exception_general();
+    }
 #else
     exception_general();
 #endif
