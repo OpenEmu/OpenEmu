@@ -45,6 +45,8 @@
 
 #import "OEGameIntegralScalingDelegate.h"
 
+#import "OECheats.h"
+
 NSString *const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState";
 NSString *const OEGameControlsBarShowsAutoSaveStateKey  = @"HUDBarShowAutosaveState";
 NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
@@ -237,10 +239,27 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         item.title = NSLocalizedString(@"Select Cheat", @"");
         [menu addItem:item];
         [item setSubmenu:cheatsMenu];
-        
+        // TODO: implement addCheat
         [cheatsMenu addItemWithTitle:@"Add Cheat..." action:@selector(addCheat:) keyEquivalent:@""];
         [cheatsMenu addItem:[NSMenuItem separatorItem]];
-        // TODO: implement addCheat, read cheats from XML database and add to menu items
+        
+        NSString *md5Hash = [[[self gameViewController] rom] md5Hash];
+        OECheats *cheats = [[OECheats alloc] initWithMd5Hash:md5Hash];
+        [cheats findCheats];
+        
+        for (NSDictionary *cheatObject in [cheats allCheats]) {
+            
+            NSString *code, *description, *type;
+            for (id key in cheatObject) {
+                code = [cheatObject objectForKey:@"code"];
+                description = [cheatObject objectForKey:@"description"];
+                type = [cheatObject objectForKey:@"type"];
+            }
+            NSMenuItem *cheatsMenuItem = [[NSMenuItem alloc] initWithTitle:description action:@selector(setCheat:) keyEquivalent:@""];
+            [cheatsMenuItem setRepresentedObject:cheatObject];
+            
+            [cheatsMenu addItem:cheatsMenuItem];
+        }
     }
     
     // Setup Core selection menu

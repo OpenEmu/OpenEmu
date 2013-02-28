@@ -663,6 +663,15 @@ typedef enum : NSUInteger
     [alert runModal];
 }
 
+- (IBAction)setCheat:(id)sender
+{
+    NSString *code, *type;
+    code = [[sender representedObject] objectForKey:@"code"];
+    type = [[sender representedObject] objectForKey:@"type"];
+    
+    [self setCheatWithCodeAndType:code setType:type setEnabled:YES];
+}
+
 - (BOOL)cheatSupport
 {
     OEGameCore *gameCore = [rootProxy gameCore];

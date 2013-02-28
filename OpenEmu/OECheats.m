@@ -46,6 +46,11 @@
     return self;
 }
 
+- (NSArray *)allCheats;
+{
+    return [cheatsFromMd5Hash copy];
+}
+
 -(void)findCheats
 {
     /* XML cheats database format:
@@ -83,8 +88,6 @@
     
     [parser setDelegate:(id)self];
     [parser parse];
-
-    // TODO: Expose codes and descriptions found in cheatsFromMd5Hash
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict
@@ -98,6 +101,7 @@
     } else if(didFindMd5Hash && [elementName isEqualToString:@"cheat"]) {
         NSMutableDictionary *cheatsDictionary = [[NSMutableDictionary alloc] init];
         [cheatsDictionary setObject:[attributeDict valueForKey:@"code"] forKey:@"code"];
+        [cheatsDictionary setObject:[attributeDict valueForKey:@"type"] forKey:@"type"];
         [cheatsDictionary setObject:[attributeDict valueForKey:@"description"] forKey:@"description"];
         
         [cheatsFromMd5Hash addObject:cheatsDictionary];

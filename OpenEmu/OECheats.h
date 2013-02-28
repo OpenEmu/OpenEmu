@@ -29,7 +29,7 @@
 
 @interface OECheats : NSObject
 - (id)initWithMd5Hash:(NSString*)md5;
-
+- (NSArray *)allCheats;
 - (void)findCheats;
 
 @end
