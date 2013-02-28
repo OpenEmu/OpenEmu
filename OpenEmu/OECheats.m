@@ -29,13 +29,12 @@
 
 @interface OECheats ()
 @property BOOL didFindMd5Hash;
-@property NSMutableArray* cheatsFromMd5Hash;
-@property NSMutableDictionary* cheatsDictionary;
+@property NSMutableArray *cheatsFromMd5Hash;
 @property NSString *searchHash;
 @end
 
 @implementation OECheats
-@synthesize didFindMd5Hash, cheatsFromMd5Hash, cheatsDictionary;
+@synthesize didFindMd5Hash, cheatsFromMd5Hash;
 
 - (id)initWithMd5Hash:(NSString*)md5
 {
@@ -47,8 +46,13 @@
     return self;
 }
 
--(void)findCheats{
-    
+- (NSArray *)allCheats;
+{
+    return [cheatsFromMd5Hash copy];
+}
+
+-(void)findCheats
+{
     /* XML cheats database format:
      
      <?xml version="1.0" encoding="UTF-8"?>
@@ -81,12 +85,9 @@
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xml];
     
     cheatsFromMd5Hash = [[NSMutableArray alloc] init];
-    cheatsDictionary = [NSMutableDictionary dictionary];
     
     [parser setDelegate:(id)self];
     [parser parse];
-
-    // TODO: Expose codes and descriptions found in cheatsFromMd5Hash
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict
@@ -98,7 +99,9 @@
         
     // Parse cheats where md5 hash was found
     } else if(didFindMd5Hash && [elementName isEqualToString:@"cheat"]) {
+        NSMutableDictionary *cheatsDictionary = [[NSMutableDictionary alloc] init];
         [cheatsDictionary setObject:[attributeDict valueForKey:@"code"] forKey:@"code"];
+        [cheatsDictionary setObject:[attributeDict valueForKey:@"type"] forKey:@"type"];
         [cheatsDictionary setObject:[attributeDict valueForKey:@"description"] forKey:@"description"];
         
         [cheatsFromMd5Hash addObject:cheatsDictionary];
