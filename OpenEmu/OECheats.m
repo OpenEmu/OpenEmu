@@ -42,6 +42,7 @@
     if(self != nil)
     {
         [self setSearchHash:md5];
+        [self findCheats];
     }
     return self;
 }
@@ -103,6 +104,7 @@
         [cheatsDictionary setObject:[attributeDict valueForKey:@"code"] forKey:@"code"];
         [cheatsDictionary setObject:[attributeDict valueForKey:@"type"] forKey:@"type"];
         [cheatsDictionary setObject:[attributeDict valueForKey:@"description"] forKey:@"description"];
+        [cheatsDictionary setObject:[NSNumber numberWithBool:NO] forKey:@"enabled"];
         
         [cheatsFromMd5Hash addObject:cheatsDictionary];
     }

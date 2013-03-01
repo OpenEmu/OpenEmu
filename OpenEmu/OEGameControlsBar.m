@@ -68,6 +68,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     id       eventMonitor;
     NSDate  *lastMouseMovement;
     NSArray *filterPlugins;
+    NSMutableArray *cheats;
     
     int openMenus;
 }
@@ -233,6 +234,15 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     // Setup Cheats Menu
     if ([[self gameViewController] cheatSupport])
     {
+        // Parse the XML just once
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            NSString *md5Hash = [[[self gameViewController] rom] md5Hash];
+            OECheats *cheatsXML = [[OECheats alloc] initWithMd5Hash:md5Hash];
+            
+            cheats = [(NSArray*)[cheatsXML allCheats] mutableCopy];
+        });
+        
         NSMenu *cheatsMenu = [[NSMenu alloc] init];
         [cheatsMenu setTitle:NSLocalizedString(@"Select Cheat", @"")];
         item = [[NSMenuItem alloc] init];
@@ -243,20 +253,19 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [cheatsMenu addItemWithTitle:@"Add Cheat…" action:@selector(addCheat:) keyEquivalent:@""];
         [cheatsMenu addItem:[NSMenuItem separatorItem]];
         
-        NSString *md5Hash = [[[self gameViewController] rom] md5Hash];
-        OECheats *cheats = [[OECheats alloc] initWithMd5Hash:md5Hash];
-        [cheats findCheats];
-        
-        for (NSDictionary *cheatObject in [cheats allCheats]) {
+        for (NSDictionary *cheatObject in cheats) {
             
             NSString *code, *description, *type;
+            BOOL enabled;
             for (id key in cheatObject) {
                 code = [cheatObject objectForKey:@"code"];
                 description = [cheatObject objectForKey:@"description"];
                 type = [cheatObject objectForKey:@"type"];
+                enabled = [[cheatObject objectForKey:@"enabled"] boolValue];
             }
             NSMenuItem *cheatsMenuItem = [[NSMenuItem alloc] initWithTitle:description action:@selector(setCheat:) keyEquivalent:@""];
             [cheatsMenuItem setRepresentedObject:cheatObject];
+            [cheatsMenuItem setState:enabled ? NSOnState : NSOffState];
             
             [cheatsMenu addItem:cheatsMenuItem];
         }
