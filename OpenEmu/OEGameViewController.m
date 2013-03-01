@@ -666,10 +666,21 @@ typedef enum : NSUInteger
 - (IBAction)setCheat:(id)sender
 {
     NSString *code, *type;
+    BOOL enabled;
     code = [[sender representedObject] objectForKey:@"code"];
     type = [[sender representedObject] objectForKey:@"type"];
+    enabled = [[[sender representedObject] objectForKey:@"enabled"] boolValue];
     
-    [self setCheatWithCodeAndType:code setType:type setEnabled:YES];
+    if (enabled) {
+        [[sender representedObject] setObject:[NSNumber numberWithBool:NO] forKey:@"enabled"];
+        enabled = NO;
+    }
+    else {
+        [[sender representedObject] setObject:[NSNumber numberWithBool:YES] forKey:@"enabled"];
+        enabled = YES;
+    }
+    
+    [self setCheatWithCodeAndType:code setType:type setEnabled:enabled];
 }
 
 - (BOOL)cheatSupport
