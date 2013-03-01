@@ -240,7 +240,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [menu addItem:item];
         [item setSubmenu:cheatsMenu];
         // TODO: implement addCheat
-        [cheatsMenu addItemWithTitle:@"Add Cheat..." action:@selector(addCheat:) keyEquivalent:@""];
+        [cheatsMenu addItemWithTitle:@"Add Cheat…" action:@selector(addCheat:) keyEquivalent:@""];
         [cheatsMenu addItem:[NSMenuItem separatorItem]];
         
         NSString *md5Hash = [[[self gameViewController] rom] md5Hash];
