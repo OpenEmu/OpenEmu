@@ -46,59 +46,34 @@ const char *S9xBasename (const char *filename)
 
 void _splitpath(const char *path, char *drive, char *dir, char *fname, char *ext)
 {
-    short    x;
+    NSString *nsPath = [NSString stringWithUTF8String:path];
     
     drive[0] = '\0';
-    fname[0] = '\0';
-    ext[0]   = '\0';
-    dir[0]   = '\0';
     
-    if (strlen(path) < 1)
-        return;
+    NSString *extension = [nsPath pathExtension];
+    NSArray *components = [nsPath pathComponents];
+    NSArray *dirComponents = [[nsPath pathComponents] subarrayWithRange:NSMakeRange(0, [components count] - 1)];
+    NSString *fileName = [[nsPath lastPathComponent] stringByDeletingPathExtension];
+    NSString *directory = [NSString pathWithComponents:dirComponents];
     
-    x = strlen(path) - 1;
-    while (x && (path[x] != '/'))
-        x--;
-    
-    if (x)
-    {
-        strcpy(dir, path);
-        dir[x + 1] = '\0';
-        
-        strcpy(fname, path + x + 1);
-    }
-    else
-        strcpy(fname, path);
-    
-    x = strlen(fname);
-    while (x && (fname[x] != '.'))
-        x--;
-    
-    if (x)
-    {
-        strcpy(ext, fname + x);
-        fname[x] = '\0';
-    }
+    strcpy(dir, [directory UTF8String]);
+    strcpy(fname, [fileName UTF8String]);
+    strcpy(ext, [extension UTF8String]);
 }
 
 void _makepath(char *path, const char *drive, const char *dir, const char *fname, const char *ext)
 {
 #pragma unused (drive)
     
-    path[0] = '\0';
+    NSString *directory = [NSString stringWithUTF8String:dir];
+    NSString *fileName = [NSString stringWithUTF8String:fname];
+    NSString *extension = [NSString stringWithUTF8String:ext];
     
-    if (dir && dir[0])
-        strcat(path, dir);
+    fileName = [fileName stringByAppendingPathExtension:extension];
     
-    if (fname && fname[0])
-        strcat(path, fname);
+    NSString *fullPath = [directory stringByAppendingPathComponent:fileName];
     
-    if (ext && ext[0])
-    {
-        if (ext[0] != '.')
-            strcat(path, ".");
-        strcat(path, ext);
-    }
+    strcpy(path, [fullPath UTF8String]);
 }
 
 void S9xExit ()
