@@ -62,7 +62,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 @implementation OpenEmuHelperApp
 {
     OEIntSize previousAspectSize;
-    BOOL isIntel;
+    BOOL isSlowGPU;
 }
 
 @synthesize doUUID;
@@ -191,7 +191,12 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     CGLContextObj cgl_ctx = glContext;
 
     const GLubyte *vendor = glGetString(GL_VENDOR);
-    isIntel = strstr((const char*)vendor, "Intel") != NULL;
+    BOOL isIntel = strstr((const char*)vendor, "Intel") != NULL;
+	
+	const GLubyte *renderer = glGetString(GL_RENDERER);
+    BOOL is9600M = strstr((const char*)renderer, "NVIDIA GeForce 9600M GT") != NULL;
+	
+	isSlowGPU = (isIntel || is9600M);
 }
 
 - (void)setupIOSurface
@@ -289,7 +294,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     pixelFormat         = [gameCore pixelFormat];
     pixelType           = [gameCore pixelType];
 
-    if(!isIntel)
+    if(!isSlowGPU)
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
         glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
@@ -316,7 +321,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         gameTexture = 0;
     }
 
-    if (!isIntel) {
+    if (!isSlowGPU) {
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
     }
@@ -333,7 +338,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, gameTexture);
 
-    if (!isIntel) glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+    if (!isSlowGPU) glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, bufferSize.width, bufferSize.height, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 
