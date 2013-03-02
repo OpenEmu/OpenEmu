@@ -429,7 +429,7 @@ void S9xLoadConfigFiles (char **argv, int argc)
 	Settings.WrongMovieStateProtection  =  conf.GetBool("Settings::WrongMovieStateProtection", true);
 	Settings.StretchScreenshots         =  conf.GetInt ("Settings::StretchScreenshots",        1);
 	Settings.SnapshotScreenshots        =  conf.GetBool("Settings::SnapshotScreenshots",       true);
-	Settings.DontSaveOopsSnapshot       =  conf.GetBool("Settings::DontSaveOopsSnapshot",      false);
+	Settings.DontSaveOopsSnapshot       =  conf.GetBool("Settings::DontSaveOopsSnapshot",      true);
 	Settings.AutoSaveDelay              =  conf.GetUInt("Settings::AutoSaveDelay",             0);
 
 	if (conf.Exists("Settings::FrameTime"))
