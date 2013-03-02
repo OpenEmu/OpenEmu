@@ -686,14 +686,14 @@ enum {
         return ret;
     };
 
-    [self OE_dispatchAxisEventWithAxis:OEWiimoteNunchuckAxisXUsage
+    [self OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)OEWiimoteNunchuckAxisXUsage
                                minimum:OEWiimoteNunchuckAxisScaledMinimumValue
                                  value:scaleValue(xData)
                                maximum:OEWiimoteNunchuckAxisScaledMaximumValue
                              timestamp:timestamp
                                 cookie:OEWiimoteNunchuckAxisXCookie];
 
-    [self OE_dispatchAxisEventWithAxis:OEWiimoteNunchuckAxisYUsage
+    [self OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)OEWiimoteNunchuckAxisYUsage
                                minimum:OEWiimoteNunchuckAxisScaledMinimumValue
                                  value:scaleValue(yData)
                                maximum:OEWiimoteNunchuckAxisScaledMaximumValue
@@ -746,41 +746,41 @@ enum {
     NSInteger leftTrigger  = (data[2] & 0x60) >> 2 | (data[3] & 0xE0) >> 5;
     NSInteger rightTrigger = (data[3] & 0x1F);
     
-    [self OE_dispatchAxisEventWithAxis:OEWiimoteClassicControllerLeftJoystickAxisXUsage
+    [self OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)OEWiimoteClassicControllerLeftJoystickAxisXUsage
                                minimum:OEWiimoteClassicControllerLeftJoystickScaledMinimumValue
                                  value:leftX
                                maximum:OEWiimoteClassicControllerLeftJoystickScaledMaximumValue
                              timestamp:timestamp
                                 cookie:OEWiimoteClassicControllerLeftJoystickAxisXCookie];
 
-    [self OE_dispatchAxisEventWithAxis:OEWiimoteClassicControllerLeftJoystickAxisYUsage
+    [self OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)OEWiimoteClassicControllerLeftJoystickAxisYUsage
                                minimum:OEWiimoteClassicControllerLeftJoystickScaledMinimumValue
                                  value:leftY
                                maximum:OEWiimoteClassicControllerLeftJoystickScaledMaximumValue
                              timestamp:timestamp
                                 cookie:OEWiimoteClassicControllerLeftJoystickAxisYCookie];
 
-    [self OE_dispatchAxisEventWithAxis:OEWiimoteClassicControllerRightJoystickAxisXUsage
+    [self OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)OEWiimoteClassicControllerRightJoystickAxisXUsage
                                minimum:OEWiimoteClassicControllerRightJoystickScaledMinimumValue
                                  value:rightX
                                maximum:OEWiimoteClassicControllerRightJoystickScaledMaximumValue
                              timestamp:timestamp
                                 cookie:OEWiimoteClassicControllerRightJoystickAxisXCookie];
 
-    [self OE_dispatchAxisEventWithAxis:OEWiimoteClassicControllerRightJoystickAxisYUsage
+    [self OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)OEWiimoteClassicControllerRightJoystickAxisYUsage
                                minimum:OEWiimoteClassicControllerRightJoystickScaledMinimumValue
                                  value:rightY
                                maximum:OEWiimoteClassicControllerRightJoystickScaledMaximumValue
                              timestamp:timestamp
                                 cookie:OEWiimoteClassicControllerRightJoystickAxisYCookie];
 
-    [self OE_dispatchTriggerEventWithAxis:OEWiimoteClassicControllerLeftTriggerAxisUsage
+    [self OE_dispatchTriggerEventWithAxis:(OEHIDEventAxis)OEWiimoteClassicControllerLeftTriggerAxisUsage
                                     value:leftTrigger
                                   maximum:OEWiimoteClassicControllerTriggerMaximumValue
                                 timestamp:timestamp
                                    cookie:OEWiimoteClassicControllerLeftTriggerAxisCookie];
 
-    [self OE_dispatchTriggerEventWithAxis:OEWiimoteClassicControllerRightTriggerAxisUsage
+    [self OE_dispatchTriggerEventWithAxis:(OEHIDEventAxis)OEWiimoteClassicControllerRightTriggerAxisUsage
                                     value:rightTrigger
                                   maximum:OEWiimoteClassicControllerTriggerMaximumValue
                                 timestamp:timestamp
@@ -825,28 +825,28 @@ enum {
     NSInteger rightX = decodeJoystickData(data+2);
     NSInteger rightY = decodeJoystickData(data+6);
         
-    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerLeftJoystickAxisXUsage
+    [self OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)OEWiimoteProControllerLeftJoystickAxisXUsage
                                minimum:OEWiimoteProControllerJoystickScaledMinimumValue
                                  value:leftX
                                maximum:OEWiimoteProControllerJoystickScaledMaximumValue
                              timestamp:timestamp
                                 cookie:OEWiimoteProControllerLeftJoystickAxisXCookie];
     
-    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerLeftJoystickAxisYUsage
+    [self OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)OEWiimoteProControllerLeftJoystickAxisYUsage
                                minimum:OEWiimoteProControllerJoystickScaledMinimumValue
                                  value:leftY
                                maximum:OEWiimoteProControllerJoystickScaledMaximumValue
                              timestamp:timestamp
                                 cookie:OEWiimoteProControllerLeftJoystickAxisYCookie];
     
-    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerRightJoystickAxisXUsage
+    [self OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)OEWiimoteProControllerRightJoystickAxisXUsage
                                minimum:OEWiimoteProControllerJoystickScaledMinimumValue
                                  value:rightX
                                maximum:OEWiimoteProControllerJoystickScaledMaximumValue
                              timestamp:timestamp
                                 cookie:OEWiimoteProControllerRightJoystickAxisXCookie];
     
-    [self OE_dispatchAxisEventWithAxis:OEWiimoteProControllerRightJoystickAxisYUsage
+    [self OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)OEWiimoteProControllerRightJoystickAxisYUsage
                                minimum:OEWiimoteProControllerJoystickScaledMinimumValue
                                  value:rightY
                                maximum:OEWiimoteProControllerJoystickScaledMaximumValue
