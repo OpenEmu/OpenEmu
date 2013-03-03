@@ -65,8 +65,23 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSonyPS3SixaxisLeftAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Left</string>
+					</dict>
+					<key>OEControllerSonyPS3SixaxisLeftAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisLeftAnalogY</key>
 			<dict>
@@ -76,8 +91,23 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSonyPS3SixaxisLeftAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Up</string>
+					</dict>
+					<key>OEControllerSonyPS3SixaxisLeftAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisRightAnalogX</key>
 			<dict>
@@ -87,8 +117,23 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Z</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSonyPS3SixaxisRightAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Left</string>
+					</dict>
+					<key>OEControllerSonyPS3SixaxisRightAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisRightAnalogY</key>
 			<dict>
@@ -98,8 +143,23 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rz</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSonyPS3SixaxisRightAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Up</string>
+					</dict>
+					<key>OEControllerSonyPS3SixaxisRightAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonTriangle</key>
 			<dict>
