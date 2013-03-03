@@ -207,6 +207,7 @@ static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
 
 - (void)keyDown:(NSEvent *)theEvent
 {
+    [super keyDown:theEvent];
 }
 
 - (void)keyUp:(NSEvent *)theEvent

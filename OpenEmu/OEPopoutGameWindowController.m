@@ -366,6 +366,12 @@ typedef enum
     return windowSize;
 }
 
+- (void)cancelOperation:(id)sender
+{
+    if([[self window] isFullScreen])
+        [[self window] toggleFullScreen:self];
+}
+
 #pragma mark - NSWindowDelegate Full Screen
 
 /* Since resizing OEGameView produces choppy animation, we do the following:
