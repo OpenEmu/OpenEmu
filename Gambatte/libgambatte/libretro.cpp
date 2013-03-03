@@ -141,7 +141,7 @@ bool retro_unserialize(const void *data, size_t size)
 void retro_cheat_reset() {}
 void retro_cheat_set(unsigned index, bool enabled, const char *code, const char *type)
 {
-    if (!strcmp(type, "GameShark") || !strcmp(type, "Unknown"))
+    if (!strcmp(type, "GameShark"))
         gb.setGameShark(code);
     
     if (!strcmp(type, "Game Genie"))

@@ -413,9 +413,15 @@ static void writeSaveFile(const char* path, int type)
 
 - (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled
 {
-    const char *gsCode = [code UTF8String];
-    const char *codeType = [type UTF8String];
-    retro_cheat_set(nil, enabled, gsCode, codeType);
+    if ([type isEqual: @"Unknown"] && [code rangeOfString:@"-"].location == NSNotFound)
+        type = @"GameShark";
+    
+    if ([type isEqual: @"Unknown"] && [code rangeOfString:@"-"].location != NSNotFound)
+        type = @"Game Genie";
+    
+    const char *cheatCode = [code UTF8String];
+    const char *cheatType = [type UTF8String];
+    retro_cheat_set(nil, enabled, cheatCode, cheatType);
 }
 
 @end
