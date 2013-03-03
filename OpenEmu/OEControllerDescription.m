@@ -153,6 +153,7 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     if((self = [super init]))
     {
         _isGeneric = YES;
+        _name = (__bridge NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
         OEDeviceDescription *desc = [[OEDeviceDescription alloc] OE_initWithRepresentation:
                                      @{
                                          @"OEControllerDeviceName" : _name,
@@ -162,7 +163,6 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
         [desc setControllerDescription:self];
 
         _identifier = [desc genericDeviceIdentifier];
-        _name = (__bridge NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
 
         _devices = @[ desc ];
         [self OE_setupControlsWithMappings:nil IOHIDDevice:device];
@@ -333,10 +333,17 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
 
     if([controls count] > 0)
     {
-        if([genericDesktopElements count])
+        [genericDesktopElements enumerateObjectsWithOptions:NSEnumerationConcurrent | NSEnumerationReverse usingBlock:
+         ^(id elem, NSUInteger idx, BOOL *stop)
+         {
+             if([OEHIDEvent OE_eventWithElement:(__bridge IOHIDElementRef)elem value:0] == nil)
+                 [genericDesktopElements removeObjectAtIndex:idx];
+         }];
+
+        if([genericDesktopElements count] > 0)
             NSLog(@"WARNING: There are %ld generic desktop elements unaccounted for in %@", [genericDesktopElements count], _name);
 
-        if([buttonElements count] > 0 && [controls count] > 0)
+        if([buttonElements count] > 0)
             NSLog(@"WARNING: There are %ld button elements unaccounted for.", [buttonElements count]);
     }
 
