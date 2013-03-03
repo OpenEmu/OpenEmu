@@ -748,4 +748,25 @@ static int Heights[2] =
                                 : OESizeMake(Widths[0], Heights[0]);
 }
 
+- (BOOL)canCheat
+{
+    return YES;
+}
+
+- (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled
+{
+    Nes::Api::Cheats cheater(*emu);
+    Nes::Api::Cheats::Code ggCode;
+    
+    NSArray *multipleCodes = [[NSArray alloc] init];
+    multipleCodes = [code componentsSeparatedByString:@"+"];
+    
+    for (NSString *singleCode in multipleCodes) {
+        const char *cCode = [singleCode UTF8String];
+        
+        Nes::Api::Cheats::GameGenieDecode(cCode, ggCode);
+        cheater.SetCode(ggCode);
+    }
+}
+
 @end
