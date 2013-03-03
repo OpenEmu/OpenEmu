@@ -406,4 +406,16 @@ static void writeSaveFile(const char* path, int type)
     return YES;
 }
 
+- (BOOL)canCheat
+{
+    return YES;
+}
+
+- (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled
+{
+    const char *gsCode = [code UTF8String];
+    const char *codeType = [type UTF8String];
+    retro_cheat_set(nil, enabled, gsCode, codeType);
+}
+
 @end
