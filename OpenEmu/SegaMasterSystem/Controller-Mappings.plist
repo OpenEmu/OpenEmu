@@ -13,11 +13,11 @@
 		<key>OESMSButtonRight</key>
 		<string>OEControllerMicrosoftXbox360DPadRight</string>
 		<key>OESMSButtonA</key>
-		<string>OEControllerMicrosoftXbox360ButtonA</string>
+		<string>OEControllerMicrosoftXbox360ButtonX</string>
 		<key>OESMSButtonB</key>
-		<string>OEControllerMicrosoftXbox360ButtonB</string>
+		<string>OEControllerMicrosoftXbox360ButtonA</string>
 		<key>OESMSButtonStart</key>
-		<string>OEControllerMicrosoftXbox360ButtonRightAnalog</string>
+		<string>OEControllerMicrosoftXbox360ButtonStart</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
@@ -39,33 +39,13 @@
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
 		<key>OESMSButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>HatSwitch</string>
-			<key>Direction</key>
-			<string>N</string>
-		</dict>
+		<string>OEControllerLogitechDualActionDPadUp</string>
 		<key>OESMSButtonA</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton1</string>
 		<key>OESMSButtonB</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton2</string>
 		<key>OESMSButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonStart</string>
 	</dict>
 	<key>OEControllerSegaSaturn</key>
 	<dict>
@@ -202,33 +182,13 @@
 	<key>OEControllerPS3NeoGeoPad</key>
 	<dict>
 		<key>OESMSButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>HatSwitch</string>
-			<key>Direction</key>
-			<string>N</string>
-		</dict>
+		<string>OEControllerPS3NeoGeoPadDPadUp</string>
 		<key>OESMSButtonA</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerPS3NeoGeoPadButtonSquare</string>
 		<key>OESMSButtonB</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerPS3NeoGeoPadButtonCross</string>
 		<key>OESMSButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerPS3NeoGeoPadButtonStart</string>
 	</dict>
 	<key>OEControllerRetrode</key>
 	<dict>
