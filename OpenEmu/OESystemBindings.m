@@ -276,6 +276,8 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
     if(![controllerDescription isGeneric])
     {
+        [self OE_parseDefaultControlValuesForControllerDescription:controllerDescription];
+
         for(NSDictionary *representation in _unparsedManufactuerBindings[[controllerDescription identifier]])
             [parsedBindings addObject:[self OE_parsedDevicePlayerBindingsForRepresentation:representation withControllerDescription:controllerDescription useValueIdentifier:NO]];
         [_unparsedManufactuerBindings removeObjectForKey:[controllerDescription identifier]];
@@ -287,9 +289,6 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
 - (OEDevicePlayerBindings *)OE_parsedDevicePlayerBindingsForRepresentation:(NSDictionary *)representation withControllerDescription:(OEControllerDescription *)controllerDescription useValueIdentifier:(BOOL)useValueIdentifier
 {
-    if([representation count] > 0)
-        NSLog(@"Hello");
-
     NSMutableDictionary *rawBindings = [NSMutableDictionary dictionaryWithCapacity:[_allKeyBindingsDescriptions count]];
     [_allKeyBindingsDescriptions enumerateKeysAndObjectsUsingBlock:
      ^(NSString *keyName, OEKeyBindingDescription *keyDesc, BOOL *stop)
@@ -297,6 +296,14 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
          id controlIdentifier = representation[keyName];
          if(controlIdentifier == nil)
              return;
+
+         // Make sure everything is converted to the new system.
+         FIXME("This message should not appear in the console anymore, make sure all defaults are converted.");
+         if([controlIdentifier isKindOfClass:[NSDictionary class]])
+         {
+             NSLog(@"ERROR: Default for key %@ in System %@ was not converted to the new system.", keyName, [_systemController systemName]);
+             return;
+         }
 
          OEControlValueDescription *controlValue = (useValueIdentifier
                                                     ? [controllerDescription controlValueDescriptionForValueIdentifier:controlIdentifier]
