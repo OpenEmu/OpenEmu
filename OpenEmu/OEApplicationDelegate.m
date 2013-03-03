@@ -99,8 +99,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                             @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x"
          }];
 
-        [OEToolTipManager load];
         [OEControllerDescription class];
+        [OEToolTipManager class];
     }
 }
 
