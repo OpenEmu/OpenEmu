@@ -27,6 +27,7 @@
 
 #import "OEDeviceHandler.h"
 #import "NSApplication+OEHIDAdditions.h"
+#import "OEDeviceDescription.h"
 #import "OEHIDEvent.h"
 #import "OEHIDDeviceHandler.h"
 
@@ -37,84 +38,36 @@
 #define NO __objc_no
 #endif
 
-@interface _OEHIDDeviceIdentifier : NSObject <NSCopying>
-
-- (id)initWithVendorID:(NSUInteger)vendorID deviceID:(NSUInteger)deviceID;
-- (id)initWithDescription:(NSString *)description;
-
-@property(readonly) NSUInteger vendorID;
-@property(readonly) NSUInteger deviceID;
-
-@end
-
 @interface OEHIDEvent ()
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 @end
 
 @interface OEDeviceHandler ()
+{
+    OEDeviceDescription *_deviceDescription;
+}
+
 @property(readwrite) NSUInteger deviceNumber;
-- (void)OE_setupDeviceIdentifier;
 @end
 
 @implementation OEDeviceHandler
-
-static NSDictionary *deviceToTypes = nil;
-
-+ (void)initialize
-{
-    if(self == [OEDeviceHandler class])
-    {
-        NSString *identifierPath = [[NSBundle mainBundle] pathForResource:@"Controller-Database" ofType:@"plist"];
-        NSArray *controllers = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:identifierPath options:NSDataReadingMappedIfSafe error:NULL] options:0 format:NULL error:NULL];
-
-        NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[controllers count]];
-
-        [controllers enumerateObjectsUsingBlock:
-         ^(NSDictionary *obj, NSUInteger idx, BOOL *stop)
-         {
-             NSString *genericName = [obj objectForKey:@"OEGenericControllerName"];
-
-             for(NSDictionary *device in [obj objectForKey:@"OEControllerDevices"])
-             {
-                 NSUInteger vendorID  = [[device objectForKey:@"OEControllerVendorID"] unsignedIntegerValue];
-                 NSUInteger productID = [[device objectForKey:@"OEControllerProductID"] unsignedIntegerValue];
-                 _OEHIDDeviceIdentifier *ident = [[_OEHIDDeviceIdentifier alloc] initWithVendorID:vendorID deviceID:productID];
-
-                 [result setObject:genericName forKey:ident];
-             }
-         }];
-
-        deviceToTypes = [result copy];
-    }
-}
-
-+ (NSString *)standardDeviceIdentifierForDeviceIdentifier:(NSString *)aString
-{
-    if([aString hasPrefix:@"#"])
-    {
-        _OEHIDDeviceIdentifier *ident = [[_OEHIDDeviceIdentifier alloc] initWithDescription:aString];
-
-        return [deviceToTypes objectForKey:ident] ? : ident != nil ? aString : nil;
-    }
-
-    return [[deviceToTypes allKeysForObject:aString] count] > 0 ? aString : nil;
-}
 
 + (instancetype)deviceHandlerWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
 {
     return [OEHIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
 }
 
-- (NSString *)OE_deviceIdentifier;
+- (OEControllerDescription *)controllerDescription
 {
-    _OEHIDDeviceIdentifier *ident = [[_OEHIDDeviceIdentifier alloc] initWithVendorID:[[self vendorID] unsignedIntegerValue] deviceID:[[self productID] unsignedIntegerValue]];
-
-    return [deviceToTypes objectForKey:ident] ? : [ident description];
+    return [[self deviceDescription] controllerDescription];
 }
 
-- (void)OE_setupDeviceIdentifier;
+- (OEDeviceDescription *)deviceDescription
 {
-    _deviceIdentifier = [self OE_deviceIdentifier];
+    if(_deviceDescription == nil)
+        _deviceDescription = [OEDeviceDescription deviceDescriptionForDeviceHandler:self];
+
+    return _deviceDescription;
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -129,7 +82,7 @@ static NSDictionary *deviceToTypes = nil;
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@ %p deviceIdentifier: '%@' manufacturer: %@ product: %@ serialNumber: %@ deviceNumber: %lu isKeyboard: %@>", [self class], self, [self deviceIdentifier], [self manufacturer], [self product], [self serialNumber], [self deviceNumber], [self isKeyboardDevice] ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"<%@ %p deviceDescription: '%@' manufacturer: %@ product: %@ serialNumber: %@ deviceNumber: %lu isKeyboard: %@>", [self class], self, [self deviceDescription], [self manufacturer], [self product], [self serialNumber], [self deviceNumber], [self isKeyboardDevice] ? @"YES" : @"NO"];
 }
 
 - (NSString *)serialNumber;
@@ -147,14 +100,14 @@ static NSDictionary *deviceToTypes = nil;
     return nil;
 }
 
-- (NSNumber *)vendorID;
+- (NSUInteger)vendorID;
 {
-    return nil;
+    return 0;
 }
 
-- (NSNumber *)productID;
+- (NSUInteger)productID;
 {
-    return nil;
+    return 0;
 }
 
 - (NSNumber *)locationID;
@@ -170,74 +123,6 @@ static NSDictionary *deviceToTypes = nil;
 - (void)disconnect;
 {
 
-}
-
-@end
-
-@implementation _OEHIDDeviceIdentifier
-
-static NSMutableSet *allDeviceIdentifiers = nil;
-
-+ (void)initialize
-{
-    if(self == [_OEHIDDeviceIdentifier class]) return;
-
-    allDeviceIdentifiers = [[NSMutableSet alloc] init];
-}
-
-- (id)init { return [self initWithVendorID:0 deviceID:0]; }
-
-- (id)initWithVendorID:(NSUInteger)vendorID deviceID:(NSUInteger)deviceID
-{
-    if((self = [super init]))
-    {
-        _vendorID = vendorID;
-        _deviceID = deviceID;
-
-        _OEHIDDeviceIdentifier *ret = [allDeviceIdentifiers member:self];
-
-        if(ret == nil) [allDeviceIdentifiers addObject:self];
-        else self = ret;
-    }
-
-    return self;
-}
-
-- (id)initWithDescription:(NSString *)description;
-{
-    NSScanner *scanner = [NSScanner scannerWithString:description];
-
-    NSUInteger vendorID = 0, deviceID = 0;
-
-    return (([scanner scanString:@"#OEHIDDeviceIdentifier:" intoString:NULL] &&
-             [scanner scanHexLongLong:(unsigned long long *)&vendorID]       &&
-             [scanner scanHexLongLong:(unsigned long long *)&deviceID])
-            ? [self initWithVendorID:vendorID deviceID:deviceID] : nil);
-}
-
-- (id)copyWithZone:(NSZone *)zone
-{
-    return self;
-}
-
-- (NSUInteger)hash
-{
-    return _vendorID ^ _deviceID;
-}
-
-- (BOOL)isEqual:(_OEHIDDeviceIdentifier *)object
-{
-    if(self == object)
-        return YES;
-    else if([object isKindOfClass:[_OEHIDDeviceIdentifier class]])
-        return _vendorID == [object vendorID] && _deviceID == [object deviceID];
-
-    return NO;
-}
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"#OEHIDDeviceIdentifier: %#lX %#lX", _vendorID, _deviceID];
 }
 
 @end

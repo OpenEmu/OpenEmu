@@ -27,15 +27,15 @@
 
 #import "OEHIDDeviceHandler.h"
 #import "NSApplication+OEHIDAdditions.h"
+#import "OEControllerDescription.h"
+#import "OEDeviceDescription.h"
+#import "OEControlDescription.h"
 #import "OEHIDEvent.h"
 #import "OEDeviceManager.h"
 
 @interface OEHIDEvent ()
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
-@end
-
-@interface OEDeviceHandler ()
-- (void)OE_setupDeviceIdentifier;
++ (instancetype)OE_eventWithElement:(IOHIDElementRef)element value:(NSInteger)value;
 @end
 
 @interface OEDeviceManager ()
@@ -79,34 +79,25 @@
 
         if(![self isKeyboardDevice])
         {
-            [self OE_setupDeviceIdentifier];
-            
-            NSArray *elements = (__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(_device, (__bridge CFDictionaryRef)@{ @kIOHIDElementUsagePageKey : @(kHIDPage_GenericDesktop) }, 0);
+            // Set the device's hat switch and trigger elements so the event creation works properly.
+            OEControllerDescription *controller = [self controllerDescription];
+            NSMutableArray *genericDesktopElements = [(__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(_device, (__bridge CFDictionaryRef)@{ @kIOHIDElementUsagePageKey : @(kHIDPage_GenericDesktop) }, 0) mutableCopy];
 
-            NSLog(@"Device: %@", self);
-
-            NSMutableArray *posNegElements = [NSMutableArray array];
-            NSMutableArray *posElements    = [NSMutableArray array];
-
-            for(id element in elements)
+            for(id e in genericDesktopElements)
             {
-                IOHIDElementRef elem  = (__bridge IOHIDElementRef)element;
-                uint32_t        usage = IOHIDElementGetUsage(elem);
-
-                if(usage < kHIDUsage_GD_X || usage > kHIDUsage_GD_Rz) continue;
-
-                CFIndex minimum = IOHIDElementGetLogicalMin(elem);
-                CFIndex maximum = IOHIDElementGetLogicalMax(elem);
-
-                if(minimum == 0) [posElements addObject:element];
-                else if(minimum < 0 && maximum > 0) [posNegElements addObject:element];
-            }
-
-            if([posNegElements count] != 0 && [posElements count] != 0)
-                for(id element in posElements)
+                IOHIDElementRef elem = (__bridge IOHIDElementRef)e;
+                OEHIDEvent *event = [[controller controlValueDescriptionForEvent:[OEHIDEvent OE_eventWithElement:elem value:0]] event];
+                switch([event type])
                 {
-                    IOHIDElementRef elem  = (__bridge IOHIDElementRef)element;
-                    IOHIDElementSetProperty(elem, CFSTR(kOEHIDElementIsTriggerKey), (__bridge CFTypeRef)@YES);
+                    case OEHIDEventTypeHatSwitch :
+                        IOHIDElementSetProperty(elem, CFSTR(kOEHIDElementHatSwitchTypeKey), (__bridge CFTypeRef)@([event hatSwitchType]));
+                        break;
+                    case OEHIDEventTypeTrigger :
+                        IOHIDElementSetProperty(elem, CFSTR(kOEHIDElementIsTriggerKey), (__bridge CFTypeRef)@YES);
+                        break;
+                    default :
+                        break;
+                }
             }
         }
 
@@ -139,14 +130,14 @@
     return (__bridge NSString *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDProductKey));
 }
 
-- (NSNumber *)vendorID
+- (NSUInteger)vendorID
 {
-    return (__bridge NSNumber *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDVendorIDKey));
+    return [(__bridge NSNumber *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDVendorIDKey)) integerValue];
 }
 
-- (NSNumber *)productID
+- (NSUInteger)productID
 {
-    return (__bridge NSNumber *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDProductIDKey));
+    return [(__bridge NSNumber *)IOHIDDeviceGetProperty(_device, CFSTR(kIOHIDProductIDKey)) integerValue];
 }
 
 - (NSNumber *)locationID

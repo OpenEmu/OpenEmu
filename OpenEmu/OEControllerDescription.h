@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2012, OpenEmu Team
 
 
  Redistribution and use in source and binary forms, with or without
@@ -25,40 +25,38 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import "OEHIDEvent.h"
 
-#import <IOKit/hid/IOHIDLib.h>
-#import <IOKit/hid/IOHIDUsageTables.h>
-#import <ForceFeedback/ForceFeedback.h>
-
+@class OEControlDescription;
+@class OEControlValueDescription;
+@class OEDeviceHandler;
 @class OEHIDEvent;
 
-#define kOEHIDElementIsTriggerKey     "OEHIDElementIsTrigger"
-#define kOEHIDElementHatSwitchTypeKey "OEHIDElementHatSwitchType"
+@interface OEControllerDescription : NSObject <NSCopying>
 
-@class IOBluetoothDevice;
-@class OEControllerDescription;
-@class OEDeviceDescription;
++ (instancetype)controllerDescriptionForControllerIdentifier:(NSString *)controllerIdentifier;
++ (instancetype)controllerDescriptionForDeviceHandler:(OEDeviceHandler *)deviceHandler;
 
-@interface OEDeviceHandler : NSObject <NSCopying>
+// Return YES if the controller is not known to the application database.
+@property(readonly) BOOL isGeneric;
 
-@property(readonly) NSUInteger deviceNumber;
+@property(readonly) NSString *identifier;
+@property(readonly) NSString *name;
 
-@property(readonly) OEControllerDescription *controllerDescription;
-@property(readonly) OEDeviceDescription *deviceDescription;
+@property(readonly) NSArray *devices;
 
-@property(readonly) NSString *serialNumber;
-@property(readonly) NSString *manufacturer;
-@property(readonly) NSString *product;
-@property(readonly) NSUInteger vendorID;
-@property(readonly) NSUInteger productID;
-@property(readonly) NSNumber *locationID;
+@property(readonly) NSArray *controls;
+@property(readonly) NSArray *axisControls;
+@property(readonly) NSArray *buttonControls;
+@property(readonly) NSArray *hatSwitchControls;
+@property(readonly) NSArray *triggerControls;
 
-- (BOOL)connect;
-- (void)disconnect;
+- (OEControlDescription *)controlDescriptionForIOHIDElement:(IOHIDElementRef)element;
+- (OEControlDescription *)controlDescriptionForIdentifier:(NSString *)controlIdentifier;
 
-+ (instancetype)deviceHandlerWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
-
-- (BOOL)isKeyboardDevice;
+- (OEControlValueDescription *)controlValueDescriptionForEvent:(OEHIDEvent *)event;
+- (OEControlValueDescription *)controlValueDescriptionForIdentifier:(NSString *)controlIdentifier;
+- (OEControlValueDescription *)controlValueDescriptionForValueIdentifier:(NSNumber *)controlValueIdentifier;
 
 @end

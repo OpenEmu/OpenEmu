@@ -32,6 +32,7 @@
 @class OEDevicePlayerBindings;
 @class OEBindingsController;
 @class OESystemController;
+@class OEKeyboardPlayerBindings;
 @class OEHIDEvent;
 
 /// Manages the bindings for a specific system, useful for system responders
@@ -43,12 +44,10 @@
 
 @property(readonly) NSUInteger numberOfPlayers;
 
-@property(readonly) NSDictionary *defaultDeviceBindings;
-
 @property(readonly) NSArray *keyboardPlayerBindings;
 @property(readonly) NSArray *devicePlayerBindings;
 
-- (OEPlayerBindings *)keyboardPlayerBindingsForPlayer:(NSUInteger)playerNumber;
+- (OEKeyboardPlayerBindings *)keyboardPlayerBindingsForPlayer:(NSUInteger)playerNumber;
 - (OEDevicePlayerBindings *)devicePlayerBindingsForPlayer:(NSUInteger)playerNumber;
 
 // Returns player number based on the device number of the event

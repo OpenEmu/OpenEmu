@@ -38,6 +38,7 @@
 #import "OEShaderPlugin.h"
 
 #import "OEDeviceManager.h"
+#import "OEControllerDescription.h"
 #import "NSAttributedString+Hyperlink.h"
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSWindow+OEFullScreenAdditions.h"
@@ -99,6 +100,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
          }];
 
         [OEToolTipManager load];
+        [OEControllerDescription class];
     }
 }
 
