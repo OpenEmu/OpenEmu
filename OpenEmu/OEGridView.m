@@ -709,6 +709,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     {
         [self OE_cancelFieldEditor];
         [self performSelector:@selector(OE_calculateCachedValuesAndQueryForDataChanges:) withObject:[NSNumber numberWithBool:NO] afterDelay:0.25];
+        [self OE_calculateCachedValuesAndQueryForDataChanges:NO];
     }
 }
 
