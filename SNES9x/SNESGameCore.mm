@@ -106,6 +106,7 @@ NSString *SNESEmulatorKeys[] = { @"Up", @"Down", @"Left", @"Right", @"A", @"B", 
 - (BOOL)loadFileAtPath:(NSString *)path
 {
     memset(&Settings, 0, sizeof(Settings));
+    Settings.DontSaveOopsSnapshot = true;
     Settings.ForcePAL      = false;
     Settings.ForceNTSC     = false;
     Settings.ForceHeader   = false;
