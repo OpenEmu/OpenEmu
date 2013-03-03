@@ -140,6 +140,7 @@ typedef enum
 
         [window setFrame:windowRect display:NO animate:NO];
         [window center];
+        [window setContentAspectRatio:[gameViewController defaultScreenSize]];
         [window setMainContentView:[gameViewController view]];
 
         [self OE_buildScreenshotWindow];
@@ -356,6 +357,13 @@ typedef enum
 
     [gameViewController viewWillDisappear];
     [gameViewController viewDidDisappear];
+}
+
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
+{
+    const NSSize windowSize  = [OEHUDWindow frameRectForMainContentRect:(NSRect){.size = frameSize}].size;
+
+    return windowSize;
 }
 
 #pragma mark - NSWindowDelegate Full Screen
