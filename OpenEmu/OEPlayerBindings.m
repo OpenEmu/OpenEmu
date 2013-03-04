@@ -263,6 +263,11 @@ static void *const OEDevicePlayerBindingOriginalBindingsObserver = (void *)&OEDe
     }
 }
 
+- (NSDictionary *)bindingEvents
+{
+    return _originalBindingsController != nil ? [_originalBindingsController bindingEvents] : [super bindingEvents];
+}
+
 - (void)OE_setBindingEvents:(NSDictionary *)value
 {
     NSAssert(_originalBindingsController == nil, @"Cannot set raw bindings when %@ is dependent on %@", self, _originalBindingsController);
