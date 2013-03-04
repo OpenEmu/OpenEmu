@@ -50,44 +50,15 @@
 	<key>OEControllerSegaSaturn</key>
 	<dict>
 		<key>OESMSButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>Y</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerSegaSaturnDPadUp</string>
 		<key>OESMSButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>X</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerSegaSaturnDPadLeft</string>
 		<key>OESMSButtonA</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonZ</string>
 		<key>OESMSButtonB</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonC</string>
 		<key>OESMSButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonStart</string>
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>

@@ -1448,6 +1448,23 @@
 				<string>X</string>
 				<key>Cookie</key>
 				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSegaSaturnDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerSegaSaturnDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
 				<key>Names</key>
 				<array>
 					<string>D-Pad Left</string>
@@ -1464,6 +1481,23 @@
 				<string>Y</string>
 				<key>Cookie</key>
 				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSegaSaturnDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerSegaSaturnDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+				</dict>
 				<key>Names</key>
 				<array>
 					<string>D-Pad Up</string>
