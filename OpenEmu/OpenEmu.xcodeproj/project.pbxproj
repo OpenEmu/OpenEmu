@@ -337,7 +337,6 @@
 		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
 		831C2AE4144F41E4009533C0 /* OEApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C2AE3144F41E4009533C0 /* OEApplicationDelegate.m */; };
 		831C2AE9144F453C009533C0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 831C2AE8144F453C009533C0 /* MainMenu.xib */; };
-		831C9926147BBDAE00F422A5 /* OEHUDTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9925147BBDAE00F422A5 /* OEHUDTextFieldCell.m */; };
 		831C9AAD160095BA00038D0D /* OETheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AAC160095BA00038D0D /* OETheme.m */; };
 		831C9AB0160095E500038D0D /* OEThemeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AAF160095E500038D0D /* OEThemeObject.m */; };
 		831C9AB9160095F800038D0D /* OEThemeColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AB2160095F800038D0D /* OEThemeColor.m */; };
@@ -446,7 +445,6 @@
 		83D435EF147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D435EE147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m */; };
 		83D435F214718891003FE856 /* closed_weblink_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D435F114718890003FE856 /* closed_weblink_arrow.png */; };
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
-		83D7F2F9147E3FEB004419A6 /* OEHUDTextFieldEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D7F2F8147E3FEB004419A6 /* OEHUDTextFieldEditor.m */; };
 		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
 		83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
 		83DDEE83156CDEEB009EB43D /* NSView+FadeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */; };
@@ -1433,8 +1431,6 @@
 		831C2AE2144F41E4009533C0 /* OEApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEApplicationDelegate.h; sourceTree = "<group>"; };
 		831C2AE3144F41E4009533C0 /* OEApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEApplicationDelegate.m; sourceTree = "<group>"; };
 		831C2AE8144F453C009533C0 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		831C9924147BBDAE00F422A5 /* OEHUDTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDTextFieldCell.h; sourceTree = "<group>"; };
-		831C9925147BBDAE00F422A5 /* OEHUDTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDTextFieldCell.m; sourceTree = "<group>"; };
 		831C9AAB160095BA00038D0D /* OETheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETheme.h; sourceTree = "<group>"; };
 		831C9AAC160095BA00038D0D /* OETheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETheme.m; sourceTree = "<group>"; };
 		831C9AAE160095E500038D0D /* OEThemeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThemeObject.h; sourceTree = "<group>"; };
@@ -1610,8 +1606,6 @@
 		83D435ED147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECenteredTextFieldWithWeblinkCell.h; sourceTree = "<group>"; };
 		83D435EE147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECenteredTextFieldWithWeblinkCell.m; sourceTree = "<group>"; };
 		83D435F114718890003FE856 /* closed_weblink_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closed_weblink_arrow.png; sourceTree = "<group>"; };
-		83D7F2F7147E3FEB004419A6 /* OEHUDTextFieldEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDTextFieldEditor.h; sourceTree = "<group>"; };
-		83D7F2F8147E3FEB004419A6 /* OEHUDTextFieldEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDTextFieldEditor.m; sourceTree = "<group>"; };
 		83D9991D146F40DA004409DC /* OEControlsKeySeparatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeySeparatorView.h; sourceTree = "<group>"; };
 		83D9991E146F40DA004409DC /* OEControlsKeySeparatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeySeparatorView.m; sourceTree = "<group>"; };
 		83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyHeadlineCell.h; sourceTree = "<group>"; };
@@ -2860,10 +2854,6 @@
 		53439B7F13B933DA005C0CC8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				831C9924147BBDAE00F422A5 /* OEHUDTextFieldCell.h */,
-				831C9925147BBDAE00F422A5 /* OEHUDTextFieldCell.m */,
-				83D7F2F7147E3FEB004419A6 /* OEHUDTextFieldEditor.h */,
-				83D7F2F8147E3FEB004419A6 /* OEHUDTextFieldEditor.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -4976,8 +4966,6 @@
 				839310BC147802380020058E /* OECoreDownload.m in Sources */,
 				837777B9147A8E730091A896 /* OEHUDProgressbar.m in Sources */,
 				83CAD4D4147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m in Sources */,
-				831C9926147BBDAE00F422A5 /* OEHUDTextFieldCell.m in Sources */,
-				83D7F2F9147E3FEB004419A6 /* OEHUDTextFieldEditor.m in Sources */,
 				83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */,
 				EF2FDBEB14CFFE06002A64F2 /* OEControlsKeyButton.m in Sources */,
 				EF2FDBEC14CFFE11002A64F2 /* OEControlsKeyLabelCell.m in Sources */,

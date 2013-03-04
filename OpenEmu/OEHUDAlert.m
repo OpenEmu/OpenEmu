@@ -29,8 +29,6 @@
 #import "OEButton.h"
 #import "OETextField.h"
 #import "OETextFieldCell.h"
-#import "OEHUDTextFieldCell.h"
-#import "OEHUDTextFieldEditor.h"
 #import "OECenteredTextFieldCell.h"
 
 #import "OEPreferencesPlainBox.h"
@@ -758,14 +756,6 @@
         [self setBackgroundColor:[NSColor clearColor]];
     }
     return self;
-}
-
-- (NSText *)fieldEditor:(BOOL)createFlag forObject:(id)anObject
-{
-    if([anObject respondsToSelector:@selector(cell)] && [[anObject cell] isMemberOfClass:[OEHUDTextFieldCell class]])
-        return [OEHUDTextFieldEditor fieldEditor];
-    
-    return [super fieldEditor:createFlag forObject:anObject];
 }
 
 #pragma mark OECustomWindow implementation
