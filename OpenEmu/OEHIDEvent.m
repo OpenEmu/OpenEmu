@@ -712,7 +712,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             if(_hasPreviousState) _data.hatSwitch.previousHatDirection = _data.hatSwitch.hatDirection;
 
             // value is outside of the logical range, it's therefore NULL
-            if(value < min || max > value) _data.hatSwitch.hatDirection = OEHIDEventHatDirectionNull;
+            if(value < min || max < value ) _data.hatSwitch.hatDirection = OEHIDEventHatDirectionNull;
             else
             {
                 value -= min;
