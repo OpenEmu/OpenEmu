@@ -1007,28 +1007,28 @@
 				<dict>
 					<key>OEControllerLogitechDualActionDPadUp</key>
 					<dict>
-						<key>Value</key>
+						<key>Direction</key>
 						<string>N</string>
 						<key>Name</key>
 						<string>D-Pad Up</string>
 					</dict>
 					<key>OEControllerLogitechDualActionDPadDown</key>
 					<dict>
-						<key>Value</key>
+						<key>Direction</key>
 						<string>S</string>
 						<key>Name</key>
 						<string>D-Pad Down</string>
 					</dict>
 					<key>OEControllerLogitechDualActionDPadLeft</key>
 					<dict>
-						<key>Value</key>
+						<key>Direction</key>
 						<string>W</string>
 						<key>Name</key>
 						<string>D-Pad Left</string>
 					</dict>
 					<key>OEControllerLogitechDualActionDPadRight</key>
 					<dict>
-						<key>Value</key>
+						<key>Direction</key>
 						<string>E</string>
 						<key>Name</key>
 						<string>D-Pad Right</string>
@@ -1290,28 +1290,28 @@
 				<dict>
 					<key>OEControllerPS3NeoGeoPadDPadUp</key>
 					<dict>
-						<key>Value</key>
+						<key>Direction</key>
 						<string>N</string>
 						<key>Name</key>
 						<string>D-Pad Up</string>
 					</dict>
 					<key>OEControllerPS3NeoGeoPadDPadDown</key>
 					<dict>
-						<key>Value</key>
+						<key>Direction</key>
 						<string>S</string>
 						<key>Name</key>
 						<string>D-Pad Down</string>
 					</dict>
 					<key>OEControllerPS3NeoGeoPadDPadLeft</key>
 					<dict>
-						<key>Value</key>
+						<key>Direction</key>
 						<string>W</string>
 						<key>Name</key>
 						<string>D-Pad Left</string>
 					</dict>
 					<key>OEControllerPS3NeoGeoPadDPadRight</key>
 					<dict>
-						<key>Value</key>
+						<key>Direction</key>
 						<string>E</string>
 						<key>Name</key>
 						<string>D-Pad Right</string>
