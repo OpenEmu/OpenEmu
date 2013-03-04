@@ -45,6 +45,6 @@ extern NSString *const OEGameControlsBarFadeOutDelayKey;
 #pragma mark - Updating UI States
 - (void)reflectVolume:(float)volume;
 - (void)reflectEmulationRunning:(BOOL)isEmulationRunning;
-@property(unsafe_unretained) OEGameViewController *gameViewController;
+@property(readonly, unsafe_unretained) OEGameViewController *gameViewController;
 @end
 

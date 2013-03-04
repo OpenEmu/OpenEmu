@@ -47,10 +47,16 @@
 
 #import "OECheats.h"
 
+#pragma mark - Public variables
+
 NSString *const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState";
 NSString *const OEGameControlsBarShowsAutoSaveStateKey  = @"HUDBarShowAutosaveState";
 NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
+
+#pragma mark - Private variables
+
+static void *const _OEGameControlsBarGameViewControllerRomKVOContext = (void *)&_OEGameControlsBarGameViewControllerRomKVOContext;
 
 @class OEHUDSlider;
 @interface OEHUDControlsBarView : NSView
@@ -73,6 +79,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     int openMenus;
 }
 
+@property(unsafe_unretained) OEGameViewController *gameViewController;
 @property(strong) OEHUDControlsBarView *controlsView;
 @property(strong, nonatomic) NSDate *lastMouseMovement;
 @end
@@ -127,6 +134,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
         [filterSet filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT SELF beginswith '_'"]];
         filterPlugins = [[filterSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+
+        [self OE_loadCheats];
+        [controller addObserver:self forKeyPath:@"rom" options:0 context:_OEGameControlsBarGameViewControllerRomKVOContext];
     }
     return self;
 }
@@ -135,10 +145,34 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 {    
     [fadeTimer invalidate];
     fadeTimer = nil;
-    
+
+    [gameViewController removeObserver:self forKeyPath:@"rom" context:_OEGameControlsBarGameViewControllerRomKVOContext];
     [self setGameViewController:nil];
     
     [NSEvent removeMonitor:eventMonitor];
+}
+
+#pragma mark - Cheats
+
+- (void)OE_loadCheats
+{
+    if ([[self gameViewController] cheatSupport])
+    {
+        NSString *md5Hash = [[[self gameViewController] rom] md5Hash];
+        if(md5Hash)
+        {
+            OECheats *cheatsXML = [[OECheats alloc] initWithMd5Hash:md5Hash];
+            cheats = [[cheatsXML allCheats] mutableCopy];
+        }
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if(context == _OEGameControlsBarGameViewControllerRomKVOContext)
+        [self OE_loadCheats];
+    else
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 #pragma mark -
@@ -234,15 +268,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     // Setup Cheats Menu
     if ([[self gameViewController] cheatSupport])
     {
-        // Parse the XML just once
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            NSString *md5Hash = [[[self gameViewController] rom] md5Hash];
-            OECheats *cheatsXML = [[OECheats alloc] initWithMd5Hash:md5Hash];
-            
-            cheats = [(NSArray*)[cheatsXML allCheats] mutableCopy];
-        });
-        
         NSMenu *cheatsMenu = [[NSMenu alloc] init];
         [cheatsMenu setTitle:NSLocalizedString(@"Select Cheat", @"")];
         item = [[NSMenuItem alloc] init];
