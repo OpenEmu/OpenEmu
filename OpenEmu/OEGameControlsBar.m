@@ -281,16 +281,13 @@ static void *const _OEGameControlsBarGameViewControllerRomKVOContext = (void *)&
         
         [cheatsMenu addItem:[NSMenuItem separatorItem]];
         
-        for (NSDictionary *cheatObject in cheats) {
+        for (NSDictionary *cheatObject in cheats)
+        {
+//            NSString *code        = [cheatObject objectForKey:@"code"];
+//            NSString *type        = [cheatObject objectForKey:@"type"];
+            NSString *description = [cheatObject objectForKey:@"description"];
+            BOOL enabled          = [[cheatObject objectForKey:@"enabled"] boolValue];
             
-            NSString *code, *description, *type;
-            BOOL enabled;
-            for (id key in cheatObject) {
-                code = [cheatObject objectForKey:@"code"];
-                description = [cheatObject objectForKey:@"description"];
-                type = [cheatObject objectForKey:@"type"];
-                enabled = [[cheatObject objectForKey:@"enabled"] boolValue];
-            }
             NSMenuItem *cheatsMenuItem = [[NSMenuItem alloc] initWithTitle:description action:@selector(setCheat:) keyEquivalent:@""];
             [cheatsMenuItem setRepresentedObject:cheatObject];
             [cheatsMenuItem setState:enabled ? NSOnState : NSOffState];
