@@ -252,18 +252,16 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
         IOHIDElementRef elem  = (__bridge IOHIDElementRef)element;
         uint32_t        usage = IOHIDElementGetUsage(elem);
 
-        if(usage < kHIDUsage_GD_X || usage > kHIDUsage_GD_Rz || usage != kHIDUsage_GD_Hatswitch) continue;
-
-        CFIndex minimum = IOHIDElementGetLogicalMin(elem);
-        CFIndex maximum = IOHIDElementGetLogicalMax(elem);
-
         if(usage == kHIDUsage_GD_Hatswitch)
         {
             [self OE_setupHatSwitchElement:elem];
             block(elem);
         }
-        else
+        else if(kHIDUsage_GD_X <= usage && usage <= kHIDUsage_GD_Rz)
         {
+            CFIndex minimum = IOHIDElementGetLogicalMin(elem);
+            CFIndex maximum = IOHIDElementGetLogicalMax(elem);
+
             if(minimum == 0) [posElements addObject:element];
             else if(minimum < 0 && maximum > 0) [posNegElements addObject:element];
         }
