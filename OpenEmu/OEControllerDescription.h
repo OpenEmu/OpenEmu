@@ -1,6 +1,7 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2012, OpenEmu Team
+
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,27 +25,38 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OEMenu.h"
+#import <Foundation/Foundation.h>
+#import "OEHIDEvent.h"
 
-extern NSString *const OEGameControlsBarCanDeleteSaveStatesKey;
-extern NSString *const OEGameControlsBarShowsAutoSaveStateKey;
-extern NSString *const OEGameControlsBarHidesOptionButtonKey;
-extern NSString *const OEGameControlsBarFadeOutDelayKey;
+@class OEControlDescription;
+@class OEControlValueDescription;
+@class OEDeviceHandler;
+@class OEHIDEvent;
 
-@class OEGameViewController;
-@interface OEGameControlsBar : NSWindow <NSMenuDelegate>
+@interface OEControllerDescription : NSObject <NSCopying>
 
-- (id)initWithGameViewController:(OEGameViewController*)controller;
++ (instancetype)controllerDescriptionForControllerIdentifier:(NSString *)controllerIdentifier;
++ (instancetype)controllerDescriptionForDeviceHandler:(OEDeviceHandler *)deviceHandler;
 
-- (void)show;
-- (void)hide;
+// Return YES if the controller is not known to the application database.
+@property(readonly) BOOL isGeneric;
 
-- (BOOL)canFadeOut;
-@property (readwrite) BOOL canShow;
-#pragma mark - Updating UI States
-- (void)reflectVolume:(float)volume;
-- (void)reflectEmulationRunning:(BOOL)isEmulationRunning;
-@property(readonly, unsafe_unretained) OEGameViewController *gameViewController;
+@property(readonly) NSString *identifier;
+@property(readonly) NSString *name;
+
+@property(readonly) NSArray *devices;
+
+@property(readonly) NSArray *controls;
+@property(readonly) NSArray *axisControls;
+@property(readonly) NSArray *buttonControls;
+@property(readonly) NSArray *hatSwitchControls;
+@property(readonly) NSArray *triggerControls;
+
+- (OEControlDescription *)controlDescriptionForIOHIDElement:(IOHIDElementRef)element;
+- (OEControlDescription *)controlDescriptionForIdentifier:(NSString *)controlIdentifier;
+
+- (OEControlValueDescription *)controlValueDescriptionForEvent:(OEHIDEvent *)event;
+- (OEControlValueDescription *)controlValueDescriptionForIdentifier:(NSString *)controlIdentifier;
+- (OEControlValueDescription *)controlValueDescriptionForValueIdentifier:(NSNumber *)controlValueIdentifier;
+
 @end
-

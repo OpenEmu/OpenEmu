@@ -50,7 +50,7 @@ void Interrupter::setGameShark(const std::string &codes) {
 	std::string code;
 	gsCodes.clear();
 	
-	for (std::size_t pos = 0; pos < codes.length() && (code = codes.substr(pos, codes.find(';', pos) - pos), true); pos += code.length() + 1) {
+	for (std::size_t pos = 0; pos < codes.length() && (code = codes.substr(pos, codes.find('+', pos) - pos), true); pos += code.length() + 1) {
 		if (code.length() >= 8) {
 			GsCode gs;
 			gs.type  =  asHex(code[0]) << 4 | asHex(code[1]);

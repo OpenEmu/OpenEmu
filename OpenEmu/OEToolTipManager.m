@@ -47,9 +47,10 @@ NSString * const OEHUDStyleToolTipThemeKey     = @"hud_tooltip";
 @end
 
 @implementation OEToolTipManager
+
 + (void)initialize
 {
-    if([self class]!=[OEToolTipManager class]) return;
+    if(self != [OEToolTipManager class]) return;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -59,7 +60,6 @@ NSString * const OEHUDStyleToolTipThemeKey     = @"hud_tooltip";
         [self OE_replaceNSTooltipManagerSelector:@selector(toolTipAttributes:) offerOriginalAs:@selector(originalToolTipAttributes:)];
     });
 }
-
 
 + (void)OE_replaceNSTooltipManagerSelector:(SEL)currentSelector offerOriginalAs:(SEL)newSelector
 {
@@ -87,47 +87,49 @@ NSString * const OEHUDStyleToolTipThemeKey     = @"hud_tooltip";
 }
 
 #pragma mark -
-- (NSString*)OE_themeKeyForStyle:(OEToolTipStyle)style
+
+- (NSString *)OE_themeKeyForStyle:(OEToolTipStyle)style
 {
-    switch (style) {
-        case OEToolTipStyleDefault: return OEDefaultStyleToolTipThemeKey;
-        case OEToolTipStyleHUD:     return OEHUDStyleToolTipThemeKey;
+    switch(style)
+    {
+        case OEToolTipStyleDefault : return OEDefaultStyleToolTipThemeKey;
+        case OEToolTipStyleHUD     : return OEHUDStyleToolTipThemeKey;
     }
     return nil;
 }
 
-- (NSColor*)toolTipBackgroundColorForCurrentStyle
+- (NSColor *)toolTipBackgroundColorForCurrentStyle
 {
     NSString *key   = [[self OE_themeKeyForStyle:[self currentStyle]] stringByAppendingString:@"_background"];
     NSColor  *color = [[OETheme sharedTheme] colorForKey:key forState:OEThemeStateDefault];
     return color ?: [[NSToolTipManager sharedToolTipManager] originalToolTipBackgroundColor];
 }
 
-- (NSColor*)toolTipTextColorForCurrentStyle
+- (NSColor *)toolTipTextColorForCurrentStyle
 {
     NSString     *key        = [self OE_themeKeyForStyle:[self currentStyle]];
     NSDictionary *attributes = [[OETheme sharedTheme] textAttributesForKey:key forState:OEThemeStateDefault];
     
-    NSColor  *color = [attributes objectForKey:NSForegroundColorAttributeName];
-    return color ?: [[NSToolTipManager sharedToolTipManager] originalToolTipTextColor];
+    return [attributes objectForKey:NSForegroundColorAttributeName] ? : [[NSToolTipManager sharedToolTipManager] originalToolTipTextColor];
 }
 
-- (NSColor*)toolTipAttributesForCurrentStyle
+- (NSColor *)toolTipAttributesForCurrentStyle
 {
     NSString     *key        = [self OE_themeKeyForStyle:[self currentStyle]];
     NSDictionary *attributes = [[OETheme sharedTheme] textAttributesForKey:key forState:OEThemeStateDefault];
     
-    return attributes ?: [[NSToolTipManager sharedToolTipManager] originalToolTipAttributes];
+    return attributes ? : [[NSToolTipManager sharedToolTipManager] originalToolTipAttributes];
 }
+
 #pragma mark -
+
 - (void)displayToolTip:(id)tooltip
 {
-    NSView *view = ((NSToolTip*)tooltip)->view;
+    NSView *view = ((NSToolTip *)tooltip)->view;
     OEToolTipStyle style = OEToolTipStyleDefault;
     if([view conformsToProtocol:@protocol(OEToolTip)])
-    {
         style = [(id <OEToolTip>)view toolTipStyle];
-    }
+
     [[OEToolTipManager sharedToolTipManager] setCurrentStyle:style];
     [super originalDisplayToolTip:tooltip];
 }
@@ -136,10 +138,12 @@ NSString * const OEHUDStyleToolTipThemeKey     = @"hud_tooltip";
 {
     return [[OEToolTipManager sharedToolTipManager] toolTipBackgroundColorForCurrentStyle];
 }
+
 - (id)toolTipTextColor
 {
     return [[OEToolTipManager sharedToolTipManager] toolTipTextColorForCurrentStyle];
 }
+
 - (id)toolTipAttributes
 {
     return [[OEToolTipManager sharedToolTipManager] toolTipAttributesForCurrentStyle];

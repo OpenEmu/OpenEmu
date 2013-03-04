@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<array>
+<dict>
+	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>PS3 Sixaxis</string>
@@ -64,8 +65,23 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSonyPS3SixaxisLeftAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Left</string>
+					</dict>
+					<key>OEControllerSonyPS3SixaxisLeftAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisLeftAnalogY</key>
 			<dict>
@@ -75,8 +91,23 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSonyPS3SixaxisLeftAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Up</string>
+					</dict>
+					<key>OEControllerSonyPS3SixaxisLeftAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisRightAnalogX</key>
 			<dict>
@@ -86,8 +117,23 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Z</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSonyPS3SixaxisRightAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Left</string>
+					</dict>
+					<key>OEControllerSonyPS3SixaxisRightAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisRightAnalogY</key>
 			<dict>
@@ -97,8 +143,23 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rz</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSonyPS3SixaxisRightAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Up</string>
+					</dict>
+					<key>OEControllerSonyPS3SixaxisRightAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerSonyPS3SixaxisButtonTriangle</key>
 			<dict>
@@ -219,6 +280,7 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerMicrosoftXbox360</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>Xbox 360</string>
@@ -673,8 +735,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMicrosoftXbox360LeftAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Left</string>
+					</dict>
+					<key>OEControllerMicrosoftXbox360LeftAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerMicrosoftXbox360LeftAnalogY</key>
 			<dict>
@@ -684,8 +763,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMicrosoftXbox360LeftAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Up</string>
+					</dict>
+					<key>OEControllerMicrosoftXbox360LeftAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerMicrosoftXbox360RightAnalogX</key>
 			<dict>
@@ -695,8 +791,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rx</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMicrosoftXbox360RightAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Left</string>
+					</dict>
+					<key>OEControllerMicrosoftXbox360RightAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerMicrosoftXbox360RightAnalogY</key>
 			<dict>
@@ -706,8 +819,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Ry</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMicrosoftXbox360RightAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Up</string>
+					</dict>
+					<key>OEControllerMicrosoftXbox360RightAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerMicrosoftXbox360ButtonA</key>
 			<dict>
@@ -828,6 +958,7 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerLogitechDualAction</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>Logitech Dual Action</string>
@@ -862,41 +993,47 @@
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
-			<key>OEControllerLogitechDualActionDPadUp</key>
+			<key>OEControllerLogitechDualActionDPad</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Up</string>
+				<string>D-Pad</string>
 				<key>Type</key>
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-			</dict>
-			<key>OEControllerLogitechDualActionDPadDown</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Down</string>
-				<key>Type</key>
-				<string>HatSwitch</string>
-				<key>Usage</key>
-				<string>HatSwitch</string>
-			</dict>
-			<key>OEControllerLogitechDualActionDPadLeft</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Left</string>
-				<key>Type</key>
-				<string>HatSwitch</string>
-				<key>Usage</key>
-				<string>HatSwitch</string>
-			</dict>
-			<key>OEControllerLogitechDualActionDPadRight</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Right</string>
-				<key>Type</key>
-				<string>HatSwitch</string>
-				<key>Usage</key>
-				<string>HatSwitch</string>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerLogitechDualActionDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<string>N</string>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerLogitechDualActionDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<string>S</string>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+					<key>OEControllerLogitechDualActionDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<string>W</string>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerLogitechDualActionDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<string>E</string>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerLogitechDualActionLeftAnalogX</key>
 			<dict>
@@ -906,8 +1043,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerLogitechDualActionLeftAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Left</string>
+					</dict>
+					<key>OEControllerLogitechDualActionLeftAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerLogitechDualActionLeftAnalogY</key>
 			<dict>
@@ -917,8 +1071,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerLogitechDualActionLeftAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Up</string>
+					</dict>
+					<key>OEControllerLogitechDualActionLeftAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerLogitechDualActionRightAnalogX</key>
 			<dict>
@@ -928,8 +1099,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Z</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerLogitechDualActionRightAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Left</string>
+					</dict>
+					<key>OEControllerLogitechDualActionRightAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerLogitechDualActionRightAnalogY</key>
 			<dict>
@@ -939,8 +1127,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rz</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerLogitechDualActionRightAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Up</string>
+					</dict>
+					<key>OEControllerLogitechDualActionRightAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerLogitechDualActionButton1</key>
 			<dict>
@@ -1052,6 +1257,7 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerPS3NeoGeoPad</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>PS3 Neo Geo Pad USB</string>
@@ -1070,41 +1276,47 @@
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
-			<key>OEControllerPS3NeoGeoPadDPadUp</key>
+			<key>OEControllerPS3NeoGeoPadDPad</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Up</string>
+				<string>D-Pad</string>
 				<key>Type</key>
 				<string>HatSwitch</string>
 				<key>Usage</key>
 				<string>HatSwitch</string>
-			</dict>
-			<key>OEControllerPS3NeoGeoPadDPadDown</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Down</string>
-				<key>Type</key>
-				<string>HatSwitch</string>
-				<key>Usage</key>
-				<string>HatSwitch</string>
-			</dict>
-			<key>OEControllerPS3NeoGeoPadDPadLeft</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Left</string>
-				<key>Type</key>
-				<string>HatSwitch</string>
-				<key>Usage</key>
-				<string>HatSwitch</string>
-			</dict>
-			<key>OEControllerPS3NeoGeoPadDPadRight</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Right</string>
-				<key>Type</key>
-				<string>HatSwitch</string>
-				<key>Usage</key>
-				<string>HatSwitch</string>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerPS3NeoGeoPadDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<string>N</string>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerPS3NeoGeoPadDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<string>S</string>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+					<key>OEControllerPS3NeoGeoPadDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<string>W</string>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerPS3NeoGeoPadDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<string>E</string>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerPS3NeoGeoPadButtonTriangle</key>
 			<dict>
@@ -1207,6 +1419,7 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerSegaSaturn</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>Sega Saturn</string>
@@ -1225,49 +1438,61 @@
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
-			<key>OEControllerSegaSaturnDPadUp</key>
+			<key>OEControllerSegaSaturnDPadX</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Up</string>
-				<key>Type</key>
-				<string>Axis</string>
-				<key>Usage</key>
-				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
-			</dict>
-			<key>OEControllerSegaSaturnDPadDown</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Down</string>
-				<key>Type</key>
-				<string>Axis</string>
-				<key>Usage</key>
-				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
-			</dict>
-			<key>OEControllerSegaSaturnDPadLeft</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Left</string>
+				<string>D-Pad</string>
 				<key>Type</key>
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSegaSaturnDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerSegaSaturnDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
 			</dict>
-			<key>OEControllerSegaSaturnDPadRight</key>
+			<key>OEControllerSegaSaturnDPadY</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Right</string>
+				<string>D-Pad Y</string>
 				<key>Type</key>
 				<string>Axis</string>
 				<key>Usage</key>
-				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<string>Y</string>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerSegaSaturnDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerSegaSaturnDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerSegaSaturnButtonA</key>
 			<dict>
@@ -1352,6 +1577,7 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerRetrode</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>Retrode</string>
@@ -1378,57 +1604,61 @@
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
-			<key>OEControllerRetrodeDPadUp</key>
+			<key>OEControllerRetrodeDPadX</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Up</string>
-				<key>Type</key>
-				<string>Axis</string>
-				<key>Usage</key>
-				<string>Y</string>
-				<key>Cookie</key>
-				<integer>74</integer>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
-			</dict>
-			<key>OEControllerRetrodeDPadDown</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Down</string>
-				<key>Type</key>
-				<string>Axis</string>
-				<key>Usage</key>
-				<string>Y</string>
-				<key>Cookie</key>
-				<integer>74</integer>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
-			</dict>
-			<key>OEControllerRetrodeDPadLeft</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Left</string>
+				<string>D-Pad X</string>
 				<key>Type</key>
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
 				<key>Cookie</key>
 				<integer>73</integer>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerRetrodeDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerRetrodeDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
 			</dict>
-			<key>OEControllerRetrodeDPadRight</key>
+			<key>OEControllerRetrodeDPadY</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Right</string>
+				<string>D-Pad Y</string>
 				<key>Type</key>
 				<string>Axis</string>
 				<key>Usage</key>
-				<string>X</string>
+				<string>Y</string>
 				<key>Cookie</key>
-				<integer>73</integer>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<integer>74</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerRetrodeDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerRetrodeDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerRetrodeButtonA</key>
 			<dict>
@@ -1520,6 +1750,7 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>Wiimote</string>
@@ -1647,6 +1878,7 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerAdaptoid</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>N64 Adaptoid</string>
@@ -1664,6 +1896,7 @@
 			</dict>
 		</array>
 	</dict>
+	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>Gravis GamePad Pro</string>
@@ -1682,49 +1915,61 @@
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
-			<key>OEControllerGravisGamePadProDPadUp</key>
+			<key>OEControllerGravisGamePadProDPadX</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Up</string>
-				<key>Type</key>
-				<string>Axis</string>
-				<key>Usage</key>
-				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
-			</dict>
-			<key>OEControllerGravisGamePadProDPadDown</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Down</string>
-				<key>Type</key>
-				<string>Axis</string>
-				<key>Usage</key>
-				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
-			</dict>
-			<key>OEControllerGravisGamePadProDPadLeft</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Left</string>
+				<string>D-Pad X</string>
 				<key>Type</key>
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerGravisGamePadProDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerGravisGamePadProDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
 			</dict>
-			<key>OEControllerGravisGamePadProDPadRight</key>
+			<key>OEControllerGravisGamePadProDPadY</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Right</string>
+				<string>D-Pad Y</string>
 				<key>Type</key>
 				<string>Axis</string>
 				<key>Usage</key>
-				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<string>Y</string>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerGravisGamePadProDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerGravisGamePadProDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerGravisGamePadProButton1</key>
 			<dict>
@@ -1818,6 +2063,7 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerRetroUSBSNES</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>RetroUSB</string>
@@ -1844,57 +2090,61 @@
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
-			<key>OEControllerRetroUSBSNESDPadUp</key>
+			<key>OEControllerRetroUSBSNESDPadX</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Up</string>
-				<key>Type</key>
-				<string>Axis</string>
-				<key>Usage</key>
-				<string>Y</string>
-				<key>Cookie</key>
-				<integer>12</integer>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
-			</dict>
-			<key>OEControllerRetroUSBSNESDPadDown</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Down</string>
-				<key>Type</key>
-				<string>Axis</string>
-				<key>Usage</key>
-				<string>Y</string>
-				<key>Cookie</key>
-				<integer>12</integer>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
-			</dict>
-			<key>OEControllerRetroUSBSNESDPadLeft</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Left</string>
+				<string>D-Pad X</string>
 				<key>Type</key>
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
 				<key>Cookie</key>
 				<integer>11</integer>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerRetroUSBSNESDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerRetroUSBSNESDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
 			</dict>
-			<key>OEControllerRetroUSBSNESDPadRight</key>
+			<key>OEControllerRetroUSBSNESDPadY</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Right</string>
+				<string>D-Pad Y</string>
 				<key>Type</key>
 				<string>Axis</string>
 				<key>Usage</key>
-				<string>X</string>
+				<string>Y</string>
 				<key>Cookie</key>
-				<integer>11</integer>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<integer>12</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerRetroUSBSNESDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerRetroUSBSNESDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerRetroUSBSNESButtonA</key>
 			<dict>
@@ -1986,6 +2236,7 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerRetrolinkSNES</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>Retrolink SNES</string>
@@ -2004,49 +2255,61 @@
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
-			<key>OEControllerRetrolinkSNESDPadUp</key>
+			<key>OEControllerRetrolinkSNESDPadX</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Up</string>
-				<key>Type</key>
-				<string>Axis</string>
-				<key>Usage</key>
-				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
-			</dict>
-			<key>OEControllerRetrolinkSNESDPadDown</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Down</string>
-				<key>Type</key>
-				<string>Axis</string>
-				<key>Usage</key>
-				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
-			</dict>
-			<key>OEControllerRetrolinkSNESDPadLeft</key>
-			<dict>
-				<key>Name</key>
-				<string>D-Pad Left</string>
+				<string>D-Pad X</string>
 				<key>Type</key>
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerRetrolinkSNESDPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerRetrolinkSNESDPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+				</dict>
 			</dict>
-			<key>OEControllerRetrolinkSNESDPadRight</key>
+			<key>OEControllerRetrolinkSNESDPadY</key>
 			<dict>
 				<key>Name</key>
-				<string>D-Pad Right</string>
+				<string>D-Pad Y</string>
 				<key>Type</key>
 				<string>Axis</string>
 				<key>Usage</key>
-				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<string>Y</string>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerRetrolinkSNESDPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerRetrolinkSNESDPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerRetrolinkSNESButtonA</key>
 			<dict>
@@ -2122,6 +2385,7 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerRetrolinkN64</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>Retrolink N64</string>
@@ -2139,6 +2403,7 @@
 			</dict>
 		</array>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>Wii U Pro Controller</string>
@@ -2203,8 +2468,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>X</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerNintendoWiiUProControllerLeftAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Left</string>
+					</dict>
+					<key>OEControllerNintendoWiiUProControllerLeftAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerNintendoWiiUProControllerLeftAnalogY</key>
 			<dict>
@@ -2214,8 +2496,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Y</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerNintendoWiiUProControllerLeftAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Left Analog Up</string>
+					</dict>
+					<key>OEControllerNintendoWiiUProControllerLeftAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Left Analog Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerNintendoWiiUProControllerRightAnalogX</key>
 			<dict>
@@ -2225,8 +2524,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Rx</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerNintendoWiiUProControllerRightAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Left</string>
+					</dict>
+					<key>OEControllerNintendoWiiUProControllerRightAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Right</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerNintendoWiiUProControllerRightAnalogY</key>
 			<dict>
@@ -2236,8 +2552,25 @@
 				<string>Axis</string>
 				<key>Usage</key>
 				<string>Ry</string>
-				<key>UpLeftValue</key>
-				<integer>-1</integer>
+				<key>Cookie</key>
+				<integer>0</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerNintendoWiiUProControllerRightAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Up</string>
+					</dict>
+					<key>OEControllerNintendoWiiUProControllerRightAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Down</string>
+					</dict>
+				</dict>
 			</dict>
 			<key>OEControllerNintendoWiiUProControllerButtonLeftAnalog</key>
 			<dict>
@@ -2358,5 +2691,5 @@
 			</dict>
 		</dict>
 	</dict>
-</array>
+</dict>
 </plist>

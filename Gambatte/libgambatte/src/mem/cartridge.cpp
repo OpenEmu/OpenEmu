@@ -710,7 +710,7 @@ void Cartridge::setGameGenie(const std::string &codes) {
 		
 		std::string code;
 		for (std::size_t pos = 0; pos < codes.length()
-				&& (code = codes.substr(pos, codes.find(';', pos) - pos), true); pos += code.length() + 1) {
+				&& (code = codes.substr(pos, codes.find('+', pos) - pos), true); pos += code.length() + 1) {
 			applyGameGenie(code);
 		}
 	}

@@ -81,6 +81,10 @@ typedef enum _OEHIDEventState : NSInteger {
     OEHIDEventStateOn
 } OEHIDEventState;
 
+enum : NSUInteger {
+    OEUndefinedCookie = 0
+};
+
 extern OEHIDEventHatDirection OEHIDEventHatDirectionFromNSString(NSString *string);
 extern NSString *NSStringFromOEHIDHatDirection(OEHIDEventHatDirection dir);
 extern NSString *NSLocalizedStringFromOEHIDHatDirection(OEHIDEventHatDirection dir);
@@ -112,6 +116,8 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 @property(readonly) NSTimeInterval          elapsedTime;
 @property(readonly) OEHIDEventType          type;
 @property(readonly) NSUInteger              cookie;
+@property(readonly) NSUInteger              usagePage;
+@property(readonly) NSUInteger              usage;
 @property(readonly) BOOL                    hasPreviousState;
 @property(readonly) BOOL                    hasOffState;
 @property(readonly) BOOL                    hasChanges;
@@ -144,6 +150,8 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 - (BOOL)isEqualToEvent:(OEHIDEvent *)anObject;
 - (BOOL)isUsageEqualToEvent:(OEHIDEvent *)anObject; // Checks all properties but state
 
+- (NSUInteger)genericIdentifier;
+
 @end
 
 @interface OEHIDEvent (OEHIDEventCopy)
@@ -154,6 +162,8 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 
 // Hatswitch event copy
 - (instancetype)hatSwitchEventWithDirection:(OEHIDEventHatDirection)aDirection;
+
+- (instancetype)eventWithPadNumber:(NSUInteger)padNumber;
 
 @end
 

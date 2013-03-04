@@ -33,23 +33,25 @@
 
 @class OEHIDEvent;
 
-#define kOEHIDElementIsTriggerKey "OEHIDElementIsTrigger"
+#define kOEHIDElementIsTriggerKey     "OEHIDElementIsTrigger"
+#define kOEHIDElementHatSwitchTypeKey "OEHIDElementHatSwitchType"
 
 @class IOBluetoothDevice;
-@interface OEDeviceHandler : NSObject <NSCopying>
+@class OEControllerDescription;
+@class OEDeviceDescription;
 
-// Returns aString if aString is a parsable identifier or a known identifier, returns nil otherwise.
-+ (NSString *)standardDeviceIdentifierForDeviceIdentifier:(NSString *)aString;
+@interface OEDeviceHandler : NSObject <NSCopying>
 
 @property(readonly) NSUInteger deviceNumber;
 
-@property(readonly) NSString *deviceIdentifier;
+@property(readonly) OEControllerDescription *controllerDescription;
+@property(readonly) OEDeviceDescription *deviceDescription;
 
 @property(readonly) NSString *serialNumber;
 @property(readonly) NSString *manufacturer;
 @property(readonly) NSString *product;
-@property(readonly) NSNumber *vendorID;
-@property(readonly) NSNumber *productID;
+@property(readonly) NSUInteger vendorID;
+@property(readonly) NSUInteger productID;
 @property(readonly) NSNumber *locationID;
 
 - (BOOL)connect;

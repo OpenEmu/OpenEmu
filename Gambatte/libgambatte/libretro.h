@@ -545,7 +545,7 @@ extern "C" {
     bool retro_unserialize(const void *data, size_t size);
     
     void retro_cheat_reset(void);
-    void retro_cheat_set(unsigned index, bool enabled, const char *code);
+    void retro_cheat_set(unsigned index, bool enabled, const char *code, const char *type);
     
     // Loads a game.
     bool retro_load_game(const struct retro_game_info *game);

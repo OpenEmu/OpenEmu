@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2012, OpenEmu Team
  
- 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -26,13 +25,11 @@
  */
 
 #import "OEPlayerBindings.h"
+
 #import "OEBindingsController_Internal.h"
+#import "OEControlDescription.h"
 #import "OEDeviceHandler.h"
 #import "OEHIDEvent.h"
-
-@interface OEHIDEvent ()
-- (OEHIDEvent *)OE_eventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler;
-@end
 
 @implementation OEPlayerBindings
 {
@@ -41,6 +38,12 @@
 }
 
 @synthesize systemBindingsController, playerNumber;
+
++ (id)allocWithZone:(NSZone *)zone
+{
+    NSAssert(self != [OEPlayerBindings class], @"Do not allocate instances of OEPlayerBindings");
+    return [super allocWithZone:zone];
+}
 
 - (id)OE_initWithSystemBindings:(OESystemBindings *)aController playerNumber:(NSUInteger)aPlayerNumber;
 {
@@ -241,13 +244,6 @@ static void *const OEDevicePlayerBindingOriginalBindingsObserver = (void *)&OEDe
     [super OE_setBindingDescriptions:value];
 }
 
-- (NSDictionary *)bindingEvents
-{
-    return (_originalBindingsController != nil
-            ? [self OE_convertBindings:[_originalBindingsController bindingEvents] forDeviceHandler:[self deviceHandler]]
-            : [super bindingEvents]);
-}
-
 - (OEDeviceHandler *)deviceHandler
 {
     return deviceHandler;
@@ -267,26 +263,14 @@ static void *const OEDevicePlayerBindingOriginalBindingsObserver = (void *)&OEDe
     }
 }
 
-- (NSDictionary *)OE_convertBindings:(NSDictionary *)bindings forDeviceHandler:(OEDeviceHandler *)aHandler
+- (NSDictionary *)bindingEvents
 {
-    NSMutableDictionary *converted = [NSMutableDictionary dictionaryWithCapacity:[bindings count]];
-    
-    [bindings enumerateKeysAndObjectsUsingBlock:
-     ^(NSString *key, OEHIDEvent *obj, BOOL *stop)
-     {
-         [converted setObject:[obj OE_eventWithDeviceHandler:aHandler] forKey:key];
-     }];
-    
-    return converted;
+    return _originalBindingsController != nil ? [_originalBindingsController bindingEvents] : [super bindingEvents];
 }
 
 - (void)OE_setBindingEvents:(NSDictionary *)value
 {
     NSAssert(_originalBindingsController == nil, @"Cannot set raw bindings when %@ is dependent on %@", self, _originalBindingsController);
-
-    // No need to convert the events if we don't have a device handler yet.
-    if([self deviceHandler] != nil) value = [self OE_convertBindings:value forDeviceHandler:[self deviceHandler]];
-
     [super OE_setBindingEvents:value];
 }
 

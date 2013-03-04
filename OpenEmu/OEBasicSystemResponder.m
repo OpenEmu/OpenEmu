@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -39,6 +38,7 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 {
     OEBindingMap           *keyMap;
     CFMutableDictionaryRef  joystickStates;
+    BOOL                    handlesEscapeKey;
 }
 
 @synthesize keyMap = keyMap;
@@ -48,10 +48,10 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
     if((self = [super initWithController:controller]))
     {
         keyMap = [[OEBindingMap alloc] initWithSystemController:controller];
-        
+
         joystickStates = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
     }
-    
+
     return self;
 }
 
@@ -82,12 +82,12 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 
 - (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
-    
+
 }
 
 - (void)mouseUpAtPoint
 {
-    
+
 }
 
 static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
@@ -152,6 +152,10 @@ static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
                 return;
             }
             break;
+        case OEHIDEventTypeKeyboard :
+            if([theEvent keycode] == kHIDUsage_KeyboardEscape)
+                handlesEscapeKey = YES;
+            break;
         default :
             break;
     }
@@ -186,6 +190,9 @@ static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
                 return;
             }
             break;
+        case OEHIDEventTypeKeyboard :
+            if([theEvent keycode] == kHIDUsage_KeyboardEscape)
+                handlesEscapeKey = NO;
         default :
             break;
     }
@@ -207,10 +214,20 @@ static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
 
 - (void)keyDown:(NSEvent *)theEvent
 {
+    if(handlesEscapeKey) return;
+
+    NSString *characters = [theEvent characters];
+    if([characters length] > 0 && [characters characterAtIndex:0] == 0x1B)
+        [super keyDown:theEvent];
 }
 
 - (void)keyUp:(NSEvent *)theEvent
 {
+    if(handlesEscapeKey) return;
+
+    NSString *characters = [theEvent characters];
+    if([characters length] > 0 && [characters characterAtIndex:0] == 0x1B)
+        [super keyUp:theEvent];
 }
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
@@ -270,7 +287,7 @@ static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
 - (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
 {
     void                   *joystickKey       = _OEJoystickStateKeyForEvent(anEvent);
-    
+
     OEHIDEventHatDirection  previousDirection = (OEHIDEventHatDirection)CFDictionaryGetValue(joystickStates, joystickKey);
 
     OEHIDEventHatDirection  direction = [anEvent hatDirection];
@@ -304,7 +321,7 @@ static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
     OEIntPoint point = [theEvent locationInGameView];
     [self mouseDownAtPoint:point];
 }
-    
+
 - (void)mouseUp:(NSEvent *)theEvent
 {
     [self mouseUpAtPoint];
