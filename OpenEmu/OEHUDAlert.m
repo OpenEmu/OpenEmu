@@ -27,6 +27,8 @@
 #import "OEHUDAlert.h"
 
 #import "OEButton.h"
+#import "OETextField.h"
+#import "OETextFieldCell.h"
 #import "OEHUDTextFieldCell.h"
 #import "OEHUDTextFieldEditor.h"
 #import "OECenteredTextFieldCell.h"
@@ -124,9 +126,9 @@
         _messageTextView = [[NSTextView alloc] init];
         _headlineLabelField = [[NSTextField alloc] init];
         
-        _inputField = [[NSTextField alloc] init];
+        _inputField = [[OETextField alloc] init];
         _inputLabelField = [[NSTextField alloc] init];
-        _otherInputField = [[NSTextField alloc] init];
+        _otherInputField = [[OETextField alloc] init];
         _otherInputLabelField = [[NSTextField alloc] init];
         
         _boxView = [[OEPreferencesPlainBox alloc] init];
@@ -621,15 +623,15 @@
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){ 0, -1 }];
     
-    OEHUDTextFieldCell *inputCell = [[OEHUDTextFieldCell alloc] init];
+    OETextFieldCell *inputCell = [[OETextFieldCell alloc] init];
     [[self inputField] setCell:inputCell];
     [[self inputField] setFrame:NSMakeRect(68, 51, 337, 23)];
     [[self inputField] setHidden:YES];
     [[self inputField] setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
-    [[self inputField] setFocusRingType:NSFocusRingTypeNone];
     [[self inputField] setTarget:self andAction:@selector(buttonAction:)];
     [[self inputField] setEditable:YES];
-    [[self inputField] setWantsLayer:YES];
+//    [[self inputField] setWantsLayer:YES];
+    [[self inputField] setThemeKey:@"hud_textfield"];
     [[_window contentView] addSubview:[self inputField]];
     
     
@@ -656,7 +658,7 @@
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){ 0, -1 }];
     
-    OEHUDTextFieldCell *otherInputCell = [[OEHUDTextFieldCell alloc] init];
+    OETextFieldCell *otherInputCell = [[OETextFieldCell alloc] init];
     [[self otherInputField] setCell:otherInputCell];
     [[self otherInputField] setFrame:NSMakeRect(68, 90, 337, 23)];
     [[self otherInputField] setHidden:YES];
@@ -665,6 +667,7 @@
     [[self otherInputField] setTarget:self andAction:@selector(buttonAction:)];
     [[self otherInputField] setEditable:YES];
     [[self otherInputField] setWantsLayer:YES];
+    [[self otherInputField] setThemeKey:@"hud_textfield"];
     [[_window contentView] addSubview:[self otherInputField]];
     
     

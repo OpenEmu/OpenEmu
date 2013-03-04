@@ -19,6 +19,34 @@
 	</dict>
 	<key>Fonts</key>
 	<dict>
+		<key>hud_textfield</key>
+		<dict>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>3</integer>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Color</key>
+			<string>rgb(219,219,219)</string>
+		</dict>
+		<key>hud_textfield_selection</key>
+		<dict>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>3</integer>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Color</key>
+			<string>red</string>
+			<key>Background Color</key>
+			<string>green</string>
+		</dict>
 		<key>game_scanner_text</key>
 		<dict>
 			<key>Family</key>
@@ -868,6 +896,59 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>hud_textfield_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_textfield</string>
+			<key>States</key>
+			<dict>
+				<key>Window Active, Disabled, Unfocused</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,46},{2,23}}</string>
+						<string>{{2,46},{1,23}}</string>
+						<string>{{3,46},{2,23}}</string>
+					</array>
+				</dict>
+				<key>Window Active, Disabled, Focused</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,46},{2,23}}</string>
+						<string>{{2,46},{1,23}}</string>
+						<string>{{3,46},{2,23}}</string>
+					</array>
+				</dict>
+				<key>Window Active, Enabled</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0},{2,23}}</string>
+						<string>{{2,0},{1,23}}</string>
+						<string>{{3,0},{2,23}}</string>
+					</array>
+				</dict>
+				<key>Window Active, Focused</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,23},{2,23}}</string>
+						<string>{{2,23},{1,23}}</string>
+						<string>{{3,23},{2,23}}</string>
+					</array>
+				</dict>
+				<key>Window Inactive</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,46},{2,23}}</string>
+						<string>{{2,46},{1,23}}</string>
+						<string>{{3,46},{2,23}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
 		<key>hud_close_button</key>
 		<dict>
 			<key>Resource</key>

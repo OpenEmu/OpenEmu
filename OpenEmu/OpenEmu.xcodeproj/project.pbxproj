@@ -402,6 +402,8 @@
 		8382D23313C5C5BB00906221 /* OEPrefLibraryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */; };
 		8382D23513C5C5E100906221 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23413C5C5E100906221 /* OEPrefControlsController.xib */; };
 		838C0BF815BFF2AD00519C08 /* debug_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 838C0BF715BFF2AD00519C08 /* debug_tab_icon.png */; };
+		838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 838DB01816DBE14E00B8DDC8 /* OETextField.m */; };
+		838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 838DB01B16DBE15900B8DDC8 /* OETextFieldCell.m */; };
 		838E2A231600A05C00CF7198 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 838E2A221600A05C00CF7198 /* Theme.plist */; };
 		838E2A271600A23800CF7198 /* NSMenuItem+OEMenuItemExtraDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 838E2A261600A23800CF7198 /* NSMenuItem+OEMenuItemExtraDataAdditions.m */; };
 		83920CDD147E675C00D219EA /* hud_alert_window.png in Resources */ = {isa = PBXBuildFile; fileRef = 83920CDC147E675C00D219EA /* hud_alert_window.png */; };
@@ -1538,6 +1540,10 @@
 		838AC27E14434EED00AC74C3 /* OEDBRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBRom.h; sourceTree = "<group>"; };
 		838AC27F14434EED00AC74C3 /* OEDBRom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBRom.m; sourceTree = "<group>"; };
 		838C0BF715BFF2AD00519C08 /* debug_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = debug_tab_icon.png; sourceTree = "<group>"; };
+		838DB01716DBE14E00B8DDC8 /* OETextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETextField.h; sourceTree = "<group>"; };
+		838DB01816DBE14E00B8DDC8 /* OETextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETextField.m; sourceTree = "<group>"; };
+		838DB01A16DBE15900B8DDC8 /* OETextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETextFieldCell.h; sourceTree = "<group>"; };
+		838DB01B16DBE15900B8DDC8 /* OETextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETextFieldCell.m; sourceTree = "<group>"; };
 		838E2A221600A05C00CF7198 /* Theme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Theme.plist; path = "../Interface Graphics/Theme.plist"; sourceTree = "<group>"; };
 		838E2A251600A23800CF7198 /* NSMenuItem+OEMenuItemExtraDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMenuItem+OEMenuItemExtraDataAdditions.h"; sourceTree = "<group>"; };
 		838E2A261600A23800CF7198 /* NSMenuItem+OEMenuItemExtraDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMenuItem+OEMenuItemExtraDataAdditions.m"; sourceTree = "<group>"; };
@@ -3160,6 +3166,7 @@
 			children = (
 				831C9ABE1600965100038D0D /* OECell.h */,
 				831C9ABF1600965100038D0D /* OEControl.h */,
+				838DB01316DBE12D00B8DDC8 /* Text Fields */,
 				831C9AC01600965F00038D0D /* Menu */,
 				831C9ACD160096D400038D0D /* Containers */,
 				831C9AD1160096EF00038D0D /* Buttons */,
@@ -3359,6 +3366,25 @@
 				8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */,
 			);
 			name = Preferences;
+			sourceTree = "<group>";
+		};
+		838DB01316DBE12D00B8DDC8 /* Text Fields */ = {
+			isa = PBXGroup;
+			children = (
+				838DB01716DBE14E00B8DDC8 /* OETextField.h */,
+				838DB01816DBE14E00B8DDC8 /* OETextField.m */,
+				838DB01616DBE13500B8DDC8 /* Cells */,
+			);
+			name = "Text Fields";
+			sourceTree = "<group>";
+		};
+		838DB01616DBE13500B8DDC8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				838DB01A16DBE15900B8DDC8 /* OETextFieldCell.h */,
+				838DB01B16DBE15900B8DDC8 /* OETextFieldCell.m */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		83955CB9165DAE7900572B34 /* Blank Slate View */ = {
@@ -5032,6 +5058,8 @@
 				C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */,
 				837DF19A16D2B0F400024BE1 /* OECollectionDebugWindowController.m in Sources */,
 				94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */,
+				838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */,
+				838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
