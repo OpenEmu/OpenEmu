@@ -272,8 +272,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         
         for(NSDictionary *cheatObject in cheats)
         {
-//            NSString *code        = [cheatObject objectForKey:@"code"];
-//            NSString *type        = [cheatObject objectForKey:@"type"];
             NSString *description = [cheatObject objectForKey:@"description"];
             BOOL enabled          = [[cheatObject objectForKey:@"enabled"] boolValue];
             
