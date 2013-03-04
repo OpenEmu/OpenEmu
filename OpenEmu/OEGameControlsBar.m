@@ -54,10 +54,6 @@ NSString *const OEGameControlsBarShowsAutoSaveStateKey  = @"HUDBarShowAutosaveSt
 NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
-#pragma mark - Private variables
-
-static void *const _OEGameControlsBarGameViewControllerRomKVOContext = (void *)&_OEGameControlsBarGameViewControllerRomKVOContext;
-
 @class OEHUDSlider;
 @interface OEHUDControlsBarView : NSView
 
@@ -74,6 +70,8 @@ static void *const _OEGameControlsBarGameViewControllerRomKVOContext = (void *)&
     id       eventMonitor;
     NSDate  *lastMouseMovement;
     NSArray *filterPlugins;
+
+    BOOL            cheatsLoaded;
     NSMutableArray *cheats;
     
     int openMenus;
@@ -134,9 +132,6 @@ static void *const _OEGameControlsBarGameViewControllerRomKVOContext = (void *)&
         [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
         [filterSet filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT SELF beginswith '_'"]];
         filterPlugins = [[filterSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-
-        [self OE_loadCheats];
-        [controller addObserver:self forKeyPath:@"rom" options:0 context:_OEGameControlsBarGameViewControllerRomKVOContext];
     }
     return self;
 }
@@ -145,9 +140,7 @@ static void *const _OEGameControlsBarGameViewControllerRomKVOContext = (void *)&
 {    
     [fadeTimer invalidate];
     fadeTimer = nil;
-
-    [gameViewController removeObserver:self forKeyPath:@"rom" context:_OEGameControlsBarGameViewControllerRomKVOContext];
-    [self setGameViewController:nil];
+    gameViewController = nil;
     
     [NSEvent removeMonitor:eventMonitor];
 }
@@ -156,23 +149,19 @@ static void *const _OEGameControlsBarGameViewControllerRomKVOContext = (void *)&
 
 - (void)OE_loadCheats
 {
-    if ([[self gameViewController] cheatSupport])
+    // In order to load cheats, we need the game core to be running and, consequently, the ROM to be set.
+    // We use -reflectEmulationRunning:, which we receive from OEGameViewController when the emulation
+    // starts or resumes
+    if([[self gameViewController] cheatSupport])
     {
         NSString *md5Hash = [[[self gameViewController] rom] md5Hash];
         if(md5Hash)
         {
             OECheats *cheatsXML = [[OECheats alloc] initWithMd5Hash:md5Hash];
-            cheats = [[cheatsXML allCheats] mutableCopy];
+            cheats              = [[cheatsXML allCheats] mutableCopy];
+            cheatsLoaded        = YES;
         }
     }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if(context == _OEGameControlsBarGameViewControllerRomKVOContext)
-        [self OE_loadCheats];
-    else
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 #pragma mark -
@@ -266,12 +255,12 @@ static void *const _OEGameControlsBarGameViewControllerRomKVOContext = (void *)&
     [menu addItem:item];
     
     // Setup Cheats Menu
-    if ([[self gameViewController] cheatSupport])
+    if([[self gameViewController] cheatSupport])
     {
         NSMenu *cheatsMenu = [[NSMenu alloc] init];
         [cheatsMenu setTitle:NSLocalizedString(@"Select Cheat", @"")];
         item = [[NSMenuItem alloc] init];
-        item.title = NSLocalizedString(@"Select Cheat", @"");
+        [item setTitle:NSLocalizedString(@"Select Cheat", @"")];
         [menu addItem:item];
         [item setSubmenu:cheatsMenu];
 
@@ -281,7 +270,7 @@ static void *const _OEGameControlsBarGameViewControllerRomKVOContext = (void *)&
         
         [cheatsMenu addItem:[NSMenuItem separatorItem]];
         
-        for (NSDictionary *cheatObject in cheats)
+        for(NSDictionary *cheatObject in cheats)
         {
 //            NSString *code        = [cheatObject objectForKey:@"code"];
 //            NSString *type        = [cheatObject objectForKey:@"type"];
@@ -472,6 +461,9 @@ static void *const _OEGameControlsBarGameViewControllerRomKVOContext = (void *)&
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
     NSButton                *pauseButton = [view pauseButton];
     [pauseButton setState:!isEmulationRunning];
+
+    if(isEmulationRunning && !cheatsLoaded)
+        [self OE_loadCheats];
 }
 
 - (void)parentWindowDidEnterFullScreen:(NSNotification *)notification;
