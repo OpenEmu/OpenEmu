@@ -831,25 +831,27 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 - (void)OE_notifyObserversForAddedDeviceBindings:(OEDevicePlayerBindings *)aHandler;
 {
     NSUInteger playerNumber = [aHandler playerNumber];
+    OEDeviceHandler *deviceHandler = [aHandler deviceHandler];
 
     [[aHandler bindingEvents] enumerateKeysAndObjectsUsingBlock:
-     ^(id key, id obj, BOOL *stop)
+     ^(id key, OEControlValueDescription *obj, BOOL *stop)
      {
          for(id<OESystemBindingsObserver> observer in _bindingsObservers)
-             [observer systemBindings:self didSetEvent:obj forBinding:key playerNumber:playerNumber];
+             [observer systemBindings:self didSetEvent:[[obj event] OE_eventWithDeviceHandler:deviceHandler] forBinding:key playerNumber:playerNumber];
      }];
 }
 
 - (void)OE_notifyObserversForRemovedDeviceBindings:(OEDevicePlayerBindings *)aHandler;
 {
     NSUInteger playerNumber = [aHandler playerNumber];
+    OEDeviceHandler *deviceHandler = [aHandler deviceHandler];
 
     // Tell the controllers that the bindings are not used anymore
     [[aHandler bindingEvents] enumerateKeysAndObjectsUsingBlock:
-     ^(id key, id event, BOOL *stop)
+     ^(id key, OEControlValueDescription *obj, BOOL *stop)
      {
          for(id<OESystemBindingsObserver> observer in _bindingsObservers)
-             [observer systemBindings:self didUnsetEvent:event forBinding:key playerNumber:playerNumber];
+             [observer systemBindings:self didUnsetEvent:[[obj event] OE_eventWithDeviceHandler:deviceHandler] forBinding:key playerNumber:playerNumber];
      }];
 }
 
