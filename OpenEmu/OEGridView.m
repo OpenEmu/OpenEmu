@@ -1350,7 +1350,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         NSString *currentValue = [self OE_typeSelectStringForItemAtIndex:i];
         if(!currentValue) break;
         
-        NSUInteger matchLength = [[currentValue commonPrefixWithString:_typeSelectSearchString options:NSCaseInsensitiveSearch] length];
+        NSUInteger matchLength = [[currentValue commonPrefixWithString:_typeSelectSearchString options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch] length];
         if(matchLength > lastMatchLength)
         {
             lastMatchLength = matchLength;
@@ -1366,9 +1366,8 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
             i = 0;
 
         if(i == startIndex)
-            return;
+            break;
     }
-
     if(matchIndex != NSNotFound)
     {
         [self deselectAll:self];
@@ -1609,7 +1608,6 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         _delegateHas.acceptDrop                      = [_delegate respondsToSelector:@selector(gridView:acceptDrop:)];
         _delegateHas.typeSelectString                = [_delegate respondsToSelector:@selector(gridView:shouldTypeSelectForEvent:withCurrentSearchString:)];
         _delegateHas.shouldTypeSelect                = [_delegate respondsToSelector:@selector(gridView:typeSelectStringForItemAtIndex:)];
-
     }
 }
 
