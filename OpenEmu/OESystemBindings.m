@@ -603,7 +603,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
     NSAssert([_allKeyBindingsDescriptions objectForKey:keyName] != nil, @"Could not find Key Binding Description for key with name \"%@\" in system \"%@\"", keyName, [[self systemController] systemIdentifier]);
 
     OEControlValueDescription *valueDesc = [[[sender deviceHandler] controllerDescription] controlValueDescriptionForEvent:anEvent];
-    NSAssert(valueDesc != nil, @"Received an event which the device does not declare.");
+    NSAssert(valueDesc != nil, @"Controller type '%@' does not recognize the event '%@', when attempting to set the key with name: '%@'.", [[[sender deviceHandler] controllerDescription] identifier], anEvent, keyName);
 
     // sender is based on another device player bindings
     // it needs to be made independent and added to the manufacturer list

@@ -29,6 +29,7 @@
 @class OEHUDAlert;
 @class OEHUDProgressbar;
 @class OEButton;
+@class OETextField;
 typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 
 @interface OEHUDAlert : NSObject
@@ -65,7 +66,8 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 
 #pragma mark -
 #pragma mark Input Field
-@property(readonly, strong) NSTextField *inputField, *inputLabelField, *otherInputField, *otherInputLabelField;
+@property(readonly, strong) NSTextField *inputLabelField, *otherInputLabelField;
+@property(readonly, strong) OETextField *inputField, *otherInputField;
 @property BOOL showsInputField, showsOtherInputField;
 @property NSInteger inputLimit;
 

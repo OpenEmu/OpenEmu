@@ -123,5 +123,22 @@
 		<key>OESMSButtonStart</key>
 		<string>OEControllerRetrolinkSNESButtonStart</string>
 	</dict>
+	<key>OEControllerWiimote</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerWiimoteDPadRight</string>
+		<key>OESMSButtonDown</key>
+		<string>OEControllerWiimoteDPadLeft</string>
+		<key>OESMSButtonLeft</key>
+		<string>OEControllerWiimoteDPadUp</string>
+		<key>OESMSButtonRight</key>
+		<string>OEControllerWiimoteDPadDown</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerWiimoteButton1</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerWiimoteButton2</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerWiimoteButtonPlus</string>
+	</dict>
 </dict>
 </plist>
