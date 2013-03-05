@@ -674,7 +674,19 @@ static NSArray *OE_defaultSortDescriptors;
     [object setGridTitle:[item title]];
     [object setGridImage:[item image]];
 }
+#pragma mark - GridView Type Select
+- (BOOL)gridView:(OEGridView *)gridView shouldTypeSelectForEvent:(NSEvent *)event withCurrentSearchString:(NSString *)searchString
+{
+    unichar firstCharacter = [[event charactersIgnoringModifiers] characterAtIndex:0];
+    if(firstCharacter == ' ')
+        return searchString!=nil;
+    return [[NSCharacterSet alphanumericCharacterSet] characterIsMember:firstCharacter];
+}
 
+- (NSString*)gridView:(OEGridView *)gridView typeSelectStringForItemAtIndex:(NSUInteger)idx;
+{
+    return [[[[self gamesController] arrangedObjects] objectAtIndex:idx] gridTitle];
+}
 #pragma mark -
 #pragma mark Context Menu
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -1266,6 +1278,16 @@ static NSArray *OE_defaultSortDescriptors;
     return NO;
 }
 
+#pragma mark - NSTableView Type Select
+- (NSString*)tableView:(NSTableView *)tableView typeSelectStringForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    if([[tableColumn identifier] isEqualToString:@"listViewTitle"])
+    {
+        return [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
+    }
+    return @"";
+}
+
 #pragma mark -
 #pragma mark NSTableView Interaction
 - (void)tableViewWasDoubleClicked:(id)sender{
@@ -1297,7 +1319,6 @@ static NSArray *OE_defaultSortDescriptors;
 {
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
-
 
 #pragma mark -
 #pragma mark ImageFlow Delegates

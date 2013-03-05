@@ -71,6 +71,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 - (void)OE_setupFieldEditorForCell:(OEGridViewCell *)cell titleLayer:(CATextLayer *)textLayer;
 - (void)OE_cancelFieldEditor;
 
+@property NSMutableString *typeSelectSearchString;
 @end
 
 @implementation OEGridView
@@ -1298,7 +1299,10 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 - (void)keyDown:(NSEvent *)theEvent
 {
-    if ([theEvent keyCode] == kVK_Delete || [theEvent keyCode] == kVK_ForwardDelete)
+    if([self OE_shouldTypeSelectForEvent:theEvent])
+        [self OE_typeSelect:[theEvent charactersIgnoringModifiers]];
+    
+    else if ([theEvent keyCode] == kVK_Delete || [theEvent keyCode] == kVK_ForwardDelete)
         [NSApp sendAction:@selector(delete:) to:nil from:self];
 
     // check if the pressed key is 'space' or 'return' and send the delegate a gridView:doubleclickedCellForItemAtIndex: message
@@ -1306,7 +1310,76 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
             [_delegate gridView:self doubleClickedCellForItemAtIndex:[[self selectionIndexes] firstIndex]];
     else                                                                             [super keyDown:theEvent];
 }
+#pragma mark - Type Select
+- (BOOL)OE_shouldTypeSelectForEvent:(NSEvent*)event
+{
+    // TODO: find something to use if delegate does not implement selector
+    return [[self delegate] gridView:self shouldTypeSelectForEvent:event withCurrentSearchString:_typeSelectSearchString];
+}
 
+- (NSString*)OE_typeSelectStringForItemAtIndex:(NSUInteger)idx
+{
+    // TODO: find something to use if delegate does not implement selector
+    return [[self delegate] gridView:self typeSelectStringForItemAtIndex:idx];
+}
+
+- (void)OE_typeSelect:(NSString*)characters
+{
+    if(_typeSelectSearchString == nil)
+    {
+        _typeSelectSearchString = [NSMutableString stringWithString:characters];
+    }
+    else
+    {
+        [_typeSelectSearchString appendString:characters];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_cancelTypeSelect) object:nil];
+    }
+    
+
+    NSUInteger startIndex = [[self selectionIndexes] firstIndex];
+    if(startIndex == NSNotFound)
+    {
+        startIndex = 0;
+    }
+    
+    NSUInteger i = startIndex, matchIndex = NSNotFound, lastMatchLength = 0;
+    NSDate *startTime = nil;
+
+    while ([startTime timeIntervalSinceNow] < 1.0) {
+        NSString *currentValue = [self OE_typeSelectStringForItemAtIndex:i];
+        NSUInteger matchLength = [[currentValue commonPrefixWithString:_typeSelectSearchString options:NSCaseInsensitiveSearch] length];
+        if(matchLength > lastMatchLength)
+        {
+            lastMatchLength = matchLength;
+            matchIndex = i;
+        }
+        else if(matchLength < lastMatchLength)
+            break;
+        
+        i++;
+        
+        if(i == [self numberOfItems])
+            i = 0;
+
+        if(i == startIndex)
+            return;
+    }
+
+    if(matchIndex != NSNotFound)
+    {
+        [self deselectAll:self];
+        [self selectCellAtIndex:matchIndex];
+        [self scrollRectToVisible:NSIntegralRect(NSInsetRect([self rectForCellAtIndex:matchIndex], 0.0, -_rowSpacing))];
+        _indexOfKeyboardSelection = matchIndex;
+    }
+    
+    [self performSelector:@selector(OE_cancelTypeSelect) withObject:nil afterDelay:0.2];
+}
+
+- (void)OE_cancelTypeSelect
+{
+    _typeSelectSearchString = nil;
+}
 #pragma mark -
 #pragma mark NSDraggingDestination
 
