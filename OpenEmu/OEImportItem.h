@@ -42,7 +42,6 @@ typedef enum  {
     OEImportStepDetermineSystem,
     OEImportStepHash,
     OEImportStepCheckHash,
-    OEImportStepSyncArchive,
     OEImportStepOrganize,
     OEImportStepOrganizeAdditionalFiles,
     OEImportStepCreateRom,
