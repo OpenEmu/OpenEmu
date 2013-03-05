@@ -110,6 +110,9 @@ extern NSString *const OELightStyleGridViewMenu;
         unsigned int validateDrop : 1;
         unsigned int draggingUpdated : 1;
         unsigned int acceptDrop : 1;
+        
+        unsigned int shouldTypeSelect : 1;
+        unsigned int typeSelectString : 1;
     } _delegateHas;                                 // Cached methods that the delegate implements
 
     struct

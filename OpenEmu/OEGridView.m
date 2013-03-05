@@ -1313,40 +1313,43 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 #pragma mark - Type Select
 - (BOOL)OE_shouldTypeSelectForEvent:(NSEvent*)event
 {
-    // TODO: find something to use if delegate does not implement selector
-    return [[self delegate] gridView:self shouldTypeSelectForEvent:event withCurrentSearchString:_typeSelectSearchString];
+    if(_delegateHas.shouldTypeSelect)
+        return [[self delegate] gridView:self shouldTypeSelectForEvent:event withCurrentSearchString:_typeSelectSearchString];
+    
+    // use alphanumeric characters for type select by default
+    unichar firstCharacter = [[event charactersIgnoringModifiers] characterAtIndex:0];
+    return [[NSCharacterSet alphanumericCharacterSet] characterIsMember:firstCharacter] || firstCharacter == ' ';
 }
 
 - (NSString*)OE_typeSelectStringForItemAtIndex:(NSUInteger)idx
 {
-    // TODO: find something to use if delegate does not implement selector
-    return [[self delegate] gridView:self typeSelectStringForItemAtIndex:idx];
+    if(_delegateHas.typeSelectString)
+        return [[self delegate] gridView:self typeSelectStringForItemAtIndex:idx];
+    return nil;
 }
 
 - (void)OE_typeSelect:(NSString*)characters
 {
     if(_typeSelectSearchString == nil)
-    {
         _typeSelectSearchString = [NSMutableString stringWithString:characters];
-    }
     else
     {
         [_typeSelectSearchString appendString:characters];
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_cancelTypeSelect) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_stopTypeSelect) object:nil];
     }
     
-
+    // Marching starts at current selection or 0 if nothing is selected yet
     NSUInteger startIndex = [[self selectionIndexes] firstIndex];
-    if(startIndex == NSNotFound)
-    {
-        startIndex = 0;
-    }
+    if(startIndex == NSNotFound) startIndex = 0;
     
     NSUInteger i = startIndex, matchIndex = NSNotFound, lastMatchLength = 0;
-    NSDate *startTime = nil;
-
-    while ([startTime timeIntervalSinceNow] < 1.0) {
+    
+    // Default implemenation limits type select matching to one second so we'll do the same here
+    NSDate *startTime = [NSDate date];
+    while ([startTime timeIntervalSinceNow] > -1.0) {
         NSString *currentValue = [self OE_typeSelectStringForItemAtIndex:i];
+        if(!currentValue) break;
+        
         NSUInteger matchLength = [[currentValue commonPrefixWithString:_typeSelectSearchString options:NSCaseInsensitiveSearch] length];
         if(matchLength > lastMatchLength)
         {
@@ -1354,6 +1357,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
             matchIndex = i;
         }
         else if(matchLength < lastMatchLength)
+            // current value is worse than the last, assuming that items are sorted alphabetically we can stop here
             break;
         
         i++;
@@ -1373,10 +1377,10 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         _indexOfKeyboardSelection = matchIndex;
     }
     
-    [self performSelector:@selector(OE_cancelTypeSelect) withObject:nil afterDelay:0.2];
+    [self performSelector:@selector(OE_stopTypeSelect) withObject:nil afterDelay:0.2];
 }
 
-- (void)OE_cancelTypeSelect
+- (void)OE_stopTypeSelect
 {
     _typeSelectSearchString = nil;
 }
@@ -1603,6 +1607,9 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         _delegateHas.validateDrop                    = [_delegate respondsToSelector:@selector(gridView:validateDrop:)];
         _delegateHas.draggingUpdated                 = [_delegate respondsToSelector:@selector(gridView:draggingUpdated:)];
         _delegateHas.acceptDrop                      = [_delegate respondsToSelector:@selector(gridView:acceptDrop:)];
+        _delegateHas.typeSelectString                = [_delegate respondsToSelector:@selector(gridView:shouldTypeSelectForEvent:withCurrentSearchString:)];
+        _delegateHas.shouldTypeSelect                = [_delegate respondsToSelector:@selector(gridView:typeSelectStringForItemAtIndex:)];
+
     }
 }
 
