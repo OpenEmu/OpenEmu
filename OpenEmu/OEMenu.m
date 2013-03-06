@@ -549,7 +549,6 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
             {
                 // If a mouse down event occurred outside of a menu, then cancel tracking
                 [self cancelTracking];
-                event = nil;  // There is no need to forward this message to NSApp
             }
             else if(type == NSScrollWheel && ![[event window] isKindOfClass:[OEMenu class]])
             {
