@@ -272,6 +272,8 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
             NSURL *imageURL = [NSURL URLWithString:imageURLString];
             [game setBoxImageByURL:imageURL];
         }
+        if([gameInfo objectForKey:AVGGameIDKey]) [game setArchiveID:[gameInfo objectForKey:AVGGameIDKey]];
+        [game setLastArchiveSync:[NSDate date]];
         [game setStatus:[NSNumber numberWithInt:OEDBGameStatusOK]];
     };
     NSNumber *archiveID = [self archiveID];
