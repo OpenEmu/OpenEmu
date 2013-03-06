@@ -682,9 +682,6 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     {
         [rom setGame:game];
         NSAssert([[game mutableRoms] count] != 0, @"THIS IS BAD!!!");
-        if([[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey])
-            [game setStatus:@(OEDBGameStatusProcessing)];
-        
         [self stopImportForItem:item withError:nil];
     }
 }
@@ -738,13 +735,25 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)cleanupImportForItem:(OEImportItem *)item
 {
-    IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSError *error = [item error];
     if(error && [[error domain] isEqualTo:OEImportErrorDomainResolvable])
         return;
     
     if([item importState] == OEImportItemStatusFinished)
+    {
+        OEDBRom *rom = nil;
+        if([[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey])
+        {
+            NSURL *romID = [[item importInfo] objectForKey:OEImportInfoROMObjectID];
+            rom = [[self database] objectWithURI:romID];
+        }
         [[self database] save:nil];
+
+        if (rom) {
+            [[rom game] setNeedsArchiveSync];
+        }
+    }
+    
     
     NSString *md5 = [[item importInfo] valueForKey:OEImportInfoMD5];
     NSString *crc = [[item importInfo] valueForKey:OEImportInfoCRC];

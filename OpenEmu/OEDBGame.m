@@ -39,7 +39,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 NSString *const OEBoxSizesKey = @"BoxSizes";
 
 @interface OEDBGame ()
-- (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel;
+- (void)OE_performArchiveSync;
 @end
 
 @implementation OEDBGame
@@ -214,7 +214,7 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
     stringValue = [gameInfoDictionary valueForKey:AVGGameDeveloperKey];
     if(stringValue != nil)
     {
-        // TODO: Handle credit
+        // TODO: Handle credits
     }
     
     // Get + Set system if none is set
@@ -223,7 +223,7 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
     {
         id systemRepresentation = [gameInfoDictionary valueForKey:AVGGameSystemNameKey];
         OEDBSystem *system = [OEDBSystem systemForArchiveName:systemRepresentation];
-        // DLog(@"Game has no System, try using archive.vg system: %@", system);
+        DLog(@"Game has no System, try using archive.vg system: %@", system);
         [game setSystem:system];
     }
 	
@@ -243,102 +243,32 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
     //// DLog(@"AVGGameCreditsKey: %@", [gameInfoDictionary valueForKey:AVGGameCreditsKey]);
     
     // Save changes
-    [[game libraryDatabase] save:nil];
+//    [[game libraryDatabase] save:nil];
 }
 
-- (void)setNeedsFullSyncWithArchiveVG
-{
-    // DLog(@"performFullSyncWithArchiveVG:");
-    [self OE_performSyncWithArchiveVGByGrabbingInfo:0];
-}
-// -performInfoSyncWithArchiveVG: only grabs info (text)
-- (void)setNeedsInfoSyncWithArchiveVG
-{
-    [self OE_performSyncWithArchiveVGByGrabbingInfo:1];
-}
-// -performInfoSyncWithArchiveVG: only grabs cover (image)
-- (void)setNeedsCoverSyncWithArchiveVG
+- (void)setNeedsArchiveSync
 {
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
+    [self OE_performArchiveSync];
+}
 
+// -OE_performArchiveSync
+- (void)OE_performArchiveSync
+{
     NSURL		      *objectID				= [[self objectID] URIRepresentation];
-	OELibraryDatabase *blockDatabase		= [self libraryDatabase];
 	void(^block)(NSDictionary *gameInfo)	= ^(NSDictionary *gameInfo){
+        OELibraryDatabase *blockDatabase	= [self libraryDatabase];
         OEDBGame *game = [blockDatabase objectWithURI:objectID];
-        
-        NSString *imageURLString = [gameInfo objectForKey:AVGGameBoxURLStringKey];
-        if(imageURLString != nil)
-        {
-            NSURL *imageURL = [NSURL URLWithString:imageURLString];
-            [game setBoxImageByURL:imageURL];
-        }
-        if([gameInfo objectForKey:AVGGameIDKey]) [game setArchiveID:[gameInfo objectForKey:AVGGameIDKey]];
+        [game setArchiveVGInfo:gameInfo];
         [game setLastArchiveSync:[NSDate date]];
         [game setStatus:[NSNumber numberWithInt:OEDBGameStatusOK]];
+        [[game libraryDatabase] save:nil];
     };
+    
     NSNumber *archiveID = [self archiveID];
     if([archiveID integerValue] != 0)
 		[[ArchiveVG throttled] gameInfoByID:[archiveID integerValue] withCallback:^(id result, NSError *error) {
             DLog(@"using archive ID");
-			block(result);
-		}];
-    else
-    {
-        DLog(@"using roms");
-        NSSet *roms = [self roms];
-        __block int remainingResults = [roms count];
-        [roms enumerateObjectsUsingBlock:^(OEDBRom *aRom, BOOL *stop)
-         {
-			 [[ArchiveVG throttled] gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash] withCallback:^(id result, NSError *error) {
-                 remainingResults--;
-				 if([result valueForKey:AVGGameIDKey] != nil && [[result valueForKey:AVGGameIDKey] integerValue] != 0)
-				 {
-					 block(result);
-                     remainingResults = 0;
-				 }
-                 else if(remainingResults == 0)
-                 {
-                     block(nil);
-                 }
-			 }];
-		 }];
-    }
-}
-
-- (void)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel
-{	
-	// using URI representations should allow us to use core data on a different thread and at the same time makes sure that the current object is not copied for the block
-	NSURL		      *objectID				= [[self objectID] URIRepresentation];
-	OELibraryDatabase *blockDatabase		= [self libraryDatabase];
-	void(^block)(NSDictionary *gameInfo)	= ^(NSDictionary *gameInfo){
-		if(gameInfo != nil && detailLevel != 0)
-		{
-			NSMutableDictionary *mutableGameInfo = [[NSMutableDictionary alloc] initWithDictionary:gameInfo];
-			
-			if(detailLevel == 1) // Info Only
-				[mutableGameInfo removeObjectForKey:AVGGameBoxURLStringKey];
-			else if(detailLevel == 2)
-			{
-				if([mutableGameInfo objectForKey:AVGGameBoxURLStringKey])
-					mutableGameInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[mutableGameInfo objectForKey:AVGGameBoxURLStringKey], AVGGameBoxURLStringKey, nil];
-				else
-					mutableGameInfo = [[NSMutableDictionary alloc] init];
-			}
-			gameInfo = mutableGameInfo;
-		}
-		
-        OEDBGame *game = [blockDatabase objectWithURI:objectID];
-		if(gameInfo != nil)
-		{
-			[game setArchiveVGInfo:gameInfo];
-		}
-        [game setStatus:[NSNumber numberWithInt:OEDBGameStatusOK]];
-        [[game libraryDatabase] save:nil];
-	};
-	
-    NSNumber *archiveID = [self archiveID];
-    if([archiveID integerValue] != 0)
-		[[ArchiveVG throttled] gameInfoByID:[archiveID integerValue] withCallback:^(id result, NSError *error) {
 			block(result);
 		}];
     else

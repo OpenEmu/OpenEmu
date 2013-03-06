@@ -724,7 +724,6 @@ static NSArray *OE_defaultSortDescriptors;
 
         // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
         // See the corresponding menu item a few lines below.
-//        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
 
         [menu addItemWithTitle:@"Match To Archive.vg URL…" action:@selector(matchToArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
@@ -757,7 +756,6 @@ static NSArray *OE_defaultSortDescriptors;
 
         // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
         // See the corresponding menu item a few lines above.
-//        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
 
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Add Cover Art From File…" action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
@@ -1040,28 +1038,18 @@ static NSArray *OE_defaultSortDescriptors;
         {
             [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
                 [obj setArchiveID:archiveID];
-                [obj setNeedsCoverSyncWithArchiveVG];
+                [obj setNeedsArchiveSync];
             }];
         }
     }
     
 }
 
-- (void)getGameInfoFromArchive:(id)sender
-{
-    NSArray *selectedGames = [self selectedGames];
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj setNeedsInfoSyncWithArchiveVG];
-    }];
-    
-    [self reloadDataIndexes:[self selectedIndexes]];
-}
-
 - (void)getCoverFromArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
     [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj setNeedsCoverSyncWithArchiveVG];
+        [obj setNeedsArchiveSync];
     }];
 }
 
