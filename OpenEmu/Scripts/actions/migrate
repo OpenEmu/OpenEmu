@@ -1,0 +1,90 @@
+#!/usr/bin/env python
+# 
+# Copyright (c) 2011 FadingRed LLC
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+# Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+# 
+
+from scriptlib.config import OptionParser
+from scriptlib.i18n import Strings, Xib
+import sys
+import os
+import codecs
+
+# global defines
+# ----------------------------------------------------------------------
+
+LOCALIZE_SYMBOL = os.environ.get('GREENWICH_LOCALIZATION_SYMBOL', 'NSLocalizedString') # localize symbol used in code
+
+
+# main create strings function
+# ----------------------------------------------------------------------
+
+def migrate_strings(config):
+  for resources in config.resources.split(':'):
+    if os.path.exists(resources):
+      base_path = os.path.join(resources, '%s.lproj' % config.lang)
+      remove = []
+      move = []
+      for xibname in os.listdir(base_path):
+        if xibname.endswith('.xib'):
+          xib_path = os.path.join(base_path, xibname)
+          xib = Xib(xibname, config, resources=resources, path=xib_path)
+          strings = Strings(xibname, config.lang, config)
+          xib.generate(strings, normalize=False)
+
+          # handle all languages other than the base language of the file by creating
+          # and integrating changes from xib files in other lproj directories
+          for langname in os.listdir(resources):
+            if langname.endswith('.lproj'):
+              lang = Strings(xibname, langname, config)
+              if lang.lang != config.lang:
+                lang_path = os.path.join(resources, langname)
+                lang_xib_path = os.path.join(lang_path, xibname)
+                if os.path.exists(lang_xib_path):
+                  lang_xib = Xib(xibname, config, resources=resources, path=lang_xib_path)
+                  lang_xib.generate(lang, normalize=False)
+                  lang.normalize(source=strings)
+                  remove.append(lang_xib_path)
+
+          # normalize strings after handling all languages
+          strings.normalize()
+          move.append(xib_path)
+
+      if move or remove:
+        if config.force: run = True
+        else:
+          sys.stdout.write(
+            'Strings files were created successfully. This script can also move your main xib\n' \
+            'file into place and remove extra xibs. %i xib files will be moved, and %i deleted.\n\n' % (len(move), len(remove)))
+          run = (raw_input('Update xib files? [Y/n] ').lower() == 'y')
+        if run:
+          for path in remove:
+            os.unlink(path)
+          for path in move:
+            directory, name = os.path.split(path)
+            directory = os.path.dirname(directory)
+            os.rename(path, os.path.join(directory, name))
+
+
+# main function
+# ----------------------------------------------------------------------
+
+if __name__ == '__main__':
+  usage = """usage: %%prog [options]
+  Used to migrate a project from xib files in their lproj folders to a single xib with multiple strings files."""
+  parser = OptionParser(usage=usage)
+  f = 'Force renaming and removal of old xibs'
+  parser.add_option('-f', '--force', action="store_true", dest='force', default=False, help=f)
+  migrate_strings(parser.parse_config()[0])

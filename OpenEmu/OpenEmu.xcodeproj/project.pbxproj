@@ -119,6 +119,8 @@
 		3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3DD90BA81500A6BF00FE5DFD /* OETimingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD90BA61500A6BF00FE5DFD /* OETimingUtils.m */; };
 		3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
+		47D0EA0316E8026700A7D968 /* Greenwich.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D0EA0216E8026700A7D968 /* Greenwich.framework */; };
+		47D0EA0516E8028600A7D968 /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 47D0EA0416E8028600A7D968 /* Scripts */; };
 		53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */; };
 		53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */; };
 		53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.m */; };
@@ -1147,6 +1149,8 @@
 		3D711839150064F50056E3BF /* PSYBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSYBlockTimer.m; sourceTree = "<group>"; };
 		3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETimingUtils.h; sourceTree = "<group>"; };
 		3DD90BA61500A6BF00FE5DFD /* OETimingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETimingUtils.m; sourceTree = "<group>"; };
+		47D0EA0216E8026700A7D968 /* Greenwich.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Greenwich.framework; sourceTree = "<group>"; };
+		47D0EA0416E8028600A7D968 /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
 		53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryDatabase.h; sourceTree = "<group>"; };
 		53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryDatabase.m; sourceTree = "<group>"; };
 		53439A8E13B92C68005C0CC8 /* OEDBDataSourceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBDataSourceAdditions.h; sourceTree = "<group>"; };
@@ -1993,6 +1997,7 @@
 				1B42C66D1429510A004691D7 /* Syphon.framework in Frameworks */,
 				143F299D164DE18100544CCF /* MagicKit.framework in Frameworks */,
 				8CCBC0C9169B323100141631 /* Cg.framework in Frameworks */,
+				47D0EA0316E8026700A7D968 /* Greenwich.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2086,25 +2091,26 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8CCBC0C8169B323100141631 /* Cg.framework */,
 				3D1D8D811650C22900DBC37D /* Accelerate.framework */,
-				8322D746156A973400FC0E81 /* IOBluetooth.framework */,
-				1B42C66C1429510A004691D7 /* Syphon.framework */,
-				8305267413FBC999006179C6 /* Security.framework */,
 				53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */,
 				53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */,
+				8CCBC0C8169B323100141631 /* Cg.framework */,
 				53D32E3213B95E2800A6ACE0 /* CoreAudio.framework */,
 				53D32E3813B95E6500A6ACE0 /* CoreVideo.framework */,
 				82DD2B1D1236CF0200B58A8F /* Carbon.framework */,
 				C67B0CD01363389A00F18A5D /* ForceFeedback.framework */,
 				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+				47D0EA0216E8026700A7D968 /* Greenwich.framework */,
 				53439B8613B934DB005C0CC8 /* ImageKit.framework */,
+				8322D746156A973400FC0E81 /* IOBluetooth.framework */,
 				5380E82313B9596500E76DEF /* IOKit.framework */,
 				1BEF2AC311682A9D0090F72B /* IOSurface.framework */,
 				5380E83013B95C7C00E76DEF /* OpenGL.framework */,
 				3887A8961024D796000FC4CF /* QuickLook.framework */,
 				53D32E4513B95F0800A6ACE0 /* Quartz.framework */,
 				53D32E4B13B95F5400A6ACE0 /* QTKit.framework */,
+				8305267413FBC999006179C6 /* Security.framework */,
+				1B42C66C1429510A004691D7 /* Syphon.framework */,
 				82DE4AEE1026533E007184EB /* UniversalDetector.framework */,
 				82DE4AEF1026533E007184EB /* XADMaster.framework */,
 				0A9F272116635A1B008B1FB8 /* libz.dylib */,
@@ -2445,6 +2451,7 @@
 				C6F6480415F4BA7000BA9D9B /* OEUtilities.h */,
 				C6F738FB1617FF2B00BB2519 /* OEUtilities.m */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
+				47D0EA0416E8028600A7D968 /* Scripts */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -4148,6 +4155,7 @@
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */;
 			buildPhases = (
 				8D15AC2B0486D014006FF6A4 /* Resources */,
+				47D0EA0616E802BD00A7D968 /* ShellScript */,
 				1B22406D100BD6C600F42067 /* Copy Filters Folder To App Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
@@ -4630,6 +4638,7 @@
 				1B96BA56166BDD52005064C8 /* FRFeedbackReporter.sh in Resources */,
 				8CF0EB56169B1DF900E3670D /* Scanline.cg in Resources */,
 				837DF19B16D2B0F400024BE1 /* OECollectionDebugWindowController.xib in Resources */,
+				47D0EA0516E8028600A7D968 /* Scripts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4776,6 +4785,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "rm -rf \"$USER_LIBRARY_DIR/Frameworks/OpenEmuBase.framework\"\ncp -R \"$BUILT_PRODUCTS_DIR/OpenEmuBase.framework\" \"$USER_LIBRARY_DIR/Frameworks/OpenEmuBase.framework\"";
+		};
+		47D0EA0616E802BD00A7D968 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Scripts/localization create -s. -r.";
 		};
 		9479665315EDE64C004316AB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

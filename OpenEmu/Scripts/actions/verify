@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+# 
+# Copyright (c) 2012 FadingRed LLC
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+# Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+# 
+
+from scriptlib.config import OptionParser
+import sys
+import os
+
+# main verify strings function
+# ----------------------------------------------------------------------
+
+def verify_strings(config):
+  for resources in config.resources.split(':'):
+    if os.path.exists(resources):
+      for lang in os.listdir(resources):
+        if lang.endswith('.lproj'):
+          directory = os.path.join(resources, lang)
+          if os.path.exists(directory):
+            for stringsname in os.listdir(directory):
+              name, ext = os.path.splitext(stringsname)
+              nibpath = os.path.join(config.app_resources, '%s.nib' % name)
+              storyboardpath = os.path.join(config.app_resources, '%s.storyboardc' % name)
+              if ext == '.strings' and (name == 'Localizable' or os.path.exists(nibpath) or os.path.exists(storyboardpath)) and \
+                 os.path.exists(os.path.join(config.app_resources, lang, stringsname)) == False:
+                sys.stderr.write('warning: missing %s strings file in built product for %s\n' % (lang, stringsname,))
+
+
+# main function
+# ----------------------------------------------------------------------
+
+if __name__ == '__main__':
+  usage = """usage: %%prog [options]
+  Used to verify strings files from resources are in a bundle.
+This should be used if you use the create script with the --no-copy option."""
+  verify_strings(OptionParser(usage=usage).parse_config()[0])
