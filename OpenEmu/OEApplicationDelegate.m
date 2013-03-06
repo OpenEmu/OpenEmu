@@ -63,8 +63,11 @@
 
 #import "OEFiniteStateMachine.h"
 
+
 #import <FeedbackReporter/FRFeedbackReporter.h>
+#import <Greenwich/Greenwich.h>
 #import "OEToolTipManager.h"
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -140,6 +143,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Check to see if we crashed.
     [[FRFeedbackReporter sharedReporter] reportIfCrash];
 
+	// add Localization tool to Debug menu when option held down
+	[[FRLocalizationManager defaultLocalizationManager] installExtraHelpMenu];
+	
     // Remove the Open Recent menu item
     NSInteger openDocumentMenuItemIndex = [self.fileMenu indexOfItemWithTarget:nil andAction:@selector(openDocument:)];
 

@@ -1,0 +1,163 @@
+#!/usr/bin/env python
+# 
+# Copyright (c) 2012 FadingRed LLC
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+# Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+# 
+
+from scriptlib.config import OptionParser
+from scriptlib.i18n import Strings, Xib, Storyboard
+import shutil
+import errno
+import sys
+import os
+
+# global defines
+# ----------------------------------------------------------------------
+
+LOCALIZE_SYMBOL = os.environ.get('GREENWICH_LOCALIZATION_SYMBOL', 'NSLocalizedString') # localize symbol used in code
+IOS_APPLICATION_TARGET = os.environ.get('EFFECTIVE_PLATFORM_NAME', '').find('iphone') != -1 and \
+  os.environ.get('PACKAGE_TYPE', '') == 'com.apple.package-type.wrapper.application'
+  
+
+
+# main create strings function
+# ----------------------------------------------------------------------
+def copy_strings(strings, config):
+  source = strings.path()
+  if not os.path.exists(source): return
+  destination = os.path.join(config.app_resources,
+    '%s.lproj' % strings.lang,
+    '%s.strings' % strings.name)
+  try: mtime = os.path.getmtime(destination)
+  except OSError: mtime = 0
+  if strings.modification_time() >= mtime:
+    sys.stdout.write('Copying %s.strings (%s) to %s\n' % (strings.name, strings.lang, destination))
+    try: os.makedirs(os.path.dirname(destination))
+    except OSError: pass
+    shutil.copyfile(source, destination)
+
+def create_strings(config):
+  for resources in config.resources.split(':'):
+    if os.path.exists(resources):
+      # if copying strings, make sure that this is taking place after the copying of bundle resources since
+      # we will later check for the existence of the compiled nib file when copying over strings files.
+      if config.copy_strings:
+        try: resources_len = len(os.listdir(resources))
+        except: resources_len = 0
+        try: app_resources_len = len(os.listdir(config.app_resources))
+        except: app_resources_len = 0
+        if resources_len and not app_resources_len:
+          sys.stderr.write('warning: Creating strings through Greenwich should take place after the copy bundle resources build phase\n')
+    
+      for docname in os.listdir(resources):
+        docclass = None
+        if docname.endswith('.xib'): docclass = Xib
+        elif docname.endswith('.storyboard'): docclass = Storyboard
+        if docclass:
+          doc = docclass(docname, config, resources=resources)
+          strings = Strings(docname, config.lang, config, resources=resources)
+          if doc.modification_time() > doc.generation_time():
+            sys.stdout.write('Generating %s strings for %s\n' % (config.lang, doc.name))
+            doc.generate(strings)
+      
+          # handle all languages other than the base language of the file
+          # by integrating (or creating) the same strings files in that lproj
+          # directory
+          for langname in os.listdir(resources):
+            if langname.endswith('.lproj'):
+              lang = Strings(docname, langname, config, resources=resources)
+              if doc.generation_time() > lang.modification_time() and lang.lang != config.lang:
+                lang.integrate_changes(strings)
+              if config.copy_strings and (
+                os.path.exists(os.path.join(config.app_resources, '%s.nib' % doc.name)) or
+                os.path.exists(os.path.join(config.app_resources, '%s.storyboardc' % doc.name))):
+                copy_strings(lang, config)
+
+  # handle localizable.strings file
+  for source in config.source.split(':'):
+    resources = config.resources.split(':')[0]
+    if os.path.exists(source):
+      latest = None # get the latest modification time of any source .m file
+      for file in os.listdir(source):
+        if file.endswith('.m'):
+          mod = os.path.getmtime(os.path.join(source, file))
+          if not latest or mod > latest: latest = mod
+      localizable = Strings('Localizable', config.lang, config, resources=resources)
+      if latest > localizable.modification_time():
+        sys.stdout.write('Generating %s strings for source files\n' % (config.lang,))
+        if not os.path.exists(resources): os.mkdir(resources)
+        localizable.ensure_dir()
+        os.system('find "%s" -name "*.m" -print0 |'
+                  'xargs -0 genstrings -s %s -o "%s"' % (source, LOCALIZE_SYMBOL, os.path.dirname(localizable.path())))
+      # handle all languages other than the base language of the file
+      # by integrating (or creating) the same strings files in that lproj
+      # directory
+      for langname in os.listdir(resources):
+        if langname.endswith('.lproj'):
+          lang = Strings(localizable.name, langname, config, resources=resources)
+          if latest > lang.modification_time() and lang.lang != config.lang:
+            lang.integrate_changes(localizable)
+          if config.copy_strings:
+            copy_strings(lang, config)
+
+def copy_ios_framework(config):
+  search_paths = [
+    os.path.dirname(config.app),
+    os.environ.get('BUILT_PRODUCTS_DIR', ''),
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    os.path.dirname(os.path.dirname(os.path.dirname(sys.argv[0]))),
+  ]
+  
+  framework_path = None
+  handled = set()
+  for path in search_paths:
+    if not path in handled:
+      handled.add(path)
+      framework_path = os.path.join(path, 'Greenwich.framework')
+      if os.path.exists(framework_path): break
+      else: framework_path = None
+  
+  if framework_path:
+    frameworks = os.path.join(config.app, 'Frameworks')
+    destination = os.path.join(frameworks, 'Greenwich.framework')
+    if not os.path.exists(destination):
+      sys.stdout.write('Copying Greenwich resources into application bundle\n')
+      headers = os.path.join(destination, 'Headers')
+      executable = os.path.join(destination, 'Greenwich')
+      if not os.path.exists(frameworks):
+        os.makedirs(frameworks)
+      shutil.copytree(framework_path, destination, symlinks=True)
+      shutil.rmtree(headers)
+      os.unlink(executable)
+  else:
+    sys.stdout.write('warning: could not locate Greenwich framework to copy resources to application\n')
+
+
+# main function
+# ----------------------------------------------------------------------
+
+if __name__ == '__main__':
+  usage = """usage: %%prog [options]
+  Used to update strings files for all xibs, storyboards and source files in a target."""
+  parser = OptionParser(usage=usage)
+  c = 'Copy created strings files to application resources folder [default]'
+  n = 'Disable copy of created strings files to application resources folder'
+  parser.add_option('-c', '--copy', action="store_true", dest='copy_strings', default=True, help=c)
+  parser.add_option('--no-copy', action="store_false", dest='copy_strings', help=n)
+  config = parser.parse_config()[0]
+  create_strings(config)
+  
+  if IOS_APPLICATION_TARGET and config.copy_strings:
+    copy_ios_framework(config)
