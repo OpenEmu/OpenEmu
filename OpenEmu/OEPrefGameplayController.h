@@ -40,6 +40,5 @@
 - (IBAction)changeFilter:(id)sender;
 
 @property(weak, readonly) IBOutlet NSPopUpButton *filterSelection;
-@property(weak, readonly) IBOutlet NSView        *filterPreviewContainer;
 
 @end

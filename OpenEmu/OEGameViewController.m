@@ -300,7 +300,7 @@ typedef enum : NSUInteger
     [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
 #endif
     [[self controlsWindow] hide];
-    [self terminateEmulation];
+    [self terminateEmulation:self];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification
@@ -356,7 +356,7 @@ typedef enum : NSUInteger
     }
 }
 
-- (void)terminateEmulation
+- (IBAction)terminateEmulation:(id)sender
 {
     if(_emulationStatus == OEGameViewControllerEmulationStatusNotStarted ||
        _emulationStatus == OEGameViewControllerEmulationStatusTerminating)
