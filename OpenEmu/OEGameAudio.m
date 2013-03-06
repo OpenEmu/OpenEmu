@@ -281,4 +281,20 @@ OSStatus RenderCallback(void                       *in,
         AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, volume, 0);
 }
 
+- (void)volumeUp
+{
+    float newVolume = volume + 0.1;
+    if(newVolume>1.0) newVolume = 1.0;
+
+    [self setVolume:newVolume];
+}
+
+- (void)volumeDown
+{
+    float newVolume = volume - 0.1;
+    if(newVolume<0.0) newVolume = 0.0;
+
+    [self setVolume:newVolume];
+}
+
 @end

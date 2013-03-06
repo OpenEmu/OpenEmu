@@ -35,6 +35,10 @@ extern NSString * const AVGAPIKey;
 @interface ArchiveVG : NSObject
 + (id)throttled;
 + (id)unthrottled;
+
++ (NSURL*)browserURLForArchiveID:(NSNumber*)archiveID;
++ (NSNumber*)archiveIDFromBrowserURL:(NSURL*)url;
+
 #pragma mark - Archive.config
 - (NSDictionary*)config;
 - (NSDictionary*)configWithError:(NSError**)outError;

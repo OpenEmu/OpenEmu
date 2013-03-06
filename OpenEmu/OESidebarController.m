@@ -377,6 +377,11 @@ NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsIte
 
     return NO;
 }
+#pragma mark - NSOutlineView Type Select
+- (NSString*)outlineView:(NSOutlineView *)outlineView typeSelectStringForTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    return [item isSelectableInSidebar] ? [item sidebarName] : @"";
+}
 
 #pragma mark -
 #pragma mark NSOutlineView DataSource

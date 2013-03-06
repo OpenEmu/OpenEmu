@@ -51,6 +51,8 @@
 #import "OEDBCollection.h"
 #import "OEDBSaveState.h"
 
+#import "ArchiveVG.h"
+
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
@@ -674,7 +676,19 @@ static NSArray *OE_defaultSortDescriptors;
     [object setGridTitle:[item title]];
     [object setGridImage:[item image]];
 }
+#pragma mark - GridView Type Select
+- (BOOL)gridView:(OEGridView *)gridView shouldTypeSelectForEvent:(NSEvent *)event withCurrentSearchString:(NSString *)searchString
+{
+    unichar firstCharacter = [[event charactersIgnoringModifiers] characterAtIndex:0];
+    if(firstCharacter == ' ')
+        return searchString!=nil;
+    return [[NSCharacterSet alphanumericCharacterSet] characterIsMember:firstCharacter];
+}
 
+- (NSString*)gridView:(OEGridView *)gridView typeSelectStringForItemAtIndex:(NSUInteger)idx;
+{
+    return [[[[self gamesController] arrangedObjects] objectAtIndex:idx] gridTitle];
+}
 #pragma mark -
 #pragma mark Context Menu
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -710,8 +724,8 @@ static NSArray *OE_defaultSortDescriptors;
 
         // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
         // See the corresponding menu item a few lines below.
-//        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
 
+        [menu addItemWithTitle:@"Show Game At Archive.vg" action:@selector(showGamesAtArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Match To Archive.vg URL…" action:@selector(matchToArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
 //        [menu addItem:[NSMenuItem separatorItem]];
@@ -743,8 +757,8 @@ static NSArray *OE_defaultSortDescriptors;
 
         // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
         // See the corresponding menu item a few lines above.
-//        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
 
+        [menu addItemWithTitle:@"Show Games At Archive.vg" action:@selector(showGamesAtArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Add Cover Art From File…" action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
 
@@ -1001,10 +1015,18 @@ static NSArray *OE_defaultSortDescriptors;
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     [alert setInputLabelText:@"URL:"];
     [alert setShowsInputField:YES];
-    [alert setStringValue:@""];
     [alert setDefaultButtonTitle:@"OK"];
+    [alert setStringValue:@""];
     [alert setAlternateButtonTitle:@"Cancel"];
     [alert setHeight:112.0];
+    
+    NSArray *selectedGames = [self selectedGames];
+    if([selectedGames count] == 1)
+    {
+        NSURL *url = [ArchiveVG browserURLForArchiveID:[[selectedGames lastObject] archiveID]];
+        if(url)
+            [alert setStringValue:[url absoluteString]];
+    }
     
     if ([alert runModal] == NSOKButton)
     {
@@ -1012,34 +1034,34 @@ static NSArray *OE_defaultSortDescriptors;
         if (![stringURL length])
             return;
         
-        FIXME(@"Need better error checking");
-        NSURL *url = [NSURL URLWithString:stringURL];
-        NSNumber *archiveID = @([[url lastPathComponent] integerValue]);
-        
-        NSArray *selectedGames = [self selectedGames];
-        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-            [obj setArchiveID:archiveID];
-            [obj setNeedsCoverSyncWithArchiveVG];
-        }];
+        NSURL    *url = [NSURL URLWithString:stringURL];
+        NSNumber *archiveID = [ArchiveVG archiveIDFromBrowserURL:url];
+        if(archiveID != nil && [archiveID intValue]  != 0)
+        {
+            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
+                [obj setArchiveID:archiveID];
+                [obj setNeedsArchiveSync];
+            }];
+        }
     }
     
 }
 
-- (void)getGameInfoFromArchive:(id)sender
+- (IBAction)showGamesAtArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj setNeedsInfoSyncWithArchiveVG];
-    }];
-    
-    [self reloadDataIndexes:[self selectedIndexes]];
+    for (OEDBGame *game in selectedGames) {
+        NSURL *url = [ArchiveVG browserURLForArchiveID:[game archiveID]];
+        if(url)
+            [[NSWorkspace sharedWorkspace] openURL:url];
+    }
 }
 
 - (void)getCoverFromArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
     [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj setNeedsCoverSyncWithArchiveVG];
+        [obj setNeedsArchiveSync];
     }];
 }
 
@@ -1266,6 +1288,16 @@ static NSArray *OE_defaultSortDescriptors;
     return NO;
 }
 
+#pragma mark - NSTableView Type Select
+- (NSString*)tableView:(NSTableView *)tableView typeSelectStringForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    if([[tableColumn identifier] isEqualToString:@"listViewTitle"])
+    {
+        return [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
+    }
+    return @"";
+}
+
 #pragma mark -
 #pragma mark NSTableView Interaction
 - (void)tableViewWasDoubleClicked:(id)sender{
@@ -1297,7 +1329,6 @@ static NSArray *OE_defaultSortDescriptors;
 {
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
-
 
 #pragma mark -
 #pragma mark ImageFlow Delegates

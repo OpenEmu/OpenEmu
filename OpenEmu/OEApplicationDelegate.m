@@ -152,9 +152,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Run Migration Manager
     [[OEVersionMigrationController defaultMigrationController] runMigrationIfNeeded];
 
-    // TODO: Tell database to rebuild its "processing" queue
-    // TODO: and lauch the queue in a while (5.0 seconds?)
-
     // update extensions
     [self updateInfoPlist];
 

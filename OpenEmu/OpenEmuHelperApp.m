@@ -191,7 +191,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     CGLContextObj cgl_ctx = glContext;
 
     const GLubyte *vendor = glGetString(GL_VENDOR);
-    isIntel = strstr((const char*)vendor, "Intel") != NULL;
+    const GLubyte *renderer = glGetString(GL_RENDERER);
+    isIntel = strstr((const char*)vendor, "Intel") || strstr((const char*)renderer, "NVIDIA GeForce 9600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 8600M GT OpenGL Engine") != NULL;
 }
 
 - (void)setupIOSurface
@@ -754,6 +755,18 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 {
     DLog(@"%@", gameAudio);
     [gameAudio setVolume:volume];
+}
+
+- (void)volumeUp
+{
+    DLog(@"%@", gameAudio);
+    [gameAudio volumeUp];
+}
+
+- (void)volumeDown
+{
+    DLog(@"%@", gameAudio);
+    [gameAudio volumeDown];
 }
 
 - (void)setDrawSquarePixels:(BOOL)_drawSquarePixels

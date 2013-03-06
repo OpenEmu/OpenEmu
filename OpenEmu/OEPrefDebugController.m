@@ -122,7 +122,7 @@
             [allGames enumerateObjectsUsingBlock:
              ^(id obj, NSUInteger idx, BOOL *stop)
              {
-                 [(OEDBGame*)obj setNeedsFullSyncWithArchiveVG];
+                 [(OEDBGame*)obj setNeedsArchiveSync];
              }];
             printf("\nDone\n");
             break;

@@ -45,7 +45,6 @@ extern NSString *const OEImportErrorDomainSuccess;
 
 typedef enum : NSInteger {
     OEImportErrorCodeAlreadyInDatabase     = -1,
-    OEImportErrorCodeWaitingForArchiveSync = 1,
     OEImportErrorCodeMultipleSystems       = 2,
     OEImportErrorCodeNoSystem              = 3,
     OEImportErrorCodeInvalidFile           = 4,
@@ -57,7 +56,6 @@ extern NSString *const OEImportInfoMD5;
 extern NSString *const OEImportInfoCRC;
 extern NSString *const OEImportInfoROMObjectID;
 extern NSString *const OEImportInfoSystemID;
-extern NSString *const OEImportInfoArchiveSync;
 
 #pragma mark - Importer Status
 typedef enum : NSInteger {

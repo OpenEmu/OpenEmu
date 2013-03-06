@@ -72,6 +72,8 @@ NSString *const OESaveStateFolderURLKey      = @"saveStateFolder";
 - (void)OE_setupStateWatcher;
 - (void)OE_removeStateWatcher;
 
+- (void)OE_resumeArchiveSync;
+
 @property(strong) OEFSWatcher *saveStateWatcher;
 @property(copy)   NSURL       *databaseURL;
 @property(strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -122,6 +124,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [[defaultDatabase importer] start];
+        [defaultDatabase OE_resumeArchiveSync];
     });
     
     return YES;
@@ -220,6 +223,17 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
 
     NSLog(@"Did save Database");
+}
+- (void)OE_resumeArchiveSync
+{
+    NSManagedObjectContext *moc = [self managedObjectContext];
+    NSFetchRequest *fetchReq = [[NSFetchRequest alloc] initWithEntityName:@"Game"];
+    NSPredicate *fetchPred = [NSPredicate predicateWithFormat:@"status == %d", OEDBGameStatusProcessing];
+    [fetchReq setPredicate:fetchPred];
+    NSArray *games = [moc executeFetchRequest:fetchReq error:NULL];
+    [games enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [obj setNeedsArchiveSync];
+    }];
 }
 
 #pragma mark - Administration

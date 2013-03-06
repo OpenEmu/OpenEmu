@@ -300,7 +300,7 @@ typedef enum : NSUInteger
     [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
 #endif
     [[self controlsWindow] hide];
-    [self terminateEmulation];
+    [self terminateEmulation:self];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification
@@ -356,7 +356,7 @@ typedef enum : NSUInteger
     }
 }
 
-- (void)terminateEmulation
+- (IBAction)terminateEmulation:(id)sender
 {
     if(_emulationStatus == OEGameViewControllerEmulationStatusNotStarted ||
        _emulationStatus == OEGameViewControllerEmulationStatusTerminating)
@@ -624,10 +624,18 @@ typedef enum : NSUInteger
 
 - (IBAction)volumeUp:(id)sender
 {
+    [rootProxy volumeUp];
+    float volume = [[self controlsWindow] reflectVolumeUp];
+
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
 }
 
 - (IBAction)volumeDown:(id)sender
 {
+    [rootProxy volumeDown];
+    float volume = [[self controlsWindow] reflectVolumeDown];
+
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
 }
 
 - (void)mute:(id)sender

@@ -137,6 +137,22 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 	return sharedUnthrottledProxy;
 }
 
+
++ (NSURL*)browserURLForArchiveID:(NSNumber*)archiveID
+{
+    if(archiveID == nil || [archiveID integerValue] == 0)
+        return nil;
+    else
+        return [NSURL URLWithString:[NSString stringWithFormat:@"http://archive.vg/game/%@/", archiveID]];
+}
+
++ (NSNumber*)archiveIDFromBrowserURL:(NSURL*)url
+{
+    if(url == nil)
+        return nil;
+    
+    return @([[url lastPathComponent] intValue]);
+}
 #pragma mark -
 #pragma mark Archive.config
 - (NSDictionary*)config

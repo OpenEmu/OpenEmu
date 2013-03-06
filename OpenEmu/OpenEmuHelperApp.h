@@ -130,6 +130,8 @@ enum _OEHelperAppErrorCodes
 #pragma mark -
 #pragma mark OE DO protocol delegate methods
 - (void)setVolume:(float)volume;
+- (void)volumeUp;
+- (void)volumeDown;
 - (void)setPauseEmulation:(BOOL)paused;
 
 #pragma mark -
