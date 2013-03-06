@@ -757,6 +757,18 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [gameAudio setVolume:volume];
 }
 
+- (void)volumeUp
+{
+    DLog(@"%@", gameAudio);
+    [gameAudio volumeUp];
+}
+
+- (void)volumeDown
+{
+    DLog(@"%@", gameAudio);
+    [gameAudio volumeDown];
+}
+
 - (void)setDrawSquarePixels:(BOOL)_drawSquarePixels
 {
     drawSquarePixels = _drawSquarePixels;

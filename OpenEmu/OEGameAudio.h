@@ -49,5 +49,7 @@
 - (void)startAudio;
 - (void)stopAudio;
 - (void)pauseAudio;
+- (void)volumeUp;
+- (void)volumeDown;
 
 @end

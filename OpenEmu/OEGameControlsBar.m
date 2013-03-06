@@ -454,6 +454,30 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [[slider animator] setFloatValue:volume];
 }
 
+- (float)reflectVolumeUp
+{
+    OEHUDControlsBarView    *view   = [[[self contentView] subviews] lastObject];
+    OEHUDSlider             *slider = [view slider];
+
+    float volume = [slider floatValue] + 0.1;
+    if(volume>1.0) volume = 1.0;
+    [self reflectVolume:volume];
+
+    return volume;
+}
+
+- (float)reflectVolumeDown
+{
+    OEHUDControlsBarView    *view   = [[[self contentView] subviews] lastObject];
+    OEHUDSlider             *slider = [view slider];
+
+    float volume = [slider floatValue] - 0.1;
+    if(volume<0.0) volume = 0.0;
+    [self reflectVolume:volume];
+
+    return volume;
+}
+
 - (void)reflectEmulationRunning:(BOOL)isEmulationRunning
 {
     OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];

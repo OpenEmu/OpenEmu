@@ -624,10 +624,18 @@ typedef enum : NSUInteger
 
 - (IBAction)volumeUp:(id)sender
 {
+    [rootProxy volumeUp];
+    float volume = [[self controlsWindow] reflectVolumeUp];
+
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
 }
 
 - (IBAction)volumeDown:(id)sender
 {
+    [rootProxy volumeDown];
+    float volume = [[self controlsWindow] reflectVolumeDown];
+
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
 }
 
 - (void)mute:(id)sender

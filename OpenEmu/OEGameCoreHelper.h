@@ -42,6 +42,8 @@
 
 // control gamecore
 - (oneway void)setVolume:(float)value;
+- (oneway void)volumeUp;
+- (oneway void)volumeDown;
 - (oneway void)setPauseEmulation:(BOOL)flag;
 
 // gamecore attributes
