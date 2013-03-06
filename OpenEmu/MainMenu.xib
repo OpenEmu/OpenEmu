@@ -103,7 +103,7 @@
 											<string key="NSFrameSize">{400, 201}</string>
 											<reference key="NSSuperview" ref="839539018"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="349807226"/>
+											<reference key="NSNextKeyView" ref="144232324"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="859226485">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -362,6 +362,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<string key="NSFrame">{{344, 1}, {15, 184}}</string>
 									<reference key="NSSuperview" ref="672543319"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<reference key="NSTarget" ref="672543319"/>
 									<string key="NSAction">_doScroller:</string>
@@ -385,7 +386,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSFrameSize">{402, 203}</string>
 							<reference key="NSSuperview" ref="714133648"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="839539018"/>
+							<reference key="NSNextKeyView" ref="349807226"/>
 							<int key="NSsFlags">133650</int>
 							<reference key="NSVScroller" ref="144232324"/>
 							<reference key="NSHScroller" ref="349807226"/>
@@ -479,7 +480,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="375224823"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">About</string>
 				<bool key="NSWindowIsRestorable">NO</bool>
@@ -892,6 +893,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								</object>
 								<object class="NSMenuItem" id="489488561">
 									<reference key="NSMenu" ref="545534296"/>
+									<bool key="NSIsHidden">YES</bool>
 									<string key="NSTitle">Display Duplicates</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -901,6 +903,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								</object>
 								<object class="NSMenuItem" id="944081177">
 									<reference key="NSMenu" ref="545534296"/>
+									<bool key="NSIsHidden">YES</bool>
 									<bool key="NSIsAlternate">YES</bool>
 									<string key="NSTitle">Display Exact Duplicates</string>
 									<string key="NSKeyEquiv"/>
@@ -2091,6 +2094,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="76360811"/>
 					</object>
 					<int key="connectionID">1225</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showGamesAtArchive:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="796371143"/>
+					</object>
+					<int key="connectionID">1228</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3514,7 +3525,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1225</int>
+			<int key="maxID">1228</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3627,6 +3638,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeGridSize:">id</string>
 						<string key="search:">id</string>
+						<string key="showGameOnArchive:">id</string>
+						<string key="showGamesAtArchive:">id</string>
 						<string key="showSelectedGamesInFinder:">id</string>
 						<string key="switchToFlowView:">id</string>
 						<string key="switchToGridView:">id</string>
@@ -3639,6 +3652,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBActionInfo" key="search:">
 							<string key="name">search:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showGameOnArchive:">
+							<string key="name">showGameOnArchive:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showGamesAtArchive:">
+							<string key="name">showGamesAtArchive:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showSelectedGamesInFinder:">
