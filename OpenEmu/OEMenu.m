@@ -676,6 +676,7 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
 
 - (BOOL)OE_closing
 {
+    if([__sharedMenuStack count] == 0) return YES;
     if([__sharedMenuStack objectAtIndex:0] != self) return [[__sharedMenuStack objectAtIndex:0] OE_closing];
     return _closing;
 }
