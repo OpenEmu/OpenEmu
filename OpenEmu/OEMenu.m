@@ -145,6 +145,10 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     NSUInteger  index = [__sharedMenuStack indexOfObject:self];
     NSUInteger  len   = [__sharedMenuStack count] - index;
     NSArray    *menus = [__sharedMenuStack objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index, len)]];
+    for(NSMenuItem *item in [[[__sharedMenuStack objectAtIndex:index] menu] itemArray])
+    {
+        [item setSubmenu:nil];
+    }
     [__sharedMenuStack removeObjectsInArray:menus];
 
     void (^changes)(NSAnimationContext *context) =
