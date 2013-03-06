@@ -51,6 +51,8 @@
 #import "OEDBCollection.h"
 #import "OEDBSaveState.h"
 
+#import "ArchiveVG.h"
+
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
@@ -1013,10 +1015,18 @@ static NSArray *OE_defaultSortDescriptors;
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     [alert setInputLabelText:@"URL:"];
     [alert setShowsInputField:YES];
-    [alert setStringValue:@""];
     [alert setDefaultButtonTitle:@"OK"];
+    [alert setStringValue:@""];
     [alert setAlternateButtonTitle:@"Cancel"];
     [alert setHeight:112.0];
+    
+    NSArray *selectedGames = [self selectedGames];
+    if([selectedGames count] == 1)
+    {
+        NSURL *url = [ArchiveVG browserURLForArchiveID:[[selectedGames lastObject] archiveID]];
+        if(url)
+            [alert setStringValue:[url absoluteString]];
+    }
     
     if ([alert runModal] == NSOKButton)
     {
@@ -1024,15 +1034,15 @@ static NSArray *OE_defaultSortDescriptors;
         if (![stringURL length])
             return;
         
-        FIXME(@"Need better error checking");
-        NSURL *url = [NSURL URLWithString:stringURL];
-        NSNumber *archiveID = @([[url lastPathComponent] integerValue]);
-        
-        NSArray *selectedGames = [self selectedGames];
-        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-            [obj setArchiveID:archiveID];
-            [obj setNeedsCoverSyncWithArchiveVG];
-        }];
+        NSURL    *url = [NSURL URLWithString:stringURL];
+        NSNumber *archiveID = [ArchiveVG archiveIDFromBrowserURL:url];
+        if(archiveID != nil && [archiveID intValue]  != 0)
+        {
+            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
+                [obj setArchiveID:archiveID];
+                [obj setNeedsCoverSyncWithArchiveVG];
+            }];
+        }
     }
     
 }
