@@ -745,7 +745,8 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         if([[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey])
         {
             NSURL *romID = [[item importInfo] objectForKey:OEImportInfoROMObjectID];
-            rom = [[self database] objectWithURI:romID];
+            if(romID)
+                rom = [[self database] objectWithURI:romID];
         }
         [[self database] save:nil];
 
