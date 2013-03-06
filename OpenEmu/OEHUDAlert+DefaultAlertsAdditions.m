@@ -42,6 +42,8 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
 
 + (id)saveAutoSaveGameAlert
 {
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESaveGameWhenQuitAlertSuppressionKey: @(1)}];
+    
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     
     alert.messageText = NSLocalizedString(@"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off.", @"");
