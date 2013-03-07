@@ -269,11 +269,9 @@ static NSArray *OE_defaultSortDescriptors;
     NSMutableData    *data  = [NSMutableData data];
     NSKeyedArchiver  *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     NSSlider *sizeSlider    = [[self libraryController] toolbarSlider];
-    NSString *searchString  = [[[self libraryController] toolbarSearchField] stringValue];
     
     [coder encodeInt:_selectedViewTag forKey:@"selectedView"];
     [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
-    [coder encodeObject:searchString forKey:@"searchString"];
     [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
     if([listView sortDescriptors]) [coder encodeObject:[listView sortDescriptors] forKey:@"listViewSortDescriptors"];
     
@@ -288,7 +286,6 @@ static NSArray *OE_defaultSortDescriptors;
     
     int selectedViewTag;
     float sliderValue;
-    NSString   *searchString;
     NSIndexSet *selectionIndexes;
     NSArray    *listViewSortDescriptors = nil;
     
@@ -300,7 +297,6 @@ static NSArray *OE_defaultSortDescriptors;
     {
         selectedViewTag         = [coder decodeIntForKey:@"selectedView"];
         sliderValue             = [coder decodeFloatForKey:@"sliderValue"];
-        searchString            = [coder decodeObjectForKey:@"searchString"];
         selectionIndexes        = [coder decodeObjectForKey:@"selectionIndexes"];
         listViewSortDescriptors = [coder decodeObjectForKey:@"listViewSortDescriptors"];
         
@@ -320,7 +316,6 @@ static NSArray *OE_defaultSortDescriptors;
         
         selectedViewTag  = [userDefaults integerForKey:OELastCollectionViewKey];
         sliderValue      = [userDefaults floatForKey:OELastGridSizeKey];
-        searchString     = @"";
         selectionIndexes = [NSIndexSet indexSet];
     }
         
@@ -328,7 +323,7 @@ static NSArray *OE_defaultSortDescriptors;
     [sizeSlider setFloatValue:sliderValue];
     [self changeGridSize:sizeSlider];
 
-    [searchField setStringValue:searchString];
+    [searchField setStringValue:@""];
 	[self search:searchField];
     [listView setSortDescriptors:listViewSortDescriptors];
 
