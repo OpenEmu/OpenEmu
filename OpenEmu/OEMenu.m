@@ -95,7 +95,10 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     else           rect = [[view window] convertRectToScreen:[view convertRect:[view bounds] toView:nil]];
 
     [result OE_updateFrameAttachedToScreenRect:rect];
-    [result OE_showMenuAttachedToWindow:[event window] withEvent:event];
+    NSEvent *postEvent = [result OE_showMenuAttachedToWindow:[event window] withEvent:event];
+    
+    if(postEvent)
+        [NSApp postEvent:postEvent atStart:NO];
 }
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag screen:(NSScreen *)screen
@@ -142,6 +145,11 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     NSUInteger  index = [__sharedMenuStack indexOfObject:self];
     NSUInteger  len   = [__sharedMenuStack count] - index;
     NSArray    *menus = [__sharedMenuStack objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index, len)]];
+    for(NSMenuItem *item in [[[__sharedMenuStack objectAtIndex:index] menu] itemArray])
+    {
+        [item setSubmenu:nil];
+    }
+    [__sharedMenuStack removeObjectsInArray:menus];
 
     void (^changes)(NSAnimationContext *context) =
     ^ (NSAnimationContext *context)
@@ -163,7 +171,6 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
         id<NSMenuDelegate> delegate = [[self menu] delegate];
         if([delegate respondsToSelector:@selector(menuDidClose:)]) [delegate menuDidClose:[_view menu]];
 
-        [__sharedMenuStack removeObjectsInArray:menus];
     };
 
     [NSAnimationContext runAnimationGroup:changes completionHandler:fireCompletionHandler];
@@ -488,8 +495,9 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     return [NSEvent mouseEventWithType:[event type] location:location modifierFlags:[event modifierFlags] timestamp:[event timestamp] windowNumber:[self windowNumber] context:[event context] eventNumber:[event eventNumber] clickCount:[event clickCount] pressure:[event pressure]];
 }
 
-- (void)OE_showMenuAttachedToWindow:(NSWindow *)parentWindow withEvent:(NSEvent *)initialEvent
+- (NSEvent *)OE_showMenuAttachedToWindow:(NSWindow *)parentWindow withEvent:(NSEvent *)initialEvent
 {
+    NSEvent *postEvent = nil;
     [self OE_showMenuAttachedToWindow:parentWindow];
 
     // Invoked when a menu is about to be displayed at the start of a tracking session so the delegate can modify the menu.
@@ -549,6 +557,8 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
             {
                 // If a mouse down event occurred outside of a menu, then cancel tracking
                 [self cancelTracking];
+
+                postEvent = event; // Run this event again, after the OEMenu was cleaned up
                 event = nil;  // There is no need to forward this message to NSApp
             }
             else if(type == NSScrollWheel && ![[event window] isKindOfClass:[OEMenu class]])
@@ -579,6 +589,8 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
 
     // Posted when menu tracking ends, even if no action is sent.
     [[NSNotificationCenter defaultCenter] postNotificationName:NSMenuDidEndTrackingNotification object:[self menu]];
+
+    return postEvent;
 }
 
 - (BOOL)isSubmenu
@@ -664,6 +676,7 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
 
 - (BOOL)OE_closing
 {
+    if([__sharedMenuStack count] == 0) return YES;
     if([__sharedMenuStack objectAtIndex:0] != self) return [[__sharedMenuStack objectAtIndex:0] OE_closing];
     return _closing;
 }
