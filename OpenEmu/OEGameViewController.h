@@ -27,7 +27,8 @@
 #import <Cocoa/Cocoa.h>
 
 extern NSString *const OEGameVolumeKey;
-extern NSString *const OEGameVideoFilterKey;
+extern NSString *const OEGameDefaultVideoFilterKey;
+extern NSString *const OEGameSystemVideoFilterKeyFormat;
 extern NSString *const OEGameCoresInBackgroundKey;
 extern NSString *const OEDontShowGameTitleInWindowKey;
 extern NSString *const OEAutoSwitchCoreAlertSuppressionKey;

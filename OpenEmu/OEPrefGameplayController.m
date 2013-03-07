@@ -29,6 +29,7 @@
 #import "OECompositionPlugin.h"
 #import "OEShaderPlugin.h"
 #import "OEGameViewController.h"
+#import "OEDBSystem.h"
 
 @implementation OEPrefGameplayController
 @synthesize filterSelection;
@@ -52,7 +53,7 @@
 	[[self filterSelection] setMenu:filterMenu];
 
 	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-	NSString *selectedFilterName = [sud objectForKey:OEGameVideoFilterKey];
+	NSString *selectedFilterName = [sud objectForKey:OEGameDefaultVideoFilterKey];
 
 	if(selectedFilterName != nil && [[self filterSelection] itemWithTitle:selectedFilterName])
 		[[self filterSelection] selectItemWithTitle:selectedFilterName];
@@ -97,8 +98,15 @@
 - (IBAction)changeFilter:(id)sender
 {
 	NSString *filterName = [[[self filterSelection] selectedItem] title];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray *allSystemIdentifiers = [OEDBSystem allSystemIdentifiers];
+    
+    for(OECorePlugin *systemIdentifiers in allSystemIdentifiers)
+    {
+        [defaults removeObjectForKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, systemIdentifiers]];
+    }
 
-	[[NSUserDefaults standardUserDefaults] setObject:filterName forKey:OEGameVideoFilterKey];
+	[defaults setObject:filterName forKey:OEGameDefaultVideoFilterKey];
 }
 
 @end
