@@ -36,6 +36,7 @@ extern NSString *const OEMaxSaveGameNameLengthKey;
 + (id)loadAutoSaveGameAlert;
 + (id)deleteStateAlertWithStateName:(NSString *)stateName;
 + (id)resetSystemAlert;
++ (id)stopEmulationAlert;
 
 + (id)removeGamesFromCollectionAlert;
 + (id)removeGamesFromLibraryAlert:(BOOL)multipleGames;

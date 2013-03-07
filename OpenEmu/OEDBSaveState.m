@@ -53,6 +53,8 @@ NSString *const OESaveStateSpecialNamePrefix    = @"OESpecialState_";
 NSString *const OESaveStateAutosaveName         = @"OESpecialState_auto";
 NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
+NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
+
 @interface OEDBSaveState ()
 + (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context;
 - (BOOL)OE_createBundleAtURL:(NSURL*)url withStateFile:(NSURL*)stateFile error:(NSError*__autoreleasing*)error;
@@ -234,6 +236,12 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     
     [saveState moveToDefaultLocation];
 }
+
++ (NSString*)nameOfQuickSaveInSlot:(int)slot
+{
+    return slot == 0 ? OESaveStateQuicksaveName:[NSString stringWithFormat:@"%@%d", OESaveStateQuicksaveName, slot];
+}
+
 #pragma mark - Management
 - (BOOL)readInfoPlist
 {

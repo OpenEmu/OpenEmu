@@ -318,8 +318,7 @@
 
 - (OEDBSaveState *)quickSaveStateInSlot:(int)num
 {
-    NSString *quickSaveName = num == 0 ? OESaveStateQuicksaveName:[NSString stringWithFormat:@"%@%d", OESaveStateQuicksaveName, num];
-    
+    NSString *quickSaveName = [OEDBSaveState nameOfQuickSaveInSlot:num];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", quickSaveName];
     NSSet *set = [self saveStates];
     set = [set filteredSetUsingPredicate:predicate];

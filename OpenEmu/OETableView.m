@@ -258,7 +258,6 @@ static NSGradient *highlightGradient, *normalGradient;
         
         NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
         [OEMenu openMenu:contextMenu withEvent:theEvent forView:self options:options];
-
     }
 
     return [super menuForEvent:theEvent];
@@ -270,6 +269,12 @@ static NSGradient *highlightGradient, *normalGradient;
         [NSApp sendAction:@selector(delete:) to:nil from:self];
     else
         [super keyDown:theEvent];        
+}
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    if(!(theEvent.modifierFlags & NSControlKeyMask))
+        [super mouseDown:theEvent];
 }
 
 - (void)cancelOperation:(id)sender

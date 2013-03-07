@@ -269,11 +269,9 @@ static NSArray *OE_defaultSortDescriptors;
     NSMutableData    *data  = [NSMutableData data];
     NSKeyedArchiver  *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     NSSlider *sizeSlider    = [[self libraryController] toolbarSlider];
-    NSString *searchString  = [[[self libraryController] toolbarSearchField] stringValue];
     
     [coder encodeInt:_selectedViewTag forKey:@"selectedView"];
     [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
-    [coder encodeObject:searchString forKey:@"searchString"];
     [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
     if([listView sortDescriptors]) [coder encodeObject:[listView sortDescriptors] forKey:@"listViewSortDescriptors"];
     
@@ -288,7 +286,6 @@ static NSArray *OE_defaultSortDescriptors;
     
     int selectedViewTag;
     float sliderValue;
-    NSString   *searchString;
     NSIndexSet *selectionIndexes;
     NSArray    *listViewSortDescriptors = nil;
     
@@ -300,7 +297,6 @@ static NSArray *OE_defaultSortDescriptors;
     {
         selectedViewTag         = [coder decodeIntForKey:@"selectedView"];
         sliderValue             = [coder decodeFloatForKey:@"sliderValue"];
-        searchString            = [coder decodeObjectForKey:@"searchString"];
         selectionIndexes        = [coder decodeObjectForKey:@"selectionIndexes"];
         listViewSortDescriptors = [coder decodeObjectForKey:@"listViewSortDescriptors"];
         
@@ -320,7 +316,6 @@ static NSArray *OE_defaultSortDescriptors;
         
         selectedViewTag  = [userDefaults integerForKey:OELastCollectionViewKey];
         sliderValue      = [userDefaults floatForKey:OELastGridSizeKey];
-        searchString     = @"";
         selectionIndexes = [NSIndexSet indexSet];
     }
         
@@ -328,7 +323,7 @@ static NSArray *OE_defaultSortDescriptors;
     [sizeSlider setFloatValue:sliderValue];
     [self changeGridSize:sizeSlider];
 
-    [searchField setStringValue:searchString];
+    [searchField setStringValue:@""];
 	[self search:searchField];
     [listView setSortDescriptors:listViewSortDescriptors];
 
@@ -358,16 +353,19 @@ static NSArray *OE_defaultSortDescriptors;
 #pragma mark View Selection
 - (IBAction)switchToGridView:(id)sender
 {
+    [sender setState:NSOnState];
     [self OE_switchToView:OEGridViewTag];
 }
 
 - (IBAction)switchToFlowView:(id)sender
 {
+    [sender setState:NSOnState];
     [self OE_switchToView:OEFlowViewTag];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
+    [sender setState:NSOnState];
     [self OE_switchToView:OEListViewTag];
 }
 
@@ -675,6 +673,11 @@ static NSArray *OE_defaultSortDescriptors;
     [object setGridRating:[item rating]];
     [object setGridTitle:[item title]];
     [object setGridImage:[item image]];
+    
+    if([object isKindOfClass:[NSManagedObject class]])
+    {
+        [[(NSManagedObject*)object managedObjectContext] save:nil];
+    }
 }
 #pragma mark - GridView Type Select
 - (BOOL)gridView:(OEGridView *)gridView shouldTypeSelectForEvent:(NSEvent *)event withCurrentSearchString:(NSString *)searchString
@@ -1135,6 +1138,10 @@ static NSArray *OE_defaultSortDescriptors;
             
             [obj setListViewTitle:anObject];
         }
+        else return;
+        
+        if([obj isKindOfClass:[NSManagedObject class]])
+            [[(NSManagedObject*)obj managedObjectContext] save:nil];
     }
 }
 

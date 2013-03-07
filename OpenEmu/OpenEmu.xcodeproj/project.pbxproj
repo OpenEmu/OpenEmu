@@ -313,8 +313,6 @@
 		82870D7A1665669B00CBFE5D /* OERawSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82870D741665668900CBFE5D /* OERawSystemResponder.m */; };
 		828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		828BF57F1669F99600759F10 /* OEUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F738FB1617FF2B00BB2519 /* OEUtilities.m */; };
-		828ED4D70E7D98940059F397 /* OEGamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828ED4D60E7D98940059F397 /* OEGamePickerController.m */; };
-		828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 828ED4D80E7D98A10059F397 /* GameFilePicker.xib */; };
 		829022AA0F47F90D00BB7AB7 /* OEGameQTRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 829022A90F47F90D00BB7AB7 /* OEGameQTRecorder.m */; };
 		82965F851041DC3200F30B74 /* OECorePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82965F841041DC3200F30B74 /* OECorePicker.xib */; };
 		82965F881041DC4600F30B74 /* OECorePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82965F871041DC4600F30B74 /* OECorePickerController.m */; };
@@ -1723,9 +1721,6 @@
 		82870D6316655FCF00CBFE5D /* OEComputerSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEComputerSystemResponderClient.h; sourceTree = "<group>"; };
 		82870D731665668900CBFE5D /* OERawSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERawSystemResponder.h; sourceTree = "<group>"; };
 		82870D741665668900CBFE5D /* OERawSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERawSystemResponder.m; sourceTree = "<group>"; };
-		828ED4D50E7D98940059F397 /* OEGamePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGamePickerController.h; sourceTree = "<group>"; };
-		828ED4D60E7D98940059F397 /* OEGamePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGamePickerController.m; sourceTree = "<group>"; };
-		828ED4D90E7D98A10059F397 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameFilePicker.xib; sourceTree = "<group>"; };
 		829022A80F47F90D00BB7AB7 /* OEGameQTRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameQTRecorder.h; sourceTree = "<group>"; };
 		829022A90F47F90D00BB7AB7 /* OEGameQTRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameQTRecorder.m; sourceTree = "<group>"; };
 		82965F841041DC3200F30B74 /* OECorePicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OECorePicker.xib; sourceTree = "<group>"; };
@@ -2913,7 +2908,6 @@
 				53439B8A13B936E1005C0CC8 /* Library.xib */,
 				53439B8C13B936EA005C0CC8 /* Preferences.xib */,
 				831C2AE8144F453C009533C0 /* MainMenu.xib */,
-				828ED4D80E7D98A10059F397 /* GameFilePicker.xib */,
 				832D29421451ACF200BDF950 /* MainWindow.xib */,
 				830639EA16691B51006E4254 /* OEGameScanner.xib */,
 				83E41F29158546E90069B8AF /* OESystemPicker.xib */,
@@ -3634,8 +3628,6 @@
 		8249C8E60E899CFF0027EFDF /* Utility Windows */ = {
 			isa = PBXGroup;
 			children = (
-				828ED4D50E7D98940059F397 /* OEGamePickerController.h */,
-				828ED4D60E7D98940059F397 /* OEGamePickerController.m */,
 				82965F861041DC4600F30B74 /* OECorePickerController.h */,
 				82965F871041DC4600F30B74 /* OECorePickerController.m */,
 				83E41F27158546E90069B8AF /* OESystemPicker.h */,
@@ -5691,7 +5683,6 @@
 				1B7505140FEEB72700B0D0AF /* About.png in Resources */,
 				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */,
 				82C434130EE393530037C54B /* icon.icns in Resources */,
 				82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */,
 				C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */,
@@ -6243,7 +6234,6 @@
 				8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				829779340E743F2A00631240 /* OEGameAudio.m in Sources */,
-				828ED4D70E7D98940059F397 /* OEGamePickerController.m in Sources */,
 				829022AA0F47F90D00BB7AB7 /* OEGameQTRecorder.m in Sources */,
 				C62F54710FE6ADC500DF15BA /* OEPlugin.m in Sources */,
 				C62F549B0FE6CC1500DF15BA /* OECorePlugin.m in Sources */,
@@ -6943,14 +6933,6 @@
 			);
 			name = InfoPlist.strings;
 			path = en.lproj;
-			sourceTree = "<group>";
-		};
-		828ED4D80E7D98A10059F397 /* GameFilePicker.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				828ED4D90E7D98A10059F397 /* English */,
-			);
-			name = GameFilePicker.xib;
 			sourceTree = "<group>";
 		};
 		940236D61580323400083DCC /* InfoPlist.strings */ = {
