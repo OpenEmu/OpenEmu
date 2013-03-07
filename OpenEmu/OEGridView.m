@@ -831,6 +831,8 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
+    if([theEvent modifierFlags] & NSControlKeyMask) return;
+    
     const NSPoint pointInView = [self OE_pointInViewFromEvent:theEvent];
     _trackingLayer            = [self OE_gridLayerForPoint:pointInView];
 
