@@ -370,6 +370,14 @@ typedef enum : NSUInteger
     if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
         [self saveStateWithName:OESaveStateAutosaveName];
 
+    if(![[OEHUDAlert stopEmulationAlert] runModal] == NSAlertDefaultReturn)
+    {
+        [[self controlsWindow] setCanShow:YES];
+        [self disableOSSleep];
+        [self playGame:self];
+        return;
+    }
+
     _emulationStatus = OEGameViewControllerEmulationStatusTerminating;
 
     NSDictionary *userInfo = @{OEGameViewControllerROMKey : [self rom]};

@@ -36,6 +36,7 @@ NSString *const OEDeleteGameAlertSuppressionKey = @"removeStatesWithoutConfirmat
 NSString *const OESaveGameAlertSuppressionKey = @"saveGameWithoutConfirmation";
 NSString *const OEChangeCoreAlertSuppressionKey = @"changeCoreWithoutConfirmation";
 NSString *const OEResetSystemAlertSuppressionKey = @"resetSystemWithoutConfirmation";
+NSString *const OEStopEmulationAlertSuppressionKey = @"stopEmulationWithoutConfirmation";
 NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDialogChoice";
 
 @implementation OEHUDAlert (DefaultAlertsAdditions)
@@ -112,6 +113,22 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
     
     return alert;
 }
+
++ (id)stopEmulationAlert
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    
+    alert.messageText = NSLocalizedString(@"Are you sure you want to stop emulation?", @"");
+    alert.defaultButtonTitle = NSLocalizedString(@"Stop", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
+    alert.headlineLabelText = NSLocalizedString(@"", @"");
+    
+    [alert setSuppressOnDefaultReturnOnly:YES];
+    [alert showSuppressionButtonForUDKey:OEStopEmulationAlertSuppressionKey];
+    
+    return alert;
+}
+
 
 + (id)deleteStateAlertWithStateName:(NSString*)stateName
 {
