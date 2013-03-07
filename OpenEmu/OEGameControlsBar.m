@@ -51,6 +51,7 @@
 
 NSString *const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState";
 NSString *const OEGameControlsBarShowsAutoSaveStateKey  = @"HUDBarShowAutosaveState";
+NSString *const OEGameControlsBarShowsQuickSaveStateKey = @"HUDBarShowQuicksaveState";
 NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
@@ -91,9 +92,10 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         return;
     
     // Time until hud controls bar fades out
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                          OEGameControlsBarFadeOutDelayKey : @1.5,
-                    OEGameControlsBarShowsAutoSaveStateKey : @YES
+    [[NSUserDefaults standardUserDefaults] registerDefaults :@{
+                          OEGameControlsBarFadeOutDelayKey  : @1.5,
+                    OEGameControlsBarShowsAutoSaveStateKey  : @NO,
+                    OEGameControlsBarShowsQuickSaveStateKey : @YES
      }];
 }
 
@@ -386,13 +388,19 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     if(rom != nil)
     {
         BOOL includeAutoSaveState = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsAutoSaveStateKey];
+        BOOL includeQuickSaveState = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsQuickSaveStateKey];
+        
         NSArray *saveStates = [rom normalSaveStatesByTimestampAscending:YES];
+        
+        if(includeQuickSaveState && [rom quickSaveStateInSlot:0] != nil)
+            saveStates = [@[[rom quickSaveStateInSlot:0]] arrayByAddingObjectsFromArray:saveStates];
+
+        if(includeAutoSaveState && [rom autosaveState] != nil)
+            saveStates = [@[[rom autosaveState]] arrayByAddingObjectsFromArray:saveStates];
+        
         if([saveStates count]!=0 || (includeAutoSaveState && [rom autosaveState] != nil))
         {
             [menu addItem:[NSMenuItem separatorItem]];
-            
-            if(includeAutoSaveState && [rom autosaveState] != nil)
-                saveStates = [@[[rom autosaveState]] arrayByAddingObjectsFromArray:saveStates];
             
             for(OEDBSaveState *saveState in saveStates)
             {
