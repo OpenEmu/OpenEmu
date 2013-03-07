@@ -280,8 +280,6 @@
 		827B322A168A69D8000CD127 /* OEAnalogSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 827B3227168A69C1000CD127 /* OEAnalogSystemResponder.m */; };
 		828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		828BF57F1669F99600759F10 /* OEUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F738FB1617FF2B00BB2519 /* OEUtilities.m */; };
-		828ED4D70E7D98940059F397 /* OEGamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828ED4D60E7D98940059F397 /* OEGamePickerController.m */; };
-		828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 828ED4D80E7D98A10059F397 /* GameFilePicker.xib */; };
 		829022AA0F47F90D00BB7AB7 /* OEGameQTRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 829022A90F47F90D00BB7AB7 /* OEGameQTRecorder.m */; };
 		82965F851041DC3200F30B74 /* OECorePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82965F841041DC3200F30B74 /* OECorePicker.xib */; };
 		82965F881041DC4600F30B74 /* OECorePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82965F871041DC4600F30B74 /* OECorePickerController.m */; };
@@ -4484,7 +4482,6 @@
 				1B7505140FEEB72700B0D0AF /* About.png in Resources */,
 				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */,
 				82C434130EE393530037C54B /* icon.icns in Resources */,
 				82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */,
 				C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */,
@@ -4871,7 +4868,6 @@
 				8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				829779340E743F2A00631240 /* OEGameAudio.m in Sources */,
-				828ED4D70E7D98940059F397 /* OEGamePickerController.m in Sources */,
 				829022AA0F47F90D00BB7AB7 /* OEGameQTRecorder.m in Sources */,
 				C62F54710FE6ADC500DF15BA /* OEPlugin.m in Sources */,
 				C62F549B0FE6CC1500DF15BA /* OECorePlugin.m in Sources */,
