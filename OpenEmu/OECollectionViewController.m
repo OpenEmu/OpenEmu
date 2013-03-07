@@ -675,6 +675,11 @@ static NSArray *OE_defaultSortDescriptors;
     [object setGridRating:[item rating]];
     [object setGridTitle:[item title]];
     [object setGridImage:[item image]];
+    
+    if([object isKindOfClass:[NSManagedObject class]])
+    {
+        [[(NSManagedObject*)object managedObjectContext] save:nil];
+    }
 }
 #pragma mark - GridView Type Select
 - (BOOL)gridView:(OEGridView *)gridView shouldTypeSelectForEvent:(NSEvent *)event withCurrentSearchString:(NSString *)searchString
@@ -1135,6 +1140,10 @@ static NSArray *OE_defaultSortDescriptors;
             
             [obj setListViewTitle:anObject];
         }
+        else return;
+        
+        if([obj isKindOfClass:[NSManagedObject class]])
+            [[(NSManagedObject*)obj managedObjectContext] save:nil];
     }
 }
 
