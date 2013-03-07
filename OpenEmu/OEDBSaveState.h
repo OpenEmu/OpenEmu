@@ -37,6 +37,8 @@ extern NSString *const OESaveStateSpecialNamePrefix;
 extern NSString *const OESaveStateAutosaveName;
 extern NSString *const OESaveStateQuicksaveName;
 
+extern NSString *const OESaveStateUseQuickSaveSlotsKey;
+
 @class OEDBRom, OECorePlugin, OELibraryDatabase;
 @interface OEDBSaveState : OEDBItem
 
@@ -53,6 +55,8 @@ extern NSString *const OESaveStateQuicksaveName;
 + (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL inDatabase:(OELibraryDatabase *)database;
 
 + (void)updateOrCreateStateWithPath:(NSString*)path;
+
++ (NSString*)nameOfQuickSaveInSlot:(int)slot;
 #pragma mark - Management
 - (BOOL)readInfoPlist;
 - (BOOL)writeInfoPlist;

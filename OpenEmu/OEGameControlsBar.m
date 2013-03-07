@@ -390,19 +390,57 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     {
         BOOL includeAutoSaveState = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsAutoSaveStateKey];
         BOOL includeQuickSaveState = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsQuickSaveStateKey];
-        
+        BOOL useQuickSaveSlots = [[NSUserDefaults standardUserDefaults] boolForKey:OESaveStateUseQuickSaveSlotsKey];
         NSArray *saveStates = [rom normalSaveStatesByTimestampAscending:YES];
         
-        if(includeQuickSaveState && [rom quickSaveStateInSlot:0] != nil)
+        if(includeQuickSaveState && !useQuickSaveSlots && [rom quickSaveStateInSlot:0] != nil)
             saveStates = [@[[rom quickSaveStateInSlot:0]] arrayByAddingObjectsFromArray:saveStates];
 
         if(includeAutoSaveState && [rom autosaveState] != nil)
             saveStates = [@[[rom autosaveState]] arrayByAddingObjectsFromArray:saveStates];
         
-        if([saveStates count]!=0 || (includeAutoSaveState && [rom autosaveState] != nil))
+        if([saveStates count]!=0 || (includeQuickSaveState && useQuickSaveSlots))
         {
             [menu addItem:[NSMenuItem separatorItem]];
             
+            // Build Quck Load item with submenu
+            if(includeQuickSaveState && useQuickSaveSlots)
+            {
+                NSString *loadTitle   = NSLocalizedString(@"Quick Load", @"Quick load menu title");
+                //NSString *saveTitle   = NSLocalizedString(@"Quick Save", @"Quick save menu title");
+                
+                NSMenuItem *loadItem  = [[NSMenuItem alloc] initWithTitle:loadTitle action:NULL keyEquivalent:@""];
+                //NSMenuItem *saveItem  = [[NSMenuItem alloc] initWithTitle:saveTitle action:NULL keyEquivalent:@""];
+                //[saveItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+                //[saveItem setAlternate:YES];
+
+                NSMenu *loadSubmenu = [[NSMenu alloc] initWithTitle:loadTitle];
+                //NSMenu *saveSubmenu = [[NSMenu alloc] initWithTitle:saveTitle];
+
+                for(int i=1; i <= 9; i++)
+                {
+                    OEDBSaveState *state = [rom quickSaveStateInSlot:i];
+                    
+                    loadTitle = [NSString stringWithFormat:NSLocalizedString(@"Slot %d", @"Quick load menu item title"), i];
+                    NSMenuItem *loadItem = [[NSMenuItem alloc] initWithTitle:loadTitle action:@selector(quickLoad:) keyEquivalent:@""];
+                    [loadItem setEnabled:state != nil];
+                    [loadItem setRepresentedObject:@(i)];
+                    [loadSubmenu addItem:loadItem];
+                    
+                    //saveTitle  = [NSString stringWithFormat:NSLocalizedString(@"Save to Slot %d", @"Quick save menu item title"), i];
+                    //NSMenuItem *saveItem = [[NSMenuItem alloc] initWithTitle:saveTitle action:@selector(quickSave:) keyEquivalent:@""];
+                    //[saveItem setRepresentedObject:@(i)];
+                    //[saveSubmenu addItem:saveItem];
+                }
+                
+                [loadItem setSubmenu:loadSubmenu];
+                [menu addItem:loadItem];
+                
+                //[saveItem setSubmenu:saveSubmenu];
+                //[menu addItem:saveItem];
+            }
+            
+            // Add 'normal' save states
             for(OEDBSaveState *saveState in saveStates)
             {
                 NSString *itemTitle = [saveState displayName];

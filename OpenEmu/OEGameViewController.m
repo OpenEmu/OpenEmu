@@ -732,7 +732,14 @@ typedef enum : NSUInteger
 
 - (IBAction)quickSave:(id)sender;
 {
-    [self saveStateWithName:OESaveStateQuicksaveName];
+    int slot = 0;
+    if([[sender representedObject] isKindOfClass:[NSNumber class]])
+        slot = [[sender representedObject] intValue];
+    else if([sender respondsToSelector:@selector(tag)])
+        slot = [sender tag];
+    
+    NSString *name = [OEDBSaveState nameOfQuickSaveInSlot:slot];
+    [self saveStateWithName:name];
 }
 
 - (void)saveStateWithName:(NSString *)stateName
@@ -862,7 +869,13 @@ typedef enum : NSUInteger
 
 - (IBAction)quickLoad:(id)sender;
 {
-    OEDBSaveState *quicksaveState = [[self rom] quickSaveStateInSlot:0];
+    int slot = 0;
+    if([[sender representedObject] isKindOfClass:[NSNumber class]])
+        slot = [[sender representedObject] intValue];
+    else if([sender respondsToSelector:@selector(tag)])
+        slot = [sender tag];
+
+    OEDBSaveState *quicksaveState = [[self rom] quickSaveStateInSlot:slot];
     if(quicksaveState)
         [self loadState:quicksaveState];
 }
@@ -895,13 +908,15 @@ typedef enum : NSUInteger
 }
 
 #pragma mark - Menu Items
-
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     SEL action = [menuItem action];
     
     if(action == @selector(quickLoad:))
-        return [[self rom] quickSaveStateInSlot:0]!=nil;
+    {
+        int slot = [menuItem representedObject] ? [[menuItem representedObject] intValue] : [menuItem tag];
+        return [[self rom] quickSaveStateInSlot:slot]!=nil;
+    }
     else if(action == @selector(pauseGame:))
         return _emulationStatus == OEGameViewControllerEmulationStatusPlaying;
     else if(action == @selector(playGame:))
