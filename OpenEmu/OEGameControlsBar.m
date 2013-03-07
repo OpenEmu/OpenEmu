@@ -270,7 +270,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [addCheatMenuItem setRepresentedObject:cheats];
         [cheatsMenu addItem:addCheatMenuItem];
         
-        [cheatsMenu addItem:[NSMenuItem separatorItem]];
+        if([cheats count] != 0)
+            [cheatsMenu addItem:[NSMenuItem separatorItem]];
         
         for(NSDictionary *cheatObject in cheats)
         {
