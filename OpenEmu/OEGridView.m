@@ -552,6 +552,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 - (void)reloadData
 {
+    [self removeAllToolTips];
     [_selectionIndexes removeAllIndexes];
     _indexOfKeyboardSelection = NSNotFound;
     
