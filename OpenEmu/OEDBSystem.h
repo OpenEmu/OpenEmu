@@ -39,6 +39,8 @@ extern NSString * const OEDBSystemsDidChangeNotification;
 + (NSArray*)allSystemsInDatabase:(OELibraryDatabase *)database;
 + (NSArray*)allSystemsInDatabase:(OELibraryDatabase *)database error:(NSError**)error;
 
++ (NSArray*)allSystemIdentifiers;
+
 + (NSArray*)enabledSystems;
 + (NSArray*)enabledSystemsInDatabase:(OELibraryDatabase *)database;
 + (NSArray*)enabledSystemsInDatabase:(OELibraryDatabase *)database error:(NSError**)outError;

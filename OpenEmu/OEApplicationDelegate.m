@@ -93,7 +93,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                       OEDefaultDatabasePathKey : path,
                                              OEDatabasePathKey : path,
                                      OEAutomaticallyGetInfoKey : @YES,
-                                          OEGameVideoFilterKey : @"Nearest Neighbor",
+                                   OEGameDefaultVideoFilterKey : @"Nearest Neighbor",
                                                OEGameVolumeKey : @0.5f,
                        OEGameControlsBarCanDeleteSaveStatesKey : @YES,
                             @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x"
@@ -388,10 +388,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Setup OEBindingsController
     [OEBindingsController class];
     [OEDeviceManager sharedDeviceManager];
-
-	// Start WiiRemote support
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
-        [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
 }
 
 #pragma mark -

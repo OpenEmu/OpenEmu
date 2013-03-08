@@ -80,6 +80,19 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     return result;
 }
 
++ (NSArray*)allSystemIdentifiers
+{
+    NSArray *allSystems = [self allSystems];
+    NSMutableArray *allSystemIdentifiers = [NSMutableArray arrayWithCapacity:[allSystems count]];
+
+    for(OEDBSystem *system in allSystems)
+    {
+        [allSystemIdentifiers addObject:[system systemIdentifier]];
+    }
+
+    return allSystemIdentifiers;
+}
+
 + (NSArray*)enabledSystems
 {
     return [self enabledSystemsInDatabase:[OELibraryDatabase defaultDatabase]];

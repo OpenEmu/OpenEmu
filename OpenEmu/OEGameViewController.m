@@ -57,7 +57,8 @@
 #import "OEPreferencesController.h"
 
 NSString *const OEGameVolumeKey = @"volume";
-NSString *const OEGameVideoFilterKey = @"videoFilter";
+NSString *const OEGameDefaultVideoFilterKey = @"videoFilter";
+NSString *const OEGameSystemVideoFilterKeyFormat = @"videoFilter.%@";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
 NSString *const OEDontShowGameTitleInWindowKey = @"dontShowGameTitleInWindow";
 NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
@@ -605,8 +606,9 @@ typedef enum : NSUInteger
         filterName = [sender title];
     else
         DLog(@"Invalid argument passed: %@", sender);
-    
-    [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:OEGameVideoFilterKey];
+
+    [gameView setFilterName:filterName];
+    [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, [self systemIdentifier]]];
 }
 
 #pragma mark - Volume
