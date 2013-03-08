@@ -51,7 +51,7 @@
     OEGridLayer                        *_glossyOverlayLayer;
     OEGridLayer                        *_selectionIndicatorLayer;
 
-    NSToolTipTag titleToolTipTag;
+    NSToolTipTag _titleToolTipTag;
 
     BOOL _needsLayoutImageAndSelection;
     BOOL _activeSelector;

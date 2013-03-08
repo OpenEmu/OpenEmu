@@ -314,12 +314,12 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
                                      _titleFrame.size.height);
 
     // set tooltip rect for title
-    if(titleToolTipTag)
+    if(_titleToolTipTag)
     {
-        [[self gridView] removeToolTip:titleToolTipTag];
-        titleToolTipTag = 0;
+        [[self gridView] removeToolTip:_titleToolTipTag];
+        _titleToolTipTag = 0;
     }
-    titleToolTipTag = [[self gridView] addToolTipRect:toolTipFrame owner:self userData:nil];
+    _titleToolTipTag = [[self gridView] addToolTipRect:toolTipFrame owner:self userData:nil];
 
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
@@ -413,7 +413,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 {
     [super prepareForReuse];
 
-    titleToolTipTag = 0;
+    _titleToolTipTag = 0;
     [self setTitle:@""];
     [self setRating:0];
     [self setImage:nil];
