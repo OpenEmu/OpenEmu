@@ -47,6 +47,9 @@
 #import "OEPlayerBindings.h"
 #import "OEKeyBindingGroupDescription.h"
 
+#import "OEDeviceManager.h"
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
+
 #import "OEPreferencesController.h"
 
 NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
@@ -126,6 +129,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     /** ** ** ** ** ** ** ** **/
     // Setup controls popup console list
     [self OE_rebuildSystemsMenu];
+    [self OE_setupInputMenu];
     
     // restore previous state
     NSInteger binding = [sud integerForKey:OELastControlsDeviceTypeKey];
@@ -255,6 +259,28 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     return playerMenu;
 }
 
+- (void)OE_setupInputMenu;
+{
+    NSMenu *inputMenu = [[NSMenu alloc] init];
+    NSMenuItem *inputItem = [[NSMenuItem alloc] initWithTitle:@"Keyboard" action:@selector(changeInputDevice:) keyEquivalent:@""];
+    [inputItem setTag:0];
+    [inputItem setState:NSOnState];
+    [inputMenu addItem:inputItem];
+    
+    // TODO: remove generic Gamepad item, loop through attached HID devices and add to menu, else show nothing
+    NSMenuItem *inputItemDevice = [[NSMenuItem alloc] initWithTitle:@"Gamepad" action:@selector(changeInputDevice:) keyEquivalent:@""];
+    [inputItemDevice setTag:1];
+    [inputMenu addItem:inputItemDevice];
+    
+    [inputMenu addItem:[NSMenuItem separatorItem]];
+    
+    NSMenuItem *inputItemWiimote = [[NSMenuItem alloc] initWithTitle:@"Add a Wiimote…" action:@selector(searchForWiimote:) keyEquivalent:@""];
+    [inputMenu addItem:inputItemWiimote];
+    
+    [[self inputPopupButton] setMenu:inputMenu];
+    [[self inputPopupButton] selectItemWithTag:[[NSUserDefaults standardUserDefaults] integerForKey:OELastControlsDeviceTypeKey]];
+}
+
 - (IBAction)changeSystem:(id)sender
 {
     NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
@@ -369,6 +395,17 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 {
     if(sender == [self controllerView] || sender == [self controlsSetupView])
         [self setSelectedKey:[sender selectedKey]];
+}
+
+- (IBAction)searchForWiimote:(id)sender
+{
+    [self OE_setupInputMenu];
+    
+    // TODO: add dialog with additional instructions
+    
+    // Start WiiRemote support
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
+        [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
 }
 
 - (void)setSelectedKey:(NSString *)value

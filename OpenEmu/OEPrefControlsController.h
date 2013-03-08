@@ -71,6 +71,7 @@
 - (IBAction)changePlayer:(id)sender;
 - (IBAction)changeInputDevice:(id)sender;
 - (IBAction)changeInputControl:(id)sender;
+- (IBAction)searchForWiimote:(id)sender;
 
 #pragma mark -
 - (NSImage *)icon;
