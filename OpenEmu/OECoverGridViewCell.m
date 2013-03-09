@@ -304,9 +304,22 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 - (void)OE_layoutStaticElements
 {
     const CGRect bounds = [self bounds];
+    const CGRect frame = [self frame];
 
     _ratingFrame = CGRectMake(ceil((CGRectGetWidth(bounds) - OECoverGridViewCellSubtitleWidth) / 2.0), CGRectGetHeight(bounds) - OECoverGridViewCellSubtitleHeight, OECoverGridViewCellSubtitleWidth, OECoverGridViewCellSubtitleHeight);
     _titleFrame  = CGRectMake(0.0, CGRectGetMinY(_ratingFrame) - OECoverGridViewCellTitleHeight - 2.0, CGRectGetWidth(bounds), OECoverGridViewCellTitleHeight);
+    CGRect toolTipFrame = CGRectMake(frame.origin.x,
+                                     frame.origin.y + frame.size.height - OECoverGridViewCellSubtitleHeight - OECoverGridViewCellTitleHeight,
+                                     _titleFrame.size.width,
+                                     _titleFrame.size.height);
+
+    // set tooltip rect for title
+    if(_titleToolTipTag)
+    {
+        [[self gridView] removeToolTip:_titleToolTipTag];
+        _titleToolTipTag = 0;
+    }
+    _titleToolTipTag = [[self gridView] addToolTipRect:toolTipFrame owner:self userData:nil];
 
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
@@ -400,6 +413,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 {
     [super prepareForReuse];
 
+    _titleToolTipTag = 0;
     [self setTitle:@""];
     [self setRating:0];
     [self setImage:nil];
@@ -737,6 +751,11 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [_statusIndicatorLayer setType:_indicationType];
 
     return YES;
+}
+
+- (NSString *)view:(NSView *)view stringForToolTip:(NSToolTipTag)tag point:(NSPoint)point userData:(void *)data
+{
+    return [self title];
 }
 
 #pragma mark - NSControlSubclassNotifications

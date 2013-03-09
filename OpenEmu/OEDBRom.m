@@ -215,12 +215,11 @@
 - (NSString *)md5Hash
 {
     NSString *hash = [self md5];
-    if(hash != nil)
+    if(hash == nil)
     {
         [self OE_calculateHashes];
-        return [self md5HashIfAvailable];
+        hash = [self md5HashIfAvailable];
     }
-    
     return hash;
 }
 
@@ -232,13 +231,11 @@
 - (NSString *)crcHash
 {
     NSString *hash = [self crc32];
-    
-    if(hash != nil)
+    if(hash == nil)
     {
         [self OE_calculateHashes];
-        return [self crcHashIfAvailable];
+        hash = [self crcHashIfAvailable];
     }
-    
     return hash;    
 }
 

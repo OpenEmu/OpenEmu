@@ -71,6 +71,7 @@
 							</set>
 							<string key="NSFrame">{{-13, 266}, {425, 159}}</string>
 							<reference key="NSSuperview" ref="714133648"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="112830030"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="26602924">
@@ -101,6 +102,7 @@
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrameSize">{400, 201}</string>
 											<reference key="NSSuperview" ref="839539018"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="144232324"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="859226485">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -324,6 +326,7 @@
 									</array>
 									<string key="NSFrame">{{1, 1}, {400, 201}}</string>
 									<reference key="NSSuperview" ref="672543319"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="900438509"/>
 									<reference key="NSDocView" ref="900438509"/>
 									<reference key="NSBGColor" ref="977971530"/>
@@ -358,7 +361,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{344, 1}, {15, 184}}</string>
 									<reference key="NSSuperview" ref="672543319"/>
-									<reference key="NSNextKeyView"/>
+									<reference key="NSWindow"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<reference key="NSTarget" ref="672543319"/>
 									<string key="NSAction">_doScroller:</string>
@@ -369,6 +372,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="672543319"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="839539018"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<int key="NSsFlags">1</int>
@@ -380,6 +384,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</array>
 							<string key="NSFrameSize">{402, 203}</string>
 							<reference key="NSSuperview" ref="714133648"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="349807226"/>
 							<int key="NSsFlags">133650</int>
 							<reference key="NSVScroller" ref="144232324"/>
@@ -394,6 +399,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 253}, {366, 18}}</string>
 							<reference key="NSSuperview" ref="714133648"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="795529188"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="650439915">
@@ -426,6 +432,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{18, 227}, {366, 18}}</string>
 							<reference key="NSSuperview" ref="714133648"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="750290611"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="54464523">
@@ -448,6 +455,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{146, 211}, {110, 15}}</string>
 							<reference key="NSSuperview" ref="714133648"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="672543319"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1038519380">
@@ -468,9 +476,10 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</array>
 					<string key="NSFrameSize">{400, 420}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="375224823"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">About</string>
 				<bool key="NSWindowIsRestorable">NO</bool>
@@ -2087,14 +2096,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">performClose:</string>
-						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="52346844"/>
-					</object>
-					<int key="connectionID">1131</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">openDocument:</string>
 						<reference key="source" ref="1014"/>
 						<reference key="destination" ref="845888375"/>
@@ -2444,6 +2445,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="910843450"/>
 					</object>
 					<int key="connectionID">1289</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">terminateEmulationOrCloseWindow:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="52346844"/>
+					</object>
+					<int key="connectionID">1291</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -4101,7 +4110,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1289</int>
+			<int key="maxID">1291</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4209,6 +4218,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">OEButton</string>
+					<string key="superclassName">NSButton</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEButton.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">OECollectionViewController</string>
 					<string key="superclassName">NSViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
@@ -4307,6 +4324,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="saveState:">id</string>
 						<string key="setCheat:">id</string>
 						<string key="terminateEmulation:">id</string>
+						<string key="terminateEmulationOrCloseWindow:">id</string>
 						<string key="volumeDown:">id</string>
 						<string key="volumeUp:">id</string>
 					</dictionary>
@@ -4345,6 +4363,10 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBActionInfo" key="terminateEmulation:">
 							<string key="name">terminateEmulation:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="terminateEmulationOrCloseWindow:">
+							<string key="name">terminateEmulationOrCloseWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="volumeDown:">
@@ -4404,6 +4426,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="switchToFlowView:">id</string>
 						<string key="switchToGridView:">id</string>
 						<string key="switchToListView:">id</string>
+						<string key="terminateEmulationOrCloseWindow:">id</string>
 						<string key="toggleSidebar:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -4455,6 +4478,10 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">switchToListView:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="terminateEmulationOrCloseWindow:">
+							<string key="name">terminateEmulationOrCloseWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="toggleSidebar:">
 							<string key="name">toggleSidebar:</string>
 							<string key="candidateClassName">id</string>
@@ -4464,12 +4491,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="mainContentPlaceholderView">NSView</string>
 						<string key="mainSplitView">OELibrarySplitView</string>
 						<string key="sidebarController">OESidebarController</string>
-						<string key="toolbarAddToSidebarButton">NSButton</string>
-						<string key="toolbarFlowViewButton">NSButton</string>
-						<string key="toolbarGridViewButton">NSButton</string>
-						<string key="toolbarListViewButton">NSButton</string>
+						<string key="toolbarAddToSidebarButton">OEButton</string>
+						<string key="toolbarFlowViewButton">OEButton</string>
+						<string key="toolbarGridViewButton">OEButton</string>
+						<string key="toolbarListViewButton">OEButton</string>
 						<string key="toolbarSearchField">NSSearchField</string>
-						<string key="toolbarSidebarButton">NSButton</string>
+						<string key="toolbarSidebarButton">OEButton</string>
 						<string key="toolbarSlider">NSSlider</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -4487,19 +4514,19 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarAddToSidebarButton">
 							<string key="name">toolbarAddToSidebarButton</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">OEButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarFlowViewButton">
 							<string key="name">toolbarFlowViewButton</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">OEButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarGridViewButton">
 							<string key="name">toolbarGridViewButton</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">OEButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarListViewButton">
 							<string key="name">toolbarListViewButton</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">OEButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarSearchField">
 							<string key="name">toolbarSearchField</string>
@@ -4507,7 +4534,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarSidebarButton">
 							<string key="name">toolbarSidebarButton</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">OEButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarSlider">
 							<string key="name">toolbarSlider</string>

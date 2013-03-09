@@ -30,6 +30,7 @@
 #import "OEMainWindowContentController.h"
 #import "OELibraryDatabase.h"
 #import "OELibrarySplitView.h"
+#import "OEButton.h"
 
 @class OELibraryDatabase;
 @class OESidebarController;
@@ -67,6 +68,10 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
 #pragma mark -
+#pragma mark Main Menu Items
+- (IBAction)terminateEmulationOrCloseWindow:(id)sender;
+
+#pragma mark -
 #pragma mark Properties
 @property (nonatomic, getter=isSidebarVisible) BOOL sidebarVisible;
 @property (strong)    OELibraryDatabase *database;
@@ -77,12 +82,12 @@
 @property (strong) IBOutlet OELibrarySplitView           *mainSplitView;
 @property (strong) IBOutlet NSView                       *mainContentPlaceholderView;
 
-@property (strong) IBOutlet NSButton      *toolbarSidebarButton;
-@property (strong) IBOutlet NSButton      *toolbarGridViewButton;
-@property (strong) IBOutlet NSButton      *toolbarFlowViewButton;
-@property (strong) IBOutlet NSButton      *toolbarListViewButton;
+@property (strong) IBOutlet OEButton      *toolbarSidebarButton;
+@property (strong) IBOutlet OEButton      *toolbarGridViewButton;
+@property (strong) IBOutlet OEButton      *toolbarFlowViewButton;
+@property (strong) IBOutlet OEButton      *toolbarListViewButton;
 
-@property (strong) IBOutlet NSButton      *toolbarAddToSidebarButton;
+@property (strong) IBOutlet OEButton      *toolbarAddToSidebarButton;
 @property (strong) IBOutlet NSSearchField *toolbarSearchField;
 @property (strong) IBOutlet NSSlider      *toolbarSlider;
 

@@ -419,6 +419,11 @@ typedef enum : NSUInteger
 
 }
 
+- (IBAction)terminateEmulationOrCloseWindow:(id)sender
+{
+    [self terminateEmulation:sender];
+}
+
 - (void)OE_startEmulation
 {
     if(_emulationStatus != OEGameViewControllerEmulationStatusNotStarted) return;

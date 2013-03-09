@@ -258,6 +258,7 @@ static NSGradient *highlightGradient, *normalGradient;
         
         NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
         [OEMenu openMenu:contextMenu withEvent:theEvent forView:self options:options];
+        return nil;
     }
 
     return [super menuForEvent:theEvent];
@@ -273,7 +274,10 @@ static NSGradient *highlightGradient, *normalGradient;
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if(!(theEvent.modifierFlags & NSControlKeyMask))
+    // AppKit posts a control-mouse-down event when the user control-clicks the view and -menuForEvent: returns nil
+    // since a nil return normally means there is no contextual menu.
+    // However, we do show a menu before returning nil from -menuForEvent:, so we need to ignore control-mouse-down events.
+    if(!([theEvent modifierFlags] & NSControlKeyMask))
         [super mouseDown:theEvent];
 }
 

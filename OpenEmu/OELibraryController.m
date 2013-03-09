@@ -103,6 +103,22 @@ static const CGFloat _OEToolbarHeight = 44;
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
     [splitView setDelegate:self];
+
+    // setup hotkeys
+    [toolbarSidebarButton setToolTip:NSLocalizedString(@"Toggle Sidebar", @"Tooltip")];
+    [toolbarSidebarButton setToolTipStyle:OEToolTipStyleDefault];
+
+    [toolbarGridViewButton setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
+    [toolbarGridViewButton setToolTipStyle:OEToolTipStyleDefault];
+
+    [toolbarFlowViewButton setToolTip:NSLocalizedString(@"Switch To Flow View", @"Tooltip")];
+    [toolbarFlowViewButton setToolTipStyle:OEToolTipStyleDefault];
+
+    [toolbarListViewButton setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
+    [toolbarListViewButton setToolTipStyle:OEToolTipStyleDefault];
+
+    [toolbarAddToSidebarButton setToolTip:NSLocalizedString(@"New Collection", @"Tooltip")];
+    [toolbarAddToSidebarButton setToolTipStyle:OEToolTipStyleDefault];
 }
 
 - (void)viewDidAppear
@@ -235,6 +251,13 @@ static const CGFloat _OEToolbarHeight = 44;
     
     [menuItem setState:[button state]];
      return [button isEnabled];
+}
+
+#pragma mark -
+#pragma mark Main Menu Items
+- (IBAction)terminateEmulationOrCloseWindow:(id)sender
+{
+    [[[self view] window] performClose:sender];
 }
 
 #pragma mark -

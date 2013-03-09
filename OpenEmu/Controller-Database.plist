@@ -626,6 +626,14 @@
 			</dict>
 			<dict>
 				<key>OEControllerDeviceName</key>
+				<string>PDP Afterglow 2</string>
+				<key>OEControllerVendorID</key>
+				<integer>3695</integer>
+				<key>OEControllerProductID</key>
+				<integer>275</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
 				<string>PDP Tron</string>
 				<key>OEControllerVendorID</key>
 				<integer>7085</integer>
