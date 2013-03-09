@@ -552,7 +552,6 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 - (void)reloadData
 {
-    [self removeAllToolTips];
     [_selectionIndexes removeAllIndexes];
     _indexOfKeyboardSelection = NSNotFound;
     
@@ -773,12 +772,14 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 - (void)OE_layoutGridView
 {
+    [self removeAllToolTips];
     if([_visibleCellByIndex count] == 0) return;
 
     [_visibleCellByIndex enumerateKeysAndObjectsUsingBlock:
-     ^ (NSNumber *key, OEGridViewCell *obj, BOOL *stop)
+     ^ (NSNumber *key, OECoverGridViewCell *obj, BOOL *stop)
      {
          [obj setFrame:[self rectForCellAtIndex:[key unsignedIntegerValue]]];
+         [self addToolTipRect:[obj toolTipRect] owner:obj userData:nil];
      }];
 
     _needsLayoutGridView = NO;

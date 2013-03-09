@@ -104,10 +104,8 @@
 - (id)init
 {
     self = [super init];
-    if (self)
+    if(self)
     {
-        NSLog(@"OEHUDAlert init");
-        
         _window = [[OEAlertWindow alloc] init];
         [_window setReleasedWhenClosed:NO];
         
@@ -140,8 +138,6 @@
 
 - (void)dealloc
 {    
-    NSLog(@"OEHUDAlert dealloc");
-    
     _progressbar = nil;
     _suppressionButton = nil;
         
