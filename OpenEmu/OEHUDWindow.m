@@ -399,7 +399,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     [[NSColor clearColor] setFill];
     NSRectFill([self bounds]);
 
-    BOOL isFocused = [[self window].parentWindow isMainWindow] && [NSApp isActive];
+    BOOL isFocused = [[[self window] parentWindow] isKeyWindow] && [NSApp isActive];
     
     NSImage *borderImage = isFocused ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
     [borderImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver/*NSCompositeSourceOver*/ fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
@@ -439,6 +439,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
+    [[[self window] parentWindow] makeKeyWindow];
     NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 
     [self setDragging:NO];
