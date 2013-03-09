@@ -480,6 +480,28 @@
 										<int key="NSTag">3</int>
 										<reference key="NSTarget" ref="631485686"/>
 									</object>
+									<object class="NSMenuItem" id="237928407">
+										<reference key="NSMenu" ref="291515891"/>
+										<string key="NSTitle">Sync all unsynced games with Archive.VG</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<reference key="NSOnImage" ref="413728970"/>
+										<reference key="NSMixedImage" ref="585502003"/>
+										<string key="NSAction">_popUpItemAction:</string>
+										<int key="NSTag">4</int>
+										<reference key="NSTarget" ref="631485686"/>
+									</object>
+									<object class="NSMenuItem" id="319674580">
+										<reference key="NSMenu" ref="291515891"/>
+										<string key="NSTitle">Clear sync queue</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<reference key="NSOnImage" ref="413728970"/>
+										<reference key="NSMixedImage" ref="585502003"/>
+										<string key="NSAction">_popUpItemAction:</string>
+										<int key="NSTag">5</int>
+										<reference key="NSTarget" ref="631485686"/>
+									</object>
 								</array>
 								<reference key="NSMenuFont" ref="126669081"/>
 							</object>
@@ -789,7 +811,6 @@
 						<string key="NSFrame">{{218, 22}, {82, 25}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="414806367">
 							<int key="NSCellFlags">67108864</int>
@@ -1707,6 +1728,8 @@
 							<reference ref="539327253"/>
 							<reference ref="700928862"/>
 							<reference ref="942462033"/>
+							<reference ref="237928407"/>
+							<reference ref="319674580"/>
 						</array>
 						<reference key="parent" ref="631485686"/>
 					</object>
@@ -1915,6 +1938,16 @@
 						<int key="objectID">315</int>
 						<reference key="object" ref="44339081"/>
 						<reference key="parent" ref="355951914"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">318</int>
+						<reference key="object" ref="237928407"/>
+						<reference key="parent" ref="291515891"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">319</int>
+						<reference key="object" ref="319674580"/>
+						<reference key="parent" ref="291515891"/>
 					</object>
 				</array>
 			</object>
@@ -2546,12 +2579,14 @@
 				<string key="314.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="315.CustomClassName">OEButtonCell</string>
 				<string key="315.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="318.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="319.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">317</int>
+			<int key="maxID">319</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
