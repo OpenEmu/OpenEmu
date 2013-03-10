@@ -37,6 +37,7 @@
 
 NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 NSString *const OEBoxSizesKey = @"BoxSizes";
+NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 @interface OEDBGame ()
 - (void)OE_performArchiveSync;
@@ -596,6 +597,14 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
 - (NSMutableSet*)mutableCredits
 {
     return [self mutableSetValueForKeyPath:@"credits"];
+}
+
+- (NSString *)displayName
+{
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDisplayGameTitle])
+        return ([self gameTitle] != nil ? [self gameTitle] : [self name]);
+    else
+        return [self name];
 }
 
 #pragma mark - Debug

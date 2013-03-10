@@ -564,7 +564,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     else
     {
         [item setIndentationLevel:1];
-        [item setTitle:[(OEDBGame *)[value game] name]];
+        [item setTitle:[(OEDBGame *)[value game] displayName]];
         [item setEnabled:YES];
         [item setRepresentedObject:value];
         [item setAction:@selector(launchLastPlayedROM:)];

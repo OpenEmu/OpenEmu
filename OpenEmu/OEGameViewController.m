@@ -274,8 +274,8 @@ typedef enum : NSUInteger
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
     {
-        [window setTitle:[[[self rom] game] name]];
-        gameView.gameTitle = [[[self rom] game] name];
+        [window setTitle:[[[self rom] game] displayName]];
+        gameView.gameTitle = [[[self rom] game] displayName];
     }
 #if DEBUG_PRINT
     [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];

@@ -37,6 +37,7 @@ typedef NSUInteger OEDBGameStatus;
 
 extern NSString *const OEPasteboardTypeGame;
 extern NSString *const OEBoxSizesKey;
+extern NSString *const OEDisplayGameTitle;
 
 @class OELibraryDatabase;
 @class OEDBSystem, OEDBRom, OEDBSaveState;
@@ -118,6 +119,7 @@ extern NSString *const OEBoxSizesKey;
 @property(nonatomic, retain) NSDate    *lastArchiveSync;
 @property(nonatomic, retain) NSNumber  *archiveID;
 @property(nonatomic, retain) NSNumber  *status;
+@property(nonatomic, retain) NSString  *displayName;
 
 #pragma mark -
 #pragma mark Data Model Relationships
