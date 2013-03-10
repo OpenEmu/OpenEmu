@@ -47,8 +47,24 @@
     
     NSURL *url          = [coverFolderURL URLByAppendingPathComponent:uuid];
     
-    NSBitmapImageRep    *bitmapRep       = nil;
-    NSSize              imageSize        = [image size];
+    NSBitmapImageRep    *bitmapRep   = nil;
+    NSSize              imageSize;
+
+    // find a bitmap representation
+    for(NSImageRep *rep in [image representations])
+    {
+        if([rep isKindOfClass:[NSBitmapImageRep class]])
+        {
+            bitmapRep = (NSBitmapImageRep*)rep;
+            break;
+        }
+    }
+
+    if(bitmapRep)
+        imageSize = NSMakeSize([bitmapRep pixelsWide], [bitmapRep pixelsHigh]);
+    else
+        imageSize = [image size];
+    
     float               aspectRatio      = imageSize.width / imageSize.height;
     NSSize              thumbnailSize;
     if(resize)
@@ -70,16 +86,6 @@
     else
     {
         thumbnailSize = imageSize;
-        
-        // find a bitmap representation
-        for(NSImageRep *rep in [image representations])
-        {
-            if([rep isKindOfClass:[NSBitmapImageRep class]])
-            {
-                bitmapRep = (NSBitmapImageRep*)rep;
-                break;
-            }
-        }
         
         if(!bitmapRep) // none found, create one
         {

@@ -1,10 +1,28 @@
-//
-//  OEControlDescription.m
-//  OpenEmu
-//
-//  Created by Remy Demarest on 06/01/2013.
-//
-//
+/*
+ Copyright (c) 2013, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "OEControlDescription.h"
 #import "OEControllerDescription_Internal.h"
@@ -58,22 +76,28 @@ static NSString *OEControlGenericIdentifierFromEvent(OEHIDEvent *event)
 
 @implementation OEControlDescription
 
-- (id)OE_initWithIdentifier:(NSString *)identifier representation:(NSDictionary *)representation genericEvent:(OEHIDEvent *)genericEvent
+- (id)OE_initWithIdentifier:(NSString *)identifier name:(NSString *)name genericEvent:(OEHIDEvent *)genericEvent
 {
     if((self = [super init]))
     {
-        NSAssert((identifier == nil) == (representation == nil), @"Either identifier and representation are both nil or neither are, you screwed up, dude!");
-
         _isGenericControl = identifier == nil;
-        _genericEvent = [genericEvent copy];
-        _identifier = [identifier copy] ? : OEControlGenericIdentifierFromEvent(_genericEvent);
-        _name = representation[@"Name"] ? : [_genericEvent displayDescription];
-
-        if(identifier == nil) [self OE_setupGenericControlValuesForEvent];
-        else [self OE_setupControlValuesWithRepresentations:representation[@"Values"]];
+        _genericEvent     = [genericEvent copy];
+        _identifier       = [identifier copy] ? : OEControlGenericIdentifierFromEvent(_genericEvent);
+        _name             = name              ? : [_genericEvent displayDescription];
     }
-
     return self;
+}
+
+- (void)setUpControlValuesUsingRepresentations:(NSDictionary *)representations;
+{
+    if(_isGenericControl) [self OE_setupGenericControlValuesForEvent];
+    else [self OE_setupControlValuesWithRepresentations:representations];
+
+    [_controlValues enumerateObjectsUsingBlock:
+     ^(OEControlValueDescription *obj, NSUInteger idx, BOOL *stop)
+     {
+         [_controllerDescription OE_controlDescription:self didAddControlValue:obj];
+     }];
 }
 
 - (void)OE_setupControlValuesWithRepresentations:(NSDictionary *)representations;
@@ -144,6 +168,28 @@ static NSString *OEControlGenericIdentifierFromEvent(OEHIDEvent *event)
     _controlValues = [controlValues copy];
 }
 
+- (OEControlValueDescription *)addControlValueWithIdentifier:(NSString *)identifier name:(NSString *)name event:(OEHIDEvent *)event
+{
+    NSAssert([[_controlValues indexesOfObjectsPassingTest:
+              ^ BOOL (OEControlValueDescription *obj, NSUInteger idx, BOOL *stop)
+              {
+                  return [[obj identifier] isEqualToString:identifier] || [[obj event] isEqualToEvent:event];
+              }] count] == 0,
+             @"Control Description %@ already contains a value with identifier %@ or event %@",
+             self, identifier, event);
+
+    NSAssert([event isUsageEqualToEvent:_genericEvent], @"The provided event %@ does not correspond to the even %@ of the receiver %@", event, _genericEvent, self);
+
+    OEControlValueDescription *desc = [[OEControlValueDescription alloc] OE_initWithIdentifier:identifier name:name event:event];
+    [desc setControlDescription:self];
+
+    _controlValues = [(_controlValues ? : @[]) arrayByAddingObject:desc];
+
+    [[self controllerDescription] OE_controlDescription:self didAddControlValue:desc];
+
+    return desc;
+}
+
 - (OEHIDEventType)type
 {
     return [_genericEvent type];
@@ -162,8 +208,8 @@ static NSString *OEControlGenericIdentifierFromEvent(OEHIDEvent *event)
 {
     if((self = [super init]))
     {
-        _identifier      = [identifier copy];
-        _name            = [name copy];
+        _identifier      = [identifier copy] ? : OEControlGenericIdentifierFromEvent(event);
+        _name            = [name copy]       ? : [event displayDescription];
         _event           = [event copy];
         _valueIdentifier = @([event genericIdentifier]);
     }
@@ -191,4 +237,3 @@ static NSString *OEControlGenericIdentifierFromEvent(OEHIDEvent *event)
 }
 
 @end
-    

@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2012, OpenEmu Team
 
-
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -899,9 +898,9 @@ enum {
     [NSApp postHIDEvent:existingEvent];
 }
 
-- (void)readReportData:(void*)dataPointer length:(size_t)dataLength
+- (void)readReportData:(void *)dataPointer length:(size_t)dataLength
 {
-    uint8_t data[dataLength+1];
+    uint8_t data[dataLength + 1];
     data[0] = 0xa1;
     memcpy(data+1, dataPointer, dataLength);
     dataLength += 1;
@@ -920,6 +919,11 @@ enum {
     }
     else if((data[1] & 0xF0) == 0x30) // report contains button info
         [self OE_handleDataReportData:data length:dataLength];
+}
+
+- (void)setUpControllerDescription:(OEControllerDescription *)description usingRepresentation:(NSDictionary *)controlRepresentations;
+{
+    TODO("Setup the controller description with all known controls and control values");
 }
 
 @end

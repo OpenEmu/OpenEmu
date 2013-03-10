@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
 
-
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -68,6 +67,11 @@
         _deviceDescription = [OEDeviceDescription deviceDescriptionForDeviceHandler:self];
 
     return _deviceDescription;
+}
+
+- (void)setUpControllerDescription:(OEControllerDescription *)description usingRepresentation:(NSDictionary *)controlRepresentations
+{
+    NSAssert(NO, @"Need to implement the method in a subclass.");
 }
 
 - (id)copyWithZone:(NSZone *)zone

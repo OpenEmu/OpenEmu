@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
-
+ Copyright (c) 2013, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -32,9 +31,6 @@
 #import "OEHIDEvent.h"
 #import <IOKit/hid/IOHIDUsageTables.h>
 
-OEHIDEventType OEHIDEventTypeFromNSString(NSString *string);
-NSUInteger OEUsageFromUsageStringWithType(NSString *usageString, OEHIDEventType type);
-
 @interface OEHIDEvent ()
 + (instancetype)OE_eventWithElement:(IOHIDElementRef)element value:(NSInteger)value;
 @end
@@ -46,21 +42,17 @@ static NSNumber *_OEDeviceIdentifierKey(id obj)
 
 @interface OEControllerDescription ()
 {
-    NSString     *_identifier;
-    NSString     *_name;
-    NSArray      *_devices;
+    NSString            *_identifier;
+    NSString            *_name;
+    NSArray             *_devices;
 
-    NSDictionary *_controls;
-    NSDictionary *_identifierToControlValue;
-    NSDictionary *_valueIdentifierToControlValue;
-    NSArray      *_axisControls;
-    NSArray      *_buttonControls;
-    NSArray      *_hatSwitchControls;
-    NSArray      *_triggerControls;
+    NSMutableDictionary *_controls;
+    NSMutableDictionary *_identifierToControlValue;
+    NSMutableDictionary *_valueIdentifierToControlValue;
 }
 
 - (id)OE_initWithIdentifier:(NSString *)identifier representation:(NSDictionary *)representation __attribute__((objc_method_family(init)));
-- (id)OE_initWithDevice:(IOHIDDeviceRef)device __attribute__((objc_method_family(init)));
+- (id)OE_initWithDeviceHandler:(OEDeviceHandler *)handler __attribute__((objc_method_family(init)));
 - (BOOL)OE_needsControlSetup;
 
 @end
@@ -103,24 +95,24 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
 
 + (instancetype)controllerDescriptionForDeviceHandler:(OEDeviceHandler *)deviceHandler
 {
-    return [[OEDeviceDescription deviceDescriptionForDeviceHandler:deviceHandler] controllerDescription];
+    return [[self OE_deviceDescriptionForDeviceHandler:deviceHandler] controllerDescription];
 }
 
-+ (OEDeviceDescription *)OE_deviceDescriptionForDeviceHandler:(OEHIDDeviceHandler *)deviceHandler;
++ (OEDeviceDescription *)OE_deviceDescriptionForDeviceHandler:(OEDeviceHandler *)deviceHandler;
 {
-    NSAssert([deviceHandler isKindOfClass:[OEHIDDeviceHandler class]], @"Device Handle type not handled.");
-
     OEDeviceDescription *ret = _deviceIDToDeviceDescriptions[_OEDeviceIdentifierKey(deviceHandler)];
     OEControllerDescription *ctrlDesc = [ret controllerDescription];
 
     if(ret == nil)
     {
-        [self OE_installControllerDescription:[[OEControllerDescription alloc] OE_initWithDevice:[deviceHandler device]]];
+        OEControllerDescription *desc = [[OEControllerDescription alloc] OE_initWithDeviceHandler:deviceHandler];
+        [self OE_installControllerDescription:desc];
+        [deviceHandler setUpControllerDescription:desc usingRepresentation:nil];
         ret = _deviceIDToDeviceDescriptions[_OEDeviceIdentifierKey(deviceHandler)];
     }
     else if([ctrlDesc OE_needsControlSetup])
     {
-        [ctrlDesc OE_setupControlsWithMappings:_mappingRepresentations[[ctrlDesc identifier]] IOHIDDevice:[deviceHandler device]];
+        [deviceHandler setUpControllerDescription:ctrlDesc usingRepresentation:_mappingRepresentations[[ctrlDesc identifier]]];
         [_mappingRepresentations removeObjectForKey:[ctrlDesc identifier]];
     }
 
@@ -141,6 +133,10 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     {
         _identifier = [identifier copy];
         _name = representation[@"OEControllerName"];
+        
+        _controls = [NSMutableDictionary dictionary];
+        _identifierToControlValue = [NSMutableDictionary dictionary];
+        _valueIdentifierToControlValue = [NSMutableDictionary dictionary];
 
         [self OE_setupDevicesWithRepresentations:[representation objectForKey:@"OEControllerDevices"]];
     }
@@ -148,24 +144,27 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     return self;
 }
 
-- (id)OE_initWithDevice:(IOHIDDeviceRef)device
+- (id)OE_initWithDeviceHandler:(OEDeviceHandler *)handler
 {
     if((self = [super init]))
     {
         _isGeneric = YES;
-        _name = (__bridge NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
+        _name = [handler product];
+
+        _controls = [NSMutableDictionary dictionary];
+        _identifierToControlValue = [NSMutableDictionary dictionary];
+        _valueIdentifierToControlValue = [NSMutableDictionary dictionary];
+        
         OEDeviceDescription *desc = [[OEDeviceDescription alloc] OE_initWithRepresentation:
                                      @{
                                          @"OEControllerDeviceName" : _name,
-                                         @"OEControllerVendorID"   : (__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)),
-                                         @"OEControllerProductID"  : (__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey))
+                                         @"OEControllerVendorID"   : @([handler vendorID]),
+                                         @"OEControllerProductID"  : @([handler productID])
                                      }];
         [desc setControllerDescription:self];
 
         _identifier = [desc genericDeviceIdentifier];
-
         _devices = @[ desc ];
-        [self OE_setupControlsWithMappings:nil IOHIDDevice:device];
     }
 
     return self;
@@ -188,178 +187,6 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     }
 
     _devices = [devices copy];
-}
-
-- (void)OE_setupHatSwitchElement:(IOHIDElementRef)element
-{
-    NSInteger count = IOHIDElementGetLogicalMax(element) - IOHIDElementGetLogicalMin(element) + 1;
-    OEHIDEventHatSwitchType type = OEHIDEventHatSwitchTypeUnknown;
-    switch(count)
-    {
-        case 4 : type = OEHIDEventHatSwitchType4Ways; break;
-        case 8 : type = OEHIDEventHatSwitchType8Ways; break;
-    }
-    IOHIDElementSetProperty(element, CFSTR(kOEHIDElementHatSwitchTypeKey), (__bridge CFTypeRef)@(type));
-}
-
-- (IOHIDElementRef)OE_elementForRepresentation:(NSDictionary *)representation inGenericDesktopElements:(NSMutableArray *)genericDesktopElements andButtonElements:(NSMutableArray *)buttonElements
-{
-    OEHIDEventType type = OEHIDEventTypeFromNSString(representation[@"Type"]);
-    NSUInteger cookie = [representation[@"Cookie"] integerValue];
-    NSUInteger usage = OEUsageFromUsageStringWithType(representation[@"Usage"], type);
-
-    __block IOHIDElementRef ret = NULL;
-
-    NSMutableArray *targetArray = type == OEHIDEventTypeButton ? buttonElements : genericDesktopElements;
-    [targetArray enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
-     {
-         IOHIDElementRef elem = (__bridge IOHIDElementRef)obj;
-
-         if((cookie != OEUndefinedCookie && cookie != IOHIDElementGetCookie(elem))
-            || usage != IOHIDElementGetUsage(elem))
-             return;
-
-         ret = elem;
-         // Make sure you stop enumerating right after modifying the array
-         // or else it will throw an exception.
-         [targetArray removeObjectAtIndex:idx];
-         *stop = YES;
-     }];
-
-    switch(type)
-    {
-        case OEHIDEventTypeTrigger :
-            IOHIDElementSetProperty(ret, CFSTR(kOEHIDElementIsTriggerKey), (__bridge CFTypeRef)@YES);
-            break;
-        case OEHIDEventTypeHatSwitch :
-            [self OE_setupHatSwitchElement:ret];
-            break;
-        default :
-            break;
-    }
-
-    return ret;
-}
-
-- (void)OE_parseGenericDesktopElements:(NSArray *)genericDesktopElements usingBlock:(void(^)(IOHIDElementRef))block;
-{
-    NSMutableArray *posNegElements = [NSMutableArray array];
-    NSMutableArray *posElements    = [NSMutableArray array];
-
-    for(id element in genericDesktopElements)
-    {
-        IOHIDElementRef elem  = (__bridge IOHIDElementRef)element;
-        uint32_t        usage = IOHIDElementGetUsage(elem);
-
-        if(usage == kHIDUsage_GD_Hatswitch)
-        {
-            [self OE_setupHatSwitchElement:elem];
-            block(elem);
-        }
-        else if(kHIDUsage_GD_X <= usage && usage <= kHIDUsage_GD_Rz)
-        {
-            CFIndex minimum = IOHIDElementGetLogicalMin(elem);
-            CFIndex maximum = IOHIDElementGetLogicalMax(elem);
-
-            if(minimum == 0) [posElements addObject:element];
-            else if(minimum < 0 && maximum > 0) [posNegElements addObject:element];
-        }
-    }
-
-    NSArray *axisElements = [posElements count] > 0 ? posElements : posNegElements;
-
-    if([posNegElements count] != 0 && [posElements count] != 0)
-    {
-        for(id element in posElements)
-        {
-            IOHIDElementRef elem  = (__bridge IOHIDElementRef)element;
-            IOHIDElementSetProperty(elem, CFSTR(kOEHIDElementIsTriggerKey), (__bridge CFTypeRef)@YES);
-            block(elem);
-        }
-
-        axisElements = posNegElements;
-    }
-
-    for(id element in posElements) block((__bridge IOHIDElementRef)element);
-}
-
-- (void)OE_setupControlsWithMappings:(NSDictionary *)mappings IOHIDDevice:(IOHIDDeviceRef)device
-{
-    NSMutableArray *genericDesktopElements = [(__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(device, (__bridge CFDictionaryRef)@{ @kIOHIDElementUsagePageKey : @(kHIDPage_GenericDesktop) }, 0) mutableCopy];
-    NSMutableArray *buttonElements = [(__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(device, (__bridge CFDictionaryRef)@{ @kIOHIDElementUsagePageKey : @(kHIDPage_Button) }, 0) mutableCopy];
-
-    NSMutableDictionary *controls                      = [NSMutableDictionary dictionaryWithCapacity:[mappings count]];
-    NSMutableDictionary *identifierToControlValue      = [NSMutableDictionary dictionaryWithCapacity:[mappings count] * 2];
-    NSMutableDictionary *valueIdentifierToControlValue = [NSMutableDictionary dictionaryWithCapacity:[mappings count] * 2];
-    NSMutableArray      *axisControls                  = [NSMutableArray arrayWithCapacity:6];
-    NSMutableArray      *buttonControls                = [NSMutableArray arrayWithCapacity:32];
-    NSMutableArray      *hatSwitchControls             = [NSMutableArray arrayWithCapacity:1];
-    NSMutableArray      *triggerControls               = [NSMutableArray arrayWithCapacity:2];
-
-    void (^addControl)(NSString *, NSDictionary *, IOHIDElementRef) =
-    ^(NSString *identifier, NSDictionary *representation, IOHIDElementRef elem)
-    {
-        OEHIDEvent *genericEvent = [OEHIDEvent OE_eventWithElement:elem value:0];
-        OEControlDescription *desc = [[OEControlDescription alloc] OE_initWithIdentifier:identifier representation:representation genericEvent:genericEvent];
-        [desc setControllerDescription:self];
-
-        controls[[desc identifier]] = desc;
-
-        switch([genericEvent type])
-        {
-            case OEHIDEventTypeAxis      : [axisControls      addObject:desc]; break;
-            case OEHIDEventTypeButton    : [buttonControls    addObject:desc]; break;
-            case OEHIDEventTypeHatSwitch : [hatSwitchControls addObject:desc]; break;
-            case OEHIDEventTypeTrigger   : [triggerControls   addObject:desc]; break;
-            default : return;
-        }
-
-        for(OEControlValueDescription *value in [desc controlValues])
-        {
-            identifierToControlValue[[value identifier]] = value;
-            valueIdentifierToControlValue[[value valueIdentifier]] = value;
-        }
-    };
-
-    [mappings enumerateKeysAndObjectsUsingBlock:
-     ^(NSString *identifier, NSDictionary *rep, BOOL *stop)
-     {
-         IOHIDElementRef elem = [self OE_elementForRepresentation:rep inGenericDesktopElements:genericDesktopElements andButtonElements:buttonElements];
-         addControl(identifier, rep, elem);
-     }];
-
-    if([controls count] > 0)
-    {
-        [genericDesktopElements enumerateObjectsWithOptions:NSEnumerationConcurrent | NSEnumerationReverse usingBlock:
-         ^(id elem, NSUInteger idx, BOOL *stop)
-         {
-             if([OEHIDEvent OE_eventWithElement:(__bridge IOHIDElementRef)elem value:0] == nil)
-                 [genericDesktopElements removeObjectAtIndex:idx];
-         }];
-
-        if([genericDesktopElements count] > 0)
-            NSLog(@"WARNING: There are %ld generic desktop elements unaccounted for in %@", [genericDesktopElements count], _name);
-
-        if([buttonElements count] > 0)
-            NSLog(@"WARNING: There are %ld button elements unaccounted for.", [buttonElements count]);
-    }
-
-    for(id e in buttonElements) addControl(nil, nil, (__bridge IOHIDElementRef)e);
-
-    [self OE_parseGenericDesktopElements:genericDesktopElements usingBlock:
-     ^(IOHIDElementRef elem)
-     {
-         addControl(nil, nil, elem);
-     }];
-
-    _controls = [controls copy];
-    _identifierToControlValue = [identifierToControlValue copy];
-    _valueIdentifierToControlValue = [valueIdentifierToControlValue copy];
-    _axisControls = [axisControls copy];
-    _buttonControls = [buttonControls copy];
-    _hatSwitchControls = [hatSwitchControls copy];
-    _triggerControls = [triggerControls copy];
 }
 
 - (NSArray *)controls
@@ -394,7 +221,33 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
 
 - (BOOL)OE_needsControlSetup
 {
-    return _controls == nil;
+    return ([_controls count] == 0);
+}
+
+- (OEControlDescription *)addControlWithIdentifier:(NSString *)identifier name:(NSString *)name event:(OEHIDEvent *)event;
+{
+    OEControlDescription *desc = [[OEControlDescription alloc] OE_initWithIdentifier:identifier name:name genericEvent:event];
+    NSAssert(_controls[[desc identifier]] == nil, @"There is already a control %@ with the identifier %@", _controls[[desc identifier]], identifier);
+
+    [desc setControllerDescription:self];
+    _controls[[desc identifier]] = desc;
+
+    return desc;
+}
+
+- (OEControlDescription *)addControlWithIdentifier:(NSString *)identifier name:(NSString *)name event:(OEHIDEvent *)event valueRepresentations:(NSDictionary *)valueRepresentations;
+{
+    OEControlDescription *desc = [self addControlWithIdentifier:identifier name:name event:event];
+    [desc setUpControlValuesUsingRepresentations:valueRepresentations];
+
+    return desc;
+}
+
+
+- (void)OE_controlDescription:(OEControlDescription *)control didAddControlValue:(OEControlValueDescription *)valueDesc;
+{
+    _identifierToControlValue[[valueDesc identifier]] = valueDesc;
+    _valueIdentifierToControlValue[[valueDesc valueIdentifier]] = valueDesc;
 }
 
 @end

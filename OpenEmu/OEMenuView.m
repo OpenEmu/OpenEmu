@@ -826,10 +826,10 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
     }
     else
     {
-        NSRect  arrowRect;
-        NSPoint point1;
-        NSPoint point2;
-        NSPoint point3;
+        NSRect  arrowRect = NSZeroRect;
+        NSPoint point1    = NSZeroPoint;
+        NSPoint point2    = NSZeroPoint;
+        NSPoint point3    = NSZeroPoint;
         CGFloat v1, v2;
 
         switch(_effectiveArrowEdge)

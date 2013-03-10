@@ -125,8 +125,8 @@
 {    
     NSSet *thumbnailsSet = [self valueForKey:@"versions"];
     
-    NSSortDescriptor *sotDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
-    NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
+    NSSortDescriptor *sortDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
+    NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescr]];
     
     OEDBImageThumbnail *usableThumbnail = nil;
     for(OEDBImageThumbnail *obj in thumbnails)

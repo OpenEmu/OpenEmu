@@ -59,8 +59,6 @@
 		[[self filterSelection] selectItemWithTitle:selectedFilterName];
     else
 		[[self filterSelection] selectItemAtIndex:0];
-
-	[self changeFilter:[self filterSelection]];
 }
 
 #pragma mark ViewController Overrides
