@@ -110,7 +110,6 @@ static NSArray *OE_defaultSortDescriptors;
 
 @implementation OECollectionViewController
 {
-    BOOL _stateRewriteRequired;
     int _selectedViewTag;
 }
 @synthesize libraryController, gamesController;
@@ -251,8 +250,7 @@ static NSArray *OE_defaultSortDescriptors;
     [super setRepresentedObject:representedObject];
 
     [[listView tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
-    
-    _stateRewriteRequired = YES;
+
     [self OE_reloadData];
 }
 
@@ -263,7 +261,7 @@ static NSArray *OE_defaultSortDescriptors;
 
 - (id)encodeCurrentState
 {
-    if(!_stateRewriteRequired || ![self libraryController] || _selectedViewTag==OEBlankSlateTag)
+    if(![self libraryController] || _selectedViewTag==OEBlankSlateTag)
         return nil;
     
     NSMutableData    *data  = [NSMutableData data];
@@ -274,6 +272,7 @@ static NSArray *OE_defaultSortDescriptors;
     [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
     [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
     if([listView sortDescriptors]) [coder encodeObject:[listView sortDescriptors] forKey:@"listViewSortDescriptors"];
+    if(_selectedViewTag == OEGridViewTag) [coder encodeRect:[[gridView enclosingScrollView] documentVisibleRect] forKey:@"gridViewVisibleRect"];
     
     [coder finishEncoding];
     
@@ -288,6 +287,7 @@ static NSArray *OE_defaultSortDescriptors;
     float sliderValue;
     NSIndexSet *selectionIndexes;
     NSArray    *listViewSortDescriptors = nil;
+    NSRect      gridViewVisibleRect;
     
     NSSlider    *sizeSlider     = [[self libraryController] toolbarSlider];
     NSTextField *searchField    = [[self libraryController] toolbarSearchField];
@@ -299,6 +299,7 @@ static NSArray *OE_defaultSortDescriptors;
         sliderValue             = [coder decodeFloatForKey:@"sliderValue"];
         selectionIndexes        = [coder decodeObjectForKey:@"selectionIndexes"];
         listViewSortDescriptors = [coder decodeObjectForKey:@"listViewSortDescriptors"];
+        gridViewVisibleRect     = [coder decodeRectForKey:@"gridViewVisibleRect"];
         
         [coder finishDecoding];
                 
@@ -332,12 +333,15 @@ static NSArray *OE_defaultSortDescriptors;
         [[self gamesController] setSortDescriptors:(listViewSortDescriptors ? : OE_defaultSortDescriptors)];
         [listView reloadData];
     }
+    else
+    {
+        [gridView setSelectionIndexes:selectionIndexes];
+        [gridView scrollRectToVisible:gridViewVisibleRect];
+    }
 
     [self OE_updateBlankSlate];
-    
-    _stateRewriteRequired = NO;
-    // TODO: restore selection using selectionIndexes
 }
+
 #pragma mark -
 - (NSArray *)selectedGames
 {
@@ -395,8 +399,7 @@ static NSArray *OE_defaultSortDescriptors;
 
     [self OE_setupToolbarStatesForViewTag:tag];
     [self OE_showView:tag];
-    
-    _stateRewriteRequired = (tag != OEBlankSlateTag);
+
     _selectedViewTag = tag;
 }
 
@@ -536,8 +539,7 @@ static NSArray *OE_defaultSortDescriptors;
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     [gridView reloadData];
-    
-    _stateRewriteRequired = YES;
+
 }
 
 - (IBAction)changeGridSize:(id)sender
@@ -548,7 +550,6 @@ static NSArray *OE_defaultSortDescriptors;
     [self setNeedsReloadVisible];
     
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
-    _stateRewriteRequired = YES;
 }
 
 #pragma mark -
@@ -556,7 +557,6 @@ static NSArray *OE_defaultSortDescriptors;
 - (void)selectionChangedInGridView:(OEGridView *)view
 {
     [gamesController setSelectionIndexes:[view selectionIndexes]];
-    _stateRewriteRequired = YES;
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugCollectionView] && [[[self gamesController] selectedObjects] count])
     {
@@ -1178,8 +1178,7 @@ static NSArray *OE_defaultSortDescriptors;
         [coverFlowView setSelectedIndex:selectedRow];
     }
     else [coverFlowView reloadData];
-    
-    _stateRewriteRequired = YES;
+
 }
 
 #pragma mark -
