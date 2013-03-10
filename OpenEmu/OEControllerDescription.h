@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2012, OpenEmu Team
 
-
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -47,10 +46,6 @@
 @property(readonly) NSArray *devices;
 
 @property(readonly) NSArray *controls;
-@property(readonly) NSArray *axisControls;
-@property(readonly) NSArray *buttonControls;
-@property(readonly) NSArray *hatSwitchControls;
-@property(readonly) NSArray *triggerControls;
 
 - (OEControlDescription *)controlDescriptionForIOHIDElement:(IOHIDElementRef)element;
 - (OEControlDescription *)controlDescriptionForIdentifier:(NSString *)controlIdentifier;
@@ -59,4 +54,10 @@
 - (OEControlValueDescription *)controlValueDescriptionForIdentifier:(NSString *)controlIdentifier;
 - (OEControlValueDescription *)controlValueDescriptionForValueIdentifier:(NSNumber *)controlValueIdentifier;
 
+- (OEControlDescription *)addControlWithIdentifier:(NSString *)identifier name:(NSString *)name event:(OEHIDEvent *)event;
+- (OEControlDescription *)addControlWithIdentifier:(NSString *)identifier name:(NSString *)name event:(OEHIDEvent *)event valueRepresentations:(NSDictionary *)valueRepresentations;
+
 @end
+
+OEHIDEventType OEHIDEventTypeFromNSString(NSString *string);
+NSUInteger OEUsageFromUsageStringWithType(NSString *usageString, OEHIDEventType type);
