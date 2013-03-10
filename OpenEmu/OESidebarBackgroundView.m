@@ -29,7 +29,7 @@
 @implementation OESidebarBackgroundView
 
 - (void)drawRect:(NSRect)dirtyRect
-{    
+{
     [[NSColor colorWithDeviceWhite:(63/255.0) alpha:1.0] setFill];
     NSRectFill(dirtyRect);
     [[NSColor blackColor] setFill];

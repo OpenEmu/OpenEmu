@@ -30,11 +30,15 @@
 
 extern NSString *const OESuppressRemoveCollectionConfirmationKey;
 
+extern NSString *const OESidebarMinWidth;
+extern NSString *const OESidebarMaxWidth;
+extern NSString *const OEMainViewMinWidth;
+
 @class OELibraryDatabase, OESidebarOutlineView;
 @protocol OECollectionViewItemProtocol;
 @protocol OESidebarItem;
 
-@interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource, OEDraggingDestinationDelegate>
+@interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>
 
 - (IBAction)addCollectionAction:(id)sender;
 

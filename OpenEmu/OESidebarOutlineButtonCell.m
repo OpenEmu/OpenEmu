@@ -28,6 +28,7 @@
 #import "OESidebarOutlineButtonCell.h"
 #import "NSImage+OEDrawingAdditions.h"
 @implementation OESidebarOutlineButtonCell
+
 + (void)initialize
 {
     if(self != [OESidebarOutlineButtonCell class])
@@ -36,12 +37,6 @@
     NSImage *image = [NSImage imageNamed:@"sidebar_triangle"];
     [image setName:@"sidebar_triangle_closed" forSubimageInRect:NSMakeRect(0, 0, 9, 9)];
     [image setName:@"sidebar_triangle_open" forSubimageInRect:NSMakeRect(9, 0, 9, 9)];
-}
-- (id)init {
-    self = [super init];
-    if (self) {
-    }
-    return self;
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView

@@ -26,24 +26,9 @@
 #import <Foundation/Foundation.h>
 
 extern NSString *const OESidebarConsolesNotCollapsibleKey;
-extern NSString *const OESidebarMinWidth;
-extern NSString *const OESidebarMaxWidth;
-extern NSString *const OEMainViewMinWidth;
-
-@protocol OEDraggingDestinationDelegate <NSObject>
-
-- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender;
-- (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender;
-- (void)draggingEnded:(id<NSDraggingInfo>)sender;
-- (void)draggingExited:(id<NSDraggingInfo>)sender;
-
-- (BOOL)prepareForDragOperation:(id<NSDraggingInfo>)sender;
-- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender;
-- (void)concludeDragOperation:(id<NSDraggingInfo>)sender;
-@end
 
 @interface OESidebarOutlineView : NSOutlineView <NSDraggingDestination>
-@property (unsafe_unretained) id <OEDraggingDestinationDelegate> dragDelegate;
+@property BOOL isDrawingAboveDropHighlight;
 @end
 
 @interface OESidebarOutlineView (OEPrivate)

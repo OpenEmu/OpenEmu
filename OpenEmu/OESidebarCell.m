@@ -201,7 +201,6 @@
 	
 	
 	NSWindow *win = [controlView window];
-	NSInteger row = [(NSTableView*)controlView rowAtPoint:cellFrame.origin]; 
 	BOOL isSelected = [self isHighlighted];
 	BOOL isActive = [win isMainWindow] && [win firstResponder]==controlView;
 
@@ -220,9 +219,6 @@
 		titleFrame.origin.y += 9;
 		titleFrame.origin.x += 2;
 		titleFrame.size.width -= 2;
-		
-		if(row == 0 && [[NSUserDefaults standardUserDefaults] boolForKey:OESidebarConsolesNotCollapsibleKey])
-			titleFrame.origin.x -= 10;
 	} 
     else if(isSelected && isActive)
     {
@@ -260,7 +256,7 @@
 	NSAttributedString *strVal = [[NSAttributedString alloc] initWithString:[self stringValue] attributes:attributes];
 	[self setAttributedStringValue:strVal];
     
-	[super drawWithFrame:titleFrame inView:controlView];
+    [super drawWithFrame:titleFrame inView:controlView];
 }
 
 - (NSUInteger)hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView 
