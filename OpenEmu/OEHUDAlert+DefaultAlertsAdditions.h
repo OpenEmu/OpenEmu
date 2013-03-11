@@ -31,6 +31,7 @@ extern NSString *const OEMaxSaveGameNameLengthKey;
 
 @interface OEHUDAlert (DefaultAlertsAdditions)
 
++ (id)quitApplicationAlert;
 + (id)saveGameAlertWithProposedName:(NSString *)name;
 + (id)saveAutoSaveGameAlert;
 + (id)loadAutoSaveGameAlert;

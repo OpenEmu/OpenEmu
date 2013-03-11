@@ -114,7 +114,8 @@ extern NSString *const OEGameViewControllerROMKey;
 
 #pragma mark - Controlling Emulation
 - (void)resetGame;
-- (IBAction)terminateEmulation:(id)sender;
+- (BOOL)shouldTerminateEmulation;
+- (void)terminateEmulation;
 - (IBAction)terminateEmulationOrCloseWindow:(id)sender;
 
 - (IBAction)pauseGame:(id)sender;

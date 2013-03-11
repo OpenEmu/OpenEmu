@@ -47,7 +47,7 @@
 #import "OESetupAssistant.h"
 #import "OELibraryController.h"
 
-#import "OEHUDAlert.h"
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEGameDocument.h"
 
 #import "OEDBRom.h"
@@ -170,6 +170,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     {
         [[mainWindowController window] toggleFullScreen:self];
     }
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+    if([mainWindowController gamesRunning] && !([[OEHUDAlert quitApplicationAlert] runModal] == NSAlertDefaultReturn))
+        return NSTerminateCancel;
+    return NSTerminateNow;
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender

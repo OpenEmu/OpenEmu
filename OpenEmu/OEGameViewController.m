@@ -301,7 +301,7 @@ typedef enum : NSUInteger
     [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
 #endif
     [[self controlsWindow] hide];
-    [self terminateEmulation:self];
+    [self terminateEmulation];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification
@@ -357,27 +357,31 @@ typedef enum : NSUInteger
     }
 }
 
-- (IBAction)terminateEmulation:(id)sender
+- (BOOL)shouldTerminateEmulation
 {
-    if(_emulationStatus == OEGameViewControllerEmulationStatusNotStarted ||
-       _emulationStatus == OEGameViewControllerEmulationStatusTerminating)
-        return;
-
     [self enableOSSleep];
     [self pauseGame:self];
-    
+
     [[self controlsWindow] setCanShow:NO];
-    
-    if([[OEHUDAlert saveAutoSaveGameAlert] runModal])
-        [self saveStateWithName:OESaveStateAutosaveName];
 
     if(![[OEHUDAlert stopEmulationAlert] runModal] == NSAlertDefaultReturn)
     {
         [[self controlsWindow] setCanShow:YES];
         [self disableOSSleep];
         [self playGame:self];
-        return;
+        return NO;
     }
+
+    return YES;
+}
+
+- (void)terminateEmulation
+{
+    if(_emulationStatus == OEGameViewControllerEmulationStatusNotStarted ||
+       _emulationStatus == OEGameViewControllerEmulationStatusTerminating)
+        return;
+
+    [self saveStateWithName:OESaveStateAutosaveName];
 
     _emulationStatus = OEGameViewControllerEmulationStatusTerminating;
 
@@ -421,7 +425,8 @@ typedef enum : NSUInteger
 
 - (IBAction)terminateEmulationOrCloseWindow:(id)sender
 {
-    [self terminateEmulation:sender];
+    if([self shouldTerminateEmulation])
+        [self terminateEmulation];
 }
 
 - (void)OE_startEmulation
