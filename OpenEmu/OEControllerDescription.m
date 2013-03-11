@@ -133,10 +133,6 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     {
         _identifier = [identifier copy];
         _name = representation[@"OEControllerName"];
-        
-        _controls = [NSMutableDictionary dictionary];
-        _identifierToControlValue = [NSMutableDictionary dictionary];
-        _valueIdentifierToControlValue = [NSMutableDictionary dictionary];
 
         [self OE_setUpDevicesWithRepresentations:[representation objectForKey:@"OEControllerDevices"]];
     }
@@ -151,10 +147,6 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
         _isGeneric = YES;
         _name = [handler product];
 
-        _controls = [NSMutableDictionary dictionary];
-        _identifierToControlValue = [NSMutableDictionary dictionary];
-        _valueIdentifierToControlValue = [NSMutableDictionary dictionary];
-        
         OEDeviceDescription *desc = [[OEDeviceDescription alloc] OE_initWithRepresentation:
                                      @{
                                          @"OEControllerDeviceName" : _name,
