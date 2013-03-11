@@ -90,8 +90,8 @@ static NSString *OEControlGenericIdentifierFromEvent(OEHIDEvent *event)
 
 - (void)setUpControlValuesUsingRepresentations:(NSDictionary *)representations;
 {
-    if(_isGenericControl) [self OE_setupGenericControlValuesForEvent];
-    else [self OE_setupControlValuesWithRepresentations:representations];
+    if(_isGenericControl) [self OE_setUpGenericControlValuesForEvent];
+    else [self OE_setUpControlValuesWithRepresentations:representations];
 
     [_controlValues enumerateObjectsUsingBlock:
      ^(OEControlValueDescription *obj, NSUInteger idx, BOOL *stop)
@@ -100,7 +100,7 @@ static NSString *OEControlGenericIdentifierFromEvent(OEHIDEvent *event)
      }];
 }
 
-- (void)OE_setupControlValuesWithRepresentations:(NSDictionary *)representations;
+- (void)OE_setUpControlValuesWithRepresentations:(NSDictionary *)representations;
 {
     NSMutableArray *controlValues = [NSMutableArray array];
 
@@ -137,7 +137,7 @@ static NSString *OEControlGenericIdentifierFromEvent(OEHIDEvent *event)
     _controlValues = [controlValues copy];
 }
 
-- (void)OE_setupGenericControlValuesForEvent;
+- (void)OE_setUpGenericControlValuesForEvent;
 {
     NSMutableArray *controlValues = [NSMutableArray array];
 

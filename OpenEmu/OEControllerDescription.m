@@ -107,12 +107,12 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     {
         OEControllerDescription *desc = [[OEControllerDescription alloc] OE_initWithDeviceHandler:deviceHandler];
         [self OE_installControllerDescription:desc];
-        [deviceHandler setUpControllerDescription:desc usingRepresentation:nil];
+        [desc OE_setUpControlsWithDeviceHandler:deviceHandler representation:nil];
         ret = _deviceIDToDeviceDescriptions[_OEDeviceIdentifierKey(deviceHandler)];
     }
     else if([ctrlDesc OE_needsControlSetup])
     {
-        [deviceHandler setUpControllerDescription:ctrlDesc usingRepresentation:_mappingRepresentations[[ctrlDesc identifier]]];
+        [ctrlDesc OE_setUpControlsWithDeviceHandler:deviceHandler representation:_mappingRepresentations[[ctrlDesc identifier]]];
         [_mappingRepresentations removeObjectForKey:[ctrlDesc identifier]];
     }
 
@@ -133,12 +133,8 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     {
         _identifier = [identifier copy];
         _name = representation[@"OEControllerName"];
-        
-        _controls = [NSMutableDictionary dictionary];
-        _identifierToControlValue = [NSMutableDictionary dictionary];
-        _valueIdentifierToControlValue = [NSMutableDictionary dictionary];
 
-        [self OE_setupDevicesWithRepresentations:[representation objectForKey:@"OEControllerDevices"]];
+        [self OE_setUpDevicesWithRepresentations:[representation objectForKey:@"OEControllerDevices"]];
     }
 
     return self;
@@ -151,10 +147,6 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
         _isGeneric = YES;
         _name = [handler product];
 
-        _controls = [NSMutableDictionary dictionary];
-        _identifierToControlValue = [NSMutableDictionary dictionary];
-        _valueIdentifierToControlValue = [NSMutableDictionary dictionary];
-        
         OEDeviceDescription *desc = [[OEDeviceDescription alloc] OE_initWithRepresentation:
                                      @{
                                          @"OEControllerDeviceName" : _name,
@@ -175,7 +167,7 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     return self;
 }
 
-- (void)OE_setupDevicesWithRepresentations:(NSArray *)representations
+- (void)OE_setUpDevicesWithRepresentations:(NSArray *)representations
 {
     NSMutableArray *devices = [[NSMutableArray alloc] initWithCapacity:[representations count]];
 
@@ -187,6 +179,16 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     }
 
     _devices = [devices copy];
+}
+
+- (void)OE_setUpControlsWithDeviceHandler:(OEDeviceHandler *)handler representation:(NSDictionary *)representation
+{
+    if(_controls != nil) return;
+
+    _controls = [NSMutableDictionary dictionary];
+    _identifierToControlValue = [NSMutableDictionary dictionary];
+    _valueIdentifierToControlValue = [NSMutableDictionary dictionary];
+    [handler setUpControllerDescription:self usingRepresentation:representation];
 }
 
 - (NSArray *)controls
