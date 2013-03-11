@@ -41,6 +41,18 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
 
 @implementation OEHUDAlert (DefaultAlertsAdditions)
 
++ (id)quitApplicationAlert
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+
+    alert.messageText = NSLocalizedString(@"All running games will be saved.", @"");
+    alert.defaultButtonTitle = NSLocalizedString(@"Quit", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
+    alert.headlineLabelText = NSLocalizedString(@"Are you sure you want to quit the application?", @"");
+
+    return alert;
+}
+
 + (id)saveAutoSaveGameAlert
 {
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESaveGameWhenQuitAlertSuppressionKey: @(1)}];
