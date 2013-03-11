@@ -51,7 +51,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
 #define MainMenu_Window_OpenEmuTag 501
 @interface OEMainWindowController () <OELibraryControllerDelegate> {
-    OEGameDocument *_documentForFullScreenWindow;
+    OEGameDocument *_gameDocument;
     BOOL            _shouldExitFullScreenWhenGameFinishes;
 }
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
@@ -146,12 +146,12 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     else
     {
         _shouldExitFullScreenWhenGameFinishes = ![[self window] isFullScreen];
+        _gameDocument = aDocument;
 
         if(fullScreen && ![[self window] isFullScreen])
         {
             [NSApp activateIgnoringOtherApps:YES];
             
-            _documentForFullScreenWindow = aDocument;
             [self OE_replaceCurrentContentController:[self currentContentController] withViewController:nil];
             [[self window] toggleFullScreen:self];
         }
@@ -386,6 +386,17 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     return [self allowWindowResizing] ? frameSize : [sender frame].size;
 }
 
+- (BOOL)windowShouldClose:(id)sender
+{
+    if([self currentContentController] == [self libraryController])
+        return YES;
+    else
+    {
+        [[_gameDocument gameViewController] terminateEmulation:self];
+        return NO;
+    }
+}
+
 - (void)windowWillClose:(NSNotification *)notification
 {
     // Make sure the current content controller gets viewWillDisappear / viewDidAppear so it has a chance to store its state
@@ -422,11 +433,11 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 - (void)windowDidEnterFullScreen:(NSNotification *)notification
 {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEMainWindowFullscreenKey];
-    if(_documentForFullScreenWindow)
+    if(_shouldExitFullScreenWhenGameFinishes)
     {
-        [self setCurrentContentController:[_documentForFullScreenWindow viewController]];
-        [[_documentForFullScreenWindow gameViewController] playGame:self];
-        _documentForFullScreenWindow = nil;
+        [self setCurrentContentController:[_gameDocument viewController]];
+        [[_gameDocument gameViewController] playGame:self];
+        _gameDocument = nil;
     }
 }
 
