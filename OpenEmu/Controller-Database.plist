@@ -1884,6 +1884,293 @@
 				<key>Usage</key>
 				<string>10</string>
 			</dict>
+			<key>OEControllerWiimoteNunchuckButtonC</key>
+			<dict>
+				<key>Name</key>
+				<string>C</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>12</string>
+			</dict>
+			<key>OEControllerWiimoteNunchuckButtonZ</key>
+			<dict>
+				<key>Name</key>
+				<string>Z</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>13</string>
+			</dict>
+			<key>OEControllerWiimoteClassicDPadUp</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic D-Pad Up</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>14</string>
+			</dict>
+			<key>OEControllerWiimoteClassicDPadDown</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic D-Pad Down</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>15</string>
+			</dict>
+			<key>OEControllerWiimoteClassicDPadLeft</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic D-Pad Left</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>16</string>
+			</dict>
+			<key>OEControllerWiimoteClassicDPadRight</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic D-Pad Right</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>17</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>18</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>19</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonX</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic X</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>20</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonY</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic Y</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>21</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonL</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic L</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>22</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonR</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic R</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>23</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonZL</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic ZL</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>24</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonZR</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic ZR</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>25</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonPlus</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic +</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>26</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonMinus</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic -</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>28</string>
+			</dict>
+			<key>OEControllerWiimoteClassicButtonHome</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic Home</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>27</string>
+			</dict>
+			<key>OEControllerWiimoteClassicLeftAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic Left Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>X</string>
+				<key>Cookie</key>
+				<integer>768</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerWiimoteClassicLeftAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Classic Left Analog Left</string>
+					</dict>
+					<key>OEControllerWiimoteClassicLeftAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Classic Left Analog Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerWiimoteClassicLeftAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic Left Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Y</string>
+				<key>Cookie</key>
+				<integer>1024</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerWiimoteClassicLeftAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Classic Left Analog Up</string>
+					</dict>
+					<key>OEControllerWiimoteClassicLeftAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Classic Left Analog Down</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerWiimoteClassicRightAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic Right Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Rx</string>
+				<key>Cookie</key>
+				<integer>1280</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerWiimoteClassicRightAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Classic Right Analog Left</string>
+					</dict>
+					<key>OEControllerWiimoteClassicRightAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Classic Right Analog Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerWiimoteClassicRightAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic Right Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Ry</string>
+				<key>Cookie</key>
+				<integer>1536</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerNintendoWiiUProControllerRightAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Right Analog Up</string>
+					</dict>
+					<key>OEControllerNintendoWiiUProControllerRightAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Right Analog Down</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerWiimoteClassicLeftTrigger</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic Left Trigger</string>
+				<key>Type</key>
+				<string>Trigger</string>
+				<key>Usage</key>
+				<string>Z</string>
+				<key>Cookie</key>
+				<integer>1792</integer>
+			</dict>
+			<key>OEControllerWiimoteClassicRightTrigger</key>
+			<dict>
+				<key>Name</key>
+				<string>Classic Right Trigger</string>
+				<key>Type</key>
+				<string>Trigger</string>
+				<key>Usage</key>
+				<string>Rz</string>
+				<key>Cookie</key>
+				<integer>2048</integer>
+			</dict>
 		</dict>
 	</dict>
 	<key>OEControllerAdaptoid</key>
