@@ -407,7 +407,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         return YES;
     else
     {
-        [[_gameDocument gameViewController] terminateEmulationOrCloseWindow:self];
+        [[_gameDocument gameViewController] performClose:self];
         return NO;
     }
 }

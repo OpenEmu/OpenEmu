@@ -68,10 +68,6 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
 #pragma mark -
-#pragma mark Main Menu Items
-- (IBAction)terminateEmulationOrCloseWindow:(id)sender;
-
-#pragma mark -
 #pragma mark Properties
 @property (nonatomic, getter=isSidebarVisible) BOOL sidebarVisible;
 @property (strong)    OELibraryDatabase *database;

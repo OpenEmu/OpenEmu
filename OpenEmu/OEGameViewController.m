@@ -423,7 +423,7 @@ typedef enum : NSUInteger
 
 }
 
-- (IBAction)terminateEmulationOrCloseWindow:(id)sender
+- (IBAction)performClose:(id)sender
 {
     if([self shouldTerminateEmulation])
         [self terminateEmulation];

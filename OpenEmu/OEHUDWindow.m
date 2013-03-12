@@ -378,7 +378,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
         [closeButton setThemeKey:@"hud_close_button"];
         
         [closeButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-        [closeButton setAction:@selector(terminateEmulationOrCloseWindow:)];
+        [closeButton setAction:@selector(performClose:)];
         [self addSubview:closeButton];
     }
     return self;
