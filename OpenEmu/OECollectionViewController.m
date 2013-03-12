@@ -581,7 +581,9 @@ static NSArray *OE_defaultSortDescriptors;
     
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
-    [romImporter importItemsAtPaths:files];
+    
+    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
+    [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
     
     return YES;
 }
@@ -649,8 +651,9 @@ static NSArray *OE_defaultSortDescriptors;
     
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
-    [romImporter importItemsAtPaths:files];
-    
+    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
+    [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
+
     return YES;
 }
 #pragma mark -
@@ -1191,8 +1194,9 @@ static NSArray *OE_defaultSortDescriptors;
 
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
-    [romImporter importItemsAtPaths:files];
-
+    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
+    [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
+    
     return YES;
 }
 
