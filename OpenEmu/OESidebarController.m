@@ -326,6 +326,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         collection = [[OELibraryDatabase defaultDatabase] addNewCollection:name];
         [[collection managedObjectContext] save:nil];
         [self reloadData];
+        NSInteger index = [outlineView rowForItem:collection];
+        if(index != -1)
+        {
+            [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+        }
     }
 
     if([[pboard types] containsObject:OEPasteboardTypeGame])
