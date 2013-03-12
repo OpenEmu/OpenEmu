@@ -35,12 +35,13 @@
 
 NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollapsible";
 
-@interface OESidebarOutlineView (ApplePrivateOverrides)
+@interface NSOutlineView (ApplePrivateOverrides)
 - (id)_highlightColorForCell:(NSCell *)cell;
 - (NSRect)_dropHighlightBackgroundRectForRow:(NSInteger)arg1;
 - (void)_setNeedsDisplayForDropCandidateRow:(NSInteger)arg1 operation:(NSUInteger)arg2 mask:(NSUInteger)arg3;
 - (void)_drawDropHighlightOnRow:(NSInteger)arg1;
 - (id)_dropHighlightColor;
+- (void)_flashOutlineCell;
 @end
 
 @implementation OESidebarOutlineView
@@ -212,6 +213,9 @@ NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollaps
 {
     return [NSColor colorWithDeviceRed:8/255.0 green:105/255.0 blue:216/255.0 alpha:1.0];
 }
+
+- (void)_flashOutlineCell
+{}
 #pragma mark - Key Handling
 - (void)keyDown:(NSEvent *)theEvent
 {
