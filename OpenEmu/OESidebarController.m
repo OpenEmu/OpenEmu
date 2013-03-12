@@ -315,7 +315,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         NSString *name = nil;
         if([[pboard types] containsObject:OEPasteboardTypeGame])
         {
-            NSArray *games = [pboard readObjectsForClasses:[NSArray arrayWithObject:[OEDBGame class]] options:nil];
+            NSArray *games = [pboard readObjectsForClasses:@[[OEDBGame class]] options:nil];
             if([games count] == 1) name = [[games lastObject] gameTitle];
         }
         else
@@ -328,23 +328,21 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         [self reloadData];
     }
 
-    if(collection)
+    if([[pboard types] containsObject:OEPasteboardTypeGame])
     {
-        if([[pboard types] containsObject:OEPasteboardTypeGame])
-        {
+        if(!collection) return YES;
             // just add to collection
-            NSArray *games = [pboard readObjectsForClasses:[NSArray arrayWithObject:[OEDBGame class]] options:nil];
+            NSArray *games = [pboard readObjectsForClasses:@[[OEDBGame class]] options:nil];
             [[collection mutableGames] addObjectsFromArray:games];
             [[collection managedObjectContext] save:nil];
-        }
-        else
-        {
-            // import and add to collection
-        }
     }
-    else if(![[pboard types] containsObject:OEPasteboardTypeGame])
+    else
     {
-        // just import items
+        // import and add to collection
+        NSArray *files = [pboard readObjectsForClasses:@[[NSURL class]] options:nil];
+        NSURL *collectionID = [[collection objectID] URIRepresentation];
+        OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
+        [importer importItemsAtURLs:files intoCollectionWithID:collectionID];
     }
     
     return YES;
