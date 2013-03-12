@@ -177,7 +177,7 @@ static NSGradient *highlightGradient, *normalGradient;
 	fillRect.size = gridSize;
 	fillRect.origin = aRect.origin;
 		
-	for(NSUInteger i=0; i < [[self tableColumns] count]-1; i++)
+	for(NSUInteger i=0; i < [[self tableColumns] count]; i++)
 	{
         if([[[self tableColumns] objectAtIndex:i] isHidden])
             continue;
