@@ -194,10 +194,16 @@ NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollaps
 {
     NSRect rect = [self rectOfGroup:[self itemAtRow:arg1]];
     if([[self itemAtRow:arg1] isGroupHeaderInSidebar] || arg1 == -1)
+    {
         rect.origin.y += 2.0;
-    rect = NSInsetRect(rect, 2, 2);
+        
+        rect.origin.y += 4.0;
+        rect.size.height -= 4.0;
+    }
     
-    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:rect xRadius:4.0 yRadius:4.0];
+    rect = NSInsetRect(rect, 3, 1);
+    
+    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:rect xRadius:[self dropCornerRadius] yRadius:[self dropCornerRadius]];
     [path setLineWidth:[self dropBorderWidth]];
     
     [[self dropBackgroundColor] setFill];
