@@ -554,7 +554,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     if(name == nil)
     {
-        name = NSLocalizedString(@"New Collection", @"");
+        name = NSLocalizedString(@"New Collection", @"Default collection name");
         
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
         

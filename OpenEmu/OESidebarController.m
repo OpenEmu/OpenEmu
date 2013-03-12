@@ -310,6 +310,23 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     {
         collection = item;
     }
+    else
+    {
+        NSString *name = nil;
+        if([[pboard types] containsObject:OEPasteboardTypeGame])
+        {
+            NSArray *games = [pboard readObjectsForClasses:[NSArray arrayWithObject:[OEDBGame class]] options:nil];
+            if([games count] == 1) name = [[games lastObject] gameTitle];
+        }
+        else
+        {
+            NSArray *games = [pboard readObjectsForClasses:@[[NSURL class]] options:nil];
+            if([games count] == 1) name = [[[[games lastObject] absoluteString] lastPathComponent] stringByDeletingPathExtension];
+        }
+        collection = [[OELibraryDatabase defaultDatabase] addNewCollection:name];
+        [[collection managedObjectContext] save:nil];
+        [self reloadData];
+    }
 
     if(collection)
     {
