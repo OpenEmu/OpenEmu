@@ -496,7 +496,8 @@ enum {
 
 - (void)OE_handleDataReportData:(const uint8_t *)response length:(NSUInteger)length;
 {
-    if(response[1] != 0x3D) [self OE_parseWiimoteButtonData:(response[2] << 8 | response[3])];
+    if((response[1] != 0x3D) && (_expansionType != OEWiimoteExpansionTypeWiiUProController))
+		[self OE_parseWiimoteButtonData:(response[2] << 8 | response[3])];
 
     if(!_expansionPortEnabled || !_expansionPortAttached) return;
 
