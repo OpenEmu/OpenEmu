@@ -40,6 +40,7 @@ extern NSString *const OEPreferencesUserInfoSystemIdentifierKey;
 
 - (void)switchView:(id)sender;
 - (void)switchView:(id)sender animate:(BOOL)animateFlag;
+- (IBAction)terminateEmulationOrCloseWindow:(id)sender;
 
 @property NSArray *preferencePanes;
 @property(nonatomic) NSInteger visiblePaneIndex;

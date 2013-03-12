@@ -157,6 +157,13 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
 
 #pragma mark -
 
+- (IBAction)terminateEmulationOrCloseWindow:(id)sender
+{
+    [[self window] performClose:sender];
+}
+
+#pragma mark -
+
 - (NSViewController<OEPreferencePane> *)selectedPreferencePane
 {
     NSInteger selected = [self visiblePaneIndex];
