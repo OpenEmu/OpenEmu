@@ -553,15 +553,15 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 #pragma mark -
 #pragma mark NSPasteboardReading
-// TODO: fix pasteboard reading
 - (id)initWithPasteboardPropertyList:(id)propertyList ofType:(NSString *)type
 {
     if(type == OEPasteboardTypeGame)
     {
-        NSManagedObjectContext *context = [[self libraryDatabase] managedObjectContext];
-        return (OEDBGame *)[context objectWithID:propertyList];
-    }
-    
+        OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+        NSURL    *uri  = [NSURL URLWithString:propertyList];
+        OEDBGame *game = [database objectWithURI:uri];
+        return game;
+    }    
     return nil;
 }
 

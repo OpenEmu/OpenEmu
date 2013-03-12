@@ -303,6 +303,33 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 #pragma mark Drag and Drop
 - (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index
 {
+    NSPasteboard *pboard = [info draggingPasteboard];
+    
+    OEDBCollection *collection = nil;
+    if([item isKindOfClass:[OEDBCollection class]])
+    {
+        collection = item;
+    }
+
+    if(collection)
+    {
+        if([[pboard types] containsObject:OEPasteboardTypeGame])
+        {
+            // just add to collection
+            NSArray *games = [pboard readObjectsForClasses:[NSArray arrayWithObject:[OEDBGame class]] options:nil];
+            [[collection mutableGames] addObjectsFromArray:games];
+            [[collection managedObjectContext] save:nil];
+        }
+        else
+        {
+            // import and add to collection
+        }
+    }
+    else if(![[pboard types] containsObject:OEPasteboardTypeGame])
+    {
+        // just import items
+    }
+    
     return YES;
 }
 
