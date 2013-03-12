@@ -116,7 +116,7 @@ extern NSString *const OEGameViewControllerROMKey;
 - (void)resetGame;
 - (BOOL)shouldTerminateEmulation;
 - (void)terminateEmulation;
-- (IBAction)terminateEmulationOrCloseWindow:(id)sender;
+- (IBAction)performClose:(id)sender;
 
 - (IBAction)pauseGame:(id)sender;
 - (IBAction)playGame:(id)sender;

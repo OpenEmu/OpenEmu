@@ -103,7 +103,7 @@
 											<string key="NSFrameSize">{400, 201}</string>
 											<reference key="NSSuperview" ref="839539018"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="144232324"/>
+											<reference key="NSNextKeyView" ref="349807226"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="859226485">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -385,7 +385,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSFrameSize">{402, 203}</string>
 							<reference key="NSSuperview" ref="714133648"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="349807226"/>
+							<reference key="NSNextKeyView" ref="839539018"/>
 							<int key="NSsFlags">133650</int>
 							<reference key="NSVScroller" ref="144232324"/>
 							<reference key="NSHScroller" ref="349807226"/>
@@ -2448,11 +2448,11 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">terminateEmulationOrCloseWindow:</string>
+						<string key="label">performClose:</string>
 						<reference key="source" ref="1014"/>
 						<reference key="destination" ref="52346844"/>
 					</object>
-					<int key="connectionID">1291</int>
+					<int key="connectionID">1292</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -4110,7 +4110,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1291</int>
+			<int key="maxID">1292</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4318,12 +4318,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="addCheat:">id</string>
 						<string key="loadState:">id</string>
 						<string key="pauseGame:">id</string>
+						<string key="performClose:">id</string>
 						<string key="playGame:">id</string>
 						<string key="quickLoad:">id</string>
 						<string key="quickSave:">id</string>
 						<string key="saveState:">id</string>
 						<string key="setCheat:">id</string>
-						<string key="terminateEmulation:">id</string>
 						<string key="terminateEmulationOrCloseWindow:">id</string>
 						<string key="volumeDown:">id</string>
 						<string key="volumeUp:">id</string>
@@ -4339,6 +4339,10 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBActionInfo" key="pauseGame:">
 							<string key="name">pauseGame:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="performClose:">
+							<string key="name">performClose:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="playGame:">
@@ -4359,10 +4363,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBActionInfo" key="setCheat:">
 							<string key="name">setCheat:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="terminateEmulation:">
-							<string key="name">terminateEmulation:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="terminateEmulationOrCloseWindow:">
@@ -4579,6 +4579,17 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">OEPreferencesController</string>
 					<string key="superclassName">NSWindowController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">terminateEmulationOrCloseWindow:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">terminateEmulationOrCloseWindow:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">terminateEmulationOrCloseWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">coreGradientOverlayView</string>
 						<string key="NS.object.0">OEBackgroundGradientView</string>

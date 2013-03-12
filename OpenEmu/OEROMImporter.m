@@ -30,6 +30,7 @@
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
 #import "OEDBGame.h"
+#import "OEDBCollection.h"
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 #import "OESystemController.h"
@@ -63,6 +64,7 @@ NSString *const OEImportInfoMD5         = @"md5";
 NSString *const OEImportInfoCRC         = @"crc";
 NSString *const OEImportInfoROMObjectID = @"RomObjectID";
 NSString *const OEImportInfoSystemID    = @"systemID";
+NSString *const OEImportInfoCollectionID= @"collectionID";
 NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
 
 @interface OEROMImporter ()
@@ -305,6 +307,8 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             OEImportItem *subItem = [OEImportItem itemWithURL:subURL andCompletionHandler:[item completionHandler]];
             if(subItem)
             {
+                if([[item importInfo] objectForKey:OEImportInfoCollectionID])
+                    [[subItem importInfo] setObject:[[item importInfo] objectForKey:OEImportInfoCollectionID] forKey:OEImportInfoCollectionID];
                 [[self queue] addObject:subItem];
                 self.totalNumberOfItems++;
                 [self OE_performSelectorOnDelegate:@selector(romImporterChangedItemCount:) withObject:self];
@@ -742,15 +746,22 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     if([item importState] == OEImportItemStatusFinished)
     {
         OEDBRom *rom = nil;
-        if([[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey])
+        NSURL *romID = [[item importInfo] objectForKey:OEImportInfoROMObjectID];
+        if(romID)
+            rom = [[self database] objectWithURI:romID];
+        
+        if(rom && [[item importInfo] objectForKey:OEImportInfoCollectionID])
         {
-            NSURL *romID = [[item importInfo] objectForKey:OEImportInfoROMObjectID];
-            if(romID)
-                rom = [[self database] objectWithURI:romID];
+            id collection = [[rom libraryDatabase] objectWithURI:[[item importInfo] objectForKey:OEImportInfoCollectionID]];
+            if([collection isKindOfClass:[OEDBCollection class]])
+            {
+                [[collection mutableGames] addObject:[rom game]];
+            }
         }
+        
         [[self database] save:nil];
-
-        if (rom) {
+        
+        if (rom && [[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey]) {
             [[rom game] setNeedsArchiveSync];
         }
     }
@@ -769,52 +780,22 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 #pragma mark - Importing Items with completion handler
 - (BOOL)importItemAtPath:(NSString *)path withCompletionHandler:(OEImportItemCompletionBlock)handler
 {
-    NSURL *url = [NSURL fileURLWithPath:path];
-    return [self importItemAtURL:url withCompletionHandler:handler];
+    return [self importItemAtPath:path intoCollectionWithID:nil withCompletionHandler:handler];
 }
 
 - (BOOL)importItemsAtPaths:(NSArray *)paths withCompletionHandler:(OEImportItemCompletionBlock)handler
 {
-    __block BOOL success = NO;
-    [paths enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
-     {
-         success = [self importItemAtPath:obj withCompletionHandler:handler] || success;
-     }];
-    return success;
+    return [self importItemsAtPaths:paths intoCollectionWithID:nil withCompletionHandler:handler];
 }
 
 - (BOOL)importItemAtURL:(NSURL *)url withCompletionHandler:(OEImportItemCompletionBlock)handler
 {
-    id item = [[self queue] firstObjectMatchingBlock:
-               ^ BOOL (id item)
-               {
-                   return [[item URL] isEqualTo:url];
-               }];
-    
-    if(item == nil)
-    {
-        OEImportItem *item = [OEImportItem itemWithURL:url andCompletionHandler:handler];
-        if(item)
-        {
-            [[self queue] addObject:item];
-            self.totalNumberOfItems++;
-            [self start];
-            return YES;
-        }
-    }
-    return NO;
+    return [self importItemAtURL:url intoCollectionWithID:nil withCompletionHandler:handler];
 }
 
 - (BOOL)importItemsAtURLs:(NSArray *)urls withCompletionHandler:(OEImportItemCompletionBlock)handler
 {
-    __block BOOL success = NO;
-    [urls enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
-     {
-         success = [self importItemAtURL:obj withCompletionHandler:handler] || success;
-     }];
-    return success;
+    return [self importItemsAtURLs:urls intoCollectionWithID:nil withCompletionHandler:handler];
 }
 
 #pragma mark - Importing Items without completion handler
@@ -836,6 +817,74 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 - (BOOL)importItemsAtURLs:(NSArray *)urls
 {
     return [self importItemsAtURLs:urls withCompletionHandler:nil];
+}
+
+#pragma mark - Importing items into collections
+- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(NSURL*)collectionID
+{
+    return [self importItemAtPath:path intoCollectionWithID:collectionID withCompletionHandler:nil];
+}
+- (BOOL)importItemsAtPaths:(NSArray *)paths intoCollectionWithID:(NSURL*)collectionID
+{
+    return [self importItemsAtPaths:paths intoCollectionWithID:collectionID withCompletionHandler:nil];
+}
+- (BOOL)importItemAtURL:(NSURL *)url intoCollectionWithID:(NSURL*)collectionID
+{
+    return [self importItemAtURL:url intoCollectionWithID:collectionID withCompletionHandler:nil];
+}
+- (BOOL)importItemsAtURLs:(NSArray *)urls intoCollectionWithID:(NSURL*)collectionID
+{
+    return [self importItemsAtURLs:urls intoCollectionWithID:collectionID withCompletionHandler:nil];
+}
+#pragma mark - Importing items into collections with completion handlers
+- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(NSURL*)collectionID withCompletionHandler:(OEImportItemCompletionBlock)handler
+{
+    NSURL *url = [NSURL fileURLWithPath:path];
+    return [self importItemAtURL:url intoCollectionWithID:collectionID withCompletionHandler:handler];
+}
+- (BOOL)importItemsAtPaths:(NSArray *)paths intoCollectionWithID:(NSURL*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler
+{
+    __block BOOL success = NO;
+    [paths enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop)
+     {
+         success = [self importItemAtPath:obj intoCollectionWithID:collectionID withCompletionHandler:handler] || success;
+     }];
+    return success;
+}
+
+- (BOOL)importItemAtURL:(NSURL *)url intoCollectionWithID:(NSURL*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler
+{
+    id item = [[self queue] firstObjectMatchingBlock:
+               ^ BOOL (id item)
+               {
+                   return [[item URL] isEqualTo:url];
+               }];
+    
+    if(item == nil)
+    {
+        OEImportItem *item = [OEImportItem itemWithURL:url andCompletionHandler:handler];
+        if(item)
+        {
+            if(collectionID) [[item importInfo] setObject:collectionID forKey:OEImportInfoCollectionID];
+            [[self queue] addObject:item];
+            self.totalNumberOfItems++;
+            [self start];
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)importItemsAtURLs:(NSArray *)urls intoCollectionWithID:(NSURL*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler
+{
+    __block BOOL success = NO;
+    [urls enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop)
+     {
+         success = [self importItemAtURL:obj intoCollectionWithID:collectionID withCompletionHandler:handler] || success;
+     }];
+    return success;
 }
 
 #pragma mark - Spotlight importing -

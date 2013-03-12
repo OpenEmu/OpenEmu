@@ -35,7 +35,7 @@
 
 #import "NSFileManager+OEHashingAdditions.h"
 
-NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
+NSString *const OEPasteboardTypeGame = @"org.openemu.game";
 NSString *const OEBoxSizesKey = @"BoxSizes";
 NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
@@ -148,7 +148,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 + (id)gameWithArchiveID:(id)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
 {
-    if(archiveID == nil) return nil;
+    if([archiveID integerValue] == 0) return nil;
     
     NSManagedObjectContext *context = [database managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
@@ -269,7 +269,6 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     NSNumber *archiveID = [self archiveID];
     if([archiveID integerValue] != 0)
 		[[ArchiveVG throttled] gameInfoByID:[archiveID integerValue] withCallback:^(id result, NSError *error) {
-            DLog(@"using archive ID");
 			block(result);
 		}];
     else
@@ -298,7 +297,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 {
     // TODO: (low priority): improve merging
     // we could merge with priority based on last archive sync for example
-    if([self archiveID] == nil)
+    if([[self archiveID] intValue] == 0)
         [self setArchiveID:[game archiveID]];
     
     if([self name] == nil)
@@ -519,7 +518,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 // TODO: fix pasteboard writing
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard
 {
-    return [NSArray arrayWithObjects:(NSString *)kPasteboardTypeFileURLPromise, OEPasteboardTypeGame,/*@"org.openEmu.game", *//* NSPasteboardTypeTIFF,*/ nil];
+    return [NSArray arrayWithObjects:(NSString *)kPasteboardTypeFileURLPromise, OEPasteboardTypeGame, /* NSPasteboardTypeTIFF,*/ nil];
 }
 
 - (NSPasteboardWritingOptions)writingOptionsForType:(NSString *)type pasteboard:(NSPasteboard *)pasteboard
@@ -554,15 +553,15 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 #pragma mark -
 #pragma mark NSPasteboardReading
-// TODO: fix pasteboard reading
 - (id)initWithPasteboardPropertyList:(id)propertyList ofType:(NSString *)type
 {
     if(type == OEPasteboardTypeGame)
     {
-        NSManagedObjectContext *context = [[self libraryDatabase] managedObjectContext];
-        return (OEDBGame *)[context objectWithID:propertyList];
-    }
-    
+        OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+        NSURL    *uri  = [NSURL URLWithString:propertyList];
+        OEDBGame *game = [database objectWithURI:uri];
+        return game;
+    }    
     return nil;
 }
 

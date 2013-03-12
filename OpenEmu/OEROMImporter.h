@@ -84,6 +84,16 @@ typedef enum : NSInteger {
 - (BOOL)importItemAtURL:(NSURL *)url;
 - (BOOL)importItemsAtURLs:(NSArray *)url;
 
+- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(NSURL*)collectionID;
+- (BOOL)importItemsAtPaths:(NSArray *)path intoCollectionWithID:(NSURL*)collectionID;
+- (BOOL)importItemAtURL:(NSURL *)url intoCollectionWithID:(NSURL*)collectionID;
+- (BOOL)importItemsAtURLs:(NSArray *)url intoCollectionWithID:(NSURL*)collectionID;
+
+- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(NSURL*)collectionID withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (BOOL)importItemsAtPaths:(NSArray *)paths intoCollectionWithID:(NSURL*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (BOOL)importItemAtURL:(NSURL *)url intoCollectionWithID:(NSURL*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (BOOL)importItemsAtURLs:(NSArray *)urls intoCollectionWithID:(NSURL*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler;
+
 - (BOOL)importItemAtPath:(NSString *)path withCompletionHandler:(OEImportItemCompletionBlock)handler;
 - (BOOL)importItemsAtPaths:(NSArray *)paths withCompletionHandler:(OEImportItemCompletionBlock)handler;
 - (BOOL)importItemAtURL:(NSURL *)url withCompletionHandler:(OEImportItemCompletionBlock)handler;

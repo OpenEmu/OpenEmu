@@ -55,6 +55,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     BOOL            _shouldExitFullScreenWhenGameFinishes;
 }
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
+- (void)OE_gameDidFinishEmulating:(id)sender;
 @end
 
 @implementation OEMainWindowController
@@ -67,6 +68,8 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     currentContentController = nil;
     [self setDefaultContentController:nil];
     [self setLibraryController:nil];
@@ -83,6 +86,8 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     // need to set allowWindowResizing to YES before -windowDidLoad
     allowWindowResizing = YES;
     gamesRunning = 0;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_gameDidFinishEmulating:) name:OEGameViewControllerEmulationDidFinishNotification object:nil];
     
     return self;
 }
@@ -277,6 +282,11 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     [self setCurrentContentController:newCurrentContentController animate:YES];
 }
 
+- (void)OE_gameDidFinishEmulating:(id)sender
+{
+    gamesRunning -= 1;
+}
+
 #pragma mark -
 #pragma mark OELibraryControllerDelegate protocol conformance
 - (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame
@@ -367,7 +377,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 #pragma mark - OEGameViewControllerDelegate protocol conformance
 - (void)emulationDidFinishForGameViewController:(id)sender
 {
-    gamesRunning -= 1;
     _gameDocument = nil;
     if(_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen])
     {
@@ -398,7 +407,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         return YES;
     else
     {
-        [[_gameDocument gameViewController] terminateEmulationOrCloseWindow:self];
+        [[_gameDocument gameViewController] performClose:self];
         return NO;
     }
 }

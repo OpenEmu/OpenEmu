@@ -254,13 +254,6 @@ static const CGFloat _OEToolbarHeight = 44;
 }
 
 #pragma mark -
-#pragma mark Main Menu Items
-- (IBAction)terminateEmulationOrCloseWindow:(id)sender
-{
-    [[[self view] window] performClose:sender];
-}
-
-#pragma mark -
 #pragma mark Import
 - (IBAction)addToLibrary:(id)sender
 {

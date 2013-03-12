@@ -26,8 +26,10 @@
 
 
 #import "OESidebarOutlineButtonCell.h"
+#import "OESidebarOutlineView.h"
 #import "NSImage+OEDrawingAdditions.h"
 @implementation OESidebarOutlineButtonCell
+
 + (void)initialize
 {
     if(self != [OESidebarOutlineButtonCell class])
@@ -37,16 +39,11 @@
     [image setName:@"sidebar_triangle_closed" forSubimageInRect:NSMakeRect(0, 0, 9, 9)];
     [image setName:@"sidebar_triangle_open" forSubimageInRect:NSMakeRect(9, 0, 9, 9)];
 }
-- (id)init {
-    self = [super init];
-    if (self) {
-    }
-    return self;
-}
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     [([self isHighlighted]?[NSColor colorWithDeviceWhite:0.4 alpha:1.0]:[NSColor colorWithDeviceWhite:0.6 alpha:1.0]) setFill];
+
     NSRect triangleRect = (NSRect){{cellFrame.origin.x+round((cellFrame.size.width-9)/2),cellFrame.origin.y+round((cellFrame.size.height-9)/2)},{9,9}};
     
     NSRectFill(triangleRect);
@@ -57,7 +54,10 @@
     shadowRect.origin.y -= 1;
     [triangleImage drawInRect:shadowRect fromRect:NSZeroRect operation:NSCompositeDestinationOver fraction:1 respectFlipped:YES hints:nil]; 
     
-    [[NSColor colorWithDeviceWhite:(63/255.0) alpha:1.0] setFill];
+    if([controlView isKindOfClass:[OESidebarOutlineView class]] && [(OESidebarOutlineView*)controlView isDrawingAboveDropHighlight])
+        [[(OESidebarOutlineView*)controlView dropBackgroundColor] setFill];
+    else
+        [[NSColor colorWithDeviceWhite:(63/255.0) alpha:1.0] setFill];
     NSRectFillUsingOperation(triangleRect, NSCompositeDestinationOver);
 }
 
