@@ -98,7 +98,13 @@ NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollaps
 
 - (NSRect)rectOfGroup:(id)item
 {
-    if(item == nil) return [self bounds];
+    if(item == nil)
+    {
+        NSRect bounds = [self bounds];
+        bounds.size.width -= 1;
+        bounds.size.height -= 2.0;
+        return bounds;
+    }
     
     // TODO: this will break when we add collection folders that can have children on their own
     NSUInteger children = [[self dataSource] outlineView:self numberOfChildrenOfItem:item];
@@ -187,7 +193,7 @@ NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollaps
 - (void)_drawDropHighlightOnRow:(long long)arg1
 {
     NSRect rect = [self rectOfGroup:[self itemAtRow:arg1]];
-    if([[self itemAtRow:arg1] isGroupHeaderInSidebar])
+    if([[self itemAtRow:arg1] isGroupHeaderInSidebar] || arg1 == -1)
         rect.origin.y += 2.0;
     rect = NSInsetRect(rect, 2, 2);
     
