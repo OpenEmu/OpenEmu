@@ -45,6 +45,22 @@
         return nil;
     }
 
+    // Copy .cg to Filters folder
+    if([[[url pathExtension] lowercaseString] isEqualToString:@"cg"])
+    {
+        NSString *path   = [url path];
+        NSString *cgFilename = [path lastPathComponent];
+        NSString *filtersPath = [NSString pathWithComponents:@[
+                                    [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
+                                    @"OpenEmu", @"Filters"]];
+        NSString *destFilePath = [filtersPath stringByAppendingPathComponent:cgFilename];
+
+        [[NSFileManager defaultManager] createDirectoryAtPath:filtersPath withIntermediateDirectories:YES attributes:nil error:nil];
+        [[NSFileManager defaultManager] copyItemAtPath:path toPath:destFilePath error:nil];
+        
+        return nil;
+    }
+    
     // Ignore text files that are not .cue
     if(![[[url pathExtension] lowercaseString] isEqualToString:@"cue"] &&
        [[[GEMagicKit magicForFileAtURL:url] uniformTypeHierarchy] containsObject:(id)kUTTypeText])
