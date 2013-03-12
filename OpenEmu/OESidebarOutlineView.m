@@ -32,14 +32,8 @@
 #import <objc/runtime.h>
 #import "OESidebarOutlineButtonCell.h"
 #import "OESideBarGroupItem.h"
-NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollapsible";
 
-@interface OESidebarOutlineView ()
-@property (strong) NSColor *dropBorderColor;
-@property (strong) NSColor *dropBackgroundColor;
-@property CGFloat dropBorderWidth;
-@property CGFloat dropCornerRadius;
-@end
+NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollapsible";
 
 @interface OESidebarOutlineView (ApplePrivateOverrides)
 - (id)_highlightColorForCell:(NSCell *)cell;
