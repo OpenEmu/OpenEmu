@@ -157,7 +157,7 @@
             case NSRadioButton:
             case NSSwitchButton:
                 result = NSInsetRect(result, 3.0, 0.0);
-                result.origin.y += 1.0;
+                result.origin.y += 2.0;
                 break;
             default:
                 if(_themeImage)
