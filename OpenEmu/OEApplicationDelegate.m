@@ -96,7 +96,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                    OEGameDefaultVideoFilterKey : @"Nearest Neighbor",
                                                OEGameVolumeKey : @0.5f,
                        OEGameControlsBarCanDeleteSaveStatesKey : @YES,
-                            @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x"
+                            @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x",
+                                            OEDisplayGameTitle : @YES
          }];
 
         [OEControllerDescription class];
