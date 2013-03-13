@@ -173,8 +173,6 @@
                             break;
                     }
                 }
-                
-                result.origin.y -= 2;
                 break;
         }
     }
