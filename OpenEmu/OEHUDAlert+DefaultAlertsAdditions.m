@@ -186,7 +186,7 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
 + (id)removeGameFilesFromLibraryAlert:(BOOL)multipleGames
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
-    NSString *headlineText = multipleGames ? [NSString stringWithFormat:NSLocalizedString(@"Do you want to move the selected games to the Trash, or keep them in the OpenEmu Library folder?", @"")] : [NSString stringWithFormat:NSLocalizedString(@"Do you want to move the selected game to the Trash, or keep it in the OpenEmu Library folder?", @"")];
+    NSString *headlineText = multipleGames ? [NSString stringWithFormat:NSLocalizedString(@"Move selected games to Trash, or keep them in the Library folder?", @"")] : [NSString stringWithFormat:NSLocalizedString(@"Move selected game to Trash, or keep it in the Library folder?", @"")];
     [alert setHeadlineLabelText:headlineText];
     NSString *messageText = NSLocalizedString(@"Only files in the OpenEmu Library folder will be moved to the Trash.", @"");
     [alert setMessageText:messageText];
