@@ -45,10 +45,10 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
-    alert.messageText = NSLocalizedString(@"All running games will be saved.", @"");
+    alert.headlineText = NSLocalizedString(@"Are you sure you want to quit the application?", @"");
+    alert.messageText = NSLocalizedString(@"OpenEmu will save and quit all games that are currently running.", @"");
     alert.defaultButtonTitle = NSLocalizedString(@"Quit", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
-    alert.headlineLabelText = NSLocalizedString(@"Are you sure you want to quit the application?", @"");
 
     return alert;
 }
@@ -58,11 +58,11 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESaveGameWhenQuitAlertSuppressionKey: @(1)}];
     
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
-    
+
+    alert.headlineText = NSLocalizedString(@"Would you like to save your game before you quit?", @"");
     alert.messageText = NSLocalizedString(@"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off.", @"");
     alert.defaultButtonTitle = NSLocalizedString(@"Save Game", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Do Not Save", @"");
-    alert.headlineLabelText = NSLocalizedString(@"Would you like to save your game before you quit?", @"");
     
     [alert setSuppressOnDefaultReturnOnly:NO];
     [alert showSuppressionButtonForUDKey:OESaveGameWhenQuitAlertSuppressionKey];
@@ -74,10 +74,10 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     
+    alert.headlineText = NSLocalizedString(@"Would you like to continue your last game?", @"");
     alert.messageText = NSLocalizedString(@"Do you want to continue playing where you left off?", @"");
     alert.defaultButtonTitle = NSLocalizedString(@"Yes", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"No", @"");
-    alert.headlineLabelText = NSLocalizedString(@"Would you like to continue your last game?", @"");
     
     [alert setSuppressOnDefaultReturnOnly:NO];
     [alert showSuppressionButtonForUDKey:OELoadAutoSaveAlertSuppressionKey];
@@ -115,10 +115,9 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     
-    alert.messageText = NSLocalizedString(@"Are you sure you want to reset the console?", @"");
+    alert.headlineText = NSLocalizedString(@"Are you sure you want to reset the console?", @"");
     alert.defaultButtonTitle = NSLocalizedString(@"Restart", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
-    alert.headlineLabelText = NSLocalizedString(@"", @"");
     
     [alert setSuppressOnDefaultReturnOnly:YES];
     [alert showSuppressionButtonForUDKey:OEResetSystemAlertSuppressionKey];
@@ -129,11 +128,10 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
 + (id)stopEmulationAlert
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
-    
-    alert.messageText = NSLocalizedString(@"Are you sure you want to stop emulation?", @"");
+
+    alert.headlineText = NSLocalizedString(@"Are you sure you want to stop emulation?", @"");
     alert.defaultButtonTitle = NSLocalizedString(@"Stop", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
-    alert.headlineLabelText = NSLocalizedString(@"", @"");
     
     [alert setSuppressOnDefaultReturnOnly:YES];
     [alert showSuppressionButtonForUDKey:OEStopEmulationAlertSuppressionKey];
@@ -149,7 +147,7 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
     [alert setMessageText:messageText];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Delete Save", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-    [alert setHeadlineLabelText:nil];
+    [alert setHeadlineText:nil];
     [alert showSuppressionButtonForUDKey:OEDeleteGameAlertSuppressionKey];
     
     return alert;
@@ -162,7 +160,7 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
     [alert setMessageText:messageText];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Remove", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-    [alert setHeadlineLabelText:nil];
+    [alert setHeadlineText:nil];
     [alert showSuppressionButtonForUDKey:OERemoveGameFromCollectionAlertSuppressionKey];
     
     return alert;
@@ -177,7 +175,7 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
     [alert setMessageText:messageText];
     [alert setDefaultButtonTitle:multipleGames?NSLocalizedString(@"Delete Games", @""):NSLocalizedString(@"Delete Game", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-    [alert setHeadlineLabelText:nil];
+    [alert setHeadlineText:nil];
     [alert showSuppressionButtonForUDKey:OERemoveGameFromCollectionAlertSuppressionKey];
     
     return alert;
@@ -187,7 +185,7 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     NSString *headlineText = multipleGames ? [NSString stringWithFormat:NSLocalizedString(@"Move selected games to Trash, or keep them in the Library folder?", @"")] : [NSString stringWithFormat:NSLocalizedString(@"Move selected game to Trash, or keep it in the Library folder?", @"")];
-    [alert setHeadlineLabelText:headlineText];
+    [alert setHeadlineText:headlineText];
     NSString *messageText = NSLocalizedString(@"Only files in the OpenEmu Library folder will be moved to the Trash.", @"");
     [alert setMessageText:messageText];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Move to Trash", @"")];
