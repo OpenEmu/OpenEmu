@@ -294,7 +294,7 @@
 				<key>Default</key>
 				<dict>
 					<key>Color</key>
-					<string>rgb(227,227,227)</string>
+					<string>rgba(228,228,228,1.0)</string>
 				</dict>
 				<key>Disabled</key>
 				<dict>
@@ -581,10 +581,6 @@
 		<dict>
 			<key>Family</key>
 			<string>Lucida Grande</string>
-			<key>Traits</key>
-			<string>Bold</string>
-			<key>Weight</key>
-			<real>3</real>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Alignment</key>
@@ -599,7 +595,7 @@
 				<key>Default</key>
 				<dict>
 					<key>Color</key>
-					<string>rgba(232,232,232,1.0)</string>
+					<string>rgba(228,228,228,1.0)</string>
 					<key>Shadow</key>
 					<dict>
 						<key>Color</key>
@@ -626,10 +622,6 @@
 		<dict>
 			<key>Family</key>
 			<string>Lucida Grande</string>
-			<key>Traits</key>
-			<string>Bold</string>
-			<key>Weight</key>
-			<real>3</real>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Alignment</key>
@@ -644,7 +636,7 @@
 				<key>Default</key>
 				<dict>
 					<key>Color</key>
-					<string>rgba(232,232,232,1.0)</string>
+					<string>rgba(228,228,228,1.0)</string>
 					<key>Shadow</key>
 					<dict>
 						<key>Color</key>
@@ -671,10 +663,6 @@
 		<dict>
 			<key>Family</key>
 			<string>Lucida Grande</string>
-			<key>Traits</key>
-			<string>Bold</string>
-			<key>Weight</key>
-			<real>3</real>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Alignment</key>
@@ -689,7 +677,7 @@
 				<key>Default</key>
 				<dict>
 					<key>Color</key>
-					<string>rgba(232,232,232,1.0)</string>
+					<string>rgba(228,228,228,1.0)</string>
 					<key>Shadow</key>
 					<dict>
 						<key>Color</key>

@@ -66,9 +66,9 @@
 
 @synthesize defaultButton = _defaultButton, alternateButton = _alternateButton, otherButton=_otherButton;
 @synthesize progressbar = _progressbar;
-@synthesize messageTextView = _messageTextView, headlineLabelField = _headlineLabelField;
+@synthesize messageTextView = _messageTextView, headlineTextView= _headlineTextView;
 @synthesize suppressionButton = _suppressionButton;
-@synthesize inputField = _inputField, inputLabelField = _inputLabelField, otherInputField = _otherInputField, otherInputLabelField = _otherInputLabelField;
+@synthesize inputField = _inputField, inputLabelView = _inputLabelView, otherInputField = _otherInputField, otherInputLabelView = _otherInputLabelView;
 @synthesize boxView = _boxView;
 @synthesize window;
 
@@ -120,12 +120,12 @@
         _progressbar = [[OEHUDProgressbar alloc] init];
         
         _messageTextView = [[NSTextView alloc] init];
-        _headlineLabelField = [[NSTextField alloc] init];
+        _headlineTextView = [[NSTextView alloc] init];
         
         _inputField = [[OETextField alloc] init];
-        _inputLabelField = [[NSTextField alloc] init];
+        _inputLabelView = [[NSTextView alloc] init];
         _otherInputField = [[OETextField alloc] init];
-        _otherInputLabelField = [[NSTextField alloc] init];
+        _otherInputLabelView = [[NSTextView alloc] init];
         
         _boxView = [[OEPreferencesPlainBox alloc] init];
         
@@ -311,19 +311,19 @@
     BOOL showsAlternateButton = [[self alternateButtonTitle] length] != 0;
     BOOL showsOtherButton = [[self otherButtonTitle] length] != 0;
     
-    NSRect defaultButtonRect = NSMakeRect(304 - 3, 14 - 1, 103, 23);
+    NSRect defaultButtonRect = NSMakeRect(304, 14, 103, 23);
     
     if(showsDefaultButton) [[self defaultButton] setFrame:defaultButtonRect];
     
     if(showsAlternateButton)
     {
-        NSRect alternateButtonRect = showsDefaultButton ? NSMakeRect(190 - 3, 14 - 1, 103, 23) : defaultButtonRect;
+        NSRect alternateButtonRect = showsDefaultButton ? NSMakeRect(190, 14, 103, 23) : defaultButtonRect;
         [[self alternateButton] setFrame:alternateButtonRect];
     }
     
     if(showsOtherButton)
     {
-        NSRect otherButtonRect = NSMakeRect(190 - 3, 14 - 1, 103, 23);
+        NSRect otherButtonRect = NSMakeRect(190, 14, 103, 23);
         [[self otherButton] setFrame:otherButtonRect];
     }
     
@@ -354,24 +354,22 @@
 #pragma mark -
 #pragma mark Message Text
 
-- (void)setHeadlineLabelText:(NSString *)headlineLabelText
+- (void)setHeadlineText:(NSString *)headlineText
 {
-    [[self headlineLabelField] setStringValue:headlineLabelText ? : @""];
-    [[self headlineLabelField] setHidden:[headlineLabelText length] == 0];
+    [[self headlineTextView] setString:headlineText ? : @""];
+    [[self headlineTextView] setHidden:[headlineText length] == 0];
 }
 
-- (NSString *)headlineLabelText
+- (NSString *)headlineText
 {
-    return [[self headlineLabelField] stringValue];
+    return [[self headlineTextView] string];
 }
 
 - (void)setMessageText:(NSString *)messageText
 {
     [[self messageTextView] setString:messageText ? : @""];
-    
-    NSRect textViewFrame = NSInsetRect((NSRect){ .size = [self boxView].frame.size }, 46, 23);
-    [[self messageTextView] setFrame:textViewFrame];
     [[self messageTextView] setHidden:[messageText length] == 0];
+    [[self messageTextView] sizeToFit];
 }
 
 - (NSString *)messageText
@@ -462,7 +460,7 @@
 - (void)setShowsInputField:(BOOL)showsInputField
 {
     [[self inputField] setHidden:!showsInputField];
-    [[self inputLabelField] setHidden:!showsInputField];
+    [[self inputLabelView] setHidden:!showsInputField];
     [[self boxView] setHidden:showsInputField];
 }
 
@@ -474,7 +472,7 @@
 - (void)setShowsOtherInputField:(BOOL)showsOtherInputField
 {
     [[self otherInputField] setHidden:!showsOtherInputField];
-    [[self otherInputLabelField] setHidden:!showsOtherInputField];
+    [[self otherInputLabelView] setHidden:!showsOtherInputField];
     [[self boxView] setHidden:showsOtherInputField];
 }
 
@@ -505,22 +503,22 @@
 
 - (void)setInputLabelText:(NSString *)inputLabelText
 {
-    [[self inputLabelField] setStringValue:inputLabelText];
+    [[self inputLabelView] setString:inputLabelText];
 }
 
 - (NSString *)inputLabelText
 {
-    return [[self inputLabelField] stringValue];
+    return [[self inputLabelView] string];
 }
 
 - (void)setOtherInputLabelText:(NSString *)otherInputLabelText
 {
-    [[self otherInputLabelField] setStringValue:otherInputLabelText];
+    [[self otherInputLabelView] setString:otherInputLabelText];
 }
 
 - (NSString *)otherInputLabelText
 {
-    return [[self otherInputLabelField] stringValue];
+    return [[self otherInputLabelView] string];
 }
 
 - (NSInteger)inputLimit
@@ -551,72 +549,78 @@
 
 - (void)OE_setupWindow
 {    
-    NSRect f = [_window frame];
-    f.size = (NSSize){ 421, 172 };
-    [_window setFrame:f display:NO];
-    
-    // Setup Button
-    [[self defaultButton] setThemeKey:@"hud_button_blue"];
-    [[self defaultButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
-    [[self defaultButton] setTarget:self andAction:@selector(buttonAction:)];
-    [[self defaultButton] setHidden:YES];
-    [[self defaultButton] setTitle:@""];
-    [[self defaultButton] setKeyEquivalent:@"\r"];
-    [[_window contentView] addSubview:[self defaultButton]];
-    
-    
-    [[self alternateButton] setThemeKey:@"hud_button"];
-    [[self alternateButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
-    [[self alternateButton] setTarget:self andAction:@selector(buttonAction:)];
-    [[self alternateButton] setHidden:YES];
-    [[self alternateButton] setTitle:@""];
-    [[self alternateButton] setKeyEquivalent:@"\E"];
-    [[_window contentView] addSubview:[self alternateButton]];
-    
-    [[self otherButton] setThemeKey:@"hud_button"];
-    [[self otherButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
-    [[self otherButton] setTarget:self andAction:@selector(buttonAction:)];
-    [[self otherButton] setHidden:YES];
-    [[self otherButton] setTitle:@""];
-    [[self otherButton] setKeyEquivalent:@"\r"];
-    [[_window contentView] addSubview:[self otherButton]];
+    NSRect frame = [_window frame];
+    frame.size = (NSSize){ 423, 200 };
+    [_window setFrame:frame display:NO];
 
-    // Setup Box
-    [[self boxView] setFrame:(NSRect){{18, 51},{387, 82}}];
-    [[self boxView] setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
-    [[_window contentView] addSubview:[self boxView]];
-    
-    // Setup Message Text View
-    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
-    
-    [[self messageTextView] setEditable:NO];
-    [[self messageTextView] setSelectable:NO];
-    [[self messageTextView] setAutoresizingMask:NSViewMinYMargin | NSViewWidthSizable];
-    [[self messageTextView] setFont:font];
-    [[self messageTextView] setTextColor:[NSColor whiteColor]];
-    [[self messageTextView] setDrawsBackground:NO];
-
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    [style setAlignment:NSCenterTextAlignment];
-    [style setLineSpacing:7];
-    [[self messageTextView] setDefaultParagraphStyle:style];
-    
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){ 0, -1 }];
+
+    NSFont *defaultFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
+    NSFont *boldFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
+
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    [style setAlignment:NSLeftTextAlignment];
+
+    NSColor *defaultColor = [NSColor colorWithDeviceWhite:0.859 alpha:1.0];
+
+    // Setup Button
+    [[self defaultButton] setThemeKey:@"hud_button_blue"];
+    [[self defaultButton] setTarget:self andAction:@selector(buttonAction:)];
+    [[self defaultButton] setKeyEquivalent:@"\r"];
+    [[self defaultButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
+    [[self defaultButton] setTitle:@""];
+    [[self defaultButton] setHidden:YES];
+    [[_window contentView] addSubview:[self defaultButton]];
+    
+    [[self alternateButton] setThemeKey:@"hud_button"];
+    [[self alternateButton] setTarget:self andAction:@selector(buttonAction:)];
+    [[self alternateButton] setKeyEquivalent:@"\E"];
+    [[self alternateButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
+    [[self alternateButton] setTitle:@""];
+    [[self alternateButton] setHidden:YES];
+    [[_window contentView] addSubview:[self alternateButton]];
+    
+    [[self otherButton] setThemeKey:@"hud_button"];
+    [[self otherButton] setTarget:self andAction:@selector(buttonAction:)];
+    [[self otherButton] setKeyEquivalent:@"\r"];
+    [[self otherButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
+    [[self otherButton] setTitle:@""];
+    [[self otherButton] setHidden:YES];
+    [[_window contentView] addSubview:[self otherButton]];
+
+    // Setup Box
+    [[self boxView] setFrame:(NSRect){{18, 51},{387, 110}}];
+    [[self boxView] setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
+    [[_window contentView] addSubview:[self boxView]];
+
+    // Setup Headline Text View
+    [[self headlineTextView] setEditable:NO];
+    [[self headlineTextView] setSelectable:NO];
+    [[self headlineTextView] setAutoresizingMask:NSViewMinYMargin | NSViewWidthSizable];
+    [[self headlineTextView] setFont:boldFont];
+    [[self headlineTextView] setTextColor:defaultColor];
+    [[self headlineTextView] setDrawsBackground:NO];
+    [[self headlineTextView] setShadow:shadow];
+    [[self headlineTextView] setFrame:NSMakeRect(48, 28, 291, 14)];
+    [[self headlineTextView] setHidden:YES];
+    [[self boxView] addSubview:[self headlineTextView]];
+
+    // Setup Message Text View    
+    [[self messageTextView] setEditable:NO];
+    [[self messageTextView] setSelectable:NO];
+    [[self messageTextView] setAutoresizingMask:NSViewMinYMargin | NSViewWidthSizable];
+    [[self messageTextView] setFont:defaultFont];
+    [[self messageTextView] setTextColor:defaultColor];
+    [[self messageTextView] setDrawsBackground:NO];
     [[self messageTextView] setShadow:shadow];
-    NSRect textViewFrame = NSInsetRect((NSRect){ .size = [self boxView].frame.size }, 46, 23);
-    [[self messageTextView] setFrame:textViewFrame];
+    [[self messageTextView] setFrame:NSMakeRect(48, 56, 291, 28)];
     [[self messageTextView] setHidden:YES];
     [[self boxView] addSubview:[self messageTextView]];
     
     // Setup Input Field
-    shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
-    [shadow setShadowBlurRadius:0];
-    [shadow setShadowOffset:(NSSize){ 0, -1 }];
-    
     OETextFieldCell *inputCell = [[OETextFieldCell alloc] init];
     [[self inputField] setCell:inputCell];
     [[self inputField] setFrame:NSMakeRect(68, 51, 337, 23)];
@@ -624,34 +628,22 @@
     [[self inputField] setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
     [[self inputField] setTarget:self andAction:@selector(buttonAction:)];
     [[self inputField] setEditable:YES];
-//    [[self inputField] setWantsLayer:YES];
     [[self inputField] setThemeKey:@"hud_textfield"];
     [[_window contentView] addSubview:[self inputField]];
     
-    
-    [[self inputLabelField] setFrame:NSMakeRect(1, 51, 61, 23)];
-    [[self inputLabelField] setHidden:YES];
-    OECenteredTextFieldCell *labelCell = [[OECenteredTextFieldCell alloc] init];
-    
-    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
-    
-    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-    [paraStyle setAlignment:NSRightTextAlignment];
-    [labelCell setTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                  [NSColor whiteColor]  , NSForegroundColorAttributeName,
-                                  paraStyle             , NSParagraphStyleAttributeName,
-                                  font                  , NSFontAttributeName,
-                                  nil]];
-    [[self inputLabelField] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
-    [[self inputLabelField] setCell:labelCell];
-    [[_window contentView] addSubview:[self inputLabelField]];
+    [[self inputLabelView] setEditable:NO];
+    [[self inputLabelView] setSelectable:NO];
+    [[self inputLabelView] setAutoresizingMask:NSViewMaxXMargin | NSViewMaxYMargin];
+    [[self inputLabelView] setFont:defaultFont];
+    [[self inputLabelView] setTextColor:defaultColor];
+    [[self inputLabelView] setDrawsBackground:NO];
+    [[self inputLabelView] setShadow:shadow];
+    [[self inputLabelView] setAlignment:NSRightTextAlignment];
+    [[self inputLabelView] setFrame:NSMakeRect(1, 57, 61, 23)];
+    [[self inputLabelView] setHidden:YES];
+    [[_window contentView] addSubview:[self inputLabelView]];
     
     // Setup Other Input Field
-    shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
-    [shadow setShadowBlurRadius:0];
-    [shadow setShadowOffset:(NSSize){ 0, -1 }];
-    
     OETextFieldCell *otherInputCell = [[OETextFieldCell alloc] init];
     [[self otherInputField] setCell:otherInputCell];
     [[self otherInputField] setFrame:NSMakeRect(68, 90, 337, 23)];
@@ -663,62 +655,29 @@
     [[self otherInputField] setWantsLayer:YES];
     [[self otherInputField] setThemeKey:@"hud_textfield"];
     [[_window contentView] addSubview:[self otherInputField]];
+
+    [[self otherInputLabelView] setEditable:NO];
+    [[self otherInputLabelView] setSelectable:NO];
+    [[self otherInputLabelView] setAutoresizingMask:NSViewMaxXMargin | NSViewMaxYMargin];
+    [[self otherInputLabelView] setFont:defaultFont];
+    [[self otherInputLabelView] setTextColor:defaultColor];
+    [[self otherInputLabelView] setDrawsBackground:NO];
+    [[self otherInputLabelView] setShadow:shadow];
+    [[self otherInputLabelView] setAlignment:NSRightTextAlignment];
+    [[self otherInputLabelView] setFrame:NSMakeRect(1, 96, 61, 23)];
+    [[self otherInputLabelView] setHidden:YES];
+    [[_window contentView] addSubview:[self otherInputLabelView]];
     
-    
-    [[self otherInputLabelField] setFrame:NSMakeRect(1, 90, 61, 23)];
-    [[self otherInputLabelField] setHidden:YES];
-    OECenteredTextFieldCell *otherLabelCell = [[OECenteredTextFieldCell alloc] init];
-    
-    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
-    
-    NSMutableParagraphStyle *otherParaStyle = [[NSMutableParagraphStyle alloc] init];
-    [otherParaStyle setAlignment:NSRightTextAlignment];
-    [otherLabelCell setTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                  [NSColor whiteColor]  , NSForegroundColorAttributeName,
-                                  otherParaStyle             , NSParagraphStyleAttributeName,
-                                  font                  , NSFontAttributeName,
-                                  nil]];
-    [[self otherInputLabelField] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
-    [[self otherInputLabelField] setCell:otherLabelCell];
-    [[_window contentView] addSubview:[self otherInputLabelField]];
-    
-    // setup progressbar
-    NSRect progressBarRect = NSMakeRect(64, 47, 258, 16);
-    [[self progressbar] setFrame:progressBarRect];
+    // Setup Progressbar
+    [[self progressbar] setFrame:NSMakeRect(64, 47, 258, 16)];
     [[self progressbar] setHidden:YES];
     [[self boxView] addSubview:[self progressbar]];
-    
-    NSRect progressLabelFrame = NSMakeRect(2, 21 - 16, 382, 16);
-    [[self headlineLabelField] setFrame:progressLabelFrame];
-    [[self headlineLabelField] setHidden:YES];
-    [[self headlineLabelField] setDrawsBackground:NO];
-    [[self headlineLabelField] setAutoresizingMask:NSViewMaxYMargin|NSViewWidthSizable];
-    labelCell = [[OECenteredTextFieldCell alloc] init];
-    
-    shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor blackColor]];
-    [shadow setShadowBlurRadius:0];
-    [shadow setShadowOffset:(NSSize){ 0, -1 }];
-    
-    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
-    
-    paraStyle = [[NSMutableParagraphStyle alloc] init];
-    [paraStyle setAlignment:NSCenterTextAlignment];
-    [labelCell setTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                  [NSColor whiteColor], NSForegroundColorAttributeName,
-                                  paraStyle           , NSParagraphStyleAttributeName,
-                                  shadow              , NSShadowAttributeName,
-                                  font                , NSFontAttributeName,
-                                  nil]];
-    [labelCell setupAttributes];
-    [[self headlineLabelField] setCell:labelCell];
-    [[self boxView] addSubview:[self headlineLabelField]];
     
     // Setup Suppression Button
     [[self suppressionButton] setTitle:NSLocalizedString(@"Do not ask me again", @"")];
     [[self suppressionButton] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
-    [[self suppressionButton] setFrame:NSMakeRect(18, 18, 150, 18)];
-    [[self suppressionButton] setHidden:YES]; 
+    [[self suppressionButton] setFrame:NSMakeRect(18, 17, 150, 18)];
+    [[self suppressionButton] setHidden:YES];
     [[self suppressionButton] setTarget:self andAction:@selector(suppressionButtonAction:)];
     [[_window contentView] addSubview:[self suppressionButton]];
 }

@@ -263,7 +263,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)startInstall
 {
     [[self alert] setProgress:0.0];
-    [[self alert] setHeadlineLabelText:NSLocalizedString(@"Downloading and Installing Core…", @"")];
+    [[self alert] setHeadlineText:NSLocalizedString(@"Downloading and Installing Core…", @"")];
     [[self alert] setTitle:NSLocalizedString(@"Installing Core", @"")];
     [[self alert] setShowsProgressbar:YES];
     [[self alert] setDefaultButtonTitle:nil];
@@ -282,7 +282,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     if(pluginDL == nil)
     {
         [[self alert] setShowsProgressbar:NO];
-        [[self alert] setHeadlineLabelText:nil];
+        [[self alert] setHeadlineText:nil];
         [[self alert] setTitle:NSLocalizedString(@"Error!", @"")];
 
         [[self alert] setMessageText:NSLocalizedString(@"The core could not be downloaded. Try installing it from the Cores preferences.", @"")];
