@@ -30,7 +30,6 @@
 {
 @private
     NSDictionary *active;
-    NSDictionary *inactive;
     NSDictionary *disabled;
     
     NSDictionary *placeholder;
