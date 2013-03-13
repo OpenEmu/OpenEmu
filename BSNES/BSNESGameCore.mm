@@ -210,7 +210,7 @@ static void writeSaveFile(const char* path, int type)
 {
 	memset(pad, 0, sizeof(int16_t) * 24);
     
-    const void *data;
+    uint8_t *data;
     size_t size;
     romName = [path copy];
     
@@ -222,6 +222,9 @@ static void writeSaveFile(const char* path, int type)
     size = [dataObj length];
     data = (uint8_t *)[dataObj bytes];
     const char *meta = NULL;
+    
+    //remove copier header, if it exists
+    if((size & 0x7fff) == 512) memmove(data, data + 512, size -= 512);
     
     retro_set_environment(environment_callback);
 	retro_init();
