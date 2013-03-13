@@ -561,9 +561,6 @@
     NSFont *defaultFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
     NSFont *boldFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
 
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    [style setAlignment:NSLeftTextAlignment];
-
     NSColor *defaultColor = [NSColor colorWithDeviceWhite:0.859 alpha:1.0];
 
     // Setup Button
