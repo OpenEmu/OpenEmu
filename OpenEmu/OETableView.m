@@ -177,7 +177,7 @@ static NSGradient *highlightGradient, *normalGradient;
 	fillRect.size = gridSize;
 	fillRect.origin = aRect.origin;
 		
-	for(NSUInteger i=0; i < [[self tableColumns] count]-1; i++)
+	for(NSUInteger i=0; i < [[self tableColumns] count]; i++)
 	{
         if([[[self tableColumns] objectAtIndex:i] isHidden])
             continue;
@@ -240,8 +240,8 @@ static NSGradient *highlightGradient, *normalGradient;
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
     
-    NSUInteger index = [self rowAtPoint:mouseLocationInView];
-    if(index != NSNotFound && [[self dataSource] respondsToSelector:@selector(tableView:menuForItemsAtIndexes:)])
+    NSInteger index = [self rowAtPoint:mouseLocationInView];
+    if(index != -1 && [[self dataSource] respondsToSelector:@selector(tableView:menuForItemsAtIndexes:)])
     {
         NSRect rowRect = [self rectOfRow:index];
         mouseLocationInView.y = rowRect.origin.y - rowRect.size.height/2;

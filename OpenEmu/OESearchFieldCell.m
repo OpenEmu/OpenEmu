@@ -41,38 +41,37 @@
         
         [self setAllowsEditingTextAttributes:NO];
         
-        
         NSShadow *shadow = [NSShadow new];
         NSParagraphStyle *paraStyle = [NSParagraphStyle new];
         
         [shadow setShadowBlurRadius:1];
         [shadow setShadowOffset:NSMakeSize(0, -1)];
         [shadow setShadowColor:[NSColor colorWithDeviceWhite:0 alpha:0.5]];
+
         
-        placeholder = [NSDictionary dictionaryWithObjectsAndKeys:
+        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0];
+        placeholder  = [NSDictionary dictionaryWithObjectsAndKeys:
                         placeholderColor ,NSForegroundColorAttributeName,
-                        [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0], NSFontAttributeName,
+                        font, NSFontAttributeName,
                         shadow, NSShadowAttributeName,
                         paraStyle, NSParagraphStyleAttributeName,
                         nil];
+        active       = [NSDictionary dictionaryWithObjectsAndKeys:
+                        activeColor ,NSForegroundColorAttributeName,
+                        font, NSFontAttributeName,
+                        shadow, NSShadowAttributeName,
+                        paraStyle, NSParagraphStyleAttributeName,
+                        nil];
+        disabled     = [NSDictionary dictionaryWithObjectsAndKeys:
+                        disabledColor ,NSForegroundColorAttributeName,
+                        font, NSFontAttributeName,
+                        shadow, NSShadowAttributeName,
+                        paraStyle, NSParagraphStyleAttributeName,
+                        nil];
+
+        current = [self isEnabled]?active:disabled;
         
-        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0];
-        inactive = [NSDictionary dictionaryWithObjectsAndKeys:
-                     activeColor ,NSForegroundColorAttributeName,
-                     font, NSFontAttributeName,
-                     shadow, NSShadowAttributeName,
-                     paraStyle, NSParagraphStyleAttributeName,
-                     nil];
-        disabled = [NSDictionary dictionaryWithObjectsAndKeys:
-                     disabledColor ,NSForegroundColorAttributeName,
-                     font, NSFontAttributeName,
-                     shadow, NSShadowAttributeName,
-                     paraStyle, NSParagraphStyleAttributeName,
-                     nil];
-        
-        current = [self isEnabled]?inactive:disabled;
-        
-        [self setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0]];
+        [self setFont:font];
         
         if(![NSImage imageNamed:@"search_cancel_active"])
         {
@@ -88,10 +87,6 @@
             [image setName:@"search_loupe_active" forSubimageInRect:NSMakeRect(26, 0, 13, 14)];
         }
         
-        if(![self placeholderAttributedString] && [self placeholderString]) 
-        {
-            [self setPlaceholderAttributedString:[[NSAttributedString alloc] initWithString:[self placeholderString] attributes:placeholder]];
-        }
         [[self searchButtonCell] setImageDimsWhenDisabled:NO];
         [[self searchButtonCell] setImageScaling:NSScaleNone];
         
@@ -109,7 +104,7 @@
 
 - (void)setEnabled:(BOOL)flag
 {
-    current = flag?inactive:disabled;
+    current = flag?active:disabled;
     
     [super setEnabled:flag];
 }
@@ -237,14 +232,17 @@
     {
         case OEUIStateInactive:
             current = disabled;
-            [self setTextColor:[NSColor colorWithDeviceWhite:0.33 alpha:1.0]];
+            [self setPlaceholderAttributedString:[[NSAttributedString alloc] initWithString:@"Search" attributes:disabled]];
+            [self setTextColor:[disabled objectForKey:NSForegroundColorAttributeName]];
             break;
         case OEUIStateEnabled:
-            current = inactive;
-            [self setTextColor:[NSColor colorWithDeviceWhite:0.89 alpha:1.0]];
+            current = active;
+            [self setPlaceholderAttributedString:[[NSAttributedString alloc] initWithString:@"Search" attributes:placeholder]];
+            [self setTextColor:[active objectForKey:NSForegroundColorAttributeName]];
             break;
         case OEUIStateActive:
             current = active;
+            [self setTextColor:[active objectForKey:NSForegroundColorAttributeName]];
             break;
         case OEUIStatePressed:
             current = active;

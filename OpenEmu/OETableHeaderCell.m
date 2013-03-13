@@ -78,16 +78,13 @@ static const CGFloat _OESortIndicatorMargin = 5;
 
     const BOOL isOutOfBoundsColumn   = (visibleColumnIndex == -1);
     const BOOL isFirstColumn         = (visibleColumnIndex == 0);
-    const BOOL isLastColumn          = (visibleColumnIndex == (visibleColumnCount - 1));
 	const BOOL isPressed             = [self state] && [self isClickable];
 
     // Draw background and border
-	const BOOL hideRightDarkBorder   = isLastColumn || isOutOfBoundsColumn;
 	const BOOL hideLeftHighlight     = isPressed || isFirstColumn || isOutOfBoundsColumn;
 	NSImage *backgroundImage         = [NSImage imageNamed:(isPressed ? @"table_header_background_pressed" : @"table_header_background_active")];
-    const NSRect sourceRect          = (hideRightDarkBorder ? NSMakeRect(0, 0, backgroundImage.size.width - 1, backgroundImage.size.height) : NSZeroRect);
 
-    [backgroundImage drawInRect:cellFrame fromRect:sourceRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:(hideRightDarkBorder ? 7 : 8) topBorder:0 bottomBorder:0];
+    [backgroundImage drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:8 topBorder:0 bottomBorder:0];
 
     // Draw highlight on left edge
     if(!hideLeftHighlight)

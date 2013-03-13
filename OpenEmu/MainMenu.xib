@@ -103,7 +103,7 @@
 											<string key="NSFrameSize">{400, 201}</string>
 											<reference key="NSSuperview" ref="839539018"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="349807226"/>
+											<reference key="NSNextKeyView" ref="144232324"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="859226485">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -362,6 +362,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<string key="NSFrame">{{344, 1}, {15, 184}}</string>
 									<reference key="NSSuperview" ref="672543319"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<reference key="NSTarget" ref="672543319"/>
 									<string key="NSAction">_doScroller:</string>
@@ -385,7 +386,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSFrameSize">{402, 203}</string>
 							<reference key="NSSuperview" ref="714133648"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="839539018"/>
+							<reference key="NSNextKeyView" ref="349807226"/>
 							<int key="NSsFlags">133650</int>
 							<reference key="NSVScroller" ref="144232324"/>
 							<reference key="NSHScroller" ref="349807226"/>
@@ -479,7 +480,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="375224823"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">About</string>
 				<bool key="NSWindowIsRestorable">NO</bool>
@@ -1402,6 +1403,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSOnImage" ref="68857091"/>
 									<reference key="NSMixedImage" ref="884349312"/>
 									<int key="NSTag">3</int>
+								</object>
+								<object class="NSMenuItem" id="318551910">
+									<reference key="NSMenu" ref="504016439"/>
+									<string key="NSTitle">Show Game Titles</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="68857091"/>
+									<reference key="NSMixedImage" ref="884349312"/>
 								</object>
 							</array>
 						</object>
@@ -2686,6 +2695,22 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 					<int key="connectionID">1242</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.displayGameTitle</string>
+						<reference key="source" ref="318551910"/>
+						<reference key="destination" ref="752820384"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="318551910"/>
+							<reference key="NSDestination" ref="752820384"/>
+							<string key="NSLabel">value: values.displayGameTitle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.displayGameTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1297</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -3236,6 +3261,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="964460517"/>
 							<reference ref="1032075803"/>
 							<reference ref="266182161"/>
+							<reference ref="318551910"/>
 						</array>
 						<reference key="parent" ref="187767452"/>
 					</object>
@@ -3912,6 +3938,11 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="910843450"/>
 						<reference key="parent" ref="467454005"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1293</int>
+						<reference key="object" ref="318551910"/>
+						<reference key="parent" ref="504016439"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -4061,6 +4092,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="1268.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1269.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1270.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1293.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="371.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="793.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="793.IBWindowTemplateEditedContentRect">{{88, 336}, {400, 420}}</string>
@@ -4110,7 +4142,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1292</int>
+			<int key="maxID">1297</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4324,7 +4356,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="quickSave:">id</string>
 						<string key="saveState:">id</string>
 						<string key="setCheat:">id</string>
-						<string key="terminateEmulationOrCloseWindow:">id</string>
 						<string key="volumeDown:">id</string>
 						<string key="volumeUp:">id</string>
 					</dictionary>
@@ -4363,10 +4394,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBActionInfo" key="setCheat:">
 							<string key="name">setCheat:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="terminateEmulationOrCloseWindow:">
-							<string key="name">terminateEmulationOrCloseWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="volumeDown:">
@@ -4426,7 +4453,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="switchToFlowView:">id</string>
 						<string key="switchToGridView:">id</string>
 						<string key="switchToListView:">id</string>
-						<string key="terminateEmulationOrCloseWindow:">id</string>
 						<string key="toggleSidebar:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -4476,10 +4502,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBActionInfo" key="switchToListView:">
 							<string key="name">switchToListView:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="terminateEmulationOrCloseWindow:">
-							<string key="name">terminateEmulationOrCloseWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleSidebar:">
@@ -4579,17 +4601,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">OEPreferencesController</string>
 					<string key="superclassName">NSWindowController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">terminateEmulationOrCloseWindow:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">terminateEmulationOrCloseWindow:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">terminateEmulationOrCloseWindow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">coreGradientOverlayView</string>
 						<string key="NS.object.0">OEBackgroundGradientView</string>

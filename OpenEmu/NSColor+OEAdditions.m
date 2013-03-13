@@ -51,7 +51,6 @@ static NSColor *_OENSColorFromString(NSString *colorString);
 
 static NSColor * _NSColor_colorWithCGColor_(Class self, SEL _cmd, CGColorRef color)
 {
-    DLog(@"");
     const CGFloat *components = CGColorGetComponents(color);
     NSColorSpace  *colorSpace = [[NSColorSpace alloc] initWithCGColorSpace:CGColorGetColorSpace(color)];
     NSColor       *result     = [NSColor colorWithColorSpace:colorSpace components:components count:CGColorGetNumberOfComponents(color)];
@@ -62,7 +61,6 @@ static NSColor * _NSColor_colorWithCGColor_(Class self, SEL _cmd, CGColorRef col
 
 static CGColorRef _NSColor_CGColor(NSColor *self, SEL _cmd)
 {
-    DLog(@"");
     if([self isEqualTo:[NSColor blackColor]]) return CGColorGetConstantColor(kCGColorBlack);
     if([self isEqualTo:[NSColor whiteColor]]) return CGColorGetConstantColor(kCGColorWhite);
     if([self isEqualTo:[NSColor clearColor]]) return CGColorGetConstantColor(kCGColorClear);
