@@ -78,6 +78,8 @@
 
         if(![self isKeyboardDevice])
         {
+            NSLog(@"Device: %@", self);
+            
             // Set the device's hat switch and trigger elements so the event creation works properly.
             OEControllerDescription *controller = [self controllerDescription];
             NSMutableArray *genericDesktopElements = [(__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(_device, (__bridge CFDictionaryRef)@{ @kIOHIDElementUsagePageKey : @(kHIDPage_GenericDesktop) }, 0) mutableCopy];
