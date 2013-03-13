@@ -81,8 +81,8 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 // - All other delegate methods are forwarded from superDelegate to localDelegate
 // - Upon -mouseUp:, if the window is being dragged then dragging has ended, so send -windowDidMove: to localDelegate
 @interface OEHUDWindowDelegateProxy : NSObject <NSWindowDelegate>
-@property(nonatomic, weak) id<NSWindowDelegate> superDelegate;
-@property(nonatomic, weak) id<NSWindowDelegate> localDelegate;
+@property(nonatomic, unsafe_unretained) id<NSWindowDelegate> superDelegate; // TODO: replace unsafe_unretained with weak when we start requiring 10.8
+@property(nonatomic, unsafe_unretained) id<NSWindowDelegate> localDelegate;
 @end
 
 @implementation OEHUDWindow
