@@ -263,6 +263,14 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 }
 
+- (void)setPauseEmulation:(BOOL)paused
+{
+    if(paused)
+        CVDisplayLinkStop(_gameDisplayLinkRef);
+    else
+        CVDisplayLinkStart(_gameDisplayLinkRef);
+}
+
 - (void)setGameTitle:(NSString *)title
 {
     if(_gameTitle != title)
@@ -441,14 +449,12 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLSetCurrentContext(cgl_ctx);
 	CGLLockContext(cgl_ctx);
+    
 	[self update];
 
 	NSRect mainRenderViewFrame = [self frame];
-
 	glViewport(0, 0, mainRenderViewFrame.size.width, mainRenderViewFrame.size.height);
-	glClear(GL_COLOR_BUFFER_BIT);
 
-	[[self openGLContext] flushBuffer];
 	CGLUnlockContext(cgl_ctx);
 }
 
