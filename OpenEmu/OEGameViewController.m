@@ -301,7 +301,6 @@ typedef enum : NSUInteger
     [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
 #endif
     [[self controlsWindow] hide];
-    [self terminateEmulation];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification

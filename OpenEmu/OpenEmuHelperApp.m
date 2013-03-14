@@ -748,6 +748,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 - (void)setPauseEmulation:(BOOL)paused
 {
     [gameCore setPauseEmulation:paused];
+
+    [delegate setPauseEmulation:paused];
 }
 
 // methods

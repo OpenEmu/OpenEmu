@@ -35,6 +35,7 @@
 - (void) gameCoreDidChangeScreenSizeTo:(OEIntSize)screenSize;
 - (void) gameCoreDidChangeAspectSizeTo:(OEIntSize)aspectSize;
 - (void) toggleVSync:(GLint)swapInt;
+- (void) setPauseEmulation:(BOOL)paused;
 @end
 
 // our helper app needs to handle these functions

@@ -553,16 +553,8 @@
     frame.size = (NSSize){ 423, 200 };
     [_window setFrame:frame display:NO];
 
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
-    [shadow setShadowBlurRadius:0];
-    [shadow setShadowOffset:(NSSize){ 0, -1 }];
-
     NSFont *defaultFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
     NSFont *boldFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
-
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    [style setAlignment:NSLeftTextAlignment];
 
     NSColor *defaultColor = [NSColor colorWithDeviceWhite:0.859 alpha:1.0];
 
@@ -603,7 +595,6 @@
     [[self headlineTextView] setFont:boldFont];
     [[self headlineTextView] setTextColor:defaultColor];
     [[self headlineTextView] setDrawsBackground:NO];
-    [[self headlineTextView] setShadow:shadow];
     [[self headlineTextView] setFrame:NSMakeRect(48, 28, 291, 14)];
     [[self headlineTextView] setHidden:YES];
     [[self boxView] addSubview:[self headlineTextView]];
@@ -615,11 +606,10 @@
     [[self messageTextView] setFont:defaultFont];
     [[self messageTextView] setTextColor:defaultColor];
     [[self messageTextView] setDrawsBackground:NO];
-    [[self messageTextView] setShadow:shadow];
     [[self messageTextView] setFrame:NSMakeRect(48, 56, 291, 28)];
     [[self messageTextView] setHidden:YES];
     [[self boxView] addSubview:[self messageTextView]];
-    
+
     // Setup Input Field
     OETextFieldCell *inputCell = [[OETextFieldCell alloc] init];
     [[self inputField] setCell:inputCell];
@@ -637,7 +627,6 @@
     [[self inputLabelView] setFont:defaultFont];
     [[self inputLabelView] setTextColor:defaultColor];
     [[self inputLabelView] setDrawsBackground:NO];
-    [[self inputLabelView] setShadow:shadow];
     [[self inputLabelView] setAlignment:NSRightTextAlignment];
     [[self inputLabelView] setFrame:NSMakeRect(1, 57, 61, 23)];
     [[self inputLabelView] setHidden:YES];
@@ -662,7 +651,6 @@
     [[self otherInputLabelView] setFont:defaultFont];
     [[self otherInputLabelView] setTextColor:defaultColor];
     [[self otherInputLabelView] setDrawsBackground:NO];
-    [[self otherInputLabelView] setShadow:shadow];
     [[self otherInputLabelView] setAlignment:NSRightTextAlignment];
     [[self otherInputLabelView] setFrame:NSMakeRect(1, 96, 61, 23)];
     [[self otherInputLabelView] setHidden:YES];
