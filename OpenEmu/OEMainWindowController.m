@@ -54,6 +54,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     OEGameDocument *_gameDocument;
     BOOL            _shouldExitFullScreenWhenGameFinishes;
     BOOL            _shouldUndockGameWindowOnFullScreenExit;
+    BOOL            _resumePlayingAfterFullScreenTransition;
 }
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 - (void)OE_gameDidFinishEmulating:(id)sender;
@@ -471,13 +472,34 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     [item setState:NSOffState];
 }
 
+- (void)windowWillEnterFullScreen:(NSNotification *)notification
+{
+    if(_gameDocument)
+    {
+        _resumePlayingAfterFullScreenTransition = [[_gameDocument gameViewController] isEmulationRunning];
+        [[_gameDocument gameViewController] pauseGame:self];
+    }
+}
+
 - (void)windowDidEnterFullScreen:(NSNotification *)notification
 {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEMainWindowFullscreenKey];
-    if(_shouldExitFullScreenWhenGameFinishes)
+    if(_gameDocument)
     {
-        [self setCurrentContentController:[_gameDocument viewController]];
-        [[_gameDocument gameViewController] playGame:self];
+        if(_shouldExitFullScreenWhenGameFinishes)
+            [self setCurrentContentController:[_gameDocument viewController]];
+    
+        if(_resumePlayingAfterFullScreenTransition)
+            [[_gameDocument gameViewController] playGame:self];
+    }
+}
+
+- (void)windowWillExitFullScreen:(NSNotification *)notification
+{
+    if(_gameDocument)
+    {
+        _resumePlayingAfterFullScreenTransition = [[_gameDocument gameViewController] isEmulationRunning];
+        [[_gameDocument gameViewController] pauseGame:self];
     }
 }
 
@@ -493,7 +515,16 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         [self setCurrentContentController:nil];
 
         [_gameDocument showInSeparateWindow:self fullScreen:NO];
+
+        if(_resumePlayingAfterFullScreenTransition)
+            [[_gameDocument gameViewController] playGame:self];
+
         _gameDocument = nil;
+    }
+    else if(_gameDocument)
+    {
+        if(_resumePlayingAfterFullScreenTransition)
+            [[_gameDocument gameViewController] playGame:self];
     }
 }
 
