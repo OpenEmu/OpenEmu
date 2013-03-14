@@ -53,6 +53,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 @interface OEMainWindowController () <OELibraryControllerDelegate> {
     OEGameDocument *_gameDocument;
     BOOL            _shouldExitFullScreenWhenGameFinishes;
+    BOOL            _shouldUndockGameWindowOnFullScreenExit;
 }
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 - (void)OE_gameDidFinishEmulating:(id)sender;
@@ -63,6 +64,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 @synthesize defaultContentController;
 @synthesize allowWindowResizing;
 @synthesize gamesRunning;
+@synthesize mainWindowRunsGame;
 @synthesize libraryController;
 @synthesize placeholderView;
 
@@ -86,6 +88,8 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     // need to set allowWindowResizing to YES before -windowDidLoad
     allowWindowResizing = YES;
     gamesRunning = 0;
+    mainWindowRunsGame = NO;
+    _shouldUndockGameWindowOnFullScreenExit = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_gameDidFinishEmulating:) name:OEGameViewControllerEmulationDidFinishNotification object:nil];
     
@@ -156,6 +160,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     {
         _shouldExitFullScreenWhenGameFinishes = ![[self window] isFullScreen];
         _gameDocument = aDocument;
+        mainWindowRunsGame = YES;
 
         if(fullScreen && ![[self window] isFullScreen])
         {
@@ -282,6 +287,26 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     [self setCurrentContentController:newCurrentContentController animate:YES];
 }
 
+- (IBAction)undockGameWindow:(id)sender
+{
+    mainWindowRunsGame = NO;
+
+    if(_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen])
+    {
+        [[self window] toggleFullScreen:self];
+        _shouldExitFullScreenWhenGameFinishes = NO;
+        _shouldUndockGameWindowOnFullScreenExit = YES;
+    }
+    else
+    {
+        [self OE_replaceCurrentContentController:[self currentContentController] withViewController:nil];
+        [self setCurrentContentController:nil];
+
+        [_gameDocument showInSeparateWindow:self fullScreen:NO];
+        _gameDocument = nil;
+    }
+}
+
 - (void)OE_gameDidFinishEmulating:(id)sender
 {
     gamesRunning -= 1;
@@ -377,7 +402,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 #pragma mark - OEGameViewControllerDelegate protocol conformance
 - (void)emulationDidFinishForGameViewController:(id)sender
 {
-    _gameDocument = nil;
     if(_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen])
     {
         [[self window] toggleFullScreen:self];
@@ -391,6 +415,8 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     // the controller switching animation interferes with the exiting full screen animation.
     // We therefore only animate controller switching in case there won't be a concurrent
     // exit full screen animation. See issue #245.
+    _gameDocument = nil;
+    mainWindowRunsGame = NO;
     BOOL animate = !(_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
     [self setCurrentContentController:nil animate:animate];
 }
@@ -452,13 +478,23 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     {
         [self setCurrentContentController:[_gameDocument viewController]];
         [[_gameDocument gameViewController] playGame:self];
-        _gameDocument = nil;
     }
 }
 
 - (void)windowDidExitFullScreen:(NSNotification *)notification
 {
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:OEMainWindowFullscreenKey];
+
+    if(_shouldUndockGameWindowOnFullScreenExit)
+    {
+        _shouldUndockGameWindowOnFullScreenExit = NO;
+        
+        [self OE_replaceCurrentContentController:[self currentContentController] withViewController:nil];
+        [self setCurrentContentController:nil];
+
+        [_gameDocument showInSeparateWindow:self fullScreen:NO];
+        _gameDocument = nil;
+    }
 }
 
 #pragma mark -
