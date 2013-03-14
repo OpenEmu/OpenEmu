@@ -401,8 +401,14 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 {
     [self OE_setupInputMenu];
     
-    // TODO: add dialog with additional instructions
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+
+    [alert setMessageText:NSLocalizedString(@"If there is a red button on the back battery cover, press it. If not, hold down buttons ①+②", @"")];
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Start Scanning", @"")];
+    [alert setHeadlineText:NSLocalizedString(@"Make your Wiimote discoverable", @"")];
     
+    [alert runModal];
+
     // Start WiiRemote support
     if([[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
         [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
