@@ -251,7 +251,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (void)OE_setupStateWatcher
 {
     NSString *stateFolderPath = [[self stateFolderURL] path];
-    __block OEFSBlock fsBlock = ^ (NSString *path, FSEventStreamEventFlags flags)
+    __block __unsafe_unretained OEFSBlock recFsBlock;
+    __block OEFSBlock fsBlock = [^(NSString *path, FSEventStreamEventFlags flags)
     {
         if( (flags & (kFSEventStreamEventFlagItemModified | kFSEventStreamEventFlagItemIsFile)) && [[path lastPathComponent] isEqualToString:@"Info.plist"])
         {
@@ -270,7 +271,7 @@ static OELibraryDatabase *defaultDatabase = nil;
                     [folderContent enumerateObjectsUsingBlock: ^ (id obj, NSUInteger idx, BOOL *stop)
                      {
                          NSString *subPath = [path stringByAppendingPathComponent:obj];
-                         fsBlock(subPath, flags);
+                         recFsBlock(subPath, flags);
                      }];
                 path = nil;
             }
@@ -288,7 +289,8 @@ static OELibraryDatabase *defaultDatabase = nil;
                 [OEDBSaveState updateOrCreateStateWithPath:path];
             });
         }
-    };
+    } copy];
+    recFsBlock = fsBlock;
 
     OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:OESaveStateLastFSEventIDKey forPath:stateFolderPath withBlock:fsBlock];
     [watcher setDelay:1.0];
