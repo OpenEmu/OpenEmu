@@ -30,7 +30,7 @@
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Color</key>
-			<string>rgb(219,219,219)</string>
+			<string>#dbdbdb</string>
 		</dict>
 		<key>hud_textfield_selection</key>
 		<dict>
@@ -43,9 +43,9 @@
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Color</key>
-			<string>red</string>
+			<string>#f2f2f2</string>
 			<key>Background Color</key>
-			<string>green</string>
+			<string>#808080</string>
 		</dict>
 		<key>game_scanner_text</key>
 		<dict>
