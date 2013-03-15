@@ -1053,6 +1053,7 @@
 		144D61481672D6BF0000268B /* OETableTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableTextFieldCell.m; sourceTree = "<group>"; };
 		1486195E166076A400BDB800 /* NSDate+OESortAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OESortAdditions.h"; sourceTree = "<group>"; };
 		1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OESortAdditions.m"; sourceTree = "<group>"; };
+		14B3038916F31B3A00865A5E /* OpenEmuHelperApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuHelperApp-Info.plist"; sourceTree = "<group>"; };
 		14CA66E0168E910C003E28A7 /* OEGameIntegralScalingDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameIntegralScalingDelegate.h; sourceTree = "<group>"; };
 		14E4A7F81616EF8B00082311 /* NSWindow+OEFullScreenAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OEFullScreenAdditions.h"; sourceTree = "<group>"; };
 		14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OEFullScreenAdditions.m"; sourceTree = "<group>"; };
@@ -2318,6 +2319,7 @@
 				838E2A221600A05C00CF7198 /* Theme.plist */,
 				82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */,
 				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
+				14B3038916F31B3A00865A5E /* OpenEmuHelperApp-Info.plist */,
 				1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */,
 				3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */,
 				825CC280148C13750063A9B5 /* OpenEmu-Info.plist */,
@@ -5474,8 +5476,17 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				GENERATE_PKGINFO_FILE = NO;
+				INFOPLIST_FILE = "OpenEmuHelperApp-Info.plist";
+				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = /usr/local/bin;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(INFOPLIST_FILE)",
+				);
 				PRODUCT_NAME = OpenEmuHelperApp;
 				VALID_ARCHS = x86_64;
 			};
@@ -5491,8 +5502,17 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				GENERATE_PKGINFO_FILE = NO;
+				INFOPLIST_FILE = "OpenEmuHelperApp-Info.plist";
+				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = /usr/local/bin;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"$(INFOPLIST_FILE)",
+				);
 				PRODUCT_NAME = OpenEmuHelperApp;
 				VALID_ARCHS = x86_64;
 			};
