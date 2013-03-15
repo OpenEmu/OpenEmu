@@ -77,16 +77,16 @@
     if([self animating]) return;
     
     [self setAnimating:YES];
-    __block void (^animationBlock)(void) = ^{
+    __unsafe_unretained __block dispatch_block_t recAnimationBlock;
+    __block void (^animationBlock)(void) = [^{
         if([self animating])
         {
             [self setCandyOffset:[self candyOffset]+1.0];
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1/30.0 * NSEC_PER_SEC);
-            dispatch_after(popTime, dispatch_get_main_queue(), animationBlock);
+            dispatch_after(popTime, dispatch_get_main_queue(), recAnimationBlock);
         }
-        else
-            animationBlock = nil;
-    };
+    } copy];
+    recAnimationBlock = animationBlock;
     dispatch_async(dispatch_get_main_queue(), animationBlock);
 }
 

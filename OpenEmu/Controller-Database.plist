@@ -1230,11 +1230,11 @@
 			<key>OEControllerLogitechDualActionButtonRightTrigger</key>
 			<dict>
 				<key>Name</key>
-				<string>9</string>
+				<string>8</string>
 				<key>Type</key>
 				<string>Button</string>
 				<key>Usage</key>
-				<string>9</string>
+				<string>8</string>
 			</dict>
 			<key>OEControllerLogitechDualActionButtonRightAnalog</key>
 			<dict>
