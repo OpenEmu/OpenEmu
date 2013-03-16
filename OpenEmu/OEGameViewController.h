@@ -25,6 +25,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "OEDeviceHandler.h"
 
 extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameDefaultVideoFilterKey;
@@ -36,7 +37,6 @@ extern NSString *const OEForceCorePicker;
 extern NSString *const OEGameViewControllerEmulationWillFinishNotification;
 extern NSString *const OEGameViewControllerEmulationDidFinishNotification;
 extern NSString *const OEGameViewControllerROMKey;
-
 
 @class OEDBRom;
 @class OEDBGame;

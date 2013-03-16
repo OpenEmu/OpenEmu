@@ -54,8 +54,7 @@ typedef enum {
 @interface OEWiimoteHIDDeviceHandler : OEHIDDeviceHandler
 
 @property(nonatomic) OEWiimoteDeviceHandlerLED illuminatedLEDs;
-
-@property(readonly) CGFloat batteryLevel;
+@property(readonly) BOOL lowBatteryWarning;
 
 @property(nonatomic, getter=isRumbleActivated)                 BOOL rumbleActivated;
 @property(nonatomic, getter=isExpansionPortEnabled)            BOOL expansionPortEnabled;
