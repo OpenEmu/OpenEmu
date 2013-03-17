@@ -29,6 +29,8 @@
 #import "NSView+FadeImage.h"
 #import "OEDistantViewController.h"
 
+#import "OEGameViewController.h"
+
 @interface OEDistantView ()
 @property (strong) NSBitmapImageRep *distantViewImage;
 @end
@@ -79,5 +81,14 @@
 - (void)windowDidMiniaturize:(NSNotification*)notification
 {
     [self didMakeFadeImage];
+}
+
+- (void)viewDidEndLiveResize
+{
+    OEGameViewController *gameVC = (OEGameViewController*)self.controller.realViewController;
+    
+    if ([gameVC isKindOfClass:[OEGameViewController class]]) {
+        [gameVC gameViewDidEndLiveResize];
+    }
 }
 @end

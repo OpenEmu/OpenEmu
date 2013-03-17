@@ -123,6 +123,7 @@ extern NSString *const OEGameViewControllerROMKey;
 - (void)toggleEmulationPaused;
 - (void)setPauseEmulation:(BOOL)pauseEmulation;
 - (BOOL)isEmulationRunning;
+- (void)gameViewDidEndLiveResize;
 
 #pragma mark - Cheats
 - (IBAction)addCheat:(id)sender;

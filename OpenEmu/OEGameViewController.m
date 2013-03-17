@@ -1074,6 +1074,11 @@ typedef enum : NSUInteger
     [self OE_repositionControlsWindow];
 }
 
+- (void)gameViewDidEndLiveResize
+{
+    [gameView viewDidEndLiveResize];
+}
+
 #pragma mark - Plugin discovery
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError

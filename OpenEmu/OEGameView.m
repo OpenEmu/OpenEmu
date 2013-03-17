@@ -458,16 +458,18 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     
 	glViewport(0, 0, size.width, size.height);
 
-    // FIXME inLiveResize does not seem to help
-    if (![self inLiveResize]) {
-        [_rootProxy screenDidResizeTo:size];
-    }
-    
 //    DLog(@"reshape, frame %f %f, in live resize %d", mainRenderViewFrame.size.width, mainRenderViewFrame.size.height, [self inLiveResize]);
     
 	CGLUnlockContext(cgl_ctx);    
 }
 
+- (void)viewDidEndLiveResize
+{
+    NSRect frame = [self frame];
+    OEIntSize size = OESizeMake(frame.size.width, frame.size.height);
+    
+    [_rootProxy screenDidResizeTo:size];
+}
 //- (void)update
 //{
 ////    DLog(@"update");
