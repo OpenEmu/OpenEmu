@@ -286,6 +286,8 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
     ^(NSString *identifier, NSDictionary *representation, IOHIDElementRef elem)
     {
         OEHIDEvent *genericEvent = [OEHIDEvent OE_eventWithElement:elem value:0];
+        if(genericEvent == nil) return;
+
         [description addControlWithIdentifier:identifier name:representation[@"Name"] event:genericEvent valueRepresentations:representation[@"Values"]];
     };
 

@@ -343,6 +343,10 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         
         NSString *folder = temporaryDirectoryForDecompressionOfPath(path);
         NSString *name = [archive nameOfEntry:0];
+        if ([[name pathExtension] length] == 0 && [[path pathExtension] length] > 0) {
+            // this won't do. Re-add the archive's extension in case it's .smc or the like
+            name = [name stringByAppendingPathExtension:[path pathExtension]];
+        }
         NSString *tmpPath = [folder stringByAppendingPathComponent:name];
         
         BOOL isdir;
@@ -356,7 +360,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         
         BOOL success = YES;
         @try {
-            success = [archive extractEntry:0 to:folder];
+            success = [archive _extractEntry:0 as:tmpPath];
         }
         @catch (NSException *exception) {
             success = NO;

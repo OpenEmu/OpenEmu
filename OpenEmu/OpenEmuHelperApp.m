@@ -631,6 +631,10 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     NSFileManager *fm = [NSFileManager new];
     NSString *folder = temporaryDirectoryForDecompressionOfPath(aPath);
     NSString *tmpPath = [folder stringByAppendingPathComponent:[archive nameOfEntry:0]];
+    if ([[tmpPath pathExtension] length] == 0 && [[aPath pathExtension] length] > 0) {
+        // we need an extension
+        tmpPath = [tmpPath stringByAppendingPathExtension:[aPath pathExtension]];
+    }
 
     BOOL isdir;
     if ([fm fileExistsAtPath:tmpPath isDirectory:&isdir] && !isdir) {
@@ -641,7 +645,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     BOOL success = YES;
     @try
     {
-        success = [archive extractEntry:0 to:folder];
+        success = [archive _extractEntry:0 as:tmpPath];
     }
     @catch (NSException *exception)
     {
