@@ -162,18 +162,18 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     gameInterval = 1./[self frameInterval];
     NSTimeInterval gameTime = OEMonotonicTime();
     
-        frameFinished = YES;
-        willSkipFrame = NO;
-        frameSkip = 0;
+    frameFinished = YES;
+    willSkipFrame = NO;
+    frameSkip = 0;
     
 #if 0
-        __block NSTimeInterval gameTime = 0;
-        __block int wasZero=1;
+    __block NSTimeInterval gameTime = 0;
+    __block int wasZero=1;
 #endif
     
-        DLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
-        
-        OESetThreadRealtime(gameInterval, .007, .03); // guessed from bsnes
+    DLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
+    
+    OESetThreadRealtime(gameInterval, .007, .03); // guessed from bsnes
     
     //[NSTimer PSY_scheduledTimerWithTimeInterval:gameInterval repeats:YES usingBlock:^(NSTimer *timer){
     while (!shouldStop) {
@@ -219,7 +219,6 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 {
     return !isRunning;
 }
-
 
 - (void)stopEmulation
 {
@@ -326,15 +325,19 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         gameInterval = 1./([self frameInterval] * 5); // if fast forwarding, frameInterval is 5x speed
         
         [renderDelegate willDisableVSync:YES];
-        OESetThreadRealtime(gameInterval, .007, .03);
-    }
-    else {
+    } else {
         isFastForwarding = NO;
         gameInterval = 1./[self frameInterval];
         
         [renderDelegate willDisableVSync:NO];
-        OESetThreadRealtime(gameInterval, .007, .03);
     }
+    
+    OESetThreadRealtime(gameInterval, .007, .03);
+}
+
+- (void)tryToResizeVideoTo:(OEIntSize)size
+{
+    
 }
 
 #pragma mark Audio

@@ -47,10 +47,12 @@
 - (oneway void)volumeDown;
 - (oneway void)setPauseEmulation:(BOOL)flag;
 
+- (oneway void)screenDidResizeTo:(OEIntSize)size;
+
 // gamecore attributes
-@property(readonly) OEIntSize   screenSize; 
+@property(readonly) OEIntSize screenSize;
                                             
-@property(readonly) OEIntSize   aspectSize;
+@property(readonly) OEIntSize aspectSize;
 @property(readonly) BOOL isEmulationPaused;
 
 @property(readwrite) BOOL drawSquarePixels;
@@ -67,5 +69,4 @@
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
 
 - (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled;
-
 @end

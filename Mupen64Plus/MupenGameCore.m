@@ -32,6 +32,7 @@
 #import "api/m64p_common.h"
 #import "api/m64p_config.h"
 #import "api/m64p_frontend.h"
+#import "api/m64p_vidext.h"
 #import "rom.h"
 #import "osal/dynamiclib.h"
 #import "version.h"
@@ -53,6 +54,8 @@ NSString *MupenControlNames[] = {
 @end
 
 MupenGameCore *g_core;
+
+static void (*ptr_OE_ForceUpdateWindowSize)(int width, int height);
 
 @implementation MupenGameCore
 {
@@ -252,6 +255,7 @@ static void MupenSetAudioSpeed(int percent)
     
     // Load Video
     LoadPlugin(M64PLUGIN_GFX, @"mupen64plus-video-rice.so");
+    ptr_OE_ForceUpdateWindowSize = dlsym(RTLD_DEFAULT, "_OE_ForceUpdateWindowSize");
     //LoadPlugin(M64PLUGIN_GFX, @"mupen64plus-video-glide64mk2.so");
     
     // Load Audio
@@ -349,6 +353,13 @@ static void MupenSetAudioSpeed(int percent)
 - (OEIntSize)bufferSize
 {
     return OESizeMake(videoWidth, videoHeight);
+}
+
+- (void) tryToResizeVideoTo:(OEIntSize)size
+{
+    NSLog(@"Resize was requested: %d %d\n", size.width, size.height);
+    VidExt_SetVideoMode(size.width, size.height, 32, M64VIDEO_WINDOWED);
+    ptr_OE_ForceUpdateWindowSize(size.width, size.height);
 }
 
 - (BOOL)rendersToOpenGL

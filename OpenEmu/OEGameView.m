@@ -103,6 +103,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 @property int                ntscBurstPhase;
 @property int                ntscMergeFields;
 
+@property OEIntSize          lastViewSize;
 @property OEIntSize          gameScreenSize;
 @property OEIntSize          gameAspectSize;
 @property CVDisplayLinkRef   gameDisplayLinkRef;
@@ -444,31 +445,40 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
 - (void)reshape
 {
-    DLog(@"reshape");
+    NSRect frame = [self frame];
+    OEIntSize size = OESizeMake(frame.size.width, frame.size.height);
 
+    if (size.width == _lastViewSize.width && size.height == _lastViewSize.height) return;
+    
+    _lastViewSize = size;
+    
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLSetCurrentContext(cgl_ctx);
 	CGLLockContext(cgl_ctx);
     
-	[self update];
+	glViewport(0, 0, size.width, size.height);
 
-	NSRect mainRenderViewFrame = [self frame];
-	glViewport(0, 0, mainRenderViewFrame.size.width, mainRenderViewFrame.size.height);
-
-	CGLUnlockContext(cgl_ctx);
+    // FIXME inLiveResize does not seem to help
+    if (![self inLiveResize]) {
+        [_rootProxy screenDidResizeTo:size];
+    }
+    
+//    DLog(@"reshape, frame %f %f, in live resize %d", mainRenderViewFrame.size.width, mainRenderViewFrame.size.height, [self inLiveResize]);
+    
+	CGLUnlockContext(cgl_ctx);    
 }
 
-- (void)update
-{
-    DLog(@"update");
-
-    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-	CGLLockContext(cgl_ctx);
-
-    [super update];
-
-    CGLUnlockContext(cgl_ctx);
-}
+//- (void)update
+//{
+////    DLog(@"update");
+//
+//    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+//	CGLLockContext(cgl_ctx);
+//
+//    [super update];
+//
+//    CGLUnlockContext(cgl_ctx);
+//}
 
 - (void)drawRect:(NSRect)dirtyRect
 {

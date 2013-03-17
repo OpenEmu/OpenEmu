@@ -207,6 +207,14 @@ SettingInfo OnScreenDisplaySettings[] =
 
 const int numberOfOpenGLRenderEngineSettings = sizeof(OpenGLRenderSettings)/sizeof(RenderEngineSetting);
 
+extern "C" {
+__attribute__((visibility("default"))) void _OE_ForceUpdateWindowSize(int width, int height)
+{
+    windowSetting.uDisplayWidth  = width;
+    windowSetting.uDisplayHeight = height;
+}
+}
+
 void GenerateFrameBufferOptions(void)
 {
     if( CDeviceBuilder::GetGeneralDeviceType() == OGL_DEVICE )

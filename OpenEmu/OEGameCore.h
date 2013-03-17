@@ -236,6 +236,8 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 - (BOOL)canCheat;
 - (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled;
 
+- (void)tryToResizeVideoTo:(OEIntSize)size;
+
 // ============================================================================
 // End Abstract methods.
 // ============================================================================

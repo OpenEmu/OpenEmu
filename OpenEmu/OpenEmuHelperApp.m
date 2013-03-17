@@ -357,9 +357,11 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     if(memcmp(&screenRect.size, &previousScreenSize, sizeof(screenRect.size)))
     {
-        DLog(@"Need a resize!");
+        DLog(@"Need a resize! %d %d -> %d %d", previousScreenSize.width, previousScreenSize.height, screenRect.size.width, screenRect.size.height);
         // recreate our surface so its the same size as our screen
         [self destroySurface];
+        
+        [self destroyGLResources];
 
         [self updateScreenSize];
 
@@ -560,8 +562,12 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     glDeleteFramebuffersEXT(1, &gameFBO);
     gameFBO = 0;
-
-    glFlush();
+    
+    if (tempFBO) {
+        glDeleteRenderbuffers(2, tempRB);
+        glDeleteFramebuffersEXT(1, &tempFBO);
+        tempFBO = 0;
+    }
 }
 
 #pragma mark -
@@ -781,6 +787,11 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [self updateScreenSize];
 }
 
+- (oneway void)screenDidResizeTo:(OEIntSize)size
+{
+    [gameCore tryToResizeVideoTo:size];
+}
+
 #pragma mark -
 #pragma mark OERenderDelegate protocol methods
 
@@ -856,7 +867,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (void)willRenderFrameOnAlternateThread
 {
-
+    if (!tempFBO) {
+        [self startRenderingOnAlternateThread];
+    }
 }
 
 - (void)didRenderFrameOnAlternateThread
