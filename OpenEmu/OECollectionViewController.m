@@ -320,20 +320,14 @@ static NSArray *OE_defaultSortDescriptors;
         selectionIndexes = [NSIndexSet indexSet];
     }
         
-    [self OE_setupToolbarStatesForViewTag:selectedViewTag];
+    [self OE_switchToView:selectedViewTag];
     [sizeSlider setFloatValue:sliderValue];
     [self changeGridSize:sizeSlider];
-
     [searchField setStringValue:@""];
 	[self search:searchField];
     [listView setSortDescriptors:listViewSortDescriptors];
 
-    if(selectedViewTag == OEFlowViewTag || selectedViewTag == OEListViewTag)
-    {
-        [[self gamesController] setSortDescriptors:(listViewSortDescriptors ? : OE_defaultSortDescriptors)];
-        [listView reloadData];
-    }
-    else
+    if(selectedViewTag == OEGridViewTag)
     {
         [gridView setSelectionIndexes:selectionIndexes];
         [gridView scrollRectToVisible:gridViewVisibleRect];
