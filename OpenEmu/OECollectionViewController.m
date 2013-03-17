@@ -725,7 +725,11 @@ static NSArray *OE_defaultSortDescriptors;
         // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
         // See the corresponding menu item a few lines below.
 
-        [menu addItemWithTitle:@"Show Game At Archive.vg" action:@selector(showGamesAtArchive:) keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Show Game At Archive.vg" action:@selector(showGamesAtArchive:) keyEquivalent:@""];
+        if([[game archiveID] integerValue] == 0)
+            [menuItem setEnabled:NO];
+        [menu addItem:menuItem];
+        
         [menu addItemWithTitle:@"Match To Archive.vg URL…" action:@selector(matchToArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
 //        [menu addItem:[NSMenuItem separatorItem]];
@@ -758,7 +762,20 @@ static NSArray *OE_defaultSortDescriptors;
         // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
         // See the corresponding menu item a few lines above.
 
-        [menu addItemWithTitle:@"Show Games At Archive.vg" action:@selector(showGamesAtArchive:) keyEquivalent:@""];
+        // Check if any selected games have an archiveID attached to them, if so enable menu item
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Show Game At Archive.vg" action:@selector(showGamesAtArchive:) keyEquivalent:@""];
+        [menuItem setEnabled:NO];
+        for(OEDBGame *game in games)
+        {
+            if([[game archiveID] integerValue] != 0)
+            {
+                [menuItem setEnabled:YES];
+                break;
+            }
+        }
+        [menu addItem:menuItem];
+
+
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Add Cover Art From File…" action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
 
