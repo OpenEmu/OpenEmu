@@ -72,6 +72,11 @@
     return [NSString stringWithFormat:@"<%@ %@ %ld %ld>", _name, [[self controllerDescription] name], _vendorID, _productID];
 }
 
+- (NSString *)identifier
+{
+    return [self genericDeviceIdentifier];
+}
+
 - (NSString *)controllerIdentifier
 {
     return [[self controllerDescription] identifier];

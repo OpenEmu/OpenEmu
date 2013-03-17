@@ -38,6 +38,7 @@
 @property(readonly) NSUInteger vendorID;
 @property(readonly) NSUInteger productID;
 
+@property(readonly) NSString *identifier;
 @property(readonly) NSString *controllerIdentifier;
 @property(readonly) NSString *genericDeviceIdentifier;
 
