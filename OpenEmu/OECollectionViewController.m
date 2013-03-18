@@ -319,13 +319,14 @@ static NSArray *OE_defaultSortDescriptors;
         sliderValue      = [userDefaults floatForKey:OELastGridSizeKey];
         selectionIndexes = [NSIndexSet indexSet];
     }
-        
+
+    [gamesController setSelectionIndexes:selectionIndexes];
+    [listView setSortDescriptors:listViewSortDescriptors];
     [self OE_switchToView:selectedViewTag];
     [sizeSlider setFloatValue:sliderValue];
     [self changeGridSize:sizeSlider];
     [searchField setStringValue:@""];
 	[self search:searchField];
-    [listView setSortDescriptors:listViewSortDescriptors];
 
     if(selectedViewTag == OEGridViewTag)
     {
