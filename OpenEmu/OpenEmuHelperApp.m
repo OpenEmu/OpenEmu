@@ -62,7 +62,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 @implementation OpenEmuHelperApp
 {
     OEIntSize previousAspectSize;
-    BOOL isIntel;
+    BOOL hasSlowClientStorage;
 }
 
 @synthesize doUUID;
@@ -192,7 +192,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     const GLubyte *vendor = glGetString(GL_VENDOR);
     const GLubyte *renderer = glGetString(GL_RENDERER);
-    isIntel = strstr((const char*)vendor, "Intel") || strstr((const char*)renderer, "NVIDIA GeForce 9600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 8600M GT OpenGL Engine") != NULL;
+    hasSlowClientStorage = strstr((const char*)vendor, "Intel") || strstr((const char*)renderer, "NVIDIA GeForce 9600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 8600M GT OpenGL Engine") != NULL;
 }
 
 - (void)setupIOSurface
@@ -290,7 +290,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     pixelFormat         = [gameCore pixelFormat];
     pixelType           = [gameCore pixelType];
 
-    if(!isIntel)
+    if(!hasSlowClientStorage)
     {
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
         glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
@@ -317,7 +317,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         gameTexture = 0;
     }
 
-    if (!isIntel) {
+    if (!hasSlowClientStorage) {
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
     }
@@ -334,7 +334,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, gameTexture);
 
-    if (!isIntel) glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+    if (!hasSlowClientStorage) glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, bufferSize.width, bufferSize.height, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 

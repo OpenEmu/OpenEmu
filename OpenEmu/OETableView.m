@@ -112,10 +112,9 @@ static NSGradient *highlightGradient, *normalGradient;
 	
 	[alternateRowBackground setFill];
 	
-	NSRect rect = [self visibleRect];
-	for(float i=[self rowHeight]+[self intercellSpacing].height; i<rect.origin.y+rect.size.height; i+=2*([self rowHeight]+[self intercellSpacing].height))
+	for(float i=[self rowHeight]+[self intercellSpacing].height; i<clipRect.origin.y+clipRect.size.height; i+=2*([self rowHeight]+[self intercellSpacing].height))
 	{
-		NSRect rowRect = NSMakeRect(rect.origin.x, i, rect.size.width, [self rowHeight]+[self intercellSpacing].height);
+		NSRect rowRect = NSMakeRect(clipRect.origin.x, i, clipRect.size.width, [self rowHeight]+[self intercellSpacing].height);
 		NSRectFill(rowRect);
 	}
 }
@@ -176,7 +175,7 @@ static NSGradient *highlightGradient, *normalGradient;
 	NSRect fillRect;
 	fillRect.size = gridSize;
 	fillRect.origin = aRect.origin;
-		
+    
 	for(NSUInteger i=0; i < [[self tableColumns] count]; i++)
 	{
         if([[[self tableColumns] objectAtIndex:i] isHidden])

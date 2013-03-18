@@ -56,7 +56,6 @@
 		948DA2BC15AB954800C0EA78 /* ym2413.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2BA15AB954800C0EA78 /* ym2413.c */; };
 		948DA2BE15AB98D600C0EA78 /* s68kcpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2BD15AB98D600C0EA78 /* s68kcpu.c */; };
 		948DA2CE15ABCFDD00C0EA78 /* libretro.c in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2C615ABC57C00C0EA78 /* libretro.c */; };
-		948DA2CF15ABCFDD00C0EA78 /* libretro.h in Sources */ = {isa = PBXBuildFile; fileRef = 948DA2C715ABC57C00C0EA78 /* libretro.h */; };
 		94ED8A9214CF933700FF8901 /* areplay.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED896A14CF933600FF8901 /* areplay.c */; };
 		94ED8A9414CF933700FF8901 /* ggenie.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED896E14CF933600FF8901 /* ggenie.c */; };
 		94ED8A9514CF933700FF8901 /* md_cart.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED897014CF933600FF8901 /* md_cart.c */; };
@@ -665,7 +664,6 @@
 			files = (
 				82287C39101E9DB40072172D /* GenPlusGameCore.m in Sources */,
 				948DA2CE15ABCFDD00C0EA78 /* libretro.c in Sources */,
-				948DA2CF15ABCFDD00C0EA78 /* libretro.h in Sources */,
 				94ED8A9214CF933700FF8901 /* areplay.c in Sources */,
 				94ED8A9414CF933700FF8901 /* ggenie.c in Sources */,
 				94ED8A9514CF933700FF8901 /* md_cart.c in Sources */,
