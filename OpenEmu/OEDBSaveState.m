@@ -33,10 +33,10 @@
 #import "NSURL+OELibraryAdditions.h"
 
 
-#define OESaveStateSuffix           @"oesavestate"
 #define OESaveStateDataFile         @"State"
 #define OESaveStateScreenshotFile   @"ScreenShot"
 #define OESaveStateLatestVersion    @"1.0"
+NSString *const OESaveStateSuffix = @"oesavestate";
 
 NSString *const OESaveStateInfoVersionKey           = @"Version";
 NSString *const OESaveStateInfoNameKey              = @"Name";
@@ -224,10 +224,10 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     if(saveState && !fileExists)
     {
         [saveState remove];
-        return;
+        saveState = nil;
     } else if(saveState && fileExists)
     {
-           [saveState readInfoPlist];
+        [saveState readInfoPlist];
     }
     else if(!saveState && [defaultManager fileExistsAtPath:saveStatePath])
     {
@@ -265,7 +265,6 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
         [self setCoreVersion:infoCoreVersion];
         [self setRom:rom];
         
-
         if(infoTimestamp)
             [self setTimestamp:infoTimestamp];
         else

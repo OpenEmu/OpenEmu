@@ -167,7 +167,7 @@ static NSArray *OE_defaultSortDescriptors;
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
 
-    OE_defaultSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
+    OE_defaultSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"gameTitle" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
     
     [gamesController setManagedObjectContext:context];
     [gamesController setEntityName:@"Game"];
@@ -319,13 +319,14 @@ static NSArray *OE_defaultSortDescriptors;
         sliderValue      = [userDefaults floatForKey:OELastGridSizeKey];
         selectionIndexes = [NSIndexSet indexSet];
     }
-        
+
+    [gamesController setSelectionIndexes:selectionIndexes];
+    [listView setSortDescriptors:listViewSortDescriptors];
     [self OE_switchToView:selectedViewTag];
     [sizeSlider setFloatValue:sliderValue];
     [self changeGridSize:sizeSlider];
     [searchField setStringValue:@""];
 	[self search:searchField];
-    [listView setSortDescriptors:listViewSortDescriptors];
 
     if(selectedViewTag == OEGridViewTag)
     {
