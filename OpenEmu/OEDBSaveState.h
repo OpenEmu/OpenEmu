@@ -26,6 +26,9 @@
 
 #import <CoreData/CoreData.h>
 #import "OEDBItem.h"
+
+extern NSString *const OESaveStateSuffix;
+
 extern NSString *const OESaveStateInfoVersionKey;
 extern NSString *const OESaveStateInfoNameKey;
 extern NSString *const OESaveStateInfoDescriptionKey;
