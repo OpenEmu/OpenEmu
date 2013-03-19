@@ -250,6 +250,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 - (void)setNeedsArchiveSync
 {
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
+    [[self libraryDatabase] save:nil];
     [self OE_performArchiveSync];
 }
 
